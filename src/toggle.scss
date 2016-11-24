@@ -1,0 +1,26 @@
+.gs-ui-toggle {
+	position: relative;
+	font-size: $l-toggle-circle;
+	cursor: pointer;
+
+	.gs-ui--circle {
+		position: absolute;
+		box-sizing: border-box;
+		width: 1em;
+		height: 1em;
+		top: 50%;
+		left: 50%;
+		margin: -.5em 0 0 -.5em;
+		border-radius: 50%;
+		border: $p-toggle-border;
+		box-shadow: $p-toggle-off-boxshadow;
+		background: $c-toggle-off;
+		transition: $t-transition;
+		transition-property: background, box-shadow;
+
+		&.gs-ui--on {
+			box-shadow: $p-toggle-on-boxshadow;
+			background: $c-toggle-on;
+		}
+	}
+}

@@ -1,0 +1,33 @@
+/*
+	The file who contains every design values.
+
+	$c-xxx -> color    (eg. "#8c4")
+	$l-xxx -> length   (eg. "1px")
+	$t-xxx -> time     (eg. ".5s")
+	$p-xxx -> property (eg. "1px solid #000")
+*/
+/* common value */
+/* gs-ui-toggle */
+.gs-ui-toggle {
+  position: relative;
+  font-size: 8px;
+  cursor: pointer; }
+  .gs-ui-toggle .gs-ui--circle {
+    position: absolute;
+    box-sizing: border-box;
+    width: 1em;
+    height: 1em;
+    top: 50%;
+    left: 50%;
+    margin: -.5em 0 0 -.5em;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    background: #222;
+    transition: 0.2s;
+    transition-property: background, box-shadow; }
+    .gs-ui-toggle .gs-ui--circle.gs-ui--on {
+      box-shadow: 0 0 10px rgba(135, 189, 66, 0.6);
+      background: #87bd42; }
+
+/*# sourceMappingURL=gs-ui-components.css.map */

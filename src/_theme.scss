@@ -1,0 +1,19 @@
+/*
+	The file who contains every design values.
+
+	$c-xxx -> color    (eg. "#8c4")
+	$l-xxx -> length   (eg. "1px")
+	$t-xxx -> time     (eg. ".5s")
+	$p-xxx -> property (eg. "1px solid #000")
+*/
+
+/* common value */
+$t-transition: .2s;
+
+/* gs-ui-toggle */
+$l-toggle-circle: 8px;
+$c-toggle-off: #222;
+$c-toggle-on: #87bd42;
+$p-toggle-border: 1px solid rgba( #fff, .25 );
+$p-toggle-off-boxshadow: 0 2px 1px rgba( #000, .3 );
+$p-toggle-on-boxshadow: 0 0 10px rgba( $c-toggle-on, .6 );

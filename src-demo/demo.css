@@ -1,0 +1,22 @@
+/* Reset */
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	background: #222;
+}
+
+/* gs-ui-toggle */
+#toggles {
+	position: absolute;
+	top: 50px;
+	left: 40px;
+	width: 35px;
+	background: #444;
+}
+.gs-ui-toggle {
+	width: 100%;
+	height: 35px;
+}
