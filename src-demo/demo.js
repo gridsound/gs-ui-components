@@ -7,19 +7,33 @@ for ( k in tpl ) {
 }
 document.querySelector( "#demo" ).innerHTML = demoTpl();
 
+
 // gs-ui-toggle
-var togglesWrapper = document.querySelector( "#toggles" ),
-	toggles = togglesWrapper.querySelectorAll( ".gs-ui-toggle" ),
-	toggleData = {
+var toggles = Array.from( document.querySelectorAll( ".gs-ui-toggle" ) ),
+	togglesData = {
 		onchange: function( b ) {
 			lg( "onchange", b );
 		}
 	};
 
-Array.from( toggles ).forEach( function( el, i, arr ) {
-	gsUIComponents( el, toggleData );
+toggles.forEach( function( el, i, arr ) {
+	gsUIComponents( el, togglesData );
 	if ( i > 0 ) {
 		el._groupWith( arr[ 0 ] );
 	}
 } );
 toggles[ 0 ]._toggle( true );
+
+
+// gs-ui-span-editable
+var spans = Array.from( document.querySelectorAll( ".gs-ui-span-editable" ) ),
+	spansData = {
+		onchange: function( val ) {
+			lg( "onchange", val );
+		}
+	};
+
+spans.forEach( function( el, i, arr ) {
+	gsUIComponents( el, spansData );
+	el._setPlaceholder( "Placeholder..." );
+} );

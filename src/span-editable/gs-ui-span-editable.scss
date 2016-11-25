@@ -1,0 +1,32 @@
+.gs-ui-span-editable {
+	display: flex;
+	align-items: center;
+
+	span {
+		display: inline-block;
+		width: 100%;
+	}
+	input {
+		display: none;
+		box-sizing: border-box;
+		width: 100%;
+		outline: 0;
+		border: 0;
+		font-size: 1em;
+		color: inherit;
+		background: none;
+	}
+
+	&.gs-ui--empty {
+		font-style: italic;
+	}
+
+	&.gs-ui--editing {
+		span {
+			display: none;
+		}
+		input {
+			display: block;
+		}
+	}
+}

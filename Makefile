@@ -21,6 +21,7 @@ css:
 .PHONY: all html css js
 
 src = \
-	bin/__templates.js            \
-	src/_main.js                  \
-	src/toggle/gs-ui-toggle.js    \
+	bin/__templates.js                       \
+	src/_main.js                             \
+	src/toggle/gs-ui-toggle.js               \
+	src/span-editable/gs-ui-span-editable.js \
