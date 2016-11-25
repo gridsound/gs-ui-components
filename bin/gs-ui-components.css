@@ -8,6 +8,11 @@
 */
 /* common value */
 /* gs-ui-toggle */
+.gs-ui--text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; }
+
 .gs-ui-toggle {
   position: relative;
   font-size: 8px;
@@ -29,5 +34,27 @@
     .gs-ui-toggle .gs-ui--circle.gs-ui--on {
       box-shadow: 0 0 10px rgba(135, 189, 66, 0.6);
       background: #87bd42; }
+
+.gs-ui-span-editable {
+  display: flex;
+  align-items: center; }
+  .gs-ui-span-editable span {
+    display: inline-block;
+    width: 100%; }
+  .gs-ui-span-editable input {
+    display: none;
+    box-sizing: border-box;
+    width: 100%;
+    outline: 0;
+    border: 0;
+    font-size: 1em;
+    color: inherit;
+    background: none; }
+  .gs-ui-span-editable.gs-ui--empty {
+    font-style: italic; }
+  .gs-ui-span-editable.gs-ui--editing span {
+    display: none; }
+  .gs-ui-span-editable.gs-ui--editing input {
+    display: block; }
 
 /*# sourceMappingURL=gs-ui-components.css.map */
