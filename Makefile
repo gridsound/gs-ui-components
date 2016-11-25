@@ -4,7 +4,7 @@ all:
 
 html:
 	@echo ":: HTML"
-	@handlebars src/ -f bin/__templates.js
+	@handlebars `find src -name "*.handlebars"` -f bin/__templates.js
 	@make js
 
 js:
@@ -23,4 +23,4 @@ css:
 src = \
 	bin/__templates.js            \
 	src/_main.js                  \
-	src/toggle.js                 \
+	src/toggle/gs-ui-toggle.js    \
