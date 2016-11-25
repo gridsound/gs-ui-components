@@ -1,10 +1,14 @@
 .gs-ui-span-editable {
 	display: flex;
 	align-items: center;
+	overflow: hidden;
+	color: $c-span-editable;
 
 	span {
 		display: inline-block;
 		width: 100%;
+		color: inherit;
+		transition: color $t-transition;
 	}
 	input {
 		display: none;
@@ -18,9 +22,11 @@
 	}
 
 	&.gs-ui--empty {
-		font-style: italic;
+		span {
+			font-style: italic;
+			color: $c-span-editable-empty;
+		}
 	}
-
 	&.gs-ui--editing {
 		span {
 			display: none;

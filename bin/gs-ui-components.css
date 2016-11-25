@@ -8,10 +8,12 @@
 */
 /* common value */
 /* gs-ui-toggle */
+/* gs-ui-span-editable */
 .gs-ui--text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap; }
+  white-space: nowrap;
+  min-width: 1em; }
 
 .gs-ui-toggle {
   position: relative;
@@ -37,10 +39,14 @@
 
 .gs-ui-span-editable {
   display: flex;
-  align-items: center; }
+  align-items: center;
+  overflow: hidden;
+  color: #fff; }
   .gs-ui-span-editable span {
     display: inline-block;
-    width: 100%; }
+    width: 100%;
+    color: inherit;
+    transition: color 0.2s; }
   .gs-ui-span-editable input {
     display: none;
     box-sizing: border-box;
@@ -50,8 +56,9 @@
     font-size: 1em;
     color: inherit;
     background: none; }
-  .gs-ui-span-editable.gs-ui--empty {
-    font-style: italic; }
+  .gs-ui-span-editable.gs-ui--empty span {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.2); }
   .gs-ui-span-editable.gs-ui--editing span {
     display: none; }
   .gs-ui-span-editable.gs-ui--editing input {

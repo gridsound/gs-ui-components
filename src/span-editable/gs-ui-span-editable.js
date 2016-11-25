@@ -36,8 +36,12 @@ gsUIComponents[ "gs-ui-span-editable" ] = function( element, data ) {
 		return value;
 	};
 	element._setValue = function( val ) {
-		span.textContent = value = val.trim() || placeholder;
-		clazz.toggle( "gs-ui--empty", value === placeholder );
+		val = val.trim() || placeholder;
+		clazz.toggle( "gs-ui--empty", val === placeholder );
+		if ( val !== value ) {
+			span.textContent = value = val;
+			data.onchange && data.onchange( val );
+		}
 	};
 	element._setPlaceholder = function( s ) {
 		placeholder = s.trim();
