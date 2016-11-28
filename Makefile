@@ -15,7 +15,7 @@ css:
 	@echo ":: CSS"
 	@cd src; \
 		tail -n +3 main.scss > __tmp.scss; \
-		sass __tmp.scss ../bin/gs-ui-components.css; \
+		sass __tmp.scss ../bin/gs-ui-components.css --style compressed; \
 		rm __tmp.scss
 
 .PHONY: all html css js
