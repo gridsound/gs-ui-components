@@ -2,7 +2,7 @@
 
 gsUIComponents[ "gs-ui-span-editable" ] = function( element, data ) {
 	var escaped,
-		value = "",
+		value,
 		placeholder = "",
 		clazz = element.classList,
 		span = element.querySelector( "span" ),
@@ -36,11 +36,15 @@ gsUIComponents[ "gs-ui-span-editable" ] = function( element, data ) {
 		return value;
 	};
 	element._setValue = function( val ) {
-		val = val.trim() || placeholder;
-		clazz.toggle( "gs-ui--empty", val === placeholder );
+		val = val.trim();
+		if ( val === placeholder ) {
+			val = "";
+		}
+		clazz.toggle( "gs-ui--empty", !val );
+		span.textContent = val || placeholder;
 		if ( val !== value ) {
-			span.textContent = value = val;
-			data.onchange && data.onchange( val );
+			value = val;
+			data.onchange && data.onchange( value );
 		}
 	};
 	element._setPlaceholder = function( s ) {
