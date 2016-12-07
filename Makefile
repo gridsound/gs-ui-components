@@ -22,6 +22,5 @@ css:
 
 src = \
 	bin/__templates.js                       \
-	src/main.js                              \
 	src/toggle/gs-ui-toggle.js               \
 	src/span-editable/gs-ui-span-editable.js \

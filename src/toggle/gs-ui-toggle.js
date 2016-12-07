@@ -1,45 +1,51 @@
 "use strict";
 
-gsUIComponents[ "gs-ui-toggle" ] = function( element, data ) {
-	var circleClass = element.querySelector( ".gs-ui--circle" ).classList;
-
-	element._isOn = false;
-	element._toggle = function( b ) {
-		if ( b !== element._isOn ) {
-			element._isOn = b;
-			circleClass.toggle( "gs-ui--on", b );
-			data.onchange && data.onchange( b );
-		}
-	};
-	element._groupWith = function( el ) {
-		var group = element._group;
-
-		el._group = el._group || [ el ];
-		if ( el !== element && group !== el._group ) {
-			if ( group ) {
-				group.splice( group.indexOf( element ), 1 );
-			}
-			( element._group = el._group ) && el._group.push( element );
-		}
-	};
+function gsuiToggle( element, data ) {
+	this.element = element;
+	this.data = data;
+	this.isOn = false;
+	this._circleClass = element.querySelector( ".gs-ui--circle" ).classList;
 
 	element.oncontextmenu = function() { return false; };
-	element.onmousedown = function( e ) {
-		if ( e.button === 0 ) {
-			element._toggle( !element._isOn );
-		} else if ( e.button === 2 ) {
-			if ( element._group ) {
-				var b = element._group.every( function( el ) {
-						return el === element || !el._isOn;
-					} );
+	element.onmousedown = this.__elementMousedown.bind( this );
+}
 
-				element._group.forEach( function( el ) {
-					if ( el !== element ) {
-						el._toggle( b );
-					}
-				} );
-			}
-			element._toggle( true );
+gsuiToggle.prototype = {
+	toggle: function( b ) {
+		if ( b !== this.isOn ) {
+			this.isOn = b;
+			this._circleClass.toggle( "gs-ui--on", b );
+			this.data.onchange && this.data.onchange( b );
 		}
-	};
+	},
+	groupWith: function( tgg ) {
+		var group = this.group;
+
+		tgg.group = tgg.group || [ tgg ];
+		if ( tgg !== this && group !== tgg.group ) {
+			group && group.splice( group.indexOf( this ), 1 );
+			this.group = tgg.group;
+			tgg.group.push( this );
+		}
+	},
+
+	// private:
+	__elementMousedown: function( e ) {
+		if ( e.button === 0 ) {
+			this.toggle( !this.isOn );
+		} else if ( e.button === 2 ) {
+			if ( this.group ) {
+				var b = this.group.every( function( tgg ) {
+						return tgg === this || !tgg.isOn;
+					}, this );
+
+				this.group.forEach( function( tgg ) {
+					if ( tgg !== this ) {
+						tgg.toggle( b );
+					}
+				}, this );
+			}
+			this.toggle( true );
+		}
+	}
 };
