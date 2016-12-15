@@ -7,33 +7,32 @@ for ( k in tpl ) {
 }
 document.querySelector( "#demo" ).innerHTML = demoTpl();
 
-
 // gs-ui-toggle
-var toggles = Array.from( document.querySelectorAll( ".gs-ui-toggle" ) ),
+var toggles = [],
+	elToggles = Array.from( document.querySelectorAll( ".gs-ui-toggle" ) ),
 	togglesData = {
 		onchange: function( b ) {
 			lg( "onchange", b );
 		}
 	};
 
-toggles.forEach( function( el, i, arr ) {
-	gsUIComponents( el, togglesData );
+elToggles.forEach( function( el, i ) {
+	var toggle = new gsuiToggle( el, togglesData );
+
+	toggles.push( toggle );
 	if ( i > 0 ) {
-		el._groupWith( arr[ 0 ] );
+		toggle.groupWith( toggles[ 0 ] );
 	}
 } );
-toggles[ 0 ]._toggle( true );
+toggles[ 0 ].toggle( true );
 
 
 // gs-ui-span-editable
-var spans = Array.from( document.querySelectorAll( ".gs-ui-span-editable" ) ),
-	spansData = {
+var span = document.querySelector( ".gs-ui-span-editable" ),
+	spanEditable = new gsuiSpanEditable( span, {
 		onchange: function( val ) {
 			lg( "onchange", val );
 		}
-	};
+	} );
 
-spans.forEach( function( el, i, arr ) {
-	gsUIComponents( el, spansData );
-	el._setPlaceholder( "Placeholder..." );
-} );
+spanEditable.setPlaceholder( "Placeholder..." );
