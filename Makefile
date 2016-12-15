@@ -1,26 +1,36 @@
+MAKE = @make --no-print-directory
+CMP  = gs-ui-components
+TPL  = __templates.js
+
 all:
-	@make css
-	@make html
+	@echo "~~~~~~~ $(CMP) ~~~~~~~~"
+	$(MAKE) css
+	$(MAKE) html
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 html:
-	@echo ":: HTML"
-	@handlebars `find src -name "*.handlebars"` -f bin/__templates.js
-	@make js
+	@echo -n "* HTML ..... "
+	@handlebars `find src -name "*.handlebars"` -f bin/$(TPL)
+	@echo $(TPL)
+	$(MAKE) js
 
 js:
-	@echo ":: JS"
-	@uglifyjs $(src) -o bin/gs-ui-components.js --compress --mangle
+	@echo -n "* JS ....... "
+	@uglifyjs $(JS_FILES) -o bin/$(CMP).js --compress --mangle
+	@echo $(CMP).js
 
 css:
-	@echo ":: CSS"
+	@echo -n "* CSS ...... "
 	@cd src; \
 		tail -n +3 main.scss > __tmp.scss; \
-		sass __tmp.scss ../bin/gs-ui-components.css --style compressed; \
+		sass __tmp.scss ../bin/$(CMP).css --style compressed; \
 		rm __tmp.scss
+	@echo $(CMP).css
+
 
 .PHONY: all html css js
 
-src = \
-	bin/__templates.js                       \
-	src/toggle/gs-ui-toggle.js               \
+JS_FILES = \
+	bin/$(TPL)                               \
 	src/span-editable/gs-ui-span-editable.js \
+	src/toggle/gs-ui-toggle.js               \
