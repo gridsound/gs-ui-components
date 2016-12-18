@@ -37,3 +37,18 @@ body {
 	width: 100%;
 	height: 100%;
 }
+
+/* gs-ui-span-editable */
+#demo-span-waveform {
+	position: absolute;
+	top: 140px;
+	left: 115px;
+	width: 512px;
+	height: 144px;
+	background: #111;
+}
+.gs-ui-waveform {
+	width: 100%;
+	height: 100%;
+	fill: #88a;
+}

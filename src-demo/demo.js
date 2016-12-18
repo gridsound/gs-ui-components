@@ -36,3 +36,39 @@ var span = document.querySelector( ".gs-ui-span-editable" ),
 	} );
 
 spanEditable.setPlaceholder( "Placeholder..." );
+
+// An AudioContext for testing
+var wactx = new AudioContext();
+
+// gs-ui-waveform
+var elWaveform = document.querySelector( ".gs-ui-waveform" ),
+	waveformRect = elWaveform.getBoundingClientRect(),
+	waveform = new gsuiWaveform( elWaveform, {} );
+
+fetch( "src-demo/120bpm-4s.wav" )
+	.then( function( res ) {
+		res.arrayBuffer().then( function( arraybuf ) {
+			wactx.decodeAudioData( arraybuf, function( wabuf ) {
+				
+				var n = Math.PI / 2;
+					dur = wabuf.duration,
+					dur2 = dur / 2;
+
+				waveform.setBuffer( wabuf );
+				waveform.setResolution( waveformRect.width, waveformRect.height );
+				waveform.draw();
+
+				requestAnimationFrame( frame );
+				function frame() {
+					var sin = ( 1 + Math.sin( n ) ) / 2;
+
+					waveform.draw(
+						dur2 - dur2 * sin,
+						dur * sin );
+					n += .005;
+					requestAnimationFrame( frame );
+				}
+
+			} );
+		} );
+	} );

@@ -34,3 +34,4 @@ JS_FILES = \
 	bin/$(TPL)                               \
 	src/span-editable/gs-ui-span-editable.js \
 	src/toggle/gs-ui-toggle.js               \
+	src/waveform/gs-ui-waveform.js           \
