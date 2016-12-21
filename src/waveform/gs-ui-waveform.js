@@ -22,13 +22,13 @@ gsuiWaveform.prototype = {
 			bufDur = this.buf.duration,
 			ofs = offset || 0,
 			dur = Math.min( duration || bufDur, bufDur - ofs ),
-			ldata = this.buf.getChannelData( 0 ),
-			rdata = this.buf.getChannelData( 1 ),
-			dataLen = ldata.length,
+			data0 = this.buf.getChannelData( 0 ),
+			data1 = this.buf.numberOfChannels > 1 ? this.buf.getChannelData( 1 ) : data0,
+			dataLen = data0.length,
 			ind = ~~( ofs / bufDur * dataLen ),
 			step = dur / bufDur * dataLen / w,
-			ldots = "0," + ( h2 + ldata[ ind ] * h2 ),
-			rdots = "0," + ( h2 + rdata[ ind ] * h2 ),
+			dots0 = "0," + ( h2 + data0[ ind ] * h2 ),
+			dots1 = "0," + ( h2 + data1[ ind ] * h2 ),
 			iinc = ~~Math.max( 1, step / 100 );
 
 		for ( p = 1; p < w; ++p ) {
@@ -38,16 +38,16 @@ gsuiWaveform.prototype = {
 				iend = i + step;
 
 			for ( ; i < iend; i += iinc ) {
-				lmin = Math.min( lmin, ldata[ i ], rdata[ i ] );
-				rmax = Math.max( rmax, rdata[ i ], ldata[ i ] );
+				lmin = Math.min( lmin, data0[ i ], data1[ i ] );
+				rmax = Math.max( rmax, data1[ i ], data0[ i ] );
 			}
 			if ( Math.abs( rmax - lmin ) * h2 < 1 ) {
 				rmax += 1 / h;
 				lmin -= 1 / h;
 			}
-			ldots += " " + p + "," + ( h2 + lmin * h2 );
-			rdots  =       p + "," + ( h2 + rmax * h2 ) + " " + rdots;
+			dots0 += " " + p + "," + ( h2 + lmin * h2 );
+			dots1  =       p + "," + ( h2 + rmax * h2 ) + " " + dots1;
 		}
-		this.polygon.setAttribute( "points", ldots + " " + rdots );
+		this.polygon.setAttribute( "points", dots0 + " " + dots1 );
 	}
 };
