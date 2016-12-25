@@ -1,37 +1,35 @@
 MAKE = @make --no-print-directory
-CMP  = gs-ui-components
-TPL  = __templates.js
 
 all:
-	@echo "~~~~~~~ $(CMP) ~~~~~~~~"
+	@echo "~~~~~~~~~ gs-ui-components ~~~~~~~~~~"
 	$(MAKE) css
 	$(MAKE) html
-	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 html:
-	@echo -n "* HTML ..... "
-	@handlebars `find src -name "*.handlebars"` -f bin/$(TPL)
-	@echo $(TPL)
+	@echo -n "* HTML ............... "
+	@handlebars `find src -name "*.handlebars"` -f bin/__templates.js
+	@echo __templates.js
 	$(MAKE) js
 
 js:
-	@echo -n "* JS ....... "
-	@uglifyjs $(JS_FILES) -o bin/$(CMP).js --compress --mangle
-	@echo $(CMP).js
+	@echo -n "* JS ........ "
+	@uglifyjs $(JS_FILES) -o bin/gs-ui-components.min.js --compress --mangle
+	@echo gs-ui-components.min.js
 
 css:
 	@echo -n "* CSS ...... "
 	@cd src; \
 		tail -n +3 main.scss > __tmp.scss; \
-		sass __tmp.scss ../bin/$(CMP).css --style compressed; \
+		sass __tmp.scss ../bin/gs-ui-components.min.css --style compressed; \
 		rm __tmp.scss
-	@echo $(CMP).css
+	@echo gs-ui-components.min.css
 
 
 .PHONY: all html css js
 
 JS_FILES = \
-	bin/$(TPL)                               \
+	bin/__templates.js                       \
 	src/span-editable/gs-ui-span-editable.js \
 	src/toggle/gs-ui-toggle.js               \
 	src/waveform/gs-ui-waveform.js           \
