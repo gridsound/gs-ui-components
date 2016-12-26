@@ -29,4 +29,4 @@ JS_FILES = \
 	bin/__templates.js                       \
 	src/span-editable/gs-ui-span-editable.js \
 	src/toggle/gs-ui-toggle.js               \
-	src/waveform/gs-ui-waveform.js           \
+	src/waveform/gs-ui-waveform.js
