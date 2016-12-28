@@ -1,14 +1,14 @@
-.gs-ui-span-editable {
+.gsuiSpanEditable {
 	display: flex;
 	align-items: center;
 	overflow: hidden;
-	color: $c-span-editable;
+	color: $gsuiSpanEditable_color;
 
 	span {
 		display: inline-block;
 		width: 100%;
 		color: inherit;
-		transition: color $t-transition;
+		transition: color $gsui_transitionDuration;
 	}
 	input {
 		display: none;
@@ -21,13 +21,13 @@
 		background: none;
 	}
 
-	&.gs-ui--empty {
+	&.gsui-empty {
 		span {
 			font-style: italic;
-			color: $c-span-editable-empty;
+			color: $gsuiSpanEditable_color_empty;
 		}
 	}
-	&.gs-ui--editing {
+	&.gsui-editing {
 		span {
 			display: none;
 		}

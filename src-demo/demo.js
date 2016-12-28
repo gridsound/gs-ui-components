@@ -7,9 +7,9 @@ for ( k in tpl ) {
 }
 document.querySelector( "#demo" ).innerHTML = demoTpl();
 
-// gs-ui-toggle
+// gsuiToggle
 var toggles = [],
-	elToggles = Array.from( document.querySelectorAll( ".gs-ui-toggle" ) ),
+	elToggles = Array.from( document.querySelectorAll( ".gsuiToggle" ) ),
 	togglesData = {
 		onchange: function( b ) {
 			lg( "onchange", b );
@@ -27,8 +27,8 @@ elToggles.forEach( function( el, i ) {
 toggles[ 0 ].toggle( true );
 
 
-// gs-ui-span-editable
-var span = document.querySelector( ".gs-ui-span-editable" ),
+// gsuiSpanEditable
+var span = document.querySelector( ".gsuiSpanEditable" ),
 	spanEditable = new gsuiSpanEditable( span, {
 		onchange: function( val ) {
 			lg( "onchange", val );
@@ -40,8 +40,8 @@ spanEditable.setPlaceholder( "Placeholder..." );
 // An AudioContext for testing
 var wactx = new AudioContext();
 
-// gs-ui-waveform
-var elWaveform = document.querySelector( ".gs-ui-waveform" ),
+// gsuiWaveform
+var elWaveform = document.querySelector( ".gsuiWaveform" ),
 	waveformRect = elWaveform.getBoundingClientRect(),
 	waveform = new gsuiWaveform( elWaveform, {} );
 

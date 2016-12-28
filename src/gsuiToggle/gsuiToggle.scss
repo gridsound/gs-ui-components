@@ -1,0 +1,26 @@
+.gsuiToggle {
+	position: relative;
+	font-size: $gsuiToggle_circleWidth;
+	cursor: pointer;
+
+	.gsui-circle {
+		position: absolute;
+		box-sizing: border-box;
+		width: 1em;
+		height: 1em;
+		top: 50%;
+		left: 50%;
+		margin: -.5em 0 0 -.5em;
+		border-radius: 50%;
+		border: $gsuiToggle_border;
+		box-shadow: $gsuiToggle_boxshadow;
+		background: $gsuiToggle_color;
+		transition: $gsui_transitionDuration;
+		transition-property: background, box-shadow;
+
+		&.gsui-on {
+			box-shadow: $gsuiToggle_boxshadow_on;
+			background: $gsuiToggle_color_on;
+		}
+	}
+}

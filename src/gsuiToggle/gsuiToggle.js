@@ -4,7 +4,7 @@ function gsuiToggle( element, data ) {
 	this.element = element;
 	this.data = data;
 	this.isOn = false;
-	this._circleClass = element.querySelector( ".gs-ui--circle" ).classList;
+	this._circleClass = element.querySelector( ".gsui-circle" ).classList;
 
 	element.oncontextmenu = function() { return false; };
 	element.onmousedown = this.__elementMousedown.bind( this );
@@ -14,7 +14,7 @@ gsuiToggle.prototype = {
 	toggle: function( b ) {
 		if ( b !== this.isOn ) {
 			this.isOn = b;
-			this._circleClass.toggle( "gs-ui--on", b );
+			this._circleClass.toggle( "gsui-on", b );
 			this.data.onchange && this.data.onchange( b );
 		}
 	},

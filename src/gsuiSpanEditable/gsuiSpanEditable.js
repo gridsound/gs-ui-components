@@ -21,7 +21,7 @@ gsuiSpanEditable.prototype = {
 		if ( val === this.placeholder ) {
 			val = "";
 		}
-		this.element.classList.toggle( "gs-ui--empty", !val );
+		this.element.classList.toggle( "gsui-empty", !val );
 		this.span.textContent = val || this.placeholder;
 		if ( val !== this.value ) {
 			this.value = val;
@@ -38,14 +38,14 @@ gsuiSpanEditable.prototype = {
 	// private:
 	__elementDblclick: function( e ) {
 		this.input.value = this.value;
-		this.element.classList.add( "gs-ui--editing" );
+		this.element.classList.add( "gsui-editing" );
 		this.input.focus();
 		this.input.select();
 	},
 	__inputBlur: function( e ) {
 		if ( !this.__esc ) {
 			this.setValue( e.target.value );
-			this.element.classList.remove( "gs-ui--editing" );
+			this.element.classList.remove( "gsui-editing" );
 		}
 		this.__esc = false;
 	},
@@ -56,7 +56,7 @@ gsuiSpanEditable.prototype = {
 			if ( !this.__esc ) {
 				this.setValue( e.target.value );
 			}
-			this.element.classList.remove( "gs-ui--editing" );
+			this.element.classList.remove( "gsui-editing" );
 		}
 	}
 };

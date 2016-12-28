@@ -10,21 +10,21 @@ body {
 	background: #222;
 }
 
-/* gs-ui-toggle */
-#demo-toggle {
+
+#demo-gsuiToggle {
 	position: absolute;
 	top: 50px;
 	left: 40px;
 	width: 35px;
 	background: #444;
 }
-.gs-ui-toggle {
+.gsuiToggle {
 	width: 100%;
 	height: 35px;
 }
 
-/* gs-ui-span-editable */
-#demo-span-editable {
+
+#demo-gsuiSpanEditable {
 	position: absolute;
 	top: 50px;
 	left: 150px;
@@ -33,13 +33,13 @@ body {
 	padding: 5px;
 	background: #444;
 }
-.gs-ui-span-editable {
+.gsuiSpanEditable {
 	width: 100%;
 	height: 100%;
 }
 
-/* gs-ui-span-editable */
-#demo-span-waveform {
+
+#demo-gsuiWaveform {
 	position: absolute;
 	top: 140px;
 	left: 115px;
@@ -47,7 +47,7 @@ body {
 	height: 144px;
 	background: #111;
 }
-.gs-ui-waveform {
+.gsuiWaveform {
 	width: 100%;
 	height: 100%;
 	fill: #88a;
