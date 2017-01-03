@@ -1,8 +1,8 @@
 "use strict";
 
-function gsuiWaveform( element, data ) {
-	this.svg = element;
-	this.polygon = element.querySelector( "polygon" );
+function gsuiWaveform( svg ) {
+	this.svg = svg;
+	this.polygon = svg.querySelector( "polygon" );
 };
 
 gsuiWaveform.prototype = {
