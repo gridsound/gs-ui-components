@@ -11,22 +11,14 @@ gsuiWaveform.prototype = {
 		this.height = h;
 		this.svg.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
-	setBuffer: function( buf ) {
-		this.buf = buf;
-	},
-	draw: function( offset, duration ) {
+	draw: function( data0, data1, bufferDuration, offset, duration ) {
 		var p,
 			w = this.width,
 			h = this.height,
 			h2 = h / 2,
-			bufDur = this.buf.duration,
-			ofs = offset || 0,
-			dur = Math.min( duration || bufDur, bufDur - ofs ),
-			data0 = this.buf.getChannelData( 0 ),
-			data1 = this.buf.numberOfChannels > 1 ? this.buf.getChannelData( 1 ) : data0,
 			dataLen = data0.length,
-			ind = ~~( ofs / bufDur * dataLen ),
-			step = dur / bufDur * dataLen / w,
+			ind = ~~( offset / bufferDuration * dataLen ),
+			step = duration / bufferDuration * dataLen / w,
 			dots0 = "0," + ( h2 + data0[ ind ] * h2 ),
 			dots1 = "0," + ( h2 + data1[ ind ] * h2 ),
 			iinc = ~~Math.max( 1, step / 100 );
