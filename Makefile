@@ -27,6 +27,7 @@ css:
 
 JS_FILES = \
 	bin/__templates.js                       \
+	src/gsuiOscilloscope/gsuiOscilloscope.js \
 	src/gsuiSpanEditable/gsuiSpanEditable.js \
 	src/gsuiToggle/gsuiToggle.js             \
 	src/gsuiWaveform/gsuiWaveform.js
