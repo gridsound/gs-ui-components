@@ -65,13 +65,13 @@ fetch( "src-demo/120bpm-4s.wav" )
 // gsuiSpanEditable
 // ------------------------------------------------------------------
 ( function() {
-	var elem = document.querySelector( ".gsuiSpanEditable" ),
-		uiSpanEditable = new gsuiSpanEditable( elem, {
-			onchange: function( val ) {
-				lg( "gsuiSpanEditable, onchange", val );
-			}
-		} );
+	var elem = document.querySelector( ".gsuiSpanEditable" );
 
+	window.uiSpanEditable = new gsuiSpanEditable( elem, {
+		onchange: function( val ) {
+			lg( "gsuiSpanEditable, onchange", val );
+		}
+	} );
 	uiSpanEditable.setPlaceholder( "Placeholder..." );
 } )();
 
@@ -81,10 +81,10 @@ fetch( "src-demo/120bpm-4s.wav" )
 ( function() {
 	var n = Math.PI / 2,
 		elem = document.querySelector( ".gsuiWaveform" ),
-		rect = elem.getBoundingClientRect(),
-		uiWaveform = new gsuiWaveform( elem );
+		rect = elem.getBoundingClientRect();
 
-	uiWaveform.setResolution( rect.width, rect.height );
+	window.uiWave = new gsuiWaveform( elem );
+	uiWave.setResolution( rect.width, rect.height );
 	requestAnimationFrame( frame );
 
 	function frame() {
@@ -97,7 +97,7 @@ fetch( "src-demo/120bpm-4s.wav" )
 			data0 = wabuf.getChannelData( 0 ),
 			data1 = wabuf.numberOfChannels < 2 ? data0 : wabuf.getChannelData( 1 );
 
-		uiWaveform.draw( data0, data1, dur,
+		uiWave.draw( data0, data1, dur,
 			dur2 - dur2 * zoom,
 			dur * zoom );
 	}
@@ -108,9 +108,9 @@ fetch( "src-demo/120bpm-4s.wav" )
 // ------------------------------------------------------------------
 ( function() {
 	var elem = document.querySelector( ".gsuiOscilloscope" ),
-		rect = elem.getBoundingClientRect(),
-		uiOsc = new gsuiOscilloscope( elem );
+		rect = elem.getBoundingClientRect();
 
+	window.uiOsc = new gsuiOscilloscope( elem );
 	uiOsc.setResolution( rect.width, rect.height );
 	uiOsc.setPinch( 1 );
 	uiOsc.dataFunction( function() {
