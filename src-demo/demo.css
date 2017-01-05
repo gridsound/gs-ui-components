@@ -11,6 +11,8 @@ body {
 }
 
 
+/* gsuiToggle */
+/* --------------------------------------------------------------- */
 #demo-gsuiToggle {
 	position: absolute;
 	top: 50px;
@@ -24,6 +26,8 @@ body {
 }
 
 
+/* gsuiSpanEditable */
+/* --------------------------------------------------------------- */
 #demo-gsuiSpanEditable {
 	position: absolute;
 	top: 50px;
@@ -39,6 +43,8 @@ body {
 }
 
 
+/* gsuiWaveform */
+/* --------------------------------------------------------------- */
 #demo-gsuiWaveform {
 	position: absolute;
 	top: 140px;
@@ -51,4 +57,20 @@ body {
 	width: 100%;
 	height: 100%;
 	fill: #88a;
+}
+
+
+/* gsuiOscilloscope */
+/* --------------------------------------------------------------- */
+#demo-gsuiOscilloscope {
+	position: absolute;
+	top: 300px;
+	left: 115px;
+	width: 512px;
+	height: 144px;
+	background: #111;
+}
+.gsuiOscilloscope {
+	width: 100%;
+	height: 100%;
 }
