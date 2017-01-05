@@ -35,15 +35,18 @@ gsuiOscilloscope.prototype = {
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 	},
 	startAnimation: function() {
-		var that = this;
+		if ( !this.frameId ) {
+			var that = this;
 
-		this.frameId = requestAnimationFrame( function frame() {
-			that.draw( that.fnData() );
-			that.frameId = requestAnimationFrame( frame );
-		} );
+			this.frameId = requestAnimationFrame( function frame() {
+				that.draw( that.fnData() );
+				that.frameId = requestAnimationFrame( frame );
+			} );
+		}
 	},
 	stopAnimation: function() {
 		cancelAnimationFrame( this.frameId );
+		this.frameId = null;
 	},
 	dataFunction: function( fn ) {
 		this.fnData = fn;
