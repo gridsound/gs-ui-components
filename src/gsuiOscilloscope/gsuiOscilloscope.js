@@ -6,21 +6,11 @@ function gsuiOscilloscope( canvas ) {
 	this.maxValue = 0;
 	this.setPinch( 0 );
 	this.drawBegin( function( ctx, max, w, h ) {
-		ctx.globalCompositeOperation = "source-in";
-		ctx.fillStyle = "rgba(" +
-			Math.round( 255 - max * 128 ) + "," +
-			Math.round( max * 32 ) + "," +
-			Math.round( max * 128 ) + "," +
-			( .95 - .25 * ( 1 - Math.cos( max * Math.PI / 4 ) ) ) +
-		")";
 		ctx.fillRect( 0, 0, w, h );
-		ctx.globalCompositeOperation = "source-over";
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = "rgb(255,255,255)";
 	} );
-	this.drawEnd( function( ctx, max ) {
-		ctx.lineJoin = "round";
-		ctx.lineWidth = 1 + Math.round( 2 * max );
-		ctx.strokeStyle = "rgba(255,255,255," + Math.min( .5 + max * .5, 1 ) + ")";
-	} );
+	this.drawEnd();
 };
 
 gsuiOscilloscope.prototype = {

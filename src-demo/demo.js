@@ -118,4 +118,22 @@ fetch( "src-demo/120bpm-4s.wav" )
 		return g_analyserData;
 	} );
 	uiOsc.startAnimation();
+
+	// We overload the draw with :
+	uiOsc.drawBegin( function( ctx, max, w, h ) {
+		ctx.globalCompositeOperation = "source-in";
+		ctx.fillStyle = "rgba(" +
+			Math.round( 255 - max * 128 ) + "," +
+			Math.round( max * 32 ) + "," +
+			Math.round( max * 128 ) + "," +
+			( .95 - .25 * ( 1 - Math.cos( max * Math.PI / 4 ) ) ) +
+		")";
+		ctx.fillRect( 0, 0, w, h );
+		ctx.globalCompositeOperation = "source-over";
+	} );
+	uiOsc.drawEnd( function( ctx, max ) {
+		ctx.lineJoin = "round";
+		ctx.lineWidth = 1 + Math.round( 2 * max );
+		ctx.strokeStyle = "rgba(255,255,255," + Math.min( .5 + max * .5, 1 ) + ")";
+	} );
 } )();
