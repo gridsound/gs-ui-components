@@ -1,0 +1,84 @@
+.gsuiPopup {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	z-index: 2147483647;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: $gsuiPopup_backBg;
+	visibility: hidden;
+	opacity: 0;
+	transition: $gsui_transitionDuration;
+	transition-property: visibility, opacity;
+
+	&.gsui-show {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	&-window {
+		min-width: $gsuiPopup_minWidth;
+		border-radius: $gsuiPopup_radius;
+		color: $gsuiPopup_color;
+		background: $gsuiPopup_bg;
+
+		header {
+			padding: $gsuiPopup_padding;
+			color: $gsuiPopup_bg;
+			font-weight: bold;
+			border-bottom: $gsuiPopup_headerBorder;
+			background: $gsuiPopup_headerBg;
+
+			&:before {
+				font-family: "FontAwesome";
+				margin-right: $gsuiPopup_padding;
+			}
+		}
+
+		.gsui-msg {
+			padding: 1.5em $gsuiPopup_padding;
+		}
+
+		form {
+			padding: 0 $gsuiPopup_padding $gsuiPopup_padding $gsuiPopup_padding;
+			text-align: center;
+		}
+
+		.gsui-text,
+		.gsui-btn {
+			padding: $gsuiPopup_padding;
+			border: 0;
+			border-radius: 2px;
+		}
+		.gsui-text {
+			display: block;
+			box-sizing: border-box;
+			width: 100%;
+			color: $gsuiPopup_color;
+			font-size: 18px;
+			margin-bottom: $gsuiPopup_padding;
+		}
+		.gsui-btn {
+			color: #fff;
+			font-weight: bold;
+			background: $gsuiPopup_btnBg;
+			cursor: pointer;
+		}
+		.gsui-ok {
+			background: $gsuiPopup_okBg;
+		}
+
+		&.gsui-nocancel .gsui-cancel,
+		&.gsui-notext .gsui-text {
+			display: none;
+		}
+		&[data-gsui-type="info"]    { header:before { content: $gsuiPopup_iconInfo; } }
+		&[data-gsui-type="error"]   { header:before { content: $gsuiPopup_iconError; } }
+		&[data-gsui-type="prompt"]  { header:before { content: $gsuiPopup_iconPrompt; } }
+		&[data-gsui-type="warning"] { header:before { content: $gsuiPopup_iconWarning; } }
+		&[data-gsui-type="confirm"] { header:before { content: $gsuiPopup_iconConfirm; } }
+	}
+}

@@ -137,3 +137,15 @@ fetch( "src-demo/120bpm-4s.wav" )
 		ctx.strokeStyle = "rgba(255,255,255," + Math.min( .5 + max * .5, 1 ) + ")";
 	} );
 } )();
+
+// gsuiPopup
+// ------------------------------------------------------------------
+( function() {
+	var elem = document.querySelector( ".gsuiPopup" );
+
+	window.uiPopup = new gsuiPopup( elem );
+	// uiPopup.open( "prompt", "Hello :)", "What's your name ?", "..." )
+	// 	.then( function( val ) {
+	// 		console.log( ".then() ->", val );
+	// 	} );
+} )();
