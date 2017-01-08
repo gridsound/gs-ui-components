@@ -5,26 +5,32 @@
 	<title>gs-ui-components</title>
 	<link rel="stylesheet" href="bin/gs-ui-components.min.css"/>
 	<link rel="stylesheet" href="src-demo/demo.css"/>
+	<script src="//use.fontawesome.com/9f1593d3ae.js"></script>
 </head>
 <body>
 
 <div id="demo"></div>
 <script id="demo-tpl" type="text/x-handlebars-template">
-	<div id="demo-gsuiToggle">
-		{{> gsuiToggle }}
-		{{> gsuiToggle }}
-		{{> gsuiToggle }}
-		{{> gsuiToggle }}
-		{{> gsuiToggle }}
-	</div>
-	<div id="demo-gsuiSpanEditable">
-		{{> gsuiSpanEditable }}
-	</div>
-	<div id="demo-gsuiWaveform">
-		{{> gsuiWaveform }}
-	</div>
-	<div id="demo-gsuiOscilloscope">
-		{{> gsuiOscilloscope }}
+	<div id="demo-container">
+		<fieldset>
+			<legend>gsuiWaveform</legend>
+			{{> gsuiWaveform }}
+		</fieldset>
+		<fieldset>
+			<legend>gsuiOscilloscope</legend>
+			{{> gsuiOscilloscope }}
+		</fieldset>
+		<fieldset>
+			<legend>gsuiSpanEditable</legend>
+			{{> gsuiSpanEditable }}
+		</fieldset>
+		<fieldset>
+			<legend>gsuiToggle</legend>
+			<div id="gsuiToggles-wrapper">
+				{{> gsuiToggle }}{{> gsuiToggle }}{{> gsuiToggle }}{{> gsuiToggle }}{{> gsuiToggle }}
+			</div>
+		</fieldset>
+		{{> gsuiPopup }}
 	</div>
 </script>
 

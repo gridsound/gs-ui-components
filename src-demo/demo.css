@@ -1,5 +1,5 @@
 /* Reset */
-html, body {
+html, body, #demo {
 	height: 100%;
 }
 
@@ -10,67 +10,58 @@ body {
 	background: #222;
 }
 
+#demo-container {
+	box-sizing: border-box;
+	width: 600px;
+	min-height: 100%;
+	padding: 20px;
+	margin: auto;
+}
+
+fieldset {
+	border: 2px solid rgba( 140, 220, 255, .2 );
+	border-radius: 4px;
+	color: #8cdcff;
+}
+* + fieldset {
+	margin-top: 20px;
+}
 
 /* gsuiToggle */
 /* --------------------------------------------------------------- */
-#demo-gsuiToggle {
-	position: absolute;
-	top: 50px;
-	left: 40px;
-	width: 35px;
-	background: #444;
+#gsuiToggles-wrapper {
+	text-align: center;
 }
 .gsuiToggle {
-	width: 100%;
+	display: inline-block;
+	text-align: center;
+	width: 35px;
 	height: 35px;
+	background: #444;
 }
 
 
 /* gsuiSpanEditable */
 /* --------------------------------------------------------------- */
-#demo-gsuiSpanEditable {
-	position: absolute;
-	top: 50px;
-	left: 150px;
+.gsuiSpanEditable {
+	margin: auto;
 	width: 150px;
 	height: 35px;
 	padding: 5px;
 	background: #444;
 }
-.gsuiSpanEditable {
-	width: 100%;
-	height: 100%;
-}
 
 
-/* gsuiWaveform */
+/* gsuiWaveform, gsuiOscilloscope */
 /* --------------------------------------------------------------- */
-#demo-gsuiWaveform {
-	position: absolute;
-	top: 140px;
-	left: 115px;
-	width: 512px;
+.gsuiWaveform,
+.gsuiOscilloscope {
+	display: block;
+	width: 100%;
+	margin: auto;
 	height: 144px;
 	background: #111;
 }
 .gsuiWaveform {
-	width: 100%;
-	height: 100%;
 	fill: #88a;
-}
-
-
-/* gsuiOscilloscope */
-/* --------------------------------------------------------------- */
-#demo-gsuiOscilloscope {
-	position: absolute;
-	top: 300px;
-	left: 115px;
-	width: 512px;
-	height: 144px;
-	background: #111;
-}
-.gsuiOscilloscope {
-	width: 100%;
-	height: 100%;
 }
