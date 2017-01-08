@@ -30,7 +30,13 @@
 				{{> gsuiToggle }}{{> gsuiToggle }}{{> gsuiToggle }}{{> gsuiToggle }}{{> gsuiToggle }}
 			</div>
 		</fieldset>
-		{{> gsuiPopup }}
+		<fieldset id="gsuiPopup-wrapper">
+			<legend>gsuiPopup</legend>
+			{{> gsuiPopup }}
+			<button>.open( "info", "Welcome", "Lorem ipsum etc." )</button>
+			<button>.open( "confirm", "A question ?", "Are you sure etc. ?" )</button>
+			<button>.open( "prompt", "Yooo", "What's your name ?", "..." )</button>
+		</fieldset>
 	</div>
 </script>
 

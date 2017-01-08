@@ -65,3 +65,13 @@ fieldset {
 .gsuiWaveform {
 	fill: #88a;
 }
+
+
+/* gsuiWaveform, gsuiOscilloscope */
+/* --------------------------------------------------------------- */
+#gsuiPopup-wrapper button {
+	font-family: monospace;
+	color: inherit;
+	border: 0;
+	background: none;
+}

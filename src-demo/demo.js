@@ -141,11 +141,13 @@ fetch( "src-demo/120bpm-4s.wav" )
 // gsuiPopup
 // ------------------------------------------------------------------
 ( function() {
-	var elem = document.querySelector( ".gsuiPopup" );
+	var elem = document.querySelector( ".gsuiPopup" ),
+		btns = document.querySelectorAll( "#gsuiPopup-wrapper button" );
 
 	window.uiPopup = new gsuiPopup( elem );
-	// uiPopup.open( "prompt", "Hello :)", "What's your name ?", "..." )
-	// 	.then( function( val ) {
-	// 		console.log( ".then() ->", val );
-	// 	} );
+	Array.from( btns ).forEach( function( btn ) {
+		btn.onclick = function() {
+			eval( "uiPopup" + this.textContent );
+		};
+	} );
 } )();
