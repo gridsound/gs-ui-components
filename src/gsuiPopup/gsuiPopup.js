@@ -39,7 +39,7 @@ gsuiPopup.prototype = {
 		this.isOpen = true;
 		this.elHeader.textContent = title;
 		this.elMsg.innerHTML = msg;
-		this.elText.value = value;
+		this.elText.value = arguments.length > 3 ? value : "";
 		this.elWindow.dataset.gsuiType = this.type = type;
 		this.elWindow.classList.toggle( "gsui-nocancel", type !== "prompt" && type !== "confirm" );
 		this.elWindow.classList.toggle( "gsui-notext", type !== "prompt" );
