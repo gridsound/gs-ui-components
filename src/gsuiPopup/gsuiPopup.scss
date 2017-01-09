@@ -67,6 +67,9 @@
 			background: $gsuiPopup_btnBg;
 			cursor: pointer;
 		}
+		* + .gsui-btn {
+			margin-left: $gsuiPopup_padding;
+		}
 		.gsui-ok {
 			background: $gsuiPopup_okBg;
 		}
