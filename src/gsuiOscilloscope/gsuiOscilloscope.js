@@ -63,16 +63,15 @@ gsuiOscilloscope.prototype = {
 		ctx.beginPath();
 			max = 0;
 			for ( x = 0; x < len; ++x ) {
-				y = data[ x ] / 256;
-				max = Math.max( max, y );
-				y -= .5;
+				y = data[ x ] / 128 - 1;
+				max = Math.max( max, Math.abs( y ) );
 				if ( x < pin || len - pin <= x ) {
-					y *= .5 - Math.cos( Math.PI * ( x < pin ? x : len - x ) / pin ) / 2;
+					y *= .5 - Math.cos( Math.PI * ( x < pin ? x : len - 1 - x ) / pin ) / 2;
 				}
-				if ( x ) {
-					ctx.lineTo( x * mult, h2 + y * h );
+				if ( x === 0 ) {
+					ctx.moveTo( 0, h2 + y * h2 );
 				} else {
-					ctx.moveTo( 0, h2 + y * h );
+					ctx.lineTo( x * mult, h2 + y * h2 );
 				}
 			}
 			this.fnEnd( ctx, max, w, h );

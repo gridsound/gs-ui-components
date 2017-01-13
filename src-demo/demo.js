@@ -124,8 +124,8 @@ fetch( "src-demo/120bpm-4s.wav" )
 		ctx.globalCompositeOperation = "source-in";
 		ctx.fillStyle = "rgba(" +
 			Math.round( 255 - max * 128 ) + "," +
-			Math.round( max * 32 ) + "," +
-			Math.round( max * 128 ) + "," +
+			Math.round( max * 64 ) + "," +
+			Math.round( max * 255 ) + "," +
 			( .95 - .25 * ( 1 - Math.cos( max * Math.PI / 4 ) ) ) +
 		")";
 		ctx.fillRect( 0, 0, w, h );
@@ -134,7 +134,7 @@ fetch( "src-demo/120bpm-4s.wav" )
 	uiOsc.drawEnd( function( ctx, max ) {
 		ctx.lineJoin = "round";
 		ctx.lineWidth = 1 + Math.round( 2 * max );
-		ctx.strokeStyle = "rgba(255,255,255," + Math.min( .5 + max * .5, 1 ) + ")";
+		ctx.strokeStyle = "rgba(255,255,255," + Math.min( .4 + .6 * max, 1 ) + ")";
 	} );
 } )();
 
