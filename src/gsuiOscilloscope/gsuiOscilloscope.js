@@ -59,23 +59,24 @@ gsuiOscilloscope.prototype = {
 			pin = Math.ceil( this.pinch / 2 * len ),
 			mult = w / ( len - 1 );
 
-		this.fnBegin( ctx, max, w, h );
-		ctx.beginPath();
-			max = 0;
-			for ( x = 0; x < len; ++x ) {
-				y = data[ x ] / 128 - 1;
-				max = Math.max( max, Math.abs( y ) );
-				if ( x < pin || len - pin <= x ) {
-					y *= .5 - Math.cos( Math.PI * ( x < pin ? x : len - 1 - x ) / pin ) / 2;
+		if ( this.fnBegin( ctx, max, w, h ) !== false ) {
+			ctx.beginPath();
+				max = 0;
+				for ( x = 0; x < len; ++x ) {
+					y = data[ x ] / 128 - 1;
+					max = Math.max( max, Math.abs( y ) );
+					if ( x < pin || len - pin <= x ) {
+						y *= .5 - Math.cos( Math.PI * ( x < pin ? x : len - 1 - x ) / pin ) / 2;
+					}
+					if ( x === 0 ) {
+						ctx.moveTo( 0, h2 + y * h2 );
+					} else {
+						ctx.lineTo( x * mult, h2 + y * h2 );
+					}
 				}
-				if ( x === 0 ) {
-					ctx.moveTo( 0, h2 + y * h2 );
-				} else {
-					ctx.lineTo( x * mult, h2 + y * h2 );
-				}
-			}
-			this.fnEnd( ctx, max, w, h );
-		ctx.stroke();
-		this.maxValue = max;
+				this.fnEnd( ctx, max, w, h );
+			ctx.stroke();
+			this.maxValue = max;
+		}
 	}
 };
