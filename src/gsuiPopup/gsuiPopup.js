@@ -27,6 +27,11 @@ function gsuiPopup( el ) {
 			that.type === "prompt" ? that.elText.value : undefined );
 		return false;
 	};
+	this.elText.onkeypress =
+	this.elText.onkeydown =
+	this.elText.onkeyup = function( e ) {
+		e.stopPropagation();
+	};
 };
 
 gsuiPopup.prototype = {
