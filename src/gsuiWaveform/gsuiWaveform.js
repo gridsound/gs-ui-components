@@ -11,6 +11,9 @@ gsuiWaveform.prototype = {
 		this.height = h;
 		this.svg.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
+	clear: function() {
+		this.polygon.removeAttribute( "points" );
+	},
 	draw: function( data0, data1, bufferDuration, offset, duration ) {
 		var p,
 			w = this.width,
