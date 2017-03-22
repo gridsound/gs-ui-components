@@ -1,9 +1,8 @@
 // Globales here :
-var g_wabuf,
-	g_analyserData,
+var g_analyserData,
 	g_wactx = new AudioContext(),
 	g_wabufsrc = g_wactx.createBufferSource(),
-	g_analyserNode = g_wactx.createAnalyser();
+	g_analyserNode = g_wactx.createAnalyser(),
 	g_gainNode = g_wactx.createGain();
 
 g_gainNode.connect( g_wactx.destination );
@@ -18,13 +17,19 @@ fetch( "src-demo/120bpm-4s.wav" )
 	.then( function( res ) {
 		res.arrayBuffer().then( function( arraybuf ) {
 			g_wactx.decodeAudioData( arraybuf, function( wabuf ) {
-				g_wabufsrc.buffer =
-				g_wabuf = wabuf;
+				g_wabufsrc.buffer = wabuf;
 				g_wabufsrc.start();
+				requestAnimationFrame( frame );
 			} );
 		} );
 	} );
 
+function frame() {
+	g_analyserNode.getByteTimeDomainData( g_analyserData );
+	uiOsc.draw( g_analyserData );
+	uiWaveDrawZoom();
+	requestAnimationFrame( frame );
+}
 
 // Creation of the whole demo's HTML
 // ------------------------------------------------------------------
@@ -79,26 +84,22 @@ fetch( "src-demo/120bpm-4s.wav" )
 // gsuiWaveform
 // ------------------------------------------------------------------
 ( function() {
-	var n = Math.PI / 2,
-		elem = document.querySelector( ".gsuiWaveform" ),
-		rect = elem.getBoundingClientRect();
+	var elem = document.querySelector( ".gsuiWaveform" ),
+		rect = elem.getBoundingClientRect(),
+		n = Math.PI / 2;
 
 	window.uiWave = new gsuiWaveform( elem );
 	uiWave.setResolution( rect.width, rect.height );
-	requestAnimationFrame( frame );
+	window.uiWaveDrawZoom = function() {
+		var buf = g_wabufsrc.buffer,
+			dur = buf.duration,
+			zoom = ( 1 + Math.sin( n += .005 ) ) / 2;
 
-	function frame() {
-		g_wabuf && drawZoom( g_wabuf, ( 1 + Math.sin( n += .005 ) ) / 2 );
-		requestAnimationFrame( frame );
-	}
-	function drawZoom( wabuf, zoom ) {
-		var dur = wabuf.duration,
-			dur2 = dur / 2,
-			data0 = wabuf.getChannelData( 0 ),
-			data1 = wabuf.numberOfChannels < 2 ? data0 : wabuf.getChannelData( 1 );
-
-		uiWave.draw( data0, data1, dur,
-			dur2 - dur2 * zoom,
+		uiWave.draw(
+			buf.getChannelData( 0 ),
+			buf.getChannelData( 1 ),
+			dur,
+			dur / 2 - dur / 2 * zoom,
 			dur * zoom );
 	}
 } )();
@@ -113,11 +114,6 @@ fetch( "src-demo/120bpm-4s.wav" )
 	window.uiOsc = new gsuiOscilloscope( elem );
 	uiOsc.setResolution( rect.width, rect.height );
 	uiOsc.setPinch( 1 );
-	uiOsc.dataFunction( function() {
-		g_analyserNode.getByteTimeDomainData( g_analyserData );
-		return g_analyserData;
-	} );
-	uiOsc.startAnimation();
 
 	// We overload the draw with :
 	uiOsc.drawBegin( function( ctx, max, w, h ) {
