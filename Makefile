@@ -19,7 +19,7 @@ js:
 
 css:
 	@echo -n "* CSS ...... "
-	@sass -I src src/main.scss bin/gs-ui-components.min.css --style compressed
+	@cd bin; sass -I ../src ../src/main.scss gs-ui-components.min.css --style compressed
 	@echo gs-ui-components.min.css
 
 
