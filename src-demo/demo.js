@@ -1,32 +1,49 @@
 // Globales here :
-var g_analyserData,
+var g_analyserFrequencyData,
+	g_analyserTimeDomainData,
 	g_wactx = new AudioContext(),
-	g_wabufsrc = g_wactx.createBufferSource(),
+	g_wabufsrc0 = g_wactx.createBufferSource(),
+	g_wabufsrc1 = g_wactx.createBufferSource(),
 	g_analyserNode = g_wactx.createAnalyser(),
 	g_gainNode = g_wactx.createGain();
 
 g_gainNode.connect( g_wactx.destination );
 g_analyserNode.connect( g_gainNode );
-g_wabufsrc.connect( g_analyserNode );
-g_gainNode.gain.value = 0;
-g_analyserNode.fftSize = 256;
-g_wabufsrc.loop = true;
-g_analyserData = new Uint8Array( g_analyserNode.frequencyBinCount );
+g_wabufsrc0.connect( g_analyserNode );
+g_gainNode.gain.value = 1;
+g_analyserNode.fftSize = 1024;
+g_analyserNode.smoothingTimeConstant = .8;
+g_analyserNode.smoothingTimeConstant = .9;
+g_wabufsrc0.loop = true;
+g_analyserFrequencyData = new Uint8Array( g_analyserNode.frequencyBinCount );
+g_analyserTimeDomainData = new Uint8Array( g_analyserNode.frequencyBinCount );
 
-fetch( "src-demo/120bpm-4s.wav" )
-	.then( function( res ) {
-		res.arrayBuffer().then( function( arraybuf ) {
-			g_wactx.decodeAudioData( arraybuf, function( wabuf ) {
-				g_wabufsrc.buffer = wabuf;
-				g_wabufsrc.start();
-				requestAnimationFrame( frame );
-			} );
+Promise.all( [
+	fetch( "src-demo/demo.mp3" ),
+	fetch( "src-demo/120bpm-4s.wav" )
+] ).then( function( files ) {
+	Promise.all( [
+		files[ 0 ].arrayBuffer(),
+		files[ 1 ].arrayBuffer(),
+	] ).then( function( arraybufs ) {
+		g_wactx.decodeAudioData( arraybufs[ 0 ], function( wabuf ) {
+			g_wabufsrc0.buffer = wabuf;
+			g_wabufsrc0.start();
+		} );
+		g_wactx.decodeAudioData( arraybufs[ 1 ], function( wabuf ) {
+			g_wabufsrc1.buffer = wabuf;
+			g_wabufsrc1.start();
+			requestAnimationFrame( frame );
 		} );
 	} );
+} );
 
 function frame() {
-	g_analyserNode.getByteTimeDomainData( g_analyserData );
-	uiOsc.draw( g_analyserData );
+	g_analyserNode.getByteTimeDomainData( g_analyserTimeDomainData );
+	g_analyserNode.getByteFrequencyData( g_analyserFrequencyData );
+
+	uiSpc.draw( g_analyserFrequencyData );
+	uiOsc.draw( g_analyserTimeDomainData );
 	uiWaveDrawZoom();
 	requestAnimationFrame( frame );
 }
@@ -91,7 +108,7 @@ function frame() {
 	window.uiWave = new gsuiWaveform( elem );
 	uiWave.setResolution( rect.width, rect.height );
 	window.uiWaveDrawZoom = function() {
-		var buf = g_wabufsrc.buffer,
+		var buf = g_wabufsrc1.buffer,
 			dur = buf.duration,
 			zoom = ( 1 + Math.sin( n += .005 ) ) / 2;
 
@@ -102,6 +119,17 @@ function frame() {
 			dur / 2 - dur / 2 * zoom,
 			dur * zoom );
 	}
+} )();
+
+
+// gsuiSpectrum
+// ------------------------------------------------------------------
+( function() {
+	var elem = document.querySelector( ".gsuiSpectrum" ),
+		rect = elem.getBoundingClientRect();
+
+	window.uiSpc = new gsuiSpectrum( elem );
+	uiSpc.setResolution( rect.width, rect.height );
 } )();
 
 
