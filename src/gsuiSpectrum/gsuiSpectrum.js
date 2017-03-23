@@ -47,9 +47,7 @@ gsuiSpectrum.prototype = {
 		datalen = data.length;
 		datumlen = w / datalen;
 		for ( x = 0; x < datalen; ++x ) {
-			datum  = data[ x ] / 255;
-			// datum  = 1 - Math.cos( datum * Math.PI / 2 );
-			datum  = 1 - Math.sqrt( 1 - datum * datum );
+			datum = 1 - Math.cos( data[ x ] / 255 * Math.PI / 2 );
 			if ( datum < .01 ) {
 				r = 4 + 10 * datum;
 				g = 4 + 10 * datum;
@@ -59,12 +57,11 @@ gsuiSpectrum.prototype = {
 				else if ( datum < .15 ) { colId = 1; datum /= .15; }
 				else if ( datum < .17 ) { colId = 2; datum /= .17; }
 				else if ( datum < .25 ) { colId = 3; datum /= .25; }
-				else if ( datum < .3  ) { colId = 4; datum /= .3;  }
-				else if ( datum < .4  ) { colId = 5; datum /= .4;  }
-				else if ( datum < .6  ) { colId = 6; datum /= .6;  }
-				else if ( datum < .8  ) { colId = 7; datum /= .8;  }
-				else                    { colId = 8;  }
-
+				else if ( datum < .3  ) { colId = 4; datum /= .3; }
+				else if ( datum < .4  ) { colId = 5; datum /= .4; }
+				else if ( datum < .6  ) { colId = 6; datum /= .6; }
+				else if ( datum < .8  ) { colId = 7; datum /= .8; }
+				else                    { colId = 8; }
 				col = this.colors[ colId ];
 				r = col[ 0 ] * datum;
 				g = col[ 1 ] * datum;
