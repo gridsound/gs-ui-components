@@ -55,6 +55,7 @@ fieldset {
 /* gsuiWaveform, gsuiOscilloscope */
 /* --------------------------------------------------------------- */
 .gsuiWaveform,
+.gsuiSpectrum,
 .gsuiOscilloscope {
 	display: block;
 	width: 100%;

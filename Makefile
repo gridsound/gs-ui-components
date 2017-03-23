@@ -30,5 +30,6 @@ JS_FILES = \
 	src/gsuiOscilloscope/gsuiOscilloscope.js \
 	src/gsuiPopup/gsuiPopup.js               \
 	src/gsuiSpanEditable/gsuiSpanEditable.js \
+	src/gsuiSpectrum/gsuiSpectrum.js         \
 	src/gsuiToggle/gsuiToggle.js             \
 	src/gsuiWaveform/gsuiWaveform.js
