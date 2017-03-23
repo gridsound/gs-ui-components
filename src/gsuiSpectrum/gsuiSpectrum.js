@@ -6,11 +6,12 @@ window.gsuiSpectrum = function( canvas ) {
 	this.canvas = canvas;
 	this.ctx = canvas.getContext( "2d" );
 	this.colors = [
-		[  12,   6,  50 ],
-		[ 125, 100, 200 ],
-		[ 400,  60,  50 ],
-		[ 510,  25,  20 ],
-		[ 120, 120,   0 ],
+		[  12,   6,  50 ], // 0
+		[ 125, 100, 200 ], // 1
+		[ 380,  60,  50 ], // 2
+		[ 510,  25,  20 ], // 3
+		[ 160,  80,  10 ], // 4
+		[ 150, 150,  20 ], // 5
 	];
 };
 
@@ -27,6 +28,7 @@ gsuiSpectrum.prototype = {
 			datalen,
 			datumlen,
 			color,
+			r, g, b,
 			x = 0,
 			cnv = this.canvas,
 			ctx = this.ctx,
@@ -38,22 +40,28 @@ gsuiSpectrum.prototype = {
 		}
 		datalen = data.length;
 		datumlen = w / datalen;
-		ctx.clearRect( 0, 0, w, h );
 		for ( x = 0; x < datalen; ++x ) {
-			datum = data[ x ] / 255;
-			datum  = 1 - Math.cos( datum * Math.PI / 2 );
-			// datum = 1 - Math.sqrt( 1 - datum * datum );
-			color = this.colors[
-				datum < .08 ? 0 :
-				datum < .2  ? 1 :
-				datum < .4  ? 2 :
-				datum < .5  ? 3 :
-					4
-			];
+			datum  = 1 - Math.cos( data[ x ] / 255 * Math.PI / 2 );
+			if ( datum < .01 ) {
+				r = 4 + 10 * datum;
+				g = 4 + 10 * datum;
+				b = 5 + 20 * datum;
+			} else {
+				color = this.colors[
+					datum < .08 ? 0 :
+					datum < .2  ? 1 :
+					datum < .4  ? 2 :
+					datum < .5  ? 3 :
+					datum < .75 ? 4 : 5
+				];
+				r = color[ 0 ] * datum;
+				g = color[ 1 ] * datum;
+				b = color[ 2 ] * datum;
+			}
 			ctx.fillStyle = "rgb("
-				+ ~~( color[ 0 ] * datum ) + ","
-				+ ~~( color[ 1 ] * datum ) + ","
-				+ ~~( color[ 2 ] * datum ) + ")";
+				+ ~~r + ","
+				+ ~~g + ","
+				+ ~~b + ")";
 			ctx.fillRect( x * datumlen, 0, datumlen, h );
 		}
 	}
