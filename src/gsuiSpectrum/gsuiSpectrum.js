@@ -6,12 +6,17 @@ window.gsuiSpectrum = function( canvas ) {
 	this.canvas = canvas;
 	this.ctx = canvas.getContext( "2d" );
 	this.colors = [
-		[  12,   6,  50 ], // 0
-		[ 125, 100, 200 ], // 1
-		[ 380,  60,  50 ], // 2
-		[ 510,  25,  20 ], // 3
-		[ 160,  80,  10 ], // 4
-		[ 150, 150,  20 ], // 5
+		[   5,   2,  20 ], // 0
+		[   8,   5,  30 ], // 1
+		[  15,   7,  50 ], // 2
+
+		[  75,   7,  35 ], // 3
+		[  80,   0,   0 ], // 4
+		[ 200,   0,   0 ], // 5
+
+		[ 255,  25,  20 ], // 6
+		[ 100, 160,  10 ], // 7
+		[ 200, 200,  20 ], // 8
 	];
 };
 
@@ -27,7 +32,8 @@ gsuiSpectrum.prototype = {
 		var datum,
 			datalen,
 			datumlen,
-			color,
+			col,
+			colId,
 			r, g, b,
 			x = 0,
 			cnv = this.canvas,
@@ -41,22 +47,28 @@ gsuiSpectrum.prototype = {
 		datalen = data.length;
 		datumlen = w / datalen;
 		for ( x = 0; x < datalen; ++x ) {
-			datum  = 1 - Math.cos( data[ x ] / 255 * Math.PI / 2 );
+			datum  = data[ x ] / 255;
+			// datum  = 1 - Math.cos( datum * Math.PI / 2 );
+			datum  = 1 - Math.sqrt( 1 - datum * datum );
 			if ( datum < .01 ) {
 				r = 4 + 10 * datum;
 				g = 4 + 10 * datum;
 				b = 5 + 20 * datum;
 			} else {
-				color = this.colors[
-					datum < .08 ? 0 :
-					datum < .2  ? 1 :
-					datum < .4  ? 2 :
-					datum < .5  ? 3 :
-					datum < .75 ? 4 : 5
-				];
-				r = color[ 0 ] * datum;
-				g = color[ 1 ] * datum;
-				b = color[ 2 ] * datum;
+				     if ( datum < .08 ) { colId = 0; datum /= .08; }
+				else if ( datum < .15 ) { colId = 1; datum /= .15; }
+				else if ( datum < .17 ) { colId = 2; datum /= .17; }
+				else if ( datum < .25 ) { colId = 3; datum /= .25; }
+				else if ( datum < .3  ) { colId = 4; datum /= .3;  }
+				else if ( datum < .4  ) { colId = 5; datum /= .4;  }
+				else if ( datum < .6  ) { colId = 6; datum /= .6;  }
+				else if ( datum < .8  ) { colId = 7; datum /= .8;  }
+				else                    { colId = 8;  }
+
+				col = this.colors[ colId ];
+				r = col[ 0 ] * datum;
+				g = col[ 1 ] * datum;
+				b = col[ 2 ] * datum;
 			}
 			ctx.fillStyle = "rgb("
 				+ ~~r + ","
