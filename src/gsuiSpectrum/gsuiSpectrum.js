@@ -1,7 +1,5 @@
 "use strict";
 
-( function() {
-
 window.gsuiSpectrum = function( canvas ) {
 	this.canvas = canvas;
 	this.ctx = canvas.getContext( "2d" );
@@ -9,11 +7,9 @@ window.gsuiSpectrum = function( canvas ) {
 		[   5,   2,  20 ], // 0
 		[   8,   5,  30 ], // 1
 		[  15,   7,  50 ], // 2
-
-		[  75,   7,  35 ], // 3
-		[  80,   0,   0 ], // 4
-		[ 200,   0,   0 ], // 5
-
+		[  75,   7,  35 ],   // 3
+		[  80,   0,   0 ],   // 4
+		[ 200,   0,   0 ],   // 5
 		[ 255,  25,  20 ], // 6
 		[ 100, 160,  10 ], // 7
 		[ 200, 200,  20 ], // 8
@@ -42,7 +38,7 @@ gsuiSpectrum.prototype = {
 			h = cnv.height;
 
 		if ( w < data.length ) {
-			data = shrinkArray( data, w );
+			data = this._shrinkArray( data, w );
 		}
 		datalen = data.length;
 		datumlen = w / datalen;
@@ -73,27 +69,24 @@ gsuiSpectrum.prototype = {
 				+ ~~b + ")";
 			ctx.fillRect( x * datumlen, 0, datumlen, h );
 		}
+	},
+
+	// private:
+	_shrinkArray: function( arr, newlen ) {
+		var avg, avglenj,
+			i = 0, j = 0,
+			len = arr.length,
+			avglen = ~~( len / newlen ),
+			newarr = [];
+
+		for ( ; i < newlen; ++i ) {
+			avg = 0;
+			avglenj = j + avglen;
+			while ( j < avglenj && j < len ) {
+				avg += arr[ j++ ];
+			}
+			newarr.push( avg / avglen );
+		}
+		return newarr;
 	}
 };
-
-function shrinkArray( arr, newlen ) {
-	var avg,
-		avglenj,
-		i = 0,
-		j = 0,
-		len = arr.length,
-		avglen = ~~( len / newlen ),
-		newarr = [];
-
-	for ( ; i < newlen; ++i ) {
-		avg = 0;
-		avglenj = j + avglen;
-		while ( j < avglenj && j < len ) {
-			avg += arr[ j++ ];
-		}
-		newarr.push( avg / avglen );
-	}
-	return newarr;
-}
-
-} )();
