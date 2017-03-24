@@ -18,28 +18,11 @@ gsuiOscilloscope.prototype = {
 		this.canvas.width = w;
 		this.canvas.height = h;
 	},
-	setPinch: function( pinch ) {
-		this.pinch = Math.max( 0, Math.min( pinch, 1 ) );
-	},
 	clear: function() {
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 	},
-	startAnimation: function() {
-		if ( !this.frameId ) {
-			var that = this;
-
-			this.frameId = requestAnimationFrame( function frame() {
-				that.draw( that.fnData() );
-				that.frameId = requestAnimationFrame( frame );
-			} );
-		}
-	},
-	stopAnimation: function() {
-		cancelAnimationFrame( this.frameId );
-		this.frameId = null;
-	},
-	dataFunction: function( fn ) {
-		this.fnData = fn;
+	setPinch: function( pinch ) {
+		this.pinch = Math.max( 0, Math.min( pinch, 1 ) );
 	},
 	drawBegin: function( fn ) {
 		this.fnBegin = fn || function() {};
