@@ -9,9 +9,9 @@ window.gsuiSpectrum = function( canvas ) {
 		[  15,   7,  50 ], // 2
 		[  75,   7,  35 ],   // 3
 		[  80,   0,   0 ],   // 4
-		[ 200,   0,   0 ],   // 5
-		[ 255,  25,  20 ], // 6
-		[ 100, 160,  10 ], // 7
+		[ 180,   0,   0 ],   // 5
+		[ 200,  25,  10 ], // 6
+		[ 200, 128,  10 ], // 7
 		[ 200, 200,  20 ], // 8
 	];
 };
@@ -44,7 +44,7 @@ gsuiSpectrum.prototype = {
 		datumlen = w / datalen;
 		for ( x = 0; x < datalen; ++x ) {
 			datum = 1 - Math.cos( data[ x ] / 255 * Math.PI / 2 );
-			if ( datum < .01 ) {
+			if ( datum < .05 ) {
 				r = 4 + 10 * datum;
 				g = 4 + 10 * datum;
 				b = 5 + 20 * datum;
