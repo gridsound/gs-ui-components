@@ -1,6 +1,6 @@
 "use strict";
 
-window.gsuiSpectrum = function( canvas ) {
+function gsuiSpectrum( canvas ) {
 	this.canvas = canvas;
 	this.ctx = canvas.getContext( "2d" );
 	this.colors = [
@@ -42,7 +42,7 @@ gsuiSpectrum.prototype = {
 		}
 		datalen = data.length;
 		datumlen = w / datalen;
-		for ( x = 0; x < datalen; ++x ) {
+		for ( ; x < datalen; ++x ) {
 			datum = 1 - Math.cos( data[ x ] / 255 * Math.PI / 2 );
 			if ( datum < .05 ) {
 				r = 4 + 10 * datum;
