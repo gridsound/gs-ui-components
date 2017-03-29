@@ -25,25 +25,25 @@ gsuiSpectrum.prototype = {
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 	},
 	draw: function( data ) {
-		var datum,
-			datalen,
-			datumlen,
-			col,
-			colId,
-			r, g, b,
+		var datum, col, colId,
+			r, g, b, ws,
 			x = 0,
+			i = 0,
 			cnv = this.canvas,
 			ctx = this.ctx,
 			w = cnv.width,
-			h = cnv.height;
+			h = cnv.height,
+			datalen = data.length;
 
-		if ( w < data.length ) {
-			data = this._shrinkArray( data, w );
+		if ( datalen !== this.datalen ) {
+			this._calcWidths( data, datalen, w );
+			lg(datalen, w)
+			lg(this._widths)
+			this.datalen = datalen;
 		}
-		datalen = data.length;
-		datumlen = w / datalen;
-		for ( ; x < datalen; ++x ) {
-			datum = 1 - Math.cos( data[ x ] / 255 * Math.PI / 2 );
+		ws = this._widths;
+		for ( ; i < datalen; ++i ) {
+			datum = 1 - Math.cos( data[ i ] / 255 * Math.PI / 2 );
 			if ( datum < .05 ) {
 				r = 4 + 10 * datum;
 				g = 4 + 10 * datum;
@@ -67,26 +67,23 @@ gsuiSpectrum.prototype = {
 				+ ~~r + ","
 				+ ~~g + ","
 				+ ~~b + ")";
-			ctx.fillRect( x * datumlen, 0, datumlen, h );
+
+			// ctx.fillRect( i, 0, 1, h );
+			ctx.fillRect( x, 0, ws[ i ], h );
+			x += ws[ i ];
 		}
 	},
 
 	// private:
-	_shrinkArray: function( arr, newlen ) {
-		var avg, avglenj,
-			i = 0, j = 0,
-			len = arr.length,
-			avglen = ~~( len / newlen ),
-			newarr = [];
+	_calcWidths: function( data, len, w ) {
+		var i, sum = 0, arr = new Array( len );
 
-		for ( ; i < newlen; ++i ) {
-			avg = 0;
-			avglenj = j + avglen;
-			while ( j < avglenj && j < len ) {
-				avg += arr[ j++ ];
-			}
-			newarr.push( avg / avglen );
+		for ( i = 0; i < len; ++i ) {
+			sum += arr[ i ] = Math.log( len / ( i + 1 ) );
 		}
-		return newarr;
+		for ( i = 0; i < len; ++i ) {
+			arr[ i ] = arr[ i ] / sum * w;
+		}
+		this._widths = arr;
 	}
 };
