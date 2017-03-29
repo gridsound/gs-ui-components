@@ -130,7 +130,7 @@ function frame() {
 		rect = elem.getBoundingClientRect();
 
 	window.uiSpc = new gsuiSpectrum( elem );
-	uiSpc.setResolution( rect.width, rect.height );
+	uiSpc.setResolution( rect.width );
 } )();
 
 

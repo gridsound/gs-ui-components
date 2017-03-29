@@ -2,6 +2,7 @@
 
 function gsuiSpectrum( canvas ) {
 	this.canvas = canvas;
+	this.canvas.height = 1;
 	this.ctx = canvas.getContext( "2d" );
 	this.colors = [
 		[   5,   2,  20 ], // 0
@@ -17,9 +18,8 @@ function gsuiSpectrum( canvas ) {
 };
 
 gsuiSpectrum.prototype = {
-	setResolution: function( w, h ) {
+	setResolution: function( w ) {
 		this.canvas.width = w;
-		this.canvas.height = h;
 	},
 	clear: function() {
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
