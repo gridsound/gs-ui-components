@@ -37,8 +37,6 @@ gsuiSpectrum.prototype = {
 
 		if ( datalen !== this.datalen ) {
 			this._calcWidths( data, datalen, w );
-			lg(datalen, w)
-			lg(this._widths)
 			this.datalen = datalen;
 		}
 		ws = this._widths;
@@ -68,7 +66,6 @@ gsuiSpectrum.prototype = {
 				+ ~~g + ","
 				+ ~~b + ")";
 
-			// ctx.fillRect( i, 0, 1, h );
 			ctx.fillRect( x, 0, ws[ i ], h );
 			x += ws[ i ];
 		}
