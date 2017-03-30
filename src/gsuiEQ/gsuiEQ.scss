@@ -1,0 +1,105 @@
+.gsuiEQ {
+	display: flex;
+	box-sizing: border-box;
+	min-width: 400px;
+	min-height: 200px;
+	padding: 8px;
+	font-family: sans-serif;
+	background: linear-gradient( 45deg, #333, #222 );
+
+	.gsui- {
+		&left {
+			flex: 10;
+			display: flex;
+			flex-direction: column;
+			margin-right: 23px;
+		}
+
+		&Hzs {
+			display: flex;
+			height: 12px;
+		}
+
+		&Hz {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 10px;
+			font-weight: bold;
+			color: #888;
+			cursor: default;
+			background: #333;
+
+			&:nth-child( odd ) {
+				background: #3a3a3a;
+			}
+		}
+
+		&graph {
+			position: relative;
+			flex: 4;
+			background: #000;
+		}
+
+		&spectrum,
+		&dots {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+
+		&spectrum {
+			filter: saturate( 50% );
+		}
+
+		&dBs {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			position: absolute;
+			left: 100%;
+			width: 22px;
+			height: 100%;
+		}
+
+		&dB {
+			font-size: 10px;
+			font-weight: bold;
+			color: #888;
+			cursor: default;
+		}
+
+		&settings {
+			display: flex;
+			align-items: center;
+			font-family: "Oswald", sans-serif;
+			color: #777;
+			text-shadow: 1px 1px 0 rgba( #000, .5 );
+		}
+
+		&title {
+			flex: 1;
+			font-size: 38px;
+		}
+
+		&bands {
+			font-size: 16px;
+		}
+
+		&nbBands {
+			width: 2em;
+			padding: .3em .5em;
+			border: 0;
+			color: #fff;
+			font-size: 18px;
+			font-weight: bold;
+			font-family: inherit;
+			background: #3a3a3a;
+		}
+
+		&filters {
+			flex: 5;
+		}
+	}
+}
