@@ -1,0 +1,64 @@
+.gsuiSlider {
+	$lineBg: #222;
+	$lineColor: darken( #7f9, 45% );
+	$trackBg: #111;
+	$trackBorderColor: rgba( #fff, .3 );
+	$thumbBg: rgba( #000, .8 );
+	$thumbBorderColor: #aaa;
+	$thumbBorderColorActive: #ddd;
+	$trackRadius: 4px;
+	$thumbRadius: 2px;
+	$transitionDur: .1s;
+
+	position: relative;
+	cursor: ns-resize;
+
+	input {
+		display: none;
+	}
+
+	.gsui- {
+		&track,
+		&thumb {
+			box-sizing: border-box;
+			position: absolute;
+			border: 2px solid;
+		}
+
+		&track {
+			width: 100%;
+			height: 100%;
+			border-color: $trackBorderColor;
+			border-radius: $trackRadius;
+			background: $trackBg;
+		}
+
+		&line {
+			position: absolute;
+			left: 50%;
+			background: $lineBg;
+
+			&Color {
+				position: absolute;
+				width: 100%;
+				background: $lineColor;
+			}
+		}
+
+		&thumb {
+			left: 50%;
+			border-color: $thumbBorderColor;
+			border-radius: $thumbRadius;
+			background: $thumbBg;
+			transition: $transitionDur ease;
+			transition-property: transform, border-width, border-color;
+		}
+	}
+
+	&:hover .gsui-thumb,
+	.gsui-thumb.gsui-big {
+		transform: scale( 2 );
+		border-width: 1px;
+		border-color: $thumbBorderColorActive;
+	}
+}
