@@ -7,6 +7,7 @@ function gsuiSlider( elRoot ) {
 	this.elLineColor = elRoot.querySelector( ".gsui-lineColor" );
 	this.input = elRoot.querySelector( "input" );
 	this._startFrom = 0;
+	this.elRoot.onwheel = this._wheel.bind( this );
 }
 
 gsuiSlider.prototype = {
@@ -69,5 +70,12 @@ gsuiSlider.prototype = {
 			this.elLine.style.top =
 			this.elLine.style.bottom = w / 2 + "px";
 		}
+	},
+	_wheel: function( e ) {
+		var inp = this.input,
+			dy = e.deltaY > 0 ? -1 : 1;
+
+		inp.value = +inp.value + inp.step * dy;
+		this._updateVal();
 	}
 };
