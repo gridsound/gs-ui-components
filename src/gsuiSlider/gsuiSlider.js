@@ -8,7 +8,16 @@ function gsuiSlider( elRoot ) {
 	this.input = elRoot.querySelector( "input" );
 	this._startFrom = 0;
 	this.elRoot.onwheel = this._wheel.bind( this );
+	this.elRoot.onmousedown = this._mousedown.bind( this );
 }
+
+document.body.addEventListener( "mouseup", function( e ) {
+	gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mouseup( e );
+} );
+
+document.body.addEventListener( "mousemove", function( e ) {
+	gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mousemove( e );
+} );
 
 gsuiSlider.prototype = {
 	value: function( val ) {
@@ -77,5 +86,19 @@ gsuiSlider.prototype = {
 
 		inp.value = +inp.value + inp.step * dy;
 		this._updateVal();
+	},
+	_mousedown: function( e ) {
+		gsuiSlider._sliderClicked = this;
+		if ( e.target === this.elThumb ) {
+			// ...
+		} else {
+			// ...
+		}
+	},
+	_mouseup: function( e ) {
+		delete gsuiSlider._sliderClicked;
+	},
+	_mousemove: function( e ) {
+		// ...
 	}
 };
