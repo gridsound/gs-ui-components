@@ -11,12 +11,12 @@ function gsuiSlider( elRoot ) {
 	this.elRoot.onmousedown = this._mousedown.bind( this );
 }
 
-document.body.addEventListener( "mouseup", function( e ) {
-	gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mouseup( e );
-} );
-
 document.body.addEventListener( "mousemove", function( e ) {
 	gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mousemove( e );
+} );
+
+document.body.addEventListener( "mouseup", function( e ) {
+	gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mouseup( e );
 } );
 
 gsuiSlider.prototype = {
@@ -89,10 +89,13 @@ gsuiSlider.prototype = {
 	},
 	_mousedown: function( e ) {
 		gsuiSlider._sliderClicked = this;
-		if ( e.target === this.elThumb ) {
-			// ...
-		} else {
-			// ...
+		if ( e.target !== this.elThumb ) {
+			var rc = this.elLine.getBoundingClientRect(),
+				y = 1 - ( e.pageY - rc.top ) / ( rc.height - 1 ),
+				min = +this.input.min,
+				max = +this.input.max;
+
+			this.value( min + y * ( max - min ) );
 		}
 	},
 	_mouseup: function( e ) {
