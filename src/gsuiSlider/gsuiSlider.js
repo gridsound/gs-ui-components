@@ -21,8 +21,12 @@ document.body.addEventListener( "mouseup", function( e ) {
 
 gsuiSlider.prototype = {
 	value: function( val ) {
+		var prval = this.input.value;
+
 		this.input.value = val;
-		this._updateVal();
+		if ( this.input.value !== prval ) {
+			this._updateVal();
+		}
 	},
 	options: function( obj ) {
 		var inp = this.input;
