@@ -12,6 +12,10 @@
 
 	position: relative;
 	cursor: ns-resize;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 
 	input {
 		display: none;
