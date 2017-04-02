@@ -29,6 +29,7 @@ JS_FILES = \
 	bin/__templates.js                       \
 	src/gsuiOscilloscope/gsuiOscilloscope.js \
 	src/gsuiPopup/gsuiPopup.js               \
+	src/gsuiSlider/gsuiSlider.js             \
 	src/gsuiSpanEditable/gsuiSpanEditable.js \
 	src/gsuiSpectrum/gsuiSpectrum.js         \
 	src/gsuiToggle/gsuiToggle.js             \
