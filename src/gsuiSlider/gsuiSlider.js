@@ -1,14 +1,22 @@
 "use strict";
 
 function gsuiSlider( elRoot ) {
+	var inp = elRoot.querySelector( "input" );
+
 	this.elRoot = elRoot;
 	this.elThumb = elRoot.querySelector( ".gsui-thumb" );
 	this.elLine = elRoot.querySelector( ".gsui-line" );
 	this.elLineColor = elRoot.querySelector( ".gsui-lineColor" );
-	this.input = elRoot.querySelector( "input" );
-	this._startFrom = 0;
+	this.input = inp;
 	this.elRoot.onwheel = this._wheel.bind( this );
 	this.elRoot.onmousedown = this._mousedown.bind( this );
+	this.options( {
+		min: inp.min || 0,
+		max: inp.max || 100,
+		step: inp.step || 1,
+		value: inp.value || 0,
+		startFrom: 0
+	} );
 }
 
 document.body.addEventListener( "mousemove", function( e ) {
@@ -20,7 +28,7 @@ document.body.addEventListener( "mouseup", function( e ) {
 } );
 
 gsuiSlider.prototype = {
-	value: function( val ) {
+	setValue: function( val ) {
 		var prval = this.input.value;
 
 		this.input.value = val;
@@ -29,16 +37,15 @@ gsuiSlider.prototype = {
 		}
 	},
 	options: function( obj ) {
-		var inp = this.input;
+		var k, v, inp = this.input;
 
-		for( var k in obj ) {
-			if ( k === "startFrom" ) {
-				this._startFrom = obj[ k ];
-			} else {
-				inp[ k ] = obj[ k ];
-			}
+		for( k in obj ) {
+			v = this[ k ] = obj[ k ];
+			k === "startFrom"
+				? this.startFrom = v
+				: inp[ k ] = v;
 		}
-		this._startFrom = Math.max( inp.min, Math.min( this._startFrom, inp.max ) );
+		this.startFrom = Math.max( inp.min, Math.min( this.startFrom, inp.max ) );
 		this._updateVal();
 	},
 	resize: function( w, h ) {
@@ -56,7 +63,7 @@ gsuiSlider.prototype = {
 	_updateVal: function() {
 		var inp = this.input,
 			val = inp.value,
-			start = this._startFrom,
+			start = this.startFrom,
 			prc = ( val - inp.min ) / ( inp.max - inp.min ) * 100,
 			prcStart = ( start - inp.min ) / ( inp.max - inp.min ) * 100;
 
@@ -93,19 +100,19 @@ gsuiSlider.prototype = {
 	},
 	_mousedown: function( e ) {
 		gsuiSlider._sliderClicked = this;
-		if ( e.target !== this.elThumb ) {
-			var rc = this.elLine.getBoundingClientRect(),
-				y = 1 - ( e.pageY - rc.top ) / ( rc.height - 1 ),
-				min = +this.input.min,
-				max = +this.input.max;
-
-			this.value( min + y * ( max - min ) );
-		}
+		this._rcLine = this.elLine.getBoundingClientRect();
+		this.elThumb.classList.add( "gsui-big" );
+		this._mousemove( e );
 	},
 	_mouseup: function( e ) {
 		delete gsuiSlider._sliderClicked;
+		this.elThumb.classList.remove( "gsui-big" );
 	},
 	_mousemove: function( e ) {
-		// ...
+		var y = 1 - ( e.pageY - this._rcLine.top ) / ( this._rcLine.height - 1 ),
+			min = +this.input.min,
+			max = +this.input.max;
+
+		this.setValue( min + y * ( max - min ) );
 	}
 };
