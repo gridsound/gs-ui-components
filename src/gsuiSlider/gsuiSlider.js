@@ -118,14 +118,10 @@ gsuiSlider.prototype = {
 		}
 	},
 	_wheel: function( e ) {
-		var inp = this._elInput,
-			dy = e.deltaY > 0 ? -1 : 1;
+		var d = e.deltaY > 0 ? -1 : 1,
+			inp = this._elInput;
 
-		if ( this.axeX ) {
-			dy = -dy;
-		}
-		inp.value = +inp.value + inp.step * dy;
-		this._updateVal();
+		this.setValue( +inp.value + inp.step * ( this.axeX ? -d : d ) );
 	},
 	_mousedown: function( e ) {
 		gsuiSlider._sliderClicked = this;
@@ -140,9 +136,10 @@ gsuiSlider.prototype = {
 	_mousemove: function( e ) {
 		var min = +this._elInput.min,
 			max = +this._elInput.max,
+			rc = this._rcLine,
 			y = this._axeX
-				? ( e.pageX - this._rcLine.left ) / ( this._rcLine.width - 1 )
-				: 1 - ( e.pageY - this._rcLine.top ) / ( this._rcLine.height - 1 );
+				? ( e.pageX - rc.left ) / ( rc.width - 1 )
+				: 1 - ( e.pageY - rc.top ) / ( rc.height - 1 );
 
 		this.setValue( min + y * ( max - min ) );
 	}
