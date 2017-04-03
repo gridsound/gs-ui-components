@@ -23,12 +23,16 @@ gsuiSlider.prototype = {
 		this.rootElement.classList.remove( "gsui-x", "gsui-y" );
 		this.rootElement.classList.add( "gsui-" + axe );
 	},
-	setValue: function( val ) {
-		var prval = this._elInput.value;
+	setValue: function( val, bymouse ) {
+		var inp = this._elInput,
+			prval = inp.value;
 
-		this._elInput.value = val;
-		if ( this._elInput.value !== prval ) {
+		inp.value = val;
+		if ( inp.value !== prval ) {
 			this._updateVal();
+			if ( bymouse && this.oninput ) {
+				this.oninput( inp.value );
+			}
 		}
 	},
 	options: function( obj ) {
@@ -121,10 +125,11 @@ gsuiSlider.prototype = {
 		var d = e.deltaY > 0 ? -1 : 1,
 			inp = this._elInput;
 
-		this.setValue( +inp.value + inp.step * ( this.axeX ? -d : d ) );
+		this.setValue( +inp.value + inp.step * ( this.axeX ? -d : d ), true );
 	},
 	_mousedown: function( e ) {
 		gsuiSlider._sliderClicked = this;
+		this._prval = this._elInput.value;
 		this._rcLine = this._elLine.getBoundingClientRect();
 		this._elThumb.classList.add( "gsui-big" );
 		this._mousemove( e );
@@ -132,6 +137,9 @@ gsuiSlider.prototype = {
 	_mouseup: function( e ) {
 		delete gsuiSlider._sliderClicked;
 		this._elThumb.classList.remove( "gsui-big" );
+		if ( this._prval !== this._elInput.value ) {
+			this.onchange && this.onchange( this._elInput.value );
+		}
 	},
 	_mousemove: function( e ) {
 		var min = +this._elInput.min,
@@ -141,6 +149,6 @@ gsuiSlider.prototype = {
 				? ( e.pageX - rc.left ) / ( rc.width - 1 )
 				: 1 - ( e.pageY - rc.top ) / ( rc.height - 1 );
 
-		this.setValue( min + y * ( max - min ) );
+		this.setValue( min + y * ( max - min ), true );
 	}
 };
