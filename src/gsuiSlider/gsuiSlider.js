@@ -16,6 +16,13 @@ function gsuiSlider() {
 }
 
 gsuiSlider.prototype = {
+	axe: function( axe ) {
+		( this._axeX = axe === "x" )
+			? this._elLineColor.style.top = 0
+			: this._elLineColor.style.left = 0;
+		this.rootElement.classList.remove( "gsui-x", "gsui-y" );
+		this.rootElement.classList.add( "gsui-" + axe );
+	},
 	setValue: function( val ) {
 		var prval = this._elInput.value;
 
@@ -65,40 +72,58 @@ gsuiSlider.prototype = {
 		return document.getElementById( "gsuiSlider" );
 	},
 	_updateVal: function() {
-		var inp = this._elInput,
+		var thumb = this._elThumb.style,
+			line = this._elLineColor.style,
+			inp = this._elInput,
 			val = inp.value,
 			start = this.startFrom,
 			prc = ( val - inp.min ) / ( inp.max - inp.min ) * 100,
 			prcStart = ( start - inp.min ) / ( inp.max - inp.min ) * 100;
 
 		this._value = val;
-		this._elThumb.style.top = 100 - prc + "%";
-		this._elLineColor.style.top = ( start < val ? 100 - prc : 100 - prcStart ) + "%";
-		this._elLineColor.style.bottom = ( start < val ? prcStart : prc ) + "%";
+		if ( this._axeX ) {
+			thumb.left = prc + "%";
+			line.left = ( start < val ? prcStart : prc ) + "%";
+			line.right = 100 - ( start < val ? prc : prcStart ) + "%";
+		} else {
+			thumb.top = 100 - prc + "%";
+			line.top = 100 - ( start < val ? prc : prcStart ) + "%";
+			line.bottom = ( start < val ? prcStart : prc ) + "%";
+		}
 	},
 	_updateSize: function( w, h ) {
 		if ( w !== this.width || h !== this.height ) {
-			var thumbMrgs = Math.floor( w / 2 ),
-				lineW = Math.ceil( w / 10 );
+			var thumbSize,
+				thumb = this._elThumb.style,
+				line = this._elLine.style,
+				thick = this._axeX ? h : w,
+				thick2 = thick / 2,
+				lineThick = Math.ceil( thick / 10 );
 
-			lineW % 2 !== w % 2 && ++lineW;
-			thumbMrgs % 2 && ++thumbMrgs;
+			lineThick % 2 !== thick % 2 && ++lineThick;
+			if ( this._axeX ) {
+				line.height = lineThick + "px";
+				line.marginTop = lineThick / -2 + "px";
+				line.left = line.right = thick2 + "px";
+			} else {
+				line.width = lineThick + "px";
+				line.marginLeft = lineThick / -2 + "px";
+				line.top = line.bottom = thick2 + "px";
+			}
+			thumbSize = thick - ~~thick2 - ~~thick2 % 2;
+			thumb.width = thumb.height = thumbSize + "px";
+			thumb.marginLeft = thumb.marginTop = thumbSize / -2 + "px";
 			this.width = w;
 			this.height = h;
-			this._elThumb.style.width =
-			this._elThumb.style.height = w - thumbMrgs + "px";
-			this._elThumb.style.marginLeft =
-			this._elThumb.style.marginTop = ( w - thumbMrgs ) / -2 + "px";
-			this._elLine.style.width = lineW + "px";
-			this._elLine.style.marginLeft = lineW / -2 + "px";
-			this._elLine.style.top =
-			this._elLine.style.bottom = w / 2 + "px";
 		}
 	},
 	_wheel: function( e ) {
 		var inp = this._elInput,
 			dy = e.deltaY > 0 ? -1 : 1;
 
+		if ( this.axeX ) {
+			dy = -dy;
+		}
 		inp.value = +inp.value + inp.step * dy;
 		this._updateVal();
 	},
@@ -113,9 +138,11 @@ gsuiSlider.prototype = {
 		this._elThumb.classList.remove( "gsui-big" );
 	},
 	_mousemove: function( e ) {
-		var y = 1 - ( e.pageY - this._rcLine.top ) / ( this._rcLine.height - 1 ),
-			min = +this._elInput.min,
-			max = +this._elInput.max;
+		var min = +this._elInput.min,
+			max = +this._elInput.max,
+			y = this._axeX
+				? ( e.pageX - this._rcLine.left ) / ( this._rcLine.width - 1 )
+				: 1 - ( e.pageY - this._rcLine.top ) / ( this._rcLine.height - 1 );
 
 		this.setValue( min + y * ( max - min ) );
 	}

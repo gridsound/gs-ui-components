@@ -11,11 +11,25 @@
 	$transitionDur: .1s;
 
 	position: relative;
-	cursor: ns-resize;
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
+
+	&.gsui-x {
+		cursor: ew-resize;
+
+		.gsui-line { top: 50%; }
+		.gsui-lineColor { height: 100%; }
+		.gsui-thumb { top: 50%; }
+	}
+	&.gsui-y {
+		cursor: ns-resize;
+
+		.gsui-line { left: 50%; }
+		.gsui-lineColor { width: 100%; }
+		.gsui-thumb { left: 50%; }
+	}
 
 	input {
 		display: none;
@@ -39,18 +53,15 @@
 
 		&line {
 			position: absolute;
-			left: 50%;
 			background: $lineBg;
 
 			&Color {
 				position: absolute;
-				width: 100%;
 				background: $lineColor;
 			}
 		}
 
 		&thumb {
-			left: 50%;
 			border-color: $thumbBorderColor;
 			border-radius: $thumbRadius;
 			background: $thumbBg;
