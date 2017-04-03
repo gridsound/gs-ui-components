@@ -131,12 +131,12 @@ gsuiSlider.prototype = {
 		gsuiSlider._sliderClicked = this;
 		this._prval = this._elInput.value;
 		this._rcLine = this._elLine.getBoundingClientRect();
-		this._elThumb.classList.add( "gsui-big" );
+		this._elThumb.classList.add( "gsui-hover" );
 		this._mousemove( e );
 	},
 	_mouseup: function( e ) {
 		delete gsuiSlider._sliderClicked;
-		this._elThumb.classList.remove( "gsui-big" );
+		this._elThumb.classList.remove( "gsui-hover" );
 		if ( this._prval !== this._elInput.value ) {
 			this.onchange && this.onchange( this._elInput.value );
 		}

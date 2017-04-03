@@ -71,7 +71,7 @@
 	}
 
 	&:hover .gsui-thumb,
-	.gsui-thumb.gsui-big {
+	.gsui-thumb.gsui-hover {
 		transform: scale( 2 );
 		border-width: 1px;
 		border-color: $thumbBorderColorActive;
