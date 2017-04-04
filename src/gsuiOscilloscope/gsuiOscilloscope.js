@@ -6,9 +6,9 @@ function gsuiOscilloscope( canvas ) {
 	this.maxValue = 0;
 	this.setPinch( 0 );
 	this.drawBegin( function( ctx, max, w, h ) {
-		ctx.fillRect( 0, 0, w, h );
+		ctx.clearRect( 0, 0, w, h );
 		ctx.lineWidth = 2;
-		ctx.strokeStyle = "rgb(255,255,255)";
+		ctx.strokeStyle = "#fff";
 	} );
 	this.drawEnd();
 };
