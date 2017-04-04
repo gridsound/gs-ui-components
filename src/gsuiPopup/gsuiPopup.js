@@ -10,26 +10,13 @@ function gsuiPopup( el ) {
 	this.elOk = el.querySelector( ".gsui-ok" );
 	this.elForm = el.querySelector( "form" );
 
-	var that = this;
-
 	el.onclick =
-	this.elCancel.onclick = function() {
-		that.resolve(
-			that.type === "confirm" ? false :
-			that.type === "prompt" ? null : undefined );
-	};
-	this.elWindow.onclick = function( e ) {
-		e.stopPropagation();
-	};
-	this.elForm.onsubmit = function() {
-		that.resolve(
-			that.type === "confirm" ? true :
-			that.type === "prompt" ? that.elText.value : undefined );
-		return false;
-	};
+	this.elCancel.onclick = this._cancelClick.bind( this );
+	this.elForm.onsubmit = this._submit.bind( this );
 	this.elText.onkeypress =
 	this.elText.onkeydown =
-	this.elText.onkeyup = function( e ) {
+	this.elText.onkeyup =
+	this.elWindow.onclick = function( e ) {
 		e.stopPropagation();
 	};
 };
@@ -41,6 +28,8 @@ gsuiPopup.prototype = {
 		}
 	},
 	open: function( type, title, msg, value ) {
+		var that = this;
+
 		this.isOpen = true;
 		this.elHeader.textContent = title;
 		this.elMsg.innerHTML = msg;
@@ -49,9 +38,6 @@ gsuiPopup.prototype = {
 		this.elWindow.classList.toggle( "gsui-nocancel", type !== "prompt" && type !== "confirm" );
 		this.elWindow.classList.toggle( "gsui-notext", type !== "prompt" );
 		this.elRoot.classList.add( "gsui-show" );
-
-		var that = this;
-
 		setTimeout( function() {
 			if ( type === "prompt" ) {
 				that.elText.select();
@@ -59,7 +45,6 @@ gsuiPopup.prototype = {
 				that.elOk.focus();
 			}
 		}, 250 );
-
 		return new Promise( function( resolve ) {
 			that.resolve = resolve;
 		} ).then( function( val ) {
@@ -67,5 +52,18 @@ gsuiPopup.prototype = {
 			that.elRoot.classList.remove( "gsui-show" );
 			return val;
 		} );
+	},
+
+	// private:
+	_cancelClick: function() {
+		this.resolve(
+			this.type === "confirm" ? false :
+			this.type === "prompt" ? null : undefined );
+	},
+	_submit: function() {
+		this.resolve(
+			this.type === "confirm" ? true :
+			this.type === "prompt" ? this.elText.value : undefined );
+		return false;
 	}
 };
