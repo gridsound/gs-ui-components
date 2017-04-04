@@ -32,11 +32,6 @@
 			font-weight: bold;
 			border-bottom: $gsuiPopup_headerBorder;
 			background: $gsuiPopup_headerBg;
-
-			&:before {
-				font-family: "FontAwesome";
-				margin-right: $gsuiPopup_padding;
-			}
 		}
 
 		.gsui-msg {
@@ -79,10 +74,5 @@
 		&.gsui-notext .gsui-text {
 			display: none;
 		}
-		&[data-gsui-type="info"]    { header:before { content: $gsuiPopup_iconInfo; } }
-		&[data-gsui-type="error"]   { header:before { content: $gsuiPopup_iconError; } }
-		&[data-gsui-type="prompt"]  { header:before { content: $gsuiPopup_iconPrompt; } }
-		&[data-gsui-type="warning"] { header:before { content: $gsuiPopup_iconWarning; } }
-		&[data-gsui-type="confirm"] { header:before { content: $gsuiPopup_iconConfirm; } }
 	}
 }
