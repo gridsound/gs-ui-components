@@ -14,6 +14,13 @@ gsuiWaveform.prototype = {
 	clear: function() {
 		this.polygon.removeAttribute( "points" );
 	},
+	drawBuffer: function( buf, offset, duration ) {
+		var d0 = buf.getChannelData( 0 ),
+			d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
+
+		offset = offset || 0;
+		this.draw( d0, d1, buf.duration, offset, duration || buf.duration - offset );
+	},
 	draw: function( data0, data1, bufferDuration, offset, duration ) {
 		var p,
 			w = this.width,
