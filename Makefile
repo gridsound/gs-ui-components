@@ -22,7 +22,6 @@ css:
 	@cd bin; sass -I ../src ../src/main.scss gs-ui-components.min.css --style compressed
 	@echo gs-ui-components.min.css
 
-
 .PHONY: all html css js
 
 JS_FILES = \
@@ -33,4 +32,5 @@ JS_FILES = \
 	src/gsuiSpanEditable/gsuiSpanEditable.js \
 	src/gsuiSpectrum/gsuiSpectrum.js         \
 	src/gsuiToggle/gsuiToggle.js             \
-	src/gsuiWaveform/gsuiWaveform.js
+	src/gsuiWaveform/gsuiWaveform.js         \
+	src/gsuiSquareMatrix/gsuiSquareMatrix.js
