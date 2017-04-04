@@ -13,6 +13,7 @@ function gsuiSlider() {
 	root.onmousedown = this._mousedown.bind( this );
 	this.options( { min: 0, max: 100,
 		step: 1, value: 50, startFrom: 0 } );
+	this.axe( "x" );
 }
 
 gsuiSlider.prototype = {
@@ -36,13 +37,13 @@ gsuiSlider.prototype = {
 		}
 	},
 	options: function( obj ) {
-		var k, v, inp = this._elInput;
+		var k, inp = this._elInput;
 
 		for( k in obj ) {
-			v = this[ k ] = obj[ k ];
-			k === "startFrom"
-				? this.startFrom = v
-				: inp[ k ] = v;
+			this[ k ] = obj[ k ];
+			if ( k !== "startFrom" ) {
+				inp[ k ] = obj[ k ];
+			}
 		}
 		this.startFrom = Math.max( inp.min, Math.min( this.startFrom, inp.max ) );
 		this._updateVal();
