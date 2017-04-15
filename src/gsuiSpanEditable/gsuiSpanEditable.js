@@ -1,31 +1,32 @@
 "use strict";
 
-function gsuiSpanEditable( element, data ) {
-	this.element = element;
-	this.data = data;
-	this.placeholder = "";
-	this.span = element.querySelector( "span" );
-	this.input = element.querySelector( "input" );
+function gsuiSpanEditable( root ) {
+	this.rootElement = root;
+	this.span = root.querySelector( "span" );
+	this.input = root.querySelector( "input" );
 
-	element.ondblclick = this.__elementDblclick.bind( this );
-	this.input.onblur = this.__inputBlur.bind( this );
-	this.input.onkeydown = this.__inputKeydown.bind( this );
+	root.ondblclick = this._dblclick.bind( this );
+	this.input.onblur = this._blur.bind( this );
+	this.input.onkeydown = this._keydown.bind( this );
+	this.setPlaceholder( "" );
 }
 
 gsuiSpanEditable.prototype = {
 	getValue: function() {
 		return this.value;
 	},
-	setValue: function( val ) {
+	setValue: function( val, call ) {
 		val = val.trim();
 		if ( val === this.placeholder ) {
 			val = "";
 		}
-		this.element.classList.toggle( "gsui-empty", !val );
+		this.rootElement.classList.toggle( "gsui-empty", !val );
 		this.span.textContent = val || this.placeholder;
 		if ( val !== this.value ) {
 			this.value = val;
-			this.data.onchange && this.data.onchange( this.value );
+			if ( call && this.onchange ) {
+				this.onchange( val );
+			}
 		}
 	},
 	setPlaceholder: function( s ) {
@@ -36,27 +37,27 @@ gsuiSpanEditable.prototype = {
 	},
 
 	// private:
-	__elementDblclick: function( e ) {
+	_dblclick: function( e ) {
 		this.input.value = this.value;
-		this.element.classList.add( "gsui-editing" );
+		this.rootElement.classList.add( "gsui-editing" );
 		this.input.focus();
 		this.input.select();
 	},
-	__inputBlur: function( e ) {
-		if ( !this.__esc ) {
-			this.setValue( e.target.value );
-			this.element.classList.remove( "gsui-editing" );
+	_blur: function( e ) {
+		if ( !this._esc ) {
+			this.setValue( e.target.value, true );
+			this.rootElement.classList.remove( "gsui-editing" );
 		}
-		this.__esc = false;
+		this._esc = false;
 	},
-	__inputKeydown: function( e ) {
+	_keydown: function( e ) {
 		e.stopPropagation();
 		if ( e.keyCode === 13 || e.keyCode === 27 ) {
-			this.__esc = e.keyCode === 27;
-			if ( !this.__esc ) {
-				this.setValue( e.target.value );
+			this._esc = e.keyCode === 27;
+			if ( !this._esc ) {
+				this.setValue( e.target.value, true );
 			}
-			this.element.classList.remove( "gsui-editing" );
+			this.rootElement.classList.remove( "gsui-editing" );
 		}
 	}
 };
