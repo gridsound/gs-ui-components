@@ -33,4 +33,5 @@ JS_FILES = \
 	src/gsuiSpanEditable/gsuiSpanEditable.js \
 	src/gsuiSpectrum/gsuiSpectrum.js         \
 	src/gsuiToggle/gsuiToggle.js             \
+	src/gsuiWave/gsuiWave.js                 \
 	src/gsuiWaveform/gsuiWaveform.js
