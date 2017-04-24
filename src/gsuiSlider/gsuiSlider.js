@@ -129,13 +129,19 @@ gsuiSlider.prototype = {
 		this.setValue( +inp.value + inp.step * ( this.axeX ? -d : d ), true );
 	},
 	_mousedown: function( e ) {
+		var inp = this._elInput,
+			bcr = this._elLine.getBoundingClientRect(),
+			size = this._axeX ? bcr.width : bcr.height;
+
+		this._prval = inp.value;
+		this._pxval = ( inp.max - inp.min ) / size;
+		this._pxmoved = 0;
 		gsuiSlider._sliderClicked = this;
-		this._prval = this._elInput.value;
-		this._rcLine = this._elLine.getBoundingClientRect();
+		this._elThumb.requestPointerLock();
 		this._elThumb.classList.add( "gsui-hover" );
-		this._mousemove( e );
 	},
 	_mouseup: function( e ) {
+		document.exitPointerLock();
 		delete gsuiSlider._sliderClicked;
 		this._elThumb.classList.remove( "gsui-hover" );
 		if ( this._prval !== this._elInput.value ) {
@@ -143,13 +149,7 @@ gsuiSlider.prototype = {
 		}
 	},
 	_mousemove: function( e ) {
-		var min = +this._elInput.min,
-			max = +this._elInput.max,
-			rc = this._rcLine,
-			y = this._axeX
-				? ( e.pageX - rc.left ) / ( rc.width - 1 )
-				: 1 - ( e.pageY - rc.top ) / ( rc.height - 1 );
-
-		this.setValue( min + y * ( max - min ), true );
+		this._pxmoved += this._axeX ? e.movementX : -e.movementY;
+		this.setValue( +this._prval + this._pxmoved * this._pxval, true );
 	}
 };
