@@ -1,79 +1,103 @@
 .gsuiSlider {
-	$lineBg: #222;
-	$lineColor: darken( #7f9, 45% );
 	$trackBg: #111;
-	$trackBorderColor: rgba( #fff, .3 );
+	$lineBg: rgba( #fff, .1 );
+	$lineColor: #fff;
 	$thumbBg: rgba( #000, .8 );
-	$thumbBorderColor: #aaa;
-	$thumbBorderColorActive: #ddd;
-	$trackRadius: 4px;
+	$thumbBorder: 2px solid #fff;
+	$linearRadius: 4px;
 	$thumbRadius: 2px;
 	$transitionDur: .1s;
 
 	position: relative;
+	overflow: hidden;
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 
-	&.gsui-x {
-		cursor: ew-resize;
-
-		.gsui-line { top: 50%; }
-		.gsui-lineColor { height: 100%; }
-		.gsui-thumb { top: 50%; }
-	}
-	&.gsui-y {
-		cursor: ns-resize;
-
-		.gsui-line { left: 50%; }
-		.gsui-lineColor { width: 100%; }
-		.gsui-thumb { left: 50%; }
-	}
-
-	input {
+	input,
+	&.gsui-linear svg,
+	&.gsui-circular .gsui-line {
 		display: none;
 	}
+	
+	&.gsui-linear {
+		border-radius: $linearRadius;
+		background: $trackBg;
+	}
 
-	.gsui- {
-		&track,
-		&thumb {
-			box-sizing: border-box;
+	&.gsui-x {
+		.gsui-line { top: 50%; }
+		.gsui-lineColor { height: 100% !important; top: 0 !important; }
+		.gsui-thumb { bottom: 50% !important; }
+	}
+	&.gsui-y {
+		.gsui-line { left: 50%; }
+		.gsui-lineColor { width: 100% !important; left: 0 !important; }
+		.gsui-thumb { left: 50% !important; }
+	}
+
+	.gsui-line {
+		position: absolute;
+		background: $lineBg;
+
+		&Color {
 			position: absolute;
-			border: 2px solid;
+			background: $lineColor;
 		}
+	}
+	.gsui-thumb {
+		box-sizing: border-box;
+		position: absolute;
+		border: $thumbBorder;
+		border-radius: $thumbRadius;
+		background: $thumbBg;
+		// transform: scale( 0.5 );
+		transition: $transitionDur ease;
+		transition-property: transform, border-color;
+	}
 
-		&track {
-			width: 100%;
-			height: 100%;
-			border-color: $trackBorderColor;
-			border-radius: $trackRadius;
-			background: $trackBg;
-		}
+	svg {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.gsui-svgBg,
+	.gsui-svgLine,
+	.gsui-svgLineColor,
+	.gsui-svgThumb {
+		cx: 50%;
+		cy: 50%;
+		transform-origin: center;
+	}
+	
+	.gsui-svgBg {
+		fill: $trackBg;
+	}
+	
+	.gsui-svgThumb {
+		fill: $trackBg;
+		transition: 1s ease;
+		transition-property: transform;
+	}
 
-		&line {
-			position: absolute;
-			background: $lineBg;
+	.gsui-svgLine {
+		fill: none;
+		stroke: $lineBg;
 
-			&Color {
-				position: absolute;
-				background: $lineColor;
-			}
-		}
-
-		&thumb {
-			border-color: $thumbBorderColor;
-			border-radius: $thumbRadius;
-			background: $thumbBg;
-			transition: $transitionDur ease;
-			transition-property: transform, border-width, border-color;
+		&Color {
+			fill: none;
+			stroke: #ddd;
 		}
 	}
 
-	&:hover .gsui-thumb,
-	.gsui-thumb.gsui-hover {
-		transform: scale( 2 );
-		border-width: 1px;
-		border-color: $thumbBorderColorActive;
+	&:hover {
+		.gsui-svgThumb {
+			transform: scale( .9 );
+		}
+		.gsui-thumb {
+			transform: scale( 1 );
+		}
 	}
 }
