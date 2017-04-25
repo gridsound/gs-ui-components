@@ -9,20 +9,30 @@ function gsuiSlider() {
 	this._elThumb = root.querySelector( ".gsui-thumb" );
 	this._elLine = root.querySelector( ".gsui-line" );
 	this._elLineColor = root.querySelector( ".gsui-lineColor" );
+	this._elSvg = root.querySelector( "svg" );
+	this._elSvgBg = root.querySelector( ".gsui-svgBg" );
+	this._elSvgThumb = root.querySelector( ".gsui-svgThumb" );
+	this._elSvgLine = root.querySelector( ".gsui-svgLine" );
+	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 	root.onwheel = this._wheel.bind( this );
 	root.onmousedown = this._mousedown.bind( this );
-	this.options( { min: 0, max: 100,
-		step: 1, value: 50, startFrom: 0 } );
-	this.axe( "x" );
+	this.options( { min: 0, max: 100, step: 1, value: 50, startFrom: 0 } );
+	this.linear( "x" );
 }
 
 gsuiSlider.prototype = {
-	axe: function( axe ) {
-		( this._axeX = axe === "x" )
-			? this._elLineColor.style.top = 0
-			: this._elLineColor.style.left = 0;
-		this.rootElement.classList.remove( "gsui-x", "gsui-y" );
-		this.rootElement.classList.add( "gsui-" + axe );
+	linear: function( axe ) {
+		this._circ = false;
+		this._axeX = axe === "x";
+		this.rootElement.classList.remove( "gsui-circular", "gsui-x", "gsui-y" );
+		this.rootElement.classList.add( "gsui-linear", "gsui-" + axe );
+		this._updateVal();
+	},
+	circular: function() {
+		this._circ = true;
+		this.rootElement.classList.remove( "gsui-linear", "gsui-x", "gsui-y" );
+		this.rootElement.classList.add( "gsui-circular" );
+		this._updateVal();
 	},
 	setValue: function( val, bymouse ) {
 		var inp = this._elInput,
@@ -77,23 +87,32 @@ gsuiSlider.prototype = {
 		return document.getElementById( "gsuiSlider" );
 	},
 	_updateVal: function() {
-		var thumb = this._elThumb.style,
-			line = this._elLineColor.style,
+		var thumb, line,
 			inp = this._elInput,
-			val = inp.value,
-			start = this.startFrom,
-			prc = ( val - inp.min ) / ( inp.max - inp.min ) * 100,
-			prcStart = ( start - inp.min ) / ( inp.max - inp.min ) * 100;
+			inpval = +inp.value,
+			inplen = inp.max - inp.min,
+			prcval = ( inpval - inp.min ) / inplen,
+			prcstart = ( this.startFrom - inp.min ) / inplen,
+			prclen = Math.abs( prcval - prcstart ),
+			prcmin = Math.min( prcval, prcstart );
 
-		this._value = val;
-		if ( this._axeX ) {
-			thumb.left = prc + "%";
-			line.left = ( start < val ? prcStart : prc ) + "%";
-			line.right = 100 - ( start < val ? prc : prcStart ) + "%";
+		this.value = inpval;
+		if ( this._circ ) {
+			line = this._elSvgLineColor.style;
+			line.strokeDasharray = prclen * this._svgLineLen + ", 999999";
+			line.transform = "rotate(" + ( 90 + prcmin * 360 ) + "deg)";
 		} else {
-			thumb.top = 100 - prc + "%";
-			line.top = 100 - ( start < val ? prc : prcStart ) + "%";
-			line.bottom = ( start < val ? prcStart : prc ) + "%";
+			thumb = this._elThumb.style;
+			line = this._elLineColor.style;
+			if ( this._axeX ) {
+				thumb.left = prcval * 100 + "%";
+				line.left = prcmin * 100 + "%";
+				line.width = prclen * 100 + "%";
+			} else {
+				thumb.bottom = prcval * 100 + "%";
+				line.bottom = prcmin * 100 + "%";
+				line.height = prclen * 100 + "%";
+			}
 		}
 	},
 	_updateSize: function( w, h ) {
@@ -103,9 +122,14 @@ gsuiSlider.prototype = {
 				line = this._elLine.style,
 				thick = this._axeX ? h : w,
 				thick2 = thick / 2,
-				lineThick = Math.ceil( thick / 10 );
+				lineThick = Math.ceil( thick / 10 ),
+				svgrad = Math.min( w, h ) / 2;
 
 			lineThick % 2 !== thick % 2 && ++lineThick;
+			thumbSize = thick - ~~thick2 - ~~thick2 % 2;
+			thumb.marginLeft =
+			thumb.marginBottom = thumbSize / -2 + "px";
+			thumb.width = thumb.height = thumbSize + "px";
 			if ( this._axeX ) {
 				line.height = lineThick + "px";
 				line.marginTop = lineThick / -2 + "px";
@@ -115,11 +139,17 @@ gsuiSlider.prototype = {
 				line.marginLeft = lineThick / -2 + "px";
 				line.top = line.bottom = thick2 + "px";
 			}
-			thumbSize = thick - ~~thick2 - ~~thick2 % 2;
-			thumb.width = thumb.height = thumbSize + "px";
-			thumb.marginLeft = thumb.marginTop = thumbSize / -2 + "px";
 			this.width = w;
 			this.height = h;
+			this._elSvg.setAttribute( "viewBox", "0 0 " + w + " " + h );
+			this._elSvgBg.style.r = svgrad;
+			this._elSvgThumb.style.r = svgrad / 1.7;
+			this._elSvgLine.style.r =
+			this._elSvgLineColor.style.r =
+			this._svgLineLen = svgrad / 1.7;
+			this._elSvgLine.style.strokeWidth =
+			this._elSvgLineColor.style.strokeWidth = svgrad / 3;
+			this._svgLineLen *= 2 * Math.PI;
 		}
 	},
 	_wheel: function( e ) {
@@ -131,25 +161,24 @@ gsuiSlider.prototype = {
 	_mousedown: function( e ) {
 		var inp = this._elInput,
 			bcr = this._elLine.getBoundingClientRect(),
-			size = this._axeX ? bcr.width : bcr.height;
+			size = this._circ ? this._svgLineLen :
+				this._axeX ? bcr.width : bcr.height;
 
 		this._prval = inp.value;
 		this._pxval = ( inp.max - inp.min ) / size;
 		this._pxmoved = 0;
 		gsuiSlider._sliderClicked = this;
 		this._elThumb.requestPointerLock();
-		this._elThumb.classList.add( "gsui-hover" );
 	},
 	_mouseup: function( e ) {
 		document.exitPointerLock();
 		delete gsuiSlider._sliderClicked;
-		this._elThumb.classList.remove( "gsui-hover" );
 		if ( this._prval !== this._elInput.value ) {
 			this.onchange && this.onchange( this._elInput.value );
 		}
 	},
 	_mousemove: function( e ) {
-		this._pxmoved += this._axeX ? e.movementX : -e.movementY;
+		this._pxmoved += this._circ || !this._axeX ? -e.movementY : e.movementX;
 		this.setValue( +this._prval + this._pxmoved * this._pxval, true );
 	}
 };
