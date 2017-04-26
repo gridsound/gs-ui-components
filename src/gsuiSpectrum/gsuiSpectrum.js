@@ -1,9 +1,9 @@
 "use strict";
 
 function gsuiSpectrum( canvas ) {
-	this.canvas = canvas;
-	this.canvas.height = 1;
-	this.ctx = canvas.getContext( "2d" );
+	this.rootElement = canvas || document.createElement( "canvas" );
+	this.rootElement.classList.add( "gsuiSpectrum" );
+	this.ctx = this.rootElement.getContext( "2d" );
 	this.colors = [
 		[   5,   2,  20 ], // 0
 		[   8,   5,  30 ], // 1
@@ -19,17 +19,18 @@ function gsuiSpectrum( canvas ) {
 
 gsuiSpectrum.prototype = {
 	setResolution: function( w ) {
-		this.canvas.width = w;
+		this.rootElement.width = w;
+		this.rootElement.height = 1;
 	},
 	clear: function() {
-		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+		this.ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	},
 	draw: function( data ) {
 		var datum, col, colId,
 			r, g, b, ws,
 			x = 0,
 			i = 0,
-			cnv = this.canvas,
+			cnv = this.rootElement,
 			ctx = this.ctx,
 			w = cnv.width,
 			h = cnv.height,
