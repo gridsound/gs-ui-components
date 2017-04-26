@@ -1,14 +1,11 @@
 .gsuiSlider {
-	$trackBg: #111;
-	$lineBg: rgba( #fff, .1 );
-	$lineColor: #fff;
-	$thumbBg: rgba( #000, .8 );
-	$thumbBorder: 2px solid #fff;
-	$linearRadius: 4px;
-	$thumbRadius: 2px;
-	$transitionDur: .1s;
+	--bg0: #111;
+	--bg1: rgba( #fff, .1 );
+	--color: #fff;
+	--dur: .5s;
 
 	position: relative;
+	border-radius: 4px;
 	overflow: hidden;
 	user-select: none;
 	-moz-user-select: none;
@@ -20,12 +17,10 @@
 	&.gsui-circular .gsui-line {
 		display: none;
 	}
-	
-	&.gsui-linear {
-		border-radius: $linearRadius;
-		background: $trackBg;
-	}
 
+	&.gsui-linear {
+		background: var( --bg0 );
+	}
 	&.gsui-x {
 		.gsui-line { top: 50%; }
 		.gsui-lineColor { height: 100% !important; top: 0 !important; }
@@ -39,65 +34,44 @@
 
 	.gsui-line {
 		position: absolute;
-		background: $lineBg;
-
-		&Color {
-			position: absolute;
-			background: $lineColor;
-		}
+		background: var( --bg1 );
+	}
+	.gsui-lineColor,
+	.gsui-thumb {
+		position: absolute;
+		background: var( --color );
 	}
 	.gsui-thumb {
 		box-sizing: border-box;
-		position: absolute;
-		border: $thumbBorder;
-		border-radius: $thumbRadius;
-		background: $thumbBg;
-		// transform: scale( 0.5 );
-		transition: $transitionDur ease;
-		transition-property: transform, border-color;
+		border-radius: 50%;
+		transform: scale( 0.5 );
 	}
-
+	.gsui-thumb,
+	.gsui-svgThumb {
+		transition: transform var( --dur ) ease;
+	}
 	svg {
-		position: relative;
 		width: 100%;
 		height: 100%;
 	}
-	
 	.gsui-svgBg,
 	.gsui-svgLine,
 	.gsui-svgLineColor,
 	.gsui-svgThumb {
 		cx: 50%;
 		cy: 50%;
+		fill: none;
 		transform-origin: center;
 	}
-	
-	.gsui-svgBg {
-		fill: $trackBg;
-	}
-	
+	.gsui-svgBg,
 	.gsui-svgThumb {
-		fill: $trackBg;
-		transition: 1s ease;
-		transition-property: transform;
+		fill: var( --bg0 );
 	}
-
-	.gsui-svgLine {
-		fill: none;
-		stroke: $lineBg;
-
-		&Color {
-			fill: none;
-			stroke: #ddd;
-		}
-	}
+	.gsui-svgLine { stroke: var( --bg1 ); }
+	.gsui-svgLineColor { stroke: var( --color ); }
 
 	&:hover {
-		.gsui-svgThumb {
-			transform: scale( .9 );
-		}
-		.gsui-thumb {
-			transform: scale( 1 );
-		}
+		.gsui-thumb { transform: scale( 1 ); }
+		.gsui-svgThumb { transform: scale( .9 ); }
 	}
 }
