@@ -1,15 +1,23 @@
 "use strict";
 
 function gsuiWaveform( svg ) {
-	this.svg = svg;
-	this.polygon = svg.querySelector( "polygon" );
+	var svgurl = "http://www.w3.org/2000/svg";
+
+	this.rootElement = svg || document.createElementNS( svgurl, "svg" );
+	this.rootElement.setAttribute( "preserveAspectRatio", "none" );
+	this.rootElement.classList.add( "gsuiWaveform" );
+	this.polygon = this.rootElement.querySelector( "polygon" );
+	if ( !this.polygon ) {
+		this.polygon = document.createElementNS( svgurl, "polygon" );
+		this.rootElement.appendChild( this.polygon );
+	}
 };
 
 gsuiWaveform.prototype = {
 	setResolution: function( w, h ) {
 		this.width = w;
 		this.height = h;
-		this.svg.setAttribute( "viewBox", "0 0 " + w + " " + h );
+		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
 	clear: function() {
 		this.polygon.removeAttribute( "points" );
@@ -41,7 +49,7 @@ gsuiWaveform.prototype = {
 
 			for ( ; i < iend; i += iinc ) {
 				lmin = Math.min( lmin, data0[ i ], data1[ i ] );
-				rmax = Math.max( rmax, data1[ i ], data0[ i ] );
+				rmax = Math.max( rmax, data0[ i ], data1[ i ] );
 			}
 			if ( Math.abs( rmax - lmin ) * h2 < 1 ) {
 				rmax += 1 / h;
