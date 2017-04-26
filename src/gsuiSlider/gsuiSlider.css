@@ -55,8 +55,6 @@
 .gsuiSlider .gsui-svgLine,
 .gsuiSlider .gsui-svgLineColor,
 .gsuiSlider .gsui-svgThumb {
-	cx: 50%;
-	cy: 50%;
 	fill: none;
 	transform-origin: center;
 }
