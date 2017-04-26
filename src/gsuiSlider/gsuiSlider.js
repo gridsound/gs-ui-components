@@ -168,7 +168,7 @@ gsuiSlider.prototype = {
 		this._pxval = ( inp.max - inp.min ) / size;
 		this._pxmoved = 0;
 		gsuiSlider._sliderClicked = this;
-		this._elThumb.requestPointerLock();
+		this.rootElement.requestPointerLock();
 	},
 	_mouseup: function( e ) {
 		document.exitPointerLock();
