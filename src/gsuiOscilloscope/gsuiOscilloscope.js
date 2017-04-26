@@ -1,8 +1,9 @@
 "use strict";
 
 function gsuiOscilloscope( canvas ) {
-	this.canvas = canvas;
-	this.ctx = canvas.getContext( "2d" );
+	this.rootElement = canvas || document.createElement( "canvas" );
+	this.rootElement.classList.add( "gsuiOscilloscope" );
+	this.ctx = this.rootElement.getContext( "2d" );
 	this.maxValue = 0;
 	this.setPinch( 0 );
 	this.drawBegin( function( ctx, max, w, h ) {
@@ -15,11 +16,11 @@ function gsuiOscilloscope( canvas ) {
 
 gsuiOscilloscope.prototype = {
 	setResolution: function( w, h ) {
-		this.canvas.width = w;
-		this.canvas.height = h;
+		this.rootElement.width = w;
+		this.rootElement.height = h;
 	},
 	clear: function() {
-		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+		this.ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	},
 	setPinch: function( pinch ) {
 		this.pinch = Math.max( 0, Math.min( pinch, 1 ) );
@@ -33,7 +34,7 @@ gsuiOscilloscope.prototype = {
 	draw: function( data ) {
 		var x, y,
 			max = this.maxValue,
-			cnv = this.canvas,
+			cnv = this.rootElement,
 			ctx = this.ctx,
 			w = cnv.width,
 			h = cnv.height,
