@@ -1,13 +1,20 @@
 "use strict";
 
 function gsuiWave( svg ) {
-	this.rootElement = svg;
-	this.poly = svg.querySelector( "polyline" );
+	var svgurl = "http://www.w3.org/2000/svg";
+
+	this.rootElement = svg || document.createElementNS( svgurl, "svg" );
+	this.rootElement.setAttribute( "preserveAspectRatio", "none" );
+	this.rootElement.classList.add( "gsuiWave" );
+	this.polyline = this.rootElement.querySelector( "polyline" );
+	if ( !this.polyline ) {
+		this.polyline = document.createElementNS( svgurl, "polyline" );
+		this.rootElement.appendChild( this.polyline );
+	}
 	this.type = "sine";
 	this.hz = 1;
 	this.attack =
 	this.amplitude = 0;
-	svg.setAttribute( "preserveAspectRatio", "none" );
 }
 
 gsuiWave.sine = function( x ) {
@@ -45,6 +52,6 @@ gsuiWave.prototype = {
 			pts[ x * 2 + 1 ] = h2 + fn( x * xFac ) * amp *
 				( x < attEnd ? x / attEnd : 1 );
 		}
-		this.poly.setAttribute( "points", pts.join( " " ) );
+		this.polyline.setAttribute( "points", pts.join( " " ) );
 	}
 };
