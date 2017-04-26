@@ -123,7 +123,7 @@ gsuiSlider.prototype = {
 				thick = this._axeX ? h : w,
 				thick2 = thick / 2,
 				lineThick = Math.ceil( thick / 10 ),
-				svgrad = Math.min( w, h ) / 2;
+				sizemin = Math.min( w, h );
 
 			lineThick % 2 !== thick % 2 && ++lineThick;
 			thumbSize = thick - ~~thick2 - ~~thick2 % 2;
@@ -141,14 +141,14 @@ gsuiSlider.prototype = {
 			}
 			this.width = w;
 			this.height = h;
-			this._elSvg.setAttribute( "viewBox", "0 0 " + w + " " + h );
-			this._elSvgBg.style.r = svgrad;
-			this._elSvgThumb.style.r = svgrad / 1.7;
+			this._elSvg.setAttribute( "viewBox", "0 0 " + sizemin + " " + sizemin );
+			this._elSvgBg.style.r = sizemin / 2;
+			this._elSvgThumb.style.r = sizemin / 3.2;
 			this._elSvgLine.style.r =
 			this._elSvgLineColor.style.r =
-			this._svgLineLen = svgrad / 1.7;
+			this._svgLineLen = sizemin / 3;
 			this._elSvgLine.style.strokeWidth =
-			this._elSvgLineColor.style.strokeWidth = svgrad / 3;
+			this._elSvgLineColor.style.strokeWidth = sizemin / 10;
 			this._svgLineLen *= 2 * Math.PI;
 		}
 	},
