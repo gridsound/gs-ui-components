@@ -141,12 +141,12 @@ gsuiSlider.prototype = {
 			}
 			this.width = w;
 			this.height = h;
-			this._elSvg.setAttribute( "viewBox", "0 0 " + sizemin + " " + sizemin );
-			this._elSvgBg.style.r = sizemin / 2;
-			this._elSvgThumb.style.r = sizemin / 3.2;
-			this._elSvgLine.style.r =
-			this._elSvgLineColor.style.r =
 			this._svgLineLen = sizemin / 3;
+			this._elSvg.setAttribute( "viewBox", "0 0 " + sizemin + " " + sizemin );
+			this._elSvgBg.setAttribute( "r", sizemin / 2 );
+			this._elSvgThumb.setAttribute( "r", sizemin / 3.2 );
+			this._elSvgLine.setAttribute( "r", this._svgLineLen );
+			this._elSvgLineColor.setAttribute( "r", this._svgLineLen );
 			this._elSvgLine.style.strokeWidth =
 			this._elSvgLineColor.style.strokeWidth = sizemin / 10;
 			this._svgLineLen *= 2 * Math.PI;
