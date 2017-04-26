@@ -5,7 +5,7 @@ This component takes a `<canvas>` at first, and let us able to draw the result o
 <p align="center">
   <a href="https://codepen.io/mr21/full/Rpyxwb">
     <img src="https://gridsound.github.io/assets/screenshots/gsuiSpectrum.png"/><br/>
-    <b>demo</b> (<i>CodePen</i>)
+    <b>Demo</b> (<i>CodePen</i>)
   </a>
 </p>
 <br/>
@@ -21,4 +21,3 @@ Draw on the canvas (with multiple different color `fillRect`) the audio frequenc
 
 ### `.clear()`
 Clear the canvas by calling `clearRect`.
-
