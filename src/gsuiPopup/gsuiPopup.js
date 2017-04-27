@@ -22,12 +22,23 @@ function gsuiPopup( el ) {
 };
 
 gsuiPopup.prototype = {
+	alert: function( title, msg ) {
+		return this._open( "alert", title, msg );
+	},
+	confirm: function( title, msg ) {
+		return this._open( "confirm", title, msg );
+	},
+	prompt: function( title, msg, val ) {
+		return this._open( "prompt", title, msg, val );
+	},
 	close: function() {
 		if ( this.isOpen ) {
 			this.elCancel.click();
 		}
 	},
-	open: function( type, title, msg, value ) {
+
+	// private:
+	_open: function( type, title, msg, value ) {
 		var that = this;
 
 		this.isOpen = true;
@@ -53,8 +64,6 @@ gsuiPopup.prototype = {
 			return val;
 		} );
 	},
-
-	// private:
 	_cancelClick: function() {
 		this.resolve(
 			this.type === "confirm" ? false :
