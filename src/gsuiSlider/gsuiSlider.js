@@ -178,7 +178,14 @@ gsuiSlider.prototype = {
 		}
 	},
 	_mousemove: function( e ) {
-		this._pxmoved += this._circ || !this._axeX ? -e.movementY : e.movementX;
-		this.setValue( +this._prval + this._pxmoved * this._pxval, true );
+		var mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
+			inp = this._elInput,
+			bound = ( inp.max - inp.min ) / 5,
+			val = +this._prval + ( this._pxmoved + mov ) * this._pxval;
+
+		if ( inp.min - bound < val && val < +inp.max + bound ) {
+			this._pxmoved += mov;
+		}
+		this.setValue( val, true );
 	}
 };
