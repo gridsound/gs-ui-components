@@ -1,4 +1,4 @@
-.gsuiPopup {
+#gsuiPopup {
 	--dur: .2s;
 	--dark-bg: rgba( 0, 0, 0, .6 );
 	--bg: #ddd;
@@ -25,59 +25,59 @@
 	transition: var( --dur );
 	transition-property: visibility, opacity;
 }
-.gsuiPopup.gsui-show {
+#gsuiPopup.gsui-show {
 	visibility: visible;
 	opacity: 1;
 }
 
-.gsuiPopup-window {
+#gsuiPopup-window {
 	min-width: var( --min-width );
 	border-radius: var( --radius );
 	color: var( --text-color );
 	font-family: sans-serif;
 	background: var( --bg );
 }
-.gsuiPopup-window.gsui-nocancel .gsui-cancel,
-.gsuiPopup-window.gsui-notext .gsui-text {
+#gsuiPopup-window.gsui-nocancel .gsui-cancel,
+#gsuiPopup-window.gsui-notext .gsui-text {
 	display: none;
 }
 
-.gsuiPopup header {
+#gsuiPopup header {
 	padding: var( --padding );
 	color: var( --bg );
 	font-weight: bold;
 	background: var( --header-bg );
 }
-.gsuiPopup .gsui-msg {
+#gsuiPopup .gsui-msg {
 	padding: 1.5em var( --padding );
 }
-.gsuiPopup form {
+#gsuiPopup form {
 	padding: var( --padding );
 	padding-top: 0;
 	text-align: center;
 }
-.gsuiPopup .gsui-text,
-.gsuiPopup .gsui-btn {
+#gsuiPopup .gsui-text,
+#gsuiPopup .gsui-btn {
 	padding: var( --padding );
 	border: 0;
 	border-radius: 2px;
 }
-.gsuiPopup .gsui-text {
+#gsuiPopup .gsui-text {
 	box-sizing: border-box;
 	width: 100%;
 	color: var( --text-color );
 	font-size: 18px;
 	margin-bottom: var( --padding );
 }
-.gsuiPopup .gsui-btn {
+#gsuiPopup .gsui-btn {
 	color: #fff;
 	font-weight: bold;
 	background: var( --btn-bg );
 	cursor: pointer;
 }
-.gsuiPopup-window .gsui-btn + .gsui-btn {
+#gsuiPopup-window .gsui-btn + .gsui-btn {
 	margin-left: var( --padding );
 }
-.gsuiPopup .gsui-ok {
+#gsuiPopup .gsui-ok {
 	background: var( --btn-ok-bg );
 }
