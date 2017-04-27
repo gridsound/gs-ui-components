@@ -12,7 +12,7 @@ function gsuiWave( svg ) {
 		this.rootElement.appendChild( this.polyline );
 	}
 	this.type = "sine";
-	this.hz = 1;
+	this.frequency = 1;
 	this.attack =
 	this.amplitude = 0;
 }
@@ -43,7 +43,7 @@ gsuiWave.prototype = {
 			h2 = this.height / 2,
 			amp = -this.amplitude * h2,
 			attEnd = w * this.attack,
-			xFac = 2 * Math.PI / w * this.hz,
+			xFac = 2 * Math.PI / w * this.frequency,
 			fn = gsuiWave[ this.type ],
 			pts = new Float32Array( w * 2 );
 
