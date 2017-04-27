@@ -1,0 +1,85 @@
+.gsuiPopup {
+	--dur: .2s;
+	--dark-bg: rgba( #000, .6 );
+	--bg: #ddd;
+	--text-color: #222;
+	--btn-bg: #999;
+	--btn-ok-bg: #4482e8;
+	--padding: .4em;
+	--min-width: 250px;
+	--radius: 4px;
+	--header-bg: rgba( #000, .5 );
+	--header-border: 1px solid rgba( #fff, .6 );
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	z-index: 2147483647;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: var( --dark-bg );
+	visibility: hidden;
+	opacity: 0;
+	transition: var( --dur );
+	transition-property: visibility, opacity;
+}
+.gsuiPopup.gsui-show {
+	visibility: visible;
+	opacity: 1;
+}
+
+.gsuiPopup-window {
+	min-width: var( --min-width );
+	border-radius: var( --radius );
+	color: var( --text-color );
+	font-family: sans-serif;
+	background: var( --bg );
+}
+.gsuiPopup-window.gsui-nocancel .gsui-cancel,
+.gsuiPopup-window.gsui-notext .gsui-text {
+	display: none;
+}
+
+.gsuiPopup header {
+	padding: var( --padding );
+	color: var( --bg );
+	font-weight: bold;
+	border-bottom: var( --header-border );
+	background: var( --header-bg );
+}
+.gsuiPopup .gsui-msg {
+	padding: 1.5em var( --padding );
+}
+.gsuiPopup form {
+	padding: var( --padding );
+	padding-top: 0;
+	text-align: center;
+}
+.gsuiPopup .gsui-text,
+.gsuiPopup .gsui-btn {
+	padding: var( --padding );
+	border: 0;
+	border-radius: 2px;
+}
+.gsuiPopup .gsui-text {
+	box-sizing: border-box;
+	width: 100%;
+	color: var( --text-color );
+	font-size: 18px;
+	margin-bottom: var( --padding );
+}
+.gsuiPopup .gsui-btn {
+	color: #fff;
+	font-weight: bold;
+	background: var( --btn-bg );
+	cursor: pointer;
+}
+.gsuiPopup-window .gsui-btn + .gsui-btn {
+	margin-left: var( --padding );
+}
+.gsuiPopup .gsui-ok {
+	background: var( --btn-ok-bg );
+}
