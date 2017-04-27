@@ -1,6 +1,6 @@
 .gsuiPopup {
 	--dur: .2s;
-	--dark-bg: rgba( #000, .6 );
+	--dark-bg: rgba( 0, 0, 0, .6 );
 	--bg: #ddd;
 	--text-color: #222;
 	--btn-bg: #999;
@@ -8,8 +8,7 @@
 	--padding: .4em;
 	--min-width: 250px;
 	--radius: 4px;
-	--header-bg: rgba( #000, .5 );
-	--header-border: 1px solid rgba( #fff, .6 );
+	--header-bg: rgba( 0, 0, 0, .5 );
 
 	display: flex;
 	align-items: center;
@@ -47,7 +46,6 @@
 	padding: var( --padding );
 	color: var( --bg );
 	font-weight: bold;
-	border-bottom: var( --header-border );
 	background: var( --header-bg );
 }
 .gsuiPopup .gsui-msg {
