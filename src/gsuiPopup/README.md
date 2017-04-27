@@ -1,6 +1,6 @@
 # gsuiPopup
 
-`alert`, `confirm` and `prompt` can be useful but the format can annoy the internaute, so we rewrote them. These alert are now asynchrone and use [Promise (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). They can be stylized now and are silent.<br/>
+`alert`, `confirm` and `prompt` can be useful but the format can annoy the internaute, so we rewrote them. These alert are now asynchrone and use [Promise (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). They can be stylized now and are silent. Also the popup has a header with an editable title.<br/>
 <br/>
 <p align="center">
   <a href="https://codepen.io/mr21/full/aJMEev">
@@ -12,15 +12,14 @@
 
 ## Documentation
 
-### `.open( type, title, msg [, value] )`
-This method will show a popup on front of everything. All the 4 arguments are `String` :
-* `type` can be equal to `"alert"`, `"confirm"` or `"prompt"`.
-* `title` is the text inside the popup's title.
-* `msg` is what you want to say to your user (the popup's body).
-* `value` is optional and used only if `type` equal `"prompt"`, it's the value inside the input.
+### `gsuiPopup.alert( title<String>, msg<String> ).then( () => ... )`
+This is the equivalent of `alert( msg );`. But now the call is asynchrone.
 
-### `.open( ... ).then( function( value ) { ... } )`
-The `value` will be the exact same thing that you should receive with `alert()`, `confirm()` and `prompt()`. A Boolean for `confirm` and a String for `prompt` (or null if the `prompt` is canceled), and `undefined` for `alert`.
+### `gsuiPopup.confirm( title<String>, msg<String> ).then( val<Boolean> => ... )`
+This is the equivalent of `var b = confirm( msg );`. But now the call is asynchrone and the return value will be the boolean argument of the `then` callback.
 
-### `.close()`
-Force close the dialog. It will trigger the `then` returned by `.open( ... )` like if the *cancel* button was pressed.
+### `gsuiPopup.prompt( title<String>, msg<String> [, val<String>] ).then( val<String> => ... )`
+This is the equivalent of `var b = prompt( msg, val );`. But now the call is asynchrone and the return value will be the string argument of the `then` callback. If the user press *Cancel* the return value will be `null` (like the native behaviour).
+
+### `gsuiPopup.close()`
+Force close the dialog. It will resolve the Promise returned by the previous call to `alert/confirm/prompt( ... )` like if the *Cancel* button was pressed.
