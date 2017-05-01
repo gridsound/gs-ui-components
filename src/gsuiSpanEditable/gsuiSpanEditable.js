@@ -1,29 +1,23 @@
 "use strict";
 
-function gsuiSpanEditable( root ) {
-	this.rootElement = root;
-	this.span = root.querySelector( "span" );
-	this.input = root.querySelector( "input" );
-
-	root.ondblclick = this._dblclick.bind( this );
+function gsuiSpanEditable() {
+	this.rootElement = this._clone();
+	this.span = this.rootElement.querySelector( "span" );
+	this.input = this.rootElement.querySelector( "input" );
+	this.rootElement.ondblclick = this._dblclick.bind( this );
 	this.input.onblur = this._blur.bind( this );
 	this.input.onkeydown = this._keydown.bind( this );
 	this.setPlaceholder( "" );
+	this.setValue( "" );
 }
 
 gsuiSpanEditable.prototype = {
-	getValue: function() {
-		return this.value;
-	},
 	setValue: function( val, call ) {
 		val = val.trim();
-		if ( val === this.placeholder ) {
-			val = "";
-		}
-		this.rootElement.classList.toggle( "gsui-empty", !val );
-		this.span.textContent = val || this.placeholder;
 		if ( val !== this.value ) {
 			this.value = val;
+			this.rootElement.classList.toggle( "gsui-empty", !val );
+			this.span.textContent = val || this.placeholder;
 			if ( call && this.onchange ) {
 				this.onchange( val );
 			}
@@ -32,11 +26,20 @@ gsuiSpanEditable.prototype = {
 	setPlaceholder: function( s ) {
 		this.placeholder = s.trim();
 		if ( !this.value ) {
-			this.setValue( s );
+			this.span.textContent = this.placeholder;
 		}
 	},
 
 	// private:
+	_clone: function() {
+		var div = document.createElement( "div" ),
+			tmp = gsuiSpanEditable.template;
+
+		gsuiSpanEditable.template =
+		tmp = tmp || document.getElementById( "gsuiSpanEditable" );
+		div.appendChild( document.importNode( tmp.content, true ) );
+		return div.removeChild( div.querySelector( "*" ) );
+	},
 	_dblclick: function( e ) {
 		this.input.value = this.value;
 		this.rootElement.classList.add( "gsui-editing" );
