@@ -1,37 +1,32 @@
 MAKE = @make --no-print-directory
+N = gs-ui-components.min
 
 all:
 	@echo "~~~~~~~~~ gs-ui-components ~~~~~~~~~~"
-	$(MAKE) css
 	$(MAKE) html
+	$(MAKE) css
+	$(MAKE) js
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 html:
-	@echo -n "* HTML ............... "
-	@handlebars `find src -name "*.handlebars"` -f bin/__templates.js
-	@echo __templates.js
-	$(MAKE) js
+	@echo -n "* HTML .... "
+	@cat `find src -name "*.html"` > _html
+	@tr -d '\t' < _html > _html2
+	@tr -d '\n' < _html2 > _html
+	@tr -d '\r' < _html > bin/$(N).html
+	@rm _html _html2
+	@echo $(N).html
 
 js:
 	@echo -n "* JS ........ "
-	@uglifyjs $(JS_FILES) -o bin/gs-ui-components.min.js --compress --mangle
-	@echo gs-ui-components.min.js
+	@echo "\"use strict\";" > bin/$(N).js
+	@cat `find src -name "*.js"` | sed -e "s/\"use strict\";//g" >> bin/$(N).js
+	@babili bin/$(N).js -o bin/$(N).js
+	@echo $(N).js
 
 css:
 	@echo -n "* CSS ...... "
-	@cd bin; sass -I ../src ../src/main.scss gs-ui-components.min.css --style compressed
-	@echo gs-ui-components.min.css
-
+	@cat `find src -name "*.css"` | csso > bin/$(N).css
+	@echo $(N).css
 
 .PHONY: all html css js
-
-JS_FILES = \
-	bin/__templates.js                       \
-	src/gsuiOscilloscope/gsuiOscilloscope.js \
-	src/gsuiPopup/gsuiPopup.js               \
-	src/gsuiSlider/gsuiSlider.js             \
-	src/gsuiSpanEditable/gsuiSpanEditable.js \
-	src/gsuiSpectrum/gsuiSpectrum.js         \
-	src/gsuiToggle/gsuiToggle.js             \
-	src/gsuiWave/gsuiWave.js                 \
-	src/gsuiWaveform/gsuiWaveform.js
