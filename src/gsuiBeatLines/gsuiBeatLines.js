@@ -1,44 +1,57 @@
 "use strict";
 
-function gsuiBeatLines( canvas ) {
-	this.rootElement = canvas || document.createElement( "canvas" );
-	this.rootElement.classList.add( "gsuiBeatLines" );
-	this.rootElement.height = 1;
-	this.ctx = this.rootElement.getContext( "2d" );
+function gsuiBeatLines( el ) {
+	this.rootElement =
+	el = el || document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
+	el.setAttribute( "preserveAspectRatio", "none" );
+	el.classList.add( "gsuiBeatLines" );
+	this.setResolution( 256 );
 	this.offset = 0;
-	this.duration =
 	this.beatsPerMeasure =
 	this.stepsPerBeat = 4;
+	this.steps = [];
 }
 
 gsuiBeatLines.prototype = {
 	setResolution( w ) {
-		this.rootElement.width = w;
-		this.rootElement.height = 1;
+		this.width = w;
+		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " 1" );
 	},
 	draw: function() {
-		var offset = this.offset,
-			duration = this.duration,
+		var elStep,
+			elSteps = this.steps,
+			rootStyle = getComputedStyle( this.rootElement ),
+			fontSize = parseFloat( rootStyle.fontSize ),
 			stepsBeat = this.stepsPerBeat,
-			stepsMesure = stepsBeat * this.beatsPerMeasure,
-			ctx = this.ctx,
-			w = ctx.canvas.width,
-			stepPx = w / duration / stepsBeat,
-			step = offset * stepsBeat,
-			x = step % 1 * -stepPx;
+			stepsMeasure = stepsBeat * this.beatsPerMeasure,
+			stepsDuration = Math.ceil( this.width / fontSize * stepsBeat ),
+			offset = this.offset * stepsBeat,
+			stepEm = 1 / stepsBeat,
+			stepId = 0,
+			step = ~~offset,
+			em = -( offset % 1 ) / stepsBeat;
 
-		step = ~~step;
-		ctx.clearRect( 0, 0, w, 1 );
-		for ( ; x < w; x += stepPx ) {
-			if ( step % stepsMesure ) {
-				ctx.fillStyle = "rgba(0,0,0," + ( step % stepsBeat ? .2 : .5 ) + ")";
-			} else {
-				ctx.fillStyle = "rgba(0,0,0,.15)";
-				ctx.fillRect( x - 1, 0, 3, 1 );
-				ctx.fillStyle = "rgba(0,0,0,1)";
-			}
-			ctx.fillRect( x, 0, 1, 1 );
+		++step;
+		em += stepEm;
+		while ( elSteps.length < stepsDuration ) {
+			elStep = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
+			elStep.setAttribute( "y", 0 );
+			elStep.setAttribute( "width", 1 );
+			elStep.setAttribute( "height", 1 );
+			this.rootElement.appendChild( elStep );
+			elSteps.push( elStep );
+		}
+		for ( ; stepId < stepsDuration; ++stepId ) {
+			elStep = elSteps[ stepId ];
+			elStep.style.display = "block";
+			elStep.setAttribute( "x", em + "em" );
+			elStep.setAttribute( "class", "gsui-" + ( step % stepsMeasure ? step % stepsBeat ?
+				"step" : "beat" : "measure" ) );
 			++step;
+			em += stepEm;
+		}
+		for ( ; stepId < elSteps.length; ++stepId ) {
+			elSteps[ stepId ].style.display = "none";
 		}
 	}
 };
