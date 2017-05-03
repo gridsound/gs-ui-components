@@ -14,6 +14,7 @@ html:
 	@tr -d '\t' < _html > _html2
 	@tr -d '\n' < _html2 > _html
 	@tr -d '\r' < _html > bin/$(N).html
+	@echo >> bin/$(N).html
 	@rm _html _html2
 	@echo $(N).html
 
