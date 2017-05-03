@@ -1,0 +1,11 @@
+.gsuiBeatLines .gsui-step {
+	fill: rgba( 0, 0, 0, .2 );
+}
+.gsuiBeatLines .gsui-beat {
+	fill: rgba( 0, 0, 0, .5 );
+}
+.gsuiBeatLines .gsui-measure {
+	fill: rgba( 0, 0, 0, .8 );
+	stroke: rgba( 0, 0, 0, .2 );
+	stroke-width: 1px;
+}
