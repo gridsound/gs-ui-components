@@ -19,7 +19,7 @@ gsuiToggle.prototype = {
 		this._set( false );
 	},
 	toggle: function( b ) {
-		this._set( argument.length ? !!b : !this.checked );
+		this._set( arguments.length ? !!b : !this.checked );
 	},
 
 	// private:
