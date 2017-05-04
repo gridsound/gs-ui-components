@@ -1,4 +1,5 @@
-.gsuiBeatLines rect { fill: #000; }
+.gsuiBeatLines { fill: #000; }
+.gsuiBeatLines rect { fill: inherit; }
 .gsuiBeatLines .gsui-step { opacity: .2; }
 .gsuiBeatLines .gsui-beat { opacity: .5; }
 .gsuiBeatLines .gsui-measure { opacity: .6; }
