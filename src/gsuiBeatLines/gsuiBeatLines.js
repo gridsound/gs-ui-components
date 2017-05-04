@@ -18,7 +18,8 @@ gsuiBeatLines.prototype = {
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " 1" );
 	},
 	draw: function() {
-		var elStep,
+		var rectClass,
+			elStep,
 			elSteps = this.steps,
 			rootStyle = getComputedStyle( this.rootElement ),
 			fontSize = parseFloat( rootStyle.fontSize ),
@@ -36,17 +37,18 @@ gsuiBeatLines.prototype = {
 		while ( elSteps.length < stepsDuration ) {
 			elStep = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
 			elStep.setAttribute( "y", 0 );
-			elStep.setAttribute( "width", 1 );
 			elStep.setAttribute( "height", 1 );
 			this.rootElement.appendChild( elStep );
 			elSteps.push( elStep );
 		}
 		for ( ; stepId < stepsDuration; ++stepId ) {
+			rectClass = "gsui-" + ( step % stepsMeasure ? step % stepsBeat ?
+				"step" : "beat" : "measure" );
 			elStep = elSteps[ stepId ];
 			elStep.style.display = "block";
 			elStep.setAttribute( "x", em + "em" );
-			elStep.setAttribute( "class", "gsui-" + ( step % stepsMeasure ? step % stepsBeat ?
-				"step" : "beat" : "measure" ) );
+			elStep.setAttribute( "class", rectClass );
+			elStep.setAttribute( "width", rectClass !== "gsui-measure" ? "1px" : "2px" );
 			++step;
 			em += stepEm;
 		}
