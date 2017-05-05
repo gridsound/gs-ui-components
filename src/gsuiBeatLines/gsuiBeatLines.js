@@ -13,11 +13,11 @@ function gsuiBeatLines( el ) {
 	this.elHLend.setAttribute( "class", "gsui-hlEnd" );
 	this.elHLstart.setAttribute( "x", 0 );
 	this.elHLend.setAttribute( "width", "10000%" );
-	this.offset = 0;
-	this.beatsPerMeasure =
-	this.stepsPerBeat = 4;
+	this._offset = 0;
+	this._beatsPerMeasure =
+	this._stepsPerBeat = 4;
 	this.steps = [];
-	this.setCurrentTime( 0 );
+	this.currentTime( 0 );
 	this.setResolution( 256 );
 	this.highlight( false );
 }
@@ -27,33 +27,54 @@ gsuiBeatLines.prototype = {
 		this.width = w;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " 1" );
 	},
-	setCurrentTime: function( beat ) {
-		this.currentTime = beat;
+	currentTime: function( beat ) {
+		this._currentTime = beat;
 		this._timeUpdate();
+	},
+	offset: function( beat ) {
+		this._offset = +beat || 0;
+		this._render();
+	},
+	beatsPerMeasure: function( n ) {
+		this._beatsPerMeasure = Math.max( 1, ~~n );
+		this._render();
+	},
+	stepsPerBeat: function( n ) {
+		this._stepsPerBeat = Math.min( Math.max( 1, ~~n ), 16 );
+		this._render();
 	},
 	highlight: function( b ) {
 		this._hl = !!b;
 		this.elHLstart.style.display =
 		this.elHLend.style.display = b ? "block" : "none";
+		if ( this._hl ) {
+			this._hlStart();
+			this._hlEnd();
+		}
 	},
 	highlightStart: function( beat ) {
 		this._hlA = +beat;
-		this._hlStart();
+		this._hl && this._hlStart();
 	},
 	highlightEnd: function( beat ) {
 		this._hlB = +beat;
-		this._hlEnd();
+		this._hl && this._hlEnd();
 	},
-	draw: function() {
+	render: function() {
+		this._render();
+	},
+
+	// private:
+	_render: function() {
 		var rectClass,
 			elStep,
 			elSteps = this.steps,
 			rootStyle = getComputedStyle( this.rootElement ),
 			fontSize = parseFloat( rootStyle.fontSize ),
-			stepsBeat = this.stepsPerBeat,
-			stepsMeasure = stepsBeat * this.beatsPerMeasure,
+			stepsBeat = this._stepsPerBeat,
+			stepsMeasure = stepsBeat * this._beatsPerMeasure,
 			stepsDuration = Math.ceil( this.width / fontSize * stepsBeat ),
-			offset = this.offset * stepsBeat,
+			offset = this._offset * stepsBeat,
 			stepEm = 1 / stepsBeat,
 			stepId = 0,
 			step = ~~offset,
@@ -79,11 +100,11 @@ gsuiBeatLines.prototype = {
 			elSteps[ stepId ].style.display = "none";
 		}
 		this._timeUpdate();
-		this._hlStart();
-		this._hlEnd();
+		if ( this._hl ) {
+			this._hlStart();
+			this._hlEnd();
+		}
 	},
-
-	// private:
 	_newRect: function() {
 		var rc = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
 
@@ -94,21 +115,20 @@ gsuiBeatLines.prototype = {
 		return rc;
 	},
 	_timeUpdate: function() {
-		this.elTime.style.display = this.currentTime > this.offset ? "block" : "none";
-		this.elTime.setAttribute( "x", this.currentTime - this.offset + "em" );
+		var x = this._currentTime - this._offset;
+
+		this.elTime.style.display = x > 0 ? "block" : "none";
+		this.elTime.setAttribute( "x", x + "em" );
 	},
 	_hlStart: function() {
-		var w = this._hlA - this.offset;
+		var w = this._hlA - this._offset;
 
 		if ( w >= 0 ) {
 			this.elHLstart.setAttribute( "width", w + "em" );
 		}
 	},
 	_hlEnd: function() {
-		var x = this._hlB - this.offset;
-
-		if ( x >= 0 ) {
-			this.elHLend.setAttribute( "x", x + "em" );
-		}
+		this.elHLend.setAttribute( "x",
+			this._hlB - this._offset + "em" );
 	}
 };
