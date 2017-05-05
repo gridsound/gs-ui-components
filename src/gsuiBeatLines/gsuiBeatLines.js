@@ -6,13 +6,20 @@ function gsuiBeatLines( el ) {
 	el.setAttribute( "preserveAspectRatio", "none" );
 	el.classList.add( "gsuiBeatLines" );
 	this.elTime = this._newRect();
+	this.elHLwhen = this._newRect();
+	this.elHLdur = this._newRect();
 	this.elTime.setAttribute( "class", "gsui-currentTime" );
+	this.elHLwhen.setAttribute( "class", "gsui-hlWhen" );
+	this.elHLdur.setAttribute( "class", "gsui-hlDuration" );
+	this.elHLwhen.setAttribute( "x", 0 );
+	this.elHLdur.setAttribute( "width", "10000%" );
 	this.offset = 0;
 	this.beatsPerMeasure =
 	this.stepsPerBeat = 4;
 	this.steps = [];
 	this.setCurrentTime( 0 );
 	this.setResolution( 256 );
+	this.highlight( 0, 0 );
 }
 
 gsuiBeatLines.prototype = {
@@ -23,6 +30,13 @@ gsuiBeatLines.prototype = {
 	setCurrentTime: function( beat ) {
 		this.currentTime = beat;
 		this._timeUpdate();
+	},
+	highlight: function( when, dur ) {
+		this.highlightWhen = when;
+		this.highlightDuration = dur;
+		this.elHLwhen.style.display =
+		this.elHLdur.style.display = dur ? "block" : "none";
+		this._hlUpdate();
 	},
 	draw: function() {
 		var rectClass,
@@ -59,6 +73,7 @@ gsuiBeatLines.prototype = {
 			elSteps[ stepId ].style.display = "none";
 		}
 		this._timeUpdate();
+		this._hlUpdate();
 	},
 
 	// private:
@@ -74,5 +89,16 @@ gsuiBeatLines.prototype = {
 	_timeUpdate: function() {
 		this.elTime.style.display = this.currentTime > this.offset ? "block" : "none";
 		this.elTime.setAttribute( "x", this.currentTime - this.offset + "em" );
+	},
+	_hlUpdate: function() {
+		var x, dur = this.highlightDuration;
+
+		if ( dur ) {
+			x = this.highlightWhen - this.offset;
+			if ( x >= 0 ) {
+				this.elHLwhen.setAttribute( "width", x + "em" );
+			}
+			this.elHLdur.setAttribute( "x", x + dur + "em" );
+		}
 	}
 };
