@@ -14,7 +14,7 @@
 	stroke-opacity: .1;
 	stroke-width: 5px;
 }
-.gsuiBeatLines .gsui-hlWhen,
-.gsuiBeatLines .gsui-hlDuration {
+.gsuiBeatLines .gsui-hlStart,
+.gsuiBeatLines .gsui-hlEnd {
 	opacity: .25;
 }

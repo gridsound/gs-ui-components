@@ -6,20 +6,20 @@ function gsuiBeatLines( el ) {
 	el.setAttribute( "preserveAspectRatio", "none" );
 	el.classList.add( "gsuiBeatLines" );
 	this.elTime = this._newRect();
-	this.elHLwhen = this._newRect();
-	this.elHLdur = this._newRect();
+	this.elHLstart = this._newRect();
+	this.elHLend = this._newRect();
 	this.elTime.setAttribute( "class", "gsui-currentTime" );
-	this.elHLwhen.setAttribute( "class", "gsui-hlWhen" );
-	this.elHLdur.setAttribute( "class", "gsui-hlDuration" );
-	this.elHLwhen.setAttribute( "x", 0 );
-	this.elHLdur.setAttribute( "width", "10000%" );
+	this.elHLstart.setAttribute( "class", "gsui-hlStart" );
+	this.elHLend.setAttribute( "class", "gsui-hlEnd" );
+	this.elHLstart.setAttribute( "x", 0 );
+	this.elHLend.setAttribute( "width", "10000%" );
 	this.offset = 0;
 	this.beatsPerMeasure =
 	this.stepsPerBeat = 4;
 	this.steps = [];
 	this.setCurrentTime( 0 );
 	this.setResolution( 256 );
-	this.highlight( 0, 0 );
+	this.highlight( false );
 }
 
 gsuiBeatLines.prototype = {
@@ -31,12 +31,18 @@ gsuiBeatLines.prototype = {
 		this.currentTime = beat;
 		this._timeUpdate();
 	},
-	highlight: function( when, dur ) {
-		this.highlightWhen = when;
-		this.highlightDuration = dur;
-		this.elHLwhen.style.display =
-		this.elHLdur.style.display = dur ? "block" : "none";
-		this._hlUpdate();
+	highlight: function( b ) {
+		this._hl = !!b;
+		this.elHLstart.style.display =
+		this.elHLend.style.display = b ? "block" : "none";
+	},
+	highlightStart: function( beat ) {
+		this._hlA = +beat;
+		this._hlStart();
+	},
+	highlightEnd: function( beat ) {
+		this._hlB = +beat;
+		this._hlEnd();
 	},
 	draw: function() {
 		var rectClass,
@@ -73,7 +79,8 @@ gsuiBeatLines.prototype = {
 			elSteps[ stepId ].style.display = "none";
 		}
 		this._timeUpdate();
-		this._hlUpdate();
+		this._hlStart();
+		this._hlEnd();
 	},
 
 	// private:
@@ -90,15 +97,18 @@ gsuiBeatLines.prototype = {
 		this.elTime.style.display = this.currentTime > this.offset ? "block" : "none";
 		this.elTime.setAttribute( "x", this.currentTime - this.offset + "em" );
 	},
-	_hlUpdate: function() {
-		var x, dur = this.highlightDuration;
+	_hlStart: function() {
+		var w = this._hlA - this.offset;
 
-		if ( dur ) {
-			x = this.highlightWhen - this.offset;
-			if ( x >= 0 ) {
-				this.elHLwhen.setAttribute( "width", x + "em" );
-			}
-			this.elHLdur.setAttribute( "x", x + dur + "em" );
+		if ( w >= 0 ) {
+			this.elHLstart.setAttribute( "width", w + "em" );
+		}
+	},
+	_hlEnd: function() {
+		var x = this._hlB - this.offset;
+
+		if ( x >= 0 ) {
+			this.elHLend.setAttribute( "x", x + "em" );
 		}
 	}
 };
