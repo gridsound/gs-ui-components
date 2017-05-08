@@ -13,6 +13,7 @@ function gsuiBeatLines( el ) {
 	this.elHLend.setAttribute( "class", "gsui-hlEnd" );
 	this.elHLstart.setAttribute( "x", 0 );
 	this.elHLend.setAttribute( "width", "10000%" );
+	this._zoom = ( 1 ).toFixed( 6 );
 	this._offset = 0;
 	this._beatsPerMeasure =
 	this._stepsPerBeat = 4;
@@ -30,6 +31,18 @@ gsuiBeatLines.prototype = {
 	currentTime: function( beat ) {
 		this._currentTime = beat;
 		this._timeUpdate();
+	},
+	zoom: function( zm, origin ) {
+		zm = Math.max( .01, zm ).toFixed( 6 );
+		if ( zm !== this._zoom ) {
+			var fontSize = getComputedStyle( this.rootElement ).fontSize,
+				nbBeats = this.width / parseFloat( fontSize ),
+				offset = ( nbBeats - nbBeats / ( zm / this._zoom ) ) * origin;
+
+			this._zoom = zm;
+			this.rootElement.style.fontSize = zm + "em";
+			this.offset( this._offset + offset );
+		}
 	},
 	offset: function( beat ) {
 		this._offset = +beat || 0;
@@ -77,11 +90,9 @@ gsuiBeatLines.prototype = {
 			offset = this._offset * stepsBeat,
 			stepEm = 1 / stepsBeat,
 			stepId = 0,
-			step = ~~offset,
-			em = -( offset % 1 ) / stepsBeat;
+			step = ~~offset + 1,
+			em = -( offset % 1 ) / stepsBeat + stepEm;
 
-		++step;
-		em += stepEm;
 		while ( elSteps.length < stepsDuration ) {
 			elSteps.push( this._newRect() );
 		}
