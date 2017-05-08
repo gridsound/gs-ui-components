@@ -45,7 +45,7 @@ gsuiBeatLines.prototype = {
 		}
 	},
 	offset: function( beat ) {
-		this._offset = +beat || 0;
+		this._offset = Math.max( 0, +beat || 0 );
 		this._render();
 	},
 	beatsPerMeasure: function( n ) {
