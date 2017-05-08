@@ -132,11 +132,9 @@ gsuiBeatLines.prototype = {
 		this.elTime.setAttribute( "x", x + "em" );
 	},
 	_hlStart: function() {
-		var w = this._hlA - this._offset;
+		var w = Math.max( 0, this._hlA - this._offset );
 
-		if ( w >= 0 ) {
-			this.elHLstart.setAttribute( "width", w + "em" );
-		}
+		this.elHLstart.setAttribute( "width", w + "em" );
 	},
 	_hlEnd: function() {
 		this.elHLend.setAttribute( "x",
