@@ -1,0 +1,79 @@
+.gsuiTimeLine {
+	--cursor-color: #fdfd70;
+	--loop-color: #656586;
+
+	position: relative;
+	overflow: hidden;
+	font: 14px consolas;
+	color: #fff;
+	background: #222;
+}
+
+.gsuiTimeLine .gsui-loop {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	height: 22%;
+	background: var( --loop-color );
+}
+.gsuiTimeLine .gsui-loopExt {
+	position: absolute;
+	width: 10px;
+	height: 200%;
+	border: 0 solid #ddf;
+	cursor: ew-resize;
+}
+.gsuiTimeLine .gsui-loopExt:hover {
+	border-color: #fff;
+}
+.gsuiTimeLine .gsui-loopA {
+	right: 100%;
+	margin-right: -2px;
+	border-right-width: 2px;
+}
+.gsuiTimeLine .gsui-loopB {
+	left: 100%;
+	margin-left: -2px;
+	border-left-width: 2px;
+}
+
+.gsuiTimeLine .gsui-currentTime {
+	position: absolute;
+	margin-left: -10px;
+	bottom: 1px;
+	color: var( --cursor-color );
+}
+.gsuiTimeLine .gsui-currentTime polygon {
+	fill: currentColor;
+	stroke: currentColor;
+	stroke-width: 4;
+	stroke-linejoin: round;
+}
+
+.gsuiTimeLine .gsui-measure,
+.gsuiTimeLine .gsui-beat,
+.gsuiTimeLine .gsui-step {
+	position: absolute;
+	display: flex;
+	top: 0;
+	bottom: 0;
+	width: 4em;
+	margin-left: -2em;
+	align-items: center;
+	justify-content: center;
+}
+.gsuiTimeLine .gsui-measure {
+	font-weight: bold;
+}
+.gsuiTimeLine .gsui-step {
+	opacity: .2;
+}
+.gsuiTimeLine .gsui-beat,
+.gsuiTimeLine.gsui-measure .gsui-measure {
+	opacity: .5;
+}
+.gsuiTimeLine.gsui-beat .gsui-step,
+.gsuiTimeLine.gsui-measure .gsui-beat,
+.gsuiTimeLine.gsui-measure .gsui-step {
+	opacity: 0;
+}
