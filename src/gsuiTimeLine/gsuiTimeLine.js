@@ -57,10 +57,12 @@ gsuiTimeLine.prototype = {
 	_clone: function() {
 		var div = document.createElement( "div" );
 
-		gsuiTimeLine.template = gsuiTimeLine.template ||
-			document.getElementById( "gsuiTimeLine" );
+		gsuiTimeLine.template = gsuiTimeLine.template || this._init();
 		div.appendChild( document.importNode( gsuiTimeLine.template.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
+	},
+	_init: function() {
+		return document.getElementById( "gsuiTimeLine" );
 	},
 	_updateTime: function() {
 		this._elTime.style.left =
