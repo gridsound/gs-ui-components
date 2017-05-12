@@ -48,8 +48,8 @@ gsuiTimeLine.prototype = {
 			this._loop = !!a;
 			this._elLoop.style.display = a ? "block" : "none";
 		} else {
-			this._loopA = +a;
-			this._loopB = +b;
+			this._loopA = Math.min( a, b );
+			this._loopB = Math.max( a, b );
 		}
 		if ( this._loop ) {
 			this._updateLoopA();
@@ -76,8 +76,7 @@ gsuiTimeLine.prototype = {
 	},
 	_mousemove: function( e ) {
 		if ( this._lock ) {
-			var tmp,
-				la = this._lockA,
+			var la = this._lockA,
 				lb = this._lockB,
 				a = this._loopA,
 				b = this._loopB,
@@ -85,17 +84,9 @@ gsuiTimeLine.prototype = {
 
 			if ( la || lb ) {
 				la ? a += bt : b += bt;
-				tmp = a - b;
-				if ( tmp > 0 ) {
-					if ( la ) {
-						a = b;
-						b += tmp;
-					} else {
-						a -= tmp;
-						b = a;
-					}
-					this._lockA = !la;
-					this._lockB = !lb;
+				if ( a > b ) {
+					this._lockA = lb;
+					this._lockB = la;
 				}
 			}
 			this.loop( a, b );
