@@ -13,6 +13,10 @@ function gsuiTimeLine() {
 	this._steps = [];
 	this.currentTime( 0 );
 	this.loop( false );
+
+	root.querySelector( ".gsui-timeClick" ).onmousedown = this._mousedownTime.bind( this );
+	root.querySelector( ".gsui-loopA" ).onmousedown = this._mousedownLoop.bind( this, "a" );
+	root.querySelector( ".gsui-loopB" ).onmousedown = this._mousedownLoop.bind( this, "b" );
 }
 
 gsuiTimeLine.prototype = {
@@ -62,7 +66,42 @@ gsuiTimeLine.prototype = {
 		return div.removeChild( div.querySelector( "*" ) );
 	},
 	_init: function() {
+		document.body.addEventListener( "mousemove", function( e ) {
+			gsuiTimeLine._focused && gsuiTimeLine._focused._mousemove( e );
+		} );
+		document.body.addEventListener( "mouseup", function( e ) {
+			gsuiTimeLine._focused && gsuiTimeLine._focused._mouseup( e );
+		} );
 		return document.getElementById( "gsuiTimeLine" );
+	},
+	_mousemove: function( e ) {
+		if ( this._lock ) {
+			var bt = e.movementX / this._pxPerBeat;
+
+			if ( this._lockA ) {
+				this.loopA( this._loopA + bt );
+			} else if ( this._lockB ) {
+				this.loopB( this._loopB + bt );
+			}
+		}
+	},
+	_mouseup: function( e ) {
+		this._lock = this._lockA = this._lockB = false;
+		delete gsuiTimeLine._focused;
+	},
+	_mousedownTime: function( e ) {
+		var ct = this._offset + e.layerX / this._pxPerBeat;
+
+		this.currentTime( ct );
+		if ( this.currentTimeOnchange ) {
+			this.currentTimeOnchange( ct );
+		}
+	},
+	_mousedownLoop: function( side, e ) {
+		this._lock = true;
+		this._lockA = side === "a";
+		this._lockB = side === "b";
+		gsuiTimeLine._focused = this;
 	},
 	_updateTime: function() {
 		this._elTime.style.left =

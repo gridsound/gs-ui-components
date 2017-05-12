@@ -7,6 +7,10 @@
 	font: 14px consolas;
 	color: #fff;
 	background: #222;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .gsuiTimeLine .gsui-loop {
@@ -37,6 +41,20 @@
 	border-left-width: 2px;
 }
 
+.gsuiTimeLine .gsui-timeClick {
+	position: absolute;
+	z-index: 1;
+	bottom: 0;
+	width: 100%;
+	height: 50%;
+	cursor: pointer;
+	background: #fff;
+	opacity: 0;
+	transition: opacity .2s;
+}
+.gsuiTimeLine .gsui-timeClick:hover {
+	opacity: .05;
+}
 .gsuiTimeLine .gsui-currentTime {
 	position: absolute;
 	margin-left: -10px;
