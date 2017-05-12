@@ -43,21 +43,18 @@ gsuiTimeLine.prototype = {
 		this._stepsPerBeat = Math.min( Math.max( 1, ~~b ), 16 );
 		this._render();
 	},
-	loop: function( b ) {
-		this._loop = !!b;
-		this._elLoop.style.display = b ? "block" : "none";
+	loop: function( a, b ) {
+		if ( arguments.length === 1 ) {
+			this._loop = !!a;
+			this._elLoop.style.display = a ? "block" : "none";
+		} else {
+			this._loopA = +a;
+			this._loopB = +b;
+		}
 		if ( this._loop ) {
 			this._updateLoopA();
 			this._updateLoopB();
 		}
-	},
-	loopA: function( beat ) {
-		this._loopA = +beat;
-		this._loop && this._updateLoopA();
-	},
-	loopB: function( beat ) {
-		this._loopB = +beat;
-		this._loop && this._updateLoopB();
 	},
 
 	// private:
@@ -79,13 +76,29 @@ gsuiTimeLine.prototype = {
 	},
 	_mousemove: function( e ) {
 		if ( this._lock ) {
-			var bt = e.movementX / this._pxPerBeat;
+			var tmp,
+				la = this._lockA,
+				lb = this._lockB,
+				a = this._loopA,
+				b = this._loopB,
+				bt = e.movementX / this._pxPerBeat;
 
-			if ( this._lockA ) {
-				this.loopA( this._loopA + bt );
-			} else if ( this._lockB ) {
-				this.loopB( this._loopB + bt );
+			if ( la || lb ) {
+				la ? a += bt : b += bt;
+				tmp = a - b;
+				if ( tmp > 0 ) {
+					if ( la ) {
+						a = b;
+						b += tmp;
+					} else {
+						a -= tmp;
+						b = a;
+					}
+					this._lockA = !la;
+					this._lockB = !lb;
+				}
 			}
+			this.loop( a, b );
 		}
 	},
 	_mouseup: function( e ) {
