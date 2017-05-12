@@ -6,6 +6,8 @@ function gsuiTimeLine() {
 	this.rootElement = root;
 	this._elTime = root.querySelector( ".gsui-currentTime" );
 	this._elLoop = root.querySelector( ".gsui-loop" );
+	this._elLoopBrdACL = root.querySelector( ".gsui-loopBrdA" ).classList;
+	this._elLoopBrdBCL = root.querySelector( ".gsui-loopBrdB" ).classList;
 	this._offset = 0;
 	this._pxPerBeat = 32;
 	this._beatsPerMeasure =
@@ -93,7 +95,11 @@ gsuiTimeLine.prototype = {
 		}
 	},
 	_mouseup: function( e ) {
-		this._lock = this._lockA = this._lockB = false;
+		this._lock =
+		this._lockA =
+		this._lockB = false;
+		this._elLoopBrdACL.remove( "gsui-hover" );
+		this._elLoopBrdBCL.remove( "gsui-hover" );
 		delete gsuiTimeLine._focused;
 	},
 	_mousedownTime: function( e ) {
@@ -103,6 +109,8 @@ gsuiTimeLine.prototype = {
 		this._lock = true;
 		this._lockA = side === "a";
 		this._lockB = side === "b";
+		this._elLoopBrdACL.toggle( "gsui-hover", this._lockA );
+		this._elLoopBrdBCL.toggle( "gsui-hover", this._lockB );
 		gsuiTimeLine._focused = this;
 	},
 	_updateTime: function( isUserAction ) {

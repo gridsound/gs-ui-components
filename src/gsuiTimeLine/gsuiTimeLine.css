@@ -2,12 +2,14 @@
 	--cursor-color: #fdfd70;
 	--cursor-dur: .1s;
 	--loop-color: #656586;
+	--loop-brd-color: #fff;
 
 	position: relative;
 	overflow: hidden;
 	font: 14px consolas;
 	color: #fff;
 	background: #222;
+	cursor: default;
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
@@ -23,23 +25,32 @@
 }
 .gsuiTimeLine .gsui-loopExt {
 	position: absolute;
-	width: 10px;
-	height: 200%;
-	border: 0 solid #ddf;
-	cursor: ew-resize;
+	z-index: 2;
+	width: 25%;
+	min-width: 5px;
+	max-width: 10px;
+	height: 250%;
 }
-.gsuiTimeLine .gsui-loopExt:hover {
-	border-color: #fff;
+.gsuiTimeLine .gsui-loopA { left: -5px; }
+.gsuiTimeLine .gsui-loopB { right: -5px; }
+
+.gsuiTimeLine .gsui-loopBrd {
+	position: absolute;
+	z-index: 0;
+	width: 2px;
+	height: 100%;
+	background: var( --loop-color );
+	transition: .2s;
+	transition-property: height, background, z-index;
 }
-.gsuiTimeLine .gsui-loopA {
-	right: 100%;
-	margin-right: -1px;
-	border-right-width: 2px;
-}
-.gsuiTimeLine .gsui-loopB {
-	left: 100%;
-	margin-left: -1px;
-	border-left-width: 2px;
+.gsuiTimeLine .gsui-loopBrdA { left: -1px; }
+.gsuiTimeLine .gsui-loopBrdB { right: -1px; }
+.gsuiTimeLine .gsui-loopA:hover ~ .gsui-loopBrdA,
+.gsuiTimeLine .gsui-loopB:hover ~ .gsui-loopBrdB,
+.gsuiTimeLine .gsui-loopBrd.gsui-hover {
+	z-index: 1;
+	height: 150%;
+	background: var( --loop-brd-color );
 }
 
 .gsuiTimeLine .gsui-timeClick {
