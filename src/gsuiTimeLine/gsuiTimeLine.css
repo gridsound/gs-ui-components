@@ -1,5 +1,6 @@
 .gsuiTimeLine {
 	--cursor-color: #fdfd70;
+	--cursor-dur: .1s;
 	--loop-color: #656586;
 
 	position: relative;
@@ -60,6 +61,10 @@
 	margin-left: -10px;
 	bottom: 1px;
 	color: var( --cursor-color );
+	transition: left;
+}
+.gsuiTimeLine .gsui-trans {
+	transition-duration: var( --cursor-dur );
 }
 .gsuiTimeLine .gsui-currentTime polygon {
 	fill: currentColor;

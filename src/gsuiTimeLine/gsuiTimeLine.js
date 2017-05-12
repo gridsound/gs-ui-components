@@ -26,9 +26,12 @@ gsuiTimeLine.prototype = {
 		this.width = rc.width;
 		this.height = rc.height;
 	},
-	currentTime: function( beat ) {
+	currentTime: function( beat, isUserAction ) {
 		this._currentTime = beat;
-		this._updateTime();
+		this._updateTime( isUserAction );
+		if ( isUserAction && this.currentTimeOnchange ) {
+			this.currentTimeOnchange( ct );
+		}
 	},
 	offset: function( beat, pxBeat ) {
 		this._offset = Math.max( 0, +beat || 0 );
@@ -90,12 +93,7 @@ gsuiTimeLine.prototype = {
 		delete gsuiTimeLine._focused;
 	},
 	_mousedownTime: function( e ) {
-		var ct = this._offset + e.layerX / this._pxPerBeat;
-
-		this.currentTime( ct );
-		if ( this.currentTimeOnchange ) {
-			this.currentTimeOnchange( ct );
-		}
+		this.currentTime( this._offset + e.layerX / this._pxPerBeat, true );
 	},
 	_mousedownLoop: function( side, e ) {
 		this._lock = true;
@@ -103,7 +101,8 @@ gsuiTimeLine.prototype = {
 		this._lockB = side === "b";
 		gsuiTimeLine._focused = this;
 	},
-	_updateTime: function() {
+	_updateTime: function( isUserAction ) {
+		this._elTime.classList.toggle( "gsui-trans", !!isUserAction );
 		this._elTime.style.left =
 			( this._currentTime - this._offset ) * this._pxPerBeat + "px";
 	},
