@@ -24,7 +24,7 @@ gsuiTimeLine.prototype = {
 	},
 	currentTime: function( beat ) {
 		this._currentTime = beat;
-		this._upTime();
+		this._updateTime();
 	},
 	offset: function( beat, pxBeat ) {
 		this._offset = Math.max( 0, +beat || 0 );
@@ -40,17 +40,17 @@ gsuiTimeLine.prototype = {
 		this._loop = !!b;
 		this._elLoop.style.display = b ? "block" : "none";
 		if ( this._loop ) {
-			this._upLoopA();
-			this._upLoopB();
+			this._updateLoopA();
+			this._updateLoopB();
 		}
 	},
 	loopA: function( beat ) {
 		this._loopA = +beat;
-		this._loop && this._upLoopA();
+		this._loop && this._updateLoopA();
 	},
 	loopB: function( beat ) {
 		this._loopB = +beat;
-		this._loop && this._upLoopB();
+		this._loop && this._updateLoopB();
 	},
 
 	// private:
@@ -62,15 +62,15 @@ gsuiTimeLine.prototype = {
 		div.appendChild( document.importNode( gsuiTimeLine.template.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
 	},
-	_upTime: function() {
+	_updateTime: function() {
 		this._elTime.style.left =
 			( this._currentTime - this._offset ) * this._pxPerBeat + "px";
 	},
-	_upLoopA: function() {
+	_updateLoopA: function() {
 		this._elLoop.style.left =
 			( this._loopA - this._offset ) * this._pxPerBeat + "px";
 	},
-	_upLoopB: function() {
+	_updateLoopB: function() {
 		this._elLoop.style.right =
 			this.width - ( this._loopB - this._offset ) * this._pxPerBeat + "px";
 	},
@@ -118,10 +118,10 @@ gsuiTimeLine.prototype = {
 			}
 			elStep.remove();
 		}
-		this._upTime();
+		this._updateTime();
 		if ( this._loop ) {
-			this._upLoopA();
-			this._upLoopB();
+			this._updateLoopA();
+			this._updateLoopB();
 		}
 	}
 };
