@@ -53,33 +53,38 @@
 	background: var( --loop-brd-color );
 }
 
-.gsuiTimeLine .gsui-timeClick {
+.gsuiTimeLine .gsui-currentTime {
 	position: absolute;
 	z-index: 1;
 	bottom: 0;
 	width: 100%;
 	height: 50%;
-	cursor: pointer;
-	background: #fff;
+}
+.gsuiTimeLine .gsui-cursorLine {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 1px;
+	color: var( --cursor-color );
 	opacity: 0;
-	transition: opacity .2s;
+	transition: .2s;
+	transition-property: opacity, background;
 }
-.gsuiTimeLine .gsui-timeClick:hover {
-	opacity: .05;
+.gsuiTimeLine .gsui-currentTime:hover .gsui-cursorLine {
+	opacity: .8;
 }
-.gsuiTimeLine .gsui-currentTime {
+.gsuiTimeLine .gsui-cursor {
 	position: absolute;
 	margin-left: -10px;
 	bottom: 1px;
-	color: var( --cursor-color );
 	transition: left;
 }
 .gsuiTimeLine .gsui-trans {
 	transition-duration: var( --cursor-dur );
 }
-.gsuiTimeLine .gsui-currentTime polygon {
-	fill: currentColor;
-	stroke: currentColor;
+.gsuiTimeLine .gsui-cursor polygon {
+	fill: var( --cursor-color );
+	stroke: var( --cursor-color );
 	stroke-width: 4;
 	stroke-linejoin: round;
 }

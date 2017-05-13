@@ -1,10 +1,12 @@
 "use strict";
 
 function gsuiTimeLine() {
-	var root = this._clone();
+	var root = this._clone(),
+		elCurrentTime = root.querySelector( ".gsui-currentTime" );
 
 	this.rootElement = root;
-	this._elTime = root.querySelector( ".gsui-currentTime" );
+	this._elTime = root.querySelector( ".gsui-cursor" );
+	this._elTimeLine = root.querySelector( ".gsui-cursorLine" );
 	this._elLoop = root.querySelector( ".gsui-loop" );
 	this._elLoopBrdACL = root.querySelector( ".gsui-loopBrdA" ).classList;
 	this._elLoopBrdBCL = root.querySelector( ".gsui-loopBrdB" ).classList;
@@ -16,7 +18,8 @@ function gsuiTimeLine() {
 	this.currentTime( 0 );
 	this.loop( false );
 
-	root.querySelector( ".gsui-timeClick" ).onmousedown = this._mousedownTime.bind( this );
+	elCurrentTime.onmousedown = this._mousedownTime.bind( this );
+	elCurrentTime.onmousemove = this._mousemoveTime.bind( this );
 	root.querySelector( ".gsui-loopA" ).onmousedown = this._mousedownLoop.bind( this, "a" );
 	root.querySelector( ".gsui-loopB" ).onmousedown = this._mousedownLoop.bind( this, "b" );
 }
@@ -89,6 +92,8 @@ gsuiTimeLine.prototype = {
 				if ( a > b ) {
 					this._lockA = lb;
 					this._lockB = la;
+					this._elLoopBrdACL.toggle( "gsui-hover", lb );
+					this._elLoopBrdBCL.toggle( "gsui-hover", la );
 				}
 			}
 			this.loop( a, b );
@@ -104,6 +109,15 @@ gsuiTimeLine.prototype = {
 	},
 	_mousedownTime: function( e ) {
 		this.currentTime( this._offset + e.layerX / this._pxPerBeat, true );
+	},
+	_mousemoveTime: function( e ) {
+		var q = 15,
+			x = e.layerX / this.width * 100;
+
+		this._elTimeLine.style.backgroundImage = `linear-gradient(90deg,
+			transparent ${ x - q }%,
+			currentColor ${ x }%,
+			transparent ${ x + q }%)`;
 	},
 	_mousedownLoop: function( side, e ) {
 		this._lock = true;
