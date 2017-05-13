@@ -2,12 +2,14 @@
 
 function gsuiTimeLine() {
 	var root = this._clone(),
-		elCurrentTime = root.querySelector( ".gsui-currentTime" );
+		elCurrentTime = root.querySelector( ".gsui-currentTime" ),
+		elLoopBg = root.querySelector( ".gsui-loopBg" );
 
 	this.rootElement = root;
 	this._elTime = root.querySelector( ".gsui-cursor" );
 	this._elTimeLine = root.querySelector( ".gsui-cursorLine" );
 	this._elLoop = root.querySelector( ".gsui-loop" );
+	this._elLoopBgCL = elLoopBg.classList;
 	this._elLoopBrdACL = root.querySelector( ".gsui-loopBrdA" ).classList;
 	this._elLoopBrdBCL = root.querySelector( ".gsui-loopBrdB" ).classList;
 	this._offset = 0;
@@ -22,6 +24,7 @@ function gsuiTimeLine() {
 	elCurrentTime.onmousemove = this._mousemoveTime.bind( this );
 	root.querySelector( ".gsui-loopA" ).onmousedown = this._mousedownLoop.bind( this, "a" );
 	root.querySelector( ".gsui-loopB" ).onmousedown = this._mousedownLoop.bind( this, "b" );
+	elLoopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
 }
 
 gsuiTimeLine.prototype = {
@@ -95,6 +98,12 @@ gsuiTimeLine.prototype = {
 					this._elLoopBrdACL.toggle( "gsui-hover", lb );
 					this._elLoopBrdBCL.toggle( "gsui-hover", la );
 				}
+			} else {
+				if ( a + bt < 0 ) {
+					bt = -a;
+				}
+				a += bt;
+				b += bt;
 			}
 			this.loop( a, b );
 		}
@@ -103,6 +112,7 @@ gsuiTimeLine.prototype = {
 		this._lock =
 		this._lockA =
 		this._lockB = false;
+		this._elLoopBgCL.remove( "gsui-hover" );
 		this._elLoopBrdACL.remove( "gsui-hover" );
 		this._elLoopBrdBCL.remove( "gsui-hover" );
 		delete gsuiTimeLine._focused;
@@ -123,6 +133,7 @@ gsuiTimeLine.prototype = {
 		this._lock = true;
 		this._lockA = side === "a";
 		this._lockB = side === "b";
+		this._elLoopBgCL.toggle( "gsui-hover", side === "ab" );
 		this._elLoopBrdACL.toggle( "gsui-hover", this._lockA );
 		this._elLoopBrdBCL.toggle( "gsui-hover", this._lockB );
 		gsuiTimeLine._focused = this;
