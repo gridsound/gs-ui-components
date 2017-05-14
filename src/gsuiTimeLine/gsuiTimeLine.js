@@ -22,9 +22,10 @@ function gsuiTimeLine() {
 
 	elCurrentTime.onmousedown = this._mousedownTime.bind( this );
 	elCurrentTime.onmousemove = this._mousemoveTime.bind( this );
+	elLoopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
 	root.querySelector( ".gsui-loopA" ).onmousedown = this._mousedownLoop.bind( this, "a" );
 	root.querySelector( ".gsui-loopB" ).onmousedown = this._mousedownLoop.bind( this, "b" );
-	elLoopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
+	root.querySelector( ".gsui-loopLine" ).onmousedown = this._mousedownLoopLine.bind( this );
 }
 
 gsuiTimeLine.prototype = {
@@ -59,10 +60,7 @@ gsuiTimeLine.prototype = {
 			this._loopA = Math.min( a, b );
 			this._loopB = Math.max( a, b );
 		}
-		if ( this._loop ) {
-			this._updateLoopA();
-			this._updateLoopB();
-		}
+		this._updateLoop();
 	},
 
 	// private:
@@ -121,15 +119,13 @@ gsuiTimeLine.prototype = {
 		this.currentTime( this._offset + e.layerX / this._pxPerBeat, true );
 	},
 	_mousemoveTime: function( e ) {
-		var q = 15,
-			x = e.layerX / this.width * 100;
+		var x = e.layerX / this.width * 100;
 
-		this._elTimeLine.style.backgroundImage = `linear-gradient(90deg,
-			transparent ${ x - q }%,
-			currentColor ${ x }%,
-			transparent ${ x + q }%)`;
+		this._elTimeLine.style.backgroundImage =
+			"linear-gradient(90deg,transparent " + ( x - 15 ) +
+			"%,currentColor " + x + "%,transparent " + ( x + 15 ) + "%)";
 	},
-	_mousedownLoop: function( side, e ) {
+	_mousedownLoop: function( side ) {
 		this._lock = true;
 		this._lockA = side === "a";
 		this._lockB = side === "b";
@@ -138,18 +134,32 @@ gsuiTimeLine.prototype = {
 		this._elLoopBrdBCL.toggle( "gsui-hover", this._lockB );
 		gsuiTimeLine._focused = this;
 	},
+	_mousedownLoopLine: function( e ) {
+		var now = Date.now(),
+			bt = this._offset + e.layerX / this._pxPerBeat;
+
+		if ( !this._loopClick || now - this._loopClick > 500 ) {
+			this._loopClick = now;
+		} else {
+			this.loop( bt, bt );
+			this.loop( true );
+			this._mousedownLoop( "b" );
+		}
+	},
 	_updateTime: function( isUserAction ) {
 		this._elTime.classList.toggle( "gsui-trans", !!isUserAction );
 		this._elTime.style.left =
 			( this._currentTime - this._offset ) * this._pxPerBeat + "px";
 	},
-	_updateLoopA: function() {
-		this._elLoop.style.left =
-			( this._loopA - this._offset ) * this._pxPerBeat + "px";
-	},
-	_updateLoopB: function() {
-		this._elLoop.style.right =
-			this.width - ( this._loopB - this._offset ) * this._pxPerBeat + "px";
+	_updateLoop: function() {
+		if ( this._loop ) {
+			var s = this._elLoop.style,
+				px = this._pxPerBeat,
+				off = this._offset;
+
+			s.left = ( this._loopA - off ) * px + "px";
+			s.right = this.width - ( this._loopB - off ) * px + "px";
+		}
 	},
 	_render: function() {
 		var stepRel,
@@ -196,9 +206,6 @@ gsuiTimeLine.prototype = {
 			elStep.remove();
 		}
 		this._updateTime();
-		if ( this._loop ) {
-			this._updateLoopA();
-			this._updateLoopB();
-		}
+		this._updateLoop();
 	}
 };

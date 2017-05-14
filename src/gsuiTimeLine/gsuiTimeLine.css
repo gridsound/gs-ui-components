@@ -16,6 +16,12 @@
 	-ms-user-select: none;
 }
 
+.gsuiTimeLine .gsui-loopLine {
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+}
 .gsuiTimeLine .gsui-loop {
 	position: absolute;
 	z-index: 1;
