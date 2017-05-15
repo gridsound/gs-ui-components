@@ -52,13 +52,24 @@ gsuiTimeLine.prototype = {
 		this._stepsPerBeat = Math.min( Math.max( 1, ~~b ), 16 );
 		this._render();
 	},
-	loop: function( a, b ) {
-		if ( arguments.length === 1 ) {
-			this._loop = !!a;
-			this._elLoop.style.display = a ? "block" : "none";
+	loop: function( a, b, isUserAction ) {
+		var wasLoop = this._loop;
+
+		if ( a === false ) {
+			this._loop = a;
 		} else {
 			this._loopA = Math.min( a, b );
 			this._loopB = Math.max( a, b );
+			this._loop = this._loopB - this._loopA > 1 / this._stepsPerBeat / 8;
+		}
+		if ( isUserAction ) {
+			if ( this.oninputLoop && ( wasLoop || this._loop ) ) {
+				this.oninputLoop( this._loop, this._loopA, this._loopB );
+			}
+		} else {
+			this._loopWas = this._loop;
+			this._loopAWas = this._loopA;
+			this._loopBWas = this._loopB;
 		}
 		this._updateLoop();
 	},
@@ -103,7 +114,7 @@ gsuiTimeLine.prototype = {
 				a += bt;
 				b += bt;
 			}
-			this.loop( a, b );
+			this.loop( a, b, true );
 		}
 	},
 	_mouseup: function( e ) {
@@ -114,6 +125,30 @@ gsuiTimeLine.prototype = {
 		this._elLoopBrdACL.remove( "gsui-hover" );
 		this._elLoopBrdBCL.remove( "gsui-hover" );
 		delete gsuiTimeLine._focused;
+		if ( this.onchangeLoop ) {
+			var serial,
+				l = this._loop,
+				la = this._loopA,
+				lb = this._loopB;
+
+			if ( !l ) {
+				if ( this._loopWas ) {
+					this._loopWas = l;
+					this.onchangeLoop( l, this._loopAWas, this._loopBWas );
+				}
+			} else {
+				if ( this._loopWas ) {
+					serial = la.toFixed( 4 ) + " " + lb.toFixed( 4 );
+				}
+				if ( !this._loopWas || this._loopSerial !== serial ) {
+					this._loopSerial = serial;
+					this._loopWas = l;
+					this._loopAWas = la;
+					this._loopBWas = lb;
+					this.onchangeLoop( l, la, lb );
+				}
+			}
+		}
 	},
 	_mousedownTime: function( e ) {
 		this.currentTime( this._offset + e.layerX / this._pxPerBeat, true );
@@ -141,8 +176,8 @@ gsuiTimeLine.prototype = {
 		if ( !this._loopClick || now - this._loopClick > 500 ) {
 			this._loopClick = now;
 		} else {
-			this.loop( bt, bt );
-			this.loop( true );
+			this.loop( false, 0, true );
+			this.loop( bt, bt, true );
 			this._mousedownLoop( "b" );
 		}
 	},
@@ -152,14 +187,16 @@ gsuiTimeLine.prototype = {
 			( this._currentTime - this._offset ) * this._pxPerBeat + "px";
 	},
 	_updateLoop: function() {
+		var s = this._elLoop.style;
+
 		if ( this._loop ) {
-			var s = this._elLoop.style,
-				px = this._pxPerBeat,
+			var px = this._pxPerBeat,
 				off = this._offset;
 
 			s.left = ( this._loopA - off ) * px + "px";
 			s.right = this.width - ( this._loopB - off ) * px + "px";
 		}
+		s.display = this._loop ? "block" : "none";
 	},
 	_render: function() {
 		var stepRel,
