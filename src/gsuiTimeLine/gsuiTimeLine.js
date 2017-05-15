@@ -38,8 +38,8 @@ gsuiTimeLine.prototype = {
 	currentTime: function( beat, isUserAction ) {
 		this._currentTime = beat;
 		this._updateTime( isUserAction );
-		if ( isUserAction && this.currentTimeOnchange ) {
-			this.currentTimeOnchange( ct );
+		if ( isUserAction && this.onchangeCurrentTime ) {
+			this.onchangeCurrentTime( beat );
 		}
 	},
 	offset: function( beat, pxBeat ) {
