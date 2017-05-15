@@ -59,8 +59,8 @@ gsuiTimeLine.prototype = {
 		if ( a === false ) {
 			this._loop = a;
 		} else {
-			this._loopA = Math.min( a, b );
-			this._loopB = Math.max( a, b );
+			this._loopA = Math.max( 0, Math.min( a, b ) );
+			this._loopB = Math.max( 0, a, b );
 		}
 		la = this._round( this._loopA );
 		lb = this._round( this._loopB );
