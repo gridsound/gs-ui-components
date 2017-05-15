@@ -17,8 +17,9 @@ function gsuiTimeLine() {
 	this._beatsPerMeasure =
 	this._stepsPerBeat = 4;
 	this._steps = [];
+	this.stepRound = 1;
 	this.currentTime( 0 );
-	this.loop( false );
+	this.loop( 0, 0 );
 
 	elCurrentTime.onmousedown = this._mousedownTime.bind( this );
 	elCurrentTime.onmousemove = this._mousemoveTime.bind( this );
@@ -53,23 +54,32 @@ gsuiTimeLine.prototype = {
 		this._render();
 	},
 	loop: function( a, b, isUserAction ) {
-		var wasLoop = this._loop;
+		var serial, la, lb, loopWas = this._loop;
 
 		if ( a === false ) {
 			this._loop = a;
 		} else {
 			this._loopA = Math.min( a, b );
 			this._loopB = Math.max( a, b );
-			this._loop = this._loopB - this._loopA > 1 / this._stepsPerBeat / 8;
 		}
+		la = this._round( this._loopA );
+		lb = this._round( this._loopB );
+		this._loop = lb - la > 1 / this._stepsPerBeat / 8;
 		if ( isUserAction ) {
-			if ( this.oninputLoop && ( wasLoop || this._loop ) ) {
-				this.oninputLoop( this._loop, this._loopA, this._loopB );
+			if ( this.oninputLoop ) {
+				if ( loopWas && this._loop ) {
+					serial = this._serialAB( la, lb );
+				}
+				if ( loopWas !== this._loop || this._loopSerialInp !== serial ) {
+					this._loopSerialInp = serial;
+					this.oninputLoop( this._loop, la, lb );
+				}
 			}
 		} else {
 			this._loopWas = this._loop;
-			this._loopAWas = this._loopA;
-			this._loopBWas = this._loopB;
+			this._loopSerial = this._serialAB(
+				this._loopAWas = la,
+				this._loopBWas = lb );
 		}
 		this._updateLoop();
 	},
@@ -90,6 +100,17 @@ gsuiTimeLine.prototype = {
 			gsuiTimeLine._focused && gsuiTimeLine._focused._mouseup( e );
 		} );
 		return document.getElementById( "gsuiTimeLine" );
+	},
+	_round: function( bt ) {
+		if ( this.stepRound ) {
+			var mod = 1 / this._stepsPerBeat * this.stepRound;
+
+			bt = Math.round( bt / mod ) * mod;
+		}
+		return bt;
+	},
+	_serialAB: function( a, b ) {
+		return a.toFixed( 4 ) + " " + b.toFixed( 4 );
 	},
 	_mousemove: function( e ) {
 		if ( this._lock ) {
@@ -118,6 +139,13 @@ gsuiTimeLine.prototype = {
 		}
 	},
 	_mouseup: function( e ) {
+		var serial,
+			l = this._loop,
+			la = this._round( this._loopA ),
+			lb = this._round( this._loopB );
+
+		this._loopA = la;
+		this._loopB = lb;
 		this._lock =
 		this._lockA =
 		this._lockB = false;
@@ -126,32 +154,24 @@ gsuiTimeLine.prototype = {
 		this._elLoopBrdBCL.remove( "gsui-hover" );
 		delete gsuiTimeLine._focused;
 		if ( this.onchangeLoop ) {
-			var serial,
-				l = this._loop,
-				la = this._loopA,
-				lb = this._loopB;
-
 			if ( !l ) {
 				if ( this._loopWas ) {
-					this._loopWas = l;
-					this.onchangeLoop( l, this._loopAWas, this._loopBWas );
+					this.onchangeLoop( this._loopWas = l,
+						this._loopAWas, this._loopBWas );
 				}
 			} else {
-				if ( this._loopWas ) {
-					serial = la.toFixed( 4 ) + " " + lb.toFixed( 4 );
-				}
-				if ( !this._loopWas || this._loopSerial !== serial ) {
+				serial = this._serialAB( la, lb );
+				if ( this._loopWas !== this._loop || this._loopSerial !== serial ) {
 					this._loopSerial = serial;
-					this._loopWas = l;
-					this._loopAWas = la;
-					this._loopBWas = lb;
-					this.onchangeLoop( l, la, lb );
+					this.onchangeLoop( this._loopWas = l,
+						this._loopAWas = la, this._loopBWas = lb );
 				}
 			}
 		}
 	},
 	_mousedownTime: function( e ) {
-		this.currentTime( this._offset + e.layerX / this._pxPerBeat, true );
+		this.currentTime( this._round(
+			this._offset + e.layerX / this._pxPerBeat ), true );
 	},
 	_mousemoveTime: function( e ) {
 		var x = e.layerX / this.width * 100;
@@ -191,10 +211,12 @@ gsuiTimeLine.prototype = {
 
 		if ( this._loop ) {
 			var px = this._pxPerBeat,
-				off = this._offset;
+				off = this._offset,
+				la = this._round( this._loopA ),
+				lb = this._round( this._loopB );
 
-			s.left = ( this._loopA - off ) * px + "px";
-			s.right = this.width - ( this._loopB - off ) * px + "px";
+			s.left = ( la - off ) * px + "px";
+			s.right = this.width - ( lb - off ) * px + "px";
 		}
 		s.display = this._loop ? "block" : "none";
 	},
