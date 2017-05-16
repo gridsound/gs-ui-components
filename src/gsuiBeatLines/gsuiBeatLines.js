@@ -6,72 +6,54 @@ function gsuiBeatLines( el ) {
 	el.setAttribute( "preserveAspectRatio", "none" );
 	el.classList.add( "gsuiBeatLines" );
 	this.elTime = this._newRect();
-	this.elHLstart = this._newRect();
-	this.elHLend = this._newRect();
+	this._elLoopA = this._newRect();
+	this._elLoopB = this._newRect();
 	this.elTime.setAttribute( "class", "gsui-currentTime" );
-	this.elHLstart.setAttribute( "class", "gsui-hlStart" );
-	this.elHLend.setAttribute( "class", "gsui-hlEnd" );
-	this.elHLstart.setAttribute( "x", 0 );
-	this.elHLend.setAttribute( "width", "10000%" );
-	this._zoom = ( 1 ).toFixed( 6 );
+	this._elLoopA.setAttribute( "class", "gsui-hlStart" );
+	this._elLoopB.setAttribute( "class", "gsui-hlEnd" );
+	this._elLoopA.setAttribute( "x", 0 );
+	this._elLoopB.setAttribute( "width", "10000%" );
 	this._offset = 0;
+	this._pxPerBeat = 32;
 	this._beatsPerMeasure =
 	this._stepsPerBeat = 4;
 	this.steps = [];
 	this.currentTime( 0 );
-	this.setResolution( 256 );
-	this.highlight( false );
+	this.loop( false );
 }
 
 gsuiBeatLines.prototype = {
-	setResolution( w ) {
-		this.width = w;
-		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " 1" );
+	resized() {
+		var rt = this.rootElement;
+
+		this.width = rt.getBoundingClientRect().width;
+		rt.setAttribute( "viewBox", "0 0 " + this.width + " 1" );
 	},
 	currentTime( beat ) {
 		this._currentTime = beat;
 		this._timeUpdate();
 	},
-	zoom( zm, origin ) {
-		zm = Math.max( .01, zm ).toFixed( 6 );
-		if ( zm !== this._zoom ) {
-			var fontSize = getComputedStyle( this.rootElement ).fontSize,
-				nbBeats = this.width / parseFloat( fontSize ),
-				offset = ( nbBeats - nbBeats / ( zm / this._zoom ) ) * origin;
-
-			this._zoom = zm;
-			this.rootElement.style.fontSize = zm + "em";
-			this.offset( this._offset + offset );
+	offset( beat, pxBeat ) {
+		this._offset = Math.max( 0, beat );
+		this._pxPerBeat = Math.max( 0, pxBeat );
+		this._render();
+	},
+	timeSignature( a, b ) {
+		this._beatsPerMeasure = Math.max( 1, ~~a );
+		this._stepsPerBeat = Math.min( Math.max( 1, ~~b ), 16 );
+		this._render();
+	},
+	loop( a, b ) {
+		if ( a === false ) {
+			this._loop = a;
+		} else {
+			this._loop = true;
+			this._loopA = a;
+			this._loopB = b;
+			this._updateLoop();
 		}
-	},
-	offset( beat ) {
-		this._offset = Math.max( 0, +beat || 0 );
-		this._render();
-	},
-	beatsPerMeasure( n ) {
-		this._beatsPerMeasure = Math.max( 1, ~~n );
-		this._render();
-	},
-	stepsPerBeat( n ) {
-		this._stepsPerBeat = Math.min( Math.max( 1, ~~n ), 16 );
-		this._render();
-	},
-	highlight( b ) {
-		this._hl = !!b;
-		this.elHLstart.style.display =
-		this.elHLend.style.display = b ? "block" : "none";
-		if ( this._hl ) {
-			this._hlStart();
-			this._hlEnd();
-		}
-	},
-	highlightStart( beat ) {
-		this._hlA = +beat;
-		this._hl && this._hlStart();
-	},
-	highlightEnd( beat ) {
-		this._hlB = +beat;
-		this._hl && this._hlEnd();
+		this._elLoopA.style.display =
+		this._elLoopB.style.display = this._loop ? "block" : "none";
 	},
 	render() {
 		this._render();
@@ -82,16 +64,15 @@ gsuiBeatLines.prototype = {
 		var rectClass,
 			elStep,
 			elSteps = this.steps,
-			rootStyle = getComputedStyle( this.rootElement ),
-			fontSize = parseFloat( rootStyle.fontSize ),
+			beatPx = this._pxPerBeat,
 			stepsBeat = this._stepsPerBeat,
 			stepsMeasure = stepsBeat * this._beatsPerMeasure,
-			stepsDuration = Math.ceil( this.width / fontSize * stepsBeat ),
-			offset = this._offset * stepsBeat,
+			stepPx = beatPx / stepsBeat,
 			stepEm = 1 / stepsBeat,
 			stepId = 0,
-			step = ~~offset + 1,
-			em = -( offset % 1 ) / stepsBeat + stepEm;
+			stepsDuration = Math.ceil( this.width / stepPx ),
+			step = ~~( this._offset * stepsBeat ) + 1,
+			em = -this._offset % stepEm + stepEm;
 
 		while ( elSteps.length < stepsDuration ) {
 			elSteps.push( this._newRect() );
@@ -101,19 +82,18 @@ gsuiBeatLines.prototype = {
 				"step" : "beat" : "measure" );
 			elStep = elSteps[ stepId ];
 			elStep.style.display = "block";
-			elStep.setAttribute( "x", em + "em" );
+			elStep.setAttribute( "x", em * beatPx + "px" );
 			elStep.setAttribute( "class", rectClass );
 			elStep.setAttribute( "width", rectClass !== "gsui-measure" ? "1px" : "2px" );
 			++step;
 			em += stepEm;
 		}
-		for ( ; stepId < elSteps.length; ++stepId ) {
-			elSteps[ stepId ].style.display = "none";
+		while ( ( elStep = elSteps[ stepId++ ] ) && elStep.style.display !== "none" ) {
+			elStep.style.display = "none";
 		}
 		this._timeUpdate();
-		if ( this._hl ) {
-			this._hlStart();
-			this._hlEnd();
+		if ( this._loop ) {
+			this._updateLoop();
 		}
 	},
 	_newRect() {
@@ -122,6 +102,7 @@ gsuiBeatLines.prototype = {
 		rc.setAttribute( "y", 0 );
 		rc.setAttribute( "height", "1px" );
 		rc.setAttribute( "width", "1px" );
+		rc.style.display = "none";
 		this.rootElement.prepend( rc );
 		return rc;
 	},
@@ -129,15 +110,12 @@ gsuiBeatLines.prototype = {
 		var x = this._currentTime - this._offset;
 
 		this.elTime.style.display = x > 0 ? "block" : "none";
-		this.elTime.setAttribute( "x", x + "em" );
+		this.elTime.setAttribute( "x", x * this._pxPerBeat + "px" );
 	},
-	_hlStart() {
-		var w = Math.max( 0, this._hlA - this._offset );
-
-		this.elHLstart.setAttribute( "width", w + "em" );
-	},
-	_hlEnd() {
-		this.elHLend.setAttribute( "x",
-			this._hlB - this._offset + "em" );
+	_updateLoop() {
+		this._elLoopA.setAttribute( "width",
+			Math.max( 0, this._loopA - this._offset ) * this._pxPerBeat + "px" );
+		this._elLoopB.setAttribute( "x",
+			( this._loopB - this._offset ) * this._pxPerBeat + "px" );
 	}
 };
