@@ -24,15 +24,15 @@ function gsuiBeatLines( el ) {
 }
 
 gsuiBeatLines.prototype = {
-	setResolution: function( w ) {
+	setResolution( w ) {
 		this.width = w;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " 1" );
 	},
-	currentTime: function( beat ) {
+	currentTime( beat ) {
 		this._currentTime = beat;
 		this._timeUpdate();
 	},
-	zoom: function( zm, origin ) {
+	zoom( zm, origin ) {
 		zm = Math.max( .01, zm ).toFixed( 6 );
 		if ( zm !== this._zoom ) {
 			var fontSize = getComputedStyle( this.rootElement ).fontSize,
@@ -44,19 +44,19 @@ gsuiBeatLines.prototype = {
 			this.offset( this._offset + offset );
 		}
 	},
-	offset: function( beat ) {
+	offset( beat ) {
 		this._offset = Math.max( 0, +beat || 0 );
 		this._render();
 	},
-	beatsPerMeasure: function( n ) {
+	beatsPerMeasure( n ) {
 		this._beatsPerMeasure = Math.max( 1, ~~n );
 		this._render();
 	},
-	stepsPerBeat: function( n ) {
+	stepsPerBeat( n ) {
 		this._stepsPerBeat = Math.min( Math.max( 1, ~~n ), 16 );
 		this._render();
 	},
-	highlight: function( b ) {
+	highlight( b ) {
 		this._hl = !!b;
 		this.elHLstart.style.display =
 		this.elHLend.style.display = b ? "block" : "none";
@@ -65,20 +65,20 @@ gsuiBeatLines.prototype = {
 			this._hlEnd();
 		}
 	},
-	highlightStart: function( beat ) {
+	highlightStart( beat ) {
 		this._hlA = +beat;
 		this._hl && this._hlStart();
 	},
-	highlightEnd: function( beat ) {
+	highlightEnd( beat ) {
 		this._hlB = +beat;
 		this._hl && this._hlEnd();
 	},
-	render: function() {
+	render() {
 		this._render();
 	},
 
 	// private:
-	_render: function() {
+	_render() {
 		var rectClass,
 			elStep,
 			elSteps = this.steps,
@@ -116,7 +116,7 @@ gsuiBeatLines.prototype = {
 			this._hlEnd();
 		}
 	},
-	_newRect: function() {
+	_newRect() {
 		var rc = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
 
 		rc.setAttribute( "y", 0 );
@@ -125,18 +125,18 @@ gsuiBeatLines.prototype = {
 		this.rootElement.prepend( rc );
 		return rc;
 	},
-	_timeUpdate: function() {
+	_timeUpdate() {
 		var x = this._currentTime - this._offset;
 
 		this.elTime.style.display = x > 0 ? "block" : "none";
 		this.elTime.setAttribute( "x", x + "em" );
 	},
-	_hlStart: function() {
+	_hlStart() {
 		var w = Math.max( 0, this._hlA - this._offset );
 
 		this.elHLstart.setAttribute( "width", w + "em" );
 	},
-	_hlEnd: function() {
+	_hlEnd() {
 		this.elHLend.setAttribute( "x",
 			this._hlB - this._offset + "em" );
 	}

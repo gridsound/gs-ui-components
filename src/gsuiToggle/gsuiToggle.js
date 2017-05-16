@@ -12,25 +12,25 @@ function gsuiToggle() {
 }
 
 gsuiToggle.prototype = {
-	check: function() {
+	check() {
 		this._set( true );
 	},
-	uncheck: function() {
+	uncheck() {
 		this._set( false );
 	},
-	toggle: function( b ) {
+	toggle( b ) {
 		this._set( arguments.length ? !!b : !this.checked );
 	},
 
 	// private:
-	_clone: function() {
+	_clone() {
 		var div = document.createElement( "div" );
 
 		gsuiToggle.template = gsuiToggle.template || document.getElementById( "gsuiToggle" );
 		div.appendChild( document.importNode( gsuiToggle.template.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
 	},
-	_set: function( b, change ) {
+	_set( b, change ) {
 		if ( b !== this.checked ) {
 			this.checked = b;
 			this._circCL.toggle( "gsui-on", b );
@@ -39,7 +39,7 @@ gsuiToggle.prototype = {
 			}
 		}
 	},
-	_mousedown: function( e ) {
+	_mousedown( e ) {
 		if ( e.button === 0 ) {
 			this._set( !this.checked, true );
 		} else if ( e.button === 2 && this.onmousedownright ) {

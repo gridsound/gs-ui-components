@@ -21,20 +21,20 @@ function gsuiSlider() {
 }
 
 gsuiSlider.prototype = {
-	linear: function( axe ) {
+	linear( axe ) {
 		this._circ = false;
 		this._axeX = axe === "x";
 		this.rootElement.classList.remove( "gsui-circular", "gsui-x", "gsui-y" );
 		this.rootElement.classList.add( "gsui-linear", "gsui-" + axe );
 		this._updateVal();
 	},
-	circular: function() {
+	circular() {
 		this._circ = true;
 		this.rootElement.classList.remove( "gsui-linear", "gsui-x", "gsui-y" );
 		this.rootElement.classList.add( "gsui-circular" );
 		this._updateVal();
 	},
-	setValue: function( val, bymouse ) {
+	setValue( val, bymouse ) {
 		var inp = this._elInput,
 			prval = inp.value;
 
@@ -46,7 +46,7 @@ gsuiSlider.prototype = {
 			}
 		}
 	},
-	options: function( obj ) {
+	options( obj ) {
 		var k, inp = this._elInput;
 
 		for( k in obj ) {
@@ -58,26 +58,26 @@ gsuiSlider.prototype = {
 		this.startFrom = Math.max( inp.min, Math.min( this.startFrom, inp.max ) );
 		this._updateVal();
 	},
-	resize: function( w, h ) {
+	resize( w, h ) {
 		this.rootElement.style.width = w + "px";
 		this.rootElement.style.height = h + "px";
 		this._updateSize( w, h );
 	},
-	resized: function() {
+	resized() {
 		var rc = this.rootElement.getBoundingClientRect();
 
 		this._updateSize( rc.width, rc.height );
 	},
 
 	// private:
-	_clone: function() {
+	_clone() {
 		var div = document.createElement( "div" );
 
 		gsuiSlider.template = gsuiSlider.template || this._init();
 		div.appendChild( document.importNode( gsuiSlider.template.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
 	},
-	_init: function() {
+	_init() {
 		document.body.addEventListener( "mousemove", function( e ) {
 			gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mousemove( e );
 		} );
@@ -86,7 +86,7 @@ gsuiSlider.prototype = {
 		} );
 		return document.getElementById( "gsuiSlider" );
 	},
-	_updateVal: function() {
+	_updateVal() {
 		var thumb, line,
 			inp = this._elInput,
 			inpval = +inp.value,
@@ -115,7 +115,7 @@ gsuiSlider.prototype = {
 			}
 		}
 	},
-	_updateSize: function( w, h ) {
+	_updateSize( w, h ) {
 		if ( w !== this.width || h !== this.height ) {
 			var thumbSize,
 				thumb = this._elThumb.style,
@@ -152,13 +152,13 @@ gsuiSlider.prototype = {
 			this._svgLineLen *= 2 * Math.PI;
 		}
 	},
-	_wheel: function( e ) {
+	_wheel( e ) {
 		var d = e.deltaY > 0 ? -1 : 1,
 			inp = this._elInput;
 
 		this.setValue( +inp.value + inp.step * ( this.axeX ? -d : d ), true );
 	},
-	_mousedown: function( e ) {
+	_mousedown( e ) {
 		var inp = this._elInput,
 			bcr = this._elLine.getBoundingClientRect(),
 			size = this._circ ? this._svgLineLen :
@@ -170,14 +170,14 @@ gsuiSlider.prototype = {
 		gsuiSlider._sliderClicked = this;
 		this.rootElement.requestPointerLock();
 	},
-	_mouseup: function( e ) {
+	_mouseup( e ) {
 		document.exitPointerLock();
 		delete gsuiSlider._sliderClicked;
 		if ( this._prval !== this._elInput.value ) {
 			this.onchange && this.onchange( this._elInput.value );
 		}
 	},
-	_mousemove: function( e ) {
+	_mousemove( e ) {
 		var mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
 			inp = this._elInput,
 			bound = ( inp.max - inp.min ) / 5,

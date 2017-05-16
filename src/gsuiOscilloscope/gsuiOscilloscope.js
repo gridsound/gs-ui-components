@@ -15,23 +15,23 @@ function gsuiOscilloscope( canvas ) {
 };
 
 gsuiOscilloscope.prototype = {
-	setResolution: function( w, h ) {
+	setResolution( w, h ) {
 		this.rootElement.width = w;
 		this.rootElement.height = h;
 	},
-	clear: function() {
+	clear() {
 		this.ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	},
-	setPinch: function( pinch ) {
+	setPinch( pinch ) {
 		this.pinch = Math.max( 0, Math.min( pinch, 1 ) );
 	},
-	drawBegin: function( fn ) {
+	drawBegin( fn ) {
 		this.fnBegin = fn || function() {};
 	},
-	drawEnd: function( fn ) {
+	drawEnd( fn ) {
 		this.fnEnd = fn || function() {};
 	},
-	draw: function( data ) {
+	draw( data ) {
 		var x, y,
 			max = this.maxValue,
 			cnv = this.rootElement,

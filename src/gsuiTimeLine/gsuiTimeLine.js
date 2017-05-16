@@ -30,30 +30,30 @@ function gsuiTimeLine() {
 }
 
 gsuiTimeLine.prototype = {
-	resized: function() {
+	resized() {
 		var rc = this.rootElement.getBoundingClientRect();
 
 		this.width = rc.width;
 		this.height = rc.height;
 	},
-	currentTime: function( beat, isUserAction ) {
+	currentTime( beat, isUserAction ) {
 		this._currentTime = beat;
 		this._updateTime( isUserAction );
 		if ( isUserAction && this.onchangeCurrentTime ) {
 			this.onchangeCurrentTime( beat );
 		}
 	},
-	offset: function( beat, pxBeat ) {
+	offset( beat, pxBeat ) {
 		this._offset = Math.max( 0, +beat || 0 );
 		this._pxPerBeat = +pxBeat;
 		this._render();
 	},
-	timeSignature: function( a, b ) {
+	timeSignature( a, b ) {
 		this._beatsPerMeasure = Math.max( 1, ~~a );
 		this._stepsPerBeat = Math.min( Math.max( 1, ~~b ), 16 );
 		this._render();
 	},
-	loop: function( a, b, isUserAction ) {
+	loop( a, b, isUserAction ) {
 		var serial, la, lb, loopWas = this._loop;
 
 		if ( a === false ) {
@@ -85,14 +85,14 @@ gsuiTimeLine.prototype = {
 	},
 
 	// private:
-	_clone: function() {
+	_clone() {
 		var div = document.createElement( "div" );
 
 		gsuiTimeLine.template = gsuiTimeLine.template || this._init();
 		div.appendChild( document.importNode( gsuiTimeLine.template.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
 	},
-	_init: function() {
+	_init() {
 		document.body.addEventListener( "mousemove", function( e ) {
 			gsuiTimeLine._focused && gsuiTimeLine._focused._mousemove( e );
 		} );
@@ -101,7 +101,7 @@ gsuiTimeLine.prototype = {
 		} );
 		return document.getElementById( "gsuiTimeLine" );
 	},
-	_round: function( bt ) {
+	_round( bt ) {
 		if ( this.stepRound ) {
 			var mod = 1 / this._stepsPerBeat * this.stepRound;
 
@@ -109,10 +109,10 @@ gsuiTimeLine.prototype = {
 		}
 		return bt;
 	},
-	_serialAB: function( a, b ) {
+	_serialAB( a, b ) {
 		return a.toFixed( 4 ) + " " + b.toFixed( 4 );
 	},
-	_mousemove: function( e ) {
+	_mousemove( e ) {
 		if ( this._lock ) {
 			var la = this._lockA,
 				lb = this._lockB,
@@ -138,7 +138,7 @@ gsuiTimeLine.prototype = {
 			this.loop( a, b, true );
 		}
 	},
-	_mouseup: function( e ) {
+	_mouseup( e ) {
 		var serial,
 			l = this._loop,
 			la = this._round( this._loopA ),
@@ -169,18 +169,18 @@ gsuiTimeLine.prototype = {
 			}
 		}
 	},
-	_mousedownTime: function( e ) {
+	_mousedownTime( e ) {
 		this.currentTime( this._round(
 			this._offset + e.layerX / this._pxPerBeat ), true );
 	},
-	_mousemoveTime: function( e ) {
+	_mousemoveTime( e ) {
 		var x = e.layerX / this.width * 100;
 
 		this._elTimeLine.style.backgroundImage =
 			"linear-gradient(90deg,transparent " + ( x - 15 ) +
 			"%,currentColor " + x + "%,transparent " + ( x + 15 ) + "%)";
 	},
-	_mousedownLoop: function( side ) {
+	_mousedownLoop( side ) {
 		this._lock = true;
 		this._lockA = side === "a";
 		this._lockB = side === "b";
@@ -189,7 +189,7 @@ gsuiTimeLine.prototype = {
 		this._elLoopBrdBCL.toggle( "gsui-hover", this._lockB );
 		gsuiTimeLine._focused = this;
 	},
-	_mousedownLoopLine: function( e ) {
+	_mousedownLoopLine( e ) {
 		var now = Date.now(),
 			bt = this._offset + e.layerX / this._pxPerBeat;
 
@@ -201,12 +201,12 @@ gsuiTimeLine.prototype = {
 			this._mousedownLoop( "b" );
 		}
 	},
-	_updateTime: function( isUserAction ) {
+	_updateTime( isUserAction ) {
 		this._elTime.classList.toggle( "gsui-trans", !!isUserAction );
 		this._elTime.style.left =
 			( this._currentTime - this._offset ) * this._pxPerBeat + "px";
 	},
-	_updateLoop: function() {
+	_updateLoop() {
 		var s = this._elLoop.style;
 
 		if ( this._loop ) {
@@ -220,7 +220,7 @@ gsuiTimeLine.prototype = {
 		}
 		s.display = this._loop ? "block" : "none";
 	},
-	_render: function() {
+	_render() {
 		var stepRel,
 			elStep,
 			rootCL = this.rootElement.classList,

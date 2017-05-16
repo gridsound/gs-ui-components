@@ -14,22 +14,22 @@ function gsuiWaveform( svg ) {
 };
 
 gsuiWaveform.prototype = {
-	setResolution: function( w, h ) {
+	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
-	clear: function() {
+	clear() {
 		this.polygon.removeAttribute( "points" );
 	},
-	drawBuffer: function( buf, offset, duration ) {
+	drawBuffer( buf, offset, duration ) {
 		var d0 = buf.getChannelData( 0 ),
 			d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
 
 		offset = offset || 0;
 		this.draw( d0, d1, buf.duration, offset, duration || buf.duration - offset );
 	},
-	draw: function( data0, data1, bufferDuration, offset, duration ) {
+	draw( data0, data1, bufferDuration, offset, duration ) {
 		var p,
 			w = this.width,
 			h = this.height,

@@ -12,7 +12,7 @@ function gsuiSpanEditable() {
 }
 
 gsuiSpanEditable.prototype = {
-	setValue: function( val, call ) {
+	setValue( val, call ) {
 		val = val.trim();
 		if ( val !== this.value ) {
 			this.value = val;
@@ -23,7 +23,7 @@ gsuiSpanEditable.prototype = {
 			}
 		}
 	},
-	setPlaceholder: function( s ) {
+	setPlaceholder( s ) {
 		this.placeholder = s.trim();
 		if ( !this.value ) {
 			this.span.textContent = this.placeholder;
@@ -31,7 +31,7 @@ gsuiSpanEditable.prototype = {
 	},
 
 	// private:
-	_clone: function() {
+	_clone() {
 		var div = document.createElement( "div" ),
 			tmp = gsuiSpanEditable.template;
 
@@ -40,20 +40,20 @@ gsuiSpanEditable.prototype = {
 		div.appendChild( document.importNode( tmp.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
 	},
-	_dblclick: function( e ) {
+	_dblclick( e ) {
 		this.input.value = this.value;
 		this.rootElement.classList.add( "gsui-editing" );
 		this.input.focus();
 		this.input.select();
 	},
-	_blur: function( e ) {
+	_blur( e ) {
 		if ( !this._esc ) {
 			this.setValue( e.target.value, true );
 			this.rootElement.classList.remove( "gsui-editing" );
 		}
 		this._esc = false;
 	},
-	_keydown: function( e ) {
+	_keydown( e ) {
 		e.stopPropagation();
 		if ( e.keyCode === 13 || e.keyCode === 27 ) {
 			this._esc = e.keyCode === 27;

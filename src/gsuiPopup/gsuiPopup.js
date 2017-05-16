@@ -1,23 +1,23 @@
 "use strict";
 
 window.gsuiPopup = {
-	alert: function( title, msg ) {
+	alert( title, msg ) {
 		return gsuiPopup._open( "alert", title, msg );
 	},
-	confirm: function( title, msg ) {
+	confirm( title, msg ) {
 		return gsuiPopup._open( "confirm", title, msg );
 	},
-	prompt: function( title, msg, val ) {
+	prompt( title, msg, val ) {
 		return gsuiPopup._open( "prompt", title, msg, val );
 	},
-	close: function() {
+	close() {
 		if ( gsuiPopup.isOpen ) {
 			gsuiPopup.elCancel.click();
 		}
 	},
 
 	// private:
-	_init: function() {
+	_init() {
 		var that = gsuiPopup,
 			el = document.getElementById( "gsuiPopup" );
 
@@ -41,7 +41,7 @@ window.gsuiPopup = {
 		};
 		that._ready = true;
 	},
-	_open: function( type, title, msg, value ) {
+	_open( type, title, msg, value ) {
 		var that = gsuiPopup;
 
 		if ( !that._ready ) {
@@ -71,12 +71,12 @@ window.gsuiPopup = {
 			return val;
 		} );
 	},
-	_cancelClick: function() {
+	_cancelClick() {
 		gsuiPopup.resolve(
 			gsuiPopup.type === "confirm" ? false :
 			gsuiPopup.type === "prompt" ? null : undefined );
 	},
-	_submit: function() {
+	_submit() {
 		gsuiPopup.resolve(
 			gsuiPopup.type === "confirm" ? true :
 			gsuiPopup.type === "prompt" ? gsuiPopup.elText.value : undefined );

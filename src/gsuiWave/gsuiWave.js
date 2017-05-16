@@ -32,12 +32,12 @@ gsuiWave.triangle = function( x ) {
 };
 
 gsuiWave.prototype = {
-	setResolution: function( w, h ) {
+	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
-	draw: function() {
+	draw() {
 		var x = 0,
 			w = this.width,
 			h2 = this.height / 2,

@@ -18,14 +18,14 @@ function gsuiSpectrum( canvas ) {
 };
 
 gsuiSpectrum.prototype = {
-	setResolution: function( w ) {
+	setResolution( w ) {
 		this.rootElement.width = w;
 		this.rootElement.height = 1;
 	},
-	clear: function() {
+	clear() {
 		this.ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	},
-	draw: function( data ) {
+	draw( data ) {
 		var datum, col, colId,
 			r, g, b, ws,
 			x = 0,
@@ -73,7 +73,7 @@ gsuiSpectrum.prototype = {
 	},
 
 	// private:
-	_calcWidths: function( data, len, w ) {
+	_calcWidths( data, len, w ) {
 		var i, sum = 0, arr = new Array( len );
 
 		for ( i = 0; i < len; ++i ) {
