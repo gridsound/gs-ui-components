@@ -103,7 +103,7 @@ gsuiGridSamples.prototype = {
 				offInc = ( e.layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
 				this._pxPerBeat = beatPx;
 			} else {
-				offInc = ( e.deltaY > 0 ? 1 : -1 ) * 2 / gridSamples.uiTimeLine._stepsPerBeat;
+				offInc = ( e.deltaY > 0 ? 40 : -40 ) / this._pxPerBeat;
 			}
 			this._timeOffset = Math.max( 0, this._timeOffset + offInc );
 			this._updateGrid();
