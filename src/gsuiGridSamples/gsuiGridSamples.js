@@ -95,11 +95,19 @@ gsuiGridSamples.prototype = {
 		this.oninputLoop && this.oninputLoop( toggle, a, b );
 	},
 	_evowGrid( e ) {
-		if ( e.shiftKey ) {
-			this._timeOffset += ( e.deltaY > 0 ? 1 : -1 ) *
-				2 / gridSamples.uiTimeLine._stepsPerBeat;
-			this._timeOffset = Math.max( 0, this._timeOffset );
+		if ( e.shiftKey || e.ctrlKey ) {
+			var beatPx, offInc;
+
+			if ( e.ctrlKey ) {
+				beatPx = this._pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 );
+				offInc = ( e.layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
+				this._pxPerBeat = beatPx;
+			} else {
+				offInc = ( e.deltaY > 0 ? 1 : -1 ) * 2 / gridSamples.uiTimeLine._stepsPerBeat;
+			}
+			this._timeOffset = Math.max( 0, this._timeOffset + offInc );
 			this._updateGrid();
+			return false;
 		}
 	},
 	_evmu( e ) {
