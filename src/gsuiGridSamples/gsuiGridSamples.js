@@ -13,6 +13,7 @@ function gsuiGridSamples() {
 	root.prepend( this.uiTimeLine.rootElement );
 	this._elGrid.append( this.uiBeatLines.rootElement );
 	this._elPanelExtend.onmousedown = this._evmdPanelEx.bind( this );
+	this._elGrid.onwheel = this._evowGrid.bind( this );
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
 	this._panelMinWidth = 0;
@@ -92,6 +93,14 @@ gsuiGridSamples.prototype = {
 	_evoiLoop( toggle, a, b ) {
 		this.uiBeatLines.loop( toggle && a, b );
 		this.oninputLoop && this.oninputLoop( toggle, a, b );
+	},
+	_evowGrid( e ) {
+		if ( e.shiftKey ) {
+			this._timeOffset += ( e.deltaY > 0 ? 1 : -1 ) *
+				2 / gridSamples.uiTimeLine._stepsPerBeat;
+			this._timeOffset = Math.max( 0, this._timeOffset );
+			this._updateGrid();
+		}
 	},
 	_evmu( e ) {
 		this._elPanelExtend.classList.remove( "gsui-hover" );
