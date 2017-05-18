@@ -1,6 +1,7 @@
 .gsuiGridSamples {
 	--timeline-height: 32px;
 	--panel-min-width: 28px;
+	--panel-max-width: 320px;
 	--grid-bg: #3a5158;
 	--panel-bg: #3a3a3a;
 	--border-color: #111;
@@ -29,6 +30,7 @@
 .gsuiGridSamples .gsui-panel {
 	box-sizing: border-box;
 	min-width: var( --panel-min-width );
+	max-width: var( --panel-max-width );
 	border: 0 solid var( --border-color );
 	border-width: 1px 1px 0 0;
 	background: var( --panel-bg );

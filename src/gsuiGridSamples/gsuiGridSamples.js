@@ -17,6 +17,7 @@ function gsuiGridSamples() {
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
 	this._panelMinWidth = 0;
+	this._panelMaxWidth = Infinity;
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
 	this.panelWidth( 100 );
@@ -24,12 +25,16 @@ function gsuiGridSamples() {
 
 gsuiGridSamples.prototype = {
 	resized() {
-		this._panelMinWidth = parseFloat( getComputedStyle( this._elPanel ).minWidth );
+		var panelStyle = getComputedStyle( this._elPanel );
+
+		this.width = this.rootElement.clientWidth;
+		this._panelMinWidth = parseFloat( panelStyle.minWidth );
+		this._panelMaxWidth = parseFloat( panelStyle.maxWidth ) || this.width;
 		this._resizeGrid();
 		this._updateGrid();
 	},
 	panelWidth( width ) {
-		width = Math.max( this._panelMinWidth, width );
+		width = Math.max( this._panelMinWidth, Math.min( width, this._panelMaxWidth ) );
 		if ( this._timeOffset > 0 ) {
 			this._timeOffset += ( width - this._panelWidth ) / this._pxPerBeat;
 		}
