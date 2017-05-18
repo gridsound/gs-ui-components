@@ -100,6 +100,7 @@ gsuiGridSamples.prototype = {
 
 			if ( e.ctrlKey ) {
 				beatPx = this._pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 );
+				beatPx = Math.min( Math.max( 8, beatPx ), 512 );
 				offInc = ( e.layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
 				this._pxPerBeat = beatPx;
 			} else {
