@@ -1,7 +1,9 @@
 .gsuiGridSamples {
 	--timeline-height: 32px;
-	--border-color: #111;
 	--panel-min-width: 28px;
+	--grid-bg: #3a5158;
+	--panel-bg: #3a3a3a;
+	--border-color: #111;
 
 	position: relative;
 	width: 100%;
@@ -29,7 +31,7 @@
 	min-width: var( --panel-min-width );
 	border: 0 solid var( --border-color );
 	border-width: 1px 1px 0 0;
-	background: #3a3a3a;
+	background: var( --panel-bg );
 }
 
 .gsuiGridSamples .gsui-extend {
@@ -60,5 +62,5 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background: adjust-hue( #34444e, -10 );
+	background: var( --grid-bg );
 }
