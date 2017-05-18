@@ -24,7 +24,6 @@ function gsuiGridSamples() {
 
 gsuiGridSamples.prototype = {
 	resized() {
-		this._rootLeft = this.rootElement.getBoundingClientRect().left;
 		this._panelMinWidth = parseFloat( getComputedStyle( this._elPanel ).minWidth );
 		this._resizeGrid();
 		this._updateGrid();
@@ -122,6 +121,7 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	_evmdPanelEx( e ) {
+		this._rootLeft = this.rootElement.getBoundingClientRect().left;
 		this._panelResizing = this._elPanelExtend.clientWidth - e.layerX;
 		this._elPanelExtend.classList.add( "gsui-hover" );
 		gsuiGridSamples._focused = this;
