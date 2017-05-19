@@ -25,6 +25,7 @@
 
 .gsuiGridSamples .gsui-grid {
 	right: 0;
+	border-top: 1px solid var( --border-color );
 }
 
 .gsuiGridSamples .gsui-panel {
@@ -56,8 +57,7 @@
 	height: var( --timeline-height );
 	top: 0;
 	right: 0;
-	border: 0 solid var( --border-color );
-	border-width: 0 0 1px 1px;
+	border-left: 1px solid var( --border-color );
 }
 
 .gsuiGridSamples .gsuiBeatLines {
