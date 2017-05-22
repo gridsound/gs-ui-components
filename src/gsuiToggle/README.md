@@ -14,18 +14,20 @@ This is the equivalent of the `<input type="checkbox"/>`, but this time it's ful
 
 ### Methods :
 
-* #### `.checked<Boolean>`
-  The `checked` attribute is a readonly value, to change its state we have to use `un/check` or `toggle` methods described below.
-
-* #### `check()`
+* #### `.check()`
   This component will check the toggle. After that the `gsuiToggle.checked` attribute will be `true`.
 
-* #### `uncheck()`
+* #### `.uncheck()`
   This component will uncheck the toggle. After that the `toggle.checked` attribute will be `false`.
 
-* #### `toggle( [ checked<Boolean> ] )`
+* #### `.toggle( [ checked<Boolean> ] )`
   `toggle.toggle( checked )` is a shortcut to `checked ? toggle.check() : toggle.uncheck()`, and  
   `toggle.toggle()` is a shortcut to `toggle.checked ? toggle.uncheck() : toggle.check()`
+
+### Attributes :
+
+* #### `.checked<Boolean>`
+  The `checked` attribute is a readonly value, to change its state we have to use `un/check` or `toggle` methods described below.
 
 ### Callbacks :
 
