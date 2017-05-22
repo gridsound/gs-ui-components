@@ -33,3 +33,6 @@ This is the equivalent of the `<input type="checkbox"/>`, but this time it's ful
 
 * #### `.onchange = function( checked<Boolean> ) {}`
   To detect the change of the `checked` attribute, we have to bind the `onchange` callback and the `checked` boolean will be its only argument.
+
+* #### `.onmousedownright = function() {}`
+  With this attribute it's easy to trigger a callback when the user performs a right click.
