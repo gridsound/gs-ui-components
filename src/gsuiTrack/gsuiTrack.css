@@ -1,0 +1,21 @@
+.gsuiTrack {
+	display: flex;
+	height: 40px;
+	background: #444;
+	transition: .2s;
+	transition-property: background;
+}
+
+.gsuiTrack.gsui-mute {
+	background: transparent;
+}
+
+.gsuiTrack .gsuiToggle {
+	width: 24px;
+}
+
+.gsuiTrack .gsuiSpanEditable {
+	flex: 1;
+	padding: 0;
+	color: #eee;
+}
