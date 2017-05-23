@@ -1,9 +1,10 @@
 .gsuiTrack {
+	--head-bg: #444;
+	--head-bg-mute: #393939;
+	--body-bg-mute: rgba( 0, 0, 0, .25 );
+	--text-color: #eee;
 	--border-top-color: rgba( 255, 255, 255, .07 );
 	--border-bottom-color: #2a2a2a;
-	--background: #444;
-	--background-mute: #393939;
-	--text-color: #eee;
 
 	box-sizing: border-box;
 	display: flex;
@@ -12,10 +13,15 @@
 	border-width: 1px 0;
 	border-top-color: var( --border-top-color );
 	border-bottom-color: var( --border-bottom-color );
-	background: var( --background );
+	background: var( --head-bg );
 	transition: background .2s;
 }
+.gsuiTrack-body {
+	position: relative;
+	background: transparent;
+}
 .gsuiTrack .gsuiToggle {
+	--radius: 6px;
 	min-width: 24px;
 }
 .gsuiTrack .gsuiSpanEditable {
@@ -26,7 +32,10 @@
 }
 
 .gsuiTrack.gsui-mute {
-	background: var( --background-mute );
+	background: var( --head-bg-mute );
+}
+.gsuiTrack-body.gsui-mute {
+	background: var( --body-bg-mute );
 }
 .gsuiTrack.gsui-mute .gsuiSpanEditable {
 	opacity: .5;
