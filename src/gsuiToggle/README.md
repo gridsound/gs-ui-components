@@ -12,18 +12,27 @@ This is the equivalent of the `<input type="checkbox"/>`, but this time it's ful
 
 ## Documentation
 
-### `.checked<Boolean>`
-The `checked` attribute is a readonly value, to change its state we have to use `un/check` or `toggle` methods described below.
+### Methods :
 
-### `.onchange = function( checked<Boolean> ) {}`
-To detect the change of the `checked` attribute, we have to bind the `onchange` callback and the `checked` boolean will be its only argument.
+* #### `.check()`
+  This component will check the toggle. After that the `gsuiToggle.checked` attribute will be `true`.
 
-### `check()`
-This component will check the toggle. After that the `gsuiToggle.checked` attribute will be `true`.
+* #### `.uncheck()`
+  This component will uncheck the toggle. After that the `toggle.checked` attribute will be `false`.
 
-### `uncheck()`
-This component will uncheck the toggle. After that the `toggle.checked` attribute will be `false`.
+* #### `.toggle( [ checked<Boolean> ] )`
+  `toggle.toggle( checked )` is a shortcut to `checked ? toggle.check() : toggle.uncheck()`, and  
+  `toggle.toggle()` is a shortcut to `toggle.checked ? toggle.uncheck() : toggle.check()`
 
-### `toggle( [ checked<Boolean> ] )`
-`toggle.toggle( checked )` is a shortcut to `checked ? toggle.check() : toggle.uncheck()`, and  
-`toggle.toggle()` is a shortcut to `toggle.checked ? toggle.uncheck() : toggle.check()`
+### Attributes :
+
+* #### `.checked<Boolean>`
+  The `checked` attribute is a readonly value, to change its state we have to use `un/check` or `toggle` methods described below.
+
+### Callbacks :
+
+* #### `.onchange = function( checked<Boolean> ) {}`
+  To detect the change of the `checked` attribute, we have to bind the `onchange` callback and the `checked` boolean will be its only argument.
+
+* #### `.onmousedownright = function() {}`
+  With this attribute it's easy to trigger a callback when the user performs a right click.

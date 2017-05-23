@@ -12,14 +12,20 @@ This component lets the user to fast rename something by double clicking on the 
 
 ## Documentation
 
-### `.value<String>`
-The `value` attribute is readonly, to change it we have to use `setValue`.
+### Methods :
 
-### `.onchange = function( val<String> ) {}`
-To listen the change of the value, we have to set a function on the `onchange` attribute, and the new value will be the only argument.
+* #### `.setValue( val<String> )`
+  This is the equivalent of `inputElem.value = val;`, setting the value in JS will not fired the `onchange` callback.
 
-### `.setValue( val<String> )`
-This is the equivalent of `inputElem.value = val;`, setting the value in JS will not fired the `onchange` callback.
+* #### `.setPlaceholder( val<String> )`
+  We have to pass by this method to set a specific placeholder.
 
-### `.setPlaceholder( val<String> )`
-We have to pass by this method to set a specific placeholder.
+### Attributes :
+
+* #### `.value<String>`
+  The `value` attribute is readonly, to change it we have to use `setValue`.
+
+### Callbacks :
+
+* #### `.onchange = function( val<String> ) {}`
+  To listen the change of the value, we have to set a function on the `onchange` attribute, and the new value will be the only argument.
