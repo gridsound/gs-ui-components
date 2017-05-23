@@ -16,10 +16,12 @@
 	transition: background .2s;
 }
 .gsuiTrack .gsuiToggle {
-	width: 24px;
+	min-width: 24px;
 }
 .gsuiTrack .gsuiSpanEditable {
 	flex: 1;
+	padding-right: 10px;
+	font-size: 14px;
 	color: var( --text-color );
 }
 
