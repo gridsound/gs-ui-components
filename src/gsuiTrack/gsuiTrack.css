@@ -1,21 +1,31 @@
 .gsuiTrack {
+	--border-top-color: rgba( 255, 255, 255, .07 );
+	--border-bottom-color: #2a2a2a;
+	--background: #444;
+	--background-mute: #393939;
+	--text-color: #eee;
+
+	box-sizing: border-box;
 	display: flex;
 	height: 40px;
-	background: #444;
-	transition: .2s;
-	transition-property: background;
+	border: 0 solid;
+	border-width: 1px 0;
+	border-top-color: var( --border-top-color );
+	border-bottom-color: var( --border-bottom-color );
+	background: var( --background );
+	transition: background .2s;
 }
-
-.gsuiTrack.gsui-mute {
-	background: transparent;
-}
-
 .gsuiTrack .gsuiToggle {
 	width: 24px;
 }
-
 .gsuiTrack .gsuiSpanEditable {
 	flex: 1;
-	padding: 0;
-	color: #eee;
+	color: var( --text-color );
+}
+
+.gsuiTrack.gsui-mute {
+	background: var( --background-mute );
+}
+.gsuiTrack.gsui-mute .gsuiSpanEditable {
+	opacity: .5;
 }
