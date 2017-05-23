@@ -49,7 +49,7 @@ gsuiTrack.prototype = {
 		}
 	},
 	_evocSpan( name ) {
-		if ( isUserAction !== false && this.onnamechange ) {
+		if ( this.onnamechange ) {
 			this.onnamechange( name );
 		}
 	}
