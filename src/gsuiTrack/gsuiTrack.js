@@ -12,16 +12,14 @@ function gsuiTrack() {
 	root.append( this.uiSpan.rootElement );
 
 	this.uiToggle.onchange = this._evocToggle.bind( this );
-	this.mute( false );
+	this.uiSpan.onchange = this._evocSpan.bind( this );
+	this.toggle( true );
 }
 
 gsuiTrack.prototype = {
-	mute( b ) {
-		this.uiToggle.toggle( !b );
-		this._evocToggle( !b );
-	},
-	isMute() {
-		return !this.uiToggle.checked;
+	toggle( b ) {
+		this.uiToggle.toggle( b );
+		this._evocToggle( b, false );
 	},
 	setPlaceholder( p ) {
 		this.uiSpan.setPlaceholder( p );
@@ -43,8 +41,16 @@ gsuiTrack.prototype = {
 	},
 
 	// events:
-	_evocToggle( b ) {
+	_evocToggle( b, isUserAction ) {
 		this.rootElement.classList.toggle( "gsui-mute", !b );
 		this.gridTrackElement.classList.toggle( "gsui-mute", !b );
+		if ( isUserAction !== false && this.ontogglechange ) {
+			this.ontogglechange( b );
+		}
+	},
+	_evocSpan( name ) {
+		if ( isUserAction !== false && this.onnamechange ) {
+			this.onnamechange( name );
+		}
 	}
 };
