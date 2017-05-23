@@ -8,6 +8,16 @@ function gsuiTrackList() {
 }
 
 gsuiTrackList.prototype = {
+	change( objs ) {
+		var id, trk, obj;
+
+		for ( id in objs ) {
+			obj = objs[ id ];
+			trk = this.tracksNodeList[ id ].gsuiTrackObject;
+			obj.toggle != null && trk.toggle( obj.toggle );
+			obj.name != null && trk.setName( obj.name );
+		}
+	},
 	nbTracks( nb ) {
 		nb = Math.min( Math.max( 0, nb ), 99 ) - this.tracksNodeList.length;
 		if ( nb < 0 ) {
@@ -37,18 +47,40 @@ gsuiTrackList.prototype = {
 
 		trk.rootElement.gsuiTrackObject = trk;
 		trk.uiToggle.onmousedownright = this._muteAll.bind( this, trk );
+		trk.ontogglechange = this._change.bind( this, trk, "toggle" );
+		trk.onnamechange = this._change.bind( this, trk, "name" );
+		trk.id = this.tracksNodeList.length;
+		trk.setPlaceholder( "Track " + ( trk.id + 1 ) );
 		this.rootElement.append( trk.rootElement );
-		trk.setPlaceholder( "Track " + this.tracksNodeList.length );
+	},
+	_change( trk, attr, val ) {
+		if ( this.onchange ) {
+			this.onchange( {
+				[ trk.id ]: {
+					[ attr ]: val
+				}
+			} );
+		}
 	},
 	_muteAll( trk ) {
-		var trkRoot = trk.rootElement,
+		var obj = {},
+			trkRoot = trk.rootElement,
 			trkRoots = Array.from( this.tracksNodeList ),
-			allMute = trkRoots.every( function( _trk ) {
-					return _trk.gsuiTrackObject.isMute() || _trk === trkRoot;
+			allMute = trkRoots.every( function( _trkRoot ) {
+					return !_trkRoot.gsuiTrackObject.uiToggle.checked || _trkRoot === trkRoot;
 				} );
 
-		trkRoots.forEach( function( _trk ) {
-			_trk.gsuiTrackObject.mute( !( allMute || _trk === trkRoot ) );
+		trkRoots.forEach( function( _trkRoot ) {
+			var _trk = _trkRoot.gsuiTrackObject,
+				tog = allMute || _trkRoot === trkRoot;
+
+			if ( tog !== _trk.uiToggle.checked ) {
+				_trk.toggle( tog );
+				obj[ _trk.id ] = { toggle: tog };
+			}
 		} );
+		if ( this.onchange ) {
+			this.onchange( obj );
+		}
 	}
 };
