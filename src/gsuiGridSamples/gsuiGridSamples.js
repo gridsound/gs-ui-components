@@ -6,24 +6,36 @@ function gsuiGridSamples() {
 	this.rootElement = root;
 	this._elPanel = root.querySelector( ".gsui-panel" );
 	this._elGrid = root.querySelector( ".gsui-grid" );
-	this._elPanelExtend = this._elPanel.querySelector( ".gsui-extend" );
+	this._elGridCnt = this._elGrid.querySelector( ".gsui-content" );
+	this._elPanelExt = this._elPanel.querySelector( ".gsui-extend" );
+	this._elPanelCnt = this._elPanel.querySelector( ".gsui-content" );
 	this.uiTimeLine = new gsuiTimeLine();
 	this.uiBeatLines = new gsuiBeatLines();
-
 	root.prepend( this.uiTimeLine.rootElement );
-	this._elGrid.append( this.uiBeatLines.rootElement );
-	this._elPanelExtend.onmousedown = this._evmdPanelEx.bind( this );
+	this._elGrid.prepend( this.uiBeatLines.rootElement );
+
+	this._elPanelExt.onmousedown = this._evmdPanelEx.bind( this );
 	this._elGrid.onwheel = this._evowGrid.bind( this );
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
-	this._panelMinWidth = 0;
+	this._fontSize = 40;
+	root.style.fontSize = this._fontSize + "px";
 	this._panelMaxWidth = Infinity;
+	this._contentY =
+	this._panelMinWidth =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
 	this.panelWidth( 100 );
 }
 
 gsuiGridSamples.prototype = {
+	loadPianoRoll() {
+		// ...
+	},
+	loadTrackList() {
+		this.uiTrackList = new gsuiTrackList();
+		this._elPanelCnt.prepend( this.uiTrackList.rootElement );
+	},
 	resized() {
 		var panelStyle = getComputedStyle( this._elPanel );
 
@@ -33,19 +45,10 @@ gsuiGridSamples.prototype = {
 		this._resizeGrid();
 		this._updateGrid();
 	},
-	panelWidth( width ) {
-		width = Math.max( this._panelMinWidth, Math.min( width, this._panelMaxWidth ) );
-		if ( this._timeOffset > 0 ) {
-			this._timeOffset += ( width - this._panelWidth ) / this._pxPerBeat;
-		}
-		this._panelWidth = width;
-		this._updatePanelSize();
-	},
 	offset( offset, beatPx ) {
 		this._timeOffset = offset;
 		this._pxPerBeat = beatPx;
-		this.uiTimeLine.offset( offset, beatPx );
-		this.uiBeatLines.offset( offset, beatPx );
+		this._updateGrid();
 	},
 	currentTime( beat ) {
 		this.uiTimeLine.currentTime( beat );
@@ -54,6 +57,34 @@ gsuiGridSamples.prototype = {
 	loop( a, b ) {
 		this.uiTimeLine.loop( a, b );
 		this.uiBeatLines.loop( a, b );
+	},
+	nbTracks( n ) {
+		if ( this.uiTrackList ) {
+			var trkRoot,
+				nl = this.uiTrackList.tracksNodeList,
+				i = nl.length;
+
+			this.uiTrackList.nbTracks( n );
+			while ( trkRoot = nl[ i++ ] ) {
+				this._elGridCnt.append( trkRoot.gsuiTrackObject.gridTrackElement );
+			}
+		}
+	},
+	panelWidth( width ) {
+		width = Math.max( this._panelMinWidth, Math.min( width, this._panelMaxWidth ) );
+		if ( this._timeOffset > 0 ) {
+			this._timeOffset += ( width - this._panelWidth ) / this._pxPerBeat;
+		}
+		this._panelWidth = width;
+		this._updatePanelSize();
+	},
+	contentY( yEm ) {
+		var h = this.uiTrackList.rootElement.clientHeight;
+
+		h = Math.max( 0, h - this._elGrid.clientHeight ) / this._fontSize;
+		this._contentY = yEm = Math.min( Math.max( 0, yEm ), h );
+		this._elGridCnt.style.marginTop =
+		this._elPanelCnt.style.marginTop = -yEm + "em";
 	},
 
 	// private:
@@ -99,24 +130,25 @@ gsuiGridSamples.prototype = {
 		this.oninputLoop && this.oninputLoop( toggle, a, b );
 	},
 	_evowGrid( e ) {
-		if ( e.shiftKey || e.ctrlKey ) {
-			var beatPx, offInc;
+		var offInc,
+			dpos = e.deltaY > 0,
+			beatPx = this._pxPerBeat;
 
+		if ( !e.shiftKey && !e.ctrlKey ) {
+			this.contentY( this._contentY + ( 20 * ( dpos ? 1 : -1 ) ) / this._fontSize );
+		} else {
 			if ( e.ctrlKey ) {
-				beatPx = this._pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 );
-				beatPx = Math.min( Math.max( 8, beatPx ), 512 );
+				beatPx = Math.min( Math.max( 8, beatPx * ( dpos ? .9 : 1.1 ) ), 512 );
 				offInc = ( e.layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
-				this._pxPerBeat = beatPx;
 			} else {
-				offInc = ( e.deltaY > 0 ? 40 : -40 ) / this._pxPerBeat;
+				offInc = ( dpos ? 40 : -40 ) / beatPx;
 			}
-			this._timeOffset = Math.max( 0, this._timeOffset + offInc );
-			this._updateGrid();
-			return false;
+			this.offset( Math.max( 0, this._timeOffset + offInc ), beatPx );
 		}
+		return false;
 	},
 	_evmu( e ) {
-		this._elPanelExtend.classList.remove( "gsui-hover" );
+		this._elPanelExt.classList.remove( "gsui-hover" );
 		delete this._panelResizing;
 		delete gsuiGridSamples._focused;
 	},
@@ -127,8 +159,8 @@ gsuiGridSamples.prototype = {
 	},
 	_evmdPanelEx( e ) {
 		this._rootLeft = this.rootElement.getBoundingClientRect().left;
-		this._panelResizing = this._elPanelExtend.clientWidth - e.layerX;
-		this._elPanelExtend.classList.add( "gsui-hover" );
+		this._panelResizing = this._elPanelExt.clientWidth - e.layerX;
+		this._elPanelExt.classList.add( "gsui-hover" );
 		gsuiGridSamples._focused = this;
 	}
 };

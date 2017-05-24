@@ -1,6 +1,6 @@
 .gsuiGridSamples {
 	--timeline-height: 32px;
-	--panel-min-width: 28px;
+	--panel-min-width: 24px;
 	--panel-max-width: 320px;
 	--grid-bg: #3a5158;
 	--panel-bg: #3a3a3a;
@@ -19,15 +19,14 @@
 .gsuiGridSamples .gsui-panel,
 .gsuiGridSamples .gsui-grid {
 	position: absolute;
+	overflow: hidden;
 	top: var( --timeline-height );
 	bottom: 0;
 }
-
 .gsuiGridSamples .gsui-grid {
 	right: 0;
 	border-top: 1px solid var( --border-color );
 }
-
 .gsuiGridSamples .gsui-panel {
 	box-sizing: border-box;
 	min-width: var( --panel-min-width );
@@ -36,21 +35,19 @@
 	border-width: 1px 1px 0 0;
 	background: var( --panel-bg );
 }
-
 .gsuiGridSamples .gsui-extend {
 	position: absolute;
 	z-index: 1;
+	top: 0;
 	right: 0;
 	width: 6px;
 	height: 100%;
 	transition: background .2s;
 }
-
 .gsuiGridSamples .gsui-extend:hover,
 .gsuiGridSamples .gsui-extend.gsui-hover {
 	background: rgba( 255, 255, 255, .1 );
 }
-
 .gsuiGridSamples .gsuiTimeLine {
 	position: absolute;
 	z-index: 1;
@@ -59,7 +56,6 @@
 	right: 0;
 	border-left: 1px solid var( --border-color );
 }
-
 .gsuiGridSamples .gsuiBeatLines {
 	position: absolute;
 	width: 100%;
