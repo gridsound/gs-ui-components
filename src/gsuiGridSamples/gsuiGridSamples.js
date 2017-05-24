@@ -19,13 +19,12 @@ function gsuiGridSamples() {
 	this._elPanel.onwheel = this._evowPanel.bind( this );
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
-	this._fontSize = 40;
-	root.style.fontSize = this._fontSize + "px";
 	this._panelMaxWidth = Infinity;
 	this._contentY =
 	this._panelMinWidth =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
+	this._setFontSize( 40 );
 	this.panelWidth( 100 );
 }
 
@@ -112,6 +111,10 @@ gsuiGridSamples.prototype = {
 	_contentScroll( e ) {
 		this.contentY( this._contentY + ( 20 * ( e.deltaY > 0 ? 1 : -1 ) ) / this._fontSize );
 	},
+	_setFontSize( emPx ) {
+		this._fontSize = ~~Math.min( Math.max( 16, emPx ), 256 );
+		this.rootElement.style.fontSize = this._fontSize + "px";
+	},
 	_updateGrid() {
 		this.uiTimeLine.offset( this._timeOffset, this._pxPerBeat );
 		this.uiBeatLines.offset( this._timeOffset, this._pxPerBeat );
@@ -150,9 +153,18 @@ gsuiGridSamples.prototype = {
 		return false;
 	},
 	_evowPanel( e ) {
-		if ( !e.shiftKey && !e.ctrlKey ) {
+		if ( e.ctrlKey ) {
+			var layerY = e.pageY - this._elPanel.getBoundingClientRect().top,
+				oldFs = this._fontSize,
+				fs = oldFs * ( e.deltaY > 0 ? .9 : 1.1 );
+
+			this._setFontSize( fs );
+			fs = this._fontSize;
+			this.contentY( this._contentY + ( layerY / oldFs * ( fs - oldFs ) ) / fs );
+		} else if ( !e.shiftKey ) {
 			this._contentScroll( e );
 		}
+		return false;
 	},
 	_evmu( e ) {
 		this._elPanelExt.classList.remove( "gsui-hover" );
