@@ -16,6 +16,7 @@ function gsuiGridSamples() {
 
 	this._elPanelExt.onmousedown = this._evmdPanelEx.bind( this );
 	this._elGrid.onwheel = this._evowGrid.bind( this );
+	this._elPanel.onwheel = this._evowPanel.bind( this );
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
 	this._fontSize = 40;
@@ -108,6 +109,9 @@ gsuiGridSamples.prototype = {
 		this.uiTimeLine.resized();
 		this.uiBeatLines.resized();
 	},
+	_contentScroll( e ) {
+		this.contentY( this._contentY + ( 20 * ( e.deltaY > 0 ? 1 : -1 ) ) / this._fontSize );
+	},
 	_updateGrid() {
 		this.uiTimeLine.offset( this._timeOffset, this._pxPerBeat );
 		this.uiBeatLines.offset( this._timeOffset, this._pxPerBeat );
@@ -130,22 +134,25 @@ gsuiGridSamples.prototype = {
 		this.oninputLoop && this.oninputLoop( toggle, a, b );
 	},
 	_evowGrid( e ) {
-		var offInc,
-			dpos = e.deltaY > 0,
-			beatPx = this._pxPerBeat;
+		var offInc, beatPx = this._pxPerBeat;
 
 		if ( !e.shiftKey && !e.ctrlKey ) {
-			this.contentY( this._contentY + ( 20 * ( dpos ? 1 : -1 ) ) / this._fontSize );
+			this._contentScroll( e );
 		} else {
 			if ( e.ctrlKey ) {
-				beatPx = Math.min( Math.max( 8, beatPx * ( dpos ? .9 : 1.1 ) ), 512 );
+				beatPx = Math.min( Math.max( 8, beatPx * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 );
 				offInc = ( e.layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
 			} else {
-				offInc = ( dpos ? 40 : -40 ) / beatPx;
+				offInc = ( e.deltaY > 0 ? 40 : -40 ) / beatPx;
 			}
 			this.offset( Math.max( 0, this._timeOffset + offInc ), beatPx );
 		}
 		return false;
+	},
+	_evowPanel( e ) {
+		if ( !e.shiftKey && !e.ctrlKey ) {
+			this._contentScroll( e );
+		}
 	},
 	_evmu( e ) {
 		this._elPanelExt.classList.remove( "gsui-hover" );
