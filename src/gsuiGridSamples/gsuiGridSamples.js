@@ -130,7 +130,7 @@ gsuiGridSamples.prototype = {
 		this._updateGrid();
 	},
 
-	// events :
+	// events:
 	_evocCurrentTime( beat ) {
 		this.uiBeatLines.currentTime( beat );
 		this.onchangeCurrentTime && this.onchangeCurrentTime( beat );
@@ -150,14 +150,15 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	_evowGrid( e ) {
-		var offInc, beatPx = this._pxPerBeat;
-
 		if ( !e.shiftKey && !e.ctrlKey ) {
 			this._contentScroll( e );
 		} else {
+			var layerX, offInc, beatPx = this._pxPerBeat;
+
 			if ( e.ctrlKey ) {
+				layerX = e.pageX - this._elGrid.getBoundingClientRect().left;
 				beatPx = Math.min( Math.max( 8, beatPx * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 );
-				offInc = ( e.layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
+				offInc = ( layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
 			} else {
 				offInc = ( e.deltaY > 0 ? 40 : -40 ) / beatPx;
 			}
