@@ -98,10 +98,10 @@ gsuiGridSamples.prototype = {
 	},
 	_init() {
 		document.body.addEventListener( "mousemove", function( e ) {
-			gsuiGridSamples._focused && gsuiGridSamples._focused._evmm( e );
+			gsuiGridSamples._focused && gsuiGridSamples._focused._evmmRoot( e );
 		} );
 		document.body.addEventListener( "mouseup", function( e ) {
-			gsuiGridSamples._focused && gsuiGridSamples._focused._evmu( e );
+			gsuiGridSamples._focused && gsuiGridSamples._focused._evmuRoot( e );
 		} );
 		return document.getElementById( "gsuiGridSamples" );
 	},
@@ -149,6 +149,12 @@ gsuiGridSamples.prototype = {
 			gsuiGridSamples._focused = this;
 		}
 	},
+	_evmdPanelEx( e ) {
+		this._rootLeft = this.rootElement.getBoundingClientRect().left;
+		this._panelResizing = this._elPanelExt.clientWidth - e.layerX;
+		this._elPanelExt.classList.add( "gsui-hover" );
+		gsuiGridSamples._focused = this;
+	},
 	_evowGrid( e ) {
 		if ( !e.shiftKey && !e.ctrlKey ) {
 			this._contentScroll( e );
@@ -180,13 +186,7 @@ gsuiGridSamples.prototype = {
 		}
 		return false;
 	},
-	_evmu( e ) {
-		this._elPanelExt.classList.remove( "gsui-hover" );
-		delete this._gridDragging;
-		delete this._panelResizing;
-		delete gsuiGridSamples._focused;
-	},
-	_evmm( e ) {
+	_evmmRoot( e ) {
 		if ( this._gridDragging ) {
 			var of = ( e.pageX - this._mousePageX ) / this._pxPerBeat,
 				cy = ( e.pageY - this._mousePageY ) / this._fontSize;
@@ -197,10 +197,10 @@ gsuiGridSamples.prototype = {
 			this.panelWidth( e.pageX - this._rootLeft + this._panelResizing );
 		}
 	},
-	_evmdPanelEx( e ) {
-		this._rootLeft = this.rootElement.getBoundingClientRect().left;
-		this._panelResizing = this._elPanelExt.clientWidth - e.layerX;
-		this._elPanelExt.classList.add( "gsui-hover" );
-		gsuiGridSamples._focused = this;
+	_evmuRoot( e ) {
+		this._elPanelExt.classList.remove( "gsui-hover" );
+		delete this._gridDragging;
+		delete this._panelResizing;
+		delete gsuiGridSamples._focused;
 	}
 };
