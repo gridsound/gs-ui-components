@@ -15,6 +15,7 @@ function gsuiGridSamples() {
 	this._elGrid.prepend( this.uiBeatLines.rootElement );
 
 	this._elPanelExt.onmousedown = this._evmdPanelEx.bind( this );
+	this._elGrid.onmousedown = this._evmdGrid.bind( this );
 	this._elGrid.onwheel = this._evowGrid.bind( this );
 	this._elPanel.onwheel = this._evowPanel.bind( this );
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
@@ -118,6 +119,8 @@ gsuiGridSamples.prototype = {
 	_updateGrid() {
 		this.uiTimeLine.offset( this._timeOffset, this._pxPerBeat );
 		this.uiBeatLines.offset( this._timeOffset, this._pxPerBeat );
+		this._timeOffset = this.uiTimeLine._offset;
+		this._pxPerBeat = this.uiTimeLine._pxPerBeat;
 	},
 	_updatePanelSize() {
 		this._elPanel.style.width =
@@ -135,6 +138,16 @@ gsuiGridSamples.prototype = {
 	_evoiLoop( toggle, a, b ) {
 		this.uiBeatLines.loop( toggle && a, b );
 		this.oninputLoop && this.oninputLoop( toggle, a, b );
+	},
+	_evmdGrid( e ) {
+		if ( e.altKey ) {
+			this._gridDragging = true;
+			this._mouseOffset = this._timeOffset;
+			this._mouseContentY = this._contentY;
+			this._mousePageX = e.pageX;
+			this._mousePageY = e.pageY;
+			gsuiGridSamples._focused = this;
+		}
 	},
 	_evowGrid( e ) {
 		var offInc, beatPx = this._pxPerBeat;
@@ -168,12 +181,19 @@ gsuiGridSamples.prototype = {
 	},
 	_evmu( e ) {
 		this._elPanelExt.classList.remove( "gsui-hover" );
+		delete this._gridDragging;
 		delete this._panelResizing;
 		delete gsuiGridSamples._focused;
 	},
 	_evmm( e ) {
-		if ( this._panelResizing != null ) {
-			this.panelWidth( e.clientX - this._rootLeft + this._panelResizing );
+		if ( this._gridDragging ) {
+			var of = ( e.pageX - this._mousePageX ) / this._pxPerBeat,
+				cy = ( e.pageY - this._mousePageY ) / this._fontSize;
+
+			this.offset( this._mouseOffset - of, this._pxPerBeat );
+			this.contentY( this._mouseContentY - cy );
+		} else if ( this._panelResizing != null ) {
+			this.panelWidth( e.pageX - this._rootLeft + this._panelResizing );
 		}
 	},
 	_evmdPanelEx( e ) {
