@@ -1,14 +1,14 @@
 .gsuiKeys {
 	position: relative;
-	width: 40px;
-	font-size: 8px;
-	/*counter-reset: octave 2;*/
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .gsuiKey {
 	box-sizing: border-box;
 	position: relative;
-	width: 100%;
 	height: 1.5em;
 	background-image: linear-gradient( 90deg, #888, #eee );
 }
@@ -22,7 +22,7 @@
 	background-image: linear-gradient( 90deg, #111, #444 );
 }
 .gsuiKey[ data-key="c" ] {
-	background-image: linear-gradient( 90deg, #888, #ddd );
+	background-image: linear-gradient( 90deg, #888, #ccc );
 }
 .gsuiKey[ data-key="c" ]:after {
 	counter-increment: octave -1;
@@ -33,6 +33,10 @@
 	font-size: calc( 6px + .25em );
 	font-family: consolas;
 }
+.gsuiKey.gsui-active {
+	background-image: linear-gradient( 90deg, #353b52, #7886bd );
+}
+
 .gsuiKey[ data-key="c" ],
 .gsuiKey[ data-key="f" ] {
 	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
