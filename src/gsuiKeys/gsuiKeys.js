@@ -56,12 +56,12 @@ gsuiKeys.prototype = {
 		this._elKey = this._nlKeys[ keyInd ];
 		this._octNum = this._octStart + this._nbOct - 1 - ~~( keyInd / 12 );
 		this._elKey.classList.add( "gsui-active" );
-		this.onkeydown && this.onkeydown( this._elKey.dataset.key, this._octNum );
+		this.onkeydown && this.onkeydown( this._elKey.dataset.key, this._octNum, this._gain );
 	},
 	_keyup() {
 		if ( this._elKey ) {
 			this._elKey.classList.remove( "gsui-active" );
-			this.onkeyup && this.onkeyup( this._elKey.dataset.key, this._octNum );
+			this.onkeyup && this.onkeyup( this._elKey.dataset.key, this._octNum, this._gain );
 		}
 	},
 
