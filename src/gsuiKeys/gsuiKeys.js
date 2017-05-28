@@ -1,12 +1,14 @@
-"use strict"
+"use strict";
 
 function gsuiKeys() {
 	var root = document.createElement( "div" );
 
 	this._init();
 	this.rootElement = root;
-	root.className = "gsuiKeys";
+	this._nlKeys = root.childNodes;
 	this._nbOct = 0;
+	root.className = "gsuiKeys";
+	root.onmousedown = this._evmdRoot.bind( this );
 }
 
 gsuiKeys.prototype = {
@@ -35,9 +37,63 @@ gsuiKeys.prototype = {
 	_init() {
 		if ( !gsuiKeys.octaveTemplate ) {
 			gsuiKeys.octaveTemplate = document.getElementById( "gsuiKeys-octave" );
+			document.body.addEventListener( "mousemove", function( e ) {
+				gsuiKeys._focused && gsuiKeys._focused._evmmRoot( e );
+			} );
+			document.body.addEventListener( "mouseup", function( e ) {
+				gsuiKeys._focused && gsuiKeys._focused._evmuRoot( e );
+			} );
 		}
 	},
 	_cloneOctave() {
 		this.rootElement.appendChild( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
+	},
+	_isBlack( keyInd ) {
+		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
+	},
+	_keydown( keyInd ) {
+		this._keyup();
+		this._elKey = this._nlKeys[ keyInd ];
+		this._octNum = this._octStart + this._nbOct - 1 - ~~( keyInd / 12 );
+		this._elKey.classList.add( "gsui-active" );
+		this.onkeydown && this.onkeydown( this._elKey.dataset.key, this._octNum );
+	},
+	_keyup() {
+		if ( this._elKey ) {
+			this._elKey.classList.remove( "gsui-active" );
+			this.onkeyup && this.onkeyup( this._elKey.dataset.key, this._octNum );
+		}
+	},
+
+	// events:
+	_evmdRoot( e ) {
+		if ( this._nbOct ) {
+			var blackKeyBCR = this.rootElement.childNodes[ 1 ].getBoundingClientRect();
+
+			this._rootTop = this.rootElement.getBoundingClientRect().top;
+			this._blackKeyR = blackKeyBCR.right;
+			this._blackKeyH = blackKeyBCR.height;
+			this._gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
+			gsuiKeys._focused = this;
+			this._evmmRoot( e );
+		}
+	},
+	_evmuRoot( e ) {
+		this._keyup();
+		delete this._elKey;
+		delete this._keyInd;
+		delete gsuiKeys._focused;
+	},
+	_evmmRoot( e ) {
+		var fKeyInd = ( e.pageY - this._rootTop ) / this._blackKeyH,
+			iKeyInd = ~~fKeyInd;
+
+		if ( e.pageX > this._blackKeyR && this._isBlack( ~~( iKeyInd % 12 ) ) ) {
+			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
+		}
+		if ( this._keyInd !== iKeyInd ) {
+			this._keyInd = iKeyInd;
+			this._keydown( iKeyInd );
+		}
 	}
 };
