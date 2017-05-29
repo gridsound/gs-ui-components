@@ -90,10 +90,10 @@ gsuiKeys.prototype = {
 		delete gsuiKeys._focused;
 	},
 	_evmmRoot( e ) {
-		var fKeyInd = ( e.pageY - this._rootTop ) / this._blackKeyH,
+		var fKeyInd = ( e.clientY - this._rootTop ) / this._blackKeyH,
 			iKeyInd = ~~fKeyInd;
 
-		if ( e.pageX > this._blackKeyR && this._isBlack( ~~( iKeyInd % 12 ) ) ) {
+		if ( e.clientX > this._blackKeyR && this._isBlack( ~~( iKeyInd % 12 ) ) ) {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
 		if ( this._keyInd !== iKeyInd ) {
