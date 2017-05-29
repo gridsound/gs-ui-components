@@ -11,6 +11,7 @@
 	position: relative;
 	height: 1.5em;
 	background-image: linear-gradient( 90deg, #888, #eee );
+	cursor: default;
 }
 .gsuiKey[ data-key$="#" ] {
 	position: absolute;
