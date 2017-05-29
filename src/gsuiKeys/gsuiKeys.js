@@ -52,11 +52,16 @@ gsuiKeys.prototype = {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	},
 	_keydown( keyInd ) {
-		this._keyup();
-		this._elKey = this._nlKeys[ keyInd ];
-		this._octNum = this._octStart + this._nbOct - 1 - ~~( keyInd / 12 );
-		this._elKey.classList.add( "gsui-active" );
-		this.onkeydown && this.onkeydown( this._elKey.dataset.key, this._octNum, this._gain );
+		var elKey = this._nlKeys[ keyInd ];
+
+		if ( elKey ) {
+			this._keyup();
+			this._keyInd = keyInd;
+			this._elKey = elKey;
+			this._octNum = this._octStart + this._nbOct - 1 - ~~( keyInd / 12 );
+			elKey.classList.add( "gsui-active" );
+			this.onkeydown && this.onkeydown( elKey.dataset.key, this._octNum, this._gain );
+		}
 	},
 	_keyup() {
 		if ( this._elKey ) {
@@ -92,7 +97,6 @@ gsuiKeys.prototype = {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
 		if ( this._keyInd !== iKeyInd ) {
-			this._keyInd = iKeyInd;
 			this._keydown( iKeyInd );
 		}
 	}
