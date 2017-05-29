@@ -30,6 +30,7 @@
 	position: absolute;
 	right: .25em;
 	bottom: 0;
+	color: #000;
 	font-size: calc( 6px + .25em );
 	font-family: consolas;
 }
