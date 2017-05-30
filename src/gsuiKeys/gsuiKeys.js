@@ -49,14 +49,12 @@ gsuiKeys.prototype = {
 		}
 	},
 	_cloneOctave() {
-		var elRows;
-
 		this.rootElement.append( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
-		elRows = this.rootElement.querySelectorAll( ".gsui-row" );
-		elRows.forEach( function( el ) {
+		this.newRowElements = this.rootElement.querySelectorAll( ".gsui-row" );
+		this.newRowElements.forEach( function( el ) {
 			el.remove();
 		} );
-		Array.prototype.push.apply( this.rowElements, elRows );
+		Array.prototype.push.apply( this.rowElements, this.newRowElements );
 	},
 	_isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
