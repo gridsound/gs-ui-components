@@ -4,8 +4,8 @@ function gsuiTrack() {
 	var root = this._clone();
 
 	this.rootElement = root;
-	this.gridTrackElement = root.querySelector( ".gsuiTrack-body" );
-	this.gridTrackElement.remove();
+	this.rowElement = root.querySelector( ".gsui-row" );
+	this.rowElement.remove();
 	this.uiToggle = new gsuiToggle();
 	this.uiSpan = new gsuiSpanEditable();
 	root.append( this.uiToggle.rootElement );
@@ -43,7 +43,7 @@ gsuiTrack.prototype = {
 	// events:
 	_evocToggle( b, isUserAction ) {
 		this.rootElement.classList.toggle( "gsui-mute", !b );
-		this.gridTrackElement.classList.toggle( "gsui-mute", !b );
+		this.rowElement.classList.toggle( "gsui-mute", !b );
 		if ( isUserAction !== false && this.ontogglechange ) {
 			this.ontogglechange( b );
 		}
