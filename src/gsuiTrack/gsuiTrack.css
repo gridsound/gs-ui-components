@@ -1,5 +1,5 @@
 .gsuiTrack,
-.gsui-row {
+.gsuiTrack-row {
 	--head-bg: #444;
 	--head-bg-mute: #393939;
 	--body-bg-mute: rgba( 0, 0, 0, .25 );
@@ -17,7 +17,7 @@
 	background: var( --head-bg );
 	transition: background .2s;
 }
-.gsui-row {
+.gsuiTrack-row {
 	display: block;
 	position: relative;
 	background: transparent;
@@ -36,7 +36,7 @@
 .gsuiTrack.gsui-mute {
 	background: var( --head-bg-mute );
 }
-.gsui-row.gsui-mute {
+.gsuiTrack-row.gsui-mute {
 	background: var( --body-bg-mute );
 }
 .gsuiTrack.gsui-mute .gsuiSpanEditable {
