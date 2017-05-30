@@ -14,21 +14,27 @@ function gsuiKeys() {
 
 gsuiKeys.prototype = {
 	octaves( start, nbOct ) {
-		var nbDiff = nbOct - this._nbOct;
+		var root = this.rootElement,
+			nbDiff = nbOct - this._nbOct;
 
 		if ( nbDiff || this._octStart !== start ) {
 			this._octStart = start;
-			this.rootElement.style.counterReset = "octave " + ( start + nbOct );
+			root.style.counterReset = "octave " + ( start + nbOct );
 		}
 		if ( nbDiff ) {
 			this._nbOct = nbOct;
 			if ( nbDiff > 0 ) {
 				while ( nbDiff-- > 0 ) {
-					this._cloneOctave();
+					root.append( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
 				}
+				this.newRowElements = root.querySelectorAll( ".gsui-row" );
+				this.newRowElements.forEach( function( el ) {
+					el.remove();
+				} );
+				Array.prototype.push.apply( this.rowElements, this.newRowElements );
 			} else {
 				for ( nbDiff *= 12; nbDiff < 0; ++nbDiff ) {
-					this.rootElement.lastChild.remove();
+					root.lastChild.remove();
 					this.rowElements[ this.rowElements.length - 1 ].remove();
 					this.rowElements.pop();
 				}
@@ -47,14 +53,6 @@ gsuiKeys.prototype = {
 				gsuiKeys._focused && gsuiKeys._focused._evmuRoot( e );
 			} );
 		}
-	},
-	_cloneOctave() {
-		this.rootElement.append( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
-		this.newRowElements = this.rootElement.querySelectorAll( ".gsui-row" );
-		this.newRowElements.forEach( function( el ) {
-			el.remove();
-		} );
-		Array.prototype.push.apply( this.rowElements, this.newRowElements );
 	},
 	_isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
