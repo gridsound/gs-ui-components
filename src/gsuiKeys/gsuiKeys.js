@@ -5,6 +5,7 @@ function gsuiKeys() {
 
 	this._init();
 	this.rootElement = root;
+	this.rowElements = [];
 	this._nlKeys = root.childNodes;
 	this._nbOct = 0;
 	root.className = "gsuiKeys";
@@ -27,7 +28,9 @@ gsuiKeys.prototype = {
 				}
 			} else {
 				for ( nbDiff *= 12; nbDiff < 0; ++nbDiff ) {
-					this.rootElement.removeChild( this.rootElement.firstChild );
+					this.rootElement.lastChild.remove();
+					this.rowElements[ this.rowElements.length - 1 ].remove();
+					this.rowElements.pop();
 				}
 			}
 		}
@@ -46,7 +49,14 @@ gsuiKeys.prototype = {
 		}
 	},
 	_cloneOctave() {
-		this.rootElement.appendChild( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
+		var elRows;
+
+		this.rootElement.append( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
+		elRows = this.rootElement.querySelectorAll( ".gsui-row" );
+		elRows.forEach( function( el ) {
+			el.remove();
+		} );
+		Array.prototype.push.apply( this.rowElements, elRows );
 	},
 	_isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;

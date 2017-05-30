@@ -6,6 +6,13 @@
 	-ms-user-select: none;
 }
 
+.gsuiKey-row {
+	height: 1em;
+}
+.gsuiKey-row.gsui-rowBlack {
+	background-color: rgba( 0, 0, 0, .1 );
+}
+
 .gsuiKey {
 	box-sizing: border-box;
 	position: relative;
