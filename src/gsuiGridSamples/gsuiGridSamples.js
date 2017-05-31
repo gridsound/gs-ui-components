@@ -30,13 +30,6 @@ function gsuiGridSamples() {
 }
 
 gsuiGridSamples.prototype = {
-	loadPianoRoll() {
-		// ...
-	},
-	loadTrackList() {
-		this.uiTrackList = new gsuiTrackList();
-		this._elPanelCnt.prepend( this.uiTrackList.rootElement );
-	},
 	resized() {
 		var panelStyle = getComputedStyle( this._elPanel );
 
@@ -59,18 +52,6 @@ gsuiGridSamples.prototype = {
 		this.uiTimeLine.loop( a, b );
 		this.uiBeatLines.loop( a, b );
 	},
-	nbTracks( n ) {
-		if ( this.uiTrackList ) {
-			var trkRoot,
-				nl = this.uiTrackList.tracksNodeList,
-				i = nl.length;
-
-			this.uiTrackList.nbTracks( n );
-			while ( trkRoot = nl[ i++ ] ) {
-				this._elGridCnt.append( trkRoot.gsuiTrackObject.gridTrackElement );
-			}
-		}
-	},
 	panelWidth( width ) {
 		width = Math.max( this._panelMinWidth, Math.min( width, this._panelMaxWidth ) );
 		if ( this._timeOffset > 0 ) {
@@ -80,12 +61,30 @@ gsuiGridSamples.prototype = {
 		this._updatePanelSize();
 	},
 	contentY( yEm ) {
-		var h = this.uiTrackList.rootElement.clientHeight;
+		var h = ( this.uiTrackList || this.uiKeys ).rootElement.clientHeight;
 
 		h = Math.max( 0, h - this._elGrid.clientHeight ) / this._fontSize;
 		this._contentY = yEm = Math.min( Math.max( 0, yEm ), h );
 		this._elGridCnt.style.marginTop =
 		this._elPanelCnt.style.marginTop = -yEm + "em";
+	},
+	loadKeys() {
+		this._loadPanelCmp( "uiKeys", "uiTrackList" );
+	},
+	loadTrackList() {
+		this._loadPanelCmp( "uiTrackList", "uiKeys" );
+	},
+	nbOctaves( from, nbOct ) {
+		if ( this.uiKeys ) {
+			this.uiKeys.octaves( from, nbOct );
+			this._addRows( this.uiKeys );
+		}
+	},
+	nbTracks( n ) {
+		if ( this.uiTrackList ) {
+			this.uiTrackList.nbTracks( n );
+			this._addRows( this.uiTrackList );
+		}
 	},
 
 	// private:
@@ -104,6 +103,24 @@ gsuiGridSamples.prototype = {
 			gsuiGridSamples._focused && gsuiGridSamples._focused._evmuRoot( e );
 		} );
 		return document.getElementById( "gsuiGridSamples" );
+	},
+	_loadPanelCmp( cmpStr, oldCmpStr ) {
+		var cmp = this[ cmpStr ],
+			oldCmp = this[ oldCmpStr ];
+
+		if ( oldCmp ) {
+			oldCmp[ oldCmpStr === "uiKeys" ? "octaves" : "nbTracks" ]( 0, 0 );
+			oldCmp.rootElement.remove();
+			this._setFontSize( this._fontSize * ( oldCmpStr === "uiKeys" ? 1.5 : 2 / 3 ) );
+			delete this[ oldCmpStr ];
+		}
+		if ( !cmp ) {
+			this[ cmpStr ] = cmp = cmpStr === "uiKeys" ? new gsuiKeys() : new gsuiTrackList();
+			this._elPanelCnt.prepend( cmp.rootElement );
+		}
+	},
+	_addRows( cmp ) {
+		cmp.newRowElements.forEach( this._elGridCnt.appendChild.bind( this._elGridCnt ) );
 	},
 	_resizeGrid() {
 		this.uiTimeLine.resized();
