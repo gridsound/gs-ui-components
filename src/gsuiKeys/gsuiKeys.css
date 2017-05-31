@@ -7,10 +7,15 @@
 }
 
 .gsuiKey-row {
+	box-sizing: border-box;
 	height: 1em;
 }
 .gsuiKey-row.gsui-rowBlack {
 	background-color: rgba( 0, 0, 0, .1 );
+}
+.gsuiKey-row.gsui-rowC,
+.gsuiKey-row.gsui-rowF {
+	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
 }
 
 .gsuiKey {
