@@ -183,7 +183,7 @@ gsuiGridSamples.prototype = {
 				beatPx = Math.min( Math.max( 8, beatPx * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 );
 				offInc = ( layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
 			} else {
-				offInc = ( e.deltaY > 0 ? 40 : -40 ) / beatPx;
+				offInc = ( e.deltaY > 0 ? 20 : -20 ) / beatPx;
 			}
 			this.offset( Math.max( 0, this._timeOffset + offInc ), beatPx );
 		}
