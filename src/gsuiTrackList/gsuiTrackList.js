@@ -21,6 +21,7 @@ gsuiTrackList.prototype = {
 	},
 	nbTracks( nb ) {
 		nb = Math.min( Math.max( 0, nb ), 99 ) - this.tracksNodeList.length;
+		this.newRowElements = [];
 		if ( nb < 0 ) {
 			for ( ; nb < 0; ++nb ) {
 				this.rootElement.lastChild.remove();
@@ -28,7 +29,6 @@ gsuiTrackList.prototype = {
 				this.rowElements.pop();
 			}
 		} else {
-			this.newRowElements = [];
 			for ( ; nb > 0; --nb ) {
 				this._addTrack();
 			}
