@@ -42,11 +42,11 @@
 	right: 0;
 	width: 6px;
 	height: 100%;
-	transition: background .2s;
+	transition: background-color .2s;
 }
 .gsuiGridSamples .gsui-extend:hover,
 .gsuiGridSamples .gsui-extend.gsui-hover {
-	background: rgba( 255, 255, 255, .1 );
+	background-color: rgba( 128, 128, 128, .5 );
 }
 .gsuiGridSamples .gsuiTimeLine {
 	position: absolute;
