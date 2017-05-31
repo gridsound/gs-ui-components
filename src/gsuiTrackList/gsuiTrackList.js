@@ -4,6 +4,7 @@ function gsuiTrackList() {
 	var root = this._clone();
 
 	this.rootElement = root;
+	this.rowElements = [];
 	this.tracksNodeList = root.childNodes;
 }
 
@@ -23,11 +24,15 @@ gsuiTrackList.prototype = {
 		if ( nb < 0 ) {
 			for ( ; nb < 0; ++nb ) {
 				this.rootElement.lastChild.remove();
+				this.rowElements[ this.rowElements.length - 1 ].remove();
+				this.rowElements.pop();
 			}
 		} else {
+			this.newRowElements = [];
 			for ( ; nb > 0; --nb ) {
 				this._addTrack();
 			}
+			Array.prototype.push.apply( this.rowElements, this.newRowElements );
 		}
 	},
 
@@ -51,6 +56,7 @@ gsuiTrackList.prototype = {
 		trk.onnamechange = this._change.bind( this, trk, "name" );
 		trk.id = this.tracksNodeList.length;
 		trk.setPlaceholder( "Track " + ( trk.id + 1 ) );
+		this.newRowElements.push( trk.rowElement );
 		this.rootElement.append( trk.rootElement );
 	},
 	_change( trk, attr, val ) {
