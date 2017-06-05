@@ -42,7 +42,7 @@ gsuiSlider.prototype = {
 		if ( inp.value !== prval ) {
 			this._updateVal();
 			if ( bymouse && this.oninput ) {
-				this.oninput( inp.value );
+				this.oninput( +inp.value );
 			}
 		}
 	},
@@ -174,7 +174,7 @@ gsuiSlider.prototype = {
 		document.exitPointerLock();
 		delete gsuiSlider._sliderClicked;
 		if ( this._prval !== this._elInput.value ) {
-			this.onchange && this.onchange( this._elInput.value );
+			this.onchange && this.onchange( +this._elInput.value );
 		}
 	},
 	_mousemove( e ) {
