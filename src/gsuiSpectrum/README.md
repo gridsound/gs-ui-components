@@ -12,12 +12,14 @@ This component takes a `<canvas>` at first, and let us able to draw the result o
 
 ## Documentation
 
-### `.setResolution( width<Number> )`
-This method will call `canvas.width = width;`. It will impact the quality, to have the best quality we need to keep the resolution synced with the `Uint8Array.length`. There is no need to specify another dimension because our spectrum visualization use different colors instead of different heights.  
+### Methods :
+
+* #### `.setResolution( width<Number> )`
+  This method will call `canvas.width = width;`. It will impact the quality, to have the best quality we need to keep the resolution synced with the `Uint8Array.length`. There is no need to specify another dimension because our spectrum visualization use different colors instead of different heights.  
 Calling `setResolution` will not fire another `draw`.
 
-### `.draw( data<Uint8Array> )`
-Draw on the canvas (with multiple different color `fillRect`) the audio frequencies given by the `data` array who has to be created with [`getByteFrequencyData`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteFrequencyData).
+* #### `.draw( data<Uint8Array> )`
+  Draw on the canvas (with multiple different color `fillRect`) the audio frequencies given by the `data` array who has to be created with [`getByteFrequencyData`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteFrequencyData).
 
-### `.clear()`
-Clear the canvas by calling `clearRect`.
+* #### `.clear()`
+  Clear the canvas by calling `clearRect`.
