@@ -12,35 +12,37 @@ This component takes a `<canvas>` at first, and let us able to draw the result o
 
 ## Documentation
 
-### `.setResolution( width<Number>, height<Number> )`
-This method will call `canvas.width = width; canvas.height = height;`. It will impact the quality, to have the best quality we need to keep the resolution synced with the canvas dimension with [`getBoundingClientRect`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect).  
-Calling `setResolution` will not fire another `draw`.
+### Methods :
 
-### `.setPinch( pinch<Number> )`
-`pinch` is a Number between `0` and `1`. It will pinch the extremities of the curve to add a nice round effect.  
-By default the value is `0` (disabled).
+* #### `.setResolution( width<Number>, height<Number> )`
+	This method will call `canvas.width = width; canvas.height = height;`. It will impact the quality, to have the best quality we need to keep the resolution synced with the canvas dimension with [`getBoundingClientRect`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect).  
+	Calling `setResolution` will not fire another `draw`.
 
-### `.draw( data<Uint8Array> )`
-Draw on the canvas a curve representing the current waveform of the audio.
-`data` has to be created with [`getByteTimeDomainData`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteTimeDomainData).
+* #### `.setPinch( pinch<Number> )`
+	`pinch` is a Number between `0` and `1`. It will pinch the extremities of the curve to add a nice round effect.  
+	By default the value is `0` (disabled).
 
-### `.drawBegin( fn<Function> )`
-This method let us able to overwrite the begin of the `draw` method. We can choose the color of the curve etc.  
-We have to pass a function who will receive 4 arguments : the `CanvasRenderingContext2D`, the `max` dB recorded on the **previous** frame and the canvas' `width`, `height`.  
-Note that if we want to overwrite this function, we will need to `clearRect` our canvas ourself.  
-By default it's set to :
-``` javascript
-this.drawBegin( function( ctx, max, w, h ) {
-	ctx.clearRect( 0, 0, w, h );
-	ctx.lineWidth = 2;
-	ctx.strokeStyle = "#fff";
-} );
-```
+* #### `.draw( data<Uint8Array> )`
+	Draw on the canvas a curve representing the current waveform of the audio.
+	`data` has to be created with [`getByteTimeDomainData`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteTimeDomainData).
 
-### `.drawEnd( fn<Function> )`
-This method is the symmetry of `drawBegin`. The function will be called just before the `stroke` call for drawing the curve.  
-The function will receive the same arguments than `drawBegin` except the `max` dB will concern the current frame.  
-There is no default function.
+* #### `.drawBegin( fn<Function> )`
+	This method let us able to overwrite the begin of the `draw` method. We can choose the color of the curve etc.  
+	We have to pass a function who will receive 4 arguments : the `CanvasRenderingContext2D`, the `max` dB recorded on the **previous** frame and the canvas' `width`, `height`.  
+	Note that if we want to overwrite this function, we will need to `clearRect` our canvas ourself.  
+	By default it's set to :
+	``` javascript
+	this.drawBegin( function( ctx, max, w, h ) {
+		ctx.clearRect( 0, 0, w, h );
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = "#fff";
+	} );
+	```
 
-### `.clear()`
-Clear the canvas by calling `clearRect`.
+* #### `.drawEnd( fn<Function> )`
+	This method is the symmetry of `drawBegin`. The function will be called just before the `stroke` call for drawing the curve.  
+	The function will receive the same arguments than `drawBegin` except the `max` dB will concern the current frame.  
+	There is no default function.
+
+* #### `.clear()`
+	Clear the canvas by calling `clearRect`.
