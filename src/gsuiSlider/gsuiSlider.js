@@ -79,10 +79,10 @@ gsuiSlider.prototype = {
 	},
 	_init() {
 		document.body.addEventListener( "mousemove", function( e ) {
-			gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mousemove( e );
+			gsuiSlider._focused && gsuiSlider._focused._mousemove( e );
 		} );
 		document.body.addEventListener( "mouseup", function( e ) {
-			gsuiSlider._sliderClicked && gsuiSlider._sliderClicked._mouseup( e );
+			gsuiSlider._focused && gsuiSlider._focused._mouseup( e );
 		} );
 		return document.getElementById( "gsuiSlider" );
 	},
@@ -167,12 +167,12 @@ gsuiSlider.prototype = {
 		this._prval = inp.value;
 		this._pxval = ( inp.max - inp.min ) / size;
 		this._pxmoved = 0;
-		gsuiSlider._sliderClicked = this;
+		gsuiSlider._focused = this;
 		this.rootElement.requestPointerLock();
 	},
 	_mouseup( e ) {
 		document.exitPointerLock();
-		delete gsuiSlider._sliderClicked;
+		delete gsuiSlider._focused;
 		if ( this._prval !== this._elInput.value ) {
 			this.onchange && this.onchange( +this._elInput.value );
 		}
