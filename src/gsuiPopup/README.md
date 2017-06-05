@@ -12,14 +12,16 @@
 
 ## Documentation
 
-### `gsuiPopup.alert( title<String>, msg<String> ).then( () => ... )`
-This is the equivalent of `alert( msg );`. But now the call is asynchrone.
+### Methods :
 
-### `gsuiPopup.confirm( title<String>, msg<String> ).then( val<Boolean> => ... )`
-This is the equivalent of `var b = confirm( msg );`. But now the call is asynchrone and the return value will be the boolean argument of the `then` callback.
+* #### `gsuiPopup.alert( title<String>, msg<String> ).then( () => ... )`
+  This is the equivalent of `alert( msg );`. But now the call is asynchrone.
 
-### `gsuiPopup.prompt( title<String>, msg<String> [, val<String>] ).then( val<String> => ... )`
-This is the equivalent of `var b = prompt( msg, val );`. But now the call is asynchrone and the return value will be the string argument of the `then` callback. If the user press *Cancel* the return value will be `null` (like the native behaviour).
+* #### `gsuiPopup.confirm( title<String>, msg<String> ).then( val<Boolean> => ... )`
+  This is the equivalent of `var b = confirm( msg );`. But now the call is asynchrone and the return value will be the boolean argument of the `then` callback.
 
-### `gsuiPopup.close()`
-Force close the dialog. It will resolve the Promise returned by the previous call to `alert/confirm/prompt( ... )` like if the *Cancel* button was pressed.
+* #### `gsuiPopup.prompt( title<String>, msg<String> [, val<String>] ).then( val<String> => ... )`
+  This is the equivalent of `var b = prompt( msg, val );`. But now the call is asynchrone and the return value will be the string argument of the `then` callback. If the user press *Cancel* the return value will be `null` (like the native behaviour).
+
+* #### `gsuiPopup.close()`
+  Force close the dialog. It will resolve the Promise returned by the previous call to `alert/confirm/prompt( ... )` like if the *Cancel* button was pressed.
