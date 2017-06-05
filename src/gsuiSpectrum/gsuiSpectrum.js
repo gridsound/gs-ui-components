@@ -23,7 +23,7 @@ gsuiSpectrum.prototype = {
 		this.rootElement.height = 1;
 	},
 	clear() {
-		this.ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
+		this.ctx.clearRect( 0, 0, this.rootElement.width, 1 );
 	},
 	draw( data ) {
 		var datum, col, colId,
@@ -33,7 +33,6 @@ gsuiSpectrum.prototype = {
 			cnv = this.rootElement,
 			ctx = this.ctx,
 			w = cnv.width,
-			h = cnv.height,
 			datalen = data.length;
 
 		if ( this._datalen !== datalen || this._width !== w ) {
@@ -67,7 +66,7 @@ gsuiSpectrum.prototype = {
 				+ ~~r + ","
 				+ ~~g + ","
 				+ ~~b + ")";
-			ctx.fillRect( x, 0, ws[ i ], h );
+			ctx.fillRect( x, 0, ws[ i ], 1 );
 			x += ws[ i ];
 		}
 	},
