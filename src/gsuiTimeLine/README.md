@@ -12,34 +12,36 @@ This component let you able to draw a precise timeline to be above (or below) a 
 
 ## Documentation
 
-### `.resized()`
-When the component has been resized by CSS or directly by JS, we have to call `.resized()` to let the component take its new dimensions (its new width).
+### Methods :
 
-### `.offset( beats<Number>, pxPerBeat<Number> )`
-This method is used to draw a specific part of the timeline, if we call `.offset( 16, 64 )` and if the component has a width of `512px` then we will see a timeline start at the `17`th beat and finish at the `25`th.
+* #### `.resized()`
+  When the component has been resized by CSS or directly by JS, we have to call `.resized()` to let the component take its new dimensions (its new width).
 
-### `.currentTime( beats<Number> )`
-We can specify the current time in beats with this method, and it results by showing a little triangle at the time specified. By default the `currentTime` is set to `0`. This method is ready to be called a lot.
+* #### `.offset( beats<Number>, pxPerBeat<Number> )`
+  This method is used to draw a specific part of the timeline, if we call `.offset( 16, 64 )` and if the component has a width of `512px` then we will see a timeline start at the `17`th beat and finish at the `25`th.
 
-### `.timeSignature( beatsPerMeasure<Number>, stepsPerBeat<Number> )`
-This method will specify the [time signature](https://en.wikipedia.org/wiki/Time_signature) to the component, by default it's `(4, 4)`.
+* #### `.currentTime( beats<Number> )`
+  We can specify the current time in beats with this method, and it results by showing a little triangle at the time specified. By default the `currentTime` is set to `0`. This method is ready to be called a lot.
 
-### `.loop( a<Number>, b<Number> )`
-This method let us able to specify a *timeloop* inside the *timeline*, for example if we call `.loop( 4, 8 )` a little bar above the numbers `5-6-7-8-9` will appear (keep in mind that the numbers start from `1` not `0`).
+* #### `.timeSignature( beatsPerMeasure<Number>, stepsPerBeat<Number> )`
+  This method will specify the [time signature](https://en.wikipedia.org/wiki/Time_signature) to the component, by default it's `(4, 4)`.
 
-### `.loop( false )`
-This will make the *timeloop*'s bar disappear.
+* #### `.loop( a<Number>, b<Number> )`
+  This method let us able to specify a *timeloop* inside the *timeline*, for example if we call `.loop( 4, 8 )` a little bar above the numbers `5-6-7-8-9` will appear (keep in mind that the numbers start from `1` not `0`).
 
-## CSS
+* #### `.loop( false )`
+  This will make the *timeloop*'s bar disappear.
 
-### `--cursor-color: #fdfd70;`
-This variable specify the **currentTime** cursor's `color` who is by default a bright yellow. The variable will also change the little glow yellow effect under the mouse while changing the currentTime.
+### CSS :
 
-### `--cursor-dur: 0.1s`
-This variable specify the **currentTime** cursor's `transition-duration`, when the internaute click to change the currentTime, the little triangle will move smoothly.
+* #### `--cursor-color: #fdfd70;`
+  This variable specify the **currentTime** cursor's `color` who is by default a bright yellow. The variable will also change the little glow yellow effect under the mouse while changing the currentTime.
 
-### `--loop-color: #656586;`
-This variable specify the **loop** div's `background`, by default it's a fade blue.
+* #### `--cursor-dur: 0.1s`
+  This variable specify the **currentTime** cursor's `transition-duration`, when the internaute click to change the currentTime, the little triangle will move smoothly.
 
-### `--loop-brd-color: #fff;`
-This variable specify the tiny **loop** border divs' `background`, by default it's white.
+* #### `--loop-color: #656586;`
+  This variable specify the **loop** div's `background`, by default it's a fade blue.
+
+* #### `--loop-brd-color: #fff;`
+  This variable specify the tiny **loop** border divs' `background`, by default it's white.
