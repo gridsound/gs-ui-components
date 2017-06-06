@@ -1,0 +1,71 @@
+.gsuiSample {
+	--bd-width: 2px;
+	--bd-radius: 4px;
+	--bg: rgba( 0, 0, 0, .6 );
+	--bg-head: rgba( 0, 0, 0, .3 );
+	color: #cce;
+
+	position: absolute;
+	box-sizing: border-box;
+	overflow: hidden;
+	height: 100%;
+	border-style: solid;
+	border-width: var( --bd-width ) 0;
+	border-radius: var( --bd-radius );
+}
+
+.gsui-bg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: currentColor;
+	filter: brightness( .15 );
+	opacity: .8;
+}
+
+.gsuiSample .gsui-head {
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+	padding: .3em .5em;
+	font-size: 12px;
+	font-weight: bold;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background-color: var( --bg-head );
+	cursor: default;
+}
+
+.gsuiSample .gsui-name:empty:before {
+	content: "empty";
+	font-style: italic;
+	opacity: .5;
+}
+
+.gsuiSample .gsui-crop {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	width: 50%;
+	max-width: 10px;
+	height: 100%;
+	transition: background-color .2s;
+}
+
+.gsuiSample .gsui-crop:hover,
+.gsuiSample .gsui-crop.gsui-hover {
+	background-color: rgba( 128, 128, 150, .5 );
+}
+
+.gsuiSample .gsui-crop.gsui-b {
+	right: 0;
+}
+
+.gsuiSample .gsuiWaveform {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	fill: currentColor;
+	opacity: .3;
+}
