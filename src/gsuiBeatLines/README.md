@@ -13,34 +13,30 @@ This component is a lot inspired of *FL Studio* (obviously).
 
 ## Documentation
 
-### `.setResolution( width<Number> )`
-This method will call `.setAttribute( "viewBox", "0 0 " + w + " 1" )`. It will impact the quality, to have the best quality we need to keep the resolution synced with the SVG width on screen. There is no need to specify another dimension so its height will always be only `1`. Calling `setResolution` will not fire another `draw`.
+### Methods :
 
-### `.offset( beats<Number> )`
-Specify where to start the draw in the timeline. The value is in Beat, and is useful for the component to recognize which lines are beatlines or measurelines. `offset` is at `0` by default.
+* #### `.resized()`
+  This method will find the current width of the component to calculate the accurate SVG's viewport. This method has to be called after the component has seen its width changed.
 
-### `.beatsPerMeasure( n<Number> )`
-The measures are represented by a strong line on our canvas. `beatsPerMeasure` is the equivalent of the up number of the [time signature](https://en.wikipedia.org/wiki/Time_signature) fraction. The most famous Time signature is **4/4**, by default this value is `4`.
+* #### `.offset( beats<Number>, pxPerBeat<Number> )`
+  This method is used to draw a specific part of the timeline, if we call .offset( 16, 64 ) and if the component has a width of 512px then we will see a timeline start at the 17th beat and finish at the 25th.
 
-### `.stepsPerBeat( n<Number> )`
-A *step* is the subpart of a *beat*, if our *time signature* is 4/**4**, the bottom number means a [quarter note](https://en.wikipedia.org/wiki/Quarter_note) so there will be 4 step in a beat and so 3 steplines between two beatlines. By default this value is `4`.
+* #### `.timeSignature( beatsPerMeasure<Number>, stepsPerBeat<Number> )`
+  This method will specify the [time signature](https://en.wikipedia.org/wiki/Time_signature) to the component, by default it's `(4, 4)`. The measures are represented by a strong line on our canvas, the beats by a normal line and the steps (who are the *beat*'s subparts) by a smaller line.
 
-### `.highlight( b<Boolean> )`
-This will highlight or not a certain part of the timeline. This *highlight* feature can be useful when we perform a timeloop.
+* #### `.loop( a<Number>, b<Number> )`
+  This method let us able to specify a *timeloop*, for example if we call `.loop( 4, 8 )` the 1, 2, 3, 4 and the 9, 10, 11, ... measures will be darken to let the 5, 6, 7, 8 measures highlighted (keep in mind that the numbers start from 1 not 0).
 
-### `.highlightStart( beat<Number> )`
-Specify the start of the highlight, the value is in Beat.
+* #### `.loop( false )`
+  This will make the dark areas disappear.
 
-### `.highlightEnd( beat<Number> )`
-Specify the end of the highlight, the value is in Beat.
+* #### `.render()`
+  Draw on the canvas (with multiple black `fillRect`) each step/beat/measure (vertical) lines.
 
-### `.draw()`
-Draw on the canvas (with multiple black `fillRect`) each step/beat/measure (vertical) lines.
+### CSS :
 
-## CSS
+* #### `color: #ff5;`
+  Change the `color` property to change the *currentTime*'s color.
 
-### `font-size`
-Applying a `font-size` property on `.gsuiBeatLines` element will have a zoom effect. Increase the value to zoom in, decrease to zoom out. 
-
-### `fill`
-Changing the `fill` property to choose your own color. By default it's `#000`.
+* #### `fill: #000;`
+  Changing the `fill` property to choose your own color for the measures/beats/steps bars.
