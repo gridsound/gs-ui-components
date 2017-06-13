@@ -63,11 +63,20 @@ gsuiPanels.prototype = {
 		if ( this._nlPanels.length < this._nbPanels - 1 ) {
 			ext = document.createElement( "div" );
 			ext.className = "gsui-extend";
-			ext.onmousedown = this._evmdExtends.bind( this, div, ext );
-			div._elExtend = ext;
+			ext.onmousedown = this._evmdExtends.bind( this, this._nlPanels.length, div, ext );
 			div.append( ext );
 		}
 		this.rootElement.append( div );
+	},
+	_incPan( ind, perc ) {
+		var pan = this._nlPanels[ ind ],
+			panH = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootPx * 100;
+
+		if ( perc < 0 ) {
+			perc = -Math.min( -perc, panH - this._panelMinPerc );
+		}
+		pan.style[ this._axeX ? "width" : "height" ] = panH + perc + "%";
+		return perc;
 	},
 
 	// events:
@@ -82,35 +91,33 @@ gsuiPanels.prototype = {
 	},
 	_evmmRoot( e ) {
 		if ( this._elExtend ) {
-			var inc = this._axeX
-					? e.pageX - this._mdPageX
-					: e.pageY - this._mdPageY,
-				h = ( this._panelSize + inc ) / this._rootSize * 100 + "%",
-				nh = ( this._panelNextSize - inc ) / this._rootSize * 100 + "%";
+			var panInd = this._panelInd,
+				percInc = ( this._axeX ? e.movementX : e.movementY ) / this._rootPx * 100,
+				percIncSave = percInc;
 
-			if ( this._axeX ) {
-				this._elPanel.style.width = h;
-				this._elPanelNext.style.width = nh;
+			if ( percInc < 0 ) {
+				for ( ; panInd >= 0 && percInc < 0; --panInd ) {
+					percInc -= this._incPan( panInd, percInc );
+				}
+				this._incPan( this._panelInd + 1, -percIncSave + percInc );
 			} else {
-				this._elPanel.style.height = h;
-				this._elPanelNext.style.height = nh;
+				while ( percInc > 0 && ++panInd < this._nlPanels.length ) {
+					percInc += this._incPan( panInd, -percInc );
+				}
+				this._incPan( this._panelInd, percIncSave - percInc );
 			}
 		}
 	},
-	_evmdExtends( elPanel, elExtend, e ) {
-		var elPanelNext = elPanel.nextSibling,
-			rootBCR = this.rootElement.getBoundingClientRect(),
-			panelBCR = elPanel.getBoundingClientRect(),
-			panelNextBCR = elPanelNext.getBoundingClientRect();
+	_evmdExtends( panelInd, elPanel, elExtend, e ) {
+		var rootBCR = this.rootElement.getBoundingClientRect(),
+			panelCS = getComputedStyle( elPanel ),
+			panMin = parseFloat( this._axeX ? panelCS.minWidth : panelCS.minHeight );
 
-		this._mdPageX = e.pageX;
-		this._mdPageY = e.pageY;
+		this._panelInd = panelInd;
 		this._elPanel = elPanel;
-		this._elPanelNext = elPanelNext;
 		this._elExtend = elExtend;
-		this._rootSize = this._axeX ? rootBCR.width : rootBCR.height;
-		this._panelSize = this._axeX ? panelBCR.width : panelBCR.height;
-		this._panelNextSize = this._axeX ? panelNextBCR.width : panelNextBCR.height;
+		this._rootPx = this._axeX ? rootBCR.width : rootBCR.height;
+		this._panelMinPerc = panMin / this._rootPx * 100;
 		this.rootElement.classList.add( "gsui-noselect" );
 		elExtend.classList.add( "gsui-hover" );
 		gsuiPanels._focused = this;
