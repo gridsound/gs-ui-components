@@ -13,10 +13,12 @@ function gsuiPanels() {
 
 gsuiPanels.prototype = {
 	axe( axe ) {
-		if ( axe !== this._axe ) {
-			this._axeX = axe === "x";
+		var axeX = axe === "x";
+
+		if ( axeX !== this._axeX ) {
+			this._axeX = axeX;
 			this.rootElement.classList.remove( "gsui-axeX", "gsui-axeY" );
-			this.rootElement.classList.add( "gsui-axe" + ( this._axeX ? "X" : "Y" ) );
+			this.rootElement.classList.add( "gsui-axe" + ( axeX ? "X" : "Y" ) );
 			this._nlPanels.forEach( function( panel ) {
 				var w = panel.style.width;
 
