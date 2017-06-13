@@ -1,0 +1,44 @@
+.gsuiPanels {
+	--extend-bg: #777;
+	--panel-min-size: 32px;
+
+	height: 100%;
+}
+.gsuiPanels.gsui-noselect {
+	cursor: default;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+.gsuiPanels .gsui-panel {
+	box-sizing: border-box;
+	position: relative;
+}
+.gsuiPanels.gsui-axeX .gsui-panel {
+	min-width: var( --panel-min-size );
+}
+.gsuiPanels.gsui-axeY .gsui-panel {
+	min-height: var( --panel-min-size );
+}
+
+.gsuiPanels .gsui-extend {
+	position: absolute;
+	z-index: 1;
+	transition: background .2s;
+}
+.gsuiPanels .gsui-extend.gsui-hover,
+.gsuiPanels .gsui-extend:hover {
+	background-color: var( --extend-bg );
+}
+.gsuiPanels.gsui-axeY .gsui-extend {
+	bottom: -4px;
+	width: 100%;
+	height: 8px;
+}
+.gsuiPanels.gsui-axeX .gsui-extend {
+	right: -4px;
+	width: 8px;
+	height: 100%;
+}
