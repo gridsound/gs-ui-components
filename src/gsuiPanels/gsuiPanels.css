@@ -1,6 +1,11 @@
+/* .gsuiPanels ------------------------------- */
+/* ------------------------------------------- */
 .gsuiPanels {
-	--extend-bg: #777;
 	--panel-min-size: 32px;
+	--panel-bd-color: rgba( 0, 0, 0, .3 );
+	--panel-bd-size: 1px;
+	--extend-bg: #333;
+	--extend-size: 5px;
 
 	display: flex;
 	height: 100%;
@@ -8,25 +13,35 @@
 .gsuiPanels.gsui-noselect {
 	cursor: default;
 	user-select: none;
+	-ms-user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 }
 .gsuiPanels.gsui-axeY {
 	flex-direction: column;
 }
 
+/* .gsuiPanels .gsui-panel ------------------- */
+/* ------------------------------------------- */
 .gsuiPanels .gsui-panel {
 	box-sizing: border-box;
 	position: relative;
+	border: 0 solid var( --panel-bd-color );
 }
 .gsuiPanels.gsui-axeX > .gsui-panel {
 	min-width: var( --panel-min-size );
+	border-right-width: var( --panel-bd-size );
 }
 .gsuiPanels.gsui-axeY > .gsui-panel {
 	min-height: var( --panel-min-size );
+	border-bottom-width: var( --panel-bd-size );
+}
+.gsuiPanels .gsui-panel:last-child {
+	border: none;
 }
 
+/* .gsuiPanels .gsui-panel .gsui-extend ------ */
+/* ------------------------------------------- */
 .gsuiPanels .gsui-extend {
 	position: absolute;
 	z-index: 1;
@@ -37,12 +52,12 @@
 	background-color: var( --extend-bg );
 }
 .gsuiPanels.gsui-axeX > .gsui-panel > .gsui-extend {
-	right: -4px;
-	width: 8px;
 	height: 100%;
+	width: var( --extend-size );
+	right: calc( ( var( --extend-size ) - var( --panel-bd-size ) ) / -2 - var( --panel-bd-size ) );
 }
 .gsuiPanels.gsui-axeY > .gsui-panel > .gsui-extend {
-	bottom: -4px;
 	width: 100%;
-	height: 8px;
+	height: var( --extend-size );
+	bottom: calc( ( var( --extend-size ) - var( --panel-bd-size ) ) / -2 - var( --panel-bd-size ) );
 }
