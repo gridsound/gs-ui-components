@@ -13,15 +13,14 @@ function gsuiPanels() {
 
 gsuiPanels.prototype = {
 	axe( axe ) {
-		var axeX = axe === "x";
+		var w, axeX = axe === "x";
 
 		if ( axeX !== this._axeX ) {
 			this._axeX = axeX;
 			this.rootElement.classList.remove( "gsui-axeX", "gsui-axeY" );
 			this.rootElement.classList.add( "gsui-axe" + ( axeX ? "X" : "Y" ) );
 			this._nlPanels.forEach( function( panel ) {
-				var w = panel.style.width;
-
+				w = panel.style.width;
 				panel.style.width = panel.style.height;
 				panel.style.height = w;
 			} );
@@ -72,12 +71,12 @@ gsuiPanels.prototype = {
 	},
 	_incPan( ind, perc ) {
 		var pan = this._nlPanels[ ind ],
-			panH = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootPx * 100;
+			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootPx * 100;
 
 		if ( perc < 0 ) {
-			perc = -Math.min( -perc, panH - this._panelMinPerc );
+			perc = -Math.min( -perc, panSize - this._panelMinPerc );
 		}
-		pan.style[ this._axeX ? "width" : "height" ] = panH + perc + "%";
+		pan.style[ this._axeX ? "width" : "height" ] = panSize + perc + "%";
 		return perc;
 	},
 
