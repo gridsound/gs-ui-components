@@ -27,20 +27,20 @@ gsuiPanels.prototype = {
 		}
 	},
 	nbPanels( nb ) {
-		var diff = nb - this._nbPanels;
+		var ret = [],
+			diff = nb - this._nbPanels;
 
-		if ( diff ) {
-			this._nbPanels = nb;
-			if ( diff < 0 ) {
-				while ( diff++ < 0 ) {
-					this.rootElement.lastChild.remove();
-				}
-			} else {
-				while ( diff-- > 0 ) {
-					this._newPanel( 1 / nb * 100 );
-				}
+		this._nbPanels = nb;
+		if ( diff < 0 ) {
+			while ( diff++ < 0 ) {
+				ret.push( this.rootElement.removeChild( this.rootElement.lastChild ) );
+			}
+		} else if ( diff > 0 ) {
+			while ( diff-- > 0 ) {
+				ret.push( this._newPanel( 1 / nb * 100 ) );
 			}
 		}
+		return ret;
 	},
 
 	// private:
@@ -68,6 +68,7 @@ gsuiPanels.prototype = {
 			div.append( ext );
 		}
 		this.rootElement.append( div );
+		return div;
 	},
 	_incPan( ind, perc ) {
 		var pan = this._nlPanels[ ind ],
