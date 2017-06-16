@@ -61,3 +61,6 @@
 	height: var( --extend-size );
 	bottom: calc( ( var( --extend-size ) - var( --panel-bd-size ) ) / -2 - var( --panel-bd-size ) );
 }
+.gsuiPanels .gsui-panel:last-child > .gsui-extend {
+	display: none;
+}

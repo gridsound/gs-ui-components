@@ -71,17 +71,15 @@ gsuiPanels.prototype = {
 		}, this );
 	},
 	_newPanel( perc ) {
-		var ext, div = document.createElement( "div" );
+		var div = document.createElement( "div" ),
+			ext = document.createElement( "div" );
 
 		div.className = "gsui-panel";
+		ext.className = "gsui-extend";
 		div.style.width = this._axeX ? perc + "%" : "100%";
 		div.style.height = this._axeX ? "100%" : perc + "%";
-		if ( this.panels.length < this._nbPanels - 1 ) {
-			ext = document.createElement( "div" );
-			ext.className = "gsui-extend";
-			ext.onmousedown = this._evmdExtends.bind( this, this.panels.length, div, ext );
-			div.append( ext );
-		}
+		ext.onmousedown = this._evmdExtends.bind( this, this.panels.length, div, ext );
+		div.append( ext );
 		this.rootElement.append( div );
 		return div;
 	},
