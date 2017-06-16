@@ -8,6 +8,7 @@ function gsuiPanels() {
 	this.rootElement = root;
 	this._nbPanels = 0;
 	this._nlPanels = root.childNodes;
+	this._panelSizes = [];
 	this.axe( "x" );
 }
 
@@ -34,6 +35,7 @@ gsuiPanels.prototype = {
 		if ( diff < 0 ) {
 			while ( diff++ < 0 ) {
 				ret.push( this.rootElement.removeChild( this.rootElement.lastChild ) );
+				this._panelSizes.pop();
 			}
 		} else if ( diff > 0 ) {
 			while ( diff-- > 0 ) {
@@ -55,6 +57,19 @@ gsuiPanels.prototype = {
 			} );
 		}
 	},
+	_updateStyleCache() {
+		var axeX = this._axeX,
+			rootBCR = this.rootElement.getBoundingClientRect();
+
+		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
+		this._nlPanels.forEach( function( pan, i ) {
+			var sty = getComputedStyle( pan ),
+				min = parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
+				max = parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize;
+
+			this._panelSizes[ i ] = { min, max };
+		}, this );
+	},
 	_newPanel( perc ) {
 		var ext, div = document.createElement( "div" );
 
@@ -72,10 +87,10 @@ gsuiPanels.prototype = {
 	},
 	_incPan( ind, perc ) {
 		var pan = this._nlPanels[ ind ],
-			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootPx * 100;
+			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize;
 
 		if ( perc < 0 ) {
-			perc = -Math.min( -perc, panSize - this._panelMinPerc );
+			perc = -Math.min( -perc, panSize - this._panelSizes[ ind ].min );
 		}
 		pan.style[ this._axeX ? "width" : "height" ] = panSize + perc + "%";
 		return perc;
@@ -94,7 +109,7 @@ gsuiPanels.prototype = {
 	_evmmRoot( e ) {
 		if ( this._elExtend ) {
 			var panInd = this._panelInd,
-				percInc = ( this._axeX ? e.movementX : e.movementY ) / this._rootPx * 100,
+				percInc = ( this._axeX ? e.movementX : e.movementY ) / this._rootSize,
 				percIncSave = percInc;
 
 			if ( percInc < 0 ) {
@@ -110,16 +125,11 @@ gsuiPanels.prototype = {
 			}
 		}
 	},
-	_evmdExtends( panelInd, elPanel, elExtend, e ) {
-		var rootBCR = this.rootElement.getBoundingClientRect(),
-			panelCS = getComputedStyle( elPanel ),
-			panMin = parseFloat( this._axeX ? panelCS.minWidth : panelCS.minHeight );
-
+	_evmdExtends( panelInd, elPanel, elExtend ) {
+		this._updateStyleCache();
 		this._panelInd = panelInd;
 		this._elPanel = elPanel;
 		this._elExtend = elExtend;
-		this._rootPx = this._axeX ? rootBCR.width : rootBCR.height;
-		this._panelMinPerc = panMin / this._rootPx * 100;
 		this.rootElement.classList.add( "gsui-noselect" );
 		elExtend.classList.add( "gsui-hover" );
 		gsuiPanels._focused = this;
