@@ -7,7 +7,7 @@ function gsuiPanels() {
 	root.className = "gsuiPanels";
 	this.rootElement = root;
 	this._nbPanels = 0;
-	this._nlPanels = root.childNodes;
+	this.panels = root.childNodes;
 	this._panelSizes = [];
 	this.axe( "x" );
 }
@@ -20,7 +20,7 @@ gsuiPanels.prototype = {
 			this._axeX = axeX;
 			this.rootElement.classList.remove( "gsui-axeX", "gsui-axeY" );
 			this.rootElement.classList.add( "gsui-axe" + ( axeX ? "X" : "Y" ) );
-			this._nlPanels.forEach( function( panel ) {
+			this.panels.forEach( function( panel ) {
 				w = panel.style.width;
 				panel.style.width = panel.style.height;
 				panel.style.height = w;
@@ -62,7 +62,7 @@ gsuiPanels.prototype = {
 			rootBCR = this.rootElement.getBoundingClientRect();
 
 		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
-		this._nlPanels.forEach( function( pan, i ) {
+		this.panels.forEach( function( pan, i ) {
 			var sty = getComputedStyle( pan ),
 				min = parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
 				max = parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize;
@@ -76,17 +76,17 @@ gsuiPanels.prototype = {
 		div.className = "gsui-panel";
 		div.style.width = this._axeX ? perc + "%" : "100%";
 		div.style.height = this._axeX ? "100%" : perc + "%";
-		if ( this._nlPanels.length < this._nbPanels - 1 ) {
+		if ( this.panels.length < this._nbPanels - 1 ) {
 			ext = document.createElement( "div" );
 			ext.className = "gsui-extend";
-			ext.onmousedown = this._evmdExtends.bind( this, this._nlPanels.length, div, ext );
+			ext.onmousedown = this._evmdExtends.bind( this, this.panels.length, div, ext );
 			div.append( ext );
 		}
 		this.rootElement.append( div );
 		return div;
 	},
 	_incPan( ind, perc ) {
-		var pan = this._nlPanels[ ind ],
+		var pan = this.panels[ ind ],
 			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize;
 
 		if ( perc < 0 ) {
@@ -118,7 +118,7 @@ gsuiPanels.prototype = {
 				}
 				this._incPan( this._panelInd + 1, -percIncSave + percInc );
 			} else {
-				while ( percInc > 0 && ++panInd < this._nlPanels.length ) {
+				while ( percInc > 0 && ++panInd < this.panels.length ) {
 					percInc += this._incPan( panInd, -percInc );
 				}
 				this._incPan( this._panelInd, percIncSave - percInc );
