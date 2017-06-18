@@ -39,6 +39,7 @@ gsuiPanels.prototype = {
 			this._axeX = axeX;
 			this.rootElement.classList.remove( "gsui-axeX", "gsui-axeY" );
 			this.rootElement.classList.add( "gsui-axe" + ( axeX ? "X" : "Y" ) );
+			this.cacheCSS();
 			this.panels.forEach( function( panel ) {
 				w = panel.style.width;
 				panel.style.width = panel.style.height;
