@@ -6,13 +6,26 @@ function gsuiPanels() {
 	this._init();
 	root.className = "gsuiPanels";
 	this.rootElement = root;
-	this._nbPanels = 0;
 	this.panels = root.childNodes;
+	this._nbPanels = 0;
 	this._panelSizes = [];
 	this.axe( "x" );
 }
 
 gsuiPanels.prototype = {
+	cacheCSS() {
+		var axeX = this._axeX,
+			rootBCR = this.rootElement.getBoundingClientRect();
+
+		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
+		this.panels.forEach( function( pan, i ) {
+			var sty = getComputedStyle( pan ),
+				min = parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
+				max = parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize;
+
+			this._panelSizes[ i ] = { min, max };
+		}, this );
+	},
 	axe( axe ) {
 		var w, axeX = axe === "x";
 
@@ -56,19 +69,6 @@ gsuiPanels.prototype = {
 				gsuiPanels._focused && gsuiPanels._focused._evmuRoot( e );
 			} );
 		}
-	},
-	_updateStyleCache() {
-		var axeX = this._axeX,
-			rootBCR = this.rootElement.getBoundingClientRect();
-
-		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
-		this.panels.forEach( function( pan, i ) {
-			var sty = getComputedStyle( pan ),
-				min = parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
-				max = parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize;
-
-			this._panelSizes[ i ] = { min, max };
-		}, this );
 	},
 	_newPanel( perc ) {
 		var div = document.createElement( "div" ),
@@ -124,7 +124,7 @@ gsuiPanels.prototype = {
 		}
 	},
 	_evmdExtends( panelInd, elPanel, elExtend ) {
-		this._updateStyleCache();
+		this.cacheCSS();
 		this._panelInd = panelInd;
 		this._elPanel = elPanel;
 		this._elExtend = elExtend;
