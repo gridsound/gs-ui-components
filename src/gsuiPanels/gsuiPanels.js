@@ -20,10 +20,16 @@ gsuiPanels.prototype = {
 		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
 		this.panels.forEach( function( pan, i ) {
 			var sty = getComputedStyle( pan ),
-				min = parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
-				max = parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize;
+				obj = {
+					min: parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
+					max: parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize
+				};
 
-			this._panelSizes[ i ] = { min, max };
+			if ( i < this._panelSizes.length ) {
+				this._panelSizes[ i ] = obj;
+			} else {
+				this._panelSizes.push( obj );
+			}
 		}, this );
 	},
 	axe( axe ) {
