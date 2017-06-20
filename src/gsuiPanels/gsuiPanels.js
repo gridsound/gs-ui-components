@@ -25,6 +25,8 @@ gsuiPanels.prototype = {
 					max: parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize
 				};
 
+			obj.min = obj.min || 1;
+			obj.max = obj.max || Infinity;
 			if ( i < this._panelSizes.length ) {
 				this._panelSizes[ i ] = obj;
 			} else {
@@ -90,18 +92,31 @@ gsuiPanels.prototype = {
 		this.rootElement.append( div );
 		return div;
 	},
-	_incPan( ind, perc ) {
+	_incPan( ind, perc, changeDom ) {
 		var pan = this.panels[ ind ],
-			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize;
+			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize,
+			panSizeLimit = this._panelSizes[ ind ];
 
-		if ( perc < 0 ) {
-			perc = -Math.min( -perc, panSize - this._panelSizes[ ind ].min );
+		perc = perc < 0
+			? -Math.min( -perc, panSize - panSizeLimit.min )
+			: Math.min( perc, panSizeLimit.max - panSize );
+		if ( changeDom ) {
+			pan.style[ this._axeX ? "width" : "height" ] = panSize + perc + "%";
 		}
-		pan.style[ this._axeX ? "width" : "height" ] = panSize + perc + "%";
 		return perc;
 	},
 
+
 	// events:
+	_evmdExtends( panelInd, elPanel, elExtend ) {
+		this.cacheCSS();
+		this._panelInd = panelInd;
+		this._elPanel = elPanel;
+		this._elExtend = elExtend;
+		this.rootElement.classList.add( "gsui-noselect" );
+		elExtend.classList.add( "gsui-hover" );
+		gsuiPanels._focused = this;
+	},
 	_evmuRoot( e ) {
 		if ( this._elExtend ) {
 			this._elExtend.classList.remove( "gsui-hover" );
@@ -113,30 +128,45 @@ gsuiPanels.prototype = {
 	},
 	_evmmRoot( e ) {
 		if ( this._elExtend ) {
-			var panInd = this._panelInd,
+			var tmp,
 				percInc = ( this._axeX ? e.movementX : e.movementY ) / this._rootSize,
-				percIncSave = percInc;
+				percIncSave = percInc,
+				percIncTmp = 0,
+				panInd = this._panelInd;
 
 			if ( percInc < 0 ) {
+				while ( ++panInd < this.panels.length && percInc < 0 ) {
+					tmp = this._incPan( panInd, -percInc );
+					percInc += tmp;
+					percIncTmp -= tmp;
+				}
+				panInd = this._panelInd;
+				percInc = percIncTmp;
 				for ( ; panInd >= 0 && percInc < 0; --panInd ) {
-					percInc -= this._incPan( panInd, percInc );
+					percInc -= this._incPan( panInd, percInc, true );
 				}
-				this._incPan( this._panelInd + 1, -percIncSave + percInc );
+				panInd = this._panelInd + 1;
+				percInc = -percIncSave + percInc;
+				for ( ; panInd < this.panels.length && percInc > 0; ++panInd ) {
+					percInc -= this._incPan( panInd, percInc, true );
+				}
 			} else {
-				while ( percInc > 0 && ++panInd < this.panels.length ) {
-					percInc += this._incPan( panInd, -percInc );
+				for ( ; panInd >= 0 && percInc > 0; --panInd ) {
+					tmp = this._incPan( panInd, percInc );
+					percInc -= tmp;
+					percIncTmp += tmp;
 				}
-				this._incPan( this._panelInd, percIncSave - percInc );
+				panInd = this._panelInd;
+				percInc = percIncTmp;
+				while ( percInc > 0 && ++panInd < this.panels.length ) {
+					percInc += this._incPan( panInd, -percInc, true );
+				}
+				panInd = this._panelInd;
+				percInc = percIncSave - percInc;
+				for ( ; panInd >= 0 && percInc > 0; --panInd ) {
+					percInc -= this._incPan( panInd, percInc, true );
+				}
 			}
 		}
-	},
-	_evmdExtends( panelInd, elPanel, elExtend ) {
-		this.cacheCSS();
-		this._panelInd = panelInd;
-		this._elPanel = elPanel;
-		this._elExtend = elExtend;
-		this.rootElement.classList.add( "gsui-noselect" );
-		elExtend.classList.add( "gsui-hover" );
-		gsuiPanels._focused = this;
 	}
 };
