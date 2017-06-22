@@ -1,11 +1,13 @@
+:root {
+	--gsuiPanels-bdSize: 1px;
+	--gsuiPanels-bdColor: #222;
+	--gsuiPanels-extendSize: 5px;
+	--gsuiPanels-extendColor: #888;
+}
+
 /* .gsuiPanels ------------------------------- */
 /* ------------------------------------------- */
 .gsuiPanels {
-	--panel-bd-color: rgba( 0, 0, 0, .3 );
-	--panel-bd-size: 1px;
-	--extend-bg: #333;
-	--extend-size: 5px;
-
 	display: flex;
 	height: 100%;
 }
@@ -25,17 +27,17 @@
 .gsuiPanels > .gsui-panel {
 	box-sizing: border-box;
 	position: relative;
-	border: 0 solid var( --panel-bd-color );
+	border: 0 solid var( --gsuiPanels-bdColor );
 }
 .gsuiPanels.gsui-axeX > .gsui-panel {
 	min-height: 100%;
 	max-height: 100%;
-	border-right-width: var( --panel-bd-size );
+	border-right-width: var( --gsuiPanels-bdSize );
 }
 .gsuiPanels.gsui-axeY > .gsui-panel {
 	min-width: 100%;
 	max-width: 100%;
-	border-bottom-width: var( --panel-bd-size );
+	border-bottom-width: var( --gsuiPanels-bdSize );
 }
 .gsuiPanels > .gsui-panel:last-child {
 	border: none;
@@ -50,18 +52,20 @@
 }
 .gsuiPanels.gsui-axeX > .gsui-panel > .gsui-extend {
 	height: 100%;
-	width: var( --extend-size );
-	right: calc( ( var( --extend-size ) - var( --panel-bd-size ) ) / -2 - var( --panel-bd-size ) );
+	width: var( --gsuiPanels-extendSize );
+	right: calc( ( var( --gsuiPanels-extendSize ) - var( --gsuiPanels-bdSize ) )
+		/ -2 - var( --gsuiPanels-bdSize ) );
 }
 .gsuiPanels.gsui-axeY > .gsui-panel > .gsui-extend {
 	width: 100%;
-	height: var( --extend-size );
-	bottom: calc( ( var( --extend-size ) - var( --panel-bd-size ) ) / -2 - var( --panel-bd-size ) );
+	height: var( --gsuiPanels-extendSize );
+	bottom: calc( ( var( --gsuiPanels-extendSize ) - var( --gsuiPanels-bdSize ) )
+		/ -2 - var( --gsuiPanels-bdSize ) );
 }
 .gsuiPanels > .gsui-panel:last-child > .gsui-extend {
 	display: none;
 }
 .gsuiPanels > .gsui-panel > .gsui-extend.gsui-hover,
 .gsuiPanels > .gsui-panel > .gsui-extend:hover {
-	background-color: var( --extend-bg );
+	background-color: var( --gsuiPanels-extendColor );
 }
