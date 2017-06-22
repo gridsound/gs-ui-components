@@ -13,26 +13,8 @@ function gsuiPanels() {
 }
 
 gsuiPanels.prototype = {
-	cacheCSS() {
-		var axeX = this._axeX,
-			rootBCR = this.rootElement.getBoundingClientRect();
-
-		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
-		this.panels.forEach( function( pan, i ) {
-			var sty = getComputedStyle( pan ),
-				obj = {
-					min: parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
-					max: parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize
-				};
-
-			obj.min = obj.min || 1;
-			obj.max = obj.max || Infinity;
-			if ( i < this._panelSizes.length ) {
-				this._panelSizes[ i ] = obj;
-			} else {
-				this._panelSizes.push( obj );
-			}
-		}, this );
+	resized() {
+		this._cacheCSS();
 	},
 	axe( axe ) {
 		var w, axeX = axe === "x";
@@ -41,7 +23,7 @@ gsuiPanels.prototype = {
 			this._axeX = axeX;
 			this.rootElement.classList.remove( "gsui-axeX", "gsui-axeY" );
 			this.rootElement.classList.add( "gsui-axe" + ( axeX ? "X" : "Y" ) );
-			this.cacheCSS();
+			this._cacheCSS();
 			this.panels.forEach( function( panel ) {
 				w = panel.style.width;
 				panel.style.width = panel.style.height;
@@ -79,6 +61,27 @@ gsuiPanels.prototype = {
 			} );
 		}
 	},
+	_cacheCSS() {
+		var axeX = this._axeX,
+			rootBCR = this.rootElement.getBoundingClientRect();
+
+		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
+		this.panels.forEach( function( pan, i ) {
+			var sty = getComputedStyle( pan ),
+				obj = {
+					min: parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
+					max: parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize
+				};
+
+			obj.min = obj.min || 1;
+			obj.max = obj.max || Infinity;
+			if ( i < this._panelSizes.length ) {
+				this._panelSizes[ i ] = obj;
+			} else {
+				this._panelSizes.push( obj );
+			}
+		}, this );
+	},
 	_newPanel( perc ) {
 		var div = document.createElement( "div" ),
 			ext = document.createElement( "div" );
@@ -107,7 +110,7 @@ gsuiPanels.prototype = {
 
 	// events:
 	_evmdExtends( panelInd, elPanel, elExtend ) {
-		this.cacheCSS();
+		this._cacheCSS();
 		this._panelInd = panelInd;
 		this._elPanel = elPanel;
 		this._elExtend = elExtend;
