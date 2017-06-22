@@ -25,7 +25,7 @@ function gsuiGridSamples() {
 	this._panelMinWidth =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
-	this._setFontSize( 40 );
+	this.setFontSize( 40 );
 	this.panelWidth( 100 );
 }
 
@@ -67,6 +67,10 @@ gsuiGridSamples.prototype = {
 		this._contentY = yEm = Math.min( Math.max( 0, yEm ), h );
 		this._elGridCnt.style.marginTop =
 		this._elPanelCnt.style.marginTop = -yEm + "em";
+	},
+	setFontSize( emPx ) {
+		this._fontSize = ~~Math.min( Math.max( 16, emPx ), 256 );
+		this.rootElement.style.fontSize = this._fontSize + "px";
 	},
 	loadKeys() {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
@@ -111,7 +115,7 @@ gsuiGridSamples.prototype = {
 		if ( oldCmp ) {
 			oldCmp[ oldCmpStr === "uiKeys" ? "octaves" : "nbTracks" ]( 0, 0 );
 			oldCmp.rootElement.remove();
-			this._setFontSize( this._fontSize * ( oldCmpStr === "uiKeys" ? 1.5 : 2 / 3 ) );
+			this.setFontSize( this._fontSize * ( oldCmpStr === "uiKeys" ? 1.5 : 2 / 3 ) );
 			delete this[ oldCmpStr ];
 		}
 		if ( !cmp ) {
@@ -128,10 +132,6 @@ gsuiGridSamples.prototype = {
 	},
 	_contentScroll( e ) {
 		this.contentY( this._contentY + ( 20 * ( e.deltaY > 0 ? 1 : -1 ) ) / this._fontSize );
-	},
-	_setFontSize( emPx ) {
-		this._fontSize = ~~Math.min( Math.max( 16, emPx ), 256 );
-		this.rootElement.style.fontSize = this._fontSize + "px";
 	},
 	_updateGrid() {
 		this.uiTimeLine.offset( this._timeOffset, this._pxPerBeat );
@@ -195,7 +195,7 @@ gsuiGridSamples.prototype = {
 				oldFs = this._fontSize,
 				fs = oldFs * ( e.deltaY > 0 ? .9 : 1.1 );
 
-			this._setFontSize( fs );
+			this.setFontSize( fs );
 			fs = this._fontSize;
 			this.contentY( this._contentY + ( layerY / oldFs * ( fs - oldFs ) ) / fs );
 		} else if ( !e.shiftKey ) {
