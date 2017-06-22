@@ -85,8 +85,6 @@ gsuiPanels.prototype = {
 
 		div.className = "gsui-panel";
 		ext.className = "gsui-extend";
-		div.style.width = this._axeX ? perc + "%" : "100%";
-		div.style.height = this._axeX ? "100%" : perc + "%";
 		ext.onmousedown = this._evmdExtends.bind( this, this.panels.length, div, ext );
 		div.append( ext );
 		this.rootElement.append( div );

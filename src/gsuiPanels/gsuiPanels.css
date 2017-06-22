@@ -1,7 +1,6 @@
 /* .gsuiPanels ------------------------------- */
 /* ------------------------------------------- */
 .gsuiPanels {
-	--panel-min-size: 32px;
 	--panel-bd-color: rgba( 0, 0, 0, .3 );
 	--panel-bd-size: 1px;
 	--extend-bg: #333;
@@ -29,11 +28,13 @@
 	border: 0 solid var( --panel-bd-color );
 }
 .gsuiPanels.gsui-axeX > .gsui-panel {
-	min-width: var( --panel-min-size );
+	min-height: 100%;
+	max-height: 100%;
 	border-right-width: var( --panel-bd-size );
 }
 .gsuiPanels.gsui-axeY > .gsui-panel {
-	min-height: var( --panel-min-size );
+	min-width: 100%;
+	max-width: 100%;
 	border-bottom-width: var( --panel-bd-size );
 }
 .gsuiPanels > .gsui-panel:last-child {
