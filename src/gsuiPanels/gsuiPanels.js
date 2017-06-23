@@ -8,13 +8,14 @@ function gsuiPanels() {
 	this.rootElement = root;
 	this.panels = root.childNodes;
 	this._nbPanels = 0;
-	this._panelSizes = [];
+	this._panelDims = [];
 	this.axe( "x" );
 }
 
 gsuiPanels.prototype = {
 	resized() {
 		this._cacheCSS();
+		this.panels.forEach( this._resizedPan );
 	},
 	axe( axe ) {
 		var w, axeX = axe === "x";
@@ -39,7 +40,7 @@ gsuiPanels.prototype = {
 		if ( diff < 0 ) {
 			while ( diff++ < 0 ) {
 				ret.push( this.rootElement.removeChild( this.rootElement.lastChild ) );
-				this._panelSizes.pop();
+				this._panelDims.pop();
 			}
 		} else if ( diff > 0 ) {
 			while ( diff-- > 0 ) {
@@ -75,10 +76,10 @@ gsuiPanels.prototype = {
 
 			obj.min = obj.min || 1;
 			obj.max = obj.max || Infinity;
-			if ( i < this._panelSizes.length ) {
-				this._panelSizes[ i ] = obj;
+			if ( i < this._panelDims.length ) {
+				this._panelDims[ i ] = obj;
 			} else {
-				this._panelSizes.push( obj );
+				this._panelDims.push( obj );
 			}
 		}, this );
 	},
@@ -93,20 +94,23 @@ gsuiPanels.prototype = {
 		this.rootElement.append( div );
 		return div;
 	},
+	_resizedPan( pan ) {
+		pan.onresize && pan.onresize( pan.offsetWidth, pan.offsetHeight );
+	},
 	_incPan( ind, perc, changeDom ) {
 		var pan = this.panels[ ind ],
-			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize,
-			panSizeLimit = this._panelSizes[ ind ];
+			panDim = this._panelDims[ ind ],
+			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize;
 
 		perc = perc < 0
-			? -Math.min( -perc, panSize - panSizeLimit.min )
-			: Math.min( perc, panSizeLimit.max - panSize );
+			? -Math.min( -perc, panSize - panDim.min )
+			: Math.min( perc, panDim.max - panSize );
 		if ( changeDom ) {
 			pan.style[ this._axeX ? "width" : "height" ] = panSize + perc + "%";
+			this._resizedPan( pan );
 		}
 		return perc;
 	},
-
 
 	// events:
 	_evmdExtends( panelInd, elPanel, elExtend ) {
