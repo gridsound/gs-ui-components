@@ -44,6 +44,10 @@ gsuiGridSamples.prototype = {
 		this._pxPerBeat = beatPx;
 		this._updateGrid();
 	},
+	timeSignature( a, b ) {
+		this.uiTimeLine.timeSignature( a, b );
+		this.uiBeatLines.timeSignature( a, b );
+	},
 	currentTime( beat ) {
 		this.uiTimeLine.currentTime( beat );
 		this.uiBeatLines.currentTime( beat );
