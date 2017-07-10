@@ -69,3 +69,17 @@
 	position: absolute;
 	right: 0;
 }
+.gsuiGridSamples .gsui-select {
+	position: absolute;
+	z-index: 2;
+	margin: -1px 0 0 -1px;
+	border: 2px solid #f55;
+	border-radius: 4px;
+	background-color: rgba( 216, 26, 26, .3 );
+	transition: .2s;
+	transition-property: opacity, visibility;
+}
+.gsuiGridSamples .gsui-select.hidden {
+	opacity: 0;
+	visibility: hidden;
+}
