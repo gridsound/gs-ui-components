@@ -3,37 +3,33 @@
 function gsuiTrackList() {
 	var root = this._clone();
 
+	this.data = {};
 	this.rootElement = root;
-	this.rowElements = [];
+	this._uiTracks = {};
 	this.tracksNodeList = root.childNodes;
 }
 
 gsuiTrackList.prototype = {
 	change( objs ) {
-		var id, trk, obj;
+		var id, obj, arr = [];
 
-		for ( id in objs ) {
-			obj = objs[ id ];
-			trk = this.tracksNodeList[ id ].gsuiTrackObject;
-			obj.toggle != null && trk.toggle( obj.toggle );
-			obj.name != null && trk.setName( obj.name );
-		}
-	},
-	nbTracks( nb ) {
-		nb = Math.min( Math.max( 0, nb ), 99 ) - this.tracksNodeList.length;
 		this.newRowElements = [];
-		if ( nb < 0 ) {
-			for ( ; nb < 0; ++nb ) {
-				this.rootElement.lastChild.remove();
-				this.rowElements[ this.rowElements.length - 1 ].remove();
-				this.rowElements.pop();
-			}
-		} else {
-			for ( ; nb > 0; --nb ) {
-				this._addTrack();
-			}
-			Array.prototype.push.apply( this.rowElements, this.newRowElements );
+		for ( id in objs ) {
+			arr.push( { id: id, obj: objs[ id ] } );
 		}
+		arr.sort( function( a, b ) {
+			return a.obj.order > b.obj.order;
+		} );
+		arr.forEach( function( { id, obj } ) {
+			if ( obj ) {
+				if ( !this.data[ id ] ) {
+					this._newTrack( id );
+				}
+				this._uiTracks[ id ].change( obj );
+			} else {
+				this._uiTracks[ id ].remove();
+			}
+		}, this );
 	},
 
 	// private:
@@ -47,46 +43,42 @@ gsuiTrackList.prototype = {
 	_init() {
 		gsuiTrackList.template = document.getElementById( "gsuiTrackList" );
 	},
-	_addTrack() {
-		var trk = new gsuiTrack();
+	_newTrack( id ) {
+		var uiTrk = new gsuiTrack();
 
-		trk.rootElement.gsuiTrackObject = trk;
-		trk.uiToggle.onmousedownright = this._muteAll.bind( this, trk );
-		trk.ontogglechange = this._change.bind( this, trk, "toggle" );
-		trk.onnamechange = this._change.bind( this, trk, "name" );
-		trk.id = this.tracksNodeList.length;
-		trk.setPlaceholder( "Track " + ( trk.id + 1 ) );
-		this.newRowElements.push( trk.rowElement );
-		this.rootElement.append( trk.rootElement );
+		uiTrk.uiToggle.onmousedownright = this._muteAll.bind( this, id );
+		uiTrk.onchange = this._evocTrack.bind( this, id );
+		uiTrk.setPlaceholder( "Track " + ( this.tracksNodeList.length + 1 ) );
+		this.data[ id ] = uiTrk.data;
+		this._uiTracks[ id ] = uiTrk;
+		this.rootElement.append( uiTrk.rootElement );
+		this.newRowElements.push( uiTrk.rowElement );
 	},
-	_change( trk, attr, val ) {
-		if ( this.onchange ) {
-			this.onchange( {
-				[ trk.id ]: {
-					[ attr ]: val
-				}
-			} );
-		}
+	_evocTrack( id, obj ) {
+		this.onchange( { [ id ]: obj } );
 	},
-	_muteAll( trk ) {
-		var obj = {},
-			trkRoot = trk.rootElement,
-			trkRoots = Array.from( this.tracksNodeList ),
-			allMute = trkRoots.every( function( _trkRoot ) {
-					return !_trkRoot.gsuiTrackObject.uiToggle.checked || _trkRoot === trkRoot;
-				} );
+	_muteAll( id ) {
+		var _uiTrk, tog,
+			objs = {},
+			uiTrks = this._uiTracks,
+			uiTrk = uiTrks[ id ],
+			allMute = true;
 
-		trkRoots.forEach( function( _trkRoot ) {
-			var _trk = _trkRoot.gsuiTrackObject,
-				tog = allMute || _trkRoot === trkRoot;
-
-			if ( tog !== _trk.uiToggle.checked ) {
-				_trk.toggle( tog );
-				obj[ _trk.id ] = { toggle: tog };
+		for ( id in uiTrks ) {
+			_uiTrk = uiTrks[ id ];
+			if ( _uiTrk.data.toggle && _uiTrk !== uiTrk ) {
+				allMute = false;
+				break;
 			}
-		} );
-		if ( this.onchange ) {
-			this.onchange( obj );
 		}
+		for ( id in uiTrks ) {
+			_uiTrk = uiTrks[ id ];
+			tog = allMute || _uiTrk === uiTrk;
+			if ( tog !== _uiTrk.data.toggle ) {
+				_uiTrk.toggle( tog );
+				objs[ id ] = { toggle: tog };
+			}
+		}
+		this.onchange( objs );
 	}
 };
