@@ -17,6 +17,10 @@ function gsuiTrack() {
 }
 
 gsuiTrack.prototype = {
+	remove() {
+		this.rootElement.remove();
+		this.rowElement.remove();
+	},
 	toggle( b ) {
 		this.uiToggle.toggle( b );
 		this._evocToggle( b, false );
