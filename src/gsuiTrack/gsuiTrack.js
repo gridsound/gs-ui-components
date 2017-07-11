@@ -11,6 +11,7 @@ function gsuiTrack() {
 	root.append( this.uiToggle.rootElement );
 	root.append( this.uiSpan.rootElement );
 
+	this.data = {};
 	this.uiToggle.onchange = this._evocToggle.bind( this );
 	this.uiSpan.onchange = this._evocSpan.bind( this );
 	this.toggle( true );
@@ -21,18 +22,18 @@ gsuiTrack.prototype = {
 		this.rootElement.remove();
 		this.rowElement.remove();
 	},
+	change( obj ) {
+		"toggle" in obj && this.toggle( obj.toggle );
+		"name" in obj && this.name( obj.name );
+	},
 	toggle( b ) {
-		this.uiToggle.toggle( b );
 		this._evocToggle( b, false );
+	},
+	name( n ) {
+		this._evocSpan( n, false );
 	},
 	setPlaceholder( p ) {
 		this.uiSpan.setPlaceholder( p );
-	},
-	setName( n ) {
-		this.uiSpan.setValue( n );
-	},
-	getName() {
-		return this.uiSpan.value;
 	},
 
 	// private:
@@ -46,15 +47,21 @@ gsuiTrack.prototype = {
 
 	// events:
 	_evocToggle( b, isUserAction ) {
+		this.data.toggle = b;
 		this.rootElement.classList.toggle( "gsui-mute", !b );
 		this.rowElement.classList.toggle( "gsui-mute", !b );
-		if ( isUserAction !== false && this.ontogglechange ) {
-			this.ontogglechange( b );
+		if ( isUserAction === false ) {
+			this.uiToggle.toggle( b );
+		} else {
+			this.onchange( { toggle: b } );
 		}
 	},
-	_evocSpan( name ) {
-		if ( this.onnamechange ) {
-			this.onnamechange( name );
+	_evocSpan( name, isUserAction ) {
+		this.data.name = name;
+		if ( isUserAction === false ) {
+			this.uiSpan.setValue( name );
+		} else {
+			this.onchange( { name: name } );
 		}
 	}
 };
