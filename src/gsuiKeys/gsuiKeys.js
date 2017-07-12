@@ -13,6 +13,10 @@ function gsuiKeys() {
 }
 
 gsuiKeys.prototype = {
+	remove() {
+		this.rootElement.remove();
+		this.rowElements.length = 0;
+	},
 	octaves( start, nbOct ) {
 		var root = this.rootElement,
 			nbDiff = nbOct - this._nbOct;
