@@ -31,6 +31,11 @@ function gsuiGridSamples() {
 }
 
 gsuiGridSamples.prototype = {
+	empty() {
+		if ( this.uiTrackList ) {
+			this.uiTrackList.empty();
+		}
+	},
 	change( obj ) {
 		if ( obj.tracks ) {
 			this.uiTrackList.change( obj.tracks );
