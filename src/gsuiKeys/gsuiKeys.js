@@ -15,6 +15,9 @@ function gsuiKeys() {
 gsuiKeys.prototype = {
 	remove() {
 		this.rootElement.remove();
+		this.rootElement.forEach( function( el ) {
+			el.remove();
+		} );
 		this.rowElements.length = 0;
 	},
 	octaves( start, nbOct ) {
