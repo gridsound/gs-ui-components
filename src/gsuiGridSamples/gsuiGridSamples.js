@@ -31,6 +31,13 @@ function gsuiGridSamples() {
 }
 
 gsuiGridSamples.prototype = {
+	change( obj ) {
+		if ( obj.tracks ) {
+			this.uiTrackList.change( obj.tracks );
+			this.uiTrackList.newRowElements.forEach(
+				this._elGridCnt.appendChild.bind( this._elGridCnt ) );
+		}
+	},
 	resized() {
 		var panelStyle = getComputedStyle( this._elPanel );
 
@@ -77,23 +84,15 @@ gsuiGridSamples.prototype = {
 		this._elGridCnt.style.marginTop =
 		this._elPanelCnt.style.marginTop = -yEm + "em";
 	},
-	loadKeys() {
+	loadKeys( from, nbOctaves ) {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
+		this.uiKeys.octaves( from, nbOctaves );
+		this.uiKeys.newRowElements.forEach(
+			this._elGridCnt.appendChild.bind( this._elGridCnt ) );
 	},
 	loadTrackList() {
 		this._loadPanelCmp( "uiTrackList", "uiKeys" );
-	},
-	nbOctaves( from, nbOct ) {
-		if ( this.uiKeys ) {
-			this.uiKeys.octaves( from, nbOct );
-			this._addRows( this.uiKeys );
-		}
-	},
-	nbTracks( n ) {
-		if ( this.uiTrackList ) {
-			this.uiTrackList.nbTracks( n );
-			this._addRows( this.uiTrackList );
-		}
+		this.uiTrackList.onchange = obj => this.onchange( { tracks: obj } );
 	},
 
 	// private:
@@ -118,8 +117,7 @@ gsuiGridSamples.prototype = {
 			oldCmp = this[ oldCmpStr ];
 
 		if ( oldCmp ) {
-			oldCmp[ oldCmpStr === "uiKeys" ? "octaves" : "nbTracks" ]( 0, 0 );
-			oldCmp.rootElement.remove();
+			oldCmp.remove();
 			this.setFontSize( this._fontSize * ( oldCmpStr === "uiKeys" ? 1.5 : 2 / 3 ) );
 			delete this[ oldCmpStr ];
 		}
@@ -127,9 +125,6 @@ gsuiGridSamples.prototype = {
 			this[ cmpStr ] = cmp = cmpStr === "uiKeys" ? new gsuiKeys() : new gsuiTrackList();
 			this._elPanelCnt.prepend( cmp.rootElement );
 		}
-	},
-	_addRows( cmp ) {
-		cmp.newRowElements.forEach( this._elGridCnt.appendChild.bind( this._elGridCnt ) );
 	},
 	_resizeGrid() {
 		this.uiTimeLine.resized();
