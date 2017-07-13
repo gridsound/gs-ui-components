@@ -26,7 +26,6 @@ function gsuiGridSamples() {
 	this._panelMinWidth =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
-	this.setFontSize( 40 );
 	this.panelWidth( 100 );
 }
 
@@ -126,8 +125,10 @@ gsuiGridSamples.prototype = {
 
 		if ( oldCmp ) {
 			oldCmp.remove();
-			this.setFontSize( this._fontSize * ( oldCmpStr === "uiKeys" ? 1.5 : 2 / 3 ) );
+			this.setFontSize( this._fontSize * ( cmpStr === "uiKeys" ? .5 : 2 ) );
 			delete this[ oldCmpStr ];
+		} else {
+			this.setFontSize( cmpStr === "uiKeys" ? 20 : 40 );
 		}
 		if ( !cmp ) {
 			this[ cmpStr ] = cmp = cmpStr === "uiKeys" ? new gsuiKeys() : new gsuiTrackList();
