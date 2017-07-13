@@ -19,6 +19,7 @@ gsuiTrackList.prototype = {
 		for ( id in uiTrks ) {
 			uiTrks[ id ].remove();
 			delete uiTrks[ id ];
+			delete this.data[ id ];
 		}
 	},
 	change( objs ) {
