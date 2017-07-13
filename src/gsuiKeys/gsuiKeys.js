@@ -15,7 +15,7 @@ function gsuiKeys() {
 gsuiKeys.prototype = {
 	remove() {
 		this.rootElement.remove();
-		this.rootElement.forEach( function( el ) {
+		this.rowElements.forEach( function( el ) {
 			el.remove();
 		} );
 		this.rowElements.length = 0;
