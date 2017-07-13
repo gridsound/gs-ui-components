@@ -66,11 +66,15 @@ gsuiTrackList.prototype = {
 		this.newRowElements.push( uiTrk.rowElement );
 	},
 	_evocTrack( id, obj ) {
-		this.onchange( { [ id ]: obj } );
+		this.onchange( {
+			redo: { [ id ]: obj.redo },
+			undo: { [ id ]: obj.undo }
+		} );
 	},
 	_muteAll( id ) {
 		var _uiTrk, tog,
-			objs = {},
+			rd = {},
+			ud = {},
 			uiTrks = this._uiTracks,
 			uiTrk = uiTrks[ id ],
 			allMute = true;
@@ -87,9 +91,10 @@ gsuiTrackList.prototype = {
 			tog = allMute || _uiTrk === uiTrk;
 			if ( tog !== _uiTrk.data.toggle ) {
 				_uiTrk.toggle( tog );
-				objs[ id ] = { toggle: tog };
+				rd[ id ] = { toggle: tog };
+				ud[ id ] = { toggle: !tog };
 			}
 		}
-		this.onchange( objs );
+		this.onchange( { redo: rd, undo: ud } );
 	}
 };
