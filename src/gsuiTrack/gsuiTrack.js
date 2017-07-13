@@ -47,21 +47,21 @@ gsuiTrack.prototype = {
 
 	// events:
 	_evocToggle( b, isUserAction ) {
-		this.data.toggle = b;
 		this.rootElement.classList.toggle( "gsui-mute", !b );
 		this.rowElement.classList.toggle( "gsui-mute", !b );
 		if ( isUserAction === false ) {
 			this.uiToggle.toggle( b );
 		} else {
-			this.onchange( { toggle: b } );
+			this.onchange( { redo: { toggle: b }, undo: { toggle: !b } } );
 		}
+		this.data.toggle = b;
 	},
 	_evocSpan( name, isUserAction ) {
-		this.data.name = name;
 		if ( isUserAction === false ) {
 			this.uiSpan.setValue( name );
 		} else {
-			this.onchange( { name: name } );
+			this.onchange( { redo: { name: name }, undo: { name: this.data.name } } );
 		}
+		this.data.name = name;
 	}
 };
