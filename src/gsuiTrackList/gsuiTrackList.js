@@ -6,10 +6,21 @@ function gsuiTrackList() {
 	this.data = {};
 	this.rootElement = root;
 	this._uiTracks = {};
-	this.tracksNodeList = root.childNodes;
 }
 
 gsuiTrackList.prototype = {
+	remove() {
+		this.empty();
+		this.rootElement.remove();
+	},
+	empty() {
+		var id, uiTrks = this._uiTracks;
+
+		for ( id in uiTrks ) {
+			uiTrks[ id ].remove();
+			delete uiTrks[ id ];
+		}
+	},
 	change( objs ) {
 		var id, obj, arr = [];
 
@@ -48,7 +59,7 @@ gsuiTrackList.prototype = {
 
 		uiTrk.uiToggle.onmousedownright = this._muteAll.bind( this, id );
 		uiTrk.onchange = this._evocTrack.bind( this, id );
-		uiTrk.setPlaceholder( "Track " + ( this.tracksNodeList.length + 1 ) );
+		uiTrk.setPlaceholder( "Track " + ( this.rootElement.childNodes.length + 1 ) );
 		this.data[ id ] = uiTrk.data;
 		this._uiTracks[ id ] = uiTrk;
 		this.rootElement.append( uiTrk.rootElement );
