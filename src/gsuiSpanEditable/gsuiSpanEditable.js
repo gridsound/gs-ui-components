@@ -12,13 +12,13 @@ function gsuiSpanEditable() {
 }
 
 gsuiSpanEditable.prototype = {
-	setValue( val, call ) {
-		val = val.trim();
+	setValue( val, isUserAction ) {
+		val = val ? val.trim() : "";
 		if ( val !== this.value ) {
 			this.value = val;
 			this.rootElement.classList.toggle( "gsui-empty", !val );
 			this.span.textContent = val || this.placeholder;
-			if ( call && this.onchange ) {
+			if ( isUserAction && this.onchange ) {
 				this.onchange( val );
 			}
 		}
