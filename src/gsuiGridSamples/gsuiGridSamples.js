@@ -38,8 +38,10 @@ gsuiGridSamples.prototype = {
 	change( obj ) {
 		if ( obj.tracks ) {
 			this.uiTrackList.change( obj.tracks );
-			this.uiTrackList.newRowElements.forEach(
-				this._elGridCnt.appendChild.bind( this._elGridCnt ) );
+			this.uiTrackList.newRowElements.forEach( row => {
+				row.firstChild.style.fontSize = this._pxPerBeat + "px";
+				this._elGridCnt.append( row );
+			} );
 		}
 	},
 	resized() {
@@ -91,8 +93,10 @@ gsuiGridSamples.prototype = {
 	loadKeys( from, nbOctaves ) {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
 		this.uiKeys.octaves( from, nbOctaves );
-		this.uiKeys.newRowElements.forEach(
-			this._elGridCnt.appendChild.bind( this._elGridCnt ) );
+		this.uiKeys.newRowElements.forEach( row => {
+			row.firstChild.style.fontSize = this._pxPerBeat + "px";
+			this._elGridCnt.append( row );
+		} );
 	},
 	loadTrackList() {
 		this._loadPanelCmp( "uiTrackList", "uiKeys" );
