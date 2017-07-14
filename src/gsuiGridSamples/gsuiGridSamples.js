@@ -203,8 +203,10 @@ gsuiGridSamples.prototype = {
 		this._updateGrid();
 	},
 	_findTrack( e ) {
-		return this._elGridCnt.querySelectorAll( ".gsui-row" )[
-			~~( ( e.pageY - this._elGridCntBCR.top ) / this._fontSize ) ]
+		var rows = this._elGridCnt.querySelectorAll( ".gsui-row" ),
+			ind = ~~( ( e.pageY - this._elGridCntBCR.top ) / this._fontSize );
+
+		return rows[ Math.max( 0, Math.min( ind, rows.length - 1 ) ) ];
 	},
 	_createBlock( obj, elRow ) {
 		var uiBlock = new gsuiAudioBlock();
