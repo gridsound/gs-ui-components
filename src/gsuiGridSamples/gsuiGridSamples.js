@@ -57,8 +57,8 @@ gsuiGridSamples.prototype = {
 	},
 	offset( offset, beatPx ) {
 		this._timeOffset = offset;
-		this._pxPerBeat = beatPx;
-		this._updateGrid();
+		this._pxPerBeat = beatPx || this._pxPerBeat;
+		this._updateGrid( !!beatPx );
 	},
 	timeSignature( a, b ) {
 		this.uiTimeLine.timeSignature( a, b );
@@ -162,13 +162,19 @@ gsuiGridSamples.prototype = {
 		sty.top = top - this._elGridCntBCR.top + "px";
 		sty.height = bottom - top + "px";
 	},
-	_updateGrid() {
-		this.uiTimeLine.offset( this._timeOffset, this._pxPerBeat );
-		this.uiBeatLines.offset( this._timeOffset, this._pxPerBeat );
+	_updateGrid( beatPxChanged ) {
+		var beatPx = this._pxPerBeat;
+
+		this.uiTimeLine.offset( this._timeOffset, beatPx );
+		this.uiBeatLines.offset( this._timeOffset, beatPx );
 		this._timeOffset = this.uiTimeLine._offset;
-		this._elGridCnt.style.left = -this._timeOffset * this._pxPerBeat + "px";
-		this._timeOffset = this.uiTimeLine._offset;
-		this._pxPerBeat = this.uiTimeLine._pxPerBeat;
+		this._pxPerBeat = beatPx = this.uiTimeLine._pxPerBeat;
+		this._elGridCnt.style.left = -this._timeOffset * beatPx + "px";
+		if ( beatPxChanged ) {
+			this._elGridCnt.querySelectorAll( ".gsui-row" ).forEach( function( row ) {
+				row.firstChild.style.fontSize = beatPx + "px";
+			} );
+		}
 	},
 	_updatePanelSize() {
 		this._elPanel.style.width =
@@ -223,7 +229,8 @@ gsuiGridSamples.prototype = {
 			} else {
 				offInc = ( e.deltaY > 0 ? 20 : -20 ) / beatPx;
 			}
-			this.offset( Math.max( 0, this._timeOffset + offInc ), beatPx );
+			this.offset( Math.max( 0, this._timeOffset + offInc ),
+				e.ctrlKey ? beatPx : undefined );
 		}
 		return false;
 	},
