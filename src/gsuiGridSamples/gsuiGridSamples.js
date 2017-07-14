@@ -55,8 +55,19 @@ gsuiGridSamples.prototype = {
 		this._updateGrid();
 	},
 	setFontSize( emPx ) {
-		this._fontSize = ~~Math.min( Math.max( 16, emPx ), 256 );
-		this.rootElement.style.fontSize = this._fontSize + "px";
+		var tiny, curr = this._fontSize;
+
+		emPx = ~~Math.min( Math.max( 16, emPx ), 256 );
+		if ( emPx !== curr ) {
+			tiny = emPx < 32;
+			if ( tiny !== curr < 32 ) {
+				this._elGridCnt.querySelectorAll( ".gsui-row" ).forEach( function( row ) {
+					row.classList.toggle( "gs-row-tiny", tiny );
+				} );
+			}
+			this._fontSize = emPx;
+			this.rootElement.style.fontSize = emPx + "px";
+		}
 	},
 	offset( offset, beatPx ) {
 		this._timeOffset = offset;
@@ -96,6 +107,7 @@ gsuiGridSamples.prototype = {
 		this.uiKeys.octaves( from, nbOctaves );
 		this.uiKeys.newRowElements.forEach( ( row, i ) => {
 			row.firstChild.style.fontSize = this._pxPerBeat + "px";
+			row.classList.toggle( "gs-row-tiny", this._fontSize < 32 );
 			row.onmousedown = this._evmdRow.bind( this, row,
 				from + nbOctaves - 1 - ~~( i / 12 ) );
 			this._elGridCnt.append( row );
