@@ -71,6 +71,7 @@
 }
 .gsuiGridSamples .gsui-select {
 	position: absolute;
+	box-sizing: border-box;
 	z-index: 2;
 	margin: -1px 0 0 -1px;
 	border: 2px solid #f55;
