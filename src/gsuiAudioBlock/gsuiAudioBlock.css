@@ -61,12 +61,14 @@
 	width: 50%;
 	max-width: 8px;
 	height: 100%;
-	transition: background-color .2s;
+	background-color: currentColor;
+	opacity: 0;
+	transition: opacity .2s;
 }
 
 .gsuiAudioBlock .gsui-crop:hover,
 .gsuiAudioBlock .gsui-crop.gsui-hover {
-	background-color: rgba( 128, 128, 150, .5 );
+	opacity: .2;
 }
 
 .gsuiAudioBlock .gsui-crop.gsui-b {
