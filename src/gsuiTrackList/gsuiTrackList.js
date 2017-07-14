@@ -14,12 +14,8 @@ gsuiTrackList.prototype = {
 		this.rootElement.remove();
 	},
 	empty() {
-		var id, uiTrks = this._uiTracks;
-
-		for ( id in uiTrks ) {
-			uiTrks[ id ].remove();
-			delete uiTrks[ id ];
-			delete this.data[ id ];
+		for ( var id in this._uiTracks ) {
+			this._delTrack( id );
 		}
 	},
 	change( objs ) {
@@ -39,7 +35,7 @@ gsuiTrackList.prototype = {
 				}
 				this._uiTracks[ id ].change( obj );
 			} else {
-				this._uiTracks[ id ].remove();
+				this._delTrack( id );
 			}
 		}, this );
 	},
@@ -65,6 +61,11 @@ gsuiTrackList.prototype = {
 		this._uiTracks[ id ] = uiTrk;
 		this.rootElement.append( uiTrk.rootElement );
 		this.newRowElements.push( uiTrk.rowElement );
+	},
+	_delTrack( id ) {
+		this._uiTracks[ id ].remove();
+		delete this._uiTracks[ id ];
+		delete this.data[ id ];
 	},
 	_evocTrack( id, obj ) {
 		this.onchange( {
