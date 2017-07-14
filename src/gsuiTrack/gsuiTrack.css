@@ -14,13 +14,16 @@
 	border-width: 1px 0;
 	border-top-color: var( --border-top-color );
 	border-bottom-color: var( --border-bottom-color );
-	background: var( --head-bg );
-	transition: background .2s;
+	background-color: var( --head-bg );
+	transition: background-color .2s;
 }
 .gsuiTrack-row {
 	display: block;
+	background-color: transparent;
+}
+.gsuiTrack-row > div {
 	position: relative;
-	background: transparent;
+	height: 100%;
 }
 .gsuiTrack .gsuiToggle {
 	--radius: 6px;
@@ -34,10 +37,10 @@
 }
 
 .gsuiTrack.gsui-mute {
-	background: var( --head-bg-mute );
+	background-color: var( --head-bg-mute );
 }
 .gsuiTrack-row.gsui-mute {
-	background: var( --body-bg-mute );
+	background-color: var( --body-bg-mute );
 }
 .gsuiTrack.gsui-mute .gsuiSpanEditable {
 	opacity: .5;
