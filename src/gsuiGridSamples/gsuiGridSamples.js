@@ -15,6 +15,7 @@ function gsuiGridSamples() {
 	root.prepend( this.uiTimeLine.rootElement );
 	this._elGrid.prepend( this.uiBeatLines.rootElement );
 
+	root.oncontextmenu = function() { return false; };
 	this._elPanelExt.onmousedown = this._evmdPanelEx.bind( this );
 	this._elGrid.onmousedown = this._evmdGrid.bind( this );
 	this._elGrid.onwheel = this._evowGrid.bind( this );
@@ -93,8 +94,10 @@ gsuiGridSamples.prototype = {
 	loadKeys( from, nbOctaves ) {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
 		this.uiKeys.octaves( from, nbOctaves );
-		this.uiKeys.newRowElements.forEach( row => {
+		this.uiKeys.newRowElements.forEach( ( row, i ) => {
 			row.firstChild.style.fontSize = this._pxPerBeat + "px";
+			row.onmousedown = this._evmdRow.bind( this, row,
+				from + nbOctaves - 1 - ~~( i / 12 ) );
 			this._elGridCnt.append( row );
 		} );
 	},
@@ -191,6 +194,17 @@ gsuiGridSamples.prototype = {
 		return this._elGridCnt.querySelectorAll( ".gsui-row" )[
 			~~( ( e.pageY - this._elGridCntBCR.top ) / this._fontSize ) ]
 	},
+	_createBlock( obj, elRow ) {
+		var uiBlock = new gsuiAudioBlock();
+
+		uiBlock.when( obj.when );
+		uiBlock.duration( obj.duration );
+		if ( obj.key ) {
+			uiBlock.datatype( "key" );
+			uiBlock.name( obj.key );
+		}
+		elRow.firstChild.append( uiBlock.rootElement );
+	},
 
 	// events:
 	_evocCurrentTime( beat ) {
@@ -219,6 +233,20 @@ gsuiGridSamples.prototype = {
 		this._panelResizing = this._elPanelExt.clientWidth - e.layerX;
 		this._elPanelExt.classList.add( "gsui-hover" );
 		gsuiGridSamples._focused = this;
+	},
+	_evmdRow( elRow, octave, e ) {
+		if ( !e.shiftKey && !e.ctrlKey && !e.altKey ) {
+			if ( e.button === 0 ) {
+				this._createBlock( {
+					when: this._getMouseBeat( e ),
+					offset: 0,
+					duration: 1,
+					key: elRow.dataset.key + octave
+				}, elRow );
+			} else if ( e.button === 2 ) {
+				// ...
+			}
+		}
 	},
 	_evowGrid( e ) {
 		if ( !e.shiftKey && !e.ctrlKey ) {
