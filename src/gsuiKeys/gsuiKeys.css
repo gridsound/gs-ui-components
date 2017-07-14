@@ -17,6 +17,10 @@
 .gsuiKey-row[ data-key $= "f" ] {
 	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
 }
+.gsuiKey-row > div {
+	position: relative;
+	height: 100%;
+}
 
 .gsuiKey {
 	box-sizing: border-box;
