@@ -39,10 +39,7 @@ gsuiGridSamples.prototype = {
 	change( obj ) {
 		if ( obj.tracks ) {
 			this.uiTrackList.change( obj.tracks );
-			this.uiTrackList.newRowElements.forEach( row => {
-				row.firstChild.style.fontSize = this._pxPerBeat + "px";
-				this._elGridCnt.append( row );
-			} );
+			this.uiTrackList.newRowElements.forEach( this._rowInit, this );
 		}
 	},
 	resized() {
@@ -55,15 +52,13 @@ gsuiGridSamples.prototype = {
 		this._updateGrid();
 	},
 	setFontSize( emPx ) {
-		var tiny, curr = this._fontSize;
+		var curr = this._fontSize;
 
 		emPx = ~~Math.min( Math.max( 16, emPx ), 256 );
 		if ( emPx !== curr ) {
-			tiny = emPx < 32;
-			if ( tiny !== curr < 32 ) {
-				this._elGridCnt.querySelectorAll( ".gsui-row" ).forEach( function( row ) {
-					row.classList.toggle( "gs-row-tiny", tiny );
-				} );
+			if ( emPx < 32 !== curr < 32 ) {
+				this._elGridCnt.querySelectorAll( ".gsui-row" )
+					.forEach( this._rowUpdateSizeClass, this );
 			}
 			this._fontSize = emPx;
 			this.rootElement.style.fontSize = emPx + "px";
@@ -105,13 +100,7 @@ gsuiGridSamples.prototype = {
 	loadKeys( from, nbOctaves ) {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
 		this.uiKeys.octaves( from, nbOctaves );
-		this.uiKeys.newRowElements.forEach( ( row, i ) => {
-			row.firstChild.style.fontSize = this._pxPerBeat + "px";
-			row.classList.toggle( "gs-row-tiny", this._fontSize < 32 );
-			row.onmousedown = this._evmdRow.bind( this, row,
-				from + nbOctaves - 1 - ~~( i / 12 ) );
-			this._elGridCnt.append( row );
-		} );
+		this.uiKeys.newRowElements.forEach( this._rowInit, this );
 	},
 	loadTrackList() {
 		this._loadPanelCmp( "uiTrackList", "uiKeys" );
@@ -190,9 +179,8 @@ gsuiGridSamples.prototype = {
 		this._pxPerBeat = beatPx = this.uiTimeLine._pxPerBeat;
 		this._elGridCnt.style.left = -this._timeOffset * beatPx + "px";
 		if ( beatPxChanged ) {
-			this._elGridCnt.querySelectorAll( ".gsui-row" ).forEach( function( row ) {
-				row.firstChild.style.fontSize = beatPx + "px";
-			} );
+			this._elGridCnt.querySelectorAll( ".gsui-row" )
+				.forEach( this._rowUpdateFontSize, this );
 		}
 	},
 	_updatePanelSize() {
@@ -220,6 +208,25 @@ gsuiGridSamples.prototype = {
 		elRow.firstChild.append( uiBlock.rootElement );
 	},
 
+	// row methods:
+	_rowInit( elRow, i ) {
+		var keys = this.uiKeys;
+
+		if ( keys ) {
+			elRow.onmousedown = this._evmdRow.bind( this, elRow,
+				keys._octStart + keys._nbOct - 1 - ~~( i / 12 ) );
+		}
+		this._rowUpdateFontSize( elRow );
+		this._rowUpdateSizeClass( elRow );
+		this._elGridCnt.append( elRow );
+	},
+	_rowUpdateFontSize( elRow ) {
+		elRow.firstChild.style.fontSize = this._pxPerBeat + "px";
+	},
+	_rowUpdateSizeClass( elRow ) {
+		elRow.classList.toggle( "gs-row-tiny", this._fontSize < 32 );
+	},
+	
 	// events:
 	_evocCurrentTime( beat ) {
 		this.uiBeatLines.currentTime( beat );
