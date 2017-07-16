@@ -27,6 +27,7 @@ function gsuiGridSamples() {
 	this._panelMinWidth =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
+	this._audioBlocks = {};
 	this.panelWidth( 100 );
 }
 
@@ -196,26 +197,30 @@ gsuiGridSamples.prototype = {
 
 		return rows[ Math.max( 0, Math.min( ind, rows.length - 1 ) ) ];
 	},
-	_createBlock( obj, elRow ) {
+	_newBlock( data, elRow ) {
 		var uiBlock = new gsuiAudioBlock();
 
-		uiBlock.when( obj.when );
-		uiBlock.duration( obj.duration );
-		if ( obj.key ) {
+		uiBlock.id = gsuiGridSamples.getNewId();
+		uiBlock.data = data;
+		uiBlock.when( data.when );
+		uiBlock.duration( data.duration );
+		if ( data.key ) {
 			uiBlock.datatype( "key" );
-			uiBlock.name( obj.key );
+			uiBlock.name( data.key );
 		}
 		elRow.firstChild.append( uiBlock.rootElement );
+		return this._audioBlocks[ uiBlock.id ] = uiBlock;
 	},
 
 	// row methods:
 	_rowInit( elRow, i ) {
-		var keys = this.uiKeys;
+		var addData,
+			keys = this.uiKeys;
 
 		if ( keys ) {
-			elRow.onmousedown = this._evmdRow.bind( this, elRow,
-				keys._octStart + keys._nbOct - 1 - ~~( i / 12 ) );
+			addData = keys._octStart + keys._nbOct - 1 - ~~( i / 12 );
 		}
+		elRow.onmousedown = this._evmdRow.bind( this, elRow, addData );
 		this._rowUpdateFontSize( elRow );
 		this._rowUpdateSizeClass( elRow );
 		this._elGridCnt.append( elRow );
@@ -256,14 +261,19 @@ gsuiGridSamples.prototype = {
 		gsuiGridSamples._focused = this;
 	},
 	_evmdRow( elRow, octave, e ) {
+		var block;
+
 		if ( !e.shiftKey && !e.ctrlKey && !e.altKey ) {
 			if ( e.button === 0 ) {
-				this._createBlock( {
-					when: this._getMouseBeat( e ),
-					offset: 0,
-					duration: 1,
-					key: elRow.dataset.key + octave
-				}, elRow );
+				if ( this.uiKeys ) {
+					block = this._newBlock( {
+						key: elRow.dataset.key + octave,
+						when: this._getMouseBeat( e ),
+						offset: 0,
+						duration: 1
+					}, elRow );
+					this.onchange( { [ block.id ]: block.data } );
+				}
 			} else if ( e.button === 2 ) {
 				// ...
 			}
