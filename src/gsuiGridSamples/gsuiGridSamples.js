@@ -16,6 +16,7 @@ function gsuiGridSamples() {
 	this._elGrid.prepend( this.uiBeatLines.rootElement );
 
 	root.oncontextmenu = function() { return false; };
+	root.onkeydown = this._evkdRoot.bind( this );
 	this._elPanelExt.onmousedown = this._evmdPanelEx.bind( this );
 	this._elGrid.onmousedown = this._evmdGrid.bind( this );
 	this._elGrid.onwheel = this._evowGrid.bind( this );
@@ -342,5 +343,12 @@ gsuiGridSamples.prototype = {
 		delete this._selectionStarting;
 		delete this._panelResizing;
 		delete gsuiGridSamples._focused;
+	},
+	_evkdRoot( e ) {
+		switch ( e.code ) {
+			case "Delete":
+				lg( "delete selected blocks" );
+				break;
+		}
 	}
 };
