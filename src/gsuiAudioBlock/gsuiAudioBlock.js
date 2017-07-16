@@ -11,6 +11,7 @@ function gsuiAudioBlock() {
 	this._elCropA.onmousedown =
 	this._elCropB.onmousedown = this._evmdCrop.bind( this );
 	root.onmousedown = this._evmdRoot.bind( this );
+	this.selected = false;
 }
 
 gsuiAudioBlock.prototype = {
@@ -18,6 +19,7 @@ gsuiAudioBlock.prototype = {
 		this._elName.textContent = n;
 	},
 	select( b ) {
+		this.selected = b;
 		this.rootElement.classList.toggle( "gsui-selected", b );
 	},
 	when( em ) {
