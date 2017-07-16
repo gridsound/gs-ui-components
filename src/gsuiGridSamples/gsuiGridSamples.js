@@ -152,25 +152,9 @@ gsuiGridSamples.prototype = {
 	_contentScroll( e ) {
 		this.contentY( this._contentY + ( 20 * ( e.deltaY > 0 ? 1 : -1 ) ) / this._fontSize );
 	},
-	_getMouseBeat( e ) {
+	_getMouseBeat( pageX ) {
 		this._elGridCntBCR = this._elGridCnt.getBoundingClientRect();
-		return this.uiTimeLine._round( ( e.pageX - this._elGridCntBCR.left ) / this._pxPerBeat );
-	},
-	_drawSelection( e ) {
-		var sty = this._elSelection.style,
-			left = this._mdBeat,
-			width = this._getMouseBeat( e ) - left,
-			top = Math.min( this._mdTrackBCR.top, this._mmTrackBCR.top ),
-			bottom = Math.max( this._mdTrackBCR.bottom, this._mmTrackBCR.bottom );
-
-		if ( width < 0 ) {
-			width = -width;
-			left -= width;
-		}
-		sty.left = left * this._pxPerBeat + "px";
-		sty.width = width * this._pxPerBeat + "px";
-		sty.top = top - this._elGridCntBCR.top + "px";
-		sty.height = bottom - top + "px";
+		return this.uiTimeLine._round( ( pageX - this._elGridCntBCR.left ) / this._pxPerBeat );
 	},
 	_updateGrid( beatPxChanged ) {
 		var beatPx = this._pxPerBeat;
@@ -192,9 +176,9 @@ gsuiGridSamples.prototype = {
 		this._resizeGrid();
 		this._updateGrid();
 	},
-	_findTrack( e ) {
+	_findTrack( pageY ) {
 		var rows = this._elGridCnt.querySelectorAll( ".gsui-row" ),
-			ind = ~~( ( e.pageY - this._elGridCntBCR.top ) / this._fontSize );
+			ind = ~~( ( pageY - this._elGridCntBCR.top ) / this._fontSize );
 
 		return rows[ Math.max( 0, Math.min( ind, rows.length - 1 ) ) ];
 	},
@@ -213,7 +197,44 @@ gsuiGridSamples.prototype = {
 		return this._audioBlocks[ uiBlock.id ] = uiBlock;
 	},
 
-	// row methods:
+	// private selection methods:
+	_selectionStarting( e, pxRel, pyRel ) {
+		if ( Math.max( Math.abs( pxRel ), Math.abs( pyRel ) ) > 6 ) {
+			this._mdTrackBCR =
+			this._mmTrackBCR = this._findTrack( e.pageY ).getBoundingClientRect();
+			this._selectionDraw( e.pageX );
+			this._elSelection.classList.remove( "hidden" );
+			this._selectionIsStarted = true;
+			delete this._selectionIsStarting;
+		}
+	},
+	_selectionStarted( e ) {
+		this._mmTrackBCR = this._findTrack( e.pageY ).getBoundingClientRect();
+		this._selectionDraw( e.pageX );
+	},
+	_selectionDraw( pageX ) {
+		var sty = this._elSelection.style,
+			left = this._mdBeat,
+			width = this._getMouseBeat( pageX ) - left,
+			top = Math.min( this._mdTrackBCR.top, this._mmTrackBCR.top ),
+			bottom = Math.max( this._mdTrackBCR.bottom, this._mmTrackBCR.bottom );
+
+		if ( width < 0 ) {
+			width = -width;
+			left -= width;
+		}
+		sty.left = left * this._pxPerBeat + "px";
+		sty.width = width * this._pxPerBeat + "px";
+		sty.top = top - this._elGridCntBCR.top + "px";
+		sty.height = bottom - top + "px";
+	},
+	_selectionEnd() {
+		this._elSelection.classList.add( "hidden" );
+		delete this._selectionIsStarted;
+		delete this._selectionIsStarting;
+	},
+
+	// private row methods:
 	_rowInit( elRow, i ) {
 		var addData,
 			keys = this.uiKeys;
@@ -245,10 +266,10 @@ gsuiGridSamples.prototype = {
 	_evmdGrid( e ) {
 		this._mdPageX = e.pageX;
 		this._mdPageY = e.pageY;
-		this._mdBeat = this._getMouseBeat( e );
+		this._mdBeat = this._getMouseBeat( e.pageX );
 		gsuiGridSamples._focused = this;
 		if ( e.shiftKey ) {
-			this._selectionStarting = true;
+			this._selectionIsStarting = true;
 		} else if ( e.altKey ) {
 			this._gridDragging = true;
 			this._mouseOffset = this._timeOffset;
@@ -269,7 +290,7 @@ gsuiGridSamples.prototype = {
 				if ( this.uiKeys ) {
 					block = this._newBlock( {
 						key: elRow.dataset.key + octave,
-						when: this._getMouseBeat( e ),
+						when: this._getMouseBeat( e.pageX ),
 						offset: 0,
 						duration: 1
 					}, elRow );
@@ -321,26 +342,16 @@ gsuiGridSamples.prototype = {
 			this.contentY( this._mouseContentY - pyRel / this._fontSize );
 		} else if ( this._panelResizing != null ) {
 			this.panelWidth( e.pageX - this._rootLeft + this._panelResizing );
-		} else if ( this._selectionStarted ) {
-			this._mmTrackBCR = this._findTrack( e ).getBoundingClientRect();
-			this._drawSelection( e );
-		} else if ( this._selectionStarting ) {
-			if ( Math.max( Math.abs( pxRel ), Math.abs( pyRel ) ) > 6 ) {
-				this._mdTrackBCR =
-				this._mmTrackBCR = this._findTrack( e ).getBoundingClientRect();
-				this._drawSelection( e );
-				this._elSelection.classList.remove( "hidden" );
-				this._selectionStarted = true;
-				delete this._selectionStarting;
-			}
+		} else if ( this._selectionIsStarted ) {
+			this._selectionStarted( e );
+		} else if ( this._selectionIsStarting ) {
+			this._selectionStarting( e, pxRel, pyRel );
 		}
 	},
-	_evmuRoot( e ) {
+	_evmuRoot() {
+		this._selectionEnd();
 		this._elPanelExt.classList.remove( "gsui-hover" );
-		this._elSelection.classList.add( "hidden" );
 		delete this._gridDragging;
-		delete this._selectionStarted;
-		delete this._selectionStarting;
 		delete this._panelResizing;
 		delete gsuiGridSamples._focused;
 	},
