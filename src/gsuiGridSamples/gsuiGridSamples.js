@@ -321,7 +321,6 @@ gsuiGridSamples.prototype = {
 
 	// private deletion methods:
 	_deletionStarted( uiBlock ) {
-		this._deletionIsStarted = true;
 		this._deletionObj = uiBlock ? {} : this._blockUnselectAll( {} );
 		uiBlock && this._deletionPush( uiBlock );
 	},
@@ -332,12 +331,11 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	_deletionEnd() {
-		if ( this._deletionIsStarted ) {
+		if ( this._deletionObj ) {
 			for ( var k in this._deletionObj ) {
 				this.onchange( this._deletionObj );
 				break;
 			}
-			delete this._deletionIsStarted;
 			delete this._deletionObj;
 		}
 	},
@@ -447,7 +445,7 @@ gsuiGridSamples.prototype = {
 			this.contentY( this._mouseContentY - pyRel / this._fontSize );
 		} else if ( this._panelResizing != null ) {
 			this.panelWidth( e.pageX - this._rootLeft + this._panelResizing );
-		} else if ( this._deletionIsStarted ) {
+		} else if ( this._deletionObj ) {
 			this._deletionPush( e.target.gsuiAudioBlock );
 		} else if ( this._selectionIsStarted ) {
 			this._selectionStarted( e );
@@ -467,7 +465,11 @@ gsuiGridSamples.prototype = {
 	_evkdRoot( e ) {
 		switch ( e.code ) {
 			case "Delete":
-				console.log( "delete selected blocks" );
+				this._deletionObj = {};
+				for ( var id in this._uiBlocksSelected ) {
+					this._deletionPush( this._uiBlocksSelected[ id ] );
+				}
+				this._deletionEnd();
 				break;
 		}
 	},
