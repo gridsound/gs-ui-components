@@ -28,7 +28,8 @@ function gsuiGridSamples() {
 	this._panelMinWidth =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
-	this._audioBlocks = {};
+	this._uiBlocks = {};
+	this._uiBlocksSelected = {};
 	this.panelWidth( 100 );
 }
 
@@ -58,12 +59,12 @@ gsuiGridSamples.prototype = {
 
 		emPx = ~~Math.min( Math.max( 16, emPx ), 256 );
 		if ( emPx !== curr ) {
+			this._fontSize = emPx;
+			this.rootElement.style.fontSize = emPx + "px";
 			if ( emPx < 32 !== curr < 32 ) {
 				this._elGridCnt.querySelectorAll( ".gsui-row" )
 					.forEach( this._rowUpdateSizeClass, this );
 			}
-			this._fontSize = emPx;
-			this.rootElement.style.fontSize = emPx + "px";
 		}
 	},
 	offset( offset, beatPx ) {
@@ -182,7 +183,9 @@ gsuiGridSamples.prototype = {
 
 		return rows[ Math.max( 0, Math.min( ind, rows.length - 1 ) ) ];
 	},
-	_newBlock( data, elRow ) {
+
+	// private audioBlocks methods:
+	_blockCreate( data, elRow ) {
 		var uiBlock = new gsuiAudioBlock();
 
 		uiBlock.id = gsuiGridSamples.getNewId();
@@ -194,43 +197,116 @@ gsuiGridSamples.prototype = {
 			uiBlock.name( data.key );
 		}
 		elRow.firstChild.append( uiBlock.rootElement );
-		return this._audioBlocks[ uiBlock.id ] = uiBlock;
+		uiBlock.ondrag = this._evodBlock.bind( this );
+		uiBlock.oncrop = this._evocBlock.bind( this );
+		return this._uiBlocks[ uiBlock.id ] = uiBlock;
+	},
+	_blockDelete( uiBlock ) {
+		uiBlock.rootElement.remove();
+		delete this._uiBlocks[ uiBlock.id ];
+	},
+	_blockSelect( uiBlock, b ) {
+		uiBlock.select( b );
+		if ( b ) {
+			this._uiBlocksSelected[ uiBlock.id ] = uiBlock;
+		} else {
+			delete this._uiBlocksSelected[ uiBlock.id ];
+		}
 	},
 
 	// private selection methods:
 	_selectionStarting( e, pxRel, pyRel ) {
 		if ( Math.max( Math.abs( pxRel ), Math.abs( pyRel ) ) > 6 ) {
-			this._mdTrackBCR =
-			this._mmTrackBCR = this._findTrack( e.pageY ).getBoundingClientRect();
-			this._selectionDraw( e.pageX );
+			this._mdTrack =
+			this._mmTrack = this._findTrack( e.pageY );
+			this._selectionCalc( e.pageX );
 			this._elSelection.classList.remove( "hidden" );
 			this._selectionIsStarted = true;
 			delete this._selectionIsStarting;
 		}
 	},
 	_selectionStarted( e ) {
-		this._mmTrackBCR = this._findTrack( e.pageY ).getBoundingClientRect();
-		this._selectionDraw( e.pageX );
+		this._mmTrack = this._findTrack( e.pageY );
+		this._selectionCalc( e.pageX );
 	},
-	_selectionDraw( pageX ) {
-		var sty = this._elSelection.style,
-			left = this._mdBeat,
-			width = this._getMouseBeat( pageX ) - left,
-			top = Math.min( this._mdTrackBCR.top, this._mmTrackBCR.top ),
-			bottom = Math.max( this._mdTrackBCR.bottom, this._mmTrackBCR.bottom );
-
-		if ( width < 0 ) {
-			width = -width;
-			left -= width;
+	_selectionCalc( pageX ) {
+		var trkA = this._mdTrack,
+			trkB = this._mmTrack,
+			beatA = this._getMouseBeat( pageX ),
+			beatB = this._mdBeat;
+		
+		if ( trkA.compareDocumentPosition( trkB ) & 2 ) {
+			trkA = trkB;
+			trkB = this._mdTrack;
 		}
-		sty.left = left * this._pxPerBeat + "px";
-		sty.width = width * this._pxPerBeat + "px";
-		sty.top = top - this._elGridCntBCR.top + "px";
-		sty.height = bottom - top + "px";
+		this._selectionDraw( trkA, trkB,
+			Math.min( beatA, beatB ),
+			Math.max( beatA, beatB ) );
+	},
+	_selectionDraw( trkA, trkB, beatA, beatB ) {
+		if ( trkA !== this._selectionTrkA || trkB !== this._selectionTrkB ||
+			beatA !== this._selectionBeatA || beatB !== this._selectionBeatB )
+		{
+			var sty = this._elSelection.style,
+				top = trkA.getBoundingClientRect().top;
+
+			this._selectionBeatA = beatA;
+			this._selectionBeatB = beatB;
+			this._selectionTrkA = trkA;
+			this._selectionTrkB = trkB;
+			sty.left = beatA * this._pxPerBeat + "px";
+			sty.width = ( beatB - beatA ) * this._pxPerBeat + "px";
+			sty.top = top - this._elGridCntBCR.top + "px";
+			sty.height = trkB.getBoundingClientRect().bottom - top + "px";
+			this._selectionSelect();
+		}
+	},
+	_selectionSelect( x, y, w, h ) {
+		var id,
+			uiBlock,
+			cmp,
+			cmpPos,
+			trkA = this._selectionTrkA,
+			trkB = this._selectionTrkB,
+			beatA = this._selectionBeatA,
+			beatB = this._selectionBeatB,
+			uiBlocks = this._uiBlocks,
+			uiBlocksSel = this._uiBlocksSelected;
+
+		this._selectionSelected = [];
+		for ( id in uiBlocks ) {
+			uiBlock = uiBlocks[ id ];
+			if ( !uiBlocksSel[ id ] ) {
+				if ( cmp = beatA < uiBlock.data.when + uiBlock.data.duration &&
+					uiBlock.data.when < beatB )
+				{
+					cmpPos = uiBlock.rootElement.compareDocumentPosition( trkA );
+					if ( cmp = cmpPos & 2 || cmpPos & 8 ) {
+						cmpPos = uiBlock.rootElement.compareDocumentPosition( trkB );
+						cmp = cmpPos & 4 || cmpPos & 8;
+					}
+				}
+				if ( cmp ) {
+					this._selectionSelected.push( uiBlock );
+				}
+				uiBlock.select( cmp );
+			}
+		}
 	},
 	_selectionEnd() {
-		this._elSelection.classList.add( "hidden" );
-		delete this._selectionIsStarted;
+		if ( this._selectionIsStarted ) {
+			this._elSelection.classList.add( "hidden" );
+			delete this._selectionTrkA;
+			delete this._selectionTrkB;
+			delete this._selectionIsStarted;
+			if ( this._selectionSelected.length > 0 ) {
+				this.onchange( this._selectionSelected.reduce( ( obj, uiBlock ) => {
+					this._uiBlocksSelected[ uiBlock.id ] = uiBlock;
+					obj[ uiBlock.id ] = { selected: true };
+					return obj;
+				}, {} ) );
+			}
+		}
 		delete this._selectionIsStarting;
 	},
 
@@ -253,7 +329,7 @@ gsuiGridSamples.prototype = {
 	_rowUpdateSizeClass( elRow ) {
 		elRow.classList.toggle( "gs-row-tiny", this._fontSize < 32 );
 	},
-	
+
 	// events:
 	_evocCurrentTime( beat ) {
 		this.uiBeatLines.currentTime( beat );
@@ -288,7 +364,7 @@ gsuiGridSamples.prototype = {
 		if ( !e.shiftKey && !e.ctrlKey && !e.altKey ) {
 			if ( e.button === 0 ) {
 				if ( this.uiKeys ) {
-					block = this._newBlock( {
+					block = this._blockCreate( {
 						key: elRow.dataset.key + octave,
 						when: this._getMouseBeat( e.pageX ),
 						offset: 0,
@@ -358,8 +434,20 @@ gsuiGridSamples.prototype = {
 	_evkdRoot( e ) {
 		switch ( e.code ) {
 			case "Delete":
-				lg( "delete selected blocks" );
+				console.log( "delete selected blocks" );
 				break;
 		}
+	},
+	_evodBlock( uiBlock, status, e ) {
+		e.stopPropagation();
+		if ( e.shiftKey && status === "down" ) {
+			var sel = !this._uiBlocksSelected[ uiBlock.id ];
+
+			this._blockSelect( uiBlock, sel );
+			this.onchange( { [ uiBlock.id ]: sel } );
+		}
+	},
+	_evocBlock( uiBlock, status, side, e ) {
+		console.log( status, side );
 	}
 };
