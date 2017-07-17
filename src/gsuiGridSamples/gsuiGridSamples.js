@@ -359,7 +359,7 @@ gsuiGridSamples.prototype = {
 		gsuiGridSamples._focused = this;
 	},
 	_evmdRow( elRow, octave, e ) {
-		var block;
+		var id, block, obj;
 
 		if ( !e.shiftKey && !e.ctrlKey && !e.altKey ) {
 			if ( e.button === 0 ) {
@@ -370,7 +370,13 @@ gsuiGridSamples.prototype = {
 						offset: 0,
 						duration: 1
 					}, elRow );
-					this.onchange( { [ block.id ]: block.data } );
+					obj = { [ block.id ]: block.data };
+					for ( id in this._uiBlocksSelected ) {
+						obj[ id ] = { selected: false };
+						this._uiBlocksSelected[ id ].select( false );
+						delete this._uiBlocksSelected[ id ];
+					}
+					this.onchange( obj );
 				}
 			} else if ( e.button === 2 ) {
 				// ...
