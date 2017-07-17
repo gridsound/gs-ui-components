@@ -24,7 +24,7 @@
 	transition-property: color;
 }
 .gsuiAudioBlock.gsui-selected {
-	color: #d33;
+	color: #f99;
 }
 .gsuiAudioBlock .gsui-bg {
 	position: absolute;
