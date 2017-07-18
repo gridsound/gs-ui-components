@@ -243,7 +243,7 @@ gsuiGridSamples.prototype = {
 			trkB = this._mmTrack,
 			beatA = this._getMouseBeat( pageX ),
 			beatB = this._mdBeat;
-		
+
 		if ( trkA.compareDocumentPosition( trkB ) & 2 ) {
 			trkA = trkB;
 			trkB = this._mdTrack;
@@ -263,7 +263,7 @@ gsuiGridSamples.prototype = {
 			this._selectionBeatB = beatB;
 			this._selectionTrkA = trkA;
 			this._selectionTrkB = trkB;
-			sty.left = beatA * this._pxPerBeat + "px";
+			sty.left = ( beatA - this._timeOffset ) * this._pxPerBeat + "px";
 			sty.width = ( beatB - beatA ) * this._pxPerBeat + "px";
 			sty.top = top - this._elGridCntBCR.top + "px";
 			sty.height = trkB.getBoundingClientRect().bottom - top + "px";
@@ -339,7 +339,7 @@ gsuiGridSamples.prototype = {
 			delete this._deletionObj;
 		}
 	},
-	
+
 	// private row methods:
 	_rowInit( elRow, i ) {
 		var addData,
