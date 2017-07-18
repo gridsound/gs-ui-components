@@ -73,6 +73,9 @@
 .gsuiAudioBlock .gsui-crop.gsui-b {
 	right: 0;
 }
+.gsui-nocrop .gsui-crop {
+	display: none !important;
+}
 
 /* data-type = "key" */
 .gsuiAudioBlock[ data-type = "key" ] .gsui-bg {
@@ -80,8 +83,6 @@
 	opacity: .6;
 }
 .gsuiAudioBlock[ data-type = "key" ] .gsui-head {
-	// color: rgba( 0, 0, 0, .8 );
-	// text-shadow: none;
 	background-color: transparent;
 }
 
