@@ -107,10 +107,7 @@ gsuiGridSamples.prototype = {
 	},
 	loadTrackList() {
 		this._loadPanelCmp( "uiTrackList", "uiKeys" );
-		this.uiTrackList.onchange = obj => this.onchange( {
-			redo: { tracks: obj.redo },
-			undo: { tracks: obj.undo }
-		} );
+		this.uiTrackList.onchange = obj => this.onchange( { tracks: obj } );
 	},
 
 	// private:
