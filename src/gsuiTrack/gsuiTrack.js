@@ -52,7 +52,7 @@ gsuiTrack.prototype = {
 		if ( isUserAction === false ) {
 			this.uiToggle.toggle( b );
 		} else {
-			this.onchange( { redo: { toggle: b }, undo: { toggle: !b } } );
+			this.onchange( { toggle: b } );
 		}
 		this.data.toggle = b;
 	},
@@ -60,7 +60,7 @@ gsuiTrack.prototype = {
 		if ( isUserAction === false ) {
 			this.uiSpan.setValue( name );
 		} else {
-			this.onchange( { redo: { name: name }, undo: { name: this.data.name } } );
+			this.onchange( { name: name } );
 		}
 		this.data.name = name;
 	}
