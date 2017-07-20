@@ -49,7 +49,7 @@
 	bottom: 0;
 	color: #000;
 	font-size: calc( 6px + .25em );
-	font-family: consolas;
+	font-family: monospace;
 }
 .gsuiKey.gsui-active {
 	background-image: linear-gradient( 90deg, #353b52, #7886bd );

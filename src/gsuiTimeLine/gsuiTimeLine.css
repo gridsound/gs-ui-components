@@ -6,7 +6,7 @@
 
 	position: relative;
 	overflow: hidden;
-	font: 14px consolas;
+	font: 14px monospace;
 	color: #fff;
 	background: #222;
 	cursor: default;
