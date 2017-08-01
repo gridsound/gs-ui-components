@@ -22,8 +22,8 @@ gsuiAudioBlock.prototype = {
 		this._elName.textContent = n;
 	},
 	select( b ) {
-		this.selected = b;
-		this.rootElement.classList.toggle( "gsui-selected", b );
+		this.rootElement.classList.toggle( "gsui-selected",
+			this.selected = !!b );
 	},
 	when( em ) {
 		this.rootElement.style.left = em + "em";
