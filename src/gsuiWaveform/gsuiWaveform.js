@@ -14,13 +14,13 @@ function gsuiWaveform( svg ) {
 };
 
 gsuiWaveform.prototype = {
+	empty() {
+		this.polygon.removeAttribute( "points" );
+	},
 	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
-	},
-	clear() {
-		this.polygon.removeAttribute( "points" );
 	},
 	drawBuffer( buf, offset, duration ) {
 		var d0 = buf.getChannelData( 0 ),
