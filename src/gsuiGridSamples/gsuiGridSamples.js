@@ -479,7 +479,7 @@ gsuiGridSamples.prototype = {
 				var sel = !this._uiBlocksSelected[ uiBlock.id ];
 
 				this._blockSelect( uiBlock, sel );
-				this.onchange( { [ uiBlock.id ]: sel } );
+				this.onchange( { [ uiBlock.id ]: { selected: sel } } );
 			}
 		}
 	},
