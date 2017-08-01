@@ -14,6 +14,7 @@ function gsuiGridSamples() {
 	this.uiBeatLines = new gsuiBeatLines();
 	root.prepend( this.uiTimeLine.rootElement );
 	this._elGrid.prepend( this.uiBeatLines.rootElement );
+	this.rows = this._elGridCnt.childNodes;
 
 	root.oncontextmenu = function() { return false; };
 	root.onkeydown = this._evkdRoot.bind( this );
@@ -48,6 +49,14 @@ gsuiGridSamples.prototype = {
 		if ( obj.tracks ) {
 			this.uiTrackList.change( obj.tracks );
 			this.uiTrackList.newRowElements.forEach( this._rowInit, this );
+		} else {
+			for ( var id in obj ) {
+				obj[ id ]
+					? this._uiBlocks[ id ]
+						? this._blockUpdate( id, obj[ id ] )
+						: this._blockCreate( id, obj[ id ] )
+					: this._blockDelete( id );
+			}
 		}
 	},
 	resized() {
@@ -187,26 +196,39 @@ gsuiGridSamples.prototype = {
 	},
 
 	// private audioBlocks methods:
-	_blockCreate( data, elRow ) {
+	_blockCreate( id, data ) {
 		var uiBlock = new gsuiAudioBlock();
 
-		uiBlock.id = gsuiGridSamples.getNewId();
-		uiBlock.data = data;
-		uiBlock.when( data.when );
-		uiBlock.duration( data.duration );
+		this._uiBlocks[ id ] = uiBlock;
+		uiBlock.id = id;
+		uiBlock.data = Object.assign( {}, data );
 		if ( data.key ) {
 			uiBlock.datatype( "key" );
 			uiBlock.name( data.key );
 		}
-		elRow.firstChild.append( uiBlock.rootElement );
 		uiBlock.ondrag = this._evodBlock.bind( this );
 		uiBlock.oncrop = this._evocBlock.bind( this );
-		return this._uiBlocks[ uiBlock.id ] = uiBlock;
+		this._blockUpdate( id, data );
+		return uiBlock;
 	},
-	_blockDelete( uiBlock ) {
-		uiBlock.rootElement.remove();
-		delete this._uiBlocks[ uiBlock.id ];
-		delete this._uiBlocksSelected[ uiBlock.id ];
+	_blockUpdate( id, data ) {
+		var elRow,
+			uiBlock = this._uiBlocks[ id ];
+
+		"when" in data && uiBlock.when( data.when );
+		"duration" in data && uiBlock.duration( data.duration );
+		"selected" in data && this._blockSelect( uiBlock, data.selected );
+		if ( "key" in data ) {
+			elRow = this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ];
+			elRow.firstChild.append( uiBlock.rootElement );
+		}
+	},
+	_blockDelete( id ) {
+		if ( this._uiBlocks[ id ] ) {
+			this._uiBlocks[ id ].rootElement.remove();
+			delete this._uiBlocks[ id ];
+			delete this._uiBlocksSelected[ id ];
+		}
 	},
 	_blockSelect( uiBlock, b ) {
 		uiBlock.select( b );
@@ -329,7 +351,7 @@ gsuiGridSamples.prototype = {
 	_deletionPush( uiBlock ) {
 		if ( uiBlock ) {
 			this._deletionObj[ uiBlock.id ] = null;
-			this._blockDelete( uiBlock );
+			this._blockDelete( uiBlock.id );
 		}
 	},
 	_deletionEnd() {
@@ -395,14 +417,16 @@ gsuiGridSamples.prototype = {
 			if ( e.button === 2 ) {
 				this._deletionStarted();
 			} else if ( e.button === 0 && this.uiKeys ) {
-				var block = this._blockCreate( {
+				var id = gsuiGridSamples.getNewId(),
+					data = {
 						key: elRow.dataset.key + octave,
 						when: this._getMouseBeat( e.pageX ),
 						offset: 0,
 						duration: 1
-					}, elRow );
+					};
 
-				this.onchange( this._blockUnselectAll( { [ block.id ]: block.data } ) );
+				this._blockCreate( id, data );
+				this.onchange( this._blockUnselectAll( { [ id ]: data } ) );
 			}
 		}
 	},
