@@ -17,6 +17,11 @@ function gsuiAudioBlock() {
 	this.selected = false;
 }
 
+gsuiAudioBlock.typeToCmp = {
+	buffer: "gsuiWaveform",
+	keys: "gsuiRectMatrix"
+};
+
 gsuiAudioBlock.prototype = {
 	name( n ) {
 		this._elName.textContent = n;
