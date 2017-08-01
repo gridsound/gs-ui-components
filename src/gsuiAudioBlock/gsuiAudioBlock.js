@@ -32,19 +32,25 @@ gsuiAudioBlock.prototype = {
 		this.rootElement.style.width = em + "em";
 	},
 	datatype( type ) {
-		this.rootElement.dataset.type = type;
+		if ( type !== this._datatype ) {
+			this._datatype =
+			this.rootElement.dataset.type = type;
+			if ( this._uiContentCmp ) {
+				this._uiContentCmp.remove();
+				delete this._uiContentCmp;
+			}
+		}
 	},
 	updateData( dat, off, dur ) {
-		if ( dat instanceof AudioBuffer ) {
-			var cmp = this._uiContentCmp;
+		var cmp = this._uiContentCmp;
 
-			if ( !cmp ) {
-				this._uiContentCmp = cmp = new gsuiWaveform();
-				this._elCnt.append( cmp.rootElement );
-			}
+		if ( !cmp ) {
+			this._uiContentCmp =
+			cmp = new window[ gsuiAudioBlock.typeToCmp[ this._datatype ] ];
+			this._elCnt.append( cmp.rootElement );
 			cmp.setResolution( cmp.rootElement.clientWidth, 32 );
-			cmp.drawBuffer( dat, off, dur );
 		}
+		cmp.render( dat, off, dur );
 	},
 
 	// private:
