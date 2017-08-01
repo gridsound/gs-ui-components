@@ -12,6 +12,21 @@ function gsuiKeys() {
 	root.onmousedown = this._evmdRoot.bind( this );
 }
 
+gsuiKeys.keyIds = {
+	"b":  11,
+	"a#": 10,
+	"a":   9,
+	"g#":  8,
+	"g":   7,
+	"f#":  6,
+	"f":   5,
+	"e":   4,
+	"d#":  3,
+	"d":   2,
+	"c#":  1,
+	"c":   0
+};
+
 gsuiKeys.prototype = {
 	remove() {
 		this.rootElement.remove();
@@ -47,6 +62,12 @@ gsuiKeys.prototype = {
 				}
 			}
 		}
+	},
+	keyToIndex( keyStr ) {
+		var key = keyStr.substr( 0, keyStr[ 1 ] !== "#" ? 1 : 2 );
+
+		return keyStr.substr( key.length ) * 12 +
+			gsuiKeys.keyIds[ key ] - ( this._octStart * 12 );
 	},
 
 	// private:
