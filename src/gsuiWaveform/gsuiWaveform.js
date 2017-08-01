@@ -26,7 +26,7 @@ gsuiWaveform.prototype = {
 		this.height = h;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
-	drawBuffer( buf, offset, duration ) {
+	render( buf, offset, duration ) {
 		var d0 = buf.getChannelData( 0 ),
 			d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
 
