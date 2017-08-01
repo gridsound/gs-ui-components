@@ -14,6 +14,10 @@ function gsuiWaveform( svg ) {
 };
 
 gsuiWaveform.prototype = {
+	remove() {
+		this.empty();
+		this.rootElement.remove();
+	},
 	empty() {
 		this.polygon.removeAttribute( "points" );
 	},
