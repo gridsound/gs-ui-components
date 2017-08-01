@@ -38,6 +38,11 @@ gsuiGridSamples.prototype = {
 		if ( this.uiTrackList ) {
 			this.uiTrackList.empty();
 		}
+		for ( var id in this._uiBlocks ) {
+			this._uiBlocks[ id ].rootElement.remove();
+			delete this._uiBlocks[ id ];
+			delete this._uiBlocksSelected[ id ];
+		}
 	},
 	change( obj ) {
 		if ( obj.tracks ) {
