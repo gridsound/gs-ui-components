@@ -46,10 +46,7 @@ gsuiBeatLines.prototype = {
 		this._render();
 	},
 	loop( a, b ) {
-		if ( a === false ) {
-			this._loop = a;
-		} else {
-			this._loop = true;
+		if ( this._loop = a !== false ) {
 			this._loopA = a;
 			this._loopB = b;
 			this._updateLoop();
