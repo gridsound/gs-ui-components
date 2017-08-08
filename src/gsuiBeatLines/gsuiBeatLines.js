@@ -1,8 +1,10 @@
 "use strict";
 
+window.SVGURL = "http://www.w3.org/2000/svg";
+
 function gsuiBeatLines( el ) {
 	this.rootElement =
-	el = el || document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
+	el = el || document.createElementNS( SVGURL, "svg" );
 	el.setAttribute( "preserveAspectRatio", "none" );
 	el.classList.add( "gsuiBeatLines" );
 	this.elTime = this._newRect();
@@ -97,7 +99,7 @@ gsuiBeatLines.prototype = {
 		}
 	},
 	_newRect() {
-		var rc = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
+		var rc = document.createElementNS( SVGURL, "rect" );
 
 		rc.setAttribute( "y", 0 );
 		rc.setAttribute( "height", "1px" );

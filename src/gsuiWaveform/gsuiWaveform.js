@@ -1,14 +1,14 @@
 "use strict";
 
-function gsuiWaveform( svg ) {
-	var svgurl = "http://www.w3.org/2000/svg";
+window.SVGURL = "http://www.w3.org/2000/svg";
 
-	this.rootElement = svg || document.createElementNS( svgurl, "svg" );
+function gsuiWaveform( svg ) {
+	this.rootElement = svg || document.createElementNS( SVGURL, "svg" );
 	this.rootElement.setAttribute( "preserveAspectRatio", "none" );
 	this.rootElement.classList.add( "gsuiWaveform" );
 	this.polygon = this.rootElement.querySelector( "polygon" );
 	if ( !this.polygon ) {
-		this.polygon = document.createElementNS( svgurl, "polygon" );
+		this.polygon = document.createElementNS( SVGURL, "polygon" );
 		this.rootElement.appendChild( this.polygon );
 	}
 };

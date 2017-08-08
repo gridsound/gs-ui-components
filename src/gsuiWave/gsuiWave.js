@@ -1,14 +1,14 @@
 "use strict";
 
-function gsuiWave( svg ) {
-	var svgurl = "http://www.w3.org/2000/svg";
+window.SVGURL = "http://www.w3.org/2000/svg";
 
-	this.rootElement = svg || document.createElementNS( svgurl, "svg" );
+function gsuiWave( svg ) {
+	this.rootElement = svg || document.createElementNS( SVGURL, "svg" );
 	this.rootElement.setAttribute( "preserveAspectRatio", "none" );
 	this.rootElement.classList.add( "gsuiWave" );
 	this.polyline = this.rootElement.querySelector( "polyline" );
 	if ( !this.polyline ) {
-		this.polyline = document.createElementNS( svgurl, "polyline" );
+		this.polyline = document.createElementNS( SVGURL, "polyline" );
 		this.rootElement.appendChild( this.polyline );
 	}
 	this.type = "sine";
