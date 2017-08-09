@@ -25,8 +25,8 @@ function gsuiGridSamples() {
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
 	this._panelMaxWidth = Infinity;
-	this._contentY =
 	this._panelMinWidth =
+	this._contentY =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
 	this._uiBlocks = {};
@@ -289,7 +289,7 @@ gsuiGridSamples.prototype = {
 			this._selectionTrkB = trkB;
 			sty.left = ( beatA - this._timeOffset ) * this._pxPerBeat + "px";
 			sty.width = ( beatB - beatA ) * this._pxPerBeat + "px";
-			sty.top = top - this._elGridCntBCR.top + "px";
+			sty.top = top - this._elGridCntBCR.top - this._contentY * this._fontSize + "px";
 			sty.height = trkB.getBoundingClientRect().bottom - top + "px";
 			this._selectionSelect();
 		}
