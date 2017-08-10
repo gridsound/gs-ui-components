@@ -36,7 +36,8 @@ gsuiKeys.prototype = {
 		this.rowElements.length = 0;
 	},
 	octaves( start, nbOct ) {
-		var root = this.rootElement,
+		var id,
+			root = this.rootElement,
 			nbDiff = nbOct - this._nbOct;
 
 		if ( nbDiff || this._octStart !== start ) {
@@ -44,14 +45,15 @@ gsuiKeys.prototype = {
 			root.style.counterReset = "octave " + ( start + nbOct );
 		}
 		if ( nbDiff ) {
-			this._nbOct = nbOct;
 			if ( nbDiff > 0 ) {
 				while ( nbDiff-- > 0 ) {
 					root.append( document.importNode( gsuiKeys.octaveTemplate.content, true ) );
 				}
+				id = this._nbOct * 12;
 				this.newRowElements = root.querySelectorAll( ".gsui-row" );
 				this.newRowElements.forEach( function( el ) {
 					el.remove();
+					el.dataset.rowid = id++;
 				} );
 				Array.prototype.push.apply( this.rowElements, this.newRowElements );
 			} else {
@@ -61,6 +63,7 @@ gsuiKeys.prototype = {
 					this.rowElements.pop();
 				}
 			}
+			this._nbOct = nbOct;
 		}
 	},
 	keyToIndex( keyStr ) {
