@@ -19,7 +19,9 @@ gsuiTrackList.prototype = {
 		}
 	},
 	change( objs ) {
-		var id, obj, arr = [];
+		var id, obj, uiTrk,
+			rowid = 0,
+			arr = [];
 
 		this.newRowElements = [];
 		for ( id in objs ) {
@@ -31,7 +33,10 @@ gsuiTrackList.prototype = {
 		arr.forEach( function( { id, obj } ) {
 			if ( obj ) {
 				if ( !this.data[ id ] ) {
-					this._newTrack( id );
+					uiTrk = this._newTrack( id );
+
+					// 1. TODO
+					uiTrk.rowElement.dataset.rowid = rowid++;
 				}
 				this._uiTracks[ id ].change( obj );
 			} else {
@@ -61,6 +66,7 @@ gsuiTrackList.prototype = {
 		this._uiTracks[ id ] = uiTrk;
 		this.rootElement.append( uiTrk.rootElement );
 		this.newRowElements.push( uiTrk.rowElement );
+		return uiTrk;
 	},
 	_delTrack( id ) {
 		this._uiTracks[ id ].remove();
@@ -95,3 +101,8 @@ gsuiTrackList.prototype = {
 		this.onchange( obj );
 	}
 };
+
+/*
+1. The `data-rowid` is the index of the row inside each other rows.
+	But the `.change()` function doesn't change the id, if the a track is deleted in the middle, etc.
+*/
