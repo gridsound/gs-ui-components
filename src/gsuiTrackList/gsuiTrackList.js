@@ -19,9 +19,7 @@ gsuiTrackList.prototype = {
 		}
 	},
 	change( objs ) {
-		var id, obj, uiTrk,
-			rowid = 0,
-			arr = [];
+		var id, obj, arr = [];
 
 		this.newRowElements = [];
 		for ( id in objs ) {
@@ -33,10 +31,7 @@ gsuiTrackList.prototype = {
 		arr.forEach( function( { id, obj } ) {
 			if ( obj ) {
 				if ( !this.data[ id ] ) {
-					uiTrk = this._newTrack( id );
-
-					// 1. TODO
-					uiTrk.rowElement.dataset.rowid = rowid++;
+					this._newTrack( id );
 				}
 				this._uiTracks[ id ].change( obj );
 			} else {
@@ -62,11 +57,12 @@ gsuiTrackList.prototype = {
 		uiTrk.uiToggle.onmousedownright = this._muteAll.bind( this, id );
 		uiTrk.onchange = this._evocTrack.bind( this, id );
 		uiTrk.setPlaceholder( "Track " + ( this.rootElement.childNodes.length + 1 ) );
+		uiTrk.rootElement.dataset.track =
+		uiTrk.rowElement.dataset.track = id;
 		this.data[ id ] = uiTrk.data;
 		this._uiTracks[ id ] = uiTrk;
 		this.rootElement.append( uiTrk.rootElement );
 		this.newRowElements.push( uiTrk.rowElement );
-		return uiTrk;
 	},
 	_delTrack( id ) {
 		this._uiTracks[ id ].remove();
@@ -101,8 +97,3 @@ gsuiTrackList.prototype = {
 		this.onchange( obj );
 	}
 };
-
-/*
-1. The `data-rowid` is the index of the row inside each other rows.
-	But the `.change()` function doesn't change the id, if the a track is deleted in the middle, etc.
-*/
