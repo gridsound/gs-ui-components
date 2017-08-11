@@ -15,6 +15,7 @@ function gsuiGridSamples() {
 	root.prepend( this.uiTimeLine.rootElement );
 	this._elGrid.prepend( this.uiBeatLines.rootElement );
 	this.rows = this._elGridCnt.childNodes;
+	this._rowsById = {};
 
 	root.oncontextmenu = function() { return false; };
 	root.onkeydown = this._evkdRoot.bind( this );
@@ -38,6 +39,7 @@ gsuiGridSamples.prototype = {
 	empty() {
 		if ( this.uiTrackList ) {
 			this.uiTrackList.empty();
+			this._rowsById = {};
 		}
 		for ( var id in this._uiBlocks ) {
 			this._uiBlocks[ id ].rootElement.remove();
@@ -212,16 +214,15 @@ gsuiGridSamples.prototype = {
 		return uiBlock;
 	},
 	_blockUpdate( id, data ) {
-		var elRow,
-			uiBlock = this._uiBlocks[ id ];
+		var uiBlock = this._uiBlocks[ id ];
 
 		"when" in data && uiBlock.when( data.when );
 		"duration" in data && uiBlock.duration( data.duration );
 		"selected" in data && this._blockSelect( uiBlock, data.selected );
-		if ( "key" in data ) {
-			elRow = this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ];
-			elRow.firstChild.append( uiBlock.rootElement );
-		}
+		( "key" in data
+			? this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
+			: this._rowsById[ data.track ]
+		).firstChild.append( uiBlock.rootElement );
 	},
 	_blockDelete( id ) {
 		if ( this._uiBlocks[ id ] ) {
@@ -373,6 +374,7 @@ gsuiGridSamples.prototype = {
 			addData = keys._octStart + keys._nbOct - 1 - ~~( i / 12 );
 		}
 		elRow.onmousedown = this._evmdRow.bind( this, elRow, addData );
+		this._rowsById[ elRow.dataset.track ] = elRow;
 		this._rowUpdateFontSize( elRow );
 		this._rowUpdateSizeClass( elRow );
 		this._elGridCnt.append( elRow );
