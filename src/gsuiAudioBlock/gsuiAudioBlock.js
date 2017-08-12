@@ -23,6 +23,13 @@ gsuiAudioBlock.typeToCmp = {
 };
 
 gsuiAudioBlock.prototype = {
+	setResolution( w, h ) {
+		this.resW = w;
+		this.resH = h;
+		if ( this._uiContentCmp ) {
+			this._uiContentCmp.setResolution( w, h );
+		}
+	},
 	name( n ) {
 		this._elName.textContent = n;
 	},
@@ -53,7 +60,11 @@ gsuiAudioBlock.prototype = {
 			this._uiContentCmp =
 			cmp = new window[ gsuiAudioBlock.typeToCmp[ this._datatype ] ];
 			this._elCnt.append( cmp.rootElement );
-			cmp.setResolution( cmp.rootElement.clientWidth, 32 );
+			if ( this.resW ) {
+				this.setResolution( this.resW, this.resH );
+			} else {
+				this.setResolution( cmp.rootElement.clientWidth, 32 );
+			}
 		}
 		cmp.render( dat, off, dur );
 	},
