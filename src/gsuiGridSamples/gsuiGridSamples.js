@@ -207,6 +207,8 @@ gsuiGridSamples.prototype = {
 		if ( data.key ) {
 			uiBlock.datatype( "key" );
 			uiBlock.name( data.key );
+		} else {
+			uiBlock.datatype( "keys" );
 		}
 		uiBlock.ondrag = this._evodBlock.bind( this );
 		uiBlock.oncrop = this._evocBlock.bind( this );
@@ -234,6 +236,7 @@ gsuiGridSamples.prototype = {
 				? this._rowsById[ data.track ]
 				: this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
 			).firstChild.append( uiBlock.rootElement );
+			uiBlock.setResolution( data.duration * this._pxPerBeat, this._fontSize );
 		}
 		return uiBlock;
 	},
