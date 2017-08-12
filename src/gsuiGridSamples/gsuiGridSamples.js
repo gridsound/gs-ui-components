@@ -210,10 +210,20 @@ gsuiGridSamples.prototype = {
 		}
 		uiBlock.ondrag = this._evodBlock.bind( this );
 		uiBlock.oncrop = this._evocBlock.bind( this );
-		this._blockUpdate( id, data );
+		this.__blockUpdate( id, data );
+		if ( this.fnSampleCreate ) {
+			this.fnSampleCreate( id, uiBlock );
+		}
 		return uiBlock;
 	},
 	_blockUpdate( id, data ) {
+		var uiBlock = this.__blockUpdate( id, data );
+
+		if ( this.fnSampleUpdate ) {
+			this.fnSampleUpdate( id, uiBlock );
+		}
+	},
+	__blockUpdate( id, data ) {
 		var uiBlock = this._uiBlocks[ id ];
 
 		"when" in data && uiBlock.when( data.when );
@@ -223,12 +233,18 @@ gsuiGridSamples.prototype = {
 			? this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
 			: this._rowsById[ data.track ]
 		).firstChild.append( uiBlock.rootElement );
+		return uiBlock;
 	},
 	_blockDelete( id ) {
-		if ( this._uiBlocks[ id ] ) {
-			this._uiBlocks[ id ].rootElement.remove();
+		var uiBlock = this._uiBlocks[ id ];
+
+		if ( uiBlock ) {
+			uiBlock.rootElement.remove();
 			delete this._uiBlocks[ id ];
 			delete this._uiBlocksSelected[ id ];
+			if ( this.fnSampleDelete ) {
+				this.fnSampleDelete( id, uiBlock );
+			}
 		}
 	},
 	_blockSelect( uiBlock, b ) {
