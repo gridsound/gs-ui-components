@@ -4,12 +4,12 @@ function gsuiGridSamples() {
 	var root = this._clone();
 
 	this.rootElement = root;
-	this._elPanel = root.querySelector( ".gsui-panel" );
-	this._elGrid = root.querySelector( ".gsui-grid" );
-	this._elPanelExt = this._elPanel.querySelector( ".gsui-extend" );
-	this._elPanelCnt = this._elPanel.querySelector( ".gsui-content" );
-	this._elGridCnt = this._elGrid.querySelector( ".gsui-content" );
-	this._elSelection = this._elGrid.querySelector( ".gsui-select" );
+	this._elPanel = root.querySelector( ".gsuigs-panel" );
+	this._elGrid = root.querySelector( ".gsuigs-grid" );
+	this._elPanelExt = this._elPanel.querySelector( ".gsuigs-extend" );
+	this._elPanelCnt = this._elPanel.querySelector( ".gsuigs-content" );
+	this._elGridCnt = this._elGrid.querySelector( ".gsuigs-content" );
+	this._elSelection = this._elGrid.querySelector( ".gsuigs-select" );
 	this.uiTimeLine = new gsuiTimeLine();
 	this.uiBeatLines = new gsuiBeatLines();
 	root.prepend( this.uiTimeLine.rootElement );
