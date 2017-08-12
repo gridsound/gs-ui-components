@@ -229,10 +229,12 @@ gsuiGridSamples.prototype = {
 		"when" in data && uiBlock.when( data.when );
 		"duration" in data && uiBlock.duration( data.duration );
 		"selected" in data && this._blockSelect( uiBlock, data.selected );
-		( "key" in data
-			? this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
-			: this._rowsById[ data.track ]
-		).firstChild.append( uiBlock.rootElement );
+		if ( "track" in data || "key" in data ) {
+			( "track" in data
+				? this._rowsById[ data.track ]
+				: this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
+			).firstChild.append( uiBlock.rootElement );
+		}
 		return uiBlock;
 	},
 	_blockDelete( id ) {
