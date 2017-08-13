@@ -18,12 +18,15 @@
 	transition: background-color .2s;
 }
 .gsuiTrack-row {
+	position: relative;
 	display: block;
 	background-color: transparent;
 }
 .gsuiTrack-row > div {
-	position: relative;
-	height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
 }
 .gsuiTrack .gsuiToggle {
 	--radius: 6px;
