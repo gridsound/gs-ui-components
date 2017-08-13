@@ -30,6 +30,7 @@ function gsuiGridSamples() {
 	this._contentY =
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
+	this._fontSizeTiny = 48;
 	this._uiBlocks = {};
 	this._uiBlocksSelected = {};
 	this.panelWidth( 100 );
@@ -77,7 +78,7 @@ gsuiGridSamples.prototype = {
 		if ( emPx !== curr ) {
 			this._fontSize = emPx;
 			this.rootElement.style.fontSize = emPx + "px";
-			if ( emPx < 32 !== curr < 32 ) {
+			if ( emPx < this._fontSizeTiny !== curr < this._fontSizeTiny ) {
 				this._elGridCnt.querySelectorAll( ".gsui-row" )
 					.forEach( this._rowUpdateSizeClass, this );
 			}
@@ -404,7 +405,7 @@ gsuiGridSamples.prototype = {
 		elRow.firstChild.style.fontSize = this._pxPerBeat + "px";
 	},
 	_rowUpdateSizeClass( elRow ) {
-		elRow.classList.toggle( "gs-row-tiny", this._fontSize < 32 );
+		elRow.classList.toggle( "gs-row-tiny", this._fontSize < this._fontSizeTiny );
 	},
 
 	// events:
