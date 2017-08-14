@@ -90,15 +90,15 @@ gsuiAudioBlock.prototype = {
 	// events:
 	_evmdRoot( e ) {
 		this._isDragging = true;
-		this.ondrag( this, "down", e );
+		this.onmousedown && this.onmousedown( this, e );
 		gsuiAudioBlock._focused = this;
 	},
 	_evmmBody( e ) {
 		if ( gsuiAudioBlock._focused ) {
 			if ( this._elCropping ) {
-				this.oncrop( this, "move", +this._cropSide, e );
+				this.onmousemoveCrop && this.onmousemoveCrop( this, +this._cropSide, e );
 			} else if ( this._isDragging ) {
-				this.ondrag( this, "move", e );
+				this.onmousemove && this.onmousemove( this, e );
 			}
 		}
 	},
@@ -106,10 +106,10 @@ gsuiAudioBlock.prototype = {
 		if ( gsuiAudioBlock._focused ) {
 			if ( this._elCropping ) {
 				this._elCropping.classList.remove( "gsui-hover" );
-				this.oncrop( this, "up", +this._cropSide, e );
+				this.onmouseupCrop && this.onmouseupCrop( this, +this._cropSide, e );
 				delete this._elCropping;
 			} else if ( this._isDragging ) {
-				this.ondrag( this, "up", e );
+				this.onmouseup && this.onmouseup( this, e );
 				delete this._isDragging;
 			}
 			delete gsuiAudioBlock._focused;
@@ -120,7 +120,7 @@ gsuiAudioBlock.prototype = {
 		this._elCropping = e.target;
 		this._cropSide = e.target === this._elCropB;
 		e.target.classList.add( "gsui-hover" );
-		this.oncrop( this, "down", +this._cropSide, e );
+		this.onmousedownCrop && this.onmousedownCrop( this, +this._cropSide, e );
 		gsuiAudioBlock._focused = this;
 	}
 };
