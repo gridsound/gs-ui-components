@@ -119,11 +119,13 @@ gsuiGridSamples.prototype = {
 	},
 	loadKeys( from, nbOctaves ) {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
+		this._elGridCnt.classList.add( "gsui-noleftcrop" );
 		this.uiKeys.octaves( from, nbOctaves );
 		this.uiKeys.newRowElements.forEach( this._rowInit, this );
 	},
 	loadTrackList() {
 		this._loadPanelCmp( "uiTrackList", "uiKeys" );
+		this._elGridCnt.classList.remove( "gsui-noleftcrop" );
 		this.uiTrackList.onchange = obj => this.onchange( { tracks: obj } );
 	},
 
