@@ -231,7 +231,7 @@ gsuiGridSamples.prototype = {
 
 		"when" in data && uiBlock.when( data.when );
 		"duration" in data && uiBlock.duration( data.duration );
-		"selected" in data && this._blockSelect( uiBlock, data.selected );
+		"selected" in data && this._blockSelect( id, data.selected );
 		if ( "track" in data || "key" in data ) {
 			( "track" in data
 				? this._rowsById[ data.track ]
@@ -253,12 +253,14 @@ gsuiGridSamples.prototype = {
 			}
 		}
 	},
-	_blockSelect( uiBlock, b ) {
+	_blockSelect( id, b ) {
+		var uiBlock = this._uiBlocks[ id ];
+
 		uiBlock.select( b );
 		if ( b ) {
-			this._uiBlocksSelected[ uiBlock.id ] = uiBlock;
+			this._uiBlocksSelected[ id ] = uiBlock;
 		} else {
-			delete this._uiBlocksSelected[ uiBlock.id ];
+			delete this._uiBlocksSelected[ id ];
 		}
 	},
 	_blockUnselectAll( obj ) {
@@ -367,14 +369,14 @@ gsuiGridSamples.prototype = {
 	},
 
 	// private deletion methods:
-	_deletionStarted( uiBlock ) {
-		this._deletionObj = uiBlock ? {} : this._blockUnselectAll( {} );
-		uiBlock && this._deletionPush( uiBlock );
+	_deletionStarted( id ) {
+		this._deletionObj = id ? {} : this._blockUnselectAll( {} );
+		id && this._deletionPush( id );
 	},
-	_deletionPush( uiBlock ) {
-		if ( uiBlock ) {
-			this._deletionObj[ uiBlock.id ] = null;
-			this._blockDelete( uiBlock.id );
+	_deletionPush( id ) {
+		if ( id ) { // ???
+			this._deletionObj[ id ] = null;
+			this._blockDelete( id );
 		}
 	},
 	_deletionEnd() {
@@ -496,7 +498,7 @@ gsuiGridSamples.prototype = {
 		} else if ( this._panelResizing != null ) {
 			this.panelWidth( e.pageX - this._rootLeft + this._panelResizing );
 		} else if ( this._deletionObj ) {
-			this._deletionPush( e.target.gsuiAudioBlock );
+			this._deletionPush( e.target.gsuiAudioBlock && e.target.gsuiAudioBlock.id );
 		} else if ( this._selectionIsStarted ) {
 			this._selectionStarted( e );
 		} else if ( this._selectionIsStarting ) {
@@ -517,7 +519,7 @@ gsuiGridSamples.prototype = {
 			case "Delete":
 				this._deletionObj = {};
 				for ( var id in this._uiBlocksSelected ) {
-					this._deletionPush( this._uiBlocksSelected[ id ] );
+					this._deletionPush( id );
 				}
 				this._deletionEnd();
 				break;
@@ -527,11 +529,11 @@ gsuiGridSamples.prototype = {
 		if ( status === "down" ) {
 			this._uiBlockClicked = uiBlock;
 			if ( e.button === 2 ) {
-				this._deletionStarted( uiBlock );
+				this._deletionStarted( uiBlock.id );
 			} else if ( e.shiftKey ) {
 				var sel = !this._uiBlocksSelected[ uiBlock.id ];
 
-				this._blockSelect( uiBlock, sel );
+				this._blockSelect( uiBlock.id, sel );
 				this.onchange( { [ uiBlock.id ]: { selected: sel } } );
 			}
 		}
