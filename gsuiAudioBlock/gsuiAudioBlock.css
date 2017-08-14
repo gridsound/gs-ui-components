@@ -73,7 +73,8 @@
 .gsuiAudioBlock .gsui-crop.gsui-b {
 	right: 0;
 }
-.gsui-nocrop .gsui-crop {
+.gsui-nocrop .gsui-crop,
+.gsui-noleftcrop .gsui-crop.gsui-a {
 	display: none !important;
 }
 
