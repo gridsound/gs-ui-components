@@ -306,18 +306,20 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	_blockCropUp( uiBlock, side ) {
-		var id, data = {},
-			durRel = this._cropDurRel;
+		var id, data, durRel = this._cropDurRel;
 
-		if ( uiBlock.data.selected ) {
-			for ( id in this._uiBlocksSelected ) {
-				this.__blockCropUp( data, this._uiBlocksSelected[ id ], durRel );
-			}
-		} else {
-			this.__blockCropUp( data, uiBlock, durRel );
-		}
 		delete this._cropPageX;
-		this.onchange( data );
+		if ( Math.abs( durRel ) > .0001 ) {
+			data = {};
+			if ( uiBlock.data.selected ) {
+				for ( id in this._uiBlocksSelected ) {
+					this.__blockCropUp( data, this._uiBlocksSelected[ id ], durRel );
+				}
+			} else {
+				this.__blockCropUp( data, uiBlock, durRel );
+			}
+			this.onchange( data );
+		}
 	},
 	__blockCropUp( data, uiBlock, durRel ) {
 		var obj = { duration: uiBlock.data.duration + durRel };
