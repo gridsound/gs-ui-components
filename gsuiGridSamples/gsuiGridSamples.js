@@ -204,15 +204,19 @@ gsuiGridSamples.prototype = {
 
 		this._uiBlocks[ id ] = uiBlock;
 		uiBlock.id = id;
-		uiBlock.data = Object.assign( {}, data );
+		uiBlock.data = data;
 		if ( data.key ) {
 			uiBlock.datatype( "key" );
 			uiBlock.name( data.key );
 		} else {
 			uiBlock.datatype( "keys" );
 		}
-		uiBlock.ondrag = this._evodBlock.bind( this );
-		uiBlock.oncrop = this._evocBlock.bind( this );
+		// uiBlock.onmousedown = this._blockMoveDown.bind( this );
+		// uiBlock.onmousemove = this._blockMoveMove.bind( this );
+		// uiBlock.onmouseup = this._blockMoveUp.bind( this );
+		uiBlock.onmousedownCrop = this._blockCropDown.bind( this );
+		uiBlock.onmousemoveCrop = this._blockCropMove.bind( this );
+		uiBlock.onmouseupCrop = this._blockCropUp.bind( this );
 		this.__blockUpdate( id, data );
 		if ( this.fnSampleCreate ) {
 			this.fnSampleCreate( id, uiBlock );
@@ -270,6 +274,58 @@ gsuiGridSamples.prototype = {
 			delete this._uiBlocksSelected[ id ];
 		}
 		return obj;
+	},
+	_blockCropDown( uiBlock, side, e ) {
+		var id,
+			minDur = uiBlock.data.duration,
+			selection = this._uiBlocksSelected;
+
+		if ( uiBlock.data.selected ) {
+			for ( id in selection ) {
+				minDur = Math.min( minDur, selection[ id ].data.duration );
+			}
+		}
+		this._cropMinDur = -minDur;
+		this._cropPageX = e.pageX;
+		this._cropDurRel = 0;
+	},
+	_blockCropMove( uiBlock, side, e ) {
+		var id, durRel = this.uiTimeLine._round( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
+
+		if ( durRel < 0 ) {
+			durRel = Math.max( this._cropMinDur, durRel );
+		}
+		this._cropDurRel = durRel;
+		if ( uiBlock.data.selected ) {
+			for ( id in this._uiBlocksSelected ) {
+				uiBlock = this._uiBlocksSelected[ id ];
+				uiBlock.duration( uiBlock.data.duration + durRel );
+			}
+		} else {
+			uiBlock.duration( uiBlock.data.duration + durRel );
+		}
+	},
+	_blockCropUp( uiBlock, side ) {
+		var id, data = {},
+			durRel = this._cropDurRel;
+
+		if ( uiBlock.data.selected ) {
+			for ( id in this._uiBlocksSelected ) {
+				this.__blockCropUp( data, this._uiBlocksSelected[ id ], durRel );
+			}
+		} else {
+			this.__blockCropUp( data, uiBlock, durRel );
+		}
+		delete this._cropPageX;
+		this.onchange( data );
+	},
+	__blockCropUp( data, uiBlock, durRel ) {
+		var obj = { duration: uiBlock.data.duration + durRel };
+
+		if ( !uiBlock.data.durationEdited ) {
+			obj.durationEdited = true;
+		}
+		data[ uiBlock.id ] = obj;
 	},
 
 	// private selection methods:
