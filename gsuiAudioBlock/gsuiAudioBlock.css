@@ -23,10 +23,10 @@
 	transition: .1s;
 	transition-property: color;
 }
-.gsuiAudioBlock.gsui-selected {
+.gsuiAudioBlock.gsuiab-selected {
 	color: #f99;
 }
-.gsuiAudioBlock .gsui-bg {
+.gsuiAudioBlock .gsuiab-bg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -34,7 +34,7 @@
 	filter: brightness( .15 );
 	opacity: .8;
 }
-.gsuiAudioBlock .gsui-head {
+.gsuiAudioBlock .gsuiab-head {
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
@@ -46,16 +46,16 @@
 	text-shadow: 0 0 3px rgba( 0, 0, 0, .7 );
 	background-color: var( --bg-head );
 }
-.gsuiAudioBlock .gsui-name:empty:before {
+.gsuiAudioBlock .gsuiab-name:empty:before {
 	content: "Untitled";
 	font-style: italic;
 	opacity: .5;
 }
-.gsuiAudioBlock .gsui-content {
+.gsuiAudioBlock .gsuiab-content {
 	flex: 1;
 	position: relative;
 }
-.gsuiAudioBlock .gsui-crop {
+.gsuiAudioBlock .gsuiab-crop {
 	position: absolute;
 	z-index: 2;
 	top: 0;
@@ -66,24 +66,24 @@
 	opacity: 0;
 	transition: opacity .2s;
 }
-.gsuiAudioBlock .gsui-crop:hover,
-.gsuiAudioBlock .gsui-crop.gsui-hover {
+.gsuiAudioBlock .gsuiab-crop:hover,
+.gsuiAudioBlock .gsuiab-crop.hover {
 	opacity: .2;
 }
-.gsuiAudioBlock .gsui-crop.gsui-b {
+.gsuiAudioBlock .gsuiab-cropB {
 	right: 0;
 }
-.gsui-nocrop .gsui-crop,
-.gsui-noleftcrop .gsui-crop.gsui-a {
+.gsuiab-nocrop .gsuiab-crop,
+.gsuiab-noleftcrop .gsuiab-cropA {
 	display: none !important;
 }
 
 /* data-type = "key" */
-.gsuiAudioBlock[ data-type = "key" ] .gsui-bg {
+.gsuiAudioBlock[ data-type = "key" ] .gsuiab-bg {
 	filter: brightness( .7 );
 	opacity: .6;
 }
-.gsuiAudioBlock[ data-type = "key" ] .gsui-head {
+.gsuiAudioBlock[ data-type = "key" ] .gsuiab-head {
 	background-color: transparent;
 }
 .gsuiAudioBlock svg {
@@ -99,7 +99,7 @@
 }
 
 /* .gs-row-tiny & */
-.gs-row-tiny .gsuiAudioBlock .gsui-head {
+.gs-row-tiny .gsuiAudioBlock .gsuiab-head {
 	display: flex;
 	align-items: center;
 	padding-top: 0;
@@ -107,11 +107,11 @@
 	height: 100%;
 	background-color: transparent;
 }
-.gs-row-tiny .gsuiAudioBlock .gsui-bg {
+.gs-row-tiny .gsuiAudioBlock .gsuiab-bg {
 	filter: brightness( .7 );
 	opacity: .6;
 }
-.gs-row-tiny .gsuiAudioBlock .gsui-content {
+.gs-row-tiny .gsuiAudioBlock .gsuiab-content {
 	position: absolute;
 	top: 0;
 	width: 100%;

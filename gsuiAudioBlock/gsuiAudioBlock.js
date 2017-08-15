@@ -7,10 +7,10 @@ function gsuiAudioBlock() {
 		el.gsuiAudioBlock = this;
 	}, this );
 	this.rootElement = root;
-	this._elName = root.querySelector( ".gsui-name" );
-	this._elCnt = root.querySelector( ".gsui-content" );
-	this._elCropA = root.querySelector( ".gsui-crop.gsui-a" );
-	this._elCropB = root.querySelector( ".gsui-crop.gsui-b" );
+	this._elName = root.querySelector( ".gsuiab-name" );
+	this._elCnt = root.querySelector( ".gsuiab-content" );
+	this._elCropA = root.querySelector( ".gsuiab-cropA" );
+	this._elCropB = root.querySelector( ".gsuiab-cropB" );
 	this._elCropA.onmousedown =
 	this._elCropB.onmousedown = this._evmdCrop.bind( this );
 	root.onmousedown = this._evmdRoot.bind( this );
@@ -34,7 +34,7 @@ gsuiAudioBlock.prototype = {
 		this._elName.textContent = n;
 	},
 	select( b ) {
-		this.rootElement.classList.toggle( "gsui-selected",
+		this.rootElement.classList.toggle( "gsuiab-selected",
 			this.selected = !!b );
 	},
 	when( em ) {
@@ -105,7 +105,7 @@ gsuiAudioBlock.prototype = {
 	_evmuBody( e ) {
 		if ( gsuiAudioBlock._focused ) {
 			if ( this._elCropping ) {
-				this._elCropping.classList.remove( "gsui-hover" );
+				this._elCropping.classList.remove( "hover" );
 				this.onmouseupCrop && this.onmouseupCrop( this, +this._cropSide, e );
 				delete this._elCropping;
 			} else if ( this._isDragging ) {
@@ -119,7 +119,7 @@ gsuiAudioBlock.prototype = {
 		e.stopPropagation();
 		this._elCropping = e.target;
 		this._cropSide = e.target === this._elCropB;
-		e.target.classList.add( "gsui-hover" );
+		e.target.classList.add( "hover" );
 		this.onmousedownCrop && this.onmousedownCrop( this, +this._cropSide, e );
 		gsuiAudioBlock._focused = this;
 	}
