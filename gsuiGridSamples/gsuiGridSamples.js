@@ -213,9 +213,9 @@ gsuiGridSamples.prototype = {
 		} else {
 			uiBlock.datatype( "keys" );
 		}
-		// uiBlock.onmousedown = this._blockMoveDown.bind( this );
-		// uiBlock.onmousemove = this._blockMoveMove.bind( this );
-		// uiBlock.onmouseup = this._blockMoveUp.bind( this );
+		uiBlock.onmousedown = this._blockBodyDown.bind( this );
+		// uiBlock.onmousemove = this._blockBodyMove.bind( this );
+		// uiBlock.onmouseup = this._blockBodyUp.bind( this );
 		uiBlock.onmousedownCrop = this._blockCropDown.bind( this );
 		uiBlock.onmousemoveCrop = this._blockCropMove.bind( this );
 		uiBlock.onmouseupCrop = this._blockCropUp.bind( this );
@@ -330,6 +330,17 @@ gsuiGridSamples.prototype = {
 			obj.durationEdited = true;
 		}
 		data[ uiBlock.id ] = obj;
+	},
+	_blockBodyDown( uiBlock, e ) {
+		this._uiBlockClicked = uiBlock;
+		if ( e.button === 2 ) {
+			this._deletionStarted( uiBlock.id );
+		} else if ( e.shiftKey ) {
+			var sel = !this._uiBlocksSelected[ uiBlock.id ];
+
+			this._blockSelect( uiBlock.id, sel );
+			this.onchange( { [ uiBlock.id ]: { selected: sel } } );
+		}
 	},
 
 	// private selection methods:
@@ -584,21 +595,5 @@ gsuiGridSamples.prototype = {
 				this._deletionEnd();
 				break;
 		}
-	},
-	_evodBlock( uiBlock, status, e ) {
-		if ( status === "down" ) {
-			this._uiBlockClicked = uiBlock;
-			if ( e.button === 2 ) {
-				this._deletionStarted( uiBlock.id );
-			} else if ( e.shiftKey ) {
-				var sel = !this._uiBlocksSelected[ uiBlock.id ];
-
-				this._blockSelect( uiBlock.id, sel );
-				this.onchange( { [ uiBlock.id ]: { selected: sel } } );
-			}
-		}
-	},
-	_evocBlock( uiBlock, status, side, e ) {
-		console.log( status, side );
 	}
 };
