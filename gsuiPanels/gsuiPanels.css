@@ -32,14 +32,14 @@
 .gsuiPanels.gsui-axeX > .gsui-panel {
 	min-height: 100%;
 	max-height: 100%;
-	border-right-width: var( --gsuiPanels-bdSize );
+	border-left-width: var( --gsuiPanels-bdSize );
 }
 .gsuiPanels.gsui-axeY > .gsui-panel {
 	min-width: 100%;
 	max-width: 100%;
-	border-bottom-width: var( --gsuiPanels-bdSize );
+	border-top-width: var( --gsuiPanels-bdSize );
 }
-.gsuiPanels > .gsui-panel:last-child {
+.gsuiPanels > .gsui-panel:first-child {
 	border: none;
 }
 
