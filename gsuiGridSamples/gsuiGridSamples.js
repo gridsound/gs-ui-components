@@ -236,8 +236,11 @@ gsuiGridSamples.prototype = {
 		var uiBlock = this._uiBlocks[ id ];
 
 		"when" in data && uiBlock.when( data.when );
-		"duration" in data && uiBlock.duration( data.duration );
 		"selected" in data && this._blockSelect( id, data.selected );
+		if ( "duration" in data ) {
+			uiBlock.duration( data.duration );
+			uiBlock.contentWidthFixed();
+		}
 		if ( "track" in data || "key" in data ) {
 			( "track" in data
 				? this._rowsById[ data.track ]
