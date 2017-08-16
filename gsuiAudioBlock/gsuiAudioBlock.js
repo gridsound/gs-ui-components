@@ -40,8 +40,15 @@ gsuiAudioBlock.prototype = {
 	when( em ) {
 		this.rootElement.style.left = em + "em";
 	},
-	duration( em ) {
-		this.rootElement.style.width = em + "em";
+	duration( em, setContent ) {
+		this.rootElement.style.width =
+		this.width = em + "em";
+	},
+	contentWidthFixed() {
+		this._elCnt.style.width = this.width;
+	},
+	contentWidthExtendable() {
+		this._elCnt.style.width = "100%";
 	},
 	datatype( type ) {
 		if ( type !== this._datatype ) {
