@@ -73,8 +73,8 @@
 .gsuiAudioBlock .gsuiab-cropB {
 	right: 0;
 }
-.gsuiab-nocrop .gsuiab-crop,
-.gsuiab-noleftcrop .gsuiab-cropA {
+.gsui-nocrop .gsuiab-crop,
+.gsui-noleftcrop .gsuiab-cropA {
 	display: none !important;
 }
 
