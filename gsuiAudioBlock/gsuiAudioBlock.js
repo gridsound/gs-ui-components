@@ -123,11 +123,13 @@ gsuiAudioBlock.prototype = {
 		}
 	},
 	_evmdCrop( e ) {
-		e.stopPropagation();
-		this._elCropping = e.target;
-		this._cropSide = e.target === this._elCropB;
-		e.target.classList.add( "hover" );
-		this.onmousedownCrop && this.onmousedownCrop( this, +this._cropSide, e );
-		gsuiAudioBlock._focused = this;
+		if ( e.button === 0 ) {
+			e.stopPropagation();
+			this._elCropping = e.target;
+			this._cropSide = e.target === this._elCropB;
+			e.target.classList.add( "hover" );
+			this.onmousedownCrop && this.onmousedownCrop( this, +this._cropSide, e );
+			gsuiAudioBlock._focused = this;
+		}
 	}
 };
