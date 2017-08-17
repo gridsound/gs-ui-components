@@ -335,14 +335,32 @@ gsuiGridSamples.prototype = {
 		data[ uiBlock.id ] = obj;
 	},
 	_blockBodyDown( uiBlock, e ) {
+		var selected,
+			sel = this._uiBlocksSelected,
+			id = uiBlock.id;
+
 		this._uiBlockClicked = uiBlock;
 		if ( e.button === 2 ) {
-			this._deletionStarted( uiBlock.id );
+			this._deletionStarted( id );
 		} else if ( e.shiftKey ) {
-			var sel = !this._uiBlocksSelected[ uiBlock.id ];
-
-			this._blockSelect( uiBlock.id, sel );
-			this.onchange( { [ uiBlock.id ]: { selected: sel } } );
+			selected = !sel[ id ];
+			this._blockSelect( id, selected );
+			this.onchange( { [ id ]: { selected: selected } } );
+		} else if ( e.altKey ) {
+			// copy and move the key(s)
+		} else {
+			this._movePageX = e.pageX;
+			this._movePageY = e.pageY;
+			this._moveMinY = Infinity;
+			this._moveMaxY = -Infinity;
+			this._moveMinX = Infinity;
+			this._moveMaxX = -Infinity;
+			for ( id in sel ) {
+				// this._moveMinY = 0;
+				// this._moveMaxY = 0;
+				// this._moveMaxX = 0;
+				// this._moveMinX = 0;
+			}
 		}
 	},
 
