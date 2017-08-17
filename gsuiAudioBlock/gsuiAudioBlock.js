@@ -70,7 +70,7 @@ gsuiAudioBlock.prototype = {
 			if ( this.resW ) {
 				this.setResolution( this.resW, this.resH );
 			} else {
-				this.setResolution( cmp.rootElement.clientWidth, 32 );
+				this.setResolution( cmp.rootElement.getBoundingClientRect().width, 32 );
 			}
 		}
 		cmp.render( dat, off, dur );
