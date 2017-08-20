@@ -52,8 +52,9 @@
 	opacity: .5;
 }
 .gsuiAudioBlock .gsuiab-content {
-	flex: 1;
 	position: relative;
+	overflow: hidden;
+	flex: 1;
 }
 .gsuiAudioBlock .gsuiab-crop {
 	position: absolute;
@@ -76,6 +77,23 @@
 .gsui-nocrop .gsuiab-crop,
 .gsui-noleftcrop .gsuiab-cropA {
 	display: none !important;
+}
+
+/* .gsuiab-cursor */
+.gsuiAudioBlock .gsuiab-cursor {
+	position: absolute;
+	height: 100%;
+	width: 1px;
+	background-color: #ff0;
+	box-shadow: -2px 0 6px 3px rgba( 255, 255, 0, .2 );
+	animation-name: gsuiab-cursor-frames;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+}
+@keyframes gsuiab-cursor-frames {
+	  0% { opacity: 1; left: 0; }
+	 95% { opacity: 1; }
+	100% { opacity: 0; left: 100%; }
 }
 
 /* data-type = "key" */
