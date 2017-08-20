@@ -40,7 +40,7 @@ gsuiAudioBlock.prototype = {
 	when( em ) {
 		this.rootElement.style.left = em + "em";
 	},
-	duration( em, setContent ) {
+	duration( em ) {
 		this.rootElement.style.width =
 		this.width = em + "em";
 	},
@@ -63,6 +63,7 @@ gsuiAudioBlock.prototype = {
 	updateData( dat, off, dur ) {
 		var cmp = this._uiContentCmp;
 
+		this._dataDur = dat.duration;
 		if ( !cmp ) {
 			this._uiContentCmp =
 			cmp = new window[ gsuiAudioBlock.typeToCmp[ this._datatype ] ];
@@ -74,6 +75,21 @@ gsuiAudioBlock.prototype = {
 			}
 		}
 		cmp.render( dat, off, dur );
+	},
+	start() {
+		var cur = document.createElement( "div" );
+
+		this.stop();
+		cur.className = "gsuiab-cursor";
+		cur.style.animationDuration = this._dataDur + "s";
+		this._elCursor = cur;
+		this._elCnt.append( cur );
+	},
+	stop() {
+		if ( this._elCursor ) {
+			this._elCursor.remove();
+			delete this._elCursor;
+		}
 	},
 
 	// private:
