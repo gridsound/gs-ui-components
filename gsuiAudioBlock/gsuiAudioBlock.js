@@ -76,12 +76,12 @@ gsuiAudioBlock.prototype = {
 		}
 		cmp.render( dat, off, dur );
 	},
-	start() {
+	start( bpm ) {
 		var cur = document.createElement( "div" );
 
 		this.stop();
 		cur.className = "gsuiab-cursor";
-		cur.style.animationDuration = this._dataDur + "s";
+		cur.style.animationDuration = this._dataDur * 60 / ( bpm || 60 ) + "s";
 		this._elCursor = cur;
 		this._elCnt.append( cur );
 	},
