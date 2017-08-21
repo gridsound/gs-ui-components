@@ -109,6 +109,9 @@ gsuiTimeLine.prototype = {
 		}
 		return bt;
 	},
+	_layerX( e ) {
+		return e.pageX - this.rootElement.getBoundingClientRect().left;
+	},
 	_serialAB( a, b ) {
 		return a.toFixed( 4 ) + " " + b.toFixed( 4 );
 	},
@@ -170,11 +173,11 @@ gsuiTimeLine.prototype = {
 		}
 	},
 	_mousedownTime( e ) {
-		this.currentTime( this._round(
-			this._offset + e.layerX / this._pxPerBeat ), true );
+		this.currentTime( this._round( this._offset +
+			this._layerX( e ) / this._pxPerBeat ), true );
 	},
 	_mousemoveTime( e ) {
-		var x = e.layerX / this.width * 100;
+		var x = this._layerX( e ) / this.width * 100;
 
 		this._elTimeLine.style.backgroundImage =
 			"linear-gradient(90deg,transparent " + ( x - 15 ) +
@@ -191,7 +194,7 @@ gsuiTimeLine.prototype = {
 	},
 	_mousedownLoopLine( e ) {
 		var now = Date.now(),
-			bt = this._offset + e.layerX / this._pxPerBeat;
+			bt = this._offset + this._layerX( e ) / this._pxPerBeat;
 
 		if ( !this._loopClick || now - this._loopClick > 500 ) {
 			this._loopClick = now;
