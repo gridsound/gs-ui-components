@@ -3,6 +3,7 @@
 function gsuiAudioBlock() {
 	var root = this._clone();
 
+	root.gsuiAudioBlock = this;
 	root.querySelectorAll( "*" ).forEach( function( el ) {
 		el.gsuiAudioBlock = this;
 	}, this );
