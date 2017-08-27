@@ -41,6 +41,11 @@ gsuiAudioBlock.prototype = {
 	when( em ) {
 		this.rootElement.style.left = em + "em";
 	},
+	whenOffset( em ) {
+		this._elCnt.style.left = parseFloat( this._elCnt.style.left || 0 ) -
+			em + parseFloat( this.rootElement.style.left || 0 ) + "em";
+		this.when( em );
+	},
 	duration( em ) {
 		this.rootElement.style.width =
 		this.width = em + "em";
@@ -65,6 +70,7 @@ gsuiAudioBlock.prototype = {
 		var cmp = this._uiContentCmp;
 
 		this._dataDur = dat.duration;
+		this._elCnt.style.left = 0;
 		if ( !cmp ) {
 			this._uiContentCmp =
 			cmp = new window[ gsuiAudioBlock.typeToCmp[ this._datatype ] ];
