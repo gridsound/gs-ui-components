@@ -211,8 +211,8 @@ gsuiGridSamples.prototype = {
 			uiBlock.datatype( "keys" );
 		}
 		uiBlock.onmousedown = this._blockBodyDown.bind( this );
-		// uiBlock.onmousemove = this._blockBodyMove.bind( this );
-		// uiBlock.onmouseup = this._blockBodyUp.bind( this );
+		uiBlock.onmousemove = this._blockBodyMove.bind( this );
+		uiBlock.onmouseup = this._blockBodyUp.bind( this );
 		uiBlock.onmousedownCrop = this._blockCropDown.bind( this );
 		uiBlock.onmousemoveCrop = this._blockCropMove.bind( this );
 		uiBlock.onmouseupCrop = this._blockCropUp.bind( this );
@@ -288,22 +288,22 @@ gsuiGridSamples.prototype = {
 	},
 	_blockCropDown( uiBlock, side, e ) {
 		var id,
-			minWhen = uiBlock.data.when,
-			minOff = uiBlock.data.offset,
-			minDur = uiBlock.data.duration,
+			whenMin = uiBlock.data.when,
+			offMin = uiBlock.data.offset,
+			durMin = uiBlock.data.duration,
 			selection = this._uiBlocksSelected;
 
 		if ( uiBlock.data.selected ) {
 			for ( id in selection ) {
-				minWhen = Math.min( minWhen, selection[ id ].data.when );
-				minOff = Math.min( minOff, selection[ id ].data.offset );
-				minDur = Math.min( minDur, selection[ id ].data.duration );
+				whenMin = Math.min( whenMin, selection[ id ].data.when );
+				offMin = Math.min( offMin, selection[ id ].data.offset );
+				durMin = Math.min( durMin, selection[ id ].data.duration );
 			}
 		}
 		this._cropPageX = e.pageX;
-		this._cropWhenMin = minWhen;
-		this._cropOffMin = minOff;
-		this._cropDurMin = minDur;
+		this._cropWhenMin = whenMin;
+		this._cropOffMin = offMin;
+		this._cropDurMin = durMin;
 		this._cropWhenRel =
 		this._cropOffRel =
 		this._cropDurRel = 0;
@@ -373,6 +373,10 @@ gsuiGridSamples.prototype = {
 	},
 	_blockBodyDown( uiBlock, e ) {
 		var selected,
+			whenMin,
+			trkMin,
+			trkMax,
+			rowInd,
 			sel = this._uiBlocksSelected,
 			id = uiBlock.id;
 
@@ -387,18 +391,73 @@ gsuiGridSamples.prototype = {
 			// copy and move the key(s)
 		} else {
 			this._movePageX = e.pageX;
-			this._movePageY = e.pageY;
-			this._moveMinY = Infinity;
-			this._moveMaxY = -Infinity;
-			this._moveMinX = Infinity;
-			this._moveMaxX = -Infinity;
+			this._moveTrack =
+			trkMin =
+			trkMax = this._rowIdToIndex( uiBlock.data.track );
+			whenMin = uiBlock.data.when;
 			for ( id in sel ) {
-				// this._moveMinY = 0;
-				// this._moveMaxY = 0;
-				// this._moveMaxX = 0;
-				// this._moveMinX = 0;
+				uiBlock = sel[ id ];
+				rowInd = this._rowIdToIndex( uiBlock.data.track );
+				whenMin = Math.min( whenMin, uiBlock.data.when );
+				trkMin = Math.min( trkMin, rowInd );
+				trkMax = Math.max( trkMax, rowInd );
 			}
+			this._moveWhenMin = whenMin;
+			this._moveTrackMin = trkMin;
+			this._moveTrackMax = this.rows.length - trkMax - 1;
+			this._moveWhenRel =
+			this._moveTrackRel = 0;
 		}
+	},
+	_blockBodyMove( uiBlock, e ) {
+		var beatRel = this.uiTimeLine._round( ( e.pageX - this._movePageX ) / this._pxPerBeat ),
+			track = this._findTrack( e.pageY ),
+			trackInd = this._rowIdToIndex( track.dataset.track ),
+			trackRel = trackInd - this._moveTrack;
+
+		if ( beatRel < 0 ) {
+			beatRel = Math.max( -this._moveWhenMin, beatRel );
+		}
+		if ( trackRel < 0 ) {
+			trackRel = Math.max( -this._moveTrackMin, trackRel );
+		} else if ( trackRel > 0 ) {
+			trackRel = Math.min( this._moveTrackMax, trackRel );
+		}
+		this._moveWhenRel = beatRel;
+		this._moveTrackRel = trackRel;
+		this._blockForEach( uiBlock, this.__blockBodyMove.bind( this, beatRel, trackRel ) );
+	},
+	__blockBodyMove( whenRel, trackRel, uiBlock ) {
+		uiBlock.when( uiBlock.data.when + whenRel );
+		if ( uiBlock._gsuigsTrackRel !== trackRel ) {
+			uiBlock._gsuigsTrackRel = trackRel;
+			this.rows[ this._rowIdToIndex( uiBlock.data.track ) + trackRel ].firstChild.append( uiBlock.rootElement );
+		}
+	},
+	_blockBodyUp( uiBlock, e ) {
+		delete this._movePageX;
+		if ( this._moveTrackRel ||
+			Math.abs( this._moveWhenRel ) > .0001
+		) {
+			var data = {};
+
+			this._blockForEach( uiBlock, this.__blockBodyUp.bind( this, data,
+				this._moveWhenRel,
+				this._moveTrackRel ) );
+			this.onchange( data );
+		}
+	},
+	__blockBodyUp( data, whenRel, trackRel, uiBlock ) {
+		var obj = {};
+
+		if ( trackRel ) {
+			// this.rows[ this._rowIdToIndex( uiBlock.data.track ) + trackRel ].dataset.track;
+			obj.track = uiBlock.rootElement.parentNode.parentNode.dataset.track;
+		}
+		if ( Math.abs( whenRel ) > .0001 ) {
+			obj.when = uiBlock.data.when + whenRel;
+		}
+		data[ uiBlock.id ] = obj;
 	},
 
 	// private selection methods:
