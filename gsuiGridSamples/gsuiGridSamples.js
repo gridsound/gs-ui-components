@@ -242,7 +242,8 @@ gsuiGridSamples.prototype = {
 				? this._rowsById[ data.track ]
 				: this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
 			).firstChild.append( uiBlock.rootElement );
-			uiBlock.setResolution( data.duration * this._pxPerBeat, this._fontSize );
+			uiBlock.setResolution( ( data.duration || uiBlock.data.duration )
+				* this._pxPerBeat, this._fontSize );
 		}
 		return uiBlock;
 	},
