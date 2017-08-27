@@ -538,6 +538,9 @@ gsuiGridSamples.prototype = {
 	_rowUpdateSizeClass( elRow ) {
 		elRow.classList.toggle( "gs-row-tiny", this._fontSize < this._fontSizeTiny );
 	},
+	_rowIdToIndex( trackId ) {
+		return Array.from( this.rows ).indexOf( this._rowsById[ trackId ] );
+	},
 
 	// events:
 	_evocCurrentTime( beat ) {
