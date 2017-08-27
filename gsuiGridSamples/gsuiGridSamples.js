@@ -383,12 +383,15 @@ gsuiGridSamples.prototype = {
 		this._uiBlockClicked = uiBlock;
 		if ( e.button === 2 ) {
 			this._deletionStarted( id );
+			return false;
 		} else if ( e.shiftKey ) {
 			selected = !sel[ id ];
 			this._blockSelect( id, selected );
 			this.onchange( { [ id ]: { selected: selected } } );
+			return false;
 		} else if ( e.altKey ) {
 			// copy and move the key(s)
+			return false;
 		} else {
 			this._movePageX = e.pageX;
 			this._moveTrack =
