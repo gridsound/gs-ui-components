@@ -272,6 +272,15 @@ gsuiGridSamples.prototype = {
 			delete this._uiBlocksSelected[ id ];
 		}
 	},
+	_blockForEach( uiBlock, fn ) {
+		if ( uiBlock.data.selected ) {
+			for ( var id in this._uiBlocksSelected ) {
+				fn( this._uiBlocksSelected[ id ] );
+			}
+		} else {
+			fn( uiBlock );
+		}
+	},
 	_blockUnselectAll( obj ) {
 		for ( var id in this._uiBlocksSelected ) {
 			obj[ id ] = { selected: false };
@@ -303,7 +312,7 @@ gsuiGridSamples.prototype = {
 		this._cropDurRel = 0;
 	},
 	_blockCropMove( uiBlock, side, e ) {
-		var id, whenRel, offRel, durRel,
+		var whenRel, offRel, durRel,
 			beatRel = this.uiTimeLine._round( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
 
 		if ( side === 1 ) {
@@ -328,43 +337,29 @@ gsuiGridSamples.prototype = {
 		this._cropWhenRel = whenRel;
 		this._cropOffRel = offRel;
 		this._cropDurRel = durRel;
-		if ( uiBlock.data.selected ) {
-			for ( id in this._uiBlocksSelected ) {
-				this.__blockCropMove( this._uiBlocksSelected[ id ], side, whenRel, durRel );
-			}
-		} else {
-			this.__blockCropMove( uiBlock, side, whenRel, durRel );
-		}
+		this._blockForEach( uiBlock, this.__blockCropMove.bind( this, side, whenRel, durRel ) );
 	},
-	__blockCropMove( uiBlock, side, whenRel, durRel ) {
+	__blockCropMove( side, whenRel, durRel, uiBlock ) {
 		if ( !side ) {
 			uiBlock.whenOffset( uiBlock.data.when + whenRel );
 		}
 		uiBlock.duration( uiBlock.data.duration + durRel );
 	},
-	_blockCropUp( uiBlock, side ) {
-		var id, data,
-			whenRel = this._cropWhenRel,
-			offRel = this._cropOffRel,
-			durRel = this._cropDurRel;
-
+	_blockCropUp( uiBlock ) {
 		delete this._cropPageX;
-		if (
-			Math.abs( whenRel ) > .0001 ||
-			Math.abs( durRel ) > .0001
+		if ( Math.abs( this._cropWhenRel ) > .0001 ||
+			Math.abs( this._cropDurRel ) > .0001
 		) {
-			data = {};
-			if ( uiBlock.data.selected ) {
-				for ( id in this._uiBlocksSelected ) {
-					this.__blockCropUp( data, this._uiBlocksSelected[ id ], whenRel, offRel, durRel );
-				}
-			} else {
-				this.__blockCropUp( data, uiBlock, whenRel, offRel, durRel );
-			}
+			var data = {};
+
+			this._blockForEach( uiBlock, this.__blockCropUp.bind( this, data,
+				this._cropWhenRel,
+				this._cropOffRel,
+				this._cropDurRel ) );
 			this.onchange( data );
 		}
 	},
-	__blockCropUp( data, uiBlock, whenRel, offRel, durRel ) {
+	__blockCropUp( data, whenRel, offRel, durRel, uiBlock ) {
 		var obj = {};
 
 		if ( Math.abs( whenRel ) > .0001 ) {
