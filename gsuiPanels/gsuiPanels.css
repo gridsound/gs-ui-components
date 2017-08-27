@@ -47,7 +47,7 @@
 /* ------------------------------------------- */
 .gsuiPanels > .gsui-panel > .gsui-extend {
 	position: absolute;
-	z-index: 2147483647;
+	z-index: 1;
 	transition: background .2s;
 }
 .gsuiPanels.gsui-axeX > .gsui-panel > .gsui-extend {
