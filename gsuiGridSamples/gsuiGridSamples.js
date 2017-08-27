@@ -217,9 +217,8 @@ gsuiGridSamples.prototype = {
 		uiBlock.onmousemoveCrop = this._blockCropMove.bind( this );
 		uiBlock.onmouseupCrop = this._blockCropUp.bind( this );
 		this.__blockUpdate( id, data );
-		if ( this.fnSampleCreate ) {
-			this.fnSampleCreate( id, uiBlock );
-		}
+		this.fnSampleCreate && this.fnSampleCreate( id, uiBlock );
+		this.fnSampleUpdate && this.fnSampleUpdate( id, uiBlock );
 		return uiBlock;
 	},
 	_blockUpdate( id, data ) {
