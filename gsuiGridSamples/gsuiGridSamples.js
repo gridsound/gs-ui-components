@@ -303,39 +303,27 @@ gsuiGridSamples.prototype = {
 		this._cropDurRel = 0;
 	},
 	_blockCropMove( uiBlock, side, e ) {
-		var id,
-			whenCorrected,
-			offCorrected,
-			durCorrected,
-			whenRel, offRel, durRel,
+		var id, whenRel, offRel, durRel,
 			beatRel = this.uiTimeLine._round( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
 
-		if ( side === 0 ) {
-			whenRel =
-			offRel = beatRel;
-			durRel = -beatRel;
-			if ( beatRel < 0 ) {
-				whenCorrected = Math.max( -this._cropWhenMin, whenRel );
-				offRel += whenCorrected - whenRel;
-				durRel -= whenCorrected - whenRel;
-				whenRel = whenCorrected;
-				offCorrected = Math.max( -this._cropOffMin, offRel );
-				whenRel += offCorrected - offRel;
-				durRel -= offCorrected - offRel;
-				offRel = offCorrected;
-			} else {
-				durCorrected = Math.max( -this._cropDurMin, durRel );
-				whenRel -= durCorrected - durRel;
-				offRel += durCorrected - durRel;
-				durRel = durCorrected;
-			}
-		} else {
+		if ( side === 1 ) {
 			whenRel =
 			offRel = 0;
-			durRel = beatRel;
-			if ( durRel < 0 ) {
-				durRel = Math.max( -this._cropDurMin, durRel );
-			}
+			durRel = beatRel >= 0
+				? beatRel
+				: Math.max( -this._cropDurMin, beatRel );
+		} else if ( beatRel < 0 ) {
+			durRel = -(
+				offRel =
+				whenRel = Math.max( -this._cropWhenMin, beatRel ) );
+			beatRel = Math.max( -this._cropOffMin, offRel );
+			whenRel += beatRel - offRel;
+			durRel -= beatRel - offRel;
+			offRel = beatRel;
+		} else {
+			offRel =
+			whenRel = -(
+				durRel = Math.max( -this._cropDurMin, -beatRel ) );
 		}
 		this._cropWhenRel = whenRel;
 		this._cropOffRel = offRel;
