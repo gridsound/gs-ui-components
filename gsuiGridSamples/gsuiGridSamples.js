@@ -282,55 +282,112 @@ gsuiGridSamples.prototype = {
 	},
 	_blockCropDown( uiBlock, side, e ) {
 		var id,
+			minWhen = uiBlock.data.when,
+			minOff = uiBlock.data.offset,
 			minDur = uiBlock.data.duration,
 			selection = this._uiBlocksSelected;
 
 		if ( uiBlock.data.selected ) {
 			for ( id in selection ) {
+				minWhen = Math.min( minWhen, selection[ id ].data.when );
+				minOff = Math.min( minOff, selection[ id ].data.offset );
 				minDur = Math.min( minDur, selection[ id ].data.duration );
 			}
 		}
-		this._cropMinDur = -minDur;
 		this._cropPageX = e.pageX;
+		this._cropWhenMin = minWhen;
+		this._cropOffMin = minOff;
+		this._cropDurMin = minDur;
+		this._cropWhenRel =
+		this._cropOffRel =
 		this._cropDurRel = 0;
 	},
 	_blockCropMove( uiBlock, side, e ) {
-		var id, durRel = this.uiTimeLine._round( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
+		var id,
+			whenCorrected,
+			offCorrected,
+			durCorrected,
+			whenRel, offRel, durRel,
+			beatRel = this.uiTimeLine._round( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
 
-		if ( durRel < 0 ) {
-			durRel = Math.max( this._cropMinDur, durRel );
+		if ( side === 0 ) {
+			whenRel =
+			offRel = beatRel;
+			durRel = -beatRel;
+			if ( beatRel < 0 ) {
+				whenCorrected = Math.max( -this._cropWhenMin, whenRel );
+				offRel += whenCorrected - whenRel;
+				durRel -= whenCorrected - whenRel;
+				whenRel = whenCorrected;
+				offCorrected = Math.max( -this._cropOffMin, offRel );
+				whenRel += offCorrected - offRel;
+				durRel -= offCorrected - offRel;
+				offRel = offCorrected;
+			} else {
+				durCorrected = Math.max( -this._cropDurMin, durRel );
+				whenRel -= durCorrected - durRel;
+				offRel += durCorrected - durRel;
+				durRel = durCorrected;
+			}
+		} else {
+			whenRel =
+			offRel = 0;
+			durRel = beatRel;
+			if ( durRel < 0 ) {
+				durRel = Math.max( -this._cropDurMin, durRel );
+			}
 		}
+		this._cropWhenRel = whenRel;
+		this._cropOffRel = offRel;
 		this._cropDurRel = durRel;
 		if ( uiBlock.data.selected ) {
 			for ( id in this._uiBlocksSelected ) {
-				uiBlock = this._uiBlocksSelected[ id ];
-				uiBlock.duration( uiBlock.data.duration + durRel );
+				this.__blockCropMove( this._uiBlocksSelected[ id ], side, whenRel, durRel );
 			}
 		} else {
-			uiBlock.duration( uiBlock.data.duration + durRel );
+			this.__blockCropMove( uiBlock, side, whenRel, durRel );
 		}
 	},
+	__blockCropMove( uiBlock, side, whenRel, durRel ) {
+		if ( !side ) {
+			uiBlock.whenOffset( uiBlock.data.when + whenRel );
+		}
+		uiBlock.duration( uiBlock.data.duration + durRel );
+	},
 	_blockCropUp( uiBlock, side ) {
-		var id, data, durRel = this._cropDurRel;
+		var id, data,
+			whenRel = this._cropWhenRel,
+			offRel = this._cropOffRel,
+			durRel = this._cropDurRel;
 
 		delete this._cropPageX;
-		if ( Math.abs( durRel ) > .0001 ) {
+		if (
+			Math.abs( whenRel ) > .0001 ||
+			Math.abs( durRel ) > .0001
+		) {
 			data = {};
 			if ( uiBlock.data.selected ) {
 				for ( id in this._uiBlocksSelected ) {
-					this.__blockCropUp( data, this._uiBlocksSelected[ id ], durRel );
+					this.__blockCropUp( data, this._uiBlocksSelected[ id ], whenRel, offRel, durRel );
 				}
 			} else {
-				this.__blockCropUp( data, uiBlock, durRel );
+				this.__blockCropUp( data, uiBlock, whenRel, offRel, durRel );
 			}
 			this.onchange( data );
 		}
 	},
-	__blockCropUp( data, uiBlock, durRel ) {
-		var obj = { duration: uiBlock.data.duration + durRel };
+	__blockCropUp( data, uiBlock, whenRel, offRel, durRel ) {
+		var obj = {};
 
-		if ( !uiBlock.data.durationEdited ) {
-			obj.durationEdited = true;
+		if ( Math.abs( whenRel ) > .0001 ) {
+			obj.when = uiBlock.data.when + whenRel;
+			obj.offset = uiBlock.data.offset + offRel;
+		}
+		if ( Math.abs( durRel ) > .0001 ) {
+			obj.duration = uiBlock.data.duration + durRel;
+			if ( !uiBlock.data.durationEdited ) {
+				obj.durationEdited = true;
+			}
 		}
 		data[ uiBlock.id ] = obj;
 	},
