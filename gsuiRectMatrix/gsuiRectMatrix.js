@@ -39,7 +39,7 @@ gsuiRectMatrix.prototype = {
 
 		offset = offset || 0;
 		duration = duration || data.duration;
-		secW = w / ( duration - offset );
+		secW = w / duration;
 		this.empty();
 		data.samples.forEach( function( smp ) {
 			rectX = ( smp.when - offset ) * secW;
