@@ -79,8 +79,7 @@ gsuiGridSamples.prototype = {
 			this._fontSize = emPx;
 			this.rootElement.style.fontSize = emPx + "px";
 			if ( emPx < this._fontSizeTiny !== curr < this._fontSizeTiny ) {
-				this._elGridCnt.querySelectorAll( ".gsui-row" )
-					.forEach( this._rowUpdateSizeClass, this );
+				this.rows.forEach( this._rowUpdateSizeClass, this );
 			}
 		}
 	},
@@ -182,8 +181,7 @@ gsuiGridSamples.prototype = {
 		this._pxPerBeat = beatPx = this.uiTimeLine._pxPerBeat;
 		this._elGridCnt.style.left = -this._timeOffset * beatPx + "px";
 		if ( beatPxChanged ) {
-			this._elGridCnt.querySelectorAll( ".gsui-row" )
-				.forEach( this._rowUpdateFontSize, this );
+			this.rows.forEach( this._rowUpdateFontSize, this );
 		}
 	},
 	_updatePanelSize() {
@@ -194,10 +192,9 @@ gsuiGridSamples.prototype = {
 		this._updateGrid();
 	},
 	_findTrack( pageY ) {
-		var rows = this._elGridCnt.querySelectorAll( ".gsui-row" ),
-			ind = ~~( ( pageY - this._elGridCntBCR.top ) / this._fontSize );
+		var ind = ~~( ( pageY - this._elGridCntBCR.top ) / this._fontSize );
 
-		return rows[ Math.max( 0, Math.min( ind, rows.length - 1 ) ) ];
+		return this.rows[ Math.max( 0, Math.min( ind, this.rows.length - 1 ) ) ];
 	},
 
 	// private audioBlocks methods:
