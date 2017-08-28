@@ -397,12 +397,14 @@ gsuiGridSamples.prototype = {
 		trkMax =
 		trkMin = this._rowIndexByData( uiBlock.data );
 		whenMin = uiBlock.data.when;
-		for ( id in sel ) {
-			uiBlock = sel[ id ];
-			rowInd = this._rowIndexByData( uiBlock.data );
-			whenMin = Math.min( whenMin, uiBlock.data.when );
-			trkMin = Math.min( trkMin, rowInd );
-			trkMax = Math.max( trkMax, rowInd );
+		if ( uiBlock.data.selected ) {
+			for ( id in sel ) {
+				uiBlock = sel[ id ];
+				rowInd = this._rowIndexByData( uiBlock.data );
+				whenMin = Math.min( whenMin, uiBlock.data.when );
+				trkMin = Math.min( trkMin, rowInd );
+				trkMax = Math.max( trkMax, rowInd );
+			}
 		}
 		this._moveWhenMin = whenMin;
 		this._moveTrackMin = trkMin;
