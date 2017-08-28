@@ -238,10 +238,7 @@ gsuiGridSamples.prototype = {
 			uiBlock.contentWidthFixed();
 		}
 		if ( "track" in data || "key" in data ) {
-			( "track" in data
-				? this._rowsById[ data.track ]
-				: this.rows[ this.rows.length - 1 - this.uiKeys.keyToIndex( data.key ) ]
-			).firstChild.append( uiBlock.rootElement );
+			this._rowByValue( data.key || data.track ).firstChild.append( uiBlock.rootElement );
 			uiBlock.setResolution( ( data.duration || uiBlock.data.duration )
 				* this._pxPerBeat, this._fontSize );
 		}
@@ -384,38 +381,39 @@ gsuiGridSamples.prototype = {
 		if ( e.button === 2 ) {
 			this._deletionStarted( id );
 			return false;
-		} else if ( e.shiftKey ) {
+		}
+		if ( e.shiftKey ) {
 			selected = !sel[ id ];
 			this._blockSelect( id, selected );
 			this.onchange( { [ id ]: { selected: selected } } );
 			return false;
-		} else if ( e.altKey ) {
+		}
+		if ( e.altKey ) {
 			// copy and move the key(s)
 			return false;
-		} else {
-			this._movePageX = e.pageX;
-			this._moveTrack =
-			trkMin =
-			trkMax = this._rowIdToIndex( uiBlock.data.track );
-			whenMin = uiBlock.data.when;
-			for ( id in sel ) {
-				uiBlock = sel[ id ];
-				rowInd = this._rowIdToIndex( uiBlock.data.track );
-				whenMin = Math.min( whenMin, uiBlock.data.when );
-				trkMin = Math.min( trkMin, rowInd );
-				trkMax = Math.max( trkMax, rowInd );
-			}
-			this._moveWhenMin = whenMin;
-			this._moveTrackMin = trkMin;
-			this._moveTrackMax = this.rows.length - trkMax - 1;
-			this._moveWhenRel =
-			this._moveTrackRel = 0;
 		}
+		this._movePageX = e.pageX;
+		this._moveTrack =
+		trkMax =
+		trkMin = this._rowIndexByData( uiBlock.data );
+		whenMin = uiBlock.data.when;
+		for ( id in sel ) {
+			uiBlock = sel[ id ];
+			rowInd = this._rowIndexByData( uiBlock.data );
+			whenMin = Math.min( whenMin, uiBlock.data.when );
+			trkMin = Math.min( trkMin, rowInd );
+			trkMax = Math.max( trkMax, rowInd );
+		}
+		this._moveWhenMin = whenMin;
+		this._moveTrackMin = trkMin;
+		this._moveTrackMax = this.rows.length - trkMax - 1;
+		this._moveWhenRel =
+		this._moveTrackRel = 0;
 	},
 	_blockBodyMove( uiBlock, e ) {
 		var beatRel = this.uiTimeLine._round( ( e.pageX - this._movePageX ) / this._pxPerBeat ),
 			track = this._findTrack( e.pageY ),
-			trackInd = this._rowIdToIndex( track.dataset.track ),
+			trackInd = this._rowIndexByElement( track ),
 			trackRel = trackInd - this._moveTrack;
 
 		if ( beatRel < 0 ) {
@@ -434,7 +432,7 @@ gsuiGridSamples.prototype = {
 		uiBlock.when( uiBlock.data.when + whenRel );
 		if ( uiBlock._gsuigsTrackRel !== trackRel ) {
 			uiBlock._gsuigsTrackRel = trackRel;
-			this.rows[ this._rowIdToIndex( uiBlock.data.track ) + trackRel ].firstChild.append( uiBlock.rootElement );
+			this.rows[ this._rowIndexByData( uiBlock.data ) + trackRel ].firstChild.append( uiBlock.rootElement );
 		}
 	},
 	_blockBodyUp( uiBlock, e ) {
@@ -451,11 +449,16 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	__blockBodyUp( data, whenRel, trackRel, uiBlock ) {
-		var obj = {};
+		var dataset,
+			obj = {};
 
 		if ( trackRel ) {
-			// this.rows[ this._rowIdToIndex( uiBlock.data.track ) + trackRel ].dataset.track;
-			obj.track = uiBlock.rootElement.parentNode.parentNode.dataset.track;
+			dataset = uiBlock.rootElement.parentNode.parentNode.dataset;
+			if ( dataset.track ) {
+				obj.track = dataset.track;
+			} else {
+				obj.key = dataset.key + dataset.octave;
+			}
 		}
 		if ( Math.abs( whenRel ) > .0001 ) {
 			obj.when = uiBlock.data.when + whenRel;
@@ -582,13 +585,12 @@ gsuiGridSamples.prototype = {
 
 	// private row methods:
 	_rowInit( elRow, i ) {
-		var addData,
-			keys = this.uiKeys;
+		var keys = this.uiKeys;
 
 		if ( keys ) {
-			addData = keys._octStart + keys._nbOct - 1 - ~~( i / 12 );
+			elRow.dataset.octave = keys._octStart + keys._nbOct - 1 - ~~( i / 12 );
 		}
-		elRow.onmousedown = this._evmdRow.bind( this, elRow, addData );
+		elRow.onmousedown = this._evmdRow.bind( this, elRow );
 		this._rowsById[ elRow.dataset.track ] = elRow;
 		this._rowUpdateFontSize( elRow );
 		this._rowUpdateSizeClass( elRow );
@@ -600,8 +602,22 @@ gsuiGridSamples.prototype = {
 	_rowUpdateSizeClass( elRow ) {
 		elRow.classList.toggle( "gs-row-tiny", this._fontSize < this._fontSizeTiny );
 	},
-	_rowIdToIndex( trackId ) {
-		return Array.from( this.rows ).indexOf( this._rowsById[ trackId ] );
+	_rowByValue( val ) {
+		var uiKeys = this.uiKeys;
+
+		return uiKeys
+			? this.rows[ uiKeys.rowElements.length - 1 - uiKeys.keyToIndex( val ) ]
+			: this._rowsById[ val ];
+	},
+	_rowIndexByData( data ) {
+		return data.track
+			? this._rowIndexByElement( this._rowsById[ data.track ] )
+			: this.uiKeys.rowElements.length - this.uiKeys.keyToIndex( data.key ) - 1;
+	},
+	_rowIndexByElement( row ) {
+		return row.dataset.rowid
+			? +row.dataset.rowid
+			: Array.from( this.rows ).indexOf( row );
 	},
 
 	// events:
@@ -632,14 +648,14 @@ gsuiGridSamples.prototype = {
 		this._elPanelExt.classList.add( "gsui-hover" );
 		gsuiGridSamples._focused = this;
 	},
-	_evmdRow( elRow, octave, e ) {
+	_evmdRow( elRow, e ) {
 		if ( !this._uiBlockClicked && !e.shiftKey && !e.ctrlKey && !e.altKey ) {
 			if ( e.button === 2 ) {
 				this._deletionStarted();
 			} else if ( e.button === 0 && this.uiKeys ) {
 				var id = gsuiGridSamples.getNewId(),
 					data = {
-						key: elRow.dataset.key + octave,
+						key: elRow.dataset.key + elRow.dataset.octave,
 						when: this._getMouseBeat( e.pageX ),
 						offset: 0,
 						duration: 1
