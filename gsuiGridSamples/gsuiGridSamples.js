@@ -238,7 +238,10 @@ gsuiGridSamples.prototype = {
 			uiBlock.contentWidthFixed();
 			uiBlock.setResolution( data.duration * this._pxPerBeat, this._fontSize );
 		}
-		if ( "track" in data || "key" in data ) {
+		if ( "key" in data || "track" in data ) {
+			if ( "key" in data ) {
+				uiBlock.name( data.key );
+			}
 			this._rowByValue( data.key || data.track ).firstChild.append( uiBlock.rootElement );
 		}
 		return uiBlock;
