@@ -112,9 +112,6 @@
 	fill: currentColor;
 	opacity: .3;
 }
-.gsuiAudioBlock rect {
-	rx: 2px;
-}
 
 /* .gs-row-tiny & */
 .gs-row-tiny .gsuiAudioBlock .gsuiab-head {
