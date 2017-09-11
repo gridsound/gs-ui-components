@@ -121,9 +121,9 @@ gsuiAudioBlock.prototype = {
 	_evmdRoot( e ) {
 		if ( e.button === 0 ) {
 			this._isDragging = true;
-			if ( this.onmousedown && this.onmousedown( this, e ) !== false ) {
-				gsuiAudioBlock._focused = this;
-			}
+		}
+		if ( this.onmousedown && this.onmousedown( this, e ) !== false ) {
+			gsuiAudioBlock._focused = this;
 		}
 	},
 	_evmmBody( e ) {
