@@ -236,11 +236,10 @@ gsuiGridSamples.prototype = {
 		if ( "duration" in data ) {
 			uiBlock.duration( data.duration );
 			uiBlock.contentWidthFixed();
+			uiBlock.setResolution( data.duration * this._pxPerBeat, this._fontSize );
 		}
 		if ( "track" in data || "key" in data ) {
 			this._rowByValue( data.key || data.track ).firstChild.append( uiBlock.rootElement );
-			uiBlock.setResolution( ( data.duration || uiBlock.data.duration )
-				* this._pxPerBeat, this._fontSize );
 		}
 		return uiBlock;
 	},
