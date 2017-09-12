@@ -290,7 +290,8 @@ gsuiGridSamples.prototype = {
 			whenMin = uiBlock.data.when,
 			offMin = uiBlock.data.offset,
 			durMin = uiBlock.data.duration,
-			selection = this._uiBlocksSelected;
+			selection = this._uiBlocksSelected,
+			stepBeat = 1 / this.uiTimeLine._stepsPerBeat;
 
 		if ( uiBlock.data.selected ) {
 			for ( id in selection ) {
@@ -302,7 +303,7 @@ gsuiGridSamples.prototype = {
 		this._cropPageX = e.pageX;
 		this._cropWhenMin = whenMin;
 		this._cropOffMin = offMin;
-		this._cropDurMin = durMin;
+		this._cropDurMin = durMin > stepBeat ? durMin - stepBeat : 0;
 		this._cropWhenRel =
 		this._cropOffRel =
 		this._cropDurRel = 0;
