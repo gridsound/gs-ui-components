@@ -113,7 +113,7 @@ gsuiPanels.prototype = {
 	},
 
 	// events:
-	_evmdExtends( panelInd, elPanel, elExtend ) {
+	_evmdExtends( panelInd, elPanel, elExtend, e ) {
 		this._cacheCSS();
 		this._panelInd = panelInd;
 		this._elPanel = elPanel;
@@ -121,6 +121,8 @@ gsuiPanels.prototype = {
 		this.rootElement.classList.add( "gsui-noselect" );
 		elExtend.classList.add( "gsui-hover" );
 		gsuiPanels._focused = this;
+		this._mdPageX = e.pageX;
+		this._mdPageY = e.pageY;
 	},
 	_evmuRoot( e ) {
 		if ( this._elExtend ) {
@@ -134,7 +136,10 @@ gsuiPanels.prototype = {
 	_evmmRoot( e ) {
 		if ( this._elExtend ) {
 			var tmp,
-				percInc = ( this._axeX ? e.movementX : e.movementY ) / this._rootSize,
+				percInc = ( this._axeX
+					? e.pageX - this._mdPageX
+					: e.pageY - this._mdPageY
+				) / this._rootSize,
 				percIncSave = percInc,
 				percIncTmp = 0,
 				panInd = this._panelInd;
@@ -148,8 +153,11 @@ gsuiPanels.prototype = {
 				}
 				panInd = this._panelInd;
 				percInc = percIncTmp;
+				percIncTmp = 0;
 				for ( ; percInc < 0 && panInd >= 0; --panInd ) {
-					percInc -= this._incPan( panInd, percInc, true );
+					tmp = this._incPan( panInd, percInc, true );
+					percInc -= tmp;
+					percIncTmp += tmp;
 				}
 				panInd = this._panelInd + 1;
 				percInc = percIncSave - percInc;
@@ -164,14 +172,23 @@ gsuiPanels.prototype = {
 				}
 				panInd = this._panelInd + 1;
 				percInc = percIncTmp;
+				percIncTmp = 0;
 				for ( ; percInc > 0 && panInd < this.panels.length; ++panInd ) {
-					percInc += this._incPan( panInd, -percInc, true );
+					tmp = this._incPan( panInd, -percInc, true );
+					percInc += tmp;
+					percIncTmp -= tmp;
 				}
 				panInd = this._panelInd;
 				percInc = percIncSave - percInc;
 				for ( ; percInc > 0 && panInd >= 0; --panInd ) {
 					percInc -= this._incPan( panInd, percInc, true );
 				}
+			}
+			percIncTmp = Math.round( percIncTmp * this._rootSize );
+			if ( this._axeX ) {
+				this._mdPageX += percIncTmp;
+			} else {
+				this._mdPageY += percIncTmp;
 			}
 		}
 	}
