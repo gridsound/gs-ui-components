@@ -140,35 +140,36 @@ gsuiPanels.prototype = {
 				panInd = this._panelInd;
 
 			if ( percInc < 0 ) {
-				while ( ++panInd < this.panels.length && percInc < 0 ) {
+				++panInd;
+				for ( ; percInc < 0 && panInd < this.panels.length; ++panInd ) {
 					tmp = this._incPan( panInd, -percInc );
 					percInc += tmp;
 					percIncTmp -= tmp;
 				}
 				panInd = this._panelInd;
 				percInc = percIncTmp;
-				for ( ; panInd >= 0 && percInc < 0; --panInd ) {
+				for ( ; percInc < 0 && panInd >= 0; --panInd ) {
 					percInc -= this._incPan( panInd, percInc, true );
 				}
 				panInd = this._panelInd + 1;
-				percInc = -percIncSave + percInc;
-				for ( ; panInd < this.panels.length && percInc > 0; ++panInd ) {
-					percInc -= this._incPan( panInd, percInc, true );
+				percInc = percIncSave - percInc;
+				for ( ; percInc < 0 && panInd < this.panels.length; ++panInd ) {
+					percInc += this._incPan( panInd, -percInc, true );
 				}
 			} else {
-				for ( ; panInd >= 0 && percInc > 0; --panInd ) {
+				for ( ; percInc > 0 && panInd >= 0; --panInd ) {
 					tmp = this._incPan( panInd, percInc );
 					percInc -= tmp;
 					percIncTmp += tmp;
 				}
-				panInd = this._panelInd;
+				panInd = this._panelInd + 1;
 				percInc = percIncTmp;
-				while ( percInc > 0 && ++panInd < this.panels.length ) {
+				for ( ; percInc > 0 && panInd < this.panels.length; ++panInd ) {
 					percInc += this._incPan( panInd, -percInc, true );
 				}
 				panInd = this._panelInd;
 				percInc = percIncSave - percInc;
-				for ( ; panInd >= 0 && percInc > 0; --panInd ) {
+				for ( ; percInc > 0 && panInd >= 0; --panInd ) {
 					percInc -= this._incPan( panInd, percInc, true );
 				}
 			}
