@@ -11,11 +11,11 @@
 	box-sizing: border-box;
 	height: 1em;
 }
-.gsuiKey-row[ data-key $= "#" ] {
+.gsuiKey-row[data-key$="#"] {
 	background-color: rgba( 0, 0, 0, .1 );
 }
-.gsuiKey-row[ data-key $= "c" ],
-.gsuiKey-row[ data-key $= "f" ] {
+.gsuiKey-row[data-key$="c"],
+.gsuiKey-row[data-key$="f"] {
 	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
 }
 .gsuiKey-row > div {
@@ -32,7 +32,7 @@
 	background-image: linear-gradient( 90deg, #888, #eee );
 	cursor: default;
 }
-.gsuiKey[ data-key $= "#" ] {
+.gsuiKey[data-key$="#"] {
 	position: absolute;
 	z-index: 1;
 	width: 65%;
@@ -41,10 +41,10 @@
 	border-radius: 0 .1em .1em 0;
 	background-image: linear-gradient( 90deg, #111, #444 );
 }
-.gsuiKey[ data-key = "c" ] {
+.gsuiKey[data-key="c"] {
 	background-image: linear-gradient( 90deg, #888, #ccc );
 }
-.gsuiKey[ data-key = "c" ]:after {
+.gsuiKey[data-key="c"]:after {
 	counter-increment: octave -1;
 	content: "C" counter( octave );
 	position: absolute;
@@ -58,15 +58,15 @@
 	background-image: linear-gradient( 90deg, #353b52, #7886bd );
 }
 
-.gsuiKey[ data-key = "c" ],
-.gsuiKey[ data-key = "f" ] {
+.gsuiKey[data-key="c"],
+.gsuiKey[data-key="f"] {
 	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
 }
 .gsuiKey:last-child {
 	border-bottom: 0;
 }
-.gsuiKey[ data-key = "d" ],
-.gsuiKey[ data-key = "g" ],
-.gsuiKey[ data-key = "a" ] {
+.gsuiKey[data-key="d"],
+.gsuiKey[data-key="g"],
+.gsuiKey[data-key="a"] {
 	height: 2em;
 }
