@@ -97,11 +97,11 @@
 }
 
 /* data-type = "key" */
-.gsuiAudioBlock[ data-type = "key" ] .gsuiab-bg {
+.gsuiAudioBlock[data-type="key"] .gsuiab-bg {
 	filter: brightness( .7 );
 	opacity: .6;
 }
-.gsuiAudioBlock[ data-type = "key" ] .gsuiab-head {
+.gsuiAudioBlock[data-type="key"] .gsuiab-head {
 	background-color: transparent;
 }
 .gsuiAudioBlock svg {
