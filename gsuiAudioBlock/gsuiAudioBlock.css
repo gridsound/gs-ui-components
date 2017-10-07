@@ -38,7 +38,7 @@
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
-	padding: .3em .5em;
+	padding: 2px 4px;
 	font-size: 12px;
 	font-weight: bold;
 	white-space: nowrap;
