@@ -1,19 +1,19 @@
 "use strict";
 
 /*
-_blockUnselectAll
-_blockDelete
+_bcUnselectAll
+_bcDelete
 */
 
 Object.assign( gsuiGridSamples.prototype, {
 	_deletionStarted( id ) {
-		this._deletionObj = id ? {} : this._blockUnselectAll( {} );
+		this._deletionObj = id ? {} : this._bcUnselectAll( {} );
 		id && this._deletionPush( id );
 	},
 	_deletionPush( id ) {
 		if ( id ) { // ???
 			this._deletionObj[ id ] = null;
-			this._blockDelete( id );
+			this._bcDelete( id );
 		}
 	},
 	_deletionEnd() {
