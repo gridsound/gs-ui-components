@@ -1,10 +1,46 @@
 "use strict";
 
+/*
+_pxPerBeat
+_fontSize
+_rowByValue
+_rowIndexByData
+_rowIndexByElement
+_deletionStarted
+_findTrack
+uiTimeLine._stepsPerBeat
+uiTimeLine._round
+onchange
+fnSampleCreate
+fnSampleUpdate
+fnSampleDelete
+*/
+
 Object.assign( gsuiGridSamples.prototype, {
+	_bcInit() {
+		this._bcAll = {};
+		this._bcSelected = {};
+	},
+	_bcEmpty() {
+		for ( var id in this._bcAll ) {
+			this._bcAll[ id ].rootElement.remove();
+			delete this._bcAll[ id ];
+			delete this._bcSelected[ id ];
+		}
+	},
+	_bcChange( obj ) {
+		for ( var id in obj ) {
+			obj[ id ]
+				? this._bcAll[ id ]
+					? this._bcUpdate( id, obj[ id ] )
+					: this._bcCreate( id, obj[ id ] )
+				: this._bcDelete( id );
+		}
+	},
 	_bcCreate( id, data ) {
 		var bc = new gsuiAudioBlock();
 
-		this._uiBlocks[ id ] = bc;
+		this._bcAll[ id ] = bc;
 		bc.id = id;
 		bc.data = data;
 		if ( data.key ) {
@@ -32,7 +68,7 @@ Object.assign( gsuiGridSamples.prototype, {
 		}
 	},
 	__bcUpdate( id, data ) {
-		var bc = this._uiBlocks[ id ];
+		var bc = this._bcAll[ id ];
 
 		"when" in data && bc.when( data.when );
 		"selected" in data && this._bcSelect( id, data.selected );
@@ -50,41 +86,41 @@ Object.assign( gsuiGridSamples.prototype, {
 		return bc;
 	},
 	_bcDelete( id ) {
-		var bc = this._uiBlocks[ id ];
+		var bc = this._bcAll[ id ];
 
 		if ( bc ) {
 			bc.rootElement.remove();
-			delete this._uiBlocks[ id ];
-			delete this._uiBlocksSelected[ id ];
+			delete this._bcAll[ id ];
+			delete this._bcSelected[ id ];
 			if ( this.fnSampleDelete ) {
 				this.fnSampleDelete( id, bc );
 			}
 		}
 	},
 	_bcSelect( id, b ) {
-		var bc = this._uiBlocks[ id ];
+		var bc = this._bcAll[ id ];
 
 		bc.select( b );
 		if ( b ) {
-			this._uiBlocksSelected[ id ] = bc;
+			this._bcSelected[ id ] = bc;
 		} else {
-			delete this._uiBlocksSelected[ id ];
+			delete this._bcSelected[ id ];
 		}
 	},
 	_bcForEach( bc, fn ) {
 		if ( bc.data.selected ) {
-			for ( var id in this._uiBlocksSelected ) {
-				fn( this._uiBlocksSelected[ id ] );
+			for ( var id in this._bcSelected ) {
+				fn( this._bcSelected[ id ] );
 			}
 		} else {
 			fn( bc );
 		}
 	},
 	_bcUnselectAll( obj ) {
-		for ( var id in this._uiBlocksSelected ) {
+		for ( var id in this._bcSelected ) {
 			obj[ id ] = { selected: false };
-			this._uiBlocksSelected[ id ].select( false );
-			delete this._uiBlocksSelected[ id ];
+			this._bcSelected[ id ].select( false );
+			delete this._bcSelected[ id ];
 		}
 		return obj;
 	},
@@ -93,7 +129,7 @@ Object.assign( gsuiGridSamples.prototype, {
 			whenMin = bc.data.when,
 			offMin = bc.data.offset,
 			durMin = bc.data.duration,
-			selection = this._uiBlocksSelected,
+			selection = this._bcSelected,
 			stepBeat = 1 / this.uiTimeLine._stepsPerBeat;
 
 		if ( bc.data.selected ) {
@@ -180,10 +216,10 @@ Object.assign( gsuiGridSamples.prototype, {
 			trkMin,
 			trkMax,
 			rowInd,
-			sel = this._uiBlocksSelected,
+			sel = this._bcSelected,
 			id = bc.id;
 
-		this._uiBlockClicked = bc;
+		this._bcClicked = bc;
 		if ( e.button === 2 ) {
 			this._deletionStarted( id );
 			return false;

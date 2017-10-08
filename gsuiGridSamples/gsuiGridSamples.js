@@ -31,8 +31,7 @@ function gsuiGridSamples() {
 	this._timeOffset = 0;
 	this._pxPerBeat = 80;
 	this._fontSizeTiny = 48;
-	this._uiBlocks = {};
-	this._uiBlocksSelected = {};
+	this._bcInit();
 	this.panelWidth( 100 );
 }
 
@@ -42,24 +41,14 @@ gsuiGridSamples.prototype = {
 			this.uiTrackList.empty();
 			this._rowsById = {};
 		}
-		for ( var id in this._uiBlocks ) {
-			this._uiBlocks[ id ].rootElement.remove();
-			delete this._uiBlocks[ id ];
-			delete this._uiBlocksSelected[ id ];
-		}
+		this._bcEmpty();
 	},
 	change( obj ) {
 		if ( obj.tracks ) {
 			this.uiTrackList.change( obj.tracks );
 			this.uiTrackList.newRowElements.forEach( this._rowInit, this );
 		} else {
-			for ( var id in obj ) {
-				obj[ id ]
-					? this._uiBlocks[ id ]
-						? this._bcUpdate( id, obj[ id ] )
-						: this._bcCreate( id, obj[ id ] )
-					: this._bcDelete( id );
-			}
+			this._bcChange( obj );
 		}
 	},
 	resized() {
@@ -263,7 +252,7 @@ gsuiGridSamples.prototype = {
 		gsuiGridSamples._focused = this;
 	},
 	_evmdRow( elRow, e ) {
-		if ( !this._uiBlockClicked && !e.shiftKey && !e.ctrlKey && !e.altKey ) {
+		if ( !this._bcClicked && !e.shiftKey && !e.ctrlKey && !e.altKey ) {
 			if ( e.button === 2 ) {
 				this._deletionStarted();
 			} else if ( e.button === 0 && this.uiKeys ) {
@@ -333,7 +322,7 @@ gsuiGridSamples.prototype = {
 		this._selectionEnd();
 		this._deletionEnd();
 		this._elPanelExt.classList.remove( "gsui-hover" );
-		delete this._uiBlockClicked;
+		delete this._bcClicked;
 		delete this._gridDragging;
 		delete this._panelResizing;
 		delete gsuiGridSamples._focused;
@@ -342,7 +331,7 @@ gsuiGridSamples.prototype = {
 		switch ( e.code ) {
 			case "Delete":
 				this._deletionObj = {};
-				for ( var id in this._uiBlocksSelected ) {
+				for ( var id in this._bcSelected ) {
 					this._deletionPush( id );
 				}
 				this._deletionEnd();

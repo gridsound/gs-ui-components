@@ -1,18 +1,18 @@
 "use strict";
 
 /*
+_fontSize
+_pxPerBeat
+_contentY
+_bcAll
+_bcSelected
 _findTrack
 _elSelection
 _selectionIsStarting
 _getMouseBeat
 _mdBeat
 _timeOffset
-_pxPerBeat
 _elGridCntBCR
-_contentY
-_fontSize
-_uiBlocks
-_uiBlocksSelected
 */
 
 Object.assign( gsuiGridSamples.prototype, {
@@ -71,8 +71,8 @@ Object.assign( gsuiGridSamples.prototype, {
 			trkB = this._selectionTrkB,
 			beatA = this._selectionBeatA,
 			beatB = this._selectionBeatB,
-			uiBlocks = this._uiBlocks,
-			uiBlocksSel = this._uiBlocksSelected;
+			uiBlocks = this._bcAll,
+			uiBlocksSel = this._bcSelected;
 
 		this._selectionList = [];
 		for ( id in uiBlocks ) {
@@ -102,7 +102,7 @@ Object.assign( gsuiGridSamples.prototype, {
 			delete this._selectionIsStarted;
 			if ( this._selectionList.length > 0 ) {
 				this.onchange( this._selectionList.reduce( ( obj, uiBlock ) => {
-					this._uiBlocksSelected[ uiBlock.id ] = uiBlock;
+					this._bcSelected[ uiBlock.id ] = uiBlock;
 					obj[ uiBlock.id ] = { selected: true };
 					return obj;
 				}, {} ) );
