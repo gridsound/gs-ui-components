@@ -105,6 +105,14 @@ gsuiGridSamples.prototype = {
 		this._elGridCnt.style.marginTop =
 		this._elPanelCnt.style.marginTop = -yEm + "em";
 	},
+	scrollToSamples() {
+		var smp = this._elGridCnt.querySelector( ".gsuiAudioBlock" );
+
+		if ( smp ) {
+			this.contentY( ( smp.getBoundingClientRect().top -
+				this._elGridCnt.getBoundingClientRect().top ) / this._fontSize - 3 );
+		}
+	},
 	loadKeys( from, nbOctaves ) {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
 		this._elGridCnt.classList.add( "gsui-noleftcrop" );
