@@ -261,7 +261,7 @@ gsuiGridSamples.prototype = {
 						key: elRow.dataset.key + elRow.dataset.octave,
 						when: this._getMouseBeat( e.pageX ),
 						offset: 0,
-						duration: 1
+						duration: this._bcLastDur || 1
 					};
 
 				this._bcCreate( id, data );

@@ -20,6 +20,7 @@ Object.assign( gsuiGridSamples.prototype, {
 	_bcInit() {
 		this._bcAll = {};
 		this._bcSelected = {};
+		this._bcLastDur = 1;
 	},
 	_bcEmpty() {
 		for ( var id in this._bcAll ) {
@@ -73,6 +74,7 @@ Object.assign( gsuiGridSamples.prototype, {
 		"when" in data && bc.when( data.when );
 		"selected" in data && this._bcSelect( id, data.selected );
 		if ( "duration" in data ) {
+			this._bcLastDur = data.duration;
 			bc.duration( data.duration );
 			bc.contentWidthFixed();
 			bc.setResolution( data.duration * this._pxPerBeat, this._fontSize );
