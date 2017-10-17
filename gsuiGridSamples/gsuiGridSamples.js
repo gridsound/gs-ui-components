@@ -271,6 +271,7 @@ gsuiGridSamples.prototype = {
 				this._deletionStarted();
 			} else if ( e.button === 0 && this.uiKeys ) {
 				var id = gsuiGridSamples.getNewId(),
+					obj = this._bcUnselectAll(),
 					data = {
 						key: elRow.dataset.key + elRow.dataset.octave,
 						when: this._getMouseBeat( e.pageX ),
@@ -278,8 +279,9 @@ gsuiGridSamples.prototype = {
 						duration: this._bcLastDur || 1
 					};
 
+				obj[ id ] = data;
 				this._bcCreate( id, data );
-				this.onchange( this._bcUnselectAll( { [ id ]: data } ) );
+				this.onchange( obj );
 			}
 		}
 	},
@@ -344,7 +346,15 @@ gsuiGridSamples.prototype = {
 	_evkdRoot( e ) {
 		switch ( e.code ) {
 			case "KeyA":
-				e.ctrlKey && this._bcSelectAll();
+				if ( e.ctrlKey ) {
+					this._callOnchange( this._bcSelectAll() );
+				}
+				break;
+			case "KeyD":
+				if ( e.ctrlKey ) {
+					this._callOnchange( this._bcUnselectAll() );
+					return false;
+				}
 				break;
 			case "Delete":
 				this._deletionObj = {};

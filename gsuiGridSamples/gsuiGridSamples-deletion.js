@@ -7,7 +7,7 @@ _bcDelete
 
 Object.assign( gsuiGridSamples.prototype, {
 	_deletionStarted( id ) {
-		this._deletionObj = id ? {} : this._bcUnselectAll( {} );
+		this._deletionObj = id ? {} : this._bcUnselectAll();
 		id && this._deletionPush( id );
 	},
 	_deletionPush( id ) {

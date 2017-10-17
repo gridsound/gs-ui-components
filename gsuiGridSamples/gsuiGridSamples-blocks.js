@@ -38,20 +38,6 @@ Object.assign( gsuiGridSamples.prototype, {
 				: this._bcDelete( id );
 		}
 	},
-	_bcSelectAll() {
-		var some,
-			smps = this._bcAll,
-			sel = {};
-
-		Object.keys( smps ).forEach( id => {
-			if ( !smps[ id ].data.selected ) {
-				some = true;
-				this._bcSelect( id, true );
-				sel[ id ] = { selected: true };
-			}
-		} );
-		some && this.onchange( sel );
-	},
 	_bcCreate( id, data ) {
 		var bc = new gsuiAudioBlock();
 
@@ -113,6 +99,15 @@ Object.assign( gsuiGridSamples.prototype, {
 			}
 		}
 	},
+	_bcForEach( bc, fn ) {
+		if ( bc.data.selected ) {
+			for ( var id in this._bcSelected ) {
+				fn( this._bcSelected[ id ] );
+			}
+		} else {
+			fn( bc );
+		}
+	},
 	_bcSelect( id, b ) {
 		var bc = this._bcAll[ id ];
 
@@ -123,22 +118,21 @@ Object.assign( gsuiGridSamples.prototype, {
 			delete this._bcSelected[ id ];
 		}
 	},
-	_bcForEach( bc, fn ) {
-		if ( bc.data.selected ) {
-			for ( var id in this._bcSelected ) {
-				fn( this._bcSelected[ id ] );
+	_bcSelectAll() {
+		return Object.keys( this._bcAll ).reduce( ( obj, id ) => {
+			if ( !this._bcAll[ id ].data.selected ) {
+				this._bcSelect( id, true );
+				obj[ id ] = { selected: true };
 			}
-		} else {
-			fn( bc );
-		}
+			return obj;
+		}, {} );
 	},
-	_bcUnselectAll( obj ) {
-		for ( var id in this._bcSelected ) {
+	_bcUnselectAll() {
+		return Object.keys( this._bcSelected ).reduce( ( obj, id ) => {
+			this._bcSelect( id, false );
 			obj[ id ] = { selected: false };
-			this._bcSelected[ id ].select( false );
-			delete this._bcSelected[ id ];
-		}
-		return obj;
+			return obj;
+		}, {} );
 	},
 	_bcCropDown( bc, side, e ) {
 		var id,
