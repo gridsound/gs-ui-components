@@ -17,12 +17,7 @@ Object.assign( gsuiGridSamples.prototype, {
 		}
 	},
 	_deletionEnd() {
-		if ( this._deletionObj ) {
-			for ( var k in this._deletionObj ) {
-				this.onchange( this._deletionObj );
-				break;
-			}
-			delete this._deletionObj;
-		}
+		this._callOnchange( this._deletionObj );
+		delete this._deletionObj;
 	}
 } );

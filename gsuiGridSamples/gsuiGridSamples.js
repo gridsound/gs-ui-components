@@ -142,6 +142,12 @@ gsuiGridSamples.prototype = {
 		} );
 		return document.getElementById( "gsuiGridSamples" );
 	},
+	_callOnchange( obj ) {
+		for ( var k in obj ) {
+			this.onchange( obj );
+			break;
+		}
+	},
 	_loadPanelCmp( cmpStr, oldCmpStr ) {
 		var cmp = this[ cmpStr ],
 			oldCmp = this[ oldCmpStr ];
