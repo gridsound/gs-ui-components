@@ -38,6 +38,20 @@ Object.assign( gsuiGridSamples.prototype, {
 				: this._bcDelete( id );
 		}
 	},
+	_bcSelectAll() {
+		var some,
+			smps = this._bcAll,
+			sel = {};
+
+		Object.keys( smps ).forEach( id => {
+			if ( !smps[ id ].data.selected ) {
+				some = true;
+				this._bcSelect( id, true );
+				sel[ id ] = { selected: true };
+			}
+		} );
+		some && this.onchange( sel );
+	},
 	_bcCreate( id, data ) {
 		var bc = new gsuiAudioBlock();
 

@@ -337,6 +337,9 @@ gsuiGridSamples.prototype = {
 	},
 	_evkdRoot( e ) {
 		switch ( e.code ) {
+			case "KeyA":
+				e.ctrlKey && this._bcSelectAll();
+				break;
 			case "Delete":
 				this._deletionObj = {};
 				for ( var id in this._bcSelected ) {
