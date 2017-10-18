@@ -25,6 +25,7 @@ function gsuiGridSamples() {
 	this._elPanel.onwheel = this._evowPanel.bind( this );
 	this.uiTimeLine.onchangeCurrentTime = this._evocCurrentTime.bind( this );
 	this.uiTimeLine.oninputLoop = this._evoiLoop.bind( this );
+	this.uiTimeLine.onchangeLoop = this._evocLoop.bind( this );
 	this._panelMaxWidth = Infinity;
 	this._panelMinWidth =
 	this._contentY =
@@ -245,6 +246,9 @@ gsuiGridSamples.prototype = {
 	_evoiLoop( toggle, a, b ) {
 		this.uiBeatLines.loop( toggle && a, b );
 		this.oninputLoop && this.oninputLoop( toggle, a, b );
+	},
+	_evocLoop( toggle, a, b ) {
+		this.onchangeLoop && this.onchangeLoop( toggle, a, b );
 	},
 	_evmdGrid( e ) {
 		this._mdPageX = e.pageX;
