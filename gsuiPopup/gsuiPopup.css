@@ -1,14 +1,13 @@
 #gsuiPopup {
 	--dur: .2s;
 	--dark-bg: rgba( 0, 0, 0, .6 );
-	--bg: #ddd;
-	--text-color: #222;
+	--bg: #555;
 	--btn-bg: #999;
-	--btn-ok-bg: #4482e8;
-	--padding: .4em;
+	--btn-ok-bg: #67a;
+	--padding: 10px;
 	--min-width: 250px;
 	--radius: 4px;
-	--header-bg: rgba( 0, 0, 0, .5 );
+	--header-bg: #333;
 
 	display: flex;
 	align-items: center;
@@ -19,7 +18,8 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background: var( --dark-bg );
+	color: #fff;
+	background-color: var( --dark-bg );
 	visibility: hidden;
 	opacity: 0;
 	transition: var( --dur );
@@ -30,54 +30,61 @@
 	opacity: 1;
 }
 
-#gsuiPopup-window {
+#gsuipp-window {
+	overflow: hidden;
 	min-width: var( --min-width );
 	border-radius: var( --radius );
-	color: var( --text-color );
 	font-family: sans-serif;
-	background: var( --bg );
+	background-color: var( --bg );
+	box-shadow: 0 0 50px #000;
 }
-#gsuiPopup-window.gsui-nocancel .gsui-cancel,
-#gsuiPopup-window.gsui-notext .gsui-text {
+#gsuipp-window.gsui-nocancel #gsuipp-inpCancel,
+#gsuipp-window.gsui-notext #gsuipp-inpText {
 	display: none;
 }
 
-#gsuiPopup header {
+#gsuipp-head {
 	padding: var( --padding );
-	color: var( --bg );
-	font-weight: bold;
-	background: var( --header-bg );
+	background-color: var( --header-bg );
 }
-#gsuiPopup .gsui-msg {
-	padding: 1.5em var( --padding );
-}
-#gsuiPopup form {
+#gsuipp-body {
 	padding: var( --padding );
-	padding-top: 0;
-	text-align: center;
 }
-#gsuiPopup .gsui-text,
-#gsuiPopup .gsui-btn {
-	padding: var( --padding );
+#gsuipp-cnt:not(:empty) + #gsuipp-msg,
+#gsuipp-cnt:not(:empty) ~ input {
+	display: none;
+}
+
+#gsuipp-inpText,
+#gsuipp-btns input {
+	padding: .6em 1.25em;
 	border: 0;
 	border-radius: 2px;
 }
-#gsuiPopup .gsui-text {
+#gsuipp-inpText {
 	box-sizing: border-box;
+	margin-top: var( --padding );
+	padding: .6em;
 	width: 100%;
-	color: var( --text-color );
 	font-size: 18px;
-	margin-bottom: var( --padding );
 }
-#gsuiPopup .gsui-btn {
+#gsuipp-btns {
+	margin-top: var( --padding );
+	text-align: center;
+}
+#gsuipp-btns input {
 	color: #fff;
 	font-weight: bold;
-	background: var( --btn-bg );
+	background-color: var( --btn-bg );
 	cursor: pointer;
 }
-#gsuiPopup-window .gsui-btn + .gsui-btn {
+#gsuipp-btns input + input {
 	margin-left: var( --padding );
 }
-#gsuiPopup .gsui-ok {
-	background: var( --btn-ok-bg );
+#gsuipp-btns #gsuipp-inpOk {
+	background-color: var( --btn-ok-bg );
+}
+#gsuipp-window input[type="text"] {
+	color: #fff;
+	background-color: rgba( 255, 255, 255, .1 );
 }
