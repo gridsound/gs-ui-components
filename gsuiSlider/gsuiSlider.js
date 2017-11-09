@@ -16,7 +16,14 @@ function gsuiSlider() {
 	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 	root.onwheel = this._wheel.bind( this );
 	root.onmousedown = this._mousedown.bind( this );
-	this.options( { min: 0, max: 100, step: 1, value: 50, startFrom: 0 } );
+	this.options( {
+		min: 0,
+		max: 100,
+		step: 1,
+		scrollStep: 5,
+		value: 50,
+		startFrom: 0
+	} );
 	this.linear( "x" );
 }
 
@@ -55,6 +62,7 @@ gsuiSlider.prototype = {
 				inp[ k ] = obj[ k ];
 			}
 		}
+		obj.scrollStep = obj.scrollStep || obj.step;
 		this.startFrom = Math.max( inp.min, Math.min( this.startFrom, inp.max ) );
 		this._updateVal();
 	},
@@ -156,7 +164,7 @@ gsuiSlider.prototype = {
 		var d = e.deltaY > 0 ? -1 : 1,
 			inp = this._elInput;
 
-		this.setValue( +inp.value + inp.step * ( this.axeX ? -d : d ), true );
+		this.setValue( +inp.value + inp.scrollStep * ( this.axeX ? -d : d ), true );
 	},
 	_mousedown( e ) {
 		var inp = this._elInput,
