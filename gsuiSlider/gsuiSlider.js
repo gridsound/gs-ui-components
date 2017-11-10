@@ -10,8 +10,6 @@ function gsuiSlider() {
 	this._elLine = root.querySelector( ".gsui-line" );
 	this._elLineColor = root.querySelector( ".gsui-lineColor" );
 	this._elSvg = root.querySelector( "svg" );
-	this._elSvgBg = root.querySelector( ".gsui-svgBg" );
-	this._elSvgThumb = root.querySelector( ".gsui-svgThumb" );
 	this._elSvgLine = root.querySelector( ".gsui-svgLine" );
 	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 	root.onwheel = this._wheel.bind( this );
@@ -56,14 +54,16 @@ gsuiSlider.prototype = {
 	options( obj ) {
 		var k, inp = this._elInput;
 
+		this._options = obj = Object.assign( {}, obj );
+		obj.step = Math.max( 0, obj.step ) || ( obj.max - obj.min ) / 10;
+		obj.scrollStep = Math.max( obj.step, obj.scrollStep || obj.step );
+		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom, obj.max ) );
 		for( k in obj ) {
-			this[ k ] = obj[ k ];
+			obj[ k ] = +obj[ k ];
 			if ( k !== "startFrom" ) {
 				inp[ k ] = obj[ k ];
 			}
 		}
-		obj.scrollStep = obj.scrollStep || obj.step;
-		this.startFrom = Math.max( inp.min, Math.min( this.startFrom, inp.max ) );
 		this._updateVal();
 	},
 	resize( w, h ) {
@@ -96,11 +96,11 @@ gsuiSlider.prototype = {
 	},
 	_updateVal() {
 		var thumb, line,
-			inp = this._elInput,
-			inpval = +inp.value,
-			inplen = inp.max - inp.min,
-			prcval = ( inpval - inp.min ) / inplen,
-			prcstart = ( this.startFrom - inp.min ) / inplen,
+			opt = this._options,
+			inpval = +this._elInput.value,
+			inplen = opt.max - opt.min,
+			prcval = ( inpval - opt.min ) / inplen,
+			prcstart = ( opt.startFrom - opt.min ) / inplen,
 			prclen = Math.abs( prcval - prcstart ),
 			prcmin = Math.min( prcval, prcstart );
 
@@ -125,55 +125,39 @@ gsuiSlider.prototype = {
 	},
 	_updateSize( w, h ) {
 		if ( w !== this.width || h !== this.height ) {
-			var thumbSize,
-				thumb = this._elThumb.style,
-				line = this._elLine.style,
+			var thumb = this._elThumb.style,
 				thick = this._axeX ? h : w,
-				thick2 = thick / 2,
-				lineThick = Math.ceil( thick / 10 ),
-				sizemin = Math.min( w, h );
+				sizemin = Math.min( w, h ),
+				strokeW = ~~( sizemin / 10 ),
+				circR = ~~( ( sizemin - strokeW ) / 2 );
 
-			lineThick % 2 !== thick % 2 && ++lineThick;
-			thumbSize = thick - ~~thick2 - ~~thick2 % 2;
 			thumb.marginLeft =
-			thumb.marginBottom = thumbSize / -2 + "px";
-			thumb.width = thumb.height = thumbSize + "px";
-			if ( this._axeX ) {
-				line.height = lineThick + "px";
-				line.marginTop = lineThick / -2 + "px";
-				line.left = line.right = thick2 + "px";
-			} else {
-				line.width = lineThick + "px";
-				line.marginLeft = lineThick / -2 + "px";
-				line.top = line.bottom = thick2 + "px";
-			}
+			thumb.marginBottom = -thick + "px";
+			thumb.width =
+			thumb.height = thick * 2 + "px";
 			this.width = w;
 			this.height = h;
-			this._svgLineLen = sizemin / 3;
 			this._elSvg.setAttribute( "viewBox", "0 0 " + sizemin + " " + sizemin );
-			this._elSvgBg.setAttribute( "r", sizemin / 2 );
-			this._elSvgThumb.setAttribute( "r", sizemin / 3.2 );
-			this._elSvgLine.setAttribute( "r", this._svgLineLen );
-			this._elSvgLineColor.setAttribute( "r", this._svgLineLen );
+			this._elSvgLine.setAttribute( "r", circR );
+			this._elSvgLineColor.setAttribute( "r", circR );
 			this._elSvgLine.style.strokeWidth =
-			this._elSvgLineColor.style.strokeWidth = sizemin / 10;
-			this._svgLineLen *= 2 * Math.PI;
+			this._elSvgLineColor.style.strokeWidth = strokeW;
+			this._svgLineLen = circR * 2 * Math.PI;
 		}
 	},
 	_wheel( e ) {
-		var d = e.deltaY > 0 ? -1 : 1,
-			inp = this._elInput;
+		var d = e.deltaY > 0 ? -1 : 1;
 
-		this.setValue( +inp.value + inp.scrollStep * ( this.axeX ? -d : d ), true );
+		this.setValue( +this._elInput.value + this._options.scrollStep * d, true );
 	},
 	_mousedown( e ) {
-		var inp = this._elInput,
+		var opt = this._options,
 			bcr = this._elLine.getBoundingClientRect(),
 			size = this._circ ? this._svgLineLen :
 				this._axeX ? bcr.width : bcr.height;
 
-		this._prval = inp.value;
-		this._pxval = ( inp.max - inp.min ) / size;
+		this._prval = this._elInput.value;
+		this._pxval = ( opt.max - opt.min ) / size;
 		this._pxmoved = 0;
 		gsuiSlider._focused = this;
 		this.rootElement.requestPointerLock();
@@ -186,12 +170,12 @@ gsuiSlider.prototype = {
 		}
 	},
 	_mousemove( e ) {
-		var mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
-			inp = this._elInput,
-			bound = ( inp.max - inp.min ) / 5,
+		var opt = this._options,
+			mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
+			bound = ( opt.max - opt.min ) / 5,
 			val = +this._prval + ( this._pxmoved + mov ) * this._pxval;
 
-		if ( inp.min - bound < val && val < +inp.max + bound ) {
+		if ( opt.min - bound < val && val < opt.max + bound ) {
 			this._pxmoved += mov;
 		}
 		this.setValue( val, true );
