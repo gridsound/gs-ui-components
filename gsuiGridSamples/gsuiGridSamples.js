@@ -326,7 +326,7 @@ gsuiGridSamples.prototype = {
 			pyRel = e.pageY - this._mdPageY;
 
 		if ( this._gridDragging ) {
-			this.offset( this._mouseOffset - pxRel / this._pxPerBeat, this._pxPerBeat );
+			this.offset( this._mouseOffset - pxRel / this._pxPerBeat );
 			this.contentY( this._mouseContentY - pyRel / this._fontSize );
 		} else if ( this._panelResizing != null ) {
 			this.panelWidth( e.pageX - this._rootLeft + this._panelResizing );
