@@ -356,12 +356,12 @@ gsuiGridSamples.prototype = {
 	_evkdRoot( e ) {
 		switch ( e.code ) {
 			case "KeyA":
-				if ( e.ctrlKey ) {
+				if ( e.altKey ) {
 					this._callOnchange( this._bcSelectAll() );
 				}
 				break;
 			case "KeyD":
-				if ( e.ctrlKey ) {
+				if ( e.altKey ) {
 					this._callOnchange( this._bcUnselectAll() );
 					return false;
 				}
