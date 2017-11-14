@@ -45,12 +45,10 @@
 	background-color: var(--gsuiPanels-extendColor);
 }
 .gsuiPanels-x > div > .gsuiPanels-extend {
-	cursor: ew-resize;
 	width: var( --gsuiPanels-extendSize );
 	margin-left: calc( var( --gsuiPanels-extendSize ) / -2 );
 }
 .gsuiPanels-y > div > .gsuiPanels-extend {
-	cursor: ns-resize;
 	height: var( --gsuiPanels-extendSize );
 	margin-top: calc( var( --gsuiPanels-extendSize ) / -2 );
 }
