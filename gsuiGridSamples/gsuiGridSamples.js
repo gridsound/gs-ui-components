@@ -290,25 +290,31 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	_evowGrid( e ) {
-		if ( !e.shiftKey && !e.ctrlKey ) {
+		var onMac = navigator.platform.startsWith( "Mac" );
+
+		if ( !e.shiftKey && !e.ctrlKey && !e.metaKey ) {
 			this._contentScroll( e );
 		} else {
 			var layerX, offInc, beatPx = this._pxPerBeat;
 
-			if ( e.ctrlKey ) {
+			if ( onMac ? e.metaKey : e.ctrlKey ) {
 				layerX = e.pageX - this._elGrid.getBoundingClientRect().left;
 				beatPx = Math.min( Math.max( 8, beatPx * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 );
 				offInc = ( layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
-			} else {
+			} else if ( e.shiftKey ){
 				offInc = ( e.deltaY > 0 ? 20 : -20 ) / beatPx;
+			} else {
+				return false;
 			}
 			this.offset( Math.max( 0, this._timeOffset + offInc ),
-				e.ctrlKey ? beatPx : undefined );
+				( onMac ? e.metaKey : e.ctrlKey ) ? beatPx : undefined );
 		}
 		return false;
 	},
 	_evowPanel( e ) {
-		if ( e.ctrlKey ) {
+		var onMac = navigator.platform.startsWith( "Mac" );
+
+		if ( onMac ? e.metaKey : e.ctrlKey ) {
 			var layerY = e.pageY - this._elPanel.getBoundingClientRect().top,
 				oldFs = this._fontSize,
 				fs = oldFs * ( e.deltaY > 0 ? .9 : 1.1 );
