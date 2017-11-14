@@ -94,16 +94,15 @@ gsuiPanels.prototype = {
 		delete gsuiPanels._focused;
 	},
 	_onmousemove( e ) {
-		var mov2,
-			dir = this._dir,
+		var dir = this._dir,
 			axeX = dir === "width",
 			mov = ( axeX ? e.pageX : e.pageY ) - this._pageN;
 
-		mov2 = this._incrSizePans( dir, mov, this._panBefore );
-		if ( Math.abs( mov2 ) < Math.abs( mov ) ) {
-			mov2 = this._incrSizePans( dir, -( mov - mov2 ), this._panAfter );
+		mov -= this._incrSizePans( dir, mov, this._panBefore );
+		if ( Math.abs( mov ) > .1 ) {
+			this._incrSizePans( dir, -mov, this._panAfter );
 		}
-		this._pageN += ( mov - mov2 );
+		this._pageN += mov;
 	},
 	_onmousedownExtend( dir, ext, panBefore, panAfter, e ) {
 		gsuiPanels._focused = this;
