@@ -1,195 +1,120 @@
 "use strict";
 
-function gsuiPanels() {
-	var root = document.createElement( "div" );
-
-	this._init();
-	root.className = "gsuiPanels";
+function gsuiPanels( root ) {
 	this.rootElement = root;
-	this.panels = root.childNodes;
-	this._nbPanels = 0;
-	this._panelDims = [];
-	this.axe( "x" );
+	this.init( root );
+	gsuiPanels.bodyEventsInit && gsuiPanels.bodyEventsInit();
 }
 
+gsuiPanels.bodyEventsInit = function() {
+	document.body.addEventListener( "mousemove", function( e ) {
+		gsuiPanels._focused && gsuiPanels._focused._onmousemove( e );
+	} );
+	document.body.addEventListener( "mouseup", function( e ) {
+		gsuiPanels._focused && gsuiPanels._focused._onmouseup( e );
+	} );
+	delete gsuiPanels.bodyEventsInit;
+};
+
 gsuiPanels.prototype = {
-	resized() {
-		this._cacheCSS();
-		this.panels.forEach( this._resizedPan );
-	},
-	axe( axe ) {
-		var w, axeX = axe === "x";
-
-		if ( axeX !== this._axeX ) {
-			this._axeX = axeX;
-			this.rootElement.classList.remove( "gsui-axeX", "gsui-axeY" );
-			this.rootElement.classList.add( "gsui-axe" + ( axeX ? "X" : "Y" ) );
-			this._cacheCSS();
-			this.panels.forEach( function( panel ) {
-				w = panel.style.width;
-				panel.style.width = panel.style.height;
-				panel.style.height = w;
-			} );
+	init( root ) {
+		root.style.overflow = "hidden";
+		root.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
+		if ( root.classList.contains( "gsuiPanels-x" ) ) {
+			this._convertFlex( "width", root );
+		} else if ( root.classList.contains( "gsuiPanels-y" ) ) {
+			this._convertFlex( "height", root );
 		}
-	},
-	nbPanels( nb ) {
-		var ret = [],
-			diff = nb - this._nbPanels;
-
-		this._nbPanels = nb;
-		if ( diff < 0 ) {
-			while ( diff++ < 0 ) {
-				ret.push( this.rootElement.removeChild( this.rootElement.lastChild ) );
-				this._panelDims.pop();
-			}
-		} else if ( diff > 0 ) {
-			while ( diff-- > 0 ) {
-				ret.push( this._newPanel( 1 / nb * 100 ) );
-			}
-		}
-		return ret;
+		root.querySelectorAll( ".gsuiPanels-x" ).forEach( this._convertFlex.bind( this, "width" ) );
+		root.querySelectorAll( ".gsuiPanels-y" ).forEach( this._convertFlex.bind( this, "height" ) );
+		root.querySelectorAll( ".gsuiPanels-x > div + div" ).forEach( this._addExtend.bind( this, "width" ) );
+		root.querySelectorAll( ".gsuiPanels-y > div + div" ).forEach( this._addExtend.bind( this, "height" ) );
 	},
 
 	// private:
-	_init() {
-		if ( !gsuiPanels._init ) {
-			gsuiPanels._init = true;
-			document.body.addEventListener( "mousemove", function( e ) {
-				gsuiPanels._focused && gsuiPanels._focused._evmmRoot( e );
-			} );
-			document.body.addEventListener( "mouseup", function( e ) {
-				gsuiPanels._focused && gsuiPanels._focused._evmuRoot( e );
-			} );
-		}
+	_convertFlex( dir, panPar ) {
+		var pans = Array.from( panPar.children ),
+			size = panPar.getBoundingClientRect()[ dir ],
+			sizePans = pans.map( pan => pan.getBoundingClientRect()[ dir ] );
+
+		pans.forEach( function( pan, i ) {
+			pan.style[ dir ] = sizePans[ i ] / size * 100 + "%";
+			pan.style.flex = "none";
+		} );
+		pans[ pans.length - 1 ].style.flex = 1;
 	},
-	_cacheCSS() {
-		var axeX = this._axeX,
-			rootBCR = this.rootElement.getBoundingClientRect();
+	_addExtend( dir, pan ) {
+		var extend = document.createElement( "div" ),
+			panPar = pan.parentNode,
+			pans = Array.from( panPar.children ),
+			panBefore = pans.filter( function( div ) {
+				return !div.classList.contains( "gsuiPanels-extend" ) &&
+					pan.compareDocumentPosition( div ) & Node.DOCUMENT_POSITION_PRECEDING;
+			} ).reverse(),
+			panAfter = pans.filter( function( div ) {
+				return !div.classList.contains( "gsuiPanels-extend" ) && (
+					pan === div ||
+					pan.compareDocumentPosition( div ) & Node.DOCUMENT_POSITION_FOLLOWING
+				);
+			} );
 
-		this._rootSize = ( axeX ? rootBCR.width : rootBCR.height ) / 100;
-		this.panels.forEach( function( pan, i ) {
-			var sty = getComputedStyle( pan ),
-				obj = {
-					min: parseFloat( axeX ? sty.minWidth : sty.minHeight ) / this._rootSize,
-					max: parseFloat( axeX ? sty.maxWidth : sty.maxHeight ) / this._rootSize
-				};
+		extend.className = "gsuiPanels-extend";
+		extend.onmousedown = this._onmousedownExtend.bind( this, dir, extend, panBefore, panAfter );
+		pan.append( extend );
+	},
+	_incrSizePans( dir, mov, pans ) {
+		var parentsize = this._parentSize;
 
-			obj.min = obj.min || 1;
-			obj.max = obj.max || Infinity;
-			if ( i < this._panelDims.length ) {
-				this._panelDims[ i ] = obj;
-			} else {
-				this._panelDims.push( obj );
+		return pans.reduce( function( mov, pan ) {
+			if ( Math.abs( mov ) > .1 ) {
+				var style = getComputedStyle( pan ),
+					size = pan.getBoundingClientRect()[ dir ],
+					minsize = parseFloat( style[ "min-" + dir ] ) || 10,
+					maxsize = parseFloat( style[ "max-" + dir ] ) || Infinity,
+					newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
+
+				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
+					pan.style.flex = "none";
+					pan.style[ dir ] = newsizeCorrect / parentsize * 100 + "%";
+					mov -= newsizeCorrect - size;
+					if ( pan.onresizing ) {
+						pan.onresizing( pan );
+					}
+				}
 			}
-		}, this );
-	},
-	_newPanel( perc ) {
-		var div = document.createElement( "div" ),
-			ext = document.createElement( "div" );
-
-		div.className = "gsui-panel";
-		ext.className = "gsui-extend";
-		ext.onmousedown = this._evmdExtends.bind( this, this.panels.length, div, ext );
-		div.append( ext );
-		this.rootElement.append( div );
-		return div;
-	},
-	_resizedPan( pan ) {
-		pan.onresize && pan.onresize( pan.offsetWidth, pan.offsetHeight );
-	},
-	_incPan( ind, perc, changeDom ) {
-		var pan = this.panels[ ind ],
-			panDim = this._panelDims[ ind ],
-			panSize = pan[ this._axeX ? "offsetWidth" : "offsetHeight" ] / this._rootSize;
-
-		perc = perc < 0
-			? -Math.min( -perc, panSize - panDim.min )
-			: Math.min( perc, panDim.max - panSize );
-		if ( changeDom ) {
-			pan.style[ this._axeX ? "width" : "height" ] = panSize + perc + "%";
-			this._resizedPan( pan );
-		}
-		return perc;
+			return mov;
+		}, mov );
 	},
 
 	// events:
-	_evmdExtends( panelInd, elPanel, elExtend, e ) {
-		this._cacheCSS();
-		this._panelInd = panelInd;
-		this._elPanel = elPanel;
-		this._elExtend = elExtend;
-		this.rootElement.classList.add( "gsui-noselect" );
-		elExtend.classList.add( "gsui-hover" );
-		gsuiPanels._focused = this;
-		this._mdPageX = e.pageX;
-		this._mdPageY = e.pageY;
-	},
-	_evmuRoot( e ) {
-		if ( this._elExtend ) {
-			this._elExtend.classList.remove( "gsui-hover" );
-			delete this._elExtend;
-			delete this._elPanel;
-		}
-		this.rootElement.classList.remove( "gsui-noselect" );
+	_onmouseup() {
+		this._extend.classList.remove( "gsui-hover" );
+		this.rootElement.classList.remove( "gsuiPanels-noselect" );
+		this._panAfter[ this._panAfter.length - 1 ].style.flex = 1;
 		delete gsuiPanels._focused;
 	},
-	_evmmRoot( e ) {
-		if ( this._elExtend ) {
-			var tmp,
-				percInc = ( this._axeX
-					? e.pageX - this._mdPageX
-					: e.pageY - this._mdPageY
-				) / this._rootSize,
-				percIncSave = percInc,
-				percIncTmp = 0,
-				panInd = this._panelInd;
+	_onmousemove( e ) {
+		var mov2,
+			dir = this._dir,
+			axeX = dir === "width",
+			mov = ( axeX ? e.pageX : e.pageY ) - this._pageN;
 
-			if ( percInc < 0 ) {
-				++panInd;
-				for ( ; percInc < 0 && panInd < this.panels.length; ++panInd ) {
-					tmp = this._incPan( panInd, -percInc );
-					percInc += tmp;
-					percIncTmp -= tmp;
-				}
-				panInd = this._panelInd;
-				percInc = percIncTmp;
-				percIncTmp = 0;
-				for ( ; percInc < 0 && panInd >= 0; --panInd ) {
-					tmp = this._incPan( panInd, percInc, true );
-					percInc -= tmp;
-					percIncTmp += tmp;
-				}
-				panInd = this._panelInd + 1;
-				percInc = percIncSave - percInc;
-				for ( ; percInc < 0 && panInd < this.panels.length; ++panInd ) {
-					percInc += this._incPan( panInd, -percInc, true );
-				}
-			} else {
-				for ( ; percInc > 0 && panInd >= 0; --panInd ) {
-					tmp = this._incPan( panInd, percInc );
-					percInc -= tmp;
-					percIncTmp += tmp;
-				}
-				panInd = this._panelInd + 1;
-				percInc = percIncTmp;
-				percIncTmp = 0;
-				for ( ; percInc > 0 && panInd < this.panels.length; ++panInd ) {
-					tmp = this._incPan( panInd, -percInc, true );
-					percInc += tmp;
-					percIncTmp -= tmp;
-				}
-				panInd = this._panelInd;
-				percInc = percIncSave - percInc;
-				for ( ; percInc > 0 && panInd >= 0; --panInd ) {
-					percInc -= this._incPan( panInd, percInc, true );
-				}
-			}
-			percIncTmp = Math.round( percIncTmp * this._rootSize );
-			if ( this._axeX ) {
-				this._mdPageX += percIncTmp;
-			} else {
-				this._mdPageY += percIncTmp;
-			}
+		mov2 = this._incrSizePans( dir, mov, this._panBefore );
+		if ( Math.abs( mov2 ) < Math.abs( mov ) ) {
+			mov2 = this._incrSizePans( dir, -( mov - mov2 ), this._panAfter );
 		}
+		this._pageN += ( mov - mov2 );
+	},
+	_onmousedownExtend( dir, ext, panBefore, panAfter, e ) {
+		gsuiPanels._focused = this;
+		ext.classList.add( "gsui-hover" );
+		this.rootElement.classList.add( "gsuiPanels-noselect" );
+		this._dir = dir;
+		this._extend = ext;
+		this._pageN = dir === "width" ? e.pageX : e.pageY;
+		this._panBefore = panBefore;
+		this._panAfter = panAfter;
+		this._parent = ext.parentNode.parentNode;
+		this._parentSize = this._parent.getBoundingClientRect()[ dir ];
 	}
 };

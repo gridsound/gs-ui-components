@@ -1,71 +1,56 @@
 :root {
-	--gsuiPanels-bdSize: 1px;
-	--gsuiPanels-bdColor: #222;
+	--gsuiPanels-bd: 1px solid #222;
 	--gsuiPanels-extendSize: 5px;
 	--gsuiPanels-extendColor: #888;
 }
 
-/* .gsuiPanels ------------------------------- */
-/* ------------------------------------------- */
-.gsuiPanels {
+.gsuiPanels-x,
+.gsuiPanels-y {
 	display: flex;
-	height: 100%;
 }
-.gsuiPanels.gsui-noselect {
-	cursor: default;
+.gsuiPanels-y {
+	flex-direction: column;
+}
+.gsuiPanels-x > div:not(.gsuiPanels-extend),
+.gsuiPanels-y > div:not(.gsuiPanels-extend) {
+	position: relative;
+	flex: 1;
+}
+.gsuiPanels-x > div,
+.gsuiPanels-y > div {
+	box-sizing: border-box;
+}
+.gsuiPanels-x > div + div:not(.gsuiPanels-extend) { border-left: var( --gsuiPanels-bd ); }
+.gsuiPanels-y > div + div:not(.gsuiPanels-extend) { border-top: var( --gsuiPanels-bd ); }
+
+.gsuiPanels-noselect {
 	user-select: none;
 	-ms-user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 }
-.gsuiPanels.gsui-axeY {
-	flex-direction: column;
-}
 
-/* .gsuiPanels > .gsui-panel ----------------- */
-/* ------------------------------------------- */
-.gsuiPanels > .gsui-panel {
-	box-sizing: border-box;
-	position: relative;
-	border: 0 solid var( --gsuiPanels-bdColor );
-}
-.gsuiPanels.gsui-axeX > .gsui-panel {
-	min-height: 100%;
-	max-height: 100%;
-	border-left-width: var( --gsuiPanels-bdSize );
-}
-.gsuiPanels.gsui-axeY > .gsui-panel {
-	min-width: 100%;
-	max-width: 100%;
-	border-top-width: var( --gsuiPanels-bdSize );
-}
-.gsuiPanels > .gsui-panel:first-child {
-	border: none;
-}
-
-/* .gsuiPanels > .gsui-panel > .gsui-extend -- */
-/* ------------------------------------------- */
-.gsuiPanels > .gsui-panel > .gsui-extend {
+/* .gsuiPanels-extend ------------------------------------------------------- */
+.gsuiPanels-extend {
 	position: absolute;
 	z-index: 1;
-	transition: background .2s;
-}
-.gsuiPanels.gsui-axeX > .gsui-panel > .gsui-extend {
-	height: 100%;
-	width: var( --gsuiPanels-extendSize );
-	right: calc( ( var( --gsuiPanels-extendSize ) - var( --gsuiPanels-bdSize ) )
-		/ -2 - var( --gsuiPanels-bdSize ) );
-}
-.gsuiPanels.gsui-axeY > .gsui-panel > .gsui-extend {
+	top: 0;
+	left: 0;
 	width: 100%;
+	height: 100%;
+	transition: background-color .2s;
+}
+.gsuiPanels-extend.gsui-hover,
+.gsuiPanels-extend:hover {
+	background-color: var(--gsuiPanels-extendColor);
+}
+.gsuiPanels-x > div > .gsuiPanels-extend {
+	cursor: ew-resize;
+	width: var( --gsuiPanels-extendSize );
+	margin-left: calc( var( --gsuiPanels-extendSize ) / -2 );
+}
+.gsuiPanels-y > div > .gsuiPanels-extend {
+	cursor: ns-resize;
 	height: var( --gsuiPanels-extendSize );
-	bottom: calc( ( var( --gsuiPanels-extendSize ) - var( --gsuiPanels-bdSize ) )
-		/ -2 - var( --gsuiPanels-bdSize ) );
-}
-.gsuiPanels > .gsui-panel:last-child > .gsui-extend {
-	display: none;
-}
-.gsuiPanels > .gsui-panel > .gsui-extend.gsui-hover,
-.gsuiPanels > .gsui-panel > .gsui-extend:hover {
-	background-color: var( --gsuiPanels-extendColor );
+	margin-top: calc( var( --gsuiPanels-extendSize ) / -2 );
 }
