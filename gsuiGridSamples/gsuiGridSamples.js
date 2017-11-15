@@ -4,6 +4,7 @@ function gsuiGridSamples() {
 	var root = this._clone();
 
 	this.rootElement = root;
+	this._onMac = navigator.platform.startsWith( "Mac" );
 	this._elPanel = root.querySelector( ".gsuigs-panel" );
 	this._elGrid = root.querySelector( ".gsuigs-grid" );
 	this._elPanelExt = this._elPanel.querySelector( ".gsuigs-extend" );
@@ -169,8 +170,18 @@ gsuiGridSamples.prototype = {
 		this.uiTimeLine.resized();
 		this.uiBeatLines.resized();
 	},
+	_deltaY( deltaY, deltaYFallBack ) {
+		return ( this._onMac ? deltaY : ( deltaY > 0 ? deltaYFallBack : -deltaYFallBack ) );
+	},
 	_contentScroll( e ) {
-		this.contentY( this._contentY + ( 20 * ( e.deltaY > 0 ? 1 : -1 ) ) / this._fontSize );
+		var offInc, beatPx = this._pxPerBeat;
+
+		if ( Math.abs( e.deltaY ) > Math.abs( e.deltaX ) ) {
+			this.contentY( this._contentY + ( this._deltaY( e.deltaY, 20 ) / this._fontSize ) );
+		} else {
+			offInc = ( e.deltaX / beatPx ) * 2;
+			this.offset( Math.max( 0, this._timeOffset + offInc ) );
+		}
 	},
 	_getMouseBeat( pageX ) {
 		this._elGridCntBCR = this._elGridCnt.getBoundingClientRect();
@@ -297,24 +308,24 @@ gsuiGridSamples.prototype = {
 		} else {
 			var layerX, offInc, beatPx = this._pxPerBeat;
 
-			if ( onMac ? e.metaKey : e.ctrlKey ) {
+			if ( this._ctrlOrMeta( e ) ) {
 				layerX = e.pageX - this._elGrid.getBoundingClientRect().left;
 				beatPx = Math.min( Math.max( 8, beatPx * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 );
 				offInc = ( layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
 			} else if ( e.shiftKey ){
-				offInc = ( e.deltaY > 0 ? 20 : -20 ) / beatPx;
+				offInc = this._deltaY( e.deltaY, 20 ) / beatPx;
 			} else {
 				return false;
 			}
 			this.offset( Math.max( 0, this._timeOffset + offInc ),
-				( onMac ? e.metaKey : e.ctrlKey ) ? beatPx : undefined );
+				this._ctrlOrMeta( e ) ? beatPx : undefined );
 		}
 		return false;
 	},
 	_evowPanel( e ) {
 		var onMac = navigator.platform.startsWith( "Mac" );
 
-		if ( onMac ? e.metaKey : e.ctrlKey ) {
+		if ( this._ctrlOrMeta( e ) ) {
 			var layerY = e.pageY - this._elPanel.getBoundingClientRect().top,
 				oldFs = this._fontSize,
 				fs = oldFs * ( e.deltaY > 0 ? .9 : 1.1 );
@@ -374,5 +385,8 @@ gsuiGridSamples.prototype = {
 				this._deletionEnd();
 				break;
 		}
+	},
+	_ctrlOrMeta( e ) {
+		return this._onMac ? e.metaKey : e.ctrlKey;
 	}
 };
