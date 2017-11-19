@@ -56,13 +56,11 @@ gsuiSlider.prototype = {
 		this._options = obj = Object.assign( {}, obj );
 		obj.step = Math.max( 0, obj.step ) || ( obj.max - obj.min ) / 10;
 		obj.scrollStep = Math.max( obj.step, obj.scrollStep || obj.step );
-		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom, obj.max ) );
-		for( k in obj ) {
-			obj[ k ] = +obj[ k ];
-			if ( k !== "startFrom" ) {
-				inp[ k ] = obj[ k ];
-			}
-		}
+		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom || 0, obj.max ) );
+		inp.min = obj.min;
+		inp.max = obj.max;
+		inp.step = obj.step;
+		inp.value = obj.value;
 		this._updateVal();
 	},
 	resize( w, h ) {
