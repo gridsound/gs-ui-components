@@ -6,7 +6,6 @@ function gsuiSlider() {
 
 	this.rootElement = root;
 	this._elInput = inp;
-	this._elThumb = root.querySelector( ".gsui-thumb" );
 	this._elLine = root.querySelector( ".gsui-line" );
 	this._elLineColor = root.querySelector( ".gsui-lineColor" );
 	this._elSvg = root.querySelector( "svg" );
@@ -95,7 +94,7 @@ gsuiSlider.prototype = {
 		return document.getElementById( "gsuiSlider" );
 	},
 	_updateVal() {
-		var thumb, line,
+		var line,
 			opt = this._options,
 			inpval = +this._elInput.value,
 			inplen = opt.max - opt.min,
@@ -110,14 +109,11 @@ gsuiSlider.prototype = {
 			line.strokeDasharray = prclen * this._svgLineLen + ", 999999";
 			line.transform = "rotate(" + ( 90 + prcmin * 360 ) + "deg)";
 		} else {
-			thumb = this._elThumb.style;
 			line = this._elLineColor.style;
 			if ( this._axeX ) {
-				thumb.left = prcval * 100 + "%";
 				line.left = prcmin * 100 + "%";
 				line.width = prclen * 100 + "%";
 			} else {
-				thumb.bottom = prcval * 100 + "%";
 				line.bottom = prcmin * 100 + "%";
 				line.height = prclen * 100 + "%";
 			}
@@ -125,16 +121,11 @@ gsuiSlider.prototype = {
 	},
 	_updateSize( w, h ) {
 		if ( w !== this.width || h !== this.height ) {
-			var thumb = this._elThumb.style,
-				thick = this._axeX ? h : w,
+			var thick = this._axeX ? h : w,
 				sizemin = Math.min( w, h ),
 				strokeW = ~~( sizemin / 10 ),
 				circR = ~~( ( sizemin - strokeW ) / 2 );
 
-			thumb.marginLeft =
-			thumb.marginBottom = -thick + "px";
-			thumb.width =
-			thumb.height = thick * 2 + "px";
 			this.width = w;
 			this.height = h;
 			this._elSvg.setAttribute( "viewBox", "0 0 " + sizemin + " " + sizemin );

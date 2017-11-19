@@ -38,21 +38,9 @@
 	bottom: 0;
 	background-color: var( --line-bg );
 }
-.gsuiSlider .gsui-lineColor,
-.gsuiSlider .gsui-thumb {
+.gsuiSlider .gsui-lineColor {
 	position: absolute;
 	background-color: var( --line );
-}
-.gsuiSlider .gsui-thumb {
-	box-sizing: border-box;
-	border-radius: 50%;
-	transform: scale( 0.5 );
-}
-.gsuiSlider .gsui-thumb {
-	transition: transform var( --dur ) ease;
-}
-.gsuiSlider:hover .gsui-thumb {
-	transform: scale( 1 );
 }
 
 .gsuiSlider svg {
