@@ -1,8 +1,9 @@
-.gsuiSlider {
-	--dur: .2s;
-	--line: #fff;
-	--line-bg: #000;
+:root {
+	--gsuiSlider-lineColor: #fff;
+	--gsuiSlider-lineBgColor: #000;
+}
 
+.gsuiSlider {
 	position: relative;
 	user-select: none;
 	-moz-user-select: none;
@@ -36,11 +37,11 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background-color: var( --line-bg );
+	background-color: var( --gsuiSlider-lineBgColor );
 }
 .gsuiSlider .gsui-lineColor {
 	position: absolute;
-	background-color: var( --line );
+	background-color: var( --gsuiSlider-lineColor );
 }
 
 .gsuiSlider svg {
@@ -52,5 +53,5 @@
 	fill: none;
 	transform-origin: center;
 }
-.gsuiSlider .gsui-svgLine { stroke: var( --line-bg ); }
-.gsuiSlider .gsui-svgLineColor { stroke: var( --line ); }
+.gsuiSlider .gsui-svgLine { stroke: var( --gsuiSlider-lineBgColor ); }
+.gsuiSlider .gsui-svgLineColor { stroke: var( --gsuiSlider-lineColor ); }
