@@ -131,6 +131,7 @@ gsuiSlider.prototype = {
 		var d = e.deltaY > 0 ? -1 : 1;
 
 		this.setValue( +this._elInput.value + this._options.scrollStep * d, true );
+		return false;
 	},
 	_mousedown( e ) {
 		var opt = this._options,
