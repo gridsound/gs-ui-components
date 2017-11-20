@@ -1,11 +1,10 @@
 "use strict";
 
 function gsuiSlider() {
-	var root = this._clone(),
-		inp = root.querySelector( "input" );
+	var root = this._clone();
 
 	this.rootElement = root;
-	this._elInput = inp;
+	this._elInput = root.querySelector( "input" );
 	this._elLine = root.querySelector( ".gsui-line" );
 	this._elLineColor = root.querySelector( ".gsui-lineColor" );
 	this._elSvg = root.querySelector( "svg" );
@@ -13,29 +12,30 @@ function gsuiSlider() {
 	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 	root.onwheel = this._wheel.bind( this );
 	root.onmousedown = this._mousedown.bind( this );
-	this.options( {
-		min: 0,
-		max: 100,
-		step: 1,
-		scrollStep: 5,
-		value: 50,
-		startFrom: 0
-	} );
-	this.linear( "x" );
 }
 
 gsuiSlider.prototype = {
-	linear( axe ) {
-		this._circ = false;
-		this._axeX = axe === "x";
-		this.rootElement.classList.remove( "gsui-circular", "gsui-x", "gsui-y" );
-		this.rootElement.classList.add( "gsui-linear", "gsui-" + axe );
-		this._updateVal();
-	},
-	circular() {
-		this._circ = true;
-		this.rootElement.classList.remove( "gsui-linear", "gsui-x", "gsui-y" );
-		this.rootElement.classList.add( "gsui-circular" );
+	options( obj ) {
+		var inp = this._elInput,
+			clazz = this.rootElement.classList;
+
+		this._circ = obj.type === "circular";
+		this._axeX = obj.type === "linear-x";
+		this._options = obj = Object.assign( {}, obj );
+		obj.step = Math.max( 0, obj.step ) || ( obj.max - obj.min ) / 10;
+		obj.scrollStep = Math.max( obj.step, obj.scrollStep || obj.step );
+		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom || 0, obj.max ) );
+		inp.min = obj.min;
+		inp.max = obj.max;
+		inp.step = obj.step;
+		inp.value = obj.value;
+		if ( this._circ ) {
+			clazz.remove( "gsui-linear", "gsui-x", "gsui-y" );
+			clazz.add( "gsui-circular" );
+		} else {
+			clazz.remove( "gsui-circular", "gsui-x", "gsui-y" );
+			clazz.add( "gsui-linear", this._axeX ? "gsui-x" : "gsui-y" );
+		}
 		this._updateVal();
 	},
 	setValue( val, bymouse ) {
@@ -50,28 +50,37 @@ gsuiSlider.prototype = {
 			}
 		}
 	},
-	options( obj ) {
-		var k, inp = this._elInput;
+	resized() {
+		var rc = this.rootElement.getBoundingClientRect();
 
-		this._options = obj = Object.assign( {}, obj );
-		obj.step = Math.max( 0, obj.step ) || ( obj.max - obj.min ) / 10;
-		obj.scrollStep = Math.max( obj.step, obj.scrollStep || obj.step );
-		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom || 0, obj.max ) );
-		inp.min = obj.min;
-		inp.max = obj.max;
-		inp.step = obj.step;
-		inp.value = obj.value;
-		this._updateVal();
+		this.resize( rc.width, rc.height );
 	},
 	resize( w, h ) {
 		this.rootElement.style.width = w + "px";
 		this.rootElement.style.height = h + "px";
-		this._updateSize( w, h );
-	},
-	resized() {
-		var rc = this.rootElement.getBoundingClientRect();
+		if ( w !== this.width || h !== this.height ) {
+			var thick = this._axeX ? h : w,
+				size = Math.min( w, h ),
+				size2 = size / 2,
+				strokeW = ~~( size / 10 ),
+				circR = ~~( ( size - strokeW ) / 2 );
 
-		this._updateSize( rc.width, rc.height );
+			this.width = w;
+			this.height = h;
+			if ( this._circ ) {
+				this._elSvg.setAttribute( "viewBox", "0 0 " + size + " " + size );
+				this._elSvgLine.setAttribute( "cx", size2 );
+				this._elSvgLine.setAttribute( "cy", size2 );
+				this._elSvgLine.setAttribute( "r", circR );
+				this._elSvgLineColor.setAttribute( "cx", size2 );
+				this._elSvgLineColor.setAttribute( "cy", size2 );
+				this._elSvgLineColor.setAttribute( "r", circR );
+				this._elSvgLine.style.strokeWidth =
+				this._elSvgLineColor.style.strokeWidth = strokeW;
+				this._svgLineLen = circR * 2 * Math.PI;
+			}
+			this._updateVal();
+		}
 	},
 
 	// private:
@@ -92,46 +101,30 @@ gsuiSlider.prototype = {
 		return document.getElementById( "gsuiSlider" );
 	},
 	_updateVal() {
-		var line,
-			opt = this._options,
-			inpval = +this._elInput.value,
-			inplen = opt.max - opt.min,
-			prcval = ( inpval - opt.min ) / inplen,
-			prcstart = ( opt.startFrom - opt.min ) / inplen,
-			prclen = Math.abs( prcval - prcstart ),
-			prcmin = Math.min( prcval, prcstart );
+		this.value = +this._elInput.value;
+		if ( this.rootElement.parentNode ) {
+			var line,
+				opt = this._options,
+				inplen = opt.max - opt.min,
+				prcval = ( this.value - opt.min ) / inplen,
+				prcstart = ( opt.startFrom - opt.min ) / inplen,
+				prclen = Math.abs( prcval - prcstart ),
+				prcmin = Math.min( prcval, prcstart );
 
-		this.value = inpval;
-		if ( this._circ ) {
-			line = this._elSvgLineColor.style;
-			line.strokeDasharray = prclen * this._svgLineLen + ", 999999";
-			line.transform = "rotate(" + ( 90 + prcmin * 360 ) + "deg)";
-		} else {
-			line = this._elLineColor.style;
-			if ( this._axeX ) {
-				line.left = prcmin * 100 + "%";
-				line.width = prclen * 100 + "%";
+			if ( this._circ ) {
+				line = this._elSvgLineColor.style;
+				line.strokeDasharray = prclen * this._svgLineLen + ", 999999";
+				line.transform = "rotate(" + ( 90 + prcmin * 360 ) + "deg)";
 			} else {
-				line.bottom = prcmin * 100 + "%";
-				line.height = prclen * 100 + "%";
+				line = this._elLineColor.style;
+				if ( this._axeX ) {
+					line.left = prcmin * 100 + "%";
+					line.width = prclen * 100 + "%";
+				} else {
+					line.bottom = prcmin * 100 + "%";
+					line.height = prclen * 100 + "%";
+				}
 			}
-		}
-	},
-	_updateSize( w, h ) {
-		if ( w !== this.width || h !== this.height ) {
-			var thick = this._axeX ? h : w,
-				sizemin = Math.min( w, h ),
-				strokeW = ~~( sizemin / 10 ),
-				circR = ~~( ( sizemin - strokeW ) / 2 );
-
-			this.width = w;
-			this.height = h;
-			this._elSvg.setAttribute( "viewBox", "0 0 " + sizemin + " " + sizemin );
-			this._elSvgLine.setAttribute( "r", circR );
-			this._elSvgLineColor.setAttribute( "r", circR );
-			this._elSvgLine.style.strokeWidth =
-			this._elSvgLineColor.style.strokeWidth = strokeW;
-			this._svgLineLen = circR * 2 * Math.PI;
 		}
 	},
 	_wheel( e ) {
