@@ -306,36 +306,31 @@ gsuiGridSamples.prototype = {
 		}
 	},
 	_evowGrid( e ) {
-		var onMac = navigator.platform.startsWith( "Mac" );
-
 		if ( !e.shiftKey && !e.ctrlKey && !e.metaKey ) {
 			this._contentScroll( e );
 		} else {
-			var layerX, offInc, beatPx = this._pxPerBeat;
+			var layerX, offInc,
+				zooming = this._metaKeyOnMac( e ) || this._onPinchAndZoom( e ),
+				beatPx = this._pxPerBeat;
 
-			// Zoom
-			if ( this._metaKeyOnMac( e ) || this._onPinchAndZoom( e ) ) {
+			if ( zooming ) {
 				layerX = e.pageX - this._elGrid.getBoundingClientRect().left;
 				beatPx *= ( this._onMac && !this._onFirefox
 					? ( e.deltaY > 0 ? .975 : 1.025 )
 					: ( e.deltaY > 0 ? .9 : 1.1 ) );
 				beatPx = Math.min( Math.max( 8, beatPx ), 512 );
 				offInc = ( layerX / this._pxPerBeat * ( beatPx - this._pxPerBeat ) ) / beatPx;
-			}
-			// Scroll X
-			else if ( e.shiftKey ) {
+			} else if ( e.shiftKey ) {
 				offInc = this._deltaY( e.deltaY, 20, -20 ) / beatPx;
-			}
-			else {
+			} else {
 				return false;
 			}				
-			this.offset( Math.max( 0, this._timeOffset + offInc ),
-				this._metaKeyOnMac( e ) || this._onPinchAndZoom( e ) ? beatPx : undefined );
+			this.offset( Math.max( 0, this._timeOffset + offInc ), zooming ? beatPx : undefined );
 		}
 		return false;
 	},
 	_evowPanel( e ) {
-		if ( e.ctrl || this._metaKeyOnMac( e ) ) {
+		if ( e.ctrlKey || this._metaKeyOnMac( e ) ) {
 			var layerY = e.pageY - this._elPanel.getBoundingClientRect().top,
 				oldFs = this._fontSize,
 				fs = oldFs * ( e.deltaY > 0 ? .9 : 1.1 );
@@ -400,6 +395,6 @@ gsuiGridSamples.prototype = {
 		return this._onMac && e.metaKey;
 	},
 	_onPinchAndZoom( e ) {
-		return ( Math.abs( e.deltaY ) > Math.abs( e.deltaX ) && e.ctrlKey );
+		return e.ctrlKey && Math.abs( e.deltaY ) > Math.abs( e.deltaX );
 	}
 };
