@@ -12,6 +12,7 @@ function gsuiSlider() {
 	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 	root.onwheel = this._wheel.bind( this );
 	root.onmousedown = this._mousedown.bind( this );
+	root.onmouseleave = this._mouseleave.bind( this );
 }
 
 gsuiSlider.prototype = {
@@ -29,6 +30,7 @@ gsuiSlider.prototype = {
 		inp.max = obj.max;
 		inp.step = obj.step;
 		inp.value = obj.value;
+		this._previousval = inp.value;
 		if ( this._circ ) {
 			clazz.remove( "gsui-linear", "gsui-x", "gsui-y" );
 			clazz.add( "gsui-circular" );
@@ -127,6 +129,16 @@ gsuiSlider.prototype = {
 			}
 		}
 	},
+	_onchange() {
+		var val = this._elInput.value;
+
+		if ( this._previousval !== val ) {
+			this.onchange && this.onchange( +val );
+			this._previousval = val;
+		}
+	},
+
+	// events:
 	_wheel( e ) {
 		var d = e.deltaY > 0 ? -1 : 1;
 
@@ -139,7 +151,7 @@ gsuiSlider.prototype = {
 			size = this._circ ? this._svgLineLen :
 				this._axeX ? bcr.width : bcr.height;
 
-		this._prval = this._elInput.value;
+		this._onchange();
 		this._pxval = ( opt.max - opt.min ) / size;
 		this._pxmoved = 0;
 		gsuiSlider._focused = this;
@@ -148,19 +160,20 @@ gsuiSlider.prototype = {
 	_mouseup( e ) {
 		document.exitPointerLock();
 		delete gsuiSlider._focused;
-		if ( this._prval !== this._elInput.value ) {
-			this.onchange && this.onchange( +this._elInput.value );
-		}
+		this._onchange();
 	},
 	_mousemove( e ) {
 		var opt = this._options,
 			mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
 			bound = ( opt.max - opt.min ) / 5,
-			val = +this._prval + ( this._pxmoved + mov ) * this._pxval;
+			val = +this._previousval + ( this._pxmoved + mov ) * this._pxval;
 
 		if ( opt.min - bound < val && val < opt.max + bound ) {
 			this._pxmoved += mov;
 		}
 		this.setValue( val, true );
+	},
+	_mouseleave() {
+		this._onchange();
 	}
 };
