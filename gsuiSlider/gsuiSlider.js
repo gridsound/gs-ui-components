@@ -51,6 +51,9 @@ gsuiSlider.prototype = {
 				this.oninput( +inp.value );
 			}
 		}
+		if ( !bymouse ) {
+			this._previousval = inp.value;
+		}
 	},
 	resized() {
 		var rc = this.rootElement.getBoundingClientRect();
