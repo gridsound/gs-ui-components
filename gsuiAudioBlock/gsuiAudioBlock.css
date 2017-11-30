@@ -21,6 +21,8 @@
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
+	transition: .2s;
+	transition-property: opacity;
 }
 .gsuiAudioBlock .gsuiab-bg {
 	position: absolute;
@@ -99,6 +101,11 @@
 	width: 100%;
 	height: 100%;
 	fill: currentColor;
+}
+
+/* .gsui-mute & */
+.gsui-mute .gsuiAudioBlock {
+	opacity: .5;
 }
 
 /* .gs-row-tiny & */
