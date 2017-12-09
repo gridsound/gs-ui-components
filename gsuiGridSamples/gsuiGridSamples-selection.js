@@ -1,6 +1,7 @@
 "use strict";
 
 /*
+uiTimeLine.beatRound
 _fontSize
 _pxPerBeat
 _contentY
@@ -33,8 +34,8 @@ Object.assign( gsuiGridSamples.prototype, {
 	_selectionCalc( pageX ) {
 		var trkA = this._mdTrack,
 			trkB = this._mmTrack,
-			beatA = this._getMouseBeat( pageX ),
-			beatB = this._mdBeat;
+			beatA = this._mdBeat,
+			beatB = this.uiTimeLine.beatRound( this._getMouseBeat( pageX ) );
 
 		if ( trkA.compareDocumentPosition( trkB ) & 2 ) {
 			trkA = trkB;

@@ -159,7 +159,7 @@ Object.assign( gsuiGridSamples.prototype, {
 	},
 	_bcCropMove( bc, side, e ) {
 		var whenRel, offRel, durRel,
-			beatRel = this.uiTimeLine._round( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
+			beatRel = this.uiTimeLine.beatRound( ( e.pageX - this._cropPageX ) / this._pxPerBeat );
 
 		if ( side === 1 ) {
 			whenRel =
@@ -265,7 +265,7 @@ Object.assign( gsuiGridSamples.prototype, {
 		this._moveTrackRel = 0;
 	},
 	_bcBodyMove( bc, e ) {
-		var beatRel = this.uiTimeLine._round( ( e.pageX - this._movePageX ) / this._pxPerBeat ),
+		var beatRel = this.uiTimeLine.beatRound( ( e.pageX - this._movePageX ) / this._pxPerBeat ),
 			track = this._findTrack( e.pageY ),
 			trackInd = this._rowIndexByElement( track ),
 			trackRel = trackInd - this._moveTrack;

@@ -190,7 +190,7 @@ gsuiGridSamples.prototype = {
 	},
 	_getMouseBeat( pageX ) {
 		this._elGridCntBCR = this._elGridCnt.getBoundingClientRect();
-		return this.uiTimeLine._round( ( pageX - this._elGridCntBCR.left ) / this._pxPerBeat );
+		return ( pageX - this._elGridCntBCR.left ) / this._pxPerBeat;
 	},
 	_updateGrid( beatPxChanged ) {
 		var beatPx = this._pxPerBeat;
@@ -269,7 +269,7 @@ gsuiGridSamples.prototype = {
 	_evmdGrid( e ) {
 		this._mdPageX = e.pageX;
 		this._mdPageY = e.pageY;
-		this._mdBeat = this._getMouseBeat( e.pageX );
+		this._mdBeat = this.uiTimeLine.beatRound( this._getMouseBeat( e.pageX ) );
 		gsuiGridSamples._focused = this;
 		if ( e.shiftKey ) {
 			this._selectionIsStarting = true;
@@ -294,7 +294,7 @@ gsuiGridSamples.prototype = {
 					obj = this._bcUnselectAll(),
 					data = {
 						key: elRow.dataset.key + elRow.dataset.octave,
-						when: this._getMouseBeat( e.pageX ),
+						when: this.uiTimeLine.beatFloor( this._getMouseBeat( e.pageX ) ),
 						offset: 0,
 						duration: this._bcLastDur || 1
 					};
