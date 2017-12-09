@@ -53,6 +53,8 @@ gsuiTimeLine.prototype = {
 		this._stepsPerBeat = Math.min( Math.max( 1, ~~b ), 16 );
 		this._render();
 	},
+	beatRound( bt ) { return this._round( bt, "round" ); },
+	beatFloor( bt ) { return this._round( bt, "floor" ); },
 	loop( a, b, isUserAction ) {
 		var serial, la, lb, loopWas = this._loop;
 
@@ -62,8 +64,8 @@ gsuiTimeLine.prototype = {
 			this._loopA = Math.max( 0, Math.min( a, b ) );
 			this._loopB = Math.max( 0, a, b );
 		}
-		la = this._round( this._loopA );
-		lb = this._round( this._loopB );
+		la = this.beatRound( this._loopA );
+		lb = this.beatRound( this._loopB );
 		this._loop = lb - la > 1 / this._stepsPerBeat / 8;
 		if ( isUserAction ) {
 			if ( this.oninputLoop ) {
@@ -101,11 +103,11 @@ gsuiTimeLine.prototype = {
 		} );
 		return document.getElementById( "gsuiTimeLine" );
 	},
-	_round( bt ) {
+	_round( bt, mathFn ) {
 		if ( this.stepRound ) {
 			var mod = 1 / this._stepsPerBeat * this.stepRound;
 
-			bt = Math.round( bt / mod ) * mod;
+			bt = Math[ mathFn ]( bt / mod ) * mod;
 		}
 		return bt;
 	},
@@ -144,8 +146,8 @@ gsuiTimeLine.prototype = {
 	_mouseup( e ) {
 		var serial,
 			l = this._loop,
-			la = this._round( this._loopA ),
-			lb = this._round( this._loopB );
+			la = this.beatRound( this._loopA ),
+			lb = this.beatRound( this._loopB );
 
 		this._loopA = la;
 		this._loopB = lb;
@@ -173,7 +175,7 @@ gsuiTimeLine.prototype = {
 		}
 	},
 	_mousedownTime( e ) {
-		this.currentTime( this._round( this._offset +
+		this.currentTime( this.beatRound( this._offset +
 			this._layerX( e ) / this._pxPerBeat ), true );
 	},
 	_mousemoveTime( e ) {
@@ -215,8 +217,8 @@ gsuiTimeLine.prototype = {
 		if ( this._loop ) {
 			var px = this._pxPerBeat,
 				off = this._offset,
-				la = this._round( this._loopA ),
-				lb = this._round( this._loopB );
+				la = this.beatRound( this._loopA ),
+				lb = this.beatRound( this._loopB );
 
 			s.left = ( la - off ) * px + "px";
 			s.right = this.width - ( lb - off ) * px + "px";
