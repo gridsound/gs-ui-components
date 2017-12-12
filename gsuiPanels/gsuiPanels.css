@@ -4,6 +4,15 @@
 	--gsuiPanels-extendColor: #888;
 }
 
+.gsuiPanels-cursor {
+	position: fixed;
+	z-index: 2147483647;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
 .gsuiPanels-x,
 .gsuiPanels-y {
 	display: flex;
@@ -45,10 +54,12 @@
 	background-color: var(--gsuiPanels-extendColor);
 }
 .gsuiPanels-x > div > .gsuiPanels-extend {
+	cursor: col-resize;
 	width: var( --gsuiPanels-extendSize );
 	margin-left: calc( var( --gsuiPanels-extendSize ) / -2 );
 }
 .gsuiPanels-y > div > .gsuiPanels-extend {
+	cursor: row-resize;
 	height: var( --gsuiPanels-extendSize );
 	margin-top: calc( var( --gsuiPanels-extendSize ) / -2 );
 }
