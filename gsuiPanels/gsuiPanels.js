@@ -4,6 +4,8 @@ function gsuiPanels( root ) {
 	this.rootElement = root;
 	this.init( root );
 	gsuiPanels.bodyEventsInit && gsuiPanels.bodyEventsInit();
+	this._cursorElem = document.createElement( "div" );
+	this._cursorElem.classList = "gsuiPanels-cursor";
 }
 
 gsuiPanels.bodyEventsInit = function() {
@@ -88,6 +90,7 @@ gsuiPanels.prototype = {
 
 	// events:
 	_onmouseup() {
+		this._cursorElem.remove();
 		this._extend.classList.remove( "gsui-hover" );
 		this.rootElement.classList.remove( "gsuiPanels-noselect" );
 		this._panAfter[ this._panAfter.length - 1 ].style.flex = 1;
@@ -107,6 +110,8 @@ gsuiPanels.prototype = {
 	_onmousedownExtend( dir, ext, panBefore, panAfter, e ) {
 		gsuiPanels._focused = this;
 		ext.classList.add( "gsui-hover" );
+		this._cursorElem.style.cursor = dir === "width" ? "col-resize" : "row-resize";
+		document.body.append( this._cursorElem );
 		this.rootElement.classList.add( "gsuiPanels-noselect" );
 		this._dir = dir;
 		this._extend = ext;
