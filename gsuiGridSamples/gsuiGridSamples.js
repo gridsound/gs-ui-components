@@ -370,26 +370,20 @@ gsuiGridSamples.prototype = {
 		delete gsuiGridSamples._focused;
 	},
 	_evkdRoot( e ) {
-		switch ( e.code ) {
-			case "KeyA":
-				if ( e.altKey ) {
-					this._callOnchange( this._bcSelectAll() );
-				}
-				break;
-			case "KeyD":
-				if ( e.altKey ) {
-					this._callOnchange( this._bcUnselectAll() );
-					return false;
-				}
-				break;
+		var prev,
+			ctrlAlt = e.ctrlKey || e.altKey;
+
+		switch ( e.key ) {
+			case "a": if ( ctrlAlt ) { prev = true; this._callOnchange( this._bcSelectAll() );   } break;
+			case "d": if ( ctrlAlt ) { prev = true; this._callOnchange( this._bcUnselectAll() ); } break;
 			case "Delete":
+				prev = true;
 				this._deletionObj = {};
-				for ( var id in this._bcSelected ) {
-					this._deletionPush( id );
-				}
+				Object.keys( this._bcSelected ).forEach( this._deletionPush, this );
 				this._deletionEnd();
 				break;
 		}
+		prev && e.preventDefault();
 	},
 	_metaKeyOnMac( e ) {
 		return this._onMac && e.metaKey;
