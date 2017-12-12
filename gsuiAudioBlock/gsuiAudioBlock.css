@@ -31,15 +31,20 @@
 	opacity: .8;
 }
 .gsuiAudioBlock .gsuiab-head {
+	display: flex;
 	position: relative;
-	overflow: hidden;
 	z-index: 1;
-	padding: 2px 4px;
+	line-height: 20px;
+	padding: 0 4px;
 	font-size: 12px;
-	font-weight: bold;
+	background-color: rgba( 0, 0, 0, .4 );
+}
+.gsuiAudioBlock .gsuiab-name {
+	flex: 1;
+	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	background-color: rgba( 0, 0, 0, .4 );
+	font-weight: bold;
 }
 .gsuiAudioBlock .gsuiab-name:empty:before {
 	content: "Untitled";
