@@ -7,10 +7,10 @@ function gsuiPanels( root ) {
 }
 
 gsuiPanels.bodyEventsInit = function() {
-	document.body.addEventListener( "mousemove", function( e ) {
+	document.addEventListener( "mousemove", function( e ) {
 		gsuiPanels._focused && gsuiPanels._focused._onmousemove( e );
 	} );
-	document.body.addEventListener( "mouseup", function( e ) {
+	document.addEventListener( "mouseup", function( e ) {
 		gsuiPanels._focused && gsuiPanels._focused._onmouseup( e );
 	} );
 	delete gsuiPanels.bodyEventsInit;
