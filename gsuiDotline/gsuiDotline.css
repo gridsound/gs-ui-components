@@ -1,6 +1,7 @@
 :root {
 	--gsuiDotline-dotSize: 12px;
 	--gsuiDotline-dotSizeHover: calc( var( --gsuiDotline-dotSize ) * 2 );
+	--gsuiDotline-dotHandleSize: 10px;
 }
 
 .gsuiDotline {
@@ -34,7 +35,17 @@
 		width, height,
 		margin-left, margin-top;
 }
-
 .gsuiDotline-dot:hover {
 	--gsuiDotline-dotSize: var( --gsuiDotline-dotSizeHover );
+}
+.gsuiDotline-dot::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: var( --gsuiDotline-dotHandleSize ) solid transparent;
+	margin: calc( var( --gsuiDotline-dotHandleSize ) * -1 );
+	border-radius: 50%;
 }
