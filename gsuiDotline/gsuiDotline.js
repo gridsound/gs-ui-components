@@ -1,12 +1,21 @@
 "use strict";
 
-function gsuiDotline() {
-	var root = document.createElement( "div" );
+window.SVGURL = "http://www.w3.org/2000/svg";
 
+function gsuiDotline() {
+	var root = document.createElement( "div" ),
+		svg = document.createElementNS( SVGURL, "svg" ),
+		polyline = document.createElementNS( SVGURL, "polyline" );
+
+	svg.append( polyline );
+	svg.setAttribute( "preserveAspectRatio", "none" );
+	root.append( svg );
 	root.className = "gsuiDotline";
 	root.oncontextmenu = _ => false;
 	root.onmousedown = this._mousedown.bind( this );
 	this.rootElement = root;
+	this._elSVG = svg;
+	this._elPoly = polyline;
 	this._dots = {};
 	this._dotsId = 0;
 	this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
@@ -17,13 +26,18 @@ function gsuiDotline() {
 		maxX: 150,
 		maxY: 100,
 	} );
-	this._rootBCR = {
-		width: 150,
-		height: 100
-	};
+	this.setResolution( 150, 100 );
 }
 
 gsuiDotline.prototype = {
+	setResolution( w, h ) {
+		this._svgW = w;
+		this._svgH = h;
+		this._elSVG.setAttribute( "viewBox", "0 0 " + w + " " + h );
+	},
+	resize() {
+		return this._rootBCR = this.rootElement.getBoundingClientRect();
+	},
 	options( obj ) {
 		var opt = this._opt;
 
@@ -45,24 +59,38 @@ gsuiDotline.prototype = {
 	getDots() {
 		return this._dots;
 	},
-	resize() {
-		return this._rootBCR = this.rootElement.getBoundingClientRect();
-	},
 
 	// private:
+	_drawPolyline() {
+		var dots = Object.values( this._dots ),
+			w = this._opt.width,
+			h = this._opt.height,
+			svgW = this._svgW,
+			svgH = this._svgH;
+
+		dots.sort( ( a, b ) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0 );
+		this._elPoly.setAttribute(
+			"points",
+			dots.reduce( ( arr, { x, y } ) => {
+				arr.push(
+					x / w * svgW,
+					svgH - y / h * svgH );
+				return arr;
+			}, [] ).join( " " ) );
+	},
 	_createDot( x, y ) {
 		var element = document.createElement( "div" ),
-			dotId = this._dotsId++;
+			id = this._dotsId++;
 
-		this._dots[ dotId ] = { element };
+		this._dots[ id ] = { id, element };
 		element.className = "gsuiDotline-dot";
-		element.dataset.dotsId = dotId;
-		element.onmousedown = this._mousedownDot.bind( this, dotId );
-		element.onmousemove = this._mousemoveDot.bind( this, dotId );
-		element.onmouseup = this._mouseupDot.bind( this, dotId );
-		this._updateDot( dotId, x, y );
+		element.dataset.dotsId = id;
+		element.onmousedown = this._mousedownDot.bind( this, id );
+		element.onmousemove = this._mousemoveDot.bind( this, id );
+		element.onmouseup = this._mouseupDot.bind( this, id );
+		this._updateDot( id, x, y );
 		this.rootElement.append( element );
-		return dotId;
+		return id;
 	},
 	_updateDot( dotId, x, y ) {
 		var bcr = this._rootBCR,
@@ -74,10 +102,12 @@ gsuiDotline.prototype = {
 		dot.y = Math.max( 0, Math.min( y, opt.height ) );
 		dotStyle.left = dot.x / opt.width * bcr.width + "px";
 		dotStyle.top = bcr.height - ( dot.y / opt.height * bcr.height ) + "px";
+		this._drawPolyline();
 	},
 	_deleteDot( dotId ) {
 		this._dots[ dotId ].element.remove();
 		delete this._dots[ dotId ];
+		this._drawPolyline();
 	},
 	_selectDot( dotId, b ) {
 		this._locked = b;
