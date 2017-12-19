@@ -68,7 +68,7 @@ gsuiDotline.prototype = {
 			svgW = this._svgW,
 			svgH = this._svgH;
 
-		dots.sort( ( a, b ) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0 );
+		dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
 		this._elPoly.setAttribute(
 			"points",
 			dots.reduce( ( arr, { x, y } ) => {
