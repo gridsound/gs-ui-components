@@ -1,13 +1,22 @@
 "use strict";
 
 function gsuiDotline() {
-	this.rootElement = document.createElement( "div" );
-	this.rootElement.className = "gsuiDotline";
-	this.rootElement.oncontextmenu = _ => false;
-	this.rootElement.onmousedown = this._mousedown.bind( this );
+	var root = document.createElement( "div" );
+
+	root.className = "gsuiDotline";
+	root.oncontextmenu = _ => false;
+	root.onmousedown = this._mousedown.bind( this );
+	this.rootElement = root;
 	this._dots = {};
 	this._dotsId = 0;
-	this._nlDots = this.rootElement.getElementsByClassName( "gsuiDotline-dot" );
+	this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
+	this._opt = {};
+	this.options( {
+		minX: 0,
+		minY: 0,
+		maxX: 150,
+		maxY: 100,
+	} );
 	this._rootBCR = {
 		width: 150,
 		height: 100
@@ -15,9 +24,12 @@ function gsuiDotline() {
 }
 
 gsuiDotline.prototype = {
-	dimensions( w, h ) {
-		this._width = w;
-		this._height = h;
+	options( obj ) {
+		var opt = this._opt;
+
+		Object.assign( opt, obj );
+		opt.width = opt.maxX - opt.minX;
+		opt.height = opt.maxY - opt.minY;
 	},
 	setDots( arr ) {
 		var dots = this._nlDots;
@@ -54,13 +66,14 @@ gsuiDotline.prototype = {
 	},
 	_updateDot( dotId, x, y ) {
 		var bcr = this._rootBCR,
+			opt = this._opt,
 			dot = this._dots[ dotId ],
 			dotStyle = dot.element.style;
 
-		dot.x = Math.max( 0, Math.min( x, this._width ) );
-		dot.y = Math.max( 0, Math.min( y, this._height ) );
-		dotStyle.left = dot.x / this._width * bcr.width + "px";
-		dotStyle.top = bcr.height - ( dot.y / this._height * bcr.height ) + "px";
+		dot.x = Math.max( 0, Math.min( x, opt.width ) );
+		dot.y = Math.max( 0, Math.min( y, opt.height ) );
+		dotStyle.left = dot.x / opt.width * bcr.width + "px";
+		dotStyle.top = bcr.height - ( dot.y / opt.height * bcr.height ) + "px";
 	},
 	_deleteDot( dotId ) {
 		this._dots[ dotId ].element.remove();
@@ -77,13 +90,13 @@ gsuiDotline.prototype = {
 	// events:
 	_mousedown( e ) {
 		if ( e.button === 0 ) {
-			var h = this._height,
+			var opt = this._opt,
 				bcr = this.resize();
 
 			this._selectDot(
 				this._createDot(
-					( e.pageX - bcr.left ) / bcr.width * this._width,
-					h - ( e.pageY - bcr.top ) / bcr.height * h
+					( e.pageX - bcr.left ) / bcr.width * opt.width,
+					opt.height - ( e.pageY - bcr.top ) / bcr.height * opt.height
 				), true );
 		}
 	},
@@ -99,11 +112,12 @@ gsuiDotline.prototype = {
 	_mousemoveDot( dotId, e ) {
 		if ( this._locked ) {
 			var bcr = this._rootBCR,
+				opt = this._opt,
 				dot = this._dots[ dotId ];
 
 			this._updateDot( dotId,
-				dot.x + this._width / bcr.width * e.movementX,
-				dot.y - this._height / bcr.height * e.movementY );
+				dot.x + opt.width / bcr.width * e.movementX,
+				dot.y - opt.height / bcr.height * e.movementY );
 		}
 	},
 	_mouseupDot( dotId ) {
