@@ -1,0 +1,28 @@
+:root {
+	--gsuiDotline-dotSize: 12px;
+	--gsuiDotline-dotSizeHover: calc( var( --gsuiDotline-dotSize ) * 2 );
+}
+
+.gsuiDotline {
+	position: relative;
+}
+
+.gsuiDotline-dot {
+	position: absolute;
+	box-sizing: border-box;
+	width: var( --gsuiDotline-dotSize );
+	height: var( --gsuiDotline-dotSize );
+	margin:
+		calc( var( --gsuiDotline-dotSize ) / -2 ) 0 0
+		calc( var( --gsuiDotline-dotSize ) / -2 );
+	border-radius: 50%;
+	border: 2px solid;
+	transition: .2s;
+	transition-property:
+		width, height,
+		margin-left, margin-top;
+}
+
+.gsuiDotline-dot:hover {
+	--gsuiDotline-dotSize: var( --gsuiDotline-dotSizeHover );
+}
