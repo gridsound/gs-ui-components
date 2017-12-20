@@ -27,6 +27,7 @@ function gsuiDotline() {
 		maxY: 100,
 	} );
 	this.setResolution( 150, 100 );
+	this.lineToEdges( 0 );
 }
 
 gsuiDotline.prototype = {
@@ -44,6 +45,10 @@ gsuiDotline.prototype = {
 		Object.assign( opt, obj );
 		opt.width = opt.maxX - opt.minX;
 		opt.height = opt.maxY - opt.minY;
+	},
+	lineToEdges( val ) {
+		this._lineToEdges = val;
+		this._drawPolyline();
 	},
 	setDots( arr ) {
 		var dots = this._nlDots;
@@ -63,20 +68,33 @@ gsuiDotline.prototype = {
 	// private:
 	_drawPolyline() {
 		var dots = Object.values( this._dots ),
-			w = this._opt.width,
-			h = this._opt.height,
 			svgW = this._svgW,
-			svgH = this._svgH;
+			svgH = this._svgH,
+			arr = [],
+			lineEdgeVal = this._lineToEdges,
+			lineToEdges = Number.isFinite( lineEdgeVal ),
+			{
+				width,
+				height,
+				minX,
+				minY
+			} = this._opt;
 
 		dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
-		this._elPoly.setAttribute(
-			"points",
-			dots.reduce( ( arr, { x, y } ) => {
-				arr.push(
-					x / w * svgW,
-					svgH - y / h * svgH );
-				return arr;
-			}, [] ).join( " " ) );
+		if ( lineToEdges ) {
+			lineEdgeVal = svgH - ( lineEdgeVal - minY ) / height * svgH;
+			arr.push( 0, lineEdgeVal );
+		}
+		dots.reduce( ( arr, { x, y } ) => {
+			arr.push(
+				( x - minX ) / width * svgW,
+				svgH - ( y - minY ) / height * svgH );
+			return arr;
+		}, arr );
+		if ( lineToEdges ) {
+			arr.push( svgW, lineEdgeVal );
+		}
+		this._elPoly.setAttribute( "points", arr.join( " " ) );
 	},
 	_createDot( x, y ) {
 		var element = document.createElement( "div" ),
@@ -98,10 +116,10 @@ gsuiDotline.prototype = {
 			dot = this._dots[ dotId ],
 			dotStyle = dot.element.style;
 
-		dot.x = Math.max( 0, Math.min( x, opt.width ) );
-		dot.y = Math.max( 0, Math.min( y, opt.height ) );
-		dotStyle.left = dot.x / opt.width * bcr.width + "px";
-		dotStyle.top = bcr.height - ( dot.y / opt.height * bcr.height ) + "px";
+		dot.x = Math.max( opt.minX, Math.min( x, opt.maxX ) );
+		dot.y = Math.max( opt.minY, Math.min( y, opt.maxY ) );
+		dotStyle.left = ( dot.x - opt.minX ) / opt.width * bcr.width + "px";
+		dotStyle.top = bcr.height - ( ( dot.y - opt.minY ) / opt.height * bcr.height ) + "px";
 		this._drawPolyline();
 	},
 	_deleteDot( dotId ) {
