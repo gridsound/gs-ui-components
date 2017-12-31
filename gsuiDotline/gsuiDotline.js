@@ -143,8 +143,8 @@ gsuiDotline.prototype = {
 
 			this._selectDot(
 				this._createDot(
-					( e.pageX - bcr.left ) / bcr.width * opt.width,
-					opt.height - ( e.pageY - bcr.top ) / bcr.height * opt.height
+					( e.pageX - bcr.left ) / bcr.width * opt.width + opt.minX,
+					opt.height - ( e.pageY - bcr.top ) / bcr.height * opt.height + opt.minY
 				), true );
 		}
 	},
