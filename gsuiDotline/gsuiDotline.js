@@ -16,7 +16,7 @@ function gsuiDotline() {
 	this.rootElement = root;
 	this._elSVG = svg;
 	this._elPoly = polyline;
-	this._dots = {};
+	this._dots = [];
 	this._dotsId = 0;
 	this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
 	this._opt = {};
@@ -67,7 +67,7 @@ gsuiDotline.prototype = {
 
 	// private:
 	_drawPolyline() {
-		var dots = Object.values( this._dots ),
+		var dots = this._dots,
 			svgW = this._svgW,
 			svgH = this._svgH,
 			arr = [],
@@ -85,12 +85,11 @@ gsuiDotline.prototype = {
 			lineEdgeVal = svgH - ( lineEdgeVal - minY ) / height * svgH;
 			arr.push( 0, lineEdgeVal );
 		}
-		dots.reduce( ( arr, { x, y } ) => {
+		dots.forEach( ( { x, y } ) => {
 			arr.push(
 				( x - minX ) / width * svgW,
 				svgH - ( y - minY ) / height * svgH );
-			return arr;
-		}, arr );
+		} );
 		if ( lineToEdges ) {
 			arr.push( svgW, lineEdgeVal );
 		}
@@ -98,9 +97,11 @@ gsuiDotline.prototype = {
 	},
 	_createDot( x, y ) {
 		var element = document.createElement( "div" ),
-			id = this._dotsId++;
+			id = "i" + ( this._dotsId++ ),
+			dot = { id, element };
 
-		this._dots[ id ] = { id, element };
+		this._dots.push( dot );
+		this._dots[ id ] = dot;
 		element.className = "gsuiDotline-dot";
 		element.dataset.dotsId = id;
 		element.onmousedown = this._mousedownDot.bind( this, id );
@@ -123,8 +124,11 @@ gsuiDotline.prototype = {
 		this._drawPolyline();
 	},
 	_deleteDot( dotId ) {
-		this._dots[ dotId ].element.remove();
-		delete this._dots[ dotId ];
+		var dots = this._dots;
+
+		dots[ dotId ].element.remove();
+		dots.splice( dots.findIndex( dot => dot.id === dotId ), 1 );
+		delete dots[ dotId ];
 		this._drawPolyline();
 	},
 	_selectDot( dotId, b ) {
