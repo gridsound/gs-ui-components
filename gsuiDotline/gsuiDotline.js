@@ -141,18 +141,20 @@ gsuiDotline.prototype = {
 			this._dots[ dotId ].element.setCapture( true );
 		}
 	},
-	_updateValue( isInput ) {
+	_updateValue( isInputOrBoth ) {
 		var val = this._computeValue();
 
 		if (
-			( isInput && val !== this._prevValueInput ) ||
-			( !isInput && val !== this._prevValue )
+			isInputOrBoth === 2 ||
+			( isInputOrBoth && val !== this._prevValueInput ) ||
+			( !isInputOrBoth && val !== this._prevValue )
 		) {
 			this.value = val;
-			if ( isInput ) {
+			if ( isInputOrBoth ) {
 				this._prevValueInput = val;
 				this.oninput && this.oninput( val );
-			} else {
+			}
+			if ( !isInputOrBoth || isInputOrBoth === 2 ) {
 				this._prevValue = val;
 				this.onchange && this.onchange( val );
 			}
@@ -170,13 +172,14 @@ gsuiDotline.prototype = {
 					( e.pageX - bcr.left ) / bcr.width * opt.width + opt.minX,
 					opt.height - ( e.pageY - bcr.top ) / bcr.height * opt.height + opt.minY
 				), true );
-			this._updateValue( true );
+			this._updateValue( 1 );
 		}
 	},
 	_mousedownDot( dotId, e ) {
 		e.stopPropagation();
 		if ( e.button === 2 ) {
 			this._deleteDot( dotId );
+			this._updateValue( 2 );
 		} else if ( e.button === 0 ) {
 			this.resize();
 			this._prevValueInput =
@@ -193,7 +196,7 @@ gsuiDotline.prototype = {
 			this._updateDot( dotId,
 				dot.x + opt.width / bcr.width * e.movementX,
 				dot.y - opt.height / bcr.height * e.movementY );
-			this._updateValue( true );
+			this._updateValue( 1 );
 		}
 	},
 	_mouseupDot( dotId ) {
