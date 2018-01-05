@@ -28,6 +28,7 @@ function gsuiDotline() {
 	} );
 	this.setResolution( 150, 100 );
 	this.lineToEdges( 0 );
+	this.dotsMoveMode( "free" );
 }
 
 gsuiDotline.prototype = {
@@ -46,6 +47,9 @@ gsuiDotline.prototype = {
 		opt.width = opt.maxX - opt.minX;
 		opt.height = opt.maxY - opt.minY;
 	},
+	dotsMoveMode( mode ) {
+		this._dotsMoveMode = mode;
+	},
 	lineToEdges( val ) {
 		this._lineToEdges = val;
 		this._drawPolyline();
@@ -59,6 +63,8 @@ gsuiDotline.prototype = {
 			} else {
 				this._createDot( x, y );
 			}
+			this._sortDots();
+			this._drawPolyline();
 		} );
 	},
 	getDots() {
@@ -66,6 +72,9 @@ gsuiDotline.prototype = {
 	},
 
 	// private:
+	_sortDots() {
+		this._dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
+	},
 	_computeValue() {
 		return this._dots.map( d => d.x + " " + d.y ).join( "," );
 	},
@@ -83,7 +92,6 @@ gsuiDotline.prototype = {
 				minY
 			} = this._opt;
 
-		dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
 		if ( lineToEdges ) {
 			lineEdgeVal = svgH - ( lineEdgeVal - minY ) / height * svgH;
 			arr.push( 0, lineEdgeVal );
@@ -124,7 +132,6 @@ gsuiDotline.prototype = {
 		dot.y = Math.max( opt.minY, Math.min( y, opt.maxY ) );
 		dotStyle.left = ( dot.x - opt.minX ) / opt.width * bcr.width + "px";
 		dotStyle.top = bcr.height - ( ( dot.y - opt.minY ) / opt.height * bcr.height ) + "px";
-		this._drawPolyline();
 	},
 	_deleteDot( dotId ) {
 		var dots = this._dots;
@@ -135,10 +142,14 @@ gsuiDotline.prototype = {
 		this._drawPolyline();
 	},
 	_selectDot( dotId, b ) {
+		var dots = this._dots,
+			dot = dots[ dotId ];
+
 		this._locked = b;
-		this._dots[ dotId ].element.classList.toggle( "gsuiDotline-dotSelected", b );
+		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
+		this._dotInd = dots.findIndex( d => d.id === dotId );
 		if ( b ) {
-			this._dots[ dotId ].element.setCapture( true );
+			dot.element.setCapture( true );
 		}
 	},
 	_updateValue( isInputOrBoth ) {
@@ -165,13 +176,16 @@ gsuiDotline.prototype = {
 	_mousedown( e ) {
 		if ( e.button === 0 ) {
 			var opt = this._opt,
-				bcr = this.resize();
-
-			this._selectDot(
-				this._createDot(
+				bcr = this.resize(),
+				h = opt.height,
+				dotId = this._createDot(
 					( e.pageX - bcr.left ) / bcr.width * opt.width + opt.minX,
-					opt.height - ( e.pageY - bcr.top ) / bcr.height * opt.height + opt.minY
-				), true );
+					h - ( e.pageY - bcr.top ) / bcr.height * h + opt.minY
+				);
+
+			this._sortDots();
+			this._drawPolyline();
+			this._selectDot( dotId, true );
 			this._updateValue( 1 );
 		}
 	},
@@ -189,13 +203,28 @@ gsuiDotline.prototype = {
 	},
 	_mousemoveDot( dotId, e ) {
 		if ( this._locked ) {
-			var bcr = this._rootBCR,
+			var dot,
 				opt = this._opt,
-				dot = this._dots[ dotId ];
+				dots = this._dots,
+				dotInd = this._dotInd,
+				bcr = this._rootBCR,
+				xInc = opt.width / bcr.width * e.movementX,
+				yInc = opt.height / bcr.height * e.movementY;
 
-			this._updateDot( dotId,
-				dot.x + opt.width / bcr.width * e.movementX,
-				dot.y - opt.height / bcr.height * e.movementY );
+			switch ( this._dotsMoveMode ) {
+				case "free":
+					dot = dots[ dotId ];
+					this._updateDot( dotId, dot.x + xInc, dot.y - yInc );
+					this._sortDots();
+					break;
+				case "linked":
+					while ( dot = dots[ dotInd++ ] ) {
+						this._updateDot( dot.id, dot.x + xInc, dot.y - yInc );
+					}
+					this._sortDots();
+					break;
+			}
+			this._drawPolyline();
 			this._updateValue( 1 );
 		}
 	},
