@@ -201,37 +201,51 @@ gsuiDotline.prototype = {
 			this._selectDot( dotId, true );
 		}
 	},
-	_mousemoveDot( dotId, e ) {
-		if ( this._locked ) {
-			var dot,
-				opt = this._opt,
-				dots = this._dots,
-				dotInd = this._dotInd,
-				bcr = this._rootBCR,
-				xInc = opt.width / bcr.width * e.movementX,
-				yInc = opt.height / bcr.height * e.movementY;
-
-			switch ( this._dotsMoveMode ) {
-				case "free":
-					dot = dots[ dotId ];
-					this._updateDot( dotId, dot.x + xInc, dot.y - yInc );
-					this._sortDots();
-					break;
-				case "linked":
-					while ( dot = dots[ dotInd++ ] ) {
-						this._updateDot( dot.id, dot.x + xInc, dot.y - yInc );
-					}
-					this._sortDots();
-					break;
-			}
-			this._drawPolyline();
-			this._updateValue( 1 );
-		}
-	},
 	_mouseupDot( dotId ) {
 		if ( this._locked ) {
 			this._selectDot( dotId, false );
 			this._updateValue();
+		}
+	},
+	_mousemoveDot( dotId, e ) {
+		if ( this._locked ) {
+			var dMaxY = -Infinity,
+				dMinY = Infinity,
+				dots = this._dots,
+				dot = dots[ dotId ],
+				dotInd = this._dotInd,
+				bcr = this._rootBCR,
+				opt = this._opt,
+				incX = opt.width / bcr.width * e.movementX,
+				incY = opt.height / bcr.height * -e.movementY;
+
+			switch ( this._dotsMoveMode ) {
+				case "free":
+					this._updateDot( dotId, dot.x + incX, dot.y + incY );
+					this._sortDots();
+					break;
+				case "linked":
+					dots.forEach( d => {
+						dMaxY = Math.max( d.y, dMaxY );
+						dMinY = Math.min( d.y, dMinY );
+					} );
+					if ( incY ) {
+						incY = incY < 0
+							? Math.max( incY, opt.minY - dMinY )
+							: Math.min( incY, opt.maxY - dMaxY );
+					}
+					if ( incX ) {
+						incX = incX < 0
+							? Math.max( incX, ( dotInd ? dots[ dotInd - 1 ].x : opt.minX ) - dot.x )
+							: Math.min( incX, opt.maxX - dots[ dots.length - 1 ].x );
+					}
+					while ( dot = dots[ dotInd++ ] ) {
+						this._updateDot( dot.id, dot.x + incX, dot.y + incY );
+					}
+					break;
+			}
+			this._drawPolyline();
+			this._updateValue( 1 );
 		}
 	}
 };
