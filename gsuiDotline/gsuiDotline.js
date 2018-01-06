@@ -7,6 +7,7 @@ function gsuiDotline() {
 		svg = document.createElementNS( SVGURL, "svg" ),
 		polyline = document.createElementNS( SVGURL, "polyline" );
 
+	this._init();
 	svg.append( polyline );
 	svg.setAttribute( "preserveAspectRatio", "none" );
 	root.append( svg );
@@ -73,6 +74,17 @@ gsuiDotline.prototype = {
 	},
 
 	// private:
+	_init() {
+		if ( !gsuiDotline._ready ) {
+			gsuiDotline._ready = true;
+			document.body.addEventListener( "mousemove", e => {
+				gsuiDotline.focused && gsuiDotline.focused._mousemoveDot( e );
+			} );
+			document.body.addEventListener( "mouseup", _ => {
+				gsuiDotline.focused && gsuiDotline.focused._mouseupDot();
+			} );
+		}
+	},
 	_sortDots() {
 		this._dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
 	},
@@ -117,8 +129,6 @@ gsuiDotline.prototype = {
 		element.className = "gsuiDotline-dot";
 		element.dataset.dotsId = id;
 		element.onmousedown = this._mousedownDot.bind( this, id );
-		element.onmousemove = this._mousemoveDot.bind( this, id );
-		element.onmouseup = this._mouseupDot.bind( this, id );
 		this._updateDot( id, x, y );
 		this.rootElement.append( element );
 		return id;
@@ -146,12 +156,15 @@ gsuiDotline.prototype = {
 		var dots = this._dots,
 			dot = dots[ dotId ];
 
-		this._locked = b;
-		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
-		this._dotInd = dots.findIndex( d => d.id === dotId );
 		if ( b ) {
-			dot.element.setCapture( true );
+			gsuiDotline.focused = this;
+			this._activeDotId = dotId;
+		} else {
+			delete gsuiDotline.focused;
 		}
+		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
+		this._locked = b;
+		this._dotInd = dots.findIndex( d => d.id === dotId );
 	},
 	_updateValue( isInputOrBoth ) {
 		var val = this._computeValue();
@@ -202,19 +215,20 @@ gsuiDotline.prototype = {
 			this._selectDot( dotId, true );
 		}
 	},
-	_mouseupDot( dotId ) {
+	_mouseupDot() {
 		if ( this._locked ) {
-			this._selectDot( dotId, false );
+			this._selectDot( this._activeDotId, false );
 			this._updateValue();
 		}
 	},
-	_mousemoveDot( dotId, e ) {
+	_mousemoveDot( e ) {
 		if ( this._locked ) {
 			var dMaxY = -Infinity,
 				dMinY = Infinity,
 				dots = this._dots,
-				dot = dots[ dotId ],
+				dotId = this._activeDotId,
 				dotInd = this._dotInd,
+				dot = dots[ dotId ],
 				bcr = this._rootBCR,
 				opt = this._opt,
 				incX = opt.width / bcr.width * e.movementX,
