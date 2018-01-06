@@ -35,7 +35,8 @@
 		width, height,
 		margin-left, margin-top;
 }
-.gsuiDotline-dot:hover {
+.gsuiDotline-dot:hover,
+.gsuiDotline-dotSelected {
 	--gsuiDotline-dotSize: var( --gsuiDotline-dotSizeHover );
 }
 .gsuiDotline-dot::before {
