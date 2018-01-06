@@ -26,19 +26,17 @@ function gsuiDotline() {
 		maxX: 150,
 		maxY: 100,
 	} );
-	this.setResolution( 150, 100 );
 	this.lineToEdges( 0 );
 	this.dotsMoveMode( "free" );
 }
 
 gsuiDotline.prototype = {
-	setResolution( w, h ) {
-		this._svgW = w;
-		this._svgH = h;
-		this._elSVG.setAttribute( "viewBox", "0 0 " + w + " " + h );
-	},
 	resize() {
-		return this._rootBCR = this.rootElement.getBoundingClientRect();
+		var bcr = this.getBCR();
+
+		this._elSVG.setAttribute( "viewBox", "0 0 " +
+			( this._svgW = bcr.width ) + " " +
+			( this._svgH = bcr.height ) );
 	},
 	options( obj ) {
 		var opt = this._opt;
@@ -69,6 +67,9 @@ gsuiDotline.prototype = {
 	},
 	getDots() {
 		return this._dots;
+	},
+	getBCR() {
+		return this._rootBCR = this.rootElement.getBoundingClientRect();
 	},
 
 	// private:
@@ -176,7 +177,7 @@ gsuiDotline.prototype = {
 	_mousedown( e ) {
 		if ( e.button === 0 ) {
 			var opt = this._opt,
-				bcr = this.resize(),
+				bcr = this.getBCR(),
 				h = opt.height,
 				dotId = this._createDot(
 					( e.pageX - bcr.left ) / bcr.width * opt.width + opt.minX,
@@ -195,7 +196,7 @@ gsuiDotline.prototype = {
 			this._deleteDot( dotId );
 			this._updateValue( 2 );
 		} else if ( e.button === 0 ) {
-			this.resize();
+			this.getBCR();
 			this._prevValueInput =
 			this._prevValue = this.value;
 			this._selectDot( dotId, true );
