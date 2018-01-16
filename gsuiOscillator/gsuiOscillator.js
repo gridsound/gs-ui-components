@@ -19,6 +19,7 @@ function gsuiOscillator() {
 	waves[ 1 ].setResolution( 200, 40 );
 	root.querySelector( ".gsuiOscillator-typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
 	root.querySelector( ".gsuiOscillator-typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
+	root.querySelector( ".gsuiOscillator-remove" ).onclick = _ => this.onremove && this.onremove();
 	this._elSelect = root.querySelector( "select" );
 	this._elSelect.onchange = this._onchangeSelect.bind( this );
 	this._sliders = Array.from( root.querySelectorAll(
@@ -78,6 +79,7 @@ gsuiOscillator.prototype = {
 			this.store.gain = this._sliderSetValue( "gain", obj.gain );
 		}
 		if ( "pan" in obj ) {
+			waveDraw = true;
 			this._pan0 = obj.pan < 0 ? 1 : ( 1 - obj.pan );
 			this._pan1 = obj.pan > 0 ? 1 : ( 1 + obj.pan );
 			this.store.pan = this._sliderSetValue( "pan", obj.pan );
