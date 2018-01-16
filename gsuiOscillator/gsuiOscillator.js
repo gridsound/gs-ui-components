@@ -96,8 +96,8 @@ gsuiOscillator.prototype = {
 			wav0 = wav[ 0 ],
 			wav1 = wav[ 1 ];
 
-		wav0.amplitude = this._gain * this._pan0;
-		wav1.amplitude = this._gain * this._pan1;
+		wav0.amplitude = Math.min( this._gain * this._pan0, .95 );
+		wav1.amplitude = Math.min( this._gain * this._pan1, .95 );
 		wav0.type =
 		wav1.type = this._elSelect.value;
 		wav0.draw();
