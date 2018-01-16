@@ -12,6 +12,8 @@ function gsuiSlider() {
 	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 	root.onwheel = this._wheel.bind( this );
 	root.onmousedown = this._mousedown.bind( this );
+	root.onmousemove = this._mousemove.bind( this );
+	root.onmouseup = this._mouseup.bind( this );
 	root.onmouseleave = this._mouseleave.bind( this );
 }
 
@@ -92,18 +94,9 @@ gsuiSlider.prototype = {
 	_clone() {
 		var div = document.createElement( "div" );
 
-		gsuiSlider.template = gsuiSlider.template || this._init();
+		gsuiSlider.template = gsuiSlider.template || document.getElementById( "gsuiSlider" );
 		div.appendChild( document.importNode( gsuiSlider.template.content, true ) );
 		return div.removeChild( div.querySelector( "*" ) );
-	},
-	_init() {
-		document.body.addEventListener( "mousemove", function( e ) {
-			gsuiSlider._focused && gsuiSlider._focused._mousemove( e );
-		} );
-		document.body.addEventListener( "mouseup", function( e ) {
-			gsuiSlider._focused && gsuiSlider._focused._mouseup( e );
-		} );
-		return document.getElementById( "gsuiSlider" );
 	},
 	_getInputVal() {
 		var val = this._elInput.value;
@@ -162,24 +155,28 @@ gsuiSlider.prototype = {
 		this._onchange();
 		this._pxval = ( opt.max - opt.min ) / size;
 		this._pxmoved = 0;
-		gsuiSlider._focused = this;
+		this._locked = true;
 		this.rootElement.requestPointerLock();
 	},
 	_mouseup( e ) {
-		document.exitPointerLock();
-		delete gsuiSlider._focused;
-		this._onchange();
+		if ( this._locked ) {
+			document.exitPointerLock();
+			delete this._locked;
+			this._onchange();
+		}
 	},
 	_mousemove( e ) {
-		var opt = this._options,
-			mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
-			bound = ( opt.max - opt.min ) / 5,
-			val = +this._previousval + ( this._pxmoved + mov ) * this._pxval;
+		if ( this._locked ) {
+			var opt = this._options,
+				mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
+				bound = ( opt.max - opt.min ) / 5,
+				val = +this._previousval + ( this._pxmoved + mov ) * this._pxval;
 
-		if ( opt.min - bound < val && val < opt.max + bound ) {
-			this._pxmoved += mov;
+			if ( opt.min - bound < val && val < opt.max + bound ) {
+				this._pxmoved += mov;
+			}
+			this.setValue( val, true );
 		}
-		this.setValue( val, true );
 	},
 	_mouseleave() {
 		this._onchange();
