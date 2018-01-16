@@ -30,7 +30,7 @@ gsuiSlider.prototype = {
 		inp.max = obj.max;
 		inp.step = obj.step;
 		inp.value = obj.value;
-		this._previousval = inp.value;
+		this._previousval = this._getInputVal();
 		if ( this._circ ) {
 			clazz.remove( "gsui-linear", "gsui-x", "gsui-y" );
 			clazz.add( "gsui-circular" );
@@ -41,18 +41,18 @@ gsuiSlider.prototype = {
 		this._updateVal();
 	},
 	setValue( val, bymouse ) {
-		var inp = this._elInput,
-			prval = inp.value;
+		var prval = this._getInputVal();
 
-		inp.value = val;
-		if ( inp.value !== prval ) {
+		this._elInput.value = val;
+		val = this._getInputVal();
+		if ( val !== prval ) {
 			this._updateVal();
 			if ( bymouse && this.oninput ) {
-				this.oninput( +inp.value );
+				this.oninput( +val );
 			}
 		}
 		if ( !bymouse ) {
-			this._previousval = inp.value;
+			this._previousval = val;
 		}
 	},
 	resized() {
@@ -105,8 +105,13 @@ gsuiSlider.prototype = {
 		} );
 		return document.getElementById( "gsuiSlider" );
 	},
+	_getInputVal() {
+		var val = this._elInput.value;
+
+		return Math.abs( +val ) < .000001 ? "0" : val;
+	},
 	_updateVal() {
-		this.value = +this._elInput.value;
+		this.value = +this._getInputVal();
 		if ( this.rootElement.parentNode ) {
 			var line,
 				opt = this._options,
@@ -133,7 +138,7 @@ gsuiSlider.prototype = {
 		}
 	},
 	_onchange() {
-		var val = this._elInput.value;
+		var val = this._getInputVal();
 
 		if ( this._previousval !== val ) {
 			this.onchange && this.onchange( +val );
@@ -145,7 +150,7 @@ gsuiSlider.prototype = {
 	_wheel( e ) {
 		var d = e.deltaY > 0 ? -1 : 1;
 
-		this.setValue( +this._elInput.value + this._options.scrollStep * d, true );
+		this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
 		return false;
 	},
 	_mousedown( e ) {
