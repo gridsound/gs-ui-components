@@ -64,7 +64,7 @@
 	position: relative;
 	flex: 1;
 	border-radius: 2px;
-	background-color: rgba( 0, 0, 0, .3 );
+	background-color: rgba( 0, 0, 0, .2 );
 }
 .gsuiOscillator-type .gsuiWave {
 	position: absolute;
