@@ -99,7 +99,7 @@ gsuiOscillator.prototype = {
 		wav0.amplitude = this._gain * this._pan0;
 		wav1.amplitude = this._gain * this._pan1;
 		wav0.type =
-		wav1.type = this.store.type;
+		wav1.type = this._elSelect.value;
 		wav0.draw();
 		wav1.draw();
 	},
@@ -114,7 +114,7 @@ gsuiOscillator.prototype = {
 	// events:
 	_onclickPrevNext( dir ) {
 		var sel = this._elSelect,
-			opt = sel.querySelector( `option[value="${ this.store.type }"]` );
+			opt = sel.querySelector( `option[value="${ sel.value }"]` );
 
 		opt = dir < 0
 			? opt.previousElementSibling
@@ -127,12 +127,14 @@ gsuiOscillator.prototype = {
 	_onchangeSelect() {
 		var val = this._elSelect.value;
 
-		this.store.type = val;
 		this._updateWaves();
 		this.oninput && this.oninput( "type", val );
 		clearTimeout( this._timeidType );
 		this._timeidType = setTimeout( _ => {
-			this.onchange && this.onchange( { type: val } );
+			if ( this.store.type !== val ) {
+				this.onchange && this.onchange( { type: val } );
+			}
+			this.store.type = val;
 		}, 700 );
 	},
 	_oninputSlider( attr, val ) {
