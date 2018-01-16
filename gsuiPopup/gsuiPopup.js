@@ -91,7 +91,13 @@ window.gsuiPopup = {
 			if ( type === "prompt" ) {
 				that.elText.select();
 			} else {
-				that.elOk.focus();
+				var inp;
+
+				if ( type === "custom" ) {
+					inp = that.elCnt.querySelector( "input" );
+				}
+				inp = inp || that.elOk;
+				inp.focus();
 			}
 		}, 250 );
 		return new Promise( function( resolve ) {
