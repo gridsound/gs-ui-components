@@ -1,7 +1,7 @@
 "use strict";
 
 function gsuiSlider() {
-	var root = this._clone();
+	var root = gsuiSlider.template.cloneNode( true );
 
 	this.rootElement = root;
 	this._elInput = root.querySelector( "input" );
@@ -16,6 +16,10 @@ function gsuiSlider() {
 	root.onmouseup = this._mouseup.bind( this );
 	root.onmouseleave = this._mouseleave.bind( this );
 }
+
+gsuiSlider.template = document.querySelector( "#gsuiSlider-template" );
+gsuiSlider.template.remove();
+gsuiSlider.template.removeAttribute( "id" );
 
 gsuiSlider.prototype = {
 	options( obj ) {
@@ -91,13 +95,6 @@ gsuiSlider.prototype = {
 	},
 
 	// private:
-	_clone() {
-		var div = document.createElement( "div" );
-
-		gsuiSlider.template = gsuiSlider.template || document.getElementById( "gsuiSlider" );
-		div.appendChild( document.importNode( gsuiSlider.template.content, true ) );
-		return div.removeChild( div.querySelector( "*" ) );
-	},
 	_getInputVal() {
 		var val = this._elInput.value;
 
