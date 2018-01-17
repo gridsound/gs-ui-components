@@ -131,9 +131,9 @@ gsuiOscillator.prototype = {
 		clearTimeout( this._timeidType );
 		this._timeidType = setTimeout( _ => {
 			if ( this.store.type !== val ) {
+				this.store.type = val;
 				this.onchange && this.onchange( { type: val } );
 			}
-			this.store.type = val;
 		}, 700 );
 	},
 	_oninputSlider( attr, val ) {
