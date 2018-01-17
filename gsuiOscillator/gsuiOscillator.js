@@ -57,13 +57,12 @@ gsuiOscillator.prototype = {
 	remove() {
 		this.rootElement.remove();
 	},
-	attach( attachMode, elDist ) {
+	attached() {
 		var sliders = this._sliders;
 
-		elDist[ attachMode ]( this.rootElement );
-		sliders.pan.slider.resized();
-		sliders.gain.slider.resized();
-		sliders.detune.slider.resized();
+		sliders.pan.slider.attached();
+		sliders.gain.slider.attached();
+		sliders.detune.slider.attached();
 	},
 	change( obj ) {
 		var waveDraw;
