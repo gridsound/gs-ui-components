@@ -22,6 +22,14 @@ gsuiSlider.template.remove();
 gsuiSlider.template.removeAttribute( "id" );
 
 gsuiSlider.prototype = {
+	remove() {
+		delete this._attached;
+		this.rootElement.remove();
+	},
+	attached() {
+		this._attached = true;
+		this.resized();
+	},
 	options( obj ) {
 		var inp = this._elInput,
 			clazz = this.rootElement.classList;
@@ -102,7 +110,7 @@ gsuiSlider.prototype = {
 	},
 	_updateVal() {
 		this.value = +this._getInputVal();
-		if ( this.rootElement.parentNode ) {
+		if ( this._attached ) {
 			var line,
 				opt = this._options,
 				inplen = opt.max - opt.min,
