@@ -1,0 +1,111 @@
+.gsuiSynthesizer {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	background: repeating-linear-gradient( -45deg,
+		#353535,
+		#353535 32px,
+		#373737 32px,
+		#373737 64px );
+}
+
+.gsuiSynthesizer-title,
+.gsuiSynthesizer-head,
+.gsuiSynthesizer-newOsc {
+	background-color: rgba( 0, 0, 0, .2 );
+}
+
+.gsuiSynthesizer-title {
+	display: block;
+	padding: 4px 8px;
+	font-weight: bold;
+	font-size: 11px;
+	letter-spacing: 1px;
+	color: #555;
+}
+
+.gsuiSynthesizer-head {
+	display: flex;
+	padding: 2px 12px 2px 9px;
+	padding-right: 12px;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	color: #888;
+}
+
+.gsuiSynthesizer-envelopes {
+	height: 48px;
+}
+
+.gsuiSynthesizer-head div {
+	width: 40px;
+	margin-left: 14px;
+}
+.gsuiSynthesizer-head div:first-child + div {
+	flex: 1;
+}
+.gsuiSynthesizer-head div:first-child {
+	width: 6px;
+	margin-left: 0;
+}
+
+.gsuiSynthesizer-oscList {
+	flex: 1;
+	overflow: auto;
+	counter-reset: count-osc;
+}
+
+.gsuiSynthesizer .gsuiOscillator {
+	height: 60px;
+	background-color: #444;
+	transition: .2s;
+	transition-property: background-color;
+	--gsuiSlider-lineBgColor: #333;
+}
+.gsuiSynthesizer .gsuiOscillator + .gsuiOscillator {
+	margin-top: 2px;
+}
+.gsuiSynthesizer .gsuiOscillator:hover {
+	background-color: #474a47;
+}
+.gsuiSynthesizer .gsuiOscillator:only-child .gsuiOscillator-remove {
+	display: none;
+}
+
+.gsuiSynthesizer-newOsc {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 4px 0;
+	color: #777;
+	line-height: 16px;
+	cursor: default;
+	transition: .22s;
+	transition-property: color, background-color;
+}
+.gsuiSynthesizer-newOsc:hover {
+	color: #ddd;
+	background-color: #686;
+}
+.gsuiSynthesizer-newOsc::before {
+	content: "\f300";
+	font-family: "FontAwesome";
+	font-size: 16px;
+}
+.gsuiSynthesizer-newOsc::after {
+	display: inline-block;
+	overflow: hidden;
+	width: 0px;
+	content: "\A0New oscillator";
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 16px;
+	white-space: nowrap;
+	transition: .14s;
+	transition-property: width;
+}
+.gsuiSynthesizer-newOsc:hover::after {
+	width: 90px;
+}
