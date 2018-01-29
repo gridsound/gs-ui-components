@@ -55,6 +55,9 @@ gsuiPeriodicWave.prototype = {
 		this.width = width;
 		this.height = height;
 		this.rootElement.setAttribute( "viewBox", "0 0 " + width + " " + height );
+		if ( this.type ) {
+			this.draw();
+		}
 	},
 	draw() {
 		var x = 0,
