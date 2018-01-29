@@ -57,7 +57,6 @@
 }
 
 .gsuiSynthesizer .gsuiOscillator {
-	height: 60px;
 	transition: .2s;
 	transition-property: background-color;
 }
