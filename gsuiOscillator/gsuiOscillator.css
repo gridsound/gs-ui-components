@@ -66,20 +66,14 @@
 	border-radius: 2px;
 	background-color: rgba( 0, 0, 0, .4 );
 }
-.gsuiOscillator-type .gsuiWave {
+.gsuiOscillator-type .gsuiPeriodicWave {
 	position: absolute;
-	width: 100%;
-	height: 100%;
 }
+.gsuiOscillator-type .gsuiPeriodicWave:first-child polyline { stroke: #faa; }
+.gsuiOscillator-type .gsuiPeriodicWave:last-child polyline { stroke: #aaf; }
 .gsuiOscillator-type polyline {
-	stroke: #fff;
-	stroke-width: 1px;
 	stroke-opacity: .8;
-	fill: none;
-	transition: stroke-opacity .2s;
 }
-.gsuiOscillator-type .gsuiWave:first-child polyline { stroke: #faa; }
-.gsuiOscillator-type .gsuiWave:last-child polyline { stroke: #aaf; }
 
 .gsuiOscillator-typeCtrl {
 	display: flex;
