@@ -3,10 +3,10 @@
 	display: flex;
 	flex-direction: column;
 	background: repeating-linear-gradient( -45deg,
-		#353535,
-		#353535 32px,
-		#373737 32px,
-		#373737 64px );
+		#454545,
+		#454545 32px,
+		#474747 32px,
+		#474747 64px );
 }
 
 .gsuiSynthesizer-title,
@@ -21,7 +21,7 @@
 	font-weight: bold;
 	font-size: 11px;
 	letter-spacing: 1px;
-	color: #555;
+	color: #666;
 }
 
 .gsuiSynthesizer-head {
@@ -58,16 +58,14 @@
 
 .gsuiSynthesizer .gsuiOscillator {
 	height: 60px;
-	background-color: #444;
 	transition: .2s;
 	transition-property: background-color;
-	--gsuiSlider-lineBgColor: #333;
 }
 .gsuiSynthesizer .gsuiOscillator + .gsuiOscillator {
 	margin-top: 2px;
 }
 .gsuiSynthesizer .gsuiOscillator:hover {
-	background-color: #474a47;
+	background-color: #5a5d5a;
 }
 .gsuiSynthesizer .gsuiOscillator:only-child .gsuiOscillator-remove {
 	display: none;
