@@ -7,8 +7,8 @@
 	padding-right: 12px;
 	color: #ddd;
 	font-family: sans-serif;
-	background-color: #3a3a3a;
-	--gsuiSlider-lineBgColor: #555;
+	background-color: #555;
+	--gsuiSlider-lineBgColor: #444;
 }
 .gsuiOscillator-order {
 	display: flex;
@@ -64,7 +64,7 @@
 	position: relative;
 	flex: 1;
 	border-radius: 2px;
-	background-color: rgba( 0, 0, 0, .2 );
+	background-color: rgba( 0, 0, 0, .4 );
 }
 .gsuiOscillator-type .gsuiWave {
 	position: absolute;
