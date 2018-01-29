@@ -4,8 +4,8 @@ function gsuiOscillator() {
 	var root = gsuiOscillator.template.cloneNode( true ),
 		sliders = {},
 		waves = [
-			new gsuiWave(),
-			new gsuiWave()
+			new gsuiPeriodicWave(),
+			new gsuiPeriodicWave()
 		];
 
 	this.rootElement = root;
@@ -15,8 +15,6 @@ function gsuiOscillator() {
 		waves[ 1 ].rootElement );
 	waves[ 0 ].frequency =
 	waves[ 1 ].frequency = 2;
-	waves[ 0 ].setResolution( 200, 40 );
-	waves[ 1 ].setResolution( 200, 40 );
 	root.querySelector( ".gsuiOscillator-typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
 	root.querySelector( ".gsuiOscillator-typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
 	root.querySelector( ".gsuiOscillator-remove" ).onclick = _ => this.onremove && this.onremove();
@@ -60,6 +58,8 @@ gsuiOscillator.prototype = {
 	attached() {
 		var sliders = this._sliders;
 
+		this._waves[ 0 ].attached();
+		this._waves[ 1 ].attached();
 		sliders.pan.slider.attached();
 		sliders.gain.slider.attached();
 		sliders.detune.slider.attached();
