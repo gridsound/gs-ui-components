@@ -6,6 +6,7 @@ function gsuiSynthesizer() {
 	this.rootElement = root;
 	this.oninput =
 	this.onchange = _ => {};
+	this._waveList = [];
 	this._uioscs = {};
 	this.empty();
 
@@ -35,6 +36,10 @@ gsuiSynthesizer.prototype = {
 		this._oscIdMax = 0;
 		this.store = { oscillators: {} };
 	},
+	setWaveList( arr ) {
+		this._waveList = arr;
+		Array.from( this._uioscs ).forEach( uiosc => uiosc.addWaves( lg(arr) ) );
+	},
 	change( obj ) {
 		var uioscs = this._uioscs;
 
@@ -63,6 +68,7 @@ gsuiSynthesizer.prototype = {
 			uiosc.oninput = this._oninputOsc.bind( this, id );
 			uiosc.onchange = this._onchangeOsc.bind( this, id );
 			uiosc.onremove = this._onremoveOsc.bind( this, id );
+			uiosc.addWaves( this._waveList );
 			uiosc.change( osc );
 			uiosc.rootElement.dataset.id = id;
 			uiosc.rootElement.dataset.order = "order" in osc ? osc.order : this._getMaxOrder();
