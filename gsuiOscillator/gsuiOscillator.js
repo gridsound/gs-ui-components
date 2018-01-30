@@ -10,6 +10,8 @@ function gsuiOscillator() {
 
 	this.rootElement = root;
 	this._waves = waves;
+	this._selectWaves = {};
+	"sine triangle sawtooth square".split( " " ).forEach( w => this._selectWaves[ w ] = true );
 	root.querySelector( ".gsuiOscillator-typeWaves" ).append(
 		waves[ 0 ].rootElement,
 		waves[ 1 ].rootElement );
@@ -63,6 +65,21 @@ gsuiOscillator.prototype = {
 		sliders.pan.slider.attached();
 		sliders.gain.slider.attached();
 		sliders.detune.slider.attached();
+	},
+	addWaves( arr ) {
+		var opts = [];
+
+		arr.forEach( w => {
+			if ( !this._selectWaves[ w ] ) {
+				var opt = document.createElement( "option" );
+
+				this._selectWaves[ w ] = true;
+				opt.value = w;
+				opt.textContent = w;
+				opts.push( opt );
+			}
+		} );
+		Element.prototype.append.apply( this._elSelect, opts );
 	},
 	change( obj ) {
 		var waveDraw;
