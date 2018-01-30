@@ -10,6 +10,7 @@ function gsuiSlider() {
 	this._elSvg = root.querySelector( "svg" );
 	this._elSvgLine = root.querySelector( ".gsui-svgLine" );
 	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
+	root._gsuiSlider_instance = this;
 	root.onwheel = this._wheel.bind( this );
 	root.onmousedown = this._mousedown.bind( this );
 	root.onmousemove = this._mousemove.bind( this );
@@ -20,6 +21,14 @@ function gsuiSlider() {
 gsuiSlider.template = document.querySelector( "#gsuiSlider-template" );
 gsuiSlider.template.remove();
 gsuiSlider.template.removeAttribute( "id" );
+
+document.addEventListener( "pointerlockchange", _ => {
+	var el = document.pointerLockElement;
+
+	if ( el && ( el = el._gsuiSlider_instance ) ) {
+		el._locked = true;
+	}
+} );
 
 gsuiSlider.prototype = {
 	remove() {
@@ -160,7 +169,6 @@ gsuiSlider.prototype = {
 		this._onchange();
 		this._pxval = ( opt.max - opt.min ) / size;
 		this._pxmoved = 0;
-		this._locked = true;
 		this.rootElement.requestPointerLock();
 	},
 	_mouseup( e ) {
