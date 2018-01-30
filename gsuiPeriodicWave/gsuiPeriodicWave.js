@@ -52,9 +52,9 @@ gsuiPeriodicWave.prototype = {
 	resized() {
 		var { width, height } = this.rootElement.getBoundingClientRect();
 
-		this.width = width;
-		this.height = height;
-		this.rootElement.setAttribute( "viewBox", "0 0 " + width + " " + height );
+		this.width = ~~width;
+		this.height = ~~height;
+		this.rootElement.setAttribute( "viewBox", "0 0 " + this.width + " " + this.height );
 		if ( this.type ) {
 			this.draw();
 		}
