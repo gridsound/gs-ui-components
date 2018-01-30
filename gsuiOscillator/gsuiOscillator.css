@@ -106,9 +106,11 @@
 	-moz-appearance: none;
 	background: none;
 }
-.gsuiOscillator-type option,
-.gsuiOscillator-type optgroup {
-	background: #444;
+.gsuiOscillator-type option {
+	background-color: #444;
+}
+option.gsuiOscillator-nativeWave {
+	background-color: #333;
 }
 
 .gsuiOscillator-remove {
