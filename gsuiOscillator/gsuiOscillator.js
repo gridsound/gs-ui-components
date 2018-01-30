@@ -69,6 +69,7 @@ gsuiOscillator.prototype = {
 	addWaves( arr ) {
 		var opts = [];
 
+		arr.sort();
 		arr.forEach( w => {
 			if ( !this._selectWaves[ w ] ) {
 				var opt = document.createElement( "option" );
