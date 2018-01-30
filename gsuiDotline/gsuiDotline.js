@@ -147,8 +147,8 @@ gsuiDotline.prototype = {
 		y = Math.max( opt.minY, Math.min( y, opt.maxY ) );
 		dot.x = +( Math.round( x / opt.step ) * opt.step ).toFixed( 5 );
 		dot.y = +( Math.round( y / opt.step ) * opt.step ).toFixed( 5 );
-		dotStyle.left = ( dot.x - opt.minX ) / opt.width * bcr.width + "px";
-		dotStyle.top = bcr.height - ( ( dot.y - opt.minY ) / opt.height * bcr.height ) + "px";
+		dotStyle.left = ( dot.x - opt.minX ) / opt.width * 100 + "%";
+		dotStyle.top = 100 - ( ( dot.y - opt.minY ) / opt.height * 100 ) + "%";
 	},
 	_deleteDot( dotId ) {
 		var dots = this._dots;
