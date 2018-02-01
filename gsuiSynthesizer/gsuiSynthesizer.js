@@ -9,10 +9,8 @@ function gsuiSynthesizer() {
 	this._waveList = [];
 	this._uioscs = {};
 	this.empty();
-
 	this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 	root.querySelector( ".gsuiSynthesizer-newOsc" ).onclick = this._onclickNewOsc.bind( this );
-	this._onclickNewOsc();
 }
 
 gsuiSynthesizer.template = document.querySelector( "#gsuiSynthesizer-template" );
