@@ -46,7 +46,6 @@ Object.assign( gsuiGridSamples.prototype, {
 		bc.data = data;
 		if ( data.key ) {
 			bc.datatype( "key" );
-			bc.name( data.key );
 		} else {
 			bc.datatype( "keys" );
 		}
@@ -81,7 +80,7 @@ Object.assign( gsuiGridSamples.prototype, {
 		}
 		if ( "key" in data || "track" in data ) {
 			if ( "key" in data ) {
-				bc.name( data.key );
+				bc.name( gsuiKeys.midiToKeyStr( data.key ) );
 			}
 			this._rowByValue( data.key || data.track ).firstChild.append( bc.rootElement );
 		}
@@ -311,7 +310,7 @@ Object.assign( gsuiGridSamples.prototype, {
 			if ( dataset.track ) {
 				obj.track = dataset.track;
 			} else {
-				obj.key = dataset.key + dataset.octave;
+				obj.key = dataset.midi;
 			}
 		}
 		if ( Math.abs( whenRel ) > .0001 ) {
