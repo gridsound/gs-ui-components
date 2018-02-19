@@ -120,7 +120,7 @@ gsuiGridSamples.prototype = {
 		this._loadPanelCmp( "uiKeys", "uiTrackList" );
 		this._elGridCnt.classList.add( "gsui-noleftcrop" );
 		this.uiKeys.octaves( from, nbOctaves );
-		this.uiKeys.newRowElements.forEach( this._rowInit, this );
+		this.uiKeys.rootElement.querySelectorAll( ".gsui-row" ).forEach( this._rowInit, this );
 	},
 	loadTrackList() {
 		this._loadPanelCmp( "uiTrackList", "uiKeys" );
@@ -219,11 +219,6 @@ gsuiGridSamples.prototype = {
 
 	// private row methods:
 	_rowInit( elRow, i ) {
-		var keys = this.uiKeys;
-
-		if ( keys ) {
-			elRow.dataset.octave = keys._octStart + keys._nbOct - 1 - ~~( i / 12 );
-		}
 		elRow.onmousedown = this._evmdRow.bind( this, elRow );
 		this._rowsById[ elRow.dataset.track ] = elRow;
 		this._rowUpdateFontSize( elRow );
@@ -240,13 +235,13 @@ gsuiGridSamples.prototype = {
 		var uiKeys = this.uiKeys;
 
 		return uiKeys
-			? this.rows[ uiKeys.rowElements.length - 1 - uiKeys.keyToIndex( val ) ]
+			? uiKeys.getKeyElementFromMidi( val )._rowElement
 			: this._rowsById[ val ];
 	},
 	_rowIndexByData( data ) {
 		return data.track
 			? this._rowIndexByElement( this._rowsById[ data.track ] )
-			: this.uiKeys.rowElements.length - this.uiKeys.keyToIndex( data.key ) - 1;
+			: data.key - this.uiKeys._octStart * 12;
 	},
 	_rowIndexByElement( row ) {
 		return row.dataset.rowid
@@ -293,7 +288,7 @@ gsuiGridSamples.prototype = {
 				var id = gsuiGridSamples.getNewId(),
 					obj = this._bcUnselectAll(),
 					data = {
-						key: elRow.dataset.key + elRow.dataset.octave,
+						key: +elRow.dataset.midi,
 						when: this.uiTimeLine.beatFloor( this._getMouseBeat( e.pageX ) ),
 						offset: 0,
 						duration: this._bcLastDur || 1
