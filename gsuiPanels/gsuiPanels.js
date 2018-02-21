@@ -5,7 +5,7 @@ function gsuiPanels( root ) {
 	this.init( root );
 	gsuiPanels.bodyEventsInit && gsuiPanels.bodyEventsInit();
 	this._cursorElem = document.createElement( "div" );
-	this._cursorElem.classList = "gsuiPanels-cursor";
+	this._cursorElem.className = "gsuiPanels-cursor";
 }
 
 gsuiPanels.bodyEventsInit = function() {
