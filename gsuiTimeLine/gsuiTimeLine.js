@@ -56,7 +56,8 @@ gsuiTimeLine.prototype = {
 	beatRound( bt ) { return this._round( bt, "round" ); },
 	beatFloor( bt ) { return this._round( bt, "floor" ); },
 	loop( a, b, isUserAction ) {
-		var serial, la, lb, loopWas = this._loop;
+		var la, lb, serial,
+			loopWas = this._loop;
 
 		if ( a === false ) {
 			this._loop = a;
@@ -66,7 +67,9 @@ gsuiTimeLine.prototype = {
 		}
 		la = this.beatRound( this._loopA );
 		lb = this.beatRound( this._loopB );
-		this._loop = lb - la > 1 / this._stepsPerBeat / 8;
+		if ( a !== false ) {
+			this._loop = lb - la > 1 / this._stepsPerBeat / 8;
+		}
 		if ( isUserAction ) {
 			if ( this.oninputLoop ) {
 				if ( loopWas && this._loop ) {
