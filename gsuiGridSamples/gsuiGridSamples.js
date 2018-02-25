@@ -241,7 +241,7 @@ gsuiGridSamples.prototype = {
 	_rowIndexByData( data ) {
 		return data.track
 			? this._rowIndexByElement( this._rowsById[ data.track ] )
-			: data.key - this.uiKeys._octStart * 12;
+			: this.uiKeys._nbOct * 12 - 1 - ( data.key - this.uiKeys._octStart * 12 );
 	},
 	_rowIndexByElement( row ) {
 		return row.dataset.rowid
