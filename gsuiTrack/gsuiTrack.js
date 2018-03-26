@@ -15,6 +15,7 @@ class gsuiTrack {
 		this.uiSpan.onchange = name => this.onchange( { name } );
 		this.uiToggle.onchange = toggle => this.onchange( { toggle } );
 		this.data = new Proxy( Object.seal( {
+			order: 0,
 			name: "",
 			toggle: true
 		} ), { set: this._setProp.bind( this ) } );
@@ -31,9 +32,10 @@ class gsuiTrack {
 
 	// private:
 	_setProp( tar, prop, val ) {
-		if ( prop in tar ) {
-			tar[ prop ] = val;
-			this[ prop === "name" ? "_setName" : "_setToggle" ]( val );
+		tar[ prop ] = val;
+		switch ( prop ) {
+			case "name": this._setName( val ); break;
+			case "toggle": this._setToggle( val ); break;
 		}
 		return true;
 	}
