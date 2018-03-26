@@ -1,58 +1,41 @@
 "use strict";
 
-function gsuiTrackList() {
-	var root = this._clone();
+class gsuiTrackList {
+	constructor() {
+		const root = gsuiTrackList.template.cloneNode( true );
 
-	this.data = {};
-	this.rootElement = root;
-	this._uiTracks = {};
-}
+		this.rootElement = root;
+		this._uiTracks = {};
+		this.data = {};
+	}
 
-gsuiTrackList.prototype = {
 	remove() {
 		this.empty();
 		this.rootElement.remove();
-	},
+	}
 	empty() {
-		for ( var id in this._uiTracks ) {
-			this._delTrack( id );
-		}
-	},
+		Object.keys( this._uiTracks ).forEach( this._delTrack, this );
+	}
 	change( objs ) {
-		var id, obj, arr = [];
+		const arr = Object.keys( objs ).map( id => ( { id, obj: objs[ id ] } ) );
 
 		this.newRowElements = [];
-		for ( id in objs ) {
-			arr.push( { id: id, obj: objs[ id ] } );
-		}
-		arr.sort( function( a, b ) {
-			return a.obj.order > b.obj.order;
-		} );
-		arr.forEach( function( { id, obj } ) {
+		arr.sort( ( a, b ) => a.obj.order > b.obj.order );
+		arr.forEach( ( { id, obj } ) => {
 			if ( obj ) {
 				if ( !this.data[ id ] ) {
 					this._newTrack( id );
 				}
-				this._uiTracks[ id ].change( obj );
+				Object.assign( this._uiTracks[ id ].data, obj );
 			} else {
 				this._delTrack( id );
 			}
-		}, this );
-	},
+		} );
+	}
 
 	// private:
-	_clone() {
-		var div = document.createElement( "div" );
-
-		gsuiTrackList.template || this._init();
-		div.appendChild( document.importNode( gsuiTrackList.template.content, true ) );
-		return div.removeChild( div.querySelector( "*" ) );
-	},
-	_init() {
-		gsuiTrackList.template = document.getElementById( "gsuiTrackList" );
-	},
 	_newTrack( id ) {
-		var uiTrk = new gsuiTrack();
+		const uiTrk = new gsuiTrack();
 
 		uiTrk.uiToggle.onmousedownright = this._muteAll.bind( this, id );
 		uiTrk.onchange = this._evocTrack.bind( this, id );
@@ -63,37 +46,34 @@ gsuiTrackList.prototype = {
 		this._uiTracks[ id ] = uiTrk;
 		this.rootElement.append( uiTrk.rootElement );
 		this.newRowElements.push( uiTrk.rowElement );
-	},
+	}
 	_delTrack( id ) {
 		this._uiTracks[ id ].remove();
 		delete this._uiTracks[ id ];
 		delete this.data[ id ];
-	},
+	}
 	_evocTrack( id, obj ) {
 		this.onchange( { [ id ]: obj } );
-	},
+	}
 	_muteAll( id ) {
-		var _uiTrk, tog,
-			obj = {},
+		const obj = {},
 			uiTrks = this._uiTracks,
 			uiTrk = uiTrks[ id ],
-			allMute = true;
+			allMute = Object.values( uiTrks ).every( _uiTrk => (
+				!_uiTrk.data.toggle || _uiTrk === uiTrk
+			) );
 
-		for ( id in uiTrks ) {
-			_uiTrk = uiTrks[ id ];
-			if ( _uiTrk.data.toggle && _uiTrk !== uiTrk ) {
-				allMute = false;
-				break;
+		Object.entries( uiTrks ).forEach( ( [ id, _uiTrk ] ) => {
+			const toggle = allMute || _uiTrk === uiTrk;
+
+			if ( toggle !== _uiTrk.data.toggle ) {
+				obj[ id ] = { toggle };
 			}
-		}
-		for ( id in uiTrks ) {
-			_uiTrk = uiTrks[ id ];
-			tog = allMute || _uiTrk === uiTrk;
-			if ( tog !== _uiTrk.data.toggle ) {
-				_uiTrk.toggle( tog );
-				obj[ id ] = { toggle: tog };
-			}
-		}
+		} );
 		this.onchange( obj );
 	}
-};
+}
+
+gsuiTrackList.template = document.querySelector( "#gsuiTrackList-template" );
+gsuiTrackList.template.remove();
+gsuiTrackList.template.removeAttribute( "id" );
