@@ -18,7 +18,7 @@ class gsuiTrackList {
 		this.rootElement.remove();
 	}
 	empty() {
-		Object.keys( this._uiTracks ).forEach( this._delTrack, this );
+		Object.keys( this._uiTracks ).forEach( id => delete this._uiTracks[ id ] );
 	}
 
 	// private:
