@@ -1,46 +1,34 @@
 "use strict";
 
-function gsuiSlider() {
-	var root = gsuiSlider.template.cloneNode( true );
+class gsuiSlider {
+	constructor() {
+		const root = gsuiSlider.template.cloneNode( true );
 
-	this.rootElement = root;
-	this._elInput = root.querySelector( "input" );
-	this._elLine = root.querySelector( ".gsui-line" );
-	this._elLineColor = root.querySelector( ".gsui-lineColor" );
-	this._elSvg = root.querySelector( "svg" );
-	this._elSvgLine = root.querySelector( ".gsui-svgLine" );
-	this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
-	root._gsuiSlider_instance = this;
-	root.onwheel = this._wheel.bind( this );
-	root.onmousedown = this._mousedown.bind( this );
-	root.onmousemove = this._mousemove.bind( this );
-	root.onmouseup = this._mouseup.bind( this );
-	root.onmouseleave = this._mouseleave.bind( this );
-}
-
-gsuiSlider.template = document.querySelector( "#gsuiSlider-template" );
-gsuiSlider.template.remove();
-gsuiSlider.template.removeAttribute( "id" );
-
-document.addEventListener( "pointerlockchange", _ => {
-	var el = document.pointerLockElement;
-
-	if ( el && ( el = el._gsuiSlider_instance ) ) {
-		el._locked = true;
+		this.rootElement = root;
+		this._elInput = root.querySelector( "input" );
+		this._elLine = root.querySelector( ".gsui-line" );
+		this._elLineColor = root.querySelector( ".gsui-lineColor" );
+		this._elSvg = root.querySelector( "svg" );
+		this._elSvgLine = root.querySelector( ".gsui-svgLine" );
+		this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
+		root._gsuiSlider_instance = this;
+		root.onwheel = this._wheel.bind( this );
+		root.onmousedown = this._mousedown.bind( this );
+		root.onmousemove = this._mousemove.bind( this );
+		root.onmouseup = this._mouseup.bind( this );
+		root.onmouseleave = this._mouseleave.bind( this );
 	}
-} );
 
-gsuiSlider.prototype = {
 	remove() {
 		delete this._attached;
 		this.rootElement.remove();
-	},
+	}
 	attached() {
 		this._attached = true;
 		this.resized();
-	},
+	}
 	options( obj ) {
-		var inp = this._elInput,
+		const inp = this._elInput,
 			clazz = this.rootElement.classList;
 
 		this._circ = obj.type === "circular";
@@ -62,9 +50,9 @@ gsuiSlider.prototype = {
 			clazz.add( "gsui-linear", this._axeX ? "gsui-x" : "gsui-y" );
 		}
 		this._updateVal();
-	},
+	}
 	setValue( val, bymouse ) {
-		var prval = this._getInputVal();
+		const prval = this._getInputVal();
 
 		this._elInput.value = val;
 		val = this._getInputVal();
@@ -77,18 +65,17 @@ gsuiSlider.prototype = {
 		if ( !bymouse ) {
 			this._previousval = val;
 		}
-	},
+	}
 	resized() {
-		var rc = this.rootElement.getBoundingClientRect();
+		const rc = this.rootElement.getBoundingClientRect();
 
 		this.resize( rc.width, rc.height );
-	},
+	}
 	resize( w, h ) {
 		this.rootElement.style.width = w + "px";
 		this.rootElement.style.height = h + "px";
 		if ( w !== this.width || h !== this.height ) {
-			var thick = this._axeX ? h : w,
-				size = Math.min( w, h ),
+			const size = Math.min( w, h ),
 				size2 = size / 2,
 				strokeW = ~~( size / 10 ),
 				circR = ~~( ( size - strokeW ) / 2 );
@@ -109,19 +96,18 @@ gsuiSlider.prototype = {
 			}
 			this._updateVal();
 		}
-	},
+	}
 
 	// private:
 	_getInputVal() {
-		var val = this._elInput.value;
+		const val = this._elInput.value;
 
 		return Math.abs( +val ) < .000001 ? "0" : val;
-	},
+	}
 	_updateVal() {
 		this.value = +this._getInputVal();
 		if ( this._attached ) {
-			var line,
-				opt = this._options,
+			const opt = this._options,
 				inplen = opt.max - opt.min,
 				prcval = ( this.value - opt.min ) / inplen,
 				prcstart = ( opt.startFrom - opt.min ) / inplen,
@@ -129,11 +115,13 @@ gsuiSlider.prototype = {
 				prcmin = Math.min( prcval, prcstart );
 
 			if ( this._circ ) {
-				line = this._elSvgLineColor.style;
+				const line = this._elSvgLineColor.style;
+
 				line.strokeDasharray = prclen * this._svgLineLen + ", 999999";
 				line.transform = "rotate(" + ( 90 + prcmin * 360 ) + "deg)";
 			} else {
-				line = this._elLineColor.style;
+				const line = this._elLineColor.style;
+
 				if ( this._axeX ) {
 					line.left = prcmin * 100 + "%";
 					line.width = prclen * 100 + "%";
@@ -143,25 +131,25 @@ gsuiSlider.prototype = {
 				}
 			}
 		}
-	},
+	}
 	_onchange() {
-		var val = this._getInputVal();
+		const val = this._getInputVal();
 
 		if ( this._previousval !== val ) {
 			this.onchange && this.onchange( +val );
 			this._previousval = val;
 		}
-	},
+	}
 
 	// events:
 	_wheel( e ) {
-		var d = e.deltaY > 0 ? -1 : 1;
+		const d = e.deltaY > 0 ? -1 : 1;
 
 		this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
 		return false;
-	},
+	}
 	_mousedown( e ) {
-		var opt = this._options,
+		const opt = this._options,
 			bcr = this._elLine.getBoundingClientRect(),
 			size = this._circ ? this._svgLineLen :
 				this._axeX ? bcr.width : bcr.height;
@@ -170,28 +158,41 @@ gsuiSlider.prototype = {
 		this._pxval = ( opt.max - opt.min ) / size;
 		this._pxmoved = 0;
 		this.rootElement.requestPointerLock();
-	},
+	}
 	_mouseup( e ) {
 		if ( this._locked ) {
 			document.exitPointerLock();
 			delete this._locked;
 			this._onchange();
 		}
-	},
+	}
 	_mousemove( e ) {
 		if ( this._locked ) {
-			var opt = this._options,
+			const { min, max } = this._options,
 				mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
-				bound = ( opt.max - opt.min ) / 5,
+				bound = ( max - min ) / 5,
 				val = +this._previousval + ( this._pxmoved + mov ) * this._pxval;
 
-			if ( opt.min - bound < val && val < opt.max + bound ) {
+			if ( min - bound < val && val < max + bound ) {
 				this._pxmoved += mov;
 			}
 			this.setValue( val, true );
 		}
-	},
+	}
 	_mouseleave() {
 		this._onchange();
 	}
-};
+}
+
+gsuiSlider.template = document.querySelector( "#gsuiSlider-template" );
+gsuiSlider.template.remove();
+gsuiSlider.template.removeAttribute( "id" );
+
+document.addEventListener( "pointerlockchange", () => {
+	const el = document.pointerLockElement,
+		slider = el && el._gsuiSlider_instance;
+
+	if ( slider ) {
+		slider._locked = true;
+	}
+} );
