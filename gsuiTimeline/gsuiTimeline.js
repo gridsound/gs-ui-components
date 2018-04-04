@@ -1,8 +1,8 @@
 "use strict";
 
-class gsuiTimeLine {
+class gsuiTimeline {
 	constructor() {
-		const root = gsuiTimeLine.template.cloneNode( true ),
+		const root = gsuiTimeline.template.cloneNode( true ),
 			elCurrentTime = root.querySelector( ".gsui-currentTime" ),
 			elLoopBg = root.querySelector( ".gsui-loopBg" );
 
@@ -143,7 +143,7 @@ class gsuiTimeLine {
 		this._elLoopBgCL.remove( "gsui-hover" );
 		this._elLoopBrdACL.remove( "gsui-hover" );
 		this._elLoopBrdBCL.remove( "gsui-hover" );
-		delete gsuiTimeLine._focused;
+		delete gsuiTimeline._focused;
 		if ( this.onchangeLoop ) {
 			if ( !l ) {
 				if ( this._loopWas ) {
@@ -179,7 +179,7 @@ class gsuiTimeLine {
 		this._elLoopBgCL.toggle( "gsui-hover", side === "ab" );
 		this._elLoopBrdACL.toggle( "gsui-hover", this._lockA );
 		this._elLoopBrdBCL.toggle( "gsui-hover", this._lockB );
-		gsuiTimeLine._focused = this;
+		gsuiTimeline._focused = this;
 	}
 	_mousedownLoopLine( e ) {
 		const now = Date.now(),
@@ -260,13 +260,13 @@ class gsuiTimeLine {
 	}
 }
 
-gsuiTimeLine.template = document.querySelector( "#gsuiTimeLine-template" );
-gsuiTimeLine.template.remove();
-gsuiTimeLine.template.removeAttribute( "id" );
+gsuiTimeline.template = document.querySelector( "#gsuiTimeline-template" );
+gsuiTimeline.template.remove();
+gsuiTimeline.template.removeAttribute( "id" );
 
 document.addEventListener( "mousemove", e => {
-	gsuiTimeLine._focused && gsuiTimeLine._focused._mousemove( e );
+	gsuiTimeline._focused && gsuiTimeline._focused._mousemove( e );
 } );
 document.addEventListener( "mouseup", e => {
-	gsuiTimeLine._focused && gsuiTimeLine._focused._mouseup( e );
+	gsuiTimeline._focused && gsuiTimeline._focused._mouseup( e );
 } );
