@@ -1,11 +1,11 @@
-# gsuiBeatLines
+# gsuiBeatlines
 
 This component takes a `<svg>` at first, and let us able to draw each step, beat and measure lines at once. The component handle multiple [time signature](https://en.wikipedia.org/wiki/Time_signature) with the `stepsPerBeat`, `beatsPerMeasure` attributes.<br/>
 This component is a lot inspired of *FL Studio* (obviously).
 <br/>
 <p align="center">
   <a href="https://codepen.io/mr21/full/MmJVZx">
-    <img src="https://gridsound.github.io/assets/screenshots/gsuiBeatLines.png"/><br/>
+    <img src="https://gridsound.github.io/assets/screenshots/gsuiBeatlines.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>
 </p>

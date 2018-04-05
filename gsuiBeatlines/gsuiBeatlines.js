@@ -2,12 +2,12 @@
 
 window.SVGURL = "http://www.w3.org/2000/svg";
 
-class gsuiBeatLines {
+class gsuiBeatlines {
 	constructor( el ) {
 		this.rootElement =
 		el = el || document.createElementNS( SVGURL, "svg" );
 		el.setAttribute( "preserveAspectRatio", "none" );
-		el.classList.add( "gsuiBeatLines" );
+		el.classList.add( "gsuiBeatlines" );
 		this.elTime = this._newRect();
 		this._elLoopA = this._newRect();
 		this._elLoopB = this._newRect();
