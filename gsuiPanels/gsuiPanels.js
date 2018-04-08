@@ -17,16 +17,13 @@ class gsuiPanels {
 	}
 
 	// private:
-	_getSize( el, dir ) {
-		return el.getBoundingClientRect()[ dir ];
-	}
 	_getChildren( el ) {
 		return Array.from( el.children ).filter(
 			el => !el.classList.contains( "gsuiPanels-extend" ) );
 	}
 	_convertFlex( dir, panPar ) {
 		const pans = this._getChildren( panPar ),
-			sizePans = pans.map( pan => this._getSize( pan, dir ) ),
+			sizePans = pans.map( pan => pan.getBoundingClientRect()[ dir ] ),
 			size = sizePans.reduce( ( n, pan ) => n + pan, 0 );
 
 		pans.pop();
@@ -60,7 +57,7 @@ class gsuiPanels {
 		return pans.reduce( ( mov, pan ) => {
 			if ( Math.abs( mov ) > .1 ) {
 				const style = getComputedStyle( pan ),
-					size = this._getSize( pan, dir ),
+					size = pan.getBoundingClientRect()[ dir ],
 					minsize = parseFloat( style[ "min-" + dir ] ) || 10,
 					maxsize = parseFloat( style[ "max-" + dir ] ) || Infinity,
 					newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
@@ -107,11 +104,9 @@ class gsuiPanels {
 		this._panBefore = panBefore;
 		this._panAfter = panAfter;
 		this._parent = ext.parentNode.parentNode;
-		this._parentSize = this._getChildren( this._parent )
-			.reduce( ( n, pan ) => (
-				pan.classList.contains( "gsuiPanels-extend" )
-					? n : n + this._getSize( pan, dir )
-			), 0 );
+		this._parentSize = dir === "width"
+			? this._parent.clientWidth
+			: this._parent.clientHeight;
 	}
 }
 
