@@ -20,25 +20,30 @@ class gsuiPanels {
 	_getSize( el, dir ) {
 		return el.getBoundingClientRect()[ dir ];
 	}
+	_getChildren( el ) {
+		return Array.from( el.children ).filter(
+			el => !el.classList.contains( "gsuiPanels-extend" ) );
+	}
 	_convertFlex( dir, panPar ) {
-		const pans = Array.from( panPar.children ),
+		const pans = this._getChildren( panPar ),
 			sizePans = pans.map( pan => this._getSize( pan, dir ) ),
 			size = sizePans.reduce( ( n, pan ) => n + pan, 0 );
 
+		pans.pop();
 		pans.forEach( ( pan, i ) => {
 			pan.style[ dir ] = sizePans[ i ] / size * 100 + "%";
 			pan.style.flex = "none";
 		} );
-		pans[ pans.length - 1 ].style.flex = 1;
 	}
 	_addExtend( dir, pan ) {
 		const extend = document.createElement( "div" ),
-			pans = Array.from( pan.parentNode.children ),
+			pans = this._getChildren( pan.parentNode ),
 			panBefore = pans.filter( el => (
 				!el.classList.contains( "gsuiPanels-extend" ) &&
 					pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
 			) ).reverse(),
-			panAfter = pans.filter( el => (
+			panAfter = pans.filter( ( el, i ) => (
+				i < pans.length - 1 &&
 				!el.classList.contains( "gsuiPanels-extend" ) && (
 					pan === el ||
 					pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
@@ -78,7 +83,6 @@ class gsuiPanels {
 		this._cursorElem.remove();
 		this._extend.classList.remove( "gsui-hover" );
 		this.rootElement.classList.remove( "gsuiPanels-noselect" );
-		this._panAfter[ this._panAfter.length - 1 ].style.flex = 1;
 		delete gsuiPanels._focused;
 	}
 	_onmousemove( e ) {
@@ -103,7 +107,7 @@ class gsuiPanels {
 		this._panBefore = panBefore;
 		this._panAfter = panAfter;
 		this._parent = ext.parentNode.parentNode;
-		this._parentSize = Array.from( this._parent.children )
+		this._parentSize = this._getChildren( this._parent )
 			.reduce( ( n, pan ) => (
 				pan.classList.contains( "gsuiPanels-extend" )
 					? n : n + this._getSize( pan, dir )
