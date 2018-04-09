@@ -23,7 +23,9 @@
 .gsuiPanels-x > div:not(.gsuiPanels-extend),
 .gsuiPanels-y > div:not(.gsuiPanels-extend) {
 	position: relative;
-	flex: 1;
+}
+.gsuiPanels-last {
+	flex: 1 !important;
 }
 .gsuiPanels-x > div,
 .gsuiPanels-y > div {

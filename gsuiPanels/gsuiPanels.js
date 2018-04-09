@@ -5,9 +5,18 @@ class gsuiPanels {
 		this.rootElement = root;
 		this._cursorElem = document.createElement( "div" );
 		this._cursorElem.className = "gsuiPanels-cursor";
+	}
+	attached() {
+		this._init();
+	}
+
+	// private:
+	_init() {
+		const root = this.rootElement;
 
 		root.style.overflow = "hidden";
 		root.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
+		root.querySelectorAll( ".gsuiPanels-last" ).forEach( el => el.classList.remove( "gsuiPanels-last" ) );
 		this._convertFlex( root.classList.contains( "gsuiPanels-x" )
 			? "width" : "height", root );
 		root.querySelectorAll( ".gsuiPanels-x" ).forEach( this._convertFlex.bind( this, "width" ) );
@@ -15,22 +24,21 @@ class gsuiPanels {
 		root.querySelectorAll( ".gsuiPanels-x > div + div" ).forEach( this._addExtend.bind( this, "width" ) );
 		root.querySelectorAll( ".gsuiPanels-y > div + div" ).forEach( this._addExtend.bind( this, "height" ) );
 	}
-
-	// private:
 	_getChildren( el ) {
 		return Array.from( el.children ).filter(
 			el => !el.classList.contains( "gsuiPanels-extend" ) );
 	}
 	_convertFlex( dir, panPar ) {
 		const pans = this._getChildren( panPar ),
-			sizePans = pans.map( pan => pan.getBoundingClientRect()[ dir ] ),
-			size = sizePans.reduce( ( n, pan ) => n + pan, 0 );
+			size = dir === "width"
+				? panPar.clientWidth
+				: panPar.clientHeight;
 
-		pans.pop();
-		pans.forEach( ( pan, i ) => {
-			pan.style[ dir ] = sizePans[ i ] / size * 100 + "%";
-			pan.style.flex = "none";
-		} );
+		pans[ pans.length - 1 ].classList.add( "gsuiPanels-last" );
+		pans.map( pan => pan.getBoundingClientRect()[ dir ] )
+			.forEach( ( panW, i ) => {
+				pans[ i ].style[ dir ] = panW / size * 100 + "%";
+			} );
 	}
 	_addExtend( dir, pan ) {
 		const extend = document.createElement( "div" ),
@@ -40,7 +48,6 @@ class gsuiPanels {
 					pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
 			) ).reverse(),
 			panAfter = pans.filter( ( el, i ) => (
-				i < pans.length - 1 &&
 				!el.classList.contains( "gsuiPanels-extend" ) && (
 					pan === el ||
 					pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
@@ -63,9 +70,12 @@ class gsuiPanels {
 					newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
 
 				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
-					pan.style.flex = "none";
 					pan.style[ dir ] = newsizeCorrect / parentsize * 100 + "%";
-					mov -= newsizeCorrect - size;
+					if ( mov > 0 ) {
+						mov -= newsizeCorrect - size;
+					} else {
+						mov += size - newsizeCorrect;
+					}
 					if ( pan.onresizing ) {
 						pan.onresizing( pan );
 					}
@@ -87,10 +97,10 @@ class gsuiPanels {
 			px = ( dir === "width" ? e.pageX : e.pageY ) - this._pageN,
 			mov = px - this._incrSizePans( dir, px, this._panBefore );
 
-		if ( Math.abs( mov ) > .1 ) {
+		this._pageN += mov;
+		if ( Math.abs( mov ) > 0 ) {
 			this._incrSizePans( dir, -mov, this._panAfter );
 		}
-		this._pageN += mov;
 	}
 	_onmousedownExtend( dir, ext, panBefore, panAfter, e ) {
 		gsuiPanels._focused = this;
