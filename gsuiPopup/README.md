@@ -3,7 +3,7 @@
 `alert`, `confirm` and `prompt` can be useful but the format can annoy the internaute, so we rewrote them. These alert are now asynchrone and use [Promise (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). They can be stylized now and are silent. Also the popup has a header with an editable title.<br/>
 <br/>
 <p align="center">
-  <a href="https://codepen.io/mr21/full/aJMEev">
+  <a href="https://cdpn.io/NMKVBd">
     <img src="https://gridsound.github.io/assets/screenshots/gsuiPopup.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>

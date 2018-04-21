@@ -10,7 +10,7 @@
 /> <img height="100" src="https://gridsound.github.io/assets/screenshots/gsuiToggle.png"
 /> <img height="100" src="https://gridsound.github.io/assets/screenshots/gsuiSpanEditable.png"
 /> <img width="841" src="https://gridsound.github.io/assets/screenshots/gsuiWave.png"
-/> <img src="https://gridsound.github.io/assets/screenshots/gsuiTimeLine.png"/>
-<img src="https://gridsound.github.io/assets/screenshots/gsuiBeatLines.png"
+/> <img src="https://gridsound.github.io/assets/screenshots/gsuiTimeline.png"/>
+<img src="https://gridsound.github.io/assets/screenshots/gsuiBeatlines.png"
 /> <img height="260" src="https://gridsound.github.io/assets/screenshots/gsuiKeys.png"
 /> <img height="260" src="https://gridsound.github.io/assets/screenshots/gsuiTrackList.png"/>

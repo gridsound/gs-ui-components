@@ -3,7 +3,7 @@
 This component takes a `<canvas>` at first, and let us able to draw the result of [getByteFrequencyData (MDN)](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteFrequencyData) by calling a `.draw` method with the `Uint8Array`. The component use colors instead of bars' height to render the frequencies which leads to need only 1 dimension, so the Canvas' resolution can be really small for the same quality.<br/>
 <br/>
 <p align="center">
-  <a href="https://codepen.io/mr21/full/Rpyxwb">
+  <a href="https://cdpn.io/gzYNRW">
     <img src="https://gridsound.github.io/assets/screenshots/gsuiSpectrum.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>

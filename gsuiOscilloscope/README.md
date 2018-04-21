@@ -3,7 +3,7 @@
 This component takes a `<canvas>` at first, and let us able to draw the result of [getByteTimeDomainData (MDN)](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteTimeDomainData) by calling a `.draw` method with the `Uint8Array`. The component is written in a way to let the user being able to overwrite the draw, by applying a specific color to the [CanvasRenderingContext2D (MDN)](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D) directly with some specific callbacks.<br/>
 <br/>
 <p align="center">
-  <a href="https://codepen.io/mr21/full/oZqOpg">
+  <a href="https://cdpn.io/xjKoZN">
     <img src="https://gridsound.github.io/assets/screenshots/gsuiOscilloscope.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>

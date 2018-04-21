@@ -4,7 +4,7 @@ This component takes a `<svg>` at first, and let us able to draw each step, beat
 This component is a lot inspired of *FL Studio* (obviously).
 <br/>
 <p align="center">
-  <a href="https://codepen.io/mr21/full/MmJVZx">
+  <a href="https://cdpn.io/yKrLOO">
     <img src="https://gridsound.github.io/assets/screenshots/gsuiBeatlines.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>
