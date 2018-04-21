@@ -1,10 +1,10 @@
-# gsuiTimeLine
+# gsuiTimeline
 
 This component let you able to draw a precise timeline to be above (or below) a scheduled audio area (like a *PianoRoll* or a grid sample, etc.). This component handle a lot of different mouse events to let the internaute change the **currentTime** and the **loop**. The component handles all the mouse events related to the currentTime and the creation and modification of a *timeloop* inside the *timeline*. It handles also different [time signature](https://en.wikipedia.org/wiki/Time_signature).<br/>
 <br/>
 <p align="center">
-  <a href="https://codepen.io/mr21/full/Omzyeq">
-    <img src="https://gridsound.github.io/assets/screenshots/gsuiTimeLine.png"/><br/>
+  <a href="https://cdpn.io/PePwEK">
+    <img src="https://gridsound.github.io/assets/screenshots/gsuiTimeline.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>
 </p>

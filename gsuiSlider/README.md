@@ -3,7 +3,7 @@
 An horizontal, vertical and circular slider who use an invisible `<input type="range"/>` inside. The standard Input Events are simulated in the exact same way. The component gives UI possibilities who are not possible in a classic way.<br/>
 <br/>
 <p align="center">
-  <a href="https://codepen.io/mr21/full/Rpqmdb">
+  <a href="https://cdpn.io/NMGqOQ">
     <img src="https://gridsound.github.io/assets/screenshots/gsuiSlider.png"/><br/>
     <b>Demo</b> (<i>CodePen</i>)
   </a>
