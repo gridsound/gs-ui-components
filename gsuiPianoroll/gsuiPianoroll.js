@@ -157,6 +157,13 @@ class gsuiPianoroll {
 		uiBeatlines.offset( offset, pxPerBeat );
 	}
 
+	// Shortcuts
+	// ........................................................................
+	_getWhenFromPageX( pageX ) {
+		return ( pageX - this._.nlRows[ 0 ].getBoundingClientRect().left )
+			/ this._.pxPerBeat;
+	}
+
 	// Mouse events
 	// ........................................................................
 	_elRowsScroll( e ) {
@@ -232,10 +239,9 @@ class gsuiPianoroll {
 			}
 		} else if ( e.button === 0 ) {
 			const id = _.idMax + 1,
-				when = ( e.pageX - tar.getBoundingClientRect().left ) / _.pxPerBeat,
 				obj = {
 					key,
-					when: _.uiTimeline.beatFloor( when ),
+					when: _.uiTimeline.beatFloor( this._getWhenFromPageX( e.pageX ) ),
 					duration: _.currKeyDuration
 				};
 
