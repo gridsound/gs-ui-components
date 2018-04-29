@@ -3,13 +3,17 @@
 	--gsuiPianoroll-keyColor: rgba(170,170,230,.8);
 	--gsuiPianoroll-keySelectedColor: rgba(230,150,150,.8);
 	--gsuiPianoroll-timelineHeight: 32px;
+	--gsuiPianoroll-selectionColor: red;
+	--gsuiPianoroll-selectionBorderColor: red;
 }
 
+/* .......................................................................... */
 .gsuiPianoroll {
 	width: 100%;
 	height: 500px;
 }
 
+/* .......................................................................... */
 .gsuiPianoroll-pan-keys {
 	position: relative;
 	width: 100px;
@@ -25,6 +29,12 @@
 	margin-top: var(--gsuiPianoroll-timelineHeight);
 }
 
+/* .......................................................................... */
+.gsuiPianoroll-rowsWrap {
+	flex: 1;
+	position: relative;
+	background-color: var(--gsuiPianoroll-bgColor);
+}
 .gsuiPianoroll-rows,
 .gsuiPianoroll-keys {
 	position: absolute;
@@ -38,17 +48,15 @@
 	top: var(--gsuiPianoroll-timelineHeight);
 }
 
+/* .......................................................................... */
 .gsuiPianoroll-timeline {
 	height: var(--gsuiPianoroll-timelineHeight);
 }
 .gsuiPianoroll .gsuiTimeline {
 	height: 100%;
 }
-.gsuiPianoroll-rowsWrap {
-	flex: 1;
-	position: relative;
-	background-color: var(--gsuiPianoroll-bgColor);
-}
+
+/* .......................................................................... */
 .gsuiPianoroll-beatlines {
 	position: absolute;
 	width: 100%;
@@ -58,12 +66,29 @@
 	width: 100%;
 	height: 100%;
 }
+
+/* .......................................................................... */
+.gsuiPianoroll-selection {
+	position: absolute;
+	border: 2px solid var(--gsuiPianoroll-selectionBorderColor);
+	background-color: var(--gsuiPianoroll-selectionColor);
+	transition: .2s;
+	transition-property: opacity, visibility;
+}
+.gsuiPianoroll-selection-hide {
+	opacity: 0;
+	visibility: hidden;
+}
+
+
+/* .......................................................................... */
 .gsuiPianoroll .gsuiKey-row {
 	width: 1000000px;
 }
 .gsuiPianoroll .gsuiKey-row:hover { background-color: rgba(255,255,255,.03); }
 .gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba(0,0,0,.15); }
 
+/* .......................................................................... */
 .gsuiPianoroll .gsui-keyBlock {
 	position: absolute;
 	z-index: 1;
