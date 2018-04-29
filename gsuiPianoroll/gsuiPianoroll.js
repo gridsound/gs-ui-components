@@ -25,16 +25,18 @@ class gsuiPianoroll {
 			uiTimeline,
 			uiKeysRoot,
 			uiBeatlines,
+			elSelection: root.querySelector( ".gsuiPianoroll-selection" ),
 			idMax: 1,
 			offset: 0,
 			nlRows: elRows.getElementsByClassName( "gsui-row" ),
 			fontSize: 16,
 			pxPerBeat: 64,
-			mouseDeleting: false,
 			elPanGridWidth: 0,
 			currKeyDuration: 1,
 			elRowsScrollTop: -1,
 			elRowsScrollLeft: -1,
+			blcSelected: {},
+			mouseDeleting: false,
 			mouseBlcDeleting: [],
 			keyBlocks: {},
 			rowsByMidi: {},
@@ -233,11 +235,7 @@ class gsuiPianoroll {
 
 		if ( e.button === 2 ) {
 			_.mouseDeleting = true;
-			if ( tar.classList.contains( "gsui-keyBlock" ) ) {
-				tar.classList.add( "gsui-keyBlock-hide" );
-				_.mouseBlcDeleting.push( tar );
-			}
-		} else if ( e.button === 0 ) {
+		} else if ( e.button === 0 && !e.shiftKey ) {
 			const id = _.idMax + 1,
 				obj = {
 					key,
@@ -301,6 +299,7 @@ class gsuiPianoroll {
 		el.classList.toggle( "gsui-keyBlock-selected", obj.selected );
 		el.style.left = obj.when + "em";
 		el.style.width = obj.duration + "em";
+		el.onmousedown = this._keyMousedown.bind( this, id );
 		keyBlocks[ id ] = el;
 		rowsByMidi[ obj.key ].firstChild.append( el );
 	}
@@ -312,6 +311,29 @@ class gsuiPianoroll {
 			case "duration": el.style.width = val + "em"; break;
 			case "selected": el.classList.toggle( "gsui-keyBlock-selected", !!val ); break;
 		}
+	}
+	_keyMousedown( id, e ) {
+		const _ = this._,
+			blc = e.target;
+
+		e.stopPropagation();
+		if ( e.button === 2 ) {
+			blc.classList.add( "gsui-keyBlock-hide" );
+			_.mouseBlcDeleting.push( blc );
+			_.mouseDeleting = true;
+		} else if ( e.button === 0 ) {
+			if ( e.shiftKey ) {
+				const selected = blc.classList.toggle( "gsui-keyBlock-selected" );
+
+				if ( selected ) {
+					_.blcSelected[ id ] = blc;
+				} else {
+					delete _.blcSelected[ id ];
+				}
+				this.onchange( { [ id ]: { selected } } );
+			}
+		}
+		gsuiPianoroll._focused = this;
 	}
 
 	// Data proxy
