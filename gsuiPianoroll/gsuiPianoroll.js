@@ -266,15 +266,17 @@ class gsuiPianoroll {
 		const _ = this._;
 
 		if ( _.mouseDeleting ) {
-			const obj = _.mouseBlcDeleting.reduce( ( obj, blc ) => {
-					blc.remove();
-					obj[ blc.dataset.id ] = null;
-					return obj;
-				}, {} );
-
-			_.mouseBlcDeleting.length = 0;
 			_.mouseDeleting = false;
-			this.onchange( obj );
+			if ( _.mouseBlcDeleting.length > 0 ) {
+				const obj = _.mouseBlcDeleting.reduce( ( obj, blc ) => {
+						blc.remove();
+						obj[ blc.dataset.id ] = null;
+						return obj;
+					}, {} );
+
+				_.mouseBlcDeleting.length = 0;
+				this.onchange( obj );
+			}
 		}
 		delete gsuiPianoroll._focused;
 	}
