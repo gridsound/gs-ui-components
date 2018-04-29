@@ -66,6 +66,7 @@
 
 .gsuiPianoroll .gsui-keyBlock {
 	position: absolute;
+	z-index: 1;
 	height: 100%;
 	border-radius: 2px;
 	background-color: var(--gsuiPianoroll-keyColor);
@@ -75,5 +76,6 @@
 	background-color: var(--gsuiPianoroll-keySelectedColor);
 }
 .gsuiPianoroll .gsui-keyBlock-hide {
-	opacity: .4;
+	z-index: 0;
+	opacity: .3;
 }
