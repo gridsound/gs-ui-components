@@ -25,7 +25,6 @@ class gsuiPianoroll {
 			uiTimeline,
 			uiKeysRoot,
 			uiBeatlines,
-			elSelection: root.querySelector( ".gsuiPianoroll-selection" ),
 			idMax: 1,
 			offset: 0,
 			nlRows: elRows.getElementsByClassName( "gsui-row" ),
@@ -36,11 +35,11 @@ class gsuiPianoroll {
 			elRowsScrollTop: -1,
 			elRowsScrollLeft: -1,
 			mouseDeleting: false,
-			mouseSelecting: false,
-			mouseSelectingX: 0,
-			mouseSelectingY: 0,
 			mouseBlcDeleting: [],
 			mouseBlcSelecting: [],
+			selection: {
+				el: root.querySelector( ".gsuiPianoroll-selection" ),
+			},
 			keyBlc: {},
 			rowsByMidi: {},
 			keyBlcSelected: {},
@@ -165,9 +164,15 @@ class gsuiPianoroll {
 
 	// Shortcuts
 	// ........................................................................
+	_getRowsBCR() {
+		return this._.nlRows[ 0 ].getBoundingClientRect();
+	}
 	_getWhenFromPageX( pageX ) {
-		return ( pageX - this._.nlRows[ 0 ].getBoundingClientRect().left )
-			/ this._.pxPerBeat;
+		return this._.uiTimeline.beatFloor(
+			( pageX - this._getRowsBCR().left ) / this._.pxPerBeat );
+	}
+	_getRowIndFromPageY( pageY ) {
+		return Math.floor( ( pageY - this._getRowsBCR().top ) / this._.fontSize );
 	}
 
 	// Mouse events
@@ -239,16 +244,20 @@ class gsuiPianoroll {
 
 		if ( e.button === 2 ) {
 			_.mouseDeleting = true;
-		} else if ( e.button === 0 && !e.shiftKey ) {
-			const id = _.idMax + 1,
-				keyObj = {
-					key,
-					when: _.uiTimeline.beatFloor( this._getWhenFromPageX( e.pageX ) ),
-					duration: _.currKeyDuration
-				};
+		} else if ( e.button === 0 ) {
+			if ( e.shiftKey ) {
+				this._mousedownSelection( e );
+			} else {
+				const id = _.idMax + 1,
+					keyObj = {
+						key,
+						when: this._getWhenFromPageX( e.pageX ),
+						duration: _.currKeyDuration
+					};
 
-			this.data[ id ] = keyObj;
-			this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
+				this.data[ id ] = keyObj;
+				this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
+			}
 		}
 		gsuiPianoroll._focused = this;
 	}
@@ -256,12 +265,17 @@ class gsuiPianoroll {
 		const _ = this._,
 			tar = e.target;
 
-		if ( _.mouseDeleting
-			&& tar.classList.contains( "gsui-keyBlock" )
-			&& !tar.classList.contains( "gsui-keyBlock-hide" )
-		) {
-			tar.classList.add( "gsui-keyBlock-hide" );
-			_.mouseBlcDeleting.push( tar );
+		if ( _.mouseDeleting ) {
+			if ( tar.classList.contains( "gsui-keyBlock" ) &&
+				!tar.classList.contains( "gsui-keyBlock-hide" )
+			) {
+				tar.classList.add( "gsui-keyBlock-hide" );
+				_.mouseBlcDeleting.push( tar );
+			}
+		} else if ( _.selection.status === 1 ) {
+			this._startSelection( e );
+		} else if ( _.selection.status === 2 ) {
+			this._mousemoveSelection( e );
 		}
 	}
 	_mouseup( e ) {
@@ -279,8 +293,8 @@ class gsuiPianoroll {
 				_.mouseBlcDeleting.length = 0;
 				this.onchange( obj );
 			}
-		} else if ( _.mouseSelecting ) {
-			_.mouseSelecting = false;
+		} else if ( _.selection.status === 2 ) {
+			this._stopSelection();
 			if ( _.mouseBlcSelecting.length > 0 ) {
 				const obj = _.mouseBlcSelecting.reduce( ( obj, blc ) => {
 						obj[ blc.dataset.id ] = { selected: true };
@@ -364,12 +378,59 @@ class gsuiPianoroll {
 				const blc = this.data[ id ],
 					selected = !blc.selected;
 
-				_.mouseSelecting = true;
 				blc.selected = selected;
 				this.onchange( { [ id ]: { selected } } );
+				this._mousedownSelection( e );
 			}
 		}
 		gsuiPianoroll._focused = this;
+	}
+
+	// Square selection
+	// ........................................................................
+	_mousedownSelection( e ) {
+		const _ = this._.selection;
+
+		_.status = 1;
+		_.pageX = e.pageX;
+		_.pageY = e.pageY;
+		_.when = this._getWhenFromPageX( e.pageX );
+		_.rowInd = this._getRowIndFromPageY( e.pageY );
+	}
+	_startSelection( e ) {
+		const _ = this._.selection;
+
+		if ( Math.abs( e.pageX - _.pageX ) > 6 ||
+			Math.abs( e.pageY - _.pageY ) > 6
+		) {
+			const bcr = this._getRowsBCR();
+
+			_.status = 2;
+			_.el.classList.remove( "gsuiPianoroll-selection-hide" );
+			this._mousemoveSelection( e );
+		}
+	}
+	_stopSelection() {
+		const _ = this._.selection;
+
+		_.status = 0;
+		_.el.classList.add( "gsuiPianoroll-selection-hide" );
+	}
+	_mousemoveSelection( e ) {
+		const _ = this._,
+			_sel = _.selection,
+			st = _sel.el.style,
+			rowIndB = this._getRowIndFromPageY( e.pageY ),
+			whenB = this._getWhenFromPageX( e.pageX ),
+			topRow = Math.min( _sel.rowInd, rowIndB ),
+			heightRow = 1 + Math.abs( _sel.rowInd - rowIndB ),
+			when = Math.min( _sel.when, whenB ),
+			duration = 1 / this._.uiTimeline._stepsPerBeat + Math.abs( _sel.when - whenB );
+
+		st.top = topRow * _.fontSize + "px";
+		st.left = when * _.pxPerBeat + "px";
+		st.width = duration * _.pxPerBeat + "px";
+		st.height = heightRow * _.fontSize + "px";
 	}
 
 	// Data proxy

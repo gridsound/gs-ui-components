@@ -1,10 +1,10 @@
 :root {
 	--gsuiPianoroll-bgColor: #3a5158;
-	--gsuiPianoroll-keyColor: rgba(170,170,230,.8);
-	--gsuiPianoroll-keySelectedColor: rgba(230,150,150,.8);
+	--gsuiPianoroll-keyColor: rgba(170, 170, 230, .8);
+	--gsuiPianoroll-keySelectedColor: rgba(230, 150, 150, .8);
 	--gsuiPianoroll-timelineHeight: 32px;
-	--gsuiPianoroll-selectionColor: red;
-	--gsuiPianoroll-selectionBorderColor: red;
+	--gsuiPianoroll-selectionColor: rgba(189, 38, 38, .4);
+	--gsuiPianoroll-selectionBorderColor: #f44;
 }
 
 /* .......................................................................... */
@@ -70,7 +70,10 @@
 /* .......................................................................... */
 .gsuiPianoroll-selection {
 	position: absolute;
+	box-sizing: border-box;
+	z-index: 2;
 	border: 2px solid var(--gsuiPianoroll-selectionBorderColor);
+	border-radius: 4px;
 	background-color: var(--gsuiPianoroll-selectionColor);
 	transition: .2s;
 	transition-property: opacity, visibility;
@@ -85,8 +88,8 @@
 .gsuiPianoroll .gsuiKey-row {
 	width: 1000000px;
 }
-.gsuiPianoroll .gsuiKey-row:hover { background-color: rgba(255,255,255,.03); }
-.gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba(0,0,0,.15); }
+.gsuiPianoroll .gsuiKey-row:hover { background-color: rgba(255, 255, 255, .03); }
+.gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba(0, 0, 0, .15); }
 
 /* .......................................................................... */
 .gsuiPianoroll .gsui-keyBlock {
