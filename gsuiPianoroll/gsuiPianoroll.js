@@ -35,11 +35,15 @@ class gsuiPianoroll {
 			currKeyDuration: 1,
 			elRowsScrollTop: -1,
 			elRowsScrollLeft: -1,
-			blcSelected: {},
 			mouseDeleting: false,
+			mouseSelecting: false,
+			mouseSelectingX: 0,
+			mouseSelectingY: 0,
 			mouseBlcDeleting: [],
-			keyBlocks: {},
+			mouseBlcSelecting: [],
+			keyBlc: {},
 			rowsByMidi: {},
+			keyBlcSelected: {},
 		} );
 		this.onchange =
 		this.onchangeLoop =
@@ -237,14 +241,14 @@ class gsuiPianoroll {
 			_.mouseDeleting = true;
 		} else if ( e.button === 0 && !e.shiftKey ) {
 			const id = _.idMax + 1,
-				obj = {
+				keyObj = {
 					key,
 					when: _.uiTimeline.beatFloor( this._getWhenFromPageX( e.pageX ) ),
 					duration: _.currKeyDuration
 				};
 
-			this.data[ id ] = obj;
-			this.onchange( { [ id ]: obj } );
+			this.data[ id ] = keyObj;
+			this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
 		}
 		gsuiPianoroll._focused = this;
 	}
@@ -267,12 +271,24 @@ class gsuiPianoroll {
 			_.mouseDeleting = false;
 			if ( _.mouseBlcDeleting.length > 0 ) {
 				const obj = _.mouseBlcDeleting.reduce( ( obj, blc ) => {
-						blc.remove();
 						obj[ blc.dataset.id ] = null;
+						delete this.data[ blc.dataset.id ];
 						return obj;
 					}, {} );
 
 				_.mouseBlcDeleting.length = 0;
+				this.onchange( obj );
+			}
+		} else if ( _.mouseSelecting ) {
+			_.mouseSelecting = false;
+			if ( _.mouseBlcSelecting.length > 0 ) {
+				const obj = _.mouseBlcSelecting.reduce( ( obj, blc ) => {
+						obj[ blc.dataset.id ] = { selected: true };
+						this.data[ blc.dataset.id ].selected = true;
+						return obj;
+					}, {} );
+
+				_.mouseBlcSelecting.length = 0;
 				this.onchange( obj );
 			}
 		}
@@ -282,16 +298,14 @@ class gsuiPianoroll {
 	// Key's functions
 	// ........................................................................
 	_deleteKey( id ) {
-		const { keyBlocks } = this._;
+		const _ = this._;
 
-		keyBlocks[ id ].remove();
-		delete keyBlocks[ id ];
+		_.keyBlc[ id ].remove();
+		delete _.keyBlc[ id ];
+		delete _.keyBlcSelected[ id ];
 	}
 	_setKey( id, obj ) {
-		const {
-				keyBlocks,
-				rowsByMidi,
-			} = this._,
+		const _ = this._,
 			el = document.createElement( "div" );
 
 		el.dataset.id = id;
@@ -300,17 +314,41 @@ class gsuiPianoroll {
 		el.style.left = obj.when + "em";
 		el.style.width = obj.duration + "em";
 		el.onmousedown = this._keyMousedown.bind( this, id );
-		keyBlocks[ id ] = el;
-		rowsByMidi[ obj.key ].firstChild.append( el );
+		_.keyBlc[ id ] = el;
+		_.rowsByMidi[ obj.key ].firstChild.append( el );
 	}
 	_setKeyProp( id, prop, val ) {
-		const el = this._.keyBlocks[ id ];
+		const _ = this._,
+			el = _.keyBlc[ id ];
 
 		switch ( prop ) {
-			case "when": el.style.left = val + "em"; break;
-			case "duration": el.style.width = val + "em"; break;
-			case "selected": el.classList.toggle( "gsui-keyBlock-selected", !!val ); break;
+			case "when":
+				el.style.left = val + "em";
+				break;
+			case "duration":
+				el.style.width = val + "em";
+				break;
+			case "selected":
+				if ( val ) {
+					_.keyBlcSelected[ id ] = el;
+				} else {
+					delete _.keyBlcSelected[ id ];
+				}
+				el.classList.toggle( "gsui-keyBlock-selected", !!val );
+				break;
 		}
+	}
+	_unselectKeys( obj ) {
+		const _ = this._,
+			sel = Object.values( _.keyBlcSelected );
+
+		return sel.reduce( ( obj, blc ) => {
+			const id = blc.dataset.id;
+
+			this.data[ id ].selected = false;
+			obj[ id ] = { selected: false };
+			return obj;
+		}, obj );
 	}
 	_keyMousedown( id, e ) {
 		const _ = this._,
@@ -323,13 +361,11 @@ class gsuiPianoroll {
 			_.mouseDeleting = true;
 		} else if ( e.button === 0 ) {
 			if ( e.shiftKey ) {
-				const selected = blc.classList.toggle( "gsui-keyBlock-selected" );
+				const blc = this.data[ id ],
+					selected = !blc.selected;
 
-				if ( selected ) {
-					_.blcSelected[ id ] = blc;
-				} else {
-					delete _.blcSelected[ id ];
-				}
+				_.mouseSelecting = true;
+				blc.selected = selected;
 				this.onchange( { [ id ]: { selected } } );
 			}
 		}
