@@ -73,7 +73,7 @@
 .gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba(0, 0, 0, .15); }
 
 /* .......................................................................... */
-.gsuiPianoroll .gsui-keyBlock {
+.gsuiPianoroll .gsui-block {
 	position: absolute;
 	z-index: 1;
 	height: 100%;
@@ -81,10 +81,10 @@
 	background-color: var(--gsuiPianoroll-keyColor);
 	transition: .1s opacity;
 }
-.gsuiPianoroll .gsui-keyBlock-selected {
+.gsuiPianoroll .gsui-block-selected {
 	background-color: var(--gsuiPianoroll-keySelectedColor);
 }
-.gsuiPianoroll .gsui-keyBlock-hide {
+.gsuiPianoroll .gsui-block-hidden {
 	z-index: 0;
 	opacity: .3;
 }
