@@ -37,13 +37,11 @@ class gsuiPianoroll {
 			mouseDeleting: false,
 			mouseBlcDeleting: [],
 			mouseBlcSelecting: [],
-			selection: {
-				el: root.querySelector( ".gsuiPianoroll-selection" ),
-			},
 			keyBlc: {},
 			rowsByMidi: {},
 			keyBlcSelected: {},
 		} );
+		this.selection = new gsuiRectSelection( this, root.querySelector( ".gsuiRectSelection" ) );
 		this.onchange =
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
@@ -246,7 +244,7 @@ class gsuiPianoroll {
 			_.mouseDeleting = true;
 		} else if ( e.button === 0 ) {
 			if ( e.shiftKey ) {
-				this._mousedownSelection( e );
+				this.selection.mousedown( e );
 			} else {
 				const id = _.idMax + 1,
 					keyObj = {
@@ -272,14 +270,13 @@ class gsuiPianoroll {
 				tar.classList.add( "gsui-keyBlock-hide" );
 				_.mouseBlcDeleting.push( tar );
 			}
-		} else if ( _.selection.status === 1 ) {
-			this._startSelection( e );
-		} else if ( _.selection.status === 2 ) {
-			this._mousemoveSelection( e );
+		} else {
+			this.selection.mousemove( e );
 		}
 	}
 	_mouseup( e ) {
-		const _ = this._;
+		const _ = this._,
+			sel = this.selection;
 
 		if ( _.mouseDeleting ) {
 			_.mouseDeleting = false;
@@ -293,8 +290,8 @@ class gsuiPianoroll {
 				_.mouseBlcDeleting.length = 0;
 				this.onchange( obj );
 			}
-		} else if ( _.selection.status === 2 ) {
-			this._stopSelection();
+		} else if ( sel._.status === 2 ) {
+			sel.mouseup();
 			if ( _.mouseBlcSelecting.length > 0 ) {
 				const obj = _.mouseBlcSelecting.reduce( ( obj, blc ) => {
 						obj[ blc.dataset.id ] = { selected: true };
@@ -380,57 +377,10 @@ class gsuiPianoroll {
 
 				blc.selected = selected;
 				this.onchange( { [ id ]: { selected } } );
-				this._mousedownSelection( e );
+				this.selection.mousedown( e );
 			}
 		}
 		gsuiPianoroll._focused = this;
-	}
-
-	// Square selection
-	// ........................................................................
-	_mousedownSelection( e ) {
-		const _ = this._.selection;
-
-		_.status = 1;
-		_.pageX = e.pageX;
-		_.pageY = e.pageY;
-		_.when = this._getWhenFromPageX( e.pageX );
-		_.rowInd = this._getRowIndFromPageY( e.pageY );
-	}
-	_startSelection( e ) {
-		const _ = this._.selection;
-
-		if ( Math.abs( e.pageX - _.pageX ) > 6 ||
-			Math.abs( e.pageY - _.pageY ) > 6
-		) {
-			const bcr = this._getRowsBCR();
-
-			_.status = 2;
-			_.el.classList.remove( "gsuiPianoroll-selection-hide" );
-			this._mousemoveSelection( e );
-		}
-	}
-	_stopSelection() {
-		const _ = this._.selection;
-
-		_.status = 0;
-		_.el.classList.add( "gsuiPianoroll-selection-hide" );
-	}
-	_mousemoveSelection( e ) {
-		const _ = this._,
-			_sel = _.selection,
-			st = _sel.el.style,
-			rowIndB = this._getRowIndFromPageY( e.pageY ),
-			whenB = this._getWhenFromPageX( e.pageX ),
-			topRow = Math.min( _sel.rowInd, rowIndB ),
-			heightRow = 1 + Math.abs( _sel.rowInd - rowIndB ),
-			when = Math.min( _sel.when, whenB ),
-			duration = 1 / this._.uiTimeline._stepsPerBeat + Math.abs( _sel.when - whenB );
-
-		st.top = topRow * _.fontSize + "px";
-		st.left = when * _.pxPerBeat + "px";
-		st.width = duration * _.pxPerBeat + "px";
-		st.height = heightRow * _.fontSize + "px";
 	}
 
 	// Data proxy
@@ -471,7 +421,7 @@ class gsuiPianoroll {
 		this._setKeyProp( id, prop, val );
 		return true;
 	}
-};
+}
 
 gsuiPianoroll.template = document.querySelector( "#gsuiPianoroll-template" );
 gsuiPianoroll.template.remove();
