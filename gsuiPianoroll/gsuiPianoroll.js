@@ -166,11 +166,13 @@ class gsuiPianoroll {
 		return this._.nlRows[ 0 ].getBoundingClientRect();
 	}
 	_getWhenFromPageX( pageX ) {
-		return this._.uiTimeline.beatFloor(
-			( pageX - this._getRowsBCR().left ) / this._.pxPerBeat );
+		return Math.max( 0, this._.uiTimeline.beatFloor(
+			( pageX - this._getRowsBCR().left ) / this._.pxPerBeat ) );
 	}
 	_getRowIndFromPageY( pageY ) {
-		return Math.floor( ( pageY - this._getRowsBCR().top ) / this._.fontSize );
+		const ind = Math.floor( ( pageY - this._getRowsBCR().top ) / this._.fontSize );
+
+		return Math.max( 0, Math.min( ind, this._.nlRows.length - 1 ) );
 	}
 
 	// Mouse events
