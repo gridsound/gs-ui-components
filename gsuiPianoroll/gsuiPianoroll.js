@@ -264,10 +264,10 @@ class gsuiPianoroll {
 			tar = e.target;
 
 		if ( _.mouseDeleting ) {
-			if ( tar.classList.contains( "gsui-keyBlock" ) &&
-				!tar.classList.contains( "gsui-keyBlock-hide" )
+			if ( tar.classList.contains( "gsui-block" ) &&
+				!tar.classList.contains( "gsui-block-hidden" )
 			) {
-				tar.classList.add( "gsui-keyBlock-hide" );
+				tar.classList.add( "gsui-block-hidden" );
 				_.mouseBlcDeleting.push( tar );
 			}
 		} else {
@@ -320,8 +320,8 @@ class gsuiPianoroll {
 			el = document.createElement( "div" );
 
 		el.dataset.id = id;
-		el.className = "gsui-keyBlock";
-		el.classList.toggle( "gsui-keyBlock-selected", obj.selected );
+		el.className = "gsui-block";
+		el.classList.toggle( "gsui-block-selected", obj.selected );
 		el.style.left = obj.when + "em";
 		el.style.width = obj.duration + "em";
 		el.onmousedown = this._keyMousedown.bind( this, id );
@@ -345,7 +345,7 @@ class gsuiPianoroll {
 				} else {
 					delete _.keyBlcSelected[ id ];
 				}
-				el.classList.toggle( "gsui-keyBlock-selected", !!val );
+				el.classList.toggle( "gsui-block-selected", !!val );
 				break;
 		}
 	}
@@ -367,7 +367,7 @@ class gsuiPianoroll {
 
 		e.stopPropagation();
 		if ( e.button === 2 ) {
-			blc.classList.add( "gsui-keyBlock-hide" );
+			blc.classList.add( "gsui-block-hidden" );
 			_.mouseBlcDeleting.push( blc );
 			_.mouseDeleting = true;
 		} else if ( e.button === 0 ) {
