@@ -35,11 +35,12 @@ class gsuiPianoroll {
 			elRowsScrollTop: -1,
 			elRowsScrollLeft: -1,
 			mouseDeleting: false,
-			mouseBlcDeleting: [],
-			mouseBlcSelecting: [],
 			keyBlc: {},
 			rowsByMidi: {},
 			keyBlcSelected: {},
+			keyBlcSelecting: [],
+			keyBlcDeleting: [],
+			selectionBlc: {},
 		} );
 		this.selection = new gsuiRectSelection( this, root.querySelector( ".gsuiRectSelection" ) );
 		this.onchange =
@@ -270,7 +271,7 @@ class gsuiPianoroll {
 				!tar.classList.contains( "gsui-block-hidden" )
 			) {
 				tar.classList.add( "gsui-block-hidden" );
-				_.mouseBlcDeleting.push( tar );
+				_.keyBlcDeleting.push( tar );
 			}
 		} else {
 			this.selection.mousemove( e );
@@ -282,26 +283,28 @@ class gsuiPianoroll {
 
 		if ( _.mouseDeleting ) {
 			_.mouseDeleting = false;
-			if ( _.mouseBlcDeleting.length > 0 ) {
-				const obj = _.mouseBlcDeleting.reduce( ( obj, blc ) => {
+			if ( _.keyBlcDeleting.length > 0 ) {
+				const obj = _.keyBlcDeleting.reduce( ( obj, blc ) => {
 						obj[ blc.dataset.id ] = null;
 						delete this.data[ blc.dataset.id ];
 						return obj;
 					}, {} );
 
-				_.mouseBlcDeleting.length = 0;
-				this.onchange( obj );
+				_.keyBlcDeleting.length = 0;
+				this.onchange( this._unselectKeys( obj ) );
+			} else if ( Object.keys( _.keyBlcSelected ).length ) {
+				this.onchange( this._unselectKeys( {} ) );
 			}
 		} else if ( sel._.status === 2 ) {
 			sel.mouseup();
-			if ( _.mouseBlcSelecting.length > 0 ) {
-				const obj = _.mouseBlcSelecting.reduce( ( obj, blc ) => {
+			if ( _.keyBlcSelecting.length > 0 ) {
+				const obj = _.keyBlcSelecting.reduce( ( obj, blc ) => {
 						obj[ blc.dataset.id ] = { selected: true };
 						this.data[ blc.dataset.id ].selected = true;
 						return obj;
 					}, {} );
 
-				_.mouseBlcSelecting.length = 0;
+				_.keyBlcSelecting.length = 0;
 				this.onchange( obj );
 			}
 		}
@@ -358,8 +361,10 @@ class gsuiPianoroll {
 		return sel.reduce( ( obj, blc ) => {
 			const id = blc.dataset.id;
 
-			this.data[ id ].selected = false;
-			obj[ id ] = { selected: false };
+			if ( !( id in obj ) ) {
+				this.data[ id ].selected = false;
+				obj[ id ] = { selected: false };
+			}
 			return obj;
 		}, obj );
 	}
@@ -370,7 +375,7 @@ class gsuiPianoroll {
 		e.stopPropagation();
 		if ( e.button === 2 ) {
 			blc.classList.add( "gsui-block-hidden" );
-			_.mouseBlcDeleting.push( blc );
+			_.keyBlcDeleting.push( blc );
 			_.mouseDeleting = true;
 		} else if ( e.button === 0 ) {
 			if ( e.shiftKey ) {
