@@ -38,7 +38,6 @@ class gsuiPianoroll {
 			keyBlc: {},
 			rowsByMidi: {},
 			keyBlcSelected: {},
-			keyBlcSelecting: [],
 			keyBlcDeleting: [],
 			selectionBlc: {},
 		} );
@@ -163,6 +162,9 @@ class gsuiPianoroll {
 
 	// Shortcuts
 	// ........................................................................
+	_getRowByInd( ind ) {
+		return this._.nlRows[ ind ];
+	}
 	_getRowsBCR() {
 		return this._.nlRows[ 0 ].getBoundingClientRect();
 	}
@@ -296,19 +298,51 @@ class gsuiPianoroll {
 				this.onchange( this._unselectKeys( {} ) );
 			}
 		} else if ( sel._.status === 2 ) {
-			sel.mouseup();
-			if ( _.keyBlcSelecting.length > 0 ) {
-				const obj = _.keyBlcSelecting.reduce( ( obj, blc ) => {
-						obj[ blc.dataset.id ] = { selected: true };
-						this.data[ blc.dataset.id ].selected = true;
-						return obj;
-					}, {} );
+			const objValues = Object.values( _.selectionBlc );
 
-				_.keyBlcSelecting.length = 0;
-				this.onchange( obj );
+			sel.mouseup();
+			if ( objValues.length ) {
+				_.selectionBlc = {};
+				this.onchange( objValues.reduce( ( obj, blc ) => {
+					obj[ blc.dataset.id ] = { selected: true };
+					this.data[ blc.dataset.id ].selected = true;
+					return obj;
+				}, {} ) );
 			}
 		}
 		delete gsuiPianoroll._focused;
+	}
+	_rectSelection( when, duration, rowAInd, rowBInd ) {
+		const _ = this._,
+			rowA = this._getRowByInd( rowAInd ),
+			rowB = this._getRowByInd( rowBInd ),
+			blcs = Object.entries( this.data ).reduce( ( blocks, [ id, key ] ) => {
+				if ( !_.keyBlcSelected[ id ] &&
+					key.when < when + duration &&
+					key.when + key.duration > when
+				) {
+					const keyBlc = _.keyBlc[ id ],
+						posFromRowA = rowA.compareDocumentPosition( keyBlc ),
+						posFromRowB = rowB.compareDocumentPosition( keyBlc );
+
+					if ( posFromRowA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
+						posFromRowB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
+						posFromRowA & Node.DOCUMENT_POSITION_FOLLOWING &&
+						posFromRowB & Node.DOCUMENT_POSITION_PRECEDING
+					) ) {
+						keyBlc.classList.add( "gsui-block-selected" );
+						blocks[ id ] = keyBlc;
+					}
+				}
+				return blocks;
+			}, {} );
+
+		Object.values( _.selectionBlc ).forEach( blc => {
+			if ( !blcs[ blc.dataset.id ] ) {
+				blc.classList.remove( "gsui-block-selected" );
+			}
+		} );
+		_.selectionBlc = blcs;
 	}
 
 	// Key's functions
