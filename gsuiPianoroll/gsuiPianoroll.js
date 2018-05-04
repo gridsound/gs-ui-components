@@ -51,6 +51,7 @@ class gsuiPianoroll {
 			uiBeatlines.currentTime( t );
 			this.onchangeCurrentTime( t );
 		};
+		root.onkeydown = this._onkeydown.bind( this );
 		root.onwheel = e => {
 			e.ctrlKey && e.preventDefault();
 		};
@@ -176,6 +177,24 @@ class gsuiPianoroll {
 		const ind = Math.floor( ( pageY - this._getRowsBCR().top ) / this._.fontSize );
 
 		return Math.max( 0, Math.min( ind, this._.nlRows.length - 1 ) );
+	}
+
+	// Keyboard
+	// ........................................................................
+	_onkeydown( e ) {
+		const _ = this._;
+
+		if ( e.key === "Delete" ) {
+			const arr = Object.keys( _.keyBlcSelected );
+
+			if ( arr.length ) {
+				this.onchange( arr.reduce( ( obj, id ) => {
+					obj[ id ] = null;
+					delete this.data[ id ];
+					return obj;
+				}, {} ) );
+			}
+		}
 	}
 
 	// Mouse events
