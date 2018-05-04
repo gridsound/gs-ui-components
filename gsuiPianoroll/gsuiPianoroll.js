@@ -375,7 +375,8 @@ class gsuiPianoroll {
 	}
 	_setKey( id, obj ) {
 		const _ = this._,
-			el = document.createElement( "div" );
+			el = document.createElement( "div" ),
+			row = _.rowsByMidi[ obj.key ];
 
 		el.dataset.id = id;
 		el.className = "gsui-block";
@@ -384,7 +385,8 @@ class gsuiPianoroll {
 		el.style.width = obj.duration + "em";
 		el.onmousedown = this._keyMousedown.bind( this, id );
 		_.keyBlc[ id ] = el;
-		_.rowsByMidi[ obj.key ].firstChild.append( el );
+		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
+		row.firstChild.append( el );
 	}
 	_setKeyProp( id, prop, val ) {
 		const _ = this._,
@@ -482,6 +484,11 @@ class gsuiPianoroll {
 		return true;
 	}
 }
+
+gsuiPianoroll.noteNames = {
+	en: [ "c",  "c#",  "d",  "d#",  "e",  "f",  "f#",  "g",   "g#",   "a",  "a#",  "b" ],
+	fr: [ "do", "do#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ]
+};
 
 gsuiPianoroll.template = document.querySelector( "#gsuiPianoroll-template" );
 gsuiPianoroll.template.remove();
