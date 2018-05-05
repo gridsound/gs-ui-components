@@ -39,7 +39,6 @@ class gsuiPianoroll {
 			rowsByMidi: {},
 			keyBlcSelected: {},
 			keyBlcDeleting: [],
-			selectionBlc: {},
 		} );
 		this.selection = new gsuiRectSelection( this, root.querySelector( ".gsuiRectSelection" ) );
 		this.onchange =
@@ -163,18 +162,20 @@ class gsuiPianoroll {
 
 	// Shortcuts
 	// ........................................................................
-	_getRowByInd( ind ) {
-		return this._.nlRows[ ind ];
-	}
-	_getRowsBCR() {
-		return this._.nlRows[ 0 ].getBoundingClientRect();
-	}
-	_getWhenFromPageX( pageX ) {
+	getRowsBCR() { return this._.nlRows[ 0 ].getBoundingClientRect(); }
+	getRowHeight() { return this._.fontSize; }
+	getPxPerBeat() { return this._.pxPerBeat; }
+	getBlocks() { return this.data; }
+	getBlocksElements() { return this._.keyBlc; }
+	getSelectedBlocksElements() { return this._.keyBlcSelected; }
+	getRowByIndex( ind ) { return this._.nlRows[ ind ]; }
+	getStepsPerBeat() { return this._.uiTimeline._stepsPerBeat; }
+	getWhenByPageX( pageX ) {
 		return Math.max( 0, this._.uiTimeline.beatFloor(
-			( pageX - this._getRowsBCR().left ) / this._.pxPerBeat ) );
+			( pageX - this.getRowsBCR().left ) / this._.pxPerBeat ) );
 	}
-	_getRowIndFromPageY( pageY ) {
-		const ind = Math.floor( ( pageY - this._getRowsBCR().top ) / this._.fontSize );
+	getRowIndexByPageY( pageY ) {
+		const ind = Math.floor( ( pageY - this.getRowsBCR().top ) / this._.fontSize );
 
 		return Math.max( 0, Math.min( ind, this._.nlRows.length - 1 ) );
 	}
@@ -273,7 +274,7 @@ class gsuiPianoroll {
 				const id = _.idMax + 1,
 					keyObj = {
 						key,
-						when: this._getWhenFromPageX( e.pageX ),
+						when: this.getWhenByPageX( e.pageX ),
 						duration: _.currKeyDuration
 					};
 
@@ -317,11 +318,10 @@ class gsuiPianoroll {
 				this.onchange( this._unselectKeys( {} ) );
 			}
 		} else if ( sel._.status === 2 ) {
-			const objValues = Object.values( _.selectionBlc );
+			const objValues = Object.values( sel.getSelectedBlocks() );
 
 			sel.mouseup();
 			if ( objValues.length ) {
-				_.selectionBlc = {};
 				this.onchange( objValues.reduce( ( obj, blc ) => {
 					obj[ blc.dataset.id ] = { selected: true };
 					this.data[ blc.dataset.id ].selected = true;
@@ -330,38 +330,6 @@ class gsuiPianoroll {
 			}
 		}
 		delete gsuiPianoroll._focused;
-	}
-	_rectSelection( when, duration, rowAInd, rowBInd ) {
-		const _ = this._,
-			rowA = this._getRowByInd( rowAInd ),
-			rowB = this._getRowByInd( rowBInd ),
-			blcs = Object.entries( this.data ).reduce( ( blocks, [ id, key ] ) => {
-				if ( !_.keyBlcSelected[ id ] &&
-					key.when < when + duration &&
-					key.when + key.duration > when
-				) {
-					const keyBlc = _.keyBlc[ id ],
-						posFromRowA = rowA.compareDocumentPosition( keyBlc ),
-						posFromRowB = rowB.compareDocumentPosition( keyBlc );
-
-					if ( posFromRowA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
-						posFromRowB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
-						posFromRowA & Node.DOCUMENT_POSITION_FOLLOWING &&
-						posFromRowB & Node.DOCUMENT_POSITION_PRECEDING
-					) ) {
-						keyBlc.classList.add( "gsui-block-selected" );
-						blocks[ id ] = keyBlc;
-					}
-				}
-				return blocks;
-			}, {} );
-
-		Object.values( _.selectionBlc ).forEach( blc => {
-			if ( !blcs[ blc.dataset.id ] ) {
-				blc.classList.remove( "gsui-block-selected" );
-			}
-		} );
-		_.selectionBlc = blcs;
 	}
 
 	// Key's functions
