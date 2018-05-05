@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiRectSelection {
+class gsuiBlocksEdition {
 	constructor( thisParent, elSelection ) {
 		this.thisParent = thisParent;
 		this._ = Object.seal( {
