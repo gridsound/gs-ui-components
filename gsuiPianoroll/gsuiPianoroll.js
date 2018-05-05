@@ -3,6 +3,7 @@
 class gsuiPianoroll {
 	constructor() {
 		const root = gsuiPianoroll.template.cloneNode( true ),
+			elSelection = root.querySelector( ".gsuiBlocksEdition-selection" ),
 			elRows = root.querySelector( ".gsuiPianoroll-rows" ),
 			elPanKeys = root.querySelector( ".gsuiPianoroll-pan-keys" ),
 			elPanGrid = root.querySelector( ".gsuiPianoroll-pan-grid" ),
@@ -40,7 +41,7 @@ class gsuiPianoroll {
 			keyBlcSelected: {},
 			keyBlcDeleting: [],
 		} );
-		this.selection = new gsuiRectSelection( this, root.querySelector( ".gsuiRectSelection" ) );
+		this.blcsEdition = new gsuiBlocksEdition( this, elSelection );
 		this.onchange =
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
@@ -266,70 +267,55 @@ class gsuiPianoroll {
 		const _ = this._,
 			tar = e.target;
 
-		if ( e.button === 2 ) {
-			_.mouseDeleting = true;
-		} else if ( e.button === 0 ) {
-			if ( e.shiftKey ) {
-				this.selection.mousedown( e );
-			} else {
-				const id = _.idMax + 1,
-					keyObj = {
-						key,
-						when: this.getWhenByPageX( e.pageX ),
-						duration: _.currKeyDuration
-					};
+		this.blcsEdition.mousedown( e );
+		if ( e.button === 0 && !e.shiftKey ) {
+			const id = _.idMax + 1,
+				keyObj = {
+					key,
+					when: this.getWhenByPageX( e.pageX ),
+					duration: _.currKeyDuration
+				};
 
-				this.data[ id ] = keyObj;
-				this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
-			}
+			this.data[ id ] = keyObj;
+			this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
 		}
 		gsuiPianoroll._focused = this;
 	}
 	_mousemove( e ) {
-		const _ = this._,
-			tar = e.target;
-
-		if ( _.mouseDeleting ) {
-			if ( tar.classList.contains( "gsui-block" ) &&
-				!tar.classList.contains( "gsui-block-hidden" )
-			) {
-				tar.classList.add( "gsui-block-hidden" );
-				_.keyBlcDeleting.push( tar );
-			}
-		} else {
-			this.selection.mousemove( e );
-		}
+		this.blcsEdition.mousemove( e );
 	}
 	_mouseup( e ) {
 		const _ = this._,
-			sel = this.selection;
+			edi = this.blcsEdition;
 
-		if ( _.mouseDeleting ) {
-			_.mouseDeleting = false;
-			if ( _.keyBlcDeleting.length > 0 ) {
-				const obj = _.keyBlcDeleting.reduce( ( obj, blc ) => {
-						obj[ blc.dataset.id ] = null;
-						delete this.data[ blc.dataset.id ];
-						return obj;
-					}, {} );
+		if ( edi._.deletionStatus ) {
+			const blcs = edi.getDeletingBlocks();
 
-				_.keyBlcDeleting.length = 0;
+			if ( blcs.size ) {
+				const obj = {};
+
+				blcs.forEach( ( blc, id ) => {
+					obj[ id ] = null;
+					delete this.data[ id ];
+				} );
 				this.onchange( this._unselectKeys( obj ) );
 			} else if ( Object.keys( _.keyBlcSelected ).length ) {
 				this.onchange( this._unselectKeys( {} ) );
 			}
-		} else if ( sel._.status === 2 ) {
-			const objValues = Object.values( sel.getSelectedBlocks() );
+		} else if ( edi._.selectionStatus === 2 ) {
+			const blcs = Object.values( edi.getSelectedBlocks() );
 
-			sel.mouseup();
-			if ( objValues.length ) {
-				this.onchange( objValues.reduce( ( obj, blc ) => {
+			if ( blcs.length ) {
+				const obj = {};
+
+				blcs.forEach( blc => {
 					obj[ blc.dataset.id ] = { selected: true };
 					this.data[ blc.dataset.id ].selected = true;
-					return obj;
-				}, {} ) );
+				} );
+				this.onchange( obj );
 			}
 		}
+		edi.mouseup();
 		delete gsuiPianoroll._focused;
 	}
 
@@ -397,6 +383,7 @@ class gsuiPianoroll {
 			blc = e.target;
 
 		e.stopPropagation();
+		this.blcsEdition.mousedown( e );
 		if ( e.button === 2 ) {
 			blc.classList.add( "gsui-block-hidden" );
 			_.keyBlcDeleting.push( blc );
