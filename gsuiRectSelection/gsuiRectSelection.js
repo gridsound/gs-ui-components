@@ -10,7 +10,12 @@ class gsuiRectSelection {
 			pageY: 0,
 			when: 0,
 			rowInd: 0,
+			selection: {},
 		} );
+	}
+
+	getSelectedBlocks() {
+		return this._.selection;
 	}
 
 	// Events to call manually:
@@ -20,8 +25,8 @@ class gsuiRectSelection {
 		_.status = 1;
 		_.pageX = e.pageX;
 		_.pageY = e.pageY;
-		_.when = this.thisParent._getWhenFromPageX( e.pageX );
-		_.rowInd = this.thisParent._getRowIndFromPageY( e.pageY );
+		_.when = this.thisParent.getWhenByPageX( e.pageX );
+		_.rowInd = this.thisParent.getRowIndexByPageY( e.pageY );
 	}
 	mousemove( e ) {
 		const st = this._.status;
@@ -36,6 +41,7 @@ class gsuiRectSelection {
 		const _ = this._;
 
 		_.status = 0;
+		_.selection = {};
 		_.el.classList.add( "gsuiRectSelection-hidden" );
 	}
 
@@ -46,8 +52,6 @@ class gsuiRectSelection {
 		if ( Math.abs( e.pageX - _.pageX ) > 6 ||
 			Math.abs( e.pageY - _.pageY ) > 6
 		) {
-			const bcr = this.thisParent._getRowsBCR();
-
 			_.status = 2;
 			_.el.classList.remove( "gsuiRectSelection-hidden" );
 			this._move( e );
@@ -56,18 +60,55 @@ class gsuiRectSelection {
 	_move( e ) {
 		const _ = this._,
 			thisP = this.thisParent,
-			thisP_ = thisP._,
+			rowH = thisP.getRowHeight(),
+			pxPB = thisP.getPxPerBeat(),
 			st = _.el.style,
-			rowIndB = thisP._getRowIndFromPageY( e.pageY ),
-			whenB = thisP._getWhenFromPageX( e.pageX ),
+			rowIndB = thisP.getRowIndexByPageY( e.pageY ),
+			whenB = thisP.getWhenByPageX( e.pageX ),
 			topRow = Math.min( _.rowInd, rowIndB ),
-			heightRow = 1 + Math.abs( _.rowInd - rowIndB ),
+			bottomRow = Math.max( _.rowInd, rowIndB ),
 			when = Math.min( _.when, whenB ),
-			duration = 1 / thisP_.uiTimeline._stepsPerBeat + Math.abs( _.when - whenB );
+			duration = 1 / thisP.getStepsPerBeat() + Math.abs( _.when - whenB );
 
-		st.top = topRow * thisP_.fontSize + "px";
-		st.left = when * thisP_.pxPerBeat + "px";
-		st.width = duration * thisP_.pxPerBeat + "px";
-		st.height = heightRow * thisP_.fontSize + "px";
+		st.top = topRow * rowH + "px";
+		st.left = when * pxPB + "px";
+		st.width = duration * pxPB + "px";
+		st.height = ( bottomRow - topRow + 1 ) * rowH + "px";
+		this._selection( when, duration, topRow, bottomRow );
+	}
+	_selection( when, duration, rowAInd, rowBInd ) {
+		const thisP = this.thisParent,
+			elBlcs = thisP.getBlocksElements(),
+			elSelectedBlcs = thisP.getSelectedBlocksElements(),
+			rowA = thisP.getRowByIndex( rowAInd ),
+			rowB = thisP.getRowByIndex( rowBInd ),
+			blcs = Object.entries( thisP.getBlocks() )
+				.reduce( ( obj, [ id, blc ] ) => {
+					if ( !elSelectedBlcs[ id ] &&
+						blc.when < when + duration &&
+						blc.when + blc.duration > when
+					) {
+						const elBlc = elBlcs[ id ],
+							pA = rowA.compareDocumentPosition( elBlc ),
+							pB = rowB.compareDocumentPosition( elBlc );
+
+						if ( pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
+							pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
+							pA & Node.DOCUMENT_POSITION_FOLLOWING &&
+							pB & Node.DOCUMENT_POSITION_PRECEDING )
+						) {
+							elBlc.classList.add( "gsui-block-selected" );
+							obj[ id ] = elBlc;
+						}
+					}
+					return obj;
+				}, {} );
+
+		Object.values( this._.selection ).forEach( blc => {
+			if ( !blcs[ blc.dataset.id ] ) {
+				blc.classList.remove( "gsui-block-selected" );
+			}
+		} );
+		this._.selection = blcs;
 	}
 }
