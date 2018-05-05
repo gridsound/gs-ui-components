@@ -211,6 +211,7 @@ class gsuiPianoroll {
 				elRowsScrollLeft,
 			} = this._;
 
+		this.selection.mousemove( e );
 		if ( elRows.scrollTop !== elRowsScrollTop ) {
 			this._.elRowsScrollTop =
 			elKeys.scrollTop = elRows.scrollTop;
