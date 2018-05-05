@@ -6,8 +6,10 @@ class gsuiRectSelection {
 		this._ = Object.seal( {
 			el: elSelection,
 			status: 0,
-			pageX: 0,
-			pageY: 0,
+			mdPageX: 0,
+			mdPageY: 0,
+			mmPageX: 0,
+			mmPageY: 0,
 			when: 0,
 			rowInd: 0,
 			selection: {},
@@ -23,18 +25,22 @@ class gsuiRectSelection {
 		const _ = this._;
 
 		_.status = 1;
-		_.pageX = e.pageX;
-		_.pageY = e.pageY;
+		_.mdPageX = e.pageX;
+		_.mdPageY = e.pageY;
 		_.when = this.thisParent.getWhenByPageX( e.pageX );
 		_.rowInd = this.thisParent.getRowIndexByPageY( e.pageY );
 	}
 	mousemove( e ) {
 		const st = this._.status;
 
+		if ( e.type === "mousemove" ) {
+			this._.mmPageX = e.pageX;
+			this._.mmPageY = e.pageY;
+		}
 		if ( st === 1 ) {
-			this._start( e );
+			this._start();
 		} else if ( st === 2 ) {
-			this._move( e );
+			this._move();
 		}
 	}
 	mouseup() {
@@ -46,25 +52,25 @@ class gsuiRectSelection {
 	}
 
 	// private:
-	_start( e ) {
+	_start() {
 		const _ = this._;
 
-		if ( Math.abs( e.pageX - _.pageX ) > 6 ||
-			Math.abs( e.pageY - _.pageY ) > 6
+		if ( Math.abs( _.mmPageX - _.mdPageX ) > 6 ||
+			Math.abs( _.mmPageY - _.mdPageY ) > 6
 		) {
 			_.status = 2;
 			_.el.classList.remove( "gsuiRectSelection-hidden" );
-			this._move( e );
+			this._move();
 		}
 	}
-	_move( e ) {
+	_move() {
 		const _ = this._,
 			thisP = this.thisParent,
 			rowH = thisP.getRowHeight(),
 			pxPB = thisP.getPxPerBeat(),
 			st = _.el.style,
-			rowIndB = thisP.getRowIndexByPageY( e.pageY ),
-			whenB = thisP.getWhenByPageX( e.pageX ),
+			rowIndB = thisP.getRowIndexByPageY( _.mmPageY ),
+			whenB = thisP.getWhenByPageX( _.mmPageX ),
 			topRow = Math.min( _.rowInd, rowIndB ),
 			bottomRow = Math.max( _.rowInd, rowIndB ),
 			when = Math.min( _.when, whenB ),
