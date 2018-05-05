@@ -1,19 +1,19 @@
 :root {
-	--gsuiRectSelection-bgColor: rgba(189, 38, 38, .4);
-	--gsuiRectSelection-borderColor: #f44;
+	--gsuiBlocksEdition-selection-bgColor: rgba(189, 38, 38, .4);
+	--gsuiBlocksEdition-selection-borderColor: #f44;
 }
 
-.gsuiRectSelection {
+.gsuiBlocksEdition-selection {
 	position: absolute;
 	box-sizing: border-box;
 	z-index: 2;
-	border: 2px solid var(--gsuiRectSelection-borderColor);
+	border: 2px solid var(--gsuiBlocksEdition-selection-borderColor);
 	border-radius: 4px;
-	background-color: var(--gsuiRectSelection-bgColor);
+	background-color: var(--gsuiBlocksEdition-selection-bgColor);
 	transition: .2s;
 	transition-property: opacity, visibility;
 }
-.gsuiRectSelection-hidden {
+.gsuiBlocksEdition-selection-hidden {
 	opacity: 0;
 	visibility: hidden;
 }
