@@ -4,6 +4,7 @@ class gsuiBlocksEdition {
 	constructor( thisParent, elSelection ) {
 		this.thisParent = thisParent;
 		this._ = Object.seal( {
+			mmFn: null,
 			mdPageX: 0,
 			mdPageY: 0,
 			mmPageX: 0,
@@ -26,6 +27,9 @@ class gsuiBlocksEdition {
 	}
 
 	// Events to call manually:
+	mousemove( e ) {
+		this._.mmFn && this._.mmFn.call( this, e );
+	}
 	mousedown( e ) {
 		const _ = this._;
 
@@ -33,6 +37,7 @@ class gsuiBlocksEdition {
 			const tar = e.target;
 
 			_.deletionStatus = true;
+			_.mmFn = this._deletionMove;
 			if ( tar.classList.contains( "gsui-block" ) ) {
 				tar.classList.add( "gsui-block-hidden" );
 				_.deletion.set( tar.dataset.id, tar );
@@ -41,30 +46,9 @@ class gsuiBlocksEdition {
 			_.selectionStatus = 1;
 			_.mdPageX = e.pageX;
 			_.mdPageY = e.pageY;
+			_.mmFn = this._selectionStart;
 			_.selectionWhen = this.thisParent.getWhenByPageX( e.pageX );
 			_.selectionRowInd = this.thisParent.getRowIndexByPageY( e.pageY );
-		}
-	}
-	mousemove( e ) {
-		const _ = this._;
-
-		if ( _.selectionStatus > 0 ) {
-			if ( e.type === "mousemove" ) {
-				_.mmPageX = e.pageX;
-				_.mmPageY = e.pageY;
-			}
-			_.selectionStatus === 1
-				? this._selectionStart()
-				: this._selectionMove();
-		} else if ( _.deletionStatus ) {
-			const tar = e.target;
-
-			if ( tar.classList.contains( "gsui-block" ) &&
-				!tar.classList.contains( "gsui-block-hidden" )
-			) {
-				tar.classList.add( "gsui-block-hidden" );
-				_.deletion.set( tar.dataset.id, tar );
-			}
 		}
 	}
 	mouseup() {
@@ -78,21 +62,43 @@ class gsuiBlocksEdition {
 			_.deletion.clear();
 			_.deletionStatus = false;
 		}
+		_.mmFn = null;
 	}
 
 	// private:
-	_selectionStart() {
+	_setMousemoveCoord( e ) {
+		if ( e.type === "mousemove" ) {
+			this._.mmPageX = e.pageX;
+			this._.mmPageY = e.pageY;
+		}
+	}
+	_deletionMove( e ) {
+		const _ = this._,
+			tar = e.target;
+
+		if ( tar.classList.contains( "gsui-block" ) &&
+			!tar.classList.contains( "gsui-block-hidden" )
+		) {
+			tar.classList.add( "gsui-block-hidden" );
+			_.deletion.set( tar.dataset.id, tar );
+		}
+	}
+	_selectionStart( e ) {
 		const _ = this._;
 
+		this._setMousemoveCoord( e );
 		if ( Math.abs( _.mmPageX - _.mdPageX ) > 6 ||
 			Math.abs( _.mmPageY - _.mdPageY ) > 6
 		) {
 			_.selectionStatus = 2;
+			_.mmFn = this._selectionMove;
 			_.selectionElement.classList.remove( "gsuiBlocksEdition-selection-hidden" );
-			this._selectionMove();
+			this._selectionMove( e );
 		}
 	}
-	_selectionMove() {
+	_selectionMove( e ) {
+		this._setMousemoveCoord( e );
+
 		const _ = this._,
 			thisP = this.thisParent,
 			rowH = thisP.getRowHeight(),
