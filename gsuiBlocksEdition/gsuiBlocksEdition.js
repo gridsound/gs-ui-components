@@ -32,16 +32,17 @@ class gsuiBlocksEdition {
 		this._.mmFn && this._.mmFn.call( this, e );
 	}
 	mousedown( e ) {
-		const _ = this._,
-			tar = e.currentTarget;
+		const _ = this._;
 
 		if ( e.button === 2 ) {
+			const blc = this._getBlc( e.currentTarget );
+
 			_.deletion.clear();
 			_.deletionStatus = true;
 			_.mmFn = this._deletionMove;
-			if ( tar.classList.contains( "gsui-block" ) ) {
-				tar.classList.add( "gsui-block-hidden" );
-				_.deletion.set( tar.dataset.id, tar );
+			if ( blc ) {
+				blc.classList.add( "gsui-block-hidden" );
+				_.deletion.set( blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 && e.shiftKey ) {
 			_.selection.clear();
@@ -49,17 +50,18 @@ class gsuiBlocksEdition {
 			_.mmFn = this._selectionStart;
 			_.mdPageX = e.pageX;
 			_.mdPageY = e.pageY;
-			_.mdCurrTar = tar;
+			_.mdCurrTar = this._getBlc( e.currentTarget );
 			_.selectionWhen = this.thisParent.getWhenByPageX( e.pageX );
 			_.selectionRowInd = this.thisParent.getRowIndexByPageY( e.pageY );
 		}
 	}
 	mouseup() {
-		const _ = this._,
-			blc = _.mdCurrTar;
+		if ( this._.selectionStatus === 1 ) {
+			const blc = this._getBlc( this._.mdCurrTar );
 
-		if ( _.selectionStatus === 1 && blc.classList.contains( "gsui-block" ) ) {
-			_.selection.set( blc.dataset.id, blc );
+			if ( blc ) {
+				this._.selection.set( blc.dataset.id, blc );
+			}
 		}
 	}
 	clear() {
@@ -75,6 +77,13 @@ class gsuiBlocksEdition {
 	}
 
 	// private:
+	_getBlc( el ) {
+		if ( el.classList.contains( "gsui-block" ) ) {
+			return el;
+		} else if ( el.parentNode.classList.contains( "gsui-block" ) ) {
+			return el.parentNode;
+		}
+	}
 	_setMousemoveCoord( e ) {
 		if ( e.type === "mousemove" ) {
 			this._.mmPageX = e.pageX;
@@ -83,13 +92,11 @@ class gsuiBlocksEdition {
 	}
 	_deletionMove( e ) {
 		const _ = this._,
-			tar = e.target;
+			blc = this._getBlc( e.target );
 
-		if ( tar.classList.contains( "gsui-block" ) &&
-			!tar.classList.contains( "gsui-block-hidden" )
-		) {
-			tar.classList.add( "gsui-block-hidden" );
-			_.deletion.set( tar.dataset.id, tar );
+		if ( blc && !blc.classList.contains( "gsui-block-hidden" ) ) {
+			blc.classList.add( "gsui-block-hidden" );
+			_.deletion.set( blc.dataset.id, blc );
 		}
 	}
 	_selectionStart( e ) {
