@@ -10,7 +10,7 @@ class gsuiBlocksEdition {
 			mmPageX: 0,
 			mmPageY: 0,
 			deletion: new Map(),
-			selection: {},
+			selection: new Map(),
 			selectionWhen: 0,
 			deletionStatus: false,
 			selectionStatus: 0,
@@ -34,8 +34,9 @@ class gsuiBlocksEdition {
 		const _ = this._;
 
 		if ( e.button === 2 ) {
-			const tar = e.target;
+			const tar = e.currentTarget;
 
+			_.deletion.clear();
 			_.deletionStatus = true;
 			_.mmFn = this._deletionMove;
 			if ( tar.classList.contains( "gsui-block" ) ) {
@@ -43,6 +44,7 @@ class gsuiBlocksEdition {
 				_.deletion.set( tar.dataset.id, tar );
 			}
 		} else if ( e.button === 0 && e.shiftKey ) {
+			_.selection.clear();
 			_.selectionStatus = 1;
 			_.mdPageX = e.pageX;
 			_.mdPageY = e.pageY;
@@ -55,11 +57,9 @@ class gsuiBlocksEdition {
 		const _ = this._;
 
 		if ( _.selectionStatus > 0 ) {
-			_.selection = {};
 			_.selectionStatus = 0;
 			_.selectionElement.classList.add( "gsuiBlocksEdition-selection-hidden" );
 		} else if ( _.deletionStatus ) {
-			_.deletion.clear();
 			_.deletionStatus = false;
 		}
 		_.mmFn = null;
@@ -124,12 +124,12 @@ class gsuiBlocksEdition {
 			rowA = thisP.getRowByIndex( rowAInd ),
 			rowB = thisP.getRowByIndex( rowBInd ),
 			blcs = Object.entries( thisP.getBlocks() )
-				.reduce( ( obj, [ id, blc ] ) => {
-					if ( !elSelectedBlcs[ id ] &&
+				.reduce( ( map, [ id, blc ] ) => {
+					if ( !elSelectedBlcs.has( id ) &&
 						blc.when < when + duration &&
 						blc.when + blc.duration > when
 					) {
-						const elBlc = elBlcs[ id ],
+						const elBlc = elBlcs.get( id ),
 							pA = rowA.compareDocumentPosition( elBlc ),
 							pB = rowB.compareDocumentPosition( elBlc );
 
@@ -139,17 +139,14 @@ class gsuiBlocksEdition {
 							pB & Node.DOCUMENT_POSITION_PRECEDING )
 						) {
 							elBlc.classList.add( "gsui-block-selected" );
-							obj[ id ] = elBlc;
+							map.set( id, elBlc );
 						}
 					}
-					return obj;
-				}, {} );
+					return map;
+				}, new Map );
 
-		Object.values( this._.selection ).forEach( blc => {
-			if ( !blcs[ blc.dataset.id ] ) {
-				blc.classList.remove( "gsui-block-selected" );
-			}
-		} );
+		this._.selection.forEach( ( blc, id ) => blc.classList
+			.toggle( "gsui-block-selected", blcs.has( id ) ) );
 		this._.selection = blcs;
 	}
 }
