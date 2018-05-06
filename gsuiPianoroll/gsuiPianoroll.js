@@ -283,6 +283,7 @@ class gsuiPianoroll {
 		const _ = this._,
 			edi = this.blcsEdition;
 
+		edi.mouseup();
 		if ( edi._.deletionStatus ) {
 			const blcs = edi.getDeletingBlocks();
 
@@ -303,14 +304,17 @@ class gsuiPianoroll {
 			if ( blcs.size ) {
 				const obj = {};
 
-				blcs.forEach( ( blc, id ) => {
-					obj[ id ] = { selected: true };
-					this.data[ id ].selected = true;
+				blcs.forEach( ( _, id ) => {
+					const data = this.data[ id ],
+						selected = !data.selected;
+
+					obj[ id ] = { selected };
+					data.selected = selected;
 				} );
 				this.onchange( obj );
 			}
 		}
-		edi.mouseup();
+		edi.clear();
 		delete gsuiPianoroll._focused;
 	}
 
@@ -371,18 +375,8 @@ class gsuiPianoroll {
 		return obj;
 	}
 	_keyMousedown( id, e ) {
-		const _ = this._,
-			blc = e.target;
-
 		e.stopPropagation();
 		this.blcsEdition.mousedown( e );
-		if ( e.button === 0 && e.shiftKey ) {
-			const blc = this.data[ id ],
-				selected = !blc.selected;
-
-			blc.selected = selected;
-			this.onchange( { [ id ]: { selected } } );
-		}
 		gsuiPianoroll._focused = this;
 	}
 
