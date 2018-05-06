@@ -9,6 +9,7 @@ class gsuiBlocksEdition {
 			mdPageY: 0,
 			mmPageX: 0,
 			mmPageY: 0,
+			mdCurrTar: null,
 			deletion: new Map(),
 			selection: new Map(),
 			selectionWhen: 0,
@@ -31,11 +32,10 @@ class gsuiBlocksEdition {
 		this._.mmFn && this._.mmFn.call( this, e );
 	}
 	mousedown( e ) {
-		const _ = this._;
+		const _ = this._,
+			tar = e.currentTarget;
 
 		if ( e.button === 2 ) {
-			const tar = e.currentTarget;
-
 			_.deletion.clear();
 			_.deletionStatus = true;
 			_.mmFn = this._deletionMove;
@@ -46,14 +46,23 @@ class gsuiBlocksEdition {
 		} else if ( e.button === 0 && e.shiftKey ) {
 			_.selection.clear();
 			_.selectionStatus = 1;
+			_.mmFn = this._selectionStart;
 			_.mdPageX = e.pageX;
 			_.mdPageY = e.pageY;
-			_.mmFn = this._selectionStart;
+			_.mdCurrTar = tar;
 			_.selectionWhen = this.thisParent.getWhenByPageX( e.pageX );
 			_.selectionRowInd = this.thisParent.getRowIndexByPageY( e.pageY );
 		}
 	}
 	mouseup() {
+		const _ = this._,
+			blc = _.mdCurrTar;
+
+		if ( _.selectionStatus === 1 && blc.classList.contains( "gsui-block" ) ) {
+			_.selection.set( blc.dataset.id, blc );
+		}
+	}
+	clear() {
 		const _ = this._;
 
 		if ( _.selectionStatus > 0 ) {
