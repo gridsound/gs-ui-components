@@ -10,8 +10,7 @@ class gsuiBlocksEdition {
 			mmPageX: 0,
 			mmPageY: 0,
 			mdCurrTar: null,
-			deletion: new Map(),
-			selection: new Map(),
+			blcsMap: new Map(),
 			selectionWhen: 0,
 			deletionStatus: false,
 			selectionStatus: 0,
@@ -20,11 +19,8 @@ class gsuiBlocksEdition {
 		} );
 	}
 
-	getSelectedBlocks() {
-		return this._.selection;
-	}
-	getDeletingBlocks() {
-		return this._.deletion;
+	getBlocksMap() {
+		return this._.blcsMap;
 	}
 
 	// Events to call manually:
@@ -37,22 +33,25 @@ class gsuiBlocksEdition {
 		if ( e.button === 2 ) {
 			const blc = this._getBlc( e.currentTarget );
 
-			_.deletion.clear();
 			_.deletionStatus = true;
 			_.mmFn = this._deletionMove;
 			if ( blc ) {
 				blc.classList.add( "gsui-block-hidden" );
-				_.deletion.set( blc.dataset.id, blc );
+				_.blcsMap.set( blc.dataset.id, blc );
 			}
-		} else if ( e.button === 0 && e.shiftKey ) {
-			_.selection.clear();
-			_.selectionStatus = 1;
-			_.mmFn = this._selectionStart;
-			_.mdPageX = e.pageX;
-			_.mdPageY = e.pageY;
+		} else if ( e.button === 0 ) {
 			_.mdCurrTar = this._getBlc( e.currentTarget );
-			_.selectionWhen = this.thisParent.getWhenByPageX( e.pageX );
-			_.selectionRowInd = this.thisParent.getRowIndexByPageY( e.pageY );
+			if ( e.shiftKey ) {
+				_.selectionStatus = 1;
+				_.mmFn = this._selectionStart;
+				_.mdPageX = e.pageX;
+				_.mdPageY = e.pageY;
+				// _.mdCurrTar = this._getBlc( e.currentTarget );
+				_.selectionWhen = this.thisParent.getWhenByPageX( e.pageX );
+				_.selectionRowInd = this.thisParent.getRowIndexByPageY( e.pageY );
+			} else if ( e.target.classList.contains( "gsui-block-cropB" ) ) {
+				lg("cropB",_.mdCurrTar)
+			}
 		}
 	}
 	mouseup() {
@@ -60,20 +59,18 @@ class gsuiBlocksEdition {
 			const blc = this._getBlc( this._.mdCurrTar );
 
 			if ( blc ) {
-				this._.selection.set( blc.dataset.id, blc );
+				this._.blcsMap.set( blc.dataset.id, blc );
 			}
 		}
 	}
 	clear() {
 		const _ = this._;
 
-		if ( _.selectionStatus > 0 ) {
-			_.selectionStatus = 0;
-			_.selectionElement.classList.add( "gsuiBlocksEdition-selection-hidden" );
-		} else if ( _.deletionStatus ) {
-			_.deletionStatus = false;
-		}
 		_.mmFn = null;
+		_.blcsMap.clear();
+		_.selectionStatus = 0;
+		_.deletionStatus = false;
+		_.selectionElement.classList.add( "gsuiBlocksEdition-selection-hidden" );
 	}
 
 	// private:
@@ -96,7 +93,7 @@ class gsuiBlocksEdition {
 
 		if ( blc && !blc.classList.contains( "gsui-block-hidden" ) ) {
 			blc.classList.add( "gsui-block-hidden" );
-			_.deletion.set( blc.dataset.id, blc );
+			_.blcsMap.set( blc.dataset.id, blc );
 		}
 	}
 	_selectionStart( e ) {
@@ -161,8 +158,8 @@ class gsuiBlocksEdition {
 					return map;
 				}, new Map );
 
-		this._.selection.forEach( ( blc, id ) => blc.classList
+		this._.blcsMap.forEach( ( blc, id ) => blc.classList
 			.toggle( "gsui-block-selected", blcs.has( id ) ) );
-		this._.selection = blcs;
+		this._.blcsMap = blcs;
 	}
 }
