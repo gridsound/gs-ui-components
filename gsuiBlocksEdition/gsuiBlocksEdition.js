@@ -5,6 +5,7 @@ class gsuiBlocksEdition {
 		this.thisParent = thisParent;
 		this._ = Object.seal( {
 			mmFn: null,
+			status: "",
 			mdPageX: 0,
 			mdPageY: 0,
 			mmPageX: 0,
@@ -12,8 +13,6 @@ class gsuiBlocksEdition {
 			mdCurrTar: null,
 			blcsMap: new Map(),
 			selectionWhen: 0,
-			deletionStatus: false,
-			selectionStatus: 0,
 			selectionRowInd: 0,
 			selectionElement: elSelection,
 		} );
@@ -33,7 +32,7 @@ class gsuiBlocksEdition {
 		if ( e.button === 2 ) {
 			const blc = this._getBlc( e.currentTarget );
 
-			_.deletionStatus = true;
+			_.status = "deleting";
 			_.mmFn = this._deletionMove;
 			if ( blc ) {
 				blc.classList.add( "gsui-block-hidden" );
@@ -42,7 +41,7 @@ class gsuiBlocksEdition {
 		} else if ( e.button === 0 ) {
 			_.mdCurrTar = this._getBlc( e.currentTarget );
 			if ( e.shiftKey ) {
-				_.selectionStatus = 1;
+				_.status = "selecting-1";
 				_.mmFn = this._selectionStart;
 				_.mdPageX = e.pageX;
 				_.mdPageY = e.pageY;
@@ -55,7 +54,7 @@ class gsuiBlocksEdition {
 		}
 	}
 	mouseup() {
-		if ( this._.selectionStatus === 1 ) {
+		if ( this._.status === "selecting-1" ) {
 			const blc = this._getBlc( this._.mdCurrTar );
 
 			if ( blc ) {
@@ -67,9 +66,8 @@ class gsuiBlocksEdition {
 		const _ = this._;
 
 		_.mmFn = null;
+		_.status = "";
 		_.blcsMap.clear();
-		_.selectionStatus = 0;
-		_.deletionStatus = false;
 		_.selectionElement.classList.add( "gsuiBlocksEdition-selection-hidden" );
 	}
 
@@ -103,7 +101,7 @@ class gsuiBlocksEdition {
 		if ( Math.abs( _.mmPageX - _.mdPageX ) > 6 ||
 			Math.abs( _.mmPageY - _.mdPageY ) > 6
 		) {
-			_.selectionStatus = 2;
+			_.status = "selecting-2";
 			_.mmFn = this._selectionMove;
 			_.selectionElement.classList.remove( "gsuiBlocksEdition-selection-hidden" );
 			this._selectionMove( e );
