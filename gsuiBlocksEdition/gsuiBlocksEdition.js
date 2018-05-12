@@ -1,18 +1,27 @@
 "use strict";
 
 class gsuiBlocksEdition {
-	constructor( thisParent, elSelection ) {
+	constructor( thisParent, callback, elSelection ) {
 		this.thisParent = thisParent;
+		this.callback = callback;
 		this._ = Object.seal( {
 			mmFn: null,
 			status: "",
+			valueA: null,
+			valueB: null,
+			mdWhen: 0,
+			mmWhen: 0,
 			mdPageX: 0,
 			mdPageY: 0,
 			mmPageX: 0,
 			mmPageY: 0,
-			mdCurrTar: null,
 			blcsMap: new Map(),
-			selectionWhen: 0,
+			beatSnap: 0,
+			mdCurrTar: null,
+			editionRowMin: 0,
+			editionRowMax: 0,
+			editionCropMin: 0,
+			editionWhenMin: 0,
 			selectionRowInd: 0,
 			selectionElement: elSelection,
 		} );
@@ -24,51 +33,86 @@ class gsuiBlocksEdition {
 
 	// Events to call manually:
 	mousemove( e ) {
-		this._.mmFn && this._.mmFn.call( this, e );
+		if ( this._.mmFn ) {
+			if ( e.type === "mousemove" ) {
+				this._.mmPageX = e.pageX;
+				this._.mmPageY = e.pageY;
+			}
+			this._.mmWhen = this.thisParent.getWhenByPageX( this._.mmPageX );
+			this._.mmFn.call( this, e );
+		}
 	}
 	mousedown( e ) {
-		const _ = this._;
+		const _ = this._,
+			thisP = this.thisParent,
+			blc = this._getBlc( e.currentTarget );
 
 		if ( e.button === 2 ) {
-			const blc = this._getBlc( e.currentTarget );
-
-			_.status = "deleting";
 			_.mmFn = this._deletionMove;
+			_.status = "deleting";
 			if ( blc ) {
 				blc.classList.add( "gsui-block-hidden" );
 				_.blcsMap.set( blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 ) {
-			_.mdCurrTar = this._getBlc( e.currentTarget );
+			_.mdPageX = e.pageX;
+			_.mdPageY = e.pageY;
+			_.mdWhen = thisP.getWhenByPageX( e.pageX );
 			if ( e.shiftKey ) {
-				_.status = "selecting-1";
 				_.mmFn = this._selectionStart;
-				_.mdPageX = e.pageX;
-				_.mdPageY = e.pageY;
-				// _.mdCurrTar = this._getBlc( e.currentTarget );
-				_.selectionWhen = this.thisParent.getWhenByPageX( e.pageX );
-				_.selectionRowInd = this.thisParent.getRowIndexByPageY( e.pageY );
+				_.status = "selecting-1";
+				_.mdCurrTar = blc;
+				_.selectionRowInd = thisP.getRowIndexByPageY( e.pageY );
 			} else if ( e.target.classList.contains( "gsui-block-cropB" ) ) {
-				lg("cropB",_.mdCurrTar)
+				const data = thisP.getBlocks();
+				let min = Infinity;
+
+				this._fillBlcsMap( blc ).forEach( ( _, id ) => {
+					min = Math.min( min, data[ id ].duration );
+				} );
+				_.mmFn = this._cropBMove;
+				_.status = "cropping-b";
+				_.beatSnap = thisP.getBeatSnap();
+				_.editionCropMin = -Math.max( 0, min - _.beatSnap );
 			}
 		}
 	}
 	mouseup() {
-		if ( this._.status === "selecting-1" ) {
-			const blc = this._getBlc( this._.mdCurrTar );
+		const _ = this._,
+			blcsMap = _.blcsMap;
 
-			if ( blc ) {
-				this._.blcsMap.set( blc.dataset.id, blc );
-			}
+		switch ( _.status ) {
+			case "deleting":
+				if ( blcsMap.size || this.thisParent.getSelectedBlocksElements().size ) {
+					this.callback( "deleting", blcsMap );
+				}
+				break;
+			case "cropping-a":
+			case "cropping-b":
+				if ( Math.abs( _.valueA ) > .000001 ) {
+					this.callback( _.status, blcsMap, _.valueA );
+				}
+				break;
+			case "selecting-2":
+				_.selectionElement.classList.add( "gsuiBlocksEdition-selection-hidden" );
+			case "selecting-1":
+				if ( _.status === "selecting-1" && _.mdCurrTar ) {
+					const blc = this._getBlc( _.mdCurrTar );
+
+					if ( blc ) {
+						blcsMap.set( blc.dataset.id, blc );
+					}
+				}
+				if ( blcsMap.size ) {
+					this.callback( "selecting", blcsMap );
+				}
+				break;
 		}
-	}
-	clear() {
-		const _ = this._;
-
-		_.mmFn = null;
+		_.mmFn =
+		_.valueA =
+		_.valueB = null;
 		_.status = "";
-		_.blcsMap.clear();
-		_.selectionElement.classList.add( "gsuiBlocksEdition-selection-hidden" );
+		blcsMap.clear();
 	}
 
 	// private:
@@ -79,10 +123,29 @@ class gsuiBlocksEdition {
 			return el.parentNode;
 		}
 	}
-	_setMousemoveCoord( e ) {
-		if ( e.type === "mousemove" ) {
-			this._.mmPageX = e.pageX;
-			this._.mmPageY = e.pageY;
+	_fillBlcsMap( blc ) {
+		const blcs = this._.blcsMap;
+
+		if ( blc.classList.contains( "gsui-block-selected" ) ) {
+			this.thisParent.getSelectedBlocksElements()
+				.forEach( ( blc, id ) => blcs.set( id, blc ) );
+		} else {
+			blcs.set( blc.dataset.id, blc );
+		}
+		return blcs;
+	}
+	_cropBMove( e ) {
+		const _ = this._,
+			crop = Math.max( _.editionCropMin,
+				Math.round( ( _.mmWhen - _.mdWhen ) / _.beatSnap ) * _.beatSnap );
+
+		if ( crop !== _.valueA ) {
+			const data = this.thisParent.getBlocks();
+
+			_.valueA = crop;
+			_.blcsMap.forEach( ( blc, id ) => (
+				blc.style.width = data[ id ].duration + crop + "em"
+			) );
 		}
 	}
 	_deletionMove( e ) {
@@ -97,7 +160,6 @@ class gsuiBlocksEdition {
 	_selectionStart( e ) {
 		const _ = this._;
 
-		this._setMousemoveCoord( e );
 		if ( Math.abs( _.mmPageX - _.mdPageX ) > 6 ||
 			Math.abs( _.mmPageY - _.mdPageY ) > 6
 		) {
@@ -108,19 +170,16 @@ class gsuiBlocksEdition {
 		}
 	}
 	_selectionMove( e ) {
-		this._setMousemoveCoord( e );
-
 		const _ = this._,
 			thisP = this.thisParent,
 			rowH = thisP.getRowHeight(),
 			pxPB = thisP.getPxPerBeat(),
 			st = _.selectionElement.style,
 			rowIndB = thisP.getRowIndexByPageY( _.mmPageY ),
-			whenB = thisP.getWhenByPageX( _.mmPageX ),
 			topRow = Math.min( _.selectionRowInd, rowIndB ),
 			bottomRow = Math.max( _.selectionRowInd, rowIndB ),
-			when = Math.min( _.selectionWhen, whenB ),
-			duration = 1 / thisP.getStepsPerBeat() + Math.abs( _.selectionWhen - whenB );
+			when = Math.min( _.mdWhen, _.mmWhen ),
+			duration = thisP.getBeatSnap() + Math.abs( _.mdWhen - _.mmWhen );
 
 		st.top = topRow * rowH + "px";
 		st.left = when * pxPB + "px";
