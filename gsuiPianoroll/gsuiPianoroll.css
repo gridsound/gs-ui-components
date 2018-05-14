@@ -78,6 +78,7 @@
 /* .......................................................................... */
 .gsuiPianoroll .gsui-block {
 	position: absolute;
+	overflow: hidden;
 	z-index: 1;
 	height: 100%;
 	border-radius: 2px;
@@ -105,4 +106,20 @@
 	font-size: 11px;
 	font-weight: bold;
 	opacity: .4;
+}
+.gsuiPianoroll .gsui-block-cropB {
+	position: absolute;
+	right: 0;
+	width: 50%;
+	height: 100%;
+	max-width: 8px;
+	background-color: #000;
+	opacity: 0;
+	transition: .1s opacity;
+}
+.gsuiPianoroll .gsui-block:hover .gsui-block-cropB {
+	opacity: .12;
+}
+.gsuiPianoroll .gsui-block .gsui-block-cropB:hover {
+	opacity: .25;
 }
