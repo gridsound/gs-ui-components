@@ -3,7 +3,6 @@
 class gsuiPianoroll {
 	constructor() {
 		const root = gsuiPianoroll.template.cloneNode( true ),
-			elSelection = root.querySelector( ".gsuiBlocksEdition-selection" ),
 			elRows = root.querySelector( ".gsuiPianoroll-rows" ),
 			elPanKeys = root.querySelector( ".gsuiPianoroll-pan-keys" ),
 			elPanGrid = root.querySelector( ".gsuiPianoroll-pan-grid" ),
@@ -39,7 +38,9 @@ class gsuiPianoroll {
 			rowsByMidi: {},
 			keyBlcSelected: new Map(),
 		} );
-		this.blcsEdition = new gsuiBlocksEdition( this, elSelection );
+		this.blcsEdition = new gsuiBlocksEdition( this,
+			this._blcsManagerCallback.bind( this ),
+			root.querySelector( ".gsuiBlocksEdition-selection" ) );
 		this.onchange =
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
@@ -51,9 +52,7 @@ class gsuiPianoroll {
 		};
 		root.ondragstart = () => false;
 		root.onkeydown = this._onkeydown.bind( this );
-		root.onwheel = e => {
-			e.ctrlKey && e.preventDefault();
-		};
+		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
 		elKeys.onscroll = e => {
 			if ( this._.elRowsScrollTop !== elKeys.scrollTop ) {
 				this._.elRowsScrollTop =
@@ -110,7 +109,7 @@ class gsuiPianoroll {
 			el.firstChild.style.fontSize = pxPerBeat + "px";
 			rowsByMidi[ el.dataset.midi ] = el;
 		} );
-		Element.prototype.append.apply( elRows, rows );
+		Element.prototype.prepend.apply( elRows, rows );
 	}
 	setFontSize( px ) {
 		const {
@@ -125,6 +124,59 @@ class gsuiPianoroll {
 			elRows.style.fontSize = px + "px";
 		}
 		return px;
+	}
+
+	// Blocks manager callback
+	// ........................................................................
+	_blcsManagerCallback( status, blcsMap, valA, valB ) {
+		const obj = {},
+			data = this.data;
+
+		switch ( status ) {
+			case "selecting":
+				blcsMap.forEach( ( _, id ) => {
+					const d = data[ id ],
+						selected = !d.selected;
+
+					obj[ id ] = { selected };
+					d.selected = selected;
+				} );
+				break;
+			case "moving":
+				valA = Math.abs( valA ) > .000001 ? valA : 0;
+				blcsMap.forEach( ( _, id ) => {
+					const d = data[ id ],
+						o = {};
+
+					obj[ id ] = o;
+					if ( valA ) {
+						o.when =
+						d.when += valA;
+					}
+					if ( valB ) {
+						o.key =
+						d.key -= valB;
+					}
+				} );
+				break;
+			case "cropping-b":
+				blcsMap.forEach( ( _, id ) => {
+					const d = data[ id ],
+						duration = d.duration + valA;
+
+					obj[ id ] = { duration };
+					d.duration = duration;
+				} );
+				break;
+			case "deleting":
+				blcsMap.forEach( ( _, id ) => {
+					obj[ id ] = null;
+					delete data[ id ];
+				} );
+				this._unselectKeys( obj );
+				break;
+		}
+		this.onchange( obj );
 	}
 
 	// Panel functions
@@ -162,37 +214,65 @@ class gsuiPianoroll {
 
 	// Shortcuts
 	// ........................................................................
-	getRowsBCR() { return this._.nlRows[ 0 ].getBoundingClientRect(); }
-	getRowHeight() { return this._.fontSize; }
 	getPxPerBeat() { return this._.pxPerBeat; }
 	getBlocks() { return this.data; }
 	getBlocksElements() { return this._.keyBlc; }
 	getSelectedBlocksElements() { return this._.keyBlcSelected; }
+	getBeatSnap() { return 1 / this._.uiTimeline._stepsPerBeat * this._.uiTimeline.stepRound; }
+	getRows() { return this._.nlRows; }
+	getNbRows() { return this._.nlRows.length; }
+	getRow0BCR() { return this._.nlRows[ 0 ].getBoundingClientRect(); }
+	getRowHeight() { return this._.fontSize; }
+	getRowByMidi( midi ) { return this._.rowsByMidi[ midi ]; }
 	getRowByIndex( ind ) { return this._.nlRows[ ind ]; }
-	getStepsPerBeat() { return this._.uiTimeline._stepsPerBeat; }
+	getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this._.nlRows, row ); }
+	getRowIndexByPageY( pageY ) {
+		const ind = Math.floor( ( pageY - this.getRow0BCR().top ) / this._.fontSize );
+
+		return Math.max( 0, Math.min( ind, this.getNbRows() - 1 ) );
+	}
 	getWhenByPageX( pageX ) {
 		return Math.max( 0, this._.uiTimeline.beatFloor(
-			( pageX - this.getRowsBCR().left ) / this._.pxPerBeat ) );
-	}
-	getRowIndexByPageY( pageY ) {
-		const ind = Math.floor( ( pageY - this.getRowsBCR().top ) / this._.fontSize );
-
-		return Math.max( 0, Math.min( ind, this._.nlRows.length - 1 ) );
+			( pageX - this.getRow0BCR().left ) / this._.pxPerBeat ) );
 	}
 
 	// Keyboard
 	// ........................................................................
 	_onkeydown( e ) {
-		const _ = this._;
+		const _ = this._,
+			dat = this.data;
 
-		if ( e.key === "Delete" && _.keyBlcSelected.size ) {
-			const obj = {};
+		switch ( e.key ) {
+			case "a":
+				if ( e.ctrlKey || e.altKey ) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ( _.keyBlc.size ) {
+						const obj = {};
+						let notEmpty;
 
-			_.keyBlcSelected.forEach( ( blc, id ) => {
-				obj[ id ] = null;
-				delete this.data[ id ];
-			} );
-			this.onchange( obj );
+						_.keyBlc.forEach( ( blc, id ) => {
+							if ( !dat[ id ].selected ) {
+								obj[ id ] = { selected: true };
+								dat[ id ].selected = true;
+								notEmpty = true;
+							}
+						} );
+						notEmpty && this.onchange( obj );
+					}
+				}
+				break;
+			case "Delete":
+				if ( _.keyBlcSelected.size ) {
+					const obj = {};
+
+					_.keyBlcSelected.forEach( ( blc, id ) => {
+						obj[ id ] = null;
+						delete dat[ id ];
+					} );
+					this.onchange( obj );
+				}
+				break;
 		}
 	}
 
@@ -261,15 +341,13 @@ class gsuiPianoroll {
 		}
 	}
 	_rowMousedown( key, e ) {
-		const _ = this._;
-
 		this.blcsEdition.mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
-			const id = _.idMax + 1,
+			const id = this._.idMax + 1,
 				keyObj = {
 					key,
 					when: this.getWhenByPageX( e.pageX ),
-					duration: _.currKeyDuration
+					duration: this._.currKeyDuration
 				};
 
 			this.data[ id ] = keyObj;
@@ -281,46 +359,25 @@ class gsuiPianoroll {
 		this.blcsEdition.mousemove( e );
 	}
 	_mouseup( e ) {
-		const _ = this._,
-			edi = this.blcsEdition;
-
-		edi.mouseup();
-		if ( edi._.deletionStatus ) {
-			const blcs = edi.getDeletingBlocks();
-
-			if ( blcs.size ) {
-				const obj = {};
-
-				blcs.forEach( ( blc, id ) => {
-					obj[ id ] = null;
-					delete this.data[ id ];
-				} );
-				this.onchange( this._unselectKeys( obj ) );
-			} else if ( _.keyBlcSelected.size ) {
-				this.onchange( this._unselectKeys( {} ) );
-			}
-		} else if ( edi._.selectionStatus ) {
-			const blcs = edi.getSelectedBlocks();
-
-			if ( blcs.size ) {
-				const obj = {};
-
-				blcs.forEach( ( _, id ) => {
-					const data = this.data[ id ],
-						selected = !data.selected;
-
-					obj[ id ] = { selected };
-					data.selected = selected;
-				} );
-				this.onchange( obj );
-			}
-		}
-		edi.clear();
+		this.blcsEdition.mouseup();
 		delete gsuiPianoroll._focused;
 	}
 
 	// Key's functions
 	// ........................................................................
+	blcRow( blc, rowIncr ) {
+		this.blcKey( blc, this.data[ blc.dataset.id ].key - rowIncr );
+	}
+	blcKey( blc, midi ) {
+		const row = this.getRowByMidi( midi );
+
+		blc.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
+		row.firstChild.append( blc );
+	}
+	blcWhen( blc, val ) { blc.style.left = val + "em"; }
+	blcDuration( blc, val ) { blc.style.width = val + "em"; }
+	blcDeleted( blc, val ) { blc.classList.toggle( "gsui-block-hidden", !!val ); }
+	blcSelected( blc, val ) { blc.classList.toggle( "gsui-block-selected", !!val ); }
 	_deleteKey( id ) {
 		const _ = this._;
 
@@ -330,37 +387,35 @@ class gsuiPianoroll {
 	}
 	_setKey( id, obj ) {
 		const _ = this._,
-			el = document.createElement( "div" ),
-			row = _.rowsByMidi[ obj.key ];
+			blc = document.createElement( "div" ),
+			crop = document.createElement( "div" );
 
-		el.dataset.id = id;
-		el.className = "gsui-block";
-		el.classList.toggle( "gsui-block-selected", obj.selected );
-		el.style.left = obj.when + "em";
-		el.style.width = obj.duration + "em";
-		el.onmousedown = this._keyMousedown.bind( this, id );
-		_.keyBlc.set( id, el );
-		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
-		row.firstChild.append( el );
+		blc.dataset.id = id;
+		blc.className = "gsui-block";
+		blc.onmousedown = this._keyMousedown.bind( this, id );
+		obj.selected
+			? _.keyBlcSelected.set( id, blc )
+			: _.keyBlcSelected.delete( id );
+		crop.className = "gsui-block-crop gsui-block-cropB";
+		blc.append( crop );
+		_.keyBlc.set( id, blc );
+		this.blcKey( blc, obj.key );
+		this.blcWhen( blc, obj.when );
+		this.blcDuration( blc, obj.duration );
+		this.blcSelected( blc, obj.selected );
 	}
 	_setKeyProp( id, prop, val ) {
-		const _ = this._,
-			el = _.keyBlc.get( id );
+		const blc = this._.keyBlc.get( id );
 
 		switch ( prop ) {
-			case "when":
-				el.style.left = val + "em";
-				break;
-			case "duration":
-				el.style.width = val + "em";
-				break;
+			case "key": this.blcKey( blc, val ); break;
+			case "when": this.blcWhen( blc, val ); break;
+			case "duration": this.blcDuration( blc, val ); break;
 			case "selected":
-				if ( val ) {
-					_.keyBlcSelected.set( id, el );
-				} else {
-					_.keyBlcSelected.delete( id );
-				}
-				el.classList.toggle( "gsui-block-selected", !!val );
+				this.blcSelected( blc, val );
+				val
+					? this._.keyBlcSelected.set( id, blc )
+					: this._.keyBlcSelected.delete( id );
 				break;
 		}
 	}
