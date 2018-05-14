@@ -9,26 +9,21 @@ class gsuiBlocksEdition {
 			status: "",
 			valueA: null,
 			valueB: null,
+			valueAMin: Infinity,
+			valueBMin: Infinity,
+			valueBMax: -Infinity,
 			mdWhen: 0,
 			mmWhen: 0,
 			mdPageX: 0,
 			mdPageY: 0,
 			mmPageX: 0,
 			mmPageY: 0,
-			blcsMap: new Map(),
-			beatSnap: 0,
+			mdRowInd: 0,
 			mdCurrTar: null,
-			editionRowMin: 0,
-			editionRowMax: 0,
-			editionCropMin: 0,
-			editionWhenMin: 0,
-			selectionRowInd: 0,
+			beatSnap: 0,
+			blcsMap: new Map(),
 			selectionElement: elSelection,
 		} );
-	}
-
-	getBlocksMap() {
-		return this._.blcsMap;
 	}
 
 	// Events to call manually:
@@ -51,29 +46,48 @@ class gsuiBlocksEdition {
 			_.mmFn = this._deletionMove;
 			_.status = "deleting";
 			if ( blc ) {
-				blc.classList.add( "gsui-block-hidden" );
+				thisP.blcDeleted( blc, true );
 				_.blcsMap.set( blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 ) {
 			_.mdPageX = e.pageX;
 			_.mdPageY = e.pageY;
 			_.mdWhen = thisP.getWhenByPageX( e.pageX );
+			_.beatSnap = thisP.getBeatSnap();
 			if ( e.shiftKey ) {
 				_.mmFn = this._selectionStart;
 				_.status = "selecting-1";
 				_.mdCurrTar = blc;
-				_.selectionRowInd = thisP.getRowIndexByPageY( e.pageY );
-			} else if ( e.target.classList.contains( "gsui-block-cropB" ) ) {
-				const data = thisP.getBlocks();
-				let min = Infinity;
+				_.mdRowInd = thisP.getRowIndexByPageY( e.pageY );
+			} else if ( blc ) {
+				const data = thisP.getBlocks(),
+					blcsMap = this._fillBlcsMap( blc );
 
-				this._fillBlcsMap( blc ).forEach( ( _, id ) => {
-					min = Math.min( min, data[ id ].duration );
-				} );
-				_.mmFn = this._cropBMove;
-				_.status = "cropping-b";
-				_.beatSnap = thisP.getBeatSnap();
-				_.editionCropMin = -Math.max( 0, min - _.beatSnap );
+				if ( e.target.classList.contains( "gsui-block-crop" ) ) {
+					_.mmFn = this._cropMove;
+					_.valueAMin = Infinity;
+					blcsMap.forEach( ( blc, id ) => {
+						_.valueAMin = Math.min( _.valueAMin, data[ id ].duration );
+					} );
+					_.valueAMin = -Math.max( 0, _.valueAMin - _.beatSnap );
+					_.status = e.target.classList.contains( "gsui-block-cropA" )
+						? "cropping-a"
+						: "cropping-b";
+				} else {
+					_.mmFn = this._moveMove;
+					_.status = "moving";
+					_.mdRowInd = thisP.getRowIndexByPageY( e.pageY );
+					blcsMap.forEach( ( blc, id ) => {
+						const valB = thisP.getRowIndexByRow( blc.parentNode.parentNode );
+
+						_.valueAMin = Math.min( _.valueAMin, data[ id ].when );
+						_.valueBMin = Math.min( _.valueBMin, valB );
+						_.valueBMax = Math.max( _.valueBMax, valB );
+					} );
+					_.valueAMin *= -1;
+					_.valueBMin *= -1;
+					_.valueBMax = thisP.getNbRows() - 1 - _.valueBMax;
+				}
 			}
 		}
 	}
@@ -85,6 +99,11 @@ class gsuiBlocksEdition {
 			case "deleting":
 				if ( blcsMap.size || this.thisParent.getSelectedBlocksElements().size ) {
 					this.callback( "deleting", blcsMap );
+				}
+				break;
+			case "moving":
+				if ( Math.abs( _.valueA ) > .000001 || _.valueB ) {
+					this.callback( "moving", blcsMap, _.valueA, _.valueB );
 				}
 				break;
 			case "cropping-a":
@@ -111,6 +130,9 @@ class gsuiBlocksEdition {
 		_.mmFn =
 		_.valueA =
 		_.valueB = null;
+		_.valueAMin =
+		_.valueBMin = Infinity;
+		_.valueBMax = -Infinity;
 		_.status = "";
 		blcsMap.clear();
 	}
@@ -134,30 +156,55 @@ class gsuiBlocksEdition {
 		}
 		return blcs;
 	}
-	_cropBMove( e ) {
+	_cropMove() {
 		const _ = this._,
-			crop = Math.max( _.editionCropMin,
+			crop = Math.max( _.valueAMin,
 				Math.round( ( _.mmWhen - _.mdWhen ) / _.beatSnap ) * _.beatSnap );
 
 		if ( crop !== _.valueA ) {
-			const data = this.thisParent.getBlocks();
+			const thisP = this.thisParent,
+				data = thisP.getBlocks();
 
 			_.valueA = crop;
-			_.blcsMap.forEach( ( blc, id ) => (
-				blc.style.width = data[ id ].duration + crop + "em"
-			) );
+			_.blcsMap.forEach( _.status === "cropping-a"
+				? ( blc, id ) => {
+					thisP.blcOffset( blc, data[ id ].offset - crop );
+					thisP.blcDuration( blc, data[ id ].duration + crop );
+				}
+				: ( blc, id ) => {
+					thisP.blcDuration( blc, data[ id ].duration + crop );
+				} );
+		}
+	}
+	_moveMove() {
+		const _ = this._,
+			thisP = this.thisParent,
+			data = thisP.getBlocks(),
+			when = Math.max( _.valueAMin,
+				Math.round( ( _.mmWhen - _.mdWhen ) / _.beatSnap ) * _.beatSnap ),
+			rows = Math.max( _.valueBMin, Math.min( _.valueBMax,
+				thisP.getRowIndexByPageY( _.mmPageY ) - _.mdRowInd ) );
+
+		if ( when !== _.valueA ) {
+			_.valueA = when;
+			_.blcsMap.forEach( ( blc, id ) => thisP.blcWhen( blc, data[ id ].when + when ) );
+		}
+		if ( rows !== _.valueB ) {
+			const nlRows = thisP.getRows();
+
+			_.valueB = rows;
+			_.blcsMap.forEach( ( blc, id ) => thisP.blcRow( blc, rows ) );
 		}
 	}
 	_deletionMove( e ) {
-		const _ = this._,
-			blc = this._getBlc( e.target );
+		const blc = this._getBlc( e.target );
 
-		if ( blc && !blc.classList.contains( "gsui-block-hidden" ) ) {
-			blc.classList.add( "gsui-block-hidden" );
-			_.blcsMap.set( blc.dataset.id, blc );
+		if ( blc && !this._.blcsMap.has( blc.dataset.id ) ) {
+			this.thisParent.blcDeleted( blc, true );
+			this._.blcsMap.set( blc.dataset.id, blc );
 		}
 	}
-	_selectionStart( e ) {
+	_selectionStart() {
 		const _ = this._;
 
 		if ( Math.abs( _.mmPageX - _.mdPageX ) > 6 ||
@@ -166,18 +213,18 @@ class gsuiBlocksEdition {
 			_.status = "selecting-2";
 			_.mmFn = this._selectionMove;
 			_.selectionElement.classList.remove( "gsuiBlocksEdition-selection-hidden" );
-			this._selectionMove( e );
+			this._selectionMove();
 		}
 	}
-	_selectionMove( e ) {
+	_selectionMove() {
 		const _ = this._,
 			thisP = this.thisParent,
 			rowH = thisP.getRowHeight(),
 			pxPB = thisP.getPxPerBeat(),
 			st = _.selectionElement.style,
 			rowIndB = thisP.getRowIndexByPageY( _.mmPageY ),
-			topRow = Math.min( _.selectionRowInd, rowIndB ),
-			bottomRow = Math.max( _.selectionRowInd, rowIndB ),
+			topRow = Math.min( _.mdRowInd, rowIndB ),
+			bottomRow = Math.max( _.mdRowInd, rowIndB ),
 			when = Math.min( _.mdWhen, _.mmWhen ),
 			duration = thisP.getBeatSnap() + Math.abs( _.mdWhen - _.mmWhen );
 
@@ -208,15 +255,14 @@ class gsuiBlocksEdition {
 							pA & Node.DOCUMENT_POSITION_FOLLOWING &&
 							pB & Node.DOCUMENT_POSITION_PRECEDING )
 						) {
-							elBlc.classList.add( "gsui-block-selected" );
+							thisP.blcSelected( elBlc, true );
 							map.set( id, elBlc );
 						}
 					}
 					return map;
 				}, new Map );
 
-		this._.blcsMap.forEach( ( blc, id ) => blc.classList
-			.toggle( "gsui-block-selected", blcs.has( id ) ) );
+		this._.blcsMap.forEach( ( blc, id ) => thisP.blcSelected( blc, blcs.has( id ) ) );
 		this._.blcsMap = blcs;
 	}
 }
