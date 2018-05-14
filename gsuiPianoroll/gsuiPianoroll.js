@@ -49,6 +49,7 @@ class gsuiPianoroll {
 			uiBeatlines.currentTime( t );
 			this.onchangeCurrentTime( t );
 		};
+		root.ondragstart = () => false;
 		root.onkeydown = this._onkeydown.bind( this );
 		root.onwheel = e => {
 			e.ctrlKey && e.preventDefault();
