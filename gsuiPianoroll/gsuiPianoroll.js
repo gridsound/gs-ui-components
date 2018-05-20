@@ -1,72 +1,49 @@
 "use strict";
 
-class gsuiPianoroll {
+class gsuiPianoroll extends gsuiBlocksManager {
 	constructor() {
 		const root = gsuiPianoroll.template.cloneNode( true ),
-			elRows = root.querySelector( ".gsuiPianoroll-rows" ),
 			elPanKeys = root.querySelector( ".gsuiPianoroll-pan-keys" ),
 			elPanGrid = root.querySelector( ".gsuiPianoroll-pan-grid" ),
-			elKeys = root.querySelector( ".gsuiPianoroll-keys" ),
 			uiPanels = new gsuiPanels( root ),
 			uiKeys = new gsuiKeys(),
-			uiKeysRoot = uiKeys.rootElement,
-			uiTimeline = new gsuiTimeline(),
-			uiBeatlines = new gsuiBeatlines();
+			uiKeysRoot = uiKeys.rootElement;
 
+		super( root );
 		this.rootElement = root;
 		this.uiKeys = uiKeys;
 		this.data = this._proxyCreate();
 		this._ = Object.seal( {
-			elKeys,
-			elRows,
 			uiPanels,
 			elPanKeys,
 			elPanGrid,
-			uiTimeline,
 			uiKeysRoot,
-			uiBeatlines,
 			idMax: 1,
 			offset: 0,
-			nlRows: elRows.getElementsByClassName( "gsui-row" ),
-			fontSize: 16,
-			pxPerBeat: 64,
 			elPanGridWidth: 0,
 			currKeyDuration: 1,
 			elRowsScrollTop: -1,
 			elRowsScrollLeft: -1,
-			keyBlc: new Map(),
 			rowsByMidi: {},
-			keyBlcSelected: new Map(),
 		} );
-		this.blcsEdition = new gsuiBlocksEdition( this,
-			this._blcsManagerCallback.bind( this ),
-			root.querySelector( ".gsuiBlocksEdition-selection" ) );
 		this.onchange =
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
-		uiTimeline.oninputLoop = ( isLoop, a, b ) => uiBeatlines.loop( isLoop && a, b );
-		uiTimeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
-		uiTimeline.onchangeCurrentTime = t => {
-			uiBeatlines.currentTime( t );
-			this.onchangeCurrentTime( t );
-		};
 		root.ondragstart = () => false;
 		root.onkeydown = this._onkeydown.bind( this );
 		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
-		elKeys.onscroll = e => {
-			if ( this._.elRowsScrollTop !== elKeys.scrollTop ) {
+		this.__panelContent.onscroll = e => {
+			if ( this._.elRowsScrollTop !== this.__panelContent.scrollTop ) {
 				this._.elRowsScrollTop =
-				elRows.scrollTop = elKeys.scrollTop;
+				this.__rowsContainer.scrollTop = this.__panelContent.scrollTop;
 			}
 		};
-		uiKeysRoot.onwheel = this._uiKeysWheel.bind( this );
-		elRows.onwheel = this._elRowsWheel.bind( this );
-		elRows.onscroll = this._elRowsScroll.bind( this );
-		elRows.oncontextmenu = () => false;
+		this.__panelContent.onwheel = this._uiKeysWheel.bind( this );
+		this.__rowsContainer.onwheel = this._elRowsWheel.bind( this );
+		this.__rowsContainer.onscroll = this._elRowsScroll.bind( this );
+		this.__rowsContainer.oncontextmenu = () => false;
 		elPanGrid.onresizing = this._panelGridResizing.bind( this );
-		elKeys.append( uiKeysRoot );
-		root.querySelector( ".gsuiPianoroll-timeline" ).append( uiTimeline.rootElement );
-		root.querySelector( ".gsuiPianoroll-beatlines" ).append( uiBeatlines.rootElement );
+		this.__panelContent.append( uiKeysRoot );
 	}
 
 	empty() {
@@ -76,14 +53,13 @@ class gsuiPianoroll {
 		this._panelGridResized();
 	}
 	attached() {
-		const _ = this._,
-			scrollbarW = _.elRows.offsetWidth - _.elRows.clientWidth;
+		const rowsC = this.__rowsContainer;
 
-		_.elKeys.style.right =
-		_.elRows.style.right =
-		_.elKeys.style.bottom =
-		_.elRows.style.bottom = -scrollbarW + "px";
-		_.uiPanels.attached();
+		this.__panelContent.style.right =
+		this.__panelContent.style.bottom =
+		rowsC.style.right =
+		rowsC.style.bottom = -( rowsC.offsetWidth - rowsC.clientWidth ) + "px";
+		this._.uiPanels.attached();
 		this._panelGridResized();
 	}
 	octaves( from, nb ) {
@@ -95,25 +71,15 @@ class gsuiPianoroll {
 		this.uiKeys.octaves( from, nb );
 		Object.values( rows ).forEach( el => {
 			el.onmousedown = this._rowMousedown.bind( this, +el.dataset.midi );
-			el.firstChild.style.fontSize = _.pxPerBeat + "px";
+			el.firstChild.style.fontSize = this.__pxPerBeat + "px";
 			_.rowsByMidi[ el.dataset.midi ] = el;
 		} );
-		Element.prototype.prepend.apply( _.elRows, rows );
-	}
-	setFontSize( px ) {
-		const _ = this._;
-
-		if ( px !== _.fontSize ) {
-			this._.fontSize = px = Math.round( Math.min( Math.max( 8, px ), 64 ) );
-			_.uiKeysRoot.style.fontSize =
-			_.elRows.style.fontSize = px + "px";
-		}
-		return px;
+		Element.prototype.prepend.apply( this.__rowsContainer, rows );
 	}
 
 	// Blocks manager callback
 	// ........................................................................
-	_blcsManagerCallback( status, blcsMap, valA, valB ) {
+	blcsManagerCallback( status, blcsMap, valA, valB ) {
 		const obj = {},
 			data = this.data;
 
@@ -167,76 +133,57 @@ class gsuiPianoroll {
 	// Panel functions
 	// ........................................................................
 	_panelGridResizing( pan ) {
-		const {
-				elRows,
-				offset,
-				pxPerBeat,
-				elPanGridWidth,
-			} = this._,
+		const _ = this._,
 			width = pan.clientWidth;
 
-		if ( offset > 0 ) {
-			this._.offset -= ( width - elPanGridWidth ) / pxPerBeat;
-			elRows.scrollLeft -= width - elPanGridWidth;
+		if ( _.offset > 0 ) {
+			_.offset -= ( width - _.elPanGridWidth ) / this.__pxPerBeat;
+			this.__rowsContainer.scrollLeft -= width - _.elPanGridWidth;
 		}
 		this._panelGridResized();
 	}
 	_panelGridResized() {
-		const {
-				offset,
-				pxPerBeat,
-				elPanGrid,
-				uiTimeline,
-				uiBeatlines,
-			} = this._;
+		const _ = this._;
 
-		this._.elPanGridWidth = elPanGrid.clientWidth;
-		uiTimeline.resized();
-		uiBeatlines.resized();
-		uiTimeline.offset( offset, pxPerBeat );
-		uiBeatlines.offset( offset, pxPerBeat );
+		_.elPanGridWidth = _.elPanGrid.clientWidth;
+		this.__uiTimeline.resized();
+		this.__uiBeatlines.resized();
+		this.__uiTimeline.offset( _.offset, this.__pxPerBeat );
+		this.__uiBeatlines.offset( _.offset, this.__pxPerBeat );
 	}
 
 	// Shortcuts
 	// ........................................................................
-	getPxPerBeat() { return this._.pxPerBeat; }
-	getBlocks() { return this.data; }
-	getBlocksElements() { return this._.keyBlc; }
-	getSelectedBlocksElements() { return this._.keyBlcSelected; }
-	getBeatSnap() { return 1 / this._.uiTimeline._stepsPerBeat * this._.uiTimeline.stepRound; }
-	getRows() { return this._.nlRows; }
-	getNbRows() { return this._.nlRows.length; }
-	getRow0BCR() { return this._.nlRows[ 0 ].getBoundingClientRect(); }
-	getRowHeight() { return this._.fontSize; }
+	getData() { return this.data; }
+	getRow0BCR() { return this.__rows[ 0 ].getBoundingClientRect(); }
 	getRowByMidi( midi ) { return this._.rowsByMidi[ midi ]; }
-	getRowByIndex( ind ) { return this._.nlRows[ ind ]; }
-	getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this._.nlRows, row ); }
+	getRowByIndex( ind ) { return this.__rows[ ind ]; }
+	getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.__rows, row ); }
 	getRowIndexByPageY( pageY ) {
-		const ind = Math.floor( ( pageY - this.getRow0BCR().top ) / this._.fontSize );
+		const ind = Math.floor( ( pageY - this.getRow0BCR().top ) / this.__fontSize );
 
-		return Math.max( 0, Math.min( ind, this.getNbRows() - 1 ) );
+		return Math.max( 0, Math.min( ind, this.__rows.length - 1 ) );
 	}
 	getWhenByPageX( pageX ) {
-		return Math.max( 0, this._.uiTimeline.beatFloor(
-			( pageX - this.getRow0BCR().left ) / this._.pxPerBeat ) );
+		return Math.max( 0, this.__uiTimeline.beatFloor(
+			( pageX - this.getRow0BCR().left ) / this.__pxPerBeat ) );
 	}
 
 	// Keyboard
 	// ........................................................................
 	_onkeydown( e ) {
-		const _ = this._,
-			dat = this.data;
+		const dat = this.data;
 
 		switch ( e.key ) {
 			case "a":
 				if ( e.ctrlKey || e.altKey ) {
 					e.preventDefault();
 					e.stopPropagation();
-					if ( _.keyBlc.size ) {
+					if ( this.__blcs.size ) {
 						const obj = {};
 						let notEmpty;
 
-						_.keyBlc.forEach( ( blc, id ) => {
+						this.__blcs.forEach( ( blc, id ) => {
 							if ( !dat[ id ].selected ) {
 								obj[ id ] = { selected: true };
 								dat[ id ].selected = true;
@@ -248,10 +195,10 @@ class gsuiPianoroll {
 				}
 				break;
 			case "Delete":
-				if ( _.keyBlcSelected.size ) {
+				if ( this.__blcsSelected.size ) {
 					const obj = {};
 
-					_.keyBlcSelected.forEach( ( blc, id ) => {
+					this.__blcsSelected.forEach( ( blc, id ) => {
 						obj[ id ] = null;
 						delete dat[ id ];
 					} );
@@ -264,69 +211,50 @@ class gsuiPianoroll {
 	// Mouse events
 	// ........................................................................
 	_elRowsScroll( e ) {
-		const {
-				elKeys,
-				elRows,
-				pxPerBeat,
-				uiTimeline,
-				uiBeatlines,
-				elRowsScrollTop,
-				elRowsScrollLeft,
-			} = this._;
+		const _ = this._,
+			elRows = this.__rowsContainer;
 
-		this.blcsEdition.mousemove( e );
-		if ( elRows.scrollTop !== elRowsScrollTop ) {
-			this._.elRowsScrollTop =
-			elKeys.scrollTop = elRows.scrollTop;
+		this.__mousemove( e );
+		if ( elRows.scrollTop !== _.elRowsScrollTop ) {
+			_.elRowsScrollTop =
+			this.__panelContent.scrollTop = elRows.scrollTop;
 		}
-		if ( elRows.scrollLeft !== elRowsScrollLeft ) {
-			const off = elRows.scrollLeft / pxPerBeat;
+		if ( elRows.scrollLeft !== _.elRowsScrollLeft ) {
+			const off = elRows.scrollLeft / this.__pxPerBeat;
 
-			this._.offset = off;
-			this._.elRowsScrollLeft = elRows.scrollLeft;
-			uiTimeline.offset( off, pxPerBeat );
-			uiBeatlines.offset( off, pxPerBeat );
+			_.offset = off;
+			_.elRowsScrollLeft = elRows.scrollLeft;
+			this.__uiTimeline.offset( off, this.__pxPerBeat );
+			this.__uiBeatlines.offset( off, this.__pxPerBeat );
 		}
 	}
 	_uiKeysWheel( e ) {
 		if ( e.ctrlKey ) {
-			const {
-					elKeys,
-					elRows,
-					fontSize,
-					uiKeysRoot,
-				} = this._,
-				layerY = e.pageY - uiKeysRoot.getBoundingClientRect().top,
-				fs = this.setFontSize( fontSize * ( e.deltaY > 0 ? .9 : 1.1 ) );
+			const _ = this._,
+				layerY = e.pageY - _.uiKeysRoot.getBoundingClientRect().top,
+				oldFs = this.__fontSize,
+				fs = this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );
 
 			this._.elRowsScrollTop =
-			elKeys.scrollTop =
-			elRows.scrollTop += layerY / fontSize * ( fs - fontSize );
+			this.__panelContent.scrollTop =
+			this.__rowsContainer.scrollTop += layerY / oldFs * ( fs - oldFs );
 		}
 	}
 	_elRowsWheel( e ) {
 		if ( e.ctrlKey ) {
-			const {
-					elRows,
-					nlRows,
-					pxPerBeat,
-					uiTimeline,
-					uiBeatlines,
-				} = this._,
+			const _ = this._,
+				elRows = this.__rowsContainer,
 				layerX = e.pageX - elRows.getBoundingClientRect().left + elRows.scrollLeft,
-				ppb = Math.round( Math.min( Math.max( 8, pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 ) );
+				ppb = Math.round( Math.min( Math.max( 8, this.__pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 ) );
 
-			this._.pxPerBeat = ppb;
-			this._.elRowsScrollLeft =
-			elRows.scrollLeft += layerX / pxPerBeat * ( ppb - pxPerBeat );
-			this._.offset = elRows.scrollLeft / ppb;
-			uiTimeline.offset( this._.offset, ppb );
-			uiBeatlines.offset( this._.offset, ppb );
-			Array.from( nlRows ).forEach( el => el.firstChild.style.fontSize = ppb + "px" );
+			_.elRowsScrollLeft =
+			elRows.scrollLeft += layerX / this.__pxPerBeat * ( ppb - this.__pxPerBeat );
+			_.offset = elRows.scrollLeft / ppb;
+			this.setPxPerBeat( ppb );
 		}
 	}
 	_rowMousedown( key, e ) {
-		this.blcsEdition.mousedown( e );
+		this.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
 			const id = this._.idMax + 1,
 				keyObj = {
@@ -341,10 +269,10 @@ class gsuiPianoroll {
 		gsuiPianoroll._focused = this;
 	}
 	_mousemove( e ) {
-		this.blcsEdition.mousemove( e );
+		this.__mousemove( e );
 	}
 	_mouseup( e ) {
-		this.blcsEdition.mouseup();
+		this.__mouseup();
 		delete gsuiPianoroll._focused;
 	}
 
@@ -364,33 +292,30 @@ class gsuiPianoroll {
 	blcDeleted( blc, val ) { blc.classList.toggle( "gsui-block-hidden", !!val ); }
 	blcSelected( blc, val ) { blc.classList.toggle( "gsui-block-selected", !!val ); }
 	_deleteKey( id ) {
-		const _ = this._;
-
-		_.keyBlc.get( id ).remove();
-		_.keyBlc.delete( id );
-		_.keyBlcSelected.delete( id );
+		this.__blcs.get( id ).remove();
+		this.__blcs.delete( id );
+		this.__blcsSelected.delete( id );
 	}
 	_setKey( id, obj ) {
-		const _ = this._,
-			blc = document.createElement( "div" ),
+		const blc = document.createElement( "div" ),
 			crop = document.createElement( "div" );
 
 		blc.dataset.id = id;
 		blc.className = "gsui-block";
 		blc.onmousedown = this._keyMousedown.bind( this, id );
 		obj.selected
-			? _.keyBlcSelected.set( id, blc )
-			: _.keyBlcSelected.delete( id );
+			? this.__blcsSelected.set( id, blc )
+			: this.__blcsSelected.delete( id );
 		crop.className = "gsui-block-crop gsui-block-cropB";
 		blc.append( crop );
-		_.keyBlc.set( id, blc );
+		this.__blcs.set( id, blc );
 		this.blcKey( blc, obj.key );
 		this.blcWhen( blc, obj.when );
 		this.blcDuration( blc, obj.duration );
 		this.blcSelected( blc, obj.selected );
 	}
 	_setKeyProp( id, prop, val ) {
-		const blc = this._.keyBlc.get( id );
+		const blc = this.__blcs.get( id );
 
 		switch ( prop ) {
 			case "key": this.blcKey( blc, val ); break;
@@ -399,15 +324,13 @@ class gsuiPianoroll {
 			case "selected":
 				this.blcSelected( blc, val );
 				val
-					? this._.keyBlcSelected.set( id, blc )
-					: this._.keyBlcSelected.delete( id );
+					? this.__blcsSelected.set( id, blc )
+					: this.__blcsSelected.delete( id );
 				break;
 		}
 	}
 	_unselectKeys( obj ) {
-		const _ = this._;
-
-		_.keyBlcSelected.forEach( ( blc, id ) => {
+		this.__blcsSelected.forEach( ( blc, id ) => {
 			if ( !( id in obj ) ) {
 				this.data[ id ].selected = false;
 				obj[ id ] = { selected: false };
@@ -417,7 +340,7 @@ class gsuiPianoroll {
 	}
 	_keyMousedown( id, e ) {
 		e.stopPropagation();
-		this.blcsEdition.mousedown( e );
+		this.__mousedown( e );
 		gsuiPianoroll._focused = this;
 	}
 
@@ -430,8 +353,12 @@ class gsuiPianoroll {
 		} );
 	}
 	_proxyDeleteKey( tar, id ) {
-		this._deleteKey( id );
-		delete tar[ id ];
+		if ( id in tar ) {
+			this._deleteKey( id );
+			delete tar[ id ];
+		} else {
+			console.warn( `gsuiPianoroll: proxy useless deletion of [${ id }]` );
+		}
 		return true;
 	}
 	_proxySetKey( tar, id, obj ) {
@@ -439,24 +366,28 @@ class gsuiPianoroll {
 			this._proxyDeleteKey( tar, id );
 		}
 		if ( obj ) {
-			this._.idMax = Math.max( this._.idMax, id );
-			this._setKey(
-				id,
-				tar[ id ] = new Proxy( Object.seal( Object.assign( {
+			const prox = new Proxy( Object.seal( Object.assign( {
 					key: 60,
 					when: 0,
 					duration: 1,
 					selected: false
 				}, obj ) ), {
 					set: this._proxySetKeyProp.bind( this, id )
-				} )
-			);
+				} );
+
+			tar[ id ] = prox;
+			this._.idMax = Math.max( this._.idMax, id );
+			this._setKey( id, prox );
 		}
 		return true;
 	}
 	_proxySetKeyProp( id, tar, prop, val ) {
-		tar[ prop ] = val;
-		this._setKeyProp( id, prop, val );
+		if ( prop === "offset" ) {
+			console.warn( `gsuiPianoroll: proxy set useless 'offset' to key` );
+		} else {
+			tar[ prop ] = val;
+			this._setKeyProp( id, prop, val );
+		}
 		return true;
 	}
 }
