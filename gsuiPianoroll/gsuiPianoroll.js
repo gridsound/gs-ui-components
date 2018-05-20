@@ -14,9 +14,9 @@ class gsuiPianoroll {
 			uiBeatlines = new gsuiBeatlines();
 
 		this.rootElement = root;
+		this.uiKeys = uiKeys;
 		this.data = this._proxyCreate();
 		this._ = Object.seal( {
-			uiKeys,
 			elKeys,
 			elRows,
 			uiPanels,
@@ -76,52 +76,37 @@ class gsuiPianoroll {
 		this._panelGridResized();
 	}
 	attached() {
-		const {
-				elKeys,
-				elRows,
-				elPanGrid,
-				uiPanels,
-			} = this._,
-			scrollbarW = elRows.offsetWidth - elRows.clientWidth;
+		const _ = this._,
+			scrollbarW = _.elRows.offsetWidth - _.elRows.clientWidth;
 
-		elKeys.style.right =
-		elRows.style.right =
-		elKeys.style.bottom =
-		elRows.style.bottom = -scrollbarW + "px";
-		uiPanels.attached();
+		_.elKeys.style.right =
+		_.elRows.style.right =
+		_.elKeys.style.bottom =
+		_.elRows.style.bottom = -scrollbarW + "px";
+		_.uiPanels.attached();
 		this._panelGridResized();
 	}
 	octaves( from, nb ) {
-		const {
-				uiKeys,
-				elRows,
-				pxPerBeat,
-				uiKeysRoot,
-				rowsByMidi,
-			} = this._,
-			rows = uiKeysRoot.getElementsByClassName( "gsui-row" );
+		const _ = this._,
+			rows = _.uiKeysRoot.getElementsByClassName( "gsui-row" );
 
 		this.empty();
-		Object.keys( rowsByMidi ).forEach( k => delete rowsByMidi[ k ] );
-		uiKeys.octaves( from, nb );
+		Object.keys( _.rowsByMidi ).forEach( k => delete _.rowsByMidi[ k ] );
+		this.uiKeys.octaves( from, nb );
 		Object.values( rows ).forEach( el => {
 			el.onmousedown = this._rowMousedown.bind( this, +el.dataset.midi );
-			el.firstChild.style.fontSize = pxPerBeat + "px";
-			rowsByMidi[ el.dataset.midi ] = el;
+			el.firstChild.style.fontSize = _.pxPerBeat + "px";
+			_.rowsByMidi[ el.dataset.midi ] = el;
 		} );
-		Element.prototype.prepend.apply( elRows, rows );
+		Element.prototype.prepend.apply( _.elRows, rows );
 	}
 	setFontSize( px ) {
-		const {
-				elRows,
-				fontSize,
-				uiKeysRoot,
-			} = this._;
+		const _ = this._;
 
-		if ( px !== fontSize ) {
+		if ( px !== _.fontSize ) {
 			this._.fontSize = px = Math.round( Math.min( Math.max( 8, px ), 64 ) );
-			uiKeysRoot.style.fontSize =
-			elRows.style.fontSize = px + "px";
+			_.uiKeysRoot.style.fontSize =
+			_.elRows.style.fontSize = px + "px";
 		}
 		return px;
 	}
