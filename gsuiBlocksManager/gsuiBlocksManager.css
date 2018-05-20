@@ -1,0 +1,20 @@
+:root {
+	--gsuiBlocksManager-selection-bgColor: rgba( 189, 38, 38, .4 );
+	--gsuiBlocksManager-selection-borderColor: #f44;
+}
+
+.gsuiBlocksManager-selection {
+	position: absolute;
+	box-sizing: border-box;
+	top: 0;
+	z-index: 2;
+	border: 2px solid var( --gsuiBlocksManager-selection-borderColor );
+	border-radius: 4px;
+	background-color: var( --gsuiBlocksManager-selection-bgColor );
+	transition: .2s;
+	transition-property: opacity, visibility;
+}
+.gsuiBlocksManager-selection-hidden {
+	opacity: 0;
+	visibility: hidden;
+}
