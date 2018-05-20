@@ -2,13 +2,89 @@
 
 class gsuiBlocksManager {
 	constructor( root ) {
+		this.__fontSize = 16;
+		this.__pxPerBeat = 64;
 		this.__blcs = new Map();
 		this.__blcsEditing = new Map();
 		this.__blcsSelected = new Map();
 		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
+		this.__panelContent = root.querySelector( ".gsuiBlocksManager-panelContent" );
+		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
+		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
+
+		this.__uiTimeline = new gsuiTimeline();
+		this.__uiBeatlines = new gsuiBeatlines();
+		this.__uiTimeline.oninputLoop = ( isLoop, a, b ) => this.__uiBeatlines.loop( isLoop && a, b );
+		this.__uiTimeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
+		this.__uiTimeline.onchangeCurrentTime = t => {
+			this.__uiBeatlines.currentTime( t );
+			this.onchangeCurrentTime( t );
+		};
+		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.__uiTimeline.rootElement );
+		root.querySelector( ".gsuiBlocksManager-beatlinesWrap" ).append( this.__uiBeatlines.rootElement );
 	}
 
-	// Events to call manually:
+	// Public methods
+	// ............................................................................................
+	currentTime( beat ) {
+		this.__uiTimeline.currentTime( beat );
+		this.__uiBeatlines.currentTime( beat );
+	}
+	timeSignature( a, b ) {
+		this.__uiTimeline.timeSignature( a, b );
+		this.__uiBeatlines.timeSignature( a, b );
+	}
+	loop( a, b ) {
+		this.__uiTimeline.loop( a, b );
+		this.__uiBeatlines.loop( a, b );
+	}
+	setPxPerBeat( px ) {
+		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
+
+		if ( ppb !== this.__pxPerBeat ) {
+			this.__pxPerBeat = ppb;
+			this.__uiTimeline.offset( this._.offset, ppb );
+			this.__uiBeatlines.offset( this._.offset, ppb );
+			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppb + "px" );
+		}
+		return ppb;
+	}
+	setFontSize( px ) {
+		const fs = Math.min( Math.max( 8, px ), 64 );
+
+		if ( fs !== this.__fontSize ) {
+			this.__fontSize = fs;
+			this.__panelContent.style.fontSize =
+			this.__rowsContainer.style.fontSize = fs + "px";
+		}
+		return px;
+	}
+
+	// Private util methods
+	// ............................................................................................
+	__getBlc( el ) {
+		if ( el.classList.contains( "gsui-block" ) ) {
+			return el;
+		} else if ( el.parentNode.classList.contains( "gsui-block" ) ) {
+			return el.parentNode;
+		}
+	}
+	__fillBlcsMap( blc ) {
+		const blcs = this.__blcsEditing;
+
+		if ( blc.classList.contains( "gsui-block-selected" ) ) {
+			this.__blcsSelected.forEach( ( blc, id ) => blcs.set( id, blc ) );
+		} else {
+			blcs.set( blc.dataset.id, blc );
+		}
+		return blcs;
+	}
+	__getBeatSnap() {
+		return 1 / this.__uiTimeline._.stepsPerBeat * this.__uiTimeline.stepRound;
+	}
+
+	// Events to call manually
+	// ............................................................................................
 	__mousemove( e ) {
 		if ( this.__mmFn ) {
 			if ( e.type === "mousemove" ) {
@@ -33,7 +109,7 @@ class gsuiBlocksManager {
 			this.__mdPageX = e.pageX;
 			this.__mdPageY = e.pageY;
 			this.__mdWhen = this.getWhenByPageX( e.pageX );
-			this.__beatSnap = this.getBeatSnap();
+			this.__beatSnap = this.__getBeatSnap();
 			if ( e.shiftKey ) {
 				this.__mmFn = this.__mousemove_selection1;
 				this.__status = "selecting-1";
@@ -66,7 +142,7 @@ class gsuiBlocksManager {
 					} );
 					this.__valueAMin *= -1;
 					this.__valueBMin *= -1;
-					this.__valueBMax = this.getNbRows() - 1 - this.__valueBMax;
+					this.__valueBMax = this.__rows.length - 1 - this.__valueBMax;
 				}
 			}
 		}
@@ -116,26 +192,8 @@ class gsuiBlocksManager {
 		blcsEditing.clear();
 	}
 
-	//
-	__getBlc( el ) {
-		if ( el.classList.contains( "gsui-block" ) ) {
-			return el;
-		} else if ( el.parentNode.classList.contains( "gsui-block" ) ) {
-			return el.parentNode;
-		}
-	}
-	__fillBlcsMap( blc ) {
-		const blcs = this.__blcsEditing;
-
-		if ( blc.classList.contains( "gsui-block-selected" ) ) {
-			this.__blcsSelected.forEach( ( blc, id ) => blcs.set( id, blc ) );
-		} else {
-			blcs.set( blc.dataset.id, blc );
-		}
-		return blcs;
-	}
-
-	// Mousemove functions
+	// Mousemove specific functions
+	// ............................................................................................
 	__mousemove_crop() {
 		const crop = Math.max( this.__valueAMin, Math.round(
 				( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap );
@@ -166,8 +224,6 @@ class gsuiBlocksManager {
 			this.__blcsEditing.forEach( ( blc, id ) => this.blcWhen( blc, data[ id ].when + when ) );
 		}
 		if ( rows !== this.__valueB ) {
-			const nlRows = this.getRows();
-
 			this.__valueB = rows;
 			this.__blcsEditing.forEach( ( blc, id ) => this.blcRow( blc, rows ) );
 		}
@@ -191,12 +247,11 @@ class gsuiBlocksManager {
 		}
 	}
 	__mousemove_selection2() {
-		const rowH = this.getRowHeight(),
-			pxPB = this.getPxPerBeat(),
+		const rowH = this.__fontSize,
 			st = this.__selection.style,
 			rowIndB = this.getRowIndexByPageY( this.__mmPageY ),
 			when = Math.min( this.__mdWhen, this.__mmWhen ),
-			duration = this.getBeatSnap() + Math.abs( this.__mdWhen - this.__mmWhen ),
+			duration = this.__getBeatSnap() + Math.abs( this.__mdWhen - this.__mmWhen ),
 			topRow = Math.min( this.__mdRowInd, rowIndB ),
 			bottomRow = Math.max( this.__mdRowInd, rowIndB ),
 			rowA = this.getRowByIndex( topRow ),
@@ -224,8 +279,8 @@ class gsuiBlocksManager {
 				}, new Map );
 
 		st.top = topRow * rowH + "px";
-		st.left = when * pxPB + "px";
-		st.width = duration * pxPB + "px";
+		st.left = when * this.__pxPerBeat + "px";
+		st.width = duration * this.__pxPerBeat + "px";
 		st.height = ( bottomRow - topRow + 1 ) * rowH + "px";
 		this.__blcsEditing.forEach( ( blc, id ) => this.blcSelected( blc, blcs.has( id ) ) );
 		this.__blcsEditing = blcs;
