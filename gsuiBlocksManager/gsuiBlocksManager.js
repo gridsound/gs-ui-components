@@ -2,18 +2,22 @@
 
 class gsuiBlocksManager {
 	constructor( root ) {
+		this.__offset = 0;
 		this.__fontSize = 16;
 		this.__pxPerBeat = 64;
 		this.__blcs = new Map();
 		this.__blcsEditing = new Map();
 		this.__blcsSelected = new Map();
+		this.__uiTimeline = new gsuiTimeline();
+		this.__uiBeatlines = new gsuiBeatlines();
 		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
 		this.__panelContent = root.querySelector( ".gsuiBlocksManager-panelContent" );
 		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
 
-		this.__uiTimeline = new gsuiTimeline();
-		this.__uiBeatlines = new gsuiBeatlines();
+		this.onchange =
+		this.onchangeLoop =
+		this.onchangeCurrentTime = () => {};
 		this.__uiTimeline.oninputLoop = ( isLoop, a, b ) => this.__uiBeatlines.loop( isLoop && a, b );
 		this.__uiTimeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
 		this.__uiTimeline.onchangeCurrentTime = t => {
@@ -22,6 +26,16 @@ class gsuiBlocksManager {
 		};
 		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.__uiTimeline.rootElement );
 		root.querySelector( ".gsuiBlocksManager-beatlinesWrap" ).append( this.__uiBeatlines.rootElement );
+
+		root.ondragstart =
+		this.__rowsContainer.oncontextmenu = () => false;
+		this.__rowsScrollTop = -1;
+		this.__rowsScrollLeft = -1;
+		this.__rowsContainer.onwheel = this.__onwheelRows.bind( this );
+		this.__rowsContainer.onscroll = this.__onscrollRows.bind( this );
+		this.__panelContent.onwheel = this.__onwheelPanelContent.bind( this );
+		this.__panelContent.onscroll = this.__onscrollPanelContent.bind( this );
+		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
 	}
 
 	// Public methods
@@ -43,8 +57,8 @@ class gsuiBlocksManager {
 
 		if ( ppb !== this.__pxPerBeat ) {
 			this.__pxPerBeat = ppb;
-			this.__uiTimeline.offset( this._.offset, ppb );
-			this.__uiBeatlines.offset( this._.offset, ppb );
+			this.__uiTimeline.offset( this.__offset, ppb );
+			this.__uiBeatlines.offset( this.__offset, ppb );
 			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppb + "px" );
 		}
 		return ppb;
@@ -57,7 +71,7 @@ class gsuiBlocksManager {
 			this.__panelContent.style.fontSize =
 			this.__rowsContainer.style.fontSize = fs + "px";
 		}
-		return px;
+		return fs;
 	}
 
 	// Private util methods
@@ -81,6 +95,55 @@ class gsuiBlocksManager {
 	}
 	__getBeatSnap() {
 		return 1 / this.__uiTimeline._.stepsPerBeat * this.__uiTimeline.stepRound;
+	}
+
+	// Events
+	// ............................................................................................
+	__onscrollPanelContent( e ) {
+		if ( this.__rowsScrollTop !== this.__panelContent.scrollTop ) {
+			this.__rowsScrollTop =
+			this.__rowsContainer.scrollTop = this.__panelContent.scrollTop;
+		}
+	}
+	__onwheelPanelContent( e ) {
+		if ( e.ctrlKey ) {
+			const layerY = e.pageY - this.__panelContent.firstChild.getBoundingClientRect().top,
+				oldFs = this.__fontSize,
+				fs = this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );
+
+			this.__rowsScrollTop =
+			this.__panelContent.scrollTop =
+			this.__rowsContainer.scrollTop += layerY / oldFs * ( fs - oldFs );
+		}
+	}
+	__onscrollRows( e ) {
+		const elRows = this.__rowsContainer;
+
+		this.__mousemove( e );
+		if ( elRows.scrollTop !== this.__rowsScrollTop ) {
+			this.__rowsScrollTop =
+			this.__panelContent.scrollTop = elRows.scrollTop;
+		}
+		if ( elRows.scrollLeft !== this.__rowsScrollLeft ) {
+			const off = elRows.scrollLeft / this.__pxPerBeat;
+
+			this.__offset = off;
+			this.__rowsScrollLeft = elRows.scrollLeft;
+			this.__uiTimeline.offset( off, this.__pxPerBeat );
+			this.__uiBeatlines.offset( off, this.__pxPerBeat );
+		}
+	}
+	__onwheelRows( e ) {
+		if ( e.ctrlKey ) {
+			const elRows = this.__rowsContainer,
+				layerX = e.pageX - elRows.getBoundingClientRect().left + elRows.scrollLeft,
+				ppb = Math.round( Math.min( Math.max( 8, this.__pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 ) );
+
+			this.__rowsScrollLeft =
+			elRows.scrollLeft += layerX / this.__pxPerBeat * ( ppb - this.__pxPerBeat );
+			this.__offset = elRows.scrollLeft / ppb;
+			this.setPxPerBeat( ppb );
+		}
 	}
 
 	// Events to call manually
