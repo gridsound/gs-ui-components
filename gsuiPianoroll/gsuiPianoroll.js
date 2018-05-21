@@ -5,45 +5,24 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		const root = gsuiPianoroll.template.cloneNode( true ),
 			elPanKeys = root.querySelector( ".gsuiPianoroll-pan-keys" ),
 			elPanGrid = root.querySelector( ".gsuiPianoroll-pan-grid" ),
-			uiPanels = new gsuiPanels( root ),
-			uiKeys = new gsuiKeys(),
-			uiKeysRoot = uiKeys.rootElement;
+			uiPanels = new gsuiPanels( root );
 
 		super( root );
 		this.rootElement = root;
-		this.uiKeys = uiKeys;
+		this.uiKeys = new gsuiKeys();
 		this.data = this._proxyCreate();
 		this._ = Object.seal( {
 			uiPanels,
 			elPanKeys,
 			elPanGrid,
-			uiKeysRoot,
 			idMax: 1,
-			offset: 0,
 			elPanGridWidth: 0,
 			currKeyDuration: 1,
-			elRowsScrollTop: -1,
-			elRowsScrollLeft: -1,
 			rowsByMidi: {},
 		} );
-		this.onchange =
-		this.onchangeLoop =
-		this.onchangeCurrentTime = () => {};
-		root.ondragstart = () => false;
 		root.onkeydown = this._onkeydown.bind( this );
-		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
-		this.__panelContent.onscroll = e => {
-			if ( this._.elRowsScrollTop !== this.__panelContent.scrollTop ) {
-				this._.elRowsScrollTop =
-				this.__rowsContainer.scrollTop = this.__panelContent.scrollTop;
-			}
-		};
-		this.__panelContent.onwheel = this._uiKeysWheel.bind( this );
-		this.__rowsContainer.onwheel = this._elRowsWheel.bind( this );
-		this.__rowsContainer.onscroll = this._elRowsScroll.bind( this );
-		this.__rowsContainer.oncontextmenu = () => false;
 		elPanGrid.onresizing = this._panelGridResizing.bind( this );
-		this.__panelContent.append( uiKeysRoot );
+		this.__panelContent.append( this.uiKeys.rootElement );
 	}
 
 	empty() {
@@ -64,7 +43,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	octaves( from, nb ) {
 		const _ = this._,
-			rows = _.uiKeysRoot.getElementsByClassName( "gsui-row" );
+			rows = this.uiKeys.rootElement.getElementsByClassName( "gsui-row" );
 
 		this.empty();
 		Object.keys( _.rowsByMidi ).forEach( k => delete _.rowsByMidi[ k ] );
@@ -133,23 +112,20 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	// Panel functions
 	// ........................................................................
 	_panelGridResizing( pan ) {
-		const _ = this._,
-			width = pan.clientWidth;
+		const width = pan.clientWidth;
 
-		if ( _.offset > 0 ) {
-			_.offset -= ( width - _.elPanGridWidth ) / this.__pxPerBeat;
-			this.__rowsContainer.scrollLeft -= width - _.elPanGridWidth;
+		if ( this.__offset > 0 ) {
+			this.__offset -= ( width - this._.elPanGridWidth ) / this.__pxPerBeat;
+			this.__rowsContainer.scrollLeft -= width - this._.elPanGridWidth;
 		}
 		this._panelGridResized();
 	}
 	_panelGridResized() {
-		const _ = this._;
-
-		_.elPanGridWidth = _.elPanGrid.clientWidth;
+		this._.elPanGridWidth = this._.elPanGrid.clientWidth;
 		this.__uiTimeline.resized();
 		this.__uiBeatlines.resized();
-		this.__uiTimeline.offset( _.offset, this.__pxPerBeat );
-		this.__uiBeatlines.offset( _.offset, this.__pxPerBeat );
+		this.__uiTimeline.offset( this.__offset, this.__pxPerBeat );
+		this.__uiBeatlines.offset( this.__offset, this.__pxPerBeat );
 	}
 
 	// Shortcuts
@@ -210,49 +186,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 	// Mouse events
 	// ........................................................................
-	_elRowsScroll( e ) {
-		const _ = this._,
-			elRows = this.__rowsContainer;
-
-		this.__mousemove( e );
-		if ( elRows.scrollTop !== _.elRowsScrollTop ) {
-			_.elRowsScrollTop =
-			this.__panelContent.scrollTop = elRows.scrollTop;
-		}
-		if ( elRows.scrollLeft !== _.elRowsScrollLeft ) {
-			const off = elRows.scrollLeft / this.__pxPerBeat;
-
-			_.offset = off;
-			_.elRowsScrollLeft = elRows.scrollLeft;
-			this.__uiTimeline.offset( off, this.__pxPerBeat );
-			this.__uiBeatlines.offset( off, this.__pxPerBeat );
-		}
-	}
-	_uiKeysWheel( e ) {
-		if ( e.ctrlKey ) {
-			const _ = this._,
-				layerY = e.pageY - _.uiKeysRoot.getBoundingClientRect().top,
-				oldFs = this.__fontSize,
-				fs = this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );
-
-			this._.elRowsScrollTop =
-			this.__panelContent.scrollTop =
-			this.__rowsContainer.scrollTop += layerY / oldFs * ( fs - oldFs );
-		}
-	}
-	_elRowsWheel( e ) {
-		if ( e.ctrlKey ) {
-			const _ = this._,
-				elRows = this.__rowsContainer,
-				layerX = e.pageX - elRows.getBoundingClientRect().left + elRows.scrollLeft,
-				ppb = Math.round( Math.min( Math.max( 8, this.__pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 ) );
-
-			_.elRowsScrollLeft =
-			elRows.scrollLeft += layerX / this.__pxPerBeat * ( ppb - this.__pxPerBeat );
-			_.offset = elRows.scrollLeft / ppb;
-			this.setPxPerBeat( ppb );
-		}
-	}
 	_rowMousedown( key, e ) {
 		this.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
