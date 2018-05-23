@@ -145,47 +145,18 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			( pageX - this.getRow0BCR().left ) / this.__pxPerBeat ) );
 	}
 
-	// Keyboard
+	// Mouse and keyboard events
 	// ........................................................................
 	_onkeydown( e ) {
-		const dat = this.data;
-
-		switch ( e.key ) {
-			case "a":
-				if ( e.ctrlKey || e.altKey ) {
-					e.preventDefault();
-					e.stopPropagation();
-					if ( this.__blcs.size ) {
-						const obj = {};
-						let notEmpty;
-
-						this.__blcs.forEach( ( blc, id ) => {
-							if ( !dat[ id ].selected ) {
-								obj[ id ] = { selected: true };
-								dat[ id ].selected = true;
-								notEmpty = true;
-							}
-						} );
-						notEmpty && this.onchange( obj );
-					}
-				}
-				break;
-			case "Delete":
-				if ( this.__blcsSelected.size ) {
-					const obj = {};
-
-					this.__blcsSelected.forEach( ( blc, id ) => {
-						obj[ id ] = null;
-						delete dat[ id ];
-					} );
-					this.onchange( obj );
-				}
-				break;
-		}
+		this.__keydown( e );
 	}
-
-	// Mouse events
-	// ........................................................................
+	_mousemove( e ) {
+		this.__mousemove( e );
+	}
+	_mouseup( e ) {
+		this.__mouseup();
+		delete gsuiPianoroll._focused;
+	}
 	_rowMousedown( key, e ) {
 		this.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
@@ -200,13 +171,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
 		}
 		gsuiPianoroll._focused = this;
-	}
-	_mousemove( e ) {
-		this.__mousemove( e );
-	}
-	_mouseup( e ) {
-		this.__mouseup();
-		delete gsuiPianoroll._focused;
 	}
 
 	// Key's functions

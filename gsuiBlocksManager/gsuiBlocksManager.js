@@ -148,6 +148,41 @@ class gsuiBlocksManager {
 
 	// Events to call manually
 	// ............................................................................................
+	__keydown( e ) {
+		const dat = this.getData(),
+			blcsEditing = this.__blcsEditing;
+
+		switch ( e.key ) {
+			case "Delete":
+				if ( this.__blcsSelected.size ) {
+					this.__blcsSelected.forEach( ( blc, id ) => blcsEditing.set( id, blc ) );
+					this.__status = "deleting";
+					this.__mouseup();
+				}
+				break;
+			case "a":
+				if ( e.ctrlKey || e.altKey ) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ( this.__blcs.size ) {
+						let notEmpty;
+
+						blcsEditing.clear();
+						this.__blcs.forEach( ( blc, id ) => {
+							if ( !dat[ id ].selected ) {
+								notEmpty = true;
+								blcsEditing.set( id, blc );
+							}
+						} );
+						if ( notEmpty ) {
+							this.__status = "selecting-1";
+							this.__mouseup();
+						}
+					}
+				}
+				break;
+		}
+	}
 	__mousemove( e ) {
 		if ( this.__mmFn ) {
 			if ( e.type === "mousemove" ) {
@@ -214,13 +249,14 @@ class gsuiBlocksManager {
 		const blcsEditing = this.__blcsEditing;
 
 		switch ( this.__status ) {
+			default: return;
 			case "deleting":
 				if ( blcsEditing.size || this.__blcsSelected.size ) {
 					this.blcsManagerCallback( "deleting", blcsEditing );
 				}
 				break;
 			case "moving":
-				if ( Math.abs( this.__valueA ) > .000001 || this.__valueB ) {
+				if ( this.__valueB || Math.abs( this.__valueA ) > .000001 ) {
 					this.blcsManagerCallback( "moving", blcsEditing, this.__valueA, this.__valueB );
 				}
 				break;
@@ -233,12 +269,13 @@ class gsuiBlocksManager {
 			case "selecting-2":
 				this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
 			case "selecting-1":
-				if ( this.__status === "selecting-1" && this.__mdCurrTar ) {
+				if ( this.__mdCurrTar && this.__status === "selecting-1" ) {
 					const blc = this.__getBlc( this.__mdCurrTar );
 
 					if ( blc ) {
 						blcsEditing.set( blc.dataset.id, blc );
 					}
+					delete this.__mdCurrTar;
 				}
 				if ( blcsEditing.size ) {
 					this.blcsManagerCallback( "selecting", blcsEditing );
