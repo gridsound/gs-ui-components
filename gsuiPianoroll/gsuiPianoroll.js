@@ -217,7 +217,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		switch ( prop ) {
 			case "key": this.blcKey( blc, val ); break;
 			case "when": this.blcWhen( blc, val ); break;
-			case "duration": this.blcDuration( blc, val ); break;
+			case "duration":
+				this.blcDuration( blc, val );
+				this._.currKeyDuration = val;
+				break;
 			case "selected":
 				this.blcSelected( blc, val );
 				val
