@@ -174,7 +174,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				keyObj = {
 					key,
 					when: this.getWhenByPageX( e.pageX ),
-					duration: this._.currKeyDuration
+					duration: this._.currKeyDuration,
+					selected: false
 				};
 
 			this.data[ id ] = keyObj;
