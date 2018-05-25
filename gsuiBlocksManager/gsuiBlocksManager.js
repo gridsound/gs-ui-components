@@ -36,6 +36,14 @@ class gsuiBlocksManager {
 		this.__panelContent.onwheel = this.__onwheelPanelContent.bind( this );
 		this.__panelContent.onscroll = this.__onscrollPanelContent.bind( this );
 		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
+
+		this.uiBlc = {
+			when( el, v ) { el.style.left = v + "em"; },
+			duration( el, v ) { el.style.width = v + "em"; },
+			selected( el, v ) { el.classList.toggle( "gsui-block-selected", !!v ); },
+			deleted( el, v ) { el.classList.toggle( "gsui-block-hidden", !!v ); },
+		};
+		this.__eventReset();
 	}
 
 	// Public methods
@@ -95,6 +103,16 @@ class gsuiBlocksManager {
 	}
 	__getBeatSnap() {
 		return 1 / this.__uiTimeline._.stepsPerBeat * this.__uiTimeline.stepRound;
+	}
+	__eventReset() {
+		this.__mmFn =
+		this.__valueA =
+		this.__valueB = null;
+		this.__valueAMin =
+		this.__valueBMin = Infinity;
+		this.__valueBMax = -Infinity;
+		this.__status = "";
+		this.__blcsEditing.clear();
 	}
 
 	// Events
@@ -200,7 +218,7 @@ class gsuiBlocksManager {
 			this.__mmFn = this.__mousemove_deletion;
 			this.__status = "deleting";
 			if ( blc ) {
-				this.blcDeleted( blc, true );
+				this.uiBlc.deleted( blc, true );
 				this.__blcsEditing.set( blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 ) {
@@ -282,14 +300,7 @@ class gsuiBlocksManager {
 				}
 				break;
 		}
-		this.__mmFn =
-		this.__valueA =
-		this.__valueB = null;
-		this.__valueAMin =
-		this.__valueBMin = Infinity;
-		this.__valueBMax = -Infinity;
-		this.__status = "";
-		blcsEditing.clear();
+		this.__eventReset();
 	}
 
 	// Mousemove specific functions
@@ -305,10 +316,10 @@ class gsuiBlocksManager {
 			this.__blcsEditing.forEach( this.__status === "cropping-a"
 				? ( blc, id ) => {
 					this.blcOffset( blc, data[ id ].offset - crop );
-					this.blcDuration( blc, data[ id ].duration + crop );
+					this.uiBlc.duration( blc, data[ id ].duration + crop );
 				}
 				: ( blc, id ) => {
-					this.blcDuration( blc, data[ id ].duration + crop );
+					this.uiBlc.duration( blc, data[ id ].duration + crop );
 				} );
 		}
 	}
@@ -321,18 +332,18 @@ class gsuiBlocksManager {
 
 		if ( when !== this.__valueA ) {
 			this.__valueA = when;
-			this.__blcsEditing.forEach( ( blc, id ) => this.blcWhen( blc, data[ id ].when + when ) );
+			this.__blcsEditing.forEach( ( blc, id ) => this.uiBlc.when( blc, data[ id ].when + when ) );
 		}
 		if ( rows !== this.__valueB ) {
 			this.__valueB = rows;
-			this.__blcsEditing.forEach( ( blc, id ) => this.blcRow( blc, rows ) );
+			this.__blcsEditing.forEach( ( blc, id ) => this.uiBlc.row( blc, rows ) );
 		}
 	}
 	__mousemove_deletion( e ) {
 		const blc = this.__getBlc( e.target );
 
 		if ( blc && !this.__blcsEditing.has( blc.dataset.id ) ) {
-			this.blcDeleted( blc, true );
+			this.uiBlc.deleted( blc, true );
 			this.__blcsEditing.set( blc.dataset.id, blc );
 		}
 	}
@@ -371,7 +382,7 @@ class gsuiBlocksManager {
 							pA & Node.DOCUMENT_POSITION_FOLLOWING &&
 							pB & Node.DOCUMENT_POSITION_PRECEDING )
 						) {
-							this.blcSelected( elBlc, true );
+							this.uiBlc.selected( elBlc, true );
 							map.set( id, elBlc );
 						}
 					}
@@ -382,7 +393,7 @@ class gsuiBlocksManager {
 		st.left = when * this.__pxPerBeat + "px";
 		st.width = duration * this.__pxPerBeat + "px";
 		st.height = ( bottomRow - topRow + 1 ) * rowH + "px";
-		this.__blcsEditing.forEach( ( blc, id ) => this.blcSelected( blc, blcs.has( id ) ) );
+		this.__blcsEditing.forEach( ( blc, id ) => this.uiBlc.selected( blc, blcs.has( id ) ) );
 		this.__blcsEditing = blcs;
 	}
 }

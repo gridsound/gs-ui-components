@@ -8,6 +8,16 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			uiPanels = new gsuiPanels( root );
 
 		super( root );
+		this.uiBlc.row = ( el, rowIncr ) => {
+			this.uiBlc.key( el, this.data[ el.dataset.id ].key - rowIncr );
+		};
+		this.uiBlc.key = ( el, midi ) => {
+			const row = this.getRowByMidi( midi );
+
+			el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
+			row.firstChild.append( el );
+		};
+
 		this.rootElement = root;
 		this.uiKeys = new gsuiKeys();
 		this.data = this._proxyCreate();
@@ -175,19 +185,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 	// Key's functions
 	// ........................................................................
-	blcRow( blc, rowIncr ) {
-		this.blcKey( blc, this.data[ blc.dataset.id ].key - rowIncr );
-	}
-	blcKey( blc, midi ) {
-		const row = this.getRowByMidi( midi );
-
-		blc.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
-		row.firstChild.append( blc );
-	}
-	blcWhen( blc, val ) { blc.style.left = val + "em"; }
-	blcDuration( blc, val ) { blc.style.width = val + "em"; }
-	blcDeleted( blc, val ) { blc.classList.toggle( "gsui-block-hidden", !!val ); }
-	blcSelected( blc, val ) { blc.classList.toggle( "gsui-block-selected", !!val ); }
 	_deleteKey( id ) {
 		this.__blcs.get( id ).remove();
 		this.__blcs.delete( id );
@@ -206,27 +203,25 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		crop.className = "gsui-block-crop gsui-block-cropB";
 		blc.append( crop );
 		this.__blcs.set( id, blc );
-		this.blcKey( blc, obj.key );
-		this.blcWhen( blc, obj.when );
-		this.blcDuration( blc, obj.duration );
-		this.blcSelected( blc, obj.selected );
+		this.uiBlc.key( blc, obj.key );
+		this.uiBlc.when( blc, obj.when );
+		this.uiBlc.duration( blc, obj.duration );
+		this.uiBlc.selected( blc, obj.selected );
 	}
 	_setKeyProp( id, prop, val ) {
-		const blc = this.__blcs.get( id );
+		const uiFn = this.uiBlc[ prop ];
 
-		switch ( prop ) {
-			case "key": this.blcKey( blc, val ); break;
-			case "when": this.blcWhen( blc, val ); break;
-			case "duration":
-				this.blcDuration( blc, val );
+		if ( uiFn ) {
+			const blc = this.__blcs.get( id );
+
+			uiFn( blc, val );
+			if ( prop === "duration" ) {
 				this._.currKeyDuration = val;
-				break;
-			case "selected":
-				this.blcSelected( blc, val );
+			} else if ( prop === "selected" ) {
 				val
 					? this.__blcsSelected.set( id, blc )
 					: this.__blcsSelected.delete( id );
-				break;
+			}
 		}
 	}
 	_unselectKeys( obj ) {
