@@ -50,6 +50,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		rowsC.style.bottom = -( rowsC.offsetWidth - rowsC.clientWidth ) + "px";
 		this._.uiPanels.attached();
 		this._panelGridResized();
+		this.scrollToMiddle();
 	}
 	octaves( from, nb ) {
 		const _ = this._,
