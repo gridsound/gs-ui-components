@@ -139,17 +139,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__blcsSelected.delete( id );
 	}
 	_setKey( id, obj ) {
-		const blc = document.createElement( "div" ),
-			crop = document.createElement( "div" );
+		const blc = gsuiPianoroll.blockTemplate.cloneNode( true );
 
 		blc.dataset.id = id;
-		blc.className = "gsui-block";
 		blc.onmousedown = this._blcMousedown.bind( this, id );
 		obj.selected
 			? this.__blcsSelected.set( id, blc )
 			: this.__blcsSelected.delete( id );
-		crop.className = "gsui-block-crop gsui-block-cropB";
-		blc.append( crop );
 		this.__blcs.set( id, blc );
 		this.uiBlc.key( blc, obj.key );
 		this.uiBlc.when( blc, obj.when );
@@ -241,3 +237,6 @@ gsuiPianoroll.noteNames = {
 gsuiPianoroll.template = document.querySelector( "#gsuiPianoroll-template" );
 gsuiPianoroll.template.remove();
 gsuiPianoroll.template.removeAttribute( "id" );
+gsuiPianoroll.blockTemplate = document.querySelector( "#gsuiPianoroll-block-template" );
+gsuiPianoroll.blockTemplate.remove();
+gsuiPianoroll.blockTemplate.removeAttribute( "id" );
