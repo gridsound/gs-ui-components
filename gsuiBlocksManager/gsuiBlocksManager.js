@@ -12,6 +12,8 @@ class gsuiBlocksManager {
 		this.__uiPanels = new gsuiPanels( root );
 		this.__uiTimeline = new gsuiTimeline();
 		this.__uiBeatlines = new gsuiBeatlines();
+		this.__elPanGrid = root.querySelector( ".gsuiBlocksManager-gridPanel" );
+		this.__elPanGridWidth = 0;
 		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
 		this.__sideContent = root.querySelector( ".gsuiBlocksManager-sidePanelContent" );
 		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
@@ -20,6 +22,7 @@ class gsuiBlocksManager {
 		this.onchange =
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
+		this.__elPanGrid.onresizing = this.__gridPanelResizing.bind( this );
 		this.__uiTimeline.oninputLoop = ( isLoop, a, b ) => this.__uiBeatlines.loop( isLoop && a, b );
 		this.__uiTimeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
 		this.__uiTimeline.onchangeCurrentTime = t => {
@@ -90,8 +93,36 @@ class gsuiBlocksManager {
 		el.scrollTop = ( el.scrollHeight - el.clientHeight ) / 2;
 	}
 
+	// Private small getters
+	// ............................................................................................
+	__getRow0BCR() { return this.__rows[ 0 ].getBoundingClientRect(); }
+	__getRowByIndex( ind ) { return this.__rows[ ind ]; }
+	__getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.__rows, row ); }
+	__getRowIndexByPageY( pageY ) {
+		const ind = Math.floor( ( pageY - this.__getRow0BCR().top ) / this.__fontSize );
+
+		return Math.max( 0, Math.min( ind, this.__rows.length - 1 ) );
+	}
+	__getWhenByPageX( pageX ) {
+		return Math.max( 0, this.__uiTimeline.beatFloor(
+			( pageX - this.__getRow0BCR().left ) / this.__pxPerBeat ) );
+	}
+
 	// Private util methods
 	// ............................................................................................
+	__resized() {
+		this.__gridPanelResized();
+	}
+	__attached() {
+		const rowsC = this.__rowsContainer;
+
+		this.__sideContent.style.right =
+		this.__sideContent.style.bottom =
+		rowsC.style.right =
+		rowsC.style.bottom = -( rowsC.offsetWidth - rowsC.clientWidth ) + "px";
+		this.__uiPanels.attached();
+		this.__gridPanelResized();
+	}
 	__getBlc( el ) {
 		if ( el.classList.contains( "gsui-block" ) ) {
 			return el;
@@ -125,6 +156,22 @@ class gsuiBlocksManager {
 
 	// Events
 	// ............................................................................................
+	__gridPanelResizing( pan ) {
+		const width = pan.clientWidth;
+
+		if ( this.__offset > 0 ) {
+			this.__offset -= ( width - this.__elPanGridWidth ) / this.__pxPerBeat;
+			this.__rowsContainer.scrollLeft -= width - this.__elPanGridWidth;
+		}
+		this.__gridPanelResized();
+	}
+	__gridPanelResized() {
+		this.__elPanGridWidth = this.__elPanGrid.clientWidth;
+		this.__uiTimeline.resized();
+		this.__uiBeatlines.resized();
+		this.__uiTimeline.offset( this.__offset, this.__pxPerBeat );
+		this.__uiBeatlines.offset( this.__offset, this.__pxPerBeat );
+	}
 	__onscrollPanelContent( e ) {
 		if ( this.__rowsScrollTop !== this.__sideContent.scrollTop ) {
 			this.__rowsScrollTop =
@@ -175,7 +222,7 @@ class gsuiBlocksManager {
 	// Events to call manually
 	// ............................................................................................
 	__keydown( e ) {
-		const dat = this.getData(),
+		const dat = this._getData(),
 			blcsEditing = this.__blcsEditing;
 
 		switch ( e.key ) {
@@ -215,7 +262,7 @@ class gsuiBlocksManager {
 				this.__mmPageX = e.pageX;
 				this.__mmPageY = e.pageY;
 			}
-			this.__mmWhen = this.getWhenByPageX( this.__mmPageX );
+			this.__mmWhen = this.__getWhenByPageX( this.__mmPageX );
 			this.__mmFn.call( this, e );
 		}
 	}
@@ -232,15 +279,15 @@ class gsuiBlocksManager {
 		} else if ( e.button === 0 ) {
 			this.__mdPageX = e.pageX;
 			this.__mdPageY = e.pageY;
-			this.__mdWhen = this.getWhenByPageX( e.pageX );
+			this.__mdWhen = this.__getWhenByPageX( e.pageX );
 			this.__beatSnap = this.__getBeatSnap();
 			if ( e.shiftKey ) {
 				this.__mmFn = this.__mousemove_selection1;
 				this.__status = "selecting-1";
 				this.__mdCurrTar = blc;
-				this.__mdRowInd = this.getRowIndexByPageY( e.pageY );
+				this.__mdRowInd = this.__getRowIndexByPageY( e.pageY );
 			} else if ( blc ) {
-				const data = this.getData(),
+				const data = this._getData(),
 					blcsEditing = this.__fillBlcsMap( blc );
 
 				if ( e.target.classList.contains( "gsui-block-crop" ) ) {
@@ -256,9 +303,9 @@ class gsuiBlocksManager {
 				} else {
 					this.__mmFn = this.__mousemove_move;
 					this.__status = "moving";
-					this.__mdRowInd = this.getRowIndexByPageY( e.pageY );
+					this.__mdRowInd = this.__getRowIndexByPageY( e.pageY );
 					blcsEditing.forEach( ( blc, id ) => {
-						const valB = this.getRowIndexByRow( blc.parentNode.parentNode );
+						const valB = this.__getRowIndexByRow( blc.parentNode.parentNode );
 
 						this.__valueAMin = Math.min( this.__valueAMin, data[ id ].when );
 						this.__valueBMin = Math.min( this.__valueBMin, valB );
@@ -320,7 +367,7 @@ class gsuiBlocksManager {
 				( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap );
 
 		if ( crop !== this.__valueA ) {
-			const data = this.getData();
+			const data = this._getData();
 
 			this.__valueA = crop;
 			this.__blcsEditing.forEach( this.__status === "cropping-a"
@@ -334,11 +381,11 @@ class gsuiBlocksManager {
 		}
 	}
 	__mousemove_move() {
-		const data = this.getData(),
+		const data = this._getData(),
 			when = Math.max( this.__valueAMin,
 				Math.round( ( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap ),
 			rows = Math.max( this.__valueBMin, Math.min( this.__valueBMax,
-				this.getRowIndexByPageY( this.__mmPageY ) - this.__mdRowInd ) );
+				this.__getRowIndexByPageY( this.__mmPageY ) - this.__mdRowInd ) );
 
 		if ( when !== this.__valueA ) {
 			this.__valueA = when;
@@ -370,14 +417,14 @@ class gsuiBlocksManager {
 	__mousemove_selection2() {
 		const rowH = this.__fontSize,
 			st = this.__selection.style,
-			rowIndB = this.getRowIndexByPageY( this.__mmPageY ),
+			rowIndB = this.__getRowIndexByPageY( this.__mmPageY ),
 			when = Math.min( this.__mdWhen, this.__mmWhen ),
 			duration = this.__getBeatSnap() + Math.abs( this.__mdWhen - this.__mmWhen ),
 			topRow = Math.min( this.__mdRowInd, rowIndB ),
 			bottomRow = Math.max( this.__mdRowInd, rowIndB ),
-			rowA = this.getRowByIndex( topRow ),
-			rowB = this.getRowByIndex( bottomRow ),
-			blcs = Object.entries( this.getData() )
+			rowA = this.__getRowByIndex( topRow ),
+			rowB = this.__getRowByIndex( bottomRow ),
+			blcs = Object.entries( this._getData() )
 				.reduce( ( map, [ id, blc ] ) => {
 					if ( !this.__blcsSelected.has( id ) &&
 						blc.when < when + duration &&

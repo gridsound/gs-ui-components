@@ -9,7 +9,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			this.uiBlc.key( el, this.data[ el.dataset.id ].key - rowIncr );
 		};
 		this.uiBlc.key = ( el, midi ) => {
-			const row = this.getRowByMidi( midi );
+			const row = this._getRowByMidi( midi );
 
 			el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
 			row.firstChild.append( el );
@@ -18,14 +18,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.uiKeys = new gsuiKeys();
 		this.data = this._proxyCreate();
 		this._ = Object.seal( {
-			elPanKeys: root.querySelector( ".gsuiBlocksManager-sidePanel" ),
-			elPanGrid: root.querySelector( ".gsuiBlocksManager-gridPanel" ),
 			idMax: 1,
-			elPanGridWidth: 0,
-			currKeyDuration: 1,
 			rowsByMidi: {},
+			currKeyDuration: 1,
 		} );
-		this._.elPanGrid.onresizing = this._panelGridResizing.bind( this );
 		this.__sideContent.append( this.uiKeys.rootElement );
 	}
 
@@ -33,17 +29,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		Object.keys( this.data ).forEach( k => delete this.data[ k ] );
 	}
 	resized() {
-		this._panelGridResized();
+		this.__resized();
+		this.__gridPanelResized();
 	}
 	attached() {
-		const rowsC = this.__rowsContainer;
-
-		this.__sideContent.style.right =
-		this.__sideContent.style.bottom =
-		rowsC.style.right =
-		rowsC.style.bottom = -( rowsC.offsetWidth - rowsC.clientWidth ) + "px";
-		this.__uiPanels.attached();
-		this._panelGridResized();
+		this.__attached();
 		this.scrollToMiddle();
 	}
 	octaves( from, nb ) {
@@ -114,52 +104,19 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.onchange( obj );
 	}
 
-	// Panel functions
+	// Private small getters
 	// ........................................................................
-	_panelGridResizing( pan ) {
-		const width = pan.clientWidth;
-
-		if ( this.__offset > 0 ) {
-			this.__offset -= ( width - this._.elPanGridWidth ) / this.__pxPerBeat;
-			this.__rowsContainer.scrollLeft -= width - this._.elPanGridWidth;
-		}
-		this._panelGridResized();
-	}
-	_panelGridResized() {
-		this._.elPanGridWidth = this._.elPanGrid.clientWidth;
-		this.__uiTimeline.resized();
-		this.__uiBeatlines.resized();
-		this.__uiTimeline.offset( this.__offset, this.__pxPerBeat );
-		this.__uiBeatlines.offset( this.__offset, this.__pxPerBeat );
-	}
-
-	// Shortcuts
-	// ........................................................................
-	getData() { return this.data; }
-	getRow0BCR() { return this.__rows[ 0 ].getBoundingClientRect(); }
-	getRowByMidi( midi ) { return this._.rowsByMidi[ midi ]; }
-	getRowByIndex( ind ) { return this.__rows[ ind ]; }
-	getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.__rows, row ); }
-	getRowIndexByPageY( pageY ) {
-		const ind = Math.floor( ( pageY - this.getRow0BCR().top ) / this.__fontSize );
-
-		return Math.max( 0, Math.min( ind, this.__rows.length - 1 ) );
-	}
-	getWhenByPageX( pageX ) {
-		return Math.max( 0, this.__uiTimeline.beatFloor(
-			( pageX - this.getRow0BCR().left ) / this.__pxPerBeat ) );
-	}
+	_getData() { return this.data; }
+	_getRowByMidi( midi ) { return this._.rowsByMidi[ midi ]; }
 
 	// Mouse and keyboard events
 	// ........................................................................
-	_onkeydown( e ) {
-		this.__keydown( e );
-	}
-	_mousemove( e ) {
-		this.__mousemove( e );
-	}
-	_mouseup( e ) {
-		this.__mouseup();
+	_onkeydown( e ) { this.__keydown( e ); }
+	_mousemove( e ) { this.__mousemove( e ); }
+	_mouseup( e ) { this.__mouseup( e ); }
+	_blcMousedown( id, e ) {
+		e.stopPropagation();
+		this.__mousedown( e );
 	}
 	_rowMousedown( key, e ) {
 		this.__mousedown( e );
@@ -167,7 +124,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const id = this._.idMax + 1,
 				keyObj = {
 					key,
-					when: this.getWhenByPageX( e.pageX ),
+					when: this.__getWhenByPageX( e.pageX ),
 					duration: this._.currKeyDuration,
 					selected: false
 				};
@@ -190,7 +147,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		blc.dataset.id = id;
 		blc.className = "gsui-block";
-		blc.onmousedown = this._keyMousedown.bind( this, id );
+		blc.onmousedown = this._blcMousedown.bind( this, id );
 		obj.selected
 			? this.__blcsSelected.set( id, blc )
 			: this.__blcsSelected.delete( id );
@@ -226,10 +183,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			}
 		} );
 		return obj;
-	}
-	_keyMousedown( id, e ) {
-		e.stopPropagation();
-		this.__mousedown( e );
 	}
 
 	// Data proxy
