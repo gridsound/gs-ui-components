@@ -15,13 +15,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			row.firstChild.append( el );
 		};
 
-		this.uiKeys = new gsuiKeys();
 		this.data = this._proxyCreate();
-		this._ = Object.seal( {
-			idMax: 1,
-			rowsByMidi: {},
-			currKeyDuration: 1,
-		} );
+		this.uiKeys = new gsuiKeys();
+		this._idMax = 1;
+		this._rowsByMidi = {};
+		this._currKeyDuration = 1;
 		this.__sideContent.append( this.uiKeys.rootElement );
 	}
 
@@ -37,16 +35,15 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.scrollToMiddle();
 	}
 	octaves( from, nb ) {
-		const _ = this._,
-			rows = this.uiKeys.rootElement.getElementsByClassName( "gsui-row" );
+		const rows = this.uiKeys.rootElement.getElementsByClassName( "gsui-row" );
 
 		this.empty();
-		Object.keys( _.rowsByMidi ).forEach( k => delete _.rowsByMidi[ k ] );
+		Object.keys( this._rowsByMidi ).forEach( k => delete this._rowsByMidi[ k ] );
 		this.uiKeys.octaves( from, nb );
 		Object.values( rows ).forEach( el => {
 			el.onmousedown = this._rowMousedown.bind( this, +el.dataset.midi );
 			el.firstChild.style.fontSize = this.__pxPerBeat + "px";
-			_.rowsByMidi[ el.dataset.midi ] = el;
+			this._rowsByMidi[ el.dataset.midi ] = el;
 		} );
 		Element.prototype.prepend.apply( this.__rowsContainer, rows );
 	}
@@ -107,7 +104,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	// Private small getters
 	// ........................................................................
 	_getData() { return this.data; }
-	_getRowByMidi( midi ) { return this._.rowsByMidi[ midi ]; }
+	_getRowByMidi( midi ) { return this._rowsByMidi[ midi ]; }
 
 	// Mouse and keyboard events
 	// ........................................................................
@@ -121,11 +118,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_rowMousedown( key, e ) {
 		this.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
-			const id = this._.idMax + 1,
+			const id = this._idMax + 1,
 				keyObj = {
 					key,
 					when: this.__getWhenByPageX( e.pageX ),
-					duration: this._.currKeyDuration,
+					duration: this._currKeyDuration,
 					selected: false
 				};
 
@@ -167,7 +164,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 			uiFn( blc, val );
 			if ( prop === "duration" ) {
-				this._.currKeyDuration = val;
+				this._currKeyDuration = val;
 			} else if ( prop === "selected" ) {
 				val
 					? this.__blcsSelected.set( id, blc )
@@ -205,6 +202,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_proxySetKey( tar, id, obj ) {
 		if ( id in tar || !obj ) {
 			this._proxyDeleteKey( tar, id );
+			if ( obj ) {
+				console.warn( `gsuiPianoroll: reassignation of [${ id }]` );
+			}
 		}
 		if ( obj ) {
 			const prox = new Proxy( Object.seal( Object.assign( {
@@ -217,7 +217,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				} );
 
 			tar[ id ] = prox;
-			this._.idMax = Math.max( this._.idMax, id );
+			this._idMax = Math.max( this._idMax, id );
 			this._setKey( id, prox );
 		}
 		return true;
