@@ -270,6 +270,7 @@ class gsuiBlocksManager {
 				}
 			}
 		}
+		gsuiBlocksManager._focused = this;
 	}
 	__mouseup() {
 		const blcsEditing = this.__blcsEditing;
@@ -309,6 +310,7 @@ class gsuiBlocksManager {
 				break;
 		}
 		this.__eventReset();
+		delete gsuiBlocksManager._focused;
 	}
 
 	// Mousemove specific functions
@@ -405,3 +407,10 @@ class gsuiBlocksManager {
 		this.__blcsEditing = blcs;
 	}
 }
+
+document.addEventListener( "mousemove", e => {
+	gsuiBlocksManager._focused && gsuiBlocksManager._focused._mousemove( e );
+} );
+document.addEventListener( "mouseup", e => {
+	gsuiBlocksManager._focused && gsuiBlocksManager._focused._mouseup( e );
+} );

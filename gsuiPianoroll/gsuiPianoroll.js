@@ -160,7 +160,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	_mouseup( e ) {
 		this.__mouseup();
-		delete gsuiPianoroll._focused;
 	}
 	_rowMousedown( key, e ) {
 		this.__mousedown( e );
@@ -176,7 +175,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			this.data[ id ] = keyObj;
 			this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
 		}
-		gsuiPianoroll._focused = this;
 	}
 
 	// Key's functions
@@ -232,7 +230,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_keyMousedown( id, e ) {
 		e.stopPropagation();
 		this.__mousedown( e );
-		gsuiPianoroll._focused = this;
 	}
 
 	// Data proxy
@@ -291,10 +288,3 @@ gsuiPianoroll.noteNames = {
 gsuiPianoroll.template = document.querySelector( "#gsuiPianoroll-template" );
 gsuiPianoroll.template.remove();
 gsuiPianoroll.template.removeAttribute( "id" );
-
-document.addEventListener( "mousemove", e => {
-	gsuiPianoroll._focused && gsuiPianoroll._focused._mousemove( e );
-} );
-document.addEventListener( "mouseup", e => {
-	gsuiPianoroll._focused && gsuiPianoroll._focused._mouseup( e );
-} );
