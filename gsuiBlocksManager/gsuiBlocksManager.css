@@ -1,6 +1,62 @@
 :root {
+	--gsuiBlocksManager-bgColor: #3a5158;
+	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: rgba( 189, 38, 38, .4 );
 	--gsuiBlocksManager-selection-borderColor: #f44;
+}
+
+.gsuiBlocksManager-sidePanel {
+	position: relative;
+	width: 100px;
+	min-width: 50px;
+	max-width: 150px;
+}
+.gsuiBlocksManager-gridPanel {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.gsuiBlocksManager-rows,
+.gsuiBlocksManager-sidePanelContent {
+	position: absolute;
+	overflow: scroll;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.gsuiBlocksManager-sidePanelContent {
+	top: var( --gsuiBlocksManager-timeline-height );
+}
+.gsuiBlocksManager-gridPanel .gsuiPanels-extend {
+	margin-top: var( --gsuiBlocksManager-timeline-height );
+}
+
+.gsuiBlocksManager-timelineWrap {
+	height: var( --gsuiBlocksManager-timeline-height );
+}
+.gsuiBlocksManager-timelineWrap .gsuiTimeline {
+	height: 100%;
+}
+
+.gsuiBlocksManager-rowsWrap {
+	flex: 1;
+	position: relative;
+	background-color: var( --gsuiBlocksManager-bgColor );
+}
+.gsuiBlocksManager-rows .gsui-row {
+	width: 1000000px;
+}
+
+.gsuiBlocksManager-beatlinesWrap {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.gsuiBlocksManager-beatlinesWrap .gsuiBeatlines {
+	width: 100%;
+	height: 100%;
 }
 
 .gsuiBlocksManager-selection {

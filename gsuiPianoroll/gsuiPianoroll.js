@@ -2,10 +2,7 @@
 
 class gsuiPianoroll extends gsuiBlocksManager {
 	constructor() {
-		const root = gsuiPianoroll.template.cloneNode( true ),
-			elPanKeys = root.querySelector( ".gsuiPianoroll-pan-keys" ),
-			elPanGrid = root.querySelector( ".gsuiPianoroll-pan-grid" ),
-			uiPanels = new gsuiPanels( root );
+		const root = gsuiPianoroll.template.cloneNode( true );
 
 		super( root );
 		this.uiBlc.row = ( el, rowIncr ) => {
@@ -18,21 +15,18 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			row.firstChild.append( el );
 		};
 
-		this.rootElement = root;
 		this.uiKeys = new gsuiKeys();
 		this.data = this._proxyCreate();
 		this._ = Object.seal( {
-			uiPanels,
-			elPanKeys,
-			elPanGrid,
+			elPanKeys: root.querySelector( ".gsuiBlocksManager-sidePanel" ),
+			elPanGrid: root.querySelector( ".gsuiBlocksManager-gridPanel" ),
 			idMax: 1,
 			elPanGridWidth: 0,
 			currKeyDuration: 1,
 			rowsByMidi: {},
 		} );
-		root.onkeydown = this._onkeydown.bind( this );
-		elPanGrid.onresizing = this._panelGridResizing.bind( this );
-		this.__panelContent.append( this.uiKeys.rootElement );
+		this._.elPanGrid.onresizing = this._panelGridResizing.bind( this );
+		this.__sideContent.append( this.uiKeys.rootElement );
 	}
 
 	empty() {
@@ -44,11 +38,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	attached() {
 		const rowsC = this.__rowsContainer;
 
-		this.__panelContent.style.right =
-		this.__panelContent.style.bottom =
+		this.__sideContent.style.right =
+		this.__sideContent.style.bottom =
 		rowsC.style.right =
 		rowsC.style.bottom = -( rowsC.offsetWidth - rowsC.clientWidth ) + "px";
-		this._.uiPanels.attached();
+		this.__uiPanels.attached();
 		this._panelGridResized();
 		this.scrollToMiddle();
 	}

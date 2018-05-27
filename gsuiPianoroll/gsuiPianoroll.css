@@ -1,8 +1,6 @@
 :root {
-	--gsuiPianoroll-bgColor: #3a5158;
 	--gsuiPianoroll-keyColor: rgba( 170, 170, 230, .8 );
 	--gsuiPianoroll-keySelectedColor: rgba( 230, 150, 150, .8 );
-	--gsuiPianoroll-timelineHeight: 32px;
 }
 
 /* .......................................................................... */
@@ -15,64 +13,7 @@
 }
 
 /* .......................................................................... */
-.gsuiPianoroll-pan-keys {
-	position: relative;
-	width: 100px;
-	min-width: 50px;
-	max-width: 150px;
-}
-.gsuiPianoroll-pan-grid {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-}
-.gsuiPianoroll .gsuiPanels-extend {
-	margin-top: var( --gsuiPianoroll-timelineHeight );
-}
-
-/* .......................................................................... */
-.gsuiPianoroll-rowsWrap {
-	flex: 1;
-	position: relative;
-	background-color: var( --gsuiPianoroll-bgColor );
-}
-.gsuiPianoroll-rows,
-.gsuiPianoroll-keys {
-	position: absolute;
-	overflow: scroll;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-.gsuiPianoroll-keys {
-	top: var( --gsuiPianoroll-timelineHeight );
-}
-
-/* .......................................................................... */
-.gsuiPianoroll-timeline {
-	height: var( --gsuiPianoroll-timelineHeight );
-}
-.gsuiPianoroll .gsuiTimeline {
-	height: 100%;
-}
-
-/* .......................................................................... */
-.gsuiPianoroll-beatlines {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-.gsuiPianoroll .gsuiBeatlines {
-	width: 100%;
-	height: 100%;
-}
-
-/* .......................................................................... */
-.gsuiPianoroll .gsuiKey-row {
-	width: 1000000px;
-}
-.gsuiPianoroll .gsuiKey-row:hover { background-color: rgba( 255, 255, 255, .03 ); }
+.gsuiPianoroll .gsui-row:hover { background-color: rgba( 255, 255, 255, .03 ); }
 .gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba( 0, 0, 0, .15 ); }
 
 /* .......................................................................... */
