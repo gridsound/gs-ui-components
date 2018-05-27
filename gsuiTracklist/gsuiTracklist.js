@@ -1,11 +1,13 @@
 "use strict";
 
-class gsuiTrackList {
+class gsuiTracklist {
 	constructor() {
-		const root = gsuiTrackList.template.cloneNode( true );
+		const root = gsuiTracklist.template.cloneNode( true );
+
+		this.onchange =
+		this.ontrackadded = () => {};
 
 		this.rootElement = root;
-		this.newRowElements = [];
 		this._uiTracks = {};
 		this.data = new Proxy( {}, {
 			set: this._addTrack.bind( this ),
@@ -34,7 +36,7 @@ class gsuiTrackList {
 		Object.assign( uiTrk.data, track );
 		this._uiTracks[ id ] = uiTrk;
 		this.rootElement.append( uiTrk.rootElement );
-		this.newRowElements.push( uiTrk.rowElement );
+		this.ontrackadded( uiTrk );
 		return true;
 	}
 	_delTrack( tar, id ) {
@@ -61,6 +63,6 @@ class gsuiTrackList {
 	}
 }
 
-gsuiTrackList.template = document.querySelector( "#gsuiTrackList-template" );
-gsuiTrackList.template.remove();
-gsuiTrackList.template.removeAttribute( "id" );
+gsuiTracklist.template = document.querySelector( "#gsuiTracklist-template" );
+gsuiTracklist.template.remove();
+gsuiTracklist.template.removeAttribute( "id" );
