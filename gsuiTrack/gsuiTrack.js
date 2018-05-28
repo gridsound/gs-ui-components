@@ -12,8 +12,14 @@ class gsuiTrack {
 		root.append( this.uiToggle.rootElement, this.uiSpan.rootElement );
 
 		this.onchange = () => {};
-		this.uiSpan.onchange = name => this.onchange( { name } );
-		this.uiToggle.onchange = toggle => this.onchange( { toggle } );
+		this.uiSpan.onchange = name => {
+			this.data.name = name;
+			this.onchange( { name } );
+		};
+		this.uiToggle.onchange = toggle => {
+			this.data.toggle = toggle;
+			this.onchange( { toggle } );
+		};
 		this.data = new Proxy( Object.seal( {
 			order: 0,
 			name: "",
