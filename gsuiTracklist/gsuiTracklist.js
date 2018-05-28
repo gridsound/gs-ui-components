@@ -20,7 +20,7 @@ class gsuiTracklist {
 		this.rootElement.remove();
 	}
 	empty() {
-		Object.keys( this._uiTracks ).forEach( id => delete this._uiTracks[ id ] );
+		Object.keys( this.data ).forEach( id => delete this.data[ id ] );
 	}
 
 	// private:
@@ -28,7 +28,7 @@ class gsuiTracklist {
 		const uiTrk = new gsuiTrack();
 
 		tar[ id ] = uiTrk.data;
-		uiTrk.uiToggle.onmousedownright = this._muteAll.bind( this, id );
+		uiTrk.onrightclickToggle = this._muteAll.bind( this, id );
 		uiTrk.onchange = obj => this.onchange( { [ id ]: obj } );
 		uiTrk.setPlaceholder( "Track " + ( this.rootElement.childNodes.length + 1 ) );
 		uiTrk.rootElement.dataset.track =

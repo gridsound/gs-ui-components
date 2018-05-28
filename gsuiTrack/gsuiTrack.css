@@ -1,21 +1,28 @@
+:root {
+	--gsuiTrack-duration: .2s;
+	--gsuiTrack-bg: #444;
+	--gsuiTrack-bg-mute: #393939;
+	--gsuiTrack-row-bg-mute: rgba( 0, 0, 0, .25 );
+	--gsuiTrack-color: #eee;
+	--gsuiTrack-borderTop-color: rgba( 255, 255, 255, .07 );
+	--gsuiTrack-borderBottom-color: rgba( 0, 0, 0, .4 );
+}
+
 .gsuiTrack,
 .gsuiTrack-row {
-	--head-bg: #444;
-	--head-bg-mute: #393939;
-	--body-bg-mute: rgba( 0, 0, 0, .25 );
-	--text-color: #eee;
-	--border-top-color: rgba( 255, 255, 255, .07 );
-	--border-bottom-color: rgba( 0, 0, 0, .4 );
-
 	box-sizing: border-box;
 	display: flex;
 	height: 1em;
 	border: 0 solid;
 	border-width: 1px 0;
-	border-top-color: var( --border-top-color );
-	border-bottom-color: var( --border-bottom-color );
-	background-color: var( --head-bg );
-	transition: background-color .2s;
+	border-top-color: var( --gsuiTrack-borderTop-color );
+	border-bottom-color: var( --gsuiTrack-borderBottom-color );
+	background-color: var( --gsuiTrack-bg );
+}
+.gsuiTrack,
+.gsuiTrack-row,
+.gsuiTrack-toggle::before {
+	transition: background-color var( --gsuiTrack-duration );
 }
 .gsuiTrack-row {
 	position: relative;
@@ -28,23 +35,65 @@
 	bottom: 0;
 	width: 100%;
 }
-.gsuiTrack .gsuiToggle {
-	--radius: 6px;
-	min-width: 24px;
-}
-.gsuiTrack .gsuiSpanEditable {
-	flex: 1;
-	padding-right: 10px;
-	font-size: 14px;
-	color: var( --text-color );
-}
-
 .gsuiTrack.gsui-mute {
-	background-color: var( --head-bg-mute );
+	background-color: var( --gsuiTrack-bg-mute );
 }
 .gsuiTrack-row.gsui-mute {
-	background-color: var( --body-bg-mute );
+	background-color: var( --gsuiTrack-row-bg-mute );
 }
-.gsuiTrack.gsui-mute .gsuiSpanEditable {
+
+/* .......................................................................... */
+.gsuiTrack-toggle {
+	display: flex;
+	min-width: 24px;
+	align-items: center;
+	justify-content: center;
+}
+.gsuiTrack-toggle::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background-color: #ffa;
+}
+.gsui-mute .gsuiTrack-toggle::before {
+	background-color: rgba( 255, 255, 255, .1 );
+}
+.gsuiTrack-nameWrap {
+	position: relative;
+	flex: 1;
+}
+.gsuiTrack-name {
+	box-sizing: border-box;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	padding-right: 10px;
+	font-size: 12px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	color: var( --gsuiTrack-color );
+	background-color: transparent;
+}
+.gsuiTrack-name:focus {
+	font-weight: normal;
+}
+.gsuiTrack-name::placeholder {
+	font-style: italic;
+	font-weight: normal;
+	opacity: .3;
+}
+.gsuiTrack-name::-ms-input-placeholder {
+	font-style: italic;
+	font-weight: normal;
+	opacity: .3;
+}
+
+.gsuiTrack-name:focus::placeholder { color: transparent; }
+.gsuiTrack-name:focus::-ms-input-placeholder { color: transparent; }
+
+.gsui-mute .gsuiTrack-name {
 	opacity: .5;
 }

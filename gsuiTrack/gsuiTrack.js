@@ -4,22 +4,16 @@ class gsuiTrack {
 	constructor() {
 		const root = gsuiTrack.template.cloneNode( true );
 
+		this.onchange =
+		this.onrightclickToggle = () => {};
 		this.rootElement = root;
 		this.rowElement = root.querySelector( ".gsui-row" );
-		this.rowElement.remove();
-		this.uiToggle = new gsuiToggle();
-		this.uiSpan = new gsuiSpanEditable();
-		root.append( this.uiToggle.rootElement, this.uiSpan.rootElement );
+		this._inpName = root.querySelector( ".gsuiTrack-name" );
+		this._nameReadonly = true;
 
-		this.onchange = () => {};
-		this.uiSpan.onchange = name => {
-			this.data.name = name;
-			this.onchange( { name } );
-		};
-		this.uiToggle.onchange = toggle => {
-			this.data.toggle = toggle;
-			this.onchange( { toggle } );
-		};
+		this.rowElement.remove();
+		this._setToggleEvents( root.querySelector( ".gsuiTrack-toggle" ) );
+		this._setNameEvents( this._inpName );
 		this.data = new Proxy( Object.seal( {
 			order: 0,
 			name: "",
@@ -33,25 +27,58 @@ class gsuiTrack {
 		this.rowElement.remove();
 	}
 	setPlaceholder( p ) {
-		this.uiSpan.setPlaceholder( p );
+		this._inpName.placeholder = p;
 	}
 
 	// private:
 	_setProp( tar, prop, val ) {
 		tar[ prop ] = val;
-		switch ( prop ) {
-			case "name": this._setName( val ); break;
-			case "toggle": this._setToggle( val ); break;
+		if ( prop === "name" ) {
+			this._inpName.value = val;
+		} else if ( prop === "toggle" ) {
+			this.rootElement.classList.toggle( "gsui-mute", !val );
+			this.rowElement.classList.toggle( "gsui-mute", !val );
 		}
 		return true;
 	}
-	_setName( name ) {
-		this.uiSpan.setValue( name );
+	_setToggleEvents( el ) {
+		el.oncontextmenu = () => false;
+		el.onmousedown = e => {
+			if ( e.button === 2 ) {
+				this.onrightclickToggle();
+			} else if ( e.button === 0 ) {
+				this.onchange( { toggle:
+					this.data.toggle = !this.data.toggle
+				} );
+			}
+		};
 	}
-	_setToggle( b ) {
-		this.rootElement.classList.toggle( "gsui-mute", !b );
-		this.rowElement.classList.toggle( "gsui-mute", !b );
-		this.uiToggle.toggle( b );
+	_setNameEvents( inp ) {
+		inp.ondblclick = e => {
+			this._nameReadonly = false;
+			inp.select();
+			inp.focus();
+		};
+		inp.onfocus = e => {
+			if ( this._nameReadonly ) {
+				inp.blur();
+			}
+		};
+		inp.onkeydown = e => {
+			e.stopPropagation();
+			if ( e.key === "Escape" ) {
+				inp.value = this.data.name;
+				inp.blur();
+			} else if ( e.key === "Enter" ) {
+				inp.blur();
+			}
+		};
+		inp.onchange = () => {
+			this._nameReadonly = true;
+			this.onchange( { name:
+				this.data.name = inp.value.trim()
+			} );
+		};
 	}
 }
 
