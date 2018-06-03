@@ -63,6 +63,7 @@
 	height: 100%;
 }
 
+/* .......................................................................... */
 .gsuiBlocksManager-selection {
 	position: absolute;
 	box-sizing: border-box;
@@ -97,9 +98,9 @@
 	z-index: 0;
 	opacity: .3;
 }
-.gsuiBlocksManager-block-cropB {
+.gsuiBlocksManager-block-crop {
 	position: absolute;
-	right: 0;
+	left: 0;
 	width: 50%;
 	height: 100%;
 	max-width: 8px;
@@ -107,9 +108,13 @@
 	opacity: 0;
 	transition: .1s opacity;
 }
-.gsuiBlocksManager-block:hover .gsuiBlocksManager-block-cropB {
+.gsuiBlocksManager-block-cropB {
+	left: auto;
+	right: 0;
+}
+.gsuiBlocksManager-block:hover .gsuiBlocksManager-block-crop {
 	opacity: .12;
 }
-.gsuiBlocksManager-block-cropB:hover {
+.gsuiBlocksManager-block .gsuiBlocksManager-block-crop:hover {
 	opacity: .25;
 }
