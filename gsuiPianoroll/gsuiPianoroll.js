@@ -34,6 +34,20 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__attached();
 		this.scrollToMiddle();
 	}
+	scrollToMiddle() {
+		const rows = this.__rowsContainer;
+
+		rows.scrollTop = ( rows.scrollHeight - rows.clientHeight ) / 2;
+	}
+	scrollToKeys() {
+		const rows = this.__rowsContainer,
+			smp = rows.querySelector( ".gsui-block" );
+
+		if ( smp ) {
+			rows.scrollTop += smp.getBoundingClientRect().top -
+				rows.getBoundingClientRect().top - 3.5 * this.__fontSize;
+		}
+	}
 	octaves( from, nb ) {
 		const rows = this.uiKeys.rootElement.getElementsByClassName( "gsui-row" );
 

@@ -87,11 +87,6 @@ class gsuiBlocksManager {
 		}
 		return fs;
 	}
-	scrollToMiddle() {
-		const el = this.__rowsContainer;
-
-		el.scrollTop = ( el.scrollHeight - el.clientHeight ) / 2;
-	}
 
 	// Private small getters
 	// ............................................................................................
