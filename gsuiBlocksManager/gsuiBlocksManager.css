@@ -78,3 +78,38 @@
 	opacity: 0;
 	visibility: hidden;
 }
+
+/* .......................................................................... */
+.gsuiBlocksManager-block {
+	position: absolute;
+	overflow: hidden;
+	z-index: 1;
+	height: 100%;
+	border-radius: 2px;
+	background-color: var( --gsuiPianoroll-keyColor );
+	transition: .1s;
+	transition-property: opacity, background-color;
+}
+.gsuiBlocksManager-block-selected {
+	background-color: var( --gsuiPianoroll-keySelectedColor );
+}
+.gsuiBlocksManager-block-hidden {
+	z-index: 0;
+	opacity: .3;
+}
+.gsuiBlocksManager-block-cropB {
+	position: absolute;
+	right: 0;
+	width: 50%;
+	height: 100%;
+	max-width: 8px;
+	background-color: #000;
+	opacity: 0;
+	transition: .1s opacity;
+}
+.gsuiBlocksManager-block:hover .gsuiBlocksManager-block-cropB {
+	opacity: .12;
+}
+.gsuiBlocksManager-block-cropB:hover {
+	opacity: .25;
+}

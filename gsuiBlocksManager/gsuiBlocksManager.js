@@ -46,8 +46,8 @@ class gsuiBlocksManager {
 		this.uiBlc = {
 			when( el, v ) { el.style.left = v + "em"; },
 			duration( el, v ) { el.style.width = v + "em"; },
-			selected( el, v ) { el.classList.toggle( "gsui-block-selected", !!v ); },
-			deleted( el, v ) { el.classList.toggle( "gsui-block-hidden", !!v ); },
+			selected( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-selected", !!v ); },
+			deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); },
 		};
 		this.__eventReset();
 	}
@@ -119,16 +119,16 @@ class gsuiBlocksManager {
 		this.__gridPanelResized();
 	}
 	__getBlc( el ) {
-		if ( el.classList.contains( "gsui-block" ) ) {
+		if ( el.classList.contains( "gsuiBlocksManager-block" ) ) {
 			return el;
-		} else if ( el.parentNode.classList.contains( "gsui-block" ) ) {
+		} else if ( el.parentNode.classList.contains( "gsuiBlocksManager-block" ) ) {
 			return el.parentNode;
 		}
 	}
 	__fillBlcsMap( blc ) {
 		const blcs = this.__blcsEditing;
 
-		if ( blc.classList.contains( "gsui-block-selected" ) ) {
+		if ( blc.classList.contains( "gsuiBlocksManager-block-selected" ) ) {
 			this.__blcsSelected.forEach( ( blc, id ) => blcs.set( id, blc ) );
 		} else {
 			blcs.set( blc.dataset.id, blc );
@@ -285,14 +285,14 @@ class gsuiBlocksManager {
 				const data = this._getData(),
 					blcsEditing = this.__fillBlcsMap( blc );
 
-				if ( e.target.classList.contains( "gsui-block-crop" ) ) {
+				if ( e.target.classList.contains( "gsuiBlocksManager-block-crop" ) ) {
 					this.__mmFn = this.__mousemove_crop;
 					this.__valueAMin = Infinity;
 					blcsEditing.forEach( ( blc, id ) => (
 						this.__valueAMin = Math.min( this.__valueAMin, data[ id ].duration )
 					) );
 					this.__valueAMin = -Math.max( 0, this.__valueAMin - this.__beatSnap );
-					this.__status = e.target.classList.contains( "gsui-block-cropA" )
+					this.__status = e.target.classList.contains( "gsuiBlocksManager-block-cropA" )
 						? "cropping-a"
 						: "cropping-b";
 				} else {

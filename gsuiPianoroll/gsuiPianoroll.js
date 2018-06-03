@@ -41,7 +41,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	scrollToKeys() {
 		const rows = this.__rowsContainer,
-			smp = rows.querySelector( ".gsui-block" );
+			smp = rows.querySelector( ".gsuiBlocksManager-block" );
 
 		if ( smp ) {
 			rows.scrollTop += smp.getBoundingClientRect().top -
