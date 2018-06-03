@@ -4,6 +4,8 @@
 	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: rgba( 189, 38, 38, .4 );
 	--gsuiBlocksManager-selection-borderColor: #f44;
+	--gsuiBlocksManager-blockColor: rgba( 85, 170, 204, .8 );
+	--gsuiBlocksManager-blockSelectedColor: rgba( 255, 136, 136, .8 );
 }
 
 .gsuiBlocksManager-sidePanel {
@@ -87,12 +89,12 @@
 	z-index: 1;
 	height: 100%;
 	border-radius: 2px;
-	background-color: var( --gsuiPianoroll-keyColor );
+	background-color: var( --gsuiBlocksManager-blockColor );
 	transition: .1s;
 	transition-property: opacity, background-color;
 }
 .gsuiBlocksManager-block-selected {
-	background-color: var( --gsuiPianoroll-keySelectedColor );
+	background-color: var( --gsuiBlocksManager-blockSelectedColor );
 }
 .gsuiBlocksManager-block-hidden {
 	z-index: 0;

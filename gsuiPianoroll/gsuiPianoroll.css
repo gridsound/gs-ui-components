@@ -1,15 +1,9 @@
-:root {
-	--gsuiPianoroll-keyColor: #5ac;
-	--gsuiPianoroll-keySelectedColor: #f88;
-}
-
-/* .......................................................................... */
 .gsuiPianoroll {
 	width: 100%;
 	height: 500px;
 }
 .gsuiPianoroll:focus {
-	outline: 1px solid var( --gsuiPianoroll-keyColor );
+	outline: 1px solid var( --gsuiBlocksManager-blockColor );
 }
 
 /* .......................................................................... */
