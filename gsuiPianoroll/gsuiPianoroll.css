@@ -1,6 +1,6 @@
 :root {
-	--gsuiPianoroll-keyColor: rgba( 170, 170, 230, .8 );
-	--gsuiPianoroll-keySelectedColor: rgba( 230, 150, 150, .8 );
+	--gsuiPianoroll-keyColor: #5ac;
+	--gsuiPianoroll-keySelectedColor: #f88;
 }
 
 /* .......................................................................... */
@@ -24,7 +24,8 @@
 	height: 100%;
 	border-radius: 2px;
 	background-color: var( --gsuiPianoroll-keyColor );
-	transition: .1s opacity;
+	transition: .1s;
+	transition-property: opacity, background-color;
 }
 .gsuiPianoroll .gsui-block-selected {
 	background-color: var( --gsuiPianoroll-keySelectedColor );
