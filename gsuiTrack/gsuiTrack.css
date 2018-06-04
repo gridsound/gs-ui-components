@@ -75,6 +75,7 @@
 	font-weight: bold;
 	text-overflow: ellipsis;
 	color: var( --gsuiTrack-color );
+	cursor: default;
 	background-color: transparent;
 }
 .gsuiTrack-name:focus {
