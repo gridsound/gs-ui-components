@@ -109,7 +109,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					obj[ id ] = null;
 					delete data[ id ];
 				} );
-				this._unselectKeys( obj );
+				this.__unselectBlocks( obj );
 				break;
 		}
 		this.onchange( obj );
@@ -141,7 +141,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				};
 
 			this.data[ id ] = keyObj;
-			this.onchange( this._unselectKeys( { [ id ]: keyObj } ) );
+			this.onchange( this.__unselectBlocks( { [ id ]: keyObj } ) );
 		}
 	}
 
@@ -181,15 +181,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					: this.__blcsSelected.delete( id );
 			}
 		}
-	}
-	_unselectKeys( obj ) {
-		this.__blcsSelected.forEach( ( blc, id ) => {
-			if ( !( id in obj ) ) {
-				this.data[ id ].selected = false;
-				obj[ id ] = { selected: false };
-			}
-		} );
-		return obj;
 	}
 
 	// Data proxy

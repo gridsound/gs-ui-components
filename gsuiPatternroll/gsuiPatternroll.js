@@ -89,7 +89,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					obj[ id ] = null;
 					delete data[ id ];
 				} );
-				this._unselectKeys( obj );
+				this.__unselectBlocks( obj );
 				break;
 		}
 		this.onchange( obj );
@@ -140,15 +140,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					: this.__blcsSelected.delete( id );
 			}
 		}
-	}
-	_unselectKeys( obj ) {
-		this.__blcsSelected.forEach( ( blc, id ) => {
-			if ( !( id in obj ) ) {
-				this.data[ id ].selected = false;
-				obj[ id ] = { selected: false };
-			}
-		} );
-		return obj;
 	}
 
 	// Data proxy

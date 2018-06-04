@@ -135,6 +135,17 @@ class gsuiBlocksManager {
 		}
 		return blcs;
 	}
+	__unselectBlocks( obj ) {
+		const dat = this._getData();
+
+		this.__blcsSelected.forEach( ( blc, id ) => {
+			if ( !( id in obj ) ) {
+				dat[ id ].selected = false;
+				obj[ id ] = { selected: false };
+			}
+		} );
+		return obj;
+	}
 	__getBeatSnap() {
 		return 1 / this.__uiTimeline._.stepsPerBeat * this.__uiTimeline.stepRound;
 	}
