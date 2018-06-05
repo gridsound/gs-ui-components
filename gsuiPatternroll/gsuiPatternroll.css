@@ -1,3 +1,31 @@
 .gsuiPatternroll .gsuiBlocksManager-sidePanel {
     min-width: 24px;
 }
+
+.gsuiPatternroll-block {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiPatternroll-block-header {
+	padding: 1px 4px;
+	font-size: 11px;
+	font-weight: bold;
+	background-color: rgba( 255, 255, 255, .2 );
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+.gsuiPatternroll-block-content {
+	flex: 1;
+	position: relative;
+}
+.gsuiPatternroll-block-content svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    opacity: .8;
+}
