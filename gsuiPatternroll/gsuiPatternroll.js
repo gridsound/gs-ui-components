@@ -5,11 +5,17 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		const root = gsuiPatternroll.template.cloneNode( true );
 
 		super( root );
+		this.uiBlc.offset = ( el, offset ) => {
+		};
 		this.uiBlc.row = ( el, rowIncr ) => {
-			this.uiBlc.track( el, this.data[ el.dataset.id ].key - rowIncr );
+			const trackId = this.data.blocks[ el.dataset.id ].track;
+
+			this.uiBlc.track( el, this._incrTrackId( trackId, rowIncr ) );
 		};
 		this.uiBlc.track = ( el, trackId ) => {
-			this._getRowByTrackId( trackId ).firstChild.append( el );
+			const row = this._getRowByTrackId( trackId );
+
+			row && row.firstChild.append( el );
 		};
 
 		this._uiTracklist = new gsuiTracklist();
@@ -17,14 +23,16 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this._uiTracklist.ontrackadded = uiTrk => {
 			const row = uiTrk.rowElement;
 
-			this._rowsByTrackId[ row.dataset.track ] = row;
+			row.firstChild.style.fontSize = this.__pxPerBeat + "px";
+			this._rowsByTrackId.set( row.dataset.track, row );
 			this.__rowsContainer.append( row );
 		};
 
 		this.data = this._proxyCreate();
-		this._idMax = 1;
-		this._rowsByTrackId = {};
+		this._idMax = 0;
+		this._rowsByTrackId = new Map();
 		this.__sideContent.append( this._uiTracklist.rootElement );
+		this.__rowsContainer.ondrop = this._drop.bind( this );
 		this.__rowsContainer.onmousedown = this.__mousedown.bind( this );
 	}
 
@@ -46,7 +54,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	// ........................................................................
 	blcsManagerCallback( status, blcsMap, valA, valB ) {
 		const obj = {},
-			data = this.data;
+			data = this.data.blocks;
 
 		switch ( status ) {
 			case "selecting":
@@ -70,8 +78,8 @@ class gsuiPatternroll extends gsuiBlocksManager {
 						d.when += valA;
 					}
 					if ( valB ) {
-						o.key =
-						d.key -= valB;
+						o.track =
+						d.track = this._incrTrackId( d.track, valB );
 					}
 				} );
 				break;
@@ -92,21 +100,45 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				this.__unselectBlocks( obj );
 				break;
 		}
-		this.onchange( obj );
+		this.onchange( { blocks: obj } );
 	}
 
 	// Private small getters
 	// ........................................................................
 	_getData() { return this.data.blocks; }
-	_getRowByTrackId( id ) { return this._rowsByTrackId[ id ]; }
+	_getRowByTrackId( id ) { return this._rowsByTrackId.get( id ); }
+	_incrTrackId( id, incr ) {
+		const row = this._getRowByTrackId( id ),
+			rowInd = this.__getRowIndexByRow( row ) + incr;
+
+		return this.__getRowByIndex( rowInd ).dataset.track;
+	}
 
 	// Mouse and keyboard events
 	// ........................................................................
 	_onkeydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) { this.__mouseup( e ); }
+	_blcMousedown( id, e ) {
+		e.stopPropagation();
+		this.__mousedown( e );
+	}
+	_drop( e ) {
+		const [ pattern, dur ] = e.dataTransfer.getData( "text" ).split( ":" ),
+			id = this._idMax + 1,
+			obj = {
+				pattern,
+				duration: +dur,
+				offset: 0,
+				when: this.__getWhenByPageX( e.pageX ),
+				track: this.__getRowByIndex( this.__getRowIndexByPageY( e.pageY ) ).dataset.track,
+			};
 
-	// Key's functions
+		this.data.blocks[ id ] = obj;
+		this.onchange( { blocks: { [ id ]: obj } } );
+	}
+
+	// Block's functions
 	// ........................................................................
 	_deleteBlock( id ) {
 		this.__blcs.get( id ).remove();
@@ -124,6 +156,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.__blcs.set( id, blc );
 		this.uiBlc.when( blc, obj.when );
 		this.uiBlc.track( blc, obj.track );
+		this.uiBlc.offset( blc, obj.offset );
 		this.uiBlc.duration( blc, obj.duration );
 		this.uiBlc.selected( blc, obj.selected );
 	}
@@ -172,7 +205,9 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		if ( obj ) {
 			const prox = new Proxy( Object.seal( Object.assign( {
 					when: 0,
+					track: null,
 					offset: 0,
+					pattern: null,
 					duration: 1,
 					selected: false
 				}, obj ) ), {
