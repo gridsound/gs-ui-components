@@ -18,9 +18,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			row && row.firstChild.append( el );
 		};
 
-		this.onaddBlock =
-		this.oneditBlock =
-		this.onremoveBlock = () => {};
 		this._uiTracklist = new gsuiTracklist();
 		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );
 		this._uiTracklist.ontrackadded = uiTrk => {

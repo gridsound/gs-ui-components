@@ -19,6 +19,9 @@ class gsuiBlocksManager {
 		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
 
+		this.onaddBlock =
+		this.oneditBlock =
+		this.onremoveBlock =
 		this.onchange =
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
@@ -382,17 +385,21 @@ class gsuiBlocksManager {
 				( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap );
 
 		if ( crop !== this.__valueA ) {
-			const data = this._getData();
+			const data = this._getData(),
+				croppingA = this.__status === "cropping-a";
 
 			this.__valueA = crop;
-			this.__blcsEditing.forEach( this.__status === "cropping-a"
-				? ( blc, id ) => {
-					this.blcOffset( blc, data[ id ].offset - crop );
-					this.uiBlc.duration( blc, data[ id ].duration + crop );
+			this.__blcsEditing.forEach( ( blc, id ) => {
+				const blcObj = Object.assign( {}, data[ id ] );
+
+				if ( croppingA ) {
+					blcObj.offset -= crop;
+					this.blcOffset( blc, blcObj.offset );
 				}
-				: ( blc, id ) => {
-					this.uiBlc.duration( blc, data[ id ].duration + crop );
-				} );
+				blcObj.duration += crop;
+				this.uiBlc.duration( blc, blcObj.duration );
+				this.oneditBlock( id, blcObj, blc );
+			} );
 		}
 	}
 	__mousemove_move() {
