@@ -153,6 +153,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		const blc = gsuiPatternroll.blockTemplate.cloneNode( true );
 
 		blc.dataset.id = id;
+		blc.dataset.pattern = obj.pattern;
 		blc.onmousedown = this._blcMousedown.bind( this, id );
 		obj.selected
 			? this.__blcsSelected.set( id, blc )
