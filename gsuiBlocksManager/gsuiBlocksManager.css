@@ -102,6 +102,7 @@
 }
 .gsuiBlocksManager-block-crop {
 	position: absolute;
+	z-index: 1;
 	left: 0;
 	width: 50%;
 	height: 100%;
