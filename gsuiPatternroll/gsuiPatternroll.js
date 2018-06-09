@@ -129,6 +129,8 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			obj = {
 				pattern,
 				duration: +dur,
+				durationEdited: false,
+				selected: false,
 				offset: 0,
 				when: this.__getWhenByPageX( e.pageX ),
 				track: this.__getRowByIndex( this.__getRowIndexByPageY( e.pageY ) ).dataset.track,
