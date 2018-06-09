@@ -88,7 +88,7 @@ class gsuiBlocksManager {
 		return fs;
 	}
 	getDuration() {
-		const bPM = this.__uiTimeline._.beatsPerMeasure,
+		const bPM = this.__uiTimeline._beatsPerMeasure,
 			dur = Object.values( this._getData() )
 				.reduce( ( dur, blc ) => (
 					Math.max( dur, blc.when + blc.duration )
@@ -156,7 +156,7 @@ class gsuiBlocksManager {
 		return obj;
 	}
 	__getBeatSnap() {
-		return 1 / this.__uiTimeline._.stepsPerBeat * this.__uiTimeline.stepRound;
+		return 1 / this.__uiTimeline._stepsPerBeat * this.__uiTimeline.stepRound;
 	}
 	__eventReset() {
 		this.__mmFn =

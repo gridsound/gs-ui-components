@@ -19,8 +19,6 @@ class gsuiTimeline {
 		this._stepsPerBeat = 4;
 		this._steps = [];
 		this.stepRound = 1;
-		this.currentTime( 0 );
-		this.loop( 0, 0 );
 
 		elCurrentTime.onmousedown = this._mousedownTime.bind( this );
 		elCurrentTime.onmousemove = this._mousemoveTime.bind( this );
@@ -28,6 +26,8 @@ class gsuiTimeline {
 		root.querySelector( ".gsui-loopA" ).onmousedown = this._mousedownLoop.bind( this, "a" );
 		root.querySelector( ".gsui-loopB" ).onmousedown = this._mousedownLoop.bind( this, "b" );
 		root.querySelector( ".gsui-loopLine" ).onmousedown = this._mousedownLoopLine.bind( this );
+		this.currentTime( 0 );
+		this.loop( 0, 0 );
 	}
 
 	resized() {
@@ -221,9 +221,7 @@ class gsuiTimeline {
 			stepPx = beatPx / stepsBeat,
 			stepEm = 1 / stepsBeat,
 			stepsDuration = Math.ceil( this.width / stepPx + 2 );
-		let stepRel,
-			elStep,
-			stepId = 0,
+		let stepId = 0,
 			step = ~~( this._offset * stepsBeat ),
 			em = -this._offset % stepEm;
 
@@ -231,12 +229,12 @@ class gsuiTimeline {
 		rootCL.add( "gsui-" + ( beatPx > 24 ? beatPx > 72 ?
 				"step" : "beat" : "measure" ) );
 		while ( elSteps.length < stepsDuration ) {
-			elStep = document.createElement( "div" );
-			elSteps.push( elStep );
+			elSteps.push( document.createElement( "div" ) );
 		}
 		for ( ; stepId < stepsDuration; ++stepId ) {
-			stepRel = step % stepsBeat;
-			elStep = elSteps[ stepId ];
+			const stepRel = step % stepsBeat,
+				elStep = elSteps[ stepId ];
+
 			elStep.style.left = em * beatPx + "px";
 			elStep.className = "gsui-" + ( step % stepsMeasure ? stepRel
 				? "step" : "beat" : "measure" );
@@ -249,7 +247,8 @@ class gsuiTimeline {
 			em += stepEm;
 		}
 		for ( ; stepId < elSteps.length; ++stepId ) {
-			elStep = elSteps[ stepId ];
+			const elStep = elSteps[ stepId ];
+
 			if ( !elStep.parentNode ) {
 				break;
 			}
