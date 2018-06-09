@@ -91,7 +91,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					const d = data[ id ],
 						duration = d.duration + valA;
 
-					obj[ id ] = { duration };
+					obj[ id ] = { duration, durationEdited: true };
 					d.duration = duration;
 				} );
 				break;
@@ -216,8 +216,9 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					track: null,
 					offset: 0,
 					pattern: null,
+					selected: false,
 					duration: 1,
-					selected: false
+					durationEdited: false,
 				}, obj ) ), {
 					set: this._proxySetBlockProp.bind( this, id )
 				} );
