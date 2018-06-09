@@ -87,6 +87,15 @@ class gsuiBlocksManager {
 		}
 		return fs;
 	}
+	getDuration() {
+		const bPM = this.__uiTimeline._.beatsPerMeasure,
+			dur = Object.values( this._getData() )
+				.reduce( ( dur, blc ) => (
+					Math.max( dur, blc.when + blc.duration )
+				), 0 );
+
+		return Math.max( 1, Math.ceil( dur / bPM ) ) * bPM;
+	}
 
 	// Private small getters
 	// ............................................................................................
