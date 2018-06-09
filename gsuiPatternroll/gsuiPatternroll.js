@@ -18,6 +18,9 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			row && row.firstChild.append( el );
 		};
 
+		this.onaddBlock =
+		this.oneditBlock =
+		this.onremoveBlock = () => {};
 		this._uiTracklist = new gsuiTracklist();
 		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );
 		this._uiTracklist.ontrackadded = uiTrk => {
@@ -144,6 +147,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.__blcs.get( id ).remove();
 		this.__blcs.delete( id );
 		this.__blcsSelected.delete( id );
+		this.onremoveBlock( id );
 	}
 	_setBlock( id, obj ) {
 		const blc = gsuiPatternroll.blockTemplate.cloneNode( true );
@@ -159,6 +163,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.uiBlc.offset( blc, obj.offset );
 		this.uiBlc.duration( blc, obj.duration );
 		this.uiBlc.selected( blc, obj.selected );
+		this.onaddBlock( id, obj, blc );
 	}
 	_setBlockProp( id, prop, val ) {
 		const uiFn = this.uiBlc[ prop ];
@@ -171,6 +176,8 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				val
 					? this.__blcsSelected.set( id, blc )
 					: this.__blcsSelected.delete( id );
+			} else if ( prop === "duration" || prop === "offset" ) {
+				this.oneditBlock( id, this.data.blocks[ id ], blc );
 			}
 		}
 	}
