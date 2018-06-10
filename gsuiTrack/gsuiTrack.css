@@ -78,10 +78,15 @@
 	cursor: default;
 	background-color: transparent;
 }
+.gsui-mute .gsuiTrack-name {
+	opacity: .5;
+}
 .gsuiTrack-name:focus {
 	font-weight: normal;
 }
+
 .gsuiTrack-name::placeholder {
+	color: #fff;
 	font-style: italic;
 	font-weight: normal;
 	opacity: .3;
@@ -91,10 +96,5 @@
 	font-weight: normal;
 	opacity: .3;
 }
-
 .gsuiTrack-name:focus::placeholder { color: transparent; }
 .gsuiTrack-name:focus::-ms-input-placeholder { color: transparent; }
-
-.gsui-mute .gsuiTrack-name {
-	opacity: .5;
-}
