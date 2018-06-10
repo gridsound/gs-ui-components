@@ -290,6 +290,7 @@ class gsuiBlocksManager {
 	__mousedown( e ) {
 		const blc = this.__getBlc( e.currentTarget );
 
+		window.getSelection().removeAllRanges();
 		if ( e.button === 2 ) {
 			this.__mmFn = this.__mousemove_deletion;
 			this.__status = "deleting";
