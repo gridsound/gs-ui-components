@@ -24,6 +24,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			const row = uiTrk.rowElement;
 
 			row.firstChild.style.fontSize = this.__pxPerBeat + "px";
+			row.classList.toggle( "gsui-row-small", this.__pxPerBeat <= 44 );
 			this._rowsByTrackId.set( row.dataset.track, row );
 			this.__rowsContainer.append( row );
 		};

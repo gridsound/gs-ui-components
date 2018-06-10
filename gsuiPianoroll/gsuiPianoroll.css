@@ -25,4 +25,5 @@
 	font-size: 11px;
 	font-weight: bold;
 	opacity: .4;
+	pointer-events: none;
 }

@@ -40,10 +40,10 @@ class gsuiBlocksManager {
 		root.onkeydown = this._onkeydown.bind( this );
 		this.__rowsScrollTop = -1;
 		this.__rowsScrollLeft = -1;
-		this.__rowsContainer.onwheel = this.__onwheelRows.bind( this );
-		this.__rowsContainer.onscroll = this.__onscrollRows.bind( this );
 		this.__sideContent.onwheel = this.__onwheelPanelContent.bind( this );
 		this.__sideContent.onscroll = this.__onscrollPanelContent.bind( this );
+		this.__rowsContainer.onwheel = this.__onwheelRows.bind( this );
+		this.__rowsContainer.onscroll = this.__onscrollRows.bind( this );
 		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
 
 		this.uiBlc = {
@@ -84,9 +84,12 @@ class gsuiBlocksManager {
 		const fs = Math.min( Math.max( 8, px ), 64 );
 
 		if ( fs !== this.__fontSize ) {
+			const isSmall = fs <= 44;
+
 			this.__fontSize = fs;
 			this.__sideContent.style.fontSize =
 			this.__rowsContainer.style.fontSize = fs + "px";
+			Array.from( this.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", isSmall ) );
 		}
 		return fs;
 	}
