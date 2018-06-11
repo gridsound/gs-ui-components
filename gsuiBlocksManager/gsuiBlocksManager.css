@@ -47,10 +47,13 @@
 	height: 100%;
 }
 
-.gsuiBlocksManager-rowsWrap {
+.gsuiBlocksManager-rowsWrapout {
 	flex: 1;
 	position: relative;
 	background-color: var( --gsuiBlocksManager-bgColor );
+}
+.gsuiBlocksManager-rowsWrapin {
+	position: absolute;
 }
 .gsuiBlocksManager-rows .gsui-row {
 	width: 1000000px;
@@ -121,4 +124,29 @@
 }
 .gsuiBlocksManager-block .gsuiBlocksManager-block-crop:hover {
 	opacity: .25;
+}
+
+/* .......................................................................... */
+.gsuiBlocksManager-loop,
+.gsuiBlocksManager-currentTime {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	bottom: 0;
+	pointer-events: none;
+}
+.gsuiBlocksManager-currentTime {
+	width: 1px;
+	background-color: #ffa;
+	box-shadow: -1px 0 2px #ffa;
+}
+.gsuiBlocksManager-loop {
+	opacity: 0;
+	background-color: #000;
+	transition: .2s opacity;
+}
+.gsuiBlocksManager-loopA { left: 0; }
+.gsuiBlocksManager-loopB { right: 0; }
+.gsuiBlocksManager-loopOn {
+	opacity: .3;
 }

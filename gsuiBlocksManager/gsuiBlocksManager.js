@@ -11,12 +11,16 @@ class gsuiBlocksManager {
 		this.__blcsSelected = new Map();
 		this.__uiPanels = new gsuiPanels( root );
 		this.__uiTimeline = new gsuiTimeline();
-		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
-		this.__uiBeatlines = new gsuiBeatlines( this.__rowsContainer );
-		this.__elPanGrid = root.querySelector( ".gsuiBlocksManager-gridPanel" );
 		this.__elPanGridWidth = 0;
+		this.__elLoopA = root.querySelector( ".gsuiBlocksManager-loopA" );
+		this.__elLoopB = root.querySelector( ".gsuiBlocksManager-loopB" );
 		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
+		this.__elPanGrid = root.querySelector( ".gsuiBlocksManager-gridPanel" );
 		this.__sideContent = root.querySelector( ".gsuiBlocksManager-sidePanelContent" );
+		this.__elCurrentTime = root.querySelector( ".gsuiBlocksManager-currentTime" );
+		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
+		this.__rowsWrapinContainer = root.querySelector( ".gsuiBlocksManager-rowsWrapin" );
+		this.__uiBeatlines = new gsuiBeatlines( this.__rowsContainer );
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
 
 		this.onaddBlock =
@@ -26,12 +30,10 @@ class gsuiBlocksManager {
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
 		this.__elPanGrid.onresizing = this.__gridPanelResizing.bind( this );
-		this.__uiTimeline.oninputLoop = ( isLoop, a, b ) => {
-			// this.__uiBeatlines.loop( isLoop && a, b );
-		};
+		this.__uiTimeline.oninputLoop = this.__loop.bind( this );
 		this.__uiTimeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
 		this.__uiTimeline.onchangeCurrentTime = t => {
-			// this.__uiBeatlines.currentTime( t );
+			this.__currentTime( t );
 			this.onchangeCurrentTime( t );
 		};
 		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.__uiTimeline.rootElement );
@@ -58,17 +60,17 @@ class gsuiBlocksManager {
 
 	// Public methods
 	// ............................................................................................
-	currentTime( beat ) {
-		this.__uiTimeline.currentTime( beat );
-		// this.__uiBeatlines.currentTime( beat );
-	}
 	timeSignature( a, b ) {
 		this.__uiTimeline.timeSignature( a, b );
 		this.__uiBeatlines.timeSignature( a, b );
 	}
+	currentTime( beat ) {
+		this.__uiTimeline.currentTime( beat );
+		this.__currentTime( beat );
+	}
 	loop( a, b ) {
 		this.__uiTimeline.loop( a, b );
-		// this.__uiBeatlines.loop( a, b );
+		this.__loop( a !== false, a, b );
 	}
 	setPxPerBeat( px ) {
 		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
@@ -80,6 +82,9 @@ class gsuiBlocksManager {
 			// this.__uiBeatlines.render();
 			// clearTimeout( this.__beatlinesRendering );
 			// this.__beatlinesRendering = setTimeout( () => this.__uiBeatlines.render(), 100 );
+			this.__elLoopA.style.fontSize =
+			this.__elLoopB.style.fontSize =
+			this.__elCurrentTime.style.fontSize = ppb + "px";
 			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppb + "px" );
 		}
 		return ppb;
@@ -136,6 +141,17 @@ class gsuiBlocksManager {
 		rowsC.style.bottom = -( rowsC.offsetWidth - rowsC.clientWidth ) + "px";
 		this.__uiPanels.attached();
 		this.__gridPanelResized();
+	}
+	__loop( isLoop, a, b ) {
+		this.__elLoopA.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
+		this.__elLoopB.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
+		if ( isLoop ) {
+			this.__elLoopA.style.width = a + "em";
+			this.__elLoopB.style.left = b + "em";
+		}
+	}
+	__currentTime( t ) {
+		this.__elCurrentTime.style.left = t + "em";
 	}
 	__getBlc( el ) {
 		if ( el.classList.contains( "gsuiBlocksManager-block" ) ) {

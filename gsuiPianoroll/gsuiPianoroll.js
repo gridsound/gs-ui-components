@@ -59,7 +59,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			el.firstChild.style.fontSize = this.__pxPerBeat + "px";
 			this._rowsByMidi[ el.dataset.midi ] = el;
 		} );
-		Element.prototype.prepend.apply( this.__rowsContainer, rows );
+		Element.prototype.prepend.apply( this.__rowsWrapinContainer, rows );
 	}
 
 	// Blocks manager callback
