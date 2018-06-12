@@ -195,6 +195,7 @@ class gsuiBlocksManager {
 		this.__valueB = null;
 		this.__valueAMin =
 		this.__valueBMin = Infinity;
+		this.__valueAMax =
 		this.__valueBMax = -Infinity;
 		this.__status = "";
 		this.__blcsEditing.clear();
@@ -336,14 +337,27 @@ class gsuiBlocksManager {
 
 				if ( e.target.classList.contains( "gsuiBlocksManager-block-crop" ) ) {
 					this.__mmFn = this.__mousemove_crop;
-					this.__valueAMin = Infinity;
-					blcsEditing.forEach( ( blc, id ) => (
-						this.__valueAMin = Math.min( this.__valueAMin, data[ id ].duration )
-					) );
-					this.__valueAMin = -Math.max( 0, this.__valueAMin - this.__beatSnap );
-					this.__status = e.target.classList.contains( "gsuiBlocksManager-block-cropA" )
-						? "cropping-a"
-						: "cropping-b";
+					if ( e.target.classList.contains( "gsuiBlocksManager-block-cropA" ) ) {
+						this.__status = "cropping-a";
+						this.__valueAMin =
+						this.__valueAMax = Infinity;
+						blcsEditing.forEach( ( blc, id ) => {
+							const dat = data[ id ];
+
+							this.__valueAMin = Math.min( this.__valueAMin, dat.offset );
+							this.__valueAMax = Math.min( this.__valueAMax, dat.duration );
+						} );
+						this.__valueAMin *= -1;
+						this.__valueAMax = Math.max( 0, this.__valueAMax - this.__beatSnap );
+					} else {
+						this.__status = "cropping-b";
+						this.__valueAMin =
+						this.__valueAMax = Infinity;
+						blcsEditing.forEach( ( blc, id ) => (
+							this.__valueAMin = Math.min( this.__valueAMin, data[ id ].duration )
+						) );
+						this.__valueAMin = -Math.max( 0, this.__valueAMin - this.__beatSnap );
+					}
 				} else {
 					this.__mmFn = this.__mousemove_move;
 					this.__status = "moving";
@@ -407,22 +421,26 @@ class gsuiBlocksManager {
 	// Mousemove specific functions
 	// ............................................................................................
 	__mousemove_crop() {
-		const crop = Math.max( this.__valueAMin, Math.round(
-				( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap );
+		const croppingB = this.__status === "cropping-b",
+			cropBrut = this.__beatSnap * Math.round( ( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ),
+			crop = Math.max( this.__valueAMin, Math.min( cropBrut, this.__valueAMax ) );
 
 		if ( crop !== this.__valueA ) {
-			const data = this._getData(),
-				croppingA = this.__status === "cropping-a";
+			const data = this._getData();
 
 			this.__valueA = crop;
 			this.__blcsEditing.forEach( ( blc, id ) => {
 				const blcObj = Object.assign( {}, data[ id ] );
 
-				if ( croppingA ) {
-					blcObj.offset -= crop;
-					this.blcOffset( blc, blcObj.offset );
+				if ( croppingB ) {
+					blcObj.duration += crop;
+				} else {
+					blcObj.when += crop;
+					blcObj.offset += crop;
+					blcObj.duration -= crop;
+					this.uiBlc.when( blc, blcObj.when );
+					this.uiBlc.offset( blc, blcObj.offset );
 				}
-				blcObj.duration += crop;
 				this.uiBlc.duration( blc, blcObj.duration );
 				this.oneditBlock( id, blcObj, blc );
 			} );

@@ -84,6 +84,19 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					}
 				} );
 				break;
+			case "cropping-a":
+				blcsMap.forEach( ( _, id ) => {
+					const d = data[ id ],
+						when = d.when + valA,
+						offset = d.offset + valA,
+						duration = d.duration - valA;
+
+					obj[ id ] = { when, offset, duration, durationEdited: true };
+					d.when = when;
+					d.offset = offset;
+					d.duration = duration;
+				} );
+				break;
 			case "cropping-b":
 				blcsMap.forEach( ( _, id ) => {
 					const d = data[ id ],
