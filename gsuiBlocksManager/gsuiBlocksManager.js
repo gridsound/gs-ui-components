@@ -153,11 +153,16 @@ class gsuiBlocksManager {
 	__currentTime( t ) {
 		this.__elCurrentTime.style.left = t + "em";
 	}
+	__isBlc( el ) {
+		return el.classList.contains( "gsuiBlocksManager-block" );
+	}
 	__getBlc( el ) {
-		if ( el.classList.contains( "gsuiBlocksManager-block" ) ) {
+		if ( this.__isBlc( el ) ) {
 			return el;
-		} else if ( el.parentNode.classList.contains( "gsuiBlocksManager-block" ) ) {
+		} else if ( this.__isBlc( el.parentNode ) ) {
 			return el.parentNode;
+		} else if ( this.__isBlc( el.parentNode.parentNode ) ) {
+			return el.parentNode.parentNode;
 		}
 	}
 	__fillBlcsMap( blc ) {
