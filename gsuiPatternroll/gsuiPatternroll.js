@@ -25,6 +25,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 			row.firstChild.style.fontSize = this.__pxPerBeat + "px";
 			row.classList.toggle( "gsui-row-small", this.__pxPerBeat <= 44 );
+			row.onmousedown = this._rowMousedown.bind( this );
 			this._rowsByTrackId.set( row.dataset.track, row );
 			this.__rowsWrapinContainer.append( row );
 		};
@@ -133,6 +134,11 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	_onkeydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) { this.__mouseup( e ); }
+	_rowMousedown() {
+		if ( this.__blcsSelected.size ) {
+			this.onchange( { blocks: this.__unselectBlocks( {} ) } );
+		}
+	}
 	_blcMousedown( id, e ) {
 		e.stopPropagation();
 		this.__mousedown( e );
