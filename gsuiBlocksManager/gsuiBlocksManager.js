@@ -5,7 +5,6 @@ class gsuiBlocksManager {
 		this.rootElement = root;
 		this.__offset = 0;
 		this.__fontSize = 16;
-		this.__pxPerBeat = 64;
 		this.__blcs = new Map();
 		this.__blcsEditing = new Map();
 		this.__blcsSelected = new Map();
@@ -56,6 +55,8 @@ class gsuiBlocksManager {
 			deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); },
 		};
 		this.__eventReset();
+		this.setPxPerBeat( 64 );
+		this.timeSignature( 4, 4 );
 	}
 
 	// Public methods
