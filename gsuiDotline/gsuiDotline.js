@@ -29,7 +29,8 @@ class gsuiDotline {
 			maxX: 150,
 			maxY: 100
 		} );
-		this.lineToEdges( 0 );
+		this.firstDotLinkedTo( 0 );
+		this.lastDotLinkedTo( 0 );
 		this.dotsMoveMode( "free" );
 	}
 
@@ -50,8 +51,12 @@ class gsuiDotline {
 	dotsMoveMode( mode ) {
 		this._dotsMoveMode = mode;
 	}
-	lineToEdges( val ) {
-		this._lineToEdges = val;
+	firstDotLinkedTo( val ) {
+		this._firstDotLinkedTo = val == null ? null : +val;
+		this._drawPolyline();
+	}
+	lastDotLinkedTo( val ) {
+		this._lastDotLinkedTo = val == null ? null : +val;
 		this._drawPolyline();
 	}
 	setDots( arr ) {
@@ -93,24 +98,21 @@ class gsuiDotline {
 		return this._dots.map( d => d.x + " " + d.y ).join( "," );
 	}
 	_drawPolyline() {
-		const dots = this._dots,
+		const arr = [],
+			dots = this._dots,
 			svgW = this._svgW,
 			svgH = this._svgH,
-			arr = [],
-			lineToEdges = Number.isFinite( this._lineToEdges ),
 			{ minX, minY, width, height } = this._opt;
-		let lineEdgeVal = this._lineToEdges;
 
-		if ( lineToEdges ) {
-			lineEdgeVal = svgH - ( lineEdgeVal - minY ) / height * svgH;
-			arr.push( 0, lineEdgeVal );
+		if ( Number.isFinite( this._firstDotLinkedTo ) ) {
+			arr.push( 0, svgH - ( this._firstDotLinkedTo - minY ) / height * svgH );
 		}
 		dots.forEach( ( { x, y } ) => arr.push(
 			( x - minX ) / width * svgW,
 			svgH - ( y - minY ) / height * svgH
 		) );
-		if ( lineToEdges ) {
-			arr.push( svgW, lineEdgeVal );
+		if ( Number.isFinite( this._lastDotLinkedTo ) ) {
+			arr.push( svgW, svgH - ( this._lastDotLinkedTo - minY ) / height * svgH );
 		}
 		this._elPoly.setAttribute( "points", arr.join( " " ) );
 	}
