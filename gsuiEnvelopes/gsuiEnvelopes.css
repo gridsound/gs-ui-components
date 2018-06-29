@@ -1,0 +1,47 @@
+.gsuiEnvelopes {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.gsuiEnvelopes-nav {
+	display: flex;
+	padding: 2px 0;
+}
+.gsuiEnvelopes-env {
+	margin-left: 6px;
+	color: #888;
+	font-size: 12px;
+}
+.gsuiEnvelopes-env:hover {
+	color: #ddd;
+}
+
+.gsuiEnvelopes-lines {
+	flex: 1;
+	display: flex;
+}
+
+.gsuiEnvelopes-line {
+	flex: 1;
+	height: 100%;
+	background-color: rgba( 0, 0, 0, .5 );
+	transition: .1s flex-grow, .5s background-color;
+}
+.gsuiEnvelopes-line:hover {
+	background-color: rgba( 0, 0, 0, .4 );
+}
+.gsuiEnvelopes-lineRel {
+	margin-left: 2px;
+}
+
+.gsuiEnvelopes-menus {
+	display: flex;
+}
+.gsuiEnvelopes-menu {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiEnvelopes-menuRel {
+	text-align: right;
+}
