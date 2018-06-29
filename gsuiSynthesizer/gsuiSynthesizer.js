@@ -1,45 +1,45 @@
 "use strict";
 
-function gsuiSynthesizer() {
-	var root = gsuiSynthesizer.template.cloneNode( true );
+class gsuiSynthesizer {
+	constructor() {
+		const root = gsuiSynthesizer.template.cloneNode( true ),
+			uienvs = new gsuiEnvelopes();
 
-	this.rootElement = root;
-	this.oninput =
-	this.onchange = _ => {};
-	this._waveList = [];
-	this._uioscs = {};
-	this.empty();
-	this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
-	root.querySelector( ".gsuiSynthesizer-newOsc" ).onclick = this._onclickNewOsc.bind( this );
-}
+		this.rootElement = root;
+		this._waveList = [];
+		this._uienvs = uienvs;
+		root.querySelector( ".gsuiSynthesizer-envelopes" ).append( uienvs.rootElement );
+		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
+		this.oninput =
+		this.onchange = _ => {};
+		this.empty();
+		root.querySelector( ".gsuiSynthesizer-newOsc" ).onclick = this._onclickNewOsc.bind( this );
+	}
 
-gsuiSynthesizer.template = document.querySelector( "#gsuiSynthesizer-template" );
-gsuiSynthesizer.template.remove();
-gsuiSynthesizer.template.removeAttribute( "id" );
-
-gsuiSynthesizer.prototype = {
 	remove() {
 		delete this._attached;
 		this.rootElement.remove();
-	},
+	}
 	attached() {
 		this._attached = true;
+		this._uienvs.attached();
 		Array.from( this._elOscList.children ).forEach( el => (
 			this._uioscs[ el.dataset.id ].attached()
 		) );
-	},
+	}
 	empty() {
-		Object.values( this._uioscs ).forEach( uiosc => uiosc.remove() );
+		this._uienvs.empty();
+		this._uioscs && Object.values( this._uioscs ).forEach( o => o.remove() );
 		this._uioscs = {};
 		this._oscIdMax = 0;
 		this.store = { oscillators: {} };
-	},
+	}
 	setWaveList( arr ) {
 		this._waveList = arr;
-		Array.from( this._uioscs ).forEach( uiosc => uiosc.addWaves( lg(arr) ) );
-	},
+		Array.from( this._uioscs ).forEach( o => o.addWaves( arr ) );
+	}
 	change( obj ) {
-		var uioscs = this._uioscs;
+		const uioscs = this._uioscs;
 
 		if ( obj.oscillators ) {
 			Object.entries( obj.oscillators ).forEach(
@@ -50,12 +50,12 @@ gsuiSynthesizer.prototype = {
 						: this._deleteOsc( id )
 				) );
 		}
-	},
+	}
 
 	// private:
 	_createOsc( id, osc ) {
 		if ( !this._uioscs[ id ] ) {
-			var uiosc = new gsuiOscillator();
+			const uiosc = new gsuiOscillator();
 
 			this._oscIdMax = Math.max( this._oscIdMax, parseInt( id.substr( 1 ), 16 ) );
 			this._uioscs[ id ] = uiosc;
@@ -80,29 +80,29 @@ gsuiSynthesizer.prototype = {
 			}
 			this._attached && uiosc.attached();
 		}
-	},
+	}
 	_updateOsc( id, osc ) {
 		this._uioscs[ id ].change( osc );
-	},
+	}
 	_deleteOsc( id ) {
-		var oscs = this._uioscs;
+		const oscs = this._uioscs;
 
 		if ( oscs[ id ] ) {
 			oscs[ id ].remove();
 			delete oscs[ id ];
 			delete this.store.oscillators[ id ];
 		}
-	},
+	}
 
 	// private:
 	_getMaxOrder() {
 		return 1 + Object.values( this.store.oscillators ).reduce(
 			( ord, osc ) => Math.max( ord, osc.order ), 0 );
-	},
+	}
 
 	// events:
 	_onclickNewOsc() {
-		var id = "i" + ( this._oscIdMax + 1 ).toString( 16 ),
+		const id = "i" + ( this._oscIdMax + 1 ).toString( 16 ),
 			osc = {
 				type: "sine",
 				gain: 1,
@@ -113,16 +113,20 @@ gsuiSynthesizer.prototype = {
 
 		this._createOsc( id, osc );
 		this.onchange( { oscillators: { [ id ]: Object.assign( {}, osc ) } } );
-	},
+	}
 	_oninputOsc( id, attr, val ) {
 		this.oninput( id, attr, val );
-	},
+	}
 	_onchangeOsc( id, obj ) {
 		Object.assign( this.store.oscillators[ id ], obj );
 		this.onchange( { oscillators: { [ id ]: obj } } );
-	},
+	}
 	_onremoveOsc( id ) {
 		this._deleteOsc( id );
 		this.onchange( { oscillators: { [ id ]: null } } );
 	}
-};
+}
+
+gsuiSynthesizer.template = document.querySelector( "#gsuiSynthesizer-template" );
+gsuiSynthesizer.template.remove();
+gsuiSynthesizer.template.removeAttribute( "id" );
