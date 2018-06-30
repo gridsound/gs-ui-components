@@ -1,4 +1,7 @@
 :root {
+	--gsuiDotline-color: #000;
+	--gsuiDotline-lineWidth: 1px;
+	--gsuiDotline-dotBg: transparent;
 	--gsuiDotline-dotSize: 12px;
 	--gsuiDotline-dotSizeHover: calc( var( --gsuiDotline-dotSize ) * 2 );
 	--gsuiDotline-dotHandleSize: 10px;
@@ -6,6 +9,9 @@
 
 .gsuiDotline {
 	position: relative;
+	color: var( --gsuiDotline-color );
+	stroke: currentColor;
+	stroke-width: var( --gsuiDotline-lineWidth );
 }
 
 .gsuiDotline svg {
@@ -30,6 +36,7 @@
 		calc( var( --gsuiDotline-dotSize ) / -2 );
 	border-radius: 50%;
 	border: 2px solid;
+	background-color: var( --gsuiDotline-dotBg );
 	transition: .2s;
 	transition-property:
 		width, height,
