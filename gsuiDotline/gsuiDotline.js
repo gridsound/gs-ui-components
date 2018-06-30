@@ -34,12 +34,17 @@ class gsuiDotline {
 		this.dotsMoveMode( "free" );
 	}
 
+	attached() {
+		this._attached = true;
+		this.resize();
+	}
 	resize() {
 		const bcr = this.getBCR();
 
 		this._elSVG.setAttribute( "viewBox", "0 0 " +
 			( this._svgW = bcr.width ) + " " +
 			( this._svgH = bcr.height ) );
+		this._drawPolyline();
 	}
 	options( obj ) {
 		const opt = this._opt;
@@ -53,11 +58,11 @@ class gsuiDotline {
 	}
 	firstDotLinkedTo( val ) {
 		this._firstDotLinkedTo = val == null ? null : +val;
-		this._drawPolyline();
+		this._attached && this._drawPolyline();
 	}
 	lastDotLinkedTo( val ) {
 		this._lastDotLinkedTo = val == null ? null : +val;
-		this._drawPolyline();
+		this._attached && this._drawPolyline();
 	}
 	setDots( arr ) {
 		const dots = this._nlDots;
