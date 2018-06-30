@@ -34,6 +34,14 @@
 .gsuiEnvelopes-lineRel {
 	margin-left: 2px;
 }
+.gsuiEnvelopes .gsuiDotline {
+	height: 100%;
+	--gsuiDotline-color: #ffa;
+	--gsuiDotline-lineWidth: 2px;
+	--gsuiDotline-dotSize: 6px;
+	--gsuiDotline-dotSizeHover: 12px;
+	--gsuiDotline-dotBg: rgba( 255, 255, 190, .5 );
+}
 
 .gsuiEnvelopes-menus {
 	display: flex;
