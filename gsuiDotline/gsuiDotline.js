@@ -8,7 +8,6 @@ class gsuiDotline {
 			svg = document.createElementNS( SVGURL, "svg" ),
 			polyline = document.createElementNS( SVGURL, "polyline" );
 
-		this._init();
 		svg.append( polyline );
 		svg.setAttribute( "preserveAspectRatio", "none" );
 		root.append( svg );
@@ -54,6 +53,7 @@ class gsuiDotline {
 		opt.height = opt.maxY - opt.minY;
 	}
 	dotsMoveMode( mode ) {
+		// mode can be "free" or "linked"
 		this._dotsMoveMode = mode;
 	}
 	firstDotLinkedTo( val ) {
@@ -85,17 +85,6 @@ class gsuiDotline {
 	}
 
 	// private:
-	_init() {
-		if ( !gsuiDotline._ready ) {
-			gsuiDotline._ready = true;
-			document.addEventListener( "mousemove", e => {
-				gsuiDotline.focused && gsuiDotline.focused._mousemoveDot( e );
-			} );
-			document.addEventListener( "mouseup", () => {
-				gsuiDotline.focused && gsuiDotline.focused._mouseupDot();
-			} );
-		}
-	}
 	_sortDots() {
 		this._dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
 	}
@@ -285,3 +274,10 @@ class gsuiDotline {
 		}
 	}
 }
+
+document.addEventListener( "mousemove", e => {
+	gsuiDotline.focused && gsuiDotline.focused._mousemoveDot( e );
+} );
+document.addEventListener( "mouseup", () => {
+	gsuiDotline.focused && gsuiDotline.focused._mouseupDot();
+} );
