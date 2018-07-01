@@ -1,12 +1,72 @@
-.gsuiEnvelopes {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 20px 1fr 20px;
-	height: 100%;
+:root {
+	--gsuiEnvelopes-colorGain: #ffa;
+	--gsuiEnvelopes-colorPan: #d9f;
 }
 
-.gsuiEnvelopes-titleAtt { padding-left: 6px; }
-.gsuiEnvelopes-titleRel { padding-left: 2px; }
+.gsuiEnvelopes[data-env="gain"] { --gsuiEnvelopes-currentColor: var( --gsuiEnvelopes-colorGain ); }
+.gsuiEnvelopes[data-env="pan"] { --gsuiEnvelopes-currentColor: var( --gsuiEnvelopes-colorPan ); }
+.gsuiEnvelopes {
+	display: grid;
+	height: 128px;
+	color: var( --gsuiEnvelopes-currentColor );
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 22px 20px 1fr 20px;
+	grid-template-areas:
+		"nav nav"
+		"titleAtt titleRel"
+		"lineAtt lineRel"
+		"menuAtt menuRel";
+}
+
+/* .......................................................................... */
+.gsuiEnvelopes-nav {
+	grid-area: nav;
+	display: flex;
+	align-items: center;
+	background-color: rgba( 0, 0, 0, .2 );
+}
+.gsuiEnvelopes-mainTitle {
+	margin-left: 8px;
+	font-weight: bold;
+	font-size: 11px;
+	letter-spacing: 1px;
+	color: #666;
+}
+
+/* .......................................................................... */
+.gsuiEnvelopes-gainBtn { color: var( --gsuiEnvelopes-colorGain ); }
+.gsuiEnvelopes-panBtn { color: var( --gsuiEnvelopes-colorPan ); }
+.gsuiEnvelopes-envBtn {
+	border-radius: 4px;
+	padding: 1px 4px;
+	margin-left: 6px;
+	font-size: 11px;
+	font-weight: bold;
+	background-color: transparent;
+	transition: .2s;
+	transition-property: color, background-color;
+}
+.gsuiEnvelopes[data-env="gain"] .gsuiEnvelopes-gainBtn,
+.gsuiEnvelopes[data-env="pan"] .gsuiEnvelopes-panBtn {
+	color: rgba( 0, 0, 0, .8 );
+	background-color: var( --gsuiEnvelopes-currentColor );
+}
+
+/* .......................................................................... */
+.gsuiEnvelopes-dotLinkBtn {
+	margin-left: auto;
+	margin-right: 6px;
+	font-size: 14px;
+	color: #fff;
+	opacity: .5;
+	font-family: "FontAwesome";
+}
+.gsuiEnvelopes-dotLinkBtn::before { content: "\f127"; }
+.gsuiEnvelopes-dotLinked .gsuiEnvelopes-dotLinkBtn::before { content: "\f0c1"; }
+
+/* .......................................................................... */
+.gsuiEnvelopes-titleAtt { grid-area: titleAtt; padding-left: 7px; }
+.gsuiEnvelopes-titleRel { grid-area: titleRel; padding-left: 2px; }
 .gsuiEnvelopes-title {
 	color: #888;
 	font-size: 11px;
@@ -14,8 +74,8 @@
 	font-weight: bold;
 	background-color: rgba( 0, 0, 0, .2 );
 }
-.gsuiEnvelopes-lineAtt { margin-right: 1px; }
-.gsuiEnvelopes-lineRel { margin-left: 2px; }
+.gsuiEnvelopes-lineAtt { grid-area: lineAtt; margin-right: 1px; }
+.gsuiEnvelopes-lineRel { grid-area: lineRel; margin-left: 2px; }
 .gsuiEnvelopes-line {
 	flex: 1;
 	height: 100%;
@@ -28,17 +88,16 @@
 }
 .gsuiEnvelopes .gsuiDotline {
 	height: 100%;
-	--gsuiDotline-color: #ffa;
+	--gsuiDotline-color: currentColor;
 	--gsuiDotline-lineWidth: 2px;
 	--gsuiDotline-dotSize: 6px;
 	--gsuiDotline-dotSizeHover: 12px;
-	--gsuiDotline-dotBg: rgba( 255, 255, 190, .5 );
+	--gsuiDotline-dotBg: rgba( 0, 0, 0, .5 );
 }
 
 .gsuiEnvelopes-menu {
 	display: flex;
 	flex-direction: column;
 }
-.gsuiEnvelopes-menuRel {
-	text-align: right;
-}
+.gsuiEnvelopes-menuAtt { grid-area: menuAtt; text-align: right; }
+.gsuiEnvelopes-menuRel { grid-area: menuRel; text-align: right; }
