@@ -26,10 +26,10 @@ class gsuiDotline {
 			minX: 0,
 			minY: 0,
 			maxX: 150,
-			maxY: 100
+			maxY: 100,
+			firstLinkedTo: 0,
+			lastLinkedTo: 0,
 		} );
-		this.firstDotLinkedTo( 0 );
-		this.lastDotLinkedTo( 0 );
 		this.dotsMoveMode( "free" );
 	}
 
@@ -51,6 +51,9 @@ class gsuiDotline {
 		Object.assign( opt, obj );
 		opt.width = opt.maxX - opt.minX;
 		opt.height = opt.maxY - opt.minY;
+		if ( this._attached ) {
+			this._drawPolyline();
+		}
 	}
 	dotsMoveMode( mode ) {
 		// mode can be "free" or "linked"
@@ -96,23 +99,27 @@ class gsuiDotline {
 			dots = this._dots,
 			svgW = this._svgW,
 			svgH = this._svgH,
-			{ minX, minY, width, height } = this._opt;
+			{
+				minX, minY,
+				width, height,
+				firstLinkedTo, lastLinkedTo,
+			} = this._opt;
 
-		if ( Number.isFinite( this._firstDotLinkedTo ) ) {
-			arr.push( 0, svgH - ( this._firstDotLinkedTo - minY ) / height * svgH );
+		if ( Number.isFinite( firstLinkedTo ) ) {
+			arr.push( 0, svgH - ( firstLinkedTo - minY ) / height * svgH );
 		}
 		dots.forEach( ( { x, y } ) => arr.push(
 			( x - minX ) / width * svgW,
 			svgH - ( y - minY ) / height * svgH
 		) );
-		if ( Number.isFinite( this._lastDotLinkedTo ) ) {
-			arr.push( svgW, svgH - ( this._lastDotLinkedTo - minY ) / height * svgH );
+		if ( Number.isFinite( lastLinkedTo ) ) {
+			arr.push( svgW, svgH - ( lastLinkedTo - minY ) / height * svgH );
 		}
 		this._elPoly.setAttribute( "points", arr.join( " " ) );
 	}
 	_createDot( x, y ) {
 		const element = document.createElement( "div" ),
-			id = "i" + ( this._dotsId++ ),
+			id = "i" + this._dotsId++,
 			dot = { id, element,
 				_saveX: x,
 				_saveY: y
