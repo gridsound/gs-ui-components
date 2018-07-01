@@ -13,7 +13,7 @@ class gsuiDotline {
 		svg.setAttribute( "preserveAspectRatio", "none" );
 		root.append( svg );
 		root.className = "gsuiDotline";
-		root.oncontextmenu = _ => false;
+		root.oncontextmenu = () => false;
 		root.onmousedown = this._mousedown.bind( this );
 		this.rootElement = root;
 		this._elSVG = svg;
@@ -91,7 +91,7 @@ class gsuiDotline {
 			document.addEventListener( "mousemove", e => {
 				gsuiDotline.focused && gsuiDotline.focused._mousemoveDot( e );
 			} );
-			document.addEventListener( "mouseup", _ => {
+			document.addEventListener( "mouseup", () => {
 				gsuiDotline.focused && gsuiDotline.focused._mouseupDot();
 			} );
 		}
@@ -196,7 +196,7 @@ class gsuiDotline {
 	// events:
 	_mousedown( e ) {
 		if ( e.button === 0 ) {
-			if ( e.target === this._elSVG ) {
+			if ( e.target === this._elSVG || e.target === this._elPoly ) {
 				const opt = this._opt,
 					bcr = this.getBCR(),
 					h = opt.height,
@@ -210,7 +210,6 @@ class gsuiDotline {
 				this._selectDot( dotId, true );
 				this._updateValue( 1 );
 			}
-			this._activeDot
 			this._pageX = e.pageX;
 			this._pageY = e.pageY;
 			this._dotMaxY = -Infinity;
