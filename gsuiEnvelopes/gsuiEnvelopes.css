@@ -1,38 +1,30 @@
 .gsuiEnvelopes {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 20px 1fr 20px;
 	height: 100%;
 }
 
-.gsuiEnvelopes-nav {
-	display: flex;
-	padding: 2px 0;
-}
-.gsuiEnvelopes-env {
-	margin-left: 6px;
+.gsuiEnvelopes-titleAtt { padding-left: 6px; }
+.gsuiEnvelopes-titleRel { padding-left: 2px; }
+.gsuiEnvelopes-title {
 	color: #888;
-	font-size: 12px;
+	font-size: 11px;
+	line-height: 20px;
+	font-weight: bold;
+	background-color: rgba( 0, 0, 0, .2 );
 }
-.gsuiEnvelopes-env:hover {
-	color: #ddd;
-}
-
-.gsuiEnvelopes-lines {
-	flex: 1;
-	display: flex;
-}
-
+.gsuiEnvelopes-lineAtt { margin-right: 1px; }
+.gsuiEnvelopes-lineRel { margin-left: 2px; }
 .gsuiEnvelopes-line {
 	flex: 1;
 	height: 100%;
 	background-color: rgba( 0, 0, 0, .5 );
 	transition: .1s flex-grow, .5s background-color;
 }
+
 .gsuiEnvelopes-line:hover {
 	background-color: rgba( 0, 0, 0, .4 );
-}
-.gsuiEnvelopes-lineRel {
-	margin-left: 2px;
 }
 .gsuiEnvelopes .gsuiDotline {
 	height: 100%;
@@ -43,9 +35,6 @@
 	--gsuiDotline-dotBg: rgba( 255, 255, 190, .5 );
 }
 
-.gsuiEnvelopes-menus {
-	display: flex;
-}
 .gsuiEnvelopes-menu {
 	display: flex;
 	flex-direction: column;
