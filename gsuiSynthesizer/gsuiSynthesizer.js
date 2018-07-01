@@ -8,7 +8,7 @@ class gsuiSynthesizer {
 		this.rootElement = root;
 		this._waveList = [];
 		this._uienvs = uienvs;
-		root.querySelector( ".gsuiSynthesizer-envelopes" ).append( uienvs.rootElement );
+		root.prepend( uienvs.rootElement );
 		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 		this.oninput =
 		this.onchange = _ => {};
