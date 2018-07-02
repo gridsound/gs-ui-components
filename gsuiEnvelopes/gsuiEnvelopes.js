@@ -16,14 +16,16 @@ class gsuiEnvelopes {
 				maxY: 1,
 			};
 
-		this.rootElement = root;
 		this.store = {};
+		this.rootElement = root;
 		this._dotlineAtt = dotline0;
 		this._dotlineRel = dotline1;
+		this.data = this._createData();
+		this.onchange = () => {};
 		dotline0.options( dotlineOpts );
 		dotline1.options( dotlineOpts );
-		dotline0.lastDotLinkedTo( 1 );
-		dotline1.firstDotLinkedTo( 1 );
+		dotline0.onchange = this._onchangeDotline.bind( this, "attack" );
+		dotline1.onchange = this._onchangeDotline.bind( this, "release" );
 		dotlineWraps[ 0 ].append( dotline0.rootElement );
 		dotlineWraps[ 1 ].append( dotline1.rootElement );
 		btnEnvs.forEach( btn => btn.onclick = this.switchEnv.bind( this, btn.dataset.env ) );
@@ -43,7 +45,21 @@ class gsuiEnvelopes {
 	empty() {
 	}
 	switchEnv( envName ) {
+		const env = this.data[ envName ],
+			dA = this._dotlineAtt,
+			dR = this._dotlineRel;
+
+		this._currentEnvName =
 		this.rootElement.dataset.env = envName;
+		if ( envName === "gain" ) {
+			dA.options( { minY: 0, firstLinkedTo: 0, lastLinkedTo: 1 } );
+			dR.options( { minY: 0, firstLinkedTo: 1, lastLinkedTo: 0 } );
+		} else {
+			dA.options( { minY: -1, firstLinkedTo: 0, lastLinkedTo: 0 } );
+			dR.options( { minY: -1, firstLinkedTo: 0, lastLinkedTo: 0 } );
+		}
+		this._dotlineAtt.setValue( env.attack.value );
+		this._dotlineRel.setValue( env.release.value );
 		return false;
 	}
 
@@ -54,6 +70,45 @@ class gsuiEnvelopes {
 		this._dotlineAtt.dotsMoveMode( b );
 		this._dotlineRel.dotsMoveMode( b );
 		return false;
+	}
+	_onchangeDotline( attRel, value ) {
+		this.onchange( { [ this._currentEnvName ]: {
+			[ attRel ]: { value }
+		} } );
+	}
+
+	// data proxy
+	_createData() {
+		return Object.freeze( {
+			gain: Object.freeze( {
+				attack: this._createProxy( "gain", "attack" ),
+				release: this._createProxy( "gain", "release" ),
+			} ),
+			pan: Object.freeze( {
+				attack: this._createProxy( "pan", "attack" ),
+				release: this._createProxy( "pan", "release" ),
+			} ),
+		} );
+	}
+	_createProxy( envName, attRel ) {
+		return new Proxy( Object.seal( {
+			value: "",
+			duration: 0,
+		} ), {
+			set: ( tar, prop, val ) => {
+				if ( val !== tar[ prop ] ) {
+					tar[ prop ] = val;
+					if ( envName === this._currentEnvName ) {
+						if ( prop === "value" ) {
+							attRel === "attack"
+								? this._dotlineAtt.setValue( val )
+								: this._dotlineRel.setValue( val );
+						}
+					}
+				}
+				return true;
+			}
+		} );
 	}
 }
 
