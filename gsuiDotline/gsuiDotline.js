@@ -59,32 +59,38 @@ class gsuiDotline {
 		// mode can be "free" or "linked"
 		this._dotsMoveMode = mode;
 	}
-	firstDotLinkedTo( val ) {
-		this._firstDotLinkedTo = val == null ? null : +val;
-		this._attached && this._drawPolyline();
+	getBCR() {
+		return this._rootBCR = this.rootElement.getBoundingClientRect();
 	}
-	lastDotLinkedTo( val ) {
-		this._lastDotLinkedTo = val == null ? null : +val;
-		this._attached && this._drawPolyline();
+	getValue() {
+		return this._value;
 	}
-	setDots( arr ) {
-		const dots = this._nlDots;
+	setValue( val ) {
+		const dots = this._nlDots,
+			arr = val && val.split( "," ),
+			valSize = arr ? arr.length : 0;
 
-		arr.forEach( ( [ x, y ], i ) => {
+		arr && arr.forEach( ( dot, i ) => {
+			const xy = dot.split( " " ),
+				x = +xy[ 0 ],
+				y = +xy[ 1 ];
+
 			if ( i < dots.length ) {
-				this._updateDot( dots[ i ].dataset.dotsId, x, y );
+				const dotId = dots[ i ].dataset.dotsId,
+					dot = this._dots[ dotId ];
+
+				this._updateDot( dotId, x, y );
+				dot._saveX = dot.x;
+				dot._saveY = dot.y;
 			} else {
 				this._createDot( x, y );
 			}
-			this._sortDots();
-			this._drawPolyline();
 		} );
-	}
-	getDots() {
-		return this._dots;
-	}
-	getBCR() {
-		return this._rootBCR = this.rootElement.getBoundingClientRect();
+		while ( dots.length > valSize ) {
+			this._deleteDot( dots[ dots.length - 1 ].dataset.dotsId );
+		}
+		this._sortDots();
+		this._drawPolyline();
 	}
 
 	// private:
@@ -152,7 +158,6 @@ class gsuiDotline {
 		dots[ dotId ].element.remove();
 		dots.splice( dots.findIndex( dot => dot.id === dotId ), 1 );
 		delete dots[ dotId ];
-		this._drawPolyline();
 	}
 	_selectDot( dotId, b ) {
 		const dot = this._dots[ dotId ];
@@ -177,7 +182,7 @@ class gsuiDotline {
 			( isInputOrBoth && val !== this._prevValueInput ) ||
 			( !isInputOrBoth && val !== this._prevValue )
 		) {
-			this.value = val;
+			this._value = val;
 			if ( isInputOrBoth ) {
 				this._prevValueInput = val;
 				this.oninput && this.oninput( val );
@@ -221,11 +226,12 @@ class gsuiDotline {
 	_mousedownDot( dotId, e ) {
 		if ( e.button === 2 ) {
 			this._deleteDot( dotId );
+			this._drawPolyline();
 			this._updateValue( 2 );
 		} else if ( e.button === 0 ) {
 			this.getBCR();
 			this._prevValueInput =
-			this._prevValue = this.value;
+			this._prevValue = this._value;
 			this._selectDot( dotId, true );
 		}
 	}
