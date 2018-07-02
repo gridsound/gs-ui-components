@@ -54,15 +54,22 @@
 
 /* .......................................................................... */
 .gsuiEnvelopes-dotLinkBtn {
-	margin-left: auto;
-	margin-right: 6px;
-	font-size: 14px;
+	margin: 0 6px 0 auto;
+	font: 14px "FontAwesome";
 	color: #fff;
-	opacity: .5;
-	font-family: "FontAwesome";
 }
-.gsuiEnvelopes-dotLinkBtn::before { content: "\f127"; }
-.gsuiEnvelopes-dotLinked .gsuiEnvelopes-dotLinkBtn::before { content: "\f0c1"; }
+.gsuiEnvelopes-dotLinkBtn::before {
+	content: "\f127";
+	opacity: .2;
+	transition: .2s opacity;
+}
+.gsuiEnvelopes-dotLinkBtn:hover::before {
+	opacity: .4;
+}
+.gsuiEnvelopes-dotLinked .gsuiEnvelopes-dotLinkBtn::before {
+	content: "\f0c1";
+	opacity: .6;
+}
 
 /* .......................................................................... */
 .gsuiEnvelopes-titleAtt { grid-area: titleAtt; padding-left: 7px; }
