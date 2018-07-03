@@ -6,8 +6,11 @@ class gsuiEnvelopes {
 			btnEnvs = root.querySelectorAll( ".gsuiEnvelopes-envBtn" ),
 			btnDotmode = root.querySelector( ".gsuiEnvelopes-dotLinkBtn" ),
 			dotlineWraps = root.querySelectorAll( ".gsuiEnvelopes-line" ),
-			dotline0 = new gsuiDotline(),
-			dotline1 = new gsuiDotline(),
+			[ attDur, relDur ] = root.querySelectorAll( ".gsuiEnvelopes-menuDur" ),
+			attDotline = new gsuiDotline(),
+			relDotline = new gsuiDotline(),
+			attSlider = new gsuiSlider(),
+			relSlider = new gsuiSlider(),
 			dotlineOpts = {
 				step: .01,
 				minX: 0,
@@ -18,19 +21,34 @@ class gsuiEnvelopes {
 
 		this.store = {};
 		this.rootElement = root;
-		this._dotlineAtt = dotline0;
-		this._dotlineRel = dotline1;
+		this._attDotline = attDotline;
+		this._relDotline = relDotline;
+		this._attSlider = attSlider;
+		this._relSlider = relSlider;
 		this.data = this._createData();
 		this.onchange = () => {};
-		dotline0.options( dotlineOpts );
-		dotline1.options( dotlineOpts );
-		dotline0.onchange = this._onchangeDotline.bind( this, "attack" );
-		dotline1.onchange = this._onchangeDotline.bind( this, "release" );
-		dotlineWraps[ 0 ].append( dotline0.rootElement );
-		dotlineWraps[ 1 ].append( dotline1.rootElement );
+
+		attDur.before( attSlider.rootElement );
+		relDur.before( relSlider.rootElement );
+		dotlineWraps[ 0 ].append( attDotline.rootElement );
+		dotlineWraps[ 1 ].append( relDotline.rootElement );
+		attSlider.options( { type: "linear-x", min: .005, max: 1, step: .005, value: .02 } );
+		relSlider.options( { type: "linear-x", min: .005, max: 1, step: .005, value: .02 } );
+		attDotline.options( dotlineOpts );
+		relDotline.options( dotlineOpts );
+
+		attSlider.oninput = () => attDur.textContent = attSlider.value.toFixed( 3 );
+		relSlider.oninput = () => relDur.textContent = relSlider.value.toFixed( 3 );
+		attSlider.onchange = this._onchange.bind( this, "attack", "duration" );
+		relSlider.onchange = this._onchange.bind( this, "release", "duration" );
+		attDotline.onchange = this._onchange.bind( this, "attack", "value" );
+		relDotline.onchange = this._onchange.bind( this, "release", "value" );
 		btnEnvs.forEach( btn => btn.onclick = this.switchEnv.bind( this, btn.dataset.env ) );
 		btnDotmode.onclick = this._onclickDotmode.bind( this );
+
 		this.switchEnv( "gain" );
+		attSlider.oninput();
+		relSlider.oninput();
 	}
 
 	remove() {
@@ -39,15 +57,17 @@ class gsuiEnvelopes {
 	}
 	attached() {
 		this._attached = true;
-		this._dotlineAtt.attached();
-		this._dotlineRel.attached();
+		this._attDotline.attached();
+		this._relDotline.attached();
+		this._attSlider.attached();
+		this._relSlider.attached();
 	}
 	empty() {
 	}
 	switchEnv( envName ) {
 		const env = this.data[ envName ],
-			dA = this._dotlineAtt,
-			dR = this._dotlineRel;
+			dA = this._attDotline,
+			dR = this._relDotline;
 
 		this._currentEnvName =
 		this.rootElement.dataset.env = envName;
@@ -58,23 +78,27 @@ class gsuiEnvelopes {
 			dA.options( { minY: -1, firstLinkedTo: 0, lastLinkedTo: 0 } );
 			dR.options( { minY: -1, firstLinkedTo: 0, lastLinkedTo: 0 } );
 		}
-		this._dotlineAtt.setValue( env.attack.value );
-		this._dotlineRel.setValue( env.release.value );
+		dA.setValue( env.attack.value );
+		dR.setValue( env.release.value );
+		this._attSlider.setValue( env.attack.duration );
+		this._relSlider.setValue( env.release.duration );
+		this._attSlider.oninput();
+		this._relSlider.oninput();
 		return false;
 	}
 
 	// private:
+	_onchange( attRel, prop, val ) {
+		this.onchange( { [ this._currentEnvName ]: {
+			[ attRel ]: { [ prop ]: val }
+		} } );
+	}
 	_onclickDotmode() {
 		const b = this.rootElement.classList.toggle( "gsuiEnvelopes-dotLinked" ) ? "linked" : "free";
 
-		this._dotlineAtt.dotsMoveMode( b );
-		this._dotlineRel.dotsMoveMode( b );
+		this._attDotline.dotsMoveMode( b );
+		this._relDotline.dotsMoveMode( b );
 		return false;
-	}
-	_onchangeDotline( attRel, value ) {
-		this.onchange( { [ this._currentEnvName ]: {
-			[ attRel ]: { value }
-		} } );
 	}
 
 	// data proxy
@@ -101,8 +125,15 @@ class gsuiEnvelopes {
 					if ( envName === this._currentEnvName ) {
 						if ( prop === "value" ) {
 							attRel === "attack"
-								? this._dotlineAtt.setValue( val )
-								: this._dotlineRel.setValue( val );
+								? this._attDotline.setValue( val )
+								: this._relDotline.setValue( val );
+						} else if ( prop === "duration" ) {
+							const slider = attRel === "attack"
+									? this._attSlider
+									: this._relSlider;
+
+							slider.setValue( val );
+							slider.oninput();
 						}
 					}
 				}

@@ -1,5 +1,5 @@
 :root {
-	--gsuiEnvelopes-colorGain: #ffa;
+	--gsuiEnvelopes-colorGain: #ff9;
 	--gsuiEnvelopes-colorPan: #d9f;
 }
 
@@ -7,15 +7,14 @@
 .gsuiEnvelopes[data-env="pan"] { --gsuiEnvelopes-currentColor: var( --gsuiEnvelopes-colorPan ); }
 .gsuiEnvelopes {
 	display: grid;
-	height: 128px;
+	height: 108px;
 	color: var( --gsuiEnvelopes-currentColor );
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 22px 20px 1fr 20px;
+	grid-template-rows: 22px 20px 1fr;
 	grid-template-areas:
 		"nav nav"
-		"titleAtt titleRel"
-		"lineAtt lineRel"
-		"menuAtt menuRel";
+		"menuAtt menuRel"
+		"lineAtt lineRel";
 }
 
 /* .......................................................................... */
@@ -25,7 +24,7 @@
 	align-items: center;
 	background-color: rgba( 0, 0, 0, .2 );
 }
-.gsuiEnvelopes-mainTitle {
+.gsuiEnvelopes-title {
 	margin-left: 8px;
 	font-weight: bold;
 	font-size: 11px;
@@ -72,15 +71,42 @@
 }
 
 /* .......................................................................... */
-.gsuiEnvelopes-titleAtt { grid-area: titleAtt; padding-left: 7px; }
-.gsuiEnvelopes-titleRel { grid-area: titleRel; padding-left: 2px; }
-.gsuiEnvelopes-title {
-	color: #888;
+.gsuiEnvelopes-menuAtt { grid-area: menuAtt; padding-left: 7px; }
+.gsuiEnvelopes-menuRel { grid-area: menuRel; padding-left: 2px; }
+.gsuiEnvelopes-menu {
+	display: flex;
+	align-items: center;
 	font-size: 11px;
-	line-height: 20px;
 	font-weight: bold;
 	background-color: rgba( 0, 0, 0, .2 );
 }
+.gsuiEnvelopes-attRel {
+	color: #888;
+}
+.gsuiEnvelopes-menuDur {
+	white-space: nowrap;
+	font-family: "inconsolata", monospace;
+}
+.gsuiEnvelopes-menuDur::after {
+	color: #fff;
+	content: " step";
+	font-weight: normal;
+	font-family: sans-serif;
+	opacity: .2;
+}
+.gsuiEnvelopes .gsuiSlider {
+	width: 48px;
+	height: 6px;
+	margin: 1px 6px 0 6px;
+	--gsuiSlider-lineColor: var( --gsuiEnvelopes-currentColor );
+	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .4 );
+}
+.gsuiEnvelopes .gsuiSlider .gsui-line {
+	overflow: hidden;
+	border-radius: 2px;
+}
+
+/* .......................................................................... */
 .gsuiEnvelopes-lineAtt { grid-area: lineAtt; margin-right: 1px; }
 .gsuiEnvelopes-lineRel { grid-area: lineRel; margin-left: 2px; }
 .gsuiEnvelopes-line {
@@ -101,10 +127,3 @@
 	--gsuiDotline-dotSizeHover: 12px;
 	--gsuiDotline-dotBg: rgba( 0, 0, 0, .5 );
 }
-
-.gsuiEnvelopes-menu {
-	display: flex;
-	flex-direction: column;
-}
-.gsuiEnvelopes-menuAtt { grid-area: menuAtt; text-align: right; }
-.gsuiEnvelopes-menuRel { grid-area: menuRel; text-align: right; }
