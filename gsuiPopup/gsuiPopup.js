@@ -1,61 +1,59 @@
 "use strict";
 
-window.gsuiPopup = {
-	alert( title, msg ) {
+class gsuiPopup {
+	static alert( title, msg ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		return gsuiPopup._open( "alert", title, msg );
-	},
-	confirm( title, msg ) {
+	}
+	static confirm( title, msg ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		return gsuiPopup._open( "confirm", title, msg );
-	},
-	prompt( title, msg, val ) {
+	}
+	static prompt( title, msg, val ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		return gsuiPopup._open( "prompt", title, msg, val );
-	},
-	custom( title, elements, fnSubmit ) {
-		var elCnt;
-
+	}
+	static custom( title, elements, fnSubmit ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		gsuiPopup._fnSubmit = fnSubmit;
-		elCnt = gsuiPopup.elCnt;
 		elements.length
-			? elCnt.append.apply( elCnt, elements )
-			: elCnt.append( elements );
+			? Element.prototype.append.apply( gsuiPopup.elCnt, elements )
+			: gsuiPopup.elCnt.append( elements );
 		return gsuiPopup._open( "custom", title );
-	},
-	close() {
+	}
+	static close() {
 		if ( gsuiPopup.isOpen ) {
 			gsuiPopup.elCancel.click();
 		}
-	},
+	}
 
 	// private:
-	_emptyCnt() {
-		var elCnt = gsuiPopup.elCnt;
+	static _emptyCnt() {
+		const elCnt = gsuiPopup.elCnt;
 
 		while ( elCnt.firstChild ) {
 			elCnt.firstChild.remove();
 		}
-	},
-	_init() {
-		var el, that = gsuiPopup;
+	}
+	static _init() {
+		const that = gsuiPopup;
 
 		if ( !that._ready ) {
-			el =
-			that.elRoot = document.getElementById( "gsuiPopup" );
-			that.elWindow = el.querySelector( "#gsuipp-window" );
-			that.elHeader = el.querySelector( "#gsuipp-head" );
+			const el = that.elRoot = document.getElementById( "gsuiPopup" );
+
+			that.elRoot = el;
+			that.elOk = el.querySelector( "#gsuipp-inpOk" );
 			that.elCnt = el.querySelector( "#gsuipp-cnt" );
 			that.elMsg = el.querySelector( "#gsuipp-msg" );
 			that.elText = el.querySelector( "#gsuipp-inpText" );
-			that.elCancel = el.querySelector( "#gsuipp-inpCancel" );
-			that.elOk = el.querySelector( "#gsuipp-inpOk" );
 			that.elForm = el.querySelector( "form" );
+			that.elWindow = el.querySelector( "#gsuipp-window" );
+			that.elHeader = el.querySelector( "#gsuipp-head" );
+			that.elCancel = el.querySelector( "#gsuipp-inpCancel" );
 
 			el.onclick =
 			that.elCancel.onclick = that._cancelClick;
@@ -63,10 +61,10 @@ window.gsuiPopup = {
 			that.elText.onkeypress =
 			that.elText.onkeydown =
 			that.elText.onkeyup =
-			that.elWindow.onclick = function( e ) {
+			that.elWindow.onclick = e => {
 				e.stopPropagation();
 			};
-			that.elWindow.onkeydown = function( e ) {
+			that.elWindow.onkeydown = e => {
 				if ( e.keyCode === 27 ) {
 					that._cancelClick();
 				}
@@ -74,46 +72,42 @@ window.gsuiPopup = {
 			};
 			that._ready = true;
 		}
-	},
-	_open( type, title, msg, value ) {
-		var that = gsuiPopup;
+	}
+	static _open( type, title, msg, value ) {
+		const that = gsuiPopup;
 
+		that.type = type;
 		that.isOpen = true;
 		that.elHeader.textContent = title;
 		that.elMsg.innerHTML = msg || "";
 		that.elText.value = arguments.length > 3 ? value : "";
 		that.elWindow.dataset.gsuiType =
-		that.type = type;
 		that.elWindow.classList.toggle( "gsui-nocancel", type !== "prompt" && type !== "confirm" );
 		that.elWindow.classList.toggle( "gsui-notext", type !== "prompt" );
 		that.elRoot.classList.add( "gsui-show" );
-		setTimeout( function() {
+		setTimeout( () => {
 			if ( type === "prompt" ) {
 				that.elText.select();
 			} else {
-				var inp;
+				const inp = type !== "custom" ? null
+					: that.elCnt.querySelector( "input" );
 
-				if ( type === "custom" ) {
-					inp = that.elCnt.querySelector( "input" );
-				}
-				inp = inp || that.elOk;
-				inp.focus();
+				( inp || that.elOk ).focus();
 			}
 		}, 250 );
-		return new Promise( function( resolve ) {
-			that.resolve = resolve;
-		} ).then( function( val ) {
-			that.isOpen = false;
-			that.elRoot.classList.remove( "gsui-show" );
-			return val;
-		} );
-	},
-	_cancelClick() {
+		return new Promise( res => that.resolve = res )
+			.then( val => {
+				that.isOpen = false;
+				that.elRoot.classList.remove( "gsui-show" );
+				return val;
+			} );
+	}
+	static _cancelClick() {
 		gsuiPopup.resolve(
 			gsuiPopup.type === "confirm" ? false :
 			gsuiPopup.type === "prompt" ? null : undefined );
-	},
-	_submit( e ) {
+	}
+	static _submit( e ) {
 		if ( gsuiPopup.type === "custom" && gsuiPopup._fnSubmit ) {
 			gsuiPopup._fnSubmit( e );
 		}
@@ -122,4 +116,4 @@ window.gsuiPopup = {
 			gsuiPopup.type === "prompt" ? gsuiPopup.elText.value : undefined );
 		return false;
 	}
-};
+}
