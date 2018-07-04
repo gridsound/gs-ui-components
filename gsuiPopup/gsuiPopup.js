@@ -58,9 +58,7 @@ class gsuiPopup {
 			el.onclick =
 			that.elCancel.onclick = that._cancelClick;
 			that.elForm.onsubmit = that._submit;
-			that.elText.onkeypress =
-			that.elText.onkeydown =
-			that.elText.onkeyup =
+			that.elWindow.onkeyup =
 			that.elWindow.onclick = e => {
 				e.stopPropagation();
 			};
