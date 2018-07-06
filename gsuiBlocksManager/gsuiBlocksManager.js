@@ -81,8 +81,8 @@ class gsuiBlocksManager {
 			this.__uiTimeline.offset( this.__offset, ppb );
 			this.__uiBeatlines.pxPerBeat( ppb );
 			// this.__uiBeatlines.render();
-			// clearTimeout( this.__beatlinesRendering );
-			// this.__beatlinesRendering = setTimeout( () => this.__uiBeatlines.render(), 100 );
+			clearTimeout( this.__beatlinesRendering );
+			this.__beatlinesRendering = setTimeout( () => this.__uiBeatlines.render(), 100 );
 			this.__elLoopA.style.fontSize =
 			this.__elLoopB.style.fontSize =
 			this.__elCurrentTime.style.fontSize = ppb + "px";
