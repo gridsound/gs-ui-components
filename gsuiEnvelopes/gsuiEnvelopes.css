@@ -125,5 +125,6 @@
 	--gsuiDotline-lineWidth: 2px;
 	--gsuiDotline-dotSize: 6px;
 	--gsuiDotline-dotSizeHover: 12px;
+	--gsuiDotline-dotHandleSize: 4px;
 	--gsuiDotline-dotBg: rgba( 0, 0, 0, .5 );
 }
