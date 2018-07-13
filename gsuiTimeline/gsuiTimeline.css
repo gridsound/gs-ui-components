@@ -17,41 +17,41 @@
 }
 
 /* .......................................................................... */
-.gsuiTimeline .gsui-loopLine,
-.gsuiTimeline .gsui-currentTime {
+.gsuiTimeline-loopLine,
+.gsuiTimeline-currentTime {
 	position: absolute;
 	z-index: 1;
 	width: 100%;
 	height: 50%;
 	transition: .2s background-color;
 }
-.gsuiTimeline .gsui-loopLine:hover,
-.gsuiTimeline .gsui-currentTime:hover {
+.gsuiTimeline-loopLine:hover,
+.gsuiTimeline-currentTime:hover {
 	background-color: rgba( 255, 255, 255, .05 );
 }
-.gsuiTimeline .gsui-currentTime {
+.gsuiTimeline-currentTime {
 	bottom: 0;
 }
 
 /* .......................................................................... */
-.gsuiTimeline .gsui-loop {
+.gsuiTimeline-loop {
 	position: absolute;
 	z-index: 1;
 	height: 40%;
 	top: 0;
 }
-.gsuiTimeline .gsui-loopBg {
+.gsuiTimeline-loopBg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	background-color: var( --loop-color );
 	transition: filter .2s;
 }
-.gsuiTimeline .gsui-loopBg:hover,
-.gsuiTimeline .gsui-loopBg.gsui-hover {
+.gsuiTimeline-loopBg:hover,
+.gsuiTimeline-loopBg.gsui-hover {
 	filter: brightness( 1.2 );
 }
-.gsuiTimeline .gsui-loopExt {
+.gsuiTimeline-loopExt {
 	position: absolute;
 	z-index: 2;
 	width: 25%;
@@ -59,10 +59,10 @@
 	max-width: 10px;
 	height: 250%;
 }
-.gsuiTimeline .gsui-loopA { left: -5px; }
-.gsuiTimeline .gsui-loopB { right: -5px; }
+.gsuiTimeline-loopA { left: -5px; }
+.gsuiTimeline-loopB { right: -5px; }
 
-.gsuiTimeline .gsui-loopBrd {
+.gsuiTimeline-loopBrd {
 	position: absolute;
 	z-index: 0;
 	width: 2px;
@@ -71,17 +71,17 @@
 	transition: .2s;
 	transition-property: height, background-color, z-index;
 }
-.gsuiTimeline .gsui-loopBrdA { left: -1px; }
-.gsuiTimeline .gsui-loopBrdB { right: -1px; }
-.gsuiTimeline .gsui-loopA:hover ~ .gsui-loopBrdA,
-.gsuiTimeline .gsui-loopB:hover ~ .gsui-loopBrdB,
-.gsuiTimeline .gsui-loopBrd.gsui-hover {
+.gsuiTimeline-loopBrdA { left: -1px; }
+.gsuiTimeline-loopBrdB { right: -1px; }
+.gsuiTimeline-loopA:hover ~ .gsuiTimeline-loopBrdA,
+.gsuiTimeline-loopB:hover ~ .gsuiTimeline-loopBrdB,
+.gsuiTimeline-loopBrd.gsui-hover {
 	z-index: 1;
 	height: 150%;
 	background-color: var( --loop-brd-color );
 }
 
-.gsuiTimeline .gsui-cursorLine {
+.gsuiTimeline-cursorLine {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -91,28 +91,25 @@
 	transition: .2s;
 	transition-property: opacity, background;
 }
-.gsuiTimeline .gsui-currentTime:hover .gsui-cursorLine {
+.gsuiTimeline-currentTime:hover .gsuiTimeline-cursorLine {
 	opacity: .8;
 }
-.gsuiTimeline .gsui-cursor {
+.gsuiTimeline-cursor {
 	position: absolute;
 	margin-left: -10px;
 	bottom: 1px;
 	transition: left;
 }
-.gsuiTimeline .gsui-trans {
-	transition-duration: var( --cursor-dur );
-}
-.gsuiTimeline .gsui-cursor polygon {
+.gsuiTimeline-cursor polygon { /* ?? */
 	fill: var( --cursor-color );
 	stroke: var( --cursor-color );
 	stroke-width: 4;
 	stroke-linejoin: round;
 }
 
-.gsuiTimeline .gsui-measure,
-.gsuiTimeline .gsui-beat,
-.gsuiTimeline .gsui-step {
+.gsuiTimeline-measure,
+.gsuiTimeline-beat,
+.gsuiTimeline-step {
 	position: absolute;
 	display: flex;
 	top: 0;
@@ -122,18 +119,18 @@
 	align-items: center;
 	justify-content: center;
 }
-.gsuiTimeline .gsui-measure {
+.gsuiTimeline-measure {
 	font-weight: bold;
 }
-.gsuiTimeline .gsui-step {
+.gsuiTimeline-step {
 	opacity: .2;
 }
-.gsuiTimeline .gsui-beat,
-.gsuiTimeline.gsui-measure .gsui-measure {
+.gsuiTimeline-beat,
+.gsuiTimeline.gsui-measure .gsuiTimeline-measure {
 	opacity: .5;
 }
-.gsuiTimeline.gsui-beat .gsui-step,
-.gsuiTimeline.gsui-measure .gsui-beat,
-.gsuiTimeline.gsui-measure .gsui-step {
+.gsuiTimeline.gsui-beat .gsuiTimeline-step,
+.gsuiTimeline.gsui-measure .gsuiTimeline-beat,
+.gsuiTimeline.gsui-measure .gsuiTimeline-step {
 	opacity: 0;
 }
