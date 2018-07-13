@@ -166,11 +166,6 @@ class gsuiTimeline {
 			this._layerX( e ) / this._pxPerBeat ), true );
 	}
 	_mousemoveTime( e ) {
-		const x = this._layerX( e ) / this.width * 100;
-
-		this._elTimeLine.style.backgroundImage =
-			"linear-gradient(90deg,transparent " + ( x - 15 ) +
-			"%,currentColor " + x + "%,transparent " + ( x + 15 ) + "%)";
 	}
 	_mousedownLoop( side ) {
 		this._lock = true;

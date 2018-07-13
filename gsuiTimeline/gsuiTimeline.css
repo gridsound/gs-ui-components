@@ -16,23 +16,35 @@
 	-ms-user-select: none;
 }
 
-.gsuiTimeline .gsui-loopLine {
+/* .......................................................................... */
+.gsuiTimeline .gsui-loopLine,
+.gsuiTimeline .gsui-currentTime {
 	position: absolute;
 	z-index: 1;
 	width: 100%;
-	height: 100%;
+	height: 50%;
+	transition: .2s background-color;
 }
+.gsuiTimeline .gsui-loopLine:hover,
+.gsuiTimeline .gsui-currentTime:hover {
+	background-color: rgba( 255, 255, 255, .05 );
+}
+.gsuiTimeline .gsui-currentTime {
+	bottom: 0;
+}
+
+/* .......................................................................... */
 .gsuiTimeline .gsui-loop {
 	position: absolute;
 	z-index: 1;
+	height: 40%;
 	top: 0;
-	height: 22%;
 }
 .gsuiTimeline .gsui-loopBg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background: var( --loop-color );
+	background-color: var( --loop-color );
 	transition: filter .2s;
 }
 .gsuiTimeline .gsui-loopBg:hover,
@@ -55,9 +67,9 @@
 	z-index: 0;
 	width: 2px;
 	height: 100%;
-	background: var( --loop-color );
+	background-color: var( --loop-color );
 	transition: .2s;
-	transition-property: height, background, z-index;
+	transition-property: height, background-color, z-index;
 }
 .gsuiTimeline .gsui-loopBrdA { left: -1px; }
 .gsuiTimeline .gsui-loopBrdB { right: -1px; }
@@ -66,16 +78,9 @@
 .gsuiTimeline .gsui-loopBrd.gsui-hover {
 	z-index: 1;
 	height: 150%;
-	background: var( --loop-brd-color );
+	background-color: var( --loop-brd-color );
 }
 
-.gsuiTimeline .gsui-currentTime {
-	position: absolute;
-	z-index: 1;
-	bottom: 0;
-	width: 100%;
-	height: 50%;
-}
 .gsuiTimeline .gsui-cursorLine {
 	position: absolute;
 	bottom: 0;
