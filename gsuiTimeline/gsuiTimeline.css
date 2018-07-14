@@ -81,26 +81,11 @@
 	background-color: var( --loop-brd-color );
 }
 
-.gsuiTimeline-cursorLine {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 1px;
-	color: var( --cursor-color );
-	opacity: 0;
-	transition: .2s;
-	transition-property: opacity, background;
-}
-.gsuiTimeline-currentTime:hover .gsuiTimeline-cursorLine {
-	opacity: .8;
-}
 .gsuiTimeline-cursor {
 	position: absolute;
 	margin-left: -10px;
 	bottom: 1px;
 	transition: left;
-}
-.gsuiTimeline-cursor polygon { /* ?? */
 	fill: var( --cursor-color );
 	stroke: var( --cursor-color );
 	stroke-width: 4;
