@@ -115,7 +115,7 @@ class gsuiTimeline {
 					this._lockA = lb;
 					this._lockB = la;
 					this._dom.loopBrdA.classList.toggle( "gsui-hover", lb );
-					this._dom.loopBrdA.classList.toggle( "gsui-hover", la );
+					this._dom.loopBrdB.classList.toggle( "gsui-hover", la );
 				}
 			} else {
 				if ( a + bt < 0 ) {
@@ -139,7 +139,7 @@ class gsuiTimeline {
 		this._lockB = false;
 		this._dom.loopBg.classList.remove( "gsui-hover" );
 		this._dom.loopBrdA.classList.remove( "gsui-hover" );
-		this._dom.loopBrdA.classList.remove( "gsui-hover" );
+		this._dom.loopBrdB.classList.remove( "gsui-hover" );
 		delete gsuiTimeline._focused;
 		if ( this.onchangeLoop ) {
 			if ( !l ) {
@@ -170,7 +170,7 @@ class gsuiTimeline {
 		this._lockB = side === "b";
 		this._dom.loopBg.classList.toggle( "gsui-hover", side === "ab" );
 		this._dom.loopBrdA.classList.toggle( "gsui-hover", this._lockA );
-		this._dom.loopBrdA.classList.toggle( "gsui-hover", this._lockB );
+		this._dom.loopBrdB.classList.toggle( "gsui-hover", this._lockB );
 		gsuiTimeline._focused = this;
 	}
 	_mousedownLoopLine( e ) {
