@@ -10,10 +10,6 @@
 	color: #fff;
 	background: #222;
 	cursor: default;
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
 }
 
 /* .......................................................................... */
@@ -81,15 +77,23 @@
 	background-color: var( --loop-brd-color );
 }
 
+.gsuiTimeline-cursorPreview,
 .gsuiTimeline-cursor {
 	position: absolute;
-	margin-left: -10px;
+	margin-left: -8px;
 	bottom: 1px;
 	transition: left;
 	fill: var( --cursor-color );
 	stroke: var( --cursor-color );
-	stroke-width: 4;
+	stroke-width: 2px;
 	stroke-linejoin: round;
+}
+.gsuiTimeline-cursorPreview {
+	opacity: .4;
+	transition: .2s opacity;
+}
+.gsuiTimeline-cursorPreview.gsui-hidden {
+	opacity: 0;
 }
 
 .gsuiTimeline-measure,
@@ -103,6 +107,10 @@
 	margin-left: -2em;
 	align-items: center;
 	justify-content: center;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 .gsuiTimeline-measure {
 	font-weight: bold;
