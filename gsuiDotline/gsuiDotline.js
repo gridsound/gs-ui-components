@@ -90,7 +90,9 @@ class gsuiDotline {
 			this._deleteDot( dots[ dots.length - 1 ].dataset.dotsId );
 		}
 		this._sortDots();
-		this._drawPolyline();
+		if ( this._attached ) {
+			this._drawPolyline();
+		}
 	}
 
 	// private:
