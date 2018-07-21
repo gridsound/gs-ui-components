@@ -15,6 +15,7 @@ class gsuiDotline {
 		root.oncontextmenu = () => false;
 		root.onmousedown = this._mousedown.bind( this );
 		this.rootElement = root;
+		this._value = "";
 		this._elSVG = svg;
 		this._elPoly = polyline;
 		this._dots = [];
@@ -27,8 +28,8 @@ class gsuiDotline {
 			minY: 0,
 			maxX: 150,
 			maxY: 100,
-			firstLinkedTo: 0,
-			lastLinkedTo: 0,
+			fixedFirstDot: false,
+			fixedLastDot: false,
 		} );
 		this.dotsMoveMode( "free" );
 	}
@@ -51,9 +52,7 @@ class gsuiDotline {
 		Object.assign( opt, obj );
 		opt.width = opt.maxX - opt.minX;
 		opt.height = opt.maxY - opt.minY;
-		if ( this._attached ) {
-			this._drawPolyline();
-		}
+		this.setValue( this._value );
 	}
 	dotsMoveMode( mode ) {
 		// mode can be "free" or "linked"
@@ -67,13 +66,14 @@ class gsuiDotline {
 	}
 	setValue( val ) {
 		const dots = this._nlDots,
-			arr = val && val.split( "," ),
-			valSize = arr ? arr.length : 0;
+			opt = this._opt,
+			arr = val ? val.split( "," ) : [];
 
-		arr && arr.forEach( ( dot, i ) => {
-			const xy = dot.split( " " ),
-				x = +xy[ 0 ],
-				y = +xy[ 1 ];
+		this._value = val;
+		this._fixedFirstDot = opt.fixedFirstDot ? this._parseDot( arr.shift() ) : null;
+		this._fixedLastDot = opt.fixedLastDot ? this._parseDot( arr.pop() ) : null;
+		arr.forEach( ( dot, i ) => {
+			const { x, y } = this._parseDot( dot );
 
 			if ( i < dots.length ) {
 				const dotId = dots[ i ].dataset.dotsId,
@@ -86,7 +86,7 @@ class gsuiDotline {
 				this._createDot( x, y );
 			}
 		} );
-		while ( dots.length > valSize ) {
+		while ( dots.length > arr.length ) {
 			this._deleteDot( dots[ dots.length - 1 ].dataset.dotsId );
 		}
 		this._sortDots();
@@ -96,32 +96,50 @@ class gsuiDotline {
 	}
 
 	// private:
+	_stringifyDot( dot ) {
+		return dot ? dot.x + " " + dot.y : "";
+	}
+	_parseDot( dot ) {
+		if ( dot ) {
+			const [ x, y ] = dot.split( " " );
+
+			return { x: +x, y: +y };
+		}
+		return null;
+	}
 	_sortDots() {
 		this._dots.sort( ( a, b ) => a.x < b.x ? -1 : a.x > b.x ? 1 : 0 );
 	}
 	_computeValue() {
-		return this._dots.map( d => d.x + " " + d.y ).join( "," );
+		const fnstr = this._stringifyDot.bind( this ),
+			d0 = fnstr( this._fixedFirstDot ),
+			dN = fnstr( this._fixedLastDot );
+
+		return ( d0 ? d0 + "," : "" )
+			+ this._dots.map( fnstr ).join( "," )
+			+ ( dN ? "," + dN : "" );
 	}
 	_drawPolyline() {
 		const arr = [],
 			dots = this._dots,
 			svgW = this._svgW,
 			svgH = this._svgH,
+			fixDot0 = this._fixedFirstDot,
+			fixDotN = this._fixedLastDot,
 			{
 				minX, minY,
 				width, height,
-				firstLinkedTo, lastLinkedTo,
 			} = this._opt;
 
-		if ( Number.isFinite( firstLinkedTo ) ) {
-			arr.push( 0, svgH - ( firstLinkedTo - minY ) / height * svgH );
+		if ( fixDot0 ) {
+			arr.push( 0, svgH - ( fixDot0.y - minY ) / height * svgH );
 		}
 		dots.forEach( ( { x, y } ) => arr.push(
 			( x - minX ) / width * svgW,
 			svgH - ( y - minY ) / height * svgH
 		) );
-		if ( Number.isFinite( lastLinkedTo ) ) {
-			arr.push( svgW, svgH - ( lastLinkedTo - minY ) / height * svgH );
+		if ( fixDotN ) {
+			arr.push( svgW, svgH - ( fixDotN.y - minY ) / height * svgH );
 		}
 		this._elPoly.setAttribute( "points", arr.join( " " ) );
 	}
