@@ -17,6 +17,8 @@ class gsuiEnvelopes {
 				minY: 0,
 				maxX: 1,
 				maxY: 1,
+				fixedFirstDot: true,
+				fixedLastDot: true,
 			};
 
 		this.store = {};
@@ -72,11 +74,11 @@ class gsuiEnvelopes {
 		this._currentEnvName =
 		this.rootElement.dataset.env = envName;
 		if ( envName === "gain" ) {
-			dA.options( { minY: 0, firstLinkedTo: 0, lastLinkedTo: 1 } );
-			dR.options( { minY: 0, firstLinkedTo: 1, lastLinkedTo: 0 } );
+			dA.options( { minY: 0 } );
+			dR.options( { minY: 0 } );
 		} else {
-			dA.options( { minY: -1, firstLinkedTo: 0, lastLinkedTo: 0 } );
-			dR.options( { minY: -1, firstLinkedTo: 0, lastLinkedTo: 0 } );
+			dA.options( { minY: -1 } );
+			dR.options( { minY: -1 } );
 		}
 		dA.setValue( env.attack.value );
 		dR.setValue( env.release.value );
