@@ -11,10 +11,12 @@ class gsuiBlocksManager {
 		this.__uiPanels = new gsuiPanels( root );
 		this.__uiTimeline = new gsuiTimeline();
 		this.__elPanGridWidth = 0;
+		this.__magnet = root.querySelector( ".gsuiBlocksManager-magnet" );
 		this.__elLoopA = root.querySelector( ".gsuiBlocksManager-loopA" );
 		this.__elLoopB = root.querySelector( ".gsuiBlocksManager-loopB" );
 		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
 		this.__elPanGrid = root.querySelector( ".gsuiBlocksManager-gridPanel" );
+		this.__magnetValue = root.querySelector( ".gsuiBlocksManager-magnetValue" );
 		this.__sideContent = root.querySelector( ".gsuiBlocksManager-sidePanelContent" );
 		this.__elCurrentTime = root.querySelector( ".gsuiBlocksManager-currentTime" );
 		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
@@ -42,6 +44,7 @@ class gsuiBlocksManager {
 		root.onkeydown = this._keydown.bind( this );
 		this.__rowsScrollTop =
 		this.__rowsScrollLeft = -1;
+		this.__magnet.onclick = this.__onclickMagnet.bind( this );
 		this.__sideContent.onwheel = this.__onwheelPanelContent.bind( this );
 		this.__sideContent.onscroll = this.__onscrollPanelContent.bind( this );
 		this.__rowsContainer.onwheel = this.__onwheelRows.bind( this );
@@ -57,6 +60,7 @@ class gsuiBlocksManager {
 		this.__eventReset();
 		this.setPxPerBeat( 64 );
 		this.timeSignature( 4, 4 );
+		this.__magnetValue.textContent = this.__uiTimeline.stepRound;
 	}
 
 	// Public methods
@@ -262,6 +266,17 @@ class gsuiBlocksManager {
 			this.__offset = elRows.scrollLeft / ppb;
 			this.setPxPerBeat( ppb );
 		}
+	}
+	__onclickMagnet() {
+		const v = this.__uiTimeline.stepRound,
+			frac =
+				v >= 1 ? 2 :
+				v >= .5 ? 4 :
+				v >= .25 ? 8 : 1;
+
+		this.__uiTimeline.stepRound = 1 / frac;
+		this.__magnetValue.textContent = frac <= 1 ? "1" : "1 / " + frac;
+		return false;
 	}
 
 	// Events to call manually

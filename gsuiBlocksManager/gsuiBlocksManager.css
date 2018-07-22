@@ -21,6 +21,41 @@
 	border-left-width: 1px !important;
 }
 
+.gsuiBlocksManager-sidePanelMenu {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	box-sizing: border-box;
+	padding: 4px;
+	height: var( --gsuiBlocksManager-timeline-height );
+}
+
+/* .......................................................................... */
+.gsuiBlocksManager-magnet {
+	display: flex;
+	align-items: center;
+	padding: 4px;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 0px;
+	transition: .2s opacity;
+	opacity: .3;
+}
+.gsuiBlocksManager-magnet:hover {
+	opacity: .6;
+}
+.gsuiBlocksManager-magnetValue {
+	font-size: 11px;
+	white-space: nowrap;
+	margin-right: 6px;
+}
+.gsuiBlocksManager-magnet::after {
+	content: "\f076";
+	font: 16px "FontAwesome";
+	opacity: .7;
+}
+
+/* .......................................................................... */
 .gsuiBlocksManager-rows,
 .gsuiBlocksManager-sidePanelContent {
 	position: absolute;
