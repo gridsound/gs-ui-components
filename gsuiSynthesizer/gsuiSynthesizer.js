@@ -2,17 +2,13 @@
 
 class gsuiSynthesizer {
 	constructor() {
-		const root = gsuiSynthesizer.template.cloneNode( true ),
-			uienvs = new gsuiEnvelopes();
+		const root = gsuiSynthesizer.template.cloneNode( true );
 
 		this.rootElement = root;
 		this._waveList = [];
-		this._uienvs = uienvs;
 		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 		this.oninput =
 		this.onchange = () => {};
-		uienvs.onchange = envelopes => this.onchange( { envelopes } );
-		root.prepend( uienvs.rootElement );
 		root.querySelector( ".gsuiSynthesizer-newOsc" ).onclick = this._onclickNewOsc.bind( this );
 		this.empty();
 	}
@@ -23,37 +19,23 @@ class gsuiSynthesizer {
 	}
 	attached() {
 		this._attached = true;
-		this._uienvs.attached();
 		Array.from( this._elOscList.children ).forEach( el => (
 			this._uioscs[ el.dataset.id ].attached()
 		) );
 	}
 	empty() {
-		this._uienvs.empty();
 		this._uioscs && Object.values( this._uioscs ).forEach( o => o.remove() );
 		this._uioscs = {};
 		this._oscIdMax = 0;
-		this.store = {
-			envelopes: this._uienvs.data,
-			oscillators: {}
-		};
+		this.store = { oscillators: {} };
 	}
 	setWaveList( arr ) {
 		this._waveList = arr;
 		Array.from( this._uioscs ).forEach( o => o.addWaves( arr ) );
 	}
 	change( obj ) {
-		const uioscs = this._uioscs,
-			uienvs = this._uienvs.data;
+		const uioscs = this._uioscs;
 
-		if ( obj.envelopes ) {
-			Object.entries( obj.envelopes ).forEach( ( [ envName, env ] ) => {
-				const dat = uienvs[ envName ];
-
-				Object.assign( dat.attack, env.attack );
-				Object.assign( dat.release, env.release );
-			} );
-		}
 		if ( obj.oscillators ) {
 			Object.entries( obj.oscillators ).forEach( ( [ id, osc ] ) => (
 				osc ? uioscs[ id ]
