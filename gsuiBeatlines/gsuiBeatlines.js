@@ -20,14 +20,9 @@ class gsuiBeatlines {
 		this._beatsPerMeasure = Math.max( 1, ~~a );
 		this._stepsPerBeat = Math.max( 1, ~~b );
 		this._viewBox = this._pxPerBeat * this._beatsPerMeasure;
-		this._render();
+		this.render();
 	}
 	render() {
-		this._render();
-	}
-
-	// private:
-	_render() {
 		const el = this.rootElement,
 			stepPx = this._viewBox / this._beatsPerMeasure / this._stepsPerBeat,
 			measureSteps = this._stepsPerBeat * this._beatsPerMeasure,
@@ -40,7 +35,7 @@ class gsuiBeatlines {
 			steps.push( `<rect height='1px' width='1px' y='0' x='${
 				stepPx + stepPx * ( step - 1 ) - .5
 			}' fill='${
-				step % this._beatsPerMeasure ? stepColor : beatColor
+				step % this._stepsPerBeat ? stepColor : beatColor
 			}'/>` );
 		}
 		steps.push( `<rect y='0' height='1px' width='1px' fill='${ measureColor }' x='${
