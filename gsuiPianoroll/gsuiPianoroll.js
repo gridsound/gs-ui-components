@@ -122,7 +122,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 	// Mouse and keyboard events
 	// ........................................................................
-	_onkeydown( e ) { this.__keydown( e ); }
+	_keyup( e ) { this.__keyup( e ); }
+	_keydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) { this.__mouseup( e ); }
 	_blcMousedown( id, e ) {
