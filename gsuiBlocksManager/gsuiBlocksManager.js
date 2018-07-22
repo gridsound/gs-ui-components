@@ -39,8 +39,8 @@ class gsuiBlocksManager {
 
 		this.__rowsContainer.oncontextmenu =
 		root.ondragstart = () => false;
-		root.onkeydown = this._onkeydown.bind( this );
-		this.__rowsScrollTop = -1;
+		root.onkeydown = this._keydown.bind( this );
+		this.__rowsScrollTop =
 		this.__rowsScrollLeft = -1;
 		this.__sideContent.onwheel = this.__onwheelPanelContent.bind( this );
 		this.__sideContent.onscroll = this.__onscrollPanelContent.bind( this );
@@ -266,6 +266,11 @@ class gsuiBlocksManager {
 
 	// Events to call manually
 	// ............................................................................................
+	__keyup( e ) {
+		e.preventDefault();
+		e.stopPropagation();
+		delete gsuiBlocksManager._focused;
+	}
 	__keydown( e ) {
 		const dat = this._getData(),
 			blcsEditing = this.__blcsEditing;
@@ -279,15 +284,17 @@ class gsuiBlocksManager {
 				}
 				break;
 			case "a":
+			case "d":
 				if ( e.ctrlKey || e.altKey ) {
-					e.preventDefault();
-					e.stopPropagation();
-					if ( this.__blcs.size ) {
+					const adding = e.key === "a",
+						blcs = adding ? this.__blcs : this.__blcsSelected;
+
+					if ( blcs.size ) {
 						let notEmpty;
 
 						blcsEditing.clear();
-						this.__blcs.forEach( ( blc, id ) => {
-							if ( !dat[ id ].selected ) {
+						blcs.forEach( ( blc, id ) => {
+							if ( !adding || !dat[ id ].selected ) {
 								notEmpty = true;
 								blcsEditing.set( id, blc );
 							}
@@ -297,6 +304,9 @@ class gsuiBlocksManager {
 							this.__mouseup();
 						}
 					}
+					e.preventDefault();
+					e.stopPropagation();
+					gsuiBlocksManager._focused = this;
 				}
 				break;
 		}
@@ -527,4 +537,7 @@ document.addEventListener( "mousemove", e => {
 } );
 document.addEventListener( "mouseup", e => {
 	gsuiBlocksManager._focused && gsuiBlocksManager._focused._mouseup( e );
+} );
+document.addEventListener( "keyup", e => {
+	gsuiBlocksManager._focused && gsuiBlocksManager._focused._keyup( e );
 } );
