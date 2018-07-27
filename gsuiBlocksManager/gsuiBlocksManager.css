@@ -1,6 +1,7 @@
 :root {
 	--gsuiBlocksManager-bgColor: #3a5158;
 	--gsuiBlocksManager-borderColor: #111;
+	--gsuiBlocksManager-side-bgColor: #555;
 	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: rgba( 189, 38, 38, .4 );
 	--gsuiBlocksManager-selection-borderColor: #f44;
@@ -13,6 +14,16 @@
 	width: 100px;
 	min-width: 50px;
 	max-width: 150px;
+	background-color: var( --gsuiBlocksManager-side-bgColor );
+}
+.gsuiBlocksManager-sidePanel .gsui-opacityHover {
+	color: #fff;
+	cursor: pointer;
+	opacity: .35;
+	transition: .2s opacity;
+}
+.gsuiBlocksManager-sidePanel .gsui-opacityHover:hover {
+	opacity: .7;
 }
 .gsuiBlocksManager-gridPanel {
 	flex: 1;
@@ -36,13 +47,7 @@
 	align-items: center;
 	padding: 4px;
 	border-radius: 4px;
-	color: #fff;
 	font-size: 0px;
-	transition: .2s opacity;
-	opacity: .3;
-}
-.gsuiBlocksManager-magnet:hover {
-	opacity: .6;
 }
 .gsuiBlocksManager-magnetValue {
 	font-size: 11px;
