@@ -2,7 +2,13 @@
 
 class gsuiPianoroll extends gsuiBlocksManager {
 	constructor() {
-		const root = gsuiPianoroll.template.cloneNode( true );
+		const root = gsuiPianoroll.template.cloneNode( true ),
+			sideTop = root.querySelector( ".gsuiPianoroll-sidePanelTop" ),
+			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
+			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
+			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
+			slidersWrap = root.querySelector( ".gsuiPianoroll-slidersWrap" ),
+			slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
 
 		super( root );
 		this.uiBlc.row = ( el, rowIncr ) => {
@@ -15,12 +21,32 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			row.firstChild.append( el );
 		};
 
+		this._slidersWrap = slidersWrap;
+		this._slidersSelect = slidersSelect;
+		this._slidersScale = root.querySelector( ".gsuiPianoroll-slidersScale" );
+		slidersWrap.onscroll = this._onscrollSlidersWrap.bind( this, slidersWrap, this.__rowsContainer );
+		slidersSelect.onchange = this._onchangeSliders.bind( this );
+		sideBottom.onresizing =
+		gridBottom.onresizing = panel => {
+			const topH = panel.previousSibling.style.height,
+				bottomH = panel.style.height;
+
+			if ( panel === gridBottom ) {
+				sideTop.style.height = topH;
+				sideBottom.style.height = bottomH;
+			} else {
+				gridTop.style.height = topH;
+				gridBottom.style.height = bottomH;
+			}
+		};
+
 		this.data = this._proxyCreate();
 		this.uiKeys = new gsuiKeys();
 		this._idMax = 1;
 		this._rowsByMidi = {};
 		this._currKeyDuration = 1;
 		this.__sideContent.append( this.uiKeys.rootElement );
+		slidersSelect.onchange();
 	}
 
 	empty() {
@@ -33,6 +59,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	attached() {
 		this.__attached();
 		this.scrollToMiddle();
+		this._slidersWrap.style.bottom = this.__rowsContainer.style.bottom;
 	}
 	scrollToMiddle() {
 		const rows = this.__rowsContainer;
@@ -126,6 +153,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_keydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) { this.__mouseup( e ); }
+	_scrollleftAfter() {
+		this._onscrollSlidersWrap( this.__rowsContainer, this._slidersWrap );
+	}
+
+	// ........................................................................
 	_blcMousedown( id, e ) {
 		e.stopPropagation();
 		this.__mousedown( e );
@@ -144,6 +176,18 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			this.data[ id ] = keyObj;
 			this.onchange( this.__unselectBlocks( { [ id ]: keyObj } ) );
 		}
+	}
+	_onscrollSlidersWrap( elSrc, elLink ) {
+		if ( this._slidersWrapScrollLeft !== elSrc.scrollLeft ) {
+			this._slidersWrapScrollLeft =
+			elLink.scrollLeft = elSrc.scrollLeft;
+		}
+	}
+	_onchangeSliders() {
+		const gain = this._slidersSelect.value === "gain";
+
+		this._slidersScale.classList.remove( "gsuiPianoroll-scale01", "gsuiPianoroll-scale11" );
+		this._slidersScale.classList.add( gain ? "gsuiPianoroll-scale01" : "gsuiPianoroll-scale11" );
 	}
 
 	// Key's functions

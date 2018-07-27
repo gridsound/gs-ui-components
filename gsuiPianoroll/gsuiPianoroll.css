@@ -7,6 +7,68 @@
 }
 
 /* .......................................................................... */
+.gsuiPianoroll-sidePanelTop,
+.gsuiPianoroll-gridPanelTop {
+	height: 100%;
+	min-height: 350px;
+}
+.gsuiPianoroll-sidePanelBottom,
+.gsuiPianoroll-gridPanelBottom {
+	min-height: 100px;
+	background-color: var( --gsuiBlocksManager-side-bgColor );
+}
+.gsuiPianoroll-gridPanelTop {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiPianoroll-gridPanelBottom {
+	position: relative;
+}
+.gsuiPianoroll-slidersWrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-x: scroll;
+}
+.gsuiPianoroll-sliders {
+	position: absolute;
+	width: 1000000px;
+	height: 100%;
+}
+
+.gsuiPianoroll-sidePanelBottom {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+.gsuiPianoroll-slidersSelect {
+	margin: auto;
+	color: inherit;
+	border: 0;
+	background-color: transparent;
+	background-color: var( --gsuiBlocksManager-side-bgColor );
+}
+.gsuiPianoroll-slidersScale {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin-right: 3px;
+	color: #fff;
+	width: 12px;
+	height: 100%;
+	font: 11px monospace;
+	opacity: .3;
+}
+.gsuiPianoroll-slidersScale0::before { content: "1" }
+.gsuiPianoroll-scale01 .gsuiPianoroll-slidersScale1::before { content: ".5" }
+.gsuiPianoroll-scale01 .gsuiPianoroll-slidersScale2::before,
+.gsuiPianoroll-scale11 .gsuiPianoroll-slidersScale1::before { content: "0" }
+.gsuiPianoroll-scale11 .gsuiPianoroll-slidersScale2::before { content: "-1" }
+
+/* .......................................................................... */
 .gsuiPianoroll .gsui-row:hover { background-color: rgba( 255, 255, 255, .03 ); }
 .gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba( 0, 0, 0, .15 ); }
 
