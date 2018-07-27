@@ -46,6 +46,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this._rowsByMidi = {};
 		this._currKeyDuration = 1;
 		this.__sideContent.append( this.uiKeys.rootElement );
+		this.__onclickMagnet();
 		slidersSelect.onchange();
 	}
 
