@@ -259,6 +259,9 @@ class gsuiBlocksManager {
 			this.__rowsScrollLeft = elRows.scrollLeft;
 			this.__uiTimeline.offset( off, this.__pxPerBeat );
 		}
+		if ( this._scrollleftAfter ) {
+			this._scrollleftAfter();
+		}
 	}
 	__onwheelRows( e ) {
 		if ( e.ctrlKey ) {
