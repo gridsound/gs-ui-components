@@ -61,7 +61,6 @@ class gsuiBlocksManager {
 			deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); },
 		};
 		this.__eventReset();
-		this.setPxPerBeat( 64 );
 		this.timeSignature( 4, 4 );
 		this.__magnetValue.textContent = this.__uiTimeline.stepRound;
 	}
