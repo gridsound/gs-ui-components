@@ -72,19 +72,35 @@
 /* .......................................................................... */
 .gsuiPianoroll-slider {
 	position: absolute;
-	margin-left: -2px;
-	width: 4px;
+	overflow: hidden;
 	top: 0;
 	bottom: 0;
-	background-color: rgba( 0, 0, 0, .3 );
+	cursor: ns-resize;
+}
+.gsuiPianoroll-slider::before {
+	content: "";
+	position: absolute;
+	width: 6px;
+	height: 100%;
+	background-color: rgba( 0, 0, 0, .1 );
+}
+.gsuiPianoroll-slidersSelected .gsuiPianoroll-slider:not(.gsuiPianoroll-sliderSelected) {
+	pointer-events: none;
 }
 .gsuiPianoroll-sliderInner {
 	position: absolute;
-	width: 100%;
-	background-color: var( --gsuiBlocksManager-blockColor );
+	width: 6px;
+	color: var( --gsuiBlocksManager-blockColor );
+	background-color: currentColor;
 }
 .gsuiPianoroll-sliderSelected .gsuiPianoroll-sliderInner {
-	background-color: var( --gsuiBlocksManager-blockSelectedColor );
+	color: var( --gsuiBlocksManager-blockSelectedColor );
+}
+.gsuiPianoroll-sliderInner::after {
+	content: "";
+	position: absolute;
+	width: 1000000px;
+	border-top: 1px dashed;
 }
 
 /* .......................................................................... */
