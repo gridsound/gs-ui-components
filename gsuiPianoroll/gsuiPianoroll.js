@@ -310,20 +310,25 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	_updateSlider( nodeName, sli, val ) {
 		const st = sli.firstChild.style;
+		let innerDown = false;
 
 		if ( nodeName === "gain" ) {
 			st.top = "auto";
 			st.bottom = "0%";
 			st.height = val * 100 + "%";
-		} else if ( val > 0 ) {
-			st.top = "auto";
-			st.bottom = "50%";
-			st.height = val * 50 + "%";
 		} else {
-			st.top = "50%";
-			st.bottom = "auto";
-			st.height = -val * 50 + "%";
+			if ( val > 0 ) {
+				st.top = "auto";
+				st.bottom = "50%";
+				st.height = val * 50 + "%";
+			} else {
+				st.top = "50%";
+				st.bottom = "auto";
+				st.height = -val * 50 + "%";
+				innerDown = true;
+			}
 		}
+		sli.firstChild.classList.toggle( "gsuiPianoroll-sliderInnerDown", innerDown );
 	}
 
 	// Key's functions

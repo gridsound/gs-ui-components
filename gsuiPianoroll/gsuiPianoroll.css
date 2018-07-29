@@ -102,11 +102,17 @@
 }
 .gsuiPianoroll-sliderInner::after {
 	content: "";
-	left: var( --gsuiBlocksManager-keySlider-width );
 	position: absolute;
+	box-sizing: border-box;
+	left: var( --gsuiBlocksManager-keySlider-width );
 	width: 1000000px;
-	border-top: 1px solid;
+	height: 100%;
+	border: 0 solid;
+	border-width: 1px 0 0;
 	opacity: .6;
+}
+.gsuiPianoroll-sliderInnerDown::after {
+	border-width: 0 0 1px;
 }
 
 /* .......................................................................... */
