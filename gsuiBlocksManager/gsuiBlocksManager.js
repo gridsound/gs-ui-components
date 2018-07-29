@@ -95,6 +95,9 @@ class gsuiBlocksManager {
 			this.__elLoopB.forEach( el => el.style.fontSize = ppbpx );
 			this.__elCurrentTime.forEach( el => el.style.fontSize = ppbpx );
 			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppbpx );
+			if ( this._onsetPxPerBeat ) {
+				this._onsetPxPerBeat( ppb );
+			}
 		}
 		return ppb;
 	}
@@ -258,8 +261,8 @@ class gsuiBlocksManager {
 			this.__rowsScrollLeft = elRows.scrollLeft;
 			this.__uiTimeline.offset( off, this.__pxPerBeat );
 		}
-		if ( this._scrollleftAfter ) {
-			this._scrollleftAfter();
+		if ( this._onscrollleftAfter ) {
+			this._onscrollleftAfter();
 		}
 	}
 	__onwheelRows( e ) {
