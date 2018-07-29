@@ -1,3 +1,7 @@
+:root {
+	--gsuiBlocksManager-keySlider-width: 6px;
+}
+
 .gsuiPianoroll {
 	width: 100%;
 	height: 500px;
@@ -80,7 +84,7 @@
 .gsuiPianoroll-slider::before {
 	content: "";
 	position: absolute;
-	width: 6px;
+	width: var( --gsuiBlocksManager-keySlider-width );
 	height: 100%;
 	background-color: rgba( 0, 0, 0, .1 );
 }
@@ -89,7 +93,7 @@
 }
 .gsuiPianoroll-sliderInner {
 	position: absolute;
-	width: 6px;
+	width: var( --gsuiBlocksManager-keySlider-width );
 	color: var( --gsuiBlocksManager-blockColor );
 	background-color: currentColor;
 }
@@ -98,9 +102,11 @@
 }
 .gsuiPianoroll-sliderInner::after {
 	content: "";
+	left: var( --gsuiBlocksManager-keySlider-width );
 	position: absolute;
 	width: 1000000px;
-	border-top: 1px dashed;
+	border-top: 1px solid;
+	opacity: .6;
 }
 
 /* .......................................................................... */
