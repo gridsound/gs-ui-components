@@ -80,6 +80,7 @@
 	top: 0;
 	bottom: 0;
 	cursor: ns-resize;
+	cursor: pointer;
 }
 .gsuiPianoroll-slider::before {
 	content: "";
