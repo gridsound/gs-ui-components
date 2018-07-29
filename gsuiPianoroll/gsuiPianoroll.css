@@ -71,6 +71,10 @@
 	position: absolute;
 	width: 1000000px;
 	height: 100%;
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 /* .......................................................................... */
