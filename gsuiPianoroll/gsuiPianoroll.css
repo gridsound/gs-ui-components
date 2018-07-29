@@ -24,19 +24,6 @@
 .gsuiPianoroll-gridPanelBottom {
 	position: relative;
 }
-.gsuiPianoroll-slidersWrap {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	overflow-x: scroll;
-}
-.gsuiPianoroll-sliders {
-	position: absolute;
-	width: 1000000px;
-	height: 100%;
-}
 
 .gsuiPianoroll-sidePanelBottom {
 	display: flex;
@@ -47,7 +34,6 @@
 	margin: auto;
 	color: inherit;
 	border: 0;
-	background-color: transparent;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
 .gsuiPianoroll-slidersScale {
@@ -67,6 +53,39 @@
 .gsuiPianoroll-scale01 .gsuiPianoroll-slidersScale2::before,
 .gsuiPianoroll-scale11 .gsuiPianoroll-slidersScale1::before { content: "0" }
 .gsuiPianoroll-scale11 .gsuiPianoroll-slidersScale2::before { content: "-1" }
+
+/* .......................................................................... */
+.gsuiPianoroll-slidersWrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-x: scroll;
+}
+.gsuiPianoroll-sliders {
+	position: absolute;
+	width: 1000000px;
+	height: 100%;
+}
+
+/* .......................................................................... */
+.gsuiPianoroll-slider {
+	position: absolute;
+	margin-left: -2px;
+	width: 4px;
+	top: 0;
+	bottom: 0;
+	background-color: rgba( 0, 0, 0, .3 );
+}
+.gsuiPianoroll-sliderInner {
+	position: absolute;
+	width: 100%;
+	background-color: var( --gsuiBlocksManager-blockColor );
+}
+.gsuiPianoroll-sliderSelected .gsuiPianoroll-sliderInner {
+	background-color: var( --gsuiBlocksManager-blockSelectedColor );
+}
 
 /* .......................................................................... */
 .gsuiPianoroll .gsui-row:hover { background-color: rgba( 255, 255, 255, .03 ); }
