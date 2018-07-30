@@ -291,11 +291,7 @@ class gsuiBlocksManager {
 
 	// Events to call manually
 	// ............................................................................................
-	__keyup( e ) {
-		e.preventDefault();
-		e.stopPropagation();
-		delete gsuiBlocksManager._focused;
-	}
+	__keyup() {}
 	__keydown( e ) {
 		const dat = this._getData(),
 			blcsEditing = this.__blcsEditing;
