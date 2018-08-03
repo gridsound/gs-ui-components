@@ -52,6 +52,7 @@ class gsuiTimeline {
 	}
 	beatRound( bt ) { return this._round( bt, "round" ); }
 	beatFloor( bt ) { return this._round( bt, "floor" ); }
+	beatCeil( bt ) { return this._round( bt, "ceil" ); }
 	loop( a, b, isUserAction ) {
 		const loopWas = this._loop;
 		let la, lb, serial;
