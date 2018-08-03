@@ -304,8 +304,34 @@ class gsuiBlocksManager {
 					this.__mouseup();
 				}
 				break;
-			case "a":
-			case "d":
+			case "b": // copy paste
+				if ( e.ctrlKey || e.altKey ) {
+					const blcsSel = this.__blcsSelected;
+
+					if ( blcsSel.size ) {
+						const data = this._getData();
+						let idMax = this._idMax,
+							whenMin = Infinity,
+							whenMax = 0;
+
+						blcsEditing.clear();
+						blcsSel.forEach( ( blc, id ) => {
+							const dat = data[ id ];
+
+							whenMin = Math.min( whenMin, dat.when );
+							whenMax = Math.max( whenMax, dat.when + dat.duration );
+							blcsEditing.set( id, blc );
+						} );
+						whenMax = this.__uiTimeline.beatCeil( whenMax ) - whenMin;
+						this.blcsManagerCallback( "duplicating", blcsEditing, whenMax );
+						blcsEditing.clear();
+					}
+					e.preventDefault();
+					e.stopPropagation();
+				}
+				break;
+			case "a": // select all
+			case "d": // deselect
 				if ( e.ctrlKey || e.altKey ) {
 					const adding = e.key === "a",
 						blcs = adding ? this.__blcs : this.__blcsSelected;

@@ -60,6 +60,19 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			data = this.data.blocks;
 
 		switch ( status ) {
+			case "duplicating":
+				blcsMap.forEach( ( blc, id ) => {
+					const d = data[ id ],
+						nId = ++this._idMax,
+						copy = Object.assign( {}, d );
+
+					copy.when += valA;
+					obj[ id ] = { selected: false };
+					obj[ nId ] =
+					data[ nId ] = copy;
+					d.selected = false;
+				} );
+				break;
 			case "selecting":
 				blcsMap.forEach( ( _, id ) => {
 					const d = data[ id ],
