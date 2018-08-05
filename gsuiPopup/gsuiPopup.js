@@ -1,23 +1,26 @@
 "use strict";
 
 class gsuiPopup {
-	static alert( title, msg ) {
+	static alert( title, msg, ok ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		gsuiPopup.clWindow.add( "gsui-notext", "gsui-nocancel" );
+		gsuiPopup._setOkCancelBtns( ok, false );
 		return gsuiPopup._open( "alert", title, msg );
 	}
-	static confirm( title, msg ) {
+	static confirm( title, msg, ok, cancel ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		gsuiPopup.clWindow.remove( "gsui-nocancel" );
 		gsuiPopup.clWindow.add( "gsui-notext" );
+		gsuiPopup._setOkCancelBtns( ok, cancel );
 		return gsuiPopup._open( "confirm", title, msg );
 	}
-	static prompt( title, msg, val ) {
+	static prompt( title, msg, val, ok, cancel ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		gsuiPopup.clWindow.remove( "gsui-notext", "gsui-nocancel" );
+		gsuiPopup._setOkCancelBtns( ok, cancel );
 		return gsuiPopup._open( "prompt", title, msg, val );
 	}
 	static custom( obj ) {
@@ -25,7 +28,7 @@ class gsuiPopup {
 		gsuiPopup._emptyCnt();
 		gsuiPopup._fnSubmit = obj.submit;
 		gsuiPopup.clWindow.remove( "gsui-notext" );
-		gsuiPopup.clWindow.toggle( "gsui-nocancel", !obj.showCancel );
+		gsuiPopup._setOkCancelBtns( obj.ok, obj.cancel || false );
 		obj.element
 			? gsuiPopup.elCnt.append( obj.element )
 			: Element.prototype.append.apply( gsuiPopup.elCnt, obj.elements );
@@ -38,6 +41,11 @@ class gsuiPopup {
 	}
 
 	// private:
+	static _setOkCancelBtns( ok, cancel ) {
+		gsuiPopup.clWindow.toggle( "gsui-nocancel", cancel === false );
+		gsuiPopup.elCancel.value = cancel || "Cancel";
+		gsuiPopup.elOk.value = ok || "Ok";
+	}
 	static _emptyCnt() {
 		const elCnt = gsuiPopup.elCnt;
 
