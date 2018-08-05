@@ -4,22 +4,28 @@ class gsuiPopup {
 	static alert( title, msg ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
+		gsuiPopup.clWindow.add( "gsui-notext", "gsui-nocancel" );
 		return gsuiPopup._open( "alert", title, msg );
 	}
 	static confirm( title, msg ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
+		gsuiPopup.clWindow.remove( "gsui-nocancel" );
+		gsuiPopup.clWindow.add( "gsui-notext" );
 		return gsuiPopup._open( "confirm", title, msg );
 	}
 	static prompt( title, msg, val ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
+		gsuiPopup.clWindow.remove( "gsui-notext", "gsui-nocancel" );
 		return gsuiPopup._open( "prompt", title, msg, val );
 	}
 	static custom( obj ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
 		gsuiPopup._fnSubmit = obj.submit;
+		gsuiPopup.clWindow.remove( "gsui-notext" );
+		gsuiPopup.clWindow.toggle( "gsui-nocancel", !obj.showCancel );
 		obj.element
 			? gsuiPopup.elCnt.append( obj.element )
 			: Element.prototype.append.apply( gsuiPopup.elCnt, obj.elements );
@@ -54,6 +60,7 @@ class gsuiPopup {
 			that.elWindow = el.querySelector( "#gsuipp-window" );
 			that.elHeader = el.querySelector( "#gsuipp-head" );
 			that.elCancel = el.querySelector( "#gsuipp-inpCancel" );
+			that.clWindow = that.elWindow.classList;
 
 			el.onclick =
 			that.elCancel.onclick = that._cancelClick;
@@ -80,8 +87,6 @@ class gsuiPopup {
 		that.elMsg.innerHTML = msg || "";
 		that.elText.value = arguments.length > 3 ? value : "";
 		that.elWindow.dataset.gsuiType =
-		that.elWindow.classList.toggle( "gsui-nocancel", type !== "prompt" && type !== "confirm" );
-		that.elWindow.classList.toggle( "gsui-notext", type !== "prompt" );
 		that.elRoot.classList.add( "gsui-show" );
 		setTimeout( () => {
 			if ( type === "prompt" ) {
