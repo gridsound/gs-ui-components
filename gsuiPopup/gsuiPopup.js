@@ -16,14 +16,14 @@ class gsuiPopup {
 		gsuiPopup._emptyCnt();
 		return gsuiPopup._open( "prompt", title, msg, val );
 	}
-	static custom( title, elements, fnSubmit ) {
+	static custom( obj ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
-		gsuiPopup._fnSubmit = fnSubmit;
-		elements.length
-			? Element.prototype.append.apply( gsuiPopup.elCnt, elements )
-			: gsuiPopup.elCnt.append( elements );
-		return gsuiPopup._open( "custom", title );
+		gsuiPopup._fnSubmit = obj.submit;
+		obj.element
+			? gsuiPopup.elCnt.append( obj.element )
+			: Element.prototype.append.apply( gsuiPopup.elCnt, obj.elements );
+		return gsuiPopup._open( "custom", obj.title );
 	}
 	static close() {
 		if ( gsuiPopup.isOpen ) {
