@@ -2,11 +2,7 @@
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	background: repeating-linear-gradient( -45deg,
-		#454545,
-		#454545 32px,
-		#474747 32px,
-		#474747 64px );
+	background-color: #444;
 }
 
 .gsuiSynthesizer-title,
