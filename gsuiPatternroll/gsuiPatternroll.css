@@ -1,5 +1,5 @@
 .gsuiPatternroll .gsuiBlocksManager-sidePanel {
-    min-width: 24px;
+    max-width: 256px;
 }
 
 .gsuiPatternroll-block {
