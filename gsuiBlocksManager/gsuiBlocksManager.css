@@ -11,9 +11,9 @@
 
 .gsuiBlocksManager-sidePanel {
 	position: relative;
-	width: 100px;
-	min-width: 50px;
-	max-width: 150px;
+	min-width: 68px;
+	max-width: 104px;
+	width: 104px;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
 .gsuiBlocksManager-sidePanel .gsui-opacityHover {
