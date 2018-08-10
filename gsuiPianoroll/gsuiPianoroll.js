@@ -73,13 +73,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		this.data = this._proxyCreate();
 		this.uiKeys = new gsuiKeys();
-		this._idMax = 0;
 		this._rowsByMidi = {};
-		this._currKeyValue = {
-			duration: 1,
-			gain: .8,
-			pan: 0,
-		};
+		this._currKeyValue = {};
+		this.empty();
 		this.__sideContent.append( this.uiKeys.rootElement );
 		this.__onclickMagnet();
 		this._onchangeSlidersSelect();
@@ -89,6 +85,14 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	empty() {
 		Object.keys( this.data ).forEach( k => delete this.data[ k ] );
 		this._idMax = 0;
+		this.resetKey();
+	}
+	resetKey() {
+		const k = this._currKeyValue;
+
+		k.duration = 1;
+		k.gain = .8;
+		k.pan = 0;
 	}
 	resized() {
 		this.__resized();
