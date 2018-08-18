@@ -12,20 +12,17 @@ class gsuiBlocksManager {
 		this.__uiTimeline = new gsuiTimeline();
 		this.__elPanGridWidth = 0;
 		this.__magnet = root.querySelector( ".gsuiBlocksManager-magnet" );
-		this.__elLoopA = root.querySelectorAll( ".gsuiBlocksManager-loopA" );
-		this.__elLoopB = root.querySelectorAll( ".gsuiBlocksManager-loopB" );
+		this.__elLoopA = root.querySelector( ".gsuiBlocksManager-loopA" );
+		this.__elLoopB = root.querySelector( ".gsuiBlocksManager-loopB" );
 		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
 		this.__elPanGrid = root.querySelector( ".gsuiBlocksManager-gridPanel" );
 		this.__magnetValue = root.querySelector( ".gsuiBlocksManager-magnetValue" );
 		this.__sideContent = root.querySelector( ".gsuiBlocksManager-sidePanelContent" );
-		this.__elCurrentTime = root.querySelectorAll( ".gsuiBlocksManager-currentTime" );
+		this.__elCurrentTime = root.querySelector( ".gsuiBlocksManager-currentTime" );
 		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
 		this.__rowsWrapinContainer = root.querySelector( ".gsuiBlocksManager-rowsWrapin" );
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
-		this.__uiBeatlines = [];
-
-		root.querySelectorAll( ".gsuiBeatlines" )
-			.forEach( el => this.__uiBeatlines.push( new gsuiBeatlines( el ) ) );
+		this.__uiBeatlines = new gsuiBeatlines( root.querySelector( ".gsuiBeatlines" ) );
 
 		this.onaddBlock =
 		this.oneditBlock =
@@ -69,7 +66,7 @@ class gsuiBlocksManager {
 	// ............................................................................................
 	timeSignature( a, b ) {
 		this.__uiTimeline.timeSignature( a, b );
-		this.__uiBeatlines.forEach( bl => bl.timeSignature( a, b ) );
+		this.__uiBeatlines.timeSignature( a, b );
 	}
 	currentTime( beat ) {
 		this.__uiTimeline.currentTime( beat );
@@ -87,17 +84,14 @@ class gsuiBlocksManager {
 
 			this.__pxPerBeat = ppb;
 			this.__uiTimeline.offset( this.__offset, ppb );
-			this.__uiBeatlines.forEach( bl => bl.pxPerBeat( ppb ) );
+			this.__uiBeatlines.pxPerBeat( ppb );
 			clearTimeout( this.__beatlinesRendering );
-			this.__beatlinesRendering = setTimeout(
-				() => this.__uiBeatlines.forEach( bl => bl.render() ), 100 );
-			this.__elLoopA.forEach( el => el.style.fontSize = ppbpx );
-			this.__elLoopB.forEach( el => el.style.fontSize = ppbpx );
-			this.__elCurrentTime.forEach( el => el.style.fontSize = ppbpx );
+			this.__beatlinesRendering = setTimeout( () => this.__uiBeatlines.render(), 100 );
+			this.__elLoopA.style.fontSize =
+			this.__elLoopB.style.fontSize =
+			this.__elCurrentTime.style.fontSize = ppbpx;
 			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppbpx );
-			if ( this._onsetPxPerBeat ) {
-				this._onsetPxPerBeat( ppb );
-			}
+			this._setPxPerBeat && this._setPxPerBeat( ppb );
 		}
 		return ppb;
 	}
@@ -155,15 +149,17 @@ class gsuiBlocksManager {
 		this.__gridPanelResized();
 	}
 	__loop( isLoop, a, b ) {
-		this.__elLoopA.forEach( el => el.classList.toggle( "gsuiBlocksManager-loopOn", isLoop ) );
-		this.__elLoopB.forEach( el => el.classList.toggle( "gsuiBlocksManager-loopOn", isLoop ) );
+		this._loop && this._loop( a, b );
+		this.__elLoopA.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
+		this.__elLoopB.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		if ( isLoop ) {
-			this.__elLoopA.forEach( el => el.style.width = a + "em" );
-			this.__elLoopB.forEach( el => el.style.left = b + "em" );
+			this.__elLoopA.style.width = a + "em";
+			this.__elLoopB.style.left = b + "em";
 		}
 	}
 	__currentTime( t ) {
-		this.__elCurrentTime.forEach( el => el.style.left = t + "em" );
+		this.__elCurrentTime.style.left = t + "em";
+		this._currentTime && this._currentTime( t );
 	}
 	__isBlc( el ) {
 		return el.classList.contains( "gsuiBlocksManager-block" );
@@ -261,9 +257,7 @@ class gsuiBlocksManager {
 			this.__rowsScrollLeft = elRows.scrollLeft;
 			this.__uiTimeline.offset( off, this.__pxPerBeat );
 		}
-		if ( this._onscrollleftAfter ) {
-			this._onscrollleftAfter();
-		}
+		this._onscrollRows && this._onscrollRows();
 	}
 	__onwheelRows( e ) {
 		if ( e.ctrlKey ) {
