@@ -5,11 +5,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		const root = gsuiPianoroll.template.cloneNode( true ),
 			sideTop = root.querySelector( ".gsuiPianoroll-sidePanelTop" ),
 			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
-			sliders = root.querySelector( ".gsuiPianoroll-sliders" ),
 			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
 			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
-			slidersWrap = root.querySelector( ".gsuiPianoroll-slidersWrap" ),
-			slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
+			slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" ),
+			uiSliderGroup = new gsuiSliderGroup();
 		super( root );
 		const uiBlc = this.uiBlc,
 			uiBlcWhen = uiBlc.when,
@@ -17,7 +16,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			uiBlcSelected = uiBlc.selected,
 			sliderFnUpdate = ( nodeName, el, val ) => {
 				if ( slidersSelect.value === nodeName ) {
-					this._updateSlider( nodeName, el._slider, val );
+					this._uiSliderGroup.setProp( +el.dataset.id, "value", val );
 					this._currKeyValue[ nodeName ] = val;
 				}
 			};
@@ -26,19 +25,16 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		uiBlc.pan = sliderFnUpdate.bind( null, "pan" );
 		uiBlc.when = ( el, when ) => {
 			uiBlcWhen( el, when );
-			el._slider.style.left = when + "em";
-			el._slider.style.zIndex = Math.floor( when * 100 );
+			uiSliderGroup.setProp( +el.dataset.id, "when", when );
 		};
-		uiBlc.duration = ( el, dur ) => {
-			uiBlcDuration( el, dur );
-			el._slider.style.width = dur + "em";
-			this._currKeyValue.duration = dur;
+		uiBlc.duration = ( el, duration ) => {
+			uiBlcDuration( el, duration );
+			uiSliderGroup.setProp( +el.dataset.id, "duration", duration );
+			this._currKeyValue.duration = duration;
 		};
 		uiBlc.selected = ( el, b ) => {
-			const id = +el.dataset.id;
-
 			uiBlcSelected( el, b );
-			el._slider.classList.toggle( "gsuiPianoroll-sliderSelected", !!b );
+			uiSliderGroup.setProp( +el.dataset.id, "selected", b );
 		};
 		uiBlc.row = ( el, rowIncr ) => {
 			uiBlc.key( el, this.data[ +el.dataset.id ].key - rowIncr );
@@ -50,12 +46,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			row.firstChild.append( el );
 		};
 
-		this._sliders = sliders;
-		this._slidersWrap = slidersWrap;
 		this._slidersSelect = slidersSelect;
-		this._slidersScale = root.querySelector( ".gsuiPianoroll-slidersScale" );
-		sliders.onmousedown = this._onmousedownSliders.bind( this );
-		slidersWrap.onscroll = this._onscrollSlidersWrap.bind( this, slidersWrap, this.__rowsContainer );
+		this._uiSliderGroup = uiSliderGroup;
+		uiSliderGroup.scrollElement.onscroll = this._onscrollSliderGroup.bind( this,
+			uiSliderGroup.scrollElement, this.__rowsContainer );
 		slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
 		sideBottom.onresizing =
 		gridBottom.onresizing = panel => {
@@ -70,6 +64,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				gridBottom.style.height = bottomH;
 			}
 		};
+		sideBottom.append( uiSliderGroup.scaleElement );
+		gridBottom.append( uiSliderGroup.rootElement );
 
 		this.data = this._proxyCreate();
 		this.uiKeys = new gsuiKeys();
@@ -79,6 +75,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__sideContent.append( this.uiKeys.rootElement );
 		this.__onclickMagnet();
 		this._onchangeSlidersSelect();
+		uiSliderGroup.onchange = arr => {
+			const obj = {},
+				nodeName = this._slidersSelect.value;
+
+			arr.forEach( ( [ id, val ] ) => obj[ id ] = { [ nodeName ]: val } );
+			this.onchange( obj );
+		};
 		this.setPxPerBeat( 64 );
 	}
 
@@ -101,7 +104,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	attached() {
 		this.__attached();
 		this.scrollToMiddle();
-		this._slidersWrap.style.bottom = this.__rowsContainer.style.bottom;
+		this._uiSliderGroup.attached();
 	}
 	scrollToMiddle() {
 		const rows = this.__rowsContainer;
@@ -211,14 +214,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) {
 		this.__mouseup( e );
-		this._onmouseupSliders();
 	}
-	_onscrollleftAfter() {
-		this._onscrollSlidersWrap( this.__rowsContainer, this._slidersWrap );
+	_onscrollRows() {
+		this._onscrollSliderGroup( this.__rowsContainer, this._uiSliderGroup.scrollElement );
 	}
-	_onsetPxPerBeat( ppb ) {
-		this._sliders.style.fontSize = ppb + "px";
-	}
+	_loop( a, b ) { this._uiSliderGroup.loop( a, b ); }
+	_currentTime( beat ) { this._uiSliderGroup.currentTime( beat ); }
+	_setPxPerBeat( ppb ) { this._uiSliderGroup.setPxPerBeat( ppb ); }
 
 	// ........................................................................
 	_blcMousedown( id, e ) {
@@ -239,114 +241,20 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			this.onchange( this.__unselectBlocks( { [ id ]: keyObj } ) );
 		}
 	}
-	_onscrollSlidersWrap( elSrc, elLink ) {
+	_onscrollSliderGroup( elSrc, elLink ) {
 		if ( this._slidersWrapScrollLeft !== elSrc.scrollLeft ) {
 			this._slidersWrapScrollLeft =
 			elLink.scrollLeft = elSrc.scrollLeft;
 		}
 	}
-
-	// SlidersWrap's functions
-	// ........................................................................
-	_updateSlidersSelected() {
-		this._sliders.classList.toggle(
-			"gsuiPianoroll-slidersSelected",
-			!!this.__blcsSelected.size );
-	}
 	_onchangeSlidersSelect() {
 		const data = this.data,
 			nodeName = this._slidersSelect.value;
 
-		this._slidersScale.classList.remove( "gsuiPianoroll-scale01", "gsuiPianoroll-scale11" );
-		this._sliders.classList.remove( "gsuiPianoroll-scale01", "gsuiPianoroll-scale11" );
-		this._slidersScale.classList.add( nodeName === "gain"
-			? "gsuiPianoroll-scale01"
-			: "gsuiPianoroll-scale11" );
+		this._uiSliderGroup.alignMode( nodeName === "gain" ? "0->1" : "-1->1" );
 		this.__blcs.forEach( ( blc, id ) => (
-			this._updateSlider( nodeName, blc._slider, data[ id ][ nodeName ] )
+			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] )
 		) );
-	}
-	_onmousedownSliders( e ) {
-		const bcr = this._sliders.getBoundingClientRect(),
-			sli = e.target._slider;
-
-		this._slidersObj = {};
-		this._slidersTop = bcr.top;
-		this._slidersHeight = bcr.height;
-		this._slidersNodeName = this._slidersSelect.value;
-		gsuiBlocksManager._focused = this;
-		if ( sli ) {
-			this._onmousemoveSlider( +sli.dataset.id, sli, e );
-		}
-	}
-	_onmouseupSliders() {
-		if ( this._slidersObj ) {
-			const arr = Object.entries( this._slidersObj );
-
-			if ( arr.length ) {
-				const nodeName = this._slidersNodeName,
-					obj = {};
-
-				arr.forEach( ( [ id, val ] ) => obj[ id ] = { [ nodeName ]: val } );
-				this.onchange( obj );
-			}
-			delete this._slidersObj;
-		}
-	}
-	_onmousemoveSlider( id, sli, e ) {
-		if ( this._slidersObj ) {
-			const key = this.data[ id ];
-
-			if ( !this.__blcsSelected.size || key.selected ) {
-				const nodeName = this._slidersNodeName,
-					mouseVal = 1 - ( e.pageY - this._slidersTop ) / this._slidersHeight,
-					val = +( nodeName === "gain"
-						? mouseVal
-						: mouseVal * 2 - 1 ).toFixed( 2 );
-
-				if ( val !== key[ nodeName ] ) {
-					this._slidersObj[ id ] = val;
-				} else {
-					delete this._slidersObj[ id ];
-				}
-				this._updateSlider( nodeName, sli, val );
-			}
-		}
-	}
-
-	// Slider's functions
-	// ........................................................................
-	_createSlider( id, obj, blc ) {
-		const sli = gsuiPianoroll.sliderTemplate.cloneNode( true );
-
-		blc._slider =
-		sli._slider =
-		sli.firstChild._slider = sli;
-		sli.dataset.id = id;
-		sli.onmousemove = this._onmousemoveSlider.bind( this, id, sli );
-		this._sliders.append( sli );
-	}
-	_updateSlider( nodeName, sli, val ) {
-		const st = sli.firstChild.style;
-		let innerDown = false;
-
-		if ( nodeName === "gain" ) {
-			st.top = "auto";
-			st.bottom = "0%";
-			st.height = val * 100 + "%";
-		} else {
-			if ( val > 0 ) {
-				st.top = "auto";
-				st.bottom = "50%";
-				st.height = val * 50 + "%";
-			} else {
-				st.top = "50%";
-				st.bottom = "auto";
-				st.height = -val * 50 + "%";
-				innerDown = true;
-			}
-		}
-		sli.firstChild.classList.toggle( "gsuiPianoroll-sliderInnerDown", innerDown );
 	}
 
 	// Key's functions
@@ -355,10 +263,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		const blc = this.__blcs.get( id );
 
 		blc.remove();
-		blc._slider.remove();
 		this.__blcs.delete( id );
 		this.__blcsSelected.delete( id );
-		this._updateSlidersSelected();
+		this._uiSliderGroup.delete( id );
 	}
 	_setKey( id, obj ) {
 		const blc = gsuiPianoroll.blockTemplate.cloneNode( true );
@@ -369,14 +276,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		obj.selected
 			? this.__blcsSelected.set( id, blc )
 			: this.__blcsSelected.delete( id );
-		this._createSlider( id, obj, blc );
+		this._uiSliderGroup.set( id, obj.when, obj.duration, obj[ this._slidersSelect.value ] );
 		this.uiBlc.key( blc, obj.key );
 		this.uiBlc.when( blc, obj.when );
 		this.uiBlc.duration( blc, obj.duration );
 		this.uiBlc.selected( blc, obj.selected );
 		this.uiBlc.gain( blc, obj.gain );
 		this.uiBlc.pan( blc, obj.pan );
-		this._updateSlidersSelected();
 	}
 
 	// Data proxy
@@ -436,7 +342,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				val
 					? this.__blcsSelected.set( id, blc )
 					: this.__blcsSelected.delete( id );
-				this._updateSlidersSelected();
 			}
 		}
 		return true;
@@ -454,6 +359,3 @@ gsuiPianoroll.template.removeAttribute( "id" );
 gsuiPianoroll.blockTemplate = document.querySelector( "#gsuiPianoroll-block-template" );
 gsuiPianoroll.blockTemplate.remove();
 gsuiPianoroll.blockTemplate.removeAttribute( "id" );
-gsuiPianoroll.sliderTemplate = document.querySelector( "#gsuiPianoroll-slider-template" );
-gsuiPianoroll.sliderTemplate.remove();
-gsuiPianoroll.sliderTemplate.removeAttribute( "id" );

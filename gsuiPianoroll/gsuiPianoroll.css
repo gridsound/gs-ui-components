@@ -1,5 +1,4 @@
 :root {
-	--gsuiBlocksManager-keySlider-width: 6px;
 }
 
 .gsuiPianoroll {
@@ -25,9 +24,6 @@
 	display: flex;
 	flex-direction: column;
 }
-.gsuiPianoroll-gridPanelBottom {
-	position: relative;
-}
 
 .gsuiPianoroll-sidePanelBottom {
 	display: flex;
@@ -40,84 +36,11 @@
 	border: 0;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
-.gsuiPianoroll-slidersScale {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	justify-content: space-between;
+.gsuiPianoroll .gsuiSliderGroup-scale {
 	margin-right: 3px;
 	color: #fff;
 	width: 12px;
-	height: 100%;
-	font: 11px monospace;
 	opacity: .3;
-}
-.gsuiPianoroll-slidersScale0::before { content: "1" }
-.gsuiPianoroll-scale01 .gsuiPianoroll-slidersScale1::before { content: ".5" }
-.gsuiPianoroll-scale01 .gsuiPianoroll-slidersScale2::before,
-.gsuiPianoroll-scale11 .gsuiPianoroll-slidersScale1::before { content: "0" }
-.gsuiPianoroll-scale11 .gsuiPianoroll-slidersScale2::before { content: "-1" }
-
-/* .......................................................................... */
-.gsuiPianoroll-slidersWrap {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	overflow-x: scroll;
-}
-.gsuiPianoroll-sliders {
-	position: absolute;
-	width: 1000000px;
-	height: 100%;
-	user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-}
-
-/* .......................................................................... */
-.gsuiPianoroll-slider {
-	position: absolute;
-	overflow: hidden;
-	top: 0;
-	bottom: 0;
-	cursor: ns-resize;
-	cursor: pointer;
-}
-.gsuiPianoroll-slider::before {
-	content: "";
-	position: absolute;
-	width: var( --gsuiBlocksManager-keySlider-width );
-	height: 100%;
-	background-color: rgba( 0, 0, 0, .1 );
-}
-.gsuiPianoroll-slidersSelected .gsuiPianoroll-slider:not(.gsuiPianoroll-sliderSelected) {
-	pointer-events: none;
-}
-.gsuiPianoroll-sliderInner {
-	position: absolute;
-	width: var( --gsuiBlocksManager-keySlider-width );
-	color: var( --gsuiBlocksManager-blockColor );
-	background-color: currentColor;
-}
-.gsuiPianoroll-sliderSelected .gsuiPianoroll-sliderInner {
-	color: var( --gsuiBlocksManager-blockSelectedColor );
-}
-.gsuiPianoroll-sliderInner::after {
-	content: "";
-	position: absolute;
-	box-sizing: border-box;
-	left: var( --gsuiBlocksManager-keySlider-width );
-	width: 1000000px;
-	height: 100%;
-	border: 0 solid;
-	border-width: 1px 0 0;
-	opacity: .6;
-}
-.gsuiPianoroll-sliderInnerDown::after {
-	border-width: 0 0 1px;
 }
 
 /* .......................................................................... */
