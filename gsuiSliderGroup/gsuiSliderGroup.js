@@ -127,12 +127,11 @@ class gsuiSliderGroup {
 		sli.element.style.width = dur + "em";
 	}
 	_sliderSelected( sli, b ) {
-		if ( b ) {
-			this._selected.set( sli.element.dataset.id, sli );
-		} else {
-			this._selected.delete( sli.element.dataset.id );
-		}
+		b
+			? this._selected.set( sli.element.dataset.id, sli )
+			: this._selected.delete( sli.element.dataset.id );
 		sli.element.classList.toggle( "gsuiSliderGroup-sliderSelected", !!b );
+		this._slidersParent.classList.toggle( "gsuiSliderGroup-slidersSelected", this._selected.size > 0 );
 	}
 	_sliderValue( sli, val ) {
 		const el = sli.element.firstChild,
