@@ -1,0 +1,127 @@
+:root {
+	--gsuiSliderGroup-bg: #333;
+	--gsuiSliderGroup-currentTime-color: white;
+	--gsuiSliderGroup-scale-font: bold 11px monospace;
+	--gsuiSliderGroup-slider-width: 2px;
+	--gsuiSliderGroup-slider-bg: gray;
+	--gsuiSliderGroup-slider-color: white;
+	--gsuiSliderGroup-slider-color-selected: indianred;
+	--gsuiSliderGroup-loop-color: rgba( 0, 0, 0, .6 );
+}
+
+/* scale (extern element) */
+/* .......................................................................... */
+.gsuiSliderGroup-scale {
+	height: 100%;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: column;
+	justify-content: space-between;
+	font: var( --gsuiSliderGroup-scale-font );
+}
+.gsuiSliderGroup-scale,
+.gsuiSliderGroup-sliders {
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+/* root / wrap */
+/* .......................................................................... */
+.gsuiSliderGroup {
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	background-color: var( --gsuiSliderGroup-bg );
+}
+.gsuiSliderGroup-slidersWrap {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+}
+.gsuiSliderGroup-sliders {
+	position: absolute;
+	width: 1000000px;
+	height: 100%;
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+/* slider */
+/* .......................................................................... */
+.gsuiSliderGroup-slider {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	bottom: 0;
+	cursor: pointer;
+}
+.gsuiSliderGroup-slider::before {
+	content: "";
+	position: absolute;
+	height: 100%;
+	width: var( --gsuiSliderGroup-slider-width );
+	background-color: var( --gsuiSliderGroup-slider-bg );
+}
+.gsuiSliderGroup-slidersSelected .gsuiSliderGroup-slider:not(.gsuiSliderGroup-sliderSelected) {
+	pointer-events: none;
+}
+.gsuiSliderGroup-sliderInner {
+	position: absolute;
+	width: var( --gsuiSliderGroup-slider-width );
+	color: var( --gsuiSliderGroup-slider-color );
+	background-color: currentColor;
+}
+.gsuiSliderGroup-sliderSelected .gsuiSliderGroup-sliderInner {
+	color: var( --gsuiSliderGroup-slider-color-selected );
+}
+.gsuiSliderGroup-sliderInner::after {
+	content: "";
+	position: absolute;
+	box-sizing: border-box;
+	left: var( --gsuiSliderGroup-slider-width );
+	width: 1000000px;
+	height: 100%;
+	border: 0 solid;
+	border-width: 1px 0 0;
+	opacity: .6;
+}
+.gsuiSliderGroup-sliderInnerDown::after {
+	border-width: 0 0 1px;
+}
+
+/* currentTime, loopA/B */
+/* .......................................................................... */
+.gsuiSliderGroup-loop,
+.gsuiSliderGroup-currentTime {
+	position: absolute;
+	z-index: 2000000000; /* 1. */
+	top: 0;
+	bottom: 0;
+	pointer-events: none;
+}
+.gsuiSliderGroup-currentTime {
+	width: 1px;
+	background-color: var( --gsuiSliderGroup-currentTime-color );
+	box-shadow: -1px 0 2px var( --gsuiSliderGroup-currentTime-color );
+}
+.gsuiSliderGroup-loop {
+	background-color: transparent;
+	transition: .2s background-color;
+}
+.gsuiSliderGroup-loopA { left: 0; }
+.gsuiSliderGroup-loopB { right: 0; }
+.gsuiSliderGroup-loopOn {
+	background-color: var( --gsuiSliderGroup-loop-color );
+}
+
+/*
+1.
+	z-index: 2milliard; because all the sliders will have undefined high z-index.
+	and we don't put the max value to not interfere with the popup z-index etc.
+*/
