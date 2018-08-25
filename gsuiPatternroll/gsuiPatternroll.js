@@ -5,19 +5,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		const root = gsuiPatternroll.template.cloneNode( true );
 
 		super( root );
-		this.uiBlc.offset = ( el, offset ) => {
-		};
-		this.uiBlc.row = ( el, rowIncr ) => {
-			const trackId = this.data.blocks[ +el.dataset.id ].track;
-
-			this.uiBlc.track( el, this._incrTrackId( trackId, rowIncr ) );
-		};
-		this.uiBlc.track = ( el, trackId ) => {
-			const row = this._getRowByTrackId( trackId );
-
-			row && row.firstChild.append( el );
-		};
-
 		this._uiTracklist = new gsuiTracklist();
 		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );
 		this._uiTracklist.ontrackadded = uiTrk => {
@@ -51,6 +38,20 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	}
 	attached() {
 		this.__attached();
+	}
+
+	// Block's UI functions
+	// ........................................................................
+	block_offset( el, offset ) {}
+	block_row( el, rowIncr ) {
+		const trackId = this.data.blocks[ +el.dataset.id ].track;
+
+		this.block_track( el, this._incrTrackId( trackId, rowIncr ) );
+	}
+	block_track( el, trackId ) {
+		const row = this._getRowByTrackId( trackId );
+
+		row && row.firstChild.append( el );
 	}
 
 	// Blocks manager callback
@@ -193,20 +194,20 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			? this.__blcsSelected.set( id, blc )
 			: this.__blcsSelected.delete( id );
 		this.__blcs.set( id, blc );
-		this.uiBlc.when( blc, obj.when );
-		this.uiBlc.track( blc, obj.track );
-		this.uiBlc.offset( blc, obj.offset );
-		this.uiBlc.duration( blc, obj.duration );
-		this.uiBlc.selected( blc, obj.selected );
+		this.block_when( blc, obj.when );
+		this.block_track( blc, obj.track );
+		this.block_offset( blc, obj.offset );
+		this.block_duration( blc, obj.duration );
+		this.block_selected( blc, obj.selected );
 		this.onaddBlock( id, obj, blc );
 	}
 	_setBlockProp( id, prop, val ) {
-		const uiFn = this.uiBlc[ prop ];
+		const uiFn = this[ "block_" + prop ];
 
 		if ( uiFn ) {
 			const blc = this.__blcs.get( id );
 
-			uiFn( blc, val );
+			uiFn.call( this, blc, val );
 			if ( prop === "selected" ) {
 				val
 					? this.__blcsSelected.set( id, blc )

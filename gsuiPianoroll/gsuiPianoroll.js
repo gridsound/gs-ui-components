@@ -7,50 +7,14 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
 			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
 			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
-			slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" ),
 			uiSliderGroup = new gsuiSliderGroup();
+
 		super( root );
-		const uiBlc = this.uiBlc,
-			uiBlcWhen = uiBlc.when,
-			uiBlcDuration = uiBlc.duration,
-			uiBlcSelected = uiBlc.selected,
-			sliderFnUpdate = ( nodeName, el, val ) => {
-				if ( slidersSelect.value === nodeName ) {
-					this._uiSliderGroup.setProp( +el.dataset.id, "value", val );
-					this._currKeyValue[ nodeName ] = val;
-				}
-			};
-
-		uiBlc.gain = sliderFnUpdate.bind( null, "gain" );
-		uiBlc.pan = sliderFnUpdate.bind( null, "pan" );
-		uiBlc.when = ( el, when ) => {
-			uiBlcWhen( el, when );
-			uiSliderGroup.setProp( +el.dataset.id, "when", when );
-		};
-		uiBlc.duration = ( el, duration ) => {
-			uiBlcDuration( el, duration );
-			uiSliderGroup.setProp( +el.dataset.id, "duration", duration );
-			this._currKeyValue.duration = duration;
-		};
-		uiBlc.selected = ( el, b ) => {
-			uiBlcSelected( el, b );
-			uiSliderGroup.setProp( +el.dataset.id, "selected", b );
-		};
-		uiBlc.row = ( el, rowIncr ) => {
-			uiBlc.key( el, this.data[ +el.dataset.id ].key - rowIncr );
-		};
-		uiBlc.key = ( el, midi ) => {
-			const row = this._getRowByMidi( midi );
-
-			el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
-			row.firstChild.append( el );
-		};
-
-		this._slidersSelect = slidersSelect;
 		this._uiSliderGroup = uiSliderGroup;
+		this._slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
+		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
 		uiSliderGroup.scrollElement.onscroll = this._onscrollSliderGroup.bind( this,
 			uiSliderGroup.scrollElement, this.__rowsContainer );
-		slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
 		sideBottom.onresizing =
 		gridBottom.onresizing = panel => {
 			const topH = panel.previousSibling.style.height,
@@ -134,6 +98,39 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			this._rowsByMidi[ midi ] = el;
 		} );
 		Element.prototype.prepend.apply( this.__rowsWrapinContainer, rows );
+	}
+
+	// Block's UI functions
+	// ........................................................................
+	block_sliderUpdate( nodeName, el, val ) {
+		if ( this._slidersSelect.value === nodeName ) {
+			this._uiSliderGroup.setProp( +el.dataset.id, "value", val );
+			this._currKeyValue[ nodeName ] = val;
+		}
+	}
+	block_pan( el, val ) { this.block_sliderUpdate( "pan", el, val ); }
+	block_gain( el, val ) { this.block_sliderUpdate( "gain", el, val ); }
+	block_when( el, when ) {
+		super.block_when( el, when );
+		this._uiSliderGroup.setProp( +el.dataset.id, "when", when );
+	}
+	block_duration( el, dur ) {
+		super.block_duration( el, dur );
+		this._uiSliderGroup.setProp( +el.dataset.id, "duration", dur );
+		this._currKeyValue.duration = dur;
+	}
+	block_selected( el, b ) {
+		super.block_selected( el, b );
+		this._uiSliderGroup.setProp( +el.dataset.id, "selected", b );
+	}
+	block_row( el, rowIncr ) {
+		this.block_key( el, this.data[ +el.dataset.id ].key - rowIncr );
+	}
+	block_key( el, midi ) {
+		const row = this._getRowByMidi( midi );
+
+		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
+		row.firstChild.append( el );
 	}
 
 	// Blocks manager callback
@@ -277,12 +274,12 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			? this.__blcsSelected.set( id, blc )
 			: this.__blcsSelected.delete( id );
 		this._uiSliderGroup.set( id, obj.when, obj.duration, obj[ this._slidersSelect.value ] );
-		this.uiBlc.key( blc, obj.key );
-		this.uiBlc.when( blc, obj.when );
-		this.uiBlc.duration( blc, obj.duration );
-		this.uiBlc.selected( blc, obj.selected );
-		this.uiBlc.gain( blc, obj.gain );
-		this.uiBlc.pan( blc, obj.pan );
+		this.block_key( blc, obj.key );
+		this.block_when( blc, obj.when );
+		this.block_duration( blc, obj.duration );
+		this.block_selected( blc, obj.selected );
+		this.block_gain( blc, obj.gain );
+		this.block_pan( blc, obj.pan );
 	}
 
 	// Data proxy
@@ -332,11 +329,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			console.warn( `gsuiPianoroll: proxy set useless 'offset' to key` );
 		} else {
 			const blc = this.__blcs.get( id ),
-				uiFn = this.uiBlc[ prop ];
+				uiFn = this[ "block_" + prop ];
 
 			tar[ prop ] = val;
 			if ( uiFn ) {
-				uiFn( blc, val );
+				uiFn.call( this, blc, val );
 			}
 			if ( prop === "selected" ) {
 				val

@@ -51,12 +51,6 @@ class gsuiBlocksManager {
 		this.__rowsContainer.onscroll = this.__onscrollRows.bind( this );
 		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
 
-		this.uiBlc = {
-			when( el, v ) { el.style.left = v + "em"; },
-			duration( el, v ) { el.style.width = v + "em"; },
-			selected( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-selected", !!v ); },
-			deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); },
-		};
 		this.__eventReset();
 		this.timeSignature( 4, 4 );
 		this.__magnetValue.textContent = this.__uiTimeline.stepRound;
@@ -117,6 +111,13 @@ class gsuiBlocksManager {
 
 		return Math.max( 1, Math.ceil( dur / bPM ) ) * bPM;
 	}
+
+	// Blocks methods
+	// ............................................................................................
+	block_when( el, v ) { el.style.left = v + "em"; }
+	block_duration( el, v ) { el.style.width = v + "em"; }
+	block_selected( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-selected", !!v ); }
+	block_deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); }
 
 	// Private small getters
 	// ............................................................................................
@@ -370,7 +371,7 @@ class gsuiBlocksManager {
 			this.__mmFn = this.__mousemove_deletion;
 			this.__status = "deleting";
 			if ( blc ) {
-				this.uiBlc.deleted( blc, true );
+				this.block_deleted( blc, true );
 				this.__blcsEditing.set( +blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 ) {
@@ -490,10 +491,10 @@ class gsuiBlocksManager {
 					blcObj.when += crop;
 					blcObj.offset += crop;
 					blcObj.duration -= crop;
-					this.uiBlc.when( blc, blcObj.when );
-					this.uiBlc.offset( blc, blcObj.offset );
+					this.block_when( blc, blcObj.when );
+					this.block_offset( blc, blcObj.offset );
 				}
-				this.uiBlc.duration( blc, blcObj.duration );
+				this.block_duration( blc, blcObj.duration );
 				this.oneditBlock( id, blcObj, blc );
 			} );
 		}
@@ -507,18 +508,18 @@ class gsuiBlocksManager {
 
 		if ( when !== this.__valueA ) {
 			this.__valueA = when;
-			this.__blcsEditing.forEach( ( blc, id ) => this.uiBlc.when( blc, data[ id ].when + when ) );
+			this.__blcsEditing.forEach( ( blc, id ) => this.block_when( blc, data[ id ].when + when ) );
 		}
 		if ( rows !== this.__valueB ) {
 			this.__valueB = rows;
-			this.__blcsEditing.forEach( ( blc, id ) => this.uiBlc.row( blc, rows ) );
+			this.__blcsEditing.forEach( ( blc, id ) => this.block_row( blc, rows ) );
 		}
 	}
 	__mousemove_deletion( e ) {
 		const blc = this.__getBlc( e.target );
 
 		if ( blc && !this.__blcsEditing.has( +blc.dataset.id ) ) {
-			this.uiBlc.deleted( blc, true );
+			this.block_deleted( blc, true );
 			this.__blcsEditing.set( +blc.dataset.id, blc );
 		}
 	}
@@ -558,7 +559,7 @@ class gsuiBlocksManager {
 							pA & Node.DOCUMENT_POSITION_FOLLOWING &&
 							pB & Node.DOCUMENT_POSITION_PRECEDING )
 						) {
-							this.uiBlc.selected( elBlc, true );
+							this.block_selected( elBlc, true );
 							map.set( id, elBlc );
 						}
 					}
@@ -569,7 +570,7 @@ class gsuiBlocksManager {
 		st.left = when * this.__pxPerBeat + "px";
 		st.width = duration * this.__pxPerBeat + "px";
 		st.height = ( bottomRow - topRow + 1 ) * rowH + "px";
-		this.__blcsEditing.forEach( ( blc, id ) => this.uiBlc.selected( blc, blcs.has( id ) ) );
+		this.__blcsEditing.forEach( ( blc, id ) => this.block_selected( blc, blcs.has( id ) ) );
 		this.__blcsEditing = blcs;
 	}
 }
