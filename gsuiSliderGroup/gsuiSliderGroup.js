@@ -192,10 +192,11 @@ class gsuiSliderGroup {
 		if ( gsuiSliderGroup._focused === this &&
 			( !this._selected.size || this._selected.has( id ) )
 		) {
-			const val = 1 - ( e.pageY - this._bcrTop ) / this._bcrHeight;
+			const val = 1 - ( e.pageY - this._bcrTop ) / this._bcrHeight,
+				realVal = this._alignMode === "0->1" ? val : val * 2 - 1;
 
-			sli.realValue = val;
-			this._sliderValue( sli, this._alignMode === "0->1" ? val : val * 2 - 1 );
+			sli.realValue = realVal;
+			this._sliderValue( sli, realVal );
 		}
 	}
 }
