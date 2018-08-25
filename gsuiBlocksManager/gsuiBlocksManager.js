@@ -367,6 +367,7 @@ class gsuiBlocksManager {
 		const blc = this.__getBlc( e.currentTarget );
 
 		window.getSelection().removeAllRanges();
+		this.__mdBlc = blc;
 		if ( e.button === 2 ) {
 			this.__mmFn = this.__mousemove_deletion;
 			this.__status = "deleting";
@@ -382,14 +383,15 @@ class gsuiBlocksManager {
 			if ( e.shiftKey ) {
 				this.__mmFn = this.__mousemove_selection1;
 				this.__status = "selecting-1";
-				this.__mdCurrTar = blc;
 				this.__mdRowInd = this.__getRowIndexByPageY( e.pageY );
 			} else if ( blc ) {
 				const data = this._getData(),
 					blcsEditing = this.__fillBlcsMap( blc );
 
+				blc.classList.add( "gsui-hover" );
 				if ( e.target.classList.contains( "gsuiBlocksManager-block-crop" ) ) {
 					this.__mmFn = this.__mousemove_crop;
+					e.target.classList.add( "gsui-hover" );
 					if ( e.target.classList.contains( "gsuiBlocksManager-block-cropA" ) ) {
 						this.__status = "cropping-a";
 						this.__valueAMin =
@@ -431,7 +433,8 @@ class gsuiBlocksManager {
 		gsuiBlocksManager._focused = this;
 	}
 	__mouseup() {
-		const blcsEditing = this.__blcsEditing;
+		const blcsEditing = this.__blcsEditing,
+			mdBlc = this.__mdBlc;
 
 		switch ( this.__status ) {
 			default: return;
@@ -447,6 +450,10 @@ class gsuiBlocksManager {
 				break;
 			case "cropping-a":
 			case "cropping-b":
+				const child = mdBlc.children;
+
+				child[ 0 ].classList.remove( "gsui-hover" );
+				child[ 1 ] && child[ 1 ].classList.remove( "gsui-hover" );
 				if ( Math.abs( this.__valueA ) > .000001 ) {
 					this.blcsManagerCallback( this.__status, blcsEditing, this.__valueA );
 				}
@@ -454,13 +461,8 @@ class gsuiBlocksManager {
 			case "selecting-2":
 				this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
 			case "selecting-1":
-				if ( this.__mdCurrTar && this.__status === "selecting-1" ) {
-					const blc = this.__getBlc( this.__mdCurrTar );
-
-					if ( blc ) {
-						blcsEditing.set( +blc.dataset.id, blc );
-					}
-					delete this.__mdCurrTar;
+				if ( this.__status === "selecting-1" && mdBlc ) {
+					blcsEditing.set( +mdBlc.dataset.id, mdBlc );
 				}
 				if ( blcsEditing.size ) {
 					this.blcsManagerCallback( "selecting", blcsEditing );
@@ -468,6 +470,10 @@ class gsuiBlocksManager {
 				break;
 		}
 		this.__eventReset();
+		if ( mdBlc ) {
+			mdBlc.classList.remove( "gsui-hover" );
+			delete this.__mdBlc;
+		}
 		delete gsuiBlocksManager._focused;
 	}
 

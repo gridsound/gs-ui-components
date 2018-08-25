@@ -160,10 +160,12 @@
 	left: auto;
 	right: 0;
 }
-.gsuiBlocksManager-block:hover .gsuiBlocksManager-block-crop {
+.gsuiBlocksManager-block:hover .gsuiBlocksManager-block-crop,
+.gsuiBlocksManager-block.gsui-hover .gsuiBlocksManager-block-crop {
 	opacity: .12;
 }
-.gsuiBlocksManager-block .gsuiBlocksManager-block-crop:hover {
+.gsuiBlocksManager-block .gsuiBlocksManager-block-crop:hover,
+.gsuiBlocksManager-block .gsuiBlocksManager-block-crop.gsui-hover {
 	opacity: .25;
 }
 
