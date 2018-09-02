@@ -86,8 +86,9 @@ class gsuiBlocksManager {
 			this.__elCurrentTime.style.fontSize = ppbpx;
 			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppbpx );
 			this._setPxPerBeat && this._setPxPerBeat( ppb );
+			return true;
 		}
-		return ppb;
+		return false;
 	}
 	setFontSize( px ) {
 		const fs = Math.min( Math.max( 8, px ), 64 );
@@ -99,8 +100,9 @@ class gsuiBlocksManager {
 			this.__sideContent.style.fontSize =
 			this.__rowsContainer.style.fontSize = fs + "px";
 			Array.from( this.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", isSmall ) );
+			return true;
 		}
-		return fs;
+		return false;
 	}
 	getDuration() {
 		const bPM = this.__uiTimeline._beatsPerMeasure,
@@ -235,12 +237,12 @@ class gsuiBlocksManager {
 	__onwheelPanelContent( e ) {
 		if ( e.ctrlKey ) {
 			const layerY = e.pageY - this.__sideContent.firstChild.getBoundingClientRect().top,
-				oldFs = this.__fontSize,
-				fs = this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );
+				oldFs = this.__fontSize;
 
+			this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );
 			this.__rowsScrollTop =
 			this.__sideContent.scrollTop =
-			this.__rowsContainer.scrollTop += layerY / oldFs * ( fs - oldFs );
+			this.__rowsContainer.scrollTop += layerY / oldFs * ( this.__fontSize - oldFs );
 		}
 	}
 	__onscrollRows( e ) {
