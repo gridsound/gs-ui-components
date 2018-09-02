@@ -130,7 +130,6 @@
 /* .......................................................................... */
 .gsuiBlocksManager-block {
 	position: absolute;
-	overflow: hidden;
 	z-index: 1;
 	height: 100%;
 	border-radius: 2px;
@@ -148,17 +147,23 @@
 .gsuiBlocksManager-block-crop {
 	position: absolute;
 	z-index: 2;
-	left: 0;
 	width: 50%;
 	height: 100%;
 	max-width: 8px;
+	border-radius: inherit;
 	background-color: #000;
 	opacity: 0;
 	transition: .1s opacity;
 }
+.gsuiBlocksManager-block-cropA {
+	left: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
 .gsuiBlocksManager-block-cropB {
-	left: auto;
 	right: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 .gsuiBlocksManager-block:hover .gsuiBlocksManager-block-crop,
 .gsuiBlocksManager-block.gsui-hover .gsuiBlocksManager-block-crop {
