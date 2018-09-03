@@ -70,6 +70,16 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.scrollToMiddle();
 		this._uiSliderGroup.attached();
 	}
+	setPxPerBeat( px ) {
+		if ( super.setPxPerBeat( px ) ) {
+			this.__blcs.forEach( blc => blc._dragline.redraw() );
+		}
+	}
+	setFontSize( px ) {
+		if ( super.setFontSize( px ) ) {
+			this.__blcs.forEach( blc => blc._dragline.redraw() );
+		}
+	}
 	scrollToMiddle() {
 		const rows = this.__rowsContainer;
 
@@ -113,11 +123,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	block_when( el, when ) {
 		super.block_when( el, when );
 		this._uiSliderGroup.setProp( +el.dataset.id, "when", when );
+		this.block_redrawDragline( el );
 	}
 	block_duration( el, dur ) {
 		super.block_duration( el, dur );
 		this._uiSliderGroup.setProp( +el.dataset.id, "duration", dur );
 		this._currKeyValue.duration = dur;
+		this.block_redrawDragline( el );
 	}
 	block_selected( el, b ) {
 		super.block_selected( el, b );
@@ -127,10 +139,27 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_key( el, this.data[ +el.dataset.id ].key - rowIncr );
 	}
 	block_key( el, midi ) {
-		const row = this._getRowByMidi( midi );
+		const row = this._getRowByMidi( midi ),
+			key = this.data[ el.dataset.id ];
 
 		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
 		row.firstChild.append( el );
+		this.block_redrawDragline( el );
+	}
+	block_rightLink( el, id ) {
+		const blc = id && this.__blcs.get( id );
+
+		el._dragline.linkTo( blc && blc._draglineDrop );
+	}
+	block_leftLink( el, id ) {
+	}
+	block_redrawDragline( el ) {
+		const key = this.data[ el.dataset.id ];
+
+		el._dragline.redraw();
+		if ( key.leftLink ) {
+			this.__blcs.get( key.leftLink )._dragline.redraw();
+		}
 	}
 
 	// Blocks manager callback
@@ -190,7 +219,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				break;
 			case "deleting":
 				blcsMap.forEach( ( _, id ) => {
+					const d = data[ id ];
+
 					obj[ id ] = null;
+					if ( d.leftLink ) { obj[ d.leftLink ] = { rightLink: false }; }
+					if ( d.rightLink ) { obj[ d.rightLink ] = { leftLink: false }; }
 					delete data[ id ];
 				} );
 				this.__unselectBlocks( obj );
@@ -221,8 +254,12 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 	// ........................................................................
 	_blcMousedown( id, e ) {
+		const dline = e.currentTarget._dragline.rootElement;
+
 		e.stopPropagation();
-		this.__mousedown( e );
+		if ( !dline.contains( e.target ) ) {
+			this.__mousedown( e );
+		}
 	}
 	_rowMousedown( key, e ) {
 		this.__mousedown( e );
@@ -231,6 +268,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				{ pan, gain, duration } = this._currKeyValue,
 				keyObj = { key, pan, gain, duration,
 					selected: false,
+					leftLink: false,
+					rightLink: false,
 					when: this.__getWhenByPageX( e.pageX ),
 				};
 
@@ -257,18 +296,28 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	// Key's functions
 	// ........................................................................
 	_deleteKey( id ) {
-		const blc = this.__blcs.get( id );
+		const blc = this.__blcs.get( id ),
+			key = this.data[ id ];
 
 		blc.remove();
+		if ( key.leftLink ) {
+			this.__blcs.get( key.leftLink )._dragline.linkTo( null );
+		}
 		this.__blcs.delete( id );
 		this.__blcsSelected.delete( id );
 		this._uiSliderGroup.delete( id );
 	}
 	_setKey( id, obj ) {
-		const blc = gsuiPianoroll.blockTemplate.cloneNode( true );
+		const blc = gsuiPianoroll.blockTemplate.cloneNode( true ),
+			dragline = new gsuiDragline();
 
 		blc.dataset.id = id;
 		blc.onmousedown = this._blcMousedown.bind( this, id );
+		dragline.onchange = this._onchangeDragline.bind( this, id );
+		blc._dragline = dragline;
+		blc._draglineDrop = blc.firstChild;
+		blc.append( dragline.rootElement );
+		dragline.getDropAreas = this._getDropAreas.bind( this, id, blc );
 		this.__blcs.set( id, blc );
 		obj.selected
 			? this.__blcsSelected.set( id, blc )
@@ -280,6 +329,39 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_selected( blc, obj.selected );
 		this.block_gain( blc, obj.gain );
 		this.block_pan( blc, obj.pan );
+		this.block_leftLink( blc, obj.leftLink );
+		this.block_rightLink( blc, obj.rightLink );
+	}
+	_getDropAreas( id, blc ) {
+		const obj = this.data[ id ],
+			when = obj.when + obj.duration,
+			arr = [];
+
+		this.__blcs.forEach( ( blc, blcId ) => {
+			const obj = this.data[ blcId ];
+
+			if ( obj.when >= when && ( !obj.leftLink || obj.leftLink === id ) ) {
+				arr.push( blc.firstChild );
+			}
+		} );
+		return arr;
+	}
+	_onchangeDragline( id, el, prevEl ) {
+		const obj = {};
+
+		if ( el ) {
+			const tarId = +el.parentNode.dataset.id;
+
+			obj[ id ] = { rightLink: tarId };
+			obj[ tarId ] = { leftLink: id };
+			if ( prevEl ) {
+				obj[ +prevEl.parentNode.dataset.id ] = { leftLink: false };
+			}
+		} else {
+			obj[ id ] = { rightLink: false };
+			obj[ +prevEl.parentNode.dataset.id ] = { leftLink: false };
+		}
+		this.onchange( obj );
 	}
 
 	// Data proxy
@@ -313,7 +395,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					key: 60,
 					when: 0,
 					duration: 1,
-					selected: false
+					selected: false,
+					leftLink: false,
+					rightLink: false,
 				}, obj ) ), {
 					set: this._proxySetKeyProp.bind( this, id )
 				} );

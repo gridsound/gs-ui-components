@@ -61,3 +61,11 @@
 	opacity: .4;
 	pointer-events: none;
 }
+.gsuiPianoroll .gsuiDragline-drop {
+	top: 50%;
+	left: -8px;
+}
+.gsuiPianoroll .gsuiDragline {
+	top: 50%;
+	right: -8px;
+}
