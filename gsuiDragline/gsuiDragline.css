@@ -11,7 +11,8 @@
 	max-height: 0;
 	color: var( --gsuiDragline-color );
 }
-.gsuiDragline-dragging {
+.gsuiDragline-dragging,
+.gsuiDragline-dragging .gsuiDragline-to {
 	pointer-events: none;
 }
 
@@ -21,8 +22,9 @@
 	--gsui-w: calc( var( --gsuiDragline-lineSize ) / 2 );
 
 	position: absolute;
-	min-width: var( --gsui-w );
-	min-height: var( --gsui-w );
+	min-width: var( --gsuiDragline-lineSize );
+	min-height: var( --gsuiDragline-lineSize );
+	pointer-events: none;
 	background-color: rgba( 100, 100, 200, .2 );
 	background-image: linear-gradient( var( --gsui-lineDir ),
 		transparent 0%,
@@ -45,6 +47,7 @@
 	margin: calc( var( --gsuiDragline-dotSize ) / -2 );
 	cursor: pointer;
 	border-radius: 50%;
+	pointer-events: all;
 	background-color: currentColor;
 }
 .gsuiDragline-down .gsuiDragline-to { bottom: 0; }
