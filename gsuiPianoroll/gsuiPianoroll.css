@@ -1,6 +1,9 @@
 .gsuiPianoroll {
 	width: 100%;
 	height: 500px;
+	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
+	--gsuiDragline-dotSize: 8px;
+	--gsuiDragline-lineSize: 1px;
 }
 .gsuiPianoroll:focus {
 	outline: 1px solid var( --gsuiBlocksManager-blockColor );
@@ -61,11 +64,20 @@
 	opacity: .4;
 	pointer-events: none;
 }
-.gsuiPianoroll .gsuiDragline-drop {
-	top: 50%;
-	left: -8px;
-}
 .gsuiPianoroll .gsuiDragline {
 	top: 50%;
-	right: -8px;
+	right: 0;
+}
+.gsuiPianoroll .gsuiDragline-drop {
+	top: 50%;
+	left: 0px;
+}
+.gsuiPianoroll .gsuiDragline-drop::before {
+	left: 0px;
+}
+.gsuiPianoroll .gsuiDragline-dropActive::before {
+	left: -6px;
+}
+.gsuiPianoroll .gsuiBlocksManager-block:not(:hover) .gsuiDragline-to {
+	--gsuiDragline-color: transparent;
 }

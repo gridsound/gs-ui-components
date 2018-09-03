@@ -152,6 +152,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		el._dragline.linkTo( blc && blc._draglineDrop );
 	}
 	block_leftLink( el, id ) {
+		const blc = id && this.__blcs.get( id );
+
+		blc && blc._dragline.linkTo( el._draglineDrop );
 	}
 	block_redrawDragline( el ) {
 		const key = this.data[ el.dataset.id ];
@@ -219,11 +222,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				break;
 			case "deleting":
 				blcsMap.forEach( ( _, id ) => {
-					const d = data[ id ];
+					const d = data[ id ],
+						l = d.leftLink,
+						r = d.rightLink;
 
 					obj[ id ] = null;
-					if ( d.leftLink ) { obj[ d.leftLink ] = { rightLink: false }; }
-					if ( d.rightLink ) { obj[ d.rightLink ] = { leftLink: false }; }
+					if ( l && !( l in obj ) ) { obj[ l ] = { rightLink: false }; }
+					if ( r && !( r in obj ) ) { obj[ r ] = { leftLink: false }; }
 					delete data[ id ];
 				} );
 				this.__unselectBlocks( obj );
@@ -301,7 +306,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		blc.remove();
 		if ( key.leftLink ) {
-			this.__blcs.get( key.leftLink )._dragline.linkTo( null );
+			const blc = this.__blcs.get( key.leftLink );
+
+			blc && blc._dragline.linkTo( null );
 		}
 		this.__blcs.delete( id );
 		this.__blcsSelected.delete( id );
