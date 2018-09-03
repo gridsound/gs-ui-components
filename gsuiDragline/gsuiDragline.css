@@ -48,7 +48,8 @@
 	cursor: pointer;
 	border-radius: 50%;
 	pointer-events: all;
-	background-color: currentColor;
+	background-color: var( --gsuiDragline-color );
+	transition: .2s background-color;
 }
 .gsuiDragline-down .gsuiDragline-to { bottom: 0; }
 .gsuiDragline-right .gsuiDragline-to { right: 0; }
@@ -68,9 +69,7 @@
 	height: 0;
 	margin: 0;
 	background-color: var( --gsuiDragline-color );
-	opacity: .8;
-	transition: .1s;
-	transition-property: width, height, margin, transform, opacity;
+	transition: .2s all;
 }
 .gsuiDragline-dropActive::before {
 	width: var( --gsuiDragline-dotSize );
@@ -80,6 +79,5 @@
 	border-radius: 50%;
 }
 .gsuiDragline-dropActive:hover::before {
-	opacity: .3;
 	transform: scale( 2 );
 }
