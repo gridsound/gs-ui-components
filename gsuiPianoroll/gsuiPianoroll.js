@@ -146,12 +146,12 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		row.firstChild.append( el );
 		this.block_redrawDragline( el );
 	}
-	block_rightLink( el, id ) {
+	block_next( el, id ) {
 		const blc = id && this.__blcs.get( id );
 
 		el._dragline.linkTo( blc && blc._draglineDrop );
 	}
-	block_leftLink( el, id ) {
+	block_prev( el, id ) {
 		const blc = id && this.__blcs.get( id );
 
 		blc && blc._dragline.linkTo( el._draglineDrop );
@@ -160,8 +160,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		const key = this.data[ el.dataset.id ];
 
 		el._dragline.redraw();
-		if ( key.leftLink ) {
-			this.__blcs.get( key.leftLink )._dragline.redraw();
+		if ( key.prev ) {
+			this.__blcs.get( key.prev )._dragline.redraw();
 		}
 	}
 
@@ -222,13 +222,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				break;
 			case "deleting":
 				blcsMap.forEach( ( _, id ) => {
-					const d = data[ id ],
-						l = d.leftLink,
-						r = d.rightLink;
+					const { prev, next } = data[ id ];
 
 					obj[ id ] = null;
-					if ( l && !( l in obj ) ) { obj[ l ] = { rightLink: false }; }
-					if ( r && !( r in obj ) ) { obj[ r ] = { leftLink: false }; }
+					if ( prev && !( prev in obj ) ) { obj[ prev ] = { next: false }; }
+					if ( next && !( next in obj ) ) { obj[ next ] = { prev: false }; }
 					delete data[ id ];
 				} );
 				this.__unselectBlocks( obj );
@@ -273,8 +271,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				{ pan, gain, duration } = this._currKeyValue,
 				keyObj = { key, pan, gain, duration,
 					selected: false,
-					leftLink: false,
-					rightLink: false,
+					prev: false,
+					next: false,
 					when: this.__getWhenByPageX( e.pageX ),
 				};
 
@@ -305,8 +303,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			key = this.data[ id ];
 
 		blc.remove();
-		if ( key.leftLink ) {
-			const blc = this.__blcs.get( key.leftLink );
+		if ( key.prev ) {
+			const blc = this.__blcs.get( key.prev );
 
 			blc && blc._dragline.linkTo( null );
 		}
@@ -336,8 +334,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_selected( blc, obj.selected );
 		this.block_gain( blc, obj.gain );
 		this.block_pan( blc, obj.pan );
-		this.block_leftLink( blc, obj.leftLink );
-		this.block_rightLink( blc, obj.rightLink );
+		this.block_prev( blc, obj.prev );
+		this.block_next( blc, obj.next );
 	}
 	_getDropAreas( id, blc ) {
 		const obj = this.data[ id ],
@@ -347,7 +345,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__blcs.forEach( ( blc, blcId ) => {
 			const obj = this.data[ blcId ];
 
-			if ( obj.when >= when && ( !obj.leftLink || obj.leftLink === id ) ) {
+			if ( obj.when >= when && ( !obj.prev || obj.prev === id ) ) {
 				arr.push( blc.firstChild );
 			}
 		} );
@@ -359,14 +357,14 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		if ( el ) {
 			const tarId = +el.parentNode.dataset.id;
 
-			obj[ id ] = { rightLink: tarId };
-			obj[ tarId ] = { leftLink: id };
+			obj[ id ] = { next: tarId };
+			obj[ tarId ] = { prev: id };
 			if ( prevEl ) {
-				obj[ +prevEl.parentNode.dataset.id ] = { leftLink: false };
+				obj[ +prevEl.parentNode.dataset.id ] = { prev: false };
 			}
 		} else {
-			obj[ id ] = { rightLink: false };
-			obj[ +prevEl.parentNode.dataset.id ] = { leftLink: false };
+			obj[ id ] = { next: false };
+			obj[ +prevEl.parentNode.dataset.id ] = { prev: false };
 		}
 		this.onchange( obj );
 	}
@@ -403,8 +401,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					when: 0,
 					duration: 1,
 					selected: false,
-					leftLink: false,
-					rightLink: false,
+					prev: false,
+					next: false,
 				}, obj ) ), {
 					set: this._proxySetKeyProp.bind( this, id )
 				} );
