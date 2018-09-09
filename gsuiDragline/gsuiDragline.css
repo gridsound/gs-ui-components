@@ -18,25 +18,29 @@
 
 /* ................................................................ */
 .gsuiDragline-main {
-	--gsui-lineDir: to top left;
-	--gsui-w: calc( var( --gsuiDragline-lineSize ) / 2 );
-
-	position: absolute;
-	min-width: var( --gsuiDragline-lineSize );
-	min-height: var( --gsuiDragline-lineSize );
+	position: relative;
 	pointer-events: none;
-	background-color: rgba( 100, 100, 200, .2 );
-	background-image: linear-gradient( var( --gsui-lineDir ),
-		transparent 0%,
-		transparent calc( 50% - 1px - var( --gsui-w ) ),
-		currentColor calc( 50% - var( --gsui-w ) ),
-		currentColor calc( 50% + var( --gsui-w ) ),
-		transparent calc( 50% + 1px + var( --gsui-w ) ),
-		transparent 100% );
 }
-.gsuiDragline-down.gsuiDragline-right,
-.gsuiDragline-main:not( .gsuiDragline-down ):not( .gsuiDragline-right ) {
-	--gsui-lineDir: to top right;
+
+/* ................................................................ */
+.gsuiDragline-line {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 0;
+	height: 0;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: var( --gsuiDragline-lineSize );
+	stroke-linecap: round;
+}
+.gsuiDragline-down .gsuiDragline-line {
+	top: 0;
+	bottom: auto;
+}
+.gsuiDragline-right .gsuiDragline-line {
+	left: 0;
+	right: auto;
 }
 
 /* ................................................................ */

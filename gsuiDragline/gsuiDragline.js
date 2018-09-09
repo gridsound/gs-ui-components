@@ -2,12 +2,15 @@
 
 class gsuiDragline {
 	constructor() {
-		const root = gsuiDragline.template.cloneNode( true );
+		const root = gsuiDragline.template.cloneNode( true ),
+			svg = root.firstChild.firstChild;
 
 		this.onchange = () => {};
 		this.rootElement = root;
 		this._linkedTo = null;
 		this._main = root.firstChild;
+		this._svg = svg;
+		this._polyline = svg.firstChild;
 		this._to = root.firstChild.lastChild;
 		this._to.onmousedown = this._mousedownTo.bind( this );
 	}
@@ -23,6 +26,7 @@ class gsuiDragline {
 		el = el || null;
 		if ( el !== this._linkedTo ) {
 			this._linkedTo = el;
+			this.rootElement.classList.toggle( "gsuiDragline-linked", !!el );
 			el ? this.redraw() : this._unlink();
 		}
 	}
@@ -30,31 +34,51 @@ class gsuiDragline {
 		if ( this._linkedTo ) {
 			const bcr = this._linkedTo.getBoundingClientRect();
 
+			this._updateLineSize();
 			this._render( bcr.left, bcr.top );
 		}
 	}
 
 	// private:
+	_updateLineSize() {
+		this._lineSize = parseFloat( getComputedStyle( this._polyline ).strokeWidth ) || 0;
+	}
 	_render( x, y ) {
-		const main = this._main,
-			rootBCR = this.rootElement.getBoundingClientRect(),
-			w = x - rootBCR.left,
-			h = y - rootBCR.top;
+		const clMain = this._main.classList,
+			stMain = this._main.style,
+			stSvg = this._svg.style,
+			line = this._lineSize,
+			bcr = this.rootElement.getBoundingClientRect(),
+			w = x - bcr.left,
+			h = y - bcr.top,
+			wabs = Math.abs( w ),
+			habs = Math.abs( h ),
+			whmax = Math.max( wabs, habs ),
+			whmax2 = whmax * 2;
 
-		main.classList.toggle( "gsuiDragline-down", h > 0 );
-		main.classList.toggle( "gsuiDragline-right", w > 0 );
-		main.style.top = Math.min( h, 0 ) + "px";
-		main.style.left = Math.min( w, 0 ) + "px";
-		main.style.width = Math.abs( w ) + "px";
-		main.style.height = Math.abs( h ) + "px";
+		clMain.toggle( "gsuiDragline-down", h > 0 );
+		clMain.toggle( "gsuiDragline-right", w > 0 );
+		stMain.top = Math.min( h, 0 ) + "px";
+		stMain.left = Math.min( w, 0 ) + "px";
+		stMain.width = wabs + "px";
+		stMain.height = habs + "px";
+		stSvg.width =
+		stSvg.height = whmax2 + "px";
+		stSvg.margin = -whmax + "px";
+		this._svg.setAttribute( "viewBox", `0 0 ${ whmax2 } ${ whmax2 }` );
+		this._polyline.setAttribute( "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	_unlink() {
-		const st = this._main.style;
+		const stMain = this._main.style,
+			stSvg = this._svg.style;
 
-		st.top =
-		st.left =
-		st.width =
-		st.height = "0px";
+		stMain.top =
+		stMain.left =
+		stMain.width =
+		stMain.height =
+		stSvg.width =
+		stSvg.height =
+		stSvg.margin = "0px";
 	}
 	_cancelDrag() {
 		this._resetDrag();
@@ -85,6 +109,7 @@ class gsuiDragline {
 			} );
 			this.rootElement.classList.add( "gsuiDragline-dragging" );
 			gsuiDragline._focused = this;
+			this._updateLineSize();
 			this._mousemove( e );
 		}
 	}
