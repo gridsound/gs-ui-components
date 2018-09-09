@@ -15,13 +15,6 @@ class gsuiDragline {
 		this._to.onmousedown = this._mousedownTo.bind( this );
 	}
 
-	remove() {
-		delete this._attached;
-		this.rootElement.remove();
-	}
-	attached() {
-		this._attached = true;
-	}
 	linkTo( el ) {
 		el = el || null;
 		if ( el !== this._linkedTo ) {
