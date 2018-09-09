@@ -1,9 +1,9 @@
 .gsuiPianoroll {
 	width: 100%;
 	height: 500px;
-	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
-	--gsuiDragline-dotSize: 8px;
-	--gsuiDragline-lineSize: 1px;
+	--gsuiDragline-dotSize: 10px;
+	--gsuiDragline-dotRad: 2px;
+	--gsuiDragline-lineSize: 3px;
 }
 .gsuiPianoroll:focus {
 	outline: 1px solid var( --gsuiBlocksManager-blockColor );
@@ -47,7 +47,11 @@
 .gsuiPianoroll .gsui-row:hover { background-color: rgba( 255, 255, 255, .03 ); }
 .gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba( 0, 0, 0, .15 ); }
 
+/* block */
 /* .......................................................................... */
+.gsuiPianoroll .gsuiBlocksManager-block {
+	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
+}
 .gsuiPianoroll .gsuiBlocksManager-block::before {
 	content: attr( data-key );
 	position: absolute;
@@ -64,10 +68,14 @@
 	opacity: .4;
 	pointer-events: none;
 }
+
+/* .......................................................................... */
 .gsuiPianoroll .gsuiDragline {
 	top: 50%;
 	right: 0;
 }
+
+/* .......................................................................... */
 .gsuiPianoroll .gsuiDragline-drop {
 	top: 50%;
 	left: 0px;
@@ -76,8 +84,20 @@
 	left: 0px;
 }
 .gsuiPianoroll .gsuiDragline-dropActive::before {
-	left: -6px;
+	left: calc( var( --gsuiDragline-dotSize ) / -2 - 2px );
 }
-.gsuiPianoroll .gsuiBlocksManager-block:not(:hover) .gsuiDragline-to {
-	--gsuiDragline-color: transparent;
+
+/* .gsuiDragline-to */
+/* .......................................................................... */
+.gsuiPianoroll .gsuiBlocksManager-block:not( :hover ):not( .gsui-hover )
+	.gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+	background-color: transparent;
+}
+.gsuiPianoroll .gsuiBlocksManager-block:hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
+.gsuiPianoroll .gsuiBlocksManager-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
+	left: calc( var( --gsuiDragline-dotSize ) / 2 );
+}
+.gsuiPianoroll .gsuiBlocksManager-block:hover .gsuiDragline-linked .gsuiDragline-to,
+.gsuiPianoroll .gsuiBlocksManager-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
+	right: calc( var( --gsuiDragline-dotSize ) / 2 );
 }
