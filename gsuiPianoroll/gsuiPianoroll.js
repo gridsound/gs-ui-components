@@ -157,12 +157,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		blc && blc._dragline.linkTo( el._draglineDrop );
 	}
 	block_redrawDragline( el ) {
-		const key = this.data[ el.dataset.id ];
+		const key = this.data[ el.dataset.id ],
+			blcPrev = this.__blcs.get( key.prev );
 
 		el._dragline.redraw();
-		if ( key.prev ) {
-			this.__blcs.get( key.prev )._dragline.redraw();
-		}
+		blcPrev && blcPrev._dragline.redraw();
 	}
 
 	// Blocks manager callback
@@ -225,9 +224,23 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					const { prev, next } = data[ id ];
 
 					obj[ id ] = null;
-					if ( prev && !( prev in obj ) ) { obj[ prev ] = { next: false }; }
-					if ( next && !( next in obj ) ) { obj[ next ] = { prev: false }; }
 					delete data[ id ];
+					if ( prev ) {
+						const obj_ = obj[ prev ];
+
+						if ( obj_ !== null ) {
+							if ( obj_ ) { obj_.next = false; }
+							else { obj[ prev ] = { next: false }; }
+						}
+					}
+					if ( next ) {
+						const obj_ = obj[ next ];
+
+						if ( obj_ !== null ) {
+							if ( obj_ ) { obj_.prev = false; }
+							else { obj[ next ] = { prev: false }; }
+						}
+					}
 				} );
 				this.__unselectBlocks( obj );
 				break;
