@@ -1,6 +1,7 @@
 :root {
 	--gsuiDragline-color: #fff;
 	--gsuiDragline-dotSize: 8px;
+	--gsuiDragline-dotRad: 50%;
 	--gsuiDragline-lineSize: 4px;
 }
 
@@ -50,7 +51,7 @@
 	height: var( --gsuiDragline-dotSize );
 	margin: calc( var( --gsuiDragline-dotSize ) / -2 );
 	cursor: pointer;
-	border-radius: 50%;
+	border-radius: var( --gsuiDragline-dotRad );
 	pointer-events: all;
 	background-color: var( --gsuiDragline-color );
 	transition: .2s background-color;
@@ -80,7 +81,7 @@
 	height: var( --gsuiDragline-dotSize );
 	margin: calc( var( --gsuiDragline-dotSize ) / -2 );
 	cursor: pointer;
-	border-radius: 50%;
+	border-radius: var( --gsuiDragline-dotRad );
 }
 .gsuiDragline-dropActive:hover::before {
 	transform: scale( 2 );
