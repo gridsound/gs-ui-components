@@ -138,7 +138,7 @@
 	transition-property: opacity, background-color;
 }
 .gsuiBlocksManager-block-selected {
-	background-color: var( --gsuiBlocksManager-blockSelectedColor );
+	--gsuiBlocksManager-blockColor: var( --gsuiBlocksManager-blockSelectedColor );
 }
 .gsuiBlocksManager-block-hidden {
 	z-index: 0;
