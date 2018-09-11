@@ -172,16 +172,32 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		switch ( status ) {
 			case "duplicating":
-				blcsMap.forEach( ( blc, id ) => {
+				const mapIds = new Map();
+
+				blcsMap.forEach( ( _, id ) => {
 					const d = data[ id ],
 						nId = ++this._idMax,
 						copy = Object.assign( {}, d );
 
 					copy.when += valA;
+					copy.prev =
+					copy.next = false;
 					obj[ id ] = { selected: false };
 					obj[ nId ] =
 					data[ nId ] = copy;
+					mapIds.set( id, nId );
 					d.selected = false;
+				} );
+				blcsMap.forEach( ( _, id ) => {
+					const d = data[ id ];
+
+					if ( blcsMap.has( d.next ) ) {
+						const idCurr = mapIds.get( id ),
+							idNext = mapIds.get( d.next );
+
+						obj[ idCurr ].next = idNext;
+						obj[ idNext ].prev = idCurr;
+					}
 				} );
 				break;
 			case "selecting":
