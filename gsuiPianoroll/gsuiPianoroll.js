@@ -181,7 +181,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 					copy.when += valA;
 					copy.prev =
-					copy.next = false;
+					copy.next = null;
 					obj[ id ] = { selected: false };
 					obj[ nId ] =
 					data[ nId ] = copy;
@@ -239,22 +239,22 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				blcsMap.forEach( ( _, id ) => {
 					const { prev, next } = data[ id ];
 
-					obj[ id ] = null;
+					obj[ id ] = undefined;
 					delete data[ id ];
 					if ( prev ) {
 						const obj_ = obj[ prev ];
 
-						if ( obj_ !== null ) {
-							if ( obj_ ) { obj_.next = false; }
-							else { obj[ prev ] = { next: false }; }
+						if ( obj_ !== undefined ) {
+							if ( obj_ ) { obj_.next = null; }
+							else { obj[ prev ] = { next: null }; }
 						}
 					}
 					if ( next ) {
 						const obj_ = obj[ next ];
 
-						if ( obj_ !== null ) {
-							if ( obj_ ) { obj_.prev = false; }
-							else { obj[ next ] = { prev: false }; }
+						if ( obj_ !== undefined ) {
+							if ( obj_ ) { obj_.prev = null; }
+							else { obj[ next ] = { prev: null }; }
 						}
 					}
 				} );
@@ -300,8 +300,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				{ pan, gain, duration } = this._currKeyValue,
 				keyObj = { key, pan, gain, duration,
 					selected: false,
-					prev: false,
-					next: false,
+					prev: null,
+					next: null,
 					when: this.__getWhenByPageX( e.pageX ),
 				};
 
@@ -389,11 +389,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			obj[ id ] = { next: tarId };
 			obj[ tarId ] = { prev: id };
 			if ( prevEl ) {
-				obj[ +prevEl.parentNode.dataset.id ] = { prev: false };
+				obj[ +prevEl.parentNode.dataset.id ] = { prev: null };
 			}
 		} else {
-			obj[ id ] = { next: false };
-			obj[ +prevEl.parentNode.dataset.id ] = { prev: false };
+			obj[ id ] = { next: null };
+			obj[ +prevEl.parentNode.dataset.id ] = { prev: null };
 		}
 		this.onchange( obj );
 	}
@@ -430,8 +430,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					when: 0,
 					duration: 1,
 					selected: false,
-					prev: false,
-					next: false,
+					prev: null,
+					next: null,
 				}, obj ) ), {
 					set: this._proxySetKeyProp.bind( this, id )
 				} );
