@@ -100,7 +100,7 @@
 .gsuiSliderGroup-loop,
 .gsuiSliderGroup-currentTime {
 	position: absolute;
-	z-index: 2000000000; /* 1. */
+	z-index: 1000000; /* 1. */
 	top: 0;
 	bottom: 0;
 	pointer-events: none;
@@ -122,6 +122,6 @@
 
 /*
 1.
-	z-index: 2milliard; because all the sliders will have undefined high z-index.
+	z-index: 1million; because all the sliders will have undefined high z-index.
 	and we don't put the max value to not interfere with the popup z-index etc.
 */
