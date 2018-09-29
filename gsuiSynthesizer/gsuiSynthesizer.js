@@ -26,7 +26,7 @@ class gsuiSynthesizer {
 	empty() {
 		this._uioscs && Object.values( this._uioscs ).forEach( o => o.remove() );
 		this._uioscs = {};
-		this._oscIdMax = 0;
+		this._nextOscId = 0;
 		this.store = { oscillators: {} };
 	}
 	setWaveList( arr ) {
@@ -51,7 +51,7 @@ class gsuiSynthesizer {
 		if ( !this._uioscs[ id ] ) {
 			const uiosc = new gsuiOscillator();
 
-			this._oscIdMax = Math.max( this._oscIdMax, parseInt( id.substr( 1 ), 16 ) );
+			this._nextOscId = Math.max( this._nextOscId, +id + 1 );
 			this._uioscs[ id ] = uiosc;
 			if ( !( "order" in osc ) ) {
 				osc.order = this._getMaxOrder();
@@ -96,13 +96,13 @@ class gsuiSynthesizer {
 
 	// events:
 	_onclickNewOsc() {
-		const id = "i" + ( this._oscIdMax + 1 ).toString( 16 ),
+		const id = this._nextOscId + "",
 			osc = {
+				order: this._getMaxOrder(),
 				type: "sine",
 				gain: 1,
 				pan: 0,
 				detune: 0,
-				order: this._getMaxOrder()
 			};
 
 		this._createOsc( id, osc );
