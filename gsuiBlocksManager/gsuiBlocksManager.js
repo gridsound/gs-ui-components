@@ -113,6 +113,9 @@ class gsuiBlocksManager {
 
 		return Math.max( 1, Math.ceil( dur / bPM ) ) * bPM;
 	}
+	getBlocks() {
+		return this.__blcs;
+	}
 
 	// Blocks methods
 	// ............................................................................................
