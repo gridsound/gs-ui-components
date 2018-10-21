@@ -152,7 +152,7 @@ class gsuiBlocksManager {
 		this.__gridPanelResized();
 	}
 	__loop( isLoop, a, b ) {
-		this._loop && this._loop( a, b );
+		this._loop && this._loop( isLoop && a, b );
 		this.__elLoopA.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		this.__elLoopB.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		if ( isLoop ) {
