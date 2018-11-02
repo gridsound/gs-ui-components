@@ -310,8 +310,7 @@ class gsuiBlocksManager {
 
 					if ( blcsSel.size ) {
 						const data = this._getData();
-						let idMax = this._idMax,
-							whenMin = Infinity,
+						let whenMin = Infinity,
 							whenMax = 0;
 
 						blcsEditing.clear();
