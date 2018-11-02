@@ -244,7 +244,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					if ( prev ) {
 						const obj_ = obj[ prev ];
 
-						if ( obj_ !== undefined ) {
+						if ( !( prev in obj ) || obj_ !== undefined ) {
 							if ( obj_ ) { obj_.next = null; }
 							else { obj[ prev ] = { next: null }; }
 						}
@@ -252,7 +252,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					if ( next ) {
 						const obj_ = obj[ next ];
 
-						if ( obj_ !== undefined ) {
+						if ( !( next in obj ) || obj_ !== undefined ) {
 							if ( obj_ ) { obj_.prev = null; }
 							else { obj[ next ] = { prev: null }; }
 						}
