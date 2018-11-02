@@ -84,20 +84,19 @@
 	left: 0px;
 }
 .gsuiPianoroll .gsuiDragline-dropActive::before {
-	left: calc( var( --gsuiDragline-dotSize ) / -2 - 2px );
+	left: -4px;
 }
 
 /* .gsuiDragline-to */
 /* .......................................................................... */
-.gsuiPianoroll .gsuiBlocksManager-block:not( :hover ):not( .gsui-hover )
-	.gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+.gsuiPianoroll .gsuiBlocksManager-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
 	background-color: transparent;
 }
 .gsuiPianoroll .gsuiBlocksManager-block:hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
 .gsuiPianoroll .gsuiBlocksManager-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
-	left: calc( var( --gsuiDragline-dotSize ) / 2 );
+	transform: translateX( 2px );
 }
 .gsuiPianoroll .gsuiBlocksManager-block:hover .gsuiDragline-linked .gsuiDragline-to,
 .gsuiPianoroll .gsuiBlocksManager-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
-	right: calc( var( --gsuiDragline-dotSize ) / 2 );
+	transform: translateX( -2px );
 }
