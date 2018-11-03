@@ -21,9 +21,14 @@ class gsuiOscillator {
 		waves[ 1 ].frequency = 2;
 		root.querySelector( ".gsuiOscillator-typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
 		root.querySelector( ".gsuiOscillator-typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
-		root.querySelector( ".gsuiOscillator-remove" ).onclick = _ => this.onremove && this.onremove();
+		root.querySelector( ".gsuiOscillator-remove" ).onclick = () => this.onremove && this.onremove();
 		this._elSelect = root.querySelector( "select" );
 		this._elSelect.onchange = this._onchangeSelect.bind( this );
+		this._elSelect.onkeydown = e => {
+			if ( e.keyCode < 37 || e.keyCode > 40 ) {
+				e.preventDefault();
+			}
+		};
 		this._sliders = Array.from( root.querySelectorAll(
 			"div[data-filter]" ) ).reduce( ( obj, el ) => {
 				const slider = new gsuiSlider(),
@@ -46,7 +51,7 @@ class gsuiOscillator {
 			type: "sine",
 			gain: 1,
 			pan: 0,
-			detune: 0
+			detune: 0,
 		} );
 	}
 
@@ -142,7 +147,7 @@ class gsuiOscillator {
 		this._updateWaves();
 		this.oninput && this.oninput( "type", type );
 		clearTimeout( this._timeidType );
-		this._timeidType = setTimeout( _ => {
+		this._timeidType = setTimeout( () => {
 			if ( this.store.type !== type ) {
 				this.store.type = type;
 				this.onchange( { type } );
