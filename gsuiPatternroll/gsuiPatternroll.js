@@ -124,7 +124,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				break;
 			case "deleting":
 				blcsMap.forEach( ( _, id ) => {
-					obj[ id ] = null;
+					obj[ id ] = undefined;
 					delete data[ id ];
 				} );
 				this.__unselectBlocks( obj );
