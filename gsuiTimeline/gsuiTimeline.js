@@ -55,7 +55,7 @@ class gsuiTimeline {
 	beatCeil( bt ) { return this._round( bt, "ceil" ); }
 	loop( a, b, isUserAction ) {
 		const loopWas = this._loop;
-		let la, lb, serial;
+		let la, lb;
 
 		if ( a === false ) {
 			this._loop = a;
@@ -63,16 +63,22 @@ class gsuiTimeline {
 			this._loopA = Math.max( 0, Math.min( a, b ) );
 			this._loopB = Math.max( 0, a, b );
 		}
-		la = this.beatRound( this._loopA );
-		lb = this.beatRound( this._loopB );
+		if ( isUserAction ) {
+			la = this.beatRound( this._loopA );
+			lb = this.beatRound( this._loopB );
+		} else {
+			la = this._loopA;
+			lb = this._loopB;
+		}
 		if ( a !== false ) {
 			this._loop = lb - la > 1 / this._stepsPerBeat / 8;
 		}
 		if ( isUserAction ) {
 			if ( this.oninputLoop ) {
-				if ( loopWas && this._loop ) {
-					serial = this._serialAB( la, lb );
-				}
+				const serial = loopWas && this._loop
+						? this._serialAB( la, lb )
+						: undefined;
+
 				if ( loopWas !== this._loop || this._loopSerialInp !== serial ) {
 					this._loopSerialInp = serial;
 					this.oninputLoop( this._loop, la, lb );
@@ -80,11 +86,11 @@ class gsuiTimeline {
 			}
 		} else {
 			this._loopWas = this._loop;
-			this._loopSerial = this._serialAB(
-				this._loopAWas = la,
-				this._loopBWas = lb );
+			this._loopAWas = la;
+			this._loopBWas = lb;
+			this._loopSerial = this._serialAB( la, lb );
 		}
-		this._updateLoop();
+		this._setLoop( la, lb );
 	}
 
 	// private:
@@ -204,19 +210,19 @@ class gsuiTimeline {
 			}
 		}
 	}
-	_updateLoop() {
+	_setLoop( beatA, beatB ) {
 		const s = this._dom.loop.style;
 
 		if ( this._loop ) {
 			const px = this._pxPerBeat,
-				off = this._offset,
-				la = this.beatRound( this._loopA ),
-				lb = this.beatRound( this._loopB );
+				off = this._offset;
 
-			s.left = ( la - off ) * px + "px";
-			s.right = this.width - ( lb - off ) * px + "px";
+			s.left = ( beatA - off ) * px + "px";
+			s.right = this.width - ( beatB - off ) * px + "px";
+			s.display = "block";
+		} else {
+			s.display = "none";
 		}
-		s.display = this._loop ? "block" : "none";
 	}
 	_render() {
 		const rootCL = this.rootElement.classList,
@@ -261,7 +267,9 @@ class gsuiTimeline {
 			elStep.remove();
 		}
 		this._dom.cursor.style.left = this._beatToPx( this._currentTime );
-		this._updateLoop();
+		this._setLoop(
+			this.beatRound( this._loopA ),
+			this.beatRound( this._loopB ) );
 	}
 }
 
