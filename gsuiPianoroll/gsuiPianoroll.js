@@ -147,12 +147,12 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_redrawDragline( el );
 	}
 	block_next( el, id ) {
-		const blc = id && this.__blcs.get( id );
+		const blc = this.__blcs.get( id );
 
 		el._dragline.linkTo( blc && blc._draglineDrop );
 	}
 	block_prev( el, id ) {
-		const blc = id && this.__blcs.get( id );
+		const blc = this.__blcs.get( id );
 
 		blc && blc._dragline.linkTo( el._draglineDrop );
 	}
@@ -241,7 +241,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 					obj[ id ] = undefined;
 					delete data[ id ];
-					if ( prev ) {
+					if ( prev !== null ) {
 						const obj_ = obj[ prev ];
 
 						if ( !( prev in obj ) || obj_ !== undefined ) {
@@ -249,7 +249,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 							else { obj[ prev ] = { next: null }; }
 						}
 					}
-					if ( next ) {
+					if ( next !== null ) {
 						const obj_ = obj[ next ];
 
 						if ( !( next in obj ) || obj_ !== undefined ) {
@@ -328,14 +328,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	// Key's functions
 	// ........................................................................
 	_deleteKey( id ) {
-		const blc = this.__blcs.get( id ),
-			key = this.data[ id ];
+		const key = this.data[ id ],
+			blc = this.__blcs.get( id ),
+			blcPrev = this.__blcs.get( key.prev );
 
 		blc.remove();
-		if ( key.prev ) {
-			const blc = this.__blcs.get( key.prev );
-
-			blc && blc._dragline.linkTo( null );
+		if ( blcPrev ) {
+			blcPrev._dragline.linkTo( null );
 		}
 		this.__blcs.delete( id );
 		this.__blcsSelected.delete( id );
@@ -374,7 +373,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__blcs.forEach( ( blc, blcId ) => {
 			const obj = this.data[ blcId ];
 
-			if ( obj.when >= when && ( !obj.prev || obj.prev === id ) ) {
+			if ( obj.when >= when && ( obj.prev === null || obj.prev === id ) ) {
 				arr.push( blc.firstChild );
 			}
 		} );
