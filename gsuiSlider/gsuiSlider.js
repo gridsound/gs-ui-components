@@ -31,6 +31,7 @@ class gsuiSlider {
 		const inp = this._elInput,
 			clazz = this.rootElement.classList;
 
+		this._wheelChange = !!obj.wheelChange;
 		this._circ = obj.type === "circular";
 		this._axeX = obj.type === "linear-x";
 		this._options = obj = Object.assign( {}, obj );
@@ -143,10 +144,12 @@ class gsuiSlider {
 
 	// events:
 	_wheel( e ) {
-		const d = e.deltaY > 0 ? -1 : 1;
+		if ( this._wheelChange ) {
+			const d = e.deltaY > 0 ? -1 : 1;
 
-		this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
-		return false;
+			this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
+			return false;
+		}
 	}
 	_mousedown( e ) {
 		const opt = this._options,
