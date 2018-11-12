@@ -68,7 +68,7 @@ class gsuiBlocksManager {
 	}
 	loop( a, b ) {
 		this.__uiTimeline.loop( a, b );
-		this.__loop( a !== false, a, b );
+		this.__loop( Number.isFinite( a ), a, b );
 	}
 	setPxPerBeat( px ) {
 		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
