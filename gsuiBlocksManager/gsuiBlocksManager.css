@@ -1,12 +1,11 @@
 :root {
-	--gsuiBlocksManager-bgColor: #3a5158;
-	--gsuiBlocksManager-borderColor: #111;
-	--gsuiBlocksManager-side-bgColor: #555;
+	--gsuiBlocksManager-grid-bg: dodgerblue;
+	--gsuiBlocksManager-side-bgColor: indianred;
 	--gsuiBlocksManager-timeline-height: 32px;
-	--gsuiBlocksManager-selection-bgColor: rgba( 189, 38, 38, .4 );
-	--gsuiBlocksManager-selection-borderColor: #f44;
-	--gsuiBlocksManager-blockColor: rgba( 85, 170, 204, .8 );
-	--gsuiBlocksManager-blockSelectedColor: rgba( 255, 136, 136, .8 );
+	--gsuiBlocksManager-selection-bgColor: rgba( 255, 255, 0, .5 );
+	--gsuiBlocksManager-selection-borderColor: yellow;
+	--gsuiBlocksManager-blockColor: yellow;
+	--gsuiBlocksManager-blockSelectedColor: blue;
 }
 
 .gsuiBlocksManager-sidePanel {
@@ -26,13 +25,6 @@
 	opacity: .7;
 }
 .gsuiBlocksManager-gridPanel {
-	--gsuiSliderGroup-currentTime-color: #ff9;
-	--gsuiSliderGroup-slider-width: 6px;
-	--gsuiSliderGroup-slider-bg: rgba( 0, 0, 0, .1 );
-	--gsuiSliderGroup-slider-color: var( --gsuiBlocksManager-blockColor );
-	--gsuiSliderGroup-slider-color-selected: var( --gsuiBlocksManager-blockSelectedColor );
-	--gsuiSliderGroup-loop-color: rgba( 0, 0, 0, .3 );
-
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -79,7 +71,6 @@
 }
 .gsuiBlocksManager-sidePanelContent {
 	top: var( --gsuiBlocksManager-timeline-height );
-	box-shadow: 0 -1px 0 var( --gsuiBlocksManager-borderColor );
 }
 .gsuiBlocksManager-gridPanel .gsuiPanels-extend {
 	margin-top: var( --gsuiBlocksManager-timeline-height );
@@ -87,27 +78,24 @@
 
 .gsuiBlocksManager-timelineWrap {
 	height: var( --gsuiBlocksManager-timeline-height );
-	border-bottom: 1px solid var( --gsuiBlocksManager-borderColor );
 	box-sizing: border-box;
 }
 .gsuiBlocksManager-timelineWrap .gsuiTimeline {
 	height: 100%;
 }
 
+.gsuiBlocksManager-rows {
+	background-color: var( --gsuiBlocksManager-grid-bg );
+}
 .gsuiBlocksManager-rowsWrapout {
 	flex: 1;
 	position: relative;
-	background-color: var( --gsuiBlocksManager-bgColor );
 }
 .gsuiBlocksManager-rowsWrapin {
 	position: absolute;
 }
 .gsuiBlocksManager-rows .gsui-row {
 	width: 1000000px;
-}
-
-.gsuiBlocksManager-gridPanel .gsuiBeatlines {
-	background-color: var( --gsuiBlocksManager-bgColor );
 }
 
 /* .......................................................................... */
