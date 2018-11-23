@@ -1,12 +1,12 @@
 :root {
-	--gsuiSliderGroup-bg: #333;
-	--gsuiSliderGroup-currentTime-color: white;
+	--gsuiSliderGroup-bg: indianred;
+	--gsuiSliderGroup-currentTime-color: dodgerblue;
 	--gsuiSliderGroup-scale-font: bold 11px monospace;
 	--gsuiSliderGroup-slider-width: 2px;
-	--gsuiSliderGroup-slider-bg: gray;
-	--gsuiSliderGroup-slider-color: white;
-	--gsuiSliderGroup-slider-color-selected: indianred;
-	--gsuiSliderGroup-loop-color: rgba( 0, 0, 0, .6 );
+	--gsuiSliderGroup-slider-bg: black;
+	--gsuiSliderGroup-slider-color: yellow;
+	--gsuiSliderGroup-slider-color-selected: blue;
+	--gsuiSliderGroup-loop-color: rgba( 150, 0, 0, .5 );
 }
 
 /* scale (extern element) */
@@ -22,8 +22,6 @@
 .gsuiSliderGroup-scale,
 .gsuiSliderGroup-sliders {
 	user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
 	-webkit-user-select: none;
 }
 
@@ -47,8 +45,6 @@
 	width: 1000000px;
 	height: 100%;
 	user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
 	-webkit-user-select: none;
 }
 
