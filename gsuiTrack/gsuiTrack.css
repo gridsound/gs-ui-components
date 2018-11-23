@@ -1,11 +1,13 @@
 :root {
 	--gsuiTrack-duration: .2s;
-	--gsuiTrack-bg: #444;
-	--gsuiTrack-bg-mute: #393939;
-	--gsuiTrack-row-bg-mute: rgba( 0, 0, 0, .25 );
-	--gsuiTrack-color: #eee;
-	--gsuiTrack-borderTop-color: rgba( 255, 255, 255, .07 );
-	--gsuiTrack-borderBottom-color: rgba( 0, 0, 0, .4 );
+	--gsuiTrack-bg: dodgerblue;
+	--gsuiTrack-bg-mute: indianred;
+	--gsuiTrack-row-bg-mute: rgba( 255, 0, 0, .5 );
+	--gsuiTrack-color: yellow;
+	--gsuiTrack-borderTop-color: white;
+	--gsuiTrack-borderBottom-color: black;
+	--gsuiTrack-toggle-bg: tomato;
+	--gsuiTrack-toggleOff-bg: dodgerblue;
 }
 
 .gsuiTrack,
@@ -36,7 +38,8 @@
 	width: 100%;
 }
 .gsuiTrack.gsui-mute {
-	background-color: var( --gsuiTrack-bg-mute );
+	--gsuiTrack-bg: var( --gsuiTrack-bg-mute );
+	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
 }
 .gsuiTrack-row.gsui-mute {
 	background-color: var( --gsuiTrack-row-bg-mute );
@@ -54,10 +57,7 @@
 	width: 6px;
 	height: 6px;
 	border-radius: 50%;
-	background-color: #ffa;
-}
-.gsui-mute .gsuiTrack-toggle::before {
-	background-color: rgba( 255, 255, 255, .1 );
+	background-color: var( --gsuiTrack-toggle-bg );
 }
 .gsuiTrack-nameWrap {
 	position: relative;
@@ -86,15 +86,11 @@
 }
 
 .gsuiTrack-name::placeholder {
-	color: #fff;
+	color: inherit;
 	font-style: italic;
 	font-weight: normal;
 	opacity: .3;
 }
-.gsuiTrack-name::-ms-input-placeholder {
-	font-style: italic;
-	font-weight: normal;
-	opacity: .3;
+.gsuiTrack-name:focus::placeholder {
+	color: transparent;
 }
-.gsuiTrack-name:focus::placeholder { color: transparent; }
-.gsuiTrack-name:focus::-ms-input-placeholder { color: transparent; }
