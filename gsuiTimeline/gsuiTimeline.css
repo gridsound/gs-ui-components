@@ -1,15 +1,18 @@
-.gsuiTimeline {
-	--cursor-color: #fdfd70;
-	--cursor-dur: .1s;
-	--loop-color: #656586;
-	--loop-brd-color: #fff;
+:root {
+	--gsuiTimeline-bg: darkslateblue;
+	--gsuiTimeline-color: yellow;
+	--gsuiTimeline-loop-bg: tomato;
+	--gsuiTimeline-cursor-fill: yellow;
+	--gsuiTimeline-loopBorder-bg: yellow;
+}
 
+.gsuiTimeline {
 	position: relative;
 	overflow: hidden;
 	font: 14px monospace;
-	color: #fff;
-	background: #222;
+	color: var( --gsuiTimeline-color );
 	cursor: default;
+	background-color: var( --gsuiTimeline-bg );
 }
 
 /* .......................................................................... */
@@ -40,7 +43,7 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-color: var( --loop-color );
+	background-color: var( --gsuiTimeline-loop-bg );
 	transition: filter .2s;
 }
 .gsuiTimeline-loopBg:hover,
@@ -63,7 +66,7 @@
 	z-index: 0;
 	width: 2px;
 	height: 100%;
-	background-color: var( --loop-color );
+	background-color: var( --gsuiTimeline-loop-bg );
 	transition: .2s;
 	transition-property: height, background-color, z-index;
 }
@@ -74,7 +77,7 @@
 .gsuiTimeline-loopBrd.gsui-hover {
 	z-index: 1;
 	height: 150%;
-	background-color: var( --loop-brd-color );
+	background-color: var( --gsuiTimeline-loopBorder-bg );
 }
 
 .gsuiTimeline-cursorPreview,
@@ -83,8 +86,8 @@
 	margin-left: -8px;
 	bottom: 1px;
 	transition: left;
-	fill: var( --cursor-color );
-	stroke: var( --cursor-color );
+	fill: var( --gsuiTimeline-cursor-fill );
+	stroke: var( --gsuiTimeline-cursor-fill );
 	stroke-width: 2px;
 	stroke-linejoin: round;
 }
