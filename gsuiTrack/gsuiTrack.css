@@ -47,6 +47,7 @@
 
 /* .......................................................................... */
 .gsuiTrack-toggle {
+	cursor: pointer;
 	display: flex;
 	min-width: 24px;
 	align-items: center;
