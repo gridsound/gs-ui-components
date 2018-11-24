@@ -5,6 +5,7 @@ class gsuiPanels {
 		this.rootElement = root;
 		this._cursorElem = document.createElement( "div" );
 		this._cursorElem.className = "gsuiPanels-cursor";
+		this._dataPerPanel = new Map();
 	}
 	attached() {
 		this._init();
@@ -12,21 +13,50 @@ class gsuiPanels {
 
 	// private:
 	_init() {
-		const root = this.rootElement;
+		const root = this.rootElement,
+			panWidth = root.querySelectorAll( "[data-width-class]" ),
+			panHeight = root.querySelectorAll( "[data-height-class]" ),
+			qsa = ( c, fn ) => root.querySelectorAll( ".gsuiPanels-" + c ).forEach( fn );
 
 		root.style.overflow = "hidden";
-		root.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
-		root.querySelectorAll( ".gsuiPanels-last" ).forEach( el => el.classList.remove( "gsuiPanels-last" ) );
-		this._convertFlex( root.classList.contains( "gsuiPanels-x" )
-			? "width" : "height", root );
-		root.querySelectorAll( ".gsuiPanels-x" ).forEach( this._convertFlex.bind( this, "width" ) );
-		root.querySelectorAll( ".gsuiPanels-y" ).forEach( this._convertFlex.bind( this, "height" ) );
-		root.querySelectorAll( ".gsuiPanels-x > div + div" ).forEach( this._addExtend.bind( this, "width" ) );
-		root.querySelectorAll( ".gsuiPanels-y > div + div" ).forEach( this._addExtend.bind( this, "height" ) );
+		qsa( "extend", el => el.remove() );
+		qsa( "last", el => el.classList.remove( "gsuiPanels-last" ) );
+		this._convertFlex( root.classList.contains( "gsuiPanels-x" ) ? "width" : "height", root );
+		qsa( "x", this._convertFlex.bind( this, "width" ) );
+		qsa( "y", this._convertFlex.bind( this, "height" ) );
+		qsa( "x > div + div", this._addExtend.bind( this, "width" ) );
+		qsa( "y > div + div", this._addExtend.bind( this, "height" ) );
+		panWidth.forEach( this._parseSizeClassAttr.bind( this, "width" ) );
+		panHeight.forEach( this._parseSizeClassAttr.bind( this, "height" ) );
+		window.addEventListener( "resize", () => {
+			panWidth.forEach( this._setSizeClass.bind( this, "width" ) );
+			panHeight.forEach( this._setSizeClass.bind( this, "height" ) );
+		} );
 	}
 	_getChildren( el ) {
 		return Array.from( el.children ).filter(
 			el => !el.classList.contains( "gsuiPanels-extend" ) );
+	}
+	_parseSizeClassAttr( dir, pan ) {
+		const hasData = this._dataPerPanel.get( pan ),
+			data = hasData
+				? hasData
+				: {
+					width: { less: [], more: [] },
+					height: { less: [], more: [] },
+				},
+			{ less, more } = data[ dir ];
+
+		if ( !hasData ) {
+			this._dataPerPanel.set( pan, data );
+		}
+		pan.dataset[ dir + "Class" ].split( " " )
+			.forEach( w => {
+				const [ size, clazz ] = w.split( ":" ),
+					arr = size[ 0 ] === "<" ? less : more;
+
+				arr.push( [ +size.substr( 1 ), clazz ] );
+			} );
 	}
 	_convertFlex( dir, panPar ) {
 		const pans = this._getChildren( panPar ),
@@ -76,6 +106,7 @@ class gsuiPanels {
 					} else {
 						mov += size - newsizeCorrect;
 					}
+					this._setSizeClass( dir, pan );
 					if ( pan.onresizing ) {
 						pan.onresizing( pan );
 					}
@@ -83,6 +114,20 @@ class gsuiPanels {
 			}
 			return mov;
 		}, mov );
+	}
+	_setSizeClass( dir, pan ) {
+		const panData = this._dataPerPanel.get( pan );
+
+		if ( panData ) {
+			const { less, more } = panData[ dir ],
+				panCl = pan.classList,
+				panSize = dir === "width"
+					? pan.clientWidth
+					: pan.clientHeight;
+
+			less.forEach( c => panCl.toggle( c[ 1 ], panSize < c[ 0 ] ) );
+			more.forEach( c => panCl.toggle( c[ 1 ], panSize > c[ 0 ] ) );
+		}
 	}
 
 	// events:
