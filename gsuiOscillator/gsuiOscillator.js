@@ -18,7 +18,7 @@ class gsuiOscillator {
 			waves[ 0 ].rootElement,
 			waves[ 1 ].rootElement );
 		waves[ 0 ].frequency =
-		waves[ 1 ].frequency = 2;
+		waves[ 1 ].frequency = 1;
 		root.querySelector( ".gsuiOscillator-typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
 		root.querySelector( ".gsuiOscillator-typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
 		root.querySelector( ".gsuiOscillator-remove" ).onclick = () => this.onremove && this.onremove();
