@@ -117,7 +117,7 @@ class gsuiSynthesizer {
 	}
 	_onremoveOsc( id ) {
 		this._deleteOsc( id );
-		this.onchange( { oscillators: { [ id ]: null } } );
+		this.onchange( { oscillators: { [ id ]: undefined } } );
 	}
 }
 
