@@ -1,0 +1,115 @@
+:root {
+	--gsuiMixerChannel-bg: tomato;
+	--gsuiMixerChannel-muted-bg: indianred;
+	--gsuiMixerChannel-width: 28px;
+	--gsuiMixerChannel-name-text: yellow;
+	--gsuiMixerChannel-toggle-size: 6px;
+	--gsuiMixerChannel-toggle-bg: blue;
+	--gsuiMixerChannel-toggleOff-bg: darkblue;
+	--gsuiMixerChannel-darkBorder: yellow;
+	--gsuiMixerChannel-lightBorder: green;
+	--gsuiMixerChannel-analyser-bg: darkblue;
+}
+
+.gsuiMixer {
+	display: flex;
+	height: 100%;
+	background-color: #333;
+}
+
+.gsuiMixer-panChannels {
+	display: flex;
+	flex: 1;
+	margin: 0 6px;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+.gsuiMixer-panEffects {
+	display: flex;
+	width: 250px;
+	min-width: 250px;
+	background-color: #555;
+}
+
+/* .gsuiMixerChannel */
+/* ......................................................................... */
+.gsuiMixerChannel {
+	display: flex;
+	flex-direction: column;
+	width: var( --gsuiMixerChannel-width );
+	height: 100%;
+	background-color: var( --gsuiMixerChannel-bg );
+}
+.gsuiMixerChannel-muted {
+	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-muted-bg );
+	--gsuiMixerChannel-toggle-bg: var( --gsuiMixerChannel-toggleOff-bg );
+}
+.gsuiMixerChannel-ctrl {
+	border: 0;
+}
+.gsuiMixerChannel + .gsuiMixerChannel .gsuiMixerChannel-ctrl {
+	border-left: 1px solid var( --gsuiMixerChannel-darkBorder );
+}
+.gsuiMixerChannel-nameWrap {
+	min-height: 38px;
+	height: 20%;
+	box-sizing: border-box;
+	padding: .5em 0;
+	font-size: 12px;
+	font-family: monospace;
+	color: var( --gsuiMixerChannel-name-text );
+	line-height: var( --gsuiMixerChannel-width );
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.gsuiMixerChannel-name {
+	writing-mode: vertical-rl;
+	text-align: right;
+	display: block;
+	height: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.gsuiMixer-panMaster .gsuiMixerChannel-name {
+	opacity: .5;
+}
+.gsuiMixer-panMaster .gsuiMixerChannel-name::before {
+	content: "Master";
+}
+.gsuiMixerChannel-analyserWrap {
+	flex: 10;
+	max-height: 160px;
+	border-left: 1px solid var( --gsuiMixerChannel-lightBorder );
+	background-color: var( --gsuiMixerChannel-analyser-bg );
+}
+.gsuiMixerChannel-analyser {
+	width: 100%;
+	height: 100%;
+}
+.gsuiMixerChannel-toggle {
+	display: flex;
+	height: 16px;
+	cursor: pointer;
+	background-color: transparent;
+}
+.gsuiMixerChannel-toggle::before {
+	content: "";
+	margin: auto;
+	display: block;
+	border-radius: 50%;
+	width: var( --gsuiMixerChannel-toggle-size );
+	height: var( --gsuiMixerChannel-toggle-size );
+	background-color: var( --gsuiMixerChannel-toggle-bg );
+}
+.gsuiMixerChannel-pan {
+	height: 24px;
+}
+.gsuiMixerChannel-gain {
+	flex: 1;
+	height: 48px;
+}
