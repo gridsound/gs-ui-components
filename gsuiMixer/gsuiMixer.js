@@ -30,7 +30,7 @@ class gsuiMixer {
 
 		par.append( chan );
 		if ( len > 1 ) { // tmp
-			chan.querySelector( ".gsuiMixerChannel-name" ).textContent = "abcd efgh ijkl mnop";
+			chan.querySelector( ".gsuiMixerChannel-name" ).textContent = `chan #${ len }`;
 		}
 		return chan;
 	}
