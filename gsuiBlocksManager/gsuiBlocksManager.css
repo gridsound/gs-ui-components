@@ -1,5 +1,6 @@
 :root {
 	--gsuiBlocksManager-grid-bg: dodgerblue;
+	--gsuiBlocksManager-borderColor: yellow;
 	--gsuiBlocksManager-side-bgColor: indianred;
 	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: rgba( 255, 255, 0, .5 );
@@ -38,6 +39,8 @@
 	box-sizing: border-box;
 	padding: 4px;
 	height: var( --gsuiBlocksManager-timeline-height );
+	border: 0 solid var( --gsuiBlocksManager-borderColor );
+	border-width: 1px 0;
 }
 
 /* .......................................................................... */
