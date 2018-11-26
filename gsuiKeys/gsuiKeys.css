@@ -1,9 +1,23 @@
+:root {
+	--gsuiKeys-blackKey-colorA: #105;
+	--gsuiKeys-blackKey-colorB: #10f;
+	--gsuiKeys-whiteKey-colorA: #552;
+	--gsuiKeys-whiteKey-colorB: #ff0;
+	--gsuiKeys-activeKey-colorA: #888;
+	--gsuiKeys-activeKey-colorB: #fff;
+}
+
 .gsuiKeys {
 	position: relative;
 	user-select: none;
-	-moz-user-select: none;
 	-webkit-user-select: none;
-	-ms-user-select: none;
+}
+
+.gsuiKeys,
+.gsuiKey {
+	background-image: linear-gradient( 90deg,
+		var( --gsuiKeys-whiteKey-colorA ),
+		var( --gsuiKeys-whiteKey-colorB ) );
 }
 
 .gsuiKey .gsuiKey-row {
@@ -34,7 +48,6 @@
 	box-sizing: border-box;
 	position: relative;
 	height: 1.5em;
-	background-image: linear-gradient( 90deg, #888, #eee );
 	cursor: default;
 }
 .gsuiKeyBlack {
@@ -44,10 +57,12 @@
 	height: 1em;
 	margin-top: -.5em;
 	border-radius: 0 .1em .1em 0;
-	background-image: linear-gradient( 90deg, #111, #444 );
+	background-image: linear-gradient( 90deg,
+		var( --gsuiKeys-blackKey-colorA ),
+		var( --gsuiKeys-blackKey-colorB ) );
 }
 .gsuiKey[data-key="0"] {
-	background-image: linear-gradient( 90deg, #888, #ccc );
+	filter: brightness( .9 );
 }
 .gsuiKey[data-key="0"]::after {
 	counter-increment: octave -1;
@@ -60,7 +75,9 @@
 	font-family: monospace;
 }
 .gsuiKey.gsui-active {
-	background-image: linear-gradient( 90deg, #353b52, #7886bd );
+	background-image: linear-gradient( 90deg,
+		var( --gsuiKeys-activeKey-colorA ),
+		var( --gsuiKeys-activeKey-colorB ) );
 }
 
 .gsuiKey:last-child {
