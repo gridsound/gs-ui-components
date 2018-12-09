@@ -84,7 +84,7 @@ class gsuiBlocksManager {
 			this.__elLoopA.style.fontSize =
 			this.__elLoopB.style.fontSize =
 			this.__elCurrentTime.style.fontSize = ppbpx;
-			Array.from( this.__rows ).forEach( el => el.firstChild.style.fontSize = ppbpx );
+			Array.from( this.__rows ).forEach( el => el.firstElementChild.style.fontSize = ppbpx );
 			this._setPxPerBeat && this._setPxPerBeat( ppb );
 			return true;
 		}
@@ -239,7 +239,7 @@ class gsuiBlocksManager {
 	}
 	__onwheelPanelContent( e ) {
 		if ( e.ctrlKey ) {
-			const layerY = e.pageY - this.__sideContent.firstChild.getBoundingClientRect().top,
+			const layerY = e.pageY - this.__sideContent.firstElementChild.getBoundingClientRect().top,
 				oldFs = this.__fontSize;
 
 			this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );

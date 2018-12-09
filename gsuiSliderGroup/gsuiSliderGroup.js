@@ -100,7 +100,7 @@ class gsuiSliderGroup {
 
 		id = id + "";
 		element._slider =
-		element.firstChild._slider = sli;
+		element.firstElementChild._slider = sli;
 		element.dataset.id = id;
 		element.onmousemove = this._mousemoveSlider.bind( this, id, sli );
 		this._sliders.set( id, sli );
@@ -139,7 +139,7 @@ class gsuiSliderGroup {
 			"gsuiSliderGroup-slidersSelected", this._selected.size > 0 );
 	}
 	_sliderValue( sli, val ) {
-		const el = sli.element.firstChild,
+		const el = sli.element.firstElementChild,
 			st = el.style;
 		let innerDown = false;
 

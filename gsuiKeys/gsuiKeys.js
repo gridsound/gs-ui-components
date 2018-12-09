@@ -95,7 +95,7 @@ gsuiKeys.prototype = {
 				gsuiKeys.template.cloneNode( true ).children );
 		}
 		Array.from( root.children ).forEach( elKey => {
-			elKey._rowElement = elRow = elKey.firstChild;
+			elKey._rowElement = elRow = elKey.firstElementChild;
 			elRow._keyElement = elKey;
 			elKey.dataset.midi =
 			elRow.dataset.midi = --midi;

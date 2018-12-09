@@ -17,7 +17,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			uiSliderGroup.scrollElement, this.__rowsContainer );
 		sideBottom.onresizing =
 		gridBottom.onresizing = panel => {
-			const topH = panel.previousSibling.style.height,
+			const topH = panel.previousElementSibling.style.height,
 				bottomH = panel.style.height;
 
 			if ( panel === gridBottom ) {
@@ -104,7 +104,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const midi = +el.dataset.midi;
 
 			el.onmousedown = this._rowMousedown.bind( this, midi );
-			el.firstChild.style.fontSize = this.__pxPerBeat + "px";
+			el.firstElementChild.style.fontSize = this.__pxPerBeat + "px";
 			this._rowsByMidi[ midi ] = el;
 		} );
 		Element.prototype.prepend.apply( this.__rowsWrapinContainer, rows );
@@ -143,7 +143,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			key = this.data[ el.dataset.id ];
 
 		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
-		row.firstChild.append( el );
+		row.firstElementChild.append( el );
 		this.block_redrawDragline( el );
 	}
 	block_next( el, id ) {
@@ -348,7 +348,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		blc.onmousedown = this._blcMousedown.bind( this, id );
 		dragline.onchange = this._onchangeDragline.bind( this, id );
 		blc._dragline = dragline;
-		blc._draglineDrop = blc.firstChild;
+		blc._draglineDrop = blc.firstElementChild;
 		blc.append( dragline.rootElement );
 		dragline.getDropAreas = this._getDropAreas.bind( this, id, blc );
 		this.__blcs.set( id, blc );
@@ -374,7 +374,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const obj = this.data[ blcId ];
 
 			if ( obj.when >= when && ( obj.prev === null || obj.prev === id ) ) {
-				arr.push( blc.firstChild );
+				arr.push( blc.firstElementChild );
 			}
 		} );
 		return arr;

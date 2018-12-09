@@ -3,15 +3,15 @@
 class gsuiDragline {
 	constructor() {
 		const root = gsuiDragline.template.cloneNode( true ),
-			svg = root.firstChild.firstChild;
+			svg = root.firstElementChild.firstElementChild;
 
 		this.onchange = () => {};
 		this.rootElement = root;
 		this._linkedTo = null;
-		this._main = root.firstChild;
+		this._main = root.firstElementChild;
 		this._svg = svg;
-		this._polyline = svg.firstChild;
-		this._to = root.firstChild.lastChild;
+		this._polyline = svg.firstElementChild;
+		this._to = root.firstElementChild.lastElementChild;
 		this._to.onmousedown = this._mousedownTo.bind( this );
 	}
 

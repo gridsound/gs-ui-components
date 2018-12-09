@@ -10,7 +10,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this._uiTracklist.ontrackadded = uiTrk => {
 			const row = uiTrk.rowElement;
 
-			row.firstChild.style.fontSize = this.__pxPerBeat + "px";
+			row.firstElementChild.style.fontSize = this.__pxPerBeat + "px";
 			row.classList.toggle( "gsui-row-small", this.__pxPerBeat <= 44 );
 			row.onmousedown = this._rowMousedown.bind( this );
 			this._rowsByTrackId.set( row.dataset.track, row );
@@ -51,7 +51,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	block_track( el, trackId ) {
 		const row = this._getRowByTrackId( trackId );
 
-		row && row.firstChild.append( el );
+		row && row.firstElementChild.append( el );
 	}
 
 	// Blocks manager callback
