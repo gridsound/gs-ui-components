@@ -43,7 +43,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const obj = {},
 				nodeName = this._slidersSelect.value;
 
-			arr.forEach( ( [ id, val ] ) => obj[ id ] = { [ nodeName ]: val } );
+			arr.forEach( ( [ id, val ] ) => {
+				obj[ id ] = { [ nodeName ]: val };
+				this.data[ id ][ nodeName ] = val;
+			} );
 			this.onchange( obj );
 		};
 		this.setPxPerBeat( 64 );
@@ -380,19 +383,26 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		return arr;
 	}
 	_onchangeDragline( id, el, prevEl ) {
-		const obj = {};
+		const obj = {},
+			dat = this.data,
+			prevId = prevEl && +prevEl.parentNode.dataset.id;
 
 		if ( el ) {
 			const tarId = +el.parentNode.dataset.id;
 
 			obj[ id ] = { next: tarId };
+			dat[ id ].next = tarId;
 			obj[ tarId ] = { prev: id };
+			dat[ tarId ].prev = id;
 			if ( prevEl ) {
-				obj[ +prevEl.parentNode.dataset.id ] = { prev: null };
+				obj[ prevId ] = { prev: null };
+				dat[ prevId ].prev = null;
 			}
 		} else {
 			obj[ id ] = { next: null };
-			obj[ +prevEl.parentNode.dataset.id ] = { prev: null };
+			obj[ prevId ] = { prev: null };
+			dat[ id ].next =
+			dat[ prevId ].prev = null;
 		}
 		this.onchange( obj );
 	}
