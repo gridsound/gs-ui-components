@@ -26,7 +26,7 @@ class gsuiPopup {
 	static custom( obj ) {
 		gsuiPopup._init();
 		gsuiPopup._emptyCnt();
-		gsuiPopup._fnSubmit = obj.submit;
+		gsuiPopup._fnSubmit = obj.submit || null;
 		gsuiPopup.clWindow.remove( "gsui-notext" );
 		gsuiPopup._setOkCancelBtns( obj.ok, obj.cancel || false );
 		obj.element
@@ -119,12 +119,36 @@ class gsuiPopup {
 			gsuiPopup.type === "prompt" ? null : undefined );
 	}
 	static _submit( e ) {
-		if ( gsuiPopup.type === "custom" && gsuiPopup._fnSubmit ) {
-			gsuiPopup._fnSubmit( e );
+		switch ( gsuiPopup.type ) {
+			case "confirm": gsuiPopup.resolve( true ); break;
+			case "alert": gsuiPopup.resolve( undefined ); break;
+			case "prompt": gsuiPopup.resolve( gsuiPopup.elText.value ); break;
+			case "custom":
+				const fn = gsuiPopup._fnSubmit,
+					inps = Array.from( gsuiPopup.elForm ),
+					obj = inps.reduce( ( obj, inp ) => {
+						if ( inp.name ) {
+							obj[ inp.name ] = inp.value;
+						}
+						return obj;
+					}, {} );
+
+				if ( !fn ) {
+					gsuiPopup.resolve( obj );
+				} else {
+					const fnRes = fn( obj );
+
+					if ( fnRes !== false ) {
+						fnRes && fnRes.then
+							? fnRes.then( res => {
+								if ( res !== false ) {
+									gsuiPopup.resolve( obj );
+								}
+							} )
+							: gsuiPopup.resolve( obj );
+					}
+				}
 		}
-		gsuiPopup.resolve(
-			gsuiPopup.type === "confirm" ? true :
-			gsuiPopup.type === "prompt" ? gsuiPopup.elText.value : undefined );
 		return false;
 	}
 }
