@@ -9,13 +9,16 @@ class gsuiPanels {
 	}
 	attached() {
 		this._init();
+		this.resized();
+	}
+	resized() {
+		this._panWidth.forEach( this._setSizeClass.bind( this, "width" ) );
+		this._panHeight.forEach( this._setSizeClass.bind( this, "height" ) );
 	}
 
 	// private:
 	_init() {
 		const root = this.rootElement,
-			panWidth = root.querySelectorAll( "[data-width-class]" ),
-			panHeight = root.querySelectorAll( "[data-height-class]" ),
 			qsa = ( c, fn ) => root.querySelectorAll( ".gsuiPanels-" + c ).forEach( fn );
 
 		root.style.overflow = "hidden";
@@ -26,12 +29,11 @@ class gsuiPanels {
 		qsa( "y", this._convertFlex.bind( this, "height" ) );
 		qsa( "x > div + div", this._addExtend.bind( this, "width" ) );
 		qsa( "y > div + div", this._addExtend.bind( this, "height" ) );
-		panWidth.forEach( this._parseSizeClassAttr.bind( this, "width" ) );
-		panHeight.forEach( this._parseSizeClassAttr.bind( this, "height" ) );
-		window.addEventListener( "resize", () => {
-			panWidth.forEach( this._setSizeClass.bind( this, "width" ) );
-			panHeight.forEach( this._setSizeClass.bind( this, "height" ) );
-		} );
+		this._panWidth = root.querySelectorAll( "[data-width-class]" );
+		this._panHeight = root.querySelectorAll( "[data-height-class]" );
+		this._panWidth.forEach( this._parseSizeClassAttr.bind( this, "width" ) );
+		this._panHeight.forEach( this._parseSizeClassAttr.bind( this, "height" ) );
+		window.addEventListener( "resize", this.resized.bind( this ) );
 	}
 	_getChildren( el ) {
 		return Array.from( el.children ).filter(
