@@ -1,6 +1,6 @@
 :root {
-	--gsuiOscillator-fontFamily: sans-serif;
-	--gsuiOscillator-number-fontFamily: monospace;
+	--gsuiOscillator-font: 12px sans-serif;
+	--gsuiOscillator-number-font: 12px monospace;
 }
 
 .gsuiOscillator {
@@ -13,7 +13,7 @@
 	padding: 6px;
 	padding-right: 8px;
 	color: #ddd;
-	font-family: var( --gsuiOscillator-fontFamily );
+	font: var( --gsuiOscillator-font );
 	background-color: #555;
 	--gsuiSlider-lineBgColor: #444;
 }
@@ -56,8 +56,7 @@
 	top: 0;
 	width: 100%;
 	height: 100%;
-	font-size: 14px;
-	font-family: var( --gsuiOscillator-number-fontFamily );
+	font: var( --gsuiOscillator-number-font );
 	color: var( --gsuiSlider-lineColor );
 }
 
@@ -105,10 +104,9 @@
 	border: 0;
 	outline: 0;
 	color: inherit;
-	font-size: 11px;
 	font-weight: bold;
+	font-size: inherit;
 	font-family: inherit;
-	text-transform: capitalize;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	background: none;
