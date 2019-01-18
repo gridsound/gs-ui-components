@@ -1,4 +1,6 @@
 :root {
+	--gsuiBlocksManager-font: 12px sans-serif;
+	--gsuiBlocksManager-number-font: 12px monospace;
 	--gsuiBlocksManager-grid-bg: dodgerblue;
 	--gsuiBlocksManager-borderColor: yellow;
 	--gsuiBlocksManager-side-bgColor: indianred;
@@ -14,6 +16,7 @@
 	min-width: 68px;
 	max-width: 104px;
 	width: 104px;
+	font: var( --gsuiBlocksManager-font );
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
 .gsuiBlocksManager-sidePanel .gsui-opacityHover {
@@ -49,16 +52,15 @@
 	align-items: center;
 	padding: 4px;
 	border-radius: 4px;
-	font-size: 0px;
+	font: var( --gsuiBlocksManager-number-font );
 }
 .gsuiBlocksManager-magnetValue {
-	font-size: 11px;
 	white-space: nowrap;
 	margin-right: 6px;
 }
 .gsuiBlocksManager-magnet::after {
 	content: "\f076";
-	font: 16px "FontAwesome";
+	font-family: "FontAwesome";
 	opacity: .7;
 }
 
