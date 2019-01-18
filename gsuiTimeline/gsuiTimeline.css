@@ -1,7 +1,6 @@
 :root {
 	--gsuiTimeline-bg: darkslateblue;
-	--gsuiTimeline-fontSize: 14px;
-	--gsuiTimeline-fontFamily: monospace;
+	--gsuiTimeline-number-font: 14px monospace;
 	--gsuiTimeline-color: yellow;
 	--gsuiTimeline-loop-bg: tomato;
 	--gsuiTimeline-cursor-fill: yellow;
@@ -13,8 +12,7 @@
 	overflow: hidden;
 	cursor: default;
 	color: var( --gsuiTimeline-color );
-	font-size: var( --gsuiTimeline-fontSize );
-	font-family: var( --gsuiTimeline-fontFamily );
+	font: var( --gsuiTimeline-number-font );
 	background-color: var( --gsuiTimeline-bg );
 }
 
