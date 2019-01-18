@@ -34,7 +34,6 @@
 	overflow: hidden;
 	min-width: var( --min-width );
 	border-radius: var( --radius );
-	font-family: sans-serif;
 	background-color: var( --bg );
 	box-shadow: 0 0 50px #000;
 }
@@ -75,6 +74,7 @@
 #gsuipp-btns input {
 	color: #fff;
 	font-weight: bold;
+	font-family: inherit;
 	background-color: var( --btn-bg );
 	cursor: pointer;
 }
