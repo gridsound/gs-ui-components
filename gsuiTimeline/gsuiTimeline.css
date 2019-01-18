@@ -1,5 +1,7 @@
 :root {
 	--gsuiTimeline-bg: darkslateblue;
+	--gsuiTimeline-fontSize: 14px;
+	--gsuiTimeline-fontFamily: monospace;
 	--gsuiTimeline-color: yellow;
 	--gsuiTimeline-loop-bg: tomato;
 	--gsuiTimeline-cursor-fill: yellow;
@@ -9,9 +11,10 @@
 .gsuiTimeline {
 	position: relative;
 	overflow: hidden;
-	font: 14px monospace;
-	color: var( --gsuiTimeline-color );
 	cursor: default;
+	color: var( --gsuiTimeline-color );
+	font-size: var( --gsuiTimeline-fontSize );
+	font-family: var( --gsuiTimeline-fontFamily );
 	background-color: var( --gsuiTimeline-bg );
 }
 
@@ -114,9 +117,6 @@
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
-}
-.gsuiTimeline-measure {
-	font-weight: bold;
 }
 .gsuiTimeline-step {
 	opacity: .2;
