@@ -74,6 +74,7 @@
 	padding-right: 10px;
 	font-size: 12px;
 	font-weight: bold;
+	font-family: inherit;
 	text-overflow: ellipsis;
 	color: var( --gsuiTrack-color );
 	cursor: default;
