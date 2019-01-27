@@ -7,6 +7,8 @@
 	--gsuiPopup-padding: 10px;
 	--gsuiPopup-minWidth: 250px;
 	--gsuiPopup-header-bg: #333;
+	--gsuiPopup-header-fontSize: 16px;
+	--gsuiPopup-body-fontSize: 14px;
 	--gsuiPopup-overlay-bg: rgba( 0, 0, 0, .6 );
 }
 
@@ -44,9 +46,11 @@
 
 #gsuiPopupHead {
 	padding: var( --gsuiPopup-padding );
+	font-size: var( --gsuiPopup-header-fontSize );
 	background-color: var( --gsuiPopup-header-bg );
 }
 #gsuiPopupBody {
+	font-size: var( --gsuiPopup-body-fontSize );
 	padding: var( --gsuiPopup-padding );
 }
 #gsuiPopupContent:not( :empty ) + #gsuiPopupMessage,
