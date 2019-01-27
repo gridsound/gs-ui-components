@@ -2,130 +2,124 @@
 
 class gsuiPopup {
 	static alert( title, msg, ok ) {
-		gsuiPopup._init();
-		gsuiPopup._emptyCnt();
-		gsuiPopup.clWindow.add( "gsui-notext", "gsui-nocancel" );
-		gsuiPopup._setOkCancelBtns( ok, false );
-		return gsuiPopup._open( "alert", title, msg );
+		this._init();
+		this._emptyCnt();
+		this.clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
+		this._setOkCancelBtns( ok, false );
+		return this._open( "alert", title, msg );
 	}
 	static confirm( title, msg, ok, cancel ) {
-		gsuiPopup._init();
-		gsuiPopup._emptyCnt();
-		gsuiPopup.clWindow.remove( "gsui-nocancel" );
-		gsuiPopup.clWindow.add( "gsui-notext" );
-		gsuiPopup._setOkCancelBtns( ok, cancel );
-		return gsuiPopup._open( "confirm", title, msg );
+		this._init();
+		this._emptyCnt();
+		this.clWindow.remove( "gsuiPopup-noCancel" );
+		this.clWindow.add( "gsuiPopup-noText" );
+		this._setOkCancelBtns( ok, cancel );
+		return this._open( "confirm", title, msg );
 	}
 	static prompt( title, msg, val, ok, cancel ) {
-		gsuiPopup._init();
-		gsuiPopup._emptyCnt();
-		gsuiPopup.clWindow.remove( "gsui-notext", "gsui-nocancel" );
-		gsuiPopup._setOkCancelBtns( ok, cancel );
-		return gsuiPopup._open( "prompt", title, msg, val );
+		this._init();
+		this._emptyCnt();
+		this.clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
+		this._setOkCancelBtns( ok, cancel );
+		return this._open( "prompt", title, msg, val );
 	}
 	static custom( obj ) {
-		gsuiPopup._init();
-		gsuiPopup._emptyCnt();
-		gsuiPopup._fnSubmit = obj.submit || null;
-		gsuiPopup.clWindow.remove( "gsui-notext" );
-		gsuiPopup._setOkCancelBtns( obj.ok, obj.cancel || false );
+		this._init();
+		this._emptyCnt();
+		this._fnSubmit = obj.submit || null;
+		this.clWindow.remove( "gsuiPopup-noText" );
+		this._setOkCancelBtns( obj.ok, obj.cancel || false );
 		obj.element
-			? gsuiPopup.elCnt.append( obj.element )
-			: Element.prototype.append.apply( gsuiPopup.elCnt, obj.elements );
-		return gsuiPopup._open( "custom", obj.title );
+			? this.elCnt.append( obj.element )
+			: Element.prototype.append.apply( this.elCnt, obj.elements );
+		return this._open( "custom", obj.title );
 	}
 	static close() {
-		if ( gsuiPopup.isOpen ) {
-			gsuiPopup.elCancel.click();
+		if ( this.isOpen ) {
+			this.elCancel.click();
 		}
 	}
 
 	// private:
 	static _setOkCancelBtns( ok, cancel ) {
-		gsuiPopup.clWindow.toggle( "gsui-nocancel", cancel === false );
-		gsuiPopup.elCancel.value = cancel || "Cancel";
-		gsuiPopup.elOk.value = ok || "Ok";
+		this.clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
+		this.elCancel.value = cancel || "Cancel";
+		this.elOk.value = ok || "Ok";
 	}
 	static _emptyCnt() {
-		const elCnt = gsuiPopup.elCnt;
+		const elCnt = this.elCnt;
 
 		while ( elCnt.firstChild ) {
 			elCnt.firstChild.remove();
 		}
 	}
 	static _init() {
-		const that = gsuiPopup;
+		if ( !this._ready ) {
+			const qs = s => document.querySelector( `#gsuiPopup${ s }` );
 
-		if ( !that._ready ) {
-			const el = that.elRoot = document.getElementById( "gsuiPopup" );
+			this.elRoot = qs( "" );
+			this.elOk = qs( "Ok" );
+			this.elCnt = qs( "Content" );
+			this.elMsg = qs( "Message" );
+			this.elText = qs( "InputText" );
+			this.elForm = qs( "Body" );
+			this.elWindow = qs( "Window" );
+			this.elHeader = qs( "Head" );
+			this.elCancel = qs( "Cancel" );
+			this.clWindow = this.elWindow.classList;
 
-			that.elRoot = el;
-			that.elOk = el.querySelector( "#gsuipp-inpOk" );
-			that.elCnt = el.querySelector( "#gsuipp-cnt" );
-			that.elMsg = el.querySelector( "#gsuipp-msg" );
-			that.elText = el.querySelector( "#gsuipp-inpText" );
-			that.elForm = el.querySelector( "form" );
-			that.elWindow = el.querySelector( "#gsuipp-window" );
-			that.elHeader = el.querySelector( "#gsuipp-head" );
-			that.elCancel = el.querySelector( "#gsuipp-inpCancel" );
-			that.clWindow = that.elWindow.classList;
-
-			el.onclick =
-			that.elCancel.onclick = that._cancelClick;
-			that.elForm.onsubmit = that._submit;
-			that.elWindow.onkeyup =
-			that.elWindow.onclick = e => {
-				e.stopPropagation();
-			};
-			that.elWindow.onkeydown = e => {
+			this.elRoot.onclick =
+			this.elCancel.onclick = this._cancelClick.bind( this );
+			this.elForm.onsubmit = this._submit.bind( this );
+			this.elWindow.onkeyup =
+			this.elWindow.onclick = e => { e.stopPropagation(); };
+			this.elWindow.onkeydown = e => {
 				if ( e.keyCode === 27 ) {
-					that._cancelClick();
+					this._cancelClick();
 				}
 				e.stopPropagation();
 			};
-			that._ready = true;
+			this._ready = true;
 		}
 	}
 	static _open( type, title, msg, value ) {
-		const that = gsuiPopup;
-
-		that.type = type;
-		that.isOpen = true;
-		that.elHeader.textContent = title;
-		that.elMsg.innerHTML = msg || "";
-		that.elText.value = arguments.length > 3 ? value : "";
-		that.elWindow.dataset.gsuiType =
-		that.elRoot.classList.add( "gsui-show" );
+		this.type = type;
+		this.isOpen = true;
+		this.elHeader.textContent = title;
+		this.elMsg.innerHTML = msg || "";
+		this.elText.value = arguments.length > 3 ? value : "";
+		this.elWindow.dataset.type = type;
+		this.elRoot.classList.add( "gsuiPopup-show" );
 		setTimeout( () => {
 			if ( type === "prompt" ) {
-				that.elText.select();
+				this.elText.select();
 			} else {
 				const inp = type !== "custom" ? null
-					: that.elCnt.querySelector( "input" );
+					: this.elCnt.querySelector( "input" );
 
-				( inp || that.elOk ).focus();
+				( inp || this.elOk ).focus();
 			}
 		}, 250 );
-		return new Promise( res => that.resolve = res )
+		return new Promise( res => this.resolve = res )
 			.then( val => {
-				that.isOpen = false;
-				that.elRoot.classList.remove( "gsui-show" );
+				this.isOpen = false;
+				this.elRoot.classList.remove( "gsuiPopup-show" );
 				return val;
 			} );
 	}
 	static _cancelClick() {
-		gsuiPopup.resolve(
-			gsuiPopup.type === "confirm" ? false :
-			gsuiPopup.type === "prompt" ? null : undefined );
+		this.resolve(
+			this.type === "confirm" ? false :
+			this.type === "prompt" ? null : undefined );
 	}
 	static _submit( e ) {
-		switch ( gsuiPopup.type ) {
-			case "confirm": gsuiPopup.resolve( true ); break;
-			case "alert": gsuiPopup.resolve( undefined ); break;
-			case "prompt": gsuiPopup.resolve( gsuiPopup.elText.value ); break;
+		switch ( this.type ) {
+			case "confirm": this.resolve( true ); break;
+			case "alert": this.resolve( undefined ); break;
+			case "prompt": this.resolve( this.elText.value ); break;
 			case "custom":
-				const fn = gsuiPopup._fnSubmit,
-					inps = Array.from( gsuiPopup.elForm ),
+				const fn = this._fnSubmit,
+					inps = Array.from( this.elForm ),
 					obj = inps.reduce( ( obj, inp ) => {
 						if ( inp.name ) {
 							obj[ inp.name ] = inp.value;
@@ -134,7 +128,7 @@ class gsuiPopup {
 					}, {} );
 
 				if ( !fn ) {
-					gsuiPopup.resolve( obj );
+					this.resolve( obj );
 				} else {
 					const fnRes = fn( obj );
 
@@ -142,10 +136,10 @@ class gsuiPopup {
 						fnRes && fnRes.then
 							? fnRes.then( res => {
 								if ( res !== false ) {
-									gsuiPopup.resolve( obj );
+									this.resolve( obj );
 								}
 							} )
-							: gsuiPopup.resolve( obj );
+							: this.resolve( obj );
 					}
 				}
 		}
