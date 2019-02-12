@@ -1,6 +1,7 @@
 :root {
 	--gsuiSlider-lineColor: #fff;
 	--gsuiSlider-lineBgColor: #000;
+	--gsuiSlider-lineRadius: 0;
 }
 
 .gsuiSlider {
@@ -10,7 +11,6 @@
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 }
 
 .gsuiSlider .gsui-eventCatcher {
@@ -35,10 +35,12 @@
 
 .gsuiSlider .gsui-line {
 	position: absolute;
+	overflow: hidden;
+	top: 0;
 	left: 0;
 	right: 0;
-	top: 0;
 	bottom: 0;
+	border-radius: var( --gsuiSlider-lineRadius );
 	background-color: var( --gsuiSlider-lineBgColor );
 }
 .gsuiSlider .gsui-lineColor {
