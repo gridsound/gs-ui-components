@@ -1,10 +1,9 @@
 :root {
 	--gsuiMixerChannel-bg: tomato;
-	--gsuiMixerChannel-muted-bg: indianred;
+	--gsuiMixerChannel-bg2: indianred;
 	--gsuiMixerChannel-width: 28px;
 	--gsuiMixerChannel-name-text: yellow;
 	--gsuiMixerChannel-name-font: monospace;
-	--gsuiMixerChannel-toggle-size: 6px;
 	--gsuiMixerChannel-toggle-bg: blue;
 	--gsuiMixerChannel-toggleOff-bg: darkblue;
 	--gsuiMixerChannel-darkBorder: yellow;
@@ -25,6 +24,9 @@
 	overflow-x: scroll;
 	overflow-y: hidden;
 }
+.gsuiMixer-panChannels .gsuiMixerChannel:nth-child( odd ) {
+	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-bg2 );
+}
 .gsuiMixer-panEffects {
 	display: flex;
 	width: 250px;
@@ -36,22 +38,21 @@
 /* ......................................................................... */
 .gsuiMixerChannel {
 	display: flex;
+	align-items: center;
 	flex-direction: column;
+	height: 100%;
 	width: var( --gsuiMixerChannel-width );
 	min-width: var( --gsuiMixerChannel-width );
-	height: 100%;
 	background-color: var( --gsuiMixerChannel-bg );
+	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .2 );
 }
 .gsuiMixerChannel-muted {
-	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-muted-bg );
 	--gsuiMixerChannel-toggle-bg: var( --gsuiMixerChannel-toggleOff-bg );
 }
-.gsuiMixerChannel-ctrl {
-	border: 0;
+.gsuiMixerChannel-muted .gsuiSlider {
+	--gsuiSlider-lineColor: rgba( 255, 255, 255, .3 );
 }
-.gsuiMixerChannel + .gsuiMixerChannel .gsuiMixerChannel-ctrl {
-	border-left: 1px solid var( --gsuiMixerChannel-darkBorder );
-}
+
 .gsuiMixerChannel-nameWrap {
 	display: flex;
 	align-items: center;
@@ -59,7 +60,7 @@
 	box-sizing: border-box;
 	height: 34px;
 	min-height: 34px;
-	padding: .5em;
+	padding: 3px;
 	font-size: 12px;
 	font-family: var( --gsuiMixerChannel-name-font );
 	color: var( --gsuiMixerChannel-name-text );
@@ -73,17 +74,17 @@
 	user-select: none;
 	-webkit-user-select: none;
 }
-.gsuiMixer-panMaster .gsuiMixerChannel-name {
+.gsuiMixerChannel-muted .gsuiMixerChannel-name {
 	opacity: .5;
-	font-style: italic;
 }
-.gsuiMixer-panMaster .gsuiMixerChannel-name::before {
-	content: "Master";
+.gsuiMixer-panMain .gsuiMixerChannel-name::before {
+	/*opacity: .7;*/
+	content: "main";
+	font-style: italic;
 }
 .gsuiMixerChannel-analyserWrap {
 	flex: 10;
 	max-height: 160px;
-	border-left: 1px solid var( --gsuiMixerChannel-lightBorder );
 	background-color: var( --gsuiMixerChannel-analyser-bg );
 }
 .gsuiMixerChannel-analyser {
@@ -92,7 +93,8 @@
 }
 .gsuiMixerChannel-toggle {
 	display: flex;
-	height: 16px;
+	height: 18px;
+	border: 0;
 	cursor: pointer;
 	background-color: transparent;
 }
@@ -101,15 +103,21 @@
 	margin: auto;
 	display: block;
 	border-radius: 50%;
-	width: var( --gsuiMixerChannel-toggle-size );
-	height: var( --gsuiMixerChannel-toggle-size );
+	width: 6px;
+	height: 6px;
 	background-color: var( --gsuiMixerChannel-toggle-bg );
 }
 .gsuiMixerChannel-pan {
 	height: 24px;
+	z-index: 1;
+	overflow: hidden;
+	--gsuiSlider-lineColor: #d9f;
 }
 .gsuiMixerChannel-gain {
 	flex: 1;
+	width: 6px;
 	height: 48px;
+	margin: 6px 0;
 	min-height: 32px;
+	--gsuiSlider-lineColor: #ff9;
 }
