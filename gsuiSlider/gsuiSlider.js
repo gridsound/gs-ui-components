@@ -34,10 +34,12 @@ class gsuiSlider {
 		this._wheelChange = !!obj.wheelChange;
 		this._circ = obj.type === "circular";
 		this._axeX = obj.type === "linear-x";
-		this._options = obj = Object.assign( {}, obj );
+		this._options =
+		obj = Object.assign( {}, obj );
 		obj.step = Math.max( 0, obj.step ) || ( obj.max - obj.min ) / 10;
 		obj.scrollStep = Math.max( obj.step, obj.scrollStep || obj.step );
 		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom || 0, obj.max ) );
+		obj.strokeWidth = obj.strokeWidth || 4;
 		inp.min = obj.min;
 		inp.max = obj.max;
 		inp.step = obj.step;
@@ -50,6 +52,7 @@ class gsuiSlider {
 			clazz.remove( "gsui-circular", "gsui-x", "gsui-y" );
 			clazz.add( "gsui-linear", this._axeX ? "gsui-x" : "gsui-y" );
 		}
+		this._setSVGcirc();
 		this._updateVal();
 	}
 	setValue( val, bymouse ) {
@@ -73,33 +76,34 @@ class gsuiSlider {
 		this.resize( rc.width, rc.height );
 	}
 	resize( w, h ) {
-		this.rootElement.style.width = w + "px";
-		this.rootElement.style.height = h + "px";
 		if ( w !== this.width || h !== this.height ) {
-			const size = Math.min( w, h ),
-				size2 = size / 2,
-				strokeW = ~~( size / 10 ),
-				circR = ~~( ( size - strokeW ) / 2 );
-
 			this.width = w;
 			this.height = h;
-			if ( this._circ ) {
-				this._elSvg.setAttribute( "viewBox", "0 0 " + size + " " + size );
-				this._elSvgLine.setAttribute( "cx", size2 );
-				this._elSvgLine.setAttribute( "cy", size2 );
-				this._elSvgLine.setAttribute( "r", circR );
-				this._elSvgLineColor.setAttribute( "cx", size2 );
-				this._elSvgLineColor.setAttribute( "cy", size2 );
-				this._elSvgLineColor.setAttribute( "r", circR );
-				this._elSvgLine.style.strokeWidth =
-				this._elSvgLineColor.style.strokeWidth = strokeW;
-				this._svgLineLen = circR * 2 * Math.PI;
-			}
+			this._setSVGcirc();
 			this._updateVal();
 		}
 	}
 
 	// private:
+	_setSVGcirc() {
+		if ( this._circ && this.width && this.height ) {
+			const size = Math.min( this.width, this.height ),
+				size2 = size / 2,
+				stroW = this._options.strokeWidth,
+				circR = ~~( ( size - stroW ) / 2 );
+
+			this._elSvg.setAttribute( "viewBox", "0 0 " + size + " " + size );
+			this._elSvgLine.setAttribute( "cx", size2 );
+			this._elSvgLine.setAttribute( "cy", size2 );
+			this._elSvgLine.setAttribute( "r", circR );
+			this._elSvgLineColor.setAttribute( "cx", size2 );
+			this._elSvgLineColor.setAttribute( "cy", size2 );
+			this._elSvgLineColor.setAttribute( "r", circR );
+			this._elSvgLine.style.strokeWidth =
+			this._elSvgLineColor.style.strokeWidth = stroW;
+			this._svgLineLen = circR * 2 * Math.PI;
+		}
+	}
 	_getInputVal() {
 		const val = this._elInput.value;
 
