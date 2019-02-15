@@ -68,13 +68,16 @@
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
+	overflow: hidden;
+	width: 100%;
+	border: 0;
 	height: 34px;
 	min-height: 34px;
 	padding: 3px;
 	font-size: 12px;
 	font-family: var( --gsuiMixerChannel-name-font );
 	color: var( --gsuiMixerChannel-name-text );
-	overflow: hidden;
+	background-color: transparent;
 }
 .gsuiMixerChannel-name {
 	display: block;
