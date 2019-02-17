@@ -24,21 +24,18 @@
 	-webkit-user-select: none;
 }
 
+.gsuiMixer-panMain {
+	overflow: hidden;
+	margin-right: 6px;
+}
 .gsuiMixer-panChannels {
-	display: flex;
 	flex: 1;
-	margin: 0 6px;
+	display: flex;
 	overflow-x: scroll;
 	overflow-y: hidden;
 }
 .gsuiMixer-panChannels .gsuiMixerChannel:nth-child( odd ) {
 	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-bg2 );
-}
-.gsuiMixer-panEffects {
-	display: flex;
-	width: 250px;
-	min-width: 250px;
-	background-color: #555;
 }
 
 /* .gsuiMixerChannel */
@@ -111,7 +108,7 @@
 .gsuiMixerChannel-toggle {
 	display: flex;
 	width: 100%;
-	height: 18px;
+	min-height: 18px;
 	border: 0;
 	cursor: pointer;
 	background-color: transparent;
@@ -127,6 +124,7 @@
 }
 .gsuiMixerChannel-pan {
 	height: 24px;
+	min-height: 24px;
 	z-index: 1;
 	overflow: hidden;
 	--gsuiSlider-lineColor: var( --gsuiMixerChannel-pan-color );

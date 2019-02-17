@@ -6,7 +6,6 @@ class gsuiMixer {
 
 		this.rootElement = root;
 		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
-		this._peffects = root.querySelector( ".gsuiMixer-panEffects" );
 		this._pchannels = root.querySelector( ".gsuiMixer-panChannels" );
 		this._channels = {};
 		this._chanSelected = null;
@@ -16,7 +15,6 @@ class gsuiMixer {
 			gain: 1,
 			pan: 0,
 			name: "",
-			effects: {},
 		};
 		this._selectChan( "main" );
 	}
@@ -154,9 +152,7 @@ class gsuiMixer {
 			case "gain": el.gain.setValue( val ); break;
 			case "name": el.name.textContent = val; break;
 			case "toggle": el.root.classList.toggle( "gsuiMixerChannel-muted", !val ); break;
-			case "dest":
-				this._updateChanConnections();
-				break;
+			case "dest": this._updateChanConnections(); break;
 		}
 	}
 
@@ -185,10 +181,6 @@ class gsuiMixer {
 				gain: 0,
 				name: "",
 				toggle: true,
-				effects: new Proxy( {}, {
-					set: this._proxAddEffect.bind( this, id ),
-					deleteProperty: this._proxDeleteEffect.bind( this, id ),
-				} ),
 			},
 			_ = id !== "main" ? ( tarchan.dest = "main" ) : null,
 			updateChan = this._proxUpdateChan.bind( this, id ),
@@ -203,20 +195,11 @@ class gsuiMixer {
 		if ( obj.dest ) {
 			chan.dest = obj.dest;
 		}
-		Object.entries( obj.effects ).forEach( kv => chan.effects[ kv[ 0 ] ] = kv[ 1 ] );
 		return true;
 	}
 	_proxUpdateChan( id, tar, prop, val ) {
 		tar[ prop ] = val;
 		this._updateChan( id, prop, val );
-		return true;
-	}
-	_proxAddEffect( chanId, tar, id, obj ) {
-		tar[ id ] = Object.assign( {}, obj );
-		return true;
-	}
-	_proxDeleteEffect( chanId, tar, id ) {
-		delete tar[ id ];
 		return true;
 	}
 }
