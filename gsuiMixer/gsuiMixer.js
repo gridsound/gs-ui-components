@@ -141,8 +141,15 @@ class gsuiMixer {
 		this._onchange( id, "toggle", t );
 	}
 	_setChanDest( destId ) {
-		this._onchange( this._chanSelected, "dest", destId );
-		this._updateChanConnections();
+		const id = this._chanSelected;
+
+		if ( id !== "main" &&
+			id !== destId &&
+			this.data[ id ].dest !== destId
+		) {
+			this._onchange( id, "dest", destId );
+			this._updateChanConnections();
+		}
 	}
 	_updateChan( id, prop, val ) {
 		const el = this._channels[ id ];
