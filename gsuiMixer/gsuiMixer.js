@@ -9,12 +9,17 @@ class gsuiMixer {
 		this._pchannels = root.querySelector( ".gsuiMixer-panChannels" );
 		this._channels = {};
 		this._chanSelected = null;
+		this.onaddChan =
+		this.ondeleteChan =
+		this.onupdateChan =
+		this.onselectChan = () => {};
 		this.data = this._proxInit();
-		this.data[ "main" ] = {
+		this.data.main = {
+			order: 0,
 			toggle: true,
+			name: "",
 			gain: 1,
 			pan: 0,
-			name: "",
 		};
 		this._selectChan( "main" );
 	}
@@ -24,14 +29,18 @@ class gsuiMixer {
 
 		this._attached = true;
 		pan.style.marginBottom = pan.clientHeight - pan.offsetHeight + "px";
-		Object.values( this._channels ).forEach( html => {
+		Object.entries( this.data ).forEach( ( [ id, obj ] ) => {
+			const html = this._channels[ id ];
+
 			html.pan.attached();
 			html.gain.attached();
+			this.onaddChan( id, obj );
 		} );
 	}
 
 	// private:
 	_onchange( chanId, prop, val ) {
+		this.data[ chanId ][ prop ] = val;
 		if ( this.onchange ) {
 			this.onchange( { [ chanId ]: { [ prop ]: val } } );
 		}
@@ -132,13 +141,10 @@ class gsuiMixer {
 		chan.classList.add( "gsuiMixer-selected" );
 		this._chanSelected = id;
 		this._updateChanConnections();
+		this.onselectChan( id );
 	}
 	_toggleChan( id ) {
-		const chan = this.data[ id ],
-			t = !chan.toggle;
-
-		chan.toggle = t;
-		this._onchange( id, "toggle", t );
+		this._onchange( id, "toggle", !this.data[ id ].toggle );
 	}
 	_setChanDest( destId ) {
 		const id = this._chanSelected;
@@ -170,24 +176,25 @@ class gsuiMixer {
 			deleteProperty: this._proxDeleteChan.bind( this ),
 		} );
 	}
-	_proxAddChan( tar, prop, val ) {
-		this._proxDeleteChan( tar, prop );
-		return this.__proxAddChan( tar, prop, val );
+	_proxAddChan( tar, id, obj ) {
+		this._proxDeleteChan( tar, id );
+		return this.__proxAddChan( tar, id, obj );
 	}
-	_proxDeleteChan( tar, prop ) {
-		if ( prop in tar ) {
-			this._deleteChan( prop );
-			delete tar[ prop ];
+	_proxDeleteChan( tar, id ) {
+		if ( id in tar ) {
+			delete tar[ id ];
+			this._deleteChan( id );
+			this.ondeleteChan( id );
 		}
 		return true;
 	}
 	__proxAddChan( tar, id, obj ) {
 		const tarchan = {
-				id,
+				order: 0,
+				toggle: true,
+				name: "",
 				pan: 0,
 				gain: 0,
-				name: "",
-				toggle: true,
 			},
 			_ = id !== "main" ? ( tarchan.dest = "main" ) : null,
 			updateChan = this._proxUpdateChan.bind( this, id ),
@@ -195,10 +202,12 @@ class gsuiMixer {
 
 		tar[ id ] = chan;
 		this._addChan( id, chan );
+		this.onaddChan( id, chan );
 		chan.pan = obj.pan;
 		chan.gain = obj.gain;
 		chan.name = obj.name;
 		chan.toggle = obj.toggle;
+		chan.order = obj.order;
 		if ( obj.dest ) {
 			chan.dest = obj.dest;
 		}
@@ -207,6 +216,7 @@ class gsuiMixer {
 	_proxUpdateChan( id, tar, prop, val ) {
 		tar[ prop ] = val;
 		this._updateChan( id, prop, val );
+		this.onupdateChan( id, prop, val );
 		return true;
 	}
 }
