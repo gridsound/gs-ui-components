@@ -37,6 +37,9 @@ class gsuiMixer {
 			this.onaddChan( id, obj );
 		} );
 	}
+	updateAudioData( chanId, ldata, rdata ) {
+		this._channels[ chanId ].analyser.draw( ldata, rdata );
+	}
 
 	// private:
 	_onchange( chanId, prop, val ) {
@@ -82,17 +85,20 @@ class gsuiMixer {
 		const root = gsuiMixer.channelTemplate.cloneNode( true ),
 			pan = new gsuiSlider(),
 			gain = new gsuiSlider(),
+			analyser = new gsuiAnalyser(),
 			nameWrap = root.querySelector( ".gsuiMixerChannel-nameWrap" ),
 			name = root.querySelector( ".gsuiMixerChannel-name" ),
 			toggle = root.querySelector( ".gsuiMixerChannel-toggle" ),
 			connect = root.querySelector( ".gsuiMixerChannel-connect" ),
 			canvas = root.querySelector( ".gsuiMixerChannel-analyser" ),
-			html = { root, pan, gain, toggle, name, connect };
+			html = { root, pan, gain, analyser, name, connect };
 
 		this._channels[ id ] = html;
 		root.dataset.id = id;
 		root.querySelector( ".gsuiMixerChannel-pan" ).append( pan.rootElement );
 		root.querySelector( ".gsuiMixerChannel-gain" ).append( gain.rootElement );
+		analyser.setCanvas( canvas );
+		analyser.setResolution( 32, 224 );
 		pan.options( {
 			max: 1,
 			min: -1,
