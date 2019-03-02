@@ -1,8 +1,6 @@
 "use strict";
 
 class gsuiSpectrum {
-	constructor() {}
-
 	setCanvas( cnv ) {
 		this.rootElement = cnv;
 		this._ctx = cnv.getContext( "2d" );
