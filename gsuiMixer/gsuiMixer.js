@@ -42,6 +42,11 @@ class gsuiMixer {
 	}
 
 	// private:
+	_oninput( chanId, prop, val ) {
+		if ( this.oninput ) {
+			this.oninput( chanId, prop, val );
+		}
+	}
 	_onchange( chanId, prop, val ) {
 		this.data[ chanId ][ prop ] = val;
 		if ( this.onchange ) {
@@ -112,6 +117,8 @@ class gsuiMixer {
 			step: .001,
 			type: "linear-y",
 		} );
+		pan.oninput = this._oninput.bind( this, id, "pan" );
+		gain.oninput = this._oninput.bind( this, id, "gain" );
 		pan.onchange = this._onchange.bind( this, id, "pan" );
 		gain.onchange = this._onchange.bind( this, id, "gain" );
 		canvas.onclick =
