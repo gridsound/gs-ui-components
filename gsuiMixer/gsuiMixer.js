@@ -2,17 +2,22 @@
 
 class gsuiMixer {
 	constructor() {
-		const root = gsuiMixer.template.cloneNode( true );
+		const root = gsuiMixer.template.cloneNode( true ),
+			addBtn = root.querySelector( ".gsuiMixer-panAdd" );
 
 		this.rootElement = root;
 		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
 		this._pchannels = root.querySelector( ".gsuiMixer-panChannels" );
 		this._channels = {};
 		this._chanSelected = null;
+		this.oninput =
+		this.onchange =
 		this.onaddChan =
 		this.ondeleteChan =
 		this.onupdateChan =
 		this.onselectChan = () => {};
+		this._maxId =
+		this._maxOrder = 0;
 		this.data = this._proxInit();
 		this.data.main = {
 			order: 0,
@@ -21,7 +26,8 @@ class gsuiMixer {
 			gain: 1,
 			pan: 0,
 		};
-		this._selectChan( "main" );
+		addBtn.onclick = this._onclickAddChan.bind( this );
+		this._onclickSelectChan( "main" );
 	}
 
 	attached() {
@@ -37,22 +43,51 @@ class gsuiMixer {
 			this.onaddChan( id, obj );
 		} );
 	}
-	updateAudioData( chanId, ldata, rdata ) {
-		this._channels[ chanId ].analyser.draw( ldata, rdata );
+	updateAudioData( id, ldata, rdata ) {
+		this._channels[ id ].analyser.draw( ldata, rdata );
+	}
+
+	// events:
+	_oninput( id, prop, val ) {
+		this.oninput( id, prop, val );
+	}
+	_onchange( id, prop, val ) {
+		this.data[ id ][ prop ] = val;
+		this.onchange( { [ id ]: { [ prop ]: val } } );
+	}
+	_onclickToggleChan( id ) {
+		this._onchange( id, "toggle", !this.data[ id ].toggle );
+	}
+	_onclickAddChan() {
+		const id = this._maxId + 1,
+			obj = {
+				dest: "main",
+				toggle: true,
+				order: this._maxOrder + 1,
+				name: `chan ${ this._pchannels.children.length }`,
+				gain: 1,
+				pan: 0,
+			};
+
+		this.data[ id ] = obj;
+		this.onchange( { [ id ]: obj } );
+	}
+	_onclickDeleteChan( id ) {
+		delete this.data[ id ];
+		this.onchange( { [ id ]: undefined } );
+	}
+	_onclickSelectChan( id ) {
+		const chan = this._channels[ id ].root,
+			pchan = this._channels[ this._chanSelected ];
+
+		pchan && pchan.root.classList.remove( "gsuiMixer-selected" );
+		chan.classList.add( "gsuiMixer-selected" );
+		this._chanSelected = id;
+		this._updateChanConnections();
+		this.onselectChan( id );
 	}
 
 	// private:
-	_oninput( chanId, prop, val ) {
-		if ( this.oninput ) {
-			this.oninput( chanId, prop, val );
-		}
-	}
-	_onchange( chanId, prop, val ) {
-		this.data[ chanId ][ prop ] = val;
-		if ( this.onchange ) {
-			this.onchange( { [ chanId ]: { [ prop ]: val } } );
-		}
-	}
 	_updateChanConnections() {
 		const selId = this._chanSelected;
 
@@ -88,22 +123,22 @@ class gsuiMixer {
 	}
 	_addChan( id, obj ) {
 		const root = gsuiMixer.channelTemplate.cloneNode( true ),
+			qs = n => root.querySelector( `.gsuiMixerChannel-${ n }` ),
 			pan = new gsuiSlider(),
 			gain = new gsuiSlider(),
-			analyser = new gsuiAnalyser(),
-			nameWrap = root.querySelector( ".gsuiMixerChannel-nameWrap" ),
-			name = root.querySelector( ".gsuiMixerChannel-name" ),
-			toggle = root.querySelector( ".gsuiMixerChannel-toggle" ),
-			connect = root.querySelector( ".gsuiMixerChannel-connect" ),
-			canvas = root.querySelector( ".gsuiMixerChannel-analyser" ),
-			html = { root, pan, gain, analyser, name, connect };
+			canvas = qs( "analyser" ),
+			html = { root, pan, gain,
+				name: qs( "name" ),
+				connect: qs( "connect" ),
+				analyser: new gsuiAnalyser(),
+			};
 
 		this._channels[ id ] = html;
 		root.dataset.id = id;
-		root.querySelector( ".gsuiMixerChannel-pan" ).append( pan.rootElement );
-		root.querySelector( ".gsuiMixerChannel-gain" ).append( gain.rootElement );
-		analyser.setCanvas( canvas );
-		analyser.setResolution( 32, 224 );
+		qs( "pan" ).append( pan.rootElement );
+		qs( "gain" ).append( gain.rootElement );
+		html.analyser.setCanvas( canvas );
+		html.analyser.setResolution( 32, 224 );
 		pan.options( {
 			max: 1,
 			min: -1,
@@ -122,9 +157,10 @@ class gsuiMixer {
 		pan.onchange = this._onchange.bind( this, id, "pan" );
 		gain.onchange = this._onchange.bind( this, id, "gain" );
 		canvas.onclick =
-		nameWrap.onclick = this._selectChan.bind( this, id );
-		toggle.onclick = this._toggleChan.bind( this, id );
-		connect.onclick = this._setChanDest.bind( this, id );
+		qs( "nameWrap" ).onclick = this._onclickSelectChan.bind( this, id );
+		qs( "toggle" ).onclick = this._onclickToggleChan.bind( this, id );
+		qs( "delete" ).onclick = this._onclickDeleteChan.bind( this, id );
+		html.connect.onclick = this._setChanDest.bind( this, id );
 		( this._pmain.firstElementChild
 			? this._pchannels
 			: this._pmain ).append( root );
@@ -142,22 +178,10 @@ class gsuiMixer {
 					|| el.previousElementSibling
 					|| this._pmain.firstElementChild;
 
-			next && this._selectChan( next.dataset.id );
+			next && this._onclickSelectChan( next.dataset.id );
 		}
+		delete this._channels[ id ];
 		el.remove();
-	}
-	_selectChan( id ) {
-		const chan = this._channels[ id ].root,
-			pchan = this._channels[ this._chanSelected ];
-
-		pchan && pchan.root.classList.remove( "gsuiMixer-selected" );
-		chan.classList.add( "gsuiMixer-selected" );
-		this._chanSelected = id;
-		this._updateChanConnections();
-		this.onselectChan( id );
-	}
-	_toggleChan( id ) {
-		this._onchange( id, "toggle", !this.data[ id ].toggle );
 	}
 	_setChanDest( destId ) {
 		const id = this._chanSelected;
@@ -177,8 +201,8 @@ class gsuiMixer {
 			case "pan": el.pan.setValue( val ); break;
 			case "gain": el.gain.setValue( val ); break;
 			case "name": el.name.textContent = val; break;
-			case "toggle": el.root.classList.toggle( "gsuiMixerChannel-muted", !val ); break;
 			case "dest": this._updateChanConnections(); break;
+			case "toggle": el.root.classList.toggle( "gsuiMixerChannel-muted", !val ); break;
 		}
 	}
 
@@ -203,17 +227,19 @@ class gsuiMixer {
 	}
 	__proxAddChan( tar, id, obj ) {
 		const tarchan = {
-				order: 0,
 				toggle: true,
+				order: 0,
 				name: "",
-				pan: 0,
 				gain: 0,
+				pan: 0,
 			},
 			_ = id !== "main" ? ( tarchan.dest = "main" ) : null,
 			updateChan = this._proxUpdateChan.bind( this, id ),
 			chan = new Proxy( Object.seal( tarchan ), { set: updateChan } );
 
 		tar[ id ] = chan;
+		this._maxId = Math.max( this._maxId, id ) || 0; // 1.
+		this._maxOrder = Math.max( this._maxOrder, obj.order );
 		this._addChan( id, chan );
 		this.onaddChan( id, chan );
 		chan.pan = obj.pan;
@@ -241,3 +267,8 @@ gsuiMixer.template.removeAttribute( "id" );
 gsuiMixer.channelTemplate = document.querySelector( "#gsuiMixerChannel-template" );
 gsuiMixer.channelTemplate.remove();
 gsuiMixer.channelTemplate.removeAttribute( "id" );
+
+/*
+1.	Why `|| 0` after Math.max ?
+	Because the ID of the main channel is "main".
+*/

@@ -1,11 +1,11 @@
 :root {
 	--gsuiMixerChannel-bg: darkred;
 	--gsuiMixerChannel-bg2: indianred;
+	--gsuiMixerChannel-color: yellow;
 	--gsuiMixerChannel-selected-bg: tomato;
 	--gsuiMixerChannel-width: 36px;
 	--gsuiMixerChannel-pan-color: blue;
 	--gsuiMixerChannel-gain-color: orange;
-	--gsuiMixerChannel-name-text: yellow;
 	--gsuiMixerChannel-name-font: monospace;
 	--gsuiMixerChannel-connect-input-color: red;
 	--gsuiMixerChannel-connect-output-color: orange;
@@ -27,23 +27,65 @@
 	overflow: hidden;
 	margin-right: 6px;
 }
+
+/* .gsuiMixer-panChannels */
+/* .......................................................................... */
 .gsuiMixer-panChannels {
 	flex: 1;
 	display: flex;
 	overflow-x: scroll;
 	overflow-y: hidden;
 }
+.gsuiMixer-panChannels::after {
+	order: 2;
+	content: ".";
+	opacity: 0;
+	margin-left: 16px;
+}
 .gsuiMixer-panChannels .gsuiMixerChannel:nth-child( odd ) {
 	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-bg2 );
 }
 
+/* .gsuiMixer-panAdd */
+/* .......................................................................... */
+.gsuiMixer-panAdd {
+	order: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: calc( var( --gsuiMixerChannel-width ) * .7 );
+	min-width: calc( var( --gsuiMixerChannel-width ) * .7 );
+	margin: 6px;
+	font: inherit;
+	color: #fff;
+	cursor: pointer;
+	border: 2px dashed;
+	border-radius: 2px;
+	background: none;
+	opacity: .15;
+	transition: .2s;
+	transition-property: opacity;
+}
+.gsuiMixer-panAdd:hover {
+	opacity: .35;
+}
+.gsuiMixer-panAdd::before {
+	content: "\f067";
+	font-family: "FontAwesome";
+}
+.gsuiMixer-panAdd:hover::before {
+	content: "\f300";
+}
+
 /* .gsuiMixerChannel */
-/* ......................................................................... */
+/* .......................................................................... */
 .gsuiMixerChannel {
 	display: flex;
+	position: relative;
 	align-items: center;
 	flex-direction: column;
 	height: 100%;
+	color: var( --gsuiMixerChannel-color );
 	width: var( --gsuiMixerChannel-width );
 	min-width: var( --gsuiMixerChannel-width );
 	background-color: var( --gsuiMixerChannel-bg );
@@ -59,20 +101,49 @@
 	--gsuiSlider-lineColor: rgba( 255, 255, 255, .3 );
 }
 
+/* .......................................................................... */
+.gsuiMixerChannel-delete {
+	all: unset;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 2px;
+	right: 2px;
+	cursor: pointer;
+	font-size: 12px;
+	font-family: "FontAwesome";
+	line-height: 1em;
+	opacity: 0;
+	transition: opacity .2s;
+}
+.gsuiMixerChannel-delete::before {
+	content: "\f2d3";
+}
+.gsuiMixer-panMain .gsuiMixerChannel-delete {
+	display: none;
+}
+.gsuiMixerChannel:hover .gsuiMixerChannel-delete {
+	opacity: .3;
+}
+.gsuiMixerChannel .gsuiMixerChannel-delete:hover {
+	opacity: .7;
+}
+
+/* .......................................................................... */
 .gsuiMixerChannel-nameWrap {
+	all: unset;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
 	overflow: hidden;
 	width: 100%;
-	border: 0;
 	height: 34px;
 	min-height: 34px;
 	padding: 3px;
 	font-size: 12px;
 	font-family: var( --gsuiMixerChannel-name-font );
-	color: var( --gsuiMixerChannel-name-text );
 	background-color: transparent;
 }
 .gsuiMixerChannel-name {
@@ -92,6 +163,8 @@
 .gsuiMixer-panMain .gsuiMixerChannel-name {
 	font-style: italic;
 }
+
+/* .......................................................................... */
 .gsuiMixerChannel-analyserWrap {
 	position: relative;
 	flex: 10;
@@ -109,6 +182,8 @@
 	background-color: #000;
 	filter: saturate( .5 ) contrast( .8 );
 }
+
+/* .......................................................................... */
 .gsuiMixerChannel-toggle {
 	display: flex;
 	width: 100%;
@@ -126,6 +201,8 @@
 	height: 6px;
 	background-color: var( --gsuiMixerChannel-toggle-bg );
 }
+
+/* .......................................................................... */
 .gsuiMixerChannel-pan {
 	height: 24px;
 	min-height: 24px;
@@ -142,6 +219,7 @@
 	--gsuiSlider-lineColor: var( --gsuiMixerChannel-gain-color );
 }
 
+/* .......................................................................... */
 .gsuiMixerChannel-connect {
 	width: 100%;
 	border: 0;
