@@ -86,8 +86,16 @@ class gsuiMixer {
 		this.onchange( { [ id ]: obj } );
 	}
 	_onclickDeleteChan( id ) {
+		const obj = { [ id ]: undefined };
+
+		Object.entries( this.data ).forEach( kv => {
+			if ( kv[ 1 ].dest === id ) {
+				obj[ kv[ 0 ] ] = { dest: "main" };
+				this.data[ kv[ 0 ] ].dest = "main";
+			}
+		} );
 		delete this.data[ id ];
-		this.onchange( { [ id ]: undefined } );
+		this.onchange( obj );
 	}
 	_onclickSelectChan( id ) {
 		const chan = this._channels[ id ].root,
@@ -110,11 +118,10 @@ class gsuiMixer {
 				chan = this._channels[ selId ];
 			let rdOnce = false;
 
-			Object.values( this._channels ).forEach( html => {
-				const conn = html.connect.classList,
-					id = html.root.dataset.id,
+			Object.entries( data ).forEach( ( [ id, chan ] ) => {
+				const conn = this._channels[ id ].connect.classList,
 					lu = id === chanDest,
-					rd = data[ id ].dest === selId;
+					rd = chan.dest === selId;
 
 				conn.remove(
 					"gsuiMixerChannel-leftdown",
@@ -133,6 +140,11 @@ class gsuiMixer {
 				return true;
 			}
 		} );
+	}
+	_getNextChan( el, dir ) {
+		const sibling = el[ dir ];
+
+		return sibling && "id" in sibling.dataset ? sibling : null;
 	}
 	_addChan( id, obj ) {
 		const root = gsuiMixer.channelTemplate.cloneNode( true ),
@@ -188,11 +200,15 @@ class gsuiMixer {
 		const el = this._channels[ id ].root;
 
 		if ( id === this._chanSelected ) {
-			const next = el.nextElementSibling
-					|| el.previousElementSibling
-					|| this._pmain.firstElementChild;
+			const next = this._getNextChan( el, "nextElementSibling" );
 
-			next && this._onclickSelectChan( next.dataset.id );
+			if ( next ) {
+				this._onclickSelectChan( next.dataset.id );
+			} else {
+				const prev = this._getNextChan( el, "previousElementSibling" );
+
+				this._onclickSelectChan( prev ? prev.dataset.id : "main" );
+			}
 		}
 		delete this._channels[ id ];
 		el.remove();
@@ -216,6 +232,7 @@ class gsuiMixer {
 			case "gain": el.gain.setValue( val ); break;
 			case "name": el.name.textContent = val; break;
 			case "dest": this._updateChanConnections(); break;
+			case "order": el.root.style.order = val; break;
 			case "toggle": el.root.classList.toggle( "gsuiMixerChannel-muted", !val ); break;
 		}
 	}
