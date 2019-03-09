@@ -5,12 +5,16 @@ class gsuiAnalyser {
 		this.rootElement = canvas;
 		this._ctx = canvas.getContext( "2d" );
 	}
-	setResolution( w, h ) {
-		this.rootElement.width = w;
-		this.rootElement.height = h;
-	}
 	clear() {
 		this._ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
+	}
+	setResolution( w, h ) {
+		const cnv = this.rootElement,
+			img = this._ctx.getImageData( 0, 0, cnv.width, cnv.height );
+
+		cnv.width = w;
+		cnv.height = h;
+		this._ctx.putImageData( img, 0, 0 );
 	}
 	draw( ldata, rdata ) {
 		const datalen = ldata.length,
