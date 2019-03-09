@@ -18,6 +18,8 @@ class gsuiMixer {
 		this.onselectChan = () => {};
 		this._maxId =
 		this._maxOrder = 0;
+		this._analyserW =
+		this._analyserH = 10;
 		this.data = this._proxInit();
 		this.data.main = {
 			order: 0,
@@ -42,6 +44,17 @@ class gsuiMixer {
 			html.gain.attached();
 			this.onaddChan( id, obj );
 		} );
+		this.resized();
+	}
+	resized() {
+		const chans = Object.values( this._channels ),
+			bcr = chans[ 0 ].analyser.rootElement.getBoundingClientRect(),
+			w = bcr.width,
+			h = bcr.height;
+
+		this._analyserW = w;
+		this._analyserH = h;
+		chans.forEach( html => html.analyser.setResolution( w, h ) );
 	}
 	updateAudioData( id, ldata, rdata ) {
 		this._channels[ id ].analyser.draw( ldata, rdata );
@@ -167,6 +180,7 @@ class gsuiMixer {
 		if ( this._attached ) {
 			pan.attached();
 			gain.attached();
+			html.analyser.setResolution( this._analyserW, this._analyserH );
 		}
 		this._updateChanConnections();
 	}
