@@ -12,8 +12,8 @@ class gsuiAnalyser {
 		const cnv = this.rootElement,
 			img = this._ctx.getImageData( 0, 0, cnv.width, cnv.height );
 
-		cnv.width = w;
-		cnv.height = h;
+		cnv.width = Math.max( w, 2 );
+		cnv.height = Math.max( h, 2 );
 		this._ctx.putImageData( img, 0, 0 );
 	}
 	draw( ldata, rdata ) {
