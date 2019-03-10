@@ -20,16 +20,9 @@ class gsuiMixer {
 		this._maxOrder = 0;
 		this._analyserW =
 		this._analyserH = 10;
-		this.data = this._proxInit();
-		this.data.main = {
-			order: 0,
-			toggle: true,
-			name: "",
-			gain: 1,
-			pan: 0,
-		};
 		addBtn.onclick = this._onclickAddChan.bind( this );
-		this._onclickSelectChan( "main" );
+		this.data = this._proxInit();
+		this.empty();
 	}
 
 	attached() {
@@ -58,6 +51,27 @@ class gsuiMixer {
 	}
 	updateAudioData( id, ldata, rdata ) {
 		this._channels[ id ].analyser.draw( ldata, rdata );
+	}
+	empty() {
+		const main = {
+				order: 0,
+				toggle: true,
+				name: "",
+				gain: 1,
+				pan: 0,
+			};
+
+		Object.keys( this.data ).forEach( id => {
+			if ( id !== "main" ) {
+				delete this.data[ id ];
+			}
+		} );
+		if ( this.data.main ) {
+			Object.assign( this.data.main, main );
+		} else {
+			this.data.main = main;
+		}
+		this._onclickSelectChan( "main" );
 	}
 
 	// events:
