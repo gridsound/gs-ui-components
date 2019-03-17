@@ -6,6 +6,7 @@ class gsuiSynthesizer {
 
 		this.rootElement = root;
 		this._waveList = [];
+		this._nlOscs = root.getElementsByClassName( "gsuiOscillator" );
 		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 		this.oninput =
 		this.onchange = () => {};
@@ -19,7 +20,7 @@ class gsuiSynthesizer {
 	}
 	attached() {
 		this._attached = true;
-		Array.from( this._elOscList.children ).forEach( el => (
+		Array.from( this._nlOscs ).forEach( el => (
 			this._uioscs[ el.dataset.id ].attached()
 		) );
 	}
@@ -64,7 +65,7 @@ class gsuiSynthesizer {
 			uiosc.change( osc );
 			uiosc.rootElement.dataset.id = id;
 			uiosc.rootElement.dataset.order = "order" in osc ? osc.order : this._getMaxOrder();
-			if ( !Array.from( this._elOscList.children ).some( el => {
+			if ( !Array.from( this._nlOscs ).some( el => {
 				if ( osc.order <= +el.dataset.order ) {
 					el.before( uiosc.rootElement );
 					return true;
