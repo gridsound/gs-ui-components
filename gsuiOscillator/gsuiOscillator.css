@@ -1,6 +1,14 @@
 :root {
+	--gsuiOscillator-bg: dodgerblue;
 	--gsuiOscillator-font: 12px sans-serif;
+	--gsuiOscillator-color: yellow;
+	--gsuiOscillator-slider-bg: tomato;
 	--gsuiOscillator-number-font: 12px monospace;
+	--gsuiOscillator-pan: purple;
+	--gsuiOscillator-gain: lime;
+	--gsuiOscillator-pan-a: dodgerblue;
+	--gsuiOscillator-pan-b: tomato;
+	--gsuiOscillator-detune: orange;
 }
 
 .gsuiOscillator {
@@ -12,10 +20,10 @@
 	height: 60px;
 	padding: 6px;
 	padding-right: 8px;
-	color: #ddd;
 	font: var( --gsuiOscillator-font );
-	background-color: #555;
-	--gsuiSlider-lineBgColor: #444;
+	color: var( --gsuiOscillator-color );
+	background-color: var( --gsuiOscillator-bg );
+	--gsuiSlider-lineBgColor: var( --gsuiOscillator-slider-bg );
 }
 .gsuiOscillator-order {
 	display: flex;
@@ -35,8 +43,8 @@
 }
 .gsuiOscillator-sliderWrap {
 	position: absolute;
-	width: 100%;
 	top: 50%;
+	width: 100%;
 	height: 40px;
 	margin-top: -20px;
 }
@@ -44,9 +52,9 @@
 	margin: auto;
 }
 
-.gsuiOscillator-detune { --gsuiSlider-lineColor: #fff; }
-.gsuiOscillator-pan    { --gsuiSlider-lineColor: #d9f; }
-.gsuiOscillator-gain   { --gsuiSlider-lineColor: #ff9; }
+.gsuiOscillator-pan    { --gsuiSlider-lineColor: var( --gsuiOscillator-pan ); }
+.gsuiOscillator-gain   { --gsuiSlider-lineColor: var( --gsuiOscillator-gain ); }
+.gsuiOscillator-detune { --gsuiSlider-lineColor: var( --gsuiOscillator-detune ); }
 
 .gsuiOscillator-sliderValue {
 	position: absolute;
@@ -75,8 +83,8 @@
 .gsuiOscillator-type .gsuiPeriodicWave {
 	position: absolute;
 }
-.gsuiOscillator-type .gsuiPeriodicWave:first-child polyline { stroke: #faa; }
-.gsuiOscillator-type .gsuiPeriodicWave:last-child polyline { stroke: #aaf; }
+.gsuiOscillator-type .gsuiPeriodicWave:first-child polyline { stroke: var( --gsuiOscillator-pan-a ); }
+.gsuiOscillator-type .gsuiPeriodicWave:last-child polyline { stroke: var( --gsuiOscillator-pan-b ); }
 .gsuiOscillator-type polyline {
 	stroke-opacity: .8;
 }
@@ -104,9 +112,8 @@
 	border: 0;
 	outline: 0;
 	color: inherit;
+	font: inherit;
 	font-weight: bold;
-	font-size: inherit;
-	font-family: inherit;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	background: none;
