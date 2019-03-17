@@ -1,4 +1,5 @@
 :root {
+	--gsuiMixer-bg: darkblue;
 	--gsuiMixerChannel-bg: darkred;
 	--gsuiMixerChannel-bg2: indianred;
 	--gsuiMixerChannel-color: yellow;
@@ -18,7 +19,7 @@
 .gsuiMixer {
 	display: flex;
 	height: 100%;
-	background-color: #333;
+	background-color: var( --gsuiMixer-bg );
 	user-select: none;
 	-webkit-user-select: none;
 }
@@ -46,34 +47,29 @@
 	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-bg2 );
 }
 
-/* .gsuiMixer-panAdd */
+/* .gsuiMixer-addChan */
 /* .......................................................................... */
-.gsuiMixer-panAdd {
+.gsuiMixer-addChan {
 	order: 2147483646;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	width: calc( var( --gsuiMixerChannel-width ) * .7 );
 	min-width: calc( var( --gsuiMixerChannel-width ) * .7 );
 	margin: 6px;
-	font: inherit;
 	color: #fff;
 	cursor: pointer;
 	border: 2px dashed;
 	border-radius: 2px;
 	background: none;
 	opacity: .15;
-	transition: .2s;
-	transition-property: opacity;
+	transition: .2s opacity;
 }
-.gsuiMixer-panAdd:hover {
+.gsuiMixer-addChan:hover {
 	opacity: .35;
 }
-.gsuiMixer-panAdd::before {
+.gsuiMixer-addChan::before {
 	content: "\f067";
 	font-family: "FontAwesome";
 }
-.gsuiMixer-panAdd:hover::before {
+.gsuiMixer-addChan:hover::before {
 	content: "\f300";
 }
 

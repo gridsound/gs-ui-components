@@ -3,7 +3,7 @@
 class gsuiMixer {
 	constructor() {
 		const root = gsuiMixer.template.cloneNode( true ),
-			addBtn = root.querySelector( ".gsuiMixer-panAdd" );
+			addBtn = root.querySelector( ".gsuiMixer-addChan" );
 
 		this.rootElement = root;
 		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
