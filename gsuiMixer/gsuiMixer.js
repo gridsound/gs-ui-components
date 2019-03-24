@@ -71,7 +71,17 @@ class gsuiMixer {
 		} else {
 			this.data.main = main;
 		}
-		this._onclickSelectChan( "main" );
+		this.selectChan( "main" );
+	}
+	selectChan( id ) {
+		const chan = this._channels[ id ].root,
+			pchan = this._channels[ this._chanSelected ];
+
+		pchan && pchan.root.classList.remove( "gsuiMixer-selected" );
+		chan.classList.add( "gsuiMixer-selected" );
+		this._chanSelected = id;
+		this._updateChanConnections();
+		this.onselectChan( id );
 	}
 
 	// events:
@@ -110,16 +120,6 @@ class gsuiMixer {
 		} );
 		delete this.data[ id ];
 		this.onchange( obj );
-	}
-	_onclickSelectChan( id ) {
-		const chan = this._channels[ id ].root,
-			pchan = this._channels[ this._chanSelected ];
-
-		pchan && pchan.root.classList.remove( "gsuiMixer-selected" );
-		chan.classList.add( "gsuiMixer-selected" );
-		this._chanSelected = id;
-		this._updateChanConnections();
-		this.onselectChan( id );
 	}
 
 	// private:
@@ -196,7 +196,7 @@ class gsuiMixer {
 		pan.onchange = this._onchange.bind( this, id, "pan" );
 		gain.onchange = this._onchange.bind( this, id, "gain" );
 		canvas.onclick =
-		qs( "nameWrap" ).onclick = this._onclickSelectChan.bind( this, id );
+		qs( "nameWrap" ).onclick = this.selectChan.bind( this, id );
 		qs( "toggle" ).onclick = this._onclickToggleChan.bind( this, id );
 		qs( "delete" ).onclick = this._onclickDeleteChan.bind( this, id );
 		html.connect.onclick = this._setChanDest.bind( this, id );
@@ -217,11 +217,11 @@ class gsuiMixer {
 			const next = this._getNextChan( el, "nextElementSibling" );
 
 			if ( next ) {
-				this._onclickSelectChan( next.dataset.id );
+				this.selectChan( next.dataset.id );
 			} else {
 				const prev = this._getNextChan( el, "previousElementSibling" );
 
-				this._onclickSelectChan( prev ? prev.dataset.id : "main" );
+				this.selectChan( prev ? prev.dataset.id : "main" );
 			}
 		}
 		delete this._channels[ id ];
