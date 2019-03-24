@@ -1,10 +1,13 @@
 :root {
-	--gsuiKeys-blackKey-colorA: #105;
-	--gsuiKeys-blackKey-colorB: #10f;
-	--gsuiKeys-whiteKey-colorA: #552;
-	--gsuiKeys-whiteKey-colorB: #ff0;
-	--gsuiKeys-activeKey-colorA: #888;
-	--gsuiKeys-activeKey-colorB: #fff;
+	--gsuiKeys-blackKey-gradA: #105;
+	--gsuiKeys-blackKey-gradB: #10f;
+	--gsuiKeys-whiteKey-gradA: #552;
+	--gsuiKeys-whiteKey-gradB: #ff0;
+	--gsuiKeys-activeKey-gradA: #888;
+	--gsuiKeys-activeKey-gradB: #fff;
+	--gsuiKeys-blackRow-bg: rgba( 0, 0, 0, .1 );
+	--gsuiKeys-blackRow-hover-bg: rgba( 0, 0, 0, .15 );
+	--gsuiKeys-whiteRow-hover-bg: rgba( 255, 255, 255, .03 );
 }
 
 .gsuiKeys {
@@ -16,21 +19,24 @@
 .gsuiKeys,
 .gsuiKey {
 	background-image: linear-gradient( 90deg,
-		var( --gsuiKeys-whiteKey-colorA ),
-		var( --gsuiKeys-whiteKey-colorB ) );
+		var( --gsuiKeys-whiteKey-gradA ),
+		var( --gsuiKeys-whiteKey-gradB ) );
 }
 
 .gsuiKey .gsuiKey-row {
 	display: none;
 }
 .gsuiKey-row {
+	height: 1em;
 	position: relative;
 	box-sizing: border-box;
-	height: 1em;
 }
 .gsuiKeyBlack-row {
-	background-color: rgba( 0, 0, 0, .1 );
+	background-color: var( --gsuiKeys-blackRow-bg );
 }
+.gsuiKey-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
+.gsuiKeyBlack-row:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
+
 .gsuiKey[data-key="0"],
 .gsuiKey[data-key="5"],
 .gsuiKey-row[data-key="0"],
@@ -58,8 +64,8 @@
 	margin-top: -.5em;
 	border-radius: 0 .1em .1em 0;
 	background-image: linear-gradient( 90deg,
-		var( --gsuiKeys-blackKey-colorA ),
-		var( --gsuiKeys-blackKey-colorB ) );
+		var( --gsuiKeys-blackKey-gradA ),
+		var( --gsuiKeys-blackKey-gradB ) );
 }
 .gsuiKey[data-key="0"] {
 	filter: brightness( .9 );
@@ -76,8 +82,8 @@
 }
 .gsuiKey.gsui-active {
 	background-image: linear-gradient( 90deg,
-		var( --gsuiKeys-activeKey-colorA ),
-		var( --gsuiKeys-activeKey-colorB ) );
+		var( --gsuiKeys-activeKey-gradA ),
+		var( --gsuiKeys-activeKey-gradB ) );
 }
 
 .gsuiKey:last-child {

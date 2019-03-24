@@ -44,10 +44,6 @@
 	opacity: .3;
 }
 
-/* .......................................................................... */
-.gsuiPianoroll .gsui-row:hover { background-color: rgba( 255, 255, 255, .03 ); }
-.gsuiPianoroll .gsuiKeyBlack-row:hover { background-color: rgba( 0, 0, 0, .15 ); }
-
 /* block */
 /* .......................................................................... */
 .gsuiPianoroll .gsuiBlocksManager-block {
