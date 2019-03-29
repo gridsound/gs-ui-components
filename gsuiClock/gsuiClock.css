@@ -1,0 +1,59 @@
+:root {
+	--gsuiClock-mili-fontSize: .7em;
+	--gsuiClock-mili-opacity: .5;
+}
+
+.gsuiClock {
+	display: flex;
+}
+
+.gsuiClock-relative {
+	position: relative;
+}
+.gsuiClock-absolute {
+	display: flex;
+	position: absolute;
+	white-space: nowrap;
+	align-items: baseline;
+}
+
+.gsuiClock-modes {
+	display: flex;
+	margin: 0;
+	border: 0;
+	padding: .2em 0 .3em 0;
+	cursor: pointer;
+	color: inherit;
+	font-size: inherit;
+	background: none;
+	margin-left: .25em;
+	flex-direction: column;
+	justify-content: space-between;
+	opacity: var( --gsuiClock-mili-opacity );
+}
+.gsuiClock-mode {
+	width: 8px;
+	height: 8px;
+	border: 2px solid;
+	border-radius: 2px;
+	box-sizing: border-box;
+	opacity: inherit;
+}
+.gsuiClock[data-mode="beat"] .gsuiClock-beat,
+.gsuiClock[data-mode="second"] .gsuiClock-second {
+	opacity: 1;
+	background-color: currentColor;
+}
+
+.gsuiClock-b::before {
+	content: ":";
+	margin: 0 .1em;
+}
+.gsuiClock-c {
+	font-size: var( --gsuiClock-mili-fontSize );
+	opacity: var( --gsuiClock-mili-opacity );
+}
+.gsuiClock-c::before {
+	content: ".";
+	margin: 0 .2em;
+}
