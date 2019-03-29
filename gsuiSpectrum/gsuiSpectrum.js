@@ -3,25 +3,27 @@
 class gsuiSpectrum {
 	setCanvas( cnv ) {
 		this.rootElement = cnv;
+		this._scaleToData = true;
 		this._ctx = cnv.getContext( "2d" );
 		cnv.classList.add( "gsuiSpectrum" );
+	}
+	clear() {
+		this._ctx.clearRect( 0, 0, this.rootElement.width, 1 );
 	}
 	setResolution( w ) {
 		this.rootElement.width = w;
 		this.rootElement.height = 1;
 	}
-	clear() {
-		this._ctx.clearRect( 0, 0, this.rootElement.width, 1 );
+	scaleToData( b ) {
+		this._scaleToData = b;
 	}
 	draw( data ) {
-		const datalen = data.length,
-			w = this.rootElement.width;
+		const w = data.length,
+			img = gsuiSpectrum.draw( this._ctx, data );
 
-		if ( this._datalen !== datalen || this._width !== w ) {
-			this._width = w;
-			this._datalen = datalen;
-			this._widths = gsuiSpectrum.calcFreqSizes( datalen, w );
+		if ( this._scaleToData && w !== this.rootElement.width ) {
+			this.rootElement.width = w;
 		}
-		gsuiSpectrum.draw( this._ctx, data, this._widths );
+		this._ctx.putImageData( img, 0, 0 );
 	}
 }

@@ -1,9 +1,10 @@
 "use strict";
 
-gsuiSpectrum.draw = function( ctx, data, freqSizes ) {
-	const datalen = data.length;
+gsuiSpectrum.draw = function( ctx, data ) {
+	const datalen = data.length,
+		img = ctx.createImageData( datalen, 1 );
 
-	for ( let i = 0, x = 0; i < datalen; ++i ) {
+	for ( let i = 0, x = 0; i < datalen; ++i, x += 4 ) {
 		let r, g, b,
 			datum = 1 - Math.cos( data[ i ] / 255 * Math.PI / 2 );
 
@@ -28,13 +29,12 @@ gsuiSpectrum.draw = function( ctx, data, freqSizes ) {
 			g = col[ 1 ] * datum;
 			b = col[ 2 ] * datum;
 		}
-		ctx.fillStyle = "rgb("
-			+ ~~r + ","
-			+ ~~g + ","
-			+ ~~b + ")";
-		ctx.fillRect( x, 0, freqSizes[ i ], 1 );
-		x += freqSizes[ i ];
+		img.data[ x     ] = ~~r;
+		img.data[ x + 1 ] = ~~g;
+		img.data[ x + 2 ] = ~~b;
+		img.data[ x + 3 ] = 255;
 	}
+	return img;
 };
 
 gsuiSpectrum.colors = [
