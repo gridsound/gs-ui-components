@@ -1,11 +1,9 @@
 :root {
 	--gsuiTrack-duration: .2s;
-	--gsuiTrack-bg: dodgerblue;
-	--gsuiTrack-bg-mute: indianred;
-	--gsuiTrack-row-bg-mute: rgba( 255, 0, 0, .5 );
+	--gsuiTrack-hsl-h: 0;
+	--gsuiTrack-hsl-s: 0%;
+	--gsuiTrack-hsl-l: 27%;
 	--gsuiTrack-color: yellow;
-	--gsuiTrack-borderTop-color: white;
-	--gsuiTrack-borderBottom-color: black;
 	--gsuiTrack-toggle-bg: tomato;
 	--gsuiTrack-toggleOff-bg: dodgerblue;
 }
@@ -15,34 +13,49 @@
 	box-sizing: border-box;
 	display: flex;
 	height: 1em;
-	border: 0 solid;
-	border-width: 1px 0;
-	border-top-color: var( --gsuiTrack-borderTop-color );
-	border-bottom-color: var( --gsuiTrack-borderBottom-color );
-	background-color: var( --gsuiTrack-bg );
 }
 .gsuiTrack,
 .gsuiTrack-row,
 .gsuiTrack-toggle::before {
-	transition: background-color var( --gsuiTrack-duration );
+	transition: var( --gsuiTrack-duration ) background-color;
 }
+.gsuiTrack {
+	background-color: hsl(
+		var( --gsuiTrack-hsl-h ),
+		var( --gsuiTrack-hsl-s ),
+		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) ) );
+}
+.gsuiTrack:nth-child(even) {
+	--rel-l: -1.7%;
+}
+.gsuiTrack.gsui-mute {
+	--rel-l: -5%;
+	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
+}
+.gsuiTrack.gsui-mute:nth-child(even) {
+	--rel-l: -5.5%;
+}
+
+/* .......................................................................... */
 .gsuiTrack-row {
 	position: relative;
 	display: block;
-	background-color: transparent;
+	background-color: rgba( 0, 0, 0, var( --rel-a, 0 ) );
+}
+.gsuiTrack-row:nth-child(even) {
+	--rel-a: .06;
+}
+.gsuiTrack-row.gsui-mute {
+	--rel-a: .25;
+}
+.gsuiTrack-row.gsui-mute:nth-child(even) {
+	--rel-a: .29;
 }
 .gsuiTrack-row > div {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	width: 100%;
-}
-.gsuiTrack.gsui-mute {
-	--gsuiTrack-bg: var( --gsuiTrack-bg-mute );
-	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
-}
-.gsuiTrack-row.gsui-mute {
-	background-color: var( --gsuiTrack-row-bg-mute );
 }
 
 /* .......................................................................... */
@@ -86,7 +99,6 @@
 .gsuiTrack-name:focus {
 	font-weight: normal;
 }
-
 .gsuiTrack-name::placeholder {
 	color: inherit;
 	font-style: italic;
