@@ -54,7 +54,9 @@
 	width: calc( var( --gsuiMixerChannel-width ) * .7 );
 	min-width: calc( var( --gsuiMixerChannel-width ) * .7 );
 	margin: 6px;
+	padding: 0;
 	color: #fff;
+	font-size: 18px;
 	cursor: pointer;
 	border: 2px dashed;
 	border-radius: 2px;
@@ -63,14 +65,12 @@
 	transition: .2s opacity;
 }
 .gsuiMixer-addChan:hover {
+	font-weight: bold;
 	opacity: .35;
 }
 .gsuiMixer-addChan::before {
-	content: "\f067";
-	font-family: "FontAwesome";
-}
-.gsuiMixer-addChan:hover::before {
 	content: "\f300";
+	font-family: "FontAwesome";
 }
 
 /* .gsuiMixerChannel */
