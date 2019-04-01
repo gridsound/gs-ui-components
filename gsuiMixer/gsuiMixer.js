@@ -29,7 +29,7 @@ class gsuiMixer {
 		const pan = this._pchannels;
 
 		this._attached = true;
-		pan.style.marginBottom = pan.clientHeight - pan.offsetHeight + "px";
+		pan.style.bottom = pan.clientHeight - pan.offsetHeight + "px";
 		Object.entries( this.data ).forEach( ( [ id, obj ] ) => {
 			const html = this._channels[ id ];
 

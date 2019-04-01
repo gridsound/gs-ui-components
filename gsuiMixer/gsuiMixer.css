@@ -17,25 +17,31 @@
 }
 
 .gsuiMixer {
-	display: flex;
 	height: 100%;
+	position: relative;
 	background-color: var( --gsuiMixer-bg );
 	user-select: none;
 	-webkit-user-select: none;
 }
 
-.gsuiMixer-panMain {
+.gsuiMixer-panMain,
+.gsuiMixer-panChannels {
+	position: absolute;
 	overflow: hidden;
-	margin-right: 6px;
+	top: 0;
+	left: 0;
+	bottom: 0;
 }
 
 /* .gsuiMixer-panChannels */
 /* .......................................................................... */
 .gsuiMixer-panChannels {
-	flex: 1;
-	display: flex;
+	left: calc( var( --gsuiMixerChannel-width ) + 6px );
+	right: 0;
+	display: grid;
 	overflow-x: scroll;
-	overflow-y: hidden;
+	grid-auto-flow: column;
+	justify-content: flex-start;
 }
 .gsuiMixer-panChannels::after {
 	order: 2147483647;
