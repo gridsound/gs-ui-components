@@ -6,19 +6,21 @@
 }
 
 .gsuiSynthesizer {
-	display: flex;
+	position: relative;
 	box-sizing: border-box;
-	flex-direction: column;
 	color: var( --gsuiSynthesizer-color );
 	background-color: var( --gsuiSynthesizer-bg );
 }
 
 .gsuiSynthesizer-head {
-	height: var( --gsuiSynthesizer-head-height );
+	position: absolute;
+	width: 100%;
 	display: flex;
 	padding: 0 6px;
+	box-sizing: border-box;
 	flex-direction: column;
 	justify-content: center;
+	height: var( --gsuiSynthesizer-head-height );
 	background-color: var( --gsuiSynthesizer-head-bg );
 }
 .gsuiSynthesizer-title {
@@ -45,15 +47,19 @@
 }
 
 .gsuiSynthesizer-oscList {
-	flex: 1;
-	display: flex;
+	position: absolute;
+	top: calc( var( --gsuiSynthesizer-head-height ) + 1px );
+	width: 100%;
+	bottom: 0;
+	display: grid;
 	overflow: auto;
+	grid-gap: 1px;
 	counter-reset: count-osc;
-	flex-direction: column;
+	grid-auto-rows: 60px;
 }
 
 .gsuiSynthesizer .gsuiOscillator {
-	margin-top: 1px;
+	height: auto;
 	transition: .2s filter;
 }
 .gsuiSynthesizer .gsuiOscillator:hover {
@@ -68,8 +74,9 @@
 	border: 0;
 	margin: 6px;
 	padding: 6px 0;
-	line-height: 16px;
 	color: inherit;
+	font-size: 18px;
+	font-family: "FontAwesome";
 	cursor: pointer;
 	border: 2px dashed;
 	border-radius: 2px;
@@ -78,12 +85,9 @@
 	transition: .2s opacity;
 }
 .gsuiSynthesizer-newOsc:hover {
+	font-weight: bold;
 	opacity: .4;
 }
 .gsuiSynthesizer-newOsc::before {
-	content: "\f067";
-	font-family: "FontAwesome";
-}
-.gsuiSynthesizer-newOsc:hover::before {
 	content: "\f300";
 }
