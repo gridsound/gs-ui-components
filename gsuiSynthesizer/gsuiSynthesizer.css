@@ -84,6 +84,7 @@
 	opacity: .2;
 	transition: .2s opacity;
 }
+.gsuiSynthesizer-newOsc:focus,
 .gsuiSynthesizer-newOsc:hover {
 	font-weight: bold;
 	opacity: .4;
