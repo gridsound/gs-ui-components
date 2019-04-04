@@ -138,14 +138,19 @@ option.gsuiOscillator-nativeWave {
 	position: absolute;
 	top: 0;
 	right: 2px;
-	opacity: .1;
+	border: 0;
+	padding: 0;
+	opacity: .3;
 	font-size: 12px;
-	transition: opacity .2s;
+	color: inherit;
+	cursor: pointer;
+	transition: opacity .1s;
 }
 .gsuiOscillator-remove::before {
-	content: "\f2d3";
+	content: "\f00d";
 	font-family: "FontAwesome";
 }
 .gsuiOscillator-remove:hover {
+	font-weight: bold;
 	opacity: .8;
 }
