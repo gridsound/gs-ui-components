@@ -24,11 +24,7 @@ class gsuiOscillator {
 		root.querySelector( ".gsuiOscillator-remove" ).onclick = () => this.onremove && this.onremove();
 		this._elSelect = root.querySelector( "select" );
 		this._elSelect.onchange = this._onchangeSelect.bind( this );
-		this._elSelect.onkeydown = e => {
-			if ( e.keyCode < 37 || e.keyCode > 40 ) {
-				e.preventDefault();
-			}
-		};
+		this._elSelect.onkeydown = this._onkeydownSelect.bind( this );
 		this._sliders = Array.from( root.querySelectorAll(
 			"div[data-filter]" ) ).reduce( ( obj, el ) => {
 				const slider = new gsuiSlider(),
@@ -154,6 +150,11 @@ class gsuiOscillator {
 			}
 		}, 700 );
 	}
+	_onkeydownSelect( e ) {
+		if ( e.key.length === 1 ) {
+			e.preventDefault();
+		}
+	}
 	_oninputSlider( attr, val ) {
 		if ( attr === "gain" ) {
 			this._gain = val;
@@ -171,8 +172,6 @@ class gsuiOscillator {
 		this.onchange( { [ attr ]: val } );
 	}
 }
-
-gsuiOscillator.attrSliders = [ "gain", "pan", "detune" ];
 
 gsuiOscillator.template = document.querySelector( "#gsuiOscillator-template" );
 gsuiOscillator.template.remove();
