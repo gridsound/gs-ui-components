@@ -57,8 +57,7 @@
 /* .......................................................................... */
 .gsuiMixer-addChan {
 	order: 2147483646;
-	width: calc( var( --gsuiMixerChannel-width ) * .7 );
-	min-width: calc( var( --gsuiMixerChannel-width ) * .7 );
+	width: 36px;
 	margin: 6px;
 	padding: 0;
 	color: #fff;
@@ -67,15 +66,16 @@
 	border: 2px dashed;
 	border-radius: 2px;
 	background: none;
-	opacity: .15;
+	opacity: .2;
 	transition: .2s opacity;
 }
+.gsuiMixer-addChan:focus,
 .gsuiMixer-addChan:hover {
 	font-weight: bold;
 	opacity: .35;
 }
 .gsuiMixer-addChan::before {
-	content: "\f300";
+	content: "\f067";
 	font-family: "FontAwesome";
 }
 
@@ -105,22 +105,22 @@
 
 /* .......................................................................... */
 .gsuiMixerChannel-delete {
-	all: unset;
-	position: absolute;
 	display: flex;
+	position: absolute;
 	align-items: center;
 	justify-content: center;
 	top: 2px;
 	right: 2px;
+	border: 0;
+	opacity: 0;
+	padding: 0;
+	color: inherit;
 	cursor: pointer;
 	font-size: 12px;
 	font-family: "FontAwesome";
 	line-height: 1em;
-	opacity: 0;
+	background: none;
 	transition: opacity .2s;
-}
-.gsuiMixerChannel-delete::before {
-	content: "\f2d3";
 }
 .gsuiMixer-panMain .gsuiMixerChannel-delete {
 	display: none;
@@ -129,7 +129,11 @@
 	opacity: .3;
 }
 .gsuiMixerChannel .gsuiMixerChannel-delete:hover {
-	opacity: .7;
+	font-weight: bold;
+	opacity: .8;
+}
+.gsuiMixerChannel-delete::before {
+	content: "\f00d";
 }
 
 /* .......................................................................... */
