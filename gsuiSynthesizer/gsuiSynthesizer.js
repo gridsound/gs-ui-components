@@ -8,9 +8,10 @@ class gsuiSynthesizer {
 		this._waveList = [];
 		this._nlOscs = root.getElementsByClassName( "gsuiOscillator" );
 		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
+		this._elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" );
 		this.oninput =
 		this.onchange = () => {};
-		root.querySelector( ".gsuiSynthesizer-newOsc" ).onclick = this._onclickNewOsc.bind( this );
+		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
 		this.empty();
 	}
 
@@ -71,7 +72,7 @@ class gsuiSynthesizer {
 					return true;
 				}
 			} ) ) {
-				this._elOscList.append( uiosc.rootElement );
+				this._elNewOsc.before( uiosc.rootElement );
 			}
 			this._attached && uiosc.attached();
 		}
