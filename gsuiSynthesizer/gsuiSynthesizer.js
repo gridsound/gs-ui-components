@@ -55,9 +55,6 @@ class gsuiSynthesizer {
 
 			this._nextOscId = Math.max( this._nextOscId, +id + 1 );
 			this._uioscs[ id ] = uiosc;
-			if ( !( "order" in osc ) ) {
-				osc.order = this._getMaxOrder();
-			}
 			this.store.oscillators[ id ] = Object.assign( {}, osc );
 			uiosc.oninput = this._oninputOsc.bind( this, id );
 			uiosc.onchange = this._onchangeOsc.bind( this, id );
@@ -65,7 +62,7 @@ class gsuiSynthesizer {
 			uiosc.addWaves( this._waveList );
 			uiosc.change( osc );
 			uiosc.rootElement.dataset.id = id;
-			uiosc.rootElement.dataset.order = "order" in osc ? osc.order : this._getMaxOrder();
+			uiosc.rootElement.dataset.order = osc.order;
 			if ( !Array.from( this._nlOscs ).some( el => {
 				if ( osc.order <= +el.dataset.order ) {
 					el.before( uiosc.rootElement );
