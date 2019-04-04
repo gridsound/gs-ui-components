@@ -22,11 +22,12 @@
 .gsuiBlocksManager-sidePanel .gsui-opacityHover {
 	color: #fff;
 	cursor: pointer;
-	opacity: .35;
+	opacity: .4;
 	transition: .2s opacity;
 }
+.gsuiBlocksManager-sidePanel .gsui-opacityHover:focus,
 .gsuiBlocksManager-sidePanel .gsui-opacityHover:hover {
-	opacity: .7;
+	opacity: .8;
 }
 .gsuiBlocksManager-gridPanel {
 	flex: 1;
@@ -62,6 +63,10 @@
 	content: "\f076";
 	font-family: "FontAwesome";
 	opacity: .7;
+}
+.gsuiBlocksManager-magnet:focus::after,
+.gsuiBlocksManager-magnet:hover::after {
+	font-weight: bold;
 }
 
 /* .......................................................................... */
