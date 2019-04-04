@@ -31,7 +31,6 @@
 	display: flex;
 	opacity: .3;
 	font-size: 10px;
-	font-weight: bold;
 }
 .gsuiSynthesizer-label-no {
 	width: 18px;
@@ -54,12 +53,13 @@
 	display: grid;
 	overflow: auto;
 	grid-gap: 1px;
+	grid-auto-flow: row;
+	grid-auto-rows: min-content;
 	counter-reset: count-osc;
-	grid-auto-rows: 60px;
+	background: none;
 }
 
 .gsuiSynthesizer .gsuiOscillator {
-	height: auto;
 	transition: .2s filter;
 }
 .gsuiSynthesizer .gsuiOscillator:hover {
@@ -89,5 +89,5 @@
 	opacity: .4;
 }
 .gsuiSynthesizer-newOsc::before {
-	content: "\f300";
+	content: "\f067";
 }
