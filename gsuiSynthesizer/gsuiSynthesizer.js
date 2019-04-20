@@ -20,7 +20,11 @@ class gsuiSynthesizer {
 		this.rootElement.remove();
 	}
 	attached() {
+		const list = this._elOscList,
+			head = this.rootElement.querySelector( ".gsuiSynthesizer-head" );
+
 		this._attached = true;
+		head.style.right = `${ list.offsetWidth - list.clientWidth }px`;
 		Array.from( this._nlOscs ).forEach( el => (
 			this._uioscs[ el.dataset.id ].attached()
 		) );

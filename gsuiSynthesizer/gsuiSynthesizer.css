@@ -6,22 +6,23 @@
 }
 
 .gsuiSynthesizer {
+	overflow: hidden;
 	position: relative;
 	box-sizing: border-box;
 	color: var( --gsuiSynthesizer-color );
-	background-color: var( --gsuiSynthesizer-bg );
+	background-color: var( --gsuiSynthesizer-head-bg );
 }
 
 .gsuiSynthesizer-head {
 	position: absolute;
-	width: 100%;
+	left: 0;
+	right: 0;
 	display: flex;
 	padding: 0 6px;
 	box-sizing: border-box;
 	flex-direction: column;
 	justify-content: center;
 	height: var( --gsuiSynthesizer-head-height );
-	background-color: var( --gsuiSynthesizer-head-bg );
 }
 .gsuiSynthesizer-title {
 	opacity: .25;
@@ -47,16 +48,20 @@
 
 .gsuiSynthesizer-oscList {
 	position: absolute;
-	top: calc( var( --gsuiSynthesizer-head-height ) + 1px );
-	width: 100%;
+	left: 0;
+	right: 0;
 	bottom: 0;
 	display: grid;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	grid-gap: 1px;
 	grid-auto-flow: row;
 	grid-auto-rows: min-content;
 	counter-reset: count-osc;
-	background: none;
+	scrollbar-width: thin;
+	scrollbar-color: #ddd #222;
+	top: calc( var( --gsuiSynthesizer-head-height ) + 1px );
+	background-color: var( --gsuiSynthesizer-bg );
 }
 
 .gsuiSynthesizer .gsuiOscillator {
