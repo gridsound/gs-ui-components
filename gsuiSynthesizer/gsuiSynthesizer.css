@@ -77,13 +77,12 @@
 .gsuiSynthesizer-newOsc {
 	order: 2147483647;
 	border: 0;
-	margin: 6px;
-	height: 36px;
+	height: 52px;
+	padding: 6px;
 	color: inherit;
 	font-size: 18px;
 	font-family: "FontAwesome";
 	cursor: pointer;
-	border: 2px dashed;
 	border-radius: 2px;
 	background: none;
 	opacity: .2;
@@ -95,5 +94,11 @@
 	opacity: .4;
 }
 .gsuiSynthesizer-newOsc::before {
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
 	content: "\f067";
+	height: 100%;
+	border: 2px dashed;
 }
