@@ -2,7 +2,6 @@
 	--gsuiBlocksManager-font: 12px sans-serif;
 	--gsuiBlocksManager-number-font: 12px monospace;
 	--gsuiBlocksManager-grid-bg: dodgerblue;
-	--gsuiBlocksManager-borderColor: yellow;
 	--gsuiBlocksManager-side-bgColor: indianred;
 	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: rgba( 255, 255, 0, .5 );
@@ -35,16 +34,13 @@
 	flex-direction: column;
 	border-left-width: 1px !important;
 }
-
 .gsuiBlocksManager-sidePanelMenu {
 	display: flex;
+	box-sizing: border-box;
 	align-items: center;
 	justify-content: flex-end;
-	box-sizing: border-box;
 	padding: 4px;
 	height: var( --gsuiBlocksManager-timeline-height );
-	border: 0 solid var( --gsuiBlocksManager-borderColor );
-	border-width: 1px 0;
 }
 
 /* .......................................................................... */
@@ -94,6 +90,7 @@
 	height: 100%;
 }
 
+/* .......................................................................... */
 .gsuiBlocksManager-rows {
 	background-color: var( --gsuiBlocksManager-grid-bg );
 }
