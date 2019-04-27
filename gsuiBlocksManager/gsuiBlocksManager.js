@@ -52,7 +52,8 @@ class gsuiBlocksManager {
 		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
 
 		this.__eventReset();
-		this.timeSignature( 4, 4 );
+		this.__uiTimeline.timeSignature( 4, 4 );
+		this.__uiBeatlines.timeSignature( 4, 4 );
 		this.__magnetValue.textContent = this.__uiTimeline.stepRound;
 	}
 
