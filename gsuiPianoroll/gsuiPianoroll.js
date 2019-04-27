@@ -97,6 +97,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				rows.getBoundingClientRect().top - 3.5 * this.__fontSize;
 		}
 	}
+	timeSignature( a, b ) {
+		super.timeSignature( a, b );
+		this._uiSliderGroup.timeSignature( a, b );
+	}
 	octaves( from, nb ) {
 		const rows = this.uiKeys.rootElement.getElementsByClassName( "gsui-row" );
 
