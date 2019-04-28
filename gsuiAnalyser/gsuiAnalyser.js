@@ -4,27 +4,22 @@ class gsuiAnalyser {
 	setCanvas( canvas ) {
 		this.rootElement = canvas;
 		this._ctx = canvas.getContext( "2d" );
-		this._scaleToData = true;
 	}
 	clear() {
 		this._ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	}
-	setResolution( w, h ) {
+	setResolution( height ) {
 		const cnv = this.rootElement,
 			img = this._ctx.getImageData( 0, 0, cnv.width, cnv.height );
 
-		cnv.width = Math.max( w, 2 );
-		cnv.height = Math.max( h, 2 );
+		cnv.height = Math.max( height, 2 );
 		this._ctx.putImageData( img, 0, 0 );
-	}
-	scaleToData( b ) {
-		this._scaleToData = b;
 	}
 	draw( ldata, rdata ) {
 		const w = ldata.length * 2;
 
 		this._moveImage();
-		if ( this._scaleToData && w !== this.rootElement.width ) {
+		if ( w !== this.rootElement.width ) {
 			this.rootElement.width = w;
 		}
 		this._draw( ldata, rdata );
