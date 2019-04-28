@@ -18,7 +18,6 @@ class gsuiMixer {
 		this.onselectChan = () => {};
 		this._maxId =
 		this._maxOrder = 0;
-		this._analyserW =
 		this._analyserH = 10;
 		addBtn.onclick = this._onclickAddChan.bind( this );
 		this.data = this._proxInit();
@@ -41,13 +40,10 @@ class gsuiMixer {
 	}
 	resized() {
 		const chans = Object.values( this._channels ),
-			bcr = chans[ 0 ].analyser.rootElement.getBoundingClientRect(),
-			w = bcr.width,
-			h = bcr.height;
+			h = chans[ 0 ].analyser.rootElement.getBoundingClientRect().height;
 
-		this._analyserW = w;
 		this._analyserH = h;
-		chans.forEach( html => html.analyser.setResolution( w, h ) );
+		chans.forEach( html => html.analyser.setResolution( h ) );
 	}
 	updateAudioData( id, ldata, rdata ) {
 		this._channels[ id ].analyser.draw( ldata, rdata );
@@ -177,7 +173,6 @@ class gsuiMixer {
 		qs( "pan" ).append( pan.rootElement );
 		qs( "gain" ).append( gain.rootElement );
 		html.analyser.setCanvas( canvas );
-		html.analyser.setResolution( 32, 224 );
 		pan.options( {
 			max: 1,
 			min: -1,
@@ -206,7 +201,7 @@ class gsuiMixer {
 		if ( this._attached ) {
 			pan.attached();
 			gain.attached();
-			html.analyser.setResolution( this._analyserW, this._analyserH );
+			html.analyser.setResolution( this._analyserH );
 		}
 		this._updateChanConnections();
 	}
