@@ -92,6 +92,15 @@ class gsuiTimeline {
 		}
 		this._setLoop( la, lb );
 	}
+	previewCurrentTime( beat ) {
+		const el = this._dom.cursorPreview,
+			hide = beat === false;
+
+		if ( !hide ) {
+			el.style.left = this._beatToPx( beat );
+		}
+		el.classList.toggle( "gsui-hidden", hide );
+	}
 
 	// private:
 	_round( bt, mathFn ) {
@@ -117,7 +126,6 @@ class gsuiTimeline {
 	_mousedownTime( e ) {
 		this._timeisdrag = true;
 		this._mousemove( e );
-		this._dom.cursorPreview.classList.remove( "gsui-hidden" );
 		gsuiTimeline._focused = this;
 	}
 	_mousedownLoop( side ) {
@@ -143,7 +151,7 @@ class gsuiTimeline {
 	}
 	_mousemove( e ) {
 		if ( this._timeisdrag ) {
-			this._dom.cursorPreview.style.left = this._beatToPx( this._pageXtoBeat( e ) );
+			this.previewCurrentTime( this._pageXtoBeat( e ) );
 		} else if ( this._loopisdrag ) {
 			const la = this._loopisdragA,
 				lb = this._loopisdragB;
@@ -174,7 +182,7 @@ class gsuiTimeline {
 	_mouseup( e ) {
 		delete gsuiTimeline._focused;
 		if ( this._timeisdrag ) {
-			this._dom.cursorPreview.classList.add( "gsui-hidden" );
+			this.previewCurrentTime( false );
 			this.currentTime( this._pageXtoBeat( e ), true );
 			this._timeisdrag = false;
 		} else if ( this._loopisdrag ) {
