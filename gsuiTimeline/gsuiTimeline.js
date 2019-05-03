@@ -97,9 +97,11 @@ class gsuiTimeline {
 			hide = beat === false;
 
 		if ( !hide ) {
-			el.style.left = this._beatToPx( beat );
+			this._previewCurrentTime = this.beatRound( beat );
+			el.style.left = this._beatToPx( this._previewCurrentTime );
 		}
 		el.classList.toggle( "gsui-hidden", hide );
+		return this._previewCurrentTime;
 	}
 
 	// private:
