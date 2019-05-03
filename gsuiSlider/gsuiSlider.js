@@ -66,18 +66,20 @@ class gsuiSlider {
 		this._updateVal();
 	}
 	setValue( val, bymouse ) {
-		const prval = this._getInputVal();
+		if ( !this._locked || bymouse ) {
+			const prval = this._getInputVal();
 
-		this._elInput.value = val;
-		val = this._getInputVal();
-		if ( val !== prval ) {
-			this._updateVal();
-			if ( bymouse && this.oninput ) {
-				this.oninput( +val );
+			this._elInput.value = val;
+			val = this._getInputVal();
+			if ( val !== prval ) {
+				this._updateVal();
+				if ( bymouse && this.oninput ) {
+					this.oninput( +val );
+				}
 			}
-		}
-		if ( !bymouse ) {
-			this._previousval = val;
+			if ( !bymouse ) {
+				this._previousval = val;
+			}
 		}
 	}
 	resized() {
