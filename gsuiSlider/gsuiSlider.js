@@ -174,16 +174,12 @@ class gsuiSlider {
 				this._axeX ? bcr.width : bcr.height;
 
 		this._onchange();
+		if ( this.oninputstart ) {
+			this.oninputstart( this.value );
+		}
 		this._pxval = ( opt.max - opt.min ) / size;
 		this._pxmoved = 0;
 		this.rootElement.requestPointerLock();
-	}
-	_mouseup( e ) {
-		if ( this._locked ) {
-			document.exitPointerLock();
-			delete this._locked;
-			this._onchange();
-		}
 	}
 	_mousemove( e ) {
 		if ( this._locked ) {
@@ -196,6 +192,16 @@ class gsuiSlider {
 				this._pxmoved += mov;
 			}
 			this.setValue( val, true );
+		}
+	}
+	_mouseup( e ) {
+		if ( this._locked ) {
+			document.exitPointerLock();
+			delete this._locked;
+			this._onchange();
+			if ( this.oninputend ) {
+				this.oninputend( this.value );
+			}
 		}
 	}
 	_mouseleave() {
