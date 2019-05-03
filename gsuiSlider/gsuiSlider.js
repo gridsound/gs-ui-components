@@ -206,10 +206,16 @@ gsuiSlider.template.remove();
 gsuiSlider.template.removeAttribute( "id" );
 
 document.addEventListener( "pointerlockchange", () => {
-	const el = document.pointerLockElement,
-		slider = el && el._gsuiSlider_instance;
+	const el = document.pointerLockElement;
 
-	if ( slider ) {
-		slider._locked = true;
+	if ( el ) {
+		const slider = el._gsuiSlider_instance;
+
+		if ( slider ) {
+			slider._locked = true;
+			gsuiSlider._focused = slider;
+		}
+	} else if ( gsuiSlider._focused ) {
+		gsuiSlider._focused._mouseup();
 	}
 } );
