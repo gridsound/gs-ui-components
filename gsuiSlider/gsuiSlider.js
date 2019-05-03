@@ -5,17 +5,17 @@ class gsuiSlider {
 		const root = gsuiSlider.template.cloneNode( true );
 
 		this.rootElement = root;
-		this._elInput = root.querySelector( "input" );
-		this._elLine = root.querySelector( ".gsui-line" );
-		this._elLineColor = root.querySelector( ".gsui-lineColor" );
 		this._elSvg = root.querySelector( "svg" );
+		this._elLine = root.querySelector( ".gsui-line" );
+		this._elInput = root.querySelector( "input" );
 		this._elSvgLine = root.querySelector( ".gsui-svgLine" );
+		this._elLineColor = root.querySelector( ".gsui-lineColor" );
 		this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
 		root._gsuiSlider_instance = this;
 		root.onwheel = this._wheel.bind( this );
+		root.onmouseup = this._mouseup.bind( this );
 		root.onmousedown = this._mousedown.bind( this );
 		root.onmousemove = this._mousemove.bind( this );
-		root.onmouseup = this._mouseup.bind( this );
 		root.onmouseleave = this._mouseleave.bind( this );
 	}
 
@@ -113,26 +113,26 @@ class gsuiSlider {
 		this.value = +this._getInputVal();
 		if ( this._attached ) {
 			const opt = this._options,
-				inplen = opt.max - opt.min,
-				prcval = ( this.value - opt.min ) / inplen,
-				prcstart = ( opt.startFrom - opt.min ) / inplen,
+				len = opt.max - opt.min,
+				prcval = ( this.value - opt.min ) / len,
+				prcstart = -opt.min / len,
 				prclen = Math.abs( prcval - prcstart ),
 				prcmin = Math.min( prcval, prcstart );
 
 			if ( this._circ ) {
 				const line = this._elSvgLineColor.style;
 
-				line.strokeDasharray = prclen * this._svgLineLen + ", 999999";
-				line.transform = "rotate(" + ( 90 + prcmin * 360 ) + "deg)";
+				line.transform = `rotate(${ 90 + prcmin * 360 }deg)`;
+				line.strokeDasharray = `${ prclen * this._svgLineLen }, 999999`;
 			} else {
 				const line = this._elLineColor.style;
 
 				if ( this._axeX ) {
-					line.left = prcmin * 100 + "%";
-					line.width = prclen * 100 + "%";
+					line.left = `${ prcmin * 100 }%`;
+					line.width = `${ prclen * 100 }%`;
 				} else {
-					line.bottom = prcmin * 100 + "%";
-					line.height = prclen * 100 + "%";
+					line.bottom = `${ prcmin * 100 }%`;
+					line.height = `${ prclen * 100 }%`;
 				}
 			}
 		}
