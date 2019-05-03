@@ -17,6 +17,14 @@ class gsuiSlider {
 		root.onmousedown = this._mousedown.bind( this );
 		root.onmousemove = this._mousemove.bind( this );
 		root.onmouseleave = this._mouseleave.bind( this );
+		this._options = Object.seal( {
+			value: 0, min: 0, max: 0, step: 0,
+			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
+		} );
+		this.options( {
+			value: 50, min: 0, max: 100, step: 1,
+			type: "linear-x", scrollStep: 1, strokeWidth: 4, wheelChange: true,
+		} );
 	}
 
 	remove() {
@@ -29,30 +37,32 @@ class gsuiSlider {
 	}
 	options( obj ) {
 		const inp = this._elInput,
-			clazz = this.rootElement.classList;
+			clazz = this.rootElement.classList,
+			opt = Object.assign( this._options, obj );
 
-		this._wheelChange = !!obj.wheelChange;
-		this._circ = obj.type === "circular";
-		this._axeX = obj.type === "linear-x";
-		this._options =
-		obj = Object.assign( {}, obj );
-		obj.step = Math.max( 0, obj.step ) || ( obj.max - obj.min ) / 10;
-		obj.scrollStep = Math.max( obj.step, obj.scrollStep || obj.step );
-		obj.startFrom = Math.max( obj.min, Math.min( obj.startFrom || 0, obj.max ) );
-		obj.strokeWidth = obj.strokeWidth || 4;
-		inp.min = obj.min;
-		inp.max = obj.max;
-		inp.step = obj.step;
-		inp.value = obj.value;
-		this._previousval = this._getInputVal();
-		if ( this._circ ) {
-			clazz.remove( "gsui-linear", "gsui-x", "gsui-y" );
-			clazz.add( "gsui-circular" );
-		} else {
-			clazz.remove( "gsui-circular", "gsui-x", "gsui-y" );
-			clazz.add( "gsui-linear", this._axeX ? "gsui-x" : "gsui-y" );
+		opt.step = Math.max( 0, opt.step ) || ( opt.max - opt.min ) / 10;
+		opt.scrollStep = Math.max( opt.step, opt.scrollStep || opt.step );
+		inp.min = opt.min;
+		inp.max = opt.max;
+		inp.step = opt.step;
+		if ( "value" in obj ) {
+			inp.value = opt.value;
 		}
-		this._setSVGcirc();
+		this._previousval = this._getInputVal();
+		if ( "type" in obj ) {
+			this._circ = opt.type === "circular";
+			this._axeX = opt.type === "linear-x";
+			if ( this._circ ) {
+				clazz.remove( "gsui-linear", "gsui-x", "gsui-y" );
+				clazz.add( "gsui-circular" );
+			} else {
+				clazz.remove( "gsui-circular", "gsui-x", "gsui-y" );
+				clazz.add( "gsui-linear", this._axeX ? "gsui-x" : "gsui-y" );
+			}
+		}
+		if ( "type" in obj || "strokeWidth" in obj ) {
+			this._setSVGcirc();
+		}
 		this._updateVal();
 	}
 	setValue( val, bymouse ) {
@@ -148,7 +158,7 @@ class gsuiSlider {
 
 	// events:
 	_wheel( e ) {
-		if ( this._wheelChange ) {
+		if ( this._options.wheelChange ) {
 			const d = e.deltaY > 0 ? -1 : 1;
 
 			this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
