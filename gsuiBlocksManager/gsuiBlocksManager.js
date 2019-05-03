@@ -3,13 +3,14 @@
 class gsuiBlocksManager {
 	constructor( root ) {
 		this.rootElement = root;
+		this.timeline = new gsuiTimeline();
+
 		this.__offset = 0;
 		this.__fontSize = 16;
 		this.__blcs = new Map();
 		this.__blcsEditing = new Map();
 		this.__blcsSelected = new Map();
 		this.__uiPanels = new gsuiPanels( root );
-		this.__uiTimeline = new gsuiTimeline();
 		this.__elPanGridWidth = 0;
 		this.__magnet = root.querySelector( ".gsuiBlocksManager-magnet" );
 		this.__elLoopA = root.querySelector( ".gsuiBlocksManager-loopA" );
@@ -31,13 +32,13 @@ class gsuiBlocksManager {
 		this.onchangeLoop =
 		this.onchangeCurrentTime = () => {};
 		this.__elPanGrid.onresizing = this.__gridPanelResizing.bind( this );
-		this.__uiTimeline.oninputLoop = this.__loop.bind( this );
-		this.__uiTimeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
-		this.__uiTimeline.onchangeCurrentTime = t => {
+		this.timeline.oninputLoop = this.__loop.bind( this );
+		this.timeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
+		this.timeline.onchangeCurrentTime = t => {
 			this.__currentTime( t );
 			this.onchangeCurrentTime( t );
 		};
-		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.__uiTimeline.rootElement );
+		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.timeline.rootElement );
 
 		this.__rowsContainer.oncontextmenu =
 		root.ondragstart = () => false;
@@ -52,23 +53,23 @@ class gsuiBlocksManager {
 		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
 
 		this.__eventReset();
-		this.__uiTimeline.timeSignature( 4, 4 );
+		this.timeline.timeSignature( 4, 4 );
 		this.__uiBeatlines.timeSignature( 4, 4 );
-		this.__magnetValue.textContent = this.__uiTimeline.stepRound;
+		this.__magnetValue.textContent = this.timeline.stepRound;
 	}
 
 	// Public methods
 	// ............................................................................................
 	timeSignature( a, b ) {
-		this.__uiTimeline.timeSignature( a, b );
+		this.timeline.timeSignature( a, b );
 		this.__uiBeatlines.timeSignature( a, b );
 	}
 	currentTime( beat ) {
-		this.__uiTimeline.currentTime( beat );
+		this.timeline.currentTime( beat );
 		this.__currentTime( beat );
 	}
 	loop( a, b ) {
-		this.__uiTimeline.loop( a, b );
+		this.timeline.loop( a, b );
 		this.__loop( Number.isFinite( a ), a, b );
 	}
 	setPxPerBeat( px ) {
@@ -78,7 +79,7 @@ class gsuiBlocksManager {
 			const ppbpx = ppb + "px";
 
 			this.__pxPerBeat = ppb;
-			this.__uiTimeline.offset( this.__offset, ppb );
+			this.timeline.offset( this.__offset, ppb );
 			this.__uiBeatlines.pxPerBeat( ppb );
 			clearTimeout( this.__beatlinesRendering );
 			this.__beatlinesRendering = setTimeout( () => this.__uiBeatlines.render(), 100 );
@@ -106,7 +107,7 @@ class gsuiBlocksManager {
 		return false;
 	}
 	getDuration() {
-		const bPM = this.__uiTimeline._beatsPerMeasure,
+		const bPM = this.timeline._beatsPerMeasure,
 			dur = Object.values( this._getData() )
 				.reduce( ( dur, blc ) => (
 					Math.max( dur, blc.when + blc.duration )
@@ -136,7 +137,7 @@ class gsuiBlocksManager {
 		return Math.max( 0, Math.min( ind, this.__rows.length - 1 ) );
 	}
 	__getWhenByPageX( pageX ) {
-		return Math.max( 0, this.__uiTimeline.beatFloor(
+		return Math.max( 0, this.timeline.beatFloor(
 			( pageX - this.__getRow0BCR().left ) / this.__pxPerBeat ) );
 	}
 
@@ -202,7 +203,7 @@ class gsuiBlocksManager {
 		return obj;
 	}
 	__getBeatSnap() {
-		return 1 / this.__uiTimeline._stepsPerBeat * this.__uiTimeline.stepRound;
+		return 1 / this.timeline._stepsPerBeat * this.timeline.stepRound;
 	}
 	__eventReset() {
 		this.__mmFn =
@@ -229,8 +230,8 @@ class gsuiBlocksManager {
 	}
 	__gridPanelResized() {
 		this.__elPanGridWidth = this.__elPanGrid.clientWidth;
-		this.__uiTimeline.resized();
-		this.__uiTimeline.offset( this.__offset, this.__pxPerBeat );
+		this.timeline.resized();
+		this.timeline.offset( this.__offset, this.__pxPerBeat );
 	}
 	__onscrollPanelContent( e ) {
 		if ( this.__sideContent.scrollTop !== this.__rowsScrollTop ) {
@@ -262,7 +263,7 @@ class gsuiBlocksManager {
 
 			this.__offset = off;
 			this.__rowsScrollLeft = elRows.scrollLeft;
-			this.__uiTimeline.offset( off, this.__pxPerBeat );
+			this.timeline.offset( off, this.__pxPerBeat );
 		}
 		this._onscrollRows && this._onscrollRows();
 	}
@@ -279,13 +280,13 @@ class gsuiBlocksManager {
 		}
 	}
 	__onclickMagnet() {
-		const v = this.__uiTimeline.stepRound,
+		const v = this.timeline.stepRound,
 			frac =
 				v >= 1 ? 2 :
 				v >= .5 ? 4 :
 				v >= .25 ? 8 : 1;
 
-		this.__uiTimeline.stepRound = 1 / frac;
+		this.timeline.stepRound = 1 / frac;
 		this.__magnetValue.textContent = frac <= 1 ? "1" : "1 / " + frac;
 		return false;
 	}
@@ -322,7 +323,7 @@ class gsuiBlocksManager {
 							whenMax = Math.max( whenMax, dat.when + dat.duration );
 							blcsEditing.set( id, blc );
 						} );
-						whenMax = this.__uiTimeline.beatCeil( whenMax ) - whenMin;
+						whenMax = this.timeline.beatCeil( whenMax ) - whenMin;
 						this.blcsManagerCallback( "duplicating", blcsEditing, whenMax );
 						blcsEditing.clear();
 					}
