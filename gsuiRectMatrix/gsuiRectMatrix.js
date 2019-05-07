@@ -3,7 +3,7 @@
 window.SVGURL = "http://www.w3.org/2000/svg";
 
 function gsuiRectMatrix() {
-	var root = document.createElementNS( SVGURL, "svg" );
+	const root = document.createElementNS( SVGURL, "svg" );
 
 	this.rootElement = root;
 	root.setAttribute( "preserveAspectRatio", "none" );
@@ -16,7 +16,7 @@ gsuiRectMatrix.prototype = {
 		this.rootElement.remove();
 	},
 	empty() {
-		var root = this.rootElement;
+		const root = this.rootElement;
 
 		while ( root.childNodes.length ) {
 			root.lastChild.remove();
@@ -28,24 +28,22 @@ gsuiRectMatrix.prototype = {
 		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
 	},
 	render( data, offset, duration ) {
-		var rect,
-			rectX,
-			rectW,
-			secW,
+		const root = this.rootElement,
 			w = this.width,
 			h = this.height,
-			rowH = h / data.nbRows,
-			root = this.rootElement;
+			off = offset || 0,
+			dur = duration || data.duration,
+			secW = w / dur,
+			rowH = h / data.nbRows;
 
-		offset = offset || 0;
-		duration = duration || data.duration;
-		secW = w / duration;
 		this.empty();
-		data.samples.forEach( function( smp ) {
-			rectX = ( smp.when - offset ) * secW;
-			rectW = smp.duration * secW;
+		data.samples.forEach( smp => {
+			const rectX = ( smp.when - off ) * secW,
+				rectW = smp.duration * secW;
+
 			if ( rectX + rectW > 0 && rectX < w ) {
-				rect = document.createElementNS( SVGURL, "rect" );
+				const rect = document.createElementNS( SVGURL, "rect" );
+
 				rect.setAttribute( "x", rectX + "px" );
 				rect.setAttribute( "width", rectW + "px" );
 				rect.setAttribute( "y", smp.row * rowH + "px" );
