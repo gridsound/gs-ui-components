@@ -94,8 +94,8 @@ class gsuiOscillator {
 		}
 		if ( "pan" in obj ) {
 			waveDraw = true;
-			this._pan0 = obj.pan < 0 ? 1 : ( 1 - obj.pan );
-			this._pan1 = obj.pan > 0 ? 1 : ( 1 + obj.pan );
+			this._pan0 = obj.pan < 0 ? 1 : 1 - obj.pan;
+			this._pan1 = obj.pan > 0 ? 1 : 1 + obj.pan;
 			this.store.pan = this._sliderSetValue( "pan", obj.pan );
 		}
 		if ( "detune" in obj ) {
@@ -160,8 +160,8 @@ class gsuiOscillator {
 			this._gain = val;
 			this._updateWaves();
 		} else if ( attr === "pan" ) {
-			this._pan0 = val < 0 ? 1 : ( 1 - val );
-			this._pan1 = val > 0 ? 1 : ( 1 + val );
+			this._pan0 = val < 0 ? 1 : 1 - val;
+			this._pan1 = val > 0 ? 1 : 1 + val;
 			this._updateWaves();
 		}
 		this._sliders[ attr ].elValue.textContent = val;
