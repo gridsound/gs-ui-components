@@ -167,7 +167,7 @@ class gsuiSlider {
 			return false;
 		}
 	}
-	_mousedown( e ) {
+	_mousedown() {
 		const opt = this._options,
 			bcr = this._elLine.getBoundingClientRect(),
 			size = this._circ ? this._svgLineLen :
@@ -194,7 +194,7 @@ class gsuiSlider {
 			this.setValue( val, true );
 		}
 	}
-	_mouseup( e ) {
+	_mouseup() {
 		if ( this._locked ) {
 			document.exitPointerLock();
 			delete this._locked;
