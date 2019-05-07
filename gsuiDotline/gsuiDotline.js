@@ -163,12 +163,12 @@ class gsuiDotline {
 	_updateDot( dotId, x, y ) {
 		const opt = this._opt,
 			dot = this._dots[ dotId ],
-			dotStyle = dot.element.style;
+			dotStyle = dot.element.style,
+			xcut = Math.max( opt.minX, Math.min( x, opt.maxX ) ),
+			ycut = Math.max( opt.minY, Math.min( y, opt.maxY ) );
 
-		x = Math.max( opt.minX, Math.min( x, opt.maxX ) );
-		y = Math.max( opt.minY, Math.min( y, opt.maxY ) );
-		dot.x = +( Math.round( x / opt.step ) * opt.step ).toFixed( 5 );
-		dot.y = +( Math.round( y / opt.step ) * opt.step ).toFixed( 5 );
+		dot.x = +( Math.round( xcut / opt.step ) * opt.step ).toFixed( 5 );
+		dot.y = +( Math.round( ycut / opt.step ) * opt.step ).toFixed( 5 );
 		dotStyle.left = ( dot.x - opt.minX ) / opt.width * 100 + "%";
 		dotStyle.top = 100 - ( ( dot.y - opt.minY ) / opt.height * 100 ) + "%";
 	}
