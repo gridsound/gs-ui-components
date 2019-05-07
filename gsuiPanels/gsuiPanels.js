@@ -75,15 +75,11 @@ class gsuiPanels {
 	_addExtend( dir, pan ) {
 		const extend = document.createElement( "div" ),
 			pans = this._getChildren( pan.parentNode ),
-			panBefore = pans.filter( el => (
-				!el.classList.contains( "gsuiPanels-extend" ) &&
-					pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
-			) ).reverse(),
-			panAfter = pans.filter( ( el, i ) => (
-				!el.classList.contains( "gsuiPanels-extend" ) && (
-					pan === el ||
-					pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
-				)
+			panBefore = pans.filter( el => !el.classList.contains( "gsuiPanels-extend" ) &&
+				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
+			).reverse(),
+			panAfter = pans.filter( el => !el.classList.contains( "gsuiPanels-extend" ) && (
+				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING || pan === el
 			) );
 
 		extend.className = "gsuiPanels-extend";
