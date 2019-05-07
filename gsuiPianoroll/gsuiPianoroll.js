@@ -146,8 +146,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_key( el, this.data[ +el.dataset.id ].key - rowIncr );
 	}
 	block_key( el, midi ) {
-		const row = this._getRowByMidi( midi ),
-			key = this.data[ el.dataset.id ];
+		const row = this._getRowByMidi( midi );
 
 		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
 		row.firstElementChild.append( el );
@@ -178,34 +177,35 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			data = this.data;
 
 		switch ( status ) {
-			case "duplicating":
-				const mapIds = new Map();
+			case "duplicating": {
+					const mapIds = new Map();
 
-				blcsMap.forEach( ( _, id ) => {
-					const d = data[ id ],
-						nId = ++this._idMax,
-						copy = Object.assign( {}, d );
+					blcsMap.forEach( ( _, id ) => {
+						const d = data[ id ],
+							nId = ++this._idMax,
+							copy = Object.assign( {}, d );
 
-					copy.when += valA;
-					copy.prev =
-					copy.next = null;
-					obj[ id ] = { selected: false };
-					obj[ nId ] =
-					data[ nId ] = copy;
-					mapIds.set( id, nId );
-					d.selected = false;
-				} );
-				blcsMap.forEach( ( _, id ) => {
-					const d = data[ id ];
+						copy.when += valA;
+						copy.prev =
+						copy.next = null;
+						obj[ id ] = { selected: false };
+						obj[ nId ] =
+						data[ nId ] = copy;
+						mapIds.set( id, nId );
+						d.selected = false;
+					} );
+					blcsMap.forEach( ( _, id ) => {
+						const d = data[ id ];
 
-					if ( blcsMap.has( d.next ) ) {
-						const idCurr = mapIds.get( id ),
-							idNext = mapIds.get( d.next );
+						if ( blcsMap.has( d.next ) ) {
+							const idCurr = mapIds.get( id ),
+								idNext = mapIds.get( d.next );
 
-						obj[ idCurr ].next = idNext;
-						obj[ idNext ].prev = idCurr;
-					}
-				} );
+							obj[ idCurr ].next = idNext;
+							obj[ idNext ].prev = idCurr;
+						}
+					} );
+				}
 				break;
 			case "selecting":
 				blcsMap.forEach( ( _, id ) => {
@@ -357,7 +357,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		blc._dragline = dragline;
 		blc._draglineDrop = blc.firstElementChild;
 		blc.append( dragline.rootElement );
-		dragline.getDropAreas = this._getDropAreas.bind( this, id, blc );
+		dragline.getDropAreas = this._getDropAreas.bind( this, id );
 		this.__blcs.set( id, blc );
 		obj.selected
 			? this.__blcsSelected.set( id, blc )
@@ -372,7 +372,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_prev( blc, obj.prev );
 		this.block_next( blc, obj.next );
 	}
-	_getDropAreas( id, blc ) {
+	_getDropAreas( id ) {
 		const obj = this.data[ id ],
 			when = obj.when + obj.duration,
 			arr = [];
