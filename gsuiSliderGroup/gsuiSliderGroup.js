@@ -148,17 +148,15 @@ class gsuiSliderGroup {
 			st.top = "auto";
 			st.bottom = "0%";
 			st.height = val * 100 + "%";
+		} else if ( val > 0 ) {
+			st.top = "auto";
+			st.bottom = "50%";
+			st.height = val * 50 + "%";
 		} else {
-			if ( val > 0 ) {
-				st.top = "auto";
-				st.bottom = "50%";
-				st.height = val * 50 + "%";
-			} else {
-				st.top = "50%";
-				st.bottom = "auto";
-				st.height = -val * 50 + "%";
-				innerDown = true;
-			}
+			st.top = "50%";
+			st.bottom = "auto";
+			st.height = -val * 50 + "%";
+			innerDown = true;
 		}
 		el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", innerDown );
 	}
@@ -179,7 +177,7 @@ class gsuiSliderGroup {
 			}
 		}
 	}
-	_mouseup( e ) {
+	_mouseup() {
 		const arr = [];
 
 		delete gsuiSliderGroup._focused;
@@ -213,9 +211,6 @@ gsuiSliderGroup.sliderTemplate = document.querySelector( "#gsuiSliderGroup-slide
 gsuiSliderGroup.sliderTemplate.remove();
 gsuiSliderGroup.sliderTemplate.removeAttribute( "id" );
 
-// document.addEventListener( "mousemove", e => {
-// 	gsuiSliderGroup._focused && gsuiSliderGroup._focused._mousemove( e );
-// } );
 document.addEventListener( "mouseup", e => {
 	gsuiSliderGroup._focused && gsuiSliderGroup._focused._mouseup( e );
 } );
