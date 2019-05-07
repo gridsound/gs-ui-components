@@ -210,7 +210,7 @@ class gsuiTimeline {
 					const serial = this._serialAB( la, lb );
 
 					if ( this._loopWas !== this._loop || this._loopSerial !== serial ) {
-						this._loopWas = l
+						this._loopWas = l;
 						this._loopAWas = la;
 						this._loopBWas = lb;
 						this._loopSerial = serial;
