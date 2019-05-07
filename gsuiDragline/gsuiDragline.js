@@ -16,11 +16,12 @@ class gsuiDragline {
 	}
 
 	linkTo( el ) {
-		el = el || null;
-		if ( el !== this._linkedTo ) {
-			this._linkedTo = el;
-			this.rootElement.classList.toggle( "gsuiDragline-linked", !!el );
-			el ? this.redraw() : this._unlink();
+		const elem = el || null;
+
+		if ( elem !== this._linkedTo ) {
+			this._linkedTo = elem;
+			this.rootElement.classList.toggle( "gsuiDragline-linked", !!elem );
+			elem ? this.redraw() : this._unlink();
 		}
 	}
 	redraw() {
@@ -40,7 +41,6 @@ class gsuiDragline {
 		const clMain = this._main.classList,
 			stMain = this._main.style,
 			stSvg = this._svg.style,
-			line = this._lineSize,
 			bcr = this.rootElement.getBoundingClientRect(),
 			w = x - bcr.left,
 			h = y - bcr.top,
@@ -122,7 +122,7 @@ class gsuiDragline {
 		this.redraw();
 		return false;
 	}
-	_mouseup( e ) {
+	_mouseup() {
 		if ( this._linkedTo ) {
 			this.onchange( null, this._linkedTo );
 			this._linkedTo = null;
