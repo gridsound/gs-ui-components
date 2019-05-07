@@ -156,7 +156,7 @@ class gsuiMixer {
 
 		return sibling && "id" in sibling.dataset ? sibling : null;
 	}
-	_addChan( id, obj ) {
+	_addChan( id ) {
 		const root = gsuiMixer.channelTemplate.cloneNode( true ),
 			qs = n => root.querySelector( `.gsuiMixerChannel-${ n }` ),
 			pan = new gsuiSlider(),
@@ -280,7 +280,7 @@ class gsuiMixer {
 		tar[ id ] = chan;
 		this._maxId = Math.max( this._maxId, id ) || 0; // 1.
 		this._maxOrder = Math.max( this._maxOrder, obj.order );
-		this._addChan( id, chan );
+		this._addChan( id );
 		this.onaddChan( id, chan );
 		chan.pan = obj.pan;
 		chan.gain = obj.gain;
@@ -309,6 +309,6 @@ gsuiMixer.channelTemplate.remove();
 gsuiMixer.channelTemplate.removeAttribute( "id" );
 
 /*
-1.	Why `|| 0` after Math.max ?
-	Because the ID of the main channel is "main".
+1. Why `|| 0` after Math.max ?
+   Because the ID of the main channel is "main".
 */
