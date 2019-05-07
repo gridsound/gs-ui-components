@@ -42,7 +42,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 	// Block's UI functions
 	// ........................................................................
-	block_offset( el, offset ) {}
+	block_offset( _el, _offset ) {}
 	block_row( el, rowIncr ) {
 		const trackId = this.data.blocks[ +el.dataset.id ].track;
 
