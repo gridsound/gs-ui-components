@@ -112,39 +112,41 @@ class gsuiPopup {
 			this.type === "confirm" ? false :
 			this.type === "prompt" ? null : undefined );
 	}
-	static _submit( e ) {
+	static _submit() {
 		switch ( this.type ) {
-			case "confirm": this.resolve( true ); break;
 			case "alert": this.resolve( undefined ); break;
 			case "prompt": this.resolve( this.elText.value ); break;
-			case "custom":
-				const fn = this._fnSubmit,
-					inps = Array.from( this.elForm ),
-					obj = inps.reduce( ( obj, inp ) => {
-						if ( inp.name ) {
-							const val = inp.value;
-
-							obj[ inp.name ] = inp.type === "number" ? +val : val;
-						}
-						return obj;
-					}, {} );
-
-				if ( !fn ) {
-					this.resolve( obj );
-				} else {
-					const fnRes = fn( obj );
-
-					if ( fnRes !== false ) {
-						fnRes && fnRes.then
-							? fnRes.then( res => {
-								if ( res !== false ) {
-									this.resolve( obj );
-								}
-							} )
-							: this.resolve( obj );
-					}
-				}
+			case "confirm": this.resolve( true ); break;
+			case "custom": this._submitCustom(); break;
 		}
 		return false;
+	}
+	static _submitCustom() {
+		const fn = this._fnSubmit,
+			inps = Array.from( this.elForm ),
+			obj = inps.reduce( ( obj, inp ) => {
+				if ( inp.name ) {
+					const val = inp.value;
+
+					obj[ inp.name ] = inp.type === "number" ? +val : val;
+				}
+				return obj;
+			}, {} );
+
+		if ( !fn ) {
+			this.resolve( obj );
+		} else {
+			const fnRes = fn( obj );
+
+			if ( fnRes !== false ) {
+				fnRes && fnRes.then
+					? fnRes.then( res => {
+						if ( res !== false ) {
+							this.resolve( obj );
+						}
+					} )
+					: this.resolve( obj );
+			}
+		}
 	}
 }
