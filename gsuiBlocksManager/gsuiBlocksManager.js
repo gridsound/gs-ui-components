@@ -233,7 +233,7 @@ class gsuiBlocksManager {
 		this.timeline.resized();
 		this.timeline.offset( this.__offset, this.__pxPerBeat );
 	}
-	__onscrollPanelContent( e ) {
+	__onscrollPanelContent() {
 		if ( this.__sideContent.scrollTop !== this.__rowsScrollTop ) {
 			this.__rowsScrollTop =
 			this.__rowsContainer.scrollTop = this.__sideContent.scrollTop;
@@ -456,13 +456,14 @@ class gsuiBlocksManager {
 				}
 				break;
 			case "cropping-a":
-			case "cropping-b":
-				const child = mdBlc.children;
+			case "cropping-b": {
+					const child = mdBlc.children;
 
-				child[ 0 ].classList.remove( "gsui-hover" );
-				child[ 1 ] && child[ 1 ].classList.remove( "gsui-hover" );
-				if ( Math.abs( this.__valueA ) > .000001 ) {
-					this.blcsManagerCallback( this.__status, blcsEditing, this.__valueA );
+					child[ 0 ].classList.remove( "gsui-hover" );
+					child[ 1 ] && child[ 1 ].classList.remove( "gsui-hover" );
+					if ( Math.abs( this.__valueA ) > .000001 ) {
+						this.blcsManagerCallback( this.__status, blcsEditing, this.__valueA );
+					}
 				}
 				break;
 			case "selecting-2":
@@ -525,7 +526,7 @@ class gsuiBlocksManager {
 		}
 		if ( rows !== this.__valueB ) {
 			this.__valueB = rows;
-			this.__blcsEditing.forEach( ( blc, id ) => this.block_row( blc, rows ) );
+			this.__blcsEditing.forEach( blc => this.block_row( blc, rows ) );
 		}
 	}
 	__mousemove_deletion( e ) {
@@ -577,7 +578,7 @@ class gsuiBlocksManager {
 						}
 					}
 					return map;
-				}, new Map );
+				}, new Map() );
 
 		st.top = topRow * rowH + "px";
 		st.left = when * this.__pxPerBeat + "px";
