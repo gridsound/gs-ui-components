@@ -54,12 +54,12 @@ class gsuiTrack {
 		};
 	}
 	_setNameEvents( inp ) {
-		inp.ondblclick = e => {
+		inp.ondblclick = () => {
 			this._nameReadonly = false;
 			inp.select();
 			inp.focus();
 		};
-		inp.onfocus = e => {
+		inp.onfocus = () => {
 			if ( this._nameReadonly ) {
 				inp.blur();
 			}
