@@ -35,11 +35,11 @@ class gsuiKeys {
 		Array.from( root.children ).reduce( ( midi, elKey ) => {
 			const elRow = elKey.firstElementChild;
 
-			elKey._rowElement = elRow
+			elKey._rowElement = elRow;
 			elRow._keyElement = elKey;
 			elKey.dataset.midi =
-			elRow.dataset.midi = --midi;
-			return midi;
+			elRow.dataset.midi = midi - 1;
+			return midi - 1;
 		}, maxOct * 12 );
 	}
 	getKeyElementFromMidi( midi ) {
@@ -87,7 +87,7 @@ class gsuiKeys {
 			this._evmmRoot( e );
 		}
 	}
-	_evmuRoot( e ) {
+	_evmuRoot() {
 		this._releaseKeyMouse();
 		delete this._elKeyMouse;
 		delete this._keyIndMouse;
