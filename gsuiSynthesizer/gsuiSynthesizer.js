@@ -43,12 +43,12 @@ class gsuiSynthesizer {
 		const uioscs = this._uioscs;
 
 		if ( obj.oscillators ) {
-			Object.entries( obj.oscillators ).forEach( ( [ id, osc ] ) => (
+			Object.entries( obj.oscillators ).forEach( ( [ id, osc ] ) => {
 				osc ? uioscs[ id ]
 					? this._updateOsc( id, osc )
 					: this._createOsc( id, osc )
-					: this._deleteOsc( id )
-			) );
+					: this._deleteOsc( id );
+			} );
 		}
 	}
 
