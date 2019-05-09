@@ -4,11 +4,10 @@ class gsuiTracklist {
 	constructor() {
 		const root = gsuiTracklist.template.cloneNode( true );
 
+		this.rootElement = root;
 		this.onchange =
 		this.ontrackadded = () => {};
-
-		this.rootElement = root;
-		this._uiTracks = {};
+		this._tracks = new Map();
 		this.data = new Proxy( {}, {
 			set: this._addTrack.bind( this ),
 			deleteProperty: this._delTrack.bind( this )
@@ -25,41 +24,42 @@ class gsuiTracklist {
 
 	// private:
 	_addTrack( tar, id, track ) {
-		const uiTrk = new gsuiTrack();
+		const tr = new gsuiTrack();
 
-		tar[ id ] = uiTrk.data;
-		uiTrk.onrightclickToggle = this._muteAll.bind( this, id );
-		uiTrk.onchange = obj => this.onchange( { [ id ]: obj } );
-		uiTrk.setPlaceholder( "Track " + ( this.rootElement.childNodes.length + 1 ) );
-		uiTrk.rootElement.dataset.track =
-		uiTrk.rowElement.dataset.track = id;
-		Object.assign( uiTrk.data, track );
-		this._uiTracks[ id ] = uiTrk;
-		this.rootElement.append( uiTrk.rootElement );
-		this.ontrackadded( uiTrk );
+		tar[ id ] = tr.data;
+		tr.onrightclickToggle = this._muteAll.bind( this, id );
+		tr.onchange = obj => this.onchange( { [ id ]: obj } );
+		tr.setPlaceholder( `Track ${ this._tracks.size + 1 }` );
+		tr.rootElement.dataset.track =
+		tr.rowElement.dataset.track = id;
+		Object.assign( tr.data, track );
+		this._tracks.set( id, tr );
+		this.rootElement.append( tr.rootElement );
+		this.ontrackadded( tr );
 		return true;
 	}
 	_delTrack( tar, id ) {
-		this._uiTracks[ id ].remove();
-		delete this._uiTracks[ id ];
+		this._tracks.get( id ).remove();
+		this._tracks.delete( id );
 		delete tar[ id ];
 		return true;
 	}
 	_muteAll( id ) {
-		const uiTrks = this._uiTracks,
-			uiTrk = uiTrks[ id ],
-			allMute = Object.values( uiTrks ).every( _uiTrk => (
-				!_uiTrk.data.toggle || _uiTrk === uiTrk
-			) );
+		const obj = {},
+			trClicked = this._tracks.get( id );
+		let allMute = true;
 
-		this.onchange( Object.entries( uiTrks ).reduce( ( obj, [ id, _uiTrk ] ) => {
-			const toggle = allMute || _uiTrk === uiTrk;
+		this._tracks.forEach( tr => {
+			allMute = allMute && ( !tr.data.toggle || tr === trClicked );
+		} );
+		this._tracks.forEach( ( tr, id ) => {
+			const toggle = allMute || tr === trClicked;
 
-			if ( toggle !== _uiTrk.data.toggle ) {
+			if ( toggle !== tr.data.toggle ) {
 				obj[ id ] = { toggle };
 			}
-			return obj;
-		}, {} ) );
+		} );
+		this.onchange( obj );
 	}
 }
 
