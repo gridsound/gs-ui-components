@@ -25,9 +25,9 @@ class gsuiSynthesizer {
 
 		this._attached = true;
 		head.style.right = `${ list.offsetWidth - list.clientWidth }px`;
-		Array.from( this._nlOscs ).forEach( el => (
-			this._uioscs[ el.dataset.id ].attached()
-		) );
+		Array.from( this._nlOscs ).forEach( el => {
+			this._uioscs[ el.dataset.id ].attached();
+		} );
 	}
 	empty() {
 		this._uioscs && Object.values( this._uioscs ).forEach( o => o.remove() );

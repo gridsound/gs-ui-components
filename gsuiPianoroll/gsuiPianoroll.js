@@ -180,7 +180,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			case "duplicating": {
 					const mapIds = new Map();
 
-					blcsMap.forEach( ( _, id ) => {
+					blcsMap.forEach( ( _blc, id ) => {
 						const d = data[ id ],
 							nId = ++this._idMax,
 							copy = Object.assign( {}, d );
@@ -194,7 +194,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 						mapIds.set( id, nId );
 						d.selected = false;
 					} );
-					blcsMap.forEach( ( _, id ) => {
+					blcsMap.forEach( ( _blc, id ) => {
 						const d = data[ id ];
 
 						if ( blcsMap.has( d.next ) ) {
@@ -208,7 +208,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				}
 				break;
 			case "selecting":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						selected = !d.selected;
 
@@ -218,7 +218,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				break;
 			case "moving":
 				valA = Math.abs( valA ) > .000001 ? valA : 0;
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						o = {};
 
@@ -234,7 +234,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				} );
 				break;
 			case "cropping-b":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						duration = d.duration + valA;
 
@@ -243,25 +243,27 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				} );
 				break;
 			case "deleting":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const { prev, next } = data[ id ];
 
 					obj[ id ] = undefined;
 					delete data[ id ];
 					if ( prev !== null ) {
-						const obj_ = obj[ prev ];
+						const objPrev = obj[ prev ];
 
-						if ( !( prev in obj ) || obj_ !== undefined ) {
-							if ( obj_ ) { obj_.next = null; }
-							else { obj[ prev ] = { next: null }; }
+						if ( !( prev in obj ) || objPrev !== undefined ) {
+							objPrev
+								? objPrev.next = null
+								: obj[ prev ] = { next: null };
 						}
 					}
 					if ( next !== null ) {
-						const obj_ = obj[ next ];
+						const objNext = obj[ next ];
 
-						if ( !( next in obj ) || obj_ !== undefined ) {
-							if ( obj_ ) { obj_.prev = null; }
-							else { obj[ next ] = { prev: null }; }
+						if ( !( next in obj ) || objNext !== undefined ) {
+							objNext
+								? objNext.prev = null
+								: obj[ next ] = { prev: null };
 						}
 					}
 				} );
@@ -327,9 +329,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			nodeName = this._slidersSelect.value;
 
 		this._uiSliderGroup.alignMode( nodeName === "gain" ? "0->1" : "-1->1" );
-		this.__blcs.forEach( ( blc, id ) => (
-			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] )
-		) );
+		this.__blcs.forEach( ( blc, id ) => {
+			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] );
+		} );
 	}
 
 	// Key's functions

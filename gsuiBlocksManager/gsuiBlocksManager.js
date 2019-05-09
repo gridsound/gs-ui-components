@@ -109,9 +109,7 @@ class gsuiBlocksManager {
 	getDuration() {
 		const bPM = this.timeline._beatsPerMeasure,
 			dur = Object.values( this._getData() )
-				.reduce( ( dur, blc ) => (
-					Math.max( dur, blc.when + blc.duration )
-				), 0 );
+				.reduce( ( dur, blc ) => Math.max( dur, blc.when + blc.duration ), 0 );
 
 		return Math.max( 1, Math.ceil( dur / bPM ) ) * bPM;
 	}

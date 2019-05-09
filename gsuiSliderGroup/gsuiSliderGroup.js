@@ -118,7 +118,7 @@ class gsuiSliderGroup {
 
 	// private:
 	_formatValue( val ) {
-		return +( val.toFixed( 2 ) );
+		return +val.toFixed( 2 );
 	}
 	_sliderWhen( sli, when ) {
 		sli.element.style.left = when + "em";

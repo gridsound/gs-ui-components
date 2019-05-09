@@ -62,7 +62,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 		switch ( status ) {
 			case "duplicating":
-				blcsMap.forEach( ( blc, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						nId = ++this._idMax,
 						copy = Object.assign( {}, d );
@@ -75,7 +75,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				} );
 				break;
 			case "selecting":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						selected = !d.selected;
 
@@ -85,7 +85,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				break;
 			case "moving":
 				valA = Math.abs( valA ) > .000001 ? valA : 0;
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						o = {};
 
@@ -101,7 +101,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				} );
 				break;
 			case "cropping-a":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						when = d.when + valA,
 						offset = d.offset + valA,
@@ -114,7 +114,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				} );
 				break;
 			case "cropping-b":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					const d = data[ id ],
 						duration = d.duration + valA;
 
@@ -123,7 +123,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 				} );
 				break;
 			case "deleting":
-				blcsMap.forEach( ( _, id ) => {
+				blcsMap.forEach( ( _blc, id ) => {
 					obj[ id ] = undefined;
 					delete data[ id ];
 				} );
