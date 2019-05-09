@@ -126,9 +126,9 @@ class gsuiPopup {
 			inps = Array.from( this.elForm ),
 			obj = inps.reduce( ( obj, inp ) => {
 				if ( inp.name ) {
-					const val = inp.value;
-
-					obj[ inp.name ] = inp.type === "number" ? +val : val;
+					obj[ inp.name ] =
+						inp.type === "number" ? +inp.value :
+						inp.type === "file" ? inp.files : inp.value;
 				}
 				return obj;
 			}, {} );
