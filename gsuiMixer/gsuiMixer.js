@@ -257,6 +257,12 @@ class gsuiMixer {
 		this._proxDeleteChan( tar, id );
 		return this.__proxAddChan( tar, id, obj );
 	}
+	_proxUpdateChan( id, tar, prop, val ) {
+		tar[ prop ] = val;
+		this._updateChan( id, prop, val );
+		this.onupdateChan( id, prop, val );
+		return true;
+	}
 	_proxDeleteChan( tar, id ) {
 		if ( id in tar ) {
 			delete tar[ id ];
@@ -265,17 +271,23 @@ class gsuiMixer {
 		}
 		return true;
 	}
-	__proxAddChan( tar, id, obj ) {
-		const tarchan = {
+	__proxNewChan( id ) {
+		const ch = {
 				toggle: true,
 				order: 0,
 				name: "",
 				gain: 0,
 				pan: 0,
-			},
-			_ = id !== "main" ? ( tarchan.dest = "main" ) : null,
-			updateChan = this._proxUpdateChan.bind( this, id ),
-			chan = new Proxy( Object.seal( tarchan ), { set: updateChan } );
+			};
+
+		if ( id !== "main" ) {
+			ch.dest = "main";
+		}
+		return Object.seal( ch );
+	}
+	__proxAddChan( tar, id, obj ) {
+		const updateChan = this._proxUpdateChan.bind( this, id ),
+			chan = new Proxy( this.__proxNewChan( id ), { set: updateChan } );
 
 		tar[ id ] = chan;
 		this._maxId = Math.max( this._maxId, id ) || 0; // 1.
@@ -290,12 +302,6 @@ class gsuiMixer {
 		if ( obj.dest ) {
 			chan.dest = obj.dest;
 		}
-		return true;
-	}
-	_proxUpdateChan( id, tar, prop, val ) {
-		tar[ prop ] = val;
-		this._updateChan( id, prop, val );
-		this.onupdateChan( id, prop, val );
 		return true;
 	}
 }
