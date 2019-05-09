@@ -48,9 +48,9 @@ class gsuiKeys {
 	getMidiKeyFromKeyboard( e ) {
 		const k = gsuiKeys.keyboardToKey[ e.code ];
 
-		if ( k ) {
-			return ( 4 + k[ 0 ] ) * 12 + k[ 1 ];
-		}
+		return k
+			? ( 4 + k[ 0 ] ) * 12 + k[ 1 ]
+			: false;
 	}
 	midiKeyDown( midi ) {
 		const el = this.getKeyElementFromMidi( midi );
