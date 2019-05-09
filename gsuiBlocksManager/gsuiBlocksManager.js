@@ -322,7 +322,7 @@ class gsuiBlocksManager {
 							blcsEditing.set( id, blc );
 						} );
 						whenMax = this.timeline.beatCeil( whenMax ) - whenMin;
-						this.blcsManagerCallback( "duplicating", blcsEditing, whenMax );
+						this.managercallDuplicating( blcsEditing, whenMax );
 						blcsEditing.clear();
 					}
 					e.preventDefault();
@@ -445,12 +445,12 @@ class gsuiBlocksManager {
 		switch ( this.__status ) {
 			case "deleting":
 				if ( blcsEditing.size || this.__blcsSelected.size ) {
-					this.blcsManagerCallback( "deleting", blcsEditing );
+					this.managercallDeleting( blcsEditing );
 				}
 				break;
 			case "moving":
 				if ( this.__valueB || Math.abs( this.__valueA ) > .000001 ) {
-					this.blcsManagerCallback( "moving", blcsEditing, this.__valueA, this.__valueB );
+					this.managercallMoving( blcsEditing, this.__valueA, this.__valueB );
 				}
 				break;
 			case "cropping-a":
@@ -460,7 +460,9 @@ class gsuiBlocksManager {
 					child[ 0 ].classList.remove( "gsui-hover" );
 					child[ 1 ] && child[ 1 ].classList.remove( "gsui-hover" );
 					if ( Math.abs( this.__valueA ) > .000001 ) {
-						this.blcsManagerCallback( this.__status, blcsEditing, this.__valueA );
+						( this.__status === "cropping-a"
+							? this.managercallCroppingA
+							: this.managercallCroppingB ).call( this, blcsEditing, this.__valueA );
 					}
 				}
 				break;
@@ -471,7 +473,7 @@ class gsuiBlocksManager {
 					blcsEditing.set( +mdBlc.dataset.id, mdBlc );
 				}
 				if ( blcsEditing.size ) {
-					this.blcsManagerCallback( "selecting", blcsEditing );
+					this.managercallSelecting( blcsEditing );
 				}
 				break;
 		}

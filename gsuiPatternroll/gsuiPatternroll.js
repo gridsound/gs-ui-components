@@ -56,80 +56,96 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 	// Blocks manager callback
 	// ........................................................................
-	blcsManagerCallback( status, blcsMap, valA, valB ) {
+	managercallDuplicating( blcsMap, valA ) {
 		const obj = {},
 			data = this.data.blocks;
 
-		switch ( status ) {
-			case "duplicating":
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						nId = ++this._idMax,
-						copy = Object.assign( {}, d );
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = data[ id ],
+				nId = ++this._idMax,
+				copy = Object.assign( {}, d );
 
-					copy.when += valA;
-					obj[ id ] = { selected: false };
-					obj[ nId ] =
-					data[ nId ] = copy;
-					d.selected = false;
-				} );
-				break;
-			case "selecting":
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						selected = !d.selected;
+			copy.when += valA;
+			obj[ id ] = { selected: false };
+			obj[ nId ] =
+			data[ nId ] = copy;
+			d.selected = false;
+		} );
+		this.onchange( { blocks: obj } );
+	}
+	managercallSelecting( blcsMap ) {
+		const obj = {},
+			data = this.data.blocks;
 
-					obj[ id ] = { selected };
-					d.selected = selected;
-				} );
-				break;
-			case "moving":
-				valA = Math.abs( valA ) > .000001 ? valA : 0;
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						o = {};
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = data[ id ],
+				selected = !d.selected;
 
-					obj[ id ] = o;
-					if ( valA ) {
-						o.when =
-						d.when += valA;
-					}
-					if ( valB ) {
-						o.track =
-						d.track = this._incrTrackId( d.track, valB );
-					}
-				} );
-				break;
-			case "cropping-a":
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						when = d.when + valA,
-						offset = d.offset + valA,
-						duration = d.duration - valA;
+			obj[ id ] = { selected };
+			d.selected = selected;
+		} );
+		this.onchange( { blocks: obj } );
+	}
+	managercallMoving( blcsMap, valA, valB ) {
+		const obj = {},
+			data = this.data.blocks,
+			when = Math.abs( valA ) > .000001 ? valA : 0;
 
-					obj[ id ] = { when, offset, duration, durationEdited: true };
-					d.when = when;
-					d.offset = offset;
-					d.duration = duration;
-				} );
-				break;
-			case "cropping-b":
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						duration = d.duration + valA;
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = data[ id ],
+				o = {};
 
-					obj[ id ] = { duration, durationEdited: true };
-					d.duration = duration;
-				} );
-				break;
-			case "deleting":
-				blcsMap.forEach( ( _blc, id ) => {
-					obj[ id ] = undefined;
-					delete data[ id ];
-				} );
-				this.__unselectBlocks( obj );
-				break;
-		}
+			obj[ id ] = o;
+			if ( when ) {
+				o.when =
+				d.when += when;
+			}
+			if ( valB ) {
+				o.track =
+				d.track = this._incrTrackId( d.track, valB );
+			}
+		} );
+		this.onchange( { blocks: obj } );
+	}
+	managercallDeleting( blcsMap ) {
+		const obj = {},
+			data = this.data.blocks;
+
+		blcsMap.forEach( ( _blc, id ) => {
+			obj[ id ] = undefined;
+			delete data[ id ];
+		} );
+		this.__unselectBlocks( obj );
+		this.onchange( { blocks: obj } );
+	}
+	managercallCroppingA( blcsMap, valA ) {
+		const obj = {},
+			data = this.data.blocks;
+
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = data[ id ],
+				when = d.when + valA,
+				offset = d.offset + valA,
+				duration = d.duration - valA;
+
+			obj[ id ] = { when, offset, duration, durationEdited: true };
+			d.when = when;
+			d.offset = offset;
+			d.duration = duration;
+		} );
+		this.onchange( { blocks: obj } );
+	}
+	managercallCroppingB( blcsMap, valA ) {
+		const obj = {},
+			data = this.data.blocks;
+
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = data[ id ],
+				duration = d.duration + valA;
+
+			obj[ id ] = { duration, durationEdited: true };
+			d.duration = duration;
+		} );
 		this.onchange( { blocks: obj } );
 	}
 

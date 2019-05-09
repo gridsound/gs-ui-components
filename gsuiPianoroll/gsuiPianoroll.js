@@ -172,104 +172,109 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 	// Blocks manager callback
 	// ........................................................................
-	blcsManagerCallback( status, blcsMap, valA, valB ) {
+	managercallDuplicating( blcsMap, valA ) {
 		const obj = {},
-			data = this.data;
+			mapIds = new Map();
 
-		switch ( status ) {
-			case "duplicating": {
-					const mapIds = new Map();
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ],
+				nId = ++this._idMax,
+				copy = Object.assign( {}, d );
 
-					blcsMap.forEach( ( _blc, id ) => {
-						const d = data[ id ],
-							nId = ++this._idMax,
-							copy = Object.assign( {}, d );
+			copy.when += valA;
+			copy.prev =
+			copy.next = null;
+			obj[ id ] = { selected: false };
+			obj[ nId ] =
+			this.data[ nId ] = copy;
+			mapIds.set( id, nId );
+			d.selected = false;
+		} );
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ];
 
-						copy.when += valA;
-						copy.prev =
-						copy.next = null;
-						obj[ id ] = { selected: false };
-						obj[ nId ] =
-						data[ nId ] = copy;
-						mapIds.set( id, nId );
-						d.selected = false;
-					} );
-					blcsMap.forEach( ( _blc, id ) => {
-						const d = data[ id ];
+			if ( blcsMap.has( d.next ) ) {
+				const idCurr = mapIds.get( id ),
+					idNext = mapIds.get( d.next );
 
-						if ( blcsMap.has( d.next ) ) {
-							const idCurr = mapIds.get( id ),
-								idNext = mapIds.get( d.next );
+				obj[ idCurr ].next = idNext;
+				obj[ idNext ].prev = idCurr;
+			}
+		} );
+		this.onchange( obj );
+	}
+	managercallSelecting( blcsMap ) {
+		const obj = {};
 
-							obj[ idCurr ].next = idNext;
-							obj[ idNext ].prev = idCurr;
-						}
-					} );
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ],
+				selected = !d.selected;
+
+			obj[ id ] = { selected };
+			d.selected = selected;
+		} );
+		this.onchange( obj );
+	}
+	managercallMoving( blcsMap, valA, valB ) {
+		const obj = {},
+			when = Math.abs( valA ) > .000001 ? valA : 0;
+
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ],
+				o = {};
+
+			obj[ id ] = o;
+			if ( when ) {
+				o.when =
+				d.when += when;
+			}
+			if ( valB ) {
+				o.key =
+				d.key -= valB;
+			}
+		} );
+		this.onchange( obj );
+	}
+	managercallDeleting( blcsMap ) {
+		const obj = {};
+
+		blcsMap.forEach( ( _blc, id ) => {
+			const { prev, next } = this.data[ id ];
+
+			obj[ id ] = undefined;
+			delete this.data[ id ];
+			if ( prev !== null ) {
+				const objPrev = obj[ prev ];
+
+				if ( !( prev in obj ) || objPrev !== undefined ) {
+					objPrev
+						? objPrev.next = null
+						: obj[ prev ] = { next: null };
 				}
-				break;
-			case "selecting":
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						selected = !d.selected;
+			}
+			if ( next !== null ) {
+				const objNext = obj[ next ];
 
-					obj[ id ] = { selected };
-					d.selected = selected;
-				} );
-				break;
-			case "moving":
-				valA = Math.abs( valA ) > .000001 ? valA : 0;
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						o = {};
+				if ( !( next in obj ) || objNext !== undefined ) {
+					objNext
+						? objNext.prev = null
+						: obj[ next ] = { prev: null };
+				}
+			}
+		} );
+		this.__unselectBlocks( obj );
+		this.onchange( obj );
+	}
+	managercallCroppingB( blcsMap, valA ) {
+		const obj = {};
 
-					obj[ id ] = o;
-					if ( valA ) {
-						o.when =
-						d.when += valA;
-					}
-					if ( valB ) {
-						o.key =
-						d.key -= valB;
-					}
-				} );
-				break;
-			case "cropping-b":
-				blcsMap.forEach( ( _blc, id ) => {
-					const d = data[ id ],
-						duration = d.duration + valA;
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ],
+				duration = d.duration + valA;
 
-					obj[ id ] = { duration };
-					d.duration = duration;
-				} );
-				break;
-			case "deleting":
-				blcsMap.forEach( ( _blc, id ) => {
-					const { prev, next } = data[ id ];
-
-					obj[ id ] = undefined;
-					delete data[ id ];
-					if ( prev !== null ) {
-						const objPrev = obj[ prev ];
-
-						if ( !( prev in obj ) || objPrev !== undefined ) {
-							objPrev
-								? objPrev.next = null
-								: obj[ prev ] = { next: null };
-						}
-					}
-					if ( next !== null ) {
-						const objNext = obj[ next ];
-
-						if ( !( next in obj ) || objNext !== undefined ) {
-							objNext
-								? objNext.prev = null
-								: obj[ next ] = { prev: null };
-						}
-					}
-				} );
-				this.__unselectBlocks( obj );
-				break;
-		}
+			obj[ id ] = { duration };
+			d.duration = duration;
+		} );
 		this.onchange( obj );
 	}
 
@@ -443,6 +448,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const prox = new Proxy( Object.seal( Object.assign( {
 					key: 60,
 					when: 0,
+					gain: 1,
+					pan: 0,
 					duration: 1,
 					selected: false,
 					prev: null,
