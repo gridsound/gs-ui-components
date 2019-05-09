@@ -109,7 +109,7 @@ class gsuiTimeline {
 		if ( this.stepRound ) {
 			const mod = 1 / this._stepsPerBeat * this.stepRound;
 
-			bt = Math[ mathFn ]( bt / mod ) * mod;
+			return Math[ mathFn ]( bt / mod ) * mod;
 		}
 		return bt;
 	}

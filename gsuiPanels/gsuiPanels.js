@@ -90,6 +90,8 @@ class gsuiPanels {
 		const parentsize = this._parentSize;
 
 		return pans.reduce( ( mov, pan ) => {
+			let ret = mov;
+
 			if ( Math.abs( mov ) > .1 ) {
 				const style = getComputedStyle( pan ),
 					size = pan.getBoundingClientRect()[ dir ],
@@ -100,9 +102,9 @@ class gsuiPanels {
 				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
 					pan.style[ dir ] = newsizeCorrect / parentsize * 100 + "%";
 					if ( mov > 0 ) {
-						mov -= newsizeCorrect - size;
+						ret = mov - ( newsizeCorrect - size );
 					} else {
-						mov += size - newsizeCorrect;
+						ret = mov + ( size - newsizeCorrect );
 					}
 					this._setSizeClass( dir, pan );
 					if ( pan.onresizing ) {
@@ -110,7 +112,7 @@ class gsuiPanels {
 					}
 				}
 			}
-			return mov;
+			return ret;
 		}, mov );
 	}
 	_setSizeClass( dir, pan ) {
