@@ -14,7 +14,8 @@ gsuiSpectrum.draw = function( ctx, data ) {
 			imgData[ x + 1 ] = 4 + 10 * datum | 0;
 			imgData[ x + 2 ] = 5 + 20 * datum | 0;
 		} else {
-			const col = gsuiSpectrum.colors[ gsuiSpectrum._getColorId( datum ) ],
+			const colId = gsuiSpectrum._datumDivision.findIndex( x => datum < x ),
+				col = gsuiSpectrum.colors[ colId ],
 				datumCut = datum / col[ 3 ];
 
 			imgData[ x     ] = col[ 0 ] * datumCut | 0;
@@ -26,18 +27,7 @@ gsuiSpectrum.draw = function( ctx, data ) {
 	return img;
 };
 
-gsuiSpectrum._getColorId = function( datum ) {
-	     if ( datum < .08 ) { return 0; }
-	else if ( datum < .15 ) { return 1; }
-	else if ( datum < .17 ) { return 2; }
-	else if ( datum < .25 ) { return 3; }
-	else if ( datum < .3  ) { return 4; }
-	else if ( datum < .4  ) { return 5; }
-	else if ( datum < .6  ) { return 6; }
-	else if ( datum < .8  ) { return 7; }
-	return 8;
-};
-
+gsuiSpectrum._datumDivision = [ .08, .15, .17, .25, .3, .4, .6, .8, Infinity ];
 gsuiSpectrum.colors = [
 	[   5,   2,  20, .08 ], // 0
 	[   8,   5,  30, .15 ], // 1
