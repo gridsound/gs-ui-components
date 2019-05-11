@@ -162,7 +162,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 	// Mouse and keyboard events
 	// ........................................................................
-	_keyup( e ) { this.__keyup( e ); }
 	_keydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) { this.__mouseup( e ); }

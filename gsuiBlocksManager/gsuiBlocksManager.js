@@ -291,7 +291,6 @@ class gsuiBlocksManager {
 
 	// Events to call manually
 	// ............................................................................................
-	__keyup() {}
 	__keydown( e ) {
 		const dat = this._getData(),
 			blcsEditing = this.__blcsEditing;
@@ -594,7 +593,4 @@ document.addEventListener( "mousemove", e => {
 } );
 document.addEventListener( "mouseup", e => {
 	gsuiBlocksManager._focused && gsuiBlocksManager._focused._mouseup( e );
-} );
-document.addEventListener( "keyup", e => {
-	gsuiBlocksManager._focused && gsuiBlocksManager._focused._keyup( e );
 } );
