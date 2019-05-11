@@ -42,7 +42,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 	// Block's UI functions
 	// ........................................................................
-	block_offset( _el, _offset ) {}
 	block_row( el, rowIncr ) {
 		const trackId = this.data.blocks[ +el.dataset.id ].track;
 
@@ -211,7 +210,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.__blcs.set( id, blc );
 		this.block_when( blc, obj.when );
 		this.block_track( blc, obj.track );
-		this.block_offset( blc, obj.offset );
 		this.block_duration( blc, obj.duration );
 		this.block_selected( blc, obj.selected );
 		this.onaddBlock( id, obj, blc );

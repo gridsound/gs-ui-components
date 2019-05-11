@@ -505,7 +505,6 @@ class gsuiBlocksManager {
 					blcObj.offset += crop;
 					blcObj.duration -= crop;
 					this.block_when( blc, blcObj.when );
-					this.block_offset( blc, blcObj.offset );
 				}
 				this.block_duration( blc, blcObj.duration );
 				this.oneditBlock( id, blcObj, blc );
