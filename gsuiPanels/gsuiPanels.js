@@ -19,7 +19,7 @@ class gsuiPanels {
 	// private:
 	_init() {
 		const root = this.rootElement,
-			qsa = ( c, fn ) => root.querySelectorAll( ".gsuiPanels-" + c ).forEach( fn );
+			qsa = ( c, fn ) => root.querySelectorAll( `.gsuiPanels-${ c }` ).forEach( fn );
 
 		root.style.overflow = "hidden";
 		qsa( "extend", el => el.remove() );
@@ -52,7 +52,7 @@ class gsuiPanels {
 		if ( !hasData ) {
 			this._dataPerPanel.set( pan, data );
 		}
-		pan.dataset[ dir + "Class" ].split( " " )
+		pan.dataset[ `${ dir }Class` ].split( " " )
 			.forEach( w => {
 				const [ size, clazz ] = w.split( ":" ),
 					arr = size[ 0 ] === "<" ? less : more;
@@ -69,7 +69,7 @@ class gsuiPanels {
 		pans[ pans.length - 1 ].classList.add( "gsuiPanels-last" );
 		pans.map( pan => pan.getBoundingClientRect()[ dir ] )
 			.forEach( ( panW, i ) => {
-				pans[ i ].style[ dir ] = panW / size * 100 + "%";
+				pans[ i ].style[ dir ] = `${ panW / size * 100 }%`;
 			} );
 	}
 	_addExtend( dir, pan ) {
@@ -95,12 +95,12 @@ class gsuiPanels {
 			if ( Math.abs( mov ) > .1 ) {
 				const style = getComputedStyle( pan ),
 					size = pan.getBoundingClientRect()[ dir ],
-					minsize = parseFloat( style[ "min-" + dir ] ) || 10,
-					maxsize = parseFloat( style[ "max-" + dir ] ) || Infinity,
+					minsize = parseFloat( style[ `min-${ dir }` ] ) || 10,
+					maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity,
 					newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
 
 				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
-					pan.style[ dir ] = newsizeCorrect / parentsize * 100 + "%";
+					pan.style[ dir ] = `${ newsizeCorrect / parentsize * 100 }%`;
 					if ( mov > 0 ) {
 						ret = mov - ( newsizeCorrect - size );
 					} else {

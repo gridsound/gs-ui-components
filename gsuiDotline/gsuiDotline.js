@@ -41,9 +41,9 @@ class gsuiDotline {
 	resize() {
 		const bcr = this.getBCR();
 
-		this._elSVG.setAttribute( "viewBox", "0 0 " +
-			( this._svgW = bcr.width ) + " " +
-			( this._svgH = bcr.height ) );
+		this._elSVG.setAttribute( "viewBox", `0 0 ${
+			( this._svgW = bcr.width ) } ${
+			( this._svgH = bcr.height ) }` );
 		this._drawPolyline();
 	}
 	options( obj ) {
@@ -97,7 +97,7 @@ class gsuiDotline {
 
 	// private:
 	_stringifyDot( dot ) {
-		return dot ? dot.x + " " + dot.y : "";
+		return dot ? `${ dot.x } ${ dot.y }` : "";
 	}
 	_parseDot( dot ) {
 		if ( dot ) {
@@ -115,9 +115,9 @@ class gsuiDotline {
 			d0 = fnstr( this._fixedFirstDot ),
 			dN = fnstr( this._fixedLastDot );
 
-		return ( d0 ? d0 + "," : "" )
+		return ( d0 ? `${ d0 },` : "" )
 			+ this._dots.map( fnstr ).join( "," )
-			+ ( dN ? "," + dN : "" );
+			+ ( dN ? `,${ dN }` : "" );
 	}
 	_drawPolyline() {
 		const arr = [],
@@ -145,7 +145,7 @@ class gsuiDotline {
 	}
 	_createDot( x, y ) {
 		const element = document.createElement( "div" ),
-			id = "i" + this._dotsId++,
+			id = `i${ this._dotsId++ }`,
 			dot = { id, element,
 				_saveX: x,
 				_saveY: y
@@ -169,8 +169,8 @@ class gsuiDotline {
 
 		dot.x = +( Math.round( xcut / opt.step ) * opt.step ).toFixed( 5 );
 		dot.y = +( Math.round( ycut / opt.step ) * opt.step ).toFixed( 5 );
-		dotStyle.left = ( dot.x - opt.minX ) / opt.width * 100 + "%";
-		dotStyle.top = 100 - ( ( dot.y - opt.minY ) / opt.height * 100 ) + "%";
+		dotStyle.left = `${ ( dot.x - opt.minX ) / opt.width * 100 }%`;
+		dotStyle.top = `${ 100 - ( ( dot.y - opt.minY ) / opt.height * 100 ) }%`;
 	}
 	_deleteDot( dotId ) {
 		const dots = this._dots;

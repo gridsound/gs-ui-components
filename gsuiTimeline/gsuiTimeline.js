@@ -16,7 +16,7 @@ class gsuiTimeline {
 
 		[ "loop", "loopA", "loopB", "loopLine", "loopBg", "loopBrdA", "loopBrdB",
 		"cursor", "cursorPreview", "currentTime" ].forEach(
-			c => dom[ c ] = root.querySelector( ".gsuiTimeline-" + c ) );
+			c => dom[ c ] = root.querySelector( `.gsuiTimeline-${ c }` ) );
 
 		dom.loopA.onmousedown = this._mousedownLoop.bind( this, "a" );
 		dom.loopB.onmousedown = this._mousedownLoop.bind( this, "b" );
@@ -120,10 +120,10 @@ class gsuiTimeline {
 		return Math.max( 0, this.beatRound( this._offset + this._layerX( e ) / this._pxPerBeat ) );
 	}
 	_beatToPx( beat ) {
-		return ( beat - this._offset ) * this._pxPerBeat + "px";
+		return `${ ( beat - this._offset ) * this._pxPerBeat }px`;
 	}
 	_serialAB( a, b ) {
-		return a.toFixed( 4 ) + " " + b.toFixed( 4 );
+		return `${ a.toFixed( 4 ) } ${ b.toFixed( 4 ) }`;
 	}
 	_mousedownTime( e ) {
 		this._timeisdrag = true;
@@ -227,8 +227,8 @@ class gsuiTimeline {
 			const px = this._pxPerBeat,
 				off = this._offset;
 
-			s.left = ( beatA - off ) * px + "px";
-			s.right = this.width - ( beatB - off ) * px + "px";
+			s.left = `${ ( beatA - off ) * px }px`;
+			s.right = `${ this.width - ( beatB - off ) * px }px`;
 			s.display = "block";
 		} else {
 			s.display = "none";
@@ -248,8 +248,8 @@ class gsuiTimeline {
 			em = -this._offset % stepEm;
 
 		rootCL.remove( "gsui-step", "gsui-beat", "gsui-measure" );
-		rootCL.add( "gsui-" + ( beatPx > 24 ? beatPx > 72 ?
-				"step" : "beat" : "measure" ) );
+		rootCL.add( `gsui-${ beatPx > 24 ? beatPx > 72 ?
+				"step" : "beat" : "measure" }` );
 		while ( elSteps.length < stepsDuration ) {
 			elSteps.push( document.createElement( "div" ) );
 		}
@@ -257,9 +257,9 @@ class gsuiTimeline {
 			const stepRel = step % stepsBeat,
 				elStep = elSteps[ stepId ];
 
-			elStep.style.left = em * beatPx + "px";
-			elStep.className = "gsuiTimeline-" + ( step % stepsMeasure ? stepRel
-				? "step" : "beat" : "measure" );
+			elStep.style.left = `${ em * beatPx }px`;
+			elStep.className = `gsuiTimeline-${ step % stepsMeasure ? stepRel
+				? "step" : "beat" : "measure" }`;
 			elStep.textContent = elStep.className !== "gsuiTimeline-step"
 				? ~~( 1 + step / stepsBeat ) : "." ;
 			if ( !elStep.parentNode ) {

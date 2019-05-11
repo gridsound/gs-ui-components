@@ -76,7 +76,7 @@ class gsuiBlocksManager {
 		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
 
 		if ( ppb !== this.__pxPerBeat ) {
-			const ppbpx = ppb + "px";
+			const ppbpx = `${ ppb }px`;
 
 			this.__pxPerBeat = ppb;
 			this.timeline.offset( this.__offset, ppb );
@@ -100,7 +100,7 @@ class gsuiBlocksManager {
 
 			this.__fontSize = fs;
 			this.__sideContent.style.fontSize =
-			this.__rowsContainer.style.fontSize = fs + "px";
+			this.__rowsContainer.style.fontSize = `${ fs }px`;
 			Array.from( this.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", isSmall ) );
 			return true;
 		}
@@ -119,10 +119,10 @@ class gsuiBlocksManager {
 
 	// Blocks methods
 	// ............................................................................................
-	block_when( el, v ) { el.style.left = v + "em"; }
-	block_duration( el, v ) { el.style.width = v + "em"; }
-	block_selected( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-selected", !!v ); }
+	block_when( el, v ) { el.style.left = `${ v }em`; }
 	block_deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); }
+	block_selected( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-selected", !!v ); }
+	block_duration( el, v ) { el.style.width = `${ v }em`; }
 
 	// Private small getters
 	// ............................................................................................
@@ -150,7 +150,7 @@ class gsuiBlocksManager {
 		this.__sideContent.style.right =
 		this.__sideContent.style.bottom =
 		elRows.style.right =
-		elRows.style.bottom = -( elRows.offsetWidth - elRows.clientWidth ) + "px";
+		elRows.style.bottom = `${ elRows.clientWidth - elRows.offsetWidth }px`;
 		this.__uiPanels.attached();
 		this.__gridPanelResized();
 	}
@@ -159,12 +159,12 @@ class gsuiBlocksManager {
 		this.__elLoopA.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		this.__elLoopB.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		if ( isLoop ) {
-			this.__elLoopA.style.width = a + "em";
-			this.__elLoopB.style.left = b + "em";
+			this.__elLoopA.style.width = `${ a }em`;
+			this.__elLoopB.style.left = `${ b }em`;
 		}
 	}
 	__currentTime( t ) {
-		this.__elCurrentTime.style.left = t + "em";
+		this.__elCurrentTime.style.left = `${ t }em`;
 		this._currentTime && this._currentTime( t );
 	}
 	__isBlc( el ) {
@@ -285,7 +285,7 @@ class gsuiBlocksManager {
 				v >= .25 ? 8 : 1;
 
 		this.timeline.stepRound = 1 / frac;
-		this.__magnetValue.textContent = frac <= 1 ? "1" : "1 / " + frac;
+		this.__magnetValue.textContent = frac <= 1 ? "1" : `1 / ${ frac }`;
 		return false;
 	}
 
@@ -580,10 +580,10 @@ class gsuiBlocksManager {
 					return map;
 				}, new Map() );
 
-		st.top = topRow * rowH + "px";
-		st.left = when * this.__pxPerBeat + "px";
-		st.width = duration * this.__pxPerBeat + "px";
-		st.height = ( bottomRow - topRow + 1 ) * rowH + "px";
+		st.top = `${ topRow * rowH }px`;
+		st.left = `${ when * this.__pxPerBeat }px`;
+		st.width = `${ duration * this.__pxPerBeat }px`;
+		st.height = `${ ( bottomRow - topRow + 1 ) * rowH }px`;
 		this.__blcsEditing.forEach( ( blc, id ) => this.block_selected( blc, blcs.has( id ) ) );
 		this.__blcsEditing = blcs;
 	}

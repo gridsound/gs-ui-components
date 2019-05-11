@@ -111,7 +111,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const midi = +el.dataset.midi;
 
 			el.onmousedown = this._rowMousedown.bind( this, midi );
-			el.firstElementChild.style.fontSize = this.__pxPerBeat + "px";
+			el.firstElementChild.style.fontSize = `${ this.__pxPerBeat }px`;
 			this._rowsByMidi[ midi ] = el;
 		} );
 		Element.prototype.prepend.apply( this.__rowsWrapinContainer, rows );
@@ -466,10 +466,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	_proxySetKeyProp( id, tar, prop, val ) {
 		if ( prop === "offset" ) {
-			console.warn( `gsuiPianoroll: proxy set useless 'offset' to key` );
+			console.warn( "gsuiPianoroll: proxy set useless 'offset' to key" );
 		} else {
 			const blc = this.__blcs.get( id ),
-				uiFn = this[ "block_" + prop ];
+				uiFn = this[ `block_${ prop }` ];
 
 			tar[ prop ] = val;
 			if ( uiFn ) {

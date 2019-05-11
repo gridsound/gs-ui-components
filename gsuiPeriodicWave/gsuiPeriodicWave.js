@@ -30,9 +30,9 @@ class gsuiPeriodicWave {
 	resized() {
 		const bcr = this.rootElement.getBoundingClientRect();
 
-		this.rootElement.setAttribute( "viewBox", "0 0 " +
-			( this.width = ~~bcr.width ) + " " +
-			( this.height = ~~bcr.height ) );
+		this.rootElement.setAttribute( "viewBox", `0 0 ${
+			this.width = ~~bcr.width } ${
+			this.height = ~~bcr.height }` );
 		if ( this.type ) {
 			this.draw();
 		}

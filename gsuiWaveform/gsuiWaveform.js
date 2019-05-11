@@ -24,7 +24,7 @@ gsuiWaveform.prototype = {
 	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
-		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
+		this.rootElement.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
 	},
 	render( buf, offset, duration ) {
 		var d0 = buf.getChannelData( 0 ),

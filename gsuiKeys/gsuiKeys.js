@@ -28,7 +28,7 @@ class gsuiKeys {
 		this.empty();
 		this._nbOct = nbOct;
 		this._octStart = start;
-		root.style.counterReset = "octave " + maxOct;
+		root.style.counterReset = `octave ${ maxOct }`;
 		for ( let i = 0; i < nbOct; ++i ) {
 			root.append.apply( root, gsuiKeys.template.cloneNode( true ).children );
 		}

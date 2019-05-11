@@ -43,7 +43,7 @@ class gsuiSliderGroup {
 		const el = this.scrollElement;
 
 		this._attached = true;
-		el.style.bottom = el.clientHeight - el.offsetHeight + "px";
+		el.style.bottom = `${ el.clientHeight - el.offsetHeight }px`;
 	}
 	alignMode( mode ) {
 		if ( mode !== this._alignMode ) {
@@ -61,7 +61,7 @@ class gsuiSliderGroup {
 		this._uiBeatlines.timeSignature( a, b );
 	}
 	currentTime( beat ) {
-		this._currentTime.style.left = beat + "em";
+		this._currentTime.style.left = `${ beat }em`;
 	}
 	loop( a, b ) {
 		const isLoop = a !== false;
@@ -69,8 +69,8 @@ class gsuiSliderGroup {
 		this._loopA.classList.toggle( "gsuiSliderGroup-loopOn", isLoop );
 		this._loopB.classList.toggle( "gsuiSliderGroup-loopOn", isLoop );
 		if ( isLoop ) {
-			this._loopA.style.width = a + "em";
-			this._loopB.style.left = b + "em";
+			this._loopA.style.width = `${ a }em`;
+			this._loopB.style.left = `${ b }em`;
 		}
 	}
 	setPxPerBeat( px ) {
@@ -79,7 +79,7 @@ class gsuiSliderGroup {
 		if ( ppb !== this._pxPerBeat ) {
 			this._pxPerBeat = ppb;
 			this._uiBeatlines.pxPerBeat( ppb );
-			this._slidersParent.style.fontSize = ppb + "px";
+			this._slidersParent.style.fontSize = `${ ppb }px`;
 			clearTimeout( this._beatlinesRendering );
 			this._beatlinesRendering = setTimeout( () => this._uiBeatlines.render(), 100 );
 		}
@@ -121,11 +121,11 @@ class gsuiSliderGroup {
 		return +val.toFixed( 2 );
 	}
 	_sliderWhen( sli, when ) {
-		sli.element.style.left = when + "em";
+		sli.element.style.left = `${ when }em`;
 		sli.element.style.zIndex = Math.floor( when * 100 );
 	}
 	_sliderDuration( sli, dur ) {
-		sli.element.style.width = dur + "em";
+		sli.element.style.width = `${ dur }em`;
 	}
 	_sliderSelected( sli, b ) {
 		b
@@ -147,15 +147,15 @@ class gsuiSliderGroup {
 		if ( this._alignMode === "0->1" ) {
 			st.top = "auto";
 			st.bottom = "0%";
-			st.height = val * 100 + "%";
+			st.height = `${ val * 100 }%`;
 		} else if ( val > 0 ) {
 			st.top = "auto";
 			st.bottom = "50%";
-			st.height = val * 50 + "%";
+			st.height = `${ val * 50 }%`;
 		} else {
 			st.top = "50%";
 			st.bottom = "auto";
-			st.height = -val * 50 + "%";
+			st.height = `${ -val * 50 }%`;
 			innerDown = true;
 		}
 		el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", innerDown );

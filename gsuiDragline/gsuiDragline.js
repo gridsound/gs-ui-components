@@ -51,13 +51,13 @@ class gsuiDragline {
 
 		clMain.toggle( "gsuiDragline-down", h > 0 );
 		clMain.toggle( "gsuiDragline-right", w > 0 );
-		stMain.top = Math.min( h, 0 ) + "px";
-		stMain.left = Math.min( w, 0 ) + "px";
-		stMain.width = wabs + "px";
-		stMain.height = habs + "px";
+		stMain.top = `${ Math.min( h, 0 ) }px`;
+		stMain.left = `${ Math.min( w, 0 ) }px`;
+		stMain.width = `${ wabs }px`;
+		stMain.height = `${ habs }px`;
 		stSvg.width =
-		stSvg.height = whmax2 + "px";
-		stSvg.margin = -whmax + "px";
+		stSvg.height = `${ whmax2 }px`;
+		stSvg.margin = `${ -whmax }px`;
 		this._svg.setAttribute( "viewBox", `0 0 ${ whmax2 } ${ whmax2 }` );
 		this._polyline.setAttribute( "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}

@@ -65,8 +65,8 @@ class gsuiClock {
 			st = this._wrapRel.style;
 
 		st.width =
-		st.minWidth = bcr.width + "px";
-		st.minHeight = bcr.height + "px";
+		st.minWidth = `${ bcr.width }px`;
+		st.minHeight = `${ bcr.height }px`;
 	}
 	_setSeconds( sec ) {
 		this._setValue0( sec / 60 );
@@ -85,7 +85,7 @@ class gsuiClock {
 		}
 	}
 	_setValue0( val ) {
-		const str = "" + ~~val;
+		const str = `${ ~~val }`;
 
 		this._setValue( 0, str );
 		if ( this._attached && str.length !== this._firstValueLen ) {
@@ -94,10 +94,10 @@ class gsuiClock {
 		}
 	}
 	_padZero( val ) {
-		return ( ~~val + "" ).padStart( 2, "0" );
+		return `${ ~~val }`.padStart( 2, "0" );
 	}
 	_getMil( val ) {
-		return ( ~~( val * 1000 % 1000 ) + "" ).padStart( 3, "0" );
+		return `${ ~~( val * 1000 % 1000 ) }`.padStart( 3, "0" );
 	}
 }
 

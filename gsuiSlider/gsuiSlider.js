@@ -104,7 +104,7 @@ class gsuiSlider {
 				stroW = this._options.strokeWidth,
 				circR = ~~( ( size - stroW ) / 2 );
 
-			this._elSvg.setAttribute( "viewBox", "0 0 " + size + " " + size );
+			this._elSvg.setAttribute( "viewBox", `0 0 ${ size } ${ size }` );
 			this._elSvgLine.setAttribute( "cx", size2 );
 			this._elSvgLine.setAttribute( "cy", size2 );
 			this._elSvgLine.setAttribute( "r", circR );

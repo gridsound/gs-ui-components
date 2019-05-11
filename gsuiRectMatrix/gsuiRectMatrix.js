@@ -25,7 +25,7 @@ gsuiRectMatrix.prototype = {
 	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
-		this.rootElement.setAttribute( "viewBox", "0 0 " + w + " " + h );
+		this.rootElement.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
 	},
 	render( data, offset, duration ) {
 		const root = this.rootElement,
@@ -44,10 +44,10 @@ gsuiRectMatrix.prototype = {
 			if ( rectX + rectW > 0 && rectX < w ) {
 				const rect = document.createElementNS( SVGURL, "rect" );
 
-				rect.setAttribute( "x", rectX + "px" );
-				rect.setAttribute( "width", rectW + "px" );
-				rect.setAttribute( "y", smp.row * rowH + "px" );
-				rect.setAttribute( "height", rowH + "px" );
+				rect.setAttribute( "x", `${ rectX }px` );
+				rect.setAttribute( "y", `${ smp.row * rowH }px` );
+				rect.setAttribute( "width", `${ rectW }px` );
+				rect.setAttribute( "height", `${ rowH }px` );
 				root.append( rect );
 			}
 		} );
