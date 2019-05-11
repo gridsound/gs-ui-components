@@ -67,18 +67,17 @@ class gsuiSlider {
 	}
 	setValue( val, bymouse ) {
 		if ( !this._locked || bymouse ) {
-			const prval = this._getInputVal();
+			const prevVal = this._getInputVal(),
+				newVal = ( this._elInput.value = val, this._getInputVal() );
 
-			this._elInput.value = val;
-			val = this._getInputVal();
-			if ( val !== prval ) {
+			if ( newVal !== prevVal ) {
 				this._updateVal();
 				if ( bymouse && this.oninput ) {
-					this.oninput( +val );
+					this.oninput( +newVal );
 				}
 			}
 			if ( !bymouse ) {
-				this._previousval = val;
+				this._previousval = newVal;
 			}
 		}
 	}
