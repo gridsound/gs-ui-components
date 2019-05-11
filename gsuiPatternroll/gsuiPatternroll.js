@@ -43,7 +43,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	// Block's UI functions
 	// ........................................................................
 	block_row( el, rowIncr ) {
-		const trackId = this.data.blocks[ +el.dataset.id ].track;
+		const trackId = this.data.blocks[ el.dataset.id ].track;
 
 		this.block_track( el, this._incrTrackId( trackId, rowIncr ) );
 	}
@@ -243,7 +243,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		} );
 	}
 	_proxyDeleteBlocks( tar, id ) {
-		id = +id;
 		if ( id in tar ) {
 			this._deleteBlock( id );
 			delete tar[ id ];
@@ -253,7 +252,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		return true;
 	}
 	_proxySetBlocks( tar, id, obj ) {
-		id = +id;
 		if ( id in tar || !obj ) {
 			this._proxyDeleteBlocks( tar, id );
 			if ( obj ) {

@@ -99,7 +99,7 @@ class gsuiSynthesizer {
 
 	// events:
 	_onclickNewOsc() {
-		const id = this._nextOscId + "",
+		const id = this._nextOscId,
 			osc = {
 				order: this._getMaxOrder(),
 				type: "sine",

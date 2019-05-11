@@ -185,7 +185,7 @@ class gsuiBlocksManager {
 		if ( blc.classList.contains( "gsuiBlocksManager-block-selected" ) ) {
 			this.__blcsSelected.forEach( ( blc, id ) => blcs.set( id, blc ) );
 		} else {
-			blcs.set( +blc.dataset.id, blc );
+			blcs.set( blc.dataset.id, blc );
 		}
 		return blcs;
 	}
@@ -378,7 +378,7 @@ class gsuiBlocksManager {
 				this.__status = "deleting";
 				if ( blc ) {
 					this.block_deleted( blc, true );
-					this.__blcsEditing.set( +blc.dataset.id, blc );
+					this.__blcsEditing.set( blc.dataset.id, blc );
 				}
 			} else if ( e.button === 0 ) {
 				this.__mdPageX = e.pageX;
@@ -469,7 +469,7 @@ class gsuiBlocksManager {
 				this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
 			case "selecting-1":
 				if ( this.__status === "selecting-1" && mdBlc ) {
-					blcsEditing.set( +mdBlc.dataset.id, mdBlc );
+					blcsEditing.set( mdBlc.dataset.id, mdBlc );
 				}
 				if ( blcsEditing.size ) {
 					this.managercallSelecting( blcsEditing );
@@ -530,9 +530,9 @@ class gsuiBlocksManager {
 	__mousemove_deletion( e ) {
 		const blc = this.__getBlc( e.target );
 
-		if ( blc && !this.__blcsEditing.has( +blc.dataset.id ) ) {
+		if ( blc && !this.__blcsEditing.has( blc.dataset.id ) ) {
 			this.block_deleted( blc, true );
-			this.__blcsEditing.set( +blc.dataset.id, blc );
+			this.__blcsEditing.set( blc.dataset.id, blc );
 		}
 	}
 	__mousemove_selection1() {
@@ -557,7 +557,6 @@ class gsuiBlocksManager {
 			rowB = this.__getRowByIndex( bottomRow ),
 			blcs = Object.entries( this._getData() )
 				.reduce( ( map, [ id, blc ] ) => {
-					id = +id;
 					if ( !this.__blcsSelected.has( id ) &&
 						blc.when < when + duration &&
 						blc.when + blc.duration > when

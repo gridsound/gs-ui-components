@@ -121,7 +121,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	// ........................................................................
 	block_sliderUpdate( nodeName, el, val ) {
 		if ( this._slidersSelect.value === nodeName ) {
-			this._uiSliderGroup.setProp( +el.dataset.id, "value", val );
+			this._uiSliderGroup.setProp( el.dataset.id, "value", val );
 			this._currKeyValue[ nodeName ] = val;
 		}
 	}
@@ -129,21 +129,21 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	block_gain( el, val ) { this.block_sliderUpdate( "gain", el, val ); }
 	block_when( el, when ) {
 		super.block_when( el, when );
-		this._uiSliderGroup.setProp( +el.dataset.id, "when", when );
+		this._uiSliderGroup.setProp( el.dataset.id, "when", when );
 		this.block_redrawDragline( el );
 	}
 	block_duration( el, dur ) {
 		super.block_duration( el, dur );
-		this._uiSliderGroup.setProp( +el.dataset.id, "duration", dur );
+		this._uiSliderGroup.setProp( el.dataset.id, "duration", dur );
 		this._currKeyValue.duration = dur;
 		this.block_redrawDragline( el );
 	}
 	block_selected( el, b ) {
 		super.block_selected( el, b );
-		this._uiSliderGroup.setProp( +el.dataset.id, "selected", b );
+		this._uiSliderGroup.setProp( el.dataset.id, "selected", b );
 	}
 	block_row( el, rowIncr ) {
-		this.block_key( el, this.data[ +el.dataset.id ].key - rowIncr );
+		this.block_key( el, this.data[ el.dataset.id ].key - rowIncr );
 	}
 	block_key( el, midi ) {
 		const row = this._getRowByMidi( midi );
@@ -395,10 +395,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_onchangeDragline( id, el, prevEl ) {
 		const obj = {},
 			dat = this.data,
-			prevId = prevEl && +prevEl.parentNode.dataset.id;
+			prevId = prevEl && prevEl.parentNode.dataset.id;
 
 		if ( el ) {
-			const tarId = +el.parentNode.dataset.id;
+			const tarId = el.parentNode.dataset.id;
 
 			obj[ id ] = { next: tarId };
 			dat[ id ].next = tarId;
@@ -426,7 +426,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		} );
 	}
 	_proxyDeleteKey( tar, id ) {
-		id = +id;
 		if ( id in tar ) {
 			this._deleteKey( id );
 			delete tar[ id ];
@@ -436,7 +435,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		return true;
 	}
 	_proxySetKey( tar, id, obj ) {
-		id = +id;
 		if ( id in tar || !obj ) {
 			this._proxyDeleteKey( tar, id );
 			if ( obj ) {

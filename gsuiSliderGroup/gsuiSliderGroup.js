@@ -87,7 +87,6 @@ class gsuiSliderGroup {
 
 	// data:
 	delete( id ) {
-		id = id + "";
 		this._sliders.get( id ).element.remove();
 		this._sliders.delete( id );
 		this._selected.delete( id );
@@ -98,7 +97,6 @@ class gsuiSliderGroup {
 		const element = gsuiSliderGroup.sliderTemplate.cloneNode( true ),
 			sli = { element };
 
-		id = id + "";
 		element._slider =
 		element.firstElementChild._slider = sli;
 		element.dataset.id = id;
@@ -110,7 +108,7 @@ class gsuiSliderGroup {
 		this._slidersParent.append( element );
 	}
 	setProp( id, prop, value ) {
-		const sli = this._sliders.get( id + "" );
+		const sli = this._sliders.get( id );
 
 		sli[ prop ] = value;
 		this._uiFn[ prop ]( sli, value );
