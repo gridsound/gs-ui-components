@@ -15,6 +15,7 @@ class gsuiSliderGroup {
 		this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
 		this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
 		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
+		this._exp = 0;
 		this._sliders = new Map();
 		this._selected = new Map();
 		this._valueSaved = new Map();
@@ -43,16 +44,10 @@ class gsuiSliderGroup {
 		this._attached = true;
 		el.style.bottom = `${ el.clientHeight - el.offsetHeight }px`;
 	}
-	alignMode( mode ) {
-		if ( mode !== this._alignMode ) {
-			const scale = this.scaleElement.children,
-				m01 = mode === "0->1";
-
-			scale[ 0 ].textContent = "1";
-			scale[ 1 ].textContent = m01 ? ".5" : "0";
-			scale[ 2 ].textContent = m01 ? "0" : "-1";
-			this._alignMode = mode;
-		}
+	minMaxExp( min, max, exp = 0 ) {
+		this._min = min;
+		this._max = max;
+		this._exp = exp;
 	}
 
 	timeSignature( a, b ) {
@@ -136,25 +131,18 @@ class gsuiSliderGroup {
 	}
 	_sliderValue( sli, val ) {
 		const el = sli.element.firstElementChild,
-			st = el.style;
-		let innerDown = false;
+			st = el.style,
+			max = this._max,
+			min = this._min,
+			valUp = val >= 0,
+			perc0 = Math.abs( min ) / ( max - min ) * 100,
+			percX = Math.abs( val ) / ( max - min ) * 100;
 
 		sli.roundValue = this._formatValue( val );
-		if ( this._alignMode === "0->1" ) {
-			st.top = "auto";
-			st.bottom = "0%";
-			st.height = `${ val * 100 }%`;
-		} else if ( val > 0 ) {
-			st.top = "auto";
-			st.bottom = "50%";
-			st.height = `${ val * 50 }%`;
-		} else {
-			st.top = "50%";
-			st.bottom = "auto";
-			st.height = `${ -val * 50 }%`;
-			innerDown = true;
-		}
-		el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", innerDown );
+		st.height = `${ percX }%`;
+		st[ valUp ? "top" : "bottom" ] = "auto";
+		st[ valUp ? "bottom" : "top" ] = `${ perc0 }%`;
+		el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", !valUp );
 	}
 
 	// events:
@@ -192,7 +180,7 @@ class gsuiSliderGroup {
 			( !this._selected.size || this._selected.has( id ) )
 		) {
 			const val = 1 - ( e.pageY - this._bcrTop ) / this._bcrHeight,
-				realVal = this._alignMode === "0->1" ? val : val * 2 - 1;
+				realVal = val * ( this._max - this._min ) + this._min;
 
 			sli.realValue = realVal;
 			this._sliderValue( sli, realVal );
