@@ -9,7 +9,6 @@ class gsuiSliderGroup {
 
 		this.onchange = () => {};
 		this.rootElement = root;
-		this.scaleElement = root.querySelector( ".gsuiSliderGroup-scale" );
 		this.scrollElement = slidersWrap;
 		this._uiBeatlines = uiBeatlines;
 		this._slidersParent = slidersParent;
@@ -25,7 +24,6 @@ class gsuiSliderGroup {
 			duration: this._sliderDuration.bind( this ),
 			selected: this._sliderSelected.bind( this ),
 		};
-		this.scaleElement.remove();
 		slidersParent.onmousedown = this._mousedown.bind( this );
 	}
 
