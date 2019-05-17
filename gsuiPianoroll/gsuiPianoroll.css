@@ -4,7 +4,6 @@
 	--gsuiDragline-dotSize: 10px;
 	--gsuiDragline-dotRad: 2px;
 	--gsuiDragline-lineSize: 3px;
-	--gsuiSliderGroup-scale-font: var( --gsuiBlocksManager-number-font );
 }
 .gsuiPianoroll:focus {
 	outline: 1px solid var( --gsuiBlocksManager-blockColor );
@@ -36,12 +35,6 @@
 	font: inherit;
 	border: 0;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
-}
-.gsuiPianoroll .gsuiSliderGroup-scale {
-	margin-right: 3px;
-	color: #fff;
-	width: 12px;
-	opacity: .3;
 }
 
 /* block */

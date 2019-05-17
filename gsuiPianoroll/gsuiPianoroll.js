@@ -28,7 +28,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				gridBottom.style.height = bottomH;
 			}
 		};
-		sideBottom.append( uiSliderGroup.scaleElement );
 		gridBottom.append( uiSliderGroup.rootElement );
 
 		this.data = this._proxyCreate();
