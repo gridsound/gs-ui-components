@@ -59,9 +59,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	resetKey() {
 		const k = this._currKeyValue;
 
-		k.duration = 1;
-		k.gain = .8;
 		k.pan = 0;
+		k.gain = .8;
+		k.lowpass = 1;
+		k.highpass = 1;
+		k.duration = 1;
 	}
 	resized() {
 		this.__resized();
@@ -126,6 +128,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	block_pan( el, val ) { this.block_sliderUpdate( "pan", el, val ); }
 	block_gain( el, val ) { this.block_sliderUpdate( "gain", el, val ); }
+	block_lowpass( el, val ) { this.block_sliderUpdate( "lowpass", el, val ); }
+	block_highpass( el, val ) { this.block_sliderUpdate( "highpass", el, val ); }
 	block_when( el, when ) {
 		super.block_when( el, when );
 		this._uiSliderGroup.setProp( el.dataset.id, "when", when );
@@ -309,8 +313,14 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
 			const id = this._idMax + 1,
-				{ pan, gain, duration } = this._currKeyValue,
-				keyObj = { key, pan, gain, duration,
+				curr = this._currKeyValue,
+				keyObj = {
+					key,
+					pan: curr.pan,
+					gain: curr.gain,
+					lowpass: curr.lowpass,
+					highpass: curr.highpass,
+					duration: curr.duration,
 					selected: false,
 					prev: null,
 					next: null,
@@ -329,9 +339,15 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 	_onchangeSlidersSelect() {
 		const data = this.data,
-			nodeName = this._slidersSelect.value;
+			nodeName = this._slidersSelect.value,
+			slidGroup = this._uiSliderGroup;
 
-		this._uiSliderGroup.alignMode( nodeName === "gain" ? "0->1" : "-1->1" );
+		switch ( nodeName ) {
+			case "pan":      slidGroup.minMaxExp( -1, 1 ); break;
+			case "gain":     slidGroup.minMaxExp(  0, 1 ); break;
+			case "lowpass":  slidGroup.minMaxExp(  0, 1, 3 ); break;
+			case "highpass": slidGroup.minMaxExp(  0, 1, 3 ); break;
+		}
 		this.__blcs.forEach( ( blc, id ) => {
 			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] );
 		} );
@@ -372,8 +388,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_when( blc, obj.when );
 		this.block_duration( blc, obj.duration );
 		this.block_selected( blc, obj.selected );
-		this.block_gain( blc, obj.gain );
 		this.block_pan( blc, obj.pan );
+		this.block_gain( blc, obj.gain );
+		this.block_lowpass( blc, obj.lowpass );
+		this.block_highpass( blc, obj.highpass );
 		this.block_prev( blc, obj.prev );
 		this.block_next( blc, obj.next );
 	}
@@ -444,8 +462,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const prox = new Proxy( Object.seal( Object.assign( {
 					key: 60,
 					when: 0,
-					gain: 1,
 					pan: 0,
+					gain: 1,
+					lowpass: 1,
+					highpass: 1,
 					duration: 1,
 					selected: false,
 					prev: null,
