@@ -93,7 +93,6 @@ class gsuiSliderGroup {
 		element._slider =
 		element.firstElementChild._slider = sli;
 		element.dataset.id = id;
-		element.onmousemove = this._mousemoveSlider.bind( this, id, sli );
 		this._sliders.set( id, sli );
 		this._sliderWhen( sli, when );
 		this._sliderValue( sli, value );
@@ -112,10 +111,12 @@ class gsuiSliderGroup {
 		return +val.toFixed( 2 );
 	}
 	_sliderWhen( sli, when ) {
+		sli.when = when;
 		sli.element.style.left = `${ when }em`;
 		sli.element.style.zIndex = Math.floor( when * 100 );
 	}
 	_sliderDuration( sli, dur ) {
+		sli.dur = dur;
 		sli.element.style.width = `${ dur }em`;
 	}
 	_sliderSelected( sli, b ) {
@@ -148,18 +149,37 @@ class gsuiSliderGroup {
 	// events:
 	_mousedown( e ) {
 		if ( !gsuiSliderGroup._focused ) {
-			const bcr = this._slidersParent.getBoundingClientRect(),
-				sli = e.target._slider;
+			const bcr = this._slidersParent.getBoundingClientRect();
 
-			this._bcrTop = bcr.top;
-			this._bcrHeight = bcr.height;
+			this._bcr = bcr;
 			this._valueSaved.clear();
 			this._sliders.forEach( ( sli, id ) => this._valueSaved.set( id, sli.roundValue ) );
 			gsuiSliderGroup._focused = this;
-			if ( sli ) {
-				this._mousemoveSlider( sli.element.dataset.id, sli, e );
-			}
+			this._mousemove( e );
 		}
+	}
+	_mousemove( e ) {
+		const sliders = this._selected.size > 0
+				? this._selected
+				: this._sliders,
+			x = e.pageX - this._bcr.left,
+			y = e.pageY - this._bcr.top,
+			xval = x / this._pxPerBeat,
+			yval = Math.min( Math.max( 0, 1 - y / this._bcr.height ), 1 ),
+			realyval = yval * ( this._max - this._min ) + this._min;
+		let firstWhen = 0;
+
+		sliders.forEach( sli => {
+			if ( sli.when <= xval && firstWhen <= xval ) {
+				firstWhen = sli.when;
+			}
+		} );
+		sliders.forEach( sli => {
+			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.dur ) {
+				sli.realValue = realyval;
+				this._sliderValue( sli, realyval );
+			}
+		} );
 	}
 	_mouseup() {
 		const arr = [];
@@ -175,17 +195,6 @@ class gsuiSliderGroup {
 			this.onchange( arr );
 		}
 	}
-	_mousemoveSlider( id, sli, e ) {
-		if ( gsuiSliderGroup._focused === this &&
-			( !this._selected.size || this._selected.has( id ) )
-		) {
-			const val = 1 - ( e.pageY - this._bcrTop ) / this._bcrHeight,
-				realVal = val * ( this._max - this._min ) + this._min;
-
-			sli.realValue = realVal;
-			this._sliderValue( sli, realVal );
-		}
-	}
 }
 
 gsuiSliderGroup.template = document.querySelector( "#gsuiSliderGroup-template" );
@@ -195,6 +204,9 @@ gsuiSliderGroup.sliderTemplate = document.querySelector( "#gsuiSliderGroup-slide
 gsuiSliderGroup.sliderTemplate.remove();
 gsuiSliderGroup.sliderTemplate.removeAttribute( "id" );
 
+document.addEventListener( "mousemove", e => {
+	gsuiSliderGroup._focused && gsuiSliderGroup._focused._mousemove( e );
+} );
 document.addEventListener( "mouseup", e => {
 	gsuiSliderGroup._focused && gsuiSliderGroup._focused._mouseup( e );
 } );
