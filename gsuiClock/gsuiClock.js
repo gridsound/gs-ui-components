@@ -7,8 +7,12 @@ class gsuiClock {
 
 		this.rootElement = root;
 		this.onchangeDisplay = () => {};
+		this._attached = false;
 		this._wrapRel = root.querySelector( ".gsuiClock-relative" );
 		this._wrapAbs = root.querySelector( ".gsuiClock-absolute" );
+		this._timeSave = 0;
+		this._display =
+		this._displaySave = "";
 		this._firstValueLen = -1;
 		this._values = [ -1, -1, -1 ];
 		this._nodes = [
@@ -18,6 +22,8 @@ class gsuiClock {
 		];
 		this._bps = 1;
 		this._sPB = 4;
+		Object.seal( this );
+
 		this.setTime( "second", 0 );
 		this.setDisplay( "second" );
 		elModes.onclick = this._onclickModes.bind( this );
