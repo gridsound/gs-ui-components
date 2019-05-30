@@ -7,12 +7,20 @@ class gsuiDragline {
 
 		this.onchange = () => {};
 		this.rootElement = root;
-		this._linkedTo = null;
+		this.getDropAreas =
+		this._linkedTo =
+		this._dropAreas =
+		this._evKeydown =
+		this._evMouseup =
+		this._evMousemove = null;
+		this._dragging = false;
+		this._lineSize = 0;
 		this._main = root.firstElementChild;
 		this._svg = svg;
 		this._polyline = svg.firstElementChild;
 		this._to = root.firstElementChild.lastElementChild;
 		this._to.onmousedown = this._mousedownTo.bind( this );
+		Object.seal( this );
 	}
 
 	linkTo( el ) {
@@ -87,7 +95,7 @@ class gsuiDragline {
 			el.classList.remove( "gsuiDragline-dropActive" );
 			delete el.onmouseup;
 		} );
-		delete this._dragging;
+		this._dragging = false;
 		document.removeEventListener( "mousemove", this._evMousemove );
 		document.removeEventListener( "mouseup", this._evMouseup );
 		document.removeEventListener( "keydown", this._evKeydown );
