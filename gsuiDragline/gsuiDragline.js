@@ -88,7 +88,9 @@ class gsuiDragline {
 			delete el.onmouseup;
 		} );
 		delete this._dragging;
-		delete gsuiDragline._focused;
+		document.removeEventListener( "mousemove", this._evMousemove );
+		document.removeEventListener( "mouseup", this._evMouseup );
+		document.removeEventListener( "keydown", this._evKeydown );
 	}
 
 	// events:
@@ -101,7 +103,12 @@ class gsuiDragline {
 				el.classList.add( "gsuiDragline-dropActive" );
 			} );
 			this.rootElement.classList.add( "gsuiDragline-dragging" );
-			gsuiDragline._focused = this;
+			this._evMousemove = this._mousemove.bind( this );
+			this._evMouseup = this._mouseup.bind( this );
+			this._evKeydown = this._keydown.bind( this );
+			document.addEventListener( "mousemove", this._evMousemove );
+			document.addEventListener( "mouseup", this._evMouseup );
+			document.addEventListener( "keydown", this._evKeydown );
 			this._updateLineSize();
 			this._mousemove( e );
 		}
@@ -137,13 +144,3 @@ class gsuiDragline {
 gsuiDragline.template = document.querySelector( "#gsuiDragline-template" );
 gsuiDragline.template.remove();
 gsuiDragline.template.removeAttribute( "id" );
-
-document.addEventListener( "mousemove", e => {
-	gsuiDragline._focused && gsuiDragline._focused._mousemove( e );
-} );
-document.addEventListener( "mouseup", e => {
-	gsuiDragline._focused && gsuiDragline._focused._mouseup( e );
-} );
-document.addEventListener( "keydown", e => {
-	gsuiDragline._focused && gsuiDragline._focused._keydown( e );
-} );
