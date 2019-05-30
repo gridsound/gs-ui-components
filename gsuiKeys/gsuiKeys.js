@@ -6,7 +6,21 @@ class gsuiKeys {
 
 		this.rootElement = root;
 		this._nlKeys = root.childNodes;
-		this._nbOct = 0;
+		this._gain =
+		this._nbOct =
+		this._rootTop =
+		this._octStart =
+		this._blackKeyR =
+		this._blackKeyH =
+		this._keyIndMouse =
+		this._midiKeyMouse = 0;
+		this.onkeyup =
+		this.onkeydown =
+		this._evMouseup =
+		this._elKeyMouse =
+		this._evMousemove = null;
+		Object.seal( this );
+
 		root.className = "gsuiKeys";
 		root.onmousedown = this._evmdRoot.bind( this );
 	}
@@ -94,8 +108,8 @@ class gsuiKeys {
 		this._releaseKeyMouse();
 		document.removeEventListener( "mouseup", this._evMouseup );
 		document.removeEventListener( "mousemove", this._evMousemove );
-		delete this._elKeyMouse;
-		delete this._keyIndMouse;
+		this._elKeyMouse =
+		this._keyIndMouse = null;
 	}
 	_evmmRoot( e ) {
 		const fKeyInd = ( e.clientY - this._rootTop ) / this._blackKeyH;
