@@ -7,6 +7,8 @@ class gsuiBeatlines {
 		this._stepsPerBeat = 4;
 		this._pxPerBeat = 32;
 		this._viewBox = this._pxPerBeat * this._beatsPerMeasure;
+		Object.seal( this );
+
 		el.classList.add( "gsuiBeatlines" );
 		el.style.backgroundAttachment = "local";
 	}
