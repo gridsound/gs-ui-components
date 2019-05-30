@@ -1,6 +1,11 @@
 "use strict";
 
 class gsuiAnalyser {
+	constructor() {
+		this.rootElement =
+		this._ctx = null;
+		Object.seal( this );
+	}
 	setCanvas( canvas ) {
 		this.rootElement = canvas;
 		this._ctx = canvas.getContext( "2d" );
