@@ -1,9 +1,14 @@
 "use strict";
 
 class gsuiSpectrum {
+	constructor() {
+		this.rootElement =
+		this._ctx = null;
+		this._scaleToData = true;
+		Object.seal( this );
+	}
 	setCanvas( cnv ) {
 		this.rootElement = cnv;
-		this._scaleToData = true;
 		this._ctx = cnv.getContext( "2d" );
 		cnv.classList.add( "gsuiSpectrum" );
 	}
