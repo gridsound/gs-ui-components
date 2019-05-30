@@ -5,6 +5,10 @@ class gsuiRectMatrix {
 		const root = document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
 
 		this.rootElement = root;
+		this.width =
+		this.height = 0;
+		Object.seal( this );
+
 		root.setAttribute( "preserveAspectRatio", "none" );
 		root.classList.add( "gsuiRectMatrix" );
 	}
