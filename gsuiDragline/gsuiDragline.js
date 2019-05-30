@@ -15,12 +15,13 @@ class gsuiDragline {
 		this._evMousemove = null;
 		this._dragging = false;
 		this._lineSize = 0;
-		this._main = root.firstElementChild;
 		this._svg = svg;
-		this._polyline = svg.firstElementChild;
 		this._to = root.firstElementChild.lastElementChild;
-		this._to.onmousedown = this._mousedownTo.bind( this );
+		this._main = root.firstElementChild;
+		this._polyline = svg.firstElementChild;
 		Object.seal( this );
+
+		this._to.onmousedown = this._mousedownTo.bind( this );
 	}
 
 	linkTo( el ) {
