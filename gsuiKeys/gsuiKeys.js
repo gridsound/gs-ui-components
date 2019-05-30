@@ -83,15 +83,19 @@ class gsuiKeys {
 			this._blackKeyR = blackKeyBCR.right;
 			this._blackKeyH = blackKeyBCR.height;
 			this._gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
-			gsuiKeys._focused = this;
+			this._evMouseup = this._evmuRoot.bind( this );
+			this._evMousemove = this._evmmRoot.bind( this );
+			document.addEventListener( "mouseup", this._evMouseup );
+			document.addEventListener( "mousemove", this._evMousemove );
 			this._evmmRoot( e );
 		}
 	}
 	_evmuRoot() {
 		this._releaseKeyMouse();
+		document.removeEventListener( "mouseup", this._evMouseup );
+		document.removeEventListener( "mousemove", this._evMousemove );
 		delete this._elKeyMouse;
 		delete this._keyIndMouse;
-		delete gsuiKeys._focused;
 	}
 	_evmmRoot( e ) {
 		const fKeyInd = ( e.clientY - this._rootTop ) / this._blackKeyH;
@@ -114,9 +118,6 @@ class gsuiKeys {
 		}
 	}
 }
-
-document.addEventListener( "mousemove", e => gsuiKeys._focused && gsuiKeys._focused._evmmRoot( e ) );
-document.addEventListener( "mouseup", e => gsuiKeys._focused && gsuiKeys._focused._evmuRoot( e ) );
 
 gsuiKeys.template = document.querySelector( "#gsuiKeys-octave-template" );
 gsuiKeys.template.remove();
