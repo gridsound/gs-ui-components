@@ -125,10 +125,16 @@ class gsuiTimeline {
 	_serialAB( a, b ) {
 		return `${ a.toFixed( 4 ) } ${ b.toFixed( 4 ) }`;
 	}
+	_bindEvents() {
+		this._evMouseup = this._mouseup.bind( this );
+		this._evMousemove = this._mousemove.bind( this );
+		document.addEventListener( "mouseup", this._evMouseup );
+		document.addEventListener( "mousemove", this._evMousemove );
+	}
 	_mousedownTime( e ) {
 		this._timeisdrag = true;
 		this._mousemove( e );
-		gsuiTimeline._focused = this;
+		this._bindEvents();
 	}
 	_mousedownLoop( side ) {
 		this._loopisdrag = true;
@@ -137,7 +143,7 @@ class gsuiTimeline {
 		this._dom.loopBg.classList.toggle( "gsui-hover", side === "ab" );
 		this._dom.loopBrdA.classList.toggle( "gsui-hover", this._loopisdragA );
 		this._dom.loopBrdB.classList.toggle( "gsui-hover", this._loopisdragB );
-		gsuiTimeline._focused = this;
+		this._bindEvents();
 	}
 	_mousedownLoopLine( e ) {
 		const now = Date.now(),
@@ -182,7 +188,8 @@ class gsuiTimeline {
 		}
 	}
 	_mouseup( e ) {
-		delete gsuiTimeline._focused;
+		document.removeEventListener( "mouseup", this._evMouseup );
+		document.removeEventListener( "mousemove", this._evMousemove );
 		if ( this._timeisdrag ) {
 			this.previewCurrentTime( false );
 			this.currentTime( this._pageXtoBeat( e ), true );
@@ -286,10 +293,3 @@ class gsuiTimeline {
 gsuiTimeline.template = document.querySelector( "#gsuiTimeline-template" );
 gsuiTimeline.template.remove();
 gsuiTimeline.template.removeAttribute( "id" );
-
-document.addEventListener( "mousemove", e => {
-	gsuiTimeline._focused && gsuiTimeline._focused._mousemove( e );
-} );
-document.addEventListener( "mouseup", e => {
-	gsuiTimeline._focused && gsuiTimeline._focused._mouseup( e );
-} );
