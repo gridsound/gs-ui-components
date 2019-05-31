@@ -12,6 +12,7 @@ class gsuiTracklist {
 			set: this._addTrack.bind( this ),
 			deleteProperty: this._delTrack.bind( this )
 		} );
+		Object.seal( this );
 	}
 
 	remove() {
