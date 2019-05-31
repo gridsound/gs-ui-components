@@ -10,15 +10,16 @@ class gsuiTrack {
 		this.rowElement = root.querySelector( ".gsui-row" );
 		this._inpName = root.querySelector( ".gsuiTrack-name" );
 		this._nameReadonly = true;
-
-		this.rowElement.remove();
-		this._setToggleEvents( root.querySelector( ".gsuiTrack-toggle" ) );
-		this._setNameEvents( this._inpName );
 		this.data = new Proxy( Object.seal( {
 			order: 0,
 			name: "",
 			toggle: true
 		} ), { set: this._setProp.bind( this ) } );
+		Object.seal( this );
+
+		this.rowElement.remove();
+		this._setToggleEvents( root.querySelector( ".gsuiTrack-toggle" ) );
+		this._setNameEvents( this._inpName );
 		this.data.toggle = true;
 	}
 
