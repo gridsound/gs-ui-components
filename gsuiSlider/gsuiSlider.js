@@ -11,16 +11,33 @@ class gsuiSlider {
 		this._elSvgLine = root.querySelector( ".gsui-svgLine" );
 		this._elLineColor = root.querySelector( ".gsui-lineColor" );
 		this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
+		this._options = Object.seal( {
+			value: 0, min: 0, max: 0, step: 0,
+			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
+		} );
+		this.value =
+		this._previousval = "";
+		this.oninput =
+		this.onchange =
+		this.oninputend =
+		this.oninputstart = null;
+		this._circ =
+		this._axeX =
+		this._locked =
+		this._attached = false;
+		this.width =
+		this.height =
+		this._pxval =
+		this._pxmoved =
+		this._svgLineLen = 0;
+		Object.seal( this );
+
 		root._gsuiSlider_instance = this;
 		root.onwheel = this._wheel.bind( this );
 		root.onmouseup = this._mouseup.bind( this );
 		root.onmousedown = this._mousedown.bind( this );
 		root.onmousemove = this._mousemove.bind( this );
 		root.onmouseleave = this._mouseleave.bind( this );
-		this._options = Object.seal( {
-			value: 0, min: 0, max: 0, step: 0,
-			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
-		} );
 		this.options( {
 			value: 50, min: 0, max: 100, step: 1,
 			type: "linear-x", scrollStep: 1, strokeWidth: 4, wheelChange: true,
@@ -28,7 +45,7 @@ class gsuiSlider {
 	}
 
 	remove() {
-		delete this._attached;
+		this._attached = false;
 		this.rootElement.remove();
 	}
 	attached() {
@@ -196,7 +213,7 @@ class gsuiSlider {
 	_mouseup() {
 		if ( this._locked ) {
 			document.exitPointerLock();
-			delete this._locked;
+			this._locked = false;
 			this._onchange();
 			if ( this.oninputend ) {
 				this.oninputend( this.value );
