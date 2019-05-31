@@ -148,13 +148,16 @@ class gsuiSliderGroup {
 
 	// events:
 	_mousedown( e ) {
-		if ( !gsuiSliderGroup._focused ) {
+		if ( !this._evMouseup ) {
 			const bcr = this._slidersParent.getBoundingClientRect();
 
 			this._bcr = bcr;
 			this._valueSaved.clear();
 			this._sliders.forEach( ( sli, id ) => this._valueSaved.set( id, sli.roundValue ) );
-			gsuiSliderGroup._focused = this;
+			this._evMouseup = this._mouseup.bind( this );
+			this._evMousemove = this._mousemove.bind( this );
+			document.addEventListener( "mouseup", this._evMouseup );
+			document.addEventListener( "mousemove", this._evMousemove );
 			this._mousemove( e );
 		}
 	}
@@ -184,7 +187,10 @@ class gsuiSliderGroup {
 	_mouseup() {
 		const arr = [];
 
-		delete gsuiSliderGroup._focused;
+		document.removeEventListener( "mouseup", this._evMouseup );
+		document.removeEventListener( "mousemove", this._evMousemove );
+		this._evMouseup =
+		this._evMousemove = null;
 		this._sliders.forEach( ( sli, id ) => {
 			if ( sli.roundValue !== this._valueSaved.get( id ) ) {
 				arr.push( [ id, sli.realValue ] );
@@ -203,10 +209,3 @@ gsuiSliderGroup.template.removeAttribute( "id" );
 gsuiSliderGroup.sliderTemplate = document.querySelector( "#gsuiSliderGroup-slider-template" );
 gsuiSliderGroup.sliderTemplate.remove();
 gsuiSliderGroup.sliderTemplate.removeAttribute( "id" );
-
-document.addEventListener( "mousemove", e => {
-	gsuiSliderGroup._focused && gsuiSliderGroup._focused._mousemove( e );
-} );
-document.addEventListener( "mouseup", e => {
-	gsuiSliderGroup._focused && gsuiSliderGroup._focused._mouseup( e );
-} );
