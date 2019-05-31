@@ -3,26 +3,54 @@
 class gsuiTimeline {
 	constructor() {
 		const root = gsuiTimeline.template.cloneNode( true ),
-			dom = {};
+			qs = c => root.querySelector( `.gsuiTimeline-${ c }` );
 
 		this.rootElement = root;
 		this.stepRound = 1;
-		this._dom = dom;
-		this._steps = [];
-		this._offset = 0;
+		this._evMouseup =
+		this._evMousemove =
+		this.oninputLoop =
+		this.onchangeLoop =
+		this.onchangeCurrentTime = null;
+		this.width =
+		this.height =
+		this._loopA =
+		this._loopB =
+		this._offset =
+		this._loopAWas =
+		this._loopBWas =
+		this._loopClick =
+		this._currentTime =
+		this._previewCurrentTime = 0;
 		this._pxPerBeat = 32;
 		this._beatsPerMeasure =
 		this._stepsPerBeat = 4;
+		this._steps = [];
+		this._loop =
+		this._loopWas =
+		this._timeisdrag =
+		this._loopisdrag =
+		this._loopisdragA =
+		this._loopisdragB = false;
+		this._loopSerial =
+		this._loopSerialInp = "";
+		this._elLoop = qs( "loop" );
+		this._elLoopA = qs( "loopA" );
+		this._elLoopB = qs( "loopB" );
+		this._elCursor = qs( "cursor" );
+		this._elLoopBg = qs( "loopBg" );
+		this._elLoopBrdA = qs( "loopBrdA" );
+		this._elLoopBrdB = qs( "loopBrdB" );
+		this._elLoopLine = qs( "loopLine" );
+		this._elCurrentTime = qs( "currentTime" );
+		this._elCursorPreview = qs( "cursorPreview" );
+		Object.seal( this );
 
-		[ "loop", "loopA", "loopB", "loopLine", "loopBg", "loopBrdA", "loopBrdB",
-		"cursor", "cursorPreview", "currentTime" ].forEach(
-			c => dom[ c ] = root.querySelector( `.gsuiTimeline-${ c }` ) );
-
-		dom.loopA.onmousedown = this._mousedownLoop.bind( this, "a" );
-		dom.loopB.onmousedown = this._mousedownLoop.bind( this, "b" );
-		dom.loopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
-		dom.loopLine.onmousedown = this._mousedownLoopLine.bind( this );
-		dom.currentTime.onmousedown = this._mousedownTime.bind( this );
+		this._elLoopA.onmousedown = this._mousedownLoop.bind( this, "a" );
+		this._elLoopB.onmousedown = this._mousedownLoop.bind( this, "b" );
+		this._elLoopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
+		this._elLoopLine.onmousedown = this._mousedownLoopLine.bind( this );
+		this._elCurrentTime.onmousedown = this._mousedownTime.bind( this );
 		this.currentTime( 0 );
 		this.loop( 0, 0 );
 	}
@@ -35,7 +63,7 @@ class gsuiTimeline {
 	}
 	currentTime( beat, isUserAction ) {
 		this._currentTime = beat;
-		this._dom.cursor.style.left = this._beatToPx( beat );
+		this._elCursor.style.left = this._beatToPx( beat );
 		if ( isUserAction && this.onchangeCurrentTime ) {
 			this.onchangeCurrentTime( beat );
 		}
@@ -93,7 +121,7 @@ class gsuiTimeline {
 		this._setLoop( la, lb );
 	}
 	previewCurrentTime( beat ) {
-		const el = this._dom.cursorPreview,
+		const el = this._elCursorPreview,
 			hide = beat === false;
 
 		if ( !hide ) {
@@ -140,9 +168,9 @@ class gsuiTimeline {
 		this._loopisdrag = true;
 		this._loopisdragA = side === "a";
 		this._loopisdragB = side === "b";
-		this._dom.loopBg.classList.toggle( "gsui-hover", side === "ab" );
-		this._dom.loopBrdA.classList.toggle( "gsui-hover", this._loopisdragA );
-		this._dom.loopBrdB.classList.toggle( "gsui-hover", this._loopisdragB );
+		this._elLoopBg.classList.toggle( "gsui-hover", side === "ab" );
+		this._elLoopBrdA.classList.toggle( "gsui-hover", this._loopisdragA );
+		this._elLoopBrdB.classList.toggle( "gsui-hover", this._loopisdragB );
 		this._bindEvents();
 	}
 	_mousedownLoopLine( e ) {
@@ -174,8 +202,8 @@ class gsuiTimeline {
 				if ( a > b ) {
 					this._loopisdragA = lb;
 					this._loopisdragB = la;
-					this._dom.loopBrdA.classList.toggle( "gsui-hover", lb );
-					this._dom.loopBrdB.classList.toggle( "gsui-hover", la );
+					this._elLoopBrdA.classList.toggle( "gsui-hover", lb );
+					this._elLoopBrdB.classList.toggle( "gsui-hover", la );
 				}
 			} else {
 				if ( a + bt < 0 ) {
@@ -204,9 +232,9 @@ class gsuiTimeline {
 			this._loopisdrag =
 			this._loopisdragA =
 			this._loopisdragB = false;
-			this._dom.loopBg.classList.remove( "gsui-hover" );
-			this._dom.loopBrdA.classList.remove( "gsui-hover" );
-			this._dom.loopBrdB.classList.remove( "gsui-hover" );
+			this._elLoopBg.classList.remove( "gsui-hover" );
+			this._elLoopBrdA.classList.remove( "gsui-hover" );
+			this._elLoopBrdB.classList.remove( "gsui-hover" );
 			if ( this.onchangeLoop ) {
 				if ( !l ) {
 					if ( this._loopWas ) {
@@ -228,7 +256,7 @@ class gsuiTimeline {
 		}
 	}
 	_setLoop( beatA, beatB ) {
-		const s = this._dom.loop.style;
+		const s = this._elLoop.style;
 
 		if ( this._loop ) {
 			const px = this._pxPerBeat,
@@ -283,7 +311,7 @@ class gsuiTimeline {
 			}
 			elStep.remove();
 		}
-		this._dom.cursor.style.left = this._beatToPx( this._currentTime );
+		this._elCursor.style.left = this._beatToPx( this._currentTime );
 		this._setLoop(
 			this.beatRound( this._loopA ),
 			this.beatRound( this._loopB ) );
