@@ -15,21 +15,31 @@ class gsuiSliderGroup {
 		this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
 		this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
 		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
-		this._exp = 0;
+		this._attached = false;
+		this._min =
+		this._max =
+		this._exp =
+		this._pxPerBeat = 0;
 		this._sliders = new Map();
 		this._selected = new Map();
 		this._valueSaved = new Map();
-		this._uiFn = {
+		this._bcr =
+		this._evMouseup =
+		this._evMousemove =
+		this._renderTimeoutId = null;
+		this._uiFn = Object.freeze( {
 			when: this._sliderWhen.bind( this ),
 			value: this._sliderValue.bind( this ),
 			duration: this._sliderDuration.bind( this ),
 			selected: this._sliderSelected.bind( this ),
-		};
+		} );
+		Object.seal( this );
+
 		slidersParent.onmousedown = this._mousedown.bind( this );
 	}
 
 	remove() {
-		delete this._attached;
+		this._attached = false;
 		this.rootElement.remove();
 	}
 	empty() {
@@ -73,8 +83,8 @@ class gsuiSliderGroup {
 			this._pxPerBeat = ppb;
 			this._uiBeatlines.pxPerBeat( ppb );
 			this._slidersParent.style.fontSize = `${ ppb }px`;
-			clearTimeout( this._beatlinesRendering );
-			this._beatlinesRendering = setTimeout( () => this._uiBeatlines.render(), 100 );
+			clearTimeout( this._renderTimeoutId );
+			this._renderTimeoutId = setTimeout( () => this._uiBeatlines.render(), 100 );
 		}
 	}
 
