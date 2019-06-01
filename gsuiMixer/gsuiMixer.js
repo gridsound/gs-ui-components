@@ -19,8 +19,11 @@ class gsuiMixer {
 		this._maxId =
 		this._maxOrder = 0;
 		this._analyserH = 10;
-		addBtn.onclick = this._onclickAddChan.bind( this );
+		this._attached = false;
 		this.data = this._proxInit();
+		Object.seal( this );
+
+		addBtn.onclick = this._onclickAddChan.bind( this );
 		this.empty();
 	}
 
