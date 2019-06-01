@@ -16,7 +16,8 @@ const gsuiPopup = new class {
 		this.clWindow = this.elWindow.classList;
 		this.type = "";
 		this.isOpen = false;
-		this.resolve = null;
+		this.resolve =
+		this._fnSubmit = null;
 		Object.seal( this );
 
 		this.elRoot.onclick =
@@ -147,4 +148,4 @@ const gsuiPopup = new class {
 			}
 		}
 	}
-};
+}();
