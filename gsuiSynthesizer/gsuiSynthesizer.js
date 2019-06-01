@@ -11,12 +11,18 @@ class gsuiSynthesizer {
 		this._elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" );
 		this.oninput =
 		this.onchange = () => {};
+		this._attached = false;
+		this._uioscs = new Map();
+		this._nextOscId = 0;
+		this.store = Object.seal( { oscillators: {} } );
+		Object.seal( this );
+
 		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
 		this.empty();
 	}
 
 	remove() {
-		delete this._attached;
+		this._attached = false;
 		this.rootElement.remove();
 	}
 	attached() {
@@ -26,25 +32,23 @@ class gsuiSynthesizer {
 		this._attached = true;
 		head.style.right = `${ list.offsetWidth - list.clientWidth }px`;
 		Array.from( this._nlOscs ).forEach( el => {
-			this._uioscs[ el.dataset.id ].attached();
+			this._uioscs.get( el.dataset.id ).attached();
 		} );
 	}
 	empty() {
-		this._uioscs && Object.values( this._uioscs ).forEach( o => o.remove() );
-		this._uioscs = {};
+		this._uioscs.forEach( o => o.remove() );
+		this._uioscs.clear();
 		this._nextOscId = 0;
-		this.store = { oscillators: {} };
+		this.store.oscillators = {};
 	}
 	setWaveList( arr ) {
 		this._waveList = arr;
-		Array.from( this._uioscs ).forEach( o => o.addWaves( arr ) );
+		this._uioscs.forEach( o => o.addWaves( arr ) );
 	}
 	change( obj ) {
-		const uioscs = this._uioscs;
-
 		if ( obj.oscillators ) {
 			Object.entries( obj.oscillators ).forEach( ( [ id, osc ] ) => {
-				osc ? uioscs[ id ]
+				osc ? this._uioscs.has( id )
 					? this._updateOsc( id, osc )
 					: this._createOsc( id, osc )
 					: this._deleteOsc( id );
@@ -54,11 +58,11 @@ class gsuiSynthesizer {
 
 	// private:
 	_createOsc( id, osc ) {
-		if ( !this._uioscs[ id ] ) {
+		if ( !this._uioscs.has( id ) ) {
 			const uiosc = new gsuiOscillator();
 
 			this._nextOscId = Math.max( this._nextOscId, +id + 1 );
-			this._uioscs[ id ] = uiosc;
+			this._uioscs.set( id, uiosc );
 			this.store.oscillators[ id ] = Object.assign( {}, osc );
 			uiosc.oninput = this._oninputOsc.bind( this, id );
 			uiosc.onchange = this._onchangeOsc.bind( this, id );
@@ -79,14 +83,14 @@ class gsuiSynthesizer {
 		}
 	}
 	_updateOsc( id, osc ) {
-		this._uioscs[ id ].change( osc );
+		this._uioscs.get( id ).change( osc );
 	}
 	_deleteOsc( id ) {
-		const oscs = this._uioscs;
+		const osc = this._uioscs.get( id );
 
-		if ( oscs[ id ] ) {
-			oscs[ id ].remove();
-			delete oscs[ id ];
+		if ( osc ) {
+			osc.remove();
+			this._uioscs.delete( id );
 			delete this.store.oscillators[ id ];
 		}
 	}
@@ -99,7 +103,7 @@ class gsuiSynthesizer {
 
 	// events:
 	_onclickNewOsc() {
-		const id = this._nextOscId,
+		const id = `${ this._nextOscId }`,
 			osc = {
 				order: this._getMaxOrder(),
 				type: "sine",
