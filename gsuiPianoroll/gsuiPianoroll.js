@@ -151,7 +151,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	block_key( el, midi ) {
 		const row = this._getRowByMidi( midi );
 
-		el.dataset.key = gsuiPianoroll.noteNames.en[ row.dataset.key ];
+		el.dataset.key = gsuiKeys.keyNames.en[ row.dataset.key ];
 		row.firstElementChild.append( el );
 		this.block_redrawDragline( el );
 	}
@@ -501,14 +501,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	}
 }
 
-gsuiPianoroll.noteNames = {
-	en: [ "c",  "c#",  "d",  "d#",  "e",  "f",  "f#",  "g",   "g#",   "a",  "a#",  "b" ],
-	fr: [ "do", "do#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ]
-};
-
 gsuiPianoroll.template = document.querySelector( "#gsuiPianoroll-template" );
 gsuiPianoroll.template.remove();
 gsuiPianoroll.template.removeAttribute( "id" );
+
 gsuiPianoroll.blockTemplate = document.querySelector( "#gsuiPianoroll-block-template" );
 gsuiPianoroll.blockTemplate.remove();
 gsuiPianoroll.blockTemplate.removeAttribute( "id" );

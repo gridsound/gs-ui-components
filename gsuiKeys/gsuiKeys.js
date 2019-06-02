@@ -137,8 +137,6 @@ gsuiKeys.template = document.querySelector( "#gsuiKeys-octave-template" );
 gsuiKeys.template.remove();
 gsuiKeys.template.removeAttribute( "id" );
 
-gsuiKeys.keyIds = "c c# d d# e f f# g g# a a# b".split( " " );
-gsuiKeys.keyIds.forEach( ( k, i, arr ) => arr[ k ] = i );
 gsuiKeys.midiToKeyStr = m => gsuiKeys.keyIds[ m % 12 ] + ~~( m / 12 );
 gsuiKeys.keyStrToMidi = k => {
 	const key = k.substr( 0, k[ 1 ] !== "#" ? 1 : 2 );
