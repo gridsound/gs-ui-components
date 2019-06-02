@@ -8,7 +8,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 		window.getSelection().removeAllRanges();
 		this.__mdBlc = blc;
 		if ( e.button === 2 ) {
-			this.__mmFn = this.__mousemove_deletion;
+			this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "deletion" );
 			this.__status = "deleting";
 			if ( blc ) {
 				this.block_deleted( blc, true );
@@ -20,7 +20,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 			this.__mdWhen = this.__getWhenByPageX( e.pageX );
 			this.__beatSnap = this.__getBeatSnap();
 			if ( e.shiftKey ) {
-				this.__mmFn = this.__mousemove_selection1;
+				this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "selection1" );
 				this.__status = "selecting-1";
 				this.__mdRowInd = this.__getRowIndexByPageY( e.pageY );
 			} else if ( blc ) {
@@ -40,7 +40,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 
 gsuiBlocksManager.__mousedownFns = new Map( [
 	[ "move", function( data, blcsEditing, blc, e ) {
-		this.__mmFn = this.__mousemove_move;
+		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "move" );
 		this.__status = "moving";
 		this.__mdRowInd = this.__getRowIndexByPageY( e.pageY );
 		blcsEditing.forEach( ( blc, id ) => {
@@ -55,7 +55,7 @@ gsuiBlocksManager.__mousedownFns = new Map( [
 		this.__valueBMax = this.__rows.length - 1 - this.__valueBMax;
 	} ],
 	[ "cropA", function( data, blcsEditing, blc, e ) {
-		this.__mmFn = this.__mousemove_crop;
+		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "crop" );
 		this.__status = "cropping-a";
 		this.__valueAMin =
 		this.__valueAMax = Infinity;
@@ -70,7 +70,7 @@ gsuiBlocksManager.__mousedownFns = new Map( [
 		this.__valueAMax = Math.max( 0, this.__valueAMax - this.__beatSnap );
 	} ],
 	[ "cropB", function( data, blcsEditing, blc, e ) {
-		this.__mmFn = this.__mousemove_crop;
+		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "crop" );
 		this.__status = "cropping-b";
 		this.__valueAMin =
 		this.__valueAMax = Infinity;
