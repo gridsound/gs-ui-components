@@ -7,6 +7,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 		gsuiBlocksManager._focused = this;
 		window.getSelection().removeAllRanges();
 		this.__mdBlc = blc;
+		this.__mdTarget = e.target;
 		if ( e.button === 2 ) {
 			this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "deletion" );
 			this.__status = "deleting";
@@ -30,7 +31,6 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 					const data = this._getData(),
 						blcsEditing = this.__fillBlcsMap( blc );
 
-					this.__mdTarget = e.target;
 					blc.classList.add( "gsui-hover" );
 					e.target.classList.add( "gsui-hover" );
 					fnAct.call( this, data, blcsEditing, blc, e );

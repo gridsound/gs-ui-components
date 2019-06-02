@@ -39,7 +39,7 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 			this.managercallCroppingB.call( this, blcsEditing, this.__valueA );
 		}
 	} ],
-	[ "selection-1", function( blcsEditing, mdBlc ) {
+	[ "selecting-1", function( blcsEditing, mdBlc ) {
 		if ( mdBlc ) {
 			blcsEditing.set( mdBlc.dataset.id, mdBlc );
 		}
@@ -47,7 +47,7 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 			this.managercallSelecting( blcsEditing );
 		}
 	} ],
-	[ "selection-2", function( blcsEditing ) {
+	[ "selecting-2", function( blcsEditing ) {
 		this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
 		if ( blcsEditing.size ) {
 			this.managercallSelecting( blcsEditing );
