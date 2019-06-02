@@ -39,10 +39,10 @@
 
 /* block */
 /* .......................................................................... */
-.gsuiPianoroll .gsuiBlocksManager-block {
+.gsuiPianoroll-block {
 	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
 }
-.gsuiPianoroll .gsuiBlocksManager-block::before {
+.gsuiPianoroll-block::before {
 	content: attr( data-key );
 	position: absolute;
 	display: flex;
@@ -79,14 +79,14 @@
 
 /* .gsuiDragline-to */
 /* .......................................................................... */
-.gsuiPianoroll .gsuiBlocksManager-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+.gsuiPianoroll-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
 	background-color: transparent;
 }
-.gsuiPianoroll .gsuiBlocksManager-block:hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
-.gsuiPianoroll .gsuiBlocksManager-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
+.gsuiPianoroll-block:hover      .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
+.gsuiPianoroll-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
 	transform: translateX( 2px );
 }
-.gsuiPianoroll .gsuiBlocksManager-block:hover .gsuiDragline-linked .gsuiDragline-to,
-.gsuiPianoroll .gsuiBlocksManager-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
+.gsuiPianoroll-block:hover      .gsuiDragline-linked .gsuiDragline-to,
+.gsuiPianoroll-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
 	transform: translateX( -2px );
 }
