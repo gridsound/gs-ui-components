@@ -26,22 +26,21 @@
 	text-overflow: ellipsis;
 	pointer-events: none;
 	user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
 	-webkit-user-select: none;
 }
 .gsuiPatternroll-block-content {
 	flex: 1;
 	position: relative;
+	pointer-events: none;
 }
 .gsuiPatternroll-block-content svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    fill: currentColor;
-    opacity: .8;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .8;
+	fill: currentColor;
 }
 
 .gsui-row-small .gsuiPatternroll-block-header {
