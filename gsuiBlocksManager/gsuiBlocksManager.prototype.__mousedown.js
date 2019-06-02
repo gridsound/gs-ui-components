@@ -30,7 +30,9 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 					const data = this._getData(),
 						blcsEditing = this.__fillBlcsMap( blc );
 
+					this.__mdTarget = e.target;
 					blc.classList.add( "gsui-hover" );
+					e.target.classList.add( "gsui-hover" );
 					fnAct.call( this, data, blcsEditing, blc, e );
 				}
 			}
@@ -59,7 +61,6 @@ gsuiBlocksManager.__mousedownFns = new Map( [
 		this.__status = "cropping-a";
 		this.__valueAMin =
 		this.__valueAMax = Infinity;
-		e.target.classList.add( "gsui-hover" );
 		blcsEditing.forEach( ( blc, id ) => {
 			const dat = data[ id ];
 
@@ -74,7 +75,6 @@ gsuiBlocksManager.__mousedownFns = new Map( [
 		this.__status = "cropping-b";
 		this.__valueAMin =
 		this.__valueAMax = Infinity;
-		e.target.classList.add( "gsui-hover" );
 		blcsEditing.forEach( ( blc, id ) => {
 			this.__valueAMin = Math.min( this.__valueAMin, data[ id ].duration );
 		} );

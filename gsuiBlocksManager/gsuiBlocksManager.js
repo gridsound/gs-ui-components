@@ -353,52 +353,6 @@ class gsuiBlocksManager {
 				break;
 		}
 	}
-	__mouseup() {
-		const blcsEditing = this.__blcsEditing,
-			mdBlc = this.__mdBlc;
-
-		switch ( this.__status ) {
-			case "deleting":
-				if ( blcsEditing.size || this.__blcsSelected.size ) {
-					this.managercallDeleting( blcsEditing );
-				}
-				break;
-			case "moving":
-				if ( this.__valueB || Math.abs( this.__valueA ) > .000001 ) {
-					this.managercallMoving( blcsEditing, this.__valueA, this.__valueB );
-				}
-				break;
-			case "cropping-a":
-			case "cropping-b": {
-					const child = mdBlc.children;
-
-					child[ 0 ].classList.remove( "gsui-hover" );
-					child[ 1 ] && child[ 1 ].classList.remove( "gsui-hover" );
-					if ( Math.abs( this.__valueA ) > .000001 ) {
-						( this.__status === "cropping-a"
-							? this.managercallCroppingA
-							: this.managercallCroppingB ).call( this, blcsEditing, this.__valueA );
-					}
-				}
-				break;
-			case "selecting-2":
-				this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
-			case "selecting-1":
-				if ( this.__status === "selecting-1" && mdBlc ) {
-					blcsEditing.set( mdBlc.dataset.id, mdBlc );
-				}
-				if ( blcsEditing.size ) {
-					this.managercallSelecting( blcsEditing );
-				}
-				break;
-		}
-		this.__eventReset();
-		if ( mdBlc ) {
-			mdBlc.classList.remove( "gsui-hover" );
-			delete this.__mdBlc;
-		}
-		delete gsuiBlocksManager._focused;
-	}
 }
 
 document.addEventListener( "mousemove", e => {
