@@ -18,7 +18,8 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 		} else if ( e.button === 0 ) {
 			this.__mdPageX = e.pageX;
 			this.__mdPageY = e.pageY;
-			this.__mdWhen = this.__getWhenByPageX( e.pageX );
+			this.__mdWhenReal = this.__getWhenByPageX( e.pageX );
+			this.__mdWhen = this.__roundBeat( this.__mdWhenReal );
 			this.__beatSnap = this.__getBeatSnap();
 			if ( e.shiftKey ) {
 				this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "selection1" );

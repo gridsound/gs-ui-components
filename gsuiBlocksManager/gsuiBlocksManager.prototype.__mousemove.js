@@ -6,7 +6,8 @@ gsuiBlocksManager.prototype.__mousemove = function( e ) {
 			this.__mmPageX = e.pageX;
 			this.__mmPageY = e.pageY;
 		}
-		this.__mmWhen = this.__getWhenByPageX( this.__mmPageX );
+		this.__mmWhenReal = this.__getWhenByPageX( this.__mmPageX );
+		this.__mmWhen = this.__roundBeat( this.__mmWhenReal );
 		this.__mmFn.call( this, e );
 	}
 };

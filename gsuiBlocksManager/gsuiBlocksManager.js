@@ -135,8 +135,10 @@ class gsuiBlocksManager {
 		return Math.max( 0, Math.min( ind, this.__rows.length - 1 ) );
 	}
 	__getWhenByPageX( pageX ) {
-		return Math.max( 0, this.timeline.beatFloor(
-			( pageX - this.__getRow0BCR().left ) / this.__pxPerBeat ) );
+		return Math.max( 0, ( pageX - this.__getRow0BCR().left ) / this.__pxPerBeat );
+	}
+	__roundBeat( beat ) {
+		return Math.max( 0, this.timeline.beatFloor( beat ) );
 	}
 
 	// Private util methods

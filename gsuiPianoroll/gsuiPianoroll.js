@@ -324,7 +324,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					selected: false,
 					prev: null,
 					next: null,
-					when: this.__getWhenByPageX( e.pageX ),
+					when: this.__roundBeat( this.__getWhenByPageX( e.pageX ) ),
 				};
 
 			this.data[ id ] = keyObj;
