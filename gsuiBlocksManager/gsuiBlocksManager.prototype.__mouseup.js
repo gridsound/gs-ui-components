@@ -2,11 +2,10 @@
 
 gsuiBlocksManager.prototype.__mouseup = function() {
 	const blcsEditing = this.__blcsEditing,
-		mdBlc = this.__mdBlc,
-		muFn = gsuiBlocksManager.__mouseupFns.get( this.__status );
+		mdBlc = this.__mdBlc;
 
-	if ( muFn ) {
-		muFn.call( this, blcsEditing, mdBlc );
+	if ( this.__status ) {
+		gsuiBlocksManager.__mouseupFns.get( this.__status ).call( this, blcsEditing, mdBlc );
 	}
 	this.__eventReset();
 	if ( mdBlc ) {
@@ -24,17 +23,27 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 			this.managercallMoving( blcsEditing, this.__valueA, this.__valueB );
 		}
 	} ],
+	[ "attack", function( blcsEditing ) {
+		if ( Math.abs( this.__valueA ) > .000001 ) {
+			this.managercallAttack.call( this, blcsEditing, this.__valueA );
+		}
+	} ],
+	[ "release", function( blcsEditing ) {
+		if ( Math.abs( this.__valueA ) > .000001 ) {
+			this.managercallRelease.call( this, blcsEditing, this.__valueA );
+		}
+	} ],
 	[ "deleting", function( blcsEditing ) {
 		if ( blcsEditing.size || this.__blcsSelected.size ) {
 			this.managercallDeleting( blcsEditing );
 		}
 	} ],
-	[ "cropping-a", function( blcsEditing, mdBlc ) {
+	[ "cropping-a", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
 			this.managercallCroppingA.call( this, blcsEditing, this.__valueA );
 		}
 	} ],
-	[ "cropping-b", function( blcsEditing, mdBlc ) {
+	[ "cropping-b", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
 			this.managercallCroppingB.call( this, blcsEditing, this.__valueA );
 		}

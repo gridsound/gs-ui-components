@@ -61,6 +61,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		k.pan = 0;
 		k.gain = .8;
+		k.attack = .05;
+		k.release = .05;
 		k.lowpass = 1;
 		k.highpass = 1;
 		k.duration = 1;
@@ -130,6 +132,14 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	block_gain( el, val ) { this.block_sliderUpdate( "gain", el, val ); }
 	block_lowpass( el, val ) { this.block_sliderUpdate( "lowpass", el, val ); }
 	block_highpass( el, val ) { this.block_sliderUpdate( "highpass", el, val ); }
+	block_attack( el, beat ) {
+		el._attack.style.width = `${ beat }em`;
+		this._currKeyValue.attack = beat;
+	}
+	block_release( el, beat ) {
+		el._release.style.width = `${ beat }em`;
+		this._currKeyValue.release = beat;
+	}
 	block_when( el, when ) {
 		super.block_when( el, when );
 		this._uiSliderGroup.setProp( el.dataset.id, "when", when );
@@ -238,6 +248,30 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		} );
 		this.onchange( obj );
 	}
+	managercallAttack( blcsMap, valA ) {
+		const obj = {};
+
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ],
+				attack = d.attack + valA;
+
+			obj[ id ] = { attack };
+			d.attack = attack;
+		} );
+		this.onchange( obj );
+	}
+	managercallRelease( blcsMap, valA ) {
+		const obj = {};
+
+		blcsMap.forEach( ( _blc, id ) => {
+			const d = this.data[ id ],
+				release = d.release + valA;
+
+			obj[ id ] = { release };
+			d.release = release;
+		} );
+		this.onchange( obj );
+	}
 	managercallDeleting( blcsMap ) {
 		const obj = {};
 
@@ -318,6 +352,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					key,
 					pan: curr.pan,
 					gain: curr.gain,
+					attack: curr.attack,
+					release: curr.release,
 					lowpass: curr.lowpass,
 					highpass: curr.highpass,
 					duration: curr.duration,
@@ -375,8 +411,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		blc.dataset.id = id;
 		blc.onmousedown = this._blcMousedown.bind( this, id );
 		dragline.onchange = this._onchangeDragline.bind( this, id );
+		blc._attack = blc.querySelector( ".gsuiPianoroll-block-attack" );
+		blc._release = blc.querySelector( ".gsuiPianoroll-block-release" );
 		blc._dragline = dragline;
-		blc._draglineDrop = blc.firstElementChild;
+		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
 		blc.append( dragline.rootElement );
 		dragline.getDropAreas = this._getDropAreas.bind( this, id );
 		this.__blcs.set( id, blc );
@@ -388,6 +426,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.block_when( blc, obj.when );
 		this.block_duration( blc, obj.duration );
 		this.block_selected( blc, obj.selected );
+		this.block_attack( blc, obj.attack );
+		this.block_release( blc, obj.release );
 		this.block_pan( blc, obj.pan );
 		this.block_gain( blc, obj.gain );
 		this.block_lowpass( blc, obj.lowpass );
@@ -464,6 +504,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					when: 0,
 					pan: 0,
 					gain: 1,
+					attack: .05,
+					release: .05,
 					lowpass: 1,
 					highpass: 1,
 					duration: 1,

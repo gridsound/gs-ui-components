@@ -54,6 +54,40 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			this.__blcsEditing.forEach( blc => this.block_row( blc, rows ) );
 		}
 	} ],
+	[ "attack", function() {
+		const valBrut = this.__mmWhenReal - this.__mdWhenReal,
+			val = Math.max( this.__valueAMin, Math.min( valBrut, this.__valueAMax ) );
+
+		if ( val !== this.__valueA ) {
+			const data = this._getData();
+
+			this.__valueA = val;
+			this.__blcsEditing.forEach( ( blc, id ) => {
+				const blcObj = Object.assign( {}, data[ id ] );
+
+				blcObj.attack += val;
+				this.block_attack( blc, blcObj.attack );
+				this.oneditBlock( id, blcObj, blc );
+			} );
+		}
+	} ],
+	[ "release", function() {
+		const valBrut = this.__mdWhenReal - this.__mmWhenReal,
+			val = Math.max( this.__valueAMin, Math.min( valBrut, this.__valueAMax ) );
+
+		if ( val !== this.__valueA ) {
+			const data = this._getData();
+
+			this.__valueA = val;
+			this.__blcsEditing.forEach( ( blc, id ) => {
+				const blcObj = Object.assign( {}, data[ id ] );
+
+				blcObj.release += val;
+				this.block_release( blc, blcObj.release );
+				this.oneditBlock( id, blcObj, blc );
+			} );
+		}
+	} ],
 	[ "deletion", function( e ) {
 		const blc = this.__getBlc( e.target );
 

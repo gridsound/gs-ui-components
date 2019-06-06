@@ -42,7 +42,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 };
 
 gsuiBlocksManager.__mousedownFns = new Map( [
-	[ "move", function( data, blcsEditing, blc, e ) {
+	[ "move", function( data, blcsEditing, _blc, e ) {
 		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "move" );
 		this.__status = "moving";
 		this.__mdRowInd = this.__getRowIndexByPageY( e.pageY );
@@ -57,7 +57,35 @@ gsuiBlocksManager.__mousedownFns = new Map( [
 		this.__valueBMin *= -1;
 		this.__valueBMax = this.__rows.length - 1 - this.__valueBMax;
 	} ],
-	[ "cropA", function( data, blcsEditing, blc, e ) {
+	[ "attack", function( data, blcsEditing ) {
+		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "attack" );
+		this.__status = "attack";
+		this.__valueAMin =
+		this.__valueAMax = Infinity;
+		blcsEditing.forEach( ( blc, id ) => {
+			const dat = data[ id ];
+
+			this.__valueAMin = Math.min( this.__valueAMin, dat.attack );
+			this.__valueAMax = Math.min( this.__valueAMax, dat.duration - dat.attack - dat.release );
+		} );
+		this.__valueAMin *= -1;
+		this.__valueAMax = Math.max( 0, this.__valueAMax );
+	} ],
+	[ "release", function( data, blcsEditing ) {
+		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "release" );
+		this.__status = "release";
+		this.__valueAMin =
+		this.__valueAMax = Infinity;
+		blcsEditing.forEach( ( blc, id ) => {
+			const dat = data[ id ];
+
+			this.__valueAMin = Math.min( this.__valueAMin, dat.release );
+			this.__valueAMax = Math.min( this.__valueAMax, dat.duration - dat.attack - dat.release );
+		} );
+		this.__valueAMin *= -1;
+		this.__valueAMax = Math.max( 0, this.__valueAMax );
+	} ],
+	[ "cropA", function( data, blcsEditing ) {
 		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "crop" );
 		this.__status = "cropping-a";
 		this.__valueAMin =
@@ -71,7 +99,7 @@ gsuiBlocksManager.__mousedownFns = new Map( [
 		this.__valueAMin *= -1;
 		this.__valueAMax = Math.max( 0, this.__valueAMax - this.__beatSnap );
 	} ],
-	[ "cropB", function( data, blcsEditing, blc, e ) {
+	[ "cropB", function( data, blcsEditing ) {
 		this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "crop" );
 		this.__status = "cropping-b";
 		this.__valueAMin =
