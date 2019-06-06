@@ -54,7 +54,6 @@
 	box-sizing: border-box;
 	position: relative;
 	height: 1.5em;
-	cursor: default;
 }
 .gsuiKeyBlack {
 	position: absolute;
