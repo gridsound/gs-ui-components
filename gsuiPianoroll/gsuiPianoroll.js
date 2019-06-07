@@ -165,15 +165,17 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		row.firstElementChild.append( el );
 		this.block_redrawDragline( el );
 	}
-	block_next( el, id ) {
-		const blc = this.__blcs.get( id );
-
-		el._dragline.linkTo( blc && blc._draglineDrop );
-	}
 	block_prev( el, id ) {
 		const blc = this.__blcs.get( id );
 
+		el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!blc );
 		blc && blc._dragline.linkTo( el._draglineDrop );
+	}
+	block_next( el, id ) {
+		const blc = this.__blcs.get( id );
+
+		el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!blc );
+		el._dragline.linkTo( blc && blc._draglineDrop );
 	}
 	block_redrawDragline( el ) {
 		const key = this.data[ el.dataset.id ],

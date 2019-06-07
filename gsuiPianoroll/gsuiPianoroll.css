@@ -71,6 +71,10 @@
 .gsuiPianoroll-block-release {
 	right: 0;
 }
+.gsuiPianoroll-block-prevLinked .gsuiPianoroll-block-attack,
+.gsuiPianoroll-block-nextLinked .gsuiPianoroll-block-release {
+	display: none;
+}
 
 .gsuiPianoroll-block-envBg {
 	height: 100%;
