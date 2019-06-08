@@ -1,0 +1,111 @@
+.gsuiPianoroll-block {
+	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
+}
+.gsuiPianoroll-block::after {
+	content: attr( data-key );
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	left: 0;
+	width: 16px;
+	max-width: 100%;
+	height: 100%;
+	color: #000;
+	font-size: 11px;
+	font-weight: bold;
+	opacity: .4;
+	pointer-events: none;
+}
+
+/* .......................................................................... */
+.gsuiPianoroll-block-env {
+	position: absolute;
+	height: 100%;
+	pointer-events: none;
+}
+.gsuiPianoroll-block-attack {
+	left: 0;
+}
+.gsuiPianoroll-block-release {
+	right: 0;
+}
+.gsuiPianoroll-block-prevLinked .gsuiPianoroll-block-attack,
+.gsuiPianoroll-block-nextLinked .gsuiPianoroll-block-release {
+	display: none;
+}
+
+.gsuiPianoroll-block-envBg {
+	height: 100%;
+	opacity: .3;
+}
+.gsuiPianoroll-block-attack .gsuiPianoroll-block-envBg {
+	border-top-left-radius: 2px;
+	background-image: linear-gradient( to bottom right,
+		#000 50%,
+		transparent calc( 50% + 1px )
+	);
+}
+.gsuiPianoroll-block-release .gsuiPianoroll-block-envBg {
+	border-top-right-radius: 2px;
+	background-image: linear-gradient( to bottom left,
+		#000 50%,
+		transparent calc( 50% + 1px )
+	);
+}
+.gsuiPianoroll-block-envHandle {
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	bottom: 100%;
+	cursor: pointer;
+	border-radius: 2px;
+	pointer-events: initial;
+	background-color: var( --gsuiBlocksManager-blockColor );
+	filter: brightness( 1.3 );
+	opacity: 0;
+	transition: .1s opacity;
+}
+.gsuiPianoroll-block-attack .gsuiPianoroll-block-envHandle {
+	right: 0px;
+}
+.gsuiPianoroll-block-release .gsuiPianoroll-block-envHandle {
+	left: 0px;
+}
+.gsuiPianoroll-block-envHandle.gsui-hover,
+.gsuiPianoroll-block:hover .gsuiPianoroll-block-envHandle,
+.gsuiPianoroll-block.gsui-hover .gsuiPianoroll-block-envHandle {
+	opacity: .8;
+}
+
+/* .......................................................................... */
+.gsuiPianoroll-block .gsuiDragline {
+	top: 50%;
+	right: 0;
+}
+
+/* .......................................................................... */
+.gsuiPianoroll-block .gsuiDragline-drop {
+	top: 50%;
+	left: 0px;
+}
+.gsuiPianoroll-block .gsuiDragline-drop::before {
+	left: 0px;
+}
+.gsuiPianoroll-block .gsuiDragline-dropActive::before {
+	left: -4px;
+}
+
+/* .gsuiDragline-to */
+/* .......................................................................... */
+.gsuiPianoroll-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+	background-color: transparent;
+}
+.gsuiPianoroll-block:hover      .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
+.gsuiPianoroll-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
+	transform: translateX( 2px );
+}
+.gsuiPianoroll-block:hover      .gsuiDragline-linked .gsuiDragline-to,
+.gsuiPianoroll-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
+	transform: translateX( -2px );
+}
