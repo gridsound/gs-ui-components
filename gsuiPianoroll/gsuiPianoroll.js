@@ -255,7 +255,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		blcsMap.forEach( ( _blc, id ) => {
 			const d = this.data[ id ],
-				attack = d.attack + valA;
+				attack = +( d.attack + valA ).toFixed( 3 );
 
 			obj[ id ] = { attack };
 			d.attack = attack;
@@ -267,7 +267,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		blcsMap.forEach( ( _blc, id ) => {
 			const d = this.data[ id ],
-				release = d.release + valA;
+				release = +( d.release + valA ).toFixed( 3 );
 
 			obj[ id ] = { release };
 			d.release = release;
