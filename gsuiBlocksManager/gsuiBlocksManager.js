@@ -350,7 +350,6 @@ class gsuiBlocksManager {
 					}
 					e.preventDefault();
 					e.stopPropagation();
-					gsuiBlocksManager._focused = this;
 				}
 				break;
 		}
