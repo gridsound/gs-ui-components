@@ -35,24 +35,7 @@
 	display: none;
 }
 
-.gsuiPianoroll-block-envBg {
-	height: 100%;
-	opacity: .3;
-}
-.gsuiPianoroll-block-attack .gsuiPianoroll-block-envBg {
-	border-top-left-radius: 2px;
-	background-image: linear-gradient( to bottom right,
-		#000 50%,
-		transparent calc( 50% + 1px )
-	);
-}
-.gsuiPianoroll-block-release .gsuiPianoroll-block-envBg {
-	border-top-right-radius: 2px;
-	background-image: linear-gradient( to bottom left,
-		#000 50%,
-		transparent calc( 50% + 1px )
-	);
-}
+/* .......................................................................... */
 .gsuiPianoroll-block-envHandle {
 	position: absolute;
 	width: 6px;
@@ -67,15 +50,39 @@
 	transition: .1s opacity;
 }
 .gsuiPianoroll-block-attack .gsuiPianoroll-block-envHandle {
-	right: 0px;
+	right: -3px;
 }
 .gsuiPianoroll-block-release .gsuiPianoroll-block-envHandle {
-	left: 0px;
+	left: -3px;
 }
 .gsuiPianoroll-block-envHandle.gsui-hover,
 .gsuiPianoroll-block:hover .gsuiPianoroll-block-envHandle,
 .gsuiPianoroll-block.gsui-hover .gsuiPianoroll-block-envHandle {
 	opacity: .8;
+}
+
+/* .......................................................................... */
+.gsuiPianoroll-block-envBg {
+	height: 100%;
+	opacity: .3;
+	transition: opacity .1s;
+}
+.gsuiPianoroll-block-envHandle.gsui-hover + .gsuiPianoroll-block-envBg {
+	opacity: .5;
+}
+.gsuiPianoroll-block-attack .gsuiPianoroll-block-envBg {
+	border-top-left-radius: 2px;
+	background-image: linear-gradient( to bottom right,
+		#000 50%,
+		transparent calc( 50% + 1px )
+	);
+}
+.gsuiPianoroll-block-release .gsuiPianoroll-block-envBg {
+	border-top-right-radius: 2px;
+	background-image: linear-gradient( to bottom left,
+		#000 50%,
+		transparent calc( 50% + 1px )
+	);
 }
 
 /* .......................................................................... */
