@@ -106,28 +106,25 @@ Object.assign( gsuiPianoroll.prototype, {
 		} );
 		this.onchange( obj );
 	},
+
+	// .........................................................................
 	managercallAttack( blcsMap, valA ) {
-		const obj = {};
-
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = this.data[ id ],
-				attack = +( d.attack + valA ).toFixed( 3 );
-
-			obj[ id ] = { attack };
-			d.attack = attack;
-		} );
-		this.onchange( obj );
+		this._managercallAttRel( "attack", blcsMap, valA );
 	},
 	managercallRelease( blcsMap, valA ) {
+		this._managercallAttRel( "release", blcsMap, valA );
+	},
+	_managercallAttRel( prop, blcsMap, incr ) {
 		const obj = {};
 
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = this.data[ id ],
-				release = +( d.release + valA ).toFixed( 3 );
-
-			obj[ id ] = { release };
-			d.release = release;
-		} );
+		blcsMap.forEach( this._managercallAttRelEach.bind( this, obj, prop, incr ) );
 		this.onchange( obj );
+	},
+	_managercallAttRelEach( obj, prop, incr, _blc, id ) {
+		const d = this.data[ id ],
+			val = +( d[ prop ] + incr ).toFixed( 3 );
+
+		obj[ id ] = { [ prop ]: val };
+		d[ prop ] = val;
 	},
 } );
