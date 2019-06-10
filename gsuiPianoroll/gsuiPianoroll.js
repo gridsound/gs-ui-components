@@ -168,13 +168,13 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	block_prev( el, id ) {
 		const blc = this.__blcs.get( id );
 
-		el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!blc );
+		el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!id );
 		blc && blc._dragline.linkTo( el._draglineDrop );
 	}
 	block_next( el, id ) {
 		const blc = this.__blcs.get( id );
 
-		el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!blc );
+		el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!id );
 		el._dragline.linkTo( blc && blc._draglineDrop );
 	}
 	block_redrawDragline( el ) {
