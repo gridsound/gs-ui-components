@@ -195,6 +195,12 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	_keydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) {
+		if ( this.__status === "cropping-b" ) {
+			this.__blcsEditing.forEach( blc => {
+				blc._attack.style.maxWidth =
+				blc._release.style.maxWidth = "";
+			} );
+		}
 		this.__mouseup( e );
 	}
 	_onscrollRows() {
@@ -211,6 +217,15 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		e.stopPropagation();
 		if ( !dline.contains( e.target ) ) {
 			this.__mousedown( e );
+			if ( this.__status === "cropping-b" ) {
+				this.__blcsEditing.forEach( ( blc, id ) => {
+					const { attack, release } = this.data[ id ],
+						attRel = attack + release;
+
+					blc._attack.style.maxWidth = `${ attack / attRel * 100 }%`;
+					blc._release.style.maxWidth = `${ release / attRel * 100 }%`;
+				} );
+			}
 		}
 	}
 	_rowMousedown( key, e ) {

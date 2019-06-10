@@ -99,9 +99,17 @@ Object.assign( gsuiPianoroll.prototype, {
 
 		blcsMap.forEach( ( _blc, id ) => {
 			const d = this.data[ id ],
-				duration = d.duration + valA;
+				attRel = d.attack + d.release,
+				duration = d.duration + valA,
+				keyobj = { duration };
 
-			obj[ id ] = { duration };
+			if ( duration < attRel ) {
+				d.attack =
+				keyobj.attack = +( d.attack / attRel * duration ).toFixed( 3 );
+				d.release =
+				keyobj.release = +( d.release / attRel * duration ).toFixed( 3 );
+			}
+			obj[ id ] = keyobj;
 			d.duration = duration;
 		} );
 		this.onchange( obj );
