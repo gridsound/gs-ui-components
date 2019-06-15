@@ -38,9 +38,7 @@
 	border: 2px solid;
 	background-color: var( --gsuiDotline-dotBg );
 	transition: .2s;
-	transition-property:
-		width, height,
-		margin-left, margin-top;
+	transition-property: width, height, margin-left, margin-top;
 }
 .gsuiDotline-dot:hover,
 .gsuiDotline-dotSelected {

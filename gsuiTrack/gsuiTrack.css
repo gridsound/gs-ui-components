@@ -3,9 +3,9 @@
 	--gsuiTrack-hsl-h: 0;
 	--gsuiTrack-hsl-s: 0%;
 	--gsuiTrack-hsl-l: 27%;
-	--gsuiTrack-color: yellow;
-	--gsuiTrack-toggle-bg: tomato;
-	--gsuiTrack-toggleOff-bg: dodgerblue;
+	--gsuiTrack-color: #ff0;
+	--gsuiTrack-toggle-bg: #f64;
+	--gsuiTrack-toggleOff-bg: #2af;
 }
 
 .gsuiTrack,
@@ -25,14 +25,14 @@
 		var( --gsuiTrack-hsl-s ),
 		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) ) );
 }
-.gsuiTrack:nth-child(even) {
+.gsuiTrack:nth-child( even ) {
 	--rel-l: -1.7%;
 }
 .gsuiTrack.gsui-mute {
 	--rel-l: -5%;
 	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
 }
-.gsuiTrack.gsui-mute:nth-child(even) {
+.gsuiTrack.gsui-mute:nth-child( even ) {
 	--rel-l: -5.5%;
 }
 
@@ -42,13 +42,13 @@
 	display: block;
 	background-color: rgba( 0, 0, 0, var( --rel-a, 0 ) );
 }
-.gsuiTrack-row:nth-child(even) {
+.gsuiTrack-row:nth-child( even ) {
 	--rel-a: .06;
 }
 .gsuiTrack-row.gsui-mute {
 	--rel-a: .25;
 }
-.gsuiTrack-row.gsui-mute:nth-child(even) {
+.gsuiTrack-row.gsui-mute:nth-child( even ) {
 	--rel-a: .29;
 }
 .gsuiTrack-row > div {

@@ -20,8 +20,8 @@
 .gsuiPanels-y {
 	flex-direction: column;
 }
-.gsuiPanels-x > div:not(.gsuiPanels-extend),
-.gsuiPanels-y > div:not(.gsuiPanels-extend) {
+.gsuiPanels-x > div:not( .gsuiPanels-extend ),
+.gsuiPanels-y > div:not( .gsuiPanels-extend ) {
 	position: relative;
 }
 .gsuiPanels-last {
@@ -31,8 +31,8 @@
 .gsuiPanels-y > div {
 	box-sizing: border-box;
 }
-.gsuiPanels-x > div + div:not(.gsuiPanels-extend) { border-left: var( --gsuiPanels-bd ); }
-.gsuiPanels-y > div + div:not(.gsuiPanels-extend) { border-top: var( --gsuiPanels-bd ); }
+.gsuiPanels-x > div + div:not( .gsuiPanels-extend ) { border-left: var( --gsuiPanels-bd ); }
+.gsuiPanels-y > div + div:not( .gsuiPanels-extend ) { border-top: var( --gsuiPanels-bd ); }
 
 .gsuiPanels-noselect {
 	user-select: none;
@@ -53,7 +53,7 @@
 }
 .gsuiPanels-extend.gsui-hover,
 .gsuiPanels-extend:hover {
-	background-color: var(--gsuiPanels-extendColor);
+	background-color: var( --gsuiPanels-extendColor );
 }
 .gsuiPanels-x > div > .gsuiPanels-extend {
 	cursor: col-resize;

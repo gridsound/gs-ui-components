@@ -1,7 +1,7 @@
 :root {
-	--gsuiSynthesizer-bg: darkblue;
-	--gsuiSynthesizer-color: yellow;
-	--gsuiSynthesizer-head-bg: indianred;
+	--gsuiSynthesizer-bg: #008;
+	--gsuiSynthesizer-color: #ff0;
+	--gsuiSynthesizer-head-bg: #c55;
 	--gsuiSynthesizer-head-height: 32px;
 }
 

@@ -1,19 +1,19 @@
 :root {
-	--gsuiMixer-bg: darkblue;
-	--gsuiMixerChannel-bg: darkred;
-	--gsuiMixerChannel-bg2: indianred;
-	--gsuiMixerChannel-color: yellow;
-	--gsuiMixerChannel-selected-bg: tomato;
+	--gsuiMixer-bg: #008;
+	--gsuiMixerChannel-bg: #800;
+	--gsuiMixerChannel-bg2: #c55;
+	--gsuiMixerChannel-color: #ff0;
+	--gsuiMixerChannel-selected-bg: #f64;
 	--gsuiMixerChannel-width: 36px;
-	--gsuiMixerChannel-pan-color: blue;
-	--gsuiMixerChannel-gain-color: orange;
+	--gsuiMixerChannel-pan-color: #00f;
+	--gsuiMixerChannel-gain-color: #fa0;
 	--gsuiMixerChannel-name-font: monospace;
-	--gsuiMixerChannel-connect-input-color: red;
-	--gsuiMixerChannel-connect-output-color: orange;
-	--gsuiMixerChannel-toggle-bg: blue;
-	--gsuiMixerChannel-toggleOff-bg: darkblue;
-	--gsuiMixerChannel-darkBorder: yellow;
-	--gsuiMixerChannel-lightBorder: green;
+	--gsuiMixerChannel-connect-input-color: #f00;
+	--gsuiMixerChannel-connect-output-color: #fa0;
+	--gsuiMixerChannel-toggle-bg: #00f;
+	--gsuiMixerChannel-toggleOff-bg: #008;
+	--gsuiMixerChannel-darkBorder: #ff0;
+	--gsuiMixerChannel-lightBorder: #080;
 }
 
 .gsuiMixer {

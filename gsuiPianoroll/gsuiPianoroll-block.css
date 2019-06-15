@@ -72,14 +72,16 @@
 }
 .gsuiPianoroll-block-attack .gsuiPianoroll-block-envBg {
 	border-top-left-radius: 2px;
-	background-image: linear-gradient( to bottom right,
+	background-image: linear-gradient(
+		to bottom right,
 		#000 50%,
 		transparent calc( 50% + 1px )
 	);
 }
 .gsuiPianoroll-block-release .gsuiPianoroll-block-envBg {
 	border-top-right-radius: 2px;
-	background-image: linear-gradient( to bottom left,
+	background-image: linear-gradient(
+		to bottom left,
 		#000 50%,
 		transparent calc( 50% + 1px )
 	);
@@ -94,10 +96,10 @@
 /* .......................................................................... */
 .gsuiPianoroll-block .gsuiDragline-drop {
 	top: 50%;
-	left: 0px;
+	left: 0;
 }
 .gsuiPianoroll-block .gsuiDragline-drop::before {
-	left: 0px;
+	left: 0;
 }
 .gsuiPianoroll-block .gsuiDragline-dropActive::before {
 	left: -4px;
