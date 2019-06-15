@@ -1,13 +1,13 @@
 :root {
 	--gsuiBlocksManager-font: 12px sans-serif;
 	--gsuiBlocksManager-number-font: 12px monospace;
-	--gsuiBlocksManager-grid-bg: dodgerblue;
-	--gsuiBlocksManager-side-bgColor: indianred;
+	--gsuiBlocksManager-grid-bg: #2af;
+	--gsuiBlocksManager-side-bgColor: #c55;
 	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: rgba( 255, 255, 0, .5 );
-	--gsuiBlocksManager-selection-borderColor: yellow;
-	--gsuiBlocksManager-blockColor: yellow;
-	--gsuiBlocksManager-blockSelectedColor: blue;
+	--gsuiBlocksManager-selection-borderColor: #ff0;
+	--gsuiBlocksManager-blockColor: #ff0;
+	--gsuiBlocksManager-blockSelectedColor: #00f;
 }
 
 .gsuiBlocksManager-sidePanel {

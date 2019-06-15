@@ -1,14 +1,14 @@
 :root {
-	--gsuiOscillator-bg: dodgerblue;
+	--gsuiOscillator-bg: #2af;
 	--gsuiOscillator-font: 12px sans-serif;
-	--gsuiOscillator-color: yellow;
-	--gsuiOscillator-slider-bg: tomato;
+	--gsuiOscillator-color: #ff0;
+	--gsuiOscillator-slider-bg: #f64;
 	--gsuiOscillator-number-font: 12px monospace;
-	--gsuiOscillator-pan: purple;
-	--gsuiOscillator-gain: lime;
-	--gsuiOscillator-pan-a: dodgerblue;
-	--gsuiOscillator-pan-b: tomato;
-	--gsuiOscillator-detune: orange;
+	--gsuiOscillator-pan: #808;
+	--gsuiOscillator-gain: #0f0;
+	--gsuiOscillator-pan-a: #2af;
+	--gsuiOscillator-pan-b: #f64;
+	--gsuiOscillator-detune: #fa0;
 }
 
 .gsuiOscillator {
@@ -52,8 +52,8 @@
 	margin: auto;
 }
 
-.gsuiOscillator-pan    { --gsuiSlider-lineColor: var( --gsuiOscillator-pan ); }
-.gsuiOscillator-gain   { --gsuiSlider-lineColor: var( --gsuiOscillator-gain ); }
+.gsuiOscillator-pan { --gsuiSlider-lineColor: var( --gsuiOscillator-pan ); }
+.gsuiOscillator-gain { --gsuiSlider-lineColor: var( --gsuiOscillator-gain ); }
 .gsuiOscillator-detune { --gsuiSlider-lineColor: var( --gsuiOscillator-detune ); }
 
 .gsuiOscillator-sliderValue {

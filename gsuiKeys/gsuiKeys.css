@@ -18,7 +18,8 @@
 
 .gsuiKeys,
 .gsuiKey {
-	background-image: linear-gradient( 90deg,
+	background-image: linear-gradient(
+		90deg,
 		var( --gsuiKeys-whiteKey-gradA ),
 		var( --gsuiKeys-whiteKey-gradB ) );
 }
@@ -37,10 +38,10 @@
 .gsuiKey-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
 .gsuiKeyBlack-row:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
 
-.gsuiKey[data-key="0"],
-.gsuiKey[data-key="5"],
-.gsuiKey-row[data-key="0"],
-.gsuiKey-row[data-key="5"] {
+.gsuiKey[ data-key="0" ],
+.gsuiKey[ data-key="5" ],
+.gsuiKey-row[ data-key="0" ],
+.gsuiKey-row[ data-key="5" ] {
 	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
 }
 .gsuiKey-row > div {
@@ -62,14 +63,16 @@
 	height: 1em;
 	margin-top: -.5em;
 	border-radius: 0 .1em .1em 0;
-	background-image: linear-gradient( 90deg,
+	background-image: linear-gradient(
+		90deg,
 		var( --gsuiKeys-blackKey-gradA ),
-		var( --gsuiKeys-blackKey-gradB ) );
+		var( --gsuiKeys-blackKey-gradB )
+	);
 }
-.gsuiKey[data-key="0"] {
+.gsuiKey[ data-key="0" ] {
 	filter: brightness( .9 );
 }
-.gsuiKey[data-key="0"]::after {
+.gsuiKey[ data-key="0" ]::after {
 	counter-increment: octave -1;
 	content: "C" counter( octave );
 	position: absolute;
@@ -80,16 +83,18 @@
 	font-family: monospace;
 }
 .gsuiKey.gsui-active {
-	background-image: linear-gradient( 90deg,
+	background-image: linear-gradient(
+		90deg,
 		var( --gsuiKeys-activeKey-gradA ),
-		var( --gsuiKeys-activeKey-gradB ) );
+		var( --gsuiKeys-activeKey-gradB )
+	);
 }
 
 .gsuiKey:last-child {
 	border-bottom: 0;
 }
-.gsuiKey[data-key="9"],
-.gsuiKey[data-key="7"],
-.gsuiKey[data-key="2"] {
+.gsuiKey[ data-key="9" ],
+.gsuiKey[ data-key="7" ],
+.gsuiKey[ data-key="2" ] {
 	height: 2em;
 }

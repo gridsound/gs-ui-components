@@ -1,10 +1,10 @@
 :root {
-	--gsuiTimeline-bg: darkslateblue;
+	--gsuiTimeline-bg: #448;
 	--gsuiTimeline-number-font: 14px monospace;
-	--gsuiTimeline-color: yellow;
-	--gsuiTimeline-loop-bg: tomato;
-	--gsuiTimeline-cursor-fill: yellow;
-	--gsuiTimeline-loopBorder-bg: yellow;
+	--gsuiTimeline-color: #ff0;
+	--gsuiTimeline-loop-bg: #f64;
+	--gsuiTimeline-cursor-fill: #ff0;
+	--gsuiTimeline-loopBorder-bg: #ff0;
 }
 
 .gsuiTimeline {

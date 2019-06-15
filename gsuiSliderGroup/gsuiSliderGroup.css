@@ -1,10 +1,10 @@
 :root {
-	--gsuiSliderGroup-bg: indianred;
-	--gsuiSliderGroup-currentTime-color: dodgerblue;
+	--gsuiSliderGroup-bg: #c55;
+	--gsuiSliderGroup-currentTime-color: #2af;
 	--gsuiSliderGroup-slider-width: 2px;
-	--gsuiSliderGroup-slider-bg: black;
-	--gsuiSliderGroup-slider-color: yellow;
-	--gsuiSliderGroup-slider-color-selected: blue;
+	--gsuiSliderGroup-slider-bg: #000;
+	--gsuiSliderGroup-slider-color: #ff0;
+	--gsuiSliderGroup-slider-color-selected: #00f;
 	--gsuiSliderGroup-loop-color: rgba( 150, 0, 0, .5 );
 }
 
@@ -47,7 +47,7 @@
 	width: var( --gsuiSliderGroup-slider-width );
 	background-color: var( --gsuiSliderGroup-slider-bg );
 }
-.gsuiSliderGroup-slidersSelected .gsuiSliderGroup-slider:not(.gsuiSliderGroup-sliderSelected) {
+.gsuiSliderGroup-slidersSelected .gsuiSliderGroup-slider:not( .gsuiSliderGroup-sliderSelected ) {
 	pointer-events: none;
 }
 .gsuiSliderGroup-sliderInner {
