@@ -10,6 +10,7 @@ class gsuiSpectrum {
 	setCanvas( cnv ) {
 		this.rootElement = cnv;
 		this._ctx = cnv.getContext( "2d" );
+		cnv.height = 1;
 		cnv.classList.add( "gsuiSpectrum" );
 	}
 	clear() {
