@@ -1,12 +1,38 @@
 "use strict";
 
-window.SVGURL = "http://www.w3.org/2000/svg";
-
 class gsuiDotline {
 	constructor() {
 		const root = document.createElement( "div" ),
-			svg = document.createElementNS( SVGURL, "svg" ),
-			polyline = document.createElementNS( SVGURL, "polyline" );
+			svg = document.createElementNS( "http://www.w3.org/2000/svg", "svg" ),
+			polyline = document.createElementNS( "http://www.w3.org/2000/svg", "polyline" );
+
+		this.rootElement = root;
+		this._value =
+		this._prevValue =
+		this._prevValueInput = "";
+		this._elSVG = svg;
+		this._elPoly = polyline;
+		this._opt = {};
+		this._dots = [];
+		this._dotsId =
+		this._svgW =
+		this._svgH =
+		this._pageX =
+		this._pageY =
+		this._dotInd =
+		this._dotMaxY =
+		this._dotMinY =
+		this._activeDotX =
+		this._activeDotY = 0;
+		this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
+		this._rootBCR =
+		this._activeDot =
+		this._dotsMoveMode =
+		this._fixedFirstDot =
+		this._fixedLastDot = null;
+		this._locked =
+		this._attached = false;
+		Object.seal( this );
 
 		svg.append( polyline );
 		svg.setAttribute( "preserveAspectRatio", "none" );
@@ -14,14 +40,6 @@ class gsuiDotline {
 		root.className = "gsuiDotline";
 		root.oncontextmenu = () => false;
 		root.onmousedown = this._mousedown.bind( this );
-		this.rootElement = root;
-		this._value = "";
-		this._elSVG = svg;
-		this._elPoly = polyline;
-		this._dots = [];
-		this._dotsId = 0;
-		this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
-		this._opt = {};
 		this.options( {
 			step: 1,
 			minX: 0,
