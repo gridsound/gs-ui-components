@@ -30,8 +30,9 @@ class gsuiDotline {
 		this._dotsMoveMode =
 		this._fixedFirstDot =
 		this._fixedLastDot = null;
-		this._locked =
 		this._attached = false;
+		this._mouseupDot = this._mouseupDot.bind( this );
+		this._mousemoveDot = this._mousemoveDot.bind( this );
 		Object.seal( this );
 
 		svg.append( polyline );
@@ -201,15 +202,16 @@ class gsuiDotline {
 		const dot = this._dots[ dotId ];
 
 		if ( b ) {
-			gsuiDotline.focused = this;
+			document.addEventListener( "mouseup", this._mouseupDot );
+			document.addEventListener( "mousemove", this._mousemoveDot );
 			this._activeDot = dot;
 			this._activeDotX = dot.x;
 			this._activeDotY = dot.y;
 		} else {
-			delete gsuiDotline.focused;
+			document.removeEventListener( "mouseup", this._mouseupDot );
+			document.removeEventListener( "mousemove", this._mousemoveDot );
 		}
 		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
-		this._locked = b;
 		this._dotInd = this._dots.findIndex( d => d.id === dotId );
 	}
 	_updateValue( isInputOrBoth ) {
@@ -274,61 +276,50 @@ class gsuiDotline {
 		}
 	}
 	_mouseupDot() {
-		if ( this._locked ) {
-			const fn = d => {
-					d._saveX = d.x;
-					d._saveY = d.y;
-				};
+		const fn = d => {
+				d._saveX = d.x;
+				d._saveY = d.y;
+			};
 
-			this._selectDot( this._activeDot.id, false );
-			this._dotsMoveMode === "free"
-				? fn( this._activeDot )
-				: this._dots.forEach( fn );
-			this._updateValue();
-		}
+		this._selectDot( this._activeDot.id, false );
+		this._dotsMoveMode === "free"
+			? fn( this._activeDot )
+			: this._dots.forEach( fn );
+		this._updateValue();
 	}
 	_mousemoveDot( e ) {
-		if ( this._locked ) {
-			const dots = this._dots,
-				dotX = this._activeDotX,
-				dotY = this._activeDotY,
-				bcr = this._rootBCR,
-				opt = this._opt;
-			let dot = this._activeDot,
-				dotInd = this._dotInd,
-				incX = opt.width / bcr.width * ( e.pageX - this._pageX ),
-				incY = opt.height / bcr.height * -( e.pageY - this._pageY );
+		const dots = this._dots,
+			dotX = this._activeDotX,
+			dotY = this._activeDotY,
+			bcr = this._rootBCR,
+			opt = this._opt;
+		let dot = this._activeDot,
+			dotInd = this._dotInd,
+			incX = opt.width / bcr.width * ( e.pageX - this._pageX ),
+			incY = opt.height / bcr.height * -( e.pageY - this._pageY );
 
-			switch ( this._dotsMoveMode ) {
-				case "free":
-					this._updateDot( dot.id, dotX + incX, dotY + incY );
-					this._sortDots();
-					break;
-				case "linked":
-					if ( incY ) {
-						incY = incY < 0
-							? Math.max( incY, opt.minY - this._dotMinY )
-							: Math.min( incY, opt.maxY - this._dotMaxY );
-					}
-					if ( incX ) {
-						incX = incX < 0
-							? Math.max( incX, ( dotInd ? dots[ dotInd - 1 ]._saveX : opt.minX ) - dot._saveX )
-							: Math.min( incX, opt.maxX - dots[ dots.length - 1 ]._saveX );
-					}
-					while ( dot = dots[ dotInd++ ] ) {
-						this._updateDot( dot.id, dot._saveX + incX, dot._saveY + incY );
-					}
-					break;
-			}
-			this._drawPolyline();
-			this._updateValue( 1 );
+		switch ( this._dotsMoveMode ) {
+			case "free":
+				this._updateDot( dot.id, dotX + incX, dotY + incY );
+				this._sortDots();
+				break;
+			case "linked":
+				if ( incY ) {
+					incY = incY < 0
+						? Math.max( incY, opt.minY - this._dotMinY )
+						: Math.min( incY, opt.maxY - this._dotMaxY );
+				}
+				if ( incX ) {
+					incX = incX < 0
+						? Math.max( incX, ( dotInd ? dots[ dotInd - 1 ]._saveX : opt.minX ) - dot._saveX )
+						: Math.min( incX, opt.maxX - dots[ dots.length - 1 ]._saveX );
+				}
+				while ( dot = dots[ dotInd++ ] ) {
+					this._updateDot( dot.id, dot._saveX + incX, dot._saveY + incY );
+				}
+				break;
 		}
+		this._drawPolyline();
+		this._updateValue( 1 );
 	}
 }
-
-document.addEventListener( "mousemove", e => {
-	gsuiDotline.focused && gsuiDotline.focused._mousemoveDot( e );
-} );
-document.addEventListener( "mouseup", () => {
-	gsuiDotline.focused && gsuiDotline.focused._mouseupDot();
-} );
