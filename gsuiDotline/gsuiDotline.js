@@ -24,9 +24,7 @@ class gsuiDotline {
 		this._dotMinX =
 		this._dotMaxY =
 		this._dotMinY =
-		this._mousebtn =
-		this._activeDotX =
-		this._activeDotY = 0;
+		this._mousebtn = 0;
 		this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
 		this._rootBCR =
 		this._activeDot =
@@ -216,13 +214,7 @@ class gsuiDotline {
 	_selectDotElement( id, b ) {
 		const dot = this._dots[ id ];
 
-		if ( b ) {
-			this._activeDot = dot;
-			this._activeDotX = dot.x;
-			this._activeDotY = dot.y;
-		} else {
-			this._activeDot = null;
-		}
+		this._activeDot = b ? dot : null;
 		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
 
@@ -269,7 +261,13 @@ class gsuiDotline {
 			this._selectDotElement( id, true );
 			this._pageX = e.pageX;
 			this._pageY = e.pageY;
-			if ( this._dotsMoveMode === "linked" ) {
+			if ( this._dotsMoveMode !== "linked" ) {
+				this._dotsMoving = [ dot ];
+				this._dotMaxX = dot.x;
+				this._dotMaxY = dot.y;
+				this._dotMinX = dot.x;
+				this._dotMinY = dot.y;
+			} else {
 				this._dotMaxX =
 				this._dotMaxY = -Infinity;
 				this._dotMinX =
@@ -293,6 +291,10 @@ class gsuiDotline {
 					this._dotMinX -= prevDot.x;
 				}
 			}
+			this._dotsMoving.forEach( dot => {
+				dot._saveX = dot.x;
+				dot._saveY = dot.y;
+			} );
 		}
 	}
 	_mouseupDot() {
@@ -300,45 +302,37 @@ class gsuiDotline {
 			this._selectDotElement( this._activeDot.id, false );
 		}
 		this._toggleMouseEvents( false );
+		this._dotsMoving.forEach( dot => {
+			delete dot._saveX;
+			delete dot._saveY;
+		} );
 		this._dotsMoving.length = 0;
 		this._onchange();
 	}
 	_mousemoveDot( e ) {
 		if ( this._mousebtn === 0 ) {
-			const dots = this._dots,
-				bcr = this._rootBCR,
-				opt = this._opt;
-			let incX = opt.width / bcr.width * ( e.pageX - this._pageX ),
-				incY = opt.height / bcr.height * -( e.pageY - this._pageY );
+			const opt = this._opt;
+			let incX = opt.width / this._rootBCR.width * ( e.pageX - this._pageX ),
+				incY = opt.height / this._rootBCR.height * -( e.pageY - this._pageY );
 
-			if ( this._dotsMoveMode === "free" ) {
-				const id = this._activeDot.id,
-					x = this._epureN( this._activeDotX + incX, opt.minX, opt.maxX ),
-					y = this._epureN( this._activeDotY + incY, opt.minY, opt.maxY );
+			if ( incX ) {
+				incX = incX < 0
+					? Math.max( incX, opt.minX - this._dotMinX )
+					: Math.min( incX, opt.maxX - this._dotMaxX );
+			}
+			if ( incY ) {
+				incY = incY < 0
+					? Math.max( incY, opt.minY - this._dotMinY )
+					: Math.min( incY, opt.maxY - this._dotMaxY );
+			}
+			this._dotsMoving.forEach( dot => {
+				const id = dot.id,
+					x = this._epureN( dot._saveX + incX, opt.minX, opt.maxX ),
+					y = this._epureN( dot._saveY + incY, opt.minY, opt.maxY );
 
 				this._updateDotElement( id, x, y );
 				this.oninput( id, x, y );
-			} else {
-				if ( incY ) {
-					incY = incY < 0
-						? Math.max( incY, opt.minY - this._dotMinY )
-						: Math.min( incY, opt.maxY - this._dotMaxY );
-				}
-				if ( incX ) {
-					incX = incX < 0
-						? Math.max( incX, opt.minX - this._dotMinX )
-						: Math.min( incX, opt.maxX - this._dotMaxX );
-				}
-				this._dotsMoving.forEach( dot => {
-					const id = dot.id,
-						dat = this._data[ id ],
-						x = this._epureN( dat.x + incX, opt.minX, opt.maxX ),
-						y = this._epureN( dat.y + incY, opt.minY, opt.maxY );
-
-					this._updateDotElement( id, x, y );
-					this.oninput( id, x, y );
-				} );
-			}
+			} );
 			this._drawPolyline();
 		}
 	}
