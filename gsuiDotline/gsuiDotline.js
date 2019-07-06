@@ -31,8 +31,6 @@ class gsuiDotline {
 		this._rootBCR =
 		this._activeDot =
 		this._dotsMoveMode =
-		this._fixedFirstDot =
-		this._fixedLastDot = null;
 		this._attached = false;
 		this._mouseupDot = this._mouseupDot.bind( this );
 		this._mousemoveDot = this._mousemoveDot.bind( this );
@@ -50,8 +48,8 @@ class gsuiDotline {
 			minY: 0,
 			maxX: 150,
 			maxY: 100,
-			fixedFirstDot: false,
-			fixedLastDot: false,
+			firstDotLinked: null,
+			lastDotLinked: null,
 		} );
 		this.dotsMoveMode( "free" );
 	}
@@ -74,6 +72,7 @@ class gsuiDotline {
 		Object.assign( opt, obj );
 		opt.width = opt.maxX - opt.minX;
 		opt.height = opt.maxY - opt.minY;
+		this._drawPolyline();
 	}
 	dotsMoveMode( mode ) {
 		// mode -> "free" || "linked"
@@ -114,15 +113,15 @@ class gsuiDotline {
 			dots = Object.values( this._dots ).sort( this._sortDots ),
 			svgW = this._svgW,
 			svgH = this._svgH,
-			fixDot0 = this._fixedFirstDot,
-			fixDotN = this._fixedLastDot,
 			{
 				minX, minY,
 				width, height,
+				firstDotLinked,
+				lastDotLinked,
 			} = this._opt;
 
-		if ( fixDot0 ) {
-			arr.push( 0, svgH - ( fixDot0.y - minY ) / height * svgH );
+		if ( firstDotLinked !== null ) {
+			arr.push( 0, svgH - ( firstDotLinked - minY ) / height * svgH );
 		}
 		dots.forEach( dot => {
 			arr.push(
@@ -130,8 +129,8 @@ class gsuiDotline {
 				svgH - ( dot.y - minY ) / height * svgH
 			);
 		} );
-		if ( fixDotN ) {
-			arr.push( svgW, svgH - ( fixDotN.y - minY ) / height * svgH );
+		if ( lastDotLinked !== null ) {
+			arr.push( svgW, svgH - ( lastDotLinked - minY ) / height * svgH );
 		}
 		this._elPoly.setAttribute( "points", arr.join( " " ) );
 	}
