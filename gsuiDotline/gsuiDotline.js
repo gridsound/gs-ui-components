@@ -28,7 +28,6 @@ class gsuiDotline {
 		this._nlDots = root.getElementsByClassName( "gsuiDotline-dot" );
 		this._rootBCR =
 		this._activeDot =
-		this._dotsMoveMode =
 		this._attached = false;
 		this._mouseupDot = this._mouseupDot.bind( this );
 		this._mousemoveDot = this._mousemoveDot.bind( this );
@@ -48,8 +47,8 @@ class gsuiDotline {
 			maxY: 100,
 			firstDotLinked: null,
 			lastDotLinked: null,
+			moveMode: "free",
 		} );
-		this.dotsMoveMode( "free" );
 	}
 
 	attached() {
@@ -68,16 +67,14 @@ class gsuiDotline {
 		const opt = this._opt;
 
 		Object.assign( opt, obj );
-		opt.width = opt.maxX - opt.minX;
-		opt.height = opt.maxY - opt.minY;
-		this._drawPolyline();
-		Object.values( this._dots ).forEach( d => {
-			this._updateDotElement( d.id, d.x, d.y );
-		} );
-	}
-	dotsMoveMode( mode ) {
-		// mode -> "free" || "linked"
-		this._dotsMoveMode = mode;
+		if ( this._optionsRedrawNeeded( obj ) ) {
+			opt.width = opt.maxX - opt.minX;
+			opt.height = opt.maxY - opt.minY;
+			this._drawPolyline();
+			Object.values( this._dots ).forEach( d => {
+				this._updateDotElement( d.id, d.x, d.y );
+			} );
+		}
 	}
 	updateBCR() {
 		return this._rootBCR = this.rootElement.getBoundingClientRect();
@@ -106,6 +103,17 @@ class gsuiDotline {
 	}
 
 	// private:
+	_optionsRedrawNeeded( o ) {
+		return (
+			"step" in o ||
+			"minX" in o ||
+			"minY" in o ||
+			"maxX" in o ||
+			"maxY" in o ||
+			"firstDotLinked" in o ||
+			"lastDotLinked" in o
+		);
+	}
 	_sortDots( a, b ) {
 		return a.x < b.x ? -1 : a.x > b.x ? 1 : 0;
 	}
@@ -264,7 +272,7 @@ class gsuiDotline {
 			this._selectDotElement( id, true );
 			this._pageX = e.pageX;
 			this._pageY = e.pageY;
-			if ( this._dotsMoveMode !== "linked" ) {
+			if ( this._opt.moveMode !== "linked" ) {
 				this._dotsMoving = [ dot ];
 				this._dotMaxX = dot.x;
 				this._dotMaxY = dot.y;
