@@ -71,6 +71,9 @@ class gsuiDotline {
 		opt.width = opt.maxX - opt.minX;
 		opt.height = opt.maxY - opt.minY;
 		this._drawPolyline();
+		Object.values( this._dots ).forEach( d => {
+			this._updateDotElement( d.id, d.x, d.y );
+		} );
 	}
 	dotsMoveMode( mode ) {
 		// mode -> "free" || "linked"
