@@ -224,18 +224,14 @@ class gsuiDotline {
 	}
 	_deleteDotElement( id ) {
 		this._dots[ id ].element.remove();
-		if ( this.onselect ) {
-			this.onselect( null );
-		}
+		this.onselect( null );
 		delete this._dots[ id ];
 	}
 	_selectDotElement( id, b ) {
 		const dot = this._dots[ id ];
 
 		this._activeDot = b ? dot : null;
-		if ( this.onselect ) {
-			this.onselect( dot.element );
-		}
+		this.onselect( dot.element );
 		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
 
