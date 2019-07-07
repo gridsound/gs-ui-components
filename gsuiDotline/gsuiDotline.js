@@ -8,6 +8,7 @@ class gsuiDotline {
 
 		this.rootElement = root;
 		this.oninput =
+		this.onselect =
 		this.onchange = () => {};
 		this._data = {};
 		this._dots = {};
@@ -223,12 +224,18 @@ class gsuiDotline {
 	}
 	_deleteDotElement( id ) {
 		this._dots[ id ].element.remove();
+		if ( this.onselect ) {
+			this.onselect( null );
+		}
 		delete this._dots[ id ];
 	}
 	_selectDotElement( id, b ) {
 		const dot = this._dots[ id ];
 
 		this._activeDot = b ? dot : null;
+		if ( this.onselect ) {
+			this.onselect( dot.element );
+		}
 		dot.element.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
 
@@ -348,6 +355,13 @@ class gsuiDotline {
 				this.oninput( id, x, y );
 			} );
 			this._drawPolyline();
-		}
+		} else if ( this._mousebtn === 2 ) {
+            const target = e.target;
+
+            if ( target.classList.contains( "gsuiDotline-dot" ) ) {
+                this._deleteDotElement( target.dataset.id );
+                this._drawPolyline();
+            }
+        }
 	}
 }
