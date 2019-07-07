@@ -66,15 +66,18 @@ class gsuiDotline {
 	options( obj ) {
 		const opt = this._opt;
 
-		Object.assign( opt, obj );
-		if ( this._optionsRedrawNeeded( obj ) ) {
-			opt.width = opt.maxX - opt.minX;
-			opt.height = opt.maxY - opt.minY;
-			this._drawPolyline();
-			Object.values( this._dots ).forEach( d => {
-				this._updateDotElement( d.id, d.x, d.y );
-			} );
+		if ( obj ) {
+			Object.assign( opt, obj );
+			if ( this._optionsRedrawNeeded( obj ) ) {
+				opt.width = opt.maxX - opt.minX;
+				opt.height = opt.maxY - opt.minY;
+				this._drawPolyline();
+				Object.values( this._dots ).forEach( d => {
+					this._updateDotElement( d.id, d.x, d.y );
+				} );
+			}
 		}
+		return opt;
 	}
 	updateBCR() {
 		return this._rootBCR = this.rootElement.getBoundingClientRect();
