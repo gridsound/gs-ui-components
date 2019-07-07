@@ -175,13 +175,13 @@ class gsuiDotline {
 		const o = this._opt,
 			r = this._rootBCR;
 
-		return ( px - r.left ) / r.width * o.width + o.minX;
+		return ( px - r.left - window.scrollX ) / r.width * o.width + o.minX;
 	}
 	_epurePageY( py ) {
 		const o = this._opt,
 			r = this._rootBCR;
 
-		return o.height - ( py - r.top ) / r.height * o.height + o.minY;
+		return o.height - ( py - r.top - window.scrollY ) / r.height * o.height + o.minY;
 	}
 	_epureN( n, min, max ) {
 		const step = this._opt.step,
@@ -244,11 +244,11 @@ class gsuiDotline {
 				this.oninput( id );
 			}
 		} else if ( e.button === 0 ) {
-			const bcr = this.updateBCR();
 			let isAfter = false,
 				dot,
 				prevDot;
 
+			this.updateBCR();
 			if ( id ) {
 				dot = this._dots[ id ];
 			} else {
