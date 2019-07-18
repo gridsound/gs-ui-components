@@ -1,38 +1,36 @@
 "use strict";
 
-window.SVGURL = "http://www.w3.org/2000/svg";
-
-function gsuiWaveform( svg ) {
-	this.rootElement = svg || document.createElementNS( SVGURL, "svg" );
-	this.rootElement.setAttribute( "preserveAspectRatio", "none" );
-	this.rootElement.classList.add( "gsuiWaveform" );
-	this.polygon = this.rootElement.querySelector( "polygon" );
-	if ( !this.polygon ) {
-		this.polygon = document.createElementNS( SVGURL, "polygon" );
-		this.rootElement.appendChild( this.polygon );
+class gsuiWaveform {
+	constructor( svg ) {
+		this.rootElement = svg || document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
+		this.rootElement.setAttribute( "preserveAspectRatio", "none" );
+		this.rootElement.classList.add( "gsuiWaveform" );
+		this.polygon = this.rootElement.querySelector( "polygon" );
+		if ( !this.polygon ) {
+			this.polygon = document.createElementNS( "http://www.w3.org/2000/svg", "polygon" );
+			this.rootElement.appendChild( this.polygon );
+		}
 	}
-};
 
-gsuiWaveform.prototype = {
 	remove() {
 		this.empty();
 		this.rootElement.remove();
-	},
+	}
 	empty() {
 		this.polygon.removeAttribute( "points" );
-	},
+	}
 	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
 		this.rootElement.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
-	},
+	}
 	render( buf, offset, duration ) {
 		var d0 = buf.getChannelData( 0 ),
 			d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
 
 		offset = offset || 0;
 		this.draw( d0, d1, buf.duration, offset, duration || buf.duration - offset );
-	},
+	}
 	draw( data0, data1, bufferDuration, offset, duration ) {
 		var p,
 			w = this.width,
@@ -64,4 +62,4 @@ gsuiWaveform.prototype = {
 		}
 		this.polygon.setAttribute( "points", dots0 + " " + dots1 );
 	}
-};
+}
