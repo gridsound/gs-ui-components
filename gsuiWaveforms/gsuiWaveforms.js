@@ -51,11 +51,18 @@ class gsuiWaveforms {
 			const svg = document.createElementNS( "http://www.w3.org/2000/svg", "svg" ),
 				use = document.createElementNS( "http://www.w3.org/2000/svg", "use" );
 
+			svg.dataset.id = id;
 			use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#gsuiWaveforms_${ id }` );
 			svg.setAttribute( "viewBox", `0 0 ${ wave.w } ${ wave.h }` );
 			svg.setAttribute( "preserveAspectRatio", "none" );
 			svg.append( use );
 			return svg;
 		}
+	}
+	setSVGViewbox( svg, off, dur ) {
+		const wave = this._waves.get( svg.dataset.id ),
+			div = wave.duration / wave.w;
+
+		svg.setAttribute( "viewBox", `${ off / div } 0 ${ dur / div } ${ wave.h }` );
 	}
 }
