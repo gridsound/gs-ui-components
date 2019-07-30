@@ -174,20 +174,23 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.__mousedown( e );
 	}
 	_drop( e ) {
-		const [ pattern, dur ] = e.dataTransfer.getData( "text" ).split( ":" ),
-			id = this._idMax + 1,
-			obj = {
-				pattern,
-				duration: +dur,
-				durationEdited: false,
-				selected: false,
-				offset: 0,
-				when: this.__roundBeat( this.__getWhenByPageX( e.pageX ) ),
-				track: this.__getRowByIndex( this.__getRowIndexByPageY( e.pageY ) ).dataset.track,
-			};
+		const dropData = e.dataTransfer.getData( "text" ).split( ":" );
 
-		this.data.blocks[ id ] = obj;
-		this.onchange( { blocks: { [ id ]: obj } } );
+		if ( dropData.length === 2 ) {
+			const id = this._idMax + 1,
+				obj = {
+					pattern: dropData[ 0 ],
+					duration: +dropData[ 1 ],
+					durationEdited: false,
+					selected: false,
+					offset: 0,
+					when: this.__roundBeat( this.__getWhenByPageX( e.pageX ) ),
+					track: this.__getRowByIndex( this.__getRowIndexByPageY( e.pageY ) ).dataset.track,
+				};
+
+			this.data.blocks[ id ] = obj;
+			this.onchange( { blocks: { [ id ]: obj } } );
+		}
 	}
 
 	// Block's functions
