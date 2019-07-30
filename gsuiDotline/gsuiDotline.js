@@ -162,8 +162,8 @@ class gsuiDotline {
 			} else if ( newDot.x !== x || newDot.y !== y ) {
 				diff = true;
 				obj[ id ] = {};
-				if ( newDot.x !== x ) { obj[ id ].x = newDot.x; data[ id ].x = newDot.x; };
-				if ( newDot.y !== y ) { obj[ id ].y = newDot.y; data[ id ].y = newDot.y; };
+				if ( newDot.x !== x ) { obj[ id ].x = newDot.x; data[ id ].x = newDot.x; }
+				if ( newDot.y !== y ) { obj[ id ].y = newDot.y; data[ id ].y = newDot.y; }
 			}
 		} );
 		Object.values( this._dots ).forEach( ( { id, x, y } ) => {

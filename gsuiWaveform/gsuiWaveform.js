@@ -8,7 +8,7 @@ class gsuiWaveform {
 		this.polygon = this.rootElement.querySelector( "polygon" );
 		if ( !this.polygon ) {
 			this.polygon = document.createElementNS( "http://www.w3.org/2000/svg", "polygon" );
-			this.rootElement.appendChild( this.polygon );
+			this.rootElement.append( this.polygon );
 		}
 	}
 
