@@ -75,30 +75,29 @@
 }
 
 .gsuiSynthesizer-newOsc {
+	position: relative;
 	order: 2147483647;
 	border: 0;
 	height: 52px;
-	padding: 6px;
 	color: inherit;
 	font-size: 18px;
-	font-family: "FontAwesome";
 	cursor: pointer;
 	border-radius: 2px;
 	background: none;
-	opacity: .2;
+	opacity: .4;
 	transition: .2s opacity;
 }
 .gsuiSynthesizer-newOsc:focus,
 .gsuiSynthesizer-newOsc:hover {
-	font-weight: bold;
-	opacity: .4;
+	opacity: .6;
 }
 .gsuiSynthesizer-newOsc::before {
-	display: flex;
-	box-sizing: border-box;
-	align-items: center;
-	justify-content: center;
-	content: "\f067";
-	height: 100%;
+	content: "";
+	top: 6px;
+	left: 6px;
+	right: 6px;
+	bottom: 6px;
+	opacity: .4;
 	border: 2px dashed;
+	position: absolute;
 }
