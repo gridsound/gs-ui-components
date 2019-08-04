@@ -1,7 +1,9 @@
 <div class="gsuiMixer" id="gsuiMixer-template">
 	<div class="gsuiMixer-panMain"></div>
 	<div class="gsuiMixer-panChannels">
-		<button class="gsuiMixer-addChan"></button>
+		<button class="gsuiMixer-addChan">
+			<i class="gsuiIcon" data-icon="plus"></i>
+		</button>
 	</div>
 </div>
 
@@ -9,12 +11,15 @@
 	<button class="gsuiMixerChannel-nameWrap">
 		<span class="gsuiMixerChannel-name"></span>
 	</button>
-	<button class="gsuiMixerChannel-delete" title="Remove the channel"></button>
+	<button class="gsuiMixerChannel-delete gsuiIcon" data-icon="close" title="Remove the channel"></button>
 	<div class="gsuiMixerChannel-analyserWrap">
 		<canvas class="gsuiMixerChannel-analyser"></canvas>
 	</div>
 	<button class="gsuiMixerChannel-toggle"></button>
 	<div class="gsuiMixerChannel-pan"></div>
 	<div class="gsuiMixerChannel-gain"></div>
-	<button class="gsuiMixerChannel-connect"></button>
+	<button class="gsuiMixerChannel-connect">
+		<i class="gsuiMixerChannel-connectA gsuiIcon" data-icon="caret-up"></i>
+		<i class="gsuiMixerChannel-connectB gsuiIcon" data-icon="caret-up"></i>
+	</button>
 </div>

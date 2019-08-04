@@ -56,27 +56,32 @@
 /* .gsuiMixer-addChan */
 /* .......................................................................... */
 .gsuiMixer-addChan {
+	position: relative;
 	order: 2147483646;
-	width: 36px;
-	margin: 6px;
+	width: 52px;
+	border: 0;
 	padding: 0;
-	color: #fff;
 	font-size: 18px;
+	color: #fff;
 	cursor: pointer;
-	border: 2px dashed;
 	border-radius: 2px;
 	background: none;
-	opacity: .2;
+	opacity: .4;
 	transition: .2s opacity;
 }
 .gsuiMixer-addChan:focus,
 .gsuiMixer-addChan:hover {
-	font-weight: bold;
-	opacity: .4;
+	opacity: .6;
 }
 .gsuiMixer-addChan::before {
-	content: "\f067";
-	font-family: "FontAwesome";
+	content: "";
+	top: 6px;
+	left: 6px;
+	right: 6px;
+	bottom: 6px;
+	opacity: .4;
+	border: 2px dashed;
+	position: absolute;
 }
 
 /* .gsuiMixerChannel */
@@ -117,7 +122,6 @@
 	color: inherit;
 	cursor: pointer;
 	font-size: 12px;
-	font-family: "FontAwesome";
 	line-height: 1em;
 	background: none;
 	transition: opacity .2s;
@@ -126,15 +130,11 @@
 	display: none;
 }
 .gsuiMixerChannel:hover .gsuiMixerChannel-delete {
-	opacity: .3;
+	opacity: .5;
 }
 .gsuiMixerChannel .gsuiMixerChannel-delete:focus,
 .gsuiMixerChannel .gsuiMixerChannel-delete:hover {
-	font-weight: bold;
-	opacity: .8;
-}
-.gsuiMixerChannel-delete::before {
-	content: "\f00d";
+	opacity: 1;
 }
 
 /* .......................................................................... */
@@ -234,26 +234,13 @@
 	z-index: 1;
 	padding: 0;
 	min-height: 18px;
-	color: rgba( 0, 0, 0, .3 );
 	cursor: pointer;
-	background-color: transparent;
-	transition: .2s color;
-}
-.gsuiMixerChannel-connect::before,
-.gsuiMixerChannel-connect::after {
-	position: relative;
 	font-size: 16px;
-	font-family: "FontAwesome";
+	background-color: transparent;
+}
+.gsuiMixerChannel-connectA {
 	color: var( --gsuiMixerChannel-connect-output-color );
 }
-.gsuiMixerChannel-connect::after {
+.gsuiMixerChannel-connectB {
 	color: var( --gsuiMixerChannel-connect-input-color );
-}
-.gsuiMixerChannel-connect.gsuiMixerChannel-leftup::before,
-.gsuiMixerChannel-connect.gsuiMixerChannel-rightup::after {
-	content: "\f0d8";
-}
-.gsuiMixerChannel-connect.gsuiMixerChannel-leftdown::before,
-.gsuiMixerChannel-connect.gsuiMixerChannel-rightdown::after {
-	content: "\f0d7";
 }

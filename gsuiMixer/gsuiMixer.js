@@ -128,23 +128,20 @@ class gsuiMixer {
 		if ( selId ) {
 			const data = this.data,
 				chanDest = data[ selId ].dest,
-				chan = this._channels[ selId ];
-			let rdOnce = false;
+				html = this._channels[ selId ];
+			let bOnce = false;
 
 			Object.entries( data ).forEach( ( [ id, chan ] ) => {
-				const conn = this._channels[ id ].connect.classList,
-					lu = id === chanDest,
-					rd = chan.dest === selId;
+				const html = this._channels[ id ],
+					a = id === chanDest,
+					b = chan.dest === selId;
 
-				conn.remove(
-					"gsuiMixerChannel-leftdown",
-					"gsuiMixerChannel-rightup" );
-				conn.toggle( "gsuiMixerChannel-leftup", lu );
-				conn.toggle( "gsuiMixerChannel-rightdown", rd );
-				rdOnce = rdOnce || rd;
+				html.connectA.dataset.icon = a ? "caret-up" : "";
+				html.connectB.dataset.icon = b ? "caret-down" : "";
+				bOnce = bOnce || b;
 			} );
-			chan.connect.classList.toggle( "gsuiMixerChannel-leftdown", selId !== "main" );
-			chan.connect.classList.toggle( "gsuiMixerChannel-rightup", rdOnce );
+			html.connectA.dataset.icon = selId !== "main" ? "caret-down" : "";
+			html.connectB.dataset.icon = bOnce ? "caret-up" : "";
 		}
 	}
 	_getChan( id ) {
@@ -167,7 +164,8 @@ class gsuiMixer {
 			canvas = qs( "analyser" ),
 			html = { root, pan, gain,
 				name: qs( "name" ),
-				connect: qs( "connect" ),
+				connectA: qs( "connectA" ),
+				connectB: qs( "connectB" ),
 				analyser: new gsuiAnalyser(),
 			};
 
@@ -197,7 +195,7 @@ class gsuiMixer {
 		qs( "nameWrap" ).onclick = this.selectChan.bind( this, id );
 		qs( "toggle" ).onclick = this._onclickToggleChan.bind( this, id );
 		qs( "delete" ).onclick = this._onclickDeleteChan.bind( this, id );
-		html.connect.onclick = this._setChanDest.bind( this, id );
+		qs( "connect" ).onclick = this._setChanDest.bind( this, id );
 		( this._pmain.firstElementChild
 			? this._pchannels
 			: this._pmain ).append( root );
