@@ -46,6 +46,7 @@
 	content: "\10f3f4";
 	animation: .7s infinite linear gsuiIcon-spin;
 }
+
 @keyframes gsuiIcon-spin {
 	from { transform: rotate( 0deg ); }
 	to { transform: rotate( 360deg ); }
