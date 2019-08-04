@@ -55,15 +55,6 @@
 	white-space: nowrap;
 	margin-right: 6px;
 }
-.gsuiBlocksManager-magnet::after {
-	content: "\f076";
-	font-family: "FontAwesome";
-	opacity: .7;
-}
-.gsuiBlocksManager-magnet:focus::after,
-.gsuiBlocksManager-magnet:hover::after {
-	font-weight: bold;
-}
 
 /* .......................................................................... */
 .gsuiBlocksManager-rows,
