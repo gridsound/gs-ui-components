@@ -94,7 +94,7 @@ const gsuiPopup = new class {
 				this.elText.select();
 			} else {
 				const inp = type !== "custom" ? null
-					: this.elCnt.querySelector( "input" );
+					: this.elCnt.querySelector( "input, select" );
 
 				( inp || this.elOk ).focus();
 			}
