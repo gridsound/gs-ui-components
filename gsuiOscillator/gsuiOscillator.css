@@ -103,23 +103,18 @@
 	cursor: pointer;
 	background: none;
 }
-.gsuiOscillator-typeLink,
-.gsuiOscillator-remove {
-	opacity: .3;
-	transition: .1s opacity;
-	font-family: "FontAwesome";
-}
 .gsuiOscillator-typeLink:focus,
 .gsuiOscillator-typeLink:hover,
 .gsuiOscillator-remove:focus,
 .gsuiOscillator-remove:hover {
-	font-weight: bold;
-	opacity: .8;
+	opacity: 1;
 }
 .gsuiOscillator-typeLink {
 	width: 14px;
 	font-size: 16px;
 	text-align: center;
+	opacity: .6;
+	transition: .1s opacity;
 }
 .gsuiOscillator-type select {
 	width: 100%;
@@ -141,7 +136,6 @@ option.gsuiOscillator-nativeWave {
 	top: 0;
 	right: 2px;
 	font-size: 12px;
+	opacity: .4;
+	transition: .1s opacity;
 }
-.gsuiOscillator-remove::before { content: "\f00d"; }
-.gsuiOscillator-typePrev::before { content: "\f0d9"; }
-.gsuiOscillator-typeNext::before { content: "\f0da"; }
