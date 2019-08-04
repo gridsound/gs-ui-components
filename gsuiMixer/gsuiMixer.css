@@ -19,6 +19,7 @@
 .gsuiMixer {
 	height: 100%;
 	position: relative;
+	color: var( --gsuiMixerChannel-color );
 	background-color: var( --gsuiMixer-bg );
 	user-select: none;
 	-webkit-user-select: none;
@@ -62,7 +63,7 @@
 	border: 0;
 	padding: 0;
 	font-size: 18px;
-	color: #fff;
+	color: inherit;
 	cursor: pointer;
 	border-radius: 2px;
 	background: none;
@@ -92,7 +93,6 @@
 	align-items: center;
 	flex-direction: column;
 	height: 100%;
-	color: var( --gsuiMixerChannel-color );
 	width: var( --gsuiMixerChannel-width );
 	min-width: var( --gsuiMixerChannel-width );
 	background-color: var( --gsuiMixerChannel-bg );
