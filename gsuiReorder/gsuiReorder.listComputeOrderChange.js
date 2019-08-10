@@ -7,7 +7,7 @@ gsuiReorder.listComputeOrderChange = list => {
 
 	Array.prototype.forEach.call( list.children, el => {
 		if ( "id" in el.dataset && "order" in el.dataset ) {
-			if ( el.dataset.order !== i ) {
+			if ( +el.dataset.order !== i ) {
 				filled = true;
 				obj[ el.dataset.id ] = { order: i };
 			}
