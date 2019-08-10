@@ -193,6 +193,11 @@
 .gsuiIcon[ data-icon="cookie" ]:hover::before { content: "\f564"; }
 .gsuiIcon[ data-icon="cookie" ]:hover::after { content: "\10f564"; }
 
+.gsuiIcon[ data-icon="grip-h" ]::before { content: "\f58d"; }
+.gsuiIcon[ data-icon="grip-h" ]::after { content: "\10f58d"; }
+.gsuiIcon[ data-icon="grip-v" ]::before { content: "\f58e"; }
+.gsuiIcon[ data-icon="grip-v" ]::after { content: "\10f58e"; }
+
 .gsuiIcon[ data-icon="clone" ]::before { content: "\f24d"; }
 .gsuiIcon[ data-icon="clone" ]::after { content: "\10f24d"; }
 
