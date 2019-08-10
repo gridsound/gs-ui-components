@@ -10,8 +10,6 @@ class gsuiReorder {
 		this._itemDragover =
 		this._parentDragover =
 		this._elDraggedParent = null;
-		this._xDragover =
-		this._yDragover =
 		this._indDragged = 0;
 		this._droppedInside = false;
 		this._selectors = Object.seal( { item: "", handle: "", parent: "" } );
@@ -86,11 +84,9 @@ class gsuiReorder {
 				if ( elOver && elOver.lastElementChild !== elDrag ) {
 					elOver.append( elDrag );
 				}
-			} else if ( this._xDragover !== e.pageX || this._yDragover !== e.pageY ) {
+			} else {
 				const bcr = elOver.getBoundingClientRect();
 
-				this._xDragover = e.pageX;
-				this._yDragover = e.pageY;
 				if ( e.clientY < bcr.top + bcr.height / 2 ) {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
