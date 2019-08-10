@@ -2,7 +2,8 @@
 
 class gsuiSynthesizer {
 	constructor() {
-		const root = gsuiSynthesizer.template.cloneNode( true );
+		const root = gsuiSynthesizer.template.cloneNode( true ),
+			dnd = new gsuiReorder();
 
 		this.rootElement = root;
 		this._waveList = [];
@@ -19,6 +20,13 @@ class gsuiSynthesizer {
 
 		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
 		this.empty();
+		dnd.onchange = this._onreorder.bind( this );
+		dnd.setRootElement( this._elOscList );
+		dnd.setSelectors( {
+			item: ".gsuiOscillator",
+			handle: ".gsuiOscillator-grip",
+			parent: ".gsuiSynthesizer-oscList",
+		} );
 	}
 
 	remove() {
@@ -53,6 +61,7 @@ class gsuiSynthesizer {
 					: this._createOsc( id, osc )
 					: this._deleteOsc( id );
 			} );
+			gsuiReorder.listReorder( this._elOscList );
 		}
 	}
 
@@ -102,6 +111,11 @@ class gsuiSynthesizer {
 	}
 
 	// events:
+	_onreorder() {
+		const oscillators = gsuiReorder.listComputeOrderChange( this._elOscList );
+
+		this.onchange( { oscillators } );
+	}
 	_onclickNewOsc() {
 		const id = `${ this._nextOscId }`,
 			osc = {
