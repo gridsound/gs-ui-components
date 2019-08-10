@@ -8,7 +8,10 @@ class gsuiReorder {
 		this._elDragged =
 		this._elDragover =
 		this._itemDragover =
+		this._parentDragover =
 		this._elDraggedParent = null;
+		this._xDragover =
+		this._yDragover =
 		this._indDragged = 0;
 		this._droppedInside = false;
 		this._selectors = Object.seal( { item: "", handle: "", parent: "" } );
@@ -67,18 +70,27 @@ class gsuiReorder {
 		}
 	}
 	_ondragover( e ) {
-		const elDrag = this._elDragged;
-
-		if ( elDrag ) {
-			const elOver = e.target === this._elDragover
+		if ( this._elDragged ) {
+			const tar = e.target,
+				elDrag = this._elDragged,
+				elOver = tar === this._elDragover
 					? this._itemDragover
-					: e.target.closest( this._selectors.item );
+					: tar.closest( this._selectors.item );
 
-			this._elDragover = e.target;
-			this._itemDragover = elOver;
-			if ( elOver ) {
+			if ( !elOver ) {
+				const elOver = tar === this._elDragover
+						? this._parentDragover
+						: tar.closest( this._selectors.parent );
+
+				this._parentDragover = elOver;
+				if ( elOver && elOver.lastElementChild !== elDrag ) {
+					elOver.append( elDrag );
+				}
+			} else if ( this._xDragover !== e.pageX || this._yDragover !== e.pageY ) {
 				const bcr = elOver.getBoundingClientRect();
 
+				this._xDragover = e.pageX;
+				this._yDragover = e.pageY;
 				if ( e.clientY < bcr.top + bcr.height / 2 ) {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
@@ -86,14 +98,9 @@ class gsuiReorder {
 				} else if ( elOver.nextElementSibling !== elDrag ) {
 					elOver.after( elDrag );
 				}
-				e.preventDefault();
-			} else {
-				const elOver = e.target.closest( this._selectors.parent );
-
-				if ( elOver && elOver.lastElementChild !== elDrag ) {
-					elOver.append( elDrag );
-				}
 			}
+			this._elDragover = tar;
+			this._itemDragover = elOver;
 		}
 	}
 	_ondrop( e ) {
