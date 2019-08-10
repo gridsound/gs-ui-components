@@ -87,6 +87,9 @@ class gsuiOscillator {
 			this._elSelect.value =
 			this.store.type = obj.type;
 		}
+		if ( "order" in obj ) {
+			this.rootElement.dataset.order = obj.order;
+		}
 		if ( "gain" in obj ) {
 			waveDraw = true;
 			this._gain = obj.gain;
