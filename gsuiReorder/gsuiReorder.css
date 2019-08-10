@@ -1,0 +1,16 @@
+:root {
+	--gsuiReorder-dragging-bg: #000;
+}
+
+.gsuiReorder-dragging {
+	position: relative;
+}
+.gsuiReorder-dragging::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var( --gsuiReorder-dragging-bg );
+}
