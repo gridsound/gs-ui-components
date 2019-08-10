@@ -18,32 +18,35 @@
 	left: 0;
 	right: 0;
 	display: flex;
-	padding: 0 6px;
 	box-sizing: border-box;
 	flex-direction: column;
 	justify-content: center;
 	height: var( --gsuiSynthesizer-head-height );
 }
 .gsuiSynthesizer-title {
-	opacity: .25;
+	padding-left: 6px;
 	font-size: 14px;
+	opacity: .25;
 }
 .gsuiSynthesizer-labels {
 	display: flex;
-	opacity: .5;
+	padding-right: 8px;
+	text-align: center;
 	font-size: 12px;
+	opacity: .5;
 }
 .gsuiSynthesizer-label-no {
-	width: 18px;
+	width: 20px;
 }
 .gsuiSynthesizer-label-wave {
 	flex: 1;
-	text-align: center;
+	margin-left: 6px;
 }
 .gsuiSynthesizer-label-attr {
+	display: flex;
+	justify-content: center;
 	width: 40px;
-	text-align: center;
-	padding-left: 14px;
+	margin-left: 14px;
 }
 
 .gsuiSynthesizer-oscList {
