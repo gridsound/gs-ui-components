@@ -72,7 +72,7 @@ class gsuiReorder {
 		if ( elDrag ) {
 			const elOver = e.target === this._elDragover
 					? this._itemDragover
-					: lg(e.target.closest( this._selectors.item ), "CLOSEST A");
+					: e.target.closest( this._selectors.item );
 
 			this._elDragover = e.target;
 			this._itemDragover = elOver;
@@ -88,7 +88,7 @@ class gsuiReorder {
 				}
 				e.preventDefault();
 			} else {
-				const elOver = lg(e.target.closest( this._selectors.parent ), "CLOSEST B");
+				const elOver = e.target.closest( this._selectors.parent );
 
 				if ( elOver && elOver.lastElementChild !== elDrag ) {
 					elOver.append( elDrag );
