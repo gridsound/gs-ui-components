@@ -80,14 +80,7 @@ class gsuiSynthesizer {
 			uiosc.change( osc );
 			uiosc.rootElement.dataset.id = id;
 			uiosc.rootElement.dataset.order = osc.order;
-			if ( !Array.from( this._nlOscs ).some( el => {
-				if ( osc.order <= +el.dataset.order ) {
-					el.before( uiosc.rootElement );
-					return true;
-				}
-			} ) ) {
-				this._elNewOsc.before( uiosc.rootElement );
-			}
+			this._elOscList.append( uiosc.rootElement );
 			this._attached && uiosc.attached();
 		}
 	}
