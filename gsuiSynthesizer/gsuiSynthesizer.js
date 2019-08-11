@@ -112,7 +112,7 @@ class gsuiSynthesizer {
 
 	// events:
 	_onreorder() {
-		const oscillators = gsuiReorder.listComputeOrderChange( this._elOscList );
+		const oscillators = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
 
 		this.onchange( { oscillators } );
 	}
@@ -137,8 +137,11 @@ class gsuiSynthesizer {
 		this.onchange( { oscillators: { [ id ]: obj } } );
 	}
 	_onremoveOsc( id ) {
+		const oscillators = { [ id ]: undefined };
+
 		this._deleteOsc( id );
-		this.onchange( { oscillators: { [ id ]: undefined } } );
+		gsuiReorder.listComputeOrderChange( this._elOscList, oscillators );
+		this.onchange( { oscillators } );
 	}
 }
 
