@@ -53,15 +53,15 @@ class gsuiSynthesizer {
 		this._waveList = arr;
 		this._uioscs.forEach( o => o.addWaves( arr ) );
 	}
-	change( obj ) {
-		if ( obj.oscillators ) {
-			Object.entries( obj.oscillators ).forEach( ( [ id, osc ] ) => {
+	change( { oscillators } ) {
+		if ( oscillators ) {
+			Object.entries( oscillators ).forEach( ( [ id, osc ] ) => {
 				osc ? this._uioscs.has( id )
 					? this._updateOsc( id, osc )
 					: this._createOsc( id, osc )
 					: this._deleteOsc( id );
 			} );
-			gsuiReorder.listReorder( this._elOscList );
+			gsuiReorder.listReorder( this._elOscList, oscillators );
 		}
 	}
 
