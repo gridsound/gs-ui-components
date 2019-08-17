@@ -13,6 +13,7 @@ class gsuiReorder {
 		this._elDraggedParent = null;
 		this._indDragged = 0;
 		this._droppedInside = false;
+		this._preventDefault = true;
 		this._selectors = Object.seal( { item: "", handle: "", parent: "" } );
 		this._onmousedown = this._onmousedown.bind( this );
 		this._ondragstart = this._ondragstart.bind( this );
@@ -24,6 +25,9 @@ class gsuiReorder {
 
 	setSelectors( sels ) {
 		Object.assign( this._selectors, sels );
+	}
+	preventDefault( b ) {
+		this._preventDefault = b;
 	}
 	setRootElement( el ) {
 		const elPrev = this.rootElement;
@@ -66,6 +70,8 @@ class gsuiReorder {
 			e.dataTransfer.effectAllowed = "move";
 			e.dataTransfer.setData( "text", this.setDataTransfert( elItem ) );
 			setTimeout( () => this._elDragged.classList.add( "gsuiReorder-dragging" ), 20 );
+		} else if ( this._preventDefault ) {
+			e.preventDefault();
 		}
 	}
 	_ondragover( e ) {
