@@ -3,6 +3,7 @@
 class gsuiReorder {
 	constructor() {
 		this.onchange = () => {};
+		this.setDataTransfert = () => "";
 		this.rootElement =
 		this._elClicked =
 		this._elDragged =
@@ -63,7 +64,7 @@ class gsuiReorder {
 			this._elDraggedParent = elItem.parentNode;
 			this._indDragged = this._getIndex( elItem );
 			e.dataTransfer.effectAllowed = "move";
-			e.dataTransfer.setData( "text", "" );
+			e.dataTransfer.setData( "text", this.setDataTransfert( elItem ) );
 			setTimeout( () => this._elDragged.classList.add( "gsuiReorder-dragging" ), 20 );
 		}
 	}
