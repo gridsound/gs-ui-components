@@ -3,7 +3,8 @@
 class gsuiMixer {
 	constructor() {
 		const root = gsuiMixer.template.cloneNode( true ),
-			addBtn = root.querySelector( ".gsuiMixer-addChan" );
+			addBtn = root.querySelector( ".gsuiMixer-addChan" ),
+			dnd = new gsuiReorder();
 
 		this.rootElement = root;
 		this.data = this._changeCreateData();
@@ -24,6 +25,14 @@ class gsuiMixer {
 		Object.seal( this );
 
 		addBtn.onclick = this._onclickAddChan.bind( this );
+		dnd.onchange = this._onreorder.bind( this );
+		dnd.setDirection( "h" );
+		dnd.setRootElement( root );
+		dnd.setSelectors( {
+			item: ".gsuiMixerChannel",
+			handle: ".gsuiMixerChannel-grip",
+			parent: ".gsuiMixer-panChannels",
+		} );
 		this.reset();
 	}
 
@@ -71,6 +80,11 @@ class gsuiMixer {
 
 	// events:
 	// .........................................................................
+	_onreorder() {
+		const obj = gsuiReorder.listComputeOrderChange( this._pchannels, {} );
+
+		this.onchange( obj );
+	}
 	_oninput( id, prop, val ) {
 		this.oninput( id, prop, val );
 	}
@@ -105,7 +119,8 @@ class gsuiMixer {
 				this.data[ kv[ 0 ] ].dest = "main";
 			}
 		} );
-		delete this.data[ id ];
+		this._changeDeleteChan( id );
+		gsuiReorder.listComputeOrderChange( this._pchannels, obj );
 		this.onchange( obj );
 	}
 
@@ -185,9 +200,7 @@ class gsuiMixer {
 		qs( "toggle" ).onclick = this._onclickToggleChan.bind( this, id );
 		qs( "delete" ).onclick = this._onclickDeleteChan.bind( this, id );
 		qs( "connect" ).onclick = this._setChanDest.bind( this, id );
-		( this._pmain.firstElementChild
-			? this._pchannels
-			: this._pmain ).append( root );
+		( id === "main" ? this._pmain : this._pchannels ).append( root );
 		if ( this._attached ) {
 			pan.attached();
 			gain.attached();
@@ -231,7 +244,7 @@ class gsuiMixer {
 			case "gain": el.gain.setValue( val ); break;
 			case "name": el.name.textContent = val; break;
 			case "dest": this._updateChanConnections(); break;
-			case "order": el.root.style.order = val; break;
+			case "order": el.root.dataset.order = val; break;
 			case "toggle": el.root.classList.toggle( "gsuiMixerChannel-muted", !val ); break;
 		}
 	}
@@ -240,13 +253,12 @@ class gsuiMixer {
 	// .........................................................................
 	change( obj ) {
 		Object.entries( obj ).forEach( this._changeForEach, this );
+		gsuiReorder.listReorder( this._pchannels, obj );
 	}
 	_changeForEach( [ id, chan ] ) {
-		const dataChan = this.data[ id ];
-
 		if ( !chan ) {
 			this._changeDeleteChan( id );
-		} else if ( !dataChan ) {
+		} else if ( !this.data[ id ] ) {
 			this._changeAddChan( id, chan );
 		} else {
 			Object.entries( chan ).forEach( this._changeUpdateChan.bind( this, id ) );
@@ -280,7 +292,7 @@ class gsuiMixer {
 		this.onupdateChan( id, prop, val );
 	}
 	_changeDeleteChan( id ) {
-		if ( id !== "main" ) {
+		if ( id !== "main" && id in this.data ) {
 			delete this.data[ id ];
 			this._deleteChan( id );
 			this.ondeleteChan( id );
