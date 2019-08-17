@@ -13,6 +13,7 @@ class gsuiReorder {
 		this._elDraggedParent = null;
 		this._indDragged = 0;
 		this._droppedInside = false;
+		this._isVertical =
 		this._preventDefault = true;
 		this._selectors = Object.seal( { item: "", handle: "", parent: "" } );
 		this._onmousedown = this._onmousedown.bind( this );
@@ -23,6 +24,9 @@ class gsuiReorder {
 		Object.seal( this );
 	}
 
+	setDirection( dir ) {
+		this._isVertical = dir === "v";
+	}
 	setSelectors( sels ) {
 		Object.assign( this._selectors, sels );
 	}
@@ -92,9 +96,12 @@ class gsuiReorder {
 					elOver.append( elDrag );
 				}
 			} else {
-				const bcr = elOver.getBoundingClientRect();
+				const bcr = elOver.getBoundingClientRect(),
+					isV = this._isVertical;
 
-				if ( e.clientY < bcr.top + bcr.height / 2 ) {
+				if ( ( isV && e.clientY < bcr.top + bcr.height / 2 ) ||
+					( !isV && e.clientX < bcr.left + bcr.width / 2 )
+				) {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
 					}
