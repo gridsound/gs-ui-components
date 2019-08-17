@@ -6,6 +6,7 @@ class gsuiMixer {
 			addBtn = root.querySelector( ".gsuiMixer-addChan" );
 
 		this.rootElement = root;
+		this.data = this._changeCreateData();
 		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
 		this._pchannels = root.querySelector( ".gsuiMixer-panChannels" );
 		this._channels = {};
@@ -20,11 +21,10 @@ class gsuiMixer {
 		this._maxOrder = 0;
 		this._analyserH = 10;
 		this._attached = false;
-		this.data = this._proxInit();
 		Object.seal( this );
 
 		addBtn.onclick = this._onclickAddChan.bind( this );
-		this.empty();
+		this.reset();
 	}
 
 	attached() {
@@ -51,25 +51,11 @@ class gsuiMixer {
 	updateAudioData( id, ldata, rdata ) {
 		this._channels[ id ].analyser.draw( ldata, rdata );
 	}
-	empty() {
-		const main = {
-				order: 0,
-				toggle: true,
-				name: "",
-				gain: 1,
-				pan: 0,
-			};
-
-		Object.keys( this.data ).forEach( id => {
-			if ( id !== "main" ) {
-				delete this.data[ id ];
-			}
-		} );
-		if ( this.data.main ) {
-			Object.assign( this.data.main, main );
-		} else {
-			this.data.main = main;
-		}
+	reset() {
+		Object.keys( this.data ).forEach( this._changeDeleteChan, this );
+		this._maxId =
+		this._maxOrder = 0;
+		this._changeAddChan( "main", { gain: 1 } );
 		this.selectChan( "main" );
 	}
 	selectChan( id ) {
@@ -84,6 +70,7 @@ class gsuiMixer {
 	}
 
 	// events:
+	// .........................................................................
 	_oninput( id, prop, val ) {
 		this.oninput( id, prop, val );
 	}
@@ -97,15 +84,16 @@ class gsuiMixer {
 	_onclickAddChan() {
 		const id = this._maxId + 1,
 			obj = {
-				dest: "main",
-				toggle: true,
 				order: this._maxOrder + 1,
+				toggle: true,
 				name: `chan ${ this._pchannels.children.length }`,
 				gain: 1,
 				pan: 0,
+				dest: "main",
 			};
 
 		this.data[ id ] = obj;
+		this._changeAddChan( id, obj );
 		this.onchange( { [ id ]: obj } );
 	}
 	_onclickDeleteChan( id ) {
@@ -122,6 +110,7 @@ class gsuiMixer {
 	}
 
 	// private:
+	// .........................................................................
 	_updateChanConnections() {
 		const selId = this._chanSelected;
 
@@ -247,35 +236,31 @@ class gsuiMixer {
 		}
 	}
 
-	// proxy:
-	_proxInit() {
-		return new Proxy( {}, {
-			set: this._proxAddChan.bind( this ),
-			deleteProperty: this._proxDeleteChan.bind( this ),
-		} );
+	// data:
+	// .........................................................................
+	change( obj ) {
+		Object.entries( obj ).forEach( this._changeForEach, this );
 	}
-	_proxAddChan( tar, id, obj ) {
-		this._proxDeleteChan( tar, id );
-		return this.__proxAddChan( tar, id, obj );
-	}
-	_proxUpdateChan( id, tar, prop, val ) {
-		tar[ prop ] = val;
-		this._updateChan( id, prop, val );
-		this.onupdateChan( id, prop, val );
-		return true;
-	}
-	_proxDeleteChan( tar, id ) {
-		if ( id in tar ) {
-			delete tar[ id ];
-			this._deleteChan( id );
-			this.ondeleteChan( id );
+	_changeForEach( [ id, chan ] ) {
+		const dataChan = this.data[ id ];
+
+		if ( !chan ) {
+			this._changeDeleteChan( id );
+		} else if ( !dataChan ) {
+			this._changeAddChan( id, chan );
+		} else {
+			Object.entries( chan ).forEach( this._changeUpdateChan.bind( this, id ) );
 		}
-		return true;
 	}
-	__proxNewChan( id ) {
+	_changeCreateData() {
+		const main = this._changeCreateChan( "main" );
+
+		return { main };
+	}
+	_changeCreateChan( id ) {
 		const ch = {
-				toggle: true,
 				order: 0,
+				toggle: true,
 				name: "",
 				gain: 0,
 				pan: 0,
@@ -286,24 +271,37 @@ class gsuiMixer {
 		}
 		return Object.seal( ch );
 	}
-	__proxAddChan( tar, id, obj ) {
-		const updateChan = this._proxUpdateChan.bind( this, id ),
-			chan = new Proxy( this.__proxNewChan( id ), { set: updateChan } );
+	_changeUpdateChan( id, [ prop, val ] ) {
+		this.data[ id ][ prop ] = val;
+		this._changeUpdateChanUI( id, prop, val );
+	}
+	_changeUpdateChanUI( id, prop, val ) {
+		this._updateChan( id, prop, val );
+		this.onupdateChan( id, prop, val );
+	}
+	_changeDeleteChan( id ) {
+		if ( id !== "main" ) {
+			delete this.data[ id ];
+			this._deleteChan( id );
+			this.ondeleteChan( id );
+		}
+	}
+	_changeAddChan( id, objChan ) {
+		const chan = Object.assign( this._changeCreateChan( id ), objChan );
 
-		tar[ id ] = chan;
+		this.data[ id ] = chan;
 		this._maxId = Math.max( this._maxId, id ) || 0; // 1.
-		this._maxOrder = Math.max( this._maxOrder, obj.order );
+		this._maxOrder = Math.max( this._maxOrder, chan.order );
 		this._addChan( id );
 		this.onaddChan( id, chan );
-		chan.pan = obj.pan;
-		chan.gain = obj.gain;
-		chan.name = obj.name;
-		chan.toggle = obj.toggle;
-		chan.order = obj.order;
-		if ( obj.dest ) {
-			chan.dest = obj.dest;
+		this._changeUpdateChanUI( id, "order", chan.order );
+		this._changeUpdateChanUI( id, "toggle", chan.toggle );
+		this._changeUpdateChanUI( id, "name", chan.name );
+		this._changeUpdateChanUI( id, "gain", chan.gain );
+		this._changeUpdateChanUI( id, "pan", chan.pan );
+		if ( chan.dest ) {
+			this._changeUpdateChanUI( id, "dest", chan.dest );
 		}
-		return true;
 	}
 }
 
