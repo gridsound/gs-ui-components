@@ -34,6 +34,7 @@ class gsuiMixer {
 			parent: ".gsuiMixer-panChannels",
 		} );
 		this.change( this._changeCreateData() );
+		this.selectChan( "main" );
 	}
 
 	attached() {
