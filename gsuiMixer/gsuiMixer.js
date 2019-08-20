@@ -7,7 +7,7 @@ class gsuiMixer {
 			dnd = new gsuiReorder();
 
 		this.rootElement = root;
-		this.data = this._changeCreateData();
+		this.data = {};
 		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
 		this._pchannels = root.querySelector( ".gsuiMixer-panChannels" );
 		this._channels = {};
@@ -33,7 +33,7 @@ class gsuiMixer {
 			handle: ".gsuiMixerChannel-grip",
 			parent: ".gsuiMixer-panChannels",
 		} );
-		this.reset();
+		this.change( this._changeCreateData() );
 	}
 
 	attached() {
@@ -64,7 +64,11 @@ class gsuiMixer {
 		Object.keys( this.data ).forEach( this._changeDeleteChan, this );
 		this._maxId =
 		this._maxOrder = 0;
-		this._changeAddChan( "main", { gain: 1 } );
+		this._changeUpdateChan( "main", {
+			toggle: true,
+			gain: 1,
+			pan: 0,
+		} );
 		this.selectChan( "main" );
 	}
 	selectChan( id ) {
@@ -261,7 +265,7 @@ class gsuiMixer {
 		} else if ( !this.data[ id ] ) {
 			this._changeAddChan( id, chan );
 		} else {
-			Object.entries( chan ).forEach( this._changeUpdateChan.bind( this, id ) );
+			this._changeUpdateChan( id, chan );
 		}
 	}
 	_changeCreateData() {
@@ -283,9 +287,13 @@ class gsuiMixer {
 		}
 		return Object.seal( ch );
 	}
-	_changeUpdateChan( id, [ prop, val ] ) {
-		this.data[ id ][ prop ] = val;
-		this._changeUpdateChanUI( id, prop, val );
+	_changeUpdateChan( id, obj ) {
+		const chan = this.data[ id ];
+
+		Object.entries( obj ).forEach( ( [ prop, val ] ) => {
+			chan[ prop ] = val;
+			this._changeUpdateChanUI( id, prop, val );
+		} );
 	}
 	_changeUpdateChanUI( id, prop, val ) {
 		this._updateChan( id, prop, val );
