@@ -1,0 +1,30 @@
+:root {
+	--gsuiWindows-overflow: auto;
+}
+
+.gsuiWindows {
+	position: relative;
+	overflow: var( --gsuiWindows-overflow );
+}
+
+.gsuiWindows.gsuiWindows-maximized {
+	overflow: hidden;
+}
+
+.gsuiWindows-drag-layer {
+	visibility: hidden;
+	overflow: hidden;
+	position: absolute;
+	z-index: 2147483647;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transition: 0s;
+	transition-delay: 0s;
+	transition-property: visibility;
+}
+.gsuiWindows-dragging .gsuiWindows-drag-layer {
+	visibility: visible;
+	transition-delay: .25s;
+}
