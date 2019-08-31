@@ -44,10 +44,11 @@ class gsuiMixer {
 			handle: ".gsuiMixerChannel-grip",
 			parent: ".gsuiMixer-panChannels",
 		} );
-		dnd.onchange = () => {
-			const obj = gsuiReorder.listComputeOrderChange( this._pchans, {} );
+		dnd.onchange = elChan => {
+			const obj = gsuiReorder.listComputeOrderChange( this._pchans, {} ),
+				chanName = this.gsdata.data[ elChan.dataset.id ].name;
 
-			this.onchange( obj );
+			this.onchange( obj, [ "mixer", "reorderChan", chanName ] );
 		};
 		this.empty();
 		this.selectChan( "main" );
