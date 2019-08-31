@@ -84,6 +84,8 @@
 .gsuiIcon[ data-icon="arrows-h" ]::before { content: "\f337"; }
 .gsuiIcon[ data-icon="arrows-h" ]::after { content: "\10f337"; }
 
+.gsuiIcon[ data-icon="sort" ]::before { content: "\f0dc"; }
+.gsuiIcon[ data-icon="sort" ]::after { content: "\10f0dc"; }
 .gsuiIcon[ data-icon="caret-up" ]::before { content: "\f0d8"; }
 .gsuiIcon[ data-icon="caret-up" ]::after { content: "\10f0d8"; }
 .gsuiIcon[ data-icon="caret-down" ]::before { content: "\f0d7"; }
