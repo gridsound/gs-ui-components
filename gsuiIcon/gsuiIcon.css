@@ -112,8 +112,8 @@
 .gsuiIcon[ data-icon="loop" ]::after { content: "\10f364"; }
 .gsuiIcon[ data-icon="pause" ]::before { content: "\f04c"; opacity: .6; }
 .gsuiIcon[ data-icon="pause" ]::after { content: "\10f04c"; opacity: 1; }
-.gsuiIcon[ data-icon="mute" ]::before { content: "\f026"; }
-.gsuiIcon[ data-icon="mute" ]::after { content: "\10f026"; }
+.gsuiIcon[ data-icon="mute" ]::before { content: "\f2e2"; }
+.gsuiIcon[ data-icon="mute" ]::after { content: "\10f2e2"; }
 .gsuiIcon[ data-icon="unmute" ]::before { content: "\f028"; }
 .gsuiIcon[ data-icon="unmute" ]::after { content: "\10f028"; }
 
@@ -159,10 +159,20 @@
 .gsuiIcon[ data-icon="history" ]::before { content: "\f1da"; }
 .gsuiIcon[ data-icon="history" ]::after { content: "\10f1da"; }
 
+.gsuiIcon[ data-icon="drum" ]::before { content: "\f2a1"; }
+.gsuiIcon[ data-icon="drum" ]::after { content: "\10f2a1"; }
+.gsuiIcon[ data-icon="keys" ]::before { content: "\f8d5"; }
+.gsuiIcon[ data-icon="keys" ]::after { content: "\10f8d5"; }
 .gsuiIcon[ data-icon="mixer" ]::before { content: "\f3f1"; }
 .gsuiIcon[ data-icon="mixer" ]::after { content: "\10f3f1"; }
 .gsuiIcon[ data-icon="music" ]::before { content: "\f001"; }
-.gsuiIcon[ data-icon="music" ]::after { content: "\10f001"; opacity: 0; }
+.gsuiIcon[ data-icon="music" ]::after { content: "\10f001"; }
+.gsuiIcon[ data-icon="musics" ]::before { content: "\f8c9"; }
+.gsuiIcon[ data-icon="musics" ]::after { content: "\10f8c9"; }
+.gsuiIcon[ data-icon="effects" ]::before { content: "\f5fd"; }
+.gsuiIcon[ data-icon="effects" ]::after { content: "\10f5fd"; }
+.gsuiIcon[ data-icon="waveform" ]::before { content: "\f8f2"; }
+.gsuiIcon[ data-icon="waveform" ]::after { content: "\10f8f2"; }
 .gsuiIcon[ data-icon="oscillator" ]::before { content: "\f83e"; }
 .gsuiIcon[ data-icon="oscillator" ]::after { content: "\10f83e"; opacity: 1; }
 
@@ -187,10 +197,10 @@
 .gsuiIcon[ data-icon="erase" ]::before { content: "\f12d"; }
 .gsuiIcon[ data-icon="erase" ]::after { content: "\10f12d"; }
 
-.gsuiIcon[ data-icon="local" ]::before { content: "\f109"; }
-.gsuiIcon[ data-icon="local" ]::after { content: "\10f109"; }
-.gsuiIcon[ data-icon="cloud" ]::before { content: "\f0c2"; }
-.gsuiIcon[ data-icon="cloud" ]::after { content: "\10f0c2"; }
+.gsuiIcon[ data-icon="local" ]::before { content: "\f8e6"; }
+.gsuiIcon[ data-icon="local" ]::after { content: "\10f8e6"; opacity: .2; }
+.gsuiIcon[ data-icon="cloud" ]::before { content: "\f8ae"; opacity: .2; }
+.gsuiIcon[ data-icon="cloud" ]::after { content: "\10f8ae"; opacity: 1; }
 
 .gsuiIcon[ data-icon="cookie" ]::before { content: "\f563"; }
 .gsuiIcon[ data-icon="cookie" ]::after { content: "\10f563"; }
@@ -216,6 +226,8 @@
 
 .gsuiIcon[ data-icon="help" ]::before { content: "\f1cd"; }
 .gsuiIcon[ data-icon="help" ]::after { content: "\10f1cd"; }
+.gsuiIcon[ data-icon="about" ]::before { content: "\f6e8"; }
+.gsuiIcon[ data-icon="about" ]::after { content: "\10f6e8"; }
 
 .gsuiIcon[ data-icon="rocket" ]::before { content: "\f135"; }
 .gsuiIcon[ data-icon="rocket" ]::after { content: "\10f135"; }
