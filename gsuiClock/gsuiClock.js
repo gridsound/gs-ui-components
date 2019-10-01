@@ -7,12 +7,12 @@ class gsuiClock {
 
 		this.rootElement = root;
 		this.onchangeDisplay = () => {};
+		this.data = new GSDataClock();
 		this._attached = false;
 		this._wrapRel = root.querySelector( ".gsuiClock-relative" );
 		this._wrapAbs = root.querySelector( ".gsuiClock-absolute" );
 		this._timeSave = 0;
-		this._display =
-		this._displaySave = "";
+		this._display = "";
 		this._firstValueLen = -1;
 		this._values = [ -1, -1, -1 ];
 		this._nodes = [
@@ -20,7 +20,7 @@ class gsuiClock {
 			root.querySelector( ".gsuiClock-b" ),
 			root.querySelector( ".gsuiClock-c" ),
 		];
-		this._bps = 1;
+		this._bpm = 60;
 		this._sPB = 4;
 		Object.seal( this );
 
@@ -34,7 +34,7 @@ class gsuiClock {
 		this._updateWidth();
 	}
 	setBPM( bpm ) {
-		this._bps = bpm / 60;
+		this._bpm = bpm;
 		this._resetTime();
 	}
 	setStepsPerBeat( sPB ) {
@@ -46,12 +46,16 @@ class gsuiClock {
 		this.rootElement.dataset.mode = display;
 		this._resetTime();
 	}
-	setTime( display, t ) {
-		this._displaySave = display;
-		this._timeSave = t;
+	setTime( beats ) {
+		const arr = this.data.value;
+
+		this._timeSave = beats;
 		this._display === "second"
-			? this._setSeconds( display === "second" ? t : t / this._bps )
-			: this._setBeats( display !== "second" ? t : t * this._bps );
+			? this.data.beatsToSeconds( beats, this._bpm )
+			: this.data.beatsToBeats( beats, this._sPB );
+		this._setValue0( arr[ 0 ] );
+		this._setValue( 1, arr[ 1 ] );
+		this._setValue( 2, arr[ 2 ] );
 	}
 
 	// events:
@@ -64,7 +68,20 @@ class gsuiClock {
 
 	// private:
 	_resetTime() {
-		this.setTime( this._displaySave, this._timeSave );
+		this.setTime( this._timeSave );
+	}
+	_setValue( ind, val ) {
+		if ( val !== this._values[ ind ] ) {
+			this._nodes[ ind ].textContent =
+			this._values[ ind ] = val;
+		}
+	}
+	_setValue0( val ) {
+		this._setValue( 0, val );
+		if ( this._attached && val.length !== this._firstValueLen ) {
+			this._firstValueLen = val.length;
+			this._updateWidth();
+		}
 	}
 	_updateWidth() {
 		const bcr = this._wrapAbs.getBoundingClientRect(),
@@ -73,37 +90,6 @@ class gsuiClock {
 		st.width =
 		st.minWidth = `${ bcr.width }px`;
 		st.minHeight = `${ bcr.height }px`;
-	}
-	_setSeconds( sec ) {
-		this._setValue0( sec / 60 );
-		this._setValue( 1, this._padZero( sec % 60 ) );
-		this._setValue( 2, this._getMil( sec ) );
-	}
-	_setBeats( bts ) {
-		this._setValue0( bts + 1 );
-		this._setValue( 1, this._padZero( bts % 1 * this._sPB + 1 ) );
-		this._setValue( 2, this._getMil( bts % 1 * this._sPB ) );
-	}
-	_setValue( key, val ) {
-		if ( val !== this._values[ key ] ) {
-			this._nodes[ key ].textContent =
-			this._values[ key ] = val;
-		}
-	}
-	_setValue0( val ) {
-		const str = `${ ~~val }`;
-
-		this._setValue( 0, str );
-		if ( this._attached && str.length !== this._firstValueLen ) {
-			this._firstValueLen = str.length;
-			this._updateWidth();
-		}
-	}
-	_padZero( val ) {
-		return `${ ~~val }`.padStart( 2, "0" );
-	}
-	_getMil( val ) {
-		return `${ ~~( val * 1000 % 1000 ) }`.padStart( 3, "0" );
 	}
 }
 
