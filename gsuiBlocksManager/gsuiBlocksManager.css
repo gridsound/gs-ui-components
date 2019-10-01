@@ -16,7 +16,6 @@
 	max-width: 104px;
 	width: 104px;
 	font: var( --gsuiBlocksManager-font );
-	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
 .gsuiBlocksManager-sidePanel .gsui-opacityHover {
 	color: #fff;
