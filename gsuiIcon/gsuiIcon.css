@@ -112,6 +112,9 @@
 .gsuiIcon[ data-icon="loop" ]::after { content: "\10f364"; }
 .gsuiIcon[ data-icon="pause" ]::before { content: "\f04c"; opacity: .6; }
 .gsuiIcon[ data-icon="pause" ]::after { content: "\10f04c"; opacity: 1; }
+.gsuiIcon[ data-icon="circle" ]::before { content: "\f111"; opacity: .6; }
+.gsuiIcon[ data-icon="circle" ]::after { content: "\10f111"; opacity: 1; }
+
 .gsuiIcon[ data-icon="mute" ]::before { content: "\f2e2"; }
 .gsuiIcon[ data-icon="mute" ]::after { content: "\10f2e2"; }
 .gsuiIcon[ data-icon="unmute" ]::before { content: "\f028"; }
@@ -206,6 +209,11 @@
 .gsuiIcon[ data-icon="cookie" ]::after { content: "\10f563"; }
 .gsuiIcon[ data-icon="cookie" ]:hover::before { content: "\f564"; }
 .gsuiIcon[ data-icon="cookie" ]:hover::after { content: "\10f564"; }
+
+.gsuiIcon[ data-icon="link" ]::before { content: "\f0c1"; }
+.gsuiIcon[ data-icon="link" ]::after { content: "\10f0c1"; }
+.gsuiIcon[ data-icon="unlink" ]::before { content: "\f127"; }
+.gsuiIcon[ data-icon="unlink" ]::after { content: "\10f127"; }
 
 .gsuiIcon[ data-icon="grip-h" ]::before { content: "\f58d"; }
 .gsuiIcon[ data-icon="grip-h" ]::after { content: "\10f58d"; }
