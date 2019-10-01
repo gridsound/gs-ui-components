@@ -38,7 +38,7 @@ class gsuiSynthesizer {
 			head = this.rootElement.querySelector( ".gsuiSynthesizer-head" );
 
 		this._attached = true;
-		head.style.right = `${ list.offsetWidth - list.clientWidth }px`;
+		head.style.paddingRight = `${ list.offsetWidth - list.clientWidth }px`;
 		Array.from( this._nlOscs ).forEach( el => {
 			this._uioscs.get( el.dataset.id ).attached();
 		} );

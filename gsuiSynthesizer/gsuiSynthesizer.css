@@ -10,7 +10,6 @@
 	position: relative;
 	box-sizing: border-box;
 	color: var( --gsuiSynthesizer-color );
-	background-color: var( --gsuiSynthesizer-head-bg );
 }
 
 .gsuiSynthesizer-head {
@@ -22,6 +21,7 @@
 	flex-direction: column;
 	justify-content: center;
 	height: var( --gsuiSynthesizer-head-height );
+	background-color: var( --gsuiSynthesizer-head-bg );
 }
 .gsuiSynthesizer-title {
 	padding-left: 6px;
@@ -57,13 +57,12 @@
 	display: grid;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	grid-gap: 1px;
 	grid-auto-flow: row;
 	grid-auto-rows: min-content;
 	counter-reset: count-osc;
 	scrollbar-width: thin;
 	scrollbar-color: #ddd #222;
-	top: calc( var( --gsuiSynthesizer-head-height ) + 1px );
+	top: var( --gsuiSynthesizer-head-height );
 	background-color: var( --gsuiSynthesizer-bg );
 }
 
