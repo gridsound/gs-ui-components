@@ -1,5 +1,6 @@
 :root {
 	--gsuiWindow-bg: #666;
+	--gsuiWindow-bgImg: none;
 	--gsuiWindow-icon: "\f001";
 	--gsuiWindow-color: #fff;
 	--gsuiWindow-radius: 4px;
@@ -122,6 +123,7 @@
 	bottom: 0;
 	top: var( --gsuiWindow-head-height );
 	background-color: var( --gsuiWindow-bg );
+	background-image: var( --gsuiWindow-bgImg );
 }
 .gsuiWindow-minimized .gsuiWindow-content {
 	display: none;
