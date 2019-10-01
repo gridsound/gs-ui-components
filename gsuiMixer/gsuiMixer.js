@@ -96,6 +96,9 @@ class gsuiMixer {
 		this.gsdata.change( obj );
 		gsuiReorder.listReorder( this._pchans, obj );
 	}
+	getCurrentChannelId() {
+		return this._chanSelected;
+	}
 	selectChan( id ) {
 		if ( id in this.gsdata.data ) {
 			const chan = this._chans[ id ].root,
