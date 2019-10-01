@@ -5,23 +5,25 @@ class gsuiMixer {
 		const root = gsuiMixer.template.cloneNode( true ),
 			addBtn = root.querySelector( ".gsuiMixer-addChan" ),
 			dnd = new gsuiReorder(),
-			gsdata = new gsdataMixer( {
-				addChan: this._addChan.bind( this ),
-				removeChan: this._removeChan.bind( this ),
-				redirectChan: this._updateChanConnections.bind( this ),
-				toggleChan: ( id, b ) => this._chans[ id ].root.classList.toggle( "gsuiMixerChannel-muted", !b ),
-				changePanChan: ( id, val ) => this._chans[ id ].pan.setValue( val ),
-				changeGainChan: ( id, val ) => this._chans[ id ].gain.setValue( val ),
-				changeOrderChan: ( id, val ) => this._chans[ id ].root.dataset.order = val,
-				renameChan: ( id, val ) => {
-					this._chans[ id ].name.textContent = val;
-					this.onupdateChan( id, "name", val );
+			gsdata = new GSDataMixer( {
+				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
+				dataCallbacks: {
+					addChan: this._addChan.bind( this ),
+					removeChan: this._removeChan.bind( this ),
+					redirectChan: this._updateChanConnections.bind( this ),
+					toggleChan: ( id, b ) => this._chans[ id ].root.classList.toggle( "gsuiMixerChannel-muted", !b ),
+					changePanChan: ( id, val ) => this._chans[ id ].pan.setValue( val ),
+					changeGainChan: ( id, val ) => this._chans[ id ].gain.setValue( val ),
+					changeOrderChan: ( id, val ) => this._chans[ id ].root.dataset.order = val,
+					renameChan: ( id, val ) => {
+						this._chans[ id ].name.textContent = val;
+						this.onupdateChan( id, "name", val );
+					},
 				},
 			} );
 
 		this.rootElement = root;
 		this.gsdata = gsdata;
-		this._call = ( ...args ) => this.gsdata.callAction( this.onchange, ...args );
 		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
 		this._pchans = root.querySelector( ".gsuiMixer-panChannels" );
 		this._chans = {};
@@ -31,12 +33,12 @@ class gsuiMixer {
 		this.onaddChan =
 		this.ondeleteChan =
 		this.onupdateChan =
-		this.onselectChan = gsdata.noop;
+		this.onselectChan = GSData.noop;
 		this._analyserH = 10;
 		this._attached = false;
 		Object.seal( this );
 
-		addBtn.onclick = this._call.bind( null, "addChan" );
+		addBtn.onclick = gsdata.callAction.bind( gsdata, "addChan" );
 		dnd.setDirection( "h" );
 		dnd.setRootElement( root );
 		dnd.setSelectors( {
@@ -141,6 +143,7 @@ class gsuiMixer {
 			pan = new gsuiSlider(),
 			gain = new gsuiSlider(),
 			canvas = qs( "analyser" ),
+			call = this.gsdata.callAction,
 			html = { root, pan, gain,
 				name: qs( "name" ),
 				connectA: qs( "connectA" ),
@@ -157,13 +160,13 @@ class gsuiMixer {
 		gain.options( { min: 0, max: 1, step: .001, type: "linear-y" } );
 		pan.oninput = this.oninput.bind( null, id, "pan" );
 		gain.oninput = this.oninput.bind( null, id, "gain" );
-		pan.onchange = this._call.bind( this, "updateChanProp", id, "pan" );
-		gain.onchange = this._call.bind( this, "updateChanProp", id, "gain" );
+		pan.onchange = call.bind( this.gsdata, "updateChanProp", id, "pan" );
+		gain.onchange = call.bind( this.gsdata, "updateChanProp", id, "gain" );
 		canvas.onclick =
 		qs( "nameWrap" ).onclick = this.selectChan.bind( this, id );
-		qs( "toggle" ).onclick = this._call.bind( null, "toggleChan", id );
-		qs( "delete" ).onclick = this._call.bind( null, "removeChan", id );
-		qs( "connect" ).onclick = () => this._call( "redirectChan", this._chanSelected, id );
+		qs( "toggle" ).onclick = call.bind( this.gsdata, "toggleChan", id );
+		qs( "delete" ).onclick = call.bind( this.gsdata, "removeChan", id );
+		qs( "connect" ).onclick = () => this.gsdata.callAction( "redirectChan", this._chanSelected, id );
 		( id === "main" ? this._pmain : this._pchans ).append( root );
 		if ( this._attached ) {
 			pan.attached();
