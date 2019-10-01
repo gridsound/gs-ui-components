@@ -9,6 +9,7 @@
 
 .gsuiDotline {
 	position: relative;
+	overflow: hidden;
 	color: var( --gsuiDotline-color );
 	stroke: currentColor;
 	stroke-width: var( --gsuiDotline-lineWidth );
