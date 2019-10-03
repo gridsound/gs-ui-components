@@ -2,15 +2,16 @@
 
 class gsuiSlider {
 	constructor() {
-		const root = gsuiSlider.template.cloneNode( true );
+		const root = gsuiSlider.template.cloneNode( true ),
+			qs = c => root.querySelector( `.gsuiSlider-${ c }` );
 
 		this.rootElement = root;
-		this._elSvg = root.querySelector( "svg" );
-		this._elLine = root.querySelector( ".gsui-line" );
-		this._elInput = root.querySelector( "input" );
-		this._elSvgLine = root.querySelector( ".gsui-svgLine" );
-		this._elLineColor = root.querySelector( ".gsui-lineColor" );
-		this._elSvgLineColor = root.querySelector( ".gsui-svgLineColor" );
+		this._elSvg = qs( "svg" );
+		this._elLine = qs( "line" );
+		this._elInput = qs( "input" );
+		this._elSvgLine = qs( "svgLine" );
+		this._elLineColor = qs( "lineColor" );
+		this._elSvgLineColor = qs( "svgLineColor" );
 		this._options = Object.seal( {
 			value: 0, min: 0, max: 0, step: 0,
 			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
@@ -54,7 +55,6 @@ class gsuiSlider {
 	}
 	options( obj ) {
 		const inp = this._elInput,
-			clazz = this.rootElement.classList,
 			opt = Object.assign( this._options, obj );
 
 		opt.step = Math.max( 0, opt.step ) || ( opt.max - opt.min ) / 10;
@@ -67,15 +67,7 @@ class gsuiSlider {
 		}
 		this._previousval = this._getInputVal();
 		if ( "type" in obj ) {
-			this._circ = opt.type === "circular";
-			this._axeX = opt.type === "linear-x";
-			if ( this._circ ) {
-				clazz.remove( "gsui-linear", "gsui-x", "gsui-y" );
-				clazz.add( "gsui-circular" );
-			} else {
-				clazz.remove( "gsui-circular", "gsui-x", "gsui-y" );
-				clazz.add( "gsui-linear", this._axeX ? "gsui-x" : "gsui-y" );
-			}
+			this._setType( obj.type );
 		}
 		if ( "type" in obj || "strokeWidth" in obj ) {
 			this._setSVGcirc();
@@ -113,6 +105,30 @@ class gsuiSlider {
 	}
 
 	// private:
+	_setType( type ) {
+		const cl = this.rootElement.classList,
+			st = this._elLineColor.style,
+			circ = type === "circular",
+			axeX = type === "linear-x";
+
+		this._circ = circ;
+		this._axeX = axeX;
+		cl.toggle( "gsuiSlider-circular", circ );
+		cl.toggle( "gsuiSlider-linear", !circ );
+		if ( !circ ) {
+			if ( axeX ) {
+				st.left =
+				st.width = "";
+				st.top = "0";
+				st.height = "100%";
+			} else {
+				st.top =
+				st.height = "";
+				st.left = "0";
+				st.width = "100%";
+			}
+		}
+	}
 	_setSVGcirc() {
 		if ( this._circ && this.width && this.height ) {
 			const size = Math.min( this.width, this.height ),
