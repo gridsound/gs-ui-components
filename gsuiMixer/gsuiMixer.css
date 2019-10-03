@@ -226,6 +226,10 @@
 	min-height: 32px;
 	--gsuiSlider-lineColor: var( --gsuiMixerChannel-gain-color );
 }
+.gsuiMixerChannel-gain .gsuiSlider-eventCatcher {
+	left: -12px;
+	right: -12px;
+}
 
 /* .......................................................................... */
 .gsuiMixerChannel-connect {
