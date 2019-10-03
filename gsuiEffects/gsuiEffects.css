@@ -1,0 +1,133 @@
+:root {
+	--gsuiEffects-color: #fff;
+}
+
+.gsuiEffects {
+	display: flex;
+	flex-direction: column;
+	color: var( --gsuiEffects-color );
+}
+
+/* .......................................................................... */
+.gsuiEffects-list {
+	display: flex;
+	overflow: auto;
+	flex-direction: column;
+}
+
+/* .......................................................................... */
+.gsuiEffects-addBtn {
+	position: relative;
+	order: 2147483646;
+	border: 0;
+	width: 100%;
+	height: 52px;
+	color: inherit;
+	font-size: 18px;
+	cursor: pointer;
+	border-radius: 2px;
+	background: none;
+	opacity: .4;
+	transition: .2s opacity;
+}
+.gsuiEffects-addBtn:focus,
+.gsuiEffects-addBtn:hover {
+	opacity: .6;
+}
+.gsuiEffects-addBtn::before {
+	content: "";
+	top: 6px;
+	left: 6px;
+	right: 6px;
+	bottom: 6px;
+	opacity: .4;
+	border: 2px dashed;
+	position: absolute;
+}
+.gsuiEffects-addSelect {
+	order: 2147483647;
+	width: 100%;
+	height: calc( 3 * 24px );
+	border: 0;
+	font: inherit;
+	color: inherit;
+	background-color: #333;
+	transition: .1s;
+	transition-property: height, visibility;
+}
+.gsuiEffects-addSelect option {
+	box-sizing: border-box;
+	padding: 4px;
+	height: 24px;
+	font-size: 12px;
+}
+.gsuiEffects-addBtn:not( :focus ) + .gsuiEffects-addSelect:not( :focus ) {
+	height: 0;
+	visibility: hidden;
+}
+
+/* .......................................................................... */
+.gsuiEffects-fx-head {
+	display: flex;
+	height: 36px;
+	font-size: 12px;
+	line-height: 36px;
+	background-color: #555;
+}
+.gsuiEffects-fx-expand,
+.gsuiEffects-fx-toggle,
+.gsuiEffects-fx-remove {
+	width: 20px;
+	border: 0;
+	padding: 0;
+	color: inherit;
+	cursor: pointer;
+	font-size: inherit;
+	background-color: transparent;
+}
+.gsuiEffects-fx-grip {
+	width: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	cursor: grab;
+	opacity: .6;
+	background-color: rgba( 0, 0, 0, .1 );
+}
+.gsuiEffects-fx-expand {
+	font-size: 14px;
+}
+.gsuiEffects-fx-toggle {
+	font-size: 8px;
+	color: #222;
+}
+.gsuiEffects-fx-enable .gsuiEffects-fx-toggle {
+	color: #ffa;
+}
+.gsuiEffects-fx-name {
+	flex: 1;
+	opacity: .5;
+}
+.gsuiEffects-fx-enable .gsuiEffects-fx-name {
+	opacity: 1;
+}
+.gsuiEffects-fx-remove {
+	width: 32px;
+	opacity: .3;
+	transition: .1s opacity;
+}
+.gsuiEffects-fx-remove:hover,
+.gsuiEffects-fx-remove:focus {
+	opacity: 1;
+}
+.gsuiEffects-fx-content {
+	height: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: .1s;
+	transition-property: height, opacity;
+}
+.gsuiEffects-fx-expanded .gsuiEffects-fx-content {
+	opacity: 1;
+}
