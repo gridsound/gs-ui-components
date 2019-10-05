@@ -130,7 +130,7 @@ class gsuiEffects {
 		const type = this._elAddSelect.value;
 
 		this._elAddSelect.blur();
-		this._elAddSelect.value = ""
+		this._elAddSelect.value = "";
 		this.gsdata.callAction( "addFx", type );
 	}
 	_onclickShowFx( id ) {
