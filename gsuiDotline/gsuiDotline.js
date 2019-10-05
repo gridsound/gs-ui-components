@@ -116,7 +116,7 @@ class gsuiDotline {
 		);
 	}
 	_sortDots( a, b ) {
-		return a.x < b.x ? -1 : a.x > b.x ? 1 : 0;
+		return a.x - b.x;
 	}
 	_drawPolyline() {
 		const arr = [],
