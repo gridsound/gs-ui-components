@@ -116,7 +116,7 @@ class gsuiReorder {
 	_ondrop( e ) {
 		this._droppedInside = this._elDragged && e.target.closest( this._selectors.parent );
 	}
-	_ondragend( e ) {
+	_ondragend() {
 		if ( this._elDragged ) {
 			const el = this._elDragged,
 				oldInd = this._indDragged,
