@@ -86,6 +86,7 @@ class gsuiEffects {
 		expand.onclick = this._onclickShowFx.bind( this, id );
 		toggle.onclick = this._onclickToggleFx.bind( this, id );
 		remove.onclick = this._onclickRemoveFx.bind( this, id );
+		uiFx.onchange = this.gsdata.callAction.bind( this.gsdata, "changeFxData", id );
 		name.textContent = fxAsset.name;
 		content.append( uiFx.rootElement );
 		this._fxsHtml.set( id, html );
@@ -105,7 +106,7 @@ class gsuiEffects {
 		this._fxsHtml.get( id ).root.dataset.order = order;
 	}
 	_changeFxData( id, data ) {
-
+		this._fxsHtml.get( id ).uiFx.gsdata.change( data );
 	}
 
 	// .........................................................................
