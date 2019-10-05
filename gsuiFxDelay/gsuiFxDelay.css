@@ -1,0 +1,112 @@
+:root {
+	--gsuiFxDelay-bg: #666;
+}
+
+.gsuiFxDelay {
+	display: grid;
+	height: 100%;
+	padding: 8px;
+	box-sizing: border-box;
+	user-select: none;
+	-webkit-user-select: none;
+	background-color: var( --gsuiFxDelay-bg );
+	--gsuiSlider-lineColor: #313bbf;
+	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .5 );
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-echoes {
+	position: relative;
+	min-height: 80px;
+	color: #fff;
+	border-radius: 4px;
+	background-color: #333;
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-echoes .gsuiDotline {
+	height: 100%;
+	color: inherit;
+	--gsuiDotline-dotBg: #333;
+	--gsuiDotline-dotSize: 8px;
+	--gsuiDotline-dotSizeHover: 14px;
+}
+.gsuiFxDelay-echoes .gsuiDotline-dot {
+	color: #fff;
+	cursor: pointer;
+}
+.gsuiFxDelay-echoes .gsuiDotline polyline {
+	stroke: #fff;
+	stroke-width: 2px;
+}
+.gsuiFxDelay-echoes .gsuiDotline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 50%;
+	opacity: .2;
+	border-bottom: 1px dashed;
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-echoes::after,
+.gsuiFxDelay-echoes::before {
+	position: absolute;
+	left: 6px;
+	font-size: 32px;
+	line-height: 0;
+	font-family: "Oswald";
+	pointer-events: none;
+	opacity: .1;
+}
+.gsuiFxDelay-echoes::before {
+	top: 20px;
+	content: "R";
+}
+.gsuiFxDelay-echoes::after {
+	bottom: 22px;
+	content: "L";
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-echoesLink,
+.gsuiFxDelay-echoes .gsuiSlider {
+	position: absolute;
+	opacity: .2;
+	transition: opacity .2s;
+}
+.gsuiFxDelay-echoesLink:focus,
+.gsuiFxDelay-echoesLink:hover,
+.gsuiFxDelay-echoes .gsuiSlider:hover {
+	opacity: .5;
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-echoes .gsuiSlider {
+	bottom: 8px;
+	right: 36px;
+	width: 48px;
+	height: 14px;
+	border-radius: 2px;
+	box-shadow: 0 0 0 2px #fff;
+	--gsuiSlider-lineRadius: 2px;
+	--gsuiSlider-lineColor: #fff;
+	--gsuiSlider-lineBgColor: #222;
+}
+.gsuiFxDelay-echoes .gsuiSlider .gsui-line {
+	box-shadow: 0 0 0 2px #fff;
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-echoesLink {
+	bottom: 6px;
+	right: 8px;
+	border: 0;
+	padding: 0;
+	color: inherit;
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 18px;
+	background: none;
+}
