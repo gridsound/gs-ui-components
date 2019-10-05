@@ -8,7 +8,7 @@ gsuiBlocksManager.prototype.__mousemove = function( e ) {
 		}
 		this.__mmWhenReal = this.__getWhenByPageX( this.__mmPageX );
 		this.__mmWhen = this.__roundBeat( this.__mmWhenReal );
-		this.__mmFn.call( this, e );
+		this.__mmFn( e );
 	}
 };
 

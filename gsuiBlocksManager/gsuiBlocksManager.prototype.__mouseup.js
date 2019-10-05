@@ -25,12 +25,12 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 	} ],
 	[ "attack", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallAttack.call( this, blcsEditing, this.__valueA );
+			this.managercallAttack( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "release", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallRelease.call( this, blcsEditing, this.__valueA );
+			this.managercallRelease( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "deleting", function( blcsEditing ) {
@@ -40,12 +40,12 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 	} ],
 	[ "cropping-a", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallCroppingA.call( this, blcsEditing, this.__valueA );
+			this.managercallCroppingA( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "cropping-b", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallCroppingB.call( this, blcsEditing, this.__valueA );
+			this.managercallCroppingB( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "selecting-1", function( blcsEditing, mdBlc ) {
