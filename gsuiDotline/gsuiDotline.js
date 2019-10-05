@@ -58,11 +58,11 @@ class gsuiDotline {
 		this.resize();
 	}
 	resize() {
-		const bcr = this.updateBCR();
+		const { width: w, height: h } = this.updateBCR();
 
-		this._elSVG.setAttribute( "viewBox", `0 0 ${
-			( this._svgW = bcr.width ) } ${
-			( this._svgH = bcr.height ) }` );
+		this._svgW = w;
+		this._svgH = h;
+		this._elSVG.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
 		this._drawPolyline();
 	}
 	options( obj ) {
