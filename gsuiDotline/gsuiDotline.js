@@ -40,6 +40,8 @@ class gsuiDotline {
 		root.oncontextmenu = () => false;
 		root.onmousedown = this._mousedown.bind( this );
 		this.options( {
+			x: "x",
+			y: "y",
 			step: 1,
 			minX: 0,
 			minY: 0,
@@ -87,11 +89,13 @@ class gsuiDotline {
 				this._deleteDotElement( id );
 			} else {
 				const opt = this._opt,
-					dat = this._data[ id ],
-					x = "x" in diffDot ? this._epureN( diffDot.x, opt.minX, opt.maxX ) : dat ? dat.x : 0,
-					y = "y" in diffDot ? this._epureN( diffDot.y, opt.minY, opt.maxY ) : dat ? dat.y : 0;
+					dot = this._data[ id ],
+					xs = opt.x,
+					ys = opt.y,
+					x = xs in diffDot ? this._epureNb( diffDot[ xs ], opt.minX, opt.maxX ) : dot ? dot.x : 0,
+					y = ys in diffDot ? this._epureNb( diffDot[ ys ], opt.minY, opt.maxY ) : dot ? dot.y : 0;
 
-				if ( dat ) {
+				if ( dot ) {
 					this._updateDotElement( id, x, y );
 				} else {
 					this._data[ id ] = { x, y };
@@ -146,22 +150,27 @@ class gsuiDotline {
 	}
 	_onchange() {
 		const obj = {},
-			data = this._data,
-			dataEnt = Object.entries( data );
+			data = this._data;
 		let diff;
 
-		dataEnt.forEach( ( [ id, { x, y } ] ) => {
+		Object.entries( data ).forEach( ( [ id, { x, y } ] ) => {
 			const newDot = this._dots[ id ];
 
 			if ( !newDot ) {
 				diff = true;
 				obj[ id ] = undefined;
 				delete data[ id ];
-			} else if ( newDot.x !== x || newDot.y !== y ) {
-				diff = true;
-				obj[ id ] = {};
-				if ( newDot.x !== x ) { obj[ id ].x = newDot.x; data[ id ].x = newDot.x; }
-				if ( newDot.y !== y ) { obj[ id ].y = newDot.y; data[ id ].y = newDot.y; }
+			} else {
+				const { x: nx, y: ny } = newDot;
+
+				if ( nx !== x || ny !== y ) {
+					const objDot = {};
+
+					diff = true;
+					obj[ id ] = objDot;
+					if ( nx !== x ) { data[ id ].x = objDot[ this._opt.x ] = nx; }
+					if ( ny !== y ) { data[ id ].y = objDot[ this._opt.y ] = ny; }
+				}
 			}
 		} );
 		Object.values( this._dots ).forEach( ( { id, x, y } ) => {
@@ -169,8 +178,11 @@ class gsuiDotline {
 
 			if ( !oldDot ) {
 				diff = true;
-				obj[ id ] =
 				data[ id ] = { x, y };
+				obj[ id ] = {
+					[ this._opt.x ]: x,
+					[ this._opt.y ]: y,
+				};
 			}
 		} );
 		if ( diff ) {
@@ -192,7 +204,7 @@ class gsuiDotline {
 
 		return o.height - ( py - r.top - window.scrollY ) / r.height * o.height + o.minY;
 	}
-	_epureN( n, min, max ) {
+	_epureNb( n, min, max ) {
 		const step = this._opt.step,
 			cut = Math.max( min, Math.min( n, max ) );
 
@@ -339,8 +351,8 @@ class gsuiDotline {
 			}
 			this._dotsMoving.forEach( dot => {
 				const id = dot.id,
-					x = this._epureN( dot._saveX + incX, opt.minX, opt.maxX ),
-					y = this._epureN( dot._saveY + incY, opt.minY, opt.maxY );
+					x = this._epureNb( dot._saveX + incX, opt.minX, opt.maxX ),
+					y = this._epureNb( dot._saveY + incY, opt.minY, opt.maxY );
 
 				this._updateDotElement( id, x, y );
 				this.oninput( id, x, y );
