@@ -85,3 +85,7 @@ class gsuiFxDelay {
 gsuiFxDelay.template = document.querySelector( "#gsuiFxDelay" );
 gsuiFxDelay.template.remove();
 gsuiFxDelay.template.removeAttribute( "id" );
+
+if ( typeof gsuiEffects !== "undefined" ) {
+	gsuiEffects.fxsMap.set( "delay", { cmp: gsuiFxDelay, name: "Delay", height: 120 } );
+}

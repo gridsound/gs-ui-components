@@ -20,9 +20,6 @@ class gsuiEffects {
 				changeFxData: this._changeFxData.bind( this ),
 			},
 		} );
-		this._fxsAssets = Object.freeze( {
-			delay: { gsuiCmp: gsuiFxDelay, name: "Delay", height: 120 },
-		} );
 		this._fxNames = 0;
 		this._fxsHtml = new Map();
 		this._attached = false;
@@ -41,11 +38,7 @@ class gsuiEffects {
 		elBtnSelect.onclick = () => this._elAddSelect.value = "";
 		elAddSelect.onchange = this._onchangeAddSelect.bind( this );
 		elAddSelect.onkeydown = () => false;
-		elAddSelect.append(
-			this._createOption( false, "", "-- Select an Fx" ),
-			...Object.entries( this._fxsAssets )
-				.map( fx => this._createOption( true, fx[ 0 ], fx[ 1 ].name ) )
-		);
+		this._fillSelect();
 	}
 
 	// .........................................................................
@@ -73,8 +66,8 @@ class gsuiEffects {
 			toggle = root.querySelector( ".gsuiEffects-fx-toggle" ),
 			remove = root.querySelector( ".gsuiEffects-fx-remove" ),
 			content = root.querySelector( ".gsuiEffects-fx-content" ),
-			fxAsset = this._fxsAssets[ fx.type ],
-			uiFx = new fxAsset.gsuiCmp(),
+			fxAsset = gsuiEffects.fxsMap.get( fx.type ),
+			uiFx = new fxAsset.cmp(),
 			html = Object.seal( {
 				uiFx,
 				root,
@@ -117,7 +110,7 @@ class gsuiEffects {
 		html.expanded = b;
 		html.root.classList.toggle( "gsuiEffects-fx-expanded", b );
 		html.expand.dataset.icon = b ? "caret-down" : "caret-right";
-		html.content.style.height = `${ b ? this._fxsAssets[ type ].height : 0 }px`;
+		html.content.style.height = `${ b ? gsuiEffects.fxsMap.get( type ).height : 0 }px`;
 		clearTimeout( this._fxResizeTimeoutId );
 		if ( b ) {
 			this._fxResizeTimeoutId = setTimeout( () => html.uiFx.resized(), 200 );
@@ -152,6 +145,15 @@ class gsuiEffects {
 		opt.textContent = fxName;
 		return opt;
 	}
+	_fillSelect() {
+		const def = this._createOption( false, "", "-- Select an Fx" ),
+			options = [ def ];
+
+		gsuiEffects.fxsMap.forEach( ( fx, id ) => {
+			options.push( this._createOption( true, id, fx.name ) );
+		} );
+		this._elAddSelect.append( ...options );
+	}
 }
 
 gsuiEffects.template = document.querySelector( "#gsuiEffects-template" );
@@ -161,3 +163,6 @@ gsuiEffects.template.removeAttribute( "id" );
 gsuiEffects.templateFx = document.querySelector( "#gsuiEffects-fx-template" );
 gsuiEffects.templateFx.remove();
 gsuiEffects.templateFx.removeAttribute( "id" );
+
+gsuiEffects.fxsMap = new Map();
+Object.freeze( gsuiEffects );
