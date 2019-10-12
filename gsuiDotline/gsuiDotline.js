@@ -85,8 +85,10 @@ class gsuiDotline {
 	change( diff ) {
 		Object.entries( diff ).forEach( ( [ id, diffDot ] ) => {
 			if ( !diffDot ) {
-				delete this._data[ id ];
-				this._deleteDotElement( id );
+				if ( id in this._data ) {
+					delete this._data[ id ];
+					this._deleteDotElement( id );
+				}
 			} else {
 				const opt = this._opt,
 					dot = this._data[ id ],
