@@ -84,9 +84,6 @@ class gsuiEffects {
 		content.append( uiFx.rootElement );
 		this._fxsHtml.set( id, html );
 		this._elFxsList.append( root );
-		if ( this._attached ) {
-			uiFx.attached();
-		}
 	}
 	_removeFx( id ) {
 		this._fxsHtml.get( id ).root.remove();
@@ -113,7 +110,11 @@ class gsuiEffects {
 		html.content.style.height = `${ b ? gsuiEffects.fxsMap.get( type ).height : 0 }px`;
 		clearTimeout( this._fxResizeTimeoutId );
 		if ( b ) {
-			this._fxResizeTimeoutId = setTimeout( () => html.uiFx.resized(), 200 );
+			this._fxResizeTimeoutId = setTimeout( () => {
+				if ( !html.uiFx.isAttached() ) {
+					html.uiFx.attached();
+				}
+			}, 200 );
 		}
 	}
 
