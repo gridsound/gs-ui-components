@@ -40,7 +40,7 @@ class gsuiSlider {
 		root.onmousemove = this._mousemove.bind( this );
 		root.onmouseleave = this._mouseleave.bind( this );
 		this.options( {
-			value: 50, min: 0, max: 100, step: 1,
+			value: 0, min: 0, max: 100, step: 1,
 			type: "linear-x", scrollStep: 1, strokeWidth: 4, wheelChange: true,
 		} );
 	}
