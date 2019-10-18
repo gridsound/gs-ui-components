@@ -12,6 +12,15 @@
 	-webkit-user-select: none;
 }
 
+.gsuiSlider-disable {
+	cursor: not-allowed;
+	--gsuiSlider-lineColor: #fff;
+}
+.gsuiSlider-disable .gsuiSlider-lineColor,
+.gsuiSlider-disable .gsuiSlider-svgLineColor {
+	opacity: .25;
+}
+
 .gsuiSlider-line,
 .gsuiSlider-eventCatcher {
 	position: absolute;

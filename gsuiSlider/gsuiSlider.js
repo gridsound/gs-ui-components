@@ -18,6 +18,7 @@ class gsuiSlider {
 		} );
 		this.value =
 		this._previousval = "";
+		this._enable = true;
 		this.oninput =
 		this.onchange =
 		this.oninputend =
@@ -89,6 +90,10 @@ class gsuiSlider {
 				this._previousval = newVal;
 			}
 		}
+	}
+	enable( b ) {
+		this._enable = b;
+		this.rootElement.classList.toggle( "gsuiSlider-disable", !b );
 	}
 	resized() {
 		const rc = this.rootElement.getBoundingClientRect();
@@ -192,7 +197,7 @@ class gsuiSlider {
 
 	// events:
 	_wheel( e ) {
-		if ( this._options.wheelChange ) {
+		if ( this._enable && this._options.wheelChange ) {
 			const d = e.deltaY > 0 ? -1 : 1;
 
 			this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
@@ -200,18 +205,20 @@ class gsuiSlider {
 		}
 	}
 	_mousedown() {
-		const opt = this._options,
-			bcr = this._elLine.getBoundingClientRect(),
-			size = this._circ ? this._svgLineLen :
-				this._axeX ? bcr.width : bcr.height;
+		if ( this._enable ) {
+			const opt = this._options,
+				bcr = this._elLine.getBoundingClientRect(),
+				size = this._circ ? this._svgLineLen :
+					this._axeX ? bcr.width : bcr.height;
 
-		this._onchange();
-		if ( this.oninputstart ) {
-			this.oninputstart( this.value );
+			this._onchange();
+			if ( this.oninputstart ) {
+				this.oninputstart( this.value );
+			}
+			this._pxval = ( opt.max - opt.min ) / size;
+			this._pxmoved = 0;
+			this.rootElement.requestPointerLock();
 		}
-		this._pxval = ( opt.max - opt.min ) / size;
-		this._pxmoved = 0;
-		this.rootElement.requestPointerLock();
 	}
 	_mousemove( e ) {
 		if ( this._locked ) {
