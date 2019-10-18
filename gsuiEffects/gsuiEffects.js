@@ -9,6 +9,8 @@ class gsuiEffects {
 			reorder = new gsuiReorder();
 
 		this.rootElement = root;
+		this.askData =
+		this.oninput =
 		this.onchange = GSData.noop;
 		this.gsdata = new GSDataEffects( {
 			actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
@@ -79,6 +81,8 @@ class gsuiEffects {
 		expand.onclick = this._onclickShowFx.bind( this, id );
 		toggle.onclick = this._onclickToggleFx.bind( this, id );
 		remove.onclick = this._onclickRemoveFx.bind( this, id );
+		uiFx.askData = this.askData.bind( null, id, fx.type );
+		uiFx.oninput = ( prop, val ) => this.oninput( id, prop, val );
 		uiFx.onchange = this.gsdata.callAction.bind( this.gsdata, "changeFxData", id );
 		name.textContent = fxAsset.name;
 		content.append( uiFx.rootElement );
@@ -96,7 +100,7 @@ class gsuiEffects {
 		this._fxsHtml.get( id ).root.dataset.order = order;
 	}
 	_changeFxData( id, data ) {
-		this._fxsHtml.get( id ).uiFx.gsdata.change( data );
+		this._fxsHtml.get( id ).uiFx.change( data );
 	}
 
 	// .........................................................................
