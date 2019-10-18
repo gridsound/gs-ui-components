@@ -1,0 +1,16 @@
+.gsuiCurves-markText {
+	fill: currentColor;
+	font-size: 10px;
+	opacity: .2;
+}
+.gsuiCurves-line {
+	stroke: currentColor;
+	stroke-width: 1;
+	stroke-dasharray: 4;
+	opacity: .3;
+}
+.gsuiCurves-curve {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 3;
+}
