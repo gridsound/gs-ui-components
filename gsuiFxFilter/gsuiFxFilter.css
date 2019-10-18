@@ -1,0 +1,128 @@
+:root {
+	--gsuiFxDelay-bg: #666;
+	--gsuiFxDelay-inputBg: #555;
+	--gsuiFxDelay-Q: #d7b;
+	--gsuiFxDelay-gain: #ff9;
+	--gsuiFxDelay-detune: #fff;
+	--gsuiFxDelay-frequency: #8c8;
+}
+
+/* .......................................................................... */
+.gsuiFxFilter {
+	display: grid;
+	box-sizing: border-box;
+	height: 100%;
+	color: inherit;
+	padding: 8px;
+	grid-gap: 8px;
+	grid-template:
+		"type graph     gain Q     " 1fr
+		"type graph     gain detune" 1fr
+		".    frequency .    .     " 8px
+		/32px 1fr       8px  50px;
+	background-color: #666;
+	--gsuiSlider-lineBgColor: var( --gsuiFxDelay-inputBg );
+}
+
+/* .......................................................................... */
+.gsuiFxFilter-area {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiFxFilter-area-label {
+	align-self: center;
+	height: 20px;
+	font-size: 12px;
+	opacity: .5;
+}
+.gsuiFxFilter-area-content {
+	flex: 1;
+	position: relative;
+}
+
+/* .......................................................................... */
+.gsuiFxFilter-areaType {
+	grid-area: type;
+}
+.gsuiFxFilter-areaGraph {
+	grid-area: graph;
+}
+.gsuiFxFilter-areaGain {
+	grid-area: gain;
+	--gsuiSlider-lineColor: var( --gsuiFxDelay-gain );
+}
+.gsuiFxFilter-areaQ {
+	grid-area: Q;
+	--gsuiSlider-lineColor: var( --gsuiFxDelay-Q );
+}
+.gsuiFxFilter-areaDetune {
+	grid-area: detune;
+	--gsuiSlider-lineColor: var( --gsuiFxDelay-detune );
+}
+.gsuiFxFilter-areaFrequency {
+	grid-area: frequency;
+	--gsuiSlider-lineColor: var( --gsuiFxDelay-frequency );
+}
+
+/* .......................................................................... */
+.gsuiFxFilter-areaGain .gsuiSlider-eventCatcher,
+.gsuiFxFilter-areaFrequency .gsuiSlider-eventCatcher {
+	top: -8px;
+	left: -8px;
+	right: -8px;
+	bottom: -8px;
+}
+
+/* .......................................................................... */
+.gsuiFxFilter-areaGraph .gsuiFxFilter-area-label {
+	align-self: flex-start;
+}
+.gsuiFxFilter-areaGraph .gsuiFxFilter-area-content {
+	border-radius: 4px;
+	background-color: rgba( 0, 0, 0, .5 );
+}
+.gsuiFxFilter-areaGraph .gsuiCurves {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.gsuiFxFilter-areaGraph .gsuiCurves-curve {
+	color: var( --gsuiFxDelay-frequency );
+}
+
+/* .......................................................................... */
+.gsuiFxFilter-areaType .gsuiFxFilter-area-content {
+	display: flex;
+	overflow: hidden;
+	border-radius: 4px;
+	flex-direction: column;
+}
+.gsuiFxFilter-areaType-btn {
+	position: relative;
+	flex: 1;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+	stroke: #ff9;
+	stroke-width: 1.5px;
+	background-color: var( --gsuiFxDelay-inputBg );
+}
+.gsuiFxFilter-areaType-btn:hover,
+.gsuiFxFilter-areaType-btn:focus {
+	stroke-width: 2px;
+}
+.gsuiFxFilter-areaType-btnSelected {
+	stroke: #222;
+	background-color: #ff9;
+}
+.gsuiFxFilter-areaType-btn svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	fill: transparent;
+	stroke: inherit;
+	stroke-width: inherit;
+	pointer-events: none;
+}
