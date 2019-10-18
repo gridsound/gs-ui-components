@@ -87,8 +87,12 @@ class gsuiFxFilter {
 		}
 	}
 	_changeType( type, prev ) {
+		const gainQ = gsuiFxFilter.typeGainQ[ type ];
+
 		this._toggleTypeBtn( prev, false );
 		this._toggleTypeBtn( type, true );
+		this._uiSliders.get( "Q" ).enable( gainQ.Q );
+		this._uiSliders.get( "gain" ).enable( gainQ.gain );
 	}
 	_changeProp( prop, val ) {
 		this._uiSliders.get( prop ).setValue( val );
@@ -120,6 +124,17 @@ class gsuiFxFilter {
 gsuiFxFilter.template = document.querySelector( "#gsuiFxFilter" );
 gsuiFxFilter.template.remove();
 gsuiFxFilter.template.removeAttribute( "id" );
+
+gsuiFxFilter.typeGainQ = Object.freeze( {
+	lowpass:   { gain: false, Q: true },
+	highpass:  { gain: false, Q: true },
+	bandpass:  { gain: false, Q: true },
+	lowshelf:  { gain: true,  Q: false },
+	highshelf: { gain: true,  Q: false },
+	peaking:   { gain: true,  Q: true },
+	notch:     { gain: false, Q: true },
+	allpass:   { gain: false, Q: true },
+} );
 
 Object.freeze( gsuiFxFilter );
 
