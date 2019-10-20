@@ -37,6 +37,7 @@ class gsuiFxFilter {
 		this._uiSliders = uiSliders;
 		this._elType = elType;
 		this._attached = false;
+		this._currType = "lowpass";
 		Object.seal( this );
 
 		elType.onclick = this._onclickType.bind( this );
@@ -90,11 +91,12 @@ class gsuiFxFilter {
 			}
 		}
 	}
-	_changeType( type, prev ) {
-		const gainQ = gsuiFxFilter.typeGainQ[ type ];
+	_changeType( type ) {
+		const gainQ = GSDataFxFilter.typeGainQ[ type ];
 
-		this._toggleTypeBtn( prev, false );
+		this._toggleTypeBtn( this._currType, false );
 		this._toggleTypeBtn( type, true );
+		this._currType = type;
 		this._uiSliders.get( "Q" ).enable( gainQ.Q );
 		this._uiSliders.get( "gain" ).enable( gainQ.gain );
 	}
