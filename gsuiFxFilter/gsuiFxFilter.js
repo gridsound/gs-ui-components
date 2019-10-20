@@ -23,7 +23,7 @@ class gsuiFxFilter {
 					changeQ: this._changeProp.bind( this, "Q" ),
 					changeGain: this._changeProp.bind( this, "gain" ),
 					changeDetune: this._changeProp.bind( this, "detune" ),
-					changeFrequency: this._changeProp.bind( this, "frequency" ),
+					changeFrequency: this._changeFrequency.bind( this ),
 				},
 			} );
 
@@ -41,24 +41,11 @@ class gsuiFxFilter {
 		Object.seal( this );
 
 		elType.onclick = this._onclickType.bind( this );
-		Q.options( { type: "circular", min: .001, max: 25, step: .001 } );
-		gain.options( { type: "linear-y", min: -50, max: 50, step: .1 } );
-		detune.options( { type: "circular", min: -12 * 100, max: 12 * 100, step: 10 } );
-		frequency.options( { type: "linear-x", min: 10, max: 24000, step: 10 } );
-		Q.oninput = this._oninputProp.bind( this, "Q" );
-		gain.oninput = this._oninputProp.bind( this, "gain" );
-		detune.oninput = this._oninputProp.bind( this, "detune" );
-		frequency.oninput = this._oninputProp.bind( this, "frequency" );
-		Q.onchange = gsdata.callAction.bind( gsdata, "changeProp", "Q" );
-		gain.onchange = gsdata.callAction.bind( gsdata, "changeProp", "gain" );
-		detune.onchange = gsdata.callAction.bind( gsdata, "changeProp", "detune" );
-		frequency.onchange = gsdata.callAction.bind( gsdata, "changeProp", "frequency" );
 		elGraph.append( uiCurves.rootElement );
-		this._attachSlider( "areaQ", "Q" );
-		this._attachSlider( "areaGain", "gain" );
-		this._attachSlider( "areaDetune", "detune" );
-		this._attachSlider( "areaFrequency", "frequency" );
-		this._toggleTypeBtn( this.gsdata.data.type, true );
+		this._initSlider( "areaQ", "Q", { type: "circular", min: .001, max: 25, step: .001 } );
+		this._initSlider( "areaGain", "gain", { type: "linear-y", min: -50, max: 50, step: .1 } );
+		this._initSlider( "areaDetune", "detune", { type: "circular", min: -12 * 100, max: 12 * 100, step: 10 } );
+		this._initSlider( "areaFrequency", "frequency", { type: "linear-x", min: 0, max: 1, step: .0001 }, this._frequencyPow.bind( this ) );
 	}
 
 	// .........................................................................
@@ -72,6 +59,8 @@ class gsuiFxFilter {
 		this._attached = true;
 		this._uiSliders.forEach( sli => sli.attached() );
 		this._uiCurves.resized();
+		this.gsdata.recall();
+		this._redrawGraph();
 	}
 	resized() {
 		this._uiCurves.resized();
@@ -82,6 +71,18 @@ class gsuiFxFilter {
 	}
 
 	// .........................................................................
+	_frequencyPow( Hz ) {
+		return this._nyquist ** Hz;
+	}
+	_initSlider( area, prop, opt, fnValue = GSData.noopReturn ) {
+		const slider = this._uiSliders.get( prop ),
+			elArea = this.rootElement.querySelector( `.gsuiFxFilter-${ area } .gsuiFxFilter-area-content` );
+
+		slider.options( opt );
+		slider.oninput = val => this._oninputProp( prop, fnValue( val ) );
+		slider.onchange = val => this.gsdata.callAction( "changeProp", prop, fnValue( val ) );
+		elArea.append( slider.rootElement );
+	}
 	_redrawGraph() {
 		if ( this._attached ) {
 			const curve = this.askData( "curve", this._uiCurves.getWidth() );
@@ -100,16 +101,17 @@ class gsuiFxFilter {
 		this._uiSliders.get( "Q" ).enable( gainQ.Q );
 		this._uiSliders.get( "gain" ).enable( gainQ.gain );
 	}
+	_changeFrequency( Hz ) {
+		const log = Math.log( this._nyquist ) / Math.log( Hz );
+
+		this._changeProp( "frequency", 1 / log );
+	}
 	_changeProp( prop, val ) {
 		this._uiSliders.get( prop ).setValue( val );
 	}
 	_toggleTypeBtn( type, b ) {
 		this._elType.querySelector( `[data-type="${ type }"]` )
 			.classList.toggle( "gsuiFxFilter-areaType-btnSelected", b );
-	}
-	_attachSlider( clazz, prop ) {
-		this.rootElement.querySelector( `.gsuiFxFilter-${ clazz } .gsuiFxFilter-area-content` )
-			.append( this._uiSliders.get( prop ).rootElement );
 	}
 
 	// events
