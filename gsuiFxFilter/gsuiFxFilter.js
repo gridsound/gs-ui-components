@@ -32,6 +32,7 @@ class gsuiFxFilter {
 		this.askData =
 		this.oninput =
 		this.onchange = GSData.noop;
+		this._nyquist = 24000;
 		this._uiCurves = uiCurves;
 		this._uiSliders = uiSliders;
 		this._elType = elType;
@@ -60,6 +61,9 @@ class gsuiFxFilter {
 	}
 
 	// .........................................................................
+	setNyquist( n ) {
+		this._nyquist = n;
+	}
 	isAttached() {
 		return this._attached;
 	}
