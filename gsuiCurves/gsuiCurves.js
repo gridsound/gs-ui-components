@@ -71,24 +71,38 @@ class gsuiCurves {
 		line.setAttribute( "y2", h / 2 );
 	}
 	_updateHzTexts() {
-		const w = this._size[ 0 ],
+		const [ w, h ] = this._size,
 			nb = this._options.nbBands,
-			nyquist = this._options.nyquist,
-			marks = Array.from( new Array( nb ), ( _, i ) => {
-				const txt = document.createElementNS( "http://www.w3.org/2000/svg", "text" ),
-					Hz = Math.round( nyquist * 2 ** ( i + 1 - nb ) );
+			nyquist = this._options.nyquist - 11,
+			rects = [],
+			marks = [];
 
-				txt.setAttribute( "x", 8 + i / nb * w | 0 );
-				txt.setAttribute( "y", 14 );
-				txt.classList.add( "gsuiCurves-markText" );
-				txt.textContent = Hz < 1000 ? Hz : `${ Math.round( Hz / 1000 ) }k`;
-				return txt;
-			} );
+		for ( let i = 0; i < nb; ++i ) {
+			const txt = document.createElementNS( "http://www.w3.org/2000/svg", "text" ),
+				Hz = Math.round( 11 + nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) ),
+				x = i / nb * w | 0;
 
+			txt.setAttribute( "x", x + 3 );
+			txt.setAttribute( "y", 14 );
+			txt.classList.add( "gsuiCurves-markText" );
+			txt.textContent = Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k`;
+			marks.push( txt );
+			if ( i % 2 === 0 ) {
+				const rect = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
+
+				rect.setAttribute( "x", x );
+				rect.setAttribute( "y", 0 );
+				rect.setAttribute( "width", w / nb | 0 );
+				rect.setAttribute( "height", h );
+				rect.setAttribute( "shape-rendering", "crispEdges" );
+				rect.classList.add( "gsuiCurves-markBg" );
+				rects.push( rect );
+			}
+		}
 		while ( this._marksWrap.lastChild ) {
 			this._marksWrap.lastChild.remove();
 		}
-		this._marksWrap.append( ...marks );
+		this._marksWrap.append( ...rects, ...marks );
 	}
 	_createPath( id, curve ) {
 		const path = document.createElementNS( "http://www.w3.org/2000/svg", "path" );

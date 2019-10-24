@@ -3,11 +3,15 @@
 	font-size: 10px;
 	opacity: .2;
 }
+.gsuiCurves-markBg {
+	fill: currentColor;
+	opacity: .025;
+}
 .gsuiCurves-line {
 	stroke: currentColor;
-	stroke-width: 1;
+	stroke-width: 2;
 	stroke-dasharray: 4;
-	opacity: .3;
+	opacity: .1;
 }
 .gsuiCurves-curve {
 	fill: none;
