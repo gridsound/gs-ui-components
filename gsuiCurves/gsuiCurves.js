@@ -73,13 +73,13 @@ class gsuiCurves {
 	_updateHzTexts() {
 		const [ w, h ] = this._size,
 			nb = this._options.nbBands,
-			nyquist = this._options.nyquist - 11,
+			nyquist = this._options.nyquist,
 			rects = [],
 			marks = [];
 
 		for ( let i = 0; i < nb; ++i ) {
 			const txt = document.createElementNS( "http://www.w3.org/2000/svg", "text" ),
-				Hz = Math.round( 11 + nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) ),
+				Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) ),
 				x = i / nb * w | 0;
 
 			txt.setAttribute( "x", x + 3 );
