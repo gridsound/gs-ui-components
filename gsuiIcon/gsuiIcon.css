@@ -232,10 +232,10 @@
 .gsuiIcon[ data-icon="tint" ]::before { content: "\f043"; }
 .gsuiIcon[ data-icon="tint" ]::after { content: "\10f043"; }
 
-.gsuiIcon[ data-icon="help" ]::before { content: "\f1cd"; }
-.gsuiIcon[ data-icon="help" ]::after { content: "\10f1cd"; }
-.gsuiIcon[ data-icon="about" ]::before { content: "\f6e8"; }
-.gsuiIcon[ data-icon="about" ]::after { content: "\10f6e8"; }
+.gsuiIcon[ data-icon="help" ]::before { content: "\f0fa"; }
+.gsuiIcon[ data-icon="help" ]::after { content: "\10f0fa"; }
+.gsuiIcon[ data-icon="about" ]::before { content: "\f753"; }
+.gsuiIcon[ data-icon="about" ]::after { content: "\10f753"; }
 
 .gsuiIcon[ data-icon="rocket" ]::before { content: "\f135"; }
 .gsuiIcon[ data-icon="rocket" ]::after { content: "\10f135"; }
