@@ -94,7 +94,10 @@ class gsuiEffects {
 		this._fxsHtml.delete( id );
 	}
 	_toggleFx( id, b ) {
-		this._fxsHtml.get( id ).root.classList.toggle( "gsuiEffects-fx-enable", b );
+		const html = this._fxsHtml.get( id );
+
+		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
+		html.uiFx.toggle( b );
 	}
 	_reorderFx( id, order ) {
 		this._fxsHtml.get( id ).root.dataset.order = order;
