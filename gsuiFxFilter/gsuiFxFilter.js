@@ -72,7 +72,7 @@ class gsuiFxFilter {
 
 	// .........................................................................
 	_frequencyPow( Hz ) {
-		return this._nyquist ** Hz;
+		return this._nyquist * ( 2 ** ( Hz * 11 - 11 ) );
 	}
 	_initSlider( area, prop, opt, fnValue = GSData.noopReturn ) {
 		const slider = this._uiSliders.get( prop ),
@@ -102,9 +102,7 @@ class gsuiFxFilter {
 		this._uiSliders.get( "gain" ).enable( gainQ.gain );
 	}
 	_changeFrequency( Hz ) {
-		const log = Math.log( this._nyquist ) / Math.log( Hz );
-
-		this._changeProp( "frequency", 1 / log );
+		this._changeProp( "frequency", ( Math.log2( Hz / this._nyquist ) + 11 ) / 11 );
 	}
 	_changeProp( prop, val ) {
 		this._uiSliders.get( prop ).setValue( val );
