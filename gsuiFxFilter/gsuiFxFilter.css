@@ -86,8 +86,13 @@
 	width: 100%;
 	height: 100%;
 }
-.gsuiFxFilter-areaGraph .gsuiCurves-curve {
+.gsuiFxFilter .gsuiCurves-curve {
+	color: currentColor;
+	opacity: .25;
+}
+.gsuiFxFilter-enable .gsuiCurves-curve {
 	color: var( --gsuiFxDelay-frequency );
+	opacity: 1;
 }
 
 /* .......................................................................... */

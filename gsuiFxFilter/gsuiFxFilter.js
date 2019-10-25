@@ -65,6 +65,10 @@ class gsuiFxFilter {
 	resized() {
 		this._uiCurves.resized();
 	}
+	toggle( b ) {
+		this.rootElement.classList.toggle( "gsuiFxFilter-enable", b );
+		setTimeout( () => this._redrawGraph(), 150 );
+	}
 	change( obj ) {
 		this.gsdata.change( obj );
 		this._redrawGraph();
