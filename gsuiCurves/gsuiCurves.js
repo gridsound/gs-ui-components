@@ -114,10 +114,11 @@ class gsuiCurves {
 	}
 	_createPathD( curve ) {
 		const w = this._size[ 0 ],
+			len = curve.length,
 			d = [ `M 0 ${ this._dbToY( curve[ 0 ] ) } ` ];
 
-		for ( let i = 1; i < w; ++i ) {
-		    d.push( `L ${ i } ${ this._dbToY( curve[ i ] ) } ` );
+		for ( let i = 1; i < len; ++i ) {
+		    d.push( `L ${ i / len * w | 0 } ${ this._dbToY( curve[ i ] ) } ` );
 		}
 		return d.join( "" );
 	}
