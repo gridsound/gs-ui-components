@@ -37,3 +37,6 @@
 	border: 0;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
+.gsuiPianoroll .gsuiKeys {
+	z-index: 0;
+}
