@@ -120,14 +120,25 @@ const gsuiPopup = new class {
 		}
 		return false;
 	}
+	_getInputValue( inp ) {
+		switch ( inp.type ) {
+			default: return inp.value;
+			case "file": return inp.files;
+			case "radio": return inp.checked ? inp.value : null;
+			case "number": return +inp.value;
+			case "checkbox": return inp.checked;
+		}
+	}
 	_submitCustom() {
 		const fn = this._fnSubmit,
 			inps = Array.from( this.elForm ),
 			obj = inps.reduce( ( obj, inp ) => {
 				if ( inp.name ) {
-					obj[ inp.name ] =
-						inp.type === "number" ? +inp.value :
-						inp.type === "file" ? inp.files : inp.value;
+					const val = this._getInputValue( inp );
+
+					if ( val !== null ) {
+						obj[ inp.name ] = val;
+					}
 				}
 				return obj;
 			}, {} );
