@@ -8,68 +8,57 @@ class gsuiOscillator {
 			waves = [
 				new gsuiPeriodicWave(),
 				new gsuiPeriodicWave()
-			];
+			],
+			gsdata = new GSDataOscillator( {
+				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
+				dataCallbacks: {
+					reorder: n => this.rootElement.dataset.order = n,
+					changeType: this._changeType.bind( this ),
+					changePan: this._changeProp.bind( this, "pan" ),
+					changeGain: this._changeProp.bind( this, "gain" ),
+					changeDetune: this._changeProp.bind( this, "detune" ),
+				},
+			} );
 
 		this.oninput =
 		this.onchange =
 		this.onremove = GSData.noop;
 		this.rootElement = root;
-		this.store = {};
+		this.gsdata = gsdata;
 		this._waves = waves;
 		this._sliders = sliders;
 		this._selectWaves = {};
 		this._elSelect = qs( "typeSelect" );
-		this._gain =
-		this._pan0 =
-		this._pan1 = 0;
 		this._timeidType = null;
+		this._needToRedrawWaves = false;
 		Object.seal( this );
 
+		waves[ 0 ].frequency =
+		waves[ 1 ].frequency = 1;
 		qs( "typeWaves" ).append(
 			waves[ 0 ].rootElement,
 			waves[ 1 ].rootElement );
-		waves[ 0 ].frequency =
-		waves[ 1 ].frequency = 1;
-		"sine triangle sawtooth square".split( " " ).forEach( w => this._selectWaves[ w ] = true );
+		GSDataOscillator.nativeTypes.forEach( w => this._selectWaves[ w ] = true );
 		this._elSelect.onchange = this._onchangeSelect.bind( this );
 		this._elSelect.onkeydown = this._onkeydownSelect.bind( this );
 		qs( "typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
 		qs( "typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
 		qs( "remove" ).onclick = () => this.onremove();
-		root.querySelectorAll( "div[data-filter]" ).forEach( el => {
-			const slider = new gsuiSlider(),
-				attr = el.dataset.filter;
-
-			el.querySelector( ".gsuiOscillator-sliderWrap" ).append( slider.rootElement );
-			slider.oninput = this._oninputSlider.bind( this, attr );
-			slider.onchange = this._onchangeSlider.bind( this, attr );
-			sliders[ attr ] = {
-				slider,
-				elValue: el.querySelector( ".gsuiOscillator-sliderValue" )
-			};
-		} );
-		sliders.gain.slider.options(   { type: "circular", min:    0, max:   1, step:  .01 } );
-		sliders.pan.slider.options(    { type: "circular", min:   -1, max:   1, step:  .02 } );
-		sliders.detune.slider.options( { type: "circular", min: -100, max: 100, step: 5    } );
-		this.change( {
-			type: "sine",
-			gain: 1,
-			pan: 0,
-			detune: 0,
-		} );
+		this._initSlider( qs( "pan" ), "pan", -1, 1, .02 );
+		this._initSlider( qs( "gain" ), "gain", 0, 1, .01 );
+		this._initSlider( qs( "detune" ), "detune", -100, 100, 5 );
+		this.gsdata.recall();
 	}
 
 	remove() {
 		this.rootElement.remove();
 	}
 	attached() {
-		const sliders = this._sliders;
-
 		this._waves[ 0 ].attached();
 		this._waves[ 1 ].attached();
-		sliders.pan.slider.attached();
-		sliders.gain.slider.attached();
-		sliders.detune.slider.attached();
+		this._sliders.pan.slider.attached();
+		this._sliders.gain.slider.attached();
+		this._sliders.detune.slider.attached();
 	}
 	addWaves( arr ) {
 		const opts = [];
@@ -88,54 +77,54 @@ class gsuiOscillator {
 		Element.prototype.append.apply( this._elSelect, opts );
 	}
 	change( obj ) {
-		let waveDraw;
+		this._needToRedrawWaves = false;
+		this.gsdata.change( obj );
+		if ( this._needToRedrawWaves ) {
+			const d = this.gsdata.data;
 
-		if ( obj.type ) {
-			waveDraw = true;
-			this._elSelect.value =
-			this.store.type = obj.type;
+			this._updateWaves( d.type, d.gain, d.pan, d.detune );
 		}
-		if ( "order" in obj ) {
-			this.rootElement.dataset.order = obj.order;
-		}
-		if ( "gain" in obj ) {
-			waveDraw = true;
-			this._gain = obj.gain;
-			this.store.gain = this._sliderSetValue( "gain", obj.gain );
-		}
-		if ( "pan" in obj ) {
-			waveDraw = true;
-			this._pan0 = obj.pan < 0 ? 1 : 1 - obj.pan;
-			this._pan1 = obj.pan > 0 ? 1 : 1 + obj.pan;
-			this.store.pan = this._sliderSetValue( "pan", obj.pan );
-		}
-		if ( "detune" in obj ) {
-			this.store.detune = this._sliderSetValue( "detune", obj.detune );
-		}
-		waveDraw && this._updateWaves();
 	}
 
-	// private:
-	_updateWaves() {
-		const wav0 = this._waves[ 0 ],
-			wav1 = this._waves[ 1 ];
+	// .........................................................................
+	_changeType( type ) {
+		this._elSelect.value = type;
+		this._needToRedrawWaves = true;
+	}
+	_changeProp( prop, val ) {
+		const s = this._sliders[ prop ];
 
-		wav0.amplitude = Math.min( this._gain * this._pan0, .95 );
-		wav1.amplitude = Math.min( this._gain * this._pan1, .95 );
+		s.slider.setValue( val );
+		s.elValue.textContent = val;
+		this._needToRedrawWaves = true;
+	}
+	_updateWaves( type, gain, pan, _detune ) {
+		const [ wav0, wav1 ] = this._waves;
+
+		wav0.amplitude = Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 );
+		wav1.amplitude = Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 );
 		wav0.type =
-		wav1.type = this._elSelect.value;
+		wav1.type = type;
 		wav0.draw();
 		wav1.draw();
 	}
-	_sliderSetValue( attr, val ) {
-		const s = this._sliders[ attr ];
 
-		s.slider.setValue( val );
-		s.elValue.textContent = s.slider.value;
-		return s.slider.value;
+	// .........................................................................
+	_initSlider( elWrap, prop, min, max, step ) {
+		const slider = new gsuiSlider();
+
+		elWrap.querySelector( ".gsuiOscillator-sliderWrap" ).append( slider.rootElement );
+		slider.options( { type: "circular", min, max, step } );
+		slider.oninput = this._oninputSlider.bind( this, prop );
+		slider.onchange = this.gsdata.callAction.bind( this.gsdata, "changeProp", prop );
+		this._sliders[ prop ] = {
+			slider,
+			elValue: elWrap.querySelector( ".gsuiOscillator-sliderValue" )
+		};
 	}
 
 	// events:
+	// .........................................................................
 	_onclickPrevNext( dir ) {
 		const sel = this._elSelect,
 			currOpt = sel.querySelector( `option[value="${ sel.value }"]` ),
@@ -149,15 +138,15 @@ class gsuiOscillator {
 		}
 	}
 	_onchangeSelect() {
-		const type = this._elSelect.value;
+		const type = this._elSelect.value,
+			d = this.gsdata.data;
 
-		this._updateWaves();
-		this.oninput && this.oninput( "type", type );
+		this._updateWaves( type, d.gain, d.pan, d.detune );
+		this.oninput( "type", type );
 		clearTimeout( this._timeidType );
 		this._timeidType = setTimeout( () => {
-			if ( this.store.type !== type ) {
-				this.store.type = type;
-				this.onchange( { type } );
+			if ( this.gsdata.data.type !== type ) {
+				this.gsdata.callAction( "changeProp", "type", type );
 			}
 		}, 700 );
 	}
@@ -166,21 +155,18 @@ class gsuiOscillator {
 			e.preventDefault();
 		}
 	}
-	_oninputSlider( attr, val ) {
-		if ( attr === "gain" ) {
-			this._gain = val;
-			this._updateWaves();
-		} else if ( attr === "pan" ) {
-			this._pan0 = val < 0 ? 1 : 1 - val;
-			this._pan1 = val > 0 ? 1 : 1 + val;
-			this._updateWaves();
+	_oninputSlider( prop, val ) {
+		const d = this.gsdata.data;
+
+		if ( prop === "gain" ) {
+			this._updateWaves( d.type, val, d.pan, d.detune );
+		} else if ( prop === "pan" ) {
+			this._updateWaves( d.type, d.gain, val, d.detune );
+		// } else if ( prop === "detune" ) {
+			// this._updateWaves( d.type, d.gain, d.pan, val );
 		}
-		this._sliders[ attr ].elValue.textContent = val;
-		this.oninput && this.oninput( attr, val );
-	}
-	_onchangeSlider( attr, val ) {
-		this.store[ attr ] = val;
-		this.onchange( { [ attr ]: val } );
+		this._sliders[ prop ].elValue.textContent = val;
+		this.oninput( prop, val );
 	}
 }
 
