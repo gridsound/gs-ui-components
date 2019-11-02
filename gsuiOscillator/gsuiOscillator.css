@@ -96,7 +96,7 @@
 }
 .gsuiOscillator-remove,
 .gsuiOscillator-typeLink,
-.gsuiOscillator-type select {
+.gsuiOscillator-typeSelect {
 	border: 0;
 	padding: 0;
 	color: inherit;
@@ -116,7 +116,7 @@
 	opacity: .6;
 	transition: .1s opacity;
 }
-.gsuiOscillator-type select {
+.gsuiOscillator-typeSelect {
 	width: 100%;
 	height: 100%;
 	margin-left: 2px;
@@ -125,7 +125,7 @@
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }
-.gsuiOscillator-type option {
+.gsuiOscillator-typeSelect option {
 	background-color: #444;
 }
 option.gsuiOscillator-nativeWave {

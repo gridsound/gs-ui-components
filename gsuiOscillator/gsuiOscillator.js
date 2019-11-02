@@ -3,46 +3,54 @@
 class gsuiOscillator {
 	constructor() {
 		const root = gsuiOscillator.template.cloneNode( true ),
+			qs = c => root.querySelector( `.gsuiOscillator-${ c }` ),
 			sliders = {},
 			waves = [
 				new gsuiPeriodicWave(),
 				new gsuiPeriodicWave()
 			];
 
-		this.onchange = () => {};
+		this.oninput =
+		this.onchange =
+		this.onremove = GSData.noop;
 		this.rootElement = root;
+		this.store = {};
 		this._waves = waves;
+		this._sliders = sliders;
 		this._selectWaves = {};
-		"sine triangle sawtooth square".split( " " ).forEach( w => this._selectWaves[ w ] = true );
-		root.querySelector( ".gsuiOscillator-typeWaves" ).append(
+		this._elSelect = qs( "typeSelect" );
+		this._gain =
+		this._pan0 =
+		this._pan1 = 0;
+		this._timeidType = null;
+		Object.seal( this );
+
+		qs( "typeWaves" ).append(
 			waves[ 0 ].rootElement,
 			waves[ 1 ].rootElement );
 		waves[ 0 ].frequency =
 		waves[ 1 ].frequency = 1;
-		root.querySelector( ".gsuiOscillator-typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
-		root.querySelector( ".gsuiOscillator-typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
-		root.querySelector( ".gsuiOscillator-remove" ).onclick = () => this.onremove && this.onremove();
-		this._elSelect = root.querySelector( "select" );
+		"sine triangle sawtooth square".split( " " ).forEach( w => this._selectWaves[ w ] = true );
 		this._elSelect.onchange = this._onchangeSelect.bind( this );
 		this._elSelect.onkeydown = this._onkeydownSelect.bind( this );
-		this._sliders = Array.from( root.querySelectorAll(
-			"div[data-filter]" ) ).reduce( ( obj, el ) => {
-				const slider = new gsuiSlider(),
-					attr = el.dataset.filter;
+		qs( "typePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
+		qs( "typeNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
+		qs( "remove" ).onclick = () => this.onremove();
+		root.querySelectorAll( "div[data-filter]" ).forEach( el => {
+			const slider = new gsuiSlider(),
+				attr = el.dataset.filter;
 
-				el.querySelector( ".gsuiOscillator-sliderWrap" ).append( slider.rootElement );
-				slider.onchange = this._onchangeSlider.bind( this, attr );
-				slider.oninput = this._oninputSlider.bind( this, attr );
-				obj[ attr ] = {
-					slider,
-					elValue: el.querySelector( ".gsuiOscillator-sliderValue" )
-				};
-				return obj;
-			}, sliders );
+			el.querySelector( ".gsuiOscillator-sliderWrap" ).append( slider.rootElement );
+			slider.oninput = this._oninputSlider.bind( this, attr );
+			slider.onchange = this._onchangeSlider.bind( this, attr );
+			sliders[ attr ] = {
+				slider,
+				elValue: el.querySelector( ".gsuiOscillator-sliderValue" )
+			};
+		} );
 		sliders.gain.slider.options(   { type: "circular", min:    0, max:   1, step:  .01 } );
 		sliders.pan.slider.options(    { type: "circular", min:   -1, max:   1, step:  .02 } );
 		sliders.detune.slider.options( { type: "circular", min: -100, max: 100, step: 5    } );
-		this.store = {};
 		this.change( {
 			type: "sine",
 			gain: 1,
@@ -179,3 +187,5 @@ class gsuiOscillator {
 gsuiOscillator.template = document.querySelector( "#gsuiOscillator-template" );
 gsuiOscillator.template.remove();
 gsuiOscillator.template.removeAttribute( "id" );
+
+Object.freeze( gsuiOscillator );
