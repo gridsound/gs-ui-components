@@ -11,9 +11,11 @@ class gsuiPeriodicWave {
 			root.appendChild( this.polyline );
 		}
 		this.type = "";
+		this.delay = 0;
 		this.attack = 0;
 		this.frequency = 1;
 		this.amplitude = 1;
+		this.duration = 1;
 		this._attached = false;
 		this.width =
 		this.height = 0;
@@ -44,11 +46,13 @@ class gsuiPeriodicWave {
 		}
 	}
 	draw() {
-		const w = this.width,
+		const dur = this.duration,
+			w = this.width,
 			h2 = this.height / 2,
-			hz = this.frequency,
+			hz = this.frequency * dur,
 			amp = -this.amplitude * h2,
-			attEnd = w / hz * this.attack,
+			delX = w / dur * this.delay,
+			attX = w / dur * this.attack,
 			wave = gsuiPeriodicWave.cache[ this.type ],
 			pts = new Float32Array( w * 2 );
 
@@ -56,9 +60,16 @@ class gsuiPeriodicWave {
 			console.error( `ERROR: gsuiPeriodicWave: the wave "${ this.type }" is undefined...` );
 		} else if ( this._attached ) {
 			for ( let x = 0; x < w; ++x ) {
+				let y = h2;
+
+				if ( x > delX ) {
+					const xd = x - delX,
+						att = xd < attX ? xd / attX : 1;
+
+					y += wave[ xd / w * 256 * hz % 256 | 0 ] * amp * att;
+				}
 				pts[ x * 2 ] = x;
-				pts[ x * 2 + 1 ] = h2 + wave[ ~~( x / w * 256 * hz % 256 ) ]
-					* amp * ( x < attEnd ? x / attEnd : 1 );
+				pts[ x * 2 + 1 ] = y;
 			}
 			this.polyline.setAttribute( "points", pts.join( " " ) );
 		}
