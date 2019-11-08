@@ -1,9 +1,9 @@
 .gsuiPeriodicWave {
 	width: 100%;
 	height: 100%;
+	stroke: currentColor;
 }
 
 .gsuiPeriodicWave polyline {
 	fill: none;
-	stroke: #fff;
 }
