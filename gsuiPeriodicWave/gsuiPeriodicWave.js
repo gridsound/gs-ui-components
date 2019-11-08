@@ -1,17 +1,15 @@
 "use strict";
 
-window.SVGURL = "http://www.w3.org/2000/svg";
-
 class gsuiPeriodicWave {
 	constructor( svg ) {
-		const root = svg || document.createElementNS( SVGURL, "svg" );
+		const root = svg || document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
 
 		this.rootElement = root;
 		root.setAttribute( "preserveAspectRatio", "none" );
 		root.classList.add( "gsuiPeriodicWave" );
 		this.polyline = root.querySelector( "polyline" );
 		if ( !this.polyline ) {
-			this.polyline = document.createElementNS( SVGURL, "polyline" );
+			this.polyline = document.createElementNS( "http://www.w3.org/2000/svg", "polyline" );
 			root.appendChild( this.polyline );
 		}
 		this.amplitude = 1;
