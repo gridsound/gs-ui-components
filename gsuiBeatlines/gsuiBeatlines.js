@@ -6,7 +6,7 @@ class gsuiBeatlines {
 		this._beatsPerMeasure =
 		this._stepsPerBeat = 4;
 		this._pxPerBeat = 32;
-		this._viewBox = this._pxPerBeat * this._beatsPerMeasure;
+		this._width = this._pxPerBeat * this._beatsPerMeasure;
 		Object.seal( this );
 
 		el.classList.add( "gsuiBeatlines" );
@@ -14,20 +14,20 @@ class gsuiBeatlines {
 	}
 
 	pxPerBeat( pxBeat ) {
-		this._pxPerBeat = Math.max( 0, pxBeat );
-		this._viewBox = this._pxPerBeat * this._beatsPerMeasure;
-		this.rootElement.style.backgroundSize = `${ this._viewBox }px 1px`;
+		this._pxPerBeat = pxBeat;
+		this._width = pxBeat * this._beatsPerMeasure;
+		this.rootElement.style.backgroundSize = `${ this._width }px 1px`;
 	}
 	timeSignature( a, b ) {
 		this._beatsPerMeasure = Math.max( 1, ~~a );
 		this._stepsPerBeat = Math.max( 1, ~~b );
-		this._viewBox = this._pxPerBeat * this._beatsPerMeasure;
+		this._width = this._pxPerBeat * this._beatsPerMeasure;
 		this.render();
 	}
 	render() {
 		const el = this.rootElement,
 			alpha = Math.min( this._pxPerBeat / 32, 1 ),
-			stepPx = this._viewBox / this._beatsPerMeasure / this._stepsPerBeat,
+			stepPx = this._width / this._beatsPerMeasure / this._stepsPerBeat,
 			mesrSteps = this._stepsPerBeat * this._beatsPerMeasure,
 			mesrColor = `rgba(0,0,0,${ 1 * alpha })`,
 			beatColor = `rgba(0,0,0,${ .5 * alpha })`,
@@ -35,19 +35,18 @@ class gsuiBeatlines {
 			steps = [ `<rect x='0' y='0' height='1px' width='1px' fill='${ mesrColor }'/>` ];
 
 		for ( let step = 1; step < mesrSteps; ++step ) {
-			steps.push( `<rect height='1px' width='1px' y='0' x='${
-				stepPx + stepPx * ( step - 1 ) - .5
-			}' fill='${
-				step % this._stepsPerBeat ? stepColor : beatColor
-			}'/>` );
+			const x = stepPx + stepPx * ( step - 1 ) - .5,
+				col = step % this._stepsPerBeat ? stepColor : beatColor;
+
+			steps.push( `<rect height='1px' width='1px' y='0' x='${ x }' fill='${ col }'/>` );
 		}
 		steps.push( `<rect y='0' height='1px' width='1px' fill='${ mesrColor }' x='${
 			stepPx + stepPx * ( mesrSteps - 1 ) - .5 }'/>` );
 		el.style.backgroundImage = `url("${ encodeURI(
 			"data:image/svg+xml,<svg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' " +
-			`viewBox='0 0 ${ this._viewBox } 1'>${ steps.join( " " ) }</svg>`
+			`viewBox='0 0 ${ this._width } 1'>${ steps.join( " " ) }</svg>`
 		) }")`;
-		el.style.backgroundSize = `${ this._viewBox }px 1px`;
+		el.style.backgroundSize = `${ this._width }px 1px`;
 	}
 }
 
