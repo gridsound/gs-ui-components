@@ -19,11 +19,12 @@ class gsuiFxFilter {
 			gsdata = new GSDataFxFilter( {
 				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
 				dataCallbacks: {
-					changeType: this._changeType.bind( this ),
-					changeQ: this._changeProp.bind( this, "Q" ),
-					changeGain: this._changeProp.bind( this, "gain" ),
-					changeDetune: this._changeProp.bind( this, "detune" ),
-					changeFrequency: this._changeFrequency.bind( this ),
+					type: this._changeType.bind( this ),
+					Q: this._changeProp.bind( this, "Q" ),
+					gain: this._changeProp.bind( this, "gain" ),
+					detune: this._changeProp.bind( this, "detune" ),
+					frequency: this._changeFrequency.bind( this ),
+					drawCurve: this._redrawGraph.bind( this ),
 				},
 			} );
 
@@ -60,7 +61,6 @@ class gsuiFxFilter {
 		this._uiSliders.forEach( sli => sli.attached() );
 		this._uiCurves.resized();
 		this.gsdata.recall();
-		this._redrawGraph();
 	}
 	resized() {
 		this._uiCurves.resized();
@@ -71,7 +71,6 @@ class gsuiFxFilter {
 	}
 	change( obj ) {
 		this.gsdata.change( obj );
-		this._redrawGraph();
 	}
 
 	// .........................................................................
