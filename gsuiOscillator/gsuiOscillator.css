@@ -25,7 +25,7 @@
 	--gsuiSlider-lineBgColor: var( --gsuiOscillator-slider-bg );
 }
 .gsuiOscillator-grip {
-	width: 16px;
+	width: 24px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
