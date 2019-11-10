@@ -2,9 +2,9 @@
 	--gsuiSynthesizer-bg: #008;
 	--gsuiSynthesizer-color: #ff0;
 	--gsuiSynthesizer-head-bg: #c55;
-	--gsuiSynthesizer-head-height: 32px;
 }
 
+/* .......................................................................... */
 .gsuiSynthesizer {
 	overflow: hidden;
 	position: relative;
@@ -12,23 +12,27 @@
 	color: var( --gsuiSynthesizer-color );
 }
 
+/* .......................................................................... */
 .gsuiSynthesizer-head {
 	position: absolute;
 	left: 0;
 	right: 0;
-	display: flex;
-	box-sizing: border-box;
-	flex-direction: column;
-	justify-content: center;
-	height: var( --gsuiSynthesizer-head-height );
+	line-height: 1em;
+	user-select: none;
 	background-color: var( --gsuiSynthesizer-head-bg );
 }
-.gsuiSynthesizer-title {
-	padding-left: 6px;
+.gsuiSynthesizer-headTitle {
+	position: absolute;
+	top: 2px;
+	left: 8px;
 	font-size: 14px;
-	opacity: .25;
+	opacity: .3;
 }
-.gsuiSynthesizer-labels {
+.gsuiSynthesizer-headLabels {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 1px;
 	display: flex;
 	padding-right: 8px;
 	text-align: center;
@@ -36,7 +40,7 @@
 	opacity: .5;
 }
 .gsuiSynthesizer-label-no {
-	width: 16px;
+	width: 24px;
 }
 .gsuiSynthesizer-label-wave {
 	flex: 1;
@@ -49,8 +53,22 @@
 	margin-left: 14px;
 }
 
+/* .......................................................................... */
+.gsuiSynthesizer-lfo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+/* .......................................................................... */
+.gsuiSynthesizer-headOscs {
+	top: calc( var( --gsuiLFO-h ) );
+	height: 36px;
+}
 .gsuiSynthesizer-oscList {
 	position: absolute;
+	top: calc( var( --gsuiLFO-h ) + 36px );
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -62,10 +80,10 @@
 	counter-reset: count-osc;
 	scrollbar-width: thin;
 	scrollbar-color: #ddd #222;
-	top: var( --gsuiSynthesizer-head-height );
 	background-color: var( --gsuiSynthesizer-bg );
 }
 
+/* .......................................................................... */
 .gsuiSynthesizer .gsuiOscillator {
 	transition: .2s filter;
 }
@@ -76,6 +94,7 @@
 	display: none;
 }
 
+/* .......................................................................... */
 .gsuiSynthesizer-newOsc {
 	position: relative;
 	order: 2147483647;

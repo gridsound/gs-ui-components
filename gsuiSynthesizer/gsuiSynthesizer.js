@@ -3,9 +3,20 @@
 class gsuiSynthesizer {
 	constructor() {
 		const root = gsuiSynthesizer.template.cloneNode( true ),
-			dnd = new gsuiReorder();
+			dnd = new gsuiReorder(),
+			uiLFO = new gsuiLFO(),
+			gsdata = new GSDataSynth( {
+				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
+				dataCallbacks: {
+					addOsc: this._addOsc.bind( this ),
+					removeOsc: this._removeOsc.bind( this ),
+					updateOsc: ( id, osc ) => this._uiOscs.get( id ).change( osc ),
+					updateLFO: lfo => this._uiLFO.change( lfo ),
+				},
+			} );
 
 		this.rootElement = root;
+		this.gsdata = gsdata;
 		this._waveList = [];
 		this._nlOscs = root.getElementsByClassName( "gsuiOscillator" );
 		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
@@ -13,20 +24,29 @@ class gsuiSynthesizer {
 		this.oninput =
 		this.onchange = () => {};
 		this._attached = false;
-		this._uioscs = new Map();
-		this._nextOscId = 0;
-		this.store = Object.seal( { oscillators: {} } );
+		this._uiLFO = uiLFO;
+		this._uiOscs = new Map();
 		Object.seal( this );
 
-		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
+		root.querySelector( ".gsuiSynthesizer-lfo" ).append( uiLFO.rootElement );
+		this._elNewOsc.onclick = gsdata.callAction.bind( gsdata, "addOsc" );
 		this.empty();
-		dnd.onchange = this._onreorder.bind( this );
+		// uiLFO.oninput = ;
+		uiLFO.onchange = gsdata.callAction.bind( gsdata, "changeLFO" );
 		dnd.setRootElement( this._elOscList );
 		dnd.setSelectors( {
 			item: ".gsuiOscillator",
 			handle: ".gsuiOscillator-grip",
 			parent: ".gsuiSynthesizer-oscList",
 		} );
+		dnd.onchange = () => {
+			const oscillators = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
+
+			this.onchange(
+				{ oscillators },
+				[ "synth", "reorderOsc" ]
+			);
+		};
 	}
 
 	remove() {
@@ -35,106 +55,61 @@ class gsuiSynthesizer {
 	}
 	attached() {
 		const list = this._elOscList,
-			head = this.rootElement.querySelector( ".gsuiSynthesizer-head" );
+			oscsLabels = this.rootElement.querySelector( ".gsuiSynthesizer-headLabels" );
 
 		this._attached = true;
-		head.style.paddingRight = `${ list.offsetWidth - list.clientWidth }px`;
+		oscsLabels.style.right = `${ list.offsetWidth - list.clientWidth }px`;
+		this._uiLFO.attached();
 		Array.from( this._nlOscs ).forEach( el => {
-			this._uioscs.get( el.dataset.id ).attached();
+			this._uiOscs.get( el.dataset.id ).attached();
 		} );
 	}
+	resizing() {
+		this._uiLFO.resizing();
+	}
+	resize() {
+		this._uiLFO.resize();
+	}
 	empty() {
-		this._uioscs.forEach( o => o.remove() );
-		this._uioscs.clear();
-		this._nextOscId = 0;
-		this.store.oscillators = {};
+		this.gsdata.clear();
+	}
+	timeSignature( a, b ) {
+		this._uiLFO.timeSignature( a, b );
 	}
 	setWaveList( arr ) {
 		this._waveList = arr;
-		this._uioscs.forEach( o => o.addWaves( arr ) );
+		this._uiOscs.forEach( o => o.addWaves( arr ) );
 	}
-	change( { oscillators } ) {
-		if ( oscillators ) {
-			Object.entries( oscillators ).forEach( ( [ id, osc ] ) => {
-				osc ? this._uioscs.has( id )
-					? this._updateOsc( id, osc )
-					: this._createOsc( id, osc )
-					: this._deleteOsc( id );
-			} );
-			gsuiReorder.listReorder( this._elOscList, oscillators );
+	change( obj ) {
+		this.gsdata.change( obj );
+		if ( obj.oscillators ) {
+			gsuiReorder.listReorder( this._elOscList, obj.oscillators );
 		}
 	}
 
-	// private:
-	_createOsc( id, osc ) {
-		if ( !this._uioscs.has( id ) ) {
-			const uiosc = new gsuiOscillator();
+	// .........................................................................
+	_addOsc( id, osc ) {
+		const uiosc = new gsuiOscillator(),
+			gsd = this.gsdata;
 
-			this._nextOscId = Math.max( this._nextOscId, +id + 1 );
-			this._uioscs.set( id, uiosc );
-			this.store.oscillators[ id ] = Object.assign( {}, osc );
-			uiosc.oninput = this._oninputOsc.bind( this, id );
-			uiosc.onchange = this._onchangeOsc.bind( this, id );
-			uiosc.onremove = this._onremoveOsc.bind( this, id );
-			uiosc.addWaves( this._waveList );
-			uiosc.change( osc );
-			uiosc.rootElement.dataset.id = id;
-			uiosc.rootElement.dataset.order = osc.order;
-			this._elOscList.append( uiosc.rootElement );
-			this._attached && uiosc.attached();
-		}
+		this._uiOscs.set( id, uiosc );
+		uiosc.oninput = ( attr, val ) => this.oninput( id, attr, val );
+		uiosc.onchange = gsd.callAction.bind( gsd, "changeOsc", id );
+		uiosc.onremove = gsd.callAction.bind( gsd, "removeOsc", id );
+		uiosc.addWaves( this._waveList );
+		uiosc.change( osc );
+		uiosc.rootElement.dataset.id = id;
+		uiosc.rootElement.dataset.order = osc.order;
+		this._elOscList.append( uiosc.rootElement );
+		this._attached && uiosc.attached();
 	}
-	_updateOsc( id, osc ) {
-		this._uioscs.get( id ).change( osc );
-	}
-	_deleteOsc( id ) {
-		const osc = this._uioscs.get( id );
+	_removeOsc( id ) {
+		const osc = this._uiOscs.get( id );
 
 		if ( osc ) {
 			osc.remove();
-			this._uioscs.delete( id );
-			delete this.store.oscillators[ id ];
+			this._uiOscs.delete( id );
 		}
-	}
-
-	// private:
-	_getMaxOrder() {
-		return 1 + Object.values( this.store.oscillators ).reduce(
-			( ord, osc ) => Math.max( ord, osc.order ), 0 );
-	}
-
-	// events:
-	_onreorder() {
-		const oscillators = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
-
-		this.onchange( { oscillators } );
-	}
-	_onclickNewOsc() {
-		const id = `${ this._nextOscId }`,
-			osc = {
-				order: this._getMaxOrder(),
-				type: "sine",
-				gain: 1,
-				pan: 0,
-				detune: 0,
-			};
-
-		this._createOsc( id, osc );
-		this.onchange( { oscillators: { [ id ]: Object.assign( {}, osc ) } } );
-	}
-	_oninputOsc( id, attr, val ) {
-		this.oninput( id, attr, val );
-	}
-	_onchangeOsc( id, obj ) {
-		Object.assign( this.store.oscillators[ id ], obj );
-		this.onchange( { oscillators: { [ id ]: obj } } );
-	}
-	_onremoveOsc( id ) {
-		const oscillators = { [ id ]: undefined };
-
-		this._deleteOsc( id );
-		gsuiReorder.listComputeOrderChange( this._elOscList, oscillators );
-		this.onchange( { oscillators } );
 	}
 }
 
