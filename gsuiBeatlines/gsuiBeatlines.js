@@ -18,6 +18,12 @@ class gsuiBeatlines {
 		this._width = pxBeat * this._beatsPerMeasure;
 		this.rootElement.style.backgroundSize = `${ this._width }px 1px`;
 	}
+	getBeatsPerMeasure() {
+		return this._beatsPerMeasure;
+	}
+	getStepsPerBeat() {
+		return this._stepsPerBeat;
+	}
 	timeSignature( a, b ) {
 		this._beatsPerMeasure = Math.max( 1, ~~a );
 		this._stepsPerBeat = Math.max( 1, ~~b );
