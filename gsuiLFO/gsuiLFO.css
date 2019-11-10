@@ -1,0 +1,169 @@
+:root {
+	--gsuiLFO-h: 118px;
+	--gsuiLFO-bg: #2af;
+	--gsuiLFO-font: 12px sans-serif;
+	--gsuiLFO-number-font: monospace;
+	--gsuiLFO-color: #ff0;
+	--gsuiLFO-toggle: #ff9;
+	--gsuiLFO-wave: #a8c;
+	--gsuiLFO-sliders: #a8c;
+	--gsuiLFO-sliders-bg: #555;
+}
+
+/* .......................................................................... */
+.gsuiLFO {
+	display: grid;
+	min-height: var( --gsuiLFO-h );
+	box-sizing: border-box;
+	grid-gap: 6px;
+	padding-bottom: 8px;
+	grid-template:
+		"head head head  head   head  head head" 24px
+		".    type delay attack speed amp  .   " 28px
+		".    type wave  wave   wave  wave .   " 1fr
+		/2px  32px 1fr   1fr    1fr  1fr   2px;
+	font: var( --gsuiOscillator-font );
+	color: var( --gsuiOscillator-color );
+	background-color: var( --gsuiOscillator-bg );
+	--gsuiSlider-lineColor: var( --gsuiLFO-sliders );
+	--gsuiSlider-lineBgColor: var( --gsuiLFO-sliders-bg );
+}
+
+/* .......................................................................... */
+.gsuiLFO-prop {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiLFO-propLabel {
+	display: flex;
+	align-self: center;
+	align-items: baseline;
+	height: 20px;
+	font-size: 12px;
+	opacity: .5;
+}
+.gsuiLFO-propValue::before {
+	content: "·";
+	margin: 0 2px;
+}
+.gsuiLFO-propValue {
+	font-family: var( --gsuiLFO-number-font );
+	font-size: 10px;
+}
+.gsuiLFO-propContent {
+	flex: 1;
+	position: relative;
+}
+
+/* .......................................................................... */
+.gsuiLFO-delay {
+	grid-area: delay;
+}
+.gsuiLFO-attack {
+	grid-area: attack;
+}
+.gsuiLFO-amp {
+	grid-area: amp;
+}
+.gsuiLFO-speed {
+	grid-area: speed;
+}
+.gsuiLFO .gsuiSlider-eventCatcher {
+	top: -26px;
+	left: -3px;
+	right: -3px;
+	bottom: -6px;
+}
+
+/* .......................................................................... */
+.gsuiLFO-head {
+	grid-area: head;
+	display: flex;
+	align-items: center;
+	background-color: #555;
+}
+.gsuiLFO-title {
+	font-size: 14px;
+	opacity: .3;
+}
+.gsuiLFO-toggle {
+	align-self: normal;
+	border: 0;
+	margin: 0;
+	padding: 0 8px;
+	color: #333;
+	cursor: pointer;
+	font-size: 12px;
+	background: none;
+	transition: .2s color;
+}
+.gsuiLFO-enable .gsuiLFO-toggle {
+	color: var( --gsuiLFO-toggle );
+}
+
+/* .......................................................................... */
+.gsuiLFO-wave {
+	grid-area: wave;
+	position: relative;
+	border-radius: 4px;
+	background-color: rgba( 0, 0, 0, .4 );
+}
+.gsuiLFO-wave .gsuiPeriodicWave {
+	position: absolute;
+	top: 6px;
+	height: calc( 100% - 12px );
+	stroke: rgba( 255, 255, 255, .3 );
+	stroke-width: 2px;
+	transition: stroke .2s;
+}
+.gsuiLFO-enable .gsuiPeriodicWave {
+	stroke: var( --gsuiLFO-wave );
+}
+
+/* .......................................................................... */
+.gsuiLFO-type {
+	grid-area: type;
+}
+.gsuiLFO-type .gsuiLFO-propContent {
+	display: flex;
+	overflow: hidden;
+	border-radius: 4px;
+	flex-direction: column;
+}
+.gsuiLFO-typeBtn {
+	flex: 1;
+	cursor: not-allowed;
+	position: relative;
+}
+.gsuiLFO-enable .gsuiLFO-typeBtn {
+	cursor: pointer;
+}
+.gsuiLFO-typeRadio {
+	position: absolute;
+	visibility: hidden;
+}
+.gsuiLFO-typeSVG {
+	position: absolute;
+	fill: none;
+	width: 100%;
+	height: 100%;
+	stroke: rgba( 255, 255, 255, .3 );
+	stroke-width: 2px;
+	background-color: var( --gsuiLFO-sliders-bg );
+	transition: .2s;
+	transition-property: stroke, background-color;
+}
+.gsuiLFO-enable .gsuiLFO-typeSVG {
+	stroke: var( --gsuiLFO-toggle );
+}
+.gsuiLFO-typeSVG path {
+	transform: scale( .6 );
+	transform-origin: center;
+}
+.gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
+	stroke: var( --gsuiLFO-sliders-bg );
+	background-color: rgba( 255, 255, 255, .3 );
+}
+.gsuiLFO-enable .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
+	background-color: var( --gsuiLFO-toggle );
+}
