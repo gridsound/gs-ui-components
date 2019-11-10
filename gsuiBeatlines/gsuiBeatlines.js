@@ -38,7 +38,7 @@ class gsuiBeatlines {
 			mesrColor = `rgba(0,0,0,${ 1 * alpha })`,
 			beatColor = `rgba(0,0,0,${ .5 * alpha })`,
 			stepColor = `rgba(0,0,0,${ .2 * alpha })`,
-			steps = [ `<rect x='0' y='0' height='1px' width='1px' fill='${ mesrColor }'/>` ];
+			steps = [ `<rect x='0' y='0' height='1px' width='1.25px' fill='${ mesrColor }'/>` ];
 
 		for ( let step = 1; step < mesrSteps; ++step ) {
 			const x = stepPx + stepPx * ( step - 1 ) - .5,
@@ -46,7 +46,7 @@ class gsuiBeatlines {
 
 			steps.push( `<rect height='1px' width='1px' y='0' x='${ x }' fill='${ col }'/>` );
 		}
-		steps.push( `<rect y='0' height='1px' width='1px' fill='${ mesrColor }' x='${
+		steps.push( `<rect y='0' height='1px' width='1.25px' fill='${ mesrColor }' x='${
 			stepPx + stepPx * ( mesrSteps - 1 ) - .5 }'/>` );
 		el.style.backgroundImage = `url("${ encodeURI(
 			"data:image/svg+xml,<svg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' " +
