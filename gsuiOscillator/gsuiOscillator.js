@@ -12,11 +12,12 @@ class gsuiOscillator {
 			gsdata = new GSDataOscillator( {
 				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
 				dataCallbacks: {
-					reorder: n => this.rootElement.dataset.order = n,
-					changeType: this._changeType.bind( this ),
-					changePan: this._changeProp.bind( this, "pan" ),
-					changeGain: this._changeProp.bind( this, "gain" ),
-					changeDetune: this._changeProp.bind( this, "detune" ),
+					order: n => this.rootElement.dataset.order = n,
+					type: this._changeType.bind( this ),
+					pan: this._changeProp.bind( this, "pan" ),
+					gain: this._changeProp.bind( this, "gain" ),
+					detune: this._changeProp.bind( this, "detune" ),
+					drawWave: this._updateWaves.bind( this ),
 				},
 			} );
 
@@ -30,7 +31,6 @@ class gsuiOscillator {
 		this._selectWaves = {};
 		this._elSelect = qs( "typeSelect" );
 		this._timeidType = null;
-		this._needToRedrawWaves = false;
 		Object.seal( this );
 
 		waves[ 0 ].frequency =
@@ -77,28 +77,20 @@ class gsuiOscillator {
 		Element.prototype.append.apply( this._elSelect, opts );
 	}
 	change( obj ) {
-		this._needToRedrawWaves = false;
 		this.gsdata.change( obj );
-		if ( this._needToRedrawWaves ) {
-			const d = this.gsdata.data;
-
-			this._updateWaves( d.type, d.gain, d.pan, d.detune );
-		}
 	}
 
 	// .........................................................................
 	_changeType( type ) {
 		this._elSelect.value = type;
-		this._needToRedrawWaves = true;
 	}
 	_changeProp( prop, val ) {
 		const s = this._sliders[ prop ];
 
 		s.slider.setValue( val );
 		s.elValue.textContent = val;
-		this._needToRedrawWaves = true;
 	}
-	_updateWaves( type, gain, pan, _detune ) {
+	_updateWaves( { type, gain, pan } ) {
 		const [ wav0, wav1 ] = this._waves;
 
 		wav0.amplitude = Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 );
@@ -138,10 +130,9 @@ class gsuiOscillator {
 		}
 	}
 	_onchangeSelect() {
-		const type = this._elSelect.value,
-			d = this.gsdata.data;
+		const type = this._elSelect.value;
 
-		this._updateWaves( type, d.gain, d.pan, d.detune );
+		this._updateWaves( { ...this.gsdata.data, type } );
 		this.oninput( "type", type );
 		clearTimeout( this._timeidType );
 		this._timeidType = setTimeout( () => {
@@ -159,11 +150,11 @@ class gsuiOscillator {
 		const d = this.gsdata.data;
 
 		if ( prop === "gain" ) {
-			this._updateWaves( d.type, val, d.pan, d.detune );
+			this._updateWaves( { ...d, gain: val } );
 		} else if ( prop === "pan" ) {
-			this._updateWaves( d.type, d.gain, val, d.detune );
+			this._updateWaves( { ...d, pan: val } );
 		// } else if ( prop === "detune" ) {
-			// this._updateWaves( d.type, d.gain, d.pan, val );
+			// this._updateWaves( { ...d, detunes: val } );
 		}
 		this._sliders[ prop ].elValue.textContent = val;
 		this.oninput( prop, val );
