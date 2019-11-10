@@ -50,7 +50,7 @@ class gsuiPeriodicWave {
 			w = this.width,
 			h2 = this.height / 2,
 			hz = this.frequency * dur,
-			amp = -this.amplitude * h2,
+			amp = -this.amplitude * .95 * h2,
 			delX = w / dur * this.delay,
 			attX = w / dur * this.attack,
 			wave = gsuiPeriodicWave.cache[ this.type ],
