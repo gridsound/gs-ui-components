@@ -44,7 +44,7 @@ class gsuiSynthesizer {
 
 			this.onchange(
 				{ oscillators },
-				[ "synth", "reorderOsc" ]
+				[ "synth", "reorderOsc", this.gsdata.data.name ]
 			);
 		};
 	}
