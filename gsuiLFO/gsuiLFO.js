@@ -80,13 +80,14 @@ class gsuiLFO {
 		const bPM = this._beatlines.getBeatsPerMeasure();
 
 		this._dur =
-		this._wave.duration = Math.max( obj.delay + obj.attack, bPM ) + bPM;
+		this._wave.duration = Math.max( obj.delay + obj.attack + 2, bPM );
 		this._wave.type = obj.type;
 		this._wave.delay = obj.delay;
 		this._wave.attack = obj.attack;
 		this._wave.frequency = obj.speed;
 		this._wave.amplitude = obj.amp;
 		this._wave.draw();
+		this._wave.rootElement.style.opacity = Math.min( 6 / obj.speed, 1 );
 		this._updatePxPerBeat();
 		this._beatlines.render();
 	}

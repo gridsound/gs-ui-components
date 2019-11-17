@@ -1,12 +1,10 @@
 :root {
 	--gsuiLFO-h: 118px;
 	--gsuiLFO-bg: #2af;
-	--gsuiLFO-font: 12px sans-serif;
+	--gsuiLFO-font: sans-serif;
 	--gsuiLFO-number-font: monospace;
 	--gsuiLFO-color: #ff0;
-	--gsuiLFO-toggle: #ff9;
-	--gsuiLFO-wave: #a8c;
-	--gsuiLFO-sliders: #a8c;
+	--gsuiLFO-ctrls-color: #fff;
 	--gsuiLFO-sliders-bg: #555;
 }
 
@@ -22,10 +20,10 @@
 		".    type delay attack speed amp  .   " 28px
 		".    type wave  wave   wave  wave .   " 1fr
 		/2px  32px 1fr   1fr    1fr  1fr   2px;
-	font: var( --gsuiOscillator-font );
-	color: var( --gsuiOscillator-color );
-	background-color: var( --gsuiOscillator-bg );
-	--gsuiSlider-lineColor: var( --gsuiLFO-sliders );
+	font-family: var( --gsuiLFO-font );
+	color: var( --gsuiLFO-color );
+	background-color: var( --gsuiLFO-bg );
+	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
 	--gsuiSlider-lineBgColor: var( --gsuiLFO-sliders-bg );
 }
 
@@ -48,7 +46,6 @@
 }
 .gsuiLFO-propValue {
 	font-family: var( --gsuiLFO-number-font );
-	font-size: 10px;
 }
 .gsuiLFO-propContent {
 	flex: 1;
@@ -98,7 +95,7 @@
 	transition: .2s color;
 }
 .gsuiLFO-enable .gsuiLFO-toggle {
-	color: var( --gsuiLFO-toggle );
+	color: var( --gsuiLFO-ctrls-color );
 }
 
 /* .......................................................................... */
@@ -106,7 +103,7 @@
 	grid-area: wave;
 	position: relative;
 	border-radius: 4px;
-	background-color: rgba( 0, 0, 0, .4 );
+	background-color: rgba( 0, 0, 0, .3 );
 }
 .gsuiLFO-wave .gsuiPeriodicWave {
 	position: absolute;
@@ -117,7 +114,7 @@
 	transition: stroke .2s;
 }
 .gsuiLFO-enable .gsuiPeriodicWave {
-	stroke: var( --gsuiLFO-wave );
+	stroke: var( --gsuiLFO-ctrls-color );
 }
 
 /* .......................................................................... */
@@ -154,7 +151,7 @@
 	transition-property: stroke, background-color;
 }
 .gsuiLFO-enable .gsuiLFO-typeSVG {
-	stroke: var( --gsuiLFO-toggle );
+	stroke: var( --gsuiLFO-ctrls-color );
 }
 .gsuiLFO-typeSVG path {
 	transform: scale( .6 );
@@ -165,5 +162,5 @@
 	background-color: rgba( 255, 255, 255, .3 );
 }
 .gsuiLFO-enable .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
-	background-color: var( --gsuiLFO-toggle );
+	background-color: var( --gsuiLFO-ctrls-color );
 }
