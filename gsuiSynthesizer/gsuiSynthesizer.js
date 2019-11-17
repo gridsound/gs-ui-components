@@ -31,7 +31,7 @@ class gsuiSynthesizer {
 		root.querySelector( ".gsuiSynthesizer-lfo" ).append( uiLFO.rootElement );
 		this._elNewOsc.onclick = gsdata.callAction.bind( gsdata, "addOsc" );
 		this.empty();
-		// uiLFO.oninput = ;
+		uiLFO.oninput = ( prop, val ) => this.oninput( { lfo: { [ prop ]: val } } );
 		uiLFO.onchange = gsdata.callAction.bind( gsdata, "changeLFO" );
 		dnd.setRootElement( this._elOscList );
 		dnd.setSelectors( {
@@ -93,7 +93,7 @@ class gsuiSynthesizer {
 			gsd = this.gsdata;
 
 		this._uiOscs.set( id, uiosc );
-		uiosc.oninput = ( attr, val ) => this.oninput( id, attr, val );
+		uiosc.oninput = ( prop, val ) => this.oninput( { oscillators: { [ id ]: { [ prop ]: val } } } );
 		uiosc.onchange = gsd.callAction.bind( gsd, "changeOsc", id );
 		uiosc.onremove = gsd.callAction.bind( gsd, "removeOsc", id );
 		uiosc.addWaves( this._waveList );
