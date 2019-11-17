@@ -135,6 +135,7 @@ class gsuiLFO {
 			...this.gsdata.data,
 			[ prop ]: val,
 		} );
+		this.oninput( prop, val );
 	}
 }
 
