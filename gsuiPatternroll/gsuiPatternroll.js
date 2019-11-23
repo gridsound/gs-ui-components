@@ -22,7 +22,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this._rowsByTrackId = new Map();
 		this.__sideContent.append( this._uiTracklist.rootElement );
 		this.__rowsContainer.ondrop = this._drop.bind( this );
-		this.__rowsContainer.onmousedown = this.__mousedown.bind( this );
 		this.setPxPerBeat( 64 );
 	}
 
@@ -164,8 +163,9 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	_keydown( e ) { this.__keydown( e ); }
 	_mousemove( e ) { this.__mousemove( e ); }
 	_mouseup( e ) { this.__mouseup( e ); }
-	_rowMousedown() {
-		if ( this.__blcsSelected.size ) {
+	_rowMousedown( e ) {
+		this.__mousedown( e );
+		if ( e.button === 0 && !e.shiftKey && this.__blcsSelected.size ) {
 			this.onchange( { blocks: this.__unselectBlocks( {} ) } );
 		}
 	}
