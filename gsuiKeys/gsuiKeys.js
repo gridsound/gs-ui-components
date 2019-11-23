@@ -69,12 +69,18 @@ class gsuiKeys {
 	midiKeyDown( midi ) {
 		const el = this.getKeyElementFromMidi( midi );
 
-		el && el.classList.add( "gsui-active" );
+		if ( el ) {
+			el.classList.add( "gsui-active" );
+			this.onkeydown && this.onkeydown( midi, 1 );
+		}
 	}
 	midiKeyUp( midi ) {
 		const el = this.getKeyElementFromMidi( midi );
 
-		el && el.classList.remove( "gsui-active" );
+		if ( el ) {
+			el.classList.remove( "gsui-active" );
+			this.onkeyup && this.onkeyup( midi, 1 );
+		}
 	}
 
 	// private:
