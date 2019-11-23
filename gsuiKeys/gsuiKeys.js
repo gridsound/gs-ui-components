@@ -6,19 +6,19 @@ class gsuiKeys {
 
 		this.rootElement = root;
 		this._nlKeys = root.childNodes;
-		this._gain =
+		this._keysDown = new Map();
+		this._gain = 1;
 		this._nbOct =
 		this._rootTop =
 		this._octStart =
 		this._blackKeyR =
 		this._blackKeyH =
-		this._keyIndMouse =
-		this._midiKeyMouse = 0;
+		this._keyIndMouse = 0;
 		this.onkeyup =
 		this.onkeydown =
-		this._evMouseup =
-		this._elKeyMouse =
-		this._evMousemove = null;
+		this._elKeyMouse = null;
+		this._evmuRoot = this._evmuRoot.bind( this );
+		this._evmmRoot = this._evmmRoot.bind( this );
 		Object.seal( this );
 
 		root.className = "gsuiKeys";
@@ -66,31 +66,31 @@ class gsuiKeys {
 			? ( 4 + k[ 0 ] ) * 12 + k[ 1 ]
 			: false;
 	}
+	midiReleaseAllKeys() {
+		this._keysDown.forEach( ( _, midi ) => this.midiKeyUp( midi ) );
+		this._evmuRoot();
+	}
 	midiKeyDown( midi ) {
-		const el = this.getKeyElementFromMidi( midi );
-
-		if ( el ) {
-			el.classList.add( "gsui-active" );
-			this.onkeydown && this.onkeydown( midi, 1 );
-		}
+		this._keyUpDown( this.getKeyElementFromMidi( midi ), true );
 	}
 	midiKeyUp( midi ) {
-		const el = this.getKeyElementFromMidi( midi );
-
-		if ( el ) {
-			el.classList.remove( "gsui-active" );
-			this.onkeyup && this.onkeyup( midi, 1 );
-		}
+		this._keyUpDown( this.getKeyElementFromMidi( midi ), false );
 	}
 
 	// private:
 	_isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
-	_releaseKeyMouse() {
-		if ( this._elKeyMouse ) {
-			this._elKeyMouse.classList.remove( "gsui-active" );
-			this.onkeyup && this.onkeyup( this._midiKeyMouse, this._gain );
+	_keyUpDown( elKey, status ) {
+		const midi = +elKey.dataset.midi;
+
+		elKey.classList.toggle( "gsui-active", status );
+		if ( status ) {
+			this._keysDown.set( midi )
+			this.onkeydown && this.onkeydown( midi, this._gain );
+		} else {
+			this._keysDown.delete( midi );
+			this.onkeyup && this.onkeyup( midi, this._gain );
 		}
 	}
 
@@ -103,19 +103,20 @@ class gsuiKeys {
 			this._blackKeyR = blackKeyBCR.right;
 			this._blackKeyH = blackKeyBCR.height;
 			this._gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
-			this._evMouseup = this._evmuRoot.bind( this );
-			this._evMousemove = this._evmmRoot.bind( this );
-			document.addEventListener( "mouseup", this._evMouseup );
-			document.addEventListener( "mousemove", this._evMousemove );
+			document.addEventListener( "mouseup", this._evmuRoot );
+			document.addEventListener( "mousemove", this._evmmRoot );
 			this._evmmRoot( e );
 		}
 	}
 	_evmuRoot() {
-		this._releaseKeyMouse();
-		document.removeEventListener( "mouseup", this._evMouseup );
-		document.removeEventListener( "mousemove", this._evMousemove );
-		this._elKeyMouse =
-		this._keyIndMouse = null;
+		document.removeEventListener( "mouseup", this._evmuRoot );
+		document.removeEventListener( "mousemove", this._evmmRoot );
+		if ( this._elKeyMouse ) {
+			this._keyUpDown( this._elKeyMouse, false );
+			this._elKeyMouse =
+			this._keyIndMouse = null;
+		}
+		this._gain = 1;
 	}
 	_evmmRoot( e ) {
 		const fKeyInd = ( e.clientY - this._rootTop ) / this._blackKeyH;
@@ -128,12 +129,12 @@ class gsuiKeys {
 			const elKey = this._nlKeys[ iKeyInd ];
 
 			if ( elKey ) {
-				this._releaseKeyMouse();
-				this._keyIndMouse = iKeyInd;
+				if ( this._elKeyMouse ) {
+					this._keyUpDown( this._elKeyMouse, false );
+				}
 				this._elKeyMouse = elKey;
-				this._midiKeyMouse = +elKey.dataset.midi;
-				elKey.classList.add( "gsui-active" );
-				this.onkeydown && this.onkeydown( this._midiKeyMouse, this._gain );
+				this._keyIndMouse = iKeyInd;
+				this._keyUpDown( elKey, true );
 			}
 		}
 	}
