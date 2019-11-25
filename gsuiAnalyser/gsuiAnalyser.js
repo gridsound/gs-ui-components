@@ -13,20 +13,16 @@ class gsuiAnalyser {
 	clear() {
 		this._ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	}
-	setResolution( height ) {
+	setResolution( w, h ) {
 		const cnv = this.rootElement,
 			img = this._ctx.getImageData( 0, 0, cnv.width, cnv.height );
 
-		cnv.height = Math.max( height, 2 );
+		cnv.width = w;
+		cnv.height = h;
 		this._ctx.putImageData( img, 0, 0 );
 	}
 	draw( ldata, rdata ) {
-		const w = ldata.length * 2;
-
 		this._moveImage();
-		if ( w !== this.rootElement.width ) {
-			this.rootElement.width = w;
-		}
 		this._draw( ldata, rdata );
 	}
 
@@ -41,8 +37,8 @@ class gsuiAnalyser {
 		const ctx = this._ctx,
 			w2 = ctx.canvas.width / 2,
 			len = Math.min( w2, ldata.length ),
-			imgL = gsuiSpectrum.draw( ctx, ldata ),
-			imgR = gsuiSpectrum.draw( ctx, rdata ),
+			imgL = gsuiSpectrum.draw( ctx, ldata, w2 ),
+			imgR = gsuiSpectrum.draw( ctx, rdata, w2 ),
 			imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {
