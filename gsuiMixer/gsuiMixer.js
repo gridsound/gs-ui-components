@@ -34,6 +34,7 @@ class gsuiMixer {
 		this.ondeleteChan =
 		this.onupdateChan =
 		this.onselectChan = GSData.noop;
+		this._analyserW = 32;
 		this._analyserH = 10;
 		this._attached = false;
 		Object.seal( this );
@@ -72,10 +73,11 @@ class gsuiMixer {
 	}
 	resized() {
 		const chans = Object.values( this._chans ),
-			h = chans[ 0 ].analyser.rootElement.getBoundingClientRect().height;
+			{ width, height } = chans[ 0 ].analyser.rootElement.getBoundingClientRect();
 
-		this._analyserH = h;
-		chans.forEach( html => html.analyser.setResolution( h ) );
+		this._analyserW = width;
+		this._analyserH = height;
+		chans.forEach( html => html.analyser.setResolution( width, height ) );
 	}
 	updateAudioData( id, ldata, rdata ) {
 		this._chans[ id ].analyser.draw( ldata, rdata );
@@ -174,7 +176,7 @@ class gsuiMixer {
 		if ( this._attached ) {
 			pan.attached();
 			gain.attached();
-			html.analyser.setResolution( this._analyserH );
+			html.analyser.setResolution( this._analyserW, this._analyserH );
 		}
 		this.onaddChan( id, chan );
 		this._updateChanConnections();
