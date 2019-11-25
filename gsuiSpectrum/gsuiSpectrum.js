@@ -4,7 +4,6 @@ class gsuiSpectrum {
 	constructor() {
 		this.rootElement =
 		this._ctx = null;
-		this._scaleToData = true;
 		Object.seal( this );
 	}
 	setCanvas( cnv ) {
@@ -20,16 +19,7 @@ class gsuiSpectrum {
 		this.rootElement.width = w;
 		this.rootElement.height = 1;
 	}
-	scaleToData( b ) {
-		this._scaleToData = b;
-	}
 	draw( data ) {
-		const w = data.length,
-			img = gsuiSpectrum.draw( this._ctx, data );
-
-		if ( this._scaleToData && w !== this.rootElement.width ) {
-			this.rootElement.width = w;
-		}
-		this._ctx.putImageData( img, 0, 0 );
+		this._ctx.putImageData( gsuiSpectrum.draw( this._ctx, data, this.rootElement.width ), 0, 0 );
 	}
 }

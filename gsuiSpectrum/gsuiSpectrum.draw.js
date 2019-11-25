@@ -1,14 +1,17 @@
 "use strict";
 
-gsuiSpectrum.draw = function( ctx, data ) {
-	const datalen = data.length,
-		img = ctx.createImageData( datalen, 1 ),
-		imgData = img.data;
+gsuiSpectrum.draw = function( ctx, data, width = data.length ) {
+	const img = ctx.createImageData( width, 1 ),
+		imgData = img.data,
+		datalen = data.length;
+	let diSave = -1;
 
-	for ( let i = 0; i < datalen; ++i ) {
+	for ( let i = 0; i < width; ++i ) {
 		const x = i * 4,
-			datum = 1 - Math.cos( data[ i ] / 255 * Math.PI / 2 );
+			di = Math.max( Math.round( datalen * ( 2 ** ( ( i / width ) * 11 - 11 ) ) ), diSave + 1 ),
+			datum = 1 - Math.cos( data[ di ] / 255 * Math.PI / 2 );
 
+		diSave = di;
 		if ( datum < .05 ) {
 			imgData[ x     ] = 4 + 10 * datum | 0;
 			imgData[ x + 1 ] = 4 + 10 * datum | 0;
