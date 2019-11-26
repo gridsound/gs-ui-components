@@ -44,6 +44,9 @@ class gsuiEffects {
 	}
 
 	// .........................................................................
+	empty() {
+		this.gsdata.clear();
+	}
 	change( obj ) {
 		this.gsdata.change( obj );
 		gsuiReorder.listReorder( this._elFxsList, obj );
