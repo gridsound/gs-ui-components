@@ -2,26 +2,13 @@
 
 class gsuiWindow {
 	constructor( parent, id ) {
-		const root = gsuiWindow.template.cloneNode( true ),
-			elWrap = root.querySelector( ".gsuiWindow-wrap" ),
-			elHead = root.querySelector( ".gsuiWindow-head" ),
-			elIcon = root.querySelector( ".gsuiWindow-icon" ),
-			elTitle = root.querySelector( ".gsuiWindow-title" ),
-			elContent = root.querySelector( ".gsuiWindow-content" ),
-			elHeadBtns = root.querySelector( ".gsuiWindow-headBtns" ),
-			elHandlers = root.querySelector( ".gsuiWindow-handlers" ),
-			elHeadContent = root.querySelector( ".gsuiWindow-headContent" );
+		const root = gsuiWindow.template.cloneNode( true );
 
 		this.id = id;
 		this.parent = parent;
-		this._elWrap = elWrap;
-		this._elHead = elHead;
-		this._elIcon = elIcon;
-		this._elTitle = elTitle;
-		this._elContent = elContent;
-		this._elHandlers = elHandlers;
-		this._elHeadContent = elHeadContent;
 		this.rootElement = root;
+		this._elWrap = this._getElem( "wrap" );
+		this._elHandlers = this._getElem( "handlers" );
 		this._show =
 		this._minimized =
 		this._maximized = false;
@@ -46,13 +33,13 @@ class gsuiWindow {
 		Object.seal( this );
 
 		root.dataset.windowId = id;
-		root.addEventListener( "focusin", this.parent._onfocusinWin.bind( this.parent, this ) );
-		elIcon.ondblclick = this.close.bind( this );
-		elHeadBtns.onclick = this._onclickBtns.bind( this );
-		elHead.onmousedown = this._onmousedownHead.bind( this );
-		elTitle.ondblclick =
-		elHeadContent.ondblclick = this._ondblclickTitle.bind( this );
-		elHandlers.onmousedown = this._onmousedownHandlers.bind( this );
+		root.addEventListener( "focusin", parent._onfocusinWin.bind( parent, this ) );
+		this._getElem( "icon" ).ondblclick = this.close.bind( this );
+		this._getElem( "headBtns" ).onclick = this._onclickBtns.bind( this );
+		this._getElem( "head" ).onmousedown = this._onmousedownHead.bind( this );
+		this._getElem( "title" ).ondblclick =
+		this._getElem( "headContent" ).ondblclick = this._ondblclickTitle.bind( this );
+		this._elHandlers.onmousedown = this._onmousedownHandlers.bind( this );
 		this._setZIndex( 0 );
 		this.setTitle( id );
 		this.setPosition( 0, 0 );
@@ -79,21 +66,24 @@ class gsuiWindow {
 		this.rootElement.id = id;
 	}
 	setTitleIcon( icon ) {
-		this._elIcon.dataset.icon = icon;
+		this._getElem( "icon" ).dataset.icon = icon;
 	}
 	empty() {
-		while ( this._elContent.lastChild ) {
-			this._elContent.lastChild.remove();
+		const cnt = this._getElem( "content" ),
+			headCnt = this._getElem( "headContent" );
+
+		while ( cnt.lastChild ) {
+			cnt.lastChild.remove();
 		}
-		while ( this._elHeadContent.lastChild ) {
-			this._elHeadContent.lastChild.remove();
+		while ( headCnt.lastChild ) {
+			headCnt.lastChild.remove();
 		}
 	}
 	append( ...args ) {
-		Element.prototype.append.apply( this._elContent, args );
+		this._getElem( "content" ).append( ...args );
 	}
 	headAppend( ...args ) {
-		Element.prototype.append.apply( this._elHeadContent, args );
+		this._getElem( "headContent" ).append( ...args );
 	}
 
 	focus() {
@@ -157,7 +147,7 @@ class gsuiWindow {
 		this._setClass( "movable", b );
 	}
 	setTitle( t ) {
-		this._elTitle.textContent = t;
+		this._getElem( "title" ).textContent = t;
 	}
 	setSize( w, h, nocb ) {
 		this._w = w;
@@ -300,6 +290,9 @@ class gsuiWindow {
 	}
 
 	// private:
+	_getElem( c ) {
+		return this.rootElement.querySelector( `.gsuiWindow-${ c }` );
+	}
 	_attachTo( parentElem ) {
 		parentElem.append( this.rootElement );
 	}
@@ -312,13 +305,13 @@ class gsuiWindow {
 	}
 	_callOnresize() {
 		if ( this.onresize ) {
-			const bcr = this._elContent.getBoundingClientRect();
+			const bcr = this._getElem( "content" ).getBoundingClientRect();
 
 			this.onresize( bcr.width, bcr.height );
 		}
 	}
 	_getHeadHeight() {
-		return this._elHead.getBoundingClientRect().height;
+		return this._getElem( "head" ).getBoundingClientRect().height;
 	}
 	_resetCSSrelative( st ) {
 		st.top =
