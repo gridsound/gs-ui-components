@@ -22,12 +22,29 @@ class gsuiWindow {
 		this._elHandlers = elHandlers;
 		this._elHeadContent = elHeadContent;
 		this.rootElement = root;
+		this._show =
 		this._minimized =
 		this._maximized = false;
+		this.zIndex = 0;
 		this.onresize =
 		this.onfocusin =
 		this.onresizing = null;
 		this._pos = Object.seal( { x: 0, y: 0 } );
+		this._mousedownX =
+		this._mousedownY =
+		this._mousemoveX =
+		this._mousemoveY =
+		this._mousedownHeadHeight = 0;
+		this._x =
+		this._y =
+		this._w =
+		this._h =
+		this.__x =
+		this.__y =
+		this.__w =
+		this.__h = 0;
+		Object.seal( this );
+
 		root.dataset.windowId = id;
 		root.addEventListener( "focusin", this.parent._onfocusinWin.bind( this.parent, this ) );
 		elIcon.ondblclick = this.close.bind( this );
@@ -347,3 +364,5 @@ class gsuiWindow {
 gsuiWindow.template = document.querySelector( "#gsuiWindow-template" );
 gsuiWindow.template.remove();
 gsuiWindow.template.removeAttribute( "id" );
+
+Object.freeze( gsuiWindow );
