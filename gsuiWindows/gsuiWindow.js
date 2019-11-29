@@ -27,6 +27,7 @@ class gsuiWindow {
 		this.onresize =
 		this.onfocusin =
 		this.onresizing = null;
+		this._pos = Object.seal( { x: 0, y: 0 } );
 		root.dataset.windowId = id;
 		root.addEventListener( "focusin", this.parent._onfocusinWin.bind( this.parent, this ) );
 		elIcon.ondblclick = this.close.bind( this );
@@ -232,11 +233,14 @@ class gsuiWindow {
 			x = e.clientX - this._mousedownX,
 			y = e.clientY - this._mousedownY;
 
+		this._pos.x = x;
+		this._pos.y = y;
 		this._mousemoveX = x;
 		this._mousemoveY = y;
-		this._setCSSrelativeResize( this._elHandlers.style, dir, x, y );
+		this._calcCSSrelativeResize( dir, this._pos );
+		this._setCSSrelativeResize( this._elHandlers.style, dir, this._pos );
 		if ( !this.parent._lowGraphics ) {
-			this._setCSSrelativeResize( this._elWrap.style, dir, x, y );
+			this._setCSSrelativeResize( this._elWrap.style, dir, this._pos );
 			if ( fnResize ) {
 				const w = this._w,
 					h = this._h - this._mousedownHeadHeight;
@@ -259,22 +263,21 @@ class gsuiWindow {
 			y = this._y,
 			w = this._w,
 			h = this._h,
-			x_ = e.clientX - this._mousedownX,
-			y_ = e.clientY - this._mousedownY;
+			p = this._pos;
 
 		this._setClass( "dragging", false );
 		this._resetCSSrelative( this._elWrap.style );
 		this._resetCSSrelative( this._elHandlers.style );
-		if ( x_ || y_ ) {
+		if ( p.x || p.y ) {
 			switch ( dir ) {
-				case "e" : this.setSize( w + x_, h      ); break;
-				case "se": this.setSize( w + x_, h + y_ ); break;
-				case "s" : this.setSize( w,      h + y_ ); break;
-				case "sw": this.setSize( w - x_, h + y_ ); this.setPosition( x + x_, y      ); break;
-				case "w" : this.setSize( w - x_, h      ); this.setPosition( x + x_, y      ); break;
-				case "nw": this.setSize( w - x_, h - y_ ); this.setPosition( x + x_, y + y_ ); break;
-				case "n" : this.setSize( w,      h - y_ ); this.setPosition( x,      y + y_ ); break;
-				case "ne": this.setSize( w + x_, h - y_ ); this.setPosition( x,      y + y_ ); break;
+				case "e" : this.setSize( w + p.x, h       ); break;
+				case "se": this.setSize( w + p.x, h + p.y ); break;
+				case "s" : this.setSize( w,       h + p.y ); break;
+				case "sw": this.setSize( w - p.x, h + p.y ); this.setPosition( x + p.x, y       ); break;
+				case "w" : this.setSize( w - p.x, h       ); this.setPosition( x + p.x, y       ); break;
+				case "nw": this.setSize( w - p.x, h - p.y ); this.setPosition( x + p.x, y + p.y ); break;
+				case "n" : this.setSize( w,       h - p.y ); this.setPosition( x,       y + p.y ); break;
+				case "ne": this.setSize( w + p.x, h - p.y ); this.setPosition( x,       y + p.y ); break;
 			}
 		}
 	}
@@ -312,16 +315,31 @@ class gsuiWindow {
 		st.right  = `${ -x }px`;
 		st.bottom = `${ -y }px`;
 	}
-	_setCSSrelativeResize( st, dir, x, y ) {
+	_calcCSSrelativeResize( dir, p ) {
+		const w = this._w - 32,
+			h = this._h - this._mousedownHeadHeight - 32;
+
 		switch ( dir ) {
-			case "n" : st.top    = `${  y }px`; break;
-			case "w" : st.left   = `${  x }px`; break;
-			case "e" : st.right  = `${ -x }px`; break;
-			case "s" : st.bottom = `${ -y }px`; break;
-			case "nw": st.left   = `${  x }px`; st.top    = `${  y }px`; break;
-			case "ne": st.right  = `${ -x }px`; st.top    = `${  y }px`; break;
-			case "sw": st.left   = `${  x }px`; st.bottom = `${ -y }px`; break;
-			case "se": st.right  = `${ -x }px`; st.bottom = `${ -y }px`; break;
+			case "n" : if ( h - p.y < 0 ) { p.y =  h; } break;
+			case "s" : if ( h + p.y < 0 ) { p.y = -h; } break;
+			case "w" :                                  if ( w - p.x < 0 ) { p.x =  w; } break;
+			case "e" :                                  if ( w + p.x < 0 ) { p.x = -w; } break;
+			case "nw": if ( h - p.y < 0 ) { p.y =  h; } if ( w - p.x < 0 ) { p.x =  w; } break;
+			case "ne": if ( h - p.y < 0 ) { p.y =  h; } if ( w + p.x < 0 ) { p.x = -w; } break;
+			case "sw": if ( h + p.y < 0 ) { p.y = -h; } if ( w - p.x < 0 ) { p.x =  w; } break;
+			case "se": if ( h + p.y < 0 ) { p.y = -h; } if ( w + p.x < 0 ) { p.x = -w; } break;
+		}
+	}
+	_setCSSrelativeResize( st, dir, p ) {
+		switch ( dir ) {
+			case "n" : st.top    = `${  p.y }px`; break;
+			case "s" : st.bottom = `${ -p.y }px`; break;
+			case "w" : st.left   = `${  p.x }px`; break;
+			case "e" : st.right  = `${ -p.x }px`; break;
+			case "nw": st.left   = `${  p.x }px`; st.top    = `${  p.y }px`; break;
+			case "ne": st.right  = `${ -p.x }px`; st.top    = `${  p.y }px`; break;
+			case "sw": st.left   = `${  p.x }px`; st.bottom = `${ -p.y }px`; break;
+			case "se": st.right  = `${ -p.x }px`; st.bottom = `${ -p.y }px`; break;
 		}
 	}
 }
