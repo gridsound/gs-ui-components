@@ -6,8 +6,14 @@ class gsuiWindows {
 		this._objWindows = {};
 		this._nbWindowsMaximized = 0;
 		this._lowGraphics = false;
+		this.onopen =
+		this.onclose =
+		this._dragLayer =
+		this._mouseFnUp =
+		this._mouseFnMove =
 		this.focusedWindow = null;
 		this.setRootElement( document.body );
+		Object.seal( this );
 	}
 
 	resized() {
@@ -55,8 +61,8 @@ class gsuiWindows {
 		this.rootElement.classList.remove( "gsuiWindows-dragging" );
 		document.removeEventListener( "mouseup", this._mouseFnUp );
 		document.removeEventListener( "mousemove", this._mouseFnMove );
-		delete this._mouseFnUp;
-		delete this._mouseFnMove;
+		this._mouseFnUp =
+		this._mouseFnMove = null;
 		fnUp( e );
 	}
 
@@ -122,3 +128,5 @@ class gsuiWindows {
 		}
 	}
 }
+
+Object.freeze( gsuiWindows );
