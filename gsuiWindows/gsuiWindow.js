@@ -29,7 +29,9 @@ class gsuiWindow {
 		this.__x =
 		this.__y =
 		this.__w =
-		this.__h = 0;
+		this.__h =
+		this._wMin =
+		this._hMin = 32;
 		Object.seal( this );
 
 		root.dataset.windowId = id;
@@ -157,6 +159,10 @@ class gsuiWindow {
 		if ( nocb !== "nocallback" ) {
 			this._callOnresize();
 		}
+	}
+	setMinSize( w, h ) {
+		this._wMin = w;
+		this._hMin = h;
 	}
 	setPosition( x, y ) {
 		this._x = x;
@@ -326,8 +332,8 @@ class gsuiWindow {
 		st.bottom = `${ -y }px`;
 	}
 	_calcCSSrelativeResize( dir, p ) {
-		const w = this._w - 32,
-			h = this._h - this._mousedownHeadHeight - 32;
+		const w = this._w - this._wMin,
+			h = this._h - this._mousedownHeadHeight - this._hMin;
 
 		switch ( dir ) {
 			case "n" : if ( h - p.y < 0 ) { p.y =  h; } break;
