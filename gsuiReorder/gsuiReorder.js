@@ -63,7 +63,7 @@ class gsuiReorder {
 		this._elClicked = e.target;
 	}
 	_ondragstart( e ) {
-		if ( this._elClicked.matches( this._selectors.handle ) ) {
+		if ( this._elClicked && this._elClicked.matches( this._selectors.handle ) ) {
 			const elItem = e.target;
 
 			document.addEventListener( "drop", this._ondrop );
