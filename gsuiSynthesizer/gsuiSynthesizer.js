@@ -54,11 +54,9 @@ class gsuiSynthesizer {
 		this.rootElement.remove();
 	}
 	attached() {
-		const list = this._elOscList,
-			oscsLabels = this.rootElement.querySelector( ".gsuiSynthesizer-headLabels" );
+		const list = this._elOscList;
 
 		this._attached = true;
-		oscsLabels.style.right = `${ list.offsetWidth - list.clientWidth }px`;
 		this._uiLFO.attached();
 		Array.from( this._nlOscs ).forEach( el => {
 			this._uiOscs.get( el.dataset.id ).attached();

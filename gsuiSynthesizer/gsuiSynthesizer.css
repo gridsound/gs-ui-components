@@ -15,42 +15,30 @@
 /* .......................................................................... */
 .gsuiSynthesizer-head {
 	position: absolute;
+	display: flex;
+	align-items: center;
+	padding-right: calc( 8px + 8px );
 	left: 0;
 	right: 0;
+	font-size: 14px;
 	line-height: 1em;
 	user-select: none;
 	background-color: var( --gsuiSynthesizer-head-bg );
 }
 .gsuiSynthesizer-headTitle {
-	position: absolute;
-	top: 2px;
-	left: 8px;
-	font-size: 14px;
 	opacity: .3;
+	line-height: 24px;
+	margin-left: 6px;
 }
-.gsuiSynthesizer-headLabels {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 1px;
-	display: flex;
-	padding-right: 8px;
+.gsuiSynthesizer-label {
+	width: 42px;
+	margin-left: 6px;
 	text-align: center;
 	font-size: 12px;
 	opacity: .5;
 }
-.gsuiSynthesizer-label-no {
-	width: 24px;
-}
-.gsuiSynthesizer-label-wave {
-	flex: 1;
-	margin-left: 6px;
-}
-.gsuiSynthesizer-label-attr {
-	display: flex;
-	justify-content: center;
-	width: 40px;
-	margin-left: 14px;
+.gsuiSynthesizer-labelPitch {
+	margin-left: auto;
 }
 
 /* .......................................................................... */
@@ -64,11 +52,11 @@
 /* .......................................................................... */
 .gsuiSynthesizer-headOscs {
 	top: calc( var( --gsuiLFO-h ) );
-	height: 36px;
+	height: 24px;
 }
 .gsuiSynthesizer-oscList {
 	position: absolute;
-	top: calc( var( --gsuiLFO-h ) + 36px );
+	top: calc( var( --gsuiLFO-h ) + 24px );
 	left: 0;
 	right: 0;
 	bottom: 0;
