@@ -12,8 +12,6 @@
 	--gsuiMixerChannel-connect-output-color: #fa0;
 	--gsuiMixerChannel-toggle-bg: #00f;
 	--gsuiMixerChannel-toggleOff-bg: #008;
-	--gsuiMixerChannel-darkBorder: #ff0;
-	--gsuiMixerChannel-lightBorder: #080;
 }
 
 .gsuiMixer {
@@ -195,21 +193,14 @@
 
 /* .......................................................................... */
 .gsuiMixerChannel-toggle {
-	display: flex;
 	width: 100%;
-	min-height: 18px;
 	border: 0;
+	padding: 0;
+	font-size: 8px;
+	min-height: 18px;
 	cursor: pointer;
-	background-color: transparent;
-}
-.gsuiMixerChannel-toggle::before {
-	content: "";
-	margin: auto;
-	display: block;
-	border-radius: 50%;
-	width: 6px;
-	height: 6px;
-	background-color: var( --gsuiMixerChannel-toggle-bg );
+	color: var( --gsuiMixerChannel-toggle-bg );
+	background: none;
 }
 
 /* .......................................................................... */
@@ -263,7 +254,7 @@
 	font-size: 12px;
 	cursor: grab;
 	opacity: .6;
-	background-color: rgba( 0, 0, 0, .1 );
+	background-color: #0002;
 }
 .gsuiMixer-panMain .gsuiMixerChannel-grip {
 	visibility: hidden;
