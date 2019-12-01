@@ -62,16 +62,14 @@
 .gsuiTrack-toggle {
 	cursor: pointer;
 	display: flex;
+	border: 0;
+	padding: 0;
 	min-width: 24px;
 	align-items: center;
 	justify-content: center;
-}
-.gsuiTrack-toggle::before {
-	content: "";
-	width: 6px;
-	height: 6px;
-	border-radius: 50%;
-	background-color: var( --gsuiTrack-toggle-bg );
+	color: var( --gsuiTrack-toggle-bg );
+	font-size: 8px;
+	background: none;
 }
 .gsuiTrack-nameWrap {
 	position: relative;
