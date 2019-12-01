@@ -1,29 +1,25 @@
 <div id="gsuiOscillator-template" class="gsuiOscillator" draggable="true">
 	<div class="gsuiOscillator-grip gsuiIcon" data-icon="grip-v"></div>
-	<div class="gsuiOscillator-attr gsuiOscillator-type">
-		<div class="gsuiOscillator-typeWaves"></div>
-		<div class="gsuiOscillator-typeCtrl">
-			<button class="gsuiOscillator-typeLink gsuiOscillator-typePrev gsuiIcon" data-icon="caret-left" title="Previous wave"></button>
-			<button class="gsuiOscillator-typeLink gsuiOscillator-typeNext gsuiIcon" data-icon="caret-right" title="Next wave"></button>
-			<select class="gsuiOscillator-typeSelect">
-				<option value="sine" class="gsuiOscillator-nativeWave">sine</option>
-				<option value="triangle" class="gsuiOscillator-nativeWave">triangle</option>
-				<option value="sawtooth" class="gsuiOscillator-nativeWave">sawtooth</option>
-				<option value="square" class="gsuiOscillator-nativeWave">square</option>
-			</select>
-		</div>
-	</div>
-	<div class="gsuiOscillator-attr gsuiOscillator-detune" title="detune">
-		<div class="gsuiOscillator-sliderValue"></div>
+	<div class="gsuiOscillator-wave"></div>
+	<button class="gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon" data-icon="caret-left" title="Previous wave"></button>
+	<button class="gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon" data-icon="caret-right" title="Next wave"></button>
+	<select class="gsuiOscillator-waveSelect">
+		<option value="sine" class="gsuiOscillator-waveOptNative">sine</option>
+		<option value="triangle" class="gsuiOscillator-waveOptNative">triangle</option>
+		<option value="sawtooth" class="gsuiOscillator-waveOptNative">sawtooth</option>
+		<option value="square" class="gsuiOscillator-waveOptNative">square</option>
+	</select>
+	<div class="gsuiOscillator-prop gsuiOscillator-detune" title="pitch">
 		<div class="gsuiOscillator-sliderWrap"></div>
-	</div>
-	<div class="gsuiOscillator-attr gsuiOscillator-pan" title="pan">
 		<div class="gsuiOscillator-sliderValue"></div>
-		<div class="gsuiOscillator-sliderWrap"></div>
 	</div>
-	<div class="gsuiOscillator-attr gsuiOscillator-gain" title="gain">
-		<div class="gsuiOscillator-sliderValue"></div>
+	<div class="gsuiOscillator-prop gsuiOscillator-pan" title="pan">
 		<div class="gsuiOscillator-sliderWrap"></div>
+		<div class="gsuiOscillator-sliderValue"></div>
+	</div>
+	<div class="gsuiOscillator-prop gsuiOscillator-gain" title="gain">
+		<div class="gsuiOscillator-sliderWrap"></div>
+		<div class="gsuiOscillator-sliderValue"></div>
 	</div>
 	<button class="gsuiOscillator-remove gsuiIcon" data-icon="close" title="Remove the oscillator"></button>
 </div>
