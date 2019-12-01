@@ -121,8 +121,21 @@
 .gsuiIcon[ data-icon="pause" ]::after { content: "\10f04c"; opacity: 1; }
 .gsuiIcon[ data-icon="toggle" ]::before { content: "\f111"; opacity: .6; }
 .gsuiIcon[ data-icon="toggle" ]::after { content: "\10f111"; opacity: 1; }
+
 .gsuiIcon[ data-icon="circle" ]::before { content: "\f111"; opacity: .6; }
 .gsuiIcon[ data-icon="circle" ]::after { content: "\10f111"; opacity: 1; }
+.gsuiIcon[ data-icon="square" ]::before { content: "\f0c8"; opacity: .6; }
+.gsuiIcon[ data-icon="square" ]::after { content: "\10f0c8"; opacity: 1; }
+.gsuiIcon[ data-icon="triangle" ]::before { content: "\f2ec"; opacity: .6; }
+.gsuiIcon[ data-icon="triangle" ]::after { content: "\10f2ec"; opacity: 1; }
+.gsuiIcon[ data-icon="diamond" ]::before { content: "\f219"; opacity: .6; }
+.gsuiIcon[ data-icon="diamond" ]::after { content: "\10f219"; opacity: 1; }
+.gsuiIcon[ data-icon="heart" ]::before { content: "\f004"; opacity: .6; }
+.gsuiIcon[ data-icon="heart" ]::after { content: "\10f004"; opacity: 1; }
+.gsuiIcon[ data-icon="hexagon" ]::before { content: "\f312"; opacity: .6; }
+.gsuiIcon[ data-icon="hexagon" ]::after { content: "\10f312"; opacity: 1; }
+.gsuiIcon[ data-icon="octagon" ]::before { content: "\f306"; opacity: .6; }
+.gsuiIcon[ data-icon="octagon" ]::after { content: "\10f306"; opacity: 1; }
 
 .gsuiIcon[ data-icon="mute" ]::before { content: "\f2e2"; }
 .gsuiIcon[ data-icon="mute" ]::after { content: "\10f2e2"; }
