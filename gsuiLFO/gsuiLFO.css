@@ -1,14 +1,7 @@
 :root {
 	--gsuiLFO-h: 118px;
-	--gsuiLFO-bg: #2af;
-	--gsuiLFO-font: sans-serif;
-	--gsuiLFO-number-font: monospace;
-	--gsuiLFO-color: #ff0;
-	--gsuiLFO-ctrls-color: #fff;
-	--gsuiLFO-sliders-bg: #555;
 }
 
-/* .......................................................................... */
 .gsuiLFO {
 	display: grid;
 	min-height: var( --gsuiLFO-h );
@@ -20,11 +13,11 @@
 		".    type delay attack speed amp  .   " 28px
 		".    type wave  wave   wave  wave .   " 1fr
 		/2px  32px 1fr   1fr    1fr  1fr   2px;
-	font-family: var( --gsuiLFO-font );
-	color: var( --gsuiLFO-color );
+	color: var( --gsuiLFO-txt );
+	font-family: var( --gsui-font );
 	background-color: var( --gsuiLFO-bg );
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
-	--gsuiSlider-lineBgColor: var( --gsuiLFO-sliders-bg );
+	--gsuiSlider-lineBgColor: var( --gsuiLFO-slider-bg );
 }
 
 /* .......................................................................... */
@@ -45,7 +38,7 @@
 	margin: 0 2px;
 }
 .gsuiLFO-propValue {
-	font-family: var( --gsuiLFO-number-font );
+	font-family: var( --gsui-font-number );
 }
 .gsuiLFO-propContent {
 	flex: 1;
@@ -77,7 +70,7 @@
 	grid-area: head;
 	display: flex;
 	align-items: center;
-	background-color: #555;
+	background-color: var( --gsuiLFO-head-bg );
 }
 .gsuiLFO-title {
 	font-size: 14px;
@@ -88,7 +81,7 @@
 	border: 0;
 	margin: 0;
 	padding: 0 8px;
-	color: #fff3;
+	color: var( --gsuiLFO-toggle-off );
 	cursor: pointer;
 	font-size: 8px;
 	background: none;
@@ -103,13 +96,13 @@
 	grid-area: wave;
 	position: relative;
 	border-radius: 4px;
-	background-color: #0004;
+	background-color: var( --gsuiLFO-wave-bg );
 }
 .gsuiLFO-wave .gsuiPeriodicWave {
 	position: absolute;
 	top: 6px;
 	height: calc( 100% - 12px );
-	stroke: #fff4;
+	stroke: var( --gsuiLFO-wave-off );
 	stroke-width: 2px;
 	transition: stroke .2s;
 }
@@ -144,9 +137,9 @@
 	fill: none;
 	width: 100%;
 	height: 100%;
-	stroke: #fff4;
+	stroke: var( --gsuiLFO-wave-off );
 	stroke-width: 2px;
-	background-color: var( --gsuiLFO-sliders-bg );
+	background-color: var( --gsuiLFO-slider-bg );
 	transition: .2s;
 	transition-property: stroke, background-color;
 }
@@ -158,8 +151,8 @@
 	transform-origin: center;
 }
 .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
-	stroke: var( --gsuiLFO-sliders-bg );
-	background-color: #fff4;
+	stroke: var( --gsuiLFO-slider-bg );
+	background-color: var( --gsuiLFO-wave-off );
 }
 .gsuiLFO-enable .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
 	background-color: var( --gsuiLFO-ctrls-color );
