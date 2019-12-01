@@ -119,6 +119,8 @@
 .gsuiIcon[ data-icon="loop" ]::after { content: "\10f364"; }
 .gsuiIcon[ data-icon="pause" ]::before { content: "\f04c"; opacity: .6; }
 .gsuiIcon[ data-icon="pause" ]::after { content: "\10f04c"; opacity: 1; }
+.gsuiIcon[ data-icon="toggle" ]::before { content: "\f111"; opacity: .6; }
+.gsuiIcon[ data-icon="toggle" ]::after { content: "\10f111"; opacity: 1; }
 .gsuiIcon[ data-icon="circle" ]::before { content: "\f111"; opacity: .6; }
 .gsuiIcon[ data-icon="circle" ]::after { content: "\10f111"; opacity: 1; }
 
