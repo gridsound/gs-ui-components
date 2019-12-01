@@ -1,0 +1,15 @@
+.gsuiOscillator {
+	--gsuiOscillator-txt: #fff;
+	--gsuiOscillator-txt-low: #fff7;
+	--gsuiOscillator-bg: #666;
+	--gsuiOscillator-pan: #d9f;
+	--gsuiOscillator-gain: #ff9;
+	--gsuiOscillator-pan-a: #faa;
+	--gsuiOscillator-pan-b: #aaf;
+	--gsuiOscillator-detune: #fff;
+	--gsuiOscillator-slider-bg: #0003;
+	--gsuiOscillator-grip-bg: #0002;
+	--gsuiOscillator-wave-bg: #0006;
+	--gsuiOscillator-wave-option: #444;
+	--gsuiOscillator-wave-optionNative: #333;
+}
