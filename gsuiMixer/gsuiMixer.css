@@ -159,6 +159,8 @@
 	overflow: hidden;
 	word-wrap: break-word;
 	text-align: center;
+	font-size: 10px;
+	padding-right: .15ch;
 	user-select: none;
 	-webkit-user-select: none;
 }
