@@ -88,7 +88,7 @@
 	border: 0;
 	margin: 0;
 	padding: 0 8px;
-	color: #333;
+	color: #fff3;
 	cursor: pointer;
 	font-size: 12px;
 	background: none;
@@ -103,13 +103,13 @@
 	grid-area: wave;
 	position: relative;
 	border-radius: 4px;
-	background-color: rgba( 0, 0, 0, .3 );
+	background-color: #0004;
 }
 .gsuiLFO-wave .gsuiPeriodicWave {
 	position: absolute;
 	top: 6px;
 	height: calc( 100% - 12px );
-	stroke: rgba( 255, 255, 255, .3 );
+	stroke: #fff4;
 	stroke-width: 2px;
 	transition: stroke .2s;
 }
@@ -144,7 +144,7 @@
 	fill: none;
 	width: 100%;
 	height: 100%;
-	stroke: rgba( 255, 255, 255, .3 );
+	stroke: #fff4;
 	stroke-width: 2px;
 	background-color: var( --gsuiLFO-sliders-bg );
 	transition: .2s;
@@ -159,7 +159,7 @@
 }
 .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
 	stroke: var( --gsuiLFO-sliders-bg );
-	background-color: rgba( 255, 255, 255, .3 );
+	background-color: #fff4;
 }
 .gsuiLFO-enable .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
 	background-color: var( --gsuiLFO-ctrls-color );
