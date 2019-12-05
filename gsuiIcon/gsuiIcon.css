@@ -170,12 +170,16 @@
 .gsuiIcon[ data-icon="file-corrupt" ]::before { content: "\f877"; }
 .gsuiIcon[ data-icon="file-corrupt" ]::after { content: "\10f877"; }
 
-.gsuiIcon[ data-icon="login" ]::before { content: "\f2bd"; }
-.gsuiIcon[ data-icon="login" ]::after { content: "\10f2bd"; }
+.gsuiIcon[ data-icon="login" ]::before { content: "\f090"; }
+.gsuiIcon[ data-icon="login" ]::after { content: "\10f090"; }
+.gsuiIcon[ data-icon="login" ]:hover::before { content: "\f2f6"; }
+.gsuiIcon[ data-icon="login" ]:hover::after { content: "\10f2f6"; }
 .gsuiIcon[ data-icon="logout" ]::before { content: "\f08b"; }
 .gsuiIcon[ data-icon="logout" ]::after { content: "\10f08b"; }
 .gsuiIcon[ data-icon="logout" ]:hover::before { content: "\f2f5"; }
 .gsuiIcon[ data-icon="logout" ]:hover::after { content: "\10f2f5"; }
+.gsuiIcon[ data-icon="profile" ]::before { content: "\f2bd"; }
+.gsuiIcon[ data-icon="profile" ]::after { content: "\10f2bd"; }
 
 .gsuiIcon[ data-icon="speed" ]::before { content: "\f625"; opacity: 0; }
 .gsuiIcon[ data-icon="speed" ]::after { content: "\10f625"; opacity: 1; }
