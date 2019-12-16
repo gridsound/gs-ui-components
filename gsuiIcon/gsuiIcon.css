@@ -26,10 +26,9 @@
 	color: var( --gsuiIcon-color-after );
 	opacity: var( --gsuiIcon-opacity-after );
 }
+.gsuiIcon:not( [ data-spin="on" ] )[ data-icon="" ],
+.gsuiIcon:not( [ data-spin="on" ] ):not( [ data-icon ] ),
 .gsuiIconB::after {
-	display: none;
-}
-.gsuiIcon[ data-icon="" ] {
 	display: none;
 }
 
