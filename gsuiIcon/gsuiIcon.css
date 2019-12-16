@@ -181,6 +181,8 @@
 .gsuiIcon[ data-icon="logout" ]:hover::after { content: "\10f2f5"; }
 .gsuiIcon[ data-icon="profile" ]::before { content: "\f2bd"; }
 .gsuiIcon[ data-icon="profile" ]::after { content: "\10f2bd"; }
+.gsuiIcon[ data-icon="musician" ]::before { content: "\f8eb"; }
+.gsuiIcon[ data-icon="musician" ]::after { content: "\10f8eb"; }
 
 .gsuiIcon[ data-icon="speed" ]::before { content: "\f625"; opacity: 0; }
 .gsuiIcon[ data-icon="speed" ]::after { content: "\10f625"; opacity: 1; }
