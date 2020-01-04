@@ -1,14 +1,21 @@
 "use strict";
 
 class gsuiWaveform {
-	constructor( svg ) {
-		this.rootElement = svg || document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
-		this.rootElement.setAttribute( "preserveAspectRatio", "none" );
-		this.rootElement.classList.add( "gsuiWaveform" );
-		this.polygon = this.rootElement.querySelector( "polygon" );
-		if ( !this.polygon ) {
+	constructor( el ) {
+		const svg = el || document.createElementNS( "http://www.w3.org/2000/svg", "svg" ),
+			poly = svg.querySelector( "polygon" );
+
+		this.rootElement = svg;
+		this.polygon = poly;
+		this.width =
+		this.height = 0;
+		Object.seal( this );
+
+		svg.setAttribute( "preserveAspectRatio", "none" );
+		svg.classList.add( "gsuiWaveform" );
+		if ( !poly ) {
 			this.polygon = document.createElementNS( "http://www.w3.org/2000/svg", "polygon" );
-			this.rootElement.append( this.polygon );
+			svg.append( this.polygon );
 		}
 	}
 
