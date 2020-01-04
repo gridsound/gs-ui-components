@@ -191,10 +191,10 @@
 .gsuiIcon[ data-icon="history" ]::before { content: "\f1da"; }
 .gsuiIcon[ data-icon="history" ]::after { content: "\10f1da"; }
 
-.gsuiIcon[ data-icon="drum" ]::before { content: "\f2a1"; }
-.gsuiIcon[ data-icon="drum" ]::after { content: "\10f2a1"; }
 .gsuiIcon[ data-icon="keys" ]::before { content: "\f8d5"; }
 .gsuiIcon[ data-icon="keys" ]::after { content: "\10f8d5"; }
+.gsuiIcon[ data-icon="drums" ]::before { content: "\f2a1"; }
+.gsuiIcon[ data-icon="drums" ]::after { content: "\10f2a1"; }
 .gsuiIcon[ data-icon="mixer" ]::before { content: "\f3f1"; }
 .gsuiIcon[ data-icon="mixer" ]::after { content: "\10f3f1"; }
 .gsuiIcon[ data-icon="music" ]::before { content: "\f001"; }
