@@ -1,68 +1,15 @@
 "use strict";
 
-class gsuiWaveforms {
-	constructor() {
-		const root = document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
-
-		this.rootElement = root;
-		this._waves = new Map();
-		this._elDefs = document.createElementNS( "http://www.w3.org/2000/svg", "defs" );
-		this._pxPerSec = 24;
-		this._pxHeight = 64;
-		Object.seal( this );
-
-		root.style.display = "none";
-		root.classList.add( "gsuiWaveforms" );
-		root.append( this._elDefs );
-		document.body.prepend( root );
-	}
-
-	setPxPerSecond( px ) {
-		this._pxPerSec = px | 0;
-	}
-	setPxHeight( px ) {
-		this._pxHeight = px | 0;
-	}
-	empty() {
-		this._waves.forEach( w => w.polygon.remove() );
-		this._waves.clear();
-	}
-	delete( id ) {
-		this._waves.get( id ).polygon.remove();
-		this._waves.delete( id );
-	}
+class gsuiWaveforms extends gsuiSVGDefs {
 	add( id, buf ) {
-		const polygon = document.createElementNS( "http://www.w3.org/2000/svg", "polygon" ),
-			w = buf.duration * this._pxPerSec | 0,
-			h = this._pxHeight;
+		const polygon = gsuiSVGDefs.create( "polygon" ),
+			w = buf.duration * 48 | 0,
+			h = 48;
 
-		polygon.id = `gsuiWaveforms_${ id }`;
 		gsuiWaveform.drawBuffer( polygon, w, h, buf );
-		this._elDefs.append( polygon );
-		this._waves.set( id, {
-			polygon, w, h,
-			duration: buf.duration,
-		} );
+		return super.add( id, w, h, polygon );
 	}
-	createSVG( id ) {
-		const wave = this._waves.get( id );
-
-		if ( wave ) {
-			const svg = document.createElementNS( "http://www.w3.org/2000/svg", "svg" ),
-				use = document.createElementNS( "http://www.w3.org/2000/svg", "use" );
-
-			svg.dataset.id = id;
-			use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#gsuiWaveforms_${ id }` );
-			svg.setAttribute( "viewBox", `0 0 ${ wave.w } ${ wave.h }` );
-			svg.setAttribute( "preserveAspectRatio", "none" );
-			svg.append( use );
-			return svg;
-		}
-	}
-	setSVGViewbox( svg, off, dur ) {
-		const wave = this._waves.get( svg.dataset.id ),
-			div = wave.duration / wave.w;
-
-		svg.setAttribute( "viewBox", `${ off / div } 0 ${ dur / div } ${ wave.h }` );
+	setSVGViewbox( svg, xstart, xsize ) {
+		return super.setSVGViewbox( svg, xstart * 48, xsize * 48 );
 	}
 }
