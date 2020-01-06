@@ -6,6 +6,7 @@ class gsuiSVGDefs {
 
 		this.rootElement = svg;
 		this._defs = new Map();
+		this._idPref = `gsuiSVGDefs_${ gsuiSVGDefs._id++ }_`;
 		this._elDefs = gsuiSVGDefs.create( "defs" );
 		Object.freeze( this );
 
@@ -30,7 +31,7 @@ class gsuiSVGDefs {
 	add( id, w, h, ...elems ) {
 		const g = gsuiSVGDefs.create( "g" );
 
-		g.id = `gsuiSVGDefs_${ id }`;
+		g.id = `${ this._idPref }${ id }`;
 		g.append( ...elems );
 		this._elDefs.append( g );
 		this._defs.set( id, { g, w, h } );
@@ -43,7 +44,7 @@ class gsuiSVGDefs {
 				use = gsuiSVGDefs.create( "use" );
 
 			svg.dataset.id = id;
-			use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#gsuiSVGDefs_${ id }` );
+			use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this._idPref }${ id }` );
 			svg.setAttribute( "viewBox", `0 0 ${ def.w } ${ def.h }` );
 			svg.setAttribute( "preserveAspectRatio", "none" );
 			svg.append( use );
@@ -56,3 +57,5 @@ class gsuiSVGDefs {
 		svg.setAttribute( "viewBox", `${ x } 0 ${ w } ${ h }` );
 	}
 }
+
+gsuiSVGDefs._id = 0;
