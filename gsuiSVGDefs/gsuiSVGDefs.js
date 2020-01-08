@@ -28,13 +28,24 @@ class gsuiSVGDefs {
 		this._defs.get( id ).g.remove();
 		this._defs.delete( id );
 	}
-	add( id, w, h, ...elems ) {
+	add( id, w = 0, h = 0, ...elems ) {
 		const g = gsuiSVGDefs.create( "g" );
 
 		g.id = `${ this._idPref }${ id }`;
 		g.append( ...elems );
 		this._elDefs.append( g );
 		this._defs.set( id, { g, w, h } );
+	}
+	update( id, w, h, ...elems ) {
+		const def = this._defs.get( id ),
+			g = def.g;
+
+		def.w = w;
+		def.h = h;
+		while ( g.lastChild ) {
+			g.lastChild.remove();
+		}
+		g.append( ...elems );
 	}
 	createSVG( id ) {
 		const def = this._defs.get( id );
