@@ -9,7 +9,7 @@ class gsuiWaveforms extends gsuiSVGDefs {
 		gsuiWaveform.drawBuffer( polygon, w, h, buf );
 		return super.add( id, w, h, polygon );
 	}
-	setSVGViewbox( svg, xstart, xsize ) {
-		return super.setSVGViewbox( svg, xstart * 48, xsize * 48 );
+	setSVGViewbox( svg, x, w, bps ) {
+		return super.setSVGViewbox( svg, x / bps * 48, w / bps * 48 );
 	}
 }
