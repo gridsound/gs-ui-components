@@ -78,7 +78,6 @@
 .gsuiOscillator-waveSelect {
 	border: 0;
 	padding: 0;
-	color: inherit;
 	cursor: pointer;
 	color: var( --gsuiOscillator-txt-low );
 	background-color: var( --gsuiOscillator-wave-bg );
