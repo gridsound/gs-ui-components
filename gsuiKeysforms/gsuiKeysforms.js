@@ -2,13 +2,10 @@
 
 class gsuiKeysforms extends gsuiSVGDefs {
 	update( id, keys, dur ) {
-		return super.update( id, dur, 1, ...gsuiKeysforms._render( keys, dur ) );
-	}
-	setSVGViewbox( svg, x, w ) {
-		return super.setSVGViewbox( svg, x, w );
+		return super.update( id, dur, 1, ...gsuiKeysforms._render( keys ) );
 	}
 
-	static _render( keys, dur ) {
+	static _render( keys ) {
 		const arrKeys = Object.values( keys ),
 			{ min, size } = gsuiKeysforms._calcMinMax( arrKeys ),
 			rowH = 1 / ( size + 1 );
