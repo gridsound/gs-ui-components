@@ -36,21 +36,26 @@ class gsuiBeatlines {
 			bPM = this._beatsPerMeasure,
 			sPB = this._stepsPerBeat,
 			sPM = sPB * bPM,
-			stepW = this._width / bPM / sPB,
+			beatW = this._width / bPM,
+			stepW = beatW / sPB,
 			mesrColor = `rgba(0,0,0,${ 1 * alpha })`,
 			beatColor = `rgba(0,0,0,${ .5 * alpha })`,
 			stepColor = `rgba(0,0,0,${ .2 * alpha })`,
-			steps = [];
+			beatBg = `rgba(0,0,0,${ .05 * alpha })`,
+			elems = [];
 
-		for ( let step = 0; step <= sPM; ++step ) {
+		for ( let step = 0; step <= sPM * 2; ++step ) {
 			const col = step % sPB ? stepColor :
 					step % sPM ? beatColor : mesrColor,
 				w = col === mesrColor ? 1.25 : 1,
 				x = step * stepW - ( w / 2 );
 
-			steps.push( this._createRect( x, w, col ) );
+			elems.push( this._createRect( x + stepW / 2, w, col ) );
 		}
-		this._updateBGImage( steps );
+		for ( let beat = 0; beat <= bPM; ++beat ) {
+			elems.push( this._createRect( beat * 2 * beatW + stepW / 2 - .5, beatW, beatBg ) );
+		}
+		this._updateBGImage( elems );
 		this._updateBGSize();
 	}
 
@@ -65,11 +70,12 @@ class gsuiBeatlines {
 	_updateBGImage( steps ) {
 		this.rootElement.style.backgroundImage = `url("${ encodeURI(
 			"data:image/svg+xml,<svg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' " +
-			`viewBox='0 0 ${ this._width } 1'>${ steps.join( " " ) }</svg>`
+			`viewBox='0 0 ${ this._width * 2 } 1'>${ steps.join( " " ) }</svg>`
 		) }")`;
 	}
 	_updateBGSize() {
-		this.rootElement.style.backgroundSize = `${ this._width }px 1px`;
+		this.rootElement.style.backgroundSize = `${ this._width * 2 }px 1px`;
+		this.rootElement.style.backgroundPositionX = `${ this._pxPerBeat / this._stepsPerBeat * -.5 }px`;
 	}
 }
 
