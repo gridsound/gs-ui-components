@@ -33,20 +33,23 @@ class gsuiBeatlines {
 	}
 	render() {
 		const alpha = Math.min( this._pxPerBeat / 32, 1 ),
-			stepPx = this._width / this._beatsPerMeasure / this._stepsPerBeat,
-			stepsPerMeasure = this._stepsPerBeat * this._beatsPerMeasure,
+			bPM = this._beatsPerMeasure,
+			sPB = this._stepsPerBeat,
+			sPM = sPB * bPM,
+			stepW = this._width / bPM / sPB,
 			mesrColor = `rgba(0,0,0,${ 1 * alpha })`,
 			beatColor = `rgba(0,0,0,${ .5 * alpha })`,
 			stepColor = `rgba(0,0,0,${ .2 * alpha })`,
-			steps = [ this._createRect( 0, 1.25, mesrColor ) ];
+			steps = [];
 
-		for ( let step = 1; step < stepsPerMeasure; ++step ) {
-			const x = stepPx + stepPx * ( step - 1 ) - .5,
-				col = step % this._stepsPerBeat ? stepColor : beatColor;
+		for ( let step = 0; step <= sPM; ++step ) {
+			const col = step % sPB ? stepColor :
+					step % sPM ? beatColor : mesrColor,
+				w = col === mesrColor ? 1.25 : 1,
+				x = step * stepW - ( w / 2 );
 
-			steps.push( this._createRect( x, 1, col ) );
+			steps.push( this._createRect( x, w, col ) );
 		}
-		steps.push( this._createRect( stepPx + stepPx * ( stepsPerMeasure - 1 ) - .5, 1.25, mesrColor ) );
 		this._updateBGImage( steps );
 		this._updateBGSize();
 	}
