@@ -31,14 +31,13 @@
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	border-left-width: 1px !important;
 }
 .gsuiBlocksManager-sidePanelMenu {
 	display: flex;
 	box-sizing: border-box;
 	align-items: center;
 	justify-content: flex-end;
-	padding: 4px;
+	padding-right: 4px;
 	height: var( --gsuiBlocksManager-timeline-height );
 }
 
