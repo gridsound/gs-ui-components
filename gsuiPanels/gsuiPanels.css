@@ -1,9 +1,3 @@
-:root {
-	--gsuiPanels-bd: 1px solid #222;
-	--gsuiPanels-extendSize: 5px;
-	--gsuiPanels-extendColor: #888;
-}
-
 .gsuiPanels-cursor {
 	position: fixed;
 	z-index: 2147483647;
