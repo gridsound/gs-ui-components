@@ -25,7 +25,8 @@ class gsuiDrums {
 		this._beatlines = beatlines;
 		this._elRows = elRows;
 		this._elLines = elLines;
-		this._elLineHover = null;
+		this._elLineHover =
+		this._timeoutIdBeatlines = null;
 		this._width =
 		this._height =
 		this._offset =
@@ -59,6 +60,7 @@ class gsuiDrums {
 		elRows.oncontextmenu = this._oncontextmenuRows.bind( this );
 		elLines.onclick = this._onclickLines.bind( this );
 		elLines.onscroll = this._onscrollLines.bind( this );
+		elLines.onwheel = this._onwheelLines.bind( this );
 		elLines.onmousemove = this._mousemoveLines.bind( this );
 		timeline.oninputLoop = this._oninputLoop.bind( this );
 		timeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
@@ -116,6 +118,8 @@ class gsuiDrums {
 		this._elLoopB.style.fontSize =
 		this._elCurrentTime.style.fontSize = ppbpx;
 		Array.prototype.forEach.call( this._nlLinesIn, el => el.style.fontSize = ppbpx );
+		clearTimeout( this._timeoutIdBeatlines );
+		this._timeoutIdBeatlines = setTimeout( () => this._beatlines.render(), 100 );
 	}
 
 	// private:
@@ -230,6 +234,18 @@ class gsuiDrums {
 		}
 		if ( this._elLineHover ) {
 			this.__mousemoveLines( this._elLineHover, this._drumHoverX );
+		}
+	}
+	_onwheelLines( e ) {
+		if ( e.ctrlKey ) {
+			const elLines = this._elLines,
+				layerX = e.pageX - elLines.getBoundingClientRect().left + elLines.scrollLeft,
+				ppb = Math.round( Math.min( Math.max( 48, this._pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 128 ) );
+
+			this._scrollLeft =
+			elLines.scrollLeft += layerX / this._pxPerBeat * ( ppb - this._pxPerBeat );
+			this._offset = elLines.scrollLeft / ppb;
+			this.setPxPerBeat( ppb );
 		}
 	}
 	_mousemoveLines( e ) {

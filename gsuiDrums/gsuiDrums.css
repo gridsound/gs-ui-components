@@ -141,7 +141,7 @@
 	opacity: 0;
 }
 .gsuiDrums-currentTime {
-	background-color: #fff1;
+	background-color: var( --gsuiDrums-currentTime-bg );
 	opacity: 1;
 }
 .gsuiDrums-loopA { left: 0; }
