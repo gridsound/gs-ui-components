@@ -6,14 +6,18 @@
 	<div class="gsuiDrums-linesPanel">
 		<div class="gsuiDrums-timelineWrap"></div>
 		<div class="gsuiDrums-lines">
-			<div class="gsuiDrums-linesAbsolute"></div>
+			<div class="gsuiDrums-linesAbsolute">
+				<div class="gsuiDrums-currentTime"></div>
+				<div class="gsuiDrums-loop gsuiDrums-loopA"></div>
+				<div class="gsuiDrums-loop gsuiDrums-loopB"></div>
+			</div>
 			<div class="gsuiDrums-drumHover"></div>
 		</div>
 	</div>
 </div>
 
 <div class="gsuiDrums-row" id="gsuiDrums-row-template" draggable="true">
-	<div class="gsuiDrums-row-grip gsuiIcon" data-icon="grip-v"></div>
+	<div class="gsuiDrums-row-grip"><i class="gsuiIcon" data-icon="grip-v"></i></div>
 	<button class="gsuiDrums-row-toggle gsuiIcon" data-icon="toggle" title="Toggle the drumrow"></button>
 	<span class="gsuiDrums-row-name"></span>
 	<button class="gsuiDrums-row-delete gsuiIcon" data-icon="close" title="Remove the drumrow"></button>
@@ -24,6 +28,7 @@
 </div>
 
 <div class="gsuiDrums-drum" id="gsuiDrums-drum-template">
-	<button class="gsuiDrums-drum-stepBtn"></button>
-	<button class="gsuiDrums-drum-cutBtn gsuiIcon" data-icon="stop"></button>
+	<div class="gsuiDrums-drum-in">
+		<div class="gsuiDrums-drum-param"></div>
+	</div>
 </div>
