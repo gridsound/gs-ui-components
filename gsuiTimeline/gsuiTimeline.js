@@ -46,6 +46,7 @@ class gsuiTimeline {
 		this._elCursorPreview = qs( "cursorPreview" );
 		Object.seal( this );
 
+		root.onmousedown = this._mousedown.bind( this );
 		this._elLoopA.onmousedown = this._mousedownLoop.bind( this, "a" );
 		this._elLoopB.onmousedown = this._mousedownLoop.bind( this, "b" );
 		this._elLoopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
@@ -158,6 +159,9 @@ class gsuiTimeline {
 		this._evMousemove = this._mousemove.bind( this );
 		document.addEventListener( "mouseup", this._evMouseup );
 		document.addEventListener( "mousemove", this._evMousemove );
+	}
+	_mousedown() {
+		window.getSelection().removeAllRanges();
 	}
 	_mousedownTime( e ) {
 		this._timeisdrag = true;
