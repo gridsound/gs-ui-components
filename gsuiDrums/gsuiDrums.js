@@ -25,36 +25,38 @@ class gsuiDrums {
 		this._beatlines = beatlines;
 		this._elRows = elRows;
 		this._elLines = elLines;
-		this._elLineHover =
 		this._timeoutIdBeatlines = null;
 		this._width =
 		this._height =
 		this._offset =
+		this._pxPerStep =
+		this._pxPerBeat =
 		this._scrollTop =
 		this._scrollLeft =
 		this._drumHoverX =
 		this._drumHoverBeat =
 		this._linesPanelWidth = 0;
-		this._pxPerStep = 0;
-		this._pxPerBeat = 128;
 		this._stepsPerBeat = 4;
-		this._attached = false;
+		this._attached =
+		this._drumHovering = false;
 		this._elLoopA = this._qS( "loopA" );
 		this._elLoopB = this._qS( "loopB" );
+		this._elLinesAbs = this._qS( "linesAbsolute" );
+		this._elDrumHover = this._qS( "drumHover" );
 		this._elCurrentTime = this._qS( "currentTime" );
 		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
-		this._drumHover = this._qS( "drumHover" );
 		Object.seal( this );
 
 		reorder.onchange = ( ...args ) => lg( ...args );
 		reorder.setRootElement( elRows );
+		reorder.setShadowElement( this._elLinesAbs );
 		reorder.setSelectors( {
 			item: ".gsuiDrums-rows .gsuiDrums-row",
 			handle: ".gsuiDrums-rows .gsuiDrums-row-grip",
 			parent: ".gsuiDrums-rows",
 		} );
-		this._drumHover.remove();
-		this._drumHover.onclick = this._onclickNewDrum.bind( this );
+		this._elDrumHover.remove();
+		this._elDrumHover.onclick = this._onclickNewDrum.bind( this );
 		elRows.onclick = this._onclickRows.bind( this );
 		elRows.onscroll = this._onscrollRows.bind( this );
 		elRows.oncontextmenu = this._oncontextmenuRows.bind( this );
@@ -100,7 +102,7 @@ class gsuiDrums {
 		this._timeline.timeSignature( a, b );
 		this._beatlines.timeSignature( a, b );
 		this.setPxPerBeat( this._pxPerBeat );
-		this._drumHover.style.width =
+		this._elDrumHover.style.width =
 		this._elCurrentTime.style.width = `${ 1 / b }em`;
 	}
 	setFontSize( fs ) {
@@ -140,6 +142,10 @@ class gsuiDrums {
 			this._elLoopA.style.width = `${ a }em`;
 			this._elLoopB.style.left = `${ b }em`;
 		}
+	}
+	_hideDrumHover() {
+		this._drumHovering = false;
+		this._elDrumHover.remove();
 	}
 
 	// data callbacks:
@@ -232,9 +238,7 @@ class gsuiDrums {
 			this._offset = scrollLeft / this._pxPerBeat;
 			this._timeline.offset( this._offset, this._pxPerBeat );
 		}
-		if ( this._elLineHover ) {
-			this.__mousemoveLines( this._elLineHover, this._drumHoverX );
-		}
+		this.__mousemoveLines();
 	}
 	_onwheelLines( e ) {
 		if ( e.ctrlKey ) {
@@ -246,32 +250,36 @@ class gsuiDrums {
 			elLines.scrollLeft += layerX / this._pxPerBeat * ( ppb - this._pxPerBeat );
 			this._offset = elLines.scrollLeft / ppb;
 			this.setPxPerBeat( ppb );
+			this.__mousemoveLines();
 		}
 	}
 	_mousemoveLines( e ) {
-		const line = e.target;
+		const tar = e.target,
+			elLine = this._has( tar, "lineIn" ) ? tar :
+				this._has( tar, "drum" ) ? tar.parentNode : null;
 
-		if ( this._has( line, "lineIn" ) ) {
+		if ( elLine ) {
+			this._drumHovering = true;
 			this._drumHoverX = e.pageX;
-			this.__mousemoveLines( line, e.pageX );
-		} else if ( this._has( line, "drum" ) ) {
-			this._drumHover.remove();
+			this.__mousemoveLines();
+			if ( this._elDrumHover.parentNode !== elLine ) {
+				elLine.append( this._elDrumHover );
+			}
 		}
 	}
-	__mousemoveLines( line, pageX ) {
-		const el = this._drumHover,
-			lineX = line.getBoundingClientRect().left,
-			beat = ( ( pageX - lineX ) / this._pxPerStep | 0 ) / this._stepsPerBeat;
+	__mousemoveLines() {
+		if ( this._drumHovering ) {
+			const el = this._elDrumHover,
+				bcr = this._elLinesAbs.getBoundingClientRect(),
+				pageX = this._drumHoverX,
+				beat = ( ( pageX - bcr.left ) / this._pxPerStep | 0 ) / this._stepsPerBeat;
 
-		this._drumHoverBeat = beat;
-		el.style.left = `${ beat * this._pxPerBeat }px`;
-		if ( el.parentNode !== line ) {
-			this._elLineHover = line;
-			line.append( el );
+			this._drumHoverBeat = beat;
+			el.style.left = `${ beat * this._pxPerBeat }px`;
 		}
 	}
 	_onmouseleaveLines() {
-		this._drumHover.remove();
+		this._hideDrumHover();
 	}
 	_onclickNewDrum() {
 		this.gsdata.callAction( "addDrum", this._drumHoverBeat );

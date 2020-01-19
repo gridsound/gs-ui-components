@@ -39,11 +39,13 @@
 /* .......................................................................... */
 .gsuiDrums-row {
 	position: relative;
-	height: 1em;
+	height: calc( 1em + 1px );
+	margin-top: -1px;
 	display: flex;
 	box-sizing: border-box;
 	padding-right: 8px;
-	border-bottom: 1px solid #0003;
+	border: 0 solid #0002;
+	border-width: 1px 0;
 	background-color: var( --gsuiDrums-row-bg );
 }
 .gsuiDrums-row-mute {
@@ -112,15 +114,17 @@
 }
 .gsuiDrums-linesAbsolute {
 	position: absolute;
+	box-shadow: 0 1000px 0px 1000px var( --gsuiDrums-lines-bg );
+}
+.gsuiDrums-line.gsuiReorder-dragging {
+	opacity: .5;
+	background-color: #0004;
 }
 .gsuiDrums-line {
 	position: relative;
 	width: 1000000px;
 	height: 1em;
 	cursor: pointer;
-}
-.gsuiDrums-line:last-child {
-	box-shadow: 0 1000px 0px 1000px var( --gsuiDrums-lines-bg );
 }
 .gsuiDrums-lineIn {
 	height: 100%;
@@ -153,11 +157,19 @@
 /* .......................................................................... */
 .gsuiDrums-drumHover {
 	position: absolute;
-	box-sizing: border-box;
-	border-radius: 4px;
 	height: 100%;
+	background-color: #0002;
+}
+.gsuiDrums-drumHoverIn {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 1px;
+	bottom: 1px;
+	border-radius: 4px;
 	border: 2px solid var( --gsuiDrums-drumHover-border );
-	background-color:  var( --gsuiDrums-drumHover-bg );
+	background-color: var( --gsuiDrums-drumHover-bg );
+	pointer-events: none;
 }
 
 /* .......................................................................... */
@@ -166,6 +178,7 @@
 	position: absolute;
 	box-sizing: border-box;
 	flex-direction: column;
+	z-index: 1;
 	width: 1em;
 	height: 100%;
 }
