@@ -10,6 +10,8 @@ class gsuiReorder {
 		this._elDragover =
 		this._itemDragover =
 		this._parentDragover =
+		this._elShadowParent =
+		this._elShadowDragged =
 		this._elDraggedParent = null;
 		this._indDragged = 0;
 		this._droppedInside = false;
@@ -50,6 +52,9 @@ class gsuiReorder {
 			el.addEventListener( "dragend", this._ondragend );
 		}
 	}
+	setShadowElement( el ) {
+		this._elShadowParent = el;
+	}
 
 	// private:
 	// .........................................................................
@@ -64,16 +69,25 @@ class gsuiReorder {
 	}
 	_ondragstart( e ) {
 		if ( this._elClicked && this._elClicked.matches( this._selectors.handle ) ) {
-			const elItem = e.target;
+			const elItem = e.target,
+				itemId = elItem.dataset.id;
 
 			document.addEventListener( "drop", this._ondrop );
 			this._elClicked = null;
 			this._elDragged = elItem;
 			this._elDraggedParent = elItem.parentNode;
+			if ( this._elShadowParent ) {
+				this._elShadowDragged = this._elShadowParent.querySelector( `[data-id="${ itemId }"]` );
+			}
 			this._indDragged = this._getIndex( elItem );
 			e.dataTransfer.effectAllowed = "move";
 			e.dataTransfer.setData( "text", this.setDataTransfert( elItem ) );
-			setTimeout( () => this._elDragged.classList.add( "gsuiReorder-dragging" ), 20 );
+			setTimeout( () => {
+				this._elDragged.classList.add( "gsuiReorder-dragging" );
+				if ( this._elShadowDragged ) {
+					this._elShadowDragged.classList.add( "gsuiReorder-dragging" );
+				}
+			}, 20 );
 		} else if ( this._preventDefault ) {
 			e.preventDefault();
 		}
@@ -97,16 +111,25 @@ class gsuiReorder {
 				}
 			} else {
 				const bcr = elOver.getBoundingClientRect(),
-					isV = this._isVertical;
+					isV = this._isVertical,
+					overId = elOver.dataset.id;
 
 				if ( ( isV && e.clientY < bcr.top + bcr.height / 2 ) ||
 					( !isV && e.clientX < bcr.left + bcr.width / 2 )
 				) {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
+						if ( this._elShadowDragged ) {
+							this._elShadowParent.querySelector( `[data-id="${ overId }"]` )
+								.before( this._elShadowDragged );
+						}
 					}
 				} else if ( elOver.nextElementSibling !== elDrag ) {
 					elOver.after( elDrag );
+					if ( this._elShadowDragged ) {
+						this._elShadowParent.querySelector( `[data-id="${ overId }"]` )
+							.after( this._elShadowDragged );
+					}
 				}
 			}
 			this._elDragover = tar;
@@ -126,6 +149,9 @@ class gsuiReorder {
 			this._elDragover =
 			this._itemDragover = null;
 			el.classList.remove( "gsuiReorder-dragging" );
+			if ( this._elShadowDragged ) {
+				this._elShadowDragged.classList.remove( "gsuiReorder-dragging" );
+			}
 			document.removeEventListener( "drop", this._ondrop );
 			if ( this._droppedInside ) {
 				const ind = this._getIndex( el );
