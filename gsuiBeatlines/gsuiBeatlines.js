@@ -7,6 +7,7 @@ class gsuiBeatlines {
 		this._stepsPerBeat = 4;
 		this._width =
 		this._pxPerBeat = 0;
+		this._colorBeatsOdd = true;
 		Object.seal( this );
 
 		el.classList.add( "gsuiBeatlines" );
@@ -31,6 +32,9 @@ class gsuiBeatlines {
 		this._updateWidth();
 		this.render();
 	}
+	colorBeatsOdd( b ) {
+		this._colorBeatsOdd = b;
+	}
 	render() {
 		const alpha = Math.min( this._pxPerBeat / 32, 1 ),
 			bPM = this._beatsPerMeasure,
@@ -52,8 +56,10 @@ class gsuiBeatlines {
 
 			elems.push( this._createRect( x + stepW / 2, w, col ) );
 		}
-		for ( let beat = 0; beat <= bPM; ++beat ) {
-			elems.push( this._createRect( beat * 2 * beatW + stepW / 2 - .5, beatW, beatBg ) );
+		if ( this._colorBeatsOdd ) {
+			for ( let beat = 0; beat <= bPM; ++beat ) {
+				elems.push( this._createRect( beat * 2 * beatW + stepW / 2 - .5, beatW, beatBg ) );
+			}
 		}
 		this._updateBGImage( elems );
 		this._updateBGSize();
