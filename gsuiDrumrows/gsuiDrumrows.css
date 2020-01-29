@@ -1,0 +1,81 @@
+.gsuiDrumrows {
+	overflow-y: scroll;
+	scrollbar-width: none;
+	background-color: var( --gsuiDrumrows-bg );
+}
+.gsuiDrumrows::-webkit-scrollbar {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiDrumrow {
+	position: relative;
+	height: calc( 1em + 1px );
+	margin-top: -1px;
+	display: flex;
+	box-sizing: border-box;
+	padding-right: 8px;
+	border: 0 solid #0002;
+	border-width: 1px 0;
+	background-color: var( --gsuiDrumrow-bg );
+}
+.gsuiDrumrow-mute {
+	--gsuiDrumrow-name-opacity: .5;
+	--gsuiDrumrow-toggle-bg: var( --gsuiDrumrow-toggleOff-bg );
+}
+
+/* .......................................................................... */
+.gsuiDrumrow-grip {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	font-size: 12px;
+	cursor: grab;
+	background-color: var( --gsuiDrumrow-grip-bg );
+}
+.gsuiDrumrow-grip .gsuiIcon {
+	pointer-events: none;
+	opacity: .4;
+}
+.gsuiDrumrow-toggle {
+	width: 24px;
+	border: 0;
+	padding: 0;
+	font-size: 8px;
+	color: var( --gsuiDrumrow-toggle-bg );
+	cursor: pointer;
+	background: none;
+}
+.gsuiDrumrow-name {
+	flex: 1;
+	align-self: center;
+	font-size: 12px;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: default;
+	opacity: var( --gsuiDrumrow-name-opacity, 1 );
+}
+.gsuiDrumrow-delete {
+	position: absolute;
+	right: 0;
+	border: 0;
+	padding: 0;
+	width: 14px;
+	height: 16px;
+	color: inherit;
+	cursor: pointer;
+	font-size: 12px;
+	background: none;
+	opacity: 0;
+	transition: .1s opacity;
+}
+.gsuiDrumrow:hover .gsuiDrumrow-delete {
+	opacity: .3;
+}
+.gsuiDrumrow .gsuiDrumrow-delete:hover,
+.gsuiDrumrow .gsuiDrumrow-delete:focus {
+	opacity: 1;
+}
