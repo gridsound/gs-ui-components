@@ -3,23 +3,24 @@
 class gsuiDrums {
 	constructor() {
 		const root = gsuiDrums.template.cloneNode( true ),
-			elRows = root.querySelector( ".gsuiDrums-rows" ),
 			elLines = root.querySelector( ".gsuiDrums-lines" ),
-			reorder = new gsuiReorder(),
 			timeline = new gsuiTimeline(),
+			drumrows = new gsuiDrumrows(),
 			beatlines = new gsuiBeatlines( elLines ),
 			panels = new gsuiPanels( root ),
+			elRows = drumrows.rootElement,
 			gsdata = { callAction( ...args ) { lg( ...args ) } };
 			// gsdata = new GSDataDrums();
 
 		this.rootElement = root;
+		this.uiDrumrows = drumrows;
 		this.gsdata = gsdata;
 		this.oninput =
 		this.onchange =
 		this.onchangeLoop =
+		this.onchangeDrumrows =
 		this.onchangeCurrentTime = GSData.noop;
 
-		this._reorder = reorder;
 		this._uiPanels = panels;
 		this._timeline = timeline;
 		this._beatlines = beatlines;
@@ -47,19 +48,12 @@ class gsuiDrums {
 		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
 		Object.seal( this );
 
-		reorder.onchange = ( ...args ) => lg( ...args );
-		reorder.setRootElement( elRows );
-		reorder.setShadowElement( this._elLinesAbs );
-		reorder.setSelectors( {
-			item: ".gsuiDrums-rows .gsuiDrums-row",
-			handle: ".gsuiDrums-rows .gsuiDrums-row-grip",
-			parent: ".gsuiDrums-rows",
-		} );
 		this._elDrumHover.remove();
 		this._elDrumHover.onclick = this._onclickNewDrum.bind( this );
-		elRows.onclick = this._onclickRows.bind( this );
+		drumrows.setLinesParent( this._elLinesAbs );
+		drumrows.onaddDrumrow = this._addDrumrow.bind( this );
+		drumrows.onchange = ( ...args ) => this.onchangeDrumrows( ...args );
 		elRows.onscroll = this._onscrollRows.bind( this );
-		elRows.oncontextmenu = this._oncontextmenuRows.bind( this );
 		elLines.onclick = this._onclickLines.bind( this );
 		elLines.onscroll = this._onscrollLines.bind( this );
 		elLines.onwheel = this._onwheelLines.bind( this );
@@ -70,14 +64,27 @@ class gsuiDrums {
 			this._setCurrentTime( t );
 			this.onchangeCurrentTime( t );
 		};
+		this._qS( "sidePanel" ).append( drumrows.rootElement );
 		this._qS( "timelineWrap" ).append( timeline.rootElement );
 		this._qS( "linesPanel" ).onresizing = this._linesPanelResizing.bind( this );
-		this._qS( "linesAbsolute" ).onmouseleave = this._onmouseleaveLines.bind( this );
+		this._elLinesAbs.onmouseleave = this._onmouseleaveLines.bind( this );
 	}
 
+	change( obj ) {
+		lg( "gsuiDrums.change", obj );
+	}
+	changeDrumrows( obj ) {
+		this.uiDrumrows.change( obj );
+	}
+	empty() {
+		lg( "gsuiDrums.empty" );
+		this.emptyDrums();
+		this.uiDrumrows.empty();
+	}
+	emptyDrums() {
+		lg( "gsuiDrums.emptyDrums" );
+	}
 	attached() {
-		const elRows = this._qS( "rows" );
-
 		this._attached = true;
 		this._uiPanels.attached();
 		this._timeline.resized();
@@ -106,8 +113,7 @@ class gsuiDrums {
 		this._elCurrentTime.style.width = `${ 1 / b }em`;
 	}
 	setFontSize( fs ) {
-		this._qS( "rows" ).style.fontSize =
-		this._qS( "lines" ).style.fontSize = `${ fs }px`;
+		this.uiDrumrows.setFontSize( fs );
 	}
 	setPxPerBeat( ppb ) {
 		const ppbpx = `${ ppb }px`;
@@ -151,17 +157,10 @@ class gsuiDrums {
 	// data callbacks:
 	// .........................................................................
 	_addDrumrow( id ) {
-		const elRow = gsuiDrums.templateRow.cloneNode( true ),
-			elLine = gsuiDrums.templateLine.cloneNode( true );
+		const elLine = gsuiDrums.templateLine.cloneNode( true );
 
-		elRow.dataset.id =
-		elLine.dataset.id = id;
 		elLine.firstElementChild.style.fontSize = `${ this._pxPerBeat }px`;
-		this._qS( "rows" ).append( elRow );
-		this._qS( "linesAbsolute" ).append( elLine );
-	}
-	_renameDrumrow( id, name ) {
-		this._qS( `row[data-id='${ id }'] .gsuiDrums-row-name` ).textContent = name;
+		return elLine;
 	}
 	_addDrum( id, when, rowId ) {
 		const elDrm = gsuiDrums.templateDrum.cloneNode( true );
@@ -187,26 +186,6 @@ class gsuiDrums {
 		this._linesPanelWidth = width;
 		this._timeline.resized();
 		this._timeline.offset( this._offset, this._pxPerBeat );
-	}
-	_onclickRows( e ) {
-		const tar = e.target,
-			id = tar.parentNode.dataset.id;
-
-		if ( this._has( tar, "row-toggle" ) ) {
-			this.gsdata.callAction( "toggleDrumrow", id );
-		}
-		if ( this._has( tar, "row-delete" ) ) {
-			this.gsdata.callAction( "deleteDrumrow", id );
-		}
-	}
-	_oncontextmenuRows( e ) {
-		const tar = e.target,
-			id = tar.parentNode.dataset.id;
-
-		if ( this._has( tar, "row-toggle" ) ) {
-			this.gsdata.callAction( "toggleOnlyDrumrow", id );
-		}
-		e.preventDefault();
 	}
 	_onclickLines( e ) {
 		const elStep = e.target.parentNode,
@@ -289,10 +268,6 @@ class gsuiDrums {
 gsuiDrums.template = document.querySelector( "#gsuiDrums-template" );
 gsuiDrums.template.remove();
 gsuiDrums.template.removeAttribute( "id" );
-
-gsuiDrums.templateRow = document.querySelector( "#gsuiDrums-row-template" );
-gsuiDrums.templateRow.remove();
-gsuiDrums.templateRow.removeAttribute( "id" );
 
 gsuiDrums.templateLine = document.querySelector( "#gsuiDrums-line-template" );
 gsuiDrums.templateLine.remove();

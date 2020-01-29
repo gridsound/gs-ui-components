@@ -25,84 +25,11 @@
 .gsuiDrums .gsuiTimeline {
 	height: 100%;
 }
-.gsuiDrums-rows {
+.gsuiDrums .gsuiDrumrows {
 	flex: 1;
-	overflow-y: scroll;
-	scrollbar-width: none;
-	background-color: #555;
 }
-.gsuiDrums-rows::-webkit-scrollbar,
 .gsuiDrums-lines::-webkit-scrollbar {
 	display: none;
-}
-
-/* .......................................................................... */
-.gsuiDrums-row {
-	position: relative;
-	height: calc( 1em + 1px );
-	margin-top: -1px;
-	display: flex;
-	box-sizing: border-box;
-	padding-right: 8px;
-	border: 0 solid #0002;
-	border-width: 1px 0;
-	background-color: var( --gsuiDrums-row-bg );
-}
-.gsuiDrums-row-mute {
-	--gsuiDrums-toggle-bg: var( --gsuiDrums-toggleOff-bg );
-}
-.gsuiDrums-row-grip {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 16px;
-	font-size: 12px;
-	cursor: grab;
-	background-color: var( --gsuiDrums-grip-bg );
-}
-.gsuiDrums-row-grip .gsuiIcon {
-	pointer-events: none;
-	opacity: .4;
-}
-.gsuiDrums-row-toggle {
-	width: 24px;
-	border: 0;
-	padding: 0;
-	font-size: 8px;
-	color: var( --gsuiDrums-toggle-bg );
-	cursor: pointer;
-	background: none;
-}
-.gsuiDrums-row-name {
-	flex: 1;
-	align-self: center;
-	font-size: 12px;
-	font-weight: bold;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	cursor: default;
-}
-.gsuiDrums-row-delete {
-	position: absolute;
-	right: 0;
-	border: 0;
-	padding: 0;
-	width: 14px;
-	height: 16px;
-	color: inherit;
-	cursor: pointer;
-	font-size: 12px;
-	background: none;
-	opacity: 0;
-	transition: .1s opacity;
-}
-.gsuiDrums-row:hover .gsuiDrums-row-delete {
-	opacity: .3;
-}
-.gsuiDrums-row .gsuiDrums-row-delete:hover,
-.gsuiDrums-row .gsuiDrums-row-delete:focus {
-	opacity: 1;
 }
 
 /* .......................................................................... */
