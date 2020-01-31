@@ -13,6 +13,7 @@ class gsuiReorder {
 		this._elShadowParent =
 		this._elShadowDragged =
 		this._elDraggedParent = null;
+		this._shadowClass = "";
 		this._indDragged = 0;
 		this._droppedInside = false;
 		this._isVertical =
@@ -55,11 +56,17 @@ class gsuiReorder {
 	setShadowElement( el ) {
 		this._elShadowParent = el;
 	}
+	setShadowChildClass( cl ) {
+		this._shadowClass = `.${ cl }`;
+	}
 
 	// private:
 	// .........................................................................
 	_getIndex( el ) {
 		return Array.prototype.indexOf.call( el.parentNode.children, el );
+	}
+	_getShadowChild( id ) {
+		return this._elShadowParent.querySelector( `${ this._shadowClass }[data-id="${ id }"]` );
 	}
 
 	// events:
@@ -77,7 +84,7 @@ class gsuiReorder {
 			this._elDragged = elItem;
 			this._elDraggedParent = elItem.parentNode;
 			if ( this._elShadowParent ) {
-				this._elShadowDragged = this._elShadowParent.querySelector( `[data-id="${ itemId }"]` );
+				this._elShadowDragged = this._getShadowChild( itemId );
 			}
 			this._indDragged = this._getIndex( elItem );
 			e.dataTransfer.effectAllowed = "move";
@@ -120,15 +127,13 @@ class gsuiReorder {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
 						if ( this._elShadowDragged ) {
-							this._elShadowParent.querySelector( `[data-id="${ overId }"]` )
-								.before( this._elShadowDragged );
+							this._getShadowChild( overId ).before( this._elShadowDragged );
 						}
 					}
 				} else if ( elOver.nextElementSibling !== elDrag ) {
 					elOver.after( elDrag );
 					if ( this._elShadowDragged ) {
-						this._elShadowParent.querySelector( `[data-id="${ overId }"]` )
-							.after( this._elShadowDragged );
+						this._getShadowChild( overId ).after( this._elShadowDragged );
 					}
 				}
 			}
