@@ -2,6 +2,9 @@
 	color: var( --gsuiDrums-color );
 }
 
+.gsuiDrums-panels {
+	height: 100%;
+}
 .gsuiDrums-sidePanel,
 .gsuiDrums-linesPanel {
 	display: flex;
@@ -30,6 +33,24 @@
 }
 .gsuiDrums-lines::-webkit-scrollbar {
 	display: none;
+}
+
+/* .......................................................................... */
+.gsuiDrums-shadow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var( --gsuiDrums-shadow-bg );
+	opacity: 0;
+	visibility: hidden;
+	transition: .2s;
+	transition-property: opacity, visibility;
+}
+.gsuiDrums-shadowed .gsuiDrums-shadow {
+	opacity: 1;
+	visibility: visible;
 }
 
 /* .......................................................................... */
@@ -85,6 +106,7 @@
 .gsuiDrums-drumHover {
 	position: absolute;
 	height: 100%;
+	z-index: 1;
 	background-color: #0002;
 }
 .gsuiDrums-drumHoverIn {
@@ -105,9 +127,12 @@
 	position: absolute;
 	box-sizing: border-box;
 	flex-direction: column;
-	z-index: 1;
 	width: 1em;
 	height: 100%;
+}
+.gsuiDrums-previewDeleted,
+.gsuiDrums-drumPreview {
+	opacity: .5;
 }
 .gsuiDrums-drum-in {
 	height: 100%;

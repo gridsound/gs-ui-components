@@ -7,21 +7,17 @@ class gsuiDrums {
 			timeline = new gsuiTimeline(),
 			drumrows = new gsuiDrumrows(),
 			beatlines = new gsuiBeatlines( elLines ),
-			panels = new gsuiPanels( root ),
-			elRows = drumrows.rootElement,
-			gsdata = { callAction( ...args ) { lg( ...args ) } };
-			// gsdata = new GSDataDrums();
+			panels = new gsuiPanels( root.querySelector( ".gsuiDrums-panels" ) ),
+			elRows = drumrows.rootElement;
 
 		this.rootElement = root;
-		this.uiDrumrows = drumrows;
-		this.gsdata = gsdata;
+		this.drumrows = drumrows;
 		this.oninput =
 		this.onchange =
 		this.onchangeLoop =
-		this.onchangeDrumrows =
-		this.onchangeCurrentTime = GSData.noop;
+		this.onchangeCurrentTime = () => {};
 
-		this._uiPanels = panels;
+		this._panels = panels;
 		this._timeline = timeline;
 		this._beatlines = beatlines;
 		this._elRows = elRows;
@@ -30,29 +26,34 @@ class gsuiDrums {
 		this._width =
 		this._height =
 		this._offset =
-		this._pxPerStep =
-		this._pxPerBeat =
 		this._scrollTop =
 		this._scrollLeft =
 		this._drumHoverX =
 		this._drumHoverBeat =
 		this._linesPanelWidth = 0;
 		this._stepsPerBeat = 4;
+		this._pxPerBeat = 80;
+		this._pxPerStep = this._pxPerBeat / this._stepsPerBeat;
+		this._dragging = false;
+		this._draggingRowId = null;
+		this._draggingWhenStart = 0;
 		this._attached =
 		this._drumHovering = false;
+		this._drumsMap = new Map();
+		this._previewDrums = new Map();
 		this._elLoopA = this._qS( "loopA" );
 		this._elLoopB = this._qS( "loopB" );
 		this._elLinesAbs = this._qS( "linesAbsolute" );
 		this._elDrumHover = this._qS( "drumHover" );
 		this._elCurrentTime = this._qS( "currentTime" );
 		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
+		this._onmouseupNewDrum = this._onmouseupNewDrum.bind( this );
 		Object.seal( this );
 
+		root.oncontextmenu = e => e.preventDefault();
 		this._elDrumHover.remove();
-		this._elDrumHover.onclick = this._onclickNewDrum.bind( this );
-		drumrows.setLinesParent( this._elLinesAbs );
-		drumrows.onaddDrumrow = this._addDrumrow.bind( this );
-		drumrows.onchange = ( ...args ) => this.onchangeDrumrows( ...args );
+		this._elDrumHover.onmousedown = this._onmousedownNewDrum.bind( this );
+		drumrows.setLinesParent( this._elLinesAbs, "gsuiDrums-line" );
 		elRows.onscroll = this._onscrollRows.bind( this );
 		elLines.onclick = this._onclickLines.bind( this );
 		elLines.onscroll = this._onscrollLines.bind( this );
@@ -70,23 +71,10 @@ class gsuiDrums {
 		this._elLinesAbs.onmouseleave = this._onmouseleaveLines.bind( this );
 	}
 
-	change( obj ) {
-		lg( "gsuiDrums.change", obj );
-	}
-	changeDrumrows( obj ) {
-		this.uiDrumrows.change( obj );
-	}
-	empty() {
-		lg( "gsuiDrums.empty" );
-		this.emptyDrums();
-		this.uiDrumrows.empty();
-	}
-	emptyDrums() {
-		lg( "gsuiDrums.emptyDrums" );
-	}
+	// .........................................................................
 	attached() {
 		this._attached = true;
-		this._uiPanels.attached();
+		this._panels.attached();
 		this._timeline.resized();
 		this._timeline.offset( this._offset, this._pxPerBeat );
 	}
@@ -95,6 +83,9 @@ class gsuiDrums {
 		this._height = h;
 		this._timeline.resized();
 		this._timeline.offset( this._offset, this._pxPerBeat );
+	}
+	toggleShadow( b ) {
+		this.rootElement.classList.toggle( "gsuiDrums-shadowed", b );
 	}
 	currentTime( beat ) {
 		this._timeline.currentTime( beat );
@@ -112,9 +103,6 @@ class gsuiDrums {
 		this._elDrumHover.style.width =
 		this._elCurrentTime.style.width = `${ 1 / b }em`;
 	}
-	setFontSize( fs ) {
-		this.uiDrumrows.setFontSize( fs );
-	}
 	setPxPerBeat( ppb ) {
 		const ppbpx = `${ ppb }px`;
 
@@ -130,7 +118,30 @@ class gsuiDrums {
 		this._timeoutIdBeatlines = setTimeout( () => this._beatlines.render(), 100 );
 	}
 
-	// private:
+	// .........................................................................
+	addDrum( id, drum ) {
+		const elDrm = gsuiDrums.templateDrum.cloneNode( true ),
+			stepDur = 1 / this._stepsPerBeat;
+
+		elDrm.dataset.id = id;
+		elDrm.style.left = `${ drum.when }em`;
+		elDrm.style.width = `${ stepDur }em`;
+		this._qS( `line[data-id='${ drum.row }'] .gsuiDrums-lineIn` ).append( elDrm );
+		this._drumsMap.set( id, [ drum.row, Math.round( drum.when / stepDur ), elDrm ] );
+	}
+	removeDrum( id ) {
+		const elDrm = this._drumsMap.get( id )[ 2 ];
+
+		elDrm.remove();
+		this._drumsMap.delete( id );
+	}
+	createDrumrow( id ) {
+		const elLine = gsuiDrums.templateLine.cloneNode( true );
+
+		elLine.firstElementChild.style.fontSize = `${ this._pxPerBeat }px`;
+		return elLine;
+	}
+
 	// .........................................................................
 	_qS( c ) {
 		return this.rootElement.querySelector( `.gsuiDrums-${ c }` );
@@ -153,21 +164,62 @@ class gsuiDrums {
 		this._drumHovering = false;
 		this._elDrumHover.remove();
 	}
+	_createPreviewDrum( rowId, when ) {
+		const el = gsuiDrums.templateDrum.cloneNode( true );
 
-	// data callbacks:
-	// .........................................................................
-	_addDrumrow( id ) {
-		const elLine = gsuiDrums.templateLine.cloneNode( true );
-
-		elLine.firstElementChild.style.fontSize = `${ this._pxPerBeat }px`;
-		return elLine;
+		el.classList.add( "gsuiDrums-drumPreview" );
+		el.style.left = `${when }em`;
+		el.style.width = `${ 1 / this._stepsPerBeat }em`;
+		this._qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
+		return el;
 	}
-	_addDrum( id, when, rowId ) {
-		const elDrm = gsuiDrums.templateDrum.cloneNode( true );
+	_createPreviewDrums( whenFrom, whenTo ) {
+		const rowId = this._draggingRowId,
+			adding = this._dragging === 1,
+			stepDur = 1 / this._stepsPerBeat,
+			whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur ),
+			whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur ),
+			added = new Map(),
+			drumpMap = adding ? null : 0;
 
-		elDrm.style.left = `${ when }em`;
-		elDrm.style.width = `${ 1 / this._stepsPerBeat }em`;
-		this._qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elDrm );
+		for ( let w = whenA; w <= whenB; ++w ) {
+			added.set( w );
+			if ( !this._previewDrums.has( w ) ) {
+				if ( adding ) {
+					this._previewDrums.set( w, this._createPreviewDrum( rowId, w * stepDur ) );
+				} else {
+					let drm;
+
+					this._drumsMap.forEach( arr => {
+						if ( arr[ 0 ] === rowId && arr[ 1 ] === w ) {
+							drm = arr[ 2 ];
+							drm.classList.add( "gsuiDrums-previewDeleted" );
+						}
+					} );
+					this._previewDrums.set( w, drm );
+				}
+			}
+		}
+		this._previewDrums.forEach( ( el, w ) => {
+			if ( !added.has( w ) ) {
+				if ( adding ) {
+					el.remove();
+				} else if ( el ) {
+					el.classList.remove( "gsuiDrums-previewDeleted" );
+				}
+				this._previewDrums.delete( w );
+			}
+		} );
+	}
+	_removePreviewDrums( adding ) {
+		this._previewDrums.forEach( el => {
+			if ( adding ) {
+				el.remove();
+			} else if ( el ) {
+				el.classList.remove( "gsuiDrums-previewDeleted" );
+			}
+		} );
+		this._previewDrums.clear();
 	}
 
 	// events:
@@ -241,7 +293,7 @@ class gsuiDrums {
 			this._drumHovering = true;
 			this._drumHoverX = e.pageX;
 			this.__mousemoveLines();
-			if ( this._elDrumHover.parentNode !== elLine ) {
+			if ( !this._dragging && this._elDrumHover.parentNode !== elLine ) {
 				elLine.append( this._elDrumHover );
 			}
 		}
@@ -255,13 +307,36 @@ class gsuiDrums {
 
 			this._drumHoverBeat = beat;
 			el.style.left = `${ beat * this._pxPerBeat }px`;
+			if ( this._dragging ) {
+				this._createPreviewDrums( this._draggingWhenStart, beat );
+			}
 		}
 	}
 	_onmouseleaveLines() {
-		this._hideDrumHover();
+		if ( !this._dragging ) {
+			this._hideDrumHover();
+		}
 	}
-	_onclickNewDrum() {
-		this.gsdata.callAction( "addDrum", this._drumHoverBeat );
+	_onmousedownNewDrum( e ) {
+		if ( !this._dragging ) {
+			const when = this._drumHoverBeat;
+
+			this._dragging = e.button === 0 ? 1 : 2;
+			this._draggingRowId = this._elDrumHover.parentNode.parentNode.dataset.id;
+			this._draggingWhenStart = when;
+			this._createPreviewDrums( when, when );
+			window.getSelection().removeAllRanges();
+			document.addEventListener( "mouseup", this._onmouseupNewDrum );
+		}
+	}
+	_onmouseupNewDrum() {
+		const adding = this._dragging === 1,
+			act = adding ? "addDrums" : "removeDrums";
+
+		this._dragging = false;
+		this._removePreviewDrums( adding );
+		document.removeEventListener( "mouseup", this._onmouseupNewDrum );
+		this.onchange( act, this._draggingRowId, this._draggingWhenStart, this._drumHoverBeat );
 	}
 }
 
