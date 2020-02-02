@@ -3,22 +3,10 @@
 class gsuiDrumrows {
 	constructor() {
 		const root = gsuiDrumrows.template.cloneNode( true ),
-			reorder = new gsuiReorder(),
-			gsdata = new GSDataDrumrows( {
-				actionCallback: ( ...args ) => this.onchange( ...args ),
-				dataCallbacks: {
-					addDrumrow: this._add.bind( this ),
-					removeDrumrow: this._remove.bind( this ),
-					renameDrumrow: this._rename.bind( this ),
-					toggleDrumrow: this._toggle.bind( this ),
-					reorderDrumrow: this._reorder.bind( this ),
-				},
-			} );
+			reorder = new gsuiReorder();
 
-		this.gsdata = gsdata;
 		this.rootElement = root;
-		this.onchange = GSData.noop;
-		this.onaddDrumrow = null; // 1.
+		this.onchange = () => {};
 		this._rows = new Map();
 		this._lines = new Map();
 		this._reorder = reorder;
@@ -36,30 +24,28 @@ class gsuiDrumrows {
 		} );
 	}
 
-	change( obj ) {
-		this.gsdata.change( obj );
-		if ( obj.drumrows ) {
-			gsuiReorder.listReorder( this.rootElement, obj.drumrows );
-			gsuiReorder.listReorder( this._elLinesParent, obj.drumrows );
-		}
-	}
-	empty() {
-		this.gsdata.clear();
-	}
-	setLinesParent( el ) {
+	// .........................................................................
+	setLinesParent( el, childClass ) {
 		this._elLinesParent = el;
 		this._reorder.setShadowElement( el );
+		this._reorder.setShadowChildClass( childClass );
 	}
 	setFontSize( fs ) {
 		this.rootElement.style.fontSize =
 		this._elLinesParent.style.fontSize = `${ fs }px`;
 	}
+	empty() {
+		this._rows.forEach( ( elRow, id ) => {
+			elRow.remove();
+			this._lines.get( id ).remove();
+		} );
+		this._rows.clear();
+		this._lines.clear();
+	}
 
-	// dataCallbacks:
 	// .........................................................................
-	_add( id ) {
-		const elRow = gsuiDrumrows.templateRow.cloneNode( true ),
-			elLine = this.onaddDrumrow( id );
+	addDrumrow( id, elLine ) {
+		const elRow = gsuiDrumrows.templateRow.cloneNode( true );
 
 		elRow.dataset.id =
 		elLine.dataset.id = id;
@@ -68,52 +54,52 @@ class gsuiDrumrows {
 		this.rootElement.append( elRow );
 		this._elLinesParent.append( elLine );
 	}
-	_remove( id ) {
+	removeDrumrow( id ) {
 		this._rows.get( id ).remove();
 		this._lines.get( id ).remove();
 		this._rows.delete( id );
 		this._lines.delete( id );
 	}
-	_toggle( id, b ) {
+	renameDrumrow( id, name ) {
+		this._rows.get( id ).querySelector( ".gsuiDrumrow-name" ).textContent = name;
+	}
+	toggleDrumrow( id, b ) {
 		this._rows.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 		this._lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 	}
-	_rename( id, name ) {
-		this._rows.get( id ).querySelector( ".gsuiDrumrow-name" ).textContent = name;
-	}
-	_reorder( id, order ) {
+	reorderDrumrow( id, order ) {
 		this._rows.get( id ).dataset.order =
 		this._lines.get( id ).dataset.order = order;
+	}
+	reorderDrumrows() {
+		gsuiReorder.listReorder( this.rootElement );
+		gsuiReorder.listReorder( this._elLinesParent );
 	}
 
 	// events:
 	// .........................................................................
 	_onreorderRows( elRow ) {
-		const drumrows = gsuiReorder.listComputeOrderChange( this.rootElement, {} ),
-			patId = this.gsdata.data.drumrows[ elRow.dataset.id ].pattern,
-			name = this.gsdata.data.patterns[ patId ].name;
+		const rows = gsuiReorder.listComputeOrderChange( this.rootElement, {} );
 
-		this.onchange( { drumrows }, [ "drumrows", "reorderDrumrow", name ] );
+		this.onchange( "reorderDrumrow", elRow.dataset.id, rows );
 	}
 	_onclickRows( e ) {
-		const tar = e.target,
-			id = tar.parentNode.dataset.id;
+		const { classList, parentNode } = e.target;
 
-		if ( tar.classList.contains( "gsuiDrumrow-toggle" ) ) {
-			this.gsdata.callAction( "toggleDrumrow", id );
+		if ( classList.contains( "gsuiDrumrow-toggle" ) ) {
+			this.onchange( "toggleDrumrow", parentNode.dataset.id );
 		}
-		if ( tar.classList.contains( "gsuiDrumrow-delete" ) ) {
-			this.gsdata.callAction( "removeDrumrow", id );
+		if ( classList.contains( "gsuiDrumrow-delete" ) ) {
+			this.onchange( "removeDrumrow", parentNode.dataset.id );
 		}
 	}
 	_oncontextmenuRows( e ) {
-		const tar = e.target,
-			id = tar.parentNode.dataset.id;
+		const { classList, parentNode } = e.target;
 
-		if ( tar.classList.contains( "gsuiDrumrow-toggle" ) ) {
-			this.gsdata.callAction( "toggleOnlyDrumrow", id );
-		}
 		e.preventDefault();
+		if ( classList.contains( "gsuiDrumrow-toggle" ) ) {
+			this.onchange( "toggleOnlyDrumrow", parentNode.dataset.id );
+		}
 	}
 }
 
@@ -126,8 +112,3 @@ gsuiDrumrows.templateRow.remove();
 gsuiDrumrows.templateRow.removeAttribute( "id" );
 
 Object.freeze( gsuiDrumrows );
-
-/*
-1. The onaddDrumrow callback is needed to make the bridge between the rows and
-   the lines, they are not from the same component.
-*/
