@@ -34,14 +34,6 @@ class gsuiDrumrows {
 		this.rootElement.style.fontSize =
 		this._elLinesParent.style.fontSize = `${ fs }px`;
 	}
-	empty() {
-		this._rows.forEach( ( elRow, id ) => {
-			elRow.remove();
-			this._lines.get( id ).remove();
-		} );
-		this._rows.clear();
-		this._lines.clear();
-	}
 
 	// .........................................................................
 	addDrumrow( id, elLine ) {
