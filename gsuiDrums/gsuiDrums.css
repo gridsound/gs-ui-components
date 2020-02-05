@@ -74,6 +74,9 @@
 	height: 1em;
 	cursor: pointer;
 }
+.gsuiDrums-line.gsuiDrumrow-mute {
+	background-color: var( --gsuiDrums-line-mute-bg );
+}
 .gsuiDrums-lineIn {
 	height: 100%;
 	box-sizing: border-box;
@@ -130,9 +133,12 @@
 	width: 1em;
 	height: 100%;
 }
+.gsuiDrumrow-mute .gsuiDrums-drum {
+	opacity: .6;
+}
 .gsuiDrums-previewDeleted,
 .gsuiDrums-drumPreview {
-	opacity: .5;
+	opacity: .4;
 }
 .gsuiDrums-drum-in {
 	height: 100%;
