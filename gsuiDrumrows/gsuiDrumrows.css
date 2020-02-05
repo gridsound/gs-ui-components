@@ -1,10 +1,29 @@
 .gsuiDrumrows {
+	display: flex;
+	flex-direction: column;
 	overflow-y: scroll;
 	scrollbar-width: none;
 	background-color: var( --gsuiDrumrows-bg );
 }
 .gsuiDrumrows::-webkit-scrollbar {
 	display: none;
+}
+
+/* .......................................................................... */
+.gsuiDrumrows-drop {
+	display: none;
+	height: 1em;
+	order: 1;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
+	display: flex;
+}
+.gsuiDrumrows-dropIn {
+	font-size: 24px;
+	opacity: .5;
 }
 
 /* .......................................................................... */
@@ -22,6 +41,7 @@
 .gsuiDrumrow-mute {
 	--gsuiDrumrow-name-opacity: .5;
 	--gsuiDrumrow-toggle-bg: var( --gsuiDrumrow-toggleOff-bg );
+	--gsuiDrumrow-bg: var( --gsuiDrumrow-mute-bg );
 }
 
 /* .......................................................................... */
@@ -55,8 +75,15 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	cursor: default;
+	pointer-events: none;
 	opacity: var( --gsuiDrumrow-name-opacity, 1 );
+}
+.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-name {
+	display: none;
+}
+.gsuiDrumrow-drop {
+	flex: .6;
+	height: auto;
 }
 .gsuiDrumrow-delete {
 	position: absolute;
