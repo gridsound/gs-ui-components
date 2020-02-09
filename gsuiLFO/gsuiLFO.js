@@ -12,34 +12,27 @@ class gsuiLFO {
 				attack: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-attack .gsuiLFO-propValue" ) ],
 				speed: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-speed .gsuiLFO-propValue" ) ],
 				amp: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-amp .gsuiLFO-propValue" ) ],
-			} ),
-			gsdata = new GSDataLFO( {
-				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
-				dataCallbacks: {
-					type: this._changeType.bind( this ),
-					toggle: this._toggle.bind( this ),
-					drawWave: this._updateWave.bind( this ),
-					delay: this._setPropValue.bind( this, "delay", ),
-					attack: this._setPropValue.bind( this, "attack", ),
-					speed: this._setPropValue.bind( this, "speed", ),
-					amp: this._setPropValue.bind( this, "amp", ),
-				},
 			} );
 
-		this.oninput =
-		this.onchange =
-		this.onremove = GSData.noop;
 		this.rootElement = root;
-		this.gsdata = gsdata;
+		this.oninput =
+		this.onchange = () => {};
 		this._wave = wave;
 		this._sliders = sliders;
 		this._beatlines = beatlines;
 		this._dur = 4;
 		this._waveWidth = 300;
+		this._data = Object.seal( {
+			type: '',
+			delay: 0,
+			attack: 0,
+			speed: 0,
+			amp: 0,
+		} );
 		Object.seal( this );
 
 		elTypeForm.onchange = this._onchangeType.bind( this );
-		root.querySelector( ".gsuiLFO-toggle" ).onclick = gsdata.callAction.bind( gsdata, "toggle" );
+		root.querySelector( ".gsuiLFO-toggle" ).onclick = () => this.onchange( "toggleLFO" );
 		elWave.append( wave.rootElement );
 		this._initSlider( "delay", 0, 4, 1 / 4 / 8 );
 		this._initSlider( "attack", 0, 4, 1 / 4 / 8 );
@@ -47,9 +40,7 @@ class gsuiLFO {
 		this._initSlider( "amp", 0, 1, .001 );
 	}
 
-	remove() {
-		this.rootElement.remove();
-	}
+	// .........................................................................
 	attached() {
 		this._sliders.delay[ 0 ].attached();
 		this._sliders.attack[ 0 ].attached();
@@ -57,7 +48,6 @@ class gsuiLFO {
 		this._sliders.amp[ 0 ].attached();
 		this._wave.attached();
 		this.resizing();
-		this.gsdata.recall();
 	}
 	resizing() {
 		this._waveWidth = this._beatlines.rootElement.getBoundingClientRect().width;
@@ -71,30 +61,35 @@ class gsuiLFO {
 	timeSignature( a, b ) {
 		this._beatlines.timeSignature( a, b );
 	}
-	change( obj ) {
-		this.gsdata.change( obj );
-	}
-
-	// .........................................................................
-	_updateWave( obj ) {
-		const bPM = this._beatlines.getBeatsPerMeasure();
+	updateWave() {
+		const bPM = this._beatlines.getBeatsPerMeasure(),
+			d = this._data;
 
 		this._dur =
-		this._wave.duration = Math.max( obj.delay + obj.attack + 2, bPM );
-		this._wave.type = obj.type;
-		this._wave.delay = obj.delay;
-		this._wave.attack = obj.attack;
-		this._wave.frequency = obj.speed;
-		this._wave.amplitude = obj.amp;
+		this._wave.duration = Math.max( d.delay + d.attack + 2, bPM );
+		this._wave.type = d.type;
+		this._wave.delay = d.delay;
+		this._wave.attack = d.attack;
+		this._wave.frequency = d.speed;
+		this._wave.amplitude = d.amp;
 		this._wave.draw();
-		this._wave.rootElement.style.opacity = Math.min( 6 / obj.speed, 1 );
+		this._wave.rootElement.style.opacity = Math.min( 6 / d.speed, 1 );
 		this._updatePxPerBeat();
 		this._beatlines.render();
 	}
-	_updatePxPerBeat() {
-		this._beatlines.pxPerBeat( this._waveWidth / this._dur );
+
+	// .........................................................................
+	change( prop, val ) {
+		switch ( prop ) {
+			case "toggle": this._changeToggle( val ); break;
+			case "type": this._changeType( val ); break;
+			case "amp":
+			case "delay":
+			case "speed":
+			case "attack": this._changeProp( prop, val ); break;
+		}
 	}
-	_toggle( b ) {
+	_changeToggle( b ) {
 		this.rootElement.classList.toggle( "gsuiLFO-enable", b );
 		this.rootElement.querySelectorAll( ".gsuiLFO-typeRadio" )
 			.forEach( b
@@ -106,8 +101,21 @@ class gsuiLFO {
 		this._sliders.amp[ 0 ].enable( b );
 	}
 	_changeType( type ) {
+		this._data.type =
 		this._wave.type = type;
 		this.rootElement.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
+	}
+	_changeProp( prop, val ) {
+		const [ sli, span ] = this._sliders[ prop ];
+
+		this._data[ prop ] = val;
+		sli.setValue( val );
+		span.textContent = val.toFixed( 2 );
+	}
+
+	// .........................................................................
+	_updatePxPerBeat() {
+		this._beatlines.pxPerBeat( this._waveWidth / this._dur );
 	}
 	_initSlider( prop, min, max, step ) {
 		const elWrap = this.rootElement.querySelector( `.gsuiLFO-${ prop } .gsuiLFO-propContent` ),
@@ -115,26 +123,19 @@ class gsuiLFO {
 
 		slider.options( { type: "linear-x", min, max, step } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
-		slider.onchange = this.gsdata.callAction.bind( this.gsdata, "changeProp", prop );
+		slider.onchange = val => this.onchange( "changeLFO", prop, val );
 		elWrap.append( slider.rootElement );
 	}
-	_setPropValue( prop, val ) {
-		const [ sli, span ] = this._sliders[ prop ];
 
-		sli.setValue( val );
-		span.textContent = val.toFixed( 2 );
-	}
-
+	// events:
 	// .........................................................................
 	_onchangeType( e ) {
-		this.gsdata.callAction( "changeProp", "type", e.target.value );
+		this.onchange( "changeLFO", "type", e.target.value );
 	}
 	_oninputSlider( prop, val ) {
+		this._data[ prop ] = val;
 		this._sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
-		this._updateWave( {
-			...this.gsdata.data,
-			[ prop ]: val,
-		} );
+		this.updateWave();
 		this.oninput( prop, val );
 	}
 }
