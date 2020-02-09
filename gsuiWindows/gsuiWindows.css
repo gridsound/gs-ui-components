@@ -5,6 +5,7 @@
 .gsuiWindows {
 	position: relative;
 	overflow: var( --gsuiWindows-overflow );
+	scroll-behavior: smooth;
 }
 
 .gsuiWindows.gsuiWindows-maximized {
