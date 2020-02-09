@@ -6,27 +6,15 @@ class gsuiOscillator {
 			qs = c => root.querySelector( `.gsuiOscillator-${ c }` ),
 			waves = [
 				new gsuiPeriodicWave(),
-				new gsuiPeriodicWave()
-			],
-			gsdata = new GSDataOscillator( {
-				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
-				dataCallbacks: {
-					order: n => this.rootElement.dataset.order = n,
-					type: this._changeType.bind( this ),
-					pan: this._changeProp.bind( this, "pan" ),
-					gain: this._changeProp.bind( this, "gain" ),
-					detune: this._changeProp.bind( this, "detune" ),
-					drawWave: this._updateWaves.bind( this ),
-				},
-			} );
+				new gsuiPeriodicWave(),
+			];
 
-		this.oninput =
-		this.onchange =
-		this.onremove = GSData.noop;
 		this.rootElement = root;
-		this.gsdata = gsdata;
+		this.oninput =
+		this.onchange = () => {};
+		this._data = {};
+		this._typeSaved = "";
 		this._waves = waves;
-		this._selectWaves = {};
 		this._elSelect = qs( "waveSelect" );
 		this._timeidType = null;
 		this._sliders = Object.freeze( {
@@ -34,6 +22,12 @@ class gsuiOscillator {
 			gain: this._initSlider( "gain", 0, 1, .01 ),
 			detune: this._initSlider( "detune", -24, 24, 1 ),
 		} );
+		this._selectWaves = {
+			sine: true,
+			triangle: true,
+			sawtooth: true,
+			square: true,
+		};
 		Object.seal( this );
 
 		waves[ 0 ].frequency =
@@ -41,18 +35,14 @@ class gsuiOscillator {
 		qs( "wave" ).append(
 			waves[ 0 ].rootElement,
 			waves[ 1 ].rootElement );
-		GSDataOscillator.nativeTypes.forEach( w => this._selectWaves[ w ] = true );
 		this._elSelect.onchange = this._onchangeSelect.bind( this );
 		this._elSelect.onkeydown = this._onkeydownSelect.bind( this );
 		qs( "wavePrev" ).onclick = this._onclickPrevNext.bind( this, -1 );
 		qs( "waveNext" ).onclick = this._onclickPrevNext.bind( this, 1 );
-		qs( "remove" ).onclick = () => this.onremove();
-		this.gsdata.recall();
+		qs( "remove" ).onclick = () => this.onchange( "removeOscillator" );
 	}
 
-	remove() {
-		this.rootElement.remove();
-	}
+	// .........................................................................
 	attached() {
 		this._waves[ 0 ].attached();
 		this._waves[ 1 ].attached();
@@ -77,22 +67,9 @@ class gsuiOscillator {
 		} );
 		Element.prototype.append.apply( this._elSelect, opts );
 	}
-	change( obj ) {
-		this.gsdata.change( obj );
-	}
-
-	// .........................................................................
-	_changeType( type ) {
-		this._elSelect.value = type;
-	}
-	_changeProp( prop, val ) {
-		const [ sli, span ] = this._sliders[ prop ];
-
-		sli.setValue( val );
-		span.textContent = prop === "detune" ? val : val.toFixed( 2 );
-	}
-	_updateWaves( { type, gain, pan } ) {
-		const [ wav0, wav1 ] = this._waves;
+	updateWave() {
+		const [ wav0, wav1 ] = this._waves,
+			{ type, gain, pan } = this._data;
 
 		wav0.amplitude = Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 );
 		wav1.amplitude = Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 );
@@ -100,6 +77,31 @@ class gsuiOscillator {
 		wav1.type = type;
 		wav0.draw();
 		wav1.draw();
+	}
+
+	// .........................................................................
+	change( prop, val ) {
+		switch ( prop ) {
+			case "order": this._changeOrder( val ); break;
+			case "type": this._changeType( val ); break;
+			case "pan":
+			case "gain":
+			case "detune": this._changeProp( prop, val ); break;
+		}
+	}
+	_changeOrder( n ) {
+		this.rootElement.dataset.order = n;
+	}
+	_changeType( type ) {
+		this._data.type =
+		this._elSelect.value = type;
+	}
+	_changeProp( prop, val ) {
+		const [ sli, span ] = this._sliders[ prop ];
+
+		this._data[ prop ] = val;
+		sli.setValue( val );
+		span.textContent = prop === "detune" ? val : val.toFixed( 2 );
 	}
 
 	// .........................................................................
@@ -111,7 +113,7 @@ class gsuiOscillator {
 
 		slider.options( { type: "circular", min, max, step } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
-		slider.onchange = this.gsdata.callAction.bind( this.gsdata, "changeProp", prop );
+		slider.onchange = val => this.onchange( "changeOscillator", prop, val );
 		elSliderWrap.append( slider.rootElement );
 		return Object.freeze( [ slider, elValue ] );
 	}
@@ -133,12 +135,13 @@ class gsuiOscillator {
 	_onchangeSelect() {
 		const type = this._elSelect.value;
 
-		this._updateWaves( { ...this.gsdata.data, type } );
-		this.oninput( "type", type );
+		this._data.type = type;
 		clearTimeout( this._timeidType );
+		this.updateWave();
+		this.oninput( "type", type );
 		this._timeidType = setTimeout( () => {
-			if ( this.gsdata.data.type !== type ) {
-				this.gsdata.callAction( "changeProp", "type", type );
+			if ( type !== this._typeSaved ) {
+				this.onchange( "changeOscillator", "type", type );
 			}
 		}, 700 );
 	}
@@ -148,18 +151,18 @@ class gsuiOscillator {
 		}
 	}
 	_oninputSlider( prop, val ) {
-		const d = this.gsdata.data;
-		let span = this._sliders[ prop ][ 1 ],
-			val2 = val;
+		let val2 = val;
 
 		if ( prop === "gain" ) {
-			this._updateWaves( { ...d, gain: val } );
-			val2 = val.toFixed( 2 );
+			this._data.gain = val;
+			this.updateWave();
+			val2 = +val.toFixed( 2 );
 		} else if ( prop === "pan" ) {
-			this._updateWaves( { ...d, pan: val } );
-			val2 = val.toFixed( 2 );
+			this._data.pan = val;
+			this.updateWave();
+			val2 = +val.toFixed( 2 );
 		}
-		span.textContent = val2;
+		this._sliders[ prop ][ 1 ].textContent = val2;
 		this.oninput( prop, val2 );
 	}
 }
