@@ -3,111 +3,80 @@
 class gsuiSynthesizer {
 	constructor() {
 		const root = gsuiSynthesizer.template.cloneNode( true ),
-			dnd = new gsuiReorder(),
-			uiLFO = new gsuiLFO(),
-			gsdata = new GSDataSynth( {
-				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
-				dataCallbacks: {
-					addOsc: this._addOsc.bind( this ),
-					removeOsc: this._removeOsc.bind( this ),
-					updateOsc: ( id, osc ) => this._uiOscs.get( id ).change( osc ),
-					updateLFO: lfo => this._uiLFO.change( lfo ),
-				},
-			} );
+			reorder = new gsuiReorder();
 
 		this.rootElement = root;
-		this.gsdata = gsdata;
+		this.oninput =
+		this.onchange = () => {};
 		this._waveList = [];
 		this._nlOscs = root.getElementsByClassName( "gsuiOscillator" );
 		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 		this._elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" );
-		this.oninput =
-		this.onchange = () => {};
 		this._attached = false;
-		this._uiLFO = uiLFO;
 		this._uiOscs = new Map();
 		Object.seal( this );
 
-		root.querySelector( ".gsuiSynthesizer-lfo" ).append( uiLFO.rootElement );
-		this._elNewOsc.onclick = gsdata.callAction.bind( gsdata, "addOsc" );
-		this.empty();
-		uiLFO.oninput = ( prop, val ) => this.oninput( { lfo: { [ prop ]: val } } );
-		uiLFO.onchange = gsdata.callAction.bind( gsdata, "changeLFO" );
-		dnd.setRootElement( this._elOscList );
-		dnd.setSelectors( {
+		this._elNewOsc.onclick = this.onclickNewOsc.bind( this );
+		reorder.setRootElement( this._elOscList );
+		reorder.setSelectors( {
 			item: ".gsuiOscillator",
 			handle: ".gsuiOscillator-grip",
 			parent: ".gsuiSynthesizer-oscList",
 		} );
-		dnd.onchange = () => {
-			const oscillators = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
-
-			this.onchange(
-				{ oscillators },
-				[ "synth", "reorderOsc", this.gsdata.data.name ]
-			);
-		};
+		reorder.onchange = this.onchangeReorder.bind( this );
 	}
 
-	remove() {
-		this._attached = false;
-		this.rootElement.remove();
-	}
+	// .........................................................................
 	attached() {
-		const list = this._elOscList;
-
 		this._attached = true;
-		this._uiLFO.attached();
 		Array.from( this._nlOscs ).forEach( el => {
 			this._uiOscs.get( el.dataset.id ).attached();
 		} );
-	}
-	resizing() {
-		this._uiLFO.resizing();
-	}
-	resize() {
-		this._uiLFO.resize();
-	}
-	empty() {
-		this.gsdata.clear();
-	}
-	timeSignature( a, b ) {
-		this._uiLFO.timeSignature( a, b );
 	}
 	setWaveList( arr ) {
 		this._waveList = arr;
 		this._uiOscs.forEach( o => o.addWaves( arr ) );
 	}
-	change( obj ) {
-		this.gsdata.change( obj );
-		if ( obj.oscillators ) {
-			gsuiReorder.listReorder( this._elOscList, obj.oscillators );
-		}
+	getOscillator( id ) {
+		return this._uiOscs.get( id );
 	}
 
 	// .........................................................................
-	_addOsc( id, osc ) {
-		const uiosc = new gsuiOscillator(),
-			gsd = this.gsdata;
+	addOscillator( id, osc ) {
+		const uiOsc = new gsuiOscillator();
 
-		this._uiOscs.set( id, uiosc );
-		uiosc.oninput = ( prop, val ) => this.oninput( { oscillators: { [ id ]: { [ prop ]: val } } } );
-		uiosc.onchange = gsd.callAction.bind( gsd, "changeOsc", id );
-		uiosc.onremove = gsd.callAction.bind( gsd, "removeOsc", id );
-		uiosc.addWaves( this._waveList );
-		uiosc.change( osc );
-		uiosc.rootElement.dataset.id = id;
-		uiosc.rootElement.dataset.order = osc.order;
-		this._elOscList.append( uiosc.rootElement );
-		this._attached && uiosc.attached();
+		this._uiOscs.set( id, uiOsc );
+		uiOsc.oninput = ( prop, val ) => this.oninput( id, prop, val );
+		uiOsc.onchange = ( act, ...args ) => this.onchange( act, id, ...args );
+		uiOsc.addWaves( this._waveList );
+		uiOsc.rootElement.dataset.id = id;
+		uiOsc.rootElement.dataset.order = osc.order;
+		this._elOscList.append( uiOsc.rootElement );
+		if ( this._attached ) {
+			uiOsc.attached();
+		}
 	}
-	_removeOsc( id ) {
+	removeOscillator( id ) {
 		const osc = this._uiOscs.get( id );
 
 		if ( osc ) {
-			osc.remove();
+			osc.rootElement.remove();
 			this._uiOscs.delete( id );
 		}
+	}
+	reorderOscillators( obj ) {
+		gsuiReorder.listReorder( this._elOscList, obj );
+	}
+
+	// events:
+	// .........................................................................
+	onclickNewOsc() {
+		this.onchange( "addOscillator" );
+	}
+	onchangeReorder() {
+		const oscs = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
+
+		this.onchange( "reorderOscillator", oscs );
 	}
 }
 
