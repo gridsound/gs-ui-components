@@ -77,6 +77,7 @@ class gsuiDrumrows {
 	static _isDrumrow( el ) {
 		return (
 			el.classList.contains( "gsuiDrumrow" ) ? el :
+			el.classList.contains( "gsuiDrumrows-drop" ) ||
 			el.classList.contains( "gsuiDrumrow-grip" ) ||
 			el.classList.contains( "gsuiDrumrow-toggle" ) ||
 			el.classList.contains( "gsuiDrumrow-delete" ) ? el.parentNode : null
@@ -110,12 +111,12 @@ class gsuiDrumrows {
 	}
 	_ondropRows( e ) {
 		if ( this._dragoverId ) {
-			const data = e.dataTransfer.getData( "text" );
+			const [ patId ] = e.dataTransfer.getData( "text" ).split( ":" );
 
-			if ( data ) {
+			if ( patId ) {
 				this._dragoverId === Infinity
-					? this.onchange( "addDrumrow", data )
-					: this.onchange( "changeDrumrowPattern", this._dragoverId, data );
+					? this.onchange( "addDrumrow", patId )
+					: this.onchange( "changeDrumrowPattern", this._dragoverId, patId );
 			}
 		}
 		this._ondragleaveRows();
