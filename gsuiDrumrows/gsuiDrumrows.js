@@ -39,6 +39,10 @@ class gsuiDrumrows {
 		this.rootElement.style.fontSize =
 		this._elLinesParent.style.fontSize = `${ fs }px`;
 	}
+	reorderDrumrows( obj ) {
+		gsuiReorder.listReorder( this.rootElement, obj );
+		gsuiReorder.listReorder( this._elLinesParent, obj );
+	}
 
 	// .........................................................................
 	addDrumrow( id, elLine ) {
@@ -57,20 +61,23 @@ class gsuiDrumrows {
 		this._rows.delete( id );
 		this._lines.delete( id );
 	}
-	renameDrumrow( id, name ) {
+	changeDrumrow( id, prop, val ) {
+		switch ( prop ) {
+			case "name": this._changeDrumrowName( id, val ); break;
+			case "order": this._changeDrumrowOrder( id, val ); break;
+			case "toggle": this._changeDrumrowToggle( id, val ); break;
+		}
+	}
+	_changeDrumrowName( id, name ) {
 		this._rows.get( id ).querySelector( ".gsuiDrumrow-name" ).textContent = name;
 	}
-	toggleDrumrow( id, b ) {
+	_changeDrumrowToggle( id, b ) {
 		this._rows.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 		this._lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 	}
-	reorderDrumrow( id, order ) {
+	_changeDrumrowOrder( id, order ) {
 		this._rows.get( id ).dataset.order =
 		this._lines.get( id ).dataset.order = order;
-	}
-	reorderDrumrows( obj ) {
-		gsuiReorder.listReorder( this.rootElement, obj );
-		gsuiReorder.listReorder( this._elLinesParent, obj );
 	}
 
 	// .........................................................................
