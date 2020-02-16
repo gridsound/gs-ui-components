@@ -150,7 +150,10 @@ class gsuiDrums {
 		return el.classList.contains( `gsuiDrums-${ c }` );
 	}
 	_setCurrentTime( t ) {
-		this._elCurrentTime.style.left = `${ t }em`;
+		const sPB = 1 / this._stepsPerBeat,
+			tr = ( t / sPB | 0 ) * sPB;
+
+		this._elCurrentTime.style.left = `${ tr }em`;
 	}
 	_setLoop( isLoop, a, b ) {
 		this._elLoopA.classList.toggle( "gsuiDrums-loopOn", isLoop );
@@ -226,7 +229,6 @@ class gsuiDrums {
 	// .........................................................................
 	_oninputLoop( isLoop, a, b ) {
 		this._setLoop( isLoop, a, b );
-		// this.oninputLoop( isLoop && a, b );
 	}
 	_linesPanelResizing( pan ) {
 		const width = pan.clientWidth;
