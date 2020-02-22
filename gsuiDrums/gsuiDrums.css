@@ -58,6 +58,7 @@
 	flex: 1;
 	position: relative;
 	overflow: scroll auto;
+	scrollbar-width: none;
 	background-color: var( --gsuiDrums-lines-bg );
 }
 .gsuiDrums-linesAbsolute {
