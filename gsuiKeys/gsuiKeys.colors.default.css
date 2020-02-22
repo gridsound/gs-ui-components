@@ -1,0 +1,14 @@
+:root {
+	--gsuiKeys-blackRow-bg: #0000001a;
+	--gsuiKeys-blackRow-hover-bg: #00000026;
+	--gsuiKeys-whiteRow-hover-bg: #ffffff08;
+}
+
+.gsuiKeys {
+	--gsuiKeys-blackKey-gradA: #111;
+	--gsuiKeys-blackKey-gradB: #444;
+	--gsuiKeys-whiteKey-gradA: #888;
+	--gsuiKeys-whiteKey-gradB: #eee;
+	--gsuiKeys-activeKey-gradA: #353b52;
+	--gsuiKeys-activeKey-gradB: #7886bd;
+}

@@ -1,15 +1,3 @@
-:root {
-	--gsuiKeys-blackKey-gradA: #105;
-	--gsuiKeys-blackKey-gradB: #10f;
-	--gsuiKeys-whiteKey-gradA: #552;
-	--gsuiKeys-whiteKey-gradB: #ff0;
-	--gsuiKeys-activeKey-gradA: #888;
-	--gsuiKeys-activeKey-gradB: #fff;
-	--gsuiKeys-blackRow-bg: rgba( 0, 0, 0, .1 );
-	--gsuiKeys-blackRow-hover-bg: rgba( 0, 0, 0, .15 );
-	--gsuiKeys-whiteRow-hover-bg: rgba( 255, 255, 255, .03 );
-}
-
 .gsuiKeys {
 	position: relative;
 	user-select: none;
@@ -42,7 +30,7 @@
 .gsuiKey[ data-key="5" ],
 .gsuiKey-row[ data-key="0" ],
 .gsuiKey-row[ data-key="5" ] {
-	border-bottom: 1px solid rgba( 0, 0, 0, .2 );
+	border-bottom: 1px solid #0003;
 }
 .gsuiKey-row > div {
 	position: absolute;
