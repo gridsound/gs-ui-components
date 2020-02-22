@@ -11,18 +11,7 @@ class gsuiEffects {
 		this.rootElement = root;
 		this.askData =
 		this.oninput =
-		this.onchange = GSData.noop;
-		this.gsdata = new GSDataEffects( {
-			actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
-			dataCallbacks: {
-				addFx: this._addFx.bind( this ),
-				removeFx: this._removeFx.bind( this ),
-				toggleFx: this._toggleFx.bind( this ),
-				reorderFx: this._reorderFx.bind( this ),
-				changeFxData: this._changeFxData.bind( this ),
-			},
-		} );
-		this._fxNames = 0;
+		this.onchange = () => {};
 		this._fxsHtml = new Map();
 		this._attached = false;
 		this._elFxsList = elFxsList;
@@ -44,13 +33,6 @@ class gsuiEffects {
 	}
 
 	// .........................................................................
-	empty() {
-		this.gsdata.clear();
-	}
-	change( obj ) {
-		this.gsdata.change( obj );
-		gsuiReorder.listReorder( this._elFxsList, obj );
-	}
 	attached() {
 		this._attached = true;
 		this._fxsHtml.forEach( html => html.uiFx.attached() );
@@ -58,63 +40,15 @@ class gsuiEffects {
 	resized() {
 		this._fxsHtml.forEach( html => html.uiFx.resized() );
 	}
-	setDestFilter( dest ) {
-		this.gsdata.setDestFilter( dest );
-	}
+	expandToggleEffect( id ) {
+		const root = this._fxsHtml.get( id ).root;
 
-	// dataCallbacks:
-	// .........................................................................
-	_addFx( id, fx ) {
-		const root = gsuiEffects.templateFx.cloneNode( true ),
-			name = root.querySelector( ".gsuiEffects-fx-name" ),
-			expand = root.querySelector( ".gsuiEffects-fx-expand" ),
-			toggle = root.querySelector( ".gsuiEffects-fx-toggle" ),
-			remove = root.querySelector( ".gsuiEffects-fx-remove" ),
-			content = root.querySelector( ".gsuiEffects-fx-content" ),
-			fxAsset = gsuiEffects.fxsMap.get( fx.type ),
-			uiFx = new fxAsset.cmp(),
-			html = Object.seal( {
-				uiFx,
-				root,
-				expand,
-				content,
-				expanded: false,
-			} );
-
-		expand.onclick = this._onclickShowFx.bind( this, id );
-		toggle.onclick = this._onclickToggleFx.bind( this, id );
-		remove.onclick = this._onclickRemoveFx.bind( this, id );
-		uiFx.askData = this.askData.bind( null, id, fx.type );
-		uiFx.oninput = ( prop, val ) => this.oninput( id, prop, val );
-		uiFx.onchange = this.gsdata.callAction.bind( this.gsdata, "changeFxData", id );
-		name.textContent = fxAsset.name;
-		content.append( uiFx.rootElement );
-		this._fxsHtml.set( id, html );
-		this._elFxsList.append( root );
+		this.expandEffect( id, !root.classList.contains( "gsuiEffects-fx-expanded" ) );
 	}
-	_removeFx( id ) {
-		this._fxsHtml.get( id ).root.remove();
-		this._fxsHtml.delete( id );
-	}
-	_toggleFx( id, b ) {
-		const html = this._fxsHtml.get( id );
-
-		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
-		html.uiFx.toggle( b );
-	}
-	_reorderFx( id, order ) {
-		this._fxsHtml.get( id ).root.dataset.order = order;
-	}
-	_changeFxData( id, data ) {
-		this._fxsHtml.get( id ).uiFx.change( data );
-	}
-
-	// .........................................................................
-	_expandFx( id, b ) {
+	expandEffect( id, b ) {
 		const html = this._fxsHtml.get( id ),
-			type = this.gsdata.data[ id ].type;
+			type = html.root.dataset.type;
 
-		html.expanded = b;
 		html.root.classList.toggle( "gsuiEffects-fx-expanded", b );
 		html.expand.dataset.icon = b ? "caret-down" : "caret-right";
 		html.content.style.height = `${ b ? gsuiEffects.fxsMap.get( type ).height : 0 }px`;
@@ -128,6 +62,55 @@ class gsuiEffects {
 		}
 	}
 
+	// .........................................................................
+	addEffect( id, fx ) {
+		const root = gsuiEffects.templateFx.cloneNode( true ),
+			name = root.querySelector( ".gsuiEffects-fx-name" ),
+			expand = root.querySelector( ".gsuiEffects-fx-expand" ),
+			toggle = root.querySelector( ".gsuiEffects-fx-toggle" ),
+			remove = root.querySelector( ".gsuiEffects-fx-remove" ),
+			content = root.querySelector( ".gsuiEffects-fx-content" ),
+			fxAsset = gsuiEffects.fxsMap.get( fx.type ),
+			uiFx = new fxAsset.cmp(),
+			html = Object.seal( {
+				uiFx,
+				root,
+				expand,
+				content,
+			} );
+
+		expand.onclick = () => this.expandToggleEffect( id );
+		toggle.onclick = () => this.onchange( "toggleEffect", id );
+		remove.onclick = () => this.onchange( "removeEffect", id );
+		uiFx.askData = this.askData.bind( null, id, fx.type );
+		uiFx.oninput = ( prop, val ) => this.oninput( id, prop, val );
+		uiFx.onchange = ( prop, val ) => this.onchange( "changeEffect", id, prop, val );
+		root.dataset.type = fx.type;
+		name.textContent = fxAsset.name;
+		content.append( uiFx.rootElement );
+		this._fxsHtml.set( id, html );
+		this._elFxsList.append( root );
+	}
+	removeEffect( id ) {
+		this._fxsHtml.get( id ).root.remove();
+		this._fxsHtml.delete( id );
+	}
+	changeEffect( id, prop, val ) {
+		switch ( prop ) {
+			case "toggle": this._changeToggle( id, val ); break;
+			case "order": this._fxsHtml.get( id ).root.dataset.order = val; break;
+		}
+	}
+	_changeToggle( id, b ) {
+		const html = this._fxsHtml.get( id );
+
+		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
+		html.uiFx.toggle( b );
+	}
+	reorderEffects( effects ) {
+		gsuiReorder.listReorder( this._elFxsList, effects );
+	}
+
 	// events:
 	// .........................................................................
 	_onchangeAddSelect() {
@@ -135,16 +118,7 @@ class gsuiEffects {
 
 		this._elAddSelect.blur();
 		this._elAddSelect.value = "";
-		this.gsdata.callAction( "addFx", type );
-	}
-	_onclickShowFx( id ) {
-		this._expandFx( id, !this._fxsHtml.get( id ).expanded );
-	}
-	_onclickToggleFx( id ) {
-		this.gsdata.callAction( "toggleFx", id );
-	}
-	_onclickRemoveFx( id ) {
-		this.gsdata.callAction( "removeFx", id );
+		this.onchange( "addEffect", type );
 	}
 
 	// .........................................................................
