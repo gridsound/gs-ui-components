@@ -1,18 +1,10 @@
-:root {
-	--gsuiTimeline-bg: #448;
-	--gsuiTimeline-number-font: 14px monospace;
-	--gsuiTimeline-color: #ff0;
-	--gsuiTimeline-loop-bg: #f64;
-	--gsuiTimeline-cursor-fill: #ff0;
-	--gsuiTimeline-loopBorder-bg: #ff0;
-}
-
 .gsuiTimeline {
 	position: relative;
 	overflow: hidden;
 	cursor: default;
 	color: var( --gsuiTimeline-color );
-	font: var( --gsuiTimeline-number-font );
+	font-size: 14px;
+	font-family: var( --gsui-font-number );
 	background-color: var( --gsuiTimeline-bg );
 }
 
@@ -27,7 +19,7 @@
 }
 .gsuiTimeline-loopLine:hover,
 .gsuiTimeline-currentTime:hover {
-	background-color: rgba( 255, 255, 255, .05 );
+	background-color: #fff1;
 }
 .gsuiTimeline-currentTime {
 	bottom: 0;
