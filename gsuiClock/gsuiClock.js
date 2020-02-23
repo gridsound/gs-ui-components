@@ -7,7 +7,6 @@ class gsuiClock {
 
 		this.rootElement = root;
 		this.onchangeDisplay = () => {};
-		this.data = new GSDataClock();
 		this._attached = false;
 		this._wrapRel = root.querySelector( ".gsuiClock-relative" );
 		this._wrapAbs = root.querySelector( ".gsuiClock-absolute" );
@@ -47,15 +46,18 @@ class gsuiClock {
 		this._resetTime();
 	}
 	setTime( beats ) {
-		const arr = this.data.value;
+		const [ a, b, c ] = this._display === "second"
+				? GSUtils.parseBeatsToSeconds( beats, this._bpm )
+				: GSUtils.parseBeatsToBeats( beats, this._sPB );
 
 		this._timeSave = beats;
-		this._display === "second"
-			? this.data.beatsToSeconds( beats, this._bpm )
-			: this.data.beatsToBeats( beats, this._sPB );
-		this._setValue0( arr[ 0 ] );
-		this._setValue( 1, arr[ 1 ] );
-		this._setValue( 2, arr[ 2 ] );
+		this._setValue( 0, a );
+		this._setValue( 1, b );
+		this._setValue( 2, c );
+		if ( this._attached && a.length !== this._firstValueLen ) {
+			this._firstValueLen = a.length;
+			this._updateWidth();
+		}
 	}
 
 	// events:
@@ -74,13 +76,6 @@ class gsuiClock {
 		if ( val !== this._values[ ind ] ) {
 			this._nodes[ ind ].textContent =
 			this._values[ ind ] = val;
-		}
-	}
-	_setValue0( val ) {
-		this._setValue( 0, val );
-		if ( this._attached && val.length !== this._firstValueLen ) {
-			this._firstValueLen = val.length;
-			this._updateWidth();
 		}
 	}
 	_updateWidth() {
