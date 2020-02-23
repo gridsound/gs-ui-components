@@ -127,7 +127,7 @@ gsuiFxFilter.template = document.querySelector( "#gsuiFxFilter" );
 gsuiFxFilter.template.remove();
 gsuiFxFilter.template.removeAttribute( "id" );
 
-gsuiFxFilter.typeGainQ = GSData.deepFreeze( {
+gsuiFxFilter.typeGainQ = GSUtils.deepFreeze( {
 	lowpass:   { gain: false, Q: true },
 	highpass:  { gain: false, Q: true },
 	bandpass:  { gain: false, Q: true },
