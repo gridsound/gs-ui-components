@@ -45,7 +45,7 @@ class gsuiDrumrows {
 	}
 
 	// .........................................................................
-	addDrumrow( id, elLine ) {
+	add( id, elLine ) {
 		const elRow = gsuiDrumrows.templateRow.cloneNode( true );
 
 		elRow.dataset.id =
@@ -55,27 +55,27 @@ class gsuiDrumrows {
 		this.rootElement.append( elRow );
 		this._elLinesParent.append( elLine );
 	}
-	removeDrumrow( id ) {
+	remove( id ) {
 		this._rows.get( id ).remove();
 		this._lines.get( id ).remove();
 		this._rows.delete( id );
 		this._lines.delete( id );
 	}
-	changeDrumrow( id, prop, val ) {
+	change( id, prop, val ) {
 		switch ( prop ) {
-			case "name": this._changeDrumrowName( id, val ); break;
-			case "order": this._changeDrumrowOrder( id, val ); break;
-			case "toggle": this._changeDrumrowToggle( id, val ); break;
+			case "name": this._changeName( id, val ); break;
+			case "order": this._changeOrder( id, val ); break;
+			case "toggle": this._changeToggle( id, val ); break;
 		}
 	}
-	_changeDrumrowName( id, name ) {
+	_changeName( id, name ) {
 		this._rows.get( id ).querySelector( ".gsuiDrumrow-name" ).textContent = name;
 	}
-	_changeDrumrowToggle( id, b ) {
+	_changeToggle( id, b ) {
 		this._rows.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 		this._lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 	}
-	_changeDrumrowOrder( id, order ) {
+	_changeOrder( id, order ) {
 		this._rows.get( id ).dataset.order =
 		this._lines.get( id ).dataset.order = order;
 	}
