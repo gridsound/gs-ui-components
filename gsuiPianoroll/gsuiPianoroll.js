@@ -105,19 +105,20 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this._uiSliderGroup.timeSignature( a, b );
 	}
 	octaves( from, nb ) {
-		const rows = this.uiKeys.rootElement.getElementsByClassName( "gsui-row" );
-
 		this.empty();
 		Object.keys( this._rowsByMidi ).forEach( k => delete this._rowsByMidi[ k ] );
-		this.uiKeys.octaves( from, nb );
-		Object.values( rows ).forEach( el => {
+
+		const rows = this.uiKeys.octaves( from, nb );
+
+		rows.forEach( el => {
 			const midi = +el.dataset.midi;
 
 			el.onmousedown = this._rowMousedown.bind( this, midi );
 			el.firstElementChild.style.fontSize = `${ this.__pxPerBeat }px`;
 			this._rowsByMidi[ midi ] = el;
 		} );
-		Element.prototype.prepend.apply( this.__rowsWrapinContainer, rows );
+		this.__rowsWrapinContainer.style.height = `${ rows.length }em`;
+		this.__rowsWrapinContainer.prepend( ...rows );
 	}
 
 	// Block's UI functions
