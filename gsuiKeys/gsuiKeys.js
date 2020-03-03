@@ -44,7 +44,7 @@ class gsuiKeys {
 		this._octStart = start;
 		root.style.counterReset = `octave ${ maxOct }`;
 		for ( let i = 0; i < nbOct; ++i ) {
-			root.append.apply( root, gsuiKeys.template.cloneNode( true ).children );
+			root.append( ...gsuiKeys.template.cloneNode( true ).children );
 		}
 		Array.from( root.children ).reduce( ( midi, elKey, i ) => {
 			const elRow = elKey.firstElementChild;
@@ -57,6 +57,7 @@ class gsuiKeys {
 			elRow.style.top = `${ i }em`;
 			return midi - 1;
 		}, maxOct * 12 );
+		return root.querySelectorAll( ".gsui-row" );
 	}
 	getKeyElementFromMidi( midi ) {
 		return this._nlKeys[ this._nlKeys.length - 1 - ( midi - this._octStart * 12 ) ];
