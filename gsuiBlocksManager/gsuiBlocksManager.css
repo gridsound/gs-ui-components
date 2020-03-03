@@ -89,9 +89,10 @@
 }
 .gsuiBlocksManager-rowsWrapin {
 	position: absolute;
+	width: 1000000px;
 }
 .gsuiBlocksManager-rows .gsui-row {
-	width: 1000000px;
+	width: 100%;
 }
 
 /* .......................................................................... */
