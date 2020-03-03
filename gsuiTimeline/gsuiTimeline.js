@@ -134,6 +134,9 @@ class gsuiTimeline {
 	}
 
 	// private:
+	_unselect() {
+		window.getSelection().removeAllRanges();
+	}
 	_round( bt, mathFn ) {
 		if ( this.stepRound ) {
 			const mod = 1 / this._stepsPerBeat * this.stepRound;
@@ -161,33 +164,39 @@ class gsuiTimeline {
 		document.addEventListener( "mousemove", this._evMousemove );
 	}
 	_mousedown() {
-		window.getSelection().removeAllRanges();
+		this._unselect();
 	}
 	_mousedownTime( e ) {
 		this._timeisdrag = true;
 		this._mousemove( e );
+		this._unselect();
 		this._bindEvents();
+		e.stopPropagation();
 	}
-	_mousedownLoop( side ) {
+	_mousedownLoop( side, e ) {
 		this._loopisdrag = true;
 		this._loopisdragA = side === "a";
 		this._loopisdragB = side === "b";
 		this._elLoopBg.classList.toggle( "gsui-hover", side === "ab" );
 		this._elLoopBrdA.classList.toggle( "gsui-hover", this._loopisdragA );
 		this._elLoopBrdB.classList.toggle( "gsui-hover", this._loopisdragB );
+		this._unselect();
 		this._bindEvents();
+		e.stopPropagation();
 	}
 	_mousedownLoopLine( e ) {
 		const now = Date.now(),
 			bt = this._offset + this._layerX( e ) / this._pxPerBeat;
 
+		this._unselect();
 		if ( !this._loopClick || now - this._loopClick > 500 ) {
 			this._loopClick = now;
 		} else {
 			this.loop( false, 0, true );
 			this.loop( bt, bt, true );
-			this._mousedownLoop( "b" );
+			this._mousedownLoop( "b", e );
 		}
+		e.stopPropagation();
 	}
 	_mousemove( e ) {
 		if ( this._timeisdrag ) {
