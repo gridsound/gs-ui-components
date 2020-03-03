@@ -8,7 +8,9 @@ class gsuiSVGDefs {
 		this._defs = new Map();
 		this._idPref = `gsuiSVGDefs_${ gsuiSVGDefs._id++ }_`;
 		this._elDefs = gsuiSVGDefs.create( "defs" );
-		Object.freeze( this );
+		this._w =
+		this._h = 0;
+		Object.seal( this );
 
 		svg.style.display = "none";
 		svg.classList.add( "gsuiSVGDefs" );
@@ -20,6 +22,10 @@ class gsuiSVGDefs {
 		return document.createElementNS( "http://www.w3.org/2000/svg", elem );
 	}
 
+	setDefaultViewbox( w, h ) {
+		this._w = w;
+		this._h = h;
+	}
 	empty() {
 		this._defs.forEach( def => def.g.remove() );
 		this._defs.clear();
@@ -48,19 +54,17 @@ class gsuiSVGDefs {
 		g.append( ...elems );
 	}
 	createSVG( id ) {
-		const def = this._defs.get( id );
+		const svg = gsuiSVGDefs.create( "svg" ),
+			use = gsuiSVGDefs.create( "use" ),
+			def = this._defs.get( id ) || {},
+			viewBox = `0 0 ${ def.w || this._w } ${ def.h || this._h }`;
 
-		if ( def ) {
-			const svg = gsuiSVGDefs.create( "svg" ),
-				use = gsuiSVGDefs.create( "use" );
-
-			svg.dataset.id = id;
-			use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this._idPref }${ id }` );
-			svg.setAttribute( "viewBox", `0 0 ${ def.w } ${ def.h }` );
-			svg.setAttribute( "preserveAspectRatio", "none" );
-			svg.append( use );
-			return svg;
-		}
+		svg.dataset.id = id;
+		use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this._idPref }${ id }` );
+		svg.setAttribute( "viewBox", viewBox );
+		svg.setAttribute( "preserveAspectRatio", "none" );
+		svg.append( use );
+		return svg;
 	}
 	setSVGViewbox( svg, x, w ) {
 		const h = this._defs.get( svg.dataset.id ).h;
