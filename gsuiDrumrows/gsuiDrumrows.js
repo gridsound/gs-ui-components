@@ -66,6 +66,7 @@ class gsuiDrumrows {
 			case "name": this._changeName( id, val ); break;
 			case "order": this._changeOrder( id, val ); break;
 			case "toggle": this._changeToggle( id, val ); break;
+			case "pattern": this._changePattern( id, val ); break;
 		}
 	}
 	_changeName( id, name ) {
@@ -74,6 +75,17 @@ class gsuiDrumrows {
 	_changeToggle( id, b ) {
 		this._rows.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 		this._lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
+	}
+	_changePattern( id, svg ) {
+		const elWave = this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" );
+
+		if ( elWave.firstChild ) {
+			elWave.firstChild.remove();
+		}
+		if ( svg ) {
+			svg.classList.add( "gsuiDrumrow-wave" );
+			elWave.append( svg );
+		}
 	}
 	_changeOrder( id, order ) {
 		this._rows.get( id ).dataset.order =

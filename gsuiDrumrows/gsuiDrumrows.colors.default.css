@@ -1,6 +1,7 @@
 :root {
 	--gsuiDrumrows-bg: #555;
 	--gsuiDrumrow-bg: #555;
+	--gsuiDrumrow-border: #0002;
 	--gsuiDrumrow-mute-bg: #444;
 	--gsuiDrumrow-color: #fff;
 	--gsuiDrumrow-grip-bg: #0001;
