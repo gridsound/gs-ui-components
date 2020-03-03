@@ -46,13 +46,15 @@ class gsuiKeys {
 		for ( let i = 0; i < nbOct; ++i ) {
 			root.append.apply( root, gsuiKeys.template.cloneNode( true ).children );
 		}
-		Array.from( root.children ).reduce( ( midi, elKey ) => {
+		Array.from( root.children ).reduce( ( midi, elKey, i ) => {
 			const elRow = elKey.firstElementChild;
 
 			elKey._rowElement = elRow;
 			elRow._keyElement = elKey;
 			elKey.dataset.midi =
 			elRow.dataset.midi = midi - 1;
+			elKey.style.top =
+			elRow.style.top = `${ i }em`;
 			return midi - 1;
 		}, maxOct * 12 );
 	}

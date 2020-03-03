@@ -16,9 +16,9 @@
 	display: none;
 }
 .gsuiKey-row {
-	height: 1em;
-	position: relative;
+	position: absolute;
 	box-sizing: border-box;
+	height: 1em;
 }
 .gsuiKeyBlack-row {
 	background-color: var( --gsuiKeys-blackRow-bg );
@@ -41,7 +41,9 @@
 
 .gsuiKey {
 	box-sizing: border-box;
-	position: relative;
+	position: absolute;
+	left: 0;
+	right: 0;
 	height: 1.5em;
 }
 .gsuiKeyBlack {
@@ -49,7 +51,6 @@
 	z-index: 1;
 	width: 65%;
 	height: 1em;
-	margin-top: -.5em;
 	border-radius: 0 .1em .1em 0;
 	background-image: linear-gradient(
 		90deg,
@@ -85,4 +86,11 @@
 .gsuiKey[ data-key="7" ],
 .gsuiKey[ data-key="2" ] {
 	height: 2em;
+}
+.gsuiKey[ data-key="9" ],
+.gsuiKey[ data-key="7" ],
+.gsuiKey[ data-key="5" ],
+.gsuiKey[ data-key="2" ],
+.gsuiKey[ data-key="0" ] {
+	margin-top: -.5em;
 }
