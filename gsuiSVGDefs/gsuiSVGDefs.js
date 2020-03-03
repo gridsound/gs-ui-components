@@ -8,6 +8,7 @@ class gsuiSVGDefs {
 		this._defs = new Map();
 		this._idPref = `gsuiSVGDefs_${ gsuiSVGDefs._id++ }_`;
 		this._elDefs = gsuiSVGDefs.create( "defs" );
+		this._optResolution = 0;
 		this._w =
 		this._h = 0;
 		Object.seal( this );
