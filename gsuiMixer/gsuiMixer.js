@@ -85,18 +85,20 @@ class gsuiMixer {
 	empty() {
 		this.gsdata.clear();
 		this.gsdata.change( {
-			main: {
-				toggle: true,
-				name: "main",
-				gain: 1,
-				pan: 0,
+			channels: {
+				main: {
+					toggle: true,
+					name: "main",
+					gain: 1,
+					pan: 0,
+				},
 			},
 		} );
 		this.selectChan( "main" );
 	}
 	change( obj ) {
 		this.gsdata.change( obj );
-		gsuiReorder.listReorder( this._pchans, obj );
+		gsuiReorder.listReorder( this._pchans, obj.channels );
 	}
 	getCurrentChannelId() {
 		return this._chanSelected;
