@@ -6,7 +6,9 @@ class gsuiDrumrows {
 			reorder = new gsuiReorder();
 
 		this.rootElement = root;
-		this.onchange = () => {};
+		this.onchange =
+		this.onlivestop =
+		this.onlivestart = () => {};
 		this._rows = new Map();
 		this._lines = new Map();
 		this._reorder = reorder;
@@ -19,6 +21,7 @@ class gsuiDrumrows {
 		root.onclick = this._onclickRows.bind( this );
 		root.ondragover = this._ondragoverRows.bind( this );
 		root.ondragleave = this._ondragleaveRows.bind( this );
+		root.onmousedown = this._onmousedownRows.bind( this );
 		root.oncontextmenu = this._oncontextmenuRows.bind( this );
 		root.onanimationend = this._onanimationendRows.bind( this );
 		reorder.onchange = this._onreorderRows.bind( this );
@@ -49,6 +52,10 @@ class gsuiDrumrows {
 
 		rect.classList.add( "gsuiDrumrow-startCursor" );
 		this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" ).append( rect );
+	}
+	stopRow( id ) {
+		this._rows.get( id ).querySelectorAll( ".gsuiDrumrow-startCursor" )
+			.forEach( el => el.remove() );
 	}
 
 	// .........................................................................
@@ -126,9 +133,17 @@ class gsuiDrumrows {
 
 		if ( classList.contains( "gsuiDrumrow-toggle" ) ) {
 			this.onchange( "toggleDrumrow", parentNode.dataset.id );
-		}
-		if ( classList.contains( "gsuiDrumrow-delete" ) ) {
+		} else if ( classList.contains( "gsuiDrumrow-delete" ) ) {
 			this.onchange( "removeDrumrow", parentNode.dataset.id );
+		}
+	}
+	_onmousedownRows( e ) {
+		if ( e.target.classList.contains( "gsuiDrumrow" ) ) {
+			if ( e.button === 0 ) {
+				this.onlivestart( e.target.dataset.id );
+			} else if ( e.button === 2 ) {
+				this.onlivestop( e.target.dataset.id );
+			}
 		}
 	}
 	_onanimationendRows( e ) {
