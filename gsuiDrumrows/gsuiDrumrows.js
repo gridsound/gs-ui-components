@@ -20,6 +20,7 @@ class gsuiDrumrows {
 		root.ondragover = this._ondragoverRows.bind( this );
 		root.ondragleave = this._ondragleaveRows.bind( this );
 		root.oncontextmenu = this._oncontextmenuRows.bind( this );
+		root.onanimationend = this._onanimationendRows.bind( this );
 		reorder.onchange = this._onreorderRows.bind( this );
 		reorder.setRootElement( root );
 		reorder.setSelectors( {
@@ -42,6 +43,12 @@ class gsuiDrumrows {
 	reorderDrumrows( obj ) {
 		gsuiReorder.listReorder( this.rootElement, obj );
 		gsuiReorder.listReorder( this._elLinesParent, obj );
+	}
+	playRow( id ) {
+		const rect = document.createElement( "div" );
+
+		rect.classList.add( "gsuiDrumrow-startCursor" );
+		this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" ).append( rect );
 	}
 
 	// .........................................................................
@@ -67,6 +74,7 @@ class gsuiDrumrows {
 			case "order": this._changeOrder( id, val ); break;
 			case "toggle": this._changeToggle( id, val ); break;
 			case "pattern": this._changePattern( id, val ); break;
+			case "duration": this._changeDuration( id, val ); break;
 		}
 	}
 	_changeName( id, name ) {
@@ -75,6 +83,9 @@ class gsuiDrumrows {
 	_changeToggle( id, b ) {
 		this._rows.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 		this._lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
+	}
+	_changeDuration( id, dur ) {
+		this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" ).style.animationDuration = `${ dur * 2 }s`;
 	}
 	_changePattern( id, svg ) {
 		const elWave = this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" );
@@ -118,6 +129,11 @@ class gsuiDrumrows {
 		}
 		if ( classList.contains( "gsuiDrumrow-delete" ) ) {
 			this.onchange( "removeDrumrow", parentNode.dataset.id );
+		}
+	}
+	_onanimationendRows( e ) {
+		if ( e.target.classList.contains( "gsuiDrumrow-startCursor" ) ) {
+			e.target.remove();
 		}
 	}
 	_oncontextmenuRows( e ) {

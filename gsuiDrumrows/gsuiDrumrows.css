@@ -96,15 +96,16 @@
 	opacity: var( --gsuiDrumrow-name-opacity, 1 );
 	transition: .1s opacity;
 }
+
+/* .......................................................................... */
 .gsuiDrumrow-waveWrap {
 	position: absolute;
+	overflow: hidden;
 	top: var( --name-h );
 	left: var( --grip-w );
 	right: 0;
 	bottom: 0;
 	pointer-events: none;
-	opacity: var( --gsuiDrumrow-name-opacity, .5 );
-	transition: .1s opacity;
 }
 .gsuiDrumrow-wave {
 	position: absolute;
@@ -112,8 +113,31 @@
 	width: 100%;
 	height: 100%;
 	fill: currentColor;
-	pointer-events: none;
+	opacity: var( --gsuiDrumrow-name-opacity, .5 );
+	transition: .1s opacity;
 }
+.gsuiDrumrow-startCursor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-right: 2px solid;
+	background-image: linear-gradient( 90deg, transparent 0%, currentColor 300% );
+	animation-name: gsuiDrumrow-startCursor-anim;
+	animation-duration: inherit;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+}
+.gsuiDrumrow-mute .gsuiDrumrow-startCursor {
+	visibility: hidden;
+}
+@keyframes gsuiDrumrow-startCursor-anim {
+	from { left: -100%; }
+	to { left: 100%; }
+}
+
+/* .......................................................................... */
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-toggle,
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-name,
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-waveWrap {
