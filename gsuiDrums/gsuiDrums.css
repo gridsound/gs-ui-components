@@ -38,6 +38,7 @@
 /* .......................................................................... */
 .gsuiDrums-shadow {
 	position: absolute;
+	z-index: 1;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -88,13 +89,15 @@
 .gsuiDrums-currentTime,
 .gsuiDrums-loop {
 	position: absolute;
-	z-index: 2;
 	top: 0;
 	bottom: 0;
 	pointer-events: none;
 	background-color: var( --gsuiDrums-loop-bg );
 	transition: .2s opacity;
 	opacity: 0;
+}
+.gsuiDrums-loop {
+	z-index: 1;
 }
 .gsuiDrums-currentTime {
 	background-color: var( --gsuiDrums-currentTime-bg );
