@@ -16,20 +16,11 @@ class gsuiWindow {
 		this.onresize =
 		this.onfocusin =
 		this.onresizing = null;
-		this._pos = Object.seal( { x: 0, y: 0 } );
-		this._mousedownX =
-		this._mousedownY =
-		this._mousemoveX =
-		this._mousemoveY =
+		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
+		this._restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
+		this._mousemovePos = Object.seal( { x: 0, y: 0 } );
+		this._mousedownPos = Object.seal( { x: 0, y: 0 } );
 		this._mousedownHeadHeight = 0;
-		this._x =
-		this._y =
-		this._w =
-		this._h =
-		this.__x =
-		this.__y =
-		this.__w =
-		this.__h =
 		this._wMin =
 		this._hMin = 32;
 		Object.seal( this );
@@ -99,11 +90,11 @@ class gsuiWindow {
 		if ( !this._maximized ) {
 			const st = this.rootElement.style;
 
-			this.__x = this._x;
-			this.__y = this._y;
-			this.__w = this._w;
+			this._restoreRect.x = this.rect.x;
+			this._restoreRect.y = this.rect.y;
+			this._restoreRect.w = this.rect.w;
 			if ( !this._minimized ) {
-				this.__h = this._h;
+				this._restoreRect.h = this.rect.h;
 			}
 			st.top = st.left = st.right = st.bottom = st.width = st.height = "";
 			this._setClass( "maximized", true );
@@ -117,30 +108,31 @@ class gsuiWindow {
 	}
 	minimize() {
 		if ( !this._minimized ) {
+			const rcRestore = this._restoreRect;
+
 			if ( !this._maximized ) {
-				this.__w = this._w;
-				this.__h = this._h;
-				this.__x = this._x;
-				this.__y = this._y;
+				Object.assign( rcRestore, this.rect );
 			}
 			this._setClass( "minimized", true );
 			this._setClass( "maximized", false );
 			this._minimized = true;
 			this._maximized = false;
-			this.setSize( this.__w, this._getHeadHeight(), "nocallback" );
-			this.setPosition( this.__x, this.__y );
+			this.setSize( rcRestore.w, this._getHeadHeight(), "nocallback" );
+			this.setPosition( rcRestore.x, rcRestore.y );
 			this.parent._winRestored( this.id );
 		}
 	}
 	restore() {
 		if ( this._minimized || this._maximized ) {
+			const rcRestore = this._restoreRect;
+
 			this.focus();
 			this._setClass( "minimized", false );
 			this._setClass( "maximized", false );
 			this._minimized =
 			this._maximized = false;
-			this.setSize( this.__w, this.__h );
-			this.setPosition( this.__x, this.__y );
+			this.setSize( rcRestore.w, rcRestore.h );
+			this.setPosition( rcRestore.x, rcRestore.y );
 			this.parent._winRestored( this.id );
 		}
 	}
@@ -152,8 +144,8 @@ class gsuiWindow {
 		this._getElem( "title" ).textContent = t;
 	}
 	setSize( w, h, nocb ) {
-		this._w = w;
-		this._h = h;
+		this.rect.w = w;
+		this.rect.h = h;
 		this.rootElement.style.width = `${ w }px`;
 		this.rootElement.style.height = `${ h }px`;
 		if ( nocb !== "nocallback" ) {
@@ -165,8 +157,8 @@ class gsuiWindow {
 		this._hMin = h;
 	}
 	setPosition( x, y ) {
-		this._x = x;
-		this._y = y;
+		this.rect.x = x;
+		this.rect.y = y;
 		this.rootElement.style.left = `${ x }px`;
 		this.rootElement.style.top = `${ y }px`;
 	}
@@ -194,8 +186,8 @@ class gsuiWindow {
 				clTar.contains( "gsuiWindow-headContent" );
 
 		if ( clicked ) {
-			this._mousedownX = e.clientX;
-			this._mousedownY = e.clientY;
+			this._mousedownPos.x = e.clientX;
+			this._mousedownPos.y = e.clientY;
 			this._setClass( "dragging", true );
 			this.parent._startMousemoving( "move",
 				this._onmousemoveHead.bind( this ),
@@ -206,8 +198,8 @@ class gsuiWindow {
 		const dir = e.target.dataset.dir;
 
 		if ( dir ) {
-			this._mousedownX = e.clientX;
-			this._mousedownY = e.clientY;
+			this._mousedownPos.x = e.clientX;
+			this._mousedownPos.y = e.clientY;
 			this._mousedownHeadHeight = this._getHeadHeight();
 			this._setClass( "dragging", true );
 			this.parent._startMousemoving( `${ dir }-resize`,
@@ -216,47 +208,42 @@ class gsuiWindow {
 		}
 	}
 	_onmousemoveHead( e ) {
-		const x = e.clientX - this._mousedownX,
-			y = e.clientY - this._mousedownY;
+		const x = e.clientX - this._mousedownPos.x,
+			y = e.clientY - this._mousedownPos.y;
 
-		this._mousemoveX = x;
-		this._mousemoveY = y;
 		this._setCSSrelativeMove( this._elHandlers.style, x, y );
 		if ( !this.parent._lowGraphics ) {
 			this._setCSSrelativeMove( this._elWrap.style, x, y );
 		}
 	}
 	_onmouseupHead( e ) {
-		const x = this._x,
-			y = this._y,
-			x_ = e.clientX - this._mousedownX,
-			y_ = e.clientY - this._mousedownY;
+		const { x, y } = this.rect,
+			x_ = e.clientX - this._mousedownPos.x,
+			y_ = e.clientY - this._mousedownPos.y;
 
 		this._setClass( "dragging", false );
 		this._resetCSSrelative( this._elWrap.style );
 		this._resetCSSrelative( this._elHandlers.style );
 		if ( x_ || y_ ) {
 			this.setPosition( x + x_, y + y_ );
-			this.__x = this._x;
-			this.__y = this._y;
+			this._restoreRect.x = this.rect.x;
+			this._restoreRect.y = this.rect.y;
 		}
 	}
 	_onmousemoveHandler( dir, e ) {
 		const fnResize = this.onresizing,
-			x = e.clientX - this._mousedownX,
-			y = e.clientY - this._mousedownY;
+			x = e.clientX - this._mousedownPos.x,
+			y = e.clientY - this._mousedownPos.y;
 
-		this._pos.x = x;
-		this._pos.y = y;
-		this._mousemoveX = x;
-		this._mousemoveY = y;
-		this._calcCSSrelativeResize( dir, this._pos );
-		this._setCSSrelativeResize( this._elHandlers.style, dir, this._pos );
+		this._mousemovePos.x = x;
+		this._mousemovePos.y = y;
+		this._calcCSSrelativeResize( dir, this._mousemovePos );
+		this._setCSSrelativeResize( this._elHandlers.style, dir, this._mousemovePos );
 		if ( !this.parent._lowGraphics ) {
-			this._setCSSrelativeResize( this._elWrap.style, dir, this._pos );
+			this._setCSSrelativeResize( this._elWrap.style, dir, this._mousemovePos );
 			if ( fnResize ) {
-				const w = this._w,
-					h = this._h - this._mousedownHeadHeight;
+				const w = this.rect.w,
+					h = this.rect.h - this._mousedownHeadHeight;
 
 				switch ( dir ) {
 					case "n":  fnResize( w,     h - y ); break;
@@ -272,25 +259,22 @@ class gsuiWindow {
 		}
 	}
 	_onmouseupHandler( dir, e ) {
-		const x = this._x,
-			y = this._y,
-			w = this._w,
-			h = this._h,
-			p = this._pos;
+		const { x, y, w, h } = this.rect,
+			m = this._mousemovePos;
 
 		this._setClass( "dragging", false );
 		this._resetCSSrelative( this._elWrap.style );
 		this._resetCSSrelative( this._elHandlers.style );
-		if ( p.x || p.y ) {
+		if ( m.x || m.y ) {
 			switch ( dir ) {
-				case "e" : this.setSize( w + p.x, h       ); break;
-				case "se": this.setSize( w + p.x, h + p.y ); break;
-				case "s" : this.setSize( w,       h + p.y ); break;
-				case "sw": this.setSize( w - p.x, h + p.y ); this.setPosition( x + p.x, y       ); break;
-				case "w" : this.setSize( w - p.x, h       ); this.setPosition( x + p.x, y       ); break;
-				case "nw": this.setSize( w - p.x, h - p.y ); this.setPosition( x + p.x, y + p.y ); break;
-				case "n" : this.setSize( w,       h - p.y ); this.setPosition( x,       y + p.y ); break;
-				case "ne": this.setSize( w + p.x, h - p.y ); this.setPosition( x,       y + p.y ); break;
+				case "e" : this.setSize( w + m.x, h       ); break;
+				case "se": this.setSize( w + m.x, h + m.y ); break;
+				case "s" : this.setSize( w,       h + m.y ); break;
+				case "sw": this.setSize( w - m.x, h + m.y ); this.setPosition( x + m.x, y       ); break;
+				case "w" : this.setSize( w - m.x, h       ); this.setPosition( x + m.x, y       ); break;
+				case "nw": this.setSize( w - m.x, h - m.y ); this.setPosition( x + m.x, y + m.y ); break;
+				case "n" : this.setSize( w,       h - m.y ); this.setPosition( x,       y + m.y ); break;
+				case "ne": this.setSize( w + m.x, h - m.y ); this.setPosition( x,       y + m.y ); break;
 			}
 		}
 	}
@@ -332,8 +316,8 @@ class gsuiWindow {
 		st.bottom = `${ -y }px`;
 	}
 	_calcCSSrelativeResize( dir, p ) {
-		const w = this._w - this._wMin,
-			h = this._h - this._mousedownHeadHeight - this._hMin;
+		const w = this.rect.w - this._wMin,
+			h = this.rect.h - this._mousedownHeadHeight - this._hMin;
 
 		switch ( dir ) {
 			case "n" : if ( h - p.y < 0 ) { p.y =  h; } break;
