@@ -48,6 +48,7 @@ class gsuiWindows {
 	}
 
 	// private and share with gsuiWindow:
+	// .........................................................................
 	_startMousemoving( cursor, fnMove, fnUp ) {
 		window.getSelection().removeAllRanges();
 		this._mouseFnUp = this._stopMousemoving.bind( this, fnUp );
@@ -67,6 +68,7 @@ class gsuiWindows {
 	}
 
 	// private:
+	// .........................................................................
 	_detach() {
 		const el = this.rootElement;
 

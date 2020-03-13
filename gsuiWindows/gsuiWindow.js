@@ -315,31 +315,31 @@ class gsuiWindow {
 		st.right  = `${ -x }px`;
 		st.bottom = `${ -y }px`;
 	}
-	_calcCSSrelativeResize( dir, p ) {
+	_calcCSSrelativeResize( dir, mm ) {
 		const w = this.rect.w - this._wMin,
 			h = this.rect.h - this._mousedownHeadHeight - this._hMin;
 
 		switch ( dir ) {
-			case "n" : if ( h - p.y < 0 ) { p.y =  h; } break;
-			case "s" : if ( h + p.y < 0 ) { p.y = -h; } break;
-			case "w" :                                  if ( w - p.x < 0 ) { p.x =  w; } break;
-			case "e" :                                  if ( w + p.x < 0 ) { p.x = -w; } break;
-			case "nw": if ( h - p.y < 0 ) { p.y =  h; } if ( w - p.x < 0 ) { p.x =  w; } break;
-			case "ne": if ( h - p.y < 0 ) { p.y =  h; } if ( w + p.x < 0 ) { p.x = -w; } break;
-			case "sw": if ( h + p.y < 0 ) { p.y = -h; } if ( w - p.x < 0 ) { p.x =  w; } break;
-			case "se": if ( h + p.y < 0 ) { p.y = -h; } if ( w + p.x < 0 ) { p.x = -w; } break;
+			case "n" : if ( h - mm.y < 0 ) { mm.y =  h; } break;
+			case "s" : if ( h + mm.y < 0 ) { mm.y = -h; } break;
+			case "w" :                                    if ( w - mm.x < 0 ) { mm.x =  w; } break;
+			case "e" :                                    if ( w + mm.x < 0 ) { mm.x = -w; } break;
+			case "nw": if ( h - mm.y < 0 ) { mm.y =  h; } if ( w - mm.x < 0 ) { mm.x =  w; } break;
+			case "ne": if ( h - mm.y < 0 ) { mm.y =  h; } if ( w + mm.x < 0 ) { mm.x = -w; } break;
+			case "sw": if ( h + mm.y < 0 ) { mm.y = -h; } if ( w - mm.x < 0 ) { mm.x =  w; } break;
+			case "se": if ( h + mm.y < 0 ) { mm.y = -h; } if ( w + mm.x < 0 ) { mm.x = -w; } break;
 		}
 	}
-	_setCSSrelativeResize( st, dir, p ) {
+	_setCSSrelativeResize( st, dir, mm ) {
 		switch ( dir ) {
-			case "n" : st.top    = `${  p.y }px`; break;
-			case "s" : st.bottom = `${ -p.y }px`; break;
-			case "w" : st.left   = `${  p.x }px`; break;
-			case "e" : st.right  = `${ -p.x }px`; break;
-			case "nw": st.left   = `${  p.x }px`; st.top    = `${  p.y }px`; break;
-			case "ne": st.right  = `${ -p.x }px`; st.top    = `${  p.y }px`; break;
-			case "sw": st.left   = `${  p.x }px`; st.bottom = `${ -p.y }px`; break;
-			case "se": st.right  = `${ -p.x }px`; st.bottom = `${ -p.y }px`; break;
+			case "n" : st.top    = `${  mm.y }px`; break;
+			case "s" : st.bottom = `${ -mm.y }px`; break;
+			case "w" : st.left   = `${  mm.x }px`; break;
+			case "e" : st.right  = `${ -mm.x }px`; break;
+			case "nw": st.left   = `${  mm.x }px`; st.top    = `${  mm.y }px`; break;
+			case "ne": st.right  = `${ -mm.x }px`; st.top    = `${  mm.y }px`; break;
+			case "sw": st.left   = `${  mm.x }px`; st.bottom = `${ -mm.y }px`; break;
+			case "se": st.right  = `${ -mm.x }px`; st.bottom = `${ -mm.y }px`; break;
 		}
 	}
 }
