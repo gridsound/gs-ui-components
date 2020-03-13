@@ -18,6 +18,7 @@ class gsuiWindow {
 		this.onresizing = null;
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 		this._restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
+		this._magnetPos = Object.seal( { x: 0, y: 0 } );
 		this._mousemovePos = Object.seal( { x: 0, y: 0 } );
 		this._mousedownPos = Object.seal( { x: 0, y: 0 } );
 		this._mousedownHeadHeight = 0;
@@ -188,6 +189,8 @@ class gsuiWindow {
 		if ( clicked ) {
 			this._mousedownPos.x = e.clientX;
 			this._mousedownPos.y = e.clientY;
+			this._mousemovePos.x =
+			this._mousemovePos.y = 0;
 			this._setClass( "dragging", true );
 			this.parent._startMousemoving( "move",
 				this._onmousemoveHead.bind( this ),
@@ -200,6 +203,8 @@ class gsuiWindow {
 		if ( dir ) {
 			this._mousedownPos.x = e.clientX;
 			this._mousedownPos.y = e.clientY;
+			this._mousemovePos.x =
+			this._mousemovePos.y = 0;
 			this._mousedownHeadHeight = this._getHeadHeight();
 			this._setClass( "dragging", true );
 			this.parent._startMousemoving( `${ dir }-resize`,
@@ -209,23 +214,26 @@ class gsuiWindow {
 	}
 	_onmousemoveHead( e ) {
 		const x = e.clientX - this._mousedownPos.x,
-			y = e.clientY - this._mousedownPos.y;
+			y = e.clientY - this._mousedownPos.y,
+			mmPos = this._mousemovePos,
+			magnet = this._calcCSSmagnet( "nesw", x, y );
 
-		this._setCSSrelativeMove( this._elHandlers.style, x, y );
+		mmPos.x = x + magnet.x;
+		mmPos.y = y + magnet.y;
+		this._setCSSrelativeMove( this._elHandlers.style, mmPos.x, mmPos.y );
 		if ( !this.parent._lowGraphics ) {
-			this._setCSSrelativeMove( this._elWrap.style, x, y );
+			this._setCSSrelativeMove( this._elWrap.style, mmPos.x, mmPos.y );
 		}
 	}
-	_onmouseupHead( e ) {
+	_onmouseupHead() {
 		const { x, y } = this.rect,
-			x_ = e.clientX - this._mousedownPos.x,
-			y_ = e.clientY - this._mousedownPos.y;
+			m = this._mousemovePos;
 
 		this._setClass( "dragging", false );
 		this._resetCSSrelative( this._elWrap.style );
 		this._resetCSSrelative( this._elHandlers.style );
-		if ( x_ || y_ ) {
-			this.setPosition( x + x_, y + y_ );
+		if ( m.x || m.y ) {
+			this.setPosition( x + m.x, y + m.y );
 			this._restoreRect.x = this.rect.x;
 			this._restoreRect.y = this.rect.y;
 		}
@@ -233,14 +241,16 @@ class gsuiWindow {
 	_onmousemoveHandler( dir, e ) {
 		const fnResize = this.onresizing,
 			x = e.clientX - this._mousedownPos.x,
-			y = e.clientY - this._mousedownPos.y;
+			y = e.clientY - this._mousedownPos.y,
+			mmPos = this._mousemovePos,
+			magnet = this._calcCSSmagnet( dir, x, y );
 
-		this._mousemovePos.x = x;
-		this._mousemovePos.y = y;
-		this._calcCSSrelativeResize( dir, this._mousemovePos );
-		this._setCSSrelativeResize( this._elHandlers.style, dir, this._mousemovePos );
+		mmPos.x = x + magnet.x;
+		mmPos.y = y + magnet.y;
+		this._calcCSSrelativeResize( dir, mmPos );
+		this._setCSSrelativeResize( this._elHandlers.style, dir, mmPos );
 		if ( !this.parent._lowGraphics ) {
-			this._setCSSrelativeResize( this._elWrap.style, dir, this._mousemovePos );
+			this._setCSSrelativeResize( this._elWrap.style, dir, mmPos );
 			if ( fnResize ) {
 				const w = this.rect.w,
 					h = this.rect.h - this._mousedownHeadHeight;
@@ -302,6 +312,69 @@ class gsuiWindow {
 	}
 	_getHeadHeight() {
 		return this._getElem( "head" ).getBoundingClientRect().height;
+	}
+	_calcCSSmagnet( dir, x, y ) {
+		const rc = this.rect,
+			dirW = dir.includes( "w" ),
+			dirN = dir.includes( "n" ),
+			dirE = dir.includes( "e" ),
+			dirS = dir.includes( "s" ),
+			tx = dirW ? rc.x + x : rc.x,
+			ty = dirN ? rc.y + y : rc.y,
+			parBCR = this.parent.rootElement.getBoundingClientRect(),
+			wins = [
+				...this.parent._arrWindows,
+				{ _show: true, rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 } }
+			];
+		let mgX = 0,
+			mgY = 0;
+
+		if ( dirE && dirW ) {
+			const mgXa = this._findClosestWin( wins, "x", tx + rc.w, 2, 0 ),
+				mgXb = this._findClosestWin( wins, "x", tx, 0, 2 );
+
+			if ( mgXa || mgXb ) {
+				mgX = Math.abs( mgXa || Infinity ) < Math.abs( mgXb || Infinity ) ? mgXa : mgXb;
+			}
+		} else if ( dirE ) {
+			mgX = this._findClosestWin( wins, "x", tx + rc.w + x, 2, 0 );
+		} else {
+			mgX = this._findClosestWin( wins, "x", tx, 0, 2 );
+		}
+		if ( dirS && dirN ) {
+			const mgYa = this._findClosestWin( wins, "y", ty + rc.h, 2, 0 ),
+				mgYb = this._findClosestWin( wins, "y", ty, 0, 2 );
+
+			if ( mgYa || mgYb ) {
+				mgY = Math.abs( mgYa || Infinity ) < Math.abs( mgYb || Infinity ) ? mgYa : mgYb;
+			}
+		} else if ( dirS ) {
+			mgY = this._findClosestWin( wins, "y", ty + rc.h + y, 2, 0 );
+		} else {
+			mgY = this._findClosestWin( wins, "y", ty, 0, 2 );
+		}
+		return { x: mgX, y: mgY };
+	}
+	_findClosestWin( wins, dir, value, brdL, brdR ) {
+		let vAbsMin = Infinity;
+
+		return wins.reduce( ( vMin, win ) => {
+			if ( win._show && win.id !== this.id ) {
+				const wrc = win.rect,
+					wrcDir = wrc[ dir ],
+					v1 = wrcDir - brdL - value,
+					v2 = wrcDir + ( dir === "x" ? wrc.w : wrc.h ) + brdR - value,
+					v1Abs = Math.abs( v1 ),
+					v2Abs = Math.abs( v2 ),
+					abs = Math.min( v1Abs, v2Abs );
+
+				if ( abs < 10 && abs < vAbsMin ) {
+					vAbsMin = abs;
+					return v1Abs < v2Abs ? v1 : v2;
+				}
+			}
+			return vMin;
+		}, 0 );
 	}
 	_resetCSSrelative( st ) {
 		st.top =
