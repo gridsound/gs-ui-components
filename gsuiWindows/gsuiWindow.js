@@ -186,7 +186,7 @@ class gsuiWindow {
 				clTar.contains( "gsuiWindow-title" ) ||
 				clTar.contains( "gsuiWindow-headContent" );
 
-		if ( clicked ) {
+		if ( clicked && !this._maximized ) {
 			this._mousedownPos.x = e.clientX;
 			this._mousedownPos.y = e.clientY;
 			this._mousemovePos.x =
