@@ -1,6 +1,6 @@
 .gsuiWindow {
 	--gsuiWindow-radius: 2px;
-	--gsuiWindow-head-height: 32px;
+	--gsuiWindow-head-height: 28px;
 	--gsuiWindow-border-width: 2px;
 	--gsuiWindow-handler-width: 4px;
 	--gsuiWindow-title-opacity: .8;
@@ -170,11 +170,11 @@
 .gsuiWindow-headBtn {
 	border: 0;
 	padding: 0;
-	width: 32px;
+	width: var( --gsuiWindow-head-height );
 	height: 100%;
 	cursor: pointer;
 	color: inherit;
-	font-size: 16px;
+	font-size: 14px;
 	opacity: .6;
 	transition: .2s;
 	transition-property: opacity, background-color;
