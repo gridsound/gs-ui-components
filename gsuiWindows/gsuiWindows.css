@@ -1,8 +1,5 @@
-:root {
-	--gsuiWindows-overflow: auto;
-}
-
 .gsuiWindows {
+	--gsuiWindows-overflow: hidden;
 	position: relative;
 	overflow: var( --gsuiWindows-overflow );
 	scroll-behavior: smooth;
