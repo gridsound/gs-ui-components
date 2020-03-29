@@ -175,7 +175,10 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.__mousedown( e );
 	}
 	_drop( e ) {
-		const dropData = e.dataTransfer.getData( "text" ).split( ":" );
+		const dropData = (
+				e.dataTransfer.getData( "pattern-buffer" ) ||
+				e.dataTransfer.getData( "pattern-drums" ) ||
+				e.dataTransfer.getData( "pattern-keys" ) ).split( ":" );
 
 		if ( dropData.length === 2 ) {
 			const id = this._idMax + 1,
