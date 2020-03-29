@@ -5,8 +5,7 @@ class gsuiEffects {
 		const root = gsuiEffects.template.cloneNode( true ),
 			elFxsList = root.querySelector( ".gsuiEffects-list" ),
 			elBtnSelect = root.querySelector( ".gsuiEffects-addBtn" ),
-			elAddSelect = root.querySelector( ".gsuiEffects-addSelect" ),
-			reorder = new gsuiReorder();
+			elAddSelect = root.querySelector( ".gsuiEffects-addSelect" );
 
 		this.rootElement = root;
 		this.askData =
@@ -19,16 +18,16 @@ class gsuiEffects {
 		this._fxResizeTimeoutId = null;
 		Object.seal( this );
 
-		reorder.setRootElement( elFxsList );
-		reorder.setSelectors( {
-			item: ".gsuiEffects-fx",
-			handle: ".gsuiEffects-fx-grip",
-			parent: ".gsuiEffects-list",
-		} );
-		reorder.onchange = () => {};
 		elBtnSelect.onclick = () => this._elAddSelect.value = "";
 		elAddSelect.onchange = this._onchangeAddSelect.bind( this );
 		elAddSelect.onkeydown = () => false;
+		new gsuiReorder( {
+			rootElement: elFxsList,
+			dataTransferType: "effect",
+			itemSelector: ".gsuiEffects-fx",
+			handleSelector: ".gsuiEffects-fx-grip",
+			parentSelector: ".gsuiEffects-list",
+		} );
 		this._fillSelect();
 	}
 
