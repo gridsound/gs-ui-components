@@ -2,28 +2,28 @@
 
 class gsuiSynthesizer {
 	constructor() {
-		const root = gsuiSynthesizer.template.cloneNode( true ),
-			reorder = new gsuiReorder();
+		const root = gsuiSynthesizer.template.cloneNode( true );
 
 		this.rootElement = root;
 		this.oninput =
 		this.onchange = () => {};
 		this._waveList = [];
 		this._nlOscs = root.getElementsByClassName( "gsuiOscillator" );
-		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 		this._elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" );
+		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 		this._attached = false;
 		this._uiOscs = new Map();
 		Object.seal( this );
 
-		this._elNewOsc.onclick = this.onclickNewOsc.bind( this );
-		reorder.setRootElement( this._elOscList );
-		reorder.setSelectors( {
-			item: ".gsuiOscillator",
-			handle: ".gsuiOscillator-grip",
-			parent: ".gsuiSynthesizer-oscList",
+		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
+		new gsuiReorder( {
+			rootElement: this._elOscList,
+			dataTransferType: "oscillator",
+			itemSelector: ".gsuiOscillator",
+			handleSelector: ".gsuiOscillator-grip",
+			parentSelector: ".gsuiSynthesizer-oscList",
+			onchange: this._onchangeReorder.bind( this ),
 		} );
-		reorder.onchange = this.onchangeReorder.bind( this );
 	}
 
 	// .........................................................................
@@ -70,10 +70,10 @@ class gsuiSynthesizer {
 
 	// events:
 	// .........................................................................
-	onclickNewOsc() {
+	_onclickNewOsc() {
 		this.onchange( "addOscillator" );
 	}
-	onchangeReorder() {
+	_onchangeReorder() {
 		const oscs = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
 
 		this.onchange( "reorderOscillator", oscs );
