@@ -97,8 +97,7 @@ class gsuiReorder {
 					elOver.append( elDrag );
 				}
 			} else {
-				const bcr = elOver.getBoundingClientRect(),
-					overId = elOver.dataset.id;
+				const bcr = elOver.getBoundingClientRect();
 
 				if ( ( this._dirRow && e.clientX < bcr.left + bcr.width / 2 ) ||
 					( !this._dirRow && e.clientY < bcr.top + bcr.height / 2 )
@@ -106,13 +105,13 @@ class gsuiReorder {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
 						if ( this._elShadowDragged ) {
-							this._getShadowChild( overId ).before( this._elShadowDragged );
+							this._getShadowChild( elOver.dataset.id ).before( this._elShadowDragged );
 						}
 					}
 				} else if ( elOver.nextElementSibling !== elDrag ) {
 					elOver.after( elDrag );
 					if ( this._elShadowDragged ) {
-						this._getShadowChild( overId ).after( this._elShadowDragged );
+						this._getShadowChild( elOver.dataset.id ).after( this._elShadowDragged );
 					}
 				}
 			}
