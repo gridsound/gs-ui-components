@@ -4,7 +4,6 @@ class gsuiMixer {
 	constructor() {
 		const root = gsuiMixer.template.cloneNode( true ),
 			addBtn = root.querySelector( ".gsuiMixer-addChan" ),
-			dnd = new gsuiReorder(),
 			gsdata = new GSDataMixer( {
 				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
 				dataCallbacks: {
@@ -40,19 +39,20 @@ class gsuiMixer {
 		Object.seal( this );
 
 		addBtn.onclick = gsdata.callAction.bind( gsdata, "addChan" );
-		dnd.setDirection( "h" );
-		dnd.setRootElement( root );
-		dnd.setSelectors( {
-			item: ".gsuiMixerChannel",
-			handle: ".gsuiMixerChannel-grip",
-			parent: ".gsuiMixer-panChannels",
-		} );
-		dnd.onchange = elChan => {
-			const obj = gsuiReorder.listComputeOrderChange( this._pchans, {} ),
-				chanName = this.gsdata.data[ elChan.dataset.id ].name;
+		new gsuiReorder( {
+			rootElement: root,
+			direction: "row",
+			dataTransferType: "channel",
+			itemSelector: ".gsuiMixerChannel",
+			handleSelector: ".gsuiMixerChannel-grip",
+			parentSelector: ".gsuiMixer-panChannels",
+			onchange: elChan => {
+				const obj = gsuiReorder.listComputeOrderChange( this._pchans, {} ),
+					chanName = this.gsdata.data[ elChan.dataset.id ].name;
 
-			this.onchange( obj, [ "mixer", "reorderChan", chanName ] );
-		};
+				this.onchange( obj, [ "mixer", "reorderChan", chanName ] );
+			},
+		} );
 		this.empty();
 		this.selectChan( "main" );
 	}
