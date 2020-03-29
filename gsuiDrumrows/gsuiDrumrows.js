@@ -3,7 +3,14 @@
 class gsuiDrumrows {
 	constructor() {
 		const root = gsuiDrumrows.template.cloneNode( true ),
-			reorder = new gsuiReorder();
+			reorder = new gsuiReorder( {
+				rootElement: root,
+				dataTransferType: "drumrow",
+				itemSelector: ".gsuiDrumrows .gsuiDrumrow",
+				handleSelector: ".gsuiDrumrows .gsuiDrumrow-grip",
+				parentSelector: ".gsuiDrumrows",
+				onchange: this._onreorderRows.bind( this ),
+			} );
 
 		this.rootElement = root;
 		this.onchange =
@@ -24,13 +31,6 @@ class gsuiDrumrows {
 		root.onmousedown = this._onmousedownRows.bind( this );
 		root.oncontextmenu = this._oncontextmenuRows.bind( this );
 		root.onanimationend = this._onanimationendRows.bind( this );
-		reorder.onchange = this._onreorderRows.bind( this );
-		reorder.setRootElement( root );
-		reorder.setSelectors( {
-			item: ".gsuiDrumrows .gsuiDrumrow",
-			handle: ".gsuiDrumrows .gsuiDrumrow-grip",
-			parent: ".gsuiDrumrows",
-		} );
 	}
 
 	// .........................................................................
@@ -161,7 +161,7 @@ class gsuiDrumrows {
 	}
 	_ondropRows( e ) {
 		if ( this._dragoverId ) {
-			const [ patId ] = e.dataTransfer.getData( "text" ).split( ":" );
+			const [ patId ] = e.dataTransfer.getData( "pattern-buffer" ).split( ":" );
 
 			if ( patId ) {
 				this._dragoverId === Infinity
@@ -179,25 +179,27 @@ class gsuiDrumrows {
 		}
 	}
 	_ondragoverRows( e ) {
-		const tar = e.target,
-			isParent = tar.classList.contains( "gsuiDrumrows" ),
-			elDragover = isParent
-				? tar
-				: gsuiDrumrows._isDrumrow( tar );
+		if ( e.dataTransfer.types.includes( "pattern-buffer" ) ) {
+			const tar = e.target,
+				isParent = tar.classList.contains( "gsuiDrumrows" ),
+				elDragover = isParent
+					? tar
+					: gsuiDrumrows._isDrumrow( tar );
 
-		if ( elDragover !== this._elDragover ) {
-			this._dragoverId = null;
-			if ( isParent ) {
-				this._dragoverId = Infinity;
-			} else if ( elDragover ) {
-				this._dragoverId = elDragover.dataset.id;
-			}
-			if ( this._elDragover ) {
-				this._elDragover.classList.remove( "gsuiDrumrows-dragover" );
-			}
-			this._elDragover = elDragover;
-			if ( elDragover ) {
-				elDragover.classList.add( "gsuiDrumrows-dragover" );
+			if ( elDragover !== this._elDragover ) {
+				this._dragoverId = null;
+				if ( isParent ) {
+					this._dragoverId = Infinity;
+				} else if ( elDragover ) {
+					this._dragoverId = elDragover.dataset.id;
+				}
+				if ( this._elDragover ) {
+					this._elDragover.classList.remove( "gsuiDrumrows-dragover" );
+				}
+				this._elDragover = elDragover;
+				if ( elDragover ) {
+					elDragover.classList.add( "gsuiDrumrows-dragover" );
+				}
 			}
 		}
 	}
