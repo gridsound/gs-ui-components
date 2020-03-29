@@ -18,6 +18,7 @@ class gsuiSynthesizer {
 		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
 		new gsuiReorder( {
 			rootElement: this._elOscList,
+			direction: "column",
 			dataTransferType: "oscillator",
 			itemSelector: ".gsuiOscillator",
 			handleSelector: ".gsuiOscillator-grip",

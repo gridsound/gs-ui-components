@@ -23,6 +23,7 @@ class gsuiEffects {
 		elAddSelect.onkeydown = () => false;
 		new gsuiReorder( {
 			rootElement: elFxsList,
+			direction: "column",
 			dataTransferType: "effect",
 			itemSelector: ".gsuiEffects-fx",
 			handleSelector: ".gsuiEffects-fx-grip",

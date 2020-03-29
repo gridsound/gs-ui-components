@@ -5,6 +5,7 @@ class gsuiDrumrows {
 		const root = gsuiDrumrows.template.cloneNode( true ),
 			reorder = new gsuiReorder( {
 				rootElement: root,
+				direction: "column",
 				dataTransferType: "drumrow",
 				itemSelector: ".gsuiDrumrows .gsuiDrumrow",
 				handleSelector: ".gsuiDrumrows .gsuiDrumrow-grip",
