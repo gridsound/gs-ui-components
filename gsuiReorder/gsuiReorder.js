@@ -1,10 +1,18 @@
 "use strict";
 
 class gsuiReorder {
-	constructor() {
-		this.onchange = () => {};
-		this.setDataTransfert = () => "";
-		this.rootElement =
+	constructor( opt = {} ) {
+		const root = opt.rootElement;
+
+		this.rootElement = root;
+		this._dirRow = opt.direction !== "column";
+		this._onchange = opt.onchange ?? ( () => console.warn( "gsuiReorder: no onchange set" ) );
+		this._dataTransfer = opt.dataTransfer ?? ( () => "" );
+		this._dataTransferType = opt.dataTransferType ?? "text";
+		this._itemSelector = opt.itemSelector ?? "";
+		this._handleSelector = opt.handleSelector ?? "";
+		this._parentSelector = opt.parentSelector ?? "";
+		this._preventDefault = opt.preventDefault ?? true;
 		this._elClicked =
 		this._elDragged =
 		this._elDragover =
@@ -16,43 +24,15 @@ class gsuiReorder {
 		this._shadowClass = "";
 		this._indDragged = 0;
 		this._droppedInside = false;
-		this._isVertical =
-		this._preventDefault = true;
-		this._selectors = Object.seal( { item: "", handle: "", parent: "" } );
-		this._onmousedown = this._onmousedown.bind( this );
-		this._ondragstart = this._ondragstart.bind( this );
-		this._ondragover = this._ondragover.bind( this );
-		this._ondragend = this._ondragend.bind( this );
 		this._ondrop = this._ondrop.bind( this );
 		Object.seal( this );
+
+		root.addEventListener( "mousedown", this._onmousedown.bind( this ), { passive: true } );
+		root.addEventListener( "dragstart", this._ondragstart.bind( this ), { passive: false } );
+		root.addEventListener( "dragover", this._ondragover.bind( this ), { passive: true } );
+		root.addEventListener( "dragend", this._ondragend.bind( this ), { passive: true } );
 	}
 
-	setDirection( dir ) {
-		this._isVertical = dir === "v";
-	}
-	setSelectors( sels ) {
-		Object.assign( this._selectors, sels );
-	}
-	preventDefault( b ) {
-		this._preventDefault = b;
-	}
-	setRootElement( el ) {
-		const elPrev = this.rootElement;
-
-		if ( elPrev ) {
-			elPrev.removeEventListener( "mousedown", this._onmousedown );
-			elPrev.removeEventListener( "dragstart", this._ondragstart );
-			elPrev.removeEventListener( "dragover", this._ondragover );
-			elPrev.removeEventListener( "dragend", this._ondragend );
-		}
-		this.rootElement = el;
-		if ( el ) {
-			el.addEventListener( "mousedown", this._onmousedown );
-			el.addEventListener( "dragstart", this._ondragstart );
-			el.addEventListener( "dragover", this._ondragover );
-			el.addEventListener( "dragend", this._ondragend );
-		}
-	}
 	setShadowElement( el ) {
 		this._elShadowParent = el;
 	}
@@ -75,7 +55,7 @@ class gsuiReorder {
 		this._elClicked = e.target;
 	}
 	_ondragstart( e ) {
-		if ( this._elClicked && this._elClicked.matches( this._selectors.handle ) ) {
+		if ( this._elClicked && this._elClicked.matches( this._handleSelector ) ) {
 			const elItem = e.target,
 				itemId = elItem.dataset.id;
 
@@ -88,7 +68,7 @@ class gsuiReorder {
 			}
 			this._indDragged = this._getIndex( elItem );
 			e.dataTransfer.effectAllowed = "move";
-			e.dataTransfer.setData( "text", this.setDataTransfert( elItem ) );
+			e.dataTransfer.setData( this._dataTransferType, this._dataTransfer( elItem ) );
 			setTimeout( () => {
 				this._elDragged.classList.add( "gsuiReorder-dragging" );
 				if ( this._elShadowDragged ) {
@@ -105,12 +85,12 @@ class gsuiReorder {
 				elDrag = this._elDragged,
 				elOver = tar === this._elDragover
 					? this._itemDragover
-					: tar.closest( this._selectors.item );
+					: tar.closest( this._itemSelector );
 
 			if ( !elOver ) {
 				const elOver = tar === this._elDragover
 						? this._parentDragover
-						: tar.closest( this._selectors.parent );
+						: tar.closest( this._parentSelector );
 
 				this._parentDragover = elOver;
 				if ( elOver && elOver.lastElementChild !== elDrag ) {
@@ -118,11 +98,10 @@ class gsuiReorder {
 				}
 			} else {
 				const bcr = elOver.getBoundingClientRect(),
-					isV = this._isVertical,
 					overId = elOver.dataset.id;
 
-				if ( ( isV && e.clientY < bcr.top + bcr.height / 2 ) ||
-					( !isV && e.clientX < bcr.left + bcr.width / 2 )
+				if ( ( this._dirRow && e.clientX < bcr.left + bcr.width / 2 ) ||
+					( !this._dirRow && e.clientY < bcr.top + bcr.height / 2 )
 				) {
 					if ( elOver.previousElementSibling !== elDrag ) {
 						elOver.before( elDrag );
@@ -142,7 +121,7 @@ class gsuiReorder {
 		}
 	}
 	_ondrop( e ) {
-		this._droppedInside = this._elDragged && e.target.closest( this._selectors.parent );
+		this._droppedInside = this._elDragged && e.target.closest( this._parentSelector );
 	}
 	_ondragend() {
 		if ( this._elDragged ) {
@@ -163,7 +142,7 @@ class gsuiReorder {
 
 				this._droppedInside = false;
 				if ( ind !== oldInd || el.parentNode !== oldPar ) {
-					this.onchange( el, oldInd, ind, oldPar, el.parentNode );
+					this._onchange( el, oldInd, ind, oldPar, el.parentNode );
 				}
 			} else {
 				el.remove();
