@@ -32,6 +32,7 @@
 	height: 20px;
 	font-size: 12px;
 	opacity: .5;
+	user-select: none;
 }
 .gsuiLFO-propValue::before {
 	content: "·";
@@ -71,6 +72,7 @@
 	display: flex;
 	align-items: center;
 	background-color: var( --gsuiLFO-head-bg );
+	user-select: none;
 }
 .gsuiLFO-title {
 	font-size: 14px;
