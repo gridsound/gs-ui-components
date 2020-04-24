@@ -57,7 +57,7 @@ class gsuiPeriodicWave {
 			pts = new Float32Array( w * 2 );
 
 		if ( !wave ) {
-			console.error( `ERROR: gsuiPeriodicWave: the wave "${ this.type }" is undefined...` );
+			console.error( `gsuiPeriodicWave: the wave "${ this.type }" is undefined...` );
 		} else if ( this._attached ) {
 			for ( let x = 0; x < w; ++x ) {
 				let y = h2;
