@@ -1,0 +1,26 @@
+.gsuiPatterns {
+	--gsuiPatterns-panel-menu-color: #fff;
+	--gsuiPatterns-panel-menu-bg: #666;
+	--gsuiPatterns-panel-btnSolid-bg: #444;
+	--gsuiPatterns-newSynthBtn-color: #a5d6a7;
+	--gsuiPatterns-newDrumsBtn-color: #81d4fa;
+
+	--gsuiPatterns-synth-bg: #528754;
+	--gsuiPatterns-synth-color: #222;
+	--gsuiPatterns-synth-selected-color: #444;
+	--gsuiPatterns-synth-expand-bg: #0000001a;
+	--gsuiPatterns-synth-selected-bg: #66bb6a;
+	--gsuiPatterns-synth-namehover-color: #7b7;
+	--gsuiPatterns-synth-patterns-bg: #0006;
+	--gsuiPatterns-synth-dest-bg: #0000001a;
+	--gsuiPatterns-synth-placeholder-color: #fff6;
+	--gsuiPatterns-synth-placeholder-bg: #0003;
+
+	--gsuiPatterns-pattern-bg: #334;
+	--gsuiPatterns-pattern-selected-bg: #5ac;
+	--gsuiPatterns-pattern-color: #5ac;
+	--gsuiPatterns-pattern-selected-color: #223;
+	--gsuiPatterns-pattern-head-bg: #0003;
+	--gsuiPatterns-pattern-head-selected-bg: #fff3;
+	--gsuiPatterns-pattern-dest-bg: #fff1;
+}

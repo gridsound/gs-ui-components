@@ -1,0 +1,131 @@
+.gsuiPatterns-pattern {
+	overflow: hidden;
+	position: relative;
+	box-sizing: border-box;
+	flex-direction: column;
+	height: var( --gsuiPatterns-pattern-h );
+	color: var( --gsuiPatterns-pattern-color );
+	background-color: var( --gsuiPatterns-pattern-bg );
+	transition:
+		margin-top .3s,
+		background-color .1s;
+}
+.gsuiPatterns-panelBuffers .gsuiPatterns-pattern {
+	border-bottom: 2px solid transparent;
+}
+.gsuiPatterns-pattern-selected {
+	--gsuiPatterns-pattern-bg: var( --gsuiPatterns-pattern-selected-bg );
+	--gsuiPatterns-pattern-color: var( --gsuiPatterns-pattern-selected-color );
+	--gsuiPatterns-pattern-head-bg: var( --gsuiPatterns-pattern-head-selected-bg );
+}
+
+/* .......................................................................... */
+.gsuiPatterns-pattern-grip {
+	position: absolute;
+	width: calc( var( --gsuiPatterns-pattern-grip-w ) - 2px );
+	top: 0;
+	left: 0;
+	bottom: 0;
+	cursor: grab;
+	font-size: 14px;
+	text-align: center;
+	line-height: var( --gsuiPatterns-pattern-h );
+	background-color: var( --gsuiPatterns-pattern-head-bg );
+}
+
+/* .......................................................................... */
+.gsuiPatterns-pattern-head {
+	position: absolute;
+	left: var( --gsuiPatterns-pattern-grip-w );
+	top: 0;
+	right: 0;
+	display: flex;
+	box-sizing: border-box;
+	height: var( --gsuiPatterns-pattern-head-h );
+	line-height: var( --gsuiPatterns-pattern-head-h );
+	background-color: var( --gsuiPatterns-pattern-head-bg );
+	transition: inherit;
+}
+.gsuiPatterns-pattern-info {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	padding: 0 8px;
+	overflow: hidden;
+}
+.gsuiPatterns-pattern-name {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	font-weight: bold;
+}
+.gsuiPatterns-pattern-name:empty::after {
+	content: "Untitled";
+	font-style: italic;
+	opacity: .5;
+}
+.gsuiPatterns-pattern-dest {
+	background-color: var( --gsuiPatterns-pattern-dest-bg );
+}
+.gsuiPatterns-pattern-dest:hover,
+.gsuiPatterns-pattern-dest:focus {
+	color: var( --gsuiPatterns-pattern-bg );
+	background-color: var( --gsuiPatterns-pattern-color );
+}
+.gsuiPatterns-pattern-btn {
+	width: 20px;
+	border: 0;
+	padding: 0;
+	opacity: .7;
+	color: inherit;
+	cursor: pointer;
+	font-size: 14px;
+	background: none;
+	transition: .1s opacity;
+}
+.gsuiPatterns-pattern-btn:focus,
+.gsuiPatterns-pattern-btn:hover {
+	opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiPatterns-pattern-content,
+.gsuiPatterns-pattern-placeholder {
+	position: absolute;
+	top: var( --gsuiPatterns-pattern-head-h );
+	left: var( --gsuiPatterns-pattern-grip-w );
+	right: 0;
+	bottom: 0;
+	pointer-events: none;
+}
+.gsuiPatterns-pattern-content:empty {
+	display: none;
+}
+.gsuiPatterns-pattern-content:empty + .gsuiPatterns-pattern-placeholder {
+	display: flex;
+}
+.gsuiPatterns-pattern-svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .8;
+	fill: currentColor;
+}
+.gsuiPatterns-pattern-placeholder {
+	display: none;
+	align-items: center;
+	font-size: 14px;
+	opacity: .5;
+}
+.gsuiPatterns-pattern-placeholderIcon {
+	margin: 0 8px;
+}
+.gsuiPatterns-pattern-placeholderText {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	user-select: none;
+}

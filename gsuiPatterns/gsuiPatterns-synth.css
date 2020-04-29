@@ -1,0 +1,117 @@
+.gsuiPatterns-synth {
+	display: flex;
+	flex-direction: column;
+	color: var( --gsuiPatterns-synth-color );
+	border-bottom: 0 solid var( --gsuiPatterns-synth-bg );
+	background-color: var( --gsuiPatterns-synth-bg );
+	transition: .2s;
+	transition-property:
+		border-bottom-color,
+		background-color,
+		filter;
+}
+.gsuiPatterns-synth-expanded {
+	filter: brightness( 1.1 );
+	border-bottom-width: 2px;
+}
+.gsuiPatterns-synth-selected {
+	--gsuiPatterns-synth-bg: var( --gsuiPatterns-synth-selected-bg );
+	--gsuiPatterns-synth-color: var( --gsuiPatterns-synth-selected-color );
+}
+
+/* .......................................................................... */
+.gsuiPatterns-synth-head {
+	display: flex;
+	height: 32px;
+	line-height: 32px;
+	font-size: 12px;
+	user-select: none;
+}
+
+/* .......................................................................... */
+.gsuiPatterns-synth-btn {
+	width: 20px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	opacity: .7;
+	color: inherit;
+	cursor: pointer;
+	background: none;
+	font-size: 14px;
+	transition: .1s;
+	transition-property: background-color, opacity;
+}
+.gsuiPatterns-synth-btn:focus,
+.gsuiPatterns-synth-btn:hover {
+	opacity: 1;
+}
+.gsuiPatterns-synth:not( .gsuiPatterns-synth-selected ) .gsuiPatterns-synth-btn:hover {
+	color: var( --gsuiPatterns-synth-namehover-color );
+}
+
+/* .......................................................................... */
+.gsuiPatterns-synth-expand {
+	width: 16px;
+	background-color: var( --gsuiPatterns-synth-expand-bg );
+}
+.gsuiPatterns-synth-expanded .gsuiPatterns-synth-expand {
+	opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiPatterns-synth-info {
+	flex: 1;
+	display: flex;
+	overflow: hidden;
+	align-items: center;
+	padding-left: 6px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: bold;
+}
+.gsuiPatterns-synth-name {
+	pointer-events: none;
+}
+.gsuiPatterns-synth-name:empty::before {
+	content: "Untitled";
+	font-style: italic;
+	opacity: .8;
+}
+.gsuiPatterns-synth-dest {
+	background-color: var( --gsuiPatterns-synth-dest-bg );
+}
+.gsuiPatterns-synth-dest:hover,
+.gsuiPatterns-synth-dest:focus {
+	color: var( --gsuiPatterns-synth-bg );
+	background-color: var( --gsuiPatterns-panel-btnSolid-bg );
+}
+
+/* .......................................................................... */
+.gsuiPatterns-synth-patterns {
+	position: relative;
+	overflow: hidden;
+	min-height: 0;
+	max-height: 250px;
+	background-color: var( --gsuiPatterns-synth-patterns-bg );
+	transition: .3s min-height;
+}
+.gsuiPatterns-synth-expanded .gsuiPatterns-synth-patterns {
+	overflow-y: auto;
+	min-height: 32px;
+}
+.gsuiPatterns-synth .gsuiPatterns-pattern {
+	margin-top: calc( var( --gsuiPatterns-pattern-h ) * -1 );
+}
+.gsuiPatterns-synth-expanded .gsuiPatterns-pattern {
+	margin-top: 0;
+}
+
+/* .......................................................................... */
+.gsuiPatterns-synth .gsuiPatterns-placeholder {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
