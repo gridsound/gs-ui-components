@@ -133,6 +133,7 @@ class gsuiPatterns {
 	}
 	updateChannel( id, name ) {
 		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).textContent = name;
+		this.rootElement.querySelectorAll( `[data-id="${ id }"] .gsuiPatterns-btnText` ).forEach( el => el.textContent = name );
 	}
 	deleteChannel( id ) {
 		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).remove();
