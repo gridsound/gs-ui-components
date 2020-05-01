@@ -66,20 +66,19 @@
 
 /* .......................................................................... */
 .gsuiPatterns-btnSolid {
+	display: inline-flex;
+	overflow: hidden;
 	height: 20px;
 	padding: 0 8px;
-	max-width: 110px;
 	border: 0;
 	cursor: pointer;
-	overflow: hidden;
 	border-radius: 3px;
 	line-height: 1;
 	font-size: 12px;
 	color: inherit;
 	font-family: inherit;
 	font-weight: bold;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	text-align: start;
 	background-color: var( --gsuiPatterns-panel-btnSolid-bg );
 	transition: filter .2s;
 }
@@ -89,12 +88,15 @@
 }
 .gsuiPatterns-btnSolid[ data-action="newSynth" ] { color: var( --gsuiPatterns-newSynthBtn-color ); }
 .gsuiPatterns-btnSolid[ data-action="newDrums" ] { color: var( --gsuiPatterns-newDrumsBtn-color ); }
-.gsuiPatterns-btnIcon,
-.gsuiPatterns-btnText {
+.gsuiPatterns-btnIcon {
 	pointer-events: none;
 }
 .gsuiPatterns-btnText {
 	margin-left: 4px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	pointer-events: none;
 }
 
 /* .......................................................................... */
