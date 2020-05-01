@@ -13,12 +13,12 @@ class gsuiPatterns {
 				clone: id => this.onchange( "clonePattern", id ),
 				remove: id => this.onchange( "removePattern", id ),
 				undefined: id => this.onchange( "openPattern", id ),
-				changeDest: id => this.onchange( "redirectPattern", id ),
+				redirect: ( id, e ) => this._openChannelsPopup( "pattern", id, e ),
 			} ),
 			fnsSynth = Object.freeze( {
 				expand: id => this.expandSynth( id ),
-				redirect: id => this.onchange( "redirectSynth", id ),
 				undefined: id => this.onchange( "openSynth", id ),
+				redirect: ( id, e ) => this._openChannelsPopup( "synth", id, e ),
 				newPattern: id => {
 					this.onchange( "addPatternKeys", id );
 					this.expandSynth( id, true );
@@ -108,6 +108,35 @@ class gsuiPatterns {
 			gsuiReorder.listReorder( list, patterns );
 		} );
 	}
+	_openChannelsPopup( objFamily, objId, e ) {
+		const currChanId = e.target.dataset.id;
+
+		gsuiPatterns.selectChanPopupSelect.value = currChanId;
+		gsuiPopup.custom( {
+			title: "Channels",
+			element: gsuiPatterns.selectChanPopupContent,
+			submit: data => {
+				if ( data.channel !== currChanId ) {
+					this.onchange( "redirectToChannel", objFamily, objId, data.channel );
+				}
+			}
+		} );
+	}
+
+	// .........................................................................
+	addChannel( id, name ) {
+		const elOpt = document.createElement( "option" );
+
+		elOpt.value = id;
+		elOpt.textContent = name;
+		gsuiPatterns.selectChanPopupSelect.append( elOpt );
+	}
+	updateChannel( id, name ) {
+		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).textContent = name;
+	}
+	deleteChannel( id ) {
+		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).remove();
+	}
 
 	// .........................................................................
 	addSynth( id ) {
@@ -117,9 +146,12 @@ class gsuiPatterns {
 		this._elSynthList.prepend( elSyn );
 	}
 	changeSynth( id, prop, val ) {
+		const elSyn = this._getSynth( id );
+
 		switch ( prop ) {
-			case "name": this._getSynth( id ).querySelector( ".gsuiPatterns-synth-name" ).textContent = val; break;
-			case "dest": this._getSynth( id ).querySelector( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).textContent = val; break;
+			case "name": elSyn.querySelector( ".gsuiPatterns-synth-name" ).textContent = val; break;
+			case "dest": elSyn.querySelector( ".gsuiPatterns-synth-dest" ).dataset.id = val; break;
+			case "destName": elSyn.querySelector( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).textContent = val; break;
 		}
 	}
 	deleteSynth( id ) {
@@ -145,7 +177,8 @@ class gsuiPatterns {
 		switch ( prop ) {
 			case "order": elPat.dataset.order = val; break;
 			case "name": elPat.querySelector( ".gsuiPatterns-pattern-name" ).textContent = val; break;
-			case "dest": elPat.querySelector( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
+			case "dest": elPat.querySelector( ".gsuiPatterns-pattern-dest" ).dataset.id = val; break;
+			case "destName": elPat.querySelector( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
 			case "synth": this._getPatternParent( "keys", val ).append( elPat ); break;
 		}
 	}
@@ -212,7 +245,7 @@ class gsuiPatterns {
 		const pat = e.target.closest( ".gsuiPatterns-pattern" );
 
 		if ( pat ) {
-			this._fnsPattern[ e.target.dataset.action ]( pat.dataset.id );
+			this._fnsPattern[ e.target.dataset.action ]( pat.dataset.id, e );
 			return false;
 		}
 	}
@@ -221,11 +254,15 @@ class gsuiPatterns {
 			const syn = e.target.closest( ".gsuiPatterns-synth" );
 
 			if ( syn ) {
-				this._fnsSynth[ e.target.dataset.action ]( syn.dataset.id );
+				this._fnsSynth[ e.target.dataset.action ]( syn.dataset.id, e );
 			}
 		}
 	}
 }
+
+gsuiPatterns.selectChanPopupContent = document.querySelector( "#gsuiPatterns-selectChanPopupContent" );
+gsuiPatterns.selectChanPopupSelect = document.querySelector( "#gsuiPatterns-selectChanPopupSelect" )
+gsuiPatterns.selectChanPopupContent.remove();
 
 gsuiPatterns.template = document.querySelector( "#gsuiPatterns-template" );
 gsuiPatterns.template.remove();
