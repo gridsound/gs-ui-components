@@ -268,7 +268,7 @@ class gsuiWindow {
 			}
 		}
 	}
-	_onmouseupHandler( dir, e ) {
+	_onmouseupHandler( dir ) {
 		const { x, y, w, h } = this.rect,
 			m = this._mousemovePos;
 

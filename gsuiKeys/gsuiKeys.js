@@ -89,7 +89,7 @@ class gsuiKeys {
 
 		elKey.classList.toggle( "gsui-active", status );
 		if ( status ) {
-			this._keysDown.set( midi )
+			this._keysDown.set( midi );
 			this.onkeydown && this.onkeydown( midi, this._gain );
 		} else {
 			this._keysDown.delete( midi );

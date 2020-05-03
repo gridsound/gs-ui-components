@@ -262,7 +262,7 @@ class gsuiPatterns {
 }
 
 gsuiPatterns.selectChanPopupContent = document.querySelector( "#gsuiPatterns-selectChanPopupContent" );
-gsuiPatterns.selectChanPopupSelect = document.querySelector( "#gsuiPatterns-selectChanPopupSelect" )
+gsuiPatterns.selectChanPopupSelect = document.querySelector( "#gsuiPatterns-selectChanPopupSelect" );
 gsuiPatterns.selectChanPopupContent.remove();
 
 gsuiPatterns.template = document.querySelector( "#gsuiPatterns-template" );

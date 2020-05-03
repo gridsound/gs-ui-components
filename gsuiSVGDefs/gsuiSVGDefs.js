@@ -37,7 +37,7 @@ class gsuiSVGDefs {
 	}
 	add( id, w = 0, h = 0, ...elems ) {
 		if ( this._defs.has( id ) ) {
-			console.error( `gsuiSVGDefs: ID already used` );
+			console.error( `gsuiSVGDefs: ID "${ id }" already used` );
 		} else {
 			const g = gsuiSVGDefs.create( "g" );
 
