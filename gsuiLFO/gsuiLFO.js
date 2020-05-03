@@ -23,7 +23,7 @@ class gsuiLFO {
 		this._dur = 4;
 		this._waveWidth = 300;
 		this._data = Object.seal( {
-			type: '',
+			type: "",
 			delay: 0,
 			attack: 0,
 			speed: 0,
@@ -60,6 +60,7 @@ class gsuiLFO {
 	}
 	timeSignature( a, b ) {
 		this._beatlines.timeSignature( a, b );
+		this.updateWave();
 	}
 	updateWave() {
 		const bPM = this._beatlines.getBeatsPerMeasure(),
