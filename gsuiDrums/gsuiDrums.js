@@ -55,7 +55,6 @@ class gsuiDrums {
 		this._elDrumHover.onmousedown = this._onmousedownNewDrum.bind( this );
 		drumrows.setLinesParent( this._elLinesAbs, "gsuiDrums-line" );
 		elRows.onscroll = this._onscrollRows.bind( this );
-		elLines.onclick = this._onclickLines.bind( this );
 		elLines.onscroll = this._onscrollLines.bind( this );
 		elLines.onwheel = this._onwheelLines.bind( this );
 		elLines.onmousemove = this._mousemoveLines.bind( this );
@@ -135,7 +134,7 @@ class gsuiDrums {
 		elDrm.remove();
 		this._drumsMap.delete( id );
 	}
-	createDrumrow( id ) {
+	createDrumrow() {
 		const elLine = gsuiDrums.templateLine.cloneNode( true );
 
 		elLine.firstElementChild.style.fontSize = `${ this._pxPerBeat }px`;
@@ -171,7 +170,7 @@ class gsuiDrums {
 		const el = gsuiDrums.templateDrum.cloneNode( true );
 
 		el.classList.add( "gsuiDrums-drumPreview" );
-		el.style.left = `${when }em`;
+		el.style.left = `${ when }em`;
 		el.style.width = `${ 1 / this._stepsPerBeat }em`;
 		this._qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
 		return el;
@@ -182,8 +181,7 @@ class gsuiDrums {
 			stepDur = 1 / this._stepsPerBeat,
 			whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur ),
 			whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur ),
-			added = new Map(),
-			drumpMap = adding ? null : 0;
+			added = new Map();
 
 		for ( let w = whenA; w <= whenB; ++w ) {
 			added.set( w );
@@ -241,16 +239,7 @@ class gsuiDrums {
 		this._timeline.resized();
 		this._timeline.offset( this._offset, this._pxPerBeat );
 	}
-	_onclickLines( e ) {
-		const elStep = e.target.parentNode,
-			step = elStep.dataset.step,
-			rowId = elStep.parentNode.parentNode.dataset.id;
-
-		if ( step ) {
-			lg( "_onclickLines", {step, rowId, elStep}, e );
-		}
-	}
-	_onscrollRows( e ) {
+	_onscrollRows() {
 		const scrollTop = this._elRows.scrollTop;
 
 		if ( scrollTop !== this._scrollTop ) {
@@ -258,7 +247,7 @@ class gsuiDrums {
 			this._elLines.scrollTop = scrollTop;
 		}
 	}
-	_onscrollLines( e ) {
+	_onscrollLines() {
 		const scrollTop = this._elLines.scrollTop,
 			scrollLeft = this._elLines.scrollLeft;
 

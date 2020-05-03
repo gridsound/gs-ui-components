@@ -64,7 +64,7 @@
 }
 .gsuiDrums-linesAbsolute {
 	position: absolute;
-	box-shadow: 0 1000px 0px 1000px var( --gsuiDrums-lines-bg );
+	box-shadow: 0 1000px 0 1000px var( --gsuiDrums-lines-bg );
 }
 .gsuiDrums-line.gsuiReorder-dragging {
 	opacity: .5;

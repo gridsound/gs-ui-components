@@ -28,7 +28,7 @@ class gsuiDrumsforms extends gsuiSVGDefs {
 			${ x },${ yy + mg }
 			${ x },${ yy + h - mg }
 			${ x + w },${ yy + h / 2 }
-		`);
+		` );
 		return pol;
 	}
 }
