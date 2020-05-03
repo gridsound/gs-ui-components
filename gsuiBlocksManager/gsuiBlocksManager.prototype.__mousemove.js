@@ -23,7 +23,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 
 			this.__valueA = crop;
 			this.__blcsEditing.forEach( ( blc, id ) => {
-				const blcObj = Object.assign( {}, data[ id ] );
+				const blcObj = { ...data[ id ] };
 
 				if ( croppingB ) {
 					blcObj.duration += crop;
@@ -63,7 +63,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 
 			this.__valueA = val;
 			this.__blcsEditing.forEach( ( blc, id ) => {
-				const blcObj = Object.assign( {}, data[ id ] );
+				const blcObj = { ...data[ id ] };
 
 				blcObj.attack += val;
 				this.block_attack( blc, blcObj.attack );
@@ -80,7 +80,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 
 			this.__valueA = val;
 			this.__blcsEditing.forEach( ( blc, id ) => {
-				const blcObj = Object.assign( {}, data[ id ] );
+				const blcObj = { ...data[ id ] };
 
 				blcObj.release += val;
 				this.block_release( blc, blcObj.release );

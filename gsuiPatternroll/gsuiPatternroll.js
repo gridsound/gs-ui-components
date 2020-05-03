@@ -62,7 +62,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		blcsMap.forEach( ( _blc, id ) => {
 			const d = data[ id ],
 				nId = ++this._idMax,
-				copy = Object.assign( {}, d );
+				copy = { ...d };
 
 			copy.when += valA;
 			obj[ id ] = { selected: false };
@@ -266,7 +266,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			}
 		}
 		if ( obj ) {
-			const prox = new Proxy( Object.seal( Object.assign( {
+			const prox = new Proxy( Object.seal( {
 					when: 0,
 					track: null,
 					offset: 0,
@@ -274,7 +274,8 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					selected: false,
 					duration: 1,
 					durationEdited: false,
-				}, obj ) ), {
+					...obj,
+				} ), {
 					set: this._proxySetBlockProp.bind( this, id )
 				} );
 

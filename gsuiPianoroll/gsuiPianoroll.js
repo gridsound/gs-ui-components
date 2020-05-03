@@ -385,7 +385,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			}
 		}
 		if ( obj ) {
-			const prox = new Proxy( Object.seal( Object.assign( {
+			const prox = new Proxy( Object.seal( {
 					key: 60,
 					when: 0,
 					pan: 0,
@@ -398,7 +398,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					selected: false,
 					prev: null,
 					next: null,
-				}, obj ) ), {
+					...obj,
+				} ), {
 					set: this._proxySetKeyProp.bind( this, id )
 				} );
 

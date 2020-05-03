@@ -8,7 +8,7 @@ Object.assign( gsuiPianoroll.prototype, {
 		blcsMap.forEach( ( _blc, id ) => {
 			const d = this.data[ id ],
 				nId = `${ ++this._idMax }`,
-				copy = Object.assign( {}, d );
+				copy = { ...d };
 
 			copy.when += valA;
 			copy.prev =
