@@ -163,8 +163,8 @@ class gsuiMixer {
 		qs( "pan" ).append( pan.rootElement );
 		qs( "gain" ).append( gain.rootElement );
 		html.analyser.setCanvas( canvas );
-		pan.options( { min: -1, max: 1, step: .001, type: "circular", strokeWidth: 3 } );
-		gain.options( { min: 0, max: 1, step: .001, type: "linear-y" } );
+		pan.options( { min: -1, max: 1, step: .001, type: "circular", mousemoveSize: 800, strokeWidth: 3 } );
+		gain.options( { min: 0, max: 1, step: .001, type: "linear-y", mousemoveSize: 400 } );
 		pan.oninput = val => this.oninput( id, "pan", val );
 		gain.oninput = val => this.oninput( id, "gain", val );
 		pan.onchange = call.bind( this.gsdata, "updateChanProp", id, "pan" );

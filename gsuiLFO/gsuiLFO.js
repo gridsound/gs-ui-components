@@ -122,7 +122,7 @@ class gsuiLFO {
 		const elWrap = this.rootElement.querySelector( `.gsuiLFO-${ prop } .gsuiLFO-propContent` ),
 			slider = this._sliders[ prop ][ 0 ];
 
-		slider.options( { type: "linear-x", min, max, step } );
+		slider.options( { type: "linear-x", min, max, step, mousemoveSize: 800 } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
 		slider.onchange = val => this.onchange( "changeLFO", prop, val );
 		elWrap.append( slider.rootElement );

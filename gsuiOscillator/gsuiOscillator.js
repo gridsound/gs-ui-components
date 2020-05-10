@@ -111,7 +111,7 @@ class gsuiOscillator {
 			elValue = this.rootElement.querySelector( `${ sel }Value` ),
 			elSliderWrap = this.rootElement.querySelector( `${ sel }Wrap` );
 
-		slider.options( { type: "circular", min, max, step } );
+		slider.options( { type: "circular", min, max, step, mousemoveSize: 800 } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
 		slider.onchange = val => this.onchange( "changeOscillator", prop, val );
 		elSliderWrap.append( slider.rootElement );
