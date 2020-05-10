@@ -13,7 +13,7 @@ class gsuiSlider {
 		this._elLineColor = qs( "lineColor" );
 		this._elSvgLineColor = qs( "svgLineColor" );
 		this._options = Object.seal( {
-			value: 0, min: 0, max: 0, step: 0, mousemoveMultiplier: 10,
+			value: 0, min: 0, max: 0, step: 0, mousemoveSize: 0,
 			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
 		} );
 		this.value =
@@ -58,7 +58,7 @@ class gsuiSlider {
 		const inp = this._elInput,
 			opt = Object.assign( this._options, obj );
 
-		opt.step = Math.max( 0, opt.step ) || ( opt.max - opt.min ) / 10;
+		opt.step = Math.max( 0, opt.step ) || this._getRange() / 10;
 		opt.scrollStep = Math.max( opt.step, opt.scrollStep || opt.step );
 		inp.min = opt.min;
 		inp.max = opt.max;
@@ -110,6 +110,7 @@ class gsuiSlider {
 	}
 
 	// private:
+	// .........................................................................
 	_setType( type ) {
 		const cl = this.rootElement.classList,
 			st = this._elLineColor.style,
@@ -158,13 +159,24 @@ class gsuiSlider {
 
 		return Math.abs( +val ) < .000001 ? "0" : val;
 	}
+	_getRange() {
+		return this._options.max - this._options.min;
+	}
+	_getMousemoveSize() {
+		return this._options.mousemoveSize || (
+			this._circ
+				? this._svgLineLen
+				: this._axeX
+					? this._elLine.getBoundingClientRect().width
+					: this._elLine.getBoundingClientRect().height
+		);
+	}
 	_updateVal() {
 		this.value = +this._getInputVal();
 		if ( this._attached ) {
-			const opt = this._options,
-				len = opt.max - opt.min,
-				prcval = ( this.value - opt.min ) / len,
-				prcstart = -opt.min / len,
+			const len = this._getRange(),
+				prcval = ( this.value - this._options.min ) / len,
+				prcstart = -this._options.min / len,
 				prclen = Math.abs( prcval - prcstart ),
 				prcmin = Math.min( prcval, prcstart );
 
@@ -196,6 +208,7 @@ class gsuiSlider {
 	}
 
 	// events:
+	// .........................................................................
 	_wheel( e ) {
 		if ( this._enable && this._options.wheelChange ) {
 			const d = e.deltaY > 0 ? -1 : 1;
@@ -206,28 +219,22 @@ class gsuiSlider {
 	}
 	_mousedown() {
 		if ( this._enable ) {
-			const opt = this._options,
-				bcr = this._elLine.getBoundingClientRect(),
-				size = this._circ ? this._svgLineLen :
-					this._axeX ? bcr.width : bcr.height;
-
 			this._onchange();
 			if ( this.oninputstart ) {
 				this.oninputstart( this.value );
 			}
-			this._pxval = ( opt.max - opt.min ) / ( size * opt.mousemoveMultiplier );
+			this._pxval = this._getRange() / this._getMousemoveSize();
 			this._pxmoved = 0;
 			this.rootElement.requestPointerLock();
 		}
 	}
 	_mousemove( e ) {
 		if ( this._locked ) {
-			const { min, max } = this._options,
+			const bound = this._getRange() / 5,
 				mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
-				bound = ( max - min ) / 5,
 				val = +this._previousval + ( this._pxmoved + mov ) * this._pxval;
 
-			if ( min - bound < val && val < max + bound ) {
+			if ( this._options.min - bound < val && val < this._options.max + bound ) {
 				this._pxmoved += mov;
 			}
 			this.setValue( val, true );
