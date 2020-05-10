@@ -156,14 +156,14 @@ class gsuiOscillator {
 		if ( prop === "gain" ) {
 			this._data.gain = val;
 			this.updateWave();
-			val2 = +val.toFixed( 2 );
+			val2 = val.toFixed( 2 );
 		} else if ( prop === "pan" ) {
 			this._data.pan = val;
 			this.updateWave();
-			val2 = +val.toFixed( 2 );
+			val2 = val.toFixed( 2 );
 		}
 		this._sliders[ prop ][ 1 ].textContent = val2;
-		this.oninput( prop, val2 );
+		this.oninput( prop, +val2 );
 	}
 }
 
