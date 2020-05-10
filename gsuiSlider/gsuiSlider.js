@@ -13,7 +13,7 @@ class gsuiSlider {
 		this._elLineColor = qs( "lineColor" );
 		this._elSvgLineColor = qs( "svgLineColor" );
 		this._options = Object.seal( {
-			value: 0, min: 0, max: 0, step: 0,
+			value: 0, min: 0, max: 0, step: 0, mousemoveMultiplier: 10,
 			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
 		} );
 		this.value =
@@ -215,7 +215,7 @@ class gsuiSlider {
 			if ( this.oninputstart ) {
 				this.oninputstart( this.value );
 			}
-			this._pxval = ( opt.max - opt.min ) / size;
+			this._pxval = ( opt.max - opt.min ) / ( size * opt.mousemoveMultiplier );
 			this._pxmoved = 0;
 			this.rootElement.requestPointerLock();
 		}
