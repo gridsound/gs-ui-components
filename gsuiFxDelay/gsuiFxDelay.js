@@ -18,7 +18,7 @@ class gsuiFxDelay {
 		this.rootElement = root;
 		this.gsdata = gsdata;
 		this.oninput =
-		this.onchange = GSData.noop;
+		this.onchange = GSUtils.noop;
 		this._uiSliderZoom = uiSliderZoom;
 		this._uiDotline = uiDotline;
 		this._elLinkBtn = elLinkBtn;

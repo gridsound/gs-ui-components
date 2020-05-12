@@ -32,7 +32,7 @@ class gsuiMixer {
 		this.onaddChan =
 		this.ondeleteChan =
 		this.onupdateChan =
-		this.onselectChan = GSData.noop;
+		this.onselectChan = GSUtils.noop;
 		this._analyserW = 32;
 		this._analyserH = 10;
 		this._attached = false;
