@@ -67,6 +67,7 @@
 /* .......................................................................... */
 .gsuiPatterns-btnSolid {
 	display: inline-flex;
+	align-items: center;
 	overflow: hidden;
 	height: 20px;
 	padding: 0 8px;
