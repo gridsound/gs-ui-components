@@ -1,37 +1,45 @@
-:root {
-	--gsuiClock-mili-fontSize: .7em;
-	--gsuiClock-mili-opacity: .5;
-}
-
 .gsuiClock {
 	display: flex;
 	user-select: none;
+	color: var( --gsuiClock-color );
+	border-radius: 4px;
+	font-size: 22px;
 }
 
 .gsuiClock-relative {
 	position: relative;
+	padding-left: 8px;
+	border-top-left-radius: inherit;
+	border-bottom-left-radius: inherit;
+	background-color: var( --gsuiClock-bg );
 }
 .gsuiClock-absolute {
 	display: flex;
 	position: absolute;
 	white-space: nowrap;
 	align-items: baseline;
+	padding-top: 3px;
+	font-family: var( --gsui-font-number );
 }
 
 .gsuiClock-modes {
+	position: relative;
 	display: flex;
 	margin: 0;
 	border: 0;
 	outline: 0;
-	padding: .2em 0 .3em;
+	padding: 6px 8px;
+	border-top-right-radius: inherit;
+	border-bottom-right-radius: inherit;
 	cursor: pointer;
 	color: inherit;
 	font-size: inherit;
-	background: none;
-	margin-left: .25em;
+	background-color: var( --gsuiClock-bg );
 	flex-direction: column;
 	justify-content: space-between;
-	opacity: var( --gsuiClock-mili-opacity );
+}
+.gsuiClock-modes:focus {
+	box-shadow: 0 0 1px 2px #69b;
 }
 .gsuiClock-mode {
 	width: 8px;
@@ -39,7 +47,7 @@
 	border: 2px solid;
 	border-radius: 2px;
 	box-sizing: border-box;
-	opacity: inherit;
+	opacity: .5;
 }
 .gsuiClock[ data-mode="beat" ] .gsuiClock-beat,
 .gsuiClock[ data-mode="second" ] .gsuiClock-second {
@@ -52,8 +60,8 @@
 	margin: 0 .1em;
 }
 .gsuiClock-c {
-	font-size: var( --gsuiClock-mili-fontSize );
-	opacity: var( --gsuiClock-mili-opacity );
+	font-size: 14px;
+	opacity: .5;
 }
 .gsuiClock-c::before {
 	content: ".";
