@@ -102,7 +102,7 @@ class gsuiMixer {
 		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
-		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this._chanSelected, id );
+		qs( "connect" ).onclick = () => this.onchange( "redirectToChannel", "channel", this._chanSelected, id );
 		( id === "main" ? this._pmain : this._pchans ).append( root );
 		if ( this._attached ) {
 			pan.attached();
