@@ -230,6 +230,8 @@
 .gsuiIcon[ data-icon="crop" ]::after { content: "\10f125"; }
 .gsuiIcon[ data-icon="erase" ]::before { content: "\f12d"; }
 .gsuiIcon[ data-icon="erase" ]::after { content: "\10f12d"; }
+.gsuiIcon[ data-icon="list" ]::before { content: "\f0ca"; }
+.gsuiIcon[ data-icon="list" ]::after { content: "\10f0ca"; }
 
 .gsuiIcon[ data-icon="local" ]::before { content: "\f8e6"; }
 .gsuiIcon[ data-icon="local" ]::after { content: "\10f8e6"; opacity: .2; }
