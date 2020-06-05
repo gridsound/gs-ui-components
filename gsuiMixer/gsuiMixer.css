@@ -60,6 +60,7 @@
 	width: 52px;
 	border: 0;
 	padding: 0;
+	outline: 0;
 	font-size: 18px;
 	color: inherit;
 	cursor: pointer;
@@ -117,6 +118,7 @@
 	border: 0;
 	opacity: 0;
 	padding: 0;
+	outline: 0;
 	color: inherit;
 	cursor: pointer;
 	font-size: 12px;
@@ -144,10 +146,11 @@
 	overflow: hidden;
 	width: 100%;
 	border: 0;
+	outline: 0;
+	padding: 3px;
 	color: inherit;
 	height: 34px;
 	min-height: 34px;
-	padding: 3px;
 	font-size: 12px;
 	font-family: var( --gsuiMixerChannel-name-font );
 	background-color: transparent;
@@ -196,6 +199,7 @@
 	width: 100%;
 	border: 0;
 	padding: 0;
+	outline: 0;
 	font-size: 8px;
 	min-height: 18px;
 	cursor: pointer;
@@ -229,8 +233,9 @@
 .gsuiMixerChannel-connect {
 	width: 100%;
 	border: 0;
-	z-index: 1;
 	padding: 0;
+	outline: 0;
+	z-index: 1;
 	height: 16px;
 	min-height: 16px;
 	cursor: pointer;
