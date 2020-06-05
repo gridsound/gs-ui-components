@@ -88,7 +88,7 @@ class gsuiReorder {
 				elDrag = this._elDragged,
 				elOver = tar === this._elDragover
 					? this._itemDragover
-					: tar.closest( this._itemSelector );
+					: tar.closest( `${ this._parentSelector } ${ this._itemSelector }` );
 
 			this._dragoverTime = now;
 			if ( !elOver ) {
