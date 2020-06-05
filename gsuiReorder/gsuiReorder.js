@@ -25,6 +25,7 @@ class gsuiReorder {
 		this._indDragged = 0;
 		this._droppedInside = false;
 		this._ondrop = this._ondrop.bind( this );
+		this._dragoverTime = 0;
 		Object.seal( this );
 
 		root.addEventListener( "mousedown", this._onmousedown.bind( this ), { passive: true } );
@@ -80,13 +81,16 @@ class gsuiReorder {
 		}
 	}
 	_ondragover( e ) {
-		if ( this._elDragged ) {
+		const now = Date.now();
+
+		if ( this._elDragged && now - this._dragoverTime > 60 ) {
 			const tar = e.target,
 				elDrag = this._elDragged,
 				elOver = tar === this._elDragover
 					? this._itemDragover
 					: tar.closest( this._itemSelector );
 
+			this._dragoverTime = now;
 			if ( !elOver ) {
 				const elOver = tar === this._elDragover
 						? this._parentDragover
