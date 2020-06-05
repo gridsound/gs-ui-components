@@ -368,7 +368,7 @@ class gsuiWindow {
 					v2Abs = Math.abs( v2 ),
 					abs = Math.min( v1Abs, v2Abs );
 
-				if ( abs < 10 && abs < vAbsMin ) {
+				if ( abs < 4 && abs < vAbsMin ) {
 					vAbsMin = abs;
 					return v1Abs < v2Abs ? v1 : v2;
 				}
