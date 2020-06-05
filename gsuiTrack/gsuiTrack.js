@@ -2,14 +2,15 @@
 
 class gsuiTrack {
 	constructor() {
-		const root = gsuiTrack.template.cloneNode( true );
+		const root = gsuiTrack.template.cloneNode( true ),
+			inp = root.querySelector( ".gsuiTrack-name" ),
+			elToggle = root.querySelector( ".gsuiTrack-toggle" );
 
 		this.onchange =
-		this.onrightclickToggle = () => {};
+		this.onrightclickToggle = GSUtils.noop;
 		this.rootElement = root;
 		this.rowElement = root.querySelector( ".gsui-row" );
-		this._inpName = root.querySelector( ".gsuiTrack-name" );
-		this._nameReadonly = true;
+		this._inpName = inp;
 		this.data = new Proxy( Object.seal( {
 			order: 0,
 			name: "",
@@ -17,9 +18,43 @@ class gsuiTrack {
 		} ), { set: this._setProp.bind( this ) } );
 		Object.seal( this );
 
+		root.ondblclick = e => {
+			if ( e.target === this._inpName ) {
+				inp.disabled = false;
+				inp.select();
+				inp.focus();
+			}
+		};
+		inp.onkeydown = e => {
+			e.stopPropagation();
+			if ( e.key === "Escape" ) {
+				inp.value = this.data.name;
+				inp.blur();
+			} else if ( e.key === "Enter" ) {
+				inp.blur();
+			}
+		};
+		inp.onblur = () => inp.disabled = true;
+		inp.onchange = () => {
+			const name = inp.value.trim();
+
+			inp.disabled = true;
+			this.data.name = name;
+			this.onchange( { name } );
+		};
+		elToggle.oncontextmenu = () => false;
+		elToggle.onmousedown = e => {
+			if ( e.button === 2 ) {
+				this.onrightclickToggle();
+			} else if ( e.button === 0 ) {
+				const toggle = !this.data.toggle;
+
+				this.data.toggle = toggle;
+				this.onchange( { toggle } );
+			}
+		};
 		this.rowElement.remove();
-		this._setToggleEvents( root.querySelector( ".gsuiTrack-toggle" ) );
-		this._setNameEvents( this._inpName );
+		this._inpName.disabled = true;
 		this.data.toggle = true;
 	}
 
@@ -41,45 +76,6 @@ class gsuiTrack {
 			this.rowElement.classList.toggle( "gsui-mute", !val );
 		}
 		return true;
-	}
-	_setToggleEvents( el ) {
-		el.oncontextmenu = () => false;
-		el.onmousedown = e => {
-			if ( e.button === 2 ) {
-				this.onrightclickToggle();
-			} else if ( e.button === 0 ) {
-				this.onchange( { toggle:
-					this.data.toggle = !this.data.toggle
-				} );
-			}
-		};
-	}
-	_setNameEvents( inp ) {
-		inp.ondblclick = () => {
-			this._nameReadonly = false;
-			inp.select();
-			inp.focus();
-		};
-		inp.onfocus = () => {
-			if ( this._nameReadonly ) {
-				inp.blur();
-			}
-		};
-		inp.onkeydown = e => {
-			e.stopPropagation();
-			if ( e.key === "Escape" ) {
-				inp.value = this.data.name;
-				inp.blur();
-			} else if ( e.key === "Enter" ) {
-				inp.blur();
-			}
-		};
-		inp.onchange = () => {
-			this._nameReadonly = true;
-			this.onchange( { name:
-				this.data.name = inp.value.trim()
-			} );
-		};
 	}
 }
 
