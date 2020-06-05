@@ -35,6 +35,8 @@
 	color: inherit;
 	font: inherit;
 	border: 0;
+	outline: 0;
+	user-select: none;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
 .gsuiPianoroll .gsuiKeys {

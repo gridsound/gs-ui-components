@@ -45,9 +45,13 @@
 .gsuiBlocksManager-magnet {
 	display: flex;
 	align-items: center;
+	border: 0;
+	outline: 0;
 	padding: 4px;
 	border-radius: 4px;
 	font: var( --gsuiBlocksManager-number-font );
+	background: none;
+	user-select: none;
 }
 .gsuiBlocksManager-magnetValue {
 	white-space: nowrap;
