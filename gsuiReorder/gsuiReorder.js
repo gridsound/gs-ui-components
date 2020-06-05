@@ -99,6 +99,9 @@ class gsuiReorder {
 				this._parentDragover = elOver;
 				if ( elOver && elOver.lastElementChild !== elDrag ) {
 					elOver.append( elDrag );
+					if ( this._elShadowDragged ) {
+						this._elShadowParent.append( this._elShadowDragged );
+					}
 				}
 			} else {
 				const bcr = elOver.getBoundingClientRect();
