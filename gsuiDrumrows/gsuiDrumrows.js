@@ -7,8 +7,8 @@ class gsuiDrumrows {
 				rootElement: root,
 				direction: "column",
 				dataTransferType: "drumrow",
-				itemSelector: ".gsuiDrumrows .gsuiDrumrow",
-				handleSelector: ".gsuiDrumrows .gsuiDrumrow-grip",
+				itemSelector: ".gsuiDrumrow",
+				handleSelector: ".gsuiDrumrow-grip",
 				parentSelector: ".gsuiDrumrows",
 				onchange: this._onreorderRows.bind( this ),
 			} );
