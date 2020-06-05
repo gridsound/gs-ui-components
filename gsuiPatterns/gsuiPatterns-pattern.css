@@ -76,6 +76,7 @@
 .gsuiPatterns-pattern-btn {
 	width: 20px;
 	border: 0;
+	outline: 0;
 	padding: 0;
 	opacity: .7;
 	color: inherit;
