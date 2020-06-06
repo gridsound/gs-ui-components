@@ -13,12 +13,12 @@ class gsuiPatterns {
 				clone: id => this.onchange( "clonePattern", id ),
 				remove: id => this.onchange( "removePattern", id ),
 				undefined: id => this.onchange( "openPattern", id ),
-				redirect: ( id, e ) => this._openChannelsPopup( "pattern", id, e ),
+				redirect: ( id, e ) => this._openChannelsPopup( "redirectPatternBuffer", id, e ),
 			} ),
 			fnsSynth = Object.freeze( {
 				expand: id => this.expandSynth( id ),
 				undefined: id => this.onchange( "openSynth", id ),
-				redirect: ( id, e ) => this._openChannelsPopup( "synth", id, e ),
+				redirect: ( id, e ) => this._openChannelsPopup( "redirectSynth", id, e ),
 				newPattern: id => {
 					this.onchange( "addPatternKeys", id );
 					this.expandSynth( id, true );
@@ -108,7 +108,7 @@ class gsuiPatterns {
 			gsuiReorder.listReorder( list, patterns );
 		} );
 	}
-	_openChannelsPopup( objFamily, objId, e ) {
+	_openChannelsPopup( action, objId, e ) {
 		const currChanId = e.target.dataset.id;
 
 		gsuiPatterns.selectChanPopupSelect.value = currChanId;
@@ -117,7 +117,7 @@ class gsuiPatterns {
 			element: gsuiPatterns.selectChanPopupContent,
 			submit: data => {
 				if ( data.channel !== currChanId ) {
-					this.onchange( "redirectToChannel", objFamily, objId, data.channel );
+					this.onchange( action, objId, data.channel );
 				}
 			}
 		} );
