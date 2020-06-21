@@ -263,6 +263,10 @@
 .gsuiIcon[ data-icon="clone" ]::before { content: "\f24d"; }
 .gsuiIcon[ data-icon="clone" ]::after { content: "\10f24d"; }
 
+.gsuiIcon[ data-icon="drumcut" ] { transform: rotate( 90deg ); }
+.gsuiIcon[ data-icon="drumcut" ]::before { content: "\f052"; }
+.gsuiIcon[ data-icon="drumcut" ]::after { content: "\10f052"; }
+
 .gsuiIcon[ data-icon="smiley" ]::before { content: "\f581"; opacity: 0; }
 .gsuiIcon[ data-icon="smiley" ]::after { content: "\10f581"; opacity: 1; }
 
