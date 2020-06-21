@@ -110,44 +110,67 @@
 }
 
 /* .......................................................................... */
-.gsuiDrums-drumHover {
+.gsuiDrums-drumHover,
+.gsuiDrums-drumcutHover {
 	position: absolute;
-	height: 100%;
 	z-index: 1;
 	background-color: #0002;
 }
+.gsuiDrums-drumHover {
+	height: 66%;
+}
+.gsuiDrums-drumcutHover {
+	bottom: 0;
+	height: 34%;
+}
+.gsuiDrums-drumcutHoverIn,
 .gsuiDrums-drumHoverIn {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 1px;
-	bottom: 1px;
-	border-radius: 4px;
+	box-sizing: border-box;
+	height: 100%;
+	margin: 0 1px 1px 0;
 	border: 2px solid var( --gsuiDrums-drumHover-border );
+	border-radius: 4px;
 	background-color: var( --gsuiDrums-drumHover-bg );
 	pointer-events: none;
 }
 
 /* .......................................................................... */
-.gsuiDrums-drum {
-	display: flex;
+.gsuiDrums-drum,
+.gsuiDrums-drumcut {
 	position: absolute;
-	box-sizing: border-box;
-	flex-direction: column;
 	width: 1em;
-	height: 100%;
 }
-.gsuiDrumrow-mute .gsuiDrums-drum {
+.gsuiDrums-drum {
+	height: 66%;
+}
+.gsuiDrums-drumcut {
+	bottom: 1px;
+	height: calc( 34% - 2px );
+}
+.gsuiDrumrow-mute .gsuiDrums-drum,
+.gsuiDrumrow-mute .gsuiDrums-drumcut {
 	opacity: .6;
 }
 .gsuiDrums-previewDeleted,
-.gsuiDrums-drumPreview {
+.gsuiDrums-preview {
 	opacity: .4;
 }
-.gsuiDrums-drum-in {
+.gsuiDrums-drumIn,
+.gsuiDrums-drumcutIn {
 	height: 100%;
 	margin: 0 1px 1px 0;
 	border-radius: 2px;
+	color: var( --gsuiDrums-drum-color );
+	background-color: var( --gsuiDrums-drum-bg );
 	pointer-events: none;
-	background-color: #5acd;
+}
+.gsuiDrums-drumcutIn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 10px;
+	background-color: var( --gsuiDrums-drumcut-bg );
+}
+.gsuiDrums-drumcutIn .gsuiIcon {
+	opacity: .7;
 }

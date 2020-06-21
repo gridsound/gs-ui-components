@@ -1,6 +1,8 @@
 :root {
 	--gsuiDrums-color: #fff;
-	--gsuiDrums-drum-bg: #444;
+	--gsuiDrums-drum-bg: #5acd;
+	--gsuiDrums-drum-color: #000;
+	--gsuiDrums-drumcut-bg: #48ad;
 	--gsuiDrums-lines-bg: #456168;
 	--gsuiDrums-line-mute-bg: #0003;
 	--gsuiDrums-loop-bg: #000;
