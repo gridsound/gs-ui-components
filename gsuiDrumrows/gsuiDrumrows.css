@@ -35,6 +35,7 @@
 	position: relative;
 	box-sizing: border-box;
 	height: calc( 1em + 1px );
+	min-height: calc( 1em + 1px );
 	margin-top: -1px;
 	padding-right: 8px;
 	border: 0 solid var( --gsuiDrumrow-border );
