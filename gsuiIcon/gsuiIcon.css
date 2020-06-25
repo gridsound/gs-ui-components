@@ -19,12 +19,16 @@
 .gsuiIconB {
 	font-family: "FontAwesomeBrands";
 }
+.gsuiIcon::before {
+	pointer-events: none;
+}
 .gsuiIcon:not( .gsuiIconB )::before {
 	position: absolute;
 }
 .gsuiIcon::after {
 	color: var( --gsuiIcon-color-after );
 	opacity: var( --gsuiIcon-opacity-after );
+	pointer-events: none;
 }
 .gsuiIcon:not( [ data-spin="on" ] )[ data-icon="" ],
 .gsuiIcon:not( [ data-spin="on" ] ):not( [ data-icon ] ),
