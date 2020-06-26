@@ -1,5 +1,5 @@
 :root {
-	--gsuiPopup-dur: .2s;
+	--gsuiPopup-dur: .4s;
 	--gsuiPopup-bg: #555;
 	--gsuiPopup-btn-bg: #999;
 	--gsuiPopup-btnOk-bg: #67a;
@@ -24,6 +24,7 @@
 	z-index: 2147483647;
 	color: #fff;
 	background-color: var( --gsuiPopup-overlay-bg );
+	backdrop-filter: blur( 10px );
 	transition: var( --gsuiPopup-dur );
 	transition-property: visibility, opacity;
 }
@@ -37,7 +38,13 @@
 	min-width: var( --gsuiPopup-minWidth );
 	border-radius: var( --gsuiPopup-radius );
 	background-color: var( --gsuiPopup-bg );
+	outline: 0;
 	box-shadow: 0 0 50px #000;
+}
+#gsuiPopupWindow:focus {
+	box-shadow:
+		0 0 1px 2px #69b,
+		0 0 50px #000;
 }
 .gsuiPopup-noCancel #gsuiPopupCancel,
 .gsuiPopup-noText #gsuiPopupInputText {
@@ -63,6 +70,14 @@
 	padding: .6em 1.25em;
 	border: 0;
 	border-radius: 2px;
+}
+#gsuiPopupWindow input,
+#gsuiPopupWindow select {
+	outline: 0;
+}
+#gsuiPopupWindow input:focus,
+#gsuiPopupWindow select:focus {
+	box-shadow: 0 0 1px 2px #69b;
 }
 #gsuiPopupInputText {
 	box-sizing: border-box;
