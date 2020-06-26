@@ -99,6 +99,11 @@
 	opacity: var( --gsuiDrumrow-name-opacity, 1 );
 	transition: .1s opacity;
 }
+.gsuiDrumrow-nameInfo {
+	font-style: italic;
+	font-weight: normal;
+	opacity: .7;
+}
 
 /* .......................................................................... */
 .gsuiDrumrow-waveWrap {

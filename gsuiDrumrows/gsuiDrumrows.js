@@ -67,6 +67,7 @@ class gsuiDrumrows {
 			sliGain = new gsuiSlider(),
 			html = {
 				root: elRow,
+				name: elRow.querySelector( ".gsuiDrumrow-name" ),
 				gain: sliGain,
 				detune: sliDetune,
 			};
@@ -75,10 +76,18 @@ class gsuiDrumrows {
 		elLine.dataset.id = id;
 		sliDetune.options( { min: -12, max: 12, step: 1, value: 0, type: "linear-y", mousemoveSize: 400 } );
 		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
-		sliDetune.oninput = val => this.onlivechange( id, "detune", val );
-		sliGain.oninput = val => this.onlivechange( id, "gain", val );
-		sliDetune.onchange = val => this.onchange( "changeDrumrow", id, "detune", val );
-		sliGain.onchange = val => this.onchange( "changeDrumrow", id, "gain", val );
+		sliDetune.oninput = val => {
+			this._namePrint( id, `detune: ${ val > 0 ? `+${ val }` : val }` );
+			this.onlivechange( id, "detune", val );
+		};
+		sliGain.oninput = val => {
+			this._namePrint( id, `gain: ${ val.toFixed( 2 ) }` );
+			this.onlivechange( id, "gain", val );
+		};
+		sliDetune.onchange = this._onchangeRowSlider.bind( this, id, "detune" );
+		sliGain.onchange = this._onchangeRowSlider.bind( this, id, "gain" );
+		sliDetune.oninputend = this._oninputendRowSlider.bind( this, id );
+		sliGain.oninputend = this._oninputendRowSlider.bind( this, id );
 		elRow.querySelector( ".gsuiDrumrow-detune" ).append( sliDetune.rootElement );
 		elRow.querySelector( ".gsuiDrumrow-gain" ).append( sliGain.rootElement );
 		this._rows.set( id, html );
@@ -112,7 +121,10 @@ class gsuiDrumrows {
 		this._rows.get( id ).detune.setValue( val );
 	}
 	_changeName( id, name ) {
-		this._rows.get( id ).root.querySelector( ".gsuiDrumrow-name" ).textContent = name;
+		const el = this._rows.get( id ).name;
+
+		el.dataset.name =
+		el.textContent = name;
 	}
 	_changeToggle( id, b ) {
 		this._rows.get( id ).root.classList.toggle( "gsuiDrumrow-mute", !b );
@@ -147,9 +159,24 @@ class gsuiDrumrows {
 			el.classList.contains( "gsuiDrumrow-delete" ) ? el.parentNode : null
 		);
 	}
+	_namePrint( id, msg ) {
+		const el = this._rows.get( id ).name;
+
+		el.textContent = msg;
+		el.classList.add( "gsuiDrumrow-nameInfo" );
+	}
 
 	// events:
 	// .........................................................................
+	_oninputendRowSlider( id ) {
+		const el = this._rows.get( id ).name;
+
+		el.textContent = el.dataset.name;
+		el.classList.remove( "gsuiDrumrow-nameInfo" );
+	}
+	_onchangeRowSlider( id, prop, val ) {
+		this.onchange( "changeDrumrow", id, prop, val );
+	}
 	_onreorderRows( elRow ) {
 		const rows = gsuiReorder.listComputeOrderChange( this.rootElement, {} );
 
