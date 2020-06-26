@@ -32,6 +32,7 @@
 	--name-h: 45%;
 	--toggle-w: 24px;
 	--delete-w: 14px;
+	--slider-w: 7px;
 	position: relative;
 	box-sizing: border-box;
 	height: calc( 1em + 1px );
@@ -105,7 +106,7 @@
 	overflow: hidden;
 	top: var( --name-h );
 	left: var( --grip-w );
-	right: 0;
+	right: calc( var( --slider-w ) * 2 + 6px );
 	bottom: 0;
 	pointer-events: none;
 }
@@ -140,6 +141,31 @@
 }
 
 /* .......................................................................... */
+.gsuiDrumrow-detune,
+.gsuiDrumrow-gain {
+	--gsuiSlider-lineBgColor: var( --gsuiDrumrow-slider-bg );
+	--gsuiSlider-lineRadius: 2px;
+	position: absolute;
+	top: var( --name-h );
+	width: var( --slider-w );
+	bottom: 2px;
+}
+.gsuiDrumrow .gsuiSlider-eventCatcher {
+	top: -2px;
+	left: -2px;
+	right: -2px;
+	bottom: -2px;
+}
+.gsuiDrumrow-detune {
+	--gsuiSlider-lineColor: var( --gsuiDrumrow-detune );
+	right: calc( var( --slider-w ) + 4px );
+}
+.gsuiDrumrow-gain {
+	--gsuiSlider-lineColor: var( --gsuiDrumrow-gain );
+	right: 2px;
+}
+
+/* .......................................................................... */
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-toggle,
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-name,
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-waveWrap {
@@ -164,11 +190,8 @@
 	cursor: pointer;
 	font-size: 12px;
 	background: none;
-	opacity: 0;
-	transition: .1s opacity;
-}
-.gsuiDrumrow:hover .gsuiDrumrow-delete {
 	opacity: .3;
+	transition: .1s opacity;
 }
 .gsuiDrumrow .gsuiDrumrow-delete:hover,
 .gsuiDrumrow .gsuiDrumrow-delete:focus {

@@ -16,7 +16,8 @@ class gsuiDrumrows {
 		this.rootElement = root;
 		this.onchange =
 		this.onlivestop =
-		this.onlivestart = () => {};
+		this.onlivestart =
+		this.onlivechange = GSUtils.noop;
 		this._rows = new Map();
 		this._lines = new Map();
 		this._reorder = reorder;
@@ -52,26 +53,43 @@ class gsuiDrumrows {
 		const rect = document.createElement( "div" );
 
 		rect.classList.add( "gsuiDrumrow-startCursor" );
-		this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" ).append( rect );
+		this._rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" ).append( rect );
 	}
 	stopRow( id ) {
-		this._rows.get( id ).querySelectorAll( ".gsuiDrumrow-startCursor" )
+		this._rows.get( id ).root.querySelectorAll( ".gsuiDrumrow-startCursor" )
 			.forEach( el => el.remove() );
 	}
 
 	// .........................................................................
 	add( id, elLine ) {
-		const elRow = gsuiDrumrows.templateRow.cloneNode( true );
+		const elRow = gsuiDrumrows.templateRow.cloneNode( true ),
+			sliDetune = new gsuiSlider(),
+			sliGain = new gsuiSlider(),
+			html = {
+				root: elRow,
+				gain: sliGain,
+				detune: sliDetune,
+			};
 
 		elRow.dataset.id =
 		elLine.dataset.id = id;
-		this._rows.set( id, elRow );
+		sliDetune.options( { min: -12, max: 12, step: 1, value: 0, type: "linear-y", mousemoveSize: 400 } );
+		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
+		sliDetune.oninput = val => this.onlivechange( id, "detune", val );
+		sliGain.oninput = val => this.onlivechange( id, "gain", val );
+		sliDetune.onchange = val => this.onchange( "changeDrumrow", id, "detune", val );
+		sliGain.onchange = val => this.onchange( "changeDrumrow", id, "gain", val );
+		elRow.querySelector( ".gsuiDrumrow-detune" ).append( sliDetune.rootElement );
+		elRow.querySelector( ".gsuiDrumrow-gain" ).append( sliGain.rootElement );
+		this._rows.set( id, html );
 		this._lines.set( id, elLine );
 		this.rootElement.append( elRow );
 		this._elLinesParent.append( elLine );
+		sliDetune.attached();
+		sliGain.attached();
 	}
 	remove( id ) {
-		this._rows.get( id ).remove();
+		this._rows.get( id ).root.remove();
 		this._lines.get( id ).remove();
 		this._rows.delete( id );
 		this._lines.delete( id );
@@ -79,24 +97,32 @@ class gsuiDrumrows {
 	change( id, prop, val ) {
 		switch ( prop ) {
 			case "name": this._changeName( id, val ); break;
+			case "gain": this._changeGain( id, val ); break;
 			case "order": this._changeOrder( id, val ); break;
+			case "detune": this._changeDetune( id, val ); break;
 			case "toggle": this._changeToggle( id, val ); break;
 			case "pattern": this._changePattern( id, val ); break;
 			case "duration": this._changeDuration( id, val ); break;
 		}
 	}
+	_changeGain( id, val ) {
+		this._rows.get( id ).gain.setValue( val );
+	}
+	_changeDetune( id, val ) {
+		this._rows.get( id ).detune.setValue( val );
+	}
 	_changeName( id, name ) {
-		this._rows.get( id ).querySelector( ".gsuiDrumrow-name" ).textContent = name;
+		this._rows.get( id ).root.querySelector( ".gsuiDrumrow-name" ).textContent = name;
 	}
 	_changeToggle( id, b ) {
-		this._rows.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
+		this._rows.get( id ).root.classList.toggle( "gsuiDrumrow-mute", !b );
 		this._lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 	}
 	_changeDuration( id, dur ) {
-		this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" ).style.animationDuration = `${ dur * 2 }s`;
+		this._rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" ).style.animationDuration = `${ dur * 2 }s`;
 	}
 	_changePattern( id, svg ) {
-		const elWave = this._rows.get( id ).querySelector( ".gsuiDrumrow-waveWrap" );
+		const elWave = this._rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" );
 
 		if ( elWave.firstChild ) {
 			elWave.firstChild.remove();
@@ -107,7 +133,7 @@ class gsuiDrumrows {
 		}
 	}
 	_changeOrder( id, order ) {
-		this._rows.get( id ).dataset.order =
+		this._rows.get( id ).root.dataset.order =
 		this._lines.get( id ).dataset.order = order;
 	}
 
