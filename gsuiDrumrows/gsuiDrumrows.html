@@ -10,12 +10,16 @@
 
 <div class="gsuiDrumrow" id="gsuiDrumrow-template" draggable="true">
 	<div class="gsuiDrumrow-grip"><i class="gsuiIcon" data-icon="grip-v"></i></div>
-	<button class="gsuiDrumrow-toggle gsuiIcon" data-icon="toggle" title="Toggle the drumrow (right click for solo)"></button>
-	<button class="gsuiDrumrow-delete gsuiIcon" data-icon="close" title="Remove the drumrow"></button>
-	<span class="gsuiDrumrow-name"></span>
-	<div class="gsuiDrumrow-waveWrap"></div>
-	<div class="gsuiDrumrow-detune" title="detune"></div>
-	<div class="gsuiDrumrow-gain" title="gain"></div>
+	<div class="gsuiDrumrow-main">
+		<button class="gsuiDrumrow-btnToggle gsuiIcon" data-action="toggle" data-icon="toggle" title="Toggle the drumrow (right click for solo)"></button>
+		<button class="gsuiDrumrow-btnProps gsuiIcon" data-action="props" data-icon="drumprops" title="Expand props panel"></button>
+		<button class="gsuiDrumrow-btnDelete gsuiIcon" data-action="delete" data-icon="close" title="Remove the drumrow"></button>
+		<span class="gsuiDrumrow-name"></span>
+		<div class="gsuiDrumrow-waveWrap"></div>
+		<div class="gsuiDrumrow-detune" title="pitch"></div>
+		<div class="gsuiDrumrow-gain" title="gain"></div>
+	</div>
+	<div class="gsuiDrumrow-props"></div>
 	<span class="gsuiDrumrows-drop">
 		<div class="gsuiDrumrows-dropIn">
 			<i class="gsuiIcon" data-icon="arrow-dropdown"></i>

@@ -77,7 +77,7 @@ class gsuiDrumrows {
 		sliDetune.options( { min: -12, max: 12, step: 1, value: 0, type: "linear-y", mousemoveSize: 400 } );
 		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
 		sliDetune.oninput = val => {
-			this._namePrint( id, `detune: ${ val > 0 ? `+${ val }` : val }` );
+			this._namePrint( id, `pitch: ${ val > 0 ? `+${ val }` : val }` );
 			this.onlivechange( id, "detune", val );
 		};
 		sliGain.oninput = val => {
@@ -150,20 +150,15 @@ class gsuiDrumrows {
 	}
 
 	// .........................................................................
-	static _isDrumrow( el ) {
-		return (
-			el.classList.contains( "gsuiDrumrow" ) ? el :
-			el.classList.contains( "gsuiDrumrows-drop" ) ||
-			el.classList.contains( "gsuiDrumrow-grip" ) ||
-			el.classList.contains( "gsuiDrumrow-toggle" ) ||
-			el.classList.contains( "gsuiDrumrow-delete" ) ? el.parentNode : null
-		);
-	}
 	_namePrint( id, msg ) {
 		const el = this._rows.get( id ).name;
 
 		el.textContent = msg;
 		el.classList.add( "gsuiDrumrow-nameInfo" );
+	}
+	_expandProps( id ) {
+		this._rows.get( id ).root.classList.toggle( "gsuiDrumrow-open" );
+		this._lines.get( id ).classList.toggle( "gsuiDrums-lineOpen" );
 	}
 
 	// events:
@@ -183,20 +178,22 @@ class gsuiDrumrows {
 		this.onchange( "reorderDrumrow", elRow.dataset.id, rows );
 	}
 	_onclickRows( e ) {
-		const { classList, parentNode } = e.target;
+		const id = e.target.closest( ".gsuiDrumrow" ).dataset.id;
 
-		if ( classList.contains( "gsuiDrumrow-toggle" ) ) {
-			this.onchange( "toggleDrumrow", parentNode.dataset.id );
-		} else if ( classList.contains( "gsuiDrumrow-delete" ) ) {
-			this.onchange( "removeDrumrow", parentNode.dataset.id );
+		switch ( e.target.dataset.action ) {
+			case "props": this._expandProps( id ); break;
+			case "toggle": this.onchange( "toggleDrumrow", id ); break;
+			case "delete": this.onchange( "removeDrumrow", id ); break;
 		}
 	}
 	_onmousedownRows( e ) {
-		if ( e.target.classList.contains( "gsuiDrumrow" ) ) {
+		if ( e.target.classList.contains( "gsuiDrumrow-main" ) ) {
+			const id = e.target.parentNode.dataset.id;
+
 			if ( e.button === 0 ) {
-				this.onlivestart( e.target.dataset.id );
+				this.onlivestart( id );
 			} else if ( e.button === 2 ) {
-				this.onlivestop( e.target.dataset.id );
+				this.onlivestop( id );
 			}
 		}
 	}
@@ -206,11 +203,9 @@ class gsuiDrumrows {
 		}
 	}
 	_oncontextmenuRows( e ) {
-		const { classList, parentNode } = e.target;
-
 		e.preventDefault();
-		if ( classList.contains( "gsuiDrumrow-toggle" ) ) {
-			this.onchange( "toggleOnlyDrumrow", parentNode.dataset.id );
+		if ( e.target.dataset.action === "toggle" ) {
+			this.onchange( "toggleOnlyDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
 		}
 	}
 	_ondropRows( e ) {
@@ -236,9 +231,7 @@ class gsuiDrumrows {
 		if ( e.dataTransfer.types.includes( "pattern-buffer" ) ) {
 			const tar = e.target,
 				isParent = tar.classList.contains( "gsuiDrumrows" ),
-				elDragover = isParent
-					? tar
-					: gsuiDrumrows._isDrumrow( tar );
+				elDragover = isParent ? tar : tar.closest( ".gsuiDrumrow" );
 
 			if ( elDragover !== this._elDragover ) {
 				this._dragoverId = null;

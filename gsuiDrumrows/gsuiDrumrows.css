@@ -29,24 +29,50 @@
 /* .......................................................................... */
 .gsuiDrumrow {
 	--grip-w: 16px;
-	--name-h: 45%;
-	--toggle-w: 24px;
+	--name-h: 16px;
+	--toggle-w: 20px;
 	--delete-w: 14px;
 	--slider-w: 7px;
+	--props-h: 48px;
 	position: relative;
 	box-sizing: border-box;
 	height: calc( 1em + 1px );
 	min-height: calc( 1em + 1px );
 	margin-top: -1px;
-	padding-right: 8px;
 	border: 0 solid var( --gsuiDrumrow-border );
 	border-width: 1px 0;
 	background-color: var( --gsuiDrumrow-bg );
+	transition: .2s;
+	transition-property: height, min-height;
 }
 .gsuiDrumrow-mute {
 	--gsuiDrumrow-name-opacity: .5;
 	--gsuiDrumrow-toggle-bg: var( --gsuiDrumrow-toggleOff-bg );
 	--gsuiDrumrow-bg: var( --gsuiDrumrow-mute-bg );
+}
+.gsuiDrumrow-open {
+	height: calc( 1em + 1px + var( --props-h ) );
+	min-height: calc( 1em + 1px + var( --props-h ) );
+}
+
+/* .......................................................................... */
+.gsuiDrumrow-main {
+	position: absolute;
+	box-sizing: border-box;
+	top: 0;
+	left: var( --grip-w );
+	right: 0;
+	height: 1em;
+	min-height: 1em;
+	border-bottom: 1px dashed var( --gsuiDrumrow-border );
+}
+.gsuiDrumrow-props {
+	position: absolute;
+	top: 1em;
+	left: var( --grip-w );
+	right: 0;
+	bottom: 0;
+	opacity: .2;
 }
 
 /* .......................................................................... */
@@ -67,9 +93,9 @@
 	pointer-events: none;
 	opacity: .4;
 }
-.gsuiDrumrow-toggle {
+.gsuiDrumrow-btnToggle {
 	position: absolute;
-	left: var( --grip-w );
+	left: 0;
 	width: var( --toggle-w );
 	height: var( --name-h );
 	top: 0;
@@ -84,17 +110,16 @@
 }
 .gsuiDrumrow-name {
 	position: absolute;
-	left: calc( var( --grip-w ) + var( --toggle-w ) );
-	right: var( --delete-w );
-	height: var( --name-h );
 	top: 0;
-	display: flex;
-	align-items: center;
+	left: var( --toggle-w );
+	right: calc( var( --delete-w ) + 16px + 6px );
+	height: var( --name-h );
+	line-height: var( --name-h );
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	font-size: 12px;
 	font-weight: bold;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	pointer-events: none;
 	opacity: var( --gsuiDrumrow-name-opacity, 1 );
 	transition: .1s opacity;
@@ -110,7 +135,7 @@
 	position: absolute;
 	overflow: hidden;
 	top: var( --name-h );
-	left: var( --grip-w );
+	left: 0;
 	right: calc( var( --slider-w ) * 2 + 6px );
 	bottom: 0;
 	pointer-events: none;
@@ -171,7 +196,7 @@
 }
 
 /* .......................................................................... */
-.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-toggle,
+.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-btnToggle,
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-name,
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-waveWrap {
 	opacity: 0;
@@ -183,7 +208,8 @@
 	right: 0;
 	bottom: 0;
 }
-.gsuiDrumrow-delete {
+.gsuiDrumrow-btnProps,
+.gsuiDrumrow-btnDelete {
 	position: absolute;
 	right: 0;
 	border: 0;
@@ -198,7 +224,18 @@
 	opacity: .3;
 	transition: .1s opacity;
 }
-.gsuiDrumrow .gsuiDrumrow-delete:hover,
-.gsuiDrumrow .gsuiDrumrow-delete:focus {
+.gsuiDrumrow-btnProps {
+	right: calc( var( --delete-w ) + 2px );
+	width: 16px;
+	opacity: .5;
+}
+.gsuiDrumrow-open .gsuiDrumrow-btnProps {
+	text-shadow: 0 0 6px;
+	opacity: .8;
+}
+.gsuiDrumrow .gsuiDrumrow-btnProps:hover,
+.gsuiDrumrow .gsuiDrumrow-btnProps:focus,
+.gsuiDrumrow .gsuiDrumrow-btnDelete:hover,
+.gsuiDrumrow .gsuiDrumrow-btnDelete:focus {
 	opacity: 1;
 }
