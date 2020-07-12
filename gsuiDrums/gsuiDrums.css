@@ -74,15 +74,35 @@
 	position: relative;
 	width: 1000000px;
 	height: 1em;
+	box-sizing: border-box;
+	border-bottom: 1px solid var( --gsuiDrums-line-border );
 	cursor: pointer;
+	transition: .2s height;
+}
+.gsuiDrums-lineOpen {
+	height: calc( 1em + 48px );
 }
 .gsuiDrums-line.gsuiDrumrow-mute {
 	background-color: var( --gsuiDrums-line-mute-bg );
 }
+.gsuiDrums-lineDrums {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 1em;
+}
 .gsuiDrums-lineIn {
 	height: 100%;
 	box-sizing: border-box;
-	border-bottom: 1px solid #0005;
+	border-bottom: 1px dashed var( --gsuiDrums-line-border );
+}
+.gsuiDrums-lineProps {
+	position: absolute;
+	top: 1em;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 /* .......................................................................... */

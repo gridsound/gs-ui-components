@@ -130,7 +130,7 @@ class gsuiDrums {
 	createDrumrow() {
 		const elLine = gsuiDrums.templateLine.cloneNode( true );
 
-		elLine.firstElementChild.style.fontSize = `${ this._pxPerBeat }px`;
+		elLine.querySelector( ".gsuiDrums-lineIn" ).style.fontSize = `${ this._pxPerBeat }px`;
 		return elLine;
 	}
 	_addItem( id, item, itemType ) {
@@ -333,7 +333,7 @@ class gsuiDrums {
 			this._currAction = e.button === 0
 				? `add${ itemType }`
 				: `remove${ itemType }`;
-			this._draggingRowId = this._elHover.parentNode.parentNode.dataset.id;
+			this._draggingRowId = this._elHover.closest( ".gsuiDrums-line" ).dataset.id;
 			this._draggingWhenStart = this._hoverBeat;
 			this._createPreviews( this._hoverBeat, this._hoverBeat );
 			window.getSelection().removeAllRanges();
