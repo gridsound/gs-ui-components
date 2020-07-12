@@ -270,6 +270,9 @@
 .gsuiIcon[ data-icon="drumcut" ] { transform: rotate( 90deg ); }
 .gsuiIcon[ data-icon="drumcut" ]::before { content: "\f052"; }
 .gsuiIcon[ data-icon="drumcut" ]::after { content: "\10f052"; }
+.gsuiIcon[ data-icon="drumprops" ] { transform: rotate( -90deg ); }
+.gsuiIcon[ data-icon="drumprops" ]::before { content: "\f884"; }
+.gsuiIcon[ data-icon="drumprops" ]::after { content: "\10f884"; }
 
 .gsuiIcon[ data-icon="smiley" ]::before { content: "\f581"; opacity: 0; }
 .gsuiIcon[ data-icon="smiley" ]::after { content: "\10f581"; opacity: 1; }
