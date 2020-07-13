@@ -21,13 +21,16 @@
 	top: 0;
 	bottom: 0;
 	overflow: auto;
+	scrollbar-width: none;
+}
+.gsuiSliderGroup-slidersWrap::-webkit-scrollbar {
+	display: none;
 }
 .gsuiSliderGroup-sliders {
 	position: absolute;
 	width: 1000000px;
 	height: 100%;
 	user-select: none;
-	-webkit-user-select: none;
 	background-color: var( --gsuiSliderGroup-bg );
 }
 

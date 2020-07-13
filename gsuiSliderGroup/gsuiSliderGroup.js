@@ -15,7 +15,6 @@ class gsuiSliderGroup {
 		this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
 		this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
 		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
-		this._attached = false;
 		this._min =
 		this._max =
 		this._exp =
@@ -38,21 +37,11 @@ class gsuiSliderGroup {
 		slidersParent.onmousedown = this._mousedown.bind( this );
 	}
 
-	remove() {
-		this._attached = false;
-		this.rootElement.remove();
-	}
 	empty() {
 		this._sliders.forEach( s => s.element.remove() );
 		this._sliders.clear();
 		this._selected.clear();
 		this._valueSaved.clear();
-	}
-	attached() {
-		const el = this.scrollElement;
-
-		this._attached = true;
-		el.style.bottom = `${ el.clientHeight - el.offsetHeight }px`;
 	}
 	minMaxExp( min, max, exp = 0 ) {
 		this._min = min;
