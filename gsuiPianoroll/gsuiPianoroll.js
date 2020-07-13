@@ -74,7 +74,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	attached() {
 		this.__attached();
 		this.scrollToMiddle();
-		this._uiSliderGroup.attached();
 	}
 	setPxPerBeat( px ) {
 		if ( super.setPxPerBeat( px ) ) {
