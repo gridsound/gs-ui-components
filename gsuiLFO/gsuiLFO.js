@@ -3,7 +3,6 @@
 class gsuiLFO {
 	constructor() {
 		const root = gsuiLFO.template.cloneNode( true ),
-			elTypeForm = root.querySelector( "form.gsuiLFO-propContent" ),
 			elWave = root.querySelector( ".gsuiLFO-wave" ),
 			wave = new gsuiPeriodicWave(),
 			beatlines = new gsuiBeatlines( elWave ),
@@ -27,17 +26,18 @@ class gsuiLFO {
 			delay: 0,
 			attack: 0,
 			speed: 0,
-			amp: 0,
+			amp: 1,
+			ampSign: 1,
 		} );
 		Object.seal( this );
 
-		elTypeForm.onchange = this._onchangeType.bind( this );
-		root.querySelector( ".gsuiLFO-toggle" ).onclick = () => this.onchange( "toggleLFO" );
+		root.onchange = this._onchangeForm.bind( this );
 		elWave.append( wave.rootElement );
+		this._changeAmpSign( 1 );
 		this._initSlider( "delay", 0, 4, 1 / 4 / 8 );
 		this._initSlider( "attack", 0, 4, 1 / 4 / 8 );
 		this._initSlider( "speed", 1 / 4, 18, 1 / 8 );
-		this._initSlider( "amp", 0, 1, .001 );
+		this._initSlider( "amp", .001, 1, .001 );
 	}
 
 	// .........................................................................
@@ -84,10 +84,19 @@ class gsuiLFO {
 		switch ( prop ) {
 			case "toggle": this._changeToggle( val ); break;
 			case "type": this._changeType( val ); break;
-			case "amp":
 			case "delay":
 			case "speed":
-			case "attack": this._changeProp( prop, val ); break;
+			case "attack":
+				this._data[ prop ] = val;
+				this._changeProp( prop, val );
+				break;
+			case "amp":
+				if ( val > 0 !== this._data.amp > 0 ) {
+					this._changeAmpSign( val );
+				}
+				this._data.amp = val;
+				this._changeProp( "amp", Math.abs( val ) );
+				break;
 		}
 	}
 	_changeToggle( b ) {
@@ -106,10 +115,13 @@ class gsuiLFO {
 		this._wave.type = type;
 		this.rootElement.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
 	}
+	_changeAmpSign( amp ) {
+		this._data.ampSign = Math.sign( amp ) || 1;
+		this.rootElement.querySelector( `.gsuiLFO-ampSignRadio[value="${ this._data.ampSign }"]` ).checked = true;
+	}
 	_changeProp( prop, val ) {
 		const [ sli, span ] = this._sliders[ prop ];
 
-		this._data[ prop ] = val;
 		sli.setValue( val );
 		span.textContent = val.toFixed( 2 );
 	}
@@ -124,20 +136,34 @@ class gsuiLFO {
 
 		slider.options( { type: "linear-x", min, max, step, mousemoveSize: 800 } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
-		slider.onchange = val => this.onchange( "changeLFO", prop, val );
+		slider.onchange = this._onchangeSlider.bind( this, prop );
 		elWrap.append( slider.rootElement );
 	}
 
 	// events:
 	// .........................................................................
-	_onchangeType( e ) {
-		this.onchange( "changeLFO", "type", e.target.value );
+	_onchangeForm( e ) {
+		switch ( e.target.name ) {
+			case "gsuiLFO-toggle": this.onchange( "toggleLFO" ); break;
+			case "gsuiLFO-type": this.onchange( "changeLFO", "type", e.target.value ); break;
+			case "gsuiLFO-ampSign": this.onchange( "changeLFO", "amp", -this._data.amp ); break;
+		}
 	}
 	_oninputSlider( prop, val ) {
-		this._data[ prop ] = val;
+		const realval = prop !== "amp"
+				? val
+				: val * this._data.ampSign;
+
 		this._sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
+		this._data[ prop ] = realval;
 		this.updateWave();
-		this.oninput( prop, val );
+		this.oninput( prop, realval );
+	}
+	_onchangeSlider( prop, val ) {
+		switch ( prop ) {
+			case "amp": this.onchange( "changeLFO", "amp", val * this._data.ampSign ); break;
+			default: this.onchange( "changeLFO", prop, val ); break;
+		}
 	}
 }
 

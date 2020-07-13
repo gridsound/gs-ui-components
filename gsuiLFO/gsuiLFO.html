@@ -1,9 +1,24 @@
 <div class="gsuiLFO" id="gsuiLFO-template">
 	<div class="gsuiLFO-head">
-		<button class="gsuiLFO-toggle gsuiIcon" data-icon="toggle" title="Toggle LFO"></button>
+		<label class="gsuiLFO-btn gsuiLFO-toggle" title="Toggle LFO">
+			<input class="gsuiLFO-btnInput gsuiLFO-toggleCheckbox" name="gsuiLFO-toggle" type="checkbox"/>
+			<i class="gsuiLFO-btnIcon gsuiLFO-toggleIcon gsuiIcon" data-icon="toggle"></i>
+		</label>
 		<span class="gsuiLFO-title">LFO</span>
 	</div>
-	<div class="gsuiLFO-wave"></div>
+	<div class="gsuiLFO-graph">
+		<div class="gsuiLFO-wave"></div>
+		<div class="gsuiLFO-ampSigns">
+			<label class="gsuiLFO-btn gsuiLFO-ampSign">
+				<input class="gsuiLFO-btnInput gsuiLFO-ampSignRadio" name="gsuiLFO-ampSign" type="radio" value="1"/>
+				<i class="gsuiLFO-btnIcon gsuiLFO-ampSignIcon gsuiIcon" data-icon="caret-up"></i>
+			</label>
+			<label class="gsuiLFO-btn gsuiLFO-ampSign">
+				<input class="gsuiLFO-btnInput gsuiLFO-ampSignRadio" name="gsuiLFO-ampSign" type="radio" value="-1"/>
+				<i class="gsuiLFO-btnIcon gsuiLFO-ampSignIcon gsuiIcon" data-icon="caret-down"></i>
+			</label>
+		</div>
+	</div>
 	<div class="gsuiLFO-prop gsuiLFO-delay" title="delay">
 		<div class="gsuiLFO-propLabel">
 			<span>delay</span>
@@ -34,23 +49,23 @@
 	</div>
 	<div class="gsuiLFO-prop gsuiLFO-type">
 		<div class="gsuiLFO-propLabel">wave</div>
-		<form class="gsuiLFO-propContent">
-			<label class="gsuiLFO-typeBtn" title="sine">
-				<input class="gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="sine"/>
-				<svg class="gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 C 1 4 1 1 4 1 C 7 1 7 4 7 5 C 7 6 7 9 10 9 C 13 9 13 6 13 5"/></svg>
+		<div class="gsuiLFO-propContent">
+			<label class="gsuiLFO-btn gsuiLFO-typeBtn" title="sine">
+				<input class="gsuiLFO-btnInput gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="sine"/>
+				<svg class="gsuiLFO-btnIcon gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 C 1 4 1 1 4 1 C 7 1 7 4 7 5 C 7 6 7 9 10 9 C 13 9 13 6 13 5"/></svg>
 			</label>
-			<label class="gsuiLFO-typeBtn" title="triangle">
-				<input class="gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="triangle"/>
-				<svg class="gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 L 4 1 L 10 9 L 13 5"/></svg>
+			<label class="gsuiLFO-btn gsuiLFO-typeBtn" title="triangle">
+				<input class="gsuiLFO-btnInput gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="triangle"/>
+				<svg class="gsuiLFO-btnIcon gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 L 4 1 L 10 9 L 13 5"/></svg>
 			</label>
-			<label class="gsuiLFO-typeBtn" title="sawtooth">
-				<input class="gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="sawtooth"/>
-				<svg class="gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 L 7 1 L 7 9 L 13 5"/></svg>
+			<label class="gsuiLFO-btn gsuiLFO-typeBtn" title="sawtooth">
+				<input class="gsuiLFO-btnInput gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="sawtooth"/>
+				<svg class="gsuiLFO-btnIcon gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 L 7 1 L 7 9 L 13 5"/></svg>
 			</label>
-			<label class="gsuiLFO-typeBtn" title="square">
-				<input class="gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="square"/>
-				<svg class="gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 L 1 1 L 7 1 L 7 9 L 13 9 L 13 5"/></svg>
+			<label class="gsuiLFO-btn gsuiLFO-typeBtn" title="square">
+				<input class="gsuiLFO-btnInput gsuiLFO-typeRadio" name="gsuiLFO-type" type="radio" value="square"/>
+				<svg class="gsuiLFO-btnIcon gsuiLFO-typeSVG" viewBox="0 0 14 10"><path d="M 1 5 L 1 1 L 7 1 L 7 9 L 13 9 L 13 5"/></svg>
 			</label>
-		</form>
+		</div>
 	</div>
 </div>

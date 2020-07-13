@@ -9,15 +9,15 @@
 	grid-gap: 6px;
 	padding-bottom: 8px;
 	grid-template:
-		"head head head  head   head  head head" 24px
-		".    type delay attack speed amp  .   " 28px
-		".    type wave  wave   wave  wave .   " 1fr
+		"head head head  head   head  head  head" 24px
+		".    type delay attack speed amp   .   " 28px
+		".    type graph graph  graph graph .   " 1fr
 		/2px  32px 1fr   1fr    1fr  1fr   2px;
 	color: var( --gsuiLFO-txt );
 	font-family: var( --gsui-font );
 	background-color: var( --gsuiLFO-bg );
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
-	--gsuiSlider-lineBgColor: var( --gsuiLFO-slider-bg );
+	--gsuiSlider-lineBgColor: var( --gsuiLFO-ctrls-bg );
 }
 
 /* .......................................................................... */
@@ -44,6 +44,27 @@
 .gsuiLFO-propContent {
 	flex: 1;
 	position: relative;
+}
+
+/* .......................................................................... */
+.gsuiLFO-btn {
+	position: relative;
+	cursor: pointer;
+}
+.gsuiLFO-btnInput {
+	position: absolute;
+	visibility: hidden;
+}
+.gsuiLFO-btnIcon {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background-color: var( --gsuiLFO-ctrls-bg );
 }
 
 /* .......................................................................... */
@@ -83,9 +104,9 @@
 	border: 0;
 	margin: 0;
 	outline: 0;
-	padding: 0 8px;
+	padding: 0;
+	width: 24px;
 	color: var( --gsuiLFO-toggle-off );
-	cursor: pointer;
 	font-size: 8px;
 	background: none;
 	transition: .2s color;
@@ -95,11 +116,49 @@
 }
 
 /* .......................................................................... */
-.gsuiLFO-wave {
-	grid-area: wave;
+.gsuiLFO-graph {
+	grid-area: graph;
 	position: relative;
+	overflow: hidden;
 	border-radius: 4px;
 	background-color: var( --gsuiLFO-wave-bg );
+}
+.gsuiLFO-ampSigns {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 10px;
+}
+.gsuiLFO-ampSign {
+	flex: 1;
+}
+.gsuiLFO-enable .gsuiLFO-ampSign {
+	color: var( --gsuiLFO-ctrls-color );
+}
+.gsuiLFO-ampSignIcon {
+	color: var( --gsuiLFO-wave-off );
+	font-size: 11px;
+}
+.gsuiLFO-enable .gsuiLFO-ampSignIcon {
+	color: var( --gsuiLFO-ctrls-color );
+}
+.gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
+	color: var( --gsuiLFO-ctrls-bg );
+	background-color: var( --gsuiLFO-wave-off );
+}
+.gsuiLFO-enable .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
+	background-color: var( --gsuiLFO-ctrls-color );
+}
+.gsuiLFO-wave {
+	position: absolute;
+	top: 0;
+	left: 8px;
+	right: -2px;
+	bottom: 0;
+	pointer-events: none;
 }
 .gsuiLFO-wave .gsuiPeriodicWave {
 	position: absolute;
@@ -125,24 +184,12 @@
 }
 .gsuiLFO-typeBtn {
 	flex: 1;
-	cursor: not-allowed;
-	position: relative;
-}
-.gsuiLFO-enable .gsuiLFO-typeBtn {
-	cursor: pointer;
-}
-.gsuiLFO-typeRadio {
-	position: absolute;
-	visibility: hidden;
 }
 .gsuiLFO-typeSVG {
-	position: absolute;
 	fill: none;
-	width: 100%;
-	height: 100%;
 	stroke: var( --gsuiLFO-wave-off );
 	stroke-width: 2px;
-	background-color: var( --gsuiLFO-slider-bg );
+	background-color: var( --gsuiLFO-ctrls-bg );
 	transition: .2s;
 	transition-property: stroke, background-color;
 }
@@ -154,7 +201,7 @@
 	transform-origin: center;
 }
 .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
-	stroke: var( --gsuiLFO-slider-bg );
+	stroke: var( --gsuiLFO-ctrls-bg );
 	background-color: var( --gsuiLFO-wave-off );
 }
 .gsuiLFO-enable .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
