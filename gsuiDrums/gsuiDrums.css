@@ -76,7 +76,6 @@
 	height: 1em;
 	box-sizing: border-box;
 	border-bottom: 1px solid var( --gsuiDrums-line-border );
-	cursor: pointer;
 	transition: .2s height;
 }
 .gsuiDrums-lineOpen {
@@ -96,6 +95,7 @@
 	height: 100%;
 	box-sizing: border-box;
 	border-bottom: 1px dashed var( --gsuiDrums-line-border );
+	cursor: pointer;
 }
 .gsuiDrums-lineProps {
 	position: absolute;

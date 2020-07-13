@@ -50,6 +50,7 @@ class gsuiDrums {
 		this._elCurrentTime = this._qS( "currentTime" );
 		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
 		this._onmouseupNew = this._onmouseupNew.bind( this );
+		this._mousemoveLines = this._mousemoveLines.bind( this );
 		Object.seal( this );
 
 		root.oncontextmenu = e => e.preventDefault();
@@ -61,7 +62,7 @@ class gsuiDrums {
 		elRows.onscroll = this._onscrollRows.bind( this );
 		elLines.onscroll = this._onscrollLines.bind( this );
 		elLines.onwheel = this._onwheelLines.bind( this );
-		elLines.onmousemove = this._mousemoveLines.bind( this );
+		elLines.onmousemove = this._mousemoveLines;
 		timeline.oninputLoop = this._oninputLoop.bind( this );
 		timeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
 		timeline.onchangeCurrentTime = t => {
@@ -286,26 +287,38 @@ class gsuiDrums {
 		}
 	}
 	_mousemoveLines( e ) {
-		const tar = e.target,
-			elLine = this._has( tar, "lineIn" ) ? tar :
-				this._has( tar, "drum" ) || this._has( tar, "drumcut" ) ? tar.parentNode : null;
+		if ( e.target !== this._elHover ) {
+			if ( this._currAction ) {
+				this._hoverPageX = e.pageX;
+				this.__mousemoveLines();
+			} else {
+				const tar = e.target,
+					elLine = this._has( tar, "lineIn" )
+						? tar
+						: this._has( tar, "drum" ) || this._has( tar, "drumcut" )
+							? tar.parentNode
+							: null;
 
-		if ( elLine ) {
-			const bcr = elLine.getBoundingClientRect(),
-				y = ( e.pageY - bcr.top ) / bcr.height,
-				elHover =  y > .66 ? this._elDrumcutHover : this._elDrumHover;
+				if ( elLine ) {
+					const bcr = elLine.getBoundingClientRect(),
+						y = ( e.pageY - bcr.top ) / bcr.height,
+						elHover =  y > .66 ? this._elDrumcutHover : this._elDrumHover;
 
-			this._hoverPageX = e.pageX;
-			this._hoveringStatus = elHover === this._elDrumHover ? "drum" : "drumcut";
-			if ( !this._currAction && elHover !== this._elHover ) {
-				if ( this._elHover ) {
+					this._hoverPageX = e.pageX;
+					this._hoveringStatus = elHover === this._elDrumHover ? "drum" : "drumcut";
+					if ( !this._currAction && elHover !== this._elHover ) {
+						if ( this._elHover ) {
+							this._elHover.remove();
+						}
+						this._elHover = elHover;
+					}
+					this.__mousemoveLines();
+					if ( !this._currAction && this._elHover.parentNode !== elLine ) {
+						elLine.append( this._elHover );
+					}
+				} else if ( this._elHover ) {
 					this._elHover.remove();
 				}
-				this._elHover = elHover;
-			}
-			this.__mousemoveLines();
-			if ( !this._currAction && this._elHover.parentNode !== elLine ) {
-				elLine.append( this._elHover );
 			}
 		}
 	}
@@ -337,14 +350,17 @@ class gsuiDrums {
 			this._draggingWhenStart = this._hoverBeat;
 			this._createPreviews( this._hoverBeat, this._hoverBeat );
 			window.getSelection().removeAllRanges();
+			document.addEventListener( "mousemove", this._mousemoveLines );
 			document.addEventListener( "mouseup", this._onmouseupNew );
 		}
 	}
 	_onmouseupNew() {
 		this._removePreviews( this._currAction.startsWith( "add" ) );
+		document.removeEventListener( "mousemove", this._mousemoveLines );
 		document.removeEventListener( "mouseup", this._onmouseupNew );
 		this.onchange( this._currAction, this._draggingRowId, this._draggingWhenStart, this._hoverBeat );
 		this._currAction = "";
+		this._elLines.onmousemove = this._mousemoveLines;
 	}
 }
 
