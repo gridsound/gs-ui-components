@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiSliderGroup {
-	constructor() {
+	constructor( opts = {} ) {
 		const root = gsuiSliderGroup.template.cloneNode( true ),
 			slidersWrap = root.querySelector( ".gsuiSliderGroup-slidersWrap" ),
 			slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" ),
-			uiBeatlines = new gsuiBeatlines( slidersParent );
+			uiBeatlines = opts.beatlines && new gsuiBeatlines( slidersParent );
 
 		this.onchange = () => {};
 		this.rootElement = root;
@@ -70,10 +70,12 @@ class gsuiSliderGroup {
 
 		if ( ppb !== this._pxPerBeat ) {
 			this._pxPerBeat = ppb;
-			this._uiBeatlines.pxPerBeat( ppb );
 			this._slidersParent.style.fontSize = `${ ppb }px`;
-			clearTimeout( this._renderTimeoutId );
-			this._renderTimeoutId = setTimeout( () => this._uiBeatlines.render(), 100 );
+			if ( this._uiBeatlines ) {
+				this._uiBeatlines.pxPerBeat( ppb );
+				clearTimeout( this._renderTimeoutId );
+				this._renderTimeoutId = setTimeout( () => this._uiBeatlines.render(), 100 );
+			}
 		}
 	}
 
