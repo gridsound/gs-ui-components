@@ -1,5 +1,4 @@
 :root {
-	--gsuiSliderGroup-bg: #c55;
 	--gsuiSliderGroup-currentTime-color: #2af;
 	--gsuiSliderGroup-slider-width: 2px;
 	--gsuiSliderGroup-slider-bg: #000;
@@ -31,7 +30,6 @@
 	width: 1000000px;
 	height: 100%;
 	user-select: none;
-	background-color: var( --gsuiSliderGroup-bg );
 }
 
 /* slider */
