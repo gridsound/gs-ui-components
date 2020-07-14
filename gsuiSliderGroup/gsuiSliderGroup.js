@@ -3,18 +3,18 @@
 class gsuiSliderGroup {
 	constructor( opts = {} ) {
 		const root = gsuiSliderGroup.template.cloneNode( true ),
-			slidersWrap = root.querySelector( ".gsuiSliderGroup-slidersWrap" ),
-			slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" ),
-			uiBeatlines = opts.beatlines && new gsuiBeatlines( slidersParent );
+			elLoopA = root.querySelector( ".gsuiSliderGroup-loopA" ),
+			elLoopB = root.querySelector( ".gsuiSliderGroup-loopB" ),
+			elCurrentTime = root.querySelector( ".gsuiSliderGroup-currentTime" ),
+			elSlidersWrap = root.querySelector( ".gsuiSliderGroup-slidersWrap" ),
+			elSlidersParent = root.querySelector( ".gsuiSliderGroup-sliders" ),
+			uiBeatlines = opts.beatlines && new gsuiBeatlines( elSlidersParent );
 
 		this.onchange = () => {};
 		this.rootElement = root;
-		this.scrollElement = slidersWrap;
+		this.scrollElement = elSlidersWrap;
 		this._uiBeatlines = uiBeatlines;
-		this._slidersParent = slidersParent;
-		this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
-		this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
-		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
+		this._slidersParent = elSlidersParent;
 		this._min =
 		this._max =
 		this._exp =
@@ -32,9 +32,18 @@ class gsuiSliderGroup {
 			duration: this._sliderDuration.bind( this ),
 			selected: this._sliderSelected.bind( this ),
 		} );
+		if ( opts.beatlines ) {
+			this._loopA = elLoopA;
+			this._loopB = elLoopB;
+			this._currentTime = elCurrentTime;
+		} else {
+			elLoopA.remove();
+			elLoopB.remove();
+			elCurrentTime.remove();
+		}
 		Object.seal( this );
 
-		slidersParent.onmousedown = this._mousedown.bind( this );
+		elSlidersParent.onmousedown = this._mousedown.bind( this );
 	}
 
 	empty() {
