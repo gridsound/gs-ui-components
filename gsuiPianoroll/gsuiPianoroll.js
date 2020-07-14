@@ -7,7 +7,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
 			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
 			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
-			uiSliderGroup = new gsuiSliderGroup();
+			uiSliderGroup = new gsuiSliderGroup( { beatlines: true } );
 
 		super( root );
 		this._uiSliderGroup = uiSliderGroup;

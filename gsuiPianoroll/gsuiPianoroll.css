@@ -19,6 +19,9 @@
 	min-height: 100px;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
+.gsuiPianoroll-gridPanelBottom {
+	background-color: var( --gsuiBlocksManager-grid-bg );
+}
 .gsuiPianoroll-gridPanelTop {
 	display: flex;
 	flex-direction: column;
