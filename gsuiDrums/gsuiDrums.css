@@ -76,12 +76,13 @@
 	height: 1em;
 	box-sizing: border-box;
 	border-bottom: 1px solid var( --gsuiDrums-line-border );
-	transition: .2s height;
+	transition: .2s height, .1s filter, .1s background-color;
 }
 .gsuiDrums-lineOpen {
 	height: calc( 1em + 48px );
 }
 .gsuiDrums-line.gsuiDrumrow-mute {
+	filter: brightness( .8 ) contrast( .8 );
 	background-color: var( --gsuiDrums-line-mute-bg );
 }
 .gsuiDrums-lineDrums {
@@ -166,10 +167,6 @@
 .gsuiDrums-drumcut {
 	bottom: 1px;
 	height: calc( 34% - 2px );
-}
-.gsuiDrumrow-mute .gsuiDrums-drum,
-.gsuiDrumrow-mute .gsuiDrums-drumcut {
-	opacity: .6;
 }
 .gsuiDrums-previewDeleted,
 .gsuiDrums-preview {
