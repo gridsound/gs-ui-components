@@ -29,8 +29,9 @@
 /* .......................................................................... */
 .gsuiDrumrow {
 	--grip-w: 16px;
-	--name-h: 16px;
 	--toggle-w: 20px;
+	--name-h: 16px;
+	--propsExpand-w: 16px;
 	--delete-w: 14px;
 	--slider-w: 7px;
 	--props-h: 48px;
@@ -42,13 +43,11 @@
 	border: 0 solid var( --gsuiDrumrow-border );
 	border-width: 1px 0;
 	background-color: var( --gsuiDrumrow-bg );
-	transition: .2s;
-	transition-property: height, min-height;
+	transition: .2s height, .2s min-height, .1s filter;
 }
 .gsuiDrumrow-mute {
-	--gsuiDrumrow-name-opacity: .5;
 	--gsuiDrumrow-toggle-bg: var( --gsuiDrumrow-toggleOff-bg );
-	--gsuiDrumrow-bg: var( --gsuiDrumrow-mute-bg );
+	filter: brightness( .8 ) contrast( .8 );
 }
 .gsuiDrumrow-open {
 	height: calc( 1em + 1px + var( --props-h ) );
@@ -112,7 +111,7 @@
 	position: absolute;
 	top: 0;
 	left: var( --toggle-w );
-	right: calc( var( --delete-w ) + 16px + 6px );
+	right: calc( var( --delete-w ) + var( --propsExpand-w ) + 6px );
 	height: var( --name-h );
 	line-height: var( --name-h );
 	overflow: hidden;
@@ -121,8 +120,6 @@
 	font-size: 12px;
 	font-weight: bold;
 	pointer-events: none;
-	opacity: var( --gsuiDrumrow-name-opacity, 1 );
-	transition: .1s opacity;
 }
 .gsuiDrumrow-nameInfo {
 	font-style: italic;
@@ -146,8 +143,7 @@
 	width: 100%;
 	height: 100%;
 	fill: currentColor;
-	opacity: var( --gsuiDrumrow-name-opacity, .5 );
-	transition: .1s opacity;
+	opacity: .5;
 }
 .gsuiDrumrow-startCursor {
 	position: absolute;
@@ -226,7 +222,7 @@
 }
 .gsuiDrumrow-btnProps {
 	right: calc( var( --delete-w ) + 2px );
-	width: 16px;
+	width: var( --propsExpand-w );
 	opacity: .5;
 }
 .gsuiDrumrow-open .gsuiDrumrow-btnProps {
