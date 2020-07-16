@@ -12,11 +12,6 @@ class gsuiDrums {
 
 		this.rootElement = root;
 		this.drumrows = drumrows;
-		this.oninput =
-		this.onchange =
-		this.onchangeLoop =
-		this.onchangeCurrentTime = () => {};
-
 		this._panels = panels;
 		this._timeline = timeline;
 		this._beatlines = beatlines;
@@ -64,10 +59,12 @@ class gsuiDrums {
 		elLines.onwheel = this._onwheelLines.bind( this );
 		elLines.onmousemove = this._mousemoveLines;
 		timeline.oninputLoop = this._oninputLoop.bind( this );
-		timeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
+		timeline.onchangeLoop = ( isLoop, a, b ) => {
+			this._dispatch( "changeLoop", isLoop, a, b );
+		};
 		timeline.onchangeCurrentTime = t => {
 			this._setCurrentTime( t );
-			this.onchangeCurrentTime( t );
+			this._dispatch( "changeCurrentTime", t );
 		};
 		this._qS( "sidePanel" ).append( drumrows.rootElement );
 		this._qS( "timelineWrap" ).append( timeline.rootElement );
@@ -233,6 +230,12 @@ class gsuiDrums {
 			: el => el.classList.remove( "gsuiDrums-previewDeleted" ) );
 		this._previewsMap.clear();
 	}
+	_dispatch( eventName, ...args ) {
+		this.rootElement.dispatchEvent( new CustomEvent( "gsuiEvents", {
+			bubbles: true,
+			detail: { component: "gsuiDrums", eventName, args },
+		} ) );
+	}
 
 	// events:
 	// .........................................................................
@@ -358,7 +361,7 @@ class gsuiDrums {
 		this._removePreviews( this._currAction.startsWith( "add" ) );
 		document.removeEventListener( "mousemove", this._mousemoveLines );
 		document.removeEventListener( "mouseup", this._onmouseupNew );
-		this.onchange( this._currAction, this._draggingRowId, this._draggingWhenStart, this._hoverBeat );
+		this._dispatch( "change", this._currAction, this._draggingRowId, this._draggingWhenStart, this._hoverBeat );
 		this._currAction = "";
 		this._elLines.onmousemove = this._mousemoveLines;
 	}
