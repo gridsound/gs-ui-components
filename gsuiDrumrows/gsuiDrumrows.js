@@ -14,10 +14,6 @@ class gsuiDrumrows {
 			} );
 
 		this.rootElement = root;
-		this.onchange =
-		this.onlivestop =
-		this.onlivestart =
-		this.onlivechange = GSUtils.noop;
 		this._rows = new Map();
 		this._lines = new Map();
 		this._reorder = reorder;
@@ -78,11 +74,11 @@ class gsuiDrumrows {
 		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
 		sliDetune.oninput = val => {
 			this._namePrint( id, `pitch: ${ val > 0 ? `+${ val }` : val }` );
-			this.onlivechange( id, "detune", val );
+			this._dispatch( "liveChangeDrumrow", id, "detune", val );
 		};
 		sliGain.oninput = val => {
 			this._namePrint( id, `gain: ${ val.toFixed( 2 ) }` );
-			this.onlivechange( id, "gain", val );
+			this._dispatch( "liveChangeDrumrow", id, "gain", val );
 		};
 		sliDetune.onchange = this._onchangeRowSlider.bind( this, id, "detune" );
 		sliGain.onchange = this._onchangeRowSlider.bind( this, id, "gain" );
@@ -160,6 +156,12 @@ class gsuiDrumrows {
 		this._rows.get( id ).root.classList.toggle( "gsuiDrumrow-open" );
 		this._lines.get( id ).classList.toggle( "gsuiDrums-lineOpen" );
 	}
+	_dispatch( action, ...args ) {
+		this.rootElement.dispatchEvent( new CustomEvent( "gsuiEvents", {
+			bubbles: true,
+			detail: { component: "gsuiDrumrows", action, args },
+		} ) );
+	}
 
 	// events:
 	// .........................................................................
@@ -170,31 +172,29 @@ class gsuiDrumrows {
 		el.classList.remove( "gsuiDrumrow-nameInfo" );
 	}
 	_onchangeRowSlider( id, prop, val ) {
-		this.onchange( "changeDrumrow", id, prop, val );
+		this._dispatch( "change", "changeDrumrow", id, prop, val );
 	}
 	_onreorderRows( elRow ) {
 		const rows = gsuiReorder.listComputeOrderChange( this.rootElement, {} );
 
-		this.onchange( "reorderDrumrow", elRow.dataset.id, rows );
+		this._dispatch( "change", "reorderDrumrow", elRow.dataset.id, rows );
 	}
 	_onclickRows( e ) {
-		const id = e.target.closest( ".gsuiDrumrow" ).dataset.id;
+		if ( e.target !== this.rootElement ) {
+			const id = e.target.closest( ".gsuiDrumrow" ).dataset.id;
 
-		switch ( e.target.dataset.action ) {
-			case "props": this._expandProps( id ); break;
-			case "toggle": this.onchange( "toggleDrumrow", id ); break;
-			case "delete": this.onchange( "removeDrumrow", id ); break;
+			switch ( e.target.dataset.action ) {
+				case "props": this._expandProps( id ); break;
+				case "toggle": this._dispatch( "change", "toggleDrumrow", id ); break;
+				case "delete": this._dispatch( "change", "removeDrumrow", id ); break;
+			}
 		}
 	}
 	_onmousedownRows( e ) {
-		if ( e.target.classList.contains( "gsuiDrumrow-main" ) ) {
-			const id = e.target.parentNode.dataset.id;
-
-			if ( e.button === 0 ) {
-				this.onlivestart( id );
-			} else if ( e.button === 2 ) {
-				this.onlivestop( id );
-			}
+		if ( ( e.button === 0 || e.button === 2 ) && e.target.classList.contains( "gsuiDrumrow-main" ) ) {
+			this._dispatch(
+				e.button === 0 ? "liveStartDrum" : "liveStopDrum",
+				e.target.parentNode.dataset.id );
 		}
 	}
 	_onanimationendRows( e ) {
@@ -205,7 +205,7 @@ class gsuiDrumrows {
 	_oncontextmenuRows( e ) {
 		e.preventDefault();
 		if ( e.target.dataset.action === "toggle" ) {
-			this.onchange( "toggleOnlyDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
+			this._dispatch( "change", "toggleOnlyDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
 		}
 	}
 	_ondropRows( e ) {
@@ -214,8 +214,8 @@ class gsuiDrumrows {
 
 			if ( patId ) {
 				this._dragoverId === Infinity
-					? this.onchange( "addDrumrow", patId )
-					: this.onchange( "changeDrumrowPattern", this._dragoverId, patId );
+					? this._dispatch( "change", "addDrumrow", patId )
+					: this._dispatch( "change", "changeDrumrowPattern", this._dragoverId, patId );
 			}
 		}
 		this._ondragleaveRows();
