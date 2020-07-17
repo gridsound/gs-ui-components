@@ -2,6 +2,7 @@
 	--gsuiDrumrows-bg: #555;
 	--gsuiDrumrow-bg: #555;
 	--gsuiDrumrow-slider-bg: #444;
+	--gsuiDrumrow-pan: #d9f;
 	--gsuiDrumrow-gain: #ff9;
 	--gsuiDrumrow-detune: #fff;
 	--gsuiDrumrow-border: #0002;
@@ -9,4 +10,5 @@
 	--gsuiDrumrow-grip-bg: #0001;
 	--gsuiDrumrow-toggle-bg: #ffa;
 	--gsuiDrumrow-toggleOff-bg: #fff3;
+	--gsuiDrumrow-prop-bgHover: #fff2;
 }

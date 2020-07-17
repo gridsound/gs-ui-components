@@ -8,18 +8,31 @@
 	</div>
 </div>
 
-<div class="gsuiDrumrow" id="gsuiDrumrow-template" draggable="true">
+<form class="gsuiDrumrow" id="gsuiDrumrow-template" draggable="true">
 	<div class="gsuiDrumrow-grip"><i class="gsuiIcon" data-icon="grip-v"></i></div>
 	<div class="gsuiDrumrow-main">
-		<button class="gsuiDrumrow-btnToggle gsuiIcon" data-action="toggle" data-icon="toggle" title="Toggle the drumrow (right click for solo)"></button>
-		<button class="gsuiDrumrow-btnProps gsuiIcon" data-action="props" data-icon="drumprops" title="Expand props panel"></button>
-		<button class="gsuiDrumrow-btnDelete gsuiIcon" data-action="delete" data-icon="close" title="Remove the drumrow"></button>
+		<button type="button" class="gsuiDrumrow-btnToggle gsuiIcon" data-action="toggle" data-icon="toggle" title="Toggle the drumrow (right click for solo)"></button>
+		<button type="button" class="gsuiDrumrow-btnProps gsuiIcon" data-action="props" data-icon="drumprops" title="Expand props panel"></button>
+		<button type="button" class="gsuiDrumrow-btnDelete gsuiIcon" data-action="delete" data-icon="close" title="Remove the drumrow"></button>
 		<span class="gsuiDrumrow-name"></span>
 		<div class="gsuiDrumrow-waveWrap"></div>
 		<div class="gsuiDrumrow-detune" title="pitch"></div>
 		<div class="gsuiDrumrow-gain" title="gain"></div>
 	</div>
-	<div class="gsuiDrumrow-props"></div>
+	<div class="gsuiDrumrow-props">
+		<label class="gsuiDrumrow-prop gsuiDrumrow-propDetune" tabindex="0">
+			<input class="gsuiDrumrow-propRadio" type="radio" name="prop" value="detune"/>
+			<span class="gsuiDrumrow-propSpan">pitch</span>
+		</label>
+		<label class="gsuiDrumrow-prop gsuiDrumrow-propGain" tabindex="0">
+			<input class="gsuiDrumrow-propRadio" type="radio" name="prop" value="gain"/>
+			<span class="gsuiDrumrow-propSpan">gain</span>
+		</label>
+		<label class="gsuiDrumrow-prop gsuiDrumrow-propPan" tabindex="0">
+			<input class="gsuiDrumrow-propRadio" type="radio" name="prop" value="pan"/>
+			<span class="gsuiDrumrow-propSpan">pan</span>
+		</label>
+	</div>
 	<span class="gsuiDrumrows-drop">
 		<div class="gsuiDrumrows-dropIn">
 			<i class="gsuiIcon" data-icon="arrow-dropdown"></i>
@@ -27,4 +40,4 @@
 			<i class="gsuiIcon" data-icon="arrow-dropdown"></i>
 		</div>
 	</span>
-</div>
+</form>
