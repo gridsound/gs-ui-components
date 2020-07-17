@@ -36,6 +36,7 @@ class gsuiDrums {
 		this._hoveringStatus = "";
 		this._drumsMap = new Map();
 		this._previewsMap = new Map();
+		this._sliderGroups = new Map();
 		this._elLoopA = this._qS( "loopA" );
 		this._elLoopB = this._qS( "loopB" );
 		this._elLinesAbs = this._qS( "linesAbsolute" );
@@ -49,6 +50,14 @@ class gsuiDrums {
 		this._dispatch = GSUtils.dispatchEvent.bind( null, root, "gsuiDrums" );
 		Object.seal( this );
 
+		root.addEventListener( "gsuiEvents", e => {
+			const d = e.detail;
+
+			if ( d.component === "gsuiSliderGroup" ) {
+				d.eventName = "change";
+				d.args.unshift( "changeDrumsProps", e.target.dataset.currentProp );
+			}
+		} );
 		root.oncontextmenu = e => e.preventDefault();
 		this._elDrumHover.remove();
 		this._elDrumcutHover.remove();
@@ -117,25 +126,62 @@ class gsuiDrums {
 		this._elLoopB.style.fontSize =
 		this._elCurrentTime.style.fontSize = ppbpx;
 		Array.prototype.forEach.call( this._nlLinesIn, el => el.style.fontSize = ppbpx );
+		this._sliderGroups.forEach( grp => grp.setPxPerBeat( ppb ) );
 		clearTimeout( this._timeoutIdBeatlines );
 		this._timeoutIdBeatlines = setTimeout( () => this._beatlines.render(), 100 );
 	}
+	setPropValues( rowId, prop, arr ) {
+		const grp = this._sliderGroups.get( rowId );
+
+		grp.rootElement.dataset.currentProp = prop;
+		switch ( prop ) {
+			case "pan": grp.minMaxStep( -1, 1, .05 ); break;
+			case "gain": grp.minMaxStep( 0, 1, .02 ); break;
+			case "detune": grp.minMaxStep( -12, 12, 1 ); break;
+		}
+		arr.forEach( kv => grp.setProp( kv[ 0 ], "value", kv[ 1 ] ) );
+	}
 
 	// .........................................................................
-	addDrum( id, drum ) { this._addItem( id, drum, "drum" ); }
-	addDrumcut( id, drumcut ) { this._addItem( id, drumcut, "drumcut" ); }
-	removeDrum( id ) { this._removeItem( id ); }
-	removeDrumcut( id ) { this._removeItem( id ); }
-	createDrumrow() {
-		const elLine = gsuiDrums.templateLine.cloneNode( true );
+	addDrum( id, drum ) {
+		const grp = this._sliderGroups.get( drum.row ),
+			prop = grp.rootElement.dataset.currentProp;
+
+		this._addItem( id, "drum", drum, gsuiDrums.templateDrum );
+		grp.set( id, drum.when, 1 / this._stepsPerBeat, 0 );
+	}
+	removeDrum( id ) {
+		const rowId = this._drumsMap.get( id )[ 0 ];
+
+		this._sliderGroups.get( rowId ).delete( id );
+		this._removeItem( id );
+	}
+	addDrumcut( id, drumcut ) {
+		this._addItem( id, "drumcut", drumcut, gsuiDrums.templateDrumcut );
+	}
+	removeDrumcut( id ) {
+		this._removeItem( id );
+	}
+	createDrumrow( id ) {
+		const elLine = gsuiDrums.templateLine.cloneNode( true ),
+			grp = new gsuiSliderGroup();
 
 		elLine.querySelector( ".gsuiDrums-lineIn" ).style.fontSize = `${ this._pxPerBeat }px`;
+		elLine.querySelector( ".gsuiDrums-lineProps" ).append( grp.rootElement );
+		grp.setPxPerBeat( this._pxPerBeat );
+		this._sliderGroups.set( id, grp );
 		return elLine;
 	}
-	_addItem( id, item, itemType ) {
-		const elItem = "gain" in item
-				? gsuiDrums.templateDrum.cloneNode( true )
-				: gsuiDrums.templateDrumcut.cloneNode( true ),
+	changeDrum( id, prop, val ) {
+		const rowId = this._drumsMap.get( id )[ 0 ],
+			grp = this._sliderGroups.get( rowId );
+
+		if ( prop === grp.rootElement.dataset.currentProp ) {
+			grp.setProp( id, "value", val );
+		}
+	}
+	_addItem( id, itemType, item, template ) {
+		const elItem = template.cloneNode( true ),
 			stepDur = 1 / this._stepsPerBeat;
 
 		elItem.dataset.id = id;
