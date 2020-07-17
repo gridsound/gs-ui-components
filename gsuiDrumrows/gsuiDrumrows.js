@@ -25,6 +25,7 @@ class gsuiDrumrows {
 
 		root.ondrop = this._ondropRows.bind( this );
 		root.onclick = this._onclickRows.bind( this );
+		root.onchange = this._onchangeRows.bind( this );
 		root.ondragover = this._ondragoverRows.bind( this );
 		root.ondragleave = this._ondragleaveRows.bind( this );
 		root.onmousedown = this._onmousedownRows.bind( this );
@@ -55,6 +56,9 @@ class gsuiDrumrows {
 	stopRow( id ) {
 		this._rows.get( id ).root.querySelectorAll( ".gsuiDrumrow-startCursor" )
 			.forEach( el => el.remove() );
+	}
+	setPropFilter( id, prop ) {
+		this._rows.get( id ).root.querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"]` ).checked = true;
 	}
 
 	// .........................................................................
@@ -174,6 +178,11 @@ class gsuiDrumrows {
 
 		this._dispatch( "change", "reorderDrumrow", elRow.dataset.id, rows );
 	}
+	_onchangeRows( e ) {
+		const id = e.target.closest( ".gsuiDrumrow" ).dataset.id;
+
+		this._dispatch( "propFilter", id, e.target.value );
+	}
 	_onclickRows( e ) {
 		if ( e.target !== this.rootElement ) {
 			const id = e.target.closest( ".gsuiDrumrow" ).dataset.id;
@@ -201,6 +210,8 @@ class gsuiDrumrows {
 		e.preventDefault();
 		if ( e.target.dataset.action === "toggle" ) {
 			this._dispatch( "change", "toggleOnlyDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
+		} else if ( e.target.classList.contains( "gsuiDrumrow-propSpan" ) ) {
+			this._dispatch( "propFilters", e.target.previousElementSibling.value );
 		}
 	}
 	_ondropRows( e ) {
