@@ -17,6 +17,7 @@ class gsuiSliderGroup {
 		this._min =
 		this._max =
 		this._exp =
+		this._step =
 		this._pxPerBeat = 0;
 		this._sliders = new Map();
 		this._selected = new Map();
@@ -51,9 +52,10 @@ class gsuiSliderGroup {
 		this._selected.clear();
 		this._valueSaved.clear();
 	}
-	minMaxExp( min, max, exp = 0 ) {
+	minMaxStep( min, max, step, exp = 0 ) {
 		this._min = min;
 		this._max = max;
+		this._step = step;
 		this._exp = exp;
 	}
 
@@ -88,6 +90,7 @@ class gsuiSliderGroup {
 	}
 
 	// data:
+	// .........................................................................
 	delete( id ) {
 		this._sliders.get( id ).element.remove();
 		this._sliders.delete( id );
@@ -116,9 +119,7 @@ class gsuiSliderGroup {
 	}
 
 	// private:
-	_formatValue( val ) {
-		return +val.toFixed( 2 );
-	}
+	// .........................................................................
 	_sliderWhen( sli, when ) {
 		sli.when = when;
 		sli.element.style.left = `${ when }em`;
@@ -144,11 +145,12 @@ class gsuiSliderGroup {
 			st = el.style,
 			max = this._max,
 			min = this._min,
-			valUp = val >= 0,
+			valR = +( Math.round( val / this._step ) * this._step ).toFixed( 8 ),
+			valUp = valR >= 0,
 			perc0 = Math.abs( min ) / ( max - min ) * 100,
-			percX = Math.abs( val ) / ( max - min ) * 100;
+			percX = Math.abs( valR ) / ( max - min ) * 100;
 
-		sli.roundValue = this._formatValue( val );
+		sli.value = valR;
 		st.height = `${ percX }%`;
 		st[ valUp ? "top" : "bottom" ] = "auto";
 		st[ valUp ? "bottom" : "top" ] = `${ perc0 }%`;
@@ -163,7 +165,7 @@ class gsuiSliderGroup {
 
 			this._bcr = bcr;
 			this._valueSaved.clear();
-			this._sliders.forEach( ( sli, id ) => this._valueSaved.set( id, sli.roundValue ) );
+			this._sliders.forEach( ( sli, id ) => this._valueSaved.set( id, sli.value ) );
 			this._evMouseup = this._mouseup.bind( this );
 			this._evMousemove = this._mousemove.bind( this );
 			document.addEventListener( "mouseup", this._evMouseup );
@@ -191,7 +193,6 @@ class gsuiSliderGroup {
 		} );
 		sliders.forEach( sli => {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.dur ) {
-				sli.realValue = realyval;
 				this._sliderValue( sli, realyval );
 			}
 		} );
@@ -205,9 +206,8 @@ class gsuiSliderGroup {
 		this._evMouseup =
 		this._evMousemove = null;
 		this._sliders.forEach( ( sli, id ) => {
-			if ( sli.roundValue !== this._valueSaved.get( id ) ) {
-				arr.push( [ id, sli.realValue ] );
-				delete sli.realValue;
+			if ( sli.value !== this._valueSaved.get( id ) ) {
+				arr.push( [ id, sli.value ] );
 			}
 		} );
 		if ( arr.length ) {
