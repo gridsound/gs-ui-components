@@ -169,6 +169,7 @@ class gsuiSliderGroup {
 			document.addEventListener( "mouseup", this._evMouseup );
 			document.addEventListener( "mousemove", this._evMousemove );
 			window.getSelection().removeAllRanges();
+			document.body.append( gsuiSliderGroup.dragLayer );
 			this._mousemove( e );
 		}
 	}
@@ -198,6 +199,7 @@ class gsuiSliderGroup {
 	_mouseup() {
 		const arr = [];
 
+		gsuiSliderGroup.dragLayer.remove();
 		document.removeEventListener( "mouseup", this._evMouseup );
 		document.removeEventListener( "mousemove", this._evMousemove );
 		this._evMouseup =
@@ -220,3 +222,5 @@ gsuiSliderGroup.template.removeAttribute( "id" );
 gsuiSliderGroup.sliderTemplate = document.querySelector( "#gsuiSliderGroup-slider-template" );
 gsuiSliderGroup.sliderTemplate.remove();
 gsuiSliderGroup.sliderTemplate.removeAttribute( "id" );
+gsuiSliderGroup.dragLayer = document.querySelector( "#gsuiSliderGroup-drag-layer" );
+gsuiSliderGroup.dragLayer.remove();

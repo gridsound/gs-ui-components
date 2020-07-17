@@ -7,7 +7,6 @@
 	--gsuiSliderGroup-loop-color: rgba( 150, 0, 0, .5 );
 }
 
-/* root / wrap */
 /* .......................................................................... */
 .gsuiSliderGroup {
 	height: 100%;
@@ -30,6 +29,17 @@
 	width: 1000000px;
 	height: 100%;
 	user-select: none;
+}
+
+/* .......................................................................... */
+#gsuiSliderGroup-drag-layer {
+	position: absolute;
+	z-index: 2147483647;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 /* slider */
