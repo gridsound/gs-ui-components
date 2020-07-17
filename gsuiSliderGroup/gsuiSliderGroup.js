@@ -114,8 +114,10 @@ class gsuiSliderGroup {
 	setProp( id, prop, value ) {
 		const sli = this._sliders.get( id );
 
-		sli[ prop ] = value;
-		this._uiFn[ prop ]( sli, value );
+		if ( sli ) {
+			sli[ prop ] = value;
+			this._uiFn[ prop ]( sli, value );
+		}
 	}
 
 	// private:
