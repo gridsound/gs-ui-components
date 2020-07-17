@@ -266,10 +266,10 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			slidGroup = this._uiSliderGroup;
 
 		switch ( nodeName ) {
-			case "pan":      slidGroup.minMaxExp( -1, 1 ); break;
-			case "gain":     slidGroup.minMaxExp(  0, 1 ); break;
-			case "lowpass":  slidGroup.minMaxExp(  0, 1, 3 ); break;
-			case "highpass": slidGroup.minMaxExp(  0, 1, 3 ); break;
+			case "pan":      slidGroup.minMaxStep( -1, 1, .02 ); break;
+			case "gain":     slidGroup.minMaxStep(  0, 1, .01 ); break;
+			case "lowpass":  slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
+			case "highpass": slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
 		}
 		this.__blcs.forEach( ( blc, id ) => {
 			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] );
