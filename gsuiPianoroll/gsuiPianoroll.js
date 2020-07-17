@@ -38,16 +38,18 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__sideContent.append( this.uiKeys.rootElement );
 		this.__onclickMagnet();
 		this._onchangeSlidersSelect();
-		uiSliderGroup.onchange = arr => {
-			const obj = {},
-				nodeName = this._slidersSelect.value;
+		uiSliderGroup.rootElement.addEventListener( "gsuiEvents", e => {
+			const arr = e.detail.args[ 0 ],
+				nodeName = this._slidersSelect.value,
+				obj = {};
 
 			arr.forEach( ( [ id, val ] ) => {
 				obj[ id ] = { [ nodeName ]: val };
 				this.data[ id ][ nodeName ] = val;
 			} );
 			this.onchange( obj );
-		};
+			e.stopPropagation();
+		} );
 		this.setPxPerBeat( 64 );
 	}
 
