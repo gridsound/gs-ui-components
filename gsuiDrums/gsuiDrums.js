@@ -46,6 +46,7 @@ class gsuiDrums {
 		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
 		this._onmouseupNew = this._onmouseupNew.bind( this );
 		this._mousemoveLines = this._mousemoveLines.bind( this );
+		this._dispatch = GSUtils.dispatchEvent.bind( null, root, "gsuiDrums" );
 		Object.seal( this );
 
 		root.oncontextmenu = e => e.preventDefault();
@@ -230,12 +231,6 @@ class gsuiDrums {
 			: el => el.classList.remove( "gsuiDrums-previewDeleted" ) );
 		this._previewsMap.clear();
 	}
-	_dispatch( eventName, ...args ) {
-		this.rootElement.dispatchEvent( new CustomEvent( "gsuiEvents", {
-			bubbles: true,
-			detail: { component: "gsuiDrums", eventName, args },
-		} ) );
-	}
 
 	// events:
 	// .........................................................................
@@ -280,7 +275,8 @@ class gsuiDrums {
 		if ( e.ctrlKey ) {
 			const elLines = this._elLines,
 				layerX = e.pageX - elLines.getBoundingClientRect().left + elLines.scrollLeft,
-				ppb = Math.round( Math.min( Math.max( 48, this._pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 128 ) );
+				mul = e.deltaY > 0 ? .9 : 1.1,
+				ppb = Math.round( Math.min( Math.max( 48, this._pxPerBeat * mul ), 128 ) );
 
 			this._scrollLeft =
 			elLines.scrollLeft += layerX / this._pxPerBeat * ( ppb - this._pxPerBeat );
@@ -309,14 +305,14 @@ class gsuiDrums {
 
 					this._hoverPageX = e.pageX;
 					this._hoveringStatus = elHover === this._elDrumHover ? "drum" : "drumcut";
-					if ( !this._currAction && elHover !== this._elHover ) {
+					if ( elHover !== this._elHover ) {
 						if ( this._elHover ) {
 							this._elHover.remove();
 						}
 						this._elHover = elHover;
 					}
 					this.__mousemoveLines();
-					if ( !this._currAction && this._elHover.parentNode !== elLine ) {
+					if ( this._elHover.parentNode !== elLine ) {
 						elLine.append( this._elHover );
 					}
 				} else if ( this._elHover ) {
@@ -328,8 +324,8 @@ class gsuiDrums {
 	__mousemoveLines() {
 		if ( this._hoveringStatus ) {
 			const el = this._elHover,
-				bcr = this._elLinesAbs.getBoundingClientRect(),
-				beat = ( ( this._hoverPageX - bcr.left ) / this._pxPerStep | 0 ) / this._stepsPerBeat;
+				left = this._elLinesAbs.getBoundingClientRect().left,
+				beat = ( ( this._hoverPageX - left ) / this._pxPerStep | 0 ) / this._stepsPerBeat;
 
 			this._hoverBeat = beat;
 			el.style.left = `${ beat * this._pxPerBeat }px`;
@@ -361,7 +357,8 @@ class gsuiDrums {
 		this._removePreviews( this._currAction.startsWith( "add" ) );
 		document.removeEventListener( "mousemove", this._mousemoveLines );
 		document.removeEventListener( "mouseup", this._onmouseupNew );
-		this._dispatch( "change", this._currAction, this._draggingRowId, this._draggingWhenStart, this._hoverBeat );
+		this._dispatch( "change", this._currAction, this._draggingRowId,
+			this._draggingWhenStart, this._hoverBeat );
 		this._currAction = "";
 		this._elLines.onmousemove = this._mousemoveLines;
 	}
