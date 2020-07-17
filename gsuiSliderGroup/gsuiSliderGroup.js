@@ -10,7 +10,6 @@ class gsuiSliderGroup {
 			elSlidersParent = root.querySelector( ".gsuiSliderGroup-sliders" ),
 			uiBeatlines = opts.beatlines && new gsuiBeatlines( elSlidersParent );
 
-		this.onchange = () => {};
 		this.rootElement = root;
 		this.scrollElement = elSlidersWrap;
 		this._uiBeatlines = uiBeatlines;
@@ -157,6 +156,7 @@ class gsuiSliderGroup {
 	}
 
 	// events:
+	// .........................................................................
 	_mousedown( e ) {
 		if ( !this._evMouseup ) {
 			const bcr = this._slidersParent.getBoundingClientRect();
@@ -168,6 +168,7 @@ class gsuiSliderGroup {
 			this._evMousemove = this._mousemove.bind( this );
 			document.addEventListener( "mouseup", this._evMouseup );
 			document.addEventListener( "mousemove", this._evMousemove );
+			window.getSelection().removeAllRanges();
 			this._mousemove( e );
 		}
 	}
@@ -208,7 +209,7 @@ class gsuiSliderGroup {
 			}
 		} );
 		if ( arr.length ) {
-			this.onchange( arr );
+			GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "change", arr );
 		}
 	}
 }
