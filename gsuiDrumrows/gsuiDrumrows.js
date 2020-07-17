@@ -20,6 +20,7 @@ class gsuiDrumrows {
 		this._dragoverId =
 		this._elDragover =
 		this._elLinesParent = null;
+		this._dispatch = GSUtils.dispatchEvent.bind( null, root, "gsuiDrumrows" );
 		Object.seal( this );
 
 		root.ondrop = this._ondropRows.bind( this );
@@ -155,12 +156,6 @@ class gsuiDrumrows {
 	_expandProps( id ) {
 		this._rows.get( id ).root.classList.toggle( "gsuiDrumrow-open" );
 		this._lines.get( id ).classList.toggle( "gsuiDrums-lineOpen" );
-	}
-	_dispatch( action, ...args ) {
-		this.rootElement.dispatchEvent( new CustomEvent( "gsuiEvents", {
-			bubbles: true,
-			detail: { component: "gsuiDrumrows", action, args },
-		} ) );
 	}
 
 	// events:
