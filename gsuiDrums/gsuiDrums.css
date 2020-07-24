@@ -79,7 +79,7 @@
 	transition: .2s height, .1s filter, .1s background-color;
 }
 .gsuiDrums-lineOpen {
-	height: calc( 1em + 48px );
+	height: calc( 1em + 64px );
 }
 .gsuiDrums-line.gsuiDrumrow-mute {
 	filter: brightness( .8 ) contrast( .8 );

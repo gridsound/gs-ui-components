@@ -34,7 +34,7 @@
 	--propsExpand-w: 16px;
 	--delete-w: 14px;
 	--slider-w: 7px;
-	--props-h: 48px;
+	--props-h: 64px;
 	position: relative;
 	box-sizing: border-box;
 	height: calc( 1em + 1px );
