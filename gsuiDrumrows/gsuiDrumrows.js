@@ -66,37 +66,48 @@ class gsuiDrumrows {
 		const elRow = gsuiDrumrows.templateRow.cloneNode( true ),
 			sliDetune = new gsuiSlider(),
 			sliGain = new gsuiSlider(),
+			sliPan = new gsuiSlider(),
 			html = {
 				root: elRow,
 				name: elRow.querySelector( ".gsuiDrumrow-name" ),
-				gain: sliGain,
 				detune: sliDetune,
+				gain: sliGain,
+				pan: sliPan,
 			};
 
 		elRow.dataset.id =
 		elLine.dataset.id = id;
 		sliDetune.options( { min: -12, max: 12, step: 1, value: 0, type: "linear-y", mousemoveSize: 400 } );
 		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
+		sliPan.options( { min: -1, max: 1, step: .02, value: 0, type: "linear-y", mousemoveSize: 400 } );
 		sliDetune.oninput = val => {
-			this._namePrint( id, `pitch: ${ val > 0 ? `+${ val }` : val }` );
+			this._namePrint( id, `pitch: ${ val > 0 ? '+' : '' }${ val }` );
 			this._dispatch( "liveChangeDrumrow", id, "detune", val );
 		};
 		sliGain.oninput = val => {
 			this._namePrint( id, `gain: ${ val.toFixed( 2 ) }` );
 			this._dispatch( "liveChangeDrumrow", id, "gain", val );
 		};
+		sliPan.oninput = val => {
+			this._namePrint( id, `pan: ${ val > 0 ? '+' : '' }${ val.toFixed( 2 ) }` );
+			this._dispatch( "liveChangeDrumrow", id, "pan", val );
+		};
 		sliDetune.onchange = this._onchangeRowSlider.bind( this, id, "detune" );
 		sliGain.onchange = this._onchangeRowSlider.bind( this, id, "gain" );
-		sliDetune.oninputend = this._oninputendRowSlider.bind( this, id );
-		sliGain.oninputend = this._oninputendRowSlider.bind( this, id );
+		sliPan.onchange = this._onchangeRowSlider.bind( this, id, "pan" );
+		sliDetune.oninputend =
+		sliGain.oninputend =
+		sliPan.oninputend = this._oninputendRowSlider.bind( this, id );
 		elRow.querySelector( ".gsuiDrumrow-detune" ).append( sliDetune.rootElement );
 		elRow.querySelector( ".gsuiDrumrow-gain" ).append( sliGain.rootElement );
+		elRow.querySelector( ".gsuiDrumrow-pan" ).append( sliPan.rootElement );
 		this._rows.set( id, html );
 		this._lines.set( id, elLine );
 		this.rootElement.append( elRow );
 		this._elLinesParent.append( elLine );
 		sliDetune.attached();
 		sliGain.attached();
+		sliPan.attached();
 	}
 	remove( id ) {
 		this._rows.get( id ).root.remove();
@@ -106,6 +117,7 @@ class gsuiDrumrows {
 	}
 	change( id, prop, val ) {
 		switch ( prop ) {
+			case "pan": this._changePan( id, val ); break;
 			case "name": this._changeName( id, val ); break;
 			case "gain": this._changeGain( id, val ); break;
 			case "order": this._changeOrder( id, val ); break;
@@ -114,6 +126,9 @@ class gsuiDrumrows {
 			case "pattern": this._changePattern( id, val ); break;
 			case "duration": this._changeDuration( id, val ); break;
 		}
+	}
+	_changePan( id, val ) {
+		this._rows.get( id ).pan.setValue( val );
 	}
 	_changeGain( id, val ) {
 		this._rows.get( id ).gain.setValue( val );
