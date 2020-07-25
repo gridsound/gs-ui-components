@@ -101,7 +101,7 @@
 	transition: .1s background-color, .2s opacity;
 }
 .gsuiDrumrow-propSpanValue {
-	font-size: 12px;
+	font-size: 14px;
 	font-family: var( --gsui-font-number );
 }
 .gsuiDrumrow-open .gsuiDrumrow-propSpan {
