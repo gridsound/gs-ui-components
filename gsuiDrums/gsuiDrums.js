@@ -55,12 +55,17 @@ class gsuiDrums {
 				dt = e.target.dataset;
 
 			if ( d.component === "gsuiSliderGroup" ) {
-				if ( d.eventName === "change" ) {
-					d.args.unshift( "changeDrumsProps", dt.currentProp );
-				} else if ( d.eventName === "input" ) {
-					d.args = [ dt.id, d.args[ 0 ], dt.currentProp, d.args[ 1 ] ];
-				} else if ( d.eventName === "inputEnd" ) {
-					d.args = [ dt.id, dt.currentProp ];
+				switch ( d.eventName ) {
+					case "change":
+						d.args.unshift( "changeDrumsProps", dt.currentProp );
+						break;
+					case "input":
+						this.changeDrumProp( d.args[ 0 ], dt.currentProp, d.args[ 1 ] );
+						d.args = [ dt.id, d.args[ 0 ], dt.currentProp, d.args[ 1 ] ];
+						break;
+					case "inputEnd":
+						d.args = [ dt.id, dt.currentProp ];
+						break;
 				}
 			}
 		} );
@@ -183,8 +188,28 @@ class gsuiDrums {
 		const rowId = this._drumsMap.get( id )[ 0 ],
 			grp = this._sliderGroups.get( rowId );
 
+		this.changeDrumProp( id, prop, val );
 		if ( prop === grp.rootElement.dataset.currentProp ) {
 			grp.setProp( id, "value", val );
+		}
+	}
+	changeDrumProp( id, prop, val ) {
+		const sel = `.gsuiDrums-drumProp[data-value="${ prop }"] .gsuiDrums-drumPropValue`,
+			st = this._drumsMap.get( id )[ 3 ].querySelector( sel ).style;
+
+		switch ( prop ) {
+			case "detune":
+				st.left = val > 0 ? "50%" : `${ ( 1 + val / 12 ) * 50 }%`;
+				st.width = `${ Math.abs( val / 12 ) * 50 }%`;
+				break;
+			case "pan":
+				st.left = val > 0 ? "50%" : `${ ( 1 + val ) * 50 }%`;
+				st.width = `${ Math.abs( val ) * 50 }%`;
+				break;
+			case "gain":
+				st.left = 0;
+				st.width = `${ val * 100 }%`;
+				break;
 		}
 	}
 	_addItem( id, itemType, item, template ) {
