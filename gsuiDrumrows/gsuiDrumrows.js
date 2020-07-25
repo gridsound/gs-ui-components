@@ -60,6 +60,22 @@ class gsuiDrumrows {
 	setPropFilter( id, prop ) {
 		this._rows.get( id ).root.querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"]` ).checked = true;
 	}
+	setDrumPropValue( rowId, prop, val ) {
+		const el = this._getPropBtn( rowId, prop ),
+			fixval = prop === "detune" ? val : val.toFixed( 2 ),
+			txtval = prop !== "gain"
+				? `${ val > 0 ? "+" : "" }${ fixval }`
+				: fixval;
+
+		el.classList.add( "gsuiDrumrow-propSpanValue" );
+		el.textContent = txtval;
+	}
+	removeDrumPropValue( rowId, prop ) {
+		const el = this._getPropBtn( rowId, prop );
+
+		el.classList.remove( "gsuiDrumrow-propSpanValue" );
+		el.textContent = prop;
+	}
 
 	// .........................................................................
 	add( id, elLine ) {
@@ -81,7 +97,7 @@ class gsuiDrumrows {
 		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
 		sliPan.options( { min: -1, max: 1, step: .02, value: 0, type: "linear-y", mousemoveSize: 400 } );
 		sliDetune.oninput = val => {
-			this._namePrint( id, `pitch: ${ val > 0 ? '+' : '' }${ val }` );
+			this._namePrint( id, `pitch: ${ val > 0 ? "+" : "" }${ val }` );
 			this._dispatch( "liveChangeDrumrow", id, "detune", val );
 		};
 		sliGain.oninput = val => {
@@ -89,7 +105,7 @@ class gsuiDrumrows {
 			this._dispatch( "liveChangeDrumrow", id, "gain", val );
 		};
 		sliPan.oninput = val => {
-			this._namePrint( id, `pan: ${ val > 0 ? '+' : '' }${ val.toFixed( 2 ) }` );
+			this._namePrint( id, `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }` );
 			this._dispatch( "liveChangeDrumrow", id, "pan", val );
 		};
 		sliDetune.onchange = this._onchangeRowSlider.bind( this, id, "detune" );
@@ -175,6 +191,10 @@ class gsuiDrumrows {
 	_expandProps( id ) {
 		this._rows.get( id ).root.classList.toggle( "gsuiDrumrow-open" );
 		this._lines.get( id ).classList.toggle( "gsuiDrums-lineOpen" );
+	}
+	_getPropBtn( rowId, prop ) {
+		return this._rows.get( rowId ).root
+			.querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"] + .gsuiDrumrow-propSpan` );
 	}
 
 	// events:
