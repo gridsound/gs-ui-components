@@ -122,6 +122,9 @@ class gsuiSliderGroup {
 
 	// private:
 	// .........................................................................
+	_roundVal( val ) {
+		return +( Math.round( val / this._step ) * this._step ).toFixed( 8 );
+	}
 	_sliderWhen( sli, when ) {
 		sli.when = when;
 		sli.element.style.left = `${ when }em`;
@@ -147,12 +150,12 @@ class gsuiSliderGroup {
 			st = el.style,
 			max = this._max,
 			min = this._min,
-			valR = +( Math.round( val / this._step ) * this._step ).toFixed( 8 ),
-			valUp = valR >= 0,
+			rval = this._roundVal( val ),
+			valUp = rval >= 0,
 			perc0 = Math.abs( min ) / ( max - min ) * 100,
-			percX = Math.abs( valR ) / ( max - min ) * 100;
+			percX = Math.abs( rval ) / ( max - min ) * 100;
 
-		sli.value = valR;
+		sli.value = rval;
 		st.height = `${ percX }%`;
 		st[ valUp ? "top" : "bottom" ] = "auto";
 		st[ valUp ? "bottom" : "top" ] = `${ perc0 }%`;
@@ -185,7 +188,7 @@ class gsuiSliderGroup {
 			y = e.pageY - this._bcr.top,
 			xval = x / this._pxPerBeat,
 			yval = Math.min( Math.max( 0, 1 - y / this._bcr.height ), 1 ),
-			realyval = yval * ( this._max - this._min ) + this._min;
+			rval = this._roundVal( yval * ( this._max - this._min ) + this._min );
 		let firstWhen = 0;
 
 		sliders.forEach( sli => {
@@ -195,7 +198,8 @@ class gsuiSliderGroup {
 		} );
 		sliders.forEach( sli => {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.dur ) {
-				this._sliderValue( sli, realyval );
+				this._sliderValue( sli, rval );
+				GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
 			}
 		} );
 	}
@@ -215,6 +219,7 @@ class gsuiSliderGroup {
 		if ( arr.length ) {
 			GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "change", arr );
 		}
+		GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "inputEnd" );
 	}
 }
 
