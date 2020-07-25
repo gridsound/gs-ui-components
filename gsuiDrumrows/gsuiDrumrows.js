@@ -74,7 +74,7 @@ class gsuiDrumrows {
 		const el = this._getPropBtn( rowId, prop );
 
 		el.classList.remove( "gsuiDrumrow-propSpanValue" );
-		el.textContent = prop;
+		el.textContent = prop === "detune" ? "pitch" : prop;
 	}
 
 	// .........................................................................
