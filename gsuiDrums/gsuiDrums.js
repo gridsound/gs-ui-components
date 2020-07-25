@@ -51,11 +51,17 @@ class gsuiDrums {
 		Object.seal( this );
 
 		root.addEventListener( "gsuiEvents", e => {
-			const d = e.detail;
+			const d = e.detail,
+				dt = e.target.dataset;
 
 			if ( d.component === "gsuiSliderGroup" ) {
-				d.eventName = "change";
-				d.args.unshift( "changeDrumsProps", e.target.dataset.currentProp );
+				if ( d.eventName === "change" ) {
+					d.args.unshift( "changeDrumsProps", dt.currentProp );
+				} else if ( d.eventName === "input" ) {
+					d.args = [ dt.id, d.args[ 0 ], dt.currentProp, d.args[ 1 ] ];
+				} else if ( d.eventName === "inputEnd" ) {
+					d.args = [ dt.id, dt.currentProp ];
+				}
 			}
 		} );
 		root.oncontextmenu = e => e.preventDefault();
@@ -169,6 +175,7 @@ class gsuiDrums {
 		elLine.querySelector( ".gsuiDrums-lineIn" ).style.fontSize = `${ this._pxPerBeat }px`;
 		elLine.querySelector( ".gsuiDrums-lineProps" ).append( grp.rootElement );
 		grp.setPxPerBeat( this._pxPerBeat );
+		grp.rootElement.dataset.id = id;
 		this._sliderGroups.set( id, grp );
 		return elLine;
 	}
