@@ -197,6 +197,12 @@
 	width: 100%;
 	height: 3px;
 	background-color: var( --gsuiDrums-drumprop-bg );
+	transition: .1s height;
+}
+.gsuiDrums-lineOpen[ data-prop="pan" ] .gsuiDrums-drumProp[ data-value="pan" ],
+.gsuiDrums-lineOpen[ data-prop="gain" ] .gsuiDrums-drumProp[ data-value="gain" ],
+.gsuiDrums-lineOpen[ data-prop="detune" ] .gsuiDrums-drumProp[ data-value="detune" ] {
+	height: 6px;
 }
 .gsuiDrums-drumProp + .gsuiDrums-drumProp {
 	margin-top: 2px;

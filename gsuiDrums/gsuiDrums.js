@@ -144,6 +144,7 @@ class gsuiDrums {
 	setPropValues( rowId, prop, arr ) {
 		const grp = this._sliderGroups.get( rowId );
 
+		this._qS( `line[data-id='${ rowId }']` ).dataset.prop = prop;
 		grp.rootElement.dataset.currentProp = prop;
 		switch ( prop ) {
 			case "pan": grp.minMaxStep( -1, 1, .05 ); break;
