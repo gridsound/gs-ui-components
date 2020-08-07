@@ -39,15 +39,17 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__onclickMagnet();
 		this._onchangeSlidersSelect();
 		uiSliderGroup.rootElement.addEventListener( "gsuiEvents", e => {
-			const arr = e.detail.args[ 0 ],
-				nodeName = this._slidersSelect.value,
-				obj = {};
+			if ( e.eventName === "change" ) {
+				const arr = e.detail.args[ 0 ],
+					nodeName = this._slidersSelect.value,
+					obj = {};
 
-			arr.forEach( ( [ id, val ] ) => {
-				obj[ id ] = { [ nodeName ]: val };
-				this.data[ id ][ nodeName ] = val;
-			} );
-			this.onchange( obj );
+				arr.forEach( ( [ id, val ] ) => {
+					obj[ id ] = { [ nodeName ]: val };
+					this.data[ id ][ nodeName ] = val;
+				} );
+				this.onchange( obj );
+			}
 			e.stopPropagation();
 		} );
 		this.setPxPerBeat( 64 );
