@@ -8,7 +8,6 @@ class gsuiWindows {
 		this._lowGraphics = false;
 		this.onopen =
 		this.onclose =
-		this._dragLayer =
 		this._mouseFnUp =
 		this._mouseFnMove =
 		this.focusedWindow = null;
@@ -55,13 +54,12 @@ class gsuiWindows {
 		this._mouseFnMove = fnMove;
 		document.addEventListener( "mouseup", this._mouseFnUp );
 		document.addEventListener( "mousemove", fnMove );
-		this._dragLayer.style.cursor = cursor;
-		this.rootElement.classList.add( "gsuiWindows-dragging" );
+		GSUI.dragshield.show( cursor );
 	}
 	_stopMousemoving( fnUp, e ) {
-		this.rootElement.classList.remove( "gsuiWindows-dragging" );
 		document.removeEventListener( "mouseup", this._mouseFnUp );
 		document.removeEventListener( "mousemove", this._mouseFnMove );
+		GSUI.dragshield.hide();
 		this._mouseFnUp =
 		this._mouseFnMove = null;
 		fnUp( e );
@@ -73,19 +71,13 @@ class gsuiWindows {
 		const el = this.rootElement;
 
 		if ( el ) {
-			this._dragLayer.remove();
 			el.classList.remove( "gsuiWindows", "gsuiWindows-lowGraphics" );
 		}
 	}
 	_attachTo( el ) {
-		const div = document.createElement( "div" );
-
 		this.rootElement = el;
-		this._dragLayer = div;
-		div.classList.add( "gsuiWindows-drag-layer" );
 		el.classList.add( "gsuiWindows" );
 		el.classList.toggle( "gsuiWindows-lowGraphics", this._lowGraphics );
-		el.prepend( div );
 	}
 	_open( win ) {
 		win.focus();
