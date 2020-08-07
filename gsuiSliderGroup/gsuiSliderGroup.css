@@ -31,17 +31,6 @@
 	user-select: none;
 }
 
-/* .......................................................................... */
-#gsuiSliderGroup-drag-layer {
-	position: absolute;
-	z-index: 2147483647;
-	cursor: pointer;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-
 /* slider */
 /* .......................................................................... */
 .gsuiSliderGroup-slider {
