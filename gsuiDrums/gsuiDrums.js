@@ -47,7 +47,7 @@ class gsuiDrums {
 		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
 		this._onmouseupNew = this._onmouseupNew.bind( this );
 		this._mousemoveLines = this._mousemoveLines.bind( this );
-		this._dispatch = GSUtils.dispatchEvent.bind( null, root, "gsuiDrums" );
+		this._dispatch = GSUI.dispatchEvent.bind( null, root, "gsuiDrums" );
 		Object.seal( this );
 
 		root.addEventListener( "gsuiEvents", e => {

@@ -199,7 +199,7 @@ class gsuiSliderGroup {
 		sliders.forEach( sli => {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.dur ) {
 				this._sliderValue( sli, rval );
-				GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
+				GSUI.dispatchEvent( this.rootElement, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
 			}
 		} );
 	}
@@ -217,9 +217,9 @@ class gsuiSliderGroup {
 			}
 		} );
 		if ( arr.length ) {
-			GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "change", arr );
+			GSUI.dispatchEvent( this.rootElement, "gsuiSliderGroup", "change", arr );
 		}
-		GSUtils.dispatchEvent( this.rootElement, "gsuiSliderGroup", "inputEnd" );
+		GSUI.dispatchEvent( this.rootElement, "gsuiSliderGroup", "inputEnd" );
 	}
 }
 

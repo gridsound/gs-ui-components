@@ -20,7 +20,7 @@ class gsuiDrumrows {
 		this._dragoverId =
 		this._elDragover =
 		this._elLinesParent = null;
-		this._dispatch = GSUtils.dispatchEvent.bind( null, root, "gsuiDrumrows" );
+		this._dispatch = GSUI.dispatchEvent.bind( null, root, "gsuiDrumrows" );
 		Object.seal( this );
 
 		root.ondrop = this._ondropRows.bind( this );
