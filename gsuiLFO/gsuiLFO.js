@@ -7,10 +7,10 @@ class gsuiLFO {
 			wave = new gsuiPeriodicWave(),
 			beatlines = new gsuiBeatlines( elWave ),
 			sliders = Object.freeze( {
-				delay: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-delay .gsuiLFO-propValue" ) ],
-				attack: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-attack .gsuiLFO-propValue" ) ],
-				speed: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-speed .gsuiLFO-propValue" ) ],
-				amp: [ new gsuiSlider(), root.querySelector( ".gsuiLFO-amp .gsuiLFO-propValue" ) ],
+				delay: [ root.querySelector( ".gsuiLFO-delay gsui-slider" ), root.querySelector( ".gsuiLFO-delay .gsuiLFO-propValue" ) ],
+				attack: [ root.querySelector( ".gsuiLFO-attack gsui-slider" ), root.querySelector( ".gsuiLFO-attack .gsuiLFO-propValue" ) ],
+				speed: [ root.querySelector( ".gsuiLFO-speed gsui-slider" ), root.querySelector( ".gsuiLFO-speed .gsuiLFO-propValue" ) ],
+				amp: [ root.querySelector( ".gsuiLFO-amp gsui-slider" ), root.querySelector( ".gsuiLFO-amp .gsuiLFO-propValue" ) ],
 			} );
 
 		this.rootElement = root;
@@ -42,10 +42,6 @@ class gsuiLFO {
 
 	// .........................................................................
 	attached() {
-		this._sliders.delay[ 0 ].attached();
-		this._sliders.attack[ 0 ].attached();
-		this._sliders.speed[ 0 ].attached();
-		this._sliders.amp[ 0 ].attached();
 		this._wave.attached();
 		this.resizing();
 	}
@@ -131,13 +127,11 @@ class gsuiLFO {
 		this._beatlines.pxPerBeat( this._waveWidth / this._dur );
 	}
 	_initSlider( prop, min, max, step ) {
-		const elWrap = this.rootElement.querySelector( `.gsuiLFO-${ prop } .gsuiLFO-propContent` ),
-			slider = this._sliders[ prop ][ 0 ];
+		const slider = this._sliders[ prop ][ 0 ];
 
 		slider.options( { type: "linear-x", min, max, step, mousemoveSize: 800 } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
 		slider.onchange = this._onchangeSlider.bind( this, prop );
-		elWrap.append( slider.rootElement );
 	}
 
 	// events:
