@@ -6,15 +6,12 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			sideTop = root.querySelector( ".gsuiPianoroll-sidePanelTop" ),
 			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
 			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
-			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
-			uiSliderGroup = new gsuiSliderGroup( { beatlines: true } );
+			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" );
 
 		super( root );
-		this._uiSliderGroup = uiSliderGroup;
+		this._uiSliderGroup = root.querySelector( "gsui-slidergroup" );
 		this._slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
 		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
-		uiSliderGroup.scrollElement.onscroll = this._onscrollSliderGroup.bind( this,
-			uiSliderGroup.scrollElement, this.__rowsContainer );
 		sideBottom.onresizing =
 		gridBottom.onresizing = panel => {
 			const topH = panel.previousElementSibling.style.height,
@@ -28,7 +25,6 @@ class gsuiPianoroll extends gsuiBlocksManager {
 				gridBottom.style.height = bottomH;
 			}
 		};
-		gridBottom.append( uiSliderGroup.rootElement );
 
 		this.data = this._proxyCreate();
 		this.uiKeys = new gsuiKeys();
@@ -38,8 +34,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__sideContent.append( this.uiKeys.rootElement );
 		this.__onclickMagnet();
 		this._onchangeSlidersSelect();
-		uiSliderGroup.rootElement.addEventListener( "gsuiEvents", e => {
-			if ( e.eventName === "change" ) {
+		root.addEventListener( "gsuiEvents", e => {
+			if ( e.detail.eventName === "change" ) {
 				const arr = e.detail.args[ 0 ],
 					nodeName = this._slidersSelect.value,
 					obj = {};
@@ -76,6 +72,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this.__gridPanelResized();
 	}
 	attached() {
+		this._uiSliderGroup.scrollElement.onscroll = this._onscrollSliderGroup.bind( this,
+			this._uiSliderGroup.scrollElement, this.__rowsContainer );
 		this.__attached();
 		this.scrollToMiddle();
 	}
