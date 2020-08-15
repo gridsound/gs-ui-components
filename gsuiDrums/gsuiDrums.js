@@ -145,7 +145,7 @@ class gsuiDrums {
 		const grp = this._sliderGroups.get( rowId );
 
 		this._qS( `line[data-id='${ rowId }']` ).dataset.prop = prop;
-		grp.rootElement.dataset.currentProp = prop;
+		grp.dataset.currentProp = prop;
 		switch ( prop ) {
 			case "pan": grp.minMaxStep( -1, 1, .05 ); break;
 			case "gain": grp.minMaxStep( 0, 1, .02 ); break;
@@ -157,7 +157,7 @@ class gsuiDrums {
 	// .........................................................................
 	addDrum( id, drum ) {
 		const grp = this._sliderGroups.get( drum.row ),
-			prop = grp.rootElement.dataset.currentProp;
+			prop = grp.dataset.currentProp;
 
 		this._addItem( id, "drum", drum, gsuiDrums.templateDrum );
 		grp.set( id, drum.when, 1 / this._stepsPerBeat, 0 );
@@ -176,12 +176,11 @@ class gsuiDrums {
 	}
 	createDrumrow( id ) {
 		const elLine = gsuiDrums.templateLine.cloneNode( true ),
-			grp = new gsuiSliderGroup();
+			grp = elLine.querySelector( "gsui-slidergroup" );
 
 		elLine.querySelector( ".gsuiDrums-lineIn" ).style.fontSize = `${ this._pxPerBeat }px`;
-		elLine.querySelector( ".gsuiDrums-lineProps" ).append( grp.rootElement );
 		grp.setPxPerBeat( this._pxPerBeat );
-		grp.rootElement.dataset.id = id;
+		grp.dataset.id = id;
 		this._sliderGroups.set( id, grp );
 		return elLine;
 	}
@@ -190,7 +189,7 @@ class gsuiDrums {
 			grp = this._sliderGroups.get( rowId );
 
 		this.changeDrumProp( id, prop, val );
-		if ( prop === grp.rootElement.dataset.currentProp ) {
+		if ( prop === grp.dataset.currentProp ) {
 			grp.setProp( id, "value", val );
 		}
 	}
