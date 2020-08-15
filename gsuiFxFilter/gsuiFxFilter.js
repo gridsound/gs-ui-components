@@ -6,15 +6,11 @@ class gsuiFxFilter {
 			elType = root.querySelector( ".gsuiFxFilter-areaType .gsuiFxFilter-area-content" ),
 			elGraph = root.querySelector( ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content" ),
 			uiCurves = new gsuiCurves(),
-			Q = new gsuiSlider(),
-			gain = new gsuiSlider(),
-			detune = new gsuiSlider(),
-			frequency = new gsuiSlider(),
 			uiSliders = new Map( [
-				[ "Q", Q ],
-				[ "gain", gain ],
-				[ "detune", detune ],
-				[ "frequency", frequency ],
+				[ "Q", root.querySelector( ".gsuiFxFilter-areaQ gsui-slider" ) ],
+				[ "gain", root.querySelector( ".gsuiFxFilter-areaGain gsui-slider" ) ],
+				[ "detune", root.querySelector( ".gsuiFxFilter-areaDetune gsui-slider" ) ],
+				[ "frequency", root.querySelector( ".gsuiFxFilter-areaFrequency gsui-slider" ) ],
 			] );
 
 		this.rootElement = root;
@@ -31,10 +27,10 @@ class gsuiFxFilter {
 
 		elType.onclick = this._onclickType.bind( this );
 		elGraph.append( uiCurves.rootElement );
-		this._initSlider( "areaQ", "Q", { type: "circular", min: .001, max: 25, step: .001 } );
-		this._initSlider( "areaGain", "gain", { type: "linear-y", min: -50, max: 50, step: .1 } );
-		this._initSlider( "areaDetune", "detune", { type: "circular", min: -12 * 100, max: 12 * 100, step: 10 } );
-		this._initSlider( "areaFrequency", "frequency", { type: "linear-x", min: 0, max: 1, step: .0001 }, this._frequencyPow.bind( this ) );
+		this._initSlider( "Q", { type: "circular", min: .001, max: 25, step: .001 } );
+		this._initSlider( "gain", { type: "linear-y", min: -50, max: 50, step: .1 } );
+		this._initSlider( "detune", { type: "circular", min: -12 * 100, max: 12 * 100, step: 10 } );
+		this._initSlider( "frequency", { type: "linear-x", min: 0, max: 1, step: .0001 }, this._frequencyPow.bind( this ) );
 	}
 
 	// .........................................................................
@@ -46,7 +42,6 @@ class gsuiFxFilter {
 	}
 	attached() {
 		this._attached = true;
-		this._uiSliders.forEach( sli => sli.attached() );
 		this._uiCurves.resized();
 		this.updateWave();
 	}
@@ -94,14 +89,12 @@ class gsuiFxFilter {
 	_frequencyPow( Hz ) {
 		return this._nyquist * ( 2 ** ( Hz * 11 - 11 ) );
 	}
-	_initSlider( area, prop, opt, fnValue = a => a ) {
-		const slider = this._uiSliders.get( prop ),
-			elArea = this.rootElement.querySelector( `.gsuiFxFilter-${ area } .gsuiFxFilter-area-content` );
+	_initSlider( prop, opt, fnValue = a => a ) {
+		const slider = this._uiSliders.get( prop );
 
 		slider.options( opt );
 		slider.oninput = val => this._oninputProp( prop, fnValue( val ) );
 		slider.onchange = val => this.onchange( prop, fnValue( val ) );
-		elArea.append( slider.rootElement );
 	}
 	_toggleTypeBtn( type, b ) {
 		this._elType.querySelector( `[data-type="${ type }"]` )

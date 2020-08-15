@@ -63,6 +63,10 @@
 	grid-area: frequency;
 	--gsuiSlider-lineColor: var( --gsuiFxDelay-frequency );
 }
+.gsuiFxFilter-areaQ gsui-slider,
+.gsuiFxFilter-areaDetune gsui-slider {
+	min-height: 40px;
+}
 
 /* .......................................................................... */
 .gsuiFxFilter-areaGain .gsuiSlider-eventCatcher,
