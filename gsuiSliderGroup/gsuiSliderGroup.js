@@ -24,7 +24,7 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 
 	connectedCallback() {
-		const withBeatlines = "beatlines" in this.dataset || "";
+		const withBeatlines = "beatlines" in this.dataset;
 
 		this._connected = true;
 		this.classList.add( "gsuiSliderGroup" );
@@ -96,9 +96,9 @@ class gsuiSliderGroup extends HTMLElement {
 		this._sliderSelectedClass();
 	}
 	set( id, when, duration, value ) {
-		const element = GSUI.createElement( "div", { class: "gsuiSliderGroup-slider" }, [
+		const element = GSUI.createElement( "div", { class: "gsuiSliderGroup-slider" },
 				GSUI.createElement( "div", { class: "gsuiSliderGroup-sliderInner" } )
-			] ),
+			),
 			sli = { element };
 
 		element._slider =
