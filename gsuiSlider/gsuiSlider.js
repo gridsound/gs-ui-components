@@ -4,23 +4,17 @@ class gsuiSlider extends HTMLElement {
 	constructor() {
 		super();
 		this.className = "gsuiSlider";
-		this.innerHTML = `
-			<input type="range" class="gsuiSlider-input"/>
-			<div class="gsuiSlider-line">
-				<div class="gsuiSlider-lineColor"></div>
-			</div>
-			<svg class="gsuiSlider-svg">
-				<circle class="gsuiSlider-svgLine"/>
-				<circle class="gsuiSlider-svgLineColor"/>
-			</svg>
-			<div class="gsuiSlider-eventCatcher"></div>
-		`;
-		this._elSvg = this.querySelector( ".gsuiSlider-svg" );
-		this._elLine = this.querySelector( ".gsuiSlider-line" );
-		this._elInput = this.querySelector( ".gsuiSlider-input" );
-		this._elSvgLine = this.querySelector( ".gsuiSlider-svgLine" );
-		this._elLineColor = this.querySelector( ".gsuiSlider-lineColor" );
-		this._elSvgLineColor = this.querySelector( ".gsuiSlider-svgLineColor" );
+		this.append(
+			this._elInput = GSUI.createElement( "input", { type: "range", class: "gsuiSlider-input" } ),
+			this._elLine = GSUI.createElement( "div", { class: "gsuiSlider-line" },
+				this._elLineColor = GSUI.createElement( "div", { class: "gsuiSlider-lineColor" } ),
+			),
+			this._elSvg = GSUI.createElementNS( "svg", { class: "gsuiSlider-svg" },
+				this._elSvgLine = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLine" } ),
+				this._elSvgLineColor = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLineColor" } ),
+			),
+			GSUI.createElement( "div", { class: "gsuiSlider-eventCatcher" } ),
+		);
 		this._options = Object.seal( {
 			value: 0, min: 0, max: 0, step: 0, mousemoveSize: 0,
 			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
