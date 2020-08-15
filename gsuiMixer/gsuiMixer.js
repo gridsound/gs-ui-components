@@ -39,10 +39,6 @@ class gsuiMixer {
 
 		this._attached = true;
 		pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
-		Object.entries( this._chans ).forEach( ( [ id, html ] ) => {
-			html.pan.attached();
-			html.gain.attached();
-		} );
 		this.resized();
 	}
 	resized() {
@@ -77,8 +73,8 @@ class gsuiMixer {
 	addChannel( id, chan ) {
 		const root = gsuiMixer.channelTemplate.cloneNode( true ),
 			qs = n => root.querySelector( `.gsuiMixerChannel-${ n }` ),
-			pan = new gsuiSlider(),
-			gain = new gsuiSlider(),
+			pan = qs( "pan gsui-slider" ),
+			gain = qs( "gain gsui-slider" ),
 			canvas = qs( "analyser" ),
 			html = { root, pan, gain,
 				name: qs( "name" ),
@@ -89,8 +85,6 @@ class gsuiMixer {
 
 		this._chans[ id ] = html;
 		root.dataset.id = id;
-		qs( "pan" ).append( pan.rootElement );
-		qs( "gain" ).append( gain.rootElement );
 		html.analyser.setCanvas( canvas );
 		pan.options( { min: -1, max: 1, step: .02, type: "circular", mousemoveSize: 800, strokeWidth: 3 } );
 		gain.options( { min: 0, max: 1, step: .01, type: "linear-y", mousemoveSize: 400 } );
@@ -105,8 +99,6 @@ class gsuiMixer {
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this._chanSelected, id );
 		( id === "main" ? this._pmain : this._pchans ).append( root );
 		if ( this._attached ) {
-			pan.attached();
-			gain.attached();
 			if ( !this._analyserW ) {
 				this.resized();
 			}
