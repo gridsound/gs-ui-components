@@ -11,19 +11,19 @@ const GSUI = {
 		} ) );
 	},
 
-	createElement( tag, props, children ) {
-		const el = document.createElement( tag );
-
+	createElement( tag, props, ...children ) {
+		return GSUI._createElement( document.createElement( tag ), props, children );
+	},
+	createElementNS( tag, props, ...children ) {
+		return GSUI._createElement( document.createElementNS( "http://www.w3.org/2000/svg", tag ), props, children );
+	},
+	_createElement( el, props, children ) {
 		Object.entries( props ).forEach( ( [ p, val ] ) => {
 			if ( val || val === "" ) {
 				el.setAttribute( p, val );
 			}
 		} );
-		if ( Array.isArray( children ) ) {
-			el.append( ...children.filter( Boolean ) );
-		} else if ( children ) {
-			el.append( children );
-		}
+		el.append( ...children.flat( 1 ).filter( Boolean ) );
 		return el;
 	},
 };
