@@ -1,17 +1,26 @@
 "use strict";
 
-class gsuiSlider {
+class gsuiSlider extends HTMLElement {
 	constructor() {
-		const root = gsuiSlider.template.cloneNode( true ),
-			qs = c => root.querySelector( `.gsuiSlider-${ c }` );
-
-		this.rootElement = root;
-		this._elSvg = qs( "svg" );
-		this._elLine = qs( "line" );
-		this._elInput = qs( "input" );
-		this._elSvgLine = qs( "svgLine" );
-		this._elLineColor = qs( "lineColor" );
-		this._elSvgLineColor = qs( "svgLineColor" );
+		super();
+		this.className = "gsuiSlider";
+		this.innerHTML = `
+			<input type="range" class="gsuiSlider-input"/>
+			<div class="gsuiSlider-line">
+				<div class="gsuiSlider-lineColor"></div>
+			</div>
+			<svg class="gsuiSlider-svg">
+				<circle class="gsuiSlider-svgLine"/>
+				<circle class="gsuiSlider-svgLineColor"/>
+			</svg>
+			<div class="gsuiSlider-eventCatcher"></div>
+		`;
+		this._elSvg = this.querySelector( ".gsuiSlider-svg" );
+		this._elLine = this.querySelector( ".gsuiSlider-line" );
+		this._elInput = this.querySelector( ".gsuiSlider-input" );
+		this._elSvgLine = this.querySelector( ".gsuiSlider-svgLine" );
+		this._elLineColor = this.querySelector( ".gsuiSlider-lineColor" );
+		this._elSvgLineColor = this.querySelector( ".gsuiSlider-svgLineColor" );
 		this._options = Object.seal( {
 			value: 0, min: 0, max: 0, step: 0, mousemoveSize: 0,
 			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
@@ -26,7 +35,7 @@ class gsuiSlider {
 		this._circ =
 		this._axeX =
 		this._locked =
-		this._attached = false;
+		this._connected = false;
 		this.width =
 		this.height =
 		this._pxval =
@@ -34,26 +43,29 @@ class gsuiSlider {
 		this._svgLineLen = 0;
 		Object.seal( this );
 
-		root._gsuiSlider_instance = this;
-		root.onwheel = this._wheel.bind( this );
-		root.onmouseup = this._mouseup.bind( this );
-		root.onmousedown = this._mousedown.bind( this );
-		root.onmousemove = this._mousemove.bind( this );
-		root.onmouseleave = this._mouseleave.bind( this );
+		this.onwheel = this._wheel.bind( this );
+		this.onmouseup = this._mouseup.bind( this );
+		this.onmousedown = this._mousedown.bind( this );
+		this.onmousemove = this._mousemove.bind( this );
+		this.onmouseleave = this._mouseleave.bind( this );
 		this.options( {
 			value: 0, min: 0, max: 100, step: 1,
 			type: "linear-x", scrollStep: 1, strokeWidth: 4, wheelChange: false,
 		} );
 	}
 
-	remove() {
-		this._attached = false;
-		this.rootElement.remove();
+	connectedCallback() {
+		const brc = this.getBoundingClientRect();
+
+		this._connected = true;
+		if ( brc.width !== this.width || brc.height !== this.height ) {
+			this.width = brc.width;
+			this.height = brc.height;
+			this._setSVGcirc();
+			this._updateVal();
+		}
 	}
-	attached() {
-		this._attached = true;
-		this.resized();
-	}
+
 	options( obj ) {
 		const inp = this._elInput,
 			opt = Object.assign( this._options, obj );
@@ -93,34 +105,20 @@ class gsuiSlider {
 	}
 	enable( b ) {
 		this._enable = b;
-		this.rootElement.classList.toggle( "gsuiSlider-disable", !b );
-	}
-	resized() {
-		const rc = this.rootElement.getBoundingClientRect();
-
-		this.resize( rc.width, rc.height );
-	}
-	resize( w, h ) {
-		if ( w !== this.width || h !== this.height ) {
-			this.width = w;
-			this.height = h;
-			this._setSVGcirc();
-			this._updateVal();
-		}
+		this.classList.toggle( "gsuiSlider-disable", !b );
 	}
 
 	// private:
 	// .........................................................................
 	_setType( type ) {
-		const cl = this.rootElement.classList,
-			st = this._elLineColor.style,
+		const st = this._elLineColor.style,
 			circ = type === "circular",
 			axeX = type === "linear-x";
 
 		this._circ = circ;
 		this._axeX = axeX;
-		cl.toggle( "gsuiSlider-circular", circ );
-		cl.toggle( "gsuiSlider-linear", !circ );
+		this.classList.toggle( "gsuiSlider-circular", circ );
+		this.classList.toggle( "gsuiSlider-linear", !circ );
 		if ( !circ ) {
 			if ( axeX ) {
 				st.left =
@@ -173,7 +171,7 @@ class gsuiSlider {
 	}
 	_updateVal() {
 		this.value = +this._getInputVal();
-		if ( this._attached ) {
+		if ( this._connected ) {
 			const len = this._getRange(),
 				prcval = ( this.value - this._options.min ) / len,
 				prcstart = -this._options.min / len,
@@ -225,7 +223,7 @@ class gsuiSlider {
 			}
 			this._pxval = this._getRange() / this._getMousemoveSize();
 			this._pxmoved = 0;
-			this.rootElement.requestPointerLock();
+			this.requestPointerLock();
 		}
 	}
 	_mousemove( e ) {
@@ -255,19 +253,15 @@ class gsuiSlider {
 	}
 }
 
-gsuiSlider.template = document.querySelector( "#gsuiSlider-template" );
-gsuiSlider.template.remove();
-gsuiSlider.template.removeAttribute( "id" );
+customElements.define( "gsui-slider", gsuiSlider );
 
 document.addEventListener( "pointerlockchange", () => {
 	const el = document.pointerLockElement;
 
 	if ( el ) {
-		const slider = el._gsuiSlider_instance;
-
-		if ( slider ) {
-			slider._locked = true;
-			gsuiSlider._focused = slider;
+		if ( el.classList.contains( "gsuiSlider" ) ) {
+			el._locked = true;
+			gsuiSlider._focused = el;
 		}
 	} else if ( gsuiSlider._focused ) {
 		gsuiSlider._focused._mouseup();
