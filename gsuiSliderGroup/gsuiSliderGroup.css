@@ -9,9 +9,10 @@
 
 /* .......................................................................... */
 .gsuiSliderGroup {
-	height: 100%;
+	display: block;
 	position: relative;
 	overflow: hidden;
+	height: 100%;
 }
 .gsuiSliderGroup-slidersWrap {
 	position: absolute;

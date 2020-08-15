@@ -1,19 +1,8 @@
 "use strict";
 
-class gsuiSliderGroup {
-	constructor( opts = {} ) {
-		const root = gsuiSliderGroup.template.cloneNode( true ),
-			elLoopA = root.querySelector( ".gsuiSliderGroup-loopA" ),
-			elLoopB = root.querySelector( ".gsuiSliderGroup-loopB" ),
-			elCurrentTime = root.querySelector( ".gsuiSliderGroup-currentTime" ),
-			elSlidersWrap = root.querySelector( ".gsuiSliderGroup-slidersWrap" ),
-			elSlidersParent = root.querySelector( ".gsuiSliderGroup-sliders" ),
-			uiBeatlines = opts.beatlines && new gsuiBeatlines( elSlidersParent );
-
-		this.rootElement = root;
-		this.scrollElement = elSlidersWrap;
-		this._uiBeatlines = uiBeatlines;
-		this._slidersParent = elSlidersParent;
+class gsuiSliderGroup extends HTMLElement {
+	constructor() {
+		super();
 		this._min =
 		this._max =
 		this._exp =
@@ -32,18 +21,29 @@ class gsuiSliderGroup {
 			duration: this._sliderDuration.bind( this ),
 			selected: this._sliderSelected.bind( this ),
 		} );
-		if ( opts.beatlines ) {
-			this._loopA = elLoopA;
-			this._loopB = elLoopB;
-			this._currentTime = elCurrentTime;
-		} else {
-			elLoopA.remove();
-			elLoopB.remove();
-			elCurrentTime.remove();
+	}
+
+	connectedCallback() {
+		const withBeatlines = "beatlines" in this.dataset || "";
+
+		this._connected = true;
+		this.classList.add( "gsuiSliderGroup" );
+		this.append(
+			this.scrollElement = GSUI.createElement( "div", { class: "gsuiSliderGroup-slidersWrap" },
+				this._slidersParent = GSUI.createElement( "div", { class: "gsuiSliderGroup-sliders" }, withBeatlines && [
+					this._currentTime = GSUI.createElement( "div", { class: "gsuiSliderGroup-currentTime" } ),
+					this._loopA = GSUI.createElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),
+					this._loopB = GSUI.createElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopB" } ),
+				] )
+			)
+		);
+		if ( withBeatlines ) {
+			this._uiBeatlines = new gsuiBeatlines( this._slidersParent );
 		}
 		Object.seal( this );
 
-		elSlidersParent.onmousedown = this._mousedown.bind( this );
+		this._updatePxPerBeat();
+		this._slidersParent.onmousedown = this._mousedown.bind( this );
 	}
 
 	empty() {
@@ -80,11 +80,8 @@ class gsuiSliderGroup {
 
 		if ( ppb !== this._pxPerBeat ) {
 			this._pxPerBeat = ppb;
-			this._slidersParent.style.fontSize = `${ ppb }px`;
-			if ( this._uiBeatlines ) {
-				this._uiBeatlines.pxPerBeat( ppb );
-				clearTimeout( this._renderTimeoutId );
-				this._renderTimeoutId = setTimeout( () => this._uiBeatlines.render(), 100 );
+			if ( this._connected ) {
+				this._updatePxPerBeat();
 			}
 		}
 	}
@@ -99,7 +96,9 @@ class gsuiSliderGroup {
 		this._sliderSelectedClass();
 	}
 	set( id, when, duration, value ) {
-		const element = gsuiSliderGroup.sliderTemplate.cloneNode( true ),
+		const element = GSUI.createElement( "div", { class: "gsuiSliderGroup-slider" }, [
+				GSUI.createElement( "div", { class: "gsuiSliderGroup-sliderInner" } )
+			] ),
 			sli = { element };
 
 		element._slider =
@@ -124,6 +123,14 @@ class gsuiSliderGroup {
 	// .........................................................................
 	_roundVal( val ) {
 		return +( Math.round( val / this._step ) * this._step ).toFixed( 8 );
+	}
+	_updatePxPerBeat() {
+		this._slidersParent.style.fontSize = `${ this._pxPerBeat }px`;
+		if ( this._uiBeatlines ) {
+			this._uiBeatlines.pxPerBeat( this._pxPerBeat );
+			clearTimeout( this._renderTimeoutId );
+			this._renderTimeoutId = setTimeout( () => this._uiBeatlines.render(), 100 );
+		}
 	}
 	_sliderWhen( sli, when ) {
 		sli.when = when;
@@ -199,7 +206,7 @@ class gsuiSliderGroup {
 		sliders.forEach( sli => {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.dur ) {
 				this._sliderValue( sli, rval );
-				GSUI.dispatchEvent( this.rootElement, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
+				GSUI.dispatchEvent( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
 			}
 		} );
 	}
@@ -217,15 +224,10 @@ class gsuiSliderGroup {
 			}
 		} );
 		if ( arr.length ) {
-			GSUI.dispatchEvent( this.rootElement, "gsuiSliderGroup", "change", arr );
+			GSUI.dispatchEvent( this, "gsuiSliderGroup", "change", arr );
 		}
-		GSUI.dispatchEvent( this.rootElement, "gsuiSliderGroup", "inputEnd" );
+		GSUI.dispatchEvent( this, "gsuiSliderGroup", "inputEnd" );
 	}
 }
 
-gsuiSliderGroup.template = document.querySelector( "#gsuiSliderGroup-template" );
-gsuiSliderGroup.template.remove();
-gsuiSliderGroup.template.removeAttribute( "id" );
-gsuiSliderGroup.sliderTemplate = document.querySelector( "#gsuiSliderGroup-slider-template" );
-gsuiSliderGroup.sliderTemplate.remove();
-gsuiSliderGroup.sliderTemplate.removeAttribute( "id" );
+customElements.define( "gsui-slidergroup", gsuiSliderGroup );
