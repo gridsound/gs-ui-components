@@ -80,9 +80,9 @@ class gsuiDrumrows {
 	// .........................................................................
 	add( id, elLine ) {
 		const elRow = gsuiDrumrows.templateRow.cloneNode( true ),
-			sliDetune = new gsuiSlider(),
-			sliGain = new gsuiSlider(),
-			sliPan = new gsuiSlider(),
+			sliDetune = elRow.querySelector( ".gsuiDrumrow-detune gsui-slider" ),
+			sliGain = elRow.querySelector( ".gsuiDrumrow-gain gsui-slider" ),
+			sliPan = elRow.querySelector( ".gsuiDrumrow-pan gsui-slider" ),
 			html = {
 				root: elRow,
 				name: elRow.querySelector( ".gsuiDrumrow-name" ),
@@ -114,16 +114,10 @@ class gsuiDrumrows {
 		sliDetune.oninputend =
 		sliGain.oninputend =
 		sliPan.oninputend = this._oninputendRowSlider.bind( this, id );
-		elRow.querySelector( ".gsuiDrumrow-detune" ).append( sliDetune.rootElement );
-		elRow.querySelector( ".gsuiDrumrow-gain" ).append( sliGain.rootElement );
-		elRow.querySelector( ".gsuiDrumrow-pan" ).append( sliPan.rootElement );
 		this._rows.set( id, html );
 		this._lines.set( id, elLine );
 		this.rootElement.append( elRow );
 		this._elLinesParent.append( elLine );
-		sliDetune.attached();
-		sliGain.attached();
-		sliPan.attached();
 	}
 	remove( id ) {
 		this._rows.get( id ).root.remove();
