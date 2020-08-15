@@ -46,9 +46,6 @@ class gsuiOscillator {
 	attached() {
 		this._waves[ 0 ].attached();
 		this._waves[ 1 ].attached();
-		this._sliders.pan[ 0 ].attached();
-		this._sliders.gain[ 0 ].attached();
-		this._sliders.detune[ 0 ].attached();
 	}
 	addWaves( arr ) {
 		const opts = [];
@@ -106,15 +103,12 @@ class gsuiOscillator {
 
 	// .........................................................................
 	_initSlider( prop, min, max, step ) {
-		const slider = new gsuiSlider(),
-			sel = `.gsuiOscillator-${ prop } .gsuiOscillator-slider`,
-			elValue = this.rootElement.querySelector( `${ sel }Value` ),
-			elSliderWrap = this.rootElement.querySelector( `${ sel }Wrap` );
+		const slider = this.rootElement.querySelector( `.gsuiOscillator-${ prop } .gsuiOscillator-sliderWrap gsui-slider` ),
+			elValue = this.rootElement.querySelector( `.gsuiOscillator-${ prop } .gsuiOscillator-sliderValue` );
 
 		slider.options( { type: "circular", min, max, step, mousemoveSize: 800 } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
 		slider.onchange = val => this.onchange( "changeOscillator", prop, val );
-		elSliderWrap.append( slider.rootElement );
 		return Object.freeze( [ slider, elValue ] );
 	}
 
