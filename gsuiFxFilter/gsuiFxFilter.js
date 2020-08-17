@@ -27,10 +27,10 @@ class gsuiFxFilter {
 
 		elType.onclick = this._onclickType.bind( this );
 		elGraph.append( uiCurves.rootElement );
-		this._initSlider( "Q", { type: "circular", min: .001, max: 25, step: .001 } );
-		this._initSlider( "gain", { type: "linear-y", min: -50, max: 50, step: .1 } );
-		this._initSlider( "detune", { type: "circular", min: -12 * 100, max: 12 * 100, step: 10 } );
-		this._initSlider( "frequency", { type: "linear-x", min: 0, max: 1, step: .0001 }, this._frequencyPow.bind( this ) );
+		this._initSlider( "Q" );
+		this._initSlider( "gain" );
+		this._initSlider( "detune" );
+		this._initSlider( "frequency", this._frequencyPow.bind( this ) );
 	}
 
 	// .........................................................................
@@ -89,10 +89,9 @@ class gsuiFxFilter {
 	_frequencyPow( Hz ) {
 		return this._nyquist * ( 2 ** ( Hz * 11 - 11 ) );
 	}
-	_initSlider( prop, opt, fnValue = a => a ) {
+	_initSlider( prop, fnValue = a => a ) {
 		const slider = this._uiSliders.get( prop );
 
-		slider.options( opt );
 		slider.oninput = val => this._oninputProp( prop, fnValue( val ) );
 		slider.onchange = val => this.onchange( prop, fnValue( val ) );
 	}
