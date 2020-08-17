@@ -1,18 +1,17 @@
 .gsuiSynthesizer {
-	overflow: hidden;
+	overflow: auto;
 	position: relative;
 	box-sizing: border-box;
 	color: var( --gsuiSynthesizer-color );
+	scrollbar-width: thin;
+	scrollbar-color: #ddd #222;
 }
 
 /* .......................................................................... */
 .gsuiSynthesizer-head {
-	position: absolute;
 	display: flex;
 	align-items: center;
 	padding-right: calc( 8px + 8px );
-	left: 0;
-	right: 0;
 	font-size: 14px;
 	line-height: 1em;
 	user-select: none;
@@ -36,31 +35,18 @@
 
 /* .......................................................................... */
 .gsuiSynthesizer-lfo {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+	height: 118px;
 }
 
 /* .......................................................................... */
 .gsuiSynthesizer-headOscs {
-	top: calc( var( --gsuiLFO-h ) );
 	height: 24px;
 }
 .gsuiSynthesizer-oscList {
-	position: absolute;
-	top: calc( var( --gsuiLFO-h ) + 24px );
-	left: 0;
-	right: 0;
-	bottom: 0;
 	display: grid;
-	overflow-x: hidden;
-	overflow-y: scroll;
 	grid-auto-flow: row;
 	grid-auto-rows: min-content;
 	counter-reset: count-osc;
-	scrollbar-width: thin;
-	scrollbar-color: #ddd #222;
 	background-color: var( --gsuiSynthesizer-bg );
 }
 
