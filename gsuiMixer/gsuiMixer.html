@@ -16,8 +16,8 @@
 		<canvas class="gsuiMixerChannel-analyser"></canvas>
 	</div>
 	<button class="gsuiMixerChannel-toggle gsuiIcon" data-icon="toggle"></button>
-	<div class="gsuiMixerChannel-pan"><gsui-slider></gsui-slider></div>
-	<div class="gsuiMixerChannel-gain"><gsui-slider></gsui-slider></div>
+	<div class="gsuiMixerChannel-pan"><gsui-slider type="circular" min="-1" max="1" step=".02" mousemove-size="800" stroke-width="3"></gsui-slider></div>
+	<div class="gsuiMixerChannel-gain"><gsui-slider type="linear-y" min="0" max="1" step=".01" mousemove-size="400"></gsui-slider></div>
 	<button class="gsuiMixerChannel-connect">
 		<i class="gsuiMixerChannel-connectA gsuiIcon" data-icon="caret-up"></i>
 		<i class="gsuiMixerChannel-connectB gsuiIcon" data-icon="caret-up"></i>

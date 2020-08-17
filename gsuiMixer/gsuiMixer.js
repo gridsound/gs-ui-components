@@ -86,8 +86,6 @@ class gsuiMixer {
 		this._chans[ id ] = html;
 		root.dataset.id = id;
 		html.analyser.setCanvas( canvas );
-		pan.options( { min: -1, max: 1, step: .02, type: "circular", mousemoveSize: 800, strokeWidth: 3 } );
-		gain.options( { min: 0, max: 1, step: .01, type: "linear-y", mousemoveSize: 400 } );
 		pan.oninput = val => this.oninput( id, "pan", val );
 		gain.oninput = val => this.oninput( id, "gain", val );
 		pan.onchange = val => this.onchange( "changeChannel", id, "pan", val );
