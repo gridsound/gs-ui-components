@@ -1,10 +1,6 @@
-:root {
-	--gsuiLFO-h: 118px;
-}
-
 .gsuiLFO {
 	display: grid;
-	min-height: var( --gsuiLFO-h );
+	height: 100%;
 	box-sizing: border-box;
 	grid-gap: 6px;
 	padding-bottom: 8px;
