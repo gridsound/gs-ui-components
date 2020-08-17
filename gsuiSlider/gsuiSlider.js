@@ -3,29 +3,22 @@
 class gsuiSlider extends HTMLElement {
 	constructor() {
 		super();
-		this.className = "gsuiSlider";
-		this.append(
-			this._elInput = GSUI.createElement( "input", { type: "range", class: "gsuiSlider-input" } ),
-			this._elLine = GSUI.createElement( "div", { class: "gsuiSlider-line" },
-				this._elLineColor = GSUI.createElement( "div", { class: "gsuiSlider-lineColor" } ),
-			),
-			this._elSvg = GSUI.createElementNS( "svg", { class: "gsuiSlider-svg" },
-				this._elSvgLine = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLine" } ),
-				this._elSvgLineColor = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLineColor" } ),
-			),
-			GSUI.createElement( "div", { class: "gsuiSlider-eventCatcher" } ),
-		);
-		this._options = Object.seal( {
-			value: 0, min: 0, max: 0, step: 0, mousemoveSize: 0,
-			type: "", scrollStep: 0, strokeWidth: 0, wheelChange: false,
-		} );
-		this.value =
-		this._previousval = "";
-		this._enable = true;
+		this._min = 0;
+		this._max = 100;
+		this._step = 1;
+		this._scrollStep = 1;
+		this._wheelChange = false;
+		this._mousemoveSize = 0;
+		this._strokeWidth = 4;
+
 		this.oninput =
 		this.onchange =
 		this.oninputend =
 		this.oninputstart = null;
+
+		this.value =
+		this._previousval = "";
+		this._enable = true;
 		this._circ =
 		this._axeX =
 		this._locked =
@@ -35,52 +28,91 @@ class gsuiSlider extends HTMLElement {
 		this._pxval =
 		this._pxmoved =
 		this._svgLineLen = 0;
+		this._elInput = GSUI.createElement( "input", { type: "range", class: "gsuiSlider-input" } );
+		this._elLineColor = GSUI.createElement( "div", { class: "gsuiSlider-lineColor" } );
+		this._elSvg =
+		this._elLine =
+		this._elSvgLine =
+		this._elSvgLineColor = null;
 		Object.seal( this );
 
+		this.classList.add( "gsuiSlider" );
 		this.onwheel = this._wheel.bind( this );
 		this.onmouseup = this._mouseup.bind( this );
 		this.onmousedown = this._mousedown.bind( this );
 		this.onmousemove = this._mousemove.bind( this );
 		this.onmouseleave = this._mouseleave.bind( this );
-		this.options( {
-			value: 0, min: 0, max: 100, step: 1,
-			type: "linear-x", scrollStep: 1, strokeWidth: 4, wheelChange: false,
-		} );
 	}
 
+	// .........................................................................
 	connectedCallback() {
-		const brc = this.getBoundingClientRect();
+		if ( !this.firstChild ) {
+			const brc = this.getBoundingClientRect();
 
-		this._connected = true;
-		if ( brc.width !== this.width || brc.height !== this.height ) {
+			this.append(
+				this._elLine = GSUI.createElement( "div", { class: "gsuiSlider-line" },
+					this._elLineColor,
+				),
+				this._elSvg = GSUI.createElementNS( "svg", { class: "gsuiSlider-svg" },
+					this._elSvgLine = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLine" } ),
+					this._elSvgLineColor = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLineColor" } ),
+				),
+				GSUI.createElement( "div", { class: "gsuiSlider-eventCatcher" } ),
+			);
 			this.width = brc.width;
 			this.height = brc.height;
+			this._connected = true;
 			this._setSVGcirc();
 			this._updateVal();
 		}
 	}
-
-	options( obj ) {
-		const inp = this._elInput,
-			opt = Object.assign( this._options, obj );
-
-		opt.step = Math.max( 0, opt.step ) || this._getRange() / 10;
-		opt.scrollStep = Math.max( opt.step, opt.scrollStep || opt.step );
-		inp.min = opt.min;
-		inp.max = opt.max;
-		inp.step = opt.step;
-		if ( "value" in obj ) {
-			inp.value = opt.value;
-		}
-		this._previousval = this._getInputVal();
-		if ( "type" in obj ) {
-			this._setType( obj.type );
-		}
-		if ( "type" in obj || "strokeWidth" in obj ) {
-			this._setSVGcirc();
-		}
-		this._updateVal();
+	static get observedAttributes() {
+		return [ "type", "min", "max", "step", "scroll-step", "wheel-change", "mousemove-size", "stroke-width" ];
 	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			let updateVal;
+
+			switch ( prop ) {
+				case "type":
+					this._setType( val );
+					this._setSVGcirc();
+					updateVal = true;
+					break;
+				case "min":
+					this._elInput.min = this._min = +val;
+					updateVal = true;
+					break;
+				case "max":
+					this._elInput.max = this._max = +val;
+					updateVal = true;
+					break;
+				case "step":
+					this._elInput.step = this._step = +val;
+					updateVal = true;
+					break;
+				case "scroll-step":
+					this._scrollStep = +val;
+					break;
+				case "wheel-change":
+					this._wheelChange = typeof val === "string";
+					break;
+				case "mousemove-size":
+					this._mousemoveSize = +val;
+					break;
+				case "stroke-width":
+					this._strokeWidth = +val;
+					this._setSVGcirc();
+					break;
+			}
+			if ( updateVal ) {
+				this._previousval = this._getInputVal();
+				this._updateVal();
+			}
+		}
+	}
+
+	// .........................................................................
 	setValue( val, bymouse ) {
 		if ( !this._locked || bymouse ) {
 			const prevVal = this._getInputVal(),
@@ -131,8 +163,7 @@ class gsuiSlider extends HTMLElement {
 		if ( this._circ && this.width && this.height ) {
 			const size = Math.min( this.width, this.height ),
 				size2 = size / 2,
-				stroW = this._options.strokeWidth,
-				circR = ~~( ( size - stroW ) / 2 );
+				circR = ~~( ( size - this._strokeWidth ) / 2 );
 
 			this._elSvg.setAttribute( "viewBox", `0 0 ${ size } ${ size }` );
 			this._elSvgLine.setAttribute( "cx", size2 );
@@ -142,7 +173,7 @@ class gsuiSlider extends HTMLElement {
 			this._elSvgLineColor.setAttribute( "cy", size2 );
 			this._elSvgLineColor.setAttribute( "r", circR );
 			this._elSvgLine.style.strokeWidth =
-			this._elSvgLineColor.style.strokeWidth = stroW;
+			this._elSvgLineColor.style.strokeWidth = this._strokeWidth;
 			this._svgLineLen = circR * 2 * Math.PI;
 		}
 	}
@@ -152,10 +183,10 @@ class gsuiSlider extends HTMLElement {
 		return Math.abs( +val ) < .000001 ? "0" : val;
 	}
 	_getRange() {
-		return this._options.max - this._options.min;
+		return this._max - this._min;
 	}
 	_getMousemoveSize() {
-		return this._options.mousemoveSize || (
+		return this._mousemoveSize || (
 			this._circ
 				? this._svgLineLen
 				: this._axeX
@@ -167,8 +198,8 @@ class gsuiSlider extends HTMLElement {
 		this.value = +this._getInputVal();
 		if ( this._connected ) {
 			const len = this._getRange(),
-				prcval = ( this.value - this._options.min ) / len,
-				prcstart = -this._options.min / len,
+				prcval = ( this.value - this._min ) / len,
+				prcstart = -this._min / len,
 				prclen = Math.abs( prcval - prcstart ),
 				prcmin = Math.min( prcval, prcstart );
 
@@ -202,10 +233,10 @@ class gsuiSlider extends HTMLElement {
 	// events:
 	// .........................................................................
 	_wheel( e ) {
-		if ( this._enable && this._options.wheelChange ) {
+		if ( this._enable && this._wheelChange ) {
 			const d = e.deltaY > 0 ? -1 : 1;
 
-			this.setValue( +this._getInputVal() + this._options.scrollStep * d, true );
+			this.setValue( +this._getInputVal() + this._scrollStep * d, true );
 			return false;
 		}
 	}
@@ -226,7 +257,7 @@ class gsuiSlider extends HTMLElement {
 				mov = this._circ || !this._axeX ? -e.movementY : e.movementX,
 				val = +this._previousval + ( this._pxmoved + mov ) * this._pxval;
 
-			if ( this._options.min - bound < val && val < this._options.max + bound ) {
+			if ( this._min - bound < val && val < this._max + bound ) {
 				this._pxmoved += mov;
 			}
 			this.setValue( val, true );
