@@ -34,10 +34,10 @@ class gsuiLFO {
 		root.onchange = this._onchangeForm.bind( this );
 		elWave.append( wave.rootElement );
 		this._changeAmpSign( 1 );
-		this._initSlider( "delay", 0, 4, 1 / 4 / 8 );
-		this._initSlider( "attack", 0, 4, 1 / 4 / 8 );
-		this._initSlider( "speed", 1 / 4, 18, 1 / 8 );
-		this._initSlider( "amp", .001, 1, .001 );
+		this._initSlider( "delay" );
+		this._initSlider( "attack" );
+		this._initSlider( "speed" );
+		this._initSlider( "amp" );
 	}
 
 	// .........................................................................
@@ -126,10 +126,9 @@ class gsuiLFO {
 	_updatePxPerBeat() {
 		this._beatlines.pxPerBeat( this._waveWidth / this._dur );
 	}
-	_initSlider( prop, min, max, step ) {
+	_initSlider( prop ) {
 		const slider = this._sliders[ prop ][ 0 ];
 
-		slider.options( { type: "linear-x", min, max, step, mousemoveSize: 800 } );
 		slider.oninput = this._oninputSlider.bind( this, prop );
 		slider.onchange = this._onchangeSlider.bind( this, prop );
 	}
