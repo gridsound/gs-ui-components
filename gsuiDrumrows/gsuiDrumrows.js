@@ -93,9 +93,6 @@ class gsuiDrumrows {
 
 		elRow.dataset.id =
 		elLine.dataset.id = id;
-		sliDetune.options( { min: -12, max: 12, step: 1, value: 0, type: "linear-y", mousemoveSize: 400 } );
-		sliGain.options( { min: 0, max: 1, step: .01, value: 1, type: "linear-y", mousemoveSize: 400 } );
-		sliPan.options( { min: -1, max: 1, step: .02, value: 0, type: "linear-y", mousemoveSize: 400 } );
 		sliDetune.oninput = val => {
 			this._namePrint( id, `pitch: ${ val > 0 ? "+" : "" }${ val }` );
 			this._dispatch( "liveChangeDrumrow", id, "detune", val );
