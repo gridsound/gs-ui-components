@@ -39,7 +39,6 @@ class gsuiSlider extends HTMLElement {
 		this._elSvgLineColor = this._elSvg.lastElementChild;
 		Object.seal( this );
 
-		this.classList.add( "gsuiSlider" );
 		this.onwheel = this._wheel.bind( this );
 		this.onmouseup = this._mouseup.bind( this );
 		this.onmousedown = this._mousedown.bind( this );
@@ -49,6 +48,7 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	connectedCallback() {
+		this.classList.add( "gsuiSlider" );
 		if ( this._children ) {
 			const brc = this.getBoundingClientRect();
 
