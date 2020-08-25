@@ -24,21 +24,19 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 
 	connectedCallback() {
-		const withBeatlines = "beatlines" in this.dataset;
+		const withBeatlines = "beatlines" in this.dataset,
+			root = GSUI.getTemplate( "gsui-slidergroup", withBeatlines );
 
 		this._connected = true;
 		this.classList.add( "gsuiSliderGroup" );
-		this.append(
-			this.scrollElement = GSUI.createElement( "div", { class: "gsuiSliderGroup-slidersWrap" },
-				this._slidersParent = GSUI.createElement( "div", { class: "gsuiSliderGroup-sliders" }, withBeatlines && [
-					this._currentTime = GSUI.createElement( "div", { class: "gsuiSliderGroup-currentTime" } ),
-					this._loopA = GSUI.createElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),
-					this._loopB = GSUI.createElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopB" } ),
-				] )
-			)
-		);
+		this.scrollElement = root;
+		this._slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" );
+		this.append( root );
 		if ( withBeatlines ) {
 			this._uiBeatlines = new gsuiBeatlines( this._slidersParent );
+			this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
+			this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
+			this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
 		}
 		Object.seal( this );
 
@@ -96,9 +94,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._sliderSelectedClass();
 	}
 	set( id, when, duration, value ) {
-		const element = GSUI.createElement( "div", { class: "gsuiSliderGroup-slider" },
-				GSUI.createElement( "div", { class: "gsuiSliderGroup-sliderInner" } )
-			),
+		const element = GSUI.getTemplate( "gsui-slidergroup-slider" ),
 			sli = { element };
 
 		element._slider =
