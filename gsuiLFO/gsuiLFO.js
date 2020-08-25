@@ -1,39 +1,30 @@
 "use strict";
 
-class gsuiLFO {
+class gsuiLFO extends HTMLElement {
 	constructor() {
-		const root = gsuiLFO.template.cloneNode( true ),
-			elWave = root.querySelector( ".gsuiLFO-wave" ),
+		const children = GSUI.getTemplate( "gsui-lfo" ),
+			elWave = children[ 1 ].firstChild,
 			wave = new gsuiPeriodicWave(),
 			beatlines = new gsuiBeatlines( elWave ),
 			sliders = Object.freeze( {
-				delay: [ root.querySelector( ".gsuiLFO-delay gsui-slider" ), root.querySelector( ".gsuiLFO-delay .gsuiLFO-propValue" ) ],
-				attack: [ root.querySelector( ".gsuiLFO-attack gsui-slider" ), root.querySelector( ".gsuiLFO-attack .gsuiLFO-propValue" ) ],
-				speed: [ root.querySelector( ".gsuiLFO-speed gsui-slider" ), root.querySelector( ".gsuiLFO-speed .gsuiLFO-propValue" ) ],
-				amp: [ root.querySelector( ".gsuiLFO-amp gsui-slider" ), root.querySelector( ".gsuiLFO-amp .gsuiLFO-propValue" ) ],
+				delay: [ children[ 2 ].lastChild.firstChild, children[ 2 ].firstChild.lastChild ],
+				attack: [ children[ 3 ].lastChild.firstChild, children[ 3 ].firstChild.lastChild ],
+				speed: [ children[ 4 ].lastChild.firstChild, children[ 4 ].firstChild.lastChild ],
+				amp: [ children[ 5 ].lastChild.firstChild, children[ 5 ].firstChild.lastChild ],
 			} );
 
-		this.rootElement = root;
-		this.oninput =
-		this.onchange = () => {};
+		super();
+		this._children = children;
 		this._wave = wave;
 		this._sliders = sliders;
 		this._beatlines = beatlines;
 		this._dur = 4;
 		this._waveWidth = 300;
-		this._data = Object.seal( {
-			type: "",
-			delay: 0,
-			attack: 0,
-			speed: 0,
-			amp: 1,
-			ampSign: 1,
-		} );
+		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" );
 		Object.seal( this );
 
-		root.onchange = this._onchangeForm.bind( this );
+		this.onchange = this._onchangeForm.bind( this );
 		elWave.append( wave.rootElement );
-		this._changeAmpSign( 1 );
 		this._initSlider( "delay" );
 		this._initSlider( "attack" );
 		this._initSlider( "speed" );
@@ -41,10 +32,41 @@ class gsuiLFO {
 	}
 
 	// .........................................................................
-	attached() {
-		this._wave.attached();
-		this.resizing();
+	connectedCallback() {
+		if ( this._children ) {
+			this.classList.add( "gsuiLFO" );
+			this.append( ...this._children );
+			this._children = null;
+			this._wave.attached();
+			this.resizing();
+		}
 	}
+	static get observedAttributes() {
+		return [ "toggle", "type", "delay", "speed", "attack", "amp" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			const num = +val;
+
+			switch ( prop ) {
+				case "toggle": this._changeToggle( val === "true" ); break;
+				case "type": this._changeType( val ); break;
+				case "delay":
+				case "speed":
+				case "attack":
+					this._changeProp( prop, num );
+					break;
+				case "amp":
+					if ( num > 0 !== prev > 0 ) {
+						this._changeAmpSign( num );
+					}
+					this._changeProp( "amp", Math.abs( num ) );
+					break;
+			}
+		}
+	}
+
+	// .........................................................................
 	resizing() {
 		this._waveWidth = this._beatlines.rootElement.getBoundingClientRect().width;
 		this._updatePxPerBeat();
@@ -58,46 +80,26 @@ class gsuiLFO {
 		this._beatlines.timeSignature( a, b );
 		this.updateWave();
 	}
-	updateWave() {
-		const bPM = this._beatlines.getBeatsPerMeasure(),
-			d = this._data;
+	updateWave( prop, val ) {
+		const w = this._wave;
 
-		this._dur =
-		this._wave.duration = Math.max( d.delay + d.attack + 2, bPM );
-		this._wave.type = d.type;
-		this._wave.delay = d.delay;
-		this._wave.attack = d.attack;
-		this._wave.frequency = d.speed;
-		this._wave.amplitude = d.amp;
-		this._wave.draw();
-		this._wave.rootElement.style.opacity = Math.min( 6 / d.speed, 1 );
+		w.type = this.getAttribute( "type" );
+		w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );
+		w.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
+		w.frequency = prop === "speed" ? val : +this.getAttribute( "speed" );
+		w.amplitude = prop === "amp" ? val : +this.getAttribute( "amp" );
+		w.duration =
+		this._dur = Math.max( w.delay + w.attack + 2, this._beatlines.getBeatsPerMeasure() );
+		w.draw();
+		w.rootElement.style.opacity = Math.min( 6 / w.frequency, 1 );
 		this._updatePxPerBeat();
 		this._beatlines.render();
 	}
 
 	// .........................................................................
-	change( prop, val ) {
-		switch ( prop ) {
-			case "toggle": this._changeToggle( val ); break;
-			case "type": this._changeType( val ); break;
-			case "delay":
-			case "speed":
-			case "attack":
-				this._data[ prop ] = val;
-				this._changeProp( prop, val );
-				break;
-			case "amp":
-				if ( val > 0 !== this._data.amp > 0 ) {
-					this._changeAmpSign( val );
-				}
-				this._data.amp = val;
-				this._changeProp( "amp", Math.abs( val ) );
-				break;
-		}
-	}
 	_changeToggle( b ) {
-		this.rootElement.classList.toggle( "gsuiLFO-enable", b );
-		this.rootElement.querySelectorAll( ".gsuiLFO-typeRadio" )
+		this.classList.toggle( "gsuiLFO-enable", b );
+		this.querySelectorAll( ".gsuiLFO-typeRadio" )
 			.forEach( b
 				? el => el.removeAttribute( "disabled" )
 				: el => el.setAttribute( "disabled", "" ) );
@@ -107,13 +109,11 @@ class gsuiLFO {
 		this._sliders.amp[ 0 ].enable( b );
 	}
 	_changeType( type ) {
-		this._data.type =
 		this._wave.type = type;
-		this.rootElement.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
+		this.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
 	}
 	_changeAmpSign( amp ) {
-		this._data.ampSign = Math.sign( amp ) || 1;
-		this.rootElement.querySelector( `.gsuiLFO-ampSignRadio[value="${ this._data.ampSign }"]` ).checked = true;
+		this.querySelector( `.gsuiLFO-ampSignRadio[value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
 	}
 	_changeProp( prop, val ) {
 		const [ sli, span ] = this._sliders[ prop ];
@@ -137,31 +137,28 @@ class gsuiLFO {
 	// .........................................................................
 	_onchangeForm( e ) {
 		switch ( e.target.name ) {
-			case "gsuiLFO-toggle": this.onchange( "toggleLFO" ); break;
-			case "gsuiLFO-type": this.onchange( "changeLFO", "type", e.target.value ); break;
-			case "gsuiLFO-ampSign": this.onchange( "changeLFO", "amp", -this._data.amp ); break;
+			case "gsuiLFO-toggle": this._dispatch( "toggle" ); break;
+			case "gsuiLFO-type": this._dispatch( "change", "type", e.target.value ); break;
+			case "gsuiLFO-ampSign": this._dispatch( "change", "amp", -this.getAttribute( "amp" ) ); break;
 		}
 	}
 	_oninputSlider( prop, val ) {
 		const realval = prop !== "amp"
 				? val
-				: val * this._data.ampSign;
+				: val * Math.sign( this.getAttribute( "amp" ) );
 
 		this._sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
-		this._data[ prop ] = realval;
-		this.updateWave();
-		this.oninput( prop, realval );
+		this.updateWave( prop, realval );
+		this._dispatch( "liveChange", prop, realval );
 	}
 	_onchangeSlider( prop, val ) {
 		switch ( prop ) {
-			case "amp": this.onchange( "changeLFO", "amp", val * this._data.ampSign ); break;
-			default: this.onchange( "changeLFO", prop, val ); break;
+			case "amp": this._dispatch( "change", prop, val * Math.sign( this.getAttribute( "amp" ) ) ); break;
+			default: this._dispatch( "change", prop, val ); break;
 		}
 	}
 }
 
-gsuiLFO.template = document.querySelector( "#gsuiLFO-template" );
-gsuiLFO.template.remove();
-gsuiLFO.template.removeAttribute( "id" );
+customElements.define( "gsui-lfo", gsuiLFO );
 
 Object.freeze( gsuiLFO );
