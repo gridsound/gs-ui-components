@@ -2,6 +2,8 @@
 
 class gsuiSlider extends HTMLElement {
 	constructor() {
+		const [ input, ...html ] = GSUI.getTemplate( "gsui-slider" );
+
 		super();
 		this._min = 0;
 		this._max = 100;
@@ -28,12 +30,13 @@ class gsuiSlider extends HTMLElement {
 		this._pxval =
 		this._pxmoved =
 		this._svgLineLen = 0;
-		this._elInput = GSUI.createElement( "input", { type: "range", class: "gsuiSlider-input" } );
-		this._elLineColor = GSUI.createElement( "div", { class: "gsuiSlider-lineColor" } );
-		this._elSvg =
-		this._elLine =
-		this._elSvgLine =
-		this._elSvgLineColor = null;
+		this._children = html;
+		this._elInput = input;
+		this._elLine = html[ 0 ];
+		this._elLineColor = this._elLine.firstElementChild;
+		this._elSvg = html[ 1 ];
+		this._elSvgLine = this._elSvg.firstElementChild;
+		this._elSvgLineColor = this._elSvg.lastElementChild;
 		Object.seal( this );
 
 		this.classList.add( "gsuiSlider" );
@@ -46,21 +49,13 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	connectedCallback() {
-		if ( !this.firstChild ) {
+		if ( this._children ) {
 			const brc = this.getBoundingClientRect();
 
-			this.append(
-				this._elLine = GSUI.createElement( "div", { class: "gsuiSlider-line" },
-					this._elLineColor,
-				),
-				this._elSvg = GSUI.createElementNS( "svg", { class: "gsuiSlider-svg" },
-					this._elSvgLine = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLine" } ),
-					this._elSvgLineColor = GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLineColor" } ),
-				),
-				GSUI.createElement( "div", { class: "gsuiSlider-eventCatcher" } ),
-			);
+			this.append( ...this._children );
 			this.width = brc.width;
 			this.height = brc.height;
+			this._children = null;
 			this._connected = true;
 			this._setSVGcirc();
 			this._updateVal();
