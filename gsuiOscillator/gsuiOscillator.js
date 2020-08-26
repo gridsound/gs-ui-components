@@ -4,8 +4,8 @@ class gsuiOscillator extends HTMLElement {
 	constructor() {
 		const children = GSUI.getTemplate( "gsui-oscillator" ),
 			waves = [
-				new gsuiPeriodicWave(),
-				new gsuiPeriodicWave(),
+				children[ 1 ].firstChild,
+				children[ 1 ].lastChild,
 			];
 
 		super();
@@ -29,9 +29,6 @@ class gsuiOscillator extends HTMLElement {
 
 		waves[ 0 ].frequency =
 		waves[ 1 ].frequency = 1;
-		children[ 1 ].append(
-			waves[ 0 ].rootElement,
-			waves[ 1 ].rootElement );
 		this._elSelect.onchange = this._onchangeSelect.bind( this );
 		this._elSelect.onkeydown = this._onkeydownSelect.bind( this );
 		children[ 2 ].onclick = this._onclickPrevNext.bind( this, -1 );
@@ -46,8 +43,6 @@ class gsuiOscillator extends HTMLElement {
 			this.setAttribute( "draggable", "true" );
 			this.append( ...this._children );
 			this._children = null;
-			this._waves[ 0 ].attached();
-			this._waves[ 1 ].attached();
 		}
 	}
 	static get observedAttributes() {

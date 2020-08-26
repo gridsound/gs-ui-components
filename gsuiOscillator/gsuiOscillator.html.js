@@ -3,7 +3,10 @@
 GSUI.setTemplate( "gsui-oscillator", () => {
 	return [
 		GSUI.createElement( "div", { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
-		GSUI.createElement( "div", { class: "gsuiOscillator-wave" } ),
+		GSUI.createElement( "div", { class: "gsuiOscillator-wave" },
+			GSUI.createElement( "gsui-periodicwave" ),
+			GSUI.createElement( "gsui-periodicwave" ),
+		),
 		GSUI.createElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
 		GSUI.createElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
 		GSUI.createElement( "select", { class: "gsuiOscillator-waveSelect" },

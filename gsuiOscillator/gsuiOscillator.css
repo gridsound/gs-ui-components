@@ -66,8 +66,8 @@
 .gsuiOscillator-wave .gsuiPeriodicWave {
 	position: absolute;
 }
-.gsuiOscillator-wave .gsuiPeriodicWave:first-child polyline { stroke: var( --gsuiOscillator-pan-a ); }
-.gsuiOscillator-wave .gsuiPeriodicWave:last-child polyline { stroke: var( --gsuiOscillator-pan-b ); }
+.gsuiOscillator-wave .gsuiPeriodicWave:first-child { color: var( --gsuiOscillator-pan-a ); }
+.gsuiOscillator-wave .gsuiPeriodicWave:last-child { color: var( --gsuiOscillator-pan-b ); }
 .gsuiOscillator-wave polyline {
 	stroke-opacity: .8;
 }
