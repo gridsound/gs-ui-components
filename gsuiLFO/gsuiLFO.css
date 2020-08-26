@@ -160,12 +160,12 @@
 	position: absolute;
 	top: 6px;
 	height: calc( 100% - 12px );
-	stroke: var( --gsuiLFO-wave-off );
+	color: var( --gsuiLFO-wave-off );
 	stroke-width: 2px;
-	transition: stroke .2s;
+	transition: color .2s;
 }
 .gsuiLFO-enable .gsuiPeriodicWave {
-	stroke: var( --gsuiLFO-ctrls-color );
+	color: var( --gsuiLFO-ctrls-color );
 }
 
 /* .......................................................................... */

@@ -4,7 +4,6 @@ class gsuiLFO extends HTMLElement {
 	constructor() {
 		const children = GSUI.getTemplate( "gsui-lfo" ),
 			elWave = children[ 1 ].firstChild,
-			wave = new gsuiPeriodicWave(),
 			beatlines = new gsuiBeatlines( elWave ),
 			sliders = Object.freeze( {
 				delay: [ children[ 2 ].lastChild.firstChild, children[ 2 ].firstChild.lastChild ],
@@ -15,7 +14,7 @@ class gsuiLFO extends HTMLElement {
 
 		super();
 		this._children = children;
-		this._wave = wave;
+		this._wave = elWave.firstChild;
 		this._sliders = sliders;
 		this._beatlines = beatlines;
 		this._dur = 4;
@@ -24,7 +23,6 @@ class gsuiLFO extends HTMLElement {
 		Object.seal( this );
 
 		this.onchange = this._onchangeForm.bind( this );
-		elWave.append( wave.rootElement );
 		this._initSlider( "delay" );
 		this._initSlider( "attack" );
 		this._initSlider( "speed" );
@@ -37,7 +35,6 @@ class gsuiLFO extends HTMLElement {
 			this.classList.add( "gsuiLFO" );
 			this.append( ...this._children );
 			this._children = null;
-			this._wave.attached();
 			this.resizing();
 		}
 	}
@@ -91,7 +88,7 @@ class gsuiLFO extends HTMLElement {
 		w.duration =
 		this._dur = Math.max( w.delay + w.attack + 2, this._beatlines.getBeatsPerMeasure() );
 		w.draw();
-		w.rootElement.style.opacity = Math.min( 6 / w.frequency, 1 );
+		w.style.opacity = Math.min( 6 / w.frequency, 1 );
 		this._updatePxPerBeat();
 		this._beatlines.render();
 	}
