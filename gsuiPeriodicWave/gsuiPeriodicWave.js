@@ -1,52 +1,46 @@
 "use strict";
 
-class gsuiPeriodicWave {
-	constructor( svg ) {
-		const root = svg || document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
-
-		this.rootElement = root;
-		this.polyline = root.querySelector( "polyline" );
-		if ( !this.polyline ) {
-			this.polyline = document.createElementNS( "http://www.w3.org/2000/svg", "polyline" );
-			root.appendChild( this.polyline );
-		}
+class gsuiPeriodicWave extends HTMLElement {
+	constructor() {
+		super();
+		this._svg = GSUI.createElementNS( "svg", { preserveAspectRatio: "none" },
+			this._polyline = GSUI.createElementNS( "polyline" )
+		);
 		this.type = "";
-		this.delay = 0;
+		this.delay =
 		this.attack = 0;
-		this.frequency = 1;
-		this.amplitude = 1;
+		this.frequency =
+		this.amplitude =
 		this.duration = 1;
-		this._attached = false;
 		this.width =
 		this.height = 0;
 		Object.seal( this );
-
-		root.setAttribute( "preserveAspectRatio", "none" );
-		root.classList.add( "gsuiPeriodicWave" );
 	}
 
-	remove() {
-		delete this._attached;
-		this.rootElement.remove();
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiPeriodicWave" );
+			this.append( this._svg );
+			this.resized();
+		}
 	}
-	attached() {
-		this._attached = true;
-		this.resized();
-	}
+
+	// .........................................................................
 	resized() {
-		const bcr = this.rootElement.getBoundingClientRect(),
+		const bcr = this.getBoundingClientRect(),
 			w = ~~bcr.width,
 			h = ~~bcr.height;
 
 		this.width = w;
 		this.height = h;
-		this.rootElement.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		this._svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
 		if ( this.type ) {
 			this.draw();
 		}
 	}
 	draw() {
-		if ( this._attached && this.type ) {
+		if ( this.firstChild && this.type ) {
 			const wave = gsuiPeriodicWave.cache[ this.type ];
 
 			if ( wave ) {
@@ -78,7 +72,7 @@ class gsuiPeriodicWave {
 			pts[ x * 2 ] = x;
 			pts[ x * 2 + 1 ] = y;
 		}
-		this.polyline.setAttribute( "points", pts.join( " " ) );
+		this._polyline.setAttribute( "points", pts.join( " " ) );
 	}
 
 	// static:
@@ -103,6 +97,8 @@ class gsuiPeriodicWave {
 		}
 	}
 }
+
+customElements.define( "gsui-periodicwave", gsuiPeriodicWave );
 
 gsuiPeriodicWave.cache = {};
 
