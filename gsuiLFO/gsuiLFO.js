@@ -4,7 +4,6 @@ class gsuiLFO extends HTMLElement {
 	constructor() {
 		const children = GSUI.getTemplate( "gsui-lfo" ),
 			elWave = children[ 1 ].firstChild,
-			beatlines = new gsuiBeatlines( elWave ),
 			sliders = Object.freeze( {
 				delay: [ children[ 2 ].lastChild.firstChild, children[ 2 ].firstChild.lastChild ],
 				attack: [ children[ 3 ].lastChild.firstChild, children[ 3 ].firstChild.lastChild ],
@@ -14,9 +13,9 @@ class gsuiLFO extends HTMLElement {
 
 		super();
 		this._children = children;
-		this._wave = elWave.firstChild;
+		this._beatlines = elWave.firstChild;
+		this._wave = elWave.lastChild;
 		this._sliders = sliders;
-		this._beatlines = beatlines;
 		this._dur = 4;
 		this._waveWidth = 300;
 		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" );
@@ -35,8 +34,11 @@ class gsuiLFO extends HTMLElement {
 			this.classList.add( "gsuiLFO" );
 			this.append( ...this._children );
 			this._children = null;
-			this.resizing();
 		}
+		GSUI.observeSizeOf( this, this._resizedCallback.bind( this ) );
+	}
+	disconnectedCallback() {
+		GSUI.unobserveSizeOf( this );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "type", "delay", "speed", "attack", "amp" ];
@@ -62,23 +64,20 @@ class gsuiLFO extends HTMLElement {
 			}
 		}
 	}
+	_resizedCallback() {
+		this._waveWidth = this._beatlines.getBoundingClientRect().width;
+		this._updatePxPerBeat();
+		this._wave.resized();
+	}
 
 	// .........................................................................
-	resizing() {
-		this._waveWidth = this._beatlines.rootElement.getBoundingClientRect().width;
-		this._updatePxPerBeat();
-	}
-	resize() {
-		this.resizing();
-		this._wave.resized();
-		this._beatlines.render();
-	}
 	timeSignature( a, b ) {
-		this._beatlines.timeSignature( a, b );
+		this._beatlines.setAttribute( "timesignature", `${ a },${ b }` );
 		this.updateWave();
 	}
 	updateWave( prop, val ) {
-		const w = this._wave;
+		const w = this._wave,
+			bPM = this._beatlines.getAttribute( "timesignature" ).split( "," )[ 0 ];
 
 		w.type = this.getAttribute( "type" );
 		w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );
@@ -86,11 +85,10 @@ class gsuiLFO extends HTMLElement {
 		w.frequency = prop === "speed" ? val : +this.getAttribute( "speed" );
 		w.amplitude = prop === "amp" ? val : +this.getAttribute( "amp" );
 		w.duration =
-		this._dur = Math.max( w.delay + w.attack + 2, this._beatlines.getBeatsPerMeasure() );
+		this._dur = Math.max( w.delay + w.attack + 2, bPM );
 		w.draw();
 		w.style.opacity = Math.min( 6 / w.frequency, 1 );
 		this._updatePxPerBeat();
-		this._beatlines.render();
 	}
 
 	// .........................................................................
@@ -121,7 +119,7 @@ class gsuiLFO extends HTMLElement {
 
 	// .........................................................................
 	_updatePxPerBeat() {
-		this._beatlines.pxPerBeat( this._waveWidth / this._dur );
+		this._beatlines.setAttribute( "pxPerBeat", this._waveWidth / this._dur );
 	}
 	_initSlider( prop ) {
 		const slider = this._sliders[ prop ][ 0 ];

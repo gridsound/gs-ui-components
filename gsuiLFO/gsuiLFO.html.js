@@ -11,6 +11,7 @@ GSUI.setTemplate( "gsui-lfo", () => {
 		),
 		GSUI.createElement( "div", { class: "gsuiLFO-graph" },
 			GSUI.createElement( "div", { class: "gsuiLFO-wave" },
+				GSUI.createElement( "gsui-beatlines", { coloredbeats: "" } ),
 				GSUI.createElement( "gsui-periodicwave" ),
 			),
 			GSUI.createElement( "div", { class: "gsuiLFO-ampSigns" },
