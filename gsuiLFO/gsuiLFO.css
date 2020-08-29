@@ -3,12 +3,12 @@
 	height: 100%;
 	box-sizing: border-box;
 	grid-gap: 6px;
-	padding-bottom: 8px;
 	grid-template:
 		"head head head  head   head  head  head" 24px
 		".    type delay attack speed amp   .   " 28px
 		".    type graph graph  graph graph .   " 1fr
-		/2px  32px 1fr   1fr    1fr  1fr   2px;
+		".    .    .     .      .     .     .   " 0
+		/0    32px 1fr   1fr    1fr   1fr   0;
 	color: var( --gsuiLFO-txt );
 	font-family: var( --gsui-font );
 	background-color: var( --gsuiLFO-bg );
@@ -78,8 +78,6 @@
 }
 .gsuiLFO .gsuiSlider-eventCatcher {
 	top: -26px;
-	left: -3px;
-	right: -3px;
 	bottom: -6px;
 }
 
