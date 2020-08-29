@@ -23,7 +23,7 @@ class gsuiBlocksManager {
 		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
 		this.__rowsWrapinContainer = root.querySelector( ".gsuiBlocksManager-rowsWrapin" );
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
-		this.__uiBeatlines = new gsuiBeatlines( root.querySelector( ".gsuiBeatlines" ) );
+		this.__uiBeatlines = root.querySelector( "gsui-beatlines" );
 
 		this.onaddBlock =
 		this.oneditBlock =
@@ -54,7 +54,7 @@ class gsuiBlocksManager {
 
 		this.__eventReset();
 		this.timeline.timeSignature( 4, 4 );
-		this.__uiBeatlines.timeSignature( 4, 4 );
+		this.__uiBeatlines.setAttribute( "timesignature", "4,4" );
 		this.__magnetValue.textContent = this.timeline.stepRound;
 	}
 
@@ -62,7 +62,7 @@ class gsuiBlocksManager {
 	// ............................................................................................
 	timeSignature( a, b ) {
 		this.timeline.timeSignature( a, b );
-		this.__uiBeatlines.timeSignature( a, b );
+		this.__uiBeatlines.setAttribute( "timesignature", `${ a },${ b }` );
 	}
 	currentTime( beat ) {
 		this.timeline.currentTime( beat );
@@ -80,9 +80,7 @@ class gsuiBlocksManager {
 
 			this.__pxPerBeat = ppb;
 			this.timeline.offset( this.__offset, ppb );
-			this.__uiBeatlines.pxPerBeat( ppb );
-			clearTimeout( this.__beatlinesRendering );
-			this.__beatlinesRendering = setTimeout( () => this.__uiBeatlines.render(), 100 );
+			this.__uiBeatlines.setAttribute( "pxperbeat", ppb );
 			this.__elLoopA.style.fontSize =
 			this.__elLoopB.style.fontSize =
 			this.__elCurrentTime.style.fontSize = ppbpx;
