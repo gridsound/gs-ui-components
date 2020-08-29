@@ -13,8 +13,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._valueSaved = new Map();
 		this._bcr =
 		this._evMouseup =
-		this._evMousemove =
-		this._renderTimeoutId = null;
+		this._evMousemove = null;
 		this._uiFn = Object.freeze( {
 			when: this._sliderWhen.bind( this ),
 			value: this._sliderValue.bind( this ),
@@ -24,24 +23,24 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 
 	connectedCallback() {
-		const withBeatlines = "beatlines" in this.dataset,
-			root = GSUI.getTemplate( "gsui-slidergroup", withBeatlines );
+		if ( !this.firstChild ) {
+			const withBeatlines = "beatlines" in this.dataset,
+				root = GSUI.getTemplate( "gsui-slidergroup", withBeatlines );
 
-		this._connected = true;
-		this.classList.add( "gsuiSliderGroup" );
-		this.scrollElement = root;
-		this._slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" );
-		this.append( root );
-		if ( withBeatlines ) {
-			this._uiBeatlines = new gsuiBeatlines( this._slidersParent );
-			this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
-			this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
-			this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
+			this._connected = true;
+			this.classList.add( "gsuiSliderGroup" );
+			this.scrollElement = root;
+			this._slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" );
+			if ( withBeatlines ) {
+				this._uiBeatlines = root.querySelector( "gsui-beatlines" );
+				this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
+				this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
+				this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
+			}
+			this.append( root );
+			this._updatePxPerBeat();
+			this._slidersParent.onmousedown = this._mousedown.bind( this );
 		}
-		Object.seal( this );
-
-		this._updatePxPerBeat();
-		this._slidersParent.onmousedown = this._mousedown.bind( this );
 	}
 
 	empty() {
@@ -58,7 +57,7 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 
 	timeSignature( a, b ) {
-		this._uiBeatlines.timeSignature( a, b );
+		this._uiBeatlines.setAttribute( "timesignature", `${ a },${ b }` );
 	}
 	currentTime( beat ) {
 		this._currentTime.style.left = `${ beat }em`;
@@ -123,9 +122,7 @@ class gsuiSliderGroup extends HTMLElement {
 	_updatePxPerBeat() {
 		this._slidersParent.style.fontSize = `${ this._pxPerBeat }px`;
 		if ( this._uiBeatlines ) {
-			this._uiBeatlines.pxPerBeat( this._pxPerBeat );
-			clearTimeout( this._renderTimeoutId );
-			this._renderTimeoutId = setTimeout( () => this._uiBeatlines.render(), 100 );
+			this._uiBeatlines.setAttribute( "pxperbeat", this._pxPerBeat );
 		}
 	}
 	_sliderWhen( sli, when ) {
