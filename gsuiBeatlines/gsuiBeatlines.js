@@ -1,88 +1,43 @@
 "use strict";
 
-class gsuiBeatlines {
-	constructor( el ) {
-		this.rootElement = el;
-		this._beatsPerMeasure =
-		this._stepsPerBeat = 4;
-		this._width =
-		this._pxPerBeat = 0;
-		this._colorBeatsOdd = true;
-		Object.seal( this );
-
-		el.classList.add( "gsuiBeatlines" );
-		el.style.backgroundAttachment = "local";
-		this.pxPerBeat( 32 );
+class gsuiBeatlines extends HTMLElement {
+	connectedCallback() {
+		this.classList.add( "gsuiBeatlines" );
 	}
-
-	pxPerBeat( pxBeat ) {
-		this._pxPerBeat = pxBeat;
-		this._updateWidth();
-		this._updateBGSize();
+	static get observedAttributes() {
+		return [ "timesignature", "pxperbeat", "coloredbeats" ];
 	}
-	getBeatsPerMeasure() {
-		return this._beatsPerMeasure;
-	}
-	getStepsPerBeat() {
-		return this._stepsPerBeat;
-	}
-	timeSignature( a, b ) {
-		this._beatsPerMeasure = Math.max( 1, ~~a );
-		this._stepsPerBeat = Math.max( 1, ~~b );
-		this._updateWidth();
-		this.render();
-	}
-	colorBeatsOdd( b ) {
-		this._colorBeatsOdd = b;
-	}
-	render() {
-		const alpha = Math.min( this._pxPerBeat / 32, 1 ),
-			bPM = this._beatsPerMeasure,
-			sPB = this._stepsPerBeat,
-			sPM = sPB * bPM,
-			beatW = this._width / bPM,
-			stepW = beatW / sPB,
-			mesrColor = `rgba(0,0,0,${ 1 * alpha })`,
-			beatColor = `rgba(0,0,0,${ .5 * alpha })`,
-			stepColor = `rgba(0,0,0,${ .2 * alpha })`,
-			beatBg = `rgba(0,0,0,${ .05 * alpha })`,
-			elems = [];
-
-		for ( let step = 0; step <= sPM * 2; ++step ) {
-			const col = step % sPB ? stepColor :
-					step % sPM ? beatColor : mesrColor,
-				w = col === mesrColor ? 1.25 : 1,
-				x = step * stepW - ( w / 2 );
-
-			elems.push( this._createRect( x + stepW / 2, w, col ) );
-		}
-		if ( this._colorBeatsOdd ) {
-			for ( let beat = 0; beat <= bPM; ++beat ) {
-				elems.push( this._createRect( beat * 2 * beatW + stepW / 2 - .5, beatW, beatBg ) );
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "coloredbeats":
+				case "timesignature":
+					this.style.backgroundImage = gsuiBeatlines._background(
+						...( this.getAttribute( "timesignature" ) || "4,4" ).split( "," ),
+						this.hasAttribute( "coloredbeats" ) );
+					break;
+				case "pxperbeat":
+					this.style.fontSize = `${ val }px`;
+					this.style.opacity = Math.min( val / 48, 1 );
+					break;
 			}
 		}
-		this._updateBGImage( elems );
-		this._updateBGSize();
 	}
 
-	// private:
 	// .........................................................................
-	_createRect( x, w, col ) {
-		return `<rect x='${ x }' y='0' height='1' width='${ w }' fill='${ col }'/>`;
+	static _background( bPM, sPB, colored ) {
+		return `
+			${ gsuiBeatlines._repeat( ".5px", "rgba(0,0,0,.15)", 1 / sPB ) },
+			${ gsuiBeatlines._repeat( ".5px", "rgba(0,0,0,.25)", 1 ) },
+			${ gsuiBeatlines._repeat( "1px", "rgba(0,0,0,.5)", bPM ) }
+			${ colored
+				? ",repeating-linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.08) 1em, transparent 1em, transparent 2em)"
+				: "" }
+		`;
 	}
-	_updateWidth() {
-		this._width = this._pxPerBeat * this._beatsPerMeasure;
-	}
-	_updateBGImage( steps ) {
-		this.rootElement.style.backgroundImage = `url("${ encodeURI(
-			"data:image/svg+xml,<svg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' " +
-			`viewBox='0 0 ${ this._width * 2 } 1'>${ steps.join( " " ) }</svg>`
-		) }")`;
-	}
-	_updateBGSize() {
-		this.rootElement.style.backgroundSize = `${ this._width * 2 }px 1px`;
-		this.rootElement.style.backgroundPositionX = `${ this._pxPerBeat / this._stepsPerBeat * -.5 }px`;
+	static _repeat( w, col, em ) {
+		return `repeating-linear-gradient(90deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
 	}
 }
 
-Object.freeze( gsuiBeatlines );
+customElements.define( "gsui-beatlines", gsuiBeatlines );
