@@ -13,12 +13,12 @@ const GSUI = {
 	},
 
 	// .........................................................................
-	templates: new Map(),
+	_templates: new Map(),
 	setTemplate( tmpId, fn ) {
-		GSUI.templates.set( tmpId, fn );
+		GSUI._templates.set( tmpId, fn );
 	},
 	getTemplate( tmpId, ...args ) {
-		return GSUI.templates.get( tmpId )( ...args );
+		return GSUI._templates.get( tmpId )( ...args );
 	},
 
 	// .........................................................................
