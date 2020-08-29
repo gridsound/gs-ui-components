@@ -6,7 +6,7 @@ class gsuiDrums {
 			elLines = root.querySelector( ".gsuiDrums-lines" ),
 			timeline = new gsuiTimeline(),
 			drumrows = new gsuiDrumrows(),
-			beatlines = new gsuiBeatlines( elLines ),
+			beatlines = root.querySelector( "gsui-beatlines" ),
 			panels = new gsuiPanels( root.querySelector( ".gsuiDrums-panels" ) ),
 			elRows = drumrows.rootElement;
 
@@ -17,7 +17,6 @@ class gsuiDrums {
 		this._beatlines = beatlines;
 		this._elRows = elRows;
 		this._elLines = elLines;
-		this._timeoutIdBeatlines = null;
 		this._width =
 		this._height =
 		this._offset =
@@ -120,7 +119,7 @@ class gsuiDrums {
 	timeSignature( a, b ) {
 		this._stepsPerBeat = b;
 		this._timeline.timeSignature( a, b );
-		this._beatlines.timeSignature( a, b );
+		this._beatlines.setAttribute( "timesignature", `${ a },${ b }` );
 		this.setPxPerBeat( this._pxPerBeat );
 		this._elDrumHover.style.width =
 		this._elDrumcutHover.style.width =
@@ -132,14 +131,12 @@ class gsuiDrums {
 		this._pxPerBeat = ppb;
 		this._pxPerStep = ppb / this._stepsPerBeat;
 		this._timeline.offset( this._offset, ppb );
-		this._beatlines.pxPerBeat( ppb );
+		this._beatlines.setAttribute( "pxperbeat", ppb );
 		this._elLoopA.style.fontSize =
 		this._elLoopB.style.fontSize =
 		this._elCurrentTime.style.fontSize = ppbpx;
 		Array.prototype.forEach.call( this._nlLinesIn, el => el.style.fontSize = ppbpx );
 		this._sliderGroups.forEach( grp => grp.setPxPerBeat( ppb ) );
-		clearTimeout( this._timeoutIdBeatlines );
-		this._timeoutIdBeatlines = setTimeout( () => this._beatlines.render(), 100 );
 	}
 	setPropValues( rowId, prop, arr ) {
 		const grp = this._sliderGroups.get( rowId );
