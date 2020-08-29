@@ -23,7 +23,6 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this.__sideContent.append( this._uiTracklist.rootElement );
 		this.__rowsContainer.ondrop = this._drop.bind( this );
 		this.setPxPerBeat( 64 );
-		this.__uiBeatlines.colorBeatsOdd( false );
 	}
 
 	empty() {
