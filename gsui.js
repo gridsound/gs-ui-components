@@ -39,6 +39,24 @@ const GSUI = {
 		el.append( ...children.flat( 1 ).filter( Boolean ) );
 		return el;
 	},
+
+	// .........................................................................
+	observeSizeOf( el, fn ) {
+		if ( !GSUI._resizeMap.has( el ) ) {
+			GSUI._resizeObs.observe( el );
+			GSUI._resizeMap.set( el, fn );
+		}
+	},
+	unobserveSizeOf( el ) {
+		GSUI._resizeObs.unobserve( el );
+		GSUI._resizeMap.delete( el );
+	},
+	_resizeMap: new Map(),
+	_resizeObsCallback( entries ) {
+		entries.forEach( e => GSUI._resizeMap.get( e.target )( e.width, e.height ) );
+	},
 };
+
+GSUI._resizeObs = new ResizeObserver( GSUI._resizeObsCallback );
 
 document.body.prepend( GSUI.dragshield );
