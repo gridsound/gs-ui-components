@@ -1,0 +1,10 @@
+.gsuiEnvelope {
+	--gsuiEnvelope-bg: #666;
+	--gsuiEnvelope-txt: #fff;
+	--gsuiEnvelope-head-bg: #555;
+	--gsuiEnvelope-wave-bg: #0004;
+	--gsuiEnvelope-wave-off: #777;
+	--gsuiEnvelope-ctrls-bg: #555;
+	--gsuiEnvelope-ctrls-color: #ff9;
+	--gsuiEnvelope-toggle-off: #fff3;
+}

@@ -1,0 +1,119 @@
+.gsuiEnvelope {
+	display: grid;
+	height: 100%;
+	box-sizing: border-box;
+	grid-gap: 6px;
+	grid-template:
+		"head head   head  head  head     head    head" 24px
+		".    attack hold  decay substain release .   " 28px
+		".    graph  graph graph graph    graph   .   " 1fr
+		".    .      .     .     .        .       .   " 0
+		/0    1fr    1fr   1fr   1fr      1fr     0;
+	color: var( --gsuiEnvelope-txt );
+	font-family: var( --gsui-font );
+	background-color: var( --gsuiEnvelope-bg );
+	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
+	--gsuiSlider-lineBgColor: var( --gsuiEnvelope-ctrls-bg );
+}
+
+/* .......................................................................... */
+.gsuiEnvelope-prop {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiEnvelope-propLabel {
+	display: flex;
+	align-self: center;
+	align-items: baseline;
+	height: 20px;
+	font-size: 12px;
+	opacity: .5;
+	user-select: none;
+}
+.gsuiEnvelope-propValue::before {
+	content: "·";
+	margin: 0 2px;
+}
+.gsuiEnvelope-propValue {
+	font-family: var( --gsui-font-number );
+}
+.gsuiEnvelope-propContent {
+	flex: 1;
+	position: relative;
+}
+
+/* .......................................................................... */
+.gsuiEnvelope-attack {
+	grid-area: attack;
+}
+.gsuiEnvelope-hold {
+	grid-area: hold;
+}
+.gsuiEnvelope-decay {
+	grid-area: decay;
+}
+.gsuiEnvelope-substain {
+	grid-area: substain;
+}
+.gsuiEnvelope-release {
+	grid-area: release;
+}
+.gsuiEnvelope .gsuiSlider-eventCatcher {
+	top: -26px;
+	bottom: -6px;
+}
+
+/* .......................................................................... */
+.gsuiEnvelope-head {
+	grid-area: head;
+	display: flex;
+	align-items: center;
+	background-color: var( --gsuiEnvelope-head-bg );
+	user-select: none;
+}
+.gsuiEnvelope-title {
+	font-size: 14px;
+	opacity: .3;
+}
+.gsuiEnvelope-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: normal;
+	border: 0;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	width: 24px;
+	color: var( --gsuiEnvelope-toggle-off );
+	font-size: 8px;
+	cursor: pointer;
+	background: none;
+	transition: .2s color;
+}
+.gsuiEnvelope-enable .gsuiEnvelope-toggle {
+	color: var( --gsuiEnvelope-ctrls-color );
+}
+.gsuiEnvelope-toggleCheckbox {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiEnvelope-graph {
+	grid-area: graph;
+	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+	background-color: var( --gsuiEnvelope-wave-bg );
+}
+.gsuiEnvelope-graph svg {
+	position: absolute;
+	/*top: 6px;*/
+	/*height: calc( 100% - 12px );*/
+	color: var( --gsuiEnvelope-wave-off );
+	stroke-width: 2px;
+	transition: color .2s;
+}
+.gsuiEnvelope-enable svg {
+	color: var( --gsuiEnvelope-ctrls-color );
+}
