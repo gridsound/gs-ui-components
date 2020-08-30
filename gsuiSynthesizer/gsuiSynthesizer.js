@@ -2,12 +2,12 @@
 
 class gsuiSynthesizer extends HTMLElement {
 	constructor() {
-		const root = gsuiSynthesizer.template.cloneNode( true ),
-			elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" ),
-			elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
+		const children = GSUI.getTemplate( "gsui-synthesizer" ),
+			elOscList = children[ 3 ],
+			elNewOsc = elOscList.firstChild;
 
 		super();
-		this._root = root;
+		this._children = children;
 		this._env =
 		this._lfo = null;
 		this._waveList = [];
@@ -31,9 +31,10 @@ class gsuiSynthesizer extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiSynthesizer" );
-			this.append( ...this._root.children );
+			this.append( ...this._children );
 			this.querySelector( ".gsuiSynthesizer-env" ).append( this._env );
 			this.querySelector( ".gsuiSynthesizer-lfo" ).append( this._lfo );
+			this._children = null;
 		}
 	}
 
@@ -86,7 +87,3 @@ class gsuiSynthesizer extends HTMLElement {
 }
 
 customElements.define( "gsui-synthesizer", gsuiSynthesizer );
-
-gsuiSynthesizer.template = document.querySelector( "#gsuiSynthesizer-template" );
-gsuiSynthesizer.template.remove();
-gsuiSynthesizer.template.removeAttribute( "id" );
