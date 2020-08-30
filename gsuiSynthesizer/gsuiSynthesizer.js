@@ -8,6 +8,7 @@ class gsuiSynthesizer extends HTMLElement {
 
 		super();
 		this._root = root;
+		this._env =
 		this._lfo = null;
 		this._waveList = [];
 		this._elOscList = elOscList;
@@ -31,11 +32,15 @@ class gsuiSynthesizer extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiSynthesizer" );
 			this.append( ...this._root.children );
+			this.querySelector( ".gsuiSynthesizer-env" ).append( this._env );
 			this.querySelector( ".gsuiSynthesizer-lfo" ).append( this._lfo );
 		}
 	}
 
 	// .........................................................................
+	setEnvelope( env ) {
+		this._env = env;
+	}
 	setLFO( lfo ) {
 		this._lfo = lfo;
 	}
