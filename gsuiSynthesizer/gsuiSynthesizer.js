@@ -1,23 +1,22 @@
 "use strict";
 
-class gsuiSynthesizer {
+class gsuiSynthesizer extends HTMLElement {
 	constructor() {
-		const root = gsuiSynthesizer.template.cloneNode( true );
+		const root = gsuiSynthesizer.template.cloneNode( true ),
+			elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" ),
+			elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
 
-		this.rootElement = root;
-		this.oninput =
-		this.onchange = () => {};
+		super();
+		this._root = root;
+		this._lfo = null;
 		this._waveList = [];
-		this._nlOscs = root.getElementsByClassName( "gsuiOscillator" );
-		this._elNewOsc = root.querySelector( ".gsuiSynthesizer-newOsc" );
-		this._elOscList = root.querySelector( ".gsuiSynthesizer-oscList" );
-		this._attached = false;
+		this._elOscList = elOscList;
 		this._uiOscs = new Map();
 		Object.seal( this );
 
-		this._elNewOsc.onclick = this._onclickNewOsc.bind( this );
+		elNewOsc.onclick = this._onclickNewOsc.bind( this );
 		new gsuiReorder( {
-			rootElement: this._elOscList,
+			rootElement: elOscList,
 			direction: "column",
 			dataTransferType: "oscillator",
 			itemSelector: ".gsuiOscillator",
@@ -28,11 +27,17 @@ class gsuiSynthesizer {
 	}
 
 	// .........................................................................
-	attached() {
-		this._attached = true;
-		Array.from( this._nlOscs ).forEach( el => {
-			this._uiOscs.get( el.dataset.id ).attached();
-		} );
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiSynthesizer" );
+			this.append( ...this._root.children );
+			this.querySelector( ".gsuiSynthesizer-lfo" ).append( this._lfo );
+		}
+	}
+
+	// .........................................................................
+	setLFO( lfo ) {
+		this._lfo = lfo;
 	}
 	setWaveList( arr ) {
 		this._waveList = arr;
@@ -44,24 +49,18 @@ class gsuiSynthesizer {
 
 	// .........................................................................
 	addOscillator( id, osc ) {
-		const uiOsc = new gsuiOscillator();
+		const uiOsc = document.createElement( "gsui-oscillator" );
 
 		this._uiOscs.set( id, uiOsc );
-		uiOsc.oninput = ( prop, val ) => this.oninput( id, prop, val );
-		uiOsc.onchange = ( act, ...args ) => this.onchange( act, id, ...args );
 		uiOsc.addWaves( this._waveList );
-		uiOsc.rootElement.dataset.id = id;
-		uiOsc.rootElement.dataset.order = osc.order;
-		this._elOscList.append( uiOsc.rootElement );
-		if ( this._attached ) {
-			uiOsc.attached();
-		}
+		uiOsc.dataset.id = id;
+		this._elOscList.append( uiOsc );
 	}
 	removeOscillator( id ) {
 		const osc = this._uiOscs.get( id );
 
 		if ( osc ) {
-			osc.rootElement.remove();
+			osc.remove();
 			this._uiOscs.delete( id );
 		}
 	}
@@ -72,14 +71,16 @@ class gsuiSynthesizer {
 	// events:
 	// .........................................................................
 	_onclickNewOsc() {
-		this.onchange( "addOscillator" );
+		GSUI.dispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
 	}
 	_onchangeReorder() {
 		const oscs = gsuiReorder.listComputeOrderChange( this._elOscList, {} );
 
-		this.onchange( "reorderOscillator", oscs );
+		GSUI.dispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
 	}
 }
+
+customElements.define( "gsui-synthesizer", gsuiSynthesizer );
 
 gsuiSynthesizer.template = document.querySelector( "#gsuiSynthesizer-template" );
 gsuiSynthesizer.template.remove();
