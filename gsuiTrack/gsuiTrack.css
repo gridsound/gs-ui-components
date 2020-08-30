@@ -42,13 +42,13 @@
 	display: block;
 	background-color: rgba( 0, 0, 0, var( --rel-a, 0 ) );
 }
-.gsuiTrack-row:nth-child( even ) {
+.gsuiTrack-row:nth-child( odd ) {
 	--rel-a: .06;
 }
 .gsuiTrack-row.gsui-mute {
 	--rel-a: .25;
 }
-.gsuiTrack-row.gsui-mute:nth-child( even ) {
+.gsuiTrack-row.gsui-mute:nth-child( odd ) {
 	--rel-a: .29;
 }
 .gsuiTrack-row > div {
