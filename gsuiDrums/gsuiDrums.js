@@ -2,7 +2,7 @@
 
 class gsuiDrums {
 	constructor() {
-		const root = gsuiDrums.template.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-drums" ),
 			elLines = root.querySelector( ".gsuiDrums-lines" ),
 			timeline = new gsuiTimeline(),
 			drumrows = new gsuiDrumrows(),
@@ -156,7 +156,7 @@ class gsuiDrums {
 		const grp = this._sliderGroups.get( drum.row ),
 			prop = grp.dataset.currentProp;
 
-		this._addItem( id, "drum", drum, gsuiDrums.templateDrum );
+		this._addItem( id, "drum", drum, "gsui-drums-drum" );
 		grp.set( id, drum.when, 1 / this._stepsPerBeat, 0 );
 	}
 	removeDrum( id ) {
@@ -166,13 +166,13 @@ class gsuiDrums {
 		this._removeItem( id );
 	}
 	addDrumcut( id, drumcut ) {
-		this._addItem( id, "drumcut", drumcut, gsuiDrums.templateDrumcut );
+		this._addItem( id, "drumcut", drumcut, "gsui-drums-drumcut" );
 	}
 	removeDrumcut( id ) {
 		this._removeItem( id );
 	}
 	createDrumrow( id ) {
-		const elLine = gsuiDrums.templateLine.cloneNode( true ),
+		const elLine = GSUI.getTemplate( "gsui-drums-line" ),
 			grp = elLine.querySelector( "gsui-slidergroup" );
 
 		elLine.querySelector( ".gsuiDrums-lineIn" ).style.fontSize = `${ this._pxPerBeat }px`;
@@ -210,7 +210,7 @@ class gsuiDrums {
 		}
 	}
 	_addItem( id, itemType, item, template ) {
-		const elItem = template.cloneNode( true ),
+		const elItem = GSUI.getTemplate( template ),
 			stepDur = 1 / this._stepsPerBeat;
 
 		elItem.dataset.id = id;
@@ -248,7 +248,7 @@ class gsuiDrums {
 		}
 	}
 	_createPreview( template, rowId, when ) {
-		const el = template.cloneNode( true );
+		const el = GSUI.getTemplate( template );
 
 		el.classList.add( "gsuiDrums-preview" );
 		el.style.left = `${ when }em`;
@@ -266,8 +266,8 @@ class gsuiDrums {
 			adding = this._currAction.startsWith( "add" ),
 			itemType = this._currAction.endsWith( "Drums" ) ? "drum" : "drumcut",
 			template = itemType === "drum"
-				? gsuiDrums.templateDrum
-				: gsuiDrums.templateDrumcut,
+				? "gsui-drums-drum"
+				: "gsui-drums-drumcut",
 			drumsArr = [];
 
 		this._drumsMap.forEach( ( arr, id ) => {
@@ -438,19 +438,3 @@ class gsuiDrums {
 		this._elLines.onmousemove = this._mousemoveLines;
 	}
 }
-
-gsuiDrums.template = document.querySelector( "#gsuiDrums-template" );
-gsuiDrums.template.remove();
-gsuiDrums.template.removeAttribute( "id" );
-
-gsuiDrums.templateLine = document.querySelector( "#gsuiDrums-line-template" );
-gsuiDrums.templateLine.remove();
-gsuiDrums.templateLine.removeAttribute( "id" );
-
-gsuiDrums.templateDrum = document.querySelector( "#gsuiDrums-drum-template" );
-gsuiDrums.templateDrum.remove();
-gsuiDrums.templateDrum.removeAttribute( "id" );
-
-gsuiDrums.templateDrumcut = document.querySelector( "#gsuiDrums-drumcut-template" );
-gsuiDrums.templateDrumcut.remove();
-gsuiDrums.templateDrumcut.removeAttribute( "id" );
