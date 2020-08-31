@@ -1,16 +1,18 @@
 "use strict";
 
-class gsuiDrums {
+class gsuiDrums extends HTMLElement {
 	constructor() {
-		const root = GSUI.getTemplate( "gsui-drums" ),
+		const children = GSUI.getTemplate( "gsui-drums" ),
+			root = children[ 0 ],
 			elLines = root.querySelector( ".gsuiDrums-lines" ),
 			timeline = new gsuiTimeline(),
 			drumrows = new gsuiDrumrows(),
 			beatlines = root.querySelector( "gsui-beatlines" ),
-			panels = new gsuiPanels( root.querySelector( ".gsuiDrums-panels" ) ),
+			panels = new gsuiPanels( root ),
 			elRows = drumrows.rootElement;
 
-		this.rootElement = root;
+		super();
+		this._children = children;
 		this.drumrows = drumrows;
 		this._panels = panels;
 		this._timeline = timeline;
@@ -31,7 +33,6 @@ class gsuiDrums {
 		this._currAction = "";
 		this._draggingRowId = null;
 		this._draggingWhenStart = 0;
-		this._attached = false;
 		this._hoveringStatus = "";
 		this._drumsMap = new Map();
 		this._previewsMap = new Map();
@@ -43,13 +44,13 @@ class gsuiDrums {
 		this._elDrumHover = this._qS( "drumHover" );
 		this._elDrumcutHover = this._qS( "drumcutHover" );
 		this._elCurrentTime = this._qS( "currentTime" );
-		this._nlLinesIn = root.getElementsByClassName( "gsuiDrums-lineIn" );
+		this._nlLinesIn = this.getElementsByClassName( "gsuiDrums-lineIn" );
 		this._onmouseupNew = this._onmouseupNew.bind( this );
 		this._mousemoveLines = this._mousemoveLines.bind( this );
-		this._dispatch = GSUI.dispatchEvent.bind( null, root, "gsuiDrums" );
+		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrums" );
 		Object.seal( this );
 
-		root.addEventListener( "gsuiEvents", e => {
+		this.addEventListener( "gsuiEvents", e => {
 			const d = e.detail,
 				dt = e.target.dataset;
 
@@ -68,7 +69,7 @@ class gsuiDrums {
 				}
 			}
 		} );
-		root.oncontextmenu = e => e.preventDefault();
+		this.oncontextmenu = e => e.preventDefault();
 		this._elDrumHover.remove();
 		this._elDrumcutHover.remove();
 		this._elDrumHover.onmousedown = this._onmousedownNew.bind( this, "Drums" );
@@ -93,12 +94,18 @@ class gsuiDrums {
 	}
 
 	// .........................................................................
-	attached() {
-		this._attached = true;
-		this._panels.attached();
-		this._timeline.resized();
-		this._timeline.offset( this._offset, this._pxPerBeat );
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.append( ...this._children );
+			this.classList.add( "gsuiDrums" );
+			this.setAttribute( "tabindex", "-1" );
+			this._panels.attached();
+			this._timeline.resized();
+			this._timeline.offset( this._offset, this._pxPerBeat );
+		}
 	}
+
+	// .........................................................................
 	resize( w, h ) {
 		this._width = w;
 		this._height = h;
@@ -106,7 +113,7 @@ class gsuiDrums {
 		this._timeline.offset( this._offset, this._pxPerBeat );
 	}
 	toggleShadow( b ) {
-		this.rootElement.classList.toggle( "gsuiDrums-shadowed", b );
+		this.classList.toggle( "gsuiDrums-shadowed", b );
 	}
 	currentTime( beat ) {
 		this._timeline.currentTime( beat );
@@ -228,7 +235,8 @@ class gsuiDrums {
 
 	// .........................................................................
 	_qS( c ) {
-		return this.rootElement.querySelector( `.gsuiDrums-${ c }` );
+		return ( this.firstChild ? this : this._children[ 0 ] )
+			.querySelector( `.gsuiDrums-${ c }` );
 	}
 	_has( el, c ) {
 		return el.classList.contains( `gsuiDrums-${ c }` );
@@ -438,3 +446,5 @@ class gsuiDrums {
 		this._elLines.onmousemove = this._mousemoveLines;
 	}
 }
+
+customElements.define( "gsui-drums", gsuiDrums );
