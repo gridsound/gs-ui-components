@@ -19,6 +19,7 @@ class gsuiLFO extends HTMLElement {
 		this._dur = 4;
 		this._waveWidth = 300;
 		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" );
+		this._onresize = this._onresize.bind( this );
 		Object.seal( this );
 
 		this.onchange = this._onchangeForm.bind( this );
@@ -35,10 +36,10 @@ class gsuiLFO extends HTMLElement {
 			this.append( ...this._children );
 			this._children = null;
 		}
-		GSUI.observeSizeOf( this, this._resizedCallback.bind( this ) );
+		GSUI.observeSizeOf( this, this._onresize );
 	}
 	disconnectedCallback() {
-		GSUI.unobserveSizeOf( this );
+		GSUI.unobserveSizeOf( this, this._onresize );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "type", "delay", "speed", "attack", "amp" ];
@@ -63,11 +64,6 @@ class gsuiLFO extends HTMLElement {
 					break;
 			}
 		}
-	}
-	_resizedCallback() {
-		this._waveWidth = this._beatlines.getBoundingClientRect().width;
-		this._updatePxPerBeat();
-		this._wave.resized();
 	}
 
 	// .........................................................................
@@ -130,6 +126,11 @@ class gsuiLFO extends HTMLElement {
 
 	// events:
 	// .........................................................................
+	_onresize() {
+		this._waveWidth = this._beatlines.getBoundingClientRect().width;
+		this._updatePxPerBeat();
+		this._wave.resized();
+	}
 	_onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-toggle": this._dispatch( "toggle" ); break;
