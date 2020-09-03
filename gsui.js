@@ -41,19 +41,30 @@ const GSUI = {
 	},
 
 	// .........................................................................
+	_resizeMap: new Map(),
 	observeSizeOf( el, fn ) {
-		if ( !GSUI._resizeMap.has( el ) ) {
-			GSUI._resizeObs.observe( el );
-			GSUI._resizeMap.set( el, fn );
+		if ( GSUI._resizeMap.has( el ) ) {
+			GSUI._resizeMap.get( el ).push( fn );
+		} else {
+			GSUI._resizeMap.set( el, [ fn ] );
+		}
+		GSUI._resizeObs.observe( el );
+	},
+	unobserveSizeOf( el, fn ) {
+		const fns = GSUI._resizeMap.get( el ),
+			fnInd = fns.indexOf( fn );
+
+		GSUI._resizeObs.unobserve( el );
+		if ( fnInd > -1 ) {
+			fns.splice( fnInd, 1 );
+			if ( fns.length === 0 ) {
+				GSUI._resizeMap.delete( el );
+			}
 		}
 	},
-	unobserveSizeOf( el ) {
-		GSUI._resizeObs.unobserve( el );
-		GSUI._resizeMap.delete( el );
-	},
-	_resizeMap: new Map(),
 	_resizeObsCallback( entries ) {
-		entries.forEach( e => GSUI._resizeMap.get( e.target )( e.width, e.height ) );
+		entries.forEach( e => GSUI._resizeMap.get( e.target )
+			.forEach( fn => fn( e.contentRect.width, e.contentRect.height ) ) );
 	},
 };
 
