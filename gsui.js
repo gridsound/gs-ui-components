@@ -66,6 +66,11 @@ const GSUI = {
 		entries.forEach( e => GSUI._resizeMap.get( e.target )
 			.forEach( fn => fn( e.contentRect.width, e.contentRect.height ) ) );
 	},
+
+	// .........................................................................
+	unselectText() {
+		window.getSelection().removeAllRanges();
+	},
 };
 
 GSUI._resizeObs = new ResizeObserver( GSUI._resizeObsCallback );
