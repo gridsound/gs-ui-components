@@ -1,0 +1,144 @@
+.gsuiTimeline2 {
+	position: relative;
+	display: block;
+	height: 100%;
+	color: var( --gsuiTimeline2-color );
+	background-color: var( --gsuiTimeline2-bg );
+	--gsuiTimeline2-beats-offset: 0;
+	--gsuiTimeline2-beats-incr: 1;
+}
+
+/* .......................................................................... */
+.gsuiTimeline2-steps {
+	position: absolute;
+	top: calc( 50% - 1px );
+	width: 100%;
+	height: 2px;
+	pointer-events: none;
+	background-repeat: no-repeat;
+}
+
+/* .......................................................................... */
+.gsuiTimeline2-beats {
+	display: flex;
+	height: 100%;
+	/*counter-reset: beat var( --gsuiTimeline2-beats-offset );*/
+	counter-reset: beat calc( var( --gsuiTimeline2-beats-offset ) - var( --gsuiTimeline2-beats-incr ) );
+	pointer-events: none;
+}
+.gsuiTimeline2-beat {
+	counter-increment: beat var( --gsuiTimeline2-beats-incr );
+	display: inline-block;
+	margin-left: calc( var( --gsuiTimeline2-beats-incr ) * 1em );
+	opacity: var( --gsuiTimeline2-beats-opacity, 0 );
+}
+.gsuiTimeline2-beat:first-child {
+	margin-left: calc( var( --gsuiTimeline2-beats-offset ) * 1em );
+}
+.gsuiTimeline2-beat::before {
+	content: counter( beat );
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 52px;
+	margin-left: -26px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	/*background-color: #0001;*/
+}
+.gsuiTimeline2-measure {
+	font-weight: bold;
+	opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiTimeline2-loopLine,
+.gsuiTimeline2-timeLine {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 50%;
+	transition: .2s background-color;
+}
+.gsuiTimeline2-loopLine:hover,
+.gsuiTimeline2-timeLine:hover,
+.gsuiTimeline2-draggingLoopBody .gsuiTimeline2-loopLine,
+.gsuiTimeline2-draggingLoopHandleA .gsuiTimeline2-loopLine,
+.gsuiTimeline2-draggingLoopHandleB .gsuiTimeline2-loopLine,
+.gsuiTimeline2-draggingTime .gsuiTimeline2-timeLine {
+	/*background-color: var( --gsuiTimeline2-lines-bg );*/
+}
+.gsuiTimeline2-timeLine {
+	top: 50%;
+	bottom: 0;
+}
+
+/* .......................................................................... */
+.gsuiTimeline2-cursor,
+.gsuiTimeline2-cursorPreview {
+	position: absolute;
+	margin-left: -8px;
+	bottom: 1px;
+	fill: var( --gsuiTimeline2-cursor-fill );
+	stroke: var( --gsuiTimeline2-cursor-fill );
+	stroke-width: 2px;
+	stroke-linejoin: round;
+	pointer-events: none;
+}
+.gsuiTimeline2-cursorPreview {
+	opacity: .5;
+}
+
+/* .......................................................................... */
+.gsuiTimeline2-loop {
+	position: absolute;
+	height: 6px;
+	transition: .1s;
+	transition-property: opacity, visibility;
+	opacity: 0;
+	visibility: hidden;
+}
+.gsuiTimeline2-looping .gsuiTimeline2-loop {
+	opacity: 1;
+	visibility: visible;
+}
+.gsuiTimeline2-loopBody {
+	height: 100%;
+	transition: filter .2s;
+	background-color: var( --gsuiTimeline2-loop-bg );
+}
+.gsuiTimeline2-loopBody:hover,
+.gsuiTimeline2-draggingLoopBody .gsuiTimeline2-loopBody {
+	filter: brightness( 1.2 );
+}
+.gsuiTimeline2-loopHandleA { left: -5px; }
+.gsuiTimeline2-loopHandleB { right: -5px; }
+.gsuiTimeline2-loopHandle {
+	position: absolute;
+	top: 0;
+	bottom: -6px;
+	width: 25%;
+	min-width: 7px;
+	max-width: 12px;
+	/*background-color: #0006;*/
+}
+.gsuiTimeline2-loopBorderA { left: 0; }
+.gsuiTimeline2-loopBorderB { right: 0; }
+.gsuiTimeline2-loopBorder {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 2px;
+	transition: .2s;
+	transition-property: bottom, background-color;
+	pointer-events: none;
+}
+.gsuiTimeline2-loopHandle:hover + .gsuiTimeline2-loopBorder,
+.gsuiTimeline2-draggingLoopHandleA .gsuiTimeline2-loopBorderA,
+.gsuiTimeline2-draggingLoopHandleB .gsuiTimeline2-loopBorderB {
+	bottom: -3px;
+	background-color: var( --gsuiTimeline2-loopBorder-bg );
+}
