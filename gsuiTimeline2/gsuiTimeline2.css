@@ -69,7 +69,7 @@
 .gsuiTimeline2-draggingLoopHandleA .gsuiTimeline2-loopLine,
 .gsuiTimeline2-draggingLoopHandleB .gsuiTimeline2-loopLine,
 .gsuiTimeline2-draggingTime .gsuiTimeline2-timeLine {
-	/*background-color: var( --gsuiTimeline2-lines-bg );*/
+	background-color: var( --gsuiTimeline2-lines-bg );
 }
 .gsuiTimeline2-timeLine {
 	top: 50%;
