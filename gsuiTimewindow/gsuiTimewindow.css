@@ -1,0 +1,110 @@
+.gsuiTimewindow {
+	display: flex;
+	align-items: start;
+	height: 100%;
+	overflow: auto;
+	resize: both;
+	background-color: var( --gsuiTimewindow-bg );
+}
+
+/* .......................................................................... */
+.gsuiTimewindow-panel,
+.gsuiTimewindow-main {
+	display: flex;
+	min-height: 100%;
+	flex-direction: column;
+}
+.gsuiTimewindow-panel {
+	position: sticky;
+	left: 0;
+	z-index: 2;
+	background: #29fc;
+}
+.gsuiTimewindow-main {
+	position: relative;
+}
+.gsuiTimewindow-panelUp,
+.gsuiTimewindow-time {
+	position: sticky;
+	top: 0;
+	height: 32px;
+	z-index: 1;
+}
+.gsuiTimewindow-panelUp {
+	background: var( --gsuiTimewindow-panelUp-bg );
+}
+.gsuiTimewindow-panelContent,
+.gsuiTimewindow-content {
+	flex: 1;
+	font-size: var( --gsuiTimeline2-lineH );
+}
+.gsuiTimewindow-content {
+	width: 1000000px;
+}
+.gsuiTimewindow-panelContentDown,
+.gsuiTimewindow-contentDown {
+	position: sticky;
+	bottom: 0px;
+	height: 96px;
+	background: #5c7c;
+	overflow: hidden;
+}
+
+/* .......................................................................... */
+.gsuiTimewindow-panelContent > *,
+.gsuiTimewindow-content > * {
+	height: 1em;
+}
+.gsuiTimewindow-content > * > * {
+	box-sizing: border-box;
+	position: relative;
+	height: 100%;
+	font-size: calc( var( --gsuiTimeline2-pxperbeat ) * 1px );
+}
+
+/* .......................................................................... */
+.gsuiTimewindow-panelExtend {
+	position: absolute;
+}
+.gsuiTimewindow-panelExtendX {
+	left: 0;
+	right: 0;
+	top: -2px;
+	height: 6px;
+	cursor: ns-resize;
+}
+.gsuiTimewindow-panelExtendY {
+	top: 0;
+	bottom: 0;
+	right: -2px;
+	width: 6px;
+	cursor: ew-resize;
+}
+
+/* .......................................................................... */
+.gsuiTimewindow .gsuiTimeline2 {
+	--gsuiTimeline2-cursor-fill: var( --gsuiTimewindow-currentTime-fill );
+}
+.gsuiTimewindow-currentTime,
+.gsuiTimewindow-loop {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	bottom: 0;
+	pointer-events: none;
+}
+.gsuiTimewindow-currentTime {
+	width: 2px;
+	margin-left: -1px;
+	background-color: var( --gsuiTimewindow-currentTime-fill );
+}
+.gsuiTimewindow-loop {
+	opacity: 0;
+	transition: .2s opacity;
+	background-color: var( --gsuiTimewindow-loop-bg );
+}
+.gsuiTimewindow-looping .gsuiTimewindow-loop {
+	opacity: 1;
+}
+.gsuiTimewindow-loopA { left: 0; }
+.gsuiTimewindow-loopB { right: 0; }
