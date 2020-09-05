@@ -144,7 +144,7 @@ class gsuiTimeline2 extends HTMLElement {
 	_getBeatByPageX( pageX ) {
 		const bcrX = this._elTimeLine.getBoundingClientRect().x;
 
-		return this._beatRound( ( pageX - bcrX ) / this.pxPerBeat );
+		return Math.max( 0, this._beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
 	}
 	_updateStepsBg() {
 		const sPB = this.stepsPerBeat,
