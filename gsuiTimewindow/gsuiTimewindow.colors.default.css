@@ -1,7 +1,7 @@
 .gsuiTimewindow {
-	--gsuiTimewindow-bg: #0c3c50;
 	--gsuiTimewindow-bg: #456168;
 	--gsuiTimewindow-loop-bg: #0004;
-	--gsuiTimewindow-panelUp-bg: #000;
+	--gsuiTimewindow-panel-bg: #555;
+	--gsuiTimewindow-panelUp-bg: #444;
 	--gsuiTimewindow-currentTime-fill: #fdfd70;
 }

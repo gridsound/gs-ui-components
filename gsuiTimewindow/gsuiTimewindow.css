@@ -1,9 +1,9 @@
 .gsuiTimewindow {
 	display: flex;
 	align-items: start;
+	width: 100%;
 	height: 100%;
 	overflow: auto;
-	resize: both;
 	background-color: var( --gsuiTimewindow-bg );
 }
 
@@ -16,50 +16,36 @@
 }
 .gsuiTimewindow-panel {
 	position: sticky;
+	z-index: 3;
 	left: 0;
-	z-index: 2;
-	background: #29fc;
-}
-.gsuiTimewindow-main {
-	position: relative;
+	background: var( --gsuiTimewindow-panel-bg );
 }
 .gsuiTimewindow-panelUp,
 .gsuiTimewindow-time {
 	position: sticky;
+	z-index: 2;
 	top: 0;
 	height: 32px;
-	z-index: 1;
 }
 .gsuiTimewindow-panelUp {
 	background: var( --gsuiTimewindow-panelUp-bg );
 }
 .gsuiTimewindow-panelContent,
-.gsuiTimewindow-content {
+.gsuiTimewindow-mainBody {
 	flex: 1;
-	font-size: var( --gsuiTimeline2-lineH );
 }
-.gsuiTimewindow-content {
+.gsuiTimewindow-mainBody {
 	width: 1000000px;
+}
+.gsuiTimewindow-mainContent {
+	position: relative;
 }
 .gsuiTimewindow-panelContentDown,
 .gsuiTimewindow-contentDown {
 	position: sticky;
 	bottom: 0px;
 	height: 96px;
-	background: #5c7c;
 	overflow: hidden;
-}
-
-/* .......................................................................... */
-.gsuiTimewindow-panelContent > *,
-.gsuiTimewindow-content > * {
-	height: 1em;
-}
-.gsuiTimewindow-content > * > * {
-	box-sizing: border-box;
-	position: relative;
-	height: 100%;
-	font-size: calc( var( --gsuiTimeline2-pxperbeat ) * 1px );
 }
 
 /* .......................................................................... */
@@ -88,7 +74,6 @@
 .gsuiTimewindow-currentTime,
 .gsuiTimewindow-loop {
 	position: absolute;
-	z-index: 1;
 	top: 0;
 	bottom: 0;
 	pointer-events: none;

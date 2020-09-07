@@ -9,16 +9,13 @@ class gsuiTimewindow extends HTMLElement {
 		super();
 		this._children = children;
 		this._elPanel = elPanel;
-		this._elPanelDown = elPanel.children[ 2 ];
-		this._elPanelExtend = elPanel.lastChild;
-		this._elMain = elMain;
-		this._elBeatlines = elMain.children[ 0 ];
-		this._elCurrentTime = elMain.children[ 1 ];
-		this._elLoopA = elMain.children[ 2 ];
-		this._elLoopB = elMain.children[ 3 ];
-		this._elTimeline = elMain.children[ 4 ].firstChild;
-		this._elContent = elMain.children[ 5 ];
-		this._elDown = elMain.lastChild;
+		this._elPanelDown = elPanel.querySelector( ".gsuiTimewindow-panelContentDown" );
+		this._elTimeline = elMain.querySelector( "gsui-timeline2" );
+		this._elBeatlines = elMain.querySelector( "gsui-beatlines" );
+		this._elCurrentTime = elMain.querySelector( ".gsuiTimewindow-currentTime" );
+		this._elLoopA = elMain.querySelector( ".gsuiTimewindow-loopA" );
+		this._elLoopB = elMain.querySelector( ".gsuiTimewindow-loopB" );
+		this._elDown = elMain.querySelector( ".gsuiTimewindow-contentDown" );
 		this._pxPerBeat =
 		this._panelSize =
 		this._lineHeight =
@@ -31,9 +28,9 @@ class gsuiTimewindow extends HTMLElement {
 
 		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
 		elMain.onwheel = this._onwheel.bind( this );
-		elPanel.children[ 1 ].onwheel = this._onwheelPanel.bind( this );
-		elPanel.style.minWidth = `100px`;
-		this._elPanelExtend.onmousedown = this._onmousedownExtend.bind( this, "side" );
+		elPanel.style.minWidth = "100px";
+		elPanel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this._onwheelPanel.bind( this );
+		elPanel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this._onmousedownExtend.bind( this, "side" );
 	}
 
 	// .........................................................................
@@ -43,7 +40,7 @@ class gsuiTimewindow extends HTMLElement {
 			this.setAttribute( "tabindex", -1 );
 			this.setAttribute( "lineheight", 48 );
 			this.append( ...this._children );
-			if ( this.hasAttribute("downpanel") ) {
+			if ( this.hasAttribute( "downpanel" ) ) {
 				this._elPanelDown.firstChild.onmousedown =
 				this._elDown.firstChild.onmousedown = this._onmousedownExtend.bind( this, "down" );
 			} else {
@@ -67,12 +64,14 @@ class gsuiTimewindow extends HTMLElement {
 					this._pxPerBeat = +val;
 					this._elTimeline.setAttribute( "pxperbeat", val );
 					this._elBeatlines.setAttribute( "pxperbeat", val );
-					this.style.setProperty( "--gsuiTimeline2-pxperbeat", val );
-					this._elMain.style.fontSize = `${ val }px`;
+					this.style.setProperty( "--gsuiTimewindow-pxperbeat", val );
+					this._elCurrentTime.style.fontSize =
+					this._elLoopA.style.fontSize =
+					this._elLoopB.style.fontSize = `${ val }px`;
 					break;
 				case "lineheight":
 					this._lineHeight = +val;
-					this.style.setProperty( "--gsuiTimeline2-lineH", val );
+					this.style.setProperty( "--gsuiTimewindow-lineH", val );
 					break;
 				case "currenttime":
 					this._elTimeline.setAttribute( "currenttime", val );
@@ -124,12 +123,16 @@ class gsuiTimewindow extends HTMLElement {
 				mousepx = e.pageX - this.getBoundingClientRect().left - offpx,
 				scrollPpb = this.scrollLeft / ppb,
 				mul = e.deltaY > 0 ? .9 : 1.1,
-				ppbNew = Math.round( Math.min( Math.max( 8, ppb * mul ), 512 ) ),
-				scrollIncr = mousepx / ppb * ( ppbNew - ppb );
+				ppbNew = Math.round( Math.min( Math.max( 8, ppb * mul ), 512 ) );
 
 			e.preventDefault();
-			this.setAttribute( "pxperbeat", ppbNew );
-			this.scrollLeft = scrollPpb * ppbNew + scrollIncr;
+			if ( ppbNew !== ppb ) {
+				const scrollIncr = mousepx / ppb * ( ppbNew - ppb );
+
+				this.setAttribute( "pxperbeat", ppbNew );
+				this.scrollLeft = scrollPpb * ppbNew + scrollIncr;
+				GSUI.dispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
+			}
 		}
 	}
 	_onwheelPanel( e ) {
