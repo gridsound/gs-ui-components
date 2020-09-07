@@ -51,11 +51,14 @@ class gsuiTimewindow extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "timesignature", "pxperbeat", "lineheight", "currenttime", "loop" ];
+		return [ "step", "timesignature", "pxperbeat", "lineheight", "currenttime", "loop" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
+				case "step":
+					this._elTimeline.setAttribute( "step", val );
+					break;
 				case "timesignature":
 					this._elTimeline.setAttribute( "timesignature", val );
 					this._elBeatlines.setAttribute( "timesignature", val );
