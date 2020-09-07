@@ -36,7 +36,7 @@ class gsuiBeatlines extends HTMLElement {
 		`;
 	}
 	static _repeat( w, col, em ) {
-		return `repeating-linear-gradient(90.01deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
+		return `repeating-linear-gradient(90deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
 	}
 }
 
