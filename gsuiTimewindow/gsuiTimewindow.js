@@ -28,7 +28,6 @@ class gsuiTimewindow extends HTMLElement {
 
 		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
 		elMain.onwheel = this._onwheel.bind( this );
-		elPanel.style.minWidth = "100px";
 		elPanel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this._onwheelPanel.bind( this );
 		elPanel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this._onmousedownExtend.bind( this, "side" );
 	}
@@ -37,8 +36,7 @@ class gsuiTimewindow extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiTimewindow" );
-			this.setAttribute( "tabindex", -1 );
-			this.setAttribute( "lineheight", 48 );
+			this._elPanel.style.minWidth = `${ this.getAttribute( "panelmin" ) || 100 }px`;
 			this.append( ...this._children );
 			if ( this.hasAttribute( "downpanel" ) ) {
 				this._elPanelDown.firstChild.onmousedown =
@@ -48,6 +46,12 @@ class gsuiTimewindow extends HTMLElement {
 				this._elDown.remove();
 			}
 			this._children = null;
+			if ( !this.hasAttribute( "pxperbeat" ) ) {
+				this.setAttribute( "pxperbeat", 100 );
+			}
+			if ( !this.hasAttribute( "lineheight" ) ) {
+				this.setAttribute( "lineheight", 48 );
+			}
 		}
 	}
 	static get observedAttributes() {
@@ -76,10 +80,16 @@ class gsuiTimewindow extends HTMLElement {
 					this._lineHeight = +val;
 					this.style.setProperty( "--gsuiTimewindow-lineH", `${ val }px` );
 					break;
-				case "currenttime":
+				case "currenttime": {
+					const step = +this.getAttribute( "currenttimestep" );
+
 					this._elTimeline.setAttribute( "currenttime", val );
-					this._elCurrentTime.style.left = `${ val }em`;
-					break;
+					if ( step ) {
+						this._elCurrentTime.style.left = `${ ( val / step | 0 ) * step }em`;
+					} else {
+						this._elCurrentTime.style.left = `${ val }em`;
+					}
+				} break;
 				case "loop":
 					if ( val ) {
 						const [ a, b ] = val.split( "-" );
@@ -122,11 +132,13 @@ class gsuiTimewindow extends HTMLElement {
 	_onwheel( e ) {
 		if ( e.ctrlKey ) {
 			const ppb = this._pxPerBeat,
+				min = +this.getAttribute( "pxperbeatmin" ) || 8,
+				max = +this.getAttribute( "pxperbeatmax" ) || 512,
 				offpx = parseInt( this._elPanel.style.minWidth ),
 				mousepx = e.pageX - this.getBoundingClientRect().left - offpx,
 				scrollPpb = this.scrollLeft / ppb,
 				mul = e.deltaY > 0 ? .9 : 1.1,
-				ppbNew = Math.round( Math.min( Math.max( 8, ppb * mul ), 512 ) );
+				ppbNew = Math.round( Math.min( Math.max( min, ppb * mul ), max ) );
 
 			e.preventDefault();
 			if ( ppbNew !== ppb ) {
@@ -141,16 +153,21 @@ class gsuiTimewindow extends HTMLElement {
 	_onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
 			const lh = this._lineHeight,
+				min = +this.getAttribute( "lineheightmin" ) || 24,
+				max = +this.getAttribute( "lineheightmax" ) || 256,
 				offpx = parseInt( this._elTimeline.clientHeight ),
 				mousepx = e.pageY - this.getBoundingClientRect().top - offpx,
 				scrollLh = this.scrollTop / lh,
 				mul = e.deltaY > 0 ? .9 : 1.1,
-				lhNew = Math.round( Math.min( Math.max( 24, lh * mul ), 256 ) ),
-				scrollIncr = mousepx / lh * ( lhNew - lh );
+				lhNew = Math.round( Math.min( Math.max( min, lh * mul ), max ) );
 
 			e.preventDefault();
-			this.setAttribute( "lineheight", lhNew );
-			this.scrollTop = scrollLh * lhNew + scrollIncr;
+			if ( lhNew !== lh ) {
+				const scrollIncr = mousepx / lh * ( lhNew - lh );
+
+				this.setAttribute( "lineheight", lhNew );
+				this.scrollTop = scrollLh * lhNew + scrollIncr;
+			}
 		}
 	}
 	_onmousedownExtend( panel, e ) {
@@ -170,13 +187,17 @@ class gsuiTimewindow extends HTMLElement {
 	}
 	_onmousemoveExtendPanel( e ) {
 		const w = this._panelSize + ( e.pageX - this._mousedownPageX ),
-			w2 = Math.max( 100, Math.min( w, 200 ) );
+			min = +this.getAttribute( "panelmin" ) || 50,
+			max = +this.getAttribute( "panelmax" ) || 260,
+			w2 = Math.max( min, Math.min( w, max ) );
 
 		this._elPanel.style.minWidth = `${ w2 }px`;
 	}
 	_onmousemoveExtendDownPanel( e ) {
 		const h = this._panelSize + ( this._mousedownPageY - e.pageY ),
-			h2 = Math.max( 60, Math.min( h, 200 ) );
+			min = +this.getAttribute( "paneldownmin" ) || 50,
+			max = +this.getAttribute( "paneldownmax" ) || 260,
+			h2 = Math.max( min, Math.min( w, max ) );
 
 		this._elPanelDown.style.height =
 		this._elDown.style.height = `${ h2 }px`;
