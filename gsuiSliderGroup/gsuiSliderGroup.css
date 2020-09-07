@@ -13,6 +13,7 @@
 	position: relative;
 	overflow: hidden;
 	height: 100%;
+	z-index: 0;
 }
 .gsuiSliderGroup-slidersWrap {
 	position: absolute;
