@@ -182,14 +182,16 @@ class gsuiTimeline2 extends HTMLElement {
 	_updateNumberBeats() {
 		const elBeats = this._elBeats,
 			px = this.pxPerBeat * ( this._onlyMeasures ? this.beatsPerMeasure : 1 ),
-			size = Math.ceil( this._scrollingAncestor.clientWidth / px ) + 1;
+			nb = Math.ceil( this._scrollingAncestor.clientWidth / px ) + 1;
 
-		if ( elBeats.children.length > size ) {
-			while ( elBeats.children.length > size ) {
+		if ( nb < 0 || nb > 500 ) {
+			return console.warn( "gsuiTimeline2: anormal number of nodes to create", nb );
+		} else if ( elBeats.children.length > nb ) {
+			while ( elBeats.children.length > nb ) {
 				elBeats.lastChild.remove();
 			}
 		} else {
-			while ( elBeats.children.length < size ) {
+			while ( elBeats.children.length < nb ) {
 				elBeats.append( GSUI.createElement( "span", { class: "gsuiTimeline2-beat" } ) );
 			}
 		}
