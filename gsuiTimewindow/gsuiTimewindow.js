@@ -67,14 +67,14 @@ class gsuiTimewindow extends HTMLElement {
 					this._pxPerBeat = +val;
 					this._elTimeline.setAttribute( "pxperbeat", val );
 					this._elBeatlines.setAttribute( "pxperbeat", val );
-					this.style.setProperty( "--gsuiTimewindow-pxperbeat", val );
+					this.style.setProperty( "--gsuiTimewindow-pxperbeat", `${ val }px` );
 					this._elCurrentTime.style.fontSize =
 					this._elLoopA.style.fontSize =
 					this._elLoopB.style.fontSize = `${ val }px`;
 					break;
 				case "lineheight":
 					this._lineHeight = +val;
-					this.style.setProperty( "--gsuiTimewindow-lineH", val );
+					this.style.setProperty( "--gsuiTimewindow-lineH", `${ val }px` );
 					break;
 				case "currenttime":
 					this._elTimeline.setAttribute( "currenttime", val );
