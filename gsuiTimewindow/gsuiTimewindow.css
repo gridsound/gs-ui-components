@@ -19,6 +19,7 @@
 	z-index: 3;
 	left: 0;
 	background: var( --gsuiTimewindow-panel-bg );
+	box-shadow: 1px 0 var( --gsuiTimewindow-panel-border );
 }
 .gsuiTimewindow-panelUp,
 .gsuiTimewindow-time {
@@ -28,7 +29,8 @@
 	height: 32px;
 }
 .gsuiTimewindow-panelUp {
-	background: var( --gsuiTimewindow-panelUp-bg );
+	background-color: var( --gsuiTimewindow-panelUp-bg );
+	background-image: var( --gsuiWindow-bgImg );
 }
 .gsuiTimewindow-panelContent,
 .gsuiTimewindow-mainBody {
