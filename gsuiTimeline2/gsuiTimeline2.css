@@ -22,8 +22,8 @@
 .gsuiTimeline2-beats {
 	display: flex;
 	height: 100%;
-	/*counter-reset: beat var( --gsuiTimeline2-beats-offset );*/
-	counter-reset: beat calc( var( --gsuiTimeline2-beats-offset ) - var( --gsuiTimeline2-beats-incr ) );
+	counter-reset: beat var( --gsuiTimeline2-beats-offset );
+	/*counter-reset: beat calc( var( --gsuiTimeline2-beats-offset ) - var( --gsuiTimeline2-beats-incr ) );*/
 	pointer-events: none;
 }
 .gsuiTimeline2-beat {
@@ -46,7 +46,6 @@
 	align-items: center;
 	justify-content: center;
 	font-size: 12px;
-	/*background-color: #0001;*/
 }
 .gsuiTimeline2-measure {
 	font-weight: bold;
