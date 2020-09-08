@@ -76,6 +76,16 @@ class gsuiTimeline2 extends HTMLElement {
 	}
 
 	// .........................................................................
+	previewCurrentTime( b ) { // to remove
+		const ret = b !== false
+				? this._beatRound( b )
+				: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
+
+		b !== false
+			? this.setAttribute( "currenttime-preview", ret )
+			: this.removeAttribute( "currenttime-preview" );
+		return ret;
+	}
 	_changePxPerBeat( ppb ) {
 		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) ),
 			beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .5 ) ),
