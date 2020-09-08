@@ -4,37 +4,16 @@
 	color: var( --gsuiDrums-color );
 }
 
-.gsuiDrums-panels {
-	height: 100%;
+/* .......................................................................... */
+.gsuiDrums gsui-timewindow {
+	scrollbar-width: none;
 }
-.gsuiDrums-sidePanel,
-.gsuiDrums-linesPanel {
-	display: flex;
-	flex-direction: column;
-}
-.gsuiDrums-linesPanel {
-	background-color: #444;
-}
-.gsuiDrums-sidePanel {
-	min-width: 150px;
-	max-width: 230px;
-}
-.gsuiDrums-sidePanelMenu {
-	height: 32px;
-	min-height: 32px;
-}
-
-.gsuiDrums-timelineWrap {
-	height: 32px;
-}
-.gsuiDrums .gsuiTimeline {
-	height: 100%;
-}
-.gsuiDrums .gsuiDrumrows {
-	flex: 1;
-}
-.gsuiDrums-lines::-webkit-scrollbar {
+.gsuiDrums gsui-timewindow::-webkit-scrollbar {
 	display: none;
+}
+.gsuiDrums .gsuiTimewindow-currentTime {
+	margin-left: 0;
+	opacity: .1;
 }
 
 /* .......................................................................... */
@@ -57,17 +36,6 @@
 }
 
 /* .......................................................................... */
-.gsuiDrums-lines {
-	flex: 1;
-	position: relative;
-	overflow: scroll auto;
-	scrollbar-width: none;
-	background-color: var( --gsuiDrums-lines-bg );
-}
-.gsuiDrums-linesAbsolute {
-	position: absolute;
-	box-shadow: 0 1000px 0 1000px var( --gsuiDrums-lines-bg );
-}
 .gsuiDrums-line.gsuiReorder-dragging {
 	opacity: .5;
 	background-color: #0004;
@@ -75,13 +43,14 @@
 .gsuiDrums-line {
 	position: relative;
 	width: 1000000px;
+	font-size: var( --gsuiTimewindow-lineH );
 	height: 1em;
 	box-sizing: border-box;
 	border-bottom: 1px solid var( --gsuiDrums-line-border );
 	transition: .2s height, .1s filter, .1s background-color;
 }
 .gsuiDrums-lineOpen {
-	height: calc( 1em + 64px );
+	height: calc( 1em + 1.5em );
 }
 .gsuiDrums-line.gsuiDrumrow-mute {
 	filter: brightness( .8 ) contrast( .8 );
@@ -98,6 +67,7 @@
 	height: 100%;
 	box-sizing: border-box;
 	border-bottom: 1px dashed var( --gsuiDrums-line-border );
+	font-size: var( --gsuiTimewindow-pxperbeat );
 	cursor: pointer;
 }
 .gsuiDrums-lineProps {
@@ -106,30 +76,6 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-}
-
-/* .......................................................................... */
-.gsuiDrums-currentTime,
-.gsuiDrums-loop {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	pointer-events: none;
-	background-color: var( --gsuiDrums-loop-bg );
-	transition: .2s opacity;
-	opacity: 0;
-}
-.gsuiDrums-loop {
-	z-index: 1;
-}
-.gsuiDrums-currentTime {
-	background-color: var( --gsuiDrums-currentTime-bg );
-	opacity: 1;
-}
-.gsuiDrums-loopA { left: 0; }
-.gsuiDrums-loopB { right: 0; }
-.gsuiDrums-loopOn {
-	opacity: .3;
 }
 
 /* .......................................................................... */
