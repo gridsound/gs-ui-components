@@ -14,9 +14,12 @@
 	min-height: 100%;
 	flex-direction: column;
 }
+.gsuiTimewindow-main {
+	z-index: 0;
+}
 .gsuiTimewindow-panel {
 	position: sticky;
-	z-index: 3;
+	z-index: 1;
 	left: 0;
 	background: var( --gsuiTimewindow-panel-bg );
 	box-shadow: 1px 0 var( --gsuiTimewindow-panel-border );
@@ -76,6 +79,7 @@
 .gsuiTimewindow-currentTime,
 .gsuiTimewindow-loop {
 	position: absolute;
+	z-index: 1;
 	top: 0;
 	bottom: 0;
 	pointer-events: none;

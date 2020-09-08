@@ -119,11 +119,14 @@ class gsuiTimewindow extends HTMLElement {
 					case "changeCurrentTime":
 						this.setAttribute( "currenttime", a );
 						break;
+					case "inputCurrentTime":
+						e.stopPropagation();
+						break;
 					case "inputLoop":
 						a === false
 							? this.removeAttribute( "loop" )
 							: this.setAttribute( "loop", `${ a }-${ b }` );
-						// e.stopPropagation();
+						e.stopPropagation();
 						break;
 				}
 			} break;
