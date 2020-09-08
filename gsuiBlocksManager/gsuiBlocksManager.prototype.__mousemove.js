@@ -19,7 +19,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			crop = Math.max( this.__valueAMin, Math.min( cropBrut, this.__valueAMax ) );
 
 		if ( crop !== this.__valueA ) {
-			const data = this._getData();
+			const data = this._opts.getData();
 
 			this.__valueA = crop;
 			this.__blcsEditing.forEach( ( blc, id ) => {
@@ -31,15 +31,15 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 					blcObj.when += crop;
 					blcObj.offset += crop;
 					blcObj.duration -= crop;
-					this.block_when( blc, blcObj.when );
+					this._blockDOMChange( blc, "when", blcObj.when );
 				}
-				this.block_duration( blc, blcObj.duration );
+				this._blockDOMChange( blc, "duration", blcObj.duration );
 				this.oneditBlock( id, blcObj, blc );
 			} );
 		}
 	} ],
 	[ "move", function() {
-		const data = this._getData(),
+		const data = this._opts.getData(),
 			when = Math.max( this.__valueAMin,
 				Math.round( ( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap ),
 			rows = Math.max( this.__valueBMin, Math.min( this.__valueBMax,
@@ -47,11 +47,11 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 
 		if ( when !== this.__valueA ) {
 			this.__valueA = when;
-			this.__blcsEditing.forEach( ( blc, id ) => this.block_when( blc, data[ id ].when + when ) );
+			this.__blcsEditing.forEach( ( blc, id ) => this._blockDOMChange( blc, "when", data[ id ].when + when ) );
 		}
 		if ( rows !== this.__valueB ) {
 			this.__valueB = rows;
-			this.__blcsEditing.forEach( blc => this.block_row( blc, rows ) );
+			this.__blcsEditing.forEach( blc => this._blockDOMChange( blc, "row", rows ) );
 		}
 	} ],
 	[ "attack", function() {
@@ -59,14 +59,14 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			val = Math.max( this.__valueAMin, Math.min( valBrut, this.__valueAMax ) );
 
 		if ( val !== this.__valueA ) {
-			const data = this._getData();
+			const data = this._opts.getData();
 
 			this.__valueA = val;
 			this.__blcsEditing.forEach( ( blc, id ) => {
 				const blcObj = { ...data[ id ] };
 
 				blcObj.attack += val;
-				this.block_attack( blc, blcObj.attack );
+				this._blockDOMChange( blc, "attack", blcObj.attack );
 				this.oneditBlock( id, blcObj, blc );
 			} );
 		}
@@ -76,14 +76,14 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			val = Math.max( this.__valueAMin, Math.min( valBrut, this.__valueAMax ) );
 
 		if ( val !== this.__valueA ) {
-			const data = this._getData();
+			const data = this._opts.getData();
 
 			this.__valueA = val;
 			this.__blcsEditing.forEach( ( blc, id ) => {
 				const blcObj = { ...data[ id ] };
 
 				blcObj.release += val;
-				this.block_release( blc, blcObj.release );
+				this._blockDOMChange( blc, "release", blcObj.release );
 				this.oneditBlock( id, blcObj, blc );
 			} );
 		}
@@ -92,7 +92,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 		const blc = this.__getBlc( e.target );
 
 		if ( blc && !this.__blcsEditing.has( blc.dataset.id ) ) {
-			this.block_deleted( blc, true );
+			this._blockDOMChange( blc, "deleted", true );
 			this.__blcsEditing.set( blc.dataset.id, blc );
 		}
 	} ],
@@ -116,7 +116,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			bottomRow = Math.max( this.__mdRowInd, rowIndB ),
 			rowA = this.__getRowByIndex( topRow ),
 			rowB = this.__getRowByIndex( bottomRow ),
-			blcs = Object.entries( this._getData() )
+			blcs = Object.entries( this._opts.getData() )
 				.reduce( ( map, [ id, blc ] ) => {
 					if ( !this.__blcsSelected.has( id ) &&
 						blc.when < when + duration &&
@@ -131,7 +131,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 							pA & Node.DOCUMENT_POSITION_FOLLOWING &&
 							pB & Node.DOCUMENT_POSITION_PRECEDING )
 						) {
-							this.block_selected( elBlc, true );
+							this._blockDOMChange( elBlc, "selected", true );
 							map.set( id, elBlc );
 						}
 					}
@@ -142,7 +142,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 		st.left = `${ when * this.__pxPerBeat }px`;
 		st.width = `${ duration * this.__pxPerBeat }px`;
 		st.height = `${ ( bottomRow - topRow + 1 ) * rowH }px`;
-		this.__blcsEditing.forEach( ( blc, id ) => this.block_selected( blc, blcs.has( id ) ) );
+		this.__blcsEditing.forEach( ( blc, id ) => this._blockDOMChange( blc, "selected", blcs.has( id ) ) );
 		this.__blcsEditing = blcs;
 	} ],
 ] );

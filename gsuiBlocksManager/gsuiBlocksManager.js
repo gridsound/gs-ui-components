@@ -1,10 +1,12 @@
 "use strict";
 
 class gsuiBlocksManager {
-	constructor( root ) {
+	constructor( root, opts ) {
 		this.rootElement = root;
 		this.timeline = new gsuiTimeline();
 
+		this._opts = opts;
+		this._blockDOMChange = opts.blockDOMChange;
 		this.__offset = 0;
 		this.__fontSize = 16;
 		this.__blcs = new Map();
@@ -42,10 +44,11 @@ class gsuiBlocksManager {
 
 		this.__rowsContainer.oncontextmenu =
 		root.ondragstart = () => false;
-		root.onkeydown = this._keydown.bind( this );
+		root.onkeydown = this.__keydown.bind( this );
+		this.__magnet.onclick = this.__onclickMagnet.bind( this );
+
 		this.__rowsScrollTop =
 		this.__rowsScrollLeft = -1;
-		this.__magnet.onclick = this.__onclickMagnet.bind( this );
 		this.__sideContent.onwheel = this.__onwheelPanelContent.bind( this );
 		this.__sideContent.onscroll = this.__onscrollPanelContent.bind( this );
 		this.__rowsContainer.onwheel = this.__onwheelRows.bind( this );
@@ -106,7 +109,7 @@ class gsuiBlocksManager {
 	}
 	getDuration() {
 		const bPM = this.timeline._beatsPerMeasure,
-			dur = Object.values( this._getData() )
+			dur = Object.values( this._opts.getData() )
 				.reduce( ( dur, blc ) => Math.max( dur, blc.when + blc.duration ), 0 );
 
 		return Math.max( 1, Math.ceil( dur / bPM ) ) * bPM;
@@ -114,13 +117,6 @@ class gsuiBlocksManager {
 	getBlocks() {
 		return this.__blcs;
 	}
-
-	// Blocks methods
-	// ............................................................................................
-	block_when( el, v ) { el.style.left = `${ v }em`; }
-	block_deleted( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-hidden", !!v ); }
-	block_selected( el, v ) { el.classList.toggle( "gsuiBlocksManager-block-selected", !!v ); }
-	block_duration( el, v ) { el.style.width = `${ v }em`; }
 
 	// Private small getters
 	// ............................................................................................
@@ -190,7 +186,7 @@ class gsuiBlocksManager {
 		return blcs;
 	}
 	__unselectBlocks( obj ) {
-		const dat = this._getData();
+		const dat = this._opts.getData();
 
 		this.__blcsSelected.forEach( ( blc, id ) => {
 			if ( !( id in obj ) ) {
@@ -289,7 +285,7 @@ class gsuiBlocksManager {
 		return false;
 	}
 	__keydown( e ) {
-		const dat = this._getData(),
+		const dat = this._opts.getData(),
 			blcsEditing = this.__blcsEditing;
 
 		switch ( e.key ) {
@@ -305,7 +301,7 @@ class gsuiBlocksManager {
 					const blcsSel = this.__blcsSelected;
 
 					if ( blcsSel.size ) {
-						const data = this._getData();
+						const data = this._opts.getData();
 						let whenMin = Infinity,
 							whenMax = 0;
 
@@ -318,7 +314,7 @@ class gsuiBlocksManager {
 							blcsEditing.set( id, blc );
 						} );
 						whenMax = this.timeline.beatCeil( whenMax ) - whenMin;
-						this.managercallDuplicating( blcsEditing, whenMax );
+						this._opts.managercallDuplicating( blcsEditing, whenMax );
 						blcsEditing.clear();
 					}
 					e.preventDefault();
@@ -355,8 +351,15 @@ class gsuiBlocksManager {
 }
 
 document.addEventListener( "mousemove", e => {
-	gsuiBlocksManager._focused && gsuiBlocksManager._focused._mousemove( e );
+	if ( gsuiBlocksManager._focused ) {
+		gsuiBlocksManager._focused.__mousemove( e );
+	}
 } );
 document.addEventListener( "mouseup", e => {
-	gsuiBlocksManager._focused && gsuiBlocksManager._focused._mouseup( e );
+	if ( gsuiBlocksManager._focused ) {
+		if ( gsuiBlocksManager._focused._opts.mouseup ) {
+			gsuiBlocksManager._focused._opts.mouseup( e );
+		}
+		gsuiBlocksManager._focused.__mouseup( e );
+	}
 } );

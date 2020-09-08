@@ -20,32 +20,32 @@ gsuiBlocksManager.prototype.__mouseup = function() {
 gsuiBlocksManager.__mouseupFns = new Map( [
 	[ "moving", function( blcsEditing ) {
 		if ( this.__valueB || Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallMoving( blcsEditing, this.__valueA, this.__valueB );
+			this._opts.managercallMoving( blcsEditing, this.__valueA, this.__valueB );
 		}
 	} ],
 	[ "attack", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallAttack( blcsEditing, this.__valueA );
+			this._opts.managercallAttack( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "release", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallRelease( blcsEditing, this.__valueA );
+			this._opts.managercallRelease( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "deleting", function( blcsEditing ) {
 		if ( blcsEditing.size || this.__blcsSelected.size ) {
-			this.managercallDeleting( blcsEditing );
+			this._opts.managercallDeleting( blcsEditing );
 		}
 	} ],
 	[ "cropping-a", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallCroppingA( blcsEditing, this.__valueA );
+			this._opts.managercallCroppingA( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "cropping-b", function( blcsEditing ) {
 		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this.managercallCroppingB( blcsEditing, this.__valueA );
+			this._opts.managercallCroppingB( blcsEditing, this.__valueA );
 		}
 	} ],
 	[ "selecting-1", function( blcsEditing, mdBlc ) {
@@ -53,13 +53,13 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 			blcsEditing.set( mdBlc.dataset.id, mdBlc );
 		}
 		if ( blcsEditing.size ) {
-			this.managercallSelecting( blcsEditing );
+			this._opts.managercallSelecting( blcsEditing );
 		}
 	} ],
 	[ "selecting-2", function( blcsEditing ) {
 		this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
 		if ( blcsEditing.size ) {
-			this.managercallSelecting( blcsEditing );
+			this._opts.managercallSelecting( blcsEditing );
 		}
 	} ],
 ] );

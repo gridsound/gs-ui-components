@@ -1,27 +1,39 @@
 "use strict";
 
-class gsuiPatternroll extends gsuiBlocksManager {
+class gsuiPatternroll {
 	constructor() {
-		const root = gsuiPatternroll.template.cloneNode( true );
+		const root = gsuiPatternroll.template.cloneNode( true ),
+			blcManager = new gsuiBlocksManager( root, {
+				getData: () => this.data.blocks,
+				blockDOMChange: this._blockDOMChange.bind( this ),
+				managercallDuplicating: this.managercallDuplicating.bind( this ),
+				managercallSelecting: this.managercallSelecting.bind( this ),
+				managercallMoving: this.managercallMoving.bind( this ),
+				managercallDeleting: this.managercallDeleting.bind( this ),
+				managercallCroppingA: this.managercallCroppingA.bind( this ),
+				managercallCroppingB: this.managercallCroppingB.bind( this ),
+			} );
 
-		super( root );
+		this.rootElement = root;
+		this.timeline = blcManager.timeline;
+		this._blcManager = blcManager;
 		this._uiTracklist = new gsuiTracklist();
 		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );
 		this._uiTracklist.ontrackadded = uiTrk => {
 			const row = uiTrk.rowElement;
 
-			row.firstElementChild.style.fontSize = `${ this.__pxPerBeat }px`;
-			row.classList.toggle( "gsui-row-small", this.__pxPerBeat <= 44 );
+			row.firstElementChild.style.fontSize = `${ this._blcManager.__pxPerBeat }px`;
+			row.classList.toggle( "gsui-row-small", this._blcManager.__pxPerBeat <= 44 );
 			row.onmousedown = this._rowMousedown.bind( this );
 			this._rowsByTrackId.set( row.dataset.track, row );
-			this.__rowsWrapinContainer.append( row );
+			this._blcManager.__rowsWrapinContainer.append( row );
 		};
 
 		this.data = this._proxyCreate();
 		this._idMax = 0;
 		this._rowsByTrackId = new Map();
-		this.__sideContent.append( this._uiTracklist.rootElement );
-		this.__rowsContainer.ondrop = this._drop.bind( this );
+		blcManager.__sideContent.append( this._uiTracklist.rootElement );
+		blcManager.__rowsContainer.ondrop = this._drop.bind( this );
 		this.setPxPerBeat( 64 );
 	}
 
@@ -32,28 +44,40 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		this._uiTracklist.empty();
 	}
 	resized() {
-		this.__resized();
-		this.__gridPanelResized();
+		this._blcManager.__resized();
+		this._blcManager.__gridPanelResized();
 	}
 	attached() {
-		this.__attached();
+		this._blcManager.__attached();
 	}
-
-	// Block's UI functions
-	// ........................................................................
-	block_row( el, rowIncr ) {
-		const trackId = this.data.blocks[ el.dataset.id ].track;
-
-		this.block_track( el, this._incrTrackId( trackId, rowIncr ) );
-	}
-	block_track( el, trackId ) {
-		const row = this._getRowByTrackId( trackId );
-
-		row && row.firstElementChild.append( el );
-	}
+	setFontSize( ...args ) { this._blcManager.setFontSize( ...args ); }
+	setPxPerBeat( ...args ) { this._blcManager.setPxPerBeat( ...args ); }
+	getBlocks() { return this._blcManager.__blcs; }
+	loop( ...args ) { this._blcManager.loop( ...args ); }
+	currentTime( ...args ) { this._blcManager.currentTime( ...args ); }
+	timeSignature( ...args ) { this._blcManager.timeSignature( ...args ); }
+	getDuration() { return this._blcManager.getDuration(); }
 
 	// Blocks manager callback
 	// ........................................................................
+	_blockDOMChange( el, prop, val ) {
+		switch ( prop ) {
+			case "when": el.style.left = `${ val }em`; break;
+			case "duration": el.style.width = `${ val }em`; break;
+			case "deleted": el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val ); break;
+			case "selected": el.classList.toggle( "gsuiBlocksManager-block-selected", !!val ); break;
+			case "row": {
+				const trackId = this.data.blocks[ el.dataset.id ].track;
+
+				this._blockDOMChange( el, "track", this._incrTrackId( trackId, val ) );
+			} break;
+			case "track": {
+				const row = this._getRowByTrackId( val );
+
+				row && row.firstElementChild.append( el );
+			} break;
+		}
+	}
 	managercallDuplicating( blcsMap, valA ) {
 		const obj = {},
 			data = this.data.blocks;
@@ -113,7 +137,7 @@ class gsuiPatternroll extends gsuiBlocksManager {
 			obj[ id ] = undefined;
 			delete data[ id ];
 		} );
-		this.__unselectBlocks( obj );
+		this._blcManager.__unselectBlocks( obj );
 		this.onchange( { blocks: obj } );
 	}
 	managercallCroppingA( blcsMap, valA ) {
@@ -149,29 +173,25 @@ class gsuiPatternroll extends gsuiBlocksManager {
 
 	// Private small getters
 	// ........................................................................
-	_getData() { return this.data.blocks; }
 	_getRowByTrackId( id ) { return this._rowsByTrackId.get( id ); }
 	_incrTrackId( id, incr ) {
 		const row = this._getRowByTrackId( id ),
-			rowInd = this.__getRowIndexByRow( row ) + incr;
+			rowInd = this._blcManager.__getRowIndexByRow( row ) + incr;
 
-		return this.__getRowByIndex( rowInd ).dataset.track;
+		return this._blcManager.__getRowByIndex( rowInd ).dataset.track;
 	}
 
 	// Mouse and keyboard events
 	// ........................................................................
-	_keydown( e ) { this.__keydown( e ); }
-	_mousemove( e ) { this.__mousemove( e ); }
-	_mouseup( e ) { this.__mouseup( e ); }
 	_rowMousedown( e ) {
-		this.__mousedown( e );
-		if ( e.button === 0 && !e.shiftKey && this.__blcsSelected.size ) {
-			this.onchange( { blocks: this.__unselectBlocks( {} ) } );
+		this._blcManager.__mousedown( e );
+		if ( e.button === 0 && !e.shiftKey && this._blcManager.__blcsSelected.size ) {
+			this.onchange( { blocks: this._blcManager.__unselectBlocks( {} ) } );
 		}
 	}
 	_blcMousedown( id, e ) {
 		e.stopPropagation();
-		this.__mousedown( e );
+		this._blcManager.__mousedown( e );
 	}
 	_drop( e ) {
 		const dropData = (
@@ -187,8 +207,8 @@ class gsuiPatternroll extends gsuiBlocksManager {
 					durationEdited: false,
 					selected: false,
 					offset: 0,
-					when: this.__roundBeat( this.__getWhenByPageX( e.pageX ) ),
-					track: this.__getRowByIndex( this.__getRowIndexByPageY( e.pageY ) ).dataset.track,
+					when: this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
+					track: this._blcManager.__getRowByIndex( this._blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.track,
 				};
 
 			this.data.blocks[ id ] = obj;
@@ -199,9 +219,9 @@ class gsuiPatternroll extends gsuiBlocksManager {
 	// Block's functions
 	// ........................................................................
 	_deleteBlock( id ) {
-		this.__blcs.get( id ).remove();
-		this.__blcs.delete( id );
-		this.__blcsSelected.delete( id );
+		this._blcManager.__blcs.get( id ).remove();
+		this._blcManager.__blcs.delete( id );
+		this._blcManager.__blcsSelected.delete( id );
 		this.onremoveBlock( id );
 	}
 	_setBlock( id, obj ) {
@@ -211,29 +231,25 @@ class gsuiPatternroll extends gsuiBlocksManager {
 		blc.dataset.pattern = obj.pattern;
 		blc.onmousedown = this._blcMousedown.bind( this, id );
 		obj.selected
-			? this.__blcsSelected.set( id, blc )
-			: this.__blcsSelected.delete( id );
-		this.__blcs.set( id, blc );
-		this.block_when( blc, obj.when );
-		this.block_track( blc, obj.track );
-		this.block_duration( blc, obj.duration );
-		this.block_selected( blc, obj.selected );
+			? this._blcManager.__blcsSelected.set( id, blc )
+			: this._blcManager.__blcsSelected.delete( id );
+		this._blcManager.__blcs.set( id, blc );
+		this._blockDOMChange( blc, "when", obj.when );
+		this._blockDOMChange( blc, "track", obj.track );
+		this._blockDOMChange( blc, "duration", obj.duration );
+		this._blockDOMChange( blc, "selected", obj.selected );
 		this.onaddBlock( id, obj, blc );
 	}
 	_setBlockProp( id, prop, val ) {
-		const uiFn = this[ `block_${ prop }` ];
+		const blc = this._blcManager.__blcs.get( id );
 
-		if ( uiFn ) {
-			const blc = this.__blcs.get( id );
-
-			uiFn.call( this, blc, val );
-			if ( prop === "selected" ) {
-				val
-					? this.__blcsSelected.set( id, blc )
-					: this.__blcsSelected.delete( id );
-			} else if ( prop === "duration" || prop === "offset" ) {
-				this.oneditBlock( id, this.data.blocks[ id ], blc );
-			}
+		this._blockDOMChange( blc, prop, val );
+		if ( prop === "selected" ) {
+			val
+				? this._blcManager.__blcsSelected.set( id, blc )
+				: this._blcManager.__blcsSelected.delete( id );
+		} else if ( prop === "duration" || prop === "offset" ) {
+			this.oneditBlock( id, this.data.blocks[ id ], blc );
 		}
 	}
 

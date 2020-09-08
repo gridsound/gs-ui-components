@@ -1,14 +1,35 @@
 "use strict";
 
-class gsuiPianoroll extends gsuiBlocksManager {
+class gsuiPianoroll {
 	constructor() {
 		const root = gsuiPianoroll.template.cloneNode( true ),
 			sideTop = root.querySelector( ".gsuiPianoroll-sidePanelTop" ),
 			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
 			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
-			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" );
+			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
+			blcManager = new gsuiBlocksManager( root, {
+				getData: () => this.data,
+				blockDOMChange: this._blockDOMChange.bind( this ),
+				managercallDuplicating: this.managercallDuplicating.bind( this ),
+				managercallSelecting: this.managercallSelecting.bind( this ),
+				managercallMoving: this.managercallMoving.bind( this ),
+				managercallDeleting: this.managercallDeleting.bind( this ),
+				managercallCroppingB: this.managercallCroppingB.bind( this ),
+				managercallAttack: this.managercallAttack.bind( this ),
+				managercallRelease: this.managercallRelease.bind( this ),
+				mouseup: () => {
+					if ( this._blcManager.__status === "cropping-b" ) {
+						this._blcManager.__blcsEditing.forEach( blc => {
+							blc._attack.style.maxWidth =
+							blc._release.style.maxWidth = "";
+						} );
+					}
+				},
+			} );
 
-		super( root );
+		this.rootElement = root;
+		this.timeline = blcManager.timeline;
+		this._blcManager = blcManager;
 		this._uiSliderGroup = root.querySelector( "gsui-slidergroup" );
 		this._slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
 		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
@@ -31,8 +52,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		this._rowsByMidi = {};
 		this._currKeyValue = {};
 		this.empty();
-		this.__sideContent.append( this.uiKeys.rootElement );
-		this.__onclickMagnet();
+		this._blcManager.__sideContent.append( this.uiKeys.rootElement );
+		this._blcManager.__onclickMagnet();
 		this._onchangeSlidersSelect();
 		root.addEventListener( "gsuiEvents", e => {
 			if ( e.detail.eventName === "change" ) {
@@ -68,42 +89,48 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		k.duration = 1;
 	}
 	resized() {
-		this.__resized();
-		this.__gridPanelResized();
+		this._blcManager.__resized();
+		this._blcManager.__gridPanelResized();
 	}
 	attached() {
 		this._uiSliderGroup.scrollElement.onscroll = this._onscrollSliderGroup.bind( this,
-			this._uiSliderGroup.scrollElement, this.__rowsContainer );
-		this.__attached();
+			this._uiSliderGroup.scrollElement, this._blcManager.__rowsContainer );
+		this._blcManager.__attached();
 		this.scrollToMiddle();
 	}
 	setPxPerBeat( px ) {
-		if ( super.setPxPerBeat( px ) ) {
-			this.__blcs.forEach( blc => blc._dragline.redraw() );
+		if ( this._blcManager.setPxPerBeat( px ) ) {
+			this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
 		}
 	}
 	setFontSize( px ) {
-		if ( super.setFontSize( px ) ) {
-			this.__blcs.forEach( blc => blc._dragline.redraw() );
+		if ( this._blcManager.setFontSize( px ) ) {
+			this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
 		}
 	}
+	currentTime( t ) {
+		this._blcManager.currentTime( t );
+	}
 	scrollToMiddle() {
-		const rows = this.__rowsContainer;
+		const rows = this._blcManager.__rowsContainer;
 
 		rows.scrollTop = ( rows.scrollHeight - rows.clientHeight ) / 2;
 	}
 	scrollToKeys() {
-		const rows = this.__rowsContainer,
+		const rows = this._blcManager.__rowsContainer,
 			smp = rows.querySelector( ".gsuiBlocksManager-block" );
 
 		if ( smp ) {
 			rows.scrollTop += smp.getBoundingClientRect().top -
-				rows.getBoundingClientRect().top - 3.5 * this.__fontSize;
+				rows.getBoundingClientRect().top - 3.5 * this._blcManager.__fontSize;
 		}
 	}
 	timeSignature( a, b ) {
-		super.timeSignature( a, b );
+		this._blcManager.timeSignature( a, b );
 		this._uiSliderGroup.timeSignature( a, b );
+	}
+	getDuration() {
+		return this._blcManager.getDuration();
 	}
 	octaves( from, nb ) {
 		this.empty();
@@ -115,73 +142,80 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			const midi = +el.dataset.midi;
 
 			el.onmousedown = this._rowMousedown.bind( this, midi );
-			el.firstElementChild.style.fontSize = `${ this.__pxPerBeat }px`;
+			el.firstElementChild.style.fontSize = `${ this._blcManager.__pxPerBeat }px`;
 			this._rowsByMidi[ midi ] = el;
 		} );
-		this.__rowsWrapinContainer.style.height = `${ rows.length }em`;
-		this.__rowsWrapinContainer.prepend( ...rows );
+		this._blcManager.__rowsWrapinContainer.style.height = `${ rows.length }em`;
+		this._blcManager.__rowsWrapinContainer.prepend( ...rows );
 	}
 
 	// Block's UI functions
 	// ........................................................................
-	block_sliderUpdate( nodeName, el, val ) {
+	_blockDOMChange( el, prop, val ) {
+		switch ( prop ) {
+			case "when": {
+				el.style.left = `${ val }em`;
+				this._uiSliderGroup.setProp( el.dataset.id, "when", val );
+				this._blockRedrawDragline( el );
+			} break;
+			case "duration": {
+				el.style.width = `${ val }em`;
+				this._uiSliderGroup.setProp( el.dataset.id, "duration", val );
+				this._currKeyValue.duration = val;
+				this._blockRedrawDragline( el );
+			} break;
+			case "deleted": {
+				el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val );
+			} break;
+			case "selected": {
+				el.classList.toggle( "gsuiBlocksManager-block-selected", !!val );
+				this._uiSliderGroup.setProp( el.dataset.id, "selected", !!val );
+			} break;
+			case "row": {
+				this._blockDOMChange( el, "key", this.data[ el.dataset.id ].key - val );
+			} break;
+			case "key": {
+				const row = this._getRowByMidi( val );
+
+				el.dataset.key = gsuiKeys.keyNames.en[ row.dataset.key ];
+				row.firstElementChild.append( el );
+				this._blockRedrawDragline( el );
+			} break;
+			case "attack": {
+				el._attack.style.width = `${ val }em`;
+				this._currKeyValue.attack = val;
+			} break;
+			case "release": {
+				el._release.style.width = `${ val }em`;
+				this._currKeyValue.release = val;
+			} break;
+			case "prev": {
+				const blc = this._blcManager.__blcs.get( val );
+
+				el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!val );
+				blc && blc._dragline.linkTo( el._draglineDrop );
+			} break;
+			case "next": {
+				const blc = this._blcManager.__blcs.get( val );
+
+				el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!val );
+				el._dragline.linkTo( blc && blc._draglineDrop );
+			} break;
+			case "pan": this._blockSliderUpdate( "pan", el, val ); break;
+			case "gain": this._blockSliderUpdate( "gain", el, val ); break;
+			case "lowpass": this._blockSliderUpdate( "lowpass", el, val ); break;
+			case "highpass": this._blockSliderUpdate( "highpass", el, val ); break;
+		}
+	}
+	_blockSliderUpdate( nodeName, el, val ) {
 		if ( this._slidersSelect.value === nodeName ) {
 			this._uiSliderGroup.setProp( el.dataset.id, "value", val );
 			this._currKeyValue[ nodeName ] = val;
 		}
 	}
-	block_pan( el, val ) { this.block_sliderUpdate( "pan", el, val ); }
-	block_gain( el, val ) { this.block_sliderUpdate( "gain", el, val ); }
-	block_lowpass( el, val ) { this.block_sliderUpdate( "lowpass", el, val ); }
-	block_highpass( el, val ) { this.block_sliderUpdate( "highpass", el, val ); }
-	block_attack( el, beat ) {
-		el._attack.style.width = `${ beat }em`;
-		this._currKeyValue.attack = beat;
-	}
-	block_release( el, beat ) {
-		el._release.style.width = `${ beat }em`;
-		this._currKeyValue.release = beat;
-	}
-	block_when( el, when ) {
-		super.block_when( el, when );
-		this._uiSliderGroup.setProp( el.dataset.id, "when", when );
-		this.block_redrawDragline( el );
-	}
-	block_duration( el, dur ) {
-		super.block_duration( el, dur );
-		this._uiSliderGroup.setProp( el.dataset.id, "duration", dur );
-		this._currKeyValue.duration = dur;
-		this.block_redrawDragline( el );
-	}
-	block_selected( el, b ) {
-		super.block_selected( el, b );
-		this._uiSliderGroup.setProp( el.dataset.id, "selected", b );
-	}
-	block_row( el, rowIncr ) {
-		this.block_key( el, this.data[ el.dataset.id ].key - rowIncr );
-	}
-	block_key( el, midi ) {
-		const row = this._getRowByMidi( midi );
-
-		el.dataset.key = gsuiKeys.keyNames.en[ row.dataset.key ];
-		row.firstElementChild.append( el );
-		this.block_redrawDragline( el );
-	}
-	block_prev( el, id ) {
-		const blc = this.__blcs.get( id );
-
-		el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!id );
-		blc && blc._dragline.linkTo( el._draglineDrop );
-	}
-	block_next( el, id ) {
-		const blc = this.__blcs.get( id );
-
-		el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!id );
-		el._dragline.linkTo( blc && blc._draglineDrop );
-	}
-	block_redrawDragline( el ) {
+	_blockRedrawDragline( el ) {
 		const key = this.data[ el.dataset.id ],
-			blcPrev = this.__blcs.get( key.prev );
+			blcPrev = this._blcManager.__blcs.get( key.prev );
 
 		el._dragline.redraw();
 		blcPrev && blcPrev._dragline.redraw();
@@ -194,19 +228,8 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 	// Mouse and keyboard events
 	// ........................................................................
-	_keydown( e ) { this.__keydown( e ); }
-	_mousemove( e ) { this.__mousemove( e ); }
-	_mouseup( e ) {
-		if ( this.__status === "cropping-b" ) {
-			this.__blcsEditing.forEach( blc => {
-				blc._attack.style.maxWidth =
-				blc._release.style.maxWidth = "";
-			} );
-		}
-		this.__mouseup( e );
-	}
 	_onscrollRows() {
-		this._onscrollSliderGroup( this.__rowsContainer, this._uiSliderGroup.scrollElement );
+		this._onscrollSliderGroup( this._blcManager.__rowsContainer, this._uiSliderGroup.scrollElement );
 	}
 	_loop( a, b ) { this._uiSliderGroup.loop( a, b ); }
 	_currentTime( beat ) { this._uiSliderGroup.currentTime( beat ); }
@@ -218,9 +241,9 @@ class gsuiPianoroll extends gsuiBlocksManager {
 
 		e.stopPropagation();
 		if ( !dline.contains( e.target ) ) {
-			this.__mousedown( e );
-			if ( this.__status === "cropping-b" ) {
-				this.__blcsEditing.forEach( ( blc, id ) => {
+			this._blcManager.__mousedown( e );
+			if ( this._blcManager.__status === "cropping-b" ) {
+				this._blcManager.__blcsEditing.forEach( ( blc, id ) => {
 					const { attack, release } = this.data[ id ],
 						attRel = attack + release;
 
@@ -231,7 +254,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		}
 	}
 	_rowMousedown( key, e ) {
-		this.__mousedown( e );
+		this._blcManager.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
 			const id = this._idMax + 1,
 				curr = this._currKeyValue,
@@ -247,11 +270,11 @@ class gsuiPianoroll extends gsuiBlocksManager {
 					selected: false,
 					prev: null,
 					next: null,
-					when: this.__roundBeat( this.__getWhenByPageX( e.pageX ) ),
+					when: this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
 				};
 
 			this.data[ id ] = keyObj;
-			this.onchange( this.__unselectBlocks( { [ id ]: keyObj } ) );
+			this.onchange( this._blcManager.__unselectBlocks( { [ id ]: keyObj } ) );
 		}
 	}
 	_onscrollSliderGroup( elSrc, elLink ) {
@@ -271,7 +294,7 @@ class gsuiPianoroll extends gsuiBlocksManager {
 			case "lowpass":  slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
 			case "highpass": slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
 		}
-		this.__blcs.forEach( ( blc, id ) => {
+		this._blcManager.__blcs.forEach( ( blc, id ) => {
 			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] );
 		} );
 	}
@@ -280,15 +303,15 @@ class gsuiPianoroll extends gsuiBlocksManager {
 	// ........................................................................
 	_deleteKey( id ) {
 		const key = this.data[ id ],
-			blc = this.__blcs.get( id ),
-			blcPrev = this.__blcs.get( key.prev );
+			blc = this._blcManager.__blcs.get( id ),
+			blcPrev = this._blcManager.__blcs.get( key.prev );
 
 		blc.remove();
 		if ( blcPrev ) {
 			blcPrev._dragline.linkTo( null );
 		}
-		this.__blcs.delete( id );
-		this.__blcsSelected.delete( id );
+		this._blcManager.__blcs.delete( id );
+		this._blcManager.__blcsSelected.delete( id );
 		this._uiSliderGroup.delete( id );
 	}
 	_setKey( id, obj ) {
@@ -304,30 +327,30 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
 		blc.append( dragline.rootElement );
 		dragline.getDropAreas = this._getDropAreas.bind( this, id );
-		this.__blcs.set( id, blc );
+		this._blcManager.__blcs.set( id, blc );
 		obj.selected
-			? this.__blcsSelected.set( id, blc )
-			: this.__blcsSelected.delete( id );
+			? this._blcManager.__blcsSelected.set( id, blc )
+			: this._blcManager.__blcsSelected.delete( id );
 		this._uiSliderGroup.set( id, obj.when, obj.duration, obj[ this._slidersSelect.value ] );
-		this.block_key( blc, obj.key );
-		this.block_when( blc, obj.when );
-		this.block_duration( blc, obj.duration );
-		this.block_selected( blc, obj.selected );
-		this.block_attack( blc, obj.attack );
-		this.block_release( blc, obj.release );
-		this.block_pan( blc, obj.pan );
-		this.block_gain( blc, obj.gain );
-		this.block_lowpass( blc, obj.lowpass );
-		this.block_highpass( blc, obj.highpass );
-		this.block_prev( blc, obj.prev );
-		this.block_next( blc, obj.next );
+		this._blockDOMChange( blc, "key", obj.key );
+		this._blockDOMChange( blc, "when", obj.when );
+		this._blockDOMChange( blc, "duration", obj.duration );
+		this._blockDOMChange( blc, "selected", obj.selected );
+		this._blockDOMChange( blc, "attack", obj.attack );
+		this._blockDOMChange( blc, "release", obj.release );
+		this._blockDOMChange( blc, "pan", obj.pan );
+		this._blockDOMChange( blc, "gain", obj.gain );
+		this._blockDOMChange( blc, "lowpass", obj.lowpass );
+		this._blockDOMChange( blc, "highpass", obj.highpass );
+		this._blockDOMChange( blc, "prev", obj.prev );
+		this._blockDOMChange( blc, "next", obj.next );
 	}
 	_getDropAreas( id ) {
 		const obj = this.data[ id ],
 			when = obj.when + obj.duration,
 			arr = [];
 
-		this.__blcs.forEach( ( blc, blcId ) => {
+		this._blcManager.__blcs.forEach( ( blc, blcId ) => {
 			const obj = this.data[ blcId ];
 
 			if ( obj.when >= when && ( obj.prev === null || obj.prev === id ) ) {
@@ -414,17 +437,14 @@ class gsuiPianoroll extends gsuiBlocksManager {
 		if ( prop === "offset" ) {
 			console.warn( "gsuiPianoroll: proxy set useless 'offset' to key" );
 		} else {
-			const blc = this.__blcs.get( id ),
-				uiFn = this[ `block_${ prop }` ];
+			const blc = this._blcManager.__blcs.get( id );
 
 			tar[ prop ] = val;
-			if ( uiFn ) {
-				uiFn.call( this, blc, val );
-			}
+			this._blockDOMChange( blc, prop, val );
 			if ( prop === "selected" ) {
 				val
-					? this.__blcsSelected.set( id, blc )
-					: this.__blcsSelected.delete( id );
+					? this._blcManager.__blcsSelected.set( id, blc )
+					: this._blcManager.__blcsSelected.delete( id );
 			}
 		}
 		return true;

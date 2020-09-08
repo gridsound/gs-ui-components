@@ -12,7 +12,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 			this.__mmFn = gsuiBlocksManager.__mousemoveFns.get( "deletion" );
 			this.__status = "deleting";
 			if ( blc ) {
-				this.block_deleted( blc, true );
+				this._blockDOMChange( blc, "deleted", true );
 				this.__blcsEditing.set( blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 ) {
@@ -29,7 +29,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 				const fnAct = gsuiBlocksManager.__mousedownFns.get( e.target.dataset.action );
 
 				if ( fnAct ) {
-					const data = this._getData(),
+					const data = this._opts.getData(),
 						blcsEditing = this.__fillBlcsMap( blc );
 
 					blc.classList.add( "gsui-hover" );
