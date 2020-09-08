@@ -39,10 +39,6 @@ class gsuiDrumrows {
 		this._reorder.setShadowElement( el );
 		this._reorder.setShadowChildClass( childClass );
 	}
-	setFontSize( fs ) {
-		this.rootElement.style.fontSize =
-		this._elLinesParent.style.fontSize = `${ fs }px`;
-	}
 	reorderDrumrows( obj ) {
 		gsuiReorder.listReorder( this.rootElement, obj );
 		gsuiReorder.listReorder( this._elLinesParent, obj );
