@@ -2,6 +2,7 @@
 
 const GSUI = {
 
+	noop() {},
 	dragshield: document.createElement( "gsui-dragshield" ),
 
 	// .........................................................................
