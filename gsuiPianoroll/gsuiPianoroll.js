@@ -28,6 +28,7 @@ class gsuiPianoroll {
 				oninputLoop: this._loop.bind( this ),
 				oninputCurrentTime: this._currentTime.bind( this ),
 				onchangePxPerBeat: this._setPxPerBeat.bind( this ),
+				onscrollRows: this._onscrollRows.bind( this ),
 				...cb,
 			} );
 

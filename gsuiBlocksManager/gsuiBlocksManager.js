@@ -6,6 +6,7 @@ class gsuiBlocksManager {
 		this.timeline = new gsuiTimeline();
 
 		this._opts = opts;
+		this._opts.onscrollRows = opts.onscrollRows || GSUI.noop;
 		this._opts.oneditBlock = opts.oneditBlock || GSUI.noop;
 		this._opts.oninputLoop = opts.oninputLoop || GSUI.noop;
 		this._opts.onchangeLoop = opts.onchangeLoop || GSUI.noop;
@@ -260,7 +261,7 @@ class gsuiBlocksManager {
 			this.__rowsScrollLeft = elRows.scrollLeft;
 			this.timeline.offset( off, this.__pxPerBeat );
 		}
-		this._onscrollRows && this._onscrollRows();
+		this._opts.onscrollRows();
 	}
 	__onwheelRows( e ) {
 		if ( e.ctrlKey ) {
