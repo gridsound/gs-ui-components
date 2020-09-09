@@ -6,6 +6,11 @@ class gsuiBlocksManager {
 		this.timeline = new gsuiTimeline();
 
 		this._opts = opts;
+		this._opts.oneditBlock = opts.oneditBlock || GSUI.noop;
+		this._opts.oninputLoop = opts.oninputLoop || GSUI.noop;
+		this._opts.onchangeLoop = opts.onchangeLoop || GSUI.noop;
+		this._opts.oninputCurrentTime = opts.oninputCurrentTime || GSUI.noop;
+		this._opts.onchangeCurrentTime = opts.onchangeCurrentTime || GSUI.noop;
 		this._blockDOMChange = opts.blockDOMChange;
 		this.__offset = 0;
 		this.__fontSize = 16;
@@ -27,18 +32,12 @@ class gsuiBlocksManager {
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
 		this.__uiBeatlines = root.querySelector( "gsui-beatlines" );
 
-		this.onaddBlock =
-		this.oneditBlock =
-		this.onremoveBlock =
-		this.onchange =
-		this.onchangeLoop =
-		this.onchangeCurrentTime = () => {};
 		this.__elPanGrid.onresizing = this.__gridPanelResizing.bind( this );
 		this.timeline.oninputLoop = this.__loop.bind( this );
-		this.timeline.onchangeLoop = ( isLoop, a, b ) => this.onchangeLoop( isLoop, a, b );
+		this.timeline.onchangeLoop = ( isLoop, a, b ) => this._opts.onchangeLoop( isLoop, a, b );
 		this.timeline.onchangeCurrentTime = t => {
 			this.__currentTime( t );
-			this.onchangeCurrentTime( t );
+			this._opts.onchangeCurrentTime( t );
 		};
 		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.timeline.rootElement );
 
@@ -88,7 +87,9 @@ class gsuiBlocksManager {
 			this.__elLoopB.style.fontSize =
 			this.__elCurrentTime.style.fontSize = ppbpx;
 			Array.from( this.__rows ).forEach( el => el.firstElementChild.style.fontSize = ppbpx );
-			this._setPxPerBeat && this._setPxPerBeat( ppb );
+			if ( this._opts.onchangePxPerBeat ) {
+				this._opts.onchangePxPerBeat( ppb );
+			}
 			return true;
 		}
 		return false;
@@ -151,17 +152,17 @@ class gsuiBlocksManager {
 		this.__gridPanelResized();
 	}
 	__loop( isLoop, a, b ) {
-		this._loop && this._loop( isLoop && a, b );
 		this.__elLoopA.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		this.__elLoopB.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
 		if ( isLoop ) {
 			this.__elLoopA.style.width = `${ a }em`;
 			this.__elLoopB.style.left = `${ b }em`;
 		}
+		this._opts.oninputLoop( isLoop && a, b );
 	}
 	__currentTime( t ) {
 		this.__elCurrentTime.style.left = `${ t }em`;
-		this._currentTime && this._currentTime( t );
+		this._opts.oninputCurrentTime( t );
 	}
 	__isBlc( el ) {
 		return el.classList.contains( "gsuiBlocksManager-block" );

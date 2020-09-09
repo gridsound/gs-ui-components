@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiPatternroll {
-	constructor() {
+	constructor( cb ) {
 		const root = gsuiPatternroll.template.cloneNode( true ),
 			blcManager = new gsuiBlocksManager( root, {
 				getData: () => this.data.blocks,
@@ -12,10 +12,15 @@ class gsuiPatternroll {
 				managercallDeleting: this.managercallDeleting.bind( this ),
 				managercallCroppingA: this.managercallCroppingA.bind( this ),
 				managercallCroppingB: this.managercallCroppingB.bind( this ),
+				...cb,
 			} );
 
 		this.rootElement = root;
 		this.timeline = blcManager.timeline;
+		this.onchange = cb.onchange;
+		this.onaddBlock = cb.onaddBlock;
+		this.oneditBlock = cb.oneditBlock;
+		this.onremoveBlock = cb.onremoveBlock;
 		this._blcManager = blcManager;
 		this._uiTracklist = new gsuiTracklist();
 		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );

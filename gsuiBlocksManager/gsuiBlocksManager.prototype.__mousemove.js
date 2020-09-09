@@ -34,7 +34,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 					this._blockDOMChange( blc, "when", blcObj.when );
 				}
 				this._blockDOMChange( blc, "duration", blcObj.duration );
-				this.oneditBlock( id, blcObj, blc );
+				this._opts.oneditBlock( id, blcObj, blc );
 			} );
 		}
 	} ],
@@ -67,7 +67,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 
 				blcObj.attack += val;
 				this._blockDOMChange( blc, "attack", blcObj.attack );
-				this.oneditBlock( id, blcObj, blc );
+				this._opts.oneditBlock( id, blcObj, blc );
 			} );
 		}
 	} ],
@@ -84,7 +84,7 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 
 				blcObj.release += val;
 				this._blockDOMChange( blc, "release", blcObj.release );
-				this.oneditBlock( id, blcObj, blc );
+				this._opts.oneditBlock( id, blcObj, blc );
 			} );
 		}
 	} ],

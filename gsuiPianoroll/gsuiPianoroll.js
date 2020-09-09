@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiPianoroll {
-	constructor() {
+	constructor( cb ) {
 		const root = gsuiPianoroll.template.cloneNode( true ),
 			sideTop = root.querySelector( ".gsuiPianoroll-sidePanelTop" ),
 			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
@@ -25,10 +25,15 @@ class gsuiPianoroll {
 						} );
 					}
 				},
+				oninputLoop: this._loop.bind( this ),
+				oninputCurrentTime: this._currentTime.bind( this ),
+				onchangePxPerBeat: this._setPxPerBeat.bind( this ),
+				...cb,
 			} );
 
 		this.rootElement = root;
 		this.timeline = blcManager.timeline;
+		this.onchange = cb.onchange;
 		this._blcManager = blcManager;
 		this._uiSliderGroup = root.querySelector( "gsui-slidergroup" );
 		this._slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
