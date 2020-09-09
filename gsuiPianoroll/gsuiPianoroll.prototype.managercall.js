@@ -91,7 +91,7 @@ Object.assign( gsuiPianoroll.prototype, {
 				}
 			}
 		} );
-		this.__unselectBlocks( obj );
+		this._blcManager.__unselectBlocks( obj );
 		this.onchange( obj );
 	},
 	managercallCroppingB( blcsMap, valA ) {

@@ -20,7 +20,6 @@ class gsuiPatternroll {
 		this.onchange = cb.onchange;
 		this.onaddBlock = cb.onaddBlock;
 		this.oneditBlock = cb.oneditBlock;
-		this.onremoveBlock = cb.onremoveBlock;
 		this._blcManager = blcManager;
 		this._uiTracklist = new gsuiTracklist();
 		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );
@@ -227,7 +226,6 @@ class gsuiPatternroll {
 		this._blcManager.__blcs.get( id ).remove();
 		this._blcManager.__blcs.delete( id );
 		this._blcManager.__blcsSelected.delete( id );
-		this.onremoveBlock( id );
 	}
 	_setBlock( id, obj ) {
 		const blc = gsuiPatternroll.blockTemplate.cloneNode( true );
