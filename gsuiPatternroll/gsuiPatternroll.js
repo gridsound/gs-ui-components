@@ -6,12 +6,12 @@ class gsuiPatternroll {
 			blcManager = new gsuiBlocksManager( root, {
 				getData: () => this.data.blocks,
 				blockDOMChange: this._blockDOMChange.bind( this ),
-				managercallDuplicating: this.managercallDuplicating.bind( this ),
-				managercallSelecting: this.managercallSelecting.bind( this ),
-				managercallMoving: this.managercallMoving.bind( this ),
-				managercallDeleting: this.managercallDeleting.bind( this ),
-				managercallCroppingA: this.managercallCroppingA.bind( this ),
-				managercallCroppingB: this.managercallCroppingB.bind( this ),
+				managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
+				managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),
+				managercallSelecting: blcsMap => this.onchange( "selection", Array.from( blcsMap.keys() ) ),
+				managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
+				managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
+				managercallCroppingB: ( blcsMap, wIncr ) => this.onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
 				...cb,
 			} );
 
@@ -82,98 +82,6 @@ class gsuiPatternroll {
 			} break;
 		}
 	}
-	managercallDuplicating( blcsMap, valA ) {
-		const obj = {},
-			data = this.data.blocks;
-
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = data[ id ],
-				nId = ++this._idMax,
-				copy = { ...d };
-
-			copy.when += valA;
-			obj[ id ] = { selected: false };
-			obj[ nId ] =
-			data[ nId ] = copy;
-			d.selected = false;
-		} );
-		this.onchange( { blocks: obj } );
-	}
-	managercallSelecting( blcsMap ) {
-		const obj = {},
-			data = this.data.blocks;
-
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = data[ id ],
-				selected = !d.selected;
-
-			obj[ id ] = { selected };
-			d.selected = selected;
-		} );
-		this.onchange( { blocks: obj } );
-	}
-	managercallMoving( blcsMap, valA, valB ) {
-		const obj = {},
-			data = this.data.blocks,
-			when = Math.abs( valA ) > .000001 ? valA : 0;
-
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = data[ id ],
-				o = {};
-
-			obj[ id ] = o;
-			if ( when ) {
-				o.when =
-				d.when += when;
-			}
-			if ( valB ) {
-				o.track =
-				d.track = this._incrTrackId( d.track, valB );
-			}
-		} );
-		this.onchange( { blocks: obj } );
-	}
-	managercallDeleting( blcsMap ) {
-		const obj = {},
-			data = this.data.blocks;
-
-		blcsMap.forEach( ( _blc, id ) => {
-			obj[ id ] = undefined;
-			delete data[ id ];
-		} );
-		this._blcManager.__unselectBlocks( obj );
-		this.onchange( { blocks: obj } );
-	}
-	managercallCroppingA( blcsMap, valA ) {
-		const obj = {},
-			data = this.data.blocks;
-
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = data[ id ],
-				when = d.when + valA,
-				offset = d.offset + valA,
-				duration = d.duration - valA;
-
-			obj[ id ] = { when, offset, duration, durationEdited: true };
-			d.when = when;
-			d.offset = offset;
-			d.duration = duration;
-		} );
-		this.onchange( { blocks: obj } );
-	}
-	managercallCroppingB( blcsMap, valA ) {
-		const obj = {},
-			data = this.data.blocks;
-
-		blcsMap.forEach( ( _blc, id ) => {
-			const d = data[ id ],
-				duration = d.duration + valA;
-
-			obj[ id ] = { duration, durationEdited: true };
-			d.duration = duration;
-		} );
-		this.onchange( { blocks: obj } );
-	}
 
 	// Private small getters
 	// ........................................................................
@@ -190,7 +98,7 @@ class gsuiPatternroll {
 	_rowMousedown( e ) {
 		this._blcManager.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey && this._blcManager.__blcsSelected.size ) {
-			this.onchange( { blocks: this._blcManager.__unselectBlocks( {} ) } );
+			this.onchange( "unselection" );
 		}
 	}
 	_blcMousedown( id, e ) {
