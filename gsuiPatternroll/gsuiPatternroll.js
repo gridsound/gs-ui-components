@@ -34,7 +34,6 @@ class gsuiPatternroll {
 		};
 
 		this.data = this._proxyCreate();
-		this._idMax = 0;
 		this._rowsByTrackId = new Map();
 		blcManager.__sideContent.append( this._uiTracklist.rootElement );
 		blcManager.__rowsContainer.ondrop = this._drop.bind( this );
@@ -112,19 +111,11 @@ class gsuiPatternroll {
 				e.dataTransfer.getData( "pattern-keys" ) ).split( ":" );
 
 		if ( dropData.length === 2 ) {
-			const id = this._idMax + 1,
-				obj = {
-					pattern: dropData[ 0 ],
-					duration: +dropData[ 1 ],
-					durationEdited: false,
-					selected: false,
-					offset: 0,
-					when: this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
-					track: this._blcManager.__getRowByIndex( this._blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.track,
-				};
+			const padId = dropData[ 0 ],
+				when = this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
+				track = this._blcManager.__getRowByIndex( this._blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.track;
 
-			this.data.blocks[ id ] = obj;
-			this.onchange( { blocks: { [ id ]: obj } } );
+			this.onchange( "add", padId, when, track );
 		}
 	}
 
@@ -206,7 +197,6 @@ class gsuiPatternroll {
 				} );
 
 			tar[ id ] = prox;
-			this._idMax = Math.max( this._idMax, id );
 			this._setBlock( id, prox );
 		}
 		return true;
