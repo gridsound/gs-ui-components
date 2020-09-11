@@ -117,6 +117,9 @@ class gsuiPianoroll {
 	currentTime( t ) {
 		this._blcManager.currentTime( t );
 	}
+	loop( a, b ) {
+		this._blcManager.loop( a, b );
+	}
 	scrollToMiddle() {
 		const rows = this._blcManager.__rowsContainer;
 
