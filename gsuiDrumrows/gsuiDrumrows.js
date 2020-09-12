@@ -231,7 +231,7 @@ class gsuiDrumrows {
 	_oncontextmenuRows( e ) {
 		e.preventDefault();
 		if ( e.target.dataset.action === "toggle" ) {
-			this._dispatch( "change", "toggleOnlyDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
+			this._dispatch( "change", "toggleSoloDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
 		} else if ( e.target.classList.contains( "gsuiDrumrow-propSpan" ) ) {
 			this._dispatch( "propFilters", e.target.previousElementSibling.value );
 		}
