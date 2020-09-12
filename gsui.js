@@ -72,6 +72,11 @@ const GSUI = {
 	unselectText() {
 		window.getSelection().removeAllRanges();
 	},
+	setAttribute( el, attr, val ) {
+		val === null || val === false
+			? el.removeAttribute( attr )
+			: el.setAttribute( attr, val === true ? "" : val );
+	},
 };
 
 GSUI._resizeObs = new ResizeObserver( GSUI._resizeObsCallback );
