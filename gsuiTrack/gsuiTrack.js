@@ -2,15 +2,11 @@
 
 class gsuiTrack {
 	constructor() {
-		const root = gsuiTrack.template.cloneNode( true ),
-			inp = root.querySelector( ".gsuiTrack-name" ),
-			elToggle = root.querySelector( ".gsuiTrack-toggle" );
+		const root = gsuiTrack.template.cloneNode( true );
 
-		this.onchange =
-		this.onrightclickToggle = GSUtils.noop;
 		this.rootElement = root;
 		this.rowElement = root.querySelector( ".gsui-row" );
-		this._inpName = inp;
+		this._inpName = root.querySelector( ".gsuiTrack-name" );
 		this.data = new Proxy( Object.seal( {
 			order: 0,
 			name: "",
@@ -18,43 +14,7 @@ class gsuiTrack {
 		} ), { set: this._setProp.bind( this ) } );
 		Object.seal( this );
 
-		root.ondblclick = e => {
-			if ( e.target === this._inpName ) {
-				inp.disabled = false;
-				inp.select();
-				inp.focus();
-			}
-		};
-		inp.onkeydown = e => {
-			e.stopPropagation();
-			if ( e.key === "Escape" ) {
-				inp.value = this.data.name;
-				inp.blur();
-			} else if ( e.key === "Enter" ) {
-				inp.blur();
-			}
-		};
-		inp.onblur = () => inp.disabled = true;
-		inp.onchange = () => {
-			const name = inp.value.trim();
-
-			inp.disabled = true;
-			this.data.name = name;
-			this.onchange( { name } );
-		};
-		elToggle.oncontextmenu = () => false;
-		elToggle.onmousedown = e => {
-			if ( e.button === 2 ) {
-				this.onrightclickToggle();
-			} else if ( e.button === 0 ) {
-				const toggle = !this.data.toggle;
-
-				this.data.toggle = toggle;
-				this.onchange( { toggle } );
-			}
-		};
 		this.rowElement.remove();
-		this._inpName.disabled = true;
 		this.data.toggle = true;
 	}
 

@@ -13,8 +13,16 @@ class gsuiTracklist {
 			deleteProperty: this._delTrack.bind( this )
 		} );
 		Object.seal( this );
+
+		root.oncontextmenu = () => false;
+		root.onchange = this._onchange.bind( this );
+		root.onkeydown = this._onkeydown.bind( this );
+		root.ondblclick = this._ondblclick.bind( this );
+		root.onmousedown = this._onmousedown.bind( this );
+		root.addEventListener( "focusout", this._onfocusout.bind( this ) );
 	}
 
+	// .........................................................................
 	remove() {
 		this.empty();
 		this.rootElement.remove();
@@ -24,12 +32,11 @@ class gsuiTracklist {
 	}
 
 	// private:
+	// .........................................................................
 	_addTrack( tar, id, track ) {
 		const tr = new gsuiTrack();
 
 		tar[ id ] = tr.data;
-		tr.onrightclickToggle = this._muteAll.bind( this, id );
-		tr.onchange = obj => this.onchange( { [ id ]: obj } );
 		tr.setPlaceholder( `Track ${ this._tracks.size + 1 }` );
 		tr.rootElement.dataset.track =
 		tr.rowElement.dataset.track = id;
@@ -61,6 +68,53 @@ class gsuiTracklist {
 			}
 		} );
 		this.onchange( obj );
+	}
+
+	// .........................................................................
+	_onkeydown( e ) {
+		const inp = e.target;
+
+		if ( inp.dataset.action === "rename" ) {
+			e.stopPropagation();
+			switch ( e.key ) {
+				case "Escape": inp.value = this.data[ inp.parentNode.parentNode.dataset.track ].name;
+				case "Enter": inp.blur();
+			}
+		}
+	}
+	_onfocusout( e ) {
+		e.target.disabled = true;
+	}
+	_onchange( e ) {
+		const inp = e.target,
+			id = inp.parentNode.parentNode.dataset.track,
+			name = inp.value.trim();
+
+		inp.disabled = true;
+		this.onchange( { [ id ]: { name } } );
+	}
+	_ondblclick( e ) {
+		const inp = e.target;
+
+		if ( inp.dataset.action === "rename" ) {
+			inp.disabled = false;
+			inp.select();
+			inp.focus();
+		}
+	}
+	_onmousedown( e ) {
+		if ( e.target.dataset.action === "toggle" ) {
+			const par = e.target.parentNode,
+				id = par.dataset.track;
+
+			if ( e.button === 2 ) {
+				this._muteAll( id );
+			} else if ( e.button === 0 ) {
+				const toggle = par.classList.contains( "gsui-mute" );
+
+				this.onchange( { [ id ]: { toggle } } );
+			}
+		}
 	}
 }
 
