@@ -17,34 +17,41 @@ class gsuiPatternroll {
 
 		this.rootElement = root;
 		this.timeline = blcManager.timeline;
+		this._tracklist = new gsuiTracklist();
 		this.onchange = cb.onchange;
 		this.onaddBlock = cb.onaddBlock;
 		this.oneditBlock = cb.oneditBlock;
 		this._blcManager = blcManager;
-		this._uiTracklist = new gsuiTracklist();
-		this._uiTracklist.onchange = tracks => this.onchange( { tracks } );
-		this._uiTracklist.ontrackadded = uiTrk => {
+		this._tracklist.onchange = cb.onchange;
+		this._tracklist.ontrackadded = uiTrk => {
 			const row = uiTrk.rowElement;
 
 			row.firstElementChild.style.fontSize = `${ this._blcManager.__pxPerBeat }px`;
 			row.classList.toggle( "gsui-row-small", this._blcManager.__pxPerBeat <= 44 );
 			row.onmousedown = this._rowMousedown.bind( this );
-			this._rowsByTrackId.set( row.dataset.track, row );
+			this._rowsByTrackId.set( row.dataset.id, row );
 			this._blcManager.__rowsWrapinContainer.append( row );
 		};
 
 		this.data = this._proxyCreate();
 		this._rowsByTrackId = new Map();
-		blcManager.__sideContent.append( this._uiTracklist.rootElement );
+		blcManager.__sideContent.append( this._tracklist.rootElement );
 		blcManager.__rowsContainer.ondrop = this._drop.bind( this );
 		this.setPxPerBeat( 64 );
 	}
 
+	// ........................................................................
+	addTrack( id ) { this._tracklist.addTrack( id ); }
+	removeTrack( id ) { this._tracklist.removeTrack( id ); }
+	toggleTrack( id, b ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "toggle", b ); }
+	renameTrack( id, s ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "name", s ); }
+	reorderTrack( id, n ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "order", n ); }
+
+	// ........................................................................
 	empty() {
 		const blcs = this.data.blocks;
 
 		Object.keys( blcs ).forEach( k => delete blcs[ k ] );
-		this._uiTracklist.empty();
 	}
 	resized() {
 		this._blcManager.__resized();
@@ -89,7 +96,7 @@ class gsuiPatternroll {
 		const row = this._getRowByTrackId( id ),
 			rowInd = this._blcManager.__getRowIndexByRow( row ) + incr;
 
-		return this._blcManager.__getRowByIndex( rowInd ).dataset.track;
+		return this._blcManager.__getRowByIndex( rowInd ).dataset.id;
 	}
 
 	// Mouse and keyboard events
@@ -113,7 +120,7 @@ class gsuiPatternroll {
 		if ( dropData.length === 2 ) {
 			const padId = dropData[ 0 ],
 				when = this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
-				track = this._blcManager.__getRowByIndex( this._blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.track;
+				track = this._blcManager.__getRowByIndex( this._blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.id;
 
 			this.onchange( "add", padId, when, track );
 		}
@@ -159,7 +166,6 @@ class gsuiPatternroll {
 	// ........................................................................
 	_proxyCreate() {
 		return Object.freeze( {
-			tracks: this._uiTracklist.data,
 			blocks: new Proxy( {}, {
 				set: this._proxySetBlocks.bind( this ),
 				deleteProperty: this._proxyDeleteBlocks.bind( this )
