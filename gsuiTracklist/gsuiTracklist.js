@@ -8,10 +8,6 @@ class gsuiTracklist {
 		this.onchange =
 		this.ontrackadded = () => {};
 		this._tracks = new Map();
-		this.data = new Proxy( {}, {
-			set: this._addTrack.bind( this ),
-			deleteProperty: this._delTrack.bind( this )
-		} );
 		Object.seal( this );
 
 		root.oncontextmenu = () => false;
@@ -23,51 +19,24 @@ class gsuiTracklist {
 	}
 
 	// .........................................................................
-	remove() {
-		this.empty();
-		this.rootElement.remove();
+	getTrack( id ) {
+		return this._tracks.get( id );
 	}
-	empty() {
-		Object.keys( this.data ).forEach( id => delete this.data[ id ] );
-	}
+	addTrack( id ) {
+		const tr = GSUI.createElement( "gsui-track" );
 
-	// private:
-	// .........................................................................
-	_addTrack( tar, id, track ) {
-		const tr = new gsuiTrack();
-
-		tar[ id ] = tr.data;
-		tr.setPlaceholder( `Track ${ this._tracks.size + 1 }` );
-		tr.rootElement.dataset.track =
-		tr.rowElement.dataset.track = id;
-		Object.assign( tr.data, track );
+		tr.dataset.id =
+		tr.rowElement.dataset.id = id;
 		this._tracks.set( id, tr );
-		this.rootElement.append( tr.rootElement );
+		this.rootElement.append( tr );
 		this.ontrackadded( tr );
-		return true;
 	}
-	_delTrack( tar, id ) {
-		this._tracks.get( id ).remove();
+	removeTrack( id ) {
+		const tr = this._tracks.get( id );
+
+		tr.remove();
+		tr.rowElement.remove();
 		this._tracks.delete( id );
-		delete tar[ id ];
-		return true;
-	}
-	_muteAll( id ) {
-		const obj = {},
-			trClicked = this._tracks.get( id );
-		let allMute = true;
-
-		this._tracks.forEach( tr => {
-			allMute = allMute && ( !tr.data.toggle || tr === trClicked );
-		} );
-		this._tracks.forEach( ( tr, id ) => {
-			const toggle = allMute || tr === trClicked;
-
-			if ( toggle !== tr.data.toggle ) {
-				obj[ id ] = { toggle };
-			}
-		} );
-		this.onchange( obj );
 	}
 
 	// .........................................................................
@@ -77,21 +46,23 @@ class gsuiTracklist {
 		if ( inp.dataset.action === "rename" ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": inp.value = this.data[ inp.parentNode.parentNode.dataset.track ].name;
+				case "Escape": inp.value = inp.parentNode.parentNode.getAttribute( "name" );
 				case "Enter": inp.blur();
 			}
 		}
 	}
 	_onfocusout( e ) {
-		e.target.disabled = true;
+		if ( e.target.dataset.action === "rename" ) {
+			e.target.disabled = true;
+		}
 	}
 	_onchange( e ) {
 		const inp = e.target,
-			id = inp.parentNode.parentNode.dataset.track,
+			id = inp.parentNode.parentNode.dataset.id,
 			name = inp.value.trim();
 
 		inp.disabled = true;
-		this.onchange( { [ id ]: { name } } );
+		this.onchange( "rename", id, name );
 	}
 	_ondblclick( e ) {
 		const inp = e.target;
@@ -105,14 +76,12 @@ class gsuiTracklist {
 	_onmousedown( e ) {
 		if ( e.target.dataset.action === "toggle" ) {
 			const par = e.target.parentNode,
-				id = par.dataset.track;
+				id = par.dataset.id;
 
 			if ( e.button === 2 ) {
-				this._muteAll( id );
+				this.onchange( "toggleSolo", id );
 			} else if ( e.button === 0 ) {
-				const toggle = par.classList.contains( "gsui-mute" );
-
-				this.onchange( { [ id ]: { toggle } } );
+				this.onchange( "toggle", id );
 			}
 		}
 	}

@@ -1,44 +1,44 @@
 "use strict";
 
-class gsuiTrack {
+class gsuiTrack extends HTMLElement {
 	constructor() {
-		const root = gsuiTrack.template.cloneNode( true );
+		const children = GSUI.getTemplate( "gsui-track" );
 
-		this.rootElement = root;
-		this.rowElement = root.querySelector( ".gsui-row" );
-		this._inpName = root.querySelector( ".gsuiTrack-name" );
-		this.data = new Proxy( Object.seal( {
-			order: 0,
-			name: "",
-			toggle: true
-		} ), { set: this._setProp.bind( this ) } );
+		super();
+		this.rowElement = GSUI.getTemplate( "gsui-track-row" );
+		this._children = children;
+		this._inpName = children[ 1 ].firstChild;
 		Object.seal( this );
-
-		this.rowElement.remove();
-		this.data.toggle = true;
 	}
 
-	remove() {
-		this.rootElement.remove();
-		this.rowElement.remove();
-	}
-	setPlaceholder( p ) {
-		this._inpName.placeholder = p;
-	}
-
-	// private:
-	_setProp( tar, prop, val ) {
-		tar[ prop ] = val;
-		if ( prop === "name" ) {
-			this._inpName.value = val;
-		} else if ( prop === "toggle" ) {
-			this.rootElement.classList.toggle( "gsui-mute", !val );
-			this.rowElement.classList.toggle( "gsui-mute", !val );
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiTrack" );
+			this.append( ...this._children );
+			this._children = null;
 		}
-		return true;
+	}
+	static get observedAttributes() {
+		return [ "toggle", "name", "order" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "toggle":
+					this.classList.toggle( "gsui-mute", val === null );
+					this.rowElement.classList.toggle( "gsui-mute", val === null );
+					break;
+				case "name":
+					this._inpName.value = val;
+					break;
+				case "order":
+					this.dataset.order = val;
+					this._inpName.placeholder = `track ${ +val + 1 }`;
+					break;
+			}
+		}
 	}
 }
 
-gsuiTrack.template = document.querySelector( "#gsuiTrack-template" );
-gsuiTrack.template.remove();
-gsuiTrack.template.removeAttribute( "id" );
+customElements.define( "gsui-track", gsuiTrack );
