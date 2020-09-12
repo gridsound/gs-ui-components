@@ -2,7 +2,7 @@
 
 class gsuiTracklist {
 	constructor() {
-		const root = gsuiTracklist.template.cloneNode( true );
+		const root = GSUI.createElement( "div", { class: "gsuiTracklist" } );
 
 		this.rootElement = root;
 		this.onchange =
@@ -86,7 +86,3 @@ class gsuiTracklist {
 		}
 	}
 }
-
-gsuiTracklist.template = document.querySelector( "#gsuiTracklist-template" );
-gsuiTracklist.template.remove();
-gsuiTracklist.template.removeAttribute( "id" );
