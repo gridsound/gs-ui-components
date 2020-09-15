@@ -5,8 +5,6 @@ class gsuiTracklist {
 		const root = GSUI.createElement( "div", { class: "gsuiTracklist" } );
 
 		this.rootElement = root;
-		this.onchange =
-		this.ontrackadded = () => {};
 		this._tracks = new Map();
 		Object.seal( this );
 
@@ -29,7 +27,7 @@ class gsuiTracklist {
 		tr.rowElement.dataset.id = id;
 		this._tracks.set( id, tr );
 		this.rootElement.append( tr );
-		this.ontrackadded( tr );
+		return tr;
 	}
 	removeTrack( id ) {
 		const tr = this._tracks.get( id );
@@ -62,7 +60,7 @@ class gsuiTracklist {
 			name = inp.value.trim();
 
 		inp.disabled = true;
-		this.onchange( "rename", id, name );
+		GSUI.dispatchEvent( this.rootElement, "gsuiTracklist", "renameTrack", id, name );
 	}
 	_ondblclick( e ) {
 		const inp = e.target;
@@ -79,9 +77,9 @@ class gsuiTracklist {
 				id = par.dataset.id;
 
 			if ( e.button === 2 ) {
-				this.onchange( "toggleSolo", id );
+				GSUI.dispatchEvent( this.rootElement, "gsuiTracklist", "toggleSoloTrack", id );
 			} else if ( e.button === 0 ) {
-				this.onchange( "toggle", id );
+				GSUI.dispatchEvent( this.rootElement, "gsuiTracklist", "toggleTrack", id );
 			}
 		}
 	}

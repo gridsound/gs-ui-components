@@ -15,6 +15,7 @@ class gsuiPatternroll {
 				...cb,
 			} );
 
+		this.data = this._proxyCreate();
 		this.rootElement = root;
 		this.timeline = blcManager.timeline;
 		this._tracklist = new gsuiTracklist();
@@ -22,26 +23,25 @@ class gsuiPatternroll {
 		this.onaddBlock = cb.onaddBlock;
 		this.oneditBlock = cb.oneditBlock;
 		this._blcManager = blcManager;
-		this._tracklist.onchange = cb.onchange;
-		this._tracklist.ontrackadded = uiTrk => {
-			const row = uiTrk.rowElement;
-
-			row.firstElementChild.style.fontSize = `${ this._blcManager.__pxPerBeat }px`;
-			row.classList.toggle( "gsui-row-small", this._blcManager.__pxPerBeat <= 44 );
-			row.onmousedown = this._rowMousedown.bind( this );
-			this._rowsByTrackId.set( row.dataset.id, row );
-			this._blcManager.__rowsWrapinContainer.append( row );
-		};
-
-		this.data = this._proxyCreate();
 		this._rowsByTrackId = new Map();
+		Object.seal( this );
+
 		blcManager.__sideContent.append( this._tracklist.rootElement );
 		blcManager.__rowsContainer.ondrop = this._drop.bind( this );
 		this.setPxPerBeat( 64 );
 	}
 
 	// ........................................................................
-	addTrack( id ) { this._tracklist.addTrack( id ); }
+	addTrack( id ) {
+		const elTrack = this._tracklist.addTrack( id ),
+			row = elTrack.rowElement;
+
+		row.firstElementChild.style.fontSize = `${ this._blcManager.__pxPerBeat }px`;
+		row.classList.toggle( "gsui-row-small", this._blcManager.__pxPerBeat <= 44 );
+		row.onmousedown = this._rowMousedown.bind( this );
+		this._rowsByTrackId.set( row.dataset.id, row );
+		this._blcManager.__rowsWrapinContainer.append( row );
+	}
 	removeTrack( id ) { this._tracklist.removeTrack( id ); }
 	toggleTrack( id, b ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "toggle", b ); }
 	renameTrack( id, s ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "name", s ); }
