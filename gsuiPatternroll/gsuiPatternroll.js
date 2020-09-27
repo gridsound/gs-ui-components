@@ -4,7 +4,6 @@ class gsuiPatternroll {
 	constructor( cb ) {
 		const root = gsuiPatternroll.template.cloneNode( true ),
 			blcManager = new gsuiBlocksManager( root, {
-				getData: () => this.data.blocks,
 				blockDOMChange: this._blockDOMChange.bind( this ),
 				managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
 				managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),
@@ -15,7 +14,6 @@ class gsuiPatternroll {
 				...cb,
 			} );
 
-		this.data = this._proxyCreate();
 		this.rootElement = root;
 		this.timeline = blcManager.timeline;
 		this._tracklist = new gsuiTracklist();
@@ -48,11 +46,37 @@ class gsuiPatternroll {
 	reorderTrack( id, n ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "order", n ); }
 
 	// ........................................................................
-	empty() {
-		const blcs = this.data.blocks;
+	addBlock( id, obj ) {
+		const elBlc = gsuiPatternroll.blockTemplate.cloneNode( true );
 
-		Object.keys( blcs ).forEach( k => delete blcs[ k ] );
+		elBlc.dataset.id = id;
+		elBlc.dataset.pattern = obj.pattern;
+		elBlc.onmousedown = this._blcMousedown.bind( this, id );
+		this._blcManager.__blcs.set( id, elBlc );
+		this.onaddBlock( id, obj, elBlc );
 	}
+	removeBlock( id ) {
+		this._blcManager.__blcs.get( id ).remove();
+		this._blcManager.__blcs.delete( id );
+		this._blcManager.__blcsSelected.delete( id );
+	}
+	changeBlockProp( id, prop, val ) {
+		const blc = this._blcManager.__blcs.get( id );
+
+		this._blockDOMChange( blc, prop, val );
+		if ( prop === "track" ) {
+			blc.dataset.track = val;
+		} else if ( prop === "selected" ) {
+			val
+				? this._blcManager.__blcsSelected.set( id, blc )
+				: this._blcManager.__blcsSelected.delete( id );
+		}
+	}
+	updateBlockViewBox( id, obj ) {
+		this.oneditBlock( id, obj, this._blcManager.__blcs.get( id ) );
+	}
+
+	// ........................................................................
 	resized() {
 		this._blcManager.__resized();
 		this._blcManager.__gridPanelResized();
@@ -76,11 +100,7 @@ class gsuiPatternroll {
 			case "duration": el.style.width = `${ val }em`; break;
 			case "deleted": el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val ); break;
 			case "selected": el.classList.toggle( "gsuiBlocksManager-block-selected", !!val ); break;
-			case "row": {
-				const trackId = this.data.blocks[ el.dataset.id ].track;
-
-				this._blockDOMChange( el, "track", this._incrTrackId( trackId, val ) );
-			} break;
+			case "row": this._blockDOMChange( el, "track", this._incrTrackId( el.dataset.track, val ) ); break;
 			case "track": {
 				const row = this._getRowByTrackId( val );
 
@@ -124,93 +144,6 @@ class gsuiPatternroll {
 
 			this.onchange( "add", padId, when, track );
 		}
-	}
-
-	// Block's functions
-	// ........................................................................
-	_deleteBlock( id ) {
-		this._blcManager.__blcs.get( id ).remove();
-		this._blcManager.__blcs.delete( id );
-		this._blcManager.__blcsSelected.delete( id );
-	}
-	_setBlock( id, obj ) {
-		const blc = gsuiPatternroll.blockTemplate.cloneNode( true );
-
-		blc.dataset.id = id;
-		blc.dataset.pattern = obj.pattern;
-		blc.onmousedown = this._blcMousedown.bind( this, id );
-		obj.selected
-			? this._blcManager.__blcsSelected.set( id, blc )
-			: this._blcManager.__blcsSelected.delete( id );
-		this._blcManager.__blcs.set( id, blc );
-		this._blockDOMChange( blc, "when", obj.when );
-		this._blockDOMChange( blc, "track", obj.track );
-		this._blockDOMChange( blc, "duration", obj.duration );
-		this._blockDOMChange( blc, "selected", obj.selected );
-		this.onaddBlock( id, obj, blc );
-	}
-	_setBlockProp( id, prop, val ) {
-		const blc = this._blcManager.__blcs.get( id );
-
-		this._blockDOMChange( blc, prop, val );
-		if ( prop === "selected" ) {
-			val
-				? this._blcManager.__blcsSelected.set( id, blc )
-				: this._blcManager.__blcsSelected.delete( id );
-		} else if ( prop === "duration" || prop === "offset" ) {
-			this.oneditBlock( id, this.data.blocks[ id ], blc );
-		}
-	}
-
-	// Data proxy
-	// ........................................................................
-	_proxyCreate() {
-		return Object.freeze( {
-			blocks: new Proxy( {}, {
-				set: this._proxySetBlocks.bind( this ),
-				deleteProperty: this._proxyDeleteBlocks.bind( this )
-			} )
-		} );
-	}
-	_proxyDeleteBlocks( tar, id ) {
-		if ( id in tar ) {
-			this._deleteBlock( id );
-			delete tar[ id ];
-		} else {
-			console.warn( `gsuiPatternroll: proxy useless deletion of block [${ id }]` );
-		}
-		return true;
-	}
-	_proxySetBlocks( tar, id, obj ) {
-		if ( id in tar || !obj ) {
-			this._proxyDeleteBlocks( tar, id );
-			if ( obj ) {
-				console.warn( `gsuiPatternroll: reassignation of block [${ id }]` );
-			}
-		}
-		if ( obj ) {
-			const prox = new Proxy( Object.seal( {
-					when: 0,
-					track: null,
-					offset: 0,
-					pattern: null,
-					selected: false,
-					duration: 1,
-					durationEdited: false,
-					...obj,
-				} ), {
-					set: this._proxySetBlockProp.bind( this, id )
-				} );
-
-			tar[ id ] = prox;
-			this._setBlock( id, prox );
-		}
-		return true;
-	}
-	_proxySetBlockProp( id, tar, prop, val ) {
-		tar[ prop ] = val;
-		this._setBlockProp( id, prop, val );
-		return true;
 	}
 }
 
