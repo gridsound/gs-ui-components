@@ -2,7 +2,8 @@
 
 class gsuiDrums extends HTMLElement {
 	constructor() {
-		const win = GSUI.createElement( "gsui-timewindow", {
+		const drumrows = GSUI.createElement( "gsui-drumrows" ),
+			win = GSUI.createElement( "gsui-timewindow", {
 				panelmin: 140,
 				panelmax: 240,
 				lineheight: 48,
@@ -10,8 +11,7 @@ class gsuiDrums extends HTMLElement {
 				lineheightmax: 48,
 				pxperbeatmin: 50,
 				pxperbeatmax: 160,
-			} ),
-			drumrows = new gsuiDrumrows();
+			} );
 
 		super();
 		this._win = win;
@@ -86,7 +86,7 @@ class gsuiDrums extends HTMLElement {
 			this.setAttribute( "tabindex", -1 );
 			this.append( this._win, GSUI.createElement( "div", { class: "gsuiDrums-shadow" } ) );
 			this.classList.add( "gsuiDrums" );
-			this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.drumrows.rootElement );
+			this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.drumrows );
 			this._elCurrentTime = this._win.querySelector( ".gsuiTimewindow-currentTime" );
 			this._elLines = this._win.querySelector( ".gsuiTimewindow-rows" );
 			this._elLines.onmousemove = this._mousemoveLines;

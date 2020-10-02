@@ -1,36 +1,41 @@
 "use strict";
 
-class gsuiDrumrows {
+class gsuiDrumrows extends HTMLElement {
 	constructor() {
-		const root = GSUI.getTemplate( "gsui-drumrows" ),
-			reorder = new gsuiReorder( {
-				rootElement: root,
-				direction: "column",
-				dataTransferType: "drumrow",
-				itemSelector: ".gsuiDrumrow",
-				handleSelector: ".gsuiDrumrow-grip",
-				parentSelector: ".gsuiDrumrows",
-				onchange: this._onreorderRows.bind( this ),
-			} );
-
-		this.rootElement = root;
+		super();
 		this._rows = new Map();
 		this._lines = new Map();
-		this._reorder = reorder;
+		this._reorder = new gsuiReorder( {
+			rootElement: this,
+			direction: "column",
+			dataTransferType: "drumrow",
+			itemSelector: ".gsuiDrumrow",
+			handleSelector: ".gsuiDrumrow-grip",
+			parentSelector: ".gsuiDrumrows",
+			onchange: this._onreorderRows.bind( this ),
+		} );
 		this._dragoverId =
 		this._elDragover =
 		this._elLinesParent = null;
-		this._dispatch = GSUI.dispatchEvent.bind( null, root, "gsuiDrumrows" );
+		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrumrows" );
 		Object.seal( this );
 
-		root.ondrop = this._ondropRows.bind( this );
-		root.onclick = this._onclickRows.bind( this );
-		root.onchange = this._onchangeRows.bind( this );
-		root.ondragover = this._ondragoverRows.bind( this );
-		root.ondragleave = this._ondragleaveRows.bind( this );
-		root.onmousedown = this._onmousedownRows.bind( this );
-		root.oncontextmenu = this._oncontextmenuRows.bind( this );
-		root.onanimationend = this._onanimationendRows.bind( this );
+		this.ondrop = this._ondropRows.bind( this );
+		this.onclick = this._onclickRows.bind( this );
+		this.onchange = this._onchangeRows.bind( this );
+		this.ondragover = this._ondragoverRows.bind( this );
+		this.ondragleave = this._ondragleaveRows.bind( this );
+		this.onmousedown = this._onmousedownRows.bind( this );
+		this.oncontextmenu = this._oncontextmenuRows.bind( this );
+		this.onanimationend = this._onanimationendRows.bind( this );
+	}
+
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiDrumrows" );
+			this.append( ...GSUI.getTemplate( "gsui-drumrows" ) );
+		}
 	}
 
 	// .........................................................................
@@ -40,7 +45,7 @@ class gsuiDrumrows {
 		this._reorder.setShadowChildClass( childClass );
 	}
 	reorderDrumrows( obj ) {
-		gsuiReorder.listReorder( this.rootElement, obj );
+		gsuiReorder.listReorder( this, obj );
 		gsuiReorder.listReorder( this._elLinesParent, obj );
 	}
 	playRow( id ) {
@@ -109,7 +114,7 @@ class gsuiDrumrows {
 		sliPan.oninputend = this._oninputendRowSlider.bind( this, id );
 		this._rows.set( id, html );
 		this._lines.set( id, elLine );
-		this.rootElement.append( elRow );
+		this.append( elRow );
 		this._elLinesParent.append( elLine );
 	}
 	remove( id ) {
@@ -196,7 +201,7 @@ class gsuiDrumrows {
 		this._dispatch( "change", "changeDrumrow", id, prop, val );
 	}
 	_onreorderRows( elRow ) {
-		const rows = gsuiReorder.listComputeOrderChange( this.rootElement, {} );
+		const rows = gsuiReorder.listComputeOrderChange( this, {} );
 
 		this._dispatch( "change", "reorderDrumrow", elRow.dataset.id, rows );
 	}
@@ -206,7 +211,7 @@ class gsuiDrumrows {
 		this._dispatch( "propFilter", id, e.target.value );
 	}
 	_onclickRows( e ) {
-		if ( e.target !== this.rootElement ) {
+		if ( e.target !== this ) {
 			const id = e.target.closest( ".gsuiDrumrow" ).dataset.id;
 
 			switch ( e.target.dataset.action ) {
@@ -280,4 +285,4 @@ class gsuiDrumrows {
 	}
 }
 
-Object.freeze( gsuiDrumrows );
+customElements.define( "gsui-drumrows", gsuiDrumrows );
