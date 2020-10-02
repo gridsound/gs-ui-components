@@ -2,7 +2,7 @@
 
 class gsuiDrumrows {
 	constructor() {
-		const root = gsuiDrumrows.template.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-drumrows" ),
 			reorder = new gsuiReorder( {
 				rootElement: root,
 				direction: "column",
@@ -75,7 +75,7 @@ class gsuiDrumrows {
 
 	// .........................................................................
 	add( id, elLine ) {
-		const elRow = gsuiDrumrows.templateRow.cloneNode( true ),
+		const elRow = GSUI.getTemplate( "gsui-drumrow" ),
 			sliDetune = elRow.querySelector( ".gsuiDrumrow-detune gsui-slider" ),
 			sliGain = elRow.querySelector( ".gsuiDrumrow-gain gsui-slider" ),
 			sliPan = elRow.querySelector( ".gsuiDrumrow-pan gsui-slider" ),
@@ -279,13 +279,5 @@ class gsuiDrumrows {
 		}
 	}
 }
-
-gsuiDrumrows.template = document.querySelector( "#gsuiDrumrows-template" );
-gsuiDrumrows.template.remove();
-gsuiDrumrows.template.removeAttribute( "id" );
-
-gsuiDrumrows.templateRow = document.querySelector( "#gsuiDrumrow-template" );
-gsuiDrumrows.templateRow.remove();
-gsuiDrumrows.templateRow.removeAttribute( "id" );
 
 Object.freeze( gsuiDrumrows );
