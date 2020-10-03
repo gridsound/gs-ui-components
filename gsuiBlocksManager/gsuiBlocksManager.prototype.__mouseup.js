@@ -51,9 +51,9 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 	[ "selecting-1", function( blcsEditing, mdBlc ) {
 		if ( mdBlc ) {
 			blcsEditing.set( mdBlc.dataset.id, mdBlc );
-		}
-		if ( blcsEditing.size ) {
-			this._opts.managercallSelecting( blcsEditing );
+			mdBlc.classList.contains( "gsuiBlocksManager-block-selected" )
+				? this._opts.managercallUnselectingOne( mdBlc.dataset.id )
+				: this._opts.managercallSelecting( blcsEditing );
 		}
 	} ],
 	[ "selecting-2", function( blcsEditing ) {
