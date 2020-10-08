@@ -8,6 +8,7 @@ class gsuiPatternroll {
 				managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
 				managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),
 				managercallSelecting: blcsMap => this.onchange( "selection", Array.from( blcsMap.keys() ) ),
+				managercallUnselecting: () => this.onchange( "unselection" ),
 				managercallUnselectingOne: blcId => this.onchange( "unselectionOne", blcId ),
 				managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
 				managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
