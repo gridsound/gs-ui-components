@@ -10,13 +10,15 @@ class gsuiPianoroll {
 			blcManager = new gsuiBlocksManager( root, {
 				getData: () => this.data,
 				blockDOMChange: this._blockDOMChange.bind( this ),
-				managercallDuplicating: this.managercallDuplicating.bind( this ),
-				managercallSelecting: this.managercallSelecting.bind( this ),
-				managercallMoving: this.managercallMoving.bind( this ),
-				managercallDeleting: this.managercallDeleting.bind( this ),
-				managercallCroppingB: this.managercallCroppingB.bind( this ),
-				managercallAttack: this.managercallAttack.bind( this ),
-				managercallRelease: this.managercallRelease.bind( this ),
+				managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
+				managercallSelecting: keysMap => this.onchange( "selection", Array.from( keysMap.keys() ) ),
+				managercallUnselecting: () => this.onchange( "unselection" ),
+				managercallUnselectingOne: keyId => this.onchange( "unselectionOne", keyId ),
+				managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
+				managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
+				managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
+				managercallAttack: ( keysMap, val ) => this.onchange( "changeEnv", Array.from( keysMap.keys() ), "attack", val ),
+				managercallRelease: ( keysMap, val ) => this.onchange( "changeEnv", Array.from( keysMap.keys() ), "release", val ),
 				mouseup: () => {
 					if ( this._blcManager.__status === "cropping-b" ) {
 						this._blcManager.__blcsEditing.forEach( blc => {
@@ -56,24 +58,21 @@ class gsuiPianoroll {
 		this.data = this._proxyCreate();
 		this.uiKeys = new gsuiKeys();
 		this._rowsByMidi = {};
-		this._currKeyValue = {};
+		this._currKeyDuration = 1;
 		this.empty();
 		this._blcManager.__sideContent.append( this.uiKeys.rootElement );
 		this._blcManager.__onclickMagnet();
 		this._onchangeSlidersSelect();
 		root.addEventListener( "gsuiEvents", e => {
-			if ( e.detail.eventName === "change" ) {
-				const arr = e.detail.args[ 0 ],
-					nodeName = this._slidersSelect.value,
-					obj = {};
-
-				arr.forEach( ( [ id, val ] ) => {
-					obj[ id ] = { [ nodeName ]: val };
-					this.data[ id ][ nodeName ] = val;
-				} );
-				this.onchange( obj );
+			switch ( e.detail.component ) {
+				case "gsuiSliderGroup":
+					if ( e.detail.eventName === "change" ) {
+						e.detail.component = "gsuiPianoroll";
+						e.detail.eventName = "changeKeysProps";
+						e.detail.args.unshift( this._slidersSelect.value );
+					}
+					break;
 			}
-			e.stopPropagation();
 		} );
 		this.setPxPerBeat( 64 );
 	}
@@ -81,18 +80,7 @@ class gsuiPianoroll {
 	empty() {
 		Object.keys( this.data ).forEach( k => delete this.data[ k ] );
 		this._idMax = 0;
-		this.resetKey();
-	}
-	resetKey() {
-		const k = this._currKeyValue;
-
-		k.pan = 0;
-		k.gain = .8;
-		k.attack = .05;
-		k.release = .05;
-		k.lowpass = 1;
-		k.highpass = 1;
-		k.duration = 1;
+		this._currKeyDuration = 1;
 	}
 	resized() {
 		this._blcManager.__resized();
@@ -170,7 +158,7 @@ class gsuiPianoroll {
 			case "duration": {
 				el.style.width = `${ val }em`;
 				this._uiSliderGroup.setProp( el.dataset.id, "duration", val );
-				this._currKeyValue.duration = val;
+				this._currKeyDuration = val;
 				this._blockRedrawDragline( el );
 			} break;
 			case "deleted": {
@@ -190,14 +178,6 @@ class gsuiPianoroll {
 				row.firstElementChild.append( el );
 				this._blockRedrawDragline( el );
 			} break;
-			case "attack": {
-				el._attack.style.width = `${ val }em`;
-				this._currKeyValue.attack = val;
-			} break;
-			case "release": {
-				el._release.style.width = `${ val }em`;
-				this._currKeyValue.release = val;
-			} break;
 			case "prev": {
 				const blc = this._blcManager.__blcs.get( val );
 
@@ -210,6 +190,8 @@ class gsuiPianoroll {
 				el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!val );
 				el._dragline.linkTo( blc && blc._draglineDrop );
 			} break;
+			case "attack": el._attack.style.width = `${ val }em`; break;
+			case "release": el._release.style.width = `${ val }em`; break;
 			case "pan": this._blockSliderUpdate( "pan", el, val ); break;
 			case "gain": this._blockSliderUpdate( "gain", el, val ); break;
 			case "lowpass": this._blockSliderUpdate( "lowpass", el, val ); break;
@@ -219,7 +201,6 @@ class gsuiPianoroll {
 	_blockSliderUpdate( nodeName, el, val ) {
 		if ( this._slidersSelect.value === nodeName ) {
 			this._uiSliderGroup.setProp( el.dataset.id, "value", val );
-			this._currKeyValue[ nodeName ] = val;
 		}
 	}
 	_blockRedrawDragline( el ) {
@@ -265,25 +246,9 @@ class gsuiPianoroll {
 	_rowMousedown( key, e ) {
 		this._blcManager.__mousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
-			const id = this._idMax + 1,
-				curr = this._currKeyValue,
-				keyObj = {
-					key,
-					pan: curr.pan,
-					gain: curr.gain,
-					attack: curr.attack,
-					release: curr.release,
-					lowpass: curr.lowpass,
-					highpass: curr.highpass,
-					duration: curr.duration,
-					selected: false,
-					prev: null,
-					next: null,
-					when: this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
-				};
+			const when = this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) );
 
-			this.data[ id ] = keyObj;
-			this.onchange( this._blcManager.__unselectBlocks( { [ id ]: keyObj } ) );
+			this.onchange( "add", key, when, this._currKeyDuration );
 		}
 	}
 	_onscrollSliderGroup( elSrc, elLink ) {
@@ -368,29 +333,8 @@ class gsuiPianoroll {
 		} );
 		return arr;
 	}
-	_onchangeDragline( id, el, prevEl ) {
-		const obj = {},
-			dat = this.data,
-			prevId = prevEl && prevEl.parentNode.dataset.id;
-
-		if ( el ) {
-			const tarId = el.parentNode.dataset.id;
-
-			obj[ id ] = { next: tarId };
-			dat[ id ].next = tarId;
-			obj[ tarId ] = { prev: id };
-			dat[ tarId ].prev = id;
-			if ( prevEl ) {
-				obj[ prevId ] = { prev: null };
-				dat[ prevId ].prev = null;
-			}
-		} else {
-			obj[ id ] = { next: null };
-			obj[ prevId ] = { prev: null };
-			dat[ id ].next =
-			dat[ prevId ].prev = null;
-		}
-		this.onchange( obj );
+	_onchangeDragline( id, el ) {
+		this.onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
 	}
 
 	// Data proxy
