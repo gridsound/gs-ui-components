@@ -300,15 +300,13 @@ class gsuiBlocksManager {
 				break;
 			case "b": // copy paste
 				if ( e.ctrlKey || e.altKey ) {
-					const blcsSel = this.__blcsSelected;
-
-					if ( blcsSel.size ) {
+					if ( this.__blcsSelected.size ) {
 						const data = this._opts.getData();
 						let whenMin = Infinity,
 							whenMax = 0;
 
 						blcsEditing.clear();
-						blcsSel.forEach( ( blc, id ) => {
+						this.__blcsSelected.forEach( ( blc, id ) => {
 							const dat = data[ id ];
 
 							whenMin = Math.min( whenMin, dat.when );
@@ -330,18 +328,17 @@ class gsuiBlocksManager {
 						blcs = adding ? this.__blcs : this.__blcsSelected;
 
 					if ( blcs.size ) {
-						let notEmpty;
-
 						blcsEditing.clear();
 						blcs.forEach( ( blc, id ) => {
 							if ( !adding || !dat[ id ].selected ) {
-								notEmpty = true;
 								blcsEditing.set( id, blc );
 							}
 						} );
-						if ( notEmpty ) {
-							this.__status = "selecting-1";
-							this.__mouseup();
+						if ( blcsEditing.size ) {
+							adding
+								? this._opts.managercallSelecting( blcsEditing )
+								: this._opts.managercallUnselecting( blcsEditing );
+							blcsEditing.clear();
 						}
 					}
 					e.preventDefault();
