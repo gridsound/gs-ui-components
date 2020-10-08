@@ -215,6 +215,8 @@
 .gsuiIcon[ data-icon="waveform" ]::after { content: "\10f8f2"; }
 .gsuiIcon[ data-icon="oscillator" ]::before { content: "\f83e"; }
 .gsuiIcon[ data-icon="oscillator" ]::after { content: "\10f83e"; opacity: 1; }
+.gsuiIcon[ data-icon="glissando" ]::before { content: "\f667"; }
+.gsuiIcon[ data-icon="glissando" ]::after { content: "\10f667"; }
 
 .gsuiIcon[ data-icon="plus" ]::before { content: "\f067"; }
 .gsuiIcon[ data-icon="plus" ]::after { content: "\10f067"; opacity: .7; }
