@@ -22,8 +22,7 @@
 .gsuiTimeline2-beats {
 	display: flex;
 	height: 100%;
-	counter-reset: beat var( --gsuiTimeline2-beats-offset );
-	/*counter-reset: beat calc( var( --gsuiTimeline2-beats-offset ) - var( --gsuiTimeline2-beats-incr ) );*/
+	counter-reset: beat calc( var( --gsuiTimeline2-beats-offset ) - var( --gsuiTimeline2-beats-incr ) + 1 );
 	pointer-events: none;
 }
 .gsuiTimeline2-beat {
