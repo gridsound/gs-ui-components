@@ -200,7 +200,7 @@ class gsuiTimewindow extends HTMLElement {
 		const h = this._panelSize + ( this._mousedownPageY - e.pageY ),
 			min = +this.getAttribute( "paneldownmin" ) || 50,
 			max = +this.getAttribute( "paneldownmax" ) || 260,
-			h2 = Math.max( min, Math.min( w, max ) );
+			h2 = Math.max( min, Math.min( h, max ) );
 
 		this._elPanelDown.style.height =
 		this._elDown.style.height = `${ h2 }px`;
