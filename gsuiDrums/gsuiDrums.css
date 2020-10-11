@@ -5,12 +5,6 @@
 }
 
 /* .......................................................................... */
-.gsuiDrums gsui-timewindow {
-	scrollbar-width: none;
-}
-.gsuiDrums gsui-timewindow::-webkit-scrollbar {
-	display: none;
-}
 .gsuiDrums .gsuiTimewindow-currentTime {
 	margin-left: 0;
 	opacity: .1;

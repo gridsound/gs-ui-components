@@ -73,7 +73,6 @@ class gsuiDrums extends HTMLElement {
 		} );
 		win.setAttribute( "step", 1 );
 		win.onscroll = this.__mousemoveLines.bind( this );
-		this.oncontextmenu = e => e.preventDefault();
 		this._elDrumHover.remove();
 		this._elDrumcutHover.remove();
 		this._elDrumHover.onmousedown = this._onmousedownNew.bind( this, "Drums" );
