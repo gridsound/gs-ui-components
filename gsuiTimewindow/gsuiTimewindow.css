@@ -21,7 +21,7 @@
 	position: sticky;
 	z-index: 1;
 	left: 0;
-	background: var( --gsuiTimewindow-panel-bg );
+	background-color: var( --gsuiTimewindow-panel-bg );
 	box-shadow: 1px 0 var( --gsuiTimewindow-panel-border );
 }
 .gsuiTimewindow-panelUp,
@@ -44,6 +44,7 @@
 }
 .gsuiTimewindow-mainContent {
 	position: relative;
+	z-index: 0;
 }
 .gsuiTimewindow-panelContentDown,
 .gsuiTimewindow-contentDown {
@@ -51,6 +52,8 @@
 	bottom: 0px;
 	height: 96px;
 	overflow: hidden;
+	background-color: var( --gsuiTimewindow-bg );
+	box-shadow: 0 -1px var( --gsuiTimewindow-panel-border );
 }
 
 /* .......................................................................... */
