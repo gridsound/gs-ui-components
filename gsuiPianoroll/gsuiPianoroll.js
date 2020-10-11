@@ -8,7 +8,6 @@ class gsuiPianoroll {
 			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
 			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
 			blcManager = new gsuiBlocksManager( root, {
-				getData: () => this.data,
 				blockDOMChange: this._blockDOMChange.bind( this ),
 				managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
 				managercallSelecting: keysMap => this.onchange( "selection", Array.from( keysMap.keys() ) ),
@@ -55,11 +54,10 @@ class gsuiPianoroll {
 			}
 		};
 
-		this.data = this._proxyCreate();
 		this.uiKeys = new gsuiKeys();
 		this._rowsByMidi = {};
 		this._currKeyDuration = 1;
-		this.empty();
+		this.reset();
 		this._blcManager.__sideContent.append( this.uiKeys.rootElement );
 		this._blcManager.__onclickMagnet();
 		this._onchangeSlidersSelect();
@@ -77,9 +75,7 @@ class gsuiPianoroll {
 		this.setPxPerBeat( 64 );
 	}
 
-	empty() {
-		Object.keys( this.data ).forEach( k => delete this.data[ k ] );
-		this._idMax = 0;
+	reset() {
 		this._currKeyDuration = 1;
 	}
 	resized() {
@@ -130,7 +126,7 @@ class gsuiPianoroll {
 		return this._blcManager.getDuration();
 	}
 	octaves( from, nb ) {
-		this.empty();
+		this.reset();
 		Object.keys( this._rowsByMidi ).forEach( k => delete this._rowsByMidi[ k ] );
 
 		const rows = this.uiKeys.octaves( from, nb );
@@ -148,6 +144,60 @@ class gsuiPianoroll {
 
 	// Block's UI functions
 	// ........................................................................
+	addKey( id, obj ) {
+		const blc = gsuiPianoroll.blockTemplate.cloneNode( true ),
+			dragline = new gsuiDragline();
+
+		blc.dataset.id = id;
+		blc.onmousedown = this._blcMousedown.bind( this, id );
+		dragline.onchange = this._onchangeDragline.bind( this, id );
+		blc._attack = blc.querySelector( ".gsuiPianoroll-block-attack" );
+		blc._release = blc.querySelector( ".gsuiPianoroll-block-release" );
+		blc._dragline = dragline;
+		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
+		blc.append( dragline.rootElement );
+		dragline.getDropAreas = this._getDropAreas.bind( this, id );
+		this._blcManager.__blcs.set( id, blc );
+		obj.selected
+			? this._blcManager.__blcsSelected.set( id, blc )
+			: this._blcManager.__blcsSelected.delete( id );
+		this._uiSliderGroup.set( id, obj.when, obj.duration, obj[ this._slidersSelect.value ] );
+		this._blockDOMChange( blc, "key", obj.key );
+		this._blockDOMChange( blc, "when", obj.when );
+		this._blockDOMChange( blc, "duration", obj.duration );
+		this._blockDOMChange( blc, "selected", obj.selected );
+		this._blockDOMChange( blc, "attack", obj.attack );
+		this._blockDOMChange( blc, "release", obj.release );
+		this._blockDOMChange( blc, "pan", obj.pan );
+		this._blockDOMChange( blc, "gain", obj.gain );
+		this._blockDOMChange( blc, "lowpass", obj.lowpass );
+		this._blockDOMChange( blc, "highpass", obj.highpass );
+		this._blockDOMChange( blc, "prev", obj.prev );
+		this._blockDOMChange( blc, "next", obj.next );
+	}
+	removeKey( id ) {
+		const blc = this._blcManager.__blcs.get( id ),
+			blcPrev = this._blcManager.__blcs.get( blc.dataset.prev );
+
+		blc.remove();
+		if ( blcPrev ) {
+			blcPrev._dragline.linkTo( null );
+		}
+		this._blcManager.__blcs.delete( id );
+		this._blcManager.__blcsSelected.delete( id );
+		this._uiSliderGroup.delete( id );
+	}
+	changeKeyProp( id, prop, val ) {
+		const blc = this._blcManager.__blcs.get( id );
+
+		this._blockDOMChange( blc, prop, val );
+		blc.dataset[ prop === "key" ? "keyNote" : prop ] = val;
+		if ( prop === "selected" ) {
+			val
+				? this._blcManager.__blcsSelected.set( id, blc )
+				: this._blcManager.__blcsSelected.delete( id );
+		}
+	}
 	_blockDOMChange( el, prop, val ) {
 		switch ( prop ) {
 			case "when": {
@@ -169,7 +219,7 @@ class gsuiPianoroll {
 				this._uiSliderGroup.setProp( el.dataset.id, "selected", !!val );
 			} break;
 			case "row": {
-				this._blockDOMChange( el, "key", this.data[ el.dataset.id ].key - val );
+				this._blockDOMChange( el, "key", el.dataset.keyNote - val );
 			} break;
 			case "key": {
 				const row = this._getRowByMidi( val );
@@ -204,8 +254,7 @@ class gsuiPianoroll {
 		}
 	}
 	_blockRedrawDragline( el ) {
-		const key = this.data[ el.dataset.id ],
-			blcPrev = this._blcManager.__blcs.get( key.prev );
+		const blcPrev = this._blcManager.__blcs.get( el.dataset.prev );
 
 		el._dragline.redraw();
 		blcPrev && blcPrev._dragline.redraw();
@@ -213,7 +262,6 @@ class gsuiPianoroll {
 
 	// Private small getters
 	// ........................................................................
-	_getData() { return this.data; }
 	_getRowByMidi( midi ) { return this._rowsByMidi[ midi ]; }
 
 	// Mouse and keyboard events
@@ -234,11 +282,11 @@ class gsuiPianoroll {
 			this._blcManager.__mousedown( e );
 			if ( this._blcManager.__status === "cropping-b" ) {
 				this._blcManager.__blcsEditing.forEach( ( blc, id ) => {
-					const { attack, release } = this.data[ id ],
-						attRel = attack + release;
+					const att = +blc.dataset.attack,
+						rel = +blc.dataset.release;
 
-					blc._attack.style.maxWidth = `${ attack / attRel * 100 }%`;
-					blc._release.style.maxWidth = `${ release / attRel * 100 }%`;
+					blc._attack.style.maxWidth = `${ att / ( att + rel ) * 100 }%`;
+					blc._release.style.maxWidth = `${ rel / ( att + rel ) * 100 }%`;
 				} );
 			}
 		}
@@ -258,8 +306,7 @@ class gsuiPianoroll {
 		}
 	}
 	_onchangeSlidersSelect() {
-		const data = this.data,
-			nodeName = this._slidersSelect.value,
+		const nodeName = this._slidersSelect.value,
 			slidGroup = this._uiSliderGroup;
 
 		switch ( nodeName ) {
@@ -269,65 +316,21 @@ class gsuiPianoroll {
 			case "highpass": slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
-			this._uiSliderGroup.setProp( id, "value", data[ id ][ nodeName ] );
+			this._uiSliderGroup.setProp( id, "value", blc.dataset[ nodeName ] );
 		} );
 	}
 
 	// Key's functions
 	// ........................................................................
-	_deleteKey( id ) {
-		const key = this.data[ id ],
-			blc = this._blcManager.__blcs.get( id ),
-			blcPrev = this._blcManager.__blcs.get( key.prev );
-
-		blc.remove();
-		if ( blcPrev ) {
-			blcPrev._dragline.linkTo( null );
-		}
-		this._blcManager.__blcs.delete( id );
-		this._blcManager.__blcsSelected.delete( id );
-		this._uiSliderGroup.delete( id );
-	}
-	_setKey( id, obj ) {
-		const blc = gsuiPianoroll.blockTemplate.cloneNode( true ),
-			dragline = new gsuiDragline();
-
-		blc.dataset.id = id;
-		blc.onmousedown = this._blcMousedown.bind( this, id );
-		dragline.onchange = this._onchangeDragline.bind( this, id );
-		blc._attack = blc.querySelector( ".gsuiPianoroll-block-attack" );
-		blc._release = blc.querySelector( ".gsuiPianoroll-block-release" );
-		blc._dragline = dragline;
-		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
-		blc.append( dragline.rootElement );
-		dragline.getDropAreas = this._getDropAreas.bind( this, id );
-		this._blcManager.__blcs.set( id, blc );
-		obj.selected
-			? this._blcManager.__blcsSelected.set( id, blc )
-			: this._blcManager.__blcsSelected.delete( id );
-		this._uiSliderGroup.set( id, obj.when, obj.duration, obj[ this._slidersSelect.value ] );
-		this._blockDOMChange( blc, "key", obj.key );
-		this._blockDOMChange( blc, "when", obj.when );
-		this._blockDOMChange( blc, "duration", obj.duration );
-		this._blockDOMChange( blc, "selected", obj.selected );
-		this._blockDOMChange( blc, "attack", obj.attack );
-		this._blockDOMChange( blc, "release", obj.release );
-		this._blockDOMChange( blc, "pan", obj.pan );
-		this._blockDOMChange( blc, "gain", obj.gain );
-		this._blockDOMChange( blc, "lowpass", obj.lowpass );
-		this._blockDOMChange( blc, "highpass", obj.highpass );
-		this._blockDOMChange( blc, "prev", obj.prev );
-		this._blockDOMChange( blc, "next", obj.next );
-	}
 	_getDropAreas( id ) {
-		const obj = this.data[ id ],
-			when = obj.when + obj.duration,
+		const d = this._blcManager.__blcs.get( id ).dataset,
+			when = d.when + d.duration,
 			arr = [];
 
-		this._blcManager.__blcs.forEach( ( blc, blcId ) => {
-			const obj = this.data[ blcId ];
+		this._blcManager.__blcs.forEach( blc => {
+			const d = blc.dataset;
 
-			if ( obj.when >= when && ( obj.prev === null || obj.prev === id ) ) {
+			if ( +d.when >= when && ( d.prev === null || d.prev === id ) ) {
 				arr.push( blc.firstElementChild );
 			}
 		} );
@@ -335,72 +338,6 @@ class gsuiPianoroll {
 	}
 	_onchangeDragline( id, el ) {
 		this.onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
-	}
-
-	// Data proxy
-	// ........................................................................
-	_proxyCreate() {
-		return new Proxy( {}, {
-			set: this._proxySetKey.bind( this ),
-			deleteProperty: this._proxyDeleteKey.bind( this )
-		} );
-	}
-	_proxyDeleteKey( tar, id ) {
-		if ( id in tar ) {
-			this._deleteKey( id );
-			delete tar[ id ];
-		} else {
-			console.warn( `gsuiPianoroll: proxy useless deletion of [${ id }]` );
-		}
-		return true;
-	}
-	_proxySetKey( tar, id, obj ) {
-		if ( id in tar || !obj ) {
-			this._proxyDeleteKey( tar, id );
-			if ( obj ) {
-				console.warn( `gsuiPianoroll: reassignation of [${ id }]` );
-			}
-		}
-		if ( obj ) {
-			const prox = new Proxy( Object.seal( {
-					key: 60,
-					when: 0,
-					pan: 0,
-					gain: 1,
-					attack: .05,
-					release: .05,
-					lowpass: 1,
-					highpass: 1,
-					duration: 1,
-					selected: false,
-					prev: null,
-					next: null,
-					...obj,
-				} ), {
-					set: this._proxySetKeyProp.bind( this, id )
-				} );
-
-			tar[ id ] = prox;
-			this._idMax = Math.max( this._idMax, id );
-			this._setKey( id, prox );
-		}
-		return true;
-	}
-	_proxySetKeyProp( id, tar, prop, val ) {
-		if ( prop === "offset" ) {
-			console.warn( "gsuiPianoroll: proxy set useless 'offset' to key" );
-		} else {
-			const blc = this._blcManager.__blcs.get( id );
-
-			tar[ prop ] = val;
-			this._blockDOMChange( blc, prop, val );
-			if ( prop === "selected" ) {
-				val
-					? this._blcManager.__blcsSelected.set( id, blc )
-					: this._blcManager.__blcsSelected.delete( id );
-			}
-		}
-		return true;
 	}
 }
 
