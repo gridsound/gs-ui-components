@@ -43,6 +43,7 @@ class gsuiKeys {
 		this._nbOct = nbOct;
 		this._octStart = start;
 		root.style.counterReset = `octave ${ maxOct }`;
+		root.style.height = `${ nbOct * 12 }em`;
 		for ( let i = 0; i < nbOct; ++i ) {
 			root.append( ...gsuiKeys.template.cloneNode( true ).children );
 		}
