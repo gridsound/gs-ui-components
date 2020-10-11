@@ -5,6 +5,10 @@
 	height: 100%;
 	overflow: auto;
 	background-color: var( --gsuiTimewindow-bg );
+	scrollbar-width: none;
+}
+.gsuiTimewindow::-webkit-scrollbar {
+	display: none;
 }
 
 /* .......................................................................... */
