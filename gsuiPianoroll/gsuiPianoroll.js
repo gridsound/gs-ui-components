@@ -324,13 +324,13 @@ class gsuiPianoroll {
 	// ........................................................................
 	_getDropAreas( id ) {
 		const d = this._blcManager.__blcs.get( id ).dataset,
-			when = d.when + d.duration,
+			when = +d.when + +d.duration,
 			arr = [];
 
 		this._blcManager.__blcs.forEach( blc => {
 			const d = blc.dataset;
 
-			if ( +d.when >= when && ( d.prev === null || d.prev === id ) ) {
+			if ( +d.when >= when && ( d.prev === "null" || d.prev === id ) ) {
 				arr.push( blc.firstElementChild );
 			}
 		} );
