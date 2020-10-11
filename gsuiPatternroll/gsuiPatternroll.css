@@ -1,5 +1,5 @@
-.gsuiPatternroll .gsuiBlocksManager-sidePanel {
-	max-width: 256px;
+.gsuiPatternroll {
+	display: flex;
 }
 
 .gsuiPatternroll-block {

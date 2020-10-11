@@ -11,10 +11,12 @@
 }
 
 .gsuiBlocksManager-sidePanel {
+	display: flex;
+	flex-direction: column;
 	position: relative;
-	min-width: 68px;
-	max-width: 104px;
+	overflow: hidden;
 	width: 104px;
+	border-right: 1px solid;
 	font: var( --gsuiBlocksManager-font );
 }
 .gsuiBlocksManager-sidePanel .gsui-opacityHover {
@@ -30,6 +32,7 @@
 .gsuiBlocksManager-gridPanel {
 	flex: 1;
 	display: flex;
+	overflow: hidden;
 	flex-direction: column;
 }
 .gsuiBlocksManager-sidePanelMenu {

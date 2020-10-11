@@ -1,5 +1,5 @@
 .gsuiPianoroll {
-	width: 100%;
+	display: flex;
 	height: 500px;
 	--gsuiDragline-dotSize: 10px;
 	--gsuiDragline-dotRad: 2px;
@@ -12,19 +12,20 @@
 /* .......................................................................... */
 .gsuiPianoroll-sidePanelTop,
 .gsuiPianoroll-gridPanelTop {
-	height: 100%;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 }
 .gsuiPianoroll-sidePanelBottom,
 .gsuiPianoroll-gridPanelBottom {
-	min-height: 100px;
+	height: 100px;
+	border-top: 1px solid;
 	background-color: var( --gsuiBlocksManager-side-bgColor );
 }
 .gsuiPianoroll-gridPanelBottom {
 	background-color: var( --gsuiBlocksManager-grid-bg );
-}
-.gsuiPianoroll-gridPanelTop {
-	display: flex;
-	flex-direction: column;
 }
 
 /* .......................................................................... */

@@ -18,8 +18,6 @@ class gsuiBlocksManager {
 		this.__blcs = new Map();
 		this.__blcsEditing = new Map();
 		this.__blcsSelected = new Map();
-		this.__uiPanels = new gsuiPanels( root );
-		this.__elPanGridWidth = 0;
 		this.__magnet = root.querySelector( ".gsuiBlocksManager-magnet" );
 		this.__elLoopA = root.querySelector( ".gsuiBlocksManager-loopA" );
 		this.__elLoopB = root.querySelector( ".gsuiBlocksManager-loopB" );
@@ -33,7 +31,6 @@ class gsuiBlocksManager {
 		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
 		this.__uiBeatlines = root.querySelector( "gsui-beatlines" );
 
-		this.__elPanGrid.onresizing = this.__gridPanelResizing.bind( this );
 		this.timeline.oninputLoop = this.__loop.bind( this );
 		this.timeline.onchangeLoop = ( isLoop, a, b ) => this._opts.onchangeLoop( isLoop, a, b );
 		this.timeline.onchangeCurrentTime = t => {
@@ -149,7 +146,6 @@ class gsuiBlocksManager {
 		this.__sideContent.style.bottom =
 		elRows.style.right =
 		elRows.style.bottom = `${ elRows.clientWidth - elRows.offsetWidth }px`;
-		this.__uiPanels.attached();
 		this.__gridPanelResized();
 	}
 	__loop( isLoop, a, b ) {
@@ -215,17 +211,7 @@ class gsuiBlocksManager {
 
 	// Events
 	// ............................................................................................
-	__gridPanelResizing( pan ) {
-		const width = pan.clientWidth;
-
-		if ( this.__offset > 0 ) {
-			this.__offset -= ( width - this.__elPanGridWidth ) / this.__pxPerBeat;
-			this.__rowsContainer.scrollLeft -= width - this.__elPanGridWidth;
-		}
-		this.__gridPanelResized();
-	}
 	__gridPanelResized() {
-		this.__elPanGridWidth = this.__elPanGrid.clientWidth;
 		this.timeline.resized();
 		this.timeline.offset( this.__offset, this.__pxPerBeat );
 	}
