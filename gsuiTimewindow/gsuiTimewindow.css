@@ -59,6 +59,9 @@
 	background-color: var( --gsuiTimewindow-bg );
 	box-shadow: 0 -1px var( --gsuiTimewindow-panel-border );
 }
+.gsuiTimewindow-panelContentDown {
+	background-color: inherit;
+}
 
 /* .......................................................................... */
 .gsuiTimewindow-panelExtend {
