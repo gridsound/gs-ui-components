@@ -72,8 +72,8 @@ const GSUI = {
 	unselectText() {
 		window.getSelection().removeAllRanges();
 	},
-	setAttribute( el, attr, val ) {
-		val === null || val === false
+	setAttribute( el, attr, val = "" ) {
+		val === false || val === null || val === undefined
 			? el.removeAttribute( attr )
 			: el.setAttribute( attr, val === true ? "" : val );
 	},
