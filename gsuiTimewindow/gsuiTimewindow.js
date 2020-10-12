@@ -38,7 +38,7 @@ class gsuiTimewindow extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiTimewindow" );
-			this._elPanel.style.minWidth = `${ this.getAttribute( "panelmin" ) || 100 }px`;
+			this._elPanel.style.minWidth = `${ this.getAttribute( "panelsize" ) || 100 }px`;
 			this.append( ...this._children );
 			if ( this.hasAttribute( "downpanel" ) ) {
 				this._elPanelDown.firstChild.onmousedown =
@@ -192,8 +192,8 @@ class gsuiTimewindow extends HTMLElement {
 	}
 	_onmousemoveExtendPanel( e ) {
 		const w = this._panelSize + ( e.pageX - this._mousedownPageX ),
-			min = +this.getAttribute( "panelmin" ) || 50,
-			max = +this.getAttribute( "panelmax" ) || 260,
+			min = +this.getAttribute( "panelsizemin" ) || 50,
+			max = +this.getAttribute( "panelsizemax" ) || 260,
 			w2 = Math.max( min, Math.min( w, max ) );
 
 		this._elPanel.style.minWidth = `${ w2 }px`;
