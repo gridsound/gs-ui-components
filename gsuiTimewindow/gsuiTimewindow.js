@@ -43,6 +43,8 @@ class gsuiTimewindow extends HTMLElement {
 			if ( this.hasAttribute( "downpanel" ) ) {
 				this._elPanelDown.firstChild.onmousedown =
 				this._elDown.firstChild.onmousedown = this._onmousedownExtend.bind( this, "down" );
+				this._elPanelDown.style.height =
+				this._elDown.style.height = `${ this.getAttribute( "downpanelsize" ) || 50 }px`;
 			} else {
 				this._elPanelDown.remove();
 				this._elDown.remove();
@@ -198,8 +200,8 @@ class gsuiTimewindow extends HTMLElement {
 	}
 	_onmousemoveExtendDownPanel( e ) {
 		const h = this._panelSize + ( this._mousedownPageY - e.pageY ),
-			min = +this.getAttribute( "paneldownmin" ) || 50,
-			max = +this.getAttribute( "paneldownmax" ) || 260,
+			min = +this.getAttribute( "downpanelsizemin" ) || 50,
+			max = +this.getAttribute( "downpanelsizemax" ) || 260,
 			h2 = Math.max( min, Math.min( h, max ) );
 
 		this._elPanelDown.style.height =
