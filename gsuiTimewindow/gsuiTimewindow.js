@@ -27,6 +27,7 @@ class gsuiTimewindow extends HTMLElement {
 		Object.seal( this );
 
 		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
+		this.ondragstart = () => false;
 		elMain.onwheel = this._onwheel.bind( this );
 		elMain.querySelector( ".gsuiTimewindow-mainContent" ).oncontextmenu = e => e.preventDefault();
 		elPanel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this._onwheelPanel.bind( this );
