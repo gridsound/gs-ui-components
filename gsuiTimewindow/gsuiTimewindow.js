@@ -125,10 +125,7 @@ class gsuiTimewindow extends HTMLElement {
 						e.stopPropagation();
 						break;
 					case "inputLoop":
-						a === false
-							? this.removeAttribute( "loop" )
-							: this.setAttribute( "loop", `${ a }-${ b }` );
-						e.stopPropagation();
+						GSUI.setAttribute( this, "loop", a && `${ a }-${ b }` );
 						break;
 				}
 			} break;
