@@ -172,6 +172,7 @@ class gsuiTimewindow extends HTMLElement {
 
 				this.setAttribute( "lineheight", lhNew );
 				this.scrollTop = scrollLh * lhNew + scrollIncr;
+				GSUI.dispatchEvent( this, "gsuiTimewindow", "lineheight", lhNew );
 			}
 		}
 	}
