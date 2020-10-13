@@ -12,7 +12,7 @@
 .gsuiTrack-row {
 	box-sizing: border-box;
 	display: flex;
-	height: 1em;
+	height: var( --gsuiTimewindow-lineH );
 }
 .gsuiTrack,
 .gsuiTrack-row,
@@ -42,13 +42,13 @@
 	display: block;
 	background-color: rgba( 0, 0, 0, var( --rel-a, 0 ) );
 }
-.gsuiTrack-row:nth-child( odd ) {
+.gsuiTrack-row:nth-child( even ) {
 	--rel-a: .06;
 }
 .gsuiTrack-row.gsui-mute {
 	--rel-a: .25;
 }
-.gsuiTrack-row.gsui-mute:nth-child( odd ) {
+.gsuiTrack-row.gsui-mute:nth-child( even ) {
 	--rel-a: .29;
 }
 .gsuiTrack-row > div {
@@ -56,6 +56,7 @@
 	top: 0;
 	bottom: 0;
 	width: 100%;
+	font-size: var( --gsuiTimewindow-pxperbeat );
 }
 
 /* .......................................................................... */
