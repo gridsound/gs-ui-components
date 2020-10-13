@@ -6,6 +6,8 @@
 	display: flex;
 	flex-direction: column;
 	white-space: nowrap;
+	color: var( --gsuiPatterns-pattern-color );
+	--gsuiPatterns-pattern-color: #223;
 }
 .gsui-mute .gsuiPatternroll-block {
 	opacity: .5;
