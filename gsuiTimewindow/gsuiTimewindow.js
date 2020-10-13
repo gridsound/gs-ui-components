@@ -9,6 +9,7 @@ class gsuiTimewindow extends HTMLElement {
 		super();
 		this._children = children;
 		this._elPanel = elPanel;
+		this._elStepBtn = elPanel.querySelector( ".gsuiTimewindow-step" );
 		this._elPanelDown = elPanel.querySelector( ".gsuiTimewindow-panelContentDown" );
 		this._elTimeline = elMain.querySelector( "gsui-timeline2" );
 		this._elBeatlines = elMain.querySelector( "gsui-beatlines" );
@@ -29,6 +30,7 @@ class gsuiTimewindow extends HTMLElement {
 		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
 		this.ondragstart = () => false;
 		elMain.onwheel = this._onwheel.bind( this );
+		this._elStepBtn.onclick = this._onclickStep.bind( this );
 		elMain.querySelector( ".gsuiTimewindow-mainContent" ).oncontextmenu = e => e.preventDefault();
 		elPanel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this._onwheelPanel.bind( this );
 		elPanel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this._onmousedownExtend.bind( this, "side" );
@@ -50,6 +52,9 @@ class gsuiTimewindow extends HTMLElement {
 				this._elDown.remove();
 			}
 			this._children = null;
+			if ( !this.hasAttribute( "step" ) ) {
+				this.setAttribute( "step", 1 );
+			}
 			if ( !this.hasAttribute( "pxperbeat" ) ) {
 				this.setAttribute( "pxperbeat", 100 );
 			}
@@ -66,6 +71,7 @@ class gsuiTimewindow extends HTMLElement {
 			switch ( prop ) {
 				case "step":
 					this._elTimeline.setAttribute( "step", val );
+					this._elStepBtn.firstChild.textContent = this._convertStepToFrac( +val );
 					break;
 				case "timesignature":
 					this._elTimeline.setAttribute( "timesignature", val );
@@ -112,6 +118,15 @@ class gsuiTimewindow extends HTMLElement {
 	}
 
 	// .........................................................................
+	_convertStepToFrac( step ) {
+		return (
+			step >= 1 ? "1" :
+			step >= .5 ? "1 / 2" :
+			step >= .25 ? "1 / 4" : "1 / 8"
+		);
+	}
+
+	// .........................................................................
 	_ongsuiEvents( e ) {
 		const d = e.detail;
 
@@ -132,6 +147,15 @@ class gsuiTimewindow extends HTMLElement {
 				}
 			} break;
 		}
+	}
+	_onclickStep() {
+		const v = +this.getAttribute( "step" ),
+			frac =
+				v >= 1 ? 2 :
+				v >= .5 ? 4 :
+				v >= .25 ? 8 : 1;
+
+		this.setAttribute( "step", 1 / frac );
 	}
 	_onwheel( e ) {
 		if ( e.ctrlKey ) {

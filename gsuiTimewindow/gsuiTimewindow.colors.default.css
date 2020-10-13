@@ -1,5 +1,6 @@
 .gsuiTimewindow {
 	--gsuiTimewindow-bg: #456168;
+	--gsuiTimewindow-color: #fff;
 	--gsuiTimewindow-loop-bg: #0004;
 	--gsuiTimewindow-panel-bg: #555;
 	--gsuiTimewindow-panel-border: #222;

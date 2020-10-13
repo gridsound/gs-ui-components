@@ -2,7 +2,12 @@
 
 GSUI.setTemplate( "gsui-timewindow", () => [
 	GSUI.createElement( "div", { class: "gsuiTimewindow-panel" },
-		GSUI.createElement( "div", { class: "gsuiTimewindow-panelUp" } ),
+		GSUI.createElement( "div", { class: "gsuiTimewindow-panelUp" },
+			GSUI.createElement( "button", { class: "gsuiTimewindow-step" },
+				GSUI.createElement( "span", { class: "gsuiTimewindow-stepValue" } ),
+				GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "magnet" } ),
+			),
+		),
 		GSUI.createElement( "div", { class: "gsuiTimewindow-panelContent" } ),
 		GSUI.createElement( "div", { class: "gsuiTimewindow-panelContentDown" },
 			GSUI.createElement( "div", { class: "gsuiTimewindow-panelExtend gsuiTimewindow-panelExtendX" } ),

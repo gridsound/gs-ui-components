@@ -4,6 +4,7 @@
 	width: 100%;
 	height: 100%;
 	overflow: auto;
+	color: var( --gsuiTimewindow-color );
 	background-color: var( --gsuiTimewindow-bg );
 	scrollbar-width: none;
 }
@@ -36,6 +37,10 @@
 	height: 32px;
 }
 .gsuiTimewindow-panelUp {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-right: 4px;
 	background-color: var( --gsuiTimewindow-panelUp-bg );
 	background-image: var( --gsuiWindow-bgImg );
 }
@@ -109,3 +114,30 @@
 }
 .gsuiTimewindow-loopA { left: 0; }
 .gsuiTimewindow-loopB { right: 0; }
+
+
+/* .......................................................................... */
+.gsuiTimewindow-step {
+	display: flex;
+	align-items: center;
+	border: 0;
+	outline: 0;
+	padding: 4px;
+	border-radius: 4px;
+	font-size: inherit;
+	font-family: var( --gsui-font-number );
+	color: inherit;
+	cursor: pointer;
+	background: none;
+	user-select: none;
+	opacity: .5;
+	transition: .2s opacity;
+}
+.gsuiTimewindow-step:focus,
+.gsuiTimewindow-step:hover {
+	opacity: 1;
+}
+.gsuiTimewindow-stepValue {
+	white-space: nowrap;
+	margin-right: 6px;
+}
