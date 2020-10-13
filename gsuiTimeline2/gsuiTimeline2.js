@@ -47,6 +47,9 @@ class gsuiTimeline2 extends HTMLElement {
 			this.classList.add( "gsuiTimeline2" );
 			this.append( ...this._children );
 			this._children = null;
+			if ( !this.hasAttribute( "step" ) ) {
+				this.setAttribute( "step", 1 );
+			}
 		}
 		this._scrollingAncestor = this._closestScrollingAncestor( this.parentNode );
 		this._scrollingAncestor.addEventListener( "scroll", this._onscroll );
@@ -78,7 +81,7 @@ class gsuiTimeline2 extends HTMLElement {
 	// .........................................................................
 	previewCurrentTime( b ) { // to remove
 		const ret = b !== false
-				? this._beatRound( b )
+				? this.beatRound( b )
 				: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
 
 		b !== false
@@ -134,6 +137,16 @@ class gsuiTimeline2 extends HTMLElement {
 	}
 
 	// .........................................................................
+	beatCeil( beat ) { return this._beatCalc( Math.ceil, beat ); }
+	beatRound( beat ) { return this._beatCalc( Math.round, beat ); }
+	beatFloor( beat ) { return this._beatCalc( Math.floor, beat ); }
+	_beatCalc( mathFn, beat ) {
+		const mod = 1 / this.stepsPerBeat * this._step;
+
+		return mathFn( beat / mod ) * mod;
+	}
+
+	// .........................................................................
 	_closestScrollingAncestor( el ) {
 		const ov = getComputedStyle( el ).overflowX;
 
@@ -146,15 +159,10 @@ class gsuiTimeline2 extends HTMLElement {
 		this.classList.toggle( `gsuiTimeline2-${ st }`, !!st );
 		this._status = st;
 	}
-	_beatRound( beat ) {
-		const mod = 1 / this.stepsPerBeat * this._step;
-
-		return Math.round( beat / mod ) * mod;
-	}
 	_getBeatByPageX( pageX ) {
 		const bcrX = this._elTimeLine.getBoundingClientRect().x;
 
-		return Math.max( 0, this._beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
+		return Math.max( 0, this.beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
 	}
 	_updateStepsBg() {
 		const sPB = this.stepsPerBeat,
