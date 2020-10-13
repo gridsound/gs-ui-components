@@ -9,6 +9,9 @@
 	margin-left: 0;
 	opacity: .1;
 }
+.gsuiDrums .gsuiTimewindow-step {
+	display: none;
+}
 
 /* .......................................................................... */
 .gsuiDrums-shadow {

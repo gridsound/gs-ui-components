@@ -4,8 +4,9 @@ class gsuiDrums extends HTMLElement {
 	constructor() {
 		const drumrows = GSUI.createElement( "gsui-drumrows" ),
 			win = GSUI.createElement( "gsui-timewindow", {
-				panelmin: 140,
-				panelmax: 240,
+				panelsize: 140,
+				panelsizemin: 70,
+				panelsizemax: 240,
 				lineheight: 48,
 				lineheightmin: 48,
 				lineheightmax: 48,
