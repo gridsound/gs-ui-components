@@ -50,16 +50,15 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 	} ],
 	[ "selecting-1", function( blcsEditing, mdBlc ) {
 		if ( mdBlc ) {
-			blcsEditing.set( mdBlc.dataset.id, mdBlc );
 			mdBlc.classList.contains( "gsuiBlocksManager-block-selected" )
 				? this._opts.managercallUnselectingOne( mdBlc.dataset.id )
-				: this._opts.managercallSelecting( blcsEditing );
+				: this._opts.managercallSelecting( [ mdBlc.dataset.id ] );
 		}
 	} ],
 	[ "selecting-2", function( blcsEditing ) {
 		this.__selection.classList.add( "gsuiBlocksManager-selection-hidden" );
 		if ( blcsEditing.size ) {
-			this._opts.managercallSelecting( blcsEditing );
+			this._opts.managercallSelecting( Array.from( blcsEditing.keys() ) );
 		}
 	} ],
 ] );

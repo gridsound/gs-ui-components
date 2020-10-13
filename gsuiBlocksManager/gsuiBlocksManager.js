@@ -1,123 +1,26 @@
 "use strict";
 
 class gsuiBlocksManager {
-	constructor( root, opts ) {
-		this.rootElement = root;
-		this.timeline = new gsuiTimeline();
+	constructor( opts ) {
+		const root = opts.rootElement;
 
+		this.rootElement = root;
+		this.timeline = opts.timeline;
 		this._opts = opts;
-		this._opts.onscrollRows = opts.onscrollRows || GSUI.noop;
 		this._opts.oneditBlock = opts.oneditBlock || GSUI.noop;
-		this._opts.oninputLoop = opts.oninputLoop || GSUI.noop;
-		this._opts.onchangeLoop = opts.onchangeLoop || GSUI.noop;
-		this._opts.oninputCurrentTime = opts.oninputCurrentTime || GSUI.noop;
-		this._opts.onchangeCurrentTime = opts.onchangeCurrentTime || GSUI.noop;
 		this._blockDOMChange = opts.blockDOMChange;
-		this.__offset = 0;
-		this.__fontSize = 16;
+		this.__fontSize =
+		this.__pxPerBeat = 10;
 		this.__blcs = new Map();
 		this.__blcsEditing = new Map();
 		this.__blcsSelected = new Map();
-		this.__magnet = root.querySelector( ".gsuiBlocksManager-magnet" );
-		this.__elLoopA = root.querySelector( ".gsuiBlocksManager-loopA" );
-		this.__elLoopB = root.querySelector( ".gsuiBlocksManager-loopB" );
-		this.__selection = root.querySelector( ".gsuiBlocksManager-selection" );
-		this.__elPanGrid = root.querySelector( ".gsuiBlocksManager-gridPanel" );
-		this.__magnetValue = root.querySelector( ".gsuiBlocksManager-magnetValue" );
-		this.__sideContent = root.querySelector( ".gsuiBlocksManager-sidePanelContent" );
-		this.__elCurrentTime = root.querySelector( ".gsuiBlocksManager-currentTime" );
-		this.__rowsContainer = root.querySelector( ".gsuiBlocksManager-rows" );
-		this.__rowsWrapinContainer = root.querySelector( ".gsuiBlocksManager-rowsWrapin" );
-		this.__rows = this.__rowsContainer.getElementsByClassName( "gsui-row" );
-		this.__uiBeatlines = root.querySelector( "gsui-beatlines" );
+		this.__selection = opts.selectionElement;
+		this.__rows = root.getElementsByClassName( "gsui-row" );
 
-		this.timeline.oninputLoop = this.__loop.bind( this );
-		this.timeline.onchangeLoop = ( isLoop, a, b ) => this._opts.onchangeLoop( isLoop, a, b );
-		this.timeline.onchangeCurrentTime = t => {
-			this.__currentTime( t );
-			this._opts.onchangeCurrentTime( t );
-		};
-		root.querySelector( ".gsuiBlocksManager-timelineWrap" ).append( this.timeline.rootElement );
-
-		this.__rowsContainer.oncontextmenu =
-		root.ondragstart = () => false;
 		root.onkeydown = this.__keydown.bind( this );
-		this.__magnet.onclick = this.__onclickMagnet.bind( this );
-
-		this.__rowsScrollTop =
-		this.__rowsScrollLeft = -1;
-		this.__sideContent.onwheel = this.__onwheelPanelContent.bind( this );
-		this.__sideContent.onscroll = this.__onscrollPanelContent.bind( this );
-		this.__rowsContainer.onwheel = this.__onwheelRows.bind( this );
-		this.__rowsContainer.onscroll = this.__onscrollRows.bind( this );
-		root.onwheel = e => { e.ctrlKey && e.preventDefault(); };
-
 		this.__eventReset();
-		this.timeline.timeSignature( 4, 4 );
-		this.__uiBeatlines.setAttribute( "timesignature", "4,4" );
-		this.__magnetValue.textContent = this.timeline.stepRound;
 	}
 
-	// Public methods
-	// ............................................................................................
-	timeSignature( a, b ) {
-		this.timeline.timeSignature( a, b );
-		this.__uiBeatlines.setAttribute( "timesignature", `${ a },${ b }` );
-	}
-	currentTime( beat ) {
-		this.timeline.currentTime( beat );
-		this.__currentTime( beat );
-	}
-	loop( a, b ) {
-		this.timeline.loop( a, b );
-		this.__loop( Number.isFinite( a ), a, b );
-	}
-	setPxPerBeat( px ) {
-		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
-
-		if ( ppb !== this.__pxPerBeat ) {
-			const ppbpx = `${ ppb }px`;
-
-			this.__pxPerBeat = ppb;
-			this.timeline.offset( this.__offset, ppb );
-			this.__uiBeatlines.setAttribute( "pxperbeat", ppb );
-			this.__elLoopA.style.fontSize =
-			this.__elLoopB.style.fontSize =
-			this.__elCurrentTime.style.fontSize = ppbpx;
-			Array.from( this.__rows ).forEach( el => el.firstElementChild.style.fontSize = ppbpx );
-			if ( this._opts.onchangePxPerBeat ) {
-				this._opts.onchangePxPerBeat( ppb );
-			}
-			return true;
-		}
-		return false;
-	}
-	setFontSize( px ) {
-		const fs = Math.min( Math.max( 8, px ), 64 );
-
-		if ( fs !== this.__fontSize ) {
-			const isSmall = fs <= 44;
-
-			this.__fontSize = fs;
-			this.__sideContent.style.fontSize =
-			this.__rowsContainer.style.fontSize = `${ fs }px`;
-			Array.from( this.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", isSmall ) );
-			return true;
-		}
-		return false;
-	}
-	getDuration() {
-		const bPM = this.timeline._beatsPerMeasure,
-			dur = Object.values( this._opts.getData() )
-				.reduce( ( dur, blc ) => Math.max( dur, blc.when + blc.duration ), 0 );
-
-		return Math.max( 1, Math.ceil( dur / bPM ) ) * bPM;
-	}
-	getBlocks() {
-		return this.__blcs;
-	}
-
-	// Private small getters
 	// ............................................................................................
 	__getRow0BCR() { return this.__rows[ 0 ].getBoundingClientRect(); }
 	__getRowByIndex( ind ) { return this.__rows[ ind ]; }
@@ -134,33 +37,7 @@ class gsuiBlocksManager {
 		return Math.max( 0, this.timeline.beatFloor( beat ) );
 	}
 
-	// Private util methods
 	// ............................................................................................
-	__resized() {
-		this.__gridPanelResized();
-	}
-	__attached() {
-		const elRows = this.__rowsContainer;
-
-		this.__sideContent.style.right =
-		this.__sideContent.style.bottom =
-		elRows.style.right =
-		elRows.style.bottom = `${ elRows.clientWidth - elRows.offsetWidth }px`;
-		this.__gridPanelResized();
-	}
-	__loop( isLoop, a, b ) {
-		this.__elLoopA.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
-		this.__elLoopB.classList.toggle( "gsuiBlocksManager-loopOn", isLoop );
-		if ( isLoop ) {
-			this.__elLoopA.style.width = `${ a }em`;
-			this.__elLoopB.style.left = `${ b }em`;
-		}
-		this._opts.oninputLoop( isLoop && a, b );
-	}
-	__currentTime( t ) {
-		this.__elCurrentTime.style.left = `${ t }em`;
-		this._opts.oninputCurrentTime( t );
-	}
 	__isBlc( el ) {
 		return el.classList.contains( "gsuiBlocksManager-block" );
 	}
@@ -195,7 +72,7 @@ class gsuiBlocksManager {
 		return obj;
 	}
 	__getBeatSnap() {
-		return 1 / this.timeline._stepsPerBeat * this.timeline.stepRound;
+		return 1 / this.timeline.stepsPerBeat * this.timeline.getAttribute( "step" );
 	}
 	__eventReset() {
 		this.__mmFn =
@@ -209,69 +86,7 @@ class gsuiBlocksManager {
 		this.__blcsEditing.clear();
 	}
 
-	// Events
 	// ............................................................................................
-	__gridPanelResized() {
-		this.timeline.resized();
-		this.timeline.offset( this.__offset, this.__pxPerBeat );
-	}
-	__onscrollPanelContent() {
-		if ( this.__sideContent.scrollTop !== this.__rowsScrollTop ) {
-			this.__rowsScrollTop =
-			this.__rowsContainer.scrollTop = this.__sideContent.scrollTop;
-		}
-	}
-	__onwheelPanelContent( e ) {
-		if ( e.ctrlKey ) {
-			const layerY = e.pageY - this.__sideContent.firstElementChild.getBoundingClientRect().top,
-				oldFs = this.__fontSize;
-
-			this.setFontSize( oldFs * ( e.deltaY > 0 ? .9 : 1.1 ) );
-			this.__rowsScrollTop =
-			this.__sideContent.scrollTop =
-			this.__rowsContainer.scrollTop += layerY / oldFs * ( this.__fontSize - oldFs );
-		}
-	}
-	__onscrollRows( e ) {
-		const elRows = this.__rowsContainer;
-
-		this.__mousemove( e );
-		if ( elRows.scrollTop !== this.__rowsScrollTop ) {
-			this.__rowsScrollTop =
-			this.__sideContent.scrollTop = elRows.scrollTop;
-		}
-		if ( elRows.scrollLeft !== this.__rowsScrollLeft ) {
-			const off = elRows.scrollLeft / this.__pxPerBeat;
-
-			this.__offset = off;
-			this.__rowsScrollLeft = elRows.scrollLeft;
-			this.timeline.offset( off, this.__pxPerBeat );
-		}
-		this._opts.onscrollRows();
-	}
-	__onwheelRows( e ) {
-		if ( e.ctrlKey ) {
-			const elRows = this.__rowsContainer,
-				layerX = e.pageX - elRows.getBoundingClientRect().left + elRows.scrollLeft,
-				ppb = Math.round( Math.min( Math.max( 8, this.__pxPerBeat * ( e.deltaY > 0 ? .9 : 1.1 ) ), 512 ) );
-
-			this.__rowsScrollLeft =
-			elRows.scrollLeft += layerX / this.__pxPerBeat * ( ppb - this.__pxPerBeat );
-			this.__offset = elRows.scrollLeft / ppb;
-			this.setPxPerBeat( ppb );
-		}
-	}
-	__onclickMagnet() {
-		const v = this.timeline.stepRound,
-			frac =
-				v >= 1 ? 2 :
-				v >= .5 ? 4 :
-				v >= .25 ? 8 : 1;
-
-		this.timeline.stepRound = 1 / frac;
-		this.__magnetValue.textContent = frac <= 1 ? "1" : `1 / ${ frac }`;
-		return false;
-	}
 	__keydown( e ) {
 		const dat = this._opts.getData(),
 			blcsEditing = this.__blcsEditing;
@@ -310,22 +125,19 @@ class gsuiBlocksManager {
 			case "a": // select all
 			case "d": // deselect
 				if ( e.ctrlKey || e.altKey ) {
-					const adding = e.key === "a",
-						blcs = adding ? this.__blcs : this.__blcsSelected;
+					if ( e.key === "d" ) {
+						if ( this.__blcsSelected.size > 0 ) {
+							this._opts.managercallUnselecting();
+						}
+					} else if ( this.__blcs.size > this.__blcsSelected.size ) {
+						const ids = [];
 
-					if ( blcs.size ) {
-						blcsEditing.clear();
-						blcs.forEach( ( blc, id ) => {
-							if ( !adding || !dat[ id ].selected ) {
-								blcsEditing.set( id, blc );
+						this.__blcs.forEach( ( blc, id ) => {
+							if ( !dat[ id ].selected ) {
+								ids.push( id );
 							}
 						} );
-						if ( blcsEditing.size ) {
-							adding
-								? this._opts.managercallSelecting( blcsEditing )
-								: this._opts.managercallUnselecting( blcsEditing );
-							blcsEditing.clear();
-						}
+						this._opts.managercallSelecting( ids );
 					}
 					e.preventDefault();
 					e.stopPropagation();
