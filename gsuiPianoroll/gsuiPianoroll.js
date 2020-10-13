@@ -3,14 +3,29 @@
 class gsuiPianoroll {
 	constructor( cb ) {
 		const root = gsuiPianoroll.template.cloneNode( true ),
-			sideTop = root.querySelector( ".gsuiPianoroll-sidePanelTop" ),
-			gridTop = root.querySelector( ".gsuiPianoroll-gridPanelTop" ),
-			sideBottom = root.querySelector( ".gsuiPianoroll-sidePanelBottom" ),
-			gridBottom = root.querySelector( ".gsuiPianoroll-gridPanelBottom" ),
-			blcManager = new gsuiBlocksManager( root, {
+			win = GSUI.createElement( "gsui-timewindow", {
+				panelsize: 90,
+				panelsizemin: 70,
+				panelsizemax: 120,
+				lineheight: 20,
+				lineheightmin: 12,
+				lineheightmax: 32,
+				pxperbeat: 64,
+				pxperbeatmin: 20,
+				pxperbeatmax: 200,
+				downpanel: "",
+				downpanelsize: 100,
+				downpanelsizemin: 84,
+				downpanelsizemax: 150,
+			} ),
+			selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } ),
+			blcManager = new gsuiBlocksManager( {
+				rootElement: root,
+				selectionElement,
+				timeline: win._elTimeline,
 				blockDOMChange: this._blockDOMChange.bind( this ),
 				managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
-				managercallSelecting: keysMap => this.onchange( "selection", Array.from( keysMap.keys() ) ),
+				managercallSelecting: ids => this.onchange( "selection", ids ),
 				managercallUnselecting: () => this.onchange( "unselection" ),
 				managercallUnselectingOne: keyId => this.onchange( "unselectionOne", keyId ),
 				managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
@@ -26,104 +41,71 @@ class gsuiPianoroll {
 						} );
 					}
 				},
-				oninputLoop: this._loop.bind( this ),
-				oninputCurrentTime: this._currentTime.bind( this ),
-				onchangePxPerBeat: this._setPxPerBeat.bind( this ),
-				onscrollRows: this._onscrollRows.bind( this ),
 				...cb,
 			} );
 
+		this._win = win;
 		this.rootElement = root;
-		this.timeline = blcManager.timeline;
+		this.timeline = win._elTimeline;
+		this.uiKeys = new gsuiKeys();
 		this.onchange = cb.onchange;
 		this._blcManager = blcManager;
-		this._uiSliderGroup = root.querySelector( "gsui-slidergroup" );
-		this._slidersSelect = root.querySelector( ".gsuiPianoroll-slidersSelect" );
-		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
-		sideBottom.onresizing =
-		gridBottom.onresizing = panel => {
-			const topH = panel.previousElementSibling.style.height,
-				bottomH = panel.style.height;
-
-			if ( panel === gridBottom ) {
-				sideTop.style.height = topH;
-				sideBottom.style.height = bottomH;
-			} else {
-				gridTop.style.height = topH;
-				gridBottom.style.height = bottomH;
-			}
-		};
-
-		this.uiKeys = new gsuiKeys();
 		this._rowsByMidi = {};
 		this._currKeyDuration = 1;
-		this.reset();
-		this._blcManager.__sideContent.append( this.uiKeys.rootElement );
-		this._blcManager.__onclickMagnet();
+		this._selectionElement = selectionElement;
+		this._uiSliderGroup = GSUI.createElement( "gsui-slidergroup", { beatlines: "" } );
+		this._slidersSelect = GSUI.createElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 4 },
+			GSUI.createElement( "option", { value: "gain", selected: "" }, "gain" ),
+			GSUI.createElement( "option", { value: "pan" }, "pan" ),
+			GSUI.createElement( "option", { value: "lowpass" }, "lowpass" ),
+			GSUI.createElement( "option", { value: "highpass" }, "highpass" ),
+		);
+
+		root.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
+		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
+
+		this._ongsuiTimewindowPxperbeat( 64 );
+		this._ongsuiTimewindowLineheight( 20 );
 		this._onchangeSlidersSelect();
-		root.addEventListener( "gsuiEvents", e => {
-			switch ( e.detail.component ) {
-				case "gsuiSliderGroup":
-					if ( e.detail.eventName === "change" ) {
-						e.detail.component = "gsuiPianoroll";
-						e.detail.eventName = "changeKeysProps";
-						e.detail.args.unshift( this._slidersSelect.value );
-					}
-					break;
-			}
-		} );
-		this.setPxPerBeat( 64 );
+		this.reset();
 	}
 
 	reset() {
 		this._currKeyDuration = 1;
 	}
-	resized() {
-		this._blcManager.__resized();
-		this._blcManager.__gridPanelResized();
-	}
 	attached() {
-		this._uiSliderGroup.scrollElement.onscroll = this._onscrollSliderGroup.bind( this,
-			this._uiSliderGroup.scrollElement, this._blcManager.__rowsContainer );
-		this._blcManager.__attached();
+		this.rootElement.append( this._win );
+		this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys.rootElement );
+		this._win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this._slidersSelect );
+		this._win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this._uiSliderGroup );
+		this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
 		this.scrollToMiddle();
 	}
-	setPxPerBeat( px ) {
-		if ( this._blcManager.setPxPerBeat( px ) ) {
-			this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
-		}
-	}
-	setFontSize( px ) {
-		if ( this._blcManager.setFontSize( px ) ) {
-			this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
-		}
+	timeSignature( a, b ) {
+		GSUI.setAttribute( this._win, "timesignature", `${ a },${ b }` );
+		GSUI.setAttribute( this._uiSliderGroup, "timesignature", `${ a },${ b }` );
 	}
 	currentTime( t ) {
-		this._blcManager.currentTime( t );
+		GSUI.setAttribute( this._win, "currenttime", t );
+		GSUI.setAttribute( this._uiSliderGroup, "currenttime", t );
 	}
 	loop( a, b ) {
-		this._blcManager.loop( a, b );
+		GSUI.setAttribute( this._win, "loop", a && `${ a }-${ b }` );
+		GSUI.setAttribute( this._uiSliderGroup, "loopa", a );
+		GSUI.setAttribute( this._uiSliderGroup, "loopb", b );
 	}
 	scrollToMiddle() {
-		const rows = this._blcManager.__rowsContainer;
-
-		rows.scrollTop = ( rows.scrollHeight - rows.clientHeight ) / 2;
+		this._win.scrollTop = this._win.querySelector( ".gsuiTimewindow-rows" ).clientHeight / 2;
 	}
 	scrollToKeys() {
-		const rows = this._blcManager.__rowsContainer,
-			smp = rows.querySelector( ".gsuiBlocksManager-block" );
+		const blc = this._win.querySelector( ".gsuiBlocksManager-block" );
 
-		if ( smp ) {
-			rows.scrollTop += smp.getBoundingClientRect().top -
-				rows.getBoundingClientRect().top - 3.5 * this._blcManager.__fontSize;
+		if ( blc ) {
+			const key = +blc.dataset.keyNote,
+				maxRow = +this._win.querySelector( ".gsui-row" ).dataset.midi;
+
+			this._win.scrollTop = ( maxRow - key - 3.5 ) * this._win.getAttribute( "lineheight" );
 		}
-	}
-	timeSignature( a, b ) {
-		this._blcManager.timeSignature( a, b );
-		this._uiSliderGroup.timeSignature( a, b );
-	}
-	getDuration() {
-		return this._blcManager.getDuration();
 	}
 	octaves( from, nb ) {
 		this.reset();
@@ -135,11 +117,11 @@ class gsuiPianoroll {
 			const midi = +el.dataset.midi;
 
 			el.onmousedown = this._rowMousedown.bind( this, midi );
-			el.firstElementChild.style.fontSize = `${ this._blcManager.__pxPerBeat }px`;
 			this._rowsByMidi[ midi ] = el;
 		} );
-		this._blcManager.__rowsWrapinContainer.style.height = `${ rows.length }em`;
-		this._blcManager.__rowsWrapinContainer.prepend( ...rows );
+		this._win.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
+		this._win.querySelector( ".gsuiTimewindow-rows" ).style.height = `${ rows.length }em`;
+		this.scrollToMiddle();
 	}
 
 	// Block's UI functions
@@ -264,14 +246,52 @@ class gsuiPianoroll {
 	// ........................................................................
 	_getRowByMidi( midi ) { return this._rowsByMidi[ midi ]; }
 
-	// Mouse and keyboard events
 	// ........................................................................
-	_onscrollRows() {
-		this._onscrollSliderGroup( this._blcManager.__rowsContainer, this._uiSliderGroup.scrollElement );
+	_ongsuiEvents( e ) {
+		switch ( e.detail.component ) {
+			case "gsuiTimewindow":
+				switch ( e.detail.eventName ) {
+					case "pxperbeat": this._ongsuiTimewindowPxperbeat( e.detail.args[ 0 ] ); break;
+					case "lineheight": this._ongsuiTimewindowLineheight( e.detail.args[ 0 ] ); break;
+				}
+				break;
+			case "gsuiTimeline":
+				switch ( e.detail.eventName ) {
+					case "inputLoop":
+					case "changeLoop": this._ongsuiTimelineChangeLoop( ...e.detail.args ); break;
+					case "changeCurrentTime": this._ongsuiTimelineChangeCurrentTime( e.detail.args[ 0 ] ); break;
+				}
+				break;
+			case "gsuiSliderGroup":
+				switch ( e.detail.eventName ) {
+					case "change": return this._ongsuiSliderGroupChange( e );
+				}
+				break;
+		}
+		e.stopPropagation();
 	}
-	_loop( a, b ) { this._uiSliderGroup.loop( a, b ); }
-	_currentTime( beat ) { this._uiSliderGroup.currentTime( beat ); }
-	_setPxPerBeat( ppb ) { this._uiSliderGroup.setPxPerBeat( ppb ); }
+	_ongsuiTimewindowPxperbeat( ppb ) {
+		this._blcManager.__pxPerBeat = ppb;
+		this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
+		this._uiSliderGroup.setPxPerBeat( ppb );
+	}
+	_ongsuiTimewindowLineheight( px ) {
+		this._blcManager.__fontSize = px;
+		Array.from( this._blcManager.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
+		this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
+	}
+	_ongsuiTimelineChangeCurrentTime( t ) {
+		GSUI.setAttribute( this._uiSliderGroup, "currenttime", t );
+	}
+	_ongsuiTimelineChangeLoop( a, b ) {
+		GSUI.setAttribute( this._uiSliderGroup, "loopa", a );
+		GSUI.setAttribute( this._uiSliderGroup, "loopb", b );
+	}
+	_ongsuiSliderGroupChange( e ) {
+		e.detail.component = "gsuiPianoroll";
+		e.detail.eventName = "changeKeysProps";
+		e.detail.args.unshift( this._slidersSelect.value );
+	}
 
 	// ........................................................................
 	_blcMousedown( id, e ) {
@@ -297,12 +317,6 @@ class gsuiPianoroll {
 			const when = this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) );
 
 			this.onchange( "add", key, when, this._currKeyDuration );
-		}
-	}
-	_onscrollSliderGroup( elSrc, elLink ) {
-		if ( this._slidersWrapScrollLeft !== elSrc.scrollLeft ) {
-			this._slidersWrapScrollLeft =
-			elLink.scrollLeft = elSrc.scrollLeft;
 		}
 	}
 	_onchangeSlidersSelect() {

@@ -10,39 +10,44 @@
 }
 
 /* .......................................................................... */
-.gsuiPianoroll-sidePanelTop,
-.gsuiPianoroll-gridPanelTop {
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	flex: 1;
+.gsuiPianoroll .gsuiKeys {
+	z-index: 0;
+	font-size: var( --gsuiTimewindow-lineH );
 }
-.gsuiPianoroll-sidePanelBottom,
-.gsuiPianoroll-gridPanelBottom {
-	height: 100px;
-	border-top: 1px solid;
-	background-color: var( --gsuiBlocksManager-side-bgColor );
+.gsuiPianoroll .gsuiTimewindow-rows {
+	font-size: var( --gsuiTimewindow-lineH );
 }
-.gsuiPianoroll-gridPanelBottom {
-	background-color: var( --gsuiBlocksManager-grid-bg );
+.gsuiPianoroll .gsuiKey-row > div {
+	font-size: var( --gsuiTimewindow-pxperbeat );
 }
 
 /* .......................................................................... */
-.gsuiPianoroll-sidePanelBottom {
+.gsuiPianoroll .gsuiTimewindow-panelContentDown {
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: center;
 }
 .gsuiPianoroll-slidersSelect {
-	margin: auto;
-	color: inherit;
-	font: inherit;
 	border: 0;
 	outline: 0;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	font-size: 12px;
 	user-select: none;
-	background-color: var( --gsuiBlocksManager-side-bgColor );
+	border-radius: 4px;
+	background-color: #fff2;
+	scrollbar-width: none;
+	opacity: .5;
+	transition: .1s opacity;
 }
-.gsuiPianoroll .gsuiKeys {
-	z-index: 0;
+.gsuiPianoroll-slidersSelect::-webkit-scrollbar {
+	display: none;
+}
+.gsuiPianoroll-slidersSelect:focus,
+.gsuiPianoroll-slidersSelect:hover {
+	opacity: 1;
+}
+.gsuiPianoroll-slidersSelect option {
+	padding: 2px;
 }
