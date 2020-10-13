@@ -22,9 +22,10 @@ class gsuiSliderGroup extends HTMLElement {
 		} );
 	}
 
+	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			const withBeatlines = "beatlines" in this.dataset,
+			const withBeatlines = this.hasAttribute( "beatlines" ),
 				root = GSUI.getTemplate( "gsui-slidergroup", withBeatlines );
 
 			this._connected = true;
@@ -42,7 +43,35 @@ class gsuiSliderGroup extends HTMLElement {
 			this._slidersParent.onmousedown = this._mousedown.bind( this );
 		}
 	}
+	static get observedAttributes() {
+		return [ "timesignature", "currenttime", "loopa", "loopb" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "currenttime":
+					this._currentTime.style.left = `${ val }em`;
+					break;
+				case "timesignature":
+					this._uiBeatlines.setAttribute( "timesignature", val );
+					break;
+				case "loopa":
+					this._loopA.classList.toggle( "gsuiSliderGroup-loopOn", val );
+					if ( val ) {
+						this._loopA.style.width = `${ val }em`;
+					}
+					break;
+				case "loopb":
+					this._loopB.classList.toggle( "gsuiSliderGroup-loopOn", val );
+					if ( val ) {
+						this._loopB.style.left = `${ val }em`;
+					}
+					break;
+			}
+		}
+	}
 
+	// .........................................................................
 	empty() {
 		this._sliders.forEach( s => s.element.remove() );
 		this._sliders.clear();
@@ -54,23 +83,6 @@ class gsuiSliderGroup extends HTMLElement {
 		this._max = max;
 		this._step = step;
 		this._exp = exp;
-	}
-
-	timeSignature( a, b ) {
-		this._uiBeatlines.setAttribute( "timesignature", `${ a },${ b }` );
-	}
-	currentTime( beat ) {
-		this._currentTime.style.left = `${ beat }em`;
-	}
-	loop( a, b ) {
-		const isLoop = a !== false;
-
-		this._loopA.classList.toggle( "gsuiSliderGroup-loopOn", isLoop );
-		this._loopB.classList.toggle( "gsuiSliderGroup-loopOn", isLoop );
-		if ( isLoop ) {
-			this._loopA.style.width = `${ a }em`;
-			this._loopB.style.left = `${ b }em`;
-		}
 	}
 	setPxPerBeat( px ) {
 		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
