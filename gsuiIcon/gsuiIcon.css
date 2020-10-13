@@ -297,8 +297,8 @@
 .gsuiIcon[ data-icon="help" ]::after { content: "\10f0fa"; }
 .gsuiIcon[ data-icon="changelog" ]::before { content: "\f70e"; }
 .gsuiIcon[ data-icon="changelog" ]::after { content: "\10f70e"; }
-.gsuiIcon[ data-icon="about" ]::before { content: "\f753"; }
-.gsuiIcon[ data-icon="about" ]::after { content: "\10f753"; }
+.gsuiIcon[ data-icon="about" ]::before { content: "\f30e"; }
+.gsuiIcon[ data-icon="about" ]::after { content: "\10f30e"; }
 
 .gsuiIcon[ data-icon="rocket" ]::before { content: "\f135"; }
 .gsuiIcon[ data-icon="rocket" ]::after { content: "\10f135"; }
