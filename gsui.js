@@ -31,11 +31,7 @@ const GSUI = {
 	},
 	_createElement( el, attr, children ) {
 		if ( attr ) {
-			Object.entries( attr ).forEach( ( [ p, val ] ) => {
-				if ( val || val === "" ) {
-					el.setAttribute( p, val );
-				}
-			} );
+			Object.entries( attr ).forEach( kv => GSUI.setAttribute( el, ...kv ) );
 		}
 		el.append( ...children.flat( 1 ).filter( Boolean ) );
 		return el;
