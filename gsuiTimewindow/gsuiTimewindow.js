@@ -11,7 +11,7 @@ class gsuiTimewindow extends HTMLElement {
 		this._elPanel = elPanel;
 		this._elStepBtn = elPanel.querySelector( ".gsuiTimewindow-step" );
 		this._elPanelDown = elPanel.querySelector( ".gsuiTimewindow-panelContentDown" );
-		this._elTimeline = elMain.querySelector( "gsui-timeline2" );
+		this._elTimeline = elMain.querySelector( "gsui-timeline" );
 		this._elBeatlines = elMain.querySelector( "gsui-beatlines" );
 		this._elCurrentTime = elMain.querySelector( ".gsuiTimewindow-currentTime" );
 		this._elLoopA = elMain.querySelector( ".gsuiTimewindow-loopA" );

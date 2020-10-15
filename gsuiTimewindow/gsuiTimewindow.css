@@ -88,8 +88,8 @@
 }
 
 /* .......................................................................... */
-.gsuiTimewindow .gsuiTimeline2 {
-	--gsuiTimeline2-cursor-fill: var( --gsuiTimewindow-currentTime-fill );
+.gsuiTimewindow .gsuiTimeline {
+	--gsuiTimeline-cursor-fill: var( --gsuiTimewindow-currentTime-fill );
 }
 .gsuiTimewindow-currentTime,
 .gsuiTimewindow-loop {

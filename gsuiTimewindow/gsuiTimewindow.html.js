@@ -16,7 +16,7 @@ GSUI.setTemplate( "gsui-timewindow", () => [
 	),
 	GSUI.createElement( "div", { class: "gsuiTimewindow-main" },
 		GSUI.createElement( "div", { class: "gsuiTimewindow-time" },
-			GSUI.createElement( "gsui-timeline2" ),
+			GSUI.createElement( "gsui-timeline" ),
 		),
 		GSUI.createElement( "div", { class: "gsuiTimewindow-mainBody" },
 			GSUI.createElement( "div", { class: "gsuiTimewindow-mainContent" },
