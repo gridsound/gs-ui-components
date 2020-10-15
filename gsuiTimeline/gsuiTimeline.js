@@ -1,336 +1,356 @@
 "use strict";
 
-class gsuiTimeline {
+class gsuiTimeline extends HTMLElement {
 	constructor() {
-		const root = gsuiTimeline.template.cloneNode( true ),
-			qs = c => root.querySelector( `.gsuiTimeline-${ c }` );
+		const children = GSUI.getTemplate( "gsui-timeline" ),
+			elTimeLine = children[ 3 ];
 
-		this.rootElement = root;
-		this.stepRound = 1;
-		this._evMouseup =
-		this._evMousemove =
-		this.oninputLoop =
-		this.onchangeLoop =
-		this.onchangeCurrentTime = null;
-		this.width =
-		this.height =
-		this._loopA =
-		this._loopB =
-		this._offset =
-		this._loopAWas =
-		this._loopBWas =
-		this._loopClick =
-		this._currentTime =
-		this._previewCurrentTime = 0;
-		this._pxPerBeat = 32;
-		this._beatsPerMeasure =
-		this._stepsPerBeat = 4;
-		this._steps = [];
-		this._loop =
-		this._loopWas =
-		this._timeisdrag =
-		this._loopisdrag =
-		this._loopisdragA =
-		this._loopisdragB = false;
-		this._loopSerial =
-		this._loopSerialInp = "";
-		this._elLoop = qs( "loop" );
-		this._elLoopA = qs( "loopA" );
-		this._elLoopB = qs( "loopB" );
-		this._elCursor = qs( "cursor" );
-		this._elLoopBg = qs( "loopBg" );
-		this._elLoopBrdA = qs( "loopBrdA" );
-		this._elLoopBrdB = qs( "loopBrdB" );
-		this._elLoopLine = qs( "loopLine" );
-		this._elCurrentTime = qs( "currentTime" );
-		this._elCursorPreview = qs( "cursorPreview" );
+		super();
+		this._children = children;
+		this.beatsPerMeasure = 4;
+		this.stepsPerBeat = 4;
+		this.pxPerBeat = 10;
+		this.loopA =
+		this.loopB = 0;
+		this.looping = false;
+		this._step = 1;
+		this._onscroll = this._onscroll.bind( this );
+		this._scrollingAncestor = null;
+		this._elSteps = children[ 0 ];
+		this._elBeats = children[ 1 ];
+		this._elLoop = children[ 2 ].firstChild;
+		this._elTimeLine = elTimeLine;
+		this._elCursor = elTimeLine.firstChild;
+		this._elCursorPreview = elTimeLine.lastChild;
+		this._offset = null;
+		this._mousedownDate =
+		this._mousemoveBeat =
+		this._mousedownBeat =
+		this._mousedownLoopA =
+		this._mousedownLoopB = 0;
+		this._mousedownLoop = "";
+		this._onlyMeasures = false;
+		this._onmousemove = this._onmousemove.bind( this );
+		this._onmouseup = this._onmouseup.bind( this );
+		this._status = "";
+		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiTimeline" );
+		this._onresize = this._onresize.bind( this );
 		Object.seal( this );
 
-		root.onmousedown = this._mousedown.bind( this );
-		this._elLoopA.onmousedown = this._mousedownLoop.bind( this, "a" );
-		this._elLoopB.onmousedown = this._mousedownLoop.bind( this, "b" );
-		this._elLoopBg.onmousedown = this._mousedownLoop.bind( this, "ab" );
-		this._elLoopLine.onmousedown = this._mousedownLoopLine.bind( this );
-		this._elCurrentTime.onmousedown = this._mousedownTime.bind( this );
-		this.currentTime( 0 );
-		this.loop( 0, 0 );
+		this._elCursorPreview.remove();
+		this.onmousedown = this._onmousedown.bind( this );
 	}
 
-	resized() {
-		const rc = this.rootElement.getBoundingClientRect();
-
-		this.width = rc.width;
-		this.height = rc.height;
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiTimeline" );
+			this.append( ...this._children );
+			this._children = null;
+			if ( !this.hasAttribute( "step" ) ) {
+				this.setAttribute( "step", 1 );
+			}
+		}
+		this._scrollingAncestor = this._closestScrollingAncestor( this.parentNode );
+		this._scrollingAncestor.addEventListener( "scroll", this._onscroll );
+		GSUI.observeSizeOf( this._scrollingAncestor, this._onresize );
+		this._updateOffset();
+		this._updateNumberBeats();
+		this._updateMeasures();
 	}
-	currentTime( beat, isUserAction ) {
-		this._currentTime = beat;
-		this._elCursor.style.left = this._beatToPx( beat );
-		if ( isUserAction && this.onchangeCurrentTime ) {
-			this.onchangeCurrentTime( beat );
+	disconnectedCallback() {
+		this._scrollingAncestor.removeEventListener( "scroll", this._onscroll );
+		GSUI.unobserveSizeOf( this._scrollingAncestor, this._onresize );
+	}
+	static get observedAttributes() {
+		return [ "step", "timesignature", "pxperbeat", "loop", "currenttime", "currenttime-preview" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "step": this._step = +val; break;
+				case "loop": this._changeLoop( val ); break;
+				case "pxperbeat": this._changePxPerBeat( +val ); break;
+				case "currenttime": this._changeCurrentTime( +val ); break;
+				case "timesignature": this._changeTimesignature( val ); break;
+				case "currenttime-preview": this._changeCurrentTimePreview( val ); break;
+			}
 		}
 	}
-	offset( beat, pxBeat ) {
-		this._offset = Math.max( 0, +beat || 0 );
-		this._pxPerBeat = +pxBeat;
-		this._render();
-	}
-	timeSignature( a, b ) {
-		this._beatsPerMeasure = Math.max( 1, ~~a );
-		this._stepsPerBeat = Math.min( Math.max( 1, ~~b ), 16 );
-		this._render();
-	}
-	beatRound( bt ) { return this._round( bt, "round" ); }
-	beatFloor( bt ) { return this._round( bt, "floor" ); }
-	beatCeil( bt ) { return this._round( bt, "ceil" ); }
-	loop( a, b, isUserAction ) {
-		const loopWas = this._loop;
-		let la, lb;
 
-		if ( a === false ) {
-			this._loop = a;
+	// .........................................................................
+	previewCurrentTime( b ) { // to remove...
+		const ret = b !== false
+				? this.beatRound( b )
+				: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
+
+		b !== false
+			? this.setAttribute( "currenttime-preview", ret )
+			: this.removeAttribute( "currenttime-preview" );
+		return ret;
+	}
+	_changePxPerBeat( ppb ) {
+		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) ),
+			beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .5 ) ),
+			onlyM = ppb < 20;
+
+		this.pxPerBeat = ppb;
+		this._onlyMeasures = onlyM;
+		this.style.fontSize = `${ ppb }px`;
+		this.style.setProperty( "--gsuiTimeline-beats-incr", onlyM ? this.beatsPerMeasure : 1 );
+		this.style.setProperty( "--gsuiTimeline-beats-opacity", beatsOpa );
+		this._elSteps.style.opacity = stepsOpa;
+		if ( this._scrollingAncestor ) {
+			this._updateOffset();
+			this._updateNumberBeats();
+			this._updateMeasures();
+		}
+	}
+	_changeTimesignature( val ) {
+		const ts = val.split( "," );
+
+		this.beatsPerMeasure = +ts[ 0 ];
+		this.stepsPerBeat = +ts[ 1 ];
+		this._updateStepsBg();
+		this._updateMeasures();
+	}
+	_changeLoop( val ) {
+		const [ a, b ] = ( val || "0-0" ).split( "-" );
+
+		this.looping = !!val;
+		this.loopA = +a;
+		this.loopB = +b;
+		this._updateLoop();
+	}
+	_changeCurrentTime( t ) {
+		this._elCursor.style.left = `${ t }em`;
+	}
+	_changeCurrentTimePreview( t ) {
+		if ( !t ) {
+			this._elCursorPreview.remove();
 		} else {
-			this._loopA = Math.max( 0, Math.min( a, b ) );
-			this._loopB = Math.max( 0, a, b );
+			this._elCursorPreview.style.left = `${ t }em`;
+			if ( !this._elCursorPreview.parentNode ) {
+				this._elTimeLine.append( this._elCursorPreview );
+			}
 		}
-		if ( isUserAction ) {
-			la = this.beatRound( this._loopA );
-			lb = this.beatRound( this._loopB );
-		} else {
-			la = this._loopA;
-			lb = this._loopB;
-		}
-		if ( a !== false ) {
-			this._loop = lb - la > 1 / this._stepsPerBeat / 8;
-		}
-		if ( isUserAction ) {
-			if ( this.oninputLoop ) {
-				const serial = loopWas && this._loop
-						? this._serialAB( la, lb )
-						: undefined;
+	}
 
-				if ( loopWas !== this._loop || this._loopSerialInp !== serial ) {
-					this._loopSerialInp = serial;
-					this.oninputLoop( this._loop, la, lb );
-				}
+	// .........................................................................
+	beatCeil( beat ) { return this._beatCalc( Math.ceil, beat ); }
+	beatRound( beat ) { return this._beatCalc( Math.round, beat ); }
+	beatFloor( beat ) { return this._beatCalc( Math.floor, beat ); }
+	_beatCalc( mathFn, beat ) {
+		const mod = 1 / this.stepsPerBeat * this._step;
+
+		return mathFn( beat / mod ) * mod;
+	}
+
+	// .........................................................................
+	_closestScrollingAncestor( el ) {
+		const ov = getComputedStyle( el ).overflowX;
+
+		return ov === "auto" || ov === "scroll" || el === document.body
+			? el
+			: this._closestScrollingAncestor( el.parentNode );
+	}
+	_setStatus( st ) {
+		this.classList.remove( `gsuiTimeline-${ this._status }` );
+		this.classList.toggle( `gsuiTimeline-${ st }`, !!st );
+		this._status = st;
+	}
+	_getBeatByPageX( pageX ) {
+		const bcrX = this._elTimeLine.getBoundingClientRect().x;
+
+		return Math.max( 0, this.beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
+	}
+	_updateStepsBg() {
+		const sPB = this.stepsPerBeat,
+			dots = [];
+
+		for ( let i = 1; i < sPB; ++i ) {
+			if ( i > 1 ) {
+				dots.push( `transparent calc( ${ ( i - 1 ) / sPB }em + 1px )` );
+			}
+			dots.push(
+				`transparent calc( ${ i / sPB }em - 1px )`,
+				`currentColor calc( ${ i / sPB }em - 1px )`,
+				`currentColor calc( ${ i / sPB }em + 1px )` );
+		}
+		this._elSteps.style.backgroundImage = `
+			repeating-linear-gradient(90deg, transparent 0em,
+				${ dots.join( "," ) },
+				transparent calc( ${ ( sPB - 1 ) / sPB }em + 1px ), transparent calc( ${ 1 }em )
+			)
+		`;
+	}
+	_updateOffset() {
+		const offBeats = Math.floor( this._scrollingAncestor.scrollLeft / this.pxPerBeat ),
+			off = this._onlyMeasures
+				? Math.floor( offBeats / this.beatsPerMeasure ) * this.beatsPerMeasure
+				: offBeats,
+			diff = off !== this._offset;
+
+		if ( diff ) {
+			this._offset = off;
+			this.style.setProperty( "--gsuiTimeline-beats-offset", off );
+		}
+		return diff;
+	}
+	_updateNumberBeats() {
+		const elBeats = this._elBeats,
+			px = this.pxPerBeat * ( this._onlyMeasures ? this.beatsPerMeasure : 1 ),
+			nb = Math.ceil( this._scrollingAncestor.clientWidth / px ) + 1;
+
+		if ( nb < 0 || nb > 500 ) {
+			return console.warn( "gsuiTimeline: anormal number of nodes to create", nb );
+		} else if ( elBeats.children.length > nb ) {
+			while ( elBeats.children.length > nb ) {
+				elBeats.lastChild.remove();
 			}
 		} else {
-			this._loopWas = this._loop;
-			this._loopAWas = la;
-			this._loopBWas = lb;
-			this._loopSerial = this._serialAB( la, lb );
-		}
-		this._setLoop( la, lb );
-	}
-	previewCurrentTime( beat ) {
-		const el = this._elCursorPreview,
-			hide = beat === false;
-
-		if ( !hide ) {
-			this._previewCurrentTime = this.beatRound( beat );
-			el.style.left = this._beatToPx( this._previewCurrentTime );
-		}
-		el.classList.toggle( "gsui-hidden", hide );
-		return this._previewCurrentTime;
-	}
-
-	// private:
-	_unselect() {
-		window.getSelection().removeAllRanges();
-	}
-	_round( bt, mathFn ) {
-		if ( this.stepRound ) {
-			const mod = 1 / this._stepsPerBeat * this.stepRound;
-
-			return Math[ mathFn ]( bt / mod ) * mod;
-		}
-		return bt;
-	}
-	_layerX( e ) {
-		return e.pageX - this.rootElement.getBoundingClientRect().left;
-	}
-	_pageXtoBeat( e ) {
-		return Math.max( 0, this.beatRound( this._offset + this._layerX( e ) / this._pxPerBeat ) );
-	}
-	_beatToPx( beat ) {
-		return `${ ( beat - this._offset ) * this._pxPerBeat }px`;
-	}
-	_serialAB( a, b ) {
-		return `${ a.toFixed( 4 ) } ${ b.toFixed( 4 ) }`;
-	}
-	_bindEvents() {
-		this._evMouseup = this._mouseup.bind( this );
-		this._evMousemove = this._mousemove.bind( this );
-		document.addEventListener( "mouseup", this._evMouseup );
-		document.addEventListener( "mousemove", this._evMousemove );
-	}
-	_mousedown() {
-		this._unselect();
-	}
-	_mousedownTime( e ) {
-		this._timeisdrag = true;
-		this._mousemove( e );
-		this._unselect();
-		this._bindEvents();
-		e.stopPropagation();
-	}
-	_mousedownLoop( side, e ) {
-		this._loopisdrag = true;
-		this._loopisdragA = side === "a";
-		this._loopisdragB = side === "b";
-		this._elLoopBg.classList.toggle( "gsui-hover", side === "ab" );
-		this._elLoopBrdA.classList.toggle( "gsui-hover", this._loopisdragA );
-		this._elLoopBrdB.classList.toggle( "gsui-hover", this._loopisdragB );
-		this._unselect();
-		this._bindEvents();
-		e.stopPropagation();
-	}
-	_mousedownLoopLine( e ) {
-		const now = Date.now(),
-			bt = this._offset + this._layerX( e ) / this._pxPerBeat;
-
-		this._unselect();
-		if ( !this._loopClick || now - this._loopClick > 500 ) {
-			this._loopClick = now;
-		} else {
-			this.loop( false, 0, true );
-			this.loop( bt, bt, true );
-			this._mousedownLoop( "b", e );
-		}
-		e.stopPropagation();
-	}
-	_mousemove( e ) {
-		if ( this._timeisdrag ) {
-			this.previewCurrentTime( this._pageXtoBeat( e ) );
-		} else if ( this._loopisdrag ) {
-			const la = this._loopisdragA,
-				lb = this._loopisdragB;
-			let bt = e.movementX / this._pxPerBeat,
-				a = this._loopA,
-				b = this._loopB;
-
-			if ( la || lb ) {
-				la
-					? a += bt
-					: b += bt;
-				if ( a > b ) {
-					this._loopisdragA = lb;
-					this._loopisdragB = la;
-					this._elLoopBrdA.classList.toggle( "gsui-hover", lb );
-					this._elLoopBrdB.classList.toggle( "gsui-hover", la );
-				}
-			} else {
-				if ( a + bt < 0 ) {
-					bt = -a;
-				}
-				a += bt;
-				b += bt;
+			while ( elBeats.children.length < nb ) {
+				elBeats.append( GSUI.createElement( "span", { class: "gsuiTimeline-beat" } ) );
 			}
-			this.loop( a, b, true );
 		}
 	}
-	_mouseup( e ) {
-		document.removeEventListener( "mouseup", this._evMouseup );
-		document.removeEventListener( "mousemove", this._evMousemove );
-		if ( this._timeisdrag ) {
-			this.previewCurrentTime( false );
-			this.currentTime( this._pageXtoBeat( e ), true );
-			this._timeisdrag = false;
-		} else if ( this._loopisdrag ) {
-			const l = this._loop,
-				la = this.beatRound( this._loopA ),
-				lb = this.beatRound( this._loopB );
+	_updateMeasures() {
+		Array.prototype.forEach.call( this._elBeats.children, ( el, i ) => {
+			el.classList.toggle( "gsuiTimeline-measure",
+				this._onlyMeasures || ( this._offset + i ) % this.beatsPerMeasure === 0 );
+		} );
+	}
+	_updateLoop() {
+		this.classList.toggle( "gsuiTimeline-looping", this.looping );
+		if ( this.looping ) {
+			this._elLoop.style.left = `${ this.loopA }em`;
+			this._elLoop.style.width = `${ this.loopB - this.loopA }em`;
+		}
+	}
 
-			this._loopA = la;
-			this._loopB = lb;
-			this._loopisdrag =
-			this._loopisdragA =
-			this._loopisdragB = false;
-			this._elLoopBg.classList.remove( "gsui-hover" );
-			this._elLoopBrdA.classList.remove( "gsui-hover" );
-			this._elLoopBrdB.classList.remove( "gsui-hover" );
-			if ( this.onchangeLoop ) {
-				if ( !l ) {
-					if ( this._loopWas ) {
-						this._loopWas = l;
-						this.onchangeLoop( l, this._loopAWas, this._loopBWas );
+	// .........................................................................
+	_onscroll() {
+		if ( this._updateOffset() && !this._onlyMeasures ) {
+			this._updateMeasures();
+		}
+	}
+	_onresize() {
+		this._updateNumberBeats();
+		this._updateMeasures();
+	}
+	_onmousedown( e ) {
+		const loopLine = e.target.classList.contains( "gsuiTimeline-loopLine" );
+
+		if ( loopLine && Date.now() - this._mousedownDate > 500 ) {
+			this._mousedownDate = Date.now();
+		} else {
+			this._setStatus(
+				e.target === this._elCursor.parentNode ? "draggingTime" :
+				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? "draggingLoopBody" :
+				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? "draggingLoopHandleA" :
+				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) || loopLine ? "draggingLoopHandleB" : "" );
+			if ( this._status ) {
+				this._mousemoveBeat = null;
+				this._mousedownBeat = this._getBeatByPageX( e.pageX );
+				if ( loopLine ) {
+					this.loopA =
+					this.loopB = this._mousedownBeat;
+				}
+				this._mousedownLoop = this.getAttribute( "loop" );
+				this._mousedownLoopA = this.loopA;
+				this._mousedownLoopB = this.loopB;
+				document.addEventListener( "mousemove", this._onmousemove );
+				document.addEventListener( "mouseup", this._onmouseup );
+				GSUI.unselectText();
+				this._onmousemove( e );
+			}
+		}
+	}
+	_onmousemove( e ) {
+		const beat = this._getBeatByPageX( e.pageX ),
+			beatRel = beat - this._mousedownBeat;
+
+		if ( beatRel !== this._mousemoveBeat ) {
+			this._mousemoveBeat = beatRel;
+			switch ( this._status ) {
+				case "draggingTime":
+					this.setAttribute( "currenttime-preview", beat );
+					this._dispatch( "inputCurrentTime", beat );
+					break;
+				case "draggingLoopBody": {
+					const rel = Math.max( -this._mousedownLoopA, beatRel ),
+						a = this._mousedownLoopA + rel,
+						b = this._mousedownLoopB + rel,
+						loop = `${ a }-${ b }`;
+
+					if ( loop !== this.getAttribute( "loop" ) ) {
+						this.setAttribute( "loop", loop );
+						this._dispatch( "inputLoop", a, b );
 					}
-				} else {
-					const serial = this._serialAB( la, lb );
+				} break;
+				case "draggingLoopHandleA":
+				case "draggingLoopHandleB": {
+					const handA = this._status === "draggingLoopHandleA",
+						rel = handA
+							? Math.max( -this._mousedownLoopA, beatRel )
+							: beatRel,
+						a = this._mousedownLoopA + ( handA ? rel : 0 ),
+						b = this._mousedownLoopB + ( handA ? 0 : rel ),
+						aa = Math.min( a, b ),
+						bb = Math.max( a, b ),
+						loop = `${ aa }-${ bb }`;
 
-					if ( this._loopWas !== this._loop || this._loopSerial !== serial ) {
-						this._loopWas = l;
-						this._loopAWas = la;
-						this._loopBWas = lb;
-						this._loopSerial = serial;
-						this.onchangeLoop( l, la, lb );
+					if ( a > b ) {
+						if ( handA ) {
+							this._setStatus( "draggingLoopHandleB" );
+							this._mousedownLoopA = this._mousedownLoopB;
+						} else {
+							this._setStatus( "draggingLoopHandleA" );
+							this._mousedownLoopB = this._mousedownLoopA;
+						}
+						this._mousedownBeat = this._mousedownLoopA;
+					}
+					if ( loop !== this.getAttribute( "loop" ) ) {
+						if ( aa !== bb ) {
+							this.setAttribute( "loop", loop );
+							this._dispatch( "inputLoop", aa, bb );
+						} else if ( this.hasAttribute( "loop" ) ) {
+							this.removeAttribute( "loop" );
+							this._dispatch( "inputLoop", false );
+						}
+					}
+				} break;
+			}
+		}
+	}
+	_onmouseup() {
+		document.removeEventListener( "mousemove", this._onmousemove );
+		document.removeEventListener( "mouseup", this._onmouseup );
+		switch ( this._status ) {
+			case "draggingTime": {
+				const beat = this.getAttribute( "currenttime-preview" );
+
+				this.removeAttribute( "currenttime-preview" );
+				if ( beat !== this.getAttribute( "currenttime" ) ) {
+					this.setAttribute( "currenttime", beat );
+					this._dispatch( "changeCurrentTime", +beat );
+				}
+			} break;
+			case "draggingLoopBody":
+			case "draggingLoopHandleA":
+			case "draggingLoopHandleB":
+				if ( this.getAttribute( "loop" ) !== this._mousedownLoop ) {
+					if ( this.loopA !== this.loopB ) {
+						this._dispatch( "changeLoop", this.loopA, this.loopB );
+					} else {
+						this.removeAttribute( "loop" );
+						this._dispatch( "changeLoop", false );
 					}
 				}
-			}
-		}
-	}
-	_setLoop( beatA, beatB ) {
-		const s = this._elLoop.style;
-
-		if ( this._loop ) {
-			const px = this._pxPerBeat,
-				off = this._offset;
-
-			s.left = `${ ( beatA - off ) * px }px`;
-			s.right = `${ this.width - ( beatB - off ) * px }px`;
-			s.display = "block";
-		} else {
-			s.display = "none";
-		}
-	}
-	_render() {
-		const rootCL = this.rootElement.classList,
-			elSteps = this._steps,
-			beatPx = this._pxPerBeat,
-			stepsBeat = this._stepsPerBeat,
-			stepsMeasure = stepsBeat * this._beatsPerMeasure,
-			stepPx = beatPx / stepsBeat,
-			stepEm = 1 / stepsBeat,
-			stepsDuration = Math.ceil( this.width / stepPx + 2 );
-		let stepId = 0,
-			step = ~~( this._offset * stepsBeat ),
-			em = -this._offset % stepEm;
-
-		rootCL.remove( "gsui-step", "gsui-beat", "gsui-measure" );
-		rootCL.add( `gsui-${ beatPx > 24 ? beatPx > 72 ?
-				"step" : "beat" : "measure" }` );
-		while ( elSteps.length < stepsDuration ) {
-			elSteps.push( document.createElement( "div" ) );
-		}
-		for ( ; stepId < stepsDuration; ++stepId ) {
-			const stepRel = step % stepsBeat,
-				elStep = elSteps[ stepId ];
-
-			elStep.style.left = `${ em * beatPx }px`;
-			elStep.className = `gsuiTimeline-${ step % stepsMeasure ? stepRel
-				? "step" : "beat" : "measure" }`;
-			elStep.textContent = elStep.className !== "gsuiTimeline-step"
-				? ~~( 1 + step / stepsBeat ) : "." ;
-			if ( !elStep.parentNode ) {
-				this.rootElement.append( elStep );
-			}
-			++step;
-			em += stepEm;
-		}
-		for ( ; stepId < elSteps.length; ++stepId ) {
-			const elStep = elSteps[ stepId ];
-
-			if ( !elStep.parentNode ) {
 				break;
-			}
-			elStep.remove();
 		}
-		this._elCursor.style.left = this._beatToPx( this._currentTime );
-		this._setLoop(
-			this.beatRound( this._loopA ),
-			this.beatRound( this._loopB ) );
+		this._setStatus( "" );
 	}
 }
 
-gsuiTimeline.template = document.querySelector( "#gsuiTimeline-template" );
-gsuiTimeline.template.remove();
-gsuiTimeline.template.removeAttribute( "id" );
+customElements.define( "gsui-timeline", gsuiTimeline );
