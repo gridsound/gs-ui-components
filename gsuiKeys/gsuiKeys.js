@@ -45,7 +45,7 @@ class gsuiKeys {
 		root.style.counterReset = `octave ${ maxOct }`;
 		root.style.height = `${ nbOct * 12 }em`;
 		for ( let i = 0; i < nbOct; ++i ) {
-			root.append( ...gsuiKeys.template.cloneNode( true ).children );
+			root.append( ...GSUI.getTemplate( "gsui-keys-octave" ) );
 		}
 		Array.from( root.children ).reduce( ( midi, elKey, i ) => {
 			const elRow = elKey.firstElementChild;
@@ -143,10 +143,6 @@ class gsuiKeys {
 		}
 	}
 }
-
-gsuiKeys.template = document.querySelector( "#gsuiKeys-octave-template" );
-gsuiKeys.template.remove();
-gsuiKeys.template.removeAttribute( "id" );
 
 gsuiKeys.midiToKeyStr = m => gsuiKeys.keyIds[ m % 12 ] + ~~( m / 12 );
 gsuiKeys.keyStrToMidi = k => {
