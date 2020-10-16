@@ -9,17 +9,13 @@
 }
 
 .gsuiTrack,
-.gsuiTrack-row {
-	box-sizing: border-box;
-	display: flex;
-	height: var( --gsuiTimewindow-lineH );
-}
-.gsuiTrack,
 .gsuiTrack-row,
 .gsuiTrack-toggle::before {
 	transition: var( --gsuiTrack-duration ) background-color;
 }
 .gsuiTrack {
+	display: flex;
+	height: var( --gsuiTimewindow-lineH );
 	background-color: hsl(
 		var( --gsuiTrack-hsl-h ),
 		var( --gsuiTrack-hsl-s ),
@@ -39,7 +35,8 @@
 /* .......................................................................... */
 .gsuiTrack-row {
 	position: relative;
-	display: block;
+	z-index: 0;
+	height: var( --gsuiTimewindow-lineH );
 	background-color: rgba( 0, 0, 0, var( --rel-a, 0 ) );
 }
 .gsuiTrack-row:nth-child( even ) {
