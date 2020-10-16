@@ -144,6 +144,16 @@ class gsuiTimewindow extends HTMLElement {
 					case "inputLoop":
 						GSUI.setAttribute( this, "loop", a && `${ a }-${ b }` );
 						break;
+					case "inputLoopStart":
+					case "inputCurrentTimeStart":
+						this.style.overflowY = "hidden";
+						e.stopPropagation();
+						break;
+					case "inputLoopEnd":
+					case "inputCurrentTimeEnd":
+						this.style.overflowY = "";
+						e.stopPropagation();
+						break;
 				}
 			} break;
 		}
