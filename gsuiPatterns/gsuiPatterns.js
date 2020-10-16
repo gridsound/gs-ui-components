@@ -1,14 +1,15 @@
 "use strict";
 
-class gsuiPatterns {
-	constructor( opt ) {
-		const root = GSUI.getTemplate( "gsui-patterns" ),
-			elNewDrums = root.querySelector( "[data-action='newDrums']" ),
-			elNewSynth = root.querySelector( "[data-action='newSynth']" ),
-			elBufferList = root.querySelector( ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list" ),
-			elDrumsList = root.querySelector( ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list" ),
-			elSynthList = root.querySelector( ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list" ),
-			nlKeysLists = root.getElementsByClassName( "gsuiPatterns-synth-patterns" ),
+class gsuiPatterns extends HTMLElement {
+	constructor() {
+		const children = GSUI.getTemplate( "gsui-patterns" ),
+			[ elPanelBuffers, elPanelDrums, elPanelKeys ] = children,
+			elNewDrums = elPanelDrums.querySelector( "[data-action='newDrums']" ),
+			elNewSynth = elPanelKeys.querySelector( "[data-action='newSynth']" ),
+			elBufferList = elPanelBuffers.querySelector( ".gsuiPatterns-panel-list" ),
+			elDrumsList = elPanelDrums.querySelector( ".gsuiPatterns-panel-list" ),
+			elSynthList = elPanelKeys.querySelector( ".gsuiPatterns-panel-list" ),
+			nlKeysLists = elPanelKeys.getElementsByClassName( "gsuiPatterns-synth-patterns" ),
 			fnsPattern = Object.freeze( {
 				clone: id => this.onchange( "clonePattern", id ),
 				remove: id => this.onchange( "removePattern", id ),
@@ -30,20 +31,22 @@ class gsuiPatterns {
 				},
 			} );
 
-		this.rootElement = root;
-		this.onchange = opt.onchange;
+		super();
+		this.onchange =
+		this.onpatternDataTransfer = null;
+		this._children = children;
 		this._elBufferList = elBufferList;
 		this._elDrumsList = elDrumsList;
 		this._elSynthList = elSynthList;
 		this._nlKeysLists = nlKeysLists;
 		this._fnsSynth = fnsSynth;
 		this._fnsPattern = fnsPattern;
-		Object.freeze( this );
+		Object.seal( this );
 
 		new gsuiReorder( {
 			rootElement: elBufferList,
 			direction: "column",
-			dataTransfer: opt.patternDataTransfer,
+			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-buffer",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
@@ -53,7 +56,7 @@ class gsuiPatterns {
 		new gsuiReorder( {
 			rootElement: elDrumsList,
 			direction: "column",
-			dataTransfer: opt.patternDataTransfer,
+			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-drums",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
@@ -63,7 +66,7 @@ class gsuiPatterns {
 		new gsuiReorder( {
 			rootElement: elSynthList,
 			direction: "column",
-			dataTransfer: opt.patternDataTransfer,
+			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-keys",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
@@ -90,16 +93,21 @@ class gsuiPatterns {
 	}
 
 	// .........................................................................
-	attached() {
-		const panels = new gsuiPanels( this.rootElement );
-
-		panels.attached();
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiPatterns", "gsuiPanels-y" );
+			this.append( ...this._children );
+			this._children = null;
+			( new gsuiPanels( this ) ).attached();
+		}
 	}
-	expandSynth( id, b ) {
-		const root = this._getSynth( id ),
-			show = root.classList.toggle( "gsuiPatterns-synth-expanded", b );
 
-		root.querySelector( ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
+	// .........................................................................
+	expandSynth( id, b ) {
+		const elSyn = this._getSynth( id ),
+			show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
+
+		elSyn.querySelector( ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
 	}
 	reorderPatterns( patterns ) {
 		gsuiReorder.listReorder( this._elBufferList, patterns );
@@ -133,7 +141,7 @@ class gsuiPatterns {
 	}
 	updateChannel( id, name ) {
 		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).textContent = name;
-		this.rootElement.querySelectorAll( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` )
+		this.querySelectorAll( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` )
 			.forEach( el => el.textContent = name );
 	}
 	deleteChannel( id ) {
@@ -215,7 +223,7 @@ class gsuiPatterns {
 		return this._elSynthList.querySelector( `.gsuiPatterns-synth[data-id="${ id }"]` );
 	}
 	_getPattern( id ) {
-		return this.rootElement.querySelector( `.gsuiPatterns-pattern[data-id="${ id }"]` );
+		return this.querySelector( `.gsuiPatterns-pattern[data-id="${ id }"]` );
 	}
 	_getPatternParent( type, synthId ) {
 		switch ( type ) {
@@ -273,6 +281,8 @@ gsuiPatterns.selectChanPopupContent = (
 );
 
 Object.freeze( gsuiPatterns );
+
+customElements.define( "gsui-patterns", gsuiPatterns );
 
 /*
 1. The cloning feature for the patterns of type buffer is removed because it's for the moment useless.
