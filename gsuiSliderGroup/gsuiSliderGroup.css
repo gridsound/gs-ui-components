@@ -87,9 +87,9 @@
 	pointer-events: none;
 }
 .gsuiSliderGroup-currentTime {
-	width: 1px;
+	width: 2px;
+	margin-left: -1px;
 	background-color: var( --gsuiSliderGroup-currentTime-color );
-	box-shadow: -1px 0 2px var( --gsuiSliderGroup-currentTime-color );
 }
 .gsuiSliderGroup-loop {
 	background-color: transparent;
