@@ -255,6 +255,9 @@ class gsuiTimeline extends HTMLElement {
 				if ( loopLine ) {
 					this.loopA =
 					this.loopB = this._mousedownBeat;
+					this._dispatch( "inputLoopStart" );
+				} else {
+					this._dispatch( "inputCurrentTimeStart" );
 				}
 				this._mousedownLoop = this.getAttribute( "loop" );
 				this._mousedownLoopA = this.loopA;
@@ -331,6 +334,7 @@ class gsuiTimeline extends HTMLElement {
 				const beat = this.getAttribute( "currenttime-preview" );
 
 				this.removeAttribute( "currenttime-preview" );
+				this._dispatch( "inputCurrentTimeEnd" );
 				if ( beat !== this.getAttribute( "currenttime" ) ) {
 					this.setAttribute( "currenttime", beat );
 					this._dispatch( "changeCurrentTime", +beat );
@@ -339,6 +343,7 @@ class gsuiTimeline extends HTMLElement {
 			case "draggingLoopBody":
 			case "draggingLoopHandleA":
 			case "draggingLoopHandleB":
+				this._dispatch( "inputLoopEnd" );
 				if ( this.getAttribute( "loop" ) !== this._mousedownLoop ) {
 					if ( this.loopA !== this.loopB ) {
 						this._dispatch( "changeLoop", this.loopA, this.loopB );
