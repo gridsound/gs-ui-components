@@ -47,7 +47,7 @@ class gsuiPianoroll {
 		this._win = win;
 		this.rootElement = root;
 		this.timeline = win._elTimeline;
-		this.uiKeys = new gsuiKeys();
+		this.uiKeys = GSUI.createElement( "gsui-keys" );
 		this.onchange = cb.onchange;
 		this._blcManager = blcManager;
 		this._rowsByMidi = {};
@@ -75,7 +75,7 @@ class gsuiPianoroll {
 	}
 	attached() {
 		this.rootElement.append( this._win );
-		this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys.rootElement );
+		this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
 		this._win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this._slidersSelect );
 		this._win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this._uiSliderGroup );
 		this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
@@ -108,11 +108,9 @@ class gsuiPianoroll {
 		}
 	}
 	octaves( from, nb ) {
-		this.reset();
-		Object.keys( this._rowsByMidi ).forEach( k => delete this._rowsByMidi[ k ] );
-
 		const rows = this.uiKeys.octaves( from, nb );
 
+		Object.keys( this._rowsByMidi ).forEach( k => delete this._rowsByMidi[ k ] );
 		rows.forEach( el => {
 			const midi = +el.dataset.midi;
 
@@ -122,6 +120,7 @@ class gsuiPianoroll {
 		this._win.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
 		this._win.querySelector( ".gsuiTimewindow-rows" ).style.height = `${ rows.length }em`;
 		this.scrollToMiddle();
+		this.reset();
 	}
 
 	// Block's UI functions

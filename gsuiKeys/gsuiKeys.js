@@ -1,11 +1,8 @@
 "use strict";
 
-class gsuiKeys {
+class gsuiKeys extends HTMLElement {
 	constructor() {
-		const root = document.createElement( "div" );
-
-		this.rootElement = root;
-		this._nlKeys = root.childNodes;
+		super();
 		this._keysDown = new Map();
 		this._gain = 1;
 		this._nbOct =
@@ -21,33 +18,30 @@ class gsuiKeys {
 		this._evmmRoot = this._evmmRoot.bind( this );
 		Object.seal( this );
 
-		root.className = "gsuiKeys";
-		root.onmousedown = this._evmdRoot.bind( this );
+		this.onmousedown = this._evmdRoot.bind( this );
 	}
 
-	remove() {
-		this.empty();
-		this.rootElement.remove();
+	// .........................................................................
+	connectedCallback() {
+		this.classList.add( "gsuiKeys" );
 	}
-	empty() {
-		Array.from( this._nlKeys ).forEach( el => {
+
+	// .........................................................................
+	octaves( start, nbOct ) {
+		const maxOct = start + nbOct;
+
+		Array.prototype.forEach.call( this.children, el => {
 			el.remove();
 			el._rowElement.remove();
 		} );
-	}
-	octaves( start, nbOct ) {
-		const root = this.rootElement,
-			maxOct = start + nbOct;
-
-		this.empty();
 		this._nbOct = nbOct;
 		this._octStart = start;
-		root.style.counterReset = `octave ${ maxOct }`;
-		root.style.height = `${ nbOct * 12 }em`;
+		this.style.counterReset = `octave ${ maxOct }`;
+		this.style.height = `${ nbOct * 12 }em`;
 		for ( let i = 0; i < nbOct; ++i ) {
-			root.append( ...GSUI.getTemplate( "gsui-keys-octave" ) );
+			this.append( ...GSUI.getTemplate( "gsui-keys-octave" ) );
 		}
-		Array.from( root.children ).reduce( ( midi, elKey, i ) => {
+		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
 			const elRow = elKey.firstElementChild;
 
 			elKey._rowElement = elRow;
@@ -58,10 +52,10 @@ class gsuiKeys {
 			elRow.style.top = `${ i }em`;
 			return midi - 1;
 		}, maxOct * 12 );
-		return root.querySelectorAll( ".gsui-row" );
+		return this.querySelectorAll( ".gsui-row" );
 	}
 	getKeyElementFromMidi( midi ) {
-		return this._nlKeys[ this._nlKeys.length - 1 - ( midi - this._octStart * 12 ) ];
+		return this.children[ this.children.length - 1 - ( midi - this._octStart * 12 ) ];
 	}
 	getMidiKeyFromKeyboard( e ) {
 		const k = gsuiKeys.keyboardToKey[ e.code ];
@@ -81,7 +75,7 @@ class gsuiKeys {
 		this._keyUpDown( this.getKeyElementFromMidi( midi ), false );
 	}
 
-	// private:
+	// .........................................................................
 	_isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
@@ -98,12 +92,12 @@ class gsuiKeys {
 		}
 	}
 
-	// events:
+	// .........................................................................
 	_evmdRoot( e ) {
 		if ( this._nbOct ) {
-			const blackKeyBCR = this.rootElement.childNodes[ 1 ].getBoundingClientRect();
+			const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
 
-			this._rootTop = this.rootElement.getBoundingClientRect().top;
+			this._rootTop = this.getBoundingClientRect().top;
 			this._blackKeyR = blackKeyBCR.right;
 			this._blackKeyH = blackKeyBCR.height;
 			this._gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
@@ -130,7 +124,7 @@ class gsuiKeys {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
 		if ( this._keyIndMouse !== iKeyInd ) {
-			const elKey = this._nlKeys[ iKeyInd ];
+			const elKey = this.children[ iKeyInd ];
 
 			if ( elKey ) {
 				if ( this._elKeyMouse ) {
@@ -150,3 +144,5 @@ gsuiKeys.keyStrToMidi = k => {
 
 	return k.substr( key.length ) * 12 + gsuiKeys.keyIds[ key ];
 };
+
+customElements.define( "gsui-keys", gsuiKeys );
