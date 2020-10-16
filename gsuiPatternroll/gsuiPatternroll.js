@@ -105,13 +105,13 @@ class gsuiPatternroll {
 		return this._blcManager.__blcs;
 	}
 	timeSignature( a, b ) {
-		this._win.setAttribute( "timesignature", `${ a },${ b }` );
+		GSUI.setAttribute( this._win, "timesignature", `${ a },${ b }` );
 	}
 	currentTime( t ) {
-		this._win.setAttribute( "currenttime", t );
+		GSUI.setAttribute( this._win, "currenttime", t );
 	}
 	loop( a, b ) {
-		this._win.setAttribute( "loop", `${ a }-${ b }` );
+		GSUI.setAttribute( this._win, "loop", a && `${ a }-${ b }` );
 	}
 
 	// Blocks manager callback
