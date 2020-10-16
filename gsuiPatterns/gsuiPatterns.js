@@ -2,7 +2,7 @@
 
 class gsuiPatterns {
 	constructor( opt ) {
-		const root = gsuiPatterns.template.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-patterns" ),
 			elNewDrums = root.querySelector( "[data-action='newDrums']" ),
 			elNewSynth = root.querySelector( "[data-action='newSynth']" ),
 			elBufferList = root.querySelector( ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list" ),
@@ -142,7 +142,7 @@ class gsuiPatterns {
 
 	// .........................................................................
 	addSynth( id ) {
-		const elSyn = gsuiPatterns.synthTemplate.cloneNode( true );
+		const elSyn = GSUI.getTemplate( "gsui-patterns-synth" );
 
 		elSyn.dataset.id = id;
 		this._elSynthList.prepend( elSyn );
@@ -162,7 +162,7 @@ class gsuiPatterns {
 
 	// .........................................................................
 	addPattern( id, { type, synth } ) {
-		const elPat = gsuiPatterns.patternTemplate.cloneNode( true );
+		const elPat = GSUI.getTemplate( "gsui-patterns-pattern" );
 
 		elPat.dataset.id = id;
 		if ( type !== "buffer" ) {
@@ -262,21 +262,15 @@ class gsuiPatterns {
 	}
 }
 
-gsuiPatterns.selectChanPopupContent = document.querySelector( "#gsuiPatterns-selectChanPopupContent" );
-gsuiPatterns.selectChanPopupSelect = document.querySelector( "#gsuiPatterns-selectChanPopupSelect" );
-gsuiPatterns.selectChanPopupContent.remove();
-
-gsuiPatterns.template = document.querySelector( "#gsuiPatterns-template" );
-gsuiPatterns.template.remove();
-gsuiPatterns.template.removeAttribute( "id" );
-
-gsuiPatterns.synthTemplate = document.querySelector( "#gsuiPatterns-synth-template" );
-gsuiPatterns.synthTemplate.remove();
-gsuiPatterns.synthTemplate.removeAttribute( "id" );
-
-gsuiPatterns.patternTemplate = document.querySelector( "#gsuiPatterns-pattern-template" );
-gsuiPatterns.patternTemplate.remove();
-gsuiPatterns.patternTemplate.removeAttribute( "id" );
+gsuiPatterns.selectChanPopupSelect = GSUI.createElement( "select", { id: "gsuiPatterns-selectChanPopupSelect", size: 8, name: "channel" } );
+gsuiPatterns.selectChanPopupContent = (
+	GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-selectChanPopupContent" },
+		GSUI.createElement( "fieldset",
+			GSUI.createElement( "legend", null, "Select a channel" ),
+			gsuiPatterns.selectChanPopupSelect,
+		),
+	)
+);
 
 Object.freeze( gsuiPatterns );
 
