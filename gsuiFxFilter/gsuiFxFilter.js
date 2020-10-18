@@ -5,7 +5,7 @@ class gsuiFxFilter {
 		const root = gsuiFxFilter.template.cloneNode( true ),
 			elType = root.querySelector( ".gsuiFxFilter-areaType .gsuiFxFilter-area-content" ),
 			elGraph = root.querySelector( ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content" ),
-			uiCurves = new gsuiCurves(),
+			uiCurves = GSUI.createElement( "gsui-curves" ),
 			uiSliders = new Map( [
 				[ "Q", root.querySelector( ".gsuiFxFilter-areaQ gsui-slider" ) ],
 				[ "gain", root.querySelector( ".gsuiFxFilter-areaGain gsui-slider" ) ],
@@ -26,7 +26,7 @@ class gsuiFxFilter {
 		Object.seal( this );
 
 		elType.onclick = this._onclickType.bind( this );
-		elGraph.append( uiCurves.rootElement );
+		elGraph.append( uiCurves );
 		this._initSlider( "Q" );
 		this._initSlider( "gain" );
 		this._initSlider( "detune" );

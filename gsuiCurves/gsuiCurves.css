@@ -1,3 +1,13 @@
+.gsuiCurves {
+	display: block;
+	position: relative;
+	height: 100%;
+}
+.gsuiCurves-svg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
 .gsuiCurves-markText {
 	fill: currentColor;
 	font-size: 10px;

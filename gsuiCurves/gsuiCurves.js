@@ -1,10 +1,11 @@
 "use strict";
 
-class gsuiCurves {
+class gsuiCurves extends HTMLElement {
 	constructor() {
-		const svg = gsuiCurves.template.cloneNode( true );
+		const svg = GSUI.getTemplate( "gsui-curves" );
 
-		this.rootElement = svg;
+		super();
+		this._svg = svg;
 		this._line = svg.querySelector( ".gsuiCurves-line" );
 		this._marksWrap = svg.querySelector( ".gsuiCurves-marks" );
 		this._curvesWrap = svg.querySelector( ".gsuiCurves-curves" );
@@ -17,14 +18,23 @@ class gsuiCurves {
 		Object.freeze( this );
 	}
 
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiCurves" );
+			this.append( this._svg );
+		}
+	}
+
+	// .........................................................................
 	resized() {
-		const bcr = this.rootElement.getBoundingClientRect(),
+		const bcr = this._svg.getBoundingClientRect(),
 			w = bcr.width,
 			h = bcr.height;
 
 		this._size[ 0 ] = w;
 		this._size[ 1 ] = h;
-		this.rootElement.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		this._svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
 		this.redraw();
 	}
 	options( opt ) {
@@ -130,8 +140,4 @@ class gsuiCurves {
 	}
 }
 
-gsuiCurves.template = document.querySelector( "#gsuiCurves-template" );
-gsuiCurves.template.remove();
-gsuiCurves.template.removeAttribute( "id" );
-
-Object.freeze( gsuiCurves );
+customElements.define( "gsui-curves", gsuiCurves );
