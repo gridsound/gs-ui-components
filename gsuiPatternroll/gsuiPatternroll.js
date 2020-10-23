@@ -100,6 +100,7 @@ class gsuiPatternroll {
 		this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this._tracklist.rootElement );
 		this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
 		this._win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this._drop.bind( this );
+		this._win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 	}
 	getBlocks() {
 		return this._blcManager.__blcs;
