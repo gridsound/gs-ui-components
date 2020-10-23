@@ -12,10 +12,8 @@ class gsuiEffects {
 		this.oninput =
 		this.onchange = () => {};
 		this._fxsHtml = new Map();
-		this._attached = false;
 		this._elFxsList = elFxsList;
 		this._elAddSelect = elAddSelect;
-		this._fxResizeTimeoutId = null;
 		Object.seal( this );
 
 		elBtnSelect.onclick = () => this._elAddSelect.value = "";
@@ -33,13 +31,6 @@ class gsuiEffects {
 	}
 
 	// .........................................................................
-	attached() {
-		this._attached = true;
-		this._fxsHtml.forEach( html => html.uiFx.attached() );
-	}
-	resized() {
-		this._fxsHtml.forEach( html => html.uiFx.resized() );
-	}
 	expandToggleEffect( id ) {
 		const root = this._fxsHtml.get( id ).root;
 
@@ -52,14 +43,6 @@ class gsuiEffects {
 		html.root.classList.toggle( "gsuiEffects-fx-expanded", b );
 		html.expand.dataset.icon = b ? "caret-down" : "caret-right";
 		html.content.style.height = `${ b ? gsuiEffects.fxsMap.get( type ).height : 0 }px`;
-		clearTimeout( this._fxResizeTimeoutId );
-		if ( b ) {
-			this._fxResizeTimeoutId = setTimeout( () => {
-				if ( !html.uiFx.isAttached() ) {
-					html.uiFx.attached();
-				}
-			}, 200 );
-		}
 	}
 
 	// .........................................................................
@@ -87,7 +70,7 @@ class gsuiEffects {
 		uiFx.onchange = ( prop, val ) => this.onchange( "changeEffect", id, prop, val );
 		root.dataset.type = fx.type;
 		name.textContent = fxAsset.name;
-		content.append( uiFx.rootElement );
+		content.append( uiFx );
 		this._fxsHtml.set( id, html );
 		this._elFxsList.append( root );
 	}
