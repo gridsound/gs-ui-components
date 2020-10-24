@@ -1,19 +1,17 @@
 "use strict";
 
-class gsuiEffects {
+class gsuiEffects extends HTMLElement {
 	constructor() {
-		const root = gsuiEffects.template.cloneNode( true ),
-			elFxsList = root.querySelector( ".gsuiEffects-list" ),
-			elBtnSelect = root.querySelector( ".gsuiEffects-addBtn" ),
-			elAddSelect = root.querySelector( ".gsuiEffects-addSelect" );
+		const elFxsList = GSUI.getTemplate( "gsui-effects" ),
+			elBtnSelect = elFxsList.querySelector( ".gsuiEffects-addBtn" ),
+			elAddSelect = elFxsList.querySelector( ".gsuiEffects-addSelect" );
 
-		this.rootElement = root;
-		this.askData =
-		this.oninput =
-		this.onchange = () => {};
+		super();
+		this.askData = () => {};
 		this._fxsHtml = new Map();
 		this._elFxsList = elFxsList;
 		this._elAddSelect = elAddSelect;
+		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEffects" );
 		Object.seal( this );
 
 		elBtnSelect.onclick = () => this._elAddSelect.value = "";
@@ -28,6 +26,14 @@ class gsuiEffects {
 			parentSelector: ".gsuiEffects-list",
 		} );
 		this._fillSelect();
+	}
+
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.classList.add( "gsuiEffects" );
+			this.append( this._elFxsList );
+		}
 	}
 
 	// .........................................................................
@@ -47,7 +53,7 @@ class gsuiEffects {
 
 	// .........................................................................
 	addEffect( id, fx ) {
-		const root = gsuiEffects.templateFx.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-effects-fx" ),
 			name = root.querySelector( ".gsuiEffects-fx-name" ),
 			expand = root.querySelector( ".gsuiEffects-fx-expand" ),
 			toggle = root.querySelector( ".gsuiEffects-fx-toggle" ),
@@ -63,11 +69,11 @@ class gsuiEffects {
 			} );
 
 		expand.onclick = () => this.expandToggleEffect( id );
-		toggle.onclick = () => this.onchange( "toggleEffect", id );
-		remove.onclick = () => this.onchange( "removeEffect", id );
+		toggle.onclick = () => this._dispatch( "toggleEffect", id );
+		remove.onclick = () => this._dispatch( "removeEffect", id );
 		uiFx.askData = this.askData.bind( null, id, fx.type );
-		uiFx.oninput = ( prop, val ) => this.oninput( id, prop, val );
-		uiFx.onchange = ( prop, val ) => this.onchange( "changeEffect", id, prop, val );
+		uiFx.oninput = ( prop, val ) => this._dispatch( "fxInput", id, prop, val );
+		uiFx.onchange = ( prop, val ) => this._dispatch( "changeEffect", id, prop, val );
 		root.dataset.type = fx.type;
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
@@ -101,7 +107,7 @@ class gsuiEffects {
 
 		this._elAddSelect.blur();
 		this._elAddSelect.value = "";
-		this.onchange( "addEffect", type );
+		this._dispatch( "addEffect", type );
 	}
 
 	// .........................................................................
@@ -124,13 +130,6 @@ class gsuiEffects {
 	}
 }
 
-gsuiEffects.template = document.querySelector( "#gsuiEffects-template" );
-gsuiEffects.template.remove();
-gsuiEffects.template.removeAttribute( "id" );
-
-gsuiEffects.templateFx = document.querySelector( "#gsuiEffects-fx-template" );
-gsuiEffects.templateFx.remove();
-gsuiEffects.templateFx.removeAttribute( "id" );
-
 gsuiEffects.fxsMap = new Map();
-Object.freeze( gsuiEffects );
+
+customElements.define( "gsui-effects", gsuiEffects );
