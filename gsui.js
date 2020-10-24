@@ -12,6 +12,18 @@ const GSUI = {
 			detail: { component, eventName, args },
 		} ) );
 	},
+	listenEvent( el, cbs ) {
+		el.addEventListener( "gsuiEvents", e => {
+			const d = e.detail,
+				cbs2 = cbs[ d.component ] || cbs.default,
+				fn = cbs2[ d.eventName ] || cbs2.default;
+
+			if ( fn && fn( d, e ) !== true ) {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+			}
+		} );
+	},
 
 	// .........................................................................
 	_templates: new Map(),
