@@ -2,7 +2,7 @@
 
 class gsuiWindow {
 	constructor( parent, id ) {
-		const root = gsuiWindow.template.cloneNode( true );
+		const root = GSUI.getTemplate( "gsui-window" );
 
 		this.id = id;
 		this.parent = parent;
@@ -416,9 +416,5 @@ class gsuiWindow {
 		}
 	}
 }
-
-gsuiWindow.template = document.querySelector( "#gsuiWindow-template" );
-gsuiWindow.template.remove();
-gsuiWindow.template.removeAttribute( "id" );
 
 Object.freeze( gsuiWindow );
