@@ -1,0 +1,16 @@
+.gsuiMixer {
+	--gsuiMixer-bg: initial;
+	--gsuiMixerChannel-bg: #555;
+	--gsuiMixerChannel-bg2: #5b5b5b;
+	--gsuiMixerChannel-color: #fff;
+	--gsuiMixerChannel-selected-bg: #666;
+	--gsuiMixerChannel-width: 52px;
+	--gsuiMixerChannel-pan-color: #d9f;
+	--gsuiMixerChannel-gain-color: #ff9;
+	--gsuiMixerChannel-connect-input-color: #f99;
+	--gsuiMixerChannel-connect-output-color: #ff9;
+	--gsuiMixerChannel-toggle-bg: #ffa;
+	--gsuiMixerChannel-toggleOff-bg: #fff2;
+	--gsuiMixerChannel-analyser-bg: #222;
+	--gsuiMixerChannel-name-font: var( --font-default );
+}
