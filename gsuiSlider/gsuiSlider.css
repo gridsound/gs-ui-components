@@ -1,9 +1,3 @@
-:root {
-	--gsuiSlider-lineColor: #fff;
-	--gsuiSlider-lineBgColor: #000;
-	--gsuiSlider-lineRadius: 0;
-}
-
 .gsuiSlider {
 	display: block;
 	position: relative;
@@ -38,12 +32,12 @@
 
 .gsuiSlider-line {
 	overflow: hidden;
-	border-radius: var( --gsuiSlider-lineRadius );
-	background-color: var( --gsuiSlider-lineBgColor );
+	border-radius: var( --gsuiSlider-lineRadius, 2px );
+	background-color: var( --gsuiSlider-lineBgColor, #000 );
 }
 .gsuiSlider-lineColor {
 	position: absolute;
-	background-color: var( --gsuiSlider-lineColor );
+	background-color: var( --gsuiSlider-lineColor, #fff );
 }
 
 .gsuiSlider-svg {
@@ -56,5 +50,5 @@
 	fill: none;
 	transform-origin: center;
 }
-.gsuiSlider-svgLine { stroke: var( --gsuiSlider-lineBgColor ); }
-.gsuiSlider-svgLineColor { stroke: var( --gsuiSlider-lineColor ); }
+.gsuiSlider-svgLine { stroke: var( --gsuiSlider-lineBgColor, #000 ); }
+.gsuiSlider-svgLineColor { stroke: var( --gsuiSlider-lineColor, #fff ); }
