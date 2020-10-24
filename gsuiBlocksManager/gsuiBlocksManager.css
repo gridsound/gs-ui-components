@@ -1,9 +1,9 @@
 :root {
 	--gsuiBlocksManager-timeline-height: 32px;
-	--gsuiBlocksManager-selection-bgColor: rgba( 255, 255, 0, .5 );
-	--gsuiBlocksManager-selection-borderColor: #ff0;
-	--gsuiBlocksManager-blockColor: #ff0;
-	--gsuiBlocksManager-blockSelectedColor: #00f;
+	--gsuiBlocksManager-selection-bgColor: #b226;
+	--gsuiBlocksManager-selection-borderColor: #f44;
+	--gsuiBlocksManager-blockColor: #5acc;
+	--gsuiBlocksManager-blockSelectedColor: #f88c;
 }
 
 /* .......................................................................... */
