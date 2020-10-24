@@ -25,6 +25,22 @@ class gsuiEffects extends HTMLElement {
 			handleSelector: ".gsuiEffects-fx-grip",
 			parentSelector: ".gsuiEffects-list",
 		} );
+		GSUI.listenEvent( this, {
+			default: {
+				liveChange: ( d, e ) => {
+					d.args.unshift( e.target.dataset.id );
+					d.component = "gsuiEffects";
+					d.eventName = "liveChangeEffect";
+					return true;
+				},
+				changeProp: ( d, e ) => {
+					d.args.unshift( e.target.dataset.id );
+					d.component = "gsuiEffects";
+					d.eventName = "changeEffect";
+					return true;
+				},
+			},
+		} );
 		this._fillSelect();
 	}
 
@@ -72,8 +88,7 @@ class gsuiEffects extends HTMLElement {
 		toggle.onclick = () => this._dispatch( "toggleEffect", id );
 		remove.onclick = () => this._dispatch( "removeEffect", id );
 		uiFx.askData = this.askData.bind( null, id, fx.type );
-		uiFx.oninput = ( prop, val ) => this._dispatch( "fxInput", id, prop, val );
-		uiFx.onchange = ( prop, val ) => this._dispatch( "changeEffect", id, prop, val );
+		uiFx.dataset.id = id;
 		root.dataset.type = fx.type;
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
