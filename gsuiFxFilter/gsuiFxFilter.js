@@ -14,9 +14,7 @@ class gsuiFxFilter extends HTMLElement {
 			] );
 
 		super();
-		this.askData =
-		this.oninput =
-		this.onchange = () => {};
+		this.askData = () => {};
 		this._children = children;
 		this._nyquist = 24000;
 		this._uiCurves = uiCurves;
@@ -25,6 +23,7 @@ class gsuiFxFilter extends HTMLElement {
 		this._attached = false;
 		this._currType = "lowpass";
 		this._onresize = this._onresize.bind( this );
+		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiFxFilter" );
 		Object.seal( this );
 
 		elType.onclick = this._onclickType.bind( this );
@@ -106,7 +105,7 @@ class gsuiFxFilter extends HTMLElement {
 		const slider = this._uiSliders.get( prop );
 
 		slider.oninput = val => this._oninputProp( prop, fnValue( val ) );
-		slider.onchange = val => this.onchange( prop, fnValue( val ) );
+		slider.onchange = val => this._dispatch( "changeProp", prop, fnValue( val ) );
 	}
 	_toggleTypeBtn( type, b ) {
 		this._elType.querySelector( `[data-type="${ type }"]` )
@@ -119,14 +118,14 @@ class gsuiFxFilter extends HTMLElement {
 		this._uiCurves.resized();
 	}
 	_oninputProp( prop, val ) {
-		this.oninput( prop, val );
+		this._dispatch( "liveChange", prop, val );
 		this.updateWave();
 	}
 	_onclickType( e ) {
 		const type = e.target.dataset.type;
 
 		if ( type && !e.target.classList.contains( "gsuiFxFilter-areaType-btnSelected" ) ) {
-			this.onchange( "type", type );
+			this._dispatch( "changeProp", "type", type );
 		}
 	}
 }
