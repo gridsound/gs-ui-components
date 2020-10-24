@@ -1,0 +1,8 @@
+.gsuiTrack {
+	--gsuiTrack-hsl-h: 0;
+	--gsuiTrack-hsl-s: 0%;
+	--gsuiTrack-hsl-l: 33%;
+	--gsuiTrack-color: #fff;
+	--gsuiTrack-toggle-bg: #ffa;
+	--gsuiTrack-toggleOff-bg: #fff3;
+}

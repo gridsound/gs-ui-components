@@ -1,18 +1,3 @@
-:root {
-	--gsuiTrack-duration: .2s;
-	--gsuiTrack-hsl-h: 0;
-	--gsuiTrack-hsl-s: 0%;
-	--gsuiTrack-hsl-l: 27%;
-	--gsuiTrack-color: #ff0;
-	--gsuiTrack-toggle-bg: #f64;
-	--gsuiTrack-toggleOff-bg: #2af;
-}
-
-.gsuiTrack,
-.gsuiTrack-row,
-.gsuiTrack-toggle::before {
-	transition: var( --gsuiTrack-duration ) background-color;
-}
 .gsuiTrack {
 	display: flex;
 	height: var( --gsuiTimewindow-lineH );
@@ -20,6 +5,11 @@
 		var( --gsuiTrack-hsl-h ),
 		var( --gsuiTrack-hsl-s ),
 		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) ) );
+}
+.gsuiTrack,
+.gsuiTrack-row,
+.gsuiTrack-toggle::before {
+	transition: .2s background-color;
 }
 .gsuiTrack:nth-child( even ) {
 	--rel-l: -1.7%;
