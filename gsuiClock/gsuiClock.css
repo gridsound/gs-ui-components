@@ -49,8 +49,8 @@
 	box-sizing: border-box;
 	opacity: .5;
 }
-.gsuiClock[ data-mode="beat" ] .gsuiClock-beat,
-.gsuiClock[ data-mode="second" ] .gsuiClock-second {
+.gsuiClock[ mode="beat" ] .gsuiClock-beat,
+.gsuiClock[ mode="second" ] .gsuiClock-second {
 	opacity: 1;
 	background-color: currentColor;
 }
