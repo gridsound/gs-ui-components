@@ -1,13 +1,3 @@
-:root {
-	--gsuiSliderGroup-currentTime-color: #2af;
-	--gsuiSliderGroup-slider-width: 2px;
-	--gsuiSliderGroup-slider-bg: #000;
-	--gsuiSliderGroup-slider-color: #ff0;
-	--gsuiSliderGroup-slider-color-selected: #00f;
-	--gsuiSliderGroup-loop-color: rgba( 150, 0, 0, .5 );
-}
-
-/* .......................................................................... */
 .gsuiSliderGroup {
 	display: block;
 	position: relative;
