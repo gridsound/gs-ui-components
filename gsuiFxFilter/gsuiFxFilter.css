@@ -1,13 +1,3 @@
-:root {
-	--gsuiFxDelay-bg: #666;
-	--gsuiFxDelay-inputBg: #555;
-	--gsuiFxDelay-Q: #d7b;
-	--gsuiFxDelay-gain: #ff9;
-	--gsuiFxDelay-detune: #fff;
-	--gsuiFxDelay-frequency: #8c8;
-}
-
-/* .......................................................................... */
 .gsuiFxFilter {
 	display: grid;
 	box-sizing: border-box;
@@ -21,7 +11,7 @@
 		".    frequency .    .     " 8px
 		/32px 1fr       8px  50px;
 	background-color: #666;
-	--gsuiSlider-lineBgColor: var( --gsuiFxDelay-inputBg );
+	--gsuiSlider-lineBgColor: var( --gsuiFxFilter-inputBg );
 }
 
 /* .......................................................................... */
@@ -49,19 +39,19 @@
 }
 .gsuiFxFilter-areaGain {
 	grid-area: gain;
-	--gsuiSlider-lineColor: var( --gsuiFxDelay-gain );
+	--gsuiSlider-lineColor: var( --gsuiFxFilter-gain );
 }
 .gsuiFxFilter-areaQ {
 	grid-area: Q;
-	--gsuiSlider-lineColor: var( --gsuiFxDelay-Q );
+	--gsuiSlider-lineColor: var( --gsuiFxFilter-Q );
 }
 .gsuiFxFilter-areaDetune {
 	grid-area: detune;
-	--gsuiSlider-lineColor: var( --gsuiFxDelay-detune );
+	--gsuiSlider-lineColor: var( --gsuiFxFilter-detune );
 }
 .gsuiFxFilter-areaFrequency {
 	grid-area: frequency;
-	--gsuiSlider-lineColor: var( --gsuiFxDelay-frequency );
+	--gsuiSlider-lineColor: var( --gsuiFxFilter-frequency );
 }
 .gsuiFxFilter-areaQ gsui-slider,
 .gsuiFxFilter-areaDetune gsui-slider {
@@ -90,7 +80,7 @@
 	opacity: .25;
 }
 .gsuiFxFilter-enable .gsuiCurves-curve {
-	color: var( --gsuiFxDelay-frequency );
+	color: var( --gsuiFxFilter-frequency );
 	opacity: 1;
 }
 
@@ -110,7 +100,7 @@
 	cursor: pointer;
 	stroke: #ff9;
 	stroke-width: 1.5px;
-	background-color: var( --gsuiFxDelay-inputBg );
+	background-color: var( --gsuiFxFilter-inputBg );
 }
 .gsuiFxFilter-areaType-btn:hover,
 .gsuiFxFilter-areaType-btn:focus {
