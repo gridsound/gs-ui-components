@@ -211,7 +211,6 @@
 .gsuiDrumrow-pan,
 .gsuiDrumrow-gain {
 	--gsuiSlider-lineBgColor: var( --gsuiDrumrow-slider-bg );
-	--gsuiSlider-lineRadius: 2px;
 	position: absolute;
 	top: var( --name-h );
 	width: var( --slider-w );
