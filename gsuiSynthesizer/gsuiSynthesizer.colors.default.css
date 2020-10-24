@@ -1,5 +1,5 @@
 .gsuiSynthesizer {
-	--gsuiSynthesizer-bg: #444;
+	--gsuiSynthesizer-bg: initial;
 	--gsuiSynthesizer-color: #fff;
 	--gsuiSynthesizer-head-bg: #555;
 }
