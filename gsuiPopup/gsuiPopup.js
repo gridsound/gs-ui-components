@@ -4,6 +4,7 @@ const gsuiPopup = new class {
 	constructor() {
 		const qs = s => document.querySelector( `#gsuiPopup${ s }` );
 
+		document.body.append( GSUI.getTemplate( "gsui-popup" ) );
 		this.elRoot = qs( "" );
 		this.elOk = qs( "Ok" );
 		this.elCnt = qs( "Content" );

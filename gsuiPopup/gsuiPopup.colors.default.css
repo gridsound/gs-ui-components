@@ -1,0 +1,13 @@
+#gsuiPopup {
+	--gsuiPopup-dur: .4s;
+	--gsuiPopup-bg: #555;
+	--gsuiPopup-btn-bg: #999;
+	--gsuiPopup-btnOk-bg: #67a;
+	--gsuiPopup-radius: 4px;
+	--gsuiPopup-padding: 10px;
+	--gsuiPopup-minWidth: 250px;
+	--gsuiPopup-header-bg: #333;
+	--gsuiPopup-header-fontSize: 16px;
+	--gsuiPopup-body-fontSize: 14px;
+	--gsuiPopup-overlay-bg: #0009;
+}
