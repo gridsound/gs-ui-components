@@ -2,7 +2,7 @@
 
 class gsuiDragline {
 	constructor() {
-		const root = gsuiDragline.template.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-dragline" ),
 			svg = root.firstElementChild.firstElementChild;
 
 		this.onchange = () => {};
@@ -149,7 +149,3 @@ class gsuiDragline {
 		this._render( e.pageX, e.pageY );
 	}
 }
-
-gsuiDragline.template = document.querySelector( "#gsuiDragline-template" );
-gsuiDragline.template.remove();
-gsuiDragline.template.removeAttribute( "id" );
