@@ -2,7 +2,7 @@
 
 class gsuiMixer {
 	constructor( opt ) {
-		const root = gsuiMixer.template.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-mixer" ),
 			addBtn = root.querySelector( ".gsuiMixer-addChan" );
 
 		this.rootElement = root;
@@ -71,7 +71,7 @@ class gsuiMixer {
 
 	// .........................................................................
 	addChannel( id, chan ) {
-		const root = gsuiMixer.channelTemplate.cloneNode( true ),
+		const root = GSUI.getTemplate( "gsui-mixer-channel" ),
 			qs = n => root.querySelector( `.gsuiMixerChannel-${ n }` ),
 			pan = qs( "pan gsui-slider" ),
 			gain = qs( "gain gsui-slider" ),
@@ -176,11 +176,3 @@ class gsuiMixer {
 		}
 	}
 }
-
-gsuiMixer.template = document.querySelector( "#gsuiMixer-template" );
-gsuiMixer.template.remove();
-gsuiMixer.template.removeAttribute( "id" );
-
-gsuiMixer.channelTemplate = document.querySelector( "#gsuiMixerChannel-template" );
-gsuiMixer.channelTemplate.remove();
-gsuiMixer.channelTemplate.removeAttribute( "id" );
