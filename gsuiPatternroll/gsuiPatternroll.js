@@ -112,7 +112,7 @@ class gsuiPatternroll {
 		GSUI.setAttribute( this._win, "currenttime", t );
 	}
 	loop( a, b ) {
-		GSUI.setAttribute( this._win, "loop", a && `${ a }-${ b }` );
+		GSUI.setAttribute( this._win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 	}
 
 	// Blocks manager callback

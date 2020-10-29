@@ -90,7 +90,7 @@ class gsuiPianoroll {
 		GSUI.setAttribute( this._uiSliderGroup, "currenttime", t );
 	}
 	loop( a, b ) {
-		GSUI.setAttribute( this._win, "loop", a && `${ a }-${ b }` );
+		GSUI.setAttribute( this._win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 		GSUI.setAttribute( this._uiSliderGroup, "loopa", a );
 		GSUI.setAttribute( this._uiSliderGroup, "loopb", b );
 	}

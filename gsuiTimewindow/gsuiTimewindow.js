@@ -142,7 +142,7 @@ class gsuiTimewindow extends HTMLElement {
 						e.stopPropagation();
 						break;
 					case "inputLoop":
-						GSUI.setAttribute( this, "loop", a && `${ a }-${ b }` );
+						GSUI.setAttribute( this, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 						break;
 					case "inputLoopStart":
 					case "inputCurrentTimeStart":
