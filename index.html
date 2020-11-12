@@ -13,6 +13,7 @@ body {
 }
 body {
 	--bg-color: #444;
+	--wrap-w: 560px;
 	--wrap-h: auto;
 	--wrap-resize: both;
 	display: flex;
@@ -58,7 +59,7 @@ body {
 	resize: var( --wrap-resize );
 	overflow: auto;
 	padding: 32px;
-	width: 560px;
+	width: var( --wrap-w );
 	height: var( --wrap-h );
 	min-width: 100px;
 	min-height: 50px;
@@ -103,6 +104,7 @@ body {
 		<span id="title">GSUI components testing</span>
 		<select id="select">
 			<option value="">--</option>
+			<option value="gsuiKeys">gsuiKeys</option>
 			<option value="gsuiTimeline">gsuiTimeline</option>
 			<option value="gsuiTimewindow">gsuiTimewindow</option>
 		</select>

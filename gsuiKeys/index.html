@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="gsuiKeys/gsuiKeys.colors.default.css"/>
+<link rel="stylesheet" href="gsuiKeys/gsuiKeys.css"/>
+<style>
+body {
+	--bg-color: #883;
+	--wrap-w: 100px;
+	--wrap-h: 60%;
+}
+#wrapOut {
+	overflow: auto;
+	height: 100%;
+}
+</style>
+
+<div id="wrapOut">
+	<gsui-keys></gsui-keys>
+</div>
+
+<script src="gsuiKeys/gsuiKeys.html.js"></script>
+<script src="gsuiKeys/gsuiKeys.js"></script>
+<script>
+const uiKeys = document.querySelector( "gsui-keys" );
+
+uiKeys.octaves( 1, 4 );
+</script>
