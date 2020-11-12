@@ -13,6 +13,8 @@ body {
 }
 body {
 	--bg-color: #444;
+	--wrap-h: auto;
+	--wrap-resize: both;
 	display: flex;
 	flex-direction: column;
 	margin: 0;
@@ -53,11 +55,11 @@ body {
 }
 #wrap {
 	position: relative;
-	resize: both;
+	resize: var( --wrap-resize );
 	overflow: auto;
 	padding: 32px;
 	width: 560px;
-	height: 260px;
+	height: var( --wrap-h );
 	min-width: 100px;
 	min-height: 50px;
 	border-radius: 8px;
