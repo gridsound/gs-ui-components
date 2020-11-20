@@ -55,7 +55,7 @@ class gsuiLFO extends HTMLElement {
 		return [ "toggle", "timesignature", "type", "delay", "attack", "speed", "amp" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( this.firstChild && prev !== val ) {
+		if ( !this._children && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
