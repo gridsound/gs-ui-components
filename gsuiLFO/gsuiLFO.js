@@ -35,6 +35,16 @@ class gsuiLFO extends HTMLElement {
 			this.classList.add( "gsuiLFO" );
 			this.append( ...this._children );
 			this._children = null;
+			GSUI.recallAttributes( this, {
+				toggle: false,
+				timesignature: "4,4",
+				type: "sine",
+				delay: 0,
+				attack: 1,
+				speed: 1,
+				amp: 1,
+			} );
+			this.updateWave();
 		}
 		GSUI.observeSizeOf( this, this._onresize );
 	}
@@ -42,18 +52,19 @@ class gsuiLFO extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this._onresize );
 	}
 	static get observedAttributes() {
-		return [ "toggle", "type", "delay", "speed", "attack", "amp" ];
+		return [ "toggle", "timesignature", "type", "delay", "attack", "speed", "amp" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
+		if ( this.firstChild && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
-				case "toggle": this._changeToggle( val === "true" ); break;
+				case "timesignature": this._beatlines.setAttribute( "timesignature", val ); break;
+				case "toggle": this._changeToggle( val !== null ); break;
 				case "type": this._changeType( val ); break;
 				case "delay":
-				case "speed":
 				case "attack":
+				case "speed":
 					this._changeProp( prop, num );
 					break;
 				case "amp":
@@ -67,13 +78,9 @@ class gsuiLFO extends HTMLElement {
 	}
 
 	// .........................................................................
-	timeSignature( a, b ) {
-		this._beatlines.setAttribute( "timesignature", `${ a },${ b }` );
-		this.updateWave();
-	}
 	updateWave( prop, val ) {
 		const w = this._wave,
-			bPM = this._beatlines.getAttribute( "timesignature" ).split( "," )[ 0 ];
+			bPM = this.getAttribute( "timesignature" ).split( "," )[ 0 ];
 
 		w.type = this.getAttribute( "type" );
 		w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );
@@ -120,6 +127,7 @@ class gsuiLFO extends HTMLElement {
 	_initSlider( prop ) {
 		const slider = this._sliders[ prop ][ 0 ];
 
+		slider.enable( false );
 		slider.oninput = this._oninputSlider.bind( this, prop );
 		slider.onchange = this._onchangeSlider.bind( this, prop );
 	}
@@ -133,9 +141,20 @@ class gsuiLFO extends HTMLElement {
 	}
 	_onchangeForm( e ) {
 		switch ( e.target.name ) {
-			case "gsuiLFO-toggle": this._dispatch( "toggle" ); break;
-			case "gsuiLFO-type": this._dispatch( "change", "type", e.target.value ); break;
-			case "gsuiLFO-ampSign": this._dispatch( "change", "amp", -this.getAttribute( "amp" ) ); break;
+			case "gsuiLFO-toggle":
+				GSUI.setAttribute( this, "toggle", !this.classList.contains( "gsuiLFO-enable" ) );
+				this._dispatch( "toggle" );
+				break;
+			case "gsuiLFO-type":
+				GSUI.setAttribute( this, "type", e.target.value );
+				this.updateWave();
+				this._dispatch( "change", "type", e.target.value );
+				break;
+			case "gsuiLFO-ampSign":
+				GSUI.setAttribute( this, "amp", -this.getAttribute( "amp" ) );
+				this.updateWave();
+				this._dispatch( "change", "amp", +this.getAttribute( "amp" ) );
+				break;
 		}
 	}
 	_oninputSlider( prop, val ) {
@@ -148,10 +167,12 @@ class gsuiLFO extends HTMLElement {
 		this._dispatch( "liveChange", prop, realval );
 	}
 	_onchangeSlider( prop, val ) {
-		switch ( prop ) {
-			case "amp": this._dispatch( "change", prop, val * Math.sign( this.getAttribute( "amp" ) ) ); break;
-			default: this._dispatch( "change", prop, val ); break;
-		}
+		const nval = prop === "amp"
+				? val * Math.sign( this.getAttribute( "amp" ) )
+				: val;
+
+		GSUI.setAttribute( this, prop, nval );
+		this._dispatch( "change", prop, nval );
 	}
 }
 
