@@ -2,13 +2,14 @@
 	display: grid;
 	position: relative;
 	box-sizing: border-box;
-	height: 60px;
+	height: 100%;
+	min-width: 260px;
+	min-height: 60px;
 	color: var( --gsuiOscillator-txt );
-	font-family: var( --gsui-font, sans-serif );
 	background-color: var( --gsuiOscillator-bg );
 	grid-template:
 		"grip .   .        .        .          .      .    .    ." 6px
-		"grip .   wavePrev waveNext waveSelect detune pan  gain ." 1fr
+		"grip .   wavePrev waveNext waveSelect detune pan  gain ." 20px
 		"grip .   wave     wave     wave       detune pan  gain ." 1fr
 		"grip .   wave     wave     wave       detune pan  gain ." 1fr
 		"grip .   .        .        .          .      .    .    ." 6px
