@@ -134,6 +134,7 @@ body {
 		<select id="testSelect">
 			<option value="">--</option>
 			<option value="gsuiKeys">gsuiKeys</option>
+			<option value="gsuiLFO">gsuiLFO</option>
 			<option value="gsuiTimeline">gsuiTimeline</option>
 			<option value="gsuiTimewindow">gsuiTimewindow</option>
 		</select>
@@ -171,6 +172,12 @@ function TESTsetDependencies( ...args ) {
 		return el;
 	} ) );
 }
+
+document.addEventListener( "gsuiEvents", e => {
+	const { component, eventName, args } = e.detail;
+
+	console.warn( `gsuiEvent: [${ component }][${ eventName }]`, args );
+} );
 
 if ( cmpName ) {
 	fetch( `${ cmpName }/index.html` )

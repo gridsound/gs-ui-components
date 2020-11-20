@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="gsuiPeriodicWave/gsuiPeriodicWave.css"/>
+<link rel="stylesheet" href="gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="gsuiLFO/gsuiLFO.colors.default.css"/>
+<link rel="stylesheet" href="gsuiLFO/gsuiLFO.css"/>
+<style>
+body {
+	--test-bg-color: #a33;
+	--test-content-w: 400px;
+	--test-content-h: 130px;
+}
+</style>
+
+<gsui-lfo toggle timesignature="4,4" type="sine" delay="0" attack="1" speed="1" amp="1"></gsui-lfo>
+
+<script src="../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
+<script src="../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js"></script>
+<script src="gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
+<script src="gsuiSlider/gsuiSlider.html.js"></script>
+<script src="gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiLFO/gsuiLFO.html.js"></script>
+<script src="gsuiLFO/gsuiLFO.js"></script>
+<script>
+TESTsetDependencies(
+	"gsuiIcon",
+	"gsuiBeatlines",
+	"gsuiPeriodicWave",
+	"gsuiSlider",
+);
+</script>
