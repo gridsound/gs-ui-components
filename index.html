@@ -90,6 +90,24 @@ body {
 #testWrap::-webkit-scrollbar { width: 8px; height: 8px; }
 #testWrap::-webkit-scrollbar-track { background-color: #ddd; }
 #testWrap::-webkit-scrollbar-thumb { background-color: #aaa; }
+#testDeps {
+	position: relative;
+	z-index: 1;
+	margin-top: 32px;
+	font-size: 11px;
+}
+#testDeps:empty {
+	display: none;
+}
+#testDeps::before {
+	content: "dependencies:";
+	opacity: .5;
+}
+.testDep {
+	display: inline-block;
+	margin-left: 1.5ch;
+	font-weight: bold;
+}
 #testFoot {
 	display: flex;
 	justify-content: center;
@@ -123,6 +141,7 @@ body {
 	<div id="testContent">
 		<div id="testWrap"></div>
 	</div>
+	<div id="testDeps"></div>
 </div>
 <div id="testFoot">
 	<span id="testCopyright">© 2020 <a href="https://gridsound.com">gridsound.com</a> all rights reserved</span>
@@ -133,6 +152,7 @@ body {
 <script>
 const elSelect = document.querySelector( "#testSelect" ),
 	elWrap = document.querySelector( "#testWrap" ),
+	elDeps = document.querySelector( "#testDeps" ),
 	cmpName = location.hash.substr( 1 ),
 	jsBrut = [];
 
@@ -141,6 +161,16 @@ elSelect.onchange = () => {
 	location.replace( `${ location.origin }${ location.pathname }#${ elSelect.value }` );
 	location.reload();
 };
+
+function TESTsetDependencies( ...args ) {
+	elDeps.append( ...args.map( dep => {
+		const el = document.createElement( "div" );
+
+		el.className = "testDep";
+		el.textContent = dep;
+		return el;
+	} ) );
+}
 
 if ( cmpName ) {
 	fetch( `${ cmpName }/index.html` )
