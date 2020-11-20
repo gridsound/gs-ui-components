@@ -28,6 +28,16 @@ body {
 }
 .gsuiTimewindow-contentDown { background-color: #5c7; }
 .gsuiTimewindow-panelContentDown { background-color: #38e; }
+
+.myRow {
+	box-sizing: border-box;
+	height: 32px;
+	line-height: 32px;
+	padding-left: 1ch;
+	color: #fff5;
+	font-family: monospace;
+	border-bottom: 1px solid #0004;
+}
 </style>
 
 <gsui-timewindow downpanel timesignature="4,4" pxperbeat="60"></gsui-timewindow>
@@ -40,13 +50,27 @@ body {
 <script src="gsuiTimewindow/gsuiTimewindow.html.js"></script>
 <script src="gsuiTimewindow/gsuiTimewindow.js"></script>
 <script>
-document.addEventListener( "gsuiEvents", e => {
-	const { component, eventName, args } = e.detail;
+TESTsetDependencies(
+	"gsuiIcon",
+	"gsuiDragshield",
+	"gsuiBeatlines",
+	"gsuiTimeline",
+);
 
-	console.warn( `uncatched gsuiEvent: [${ component }][${ eventName }]`, args );
-} );
+const tracks = [],
+	rows = [];
 
-const elWin = document.querySelector( "gsui-timewindow" );
+for ( let i = 0; i < 10; ++i ) {
+	const trk = document.createElement( "div" ),
+		row = document.createElement( "div" );
 
-// elWin.setAttribute( "pxperbeat", 80 );
+	trk.className = "myRow";
+	row.className = "myRow";
+	trk.textContent = `track ${ i }`;
+	row.textContent = `row ${ i }`;
+	tracks.push( trk );
+	rows.push( row );
+}
+document.querySelector( ".gsuiTimewindow-panelContent" ).append( ...tracks );
+document.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
 </script>
