@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="gsuiPeriodicWave/gsuiPeriodicWave.css"/>
+<link rel="stylesheet" href="gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="gsuiOscillator/gsuiOscillator.colors.default.css"/>
+<link rel="stylesheet" href="gsuiOscillator/gsuiOscillator.css"/>
+<style>
+body {
+	--test-bg-color: #77c;
+	--test-content-w: 400px;
+	--test-content-h: 64px;
+}
+</style>
+
+<gsui-oscillator type="sine" detune="0" gain=".75" pan=".25"></gsui-oscillator>
+
+<script src="../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
+<script src="../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js"></script>
+<script src="gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
+<script src="gsuiSlider/gsuiSlider.html.js"></script>
+<script src="gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiOscillator/gsuiOscillator.html.js"></script>
+<script src="gsuiOscillator/gsuiOscillator.js"></script>
+<script>
+TESTsetDependencies(
+	"gsuiIcon",
+	"gsuiPeriodicWave",
+	"gsuiSlider",
+);
+</script>
