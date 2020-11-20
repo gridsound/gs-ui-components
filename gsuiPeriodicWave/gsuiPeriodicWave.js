@@ -35,9 +35,7 @@ class gsuiPeriodicWave extends HTMLElement {
 		this.width = w;
 		this.height = h;
 		this._svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
-		if ( this.type ) {
-			this.draw();
-		}
+		this.draw();
 	}
 	draw() {
 		if ( this.firstChild && this.type ) {
@@ -103,3 +101,7 @@ customElements.define( "gsui-periodicwave", gsuiPeriodicWave );
 gsuiPeriodicWave.cache = {};
 
 Object.freeze( gsuiPeriodicWave );
+
+gswaPeriodicWaves.list.forEach( ( w, name ) => {
+	gsuiPeriodicWave.addWave( name, w.real, w.imag );
+} );
