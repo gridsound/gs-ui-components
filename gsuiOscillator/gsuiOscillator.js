@@ -43,13 +43,21 @@ class gsuiOscillator extends HTMLElement {
 			this.setAttribute( "draggable", "true" );
 			this.append( ...this._children );
 			this._children = null;
+			GSUI.recallAttributes( this, {
+				order: 0,
+				type: "sine",
+				detune: 0,
+				gain: 1,
+				pan: 0,
+			} );
+			this.updateWave();
 		}
 	}
 	static get observedAttributes() {
 		return [ "order", "type", "detune", "gain", "pan" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
+		if ( !this._children && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
@@ -116,7 +124,7 @@ class gsuiOscillator extends HTMLElement {
 			elValue = root.lastChild;
 
 		slider.oninput = this._oninputSlider.bind( this, prop );
-		slider.onchange = val => this._dispatch( "change", prop, val );
+		slider.onchange = this._onchangeSlider.bind( this, prop );
 		return Object.freeze( [ slider, elValue ] );
 	}
 
@@ -142,6 +150,7 @@ class gsuiOscillator extends HTMLElement {
 		this._dispatch( "liveChange", "type", type );
 		this._timeidType = setTimeout( () => {
 			if ( type !== this.getAttribute( "type" ) ) {
+				this.setAttribute( "type", type );
 				this._dispatch( "change", "type", type );
 			}
 		}, 700 );
@@ -150,6 +159,10 @@ class gsuiOscillator extends HTMLElement {
 		if ( e.key.length === 1 ) {
 			e.preventDefault();
 		}
+	}
+	_onchangeSlider( prop, val ) {
+		this.setAttribute( prop, val );
+		this._dispatch( "change", prop, val );
 	}
 	_oninputSlider( prop, val ) {
 		let val2 = val;
