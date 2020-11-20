@@ -169,18 +169,16 @@ class gsuiTimeline extends HTMLElement {
 			dots = [];
 
 		for ( let i = 1; i < sPB; ++i ) {
-			if ( i > 1 ) {
-				dots.push( `transparent calc( ${ ( i - 1 ) / sPB }em + 1px )` );
-			}
 			dots.push(
 				`transparent calc( ${ i / sPB }em - 1px )`,
 				`currentColor calc( ${ i / sPB }em - 1px )`,
-				`currentColor calc( ${ i / sPB }em + 1px )` );
+				`currentColor calc( ${ i / sPB }em + 1px )`,
+				`transparent calc( ${ i / sPB }em + 1px )` );
 		}
 		this._elSteps.style.backgroundImage = `
 			repeating-linear-gradient(90deg, transparent 0em,
 				${ dots.join( "," ) },
-				transparent calc( ${ ( sPB - 1 ) / sPB }em + 1px ), transparent calc( ${ 1 }em )
+				transparent calc( ${ 1 }em )
 			)
 		`;
 	}
