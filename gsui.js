@@ -85,6 +85,13 @@ const GSUI = {
 			? el.removeAttribute( attr )
 			: el.setAttribute( attr, val === true ? "" : val );
 	},
+	recallAttributes( el, props ) {
+		Object.entries( props ).forEach( ( [ p, val ] ) => {
+			el.hasAttribute( p )
+				? el.attributeChangedCallback( p, null, el.getAttribute( p ) )
+				: GSUI.setAttribute( el, p, val );
+		} );
+	},
 };
 
 GSUI._resizeObs = new ResizeObserver( GSUI._resizeObsCallback );
