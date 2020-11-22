@@ -59,10 +59,30 @@ class gsuiClock extends HTMLElement {
 	}
 
 	// .........................................................................
+	static parseBeatsToSeconds( beats, bpm ) {
+		const seconds = beats / ( bpm / 60 );
+
+		return [
+			`${ seconds / 60 | 0 }`,
+			`${ seconds % 60 | 0 }`.padStart( 2, "0" ),
+			`${ seconds * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
+		];
+	}
+	static parseBeatsToBeats( beats, stepsPerBeat ) {
+		const steps = beats % 1 * stepsPerBeat;
+
+		return [
+			`${ beats + 1 | 0 }`,
+			`${ steps + 1 | 0 }`.padStart( 2, "0" ),
+			`${ steps * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
+		];
+	}
+
+	// .........................................................................
 	setTime( beats ) {
 		const [ a, b, c ] = this.getAttribute( "mode" ) === "second"
-				? GSUtils.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) )
-				: GSUtils.parseBeatsToBeats( beats, +this.getAttribute( "stepsPerBeat" ) );
+				? gsuiClock.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) )
+				: gsuiClock.parseBeatsToBeats( beats, +this.getAttribute( "stepsPerBeat" ) );
 
 		this._timeSave = beats;
 		this._setValue( 0, a );
