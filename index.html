@@ -104,7 +104,6 @@ body {
 	opacity: .5;
 }
 .testDep {
-	display: inline-block;
 	margin-left: 1.5ch;
 	font-weight: bold;
 }
@@ -155,30 +154,13 @@ body {
 const elSelect = document.querySelector( "#testSelect" ),
 	elWrap = document.querySelector( "#testWrap" ),
 	elDeps = document.querySelector( "#testDeps" ),
-	cmpName = location.hash.substr( 1 ),
-	jsBrut = [];
+	cmpName = location.hash.substr( 1 );
 
 elSelect.value = cmpName;
 elSelect.onchange = () => {
 	location.replace( `${ location.origin }${ location.pathname }#${ elSelect.value }` );
 	location.reload();
 };
-
-function TESTsetDependencies( ...args ) {
-	elDeps.append( ...args.map( dep => {
-		const el = document.createElement( "div" );
-
-		el.className = "testDep";
-		el.textContent = dep;
-		return el;
-	} ) );
-}
-
-document.addEventListener( "gsuiEvents", e => {
-	const { component, eventName, args } = e.detail;
-
-	console.warn( `gsuiEvent: [${ component }][${ eventName }]`, args );
-} );
 
 if ( cmpName ) {
 	fetch( `${ cmpName }/index.html` )
@@ -188,28 +170,44 @@ if ( cmpName ) {
 			}
 			return res.text();
 		} )
-		.then( res => {
-			elWrap.innerHTML = res;
-			return Array.from( elWrap.querySelectorAll( "script" ) )
-				.map( script => {
-					if ( !script.src ) {
-						jsBrut.push( script.innerHTML );
-					}
-					script.remove();
-					return script.src;
-				} )
-				.filter( Boolean );
-		} )
-		.then( scripts => {
-			return Promise.all( scripts.map( url => fetch( url ).then( res => res.text() ) ) );
-		} )
-		.then( scripts => {
-			const newScript = document.createElement( "script" );
+		.then( res => { elWrap.innerHTML = res; } )
+		.then( () => {
+			const elScr = elWrap.querySelector( "script" );
 
-			newScript.innerHTML = scripts.concat( jsBrut ).join( "\n" );
-			document.body.append( newScript );
+			if ( elScr ) {
+				document.body.append( GSUI.createElement( "script", null, elScr.textContent ) )
+				elScr.remove();
+			}
 		} );
 }
+
+function TEST( { deps, cssFiles, jsFiles, js } ) {
+	const jsProm = jsFiles && jsFiles.length > 0
+			? Promise.all( jsFiles.map( url => fetch( url ).then( res => res.text() ) ) )
+			: Promise.resolve();
+
+	if ( cssFiles ) {
+		document.head.append( ...cssFiles.map( url => GSUI.createElement( "link", {
+			rel: "stylesheet",
+			href: url,
+		} ) ) );
+	}
+	if ( deps ) {
+		elDeps.append( ...deps.map( dep => GSUI.createElement( "span", { class: "testDep" }, dep ) ) );
+	}
+	if ( jsFiles ) {
+		jsProm.then( scripts => {
+			document.body.append( GSUI.createElement( "script", null, scripts.join( "\n" ) ) );
+		} );
+	}
+	jsProm.then( () => js && js() );
+}
+
+document.addEventListener( "gsuiEvents", e => {
+	const { component, eventName, args } = e.detail;
+
+	console.warn( `gsuiEvent: [${ component }][${ eventName }]`, args );
+} );
 </script>
 </body>
 </html>

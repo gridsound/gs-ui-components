@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="gsuiKeys/gsuiKeys.colors.default.css"/>
-<link rel="stylesheet" href="gsuiKeys/gsuiKeys.css"/>
 <style>
 body {
 	--test-bg-color: #883;
@@ -10,10 +8,20 @@ body {
 
 <gsui-keys></gsui-keys>
 
-<script src="gsuiKeys/gsuiKeys.html.js"></script>
-<script src="gsuiKeys/gsuiKeys.js"></script>
 <script>
-const uiKeys = document.querySelector( "gsui-keys" );
+TEST( {
+	cssFiles: [
+		"gsuiKeys/gsuiKeys.colors.default.css",
+		"gsuiKeys/gsuiKeys.css",
+	],
+	jsFiles: [
+		"gsuiKeys/gsuiKeys.html.js",
+		"gsuiKeys/gsuiKeys.js",
+	],
+	js: () => {
+		const uiKeys = document.querySelector( "gsui-keys" );
 
-uiKeys.octaves( 1, 4 );
+		uiKeys.octaves( 1, 4 );
+	},
+} );
 </script>

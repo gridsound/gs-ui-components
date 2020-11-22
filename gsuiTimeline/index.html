@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="gsuiTimeline/gsuiTimeline.colors.default.css"/>
-<link rel="stylesheet" href="gsuiTimeline/gsuiTimeline.css"/>
 <style>
 body {
 	--test-bg-color: #047;
@@ -22,14 +20,24 @@ body {
 </div>
 <input id="pxperbeat" type="range" value="80" min="6" max="128"/>
 
-<script src="gsuiTimeline/gsuiTimeline.html.js"></script>
-<script src="gsuiTimeline/gsuiTimeline.js"></script>
 <script>
-const elTimeline = document.querySelector( "gsui-timeline" );
-const inpPBB = document.querySelector( "#pxperbeat" );
+TEST( {
+	cssFiles: [
+		"gsuiTimeline/gsuiTimeline.colors.default.css",
+		"gsuiTimeline/gsuiTimeline.css",
+	],
+	jsFiles: [
+		"gsuiTimeline/gsuiTimeline.html.js",
+		"gsuiTimeline/gsuiTimeline.js",
+	],
+	js: () => {
+		const elTimeline = document.querySelector( "gsui-timeline" ),
+			inpPBB = document.querySelector( "#pxperbeat" );
 
-inpPBB.oninput = () => {
-	elTimeline.setAttribute( "pxperbeat", inpPBB.value );
-};
-inpPBB.oninput();
+		inpPBB.oninput = () => {
+			elTimeline.setAttribute( "pxperbeat", inpPBB.value );
+		};
+		inpPBB.oninput();
+	},
+} );
 </script>
