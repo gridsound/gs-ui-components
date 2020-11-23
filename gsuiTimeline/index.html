@@ -11,14 +11,36 @@ body {
 	width: 10000px;
 	height: 32px;
 }
+.prop {
+	display: flex;
+	align-items: center;
+}
+.prop span,
+.prop b {
+	margin-left: 1ch;
+}
 </style>
 
 <div id="wrapOut">
 	<div id="wrapIn">
-		<gsui-timeline step="1" loop="1.25-3.75" currenttime="1.25" timesignature="4,4"></gsui-timeline>
+		<gsui-timeline step="1" pxperbeat="80" loop="1.25-3.75" currenttime="1.25" timesignature="4,4"></gsui-timeline>
 	</div>
 </div>
-<input id="pxperbeat" type="range" value="80" min="6" max="128"/>
+<div class="prop">
+	<input id="pxPerbeat" type="range" value="80" min="2" max="128"/>
+	<span>px per beat</span>
+	<b>80</b>
+</div>
+<div class="prop">
+	<input id="beatsPerMeasure" type="range" value="4" min="1" max="16"/>
+	<span>beats per measure</span>
+	<b>4</b>
+</div>
+<div class="prop">
+	<input id="stepsPerBeat" type="range" value="4" min="1" max="16"/>
+	<span>steps per beat</span>
+	<b>4</b>
+</div>
 
 <script>
 TEST( {
@@ -32,12 +54,14 @@ TEST( {
 	],
 	js: () => {
 		const elTimeline = document.querySelector( "gsui-timeline" ),
-			inpPBB = document.querySelector( "#pxperbeat" );
+			inpPBB = document.querySelector( "#pxPerbeat" ),
+			inpBPM = document.querySelector( "#beatsPerMeasure" ),
+			inpSPB = document.querySelector( "#stepsPerBeat" );
 
-		inpPBB.oninput = () => {
-			elTimeline.setAttribute( "pxperbeat", inpPBB.value );
-		};
-		inpPBB.oninput();
+		inpPBB.oninput = e => elTimeline.setAttribute( "pxperbeat", inpPBB.value );
+		inpBPM.oninput =
+		inpSPB.oninput = e => elTimeline.setAttribute( "timesignature", `${ inpBPM.value },${ inpSPB.value }` );
+		document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 	},
 } );
 </script>
