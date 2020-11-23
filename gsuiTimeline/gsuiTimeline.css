@@ -6,10 +6,12 @@
 	background-color: var( --gsuiTimeline-bg );
 	--gsuiTimeline-beats-offset: 0;
 	--gsuiTimeline-beats-incr: 1;
+	--gsuiTimeline-beats-per-measure: 4;
 }
 
 /* .......................................................................... */
-.gsuiTimeline-steps {
+.gsuiTimeline-steps,
+.gsuiTimeline-beats {
 	position: absolute;
 	top: calc( 50% - 1px );
 	width: 100%;
@@ -17,24 +19,43 @@
 	pointer-events: none;
 	background-repeat: no-repeat;
 }
+.gsuiTimeline-beats {
+	top: calc( 50% - 2px );
+	height: 4px;
+	margin-left: 1px;
+	background-image: repeating-linear-gradient( 90deg,
+		transparent 0em,
+		transparent calc( 1em - 2px ),
+		currentColor calc( 1em - 2px ),
+		currentColor calc( 1em ),
+		transparent calc( 1em )
+	);
+}
 
 /* .......................................................................... */
-.gsuiTimeline-beats {
+.gsuiTimeline-measures {
 	display: flex;
 	height: 100%;
 	counter-reset: beat calc( var( --gsuiTimeline-beats-offset ) - var( --gsuiTimeline-beats-incr ) + 1 );
 	pointer-events: none;
 }
-.gsuiTimeline-beat {
+.gsuiTimeline-measure {
 	counter-increment: beat var( --gsuiTimeline-beats-incr );
 	display: inline-block;
-	margin-left: calc( var( --gsuiTimeline-beats-incr ) * 1em );
-	opacity: var( --gsuiTimeline-beats-opacity, 0 );
+	margin-left: calc( var( --gsuiTimeline-beats-incr ) * var( --gsuiTimeline-beats-per-measure ) * 1em );
 }
-.gsuiTimeline-beat:first-child {
-	margin-left: calc( var( --gsuiTimeline-beats-offset ) * 1em );
+.gsuiTimeline-measure:first-child {
+	margin-left: calc( var( --gsuiTimeline-beats-offset ) * var( --gsuiTimeline-beats-per-measure ) * 1em );
 }
-.gsuiTimeline-beat::before {
+.gsuiTimeline-measure::before {
+	content: "";
+	position: absolute;
+	margin-left: -2px;
+	width: 4px;
+	height: 100%;
+	background-color: var( --gsuiTimeline-bg );
+}
+.gsuiTimeline-measure::after {
 	content: counter( beat );
 	position: absolute;
 	top: 0;
@@ -45,8 +66,9 @@
 	align-items: center;
 	justify-content: center;
 	font-size: 12px;
+	opacity: var( --gsuiTimeline-measures-opacity, 0 );
 }
-.gsuiTimeline-measure {
+.gsuiTimeline-measureBig::after {
 	font-weight: bold;
 	opacity: 1;
 }

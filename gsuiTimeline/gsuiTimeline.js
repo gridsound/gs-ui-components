@@ -3,13 +3,14 @@
 class gsuiTimeline extends HTMLElement {
 	constructor() {
 		const children = GSUI.getTemplate( "gsui-timeline" ),
-			elTimeLine = children[ 3 ];
+			elTimeLine = children[ 4 ];
 
 		super();
 		this._children = children;
 		this.beatsPerMeasure = 4;
 		this.stepsPerBeat = 4;
 		this.pxPerBeat = 10;
+		this.pxPerMeasure = this.beatsPerMeasure * this.pxPerBeat;
 		this.loopA =
 		this.loopB = 0;
 		this.looping = false;
@@ -18,7 +19,8 @@ class gsuiTimeline extends HTMLElement {
 		this._scrollingAncestor = null;
 		this._elSteps = children[ 0 ];
 		this._elBeats = children[ 1 ];
-		this._elLoop = children[ 2 ].firstChild;
+		this._elMeasures = children[ 2 ];
+		this._elLoop = children[ 3 ].firstChild;
 		this._elTimeLine = elTimeLine;
 		this._elCursor = elTimeLine.firstChild;
 		this._elCursorPreview = elTimeLine.lastChild;
@@ -29,7 +31,7 @@ class gsuiTimeline extends HTMLElement {
 		this._mousedownLoopA =
 		this._mousedownLoopB = 0;
 		this._mousedownLoop = "";
-		this._onlyMeasures = false;
+		this._onlyBigMeasures = false;
 		this._onmousemove = this._onmousemove.bind( this );
 		this._onmouseup = this._onmouseup.bind( this );
 		this._status = "";
@@ -55,7 +57,7 @@ class gsuiTimeline extends HTMLElement {
 		this._scrollingAncestor.addEventListener( "scroll", this._onscroll );
 		GSUI.observeSizeOf( this._scrollingAncestor, this._onresize );
 		this._updateOffset();
-		this._updateNumberBeats();
+		this._updateNumberMeasures();
 		this._updateMeasures();
 	}
 	disconnectedCallback() {
@@ -91,18 +93,20 @@ class gsuiTimeline extends HTMLElement {
 	}
 	_changePxPerBeat( ppb ) {
 		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) ),
-			beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .5 ) ),
-			onlyM = ppb < 20;
+			beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) ),
+			measuresOpa = Math.max( 0, Math.min( ( ppb - 6 ) / 20, .7 ) );
 
 		this.pxPerBeat = ppb;
-		this._onlyMeasures = onlyM;
+		this.pxPerMeasure = this.beatsPerMeasure * ppb;
+		this._onlyBigMeasures = ppb < 6;
 		this.style.fontSize = `${ ppb }px`;
-		this.style.setProperty( "--gsuiTimeline-beats-incr", onlyM ? this.beatsPerMeasure : 1 );
-		this.style.setProperty( "--gsuiTimeline-beats-opacity", beatsOpa );
+		this.style.setProperty( "--gsuiTimeline-beats-incr", this._onlyBigMeasures ? this.beatsPerMeasure : 1 );
+		this.style.setProperty( "--gsuiTimeline-measures-opacity", measuresOpa );
 		this._elSteps.style.opacity = stepsOpa;
+		this._elBeats.style.opacity = beatsOpa;
 		if ( this._scrollingAncestor ) {
 			this._updateOffset();
-			this._updateNumberBeats();
+			this._updateNumberMeasures();
 			this._updateMeasures();
 		}
 	}
@@ -111,8 +115,13 @@ class gsuiTimeline extends HTMLElement {
 
 		this.beatsPerMeasure = +ts[ 0 ];
 		this.stepsPerBeat = +ts[ 1 ];
+		this.pxPerMeasure = this.beatsPerMeasure * this.pxPerBeat;
+		this.style.setProperty( "--gsuiTimeline-beats-per-measure", this.beatsPerMeasure );
 		this._updateStepsBg();
-		this._updateMeasures();
+		if ( this._scrollingAncestor ) {
+			this._updateNumberMeasures();
+			this._updateMeasures();
+		}
 	}
 	_changeLoop( val ) {
 		const [ a, b ] = ( val || "0-0" ).split( "-" );
@@ -183,8 +192,8 @@ class gsuiTimeline extends HTMLElement {
 		`;
 	}
 	_updateOffset() {
-		const offBeats = Math.floor( this._scrollingAncestor.scrollLeft / this.pxPerBeat ),
-			off = this._onlyMeasures
+		const offBeats = Math.floor( this._scrollingAncestor.scrollLeft / this.pxPerMeasure ),
+			off = this._onlyBigMeasures
 				? Math.floor( offBeats / this.beatsPerMeasure ) * this.beatsPerMeasure
 				: offBeats,
 			diff = off !== this._offset;
@@ -195,27 +204,27 @@ class gsuiTimeline extends HTMLElement {
 		}
 		return diff;
 	}
-	_updateNumberBeats() {
-		const elBeats = this._elBeats,
-			px = this.pxPerBeat * ( this._onlyMeasures ? this.beatsPerMeasure : 1 ),
+	_updateNumberMeasures() {
+		const elMeasures = this._elMeasures,
+			px = this.pxPerMeasure * ( this._onlyBigMeasures ? this.beatsPerMeasure : 1 ),
 			nb = Math.ceil( this._scrollingAncestor.clientWidth / px ) + 1;
 
 		if ( nb < 0 || nb > 500 ) {
 			return console.warn( "gsuiTimeline: anormal number of nodes to create", nb );
-		} else if ( elBeats.children.length > nb ) {
-			while ( elBeats.children.length > nb ) {
-				elBeats.lastChild.remove();
+		} else if ( elMeasures.children.length > nb ) {
+			while ( elMeasures.children.length > nb ) {
+				elMeasures.lastChild.remove();
 			}
 		} else {
-			while ( elBeats.children.length < nb ) {
-				elBeats.append( GSUI.createElement( "span", { class: "gsuiTimeline-beat" } ) );
+			while ( elMeasures.children.length < nb ) {
+				elMeasures.append( GSUI.createElement( "span", { class: "gsuiTimeline-measure" } ) );
 			}
 		}
 	}
 	_updateMeasures() {
-		Array.prototype.forEach.call( this._elBeats.children, ( el, i ) => {
-			el.classList.toggle( "gsuiTimeline-measure",
-				this._onlyMeasures || ( this._offset + i ) % this.beatsPerMeasure === 0 );
+		Array.prototype.forEach.call( this._elMeasures.children, ( el, i ) => {
+			el.classList.toggle( "gsuiTimeline-measureBig",
+				this._onlyBigMeasures || ( this._offset + i ) % this.beatsPerMeasure === 0 );
 		} );
 	}
 	_updateLoop() {
@@ -228,12 +237,12 @@ class gsuiTimeline extends HTMLElement {
 
 	// .........................................................................
 	_onscroll() {
-		if ( this._updateOffset() && !this._onlyMeasures ) {
+		if ( this._updateOffset() && !this._onlyBigMeasures ) {
 			this._updateMeasures();
 		}
 	}
 	_onresize() {
-		this._updateNumberBeats();
+		this._updateNumberMeasures();
 		this._updateMeasures();
 	}
 	_onmousedown( e ) {

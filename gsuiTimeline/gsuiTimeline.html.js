@@ -3,6 +3,7 @@
 GSUI.setTemplate( "gsui-timeline", () => [
 	GSUI.createElement( "div", { class: "gsuiTimeline-steps" } ),
 	GSUI.createElement( "div", { class: "gsuiTimeline-beats" } ),
+	GSUI.createElement( "div", { class: "gsuiTimeline-measures" } ),
 	GSUI.createElement( "div", { class: "gsuiTimeline-loopLine" },
 		GSUI.createElement( "div", { class: "gsuiTimeline-loop" },
 			GSUI.createElement( "div", { class: "gsuiTimeline-loopBody" } ),
