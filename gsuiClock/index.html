@@ -1,19 +1,22 @@
 <style>
 body {
-	--test-bg-color: #77c;
-	--test-content-w: 400px;
-	--test-content-h: 64px;
+	--test-bg-color: #bb5;
+	--test-content-w: 180px;
+	--test-content-h: 60px;
+	--test-content-resize: none;
 }
 #testWrap {
-	text-align: center;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
 }
 gsui-clock {
 	height: 32px;
 }
 </style>
 
-<gsui-clock></gsui-clock>
-<br/>
+<gsui-clock mode="second" bpm="60" timedivision="4/4"></gsui-clock>
 <input id="time" type="range" value="0" min="0" max="260" step=".1" />
 
 <script>
