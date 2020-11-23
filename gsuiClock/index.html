@@ -1,0 +1,37 @@
+<style>
+body {
+	--test-bg-color: #77c;
+	--test-content-w: 400px;
+	--test-content-h: 64px;
+}
+#testWrap {
+	text-align: center;
+}
+gsui-clock {
+	height: 32px;
+}
+</style>
+
+<gsui-clock></gsui-clock>
+<br/>
+<input id="time" type="range" value="0" min="0" max="260" step=".1" />
+
+<script>
+TEST( {
+	cssFiles: [
+		"gsuiClock/gsuiClock.colors.default.css",
+		"gsuiClock/gsuiClock.css",
+	],
+	jsFiles: [
+		"gsuiClock/gsuiClock.html.js",
+		"gsuiClock/gsuiClock.js",
+	],
+	js: () => {
+		const elClock = document.querySelector( "gsui-clock" ),
+			elInput = document.querySelector( "#time" );
+
+		elInput.oninput = () => elClock.setTime( +elInput.value );
+		elInput.oninput();
+	}
+} );
+</script>
