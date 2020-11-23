@@ -27,16 +27,15 @@ class gsuiClock extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		this._attached = true;
-		if ( !this.firstChild ) {
+		if ( this._children ) {
 			this.classList.add( "gsuiClock" );
 			this.append( ...this._children );
 			this._children = null;
-			if ( !this.hasAttribute( "bpm" ) ) {
-				this.setAttribute( "bpm", 60 );
-			}
-			if ( !this.hasAttribute( "stepsPerBeat" ) ) {
-				this.setAttribute( "stepsPerBeat", 4 );
-			}
+			GSUI.recallAttributes( this, {
+				mode: "second",
+				bpm: 60,
+				stepsPerBeat: 4,
+			} );
 		}
 		this._updateWidth();
 	}
@@ -47,7 +46,7 @@ class gsuiClock extends HTMLElement {
 		return [ "mode", "bpm", "stepsPerBeat" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
+		if ( !this._children && prev !== val ) {
 			switch ( prop ) {
 				case "mode":
 				case "bpm":
@@ -105,12 +104,10 @@ class gsuiClock extends HTMLElement {
 		}
 	}
 	_updateWidth() {
-		const bcr = this._wrapAbs.getBoundingClientRect(),
-			st = this._wrapRel.style;
+		const len = this._nodes[ 0 ].textContent.length;
 
-		st.width =
-		st.minWidth = `${ bcr.width }px`;
-		st.minHeight = `${ bcr.height }px`;
+		this._wrapRel.style.width =
+		this._wrapRel.style.minWidth = `${ 4.5 + len * .7 }ch`;
 	}
 
 	// .........................................................................
