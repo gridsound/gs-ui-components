@@ -14,6 +14,8 @@ class gsuiClock extends HTMLElement {
 		this._timeSave = 0;
 		this._firstValueLen = -1;
 		this._values = [ -1, -1, -1 ];
+		this._bPM = 4;
+		this._sPB = 4;
 		this._nodes = [
 			this._wrapAbs.children[ 0 ],
 			this._wrapAbs.children[ 1 ],
@@ -34,7 +36,7 @@ class gsuiClock extends HTMLElement {
 			GSUI.recallAttributes( this, {
 				mode: "second",
 				bpm: 60,
-				stepsPerBeat: 4,
+				timedivision: "4/4",
 			} );
 		}
 		this._updateWidth();
@@ -43,16 +45,22 @@ class gsuiClock extends HTMLElement {
 		this._attached = false;
 	}
 	static get observedAttributes() {
-		return [ "mode", "bpm", "stepsPerBeat" ];
+		return [ "mode", "bpm", "timedivision" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this._children && prev !== val ) {
 			switch ( prop ) {
 				case "mode":
 				case "bpm":
-				case "stepsPerBeat":
 					this._resetTime();
 					break;
+				case "timedivision": {
+					const timediv = val.split( "/" );
+
+					this._bPM = +timediv[ 0 ];
+					this._sPB = +timediv[ 1 ];
+					this._resetTime();
+				} break;
 			}
 		}
 	}
@@ -67,21 +75,23 @@ class gsuiClock extends HTMLElement {
 			`${ seconds * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
 		];
 	}
-	static parseBeatsToBeats( beats, stepsPerBeat ) {
-		const steps = beats % 1 * stepsPerBeat;
+	static parseBeatsToBeats( beats, bPM, sPB ) {
+		const measures = Math.floor( beats / bPM ),
+			steps = Math.floor( ( beats - measures * bPM ) * sPB ),
+			msteps = beats * sPB - Math.floor( beats * sPB );
 
 		return [
-			`${ beats + 1 | 0 }`,
-			`${ steps + 1 | 0 }`.padStart( 2, "0" ),
-			`${ steps * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
+			`${ measures + 1 }`,
+			`${ steps + 1 }`.padStart( 2, "0" ),
+			`${ msteps * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
 		];
 	}
 
 	// .........................................................................
 	setTime( beats ) {
 		const [ a, b, c ] = this.getAttribute( "mode" ) === "second"
-				? gsuiClock.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) )
-				: gsuiClock.parseBeatsToBeats( beats, +this.getAttribute( "stepsPerBeat" ) );
+				? gsuiClock.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) || 60 )
+				: gsuiClock.parseBeatsToBeats( beats, this._bPM, this._sPB );
 
 		this._timeSave = beats;
 		this._setValue( 0, a );
