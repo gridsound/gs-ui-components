@@ -12,5 +12,5 @@
 	--gsuiMixerChannel-toggle-bg: #ffa;
 	--gsuiMixerChannel-toggleOff-bg: #fff2;
 	--gsuiMixerChannel-analyser-bg: #222;
-	--gsuiMixerChannel-name-font: var( --font-default );
+	--gsuiMixerChannel-name-font: var( --gsui-font );
 }
