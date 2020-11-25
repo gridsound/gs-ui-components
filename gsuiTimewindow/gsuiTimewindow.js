@@ -64,7 +64,7 @@ class gsuiTimewindow extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "step", "timesignature", "pxperbeat", "lineheight", "currenttime", "loop" ];
+		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -73,9 +73,9 @@ class gsuiTimewindow extends HTMLElement {
 					this._elTimeline.setAttribute( "step", val );
 					this._elStepBtn.firstChild.textContent = this._convertStepToFrac( +val );
 					break;
-				case "timesignature":
-					this._elTimeline.setAttribute( "timesignature", val );
-					this._elBeatlines.setAttribute( "timesignature", val );
+				case "timedivision":
+					this._elTimeline.setAttribute( "timedivision", val );
+					this._elBeatlines.setAttribute( "timedivision", val );
 					break;
 				case "pxperbeat":
 					this._pxPerBeat = +val;

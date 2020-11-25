@@ -65,7 +65,7 @@ class gsuiTimeline extends HTMLElement {
 		GSUI.unobserveSizeOf( this._scrollingAncestor, this._onresize );
 	}
 	static get observedAttributes() {
-		return [ "step", "timesignature", "pxperbeat", "loop", "currenttime", "currenttime-preview" ];
+		return [ "step", "timedivision", "pxperbeat", "loop", "currenttime", "currenttime-preview" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -74,7 +74,7 @@ class gsuiTimeline extends HTMLElement {
 				case "loop": this._changeLoop( val ); break;
 				case "pxperbeat": this._changePxPerBeat( +val ); break;
 				case "currenttime": this._changeCurrentTime( +val ); break;
-				case "timesignature": this._changeTimesignature( val ); break;
+				case "timedivision": this._changeTimedivision( val ); break;
 				case "currenttime-preview": this._changeCurrentTimePreview( val ); break;
 			}
 		}
@@ -110,8 +110,8 @@ class gsuiTimeline extends HTMLElement {
 			this._updateMeasures();
 		}
 	}
-	_changeTimesignature( val ) {
-		const ts = val.split( "," );
+	_changeTimedivision( val ) {
+		const ts = val.split( "/" );
 
 		this.beatsPerMeasure = +ts[ 0 ];
 		this.stepsPerBeat = +ts[ 1 ];

@@ -44,7 +44,7 @@ class gsuiSliderGroup extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "timesignature", "currenttime", "loopa", "loopb" ];
+		return [ "timedivision", "currenttime", "loopa", "loopb" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -52,8 +52,8 @@ class gsuiSliderGroup extends HTMLElement {
 				case "currenttime":
 					this._currentTime.style.left = `${ val }em`;
 					break;
-				case "timesignature":
-					this._uiBeatlines.setAttribute( "timesignature", val );
+				case "timedivision":
+					this._uiBeatlines.setAttribute( "timedivision", val );
 					break;
 				case "loopa":
 					this._loopA.classList.toggle( "gsuiSliderGroup-loopOn", val );

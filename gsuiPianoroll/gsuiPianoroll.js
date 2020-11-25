@@ -81,9 +81,9 @@ class gsuiPianoroll {
 		this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
 		this.scrollToMiddle();
 	}
-	timeSignature( a, b ) {
-		GSUI.setAttribute( this._win, "timesignature", `${ a },${ b }` );
-		GSUI.setAttribute( this._uiSliderGroup, "timesignature", `${ a },${ b }` );
+	timeDivision( a, b ) {
+		GSUI.setAttribute( this._win, "timedivision", `${ a }/${ b }` );
+		GSUI.setAttribute( this._uiSliderGroup, "timedivision", `${ a }/${ b }` );
 	}
 	currentTime( t ) {
 		GSUI.setAttribute( this._win, "currenttime", t );

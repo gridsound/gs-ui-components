@@ -23,7 +23,7 @@ body {
 
 <div id="wrapOut">
 	<div id="wrapIn">
-		<gsui-timeline step="1" pxperbeat="80" loop="1.25-3.75" currenttime="1.25" timesignature="4,4"></gsui-timeline>
+		<gsui-timeline step="1" pxperbeat="80" loop="1.25-3.75" currenttime="1.25" timedivision="4/4"></gsui-timeline>
 	</div>
 </div>
 <div class="prop">
@@ -60,7 +60,7 @@ TEST( {
 
 		inpPBB.oninput = e => elTimeline.setAttribute( "pxperbeat", inpPBB.value );
 		inpBPM.oninput =
-		inpSPB.oninput = e => elTimeline.setAttribute( "timesignature", `${ inpBPM.value },${ inpSPB.value }` );
+		inpSPB.oninput = e => elTimeline.setAttribute( "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
 		document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 	},
 } );

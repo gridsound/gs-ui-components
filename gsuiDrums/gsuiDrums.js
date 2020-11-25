@@ -107,9 +107,9 @@ class gsuiDrums extends HTMLElement {
 			? this._win.setAttribute( "loop", `${ a }-${ b }` )
 			: this._win.removeAttribute( "loop" )
 	}
-	timeSignature( a, b ) {
+	timeDivision( a, b ) {
 		this._stepsPerBeat = b;
-		this._win.setAttribute( "timesignature", `${ a },${ b }` );
+		this._win.setAttribute( "timedivision", `${ a }/${ b }` );
 		this._win.setAttribute( "currenttimestep", 1 / b );
 		this.setPxPerBeat( this._pxPerBeat );
 		this._elDrumHover.style.width =

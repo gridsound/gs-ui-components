@@ -105,8 +105,8 @@ class gsuiPatternroll {
 	getBlocks() {
 		return this._blcManager.__blcs;
 	}
-	timeSignature( a, b ) {
-		GSUI.setAttribute( this._win, "timesignature", `${ a },${ b }` );
+	timeDivision( a, b ) {
+		GSUI.setAttribute( this._win, "timedivision", `${ a }/${ b }` );
 	}
 	currentTime( t ) {
 		GSUI.setAttribute( this._win, "currenttime", t );

@@ -37,7 +37,7 @@ class gsuiLFO extends HTMLElement {
 			this._children = null;
 			GSUI.recallAttributes( this, {
 				toggle: false,
-				timesignature: "4,4",
+				timedivision: "4/4",
 				type: "sine",
 				delay: 0,
 				attack: 1,
@@ -52,14 +52,14 @@ class gsuiLFO extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this._onresize );
 	}
 	static get observedAttributes() {
-		return [ "toggle", "timesignature", "type", "delay", "attack", "speed", "amp" ];
+		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this._children && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
-				case "timesignature": this._beatlines.setAttribute( "timesignature", val ); break;
+				case "timedivision": this._beatlines.setAttribute( "timedivision", val ); break;
 				case "toggle": this._changeToggle( val !== null ); break;
 				case "type": this._changeType( val ); break;
 				case "delay":
@@ -80,7 +80,7 @@ class gsuiLFO extends HTMLElement {
 	// .........................................................................
 	updateWave( prop, val ) {
 		const w = this._wave,
-			bPM = this.getAttribute( "timesignature" ).split( "," )[ 0 ];
+			bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
 
 		w.type = this.getAttribute( "type" );
 		w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );

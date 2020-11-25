@@ -5,15 +5,15 @@ class gsuiBeatlines extends HTMLElement {
 		this.classList.add( "gsuiBeatlines" );
 	}
 	static get observedAttributes() {
-		return [ "timesignature", "pxperbeat", "coloredbeats" ];
+		return [ "timedivision", "pxperbeat", "coloredbeats" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "coloredbeats":
-				case "timesignature":
+				case "timedivision":
 					this.style.backgroundImage = gsuiBeatlines._background(
-						...( this.getAttribute( "timesignature" ) || "4,4" ).split( "," ),
+						...( this.getAttribute( "timedivision" ) || "4/4" ).split( "/" ),
 						this.hasAttribute( "coloredbeats" ) );
 					break;
 				case "pxperbeat":

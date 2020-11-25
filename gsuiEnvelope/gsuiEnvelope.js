@@ -63,8 +63,8 @@ class gsuiEnvelope extends HTMLElement {
 	}
 
 	// .........................................................................
-	timeSignature( a, b ) {
-		this._beatlines.setAttribute( "timesignature", `${ a },${ b }` );
+	timeDivision( a, b ) {
+		this._beatlines.setAttribute( "timedivision", `${ a }/${ b }` );
 		this.updateWave();
 	}
 	updateWave( prop, val ) {
