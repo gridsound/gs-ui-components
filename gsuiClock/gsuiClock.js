@@ -52,20 +52,24 @@ class gsuiClock extends HTMLElement {
 			switch ( prop ) {
 				case "mode":
 				case "bpm":
-					this._resetTime();
+					this.resetTime();
 					break;
 				case "timedivision": {
 					const timediv = val.split( "/" );
 
 					this._bPM = +timediv[ 0 ];
 					this._sPB = +timediv[ 1 ];
-					this._resetTime();
+					this.resetTime();
 				} break;
 			}
 		}
 	}
 
 	// .........................................................................
+	static numbering( from ) {
+		gsuiClock._numbering = +from;
+		document.querySelectorAll( "gsui-clock" ).forEach( el => el.resetTime() );
+	}
 	static parseBeatsToSeconds( beats, bpm ) {
 		const seconds = beats / ( bpm / 60 );
 
@@ -81,8 +85,8 @@ class gsuiClock extends HTMLElement {
 			msteps = beats * sPB - Math.floor( beats * sPB );
 
 		return [
-			`${ measures + 1 }`,
-			`${ steps + 1 }`.padStart( 2, "0" ),
+			`${ measures + gsuiClock._numbering }`,
+			`${ steps + gsuiClock._numbering }`.padStart( 2, "0" ),
 			`${ msteps * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
 		];
 	}
@@ -102,11 +106,11 @@ class gsuiClock extends HTMLElement {
 			this._updateWidth();
 		}
 	}
-
-	// .........................................................................
-	_resetTime() {
+	resetTime() {
 		this.setTime( this._timeSave );
 	}
+
+	// .........................................................................
 	_setValue( ind, val ) {
 		if ( val !== this._values[ ind ] ) {
 			this._nodes[ ind ].textContent =
@@ -128,5 +132,7 @@ class gsuiClock extends HTMLElement {
 		this.onchangeDisplay( dpl );
 	}
 }
+
+gsuiClock._numbering = 1;
 
 customElements.define( "gsui-clock", gsuiClock );
