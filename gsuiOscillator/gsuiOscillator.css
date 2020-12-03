@@ -51,7 +51,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: var( --gsui-font-number, monospace );
+	font-family: var( --gsui-font-number );
 	font-size: 14px;
 	pointer-events: none;
 }
