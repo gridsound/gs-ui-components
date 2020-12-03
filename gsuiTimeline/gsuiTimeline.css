@@ -1,3 +1,7 @@
+:root {
+	--gsuiTimeline-numbering: 1;
+}
+
 .gsuiTimeline {
 	position: relative;
 	display: block;
@@ -36,7 +40,7 @@
 .gsuiTimeline-measures {
 	display: flex;
 	height: 100%;
-	counter-reset: beat calc( var( --gsuiTimeline-beats-offset ) - var( --gsuiTimeline-beats-incr ) + 1 );
+	counter-reset: beat calc( var( --gsuiTimeline-beats-offset ) - var( --gsuiTimeline-beats-incr ) + var( --gsuiTimeline-numbering ) );
 	pointer-events: none;
 }
 .gsuiTimeline-measure {

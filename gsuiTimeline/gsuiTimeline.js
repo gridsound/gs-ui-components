@@ -43,6 +43,10 @@ class gsuiTimeline extends HTMLElement {
 		this.onmousedown = this._onmousedown.bind( this );
 	}
 
+	static numbering( from ) {
+		document.body.style.setProperty( "--gsuiTimeline-numbering", +from );
+	}
+
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
