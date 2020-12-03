@@ -121,7 +121,7 @@ class gsuiClock extends HTMLElement {
 		const len = this._nodes[ 0 ].textContent.length;
 
 		this._wrapRel.style.width =
-		this._wrapRel.style.minWidth = `${ 4.5 + len * .7 }ch`;
+		this._wrapRel.style.minWidth = `${ 4.2 + len * .7 }ch`;
 	}
 
 	// .........................................................................

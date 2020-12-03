@@ -61,10 +61,22 @@
 	margin: 0 .1em;
 }
 .gsuiClock-c {
-	font-size: 14px;
+	font-size: 12px;
 	opacity: .5;
 }
 .gsuiClock-c::before {
 	content: ".";
 	margin: 0 .2em;
 }
+
+.gsuiClock-modeText {
+	position: absolute;
+	top: 4px;
+	right: 0;
+	font-size: 8px;
+	font-family: var( --gsui-font );
+	opacity: .3;
+	pointer-events: none;
+}
+.gsuiClock[ mode="beat" ] .gsuiClock-modeText::before { content: "beat"; }
+.gsuiClock[ mode="second" ] .gsuiClock-modeText::before { content: "sec"; }
