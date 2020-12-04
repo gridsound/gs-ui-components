@@ -9,19 +9,21 @@
 
 /* .......................................................................... */
 .gsuiDrumrows-drop {
-	display: none;
-	height: 1em;
-	order: 1;
+	display: flex;
 	align-items: center;
 	justify-content: center;
+	order: 1;
+	height: 1em;
 	pointer-events: none;
+	opacity: 0;
 }
-.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
-	display: flex;
+.gsuiDrumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
+	opacity: 1;
 }
 .gsuiDrumrows-dropIn {
 	font-size: 24px;
 	opacity: .5;
+	pointer-events: none;
 }
 
 /* .......................................................................... */
@@ -62,6 +64,9 @@
 	height: 1em;
 	min-height: 1em;
 	border-bottom: 1px dashed var( --gsuiDrumrow-border );
+}
+.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-main {
+	opacity: 0;
 }
 .gsuiDrumrow-props {
 	position: absolute;
@@ -236,17 +241,16 @@
 }
 
 /* .......................................................................... */
-.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-btnToggle,
-.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-name,
-.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-waveWrap {
-	opacity: 0;
-}
 .gsuiDrumrow .gsuiDrumrows-drop {
 	position: absolute;
+	pointer-events: auto;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
+}
+.gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrows-drop {
+	opacity: 1;
 }
 .gsuiDrumrow-btnProps,
 .gsuiDrumrow-btnDelete {
