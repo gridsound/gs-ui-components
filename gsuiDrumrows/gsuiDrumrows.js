@@ -16,7 +16,8 @@ class gsuiDrumrows extends HTMLElement {
 		} );
 		this._dragoverId =
 		this._elDragover =
-		this._elLinesParent = null;
+		this._elLinesParent =
+		this._timeoutIdDragleave = null;
 		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrumrows" );
 		Object.seal( this );
 
@@ -24,7 +25,6 @@ class gsuiDrumrows extends HTMLElement {
 		this.onclick = this._onclickRows.bind( this );
 		this.onchange = this._onchangeRows.bind( this );
 		this.ondragover = this._ondragoverRows.bind( this );
-		this.ondragleave = this._ondragleaveRows.bind( this );
 		this.onmousedown = this._onmousedownRows.bind( this );
 		this.oncontextmenu = this._oncontextmenuRows.bind( this );
 		this.onanimationend = this._onanimationendRows.bind( this );
@@ -266,6 +266,8 @@ class gsuiDrumrows extends HTMLElement {
 				isParent = tar.classList.contains( "gsuiDrumrows" ),
 				elDragover = isParent ? tar : tar.closest( ".gsuiDrumrow" );
 
+			clearTimeout( this._timeoutIdDragleave );
+			this._timeoutIdDragleave = setTimeout( () => this._ondragleaveRows(), 125 );
 			if ( elDragover !== this._elDragover ) {
 				this._dragoverId = null;
 				if ( isParent ) {

@@ -23,7 +23,6 @@
 .gsuiDrumrows-dropIn {
 	font-size: 24px;
 	opacity: .5;
-	pointer-events: none;
 }
 
 /* .......................................................................... */
@@ -67,6 +66,7 @@
 }
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-main {
 	opacity: 0;
+	pointer-events: none;
 }
 .gsuiDrumrow-props {
 	position: absolute;
@@ -243,7 +243,6 @@
 /* .......................................................................... */
 .gsuiDrumrow .gsuiDrumrows-drop {
 	position: absolute;
-	pointer-events: auto;
 	top: 0;
 	left: 0;
 	right: 0;
