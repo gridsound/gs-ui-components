@@ -25,6 +25,7 @@ class gsuiDrumrows extends HTMLElement {
 		this.onclick = this._onclickRows.bind( this );
 		this.onchange = this._onchangeRows.bind( this );
 		this.ondragover = this._ondragoverRows.bind( this );
+		this.ondragstart = e => e.stopPropagation();
 		this.onmousedown = this._onmousedownRows.bind( this );
 		this.oncontextmenu = this._oncontextmenuRows.bind( this );
 		this.onanimationend = this._onanimationendRows.bind( this );
