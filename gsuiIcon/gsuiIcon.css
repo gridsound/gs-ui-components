@@ -60,8 +60,6 @@
 /* .......................................................................... */
 .gsuiIcon[ data-icon="github" ]::before { content: "\f09b"; }
 .gsuiIcon[ data-icon="github" ]::after { content: "\10f09b"; }
-.gsuiIcon[ data-icon="github" ]:hover::before { content: "\f113"; }
-.gsuiIcon[ data-icon="github" ]:hover::after { content: "\10f113"; }
 .gsuiIcon[ data-icon="codepen" ]::before { content: "\f1cb"; }
 .gsuiIcon[ data-icon="codepen" ]::after { content: "\10f1cb"; }
 .gsuiIcon[ data-icon="discord" ]::before { content: "\f392"; }
@@ -115,10 +113,6 @@
 .gsuiIcon[ data-icon="redo" ]::after { content: "\10f2f9"; }
 .gsuiIcon[ data-icon="sync" ]::before { content: "\f2f1"; }
 .gsuiIcon[ data-icon="sync" ]::after { content: "\10f2f1"; }
-.gsuiIcon[ data-icon="undo" ]:hover::before { content: "\f0e2"; }
-.gsuiIcon[ data-icon="undo" ]:hover::after { content: "\10f0e2"; }
-.gsuiIcon[ data-icon="redo" ]:hover::before { content: "\f01e"; }
-.gsuiIcon[ data-icon="redo" ]:hover::after { content: "\10f01e"; }
 
 .gsuiIcon[ data-icon="play" ]::before { content: "\f04b"; opacity: .6; }
 .gsuiIcon[ data-icon="play" ]::after { content: "\10f04b"; opacity: 1; }
@@ -168,8 +162,6 @@
 .gsuiIcon[ data-icon="render" ]::after { content: "\10f0e7"; }
 .gsuiIcon[ data-icon="upload" ]::before { content: "\f382"; opacity: 0; }
 .gsuiIcon[ data-icon="upload" ]::after { content: "\10f382"; opacity: 1; }
-.gsuiIcon[ data-icon="upload" ]:hover::before { content: "\f0ee"; opacity: 0; }
-.gsuiIcon[ data-icon="upload" ]:hover::after { content: "\10f0ee"; opacity: 1; }
 .gsuiIcon[ data-icon="export" ]::before { content: "\f019"; }
 .gsuiIcon[ data-icon="export" ]::after { content: "\10f019"; }
 .gsuiIcon[ data-icon="folder-open" ]::before { content: "\f07c"; }
@@ -183,12 +175,8 @@
 
 .gsuiIcon[ data-icon="login" ]::before { content: "\f090"; }
 .gsuiIcon[ data-icon="login" ]::after { content: "\10f090"; }
-.gsuiIcon[ data-icon="login" ]:hover::before { content: "\f2f6"; }
-.gsuiIcon[ data-icon="login" ]:hover::after { content: "\10f2f6"; }
 .gsuiIcon[ data-icon="logout" ]::before { content: "\f08b"; }
 .gsuiIcon[ data-icon="logout" ]::after { content: "\10f08b"; }
-.gsuiIcon[ data-icon="logout" ]:hover::before { content: "\f2f5"; }
-.gsuiIcon[ data-icon="logout" ]:hover::after { content: "\10f2f5"; }
 .gsuiIcon[ data-icon="profile" ]::before { content: "\f2bd"; }
 .gsuiIcon[ data-icon="profile" ]::after { content: "\10f2bd"; }
 .gsuiIcon[ data-icon="musician" ]::before { content: "\f8eb"; }
@@ -250,8 +238,6 @@
 
 .gsuiIcon[ data-icon="cookie" ]::before { content: "\f563"; }
 .gsuiIcon[ data-icon="cookie" ]::after { content: "\10f563"; }
-.gsuiIcon[ data-icon="cookie" ]:hover::before { content: "\f564"; }
-.gsuiIcon[ data-icon="cookie" ]:hover::after { content: "\10f564"; }
 
 .gsuiIcon[ data-icon="link" ]::before { content: "\f0c1"; }
 .gsuiIcon[ data-icon="link" ]::after { content: "\10f0c1"; }
