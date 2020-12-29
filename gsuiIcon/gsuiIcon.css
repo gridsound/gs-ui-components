@@ -113,6 +113,8 @@
 .gsuiIcon[ data-icon="undo" ]::after { content: "\10f2ea"; }
 .gsuiIcon[ data-icon="redo" ]::before { content: "\f2f9"; }
 .gsuiIcon[ data-icon="redo" ]::after { content: "\10f2f9"; }
+.gsuiIcon[ data-icon="sync" ]::before { content: "\f2f1"; }
+.gsuiIcon[ data-icon="sync" ]::after { content: "\10f2f1"; }
 .gsuiIcon[ data-icon="undo" ]:hover::before { content: "\f0e2"; }
 .gsuiIcon[ data-icon="undo" ]:hover::after { content: "\10f0e2"; }
 .gsuiIcon[ data-icon="redo" ]:hover::before { content: "\f01e"; }
