@@ -1,0 +1,50 @@
+<style>
+body {
+	--test-bg-color: #487;
+	--test-content-w: 400px;
+	--test-content-h: 120px;
+}
+gsui-slidergroup {
+	background-color: #0002;
+}
+</style>
+
+<gsui-slidergroup beatlines=""></gsui-slidergroup>
+
+<script>
+TEST( {
+	deps: [
+		"gsuiBeatlines",
+		"gsuiDragshield",
+	],
+	cssFiles: [
+		"gsuiBeatlines/gsuiBeatlines.css",
+		"gsuiDragshield/gsuiDragshield.css",
+		"gsuiSliderGroup/gsuiSliderGroup.colors.default.css",
+		"gsuiSliderGroup/gsuiSliderGroup.css",
+	],
+	jsFiles: [
+		"gsuiBeatlines/gsuiBeatlines.js",
+		"gsuiDragshield/gsuiDragshield.js",
+		"gsuiSliderGroup/gsuiSliderGroup.html.js",
+		"gsuiSliderGroup/gsuiSliderGroup.js",
+	],
+	js: () => {
+		const grp = document.querySelector( "gsui-slidergroup" );
+
+		grp.setPxPerBeat( 64 );
+		grp.minMaxStep( 0, 1, .025 );
+
+		grp.set( "a", 1.0, .25, .5 );
+		grp.set( "b", 1.5, .25, .6 );
+		grp.set( "c", 2.0, .25, .7 );
+		grp.set( "d", 2.5, .25, .8 );
+		grp.set( "e", 3.0, .50, .9 );
+
+		grp.set( "f", 4.00, .25, .5 );
+		grp.set( "g", 4.25, .25, .6 );
+		grp.set( "h", 4.50, .25, .7 );
+		grp.set( "i", 4.75, .25, .8 );
+	},
+} );
+</script>
