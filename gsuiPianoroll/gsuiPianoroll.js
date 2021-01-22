@@ -272,7 +272,7 @@ class gsuiPianoroll {
 	_ongsuiTimewindowPxperbeat( ppb ) {
 		this._blcManager.__pxPerBeat = ppb;
 		this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
-		this._uiSliderGroup.setPxPerBeat( ppb );
+		GSUI.setAttribute( this._uiSliderGroup, "pxperbeat", ppb );
 	}
 	_ongsuiTimewindowLineheight( px ) {
 		this._blcManager.__fontSize = px;
@@ -323,10 +323,10 @@ class gsuiPianoroll {
 			slidGroup = this._uiSliderGroup;
 
 		switch ( nodeName ) {
-			case "pan":      slidGroup.minMaxStep( -1, 1, .02 ); break;
-			case "gain":     slidGroup.minMaxStep(  0, 1, .01 ); break;
-			case "lowpass":  slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
-			case "highpass": slidGroup.minMaxStep(  0, 1, .01, 3 ); break;
+			case "pan":      slidGroup.minMaxStep( { min: -1, max: 1, step: .02 } ); break;
+			case "gain":     slidGroup.minMaxStep( { min:  0, max: 1, step: .01 } ); break;
+			case "lowpass":  slidGroup.minMaxStep( { min:  0, max: 1, step: .01, exp: 3 } ); break;
+			case "highpass": slidGroup.minMaxStep( { min:  0, max: 1, step: .01, exp: 3 } ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
 			this._uiSliderGroup.setProp( id, "value", blc.dataset[ nodeName ] );

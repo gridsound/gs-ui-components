@@ -125,7 +125,7 @@ class gsuiDrums extends HTMLElement {
 		this._pxPerBeat = ppb;
 		this._pxPerStep = ppb / this._stepsPerBeat;
 		this._win.setAttribute( "pxperbeat", ppb );
-		this._sliderGroups.forEach( grp => grp.setPxPerBeat( ppb ) );
+		this._sliderGroups.forEach( grp => grp.setAttribute( "pxperbeat", ppb ) );
 	}
 	setPropValues( rowId, prop, arr ) {
 		const grp = this._sliderGroups.get( rowId );
@@ -133,9 +133,9 @@ class gsuiDrums extends HTMLElement {
 		this._qS( `line[data-id='${ rowId }']` ).dataset.prop = prop;
 		grp.dataset.currentProp = prop;
 		switch ( prop ) {
-			case "pan": grp.minMaxStep( -1, 1, .05 ); break;
-			case "gain": grp.minMaxStep( 0, 1, .02 ); break;
-			case "detune": grp.minMaxStep( -12, 12, 1 ); break;
+			case "pan": grp.minMaxStep( { min: -1, max: 1, step: .05 } ); break;
+			case "gain": grp.minMaxStep( { min: 0, max: 1, step: .02 } ); break;
+			case "detune": grp.minMaxStep( { min: -12, max: 12, step: 1 } ); break;
 		}
 		arr.forEach( kv => grp.setProp( kv[ 0 ], "value", kv[ 1 ] ) );
 	}
@@ -164,7 +164,7 @@ class gsuiDrums extends HTMLElement {
 		const elLine = GSUI.getTemplate( "gsui-drums-line" ),
 			grp = elLine.querySelector( "gsui-slidergroup" );
 
-		grp.setPxPerBeat( this._pxPerBeat );
+		grp.setAttribute( "pxperbeat", this._pxPerBeat );
 		grp.dataset.id = id;
 		this._sliderGroups.set( id, grp );
 		return elLine;
