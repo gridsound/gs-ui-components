@@ -14,8 +14,10 @@ class gsuiSliderGroup extends HTMLElement {
 		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
 		this._min =
 		this._max =
+		this._def =
 		this._exp =
-		this._step = 0;
+		this._step =
+		this._button = 0;
 		this._sliders = new Map();
 		this._selected = new Map();
 		this._valueSaved = new Map();
@@ -29,6 +31,8 @@ class gsuiSliderGroup extends HTMLElement {
 			selected: this._sliderSelected.bind( this ),
 		} );
 		Object.seal( this );
+
+		root.oncontextmenu = () => false;
 	}
 
 	// .........................................................................
@@ -96,9 +100,10 @@ class gsuiSliderGroup extends HTMLElement {
 	minMaxStep( { min, max, def, step, exp } ) {
 		this._min = min;
 		this._max = max;
+		this._def = def ?? max;
 		this._step = step;
 		this._exp = exp ?? 0;
-		this._defValue.style.top = `${ 100 - ( ( def ?? max ) - min ) / ( max - min ) * 100 }%`;
+		this._defValue.style.top = `${ 100 - ( this._def - min ) / ( max - min ) * 100 }%`;
 	}
 
 	// data:
@@ -185,10 +190,9 @@ class gsuiSliderGroup extends HTMLElement {
 	// events:
 	// .........................................................................
 	_mousedown( e ) {
-		if ( !this._evMouseup && e.button === 0 ) {
-			const bcr = this._slidersParent.getBoundingClientRect();
-
-			this._bcr = bcr;
+		if ( !this._evMouseup && ( e.button === 0 || e.button === 2 ) ) {
+			this._bcr = this._slidersParent.getBoundingClientRect();
+			this._button = e.button;
 			this._valueSaved.clear();
 			this._sliders.forEach( ( sli, id ) => this._valueSaved.set( id, sli.value ) );
 			this._evMouseup = this._mouseup.bind( this );
@@ -207,7 +211,9 @@ class gsuiSliderGroup extends HTMLElement {
 			x = e.pageX - this._bcr.left,
 			y = e.pageY - this._bcr.top,
 			xval = x / this.getAttribute( "pxperbeat" ),
-			yval = Math.min( Math.max( 0, 1 - y / this._bcr.height ), 1 ),
+			yval = this._button === 2
+				? this._def
+				: Math.min( Math.max( 0, 1 - y / this._bcr.height ), 1 ),
 			rval = this._roundVal( yval * ( this._max - this._min ) + this._min );
 		let firstWhen = 0;
 
