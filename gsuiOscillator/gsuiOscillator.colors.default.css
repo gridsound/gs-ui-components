@@ -2,11 +2,11 @@
 	--gsuiOscillator-txt: #fff;
 	--gsuiOscillator-txt-low: #fff7;
 	--gsuiOscillator-bg: #666;
-	--gsuiOscillator-pan: #d9f;
-	--gsuiOscillator-gain: #ff9;
+	--gsuiOscillator-pan: var( --gsui-col-pan );
+	--gsuiOscillator-gain: var( --gsui-col-gain );
 	--gsuiOscillator-pan-a: #faa;
 	--gsuiOscillator-pan-b: #aaf;
-	--gsuiOscillator-detune: #fff;
+	--gsuiOscillator-detune: var( --gsui-col-detune );
 	--gsuiOscillator-slider-bg: #0003;
 	--gsuiOscillator-grip-bg: #0002;
 	--gsuiOscillator-wave-bg: #0006;

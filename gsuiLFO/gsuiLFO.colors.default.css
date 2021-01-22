@@ -5,6 +5,6 @@
 	--gsuiLFO-wave-bg: #0004;
 	--gsuiLFO-wave-off: #777;
 	--gsuiLFO-ctrls-bg: #555;
-	--gsuiLFO-ctrls-color: #ff9;
+	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
 	--gsuiLFO-toggle-off: #fff3;
 }

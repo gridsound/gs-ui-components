@@ -2,7 +2,7 @@
 	--gsuiFxFilter-bg: #666;
 	--gsuiFxFilter-inputBg: #555;
 	--gsuiFxFilter-Q: #d7b;
-	--gsuiFxFilter-gain: #ff9;
-	--gsuiFxFilter-detune: #fff;
+	--gsuiFxFilter-gain: var( --gsui-col-gain );
+	--gsuiFxFilter-detune: var( --gsui-col-detune );
 	--gsuiFxFilter-frequency: #8c8;
 }

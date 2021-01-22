@@ -1,8 +1,9 @@
 .gsuiSliderGroup {
-	--gsuiSliderGroup-currentTime-color: #ff9;
+	--gsuiSliderGroup-currentTime-color: var( --gsui-col-currentTimeCursor );
+	--gsuiSliderGroup-defaultValue-color: #0008;
 	--gsuiSliderGroup-slider-width: 6px;
 	--gsuiSliderGroup-slider-bg: #0002;
-	--gsuiSliderGroup-slider-color: var( --gsuiBlocksManager-blockColor );
-	--gsuiSliderGroup-slider-color-selected: var( --gsuiBlocksManager-blockSelectedColor );
+	--gsuiSliderGroup-slider-color: rgba( var( --gsui-rgb-pattern ), .8 );
+	--gsuiSliderGroup-slider-color-selected: rgba( var( --gsui-rgb-patternSelected ), .8 );
 	--gsuiSliderGroup-loop-color: #0004;
 }

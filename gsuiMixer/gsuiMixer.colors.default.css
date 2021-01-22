@@ -5,11 +5,11 @@
 	--gsuiMixerChannel-color: #fff;
 	--gsuiMixerChannel-selected-bg: #666;
 	--gsuiMixerChannel-width: 52px;
-	--gsuiMixerChannel-pan-color: #d9f;
-	--gsuiMixerChannel-gain-color: #ff9;
+	--gsuiMixerChannel-pan-color: var( --gsui-col-pan );
+	--gsuiMixerChannel-gain-color: var( --gsui-col-gain );
 	--gsuiMixerChannel-connect-input-color: #f99;
-	--gsuiMixerChannel-connect-output-color: #ff9;
-	--gsuiMixerChannel-toggle-bg: #ffa;
+	--gsuiMixerChannel-connect-output-color: var( --gsui-col-gain );
+	--gsuiMixerChannel-toggle-bg: var( --gsui-col-gain );
 	--gsuiMixerChannel-toggleOff-bg: #fff2;
 	--gsuiMixerChannel-analyser-bg: #222;
 	--gsuiMixerChannel-name-font: var( --gsui-font );

@@ -17,8 +17,8 @@
 	--gsuiPatterns-synth-placeholder-bg: #0003;
 
 	--gsuiPatterns-pattern-bg: #334;
-	--gsuiPatterns-pattern-selected-bg: #5ac;
-	--gsuiPatterns-pattern-color: #5ac;
+	--gsuiPatterns-pattern-color: var( --gsui-col-pattern );
+	--gsuiPatterns-pattern-selected-bg: var( --gsui-col-pattern );
 	--gsuiPatterns-pattern-selected-color: #223;
 	--gsuiPatterns-pattern-head-bg: #0003;
 	--gsuiPatterns-pattern-head-selected-bg: #fff3;

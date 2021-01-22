@@ -5,5 +5,5 @@
 	--gsuiTimewindow-panel-bg: #555;
 	--gsuiTimewindow-panel-border: #222;
 	--gsuiTimewindow-panelUp-bg: #444;
-	--gsuiTimewindow-currentTime-fill: #ff9;
+	--gsuiTimewindow-currentTime-fill: var( --gsui-col-currentTimeCursor );
 }
