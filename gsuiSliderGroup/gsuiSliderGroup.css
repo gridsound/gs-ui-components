@@ -74,6 +74,13 @@
 	bottom: 0;
 	pointer-events: none;
 }
+.gsuiSliderGroup-defaultValue {
+	position: absolute;
+	left: 0;
+	right: 0;
+	border-top: 1px dashed var( --gsuiSliderGroup-defaultValue-color );
+	pointer-events: none;
+}
 .gsuiSliderGroup-currentTime {
 	width: 2px;
 	margin-left: -1px;

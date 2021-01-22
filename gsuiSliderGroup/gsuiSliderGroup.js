@@ -9,6 +9,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" );
 		this._uiBeatlines = root.querySelector( "gsui-beatlines" );
 		this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
+		this._defValue = root.querySelector( ".gsuiSliderGroup-defaultValue" );
 		this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
 		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
 		this._min =
@@ -92,11 +93,12 @@ class gsuiSliderGroup extends HTMLElement {
 		this._selected.clear();
 		this._valueSaved.clear();
 	}
-	minMaxStep( { min, max, step, exp } ) {
+	minMaxStep( { min, max, def, step, exp } ) {
 		this._min = min;
 		this._max = max;
 		this._step = step;
-		this._exp = exp || 0;
+		this._exp = exp ?? 0;
+		this._defValue.style.top = `${ 100 - ( ( def ?? max ) - min ) / ( max - min ) * 100 }%`;
 	}
 
 	// data:

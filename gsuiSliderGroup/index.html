@@ -32,7 +32,7 @@ TEST( {
 	js: () => {
 		const grp = document.querySelector( "gsui-slidergroup" );
 
-		grp.minMaxStep( { min: 0, max: 1, step: .025 } );
+		grp.minMaxStep( { min: 0, max: 1, step: .025, def: .8 } );
 
 		grp.set( "a", 1.0, .25, .5 );
 		grp.set( "b", 1.5, .25, .6 );
