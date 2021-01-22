@@ -1,0 +1,15 @@
+body {
+	--gsui-rgb-pan: 221, 153, 255;                      /* #d9f */
+	--gsui-rgb-gain: 255, 255, 153;                     /* #ff9 */
+	--gsui-rgb-detune: 255, 255, 255;                   /* #fff */
+	--gsui-rgb-pattern: 85, 170, 204;                   /* #5ac */
+	--gsui-rgb-patternSelected: 255, 136, 136;          /* #f88 */
+	--gsui-rgb-currentTimeCursor: 255, 255, 153;        /* #ff9 */
+
+	--gsui-col-pan: rgb( var( --gsui-rgb-pan ) );
+	--gsui-col-gain: rgb( var( --gsui-rgb-gain ) );
+	--gsui-col-detune: rgb( var( --gsui-rgb-detune ) );
+	--gsui-col-pattern: rgb( var( --gsui-rgb-pattern ) );
+	--gsui-col-patternSelected: rgb( var( --gsui-rgb-patternSelected ) );
+	--gsui-col-currentTimeCursor: rgb( var( --gsui-rgb-currentTimeCursor ) );
+}
