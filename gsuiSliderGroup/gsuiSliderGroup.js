@@ -47,6 +47,11 @@ class gsuiSliderGroup extends HTMLElement {
 			this.append( this.scrollElement );
 			this._updatePxPerBeat();
 			this._slidersParent.onmousedown = this._mousedown.bind( this );
+			GSUI.recallAttributes( this, {
+				pxperbeat: 64,
+				currenttime: 0,
+				timedivision: "4/4",
+			} );
 		}
 	}
 	static get observedAttributes() {
