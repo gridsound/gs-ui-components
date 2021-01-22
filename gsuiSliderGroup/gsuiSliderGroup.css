@@ -55,7 +55,6 @@
 	content: "";
 	position: absolute;
 	box-sizing: border-box;
-	left: var( --gsuiSliderGroup-slider-width );
 	width: 1000000px;
 	height: 100%;
 	border: 0 solid;

@@ -210,11 +210,13 @@ class gsuiSliderGroup extends HTMLElement {
 				: this._sliders,
 			x = e.pageX - this._bcr.left,
 			y = e.pageY - this._bcr.top,
+			min = this._min,
+			max = this._max,
 			xval = x / this.getAttribute( "pxperbeat" ),
 			yval = this._button === 2
-				? this._def
-				: Math.min( Math.max( 0, 1 - y / this._bcr.height ), 1 ),
-			rval = this._roundVal( yval * ( this._max - this._min ) + this._min );
+				? ( this._def - min ) / ( max - min )
+				: 1 - Math.min( Math.max( 0, y / this._bcr.height ), 1 ),
+			rval = this._roundVal( yval * ( max - min ) + min );
 		let firstWhen = 0;
 
 		sliders.forEach( sli => {
