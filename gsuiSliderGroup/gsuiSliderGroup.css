@@ -58,9 +58,7 @@
 	left: var( --gsuiSliderGroup-slider-width );
 	width: 1000000px;
 	height: 100%;
-	border: 0 solid;
-	border-width: 1px 0 0;
-	opacity: .6;
+	border-top: 1px solid;
 }
 .gsuiSliderGroup-sliderInnerDown::after {
 	border-width: 0 0 1px;
@@ -71,7 +69,7 @@
 .gsuiSliderGroup-loop,
 .gsuiSliderGroup-currentTime {
 	position: absolute;
-	z-index: 1000000; /* 1. */
+	z-index: 2147483647;
 	top: 0;
 	bottom: 0;
 	pointer-events: none;
@@ -90,9 +88,3 @@
 .gsuiSliderGroup-loopOn {
 	background-color: var( --gsuiSliderGroup-loop-color );
 }
-
-/*
-1.
-	z-index: 1million; because all the sliders will have undefined high z-index.
-	and we don't put the max value to not interfere with the popup z-index etc.
-*/
