@@ -58,7 +58,8 @@
 	left: var( --gsuiSliderGroup-slider-width );
 	width: 1000000px;
 	height: 100%;
-	border-top: 1px solid;
+	border: 0 solid;
+	border-width: 1px 0 0;
 }
 .gsuiSliderGroup-sliderInnerDown::after {
 	border-width: 0 0 1px;
