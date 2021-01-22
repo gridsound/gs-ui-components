@@ -183,7 +183,7 @@ class gsuiSliderGroup extends HTMLElement {
 	// events:
 	// .........................................................................
 	_mousedown( e ) {
-		if ( !this._evMouseup ) {
+		if ( !this._evMouseup && e.button === 0 ) {
 			const bcr = this._slidersParent.getBoundingClientRect();
 
 			this._bcr = bcr;
