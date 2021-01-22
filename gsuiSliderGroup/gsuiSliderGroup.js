@@ -2,7 +2,15 @@
 
 class gsuiSliderGroup extends HTMLElement {
 	constructor() {
+		const root = GSUI.getTemplate( "gsui-slidergroup" );
+
 		super();
+		this.scrollElement = root;
+		this._slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" );
+		this._uiBeatlines = root.querySelector( "gsui-beatlines" );
+		this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
+		this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
+		this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
 		this._min =
 		this._max =
 		this._exp =
@@ -20,25 +28,24 @@ class gsuiSliderGroup extends HTMLElement {
 			duration: this._sliderDuration.bind( this ),
 			selected: this._sliderSelected.bind( this ),
 		} );
+		Object.seal( this );
 	}
 
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			const withBeatlines = this.hasAttribute( "beatlines" ),
-				root = GSUI.getTemplate( "gsui-slidergroup", withBeatlines );
-
-			this._connected = true;
 			this.classList.add( "gsuiSliderGroup" );
-			this.scrollElement = root;
-			this._slidersParent = root.querySelector( ".gsuiSliderGroup-sliders" );
-			if ( withBeatlines ) {
-				this._uiBeatlines = root.querySelector( "gsui-beatlines" );
-				this._currentTime = root.querySelector( ".gsuiSliderGroup-currentTime" );
-				this._loopA = root.querySelector( ".gsuiSliderGroup-loopA" );
-				this._loopB = root.querySelector( ".gsuiSliderGroup-loopB" );
+			if ( !this.hasAttribute( "beatlines" ) ) {
+				this._uiBeatlines.remove();
+				this._currentTime.remove();
+				this._loopA.remove();
+				this._loopB.remove();
+				this._uiBeatlines =
+				this._currentTime =
+				this._loopA =
+				this._loopB = null;
 			}
-			this.append( root );
+			this.append( this.scrollElement );
 			this._updatePxPerBeat();
 			this._slidersParent.onmousedown = this._mousedown.bind( this );
 		}
@@ -89,9 +96,7 @@ class gsuiSliderGroup extends HTMLElement {
 
 		if ( ppb !== this._pxPerBeat ) {
 			this._pxPerBeat = ppb;
-			if ( this._connected ) {
-				this._updatePxPerBeat();
-			}
+			this._updatePxPerBeat();
 		}
 	}
 
