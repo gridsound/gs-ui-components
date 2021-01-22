@@ -14,8 +14,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._min =
 		this._max =
 		this._exp =
-		this._step =
-		this._pxPerBeat = 0;
+		this._step = 0;
 		this._sliders = new Map();
 		this._selected = new Map();
 		this._valueSaved = new Map();
@@ -51,16 +50,19 @@ class gsuiSliderGroup extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "timedivision", "currenttime", "loopa", "loopb" ];
+		return [ "timedivision", "pxperbeat", "currenttime", "loopa", "loopb" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "currenttime":
-					this._currentTime.style.left = `${ val }em`;
-					break;
 				case "timedivision":
 					this._uiBeatlines.setAttribute( "timedivision", val );
+					break;
+				case "pxperbeat":
+					this._updatePxPerBeat();
+					break;
+				case "currenttime":
+					this._currentTime.style.left = `${ val }em`;
 					break;
 				case "loopa":
 					this._loopA.classList.toggle( "gsuiSliderGroup-loopOn", val );
@@ -90,14 +92,6 @@ class gsuiSliderGroup extends HTMLElement {
 		this._max = max;
 		this._step = step;
 		this._exp = exp;
-	}
-	setPxPerBeat( px ) {
-		const ppb = Math.round( Math.min( Math.max( 8, px ) ), 512 );
-
-		if ( ppb !== this._pxPerBeat ) {
-			this._pxPerBeat = ppb;
-			this._updatePxPerBeat();
-		}
 	}
 
 	// data:
@@ -137,9 +131,11 @@ class gsuiSliderGroup extends HTMLElement {
 		return +( Math.round( val / this._step ) * this._step ).toFixed( 8 );
 	}
 	_updatePxPerBeat() {
-		this._slidersParent.style.fontSize = `${ this._pxPerBeat }px`;
+		const ppb = this.getAttribute( "pxperbeat" );
+
+		this._slidersParent.style.fontSize = `${ ppb }px`;
 		if ( this._uiBeatlines ) {
-			this._uiBeatlines.setAttribute( "pxperbeat", this._pxPerBeat );
+			this._uiBeatlines.setAttribute( "pxperbeat", ppb );
 		}
 	}
 	_sliderWhen( sli, when ) {
@@ -203,7 +199,7 @@ class gsuiSliderGroup extends HTMLElement {
 				: this._sliders,
 			x = e.pageX - this._bcr.left,
 			y = e.pageY - this._bcr.top,
-			xval = x / this._pxPerBeat,
+			xval = x / this.getAttribute( "pxperbeat" ),
 			yval = Math.min( Math.max( 0, 1 - y / this._bcr.height ), 1 ),
 			rval = this._roundVal( yval * ( this._max - this._min ) + this._min );
 		let firstWhen = 0;
