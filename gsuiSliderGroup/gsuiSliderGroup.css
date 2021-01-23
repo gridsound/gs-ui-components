@@ -78,7 +78,7 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	border-top: 1px dashed var( --gsuiSliderGroup-defaultValue-color );
+	border-top: 1px dotted var( --gsuiSliderGroup-defaultValue-color );
 	pointer-events: none;
 }
 .gsuiSliderGroup-currentTime {
