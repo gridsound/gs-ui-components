@@ -323,10 +323,10 @@ class gsuiPianoroll {
 			slidGroup = this._uiSliderGroup;
 
 		switch ( nodeName ) {
-			case "pan":      slidGroup.minMaxStep( { min: -1, max: 1, step: .02 } ); break;
-			case "gain":     slidGroup.minMaxStep( { min:  0, max: 1, step: .01 } ); break;
-			case "lowpass":  slidGroup.minMaxStep( { min:  0, max: 1, step: .01, exp: 3 } ); break;
-			case "highpass": slidGroup.minMaxStep( { min:  0, max: 1, step: .01, exp: 3 } ); break;
+			case "pan":      slidGroup.options( { min:  -1, max:  1, def:  0, step: .05 } ); break;
+			case "gain":     slidGroup.options( { min:   0, max:  1, def: .8, step: .025 } ); break;
+			case "lowpass":  slidGroup.options( { min:   0, max:  1, def:  1, step: .025, exp: 3 } ); break;
+			case "highpass": slidGroup.options( { min:   0, max:  1, def:  1, step: .025, exp: 3 } ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
 			this._uiSliderGroup.setProp( id, "value", blc.dataset[ nodeName ] );

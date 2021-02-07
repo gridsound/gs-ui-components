@@ -133,9 +133,9 @@ class gsuiDrums extends HTMLElement {
 		this._qS( `line[data-id='${ rowId }']` ).dataset.prop = prop;
 		grp.dataset.currentProp = prop;
 		switch ( prop ) {
-			case "pan": grp.minMaxStep( { min: -1, max: 1, step: .05 } ); break;
-			case "gain": grp.minMaxStep( { min: 0, max: 1, step: .02 } ); break;
-			case "detune": grp.minMaxStep( { min: -12, max: 12, step: 1 } ); break;
+			case "pan": grp.options( { min: -1, max: 1, step: .05, def: 0 } ); break;
+			case "gain": grp.options( { min: 0, max: 1, step: .025, def: .8 } ); break;
+			case "detune": grp.options( { min: -12, max: 12, step: 1, def: 0 } ); break;
 		}
 		arr.forEach( kv => grp.setProp( kv[ 0 ], "value", kv[ 1 ] ) );
 	}

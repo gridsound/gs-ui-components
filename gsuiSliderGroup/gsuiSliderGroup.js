@@ -99,7 +99,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._selected.clear();
 		this._valueSaved.clear();
 	}
-	minMaxStep( { min, max, step, exp } ) {
+	options( { min, max, step, exp } ) {
 		this._min = min;
 		this._max = max;
 		this._step = step;
