@@ -2,14 +2,28 @@
 body {
 	--test-bg-color: #487;
 	--test-content-w: 400px;
-	--test-content-h: 120px;
+	--test-content-h: 124px;
 }
-gsui-slidergroup {
+.gsuiSliderGroup {
+	height: 100px;
 	background-color: #0002;
+}
+.prop {
+	display: flex;
+	align-items: center;
+}
+.prop span,
+.prop b {
+	margin-left: 1ch;
 }
 </style>
 
 <gsui-slidergroup beatlines=""></gsui-slidergroup>
+<div class="prop">
+	<input id="defaultValue" type="range" min="0" value=".8" max="1" step=".05"/>
+	<span>default value</span>
+	<b>0.8</b>
+</div>
 
 <script>
 TEST( {
@@ -30,9 +44,16 @@ TEST( {
 		"gsuiSliderGroup/gsuiSliderGroup.js",
 	],
 	js: () => {
-		const grp = document.querySelector( "gsui-slidergroup" );
+		const grp = document.querySelector( "gsui-slidergroup" ),
+			inpDef = document.querySelector( "#defaultValue" );
 
-		grp.minMaxStep( { min: 0, max: 1, step: .025, def: .8 } );
+		inpDef.oninput = () => grp.defaultValue( +inpDef.value );
+		document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
+
+		// grp.minMaxStep( { min: -1, max: 1, step: .025 } );
+		// grp.defaultValue( 0 );
+		grp.minMaxStep( { min: 0, max: 1, step: .025 } );
+		grp.defaultValue( .8 );
 
 		grp.set( "a", 1.0, .25, .5 );
 		grp.set( "b", 1.5, .25, .6 );

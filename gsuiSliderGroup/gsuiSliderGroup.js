@@ -98,13 +98,15 @@ class gsuiSliderGroup extends HTMLElement {
 		this._selected.clear();
 		this._valueSaved.clear();
 	}
-	minMaxStep( { min, max, def, step, exp } ) {
+	minMaxStep( { min, max, step, exp } ) {
 		this._min = min;
 		this._max = max;
-		this._def = def ?? max;
 		this._step = step;
 		this._exp = exp ?? 0;
-		this._defValue.style.top = `${ 100 - ( this._def - min ) / ( max - min ) * 100 }%`;
+	}
+	defaultValue( val ) {
+		this._def = val;
+		this._defValue.style.top = `${ 100 - ( val - this._min ) / ( this._max - this._min ) * 100 }%`;
 	}
 
 	// data:
