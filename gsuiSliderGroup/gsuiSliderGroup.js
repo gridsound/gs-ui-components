@@ -109,7 +109,6 @@ class gsuiSliderGroup extends HTMLElement {
 		this._defValue.style.top = `${ 100 - ( val - this._min ) / ( this._max - this._min ) * 100 }%`;
 	}
 
-	// data:
 	// .........................................................................
 	delete( id ) {
 		this._sliders.get( id ).element.remove();
@@ -120,7 +119,7 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 	set( id, when, duration, value ) {
 		const element = GSUI.getTemplate( "gsui-slidergroup-slider" ),
-			sli = { element };
+			sli = { element, when, duration, value };
 
 		element._slider =
 		element.firstElementChild._slider = sli;
@@ -140,7 +139,6 @@ class gsuiSliderGroup extends HTMLElement {
 		}
 	}
 
-	// private:
 	// .........................................................................
 	_roundVal( val ) {
 		return +( Math.round( val / this._step ) * this._step ).toFixed( 8 );
@@ -154,12 +152,10 @@ class gsuiSliderGroup extends HTMLElement {
 		}
 	}
 	_sliderWhen( sli, when ) {
-		sli.when = when;
 		sli.element.style.left = `${ when }em`;
 		sli.element.style.zIndex = Math.floor( when * 100 );
 	}
 	_sliderDuration( sli, dur ) {
-		sli.dur = dur;
 		sli.element.style.width = `${ dur }em`;
 	}
 	_sliderSelected( sli, b ) {
@@ -178,19 +174,21 @@ class gsuiSliderGroup extends HTMLElement {
 			st = el.style,
 			max = this._max,
 			min = this._min,
-			rval = this._roundVal( val ),
-			valUp = rval >= 0,
-			perc0 = Math.abs( min ) / ( max - min ) * 100,
-			percX = Math.abs( rval ) / ( max - min ) * 100;
+			valNum = Number.isFinite( val ) ? val : this._def,
+			sameDir = min >= 0 === max >= 0,
+			percX = Math.abs( ( valNum - ( sameDir ? min : 0 ) ) ) / ( max - min ) * 100,
+			perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
 
-		sli.value = rval;
 		st.height = `${ percX }%`;
-		st[ valUp ? "top" : "bottom" ] = "auto";
-		st[ valUp ? "bottom" : "top" ] = `${ perc0 }%`;
-		el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", !valUp );
+		if ( el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", valNum < 0 ) ) {
+			st.top = `${ 100 - perc0 }%`;
+			st.bottom = "auto";
+		} else {
+			st.top = "auto";
+			st.bottom = `${ perc0 }%`;
+		}
 	}
 
-	// events:
 	// .........................................................................
 	_mousedown( e ) {
 		if ( !this._evMouseup && ( e.button === 0 || e.button === 2 ) ) {
@@ -202,7 +200,7 @@ class gsuiSliderGroup extends HTMLElement {
 			this._evMousemove = this._mousemove.bind( this );
 			document.addEventListener( "mouseup", this._evMouseup );
 			document.addEventListener( "mousemove", this._evMousemove );
-			window.getSelection().removeAllRanges();
+			GSUI.unselectText();
 			GSUI.dragshield.show( "pointer" );
 			this._mousemove( e );
 		}
@@ -216,10 +214,10 @@ class gsuiSliderGroup extends HTMLElement {
 			min = this._min,
 			max = this._max,
 			xval = x / this.getAttribute( "pxperbeat" ),
-			yval = this._button === 2
-				? ( this._def - min ) / ( max - min )
-				: 1 - Math.min( Math.max( 0, y / this._bcr.height ), 1 ),
-			rval = this._roundVal( yval * ( max - min ) + min );
+			rval = this._button === 2
+				? undefined
+				: this._roundVal( min + ( max - min ) *
+					( 1 - Math.min( Math.max( 0, y / this._bcr.height ), 1 ) ) );
 		let firstWhen = 0;
 
 		sliders.forEach( sli => {
@@ -228,7 +226,8 @@ class gsuiSliderGroup extends HTMLElement {
 			}
 		} );
 		sliders.forEach( sli => {
-			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.dur ) {
+			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
+				sli.value = rval;
 				this._sliderValue( sli, rval );
 				GSUI.dispatchEvent( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
 			}
