@@ -38,8 +38,10 @@ class gsuiSliderGroup extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
+			const beatlines = this.hasAttribute( "beatlines" );
+
 			this.classList.add( "gsuiSliderGroup" );
-			if ( !this.hasAttribute( "beatlines" ) ) {
+			if ( !beatlines ) {
 				this._uiBeatlines.remove();
 				this._currentTime.remove();
 				this._loopA.remove();
@@ -52,11 +54,10 @@ class gsuiSliderGroup extends HTMLElement {
 			this.append( this.scrollElement );
 			this._updatePxPerBeat();
 			this._slidersParent.onmousedown = this._mousedown.bind( this );
-			GSUI.recallAttributes( this, {
-				pxperbeat: 64,
-				currenttime: 0,
-				timedivision: "4/4",
-			} );
+			GSUI.recallAttributes( this, { pxperbeat: 64 } );
+			if ( beatlines ) {
+				GSUI.recallAttributes( this, { currenttime: 0, timedivision: "4/4" } );
+			}
 		}
 	}
 	static get observedAttributes() {
