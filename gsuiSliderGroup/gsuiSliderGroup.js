@@ -119,7 +119,7 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 	set( id, when, duration, value ) {
 		const element = GSUI.getTemplate( "gsui-slidergroup-slider" ),
-			sli = { element, when, duration, value };
+			sli = Object.seal( { element, when, duration, value, selected: false } );
 
 		element._slider =
 		element.firstElementChild._slider = sli;
