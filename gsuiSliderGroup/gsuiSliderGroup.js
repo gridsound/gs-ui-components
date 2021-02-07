@@ -24,7 +24,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._bcr =
 		this._evMouseup =
 		this._evMousemove = null;
-		this._sendUndefinedAsDefault = false;
+		this._undefinedAsDefault = false;
 		this._uiFn = Object.freeze( {
 			when: this._sliderWhen.bind( this ),
 			value: this._sliderValue.bind( this ),
@@ -99,18 +99,16 @@ class gsuiSliderGroup extends HTMLElement {
 		this._selected.clear();
 		this._valueSaved.clear();
 	}
-	options( { min, max, step, exp } ) {
+	options( { min, max, step, exp, undefinedAsDefault } ) {
 		this._min = min;
 		this._max = max;
 		this._step = step;
 		this._exp = exp ?? 0;
+		this._undefinedAsDefault = !!undefinedAsDefault;
 	}
 	defaultValue( val ) {
 		this._def = val;
 		this._defValue.style.top = `${ 100 - ( val - this._min ) / ( this._max - this._min ) * 100 }%`;
-	}
-	sendUndefinedAsDefault( b ) {
-		this._sendUndefinedAsDefault = b;
 	}
 
 	// .........................................................................
@@ -146,6 +144,11 @@ class gsuiSliderGroup extends HTMLElement {
 	// .........................................................................
 	_roundVal( val ) {
 		return +( Math.round( val / this._step ) * this._step ).toFixed( 8 );
+	}
+	_getDefaultValue() {
+		return this._undefinedAsDefault
+			? undefined
+			: this._def;
 	}
 	_updatePxPerBeat() {
 		const ppb = this.getAttribute( "pxperbeat" );
@@ -219,9 +222,7 @@ class gsuiSliderGroup extends HTMLElement {
 			max = this._max,
 			xval = x / this.getAttribute( "pxperbeat" ),
 			rval = this._button === 2
-				? this._sendUndefinedAsDefault
-					? undefined
-					: this._def
+				? this._getDefaultValue()
 				: this._roundVal( min + ( max - min ) *
 					( 1 - Math.min( Math.max( 0, y / this._bcr.height ), 1 ) ) );
 		let firstWhen = 0;
