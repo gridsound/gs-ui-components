@@ -24,6 +24,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this._bcr =
 		this._evMouseup =
 		this._evMousemove = null;
+		this._sendUndefinedAsDefault = false;
 		this._uiFn = Object.freeze( {
 			when: this._sliderWhen.bind( this ),
 			value: this._sliderValue.bind( this ),
@@ -107,6 +108,9 @@ class gsuiSliderGroup extends HTMLElement {
 	defaultValue( val ) {
 		this._def = val;
 		this._defValue.style.top = `${ 100 - ( val - this._min ) / ( this._max - this._min ) * 100 }%`;
+	}
+	sendUndefinedAsDefault( b ) {
+		this._sendUndefinedAsDefault = b;
 	}
 
 	// .........................................................................
@@ -215,7 +219,9 @@ class gsuiSliderGroup extends HTMLElement {
 			max = this._max,
 			xval = x / this.getAttribute( "pxperbeat" ),
 			rval = this._button === 2
-				? undefined
+				? this._sendUndefinedAsDefault
+					? undefined
+					: this._def
 				: this._roundVal( min + ( max - min ) *
 					( 1 - Math.min( Math.max( 0, y / this._bcr.height ), 1 ) ) );
 		let firstWhen = 0;
