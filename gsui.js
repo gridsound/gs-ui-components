@@ -80,7 +80,9 @@ const GSUI = {
 	unselectText() {
 		window.getSelection().removeAllRanges();
 	},
-	setAttribute( el, attr, val = "" ) {
+	setAttribute( el, attr, valBrut ) {
+		const val = arguments.length === 2 || valBrut;
+
 		val === false || val === null || val === undefined
 			? el.removeAttribute( attr )
 			: el.setAttribute( attr, val === true ? "" : val );
