@@ -33,7 +33,7 @@
 	font: inherit;
 	color: inherit;
 	cursor: pointer;
-	font-size: 12px;
+	font-size: 11px;
 	user-select: none;
 	border-radius: 4px;
 	background-color: #fff2;
@@ -49,5 +49,5 @@
 	opacity: 1;
 }
 .gsuiPianoroll-slidersSelect option {
-	padding: 2px;
+	padding: 1px 4px;
 }
