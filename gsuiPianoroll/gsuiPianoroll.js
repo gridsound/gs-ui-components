@@ -174,7 +174,11 @@ class gsuiPianoroll {
 		const blc = this._blcManager.__blcs.get( id );
 
 		this._blockDOMChange( blc, prop, val );
-		GSUI.setAttribute( blc, `data-${ prop === "key" ? "key-note" : prop }`, val );
+		if ( val ) {
+			blc.dataset[ prop === "key" ? "keyNote" : prop ] = val;
+		} else {
+			delete blc.dataset[ prop ];
+		}
 		if ( prop === "selected" ) {
 			val
 				? this._blcManager.__blcsSelected.set( id, blc )
@@ -375,7 +379,10 @@ class gsuiPianoroll {
 			case "lfoSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
-			this._uiSliderGroup.setProp( id, "value", blc.dataset[ nodeName ] );
+			const val = blc.dataset[ nodeName ],
+				val2 = nodeName !== "lfoSpeed" ? val : gsuiPianoroll._mulToX( val );
+
+			this._uiSliderGroup.setProp( id, "value", val2 );
 		} );
 	}
 
