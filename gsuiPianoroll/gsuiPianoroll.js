@@ -174,10 +174,10 @@ class gsuiPianoroll {
 		const blc = this._blcManager.__blcs.get( id );
 
 		this._blockDOMChange( blc, prop, val );
-		if ( val ) {
-			blc.dataset[ prop === "key" ? "keyNote" : prop ] = val;
-		} else {
+		if ( val === null ) {
 			delete blc.dataset[ prop ];
+		} else {
+			blc.dataset[ prop === "key" ? "keyNote" : prop ] = val;
 		}
 		if ( prop === "selected" ) {
 			val
@@ -368,10 +368,10 @@ class gsuiPianoroll {
 		}
 	}
 	_onchangeSlidersSelect() {
-		const nodeName = this._slidersSelect.value,
+		const prop = this._slidersSelect.value,
 			grp = this._uiSliderGroup;
 
-		switch ( nodeName ) {
+		switch ( prop ) {
 			case "pan":      grp.options( { min: -1, max:  1, def:  0, step: .05 } ); break;
 			case "gain":     grp.options( { min:  0, max: 1, def: .8, step: .025 } ); break;
 			case "lowpass":  grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
@@ -379,7 +379,7 @@ class gsuiPianoroll {
 			case "lfoSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
-			const val = blc.dataset[ nodeName ],
+			const val = +blc.dataset[ prop ],
 				val2 = nodeName !== "lfoSpeed" ? val : gsuiPianoroll._mulToX( val );
 
 			this._uiSliderGroup.setProp( id, "value", val2 );
