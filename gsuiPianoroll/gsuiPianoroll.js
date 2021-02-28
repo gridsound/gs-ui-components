@@ -14,9 +14,9 @@ class gsuiPianoroll {
 				pxperbeatmin: 20,
 				pxperbeatmax: 200,
 				downpanel: "",
-				downpanelsize: 106,
-				downpanelsizemin: 100,
-				downpanelsizemax: 150,
+				downpanelsize: 120,
+				downpanelsizemin: 120,
+				downpanelsizemax: 160,
 			} ),
 			selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } ),
 			blcManager = new gsuiBlocksManager( {
@@ -54,12 +54,13 @@ class gsuiPianoroll {
 		this._currKeyDuration = 1;
 		this._selectionElement = selectionElement;
 		this._uiSliderGroup = GSUI.createElement( "gsui-slidergroup", { beatlines: "" } );
-		this._slidersSelect = GSUI.createElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 5 },
+		this._slidersSelect = GSUI.createElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 6 },
 			GSUI.createElement( "option", { value: "gain", selected: "" }, "gain" ),
 			GSUI.createElement( "option", { value: "pan" }, "pan" ),
 			GSUI.createElement( "option", { value: "lowpass" }, "lowpass" ),
 			GSUI.createElement( "option", { value: "highpass" }, "highpass" ),
 			GSUI.createElement( "option", { value: "lfoSpeed" }, "lfo.speed" ),
+			GSUI.createElement( "option", { value: "lfoAmp" }, "lfo.amp" ),
 		);
 
 		root.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
@@ -155,6 +156,7 @@ class gsuiPianoroll {
 		this._blockDOMChange( blc, "lowpass", obj.lowpass );
 		this._blockDOMChange( blc, "highpass", obj.highpass );
 		this._blockDOMChange( blc, "lfoSpeed", obj.lfoSpeed );
+		this._blockDOMChange( blc, "lfoAmp", obj.lfoAmp );
 		this._blockDOMChange( blc, "prev", obj.prev );
 		this._blockDOMChange( blc, "next", obj.next );
 	}
@@ -235,6 +237,7 @@ class gsuiPianoroll {
 			case "highpass":
 				this._blockSliderUpdate( prop, el, val );
 				break;
+			case "lfoAmp":
 			case "lfoSpeed":
 				this._blockSliderUpdate( prop, el, gsuiPianoroll._mulToX( val ) );
 				break;
@@ -319,7 +322,7 @@ class gsuiPianoroll {
 
 		d.component = "gsuiPianoroll";
 		d.eventName = "changeKeysProps";
-		if ( prop === "lfoSpeed" ) {
+		if ( prop.startsWith( "lfo" ) ) {
 			d.args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll._xToMul( v[ 1 ] ) );
 		}
 		d.args.unshift( prop );
@@ -392,11 +395,14 @@ class gsuiPianoroll {
 			case "gain":     grp.options( { min:  0, max: 1, def: .8, step: .025 } ); break;
 			case "lowpass":  grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
 			case "highpass": grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "lfoAmp":   grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 			case "lfoSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
 			const val = +blc.dataset[ prop ],
-				val2 = nodeName !== "lfoSpeed" ? val : gsuiPianoroll._mulToX( val );
+				val2 = prop.startsWith( "lfo" )
+					? gsuiPianoroll._mulToX( val )
+					: val;
 
 			this._uiSliderGroup.setProp( id, "value", val2 );
 		} );
