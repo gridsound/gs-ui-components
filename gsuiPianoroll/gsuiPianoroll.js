@@ -4,9 +4,9 @@ class gsuiPianoroll {
 	constructor( cb ) {
 		const root = gsuiPianoroll.template.cloneNode( true ),
 			win = GSUI.createElement( "gsui-timewindow", {
-				panelsize: 90,
-				panelsizemin: 70,
-				panelsizemax: 120,
+				panelsize: 100,
+				panelsizemin: 100,
+				panelsizemax: 130,
 				lineheight: 20,
 				lineheightmin: 12,
 				lineheightmax: 32,
@@ -274,6 +274,8 @@ class gsuiPianoroll {
 				break;
 			case "gsuiSliderGroup":
 				switch ( e.detail.eventName ) {
+					case "input": return this._ongsuiSliderGroupInput( e.detail.args[ 1 ] );
+					case "inputEnd": return this._ongsuiSliderGroupInputEnd();
 					case "change": return this._ongsuiSliderGroupChange( e );
 				}
 				break;
@@ -296,6 +298,20 @@ class gsuiPianoroll {
 	_ongsuiTimelineChangeLoop( a, b ) {
 		GSUI.setAttribute( this._uiSliderGroup, "loopa", a );
 		GSUI.setAttribute( this._uiSliderGroup, "loopb", b );
+	}
+	_ongsuiSliderGroupInput( val ) {
+		const prop = this._slidersSelect.value;
+
+		Array.prototype.find.call( this._slidersSelect.children,
+			o => o.value === prop ).dataset.number = ( prop.startsWith( "lfo" )
+			? gsuiPianoroll._xToMul( val )
+			: val ).toFixed( 2 );
+	}
+	_ongsuiSliderGroupInputEnd() {
+		const prop = this._slidersSelect.value;
+
+		delete Array.prototype.find.call( this._slidersSelect.children,
+			o => o.value === prop ).dataset.number;
 	}
 	_ongsuiSliderGroupChange( e ) {
 		const d = e.detail,
