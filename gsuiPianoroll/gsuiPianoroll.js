@@ -59,8 +59,8 @@ class gsuiPianoroll {
 			GSUI.createElement( "option", { value: "pan" }, "pan" ),
 			GSUI.createElement( "option", { value: "lowpass" }, "lowpass" ),
 			GSUI.createElement( "option", { value: "highpass" }, "highpass" ),
-			GSUI.createElement( "option", { value: "lfoSpeed" }, "lfo.speed" ),
-			GSUI.createElement( "option", { value: "lfoAmp" }, "lfo.amp" ),
+			GSUI.createElement( "option", { value: "lfoGainSpeed" }, "gain.lfo.speed" ),
+			GSUI.createElement( "option", { value: "lfoGainAmp" }, "gain.lfo.amp" ),
 		);
 
 		root.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
@@ -155,8 +155,8 @@ class gsuiPianoroll {
 		this._blockDOMChange( blc, "gain", obj.gain );
 		this._blockDOMChange( blc, "lowpass", obj.lowpass );
 		this._blockDOMChange( blc, "highpass", obj.highpass );
-		this._blockDOMChange( blc, "lfoSpeed", obj.lfoSpeed );
-		this._blockDOMChange( blc, "lfoAmp", obj.lfoAmp );
+		this._blockDOMChange( blc, "lfoGainSpeed", obj.lfoGainSpeed );
+		this._blockDOMChange( blc, "lfoGainAmp", obj.lfoGainAmp );
 		this._blockDOMChange( blc, "prev", obj.prev );
 		this._blockDOMChange( blc, "next", obj.next );
 	}
@@ -237,8 +237,8 @@ class gsuiPianoroll {
 			case "highpass":
 				this._blockSliderUpdate( prop, el, val );
 				break;
-			case "lfoAmp":
-			case "lfoSpeed":
+			case "lfoGainAmp":
+			case "lfoGainSpeed":
 				this._blockSliderUpdate( prop, el, gsuiPianoroll._mulToX( val ) );
 				break;
 		}
@@ -391,12 +391,12 @@ class gsuiPianoroll {
 			grp = this._uiSliderGroup;
 
 		switch ( prop ) {
-			case "pan":      grp.options( { min: -1, max:  1, def:  0, step: .05 } ); break;
-			case "gain":     grp.options( { min:  0, max: 1, def: .8, step: .025 } ); break;
-			case "lowpass":  grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
-			case "highpass": grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
-			case "lfoAmp":   grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
-			case "lfoSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
+			case "pan":          grp.options( { min: -1, max:  1, def:  0, step: .05 } ); break;
+			case "gain":         grp.options( { min:  0, max: 1, def: .8, step: .025 } ); break;
+			case "lowpass":      grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "highpass":     grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "lfoGainAmp":   grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
+			case "lfoGainSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
 			const val = +blc.dataset[ prop ],
