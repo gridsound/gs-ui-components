@@ -1,0 +1,36 @@
+<style>
+body {
+	--test-bg-color: #734;
+	--test-content-w: 400px;
+	--test-content-h: 130px;
+}
+</style>
+
+<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".1" decay=".1" substain=".7" release="1"></gsui-envelope>
+
+<script>
+TEST( {
+	deps: [
+		"gsuiIcon",
+		"gsuiBeatlines",
+		"gsuiEnvelopeGraph",
+		"gsuiSlider",
+	],
+	cssFiles: [
+		"gsuiIcon/gsuiIcon.css",
+		"gsuiBeatlines/gsuiBeatlines.css",
+		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.css",
+		"gsuiSlider/gsuiSlider.css",
+		"gsuiEnvelope/gsuiEnvelope.colors.default.css",
+		"gsuiEnvelope/gsuiEnvelope.css",
+	],
+	jsFiles: [
+		"gsuiBeatlines/gsuiBeatlines.js",
+		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.js",
+		"gsuiSlider/gsuiSlider.html.js",
+		"gsuiSlider/gsuiSlider.js",
+		"gsuiEnvelope/gsuiEnvelope.html.js",
+		"gsuiEnvelope/gsuiEnvelope.js",
+	],
+} );
+</script>
