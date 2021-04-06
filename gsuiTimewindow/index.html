@@ -66,15 +66,8 @@ TEST( {
 			rows = [];
 
 		for ( let i = 0; i < 10; ++i ) {
-			const trk = document.createElement( "div" ),
-				row = document.createElement( "div" );
-
-			trk.className = "myRow";
-			row.className = "myRow";
-			trk.textContent = `track ${ i }`;
-			row.textContent = `row ${ i }`;
-			tracks.push( trk );
-			rows.push( row );
+			tracks.push( GSUI.createElement( "div", { class: "myRow" }, `track ${ i }` ) );
+			rows.push( GSUI.createElement( "div", { class: "myRow" }, `row ${ i }` ) );
 		}
 		document.querySelector( ".gsuiTimewindow-panelContent" ).append( ...tracks );
 		document.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
