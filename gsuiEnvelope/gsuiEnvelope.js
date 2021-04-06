@@ -5,6 +5,7 @@ class gsuiEnvelope extends HTMLElement {
 		const children = GSUI.getTemplate( "gsui-envelope" ),
 			elWave = children[ 1 ].firstChild,
 			beatlines = children[ 6 ].firstChild,
+			graph = children[ 6 ].lastChild,
 			sliders = Object.freeze( {
 				attack: [ children[ 1 ].lastChild.firstChild, children[ 1 ].firstChild.lastChild ],
 				hold: [ children[ 2 ].lastChild.firstChild, children[ 2 ].firstChild.lastChild ],
@@ -18,6 +19,7 @@ class gsuiEnvelope extends HTMLElement {
 		this._wave = elWave.firstChild;
 		this._sliders = sliders;
 		this._beatlines = beatlines;
+		this._graph = graph;
 		this._dur = 4;
 		this._waveWidth = 300;
 		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEnvelope" );
@@ -38,6 +40,16 @@ class gsuiEnvelope extends HTMLElement {
 			this.classList.add( "gsuiEnvelope" );
 			this.append( ...this._children );
 			this._children = null;
+			GSUI.recallAttributes( this, {
+				toggle: false,
+				timedivision: "4/4",
+				attack: .1,
+				hold: .1,
+				decay: .1,
+				substain: .8,
+				release: 1,
+			} );
+			this.updateWave();
 		}
 		GSUI.observeSizeOf( this, this._onresize );
 	}
@@ -50,7 +62,7 @@ class gsuiEnvelope extends HTMLElement {
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "toggle": this._changeToggle( val === "true" ); break;
+				case "toggle": this._changeToggle( val !== null ); break;
 				case "attack":
 				case "hold":
 				case "decay":
@@ -68,16 +80,17 @@ class gsuiEnvelope extends HTMLElement {
 		this.updateWave();
 	}
 	updateWave( prop, val ) {
-		// const w = this._wave;
+		const g = this._graph,
+			bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
 
-		// w.type = this.getAttribute( "type" );
-		// w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );
-		// w.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
-		// w.frequency = prop === "speed" ? val : +this.getAttribute( "speed" );
-		// w.amplitude = prop === "amp" ? val : +this.getAttribute( "amp" );
-		// w.duration =
-		// this._dur = Math.max( w.delay + w.attack + 2, this._beatlines.getBeatsPerMeasure() );
-		// w.draw();
+		g.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
+		g.hold = prop === "hold" ? val : +this.getAttribute( "hold" );
+		g.decay = prop === "decay" ? val : +this.getAttribute( "decay" );
+		g.substain = prop === "substain" ? val : +this.getAttribute( "substain" );
+		g.release = prop === "release" ? val : +this.getAttribute( "release" );
+		g.duration =
+		this._dur = Math.ceil( Math.max( g.attack + g.hold + g.decay + .5 + g.release, bPM ) );
+		g.draw();
 		this._updatePxPerBeat();
 	}
 
@@ -113,11 +126,14 @@ class gsuiEnvelope extends HTMLElement {
 	_onresize() {
 		this._waveWidth = this._beatlines.getBoundingClientRect().width;
 		this._updatePxPerBeat();
-		// this._wave.resized();
+		this._graph.resized();
 	}
 	_onchangeForm( e ) {
 		switch ( e.target.name ) {
-			case "gsuiEnvelope-toggle": this._dispatch( "toggle" ); break;
+			case "gsuiEnvelope-toggle":
+				GSUI.setAttribute( this, "toggle", !this.classList.contains( "gsuiEnvelope-enable" ) );
+				this._dispatch( "toggle" );
+				break;
 		}
 	}
 	_oninputSlider( prop, val ) {
@@ -126,6 +142,7 @@ class gsuiEnvelope extends HTMLElement {
 		this._dispatch( "liveChange", prop, val );
 	}
 	_onchangeSlider( prop, val ) {
+		GSUI.setAttribute( this, prop, val );
 		this._dispatch( "change", prop, val );
 	}
 }

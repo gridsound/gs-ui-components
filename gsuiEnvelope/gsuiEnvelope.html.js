@@ -28,6 +28,7 @@ GSUI.setTemplate( "gsui-envelope", () => {
 		) ),
 		GSUI.createElement( "div", { class: "gsuiEnvelope-graph" },
 			GSUI.createElement( "gsui-beatlines", { coloredbeats: "" } ),
+			GSUI.createElement( "gsui-envelopegraph" ),
 		),
 	].flat( 1 );
 } );

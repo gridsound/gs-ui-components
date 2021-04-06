@@ -1,6 +1,7 @@
 .gsuiEnvelope {
 	display: grid;
 	height: 100%;
+	min-height: 100px;
 	box-sizing: border-box;
 	grid-gap: 6px;
 	grid-template:
@@ -106,14 +107,14 @@
 	border-radius: 4px;
 	background-color: var( --gsuiEnvelope-wave-bg );
 }
-.gsuiEnvelope-graph svg {
+.gsuiEnvelope .gsuiEnvelopeGraph {
 	position: absolute;
-	/*top: 6px;*/
-	/*height: calc( 100% - 12px );*/
+	top: 4px;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	color: var( --gsuiEnvelope-wave-off );
-	stroke-width: 2px;
-	transition: color .2s;
 }
-.gsuiEnvelope-enable svg {
+.gsuiEnvelope-enable .gsuiEnvelopeGraph {
 	color: var( --gsuiEnvelope-ctrls-color );
 }
