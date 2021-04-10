@@ -89,7 +89,7 @@ class gsuiEnvelope extends HTMLElement {
 		g.substain = prop === "substain" ? val : +this.getAttribute( "substain" );
 		g.release = prop === "release" ? val : +this.getAttribute( "release" );
 		g.duration =
-		this._dur = Math.ceil( Math.max( g.attack + g.hold + g.decay + .5 + g.release, bPM ) );
+		this._dur = Math.max( g.attack + g.hold + g.decay + 1 + g.release, bPM );
 		g.draw();
 		this._updatePxPerBeat();
 	}
