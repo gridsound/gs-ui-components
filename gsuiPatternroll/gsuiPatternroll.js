@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiPatternroll {
-	constructor( cb ) {
+	constructor() {
 		const root = GSUI.createElement( "div", { class: "gsuiBlocksManager gsuiPatternroll", tabindex: -1 } ),
 			win = GSUI.createElement( "gsui-timewindow", {
 				panelsize: 90,
@@ -28,16 +28,15 @@ class gsuiPatternroll {
 				managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
 				managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
 				managercallCroppingB: ( blcsMap, wIncr ) => this.onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
-				...cb,
 			} );
 
-		this._win = win;
 		this.rootElement = root;
 		this.timeline = win._elTimeline;
+		this.onchange =
+		this.onaddBlock =
+		this.oneditBlock = null;
+		this._win = win;
 		this._tracklist = new gsuiTracklist();
-		this.onchange = cb.onchange;
-		this.onaddBlock = cb.onaddBlock;
-		this.oneditBlock = cb.oneditBlock;
 		this._blcManager = blcManager;
 		this._selectionElement = selectionElement;
 		this._rowsByTrackId = new Map();
@@ -97,6 +96,12 @@ class gsuiPatternroll {
 	// ........................................................................
 	setData( data ) {
 		this._blcManager.setData( data );
+	}
+	setCallbacks( cb ) {
+		this.onchange = cb.onchange;
+		this.onaddBlock = cb.onaddBlock;
+		this.oneditBlock =
+		this._blcManager._opts.oneditBlock = cb.oneditBlock;
 	}
 	attached() {
 		this.rootElement.append( this._win );

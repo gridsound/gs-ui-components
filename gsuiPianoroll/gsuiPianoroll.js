@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiPianoroll {
-	constructor( cb ) {
+	constructor() {
 		const root = GSUI.createElement( "div", { class: "gsuiBlocksManager gsuiPianoroll", tabindex: -1 } ),
 			win = GSUI.createElement( "gsui-timewindow", {
 				panelsize: 100,
@@ -31,14 +31,13 @@ class gsuiPianoroll {
 				managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
 				managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
 				managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
-				...cb,
 			} );
 
-		this._win = win;
 		this.rootElement = root;
 		this.timeline = win._elTimeline;
 		this.uiKeys = GSUI.createElement( "gsui-keys" );
-		this.onchange = cb.onchange;
+		this.onchange = null;
+		this._win = win;
 		this._blcManager = blcManager;
 		this._rowsByMidi = {};
 		this._currKeyDuration = 1;
@@ -67,6 +66,9 @@ class gsuiPianoroll {
 	}
 	setData( data ) {
 		this._blcManager.setData( data );
+	}
+	setCallbacks( cb ) {
+		this.onchange = cb.onchange;
 	}
 	attached() {
 		this.rootElement.append( this._win );
