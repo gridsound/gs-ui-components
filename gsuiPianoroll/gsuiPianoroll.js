@@ -2,7 +2,7 @@
 
 class gsuiPianoroll {
 	constructor( cb ) {
-		const root = gsuiPianoroll.template.cloneNode( true ),
+		const root = GSUI.createElement( "div", { class: "gsuiBlocksManager gsuiPianoroll", tabindex: -1 } ),
 			win = GSUI.createElement( "gsui-timewindow", {
 				panelsize: 100,
 				panelsizemin: 100,
@@ -118,7 +118,7 @@ class gsuiPianoroll {
 	// Block's UI functions
 	// ........................................................................
 	addKey( id, obj ) {
-		const blc = gsuiPianoroll.blockTemplate.cloneNode( true ),
+		const blc = GSUI.getTemplate( "gsui-pianoroll-block" ),
 			dragline = new gsuiDragline();
 
 		blc.dataset.id = id;
@@ -403,11 +403,3 @@ class gsuiPianoroll {
 		this.onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
 	}
 }
-
-gsuiPianoroll.template = document.querySelector( "#gsuiPianoroll-template" );
-gsuiPianoroll.template.remove();
-gsuiPianoroll.template.removeAttribute( "id" );
-
-gsuiPianoroll.blockTemplate = document.querySelector( "#gsuiPianoroll-block-template" );
-gsuiPianoroll.blockTemplate.remove();
-gsuiPianoroll.blockTemplate.removeAttribute( "id" );
