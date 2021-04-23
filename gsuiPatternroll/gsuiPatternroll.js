@@ -2,7 +2,7 @@
 
 class gsuiPatternroll {
 	constructor( cb ) {
-		const root = gsuiPatternroll.template.cloneNode( true ),
+		const root = GSUI.createElement( "div", { class: "gsuiBlocksManager gsuiPatternroll", tabindex: -1 } ),
 			win = GSUI.createElement( "gsui-timewindow", {
 				panelsize: 90,
 				panelsizemin: 24,
@@ -65,7 +65,7 @@ class gsuiPatternroll {
 
 	// ........................................................................
 	addBlock( id, obj ) {
-		const elBlc = gsuiPatternroll.blockTemplate.cloneNode( true );
+		const elBlc = GSUI.getTemplate( "gsui-patternroll-block" );
 
 		elBlc.dataset.id = id;
 		elBlc.dataset.pattern = obj.pattern;
@@ -187,10 +187,3 @@ class gsuiPatternroll {
 		}
 	}
 }
-
-gsuiPatternroll.template = document.querySelector( "#gsuiPatternroll-template" );
-gsuiPatternroll.template.remove();
-gsuiPatternroll.template.removeAttribute( "id" );
-gsuiPatternroll.blockTemplate = document.querySelector( "#gsuiPatternroll-block-template" );
-gsuiPatternroll.blockTemplate.remove();
-gsuiPatternroll.blockTemplate.removeAttribute( "id" );
