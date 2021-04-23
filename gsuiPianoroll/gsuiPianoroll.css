@@ -58,7 +58,7 @@
 	font-weight: bold;
 	font-family: var( --gsui-font-number );
 }
-.gsuiPianoroll-slidersSelect option[ value^="lfo" ]::after {
+.gsuiPianoroll-slidersSelect option[ value^="gainLFO" ]::after {
 	content: "x" attr( data-number );
 }
 .gsuiPianoroll-slidersSelect option:not( [ data-number ] )::after {

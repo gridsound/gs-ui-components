@@ -306,7 +306,7 @@ class gsuiPianoroll {
 		const prop = this._slidersSelect.value;
 
 		Array.prototype.find.call( this._slidersSelect.children,
-			o => o.value === prop ).dataset.number = ( prop.startsWith( "lfo" )
+			o => o.value === prop ).dataset.number = ( prop.startsWith( "gainLFO" )
 			? gsuiPianoroll._xToMul( val )
 			: val ).toFixed( 2 );
 	}
@@ -322,7 +322,7 @@ class gsuiPianoroll {
 
 		d.component = "gsuiPianoroll";
 		d.eventName = "changeKeysProps";
-		if ( prop.startsWith( "lfo" ) ) {
+		if ( prop.startsWith( "gainLFO" ) ) {
 			d.args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll._xToMul( v[ 1 ] ) );
 		}
 		d.args.unshift( prop );
@@ -400,7 +400,7 @@ class gsuiPianoroll {
 		}
 		this._blcManager.__blcs.forEach( ( blc, id ) => {
 			const val = +blc.dataset[ prop ],
-				val2 = prop.startsWith( "lfo" )
+				val2 = prop.startsWith( "gainLFO" )
 					? gsuiPianoroll._mulToX( val )
 					: val;
 
