@@ -23,16 +23,6 @@ gsuiBlocksManager.__mouseupFns = new Map( [
 			this._opts.managercallMoving( blcsEditing, this.__valueA, this.__valueB );
 		}
 	} ],
-	[ "attack", function( blcsEditing ) {
-		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this._opts.managercallAttack( blcsEditing, this.__valueA );
-		}
-	} ],
-	[ "release", function( blcsEditing ) {
-		if ( Math.abs( this.__valueA ) > .000001 ) {
-			this._opts.managercallRelease( blcsEditing, this.__valueA );
-		}
-	} ],
 	[ "deleting", function( blcsEditing ) {
 		if ( blcsEditing.size || this.__blcsSelected.size ) {
 			this._opts.managercallDeleting( blcsEditing );
