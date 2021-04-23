@@ -29,12 +29,11 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 				const fnAct = gsuiBlocksManager.__mousedownFns.get( e.target.dataset.action );
 
 				if ( fnAct ) {
-					const data = this._opts.getData(),
-						blcsEditing = this.__fillBlcsMap( blc );
+					const blcsEditing = this.__fillBlcsMap( blc );
 
 					blc.classList.add( "gsui-hover" );
 					e.target.classList.add( "gsui-hover" );
-					fnAct.call( this, data, blcsEditing, blc, e );
+					fnAct.call( this, this._data, blcsEditing, blc, e );
 				}
 			}
 		}

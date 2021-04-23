@@ -65,6 +65,9 @@ class gsuiPianoroll {
 	reset() {
 		this._currKeyDuration = 1;
 	}
+	setData( data ) {
+		this._blcManager.setData( data );
+	}
 	attached() {
 		this.rootElement.append( this._win );
 		this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );

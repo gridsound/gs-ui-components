@@ -6,6 +6,7 @@ class gsuiBlocksManager {
 
 		this.rootElement = root;
 		this.timeline = opts.timeline;
+		this._data = null;
 		this._opts = opts;
 		this._opts.oneditBlock = opts.oneditBlock || GSUI.noop;
 		this._blockDOMChange = opts.blockDOMChange;
@@ -19,6 +20,11 @@ class gsuiBlocksManager {
 
 		root.onkeydown = this.__keydown.bind( this );
 		this.__eventReset();
+	}
+
+	// ............................................................................................
+	setData( data ) {
+		this._data = data;
 	}
 
 	// ............................................................................................
@@ -61,11 +67,9 @@ class gsuiBlocksManager {
 		return blcs;
 	}
 	__unselectBlocks( obj ) {
-		const dat = this._opts.getData();
-
 		this.__blcsSelected.forEach( ( blc, id ) => {
 			if ( !( id in obj ) ) {
-				dat[ id ].selected = false;
+				this._data[ id ].selected = false;
 				obj[ id ] = { selected: false };
 			}
 		} );
@@ -88,8 +92,7 @@ class gsuiBlocksManager {
 
 	// ............................................................................................
 	__keydown( e ) {
-		const dat = this._opts.getData(),
-			blcsEditing = this.__blcsEditing;
+		const blcsEditing = this.__blcsEditing;
 
 		switch ( e.key ) {
 			case "Delete":
@@ -102,16 +105,15 @@ class gsuiBlocksManager {
 			case "b": // copy paste
 				if ( e.ctrlKey || e.altKey ) {
 					if ( this.__blcsSelected.size ) {
-						const data = this._opts.getData();
 						let whenMin = Infinity,
 							whenMax = 0;
 
 						blcsEditing.clear();
 						this.__blcsSelected.forEach( ( blc, id ) => {
-							const dat = data[ id ];
+							const d = this._data[ id ];
 
-							whenMin = Math.min( whenMin, dat.when );
-							whenMax = Math.max( whenMax, dat.when + dat.duration );
+							whenMin = Math.min( whenMin, d.when );
+							whenMax = Math.max( whenMax, d.when + d.duration );
 							blcsEditing.set( id, blc );
 						} );
 						whenMax = this.timeline.beatCeil( whenMax ) - whenMin;
@@ -133,7 +135,7 @@ class gsuiBlocksManager {
 						const ids = [];
 
 						this.__blcs.forEach( ( blc, id ) => {
-							if ( !dat[ id ].selected ) {
+							if ( !this._data[ id ].selected ) {
 								ids.push( id );
 							}
 						} );

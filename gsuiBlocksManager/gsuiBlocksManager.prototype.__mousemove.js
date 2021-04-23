@@ -19,11 +19,9 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			crop = Math.max( this.__valueAMin, Math.min( cropBrut, this.__valueAMax ) );
 
 		if ( crop !== this.__valueA ) {
-			const data = this._opts.getData();
-
 			this.__valueA = crop;
 			this.__blcsEditing.forEach( ( blc, id ) => {
-				const blcObj = { ...data[ id ] };
+				const blcObj = { ...this._data[ id ] };
 
 				if ( croppingB ) {
 					blcObj.duration += crop;
@@ -39,15 +37,14 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 		}
 	} ],
 	[ "move", function() {
-		const data = this._opts.getData(),
-			when = Math.max( this.__valueAMin,
+		const when = Math.max( this.__valueAMin,
 				Math.round( ( this.__mmWhen - this.__mdWhen ) / this.__beatSnap ) * this.__beatSnap ),
 			rows = Math.max( this.__valueBMin, Math.min( this.__valueBMax,
 				this.__getRowIndexByPageY( this.__mmPageY ) - this.__mdRowInd ) );
 
 		if ( when !== this.__valueA ) {
 			this.__valueA = when;
-			this.__blcsEditing.forEach( ( blc, id ) => this._blockDOMChange( blc, "when", data[ id ].when + when ) );
+			this.__blcsEditing.forEach( ( blc, id ) => this._blockDOMChange( blc, "when", this._data[ id ].when + when ) );
 		}
 		if ( rows !== this.__valueB ) {
 			this.__valueB = rows;
@@ -82,27 +79,26 @@ gsuiBlocksManager.__mousemoveFns = new Map( [
 			bottomRow = Math.max( this.__mdRowInd, rowIndB ),
 			rowA = this.__getRowByIndex( topRow ),
 			rowB = this.__getRowByIndex( bottomRow ),
-			blcs = Object.entries( this._opts.getData() )
-				.reduce( ( map, [ id, blc ] ) => {
-					if ( !this.__blcsSelected.has( id ) &&
-						blc.when < when + duration &&
-						blc.when + blc.duration > when
-					) {
-						const elBlc = this.__blcs.get( id ),
-							pA = rowA.compareDocumentPosition( elBlc ),
-							pB = rowB.compareDocumentPosition( elBlc );
+			blcs = Object.entries( this._data ).reduce( ( map, [ id, blc ] ) => {
+				if ( !this.__blcsSelected.has( id ) &&
+					blc.when < when + duration &&
+					blc.when + blc.duration > when
+				) {
+					const elBlc = this.__blcs.get( id ),
+						pA = rowA.compareDocumentPosition( elBlc ),
+						pB = rowB.compareDocumentPosition( elBlc );
 
-						if ( pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
-							pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
-							pA & Node.DOCUMENT_POSITION_FOLLOWING &&
-							pB & Node.DOCUMENT_POSITION_PRECEDING )
-						) {
-							this._blockDOMChange( elBlc, "selected", true );
-							map.set( id, elBlc );
-						}
+					if ( pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
+						pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
+						pA & Node.DOCUMENT_POSITION_FOLLOWING &&
+						pB & Node.DOCUMENT_POSITION_PRECEDING )
+					) {
+						this._blockDOMChange( elBlc, "selected", true );
+						map.set( id, elBlc );
 					}
-					return map;
-				}, new Map() );
+				}
+				return map;
+			}, new Map() );
 
 		st.top = `${ topRow * rowH }px`;
 		st.left = `${ when * this.__pxPerBeat }px`;
