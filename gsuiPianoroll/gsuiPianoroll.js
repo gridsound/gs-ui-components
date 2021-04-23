@@ -31,16 +31,6 @@ class gsuiPianoroll {
 				managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
 				managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
 				managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
-				managercallAttack: ( keysMap, val ) => this.onchange( "changeEnv", Array.from( keysMap.keys() ), "attack", val ),
-				managercallRelease: ( keysMap, val ) => this.onchange( "changeEnv", Array.from( keysMap.keys() ), "release", val ),
-				mouseup: () => {
-					if ( this._blcManager.__status === "cropping-b" ) {
-						this._blcManager.__blcsEditing.forEach( blc => {
-							blc._attack.style.maxWidth =
-							blc._release.style.maxWidth = "";
-						} );
-					}
-				},
 				...cb,
 			} );
 
@@ -134,8 +124,6 @@ class gsuiPianoroll {
 		blc.dataset.id = id;
 		blc.onmousedown = this._blcMousedown.bind( this, id );
 		dragline.onchange = this._onchangeDragline.bind( this, id );
-		blc._attack = blc.querySelector( ".gsuiPianoroll-block-attack" );
-		blc._release = blc.querySelector( ".gsuiPianoroll-block-release" );
 		blc._dragline = dragline;
 		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
 		blc.append( dragline.rootElement );
@@ -149,8 +137,6 @@ class gsuiPianoroll {
 		this._blockDOMChange( blc, "when", obj.when );
 		this._blockDOMChange( blc, "duration", obj.duration );
 		this._blockDOMChange( blc, "selected", obj.selected );
-		this._blockDOMChange( blc, "attack", obj.attack );
-		this._blockDOMChange( blc, "release", obj.release );
 		this._blockDOMChange( blc, "pan", obj.pan );
 		this._blockDOMChange( blc, "gain", obj.gain );
 		this._blockDOMChange( blc, "lowpass", obj.lowpass );
@@ -229,8 +215,6 @@ class gsuiPianoroll {
 				el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!val );
 				el._dragline.linkTo( blc && blc._draglineDrop );
 			} break;
-			case "attack": el._attack.style.width = `${ val }em`; break;
-			case "release": el._release.style.width = `${ val }em`; break;
 			case "pan":
 			case "gain":
 			case "lowpass":
@@ -367,15 +351,6 @@ class gsuiPianoroll {
 		e.stopPropagation();
 		if ( !dline.contains( e.target ) ) {
 			this._blcManager.__mousedown( e );
-			if ( this._blcManager.__status === "cropping-b" ) {
-				this._blcManager.__blcsEditing.forEach( ( blc, id ) => {
-					const att = +blc.dataset.attack,
-						rel = +blc.dataset.release;
-
-					blc._attack.style.maxWidth = `${ att / ( att + rel ) * 100 }%`;
-					blc._release.style.maxWidth = `${ rel / ( att + rel ) * 100 }%`;
-				} );
-			}
 		}
 	}
 	_rowMousedown( key, e ) {
