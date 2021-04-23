@@ -1,9 +1,8 @@
 "use strict";
 
-class gsuiPianoroll {
+class gsuiPianoroll extends HTMLElement {
 	constructor() {
-		const root = GSUI.createElement( "div", { class: "gsuiBlocksManager gsuiPianoroll", tabindex: -1 } ),
-			win = GSUI.createElement( "gsui-timewindow", {
+		const win = GSUI.createElement( "gsui-timewindow", {
 				panelsize: 100,
 				panelsizemin: 100,
 				panelsizemax: 130,
@@ -18,27 +17,26 @@ class gsuiPianoroll {
 				downpanelsizemin: 120,
 				downpanelsizemax: 160,
 			} ),
-			selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } ),
-			blcManager = new gsuiBlocksManager( {
-				rootElement: root,
-				selectionElement,
-				timeline: win._elTimeline,
-				blockDOMChange: this._blockDOMChange.bind( this ),
-				managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
-				managercallSelecting: ids => this.onchange( "selection", ids ),
-				managercallUnselecting: () => this.onchange( "unselection" ),
-				managercallUnselectingOne: keyId => this.onchange( "unselectionOne", keyId ),
-				managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
-				managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
-				managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
-			} );
+			selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
 
-		this.rootElement = root;
+		super();
 		this.timeline = win._elTimeline;
 		this.uiKeys = GSUI.createElement( "gsui-keys" );
 		this.onchange = null;
 		this._win = win;
-		this._blcManager = blcManager;
+		this._blcManager = new gsuiBlocksManager( {
+			rootElement: this,
+			selectionElement,
+			timeline: win._elTimeline,
+			blockDOMChange: this._blockDOMChange.bind( this ),
+			managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
+			managercallSelecting: ids => this.onchange( "selection", ids ),
+			managercallUnselecting: () => this.onchange( "unselection" ),
+			managercallUnselectingOne: keyId => this.onchange( "unselectionOne", keyId ),
+			managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
+			managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
+			managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
+		} );
 		this._rowsByMidi = {};
 		this._currKeyDuration = 1;
 		this._selectionElement = selectionElement;
@@ -52,7 +50,7 @@ class gsuiPianoroll {
 			GSUI.createElement( "option", { value: "gainLFOAmp" }, "gain.lfo.amp" ),
 		);
 
-		root.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
+		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
 		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
 
 		this._ongsuiTimewindowPxperbeat( 64 );
@@ -61,6 +59,21 @@ class gsuiPianoroll {
 		this.reset();
 	}
 
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			GSUI.setAttribute( this, "tabindex", -1 );
+			this.classList.add( "gsuiBlocksManager", "gsuiPianoroll" );
+			this.append( this._win );
+			this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
+			this._win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this._slidersSelect );
+			this._win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this._uiSliderGroup );
+			this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
+			this.scrollToMiddle();
+		}
+	}
+
+	// .........................................................................
 	reset() {
 		this._currKeyDuration = 1;
 	}
@@ -69,14 +82,6 @@ class gsuiPianoroll {
 	}
 	setCallbacks( cb ) {
 		this.onchange = cb.onchange;
-	}
-	attached() {
-		this.rootElement.append( this._win );
-		this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
-		this._win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this._slidersSelect );
-		this._win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this._uiSliderGroup );
-		this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
-		this.scrollToMiddle();
 	}
 	timeDivision( a, b ) {
 		GSUI.setAttribute( this._win, "timedivision", `${ a }/${ b }` );
@@ -408,3 +413,7 @@ class gsuiPianoroll {
 		this.onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
 	}
 }
+
+customElements.define( "gsui-pianoroll", gsuiPianoroll );
+
+Object.freeze( gsuiPianoroll );
