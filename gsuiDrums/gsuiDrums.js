@@ -15,6 +15,7 @@ class gsuiDrums extends HTMLElement {
 			} );
 
 		super();
+		this.timeline = win._elTimeline;
 		this._win = win;
 		this.drumrows = drumrows;
 		this._hoverBeat =
