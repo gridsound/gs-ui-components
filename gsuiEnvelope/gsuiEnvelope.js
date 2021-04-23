@@ -80,8 +80,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.updateWave();
 	}
 	updateWave( prop, val ) {
-		const g = this._graph,
-			bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
+		const g = this._graph;
 
 		g.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
 		g.hold = prop === "hold" ? val : +this.getAttribute( "hold" );
@@ -89,7 +88,7 @@ class gsuiEnvelope extends HTMLElement {
 		g.substain = prop === "substain" ? val : +this.getAttribute( "substain" );
 		g.release = prop === "release" ? val : +this.getAttribute( "release" );
 		g.duration =
-		this._dur = Math.max( g.attack + g.hold + g.decay + 1 + g.release, bPM );
+		this._dur = Math.max( g.attack + g.hold + g.decay + .5 + g.release, 2 );
 		g.draw();
 		this._updatePxPerBeat();
 	}
