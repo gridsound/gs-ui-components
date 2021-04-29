@@ -2,13 +2,22 @@
 
 class gsuiWindow {
 	constructor( parent, id ) {
-		const root = GSUI.getTemplate( "gsui-window" );
+		const root = GSUI.getTemplate( "gsui-window" ),
+			elements = GSUI.findElements( root, {
+				icon: ".gsuiWindow-icon",
+				wrap: ".gsuiWindow-wrap",
+				head: ".gsuiWindow-head",
+				title: ".gsuiWindow-title",
+				content: ".gsuiWindow-content",
+				handlers: ".gsuiWindow-handlers",
+				headBtns: ".gsuiWindow-headBtns",
+				headContent: ".gsuiWindow-headContent",
+			} );
 
 		this.id = id;
 		this.parent = parent;
 		this.rootElement = root;
-		this._elWrap = this._getElem( "wrap" );
-		this._elHandlers = this._getElem( "handlers" );
+		this._elements = elements;
 		this._show =
 		this._minimized =
 		this._maximized = false;
@@ -28,12 +37,12 @@ class gsuiWindow {
 
 		root.dataset.windowId = id;
 		root.addEventListener( "focusin", parent._onfocusinWin.bind( parent, this ) );
-		this._getElem( "icon" ).ondblclick = this.close.bind( this );
-		this._getElem( "headBtns" ).onclick = this._onclickBtns.bind( this );
-		this._getElem( "head" ).onmousedown = this._onmousedownHead.bind( this );
-		this._getElem( "title" ).ondblclick =
-		this._getElem( "headContent" ).ondblclick = this._ondblclickTitle.bind( this );
-		this._elHandlers.onmousedown = this._onmousedownHandlers.bind( this );
+		this._elements.icon.ondblclick = this.close.bind( this );
+		this._elements.headBtns.onclick = this._onclickBtns.bind( this );
+		this._elements.head.onmousedown = this._onmousedownHead.bind( this );
+		this._elements.title.ondblclick =
+		this._elements.headContent.ondblclick = this._ondblclickTitle.bind( this );
+		this._elements.handlers.onmousedown = this._onmousedownHandlers.bind( this );
 		this._setZIndex( 0 );
 		this.setTitle( id );
 		this.setPosition( 0, 0 );
@@ -60,24 +69,21 @@ class gsuiWindow {
 		this.rootElement.id = id;
 	}
 	setTitleIcon( icon ) {
-		this._getElem( "icon" ).dataset.icon = icon;
+		this._elements.icon.dataset.icon = icon;
 	}
 	empty() {
-		const cnt = this._getElem( "content" ),
-			headCnt = this._getElem( "headContent" );
-
-		while ( cnt.lastChild ) {
-			cnt.lastChild.remove();
+		while ( this._elements.content.lastChild ) {
+			this._elements.content.lastChild.remove();
 		}
-		while ( headCnt.lastChild ) {
-			headCnt.lastChild.remove();
+		while ( this._elements.headContent.lastChild ) {
+			this._elements.headContent.lastChild.remove();
 		}
 	}
 	append( ...args ) {
-		this._getElem( "content" ).append( ...args );
+		this._elements.content.append( ...args );
 	}
 	headAppend( ...args ) {
-		this._getElem( "headContent" ).append( ...args );
+		this._elements.headContent.append( ...args );
 	}
 
 	focus() {
@@ -142,7 +148,7 @@ class gsuiWindow {
 		this._setClass( "movable", b );
 	}
 	setTitle( t ) {
-		this._getElem( "title" ).textContent = t;
+		this._elements.title.textContent = t;
 	}
 	setSize( w, h, nocb ) {
 		this.rect.w = w;
@@ -164,7 +170,7 @@ class gsuiWindow {
 		this.rootElement.style.top = `${ y }px`;
 	}
 
-	// events:
+	// .........................................................................
 	_onclickBtns( e ) {
 		const act = e.target.dataset.icon;
 
@@ -220,9 +226,9 @@ class gsuiWindow {
 
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
-		this._setCSSrelativeMove( this._elHandlers.style, mmPos.x, mmPos.y );
+		this._setCSSrelativeMove( this._elements.handlers.style, mmPos.x, mmPos.y );
 		if ( !this.parent._lowGraphics ) {
-			this._setCSSrelativeMove( this._elWrap.style, mmPos.x, mmPos.y );
+			this._setCSSrelativeMove( this._elements.wrap.style, mmPos.x, mmPos.y );
 		}
 	}
 	_onmouseupHead() {
@@ -230,8 +236,8 @@ class gsuiWindow {
 			m = this._mousemovePos;
 
 		this._setClass( "dragging", false );
-		this._resetCSSrelative( this._elWrap.style );
-		this._resetCSSrelative( this._elHandlers.style );
+		this._resetCSSrelative( this._elements.wrap.style );
+		this._resetCSSrelative( this._elements.handlers.style );
 		if ( m.x || m.y ) {
 			this.setPosition( x + m.x, y + m.y );
 			this._restoreRect.x = this.rect.x;
@@ -248,9 +254,9 @@ class gsuiWindow {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this._calcCSSrelativeResize( dir, mmPos );
-		this._setCSSrelativeResize( this._elHandlers.style, dir, mmPos );
+		this._setCSSrelativeResize( this._elements.handlers.style, dir, mmPos );
 		if ( !this.parent._lowGraphics ) {
-			this._setCSSrelativeResize( this._elWrap.style, dir, mmPos );
+			this._setCSSrelativeResize( this._elements.wrap.style, dir, mmPos );
 			if ( fnResize ) {
 				const w = this.rect.w,
 					h = this.rect.h - this._mousedownHeadHeight;
@@ -273,8 +279,8 @@ class gsuiWindow {
 			m = this._mousemovePos;
 
 		this._setClass( "dragging", false );
-		this._resetCSSrelative( this._elWrap.style );
-		this._resetCSSrelative( this._elHandlers.style );
+		this._resetCSSrelative( this._elements.wrap.style );
+		this._resetCSSrelative( this._elements.handlers.style );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
 				case "e" : this.setSize( w + m.x, h       ); break;
@@ -289,10 +295,7 @@ class gsuiWindow {
 		}
 	}
 
-	// private:
-	_getElem( c ) {
-		return this.rootElement.querySelector( `.gsuiWindow-${ c }` );
-	}
+	// .........................................................................
 	_attachTo( parentElem ) {
 		parentElem.append( this.rootElement );
 	}
@@ -305,13 +308,13 @@ class gsuiWindow {
 	}
 	_callOnresize() {
 		if ( this.onresize ) {
-			const bcr = this._getElem( "content" ).getBoundingClientRect();
+			const bcr = this._elements.content.getBoundingClientRect();
 
 			this.onresize( bcr.width, bcr.height );
 		}
 	}
 	_getHeadHeight() {
-		return this._getElem( "head" ).getBoundingClientRect().height;
+		return this._elements.head.getBoundingClientRect().height;
 	}
 	_calcCSSmagnet( dir, x, y ) {
 		const rc = this.rect,
