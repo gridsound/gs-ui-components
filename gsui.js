@@ -6,6 +6,33 @@ const GSUI = {
 	dragshield: document.createElement( "gsui-dragshield" ),
 
 	// .........................................................................
+	findElements( root, graph ) {
+		return typeof graph === "string"
+			? GSUI._findElemStr( root, graph )
+			: Object.freeze( Array.isArray( graph )
+				? GSUI._findElemArr( root, graph )
+				: GSUI._findElemObj( root, graph ) );
+	},
+	_findElemArr( root, arr ) {
+		return arr.map( sel => GSUI.findElements( root, sel ) );
+	},
+	_findElemObj( root, obj ) {
+		const ent = Object.entries( obj );
+
+		ent.forEach( kv => kv[ 1 ] = GSUI.findElements( root, kv[ 1 ] ) );
+		return Object.fromEntries( ent );
+	},
+	_findElemStr( root, sel ) {
+		if ( Array.isArray( root ) ) {
+			let el;
+
+			Array.prototype.find.call( root, r => el = r.querySelector( sel ) );
+			return el || null;
+		}
+		return root.querySelector( sel );
+	},
+
+	// .........................................................................
 	dispatchEvent( el, component, eventName, ...args ) {
 		el.dispatchEvent( new CustomEvent( "gsuiEvents", {
 			bubbles: true,
