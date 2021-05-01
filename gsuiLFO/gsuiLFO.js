@@ -1,40 +1,39 @@
 "use strict";
 
 class gsuiLFO extends HTMLElement {
-	constructor() {
-		const children = GSUI.getTemplate( "gsui-lfo" ),
-			elWave = children[ 1 ].firstChild,
-			sliders = Object.freeze( {
-				delay: [ children[ 2 ].lastChild.firstChild, children[ 2 ].firstChild.lastChild ],
-				attack: [ children[ 3 ].lastChild.firstChild, children[ 3 ].firstChild.lastChild ],
-				speed: [ children[ 4 ].lastChild.firstChild, children[ 4 ].firstChild.lastChild ],
-				amp: [ children[ 5 ].lastChild.firstChild, children[ 5 ].firstChild.lastChild ],
-			} );
+	#dur = 4
+	#waveWidth = 300
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" )
+	#onresizeBind = this.#onresize.bind( this )
+	#children = GSUI.getTemplate( "gsui-lfo" )
+	#elements = GSUI.findElements( this.#children, {
+		beatlines: "gsui-beatlines",
+		wave: "gsui-periodicwave",
+		sliders: {
+			delay:  [ ".gsuiLFO-delay  gsui-slider", ".gsuiLFO-delay  .gsuiLFO-propValue" ],
+			attack: [ ".gsuiLFO-attack gsui-slider", ".gsuiLFO-attack .gsuiLFO-propValue" ],
+			speed:  [ ".gsuiLFO-speed  gsui-slider", ".gsuiLFO-speed  .gsuiLFO-propValue" ],
+			amp:    [ ".gsuiLFO-amp    gsui-slider", ".gsuiLFO-amp    .gsuiLFO-propValue" ],
+		},
+	} )
 
+	constructor() {
 		super();
-		this._children = children;
-		this._beatlines = elWave.firstChild;
-		this._wave = elWave.lastChild;
-		this._sliders = sliders;
-		this._dur = 4;
-		this._waveWidth = 300;
-		this._dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" );
-		this._onresize = this._onresize.bind( this );
 		Object.seal( this );
 
-		this.onchange = this._onchangeForm.bind( this );
-		this._initSlider( "delay" );
-		this._initSlider( "attack" );
-		this._initSlider( "speed" );
-		this._initSlider( "amp" );
+		this.onchange = this.#onchangeForm.bind( this );
+		this.#initSlider( "delay" );
+		this.#initSlider( "attack" );
+		this.#initSlider( "speed" );
+		this.#initSlider( "amp" );
 	}
 
 	// .........................................................................
 	connectedCallback() {
-		if ( this._children ) {
+		if ( this.#children ) {
 			this.classList.add( "gsuiLFO" );
-			this.append( ...this._children );
-			this._children = null;
+			this.append( ...this.#children );
+			this.#children = null;
 			GSUI.recallAttributes( this, {
 				toggle: false,
 				timedivision: "4/4",
@@ -46,32 +45,32 @@ class gsuiLFO extends HTMLElement {
 			} );
 			this.updateWave();
 		}
-		GSUI.observeSizeOf( this, this._onresize );
+		GSUI.observeSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
-		GSUI.unobserveSizeOf( this, this._onresize );
+		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( !this._children && prev !== val ) {
+		if ( !this.#children && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
-				case "timedivision": this._beatlines.setAttribute( "timedivision", val ); break;
-				case "toggle": this._changeToggle( val !== null ); break;
-				case "type": this._changeType( val ); break;
+				case "timedivision": this.#elements.beatlines.setAttribute( "timedivision", val ); break;
+				case "toggle": this.#changeToggle( val !== null ); break;
+				case "type": this.#changeType( val ); break;
 				case "delay":
 				case "attack":
 				case "speed":
-					this._changeProp( prop, num );
+					this.#changeProp( prop, num );
 					break;
 				case "amp":
 					if ( num > 0 !== prev > 0 ) {
-						this._changeAmpSign( num );
+						this.#changeAmpSign( num );
 					}
-					this._changeProp( "amp", Math.abs( num ) );
+					this.#changeProp( "amp", Math.abs( num ) );
 					break;
 			}
 		}
@@ -79,7 +78,7 @@ class gsuiLFO extends HTMLElement {
 
 	// .........................................................................
 	updateWave( prop, val ) {
-		const w = this._wave,
+		const w = this.#elements.wave,
 			bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
 
 		w.type = this.getAttribute( "type" );
@@ -88,91 +87,91 @@ class gsuiLFO extends HTMLElement {
 		w.frequency = prop === "speed" ? val : +this.getAttribute( "speed" );
 		w.amplitude = prop === "amp" ? val : +this.getAttribute( "amp" );
 		w.duration =
-		this._dur = Math.max( w.delay + w.attack + 2, bPM );
+		this.#dur = Math.max( w.delay + w.attack + 2, bPM );
 		w.draw();
 		w.style.opacity = Math.min( 6 / w.frequency, 1 );
-		this._updatePxPerBeat();
+		this.#updatePxPerBeat();
 	}
 
 	// .........................................................................
-	_changeToggle( b ) {
+	#changeToggle( b ) {
 		this.classList.toggle( "gsuiLFO-enable", b );
 		this.querySelectorAll( ".gsuiLFO-typeRadio" )
 			.forEach( b
 				? el => el.removeAttribute( "disabled" )
 				: el => el.setAttribute( "disabled", "" ) );
-		this._sliders.delay[ 0 ].enable( b );
-		this._sliders.attack[ 0 ].enable( b );
-		this._sliders.speed[ 0 ].enable( b );
-		this._sliders.amp[ 0 ].enable( b );
+		this.#elements.sliders.delay[ 0 ].enable( b );
+		this.#elements.sliders.attack[ 0 ].enable( b );
+		this.#elements.sliders.speed[ 0 ].enable( b );
+		this.#elements.sliders.amp[ 0 ].enable( b );
 	}
-	_changeType( type ) {
-		this._wave.type = type;
+	#changeType( type ) {
+		this.#elements.wave.type = type;
 		this.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
 	}
-	_changeAmpSign( amp ) {
+	#changeAmpSign( amp ) {
 		this.querySelector( `.gsuiLFO-ampSignRadio[value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
 	}
-	_changeProp( prop, val ) {
-		const [ sli, span ] = this._sliders[ prop ];
+	#changeProp( prop, val ) {
+		const [ sli, span ] = this.#elements.sliders[ prop ];
 
 		sli.setValue( val );
 		span.textContent = val.toFixed( 2 );
 	}
 
 	// .........................................................................
-	_updatePxPerBeat() {
-		this._beatlines.setAttribute( "pxPerBeat", this._waveWidth / this._dur );
+	#updatePxPerBeat() {
+		this.#elements.beatlines.setAttribute( "pxPerBeat", this.#waveWidth / this.#dur );
 	}
-	_initSlider( prop ) {
-		const slider = this._sliders[ prop ][ 0 ];
+	#initSlider( prop ) {
+		const slider = this.#elements.sliders[ prop ][ 0 ];
 
 		slider.enable( false );
-		slider.oninput = this._oninputSlider.bind( this, prop );
-		slider.onchange = this._onchangeSlider.bind( this, prop );
+		slider.oninput = this.#oninputSlider.bind( this, prop );
+		slider.onchange = this.#onchangeSlider.bind( this, prop );
 	}
 
 	// events:
 	// .........................................................................
-	_onresize() {
-		this._waveWidth = this._beatlines.getBoundingClientRect().width;
-		this._updatePxPerBeat();
-		this._wave.resized();
+	#onresize() {
+		this.#waveWidth = this.#elements.beatlines.getBoundingClientRect().width;
+		this.#updatePxPerBeat();
+		this.#elements.wave.resized();
 	}
-	_onchangeForm( e ) {
+	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-toggle":
 				GSUI.setAttribute( this, "toggle", !this.classList.contains( "gsuiLFO-enable" ) );
-				this._dispatch( "toggle" );
+				this.#dispatch( "toggle" );
 				break;
 			case "gsuiLFO-type":
 				GSUI.setAttribute( this, "type", e.target.value );
 				this.updateWave();
-				this._dispatch( "change", "type", e.target.value );
+				this.#dispatch( "change", "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
 				GSUI.setAttribute( this, "amp", -this.getAttribute( "amp" ) );
 				this.updateWave();
-				this._dispatch( "change", "amp", +this.getAttribute( "amp" ) );
+				this.#dispatch( "change", "amp", +this.getAttribute( "amp" ) );
 				break;
 		}
 	}
-	_oninputSlider( prop, val ) {
+	#oninputSlider( prop, val ) {
 		const realval = prop !== "amp"
 				? val
 				: val * Math.sign( this.getAttribute( "amp" ) );
 
-		this._sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
+		this.#elements.sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
 		this.updateWave( prop, realval );
-		this._dispatch( "liveChange", prop, realval );
+		this.#dispatch( "liveChange", prop, realval );
 	}
-	_onchangeSlider( prop, val ) {
+	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
 				? val * Math.sign( this.getAttribute( "amp" ) )
 				: val;
 
 		GSUI.setAttribute( this, prop, nval );
-		this._dispatch( "change", prop, nval );
+		this.#dispatch( "change", prop, nval );
 	}
 }
 
