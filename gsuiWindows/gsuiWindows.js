@@ -95,15 +95,14 @@ class gsuiWindows {
 	}
 	_onfocusinWin( win, e ) {
 		if ( win !== this.focusedWindow ) {
-			const z = win.zIndex;
+			const z = win.getZIndex();
 
-			clearTimeout( win._focusoutTimeoutId );
 			this._arrWindows.forEach( win => {
-				if ( win.zIndex > z ) {
-					win._setZIndex( win.zIndex - 1 );
+				if ( win.getZIndex() > z ) {
+					win.setZIndex( win.getZIndex() - 1 );
 				}
 			} );
-			win._setZIndex( this._arrWindows.length - 1 );
+			win.setZIndex( this._arrWindows.length - 1 );
 			this.focusedWindow = win;
 		}
 		if ( win.onfocusin ) {
