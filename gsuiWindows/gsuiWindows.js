@@ -1,20 +1,27 @@
 "use strict";
 
-class gsuiWindows {
+class gsuiWindows extends HTMLElement {
+	#objWindows = {}
+	#nbWindowsMaximized = 0
+	#mouseFnUp = null
+	#mouseFnMove = null
+	#focusedWindow = null
+
 	constructor() {
-		this._arrWindows = [];
-		this._objWindows = {};
-		this._nbWindowsMaximized = 0;
-		this._lowGraphics = false;
+		super();
 		this.onopen =
-		this.onclose =
-		this._mouseFnUp =
-		this._mouseFnMove =
-		this.focusedWindow = null;
-		this.setRootElement( document.body );
+		this.onclose = null;
+		this._arrWindows = [];
+		this._lowGraphics = false;
 		Object.seal( this );
 	}
 
+	// .........................................................................
+	connectedCallback() {
+		this.classList.add( "gsuiWindows" );
+	}
+
+	// .........................................................................
 	resized() {
 		this._arrWindows.forEach( win => {
 			if ( win._maximized ) {
@@ -24,61 +31,42 @@ class gsuiWindows {
 	}
 	lowGraphics( b ) {
 		this._lowGraphics = b;
-		this.rootElement.classList.toggle( "gsuiWindows-lowGraphics", b );
-	}
-	setRootElement( el ) {
-		if ( el !== this.rootElement ) {
-			this._detach();
-			this._attachTo( el );
-			this._arrWindows.forEach( win => win._attachTo( el ) );
-		}
+		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
 	createWindow( id ) {
 		const win = new gsuiWindow( this, id );
 
-		this._arrWindows.push( win );
-		this._objWindows[ id ] = win;
-		win._attachTo( this.rootElement );
 		win.movable( true );
+		this._arrWindows.push( win );
+		this.#objWindows[ id ] = win;
+		this.append( win.rootElement );
 		return win;
 	}
 	window( winId ) {
-		return this._objWindows[ winId ];
+		return this.#objWindows[ winId ];
 	}
 
 	// private and share with gsuiWindow:
 	// .........................................................................
 	_startMousemoving( cursor, fnMove, fnUp ) {
 		window.getSelection().removeAllRanges();
-		this._mouseFnUp = this._stopMousemoving.bind( this, fnUp );
-		this._mouseFnMove = fnMove;
-		document.addEventListener( "mouseup", this._mouseFnUp );
+		this.#mouseFnUp = this._stopMousemoving.bind( this, fnUp );
+		this.#mouseFnMove = fnMove;
+		document.addEventListener( "mouseup", this.#mouseFnUp );
 		document.addEventListener( "mousemove", fnMove );
 		GSUI.dragshield.show( cursor );
 	}
 	_stopMousemoving( fnUp, e ) {
-		document.removeEventListener( "mouseup", this._mouseFnUp );
-		document.removeEventListener( "mousemove", this._mouseFnMove );
+		document.removeEventListener( "mouseup", this.#mouseFnUp );
+		document.removeEventListener( "mousemove", this.#mouseFnMove );
 		GSUI.dragshield.hide();
-		this._mouseFnUp =
-		this._mouseFnMove = null;
+		this.#mouseFnUp =
+		this.#mouseFnMove = null;
 		fnUp( e );
 	}
 
 	// private:
 	// .........................................................................
-	_detach() {
-		const el = this.rootElement;
-
-		if ( el ) {
-			el.classList.remove( "gsuiWindows", "gsuiWindows-lowGraphics" );
-		}
-	}
-	_attachTo( el ) {
-		this.rootElement = el;
-		el.classList.add( "gsuiWindows" );
-		el.classList.toggle( "gsuiWindows-lowGraphics", this._lowGraphics );
-	}
 	_open( win ) {
 		win.focus();
 		if ( this.onopen ) {
@@ -86,15 +74,15 @@ class gsuiWindows {
 		}
 	}
 	_close( win ) {
-		if ( win === this.focusedWindow ) {
-			this.focusedWindow = null;
+		if ( win === this.#focusedWindow ) {
+			this.#focusedWindow = null;
 		}
 		if ( this.onclose ) {
 			this.onclose( win );
 		}
 	}
 	_onfocusinWin( win, e ) {
-		if ( win !== this.focusedWindow ) {
+		if ( win !== this.#focusedWindow ) {
 			const z = win.getZIndex();
 
 			this._arrWindows.forEach( win => {
@@ -103,23 +91,25 @@ class gsuiWindows {
 				}
 			} );
 			win.setZIndex( this._arrWindows.length - 1 );
-			this.focusedWindow = win;
+			this.#focusedWindow = win;
 		}
 		if ( win.onfocusin ) {
 			win.onfocusin( e );
 		}
 	}
 	_winMaximized( _winId ) {
-		++this._nbWindowsMaximized;
-		this.rootElement.classList.add( "gsuiWindows-maximized" );
-		this.rootElement.scrollTop =
-		this.rootElement.scrollLeft = 0;
+		++this.#nbWindowsMaximized;
+		this.classList.add( "gsuiWindows-maximized" );
+		this.scrollTop =
+		this.scrollLeft = 0;
 	}
 	_winRestored( _winId ) {
-		if ( --this._nbWindowsMaximized === 0 ) {
-			this.rootElement.classList.remove( "gsuiWindows-maximized" );
+		if ( --this.#nbWindowsMaximized === 0 ) {
+			this.classList.remove( "gsuiWindows-maximized" );
 		}
 	}
 }
+
+customElements.define( "gsui-windows", gsuiWindows );
 
 Object.freeze( gsuiWindows );

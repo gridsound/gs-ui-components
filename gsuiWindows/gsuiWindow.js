@@ -5,6 +5,7 @@ class gsuiWindow {
 	#hMin = 32
 	#zIndex = 0
 	#show = false
+	#parent = null;
 	#minimized = false
 	#maximized = false
 	#restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } )
@@ -25,7 +26,7 @@ class gsuiWindow {
 
 	constructor( parent, id ) {
 		this.id = id;
-		this.parent = parent;
+		this.#parent = parent;
 		this.rootElement = this.#root;
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 		this.onresize =
@@ -51,16 +52,14 @@ class gsuiWindow {
 	open() { return this.openToggle( true ); }
 	close() { return this.openToggle( false ); }
 	openToggle( b ) {
-		if ( b !== this.#show ) {
-			if ( b ) {
-				this.#show = true;
-				this.#setClass( "show", true );
-				this.parent._open( this );
-			} else if ( !this.onclose || this.onclose() !== false ) {
-				this.#show = false;
-				this.#setClass( "show", false );
-				this.parent._close( this );
-			}
+		if ( b ) {
+			this.#show = true;
+			this.#setClass( "show", true );
+			this.#parent._open( this );
+		} else if ( !this.onclose || this.onclose() !== false ) {
+			this.#show = false;
+			this.#setClass( "show", false );
+			this.#parent._close( this );
 		}
 	}
 
@@ -109,7 +108,7 @@ class gsuiWindow {
 			this.#minimized = false;
 			this._callOnresize();
 			this.focus();
-			this.parent._winMaximized( this.id );
+			this.#parent._winMaximized( this.id );
 		}
 	}
 	minimize() {
@@ -125,7 +124,7 @@ class gsuiWindow {
 			this.#maximized = false;
 			this.setSize( rcRestore.w, this.#getHeadHeight(), "nocallback" );
 			this.setPosition( rcRestore.x, rcRestore.y );
-			this.parent._winRestored( this.id );
+			this.#parent._winRestored( this.id );
 		}
 	}
 	restore() {
@@ -139,7 +138,7 @@ class gsuiWindow {
 			this.#maximized = false;
 			this.setSize( rcRestore.w, rcRestore.h );
 			this.setPosition( rcRestore.x, rcRestore.y );
-			this.parent._winRestored( this.id );
+			this.#parent._winRestored( this.id );
 		}
 	}
 
@@ -174,9 +173,6 @@ class gsuiWindow {
 		this.rect.y = y;
 		this.rootElement.style.left = `${ x }px`;
 		this.rootElement.style.top = `${ y }px`;
-	}
-	_attachTo( parentElem ) {
-		parentElem.append( this.rootElement );
 	}
 	_callOnresize() {
 		if ( this.onresize ) {
@@ -214,7 +210,7 @@ class gsuiWindow {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			this.#setClass( "dragging", true );
-			this.parent._startMousemoving( "move",
+			this.#parent._startMousemoving( "move",
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
@@ -229,7 +225,7 @@ class gsuiWindow {
 			this.#mousemovePos.y = 0;
 			this.#mousedownHeadHeight = this.#getHeadHeight();
 			this.#setClass( "dragging", true );
-			this.parent._startMousemoving( `${ dir }-resize`,
+			this.#parent._startMousemoving( `${ dir }-resize`,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}
@@ -243,7 +239,7 @@ class gsuiWindow {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos.x, mmPos.y );
-		if ( !this.parent._lowGraphics ) {
+		if ( !this.#parent._lowGraphics ) {
 			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos.x, mmPos.y );
 		}
 	}
@@ -271,7 +267,7 @@ class gsuiWindow {
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
 		this.#setCSSrelativeResize( this.#elements.handlers.style, dir, mmPos );
-		if ( !this.parent._lowGraphics ) {
+		if ( !this.#parent._lowGraphics ) {
 			this.#setCSSrelativeResize( this.#elements.wrap.style, dir, mmPos );
 			if ( fnResize ) {
 				const w = this.rect.w,
@@ -326,9 +322,9 @@ class gsuiWindow {
 			dirS = dir.includes( "s" ),
 			tx = dirW ? rc.x + x : rc.x,
 			ty = dirN ? rc.y + y : rc.y,
-			parBCR = this.parent.rootElement.getBoundingClientRect(),
+			parBCR = this.#parent.getBoundingClientRect(),
 			wins = [
-				...this.parent._arrWindows,
+				...this.#parent._arrWindows,
 				{ rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 } }
 			];
 		let mgX = 0,
