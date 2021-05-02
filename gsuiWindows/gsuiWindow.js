@@ -71,9 +71,6 @@ class gsuiWindow extends HTMLElement {
 	setId( id ) {
 		this.dataset.id = id;
 	}
-	setIdAttr( id ) {
-		GSUI.setAttribute( this, "id", id );
-	}
 	setTitle( t ) {
 		this.#elements.title.textContent = t;
 	}
