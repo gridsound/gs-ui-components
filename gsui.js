@@ -26,10 +26,15 @@ const GSUI = {
 		if ( Array.isArray( root ) ) {
 			let el;
 
-			Array.prototype.find.call( root, r => el = r.querySelector( sel ) );
+			Array.prototype.find.call( root, r => el = GSUI._findElemQuery( r, sel ) );
 			return el || null;
 		}
-		return root.querySelector( sel );
+		return GSUI._findElemQuery( root, sel );
+	},
+	_findElemQuery( root, sel ) {
+		return root.matches( sel )
+			? root
+			: root.querySelector( sel );
 	},
 
 	// .........................................................................
