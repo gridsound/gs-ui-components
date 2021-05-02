@@ -5,6 +5,7 @@
 	--gsuiWindow-handler-width: 4px;
 	--gsuiWindow-title-opacity: .8;
 	position: absolute;
+	z-index: 0;
 	outline: 0;
 	color: var( --gsuiWindow-color );
 	border-radius: var( --gsuiWindow-radius );

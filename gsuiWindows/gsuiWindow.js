@@ -1,9 +1,8 @@
 "use strict";
 
-class gsuiWindow {
+class gsuiWindow extends HTMLElement {
 	#wMin = 32
 	#hMin = 32
-	#zIndex = 0
 	#show = false
 	#parent = null;
 	#minimized = false
@@ -12,8 +11,8 @@ class gsuiWindow {
 	#mousemovePos = Object.seal( { x: 0, y: 0 } )
 	#mousedownPos = Object.seal( { x: 0, y: 0 } )
 	#mousedownHeadHeight = 0
-	#root = GSUI.getTemplate( "gsui-window" )
-	#elements = GSUI.findElements( this.#root, {
+	#children = GSUI.getTemplate( "gsui-window" )
+	#elements = GSUI.findElements( this.#children, {
 		icon: ".gsuiWindow-icon",
 		wrap: ".gsuiWindow-wrap",
 		head: ".gsuiWindow-head",
@@ -24,30 +23,33 @@ class gsuiWindow {
 		headContent: ".gsuiWindow-headContent",
 	} )
 
-	constructor( parent, id ) {
-		this.id = id;
-		this.#parent = parent;
-		this.rootElement = this.#root;
+	constructor() {
+		super();
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 		this.onresize =
 		this.onfocusin =
 		this.onresizing = null;
 		Object.seal( this );
 
-		this.#root.dataset.windowId = id;
-		this.#root.addEventListener( "focusin", parent._onfocusinWin.bind( parent, this ) );
 		this.#elements.icon.ondblclick = this.close.bind( this );
 		this.#elements.headBtns.onclick = this.#onclickBtns.bind( this );
 		this.#elements.head.onmousedown = this.#onmousedownHead.bind( this );
 		this.#elements.title.ondblclick =
 		this.#elements.headContent.ondblclick = this.#ondblclickTitle.bind( this );
 		this.#elements.handlers.onmousedown = this.#onmousedownHandlers.bind( this );
-		this.setZIndex( 0 );
-		this.setTitle( id );
-		this.setPosition( 0, 0 );
-		this.setSize( 300, 150 );
 	}
 
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			GSUI.setAttribute( this, "tabindex", 0 );
+			this.classList.add( "gsuiWindow" );
+			this.append( ...this.#children );
+			this.#children = null;
+		}
+	}
+
+	// .........................................................................
 	isOpen() { return this.#show; }
 	open() { return this.openToggle( true ); }
 	close() { return this.openToggle( false ); }
@@ -63,8 +65,17 @@ class gsuiWindow {
 		}
 	}
 
+	setParent( p ) {
+		this.#parent = p;
+	}
+	setId( id ) {
+		this.dataset.id = id;
+	}
 	setIdAttr( id ) {
-		this.rootElement.id = id;
+		GSUI.setAttribute( this, "id", id );
+	}
+	setTitle( t ) {
+		this.#elements.title.textContent = t;
 	}
 	setTitleIcon( icon ) {
 		this.#elements.icon.dataset.icon = icon;
@@ -77,7 +88,7 @@ class gsuiWindow {
 			this.#elements.headContent.lastChild.remove();
 		}
 	}
-	append( ...args ) {
+	contentAppend( ...args ) {
 		this.#elements.content.append( ...args );
 	}
 	headAppend( ...args ) {
@@ -85,15 +96,13 @@ class gsuiWindow {
 	}
 
 	focus() {
-		const root = this.rootElement;
-
-		if ( !root.contains( document.activeElement ) ) {
-			setTimeout( root.focus.bind( root ), 50 );
+		if ( !this.contains( document.activeElement ) ) {
+			setTimeout( this.focus.bind( this ), 50 );
 		}
 	}
 	maximize() {
 		if ( !this.#maximized ) {
-			const st = this.rootElement.style;
+			const st = this.style;
 
 			this.#restoreRect.x = this.rect.x;
 			this.#restoreRect.y = this.rect.y;
@@ -108,7 +117,7 @@ class gsuiWindow {
 			this.#minimized = false;
 			this._callOnresize();
 			this.focus();
-			this.#parent._winMaximized( this.id );
+			this.#parent._winMaximized( this.dataset.id );
 		}
 	}
 	minimize() {
@@ -124,7 +133,7 @@ class gsuiWindow {
 			this.#maximized = false;
 			this.setSize( rcRestore.w, this.#getHeadHeight(), "nocallback" );
 			this.setPosition( rcRestore.x, rcRestore.y );
-			this.#parent._winRestored( this.id );
+			this.#parent._winRestored( this.dataset.id );
 		}
 	}
 	restore() {
@@ -138,28 +147,24 @@ class gsuiWindow {
 			this.#maximized = false;
 			this.setSize( rcRestore.w, rcRestore.h );
 			this.setPosition( rcRestore.x, rcRestore.y );
-			this.#parent._winRestored( this.id );
+			this.#parent._winRestored( this.dataset.id );
 		}
 	}
 
 	movable( b ) {
 		this.#setClass( "movable", b );
 	}
-	setTitle( t ) {
-		this.#elements.title.textContent = t;
-	}
 	getZIndex() {
-		return this.#zIndex;
+		return +this.style.zIndex || 0;
 	}
 	setZIndex( z ) {
-		this.#zIndex =
-		this.rootElement.style.zIndex = z;
+		this.style.zIndex = z;
 	}
 	setSize( w, h, nocb ) {
 		this.rect.w = w;
 		this.rect.h = h;
-		this.rootElement.style.width = `${ w }px`;
-		this.rootElement.style.height = `${ h }px`;
+		this.style.width = `${ w }px`;
+		this.style.height = `${ h }px`;
 		if ( nocb !== "nocallback" ) {
 			this._callOnresize();
 		}
@@ -171,8 +176,8 @@ class gsuiWindow {
 	setPosition( x, y ) {
 		this.rect.x = x;
 		this.rect.y = y;
-		this.rootElement.style.left = `${ x }px`;
-		this.rootElement.style.top = `${ y }px`;
+		this.style.left = `${ x }px`;
+		this.style.top = `${ y }px`;
 	}
 	_callOnresize() {
 		if ( this.onresize ) {
@@ -309,7 +314,7 @@ class gsuiWindow {
 
 	// .........................................................................
 	#setClass( clazz, b ) {
-		this.rootElement.classList.toggle( `gsuiWindow-${ clazz }`, b );
+		this.classList.toggle( `gsuiWindow-${ clazz }`, b );
 	}
 	#getHeadHeight() {
 		return this.#elements.head.getBoundingClientRect().height;
@@ -325,7 +330,10 @@ class gsuiWindow {
 			parBCR = this.#parent.getBoundingClientRect(),
 			wins = [
 				...this.#parent._arrWindows,
-				{ rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 } }
+				{
+					dataset: {},
+					rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 },
+				}
 			];
 		let mgX = 0,
 			mgY = 0;
@@ -360,7 +368,7 @@ class gsuiWindow {
 		let vAbsMin = Infinity;
 
 		return wins.reduce( ( vMin, win ) => {
-			if ( win.id !== this.id && ( !win.isOpen || win.isOpen() ) ) {
+			if ( win.dataset.id !== this.dataset.id && ( !win.isOpen || win.isOpen() ) ) {
 				const wrc = win.rect,
 					wrcDir = wrc[ dir ],
 					v1 = wrcDir - brdL - value,
@@ -417,5 +425,7 @@ class gsuiWindow {
 		}
 	}
 }
+
+customElements.define( "gsui-window", gsuiWindow );
 
 Object.freeze( gsuiWindow );

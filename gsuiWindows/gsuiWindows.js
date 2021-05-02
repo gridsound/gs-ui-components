@@ -34,19 +34,21 @@ class gsuiWindows extends HTMLElement {
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
 	createWindow( id ) {
-		const win = new gsuiWindow( this, id );
+		const win = GSUI.createElement( "gsui-window" );
 
+		win.setId( id );
+		win.setParent( this );
 		win.movable( true );
+		win.addEventListener( "focusin", this._onfocusinWin.bind( this, win ) );
 		this._arrWindows.push( win );
 		this.#objWindows[ id ] = win;
-		this.append( win.rootElement );
+		this.append( win );
 		return win;
 	}
 	window( winId ) {
 		return this.#objWindows[ winId ];
 	}
 
-	// private and share with gsuiWindow:
 	// .........................................................................
 	_startMousemoving( cursor, fnMove, fnUp ) {
 		window.getSelection().removeAllRanges();
@@ -64,9 +66,6 @@ class gsuiWindows extends HTMLElement {
 		this.#mouseFnMove = null;
 		fnUp( e );
 	}
-
-	// private:
-	// .........................................................................
 	_open( win ) {
 		win.focus();
 		if ( this.onopen ) {
