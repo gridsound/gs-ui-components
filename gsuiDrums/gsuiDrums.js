@@ -32,12 +32,12 @@ class gsuiDrums extends HTMLElement {
 		this._previewsMap = new Map();
 		this._sliderGroups = new Map();
 		this._elLines = null;
-		this._elHover = null;
 		this._elCurrentTime = null;
 		this._elDrumHover = GSUI.createElement( "div", { class: "gsuiDrums-drumHover" },
 			GSUI.createElement( "div", { class: "gsuiDrums-drumHoverIn" } ) );
 		this._elDrumcutHover = GSUI.createElement( "div", { class: "gsuiDrums-drumcutHover" },
 			GSUI.createElement( "div", { class: "gsuiDrums-drumcutHoverIn" } ) );
+		this._elHover = this._elDrumHover;
 		this._nlLinesIn = this.getElementsByClassName( "gsuiDrums-lineIn" );
 		this._onmouseupNew = this._onmouseupNew.bind( this );
 		this._mousemoveLines = this._mousemoveLines.bind( this );
