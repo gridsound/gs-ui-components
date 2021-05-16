@@ -68,6 +68,7 @@ class gsuiWindows extends HTMLElement {
 	}
 	_open( win ) {
 		win.focus();
+		this._onfocusinWin( win );
 		if ( this.onopen ) {
 			this.onopen( win );
 		}
@@ -92,7 +93,7 @@ class gsuiWindows extends HTMLElement {
 			win.setZIndex( this._arrWindows.length - 1 );
 			this.#focusedWindow = win;
 		}
-		if ( win.onfocusin ) {
+		if ( e && win.onfocusin ) {
 			win.onfocusin( e );
 		}
 	}
