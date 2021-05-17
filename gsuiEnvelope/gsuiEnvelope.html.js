@@ -13,7 +13,7 @@ GSUI.setTemplate( "gsui-envelope", () => {
 			[ "attack", "attack", "att", 0, 1, .01 ],
 			[ "hold", "hold", "hold", 0, 1, .01 ],
 			[ "decay", "decay", "dec", 0, 1, .01 ],
-			[ "substain", "substain", "sub", 0, 1, .01 ],
+			[ "sustain", "sustain", "sus", 0, 1, .01 ],
 			[ "release", "release", "rel", 0, 4, .01 ],
 		].map( ( [ clazz, title, text, min, max, step ] ) => (
 			GSUI.createElement( "div", { class: `gsuiEnvelope-prop gsuiEnvelope-${ clazz }`, title },

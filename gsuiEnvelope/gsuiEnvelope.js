@@ -10,11 +10,11 @@ class gsuiEnvelope extends HTMLElement {
 		beatlines: "gsui-beatlines",
 		graph: "gsui-envelopegraph",
 		sliders: {
-			attack:   [ ".gsuiEnvelope-attack   gsui-slider", ".gsuiEnvelope-attack   .gsuiEnvelope-propValue" ],
-			hold:     [ ".gsuiEnvelope-hold     gsui-slider", ".gsuiEnvelope-hold     .gsuiEnvelope-propValue" ],
-			decay:    [ ".gsuiEnvelope-decay    gsui-slider", ".gsuiEnvelope-decay    .gsuiEnvelope-propValue" ],
-			substain: [ ".gsuiEnvelope-substain gsui-slider", ".gsuiEnvelope-substain .gsuiEnvelope-propValue" ],
-			release:  [ ".gsuiEnvelope-release  gsui-slider", ".gsuiEnvelope-release  .gsuiEnvelope-propValue" ],
+			attack:  [ ".gsuiEnvelope-attack  gsui-slider", ".gsuiEnvelope-attack  .gsuiEnvelope-propValue" ],
+			hold:    [ ".gsuiEnvelope-hold    gsui-slider", ".gsuiEnvelope-hold    .gsuiEnvelope-propValue" ],
+			decay:   [ ".gsuiEnvelope-decay   gsui-slider", ".gsuiEnvelope-decay   .gsuiEnvelope-propValue" ],
+			sustain: [ ".gsuiEnvelope-sustain gsui-slider", ".gsuiEnvelope-sustain .gsuiEnvelope-propValue" ],
+			release: [ ".gsuiEnvelope-release gsui-slider", ".gsuiEnvelope-release .gsuiEnvelope-propValue" ],
 		},
 	} )
 
@@ -26,7 +26,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#initSlider( "attack" );
 		this.#initSlider( "hold" );
 		this.#initSlider( "decay" );
-		this.#initSlider( "substain" );
+		this.#initSlider( "sustain" );
 		this.#initSlider( "release" );
 	}
 
@@ -42,7 +42,7 @@ class gsuiEnvelope extends HTMLElement {
 				attack: .1,
 				hold: .1,
 				decay: .1,
-				substain: .8,
+				sustain: .8,
 				release: 1,
 			} );
 			this.updateWave();
@@ -53,7 +53,7 @@ class gsuiEnvelope extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "toggle", "attack", "hold", "decay", "substain", "release" ];
+		return [ "toggle", "attack", "hold", "decay", "sustain", "release" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -62,7 +62,7 @@ class gsuiEnvelope extends HTMLElement {
 				case "attack":
 				case "hold":
 				case "decay":
-				case "substain":
+				case "sustain":
 				case "release":
 					this.#changeProp( prop, +val );
 					break;
@@ -81,7 +81,7 @@ class gsuiEnvelope extends HTMLElement {
 		g.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
 		g.hold = prop === "hold" ? val : +this.getAttribute( "hold" );
 		g.decay = prop === "decay" ? val : +this.getAttribute( "decay" );
-		g.substain = prop === "substain" ? val : +this.getAttribute( "substain" );
+		g.sustain = prop === "sustain" ? val : +this.getAttribute( "sustain" );
 		g.release = prop === "release" ? val : +this.getAttribute( "release" );
 		g.duration =
 		this.#dur = Math.max( g.attack + g.hold + g.decay + .5 + g.release, 2 );
@@ -95,7 +95,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#elements.sliders.attack[ 0 ].enable( b );
 		this.#elements.sliders.hold[ 0 ].enable( b );
 		this.#elements.sliders.decay[ 0 ].enable( b );
-		this.#elements.sliders.substain[ 0 ].enable( b );
+		this.#elements.sliders.sustain[ 0 ].enable( b );
 		this.#elements.sliders.release[ 0 ].enable( b );
 	}
 	#changeProp( prop, val ) {

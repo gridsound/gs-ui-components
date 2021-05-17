@@ -5,9 +5,9 @@
 	box-sizing: border-box;
 	grid-gap: 6px;
 	grid-template:
-		"head head   head  head  head     head    head" 24px
-		".    attack hold  decay substain release .   " 28px
-		".    graph  graph graph graph    graph   .   " 1fr
+		"head head   head  head  head    head    head" 24px
+		".    attack hold  decay sustain release .   " 28px
+		".    graph  graph graph graph   graph   .   " 1fr
 		".    .      .     .     .        .       .   " 0
 		/0    1fr    1fr   1fr   1fr      1fr     0;
 	color: var( --gsuiEnvelope-txt );
@@ -53,8 +53,8 @@
 .gsuiEnvelope-decay {
 	grid-area: decay;
 }
-.gsuiEnvelope-substain {
-	grid-area: substain;
+.gsuiEnvelope-sustain {
+	grid-area: sustain;
 }
 .gsuiEnvelope-release {
 	grid-area: release;
