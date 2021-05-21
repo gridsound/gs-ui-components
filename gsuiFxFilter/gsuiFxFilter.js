@@ -130,15 +130,15 @@ class gsuiFxFilter extends HTMLElement {
 	}
 }
 
-gsuiFxFilter.typeGainQ = GSUtils.deepFreeze( {
-	lowpass:   { gain: false, q: true },
-	highpass:  { gain: false, q: true },
-	bandpass:  { gain: false, q: true },
-	lowshelf:  { gain: true,  q: false },
-	highshelf: { gain: true,  q: false },
-	peaking:   { gain: true,  q: true },
-	notch:     { gain: false, q: true },
-	allpass:   { gain: false, q: true },
+gsuiFxFilter.typeGainQ = Object.freeze( {
+	lowpass:   Object.freeze( { gain: false, q: true } ),
+	highpass:  Object.freeze( { gain: false, q: true } ),
+	bandpass:  Object.freeze( { gain: false, q: true } ),
+	lowshelf:  Object.freeze( { gain: true,  q: false } ),
+	highshelf: Object.freeze( { gain: true,  q: false } ),
+	peaking:   Object.freeze( { gain: true,  q: true } ),
+	notch:     Object.freeze( { gain: false, q: true } ),
+	allpass:   Object.freeze( { gain: false, q: true } ),
 } );
 
 customElements.define( "gsui-fx-filter", gsuiFxFilter );
