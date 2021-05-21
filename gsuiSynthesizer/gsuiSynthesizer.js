@@ -7,12 +7,16 @@ class gsuiSynthesizer extends HTMLElement {
 	#uiOscs = new Map()
 	#children = GSUI.getTemplate( "gsui-synthesizer" )
 	#elements = GSUI.findElements( this.#children, {
+		env: "gsui-envelope",
+		lfo: "gsui-lfo",
 		oscList: ".gsuiSynthesizer-oscList",
 		newOsc: ".gsuiSynthesizer-newOsc",
 	} )
 
 	constructor() {
 		super();
+		this.env = this.#elements.env;
+		this.lfo = this.#elements.lfo;
 		Object.seal( this );
 
 		this.#elements.newOsc.onclick = this.#onclickNewOsc.bind( this );
@@ -32,19 +36,11 @@ class gsuiSynthesizer extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiSynthesizer" );
 			this.append( ...this.#children );
-			this.querySelector( ".gsuiSynthesizer-env" ).append( this.#env );
-			this.querySelector( ".gsuiSynthesizer-lfo" ).append( this.#lfo );
 			this.#children = null;
 		}
 	}
 
 	// .........................................................................
-	setEnvelope( env ) {
-		this.#env = env;
-	}
-	setLFO( lfo ) {
-		this.#lfo = lfo;
-	}
 	setWaveList( arr ) {
 		this.#waveList = arr;
 		this.#uiOscs.forEach( o => o.addWaves( arr ) );

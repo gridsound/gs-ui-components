@@ -2,8 +2,8 @@
 
 GSUI.setTemplate( "gsui-synthesizer", () => {
 	return [
-		GSUI.createElement( "div", { class: "gsuiSynthesizer-env" } ),
-		GSUI.createElement( "div", { class: "gsuiSynthesizer-lfo" } ),
+		GSUI.createElement( "div", { class: "gsuiSynthesizer-env" }, GSUI.createElement( "gsui-envelope" ) ),
+		GSUI.createElement( "div", { class: "gsuiSynthesizer-lfo" }, GSUI.createElement( "gsui-lfo" ) ),
 		GSUI.createElement( "div", { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
 			GSUI.createElement( "span", { class: "gsuiSynthesizer-headTitle" }, "oscillators" ),
 			GSUI.createElement( "span", { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPitch" }, "pitch" ),
