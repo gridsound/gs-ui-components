@@ -6,15 +6,18 @@ class gsuiSynthesizer extends HTMLElement {
 	#waveList = []
 	#uiOscs = new Map()
 	#children = GSUI.getTemplate( "gsui-synthesizer" )
-	#elOscList = this.#children[ 3 ]
+	#elements = GSUI.findElements( this.#children, {
+		oscList: ".gsuiSynthesizer-oscList",
+		newOsc: ".gsuiSynthesizer-newOsc",
+	} )
 
 	constructor() {
 		super();
 		Object.seal( this );
 
-		this.#children[ 3 ].firstChild.onclick = this.#onclickNewOsc.bind( this );
+		this.#elements.newOsc.onclick = this.#onclickNewOsc.bind( this );
 		new gsuiReorder( {
-			rootElement: this.#elOscList,
+			rootElement: this.#elements.oscList,
 			direction: "column",
 			dataTransferType: "oscillator",
 			itemSelector: ".gsuiOscillator",
@@ -57,7 +60,7 @@ class gsuiSynthesizer extends HTMLElement {
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );
 		uiOsc.dataset.id = id;
-		this.#elOscList.append( uiOsc );
+		this.#elements.oscList.append( uiOsc );
 	}
 	removeOscillator( id ) {
 		const osc = this.#uiOscs.get( id );
@@ -68,7 +71,7 @@ class gsuiSynthesizer extends HTMLElement {
 		}
 	}
 	reorderOscillators( obj ) {
-		gsuiReorder.listReorder( this.#elOscList, obj );
+		gsuiReorder.listReorder( this.#elements.oscList, obj );
 	}
 
 	// events:
@@ -77,7 +80,7 @@ class gsuiSynthesizer extends HTMLElement {
 		GSUI.dispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
 	}
 	#onchangeReorder() {
-		const oscs = gsuiReorder.listComputeOrderChange( this.#elOscList, {} );
+		const oscs = gsuiReorder.listComputeOrderChange( this.#elements.oscList, {} );
 
 		GSUI.dispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
 	}
