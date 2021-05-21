@@ -1,12 +1,6 @@
 "use strict";
 
 class gsuiTimeline extends HTMLElement {
-	#children = GSUI.getTemplate( "gsui-timeline" )
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiTimeline" )
-	#onscrollBind = this.#onscroll.bind( this )
-	#onresizeBind = this.#onresize.bind( this )
-	#onmouseupBind = this.#onmouseup.bind( this )
-	#onmousemoveBind = this.#onmousemove.bind( this )
 	#status = ""
 	#step = 1
 	#offset = null
@@ -18,13 +12,21 @@ class gsuiTimeline extends HTMLElement {
 	#mousedownBeat = 0
 	#mousedownLoopA = 0
 	#mousedownLoopB = 0
-	#elSteps = this.#children[ 0 ]
-	#elBeats = this.#children[ 1 ]
-	#elMeasures = this.#children[ 2 ]
-	#elLoop = this.#children[ 3 ].firstChild
-	#elTimeLine = this.#children[ 4 ]
-	#elCursor = this.#children[ 4 ].firstChild
-	#elCursorPreview = this.#children[ 4 ].lastChild
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiTimeline" )
+	#onscrollBind = this.#onscroll.bind( this )
+	#onresizeBind = this.#onresize.bind( this )
+	#onmouseupBind = this.#onmouseup.bind( this )
+	#onmousemoveBind = this.#onmousemove.bind( this )
+	#children = GSUI.getTemplate( "gsui-timeline" )
+	#elements = GSUI.findElements( this.#children, {
+		steps: ".gsuiTimeline-steps",
+		beats: ".gsuiTimeline-beats",
+		measures: ".gsuiTimeline-measures",
+		loop: ".gsuiTimeline-loop",
+		timeLine: ".gsuiTimeline-timeLine",
+		cursor: ".gsuiTimeline-cursor",
+		cursorPreview: ".gsuiTimeline-cursorPreview",
+	} )
 
 	constructor() {
 		super();
@@ -37,7 +39,7 @@ class gsuiTimeline extends HTMLElement {
 		this.looping = false;
 		Object.seal( this );
 
-		this.#elCursorPreview.remove();
+		this.#elements.cursorPreview.remove();
 		this.onmousedown = this.#onmousedown.bind( this );
 	}
 
@@ -104,8 +106,8 @@ class gsuiTimeline extends HTMLElement {
 		this.style.fontSize = `${ ppb }px`;
 		this.style.setProperty( "--gsuiTimeline-beats-incr", this.#onlyBigMeasures ? this.beatsPerMeasure : 1 );
 		this.style.setProperty( "--gsuiTimeline-measures-opacity", measuresOpa );
-		this.#elSteps.style.opacity = stepsOpa;
-		this.#elBeats.style.opacity = beatsOpa;
+		this.#elements.steps.style.opacity = stepsOpa;
+		this.#elements.beats.style.opacity = beatsOpa;
 		if ( this.#scrollingAncestor ) {
 			this.#updateOffset();
 			this.#updateNumberMeasures();
@@ -134,15 +136,15 @@ class gsuiTimeline extends HTMLElement {
 		this.#updateLoop();
 	}
 	#changeCurrentTime( t ) {
-		this.#elCursor.style.left = `${ t }em`;
+		this.#elements.cursor.style.left = `${ t }em`;
 	}
 	#changeCurrentTimePreview( t ) {
 		if ( !t ) {
-			this.#elCursorPreview.remove();
+			this.#elements.cursorPreview.remove();
 		} else {
-			this.#elCursorPreview.style.left = `${ t }em`;
-			if ( !this.#elCursorPreview.parentNode ) {
-				this.#elTimeLine.append( this.#elCursorPreview );
+			this.#elements.cursorPreview.style.left = `${ t }em`;
+			if ( !this.#elements.cursorPreview.parentNode ) {
+				this.#elements.timeLine.append( this.#elements.cursorPreview );
 			}
 		}
 	}
@@ -171,7 +173,7 @@ class gsuiTimeline extends HTMLElement {
 		this.#status = st;
 	}
 	#getBeatByPageX( pageX ) {
-		const bcrX = this.#elTimeLine.getBoundingClientRect().x;
+		const bcrX = this.#elements.timeLine.getBoundingClientRect().x;
 
 		return Math.max( 0, this.beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
 	}
@@ -186,7 +188,7 @@ class gsuiTimeline extends HTMLElement {
 				`currentColor calc( ${ i / sPB }em + 1px )`,
 				`transparent calc( ${ i / sPB }em + 1px )` );
 		}
-		this.#elSteps.style.backgroundImage = `
+		this.#elements.steps.style.backgroundImage = `
 			repeating-linear-gradient(90deg, transparent 0em,
 				${ dots.join( "," ) },
 				transparent calc( ${ 1 }em )
@@ -207,7 +209,7 @@ class gsuiTimeline extends HTMLElement {
 		return diff;
 	}
 	#updateNumberMeasures() {
-		const elMeasures = this.#elMeasures,
+		const elMeasures = this.#elements.measures,
 			px = this.pxPerMeasure * ( this.#onlyBigMeasures ? this.beatsPerMeasure : 1 ),
 			nb = Math.ceil( this.#scrollingAncestor.clientWidth / px ) + 1;
 
@@ -224,7 +226,7 @@ class gsuiTimeline extends HTMLElement {
 		}
 	}
 	#updateMeasures() {
-		Array.prototype.forEach.call( this.#elMeasures.children, ( el, i ) => {
+		Array.prototype.forEach.call( this.#elements.measures.children, ( el, i ) => {
 			el.classList.toggle( "gsuiTimeline-measureBig",
 				this.#onlyBigMeasures || ( this.#offset + i ) % this.beatsPerMeasure === 0 );
 		} );
@@ -232,8 +234,8 @@ class gsuiTimeline extends HTMLElement {
 	#updateLoop() {
 		this.classList.toggle( "gsuiTimeline-looping", this.looping );
 		if ( this.looping ) {
-			this.#elLoop.style.left = `${ this.loopA }em`;
-			this.#elLoop.style.width = `${ this.loopB - this.loopA }em`;
+			this.#elements.loop.style.left = `${ this.loopA }em`;
+			this.#elements.loop.style.width = `${ this.loopB - this.loopA }em`;
 		}
 	}
 
@@ -254,7 +256,7 @@ class gsuiTimeline extends HTMLElement {
 			this.#mousedownDate = Date.now();
 		} else {
 			this.#setStatus(
-				e.target === this.#elCursor.parentNode ? "draggingTime" :
+				e.target === this.#elements.cursor.parentNode ? "draggingTime" :
 				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? "draggingLoopBody" :
 				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? "draggingLoopHandleA" :
 				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) || loopLine ? "draggingLoopHandleB" : "" );
