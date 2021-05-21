@@ -59,6 +59,7 @@ class gsuiEnvelope extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "toggle": this.#changeToggle( val !== null ); break;
+				case "timedivision": this.#changeTimedivision( val ); break;
 				case "attack":
 				case "hold":
 				case "decay":
@@ -71,10 +72,6 @@ class gsuiEnvelope extends HTMLElement {
 	}
 
 	// .........................................................................
-	timeDivision( a, b ) {
-		this.#elements.beatlines.setAttribute( "timedivision", `${ a }/${ b }` );
-		this.updateWave();
-	}
 	updateWave( prop, val ) {
 		const g = this.#elements.graph;
 
@@ -97,6 +94,10 @@ class gsuiEnvelope extends HTMLElement {
 		this.#elements.sliders.decay[ 0 ].enable( b );
 		this.#elements.sliders.sustain[ 0 ].enable( b );
 		this.#elements.sliders.release[ 0 ].enable( b );
+	}
+	#changeTimedivision( val ) {
+		this.#elements.beatlines.setAttribute( "timedivision", val );
+		this.updateWave();
 	}
 	#changeProp( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
