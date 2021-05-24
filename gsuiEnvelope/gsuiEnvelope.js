@@ -113,6 +113,7 @@ class gsuiEnvelope extends HTMLElement {
 	#initSlider( prop ) {
 		const slider = this.#elements.sliders[ prop ][ 0 ];
 
+		slider.enable( false );
 		slider.oninput = this.#oninputSlider.bind( this, prop );
 		slider.onchange = this.#onchangeSlider.bind( this, prop );
 	}
