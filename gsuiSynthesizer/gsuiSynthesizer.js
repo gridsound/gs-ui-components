@@ -1,8 +1,6 @@
 "use strict";
 
 class gsuiSynthesizer extends HTMLElement {
-	#env = null
-	#lfo = null
 	#waveList = []
 	#uiOscs = new Map()
 	#children = GSUI.getTemplate( "gsui-synthesizer" )

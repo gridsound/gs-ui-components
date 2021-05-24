@@ -1,0 +1,57 @@
+<style>
+body {
+	--test-bg-color: #047;
+}
+</style>
+
+<gsui-synthesizer></gsui-synthesizer>
+
+<script>
+TEST( {
+	deps: [
+		"gsuiIcon",
+		"gsuiSlider",
+		"gsuiBeatlines",
+		"gsuiPeriodicWave",
+		"gsuiLFO",
+		"gsuiEnvelope",
+		"gsuiOscillator",
+	],
+	cssFiles: [
+		"gsuiIcon/gsuiIcon.css",
+		"gsuiSlider/gsuiSlider.css",
+		"gsuiReorder/gsuiReorder.css",
+		"gsuiBeatlines/gsuiBeatlines.css",
+		"gsuiPeriodicWave/gsuiPeriodicWave.css",
+		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.css",
+		"gsuiEnvelope/gsuiEnvelope.colors.default.css",
+		"gsuiEnvelope/gsuiEnvelope.css",
+		"gsuiLFO/gsuiLFO.colors.default.css",
+		"gsuiLFO/gsuiLFO.css",
+		"gsuiOscillator/gsuiOscillator.colors.default.css",
+		"gsuiOscillator/gsuiOscillator.css",
+		"gsuiSynthesizer/gsuiSynthesizer.colors.default.css",
+		"gsuiSynthesizer/gsuiSynthesizer.css",
+	],
+	jsFiles: [
+		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js",
+		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js",
+		"gsuiSlider/gsuiSlider.html.js",
+		"gsuiSlider/gsuiSlider.js",
+		"gsuiReorder/gsuiReorder.js",
+		"gsuiBeatlines/gsuiBeatlines.js",
+		"gsuiPeriodicWave/gsuiPeriodicWave.js",
+		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.js",
+		"gsuiEnvelope/gsuiEnvelope.html.js",
+		"gsuiEnvelope/gsuiEnvelope.js",
+		"gsuiLFO/gsuiLFO.html.js",
+		"gsuiLFO/gsuiLFO.js",
+		"gsuiOscillator/gsuiOscillator.html.js",
+		"gsuiOscillator/gsuiOscillator.js",
+		"gsuiSynthesizer/gsuiSynthesizer.html.js",
+		"gsuiSynthesizer/gsuiSynthesizer.js",
+	],
+	js: () => {
+	},
+} );
+</script>
