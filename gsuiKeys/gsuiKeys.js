@@ -84,10 +84,10 @@ class gsuiKeys extends HTMLElement {
 		elKey.classList.toggle( "gsui-active", status );
 		if ( status ) {
 			this.#keysDown.set( midi );
-			GSUI.dispatchEvent( this, "gsuiKeys", "onkeydown", midi, this.#gain );
+			GSUI.dispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
 		} else {
 			this.#keysDown.delete( midi );
-			GSUI.dispatchEvent( this, "gsuiKeys", "onkeyup", midi, this.#gain );
+			GSUI.dispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
 		}
 	}
 
