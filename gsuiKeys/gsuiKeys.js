@@ -15,8 +15,6 @@ class gsuiKeys extends HTMLElement {
 
 	constructor() {
 		super();
-		this.onkeyup =
-		this.onkeydown = null;
 		Object.seal( this );
 
 		this.onmousedown = this.#onmousedown.bind( this );
@@ -86,10 +84,10 @@ class gsuiKeys extends HTMLElement {
 		elKey.classList.toggle( "gsui-active", status );
 		if ( status ) {
 			this.#keysDown.set( midi );
-			this.onkeydown && this.onkeydown( midi, this.#gain );
+			GSUI.dispatchEvent( this, "gsuiKeys", "onkeydown", midi, this.#gain );
 		} else {
 			this.#keysDown.delete( midi );
-			this.onkeyup && this.onkeyup( midi, this.#gain );
+			GSUI.dispatchEvent( this, "gsuiKeys", "onkeyup", midi, this.#gain );
 		}
 	}
 
