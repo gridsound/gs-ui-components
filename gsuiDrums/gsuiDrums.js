@@ -55,7 +55,7 @@ class gsuiDrums extends HTMLElement {
 				case "gsuiSliderGroup":
 					switch ( d.eventName ) {
 						case "change":
-							d.args.unshift( "changeDrumsProps", dt.currentProp );
+							d.args.unshift( dt.currentProp );
 							break;
 						case "input":
 							this.changeDrumProp( d.args[ 0 ], dt.currentProp, d.args[ 1 ] );
