@@ -1,24 +1,25 @@
 "use strict";
 
 class gsuiKeys extends HTMLElement {
+	#keysDown = new Map()
+	#gain = 1
+	#nbOct = 0
+	#rootTop = 0
+	#octStart = 0
+	#blackKeyR = 0
+	#blackKeyH = 0
+	#keyIndMouse = 0
+	#elKeyMouse = null
+	#onmouseupBind = this.#onmouseup.bind( this )
+	#onmousemoveBind = this.#onmousemove.bind( this )
+
 	constructor() {
 		super();
-		this._keysDown = new Map();
-		this._gain = 1;
-		this._nbOct =
-		this._rootTop =
-		this._octStart =
-		this._blackKeyR =
-		this._blackKeyH =
-		this._keyIndMouse = 0;
 		this.onkeyup =
-		this.onkeydown =
-		this._elKeyMouse = null;
-		this._evmuRoot = this._evmuRoot.bind( this );
-		this._evmmRoot = this._evmmRoot.bind( this );
+		this.onkeydown = null;
 		Object.seal( this );
 
-		this.onmousedown = this._evmdRoot.bind( this );
+		this.onmousedown = this.#onmousedown.bind( this );
 	}
 
 	// .........................................................................
@@ -34,8 +35,8 @@ class gsuiKeys extends HTMLElement {
 			el.remove();
 			el._rowElement.remove();
 		} );
-		this._nbOct = nbOct;
-		this._octStart = start;
+		this.#nbOct = nbOct;
+		this.#octStart = start;
 		this.style.counterReset = `octave ${ maxOct }`;
 		this.style.height = `${ nbOct * 12 }em`;
 		for ( let i = 0; i < nbOct; ++i ) {
@@ -55,7 +56,7 @@ class gsuiKeys extends HTMLElement {
 		return this.querySelectorAll( ".gsui-row" );
 	}
 	getKeyElementFromMidi( midi ) {
-		return this.children[ this.children.length - 1 - ( midi - this._octStart * 12 ) ];
+		return this.children[ this.children.length - 1 - ( midi - this.#octStart * 12 ) ];
 	}
 	getMidiKeyFromKeyboard( e ) {
 		const k = gsuiKeys.keyboardToKey[ e.code ];
@@ -65,74 +66,74 @@ class gsuiKeys extends HTMLElement {
 			: false;
 	}
 	midiReleaseAllKeys() {
-		this._keysDown.forEach( ( _, midi ) => this.midiKeyUp( midi ) );
-		this._evmuRoot();
+		this.#keysDown.forEach( ( _, midi ) => this.midiKeyUp( midi ) );
+		this.#onmouseup();
 	}
 	midiKeyDown( midi ) {
-		this._keyUpDown( this.getKeyElementFromMidi( midi ), true );
+		this.#keyUpDown( this.getKeyElementFromMidi( midi ), true );
 	}
 	midiKeyUp( midi ) {
-		this._keyUpDown( this.getKeyElementFromMidi( midi ), false );
+		this.#keyUpDown( this.getKeyElementFromMidi( midi ), false );
 	}
 
 	// .........................................................................
-	_isBlack( keyInd ) {
+	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
-	_keyUpDown( elKey, status ) {
+	#keyUpDown( elKey, status ) {
 		const midi = +elKey.dataset.midi;
 
 		elKey.classList.toggle( "gsui-active", status );
 		if ( status ) {
-			this._keysDown.set( midi );
-			this.onkeydown && this.onkeydown( midi, this._gain );
+			this.#keysDown.set( midi );
+			this.onkeydown && this.onkeydown( midi, this.#gain );
 		} else {
-			this._keysDown.delete( midi );
-			this.onkeyup && this.onkeyup( midi, this._gain );
+			this.#keysDown.delete( midi );
+			this.onkeyup && this.onkeyup( midi, this.#gain );
 		}
 	}
 
 	// .........................................................................
-	_evmdRoot( e ) {
-		if ( this._nbOct ) {
+	#onmousedown( e ) {
+		if ( this.#nbOct ) {
 			const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
 
-			this._rootTop = this.getBoundingClientRect().top;
-			this._blackKeyR = blackKeyBCR.right;
-			this._blackKeyH = blackKeyBCR.height;
-			this._gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
-			document.addEventListener( "mouseup", this._evmuRoot );
-			document.addEventListener( "mousemove", this._evmmRoot );
-			this._evmmRoot( e );
+			this.#rootTop = this.getBoundingClientRect().top;
+			this.#blackKeyR = blackKeyBCR.right;
+			this.#blackKeyH = blackKeyBCR.height;
+			this.#gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
+			document.addEventListener( "mouseup", this.#onmouseupBind );
+			document.addEventListener( "mousemove", this.#onmousemoveBind );
+			this.#onmousemove( e );
 		}
 	}
-	_evmuRoot() {
-		document.removeEventListener( "mouseup", this._evmuRoot );
-		document.removeEventListener( "mousemove", this._evmmRoot );
-		if ( this._elKeyMouse ) {
-			this._keyUpDown( this._elKeyMouse, false );
-			this._elKeyMouse =
-			this._keyIndMouse = null;
+	#onmouseup() {
+		document.removeEventListener( "mouseup", this.#onmouseupBind );
+		document.removeEventListener( "mousemove", this.#onmousemoveBind );
+		if ( this.#elKeyMouse ) {
+			this.#keyUpDown( this.#elKeyMouse, false );
+			this.#elKeyMouse =
+			this.#keyIndMouse = null;
 		}
-		this._gain = 1;
+		this.#gain = 1;
 	}
-	_evmmRoot( e ) {
-		const fKeyInd = ( e.clientY - this._rootTop ) / this._blackKeyH;
+	#onmousemove( e ) {
+		const fKeyInd = ( e.clientY - this.#rootTop ) / this.#blackKeyH;
 		let iKeyInd = ~~fKeyInd;
 
-		if ( e.clientX > this._blackKeyR && this._isBlack( ~~( iKeyInd % 12 ) ) ) {
+		if ( e.clientX > this.#blackKeyR && this.#isBlack( ~~( iKeyInd % 12 ) ) ) {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
-		if ( this._keyIndMouse !== iKeyInd ) {
+		if ( this.#keyIndMouse !== iKeyInd ) {
 			const elKey = this.children[ iKeyInd ];
 
 			if ( elKey ) {
-				if ( this._elKeyMouse ) {
-					this._keyUpDown( this._elKeyMouse, false );
+				if ( this.#elKeyMouse ) {
+					this.#keyUpDown( this.#elKeyMouse, false );
 				}
-				this._elKeyMouse = elKey;
-				this._keyIndMouse = iKeyInd;
-				this._keyUpDown( elKey, true );
+				this.#elKeyMouse = elKey;
+				this.#keyIndMouse = iKeyInd;
+				this.#keyUpDown( elKey, true );
 			}
 		}
 	}
