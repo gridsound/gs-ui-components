@@ -6,6 +6,15 @@ const GSUI = {
 	dragshield: document.createElement( "gsui-dragshield" ),
 
 	// .........................................................................
+	clamp( n, min, max ) {
+		return (
+			min < max
+				? Math.max( min, Math.min( n || 0, max ) )
+				: Math.max( max, Math.min( n || 0, min ) )
+		);
+	},
+
+	// .........................................................................
 	findElements( root, graph ) {
 		return typeof graph === "string"
 			? GSUI._findElemStr( root, graph )
@@ -48,7 +57,7 @@ const GSUI = {
 		el.addEventListener( "gsuiEvents", e => {
 			const d = e.detail,
 				cbs2 = cbs[ d.component ] || cbs.default,
-				fn = cbs2[ d.eventName ] || cbs2.default;
+				fn = cbs2 && ( cbs2[ d.eventName ] || cbs2.default );
 
 			if ( fn && fn( d, e ) !== true ) {
 				e.stopPropagation();
