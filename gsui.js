@@ -44,7 +44,7 @@ const GSUI = {
 			detail: { component, eventName, args },
 		} ) );
 	},
-	listenEvent( el, cbs ) {
+	listenEvents( el, cbs ) {
 		el.addEventListener( "gsuiEvents", e => {
 			const d = e.detail,
 				cbs2 = cbs[ d.component ] || cbs.default,

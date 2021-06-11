@@ -25,7 +25,7 @@ class gsuiEffects extends HTMLElement {
 			handleSelector: ".gsuiEffects-fx-grip",
 			parentSelector: ".gsuiEffects-list",
 		} );
-		GSUI.listenEvent( this, {
+		GSUI.listenEvents( this, {
 			default: {
 				liveChange: ( d, e ) => {
 					d.args.unshift( e.target.dataset.id );
