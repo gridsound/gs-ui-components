@@ -271,8 +271,8 @@ class gsuiPianoroll extends HTMLElement {
 				break;
 			case "gsuiSliderGroup":
 				switch ( e.detail.eventName ) {
-					case "input": return this._ongsuiSliderGroupInput( e.detail.args[ 1 ] );
-					case "inputEnd": return this._ongsuiSliderGroupInputEnd();
+					case "input": this._ongsuiSliderGroupInput( e.detail.args[ 1 ] ); break;
+					case "inputEnd": this._ongsuiSliderGroupInputEnd(); break;
 					case "change": return this._ongsuiSliderGroupChange( e );
 				}
 				break;
