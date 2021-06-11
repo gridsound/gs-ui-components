@@ -49,10 +49,25 @@ class gsuiPianoroll extends HTMLElement {
 			GSUI.createElement( "option", { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
 			GSUI.createElement( "option", { value: "gainLFOAmp" }, "gain.lfo.amp" ),
 		);
+		Object.seal( this );
 
-		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
+		GSUI.listenEvents( this, {
+			gsuiTimewindow: {
+				pxperbeat: d => this._ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
+				lineheight: d => this._ongsuiTimewindowLineheight( d.args[ 0 ] ),
+			},
+			gsuiTimeline: {
+				inputLoop: d => this._ongsuiTimelineChangeLoop( ...d.args ),
+				changeLoop: d => this._ongsuiTimelineChangeLoop( ...d.args ),
+				changeCurrentTime: d => this._ongsuiTimelineChangeCurrentTime( d.args[ 0 ] ),
+			},
+			gsuiSliderGroup: {
+				input: d => this._ongsuiSliderGroupInput( d.args[ 1 ] ),
+				inputEnd: d => this._ongsuiSliderGroupInputEnd(),
+				change: d => this._ongsuiSliderGroupChange( d ),
+			},
+		} );
 		this._slidersSelect.onchange = this._onchangeSlidersSelect.bind( this );
-
 		this._ongsuiTimewindowPxperbeat( 64 );
 		this._ongsuiTimewindowLineheight( 20 );
 		this._onchangeSlidersSelect();
@@ -254,31 +269,6 @@ class gsuiPianoroll extends HTMLElement {
 	_getRowByMidi( midi ) { return this._rowsByMidi[ midi ]; }
 
 	// ........................................................................
-	_ongsuiEvents( e ) {
-		switch ( e.detail.component ) {
-			case "gsuiTimewindow":
-				switch ( e.detail.eventName ) {
-					case "pxperbeat": this._ongsuiTimewindowPxperbeat( e.detail.args[ 0 ] ); break;
-					case "lineheight": this._ongsuiTimewindowLineheight( e.detail.args[ 0 ] ); break;
-				}
-				break;
-			case "gsuiTimeline":
-				switch ( e.detail.eventName ) {
-					case "inputLoop":
-					case "changeLoop": this._ongsuiTimelineChangeLoop( ...e.detail.args ); break;
-					case "changeCurrentTime": this._ongsuiTimelineChangeCurrentTime( e.detail.args[ 0 ] ); break;
-				}
-				break;
-			case "gsuiSliderGroup":
-				switch ( e.detail.eventName ) {
-					case "input": this._ongsuiSliderGroupInput( e.detail.args[ 1 ] ); break;
-					case "inputEnd": this._ongsuiSliderGroupInputEnd(); break;
-					case "change": return this._ongsuiSliderGroupChange( e );
-				}
-				break;
-		}
-		e.stopPropagation();
-	}
 	_ongsuiTimewindowPxperbeat( ppb ) {
 		this._blcManager.__pxPerBeat = ppb;
 		this._blcManager.__blcs.forEach( blc => blc._dragline.redraw() );
@@ -310,9 +300,8 @@ class gsuiPianoroll extends HTMLElement {
 		delete Array.prototype.find.call( this._slidersSelect.children,
 			o => o.value === prop ).dataset.number;
 	}
-	_ongsuiSliderGroupChange( e ) {
-		const d = e.detail,
-			prop = this._slidersSelect.value;
+	_ongsuiSliderGroupChange( d ) {
+		const prop = this._slidersSelect.value;
 
 		d.component = "gsuiPianoroll";
 		d.eventName = "changeKeysProps";
@@ -320,6 +309,7 @@ class gsuiPianoroll extends HTMLElement {
 			d.args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll._xToMul( v[ 1 ] ) );
 		}
 		d.args.unshift( prop );
+		return true;
 	}
 	static _xToMul( x ) {
 		switch ( x ) {
