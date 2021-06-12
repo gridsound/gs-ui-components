@@ -1,48 +1,46 @@
 "use strict";
 
 class gsuiPatternroll extends HTMLElement {
-	constructor() {
-		const win = GSUI.createElement( "gsui-timewindow", {
-				panelsize: 90,
-				panelsizemin: 24,
-				panelsizemax: 160,
-				lineheight: 40,
-				lineheightmin: 20,
-				lineheightmax: 68,
-				pxperbeat: 32,
-				pxperbeatmin: 8,
-				pxperbeatmax: 160,
-			} ),
-			selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#rowsByTrackId = new Map()
+	#tracklist = new gsuiTracklist()
+	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } )
+	#win = GSUI.createElement( "gsui-timewindow", {
+		panelsize: 90,
+		panelsizemin: 24,
+		panelsizemax: 160,
+		lineheight: 40,
+		lineheightmin: 20,
+		lineheightmax: 68,
+		pxperbeat: 32,
+		pxperbeatmin: 8,
+		pxperbeatmax: 160,
+	} )
+	#blcManager = new gsuiBlocksManager( {
+		rootElement: this,
+		selectionElement: this.#selectionElement,
+		timeline: this.#win.timeline,
+		blockDOMChange: this.#blockDOMChange.bind( this ),
+		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
+		managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),
+		managercallSelecting: ids => this.onchange( "selection", ids ),
+		managercallUnselecting: () => this.onchange( "unselection" ),
+		managercallUnselectingOne: blcId => this.onchange( "unselectionOne", blcId ),
+		managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
+		managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
+		managercallCroppingB: ( blcsMap, wIncr ) => this.onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
+	} )
 
+	constructor() {
 		super();
-		this.timeline = win.timeline;
+		this.timeline = this.#win.timeline;
 		this.onchange =
 		this.onaddBlock =
 		this.oneditBlock = null;
-		this._win = win;
-		this._tracklist = new gsuiTracklist();
-		this._blcManager = new gsuiBlocksManager( {
-			rootElement: this,
-			selectionElement,
-			timeline: win.timeline,
-			blockDOMChange: this._blockDOMChange.bind( this ),
-			managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
-			managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),
-			managercallSelecting: ids => this.onchange( "selection", ids ),
-			managercallUnselecting: () => this.onchange( "unselection" ),
-			managercallUnselectingOne: blcId => this.onchange( "unselectionOne", blcId ),
-			managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
-			managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
-			managercallCroppingB: ( blcsMap, wIncr ) => this.onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
-		} );
-		this._selectionElement = selectionElement;
-		this._rowsByTrackId = new Map();
 		Object.seal( this );
 
-		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
-		this._ongsuiTimewindowPxperbeat( 32 );
-		this._ongsuiTimewindowLineheight( 40 );
+		this.addEventListener( "gsuiEvents", this.#ongsuiEvents.bind( this ) );
+		this.#ongsuiTimewindowPxperbeat( 32 );
+		this.#ongsuiTimewindowLineheight( 40 );
 	}
 
 	// .........................................................................
@@ -50,141 +48,140 @@ class gsuiPatternroll extends HTMLElement {
 		if ( !this.firstChild ) {
 			GSUI.setAttribute( this, "tabindex", -1 );
 			this.classList.add( "gsuiBlocksManager", "gsuiPatternroll" );
-			this.append( this._win );
-			this._win.querySelector( ".gsuiTimewindow-panelContent" ).append( this._tracklist.rootElement );
-			this._win.querySelector( ".gsuiTimewindow-mainContent" ).append( this._selectionElement );
-			this._win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this._drop.bind( this );
-			this._win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
+			this.append( this.#win );
+			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist.rootElement );
+			this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
+			this.#win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this.#drop.bind( this );
+			this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 		}
 	}
 
-	// ........................................................................
+	// .........................................................................
 	addTrack( id ) {
-		const elTrack = this._tracklist.addTrack( id ),
+		const elTrack = this.#tracklist.addTrack( id ),
 			row = elTrack.rowElement;
 
-		row.classList.toggle( "gsui-row-small", this._blcManager.__pxPerBeat <= 44 );
-		row.onmousedown = this._rowMousedown.bind( this );
-		this._rowsByTrackId.set( row.dataset.id, row );
-		this._win.querySelector( ".gsuiTimewindow-rows" ).append( row );
+		row.classList.toggle( "gsui-row-small", this.#blcManager.__pxPerBeat <= 44 );
+		row.onmousedown = this.#rowMousedown.bind( this );
+		this.#rowsByTrackId.set( row.dataset.id, row );
+		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
 	}
-	removeTrack( id ) { this._tracklist.removeTrack( id ); }
-	toggleTrack( id, b ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "toggle", b ); }
-	renameTrack( id, s ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "name", s ); }
-	reorderTrack( id, n ) { GSUI.setAttribute( this._tracklist.getTrack( id ), "order", n ); }
+	removeTrack( id ) { this.#tracklist.removeTrack( id ); }
+	toggleTrack( id, b ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "toggle", b ); }
+	renameTrack( id, s ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "name", s ); }
+	reorderTrack( id, n ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "order", n ); }
 
-	// ........................................................................
+	// .........................................................................
 	addBlock( id, obj ) {
 		const elBlc = GSUI.getTemplate( "gsui-patternroll-block" );
 
 		elBlc.dataset.id = id;
 		elBlc.dataset.pattern = obj.pattern;
-		elBlc.onmousedown = this._blcMousedown.bind( this, id );
-		this._blcManager.__blcs.set( id, elBlc );
+		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
+		this.#blcManager.__blcs.set( id, elBlc );
 		this.onaddBlock( id, obj, elBlc );
 	}
 	removeBlock( id ) {
-		this._blcManager.__blcs.get( id ).remove();
-		this._blcManager.__blcs.delete( id );
-		this._blcManager.__blcsSelected.delete( id );
+		this.#blcManager.__blcs.get( id ).remove();
+		this.#blcManager.__blcs.delete( id );
+		this.#blcManager.__blcsSelected.delete( id );
 	}
 	changeBlockProp( id, prop, val ) {
-		const blc = this._blcManager.__blcs.get( id );
+		const blc = this.#blcManager.__blcs.get( id );
 
-		this._blockDOMChange( blc, prop, val );
+		this.#blockDOMChange( blc, prop, val );
 		if ( prop === "track" ) {
 			blc.dataset.track = val;
 		} else if ( prop === "selected" ) {
 			val
-				? this._blcManager.__blcsSelected.set( id, blc )
-				: this._blcManager.__blcsSelected.delete( id );
+				? this.#blcManager.__blcsSelected.set( id, blc )
+				: this.#blcManager.__blcsSelected.delete( id );
 		}
 	}
 	updateBlockViewBox( id, obj ) {
-		this.oneditBlock( id, obj, this._blcManager.__blcs.get( id ) );
+		this.oneditBlock( id, obj, this.#blcManager.__blcs.get( id ) );
 	}
 
-	// ........................................................................
+	// .........................................................................
 	setData( data ) {
-		this._blcManager.setData( data );
+		this.#blcManager.setData( data );
 	}
 	setCallbacks( cb ) {
 		this.onchange = cb.onchange;
 		this.onaddBlock = cb.onaddBlock;
 		this.oneditBlock =
-		this._blcManager._opts.oneditBlock = cb.oneditBlock;
+		this.#blcManager._opts.oneditBlock = cb.oneditBlock;
 	}
 	getBlocks() {
-		return this._blcManager.__blcs;
+		return this.#blcManager.__blcs;
 	}
 	timeDivision( a, b ) {
-		GSUI.setAttribute( this._win, "timedivision", `${ a }/${ b }` );
+		GSUI.setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
 	}
 	currentTime( t ) {
-		GSUI.setAttribute( this._win, "currenttime", t );
+		GSUI.setAttribute( this.#win, "currenttime", t );
 	}
 	loop( a, b ) {
-		GSUI.setAttribute( this._win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		GSUI.setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 	}
 
-	// Blocks manager callback
-	// ........................................................................
-	_blockDOMChange( el, prop, val ) {
+	// .........................................................................
+	#blockDOMChange( el, prop, val ) {
 		switch ( prop ) {
 			case "when": el.style.left = `${ val }em`; break;
 			case "duration": el.style.width = `${ val }em`; break;
 			case "deleted": el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val ); break;
 			case "selected": el.classList.toggle( "gsuiBlocksManager-block-selected", !!val ); break;
-			case "row": this._blockDOMChange( el, "track", this._incrTrackId( el.dataset.track, val ) ); break;
+			case "row": this.#blockDOMChange( el, "track", this.#incrTrackId( el.dataset.track, val ) ); break;
 			case "track": {
-				const row = this._getRowByTrackId( val );
+				const row = this.#getRowByTrackId( val );
 
 				row && row.firstElementChild.append( el );
 			} break;
 		}
 	}
 
-	// ........................................................................
-	_getRowByTrackId( id ) { return this._rowsByTrackId.get( id ); }
-	_incrTrackId( id, incr ) {
-		const row = this._getRowByTrackId( id ),
-			rowInd = this._blcManager.__getRowIndexByRow( row ) + incr;
+	// .........................................................................
+	#getRowByTrackId( id ) { return this.#rowsByTrackId.get( id ); }
+	#incrTrackId( id, incr ) {
+		const row = this.#getRowByTrackId( id ),
+			rowInd = this.#blcManager.__getRowIndexByRow( row ) + incr;
 
-		return this._blcManager.__getRowByIndex( rowInd ).dataset.id;
+		return this.#blcManager.__getRowByIndex( rowInd ).dataset.id;
 	}
 
-	// ........................................................................
-	_ongsuiEvents( e ) {
+	// .........................................................................
+	#ongsuiEvents( e ) {
 		switch ( e.detail.component ) {
 			case "gsuiTimewindow":
 				switch ( e.detail.eventName ) {
-					case "pxperbeat": this._ongsuiTimewindowPxperbeat( e.detail.args[ 0 ] ); break;
-					case "lineheight": this._ongsuiTimewindowLineheight( e.detail.args[ 0 ] ); break;
+					case "pxperbeat": this.#ongsuiTimewindowPxperbeat( e.detail.args[ 0 ] ); break;
+					case "lineheight": this.#ongsuiTimewindowLineheight( e.detail.args[ 0 ] ); break;
 				}
 				break;
 		}
 		e.stopPropagation();
 	}
-	_ongsuiTimewindowPxperbeat( ppb ) {
-		this._blcManager.__pxPerBeat = ppb;
+	#ongsuiTimewindowPxperbeat( ppb ) {
+		this.#blcManager.__pxPerBeat = ppb;
 	}
-	_ongsuiTimewindowLineheight( px ) {
-		this._blcManager.__fontSize = px;
-		Array.from( this._blcManager.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
+	#ongsuiTimewindowLineheight( px ) {
+		this.#blcManager.__fontSize = px;
+		Array.from( this.#blcManager.__rows ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
 	}
 
-	// ........................................................................
-	_rowMousedown( e ) {
-		this._blcManager.__mousedown( e );
-		if ( e.button === 0 && !e.shiftKey && this._blcManager.__blcsSelected.size ) {
+	// .........................................................................
+	#rowMousedown( e ) {
+		this.#blcManager.__mousedown( e );
+		if ( e.button === 0 && !e.shiftKey && this.#blcManager.__blcsSelected.size ) {
 			this.onchange( "unselection" );
 		}
 	}
-	_blcMousedown( id, e ) {
+	#blcMousedown( id, e ) {
 		e.stopPropagation();
-		this._blcManager.__mousedown( e );
+		this.#blcManager.__mousedown( e );
 	}
-	_drop( e ) {
+	#drop( e ) {
 		const dropData = (
 				e.dataTransfer.getData( "pattern-buffer" ) ||
 				e.dataTransfer.getData( "pattern-drums" ) ||
@@ -192,8 +189,8 @@ class gsuiPatternroll extends HTMLElement {
 
 		if ( dropData.length === 2 ) {
 			const padId = dropData[ 0 ],
-				when = this._blcManager.__roundBeat( this._blcManager.__getWhenByPageX( e.pageX ) ),
-				track = this._blcManager.__getRowByIndex( this._blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.id;
+				when = this.#blcManager.__roundBeat( this.#blcManager.__getWhenByPageX( e.pageX ) ),
+				track = this.#blcManager.__getRowByIndex( this.#blcManager.__getRowIndexByPageY( e.pageY ) ).dataset.id;
 
 			this.onchange( "add", padId, when, track );
 		}
