@@ -1,57 +1,67 @@
 "use strict";
 
 class gsuiTimewindow extends HTMLElement {
+	#pxPerBeat = 0
+	#panelSize = 0
+	#lineHeight = 0
+	#mousedownPageX = 0
+	#mousedownPageY = 0
+	#onmouseupExtendBind = this.#onmouseupExtend.bind( this )
+	#onmousemoveExtendPanelBind = this.#onmousemoveExtendPanel.bind( this )
+	#onmousemoveExtendDownPanelBind = this.#onmousemoveExtendDownPanel.bind( this )
+	#children = null
+	#elPanel = null
+	#elStepBtn = null
+	#elPanelDown = null
+	#elBeatlines = null
+	#elCurrentTime = null
+	#elLoopA = null
+	#elLoopB = null
+	#elDown = null
+
 	constructor() {
 		const children = GSUI.getTemplate( "gsui-timewindow" ),
 			elPanel = children[ 0 ],
 			elMain = children[ 1 ];
 
 		super();
-		this._children = children;
-		this._elPanel = elPanel;
-		this._elStepBtn = elPanel.querySelector( ".gsuiTimewindow-step" );
-		this._elPanelDown = elPanel.querySelector( ".gsuiTimewindow-panelContentDown" );
 		this._elTimeline = elMain.querySelector( "gsui-timeline" );
-		this._elBeatlines = elMain.querySelector( "gsui-beatlines" );
-		this._elCurrentTime = elMain.querySelector( ".gsuiTimewindow-currentTime" );
-		this._elLoopA = elMain.querySelector( ".gsuiTimewindow-loopA" );
-		this._elLoopB = elMain.querySelector( ".gsuiTimewindow-loopB" );
-		this._elDown = elMain.querySelector( ".gsuiTimewindow-contentDown" );
-		this._pxPerBeat =
-		this._panelSize =
-		this._lineHeight =
-		this._mousedownPageX =
-		this._mousedownPageY = 0;
-		this._onmousemoveExtendPanel = this._onmousemoveExtendPanel.bind( this );
-		this._onmousemoveExtendDownPanel = this._onmousemoveExtendDownPanel.bind( this );
-		this._onmouseupExtend = this._onmouseupExtend.bind( this );
+		this.#children = children;
+		this.#elPanel = elPanel;
+		this.#elStepBtn = elPanel.querySelector( ".gsuiTimewindow-step" );
+		this.#elPanelDown = elPanel.querySelector( ".gsuiTimewindow-panelContentDown" );
+		this.#elBeatlines = elMain.querySelector( "gsui-beatlines" );
+		this.#elCurrentTime = elMain.querySelector( ".gsuiTimewindow-currentTime" );
+		this.#elLoopA = elMain.querySelector( ".gsuiTimewindow-loopA" );
+		this.#elLoopB = elMain.querySelector( ".gsuiTimewindow-loopB" );
+		this.#elDown = elMain.querySelector( ".gsuiTimewindow-contentDown" );
 		Object.seal( this );
 
-		this.addEventListener( "gsuiEvents", this._ongsuiEvents.bind( this ) );
+		this.addEventListener( "gsuiEvents", this.#ongsuiEvents.bind( this ) );
 		this.ondragstart = () => false;
-		elMain.onwheel = this._onwheel.bind( this );
-		this._elStepBtn.onclick = this._onclickStep.bind( this );
+		elMain.onwheel = this.#onwheel.bind( this );
+		this.#elStepBtn.onclick = this.#onclickStep.bind( this );
 		elMain.querySelector( ".gsuiTimewindow-mainContent" ).oncontextmenu = e => e.preventDefault();
-		elPanel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this._onwheelPanel.bind( this );
-		elPanel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this._onmousedownExtend.bind( this, "side" );
+		elPanel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this.#onwheelPanel.bind( this );
+		elPanel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this.#onmousedownExtend.bind( this, "side" );
 	}
 
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiTimewindow" );
-			this._elPanel.style.minWidth = `${ this.getAttribute( "panelsize" ) || 100 }px`;
-			this.append( ...this._children );
+			this.#elPanel.style.minWidth = `${ this.getAttribute( "panelsize" ) || 100 }px`;
+			this.append( ...this.#children );
 			if ( this.hasAttribute( "downpanel" ) ) {
-				this._elPanelDown.firstChild.onmousedown =
-				this._elDown.firstChild.onmousedown = this._onmousedownExtend.bind( this, "down" );
-				this._elPanelDown.style.height =
-				this._elDown.style.height = `${ this.getAttribute( "downpanelsize" ) || 50 }px`;
+				this.#elPanelDown.firstChild.onmousedown =
+				this.#elDown.firstChild.onmousedown = this.#onmousedownExtend.bind( this, "down" );
+				this.#elPanelDown.style.height =
+				this.#elDown.style.height = `${ this.getAttribute( "downpanelsize" ) || 50 }px`;
 			} else {
-				this._elPanelDown.remove();
-				this._elDown.remove();
+				this.#elPanelDown.remove();
+				this.#elDown.remove();
 			}
-			this._children = null;
+			this.#children = null;
 			if ( !this.hasAttribute( "step" ) ) {
 				this.setAttribute( "step", 1 );
 			}
@@ -71,23 +81,23 @@ class gsuiTimewindow extends HTMLElement {
 			switch ( prop ) {
 				case "step":
 					this._elTimeline.setAttribute( "step", val );
-					this._elStepBtn.firstChild.textContent = this._convertStepToFrac( +val );
+					this.#elStepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
 					break;
 				case "timedivision":
 					this._elTimeline.setAttribute( "timedivision", val );
-					this._elBeatlines.setAttribute( "timedivision", val );
+					this.#elBeatlines.setAttribute( "timedivision", val );
 					break;
 				case "pxperbeat":
-					this._pxPerBeat = +val;
+					this.#pxPerBeat = +val;
 					this._elTimeline.setAttribute( "pxperbeat", val );
-					this._elBeatlines.setAttribute( "pxperbeat", val );
+					this.#elBeatlines.setAttribute( "pxperbeat", val );
 					this.style.setProperty( "--gsuiTimewindow-pxperbeat", `${ val }px` );
-					this._elCurrentTime.style.fontSize =
-					this._elLoopA.style.fontSize =
-					this._elLoopB.style.fontSize = `${ val }px`;
+					this.#elCurrentTime.style.fontSize =
+					this.#elLoopA.style.fontSize =
+					this.#elLoopB.style.fontSize = `${ val }px`;
 					break;
 				case "lineheight":
-					this._lineHeight = +val;
+					this.#lineHeight = +val;
 					this.style.setProperty( "--gsuiTimewindow-lineH", `${ val }px` );
 					break;
 				case "currenttime": {
@@ -95,9 +105,9 @@ class gsuiTimewindow extends HTMLElement {
 
 					this._elTimeline.setAttribute( "currenttime", val );
 					if ( step ) {
-						this._elCurrentTime.style.left = `${ ( val / step | 0 ) * step }em`;
+						this.#elCurrentTime.style.left = `${ ( val / step | 0 ) * step }em`;
 					} else {
-						this._elCurrentTime.style.left = `${ val }em`;
+						this.#elCurrentTime.style.left = `${ val }em`;
 					}
 				} break;
 				case "loop":
@@ -106,8 +116,8 @@ class gsuiTimewindow extends HTMLElement {
 
 						this.classList.add( "gsuiTimewindow-looping" );
 						this._elTimeline.setAttribute( "loop", val );
-						this._elLoopA.style.width = `${ a }em`;
-						this._elLoopB.style.left = `${ b }em`;
+						this.#elLoopA.style.width = `${ a }em`;
+						this.#elLoopB.style.left = `${ b }em`;
 					} else {
 						this.classList.remove( "gsuiTimewindow-looping" );
 						this._elTimeline.removeAttribute( "loop" );
@@ -118,7 +128,7 @@ class gsuiTimewindow extends HTMLElement {
 	}
 
 	// .........................................................................
-	_convertStepToFrac( step ) {
+	#convertStepToFrac( step ) {
 		return (
 			step >= 1 ? "1" :
 			step >= .5 ? "1 / 2" :
@@ -127,7 +137,7 @@ class gsuiTimewindow extends HTMLElement {
 	}
 
 	// .........................................................................
-	_ongsuiEvents( e ) {
+	#ongsuiEvents( e ) {
 		const d = e.detail;
 
 		switch ( d.component ) {
@@ -158,7 +168,7 @@ class gsuiTimewindow extends HTMLElement {
 			} break;
 		}
 	}
-	_onclickStep() {
+	#onclickStep() {
 		const v = +this.getAttribute( "step" ),
 			frac =
 				v >= 1 ? 2 :
@@ -167,12 +177,12 @@ class gsuiTimewindow extends HTMLElement {
 
 		this.setAttribute( "step", 1 / frac );
 	}
-	_onwheel( e ) {
+	#onwheel( e ) {
 		if ( e.ctrlKey ) {
-			const ppb = this._pxPerBeat,
+			const ppb = this.#pxPerBeat,
 				min = +this.getAttribute( "pxperbeatmin" ) || 8,
 				max = +this.getAttribute( "pxperbeatmax" ) || 512,
-				offpx = parseInt( this._elPanel.style.minWidth ),
+				offpx = parseInt( this.#elPanel.style.minWidth ),
 				mousepx = e.pageX - this.getBoundingClientRect().left - offpx,
 				scrollPpb = this.scrollLeft / ppb,
 				mul = e.deltaY > 0 ? .9 : 1.1,
@@ -188,9 +198,9 @@ class gsuiTimewindow extends HTMLElement {
 			}
 		}
 	}
-	_onwheelPanel( e ) {
+	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
-			const lh = this._lineHeight,
+			const lh = this.#lineHeight,
 				min = +this.getAttribute( "lineheightmin" ) || 24,
 				max = +this.getAttribute( "lineheightmax" ) || 256,
 				offpx = parseInt( this._elTimeline.clientHeight ),
@@ -209,42 +219,42 @@ class gsuiTimewindow extends HTMLElement {
 			}
 		}
 	}
-	_onmousedownExtend( panel, e ) {
+	#onmousedownExtend( panel, e ) {
 		GSUI.unselectText();
 		if ( panel === "side" ) {
-			this._panelSize = this._elPanel.clientWidth;
-			this._mousedownPageX = e.pageX;
+			this.#panelSize = this.#elPanel.clientWidth;
+			this.#mousedownPageX = e.pageX;
 			GSUI.dragshield.show( "ew-resize" );
-			document.addEventListener( "mousemove", this._onmousemoveExtendPanel );
+			document.addEventListener( "mousemove", this.#onmousemoveExtendPanelBind );
 		} else {
-			this._panelSize = this._elDown.clientHeight;
-			this._mousedownPageY = e.pageY;
+			this.#panelSize = this.#elDown.clientHeight;
+			this.#mousedownPageY = e.pageY;
 			GSUI.dragshield.show( "ns-resize" );
-			document.addEventListener( "mousemove", this._onmousemoveExtendDownPanel );
+			document.addEventListener( "mousemove", this.#onmousemoveExtendDownPanelBind );
 		}
-		document.addEventListener( "mouseup", this._onmouseupExtend );
+		document.addEventListener( "mouseup", this.#onmouseupExtendBind );
 	}
-	_onmousemoveExtendPanel( e ) {
-		const w = this._panelSize + ( e.pageX - this._mousedownPageX ),
+	#onmousemoveExtendPanel( e ) {
+		const w = this.#panelSize + ( e.pageX - this.#mousedownPageX ),
 			min = +this.getAttribute( "panelsizemin" ) || 50,
 			max = +this.getAttribute( "panelsizemax" ) || 260,
 			w2 = Math.max( min, Math.min( w, max ) );
 
-		this._elPanel.style.minWidth = `${ w2 }px`;
+		this.#elPanel.style.minWidth = `${ w2 }px`;
 	}
-	_onmousemoveExtendDownPanel( e ) {
-		const h = this._panelSize + ( this._mousedownPageY - e.pageY ),
+	#onmousemoveExtendDownPanel( e ) {
+		const h = this.#panelSize + ( this.#mousedownPageY - e.pageY ),
 			min = +this.getAttribute( "downpanelsizemin" ) || 50,
 			max = +this.getAttribute( "downpanelsizemax" ) || 260,
 			h2 = Math.max( min, Math.min( h, max ) );
 
-		this._elPanelDown.style.height =
-		this._elDown.style.height = `${ h2 }px`;
+		this.#elPanelDown.style.height =
+		this.#elDown.style.height = `${ h2 }px`;
 	}
-	_onmouseupExtend() {
-		document.removeEventListener( "mousemove", this._onmousemoveExtendDownPanel );
-		document.removeEventListener( "mousemove", this._onmousemoveExtendPanel );
-		document.removeEventListener( "mouseup", this._onmouseupExtend );
+	#onmouseupExtend() {
+		document.removeEventListener( "mousemove", this.#onmousemoveExtendDownPanelBind );
+		document.removeEventListener( "mousemove", this.#onmousemoveExtendPanelBind );
+		document.removeEventListener( "mouseup", this.#onmouseupExtendBind );
 		GSUI.dragshield.hide();
 	}
 }
