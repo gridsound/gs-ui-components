@@ -25,7 +25,7 @@ class gsuiTimewindow extends HTMLElement {
 			elMain = children[ 1 ];
 
 		super();
-		this._elTimeline = elMain.querySelector( "gsui-timeline" );
+		this.timeline = elMain.querySelector( "gsui-timeline" );
 		this.#children = children;
 		this.#elPanel = elPanel;
 		this.#elStepBtn = elPanel.querySelector( ".gsuiTimewindow-step" );
@@ -80,16 +80,16 @@ class gsuiTimewindow extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "step":
-					this._elTimeline.setAttribute( "step", val );
+					this.timeline.setAttribute( "step", val );
 					this.#elStepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
 					break;
 				case "timedivision":
-					this._elTimeline.setAttribute( "timedivision", val );
+					this.timeline.setAttribute( "timedivision", val );
 					this.#elBeatlines.setAttribute( "timedivision", val );
 					break;
 				case "pxperbeat":
 					this.#pxPerBeat = +val;
-					this._elTimeline.setAttribute( "pxperbeat", val );
+					this.timeline.setAttribute( "pxperbeat", val );
 					this.#elBeatlines.setAttribute( "pxperbeat", val );
 					this.style.setProperty( "--gsuiTimewindow-pxperbeat", `${ val }px` );
 					this.#elCurrentTime.style.fontSize =
@@ -103,7 +103,7 @@ class gsuiTimewindow extends HTMLElement {
 				case "currenttime": {
 					const step = +this.getAttribute( "currenttimestep" );
 
-					this._elTimeline.setAttribute( "currenttime", val );
+					this.timeline.setAttribute( "currenttime", val );
 					if ( step ) {
 						this.#elCurrentTime.style.left = `${ ( val / step | 0 ) * step }em`;
 					} else {
@@ -115,12 +115,12 @@ class gsuiTimewindow extends HTMLElement {
 						const [ a, b ] = val.split( "-" );
 
 						this.classList.add( "gsuiTimewindow-looping" );
-						this._elTimeline.setAttribute( "loop", val );
+						this.timeline.setAttribute( "loop", val );
 						this.#elLoopA.style.width = `${ a }em`;
 						this.#elLoopB.style.left = `${ b }em`;
 					} else {
 						this.classList.remove( "gsuiTimewindow-looping" );
-						this._elTimeline.removeAttribute( "loop" );
+						this.timeline.removeAttribute( "loop" );
 					}
 					break;
 			}
@@ -203,7 +203,7 @@ class gsuiTimewindow extends HTMLElement {
 			const lh = this.#lineHeight,
 				min = +this.getAttribute( "lineheightmin" ) || 24,
 				max = +this.getAttribute( "lineheightmax" ) || 256,
-				offpx = parseInt( this._elTimeline.clientHeight ),
+				offpx = parseInt( this.timeline.clientHeight ),
 				mousepx = e.pageY - this.getBoundingClientRect().top - offpx,
 				scrollLh = this.scrollTop / lh,
 				mul = e.deltaY > 0 ? .9 : 1.1,

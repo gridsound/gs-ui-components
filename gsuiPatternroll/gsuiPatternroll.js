@@ -16,7 +16,7 @@ class gsuiPatternroll extends HTMLElement {
 			selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
 
 		super();
-		this.timeline = win._elTimeline;
+		this.timeline = win.timeline;
 		this.onchange =
 		this.onaddBlock =
 		this.oneditBlock = null;
@@ -25,7 +25,7 @@ class gsuiPatternroll extends HTMLElement {
 		this._blcManager = new gsuiBlocksManager( {
 			rootElement: this,
 			selectionElement,
-			timeline: win._elTimeline,
+			timeline: win.timeline,
 			blockDOMChange: this._blockDOMChange.bind( this ),
 			managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
 			managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),

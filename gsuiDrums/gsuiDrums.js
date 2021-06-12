@@ -35,7 +35,7 @@ class gsuiDrums extends HTMLElement {
 
 	constructor() {
 		super();
-		this.timeline = this.#win._elTimeline;
+		this.timeline = this.#win.timeline;
 		this.drumrows = GSUI.createElement( "gsui-drumrows" );
 		Object.seal( this );
 

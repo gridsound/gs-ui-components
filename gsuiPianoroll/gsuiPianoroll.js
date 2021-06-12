@@ -31,7 +31,7 @@ class gsuiPianoroll extends HTMLElement {
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		selectionElement: this.#selectionElement,
-		timeline: this.#win._elTimeline,
+		timeline: this.#win.timeline,
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
 		managercallSelecting: ids => this.onchange( "selection", ids ),
@@ -44,7 +44,7 @@ class gsuiPianoroll extends HTMLElement {
 
 	constructor() {
 		super();
-		this.timeline = this.#win._elTimeline;
+		this.timeline = this.#win.timeline;
 		this.uiKeys = GSUI.createElement( "gsui-keys" );
 		this.onchange = null;
 		Object.seal( this );
