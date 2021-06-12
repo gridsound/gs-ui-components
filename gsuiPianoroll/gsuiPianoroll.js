@@ -55,8 +55,8 @@ class gsuiPianoroll extends HTMLElement {
 				lineheight: d => this.#ongsuiTimewindowLineheight( d.args[ 0 ] ),
 			},
 			gsuiTimeline: {
-				inputLoop: d => this.#ongsuiTimelineChangeLoop( ...d.args ),
-				changeLoop: d => this.#ongsuiTimelineChangeLoop( ...d.args ),
+				inputLoop: d => this.#ongsuiTimelineChangeLoop( false, ...d.args ),
+				changeLoop: d => this.#ongsuiTimelineChangeLoop( true, ...d.args ),
 				changeCurrentTime: d => this.#ongsuiTimelineChangeCurrentTime( d.args[ 0 ] ),
 			},
 			gsuiSliderGroup: {
@@ -279,10 +279,12 @@ class gsuiPianoroll extends HTMLElement {
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
 		GSUI.setAttribute( this.#uiSliderGroup, "currenttime", t );
+		return true;
 	}
-	#ongsuiTimelineChangeLoop( a, b ) {
+	#ongsuiTimelineChangeLoop( ret, a, b ) {
 		GSUI.setAttribute( this.#uiSliderGroup, "loopa", a );
 		GSUI.setAttribute( this.#uiSliderGroup, "loopb", b );
+		return ret;
 	}
 	#ongsuiSliderGroupInput( val ) {
 		const prop = this.#slidersSelect.value;
