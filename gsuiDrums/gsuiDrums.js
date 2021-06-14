@@ -39,34 +39,27 @@ class gsuiDrums extends HTMLElement {
 		this.drumrows = GSUI.createElement( "gsui-drumrows" );
 		Object.seal( this );
 
-		this.addEventListener( "gsuiEvents", e => {
-			const d = e.detail,
-				dt = e.target.dataset;
-
-			switch ( d.component ) {
-				case "gsuiTimewindow":
-					switch ( d.eventName ) {
-						case "pxperbeat":
-							this.setPxPerBeat( d.args[ 0 ] );
-							e.stopPropagation();
-							break;
-					}
-					break;
-				case "gsuiSliderGroup":
-					switch ( d.eventName ) {
-						case "change":
-							d.args.unshift( dt.currentProp );
-							break;
-						case "input":
-							this.changeDrumProp( d.args[ 0 ], dt.currentProp, d.args[ 1 ] );
-							d.args = [ dt.id, d.args[ 0 ], dt.currentProp, d.args[ 1 ] ];
-							break;
-						case "inputEnd":
-							d.args = [ dt.id, dt.currentProp ];
-							break;
-					}
-					break;
-			}
+		GSUI.listenEvents( this, {
+			gsuiTimewindow: {
+				pxperbeat: d => {
+					this.setPxPerBeat( d.args[ 0 ] );
+				},
+			},
+			gsuiSliderGroup: {
+				change: ( d, t ) => {
+					d.args.unshift( t.dataset.currentProp );
+					return true;
+				},
+				input: ( d, t ) => {
+					this.changeDrumProp( d.args[ 0 ], t.dataset.currentProp, d.args[ 1 ] );
+					d.args = [ t.dataset.id, d.args[ 0 ], t.dataset.currentProp, d.args[ 1 ] ];
+					return true;
+				},
+				inputEnd: ( d, t ) => {
+					d.args = [ t.dataset.id, t.dataset.currentProp ];
+					return true;
+				},
+			},
 		} );
 		this.#win.setAttribute( "step", 1 );
 		this.#win.onscroll = this.#onmousemoveLines2.bind( this );
