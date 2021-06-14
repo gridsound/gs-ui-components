@@ -27,14 +27,14 @@ class gsuiEffects extends HTMLElement {
 		} );
 		GSUI.listenEvents( this, {
 			default: {
-				liveChange: ( d, e ) => {
-					d.args.unshift( e.target.dataset.id );
+				liveChange: ( d, t ) => {
+					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
 					d.eventName = "liveChangeEffect";
 					return true;
 				},
-				changeProp: ( d, e ) => {
-					d.args.unshift( e.target.dataset.id );
+				changeProp: ( d, t ) => {
+					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
 					d.eventName = "changeEffect";
 					return true;
