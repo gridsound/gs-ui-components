@@ -38,7 +38,12 @@ class gsuiPatternroll extends HTMLElement {
 		this.oneditBlock = null;
 		Object.seal( this );
 
-		this.addEventListener( "gsuiEvents", this.#ongsuiEvents.bind( this ) );
+		GSUI.listenEvents( this, {
+			gsuiTimewindow: {
+				pxperbeat: d => this.#ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
+				lineheight: d => this.#ongsuiTimewindowLineheight( d.args[ 0 ] ),
+			},
+		} );
 		this.#ongsuiTimewindowPxperbeat( 32 );
 		this.#ongsuiTimewindowLineheight( 40 );
 	}
@@ -151,17 +156,6 @@ class gsuiPatternroll extends HTMLElement {
 	}
 
 	// .........................................................................
-	#ongsuiEvents( e ) {
-		switch ( e.detail.component ) {
-			case "gsuiTimewindow":
-				switch ( e.detail.eventName ) {
-					case "pxperbeat": this.#ongsuiTimewindowPxperbeat( e.detail.args[ 0 ] ); break;
-					case "lineheight": this.#ongsuiTimewindowLineheight( e.detail.args[ 0 ] ); break;
-				}
-				break;
-		}
-		e.stopPropagation();
-	}
 	#ongsuiTimewindowPxperbeat( ppb ) {
 		this.#blcManager.__pxPerBeat = ppb;
 	}
