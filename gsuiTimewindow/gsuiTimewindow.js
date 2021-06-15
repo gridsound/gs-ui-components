@@ -28,7 +28,23 @@ class gsuiTimewindow extends HTMLElement {
 		this.timeline = this.#elements.timeline;
 		Object.seal( this );
 
-		this.addEventListener( "gsuiEvents", this.#ongsuiEvents.bind( this ) );
+		GSUI.listenEvents( this, {
+			gsuiTimeline: {
+				inputCurrentTime: GSUI.noop,
+				changeCurrentTime: d => {
+					GSUI.setAttribute( this, "currenttime", d.args[ 0 ] );
+					return true;
+				},
+				inputLoop: d => {
+					GSUI.setAttribute( this, "loop", Number.isFinite( d.args[ 0 ] ) && `${ d.args[ 0 ] }-${ d.args[ 1 ] }` );
+					return true;
+				},
+				inputLoopEnd: () => this.style.overflowY = "",
+				inputLoopStart: () => this.style.overflowY = "hidden",
+				inputCurrentTimeEnd: () => this.style.overflowY = "",
+				inputCurrentTimeStart: () => this.style.overflowY = "hidden",
+			},
+		} );
 		this.ondragstart = () => false;
 		this.#elements.main.onwheel = this.#onwheel.bind( this );
 		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
@@ -128,37 +144,6 @@ class gsuiTimewindow extends HTMLElement {
 	}
 
 	// .........................................................................
-	#ongsuiEvents( e ) {
-		const d = e.detail;
-
-		switch ( d.component ) {
-			case "gsuiTimeline": {
-				const [ a, b ] = d.args;
-
-				switch ( d.eventName ) {
-					case "changeCurrentTime":
-						this.setAttribute( "currenttime", a );
-						break;
-					case "inputCurrentTime":
-						e.stopPropagation();
-						break;
-					case "inputLoop":
-						GSUI.setAttribute( this, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
-						break;
-					case "inputLoopStart":
-					case "inputCurrentTimeStart":
-						this.style.overflowY = "hidden";
-						e.stopPropagation();
-						break;
-					case "inputLoopEnd":
-					case "inputCurrentTimeEnd":
-						this.style.overflowY = "";
-						e.stopPropagation();
-						break;
-				}
-			} break;
-		}
-	}
 	#onclickStep() {
 		const v = +this.getAttribute( "step" ),
 			frac =
