@@ -61,7 +61,7 @@ class gsuiDrums extends HTMLElement {
 				},
 			},
 		} );
-		this.#win.setAttribute( "step", 1 );
+		GSUI.setAttribute( this.#win, "step", 1 );
 		this.#win.onscroll = this.#onmousemoveLines2.bind( this );
 		this.#elDrumHover.remove();
 		this.#elDrumcutHover.remove();
@@ -72,7 +72,7 @@ class gsuiDrums extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.setAttribute( "tabindex", -1 );
+			GSUI.setAttribute( this, "tabindex", -1 );
 			this.append( this.#win, GSUI.createElement( "div", { class: "gsuiDrums-shadow" } ) );
 			this.classList.add( "gsuiDrums" );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.drumrows );
@@ -89,32 +89,30 @@ class gsuiDrums extends HTMLElement {
 		this.classList.toggle( "gsuiDrums-shadowed", b );
 	}
 	currentTime( beat ) {
-		this.#win.setAttribute( "currenttime", beat );
+		GSUI.setAttribute( this.#win, "currenttime", beat );
 	}
 	loop( a, b ) {
-		a !== false
-			? this.#win.setAttribute( "loop", `${ a }-${ b }` )
-			: this.#win.removeAttribute( "loop" )
+		GSUI.setAttribute( this.#win, "loop", a !== false && `${ a }-${ b }` );
 	}
 	timeDivision( a, b ) {
 		this.#stepsPerBeat = b;
-		this.#win.setAttribute( "timedivision", `${ a }/${ b }` );
-		this.#win.setAttribute( "currenttimestep", 1 / b );
+		GSUI.setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
+		GSUI.setAttribute( this.#win, "currenttimestep", 1 / b );
 		this.setPxPerBeat( this.#pxPerBeat );
 		this.#elDrumHover.style.width =
 		this.#elDrumcutHover.style.width =
 		this.#elCurrentTime.style.width = `${ 1 / b }em`;
 	}
 	setFontSize( fs ) {
-		this.#win.setAttribute( "lineheight", fs );
+		GSUI.setAttribute( this.#win, "lineheight", fs );
 	}
 	setPxPerBeat( ppb ) {
 		const ppbpx = `${ ppb }px`;
 
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
-		this.#win.setAttribute( "pxperbeat", ppb );
-		this.#sliderGroups.forEach( grp => grp.setAttribute( "pxperbeat", ppb ) );
+		GSUI.setAttribute( this.#win, "pxperbeat", ppb );
+		this.#sliderGroups.forEach( grp => GSUI.setAttribute( grp, "pxperbeat", ppb ) );
 	}
 	setPropValues( rowId, prop, arr ) {
 		const grp = this.#sliderGroups.get( rowId );
@@ -153,7 +151,7 @@ class gsuiDrums extends HTMLElement {
 		const elLine = GSUI.getTemplate( "gsui-drums-line" ),
 			grp = elLine.querySelector( "gsui-slidergroup" );
 
-		grp.setAttribute( "pxperbeat", this.#pxPerBeat );
+		GSUI.setAttribute( grp, "pxperbeat", this.#pxPerBeat );
 		grp.dataset.id = id;
 		this.#sliderGroups.set( id, grp );
 		return elLine;
