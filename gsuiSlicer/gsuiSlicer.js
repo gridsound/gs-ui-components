@@ -1,9 +1,14 @@
 "use strict";
 
 class gsuiSlicer extends HTMLElement {
+	#dur = 4
+	#slicesWidth = 100
 	#onresizeBind = this.#onresize.bind( this )
 	#children = GSUI.getTemplate( "gsui-slicer" )
 	#elements = GSUI.findElements( this.#children, {
+		beatlines: "gsui-beatlines",
+		diagonalLine: ".gsuiSlicer-slices-line",
+		inputDuration: ".gsuiSlicer-duration-input",
 	} )
 
 	constructor() {
@@ -17,8 +22,10 @@ class gsuiSlicer extends HTMLElement {
 			this.classList.add( "gsuiSlicer" );
 			this.append( ...this.#children );
 			this.#children = null;
-			// GSUI.recallAttributes( this, {
-			// } );
+			GSUI.recallAttributes( this, {
+				duration: 4,
+				timedivision: "4/4",
+			} );
 		}
 		GSUI.observeSizeOf( this, this.#onresizeBind );
 	}
@@ -26,26 +33,35 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "timedivision" ];
+		return [ "duration", "timedivision" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
-			const num = +val;
-
 			switch ( prop ) {
-				// case "timedivision": this.#elements.beatlines.setAttribute( "timedivision", val ); break;
+				case "timedivision": this.#elements.beatlines.setAttribute( "timedivision", val ); break;
+				case "duration":
+					this.#elements.inputDuration.value =
+					this.#dur = +val;
+					this.#updatePxPerBeat();
+					break;
 			}
 		}
 	}
 
 	// .........................................................................
 	#updatePxPerBeat() {
-		// this.#elements.beatlines.setAttribute( "pxPerBeat", this.#waveWidth / this.#dur );
+		this.#elements.beatlines.setAttribute( "pxperbeat", this.#slicesWidth / this.#dur );
 	}
 
 	// .........................................................................
 	#onresize() {
-		// this.#waveWidth = this.#elements.beatlines.getBoundingClientRect().width;
+		const svg = this.#elements.diagonalLine,
+			{ width: w, height: h } = svg.getBoundingClientRect();
+
+		this.#slicesWidth = w;
+		GSUI.setAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttribute( svg.firstChild, "x2", w );
+		GSUI.setAttribute( svg.firstChild, "y2", h );
 		this.#updatePxPerBeat();
 	}
 }
