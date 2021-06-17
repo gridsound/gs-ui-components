@@ -1,22 +1,21 @@
 .gsuiSlicer {
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+	padding: 8px;
 	min-width: 240px;
 	background-color: var( --gsuiSlicer-bg );
 }
 
 /* .......................................................................... */
 .gsuiSlicer-source {
-	flex: .3;
+	flex: .35;
 	display: flex;
 	flex-direction: column;
-	background-color: #0002;
 }
 .gsuiSlicer-source-name {
-	height: 20px;
-	padding-left: 8px;
-	line-height: 20px;
+	height: 1.7em;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -28,8 +27,7 @@
 
 /* .......................................................................... */
 .gsuiSlicer-cropArrows {
-	flex: .05;
-	min-height: 10px;
+	height: 10px;
 	background-color: #0003;
 }
 
