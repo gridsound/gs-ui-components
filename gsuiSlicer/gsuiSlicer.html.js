@@ -16,7 +16,9 @@ GSUI.setTemplate( "gsui-slicer", () => ( [
 		GSUI.createElement( "div", { class: "gsuiSlicer-slicesWrap" } ),
 	),
 	GSUI.createElement( "div", { class: "gsuiSlicer-duration" },
+		GSUI.createElement( "div", { class: "gsuiSlicer-duration-arrow" } ),
 		GSUI.createElement( "input", { class: "gsuiSlicer-duration-input", type: "number", min: 1, max: 99, step: 1, value: 4 } ),
 		GSUI.createElement( "span", { class: "gsuiSlicer-duration-label" }, "beats" ),
+		GSUI.createElement( "div", { class: "gsuiSlicer-duration-arrow" } ),
 	),
 ] ) );

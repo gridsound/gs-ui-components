@@ -50,18 +50,21 @@
 
 /* .......................................................................... */
 .gsuiSlicer-duration {
+	position: relative;
 	display: flex;
+	gap: 10px;
+	height: 20px;
 	align-items: center;
 	justify-content: center;
 	font-size: 14px;
-	background-color: #0002;
 }
 .gsuiSlicer-duration-input {
 	width: 4ch;
-	margin-right: 6px;
+	outline: 0;
 	border: 0;
 	border-radius: 4px;
-	padding: 2px 0 2px 6px;
+	padding: 0 0 0 6px;
+	height: 100%;
 	color: inherit;
 	font-size: inherit;
 	background-color: #fff4;
@@ -69,4 +72,22 @@
 .gsuiSlicer-duration-label {
 	pointer-events: none;
 	user-select: none;
+}
+.gsuiSlicer-duration-arrow {
+	flex: 1;
+	height: 2px;
+	background-color: currentColor;
+	opacity: .3;
+	pointer-events: none;
+}
+.gsuiSlicer-duration-arrow::before {
+	content: "";
+	position: absolute;
+	width: 2px;
+	top: 0;
+	bottom: 0;
+	background-color: currentColor;
+}
+.gsuiSlicer-duration-arrow:last-child::before {
+	right: 0;
 }
