@@ -1,0 +1,33 @@
+<style>
+body {
+	--test-bg-color: #506;
+	--test-content-w: 380px;
+	--test-content-h: 420px;
+}
+</style>
+
+<gsui-slicer timedivision="4/4"></gsui-slicer>
+
+<script>
+TEST( {
+	deps: [
+		"gsuiIcon",
+		"gsuiBeatlines",
+		"gsuiSlider",
+	],
+	cssFiles: [
+		"gsuiIcon/gsuiIcon.css",
+		"gsuiBeatlines/gsuiBeatlines.css",
+		"gsuiSlider/gsuiSlider.css",
+		"gsuiSlicer/gsuiSlicer.colors.default.css",
+		"gsuiSlicer/gsuiSlicer.css",
+	],
+	jsFiles: [
+		"gsuiBeatlines/gsuiBeatlines.js",
+		"gsuiSlider/gsuiSlider.html.js",
+		"gsuiSlider/gsuiSlider.js",
+		"gsuiSlicer/gsuiSlicer.html.js",
+		"gsuiSlicer/gsuiSlicer.js",
+	],
+} );
+</script>
