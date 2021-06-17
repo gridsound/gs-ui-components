@@ -4,6 +4,7 @@ class gsuiSlicer extends HTMLElement {
 	#dur = 4
 	#slicesWidth = 100
 	#onresizeBind = this.#onresize.bind( this )
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
 	#elements = GSUI.findElements( this.#children, {
 		beatlines: "gsui-beatlines",
@@ -14,6 +15,8 @@ class gsuiSlicer extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
+
+		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 	}
 
 	// .........................................................................
@@ -49,8 +52,8 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
-	#updatePxPerBeat() {
-		this.#elements.beatlines.setAttribute( "pxperbeat", this.#slicesWidth / this.#dur );
+	#updatePxPerBeat( dur ) {
+		this.#elements.beatlines.setAttribute( "pxperbeat", this.#slicesWidth / ( dur || this.#dur ) );
 	}
 
 	// .........................................................................
@@ -63,6 +66,12 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.setAttribute( svg.firstChild, "x2", w );
 		GSUI.setAttribute( svg.firstChild, "y2", h );
 		this.#updatePxPerBeat();
+	}
+	#onchangeDuration( e ) {
+		const dur = +e.target.value;
+
+		GSUI.setAttribute( this, "duration", dur );
+		this.#dispatch( "changeDuration", dur );
 	}
 }
 
