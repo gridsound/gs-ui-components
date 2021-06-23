@@ -1,3 +1,6 @@
 .gsuiSlicer {
 	--gsuiSlicer-bg: #666;
+	--gsuiSlicer-slicers-bg: #47475c;
+	--gsuiSlicer-source-bg: #334;
+	--gsuiSlicer-source-wave: var( --gsui-col-pattern );
 }

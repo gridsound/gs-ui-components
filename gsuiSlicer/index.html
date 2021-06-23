@@ -7,16 +7,16 @@ body {
 }
 </style>
 
-<gsui-slicer duration="8" timedivision="4/4"></gsui-slicer>
+<gsui-slicer duration="8" timedivision="4/4" cropa=".25" cropb=".6"></gsui-slicer>
 
 <script>
 TEST( {
 	deps: [
 		"gsuiIcon",
 		"gsuiBeatlines",
-		"gsuiSlider",
 	],
 	cssFiles: [
+		"gsuiDragshield/gsuiDragshield.css",
 		"gsuiIcon/gsuiIcon.css",
 		"gsuiBeatlines/gsuiBeatlines.css",
 		"gsuiSlider/gsuiSlider.css",
@@ -24,11 +24,33 @@ TEST( {
 		"gsuiSlicer/gsuiSlicer.css",
 	],
 	jsFiles: [
+		"gsuiDragshield/gsuiDragshield.js",
+		"gsuiSVGDefs/gsuiSVGDefs.js",
+		"gsuiWaveforms/gsuiWaveforms.js",
+		"gsuiWaveform/gsuiWaveform.js",
+		"gsuiWaveform/gsuiWaveform.draw.js",
 		"gsuiBeatlines/gsuiBeatlines.js",
 		"gsuiSlider/gsuiSlider.html.js",
 		"gsuiSlider/gsuiSlider.js",
 		"gsuiSlicer/gsuiSlicer.html.js",
 		"gsuiSlicer/gsuiSlicer.js",
 	],
+	js: () => {
+		document.body.onclick = () => {
+			const ctx = new AudioContext(),
+				svgDefs = new gsuiWaveforms();
+
+			document.body.onclick = null;
+			svgDefs.hdMode( true );
+			svgDefs.add( "smp0" );
+			fetch( "test-assets/okay.wav" )
+				.then( res => res.arrayBuffer() )
+				.then( arr => ctx.decodeAudioData( arr ) )
+				.then( buf => {
+					svgDefs.update( "smp0", buf );
+					document.querySelector( ".gsuiSlicer-source-wave" ).append( svgDefs.createSVG( "smp0" ) );
+				} );
+		};
+	},
 } );
 </script>

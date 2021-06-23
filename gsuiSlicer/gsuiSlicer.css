@@ -20,22 +20,79 @@
 	font-weight: bold;
 }
 .gsuiSlicer-source-sample {
+	position: relative;
+	overflow: hidden;
 	flex: 1;
 	min-height: 20px;
-	background-color: #0002;
+	cursor: pointer;
 }
+.gsuiSlicer-source-wave {
+	position: relative;
+	height: 100%;
+	background-color: var( --gsuiSlicer-source-bg );
+}
+.gsuiSlicer-source-wave svg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	fill: var( --gsuiSlicer-source-wave );
+}
+.gsuiSlicer-source-crop {
+	position: absolute;
+	top: 0;
+	width: 2px;
+	height: 100%;
+	margin-left: -1px;
+	background-color: white;
+	transition: .2s opacity;
+}
+.gsuiSlicer-source-crop::before {
+	content: "";
+	position: absolute;
+	width: 9999px;
+	height: 100%;
+	opacity: .65;
+	background-color: var( --gsuiSlicer-source-bg );
+}
+.gsuiSlicer-source-cropA::before { right: 2px; }
+.gsuiSlicer-source-cropB::before { left: 2px; }
 
 /* .......................................................................... */
 .gsuiSlicer-cropArrows {
+	position: relative;
 	height: 10px;
-	background-color: #0003;
+	min-height: 10px;
+}
+.gsuiSlicer-cropArrows-arrow {
+	position: absolute;
+	box-sizing: border-box;
+	height: 100%;
+	background-color: var( --gsuiSlicer-source-bg );
+	opacity: .5;
+}
+.gsuiSlicer-cropArrows-arrowA {
+	clip-path: polygon( 100% 0%, 100% 100%, 0% 100% );
+}
+.gsuiSlicer-cropArrows-arrowB {
+	right: 0;
+	clip-path: polygon( 0% 0%, 100% 100%, 0% 100% );
+}
+.gsuiSlicer-cropArrows-arrowZ {
+	transition: .2s opacity;
+}
+.gsuiSlicer[ cropa="0" ] .gsuiSlicer-source-cropA,
+.gsuiSlicer[ cropb="1" ] .gsuiSlicer-source-cropB,
+.gsuiSlicer[ cropa="0" ] .gsuiSlicer-cropArrows-arrowA,
+.gsuiSlicer[ cropb="1" ] .gsuiSlicer-cropArrows-arrowB,
+.gsuiSlicer[ cropa="0" ][ cropb="1" ] .gsuiSlicer-cropArrows-arrowZ {
+	opacity: 0;
 }
 
 /* .......................................................................... */
 .gsuiSlicer-preview {
 	flex: .4;
 	min-height: 30px;
-	background-color: #0002;
+	background-color: var( --gsuiSlicer-source-bg );
 }
 
 /* .......................................................................... */
@@ -44,7 +101,23 @@
 	min-height: 100px;
 	margin: 10px 0;
 	overflow: auto;
-	background-color: #4004;
+	overflow: hidden;
+	background-color: var( --gsuiSlicer-slicers-bg );
+}
+.gsuiSlicer-slices-beatlinesWrap {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: .5;
+	filter: invert( 1 );
+}
+.gsuiSlicer-slices-beatlines + .gsuiSlicer-slices-beatlines {
+	display: none;
+	transform: rotate( 90deg );
+	top: auto;
+	left: auto;
+	right: auto;
+	bottom: auto;
 }
 .gsuiSlicer-slices-in {
 	position: relative;
@@ -59,8 +132,8 @@
 }
 .gsuiSlicer-slices-line line {
 	stroke: currentColor;
-	stroke-width: 4px;
-	stroke-dasharray: 14 7;
+	stroke-width: 2px;
+	stroke-dasharray: 10 5;
 }
 
 /* .......................................................................... */
