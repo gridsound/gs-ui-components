@@ -5,14 +5,16 @@ class gsuiBeatlines extends HTMLElement {
 		this.classList.add( "gsuiBeatlines" );
 	}
 	static get observedAttributes() {
-		return [ "timedivision", "pxperbeat", "coloredbeats" ];
+		return [ "vertical", "timedivision", "pxperbeat", "coloredbeats" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "coloredbeats":
+				case "vertical":
 				case "timedivision":
+				case "coloredbeats":
 					this.style.backgroundImage = gsuiBeatlines._background(
+						this.hasAttribute( "vertical" ) ? 0 : 90,
 						...( this.getAttribute( "timedivision" ) || "4/4" ).split( "/" ),
 						this.hasAttribute( "coloredbeats" ) );
 					break;
@@ -25,18 +27,18 @@ class gsuiBeatlines extends HTMLElement {
 	}
 
 	// .........................................................................
-	static _background( bPM, sPB, colored ) {
+	static _background( deg, bPM, sPB, colored ) {
 		return `
-			${ gsuiBeatlines._repeat( ".5px", "rgba(0,0,0,.15)", 1 / sPB ) },
-			${ gsuiBeatlines._repeat( ".5px", "rgba(0,0,0,.25)", 1 ) },
-			${ gsuiBeatlines._repeat( "1px", "rgba(0,0,0,.5)", bPM ) }
+			${ gsuiBeatlines._repeat( deg, ".5px", "rgba(0,0,0,.15)", 1 / sPB ) },
+			${ gsuiBeatlines._repeat( deg, ".5px", "rgba(0,0,0,.25)", 1 ) },
+			${ gsuiBeatlines._repeat( deg, "1px", "rgba(0,0,0,.5)", bPM ) }
 			${ colored
-				? ",repeating-linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.08) 1em, transparent 1em, transparent 2em)"
+				? `,repeating-linear-gradient(${ deg }deg, rgba(0,0,0,.08), rgba(0,0,0,.08) 1em, transparent 1em, transparent 2em)`
 				: "" }
 		`;
 	}
-	static _repeat( w, col, em ) {
-		return `repeating-linear-gradient(90deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
+	static _repeat( deg, w, col, em ) {
+		return `repeating-linear-gradient(${ deg }deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
 	}
 }
 
