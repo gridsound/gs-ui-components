@@ -13,7 +13,7 @@ class gsuiBeatlines extends HTMLElement {
 				case "vertical":
 				case "timedivision":
 				case "coloredbeats":
-					this.style.backgroundImage = gsuiBeatlines._background(
+					this.style.backgroundImage = gsuiBeatlines.#background(
 						this.hasAttribute( "vertical" ) ? 0 : 90,
 						...( this.getAttribute( "timedivision" ) || "4/4" ).split( "/" ),
 						this.hasAttribute( "coloredbeats" ) );
@@ -27,17 +27,17 @@ class gsuiBeatlines extends HTMLElement {
 	}
 
 	// .........................................................................
-	static _background( deg, bPM, sPB, colored ) {
+	static #background( deg, bPM, sPB, colored ) {
 		return `
-			${ gsuiBeatlines._repeat( deg, ".5px", "rgba(0,0,0,.15)", 1 / sPB ) },
-			${ gsuiBeatlines._repeat( deg, ".5px", "rgba(0,0,0,.25)", 1 ) },
-			${ gsuiBeatlines._repeat( deg, "1px", "rgba(0,0,0,.5)", bPM ) }
+			${ gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.15)", 1 / sPB ) },
+			${ gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.25)", 1 ) },
+			${ gsuiBeatlines.#repeat( deg, "1px", "rgba(0,0,0,.5)", bPM ) }
 			${ colored
 				? `,repeating-linear-gradient(${ deg }deg, rgba(0,0,0,.08), rgba(0,0,0,.08) 1em, transparent 1em, transparent 2em)`
 				: "" }
 		`;
 	}
-	static _repeat( deg, w, col, em ) {
+	static #repeat( deg, w, col, em ) {
 		return `repeating-linear-gradient(${ deg }deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
 	}
 }
