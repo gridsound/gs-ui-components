@@ -1,9 +1,6 @@
 "use strict";
 
 class gsuiBeatlines extends HTMLElement {
-	connectedCallback() {
-		this.classList.add( "gsuiBeatlines" );
-	}
 	static get observedAttributes() {
 		return [ "vertical", "timedivision", "pxperbeat", "coloredbeats" ];
 	}
