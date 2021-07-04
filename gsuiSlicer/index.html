@@ -7,13 +7,14 @@ body {
 }
 </style>
 
-<gsui-slicer duration="8" timedivision="4/4" cropa=".25" cropb=".6"></gsui-slicer>
+<gsui-slicer duration="8" timedivision="4/4" cropa=".143" cropb=".6"></gsui-slicer>
 
 <script>
 TEST( {
 	deps: [
 		"gsuiIcon",
 		"gsuiBeatlines",
+		"gsuiWaveform",
 	],
 	cssFiles: [
 		"gsuiDragshield/gsuiDragshield.css",
@@ -25,8 +26,6 @@ TEST( {
 	],
 	jsFiles: [
 		"gsuiDragshield/gsuiDragshield.js",
-		"gsuiSVGDefs/gsuiSVGDefs.js",
-		"gsuiWaveforms/gsuiWaveforms.js",
 		"gsuiWaveform/gsuiWaveform.js",
 		"gsuiWaveform/gsuiWaveform.draw.js",
 		"gsuiBeatlines/gsuiBeatlines.js",
@@ -36,20 +35,30 @@ TEST( {
 		"gsuiSlicer/gsuiSlicer.js",
 	],
 	js: () => {
+		const slicer = document.querySelector( "gsui-slicer" );
+
+		// slicer.addSlice( "s0", .0,  .0, 1/4/4 );
+		// slicer.addSlice( "s1", 1/4/4, 1/4/4, 1/4/4 );
+		// slicer.addSlice( "s2", 1/4/4*2, 1/4/4*2, 1/4/4 );
+		// slicer.addSlice( "s3", 1/4/4*3, 1/4/4*3, 1/4/4 );
+		// slicer.addSlice( "s4", .25, .25, .25 );
+		// slicer.addSlice( "s5", .50, .50, .25 );
+		// slicer.addSlice( "s6", .75, .75, .25 );
+
+		slicer.addSlice( "s0", .0, .5, .5 );
+		slicer.addSlice( "s0", .5, .0, .5 );
+
+
+		slicer.setBufferName( "my-super-sample" );
+
 		document.body.onclick = () => {
-			const ctx = new AudioContext(),
-				svgDefs = new gsuiWaveforms();
+			const ctx = new AudioContext();
 
 			document.body.onclick = null;
-			svgDefs.hdMode( true );
-			svgDefs.add( "smp0" );
 			fetch( "test-assets/okay.wav" )
 				.then( res => res.arrayBuffer() )
 				.then( arr => ctx.decodeAudioData( arr ) )
-				.then( buf => {
-					svgDefs.update( "smp0", buf );
-					document.querySelector( ".gsuiSlicer-source-wave" ).append( svgDefs.createSVG( "smp0" ) );
-				} );
+				.then( buf => slicer.setBuffer( buf ) );
 		};
 	},
 } );

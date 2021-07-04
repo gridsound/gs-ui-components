@@ -3,4 +3,7 @@
 	--gsuiSlicer-slicers-bg: #47475c;
 	--gsuiSlicer-source-bg: #334;
 	--gsuiSlicer-source-wave: var( --gsui-col-pattern );
+	--gsuiSlicer-preview-wave-border: #fff2;
+	--gsuiSlicer-slice-bg: #44c4;
+	--gsuiSlicer-slice-border: #32325a;
 }

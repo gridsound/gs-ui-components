@@ -1,36 +1,59 @@
 "use strict";
 
 class gsuiSlicer extends HTMLElement {
+	static #resW = 1000
+	static #resH = 64
+
 	#dur = 4
+	#slices = {}
+	#buffer = null
 	#cropSide = "A"
 	#cropSave = null
 	#slicesWidth = 100
+	#slicesHeight = 100
 	#onresizeBind = this.#onresize.bind( this )
 	#onmouseupCropBind = this.#onmouseupCrop.bind( this )
 	#onmousemoveCropBind = this.#onmousemoveCrop.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
+	#waveDef = GSUI.createElementNS( "polyline" )
 	#elements = GSUI.findElements( this.#children, {
 		beatlines: [
-			".gsuiSlicer-slices-beatlines",
-			".gsuiSlicer-slices-beatlines + .gsuiSlicer-slices-beatlines",
+			"gsui-beatlines:first-child",
+			"gsui-beatlines:last-child",
 		],
 		srcSample: ".gsuiSlicer-source-sample",
+		srcName: ".gsuiSlicer-source-name",
+		srcWave: ".gsuiSlicer-source-wave",
 		cropA: ".gsuiSlicer-source-cropA",
 		cropB: ".gsuiSlicer-source-cropB",
 		arrowA: ".gsuiSlicer-cropArrows-arrowA",
 		arrowB: ".gsuiSlicer-cropArrows-arrowB",
 		arrowZ: ".gsuiSlicer-cropArrows-arrowZ",
 		diagonalLine: ".gsuiSlicer-slices-line",
+		preview: ".gsuiSlicer-preview",
+		slices: ".gsuiSlicer-slices-wrap",
 		inputDuration: ".gsuiSlicer-duration-input",
 	} )
 
 	constructor() {
+		const defs = document.querySelector( "#gsuiSlicer-waveDefs defs" );
+
 		super();
 		Object.seal( this );
 
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 		this.#elements.srcSample.onmousedown = this.#onmousedownCrop.bind( this );
+		if ( !defs ) {
+			document.body.prepend( GSUI.createElementNS( "svg", { id: "gsuiSlicer-waveDefs" },
+				GSUI.createElementNS( "defs" ),
+			) );
+			this.#waveDef.dataset.id = 1;
+		} else {
+			this.#waveDef.dataset.id = 1 + Array.prototype.reduce.call( defs.children,
+				( max, p ) => Math.max( max, p.dataset.id ), 0 );
+		}
+		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
 	}
 
 	// .........................................................................
@@ -46,9 +69,11 @@ class gsuiSlicer extends HTMLElement {
 				timedivision: "4/4",
 			} );
 		}
+		document.querySelector( "#gsuiSlicer-waveDefs defs" ).append( this.#waveDef );
 		GSUI.observeSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
+		this.#waveDef.remove();
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
@@ -66,11 +91,13 @@ class gsuiSlicer extends HTMLElement {
  					this.#elements.arrowA.style.width = `${ val * 100 }%`;
  					this.#elements.arrowZ.style.left = `${ val * 100 }%`;
  					this.#elements.arrowZ.style.width = `${ ( 1 - ( 1 - this.getAttribute( "cropb" ) ) - val ) * 100 }%`;
+ 					this.#updateCroppedWaveform();
 					break;
 				case "cropb":
  					this.#elements.cropB.style.left = `${ val * 100 }%`;
  					this.#elements.arrowB.style.width = `${ ( 1 - val ) * 100 }%`;
  					this.#elements.arrowZ.style.width = `${ ( val - this.getAttribute( "cropa" ) ) * 100 }%`;
+ 					this.#updateCroppedWaveform();
 					break;
 				case "duration":
 					this.#elements.inputDuration.value =
@@ -82,9 +109,43 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
+	setBufferName( name ) {
+		this.#elements.srcName.textContent = name;
+	}
+	setBuffer( buf ) {
+		this.#buffer = buf;
+		this.#updateCroppedWaveform();
+		gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+	}
+	addSlice( id, x, y, w ) {
+		const svg = GSUI.createElementNS( "svg", { class: "gsuiSlicer-preview-wave", preserveAspectRatio: "none" },
+				GSUI.createElementNS( "use" ),
+			),
+			el = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice" } );
+
+		svg.style.left =
+		el.style.left = `${ x * 100 }%`;
+		svg.style.width =
+		el.style.width = `${ w * 100 }%`;
+		el.style.height = `${ ( 1 - y ) * 100 }%`;
+		svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
+		svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
+		this.#elements.preview.append( svg );
+		this.#elements.slices.append( el );
+	}
+
+	// .........................................................................
+	#updateCroppedWaveform() {
+		if ( this.#buffer ) {
+			const cropa = this.#buffer.duration * this.getAttribute( "cropa" ),
+				cropb = this.#buffer.duration * this.getAttribute( "cropb" );
+
+			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, this.#buffer, cropa, cropb - cropa );
+		}
+	}
 	#updatePxPerBeat( dur ) {
 		this.#elements.beatlines[ 0 ].setAttribute( "pxperbeat", this.#slicesWidth / ( dur || this.#dur ) );
-		this.#elements.beatlines[ 1 ].setAttribute( "pxperbeat", this.#slicesWidth / ( dur || this.#dur ) );
+		this.#elements.beatlines[ 1 ].setAttribute( "pxperbeat", this.#slicesHeight / ( dur || this.#dur ) );
 	}
 	#getPercMouseX( pageX ) {
 		const bcr = this.#elements.srcSample.getBoundingClientRect();
@@ -106,12 +167,11 @@ class gsuiSlicer extends HTMLElement {
 			{ width: w, height: h } = svg.getBoundingClientRect();
 
 		this.#slicesWidth = w;
+		this.#slicesHeight = h;
 		GSUI.setAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
 		GSUI.setAttribute( svg.firstChild, "x2", w );
 		GSUI.setAttribute( svg.firstChild, "y2", h );
 		this.#updatePxPerBeat();
-		this.#elements.beatlines[ 1 ].style.width = `${ h }px`;
-		this.#elements.beatlines[ 1 ].style.height = `${ w }px`;
 	}
 	#onchangeDuration( e ) {
 		const dur = +e.target.value;

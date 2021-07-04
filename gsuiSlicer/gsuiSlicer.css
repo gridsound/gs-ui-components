@@ -9,15 +9,33 @@
 }
 
 /* .......................................................................... */
+#gsuiSlicer-waveDefs {
+	display: none;
+}
+
+/* .......................................................................... */
 .gsuiSlicer-source {
+	overflow: hidden;
+	min-height: 48px;
 	flex: .35;
 	display: flex;
 	flex-direction: column;
+	border-radius: 6px;
+	background-color: var( --gsuiSlicer-source-bg );
 }
-.gsuiSlicer-source-name {
-	height: 1.7em;
-	font-size: 12px;
+.gsuiSlicer-source-head {
+	display: flex;
+	align-items: center;
+	height: 20px;
+	font-size: 11px;
 	font-weight: bold;
+	padding: 0 6px;
+	background-color: #000;
+	opacity: .4;
+}
+.gsuiSlicer-source-icon {
+	margin-right: 6px;
+	font-size: 12px;
 }
 .gsuiSlicer-source-sample {
 	position: relative;
@@ -27,11 +45,6 @@
 	cursor: pointer;
 }
 .gsuiSlicer-source-wave {
-	position: relative;
-	height: 100%;
-	background-color: var( --gsuiSlicer-source-bg );
-}
-.gsuiSlicer-source-wave svg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -51,7 +64,7 @@
 	position: absolute;
 	width: 9999px;
 	height: 100%;
-	opacity: .65;
+	opacity: .8;
 	background-color: var( --gsuiSlicer-source-bg );
 }
 .gsuiSlicer-source-cropA::before { right: 2px; }
@@ -69,6 +82,7 @@
 	height: 100%;
 	background-color: var( --gsuiSlicer-source-bg );
 	opacity: .5;
+	opacity: 0;
 }
 .gsuiSlicer-cropArrows-arrowA {
 	clip-path: polygon( 100% 0%, 100% 100%, 0% 100% );
@@ -90,9 +104,18 @@
 
 /* .......................................................................... */
 .gsuiSlicer-preview {
+	position: relative;
+	overflow: hidden;
 	flex: .4;
 	min-height: 30px;
+	border-radius: 6px;
 	background-color: var( --gsuiSlicer-source-bg );
+}
+.gsuiSlicer-preview-wave {
+	position: absolute;
+	height: 100%;
+	fill: var( --gsuiSlicer-source-wave );
+	border-right: 1px dashed var( --gsuiSlicer-preview-wave-border );
 }
 
 /* .......................................................................... */
@@ -100,24 +123,23 @@
 	flex: 1;
 	min-height: 100px;
 	margin: 10px 0;
-	overflow: auto;
+	border-radius: 6px;
 	overflow: hidden;
+	color: #000;
 	background-color: var( --gsuiSlicer-slicers-bg );
+	box-shadow:
+		/*inset 0 0 6px 4px #0002,*/
+		inset 0 0 0 1px #0008;
+}
+.gsuiSlicer-slices-scroll {
+	overflow: auto;
+	height: 100%;
 }
 .gsuiSlicer-slices-beatlinesWrap {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	opacity: .5;
-	filter: invert( 1 );
-}
-.gsuiSlicer-slices-beatlines + .gsuiSlicer-slices-beatlines {
-	display: none;
-	transform: rotate( 90deg );
-	top: auto;
-	left: auto;
-	right: auto;
-	bottom: auto;
+	pointer-events: none;
 }
 .gsuiSlicer-slices-in {
 	position: relative;
@@ -127,13 +149,30 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	opacity: .3;
+	opacity: .2;
 	pointer-events: none;
 }
 .gsuiSlicer-slices-line line {
 	stroke: currentColor;
 	stroke-width: 2px;
 	stroke-dasharray: 10 5;
+}
+.gsuiSlicer-slices-wrap {
+	position: relative;
+	height: 100%;
+	cursor: pointer;
+}
+.gsuiSlicer-slices-slice {
+	position: absolute;
+	box-sizing: border-box;
+	bottom: 0;
+	border: 0 solid var( --gsuiSlicer-slice-border );
+	border-width: 3px 1px 0 0;
+	border-radius: 6px 6px 0 0;
+	background-color: var( --gsuiSlicer-slice-bg );
+}
+.gsuiSlicer-slices-slice:last-child {
+	border-right: 0;
 }
 
 /* .......................................................................... */
