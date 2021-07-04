@@ -59,7 +59,6 @@ class gsuiSlicer extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			this.classList.add( "gsuiSlicer" );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
