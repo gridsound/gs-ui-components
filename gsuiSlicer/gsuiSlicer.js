@@ -5,7 +5,7 @@ class gsuiSlicer extends HTMLElement {
 	static #resH = 64
 
 	#dur = 4
-	#slices = {}
+	#slices = new Map()
 	#buffer = null
 	#cropSide = "A"
 	#cropSave = null
@@ -116,21 +116,43 @@ class gsuiSlicer extends HTMLElement {
 		this.#updateCroppedWaveform();
 		gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
 	}
-	addSlice( id, x, y, w ) {
-		const svg = GSUI.createElementNS( "svg", { class: "gsuiSlicer-preview-wave", preserveAspectRatio: "none" },
+	addSlice( id, obj ) {
+		const svg = GSUI.createElementNS( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
 				GSUI.createElementNS( "use" ),
 			),
-			el = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice" } );
+			sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
-		svg.style.left =
-		el.style.left = `${ x * 100 }%`;
-		svg.style.width =
-		el.style.width = `${ w * 100 }%`;
-		el.style.height = `${ ( 1 - y ) * 100 }%`;
-		svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
 		svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
+		this.#slices.set( id, [ svg, sli ] );
+		this.changeSlice( id, obj );
 		this.#elements.preview.append( svg );
-		this.#elements.slices.append( el );
+		this.#elements.slices.append( sli );
+	}
+	changeSlice( id, obj ) {
+		const [ svg, sli ] = this.#slices.get( id ),
+			x = obj.x ?? +sli.dataset.x,
+			y = obj.y ?? +sli.dataset.y,
+			w = obj.w ?? +sli.dataset.w;
+
+		if ( "x" in obj || "w" in obj ) {
+			svg.style.left =
+			sli.style.left = `${ x * 100 }%`;
+			svg.style.width =
+			sli.style.width = `${ w * 100 }%`;
+		}
+		if ( "y" in obj ) {
+			sli.style.height = `${ ( 1 - y ) * 100 }%`;
+		}
+		svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
+	}
+	deleteSlice( id ) {
+		const arr = this.#slices.get( id );
+
+		if ( arr ) {
+			this.#slices.delete( id );
+			arr[ 0 ].remove();
+			arr[ 1 ].remove();
+		}
 	}
 
 	// .........................................................................

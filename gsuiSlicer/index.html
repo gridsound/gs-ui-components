@@ -45,9 +45,8 @@ TEST( {
 		// slicer.addSlice( "s5", .50, .50, .25 );
 		// slicer.addSlice( "s6", .75, .75, .25 );
 
-		slicer.addSlice( "s0", .0, .5, .5 );
-		slicer.addSlice( "s0", .5, .0, .5 );
-
+		slicer.addSlice( "s0", { x: .0, y: .5, w: .5 } );
+		slicer.addSlice( "s1", { x: .5, y: .0, w: .5 } );
 
 		slicer.setBufferName( "my-super-sample" );
 
