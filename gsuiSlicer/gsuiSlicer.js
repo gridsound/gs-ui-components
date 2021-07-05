@@ -27,9 +27,6 @@ class gsuiSlicer extends HTMLElement {
 		srcWave: ".gsuiSlicer-source-wave",
 		cropA: ".gsuiSlicer-source-cropA",
 		cropB: ".gsuiSlicer-source-cropB",
-		arrowA: ".gsuiSlicer-cropArrows-arrowA",
-		arrowB: ".gsuiSlicer-cropArrows-arrowB",
-		arrowZ: ".gsuiSlicer-cropArrows-arrowZ",
 		diagonalLine: ".gsuiSlicer-slices-line",
 		preview: ".gsuiSlicer-preview",
 		slices: ".gsuiSlicer-slices-wrap",
@@ -90,15 +87,10 @@ class gsuiSlicer extends HTMLElement {
 					break;
 				case "cropa":
  					this.#elements.cropA.style.left = `${ val * 100 }%`;
- 					this.#elements.arrowA.style.width = `${ val * 100 }%`;
- 					this.#elements.arrowZ.style.left = `${ val * 100 }%`;
- 					this.#elements.arrowZ.style.width = `${ ( 1 - ( 1 - this.getAttribute( "cropb" ) ) - val ) * 100 }%`;
  					this.#updateCroppedWaveform();
 					break;
 				case "cropb":
  					this.#elements.cropB.style.left = `${ val * 100 }%`;
- 					this.#elements.arrowB.style.width = `${ ( 1 - val ) * 100 }%`;
- 					this.#elements.arrowZ.style.width = `${ ( val - this.getAttribute( "cropa" ) ) * 100 }%`;
  					this.#updateCroppedWaveform();
 					break;
 				case "duration":

@@ -2,6 +2,7 @@ gsui-slicer {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
+	gap: 10px;
 	height: 100%;
 	padding: 8px;
 	min-width: 240px;
@@ -59,6 +60,10 @@ gsui-slicer {
 	background-color: white;
 	transition: .2s opacity;
 }
+gsui-slicer[ cropa="0" ] .gsuiSlicer-source-cropA,
+gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
+	opacity: 0;
+}
 .gsuiSlicer-source-crop::before {
 	content: "";
 	position: absolute;
@@ -69,38 +74,6 @@ gsui-slicer {
 }
 .gsuiSlicer-source-cropA::before { right: 2px; }
 .gsuiSlicer-source-cropB::before { left: 2px; }
-
-/* .......................................................................... */
-.gsuiSlicer-cropArrows {
-	position: relative;
-	height: 10px;
-	min-height: 10px;
-}
-.gsuiSlicer-cropArrows-arrow {
-	position: absolute;
-	box-sizing: border-box;
-	height: 100%;
-	background-color: var( --gsuiSlicer-source-bg );
-	opacity: .5;
-	opacity: 0;
-}
-.gsuiSlicer-cropArrows-arrowA {
-	clip-path: polygon( 100% 0%, 100% 100%, 0% 100% );
-}
-.gsuiSlicer-cropArrows-arrowB {
-	right: 0;
-	clip-path: polygon( 0% 0%, 100% 100%, 0% 100% );
-}
-.gsuiSlicer-cropArrows-arrowZ {
-	transition: .2s opacity;
-}
-.gsuiSlicer[ cropa="0" ] .gsuiSlicer-source-cropA,
-.gsuiSlicer[ cropb="1" ] .gsuiSlicer-source-cropB,
-.gsuiSlicer[ cropa="0" ] .gsuiSlicer-cropArrows-arrowA,
-.gsuiSlicer[ cropb="1" ] .gsuiSlicer-cropArrows-arrowB,
-.gsuiSlicer[ cropa="0" ][ cropb="1" ] .gsuiSlicer-cropArrows-arrowZ {
-	opacity: 0;
-}
 
 /* .......................................................................... */
 .gsuiSlicer-preview {
@@ -122,7 +95,6 @@ gsui-slicer {
 .gsuiSlicer-slices {
 	flex: 1;
 	min-height: 100px;
-	margin: 10px 0;
 	border-radius: 6px;
 	overflow: hidden;
 	color: #000;
