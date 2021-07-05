@@ -176,14 +176,26 @@ gsui-slicer {
 }
 
 /* .......................................................................... */
-.gsuiSlicer-duration {
-	position: relative;
+.gsuiSlicer-menu {
 	display: flex;
-	gap: 10px;
 	height: 20px;
-	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	font-size: 14px;
+}
+.gsuiSlicer-duration,
+.gsuiSlicer-step {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	opacity: .6;
+	transition: .2s opacity;
+	user-select: none;
+}
+.gsuiSlicer-duration:focus,
+.gsuiSlicer-duration:hover,
+.gsuiSlicer-step:focus,
+.gsuiSlicer-step:hover {
+	opacity: 1;
 }
 .gsuiSlicer-duration-input {
 	width: 4ch;
@@ -197,24 +209,16 @@ gsui-slicer {
 	background-color: #fff4;
 }
 .gsuiSlicer-duration-label {
-	pointer-events: none;
-	user-select: none;
-}
-.gsuiSlicer-duration-arrow {
-	flex: 1;
-	height: 2px;
-	background-color: currentColor;
-	opacity: .3;
+	font-size: 11px;
 	pointer-events: none;
 }
-.gsuiSlicer-duration-arrow::before {
-	content: "";
-	position: absolute;
-	width: 2px;
-	top: 0;
-	bottom: 0;
-	background-color: currentColor;
-}
-.gsuiSlicer-duration-arrow:last-child::before {
-	right: 0;
+.gsuiSlicer-step {
+	border: 0;
+	outline: 0;
+	padding: 0;
+	font-size: inherit;
+	font-family: var( --gsui-font-number );
+	color: inherit;
+	cursor: pointer;
+	background: none;
 }

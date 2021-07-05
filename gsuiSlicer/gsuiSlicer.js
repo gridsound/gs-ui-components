@@ -34,6 +34,7 @@ class gsuiSlicer extends HTMLElement {
 		preview: ".gsuiSlicer-preview",
 		slices: ".gsuiSlicer-slices-wrap",
 		inputDuration: ".gsuiSlicer-duration-input",
+		stepBtn: ".gsuiSlicer-step",
 	} )
 
 	constructor() {
@@ -42,8 +43,9 @@ class gsuiSlicer extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 		this.#elements.srcSample.onmousedown = this.#onmousedownCrop.bind( this );
+		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
+		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
 		if ( !defs ) {
 			document.body.prepend( GSUI.createElementNS( "svg", { id: "gsuiSlicer-waveDefs" },
 				GSUI.createElementNS( "defs" ),
@@ -64,6 +66,7 @@ class gsuiSlicer extends HTMLElement {
 			GSUI.recallAttributes( this, {
 				cropa: 0,
 				cropb: 1,
+				step: 1,
 				duration: 4,
 				timedivision: "4/4",
 			} );
@@ -76,7 +79,7 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "duration", "timedivision", "cropa", "cropb" ];
+		return [ "duration", "step", "timedivision", "cropa", "cropb" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -102,6 +105,9 @@ class gsuiSlicer extends HTMLElement {
 					this.#elements.inputDuration.value =
 					this.#dur = +val;
 					this.#updatePxPerBeat();
+					break;
+				case "step":
+					this.#elements.stepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
 					break;
 			}
 		}
@@ -181,6 +187,13 @@ class gsuiSlicer extends HTMLElement {
 
 		return perc < percA + ave ? "cropa" : "cropb";
 	}
+	#convertStepToFrac( step ) {
+		return (
+			step >= 1 ? "1" :
+			step >= .5 ? "1 / 2" :
+			step >= .25 ? "1 / 4" : "1 / 8"
+		);
+	}
 
 	// .........................................................................
 	#onresize() {
@@ -199,6 +212,15 @@ class gsuiSlicer extends HTMLElement {
 
 		GSUI.setAttribute( this, "duration", dur );
 		this.#dispatch( "changeDuration", dur );
+	}
+	#onclickStep() {
+		const v = +this.getAttribute( "step" ),
+			frac =
+				v >= 1 ? 2 :
+				v >= .5 ? 4 :
+				v >= .25 ? 8 : 1;
+
+		GSUI.setAttribute( this, "step", 1 / frac );
 	}
 	#onmousedownCrop( e ) {
 		GSUI.unselectText();
