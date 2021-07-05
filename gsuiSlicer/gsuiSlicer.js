@@ -12,8 +12,6 @@ class gsuiSlicer extends HTMLElement {
 	#slicesWidth = 100
 	#slicesHeight = 100
 	#onresizeBind = this.#onresize.bind( this )
-	#onmouseupCropBind = this.#onmouseupCrop.bind( this )
-	#onmousemoveCropBind = this.#onmousemoveCrop.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
 	#waveDef = GSUI.createElementNS( "polyline" )
@@ -40,9 +38,6 @@ class gsuiSlicer extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		this.#elements.srcSample.onmousedown = this.#onmousedownCrop.bind( this );
-		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
-		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
 		if ( !defs ) {
 			document.body.prepend( GSUI.createElementNS( "svg", { id: "gsuiSlicer-waveDefs" },
 				GSUI.createElementNS( "defs" ),
@@ -53,6 +48,9 @@ class gsuiSlicer extends HTMLElement {
 				( max, p ) => Math.max( max, p.dataset.id ), 0 );
 		}
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
+		this.#elements.srcSample.onpointerdown = this.#onpointerdownCrop.bind( this );
+		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
+		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
 	}
 
 	// .........................................................................
@@ -214,24 +212,24 @@ class gsuiSlicer extends HTMLElement {
 
 		GSUI.setAttribute( this, "step", 1 / frac );
 	}
-	#onmousedownCrop( e ) {
+	#onpointerdownCrop( e ) {
 		GSUI.unselectText();
-		GSUI.dragshield.show( "pointer" );
-		document.addEventListener( "mousemove", this.#onmousemoveCropBind );
-		document.addEventListener( "mouseup", this.#onmouseupCropBind );
+		this.#elements.srcSample.setPointerCapture( e.pointerId );
+		this.#elements.srcSample.onpointermove = this.#onpointermoveCrop.bind( this );
+		this.#elements.srcSample.onpointerup = this.#onpointerupCrop.bind( this );
 		this.#cropSide = this.#updateCropSide( e.pageX );
 		this.#cropSave = this.getAttribute( this.#cropSide );
-		this.#onmousemoveCrop( e );
+		this.#onpointermoveCrop( e );
 	}
-	#onmousemoveCrop( e ) {
+	#onpointermoveCrop( e ) {
 		GSUI.setAttribute( this, this.#cropSide, this.#getPercMouseX( e.pageX ) );
 	}
-	#onmouseupCrop( e ) {
+	#onpointerupCrop( e ) {
 		const val = this.getAttribute( this.#cropSide );
 
-		document.removeEventListener( "mousemove", this.#onmousemoveCropBind );
-		document.removeEventListener( "mouseup", this.#onmouseupCropBind );
-		GSUI.dragshield.hide();
+		this.#elements.srcSample.releasePointerCapture( e.pointerId );
+		this.#elements.srcSample.onpointermove =
+		this.#elements.srcSample.onpointerup = null;
 		if ( this.#cropSave !== val ) {
 			this.#dispatch( this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
 		}
