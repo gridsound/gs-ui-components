@@ -14,7 +14,9 @@ class gsuiSlicer extends HTMLElement {
 	#slicesWidth = 100
 	#slicesHeight = 100
 	#stepsPerBeat = 4
+	#slicesMaxId = 0
 	#slicesSaved = null
+	#slicesMoveFn = null
 	#onresizeBind = this.#onresize.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
@@ -54,6 +56,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
 		this.#elements.srcSample.onpointerdown = this.#onpointerdownCrop.bind( this );
 		this.#elements.slices.onpointerdown = this.#onpointerdownSlices.bind( this );
+		this.#elements.slices.ondblclick = this.#ondblclickSlices.bind( this );
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
 	}
@@ -124,6 +127,7 @@ class gsuiSlicer extends HTMLElement {
 			),
 			sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
+		this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 		svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
 		this.#slices.set( id, [ svg, sli ] );
 		this.changeSlice( id, obj );
@@ -193,9 +197,19 @@ class gsuiSlicer extends HTMLElement {
 			step >= .25 ? "1 / 4" : "1 / 8"
 		);
 	}
+	#getSliceByPageX( pageX ) {
+		const x = GSUI.clamp( ( pageX - this.#slicesLeft ) / this.#slicesWidth, 0, .9999 );
+
+		return Array.prototype.find.call( this.#elements.slices.children,
+			sli => (
+				x >= +sli.dataset.x &&
+				x < +sli.dataset.x + +sli.dataset.w
+			)
+		);
+	}
 	#copySlicesData() {
 		return Array.prototype.reduce.call( this.#elements.slices.children, ( obj, sli ) => {
-			obj[ sli.dataset.id ] = {
+			obj[ +sli.dataset.id ] = {
 				x: +sli.dataset.x,
 				y: +sli.dataset.y,
 				w: +sli.dataset.w,
@@ -253,6 +267,25 @@ class gsuiSlicer extends HTMLElement {
 			this.#dispatch( this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
 		}
 	}
+	#ondblclickSlices( e ) {
+		const sli = this.#getSliceByPageX( e.pageX ),
+			id = +sli.dataset.id,
+			w2 = sli.dataset.w / 2,
+			w2obj = { w: w2 },
+			newId = this.#slicesMaxId + 1,
+			newSli = {
+				x: +sli.dataset.x + w2,
+				y: +sli.dataset.y,
+				w: w2,
+			};
+
+		this.changeSlice( id, w2obj );
+		this.addSlice( newId, newSli );
+		this.#dispatch( "changeSlices", {
+			[ id ]: w2obj,
+			[ newId ]: newSli,
+		} );
+	}
 	#onpointerdownSlices( e ) {
 		const bcr = this.#elements.diagonalLine.getBoundingClientRect();
 
@@ -261,27 +294,14 @@ class gsuiSlicer extends HTMLElement {
 		this.#slicesTop = bcr.top;
 		this.#slicesLeft = bcr.left;
 		this.#elements.slices.setPointerCapture( e.pointerId );
+		this.#slicesMoveFn = e.button === 0
+			? this.#onpointermoveSlicesY.bind( this )
+			: GSUI.noop;
 		this.#elements.slices.onpointermove = this.#onpointermoveSlices.bind( this );
 		this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
-		this.#onpointermoveSlices( e );
 	}
 	#onpointermoveSlices( e ) {
-		const dur = +this.getAttribute( "duration" ),
-			step = +this.getAttribute( "step" ),
-			x = GSUI.clamp( ( e.pageX - this.#slicesLeft ) / this.#slicesWidth, 0, .9999 ),
-			yyy = GSUI.clamp( ( e.pageY - this.#slicesTop ) / this.#slicesHeight, 0, 1 ),
-			yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
-			y = yy / dur / this.#stepsPerBeat,
-			sli = Array.prototype.find.call( this.#elements.slices.children,
-				sli => (
-					x >= +sli.dataset.x &&
-					x < +sli.dataset.x + +sli.dataset.w
-				)
-			);
-
-		if ( +sli.dataset.y !== y ) {
-			this.changeSlice( sli.dataset.id, { y } );
-		}
+		this.#slicesMoveFn( e );
 	}
 	#onpointerupSlices( e ) {
 		const diff = GSUI.diffObjects( this.#slicesSaved, this.#copySlicesData() );
@@ -289,9 +309,22 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.slices.releasePointerCapture( e.pointerId );
 		this.#elements.slices.onpointermove =
 		this.#elements.slices.onpointerup =
+		this.#slicesMoveFn =
 		this.#slicesSaved = null;
 		if ( diff ) {
 			this.#dispatch( "changeSlices", diff );
+		}
+	}
+	#onpointermoveSlicesY( e ) {
+		const dur = +this.getAttribute( "duration" ),
+			step = +this.getAttribute( "step" ),
+			yyy = GSUI.clamp( ( e.pageY - this.#slicesTop ) / this.#slicesHeight, 0, 1 ),
+			yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
+			y = yy / dur / this.#stepsPerBeat,
+			sli = this.#getSliceByPageX( e.pageX );
+
+		if ( +sli.dataset.y !== y ) {
+			this.changeSlice( +sli.dataset.id, { y } );
 		}
 	}
 }

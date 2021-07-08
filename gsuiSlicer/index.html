@@ -37,16 +37,16 @@ TEST( {
 	js: () => {
 		const slicer = document.querySelector( "gsui-slicer" );
 
-		slicer.addSlice( "s0", { x: .0, y: .0, w: 1/4/4 } );
-		slicer.addSlice( "s1", { x: 1/4/4, y: 1/4/4, w: 1/4/4 } );
-		slicer.addSlice( "s2", { x: 1/4/4*2, y: 1/4/4*2, w: 1/4/4 } );
-		slicer.addSlice( "s3", { x: 1/4/4*3, y: 1/4/4*3, w: 1/4/4 } );
-		slicer.addSlice( "s4", { x: .25, y: .25, w: .25 } );
-		slicer.addSlice( "s5", { x: .50, y: .50, w: .25 } );
-		slicer.addSlice( "s6", { x: .75, y: .75, w: .25 } );
+		slicer.addSlice( 0, { x: .0, y: .0, w: 1/4/4 } );
+		slicer.addSlice( 1, { x: 1/4/4, y: 1/4/4, w: 1/4/4 } );
+		slicer.addSlice( 2, { x: 1/4/4*2, y: 1/4/4*2, w: 1/4/4 } );
+		slicer.addSlice( 3, { x: 1/4/4*3, y: 1/4/4*3, w: 1/4/4 } );
+		slicer.addSlice( 4, { x: .25, y: .25, w: .25 } );
+		slicer.addSlice( 5, { x: .50, y: .50, w: .25 } );
+		slicer.addSlice( 6, { x: .75, y: .75, w: .25 } );
 
-		// slicer.addSlice( "s0", { x: .0, y: .0, w: .5 } );
-		// slicer.addSlice( "s1", { x: .5, y: .5, w: .5 } );
+		// slicer.addSlice( 0, { x: .0, y: .0, w: .5 } );
+		// slicer.addSlice( 1, { x: .5, y: .5, w: .5 } );
 
 		slicer.setBufferName( "my-super-sample" );
 
