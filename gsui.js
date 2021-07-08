@@ -15,6 +15,27 @@ const GSUI = {
 	},
 
 	// .........................................................................
+	diffObjects( a, b ) {
+		let empty = true;
+		const diff = Object.entries( b ).reduce( ( obj, [ bk, bv ] ) => {
+				const av = a[ bk ],
+					newval = av === bv ? undefined :
+						typeof bv !== "object" || bv === null ? bv :
+						typeof av !== "object" || av === null
+							? Object.freeze( JSON.parse( JSON.stringify( bv ) ) )
+							: GSUI.diffObjects( av, bv );
+
+				if ( newval !== undefined ) {
+					empty = false;
+					obj[ bk ] = newval;
+				}
+				return obj;
+			}, {} );
+
+		return empty ? undefined : Object.freeze( diff );
+	},
+
+	// .........................................................................
 	findElements( root, graph ) {
 		return typeof graph === "string"
 			? GSUI._findElemStr( root, graph )
