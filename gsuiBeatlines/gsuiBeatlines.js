@@ -11,7 +11,7 @@ class gsuiBeatlines extends HTMLElement {
 				case "timedivision":
 				case "coloredbeats":
 					this.style.backgroundImage = gsuiBeatlines.#background(
-						this.hasAttribute( "vertical" ) ? 0 : 90,
+						this.hasAttribute( "vertical" ) ? 180 : 90,
 						...( this.getAttribute( "timedivision" ) || "4/4" ).split( "/" ),
 						this.hasAttribute( "coloredbeats" ) );
 					break;
