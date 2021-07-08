@@ -9,8 +9,12 @@ class gsuiSlicer extends HTMLElement {
 	#buffer = null
 	#cropSide = "A"
 	#cropSave = null
+	#slicesTop = 0
+	#slicesLeft = 0
 	#slicesWidth = 100
 	#slicesHeight = 100
+	#stepsPerBeat = 4
+	#slicesSaved = null
 	#onresizeBind = this.#onresize.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
@@ -49,6 +53,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
 		this.#elements.srcSample.onpointerdown = this.#onpointerdownCrop.bind( this );
+		this.#elements.slices.onpointerdown = this.#onpointerdownSlices.bind( this );
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
 	}
@@ -80,8 +85,9 @@ class gsuiSlicer extends HTMLElement {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "timedivision":
-					this.#elements.beatlines[ 0 ].setAttribute( "timedivision", val );
-					this.#elements.beatlines[ 1 ].setAttribute( "timedivision", val );
+					this.#stepsPerBeat = +val.split( "/" )[ 1 ];
+					GSUI.setAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
+					GSUI.setAttribute( this.#elements.beatlines[ 1 ], "timedivision", val );
 					break;
 				case "cropa":
  					this.#elements.cropA.style.left = `${ val * 100 }%`;
@@ -135,9 +141,12 @@ class gsuiSlicer extends HTMLElement {
 			sli.style.left = `${ x * 100 }%`;
 			svg.style.width =
 			sli.style.width = `${ w * 100 }%`;
+			sli.dataset.x = x;
+			sli.dataset.w = w;
 		}
 		if ( "y" in obj ) {
 			sli.style.height = `${ ( 1 - y ) * 100 }%`;
+			sli.dataset.y = y;
 		}
 		svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
 	}
@@ -161,8 +170,8 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#updatePxPerBeat( dur ) {
-		this.#elements.beatlines[ 0 ].setAttribute( "pxperbeat", this.#slicesWidth / ( dur || this.#dur ) );
-		this.#elements.beatlines[ 1 ].setAttribute( "pxperbeat", this.#slicesHeight / ( dur || this.#dur ) );
+		GSUI.setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#slicesWidth / ( dur || this.#dur ) );
+		GSUI.setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#slicesHeight / ( dur || this.#dur ) );
 	}
 	#getPercMouseX( pageX ) {
 		const bcr = this.#elements.srcSample.getBoundingClientRect();
@@ -183,6 +192,16 @@ class gsuiSlicer extends HTMLElement {
 			step >= .5 ? "1 / 2" :
 			step >= .25 ? "1 / 4" : "1 / 8"
 		);
+	}
+	#copySlicesData() {
+		return Array.prototype.reduce.call( this.#elements.slices.children, ( obj, sli ) => {
+			obj[ sli.dataset.id ] = {
+				x: +sli.dataset.x,
+				y: +sli.dataset.y,
+				w: +sli.dataset.w,
+			};
+			return obj;
+		}, {} );
 	}
 
 	// .........................................................................
@@ -232,6 +251,47 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.srcSample.onpointerup = null;
 		if ( this.#cropSave !== val ) {
 			this.#dispatch( this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
+		}
+	}
+	#onpointerdownSlices( e ) {
+		const bcr = this.#elements.diagonalLine.getBoundingClientRect();
+
+		GSUI.unselectText();
+		this.#slicesSaved = this.#copySlicesData();
+		this.#slicesTop = bcr.top;
+		this.#slicesLeft = bcr.left;
+		this.#elements.slices.setPointerCapture( e.pointerId );
+		this.#elements.slices.onpointermove = this.#onpointermoveSlices.bind( this );
+		this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
+		this.#onpointermoveSlices( e );
+	}
+	#onpointermoveSlices( e ) {
+		const dur = +this.getAttribute( "duration" ),
+			step = +this.getAttribute( "step" ),
+			x = GSUI.clamp( ( e.pageX - this.#slicesLeft ) / this.#slicesWidth, 0, .9999 ),
+			yyy = GSUI.clamp( ( e.pageY - this.#slicesTop ) / this.#slicesHeight, 0, 1 ),
+			yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
+			y = yy / dur / this.#stepsPerBeat,
+			sli = Array.prototype.find.call( this.#elements.slices.children,
+				sli => (
+					x >= +sli.dataset.x &&
+					x < +sli.dataset.x + +sli.dataset.w
+				)
+			);
+
+		if ( +sli.dataset.y !== y ) {
+			this.changeSlice( sli.dataset.id, { y } );
+		}
+	}
+	#onpointerupSlices( e ) {
+		const diff = GSUI.diffObjects( this.#slicesSaved, this.#copySlicesData() );
+
+		this.#elements.slices.releasePointerCapture( e.pointerId );
+		this.#elements.slices.onpointermove =
+		this.#elements.slices.onpointerup =
+		this.#slicesSaved = null;
+		if ( diff ) {
+			this.#dispatch( "changeSlices", diff );
 		}
 	}
 }
