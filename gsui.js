@@ -17,7 +17,7 @@ const GSUI = {
 	// .........................................................................
 	diffObjects( a, b ) {
 		let empty = true;
-		const diff = Object.entries( b ).reduce( ( obj, [ bk, bv ] ) => {
+		const diff = Object.entries( b ).reduce( ( diff, [ bk, bv ] ) => {
 				const av = a[ bk ],
 					newval = av === bv ? undefined :
 						typeof bv !== "object" || bv === null ? bv :
@@ -27,11 +27,17 @@ const GSUI = {
 
 				if ( newval !== undefined ) {
 					empty = false;
-					obj[ bk ] = newval;
+					diff[ bk ] = newval;
 				}
-				return obj;
+				return diff;
 			}, {} );
 
+		Object.keys( a ).forEach( ak => {
+			if ( !( ak in b ) ) {
+				empty = false;
+				diff[ ak ] = undefined;
+			}
+		} );
 		return empty ? undefined : Object.freeze( diff );
 	},
 
