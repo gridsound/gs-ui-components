@@ -162,6 +162,10 @@ class gsuiSlicer extends HTMLElement {
 			delete this.#slices[ id ];
 			sli.svg.remove();
 			sli.sli.remove();
+			if ( id === this.#slicesMaxId ) {
+				this.#slicesMaxId = Object.keys( this.#slices )
+					.reduce( ( max, k ) => Math.max( max, k ), 0 );
+			}
 		}
 	}
 
