@@ -5,7 +5,7 @@ class gsuiSlicer extends HTMLElement {
 	static #resH = 64
 
 	#dur = 4
-	#slices = new Map()
+	#slices = {}
 	#buffer = null
 	#cropSide = "A"
 	#cropSave = null
@@ -16,7 +16,7 @@ class gsuiSlicer extends HTMLElement {
 	#stepsPerBeat = 4
 	#slicesMaxId = 0
 	#slicesSaved = null
-	#slicesMoveFn = null
+	#sliceIdBefore = null
 	#onresizeBind = this.#onresize.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
@@ -55,6 +55,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
 		this.#elements.srcSample.onpointerdown = this.#onpointerdownCrop.bind( this );
+		this.#elements.slices.oncontextmenu = () => false;
 		this.#elements.slices.onpointerdown = this.#onpointerdownSlices.bind( this );
 		this.#elements.slices.ondblclick = this.#ondblclickSlices.bind( this );
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
@@ -129,38 +130,38 @@ class gsuiSlicer extends HTMLElement {
 
 		this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 		svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
-		this.#slices.set( id, [ svg, sli ] );
+		this.#slices[ id ] = Object.seal( { id, svg, sli, x: 0, y: 0, w: 0 } );
 		this.changeSlice( id, obj );
 		this.#elements.preview.append( svg );
 		this.#elements.slices.append( sli );
 	}
 	changeSlice( id, obj ) {
-		const [ svg, sli ] = this.#slices.get( id ),
-			x = obj.x ?? +sli.dataset.x,
-			y = obj.y ?? +sli.dataset.y,
-			w = obj.w ?? +sli.dataset.w;
+		const sli = this.#slices[ id ],
+			x = +( obj.x ?? sli.x ).toFixed( 10 ),
+			y = +( obj.y ?? sli.y ).toFixed( 10 ),
+			w = +( obj.w ?? sli.w ).toFixed( 10 );
 
 		if ( "x" in obj || "w" in obj ) {
-			svg.style.left =
-			sli.style.left = `${ x * 100 }%`;
-			svg.style.width =
-			sli.style.width = `${ w * 100 }%`;
-			sli.dataset.x = x;
-			sli.dataset.w = w;
+			sli.x = x;
+			sli.w = w;
+			sli.svg.style.left =
+			sli.sli.style.left = `${ x * 100 }%`;
+			sli.svg.style.width =
+			sli.sli.style.width = `${ w * 100 }%`;
 		}
 		if ( "y" in obj ) {
-			sli.style.height = `${ ( 1 - y ) * 100 }%`;
-			sli.dataset.y = y;
+			sli.y = y;
+			sli.sli.style.height = `${ ( 1 - y ) * 100 }%`;
 		}
-		svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
+		sli.svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
 	}
 	deleteSlice( id ) {
-		const arr = this.#slices.get( id );
+		const sli = this.#slices[ id ];
 
-		if ( arr ) {
-			this.#slices.delete( id );
-			arr[ 0 ].remove();
-			arr[ 1 ].remove();
+		if ( sli ) {
+			delete this.#slices[ id ];
+			sli.svg.remove();
+			sli.sli.remove();
 		}
 	}
 
@@ -200,20 +201,11 @@ class gsuiSlicer extends HTMLElement {
 	#getSliceByPageX( pageX ) {
 		const x = GSUI.clamp( ( pageX - this.#slicesLeft ) / this.#slicesWidth, 0, .9999 );
 
-		return Array.prototype.find.call( this.#elements.slices.children,
-			sli => (
-				x >= +sli.dataset.x &&
-				x < +sli.dataset.x + +sli.dataset.w
-			)
-		);
+		return Object.values( this.#slices ).find( s => s.x <= x && x < s.x + s.w );
 	}
 	#copySlicesData() {
-		return Array.prototype.reduce.call( this.#elements.slices.children, ( obj, sli ) => {
-			obj[ +sli.dataset.id ] = {
-				x: +sli.dataset.x,
-				y: +sli.dataset.y,
-				w: +sli.dataset.w,
-			};
+		return Object.values( this.#slices ).reduce( ( obj, s ) => {
+			obj[ s.id ] = { x: s.x, y: s.y, w: s.w };
 			return obj;
 		}, {} );
 	}
@@ -269,20 +261,19 @@ class gsuiSlicer extends HTMLElement {
 	}
 	#ondblclickSlices( e ) {
 		const sli = this.#getSliceByPageX( e.pageX ),
-			id = +sli.dataset.id,
-			w2 = sli.dataset.w / 2,
+			w2 = sli.w / 2,
 			w2obj = { w: w2 },
 			newId = this.#slicesMaxId + 1,
 			newSli = {
-				x: +sli.dataset.x + w2,
-				y: +sli.dataset.y,
+				x: sli.x + w2,
+				y: sli.y,
 				w: w2,
 			};
 
-		this.changeSlice( id, w2obj );
+		this.changeSlice( sli.id, w2obj );
 		this.addSlice( newId, newSli );
 		this.#dispatch( "changeSlices", {
-			[ id ]: w2obj,
+			[ sli.id ]: w2obj,
 			[ newId ]: newSli,
 		} );
 	}
@@ -294,14 +285,12 @@ class gsuiSlicer extends HTMLElement {
 		this.#slicesTop = bcr.top;
 		this.#slicesLeft = bcr.left;
 		this.#elements.slices.setPointerCapture( e.pointerId );
-		this.#slicesMoveFn = e.button === 0
-			? this.#onpointermoveSlicesY.bind( this )
-			: GSUI.noop;
-		this.#elements.slices.onpointermove = this.#onpointermoveSlices.bind( this );
-		this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
-	}
-	#onpointermoveSlices( e ) {
-		this.#slicesMoveFn( e );
+		if ( e.button === 0 || e.button === 2 ) {
+			this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
+			this.#elements.slices.onpointermove = e.button === 0
+				? this.#onpointermoveSlicesY.bind( this )
+				: this.#onpointermoveSlicesMerge.bind( this );
+		}
 	}
 	#onpointerupSlices( e ) {
 		const diff = GSUI.diffObjects( this.#slicesSaved, this.#copySlicesData() );
@@ -309,7 +298,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.slices.releasePointerCapture( e.pointerId );
 		this.#elements.slices.onpointermove =
 		this.#elements.slices.onpointerup =
-		this.#slicesMoveFn =
+		this.#sliceIdBefore =
 		this.#slicesSaved = null;
 		if ( diff ) {
 			this.#dispatch( "changeSlices", diff );
@@ -323,8 +312,30 @@ class gsuiSlicer extends HTMLElement {
 			y = yy / dur / this.#stepsPerBeat,
 			sli = this.#getSliceByPageX( e.pageX );
 
-		if ( +sli.dataset.y !== y ) {
-			this.changeSlice( +sli.dataset.id, { y } );
+		if ( sli.y !== y ) {
+			this.changeSlice( sli.id, { y } );
+		}
+	}
+	#onpointermoveSlicesMerge( e ) {
+		const sli = this.#getSliceByPageX( e.pageX ),
+			idBef = this.#sliceIdBefore;
+
+		if ( idBef === null ) {
+			this.#sliceIdBefore = sli.id;
+		} else if ( sli.id !== idBef ) {
+			const bef = this.#slices[ idBef ],
+				xa = Math.min( bef.x, sli.x ),
+				xb = Math.max( bef.x, sli.x ),
+				list = Object.values( this.#slices ).filter( s => xa <= s.x && s.x <= xb ),
+				first = list.reduce( ( min, s ) => min.x < s.x ? min : s );
+
+			this.#sliceIdBefore = first.id;
+			this.changeSlice( first.id, { w: list.reduce( ( w, s ) => w + s.w, 0 ) } );
+			list.forEach( sli => {
+				if ( sli.id !== first.id ) {
+					this.deleteSlice( sli.id );
+				}
+			} );
 		}
 	}
 }
