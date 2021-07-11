@@ -7,6 +7,7 @@ gsui-slicer {
 	padding: 8px;
 	min-width: 240px;
 	background-color: var( --gsuiSlicer-bg );
+	-webkit-tap-highlight-color: transparent;
 }
 
 /* .......................................................................... */
@@ -146,17 +147,20 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	border-width: 3px 1px 0 1px;
 	border-radius: 2px 2px 0 0;
 	background-color: var( --gsuiSlicer-slice-bg );
+	pointer-events: none;
 }
 
 /* .......................................................................... */
 .gsuiSlicer-menu {
 	display: flex;
+	gap: 6px;
 	height: 20px;
 	justify-content: space-between;
 	font-size: 14px;
 }
-.gsuiSlicer-duration,
-.gsuiSlicer-step {
+
+/* .......................................................................... */
+.gsuiSlicer-duration {
 	display: flex;
 	gap: 6px;
 	align-items: center;
@@ -165,9 +169,7 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	user-select: none;
 }
 .gsuiSlicer-duration:focus,
-.gsuiSlicer-duration:hover,
-.gsuiSlicer-step:focus,
-.gsuiSlicer-step:hover {
+.gsuiSlicer-duration:hover {
 	opacity: 1;
 }
 .gsuiSlicer-duration-input {
@@ -185,13 +187,39 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	font-size: 11px;
 	pointer-events: none;
 }
-.gsuiSlicer-step {
+
+/* .......................................................................... */
+.gsuiSlicer-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	gap: 6px;
 	border: 0;
 	outline: 0;
-	padding: 0;
+	padding: 0 6px;
+	min-width: 32px;
+	border-radius: 4px;
 	font-size: inherit;
-	font-family: var( --gsui-font-number );
 	color: inherit;
 	cursor: pointer;
-	background: none;
+	white-space: nowrap;
+	background-color: #fff2;
+	user-select: none;
+	opacity: .6;
+	transition: .2s opacity;
+}
+.gsuiSlicer-btn-toggle {
+	border: 2px solid #fff8;
+}
+.gsuiSlicer-btn-toggle,
+.gsuiSlicer-btn:focus,
+.gsuiSlicer-btn:hover {
+	opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiSlicer-btn-step {
+	margin-left: auto;
+	font-family: var( --gsui-font-number );
 }

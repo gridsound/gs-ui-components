@@ -5,6 +5,7 @@ class gsuiSlicer extends HTMLElement {
 	static #resH = 64
 
 	#dur = 4
+	#tool = ""
 	#slices = {}
 	#buffer = null
 	#cropSide = "A"
@@ -12,6 +13,7 @@ class gsuiSlicer extends HTMLElement {
 	#stepsPerBeat = 4
 	#slicesMaxId = 0
 	#slicesSaved = null
+	#slicesSplitted = null
 	#sliceIdBefore = null
 	#onresizeBind = this.#onresize.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
@@ -31,7 +33,12 @@ class gsuiSlicer extends HTMLElement {
 		preview: ".gsuiSlicer-preview",
 		slices: ".gsuiSlicer-slices-wrap",
 		inputDuration: ".gsuiSlicer-duration-input",
-		stepBtn: ".gsuiSlicer-step",
+		step: ".gsuiSlicer-btn-step",
+		tools: {
+			moveY: ".gsuiSlicer-btn[data-action='moveY']",
+			split: ".gsuiSlicer-btn[data-action='split']",
+			merge: ".gsuiSlicer-btn[data-action='merge']",
+		},
 	} )
 
 	constructor() {
@@ -53,9 +60,11 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.srcSample.onpointerdown = this.#onpointerdownCrop.bind( this );
 		this.#elements.slices.oncontextmenu = () => false;
 		this.#elements.slices.onpointerdown = this.#onpointerdownSlices.bind( this );
-		this.#elements.slices.ondblclick = this.#ondblclickSlices.bind( this );
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
-		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );
+		this.#elements.step.onclick = this.#onclickStep.bind( this );
+		this.#elements.tools.moveY.onclick =
+		this.#elements.tools.split.onclick =
+		this.#elements.tools.merge.onclick = this.#onclickTools.bind( this );
 	}
 
 	// .........................................................................
@@ -70,6 +79,7 @@ class gsuiSlicer extends HTMLElement {
 				duration: 4,
 				timedivision: "4/4",
 			} );
+			this.#selectTool( "moveY" );
 		}
 		document.querySelector( "#gsuiSlicer-waveDefs defs" ).append( this.#waveDef );
 		GSUI.observeSizeOf( this, this.#onresizeBind );
@@ -103,7 +113,7 @@ class gsuiSlicer extends HTMLElement {
 					this.#updatePxPerBeat();
 					break;
 				case "step":
-					this.#elements.stepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
+					this.#elements.step.firstChild.textContent = this.#convertStepToFrac( +val );
 					break;
 			}
 		}
@@ -166,6 +176,12 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
+	#selectTool( t ) {
+		this.#tool = t;
+		this.#elements.tools.moveY.classList.toggle( "gsuiSlicer-btn-toggle", t === "moveY" );
+		this.#elements.tools.merge.classList.toggle( "gsuiSlicer-btn-toggle", t === "merge" );
+		this.#elements.tools.split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
+	}
 	#updateCroppedWaveform() {
 		if ( this.#buffer ) {
 			const cropa = this.#buffer.duration * this.getAttribute( "cropa" ),
@@ -236,6 +252,9 @@ class gsuiSlicer extends HTMLElement {
 
 		GSUI.setAttribute( this, "step", 1 / frac );
 	}
+	#onclickTools( e ) {
+		this.#selectTool( e.target.dataset.action );
+	}
 	#onpointerdownCrop( e ) {
 		GSUI.unselectText();
 		this.#elements.srcSample.setPointerCapture( e.pointerId );
@@ -258,33 +277,25 @@ class gsuiSlicer extends HTMLElement {
 			this.#dispatch( this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
 		}
 	}
-	#ondblclickSlices( e ) {
-		const sli = this.#getSliceByPageX( e.offsetX ),
-			w2 = sli.w / 2,
-			w2obj = { w: w2 },
-			newId = this.#slicesMaxId + 1,
-			newSli = {
-				x: sli.x + w2,
-				y: sli.y,
-				w: w2,
-			};
-
-		this.changeSlice( sli.id, w2obj );
-		this.addSlice( newId, newSli );
-		this.#dispatch( "changeSlices", {
-			[ sli.id ]: w2obj,
-			[ newId ]: newSli,
-		} );
-	}
 	#onpointerdownSlices( e ) {
-		GSUI.unselectText();
-		this.#slicesSaved = this.#copySlicesData();
-		this.#elements.slices.setPointerCapture( e.pointerId );
 		if ( e.button === 0 || e.button === 2 ) {
-			this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
-			this.#elements.slices.onpointermove = e.button === 0
-				? this.#onpointermoveSlicesY.bind( this )
-				: this.#onpointermoveSlicesMerge.bind( this );
+			const fn = this.#tool === "merge" || e.button === 2
+					? this.#onpointermoveSlicesMerge.bind( this )
+					: this.#tool === "moveY" && e.button === 0
+						? this.#onpointermoveSlicesY.bind( this )
+						: this.#tool === "split" && e.button === 0
+							? this.#onpointermoveSlicesSplit.bind( this )
+							: null;
+
+			if ( fn ) {
+				GSUI.unselectText();
+				this.#slicesSaved = this.#copySlicesData();
+				this.#elements.slices.setPointerCapture( e.pointerId );
+				this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
+				this.#elements.slices.onpointermove = fn;
+				this.#slicesSplitted = {};
+				fn( e );
+			}
 		}
 	}
 	#onpointerupSlices( e ) {
@@ -293,6 +304,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.slices.releasePointerCapture( e.pointerId );
 		this.#elements.slices.onpointermove =
 		this.#elements.slices.onpointerup =
+		this.#slicesSplitted =
 		this.#sliceIdBefore =
 		this.#slicesSaved = null;
 		if ( diff ) {
@@ -309,6 +321,24 @@ class gsuiSlicer extends HTMLElement {
 
 		if ( sli.y !== y ) {
 			this.changeSlice( sli.id, { y } );
+		}
+	}
+	#onpointermoveSlicesSplit( e ) {
+		const sli = this.#getSliceByPageX( e.offsetX );
+
+		if ( !( sli.id in this.#slicesSplitted ) ) {
+			const w2 = sli.w / 2,
+				newId = this.#slicesMaxId + 1,
+				newSli = {
+					x: sli.x + w2,
+					y: sli.y,
+					w: w2,
+				};
+
+			this.#slicesSplitted[ newId ] =
+			this.#slicesSplitted[ sli.id ] = true;
+			this.changeSlice( sli.id, { w: w2 } );
+			this.addSlice( newId, newSli );
 		}
 	}
 	#onpointermoveSlicesMerge( e ) {
