@@ -39,6 +39,11 @@ gsui-slicer {
 	margin-right: 6px;
 	font-size: 12px;
 }
+gsui-slicer:not( .gsuiSlicer-loaded ) .gsuiSlicer-source-name::before {
+	content: "no sample loaded...";
+	font-style: italic;
+	opacity: .5;
+}
 .gsuiSlicer-source-sample {
 	position: relative;
 	overflow: hidden;
@@ -57,12 +62,17 @@ gsui-slicer {
 .gsuiSlicer-source-crop {
 	position: absolute;
 	top: 0;
-	width: 2px;
 	height: 100%;
 	margin-left: -1px;
-	background-color: white;
+	border: 0 dashed #fff;
+	border-width: 0 1px;
+	opacity: .5;
 	transition: .2s opacity;
 	pointer-events: none;
+}
+.gsuiSlicer-loaded .gsuiSlicer-source-crop {
+	border-style: solid;
+	opacity: 1;
 }
 gsui-slicer[ cropa="0" ] .gsuiSlicer-source-cropA,
 gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
@@ -148,6 +158,11 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	border-radius: 2px 2px 0 0;
 	background-color: var( --gsuiSlicer-slice-bg );
 	pointer-events: none;
+	filter: grayscale( .5 ) opacity( .8 );
+	transition: filter .2s;
+}
+.gsuiSlicer-loaded .gsuiSlicer-slices-slice {
+	filter: none;
 }
 
 /* .......................................................................... */

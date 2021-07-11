@@ -125,8 +125,16 @@ class gsuiSlicer extends HTMLElement {
 	}
 	setBuffer( buf ) {
 		this.#buffer = buf;
+		this.classList.add( "gsuiSlicer-loaded" );
 		this.#updateCroppedWaveform();
 		gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+	}
+	removeBuffer() {
+		this.#buffer = null;
+		this.classList.remove( "gsuiSlicer-loaded" );
+		this.setBufferName( "" );
+		this.#elements.srcWave.firstChild.removeAttribute( "points" );
+		this.#waveDef.removeAttribute( "points" );
 	}
 	addSlice( id, obj ) {
 		const svg = GSUI.createElementNS( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
