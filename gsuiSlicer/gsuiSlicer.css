@@ -44,6 +44,7 @@ gsui-slicer {
 	flex: 1;
 	min-height: 20px;
 	cursor: pointer;
+	touch-action: none;
 }
 .gsuiSlicer-source-wave {
 	position: absolute;
@@ -133,6 +134,7 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	position: relative;
 	height: 100%;
 	cursor: pointer;
+	touch-action: none;
 }
 .gsuiSlicer-slices-slice {
 	position: absolute;
