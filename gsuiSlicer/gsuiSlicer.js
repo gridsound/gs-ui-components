@@ -9,10 +9,6 @@ class gsuiSlicer extends HTMLElement {
 	#buffer = null
 	#cropSide = "A"
 	#cropSave = null
-	#slicesTop = 0
-	#slicesLeft = 0
-	#slicesWidth = 100
-	#slicesHeight = 100
 	#stepsPerBeat = 4
 	#slicesMaxId = 0
 	#slicesSaved = null
@@ -179,16 +175,16 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#updatePxPerBeat( dur ) {
-		GSUI.setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#slicesWidth / ( dur || this.#dur ) );
-		GSUI.setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#slicesHeight / ( dur || this.#dur ) );
+		GSUI.setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
+		GSUI.setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
 	}
-	#getPercMouseX( pageX ) {
-		const bcr = this.#elements.srcSample.getBoundingClientRect();
+	#getPercMouseX( offsetX ) {
+		const w = this.#elements.srcSample.clientWidth;
 
-		return GSUI.clamp( +( ( pageX - bcr.left ) / bcr.width ).toFixed( 3 ), 0, 1 );
+		return GSUI.clamp( +( offsetX / w ).toFixed( 3 ), 0, 1 );
 	}
-	#updateCropSide( pageX ) {
-		const perc = this.#getPercMouseX( pageX ),
+	#updateCropSide( offsetX ) {
+		const perc = this.#getPercMouseX( offsetX ),
 			percA = +this.getAttribute( "cropa" ),
 			percB = +this.getAttribute( "cropb" ),
 			ave = ( percB - percA ) / 2;
@@ -202,8 +198,8 @@ class gsuiSlicer extends HTMLElement {
 			step >= .25 ? "1 / 4" : "1 / 8"
 		);
 	}
-	#getSliceByPageX( pageX ) {
-		const x = GSUI.clamp( ( pageX - this.#slicesLeft ) / this.#slicesWidth, 0, .9999 );
+	#getSliceByPageX( offsetX ) {
+		const x = GSUI.clamp( offsetX / this.#elements.slices.clientWidth, 0, .9999 );
 
 		return Object.values( this.#slices ).find( s => s.x <= x && x < s.x + s.w );
 	}
@@ -217,10 +213,9 @@ class gsuiSlicer extends HTMLElement {
 	// .........................................................................
 	#onresize() {
 		const svg = this.#elements.diagonalLine,
-			{ width: w, height: h } = svg.getBoundingClientRect();
+			w = svg.clientWidth,
+			h = svg.clientHeight;
 
-		this.#slicesWidth = w;
-		this.#slicesHeight = h;
 		GSUI.setAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
 		GSUI.setAttribute( svg.firstChild, "x2", w );
 		GSUI.setAttribute( svg.firstChild, "y2", h );
@@ -246,12 +241,12 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.srcSample.setPointerCapture( e.pointerId );
 		this.#elements.srcSample.onpointermove = this.#onpointermoveCrop.bind( this );
 		this.#elements.srcSample.onpointerup = this.#onpointerupCrop.bind( this );
-		this.#cropSide = this.#updateCropSide( e.pageX );
+		this.#cropSide = this.#updateCropSide( e.offsetX );
 		this.#cropSave = this.getAttribute( this.#cropSide );
 		this.#onpointermoveCrop( e );
 	}
 	#onpointermoveCrop( e ) {
-		GSUI.setAttribute( this, this.#cropSide, this.#getPercMouseX( e.pageX ) );
+		GSUI.setAttribute( this, this.#cropSide, this.#getPercMouseX( e.offsetX ) );
 	}
 	#onpointerupCrop( e ) {
 		const val = this.getAttribute( this.#cropSide );
@@ -264,7 +259,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#ondblclickSlices( e ) {
-		const sli = this.#getSliceByPageX( e.pageX ),
+		const sli = this.#getSliceByPageX( e.offsetX ),
 			w2 = sli.w / 2,
 			w2obj = { w: w2 },
 			newId = this.#slicesMaxId + 1,
@@ -282,12 +277,8 @@ class gsuiSlicer extends HTMLElement {
 		} );
 	}
 	#onpointerdownSlices( e ) {
-		const bcr = this.#elements.diagonalLine.getBoundingClientRect();
-
 		GSUI.unselectText();
 		this.#slicesSaved = this.#copySlicesData();
-		this.#slicesTop = bcr.top;
-		this.#slicesLeft = bcr.left;
 		this.#elements.slices.setPointerCapture( e.pointerId );
 		if ( e.button === 0 || e.button === 2 ) {
 			this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
@@ -311,17 +302,17 @@ class gsuiSlicer extends HTMLElement {
 	#onpointermoveSlicesY( e ) {
 		const dur = +this.getAttribute( "duration" ),
 			step = +this.getAttribute( "step" ),
-			yyy = GSUI.clamp( ( e.pageY - this.#slicesTop ) / this.#slicesHeight, 0, 1 ),
+			yyy = GSUI.clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 ),
 			yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
 			y = yy / dur / this.#stepsPerBeat,
-			sli = this.#getSliceByPageX( e.pageX );
+			sli = this.#getSliceByPageX( e.offsetX );
 
 		if ( sli.y !== y ) {
 			this.changeSlice( sli.id, { y } );
 		}
 	}
 	#onpointermoveSlicesMerge( e ) {
-		const sli = this.#getSliceByPageX( e.pageX ),
+		const sli = this.#getSliceByPageX( e.offsetX ),
 			idBef = this.#sliceIdBefore;
 
 		if ( idBef === null ) {

@@ -51,6 +51,7 @@ gsui-slicer {
 	width: 100%;
 	height: 100%;
 	fill: var( --gsuiSlicer-source-wave );
+	pointer-events: none;
 }
 .gsuiSlicer-source-crop {
 	position: absolute;
@@ -60,6 +61,7 @@ gsui-slicer {
 	margin-left: -1px;
 	background-color: white;
 	transition: .2s opacity;
+	pointer-events: none;
 }
 gsui-slicer[ cropa="0" ] .gsuiSlicer-source-cropA,
 gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
