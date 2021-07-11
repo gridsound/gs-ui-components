@@ -5,9 +5,15 @@ body {
 	--test-content-w: 380px;
 	--test-content-h: 420px;
 }
+#testWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
 </style>
 
 <gsui-slicer duration="8" timedivision="4/4" cropa=".143" cropb=".6"></gsui-slicer>
+<button id="loadSample">Load a sample</button>
 
 <script>
 TEST( {
@@ -32,7 +38,8 @@ TEST( {
 		"gsuiSlicer/gsuiSlicer.js",
 	],
 	js: () => {
-		const slicer = document.querySelector( "gsui-slicer" );
+		const slicer = document.querySelector( "gsui-slicer" ),
+			loadSampleBtn = document.querySelector( "#loadSample" );
 
 		slicer.addSlice(  0, { x: .000, y: .000, w: .125 } );
 		slicer.addSlice(  1, { x: .125, y: .125, w: .125 } );
@@ -43,16 +50,17 @@ TEST( {
 		slicer.addSlice(  6, { x: .750, y: .750, w: .125 } );
 		slicer.addSlice(  7, { x: .875, y: .875, w: .125 } );
 
-		slicer.setBufferName( "my-super-sample" );
-
-		document.body.onclick = () => {
+		loadSampleBtn.onclick = () => {
 			const ctx = new AudioContext();
 
-			document.body.onclick = null;
 			fetch( "test-assets/okay.wav" )
 				.then( res => res.arrayBuffer() )
 				.then( arr => ctx.decodeAudioData( arr ) )
-				.then( buf => slicer.setBuffer( buf ) );
+				.then( buf => {
+					slicer.setBuffer( buf );
+					slicer.setBufferName( "my-super-sample" );
+					loadSampleBtn.remove();
+				} );
 		};
 	},
 } );
