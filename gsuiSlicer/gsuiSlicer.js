@@ -184,8 +184,10 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
-	#selectTool( t ) {
-		this.#tool = t;
+	#selectTool( t, change ) {
+		if ( change !== false ) {
+			this.#tool = t;
+		}
 		this.#elements.tools.moveY.classList.toggle( "gsuiSlicer-btn-toggle", t === "moveY" );
 		this.#elements.tools.merge.classList.toggle( "gsuiSlicer-btn-toggle", t === "merge" );
 		this.#elements.tools.split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
@@ -305,6 +307,9 @@ class gsuiSlicer extends HTMLElement {
 				this.#elements.slices.onpointermove = fn;
 				this.#slicesSplitted = {};
 				fn( e );
+				if ( e.button === 2 ) {
+					this.#selectTool( "merge", false );
+				}
 			}
 		}
 	}
@@ -317,6 +322,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#slicesSplitted =
 		this.#sliceIdBefore =
 		this.#slicesSaved = null;
+		this.#selectTool( this.#tool );
 		if ( diff ) {
 			this.#dispatch( "changeSlices", diff );
 		}
