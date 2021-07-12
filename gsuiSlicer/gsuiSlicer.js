@@ -273,7 +273,9 @@ class gsuiSlicer extends HTMLElement {
 		this.#onpointermoveCrop( e );
 	}
 	#onpointermoveCrop( e ) {
-		GSUI.setAttribute( this, this.#cropSide, this.#getPercMouseX( e.offsetX ) );
+		this.#cropSide === "cropa"
+			? GSUI.setAttribute( this, "cropa", GSUI.clamp( this.#getPercMouseX( e.offsetX ), 0, this.getAttribute( "cropb" ) - .01 ) )
+			: GSUI.setAttribute( this, "cropb", GSUI.clamp( this.#getPercMouseX( e.offsetX ), +this.getAttribute( "cropa" ) + .01, 1 ) );
 	}
 	#onpointerupCrop( e ) {
 		const val = this.getAttribute( this.#cropSide );
