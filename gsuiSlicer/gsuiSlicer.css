@@ -5,7 +5,7 @@ gsui-slicer {
 	gap: 10px;
 	height: 100%;
 	padding: 8px;
-	min-width: 240px;
+	min-width: 306px;
 	background-color: var( --gsuiSlicer-bg );
 	-webkit-tap-highlight-color: transparent;
 }

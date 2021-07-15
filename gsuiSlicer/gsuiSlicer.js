@@ -36,6 +36,7 @@ class gsuiSlicer extends HTMLElement {
 		step: ".gsuiSlicer-btn-step",
 		tools: {
 			moveY: ".gsuiSlicer-btn[data-action='moveY']",
+			reset: ".gsuiSlicer-btn[data-action='reset']",
 			split: ".gsuiSlicer-btn[data-action='split']",
 			merge: ".gsuiSlicer-btn[data-action='merge']",
 		},
@@ -63,6 +64,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 		this.#elements.step.onclick = this.#onclickStep.bind( this );
 		this.#elements.tools.moveY.onclick =
+		this.#elements.tools.reset.onclick =
 		this.#elements.tools.split.onclick =
 		this.#elements.tools.merge.onclick = this.#onclickTools.bind( this );
 	}
@@ -189,6 +191,7 @@ class gsuiSlicer extends HTMLElement {
 			this.#tool = t;
 		}
 		this.#elements.tools.moveY.classList.toggle( "gsuiSlicer-btn-toggle", t === "moveY" );
+		this.#elements.tools.reset.classList.toggle( "gsuiSlicer-btn-toggle", t === "reset" );
 		this.#elements.tools.merge.classList.toggle( "gsuiSlicer-btn-toggle", t === "merge" );
 		this.#elements.tools.split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
 	}
@@ -291,13 +294,15 @@ class gsuiSlicer extends HTMLElement {
 	}
 	#onpointerdownSlices( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
-			const fn = this.#tool === "merge" || e.button === 2
-					? this.#onpointermoveSlicesMerge.bind( this )
+			const fn = this.#tool === "reset" || e.button === 2
+					? this.#onpointermoveSlicesReset.bind( this )
 					: this.#tool === "moveY" && e.button === 0
 						? this.#onpointermoveSlicesY.bind( this )
 						: this.#tool === "split" && e.button === 0
 							? this.#onpointermoveSlicesSplit.bind( this )
-							: null;
+							: this.#tool === "merge" && e.button === 0
+								? this.#onpointermoveSlicesMerge.bind( this )
+								: null;
 
 			if ( fn ) {
 				GSUI.unselectText();
@@ -308,7 +313,7 @@ class gsuiSlicer extends HTMLElement {
 				this.#slicesSplitted = {};
 				fn( e );
 				if ( e.button === 2 ) {
-					this.#selectTool( "merge", false );
+					this.#selectTool( "reset", false );
 				}
 			}
 		}
@@ -337,6 +342,13 @@ class gsuiSlicer extends HTMLElement {
 
 		if ( sli.y !== y ) {
 			this.changeSlice( sli.id, { y } );
+		}
+	}
+	#onpointermoveSlicesReset( e ) {
+		const sli = this.#getSliceByPageX( e.offsetX );
+
+		if ( sli.y !== sli.x ) {
+			this.changeSlice( sli.id, { y: sli.x } );
 		}
 	}
 	#onpointermoveSlicesSplit( e ) {
