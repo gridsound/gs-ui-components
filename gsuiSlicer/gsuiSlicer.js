@@ -367,7 +367,7 @@ class gsuiSlicer extends HTMLElement {
 	}
 	#onpointermoveSlicesSplit( list ) {
 		list.forEach( sli => {
-			if ( !( sli.id in this.#slicesSplitted ) ) {
+			if ( !( sli.id in this.#slicesSplitted ) && sli.w > 1 / 128 ) {
 				const w2 = sli.w / 2,
 					newId = this.#slicesMaxId + 1,
 					newSli = {
