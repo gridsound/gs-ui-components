@@ -10,6 +10,7 @@ class gsuiSlicer extends HTMLElement {
 	#buffer = null
 	#cropSide = "A"
 	#cropSave = null
+	#ptrmoveFn = null
 	#stepsPerBeat = 4
 	#slicesMaxId = 0
 	#slicesSaved = null
@@ -294,24 +295,26 @@ class gsuiSlicer extends HTMLElement {
 	}
 	#onpointerdownSlices( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
-			const fn = this.#tool === "reset" || e.button === 2
-					? this.#onpointermoveSlicesReset.bind( this )
-					: this.#tool === "moveY" && e.button === 0
-						? this.#onpointermoveSlicesY.bind( this )
-						: this.#tool === "split" && e.button === 0
-							? this.#onpointermoveSlicesSplit.bind( this )
-							: this.#tool === "merge" && e.button === 0
-								? this.#onpointermoveSlicesMerge.bind( this )
-								: null;
+			this.#ptrmoveFn = this.#tool === "reset" || e.button === 2
+				? this.#onpointermoveSlicesReset.bind( this )
+				: this.#tool === "moveY" && e.button === 0
+					? this.#onpointermoveSlicesY.bind( this )
+					: this.#tool === "split" && e.button === 0
+						? this.#onpointermoveSlicesSplit.bind( this )
+						: this.#tool === "merge" && e.button === 0
+							? this.#onpointermoveSlicesMerge.bind( this )
+							: null;
+			if ( this.#ptrmoveFn ) {
+				const sli = this.#getSliceByPageX( e.offsetX );
 
-			if ( fn ) {
 				GSUI.unselectText();
 				this.#slicesSaved = this.#copySlicesData();
 				this.#elements.slices.setPointerCapture( e.pointerId );
 				this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
-				this.#elements.slices.onpointermove = fn;
+				this.#elements.slices.onpointermove = this.#onpointermoveSlices.bind( this );
 				this.#slicesSplitted = {};
-				fn( e );
+				this.#sliceIdBefore = sli.id;
+				this.#onpointermoveSlices( e );
 				if ( e.button === 2 ) {
 					this.#selectTool( "reset", false );
 				}
@@ -332,63 +335,65 @@ class gsuiSlicer extends HTMLElement {
 			this.#dispatch( "changeSlices", diff );
 		}
 	}
-	#onpointermoveSlicesY( e ) {
-		const dur = +this.getAttribute( "duration" ),
-			step = +this.getAttribute( "step" ),
-			yyy = GSUI.clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 ),
-			yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
-			y = yy / dur / this.#stepsPerBeat,
-			sli = this.#getSliceByPageX( e.offsetX );
-
-		if ( sli.y !== y ) {
-			this.changeSlice( sli.id, { y } );
-		}
-	}
-	#onpointermoveSlicesReset( e ) {
-		const sli = this.#getSliceByPageX( e.offsetX );
-
-		if ( sli.y !== sli.x ) {
-			this.changeSlice( sli.id, { y: sli.x } );
-		}
-	}
-	#onpointermoveSlicesSplit( e ) {
-		const sli = this.#getSliceByPageX( e.offsetX );
-
-		if ( !( sli.id in this.#slicesSplitted ) ) {
-			const w2 = sli.w / 2,
-				newId = this.#slicesMaxId + 1,
-				newSli = {
-					x: sli.x + w2,
-					y: sli.y,
-					w: w2,
-				};
-
-			this.#slicesSplitted[ newId ] =
-			this.#slicesSplitted[ sli.id ] = true;
-			this.changeSlice( sli.id, { w: w2 } );
-			this.addSlice( newId, newSli );
-		}
-	}
-	#onpointermoveSlicesMerge( e ) {
+	#onpointermoveSlices( e ) {
 		const sli = this.#getSliceByPageX( e.offsetX ),
-			idBef = this.#sliceIdBefore;
+			bef = this.#slices[ this.#sliceIdBefore ],
+			xa = Math.min( bef.x, sli.x ),
+			xb = Math.max( bef.x, sli.x ),
+			list = Object.values( this.#slices ).filter( s => xa <= s.x && s.x <= xb ),
+			sliId = this.#ptrmoveFn( list, sli, e );
 
-		if ( idBef === null ) {
-			this.#sliceIdBefore = sli.id;
-		} else if ( sli.id !== idBef ) {
-			const bef = this.#slices[ idBef ],
-				xa = Math.min( bef.x, sli.x ),
-				xb = Math.max( bef.x, sli.x ),
-				list = Object.values( this.#slices ).filter( s => xa <= s.x && s.x <= xb ),
-				first = list.reduce( ( min, s ) => min.x < s.x ? min : s );
+		this.#sliceIdBefore = sliId ?? sli.id;
+	}
+	#onpointermoveSlicesY( list, _sli, e ) {
+		list.forEach( sli => {
+			const dur = +this.getAttribute( "duration" ),
+				step = +this.getAttribute( "step" ),
+				yyy = GSUI.clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 ),
+				yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
+				y = yy / dur / this.#stepsPerBeat;
 
-			this.#sliceIdBefore = first.id;
+			if ( sli.y !== y ) {
+				this.changeSlice( sli.id, { y } );
+			}
+		} );
+	}
+	#onpointermoveSlicesReset( list ) {
+		list.forEach( sli => {
+			if ( sli.y !== sli.x ) {
+				this.changeSlice( sli.id, { y: sli.x } );
+			}
+		} );
+	}
+	#onpointermoveSlicesSplit( list ) {
+		list.forEach( sli => {
+			if ( !( sli.id in this.#slicesSplitted ) ) {
+				const w2 = sli.w / 2,
+					newId = this.#slicesMaxId + 1,
+					newSli = {
+						x: sli.x + w2,
+						y: sli.y,
+						w: w2,
+					};
+
+				this.#slicesSplitted[ newId ] =
+				this.#slicesSplitted[ sli.id ] = true;
+				this.changeSlice( sli.id, { w: w2 } );
+				this.addSlice( newId, newSli );
+			}
+		} );
+	}
+	#onpointermoveSlicesMerge( list, sli ) {
+		if ( sli.id !== this.#sliceIdBefore ) {
+			const first = list.reduce( ( min, s ) => min.x < s.x ? min : s );
+
 			this.changeSlice( first.id, { w: list.reduce( ( w, s ) => w + s.w, 0 ) } );
 			list.forEach( sli => {
 				if ( sli.id !== first.id ) {
 					this.deleteSlice( sli.id );
 				}
 			} );
+			return first.id;
 		}
 	}
 }
