@@ -19,10 +19,11 @@ body {
 }
 </style>
 
-<gsui-slicer duration="8" timedivision="4/4" cropa=".143" cropb=".6"></gsui-slicer>
+<gsui-slicer duration="8" timedivision="4/4" cropa="0" cropb="1"></gsui-slicer>
 <div id="ctrls">
 	<button id="loadSample">Load a sample</button>
-	<button id="rmSample">Unload the sample</button>
+	<button id="rmSample">Unload</button>
+	<button id="playSample">Play/Stop</button>
 </div>
 
 <script>
@@ -49,9 +50,10 @@ TEST( {
 	],
 	js: () => {
 		const slicer = document.querySelector( "gsui-slicer" ),
+			rmSampleBtn = document.querySelector( "#rmSample" ),
 			loadSampleBtn = document.querySelector( "#loadSample" ),
-			rmSampleBtn = document.querySelector( "#rmSample" );
-		let ctx;
+			playSampleBtn = document.querySelector( "#playSample" );
+		let ctx, buffer, absn;
 
 		slicer.addSlice(  0, { x: .000, y: .000, w: .125 } );
 		slicer.addSlice(  1, { x: .125, y: .125, w: .125 } );
@@ -62,14 +64,90 @@ TEST( {
 		slicer.addSlice(  6, { x: .750, y: .750, w: .125 } );
 		slicer.addSlice(  7, { x: .875, y: .875, w: .125 } );
 
+		function buildBuffer() {
+			const cropA = +slicer.getAttribute( "cropa" );
+			const cropB = +slicer.getAttribute( "cropb" );
+			const bufCropA = cropA * buffer.length | 0;
+			const newlen = ( cropB - cropA ) * buffer.length | 0;
+			const newbuf = ctx.createBuffer( buffer.numberOfChannels, newlen, ctx.sampleRate );
+
+			Object.values( slicer.getSlicesData() ).forEach( sli => {
+				const obj = {
+					sampleRate: ctx.sampleRate,
+					srcInd: bufCropA + ( sli.x - ( sli.x - sli.y ) ) * newlen | 0,
+					dstInd: sli.x * newlen | 0,
+					cpyLen: sli.w * newlen | 0,
+				};
+
+				for ( let i = 0; i < buffer.numberOfChannels; ++i ) {
+					obj.srcArr = buffer.getChannelData( i );
+					obj.dstArr = newbuf.getChannelData( i );
+					copyBuffer( obj );
+				}
+			} );
+			return newbuf;
+		}
+
+		function copyBuffer( { srcArr, srcInd, dstArr, dstInd, cpyLen, sampleRate } ) {
+			for ( let i = 0; i < cpyLen; ++i ) {
+				dstArr[ dstInd + i ] = srcInd + i < srcArr.length
+					? srcArr[ srcInd + i ] * envBuffer( i, cpyLen, sampleRate * .01, sampleRate * .01 )
+					: 0;
+			}
+		}
+
+		function envBuffer( i, len, att, rel ) {
+			return i < len / 2
+				? Math.min( i, att ) / att
+				: Math.min( len - 1 - i, rel ) / rel;
+		}
+
+		GSUI.listenEvents( slicer, {
+			gsuiSlicer: {
+				cropA: () => {
+					playSampleBtn.onclick();
+					playSampleBtn.onclick();
+				},
+				cropB: () => {
+					playSampleBtn.onclick();
+					playSampleBtn.onclick();
+				},
+				changeSlices: ( d, t, e ) => {
+					playSampleBtn.onclick();
+					playSampleBtn.onclick();
+				},
+			},
+		} );
+
+		playSampleBtn.onclick = () => {
+			if ( absn ) {
+				absn.stop();
+				absn = null;
+			} else {
+				absn = ctx.createBufferSource();
+				absn.buffer = buildBuffer();
+				absn.loop = true;
+				absn.connect( ctx.destination );
+				absn.start();
+			}
+		};
 		rmSampleBtn.onclick = () => slicer.removeBuffer();
 		loadSampleBtn.onclick = () => {
 			ctx = ctx || new AudioContext();
 			slicer.removeBuffer();
-			fetch( "test-assets/okay.wav" )
+			// fetch( "test-assets/i-just-dont-know-why_F_minor.wav" )
+			// fetch( "test-assets/the_purge_siren_3.wav" )
+			// fetch( "test-assets/mental-help-hotline.m4a" )
+			// fetch( "test-assets/still-listening-gentleman.wav" )
+			// fetch( "test-assets/56k.ogg" )
+			// fetch( "test-assets/LCU_808_180_DLKit_03_Full.wav" )
+			fetch( "test-assets/Too Long - Steam Machine.wav" )
+			// fetch( "test-assets/Robot Rock - Oh Yeah.wav" )
+			// fetch( "test-assets/Television Rules The Nation - Crescendolls.wav" )
 				.then( res => res.arrayBuffer() )
 				.then( arr => ctx.decodeAudioData( arr ) )
 				.then( buf => {
+					buffer = buf;
 					slicer.setBuffer( buf );
 					slicer.setBufferName( "my-super-sample" );
 				} );
