@@ -123,6 +123,9 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
+	getSlicesData() {
+		return this.#copySlicesData();
+	}
 	setBufferName( name ) {
 		this.#elements.srcName.textContent = name;
 	}
