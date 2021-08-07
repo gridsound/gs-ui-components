@@ -4,7 +4,7 @@ gsui-slicer {
 	flex-direction: column;
 	gap: 10px;
 	height: 100%;
-	padding: 8px;
+	padding: 8px 0;
 	min-width: 306px;
 	background-color: var( --gsuiSlicer-bg );
 	-webkit-tap-highlight-color: transparent;
@@ -16,13 +16,21 @@ gsui-slicer {
 }
 
 /* .......................................................................... */
+.gsuiSlicer-source-head,
+.gsuiSlicer-source-sample-wrap,
+.gsuiSlicer-preview,
+.gsuiSlicer-slices {
+	border: 0 solid #0002;
+	border-width: 0 8px;
+}
+
+/* .......................................................................... */
 .gsuiSlicer-source {
 	overflow: hidden;
 	min-height: 48px;
 	flex: .35;
 	display: flex;
 	flex-direction: column;
-	border-radius: 6px;
 	background-color: var( --gsuiSlicer-source-bg );
 }
 .gsuiSlicer-source-head {
@@ -31,23 +39,29 @@ gsui-slicer {
 	height: 20px;
 	font-size: 11px;
 	font-weight: bold;
-	padding: 0 6px;
-	background-color: #000;
-	opacity: .4;
+	padding: 0 4px;
+	background-color: #0004;
 }
 .gsuiSlicer-source-icon {
 	margin-right: 6px;
 	font-size: 12px;
+	opacity: .4;
+}
+.gsuiSlicer-source-name {
+	opacity: .4;
 }
 gsui-slicer:not( .gsuiSlicer-loaded ) .gsuiSlicer-source-name::before {
 	content: "no sample loaded...";
 	font-style: italic;
 	opacity: .5;
 }
+.gsuiSlicer-source-sample-wrap {
+	flex: 1;
+}
 .gsuiSlicer-source-sample {
 	position: relative;
 	overflow: hidden;
-	flex: 1;
+	height: 100%;
 	min-height: 20px;
 	cursor: pointer;
 	touch-action: none;
@@ -95,7 +109,6 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	overflow: hidden;
 	flex: .4;
 	min-height: 30px;
-	border-radius: 6px;
 	background-color: var( --gsuiSlicer-source-bg );
 }
 .gsuiSlicer-preview-wave {
@@ -109,13 +122,9 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 .gsuiSlicer-slices {
 	flex: 1;
 	min-height: 100px;
-	border-radius: 6px;
 	overflow: hidden;
 	color: #000;
 	background-color: var( --gsuiSlicer-slicers-bg );
-	box-shadow:
-		/*inset 0 0 6px 4px #0002,*/
-		inset 0 0 0 1px #0008;
 }
 .gsuiSlicer-slices-scroll {
 	overflow: auto;
@@ -171,6 +180,7 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	gap: 6px;
 	height: 20px;
 	justify-content: space-between;
+	padding: 0 8px;
 	font-size: 14px;
 }
 
