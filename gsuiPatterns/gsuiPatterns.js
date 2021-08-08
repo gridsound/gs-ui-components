@@ -2,8 +2,8 @@
 
 class gsuiPatterns extends HTMLElement {
 	constructor() {
-		const children = GSUI.getTemplate( "gsui-patterns" ),
-			[ elPanelBuffers, elPanelDrums, elPanelKeys ] = children,
+		const uiPanels = GSUI.getTemplate( "gsui-patterns" ),
+			[ elPanelBuffers, elPanelDrums, elPanelKeys ] = uiPanels.children,
 			elNewDrums = elPanelDrums.querySelector( "[data-action='newDrums']" ),
 			elNewSynth = elPanelKeys.querySelector( "[data-action='newSynth']" ),
 			elBufferList = elPanelBuffers.querySelector( ".gsuiPatterns-panel-list" ),
@@ -34,7 +34,7 @@ class gsuiPatterns extends HTMLElement {
 		super();
 		this.onchange =
 		this.onpatternDataTransfer = null;
-		this._children = children;
+		this._children = uiPanels;
 		this._elBufferList = elBufferList;
 		this._elDrumsList = elDrumsList;
 		this._elSynthList = elSynthList;
@@ -95,10 +95,9 @@ class gsuiPatterns extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiPatterns", "gsuiPanels-y" );
-			this.append( ...this._children );
+			this.classList.add( "gsuiPatterns" );
+			this.append( this._children );
 			this._children = null;
-			( new gsuiPanels( this ) ).attached();
 		}
 	}
 

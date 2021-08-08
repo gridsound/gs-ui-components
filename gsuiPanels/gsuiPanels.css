@@ -10,6 +10,7 @@
 .gsuiPanels-x,
 .gsuiPanels-y {
 	display: flex;
+	height: 100%;
 }
 .gsuiPanels-y {
 	flex-direction: column;

@@ -1,10 +1,8 @@
 "use strict";
 
-class gsuiPanels {
+class gsuiPanels extends HTMLElement {
 	#dataPerPanel = new Map()
 	#cursorElem = document.createElement( "div" )
-	#panWidth = null
-	#panHeight = null
 	#dir = ""
 	#pageN = 0
 	#extend = null
@@ -13,39 +11,32 @@ class gsuiPanels {
 	#panAfter = null
 	#parentSize = 0
 
-	constructor( root ) {
-		this.rootElement = root;
-		this.#cursorElem = document.createElement( "div" );
+	constructor() {
+		super();
+
+		Object.seal( this );
 		this.#cursorElem.className = "gsuiPanels-cursor";
-		this.#dataPerPanel = new Map();
 	}
-	attached() {
+
+	// .........................................................................
+	connectedCallback() {
 		this.#init();
-		this.resized();
-	}
-	resized() {
-		this.#panWidth.forEach( this.#setSizeClass.bind( this, "width" ) );
-		this.#panHeight.forEach( this.#setSizeClass.bind( this, "height" ) );
 	}
 
 	// .........................................................................
 	#init() {
-		const root = this.rootElement,
-			qsa = ( c, fn ) => root.querySelectorAll( `.gsuiPanels-${ c }` ).forEach( fn );
+		const qsa = ( c, fn ) => this.querySelectorAll( `.gsuiPanels-${ c }` ).forEach( fn );
 
-		root.style.overflow = "hidden";
+		this.style.overflow = "hidden";
 		qsa( "extend", el => el.remove() );
 		qsa( "last", el => el.classList.remove( "gsuiPanels-last" ) );
-		this.#convertFlex( root.classList.contains( "gsuiPanels-x" ) ? "width" : "height", root );
+		this.#convertFlex( this.classList.contains( "gsuiPanels-x" ) ? "width" : "height", this );
 		qsa( "x", this.#convertFlex.bind( this, "width" ) );
 		qsa( "y", this.#convertFlex.bind( this, "height" ) );
 		qsa( "x > div + div", this.#addExtend.bind( this, "width" ) );
 		qsa( "y > div + div", this.#addExtend.bind( this, "height" ) );
-		this.#panWidth = root.querySelectorAll( "[data-width-class]" );
-		this.#panHeight = root.querySelectorAll( "[data-height-class]" );
-		this.#panWidth.forEach( this.#parseSizeClassAttr.bind( this, "width" ) );
-		this.#panHeight.forEach( this.#parseSizeClassAttr.bind( this, "height" ) );
-		window.addEventListener( "resize", this.resized.bind( this ) );
+		this.querySelectorAll( "[data-width-class]" ).forEach( this.#parseSizeClassAttr.bind( this, "width" ) );
+		this.querySelectorAll( "[data-height-class]" ).forEach( this.#parseSizeClassAttr.bind( this, "height" ) );
 	}
 	#getChildren( el ) {
 		return Array.from( el.children ).filter(
@@ -148,7 +139,7 @@ class gsuiPanels {
 		ext.classList.add( "gsui-hover" );
 		this.#cursorElem.style.cursor = dir === "width" ? "col-resize" : "row-resize";
 		document.body.append( this.#cursorElem );
-		this.rootElement.classList.add( "gsuiPanels-noselect" );
+		this.classList.add( "gsuiPanels-noselect" );
 		this.#dir = dir;
 		this.#extend = ext;
 		this.#pageN = dir === "width" ? e.pageX : e.pageY;
@@ -162,7 +153,7 @@ class gsuiPanels {
 	_onmouseup() {
 		this.#cursorElem.remove();
 		this.#extend.classList.remove( "gsui-hover" );
-		this.rootElement.classList.remove( "gsuiPanels-noselect" );
+		this.classList.remove( "gsuiPanels-noselect" );
 		delete gsuiPanels._focused;
 	}
 	_onmousemove( e ) {
@@ -183,3 +174,5 @@ document.addEventListener( "mousemove", e => {
 document.addEventListener( "mouseup", e => {
 	gsuiPanels._focused && gsuiPanels._focused._onmouseup( e );
 } );
+
+customElements.define( "gsui-panels", gsuiPanels );
