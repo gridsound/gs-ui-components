@@ -98,7 +98,6 @@ class gsuiPanels extends HTMLElement {
 		GSUI.dragshield.show( dir === "width" ? "col-resize" : "row-resize" );
 		gsuiPanels._focused = this;
 		ext.classList.add( "gsui-hover" );
-		this.classList.add( "gsuiPanels-noselect" );
 		this.#dir = dir;
 		this.#extend = ext;
 		this.#pageN = dir === "width" ? e.pageX : e.pageY;
@@ -112,7 +111,6 @@ class gsuiPanels extends HTMLElement {
 	_onmouseup() {
 		GSUI.dragshield.hide();
 		this.#extend.classList.remove( "gsui-hover" );
-		this.classList.remove( "gsuiPanels-noselect" );
 		delete gsuiPanels._focused;
 	}
 	_onmousemove( e ) {

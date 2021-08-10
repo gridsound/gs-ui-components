@@ -20,13 +20,6 @@
 .gsuiPanels-x > div + div:not( .gsuiPanels-extend ) { border-left: var( --gsuiPanels-bd ); }
 .gsuiPanels-y > div + div:not( .gsuiPanels-extend ) { border-top: var( --gsuiPanels-bd ); }
 
-.gsuiPanels-noselect {
-	user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-}
-
 /* .gsuiPanels-extend ------------------------------------------------------- */
 .gsuiPanels-extend {
 	position: absolute;
