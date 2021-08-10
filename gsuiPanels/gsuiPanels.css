@@ -1,12 +1,3 @@
-.gsuiPanels-cursor {
-	position: fixed;
-	z-index: 2147483647;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-}
-
 .gsuiPanels-x,
 .gsuiPanels-y {
 	display: flex;

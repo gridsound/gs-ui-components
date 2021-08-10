@@ -2,7 +2,6 @@
 
 class gsuiPanels extends HTMLElement {
 	#dataPerPanel = new Map()
-	#cursorElem = document.createElement( "div" )
 	#dir = ""
 	#pageN = 0
 	#extend = null
@@ -15,7 +14,6 @@ class gsuiPanels extends HTMLElement {
 		super();
 
 		Object.seal( this );
-		this.#cursorElem.className = "gsuiPanels-cursor";
 	}
 
 	// .........................................................................
@@ -135,10 +133,10 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#onmousedownExtend( dir, ext, panBefore, panAfter, e ) {
+		GSUI.unselectText();
+		GSUI.dragshield.show( dir === "width" ? "col-resize" : "row-resize" );
 		gsuiPanels._focused = this;
 		ext.classList.add( "gsui-hover" );
-		this.#cursorElem.style.cursor = dir === "width" ? "col-resize" : "row-resize";
-		document.body.append( this.#cursorElem );
 		this.classList.add( "gsuiPanels-noselect" );
 		this.#dir = dir;
 		this.#extend = ext;
@@ -151,7 +149,7 @@ class gsuiPanels extends HTMLElement {
 			: this.#parent.clientHeight;
 	}
 	_onmouseup() {
-		this.#cursorElem.remove();
+		GSUI.dragshield.hide();
 		this.#extend.classList.remove( "gsui-hover" );
 		this.classList.remove( "gsuiPanels-noselect" );
 		delete gsuiPanels._focused;
@@ -174,5 +172,7 @@ document.addEventListener( "mousemove", e => {
 document.addEventListener( "mouseup", e => {
 	gsuiPanels._focused && gsuiPanels._focused._onmouseup( e );
 } );
+
+// Object.freeze( gsuiPanels );
 
 customElements.define( "gsui-panels", gsuiPanels );
