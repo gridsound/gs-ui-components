@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiPanels extends HTMLElement {
-	#dataPerPanel = new Map()
 	#dir = ""
 	#pageN = 0
 	#extend = null
@@ -33,33 +32,10 @@ class gsuiPanels extends HTMLElement {
 		qsa( "y", this.#convertFlex.bind( this, "height" ) );
 		qsa( "x > div + div", this.#addExtend.bind( this, "width" ) );
 		qsa( "y > div + div", this.#addExtend.bind( this, "height" ) );
-		this.querySelectorAll( "[data-width-class]" ).forEach( this.#parseSizeClassAttr.bind( this, "width" ) );
-		this.querySelectorAll( "[data-height-class]" ).forEach( this.#parseSizeClassAttr.bind( this, "height" ) );
 	}
 	#getChildren( el ) {
 		return Array.from( el.children ).filter(
 			el => !el.classList.contains( "gsuiPanels-extend" ) );
-	}
-	#parseSizeClassAttr( dir, pan ) {
-		const hasData = this.#dataPerPanel.get( pan ),
-			data = hasData
-				? hasData
-				: {
-					width: { less: [], more: [] },
-					height: { less: [], more: [] },
-				},
-			{ less, more } = data[ dir ];
-
-		if ( !hasData ) {
-			this.#dataPerPanel.set( pan, data );
-		}
-		pan.dataset[ `${ dir }Class` ].split( " " )
-			.forEach( w => {
-				const [ size, clazz ] = w.split( ":" ),
-					arr = size[ 0 ] === "<" ? less : more;
-
-				arr.push( [ +size.substr( 1 ), clazz ] );
-			} );
 	}
 	#convertFlex( dir, panPar ) {
 		const pans = this.#getChildren( panPar ),
@@ -107,7 +83,6 @@ class gsuiPanels extends HTMLElement {
 					} else {
 						ret = mov + ( size - newsizeCorrect );
 					}
-					this.#setSizeClass( dir, pan );
 					if ( pan.onresizing ) {
 						pan.onresizing( pan );
 					}
@@ -115,20 +90,6 @@ class gsuiPanels extends HTMLElement {
 			}
 			return ret;
 		}, mov );
-	}
-	#setSizeClass( dir, pan ) {
-		const panData = this.#dataPerPanel.get( pan );
-
-		if ( panData ) {
-			const { less, more } = panData[ dir ],
-				panCl = pan.classList,
-				panSize = dir === "width"
-					? pan.clientWidth
-					: pan.clientHeight;
-
-			less.forEach( c => panCl.toggle( c[ 1 ], panSize < c[ 0 ] ) );
-			more.forEach( c => panCl.toggle( c[ 1 ], panSize > c[ 0 ] ) );
-		}
 	}
 
 	// .........................................................................
