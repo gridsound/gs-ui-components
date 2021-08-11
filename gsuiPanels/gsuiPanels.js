@@ -2,9 +2,9 @@
 
 class gsuiPanels extends HTMLElement {
 	#dir = ""
+	#dirX = false
 	#pageN = 0
 	#extend = null
-	#parent = null
 	#panBefore = null
 	#panAfter = null
 	#parentSize = 0
@@ -13,6 +13,7 @@ class gsuiPanels extends HTMLElement {
 		super();
 
 		Object.seal( this );
+		this.onmousedown = this.#onmousedown.bind( this );
 	}
 
 	// .........................................................................
@@ -22,46 +23,23 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#init() {
-		const qsa = ( c, fn ) => this.querySelectorAll( `.gsuiPanels-${ c }` ).forEach( fn );
+		const pans = this.children,
+			size = this.#dirX ? this.clientWidth : this.clientHeight;
 
 		this.style.overflow = "hidden";
-		qsa( "extend", el => el.remove() );
-		qsa( "last", el => el.classList.remove( "gsuiPanels-last" ) );
-		this.#convertFlex( this.classList.contains( "gsuiPanels-x" ) ? "width" : "height", this );
-		qsa( "x", this.#convertFlex.bind( this, "width" ) );
-		qsa( "y", this.#convertFlex.bind( this, "height" ) );
-		qsa( "x > div + div", this.#addExtend.bind( this, "width" ) );
-		qsa( "y > div + div", this.#addExtend.bind( this, "height" ) );
-	}
-	#getChildren( el ) {
-		return Array.from( el.children ).filter(
-			el => !el.classList.contains( "gsuiPanels-extend" ) );
-	}
-	#convertFlex( dir, panPar ) {
-		const pans = this.#getChildren( panPar ),
-			size = dir === "width"
-				? panPar.clientWidth
-				: panPar.clientHeight;
-
+		this.#dirX = this.classList.contains( "gsuiPanels-x" );
+		this.#dir = this.#dirX ? "width" : "height";
+		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
+		this.querySelectorAll( ".gsuiPanels-last" ).forEach( el => el.classList.remove( "gsuiPanels-last" ) );
 		pans[ pans.length - 1 ].classList.add( "gsuiPanels-last" );
-		pans.map( pan => pan.getBoundingClientRect()[ dir ] )
-			.forEach( ( panW, i ) => {
-				pans[ i ].style[ dir ] = `${ panW / size * 100 }%`;
+		Array.prototype
+			.map.call( pans, pan => pan.getBoundingClientRect()[ this.#dir ] )
+			.forEach( ( pSize, i ) => {
+				pans[ i ].style[ this.#dir ] = `${ pSize / size * 100 }%`;
+				if ( i > 0 ) {
+					pans[ i ].append( GSUI.createElement( "div", { class: "gsuiPanels-extend" } ) );
+				}
 			} );
-	}
-	#addExtend( dir, pan ) {
-		const extend = document.createElement( "div" ),
-			pans = this.#getChildren( pan.parentNode ),
-			panBefore = pans.filter( el => !el.classList.contains( "gsuiPanels-extend" ) &&
-				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
-			).reverse(),
-			panAfter = pans.filter( el => !el.classList.contains( "gsuiPanels-extend" ) && (
-				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING || pan === el
-			) );
-
-		extend.className = "gsuiPanels-extend";
-		extend.onmousedown = this.#onmousedownExtend.bind( this, dir, extend, panBefore, panAfter );
-		pan.append( extend );
 	}
 	#incrSizePans( dir, mov, pans ) {
 		const parentsize = this.#parentSize;
@@ -93,20 +71,25 @@ class gsuiPanels extends HTMLElement {
 	}
 
 	// .........................................................................
-	#onmousedownExtend( dir, ext, panBefore, panAfter, e ) {
-		GSUI.unselectText();
-		GSUI.dragshield.show( dir === "width" ? "col-resize" : "row-resize" );
-		gsuiPanels._focused = this;
-		ext.classList.add( "gsui-hover" );
-		this.#dir = dir;
-		this.#extend = ext;
-		this.#pageN = dir === "width" ? e.pageX : e.pageY;
-		this.#panBefore = panBefore;
-		this.#panAfter = panAfter;
-		this.#parent = ext.parentNode.parentNode;
-		this.#parentSize = dir === "width"
-			? this.#parent.clientWidth
-			: this.#parent.clientHeight;
+	#onmousedown( e ) {
+		const tar = e.target,
+			pan = tar.parentNode;
+
+		if ( pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
+			GSUI.unselectText();
+			GSUI.dragshield.show( this.#dirX ? "col-resize" : "row-resize" );
+			gsuiPanels._focused = this;
+			tar.classList.add( "gsui-hover" );
+			this.#extend = tar;
+			this.#pageN = this.#dirX ? e.pageX : e.pageY;
+			this.#parentSize = this.#dirX ? this.clientWidth : this.clientHeight;
+			this.#panBefore = Array.prototype.filter.call( this.children, el => (
+				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
+			) ).reverse();
+			this.#panAfter = Array.prototype.filter.call( this.children, el => (
+				pan === el || pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
+			) );
+		}
 	}
 	_onmouseup() {
 		GSUI.dragshield.hide();
@@ -114,13 +97,12 @@ class gsuiPanels extends HTMLElement {
 		delete gsuiPanels._focused;
 	}
 	_onmousemove( e ) {
-		const dir = this.#dir,
-			px = ( dir === "width" ? e.pageX : e.pageY ) - this.#pageN,
-			mov = px - this.#incrSizePans( dir, px, this.#panBefore );
+		const px = ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN,
+			mov = px - this.#incrSizePans( this.#dir, px, this.#panBefore );
 
 		this.#pageN += mov;
 		if ( Math.abs( mov ) > 0 ) {
-			this.#incrSizePans( dir, -mov, this.#panAfter );
+			this.#incrSizePans( this.#dir, -mov, this.#panAfter );
 		}
 	}
 }
