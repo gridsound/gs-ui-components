@@ -7,13 +7,12 @@ class gsuiPanels extends HTMLElement {
 	#extend = null
 	#panBefore = null
 	#panAfter = null
-	#parentSize = 0
 
 	constructor() {
 		super();
 
 		Object.seal( this );
-		this.onmousedown = this.#onmousedown.bind( this );
+		this.onpointerdown = this.#onpointerdown.bind( this );
 	}
 
 	// .........................................................................
@@ -41,9 +40,7 @@ class gsuiPanels extends HTMLElement {
 				}
 			} );
 	}
-	#incrSizePans( dir, mov, pans ) {
-		const parentsize = this.#parentSize;
-
+	static #incrSizePans( dir, mov, parentsize, pans ) {
 		return pans.reduce( ( mov, pan ) => {
 			let ret = mov;
 
@@ -71,49 +68,46 @@ class gsuiPanels extends HTMLElement {
 	}
 
 	// .........................................................................
-	#onmousedown( e ) {
+	#onpointerdown( e ) {
 		const tar = e.target,
 			pan = tar.parentNode;
 
 		if ( pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
-			GSUI.unselectText();
-			GSUI.dragshield.show( this.#dirX ? "col-resize" : "row-resize" );
-			gsuiPanels._focused = this;
-			tar.classList.add( "gsui-hover" );
 			this.#extend = tar;
 			this.#pageN = this.#dirX ? e.pageX : e.pageY;
-			this.#parentSize = this.#dirX ? this.clientWidth : this.clientHeight;
 			this.#panBefore = Array.prototype.filter.call( this.children, el => (
 				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
 			) ).reverse();
 			this.#panAfter = Array.prototype.filter.call( this.children, el => (
 				pan === el || pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
 			) );
+			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
+			tar.classList.add( "gsui-hover" );
+			GSUI.unselectText();
+			this.setPointerCapture( e.pointerId );
+			this.onpointerup = this.#onpointerup.bind( this );
+			this.onpointermove = this.#onpointermove.bind( this );
 		}
 	}
-	_onmouseup() {
-		GSUI.dragshield.hide();
+	#onpointerup( e ) {
+		this.style.cursor = "";
 		this.#extend.classList.remove( "gsui-hover" );
-		delete gsuiPanels._focused;
+		this.releasePointerCapture( e.pointerId );
+		this.onpointermove =
+		this.onpointerup = null;
 	}
-	_onmousemove( e ) {
+	#onpointermove( e ) {
 		const px = ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN,
-			mov = px - this.#incrSizePans( this.#dir, px, this.#panBefore );
+			parentsize = this.#dirX ? this.clientWidth : this.clientHeight,
+			mov = px - gsuiPanels.#incrSizePans( this.#dir, px, parentsize, this.#panBefore );
 
 		this.#pageN += mov;
 		if ( Math.abs( mov ) > 0 ) {
-			this.#incrSizePans( this.#dir, -mov, this.#panAfter );
+			gsuiPanels.#incrSizePans( this.#dir, -mov, parentsize, this.#panAfter );
 		}
 	}
 }
 
-document.addEventListener( "mousemove", e => {
-	gsuiPanels._focused && gsuiPanels._focused._onmousemove( e );
-} );
-document.addEventListener( "mouseup", e => {
-	gsuiPanels._focused && gsuiPanels._focused._onmouseup( e );
-} );
-
-// Object.freeze( gsuiPanels );
+Object.freeze( gsuiPanels );
 
 customElements.define( "gsui-panels", gsuiPanels );
