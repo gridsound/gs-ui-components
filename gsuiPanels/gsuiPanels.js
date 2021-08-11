@@ -53,11 +53,7 @@ class gsuiPanels extends HTMLElement {
 
 				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
 					pan.style[ dir ] = `${ newsizeCorrect / parentsize * 100 }%`;
-					if ( mov > 0 ) {
-						ret = mov - ( newsizeCorrect - size );
-					} else {
-						ret = mov + ( size - newsizeCorrect );
-					}
+					ret -= newsizeCorrect - size;
 					if ( pan.onresizing ) {
 						pan.onresizing( pan );
 					}

@@ -6,15 +6,16 @@
 }
 
 /* .......................................................................... */
+.gsuiPatterns-panel:first-child {
+	min-height: 28px;
+}
 .gsuiPatterns-panel {
-	--gsuiPanels-bd: 0;
 	display: flex;
 	flex-direction: column;
+	min-height: 32px;
 }
 .gsuiPatterns-panelBuffers,
 .gsuiPatterns-panelDrums {
-	min-height: 29px;
-	max-height: 400px;
 	height: 140px;
 }
 

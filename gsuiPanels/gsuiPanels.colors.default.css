@@ -1,5 +1,4 @@
 :root {
-	--gsuiPanels-bd: 1px solid #222;
-	--gsuiPanels-extendSize: 4px;
-	--gsuiPanels-extendColor: #222;
+	--gsuiPanels-border: #777;
+	--gsuiPanels-extendColor: #888;
 }
