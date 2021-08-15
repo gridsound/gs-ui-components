@@ -1,40 +1,41 @@
 "use strict";
 
 class gsuiAnalyser {
+	#ctx = null
+
 	constructor() {
-		this.rootElement =
-		this._ctx = null;
+		this.rootElement = null;
 		Object.seal( this );
 	}
 	setCanvas( canvas ) {
 		this.rootElement = canvas;
-		this._ctx = canvas.getContext( "2d" );
+		this.#ctx = canvas.getContext( "2d" );
 	}
 	clear() {
-		this._ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
+		this.#ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
 	}
 	setResolution( w, h ) {
 		const cnv = this.rootElement,
-			img = this._ctx.getImageData( 0, 0, cnv.width, cnv.height );
+			img = this.#ctx.getImageData( 0, 0, cnv.width, cnv.height );
 
 		cnv.width = w;
 		cnv.height = h;
-		this._ctx.putImageData( img, 0, 0 );
+		this.#ctx.putImageData( img, 0, 0 );
 	}
 	draw( ldata, rdata ) {
-		this._moveImage();
-		this._draw( ldata, rdata );
+		this.#moveImage();
+		this.#draw( ldata, rdata );
 	}
 
-	// private:
-	_moveImage() {
+	// .........................................................................
+	#moveImage() {
 		const cnv = this.rootElement,
-			img = this._ctx.getImageData( 0, 0, cnv.width, cnv.height - 1 );
+			img = this.#ctx.getImageData( 0, 0, cnv.width, cnv.height - 1 );
 
-		this._ctx.putImageData( img, 0, 1 );
+		this.#ctx.putImageData( img, 0, 1 );
 	}
-	_draw( ldata, rdata ) {
-		const ctx = this._ctx,
+	#draw( ldata, rdata ) {
+		const ctx = this.#ctx,
 			w2 = ctx.canvas.width / 2,
 			len = Math.min( w2, ldata.length ),
 			imgL = gsuiSpectrum.draw( ctx, ldata, w2 ),
