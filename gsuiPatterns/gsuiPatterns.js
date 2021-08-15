@@ -3,13 +3,14 @@
 class gsuiPatterns extends HTMLElement {
 	constructor() {
 		const uiPanels = GSUI.getTemplate( "gsui-patterns" ),
-			[ elPanelBuffers, elPanelDrums, elPanelKeys ] = uiPanels.children,
-			elNewDrums = elPanelDrums.querySelector( "[data-action='newDrums']" ),
-			elNewSynth = elPanelKeys.querySelector( "[data-action='newSynth']" ),
-			elBufferList = elPanelBuffers.querySelector( ".gsuiPatterns-panel-list" ),
-			elDrumsList = elPanelDrums.querySelector( ".gsuiPatterns-panel-list" ),
-			elSynthList = elPanelKeys.querySelector( ".gsuiPatterns-panel-list" ),
-			nlKeysLists = elPanelKeys.getElementsByClassName( "gsuiPatterns-synth-patterns" ),
+			elements = GSUI.findElements( uiPanels, {
+				bufferList: ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list",
+				drumsList: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
+				synthList: ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list",
+				newDrums: "[data-action='newDrums']",
+				newSynth: "[data-action='newSynth']",
+			} ),
+			nlKeysLists = elements.synthList.getElementsByClassName( "gsuiPatterns-synth-patterns" ),
 			fnsPattern = Object.freeze( {
 				clone: id => this.onchange( "clonePattern", id ),
 				remove: id => this.onchange( "removePattern", id ),
@@ -25,7 +26,7 @@ class gsuiPatterns extends HTMLElement {
 					this.expandSynth( id, true );
 				},
 				delete: id => {
-					elSynthList.children.length > 1
+					elements.synthList.children.length > 1
 						? this.onchange( "removeSynth", id )
 						: gsuiPopup.alert( "Error", "You have to keep at least one synthesizer" );
 				},
@@ -35,36 +36,36 @@ class gsuiPatterns extends HTMLElement {
 		this.onchange =
 		this.onpatternDataTransfer = null;
 		this._children = uiPanels;
-		this._elBufferList = elBufferList;
-		this._elDrumsList = elDrumsList;
-		this._elSynthList = elSynthList;
+		this._elBufferList = elements.bufferList;
+		this._elDrumsList = elements.drumsList;
+		this._elSynthList = elements.synthList;
 		this._nlKeysLists = nlKeysLists;
 		this._fnsSynth = fnsSynth;
 		this._fnsPattern = fnsPattern;
 		Object.seal( this );
 
 		new gsuiReorder( {
-			rootElement: elBufferList,
+			rootElement: elements.bufferList,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-buffer",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this._onreorderPatterns.bind( this, elBufferList ),
+			onchange: this._onreorderPatterns.bind( this, elements.bufferList ),
 		} );
 		new gsuiReorder( {
-			rootElement: elDrumsList,
+			rootElement: elements.drumsList,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-drums",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this._onreorderPatterns.bind( this, elDrumsList ),
+			onchange: this._onreorderPatterns.bind( this, elements.drumsList ),
 		} );
 		new gsuiReorder( {
-			rootElement: elSynthList,
+			rootElement: elements.synthList,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-keys",
@@ -73,23 +74,23 @@ class gsuiPatterns extends HTMLElement {
 			parentSelector: ".gsuiPatterns-synth-patterns",
 			onchange: this._onreorderPatternsKeys.bind( this ),
 		} );
-		elSynthList.ondragover = e => {
+		elements.synthList.ondragover = e => {
 			const syn = e.target.closest( ".gsuiPatterns-synth" );
 
 			if ( syn ) {
 				this.expandSynth( syn.dataset.id, true );
 			}
 		};
-		elSynthList.ondblclick = e => {
+		elements.synthList.ondblclick = e => {
 			if ( e.target.classList.contains( "gsuiPatterns-synth-info" ) ) {
 				this.expandSynth( e.target.closest( ".gsuiPatterns-synth" ).dataset.id );
 			}
 		};
-		elBufferList.onclick =
-		elDrumsList.onclick = this._onclickListPatterns.bind( this );
-		elSynthList.onclick = this._onclickSynths.bind( this );
-		elNewDrums.onclick = () => this.onchange( "addPatternDrums" );
-		elNewSynth.onclick = () => this.onchange( "addSynth" );
+		elements.bufferList.onclick =
+		elements.drumsList.onclick = this._onclickListPatterns.bind( this );
+		elements.synthList.onclick = this._onclickSynths.bind( this );
+		elements.newDrums.onclick = () => this.onchange( "addPatternDrums" );
+		elements.newSynth.onclick = () => this.onchange( "addSynth" );
 	}
 
 	// .........................................................................
