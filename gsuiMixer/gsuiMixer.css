@@ -161,9 +161,9 @@
 
 /* .......................................................................... */
 .gsuiMixerChannel-analyser {
+	width: 100%;
 	flex: 2;
 	opacity: .8;
-	filter: saturate( .5 ) contrast( .8 );
 }
 .gsuiMixer-selected .gsuiMixerChannel-analyser {
 	box-shadow: 0 -2px var( --gsuiMixerChannel-gain-color );

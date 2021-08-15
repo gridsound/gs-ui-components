@@ -1,27 +1,33 @@
 "use strict";
 
-class gsuiSpectrum {
-	#ctx = null
+class gsuiSpectrum extends HTMLElement {
+	#cnv = GSUI.createElement( "canvas" )
+	#ctx = this.#cnv.getContext( "2d" )
 
 	constructor() {
-		this.rootElement = null;
+		super();
+
 		Object.seal( this );
+		this.#cnv.height = 1;
 	}
-	setCanvas( cnv ) {
-		this.rootElement = cnv;
-		this.#ctx = cnv.getContext( "2d" );
-		cnv.height = 1;
-		cnv.classList.add( "gsuiSpectrum" );
+
+	// .........................................................................
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.append( this.#cnv );
+		}
 	}
+
+	// .........................................................................
 	clear() {
-		this.#ctx.clearRect( 0, 0, this.rootElement.width, 1 );
+		this.#ctx.clearRect( 0, 0, this.#cnv.width, 1 );
 	}
 	setResolution( w ) {
-		this.rootElement.width = w;
-		this.rootElement.height = 1;
+		this.#cnv.width = w;
+		this.#cnv.height = 1;
 	}
 	draw( data ) {
-		this.#ctx.putImageData( gsuiSpectrum.draw( this.#ctx, data, this.rootElement.width ), 0, 0 );
+		this.#ctx.putImageData( gsuiSpectrum.draw( this.#ctx, data, this.#cnv.width ), 0, 0 );
 	}
 
 	// .........................................................................
@@ -69,3 +75,5 @@ class gsuiSpectrum {
 }
 
 Object.freeze( gsuiSpectrum );
+
+customElements.define( "gsui-spectrum", gsuiSpectrum );
