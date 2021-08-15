@@ -64,11 +64,11 @@ gsui-oscillator {
 	border-radius: 0 0 3px 3px;
 	background-color: var( --gsuiOscillator-wave-bg );
 }
-.gsuiOscillator-wave .gsuiPeriodicWave {
+.gsuiOscillator-wave gsui-periodicwave {
 	position: absolute;
 }
-.gsuiOscillator-wave .gsuiPeriodicWave:first-child { color: var( --gsuiOscillator-pan-a ); }
-.gsuiOscillator-wave .gsuiPeriodicWave:last-child { color: var( --gsuiOscillator-pan-b ); }
+.gsuiOscillator-wave gsui-periodicwave:first-child { color: var( --gsuiOscillator-pan-a ); }
+.gsuiOscillator-wave gsui-periodicwave:last-child { color: var( --gsuiOscillator-pan-b ); }
 .gsuiOscillator-wave polyline {
 	stroke-opacity: .8;
 }

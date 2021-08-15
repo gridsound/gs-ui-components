@@ -1,11 +1,12 @@
 "use strict";
 
 class gsuiPeriodicWave extends HTMLElement {
+	#svg = GSUI.createElementNS( "svg", { preserveAspectRatio: "none" },
+		GSUI.createElementNS( "polyline" )
+	)
+
 	constructor() {
 		super();
-		this._svg = GSUI.createElementNS( "svg", { preserveAspectRatio: "none" },
-			this._polyline = GSUI.createElementNS( "polyline" )
-		);
 		this.type = "";
 		this.delay =
 		this.attack = 0;
@@ -20,8 +21,7 @@ class gsuiPeriodicWave extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiPeriodicWave" );
-			this.append( this._svg );
+			this.append( this.#svg );
 			this.resized();
 		}
 	}
@@ -34,7 +34,7 @@ class gsuiPeriodicWave extends HTMLElement {
 
 		this.width = w;
 		this.height = h;
-		this._svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		this.#svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
 		this.draw();
 	}
 	draw() {
@@ -42,13 +42,13 @@ class gsuiPeriodicWave extends HTMLElement {
 			const wave = gsuiPeriodicWave.cache[ this.type ];
 
 			if ( wave ) {
-				this._draw( wave );
+				this.#draw( wave );
 			} else {
 				console.error( `gsuiPeriodicWave: the wave "${ this.type }" is undefined...` );
 			}
 		}
 	}
-	_draw( wave ) {
+	#draw( wave ) {
 		const dur = this.duration,
 			w = this.width,
 			h2 = this.height / 2,
@@ -70,10 +70,10 @@ class gsuiPeriodicWave extends HTMLElement {
 			pts[ x * 2 ] = x;
 			pts[ x * 2 + 1 ] = y;
 		}
-		this._polyline.setAttribute( "points", pts.join( " " ) );
+		this.#svg.firstChild.setAttribute( "points", pts.join( " " ) );
 	}
 
-	// static:
+	// .........................................................................
 	static getXFromWave( a, b, t ) {
 		return a.reduce( ( val, ak, k ) => {
 			const tmp = Math.PI * 2 * k * t;

@@ -156,7 +156,7 @@
 	bottom: 0;
 	pointer-events: none;
 }
-.gsuiLFO-wave .gsuiPeriodicWave {
+.gsuiLFO-wave gsui-periodicwave {
 	position: absolute;
 	top: 6px;
 	height: calc( 100% - 12px );
@@ -164,7 +164,7 @@
 	stroke-width: 2px;
 	transition: color .2s;
 }
-.gsuiLFO-enable .gsuiPeriodicWave {
+.gsuiLFO-enable gsui-periodicwave {
 	color: var( --gsuiLFO-ctrls-color );
 }
 

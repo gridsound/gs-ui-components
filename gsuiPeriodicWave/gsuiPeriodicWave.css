@@ -1,9 +1,9 @@
-.gsuiPeriodicWave,
-.gsuiPeriodicWave svg {
+gsui-periodicwave,
+gsui-periodicwave svg {
 	width: 100%;
 	height: 100%;
 }
-.gsuiPeriodicWave polyline {
+gsui-periodicwave polyline {
 	stroke: currentColor;
 	fill: none;
 }
