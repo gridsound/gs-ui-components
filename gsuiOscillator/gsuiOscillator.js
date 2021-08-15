@@ -45,7 +45,6 @@ class gsuiOscillator extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			this.classList.add( "gsuiOscillator" );
 			this.setAttribute( "draggable", "true" );
 			this.append( ...this.#children );
 			this.#children = null;

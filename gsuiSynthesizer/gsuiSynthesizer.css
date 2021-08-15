@@ -52,13 +52,13 @@
 }
 
 /* .......................................................................... */
-.gsuiSynthesizer .gsuiOscillator {
+.gsuiSynthesizer gsui-oscillator {
 	transition: .2s filter;
 }
-.gsuiSynthesizer .gsuiOscillator:hover {
+.gsuiSynthesizer gsui-oscillator:hover {
 	filter: brightness( 1.05 );
 }
-.gsuiSynthesizer .gsuiOscillator:only-of-type .gsuiOscillator-remove {
+.gsuiSynthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
 	display: none;
 }
 

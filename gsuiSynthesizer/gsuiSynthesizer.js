@@ -22,7 +22,7 @@ class gsuiSynthesizer extends HTMLElement {
 			rootElement: this.#elements.oscList,
 			direction: "column",
 			dataTransferType: "oscillator",
-			itemSelector: ".gsuiOscillator",
+			itemSelector: "gsui-oscillator",
 			handleSelector: ".gsuiOscillator-grip",
 			parentSelector: ".gsuiSynthesizer-oscList",
 			onchange: this.#onchangeReorder.bind( this ),
