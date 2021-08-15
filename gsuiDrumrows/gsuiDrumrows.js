@@ -82,41 +82,37 @@ class gsuiDrumrows extends HTMLElement {
 
 	// .........................................................................
 	add( id, elLine ) {
-		const elRow = GSUI.getTemplate( "gsui-drumrow" ),
-			sliDetune = elRow.querySelector( ".gsuiDrumrow-detune gsui-slider" ),
-			sliGain = elRow.querySelector( ".gsuiDrumrow-gain gsui-slider" ),
-			sliPan = elRow.querySelector( ".gsuiDrumrow-pan gsui-slider" ),
-			html = {
-				root: elRow,
-				name: elRow.querySelector( ".gsuiDrumrow-name" ),
-				detune: sliDetune,
-				gain: sliGain,
-				pan: sliPan,
-			};
+		const html = GSUI.findElements( GSUI.getTemplate( "gsui-drumrow" ), {
+				root: ".gsuiDrumrow",
+				name: ".gsuiDrumrow-name",
+				detune: ".gsuiDrumrow-detune gsui-slider",
+				gain: ".gsuiDrumrow-gain gsui-slider",
+				pan: ".gsuiDrumrow-pan gsui-slider",
+			} );
 
-		elRow.dataset.id =
+		html.root.dataset.id =
 		elLine.dataset.id = id;
-		sliDetune.oninput = val => {
+		html.detune.oninput = val => {
 			this.#namePrint( id, `pitch: ${ val > 0 ? "+" : "" }${ val }` );
 			this.#dispatch( "liveChangeDrumrow", id, "detune", val );
 		};
-		sliGain.oninput = val => {
+		html.gain.oninput = val => {
 			this.#namePrint( id, `gain: ${ val.toFixed( 2 ) }` );
 			this.#dispatch( "liveChangeDrumrow", id, "gain", val );
 		};
-		sliPan.oninput = val => {
+		html.pan.oninput = val => {
 			this.#namePrint( id, `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }` );
 			this.#dispatch( "liveChangeDrumrow", id, "pan", val );
 		};
-		sliDetune.onchange = this.#onchangeRowSlider.bind( this, id, "detune" );
-		sliGain.onchange = this.#onchangeRowSlider.bind( this, id, "gain" );
-		sliPan.onchange = this.#onchangeRowSlider.bind( this, id, "pan" );
-		sliDetune.oninputend =
-		sliGain.oninputend =
-		sliPan.oninputend = this.#oninputendRowSlider.bind( this, id );
+		html.detune.onchange = this.#onchangeRowSlider.bind( this, id, "detune" );
+		html.gain.onchange = this.#onchangeRowSlider.bind( this, id, "gain" );
+		html.pan.onchange = this.#onchangeRowSlider.bind( this, id, "pan" );
+		html.detune.oninputend =
+		html.gain.oninputend =
+		html.pan.oninputend = this.#oninputendRowSlider.bind( this, id );
 		this.#rows.set( id, html );
 		this.#lines.set( id, elLine );
-		this.append( elRow );
+		this.append( html.root );
 		this.#elLinesParent.append( elLine );
 	}
 	remove( id ) {
