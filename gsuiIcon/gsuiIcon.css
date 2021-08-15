@@ -6,7 +6,9 @@
 /* .......................................................................... */
 .gsuiIcon {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	font-family: "FontAwesome";
 	font-size: 1em;
 	font-style: normal;
