@@ -30,7 +30,6 @@ class gsuiClock extends HTMLElement {
 	connectedCallback() {
 		this.#attached = true;
 		if ( this.#children ) {
-			this.classList.add( "gsuiClock" ); // to rm
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {

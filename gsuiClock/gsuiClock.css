@@ -1,4 +1,4 @@
-.gsuiClock {
+gsui-clock {
 	display: inline-flex;
 	color: var( --gsuiClock-color );
 	border-radius: 4px;
@@ -50,8 +50,8 @@
 	box-sizing: border-box;
 	opacity: .5;
 }
-.gsuiClock[ mode="beat" ] .gsuiClock-beat,
-.gsuiClock[ mode="second" ] .gsuiClock-second {
+gsui-clock[ mode="beat" ] .gsuiClock-beat,
+gsui-clock[ mode="second" ] .gsuiClock-second {
 	opacity: 1;
 	background-color: currentColor;
 }
@@ -78,5 +78,5 @@
 	opacity: .3;
 	pointer-events: none;
 }
-.gsuiClock[ mode="beat" ] .gsuiClock-modeText::before { content: "beat"; }
-.gsuiClock[ mode="second" ] .gsuiClock-modeText::before { content: "sec"; }
+gsui-clock[ mode="beat" ] .gsuiClock-modeText::before { content: "beat"; }
+gsui-clock[ mode="second" ] .gsuiClock-modeText::before { content: "sec"; }
