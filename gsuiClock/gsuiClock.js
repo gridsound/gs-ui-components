@@ -1,54 +1,54 @@
 "use strict";
 
 class gsuiClock extends HTMLElement {
-	constructor() {
-		const children = GSUI.getTemplate( "gsui-clock" ),
-			elModes = children[ 1 ];
+	#bPM = 4
+	#sPB = 4
+	#timeSave = 0
+	#firstValueLen = -1
+	#attached = false
+	#values = [ -1, -1, -1 ]
+	#children = GSUI.getTemplate( "gsui-clock" )
+	#elements = GSUI.findElements( this.#children, {
+		wrapRel: ".gsuiClock-relative",
+		modes: ".gsuiClock-modes",
+		nodes: [
+			".gsuiClock-a",
+			".gsuiClock-b",
+			".gsuiClock-c",
+		],
+	} )
 
+	constructor() {
 		super();
-		this._children = children;
-		this.onchangeDisplay = () => {};
-		this._attached = false;
-		this._wrapRel = children[ 0 ];
-		this._wrapAbs = children[ 0 ].firstChild;
-		this._timeSave = 0;
-		this._firstValueLen = -1;
-		this._values = [ -1, -1, -1 ];
-		this._bPM = 4;
-		this._sPB = 4;
-		this._nodes = [
-			this._wrapAbs.children[ 0 ],
-			this._wrapAbs.children[ 1 ],
-			this._wrapAbs.children[ 2 ],
-		];
+		this.onchangeDisplay = GSUI.noop;
 		Object.seal( this );
 
-		elModes.onclick = this._onclickModes.bind( this );
+		this.#elements.modes.onclick = this.#onclickModes.bind( this );
 	}
 
 	// .........................................................................
 	connectedCallback() {
-		this._attached = true;
-		if ( this._children ) {
-			this.classList.add( "gsuiClock" );
-			this.append( ...this._children );
-			this._children = null;
+		this.#attached = true;
+		if ( this.#children ) {
+			this.classList.add( "gsuiClock" ); // to rm
+			this.append( ...this.#children );
+			this.#children = null;
 			GSUI.recallAttributes( this, {
 				mode: "second",
 				bpm: 60,
 				timedivision: "4/4",
 			} );
 		}
-		this._updateWidth();
+		this.#updateWidth();
 	}
 	disconnectedCallback() {
-		this._attached = false;
+		this.#attached = false;
 	}
 	static get observedAttributes() {
 		return [ "mode", "bpm", "timedivision" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( !this._children && prev !== val ) {
+		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "mode":
 				case "bpm":
@@ -57,8 +57,8 @@ class gsuiClock extends HTMLElement {
 				case "timedivision": {
 					const timediv = val.split( "/" );
 
-					this._bPM = +timediv[ 0 ];
-					this._sPB = +timediv[ 1 ];
+					this.#bPM = +timediv[ 0 ];
+					this.#sPB = +timediv[ 1 ];
 					this.resetTime();
 				} break;
 			}
@@ -66,8 +66,9 @@ class gsuiClock extends HTMLElement {
 	}
 
 	// .........................................................................
+	static numberingOff = 1
 	static numbering( from ) {
-		gsuiClock._numbering = +from;
+		gsuiClock.numberingOff = +from;
 		document.querySelectorAll( "gsui-clock" ).forEach( el => el.resetTime() );
 	}
 	static parseBeatsToSeconds( beats, bpm ) {
@@ -85,8 +86,8 @@ class gsuiClock extends HTMLElement {
 			msteps = beats * sPB - Math.floor( beats * sPB );
 
 		return [
-			`${ measures + gsuiClock._numbering }`,
-			`${ steps + gsuiClock._numbering }`.padStart( 2, "0" ),
+			`${ measures + gsuiClock.numberingOff }`,
+			`${ steps + gsuiClock.numberingOff }`.padStart( 2, "0" ),
 			`${ msteps * 1000 % 1000 | 0 }`.padStart( 3, "0" ),
 		];
 	}
@@ -95,37 +96,37 @@ class gsuiClock extends HTMLElement {
 	setTime( beats ) {
 		const [ a, b, c ] = this.getAttribute( "mode" ) === "second"
 				? gsuiClock.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) || 60 )
-				: gsuiClock.parseBeatsToBeats( beats, this._bPM, this._sPB );
+				: gsuiClock.parseBeatsToBeats( beats, this.#bPM, this.#sPB );
 
-		this._timeSave = beats;
-		this._setValue( 0, a );
-		this._setValue( 1, b );
-		this._setValue( 2, c );
-		if ( this._attached && a.length !== this._firstValueLen ) {
-			this._firstValueLen = a.length;
-			this._updateWidth();
+		this.#timeSave = beats;
+		this.#setValue( 0, a );
+		this.#setValue( 1, b );
+		this.#setValue( 2, c );
+		if ( this.#attached && a.length !== this.#firstValueLen ) {
+			this.#firstValueLen = a.length;
+			this.#updateWidth();
 		}
 	}
 	resetTime() {
-		this.setTime( this._timeSave );
+		this.setTime( this.#timeSave );
 	}
 
 	// .........................................................................
-	_setValue( ind, val ) {
-		if ( val !== this._values[ ind ] ) {
-			this._nodes[ ind ].textContent =
-			this._values[ ind ] = val;
+	#setValue( ind, val ) {
+		if ( val !== this.#values[ ind ] ) {
+			this.#elements.nodes[ ind ].textContent =
+			this.#values[ ind ] = val;
 		}
 	}
-	_updateWidth() {
-		const len = this._nodes[ 0 ].textContent.length;
+	#updateWidth() {
+		const len = this.#elements.nodes[ 0 ].textContent.length;
 
-		this._wrapRel.style.width =
-		this._wrapRel.style.minWidth = `${ 4.2 + len * .7 }ch`;
+		this.#elements.wrapRel.style.width =
+		this.#elements.wrapRel.style.minWidth = `${ 4.2 + len * .7 }ch`;
 	}
 
 	// .........................................................................
-	_onclickModes() {
+	#onclickModes() {
 		const dpl = this.getAttribute( "mode" ) === "second" ? "beat" : "second";
 
 		GSUI.setAttribute( this, "mode", dpl );
@@ -133,6 +134,6 @@ class gsuiClock extends HTMLElement {
 	}
 }
 
-gsuiClock._numbering = 1;
+Object.seal( gsuiClock );
 
 customElements.define( "gsui-clock", gsuiClock );
