@@ -1,42 +1,44 @@
 "use strict";
 
-class gsuiAnalyser {
-	#ctx = null
+class gsuiAnalyser extends HTMLElement {
+	#cnv = GSUI.createElement( "canvas" )
+	#ctx = this.#cnv.getContext( "2d" )
 
 	constructor() {
-		this.rootElement = null;
+		super();
 		Object.seal( this );
-	}
-	setCanvas( canvas ) {
-		this.rootElement = canvas;
-		this.#ctx = canvas.getContext( "2d" );
-	}
-	clear() {
-		this.#ctx.clearRect( 0, 0, this.rootElement.width, this.rootElement.height );
-	}
-	setResolution( w, h ) {
-		const cnv = this.rootElement,
-			img = this.#ctx.getImageData( 0, 0, cnv.width, cnv.height );
-
-		cnv.width = w;
-		cnv.height = h;
-		this.#ctx.putImageData( img, 0, 0 );
-	}
-	draw( ldata, rdata ) {
-		this.#moveImage();
-		this.#draw( ldata, rdata );
 	}
 
 	// .........................................................................
-	#moveImage() {
-		const cnv = this.rootElement,
-			img = this.#ctx.getImageData( 0, 0, cnv.width, cnv.height - 1 );
-
-		this.#ctx.putImageData( img, 0, 1 );
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.append( this.#cnv );
+		}
 	}
-	#draw( ldata, rdata ) {
-		const ctx = this.#ctx,
-			w2 = ctx.canvas.width / 2,
+
+	// .........................................................................
+	clear() {
+		this.#ctx.clearRect( 0, 0, this.#cnv.width, this.#cnv.height );
+	}
+	setResolution( w, h ) {
+		const img = this.#ctx.getImageData( 0, 0, this.#cnv.width, this.#cnv.height );
+
+		this.#cnv.width = w;
+		this.#cnv.height = h;
+		this.#ctx.putImageData( img, 0, 0 );
+	}
+	draw( ldata, rdata ) {
+		gsuiAnalyser.#moveImage( this.#ctx );
+		gsuiAnalyser.#draw( this.#ctx, ldata, rdata );
+	}
+
+	// .........................................................................
+	static #moveImage( ctx ) {
+		ctx.putImageData(
+			ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );
+	}
+	static #draw( ctx, ldata, rdata ) {
+		const w2 = ctx.canvas.width / 2,
 			len = Math.min( w2, ldata.length ),
 			imgL = gsuiSpectrum.draw( ctx, ldata, w2 ),
 			imgR = gsuiSpectrum.draw( ctx, rdata, w2 ),
@@ -52,3 +54,5 @@ class gsuiAnalyser {
 		ctx.putImageData( imgR, w2, 0 );
 	}
 }
+
+customElements.define( "gsui-analyser", gsuiAnalyser );

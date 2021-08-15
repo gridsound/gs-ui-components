@@ -45,7 +45,7 @@ class gsuiMixer {
 		const chans = Object.values( this._chans );
 
 		if ( chans.length ) {
-			const { width, height } = chans[ 0 ].analyser.rootElement.getBoundingClientRect();
+			const { width, height } = chans[ 0 ].analyser.getBoundingClientRect();
 
 			this._analyserW = width;
 			this._analyserH = height;
@@ -75,22 +75,20 @@ class gsuiMixer {
 			qs = n => root.querySelector( `.gsuiMixerChannel-${ n }` ),
 			pan = qs( "pan gsui-slider" ),
 			gain = qs( "gain gsui-slider" ),
-			canvas = qs( "analyser" ),
 			html = { root, pan, gain,
 				name: qs( "name" ),
 				connectA: qs( "connectA" ),
 				connectB: qs( "connectB" ),
-				analyser: new gsuiAnalyser(),
+				analyser: qs( "analyser" ),
 			};
 
 		this._chans[ id ] = html;
 		root.dataset.id = id;
-		html.analyser.setCanvas( canvas );
 		pan.oninput = val => this.oninput( id, "pan", val );
 		gain.oninput = val => this.oninput( id, "gain", val );
 		pan.onchange = val => this.onchange( "changeChannel", id, "pan", val );
 		gain.onchange = val => this.onchange( "changeChannel", id, "gain", val );
-		canvas.onclick =
+		html.analyser.onclick =
 		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
