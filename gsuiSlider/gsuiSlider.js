@@ -17,12 +17,14 @@ class gsuiSlider extends HTMLElement {
 	#pxmoved = 0
 	#svgLineLen = 0
 	#children = GSUI.getTemplate( "gsui-slider" )
-	#elInput = this.#children.shift()
-	#elLine = null
-	#elLineColor = null
-	#elSvg = null
-	#elSvgLine = null
-	#elSvgLineColor = null
+	#elements = GSUI.findElements( this.#children, {
+		input: ".gsuiSlider-input",
+		line: ".gsuiSlider-line",
+		lineColor: ".gsuiSlider-lineColor",
+		svg: ".gsuiSlider-svg",
+		svgLine: ".gsuiSlider-svgLine",
+		svgLineColor: ".gsuiSlider-svgLineColor",
+	} )
 
 	constructor() {
 		super();
@@ -35,11 +37,6 @@ class gsuiSlider extends HTMLElement {
 		this._locked = false;
 		this.width =
 		this.height = 0;
-		this.#elLine = this.#children[ 0 ];
-		this.#elLineColor = this.#elLine.firstElementChild;
-		this.#elSvg = this.#children[ 1 ];
-		this.#elSvgLine = this.#elSvg.firstElementChild;
-		this.#elSvgLineColor = this.#elSvg.lastElementChild;
 		Object.seal( this );
 
 		this.onwheel = this.#onwheel.bind( this );
@@ -78,15 +75,15 @@ class gsuiSlider extends HTMLElement {
 					updateVal = true;
 					break;
 				case "min":
-					this.#elInput.min = this.#min = +val;
+					this.#elements.input.min = this.#min = +val;
 					updateVal = true;
 					break;
 				case "max":
-					this.#elInput.max = this.#max = +val;
+					this.#elements.input.max = this.#max = +val;
 					updateVal = true;
 					break;
 				case "step":
-					this.#elInput.step = this.#step = +val;
+					this.#elements.input.step = this.#step = +val;
 					updateVal = true;
 					break;
 				case "scroll-step":
@@ -114,7 +111,7 @@ class gsuiSlider extends HTMLElement {
 	setValue( val, bymouse ) {
 		if ( !this._locked || bymouse ) {
 			const prevVal = this.#getInputVal(),
-				newVal = ( this.#elInput.value = val, this.#getInputVal() );
+				newVal = ( this.#elements.input.value = val, this.#getInputVal() );
 
 			if ( newVal !== prevVal ) {
 				this.#updateVal();
@@ -134,7 +131,7 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	#setType( type ) {
-		const st = this.#elLineColor.style,
+		const st = this.#elements.lineColor.style,
 			circ = type === "circular",
 			axeX = type === "linear-x";
 
@@ -162,20 +159,20 @@ class gsuiSlider extends HTMLElement {
 				size2 = size / 2,
 				circR = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			this.#elSvg.setAttribute( "viewBox", `0 0 ${ size } ${ size }` );
-			this.#elSvgLine.setAttribute( "cx", size2 );
-			this.#elSvgLine.setAttribute( "cy", size2 );
-			this.#elSvgLine.setAttribute( "r", circR );
-			this.#elSvgLineColor.setAttribute( "cx", size2 );
-			this.#elSvgLineColor.setAttribute( "cy", size2 );
-			this.#elSvgLineColor.setAttribute( "r", circR );
-			this.#elSvgLine.style.strokeWidth =
-			this.#elSvgLineColor.style.strokeWidth = this.#strokeWidth;
+			this.#elements.svg.setAttribute( "viewBox", `0 0 ${ size } ${ size }` );
+			this.#elements.svgLine.setAttribute( "cx", size2 );
+			this.#elements.svgLine.setAttribute( "cy", size2 );
+			this.#elements.svgLine.setAttribute( "r", circR );
+			this.#elements.svgLineColor.setAttribute( "cx", size2 );
+			this.#elements.svgLineColor.setAttribute( "cy", size2 );
+			this.#elements.svgLineColor.setAttribute( "r", circR );
+			this.#elements.svgLine.style.strokeWidth =
+			this.#elements.svgLineColor.style.strokeWidth = this.#strokeWidth;
 			this.#svgLineLen = circR * 2 * Math.PI;
 		}
 	}
 	#getInputVal() {
-		const val = this.#elInput.value;
+		const val = this.#elements.input.value;
 
 		return Math.abs( +val ) < .000001 ? "0" : val;
 	}
@@ -187,8 +184,8 @@ class gsuiSlider extends HTMLElement {
 			this.#circ
 				? this.#svgLineLen
 				: this.#axeX
-					? this.#elLine.getBoundingClientRect().width
-					: this.#elLine.getBoundingClientRect().height
+					? this.#elements.line.getBoundingClientRect().width
+					: this.#elements.line.getBoundingClientRect().height
 		);
 	}
 	#updateVal() {
@@ -201,12 +198,12 @@ class gsuiSlider extends HTMLElement {
 				prcmin = Math.min( prcval, prcstart );
 
 			if ( this.#circ ) {
-				const line = this.#elSvgLineColor.style;
+				const line = this.#elements.svgLineColor.style;
 
 				line.transform = `rotate(${ 90 + prcmin * 360 }deg)`;
 				line.strokeDasharray = `${ prclen * this.#svgLineLen }, 999999`;
 			} else {
-				const line = this.#elLineColor.style;
+				const line = this.#elements.lineColor.style;
 
 				if ( this.#axeX ) {
 					line.left = `${ prcmin * 100 }%`;
