@@ -12,6 +12,7 @@ class gsuiSlider extends HTMLElement {
 	#enable = true
 	#circ = false
 	#axeX = false
+	#locked = false
 	#connected = false
 	#pxval = 0
 	#pxmoved = 0
@@ -25,6 +26,7 @@ class gsuiSlider extends HTMLElement {
 		svgLine: ".gsuiSlider-svgLine",
 		svgLineColor: ".gsuiSlider-svgLineColor",
 	} )
+	static focused = null
 
 	constructor() {
 		super();
@@ -34,13 +36,12 @@ class gsuiSlider extends HTMLElement {
 		this.oninputend =
 		this.oninputstart = null;
 		this.value = "";
-		this._locked = false;
 		this.width =
 		this.height = 0;
 		Object.seal( this );
 
 		this.onwheel = this.#onwheel.bind( this );
-		this.onmouseup = this._mouseup.bind( this );
+		this.onmouseup = this.#onmouseup.bind( this );
 		this.onmousedown = this.#onmousedown.bind( this );
 		this.onmousemove = this.#onmousemove.bind( this );
 		this.onmouseleave = this.#onmouseleave.bind( this );
@@ -108,8 +109,20 @@ class gsuiSlider extends HTMLElement {
 	}
 
 	// .........................................................................
+	static pointerLockChange() {
+		const el = document.pointerLockElement;
+
+		if ( el ) {
+			if ( el.classList.contains( "gsuiSlider" ) ) {
+				el.#locked = true;
+				gsuiSlider.focused = el;
+			}
+		} else if ( gsuiSlider.focused ) {
+			gsuiSlider.focused.#onmouseup();
+		}
+	}
 	setValue( val, bymouse ) {
-		if ( !this._locked || bymouse ) {
+		if ( !this.#locked || bymouse ) {
 			const prevVal = this.#getInputVal(),
 				newVal = ( this.#elements.input.value = val, this.#getInputVal() );
 
@@ -245,7 +258,7 @@ class gsuiSlider extends HTMLElement {
 		}
 	}
 	#onmousemove( e ) {
-		if ( this._locked ) {
+		if ( this.#locked ) {
 			const bound = this.#getRange() / 5,
 				mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX,
 				val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval;
@@ -256,10 +269,10 @@ class gsuiSlider extends HTMLElement {
 			this.setValue( val, true );
 		}
 	}
-	_mouseup() {
-		if ( this._locked ) {
+	#onmouseup() {
+		if ( this.#locked ) {
 			document.exitPointerLock();
-			this._locked = false;
+			this.#locked = false;
 			this.#onchange();
 			if ( this.oninputend ) {
 				this.oninputend( this.value );
@@ -273,15 +286,6 @@ class gsuiSlider extends HTMLElement {
 
 customElements.define( "gsui-slider", gsuiSlider );
 
-document.addEventListener( "pointerlockchange", () => {
-	const el = document.pointerLockElement;
+Object.seal( gsuiSlider );
 
-	if ( el ) {
-		if ( el.classList.contains( "gsuiSlider" ) ) {
-			el._locked = true;
-			gsuiSlider._focused = el;
-		}
-	} else if ( gsuiSlider._focused ) {
-		gsuiSlider._focused._mouseup();
-	}
-} );
+document.addEventListener( "pointerlockchange", gsuiSlider.pointerLockChange );
