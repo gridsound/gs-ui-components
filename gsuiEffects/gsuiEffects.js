@@ -3,25 +3,23 @@
 class gsuiEffects extends HTMLElement {
 	#fxsHtml = new Map()
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEffects" )
-	#elFxsList = null
-	#elAddSelect = null
+	#children = GSUI.getTemplate( "gsui-effects" )
+	#elements = GSUI.findElements( this.#children, {
+		list: ".gsuiEffects-list",
+		addBtn: ".gsuiEffects-addBtn",
+		addSelect: ".gsuiEffects-addSelect",
+	} )
 
 	constructor() {
-		const elFxsList = GSUI.getTemplate( "gsui-effects" ),
-			elBtnSelect = elFxsList.querySelector( ".gsuiEffects-addBtn" ),
-			elAddSelect = elFxsList.querySelector( ".gsuiEffects-addSelect" );
-
 		super();
 		this.askData = GSUI.noop;
-		this.#elFxsList = elFxsList;
-		this.#elAddSelect = elAddSelect;
 		Object.seal( this );
 
-		elBtnSelect.onclick = () => this.#elAddSelect.value = "";
-		elAddSelect.onchange = this.#onchangeAddSelect.bind( this );
-		elAddSelect.onkeydown = () => false;
+		this.#elements.addBtn.onclick = () => this.#elements.addSelect.value = "";
+		this.#elements.addSelect.onchange = this.#onchangeAddSelect.bind( this );
+		this.#elements.addSelect.onkeydown = () => false;
 		new gsuiReorder( {
-			rootElement: elFxsList,
+			rootElement: this.#elements.list,
 			direction: "column",
 			dataTransferType: "effect",
 			itemSelector: ".gsuiEffects-fx",
@@ -51,7 +49,7 @@ class gsuiEffects extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiEffects" );
-			this.append( this.#elFxsList );
+			this.append( this.#elements.list );
 		}
 	}
 
@@ -99,7 +97,7 @@ class gsuiEffects extends HTMLElement {
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
 		this.#fxsHtml.set( id, html );
-		this.#elFxsList.append( root );
+		this.#elements.list.append( root );
 	}
 	removeEffect( id ) {
 		this.#fxsHtml.get( id ).root.remove();
@@ -118,15 +116,15 @@ class gsuiEffects extends HTMLElement {
 		html.uiFx.toggle( b );
 	}
 	reorderEffects( effects ) {
-		gsuiReorder.listReorder( this.#elFxsList, effects );
+		gsuiReorder.listReorder( this.#elements.list, effects );
 	}
 
 	// .........................................................................
 	#onchangeAddSelect() {
-		const type = this.#elAddSelect.value;
+		const type = this.#elements.addSelect.value;
 
-		this.#elAddSelect.blur();
-		this.#elAddSelect.value = "";
+		this.#elements.addSelect.blur();
+		this.#elements.addSelect.value = "";
 		this.#dispatch( "addEffect", type );
 	}
 
@@ -146,7 +144,7 @@ class gsuiEffects extends HTMLElement {
 		gsuiEffects.fxsMap.forEach( ( fx, id ) => {
 			options.push( this.#createOption( true, id, fx.name ) );
 		} );
-		this.#elAddSelect.append( ...options );
+		this.#elements.addSelect.append( ...options );
 	}
 }
 
