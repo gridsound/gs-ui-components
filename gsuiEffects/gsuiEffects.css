@@ -2,7 +2,7 @@
 	--gsuiEffects-color: #fff;
 }
 
-.gsuiEffects {
+gsui-effects {
 	display: flex;
 	flex-direction: column;
 	color: var( --gsuiEffects-color );

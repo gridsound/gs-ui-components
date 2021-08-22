@@ -48,7 +48,6 @@ class gsuiEffects extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiEffects" );
 			this.append( this.#elements.list );
 		}
 	}
