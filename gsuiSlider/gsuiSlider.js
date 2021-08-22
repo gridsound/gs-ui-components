@@ -46,7 +46,6 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	connectedCallback() {
-		this.classList.add( "gsuiSlider" );
 		if ( this.#children ) {
 			const brc = this.getBoundingClientRect();
 
@@ -110,7 +109,7 @@ class gsuiSlider extends HTMLElement {
 		const el = document.pointerLockElement;
 
 		if ( el ) {
-			if ( el.classList.contains( "gsuiSlider" ) ) {
+			if ( el.nodeName === "GSUI-SLIDER" ) {
 				el.#locked = true;
 				gsuiSlider.focused = el;
 			}
