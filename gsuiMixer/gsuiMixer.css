@@ -1,4 +1,5 @@
 .gsuiMixer {
+	display: flex;
 	height: 100%;
 	position: relative;
 	color: var( --gsuiMixerChannel-color );

@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiMixer {
+class gsuiMixer extends HTMLElement {
 	#chans = {}
 	#chanSelected = null
 	#analyserW = 0
@@ -13,16 +13,17 @@ class gsuiMixer {
 		addBtn: ".gsuiMixer-addChan",
 	} )
 
-	constructor( opt ) {
-		this.rootElement = this.#children;
-		this.oninput = opt.oninput;
-		this.onchange = opt.onchange;
-		this.onselectChan = opt.onselectChan;
+	constructor() {
+		super();
+
+		this.oninput =
+		this.onchange =
+		this.onselectChan = null;
 		Object.seal( this );
 
 		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
 		new gsuiReorder( {
-			rootElement: this.rootElement,
+			rootElement: this,
 			direction: "row",
 			dataTransferType: "channel",
 			itemSelector: ".gsuiMixerChannel",
@@ -36,13 +37,23 @@ class gsuiMixer {
 	}
 
 	// .........................................................................
-	attached() {
-		const pan = this.#elements.pchans;
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			const pan = this.#elements.pchans;
 
-		this.#attached = true;
-		pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
+			this.classList.add( "gsuiMixer" );
+			this.append( ...this.#children );
+			this.#children = null;
+			pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
+		}
 		this.resized();
+		this.#attached = true;
 	}
+	disconnectedCallback() {
+		this.#attached = false;
+	}
+
+	// .........................................................................
 	resized() {
 		const chans = Object.values( this.#chans );
 
@@ -175,3 +186,7 @@ class gsuiMixer {
 		}
 	}
 }
+
+Object.freeze( gsuiMixer );
+
+customElements.define( "gsui-mixer", gsuiMixer );

@@ -1,15 +1,13 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-mixer", () => (
-	GSUI.createElement( "div", { class: "gsuiMixer" },
-		GSUI.createElement( "div", { class: "gsuiMixer-panMain" } ),
-		GSUI.createElement( "div", { class: "gsuiMixer-panChannels" },
-			GSUI.createElement( "button", { class: "gsuiMixer-addChan" },
-				GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
-			),
+GSUI.setTemplate( "gsui-mixer", () => [
+	GSUI.createElement( "div", { class: "gsuiMixer-panMain" } ),
+	GSUI.createElement( "div", { class: "gsuiMixer-panChannels" },
+		GSUI.createElement( "button", { class: "gsuiMixer-addChan" },
+			GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
 		),
-	)
-) );
+	),
+] );
 
 GSUI.setTemplate( "gsui-mixer-channel", () => (
 	GSUI.createElement( "div", { class: "gsuiMixerChannel", draggable: "true" },
