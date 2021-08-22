@@ -1,4 +1,4 @@
-.gsuiEnvelope {
+gsui-envelope {
 	display: grid;
 	height: 100%;
 	min-height: 100px;
@@ -59,7 +59,7 @@
 .gsuiEnvelope-release {
 	grid-area: release;
 }
-.gsuiEnvelope .gsuiSlider-eventCatcher {
+gsui-envelope .gsuiSlider-eventCatcher {
 	top: -26px;
 	bottom: -6px;
 }
@@ -107,7 +107,7 @@
 	border-radius: 4px;
 	background-color: var( --gsuiEnvelope-wave-bg );
 }
-.gsuiEnvelope .gsuiEnvelopeGraph {
+gsui-envelope gsui-envelope-graph {
 	position: absolute;
 	top: 4px;
 	left: 0;
@@ -115,6 +115,6 @@
 	bottom: 0;
 	color: var( --gsuiEnvelope-wave-off );
 }
-.gsuiEnvelope-enable .gsuiEnvelopeGraph {
+.gsuiEnvelope-enable gsui-envelope-graph {
 	color: var( --gsuiEnvelope-ctrls-color );
 }

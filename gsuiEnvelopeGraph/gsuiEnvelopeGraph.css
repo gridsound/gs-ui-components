@@ -1,7 +1,7 @@
-.gsuiEnvelopeGraph {
+gsui-envelope-graph {
 	transition: color .2s;
 }
-.gsuiEnvelopeGraph svg {
+gsui-envelope-graph svg {
 	width: 100%;
 	height: 100%;
 	stroke: currentColor;

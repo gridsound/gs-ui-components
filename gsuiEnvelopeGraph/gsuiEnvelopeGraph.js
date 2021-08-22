@@ -72,6 +72,6 @@ class gsuiEnvelopeGraph extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-envelopegraph", gsuiEnvelopeGraph );
+customElements.define( "gsui-envelope-graph", gsuiEnvelopeGraph );
 
 Object.freeze( gsuiEnvelopeGraph );

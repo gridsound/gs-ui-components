@@ -8,7 +8,7 @@ class gsuiEnvelope extends HTMLElement {
 	#children = GSUI.getTemplate( "gsui-envelope" )
 	#elements = GSUI.findElements( this.#children, {
 		beatlines: "gsui-beatlines",
-		graph: "gsui-envelopegraph",
+		graph: "gsui-envelope-graph",
 		sliders: {
 			attack:  [ ".gsuiEnvelope-attack  gsui-slider", ".gsuiEnvelope-attack  .gsuiEnvelope-propValue" ],
 			hold:    [ ".gsuiEnvelope-hold    gsui-slider", ".gsuiEnvelope-hold    .gsuiEnvelope-propValue" ],
@@ -40,7 +40,6 @@ class gsuiEnvelope extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			this.classList.add( "gsuiEnvelope" );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
