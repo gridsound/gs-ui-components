@@ -99,10 +99,18 @@ class gsuiMixer extends HTMLElement {
 
 		this.#chans[ id ] = html;
 		root.dataset.id = id;
-		pan.oninput = val => this.oninput( id, "pan", val );
-		gain.oninput = val => this.oninput( id, "gain", val );
-		pan.onchange = val => this.onchange( "changeChannel", id, "pan", val );
-		gain.onchange = val => this.onchange( "changeChannel", id, "gain", val );
+		GSUI.listenEvents( root, {
+			gsuiSlider: {
+				inputStart: GSUI.noop,
+				inputEnd: GSUI.noop,
+				input: ( d, sli ) => {
+					this.oninput( id, sli.dataset.prop, d.args[ 0 ] );
+				},
+				change: ( d, sli ) => {
+					this.onchange( "changeChannel", id, sli.dataset.prop, d.args[ 0 ] );
+				},
+			},
+		} );
 		html.analyser.onclick =
 		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );

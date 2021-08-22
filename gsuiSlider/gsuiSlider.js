@@ -17,6 +17,7 @@ class gsuiSlider extends HTMLElement {
 	#pxval = 0
 	#pxmoved = 0
 	#svgLineLen = 0
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlider" )
 	#children = GSUI.getTemplate( "gsui-slider" )
 	#elements = GSUI.findElements( this.#children, {
 		input: ".gsuiSlider-input",
@@ -31,10 +32,6 @@ class gsuiSlider extends HTMLElement {
 	constructor() {
 		super();
 
-		this.oninput =
-		this.onchange =
-		this.oninputend =
-		this.oninputstart = null;
 		this.value = "";
 		this.width =
 		this.height = 0;
@@ -128,8 +125,8 @@ class gsuiSlider extends HTMLElement {
 
 			if ( newVal !== prevVal ) {
 				this.#updateVal();
-				if ( bymouse && this.oninput ) {
-					this.oninput( +newVal );
+				if ( bymouse ) {
+					this.#dispatch( "input", +newVal );
 				}
 			}
 			if ( !bymouse ) {
@@ -232,7 +229,7 @@ class gsuiSlider extends HTMLElement {
 		const val = this.#getInputVal();
 
 		if ( this.#previousval !== val ) {
-			this.onchange && this.onchange( +val );
+			this.#dispatch( "change", +val );
 			this.#previousval = val;
 		}
 	}
@@ -248,10 +245,7 @@ class gsuiSlider extends HTMLElement {
 	}
 	#onmousedown() {
 		if ( this.#enable ) {
-			this.#onchange();
-			if ( this.oninputstart ) {
-				this.oninputstart( this.value );
-			}
+			this.#dispatch( "inputStart", this.value );
 			this.#pxval = this.#getRange() / this.#getMousemoveSize();
 			this.#pxmoved = 0;
 			this.requestPointerLock();
@@ -274,9 +268,7 @@ class gsuiSlider extends HTMLElement {
 			document.exitPointerLock();
 			this.#locked = false;
 			this.#onchange();
-			if ( this.oninputend ) {
-				this.oninputend( this.value );
-			}
+			this.#dispatch( "inputEnd", this.value );
 		}
 	}
 	#onmouseleave() {

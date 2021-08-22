@@ -5,6 +5,12 @@ class gsuiFxFilter extends HTMLElement {
 	#attached = false
 	#currType = "lowpass"
 	#onresizeBind = this.#onresize.bind( this )
+	#fnValue = {
+		Q: a => a,
+		gain: a => a,
+		detune: a => a,
+		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
+	}
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiFxFilter" )
 	#children = GSUI.getTemplate( "gsui-fx-filter" )
 	#elements = GSUI.findElements( this.#children, {
@@ -25,11 +31,19 @@ class gsuiFxFilter extends HTMLElement {
 		Object.seal( this );
 
 		this.#elements.type.onclick = this.#onclickType.bind( this );
+		GSUI.listenEvents( this, {
+			gsuiSlider: {
+				inputStart: GSUI.noop,
+				inputEnd: GSUI.noop,
+				input: ( d, sli ) => {
+					this.#oninputProp( sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
+				},
+				change: ( d, sli ) => {
+					this.#dispatch( "changeProp", sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
+				},
+			},
+		} );
 		this.#elements.graph.append( this.#elements.curves );
-		this.#initSlider( "Q" );
-		this.#initSlider( "gain" );
-		this.#initSlider( "detune" );
-		this.#initSlider( "frequency", this.#frequencyPow.bind( this ) );
 	}
 
 	// .........................................................................
@@ -96,15 +110,6 @@ class gsuiFxFilter extends HTMLElement {
 	}
 
 	// .........................................................................
-	#frequencyPow( Hz ) {
-		return this.#nyquist * ( 2 ** ( Hz * 11 - 11 ) );
-	}
-	#initSlider( prop, fnValue = a => a ) {
-		const slider = this.#elements.sliders[ prop ];
-
-		slider.oninput = val => this.#oninputProp( prop, fnValue( val ) );
-		slider.onchange = val => this.#dispatch( "changeProp", prop, fnValue( val ) );
-	}
 	#toggleTypeBtn( type, b ) {
 		this.#elements.type.querySelector( `[data-type="${ type }"]` )
 			.classList.toggle( "gsuiFxFilter-areaType-btnSelected", b );

@@ -92,28 +92,21 @@ class gsuiDrumrows extends HTMLElement {
 
 		html.root.dataset.id =
 		elLine.dataset.id = id;
-		html.detune.oninput = val => {
-			this.#namePrint( id, `pitch: ${ val > 0 ? "+" : "" }${ val }` );
-			this.#dispatch( "liveChangeDrumrow", id, "detune", val );
-		};
-		html.gain.oninput = val => {
-			this.#namePrint( id, `gain: ${ val.toFixed( 2 ) }` );
-			this.#dispatch( "liveChangeDrumrow", id, "gain", val );
-		};
-		html.pan.oninput = val => {
-			this.#namePrint( id, `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }` );
-			this.#dispatch( "liveChangeDrumrow", id, "pan", val );
-		};
-		html.detune.onchange = this.#onchangeRowSlider.bind( this, id, "detune" );
-		html.gain.onchange = this.#onchangeRowSlider.bind( this, id, "gain" );
-		html.pan.onchange = this.#onchangeRowSlider.bind( this, id, "pan" );
-		html.detune.oninputend =
-		html.gain.oninputend =
-		html.pan.oninputend = this.#oninputendRowSlider.bind( this, id );
 		this.#rows.set( id, html );
 		this.#lines.set( id, elLine );
 		this.append( html.root );
 		this.#elLinesParent.append( elLine );
+		GSUI.listenEvents( html.root, {
+			gsuiSlider: {
+				change: ( d, sli ) => this.#onchangeRowSlider( id, sli.dataset.prop, d.args[ 0 ] ),
+				input: ( d, sli ) => {
+					this.#namePrint( id, sli.dataset.prop, d.args[ 0 ] );
+					this.#dispatch( "liveChangeDrumrow", id, sli.dataset.prop, d.args[ 0 ] );
+				},
+				inputStart: GSUI.noop,
+				inputEnd: () => this.#oninputendRowSlider( id ),
+			},
+		} );
 	}
 	remove( id ) {
 		this.#rows.get( id ).root.remove();
@@ -172,10 +165,15 @@ class gsuiDrumrows extends HTMLElement {
 	}
 
 	// .........................................................................
-	#namePrint( id, msg ) {
-		const el = this.#rows.get( id ).name;
+	#namePrint( id, prop, val ) {
+		const el = this.#rows.get( id ).name,
+			text = prop === "pan"
+				? `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }`
+				: prop === "gain"
+					? `gain: ${ val.toFixed( 2 ) }`
+					: `pitch: ${ val > 0 ? "+" : "" }${ val }`;
 
-		el.textContent = msg;
+		el.textContent = text;
 		el.classList.add( "gsuiDrumrow-nameInfo" );
 	}
 	#expandProps( id ) {
@@ -187,7 +185,6 @@ class gsuiDrumrows extends HTMLElement {
 			.querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"] + .gsuiDrumrow-propSpan` );
 	}
 
-	// events:
 	// .........................................................................
 	#oninputendRowSlider( id ) {
 		const el = this.#rows.get( id ).name;

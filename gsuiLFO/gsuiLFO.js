@@ -22,10 +22,18 @@ class gsuiLFO extends HTMLElement {
 		Object.seal( this );
 
 		this.onchange = this.#onchangeForm.bind( this );
-		this.#initSlider( "delay" );
-		this.#initSlider( "attack" );
-		this.#initSlider( "speed" );
-		this.#initSlider( "amp" );
+		GSUI.listenEvents( this, {
+			gsuiSlider: {
+				inputStart: GSUI.noop,
+				inputEnd: GSUI.noop,
+				input: ( d, sli ) => {
+					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
+				},
+				change: ( d, sli ) => {
+					this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] );
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -118,20 +126,10 @@ class gsuiLFO extends HTMLElement {
 		sli.setValue( val );
 		span.textContent = val.toFixed( 2 );
 	}
-
-	// .........................................................................
 	#updatePxPerBeat() {
 		this.#elements.beatlines.setAttribute( "pxPerBeat", this.#waveWidth / this.#dur );
 	}
-	#initSlider( prop ) {
-		const slider = this.#elements.sliders[ prop ][ 0 ];
 
-		slider.enable( false );
-		slider.oninput = this.#oninputSlider.bind( this, prop );
-		slider.onchange = this.#onchangeSlider.bind( this, prop );
-	}
-
-	// events:
 	// .........................................................................
 	#onresize() {
 		this.#waveWidth = this.#elements.beatlines.getBoundingClientRect().width;

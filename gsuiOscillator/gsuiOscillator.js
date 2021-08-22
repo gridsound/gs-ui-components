@@ -30,9 +30,6 @@ class gsuiOscillator extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		this.#initSlider( "pan" );
-		this.#initSlider( "gain" );
-		this.#initSlider( "detune" );
 		this.#elements.waves[ 0 ].frequency =
 		this.#elements.waves[ 1 ].frequency = 1;
 		this.#elements.waveSelect.onchange = this.#onchangeSelect.bind( this );
@@ -40,6 +37,18 @@ class gsuiOscillator extends HTMLElement {
 		this.#elements.wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.#elements.waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.#elements.remove.onclick = () => this.#dispatch( "remove" );
+		GSUI.listenEvents( this, {
+			gsuiSlider: {
+				inputStart: GSUI.noop,
+				inputEnd: GSUI.noop,
+				input: ( d, sli ) => {
+					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
+				},
+				change: ( d, sli ) => {
+					this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] );
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -120,14 +129,6 @@ class gsuiOscillator extends HTMLElement {
 
 		sli.setValue( val );
 		span.textContent = prop === "detune" ? val : val.toFixed( 2 );
-	}
-
-	// .........................................................................
-	#initSlider( prop ) {
-		const sli = this.#elements.sliders[ prop ][ 0 ];
-
-		sli.oninput = this.#oninputSlider.bind( this, prop );
-		sli.onchange = this.#onchangeSlider.bind( this, prop );
 	}
 
 	// .........................................................................

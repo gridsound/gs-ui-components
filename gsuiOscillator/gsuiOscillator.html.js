@@ -18,10 +18,10 @@ GSUI.setTemplate( "gsui-oscillator", () => {
 			[ "detune", "pitch", -24, 24, 1 ],
 			[ "pan", "pan", -1, 1, .02 ],
 			[ "gain", "gain", 0, 1, .01 ],
-		].map( ( [ attr, title, min, max, step ] ) => (
-			GSUI.createElement( "div", { class: `gsuiOscillator-prop gsuiOscillator-${ attr }`, title },
+		].map( ( [ prop, title, min, max, step ] ) => (
+			GSUI.createElement( "div", { class: `gsuiOscillator-prop gsuiOscillator-${ prop }`, title },
 				GSUI.createElement( "div", { class: "gsuiOscillator-sliderWrap" },
-					GSUI.createElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800" } )
+					GSUI.createElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop } )
 				),
 				GSUI.createElement( "div", { class: "gsuiOscillator-sliderValue" } ),
 			)
