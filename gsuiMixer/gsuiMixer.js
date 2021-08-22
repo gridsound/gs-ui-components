@@ -3,9 +3,10 @@
 class gsuiMixer extends HTMLElement {
 	#chans = {}
 	#chanSelected = null
-	#analyserW = 0
-	#analyserH = 0
+	#analyserW = 10
+	#analyserH = 50
 	#attached = false
+	#onresizeBind = this.#onresize.bind( this )
 	#children = GSUI.getTemplate( "gsui-mixer" )
 	#elements = GSUI.findElements( this.#children, {
 		pmain: ".gsuiMixer-panMain",
@@ -46,15 +47,16 @@ class gsuiMixer extends HTMLElement {
 			this.#children = null;
 			pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
 		}
-		this.resized();
 		this.#attached = true;
+		GSUI.observeSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
 		this.#attached = false;
+		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 
 	// .........................................................................
-	resized() {
+	#onresize() {
 		const chans = Object.values( this.#chans );
 
 		if ( chans.length ) {
@@ -107,12 +109,7 @@ class gsuiMixer extends HTMLElement {
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( root );
-		if ( this.#attached ) {
-			if ( !this.#analyserW ) {
-				this.resized();
-			}
-			html.analyser.setResolution( this.#analyserW, this.#analyserH );
-		}
+		html.analyser.setResolution( this.#analyserW, this.#analyserH );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
