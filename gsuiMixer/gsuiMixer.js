@@ -1,21 +1,24 @@
 "use strict";
 
 class gsuiMixer {
+	#chans = {}
+	#chanSelected = null
+	#analyserW = 0
+	#analyserH = 0
+	#attached = false
+	#pmain = null
+	#pchans = null
+
 	constructor( opt ) {
 		const root = GSUI.getTemplate( "gsui-mixer" ),
 			addBtn = root.querySelector( ".gsuiMixer-addChan" );
 
 		this.rootElement = root;
-		this._pmain = root.querySelector( ".gsuiMixer-panMain" );
-		this._pchans = root.querySelector( ".gsuiMixer-panChannels" );
-		this._chans = {};
-		this._chanSelected = null;
 		this.oninput = opt.oninput;
 		this.onchange = opt.onchange;
 		this.onselectChan = opt.onselectChan;
-		this._analyserW =
-		this._analyserH = 0;
-		this._attached = false;
+		this.#pmain = root.querySelector( ".gsuiMixer-panMain" );
+		this.#pchans = root.querySelector( ".gsuiMixer-panChannels" );
 		Object.seal( this );
 
 		addBtn.onclick = () => this.onchange( "addChannel" );
@@ -28,44 +31,44 @@ class gsuiMixer {
 			parentSelector: ".gsuiMixer-panChannels",
 			onchange: elChan => {
 				this.onchange( "reorderChannel", elChan.dataset.id,
-					gsuiReorder.listComputeOrderChange( this._pchans, {} ) );
+					gsuiReorder.listComputeOrderChange( this.#pchans, {} ) );
 			},
 		} );
 	}
 
 	// .........................................................................
 	attached() {
-		const pan = this._pchans;
+		const pan = this.#pchans;
 
-		this._attached = true;
+		this.#attached = true;
 		pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
 		this.resized();
 	}
 	resized() {
-		const chans = Object.values( this._chans );
+		const chans = Object.values( this.#chans );
 
 		if ( chans.length ) {
 			const { width, height } = chans[ 0 ].analyser.getBoundingClientRect();
 
-			this._analyserW = width;
-			this._analyserH = height;
+			this.#analyserW = width;
+			this.#analyserH = height;
 			chans.forEach( html => html.analyser.setResolution( width, height ) );
 		}
 	}
 	updateAudioData( id, ldata, rdata ) {
-		this._chans[ id ].analyser.draw( ldata, rdata );
+		this.#chans[ id ].analyser.draw( ldata, rdata );
 	}
 	getSelectedChannelId() {
-		return this._chanSelected;
+		return this.#chanSelected;
 	}
 	selectChannel( id ) {
-		const chan = this._chans[ id ].root,
-			pchan = this._chans[ this._chanSelected ];
+		const chan = this.#chans[ id ].root,
+			pchan = this.#chans[ this.#chanSelected ];
 
 		pchan && pchan.root.classList.remove( "gsuiMixer-selected" );
 		chan.classList.add( "gsuiMixer-selected" );
-		this._chanSelected = id;
-		this._updateChanConnections();
+		this.#chanSelected = id;
+		this.#updateChanConnections();
 		this.onselectChan( id );
 	}
 
@@ -82,7 +85,7 @@ class gsuiMixer {
 				analyser: qs( "analyser" ),
 			};
 
-		this._chans[ id ] = html;
+		this.#chans[ id ] = html;
 		root.dataset.id = id;
 		pan.oninput = val => this.oninput( id, "pan", val );
 		gain.oninput = val => this.oninput( id, "gain", val );
@@ -92,76 +95,75 @@ class gsuiMixer {
 		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
-		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this._chanSelected, id );
-		( id === "main" ? this._pmain : this._pchans ).append( root );
-		if ( this._attached ) {
-			if ( !this._analyserW ) {
+		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
+		( id === "main" ? this.#pmain : this.#pchans ).append( root );
+		if ( this.#attached ) {
+			if ( !this.#analyserW ) {
 				this.resized();
 			}
-			html.analyser.setResolution( this._analyserW, this._analyserH );
+			html.analyser.setResolution( this.#analyserW, this.#analyserH );
 		}
-		if ( this._chanSelected ) {
-			this._updateChanConnections();
+		if ( this.#chanSelected ) {
+			this.#updateChanConnections();
 		} else if ( id === "main" ) {
 			this.selectChannel( id );
 		}
 	}
 	removeChannel( id ) {
-		const el = this._chans[ id ].root;
+		const el = this.#chans[ id ].root;
 
-		if ( id === this._chanSelected ) {
-			const next = this._getNextChan( el, "nextElementSibling" );
+		if ( id === this.#chanSelected ) {
+			const next = this.#getNextChan( el, "nextElementSibling" );
 
 			if ( next ) {
 				this.selectChannel( next.dataset.id );
 			} else {
-				const prev = this._getNextChan( el, "previousElementSibling" );
+				const prev = this.#getNextChan( el, "previousElementSibling" );
 
 				this.selectChannel( prev ? prev.dataset.id : "main" );
 			}
 		}
-		delete this._chans[ id ];
+		delete this.#chans[ id ];
 		el.remove();
 	}
 	toggleChannel( id, b ) {
-		this._chans[ id ].root.classList.toggle( "gsuiMixerChannel-muted", !b );
+		this.#chans[ id ].root.classList.toggle( "gsuiMixerChannel-muted", !b );
 	}
 	changePanChannel( id, val ) {
-		this._chans[ id ].pan.setValue( val );
+		this.#chans[ id ].pan.setValue( val );
 	}
 	changeGainChannel( id, val ) {
-		this._chans[ id ].gain.setValue( val );
+		this.#chans[ id ].gain.setValue( val );
 	}
 	renameChannel( id, name ) {
-		this._chans[ id ].name.textContent = name;
+		this.#chans[ id ].name.textContent = name;
 	}
 	reorderChannel( id, n ) {
-		this._chans[ id ].root.dataset.order = n;
+		this.#chans[ id ].root.dataset.order = n;
 	}
 	reorderChannels( channels ) {
-		gsuiReorder.listReorder( this._pchans, channels );
+		gsuiReorder.listReorder( this.#pchans, channels );
 	}
 	redirectChannel( id, dest ) {
-		this._chans[ id ].root.dataset.dest = dest;
-		this._updateChanConnections();
+		this.#chans[ id ].root.dataset.dest = dest;
+		this.#updateChanConnections();
 	}
 
-	// private:
 	// .........................................................................
-	_getNextChan( el, dir ) {
+	#getNextChan( el, dir ) {
 		const sibling = el[ dir ];
 
 		return sibling && "id" in sibling.dataset ? sibling : null;
 	}
-	_updateChanConnections() {
-		const selId = this._chanSelected;
+	#updateChanConnections() {
+		const selId = this.#chanSelected;
 
 		if ( selId ) {
-			const html = this._chans[ selId ],
+			const html = this.#chans[ selId ],
 				chanDest = html.root.dataset.dest;
 			let bOnce = false;
 
-			Object.entries( this._chans ).forEach( ( [ id, html ] ) => {
+			Object.entries( this.#chans ).forEach( ( [ id, html ] ) => {
 				const a = id === chanDest,
 					b = html.root.dataset.dest === selId;
 
