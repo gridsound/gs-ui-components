@@ -22,13 +22,6 @@ class gsuiWindows extends HTMLElement {
 	}
 
 	// .........................................................................
-	resized() {
-		this._arrWindows.forEach( win => {
-			if ( win._maximized ) {
-				win._callOnresize();
-			}
-		} );
-	}
 	lowGraphics( b ) {
 		this._lowGraphics = b;
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );

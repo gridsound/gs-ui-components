@@ -26,9 +26,7 @@ class gsuiWindow extends HTMLElement {
 	constructor() {
 		super();
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
-		this.onresize =
-		this.onfocusin =
-		this.onresizing = null;
+		this.onfocusin = null;
 		Object.seal( this );
 
 		this.#elements.icon.ondblclick = this.close.bind( this );
@@ -112,7 +110,6 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "minimized", false );
 			this.#maximized = true;
 			this.#minimized = false;
-			this._callOnresize();
 			this.focus();
 			this.#parent._winMaximized( this.dataset.id );
 		}
@@ -128,7 +125,7 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "maximized", false );
 			this.#minimized = true;
 			this.#maximized = false;
-			this.setSize( rcRestore.w, this.#getHeadHeight(), "nocallback" );
+			this.setSize( rcRestore.w, this.#getHeadHeight() );
 			this.setPosition( rcRestore.x, rcRestore.y );
 			this.#parent._winRestored( this.dataset.id );
 		}
@@ -157,14 +154,11 @@ class gsuiWindow extends HTMLElement {
 	setZIndex( z ) {
 		this.style.zIndex = z;
 	}
-	setSize( w, h, nocb ) {
+	setSize( w, h ) {
 		this.rect.w = w;
 		this.rect.h = h;
 		this.style.width = `${ w }px`;
 		this.style.height = `${ h }px`;
-		if ( nocb !== "nocallback" ) {
-			this._callOnresize();
-		}
 	}
 	setMinSize( w, h ) {
 		this.#wMin = w;
@@ -175,13 +169,6 @@ class gsuiWindow extends HTMLElement {
 		this.rect.y = y;
 		this.style.left = `${ x }px`;
 		this.style.top = `${ y }px`;
-	}
-	_callOnresize() {
-		if ( this.onresize ) {
-			const bcr = this.#elements.content.getBoundingClientRect();
-
-			this.onresize( bcr.width, bcr.height );
-		}
 	}
 
 	// .........................................................................
@@ -259,10 +246,9 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	#onmousemoveHandler( dir, e ) {
-		const fnResize = this.onresizing,
+		const mmPos = this.#mousemovePos,
 			x = e.clientX - this.#mousedownPos.x,
 			y = e.clientY - this.#mousedownPos.y,
-			mmPos = this.#mousemovePos,
 			magnet = this.#calcCSSmagnet( dir, x, y );
 
 		mmPos.x = x + magnet.x;
@@ -271,21 +257,6 @@ class gsuiWindow extends HTMLElement {
 		this.#setCSSrelativeResize( this.#elements.handlers.style, dir, mmPos );
 		if ( !this.#parent._lowGraphics ) {
 			this.#setCSSrelativeResize( this.#elements.wrap.style, dir, mmPos );
-			if ( fnResize ) {
-				const w = this.rect.w,
-					h = this.rect.h - this.#mousedownHeadHeight;
-
-				switch ( dir ) {
-					case "n":  fnResize( w,     h - y ); break;
-					case "w":  fnResize( w - x, h     ); break;
-					case "e":  fnResize( w + x, h     ); break;
-					case "s":  fnResize( w,     h + y ); break;
-					case "nw": fnResize( w - x, h - y ); break;
-					case "ne": fnResize( w + x, h - y ); break;
-					case "sw": fnResize( w - x, h + y ); break;
-					case "se": fnResize( w + x, h + y ); break;
-				}
-			}
 		}
 	}
 	#onmouseupHandler( dir ) {
