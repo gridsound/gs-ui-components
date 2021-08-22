@@ -6,24 +6,23 @@ class gsuiMixer {
 	#analyserW = 0
 	#analyserH = 0
 	#attached = false
-	#pmain = null
-	#pchans = null
+	#children = GSUI.getTemplate( "gsui-mixer" )
+	#elements = GSUI.findElements( this.#children, {
+		pmain: ".gsuiMixer-panMain",
+		pchans: ".gsuiMixer-panChannels",
+		addBtn: ".gsuiMixer-addChan",
+	} )
 
 	constructor( opt ) {
-		const root = GSUI.getTemplate( "gsui-mixer" ),
-			addBtn = root.querySelector( ".gsuiMixer-addChan" );
-
-		this.rootElement = root;
+		this.rootElement = this.#children;
 		this.oninput = opt.oninput;
 		this.onchange = opt.onchange;
 		this.onselectChan = opt.onselectChan;
-		this.#pmain = root.querySelector( ".gsuiMixer-panMain" );
-		this.#pchans = root.querySelector( ".gsuiMixer-panChannels" );
 		Object.seal( this );
 
-		addBtn.onclick = () => this.onchange( "addChannel" );
+		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
 		new gsuiReorder( {
-			rootElement: root,
+			rootElement: this.rootElement,
 			direction: "row",
 			dataTransferType: "channel",
 			itemSelector: ".gsuiMixerChannel",
@@ -31,14 +30,14 @@ class gsuiMixer {
 			parentSelector: ".gsuiMixer-panChannels",
 			onchange: elChan => {
 				this.onchange( "reorderChannel", elChan.dataset.id,
-					gsuiReorder.listComputeOrderChange( this.#pchans, {} ) );
+					gsuiReorder.listComputeOrderChange( this.#elements.pchans, {} ) );
 			},
 		} );
 	}
 
 	// .........................................................................
 	attached() {
-		const pan = this.#pchans;
+		const pan = this.#elements.pchans;
 
 		this.#attached = true;
 		pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
@@ -96,7 +95,7 @@ class gsuiMixer {
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
-		( id === "main" ? this.#pmain : this.#pchans ).append( root );
+		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( root );
 		if ( this.#attached ) {
 			if ( !this.#analyserW ) {
 				this.resized();
@@ -142,7 +141,7 @@ class gsuiMixer {
 		this.#chans[ id ].root.dataset.order = n;
 	}
 	reorderChannels( channels ) {
-		gsuiReorder.listReorder( this.#pchans, channels );
+		gsuiReorder.listReorder( this.#elements.pchans, channels );
 	}
 	redirectChannel( id, dest ) {
 		this.#chans[ id ].root.dataset.dest = dest;
