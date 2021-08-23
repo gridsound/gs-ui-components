@@ -1,4 +1,4 @@
-.gsuiLFO {
+gsui-lfo {
 	display: grid;
 	height: 100%;
 	min-width: 300px;
@@ -78,7 +78,7 @@
 .gsuiLFO-speed {
 	grid-area: speed;
 }
-.gsuiLFO .gsuiSlider-eventCatcher {
+gsui-lfo .gsuiSlider-eventCatcher {
 	top: -26px;
 	bottom: -6px;
 }

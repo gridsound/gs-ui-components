@@ -74,7 +74,6 @@ class gsuiDrums extends HTMLElement {
 		if ( !this.firstChild ) {
 			GSUI.setAttribute( this, "tabindex", -1 );
 			this.append( this.#win, GSUI.createElement( "div", { class: "gsuiDrums-shadow" } ) );
-			this.classList.add( "gsuiDrums" );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.drumrows );
 			this.#elCurrentTime = this.#win.querySelector( ".gsuiTimewindow-currentTime" );
 			this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );

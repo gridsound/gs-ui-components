@@ -42,7 +42,6 @@ class gsuiMixer extends HTMLElement {
 		if ( !this.firstChild ) {
 			const pan = this.#elements.pchans;
 
-			this.classList.add( "gsuiMixer" );
 			this.append( ...this.#children );
 			this.#children = null;
 			pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;

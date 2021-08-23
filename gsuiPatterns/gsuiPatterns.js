@@ -89,7 +89,6 @@ class gsuiPatterns extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiPatterns" );
 			this.append( this.#children );
 			this.#children = null;
 		}

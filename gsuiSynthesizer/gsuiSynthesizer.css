@@ -1,4 +1,4 @@
-.gsuiSynthesizer {
+gsui-synthesizer {
 	overflow: auto;
 	position: relative;
 	box-sizing: border-box;
@@ -52,13 +52,13 @@
 }
 
 /* .......................................................................... */
-.gsuiSynthesizer gsui-oscillator {
+gsui-synthesizer gsui-oscillator {
 	transition: .2s filter;
 }
-.gsuiSynthesizer gsui-oscillator:hover {
+gsui-synthesizer gsui-oscillator:hover {
 	filter: brightness( 1.05 );
 }
-.gsuiSynthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
+gsui-synthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
 	display: none;
 }
 

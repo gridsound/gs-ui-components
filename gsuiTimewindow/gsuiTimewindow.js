@@ -56,7 +56,6 @@ class gsuiTimewindow extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiTimewindow" );
 			this.#elements.panel.style.minWidth = `${ this.getAttribute( "panelsize" ) || 100 }px`;
 			this.append( ...this.#children );
 			if ( this.hasAttribute( "downpanel" ) ) {

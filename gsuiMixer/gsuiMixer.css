@@ -1,4 +1,4 @@
-.gsuiMixer {
+gsui-mixer {
 	display: flex;
 	height: 100%;
 	position: relative;
@@ -82,7 +82,7 @@
 	background-color: var( --gsuiMixerChannel-bg );
 	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .2 );
 }
-.gsuiMixer .gsuiMixerChannel.gsuiMixer-selected {
+gsui-mixer .gsuiMixerChannel.gsuiMixer-selected {
 	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-selected-bg );
 }
 .gsuiMixerChannel-muted {

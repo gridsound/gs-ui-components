@@ -1,4 +1,4 @@
-.gsuiWindow {
+gsui-window {
 	--gsuiWindow-radius: 2px;
 	--gsuiWindow-head-height: 28px;
 	--gsuiWindow-border-width: 2px;
@@ -12,12 +12,12 @@
 	transition: .2s;
 	transition-property: opacity, visibility;
 }
-.gsuiWindow:not( .gsuiWindow-show ) {
+gsui-window:not( .gsuiWindow-show ) {
 	opacity: 0;
 	visibility: hidden;
 	pointer-events: none;
 }
-.gsuiWindow:focus-within {
+gsui-window:focus-within {
 	--gsuiWindow-title-opacity: 1;
 	--gsuiWindow-border-color: var( --gsuiWindow-focused-border-color );
 }
@@ -30,7 +30,7 @@
 	overflow: hidden;
 }
 .gsuiWindow-handlers::before,
-.gsuiWindow:not( .gsuiWindow-dragging ),
+gsui-window:not( .gsuiWindow-dragging ),
 .gsuiWindows-lowGraphics .gsuiWindow-dragging {
 	box-shadow: 0 0 0
 		var( --gsuiWindow-border-width )
@@ -38,8 +38,8 @@
 }
 /*
 // If we want to add some shadow:
-.gsuiWindow:not( .gsuiWindow-dragging ):focus-within,
-.gsuiWindows-lowGraphics .gsuiWindow.gsuiWindow-dragging:focus-within {
+gsui-window:not( .gsuiWindow-dragging ):focus-within,
+.gsuiWindows-lowGraphics gsui-window.gsuiWindow-dragging:focus-within {
 	box-shadow: 0 0 0
 		var( --gsuiWindow-border-width )
 		var( --gsuiWindow-border-color ),
@@ -193,7 +193,7 @@
 }
 .gsuiWindow-minimized .gsuiWindow-headBtn[ data-icon="minimize" ],
 .gsuiWindow-maximized .gsuiWindow-headBtn[ data-icon="maximize" ],
-.gsuiWindow:not( .gsuiWindow-minimized ):not( .gsuiWindow-maximized )
+gsui-window:not( .gsuiWindow-minimized ):not( .gsuiWindow-maximized )
 .gsuiWindow-headBtn[ data-icon="restore" ] {
 	display: none;
 }

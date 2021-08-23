@@ -1,10 +1,10 @@
-.gsuiWindows {
+gsui-windows {
 	--gsuiWindows-overflow: hidden;
 	position: relative;
 	overflow: var( --gsuiWindows-overflow );
 	scroll-behavior: smooth;
 }
 
-.gsuiWindows.gsuiWindows-maximized {
+gsui-windows.gsuiWindows-maximized {
 	overflow: hidden;
 }

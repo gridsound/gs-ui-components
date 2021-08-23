@@ -39,7 +39,6 @@ class gsuiLFO extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			this.classList.add( "gsuiLFO" );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {

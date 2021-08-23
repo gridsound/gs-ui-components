@@ -50,7 +50,6 @@ class gsuiTimeline extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiTimeline" );
 			this.append( ...this.#children );
 			this.#children = null;
 			if ( !this.hasAttribute( "step" ) ) {

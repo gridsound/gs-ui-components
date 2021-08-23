@@ -1,15 +1,15 @@
-.gsuiDrums {
+gsui-drums {
 	display: block;
 	height: 100%;
 	color: var( --gsuiDrums-color );
 }
 
 /* .......................................................................... */
-.gsuiDrums .gsuiTimewindow-currentTime {
+gsui-drums .gsuiTimewindow-currentTime {
 	margin-left: 0;
 	opacity: .1;
 }
-.gsuiDrums .gsuiTimewindow-step {
+gsui-drums .gsuiTimewindow-step {
 	display: none;
 }
 

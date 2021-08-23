@@ -50,7 +50,6 @@ class gsuiFxFilter extends HTMLElement {
 	connectedCallback() {
 		this.#attached = true;
 		if ( this.#children ) {
-			this.classList.add( "gsuiFxFilter" );
 			this.append( ...this.#children );
 			this.#children = null;
 			this.#onresize();

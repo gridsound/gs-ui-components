@@ -1,28 +1,27 @@
-.gsuiPianoroll {
+gsui-pianoroll {
 	display: flex;
 	height: 500px;
 	--gsuiDragline-dotSize: 10px;
 	--gsuiDragline-dotRad: 2px;
 	--gsuiDragline-lineSize: 3px;
 }
-.gsuiPianoroll:focus {
+gsui-pianoroll:focus {
 	outline: 1px solid var( --gsuiBlocksManager-blockColor );
 }
 
 /* .......................................................................... */
-.gsuiPianoroll .gsuiKeys {
-	z-index: 0;
+gsui-pianoroll gsui-keys {
 	font-size: var( --gsuiTimewindow-lineH );
 }
-.gsuiPianoroll .gsuiTimewindow-rows {
+gsui-pianoroll .gsuiTimewindow-rows {
 	font-size: var( --gsuiTimewindow-lineH );
 }
-.gsuiPianoroll .gsuiKey-row > div {
+gsui-pianoroll .gsuiKey-row > div {
 	font-size: var( --gsuiTimewindow-pxperbeat );
 }
 
 /* .......................................................................... */
-.gsuiPianoroll .gsuiTimewindow-panelContentDown {
+gsui-pianoroll .gsuiTimewindow-panelContentDown {
 	display: flex;
 	align-items: center;
 	justify-content: center;

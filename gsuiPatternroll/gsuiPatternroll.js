@@ -51,8 +51,8 @@ class gsuiPatternroll extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
+			this.classList.add( "gsuiBlocksManager" );
 			GSUI.setAttribute( this, "tabindex", -1 );
-			this.classList.add( "gsuiBlocksManager", "gsuiPatternroll" );
 			this.append( this.#win );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist.rootElement );
 			this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );

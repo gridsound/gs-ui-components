@@ -23,7 +23,6 @@ class gsuiEnvelopeGraph extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiEnvelopeGraph" );
 			this.append( this.#svg );
 			this.resized();
 		}

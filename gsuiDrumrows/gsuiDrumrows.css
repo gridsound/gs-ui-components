@@ -1,9 +1,9 @@
-.gsuiDrumrows {
+gsui-drumrows {
 	display: flex;
 	flex-direction: column;
 	font-size: var( --gsuiTimewindow-lineH );
 }
-.gsuiDrumrows::-webkit-scrollbar {
+gsui-drumrows::-webkit-scrollbar {
 	display: none;
 }
 
@@ -17,7 +17,7 @@
 	pointer-events: none;
 	opacity: 0;
 }
-.gsuiDrumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
+gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	opacity: 1;
 }
 .gsuiDrumrows-dropIn {

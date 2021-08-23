@@ -1,4 +1,4 @@
-.gsuiTrack {
+gsui-track {
 	display: flex;
 	height: var( --gsuiTimewindow-lineH );
 	background-color: hsl(
@@ -6,19 +6,19 @@
 		var( --gsuiTrack-hsl-s ),
 		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) ) );
 }
-.gsuiTrack,
+gsui-track,
 .gsuiTrack-row,
 .gsuiTrack-toggle::before {
 	transition: .2s background-color;
 }
-.gsuiTrack:nth-child( even ) {
+gsui-track:nth-child( even ) {
 	--rel-l: -1.7%;
 }
-.gsuiTrack.gsui-mute {
+gsui-track.gsui-mute {
 	--rel-l: -5%;
 	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
 }
-.gsuiTrack.gsui-mute:nth-child( even ) {
+gsui-track.gsui-mute:nth-child( even ) {
 	--rel-l: -5.5%;
 }
 

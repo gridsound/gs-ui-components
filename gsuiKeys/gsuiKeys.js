@@ -21,11 +21,6 @@ class gsuiKeys extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		this.classList.add( "gsuiKeys" );
-	}
-
-	// .........................................................................
 	octaves( start, nbOct ) {
 		const maxOct = start + nbOct;
 

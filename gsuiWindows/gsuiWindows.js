@@ -17,11 +17,6 @@ class gsuiWindows extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		this.classList.add( "gsuiWindows" );
-	}
-
-	// .........................................................................
 	lowGraphics( b ) {
 		this._lowGraphics = b;
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );

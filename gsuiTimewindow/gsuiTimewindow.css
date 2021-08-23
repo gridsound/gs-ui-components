@@ -1,4 +1,4 @@
-.gsuiTimewindow {
+gsui-timewindow {
 	position: relative;
 	z-index: 0;
 	display: flex;
@@ -10,7 +10,7 @@
 	background-color: var( --gsuiTimewindow-bg );
 	scrollbar-width: none;
 }
-.gsuiTimewindow::-webkit-scrollbar {
+gsui-timewindow::-webkit-scrollbar {
 	display: none;
 }
 
@@ -90,7 +90,7 @@
 }
 
 /* .......................................................................... */
-.gsuiTimewindow .gsuiTimeline {
+gsui-timewindow gsui-timeline {
 	--gsuiTimeline-cursor-fill: var( --gsuiTimewindow-currentTime-fill );
 }
 .gsuiTimewindow-currentTime,

@@ -41,7 +41,6 @@ class gsuiWindow extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			GSUI.setAttribute( this, "tabindex", 0 );
-			this.classList.add( "gsuiWindow" );
 			this.append( ...this.#children );
 			this.#children = null;
 		}

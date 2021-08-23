@@ -1,4 +1,4 @@
-.gsuiSliderGroup {
+gsui-slidergroup {
 	--gsuiSliderGroup-currentTime-color: var( --gsui-col-currentTimeCursor );
 	--gsuiSliderGroup-defaultValue-color: #0004;
 	--gsuiSliderGroup-slider-width: 6px;

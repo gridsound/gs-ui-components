@@ -40,7 +40,6 @@ class gsuiSliderGroup extends HTMLElement {
 		if ( !this.firstChild ) {
 			const beatlines = this.hasAttribute( "beatlines" );
 
-			this.classList.add( "gsuiSliderGroup" );
 			if ( !beatlines ) {
 				this._uiBeatlines.remove();
 				this._currentTime.remove();

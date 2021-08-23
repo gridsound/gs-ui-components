@@ -75,8 +75,8 @@ class gsuiPianoroll extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
+			this.classList.add( "gsuiBlocksManager" );
 			GSUI.setAttribute( this, "tabindex", -1 );
-			this.classList.add( "gsuiBlocksManager", "gsuiPianoroll" );
 			this.append( this.#win );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
 			this.#win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this.#slidersSelect );

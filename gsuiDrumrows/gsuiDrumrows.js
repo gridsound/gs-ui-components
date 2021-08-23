@@ -35,7 +35,6 @@ class gsuiDrumrows extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiDrumrows" );
 			this.append( ...GSUI.getTemplate( "gsui-drumrows" ) );
 		}
 	}
@@ -258,7 +257,7 @@ class gsuiDrumrows extends HTMLElement {
 	#ondragoverRows( e ) {
 		if ( e.dataTransfer.types.includes( "pattern-buffer" ) ) {
 			const tar = e.target,
-				isParent = tar.classList.contains( "gsuiDrumrows" ),
+				isParent = tar.nodeName === "GSUI-DRUMROWS",
 				elDragover = isParent ? tar : tar.closest( ".gsuiDrumrow" );
 
 			clearTimeout( this.#timeoutIdDragleave );

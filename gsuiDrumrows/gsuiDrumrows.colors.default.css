@@ -1,4 +1,4 @@
-.gsuiDrumrows {
+gsui-drumrows {
 	--gsuiDrumrow-bg: #555;
 	--gsuiDrumrow-slider-bg: #444;
 	--gsuiDrumrow-pan: var( --gsui-col-pan );

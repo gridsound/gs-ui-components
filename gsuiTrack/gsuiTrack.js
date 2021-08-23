@@ -14,7 +14,7 @@ class gsuiTrack extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsuiTrack", "gsui-mute" );
+			this.classList.add( "gsui-mute" );
 			this.append( ...this._children );
 			this._children = null;
 		}

@@ -2,7 +2,7 @@
 	--gsuiTimeline-numbering: 1;
 }
 
-.gsuiTimeline {
+gsui-timeline {
 	position: relative;
 	display: block;
 	height: 100%;
