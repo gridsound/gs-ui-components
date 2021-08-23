@@ -2,12 +2,12 @@
 
 class gsuiKeysforms extends gsuiSVGDefs {
 	update( id, keys, dur ) {
-		return super.update( id, dur, 1, ...gsuiKeysforms._render( keys ) );
+		return super.update( id, dur, 1, ...gsuiKeysforms.#render( keys ) );
 	}
 
-	static _render( keys ) {
+	static #render( keys ) {
 		const arrKeys = Object.values( keys ),
-			{ min, size } = gsuiKeysforms._calcMinMax( arrKeys ),
+			{ min, size } = gsuiKeysforms.#calcMinMax( arrKeys ),
 			rowH = 1 / ( size + 1 );
 
 		return arrKeys.map( k => {
@@ -20,7 +20,7 @@ class gsuiKeysforms extends gsuiSVGDefs {
 			return rect;
 		}, [] );
 	}
-	static _calcMinMax( arrKeys ) {
+	static #calcMinMax( arrKeys ) {
 		let min = Infinity,
 			max = -Infinity;
 
