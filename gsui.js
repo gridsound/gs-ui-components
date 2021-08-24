@@ -1,6 +1,6 @@
 "use strict";
 
-const GSUI = {
+const GSUI = Object.freeze( {
 
 	noop() {},
 	dragshield: document.createElement( "gsui-dragshield" ),
@@ -118,7 +118,6 @@ const GSUI = {
 	},
 
 	// .........................................................................
-	_resizeMap: new Map(),
 	observeSizeOf( el, fn ) {
 		if ( GSUI._resizeMap.has( el ) ) {
 			GSUI._resizeMap.get( el ).push( fn );
@@ -139,10 +138,13 @@ const GSUI = {
 			}
 		}
 	},
-	_resizeObsCallback( entries ) {
-		entries.forEach( e => GSUI._resizeMap.get( e.target )
-			.forEach( fn => fn( e.contentRect.width, e.contentRect.height ) ) );
-	},
+	_resizeMap: new Map(),
+	_resizeObs: new ResizeObserver( entries => {
+		entries.forEach( e => {
+			GSUI._resizeMap.get( e.target )
+				.forEach( fn => fn( e.contentRect.width, e.contentRect.height ) );
+		} );
+	} ),
 
 	// .........................................................................
 	unselectText() {
@@ -162,8 +164,6 @@ const GSUI = {
 				: GSUI.setAttribute( el, p, val );
 		} );
 	},
-};
-
-GSUI._resizeObs = new ResizeObserver( GSUI._resizeObsCallback );
+} );
 
 document.body.prepend( GSUI.dragshield );
