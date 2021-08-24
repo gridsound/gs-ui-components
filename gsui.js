@@ -111,7 +111,11 @@ const GSUI = Object.freeze( {
 	},
 	_createElement( el, attr, children ) {
 		if ( attr ) {
-			Object.entries( attr ).forEach( kv => GSUI.setAttribute( el, ...kv ) );
+			Object.entries( attr ).forEach( ( [ attr, val ] ) => {
+				if ( val !== false && val !== null && val !== undefined ) {
+					el.setAttribute( attr, val === true ? "" : val );
+				}
+			} );
 		}
 		el.append( ...children.flat( 1 ).filter( Boolean ) );
 		return el;
@@ -153,10 +157,12 @@ const GSUI = Object.freeze( {
 	setAttribute( el, attr, valBrut ) {
 		const val = arguments.length === 2 || valBrut;
 
-		val === false || val === null || val === undefined
-			? el.removeAttribute( attr )
-			: el.setAttribute( attr, val === true ? "" : val );
+		val !== false && val !== null && val !== undefined
+			? el.setAttribute( attr, val === true ? "" : val )
+			: el.removeAttribute( attr );
 	},
+
+	// .........................................................................
 	recallAttributes( el, props ) {
 		Object.entries( props ).forEach( ( [ p, val ] ) => {
 			el.hasAttribute( p )
