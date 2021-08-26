@@ -1,21 +1,22 @@
 "use strict";
 
 class gsuiWaveforms extends gsuiSVGDefs {
+	#isHD = false
+
 	hdMode( b ) {
-		this.optResolution = b ? Infinity : 48;
+		this.#isHD = b;
 	}
 	update( id, buf ) {
-		const polygon = gsuiSVGDefs.create( "polygon" ),
-			w = this.optResolution === Infinity ? 260 : buf.duration * 48 | 0,
+		const polygon = GSUI.createElementNS( "polygon" ),
+			w = this.#isHD ? 260 : buf.duration * 48 | 0,
 			h = 48;
 
 		gsuiWaveform.drawBuffer( polygon, w, h, buf );
 		return super.update( id, w, h, polygon );
 	}
 	setSVGViewbox( svg, x, w, bps ) {
-		if ( this.optResolution === Infinity ) {
-			return super.setSVGViewbox( svg, x * 260, w * 260 );
-		}
-		return super.setSVGViewbox( svg, x / bps * 48, w / bps * 48 );
+		const res = this.#isHD ? 260 : 48 / bps;
+
+		return super.setSVGViewbox( svg, x * res, w * res );
 	}
 }

@@ -12,7 +12,6 @@ class gsuiSVGDefs {
 		const svg = gsuiSVGDefs.create( "svg" );
 
 		this.rootElement = svg;
-		this.optResolution = 0;
 		Object.seal( this );
 
 		svg.style.display = "none";
