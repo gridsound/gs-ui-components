@@ -165,19 +165,15 @@ class gsuiSlider extends HTMLElement {
 	#setSVGcirc() {
 		if ( this.#circ && this.width && this.height ) {
 			const size = Math.min( this.width, this.height ),
-				size2 = size / 2,
-				circR = ~~( ( size - this.#strokeWidth ) / 2 );
+				cx = size / 2,
+				r = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			this.#elements.svg.setAttribute( "viewBox", `0 0 ${ size } ${ size }` );
-			this.#elements.svgLine.setAttribute( "cx", size2 );
-			this.#elements.svgLine.setAttribute( "cy", size2 );
-			this.#elements.svgLine.setAttribute( "r", circR );
-			this.#elements.svgLineColor.setAttribute( "cx", size2 );
-			this.#elements.svgLineColor.setAttribute( "cy", size2 );
-			this.#elements.svgLineColor.setAttribute( "r", circR );
+			GSUI.setAttribute( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
+			GSUI.setAttributes( this.#elements.svgLine, { r, cx, cy: cx, } );
+			GSUI.setAttributes( this.#elements.svgLineColor, { r, cx, cy: cx, } );
 			this.#elements.svgLine.style.strokeWidth =
 			this.#elements.svgLineColor.style.strokeWidth = this.#strokeWidth;
-			this.#svgLineLen = circR * 2 * Math.PI;
+			this.#svgLineLen = r * 2 * Math.PI;
 		}
 	}
 	#getInputVal() {

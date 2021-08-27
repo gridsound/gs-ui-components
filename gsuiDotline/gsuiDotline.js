@@ -34,7 +34,7 @@ class gsuiDotline {
 		Object.seal( this );
 
 		svg.append( polyline );
-		svg.setAttribute( "preserveAspectRatio", "none" );
+		GSUI.setAttribute( svg, "preserveAspectRatio", "none" );
 		root.append( svg );
 		root.className = "gsuiDotline";
 		root.oncontextmenu = () => false;
@@ -62,7 +62,7 @@ class gsuiDotline {
 
 		this._svgW = w;
 		this._svgH = h;
-		this._elSVG.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttribute( this._elSVG, "viewBox", `0 0 ${ w } ${ h }` );
 		this._drawPolyline();
 	}
 	options( obj ) {
@@ -148,7 +148,7 @@ class gsuiDotline {
 		if ( lastDotLinked !== null ) {
 			arr.push( svgW, svgH - ( lastDotLinked - minY ) / height * svgH );
 		}
-		this._elPoly.setAttribute( "points", arr.join( " " ) );
+		GSUI.setAttribute( this._elPoly, "points", arr.join( " " ) );
 	}
 	_onchange() {
 		const obj = {},

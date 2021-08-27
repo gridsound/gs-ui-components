@@ -10,15 +10,12 @@ class gsuiKeysforms extends gsuiSVGDefs {
 			{ min, size } = gsuiKeysforms.#calcMinMax( arrKeys ),
 			rowH = 1 / ( size + 1 );
 
-		return arrKeys.map( k => {
-			const rect = GSUI.createElementSVG( "rect" );
-
-			rect.setAttribute( "x", k.when );
-			rect.setAttribute( "y", ( size - k.key + min ) * rowH );
-			rect.setAttribute( "width", k.duration );
-			rect.setAttribute( "height", rowH );
-			return rect;
-		}, [] );
+		return arrKeys.map( k => GSUI.createElementSVG( "rect", {
+			x: k.when,
+			y: ( size - k.key + min ) * rowH,
+			width: k.duration,
+			height: rowH,
+		} ) );
 	}
 	static #calcMinMax( arrKeys ) {
 		let min = Infinity,

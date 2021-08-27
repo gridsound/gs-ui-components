@@ -34,7 +34,7 @@ class gsuiPeriodicWave extends HTMLElement {
 
 		this.width = w;
 		this.height = h;
-		this.#svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.draw();
 	}
 	draw() {
@@ -70,7 +70,7 @@ class gsuiPeriodicWave extends HTMLElement {
 			pts[ x * 2 ] = x;
 			pts[ x * 2 + 1 ] = y;
 		}
-		this.#svg.firstChild.setAttribute( "points", pts.join( " " ) );
+		GSUI.setAttribute( this.#svg.firstChild, "points", pts.join( " " ) );
 	}
 
 	// .........................................................................

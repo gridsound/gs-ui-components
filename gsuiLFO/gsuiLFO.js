@@ -65,7 +65,7 @@ class gsuiLFO extends HTMLElement {
 			const num = +val;
 
 			switch ( prop ) {
-				case "timedivision": this.#elements.beatlines.setAttribute( "timedivision", val ); break;
+				case "timedivision": GSUI.setAttribute( this.#elements.beatlines, "timedivision", val ); break;
 				case "toggle": this.#changeToggle( val !== null ); break;
 				case "type": this.#changeType( val ); break;
 				case "delay":
@@ -104,9 +104,7 @@ class gsuiLFO extends HTMLElement {
 	#changeToggle( b ) {
 		this.classList.toggle( "gsuiLFO-enable", b );
 		this.querySelectorAll( ".gsuiLFO-typeRadio" )
-			.forEach( b
-				? el => el.removeAttribute( "disabled" )
-				: el => el.setAttribute( "disabled", "" ) );
+			.forEach( el => GSUI.setAttribute( el, "disabled", b ) );
 		this.#elements.sliders.delay[ 0 ].enable( b );
 		this.#elements.sliders.attack[ 0 ].enable( b );
 		this.#elements.sliders.speed[ 0 ].enable( b );
@@ -126,7 +124,7 @@ class gsuiLFO extends HTMLElement {
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {
-		this.#elements.beatlines.setAttribute( "pxPerBeat", this.#waveWidth / this.#dur );
+		GSUI.setAttribute( this.#elements.beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
 	}
 
 	// .........................................................................

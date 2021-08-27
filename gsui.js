@@ -113,18 +113,15 @@ const GSUI = Object.freeze( {
 		const el = document.createElementNS( ns, tag );
 
 		if ( attr ) {
-			Object.entries( attr ).forEach( ( [ attr, val ] ) => {
-				if ( val !== false && val !== null && val !== undefined ) {
-					el.setAttributeNS( null, attr, val === true ? "" : val );
-				}
-			} );
+			GSUI.setAttributes( el, attr );
 		}
 		el.append( ...children.flat( 1 ).filter( Boolean ) );
 		return el;
 	},
-	setAttribute( el, attr, valBrut ) {
-		const val = arguments.length === 2 || valBrut;
-
+	setAttributes( el, obj ) {
+		Object.entries( obj ).forEach( kv => GSUI.setAttribute( el, ...kv ) );
+	},
+	setAttribute( el, attr, val ) {
 		val !== false && val !== null && val !== undefined
 			? el.setAttributeNS( null, attr, val === true ? "" : val )
 			: el.removeAttributeNS( null, attr );

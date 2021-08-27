@@ -36,7 +36,7 @@ class gsuiCurves extends HTMLElement {
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
-		this.#elements.svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.redraw();
 	}
 	options( opt ) {
@@ -51,7 +51,7 @@ class gsuiCurves extends HTMLElement {
 		if ( curve ) {
 			this.#curves.set( id, curve );
 			if ( path ) {
-				path.setAttribute( "d", this.#createPathD( curve ) );
+				GSUI.setAttribute( path, "d", this.#createPathD( curve ) );
 			} else {
 				this.#createPath( id, curve );
 			}
@@ -64,8 +64,8 @@ class gsuiCurves extends HTMLElement {
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
-			this.#elements.curves.querySelector( `[data-id="${ id }"]` )
-				.setAttribute( "d", this.#createPathD( curve ) );
+			GSUI.setAttribute( this.#elements.curves.querySelector( `[data-id="${ id }"]` ),
+				"d", this.#createPathD( curve ) );
 		} );
 	}
 	getWidth() {
@@ -74,13 +74,14 @@ class gsuiCurves extends HTMLElement {
 
 	// .........................................................................
 	#updateLinePos() {
-		const line = this.#elements.line,
-			[ w, h ] = this.#size;
+		const [ w, h ] = this.#size;
 
-		line.setAttribute( "x1", 0 );
-		line.setAttribute( "x2", w );
-		line.setAttribute( "y1", h / 2 );
-		line.setAttribute( "y2", h / 2 );
+		GSUI.setAttributes( this.#elements.line, {
+			x1: 0,
+			x2: w,
+			y1: h / 2,
+			y2: h / 2,
+		} );
 	}
 	#updateHzTexts() {
 		const [ w, h ] = this.#size,
@@ -90,25 +91,23 @@ class gsuiCurves extends HTMLElement {
 			marks = [];
 
 		for ( let i = 0; i < nb; ++i ) {
-			const txt = GSUI.createElementSVG( "text" ),
-				Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) ),
-				x = i / nb * w | 0;
+			const x = i / nb * w | 0,
+				Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) );
 
-			txt.setAttribute( "x", x + 3 );
-			txt.setAttribute( "y", 14 );
-			txt.classList.add( "gsuiCurves-markText" );
-			txt.textContent = Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k`;
-			marks.push( txt );
+			marks.push( GSUI.createElementSVG( "text", {
+				class: "gsuiCurves-markText",
+				x: x + 3,
+				y: 14,
+			}, Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` ) );
 			if ( i % 2 === 0 ) {
-				const rect = GSUI.createElementSVG( "rect" );
-
-				rect.setAttribute( "x", x );
-				rect.setAttribute( "y", 0 );
-				rect.setAttribute( "width", w / nb | 0 );
-				rect.setAttribute( "height", h );
-				rect.setAttribute( "shape-rendering", "crispEdges" );
-				rect.classList.add( "gsuiCurves-markBg" );
-				rects.push( rect );
+				rects.push( GSUI.createElementSVG( "rect", {
+					class: "gsuiCurves-markBg",
+					x: x,
+					y: 0,
+					width: w / nb | 0,
+					height: h,
+					"shape-rendering": "crispEdges",
+				} ) );
 			}
 		}
 		while ( this.#elements.marks.lastChild ) {
@@ -117,12 +116,11 @@ class gsuiCurves extends HTMLElement {
 		this.#elements.marks.append( ...rects, ...marks );
 	}
 	#createPath( id, curve ) {
-		const path = GSUI.createElementSVG( "path" );
-
-		path.classList.add( "gsuiCurves-curve" );
-		path.dataset.id = id;
-		path.setAttribute( "d", this.#createPathD( curve ) );
-		this.#elements.curves.append( path );
+		this.#elements.curves.append( GSUI.createElementSVG( "path", {
+			class: "gsuiCurves-curve",
+			"data-id": id,
+			d: this.#createPathD( curve ),
+		} ) );
 	}
 	#createPathD( curve ) {
 		const w = this.#size[ 0 ],

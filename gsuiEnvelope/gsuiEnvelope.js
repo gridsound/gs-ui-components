@@ -102,7 +102,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#elements.sliders.release[ 0 ].enable( b );
 	}
 	#changeTimedivision( val ) {
-		this.#elements.beatlines.setAttribute( "timedivision", val );
+		GSUI.setAttribute( this.#elements.beatlines, "timedivision", val );
 		this.updateWave();
 	}
 	#changeProp( prop, val ) {
@@ -112,7 +112,7 @@ class gsuiEnvelope extends HTMLElement {
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {
-		this.#elements.beatlines.setAttribute( "pxperbeat", this.#waveWidth / this.#dur );
+		GSUI.setAttribute( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
 	}
 
 	// .........................................................................

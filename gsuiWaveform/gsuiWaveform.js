@@ -11,7 +11,7 @@ class gsuiWaveform {
 		this.height = 0;
 		Object.seal( this );
 
-		svg.setAttribute( "preserveAspectRatio", "none" );
+		GSUI.setAttribute( svg, "preserveAspectRatio", "none" );
 		svg.classList.add( "gsuiWaveform" );
 		if ( !poly ) {
 			this.polygon = GSUI.createElementSVG( "polygon" );
@@ -29,7 +29,7 @@ class gsuiWaveform {
 	setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
-		this.rootElement.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttribute( this.rootElement, "viewBox", `0 0 ${ w } ${ h }` );
 	}
 	drawBuffer( buf, offset, duration ) {
 		gsuiWaveform.drawBuffer( this.polygon, this.width, this.height, buf, offset, duration );

@@ -36,7 +36,7 @@ class gsuiEnvelopeGraph extends HTMLElement {
 
 		this.#width = w;
 		this.#height = h;
-		this.#svg.setAttribute( "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.draw();
 	}
 	draw() {
@@ -45,9 +45,9 @@ class gsuiEnvelopeGraph extends HTMLElement {
 					this.#width, this.#height, this.duration,
 					this.attack, this.hold, this.decay, this.sustain, this.release );
 
-			this.#attLine.setAttribute( "points", pts.slice( 0, 8 ).join( " " ) );
-			this.#relLine.setAttribute( "points", pts.slice( -4 ).join( " " ) );
-			this.#mainLine.setAttribute( "points", pts.join( " " ) );
+			GSUI.setAttribute( this.#attLine, "points", pts.slice( 0, 8 ).join( " " ) );
+			GSUI.setAttribute( this.#relLine, "points", pts.slice( -4 ).join( " " ) );
+			GSUI.setAttribute( this.#mainLine, "points", pts.join( " " ) );
 		}
 	}
 	static #getPoints( w, h, dur, att, hold, dec, sus, rel ) {

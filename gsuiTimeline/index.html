@@ -58,9 +58,9 @@ TEST( {
 			inpBPM = document.querySelector( "#beatsPerMeasure" ),
 			inpSPB = document.querySelector( "#stepsPerBeat" );
 
-		inpPBB.oninput = e => elTimeline.setAttribute( "pxperbeat", inpPBB.value );
+		inpPBB.oninput = e => GSUI.setAttribute( elTimeline, "pxperbeat", inpPBB.value );
 		inpBPM.oninput =
-		inpSPB.oninput = e => elTimeline.setAttribute( "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
+		inpSPB.oninput = e => GSUI.setAttribute( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
 		document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 	},
 } );

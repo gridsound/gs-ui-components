@@ -54,7 +54,7 @@ class gsuiOscillator extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			this.setAttribute( "draggable", "true" );
+			GSUI.setAttribute( this, "draggable", "true" );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
@@ -152,7 +152,7 @@ class gsuiOscillator extends HTMLElement {
 		this.#dispatch( "liveChange", "type", type );
 		this.#timeidType = setTimeout( () => {
 			if ( type !== this.getAttribute( "type" ) ) {
-				this.setAttribute( "type", type );
+				GSUI.setAttribute( this, "type", type );
 				this.#dispatch( "change", "type", type );
 			}
 		}, 700 );
@@ -163,7 +163,7 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	#onchangeSlider( prop, val ) {
-		this.setAttribute( prop, val );
+		GSUI.setAttribute( this, prop, val );
 		this.#dispatch( "change", prop, val );
 	}
 	#oninputSlider( prop, val ) {

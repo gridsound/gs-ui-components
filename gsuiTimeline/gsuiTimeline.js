@@ -53,7 +53,7 @@ class gsuiTimeline extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			if ( !this.hasAttribute( "step" ) ) {
-				this.setAttribute( "step", 1 );
+				GSUI.setAttribute( this, "step", 1 );
 			}
 		}
 		this.#scrollingAncestor = this.#closestScrollingAncestor( this.parentNode );
@@ -89,9 +89,7 @@ class gsuiTimeline extends HTMLElement {
 				? this.beatRound( b )
 				: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
 
-		b !== false
-			? this.setAttribute( "currenttime-preview", ret )
-			: this.removeAttribute( "currenttime-preview" );
+		GSUI.setAttribute( this, "currenttime-preview", b !== false ? ret : null );
 		return ret;
 	}
 	#changePxPerBeat( ppb ) {
@@ -287,7 +285,7 @@ class gsuiTimeline extends HTMLElement {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
 				case "draggingTime":
-					this.setAttribute( "currenttime-preview", beat );
+					GSUI.setAttribute( this, "currenttime-preview", beat );
 					this.#dispatch( "inputCurrentTime", beat );
 					break;
 				case "draggingLoopBody": {
@@ -297,7 +295,7 @@ class gsuiTimeline extends HTMLElement {
 						loop = `${ a }-${ b }`;
 
 					if ( loop !== this.getAttribute( "loop" ) ) {
-						this.setAttribute( "loop", loop );
+						GSUI.setAttribute( this, "loop", loop );
 						this.#dispatch( "inputLoop", a, b );
 					}
 				} break;
@@ -325,7 +323,7 @@ class gsuiTimeline extends HTMLElement {
 					}
 					if ( loop !== this.getAttribute( "loop" ) ) {
 						if ( aa !== bb ) {
-							this.setAttribute( "loop", loop );
+							GSUI.setAttribute( this, "loop", loop );
 							this.#dispatch( "inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							this.removeAttribute( "loop" );
@@ -346,7 +344,7 @@ class gsuiTimeline extends HTMLElement {
 				this.removeAttribute( "currenttime-preview" );
 				this.#dispatch( "inputCurrentTimeEnd" );
 				if ( beat !== this.getAttribute( "currenttime" ) ) {
-					this.setAttribute( "currenttime", beat );
+					GSUI.setAttribute( this, "currenttime", beat );
 					this.#dispatch( "changeCurrentTime", +beat );
 				}
 			} break;
