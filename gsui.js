@@ -157,6 +157,13 @@ const GSUI = Object.freeze( {
 	} ),
 
 	// .........................................................................
+	empty( el ) {
+		while ( el.lastChild ) {
+			el.lastChild.remove();
+		}
+	},
+
+	// .........................................................................
 	unselectText() {
 		window.getSelection().removeAllRanges();
 	},

@@ -45,15 +45,12 @@ class gsuiSVGDefs {
 		}
 	}
 	update( id, w, h, ...elems ) {
-		const def = this.#defs.get( id ),
-			g = def.g;
+		const def = this.#defs.get( id );
 
 		def.w = w;
 		def.h = h;
-		while ( g.lastChild ) {
-			g.lastChild.remove();
-		}
-		g.append( ...elems );
+		GSUI.empty( def.g );
+		def.g.append( ...elems );
 	}
 	createSVG( id ) {
 		const def = this.#defs.get( id ) || {},

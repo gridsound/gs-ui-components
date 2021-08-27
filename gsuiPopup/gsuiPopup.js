@@ -35,26 +35,26 @@ const gsuiPopup = new class {
 	}
 
 	alert( title, msg, ok ) {
-		this._emptyCnt();
+		GSUI.empty( this.elCnt );
 		this.clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this._setOkCancelBtns( ok, false );
 		return this._open( "alert", title, msg );
 	}
 	confirm( title, msg, ok, cancel ) {
-		this._emptyCnt();
+		GSUI.empty( this.elCnt );
 		this.clWindow.remove( "gsuiPopup-noCancel" );
 		this.clWindow.add( "gsuiPopup-noText" );
 		this._setOkCancelBtns( ok, cancel );
 		return this._open( "confirm", title, msg );
 	}
 	prompt( title, msg, val, ok, cancel ) {
-		this._emptyCnt();
+		GSUI.empty( this.elCnt );
 		this.clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this._setOkCancelBtns( ok, cancel );
 		return this._open( "prompt", title, msg, val );
 	}
 	custom( obj ) {
-		this._emptyCnt();
+		GSUI.empty( this.elCnt );
 		this._fnSubmit = obj.submit || null;
 		this.clWindow.remove( "gsuiPopup-noText" );
 		this._setOkCancelBtns( obj.ok, obj.cancel || false );
@@ -69,18 +69,11 @@ const gsuiPopup = new class {
 		}
 	}
 
-	// private:,
+	// .........................................................................
 	_setOkCancelBtns( ok, cancel ) {
 		this.clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
 		this.elCancel.value = cancel || "Cancel";
 		this.elOk.value = ok || "Ok";
-	}
-	_emptyCnt() {
-		const elCnt = this.elCnt;
-
-		while ( elCnt.firstChild ) {
-			elCnt.firstChild.remove();
-		}
 	}
 	_open( type, title, msg, value ) {
 		this.type = type;
