@@ -11,7 +11,7 @@ class gsuiKeysforms extends gsuiSVGDefs {
 			rowH = 1 / ( size + 1 );
 
 		return arrKeys.map( k => {
-			const rect = gsuiSVGDefs.create( "rect" );
+			const rect = GSUI.createElementSVG( "rect" );
 
 			rect.setAttribute( "x", k.when );
 			rect.setAttribute( "y", ( size - k.key + min ) * rowH );

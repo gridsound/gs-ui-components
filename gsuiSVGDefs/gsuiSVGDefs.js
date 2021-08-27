@@ -3,13 +3,13 @@
 class gsuiSVGDefs {
 	static #id = 0
 	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`
-	#elDefs = gsuiSVGDefs.create( "defs" )
+	#elDefs = GSUI.createElementSVG( "defs" )
 	#defs = new Map()
 	#w = 0
 	#h = 0
 
 	constructor() {
-		const svg = gsuiSVGDefs.create( "svg" );
+		const svg = GSUI.createElementSVG( "svg" );
 
 		this.rootElement = svg;
 		Object.seal( this );
@@ -18,10 +18,6 @@ class gsuiSVGDefs {
 		svg.classList.add( "gsuiSVGDefs" );
 		svg.append( this.#elDefs );
 		document.body.prepend( svg );
-	}
-
-	static create( elem ) {
-		return GSUI.createElementSVG( elem );
 	}
 
 	setDefaultViewbox( w, h ) {
@@ -40,7 +36,7 @@ class gsuiSVGDefs {
 		if ( this.#defs.has( id ) ) {
 			console.error( `gsuiSVGDefs: ID "${ id }" already used` );
 		} else {
-			const g = gsuiSVGDefs.create( "g" );
+			const g = GSUI.createElementSVG( "g" );
 
 			g.id = `${ this.#idPref }${ id }`;
 			g.append( ...elems );
@@ -60,21 +56,20 @@ class gsuiSVGDefs {
 		g.append( ...elems );
 	}
 	createSVG( id ) {
-		const svg = gsuiSVGDefs.create( "svg" ),
-			use = gsuiSVGDefs.create( "use" ),
-			def = this.#defs.get( id ) || {},
-			viewBox = `0 0 ${ def.w || this.#w } ${ def.h || this.#h }`;
+		const def = this.#defs.get( id ) || {},
+			use = GSUI.createElementSVG( "use" ),
+			svg = GSUI.createElementSVG( "svg", {
+				preserveAspectRatio: "none",
+				viewBox: `0 0 ${ def.w || this.#w } ${ def.h || this.#h }`,
+			}, use );
 
 		svg.dataset.id = id;
 		use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#idPref }${ id }` );
-		svg.setAttribute( "viewBox", viewBox );
-		svg.setAttribute( "preserveAspectRatio", "none" );
-		svg.append( use );
 		return svg;
 	}
 	setSVGViewbox( svg, x, w ) {
 		const h = this.#defs.get( svg.dataset.id ).h;
 
-		svg.setAttribute( "viewBox", `${ x } 0 ${ w } ${ h }` );
+		GSUI.setAttribute( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
 	}
 }
