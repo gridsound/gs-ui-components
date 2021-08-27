@@ -50,8 +50,8 @@ class gsuiSlicer extends HTMLElement {
 		Object.seal( this );
 
 		if ( !defs ) {
-			document.body.prepend( GSUI.createElementNS( "svg", { id: "gsuiSlicer-waveDefs" },
-				GSUI.createElementNS( "defs" ),
+			document.body.prepend( GSUI.createElementSVG( "svg", { id: "gsuiSlicer-waveDefs" },
+				GSUI.createElementSVG( "defs" ),
 			) );
 			this.#waveDef.dataset.id = 1;
 		} else {

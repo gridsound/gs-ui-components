@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiPeriodicWave extends HTMLElement {
-	#svg = GSUI.createElementNS( "svg", { preserveAspectRatio: "none" },
-		GSUI.createElementNS( "polyline" )
+	#svg = GSUI.createElementSVG( "svg", { preserveAspectRatio: "none" },
+		GSUI.createElementSVG( "polyline" )
 	)
 
 	constructor() {

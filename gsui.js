@@ -104,21 +104,30 @@ const GSUI = Object.freeze( {
 
 	// .........................................................................
 	createElement( tag, attr, ...children ) {
-		return GSUI._createElement( document.createElement( tag ), attr, children );
+		return GSUI._createElement( "http://www.w3.org/1999/xhtml", tag, attr, children );
 	},
-	createElementNS( tag, attr, ...children ) {
-		return GSUI._createElement( document.createElementNS( "http://www.w3.org/2000/svg", tag ), attr, children );
+	createElementSVG( tag, attr, ...children ) {
+		return GSUI._createElement( "http://www.w3.org/2000/svg", tag, attr, children );
 	},
-	_createElement( el, attr, children ) {
+	_createElement( ns, tag, attr, children ) {
+		const el = document.createElementNS( ns, tag );
+
 		if ( attr ) {
 			Object.entries( attr ).forEach( ( [ attr, val ] ) => {
 				if ( val !== false && val !== null && val !== undefined ) {
-					el.setAttribute( attr, val === true ? "" : val );
+					el.setAttributeNS( null, attr, val === true ? "" : val );
 				}
 			} );
 		}
 		el.append( ...children.flat( 1 ).filter( Boolean ) );
 		return el;
+	},
+	setAttribute( el, attr, valBrut ) {
+		const val = arguments.length === 2 || valBrut;
+
+		val !== false && val !== null && val !== undefined
+			? el.setAttributeNS( null, attr, val === true ? "" : val )
+			: el.removeAttributeNS( null, attr );
 	},
 
 	// .........................................................................
@@ -153,13 +162,6 @@ const GSUI = Object.freeze( {
 	// .........................................................................
 	unselectText() {
 		window.getSelection().removeAllRanges();
-	},
-	setAttribute( el, attr, valBrut ) {
-		const val = arguments.length === 2 || valBrut;
-
-		val !== false && val !== null && val !== undefined
-			? el.setAttribute( attr, val === true ? "" : val )
-			: el.removeAttribute( attr );
 	},
 
 	// .........................................................................

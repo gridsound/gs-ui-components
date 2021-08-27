@@ -5,9 +5,9 @@ GSUI.setTemplate( "gsui-slider", () => [
 	GSUI.createElement( "div", { class: "gsuiSlider-line" },
 		GSUI.createElement( "div", { class: "gsuiSlider-lineColor" } ),
 	),
-	GSUI.createElementNS( "svg", { class: "gsuiSlider-svg" },
-		GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLine" } ),
-		GSUI.createElementNS( "circle", { class: "gsuiSlider-svgLineColor" } ),
+	GSUI.createElementSVG( "svg", { class: "gsuiSlider-svg" },
+		GSUI.createElementSVG( "circle", { class: "gsuiSlider-svgLine" } ),
+		GSUI.createElementSVG( "circle", { class: "gsuiSlider-svgLineColor" } ),
 	),
 	GSUI.createElement( "div", { class: "gsuiSlider-eventCatcher" } ),
 ] );

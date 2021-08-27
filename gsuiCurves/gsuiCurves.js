@@ -90,7 +90,7 @@ class gsuiCurves extends HTMLElement {
 			marks = [];
 
 		for ( let i = 0; i < nb; ++i ) {
-			const txt = document.createElementNS( "http://www.w3.org/2000/svg", "text" ),
+			const txt = GSUI.createElementSVG( "text" ),
 				Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) ),
 				x = i / nb * w | 0;
 
@@ -100,7 +100,7 @@ class gsuiCurves extends HTMLElement {
 			txt.textContent = Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k`;
 			marks.push( txt );
 			if ( i % 2 === 0 ) {
-				const rect = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );
+				const rect = GSUI.createElementSVG( "rect" );
 
 				rect.setAttribute( "x", x );
 				rect.setAttribute( "y", 0 );
@@ -117,7 +117,7 @@ class gsuiCurves extends HTMLElement {
 		this.#elements.marks.append( ...rects, ...marks );
 	}
 	#createPath( id, curve ) {
-		const path = document.createElementNS( "http://www.w3.org/2000/svg", "path" );
+		const path = GSUI.createElementSVG( "path" );
 
 		path.classList.add( "gsuiCurves-curve" );
 		path.dataset.id = id;

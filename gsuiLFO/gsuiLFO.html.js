@@ -52,7 +52,7 @@ GSUI.setTemplate( "gsui-lfo", () => {
 				].map( ( [ w, dots ] ) => (
 					GSUI.createElement( "label", { class: "gsuiLFO-btn gsuiLFO-typeBtn", title: w },
 						GSUI.createElement( "input", { class: "gsuiLFO-btnInput gsuiLFO-typeRadio", name: "gsuiLFO-type", type: "radio", value: w } ),
-						GSUI.createElementNS( "svg", { class: "gsuiLFO-btnIcon gsuiLFO-typeSVG", viewBox: "0 0 14 10" }, GSUI.createElementNS( "path", { d: dots } ) ),
+						GSUI.createElementSVG( "svg", { class: "gsuiLFO-btnIcon gsuiLFO-typeSVG", viewBox: "0 0 14 10" }, GSUI.createElementSVG( "path", { d: dots } ) ),
 					)
 				) )
 			),

@@ -3,8 +3,8 @@
 class gsuiDotline {
 	constructor() {
 		const root = document.createElement( "div" ),
-			svg = document.createElementNS( "http://www.w3.org/2000/svg", "svg" ),
-			polyline = document.createElementNS( "http://www.w3.org/2000/svg", "polyline" );
+			svg = GSUI.createElementSVG( "svg" ),
+			polyline = GSUI.createElementSVG( "polyline" );
 
 		this.rootElement = root;
 		this.oninput =

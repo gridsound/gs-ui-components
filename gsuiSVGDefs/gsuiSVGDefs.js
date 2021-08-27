@@ -21,7 +21,7 @@ class gsuiSVGDefs {
 	}
 
 	static create( elem ) {
-		return document.createElementNS( "http://www.w3.org/2000/svg", elem );
+		return GSUI.createElementSVG( elem );
 	}
 
 	setDefaultViewbox( w, h ) {
