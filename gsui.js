@@ -98,6 +98,9 @@ const GSUI = Object.freeze( {
 	setTemplate( tmpId, fn ) {
 		GSUI._templates.set( tmpId, fn );
 	},
+	hasTemplate( tmpId ) {
+		return GSUI._templates.has( tmpId );
+	},
 	getTemplate( tmpId, ...args ) {
 		return GSUI._templates.get( tmpId )( ...args );
 	},
@@ -123,8 +126,8 @@ const GSUI = Object.freeze( {
 	},
 	setAttribute( el, attr, val ) {
 		val !== false && val !== null && val !== undefined
-			? el.setAttributeNS( null, attr, val === true ? "" : val )
-			: el.removeAttributeNS( null, attr );
+			? el.setAttribute( attr, val === true ? "" : val )
+			: el.removeAttribute( attr );
 	},
 
 	// .........................................................................
