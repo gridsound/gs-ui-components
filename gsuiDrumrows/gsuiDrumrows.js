@@ -14,7 +14,7 @@ class gsuiDrumrows extends HTMLElement {
 		dataTransferType: "drumrow",
 		itemSelector: ".gsuiDrumrow",
 		handleSelector: ".gsuiDrumrow-grip",
-		parentSelector: ".gsuiDrumrows",
+		parentSelector: "gsui-drumrows",
 		onchange: this.#onreorderRows.bind( this ),
 	} )
 
