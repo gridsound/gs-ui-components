@@ -40,9 +40,7 @@ gsui-track.gsui-mute:nth-child( even ) {
 }
 .gsuiTrack-row > div {
 	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 100%;
+	inset: 0;
 	font-size: var( --gsuiTimewindow-pxperbeat );
 }
 
@@ -67,9 +65,8 @@ gsui-track.gsui-mute:nth-child( even ) {
 .gsuiTrack-name {
 	box-sizing: border-box;
 	position: absolute;
-	top: 0;
+	inset: 0;
 	width: 100%;
-	height: 100%;
 	border: 0;
 	outline: 0;
 	padding-right: 10px;

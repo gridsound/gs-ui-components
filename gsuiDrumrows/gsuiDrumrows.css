@@ -57,9 +57,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-main {
 	position: absolute;
 	box-sizing: border-box;
-	top: 0;
-	left: var( --grip-w );
-	right: 0;
+	inset: 0 0 auto var( --grip-w );
 	height: 1em;
 	min-height: 1em;
 	border-bottom: 1px dashed var( --gsuiDrumrow-border );
@@ -74,10 +72,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	top: 1em;
-	left: var( --grip-w );
-	right: 0;
-	bottom: 0;
+	inset: 1em 0 0 var( --grip-w );
 }
 .gsuiDrumrow-prop {
 	outline: 0;
@@ -123,9 +118,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-grip {
 	position: absolute;
 	width: var( --grip-w );
-	top: 0;
-	left: 0;
-	bottom: 0;
+	inset: 0 auto 0 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -139,10 +132,9 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 }
 .gsuiDrumrow-btnToggle {
 	position: absolute;
-	left: 0;
+	inset: 0 auto auto 0;
 	width: var( --toggle-w );
 	height: var( --name-h );
-	top: 0;
 	border: 0;
 	outline: 0;
 	padding: 0;
@@ -154,9 +146,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 }
 .gsuiDrumrow-name {
 	position: absolute;
-	top: 0;
-	left: var( --toggle-w );
-	right: calc( var( --delete-w ) + var( --propsExpand-w ) + 6px );
+	inset: 0 calc( var( --delete-w ) + var( --propsExpand-w ) + 6px ) auto var( --toggle-w );
 	height: var( --name-h );
 	line-height: var( --name-h );
 	overflow: hidden;
@@ -176,15 +166,12 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-waveWrap {
 	position: absolute;
 	overflow: hidden;
-	top: var( --name-h );
-	left: 0;
-	right: calc( var( --slider-w ) * 3 + 8px );
-	bottom: 0;
+	inset: var( --name-h ) calc( var( --slider-w ) * 3 + 8px ) 0 0;
 	pointer-events: none;
 }
 .gsuiDrumrow-wave {
 	position: absolute;
-	top: 0;
+	inset: 0 auto auto 0;
 	width: 100%;
 	height: 100%;
 	fill: currentColor;
@@ -192,8 +179,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 }
 .gsuiDrumrow-startCursor {
 	position: absolute;
-	top: 0;
-	left: 0;
+	inset: 0 auto auto 0;
 	width: 100%;
 	height: 100%;
 	border-right: 2px solid;
@@ -217,15 +203,11 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-gain {
 	--gsuiSlider-lineBgColor: var( --gsuiDrumrow-slider-bg );
 	position: absolute;
-	top: var( --name-h );
+	inset: var( --name-h ) auto 2px;
 	width: var( --slider-w );
-	bottom: 2px;
 }
 .gsuiDrumrow .gsuiSlider-eventCatcher {
-	top: -2px;
-	left: -2px;
-	right: -2px;
-	bottom: -2px;
+	inset: -2px;
 }
 .gsuiDrumrow-detune {
 	--gsuiSlider-lineColor: var( --gsuiDrumrow-detune );
@@ -243,10 +225,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 /* .......................................................................... */
 .gsuiDrumrow .gsuiDrumrows-drop {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 }
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrows-drop {
 	opacity: 1;

@@ -17,10 +17,7 @@ gsui-drums .gsuiTimewindow-step {
 .gsuiDrums-shadow {
 	position: absolute;
 	z-index: 1;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 	background-color: var( --gsuiDrums-shadow-bg );
 	opacity: 0;
 	visibility: hidden;
@@ -55,9 +52,7 @@ gsui-drums .gsuiTimewindow-step {
 }
 .gsuiDrums-lineDrums {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+	inset: 0;
 	height: 1em;
 }
 .gsuiDrums-lineIn {
@@ -69,10 +64,7 @@ gsui-drums .gsuiTimewindow-step {
 }
 .gsuiDrums-lineProps {
 	position: absolute;
-	top: 1em;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 1em 0 0;
 }
 
 /* .......................................................................... */

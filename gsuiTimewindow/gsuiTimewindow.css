@@ -60,7 +60,7 @@ gsui-timewindow::-webkit-scrollbar {
 .gsuiTimewindow-panelContentDown,
 .gsuiTimewindow-contentDown {
 	position: sticky;
-	bottom: 0px;
+	bottom: 0;
 	height: 96px;
 	overflow: hidden;
 	background-color: var( --gsuiTimewindow-bg );
@@ -75,16 +75,12 @@ gsui-timewindow::-webkit-scrollbar {
 	position: absolute;
 }
 .gsuiTimewindow-panelExtendX {
-	left: 0;
-	right: 0;
-	top: -2px;
+	inset: -2px 0 auto;
 	height: 6px;
 	cursor: ns-resize;
 }
 .gsuiTimewindow-panelExtendY {
-	top: 0;
-	bottom: 0;
-	right: -2px;
+	inset: 0 -2px 0 auto;
 	width: 6px;
 	cursor: ew-resize;
 }
@@ -97,8 +93,7 @@ gsui-timewindow gsui-timeline {
 .gsuiTimewindow-loop {
 	position: absolute;
 	z-index: 1;
-	top: 0;
-	bottom: 0;
+	inset: 0 auto;
 	pointer-events: none;
 }
 .gsuiTimewindow-currentTime {

@@ -23,10 +23,7 @@ gsui-window:focus-within {
 }
 .gsuiWindow-maximized {
 	--gsuiWindow-radius: 0;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 	overflow: hidden;
 }
 .gsuiWindow-handlers::before,
@@ -51,10 +48,7 @@ gsui-window:not( .gsuiWindow-dragging ):focus-within,
 .gsuiWindow-handlers {
 	position: absolute;
 	opacity: 0;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 	margin: calc( var( --gsuiWindow-handler-width ) * -1 );
 }
 .gsuiWindow-handlers::before {
@@ -63,10 +57,7 @@ gsui-window:not( .gsuiWindow-dragging ):focus-within,
 	position: absolute;
 	pointer-events: none;
 	border-radius: var( --gsuiWindow-radius );
-	top: var( --gsuiWindow-handler-width );
-	left: var( --gsuiWindow-handler-width );
-	right: var( --gsuiWindow-handler-width );
-	bottom: var( --gsuiWindow-handler-width );
+	inset: var( --gsuiWindow-handler-width );
 }
 .gsuiWindow-dragging .gsuiWindow-handlers {
 	opacity: 1;
@@ -93,19 +84,15 @@ gsui-window:not( .gsuiWindow-dragging ):focus-within,
 .gsuiWindow-wrap {
 	position: absolute;
 	overflow: hidden;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 	border-radius: inherit;
 }
 .gsuiWindow-head {
 	display: flex;
 	position: absolute;
-	top: 0;
-	width: 100%;
-	font-size: 16px;
+	inset: 0;
 	height: var( --gsuiWindow-head-height );
+	font-size: 16px;
 	background-color: var( --gsuiWindow-head-bg );
 	user-select: none;
 	-webkit-user-select: none;
@@ -119,9 +106,7 @@ gsui-window:not( .gsuiWindow-dragging ):focus-within,
 .gsuiWindow-content {
 	position: absolute;
 	overflow: auto;
-	width: 100%;
-	bottom: 0;
-	top: var( --gsuiWindow-head-height );
+	inset: var( --gsuiWindow-head-height ) 0 0;
 	background-color: var( --gsuiWindow-bg );
 	background-image: var( --gsuiWindow-bgImg );
 }

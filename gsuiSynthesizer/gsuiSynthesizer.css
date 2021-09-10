@@ -81,12 +81,9 @@ gsui-synthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
 	opacity: .6;
 }
 .gsuiSynthesizer-newOsc::before {
+	position: absolute;
 	content: "";
-	top: 6px;
-	left: 6px;
-	right: 6px;
-	bottom: 6px;
+	inset: 6px;
 	opacity: .4;
 	border: 2px dashed;
-	position: absolute;
 }

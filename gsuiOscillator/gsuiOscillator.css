@@ -44,10 +44,7 @@ gsui-oscillator {
 }
 .gsuiOscillator-sliderValue {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -99,8 +96,7 @@ gsui-oscillator {
 }
 .gsuiOscillator-remove {
 	position: absolute;
-	top: 0;
-	right: 2px;
+	inset: 0 2px auto auto;
 	outline: 0;
 	font-size: 12px;
 	background: none;

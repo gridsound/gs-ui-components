@@ -22,10 +22,8 @@
 /* .......................................................................... */
 .gsuiPatterns-pattern-grip {
 	position: absolute;
+	inset: 0;
 	width: calc( var( --gsuiPatterns-pattern-grip-w ) - 2px );
-	top: 0;
-	left: 0;
-	bottom: 0;
 	cursor: grab;
 	font-size: 14px;
 	text-align: center;
@@ -35,12 +33,10 @@
 
 /* .......................................................................... */
 .gsuiPatterns-pattern-head {
-	position: absolute;
-	left: var( --gsuiPatterns-pattern-grip-w );
-	top: 0;
-	right: 0;
 	display: flex;
 	box-sizing: border-box;
+	position: absolute;
+	inset: 0 0 auto var( --gsuiPatterns-pattern-grip-w );
 	height: var( --gsuiPatterns-pattern-head-h );
 	line-height: var( --gsuiPatterns-pattern-head-h );
 	background-color: var( --gsuiPatterns-pattern-head-bg );
@@ -94,10 +90,7 @@
 .gsuiPatterns-pattern-content,
 .gsuiPatterns-pattern-placeholder {
 	position: absolute;
-	top: var( --gsuiPatterns-pattern-head-h );
-	left: var( --gsuiPatterns-pattern-grip-w );
-	right: 0;
-	bottom: 0;
+	inset: var( --gsuiPatterns-pattern-head-h ) 0 0 var( --gsuiPatterns-pattern-grip-w );
 	pointer-events: none;
 }
 .gsuiPatterns-pattern-content:empty {
@@ -108,8 +101,7 @@
 }
 .gsuiPatterns-pattern-svg {
 	position: absolute;
-	top: 0;
-	left: 0;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	opacity: .8;
