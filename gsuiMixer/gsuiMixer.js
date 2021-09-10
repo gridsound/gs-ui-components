@@ -40,11 +40,8 @@ class gsuiMixer extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			const pan = this.#elements.pchans;
-
 			this.append( ...this.#children );
 			this.#children = null;
-			pan.style.bottom = `${ pan.clientHeight - pan.offsetHeight }px`;
 		}
 		this.#attached = true;
 		GSUI.observeSizeOf( this, this.#onresizeBind );

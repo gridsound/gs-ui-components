@@ -20,6 +20,10 @@ gsui-mixer {
 	display: grid;
 	grid-auto-flow: column;
 	grid-auto-columns: min-content;
+	scrollbar-width: none;
+}
+.gsuiMixer-panChannels::-webkit-scrollbar {
+	display: none;
 }
 .gsuiMixer-panChannels::after {
 	order: 2147483647;
