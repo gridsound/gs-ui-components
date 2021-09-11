@@ -62,7 +62,7 @@ gsui-timeline {
 	display: flex;
 	content: counter( beat );
 	position: absolute;
-	inset: 0;
+	inset: 0 auto;
 	width: 52px;
 	margin-left: -26px;
 	align-items: center;
