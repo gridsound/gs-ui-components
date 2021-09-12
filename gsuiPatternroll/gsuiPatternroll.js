@@ -2,7 +2,7 @@
 
 class gsuiPatternroll extends HTMLElement {
 	#rowsByTrackId = new Map()
-	#tracklist = new gsuiTracklist()
+	#tracklist = GSUI.createElement( "gsui-tracklist" )
 	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } )
 	#win = GSUI.createElement( "gsui-timewindow", {
 		panelsize: 90,
@@ -54,7 +54,7 @@ class gsuiPatternroll extends HTMLElement {
 			this.classList.add( "gsuiBlocksManager" );
 			GSUI.setAttribute( this, "tabindex", -1 );
 			this.append( this.#win );
-			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist.rootElement );
+			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist );
 			this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
 			this.#win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this.#drop.bind( this );
 			this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
