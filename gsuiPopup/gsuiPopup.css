@@ -1,4 +1,4 @@
-#gsuiPopup {
+gsui-popup {
 	display: flex;
 	position: fixed;
 	align-items: center;
@@ -11,12 +11,12 @@
 	transition: var( --gsuiPopup-dur );
 	transition-property: visibility, opacity;
 }
-#gsuiPopup:not( .gsuiPopup-show ) {
+gsui-popup:not( .gsuiPopup-show ) {
 	opacity: 0;
 	visibility: hidden;
 }
 
-#gsuiPopupWindow {
+.gsuiPopup-window {
 	overflow: hidden;
 	min-width: var( --gsuiPopup-minWidth );
 	border-radius: var( --gsuiPopup-radius );
@@ -24,69 +24,69 @@
 	outline: 0;
 	box-shadow: 0 0 50px #000;
 }
-#gsuiPopupWindow:focus-within {
+.gsuiPopup-window:focus-within {
 	box-shadow:
 		0 0 1px 2px #69b,
 		0 0 50px #000;
 }
-.gsuiPopup-noCancel #gsuiPopupCancel,
-.gsuiPopup-noText #gsuiPopupInputText {
+.gsuiPopup-noCancel .gsuiPopup-cancel,
+.gsuiPopup-noText .gsuiPopup-inputText {
 	display: none;
 }
 
-#gsuiPopupHead {
+.gsuiPopup-head {
 	padding: var( --gsuiPopup-padding );
 	font-size: var( --gsuiPopup-header-fontSize );
 	background-color: var( --gsuiPopup-header-bg );
 }
-#gsuiPopupBody {
+.gsuiPopup-body {
 	font-size: var( --gsuiPopup-body-fontSize );
 	padding: var( --gsuiPopup-padding );
 }
-#gsuiPopupContent:not( :empty ) + #gsuiPopupMessage,
-#gsuiPopupContent:not( :empty ) ~ input {
+.gsuiPopup-content:not( :empty ) + .gsuiPopup-message,
+.gsuiPopup-content:not( :empty ) ~ input {
 	display: none;
 }
 
-#gsuiPopupInputText,
-#gsuiPopupBtns input {
+.gsuiPopup-inputText,
+.gsuiPopup-btns input {
 	padding: .6em 1.25em;
 	border: 0;
 	border-radius: 2px;
 }
-#gsuiPopupWindow input,
-#gsuiPopupWindow select {
+.gsuiPopup-window input,
+.gsuiPopup-window select {
 	outline: 0;
 }
-#gsuiPopupWindow input:focus,
-#gsuiPopupWindow select:focus {
+.gsuiPopup-window input:focus,
+.gsuiPopup-window select:focus {
 	box-shadow: 0 0 1px 2px #69b;
 }
-#gsuiPopupInputText {
+.gsuiPopup-inputText {
 	box-sizing: border-box;
 	margin-top: var( --gsuiPopup-padding );
 	padding: .6em;
 	width: 100%;
 	font-size: 18px;
 }
-#gsuiPopupBtns {
+.gsuiPopup-btns {
 	margin-top: var( --gsuiPopup-padding );
 	text-align: center;
 }
-#gsuiPopupBtns input {
+.gsuiPopup-btns input {
 	color: #fff;
 	font-weight: bold;
 	font-family: inherit;
 	background-color: var( --gsuiPopup-btn-bg );
 	cursor: pointer;
 }
-#gsuiPopupBtns input + input {
+.gsuiPopup-btns input + input {
 	margin-left: var( --gsuiPopup-padding );
 }
-#gsuiPopupBtns #gsuiPopupOk {
+.gsuiPopup-btns .gsuiPopup-ok {
 	background-color: var( --gsuiPopup-btnOk-bg );
 }
-#gsuiPopupWindow input[ type="text" ] {
+.gsuiPopup-window input[ type="text" ] {
 	color: #fff;
 	background-color: rgba( 255, 255, 255, .1 );
 }

@@ -1,28 +1,28 @@
 "use strict";
 
-const gsuiPopup = new class {
+class gsuiPopup extends HTMLElement {
 	#type = ""
 	#isOpen = false
 	#resolve = null
 	#fnSubmit = null
 	#children = GSUI.getTemplate( "gsui-popup" )
 	#elements = GSUI.findElements( this.#children, {
-		ok: "#gsuiPopupOk",
-		cnt: "#gsuiPopupContent",
-		msg: "#gsuiPopupMessage",
-		text: "#gsuiPopupInputText",
-		form: "#gsuiPopupBody",
-		window: "#gsuiPopupWindow",
-		header: "#gsuiPopupHead",
-		cancel: "#gsuiPopupCancel",
+		ok: ".gsuiPopup-ok",
+		cnt: ".gsuiPopup-content",
+		msg: ".gsuiPopup-message",
+		text: ".gsuiPopup-inputText",
+		form: ".gsuiPopup-body",
+		window: ".gsuiPopup-window",
+		header: ".gsuiPopup-head",
+		cancel: ".gsuiPopup-cancel",
 	} )
 	#clWindow = this.#elements.window.classList
 
 	constructor() {
-		this.rootElement = this.#children;
+		super();
 		Object.seal( this );
 
-		this.rootElement.onclick =
+		this.onclick =
 		this.#elements.cancel.onclick = this.#cancelClick.bind( this );
 		this.#elements.form.onsubmit = this.#submit.bind( this );
 		this.#elements.window.onkeyup =
@@ -33,7 +33,13 @@ const gsuiPopup = new class {
 				this.#cancelClick();
 			}
 		};
-		document.body.append( this.#children );
+	}
+
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.append( this.#children );
+			this.#children = null;
+		}
 	}
 
 	// .........................................................................
@@ -63,12 +69,12 @@ const gsuiPopup = new class {
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false );
 		obj.element
 			? this.#elements.cnt.append( obj.element )
-			: Element.prototype.append.apply( this.#elements.cnt, obj.elements );
+			: this.#elements.cnt.append( ...obj.elements );
 		return this.#open( "custom", obj.title );
 	}
 	close() {
 		if ( this.#isOpen ) {
-			this.#elements.cancel.click();
+			this.#cancelClick();
 		}
 	}
 
@@ -85,7 +91,7 @@ const gsuiPopup = new class {
 		this.#elements.msg.innerHTML = msg || "";
 		this.#elements.text.value = arguments.length > 3 ? value : "";
 		this.#elements.window.dataset.type = type;
-		this.rootElement.classList.add( "gsuiPopup-show" );
+		this.classList.add( "gsuiPopup-show" );
 		setTimeout( () => {
 			if ( type === "prompt" ) {
 				this.#elements.text.select();
@@ -99,7 +105,7 @@ const gsuiPopup = new class {
 		return new Promise( res => this.#resolve = res )
 			.then( val => {
 				this.#isOpen = false;
-				this.rootElement.classList.remove( "gsuiPopup-show" );
+				this.classList.remove( "gsuiPopup-show" );
 				return val;
 			} );
 	}
@@ -156,4 +162,8 @@ const gsuiPopup = new class {
 			}
 		}
 	}
-}();
+}
+
+Object.freeze( gsuiPopup );
+
+customElements.define( "gsui-popup", gsuiPopup );
