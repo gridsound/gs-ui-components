@@ -27,7 +27,7 @@ class gsuiPatterns extends HTMLElement {
 		delete: id => {
 			elements.synthList.children.length > 1
 				? this.onchange( "removeSynth", id )
-				: gsuiPopup.alert( "Error", "You have to keep at least one synthesizer" );
+				: GSUI.popup.alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} )
 
@@ -112,7 +112,7 @@ class gsuiPatterns extends HTMLElement {
 		const currChanId = e.target.dataset.id;
 
 		gsuiPatterns.selectChanPopupSelect.value = currChanId;
-		gsuiPopup.custom( {
+		GSUI.popup.custom( {
 			title: "Channels",
 			element: gsuiPatterns.selectChanPopupContent,
 			submit: data => {

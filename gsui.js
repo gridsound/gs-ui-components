@@ -3,6 +3,7 @@
 const GSUI = Object.freeze( {
 
 	noop() {},
+	popup: document.createElement( "gsui-popup" ),
 	dragshield: document.createElement( "gsui-dragshield" ),
 
 	// .........................................................................
@@ -181,4 +182,4 @@ const GSUI = Object.freeze( {
 	},
 } );
 
-document.body.prepend( GSUI.dragshield );
+document.body.prepend( GSUI.dragshield, GSUI.popup );
