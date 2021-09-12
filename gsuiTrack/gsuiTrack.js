@@ -1,13 +1,12 @@
 "use strict";
 
 class gsuiTrack extends HTMLElement {
-	constructor() {
-		const children = GSUI.getTemplate( "gsui-track" );
+	rowElement = GSUI.getTemplate( "gsui-track-row" )
+	#children = GSUI.getTemplate( "gsui-track" )
+	#inpName = this.#children[ 1 ].firstChild
 
+	constructor() {
 		super();
-		this.rowElement = GSUI.getTemplate( "gsui-track-row" );
-		this._children = children;
-		this._inpName = children[ 1 ].firstChild;
 		Object.seal( this );
 	}
 
@@ -15,8 +14,8 @@ class gsuiTrack extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsui-mute" );
-			this.append( ...this._children );
-			this._children = null;
+			this.append( ...this.#children );
+			this.#children = null;
 		}
 	}
 	static get observedAttributes() {
@@ -30,15 +29,17 @@ class gsuiTrack extends HTMLElement {
 					this.rowElement.classList.toggle( "gsui-mute", val === null );
 					break;
 				case "name":
-					this._inpName.value = val;
+					this.#inpName.value = val;
 					break;
 				case "order":
 					this.dataset.order = val;
-					this._inpName.placeholder = `track ${ +val + 1 }`;
+					this.#inpName.placeholder = `track ${ +val + 1 }`;
 					break;
 			}
 		}
 	}
 }
+
+Object.freeze( gsuiTrack );
 
 customElements.define( "gsui-track", gsuiTrack );
