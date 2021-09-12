@@ -25,7 +25,7 @@ class gsuiPatterns extends HTMLElement {
 			this.expandSynth( id, true );
 		},
 		delete: id => {
-			elements.synthList.children.length > 1
+			this.#elements.synthList.children.length > 1
 				? this.onchange( "removeSynth", id )
 				: GSUI.popup.alert( "Error", "You have to keep at least one synthesizer" );
 		},
@@ -265,7 +265,7 @@ class gsuiPatterns extends HTMLElement {
 gsuiPatterns.selectChanPopupSelect = GSUI.createElement( "select", { id: "gsuiPatterns-selectChanPopupSelect", size: 8, name: "channel" } );
 gsuiPatterns.selectChanPopupContent = (
 	GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-selectChanPopupContent" },
-		GSUI.createElement( "fieldset",
+		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Select a channel" ),
 			gsuiPatterns.selectChanPopupSelect,
 		),
