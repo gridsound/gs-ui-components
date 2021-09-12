@@ -46,7 +46,7 @@ const GSUI = Object.freeze( {
 	findElements( root, graph ) {
 		return typeof graph === "string"
 			? GSUI._findElemStr( root, graph )
-			: Object.freeze( Array.isArray( graph )
+			: Object.seal( Array.isArray( graph )
 				? GSUI._findElemArr( root, graph )
 				: GSUI._findElemObj( root, graph ) );
 	},
