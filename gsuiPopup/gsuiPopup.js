@@ -1,6 +1,9 @@
 "use strict";
 
 const gsuiPopup = new class {
+	#type = ""
+	#isOpen = false
+	#resolve = null
 	#fnSubmit = null
 	#children = GSUI.getTemplate( "gsui-popup" )
 	#elements = GSUI.findElements( this.#children, {
@@ -13,13 +16,10 @@ const gsuiPopup = new class {
 		header: "#gsuiPopupHead",
 		cancel: "#gsuiPopupCancel",
 	} )
+	#clWindow = this.#elements.window.classList
 
 	constructor() {
 		this.rootElement = this.#children;
-		this.clWindow = this.#elements.window.classList;
-		this.type = "";
-		this.isOpen = false;
-		this.resolve = null;
 		Object.seal( this );
 
 		this.rootElement.onclick =
@@ -39,27 +39,27 @@ const gsuiPopup = new class {
 	// .........................................................................
 	alert( title, msg, ok ) {
 		GSUI.empty( this.#elements.cnt );
-		this.clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
+		this.#clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, false );
 		return this.#open( "alert", title, msg );
 	}
 	confirm( title, msg, ok, cancel ) {
 		GSUI.empty( this.#elements.cnt );
-		this.clWindow.remove( "gsuiPopup-noCancel" );
-		this.clWindow.add( "gsuiPopup-noText" );
+		this.#clWindow.remove( "gsuiPopup-noCancel" );
+		this.#clWindow.add( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "confirm", title, msg );
 	}
 	prompt( title, msg, val, ok, cancel ) {
 		GSUI.empty( this.#elements.cnt );
-		this.clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
+		this.#clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "prompt", title, msg, val );
 	}
 	custom( obj ) {
 		GSUI.empty( this.#elements.cnt );
 		this.#fnSubmit = obj.submit || null;
-		this.clWindow.remove( "gsuiPopup-noText" );
+		this.#clWindow.remove( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false );
 		obj.element
 			? this.#elements.cnt.append( obj.element )
@@ -67,20 +67,20 @@ const gsuiPopup = new class {
 		return this.#open( "custom", obj.title );
 	}
 	close() {
-		if ( this.isOpen ) {
+		if ( this.#isOpen ) {
 			this.#elements.cancel.click();
 		}
 	}
 
 	// .........................................................................
 	#setOkCancelBtns( ok, cancel ) {
-		this.clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
+		this.#clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
 		this.#elements.cancel.value = cancel || "Cancel";
 		this.#elements.ok.value = ok || "Ok";
 	}
 	#open( type, title, msg, value ) {
-		this.type = type;
-		this.isOpen = true;
+		this.#type = type;
+		this.#isOpen = true;
 		this.#elements.header.textContent = title;
 		this.#elements.msg.innerHTML = msg || "";
 		this.#elements.text.value = arguments.length > 3 ? value : "";
@@ -96,23 +96,23 @@ const gsuiPopup = new class {
 				( inp || this.#elements.ok ).focus();
 			}
 		}, 250 );
-		return new Promise( res => this.resolve = res )
+		return new Promise( res => this.#resolve = res )
 			.then( val => {
-				this.isOpen = false;
+				this.#isOpen = false;
 				this.rootElement.classList.remove( "gsuiPopup-show" );
 				return val;
 			} );
 	}
 	#cancelClick() {
-		this.resolve(
-			this.type === "confirm" ? false :
-			this.type === "prompt" ? null : undefined );
+		this.#resolve(
+			this.#type === "confirm" ? false :
+			this.#type === "prompt" ? null : undefined );
 	}
 	#submit() {
-		switch ( this.type ) {
-			case "alert": this.resolve( undefined ); break;
-			case "prompt": this.resolve( this.#elements.text.value ); break;
-			case "confirm": this.resolve( true ); break;
+		switch ( this.#type ) {
+			case "alert": this.#resolve( undefined ); break;
+			case "prompt": this.#resolve( this.#elements.text.value ); break;
+			case "confirm": this.#resolve( true ); break;
 			case "custom": this.#submitCustom(); break;
 		}
 		return false;
@@ -141,7 +141,7 @@ const gsuiPopup = new class {
 			}, {} );
 
 		if ( !fn ) {
-			this.resolve( obj );
+			this.#resolve( obj );
 		} else {
 			const fnRes = fn( obj );
 
@@ -149,10 +149,10 @@ const gsuiPopup = new class {
 				fnRes && fnRes.then
 					? fnRes.then( res => {
 						if ( res !== false ) {
-							this.resolve( obj );
+							this.#resolve( obj );
 						}
 					} )
-					: this.resolve( obj );
+					: this.#resolve( obj );
 			}
 		}
 	}
