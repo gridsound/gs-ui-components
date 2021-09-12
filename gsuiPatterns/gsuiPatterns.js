@@ -1,15 +1,6 @@
 "use strict";
 
 class gsuiPatterns extends HTMLElement {
-	#children = GSUI.getTemplate( "gsui-patterns" )
-	#elements = GSUI.findElements( this.#children, {
-		bufferList: ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list",
-		drumsList: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
-		synthList: ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list",
-		newDrums: "[data-action='newDrums']",
-		newSynth: "[data-action='newSynth']",
-	} )
-	#nlKeysLists = this.#elements.synthList.getElementsByClassName( "gsuiPatterns-synth-patterns" )
 	#fnsPattern = Object.freeze( {
 		clone: id => this.onchange( "clonePattern", id ),
 		remove: id => this.onchange( "removePattern", id ),
@@ -30,6 +21,22 @@ class gsuiPatterns extends HTMLElement {
 				: GSUI.popup.alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} )
+	#children = GSUI.getTemplate( "gsui-patterns" )
+	#elements = GSUI.findElements( this.#children, {
+		bufferList: ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list",
+		drumsList: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
+		synthList: ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list",
+		newDrums: "[data-action='newDrums']",
+		newSynth: "[data-action='newSynth']",
+	} )
+	#nlKeysLists = this.#elements.synthList.getElementsByClassName( "gsuiPatterns-synth-patterns" )
+	static selectChanPopupSelect = GSUI.createElement( "select", { id: "gsuiPatterns-selectChanPopupSelect", size: 8, name: "channel" } )
+	static selectChanPopupContent = GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-selectChanPopupContent" },
+		GSUI.createElement( "fieldset", null,
+			GSUI.createElement( "legend", null, "Select a channel" ),
+			gsuiPatterns.selectChanPopupSelect,
+		),
+	)
 
 	constructor() {
 		super();
@@ -261,16 +268,6 @@ class gsuiPatterns extends HTMLElement {
 		}
 	}
 }
-
-gsuiPatterns.selectChanPopupSelect = GSUI.createElement( "select", { id: "gsuiPatterns-selectChanPopupSelect", size: 8, name: "channel" } );
-gsuiPatterns.selectChanPopupContent = (
-	GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-selectChanPopupContent" },
-		GSUI.createElement( "fieldset", null,
-			GSUI.createElement( "legend", null, "Select a channel" ),
-			gsuiPatterns.selectChanPopupSelect,
-		),
-	)
-);
 
 Object.freeze( gsuiPatterns );
 customElements.define( "gsui-patterns", gsuiPatterns );
