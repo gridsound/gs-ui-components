@@ -41,5 +41,4 @@ class gsuiTrack extends HTMLElement {
 }
 
 Object.freeze( gsuiTrack );
-
 customElements.define( "gsui-track", gsuiTrack );

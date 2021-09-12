@@ -105,5 +105,4 @@ class gsuiPanels extends HTMLElement {
 }
 
 Object.freeze( gsuiPanels );
-
 customElements.define( "gsui-panels", gsuiPanels );

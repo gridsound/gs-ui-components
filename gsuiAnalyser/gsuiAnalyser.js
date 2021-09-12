@@ -55,4 +55,5 @@ class gsuiAnalyser extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiAnalyser );
 customElements.define( "gsui-analyser", gsuiAnalyser );

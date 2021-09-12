@@ -234,4 +234,5 @@ class gsuiTimewindow extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiTimewindow );
 customElements.define( "gsui-timewindow", gsuiTimewindow );

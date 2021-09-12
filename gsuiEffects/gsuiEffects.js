@@ -149,4 +149,5 @@ class gsuiEffects extends HTMLElement {
 
 gsuiEffects.fxsMap = new Map();
 
+Object.freeze( gsuiEffects );
 customElements.define( "gsui-effects", gsuiEffects );

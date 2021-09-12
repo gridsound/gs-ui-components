@@ -98,6 +98,5 @@ class gsuiWindows extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-windows", gsuiWindows );
-
 Object.freeze( gsuiWindows );
+customElements.define( "gsui-windows", gsuiWindows );

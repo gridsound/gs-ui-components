@@ -404,6 +404,5 @@ class gsuiPianoroll extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-pianoroll", gsuiPianoroll );
-
 Object.freeze( gsuiPianoroll );
+customElements.define( "gsui-pianoroll", gsuiPianoroll );

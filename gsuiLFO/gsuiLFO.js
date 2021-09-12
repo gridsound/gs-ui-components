@@ -170,6 +170,5 @@ class gsuiLFO extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-lfo", gsuiLFO );
-
 Object.freeze( gsuiLFO );
+customElements.define( "gsui-lfo", gsuiLFO );

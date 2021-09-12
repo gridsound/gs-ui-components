@@ -39,4 +39,5 @@ class gsuiBeatlines extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiBeatlines );
 customElements.define( "gsui-beatlines", gsuiBeatlines );

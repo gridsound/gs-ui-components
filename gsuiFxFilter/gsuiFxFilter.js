@@ -142,6 +142,7 @@ gsuiFxFilter.typeGainQ = Object.freeze( {
 	allpass:   Object.freeze( { gain: false, q: true } ),
 } );
 
+Object.freeze( gsuiFxFilter );
 customElements.define( "gsui-fx-filter", gsuiFxFilter );
 
 if ( typeof gsuiEffects !== "undefined" ) {

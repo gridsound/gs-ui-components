@@ -181,6 +181,5 @@ class gsuiOscillator extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-oscillator", gsuiOscillator );
-
 Object.freeze( gsuiOscillator );
+customElements.define( "gsui-oscillator", gsuiOscillator );

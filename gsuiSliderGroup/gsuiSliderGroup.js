@@ -249,4 +249,5 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiSliderGroup );
 customElements.define( "gsui-slidergroup", gsuiSliderGroup );

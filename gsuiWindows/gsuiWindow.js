@@ -389,6 +389,5 @@ class gsuiWindow extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-window", gsuiWindow );
-
 Object.freeze( gsuiWindow );
+customElements.define( "gsui-window", gsuiWindow );

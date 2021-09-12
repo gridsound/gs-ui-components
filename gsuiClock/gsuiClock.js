@@ -134,5 +134,4 @@ class gsuiClock extends HTMLElement {
 }
 
 Object.seal( gsuiClock );
-
 customElements.define( "gsui-clock", gsuiClock );

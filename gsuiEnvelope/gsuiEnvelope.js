@@ -140,6 +140,5 @@ class gsuiEnvelope extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-envelope", gsuiEnvelope );
-
 Object.freeze( gsuiEnvelope );
+customElements.define( "gsui-envelope", gsuiEnvelope );

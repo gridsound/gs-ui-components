@@ -84,6 +84,5 @@ class gsuiTracklist extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-tracklist", gsuiTracklist );
-
 Object.freeze( gsuiTracklist );
+customElements.define( "gsui-tracklist", gsuiTracklist );

@@ -279,4 +279,5 @@ class gsuiDrumrows extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiDrumrows );
 customElements.define( "gsui-drumrows", gsuiDrumrows );

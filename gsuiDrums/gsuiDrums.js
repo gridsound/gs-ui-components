@@ -348,4 +348,5 @@ class gsuiDrums extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiDrums );
 customElements.define( "gsui-drums", gsuiDrums );

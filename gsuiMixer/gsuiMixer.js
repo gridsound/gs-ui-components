@@ -189,5 +189,4 @@ class gsuiMixer extends HTMLElement {
 }
 
 Object.freeze( gsuiMixer );
-
 customElements.define( "gsui-mixer", gsuiMixer );

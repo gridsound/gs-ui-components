@@ -165,5 +165,4 @@ class gsuiPopup extends HTMLElement {
 }
 
 Object.freeze( gsuiPopup );
-
 customElements.define( "gsui-popup", gsuiPopup );

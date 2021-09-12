@@ -138,4 +138,5 @@ class gsuiCurves extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiCurves );
 customElements.define( "gsui-curves", gsuiCurves );

@@ -366,4 +366,5 @@ class gsuiTimeline extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiTimeline );
 customElements.define( "gsui-timeline", gsuiTimeline );

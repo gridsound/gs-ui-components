@@ -271,8 +271,7 @@ class gsuiSlider extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-slider", gsuiSlider );
-
 Object.seal( gsuiSlider );
+customElements.define( "gsui-slider", gsuiSlider );
 
 document.addEventListener( "pointerlockchange", gsuiSlider.pointerLockChange );

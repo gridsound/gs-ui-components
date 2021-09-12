@@ -79,4 +79,5 @@ class gsuiSynthesizer extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiSynthesizer );
 customElements.define( "gsui-synthesizer", gsuiSynthesizer );

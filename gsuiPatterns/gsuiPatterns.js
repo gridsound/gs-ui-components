@@ -273,7 +273,6 @@ gsuiPatterns.selectChanPopupContent = (
 );
 
 Object.freeze( gsuiPatterns );
-
 customElements.define( "gsui-patterns", gsuiPatterns );
 
 /*

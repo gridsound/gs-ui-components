@@ -96,11 +96,10 @@ class gsuiPeriodicWave extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-periodicwave", gsuiPeriodicWave );
-
 gsuiPeriodicWave.cache = {};
 
 Object.freeze( gsuiPeriodicWave );
+customElements.define( "gsui-periodicwave", gsuiPeriodicWave );
 
 gswaPeriodicWaves.list.forEach( ( w, name ) => {
 	gsuiPeriodicWave.addWave( name, w.real, w.imag );

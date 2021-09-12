@@ -401,6 +401,5 @@ class gsuiSlicer extends HTMLElement {
 	}
 }
 
-customElements.define( "gsui-slicer", gsuiSlicer );
-
 Object.freeze( gsuiSlicer );
+customElements.define( "gsui-slicer", gsuiSlicer );

@@ -13,4 +13,5 @@ class gsuiDragshield extends HTMLElement {
 	}
 }
 
+Object.freeze( gsuiDragshield );
 customElements.define( "gsui-dragshield", gsuiDragshield );

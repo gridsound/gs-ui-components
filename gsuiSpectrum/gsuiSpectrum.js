@@ -75,5 +75,4 @@ class gsuiSpectrum extends HTMLElement {
 }
 
 Object.freeze( gsuiSpectrum );
-
 customElements.define( "gsui-spectrum", gsuiSpectrum );
