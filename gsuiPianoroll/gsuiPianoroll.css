@@ -1,6 +1,6 @@
 gsui-pianoroll {
 	display: flex;
-	height: 500px;
+	height: 100%;
 	--gsuiDragline-dotSize: 10px;
 	--gsuiDragline-dotRad: 2px;
 	--gsuiDragline-lineSize: 3px;
