@@ -20,3 +20,5 @@ class gsuiWaveforms extends gsuiSVGDefs {
 		return super.setSVGViewbox( svg, x * res, w * res );
 	}
 }
+
+Object.freeze( gsuiWaveforms );

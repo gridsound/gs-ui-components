@@ -30,3 +30,5 @@ class gsuiKeysforms extends gsuiSVGDefs {
 		return { min, size: max - min };
 	}
 }
+
+Object.freeze( gsuiKeysforms );

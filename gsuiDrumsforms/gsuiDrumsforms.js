@@ -35,3 +35,5 @@ class gsuiDrumsforms extends gsuiSVGDefs {
 		} );
 	}
 }
+
+Object.freeze( gsuiDrumsforms );

@@ -5,14 +5,14 @@ class gsuiSVGDefs {
 	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`
 	#elDefs = GSUI.createElementSVG( "defs" )
 	#defs = new Map()
-	#w = 0
-	#h = 0
+	#w = 1
+	#h = 1
 
 	constructor() {
 		const svg = GSUI.createElementSVG( "svg" );
 
 		this.rootElement = svg;
-		Object.seal( this );
+		Object.freeze( this );
 
 		svg.style.display = "none";
 		svg.classList.add( "gsuiSVGDefs" );
@@ -70,3 +70,5 @@ class gsuiSVGDefs {
 		GSUI.setAttribute( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
 	}
 }
+
+Object.freeze( gsuiSVGDefs );
