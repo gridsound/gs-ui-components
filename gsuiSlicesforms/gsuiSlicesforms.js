@@ -1,23 +1,22 @@
 "use strict";
 
 class gsuiSlicesforms extends gsuiSVGDefs {
-	update( id, slices ) {
-		return super.update( id, 1, 1, ...gsuiSlicesforms.#render( slices ) );
+	update( id, slices, dur ) {
+		return super.update( id, dur, 1, ...gsuiSlicesforms.#render( slices, dur ) );
 	}
 
-	static #render( slices ) {
-		return Object.values( slices.slices ).map( gsuiSlicesforms.#renderSlice ).flat( 1 );
+	static #render( slices, dur ) {
+		return Object.values( slices.slices ).map( sli => [
+			gsuiSlicesforms.#renderSliceRect( sli, dur, null ),
+			gsuiSlicesforms.#renderSliceRect( sli, dur, .25 ),
+		] ).flat( 1 );
 	}
-	static #renderSlice( sli ) {
-		return [
-			gsuiSlicesforms.#renderSliceRect( sli, null ),
-			gsuiSlicesforms.#renderSliceRect( sli, .25 ),
-		];
-	}
-	static #renderSliceRect( { x, y, w }, opacity ) {
+	static #renderSliceRect( { x, y, w }, dur, opacity ) {
 		return GSUI.createElementSVG( "rect", {
-			x, y, opacity,
-			width: w - .005,
+			x: dur * x,
+			y,
+			opacity,
+			width: dur * ( w - .005 ),
 			height: opacity === null ? .05 : 1 - y,
 		} );
 	}
