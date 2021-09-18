@@ -4,6 +4,7 @@ class gsuiPeriodicWave extends HTMLElement {
 	#svg = GSUI.createElementSVG( "svg", { preserveAspectRatio: "none" },
 		GSUI.createElementSVG( "polyline" )
 	)
+	static cache = {}
 
 	constructor() {
 		super();
@@ -95,8 +96,6 @@ class gsuiPeriodicWave extends HTMLElement {
 		}
 	}
 }
-
-gsuiPeriodicWave.cache = {};
 
 Object.freeze( gsuiPeriodicWave );
 customElements.define( "gsui-periodicwave", gsuiPeriodicWave );
