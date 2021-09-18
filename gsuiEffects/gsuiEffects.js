@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiEffects extends HTMLElement {
+	static fxsMap = new Map()
 	#fxsHtml = new Map()
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEffects" )
 	#children = GSUI.getTemplate( "gsui-effects" )
@@ -146,8 +147,6 @@ class gsuiEffects extends HTMLElement {
 		this.#elements.addSelect.append( ...options );
 	}
 }
-
-gsuiEffects.fxsMap = new Map();
 
 Object.freeze( gsuiEffects );
 customElements.define( "gsui-effects", gsuiEffects );
