@@ -24,6 +24,16 @@ class gsuiFxFilter extends HTMLElement {
 			frequency: ".gsuiFxFilter-areaFrequency gsui-slider",
 		},
 	} )
+	static typeGainQ = Object.freeze( {
+		lowpass:   Object.freeze( { gain: false, q: true } ),
+		highpass:  Object.freeze( { gain: false, q: true } ),
+		bandpass:  Object.freeze( { gain: false, q: true } ),
+		lowshelf:  Object.freeze( { gain: true,  q: false } ),
+		highshelf: Object.freeze( { gain: true,  q: false } ),
+		peaking:   Object.freeze( { gain: true,  q: true } ),
+		notch:     Object.freeze( { gain: false, q: true } ),
+		allpass:   Object.freeze( { gain: false, q: true } ),
+	} )
 
 	constructor() {
 		super();
@@ -130,17 +140,6 @@ class gsuiFxFilter extends HTMLElement {
 		}
 	}
 }
-
-gsuiFxFilter.typeGainQ = Object.freeze( {
-	lowpass:   Object.freeze( { gain: false, q: true } ),
-	highpass:  Object.freeze( { gain: false, q: true } ),
-	bandpass:  Object.freeze( { gain: false, q: true } ),
-	lowshelf:  Object.freeze( { gain: true,  q: false } ),
-	highshelf: Object.freeze( { gain: true,  q: false } ),
-	peaking:   Object.freeze( { gain: true,  q: true } ),
-	notch:     Object.freeze( { gain: false, q: true } ),
-	allpass:   Object.freeze( { gain: false, q: true } ),
-} );
 
 Object.freeze( gsuiFxFilter );
 customElements.define( "gsui-fx-filter", gsuiFxFilter );
