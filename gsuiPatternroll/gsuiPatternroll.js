@@ -178,6 +178,7 @@ class gsuiPatternroll extends HTMLElement {
 	#drop( e ) {
 		const dropData = (
 				e.dataTransfer.getData( "pattern-buffer" ) ||
+				e.dataTransfer.getData( "pattern-slices" ) ||
 				e.dataTransfer.getData( "pattern-drums" ) ||
 				e.dataTransfer.getData( "pattern-keys" ) ).split( ":" );
 
