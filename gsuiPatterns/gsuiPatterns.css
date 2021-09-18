@@ -15,8 +15,12 @@ gsui-patterns {
 	min-height: 32px;
 }
 .gsuiPatterns-panelBuffers,
-.gsuiPatterns-panelDrums {
-	height: 140px;
+.gsuiPatterns-panelDrums,
+.gsuiPatterns-panelSlices {
+	height: 20%;
+}
+.gsuiPatterns-panelKeys {
+	height: 40%;
 }
 
 /* .......................................................................... */

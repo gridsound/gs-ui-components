@@ -24,8 +24,10 @@ class gsuiPatterns extends HTMLElement {
 	#children = GSUI.getTemplate( "gsui-patterns" )
 	#elements = GSUI.findElements( this.#children, {
 		bufferList: ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list",
+		slicesList: ".gsuiPatterns-panelSlices .gsuiPatterns-panel-list",
 		drumsList: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
 		synthList: ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list",
+		newSlices: "[data-action='newSlices']",
 		newDrums: "[data-action='newDrums']",
 		newSynth: "[data-action='newSynth']",
 	} )
@@ -53,6 +55,16 @@ class gsuiPatterns extends HTMLElement {
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
 			onchange: this.#onreorderPatterns.bind( this, this.#elements.bufferList ),
+		} );
+		new gsuiReorder( {
+			rootElement: this.#elements.slicesList,
+			direction: "column",
+			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
+			dataTransferType: "pattern-slices",
+			itemSelector: ".gsuiPatterns-pattern",
+			handleSelector: ".gsuiPatterns-pattern-grip",
+			parentSelector: ".gsuiPatterns-panel-list",
+			onchange: this.#onreorderPatterns.bind( this, this.#elements.slicesList ),
 		} );
 		new gsuiReorder( {
 			rootElement: this.#elements.drumsList,
@@ -89,6 +101,7 @@ class gsuiPatterns extends HTMLElement {
 		this.#elements.bufferList.onclick =
 		this.#elements.drumsList.onclick = this.#onclickListPatterns.bind( this );
 		this.#elements.synthList.onclick = this.#onclickSynths.bind( this );
+		this.#elements.newSlices.onclick = () => this.onchange( "addPatternSlices" );
 		this.#elements.newDrums.onclick = () => this.onchange( "addPatternDrums" );
 		this.#elements.newSynth.onclick = () => this.onchange( "addSynth" );
 	}
@@ -226,6 +239,7 @@ class gsuiPatterns extends HTMLElement {
 	}
 	#getPatternParent( type, synthId ) {
 		switch ( type ) {
+			case "slices": return this.#elements.slicesList;
 			case "buffer": return this.#elements.bufferList;
 			case "drums": return this.#elements.drumsList;
 			case "keys": return this.#elements.synthList.querySelector( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );

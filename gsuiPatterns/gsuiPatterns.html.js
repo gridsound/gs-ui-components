@@ -9,6 +9,13 @@ GSUI.setTemplate( "gsui-patterns", () => (
 			placeholder: "drag 'n drop raw files here (mp3, ogg, wav)",
 		} ),
 		GSUI.getTemplate( "gsui-patterns-panel", {
+			class: "Slices",
+			title: "slices",
+			icon: "slices-reset",
+			placeholder: "no slices yet",
+			button: { action: "newSlices", title: "Create a new slices pattern", txt: "new slices" },
+		} ),
+		GSUI.getTemplate( "gsui-patterns-panel", {
 			class: "Drums",
 			title: "drums",
 			icon: "drums",
