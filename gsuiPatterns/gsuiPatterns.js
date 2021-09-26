@@ -99,6 +99,7 @@ class gsuiPatterns extends HTMLElement {
 			}
 		};
 		this.#elements.bufferList.onclick =
+		this.#elements.slicesList.onclick =
 		this.#elements.drumsList.onclick = this.#onclickListPatterns.bind( this );
 		this.#elements.synthList.onclick = this.#onclickSynths.bind( this );
 		this.#elements.newSlices.onclick = () => this.onchange( "addPatternSlices" );
@@ -123,6 +124,7 @@ class gsuiPatterns extends HTMLElement {
 	}
 	reorderPatterns( patterns ) {
 		gsuiReorder.listReorder( this.#elements.bufferList, patterns );
+		gsuiReorder.listReorder( this.#elements.slicesList, patterns );
 		gsuiReorder.listReorder( this.#elements.drumsList, patterns );
 		Array.prototype.forEach.call( this.#nlKeysLists, list => {
 			gsuiReorder.listReorder( list, patterns );
