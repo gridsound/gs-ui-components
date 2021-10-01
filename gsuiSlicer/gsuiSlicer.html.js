@@ -41,7 +41,7 @@ GSUI.setTemplate( "gsui-slicer", () => ( [
 			GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "magnet" } ),
 		),
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "moveY", "data-icon": "hand-pointer", title: "Move slices vertically" } ),
-		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "reset", "data-icon": "slices-reset", title: "Reset slices vertically" } ),
+		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "reset", "data-icon": "slices", title: "Reset slices vertically" } ),
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "split", "data-icon": "cut", title: "Cut slices in half" } ),
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "merge", "data-icon": "erase", title: "Merge slices together" } ),
 	),

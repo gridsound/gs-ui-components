@@ -260,8 +260,8 @@
 .gsuiIcon[ data-icon="cut" ]::after { content: "\10f0c4"; }
 .gsuiIcon[ data-icon="clone" ]::before { content: "\f24d"; }
 .gsuiIcon[ data-icon="clone" ]::after { content: "\10f24d"; }
-.gsuiIcon[ data-icon="slices-reset" ]::before { content: "\f160"; transform: rotate( -90deg ); }
-.gsuiIcon[ data-icon="slices-reset" ]::after { content: "\10f160"; transform: rotate( -90deg ); }
+.gsuiIcon[ data-icon="slices" ]::before { content: "\f160"; transform: rotate( -90deg ); }
+.gsuiIcon[ data-icon="slices" ]::after { content: "\10f160"; transform: rotate( -90deg ); }
 
 .gsuiIcon[ data-icon="drumcut" ] { transform: rotate( 90deg ); }
 .gsuiIcon[ data-icon="drumcut" ]::before { content: "\f052"; }
