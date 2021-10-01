@@ -19,7 +19,7 @@ class gsuiSlicer extends HTMLElement {
 	#onresizeBind = this.#onresize.bind( this )
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
 	#children = GSUI.getTemplate( "gsui-slicer" )
-	#waveDef = GSUI.createElementNS( "polyline" )
+	#waveDef = GSUI.createElementSVG( "polyline" )
 	#elements = GSUI.findElements( this.#children, {
 		beatlines: [
 			"gsui-beatlines:first-child",
@@ -143,8 +143,8 @@ class gsuiSlicer extends HTMLElement {
 		this.#waveDef.removeAttribute( "points" );
 	}
 	addSlice( id, obj ) {
-		const svg = GSUI.createElementNS( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
-				GSUI.createElementNS( "use" ),
+		const svg = GSUI.createElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
+				GSUI.createElementSVG( "use" ),
 			),
 			sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
