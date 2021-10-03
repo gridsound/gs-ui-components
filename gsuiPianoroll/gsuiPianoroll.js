@@ -87,6 +87,9 @@ class gsuiPianoroll extends HTMLElement {
 	}
 
 	// .........................................................................
+	toggleShadow( b ) {
+		GSUI.setAttribute( this.#win, "disabled", b );
+	}
 	reset() {
 		this.#currKeyDuration = 1;
 	}
