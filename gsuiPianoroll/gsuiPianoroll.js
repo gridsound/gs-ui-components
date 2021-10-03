@@ -85,14 +85,23 @@ class gsuiPianoroll extends HTMLElement {
 			this.scrollToMiddle();
 		}
 	}
-
-	// .........................................................................
-	toggleShadow( b ) {
-		GSUI.setAttribute( this.#win, "disabled", b );
-		if ( !b ) {
-			this.scrollToMiddle();
+	static get observedAttributes() {
+		return [ "disabled" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "disabled":
+					GSUI.setAttribute( this.#win, "disabled", val );
+					if ( val === null ) {
+						this.scrollToMiddle();
+					}
+					break;
+			}
 		}
 	}
+
+	// .........................................................................
 	reset() {
 		this.#currKeyDuration = 1;
 	}
