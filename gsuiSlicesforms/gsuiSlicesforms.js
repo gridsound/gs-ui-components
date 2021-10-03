@@ -6,7 +6,7 @@ class gsuiSlicesforms extends gsuiSVGDefs {
 	}
 
 	static #render( slices, dur ) {
-		return Object.values( slices.slices ).map( sli => [
+		return Object.values( slices ).map( sli => [
 			gsuiSlicesforms.#renderSliceRect( sli, dur, null ),
 			gsuiSlicesforms.#renderSliceRect( sli, dur, .25 ),
 		] ).flat( 1 );
