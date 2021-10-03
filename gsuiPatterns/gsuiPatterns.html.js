@@ -11,7 +11,7 @@ GSUI.setTemplate( "gsui-patterns", () => (
 		GSUI.getTemplate( "gsui-patterns-panel", {
 			class: "Slices",
 			title: "slices",
-			icon: "slices-reset",
+			icon: "slices",
 			placeholder: "no slices yet",
 			button: { action: "newSlices", title: "Create a new slices pattern", txt: "new slices" },
 		} ),

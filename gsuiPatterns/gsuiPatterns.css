@@ -93,6 +93,7 @@ gsui-patterns {
 .gsuiPatterns-btnSolid:hover {
 	filter: brightness( 1.1 );
 }
+.gsuiPatterns-btnSolid[ data-action="newSlices" ] { color: var( --gsuiPatterns-newSlicesBtn-color ); }
 .gsuiPatterns-btnSolid[ data-action="newSynth" ] { color: var( --gsuiPatterns-newSynthBtn-color ); }
 .gsuiPatterns-btnSolid[ data-action="newDrums" ] { color: var( --gsuiPatterns-newDrumsBtn-color ); }
 .gsuiPatterns-btnIcon {
