@@ -4,7 +4,6 @@ gsui-slicer {
 	flex-direction: column;
 	gap: 10px;
 	height: 100%;
-	padding: 8px 0;
 	min-width: 306px;
 	color: var( --gsuiSlicer-color );
 	background-color: var( --gsuiSlicer-bg );
@@ -181,7 +180,7 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 	gap: 6px;
 	height: 20px;
 	justify-content: space-between;
-	padding: 0 8px;
+	padding: 0 8px 8px;
 	font-size: 14px;
 }
 
