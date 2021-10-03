@@ -175,7 +175,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 		sli.svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
 	}
-	deleteSlice( id ) {
+	removeSlice( id ) {
 		const sli = this.#slices[ id ];
 
 		if ( sli ) {
@@ -393,7 +393,7 @@ class gsuiSlicer extends HTMLElement {
 			this.changeSlice( first.id, { w: list.reduce( ( w, s ) => w + s.w, 0 ) } );
 			list.forEach( sli => {
 				if ( sli.id !== first.id ) {
-					this.deleteSlice( sli.id );
+					this.removeSlice( sli.id );
 				}
 			} );
 			return first.id;
