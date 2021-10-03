@@ -31,4 +31,5 @@ GSUI.setTemplate( "gsui-timewindow", () => [
 			GSUI.createElement( "div", { class: "gsuiTimewindow-panelExtend gsuiTimewindow-panelExtendX" } ),
 		),
 	),
+	GSUI.createElement( "div", { class: "gsuiTimewindow-shadow" } ),
 ] );
