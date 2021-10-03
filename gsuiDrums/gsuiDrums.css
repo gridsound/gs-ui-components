@@ -14,22 +14,6 @@ gsui-drums .gsuiTimewindow-step {
 }
 
 /* .......................................................................... */
-.gsuiDrums-shadow {
-	position: absolute;
-	z-index: 1;
-	inset: 0;
-	background-color: var( --gsuiDrums-shadow-bg );
-	opacity: 0;
-	visibility: hidden;
-	transition: .2s;
-	transition-property: opacity, visibility;
-}
-.gsuiDrums-shadowed .gsuiDrums-shadow {
-	opacity: 1;
-	visibility: visible;
-}
-
-/* .......................................................................... */
 .gsuiDrums-line.gsuiReorder-dragging {
 	opacity: .5;
 	background-color: #0004;

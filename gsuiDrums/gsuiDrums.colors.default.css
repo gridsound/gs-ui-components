@@ -11,5 +11,4 @@ gsui-drums {
 	--gsuiDrums-currentTime-bg: rgba( var( --gsui-rgb-currentTimeCursor ), .07 );
 	--gsuiDrums-drumHover-border: var( --gsui-col-pattern );
 	--gsuiDrums-drumHover-bg: rgba( var( --gsui-rgb-pattern ), .2 );
-	--gsuiDrums-shadow-bg: #000a;
 }
