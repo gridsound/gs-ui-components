@@ -3,6 +3,9 @@ body {
 	--test-bg-color: #916;
 	--test-content-h: 260px;
 }
+gsui-timewindow {
+	height: calc( 100% - 32px );
+}
 .gsuiTimewindow-line {
 	height: var( --gsuiTimewindow-lineH );
 }
@@ -32,9 +35,18 @@ body {
 	border-bottom: 1px solid #0004;
 	cursor: default;
 }
+#timeForm {
+	margin-top: 10px;
+}
 </style>
 
 <gsui-timewindow downpanel timedivision="4/4" pxperbeat="60"></gsui-timewindow>
+<div id="timeForm">
+	<label>
+		<input id="timeDisabled" type="checkbox" name="disabled"/>
+		<span>disabled</span>
+	</label>
+</div>
 
 <script>
 TEST( {
@@ -62,9 +74,13 @@ TEST( {
 		"gsuiTimewindow/gsuiTimewindow.js",
 	],
 	js: () => {
-		const tracks = [],
+		const win = document.querySelector( "gsui-timewindow" ),
+			tracks = [],
 			rows = [];
 
+		document.querySelector( "#timeDisabled" ).onchange = e => {
+			GSUI.setAttribute( win, "disabled", e.target.checked );
+		};
 		for ( let i = 0; i < 10; ++i ) {
 			tracks.push( GSUI.createElement( "div", { class: "myRow" }, `track ${ i }` ) );
 			rows.push( GSUI.createElement( "div", { class: "myRow" }, `row ${ i }` ) );
