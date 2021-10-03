@@ -1,5 +1,6 @@
 gsui-slicer {
 	--gsuiSlicer-bg: #666;
+	--gsuiSlicer-shadow: #000a;
 	--gsuiSlicer-color: #fff;
 	--gsuiSlicer-slicers-bg: #47475c;
 	--gsuiSlicer-source-bg: #334;

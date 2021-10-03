@@ -1,7 +1,8 @@
 gsui-slicer {
-	box-sizing: border-box;
+	position: relative;
 	display: flex;
 	flex-direction: column;
+	box-sizing: border-box;
 	gap: 10px;
 	height: 100%;
 	min-width: 306px;
@@ -13,6 +14,22 @@ gsui-slicer {
 /* .......................................................................... */
 #gsuiSlicer-waveDefs {
 	display: none;
+}
+
+/* .......................................................................... */
+.gsuiSlicer-shadow {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background-color: var( --gsuiSlicer-shadow );
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity, visibility;
+	transition-duration: .2s;
+}
+gsui-slicer[ disabled ] .gsuiSlicer-shadow {
+	opacity: 1;
+	visibility: visible;
 }
 
 /* .......................................................................... */
