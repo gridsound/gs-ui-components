@@ -82,11 +82,20 @@ class gsuiDrums extends HTMLElement {
 			this.drumrows.setLinesParent( this.#elLines, "gsuiDrums-line" );
 		}
 	}
+	static get observedAttributes() {
+		return [ "disabled" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "disabled":
+					GSUI.setAttribute( this.#win, "disabled", val );
+					break;
+			}
+		}
+	}
 
 	// .........................................................................
-	toggleShadow( b ) {
-		GSUI.setAttribute( this.#win, "disabled", b );
-	}
 	currentTime( beat ) {
 		GSUI.setAttribute( this.#win, "currenttime", beat );
 	}
