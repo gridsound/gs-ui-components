@@ -13,6 +13,9 @@ gsui-timewindow {
 gsui-timewindow::-webkit-scrollbar {
 	display: none;
 }
+gsui-timewindow[ disabled ] {
+	overflow: hidden;
+}
 
 /* .......................................................................... */
 .gsuiTimewindow-shadow {

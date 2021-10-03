@@ -80,11 +80,14 @@ class gsuiTimewindow extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop" ];
+		return [ "disabled", "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
+				case "disabled":
+					this.scroll( 0, 0 );
+					break;
 				case "step":
 					GSUI.setAttribute( this.#elements.timeline, "step", val );
 					this.#elements.stepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
