@@ -86,7 +86,9 @@ class gsuiTimewindow extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "disabled":
-					this.scroll( 0, 0 );
+					if ( val === "" ) {
+						this.scroll( 0, 0 );
+					}
 					break;
 				case "step":
 					GSUI.setAttribute( this.#elements.timeline, "step", val );
