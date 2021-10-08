@@ -42,6 +42,20 @@ gsui-slicer[ disabled ] .gsuiSlicer-shadow {
 }
 
 /* .......................................................................... */
+.gsuiSlicer-currentTime {
+	position: absolute;
+	z-index: 1;
+	inset: 0 auto;
+	width: 2px;
+	background-color: var( --gsui-col-currentTimeCursor );
+}
+gsui-slicer[ disabled ] .gsuiSlicer-currentTime,
+gsui-slicer[ currenttime="0" ] .gsuiSlicer-currentTime,
+gsui-slicer[ currenttime="1" ] .gsuiSlicer-currentTime {
+	opacity: 0;
+}
+
+/* .......................................................................... */
 .gsuiSlicer-source {
 	overflow: hidden;
 	min-height: 48px;

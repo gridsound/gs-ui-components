@@ -21,6 +21,9 @@ class gsuiSlicer extends HTMLElement {
 	#children = GSUI.getTemplate( "gsui-slicer" )
 	#waveDef = GSUI.createElementSVG( "polyline" )
 	#elements = GSUI.findElements( this.#children, {
+		sourceCurrentTime: ".gsuiSlicer-source-currentTime",
+		slicesCurrentTime: ".gsuiSlicer-slices-currentTime",
+		previewCurrentTime: ".gsuiSlicer-preview-currentTime",
 		beatlines: [
 			"gsui-beatlines:first-child",
 			"gsui-beatlines:last-child",
@@ -83,6 +86,7 @@ class gsuiSlicer extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
+				currenttime: 0,
 				cropa: 0,
 				cropb: 1,
 				step: 1,
@@ -99,11 +103,14 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "duration", "step", "timedivision", "cropa", "cropb" ];
+		return [ "currenttime", "duration", "step", "timedivision", "cropa", "cropb" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
+				case "currenttime":
+					this.#setCurrentTime( +val );
+					break;
 				case "timedivision":
 					this.#stepsPerBeat = +val.split( "/" )[ 1 ];
 					GSUI.setAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
@@ -202,6 +209,26 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
+	#setCurrentTime( t ) {
+		const cropA = +this.getAttribute( "cropa" );
+		const cropB = +this.getAttribute( "cropb" );
+		const dur = cropB - cropA;
+		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t <= sli.x + sli.w );
+		const srcT = Math.min( sli.y + ( t - sli.x ), 1 );
+
+		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, cropA + srcT * dur, srcT < .5 );
+		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
+		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
+	}
+	static #setLR( el, prc, fromLeft ) {
+		if ( fromLeft ) {
+			el.style.left = `${ prc * 100 }%`;
+			el.style.right = "auto";
+		} else {
+			el.style.left = "auto";
+			el.style.right = `${ 100 - prc * 100 }%`;
+		}
+	}
 	#selectTool( t, change ) {
 		if ( change !== false ) {
 			this.#tool = t;
