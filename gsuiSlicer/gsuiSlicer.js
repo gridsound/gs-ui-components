@@ -265,7 +265,7 @@ class gsuiSlicer extends HTMLElement {
 		const dur = +e.target.value;
 
 		GSUI.setAttribute( this, "duration", dur );
-		this.#dispatch( "changeDuration", dur );
+		this.#dispatch( "changeProp", "duration", dur );
 	}
 	#onclickStep() {
 		const v = +this.getAttribute( "step" ),
@@ -300,7 +300,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.srcSample.onpointermove =
 		this.#elements.srcSample.onpointerup = null;
 		if ( this.#cropSave !== val ) {
-			this.#dispatch( this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
+			this.#dispatch( "changeProp", this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
 		}
 	}
 	#onpointerdownSlices( e ) {
@@ -342,7 +342,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#slicesSaved = null;
 		this.#selectTool( this.#tool );
 		if ( diff ) {
-			this.#dispatch( "changeSlices", diff );
+			this.#dispatch( "changeProp", "slices", diff );
 		}
 	}
 	#onpointermoveSlices( e ) {
