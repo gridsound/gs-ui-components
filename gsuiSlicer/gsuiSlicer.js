@@ -150,17 +150,19 @@ class gsuiSlicer extends HTMLElement {
 		this.#waveDef.removeAttribute( "points" );
 	}
 	addSlice( id, obj ) {
-		const svg = GSUI.createElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
-				GSUI.createElementSVG( "use" ),
-			),
-			sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
+		if ( !( id in this.#slices ) ) {
+			const svg = GSUI.createElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
+					GSUI.createElementSVG( "use" ),
+				),
+				sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
-		this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
-		svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
-		this.#slices[ id ] = Object.seal( { id, svg, sli, x: 0, y: 0, w: 0 } );
-		this.changeSlice( id, obj );
-		this.#elements.preview.append( svg );
-		this.#elements.slices.append( sli );
+			this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
+			svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
+			this.#slices[ id ] = Object.seal( { id, svg, sli, x: 0, y: 0, w: 0 } );
+			this.changeSlice( id, obj );
+			this.#elements.preview.append( svg );
+			this.#elements.slices.append( sli );
+		}
 	}
 	changeSlice( id, obj ) {
 		const sli = this.#slices[ id ],
