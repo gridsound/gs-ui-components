@@ -12,18 +12,32 @@ body {
 }
 #ctrls {
 	display: flex;
-	gap: 10px;
+	flex-direction: column;
+	gap: inherit;
+	font-size: 12px;
+}
+#ctrls > div {
+	display: flex;
+	gap: inherit;
 }
 #ctrls button {
+	font: inherit;
+	font-weight: bold;
 	flex: 1;
 }
 </style>
 
-<gsui-slicer duration="8" timedivision="4/4" cropa="0" cropb="1"></gsui-slicer>
+<gsui-slicer duration="8" timedivision="4/4"></gsui-slicer>
 <div id="ctrls">
-	<button id="loadSample">Load a sample</button>
-	<button id="rmSample">Unload</button>
-	<button id="playSample">Play/Stop</button>
+	<div>
+		<button id="loadSample">Load a sample</button>
+		<button id="rmSample">Unload</button>
+		<button id="playSample">Play/Stop</button>
+	</div>
+	<div>
+		<span>currentTime</span>
+		<input id="currentTime" type="range" min="0" value="0" max="1" step=".001"/>
+	</div>
 </div>
 
 <script>
@@ -52,7 +66,8 @@ TEST( {
 		const slicer = document.querySelector( "gsui-slicer" ),
 			rmSampleBtn = document.querySelector( "#rmSample" ),
 			loadSampleBtn = document.querySelector( "#loadSample" ),
-			playSampleBtn = document.querySelector( "#playSample" );
+			playSampleBtn = document.querySelector( "#playSample" ),
+			currentTimeInp = document.querySelector( "#currentTime" );
 		let ctx, buffer, absn;
 
 		slicer.addSlice(  0, { x: .000, y: .000, w: .125 } );
@@ -119,6 +134,7 @@ TEST( {
 			},
 		} );
 
+		currentTimeInp.oninput = () => GSUI.setAttribute( slicer, "currenttime", currentTimeInp.value );
 		playSampleBtn.onclick = () => {
 			if ( absn ) {
 				absn.stop();
