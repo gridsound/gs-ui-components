@@ -48,6 +48,7 @@ gsui-slicer[ disabled ] .gsuiSlicer-shadow {
 	inset: 0 auto;
 	width: 2px;
 	background-color: var( --gsui-col-currentTimeCursor );
+	pointer-events: none;
 }
 gsui-slicer[ disabled ] .gsuiSlicer-currentTime,
 gsui-slicer[ currenttime="0" ] .gsuiSlicer-currentTime,

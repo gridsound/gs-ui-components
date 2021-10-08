@@ -108,21 +108,23 @@ class gsuiSlicer extends HTMLElement {
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
-				case "currenttime":
-					this.#setCurrentTime( +val );
-					break;
 				case "timedivision":
 					this.#stepsPerBeat = +val.split( "/" )[ 1 ];
 					GSUI.setAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
 					GSUI.setAttribute( this.#elements.beatlines[ 1 ], "timedivision", val );
 					break;
+				case "currenttime":
+					this.#setCurrentTime( +val );
+					break;
 				case "cropa":
  					this.#elements.cropA.style.left = `${ val * 100 }%`;
  					this.#updateCroppedWaveform();
+ 					this.#updateCurrentTime();
 					break;
 				case "cropb":
  					this.#elements.cropB.style.left = `${ val * 100 }%`;
  					this.#updateCroppedWaveform();
+ 					this.#updateCurrentTime();
 					break;
 				case "duration":
 					this.#elements.inputDuration.value =
@@ -210,6 +212,12 @@ class gsuiSlicer extends HTMLElement {
 
 	// .........................................................................
 	#setCurrentTime( t ) {
+		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
+		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
+		this.#updateCurrentTime();
+	}
+	#updateCurrentTime() {
+		const t = +this.getAttribute( "currenttime" );
 		const cropA = +this.getAttribute( "cropa" );
 		const cropB = +this.getAttribute( "cropb" );
 		const dur = cropB - cropA;
@@ -217,8 +225,6 @@ class gsuiSlicer extends HTMLElement {
 		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
 		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, cropA + srcT * dur, srcT < .5 );
-		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
-		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
 	}
 	static #setLR( el, prc, fromLeft ) {
 		if ( fromLeft ) {
