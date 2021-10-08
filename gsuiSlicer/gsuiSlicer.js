@@ -137,10 +137,13 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.srcName.textContent = name;
 	}
 	setBuffer( buf ) {
-		this.#buffer = buf;
-		this.classList.add( "gsuiSlicer-loaded" );
-		this.#updateCroppedWaveform();
-		gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+		this.#buffer = buf || null;
+		this.classList.toggle( "gsuiSlicer-loaded", this.#buffer );
+		this.classList.toggle( "gsuiSlicer-missingBufferData", !this.#buffer );
+		if ( buf ) {
+			this.#updateCroppedWaveform();
+			gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+		}
 	}
 	removeBuffer() {
 		this.#buffer = null;

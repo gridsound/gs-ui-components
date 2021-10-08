@@ -67,8 +67,13 @@ gsui-slicer[ disabled ] .gsuiSlicer-shadow {
 .gsuiSlicer-source-name {
 	opacity: .4;
 }
-gsui-slicer:not( .gsuiSlicer-loaded ) .gsuiSlicer-source-name::before {
+.gsuiSlicer-source-name:empty::after {
 	content: "no sample loaded...";
+	font-style: italic;
+	opacity: .5;
+}
+.gsuiSlicer-missingBufferData .gsuiSlicer-source-name::after {
+	content: " (buffer not ready)";
 	font-style: italic;
 	opacity: .5;
 }
