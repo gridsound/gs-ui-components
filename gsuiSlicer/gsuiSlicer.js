@@ -213,8 +213,8 @@ class gsuiSlicer extends HTMLElement {
 		const cropA = +this.getAttribute( "cropa" );
 		const cropB = +this.getAttribute( "cropb" );
 		const dur = cropB - cropA;
-		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t <= sli.x + sli.w );
-		const srcT = Math.min( sli.y + ( t - sli.x ), 1 );
+		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w );
+		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
 		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, cropA + srcT * dur, srcT < .5 );
 		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
