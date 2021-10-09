@@ -55,6 +55,7 @@ TEST( {
 		"gsuiSlicer/gsuiSlicer.css",
 	],
 	jsFiles: [
+		"../gs-wa-components/gswaSlicer/gswaSlicer.js",
 		"gsuiDragshield/gsuiDragshield.js",
 		"gsuiWaveform/gsuiWaveform.js",
 		"gsuiWaveform/gsuiWaveform.draw.js",
@@ -79,55 +80,9 @@ TEST( {
 		slicer.addSlice(  6, { x: .750, y: .750, w: .125 } );
 		slicer.addSlice(  7, { x: .875, y: .875, w: .125 } );
 
-		function buildBuffer() {
-			const cropA = +slicer.getAttribute( "cropa" );
-			const cropB = +slicer.getAttribute( "cropb" );
-			const bufCropA = cropA * buffer.length | 0;
-			const newlen = ( cropB - cropA ) * buffer.length | 0;
-			const newbuf = ctx.createBuffer( buffer.numberOfChannels, newlen, ctx.sampleRate );
-
-			Object.values( slicer.getSlicesData() ).forEach( sli => {
-				const obj = {
-					sampleRate: ctx.sampleRate,
-					srcInd: bufCropA + ( sli.x - ( sli.x - sli.y ) ) * newlen | 0,
-					dstInd: sli.x * newlen | 0,
-					cpyLen: sli.w * newlen | 0,
-				};
-
-				for ( let i = 0; i < buffer.numberOfChannels; ++i ) {
-					obj.srcArr = buffer.getChannelData( i );
-					obj.dstArr = newbuf.getChannelData( i );
-					copyBuffer( obj );
-				}
-			} );
-			return newbuf;
-		}
-
-		function copyBuffer( { srcArr, srcInd, dstArr, dstInd, cpyLen, sampleRate } ) {
-			for ( let i = 0; i < cpyLen; ++i ) {
-				dstArr[ dstInd + i ] = srcInd + i < srcArr.length
-					? srcArr[ srcInd + i ] * envBuffer( i, cpyLen, sampleRate * .01, sampleRate * .01 )
-					: 0;
-			}
-		}
-
-		function envBuffer( i, len, att, rel ) {
-			return i < len / 2
-				? Math.min( i, att ) / att
-				: Math.min( len - 1 - i, rel ) / rel;
-		}
-
 		GSUI.listenEvents( slicer, {
 			gsuiSlicer: {
-				cropA: () => {
-					playSampleBtn.onclick();
-					playSampleBtn.onclick();
-				},
-				cropB: () => {
-					playSampleBtn.onclick();
-					playSampleBtn.onclick();
-				},
-				changeSlices: ( d, t, e ) => {
+				changeProp: () => {
 					playSampleBtn.onclick();
 					playSampleBtn.onclick();
 				},
@@ -141,7 +96,13 @@ TEST( {
 				absn = null;
 			} else {
 				absn = ctx.createBufferSource();
-				absn.buffer = buildBuffer();
+				absn.buffer = gswaSlicer.createBuffer(
+					ctx,
+					buffer,
+					+slicer.getAttribute( "cropa" ),
+					+slicer.getAttribute( "cropb" ),
+					slicer.getSlicesData()
+				);
 				absn.loop = true;
 				absn.connect( ctx.destination );
 				absn.start();
