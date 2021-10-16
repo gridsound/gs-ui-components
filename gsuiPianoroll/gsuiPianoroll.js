@@ -93,9 +93,6 @@ class gsuiPianoroll extends HTMLElement {
 			switch ( prop ) {
 				case "disabled":
 					GSUI.setAttribute( this.#win, "disabled", val );
-					if ( val === null ) {
-						this.scrollToMiddle();
-					}
 					break;
 			}
 		}
