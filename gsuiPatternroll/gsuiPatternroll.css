@@ -1,5 +1,6 @@
 gsui-patternroll {
 	display: flex;
+	height: 100%;
 }
 
 .gsuiPatternroll-block {
