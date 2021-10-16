@@ -10,26 +10,15 @@ gsui-slicer {
 	background-color: var( --gsuiSlicer-bg );
 	-webkit-tap-highlight-color: transparent;
 }
+gsui-slicer[ disabled ] {
+	overflow: hidden;
+	pointer-events: none;
+	filter: grayscale( 1 ) brightness( .4 );
+}
 
 /* .......................................................................... */
 #gsuiSlicer-waveDefs {
 	display: none;
-}
-
-/* .......................................................................... */
-.gsuiSlicer-shadow {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	background-color: var( --gsuiSlicer-shadow );
-	opacity: 0;
-	visibility: hidden;
-	transition: opacity, visibility;
-	transition-duration: .2s;
-}
-gsui-slicer[ disabled ] .gsuiSlicer-shadow {
-	opacity: 1;
-	visibility: visible;
 }
 
 /* .......................................................................... */

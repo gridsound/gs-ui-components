@@ -49,5 +49,4 @@ GSUI.setTemplate( "gsui-slicer", () => ( [
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "split", "data-icon": "cut", title: "Cut slices in half" } ),
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "merge", "data-icon": "erase", title: "Merge slices together" } ),
 	),
-	GSUI.createElement( "div", { class: "gsuiSlicer-shadow" } ),
 ] ) );
