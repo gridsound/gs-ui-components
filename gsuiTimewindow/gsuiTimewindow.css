@@ -15,22 +15,8 @@ gsui-timewindow::-webkit-scrollbar {
 }
 gsui-timewindow[ disabled ] {
 	overflow: hidden;
-}
-
-/* .......................................................................... */
-.gsuiTimewindow-shadow {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	background-color: var( --gsuiTimewindow-shadow );
-	opacity: 0;
-	visibility: hidden;
-	transition: opacity, visibility;
-	transition-duration: .2s;
-}
-gsui-timewindow[ disabled ] .gsuiTimewindow-shadow {
-	opacity: 1;
-	visibility: visible;
+	pointer-events: none;
+	filter: grayscale( 1 ) brightness( .4 );
 }
 
 /* .......................................................................... */
