@@ -104,7 +104,7 @@ class gsuiLFO extends HTMLElement {
 	#changeToggle( b ) {
 		this.classList.toggle( "gsuiLFO-enable", b );
 		this.querySelectorAll( ".gsuiLFO-typeRadio" )
-			.forEach( el => GSUI.setAttribute( el, "disabled", b ) );
+			.forEach( el => GSUI.setAttribute( el, "disabled", !b ) );
 		this.#elements.sliders.delay[ 0 ].enable( b );
 		this.#elements.sliders.attack[ 0 ].enable( b );
 		this.#elements.sliders.speed[ 0 ].enable( b );
