@@ -51,6 +51,8 @@ class gsuiBlocksManager {
 	#valueBMin = Infinity
 	#valueAMax = -Infinity
 	#valueBMax = -Infinity
+	#onmousemoveBind = this.__mousemove.bind( this )
+	#onmouseupBind = this.__mouseup.bind( this )
 
 	constructor( opts ) {
 		Object.seal( this );
@@ -176,44 +178,43 @@ class gsuiBlocksManager {
 
 	// .........................................................................
 	__mousedown( e ) {
-		if ( !gsuiBlocksManager._focused ) {
-			const blc = this.#getBlc( e.currentTarget );
+		const blc = this.#getBlc( e.currentTarget );
 
-			gsuiBlocksManager._focused = this;
-			GSUI.unselectText();
-			this.#mdBlc = blc;
-			this.#mdTarget = e.target;
-			if ( e.button === 2 ) {
-				this.#mmFn = gsuiBlocksManager.#mousemoveFns.deletion;
-				this.#status = "deleting";
-				if ( blc ) {
-					this.#blockDOMChange( blc, "deleted", true );
-					this.#blcsEditing.set( blc.dataset.id, blc );
-				}
-			} else if ( e.button === 0 ) {
-				const mdWhenReal = this.getWhenByPageX( e.pageX );
+		GSUI.unselectText();
+		this.#mdBlc = blc;
+		this.#mdTarget = e.target;
+		if ( e.button === 2 ) {
+			this.#mmFn = gsuiBlocksManager.#mousemoveFns.deletion;
+			this.#status = "deleting";
+			if ( blc ) {
+				this.#blockDOMChange( blc, "deleted", true );
+				this.#blcsEditing.set( blc.dataset.id, blc );
+			}
+		} else if ( e.button === 0 ) {
+			const mdWhenReal = this.getWhenByPageX( e.pageX );
 
-				this.#mdPageX = e.pageX;
-				this.#mdPageY = e.pageY;
-				this.#mdWhen = this.roundBeat( mdWhenReal );
-				this.#beatSnap = this.#getBeatSnap();
-				if ( e.shiftKey ) {
-					this.#mmFn = gsuiBlocksManager.#mousemoveFns.selection1;
-					this.#status = "selecting-1";
-					this.#mdRowInd = this.getRowIndexByPageY( e.pageY );
-				} else if ( blc ) {
-					const fnAct = gsuiBlocksManager.#mousedownFns[ e.target.dataset.action ];
+			this.#mdPageX = e.pageX;
+			this.#mdPageY = e.pageY;
+			this.#mdWhen = this.roundBeat( mdWhenReal );
+			this.#beatSnap = this.#getBeatSnap();
+			if ( e.shiftKey ) {
+				this.#mmFn = gsuiBlocksManager.#mousemoveFns.selection1;
+				this.#status = "selecting-1";
+				this.#mdRowInd = this.getRowIndexByPageY( e.pageY );
+			} else if ( blc ) {
+				const fnAct = gsuiBlocksManager.#mousedownFns[ e.target.dataset.action ];
 
-					if ( fnAct ) {
-						const blcsEditing = this.#fillBlcsMap( blc );
+				if ( fnAct ) {
+					const blcsEditing = this.#fillBlcsMap( blc );
 
-						blc.classList.add( "gsui-hover" );
-						e.target.classList.add( "gsui-hover" );
-						fnAct.call( this, this.#data, blcsEditing, blc, e );
-					}
+					blc.classList.add( "gsui-hover" );
+					e.target.classList.add( "gsui-hover" );
+					fnAct.call( this, this.#data, blcsEditing, blc, e );
 				}
 			}
 		}
+		document.addEventListener( "mousemove", this.#onmousemoveBind );
+		document.addEventListener( "mouseup", this.#onmouseupBind );
 	}
 	static #onmousedownMove( data, blcsEditing, _blc, e ) {
 		this.#mmFn = gsuiBlocksManager.#mousemoveFns.move;
@@ -383,7 +384,8 @@ class gsuiBlocksManager {
 		this.#valueAMax =
 		this.#valueBMax = -Infinity;
 		this.#blcsEditing.clear();
-		delete gsuiBlocksManager._focused;
+		document.removeEventListener( "mousemove", this.#onmousemoveBind );
+		document.removeEventListener( "mouseup", this.#onmouseupBind );
 	}
 	static #onmouseupMoving( blcsEditing ) {
 		if ( this.#valueB || Math.abs( this.#valueA ) > .000001 ) {
@@ -420,16 +422,4 @@ class gsuiBlocksManager {
 	}
 }
 
-document.addEventListener( "mousemove", e => {
-	if ( gsuiBlocksManager._focused ) {
-		gsuiBlocksManager._focused.__mousemove( e );
-	}
-} );
-document.addEventListener( "mouseup", e => {
-	if ( gsuiBlocksManager._focused ) {
-		if ( gsuiBlocksManager._focused.getOpts().mouseup ) {
-			gsuiBlocksManager._focused.getOpts().mouseup( e );
-		}
-		gsuiBlocksManager._focused.__mouseup( e );
-	}
-} );
+Object.freeze( gsuiBlocksManager );
