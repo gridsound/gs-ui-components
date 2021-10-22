@@ -39,11 +39,11 @@ class gsuiWindows extends HTMLElement {
 
 	// .........................................................................
 	_startMousemoving( cursor, fnMove, fnUp ) {
-		window.getSelection().removeAllRanges();
 		this.#mouseFnUp = this._stopMousemoving.bind( this, fnUp );
 		this.#mouseFnMove = fnMove;
 		document.addEventListener( "mouseup", this.#mouseFnUp );
 		document.addEventListener( "mousemove", fnMove );
+		GSUI.unselectText();
 		GSUI.dragshield.show( cursor );
 	}
 	_stopMousemoving( fnUp, e ) {

@@ -5,7 +5,7 @@ gsuiBlocksManager.prototype.__mousedown = function( e ) {
 		const blc = this.__getBlc( e.currentTarget );
 
 		gsuiBlocksManager._focused = this;
-		window.getSelection().removeAllRanges();
+		GSUI.unselectText();
 		this.__mdBlc = blc;
 		this.__mdTarget = e.target;
 		if ( e.button === 2 ) {
