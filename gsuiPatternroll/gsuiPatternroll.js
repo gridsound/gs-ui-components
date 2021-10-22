@@ -166,14 +166,14 @@ class gsuiPatternroll extends HTMLElement {
 
 	// .........................................................................
 	#rowMousedown( e ) {
-		this.#blcManager.__mousedown( e );
+		this.#blcManager.onmousedown( e );
 		if ( e.button === 0 && !e.shiftKey && this.#blcManager.getSelectedBlocks().size ) {
 			this.onchange( "unselection" );
 		}
 	}
 	#blcMousedown( id, e ) {
 		e.stopPropagation();
-		this.#blcManager.__mousedown( e );
+		this.#blcManager.onmousedown( e );
 	}
 	#drop( e ) {
 		const dropData = (

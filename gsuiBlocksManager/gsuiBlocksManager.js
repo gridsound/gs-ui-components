@@ -51,8 +51,8 @@ class gsuiBlocksManager {
 	#valueBMin = Infinity
 	#valueAMax = -Infinity
 	#valueBMax = -Infinity
-	#onmousemoveBind = this.__mousemove.bind( this )
-	#onmouseupBind = this.__mouseup.bind( this )
+	#onmousemoveBind = this.#onmousemove.bind( this )
+	#onmouseupBind = this.#onmouseup.bind( this )
 
 	constructor( opts ) {
 		Object.seal( this );
@@ -127,7 +127,7 @@ class gsuiBlocksManager {
 				if ( this.#blcsSelected.size ) {
 					this.#blcsSelected.forEach( ( blc, id ) => blcsEditing.set( id, blc ) );
 					this.#status = "deleting";
-					this.__mouseup();
+					this.#onmouseup();
 				}
 				break;
 			case "b": // copy paste
@@ -177,7 +177,7 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	__mousedown( e ) {
+	onmousedown( e ) {
 		const blc = this.#getBlc( e.currentTarget );
 
 		GSUI.unselectText();
@@ -257,7 +257,7 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	__mousemove( e ) {
+	#onmousemove( e ) {
 		if ( this.#mmFn ) {
 			if ( e.type === "mousemove" ) {
 				this.#mmPageX = e.pageX;
@@ -365,7 +365,7 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	__mouseup() {
+	#onmouseup() {
 		if ( this.#status ) {
 			gsuiBlocksManager.#mouseupFns[ this.#status ].call( this, this.#blcsEditing, this.#mdBlc );
 		}

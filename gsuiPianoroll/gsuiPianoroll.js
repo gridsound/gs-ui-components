@@ -362,11 +362,11 @@ class gsuiPianoroll extends HTMLElement {
 
 		e.stopPropagation();
 		if ( !dline.contains( e.target ) ) {
-			this.#blcManager.__mousedown( e );
+			this.#blcManager.onmousedown( e );
 		}
 	}
 	#rowMousedown( key, e ) {
-		this.#blcManager.__mousedown( e );
+		this.#blcManager.onmousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
 			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) );
 
