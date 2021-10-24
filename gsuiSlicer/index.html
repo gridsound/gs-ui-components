@@ -36,7 +36,7 @@ body {
 	</div>
 	<div>
 		<span>currentTime</span>
-		<input id="currentTime" type="range" min="0" value="0" max="1" step=".001"/>
+		<input id="currentTime" type="range" min="0" value="0" max="8" step=".001"/>
 	</div>
 </div>
 
@@ -82,9 +82,14 @@ TEST( {
 
 		GSUI.listenEvents( slicer, {
 			gsuiSlicer: {
-				changeProp: () => {
+				changeProp: d => {
+					const [ prop, val ] = d.args;
+
 					playSampleBtn.onclick();
 					playSampleBtn.onclick();
+					if ( prop === "duration" ) {
+						currentTimeInp.setAttribute( "max", val );
+					}
 				},
 			},
 		} );

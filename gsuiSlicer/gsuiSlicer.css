@@ -39,9 +39,8 @@ gsui-slicer[ disabled ] {
 	background-color: var( --gsui-col-currentTimeCursor );
 	pointer-events: none;
 }
-gsui-slicer[ disabled ] .gsuiSlicer-currentTime,
-gsui-slicer[ currenttime="0" ] .gsuiSlicer-currentTime,
-gsui-slicer[ currenttime="1" ] .gsuiSlicer-currentTime {
+gsui-slicer[ hidetimes ] .gsuiSlicer-currentTime,
+gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	opacity: 0;
 }
 

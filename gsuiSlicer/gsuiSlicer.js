@@ -211,13 +211,16 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
-	#setCurrentTime( t ) {
+	#setCurrentTime( beat ) {
+		const t = beat / +this.getAttribute( "duration" );
+
 		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
 		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
+		GSUI.setAttribute( this, "hidetimes", t <= 0 || t >= 1 );
 		this.#updateCurrentTime();
 	}
 	#updateCurrentTime() {
-		const t = +this.getAttribute( "currenttime" );
+		const t = +this.getAttribute( "currenttime" ) / +this.getAttribute( "duration" );
 		const cropA = +this.getAttribute( "cropa" );
 		const cropB = +this.getAttribute( "cropb" );
 		const dur = cropB - cropA;
