@@ -83,7 +83,7 @@ class gsuiDrums extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "disabled" ];
+		return [ "disabled", "currenttime" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -91,14 +91,14 @@ class gsuiDrums extends HTMLElement {
 				case "disabled":
 					GSUI.setAttribute( this.#win, "disabled", val );
 					break;
+				case "currenttime":
+					GSUI.setAttribute( this.#win, "currenttime", val );
+					break;
 			}
 		}
 	}
 
 	// .........................................................................
-	currentTime( beat ) {
-		GSUI.setAttribute( this.#win, "currenttime", beat );
-	}
 	loop( a, b ) {
 		GSUI.setAttribute( this.#win, "loop", a !== false && `${ a }-${ b }` );
 	}
