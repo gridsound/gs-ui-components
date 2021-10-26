@@ -24,10 +24,12 @@ gsui-slicer[ disabled ] {
 /* .......................................................................... */
 .gsuiSlicer-source-head,
 .gsuiSlicer-source-sample-wrap,
+.gsuiSlicer-time,
 .gsuiSlicer-preview,
 .gsuiSlicer-slices {
 	border: 0 solid #0002;
-	border-width: 0 8px;
+	border-left-width: 8px;
+	border-right-width: 8px;
 }
 
 /* .......................................................................... */
@@ -82,6 +84,7 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 }
 .gsuiSlicer-source-sample-wrap {
 	flex: 1;
+	border-bottom-width: 2px;
 }
 .gsuiSlicer-source-sample {
 	position: relative;
@@ -129,11 +132,21 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 .gsuiSlicer-source-cropB::before { left: 2px; }
 
 /* .......................................................................... */
+.gsuiSlicer-time {
+	overflow: hidden;
+	height: 20px;
+	margin-bottom: -10px;
+	background-color: var( --gsuiSlicer-source-bg );
+}
+
+/* .......................................................................... */
 .gsuiSlicer-preview {
 	position: relative;
 	overflow: hidden;
 	flex: .4;
 	min-height: 30px;
+	border-top-width: 2px;
+	border-bottom-width: 2px;
 	background-color: var( --gsuiSlicer-source-bg );
 }
 .gsuiSlicer-preview-wave {
@@ -146,9 +159,11 @@ gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
 /* .......................................................................... */
 .gsuiSlicer-slices {
 	flex: 1;
+	margin-top: -10px;
 	min-height: 100px;
 	overflow: hidden;
 	color: #000;
+	border-bottom-width: 2px;
 	background-color: var( --gsuiSlicer-slicers-bg );
 }
 .gsuiSlicer-slices-scroll {

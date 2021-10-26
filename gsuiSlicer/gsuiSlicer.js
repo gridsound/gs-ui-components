@@ -34,6 +34,7 @@ class gsuiSlicer extends HTMLElement {
 		cropA: ".gsuiSlicer-source-cropA",
 		cropB: ".gsuiSlicer-source-cropB",
 		diagonalLine: ".gsuiSlicer-slices-line",
+		timeline: "gsui-timeline",
 		preview: ".gsuiSlicer-preview",
 		slices: ".gsuiSlicer-slices-wrap",
 		inputDuration: ".gsuiSlicer-duration-input",
@@ -45,6 +46,7 @@ class gsuiSlicer extends HTMLElement {
 			merge: ".gsuiSlicer-btn[data-action='merge']",
 		},
 	} )
+	timeline = this.#elements.timeline
 
 	constructor() {
 		const defs = document.querySelector( "#gsuiSlicer-waveDefs defs" );
@@ -110,6 +112,7 @@ class gsuiSlicer extends HTMLElement {
 			switch ( prop ) {
 				case "timedivision":
 					this.#stepsPerBeat = +val.split( "/" )[ 1 ];
+					GSUI.setAttribute( this.#elements.timeline, "timedivision", val );
 					GSUI.setAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
 					GSUI.setAttribute( this.#elements.beatlines[ 1 ], "timedivision", val );
 					break;
@@ -214,6 +217,7 @@ class gsuiSlicer extends HTMLElement {
 	#setCurrentTime( beat ) {
 		const t = beat / +this.getAttribute( "duration" );
 
+		GSUI.setAttribute( this.#elements.timeline, "currenttime", beat );
 		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
 		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
 		GSUI.setAttribute( this, "hidetimes", t <= 0 || t >= 1 );
@@ -256,6 +260,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#updatePxPerBeat( dur ) {
+		GSUI.setAttribute( this.#elements.timeline, "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
 		GSUI.setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
 		GSUI.setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
 	}
