@@ -60,6 +60,18 @@ class gsuiPatternroll extends HTMLElement {
 			this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 		}
 	}
+	static get observedAttributes() {
+		return [ "currenttime" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "currenttime":
+					GSUI.setAttribute( this.#win, "currenttime", val );
+					break;
+			}
+		}
+	}
 
 	// .........................................................................
 	addTrack( id ) {
@@ -122,9 +134,6 @@ class gsuiPatternroll extends HTMLElement {
 	}
 	timeDivision( a, b ) {
 		GSUI.setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
-	}
-	currentTime( t ) {
-		GSUI.setAttribute( this.#win, "currenttime", t );
 	}
 	loop( a, b ) {
 		GSUI.setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
