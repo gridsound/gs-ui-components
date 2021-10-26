@@ -85,6 +85,7 @@ class gsuiSlicer extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
+			GSUI.setAttribute( this, "tabindex", -1 );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
