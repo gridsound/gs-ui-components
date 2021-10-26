@@ -86,13 +86,17 @@ class gsuiPianoroll extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "disabled" ];
+		return [ "disabled", "currenttime" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "disabled":
 					GSUI.setAttribute( this.#win, "disabled", val );
+					break;
+				case "currenttime":
+					GSUI.setAttribute( this.#win, "currenttime", val );
+					GSUI.setAttribute( this.#uiSliderGroup, "currenttime", val );
 					break;
 			}
 		}
@@ -111,10 +115,6 @@ class gsuiPianoroll extends HTMLElement {
 	timeDivision( a, b ) {
 		GSUI.setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
 		GSUI.setAttribute( this.#uiSliderGroup, "timedivision", `${ a }/${ b }` );
-	}
-	currentTime( t ) {
-		GSUI.setAttribute( this.#win, "currenttime", t );
-		GSUI.setAttribute( this.#uiSliderGroup, "currenttime", t );
 	}
 	loop( a, b ) {
 		GSUI.setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
