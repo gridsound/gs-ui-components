@@ -119,7 +119,7 @@ class GSUI {
 		if ( attr ) {
 			GSUI.setAttributes( el, attr );
 		}
-		el.append( ...children.flat( 1 ).filter( Boolean ) );
+		el.append( ...children.flat( 1 ).filter( ch => Boolean( ch ) || Number.isFinite( ch ) ) );
 		return el;
 	}
 	static setAttributes( el, obj ) {
