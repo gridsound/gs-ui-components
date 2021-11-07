@@ -98,7 +98,6 @@
 	position: relative;
 	overflow: hidden;
 	min-height: 0;
-	max-height: 250px;
 	background-color: var( --gsuiPatterns-synth-patterns-bg );
 	transition: .3s min-height;
 }
