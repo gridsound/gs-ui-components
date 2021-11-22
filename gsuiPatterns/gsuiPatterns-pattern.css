@@ -5,13 +5,11 @@
 	flex-direction: column;
 	height: var( --gsuiPatterns-pattern-h );
 	color: var( --gsuiPatterns-pattern-color );
+	border-bottom: 2px solid transparent;
 	background-color: var( --gsuiPatterns-pattern-bg );
 	transition:
 		margin-top .3s,
 		background-color .1s;
-}
-.gsuiPatterns-panelBuffers .gsuiPatterns-pattern {
-	border-bottom: 2px solid transparent;
 }
 .gsuiPatterns-pattern-selected {
 	--gsuiPatterns-pattern-bg: var( --gsuiPatterns-pattern-selected-bg );
