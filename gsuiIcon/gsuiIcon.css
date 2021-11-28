@@ -170,6 +170,8 @@
 .gsuiIcon[ data-icon="folder-open" ]::after { content: "\10f07c"; }
 .gsuiIcon[ data-icon="folder-tree" ]::before { content: "\f802"; }
 .gsuiIcon[ data-icon="folder-tree" ]::after { content: "\10f802"; }
+.gsuiIcon[ data-icon="file-buffer" ]::before { content: "\f1c7"; }
+.gsuiIcon[ data-icon="file-buffer" ]::after { content: "\10f1c7"; }
 .gsuiIcon[ data-icon="file-export" ]::before { content: "\f56e"; }
 .gsuiIcon[ data-icon="file-export" ]::after { content: "\10f56e"; }
 .gsuiIcon[ data-icon="file-corrupt" ]::before { content: "\f877"; }
@@ -209,6 +211,17 @@
 .gsuiIcon[ data-icon="oscillator" ]::after { content: "\10f83e"; opacity: 1; }
 .gsuiIcon[ data-icon="glissando" ]::before { content: "\f667"; }
 .gsuiIcon[ data-icon="glissando" ]::after { content: "\10f667"; }
+
+.gsuiIcon[ data-icon="buf-fx" ]::before { content: "\e047"; }
+.gsuiIcon[ data-icon="buf-fx" ]::after { content: "\10e047"; }
+.gsuiIcon[ data-icon="buf-drum" ]::before { content: "\f569"; }
+.gsuiIcon[ data-icon="buf-drum" ]::after { content: "\10f569"; }
+.gsuiIcon[ data-icon="buf-loop" ]::before { content: "\f534"; }
+.gsuiIcon[ data-icon="buf-loop" ]::after { content: "\10f534"; }
+.gsuiIcon[ data-icon="buf-vocal" ]::before { content: "\f8cb"; }
+.gsuiIcon[ data-icon="buf-vocal" ]::after { content: "\10f8cb"; }
+.gsuiIcon[ data-icon="buf-undefined" ]::before { content: "\f2fd"; }
+.gsuiIcon[ data-icon="buf-undefined" ]::after { content: "\10f2fd"; opacity: .2; }
 
 .gsuiIcon[ data-icon="plus" ]::before { content: "\f067"; }
 .gsuiIcon[ data-icon="plus" ]::after { content: "\10f067"; opacity: .7; }
@@ -293,8 +306,8 @@
 .gsuiIcon[ data-icon="help" ]::after { content: "\10f0fa"; }
 .gsuiIcon[ data-icon="changelog" ]::before { content: "\f70e"; }
 .gsuiIcon[ data-icon="changelog" ]::after { content: "\10f70e"; }
-.gsuiIcon[ data-icon="about" ]::before { content: "\e047"; }
-.gsuiIcon[ data-icon="about" ]::after { content: "\10e047"; }
+.gsuiIcon[ data-icon="about" ]::before { content: "\f818"; }
+.gsuiIcon[ data-icon="about" ]::after { content: "\10f818"; }
 
 .gsuiIcon[ data-icon="keyboard" ]::before { content: "\f11c"; }
 .gsuiIcon[ data-icon="keyboard" ]::after { content: "\10f11c"; }
