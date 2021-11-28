@@ -21,6 +21,11 @@ gsui-pianoroll .gsuiKey-row > div {
 }
 
 /* .......................................................................... */
+gsui-pianoroll .gsuiBlocksManager-block {
+	border-radius: 2px;
+}
+
+/* .......................................................................... */
 gsui-pianoroll .gsuiTimewindow-panelContentDown {
 	display: flex;
 	align-items: center;
