@@ -4,13 +4,14 @@ class gsuiPatterns extends HTMLElement {
 	#fnsPattern = Object.freeze( {
 		clone: id => this.onchange( "clonePattern", id ),
 		remove: id => this.onchange( "removePattern", id ),
+		editInfo: ( id, el ) => this.#openInfoPopup( id, el ),
 		undefined: id => this.onchange( "openPattern", id ),
-		redirect: ( id, e ) => this.#openChannelsPopup( "redirectPatternBuffer", id, e ),
+		redirect: ( id, el, e ) => this.#openChannelsPopup( "redirectPatternBuffer", id, e.target.dataset.id ),
 	} )
 	#fnsSynth = Object.freeze( {
 		expand: id => this.expandSynth( id ),
 		undefined: id => this.onchange( "openSynth", id ),
-		redirect: ( id, e ) => this.#openChannelsPopup( "redirectSynth", id, e ),
+		redirect: ( id, e ) => this.#openChannelsPopup( "redirectSynth", id, e.target.dataset.id ),
 		newPattern: id => {
 			this.onchange( "addPatternKeys", id );
 			this.expandSynth( id, true );
@@ -34,6 +35,7 @@ class gsuiPatterns extends HTMLElement {
 		newSynth: "[data-action='newSynth']",
 	} )
 	#nlKeysLists = this.#elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" )
+	static infoPopupContent = GSUI.getTemplate( "gsui-patterns-infoPopup" )
 	static selectChanPopupSelect = GSUI.createElement( "select", { id: "gsuiPatterns-selectChanPopupSelect", size: 8, name: "channel" } )
 	static selectChanPopupContent = GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-selectChanPopupContent" },
 		GSUI.createElement( "fieldset", null,
@@ -132,9 +134,7 @@ class gsuiPatterns extends HTMLElement {
 			gsuiReorder.listReorder( list, patterns );
 		} );
 	}
-	#openChannelsPopup( action, objId, e ) {
-		const currChanId = e.target.dataset.id;
-
+	#openChannelsPopup( action, objId, currChanId ) {
 		gsuiPatterns.selectChanPopupSelect.value = currChanId;
 		GSUI.popup.custom( {
 			title: "Channels",
@@ -143,6 +143,29 @@ class gsuiPatterns extends HTMLElement {
 				if ( data.channel !== currChanId ) {
 					this.onchange( action, objId, data.channel );
 				}
+			}
+		} );
+	}
+	#openInfoPopup( id, el ) {
+		const radio = gsuiPatterns.infoPopupContent.querySelector( `[value="${ el.dataset.bufferType }"]` );
+
+		if ( radio ) {
+			radio.checked = true;
+		} else {
+			const radio = gsuiPatterns.infoPopupContent.querySelector( "input:checked" );
+
+			if ( radio ) {
+				radio.checked = false;
+			}
+		}
+		gsuiPatterns.infoPopupContent.querySelector( "[name='bpm']" ).value = el.dataset.bufferBpm;
+		gsuiPatterns.infoPopupContent.querySelector( "[name='name']" ).value = el.dataset.name;
+		GSUI.popup.custom( {
+			title: "Buffer's info",
+			element: gsuiPatterns.infoPopupContent,
+			submit: data => {
+				data.bpm = data.bpm || null;
+				this.onchange( "changePatternBufferInfo", id, data );
 			}
 		} );
 	}
@@ -190,6 +213,7 @@ class gsuiPatterns extends HTMLElement {
 
 		elPat.dataset.id = id;
 		if ( type !== "buffer" ) {
+			elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).remove();
 			elPat.querySelector( ".gsuiPatterns-destArrow" ).remove();
 			elPat.querySelector( ".gsuiPatterns-pattern-dest" ).remove();
 		} else {
@@ -202,10 +226,20 @@ class gsuiPatterns extends HTMLElement {
 
 		switch ( prop ) {
 			case "order": elPat.dataset.order = val; break;
-			case "name": elPat.querySelector( ".gsuiPatterns-pattern-name" ).textContent = val; break;
+			case "name":
+				elPat.dataset.name = val;
+				elPat.querySelector( ".gsuiPatterns-pattern-name" ).textContent = val;
+				break;
 			case "dest": elPat.querySelector( ".gsuiPatterns-pattern-dest" ).dataset.id = val; break;
 			case "destName": elPat.querySelector( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
 			case "synth": this.#getPatternParent( "keys", val ).append( elPat ); break;
+			case "bufferType":
+				GSUI.setAttribute( elPat, "data-buffer-type", val );
+				elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).dataset.icon = `buf-${ val || "undefined" }`;
+				break;
+			case "bufferBpm":
+				GSUI.setAttribute( elPat, "data-buffer-bpm", val );
+				break;
 		}
 	}
 	appendPatternSVG( id, svg ) {
@@ -270,7 +304,7 @@ class gsuiPatterns extends HTMLElement {
 		const pat = e.target.closest( ".gsuiPatterns-pattern" );
 
 		if ( pat ) {
-			this.#fnsPattern[ e.target.dataset.action ]( pat.dataset.id, e );
+			this.#fnsPattern[ e.target.dataset.action ]( pat.dataset.id, pat, e );
 			return false;
 		}
 	}

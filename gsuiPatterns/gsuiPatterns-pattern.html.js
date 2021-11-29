@@ -5,6 +5,7 @@ GSUI.setTemplate( "gsui-patterns-pattern", () => (
 		GSUI.createElement( "div", { class: "gsuiPatterns-pattern-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUI.createElement( "div", { class: "gsuiPatterns-pattern-head" },
 			GSUI.createElement( "div", { class: "gsuiPatterns-pattern-info" },
+				GSUI.createElement( "button", { class: "gsuiPatterns-pattern-btn gsuiPatterns-pattern-btnInfo gsuiIcon", "data-action": "editInfo", "data-icon": "buf-undefined", title: "Edit buffer's info" } ),
 				GSUI.createElement( "div", { class: "gsuiPatterns-pattern-name" } ),
 				GSUI.createElement( "i", { class: "gsuiPatterns-destArrow gsuiIcon", "data-icon": "arrow-right" } ),
 				GSUI.createElement( "button", { class: "gsuiPatterns-btnSolid gsuiPatterns-pattern-dest", "data-action": "redirect", title: "Redirect this pattern" },

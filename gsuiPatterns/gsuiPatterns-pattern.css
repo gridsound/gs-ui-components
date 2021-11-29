@@ -30,6 +30,24 @@
 }
 
 /* .......................................................................... */
+.gsuiPatterns-pattern-btn {
+	width: 20px;
+	border: 0;
+	outline: 0;
+	padding: 0;
+	opacity: .7;
+	color: inherit;
+	cursor: pointer;
+	font-size: 14px;
+	background: none;
+	transition: .1s opacity;
+}
+.gsuiPatterns-pattern-btn:focus,
+.gsuiPatterns-pattern-btn:hover {
+	opacity: 1;
+}
+
+/* .......................................................................... */
 .gsuiPatterns-pattern-head {
 	display: flex;
 	box-sizing: border-box;
@@ -46,6 +64,10 @@
 	align-items: center;
 	padding: 0 8px;
 	overflow: hidden;
+}
+.gsuiPatterns-pattern-btnInfo {
+	width: 1em;
+	margin-right: 8px;
 }
 .gsuiPatterns-pattern-name {
 	overflow: hidden;
@@ -66,22 +88,6 @@
 .gsuiPatterns-pattern-dest:focus {
 	color: var( --gsuiPatterns-pattern-bg );
 	background-color: var( --gsuiPatterns-pattern-color );
-}
-.gsuiPatterns-pattern-btn {
-	width: 20px;
-	border: 0;
-	outline: 0;
-	padding: 0;
-	opacity: .7;
-	color: inherit;
-	cursor: pointer;
-	font-size: 14px;
-	background: none;
-	transition: .1s opacity;
-}
-.gsuiPatterns-pattern-btn:focus,
-.gsuiPatterns-pattern-btn:hover {
-	opacity: 1;
 }
 
 /* .......................................................................... */
