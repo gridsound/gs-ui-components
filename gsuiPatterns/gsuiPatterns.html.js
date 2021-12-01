@@ -4,7 +4,7 @@ GSUI.setTemplate( "gsui-patterns", () => (
 	GSUI.createElement( "gsui-panels", { class: "gsuiPanels-y" },
 		GSUI.getTemplate( "gsui-patterns-panel", {
 			class: "Buffers",
-			title: "samples",
+			title: "buffers",
 			icon: "waveform",
 			placeholder: "drag 'n drop raw files here (mp3, ogg, wav)",
 		} ),
