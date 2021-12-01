@@ -60,7 +60,7 @@ class gsuiPatterns extends HTMLElement {
 			parentSelector: ".gsuiPatterns-panel-list",
 			onchange: this.#onreorderPatterns.bind( this, this.#elements.lists.buffer ),
 		} );
-		new gsuiReorder( {
+		/*new gsuiReorder( {
 			rootElement: this.#elements.lists.slices,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
@@ -69,7 +69,7 @@ class gsuiPatterns extends HTMLElement {
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
 			onchange: this.#onreorderPatterns.bind( this, this.#elements.lists.slices ),
-		} );
+		} );*/
 		new gsuiReorder( {
 			rootElement: this.#elements.lists.drums,
 			direction: "column",
@@ -103,10 +103,10 @@ class gsuiPatterns extends HTMLElement {
 			}
 		};
 		this.#elements.lists.buffer.onclick =
-		this.#elements.lists.slices.onclick =
+		// this.#elements.lists.slices.onclick =
 		this.#elements.lists.drums.onclick = this.#onclickListPatterns.bind( this );
 		this.#elements.lists.synth.onclick = this.#onclickSynths.bind( this );
-		this.#elements.newSlices.onclick = () => this.onchange( "addPatternSlices" );
+		// this.#elements.newSlices.onclick = () => this.onchange( "addPatternSlices" );
 		this.#elements.newDrums.onclick = () => this.onchange( "addPatternDrums" );
 		this.#elements.newSynth.onclick = () => this.onchange( "addSynth" );
 	}
@@ -128,7 +128,7 @@ class gsuiPatterns extends HTMLElement {
 	}
 	reorderPatterns( patterns ) {
 		gsuiReorder.listReorder( this.#elements.lists.buffer, patterns );
-		gsuiReorder.listReorder( this.#elements.lists.slices, patterns );
+		// gsuiReorder.listReorder( this.#elements.lists.slices, patterns );
 		gsuiReorder.listReorder( this.#elements.lists.drums, patterns );
 		Array.prototype.forEach.call( this.#nlKeysLists, list => {
 			gsuiReorder.listReorder( list, patterns );
