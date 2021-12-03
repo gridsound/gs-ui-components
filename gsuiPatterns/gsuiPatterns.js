@@ -225,6 +225,7 @@ class gsuiPatterns extends HTMLElement {
 		const elPat = this.getPattern( id );
 
 		switch ( prop ) {
+			case "data-missing": GSUI.setAttribute( elPat, "data-missing", val ); break;
 			case "order": elPat.dataset.order = val; break;
 			case "name":
 				elPat.dataset.name = val;

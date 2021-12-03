@@ -97,12 +97,6 @@
 	inset: var( --gsuiPatterns-pattern-head-h ) 0 0 var( --gsuiPatterns-pattern-grip-w );
 	pointer-events: none;
 }
-.gsuiPatterns-pattern-content:empty {
-	display: none;
-}
-.gsuiPatterns-pattern-content:empty + .gsuiPatterns-pattern-placeholder {
-	display: flex;
-}
 .gsuiPatterns-pattern-svg {
 	position: absolute;
 	inset: 0;
@@ -111,11 +105,16 @@
 	opacity: .8;
 	fill: currentColor;
 }
+
+/* .......................................................................... */
 .gsuiPatterns-pattern-placeholder {
 	display: none;
 	align-items: center;
 	font-size: 14px;
 	opacity: .5;
+}
+.gsuiPatterns-pattern[data-missing] .gsuiPatterns-pattern-placeholder {
+	display: flex;
 }
 .gsuiPatterns-pattern-placeholderIcon {
 	margin: 0 8px;
