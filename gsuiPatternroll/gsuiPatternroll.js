@@ -89,12 +89,13 @@ class gsuiPatternroll extends HTMLElement {
 	reorderTrack( id, n ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "order", n ); }
 
 	// .........................................................................
-	addBlock( id, obj ) {
+	addBlock( id, obj, { dataReady } ) {
 		const elBlc = GSUI.getTemplate( "gsui-patternroll-block" );
 
 		elBlc.dataset.id = id;
 		elBlc.dataset.pattern = obj.pattern;
 		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
+		GSUI.setAttribute( elBlc, "data-missing", !dataReady );
 		this.#blcManager.getBlocks().set( id, elBlc );
 		this.onaddBlock( id, obj, elBlc );
 	}
