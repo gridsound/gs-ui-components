@@ -78,7 +78,7 @@ class gsuiPatternroll extends HTMLElement {
 		const elTrack = this.#tracklist.addTrack( id ),
 			row = elTrack.rowElement;
 
-		row.classList.toggle( "gsui-row-small", this.#blcManager.getPxPerBeat() <= 44 );
+		row.classList.toggle( "gsui-row-small", this.#blcManager.getFontSize() <= 44 );
 		row.onmousedown = this.#rowMousedown.bind( this );
 		this.#rowsByTrackId.set( row.dataset.id, row );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
