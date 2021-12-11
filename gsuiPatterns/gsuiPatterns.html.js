@@ -8,13 +8,13 @@ GSUI.setTemplate( "gsui-patterns", () => (
 			icon: "waveform",
 			placeholder: "drag 'n drop raw files here (mp3, ogg, wav)",
 		} ),
-		/*GSUI.getTemplate( "gsui-patterns-panel", {
+		GSUI.getTemplate( "gsui-patterns-panel", {
 			class: "Slices",
 			title: "slices",
 			icon: "slices",
 			placeholder: "no slices yet",
 			button: { action: "newSlices", title: "Create a new slices pattern", txt: "new slices" },
-		} ),*/
+		} ),
 		GSUI.getTemplate( "gsui-patterns-panel", {
 			class: "Drums",
 			title: "drums",
