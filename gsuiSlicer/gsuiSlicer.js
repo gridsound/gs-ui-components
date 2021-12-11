@@ -32,7 +32,6 @@ class gsuiSlicer extends HTMLElement {
 		timeline: "gsui-timeline",
 		preview: ".gsuiSlicer-preview",
 		slices: ".gsuiSlicer-slices-wrap",
-		inputDuration: ".gsuiSlicer-duration-input",
 		step: ".gsuiSlicer-btn-step",
 		tools: {
 			moveY: ".gsuiSlicer-btn[data-action='moveY']",
@@ -61,7 +60,6 @@ class gsuiSlicer extends HTMLElement {
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
 		this.#elements.slices.oncontextmenu = () => false;
 		this.#elements.slices.onpointerdown = this.#onpointerdownSlices.bind( this );
-		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
 		this.#elements.step.onclick = this.#onclickStep.bind( this );
 		this.#elements.tools.moveY.onclick =
 		this.#elements.tools.reset.onclick =
@@ -113,7 +111,6 @@ class gsuiSlicer extends HTMLElement {
 					this.#setCurrentTime( +val );
 					break;
 				case "duration":
-					this.#elements.inputDuration.value =
 					this.#dur = +val;
 					this.#updatePxPerBeat();
 					break;
@@ -265,12 +262,6 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.setAttribute( svg.firstChild, "x2", w );
 		GSUI.setAttribute( svg.firstChild, "y2", h );
 		this.#updatePxPerBeat();
-	}
-	#onchangeDuration( e ) {
-		const dur = +e.target.value;
-
-		GSUI.setAttribute( this, "duration", dur );
-		this.#dispatch( "changeProp", "duration", dur );
 	}
 	#onclickStep() {
 		const v = +this.getAttribute( "step" ),

@@ -194,35 +194,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 }
 
 /* .......................................................................... */
-.gsuiSlicer-duration {
-	display: flex;
-	gap: 6px;
-	align-items: center;
-	opacity: .6;
-	transition: .2s opacity;
-	user-select: none;
-}
-.gsuiSlicer-duration:focus,
-.gsuiSlicer-duration:hover {
-	opacity: 1;
-}
-.gsuiSlicer-duration-input {
-	width: 4ch;
-	outline: 0;
-	border: 0;
-	border-radius: 4px;
-	padding: 0 0 0 6px;
-	height: 100%;
-	color: inherit;
-	font-size: inherit;
-	background-color: #fff4;
-}
-.gsuiSlicer-duration-label {
-	font-size: 11px;
-	pointer-events: none;
-}
-
-/* .......................................................................... */
 .gsuiSlicer-btn {
 	display: flex;
 	align-items: center;
@@ -254,6 +225,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 
 /* .......................................................................... */
 .gsuiSlicer-btn-step {
-	margin-left: auto;
+	margin-right: auto;
 	font-family: var( --gsui-font-number );
 }

@@ -105,13 +105,7 @@ TEST( {
 				absn = null;
 			} else {
 				absn = ctx.createBufferSource();
-				absn.buffer = gswaSlicer.createBuffer(
-					ctx,
-					buffer,
-					+slicer.getAttribute( "cropa" ),
-					+slicer.getAttribute( "cropb" ),
-					slicer.getSlicesData()
-				);
+				absn.buffer = gswaSlicer.createBuffer( ctx, buffer, 0, 1, slicer.getSlicesData() );
 				absn.loop = true;
 				absn.connect( ctx.destination );
 				absn.start();
