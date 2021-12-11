@@ -11,8 +11,6 @@ GSUI.setTemplate( "gsui-slicer", () => ( [
 				GSUI.createElementSVG( "svg", { class: "gsuiSlicer-source-wave", viewBox: "0 0 1000 64", preserveAspectRatio: "none" },
 					GSUI.createElementSVG( "polyline" ),
 				),
-				GSUI.createElement( "div", { class: "gsuiSlicer-source-crop gsuiSlicer-source-cropA" } ),
-				GSUI.createElement( "div", { class: "gsuiSlicer-source-crop gsuiSlicer-source-cropB" } ),
 				GSUI.createElement( "div", { class: "gsuiSlicer-currentTime gsuiSlicer-source-currentTime" } ),
 			),
 		),

@@ -91,8 +91,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	overflow: hidden;
 	height: 100%;
 	min-height: 20px;
-	cursor: pointer;
-	touch-action: none;
 }
 .gsuiSlicer-source-wave {
 	position: absolute;
@@ -101,35 +99,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	fill: var( --gsuiSlicer-source-wave );
 	pointer-events: none;
 }
-.gsuiSlicer-source-crop {
-	position: absolute;
-	top: 0;
-	height: 100%;
-	margin-left: -1px;
-	border: 0 dashed #fff;
-	border-width: 0 1px;
-	opacity: .5;
-	transition: .2s opacity;
-	pointer-events: none;
-}
-.gsuiSlicer-loaded .gsuiSlicer-source-crop {
-	border-style: solid;
-	opacity: 1;
-}
-gsui-slicer[ cropa="0" ] .gsuiSlicer-source-cropA,
-gsui-slicer[ cropb="1" ] .gsuiSlicer-source-cropB {
-	opacity: 0;
-}
-.gsuiSlicer-source-crop::before {
-	content: "";
-	position: absolute;
-	width: 9999px;
-	height: 100%;
-	opacity: .8;
-	background-color: var( --gsuiSlicer-source-bg );
-}
-.gsuiSlicer-source-cropA::before { right: 2px; }
-.gsuiSlicer-source-cropB::before { left: 2px; }
 
 /* .......................................................................... */
 .gsuiSlicer-time {

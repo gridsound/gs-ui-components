@@ -8,8 +8,6 @@ class gsuiSlicer extends HTMLElement {
 	#tool = ""
 	#slices = {}
 	#buffer = null
-	#cropSide = "A"
-	#cropSave = null
 	#ptrmoveFn = null
 	#stepsPerBeat = 4
 	#slicesMaxId = 0
@@ -28,11 +26,8 @@ class gsuiSlicer extends HTMLElement {
 			"gsui-beatlines:first-child",
 			"gsui-beatlines:last-child",
 		],
-		srcSample: ".gsuiSlicer-source-sample",
 		srcName: ".gsuiSlicer-source-name",
 		srcWave: ".gsuiSlicer-source-wave",
-		cropA: ".gsuiSlicer-source-cropA",
-		cropB: ".gsuiSlicer-source-cropB",
 		diagonalLine: ".gsuiSlicer-slices-line",
 		timeline: "gsui-timeline",
 		preview: ".gsuiSlicer-preview",
@@ -64,7 +59,6 @@ class gsuiSlicer extends HTMLElement {
 				( max, p ) => Math.max( max, p.dataset.id ), 0 );
 		}
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
-		this.#elements.srcSample.onpointerdown = this.#onpointerdownCrop.bind( this );
 		this.#elements.slices.oncontextmenu = () => false;
 		this.#elements.slices.onpointerdown = this.#onpointerdownSlices.bind( this );
 		this.#elements.inputDuration.onchange = this.#onchangeDuration.bind( this );
@@ -90,8 +84,6 @@ class gsuiSlicer extends HTMLElement {
 			this.#children = null;
 			GSUI.recallAttributes( this, {
 				currenttime: 0,
-				cropa: 0,
-				cropb: 1,
 				step: 1,
 				duration: 4,
 				timedivision: "4/4",
@@ -106,7 +98,7 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "currenttime", "duration", "step", "timedivision", "cropa", "cropb" ];
+		return [ "currenttime", "duration", "step", "timedivision" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -119,16 +111,6 @@ class gsuiSlicer extends HTMLElement {
 					break;
 				case "currenttime":
 					this.#setCurrentTime( +val );
-					break;
-				case "cropa":
- 					this.#elements.cropA.style.left = `${ val * 100 }%`;
- 					this.#updateCroppedWaveform();
- 					this.#updateCurrentTime();
-					break;
-				case "cropb":
- 					this.#elements.cropB.style.left = `${ val * 100 }%`;
- 					this.#updateCroppedWaveform();
- 					this.#updateCurrentTime();
 					break;
 				case "duration":
 					this.#elements.inputDuration.value =
@@ -154,7 +136,7 @@ class gsuiSlicer extends HTMLElement {
 		this.classList.toggle( "gsuiSlicer-loaded", this.#buffer );
 		this.classList.toggle( "gsuiSlicer-missingBufferData", !this.#buffer );
 		if ( buf ) {
-			this.#updateCroppedWaveform();
+			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
 			gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
 		}
 	}
@@ -225,14 +207,11 @@ class gsuiSlicer extends HTMLElement {
 		this.#updateCurrentTime();
 	}
 	#updateCurrentTime() {
-		const t = +this.getAttribute( "currenttime" ) / +this.getAttribute( "duration" );
-		const cropA = +this.getAttribute( "cropa" );
-		const cropB = +this.getAttribute( "cropb" );
-		const dur = cropB - cropA;
-		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w );
-		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
+		const t = +this.getAttribute( "currenttime" ) / +this.getAttribute( "duration" ),
+			sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w ),
+			srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
-		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, cropA + srcT * dur, srcT < .5 );
+		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, srcT, srcT < .5 );
 	}
 	static #setLR( el, prc, fromLeft ) {
 		if ( fromLeft ) {
@@ -252,31 +231,10 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.tools.merge.classList.toggle( "gsuiSlicer-btn-toggle", t === "merge" );
 		this.#elements.tools.split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
 	}
-	#updateCroppedWaveform() {
-		if ( this.#buffer ) {
-			const cropa = this.#buffer.duration * this.getAttribute( "cropa" ),
-				cropb = this.#buffer.duration * this.getAttribute( "cropb" );
-
-			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, this.#buffer, cropa, cropb - cropa );
-		}
-	}
 	#updatePxPerBeat( dur ) {
 		GSUI.setAttribute( this.#elements.timeline, "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
 		GSUI.setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
 		GSUI.setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
-	}
-	#getPercMouseX( offsetX ) {
-		const w = this.#elements.srcSample.clientWidth;
-
-		return GSUI.clamp( +( offsetX / w ).toFixed( 3 ), 0, 1 );
-	}
-	#updateCropSide( offsetX ) {
-		const perc = this.#getPercMouseX( offsetX ),
-			percA = +this.getAttribute( "cropa" ),
-			percB = +this.getAttribute( "cropb" ),
-			ave = ( percB - percA ) / 2;
-
-		return perc < percA + ave ? "cropa" : "cropb";
 	}
 	#convertStepToFrac( step ) {
 		return (
@@ -325,30 +283,6 @@ class gsuiSlicer extends HTMLElement {
 	}
 	#onclickTools( e ) {
 		this.#selectTool( e.target.dataset.action );
-	}
-	#onpointerdownCrop( e ) {
-		GSUI.unselectText();
-		this.#elements.srcSample.setPointerCapture( e.pointerId );
-		this.#elements.srcSample.onpointermove = this.#onpointermoveCrop.bind( this );
-		this.#elements.srcSample.onpointerup = this.#onpointerupCrop.bind( this );
-		this.#cropSide = this.#updateCropSide( e.offsetX );
-		this.#cropSave = this.getAttribute( this.#cropSide );
-		this.#onpointermoveCrop( e );
-	}
-	#onpointermoveCrop( e ) {
-		this.#cropSide === "cropa"
-			? GSUI.setAttribute( this, "cropa", GSUI.clamp( this.#getPercMouseX( e.offsetX ), 0, this.getAttribute( "cropb" ) - .01 ) )
-			: GSUI.setAttribute( this, "cropb", GSUI.clamp( this.#getPercMouseX( e.offsetX ), +this.getAttribute( "cropa" ) + .01, 1 ) );
-	}
-	#onpointerupCrop( e ) {
-		const val = this.getAttribute( this.#cropSide );
-
-		this.#elements.srcSample.releasePointerCapture( e.pointerId );
-		this.#elements.srcSample.onpointermove =
-		this.#elements.srcSample.onpointerup = null;
-		if ( this.#cropSave !== val ) {
-			this.#dispatch( "changeProp", this.#cropSide === "cropa" ? "cropA" : "cropB", +val );
-		}
 	}
 	#onpointerdownSlices( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
