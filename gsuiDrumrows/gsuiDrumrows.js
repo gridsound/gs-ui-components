@@ -235,7 +235,7 @@ class gsuiDrumrows extends HTMLElement {
 	}
 	#ondropRows( e ) {
 		if ( this.#dragoverId ) {
-			const [ patId ] = e.dataTransfer.getData( "pattern-buffer" ).split( ":" );
+			const patId = e.dataTransfer.getData( "pattern-buffer" );
 
 			if ( patId ) {
 				this.#dragoverId === Infinity
