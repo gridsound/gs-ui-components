@@ -72,6 +72,7 @@ class gsuiBlocksManager {
 	setData( data ) { this.#data = data; }
 	setFontSize( px ) { this.#fontSize = px; }
 	setPxPerBeat( px ) { this.#pxPerBeat = px; }
+	getFontSize() { return this.#fontSize; }
 	getPxPerBeat() { return this.#pxPerBeat; }
 	getRows() { return this.#nlRows; }
 	getBlocks() { return this.#blcs; }
