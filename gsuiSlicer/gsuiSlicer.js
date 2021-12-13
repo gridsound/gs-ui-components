@@ -132,17 +132,13 @@ class gsuiSlicer extends HTMLElement {
 		this.#buffer = buf || null;
 		this.classList.toggle( "gsuiSlicer-loaded", this.#buffer );
 		this.classList.toggle( "gsuiSlicer-missingBufferData", !this.#buffer );
-		if ( buf ) {
-			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
-			gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
-		}
+		this.#setWaveform( buf );
 	}
 	removeBuffer() {
 		this.#buffer = null;
 		this.classList.remove( "gsuiSlicer-loaded" );
 		this.setBufferName( "" );
-		this.#elements.srcWave.firstChild.removeAttribute( "points" );
-		this.#waveDef.removeAttribute( "points" );
+		this.#setWaveform( null );
 	}
 	addSlice( id, obj ) {
 		if ( !( id in this.#slices ) ) {
@@ -194,6 +190,15 @@ class gsuiSlicer extends HTMLElement {
 	}
 
 	// .........................................................................
+	#setWaveform( buf ) {
+		if ( buf ) {
+			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+			gsuiWaveform.drawBuffer( this.#elements.srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+		} else {
+			this.#waveDef.removeAttribute( "points" );
+			this.#elements.srcWave.firstChild.removeAttribute( "points" );
+		}
+	}
 	#setCurrentTime( beat ) {
 		const t = beat / +this.getAttribute( "duration" );
 
