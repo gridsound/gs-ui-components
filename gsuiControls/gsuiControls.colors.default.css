@@ -1,0 +1,17 @@
+gsui-controls {
+	--gsuiControls-bg: #444;
+	--gsuiControls-color: #ddd;
+	--gsuiControls-playPauseStop-bg: #67a;
+	--gsuiControls-save-bg: #ba5d5d;
+	--gsuiControls-currentTime-bg: #0003;
+	--gsuiControls-currentTime-lineColor: #abd;
+	--gsuiControls-currentTime-lineBgColor: #222;
+	--gsuiControls-history-bg: #777;
+	--gsuiControls-btn-bg: #ffffff1a;
+	--gsuiControls-winBtn-bg: #222;
+	--gsuiControls-winBtn-open-bg: #ff9;
+	--gsuiControls-cmps-color: #9ad;
+	--gsuiControls-export-color: #ff9;
+	--gsuiControls-about-color: #ff9;
+	--gsuiControls-cookies-color: #ff9;
+}

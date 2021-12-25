@@ -1,0 +1,49 @@
+<style>
+body {
+	--test-bg-color: #333;
+	--test-content-w: 1100px;
+	--test-content-h: 80px;
+	--test-content-resize: both;
+}
+#testWrap {
+	display: flex;
+}
+</style>
+
+<gsui-controls focus="up" bpm="120" timedivision="4/4"></gsui-controls>
+
+<script>
+TEST( {
+	cssFiles: [
+		"gsuiPopup/gsuiPopup.colors.default.css",
+		"gsuiPopup/gsuiPopup.css",
+		"gsuiIcon/gsuiIcon.css",
+		"gsuiClock/gsuiClock.colors.default.css",
+		"gsuiClock/gsuiClock.css",
+		"gsuiSlider/gsuiSlider.css",
+		"gsuiControls/gsuiControls.colors.default.css",
+		"gsuiControls/gsuiControls.css",
+	],
+	jsFiles: [
+		"gsuiPopup/gsuiPopup.html.js",
+		"gsuiPopup/gsuiPopup.js",
+		"gsuiAnalyser/gsuiAnalyser.js",
+		"gsuiClock/gsuiClock.html.js",
+		"gsuiClock/gsuiClock.js",
+		"gsuiSlider/gsuiSlider.html.js",
+		"gsuiSlider/gsuiSlider.js",
+		"gsuiControls/gsuiControls.html.js",
+		"gsuiControls/gsuiControls.js",
+	],
+	js: () => {
+		const elCtrl = document.querySelector( "gsui-controls" );
+
+		GSUI.setAttribute( elCtrl, "version", "0.36.1" );
+		// GSUI.setAttribute( elCtrl, "logged", true );
+		// GSUI.setAttribute( elCtrl, "focus", "down" );
+		GSUI.setAttribute( elCtrl, "location", "cloud" );
+		GSUI.setAttribute( elCtrl, "avatar", "https://avatars.githubusercontent.com/u/850754" );
+		GSUI.setAttribute( elCtrl, "saved", false );
+	}
+} );
+</script>

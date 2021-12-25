@@ -1,0 +1,373 @@
+gsui-controls {
+	display: inline-grid;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	min-width: min-content;
+	min-height: 68px;
+	padding: 4px;
+	gap: 4px;
+	grid-template:
+		"areaUser    areaCtrl    areaHist    areaHelp" 32px
+		"areaSave    areaTime    areaWins    areaVers" 24px
+		/min-content min-content min-content 1fr;
+	color: var( --gsuiControls-color );
+	font-size: 16px;
+	background-color: var( --gsuiControls-bg );
+}
+.gsuiControls-area {
+	display: flex;
+	gap: inherit;
+}
+
+/* .......................................................................... */
+.gsuiControls-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	padding: 0;
+	outline: 0;
+	color: inherit;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 1;
+	text-decoration: none;
+	border-radius: 4px;
+	background: none;
+	transition: .2s;
+	transition-property: color, opacity, background-color;
+	user-select: none;
+}
+.gsuiControls-btn.gsuiIcon {
+	width: 32px;
+}
+.gsuiControls-btn:not( .gsuiControls-btnColor ):hover {
+	color: #fff;
+	opacity: 1;
+}
+.gsuiControls-btnBg {
+	background-color: var( --gsuiControls-btn-bg );
+}
+.gsuiControls-btnBg:hover {
+	background-color: #fff3;
+}
+.gsuiControls-btnColor {
+	color: var( --gsui-color );
+}
+.gsuiControls-btnColor:hover {
+	color: var( --gsuiControls-bg );
+	background-color: var( --gsui-color );
+}
+.gsuiControls-btnBig {
+	font-size: 18px;
+}
+.gsuiControls-btns {
+	display: flex;
+	border-radius: 4px;
+}
+.gsuiControls-btns .gsuiControls-btn:first-child {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.gsuiControls-btns .gsuiControls-btn:last-child {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.gsuiControls-btns .gsuiControls-btn:not( :first-child ):not( :last-child ) {
+	border-radius: 0;
+}
+
+/* .......................................................................... */
+.gsuiControls-areaUser {
+	grid-area: areaUser;
+}
+.gsuiControls-title {
+	align-self: center;
+	margin-right: 4px;
+	font-size: 28px;
+	font-family: var( --gsui-font-title );
+	user-select: none;
+}
+.gsuiControls-btn[ data-action="profile" ] {
+	width: 32px;
+	border: 2px solid #222;
+	box-sizing: border-box;
+	background-size: cover;
+	background-color: #fff4;
+}
+.gsuiControls-btn[ data-action="login" ] {
+	font-size: 26px;
+}
+.gsuiControls-btn[ data-action="login" ],
+.gsuiControls-btn[ data-action="logout" ] {
+	opacity: .7;
+}
+gsui-controls[ logged ] .gsuiControls-btn[ data-action="login" ],
+gsui-controls:not( [ logged ] ) .gsuiControls-btn[ data-action="logout" ],
+gsui-controls:not( [ logged ] ) .gsuiControls-btn[ data-action="profile" ] {
+	display: none;
+}
+.gsuiControls-cmps {
+	display: flex;
+}
+.gsuiControls-btn[ data-action="cmps" ] {
+	--gsui-color: var( --gsuiControls-cmps-color );
+}
+
+/* .......................................................................... */
+.gsuiControls-areaSave {
+	grid-area: areaSave;
+	display: flex;
+	width: 260px;
+	/*border-radius: 4px;*/
+	/*overflow: hidden;*/
+	/*line-height: var( --head-heightB );*/
+	background-color: var( --gsuiControls-playPauseStop-bg );
+}
+.gsuiControls-cmp-saveBtn {
+	color: #fff;
+	background-color: var( --gsuiControls-save-bg );
+	transition: .2s;
+	transition-property: margin-left, color, background-color, visibility;
+}
+gsui-controls[ saved ] .gsuiControls-cmp-saveBtn {
+    visibility: hidden;
+    margin-left: -32px;
+}
+.gsuiControls-cmp-saveBtn:hover {
+	color: var( --gsuiControls-save-bg );
+	background-color: #fff;
+}
+.gsuiControls-cmp-editBtn {
+	flex: 1;
+	display: flex;
+	overflow: hidden;
+	align-items: center;
+	justify-content: start;
+	font-family: inherit;
+	padding: 0 4px;
+	font-size: 14px;
+}
+.gsuiControls-cmp-localIcon {
+	display: none;
+	margin-right: .3em;
+	pointer-events: none;
+}
+gsui-controls[ saved ] .gsuiControls-cmp-localIcon {
+	display: inline-block;
+}
+.gsuiControls-cmp-name {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: left;
+	padding-right: .4ch;
+	pointer-events: none;
+}
+gsui-controls:not( [ saved ] ) .gsuiControls-cmp-name::before {
+	content: "*";
+}
+.gsuiControls-cmp-name:empty::after {
+	content: "Untitled";
+	font-style: italic;
+	padding-right: 1px;
+	opacity: .8;
+}
+.gsuiControls-cmp-editIcon {
+	width: 0;
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+	pointer-events: none;
+	transition: .1s;
+	transition-property: width, margin-left;
+}
+.gsuiControls-cmp-editBtn:hover .gsuiControls-cmp-editIcon {
+	width: 1.4ch;
+	margin-left: 4px;
+}
+.gsuiControls-cmp-dur {
+	pointer-events: none;
+}
+.gsuiControls-cmp-dur::before {
+	content: "·";
+	margin: 4px;
+}
+
+/* .......................................................................... */
+.gsuiControls-areaCtrl {
+	grid-area: areaCtrl;
+}
+.gsuiControls-playPauseStop {
+	background-color: var( --gsuiControls-playPauseStop-bg );
+}
+.gsuiControls-volume {
+	width: 6px;
+	--gsuiSlider-lineRadius: 4px;
+	--gsuiSlider-lineColor: var( --gsuiControls-playPauseStop-bg );
+	--gsuiSlider-lineBgColor: #222;
+}
+.gsuiControls-volume .gsuiSlider-eventCatcher {
+	left: -12px;
+	right: -4px;
+}
+.gsuiControls-focusBtn {
+	position: relative;
+	width: 20px;
+	font-size: 8px;
+}
+.gsuiControls-focusBtn span {
+	position: absolute;
+	top: 32%;
+	margin-top: -4px;
+	box-sizing: border-box;
+	width: 8px;
+	height: 8px;
+	border: 2px solid;
+	border-radius: 2px;
+	pointer-events: none;
+}
+.gsuiControls-focusBtn span:last-child {
+	top: 68%;
+}
+gsui-controls[ focus="up" ] .gsuiControls-focusBtn span:first-child,
+gsui-controls[ focus="down" ] .gsuiControls-focusBtn span:last-child {
+	background-color: currentColor;
+}
+.gsuiControls-btn[ data-action="stop" ] {
+	margin-left: -3px;
+}
+.gsuiControls-btn[ data-action="reset" ] {
+	margin-left: -2px;
+}
+.gsuiControls-tempo {
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	background-color: #222;
+}
+.gsuiControls-tempo-timeDivision {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 40%;
+	padding: 0 6px 0 8px;
+	font-size: 14px;
+	line-height: 0;
+	font-family: var( --gsui-font-number );
+	pointer-events: none;
+}
+.gsuiControls-tempo-bpm {
+	display: flex;
+	align-items: baseline;
+	padding-right: 7px;
+	font-size: 22px;
+	font-family: var( --gsui-font-number );
+	pointer-events: none;
+}
+.gsuiControls-tempo-bpm::after {
+	content: "bpm";
+	margin-left: 2px;
+	font-size: 14px;
+	opacity: .5;
+}
+
+/* .......................................................................... */
+.gsuiControls-areaTime {
+	grid-area: areaTime;
+	padding: 10px;
+	border-radius: 4px;
+	background-color: var( --gsuiControls-currentTime-bg );
+}
+.gsuiControls-areaTime gsui-slider {
+	--gsuiSlider-lineColor: var( --gsuiControls-currentTime-lineColor );
+	--gsuiSlider-lineBgColor: var( --gsuiControls-currentTime-lineBgColor );
+}
+.gsuiControls-areaTime .gsuiSlider-eventCatcher {
+	inset: -10px;
+}
+
+/* .......................................................................... */
+.gsuiControls-areaHist {
+	grid-area: areaHist;
+}
+#history {
+	display: none;
+}
+.gsuiControls-history {
+	background-color: var( --gsuiControls-history-bg );
+}
+.gsuiControls-btn[ data-action="redo" ] {
+	margin-left: -4px;
+}
+.gsuiControls-btn[ data-action="undoMore" ] {
+	width: auto;
+	padding: 0 6px 0 3px;
+}
+gsui-controls gsui-spectrum {
+	flex: 1;
+	border-radius: 4px;
+	width: 140px;
+	min-width: 48px;
+	background-color: #000;
+}
+.gsuiControls-btn[ data-action="export" ] {
+	--gsui-color: var( --gsuiControls-export-color );
+}
+
+/* .......................................................................... */
+.gsuiControls-areaWins {
+	grid-area: areaWins;
+	white-space: nowrap;
+	gap: 0;
+}
+.gsuiControls-areaWins .gsuiControls-btn {
+	flex: 1;
+	font-size: 12px;
+	background-color: var( --gsuiControls-winBtn-bg );
+}
+.gsuiControls-areaWins .gsuiControls-btn + .gsuiControls-btn {
+	margin-left: 0;
+	border-left: 1px dashed rgba( 0, 0, 0, .2 );
+}
+.gsuiControls-areaWins .gsuiControls-btn[ data-open ] {
+	color: var( --gsuiControls-bg );
+	background-color: var( --gsuiControls-winBtn-open-bg );
+}
+
+/* .......................................................................... */
+.gsuiControls-areaHelp {
+	grid-area: areaHelp;
+	justify-content: end;
+}
+.gsuiControls-btn[ data-action="about" ] {
+	--gsui-color: var( --gsuiControls-about-color );
+}
+.gsuiControls-btn[ data-action="cookies" ] {
+	--gsui-color: var( --gsuiControls-cookies-color );
+	animation: infinite gsuiControls-cookies-anim 5s;
+}
+@keyframes gsuiControls-cookies-anim {
+	30% { box-shadow: none; }
+	35% { box-shadow: 0 0 0 2px var( --gsuiControls-cookies-color ); }
+	100% { box-shadow: 0 0 0 2px transparent; }
+}
+
+/* .......................................................................... */
+.gsuiControls-areaVers {
+	grid-area: areaVers;
+	justify-content: end;
+}
+.gsuiControls-version {
+	opacity: .3;
+}
+.gsuiControls-version:focus,
+.gsuiControls-version:hover {
+	opacity: 1;
+}
+.gsuiControls-version-num {
+	margin-left: 6px;
+	font-family: var( --gsui-font-number );
+}
