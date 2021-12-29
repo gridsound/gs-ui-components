@@ -10,7 +10,7 @@ body {
 }
 </style>
 
-<gsui-controls focus="up" bpm="120" timedivision="4/4"></gsui-controls>
+<gsui-daw focus="up" bpm="120" timedivision="4/4"></gsui-daw>
 
 <script>
 TEST( {
@@ -21,8 +21,8 @@ TEST( {
 		"gsuiClock/gsuiClock.colors.default.css",
 		"gsuiClock/gsuiClock.css",
 		"gsuiSlider/gsuiSlider.css",
-		"gsuiControls/gsuiControls.colors.default.css",
-		"gsuiControls/gsuiControls.css",
+		"gsuiDAW/gsuiDAW.colors.default.css",
+		"gsuiDAW/gsuiDAW.css",
 	],
 	jsFiles: [
 		"gsuiPopup/gsuiPopup.html.js",
@@ -32,18 +32,18 @@ TEST( {
 		"gsuiClock/gsuiClock.js",
 		"gsuiSlider/gsuiSlider.html.js",
 		"gsuiSlider/gsuiSlider.js",
-		"gsuiControls/gsuiControls.html.js",
-		"gsuiControls/gsuiControls.js",
+		"gsuiDAW/gsuiDAW.html.js",
+		"gsuiDAW/gsuiDAW.js",
 	],
 	js: () => {
-		const elCtrl = document.querySelector( "gsui-controls" );
+		const el = document.querySelector( "gsui-daw" );
 
-		GSUI.setAttribute( elCtrl, "version", "0.36.1" );
-		// GSUI.setAttribute( elCtrl, "logged", true );
-		// GSUI.setAttribute( elCtrl, "focus", "down" );
-		GSUI.setAttribute( elCtrl, "location", "cloud" );
-		GSUI.setAttribute( elCtrl, "avatar", "https://avatars.githubusercontent.com/u/850754" );
-		GSUI.setAttribute( elCtrl, "saved", false );
+		GSUI.setAttribute( el, "version", "0.36.1" );
+		// GSUI.setAttribute( el, "logged", true );
+		// GSUI.setAttribute( el, "focus", "down" );
+		GSUI.setAttribute( el, "location", "cloud" );
+		GSUI.setAttribute( el, "avatar", "https://avatars.githubusercontent.com/u/850754" );
+		GSUI.setAttribute( el, "saved", false );
 	}
 } );
 </script>

@@ -1,17 +1,17 @@
-gsui-controls {
+gsui-daw {
 	display: flex;
 	flex-direction: column;
 	position: relative;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
-	color: var( --gsuiControls-color );
+	color: var( --gsuiDAW-color );
 	font-size: 16px;
-	background-color: var( --gsuiControls-bg );
+	background-color: var( --gsuiDAW-bg );
 }
 
 /* .......................................................................... */
-.gsuiControls-head {
+.gsuiDAW-head {
 	--gap: 4px;
 	display: grid;
 	padding: var( --gap );
@@ -21,20 +21,20 @@ gsui-controls {
 		"areaSave    areaTime    areaWins    areaVers" 24px
 		/min-content min-content min-content 1fr;
 }
-.gsuiControls-area {
+.gsuiDAW-area {
 	display: flex;
 	gap: inherit;
 }
-.gsuiControls-body {
+.gsuiDAW-body {
 	flex: 1;
-	background-color: var( --gsuiControls-content-bg );
+	background-color: var( --gsuiDAW-content-bg );
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='304' height='304' viewBox='0 0 304 304'%3E%3Cpath fill='%23000000' fill-opacity='0.2' d='M44.1 224a5 5 0 1 1 0 2H0v-2h44.1zm160 48a5 5 0 1 1 0 2H82v-2h122.1zm57.8-46a5 5 0 1 1 0-2H304v2h-42.1zm0 16a5 5 0 1 1 0-2H304v2h-42.1zm6.2-114a5 5 0 1 1 0 2h-86.2a5 5 0 1 1 0-2h86.2zm-256-48a5 5 0 1 1 0 2H0v-2h12.1zm185.8 34a5 5 0 1 1 0-2h86.2a5 5 0 1 1 0 2h-86.2zM258 12.1a5 5 0 1 1-2 0V0h2v12.1zm-64 208a5 5 0 1 1-2 0v-54.2a5 5 0 1 1 2 0v54.2zm48-198.2V80h62v2h-64V21.9a5 5 0 1 1 2 0zm16 16V64h46v2h-48V37.9a5 5 0 1 1 2 0zm-128 96V208h16v12.1a5 5 0 1 1-2 0V210h-16v-76.1a5 5 0 1 1 2 0zm-5.9-21.9a5 5 0 1 1 0 2H114v48H85.9a5 5 0 1 1 0-2H112v-48h12.1zm-6.2 130a5 5 0 1 1 0-2H176v-74.1a5 5 0 1 1 2 0V242h-60.1zm-16-64a5 5 0 1 1 0-2H114v48h10.1a5 5 0 1 1 0 2H112v-48h-10.1zM66 284.1a5 5 0 1 1-2 0V274H50v30h-2v-32h18v12.1zM236.1 176a5 5 0 1 1 0 2H226v94h48v32h-2v-30h-48v-98h12.1zm25.8-30a5 5 0 1 1 0-2H274v44.1a5 5 0 1 1-2 0V146h-10.1zm-64 96a5 5 0 1 1 0-2H208v-80h16v-14h-42.1a5 5 0 1 1 0-2H226v18h-16v80h-12.1zm86.2-210a5 5 0 1 1 0 2H272V0h2v32h10.1zM98 101.9V146H53.9a5 5 0 1 1 0-2H96v-42.1a5 5 0 1 1 2 0zM53.9 34a5 5 0 1 1 0-2H80V0h2v34H53.9zm60.1 3.9V66H82v64H69.9a5 5 0 1 1 0-2H80V64h32V37.9a5 5 0 1 1 2 0zM101.9 82a5 5 0 1 1 0-2H128V37.9a5 5 0 1 1 2 0V82h-28.1zm16-64a5 5 0 1 1 0-2H146v44.1a5 5 0 1 1-2 0V18h-26.1zm102.2 270a5 5 0 1 1 0 2H98v14h-2v-16h124.1zM242 149.9V160h16v34h-16v62h48v48h-2v-46h-48v-66h16v-30h-16v-12.1a5 5 0 1 1 2 0zM53.9 18a5 5 0 1 1 0-2H64V2H48V0h18v18H53.9zm112 32a5 5 0 1 1 0-2H192V0h50v2h-48v48h-28.1zm-48-48a5 5 0 0 1-9.8-2h2.07a3 3 0 1 0 5.66 0H178v34h-18V21.9a5 5 0 1 1 2 0V32h14V2h-58.1zm0 96a5 5 0 1 1 0-2H137l32-32h39V21.9a5 5 0 1 1 2 0V66h-40.17l-32 32H117.9zm28.1 90.1a5 5 0 1 1-2 0v-76.51L175.59 80H224V21.9a5 5 0 1 1 2 0V82h-49.59L146 112.41v75.69zm16 32a5 5 0 1 1-2 0v-99.51L184.59 96H300.1a5 5 0 0 1 3.9-3.9v2.07a3 3 0 0 0 0 5.66v2.07a5 5 0 0 1-3.9-3.9H185.41L162 121.41v98.69zm-144-64a5 5 0 1 1-2 0v-3.51l48-48V48h32V0h2v50H66v55.41l-48 48v2.69zM50 53.9v43.51l-48 48V208h26.1a5 5 0 1 1 0 2H0v-65.41l48-48V53.9a5 5 0 1 1 2 0zm-16 16V89.41l-34 34v-2.82l32-32V69.9a5 5 0 1 1 2 0zM12.1 32a5 5 0 1 1 0 2H9.41L0 43.41V40.6L8.59 32h3.51zm265.8 18a5 5 0 1 1 0-2h18.69l7.41-7.41v2.82L297.41 50H277.9zm-16 160a5 5 0 1 1 0-2H288v-71.41l16-16v2.82l-14 14V210h-28.1zm-208 32a5 5 0 1 1 0-2H64v-22.59L40.59 194H21.9a5 5 0 1 1 0-2H41.41L66 216.59V242H53.9zm150.2 14a5 5 0 1 1 0 2H96v-56.6L56.6 162H37.9a5 5 0 1 1 0-2h19.5L98 200.6V256h106.1zm-150.2 2a5 5 0 1 1 0-2H80v-46.59L48.59 178H21.9a5 5 0 1 1 0-2H49.41L82 208.59V258H53.9zM34 39.8v1.61L9.41 66H0v-2h8.59L32 40.59V0h2v39.8zM2 300.1a5 5 0 0 1 3.9 3.9H3.83A3 3 0 0 0 0 302.17V256h18v48h-2v-46H2v42.1zM34 241v63h-2v-62H0v-2h34v1zM17 18H0v-2h16V0h2v18h-1zm273-2h14v2h-16V0h2v16zm-32 273v15h-2v-14h-14v14h-2v-16h18v1zM0 92.1A5.02 5.02 0 0 1 6 97a5 5 0 0 1-6 4.9v-2.07a3 3 0 1 0 0-5.66V92.1zM80 272h2v32h-2v-32zm37.9 32h-2.07a3 3 0 0 0-5.66 0h-2.07a5 5 0 0 1 9.8 0zM5.9 0A5.02 5.02 0 0 1 0 5.9V3.83A3 3 0 0 0 3.83 0H5.9zm294.2 0h2.07A3 3 0 0 0 304 3.83V5.9a5 5 0 0 1-3.9-5.9zm3.9 300.1v2.07a3 3 0 0 0-1.83 1.83h-2.07a5 5 0 0 1 3.9-3.9zM97 100a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-48 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 96a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-144a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM49 36a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM33 68a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 240a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm80-176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm112 176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 180a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 84a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'%3E%3C/path%3E%3C/svg%3E" );
 	background-attachment: local;
 	--gsuiWindows-overflow: auto;
 }
 
 /* .......................................................................... */
-.gsuiControls-btn {
+.gsuiDAW-btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -52,47 +52,47 @@ gsui-controls {
 	transition-property: color, opacity, background-color;
 	user-select: none;
 }
-.gsuiControls-btn.gsuiIcon {
+.gsuiDAW-btn.gsuiIcon {
 	width: 32px;
 }
-.gsuiControls-btn:not( .gsuiControls-btnColor ):hover {
+.gsuiDAW-btn:not( .gsuiDAW-btnColor ):hover {
 	color: #fff;
 	opacity: 1;
 }
-.gsuiControls-btnBg {
-	background-color: var( --gsuiControls-btn-bg );
+.gsuiDAW-btnBg {
+	background-color: var( --gsuiDAW-btn-bg );
 }
-.gsuiControls-btnBg:hover {
+.gsuiDAW-btnBg:hover {
 	background-color: #fff3;
 }
-.gsuiControls-btnColor {
+.gsuiDAW-btnColor {
 	color: var( --gsui-color );
 }
-.gsuiControls-btnColor:hover {
-	color: var( --gsuiControls-bg );
+.gsuiDAW-btnColor:hover {
+	color: var( --gsuiDAW-bg );
 	background-color: var( --gsui-color );
 }
-.gsuiControls-btnBig {
+.gsuiDAW-btnBig {
 	font-size: 18px;
 }
-.gsuiControls-btns {
+.gsuiDAW-btns {
 	display: flex;
 	border-radius: 4px;
 }
-.gsuiControls-btns .gsuiControls-btn:first-child {
+.gsuiDAW-btns .gsuiDAW-btn:first-child {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
-.gsuiControls-btns .gsuiControls-btn:last-child {
+.gsuiDAW-btns .gsuiDAW-btn:last-child {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
-.gsuiControls-btns .gsuiControls-btn:not( :first-child ):not( :last-child ) {
+.gsuiDAW-btns .gsuiDAW-btn:not( :first-child ):not( :last-child ) {
 	border-radius: 0;
 }
 
 /* .......................................................................... */
-.gsuiControls-dropdown {
+.gsuiDAW-dropdown {
 	position: absolute;
 	overflow: hidden;
 	display: grid;
@@ -107,17 +107,17 @@ gsui-controls {
 	transition: .2s;
 	transition-property: opacity, visibility;
 }
-.gsuiControls-dropdown:focus {
+.gsuiDAW-dropdown:focus {
 	border-color: #69b;
 }
-.gsuiControls-dropdown:focus-within {
+.gsuiDAW-dropdown:focus-within {
 	z-index: 2;
 }
-.gsuiControls-dropdown-btn:not( :focus ) + .gsuiControls-dropdown:not( :focus-within ) {
+.gsuiDAW-dropdown-btn:not( :focus ) + .gsuiDAW-dropdown:not( :focus-within ) {
 	opacity: 0;
 	visibility: hidden;
 }
-.gsuiControls-dropdown-head {
+.gsuiDAW-dropdown-head {
 	display: flex;
 	align-items: center;
 	color: #222;
@@ -126,18 +126,18 @@ gsui-controls {
 	background-color: #888;
 	user-select: none;
 }
-.gsuiControls-dropdown-icon {
+.gsuiDAW-dropdown-icon {
 	margin: 0 6px;
 	font-size: 16px;
 }
-.gsuiControls-dropdown-title {
+.gsuiDAW-dropdown-title {
 	font-weight: bold;
 }
-.gsuiControls-dropdown-list {
+.gsuiDAW-dropdown-list {
 	overflow: auto;
 	background-color: #444;
 }
-.gsuiControls-dropdown-backdrop {
+.gsuiDAW-dropdown-backdrop {
 	position: absolute;
 	inset: 68px 0 0;
 	opacity: 0;
@@ -146,13 +146,13 @@ gsui-controls {
 	transition: .4s;
 	transition-property: visibility, opacity;
 }
-.gsuiControls-dropdown-btn:focus ~ .gsuiControls-dropdown-backdrop,
-.gsuiControls-dropdown:focus-within + .gsuiControls-dropdown-backdrop {
+.gsuiDAW-dropdown-btn:focus ~ .gsuiDAW-dropdown-backdrop,
+.gsuiDAW-dropdown:focus-within + .gsuiDAW-dropdown-backdrop {
 	/*backdrop-filter: blur( 4px );*/
 	visibility: visible;
 	opacity: 1;
 }
-.gsuiControls-dropdown-placeholder {
+.gsuiDAW-dropdown-placeholder {
 	display: none;
 	height: 100%;
 	box-sizing: border-box;
@@ -164,69 +164,69 @@ gsui-controls {
 	opacity: .5;
 	user-select: none;
 }
-.gsuiControls-dropdown-placeholder:only-child {
+.gsuiDAW-dropdown-placeholder:only-child {
 	display: flex;
 }
 
 /* .......................................................................... */
-.gsuiControls-areaUser {
+.gsuiDAW-areaUser {
 	grid-area: areaUser;
 }
-.gsuiControls-title {
+.gsuiDAW-title {
 	align-self: center;
 	margin-right: var( --gap );
 	font-size: 28px;
 	font-family: var( --gsui-font-title );
 	user-select: none;
 }
-.gsuiControls-btn[ data-action="profile" ] {
+.gsuiDAW-btn[ data-action="profile" ] {
 	width: 32px;
 	border: 2px solid #222;
 	box-sizing: border-box;
 	background-size: cover;
 	background-color: #fff4;
 }
-.gsuiControls-btn[ data-action="login" ] {
+.gsuiDAW-btn[ data-action="login" ] {
 	font-size: 26px;
 }
-.gsuiControls-btn[ data-action="login" ],
-.gsuiControls-btn[ data-action="logout" ] {
+.gsuiDAW-btn[ data-action="login" ],
+.gsuiDAW-btn[ data-action="logout" ] {
 	opacity: .7;
 }
-gsui-controls[ logged ] .gsuiControls-btn[ data-action="login" ],
-gsui-controls:not( [ logged ] ) .gsuiControls-btn[ data-action="logout" ],
-gsui-controls:not( [ logged ] ) .gsuiControls-btn[ data-action="profile" ] {
+gsui-daw[ logged ] .gsuiDAW-btn[ data-action="login" ],
+gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="logout" ],
+gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="profile" ] {
 	display: none;
 }
-.gsuiControls-cmps {
+.gsuiDAW-cmps {
 	display: flex;
 }
-.gsuiControls-btn[ data-action="cmps" ] {
-	--gsui-color: var( --gsuiControls-cmps-color );
+.gsuiDAW-btn[ data-action="cmps" ] {
+	--gsui-color: var( --gsuiDAW-cmps-color );
 }
 
 /* .......................................................................... */
-.gsuiControls-areaSave {
+.gsuiDAW-areaSave {
 	grid-area: areaSave;
 	display: flex;
 	width: 260px;
-	background-color: var( --gsuiControls-playPauseStop-bg );
+	background-color: var( --gsuiDAW-playPauseStop-bg );
 }
-.gsuiControls-cmp-saveBtn {
+.gsuiDAW-cmp-saveBtn {
 	color: #fff;
-	background-color: var( --gsuiControls-save-bg );
+	background-color: var( --gsuiDAW-save-bg );
 	transition: .2s;
 	transition-property: margin-left, color, background-color, visibility;
 }
-gsui-controls[ saved ] .gsuiControls-cmp-saveBtn {
+gsui-daw[ saved ] .gsuiDAW-cmp-saveBtn {
     visibility: hidden;
     margin-left: -32px;
 }
-.gsuiControls-cmp-saveBtn:hover {
-	color: var( --gsuiControls-save-bg );
+.gsuiDAW-cmp-saveBtn:hover {
+	color: var( --gsuiDAW-save-bg );
 	background-color: #fff;
 }
-.gsuiControls-cmp-editBtn {
+.gsuiDAW-cmp-editBtn {
 	flex: 1;
 	display: flex;
 	overflow: hidden;
@@ -236,15 +236,15 @@ gsui-controls[ saved ] .gsuiControls-cmp-saveBtn {
 	padding: 0 4px;
 	font-size: 14px;
 }
-.gsuiControls-cmp-localIcon {
+.gsuiDAW-cmp-localIcon {
 	display: none;
 	margin-right: .3em;
 	pointer-events: none;
 }
-gsui-controls[ saved ] .gsuiControls-cmp-localIcon {
+gsui-daw[ saved ] .gsuiDAW-cmp-localIcon {
 	display: inline-block;
 }
-.gsuiControls-cmp-name {
+.gsuiDAW-cmp-name {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -252,16 +252,16 @@ gsui-controls[ saved ] .gsuiControls-cmp-localIcon {
 	padding-right: .4ch;
 	pointer-events: none;
 }
-gsui-controls:not( [ saved ] ) .gsuiControls-cmp-name::before {
+gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-name::before {
 	content: "*";
 }
-.gsuiControls-cmp-name:empty::after {
+.gsuiDAW-cmp-name:empty::after {
 	content: "Untitled";
 	font-style: italic;
 	padding-right: 1px;
 	opacity: .8;
 }
-.gsuiControls-cmp-editIcon {
+.gsuiDAW-cmp-editIcon {
 	width: 0;
 	display: inline-block;
 	overflow: hidden;
@@ -270,41 +270,41 @@ gsui-controls:not( [ saved ] ) .gsuiControls-cmp-name::before {
 	transition: .1s;
 	transition-property: width, margin-left;
 }
-.gsuiControls-cmp-editBtn:hover .gsuiControls-cmp-editIcon {
+.gsuiDAW-cmp-editBtn:hover .gsuiDAW-cmp-editIcon {
 	width: 1.4ch;
 	margin-left: 4px;
 }
-.gsuiControls-cmp-dur {
+.gsuiDAW-cmp-dur {
 	pointer-events: none;
 }
-.gsuiControls-cmp-dur::before {
+.gsuiDAW-cmp-dur::before {
 	content: "·";
 	margin: 4px;
 }
 
 /* .......................................................................... */
-.gsuiControls-areaCtrl {
+.gsuiDAW-areaCtrl {
 	grid-area: areaCtrl;
 }
-.gsuiControls-playPauseStop {
-	background-color: var( --gsuiControls-playPauseStop-bg );
+.gsuiDAW-playPauseStop {
+	background-color: var( --gsuiDAW-playPauseStop-bg );
 }
-.gsuiControls-volume {
+.gsuiDAW-volume {
 	width: 6px;
 	--gsuiSlider-lineRadius: 4px;
-	--gsuiSlider-lineColor: var( --gsuiControls-playPauseStop-bg );
+	--gsuiSlider-lineColor: var( --gsuiDAW-playPauseStop-bg );
 	--gsuiSlider-lineBgColor: #222;
 }
-.gsuiControls-volume .gsuiSlider-eventCatcher {
+.gsuiDAW-volume .gsuiSlider-eventCatcher {
 	left: -12px;
 	right: calc( var( --gap ) * -1 );
 }
-.gsuiControls-focusBtn {
+.gsuiDAW-focusBtn {
 	position: relative;
 	width: 20px;
 	font-size: 8px;
 }
-.gsuiControls-focusBtn span {
+.gsuiDAW-focusBtn span {
 	position: absolute;
 	top: 32%;
 	margin-top: -4px;
@@ -315,26 +315,26 @@ gsui-controls:not( [ saved ] ) .gsuiControls-cmp-name::before {
 	border-radius: 2px;
 	pointer-events: none;
 }
-.gsuiControls-focusBtn span:last-child {
+.gsuiDAW-focusBtn span:last-child {
 	top: 68%;
 }
-gsui-controls[ focus="up" ] .gsuiControls-focusBtn span:first-child,
-gsui-controls[ focus="down" ] .gsuiControls-focusBtn span:last-child {
+gsui-daw[ focus="up" ] .gsuiDAW-focusBtn span:first-child,
+gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 	background-color: currentColor;
 }
-.gsuiControls-btn[ data-action="stop" ] {
+.gsuiDAW-btn[ data-action="stop" ] {
 	margin-left: -3px;
 }
-.gsuiControls-btn[ data-action="reset" ] {
+.gsuiDAW-btn[ data-action="reset" ] {
 	margin-left: -2px;
 }
-.gsuiControls-tempo {
+.gsuiDAW-tempo {
 	display: flex;
 	align-items: center;
 	white-space: nowrap;
 	background-color: #222;
 }
-.gsuiControls-tempo-timeDivision {
+.gsuiDAW-tempo-timeDivision {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -346,7 +346,7 @@ gsui-controls[ focus="down" ] .gsuiControls-focusBtn span:last-child {
 	font-family: var( --gsui-font-number );
 	pointer-events: none;
 }
-.gsuiControls-tempo-bpm {
+.gsuiDAW-tempo-bpm {
 	display: flex;
 	align-items: baseline;
 	padding-right: 7px;
@@ -354,7 +354,7 @@ gsui-controls[ focus="down" ] .gsuiControls-focusBtn span:last-child {
 	font-family: var( --gsui-font-number );
 	pointer-events: none;
 }
-.gsuiControls-tempo-bpm::after {
+.gsuiDAW-tempo-bpm::after {
 	content: "bpm";
 	margin-left: 2px;
 	font-size: 14px;
@@ -362,101 +362,101 @@ gsui-controls[ focus="down" ] .gsuiControls-focusBtn span:last-child {
 }
 
 /* .......................................................................... */
-.gsuiControls-areaTime {
+.gsuiDAW-areaTime {
 	grid-area: areaTime;
 	padding: 10px;
 	border-radius: 4px;
-	background-color: var( --gsuiControls-currentTime-bg );
+	background-color: var( --gsuiDAW-currentTime-bg );
 }
-.gsuiControls-areaTime gsui-slider {
-	--gsuiSlider-lineColor: var( --gsuiControls-currentTime-lineColor );
-	--gsuiSlider-lineBgColor: var( --gsuiControls-currentTime-lineBgColor );
+.gsuiDAW-areaTime gsui-slider {
+	--gsuiSlider-lineColor: var( --gsuiDAW-currentTime-lineColor );
+	--gsuiSlider-lineBgColor: var( --gsuiDAW-currentTime-lineBgColor );
 }
-.gsuiControls-areaTime .gsuiSlider-eventCatcher {
+.gsuiDAW-areaTime .gsuiSlider-eventCatcher {
 	inset: -10px;
 }
 
 /* .......................................................................... */
-.gsuiControls-areaHist {
+.gsuiDAW-areaHist {
 	grid-area: areaHist;
 }
-.gsuiControls-history {
-	background-color: var( --gsuiControls-history-bg );
+.gsuiDAW-history {
+	background-color: var( --gsuiDAW-history-bg );
 }
-.gsuiControls-btn[ data-action="redo" ] {
+.gsuiDAW-btn[ data-action="redo" ] {
 	margin-left: -4px;
 }
-.gsuiControls-btn[ data-action="undoMore" ] {
+.gsuiDAW-btn[ data-action="undoMore" ] {
 	width: auto;
 	padding: 0 6px 0 3px;
 }
-.gsuiControls-history .gsuiControls-dropdown {
+.gsuiDAW-history .gsuiDAW-dropdown {
 	left: 450px;
 	width: 360px;
-	box-shadow: 2px var( --gsuiControls-dropdown-shadow );
+	box-shadow: 2px var( --gsuiDAW-dropdown-shadow );
 }
-gsui-controls gsui-spectrum {
+gsui-daw gsui-spectrum {
 	flex: 1;
 	border-radius: 4px;
 	width: 140px;
 	min-width: 48px;
 	background-color: #000;
 }
-.gsuiControls-btn[ data-action="export" ] {
-	--gsui-color: var( --gsuiControls-export-color );
+.gsuiDAW-btn[ data-action="export" ] {
+	--gsui-color: var( --gsuiDAW-export-color );
 }
 
 /* .......................................................................... */
-.gsuiControls-areaWins {
+.gsuiDAW-areaWins {
 	grid-area: areaWins;
 	white-space: nowrap;
 	gap: 0;
 }
-.gsuiControls-areaWins .gsuiControls-btn {
+.gsuiDAW-areaWins .gsuiDAW-btn {
 	flex: 1;
 	font-size: 12px;
-	background-color: var( --gsuiControls-winBtn-bg );
+	background-color: var( --gsuiDAW-winBtn-bg );
 }
-.gsuiControls-areaWins .gsuiControls-btn + .gsuiControls-btn {
+.gsuiDAW-areaWins .gsuiDAW-btn + .gsuiDAW-btn {
 	margin-left: 0;
 	border-left: 1px dashed rgba( 0, 0, 0, .2 );
 }
-.gsuiControls-areaWins .gsuiControls-btn[ data-open ] {
-	color: var( --gsuiControls-bg );
-	background-color: var( --gsuiControls-winBtn-open-bg );
+.gsuiDAW-areaWins .gsuiDAW-btn[ data-open ] {
+	color: var( --gsuiDAW-bg );
+	background-color: var( --gsuiDAW-winBtn-open-bg );
 }
 
 /* .......................................................................... */
-.gsuiControls-areaHelp {
+.gsuiDAW-areaHelp {
 	grid-area: areaHelp;
 	justify-content: end;
 }
-.gsuiControls-btn[ data-action="about" ] {
-	--gsui-color: var( --gsuiControls-about-color );
+.gsuiDAW-btn[ data-action="about" ] {
+	--gsui-color: var( --gsuiDAW-about-color );
 }
-.gsuiControls-btn[ data-action="cookies" ] {
-	--gsui-color: var( --gsuiControls-cookies-color );
-	animation: infinite gsuiControls-cookies-anim 5s;
+.gsuiDAW-btn[ data-action="cookies" ] {
+	--gsui-color: var( --gsuiDAW-cookies-color );
+	animation: infinite gsuiDAW-cookies-anim 5s;
 }
-@keyframes gsuiControls-cookies-anim {
+@keyframes gsuiDAW-cookies-anim {
 	30% { box-shadow: none; }
-	35% { box-shadow: 0 0 0 2px var( --gsuiControls-cookies-color ); }
+	35% { box-shadow: 0 0 0 2px var( --gsuiDAW-cookies-color ); }
 	100% { box-shadow: 0 0 0 2px transparent; }
 }
 
 /* .......................................................................... */
-.gsuiControls-areaVers {
+.gsuiDAW-areaVers {
 	grid-area: areaVers;
 	justify-content: end;
 }
-.gsuiControls-version {
+.gsuiDAW-version {
 	opacity: .3;
 }
-.gsuiControls-version:focus,
-.gsuiControls-version:hover {
+.gsuiDAW-version:focus,
+.gsuiDAW-version:hover {
 	opacity: 1;
 }
-.gsuiControls-version-num {
+.gsuiDAW-version-num {
 	margin-left: 6px;
 	font-family: var( --gsui-font-number );
 }

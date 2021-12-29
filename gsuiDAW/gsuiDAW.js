@@ -1,21 +1,21 @@
 "use strict";
 
-class gsuiControls extends HTMLElement {
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiControls" )
-	#children = GSUI.getTemplate( "gsui-controls" )
+class gsuiDAW extends HTMLElement {
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
+	#children = GSUI.getTemplate( "gsui-daw" )
 	#elements = GSUI.findElements( this.#children, {
-		bpm: ".gsuiControls-tempo-bpm",
-		bPM: ".gsuiControls-tempo-beatsPerMeasure",
-		sPB: ".gsuiControls-tempo-stepsPerBeat",
-		name: ".gsuiControls-cmp-name",
-		vers: ".gsuiControls-version-num",
-		cmpSave: ".gsuiControls-cmp-saveBtn",
-		cmpIcon: ".gsuiControls-cmp-localIcon",
+		bpm: ".gsuiDAW-tempo-bpm",
+		bPM: ".gsuiDAW-tempo-beatsPerMeasure",
+		sPB: ".gsuiDAW-tempo-stepsPerBeat",
+		name: ".gsuiDAW-cmp-name",
+		vers: ".gsuiDAW-version-num",
+		cmpSave: ".gsuiDAW-cmp-saveBtn",
+		cmpIcon: ".gsuiDAW-cmp-localIcon",
 		clock: "gsui-clock",
 		spectrum: "gsui-spectrum",
-		volume: ".gsuiControls-volume gsui-slider",
-		currentTime: ".gsuiControls-areaTime gsui-slider",
-		userAvatar: ".gsuiControls-btn[data-action='profile']",
+		volume: ".gsuiDAW-volume gsui-slider",
+		currentTime: ".gsuiDAW-areaTime gsui-slider",
+		userAvatar: ".gsuiDAW-btn[data-action='profile']",
 	} )
 
 	constructor() {
@@ -136,5 +136,5 @@ class gsuiControls extends HTMLElement {
 	}
 }
 
-Object.seal( gsuiControls );
-customElements.define( "gsui-controls", gsuiControls );
+Object.seal( gsuiDAW );
+customElements.define( "gsui-daw", gsuiDAW );
