@@ -1,5 +1,6 @@
 gsui-controls {
 	--gsuiControls-bg: #444;
+	--gsuiControls-content-bg: #222;
 	--gsuiControls-color: #ddd;
 	--gsuiControls-playPauseStop-bg: #67a;
 	--gsuiControls-save-bg: #ba5d5d;
@@ -14,4 +15,5 @@ gsui-controls {
 	--gsuiControls-export-color: #ff9;
 	--gsuiControls-about-color: #ff9;
 	--gsuiControls-cookies-color: #ff9;
+	--gsuiControls-dropdown-shadow: 20px 10px #0006;
 }
