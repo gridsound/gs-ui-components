@@ -134,6 +134,7 @@ gsui-daw {
 	font-weight: bold;
 }
 .gsuiDAW-dropdown-list {
+	position: relative;
 	overflow: auto;
 	background-color: #444;
 }
@@ -155,18 +156,17 @@ gsui-daw {
 .gsuiDAW-dropdown-placeholder {
 	position: absolute;
 	display: none;
-	top: 48px;
+	top: 32px;
 	width: 100%;
 	align-items: center;
 	justify-content: center;
-	padding: 1em;
 	text-align: center;
 	font-size: 12px;
 	font-style: italic;
 	opacity: .5;
 	user-select: none;
 }
-.gsuiDAW-dropdown-list:empty + .gsuiDAW-dropdown-placeholder {
+.gsuiDAW-dropdown-placeholder:only-child {
 	display: flex;
 }
 

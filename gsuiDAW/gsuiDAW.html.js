@@ -95,9 +95,10 @@ GSUI.setTemplate( "gsui-daw-history", () => (
 			GSUI.createElement( "i", { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "history" } ),
 			GSUI.createElement( "span", { class: "gsuiDAW-dropdown-title" }, "history" ),
 		),
-		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-list" } ),
-		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-placeholder" },
-			GSUI.createElement( "span", null, "there is nothing to undo" ),
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-list" },
+			GSUI.createElement( "div", { class: "gsuiDAW-dropdown-placeholder" },
+				GSUI.createElement( "span", null, "there is nothing to undo" ),
+			),
 		),
 	)
 ) );
