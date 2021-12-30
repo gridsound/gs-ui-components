@@ -13,3 +13,11 @@ body {
 	--gsui-col-patternSelected: rgb( var( --gsui-rgb-patternSelected ) );
 	--gsui-col-currentTimeCursor: rgb( var( --gsui-rgb-currentTimeCursor ) );
 }
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #ddd #222;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background-color: #222; }
+::-webkit-scrollbar-thumb { background-color: #ddd; }
