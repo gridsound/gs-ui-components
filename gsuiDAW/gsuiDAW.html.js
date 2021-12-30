@@ -86,8 +86,39 @@ GSUI.setTemplate( "gsui-daw", () => [
 	GSUI.createElement( "div", { class: "gsuiDAW-body" } ),
 ] );
 
-GSUI.setTemplate( "gsui-daw-cmps", () => [
-] );
+GSUI.setTemplate( "gsui-daw-cmps", () => (
+	GSUI.createElement( "div", { class: "gsuiDAW-dropdown", tabindex: 0 },
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head", "data-list": "local" },
+			GSUI.createElement( "i", { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "local" } ),
+			GSUI.createElement( "span", { class: "gsuiDAW-dropdown-title" }, "local" ),
+			GSUI.getTemplate( "gsui-daw-cmps-btn", { action: "localNewCmp", icon: "plus", text: "new", title: "Create a new composition on this computer" } ),
+			GSUI.getTemplate( "gsui-daw-cmps-btn", { action: "localOpenCmp", icon: "folder-open", text: "open", title: "Open a composition on this computer" } ),
+		),
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head", "data-list": "cloud" },
+			GSUI.createElement( "i", { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "cloud" } ),
+			GSUI.createElement( "span", { class: "gsuiDAW-dropdown-title" }, "cloud" ),
+			GSUI.getTemplate( "gsui-daw-cmps-btn", { action: "cloudNewCmp", icon: "plus", text: "new", title: "Create a new composition on your cloud profile" } ),
+		),
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-list", "data-list": "local" },
+			GSUI.createElement( "div", { class: "gsuiDAW-dropdown-placeholder" },
+				GSUI.createElement( "span", null, "there is no local composition here" ),
+			),
+		),
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-list", "data-list": "cloud" },
+			GSUI.createElement( "div", { class: "gsuiDAW-dropdown-placeholder" },
+				GSUI.createElement( "span", null, "you don't have any cloud composition yet" ),
+				GSUI.createElement( "span", null, "you are not connected" ),
+			),
+		),
+	)
+) );
+
+GSUI.setTemplate( "gsui-daw-cmps-btn", ( { action, title, icon, text } ) => (
+	GSUI.createElement( "button", { class: "gsuiDAW-cmps-btn", "data-action": action, title },
+		GSUI.createElement( "i", { class: "gsuiDAW-cmps-btn-icon gsuiIcon", "data-icon": icon } ),
+		GSUI.createElement( "span", { class: "gsuiDAW-cmps-btn-text" }, text ),
+	)
+) );
 
 GSUI.setTemplate( "gsui-daw-history", () => (
 	GSUI.createElement( "div", { class: "gsuiDAW-dropdown", tabindex: 0 },

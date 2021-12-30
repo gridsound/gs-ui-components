@@ -10,7 +10,6 @@ gsui-daw {
 	--gsuiDAW-btn-bg: #ffffff1a;
 	--gsuiDAW-winBtn-bg: #222;
 	--gsuiDAW-winBtn-open-bg: #ff9;
-	--gsuiDAW-cmps-color: #9ad;
 	--gsuiDAW-export-color: #ff9;
 	--gsuiDAW-about-color: #ff9;
 	--gsuiDAW-cookies-color: #ff9;
@@ -20,4 +19,7 @@ gsui-daw {
 	--gsuiDAW-history-action-color: #ddd;
 	--gsuiDAW-history-action-light-bg: #67a;
 	--gsuiDAW-history-action-lightoff-bg: #1a1a1a;
+	--gsuiDAW-cmps-color: #9ad;
+	--gsuiDAW-cmps-btn-bg: #444;
+	--gsuiDAW-cmps-btn-newCmp-color: #ff9;
 }
