@@ -44,6 +44,20 @@ TEST( {
 		GSUI.setAttribute( el, "location", "cloud" );
 		GSUI.setAttribute( el, "avatar", "https://avatars.githubusercontent.com/u/850754" );
 		GSUI.setAttribute( el, "saved", false );
+
+		el.stackAction( "mute", "shhhhhhhh..." );
+		el.stackAction( "unmute", "make some noise" );
+		el.stackAction( "plus", "add some love" );
+		el.stackAction( "minus", "remove some hate" );
+		el.stackAction( "pen", "rename stuff" );
+		el.stackAction( "osc-sine", "synth params" );
+		el.stackAction( "keys", "keyyyyysss" );
+		el.stackAction( "arrows", "move elements" );
+		el.stackAction( "slices", "slices stuff" );
+		el.stackAction( "loop", "loop loop loooooooop" );
+		el.stackAction( "mixer", "mixer changes" );
+		el.stackAction( "redirect", "redirection -->" );
+		el.undo();
 	}
 } );
 </script>

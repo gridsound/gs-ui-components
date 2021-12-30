@@ -7,7 +7,6 @@ gsui-daw {
 	--gsuiDAW-currentTime-bg: #0003;
 	--gsuiDAW-currentTime-lineColor: #abd;
 	--gsuiDAW-currentTime-lineBgColor: #222;
-	--gsuiDAW-history-bg: #777;
 	--gsuiDAW-btn-bg: #ffffff1a;
 	--gsuiDAW-winBtn-bg: #222;
 	--gsuiDAW-winBtn-open-bg: #ff9;
@@ -16,4 +15,9 @@ gsui-daw {
 	--gsuiDAW-about-color: #ff9;
 	--gsuiDAW-cookies-color: #ff9;
 	--gsuiDAW-dropdown-shadow: 20px 10px #0006;
+	--gsuiDAW-history-bg: #777;
+	--gsuiDAW-history-action-bg: #454750;
+	--gsuiDAW-history-action-color: #ddd;
+	--gsuiDAW-history-action-light-bg: #67a;
+	--gsuiDAW-history-action-lightoff-bg: #1a1a1a;
 }

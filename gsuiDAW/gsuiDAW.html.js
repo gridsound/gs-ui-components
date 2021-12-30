@@ -91,14 +91,20 @@ GSUI.setTemplate( "gsui-daw-cmps", () => [
 
 GSUI.setTemplate( "gsui-daw-history", () => (
 	GSUI.createElement( "div", { class: "gsuiDAW-dropdown", tabindex: 0 },
-		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head", id: "historyTitle" },
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head" },
 			GSUI.createElement( "i", { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "history" } ),
 			GSUI.createElement( "span", { class: "gsuiDAW-dropdown-title" }, "history" ),
 		),
-		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-list", id: "historyList" },
-			GSUI.createElement( "div", { class: "gsuiDAW-dropdown-placeholder" },
-				GSUI.createElement( "span", null, "there is nothing to undo" ),
-			),
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-list" } ),
+		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-placeholder" },
+			GSUI.createElement( "span", null, "there is nothing to undo" ),
 		),
+	)
+) );
+
+GSUI.setTemplate( "gsui-daw-history-action", ( { icon, desc } ) => (
+	GSUI.createElement( "div", { class: "gsuiDAW-history-action" },
+		GSUI.createElement( "i", { class: "gsuiDAW-history-action-icon gsuiIcon", "data-icon": icon } ),
+		GSUI.createElement( "span", { class: "gsuiDAW-history-action-text" }, desc ),
 	)
 ) );

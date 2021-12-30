@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiDAW extends HTMLElement {
+	#currentActionInd = -1
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
 	#children = GSUI.getTemplate( "gsui-daw" )
 	#elements = GSUI.findElements( this.#children, {
@@ -16,6 +17,7 @@ class gsuiDAW extends HTMLElement {
 		volume: ".gsuiDAW-volume gsui-slider",
 		currentTime: ".gsuiDAW-areaTime gsui-slider",
 		userAvatar: ".gsuiDAW-btn[data-action='profile']",
+		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
 	} )
 
 	constructor() {
@@ -95,6 +97,29 @@ class gsuiDAW extends HTMLElement {
 	// .........................................................................
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
+	}
+	clearHistory() {
+		Array.prototype.forEach.call( this.#getActions(), a => a.remove() );
+		this.#currentActionInd = -1;
+	}
+	stackAction( icon, desc ) {
+		Array.prototype.forEach.call( this.#getActions(), a => "undone" in a.dataset && a.remove() );
+		this.#elements.historyList.append( GSUI.getTemplate( "gsui-daw-history-action", { icon, desc } ) );
+		this.#elements.historyList.scroll( 0, Number.MAX_SAFE_INTEGER );
+		this.#currentActionInd = this.#getActions().length - 1;
+	}
+	undo() {
+		if ( this.#currentActionInd >= 0 ) {
+			GSUI.setAttribute( this.#getActions()[ this.#currentActionInd-- ], "data-undone", true );
+		}
+	}
+	redo() {
+		if ( this.#currentActionInd < this.#getActions().length - 1 ) {
+			GSUI.setAttribute( this.#getActions()[ ++this.#currentActionInd ], "data-undone", false );
+		}
+	}
+	#getActions() {
+		return this.#elements.historyList.children;
 	}
 
 	// .........................................................................
