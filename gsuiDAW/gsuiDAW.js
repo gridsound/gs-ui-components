@@ -140,7 +140,7 @@ class gsuiDAW extends HTMLElement {
 				case "tempo":
 				case "export":
 				case "settings":
-				case "cookie":
+				case "cookies":
 				case "keyboard":
 				case "about":
 					lg( "popup", act );
@@ -153,8 +153,12 @@ class gsuiDAW extends HTMLElement {
 							}
 						} );
 					break;
+				case "help":
+				case "undoMore":
+				case "changelog":
+					break;
 				default:
-					lg( {act} );
+					lg( "ignored", act );
 					break;
 			}
 		}
