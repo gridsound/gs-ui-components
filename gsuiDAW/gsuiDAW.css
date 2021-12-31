@@ -34,64 +34,6 @@ gsui-daw {
 }
 
 /* .......................................................................... */
-.gsuiDAW-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border: 0;
-	padding: 0;
-	outline: 0;
-	color: inherit;
-	cursor: pointer;
-	font-size: 16px;
-	line-height: 1;
-	text-decoration: none;
-	border-radius: 4px;
-	background: none;
-	transition: .2s;
-	transition-property: color, opacity, background-color;
-	user-select: none;
-}
-.gsuiDAW-btn.gsuiIcon {
-	width: 32px;
-}
-.gsuiDAW-btn:not( .gsuiDAW-btnColor ):hover {
-	color: #fff;
-	opacity: 1;
-}
-.gsuiDAW-btnBg {
-	background-color: var( --gsuiDAW-btn-bg );
-}
-.gsuiDAW-btnBg:hover {
-	background-color: #fff3;
-}
-.gsuiDAW-btnColor {
-	color: var( --gsui-color );
-}
-.gsuiDAW-btnColor:hover {
-	color: var( --gsuiDAW-bg );
-	background-color: var( --gsui-color );
-}
-.gsuiDAW-btnBig {
-	font-size: 18px;
-}
-.gsuiDAW-btns {
-	display: flex;
-	border-radius: 4px;
-}
-.gsuiDAW-btns .gsuiDAW-btn:first-child {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-.gsuiDAW-btns .gsuiDAW-btn:last-child {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.gsuiDAW-btns .gsuiDAW-btn:not( :first-child ):not( :last-child ) {
-	border-radius: 0;
-}
-
-/* .......................................................................... */
 .gsuiDAW-areaUser {
 	grid-area: areaUser;
 }
