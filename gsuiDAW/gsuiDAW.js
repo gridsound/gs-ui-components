@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiDAW extends HTMLElement {
+	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
@@ -13,13 +14,13 @@ class gsuiDAW extends HTMLElement {
 		cmpSave: ".gsuiDAW-currCmp-saveBtn",
 		cmpIcon: ".gsuiDAW-currCmp-localIcon",
 		vers: ".gsuiDAW-version-num",
-		cmpSave: ".gsuiDAW-cmp-saveBtn",
-		cmpIcon: ".gsuiDAW-cmp-localIcon",
 		clock: "gsui-clock",
 		spectrum: "gsui-spectrum",
 		volume: ".gsuiDAW-volume gsui-slider",
 		currentTime: ".gsuiDAW-areaTime gsui-slider",
 		userAvatar: ".gsuiDAW-btn[data-action='profile']",
+		cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
+		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
 	} )
 
@@ -102,6 +103,41 @@ class gsuiDAW extends HTMLElement {
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
 	}
+
+	// .........................................................................
+	clearCompositions() {
+		this.#cmps.forEach( html => html.root.remove() );
+	}
+	addComposition( cmp ) {
+		if ( this.#cmps.has( cmp.id ) ) {
+			this.updateComposition( cmp );
+		} else {
+			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode: cmp.options.saveMode } ),
+				html = GSUI.findElements( root, {
+					// root: ".cmp",
+					bpm: ".gsuiDAW-cmp-bpm",
+					name: ".gsuiDAW-cmp-name",
+					save: ".gsuiDAW-cmp-save",
+					duration: ".gsuiDAW-cmp-duration",
+				} );
+
+			this.#cmps.set( cmp.id, html );
+			this.updateComposition( cmp );
+			( cmp.options.saveMode === "local"
+				? this.#elements.cmpsLocalList
+				: this.#elements.cmpsCloudList ).append( root );
+		}
+	}
+	updateComposition( cmp ) {
+		const html = this.#cmps.get( cmp.id ),
+			[ min, sec ] = gsuiClock.parseBeatsToSeconds( cmp.duration, cmp.bpm );
+
+		html.bpm.textContent = cmp.bpm;
+		html.name.textContent = cmp.name;
+		html.duration.textContent = `${ min }:${ sec }`;
+	}
+
+	// .........................................................................
 	clearHistory() {
 		Array.prototype.forEach.call( this.#actions, a => a.remove() );
 		this.#currentActionInd = -1;

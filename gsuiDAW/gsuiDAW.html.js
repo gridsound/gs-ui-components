@@ -120,6 +120,27 @@ GSUI.setTemplate( "gsui-daw-cmps-btn", ( { action, title, icon, text } ) => (
 	)
 ) );
 
+GSUI.setTemplate( "gsui-daw-cmp", ( { id, saveMode } ) => (
+	GSUI.createElement( "div", { class: "gsuiDAW-cmp", "data-id": id, draggable: "true", tabindex: 0 },
+		GSUI.createElement( "button", { class: "gsuiDAW-cmp-btn gsuiIcon", "data-action": "save", "data-icon": saveMode === "local" ? "save" : "upload" } ),
+		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-info", "data-action": "open" },
+			GSUI.createElement( "div", { class: "gsuiDAW-cmp-name" } ),
+			GSUI.createElement( "div", null,
+				GSUI.createElement( "span", { class: "gsuiDAW-cmp-duration-wrap" },
+					GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "clock" } ),
+					GSUI.createElement( "span", { class: "gsuiDAW-cmp-duration" } ),
+				),
+				GSUI.createElement( "span", { class: "gsuiDAW-cmp-bpm-wrap" },
+					GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "speed" } ),
+					GSUI.createElement( "span", { class: "gsuiDAW-cmp-bpm" } ),
+				),
+			),
+		),
+		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "json",   "data-icon": "file-export", title: "Export to JSON file" } ),
+		GSUI.createElement( "button", {        class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "delete", "data-icon": "minus-oct", title: "Delete" } ),
+	)
+) );
+
 GSUI.setTemplate( "gsui-daw-history", () => (
 	GSUI.createElement( "div", { class: "gsuiDAW-dropdown", tabindex: 0 },
 		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head" },

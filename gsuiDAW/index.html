@@ -23,6 +23,7 @@ TEST( {
 		"gsuiSlider/gsuiSlider.css",
 		"gsuiDAW/gsuiDAW.colors.default.css",
 		"gsuiDAW/gsuiDAW.css",
+		"gsuiDAW/gsuiDAW-cmp.css",
 	],
 	jsFiles: [
 		"gsuiPopup/gsuiPopup.html.js",
@@ -44,6 +45,10 @@ TEST( {
 		GSUI.setAttribute( el, "location", "cloud" );
 		GSUI.setAttribute( el, "avatar", "https://avatars.githubusercontent.com/u/850754" );
 		GSUI.setAttribute( el, "saved", false );
+
+		el.addComposition( { id: "idTOTO", name: "my first compo", bpm: 105, duration: 16, options: { saveMode: "local" } } );
+		el.addComposition( { id: "idTATA", name: "a second compo", bpm: 90, duration: 24, options: { saveMode: "local" } } );
+		el.addComposition( { id: "idONLI", name: "sunshy online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 
 		el.stackAction( "mute", "shhhhhhhh..." );
 		el.stackAction( "unmute", "make some noise" );

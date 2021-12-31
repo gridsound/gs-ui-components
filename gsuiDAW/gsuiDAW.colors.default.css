@@ -22,4 +22,9 @@ gsui-daw {
 	--gsuiDAW-cmps-color: #9ad;
 	--gsuiDAW-cmps-btn-bg: #444;
 	--gsuiDAW-cmps-btn-newCmp-color: #ff9;
+	--gsuiDAW-cmp-cloud-bg: #4c71af;
+	--gsuiDAW-cmp-local-bg: #67a;
+	--gsuiDAW-cmp-text: #fff;
+	--gsuiDAW-cmp-height: 42px;
+	--gsuiDAW-cmp-text-size: 18px;
 }
