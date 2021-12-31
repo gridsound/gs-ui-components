@@ -194,8 +194,6 @@ gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 	margin-left: -2px;
 }
 .gsuiDAW-tempo {
-	display: flex;
-	align-items: center;
 	white-space: nowrap;
 	background-color: #222;
 }

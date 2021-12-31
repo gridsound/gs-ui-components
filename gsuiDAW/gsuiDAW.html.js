@@ -8,7 +8,7 @@ GSUI.setTemplate( "gsui-daw", () => [
 			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBig gsuiIcon", "data-action": "login",  "data-icon": "profile", title: "Login to GridSound" } ),
 			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBig gsuiIcon", "data-action": "logout", "data-icon": "logout",  title: "Logout" } ),
 			GSUI.createElement( "div", { class: "gsuiDAW-cmps" },
-				GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBig gsuiDAW-btnColor gsuiIcon", "data-action": "cmps", "data-icon": "musics", title: "Create cloud/local compositions" } ),
+				GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-dropdown-btn gsuiDAW-btnBig gsuiDAW-btnColor gsuiIcon", "data-action": "cmps", "data-icon": "musics", title: "Create cloud/local compositions" } ),
 				GSUI.getTemplate( "gsui-daw-cmps" ),
 				GSUI.createElement( "div", { class: "gsuiDAW-dropdown-backdrop" } ),
 			),
