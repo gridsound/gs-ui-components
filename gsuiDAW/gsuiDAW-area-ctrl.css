@@ -1,0 +1,75 @@
+.gsuiDAW-areaCtrl {
+	grid-area: areaCtrl;
+}
+.gsuiDAW-playPauseStop {
+	background-color: var( --gsuiDAW-playPauseStop-bg );
+}
+.gsuiDAW-volume {
+	width: 6px;
+	--gsuiSlider-lineRadius: 4px;
+	--gsuiSlider-lineColor: var( --gsuiDAW-playPauseStop-bg );
+	--gsuiSlider-lineBgColor: #222;
+}
+.gsuiDAW-volume .gsuiSlider-eventCatcher {
+	left: -12px;
+	right: calc( var( --gap ) * -1 );
+}
+.gsuiDAW-focusBtn {
+	position: relative;
+	width: 20px;
+	font-size: 8px;
+}
+.gsuiDAW-focusBtn span {
+	position: absolute;
+	top: 32%;
+	margin-top: -4px;
+	box-sizing: border-box;
+	width: 8px;
+	height: 8px;
+	border: 2px solid;
+	border-radius: 2px;
+	pointer-events: none;
+}
+.gsuiDAW-focusBtn span:last-child {
+	top: 68%;
+}
+gsui-daw[ focus="up" ] .gsuiDAW-focusBtn span:first-child,
+gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
+	background-color: currentColor;
+}
+.gsuiDAW-btn[ data-action="stop" ] {
+	margin-left: -3px;
+}
+.gsuiDAW-btn[ data-action="reset" ] {
+	margin-left: -2px;
+}
+.gsuiDAW-tempo {
+	white-space: nowrap;
+	background-color: #222;
+}
+.gsuiDAW-tempo-timeDivision {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 40%;
+	padding: 0 6px 0 8px;
+	font-size: 14px;
+	line-height: 0;
+	font-family: var( --gsui-font-number );
+	pointer-events: none;
+}
+.gsuiDAW-tempo-bpm {
+	display: flex;
+	align-items: baseline;
+	padding-right: 7px;
+	font-size: 22px;
+	font-family: var( --gsui-font-number );
+	pointer-events: none;
+}
+.gsuiDAW-tempo-bpm::after {
+	content: "bpm";
+	margin-left: 2px;
+	font-size: 14px;
+	opacity: .5;
+}

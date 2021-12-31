@@ -1,0 +1,75 @@
+.gsuiDAW-areaSave {
+	grid-area: areaSave;
+	display: flex;
+	width: 260px;
+	background-color: var( --gsuiDAW-playPauseStop-bg );
+}
+.gsuiDAW-currCmp-saveBtn {
+	color: #fff;
+	background-color: var( --gsuiDAW-save-bg );
+	transition: .2s;
+	transition-property: margin-left, color, background-color, visibility;
+}
+gsui-daw[ saved ] .gsuiDAW-currCmp-saveBtn {
+    visibility: hidden;
+    margin-left: -32px;
+}
+.gsuiDAW-currCmp-saveBtn:hover {
+	color: var( --gsuiDAW-save-bg );
+	background-color: #fff;
+}
+.gsuiDAW-currCmp-editBtn {
+	flex: 1;
+	display: flex;
+	overflow: hidden;
+	align-items: center;
+	justify-content: start;
+	font-family: inherit;
+	padding: 0 4px;
+	font-size: 14px;
+}
+.gsuiDAW-currCmp-localIcon {
+	display: none;
+	margin-right: .3em;
+	pointer-events: none;
+}
+gsui-daw[ saved ] .gsuiDAW-currCmp-localIcon {
+	display: inline-block;
+}
+.gsuiDAW-currCmp-name {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: left;
+	padding-right: .4ch;
+	pointer-events: none;
+}
+gsui-daw:not( [ saved ] ) .gsuiDAW-currCmp-name::before {
+	content: "*";
+}
+.gsuiDAW-currCmp-name:empty::after {
+	content: "Untitled";
+	font-style: italic;
+	padding-right: 1px;
+	opacity: .8;
+}
+.gsuiDAW-currCmp-editIcon {
+	width: 0;
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+	pointer-events: none;
+	transition: .1s;
+	transition-property: width, margin-left;
+}
+.gsuiDAW-currCmp-editBtn:hover .gsuiDAW-currCmp-editIcon {
+	width: 1.4ch;
+	margin-left: 4px;
+}
+.gsuiDAW-currCmp-dur {
+	pointer-events: none;
+}
+.gsuiDAW-currCmp-dur::before {
+	content: "·";
+	margin: 4px;
+}

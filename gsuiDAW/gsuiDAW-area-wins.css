@@ -1,0 +1,18 @@
+.gsuiDAW-areaWins {
+	grid-area: areaWins;
+	white-space: nowrap;
+	gap: 0;
+}
+.gsuiDAW-areaWins .gsuiDAW-btn {
+	flex: 1;
+	font-size: 12px;
+	background-color: var( --gsuiDAW-winBtn-bg );
+}
+.gsuiDAW-areaWins .gsuiDAW-btn + .gsuiDAW-btn {
+	margin-left: 0;
+	border-left: 1px dashed rgba( 0, 0, 0, .2 );
+}
+.gsuiDAW-areaWins .gsuiDAW-btn[ data-open ] {
+	color: var( --gsuiDAW-bg );
+	background-color: var( --gsuiDAW-winBtn-open-bg );
+}

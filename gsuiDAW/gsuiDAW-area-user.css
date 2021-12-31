@@ -1,0 +1,81 @@
+.gsuiDAW-areaUser {
+	grid-area: areaUser;
+}
+.gsuiDAW-title {
+	align-self: center;
+	margin-right: var( --gap );
+	font-size: 28px;
+	font-family: var( --gsui-font-title );
+	user-select: none;
+}
+.gsuiDAW-btn[ data-action="profile" ] {
+	width: 32px;
+	border: 2px solid #222;
+	box-sizing: border-box;
+	background-size: cover;
+	background-color: #fff4;
+}
+.gsuiDAW-btn[ data-action="login" ] {
+	font-size: 26px;
+}
+.gsuiDAW-btn[ data-action="login" ],
+.gsuiDAW-btn[ data-action="logout" ] {
+	opacity: .7;
+}
+gsui-daw[ logged ] .gsuiDAW-btn[ data-action="login" ],
+gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="logout" ],
+gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="profile" ] {
+	display: none;
+}
+.gsuiDAW-cmps {
+	display: flex;
+}
+.gsuiDAW-btn[ data-action="cmps" ] {
+	--gsui-color: var( --gsuiDAW-cmps-color );
+}
+
+/* .......................................................................... */
+.gsuiDAW-cmps .gsuiDAW-dropdown {
+	left: var( --gap );
+	width: 480px;
+	grid-template-columns: 1fr 1fr;
+	box-shadow: 2px var( --gsuiDAW-dropdown-shadow );
+}
+.gsuiDAW-dropdown-list[ data-list="cloud" ] {
+	border-left: 2px solid #0001;
+}
+gsui-daw:not( [ logged ] ) .gsuiDAW-dropdown-list[ data-list="cloud" ] .gsuiDAW-dropdown-placeholder span:first-child,
+gsui-daw[ logged ]         .gsuiDAW-dropdown-list[ data-list="cloud" ] .gsuiDAW-dropdown-placeholder span:last-child {
+	display: none;
+}
+.gsuiDAW-cmps-btn {
+	height: 20px;
+	padding: 0 8px;
+	margin-left: 8px;
+	border: 0;
+	outline: 0;
+	border-radius: 3px;
+	color: var( --gsuiDAW-cmps-btn-newCmp-color );
+	font-size: 12px;
+	font-weight: bold;
+	font-family: inherit;
+	line-height: 1;
+	background-color: var( --gsuiDAW-cmps-btn-bg );
+	cursor: pointer;
+	transition: filter .2s;
+}
+.gsuiDAW-cmps-btn:focus,
+.gsuiDAW-cmps-btn:hover {
+	filter: brightness( 1.1 );
+}
+.gsuiDAW-cmps-btn-icon,
+.gsuiDAW-cmps-btn-text {
+	pointer-events: none;
+}
+.gsuiDAW-cmps-btn-text {
+	margin-left: 4px;
+}
+gsui-daw:not( [ logged ] ) .gsuiDAW-cmps-btn[ data-action="cloudNewCmp" ] {
+	color: #888;
+	pointer-events: none;
+}

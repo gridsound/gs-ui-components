@@ -1,0 +1,15 @@
+.gsuiDAW-areaVers {
+	grid-area: areaVers;
+	justify-content: end;
+}
+.gsuiDAW-version {
+	opacity: .3;
+}
+.gsuiDAW-version:focus,
+.gsuiDAW-version:hover {
+	opacity: 1;
+}
+.gsuiDAW-version-num {
+	margin-left: 6px;
+	font-family: var( --gsui-font-number );
+}

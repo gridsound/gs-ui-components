@@ -1,0 +1,13 @@
+.gsuiDAW-areaTime {
+	grid-area: areaTime;
+	padding: 10px;
+	border-radius: 4px;
+	background-color: var( --gsuiDAW-currentTime-bg );
+}
+.gsuiDAW-areaTime gsui-slider {
+	--gsuiSlider-lineColor: var( --gsuiDAW-currentTime-lineColor );
+	--gsuiSlider-lineBgColor: var( --gsuiDAW-currentTime-lineBgColor );
+}
+.gsuiDAW-areaTime .gsuiSlider-eventCatcher {
+	inset: -10px;
+}
