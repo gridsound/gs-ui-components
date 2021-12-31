@@ -9,7 +9,9 @@ class gsuiDAW extends HTMLElement {
 		bpm: ".gsuiDAW-tempo-bpm",
 		bPM: ".gsuiDAW-tempo-beatsPerMeasure",
 		sPB: ".gsuiDAW-tempo-stepsPerBeat",
-		name: ".gsuiDAW-cmp-name",
+		cmpName: ".gsuiDAW-currCmp-name",
+		cmpSave: ".gsuiDAW-currCmp-saveBtn",
+		cmpIcon: ".gsuiDAW-currCmp-localIcon",
 		vers: ".gsuiDAW-version-num",
 		cmpSave: ".gsuiDAW-cmp-saveBtn",
 		cmpIcon: ".gsuiDAW-cmp-localIcon",
@@ -63,7 +65,7 @@ class gsuiDAW extends HTMLElement {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "name":
-					this.#elements.name.textContent = val;
+					this.#elements.cmpName.textContent = val;
 					break;
 				case "bpm":
 					this.#elements.bpm.textContent = val;
@@ -125,41 +127,40 @@ class gsuiDAW extends HTMLElement {
 	#onclick( e ) {
 		const act = e.target.dataset.action;
 
-		if ( act ) {
-			switch ( act ) {
-				case "focusSwitch":
-				case "play":
-				case "stop":
-				case "reset":
-				case "undo":
-				case "redo":
-					this.#dispatch( act );
-					break;
-				case "login":
-				case "tempo":
-				case "export":
-				case "settings":
-				case "cookies":
-				case "keyboard":
-				case "about":
-					lg( "popup", act );
-					break;
-				case "rename":
-					GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
-						.then( n => {
-							if ( n !== this.getAttribute( "name" ) ) {
-								this.#dispatch( "rename", n );
-							}
-						} );
-					break;
-				case "help":
-				case "undoMore":
-				case "changelog":
-					break;
-				default:
-					lg( "ignored", act );
-					break;
-			}
+		switch ( act ) {
+			case "saveCurrent":
+			case "focusSwitch":
+			case "play":
+			case "stop":
+			case "reset":
+			case "undo":
+			case "redo":
+				this.#dispatch( act );
+				break;
+			case "rename":
+				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
+					.then( n => {
+						if ( n !== this.getAttribute( "name" ) ) {
+							this.#dispatch( "rename", n );
+						}
+					} );
+				break;
+			case "login":
+			case "tempo":
+			case "export":
+			case "settings":
+			case "cookies":
+			case "keyboard":
+			case "about":
+				lg( "popup", act );
+				break;
+			case "help":
+			case "undoMore":
+			case "changelog":
+				break;
+			default:
+				act && lg( "untracked action:", act );
+				break;
 		}
 	}
 }

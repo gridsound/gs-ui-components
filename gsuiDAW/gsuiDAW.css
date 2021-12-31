@@ -213,21 +213,21 @@ gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="profile" ] {
 	width: 260px;
 	background-color: var( --gsuiDAW-playPauseStop-bg );
 }
-.gsuiDAW-cmp-saveBtn {
+.gsuiDAW-currCmp-saveBtn {
 	color: #fff;
 	background-color: var( --gsuiDAW-save-bg );
 	transition: .2s;
 	transition-property: margin-left, color, background-color, visibility;
 }
-gsui-daw[ saved ] .gsuiDAW-cmp-saveBtn {
+gsui-daw[ saved ] .gsuiDAW-currCmp-saveBtn {
     visibility: hidden;
     margin-left: -32px;
 }
-.gsuiDAW-cmp-saveBtn:hover {
+.gsuiDAW-currCmp-saveBtn:hover {
 	color: var( --gsuiDAW-save-bg );
 	background-color: #fff;
 }
-.gsuiDAW-cmp-editBtn {
+.gsuiDAW-currCmp-editBtn {
 	flex: 1;
 	display: flex;
 	overflow: hidden;
@@ -237,15 +237,15 @@ gsui-daw[ saved ] .gsuiDAW-cmp-saveBtn {
 	padding: 0 4px;
 	font-size: 14px;
 }
-.gsuiDAW-cmp-localIcon {
+.gsuiDAW-currCmp-localIcon {
 	display: none;
 	margin-right: .3em;
 	pointer-events: none;
 }
-gsui-daw[ saved ] .gsuiDAW-cmp-localIcon {
+gsui-daw[ saved ] .gsuiDAW-currCmp-localIcon {
 	display: inline-block;
 }
-.gsuiDAW-cmp-name {
+.gsuiDAW-currCmp-name {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -253,16 +253,16 @@ gsui-daw[ saved ] .gsuiDAW-cmp-localIcon {
 	padding-right: .4ch;
 	pointer-events: none;
 }
-gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-name::before {
+gsui-daw:not( [ saved ] ) .gsuiDAW-currCmp-name::before {
 	content: "*";
 }
-.gsuiDAW-cmp-name:empty::after {
+.gsuiDAW-currCmp-name:empty::after {
 	content: "Untitled";
 	font-style: italic;
 	padding-right: 1px;
 	opacity: .8;
 }
-.gsuiDAW-cmp-editIcon {
+.gsuiDAW-currCmp-editIcon {
 	width: 0;
 	display: inline-block;
 	overflow: hidden;
@@ -271,14 +271,14 @@ gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-name::before {
 	transition: .1s;
 	transition-property: width, margin-left;
 }
-.gsuiDAW-cmp-editBtn:hover .gsuiDAW-cmp-editIcon {
+.gsuiDAW-currCmp-editBtn:hover .gsuiDAW-currCmp-editIcon {
 	width: 1.4ch;
 	margin-left: 4px;
 }
-.gsuiDAW-cmp-dur {
+.gsuiDAW-currCmp-dur {
 	pointer-events: none;
 }
-.gsuiDAW-cmp-dur::before {
+.gsuiDAW-currCmp-dur::before {
 	content: "·";
 	margin: 4px;
 }
@@ -500,6 +500,7 @@ gsui-daw[ logged ]         .gsuiDAW-dropdown-list[ data-list="cloud" ] .gsuiDAW-
 }
 gsui-daw:not( [ logged ] ) .gsuiDAW-cmps-btn[ data-action="cloudNewCmp" ] {
 	color: #888;
+	pointer-events: none;
 }
 
 /* .......................................................................... */
