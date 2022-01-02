@@ -3,25 +3,42 @@
 	text-align: center;
 }
 
+/* .......................................................................... */
 .gsuiDAW-popup-about > div {
 	margin-bottom: 16px;
 }
-
-.gsuiDAW-popup-about-title {
-	display: flex;
-	align-items: baseline;
-	justify-content: center;
-}
-.gsuiDAW-popup-about-title > span:first-child {
-	margin-right: 4px;
-	font: 32px var( --gsui-font-title );
-}
-
 .gsuiDAW-popup-about a {
 	color: #ccf;
 	font-weight: bold;
 }
 
+/* .......................................................................... */
+.gsuiDAW-popup-about-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+	font-size: 18px;
+	gap: 4px;
+}
+.gsuiDAW-popup-about-title {
+	font: 32px var( --gsui-font-title );
+}
+.gsuiDAW-popup-about-versionNum {
+	opacity: .8;
+	font-family: var( --gsui-font-number );
+}
+.gsuiDAW-popup-about-versionCheck {
+	font-size: 11px;
+	font-weight: bold;
+	opacity: .4;
+	cursor: pointer;
+	transition: .2s opacity;
+}
+.gsuiDAW-popup-about-versionCheck:hover {
+	opacity: 1;
+}
+
+/* .......................................................................... */
 .gsuiDAW-popup-about-links {
 	display: flex;
 }

@@ -59,7 +59,7 @@ class gsuiDAW extends HTMLElement {
 				currenttime: 0,
 				maxtime: 1,
 				volume: 1,
-				version: "",
+				version: "0.0.0",
 			} );
 		}
 	}
@@ -100,6 +100,7 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "version":
 					this.#elements.vers.textContent = val;
+					this.#popups.about.querySelector( ".gsuiDAW-popup-about-versionNum" ).textContent = val;
 					break;
 			}
 		}

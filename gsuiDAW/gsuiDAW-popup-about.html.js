@@ -2,13 +2,11 @@
 
 GSUI.setTemplate( "gsui-daw-popup-about", () => (
 	GSUI.createElement( "div", { class: "gsuiDAW-popup-about" },
-		GSUI.createElement( "div", { class: "gsuiDAW-popup-about-title" },
-			GSUI.createElement( "span", null, "GridSound" ),
-			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-version" },
-				GSUI.createElement( "span", { class: "gsuiDAW-popup-about-versionNum" } ),
-				GSUI.createElement( "i", { class: "gsuiDAW-popup-about-versionIcon gsuiIcon" } ),
-				GSUI.createElement( "span", { class: "gsuiDAW-popup-about-versionCheck" }, "check the version" ),
-			),
+		GSUI.createElement( "div", { class: "gsuiDAW-popup-about-head" },
+			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-title" }, "GridSound" ),
+			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-versionNum" } ),
+			GSUI.createElement( "i", { class: "gsuiIcon" } ),
+			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-versionCheck" }, "check the version" ),
 		),
 		GSUI.createElement( "div", null,
 			"GridSound is a ",
