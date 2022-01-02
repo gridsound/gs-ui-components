@@ -4,6 +4,7 @@ class gsuiDAW extends HTMLElement {
 	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
+	#cookiesText = "..."
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
 	#children = GSUI.getTemplate( "gsui-daw" )
 	#elements = GSUI.findElements( this.#children, {
@@ -102,6 +103,9 @@ class gsuiDAW extends HTMLElement {
 	}
 
 	// .........................................................................
+	setCookiesText( text ) {
+		this.#cookiesText = text;
+	}
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
 	}
@@ -177,17 +181,16 @@ class gsuiDAW extends HTMLElement {
 				break;
 			case "rename":
 				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
-					.then( n => {
-						if ( n !== this.getAttribute( "name" ) ) {
-							this.#dispatch( "rename", n );
-						}
-					} );
+					.then( n => n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
+				break;
+			case "cookies":
+				GSUI.popup.confirm( "Cookies consent", this.#cookiesText, "Accept", "Decline" )
+					.then( b => b && this.#dispatch( "oki-cookies" ) );
 				break;
 			case "login":
 			case "tempo":
 			case "export":
 			case "settings":
-			case "cookies":
 			case "keyboard":
 			case "about":
 				lg( "popup", act );
