@@ -2,13 +2,19 @@
 	grid-area: areaHelp;
 	justify-content: end;
 }
+
 .gsuiDAW-btn[ data-action="about" ] {
 	--gsui-color: var( --gsuiDAW-about-color );
 }
+
 .gsuiDAW-btn[ data-action="cookies" ] {
 	--gsui-color: var( --gsuiDAW-cookies-color );
 	animation: infinite gsuiDAW-cookies-anim 5s;
 }
+gsui-daw[ oki-cookies ] .gsuiDAW-btn[ data-action="cookies" ] {
+	display: none;
+}
+
 @keyframes gsuiDAW-cookies-anim {
 	30% { box-shadow: none; }
 	35% { box-shadow: 0 0 0 2px var( --gsuiDAW-cookies-color ); }
