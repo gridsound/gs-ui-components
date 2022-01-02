@@ -79,7 +79,7 @@ GSUI.setTemplate( "gsui-daw", () => [
 		GSUI.createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaVers" },
 			GSUI.createElement( "a", { class: "gsuiDAW-btn gsuiDAW-version", "data-action": "version", title: "Access older versions", href: "https://github.com/gridsound/daw/wiki/versions", target: "_blank", rel: "noopener" },
 				GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "list" } ),
-				GSUI.createElement( "span", { class: "gsuiDAW-version-num" }, "version" ),
+				GSUI.createElement( "span", { class: "gsuiDAW-version-num" } ),
 			),
 		),
 	),

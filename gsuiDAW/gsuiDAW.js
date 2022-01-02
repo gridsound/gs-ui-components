@@ -54,6 +54,7 @@ class gsuiDAW extends HTMLElement {
 				currenttime: 0,
 				maxtime: 1,
 				volume: 1,
+				version: "",
 			} );
 		}
 	}
