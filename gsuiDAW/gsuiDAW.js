@@ -62,7 +62,7 @@ class gsuiDAW extends HTMLElement {
 	disconnectedCallback() {
 	}
 	static get observedAttributes() {
-		return [ "bpm", "timedivision", "name", "volume", "currenttime", "maxtime", "location", "userAvatar", "version" ];
+		return [ "bpm", "timedivision", "name", "volume", "currenttime", "maxtime", "location", "useravatar", "version" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -91,7 +91,7 @@ class gsuiDAW extends HTMLElement {
 					GSUI.setAttribute( this.#elements.cmpIcon, "data-icon", val === "local" ? "local" : "cloud" );
 					GSUI.setAttribute( this.#elements.cmpSave, "data-icon", val === "local" ? "save" : "upload" );
 					break;
-				case "userAvatar":
+				case "useravatar":
 					this.#elements.userAvatar.style.backgroundImage = `url("${ val }")`;
 					break;
 				case "version":
