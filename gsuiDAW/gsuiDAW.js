@@ -30,6 +30,7 @@ class gsuiDAW extends HTMLElement {
 
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.onclick = this.#onclick.bind( this );
+		this.#elements.spectrum.setResolution( 140 );
 		GSUI.listenEvents( this, {
 			gsuiSlider: {
 				input: ( d, tar ) => this.#dispatch( tar.dataset.action, d.args[ 0 ] ),
