@@ -24,6 +24,9 @@ class gsuiDAW extends HTMLElement {
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
 	} )
+	#popups = {
+		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
+	}
 
 	constructor() {
 		super();
@@ -187,12 +190,14 @@ class gsuiDAW extends HTMLElement {
 				GSUI.popup.confirm( "Cookies consent", this.#cookiesText, "Accept", "Decline" )
 					.then( b => b && this.#dispatch( "oki-cookies" ) );
 				break;
+			case "about":
+				GSUI.popup.custom( { title: "About", element: this.#popups.about } );
+				break;
 			case "login":
 			case "tempo":
 			case "export":
 			case "settings":
 			case "keyboard":
-			case "about":
 				lg( "popup", act );
 				break;
 			case "help":

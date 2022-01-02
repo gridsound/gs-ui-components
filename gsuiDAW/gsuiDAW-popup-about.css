@@ -1,0 +1,55 @@
+.gsuiDAW-popup-about {
+	width: 450px;
+	text-align: center;
+}
+
+.gsuiDAW-popup-about > div {
+	margin-bottom: 16px;
+}
+
+.gsuiDAW-popup-about-title {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+}
+.gsuiDAW-popup-about-title > span:first-child {
+	margin-right: 4px;
+	font: 32px var( --gsui-font-title );
+}
+
+.gsuiDAW-popup-about a {
+	color: #ccf;
+	font-weight: bold;
+}
+
+.gsuiDAW-popup-about-links {
+	display: flex;
+}
+.gsuiDAW-popup-about-links a {
+	flex: 1;
+	padding: 20px 0;
+	color: #fff;
+	font-size: 36px;
+	font-weight: normal;
+	opacity: .5;
+	transition: .4s;
+	transition-property: opacity;
+}
+.gsuiDAW-popup-about-links a:hover {
+	opacity: 1;
+}
+.gsuiDAW-popup-about-links a:hover::before {
+	top: -4px;
+	left: 4px;
+	text-shadow: -4px 4px 2px rgba( 0, 0, 0, .2 );
+}
+.gsuiDAW-popup-about-links a::before {
+	position: relative;
+	top: 0;
+	left: 0;
+	transition: .2s;
+	transition-property: top, left, text-shadow;
+}
+.gsuiDAW-popup-about-links:hover a:not( :hover ) {
+	opacity: .3;
+}
