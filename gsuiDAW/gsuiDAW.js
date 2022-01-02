@@ -141,11 +141,11 @@ class gsuiDAW extends HTMLElement {
 
 	// .........................................................................
 	clearHistory() {
-		Array.prototype.forEach.call( this.#actions, a => a.remove() );
+		Array.from( this.#actions ).forEach( a => a.remove() );
 		this.#currentActionInd = -1;
 	}
 	stackAction( icon, desc ) {
-		Array.prototype.forEach.call( this.#actions, a => "undone" in a.dataset && a.remove() );
+		Array.from( this.#actions ).forEach( a => "undone" in a.dataset && a.remove() );
 		this.#elements.historyList.append( GSUI.getTemplate( "gsui-daw-history-action", { icon, desc } ) );
 		this.#elements.historyList.scroll( 0, Number.MAX_SAFE_INTEGER );
 		this.#currentActionInd = this.#actions.length - 1;
