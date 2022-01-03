@@ -10,6 +10,7 @@ gsui-daw {
 	background-color: var( --gsuiDAW-bg );
 }
 
+/* .......................................................................... */
 .gsuiDAW-head {
 	--gap: 4px;
 	display: grid;

@@ -1,0 +1,17 @@
+.gsuiDAW-popup-shortcuts {
+	width: 500px;
+}
+.gsuiDAW-popup-shortcuts kbd {
+	display: inline-block;
+	position: relative;
+	border-radius: 4px;
+	border-bottom: 3px solid #333;
+	padding: 4px 6px;
+	color: #fff;
+	white-space: nowrap;
+	background-color: #444;
+}
+.gsuiDAW-popup-shortcuts .gsuiIcon[ data-icon="plus" ] {
+	margin: 0 8px;
+	font-size: 10px;
+}

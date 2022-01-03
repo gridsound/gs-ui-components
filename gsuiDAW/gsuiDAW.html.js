@@ -71,7 +71,7 @@ GSUI.setTemplate( "gsui-daw", () => [
 		),
 		GSUI.createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaHelp" },
 			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "cookies",   "data-icon": "cookie",    title: "Cookies" } ),
-			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "keyboard",  "data-icon": "keyboard",  title: "Keyboard shortcuts" } ),
+			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "shortcuts", "data-icon": "keyboard",  title: "Keyboard shortcuts" } ),
 			GSUI.createElement( "a",      { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "help",      "data-icon": "help",      title: "Help",      href: "https://github.com/gridsound/daw/wiki/help",      target: "_blank", rel: "noopener" } ),
 			GSUI.createElement( "a",      { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "changelog", "data-icon": "changelog", title: "Changelog", href: "https://github.com/gridsound/daw/wiki/changelog", target: "_blank", rel: "noopener" } ),
 			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon gsuiDAW-btnColor", "data-action": "about",     "data-icon": "about",     title: "About" } ),
