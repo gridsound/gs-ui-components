@@ -1,6 +1,9 @@
 .gsuiDAW-popup-shortcuts {
 	width: 500px;
 }
+.gsuiDAW-popup-shortcuts .gsuiPopup-row:nth-child( even ) {
+	background-color: rgba( 255, 255, 255, .05 );
+}
 .gsuiDAW-popup-shortcuts kbd {
 	display: inline-block;
 	position: relative;
