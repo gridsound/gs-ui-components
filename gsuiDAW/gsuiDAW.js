@@ -26,6 +26,7 @@ class gsuiDAW extends HTMLElement {
 	} )
 	#popups = {
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
+		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
 	}
 
@@ -195,12 +196,14 @@ class gsuiDAW extends HTMLElement {
 			case "about":
 				GSUI.popup.custom( { title: "About", element: this.#popups.about } );
 				break;
+			case "export":
+				GSUI.popup.custom( { title: "Export", element: this.#popups.export } );
+				break;
 			case "shortcuts":
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
 				break;
 			case "login":
 			case "tempo":
-			case "export":
 			case "settings":
 				lg( "popup", act );
 				break;
