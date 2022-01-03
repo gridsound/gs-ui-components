@@ -114,16 +114,18 @@ gsui-popup:not( .gsuiPopup-show ) {
 .gsuiPopup-row + .gsuiPopup-row {
 	margin-top: 6px;
 }
-.gsuiPopup-row:nth-child( even ) {
-	background-color: rgba( 255, 255, 255, .05 );
-}
 .gsuiPopup-row-title {
 	flex: 1;
 	font-size: 13px;
 	margin-right: 1ch;
 }
-.gsuiPopup-row-values {
+.gsuiPopup-row-values,
+.gsuiPopup-row-values label {
 	display: flex;
 	align-items: center;
 	font-family: var( --gsui-font-monospace );
+	gap: .6ch;
+}
+.gsuiPopup-row-values label {
+	cursor: pointer;
 }
