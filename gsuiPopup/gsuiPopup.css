@@ -90,3 +90,43 @@ gsui-popup:not( .gsuiPopup-show ) {
 	color: #fff;
 	background-color: rgba( 255, 255, 255, .1 );
 }
+
+/* .......................................................................... */
+.gsuiPopup-content fieldset {
+	display: flex;
+	flex-direction: column;
+	border: 2px solid #444;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+.gsuiPopup-content legend {
+	font-size: 12px;
+	opacity: .5;
+}
+.gsuiPopup-content a {
+	color: #bbf;
+}
+
+/* .......................................................................... */
+.gsuiPopup-row {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	padding: 4px;
+}
+.gsuiPopup-row + .gsuiPopup-row {
+	margin-top: 6px;
+}
+.gsuiPopup-row:nth-child( even ) {
+	background-color: rgba( 255, 255, 255, .05 );
+}
+.gsuiPopup-row-title {
+	flex: 1;
+	font-size: 13px;
+	margin-right: 1ch;
+}
+.gsuiPopup-row-values {
+	display: flex;
+	align-items: center;
+	font-family: var( --gsui-font-monospace );
+}
