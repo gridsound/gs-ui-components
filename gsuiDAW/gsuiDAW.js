@@ -225,7 +225,7 @@ class gsuiDAW extends HTMLElement {
 				break;
 			case "rename":
 				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
-					.then( n => n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
+					.then( n => n && n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "cookies":
 				GSUI.popup.custom( { title: "Cookies consent", element: this.#popups.cookies } )
