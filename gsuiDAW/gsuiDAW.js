@@ -29,6 +29,7 @@ class gsuiDAW extends HTMLElement {
 		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
 		settings: GSUI.getTemplate( "gsui-daw-popup-settings" ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
+		cookies: GSUI.getTemplate( "gsui-daw-popup-cookies" ),
 	}
 
 	constructor() {
@@ -191,8 +192,8 @@ class gsuiDAW extends HTMLElement {
 					.then( n => n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "cookies":
-				GSUI.popup.confirm( "Cookies consent", this.#cookiesText, "Accept", "Decline" )
-					.then( b => b && this.#dispatch( "oki-cookies" ) );
+				GSUI.popup.custom( { title: "Cookies consent", element: this.#popups.cookies } )
+					.then( arg => arg !== undefined && this.#dispatch( "oki-cookies" ) );
 				break;
 			case "about":
 				GSUI.popup.custom( { title: "About", element: this.#popups.about } );
