@@ -4,7 +4,6 @@ class gsuiDAW extends HTMLElement {
 	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
-	#cookiesText = "..."
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
 	#children = GSUI.getTemplate( "gsui-daw" )
 	#elements = GSUI.findElements( this.#children, {
@@ -147,9 +146,6 @@ class gsuiDAW extends HTMLElement {
 	}
 
 	// .........................................................................
-	setCookiesText( text ) {
-		this.#cookiesText = text;
-	}
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
 	}
