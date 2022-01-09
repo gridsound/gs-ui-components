@@ -4,17 +4,17 @@
 .gsuiDAW-popup-settings .gsuiPopup-row-values {
 	width: 200px;
 }
-.gsuiDAW-uirateFps {
+.gsuiDAW-uiRateFps {
 	font-size: 16px;
 	font-family: var( --gsui-font-number );
 	white-space: pre;
 }
-.gsuiDAW-uirateFps::after {
+.gsuiDAW-uiRateFps::after {
 	content: " fps";
 	font-family: var( --gsui-font );
 	font-size: 12px;
 	opacity: .6;
 }
-.gsuiDAW-popup-settings input[ name="gsuiDAW-uirate-range" ] {
+.gsuiDAW-popup-settings input[ name="uiRateFPS" ] {
 	min-width: 0;
 }

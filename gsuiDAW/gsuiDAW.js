@@ -27,9 +27,20 @@ class gsuiDAW extends HTMLElement {
 	#popups = {
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
 		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
-		settings: GSUI.getTemplate( "gsui-daw-popup-settings" ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
 		cookies: GSUI.getTemplate( "gsui-daw-popup-cookies" ),
+		settings: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-settings" ), {
+			root: ".gsuiDAW-popup-settings",
+			sampleRate: "[name='sampleRate']",
+			uiRateRadio: {
+				auto: "[name='uiRate'][value='auto']",
+				manual: "[name='uiRate'][value='manual']",
+			},
+			uiRateManualFPS: "[name='uiRate'][value='manual'] + .gsuiDAW-uiRateFps",
+			uiRateManualRange: "[name='uiRateFPS']",
+			windowsLowGraphics: "[name='windowsLowGraphics']",
+			timelineNumbering: "[name='timelineNumbering']",
+		} ),
 	}
 
 	constructor() {
@@ -38,6 +49,11 @@ class gsuiDAW extends HTMLElement {
 
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.onclick = this.#onclick.bind( this );
+		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
+		this.#popups.settings.uiRateManualRange.oninput = e => {
+			this.#popups.settings.uiRateManualFPS.textContent =
+				e.target.value.padStart( 2, "0" );
+		};
 		this.#elements.spectrum.setResolution( 140 );
 		GSUI.listenEvents( this, {
 			gsuiSlider: {
@@ -56,9 +72,13 @@ class gsuiDAW extends HTMLElement {
 			this.#children = null;
 			GSUI.recallAttributes( this, {
 				saved: true,
+				uirate: "auto",
+				windowslowgraphics: false,
+				timelinenumbering: 0,
+				samplerate: 24000,
+				bpm: 60,
 				name: "",
 				location: "local",
-				bpm: 60,
 				timedivision: "1/1",
 				currenttime: 0,
 				maxtime: 1,
@@ -70,13 +90,29 @@ class gsuiDAW extends HTMLElement {
 	disconnectedCallback() {
 	}
 	static get observedAttributes() {
-		return [ "bpm", "timedivision", "name", "volume", "currenttime", "maxtime", "location", "useravatar", "version" ];
+		return [ "samplerate", "uirate", "windowslowgraphics", "timelinenumbering", "bpm", "timedivision", "name", "volume", "currenttime", "maxtime", "location", "useravatar", "version" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "name":
 					this.#elements.cmpName.textContent = val;
+					break;
+				case "samplerate":
+					this.#popups.settings.sampleRate.value = val;
+					break;
+				case "uirate":
+					this.#popups.settings.uiRateRadio[ val === "auto" ? val : "manual" ].checked = true;
+					if ( val !== "auto" ) {
+						this.#popups.settings.uiRateManualFPS.textContent = val;
+						this.#popups.settings.uiRateManualRange.value = val;
+					}
+					break;
+				case "windowslowgraphics":
+					this.#popups.settings.windowsLowGraphics.checked = val !== null;
+					break;
+				case "timelinenumbering":
+					this.#popups.settings.timelineNumbering.value = val;
 					break;
 				case "bpm":
 					this.#elements.bpm.textContent = val;
@@ -201,16 +237,33 @@ class gsuiDAW extends HTMLElement {
 			case "export":
 				GSUI.popup.custom( { title: "Export", element: this.#popups.export } );
 				break;
-			case "settings":
-				GSUI.popup.custom( { title: "Settings", element: this.#popups.settings } );
-				break;
 			case "shortcuts":
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
+				break;
+			case "settings":
+				GSUI.popup.custom( { title: "Settings", element: this.#popups.settings.root } )
+					.then( data => {
+						if ( data ) {
+							if ( data.uiRate === "manual" ) {
+								data.uiRate = data.uiRateFPS;
+							}
+							delete data.uiRateFPS;
+							if (
+								data.uiRate !== +this.getAttribute( "uirate" ) ||
+								data.sampleRate !== +this.getAttribute( "samplerate" ) ||
+								data.timelineNumbering !== +this.getAttribute( "timelinenumbering" ) ||
+								data.windowsLowGraphics !== ( this.getAttribute( "windowslowgraphics" ) === "" )
+							) {
+								lg( data, +this.getAttribute( "samplerate" ) )
+							}
+						}
+					} );
 				break;
 			case "login":
 			case "tempo":
 				lg( "popup", act );
 				break;
+			case "cmps":
 			case "help":
 			case "undoMore":
 			case "changelog":
