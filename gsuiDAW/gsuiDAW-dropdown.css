@@ -10,6 +10,8 @@
 	outline: 0;
 	border: 2px solid #444;
 	border-radius: 4px;
+	opacity: 0;
+	visibility: hidden;
 	transition: .2s;
 	transition-property: opacity, visibility;
 }
@@ -19,9 +21,10 @@
 .gsuiDAW-dropdown:focus-within {
 	z-index: 2;
 }
-.gsuiDAW-dropdown-btn:not( :focus ) + .gsuiDAW-dropdown:not( :focus-within ) {
-	opacity: 0;
-	visibility: hidden;
+.gsuiDAW-dropdown-btn:focus + .gsuiDAW-dropdown,
+.gsuiDAW-dropdown:focus-within {
+	opacity: 1;
+	visibility: visible;
 }
 .gsuiDAW-dropdown-head {
 	display: flex;
