@@ -160,7 +160,7 @@ class gsuiDAW extends HTMLElement {
 		} else {
 			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode: cmp.options.saveMode } ),
 				html = GSUI.findElements( root, {
-					// root: ".cmp",
+					root: ".gsuiDAW-cmp",
 					bpm: ".gsuiDAW-cmp-bpm",
 					name: ".gsuiDAW-cmp-name",
 					save: ".gsuiDAW-cmp-save",
@@ -181,6 +181,14 @@ class gsuiDAW extends HTMLElement {
 		html.bpm.textContent = cmp.bpm;
 		html.name.textContent = cmp.name;
 		html.duration.textContent = `${ min }:${ sec }`;
+	}
+	deleteComposition( cmp ) {
+		const html = this.#cmps.get( cmp.id );
+
+		if ( html ) {
+			html.root.remove();
+			this.#cmps.delete( cmp.id );
+		}
 	}
 
 	// .........................................................................
