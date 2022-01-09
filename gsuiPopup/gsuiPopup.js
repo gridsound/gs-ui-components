@@ -128,8 +128,10 @@ class gsuiPopup extends HTMLElement {
 			default: return inp.value;
 			case "file": return inp.files;
 			case "radio": return inp.checked ? inp.value : null;
+			case "range":
 			case "number": return +inp.value;
 			case "checkbox": return inp.checked;
+			case "select-one": return Number.isNaN( +inp.value ) ? inp.value : +inp.value;
 		}
 	}
 	#submitCustom() {
