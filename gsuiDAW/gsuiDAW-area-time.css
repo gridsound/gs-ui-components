@@ -1,7 +1,7 @@
 .gsuiDAW-areaTime {
 	grid-area: areaTime;
 	padding: 10px;
-	border-radius: 4px;
+	border-radius: var( --radius );
 	background-color: var( --gsuiDAW-currentTime-bg );
 }
 .gsuiDAW-areaTime gsui-slider {

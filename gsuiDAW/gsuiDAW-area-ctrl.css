@@ -43,6 +43,9 @@ gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 .gsuiDAW-btn[ data-action="reset" ] {
 	margin-left: -2px;
 }
+gsui-daw gsui-clock {
+	border-radius: var( --radius );
+}
 .gsuiDAW-tempo {
 	white-space: nowrap;
 	background-color: #222;

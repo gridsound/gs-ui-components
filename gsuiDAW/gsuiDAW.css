@@ -1,4 +1,6 @@
 gsui-daw {
+	--radius: 4px;
+	--gap: 4px;
 	display: flex;
 	flex-direction: column;
 	position: relative;
@@ -12,7 +14,6 @@ gsui-daw {
 
 /* .......................................................................... */
 .gsuiDAW-head {
-	--gap: 4px;
 	display: grid;
 	padding: var( --gap );
 	gap: var( --gap );
