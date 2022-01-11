@@ -99,11 +99,9 @@ class gsuiDAW extends HTMLElement {
 				case "name":
 					this.#elements.cmpName.textContent = val;
 					break;
-				case "duration": {
-					const [ min, sec ] = gsuiClock.parseBeatsToSeconds( +val, +this.getAttribute( "bpm" ) );
-
-					this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
-				} break;
+				case "duration":
+					this.#updateDuration();
+					break;
 				case "samplerate":
 					this.#popups.settings.sampleRate.value = val;
 					break;
@@ -124,6 +122,7 @@ class gsuiDAW extends HTMLElement {
 				case "bpm":
 					GSUI.setAttribute( this.#elements.clock, "bpm", val );
 					this.#elements.bpm.textContent = val;
+					this.#updateDuration();
 					break;
 				case "timedivision":
 					GSUI.setAttribute( this.#elements.clock, "timedivision", val );
@@ -158,6 +157,13 @@ class gsuiDAW extends HTMLElement {
 	// .........................................................................
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
+	}
+	#updateDuration() {
+		const [ min, sec ] = gsuiClock.parseBeatsToSeconds(
+				+this.getAttribute( "duration" ),
+				+this.getAttribute( "bpm" ) );
+
+		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
 	}
 
 	// .........................................................................
