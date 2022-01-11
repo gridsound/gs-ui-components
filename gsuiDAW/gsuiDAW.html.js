@@ -19,7 +19,7 @@ GSUI.setTemplate( "gsui-daw", () => [
 				GSUI.createElement( "i",    { class: "gsuiDAW-currCmp-localIcon gsuiIcon" } ),
 				GSUI.createElement( "span", { class: "gsuiDAW-currCmp-name" } ),
 				GSUI.createElement( "i",    { class: "gsuiDAW-currCmp-editIcon gsuiIcon", "data-icon": "pen" } ),
-				GSUI.createElement( "span", { class: "gsuiDAW-currCmp-dur" }, "0:45" ),
+				GSUI.createElement( "span", { class: "gsuiDAW-currCmp-dur" } ),
 			),
 		),
 		GSUI.createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaCtrl" },

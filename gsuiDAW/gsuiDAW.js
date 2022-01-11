@@ -13,6 +13,7 @@ class gsuiDAW extends HTMLElement {
 		cmpName: ".gsuiDAW-currCmp-name",
 		cmpSave: ".gsuiDAW-currCmp-saveBtn",
 		cmpIcon: ".gsuiDAW-currCmp-localIcon",
+		cmpDuration: ".gsuiDAW-currCmp-dur",
 		vers: ".gsuiDAW-version-num",
 		clock: "gsui-clock",
 		spectrum: "gsui-spectrum",
@@ -77,6 +78,7 @@ class gsuiDAW extends HTMLElement {
 				samplerate: 24000,
 				bpm: 60,
 				name: "",
+				duration: 10,
 				location: "local",
 				timedivision: "1/1",
 				currenttime: 0,
@@ -89,7 +91,7 @@ class gsuiDAW extends HTMLElement {
 	disconnectedCallback() {
 	}
 	static get observedAttributes() {
-		return [ "samplerate", "uirate", "windowslowgraphics", "timelinenumbering", "bpm", "timedivision", "name", "volume", "currenttime", "maxtime", "location", "useravatar", "version" ];
+		return [ "samplerate", "uirate", "windowslowgraphics", "timelinenumbering", "bpm", "timedivision", "name", "duration", "volume", "currenttime", "maxtime", "location", "useravatar", "version" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -97,6 +99,11 @@ class gsuiDAW extends HTMLElement {
 				case "name":
 					this.#elements.cmpName.textContent = val;
 					break;
+				case "duration": {
+					const [ min, sec ] = gsuiClock.parseBeatsToSeconds( +val, +this.getAttribute( "bpm" ) );
+
+					this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
+				} break;
 				case "samplerate":
 					this.#popups.settings.sampleRate.value = val;
 					break;
@@ -111,12 +118,15 @@ class gsuiDAW extends HTMLElement {
 					this.#popups.settings.windowsLowGraphics.checked = val !== null;
 					break;
 				case "timelinenumbering":
+					gsuiClock.numbering( val );
 					this.#popups.settings.timelineNumbering.value = val;
 					break;
 				case "bpm":
+					GSUI.setAttribute( this.#elements.clock, "bpm", val );
 					this.#elements.bpm.textContent = val;
 					break;
 				case "timedivision":
+					GSUI.setAttribute( this.#elements.clock, "timedivision", val );
 					this.#elements.bPM.textContent = val.split( "/" )[ 0 ];
 					this.#elements.sPB.textContent = val.split( "/" )[ 1 ];
 					break;
@@ -189,6 +199,14 @@ class gsuiDAW extends HTMLElement {
 			html.root.remove();
 			this.#cmps.delete( cmp.id );
 		}
+	}
+	openComposition( cmp ) {
+		const html = this.#cmps.get( cmp.id ),
+			par = html.root.parentNode;
+
+		html.root.classList.add( "gsuiDAW-cmp-loaded" );
+		par.prepend( html.root );
+		par.scrollTop = 0;
 	}
 
 	// .........................................................................
