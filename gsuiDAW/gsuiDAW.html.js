@@ -155,8 +155,8 @@ GSUI.setTemplate( "gsui-daw-history", () => (
 	)
 ) );
 
-GSUI.setTemplate( "gsui-daw-history-action", ( { icon, desc } ) => (
-	GSUI.createElement( "div", { class: "gsuiDAW-history-action" },
+GSUI.setTemplate( "gsui-daw-history-action", ( { icon, desc, index } ) => (
+	GSUI.createElement( "div", { class: "gsuiDAW-history-action", "data-action": "historyAction", "data-index": index },
 		GSUI.createElement( "i", { class: "gsuiDAW-history-action-icon gsuiIcon", "data-icon": icon } ),
 		GSUI.createElement( "span", { class: "gsuiDAW-history-action-text" }, desc ),
 	)

@@ -38,6 +38,7 @@ gsui-daw gsui-spectrum {
 	color: var( --gsuiDAW-history-action-color );
 	font-size: 14px;
 	font-family: var( --gsui-font-monospace );
+	user-select: none;
 	background-color: var( --gsuiDAW-history-action-bg );
 	transition: filter .2s;
 }
@@ -52,6 +53,7 @@ gsui-daw gsui-spectrum {
 	border-radius: 50%;
 	transition: inherit;
 	background-color: var( --gsuiDAW-history-action-light-bg );
+	pointer-events: none;
 }
 .gsuiDAW-history-action[ data-undone ]:not( :hover )::before {
 	background-color: var( --gsuiDAW-history-action-lightoff-bg );
@@ -60,6 +62,7 @@ gsui-daw gsui-spectrum {
 	width: 1.4ch;
 	margin: 0 6px;
 	text-align: center;
+	pointer-events: none;
 }
 .gsuiDAW-history-action-text {
 	flex: 1;
@@ -68,6 +71,7 @@ gsui-daw gsui-spectrum {
 	white-space: nowrap;
 	transition-duration: inherit;
 	transition-property: opacity;
+	pointer-events: none;
 }
 .gsuiDAW-history-action[ data-undone ] .gsuiDAW-history-action-icon,
 .gsuiDAW-history-action[ data-undone ] .gsuiDAW-history-action-text {

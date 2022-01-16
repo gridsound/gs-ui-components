@@ -222,7 +222,7 @@ class gsuiDAW extends HTMLElement {
 	}
 	stackAction( icon, desc ) {
 		Array.from( this.#actions ).forEach( a => "undone" in a.dataset && a.remove() );
-		this.#elements.historyList.append( GSUI.getTemplate( "gsui-daw-history-action", { icon, desc } ) );
+		this.#elements.historyList.append( GSUI.getTemplate( "gsui-daw-history-action", { icon, desc, index: this.#actions.length } ) );
 		this.#elements.historyList.scroll( 0, Number.MAX_SAFE_INTEGER );
 		this.#currentActionInd = this.#actions.length - 1;
 	}
@@ -239,9 +239,9 @@ class gsuiDAW extends HTMLElement {
 
 	// .........................................................................
 	#onclick( e ) {
-		const act = e.target.dataset.action;
+		const dt = e.target.dataset;
 
-		switch ( act ) {
+		switch ( dt.action ) {
 			case "saveCurrent":
 			case "focusSwitch":
 			case "play":
@@ -249,7 +249,12 @@ class gsuiDAW extends HTMLElement {
 			case "reset":
 			case "undo":
 			case "redo":
-				this.#dispatch( act );
+				this.#dispatch( dt.action );
+				break;
+			case "historyAction":
+				if ( dt.index - this.#currentActionInd ) {
+					this.#dispatch( "redoN", dt.index - this.#currentActionInd );
+				}
 				break;
 			case "rename":
 				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
@@ -289,7 +294,7 @@ class gsuiDAW extends HTMLElement {
 				break;
 			case "login":
 			case "tempo":
-				lg( "popup", act );
+				lg( "popup", dt.action );
 				break;
 			case "cmps":
 			case "help":
@@ -297,7 +302,7 @@ class gsuiDAW extends HTMLElement {
 			case "changelog":
 				break;
 			default:
-				act && lg( "untracked action:", act );
+				dt.action && lg( "untracked action:", dt.action );
 				break;
 		}
 	}
