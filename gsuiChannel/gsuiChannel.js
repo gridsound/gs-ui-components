@@ -37,6 +37,12 @@ class gsuiChannel extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.setAttribute( this, "draggable", "true" );
+			GSUI.recallAttributes( this, {
+				name: "chan",
+				pan: 0,
+				gain: 1,
+				connecta: "down",
+			} );
 		}
 	}
 	static get observedAttributes() {
