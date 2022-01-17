@@ -2,7 +2,7 @@ gsui-mixer {
 	display: flex;
 	height: 100%;
 	position: relative;
-	color: var( --gsuiMixerChannel-color );
+	color: var( --gsuiMixer-color );
 	background-color: var( --gsuiMixer-bg );
 	user-select: none;
 	-webkit-user-select: none;
@@ -16,7 +16,7 @@ gsui-mixer {
 .gsuiMixer-panChannels {
 	position: absolute;
 	overflow: scroll;
-	inset: 0 0 0 calc( var( --gsuiMixerChannel-width ) + 6px );
+	inset: 0 0 0 calc( 52px + 6px );
 	display: grid;
 	grid-auto-flow: column;
 	grid-auto-columns: min-content;
@@ -31,8 +31,8 @@ gsui-mixer {
 	opacity: 0;
 	margin-left: 16px;
 }
-.gsuiMixer-panChannels .gsuiMixerChannel:nth-child( odd ) {
-	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-bg2 );
+.gsuiMixer-panChannels gsui-channel:nth-child( odd ) {
+	--gsuiChannel-bg: var( --gsuiChannel-bg2 );
 }
 
 /* .......................................................................... */
@@ -61,173 +61,4 @@ gsui-mixer {
 	opacity: .4;
 	border: 2px dashed;
 	position: absolute;
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel {
-	display: flex;
-	position: relative;
-	align-items: center;
-	flex-direction: column;
-	height: 100%;
-	width: var( --gsuiMixerChannel-width );
-	min-width: var( --gsuiMixerChannel-width );
-	background-color: var( --gsuiMixerChannel-bg );
-	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .2 );
-}
-gsui-mixer .gsuiMixerChannel.gsuiMixer-selected {
-	--gsuiMixerChannel-bg: var( --gsuiMixerChannel-selected-bg );
-}
-.gsuiMixerChannel-muted {
-	--gsuiMixerChannel-toggle-bg: var( --gsuiMixerChannel-toggleOff-bg );
-}
-.gsuiMixerChannel-muted gsui-slider {
-	--gsuiSlider-lineColor: rgba( 255, 255, 255, .3 );
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-delete {
-	display: flex;
-	position: absolute;
-	align-items: center;
-	justify-content: center;
-	inset: 2px 2px auto auto;
-	border: 0;
-	opacity: 0;
-	padding: 0;
-	outline: 0;
-	color: inherit;
-	cursor: pointer;
-	font-size: 12px;
-	line-height: 1em;
-	background: none;
-	transition: opacity .2s;
-}
-.gsuiMixer-panMain .gsuiMixerChannel-delete {
-	display: none;
-}
-.gsuiMixerChannel:hover .gsuiMixerChannel-delete {
-	opacity: .5;
-}
-.gsuiMixerChannel .gsuiMixerChannel-delete:focus,
-.gsuiMixerChannel .gsuiMixerChannel-delete:hover {
-	opacity: 1;
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-nameWrap {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	overflow: hidden;
-	width: 100%;
-	border: 0;
-	outline: 0;
-	padding: 3px;
-	color: inherit;
-	height: 34px;
-	min-height: 34px;
-	font-size: 12px;
-	font-family: var( --gsuiMixerChannel-name-font );
-	background-color: transparent;
-}
-.gsuiMixerChannel-name {
-	display: block;
-	overflow: hidden;
-	word-wrap: break-word;
-	text-align: center;
-	font-size: 10px;
-	padding-right: .15ch;
-	user-select: none;
-	-webkit-user-select: none;
-}
-.gsuiMixerChannel.gsuiMixer-selected .gsuiMixerChannel-name {
-	font-weight: bold;
-}
-.gsuiMixerChannel-muted .gsuiMixerChannel-name {
-	opacity: .5;
-}
-.gsuiMixer-panMain .gsuiMixerChannel-name {
-	font-style: italic;
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-analyser {
-	width: 100%;
-	flex: 2;
-	opacity: .8;
-}
-.gsuiMixer-selected .gsuiMixerChannel-analyser {
-	box-shadow: 0 -2px var( --gsuiMixerChannel-gain-color );
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-toggle {
-	width: 100%;
-	border: 0;
-	padding: 0;
-	outline: 0;
-	font-size: 8px;
-	min-height: 18px;
-	cursor: pointer;
-	color: var( --gsuiMixerChannel-toggle-bg );
-	background: none;
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-pan {
-	width: 100%;
-	height: 24px;
-	min-height: 24px;
-	z-index: 1;
-	overflow: hidden;
-	--gsuiSlider-lineColor: var( --gsuiMixerChannel-pan-color );
-}
-.gsuiMixerChannel-gain {
-	flex: 1;
-	width: 6px;
-	margin-top: 6px;
-	--gsuiSlider-lineColor: var( --gsuiMixerChannel-gain-color );
-}
-.gsuiMixerChannel-gain .gsuiSlider-eventCatcher {
-	left: -12px;
-	right: -12px;
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-connect {
-	width: 100%;
-	border: 0;
-	padding: 0;
-	outline: 0;
-	z-index: 1;
-	height: 16px;
-	min-height: 16px;
-	cursor: pointer;
-	font-size: 16px;
-	background-color: transparent;
-}
-.gsuiMixerChannel-connectA {
-	color: var( --gsuiMixerChannel-connect-output-color );
-}
-.gsuiMixerChannel-connectB {
-	color: var( --gsuiMixerChannel-connect-input-color );
-}
-
-/* .......................................................................... */
-.gsuiMixerChannel-grip {
-	width: 100%;
-	height: 18px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 12px;
-	cursor: grab;
-	opacity: .6;
-	background-color: #0002;
-}
-.gsuiMixer-panMain .gsuiMixerChannel-grip {
-	visibility: hidden;
-	pointer-events: none;
 }

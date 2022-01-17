@@ -23,12 +23,18 @@ class gsuiMixer extends HTMLElement {
 		Object.seal( this );
 
 		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
+		GSUI.listenEvents( this, {
+			gsuiChannel: {
+				liveChange: ( d, chan ) => this.oninput( chan.dataset.id, ...d.args ),
+				change: ( d, chan ) => this.onchange( "changeChannel", chan.dataset.id, ...d.args ),
+			},
+		} );
 		new gsuiReorder( {
 			rootElement: this,
 			direction: "row",
 			dataTransferType: "channel",
-			itemSelector: ".gsuiMixerChannel",
-			handleSelector: ".gsuiMixerChannel-grip",
+			itemSelector: "gsui-channel",
+			handleSelector: ".gsuiChannel-grip",
 			parentSelector: ".gsuiMixer-panChannels",
 			onchange: elChan => {
 				this.onchange( "reorderChannel", elChan.dataset.id,
@@ -60,7 +66,7 @@ class gsuiMixer extends HTMLElement {
 
 			this.#analyserW = width;
 			this.#analyserH = height;
-			chans.forEach( html => html.analyser.setResolution( width, height ) );
+			chans.forEach( chan => chan.analyser.setResolution( width, height ) );
 		}
 	}
 	updateAudioData( id, ldata, rdata ) {
@@ -70,10 +76,10 @@ class gsuiMixer extends HTMLElement {
 		return this.#chanSelected;
 	}
 	selectChannel( id ) {
-		const chan = this.#chans[ id ].root,
+		const chan = this.#chans[ id ],
 			pchan = this.#chans[ this.#chanSelected ];
 
-		pchan && pchan.root.classList.remove( "gsuiMixer-selected" );
+		pchan && pchan.classList.remove( "gsuiMixer-selected" );
 		chan.classList.add( "gsuiMixer-selected" );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
@@ -81,39 +87,20 @@ class gsuiMixer extends HTMLElement {
 	}
 
 	// .........................................................................
-	addChannel( id, chan ) {
-		const root = GSUI.getTemplate( "gsui-mixer-channel" ),
-			qs = n => root.querySelector( `.gsuiMixerChannel-${ n }` ),
-			pan = qs( "pan gsui-slider" ),
-			gain = qs( "gain gsui-slider" ),
-			html = { root, pan, gain,
-				name: qs( "name" ),
-				connectA: qs( "connectA" ),
-				connectB: qs( "connectB" ),
-				analyser: qs( "analyser" ),
-			};
+	addChannel( id ) {
+		const chan = GSUI.createElement( "gsui-channel", { "data-id": id } );
 
-		this.#chans[ id ] = html;
-		root.dataset.id = id;
-		GSUI.listenEvents( root, {
-			gsuiSlider: {
-				inputStart: GSUI.noop,
-				inputEnd: GSUI.noop,
-				input: ( d, sli ) => {
-					this.oninput( id, sli.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, sli ) => {
-					this.onchange( "changeChannel", id, sli.dataset.prop, d.args[ 0 ] );
-				},
-			},
-		} );
-		html.analyser.onclick =
+		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
+
+		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
+
+		this.#chans[ id ] = chan;
+		chan.analyser.onclick =
 		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
-		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( root );
-		html.analyser.setResolution( this.#analyserW, this.#analyserH );
+		chan.analyser.setResolution( this.#analyserW, this.#analyserH );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
@@ -121,42 +108,42 @@ class gsuiMixer extends HTMLElement {
 		}
 	}
 	removeChannel( id ) {
-		const el = this.#chans[ id ].root;
+		const chan = this.#chans[ id ];
 
 		if ( id === this.#chanSelected ) {
-			const next = this.#getNextChan( el, "nextElementSibling" );
+			const next = this.#getNextChan( chan, "nextElementSibling" );
 
 			if ( next ) {
 				this.selectChannel( next.dataset.id );
 			} else {
-				const prev = this.#getNextChan( el, "previousElementSibling" );
+				const prev = this.#getNextChan( chan, "previousElementSibling" );
 
 				this.selectChannel( prev ? prev.dataset.id : "main" );
 			}
 		}
 		delete this.#chans[ id ];
-		el.remove();
+		chan.remove();
 	}
 	toggleChannel( id, b ) {
-		this.#chans[ id ].root.classList.toggle( "gsuiMixerChannel-muted", !b );
+		GSUI.setAttribute( this.#chans[ id ], "muted", !b );
 	}
 	changePanChannel( id, val ) {
-		this.#chans[ id ].pan.setValue( val );
+		GSUI.setAttribute( this.#chans[ id ], "pan", val );
 	}
 	changeGainChannel( id, val ) {
-		this.#chans[ id ].gain.setValue( val );
+		GSUI.setAttribute( this.#chans[ id ], "gain", val );
 	}
 	renameChannel( id, name ) {
-		this.#chans[ id ].name.textContent = name;
+		GSUI.setAttribute( this.#chans[ id ], "name", name );
 	}
 	reorderChannel( id, n ) {
-		this.#chans[ id ].root.dataset.order = n;
+		this.#chans[ id ].dataset.order = n;
 	}
 	reorderChannels( channels ) {
 		gsuiReorder.listReorder( this.#elements.pchans, channels );
 	}
 	redirectChannel( id, dest ) {
-		this.#chans[ id ].root.dataset.dest = dest;
+		this.#chans[ id ].dataset.dest = dest;
 		this.#updateChanConnections();
 	}
 
@@ -170,20 +157,20 @@ class gsuiMixer extends HTMLElement {
 		const selId = this.#chanSelected;
 
 		if ( selId ) {
-			const html = this.#chans[ selId ],
-				chanDest = html.root.dataset.dest;
+			const chan = this.#chans[ selId ],
+				chanDest = chan.dataset.dest;
 			let bOnce = false;
 
-			Object.entries( this.#chans ).forEach( ( [ id, html ] ) => {
+			Object.entries( this.#chans ).forEach( ( [ id, chan ] ) => {
 				const a = id === chanDest,
-					b = html.root.dataset.dest === selId;
+					b = chan.dataset.dest === selId;
 
-				html.connectA.dataset.icon = a ? "caret-up" : "";
-				html.connectB.dataset.icon = b ? "caret-down" : "";
+				GSUI.setAttribute( chan, "connecta", a ? "up" : "" );
+				GSUI.setAttribute( chan, "connectb", b ? "down" : "" );
 				bOnce = bOnce || b;
 			} );
-			html.connectA.dataset.icon = selId !== "main" ? "caret-down" : "";
-			html.connectB.dataset.icon = bOnce ? "caret-up" : "";
+			GSUI.setAttribute( chan, "connecta", selId !== "main" ? "down" : "" );
+			GSUI.setAttribute( chan, "connectb", bOnce ? "up" : "" );
 		}
 	}
 }

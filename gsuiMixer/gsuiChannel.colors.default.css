@@ -1,0 +1,13 @@
+gsui-channel {
+	--gsuiChannel-bg: #555;
+	--gsuiChannel-bg2: #5b5b5b;
+	--gsuiChannel-selected-bg: #666;
+	--gsuiChannel-pan-color: var( --gsui-col-pan );
+	--gsuiChannel-gain-color: var( --gsui-col-gain );
+	--gsuiChannel-connect-input-color: #f99;
+	--gsuiChannel-connect-output-color: var( --gsui-col-gain );
+	--gsuiChannel-toggle-bg: var( --gsui-col-gain );
+	--gsuiChannel-toggleOff-bg: #fff2;
+	--gsuiChannel-analyser-bg: #222;
+	--gsuiChannel-name-font: var( --gsui-font );
+}
