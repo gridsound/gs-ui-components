@@ -1,19 +1,19 @@
-gsui-mixer {
+gsui-channels {
 	display: flex;
 	height: 100%;
 	position: relative;
-	color: var( --gsuiMixer-color );
-	background-color: var( --gsuiMixer-bg );
+	color: var( --gsuiChannels-color );
+	background-color: var( --gsuiChannels-bg );
 	user-select: none;
 	-webkit-user-select: none;
 }
 
 /* .......................................................................... */
-.gsuiMixer-panMain {
+.gsuiChannels-panMain {
 	position: absolute;
 	inset: 0 auto 0 0;
 }
-.gsuiMixer-panChannels {
+.gsuiChannels-panChannels {
 	position: absolute;
 	overflow: scroll;
 	inset: 0 0 0 calc( 52px + 6px );
@@ -22,21 +22,21 @@ gsui-mixer {
 	grid-auto-columns: min-content;
 	scrollbar-width: none;
 }
-.gsuiMixer-panChannels::-webkit-scrollbar {
+.gsuiChannels-panChannels::-webkit-scrollbar {
 	display: none;
 }
-.gsuiMixer-panChannels::after {
+.gsuiChannels-panChannels::after {
 	order: 2147483647;
 	content: ".";
 	opacity: 0;
 	margin-left: 16px;
 }
-.gsuiMixer-panChannels gsui-channel:nth-child( odd ) {
+.gsuiChannels-panChannels gsui-channel:nth-child( odd ) {
 	--gsuiChannel-bg: var( --gsuiChannel-bg2 );
 }
 
 /* .......................................................................... */
-.gsuiMixer-addChan {
+.gsuiChannels-addChan {
 	position: relative;
 	order: 2147483646;
 	width: 52px;
@@ -51,11 +51,11 @@ gsui-mixer {
 	opacity: .4;
 	transition: .2s opacity;
 }
-.gsuiMixer-addChan:focus,
-.gsuiMixer-addChan:hover {
+.gsuiChannels-addChan:focus,
+.gsuiChannels-addChan:hover {
 	opacity: .6;
 }
-.gsuiMixer-addChan::before {
+.gsuiChannels-addChan::before {
 	content: "";
 	inset: 6px;
 	opacity: .4;

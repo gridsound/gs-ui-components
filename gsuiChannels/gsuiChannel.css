@@ -9,7 +9,7 @@ gsui-channel {
 	background-color: var( --gsuiChannel-bg );
 	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .2 );
 }
-gsui-mixer .gsuiChannel.gsuiMixer-selected {
+gsui-mixer gsui-channel[ selected ] {
 	--gsuiChannel-bg: var( --gsuiChannel-selected-bg );
 }
 gsui-channel[ muted ] {
@@ -76,7 +76,7 @@ gsui-channel .gsuiChannel-delete:hover {
 	user-select: none;
 	-webkit-user-select: none;
 }
-.gsuiChannel.gsuiMixer-selected .gsuiChannel-name {
+gsui-channel[ selected ] .gsuiChannel-name {
 	font-weight: bold;
 }
 gsui-channel[ muted ] .gsuiChannel-name {
@@ -92,7 +92,7 @@ gsui-channel gsui-analyser {
 	flex: 2;
 	opacity: .8;
 }
-.gsuiMixer-selected gsui-analyser {
+gsui-channel[ selected ] gsui-analyser {
 	box-shadow: 0 -2px var( --gsuiChannel-gain-color );
 }
 

@@ -1,17 +1,17 @@
 "use strict";
 
-class gsuiMixer extends HTMLElement {
+class gsuiChannels extends HTMLElement {
 	#chans = {}
 	#chanSelected = null
 	#analyserW = 10
 	#analyserH = 50
 	#attached = false
 	#onresizeBind = this.#onresize.bind( this )
-	#children = GSUI.getTemplate( "gsui-mixer" )
+	#children = GSUI.getTemplate( "gsui-channels" )
 	#elements = GSUI.findElements( this.#children, {
-		pmain: ".gsuiMixer-panMain",
-		pchans: ".gsuiMixer-panChannels",
-		addBtn: ".gsuiMixer-addChan",
+		pmain: ".gsuiChannels-panMain",
+		pchans: ".gsuiChannels-panChannels",
+		addBtn: ".gsuiChannels-addChan",
 	} )
 
 	constructor() {
@@ -35,7 +35,7 @@ class gsuiMixer extends HTMLElement {
 			dataTransferType: "channel",
 			itemSelector: "gsui-channel",
 			handleSelector: ".gsuiChannel-grip",
-			parentSelector: ".gsuiMixer-panChannels",
+			parentSelector: ".gsuiChannels-panChannels",
 			onchange: elChan => {
 				this.onchange( "reorderChannel", elChan.dataset.id,
 					gsuiReorder.listComputeOrderChange( this.#elements.pchans, {} ) );
@@ -79,8 +79,8 @@ class gsuiMixer extends HTMLElement {
 		const chan = this.#chans[ id ],
 			pchan = this.#chans[ this.#chanSelected ];
 
-		pchan && pchan.classList.remove( "gsuiMixer-selected" );
-		chan.classList.add( "gsuiMixer-selected" );
+		pchan && GSUI.setAttribute( pchan, "selected", false );
+		GSUI.setAttribute( chan, "selected", true );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
 		this.onselectChan( id );
@@ -175,5 +175,5 @@ class gsuiMixer extends HTMLElement {
 	}
 }
 
-Object.freeze( gsuiMixer );
-customElements.define( "gsui-mixer", gsuiMixer );
+Object.freeze( gsuiChannels );
+customElements.define( "gsui-channels", gsuiChannels );
