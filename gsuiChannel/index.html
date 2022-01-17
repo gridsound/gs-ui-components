@@ -1,0 +1,38 @@
+<style>
+body {
+	--test-bg-color: #387;
+	--test-content-w: 80px;
+	--test-content-h: 320px;
+	--test-content-resize: vertical;
+}
+#testWrap {
+	display: flex;
+}
+</style>
+
+<gsui-channel></gsui-channel>
+
+<script>
+TEST( {
+	cssFiles: [
+		"gsuiIcon/gsuiIcon.css",
+		"gsuiSlider/gsuiSlider.css",
+		"gsuiSpectrum/gsuiSpectrum.css",
+		"gsuiChannel/gsuiChannel.colors.default.css",
+		"gsuiChannel/gsuiChannel.css",
+	],
+	jsFiles: [
+		"gsuiAnalyser/gsuiAnalyser.js",
+		"gsuiSpectrum/gsuiSpectrum.js",
+		"gsuiSlider/gsuiSlider.html.js",
+		"gsuiSlider/gsuiSlider.js",
+		"gsuiChannel/gsuiChannel.html.js",
+		"gsuiChannel/gsuiChannel.js",
+	],
+	js: () => {
+		const chan = document.querySelector( "gsui-channel" );
+
+		GSUI.setAttribute( chan, "name", "hello :)" );
+	}
+} );
+</script>
