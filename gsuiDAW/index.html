@@ -15,9 +15,9 @@ body {
 <script>
 TEST( {
 	cssFiles: [
+		"gsuiIcon/gsuiIcon.css",
 		"gsuiPopup/gsuiPopup.colors.default.css",
 		"gsuiPopup/gsuiPopup.css",
-		"gsuiIcon/gsuiIcon.css",
 		"gsuiClock/gsuiClock.colors.default.css",
 		"gsuiClock/gsuiClock.css",
 		"gsuiSlider/gsuiSlider.css",
@@ -80,6 +80,9 @@ TEST( {
 		el.deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 
 		GSUI.setAttribute( el, "currentcomposition", "idONL2" );
+
+		el.toggleWindow( "blocks", true );
+		el.toggleWindow( "mixer", false );
 
 		el.stackAction( "mute", "shhhhhhhh..." );
 		el.stackAction( "unmute", "make some noise" );

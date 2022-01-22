@@ -23,6 +23,16 @@ class gsuiDAW extends HTMLElement {
 		cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
+		winBtns: {
+			blocks: "[data-win='blocks']",
+			mixer: "[data-win='mixer']",
+			main: "[data-win='main']",
+			synth: "[data-win='synth']",
+			drums: "[data-win='drums']",
+			piano: "[data-win='piano']",
+			slicer: "[data-win='slicer']",
+			effects: "[data-win='effects']",
+		},
 	} )
 	#popups = {
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
@@ -242,6 +252,9 @@ class gsuiDAW extends HTMLElement {
 	}
 
 	// .........................................................................
+	toggleWindow( win, b ) {
+		GSUI.setAttribute( this.#elements.winBtns[ win ], "data-open", b );
+	}
 	clearHistory() {
 		Array.from( this.#actions ).forEach( a => a.remove() );
 		this.#currentActionInd = -1;
@@ -276,6 +289,9 @@ class gsuiDAW extends HTMLElement {
 			case "undo":
 			case "redo":
 				this.#dispatch( dt.action );
+				break;
+			case "window":
+				this.#dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
 				break;
 			case "historyAction":
 				if ( dt.index - this.#currentActionInd ) {
