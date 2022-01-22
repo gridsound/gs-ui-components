@@ -63,7 +63,7 @@ TEST( {
 
 		// GSUI.setAttribute( el, "logged", true );
 		// GSUI.setAttribute( el, "focus", "down" );
-		GSUI.setAttribute( el, "location", "cloud" );
+		GSUI.setAttribute( el, "location", "local" );
 		GSUI.setAttribute( el, "saved", false );
 		GSUI.setAttribute( el, "samplerate", 48000 );
 		GSUI.setAttribute( el, "uirate", "21" );
@@ -71,12 +71,15 @@ TEST( {
 		GSUI.setAttribute( el, "oki-cookies", false );
 		GSUI.setAttribute( el, "duration", 8 );
 		GSUI.setAttribute( el, "bpm", 240 );
+		GSUI.setAttribute( el, "currentcomposition", "idLOCA" );
 
 		el.addComposition( { id: "idLOCA", name: "my first compo", bpm: 105, duration: 16, options: { saveMode: "local" } } );
 		el.addComposition( { id: "idLOCB", name: "a second compo", bpm: 90, duration: 24, options: { saveMode: "local" } } );
 		el.addComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 		el.addComposition( { id: "idONL2", name: "compo online 2", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 		el.deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
+
+		GSUI.setAttribute( el, "currentcomposition", "idONL2" );
 
 		el.stackAction( "mute", "shhhhhhhh..." );
 		el.stackAction( "unmute", "make some noise" );

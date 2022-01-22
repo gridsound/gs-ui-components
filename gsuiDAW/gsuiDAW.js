@@ -91,11 +91,30 @@ class gsuiDAW extends HTMLElement {
 	disconnectedCallback() {
 	}
 	static get observedAttributes() {
-		return [ "samplerate", "uirate", "windowslowgraphics", "timelinenumbering", "bpm", "timedivision", "name", "duration", "volume", "currenttime", "maxtime", "location", "useravatar", "version" ];
+		return [
+			"bpm",
+			"currentcomposition",
+			"currenttime",
+			"duration",
+			"location",
+			"maxtime",
+			"name",
+			"samplerate",
+			"timedivision",
+			"timelinenumbering",
+			"uirate",
+			"useravatar",
+			"version",
+			"volume",
+			"windowslowgraphics",
+		];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
+				case "currentcomposition":
+					this.#loadComposition( val );
+					break;
 				case "name":
 					this.#elements.cmpName.textContent = val;
 					break;
@@ -158,6 +177,18 @@ class gsuiDAW extends HTMLElement {
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
 	}
+	#loadComposition( id ) {
+		const html = this.#cmps.get( id );
+
+		if ( html ) {
+			const par = html.root.parentNode;
+
+			this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
+			html.root.classList.add( "gsuiDAW-cmp-loaded" );
+			par.prepend( html.root );
+			par.scrollTop = 0;
+		}
+	}
 	#updateDuration() {
 		const [ min, sec ] = gsuiClock.parseBeatsToSeconds(
 				+this.getAttribute( "duration" ),
@@ -188,6 +219,9 @@ class gsuiDAW extends HTMLElement {
 			( cmp.options.saveMode === "local"
 				? this.#elements.cmpsLocalList
 				: this.#elements.cmpsCloudList ).append( root );
+			if ( cmp.id === this.getAttribute( "currentcomposition" ) ) {
+				this.#loadComposition( cmp.id );
+			}
 		}
 	}
 	updateComposition( cmp ) {
@@ -205,14 +239,6 @@ class gsuiDAW extends HTMLElement {
 			html.root.remove();
 			this.#cmps.delete( cmp.id );
 		}
-	}
-	openComposition( cmp ) {
-		const html = this.#cmps.get( cmp.id ),
-			par = html.root.parentNode;
-
-		html.root.classList.add( "gsuiDAW-cmp-loaded" );
-		par.prepend( html.root );
-		par.scrollTop = 0;
 	}
 
 	// .........................................................................

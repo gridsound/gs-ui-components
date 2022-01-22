@@ -38,13 +38,15 @@
 /* .......................................................................... */
 .gsuiDAW-cmp-btn[ data-action="save" ] {
 	width: 32px;
+	margin-left: -32px;
 	background-color: var( --gsuiDAW-save-bg );
 	transition: .2s;
 	transition-property: margin-left, color, background-color, visibility;
-}
-.gsuiDAW-cmp-saved .gsuiDAW-cmp-btn[ data-action="save" ] {
 	visibility: hidden;
-	margin-left: -32px;
+}
+gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-loaded .gsuiDAW-cmp-btn[ data-action="save" ] {
+	visibility: visible;
+	margin-left: 0;
 }
 .gsuiDAW-cmp-btn[ data-action="save" ]:hover {
 	color: var( --gsuiDAW-save-bg );
@@ -95,7 +97,7 @@
 	box-shadow: 0 0 0 2px var( --gsuiDAW-cmp-text );
 	background-color: var( --gsuiDAW-cmp-text );
 }
-.gsuiDAW-cmp:not( .gsuiDAW-cmp-saved ) .gsuiDAW-cmp-name::before {
+gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-loaded .gsuiDAW-cmp-name::before {
 	content: "*";
 }
 .gsuiDAW-cmp-name:empty::after {
