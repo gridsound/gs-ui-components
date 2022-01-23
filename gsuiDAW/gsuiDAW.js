@@ -21,6 +21,8 @@ class gsuiDAW extends HTMLElement {
 		volume: ".gsuiDAW-volume gsui-slider",
 		currentTime: ".gsuiDAW-areaTime gsui-slider",
 		userAvatar: "[data-action='profile']",
+		login: "[data-action='login']",
+		logout: "[data-action='logout']",
 		cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
@@ -108,6 +110,7 @@ class gsuiDAW extends HTMLElement {
 			"currenttime",
 			"duration",
 			"location",
+			"logging",
 			"maxtime",
 			"name",
 			"playing",
@@ -127,6 +130,10 @@ class gsuiDAW extends HTMLElement {
 			switch ( prop ) {
 				case "currentcomposition":
 					this.#loadComposition( val );
+					break;
+				case "logging":
+					this.#elements.login.dataset.spin =
+					this.#elements.logout.dataset.spin = val !== null ? "on" : "";
 					break;
 				case "username":
 					GSUI.setAttribute( this.#elements.userAvatar, "href",
