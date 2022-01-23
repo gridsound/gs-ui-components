@@ -20,7 +20,7 @@ class gsuiDAW extends HTMLElement {
 		spectrum: "gsui-spectrum",
 		volume: ".gsuiDAW-volume gsui-slider",
 		currentTime: ".gsuiDAW-areaTime gsui-slider",
-		userAvatar: ".gsuiDAW-btn[data-action='profile']",
+		userAvatar: "[data-action='profile']",
 		cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
@@ -116,6 +116,7 @@ class gsuiDAW extends HTMLElement {
 			"timelinenumbering",
 			"uirate",
 			"useravatar",
+			"username",
 			"version",
 			"volume",
 			"windowslowgraphics",
@@ -126,6 +127,10 @@ class gsuiDAW extends HTMLElement {
 			switch ( prop ) {
 				case "currentcomposition":
 					this.#loadComposition( val );
+					break;
+				case "username":
+					GSUI.setAttribute( this.#elements.userAvatar, "href",
+						val && `https://gridsound.com/#/u/${ val }` );
 					break;
 				case "name":
 					this.#elements.cmpName.textContent = val;
