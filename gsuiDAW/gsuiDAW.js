@@ -14,6 +14,7 @@ class gsuiDAW extends HTMLElement {
 		cmpSave: ".gsuiDAW-currCmp-saveBtn",
 		cmpIcon: ".gsuiDAW-currCmp-localIcon",
 		cmpDuration: ".gsuiDAW-currCmp-dur",
+		play: "[data-action='play']",
 		vers: ".gsuiDAW-version-num",
 		clock: "gsui-clock",
 		spectrum: "gsui-spectrum",
@@ -109,6 +110,7 @@ class gsuiDAW extends HTMLElement {
 			"location",
 			"maxtime",
 			"name",
+			"playing",
 			"samplerate",
 			"timedivision",
 			"timelinenumbering",
@@ -127,6 +129,9 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "name":
 					this.#elements.cmpName.textContent = val;
+					break;
+				case "playing":
+					this.#elements.play.dataset.icon = val !== null ? "pause" : "play";
 					break;
 				case "duration":
 					this.#updateDuration();
