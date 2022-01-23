@@ -190,7 +190,7 @@ class gsuiDAW extends HTMLElement {
 					GSUI.setAttribute( this.#elements.cmpSave, "data-icon", val === "local" ? "save" : "upload" );
 					break;
 				case "useravatar":
-					this.#elements.userAvatar.style.backgroundImage = `url("${ val }")`;
+					this.#elements.userAvatar.style.backgroundImage = val ? `url("${ val }")` : "";
 					break;
 				case "version":
 					this.#elements.vers.textContent = val;
