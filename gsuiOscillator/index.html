@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="gsuiOscillator.colors.default.css"/>
+<link rel="stylesheet" href="gsuiOscillator.css"/>
 <style>
 body {
 	--test-bg-color: #77c;
@@ -5,31 +19,21 @@ body {
 	--test-content-h: 64px;
 }
 </style>
+</head>
+<body>
 
-<gsui-oscillator type="sine" detune="0" gain=".75" pan=".25"></gsui-oscillator>
+<div id="TEST">
+	<gsui-oscillator type="sine" detune="0" gain=".75" pan=".25"></gsui-oscillator>
+</div>
 
-<script>
-TEST( {
-	deps: [
-		"gsuiIcon",
-		"gsuiPeriodicWave",
-		"gsuiSlider",
-	],
-	cssFiles: [
-		"gsuiIcon/gsuiIcon.css",
-		"gsuiPeriodicWave/gsuiPeriodicWave.css",
-		"gsuiSlider/gsuiSlider.css",
-		"gsuiOscillator/gsuiOscillator.colors.default.css",
-		"gsuiOscillator/gsuiOscillator.css",
-	],
-	jsFiles: [
-		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js",
-		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js",
-		"gsuiPeriodicWave/gsuiPeriodicWave.js",
-		"gsuiSlider/gsuiSlider.html.js",
-		"gsuiSlider/gsuiSlider.js",
-		"gsuiOscillator/gsuiOscillator.html.js",
-		"gsuiOscillator/gsuiOscillator.js",
-	],
-} );
-</script>
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
+<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js"></script>
+<script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiOscillator.html.js"></script>
+<script src="gsuiOscillator.js"></script>
+</body>
+</html>

@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="gsuiClock.colors.default.css"/>
+<link rel="stylesheet" href="gsuiClock.css"/>
 <style>
 body {
 	--test-bg-color: #bb5;
@@ -15,26 +26,24 @@ gsui-clock {
 	height: 32px;
 }
 </style>
+</head>
+<body>
 
-<gsui-clock mode="second" bpm="60" timedivision="4/4"></gsui-clock>
-<input id="time" type="range" value="0" min="0" max="260" step=".1" />
+<div id="TEST">
+	<gsui-clock mode="second" bpm="60" timedivision="4/4"></gsui-clock>
+	<input id="time" type="range" value="0" min="0" max="260" step=".1"/>
+</div>
 
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="gsuiClock.html.js"></script>
+<script src="gsuiClock.js"></script>
 <script>
-TEST( {
-	cssFiles: [
-		"gsuiClock/gsuiClock.colors.default.css",
-		"gsuiClock/gsuiClock.css",
-	],
-	jsFiles: [
-		"gsuiClock/gsuiClock.html.js",
-		"gsuiClock/gsuiClock.js",
-	],
-	js: () => {
-		const elClock = document.querySelector( "gsui-clock" ),
-			elInput = document.querySelector( "#time" );
+const elClock = document.querySelector( "gsui-clock" );
+const elInput = document.querySelector( "#time" );
 
-		elInput.oninput = () => elClock.setTime( +elInput.value );
-		elInput.oninput();
-	}
-} );
+elInput.oninput = () => elClock.setTime( +elInput.value );
+elInput.oninput();
 </script>
+</body>
+</html>

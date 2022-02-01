@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="gsuiTimeline.colors.default.css"/>
+<link rel="stylesheet" href="gsuiTimeline.css"/>
 <style>
 body {
 	--test-bg-color: #047;
@@ -20,48 +31,46 @@ body {
 	margin-left: 1ch;
 }
 </style>
+</head>
+<body>
 
-<div id="wrapOut">
-	<div id="wrapIn">
-		<gsui-timeline step="1" pxperbeat="80" loop="1.25-3.75" currenttime="1.25" timedivision="4/4"></gsui-timeline>
+<div id="TEST">
+	<div id="wrapOut">
+		<div id="wrapIn">
+			<gsui-timeline step="1" pxperbeat="80" loop="1.25-3.75" currenttime="1.25" timedivision="4/4"></gsui-timeline>
+		</div>
+	</div>
+	<div class="prop">
+		<input id="pxPerbeat" type="range" value="80" min="2" max="128"/>
+		<span>px per beat</span>
+		<b>80</b>
+	</div>
+	<div class="prop">
+		<input id="beatsPerMeasure" type="range" value="4" min="1" max="16"/>
+		<span>beats per measure</span>
+		<b>4</b>
+	</div>
+	<div class="prop">
+		<input id="stepsPerBeat" type="range" value="4" min="1" max="16"/>
+		<span>steps per beat</span>
+		<b>4</b>
 	</div>
 </div>
-<div class="prop">
-	<input id="pxPerbeat" type="range" value="80" min="2" max="128"/>
-	<span>px per beat</span>
-	<b>80</b>
-</div>
-<div class="prop">
-	<input id="beatsPerMeasure" type="range" value="4" min="1" max="16"/>
-	<span>beats per measure</span>
-	<b>4</b>
-</div>
-<div class="prop">
-	<input id="stepsPerBeat" type="range" value="4" min="1" max="16"/>
-	<span>steps per beat</span>
-	<b>4</b>
-</div>
 
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="gsuiTimeline.html.js"></script>
+<script src="gsuiTimeline.js"></script>
 <script>
-TEST( {
-	cssFiles: [
-		"gsuiTimeline/gsuiTimeline.colors.default.css",
-		"gsuiTimeline/gsuiTimeline.css",
-	],
-	jsFiles: [
-		"gsuiTimeline/gsuiTimeline.html.js",
-		"gsuiTimeline/gsuiTimeline.js",
-	],
-	js: () => {
-		const elTimeline = document.querySelector( "gsui-timeline" ),
-			inpPBB = document.querySelector( "#pxPerbeat" ),
-			inpBPM = document.querySelector( "#beatsPerMeasure" ),
-			inpSPB = document.querySelector( "#stepsPerBeat" );
+const elTimeline = document.querySelector( "gsui-timeline" );
+const inpPBB = document.querySelector( "#pxPerbeat" );
+const inpBPM = document.querySelector( "#beatsPerMeasure" );
+const inpSPB = document.querySelector( "#stepsPerBeat" );
 
-		inpPBB.oninput = e => GSUI.setAttribute( elTimeline, "pxperbeat", inpPBB.value );
-		inpBPM.oninput =
-		inpSPB.oninput = e => GSUI.setAttribute( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
-		document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
-	},
-} );
+inpPBB.oninput = e => GSUI.setAttribute( elTimeline, "pxperbeat", inpPBB.value );
+inpBPM.oninput =
+inpSPB.oninput = e => GSUI.setAttribute( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
+document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
+</body>
+</html>

@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="gsuiKeys.colors.default.css"/>
+<link rel="stylesheet" href="gsuiKeys.css"/>
 <style>
 body {
 	--test-bg-color: #883;
@@ -5,23 +16,21 @@ body {
 	--test-content-h: 60%;
 }
 </style>
+</head>
+<body>
 
-<gsui-keys></gsui-keys>
+<div id="TEST">
+	<gsui-keys></gsui-keys>
+</div>
 
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="gsuiKeys.html.js"></script>
+<script src="gsuiKeys.js"></script>
 <script>
-TEST( {
-	cssFiles: [
-		"gsuiKeys/gsuiKeys.colors.default.css",
-		"gsuiKeys/gsuiKeys.css",
-	],
-	jsFiles: [
-		"gsuiKeys/gsuiKeys.html.js",
-		"gsuiKeys/gsuiKeys.js",
-	],
-	js: () => {
-		const uiKeys = document.querySelector( "gsui-keys" );
+const el = document.querySelector( "gsui-keys" );
 
-		uiKeys.octaves( 1, 4 );
-	},
-} );
+el.octaves( 1, 4 );
 </script>
+</body>
+</html>

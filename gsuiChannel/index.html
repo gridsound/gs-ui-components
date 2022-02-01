@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="../gsuiSpectrum/gsuiSpectrum.css"/>
+<link rel="stylesheet" href="gsuiChannel.colors.default.css"/>
+<link rel="stylesheet" href="gsuiChannel.css"/>
 <style>
 body {
 	--test-bg-color: #387;
@@ -9,30 +23,25 @@ body {
 	display: flex;
 }
 </style>
+</head>
+<body>
 
-<gsui-channel></gsui-channel>
+<div id="TEST">
+	<gsui-channel></gsui-channel>
+</div>
 
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsuiAnalyser/gsuiAnalyser.js"></script>
+<script src="../gsuiSpectrum/gsuiSpectrum.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiChannel.html.js"></script>
+<script src="gsuiChannel.js"></script>
 <script>
-TEST( {
-	cssFiles: [
-		"gsuiIcon/gsuiIcon.css",
-		"gsuiSlider/gsuiSlider.css",
-		"gsuiSpectrum/gsuiSpectrum.css",
-		"gsuiChannel/gsuiChannel.colors.default.css",
-		"gsuiChannel/gsuiChannel.css",
-	],
-	jsFiles: [
-		"gsuiAnalyser/gsuiAnalyser.js",
-		"gsuiSpectrum/gsuiSpectrum.js",
-		"gsuiSlider/gsuiSlider.html.js",
-		"gsuiSlider/gsuiSlider.js",
-		"gsuiChannel/gsuiChannel.html.js",
-		"gsuiChannel/gsuiChannel.js",
-	],
-	js: () => {
-		const chan = document.querySelector( "gsui-channel" );
+const chan = document.querySelector( "gsui-channel" );
 
-		GSUI.setAttribute( chan, "name", "hello :)" );
-	}
-} );
+GSUI.setAttribute( chan, "name", "chan" );
 </script>
+</body>
+</html>

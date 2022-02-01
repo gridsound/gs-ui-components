@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="gsuiEnvelope.colors.default.css"/>
+<link rel="stylesheet" href="gsuiEnvelope.css"/>
 <style>
 body {
 	--test-bg-color: #734;
@@ -5,32 +20,20 @@ body {
 	--test-content-h: 130px;
 }
 </style>
+</head>
+<body>
 
-<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".1" decay=".1" sustain=".7" release="1"></gsui-envelope>
+<div id="TEST">
+	<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".1" decay=".1" sustain=".7" release="1"></gsui-envelope>
+</div>
 
-<script>
-TEST( {
-	deps: [
-		"gsuiIcon",
-		"gsuiBeatlines",
-		"gsuiEnvelopeGraph",
-		"gsuiSlider",
-	],
-	cssFiles: [
-		"gsuiIcon/gsuiIcon.css",
-		"gsuiBeatlines/gsuiBeatlines.css",
-		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.css",
-		"gsuiSlider/gsuiSlider.css",
-		"gsuiEnvelope/gsuiEnvelope.colors.default.css",
-		"gsuiEnvelope/gsuiEnvelope.css",
-	],
-	jsFiles: [
-		"gsuiBeatlines/gsuiBeatlines.js",
-		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.js",
-		"gsuiSlider/gsuiSlider.html.js",
-		"gsuiSlider/gsuiSlider.js",
-		"gsuiEnvelope/gsuiEnvelope.html.js",
-		"gsuiEnvelope/gsuiEnvelope.js",
-	],
-} );
-</script>
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiEnvelope.html.js"></script>
+<script src="gsuiEnvelope.js"></script>
+</body>
+</html>

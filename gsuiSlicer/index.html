@@ -1,3 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiDragshield/gsuiDragshield.css"/>
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="../gsuiTimeline/gsuiTimeline.colors.default.css"/>
+<link rel="stylesheet" href="../gsuiTimeline/gsuiTimeline.css"/>
+<link rel="stylesheet" href="gsuiSlicer.colors.default.css"/>
+<link rel="stylesheet" href="gsuiSlicer.css"/>
 <style>
 body {
 	--test-bg-color: #506;
@@ -26,112 +43,100 @@ body {
 	flex: 1;
 }
 </style>
+</head>
+<body>
 
-<gsui-slicer duration="8" timedivision="4/4"></gsui-slicer>
-<div id="ctrls">
-	<div>
-		<button id="loadSample">Load a sample</button>
-		<button id="rmSample">Unload</button>
-		<button id="playSample">Play/Stop</button>
-	</div>
-	<div>
-		<span>currentTime</span>
-		<input id="currentTime" type="range" min="0" value="0" max="8" step=".001"/>
+<div id="TEST">
+	<gsui-slicer duration="8" timedivision="4/4"></gsui-slicer>
+	<div id="ctrls">
+		<div>
+			<button id="loadSample">Load a sample</button>
+			<button id="rmSample">Unload</button>
+			<button id="playSample">Play/Stop</button>
+		</div>
+		<div>
+			<span>currentTime</span>
+			<input id="currentTime" type="range" min="0" value="0" max="8" step=".001"/>
+		</div>
 	</div>
 </div>
 
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../../gs-wa-components/gswaSlicer/gswaSlicer.js"></script>
+<script src="../gsuiDragshield/gsuiDragshield.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="../gsuiWaveform/gsuiWaveform.js"></script>
+<script src="../gsuiWaveform/gsuiWaveform.draw.js"></script>
+<script src="../gsuiTimeline/gsuiTimeline.html.js"></script>
+<script src="../gsuiTimeline/gsuiTimeline.js"></script>
+<script src="gsuiSlicer.html.js"></script>
+<script src="gsuiSlicer.js"></script>
 <script>
-TEST( {
-	deps: [
-		"gsuiIcon",
-		"gsuiBeatlines",
-		"gsuiWaveform",
-	],
-	cssFiles: [
-		"gsuiDragshield/gsuiDragshield.css",
-		"gsuiIcon/gsuiIcon.css",
-		"gsuiBeatlines/gsuiBeatlines.css",
-		"gsuiTimeline/gsuiTimeline.colors.default.css",
-		"gsuiTimeline/gsuiTimeline.css",
-		"gsuiSlicer/gsuiSlicer.colors.default.css",
-		"gsuiSlicer/gsuiSlicer.css",
-	],
-	jsFiles: [
-		"../gs-wa-components/gswaSlicer/gswaSlicer.js",
-		"gsuiDragshield/gsuiDragshield.js",
-		"gsuiWaveform/gsuiWaveform.js",
-		"gsuiWaveform/gsuiWaveform.draw.js",
-		"gsuiBeatlines/gsuiBeatlines.js",
-		"gsuiTimeline/gsuiTimeline.html.js",
-		"gsuiTimeline/gsuiTimeline.js",
-		"gsuiSlicer/gsuiSlicer.html.js",
-		"gsuiSlicer/gsuiSlicer.js",
-	],
-	js: () => {
-		const slicer = document.querySelector( "gsui-slicer" ),
-			rmSampleBtn = document.querySelector( "#rmSample" ),
-			loadSampleBtn = document.querySelector( "#loadSample" ),
-			playSampleBtn = document.querySelector( "#playSample" ),
-			currentTimeInp = document.querySelector( "#currentTime" );
-		let ctx, buffer, absn;
+const slicer = document.querySelector( "gsui-slicer" ),
+	rmSampleBtn = document.querySelector( "#rmSample" ),
+	loadSampleBtn = document.querySelector( "#loadSample" ),
+	playSampleBtn = document.querySelector( "#playSample" ),
+	currentTimeInp = document.querySelector( "#currentTime" );
+let ctx, buffer, absn;
 
-		slicer.addSlice(  0, { x: .000, y: .000, w: .125 } );
-		slicer.addSlice(  1, { x: .125, y: .125, w: .125 } );
-		slicer.addSlice(  2, { x: .250, y: .250, w: .125 } );
-		slicer.addSlice(  3, { x: .375, y: .375, w: .125 } );
-		slicer.addSlice(  4, { x: .500, y: .500, w: .125 } );
-		slicer.addSlice(  5, { x: .625, y: .625, w: .125 } );
-		slicer.addSlice(  6, { x: .750, y: .750, w: .125 } );
-		slicer.addSlice(  7, { x: .875, y: .875, w: .125 } );
+slicer.addSlice(  0, { x: .000, y: .000, w: .125 } );
+slicer.addSlice(  1, { x: .125, y: .125, w: .125 } );
+slicer.addSlice(  2, { x: .250, y: .250, w: .125 } );
+slicer.addSlice(  3, { x: .375, y: .375, w: .125 } );
+slicer.addSlice(  4, { x: .500, y: .500, w: .125 } );
+slicer.addSlice(  5, { x: .625, y: .625, w: .125 } );
+slicer.addSlice(  6, { x: .750, y: .750, w: .125 } );
+slicer.addSlice(  7, { x: .875, y: .875, w: .125 } );
 
-		GSUI.listenEvents( slicer, {
-			gsuiSlicer: {
-				changeProp: d => {
-					const [ prop, val ] = d.args;
+GSUI.listenEvents( slicer, {
+	gsuiSlicer: {
+		changeProp: d => {
+			const [ prop, val ] = d.args;
 
-					playSampleBtn.onclick();
-					playSampleBtn.onclick();
-					if ( prop === "duration" ) {
-						currentTimeInp.setAttribute( "max", val );
-					}
-				},
-			},
-		} );
-
-		currentTimeInp.oninput = () => GSUI.setAttribute( slicer, "currenttime", currentTimeInp.value );
-		playSampleBtn.onclick = () => {
-			if ( absn ) {
-				absn.stop();
-				absn = null;
-			} else {
-				absn = ctx.createBufferSource();
-				absn.buffer = gswaSlicer.createBuffer( ctx, buffer, 0, 1, slicer.getSlicesData() );
-				absn.loop = true;
-				absn.connect( ctx.destination );
-				absn.start();
+			playSampleBtn.onclick();
+			playSampleBtn.onclick();
+			if ( prop === "duration" ) {
+				currentTimeInp.setAttribute( "max", val );
 			}
-		};
-		rmSampleBtn.onclick = () => slicer.removeBuffer();
-		loadSampleBtn.onclick = () => {
-			ctx = ctx || new AudioContext();
-			slicer.removeBuffer();
-			// fetch( "test-assets/i-just-dont-know-why_F_minor.wav" )
-			// fetch( "test-assets/the_purge_siren_3.wav" )
-			// fetch( "test-assets/mental-help-hotline.m4a" )
-			// fetch( "test-assets/still-listening-gentleman.wav" )
-			// fetch( "test-assets/56k.ogg" )
-			// fetch( "test-assets/LCU_808_180_DLKit_03_Full.wav" )
-			fetch( "test-assets/Too Long - Steam Machine.wav" )
-			// fetch( "test-assets/Robot Rock - Oh Yeah.wav" )
-			// fetch( "test-assets/Television Rules The Nation - Crescendolls.wav" )
-				.then( res => res.arrayBuffer() )
-				.then( arr => ctx.decodeAudioData( arr ) )
-				.then( buf => {
-					buffer = buf;
-					slicer.setBuffer( buf );
-					slicer.setBufferName( "my-super-sample" );
-				} );
-		};
+		},
 	},
 } );
+
+currentTimeInp.oninput = () => GSUI.setAttribute( slicer, "currenttime", currentTimeInp.value );
+playSampleBtn.onclick = () => {
+	if ( absn ) {
+		absn.stop();
+		absn = null;
+	} else {
+		absn = ctx.createBufferSource();
+		absn.buffer = gswaSlicer.createBuffer( ctx, buffer, 0, 1, slicer.getSlicesData() );
+		absn.loop = true;
+		absn.connect( ctx.destination );
+		absn.start();
+	}
+};
+rmSampleBtn.onclick = () => slicer.removeBuffer();
+loadSampleBtn.onclick = () => {
+	ctx = ctx || new AudioContext();
+	slicer.removeBuffer();
+	// fetch( "../test-assets/i-just-dont-know-why_F_minor.wav" )
+	// fetch( "../test-assets/the_purge_siren_3.wav" )
+	// fetch( "../test-assets/mental-help-hotline.m4a" )
+	// fetch( "../test-assets/still-listening-gentleman.wav" )
+	// fetch( "../test-assets/56k.ogg" )
+	// fetch( "../test-assets/LCU_808_180_DLKit_03_Full.wav" )
+	fetch( "../test-assets/Too Long - Steam Machine.wav" )
+	// fetch( "../test-assets/Robot Rock - Oh Yeah.wav" )
+	// fetch( "../test-assets/Television Rules The Nation - Crescendolls.wav" )
+		.then( res => res.arrayBuffer() )
+		.then( arr => ctx.decodeAudioData( arr ) )
+		.then( buf => {
+			buffer = buf;
+			slicer.setBuffer( buf );
+			slicer.setBufferName( "my-super-sample" );
+		} );
+};
 </script>
+</body>
+</html>

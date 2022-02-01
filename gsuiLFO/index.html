@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="gsuiLFO.colors.default.css"/>
+<link rel="stylesheet" href="gsuiLFO.css"/>
 <style>
 body {
 	--test-bg-color: #a33;
@@ -5,34 +20,22 @@ body {
 	--test-content-h: 130px;
 }
 </style>
+</head>
+<body>
 
-<gsui-lfo toggle timedivision="4/4" type="sine" delay="0" attack="1" speed="1" amp="1"></gsui-lfo>
+<div id="TEST">
+	<gsui-lfo toggle timedivision="4/4" type="sine" delay="0" attack="1" speed="1" amp="1"></gsui-lfo>
+</div>
 
-<script>
-TEST( {
-	deps: [
-		"gsuiIcon",
-		"gsuiBeatlines",
-		"gsuiPeriodicWave",
-		"gsuiSlider",
-	],
-	cssFiles: [
-		"gsuiIcon/gsuiIcon.css",
-		"gsuiBeatlines/gsuiBeatlines.css",
-		"gsuiPeriodicWave/gsuiPeriodicWave.css",
-		"gsuiSlider/gsuiSlider.css",
-		"gsuiLFO/gsuiLFO.colors.default.css",
-		"gsuiLFO/gsuiLFO.css",
-	],
-	jsFiles: [
-		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js",
-		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js",
-		"gsuiBeatlines/gsuiBeatlines.js",
-		"gsuiPeriodicWave/gsuiPeriodicWave.js",
-		"gsuiSlider/gsuiSlider.html.js",
-		"gsuiSlider/gsuiSlider.js",
-		"gsuiLFO/gsuiLFO.html.js",
-		"gsuiLFO/gsuiLFO.js",
-	],
-} );
-</script>
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
+<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiLFO.html.js"></script>
+<script src="gsuiLFO.js"></script>
+</body>
+</html>

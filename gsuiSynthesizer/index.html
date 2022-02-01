@@ -1,57 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../../assets/favicon.png"/>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
+<link rel="stylesheet" href="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.css"/>
+<link rel="stylesheet" href="../gsuiEnvelope/gsuiEnvelope.colors.default.css"/>
+<link rel="stylesheet" href="../gsuiEnvelope/gsuiEnvelope.css"/>
+<link rel="stylesheet" href="../gsuiLFO/gsuiLFO.colors.default.css"/>
+<link rel="stylesheet" href="../gsuiLFO/gsuiLFO.css"/>
+<link rel="stylesheet" href="../gsuiOscillator/gsuiOscillator.colors.default.css"/>
+<link rel="stylesheet" href="../gsuiOscillator/gsuiOscillator.css"/>
+<link rel="stylesheet" href="gsuiSynthesizer.colors.default.css"/>
+<link rel="stylesheet" href="gsuiSynthesizer.css"/>
 <style>
 body {
 	--test-bg-color: #047;
 }
 </style>
+</head>
+<body>
 
-<gsui-synthesizer></gsui-synthesizer>
+<div id="TEST">
+	<gsui-synthesizer></gsui-synthesizer>
+</div>
 
-<script>
-TEST( {
-	deps: [
-		"gsuiIcon",
-		"gsuiSlider",
-		"gsuiBeatlines",
-		"gsuiPeriodicWave",
-		"gsuiLFO",
-		"gsuiEnvelope",
-		"gsuiOscillator",
-	],
-	cssFiles: [
-		"gsuiIcon/gsuiIcon.css",
-		"gsuiSlider/gsuiSlider.css",
-		"gsuiReorder/gsuiReorder.css",
-		"gsuiBeatlines/gsuiBeatlines.css",
-		"gsuiPeriodicWave/gsuiPeriodicWave.css",
-		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.css",
-		"gsuiEnvelope/gsuiEnvelope.colors.default.css",
-		"gsuiEnvelope/gsuiEnvelope.css",
-		"gsuiLFO/gsuiLFO.colors.default.css",
-		"gsuiLFO/gsuiLFO.css",
-		"gsuiOscillator/gsuiOscillator.colors.default.css",
-		"gsuiOscillator/gsuiOscillator.css",
-		"gsuiSynthesizer/gsuiSynthesizer.colors.default.css",
-		"gsuiSynthesizer/gsuiSynthesizer.css",
-	],
-	jsFiles: [
-		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js",
-		"../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js",
-		"gsuiSlider/gsuiSlider.html.js",
-		"gsuiSlider/gsuiSlider.js",
-		"gsuiReorder/gsuiReorder.js",
-		"gsuiBeatlines/gsuiBeatlines.js",
-		"gsuiPeriodicWave/gsuiPeriodicWave.js",
-		"gsuiEnvelopeGraph/gsuiEnvelopeGraph.js",
-		"gsuiEnvelope/gsuiEnvelope.html.js",
-		"gsuiEnvelope/gsuiEnvelope.js",
-		"gsuiLFO/gsuiLFO.html.js",
-		"gsuiLFO/gsuiLFO.js",
-		"gsuiOscillator/gsuiOscillator.html.js",
-		"gsuiOscillator/gsuiOscillator.js",
-		"gsuiSynthesizer/gsuiSynthesizer.html.js",
-		"gsuiSynthesizer/gsuiSynthesizer.js",
-	],
-	js: () => {
-	},
-} );
-</script>
+<script src="../gsui.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
+<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.list.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+<script src="../gsuiReorder/gsuiReorder.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
+<script src="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.js"></script>
+<script src="../gsuiEnvelope/gsuiEnvelope.html.js"></script>
+<script src="../gsuiEnvelope/gsuiEnvelope.js"></script>
+<script src="../gsuiLFO/gsuiLFO.html.js"></script>
+<script src="../gsuiLFO/gsuiLFO.js"></script>
+<script src="../gsuiOscillator/gsuiOscillator.html.js"></script>
+<script src="../gsuiOscillator/gsuiOscillator.js"></script>
+<script src="gsuiSynthesizer.html.js"></script>
+<script src="gsuiSynthesizer.js"></script>
+</body>
+</html>
