@@ -13,14 +13,16 @@
 	padding: 0 .8em;
 	border-radius: 2px;
 	margin-right: 10px;
-	color: #111;
 	font-size: 12px;
 	line-height: 28px;
 	font-weight: bold;
 	text-decoration: none;
 	background-color: #ff9;
 }
-.gsuiDAW-popup-export-btn > span { display: none; }
+.gsuiDAW-popup-export-btn > span {
+	display: none;
+	color: #111;
+}
 .gsuiDAW-popup-export-btn[ data-status="0" ] .gsuiDAW-popup-export-btn0 { display: inline; }
 .gsuiDAW-popup-export-btn[ data-status="1" ] .gsuiDAW-popup-export-btn1 { display: inline; }
 .gsuiDAW-popup-export-btn[ data-status="2" ] .gsuiDAW-popup-export-btn2 { display: inline; }
