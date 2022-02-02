@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiDAW extends HTMLElement {
+	onSubmitLogin = null
 	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
@@ -38,6 +39,10 @@ class gsuiDAW extends HTMLElement {
 		},
 	} )
 	#popups = {
+		auth: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-auth" ), {
+			root: ".gsuiDAW-popup-auth",
+			error: ".gsuiDAW-popup-auth-error",
+		} ),
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
 		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
@@ -109,6 +114,7 @@ class gsuiDAW extends HTMLElement {
 			"currentcomposition",
 			"currenttime",
 			"duration",
+			"errauth",
 			"location",
 			"logging",
 			"maxtime",
@@ -130,6 +136,9 @@ class gsuiDAW extends HTMLElement {
 			switch ( prop ) {
 				case "currentcomposition":
 					this.#loadComposition( val );
+					break;
+				case "errauth":
+					this.#popups.auth.error.textContent = val;
 					break;
 				case "logging":
 					this.#elements.login.dataset.spin =
@@ -298,6 +307,7 @@ class gsuiDAW extends HTMLElement {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
+			case "logout":
 			case "saveCurrent":
 			case "focusSwitch":
 			case "play":
@@ -306,6 +316,16 @@ class gsuiDAW extends HTMLElement {
 			case "undo":
 			case "redo":
 				this.#dispatch( dt.action );
+				break;
+			case "login":
+				GSUI.popup.custom( {
+					ok: "Sign in",
+					title: "Authentication",
+					element: this.#popups.auth.root,
+					submit: obj => this.onSubmitLogin( obj.email, obj.password ),
+				} ).then( () => {
+					this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
+				} );
 				break;
 			case "window":
 				this.#dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
@@ -351,7 +371,6 @@ class gsuiDAW extends HTMLElement {
 						}
 					} );
 				break;
-			case "login":
 			case "tempo":
 				lg( "popup", dt.action );
 				break;
