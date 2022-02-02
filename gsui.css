@@ -1,4 +1,6 @@
 body {
+	color-scheme: dark;
+
 	--gsui-rgb-pan: 221, 153, 255;                      /* #d9f */
 	--gsui-rgb-gain: 255, 255, 153;                     /* #ff9 */
 	--gsui-rgb-detune: 255, 255, 255;                   /* #fff */
