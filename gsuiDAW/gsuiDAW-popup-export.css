@@ -23,9 +23,11 @@
 	display: none;
 	color: #111;
 }
-.gsuiDAW-popup-export-btn[ data-status="0" ] .gsuiDAW-popup-export-btn0 { display: inline; }
-.gsuiDAW-popup-export-btn[ data-status="1" ] .gsuiDAW-popup-export-btn1 { display: inline; }
-.gsuiDAW-popup-export-btn[ data-status="2" ] .gsuiDAW-popup-export-btn2 { display: inline; }
+.gsuiDAW-popup-export-btn[ data-status="0" ] .gsuiDAW-popup-export-btn0,
+.gsuiDAW-popup-export-btn[ data-status="1" ] .gsuiDAW-popup-export-btn1,
+.gsuiDAW-popup-export-btn[ data-status="2" ] .gsuiDAW-popup-export-btn2 {
+	display: inline;
+}
 .gsuiDAW-popup-export-btn .gsuiIcon {
 	margin-left: .3em;
 }

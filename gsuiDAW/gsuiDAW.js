@@ -2,6 +2,7 @@
 
 class gsuiDAW extends HTMLElement {
 	onSubmitLogin = null
+	onSubmitOpen = null
 	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
@@ -42,6 +43,11 @@ class gsuiDAW extends HTMLElement {
 		auth: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-auth" ), {
 			root: ".gsuiDAW-popup-auth",
 			error: ".gsuiDAW-popup-auth-error",
+		} ),
+		open: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-open" ), {
+			root: ".gsuiDAW-popup-open",
+			inputOpenURL: "[name='url']",
+			inputOpenFile: "[name='file']",
 		} ),
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
 		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
@@ -216,10 +222,10 @@ class gsuiDAW extends HTMLElement {
 	#loadComposition( id ) {
 		const html = this.#cmps.get( id );
 
+		this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
 		if ( html ) {
 			const par = html.root.parentNode;
 
-			this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
 			html.root.classList.add( "gsuiDAW-cmp-loaded" );
 			par.prepend( html.root );
 			par.scrollTop = 0;
@@ -308,6 +314,8 @@ class gsuiDAW extends HTMLElement {
 
 		switch ( dt.action ) {
 			case "logout":
+			case "localNewCmp":
+			case "cloudNewCmp":
 			case "saveCurrent":
 			case "focusSwitch":
 			case "play":
@@ -325,6 +333,15 @@ class gsuiDAW extends HTMLElement {
 					submit: obj => this.onSubmitLogin( obj.email, obj.password ),
 				} ).then( () => {
 					this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
+				} );
+				break;
+			case "localOpenCmp":
+				this.#popups.open.inputOpenFile.value =
+				this.#popups.open.inputOpenURL.value = "";
+				GSUI.popup.custom( {
+					title: "Open",
+					element: this.#popups.open.root,
+					submit: obj => this.onSubmitOpen( obj.url, obj.file ),
 				} );
 				break;
 			case "window":
