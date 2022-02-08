@@ -105,9 +105,7 @@ class gsuiDAW extends HTMLElement {
 			GSUI.recallAttributes( this, {
 				saved: true,
 				uirate: "auto",
-				windowslowgraphics: false,
 				timelinenumbering: 0,
-				samplerate: 24000,
 				bpm: 60,
 				name: "",
 				duration: 10,
@@ -134,7 +132,6 @@ class gsuiDAW extends HTMLElement {
 			"maxtime",
 			"name",
 			"playing",
-			"samplerate",
 			"timedivision",
 			"timelinenumbering",
 			"uirate",
@@ -142,7 +139,6 @@ class gsuiDAW extends HTMLElement {
 			"username",
 			"version",
 			"volume",
-			"windowslowgraphics",
 		];
 	}
 	attributeChangedCallback( prop, prev, val ) {
@@ -171,34 +167,20 @@ class gsuiDAW extends HTMLElement {
 				case "duration":
 					this.#updateDuration();
 					break;
-				case "samplerate":
-					this.#popups.settings.sampleRate.value = val;
-					break;
 				case "uirate":
-					this.#popups.settings.uiRateRadio[ val === "auto" ? val : "manual" ].checked = true;
-					if ( val !== "auto" ) {
-						this.#popups.settings.uiRateManualFPS.textContent = val;
-						this.#popups.settings.uiRateManualRange.value = val;
-					}
-					break;
-				case "windowslowgraphics":
-					this.#popups.settings.windowsLowGraphics.checked = val !== null;
+
 					break;
 				case "timelinenumbering":
 					gsuiClock.numbering( val );
-					this.#popups.settings.timelineNumbering.value = val;
 					break;
 				case "bpm":
 					GSUI.setAttribute( this.#elements.clock, "bpm", val );
 					this.#elements.bpm.textContent = val;
-					this.#popups.tempo.bpm.value = val;
 					this.#updateDuration();
 					break;
 				case "timedivision":
 					GSUI.setAttribute( this.#elements.clock, "timedivision", val );
-					this.#popups.tempo.beatsPerMeasure.value =
 					this.#elements.bPM.textContent = val.split( "/" )[ 0 ];
-					this.#popups.tempo.stepsPerBeat.value =
 					this.#elements.sPB.textContent = val.split( "/" )[ 1 ];
 					break;
 				case "volume":
@@ -381,6 +363,9 @@ class gsuiDAW extends HTMLElement {
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
 				break;
 			case "tempo":
+				this.#popups.tempo.beatsPerMeasure.value = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
+				this.#popups.tempo.stepsPerBeat.value = +this.getAttribute( "timedivision" ).split( "/" )[ 1 ];
+				this.#popups.tempo.bpm.value = +this.getAttribute( "bpm" );
 				GSUI.popup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
 					.then( data => {
 						if ( data ) {
@@ -396,6 +381,14 @@ class gsuiDAW extends HTMLElement {
 					} );
 				break;
 			case "settings":
+				this.#popups.settings.sampleRate.value = +this.getAttribute( "samplerate" );
+				this.#popups.settings.timelineNumbering.value = +this.getAttribute( "timelinenumbering" );
+				this.#popups.settings.windowsLowGraphics.checked = this.getAttribute( "windowslowgraphics" ) === "";
+				this.#popups.settings.uiRateRadio[ this.getAttribute( "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
+				if ( this.getAttribute( "uirate" ) !== "auto" ) {
+					this.#popups.settings.uiRateManualFPS.textContent = this.getAttribute( "uirate" ).padStart( 2, "0" );
+					this.#popups.settings.uiRateManualRange.value = this.getAttribute( "uirate" );
+				}
 				GSUI.popup.custom( { title: "Settings", element: this.#popups.settings.root } )
 					.then( data => {
 						if ( data ) {
