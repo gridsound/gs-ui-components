@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiDAW extends HTMLElement {
-	onSubmitLogin = null
-	onSubmitOpen = null
+	onSubmitLogin = GSUI.noop
+	onSubmitOpen = GSUI.noop
 	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
