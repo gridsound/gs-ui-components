@@ -49,6 +49,13 @@ class gsuiDAW extends HTMLElement {
 			inputOpenURL: "[name='url']",
 			inputOpenFile: "[name='file']",
 		} ),
+		tempo: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-tempo" ), {
+			root: ".gsuiDAW-popup-tempo",
+			beatsPerMeasure: "[name='beatsPerMeasure']",
+			stepsPerBeat: "[name='stepsPerBeat']",
+			bpm: "[name='bpm']",
+			bpmTap: ".gsuiDAW-bpmTap",
+		} ),
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
 		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
@@ -73,6 +80,7 @@ class gsuiDAW extends HTMLElement {
 
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.onclick = this.#onclick.bind( this );
+		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.tap();
 		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
 		this.#popups.settings.uiRateManualRange.oninput = e => {
 			this.#popups.settings.uiRateManualFPS.textContent =
@@ -183,11 +191,14 @@ class gsuiDAW extends HTMLElement {
 				case "bpm":
 					GSUI.setAttribute( this.#elements.clock, "bpm", val );
 					this.#elements.bpm.textContent = val;
+					this.#popups.tempo.bpm.value = val;
 					this.#updateDuration();
 					break;
 				case "timedivision":
 					GSUI.setAttribute( this.#elements.clock, "timedivision", val );
+					this.#popups.tempo.beatsPerMeasure.value =
 					this.#elements.bPM.textContent = val.split( "/" )[ 0 ];
+					this.#popups.tempo.stepsPerBeat.value =
 					this.#elements.sPB.textContent = val.split( "/" )[ 1 ];
 					break;
 				case "volume":
@@ -369,6 +380,21 @@ class gsuiDAW extends HTMLElement {
 			case "shortcuts":
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
 				break;
+			case "tempo":
+				GSUI.popup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
+					.then( data => {
+						if ( data ) {
+							const newTimediv = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
+
+							if (
+								newTimediv !== this.getAttribute( "timedivision" ) ||
+								data.bpm !== +this.getAttribute( "bpm" )
+							) {
+								this.#dispatch( "tempo", data );
+							}
+						}
+					} );
+				break;
 			case "settings":
 				GSUI.popup.custom( { title: "Settings", element: this.#popups.settings.root } )
 					.then( data => {
@@ -387,9 +413,6 @@ class gsuiDAW extends HTMLElement {
 							}
 						}
 					} );
-				break;
-			case "tempo":
-				lg( "popup", dt.action );
 				break;
 			case "cmps":
 			case "help":
