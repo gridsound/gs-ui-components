@@ -378,12 +378,12 @@ class gsuiDAW extends HTMLElement {
 							}
 							delete data.uiRateFPS;
 							if (
-								data.uiRate !== +this.getAttribute( "uirate" ) ||
+								data.uiRate != this.getAttribute( "uirate" ) || // 1.
 								data.sampleRate !== +this.getAttribute( "samplerate" ) ||
 								data.timelineNumbering !== +this.getAttribute( "timelinenumbering" ) ||
 								data.windowsLowGraphics !== ( this.getAttribute( "windowslowgraphics" ) === "" )
 							) {
-								lg( data, +this.getAttribute( "samplerate" ) )
+								this.#dispatch( "settings", data );
 							}
 						}
 					} );
@@ -405,3 +405,8 @@ class gsuiDAW extends HTMLElement {
 
 Object.seal( gsuiDAW );
 customElements.define( "gsui-daw", gsuiDAW );
+
+/*
+1. Why `!=` and not `!==` for "uiRate"?
+   Because uiRate can be "auto" or a number (string).
+*/
