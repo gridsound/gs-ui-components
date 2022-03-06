@@ -134,7 +134,6 @@ class gsuiDAW extends HTMLElement {
 			"playing",
 			"timedivision",
 			"timelinenumbering",
-			"uirate",
 			"useravatar",
 			"username",
 			"version",
@@ -166,9 +165,6 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "duration":
 					this.#updateDuration();
-					break;
-				case "uirate":
-
 					break;
 				case "timelinenumbering":
 					gsuiClock.numbering( val );
