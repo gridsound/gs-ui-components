@@ -8,6 +8,7 @@ class gsuiDAW extends HTMLElement {
 	#actions = null
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
 	#children = GSUI.getTemplate( "gsui-daw" )
+	#timeSelecting = false
 	#elements = GSUI.findElements( this.#children, {
 		bpm: ".gsuiDAW-tempo-bpm",
 		bPM: ".gsuiDAW-tempo-beatsPerMeasure",
@@ -93,6 +94,24 @@ class gsuiDAW extends HTMLElement {
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,
 				change: GSUI.noop,
+			},
+		} );
+		GSUI.listenEvents( this.#elements.currentTime, {
+			gsuiSlider: {
+				inputStart: d => {
+					this.#timeSelecting = true;
+					this.#elements.clock.setTime( d.args[ 0 ] );
+				},
+				inputEnd: d => {
+					this.#timeSelecting = false;
+				},
+				input: d => {
+					this.#elements.clock.setTime( d.args[ 0 ] );
+					this.#dispatch( "currentTimeLive", d.args[ 0 ] );
+				},
+				change: d => {
+					this.#dispatch( "currentTime", d.args[ 0 ] );
+				},
 			},
 		} );
 	}
@@ -183,8 +202,10 @@ class gsuiDAW extends HTMLElement {
 					this.#elements.volume.setValue( val );
 					break;
 				case "currenttime":
-					this.#elements.clock.setTime( val );
-					this.#elements.currentTime.setValue( val );
+					if ( !this.#timeSelecting ) {
+						this.#elements.clock.setTime( val );
+						this.#elements.currentTime.setValue( val );
+					}
 					break;
 				case "maxtime":
 					GSUI.setAttribute( this.#elements.currentTime, "max", val );
