@@ -87,9 +87,9 @@ class gsuiDAW extends HTMLElement {
 				e.target.value.padStart( 2, "0" );
 		};
 		this.#elements.spectrum.setResolution( 140 );
-		GSUI.listenEvents( this, {
+		GSUI.listenEvents( this.#elements.volume, {
 			gsuiSlider: {
-				input: ( d, tar ) => this.#dispatch( tar.dataset.action, d.args[ 0 ] ),
+				input: d => this.#dispatch( "volume", d.args[ 0 ] ),
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,
 				change: GSUI.noop,
