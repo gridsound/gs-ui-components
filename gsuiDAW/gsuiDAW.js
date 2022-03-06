@@ -335,6 +335,12 @@ class gsuiDAW extends HTMLElement {
 			case "redo":
 				this.#dispatch( dt.action );
 				break;
+			case "open":
+				e.preventDefault();
+				this.#dispatch( "open",
+					this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
+					e.target.parentNode.dataset.id );
+				break;
 			case "login":
 				GSUI.popup.custom( {
 					ok: "Sign in",
