@@ -323,10 +323,10 @@ class gsuiDAW extends HTMLElement {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
+			case "save":
 			case "logout":
 			case "localNewCmp":
 			case "cloudNewCmp":
-			case "saveCurrent":
 			case "focusSwitch":
 			case "play":
 			case "stop":

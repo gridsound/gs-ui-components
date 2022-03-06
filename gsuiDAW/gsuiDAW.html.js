@@ -14,7 +14,7 @@ GSUI.setTemplate( "gsui-daw", () => [
 			),
 		),
 		GSUI.createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaSave gsuiDAW-btns" },
-			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnColor gsuiDAW-currCmp-saveBtn gsuiIcon", "data-action": "saveCurrent", title: "Save composition" } ),
+			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnColor gsuiDAW-currCmp-saveBtn gsuiIcon", "data-action": "save", title: "Save composition" } ),
 			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-currCmp-editBtn", "data-action": "rename", title: "Edit composition's title" },
 				GSUI.createElement( "i",    { class: "gsuiDAW-currCmp-localIcon gsuiIcon" } ),
 				GSUI.createElement( "span", { class: "gsuiDAW-currCmp-name" } ),
