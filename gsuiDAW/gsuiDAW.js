@@ -221,11 +221,11 @@ class gsuiDAW extends HTMLElement {
 		}
 	}
 	#updateDuration() {
-		const [ min, sec ] = gsuiClock.parseBeatsToSeconds(
-				+this.getAttribute( "duration" ),
-				+this.getAttribute( "bpm" ) );
+		const dur = +this.getAttribute( "duration" ),
+			[ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, +this.getAttribute( "bpm" ) );
 
 		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
+		GSUI.setAttribute( this.#elements.currentTime, "max", dur );
 	}
 
 	// .........................................................................
