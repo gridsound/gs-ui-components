@@ -10,6 +10,7 @@ class gsuiDAW extends HTMLElement {
 	#children = GSUI.getTemplate( "gsui-daw" )
 	#timeSelecting = false
 	#elements = GSUI.findElements( this.#children, {
+		head: ".gsuiDAW-head",
 		bpm: ".gsuiDAW-tempo-bpm",
 		bPM: ".gsuiDAW-tempo-beatsPerMeasure",
 		sPB: ".gsuiDAW-tempo-stepsPerBeat",
@@ -80,7 +81,7 @@ class gsuiDAW extends HTMLElement {
 		Object.seal( this );
 
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
-		this.onclick = this.#onclick.bind( this );
+		this.#elements.head.onclick = this.#onclickHead.bind( this );
 		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.tap();
 		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
 		this.#popups.settings.uiRateManualRange.oninput = e => {
@@ -136,8 +137,6 @@ class gsuiDAW extends HTMLElement {
 				version: "0.0.0",
 			} );
 		}
-	}
-	disconnectedCallback() {
 	}
 	static get observedAttributes() {
 		return [
@@ -328,7 +327,7 @@ class gsuiDAW extends HTMLElement {
 	}
 
 	// .........................................................................
-	#onclick( e ) {
+	#onclickHead( e ) {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
