@@ -250,6 +250,15 @@ class gsuiDAW extends HTMLElement {
 	}
 
 	// .........................................................................
+	showOpenPopup() {
+		this.#popups.open.inputOpenFile.value =
+		this.#popups.open.inputOpenURL.value = "";
+		GSUI.popup.custom( {
+			title: "Open",
+			element: this.#popups.open.root,
+			submit: obj => this.onSubmitOpen( obj.url, obj.file ),
+		} );
+	}
 	clearCompositions() {
 		this.#cmps.forEach( html => html.root.remove() );
 	}
@@ -352,13 +361,7 @@ class gsuiDAW extends HTMLElement {
 				} );
 				break;
 			case "localOpenCmp":
-				this.#popups.open.inputOpenFile.value =
-				this.#popups.open.inputOpenURL.value = "";
-				GSUI.popup.custom( {
-					title: "Open",
-					element: this.#popups.open.root,
-					submit: obj => this.onSubmitOpen( obj.url, obj.file ),
-				} );
+				this.showOpenPopup();
 				break;
 			case "window":
 				this.#dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
