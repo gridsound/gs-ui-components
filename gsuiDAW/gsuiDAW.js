@@ -59,7 +59,11 @@ class gsuiDAW extends HTMLElement {
 			bpmTap: ".gsuiDAW-bpmTap",
 		} ),
 		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
-		export: GSUI.getTemplate( "gsui-daw-popup-export" ),
+		export: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-export" ), {
+			root: ".gsuiDAW-popup-export",
+			button: ".gsuiDAW-popup-export-btn",
+			progress: ".gsuiDAW-popup-export-progress",
+		} ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
 		cookies: GSUI.getTemplate( "gsui-daw-popup-cookies" ),
 		settings: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-settings" ), {
@@ -87,6 +91,16 @@ class gsuiDAW extends HTMLElement {
 		this.#popups.settings.uiRateManualRange.oninput = e => {
 			this.#popups.settings.uiRateManualFPS.textContent =
 				e.target.value.padStart( 2, "0" );
+		};
+		this.#popups.export.button.onclick = e => {
+			const d = e.currentTarget.dataset;
+
+			if ( d.status === "0" ) {
+				d.status = "1";
+			}
+			if ( d.status !== "2" ) {
+				e.preventDefault();
+			}
 		};
 		this.#elements.spectrum.setResolution( 140 );
 		GSUI.listenEvents( this.#elements.volume, {
@@ -145,6 +159,7 @@ class gsuiDAW extends HTMLElement {
 			"currenttime",
 			"duration",
 			"errauth",
+			"exporting",
 			"location",
 			"logging",
 			"maxtime",
@@ -166,6 +181,9 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "errauth":
 					this.#popups.auth.error.textContent = val;
+					break;
+				case "exporting":
+					this.#popups.export.progress.value = val;
 					break;
 				case "logging":
 					this.#elements.login.dataset.spin =
@@ -382,7 +400,7 @@ class gsuiDAW extends HTMLElement {
 				GSUI.popup.custom( { title: "About", element: this.#popups.about } );
 				break;
 			case "export":
-				GSUI.popup.custom( { title: "Export", element: this.#popups.export } );
+				GSUI.popup.custom( { title: "Export", element: this.#popups.export.root } );
 				break;
 			case "shortcuts":
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
