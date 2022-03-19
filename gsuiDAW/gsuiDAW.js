@@ -372,7 +372,6 @@ class gsuiDAW extends HTMLElement {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
-			case "save":
 			case "logout":
 			case "localNewCmp":
 			case "cloudNewCmp":
@@ -384,11 +383,18 @@ class gsuiDAW extends HTMLElement {
 			case "redo":
 				this.#dispatch( dt.action );
 				break;
-			case "open":
+			case "cmp-save":
+				this.#dispatch( "save" );
+				break;
+			case "cmp-open":
 				e.preventDefault();
 				this.#dispatch( "open",
 					this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
 					e.target.parentNode.dataset.id );
+				break;
+			case "cmp-rename":
+				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
+					.then( n => n && n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "login":
 				GSUI.popup.custom( {
@@ -410,10 +416,6 @@ class gsuiDAW extends HTMLElement {
 				if ( dt.index - this.#currentActionInd ) {
 					this.#dispatch( "redoN", dt.index - this.#currentActionInd );
 				}
-				break;
-			case "rename":
-				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
-					.then( n => n && n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "cookies":
 				GSUI.popup.custom( { title: "Cookies consent", element: this.#popups.cookies } )

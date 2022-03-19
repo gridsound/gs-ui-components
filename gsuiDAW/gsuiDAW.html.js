@@ -14,8 +14,8 @@ GSUI.setTemplate( "gsui-daw", () => [
 			),
 		),
 		GSUI.createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaSave gsuiDAW-btns" },
-			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnColor gsuiDAW-currCmp-saveBtn gsuiIcon", "data-action": "save", title: "Save composition" } ),
-			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-currCmp-editBtn", "data-action": "rename", title: "Edit composition's title" },
+			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnColor gsuiDAW-currCmp-saveBtn gsuiIcon", "data-action": "cmp-save", title: "Save composition" } ),
+			GSUI.createElement( "button", { class: "gsuiDAW-btn gsuiDAW-currCmp-editBtn", "data-action": "cmp-rename", title: "Edit composition's title" },
 				GSUI.createElement( "i",    { class: "gsuiDAW-currCmp-localIcon gsuiIcon" } ),
 				GSUI.createElement( "span", { class: "gsuiDAW-currCmp-name" } ),
 				GSUI.createElement( "i",    { class: "gsuiDAW-currCmp-editIcon gsuiIcon", "data-icon": "pen" } ),
@@ -122,8 +122,8 @@ GSUI.setTemplate( "gsui-daw-cmps-btn", ( { action, title, icon, text } ) => (
 
 GSUI.setTemplate( "gsui-daw-cmp", ( { id, saveMode } ) => (
 	GSUI.createElement( "div", { class: "gsuiDAW-cmp", "data-id": id, draggable: "true", tabindex: 0 },
-		GSUI.createElement( "button", { class: "gsuiDAW-cmp-btn gsuiIcon", "data-action": "save", "data-icon": saveMode === "local" ? "save" : "upload" } ),
-		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-info", "data-action": "open" },
+		GSUI.createElement( "button", { class: "gsuiDAW-cmp-btn gsuiIcon", "data-action": "cmp-save", "data-icon": saveMode === "local" ? "save" : "upload" } ),
+		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-info", "data-action": "cmp-open" },
 			GSUI.createElement( "div", { class: "gsuiDAW-cmp-name" } ),
 			GSUI.createElement( "div", null,
 				GSUI.createElement( "span", { class: "gsuiDAW-cmp-duration-wrap" },
@@ -136,8 +136,8 @@ GSUI.setTemplate( "gsui-daw-cmp", ( { id, saveMode } ) => (
 				),
 			),
 		),
-		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "json",   "data-icon": "file-export", title: "Export to JSON file" } ),
-		GSUI.createElement( "button", {        class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "delete", "data-icon": "minus-oct", title: "Delete" } ),
+		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "cmp-json",   "data-icon": "file-export", title: "Export to JSON file" } ),
+		GSUI.createElement( "button", {        class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "cmp-delete", "data-icon": "minus-oct", title: "Delete" } ),
 	)
 ) );
 

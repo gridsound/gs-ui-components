@@ -36,7 +36,7 @@
 }
 
 /* .......................................................................... */
-.gsuiDAW-cmp-btn[ data-action="save" ] {
+.gsuiDAW-cmp-btn[ data-action="cmp-save" ] {
 	width: 32px;
 	margin-left: -32px;
 	background-color: var( --gsuiDAW-save-bg );
@@ -44,11 +44,11 @@
 	transition-property: margin-left, color, background-color, visibility;
 	visibility: hidden;
 }
-gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-loaded .gsuiDAW-cmp-btn[ data-action="save" ] {
+gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-loaded .gsuiDAW-cmp-btn[ data-action="cmp-save" ] {
 	visibility: visible;
 	margin-left: 0;
 }
-.gsuiDAW-cmp-btn[ data-action="save" ]:hover {
+.gsuiDAW-cmp-btn[ data-action="cmp-save" ]:hover {
 	color: var( --gsuiDAW-save-bg );
 	background-color: var( --gsuiDAW-cmp-text );
 }
