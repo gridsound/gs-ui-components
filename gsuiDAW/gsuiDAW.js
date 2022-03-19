@@ -336,6 +336,11 @@ class gsuiDAW extends HTMLElement {
 			this.#cmps.delete( cmp.id );
 		}
 	}
+	readyToDownload( url, name ) {
+		GSUI.setAttribute( this.#popups.export.button, "href", url );
+		GSUI.setAttribute( this.#popups.export.button, "download", name );
+		GSUI.setAttribute( this.#popups.export.button, "data-status", 2 );
+	}
 
 	// .........................................................................
 	toggleWindow( win, b ) {
