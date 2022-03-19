@@ -106,6 +106,13 @@ gsui-popup:not( .gsuiPopup-show ) {
 	font-size: 12px;
 	opacity: .5;
 }
+.gsuiPopup-content input[ type="checkbox" ],
+.gsuiPopup-content input[ type="radio" ] {
+	margin: 0 8px 0 0;
+}
+.gsuiPopup-content input[ type="range" ] {
+	min-width: 0;
+}
 
 /* .......................................................................... */
 .gsuiPopup-row {
