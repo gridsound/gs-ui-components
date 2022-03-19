@@ -113,11 +113,12 @@ class gsuiDAW extends HTMLElement {
 		this.#popups.export.button.onclick = e => {
 			const d = e.currentTarget.dataset;
 
-			if ( d.status === "0" ) {
-				d.status = "1";
-			}
 			if ( d.status !== "2" ) {
 				e.preventDefault();
+			}
+			if ( d.status === "0" ) {
+				d.status = "1";
+				this.#dispatch( "export" );
 			}
 		};
 		GSUI.listenEvents( this.#elements.volume, {
@@ -417,7 +418,12 @@ class gsuiDAW extends HTMLElement {
 				GSUI.popup.custom( { title: "About", element: this.#popups.about.root } );
 				break;
 			case "export":
-				GSUI.popup.custom( { title: "Export", element: this.#popups.export.root } );
+				GSUI.setAttribute( this, "exporting", 0 );
+				GSUI.setAttribute( this.#popups.export.button, "href", "" );
+				GSUI.setAttribute( this.#popups.export.button, "download", "" );
+				GSUI.setAttribute( this.#popups.export.button, "data-status", 0 );
+				GSUI.popup.custom( { title: "Export", element: this.#popups.export.root } )
+					.then( () => this.#dispatch( "abortExport" ) );
 				break;
 			case "shortcuts":
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
