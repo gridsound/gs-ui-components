@@ -1,7 +1,7 @@
 "use strict";
 
 GSUI.setTemplate( "gsui-patterns-infoPopup", () => (
-	GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-infoPopupContent" },
+	GSUI.createElement( "div", { id: "gsuiPatterns-infoPopupContent" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Type" ),
 			GSUI.createElement( "label", null,
@@ -24,13 +24,13 @@ GSUI.setTemplate( "gsui-patterns-infoPopup", () => (
 				GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "buf-loop" } ),
 				GSUI.createElement( "span", null, "loop" ),
 				GSUI.createElement( "span", null, "bpm" ),
-				GSUI.createElement( "input", { type: "number", name: "bpm", min: 1, max: 999.99, step: .01 } ),
+				GSUI.createElement( "input", { class: "gsuiPopup-inputText", type: "number", name: "bpm", min: 1, max: 999.99, step: .01 } ),
 			),
 		),
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Name" ),
 			GSUI.createElement( "label", null,
-				GSUI.createElement( "input", { type: "text", name: "name" } ),
+				GSUI.createElement( "input", { class: "gsuiPopup-inputText", type: "text", name: "name" } ),
 			),
 		),
 	)
