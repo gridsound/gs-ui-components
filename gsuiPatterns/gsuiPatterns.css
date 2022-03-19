@@ -6,12 +6,6 @@ gsui-patterns {
 }
 
 /* .......................................................................... */
-#gsuiPatterns-infoPopupContent {
-	width: auto;
-}
-#gsuiPatterns-infoPopupContent fieldset {
-	align-items: flex-start;
-}
 #gsuiPatterns-infoPopupContent label {
 	display: flex;
 	align-items: center;

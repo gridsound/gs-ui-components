@@ -36,13 +36,6 @@ class gsuiPatterns extends HTMLElement {
 	} )
 	#nlKeysLists = this.#elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" )
 	static infoPopupContent = GSUI.getTemplate( "gsui-patterns-infoPopup" )
-	static selectChanPopupSelect = GSUI.createElement( "select", { id: "gsuiPatterns-selectChanPopupSelect", size: 8, name: "channel" } )
-	static selectChanPopupContent = GSUI.createElement( "div", { class: "popup", id: "gsuiPatterns-selectChanPopupContent" },
-		GSUI.createElement( "fieldset", null,
-			GSUI.createElement( "legend", null, "Select a channel" ),
-			gsuiPatterns.selectChanPopupSelect,
-		),
-	)
 
 	constructor() {
 		super();
@@ -135,16 +128,8 @@ class gsuiPatterns extends HTMLElement {
 		} );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
-		gsuiPatterns.selectChanPopupSelect.value = currChanId;
-		GSUI.popup.custom( {
-			title: "Channels",
-			element: gsuiPatterns.selectChanPopupContent,
-			submit: data => {
-				if ( data.channel !== currChanId ) {
-					this.onchange( action, objId, data.channel );
-				}
-			}
-		} );
+		gsuiChannels.openSelectChannelPopup( currChanId )
+			.then( chanId => chanId && this.onchange( action, objId, chanId ) );
 	}
 	#openInfoPopup( id, el ) {
 		const radio = gsuiPatterns.infoPopupContent.querySelector( `[value="${ el.dataset.bufferType }"]` );
@@ -171,20 +156,9 @@ class gsuiPatterns extends HTMLElement {
 	}
 
 	// .........................................................................
-	addChannel( id, name ) {
-		const elOpt = document.createElement( "option" );
-
-		elOpt.value = id;
-		elOpt.textContent = name;
-		gsuiPatterns.selectChanPopupSelect.append( elOpt );
-	}
 	updateChannel( id, name ) {
-		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).textContent = name;
 		this.querySelectorAll( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` )
 			.forEach( el => el.textContent = name );
-	}
-	deleteChannel( id ) {
-		gsuiPatterns.selectChanPopupSelect.querySelector( `option[value="${ id }"]` ).remove();
 	}
 
 	// .........................................................................
