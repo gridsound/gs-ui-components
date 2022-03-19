@@ -97,6 +97,7 @@ el.addComposition( { id: "idONL2", name: "compo online 2", bpm: 135, duration: 2
 el.deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 
 GSUI.setAttribute( el, "currentcomposition", "cloud:idONL2" );
+// GSUI.setAttribute( el, "saving", true );
 
 el.toggleWindow( "blocks", true );
 el.toggleWindow( "mixer", false );

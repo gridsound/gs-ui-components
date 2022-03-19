@@ -193,6 +193,7 @@ class gsuiDAW extends HTMLElement {
 			"maxtime",
 			"name",
 			"playing",
+			"saving",
 			"timedivision",
 			"timelinenumbering",
 			"useravatar",
@@ -228,6 +229,10 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "playing":
 					this.#elements.play.dataset.icon = val !== null ? "pause" : "play";
+					break;
+				case "saving":
+					this.#cmps[ this.#cmpSaveMode ].get( this.#cmpId ).save.dataset.spin =
+					this.#elements.cmpSave.dataset.spin = val !== null ? "on" : "";
 					break;
 				case "duration":
 					this.#updateDuration();
@@ -323,7 +328,7 @@ class gsuiDAW extends HTMLElement {
 					root: ".gsuiDAW-cmp",
 					bpm: ".gsuiDAW-cmp-bpm",
 					name: ".gsuiDAW-cmp-name",
-					save: ".gsuiDAW-cmp-save",
+					save: "[data-action='cmp-save']",
 					duration: ".gsuiDAW-cmp-duration",
 				} );
 
