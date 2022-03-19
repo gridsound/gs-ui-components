@@ -6,7 +6,7 @@ GSUI.setTemplate( "gsui-daw-popup-about", () => (
 			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-title" }, "GridSound" ),
 			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-versionNum" } ),
 			GSUI.createElement( "i", { class: "gsuiIcon" } ),
-			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-versionCheck" }, "check the version" ),
+			GSUI.createElement( "button", { class: "gsuiDAW-popup-about-versionCheck", type: "button" }, "check the version" ),
 		),
 		GSUI.createElement( "div", null,
 			"GridSound is a ",

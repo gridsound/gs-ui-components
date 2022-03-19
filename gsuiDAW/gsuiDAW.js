@@ -58,7 +58,12 @@ class gsuiDAW extends HTMLElement {
 			bpm: "[name='bpm']",
 			bpmTap: ".gsuiDAW-bpmTap",
 		} ),
-		about: GSUI.getTemplate( "gsui-daw-popup-about" ),
+		about: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-about" ), {
+			root: ".gsuiDAW-popup-about",
+			version: ".gsuiDAW-popup-about-versionNum",
+			versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
+			versionCheck: ".gsuiDAW-popup-about-versionCheck",
+		} ),
 		export: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-export" ), {
 			root: ".gsuiDAW-popup-export",
 			button: ".gsuiDAW-popup-export-btn",
@@ -85,7 +90,20 @@ class gsuiDAW extends HTMLElement {
 		Object.seal( this );
 
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
+		this.#elements.spectrum.setResolution( 140 );
 		this.#elements.head.onclick = this.#onclickHead.bind( this );
+		this.#popups.about.versionCheck.onclick = () => {
+			const dt = this.#popups.about.versionIcon.dataset;
+
+			dt.icon = "none";
+			dt.spin = "on";
+			fetch( `https://gridsound.com/daw/VERSION?${ Math.random() }` )
+				.then( res => res.text(), GSUI.noop )
+				.then( res => {
+					dt.spin = "";
+					dt.icon = res === this.getAttribute( "version" ) ? "check" : "warning";
+				} );
+		};
 		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.tap();
 		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
 		this.#popups.settings.uiRateManualRange.oninput = e => {
@@ -102,7 +120,6 @@ class gsuiDAW extends HTMLElement {
 				e.preventDefault();
 			}
 		};
-		this.#elements.spectrum.setResolution( 140 );
 		GSUI.listenEvents( this.#elements.volume, {
 			gsuiSlider: {
 				input: d => this.#dispatch( "volume", d.args[ 0 ] ),
@@ -236,7 +253,7 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "version":
 					this.#elements.vers.textContent = val;
-					this.#popups.about.querySelector( ".gsuiDAW-popup-about-versionNum" ).textContent = val;
+					this.#popups.about.version.textContent = val;
 					break;
 			}
 		}
@@ -397,7 +414,7 @@ class gsuiDAW extends HTMLElement {
 					.then( arg => arg !== undefined && this.#dispatch( "oki-cookies" ) );
 				break;
 			case "about":
-				GSUI.popup.custom( { title: "About", element: this.#popups.about } );
+				GSUI.popup.custom( { title: "About", element: this.#popups.about.root } );
 				break;
 			case "export":
 				GSUI.popup.custom( { title: "Export", element: this.#popups.export.root } );
