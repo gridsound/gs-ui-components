@@ -4,7 +4,10 @@ class gsuiDAW extends HTMLElement {
 	onSubmitLogin = GSUI.noop
 	onSubmitOpen = GSUI.noop
 	onExportJSON = GSUI.noop
-	#cmps = new Map()
+	#cmps = {
+		local: new Map(),
+		cloud: new Map(),
+	}
 	#currentActionInd = -1
 	#actions = null
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
@@ -162,7 +165,6 @@ class gsuiDAW extends HTMLElement {
 				bpm: 60,
 				name: "",
 				duration: 10,
-				location: "local",
 				timedivision: "1/1",
 				currenttime: 0,
 				maxtime: 1,
@@ -179,7 +181,6 @@ class gsuiDAW extends HTMLElement {
 			"duration",
 			"errauth",
 			"exporting",
-			"location",
 			"logging",
 			"maxtime",
 			"name",
@@ -196,7 +197,7 @@ class gsuiDAW extends HTMLElement {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "currentcomposition":
-					this.#loadComposition( val );
+					this.#loadComposition( ...val.split( ":" ) );
 					break;
 				case "errauth":
 					this.#popups.auth.error.textContent = val;
@@ -246,10 +247,6 @@ class gsuiDAW extends HTMLElement {
 				case "maxtime":
 					GSUI.setAttribute( this.#elements.currentTime, "max", val );
 					break;
-				case "location":
-					GSUI.setAttribute( this.#elements.cmpIcon, "data-icon", val === "local" ? "local" : "cloud" );
-					GSUI.setAttribute( this.#elements.cmpSave, "data-icon", val === "local" ? "save" : "upload" );
-					break;
 				case "useravatar":
 					this.#elements.userAvatar.style.backgroundImage = val ? `url("${ val }")` : "";
 					break;
@@ -265,8 +262,8 @@ class gsuiDAW extends HTMLElement {
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
 	}
-	#loadComposition( id ) {
-		const html = this.#cmps.get( id );
+	#loadComposition( saveMode, id ) {
+		const html = this.#cmps[ saveMode ].get( id );
 
 		this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
 		if ( html ) {
@@ -275,6 +272,8 @@ class gsuiDAW extends HTMLElement {
 			html.root.classList.add( "gsuiDAW-cmp-loaded" );
 			par.prepend( html.root );
 			par.scrollTop = 0;
+			GSUI.setAttribute( this.#elements.cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
+			GSUI.setAttribute( this.#elements.cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
 		}
 	}
 	#updateDuration() {
@@ -296,13 +295,15 @@ class gsuiDAW extends HTMLElement {
 		} );
 	}
 	clearCompositions() {
-		this.#cmps.forEach( html => html.root.remove() );
+		this.#cmps.local.forEach( html => html.root.remove() );
+		this.#cmps.cloud.forEach( html => html.root.remove() );
 	}
 	addComposition( cmp ) {
-		if ( this.#cmps.has( cmp.id ) ) {
+		if ( this.#cmps.local.has( cmp.id ) || this.#cmps.cloud.has( cmp.id ) ) {
 			this.updateComposition( cmp );
 		} else {
-			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode: cmp.options.saveMode } ),
+			const saveMode = cmp.options.saveMode,
+				root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } ),
 				html = GSUI.findElements( root, {
 					root: ".gsuiDAW-cmp",
 					bpm: ".gsuiDAW-cmp-bpm",
@@ -311,18 +312,18 @@ class gsuiDAW extends HTMLElement {
 					duration: ".gsuiDAW-cmp-duration",
 				} );
 
-			this.#cmps.set( cmp.id, html );
+			this.#cmps[ saveMode ].set( cmp.id, html );
 			this.updateComposition( cmp );
-			( cmp.options.saveMode === "local"
+			( saveMode === "local"
 				? this.#elements.cmpsLocalList
 				: this.#elements.cmpsCloudList ).append( root );
-			if ( cmp.id === this.getAttribute( "currentcomposition" ) ) {
-				this.#loadComposition( cmp.id );
+			if ( `${ saveMode }:${ cmp.id }` === this.getAttribute( "currentcomposition" ) ) {
+				this.#loadComposition( saveMode, cmp.id );
 			}
 		}
 	}
 	updateComposition( cmp ) {
-		const html = this.#cmps.get( cmp.id ),
+		const html = this.#cmps[ cmp.options.saveMode ].get( cmp.id ),
 			[ min, sec ] = gsuiClock.parseBeatsToSeconds( cmp.duration, cmp.bpm );
 
 		html.bpm.textContent = cmp.bpm;
@@ -330,11 +331,12 @@ class gsuiDAW extends HTMLElement {
 		html.duration.textContent = `${ min }:${ sec }`;
 	}
 	deleteComposition( cmp ) {
-		const html = this.#cmps.get( cmp.id );
+		const cmps = this.#cmps[ cmp.options.saveMode ],
+			html = cmps.get( cmp.id );
 
 		if ( html ) {
 			html.root.remove();
-			this.#cmps.delete( cmp.id );
+			cmps.delete( cmp.id );
 		}
 	}
 	readyToDownload( url, name ) {
