@@ -3,6 +3,7 @@
 class gsuiDAW extends HTMLElement {
 	onSubmitLogin = GSUI.noop
 	onSubmitOpen = GSUI.noop
+	onExportJSON = GSUI.noop
 	#cmps = new Map()
 	#currentActionInd = -1
 	#actions = null
@@ -389,6 +390,23 @@ class gsuiDAW extends HTMLElement {
 			case "cmp-open":
 				e.preventDefault();
 				this.#dispatch( "open",
+					this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
+					e.target.parentNode.dataset.id );
+				break;
+			case "cmp-json": {
+				const json = this.onExportJSON(
+						this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
+						e.target.parentNode.dataset.id );
+
+				if ( json ) {
+					GSUI.setAttribute( e.target, "href", json.url );
+					GSUI.setAttribute( e.target, "download", json.name );
+				} else {
+					e.preventDefault();
+				}
+			} break;
+			case "cmp-delete":
+				this.#dispatch( "delete",
 					this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
 					e.target.parentNode.dataset.id );
 				break;

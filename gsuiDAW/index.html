@@ -77,13 +77,14 @@ body {
 <script>
 const el = document.querySelector( "gsui-daw" );
 
+GSUI.setAttribute( el, "version", "0.36.1" );
 // GSUI.setAttribute( el, "logged", true );
 // GSUI.setAttribute( el, "logging", true );
 // GSUI.setAttribute( el, "focus", "down" );
 GSUI.setAttribute( el, "location", "local" );
 GSUI.setAttribute( el, "saved", false );
 GSUI.setAttribute( el, "samplerate", 48000 );
-GSUI.setAttribute( el, "uirate", "21" );
+GSUI.setAttribute( el, "uirate", 5 );
 // GSUI.setAttribute( el, "windowslowgraphics", true );
 GSUI.setAttribute( el, "oki-cookies", false );
 GSUI.setAttribute( el, "duration", 8 );
