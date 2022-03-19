@@ -96,6 +96,12 @@ class gsuiDAW extends HTMLElement {
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.#elements.spectrum.setResolution( 140 );
 		this.#elements.head.onclick = this.#onclickHead.bind( this );
+		this.#elements.cmpsCloudList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "cloud" );
+		this.#elements.cmpsLocalList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "local" );
+		this.#elements.cmpsCloudList.ondragover =
+		this.#elements.cmpsLocalList.ondragover = e => e.preventDefault();
+		this.#elements.cmpsCloudList.ondrop =
+		this.#elements.cmpsLocalList.ondrop = this.#ondropCmp.bind( this );
 		this.#popups.about.versionCheck.onclick = () => {
 			const dt = this.#popups.about.versionIcon.dataset;
 
@@ -343,6 +349,18 @@ class gsuiDAW extends HTMLElement {
 		GSUI.setAttribute( this.#popups.export.button, "href", url );
 		GSUI.setAttribute( this.#popups.export.button, "download", name );
 		GSUI.setAttribute( this.#popups.export.button, "data-status", 2 );
+	}
+	static #ondragstartCmp( saveMode, e ) {
+		const elCmp = e.target.closest( ".gsuiDAW-cmp" );
+
+		e.dataTransfer.setData( "text/plain", `${ saveMode }:${ elCmp.dataset.id }` );
+	}
+	#ondropCmp( e ) {
+		const [ saveMode, id ] = e.dataTransfer.getData( "text/plain" ).split( ":" );
+
+		if ( saveMode !== e.currentTarget.dataset.list ) {
+			this.#dispatch( "switchCompositionLocation", saveMode, id );
+		}
 	}
 
 	// .........................................................................
