@@ -93,10 +93,13 @@ class gsuiDAW extends HTMLElement {
 
 	constructor() {
 		super();
+		this.clock = this.#elements.clock;
+		this.spectrum = this.#elements.spectrum;
 		Object.seal( this );
 
+		this.clock.onchangeDisplay = display => this.#dispatch( "changeDisplayClock", display );
+		this.spectrum.setResolution( 140 );
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
-		this.#elements.spectrum.setResolution( 140 );
 		this.#elements.head.onclick = this.#onclickHead.bind( this );
 		this.#elements.cmpsCloudList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "cloud" );
 		this.#elements.cmpsLocalList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "local" );
