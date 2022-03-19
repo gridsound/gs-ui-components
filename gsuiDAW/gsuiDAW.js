@@ -8,6 +8,8 @@ class gsuiDAW extends HTMLElement {
 		local: new Map(),
 		cloud: new Map(),
 	}
+	#cmpId = null
+	#cmpSaveMode = "local"
 	#currentActionInd = -1
 	#actions = null
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
@@ -203,7 +205,9 @@ class gsuiDAW extends HTMLElement {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "currentcomposition":
-					this.#loadComposition( ...val.split( ":" ) );
+					val
+						? this.#loadComposition( ...val.split( ":" ) )
+						: this.#unloadComposition();
 					break;
 				case "errauth":
 					this.#popups.auth.error.textContent = val;
@@ -268,16 +272,21 @@ class gsuiDAW extends HTMLElement {
 	updateSpectrum( data ) {
 		this.#elements.spectrum.draw( data );
 	}
+	#unloadComposition() {
+		this.#cmpId = null;
+		this.#cmpSaveMode = "local";
+		this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
+	}
 	#loadComposition( saveMode, id ) {
 		const html = this.#cmps[ saveMode ].get( id );
 
-		this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
+		this.#unloadComposition();
 		if ( html ) {
-			const par = html.root.parentNode;
-
+			this.#cmpId = id;
+			this.#cmpSaveMode = saveMode;
 			html.root.classList.add( "gsuiDAW-cmp-loaded" );
-			par.prepend( html.root );
-			par.scrollTop = 0;
+			html.root.parentNode.prepend( html.root );
+			html.root.parentNode.scrollTop = 0;
 			GSUI.setAttribute( this.#elements.cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
 			GSUI.setAttribute( this.#elements.cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
 		}
