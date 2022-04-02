@@ -155,11 +155,16 @@ class gsuiSliderGroup extends HTMLElement {
 		sli.element.style.width = `${ dur }em`;
 	}
 	#sliderSelected( sli, b ) {
-		b
-			? this.#selected.set( sli.element.dataset.id, sli )
-			: this.#selected.delete( sli.element.dataset.id );
-		sli.element.classList.toggle( "gsuiSliderGroup-sliderSelected", !!b );
-		this.#sliderSelectedClass();
+		if ( b !== this.#selected.has( sli.element.dataset.id ) ) {
+			const zind = +sli.element.style.zIndex;
+
+			b
+				? this.#selected.set( sli.element.dataset.id, sli )
+				: this.#selected.delete( sli.element.dataset.id );
+			sli.element.classList.toggle( "gsuiSliderGroup-sliderSelected", !!b );
+			sli.element.style.zIndex = zind + ( b ? 1000 : -1000 );
+			this.#sliderSelectedClass();
+		}
 	}
 	#sliderSelectedClass() {
 		this.#elements.slidersParent.classList.toggle(
