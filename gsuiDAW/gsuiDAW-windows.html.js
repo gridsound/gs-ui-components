@@ -1,58 +1,58 @@
 "use strict";
 
-GSUI.setTemplate( "window-blocks", () => (
+GSUI.setTemplate( "gsui-daw-window-blocks", () => (
 	GSUI.createElement( "div", { "data-window": "blocks" } )
 ) );
 
-GSUI.setTemplate( "window-main", () => (
+GSUI.setTemplate( "gsui-daw-window-main", () => (
 	GSUI.createElement( "div", { "data-window": "main" } )
 ) );
 
-GSUI.setTemplate( "window-piano", () => (
+GSUI.setTemplate( "gsui-daw-window-piano", () => (
 	GSUI.createElement( "div", { "data-window": "piano" },
-		GSUI.createElement( "div", { class: "windowMenu" },
-			GSUI.createElement( "button", { id: "pianorollName", class: "windowBtn windowDataBtn" } ),
+		GSUI.createElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUI.createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
 		),
 	)
 ) );
 
-GSUI.setTemplate( "window-synth", () => (
+GSUI.setTemplate( "gsui-daw-window-synth", () => (
 	GSUI.createElement( "div", { "data-window": "synth" },
-		GSUI.createElement( "div", { class: "windowMenu" },
-			GSUI.createElement( "button", { id: "synthName", class: "windowBtn windowDataBtn" } ),
-			GSUI.createElement( "i", { id: "synthDestArrow", class: "gsuiIcon", "data-icon": "arrow-right" } ),
-			GSUI.createElement( "button", { id: "synthChannelBtn", class: "windowBtn" },
-				GSUI.createElement( "i", { class: "windowBtnIcon gsuiIcon", "data-icon": "mixer" } ),
-				GSUI.createElement( "span", { id: "synthChannelBtnText", class: "windowBtnText" } ),
+		GSUI.createElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUI.createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
+			GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "arrow-right" } ),
+			GSUI.createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synthChannel" },
+				GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "mixer" } ),
+				GSUI.createElement( "span" ),
 			),
 		),
 	)
 ) );
 
-GSUI.setTemplate( "window-mixer", () => (
+GSUI.setTemplate( "gsui-daw-window-mixer", () => (
 	GSUI.createElement( "div", { "data-window": "mixer" } )
 ) );
 
-GSUI.setTemplate( "window-effects", () => (
+GSUI.setTemplate( "gsui-daw-window-effects", () => (
 	GSUI.createElement( "div", { "data-window": "effects" },
-		GSUI.createElement( "div", { class: "windowMenu" },
-			GSUI.createElement( "button", { id: "channelName", class: "windowBtn windowDataBtn" } ),
+		GSUI.createElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUI.createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "channel" } ),
 		),
 	)
 ) );
 
-GSUI.setTemplate( "window-drums", () => (
+GSUI.setTemplate( "gsui-daw-window-drums", () => (
 	GSUI.createElement( "div", { "data-window": "drums" },
-		GSUI.createElement( "div", { class: "windowMenu" },
-			GSUI.createElement( "button", { id: "drumsName", class: "windowBtn windowDataBtn" } ),
+		GSUI.createElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUI.createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "drums" } ),
 		),
 	)
 ) );
 
-GSUI.setTemplate( "window-slicer", () => (
+GSUI.setTemplate( "gsui-daw-window-slicer", () => (
 	GSUI.createElement( "div", { "data-window": "slicer" },
-		GSUI.createElement( "div", { class: "windowMenu" },
-			GSUI.createElement( "button", { id: "slicesName", class: "windowBtn windowDataBtn" } ),
+		GSUI.createElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUI.createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
 		),
 	)
 ) );
