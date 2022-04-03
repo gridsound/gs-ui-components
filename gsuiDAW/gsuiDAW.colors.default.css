@@ -8,8 +8,8 @@ gsui-daw {
 	--gsuiDAW-currentTime-lineColor: #abd;
 	--gsuiDAW-currentTime-lineBgColor: #222;
 	--gsuiDAW-btn-bg: #ffffff1a;
-	--gsuiDAW-winBtn-bg: #222;
-	--gsuiDAW-winBtn-open-bg: #ff9;
+	--gsuiDAW-head-winBtn-bg: #222;
+	--gsuiDAW-head-winBtn-open-bg: #ff9;
 	--gsuiDAW-export-color: #ff9;
 	--gsuiDAW-about-color: #ff9;
 	--gsuiDAW-cookies-color: #ff9;
@@ -27,4 +27,9 @@ gsui-daw {
 	--gsuiDAW-cmp-text: #fff;
 	--gsuiDAW-cmp-height: 42px;
 	--gsuiDAW-cmp-text-size: 18px;
+	--gsuiDAW-winBtn-bg: #444;
+	--gsuiDAW-winBtn-chan-color: #ce93d8;
+	--gsuiDAW-winBtn-synth-color: #a5d6a7;
+	--gsuiDAW-winBtn-slices-color: #e29d8a;
+	--gsuiDAW-winBtn-pattern-color: #81d4fa;
 }
