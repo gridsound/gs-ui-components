@@ -172,7 +172,7 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	box-sizing: border-box;
 	bottom: 0;
 	border: 0 solid var( --gsuiSlicer-slice-border );
-	border-width: 3px 1px 0 1px;
+	border-width: 3px 1px 0;
 	border-radius: 2px 2px 0 0;
 	background-color: var( --gsuiSlicer-slice-bg );
 	pointer-events: none;

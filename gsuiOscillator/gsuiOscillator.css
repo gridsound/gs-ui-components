@@ -30,8 +30,8 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-pan    { grid-area: pan;    color: var( --gsuiOscillator-pan ); }
-.gsuiOscillator-gain   { grid-area: gain;   color: var( --gsuiOscillator-gain ); }
+.gsuiOscillator-pan { grid-area: pan; color: var( --gsuiOscillator-pan ); }
+.gsuiOscillator-gain { grid-area: gain; color: var( --gsuiOscillator-gain ); }
 .gsuiOscillator-detune { grid-area: detune; color: var( --gsuiOscillator-detune ); }
 .gsuiOscillator-prop {
 	position: relative;

@@ -54,9 +54,9 @@
 }
 
 /* .......................................................................... */
-.gsuiDAW-winBtn[data-target="channel"],
-.gsuiDAW-winBtn[data-target="synthChannel"] { color: var( --gsuiDAW-winBtn-chan-color ); }
-.gsuiDAW-winBtn[data-target="drums"],
-.gsuiDAW-winBtn[data-target="pianoroll"] { color: var( --gsuiDAW-winBtn-pattern-color ); }
-.gsuiDAW-winBtn[data-target="synth"] { color: var( --gsuiDAW-winBtn-synth-color ); }
-.gsuiDAW-winBtn[data-target="slices"] { color: var( --gsuiDAW-winBtn-slices-color ); }
+.gsuiDAW-winBtn[ data-target="channel" ],
+.gsuiDAW-winBtn[ data-target="synthChannel" ] { color: var( --gsuiDAW-winBtn-chan-color ); }
+.gsuiDAW-winBtn[ data-target="drums" ],
+.gsuiDAW-winBtn[ data-target="pianoroll" ] { color: var( --gsuiDAW-winBtn-pattern-color ); }
+.gsuiDAW-winBtn[ data-target="synth" ] { color: var( --gsuiDAW-winBtn-synth-color ); }
+.gsuiDAW-winBtn[ data-target="slices" ] { color: var( --gsuiDAW-winBtn-slices-color ); }

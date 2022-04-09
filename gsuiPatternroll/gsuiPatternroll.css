@@ -38,7 +38,7 @@ gsui-patternroll {
 	position: relative;
 	pointer-events: none;
 }
-.gsuiPatternroll-block[data-missing] .gsuiPatternroll-block-content {
+.gsuiPatternroll-block[ data-missing ] .gsuiPatternroll-block-content {
 	display: none;
 }
 .gsuiPatternroll-block-content svg {
@@ -69,7 +69,7 @@ gsui-patternroll {
 	font-size: 14px;
 	opacity: .5;
 }
-.gsuiPatternroll-block[data-missing] .gsuiPatternroll-block-placeholder {
+.gsuiPatternroll-block[ data-missing ] .gsuiPatternroll-block-placeholder {
 	display: flex;
 }
 .gsuiPatternroll-block-placeholderIcon {

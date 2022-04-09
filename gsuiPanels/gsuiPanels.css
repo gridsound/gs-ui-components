@@ -11,9 +11,6 @@
 	position: relative;
 	box-sizing: border-box;
 }
-.gsuiPanels-last {
-	flex: 1 !important;
-}
 .gsuiPanels-x > div + div:not( .gsuiPanels-extend ) { border-left: 4px solid var( --gsuiPanels-border ); }
 .gsuiPanels-y > div + div:not( .gsuiPanels-extend ) { border-top: 4px solid var( --gsuiPanels-border ); }
 

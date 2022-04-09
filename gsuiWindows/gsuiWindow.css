@@ -33,16 +33,6 @@ gsui-window:not( .gsuiWindow-dragging ),
 		var( --gsuiWindow-border-width )
 		var( --gsuiWindow-border-color );
 }
-/*
-// If we want to add some shadow:
-gsui-window:not( .gsuiWindow-dragging ):focus-within,
-.gsuiWindows-lowGraphics gsui-window.gsuiWindow-dragging:focus-within {
-	box-shadow: 0 0 0
-		var( --gsuiWindow-border-width )
-		var( --gsuiWindow-border-color ),
-		0 0 20px #0008;
-}
-*/
 
 /* .......................................................................... */
 .gsuiWindow-handlers {

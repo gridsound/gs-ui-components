@@ -192,6 +192,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-mute .gsuiDrumrow-startCursor {
 	visibility: hidden;
 }
+
 @keyframes gsuiDrumrow-startCursor-anim {
 	from { left: -100%; }
 	to { left: 100%; }

@@ -11,7 +11,8 @@ gsui-keys,
 	background-image: linear-gradient(
 		90deg,
 		var( --gsuiKeys-whiteKey-gradA ),
-		var( --gsuiKeys-whiteKey-gradB ) );
+		var( --gsuiKeys-whiteKey-gradB )
+	);
 }
 
 .gsuiKey .gsuiKey-row {

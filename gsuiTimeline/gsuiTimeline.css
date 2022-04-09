@@ -26,8 +26,9 @@ gsui-timeline {
 	top: calc( 50% - 2px );
 	height: 4px;
 	margin-left: 1px;
-	background-image: repeating-linear-gradient( 90deg,
-		transparent 0em,
+	background-image: repeating-linear-gradient(
+		90deg,
+		transparent 0,
 		transparent calc( 1em - 2px ),
 		currentColor calc( 1em - 2px ),
 		currentColor calc( 1em ),

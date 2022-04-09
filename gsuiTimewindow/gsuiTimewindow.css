@@ -117,7 +117,6 @@ gsui-timewindow gsui-timeline {
 .gsuiTimewindow-loopA { left: 0; }
 .gsuiTimewindow-loopB { right: 0; }
 
-
 /* .......................................................................... */
 .gsuiTimewindow-step {
 	display: flex;

@@ -58,7 +58,6 @@
 }
 .gsuiDAW-dropdown-btn:focus ~ .gsuiDAW-dropdown-backdrop,
 .gsuiDAW-dropdown:focus-within + .gsuiDAW-dropdown-backdrop {
-	/*backdrop-filter: blur( 4px );*/
 	visibility: visible;
 	opacity: 1;
 }

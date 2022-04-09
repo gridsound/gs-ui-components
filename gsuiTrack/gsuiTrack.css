@@ -4,7 +4,8 @@ gsui-track {
 	background-color: hsl(
 		var( --gsuiTrack-hsl-h ),
 		var( --gsuiTrack-hsl-s ),
-		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) ) );
+		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) )
+	);
 }
 gsui-track,
 .gsuiTrack-row,

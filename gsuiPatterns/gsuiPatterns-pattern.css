@@ -113,7 +113,7 @@
 	font-size: 14px;
 	opacity: .5;
 }
-.gsuiPatterns-pattern[data-missing] .gsuiPatterns-pattern-placeholder {
+.gsuiPatterns-pattern[ data-missing ] .gsuiPatterns-pattern-placeholder {
 	display: flex;
 }
 .gsuiPatterns-pattern-placeholderIcon {

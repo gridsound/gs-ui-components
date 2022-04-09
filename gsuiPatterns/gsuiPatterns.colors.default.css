@@ -5,7 +5,6 @@ gsui-patterns {
 	--gsuiPatterns-newSlicesBtn-color: #e29d8a;
 	--gsuiPatterns-newSynthBtn-color: #a5d6a7;
 	--gsuiPatterns-newDrumsBtn-color: #81d4fa;
-
 	--gsuiPatterns-synth-bg: #528754;
 	--gsuiPatterns-synth-color: #222;
 	--gsuiPatterns-synth-selected-color: #444;
@@ -16,7 +15,6 @@ gsui-patterns {
 	--gsuiPatterns-synth-dest-bg: #0000001a;
 	--gsuiPatterns-synth-placeholder-color: #fff6;
 	--gsuiPatterns-synth-placeholder-bg: #0003;
-
 	--gsuiPatterns-pattern-bg: #334;
 	--gsuiPatterns-pattern-color: var( --gsui-col-pattern );
 	--gsuiPatterns-pattern-selected-bg: var( --gsui-col-pattern );

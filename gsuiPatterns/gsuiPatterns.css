@@ -17,18 +17,18 @@ gsui-patterns {
 	margin-left: .4ch;
 	margin-right: .8ch;
 }
-#gsuiPatterns-infoPopupContent input[name="bpm"] {
+#gsuiPatterns-infoPopupContent input[ name="bpm" ] {
 	margin-left: 8px;
 	width: 8ch;
 }
-#gsuiPatterns-infoPopupContent input[name="name"] {
+#gsuiPatterns-infoPopupContent input[ name="name" ] {
 	width: 214px;
 }
 #gsuiPatterns-infoPopupContent span + span {
 	margin-left: 8px;
 }
-#gsuiPatterns-infoPopupContent input[value="loop"]:not( :checked ) ~ span:last-of-type,
-#gsuiPatterns-infoPopupContent input[value="loop"]:not( :checked ) ~ input[name="bpm"] {
+#gsuiPatterns-infoPopupContent input[ value="loop" ]:not( :checked ) ~ span:last-of-type,
+#gsuiPatterns-infoPopupContent input[ value="loop" ]:not( :checked ) ~ input[ name="bpm" ] {
 	opacity: .4;
 }
 

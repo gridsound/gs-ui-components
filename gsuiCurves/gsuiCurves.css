@@ -15,7 +15,7 @@ gsui-curves {
 }
 .gsuiCurves-markBg {
 	fill: currentColor;
-	opacity: .025;
+	opacity: .03;
 }
 .gsuiCurves-line {
 	stroke: currentColor;
