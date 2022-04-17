@@ -322,11 +322,15 @@ class gsuiDAW extends HTMLElement {
 		this.#cmps.cloud.forEach( html => html.root.remove() );
 	}
 	addComposition( cmp ) {
-		if ( this.#cmps.local.has( cmp.id ) || this.#cmps.cloud.has( cmp.id ) ) {
+		const saveMode = cmp.options.saveMode;
+
+		if (
+			( saveMode === "local" && this.#cmps.local.has( cmp.id ) ) ||
+			( saveMode === "cloud" && this.#cmps.cloud.has( cmp.id ) )
+		) {
 			this.updateComposition( cmp );
 		} else {
-			const saveMode = cmp.options.saveMode,
-				root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } ),
+			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } ),
 				html = GSUI.findElements( root, {
 					root: ".gsuiDAW-cmp",
 					bpm: ".gsuiDAW-cmp-bpm",
