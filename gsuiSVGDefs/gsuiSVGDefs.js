@@ -1,12 +1,12 @@
 "use strict";
 
 class gsuiSVGDefs {
-	static #id = 0
-	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`
-	#elDefs = GSUI.createElementSVG( "defs" )
-	#defs = new Map()
-	#w = 1
-	#h = 1
+	static #id = 0;
+	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`;
+	#elDefs = GSUI.createElementSVG( "defs" );
+	#defs = new Map();
+	#w = 1;
+	#h = 1;
 
 	constructor() {
 		const svg = GSUI.createElementSVG( "svg" );

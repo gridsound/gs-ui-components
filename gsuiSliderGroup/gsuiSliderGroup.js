@@ -1,25 +1,25 @@
 "use strict";
 
 class gsuiSliderGroup extends HTMLElement {
-	#min = 0
-	#max = 0
-	#def = 0
-	#exp = 0
-	#step = 0
-	#button = 0
-	#sliders = new Map()
-	#selected = new Map()
-	#valueSaved = new Map()
-	#bcr = null
-	#evMouseup = null
-	#evMousemove = null
+	#min = 0;
+	#max = 0;
+	#def = 0;
+	#exp = 0;
+	#step = 0;
+	#button = 0;
+	#sliders = new Map();
+	#selected = new Map();
+	#valueSaved = new Map();
+	#bcr = null;
+	#evMouseup = null;
+	#evMousemove = null;
 	#uiFn = Object.freeze( {
 		when: this.#sliderWhen.bind( this ),
 		value: this.#sliderValue.bind( this ),
 		duration: this.#sliderDuration.bind( this ),
 		selected: this.#sliderSelected.bind( this ),
-	} )
-	#children = GSUI.getTemplate( "gsui-slidergroup" )
+	} );
+	#children = GSUI.getTemplate( "gsui-slidergroup" );
 	#elements = GSUI.findElements( this.#children, {
 		slidersParent: ".gsuiSliderGroup-sliders",
 		defValue: ".gsuiSliderGroup-defaultValue",
@@ -27,8 +27,8 @@ class gsuiSliderGroup extends HTMLElement {
 		currentTime: ".gsuiSliderGroup-currentTime",
 		loopA: ".gsuiSliderGroup-loopA",
 		loopB: ".gsuiSliderGroup-loopB",
-	} )
-	scrollElement = this.#children
+	} );
+	scrollElement = this.#children;
 
 	constructor() {
 		super();
@@ -177,7 +177,7 @@ class gsuiSliderGroup extends HTMLElement {
 			min = this.#min,
 			valNum = Number.isFinite( val ) ? val : this.#def,
 			sameDir = min >= 0 === max >= 0,
-			percX = Math.abs( ( valNum - ( sameDir ? min : 0 ) ) ) / ( max - min ) * 100,
+			percX = Math.abs( valNum - ( sameDir ? min : 0 ) ) / ( max - min ) * 100,
 			perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
 
 		st.height = `${ percX }%`;

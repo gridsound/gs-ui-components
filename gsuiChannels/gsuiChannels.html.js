@@ -9,11 +9,11 @@ GSUI.setTemplate( "gsui-channels", () => [
 	),
 ] );
 
-GSUI.setTemplate( "gsui-channels-selectPopup", () => (
+GSUI.setTemplate( "gsui-channels-selectPopup", () =>
 	GSUI.createElement( "div", null,
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Select a channel" ),
 			GSUI.createElement( "select", { name: "channel", size: 8 } ),
 		),
 	)
-) );
+);

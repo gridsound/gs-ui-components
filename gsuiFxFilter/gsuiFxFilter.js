@@ -1,18 +1,18 @@
 "use strict";
 
 class gsuiFxFilter extends HTMLElement {
-	#nyquist = 24000
-	#attached = false
-	#currType = "lowpass"
-	#onresizeBind = this.#onresize.bind( this )
+	#nyquist = 24000;
+	#attached = false;
+	#currType = "lowpass";
+	#onresizeBind = this.#onresize.bind( this );
 	#fnValue = {
 		Q: a => a,
 		gain: a => a,
 		detune: a => a,
 		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
-	}
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiFxFilter" )
-	#children = GSUI.getTemplate( "gsui-fx-filter" )
+	};
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiFxFilter" );
+	#children = GSUI.getTemplate( "gsui-fx-filter" );
 	#elements = GSUI.findElements( this.#children, {
 		type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
 		graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
@@ -23,7 +23,7 @@ class gsuiFxFilter extends HTMLElement {
 			detune: ".gsuiFxFilter-areaDetune gsui-slider",
 			frequency: ".gsuiFxFilter-areaFrequency gsui-slider",
 		},
-	} )
+	} );
 	static typeGainQ = Object.freeze( {
 		lowpass:   Object.freeze( { gain: false, q: true } ),
 		highpass:  Object.freeze( { gain: false, q: true } ),
@@ -33,7 +33,7 @@ class gsuiFxFilter extends HTMLElement {
 		peaking:   Object.freeze( { gain: true,  q: true } ),
 		notch:     Object.freeze( { gain: false, q: true } ),
 		allpass:   Object.freeze( { gain: false, q: true } ),
-	} )
+	} );
 
 	constructor() {
 		super();

@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiLFO extends HTMLElement {
-	#dur = 4
-	#waveWidth = 300
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" )
-	#onresizeBind = this.#onresize.bind( this )
-	#children = GSUI.getTemplate( "gsui-lfo" )
+	#dur = 4;
+	#waveWidth = 300;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" );
+	#onresizeBind = this.#onresize.bind( this );
+	#children = GSUI.getTemplate( "gsui-lfo" );
 	#elements = GSUI.findElements( this.#children, {
 		beatlines: "gsui-beatlines",
 		wave: "gsui-periodicwave",
@@ -15,7 +15,7 @@ class gsuiLFO extends HTMLElement {
 			speed:  [ ".gsuiLFO-speed  gsui-slider", ".gsuiLFO-speed  .gsuiLFO-propValue" ],
 			amp:    [ ".gsuiLFO-amp    gsui-slider", ".gsuiLFO-amp    .gsuiLFO-propValue" ],
 		},
-	} )
+	} );
 
 	constructor() {
 		super();

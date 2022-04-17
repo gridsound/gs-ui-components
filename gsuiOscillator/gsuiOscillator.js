@@ -1,15 +1,15 @@
 "use strict";
 
 class gsuiOscillator extends HTMLElement {
-	#timeidType = null
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiOscillator" )
+	#timeidType = null;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiOscillator" );
 	#selectWaves = {
 		sine: true,
 		triangle: true,
 		sawtooth: true,
 		square: true,
-	}
-	#children = GSUI.getTemplate( "gsui-oscillator" )
+	};
+	#children = GSUI.getTemplate( "gsui-oscillator" );
 	#elements = GSUI.findElements( this.#children, {
 		waveSelect: ".gsuiOscillator-waveSelect",
 		wavePrev: ".gsuiOscillator-wavePrev",
@@ -24,7 +24,7 @@ class gsuiOscillator extends HTMLElement {
 			detune: [ ".gsuiOscillator-detune gsui-slider", ".gsuiOscillator-detune .gsuiOscillator-sliderValue" ],
 		},
 		remove: ".gsuiOscillator-remove",
-	} )
+	} );
 
 	constructor() {
 		super();

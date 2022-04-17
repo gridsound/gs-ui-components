@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-popup", () => (
+GSUI.setTemplate( "gsui-popup", () =>
 	GSUI.createElement( "div", { class: "gsuiPopup-window", tabindex: 0 },
 		GSUI.createElement( "div", { class: "gsuiPopup-head" } ),
 		GSUI.createElement( "form", { class: "gsuiPopup-body" },
@@ -13,4 +13,4 @@ GSUI.setTemplate( "gsui-popup", () => (
 			),
 		),
 	)
-) );
+);

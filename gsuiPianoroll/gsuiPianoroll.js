@@ -1,10 +1,10 @@
 "use strict";
 
 class gsuiPianoroll extends HTMLElement {
-	#rowsByMidi = {}
-	#currKeyDuration = 1
-	#uiSliderGroup = GSUI.createElement( "gsui-slidergroup", { beatlines: "" } )
-	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } )
+	#rowsByMidi = {};
+	#currKeyDuration = 1;
+	#uiSliderGroup = GSUI.createElement( "gsui-slidergroup", { beatlines: "" } );
+	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
 	#slidersSelect = GSUI.createElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 6 },
 		GSUI.createElement( "option", { value: "gain", selected: "" }, "gain" ),
 		GSUI.createElement( "option", { value: "pan" }, "pan" ),
@@ -12,7 +12,7 @@ class gsuiPianoroll extends HTMLElement {
 		GSUI.createElement( "option", { value: "highpass" }, "highpass" ),
 		GSUI.createElement( "option", { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
 		GSUI.createElement( "option", { value: "gainLFOAmp" }, "gain.lfo.amp" ),
-	)
+	);
 	#win = GSUI.createElement( "gsui-timewindow", {
 		panelsize: 100,
 		panelsizemin: 100,
@@ -27,7 +27,7 @@ class gsuiPianoroll extends HTMLElement {
 		downpanelsize: 120,
 		downpanelsizemin: 120,
 		downpanelsizemax: 160,
-	} )
+	} );
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		selectionElement: this.#selectionElement,
@@ -40,7 +40,7 @@ class gsuiPianoroll extends HTMLElement {
 		managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
 		managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
 		managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
-	} )
+	} );
 
 	constructor() {
 		super();
@@ -61,7 +61,7 @@ class gsuiPianoroll extends HTMLElement {
 			},
 			gsuiSliderGroup: {
 				input: d => this.#ongsuiSliderGroupInput( d.args[ 1 ] ),
-				inputEnd: d => this.#ongsuiSliderGroupInputEnd(),
+				inputEnd: () => this.#ongsuiSliderGroupInputEnd(),
 				change: d => this.#ongsuiSliderGroupChange( d ),
 			},
 		} );
@@ -210,27 +210,27 @@ class gsuiPianoroll extends HTMLElement {
 	}
 	#blockDOMChange( el, prop, val ) {
 		switch ( prop ) {
-			case "when": {
+			case "when":
 				el.style.left = `${ val }em`;
 				this.#uiSliderGroup.setProp( el.dataset.id, "when", val );
 				this.#blockRedrawDragline( el );
-			} break;
-			case "duration": {
+				break;
+			case "duration":
 				el.style.width = `${ val }em`;
 				this.#uiSliderGroup.setProp( el.dataset.id, "duration", val );
 				this.#currKeyDuration = val;
 				this.#blockRedrawDragline( el );
-			} break;
-			case "deleted": {
+				break;
+			case "deleted":
 				el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val );
-			} break;
-			case "selected": {
+				break;
+			case "selected":
 				el.classList.toggle( "gsuiBlocksManager-block-selected", !!val );
 				this.#uiSliderGroup.setProp( el.dataset.id, "selected", !!val );
-			} break;
-			case "row": {
+				break;
+			case "row":
 				this.#blockDOMChange( el, "key", el.dataset.keyNote - val );
-			} break;
+				break;
 			case "key": {
 				const row = this.#getRowByMidi( val );
 

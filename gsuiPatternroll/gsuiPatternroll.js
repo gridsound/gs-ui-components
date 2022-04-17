@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiPatternroll extends HTMLElement {
-	#rowsByTrackId = new Map()
-	#tracklist = GSUI.createElement( "gsui-tracklist" )
-	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } )
+	#rowsByTrackId = new Map();
+	#tracklist = GSUI.createElement( "gsui-tracklist" );
+	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
 	#win = GSUI.createElement( "gsui-timewindow", {
 		panelsize: 90,
 		panelsizemin: 24,
@@ -14,7 +14,7 @@ class gsuiPatternroll extends HTMLElement {
 		pxperbeat: 32,
 		pxperbeatmin: 8,
 		pxperbeatmax: 160,
-	} )
+	} );
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		selectionElement: this.#selectionElement,
@@ -28,7 +28,7 @@ class gsuiPatternroll extends HTMLElement {
 		managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
 		managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
 		managercallCroppingB: ( blcsMap, wIncr ) => this.onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
-	} )
+	} );
 
 	constructor() {
 		super();
@@ -186,11 +186,11 @@ class gsuiPatternroll extends HTMLElement {
 		this.#blcManager.onmousedown( e );
 	}
 	#drop( e ) {
-		const padId = (
+		const padId =
 				e.dataTransfer.getData( "pattern-buffer" ) ||
 				e.dataTransfer.getData( "pattern-slices" ) ||
 				e.dataTransfer.getData( "pattern-drums" ) ||
-				e.dataTransfer.getData( "pattern-keys" ) );
+				e.dataTransfer.getData( "pattern-keys" );
 
 		if ( padId ) {
 			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) ),

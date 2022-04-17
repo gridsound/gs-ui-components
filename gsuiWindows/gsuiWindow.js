@@ -1,17 +1,17 @@
 "use strict";
 
 class gsuiWindow extends HTMLElement {
-	#wMin = 32
-	#hMin = 32
-	#show = false
+	#wMin = 32;
+	#hMin = 32;
+	#show = false;
 	#parent = null;
-	#minimized = false
-	#maximized = false
-	#restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } )
-	#mousemovePos = Object.seal( { x: 0, y: 0 } )
-	#mousedownPos = Object.seal( { x: 0, y: 0 } )
-	#mousedownHeadHeight = 0
-	#children = GSUI.getTemplate( "gsui-window" )
+	#minimized = false;
+	#maximized = false;
+	#restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
+	#mousemovePos = Object.seal( { x: 0, y: 0 } );
+	#mousedownPos = Object.seal( { x: 0, y: 0 } );
+	#mousedownHeadHeight = 0;
+	#children = GSUI.getTemplate( "gsui-window" );
 	#elements = GSUI.findElements( this.#children, {
 		icon: ".gsuiWindow-icon",
 		wrap: ".gsuiWindow-wrap",
@@ -21,7 +21,7 @@ class gsuiWindow extends HTMLElement {
 		handlers: ".gsuiWindow-handlers",
 		headBtns: ".gsuiWindow-headBtns",
 		headContent: ".gsuiWindow-headContent",
-	} )
+	} );
 
 	constructor() {
 		super();

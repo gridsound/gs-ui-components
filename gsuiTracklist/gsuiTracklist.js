@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiTracklist extends HTMLElement {
-	#tracks = new Map()
+	#tracks = new Map();
 
 	constructor() {
 		super();

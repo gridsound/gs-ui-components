@@ -1,23 +1,23 @@
 "use strict";
 
 class gsuiSlicer extends HTMLElement {
-	static #resW = 1000
-	static #resH = 64
+	static #resW = 1000;
+	static #resH = 64;
 
-	#dur = 4
-	#tool = ""
-	#slices = {}
-	#buffer = null
-	#ptrmoveFn = null
-	#stepsPerBeat = 4
-	#slicesMaxId = 0
-	#slicesSaved = null
-	#slicesSplitted = null
-	#sliceIdBefore = null
-	#onresizeBind = this.#onresize.bind( this )
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" )
-	#children = GSUI.getTemplate( "gsui-slicer" )
-	#waveDef = GSUI.createElementSVG( "polyline" )
+	#dur = 4;
+	#tool = "";
+	#slices = {};
+	#buffer = null;
+	#ptrmoveFn = null;
+	#stepsPerBeat = 4;
+	#slicesMaxId = 0;
+	#slicesSaved = null;
+	#slicesSplitted = null;
+	#sliceIdBefore = null;
+	#onresizeBind = this.#onresize.bind( this );
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" );
+	#children = GSUI.getTemplate( "gsui-slicer" );
+	#waveDef = GSUI.createElementSVG( "polyline" );
 	#elements = GSUI.findElements( this.#children, {
 		sourceCurrentTime: ".gsuiSlicer-source-currentTime",
 		slicesCurrentTime: ".gsuiSlicer-slices-currentTime",
@@ -39,8 +39,8 @@ class gsuiSlicer extends HTMLElement {
 			split: ".gsuiSlicer-btn[data-action='split']",
 			merge: ".gsuiSlicer-btn[data-action='merge']",
 		},
-	} )
-	timeline = this.#elements.timeline
+	} );
+	timeline = this.#elements.timeline;
 
 	constructor() {
 		const defs = document.querySelector( "#gsuiSlicer-waveDefs defs" );

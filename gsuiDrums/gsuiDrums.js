@@ -10,28 +10,28 @@ class gsuiDrums extends HTMLElement {
 		lineheightmax: 48,
 		pxperbeatmin: 50,
 		pxperbeatmax: 160,
-	} )
-	#hoverBeat = 0
-	#hoverPageX = 0
-	#linesPanelWidth = 0
-	#stepsPerBeat = 4
-	#pxPerBeat = 80
-	#pxPerStep = this.#pxPerBeat / this.#stepsPerBeat
-	#currAction = ""
-	#draggingRowId = null
-	#draggingWhenStart = 0
-	#hoveringStatus = ""
-	#drumsMap = new Map()
-	#previewsMap = new Map()
-	#sliderGroups = new Map()
-	#elLines = null
-	#elCurrentTime = null
-	#elDrumHover = GSUI.createElement( "div", { class: "gsuiDrums-drumHover" }, GSUI.createElement( "div", { class: "gsuiDrums-drumHoverIn" } ) )
-	#elDrumcutHover = GSUI.createElement( "div", { class: "gsuiDrums-drumcutHover" }, GSUI.createElement( "div", { class: "gsuiDrums-drumcutHoverIn" } ) )
-	#elHover = this.#elDrumHover
-	#onmouseupNewBind = this.#onmouseupNew.bind( this )
-	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this )
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrums" )
+	} );
+	#hoverBeat = 0;
+	#hoverPageX = 0;
+	#linesPanelWidth = 0;
+	#stepsPerBeat = 4;
+	#pxPerBeat = 80;
+	#pxPerStep = this.#pxPerBeat / this.#stepsPerBeat;
+	#currAction = "";
+	#draggingRowId = null;
+	#draggingWhenStart = 0;
+	#hoveringStatus = "";
+	#drumsMap = new Map();
+	#previewsMap = new Map();
+	#sliderGroups = new Map();
+	#elLines = null;
+	#elCurrentTime = null;
+	#elDrumHover = GSUI.createElement( "div", { class: "gsuiDrums-drumHover" }, GSUI.createElement( "div", { class: "gsuiDrums-drumHoverIn" } ) );
+	#elDrumcutHover = GSUI.createElement( "div", { class: "gsuiDrums-drumcutHover" }, GSUI.createElement( "div", { class: "gsuiDrums-drumcutHoverIn" } ) );
+	#elHover = this.#elDrumHover;
+	#onmouseupNewBind = this.#onmouseupNew.bind( this );
+	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrums" );
 
 	constructor() {
 		super();
@@ -46,7 +46,7 @@ class gsuiDrums extends HTMLElement {
 				},
 			},
 			gsuiSliderGroup: {
-				change: ( d, t ) => {
+				change( d, t ) {
 					d.args.unshift( t.dataset.currentProp );
 					return true;
 				},
@@ -55,7 +55,7 @@ class gsuiDrums extends HTMLElement {
 					d.args = [ t.dataset.id, d.args[ 0 ], t.dataset.currentProp, d.args[ 1 ] ];
 					return true;
 				},
-				inputEnd: ( d, t ) => {
+				inputEnd( d, t ) {
 					d.args = [ t.dataset.id, t.dataset.currentProp ];
 					return true;
 				},
@@ -115,8 +115,6 @@ class gsuiDrums extends HTMLElement {
 		GSUI.setAttribute( this.#win, "lineheight", fs );
 	}
 	setPxPerBeat( ppb ) {
-		const ppbpx = `${ ppb }px`;
-
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
 		GSUI.setAttribute( this.#win, "pxperbeat", ppb );
@@ -137,8 +135,7 @@ class gsuiDrums extends HTMLElement {
 
 	// .........................................................................
 	addDrum( id, drum ) {
-		const grp = this.#sliderGroups.get( drum.row ),
-			prop = grp.dataset.currentProp;
+		const grp = this.#sliderGroups.get( drum.row );
 
 		this.#addItem( id, "drum", drum, "gsui-drums-drum" );
 		grp.set( id, drum.when, 1 / this.#stepsPerBeat, 0 );
@@ -239,7 +236,7 @@ class gsuiDrums extends HTMLElement {
 				: "gsui-drums-drumcut",
 			drumsArr = [];
 
-		this.#drumsMap.forEach( ( arr, id ) => {
+		this.#drumsMap.forEach( arr => {
 			if ( arr[ 0 ] === rowId && arr[ 1 ] === itemType ) {
 				drumsArr.push( arr );
 			}

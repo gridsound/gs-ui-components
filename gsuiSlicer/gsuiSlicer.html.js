@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-slicer", () => ( [
+GSUI.setTemplate( "gsui-slicer", () => [
 	GSUI.createElement( "div", { class: "gsuiSlicer-source" },
 		GSUI.createElement( "div", { class: "gsuiSlicer-source-head" },
 			GSUI.createElement( "i", { class: "gsuiSlicer-source-icon gsuiIcon", "data-icon": "waveform" } ),
@@ -46,4 +46,4 @@ GSUI.setTemplate( "gsui-slicer", () => ( [
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "split", "data-icon": "cut", title: "Cut slices in half" } ),
 		GSUI.createElement( "button", { class: "gsuiSlicer-btn gsuiIcon", "data-action": "merge", "data-icon": "erase", title: "Merge slices together" } ),
 	),
-] ) );
+] );

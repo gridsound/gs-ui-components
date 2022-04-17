@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-daw-popup-tempo", () => (
+GSUI.setTemplate( "gsui-daw-popup-tempo", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-popup-tempo" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Time division / BPM" ),
@@ -25,4 +25,4 @@ GSUI.setTemplate( "gsui-daw-popup-tempo", () => (
 			),
 		),
 	)
-) );
+);

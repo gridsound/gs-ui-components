@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-patterns-infoPopup", () => (
+GSUI.setTemplate( "gsui-patterns-infoPopup", () =>
 	GSUI.createElement( "div", { id: "gsuiPatterns-infoPopupContent" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Type" ),
@@ -34,4 +34,4 @@ GSUI.setTemplate( "gsui-patterns-infoPopup", () => (
 			),
 		),
 	)
-) );
+);

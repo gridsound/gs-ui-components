@@ -30,7 +30,7 @@ GSUI.setTemplate( "gsui-lfo", () => {
 			[ "attack", "attack", "att", 0, 4, .03125 ],
 			[ "speed", "speed", "spd", .25, 18, .125 ],
 			[ "amp", "amplitude", "amp", .001, 1, .001 ],
-		].map( ( [ prop, title, text, min, max, step ] ) => (
+		].map( ( [ prop, title, text, min, max, step ] ) =>
 			GSUI.createElement( "div", { class: `gsuiLFO-prop gsuiLFO-${ prop }`, title },
 				GSUI.createElement( "div", { class: "gsuiLFO-propLabel" },
 					GSUI.createElement( "span", null, text ),
@@ -40,7 +40,7 @@ GSUI.setTemplate( "gsui-lfo", () => {
 					GSUI.createElement( "gsui-slider", { type: "linear-x", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
 				),
 			)
-		) ),
+		),
 		GSUI.createElement( "div", { class: "gsuiLFO-prop gsuiLFO-type" },
 			GSUI.createElement( "div", { class: "gsuiLFO-propLabel" }, "wave" ),
 			GSUI.createElement( "div", { class: "gsuiLFO-propContent" },
@@ -49,12 +49,12 @@ GSUI.setTemplate( "gsui-lfo", () => {
 					[ "triangle", "M 1 5 L 4 1 L 10 9 L 13 5" ],
 					[ "sawtooth", "M 1 5 L 7 1 L 7 9 L 13 5" ],
 					[ "square", "M 1 5 L 1 1 L 7 1 L 7 9 L 13 9 L 13 5" ],
-				].map( ( [ w, dots ] ) => (
+				].map( ( [ w, dots ] ) =>
 					GSUI.createElement( "label", { class: "gsuiLFO-btn gsuiLFO-typeBtn", title: w },
 						GSUI.createElement( "input", { class: "gsuiLFO-btnInput gsuiLFO-typeRadio", name: "gsuiLFO-type", type: "radio", value: w } ),
 						GSUI.createElementSVG( "svg", { class: "gsuiLFO-btnIcon gsuiLFO-typeSVG", viewBox: "0 0 14 10" }, GSUI.createElementSVG( "path", { d: dots } ) ),
 					)
-				) )
+				)
 			),
 		),
 	].flat( 1 );

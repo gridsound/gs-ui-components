@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiWaveforms extends gsuiSVGDefs {
-	#isHD = false
+	#isHD = false;
 
 	hdMode( b ) {
 		this.#isHD = b;

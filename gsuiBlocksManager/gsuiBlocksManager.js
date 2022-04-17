@@ -5,14 +5,14 @@ class gsuiBlocksManager {
 		move: gsuiBlocksManager.#onmousedownMove,
 		cropA: gsuiBlocksManager.#onmousedownCropA,
 		cropB: gsuiBlocksManager.#onmousedownCropB,
-	} )
+	} );
 	static #mousemoveFns = Object.freeze( {
 		crop: gsuiBlocksManager.#onmousemoveCrop,
 		move: gsuiBlocksManager.#onmousemoveMove,
 		deletion: gsuiBlocksManager.#onmousemoveDeletion,
 		selection1: gsuiBlocksManager.#onmousemoveSelection1,
 		selection2: gsuiBlocksManager.#onmousemoveSelection2,
-	} )
+	} );
 	static #mouseupFns = Object.freeze( {
 		moving: gsuiBlocksManager.#onmouseupMoving,
 		deleting: gsuiBlocksManager.#onmouseupDeleting,
@@ -20,39 +20,39 @@ class gsuiBlocksManager {
 		"cropping-b": gsuiBlocksManager.#onmouseupCroppingB,
 		"selecting-1": gsuiBlocksManager.#onmouseupSelecting1,
 		"selecting-2": gsuiBlocksManager.#onmouseupSelecting2,
-	} )
-	rootElement = null
-	timeline = null
-	#data = null
-	#opts = null
-	#fontSize = 10
-	#pxPerBeat = 10
-	#blockDOMChange = null
-	#blcs = new Map()
-	#blcsEditing = new Map()
-	#blcsSelected = new Map()
-	#elSelection = null
-	#nlRows = null
-	#status = ""
-	#mmFn = null
-	#mdBlc = null
-	#mdTarget = null
-	#mdPageX = 0
-	#mdPageY = 0
-	#mdWhen = 0
-	#mdRowInd = 0
-	#mmPageX = 0
-	#mmPageY = 0
-	#mmWhen = 0
-	#beatSnap = 0
-	#valueA = null
-	#valueB = null
-	#valueAMin = Infinity
-	#valueBMin = Infinity
-	#valueAMax = -Infinity
-	#valueBMax = -Infinity
-	#onmousemoveBind = this.#onmousemove.bind( this )
-	#onmouseupBind = this.#onmouseup.bind( this )
+	} );
+	rootElement = null;
+	timeline = null;
+	#data = null;
+	#opts = null;
+	#fontSize = 10;
+	#pxPerBeat = 10;
+	#blockDOMChange = null;
+	#blcs = new Map();
+	#blcsEditing = new Map();
+	#blcsSelected = new Map();
+	#elSelection = null;
+	#nlRows = null;
+	#status = "";
+	#mmFn = null;
+	#mdBlc = null;
+	#mdTarget = null;
+	#mdPageX = 0;
+	#mdPageY = 0;
+	#mdWhen = 0;
+	#mdRowInd = 0;
+	#mmPageX = 0;
+	#mmPageY = 0;
+	#mmWhen = 0;
+	#beatSnap = 0;
+	#valueA = null;
+	#valueB = null;
+	#valueAMin = Infinity;
+	#valueBMin = Infinity;
+	#valueAMax = -Infinity;
+	#valueBMax = -Infinity;
+	#onmousemoveBind = this.#onmousemove.bind( this );
+	#onmouseupBind = this.#onmouseup.bind( this );
 
 	constructor( opts ) {
 		Object.seal( this );

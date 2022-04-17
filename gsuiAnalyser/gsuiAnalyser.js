@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiAnalyser extends HTMLElement {
-	#cnv = GSUI.createElement( "canvas" )
-	#ctx = this.#cnv.getContext( "2d" )
+	#cnv = GSUI.createElement( "canvas" );
+	#ctx = this.#cnv.getContext( "2d" );
 
 	constructor() {
 		super();

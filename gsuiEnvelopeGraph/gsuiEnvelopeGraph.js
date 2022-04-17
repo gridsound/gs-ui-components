@@ -1,13 +1,13 @@
 "use strict";
 
 class gsuiEnvelopeGraph extends HTMLElement {
-	#mainLine = GSUI.createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-mainLine" } )
-	#attLine = GSUI.createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } )
-	#relLine = GSUI.createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } )
+	#mainLine = GSUI.createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-mainLine" } );
+	#attLine = GSUI.createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } );
+	#relLine = GSUI.createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } );
 	#svg = GSUI.createElementSVG( "svg", { preserveAspectRatio: "none" },
-		this.#mainLine, this.#attLine, this.#relLine )
-	#width = 0
-	#height = 0
+		this.#mainLine, this.#attLine, this.#relLine );
+	#width = 0;
+	#height = 0;
 
 	constructor() {
 		super();

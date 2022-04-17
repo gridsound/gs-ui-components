@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiPopup extends HTMLElement {
-	#type = ""
-	#isOpen = false
-	#resolve = null
-	#fnSubmit = null
-	#children = GSUI.getTemplate( "gsui-popup" )
+	#type = "";
+	#isOpen = false;
+	#resolve = null;
+	#fnSubmit = null;
+	#children = GSUI.getTemplate( "gsui-popup" );
 	#elements = GSUI.findElements( this.#children, {
 		ok: ".gsuiPopup-ok",
 		cnt: ".gsuiPopup-content",
@@ -15,8 +15,8 @@ class gsuiPopup extends HTMLElement {
 		window: ".gsuiPopup-window",
 		header: ".gsuiPopup-head",
 		cancel: ".gsuiPopup-cancel",
-	} )
-	#clWindow = this.#elements.window.classList
+	} );
+	#clWindow = this.#elements.window.classList;
 
 	constructor() {
 		super();

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-patternroll-block", () => (
+GSUI.setTemplate( "gsui-patternroll-block", () =>
 	GSUI.createElement( "div", { class: "gsuiBlocksManager-block gsuiPatternroll-block", "data-action": "move" },
 		GSUI.createElement( "div", { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropA", "data-action": "cropA" } ),
 		GSUI.createElement( "div", { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropB", "data-action": "cropB" } ),
@@ -13,4 +13,4 @@ GSUI.setTemplate( "gsui-patternroll-block", () => (
 			GSUI.createElement( "span", { class: "gsuiPatternroll-block-placeholderText" }, "missing data" ),
 		),
 	)
-) );
+);

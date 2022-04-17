@@ -1,19 +1,19 @@
 "use strict";
 
 class gsuiCurves extends HTMLElement {
-	#size = Object.seal( [ 0, 0 ] )
-	#curves = new Map()
+	#size = Object.seal( [ 0, 0 ] );
+	#curves = new Map();
 	#options = Object.seal( {
 		nyquist: 24000,
 		nbBands: 8,
-	} )
-	#children = GSUI.getTemplate( "gsui-curves" )
+	} );
+	#children = GSUI.getTemplate( "gsui-curves" );
 	#elements = GSUI.findElements( this.#children, {
 		svg: "svg",
 		line: ".gsuiCurves-line",
 		marks: ".gsuiCurves-marks",
 		curves: ".gsuiCurves-curves",
-	} )
+	} );
 
 	constructor() {
 		super();
@@ -102,7 +102,7 @@ class gsuiCurves extends HTMLElement {
 			if ( i % 2 === 0 ) {
 				rects.push( GSUI.createElementSVG( "rect", {
 					class: "gsuiCurves-markBg",
-					x: x,
+					x,
 					y: 0,
 					width: w / nb | 0,
 					height: h,

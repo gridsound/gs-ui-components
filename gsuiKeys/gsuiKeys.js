@@ -4,7 +4,7 @@ class gsuiKeys extends HTMLElement {
 	static keyNames = Object.freeze( {
 		en: Object.freeze( [ "c",  "c#",  "d",  "d#",  "e",  "f",  "f#",  "g",   "g#",   "a",  "a#",  "b" ] ),
 		fr: Object.freeze( [ "do", "do#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ] ),
-	} )
+	} );
 	static keyboardToKey = { // 1.
 		KeyZ:   [ 0,  0 ], KeyS:      [ 0,  1 ],
 		KeyX:   [ 0,  2 ], KeyD:      [ 0,  3 ],
@@ -29,18 +29,18 @@ class gsuiKeys extends HTMLElement {
 		KeyP:         [ 2,  4 ],
 		BracketLeft:  [ 2,  5 ], Equal:  [ 2,  6 ],
 		BracketRight: [ 2,  7 ],
-	}
-	#keysDown = new Map()
-	#gain = 1
-	#nbOct = 0
-	#rootTop = 0
-	#octStart = 0
-	#blackKeyR = 0
-	#blackKeyH = 0
-	#keyIndMouse = 0
-	#elKeyMouse = null
-	#onmouseupBind = this.#onmouseup.bind( this )
-	#onmousemoveBind = this.#onmousemove.bind( this )
+	};
+	#keysDown = new Map();
+	#gain = 1;
+	#nbOct = 0;
+	#rootTop = 0;
+	#octStart = 0;
+	#blackKeyR = 0;
+	#blackKeyH = 0;
+	#keyIndMouse = 0;
+	#elKeyMouse = null;
+	#onmouseupBind = this.#onmouseup.bind( this );
+	#onmousemoveBind = this.#onmousemove.bind( this );
 
 	constructor() {
 		super();

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-daw-popup-shortcuts", () => (
+GSUI.setTemplate( "gsui-daw-popup-shortcuts", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-popup-shortcuts" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Global shortcuts" ),
@@ -122,4 +122,4 @@ GSUI.setTemplate( "gsui-daw-popup-shortcuts", () => (
 			),
 		),
 	)
-) );
+);

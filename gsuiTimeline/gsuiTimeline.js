@@ -1,23 +1,23 @@
 "use strict";
 
 class gsuiTimeline extends HTMLElement {
-	#status = ""
-	#step = 1
-	#offset = null
-	#scrollingAncestor = null
-	#mousedownLoop = ""
-	#onlyBigMeasures = false
-	#mousedownDate = 0
-	#mousemoveBeat = 0
-	#mousedownBeat = 0
-	#mousedownLoopA = 0
-	#mousedownLoopB = 0
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiTimeline" )
-	#onscrollBind = this.#onscroll.bind( this )
-	#onresizeBind = this.#onresize.bind( this )
-	#onmouseupBind = this.#onmouseup.bind( this )
-	#onmousemoveBind = this.#onmousemove.bind( this )
-	#children = GSUI.getTemplate( "gsui-timeline" )
+	#status = "";
+	#step = 1;
+	#offset = null;
+	#scrollingAncestor = null;
+	#mousedownLoop = "";
+	#onlyBigMeasures = false;
+	#mousedownDate = 0;
+	#mousemoveBeat = 0;
+	#mousedownBeat = 0;
+	#mousedownLoopA = 0;
+	#mousedownLoopB = 0;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiTimeline" );
+	#onscrollBind = this.#onscroll.bind( this );
+	#onresizeBind = this.#onresize.bind( this );
+	#onmouseupBind = this.#onmouseup.bind( this );
+	#onmousemoveBind = this.#onmousemove.bind( this );
+	#children = GSUI.getTemplate( "gsui-timeline" );
 	#elements = GSUI.findElements( this.#children, {
 		steps: ".gsuiTimeline-steps",
 		beats: ".gsuiTimeline-beats",
@@ -26,7 +26,7 @@ class gsuiTimeline extends HTMLElement {
 		timeLine: ".gsuiTimeline-timeLine",
 		cursor: ".gsuiTimeline-cursor",
 		cursorPreview: ".gsuiTimeline-cursorPreview",
-	} )
+	} );
 
 	constructor() {
 		super();

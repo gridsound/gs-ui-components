@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiTrack extends HTMLElement {
-	rowElement = GSUI.getTemplate( "gsui-track-row" )
-	#children = GSUI.getTemplate( "gsui-track" )
-	#inpName = this.#children[ 1 ].firstChild
+	rowElement = GSUI.getTemplate( "gsui-track-row" );
+	#children = GSUI.getTemplate( "gsui-track" );
+	#inpName = this.#children[ 1 ].firstChild;
 
 	constructor() {
 		super();

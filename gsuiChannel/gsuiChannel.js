@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiChannel extends HTMLElement {
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiChannel" )
-	#children = GSUI.getTemplate( "gsui-channel" )
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiChannel" );
+	#children = GSUI.getTemplate( "gsui-channel" );
 	#elements = GSUI.findElements( this.#children, {
 		name: ".gsuiChannel-name",
 		analyser: "gsui-analyser",
@@ -10,8 +10,8 @@ class gsuiChannel extends HTMLElement {
 		gain: ".gsuiChannel-gain gsui-slider",
 		connecta: ".gsuiChannel-connectA",
 		connectb: ".gsuiChannel-connectB",
-	} )
-	analyser = this.#elements.analyser
+	} );
+	analyser = this.#elements.analyser;
 
 	constructor() {
 		super();

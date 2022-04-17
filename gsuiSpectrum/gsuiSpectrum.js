@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiSpectrum extends HTMLElement {
-	#cnv = GSUI.createElement( "canvas" )
-	#ctx = this.#cnv.getContext( "2d" )
+	#cnv = GSUI.createElement( "canvas" );
+	#ctx = this.#cnv.getContext( "2d" );
 
 	constructor() {
 		super();
@@ -31,7 +31,7 @@ class gsuiSpectrum extends HTMLElement {
 	}
 
 	// .........................................................................
-	static #datumDivision = [ .08, .15, .17, .25, .3, .4, .6, .8, Infinity ]
+	static #datumDivision = [ .08, .15, .17, .25, .3, .4, .6, .8, Infinity ];
 	static #colors = [
 		[   5,   2,  20, .08 ], // 0
 		[   8,   5,  30, .15 ], // 1
@@ -42,7 +42,7 @@ class gsuiSpectrum extends HTMLElement {
 		[ 200,  25,  10, .6  ], // 6
 		[ 200, 128,  10, .8  ], // 7
 		[ 200, 200,  20, 1   ], // 8
-	]
+	];
 	static draw( ctx, data, width = data.length ) {
 		const img = ctx.createImageData( width, 1 ),
 			imgData = img.data,

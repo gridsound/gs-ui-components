@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-daw-popup-settings", () => (
+GSUI.setTemplate( "gsui-daw-popup-settings", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-popup-settings" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Audio" ),
@@ -68,4 +68,4 @@ GSUI.setTemplate( "gsui-daw-popup-settings", () => (
 			),
 		),
 	)
-) );
+);

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-daw-popup-auth", () => (
+GSUI.setTemplate( "gsui-daw-popup-auth", () =>
 	GSUI.createElement( "div", { id: "authPopupContent", class: "gsuiDAW-popup-auth" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Sign in" ),
@@ -26,4 +26,4 @@ GSUI.setTemplate( "gsui-daw-popup-auth", () => (
 		GSUI.createElement( "br" ),
 		GSUI.createElement( "a", { target: "_blank", rel: "noopener", href: "https://gridsound.com/#/auth" }, "Create a new account" ),
 	)
-) );
+);

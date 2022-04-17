@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiEnvelope extends HTMLElement {
-	#dur = 4
-	#waveWidth = 300
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEnvelope" )
-	#onresizeBind = this.#onresize.bind( this )
-	#children = GSUI.getTemplate( "gsui-envelope" )
+	#dur = 4;
+	#waveWidth = 300;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEnvelope" );
+	#onresizeBind = this.#onresize.bind( this );
+	#children = GSUI.getTemplate( "gsui-envelope" );
 	#elements = GSUI.findElements( this.#children, {
 		beatlines: "gsui-beatlines",
 		graph: "gsui-envelope-graph",
@@ -16,7 +16,7 @@ class gsuiEnvelope extends HTMLElement {
 			sustain: [ ".gsuiEnvelope-sustain gsui-slider", ".gsuiEnvelope-sustain .gsuiEnvelope-propValue" ],
 			release: [ ".gsuiEnvelope-release gsui-slider", ".gsuiEnvelope-release .gsuiEnvelope-propValue" ],
 		},
-	} )
+	} );
 
 	constructor() {
 		super();

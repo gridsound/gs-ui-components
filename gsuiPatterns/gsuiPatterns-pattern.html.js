@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-patterns-pattern", () => (
+GSUI.setTemplate( "gsui-patterns-pattern", () =>
 	GSUI.createElement( "div", { class: "gsuiPatterns-pattern", draggable: "true" },
 		GSUI.createElement( "div", { class: "gsuiPatterns-pattern-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUI.createElement( "div", { class: "gsuiPatterns-pattern-head" },
@@ -22,4 +22,4 @@ GSUI.setTemplate( "gsui-patterns-pattern", () => (
 			GSUI.createElement( "span", { class: "gsuiPatterns-pattern-placeholderText" }, "missing data" ),
 		),
 	)
-) );
+);

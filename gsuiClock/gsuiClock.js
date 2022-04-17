@@ -1,13 +1,13 @@
 "use strict";
 
 class gsuiClock extends HTMLElement {
-	#bPM = 4
-	#sPB = 4
-	#timeSave = 0
-	#firstValueLen = -1
-	#attached = false
-	#values = [ -1, -1, -1 ]
-	#children = GSUI.getTemplate( "gsui-clock" )
+	#bPM = 4;
+	#sPB = 4;
+	#timeSave = 0;
+	#firstValueLen = -1;
+	#attached = false;
+	#values = [ -1, -1, -1 ];
+	#children = GSUI.getTemplate( "gsui-clock" );
 	#elements = GSUI.findElements( this.#children, {
 		wrapRel: ".gsuiClock-relative",
 		modes: ".gsuiClock-modes",
@@ -16,7 +16,7 @@ class gsuiClock extends HTMLElement {
 			".gsuiClock-b",
 			".gsuiClock-c",
 		],
-	} )
+	} );
 
 	constructor() {
 		super();
@@ -65,7 +65,7 @@ class gsuiClock extends HTMLElement {
 	}
 
 	// .........................................................................
-	static numberingOff = 1
+	static numberingOff = 1;
 	static numbering( from ) {
 		gsuiClock.numberingOff = +from;
 		document.querySelectorAll( "gsui-clock" ).forEach( el => el.resetTime() );

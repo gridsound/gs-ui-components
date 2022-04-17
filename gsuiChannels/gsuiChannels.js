@@ -1,20 +1,20 @@
 "use strict";
 
 class gsuiChannels extends HTMLElement {
-	#chans = {}
-	#chanSelected = null
-	#analyserW = 10
-	#analyserH = 50
-	#attached = false
-	#onresizeBind = this.#onresize.bind( this )
-	#children = GSUI.getTemplate( "gsui-channels" )
+	#chans = {};
+	#chanSelected = null;
+	#analyserW = 10;
+	#analyserH = 50;
+	#attached = false;
+	#onresizeBind = this.#onresize.bind( this );
+	#children = GSUI.getTemplate( "gsui-channels" );
 	#elements = GSUI.findElements( this.#children, {
 		pmain: ".gsuiChannels-panMain",
 		pchans: ".gsuiChannels-panChannels",
 		addBtn: ".gsuiChannels-addChan",
-	} )
-	static #selectChanPopup = GSUI.getTemplate( "gsui-channels-selectPopup" )
-	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" )
+	} );
+	static #selectChanPopup = GSUI.getTemplate( "gsui-channels-selectPopup" );
+	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" );
 
 	constructor() {
 		super();
@@ -93,7 +93,7 @@ class gsuiChannels extends HTMLElement {
 			GSUI.popup.custom( {
 				title: "Channels",
 				element: gsuiChannels.#selectChanPopup,
-				submit: data => {
+				submit( data ) {
 					res( data.channel !== currChanId ? data.channel : null );
 				}
 			} );

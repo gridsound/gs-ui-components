@@ -1,15 +1,15 @@
 "use strict";
 
 class gsuiEffects extends HTMLElement {
-	static fxsMap = new Map()
-	#fxsHtml = new Map()
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEffects" )
-	#children = GSUI.getTemplate( "gsui-effects" )
+	static fxsMap = new Map();
+	#fxsHtml = new Map();
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEffects" );
+	#children = GSUI.getTemplate( "gsui-effects" );
 	#elements = GSUI.findElements( this.#children, {
 		list: ".gsuiEffects-list",
 		addBtn: ".gsuiEffects-addBtn",
 		addSelect: ".gsuiEffects-addSelect",
-	} )
+	} );
 
 	constructor() {
 		super();
@@ -29,13 +29,13 @@ class gsuiEffects extends HTMLElement {
 		} );
 		GSUI.listenEvents( this, {
 			default: {
-				liveChange: ( d, t ) => {
+				liveChange( d, t ) {
 					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
 					d.eventName = "liveChangeEffect";
 					return true;
 				},
-				changeProp: ( d, t ) => {
+				changeProp( d, t ) {
 					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
 					d.eventName = "changeEffect";

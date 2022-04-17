@@ -1,24 +1,24 @@
 "use strict";
 
 class gsuiSlider extends HTMLElement {
-	#min = 0
-	#max = 100
-	#step = 1
-	#scrollStep = 1
-	#wheelChange = false
-	#mousemoveSize = 0
-	#strokeWidth = 4
-	#previousval = ""
-	#enable = true
-	#circ = false
-	#axeX = false
-	#locked = false
-	#connected = false
-	#pxval = 0
-	#pxmoved = 0
-	#svgLineLen = 0
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlider" )
-	#children = GSUI.getTemplate( "gsui-slider" )
+	#min = 0;
+	#max = 100;
+	#step = 1;
+	#scrollStep = 1;
+	#wheelChange = false;
+	#mousemoveSize = 0;
+	#strokeWidth = 4;
+	#previousval = "";
+	#enable = true;
+	#circ = false;
+	#axeX = false;
+	#locked = false;
+	#connected = false;
+	#pxval = 0;
+	#pxmoved = 0;
+	#svgLineLen = 0;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlider" );
+	#children = GSUI.getTemplate( "gsui-slider" );
 	#elements = GSUI.findElements( this.#children, {
 		input: ".gsuiSlider-input",
 		line: ".gsuiSlider-line",
@@ -26,8 +26,8 @@ class gsuiSlider extends HTMLElement {
 		svg: ".gsuiSlider-svg",
 		svgLine: ".gsuiSlider-svgLine",
 		svgLineColor: ".gsuiSlider-svgLineColor",
-	} )
-	static focused = null
+	} );
+	static focused = null;
 
 	constructor() {
 		super();

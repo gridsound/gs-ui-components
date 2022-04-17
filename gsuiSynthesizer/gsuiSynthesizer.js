@@ -1,15 +1,15 @@
 "use strict";
 
 class gsuiSynthesizer extends HTMLElement {
-	#waveList = []
-	#uiOscs = new Map()
-	#children = GSUI.getTemplate( "gsui-synthesizer" )
+	#waveList = [];
+	#uiOscs = new Map();
+	#children = GSUI.getTemplate( "gsui-synthesizer" );
 	#elements = GSUI.findElements( this.#children, {
 		env: "gsui-envelope",
 		lfo: "gsui-lfo",
 		oscList: ".gsuiSynthesizer-oscList",
 		newOsc: ".gsuiSynthesizer-newOsc",
-	} )
+	} );
 
 	constructor() {
 		super();
@@ -47,7 +47,7 @@ class gsuiSynthesizer extends HTMLElement {
 	}
 
 	// .........................................................................
-	addOscillator( id, osc ) {
+	addOscillator( id ) {
 		const uiOsc = document.createElement( "gsui-oscillator" );
 
 		this.#uiOscs.set( id, uiOsc );

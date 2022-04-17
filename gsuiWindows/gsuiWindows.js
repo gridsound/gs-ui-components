@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiWindows extends HTMLElement {
-	#objWindows = {}
-	#nbWindowsMaximized = 0
-	#mouseFnUp = null
-	#mouseFnMove = null
-	#focusedWindow = null
+	#objWindows = {};
+	#nbWindowsMaximized = 0;
+	#mouseFnUp = null;
+	#mouseFnMove = null;
+	#focusedWindow = null;
 
 	constructor() {
 		super();

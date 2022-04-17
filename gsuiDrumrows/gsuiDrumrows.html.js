@@ -10,7 +10,7 @@ GSUI.setTemplate( "gsui-drumrows", () => [
 	),
 ] );
 
-GSUI.setTemplate( "gsui-drumrow", () => (
+GSUI.setTemplate( "gsui-drumrow", () =>
 	GSUI.createElement( "form", { class: "gsuiDrumrow", draggable: "true" },
 		GSUI.createElement( "div", { class: "gsuiDrumrow-grip" },
 			GSUI.createElement( "i", { class: "gsuiIcon", "data-icon": "grip-v" } ),
@@ -53,4 +53,4 @@ GSUI.setTemplate( "gsui-drumrow", () => (
 			),
 		),
 	)
-) );
+);

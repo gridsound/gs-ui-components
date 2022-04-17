@@ -45,10 +45,10 @@ GSUI.setTemplate( "gsui-fx-filter", () => [
 	),
 ] );
 
-GSUI.setTemplate( "gsui-fx-filter-type", ( type, d ) => (
+GSUI.setTemplate( "gsui-fx-filter-type", ( type, d ) =>
 	GSUI.createElement( "button", { class: "gsuiFxFilter-areaType-btn", "data-type": type, title: type },
 		GSUI.createElementSVG( "svg", { viewBox: "0 0 16 12" },
 			GSUI.createElementSVG( "path", { d } ),
 		),
 	)
-) );
+);

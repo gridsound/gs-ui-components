@@ -1,20 +1,20 @@
 "use strict";
 
 class gsuiDAW extends HTMLElement {
-	onSubmitLogin = GSUI.noop
-	onSubmitOpen = GSUI.noop
-	onExportJSON = GSUI.noop
+	onSubmitLogin = GSUI.noop;
+	onSubmitOpen = GSUI.noop;
+	onExportJSON = GSUI.noop;
 	#cmps = {
 		local: new Map(),
 		cloud: new Map(),
-	}
-	#cmpId = null
-	#cmpSaveMode = "local"
-	#currentActionInd = -1
-	#actions = null
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" )
-	#children = GSUI.getTemplate( "gsui-daw" )
-	#timeSelecting = false
+	};
+	#cmpId = null;
+	#cmpSaveMode = "local";
+	#currentActionInd = -1;
+	#actions = null;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" );
+	#children = GSUI.getTemplate( "gsui-daw" );
+	#timeSelecting = false;
 	#elements = GSUI.findElements( this.#children, {
 		head: ".gsuiDAW-head",
 		bpm: ".gsuiDAW-tempo-bpm",
@@ -46,7 +46,7 @@ class gsuiDAW extends HTMLElement {
 			slicer: "[data-win='slicer']",
 			effects: "[data-win='effects']",
 		},
-	} )
+	} );
 	#popups = {
 		auth: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-auth" ), {
 			root: ".gsuiDAW-popup-auth",
@@ -89,7 +89,7 @@ class gsuiDAW extends HTMLElement {
 			windowsLowGraphics: "[name='windowsLowGraphics']",
 			timelineNumbering: "[name='timelineNumbering']",
 		} ),
-	}
+	};
 
 	constructor() {
 		super();
@@ -150,7 +150,7 @@ class gsuiDAW extends HTMLElement {
 					this.#timeSelecting = true;
 					this.#elements.clock.setTime( d.args[ 0 ] );
 				},
-				inputEnd: d => {
+				inputEnd: () => {
 					this.#timeSelecting = false;
 				},
 				input: d => {
@@ -525,7 +525,10 @@ class gsuiDAW extends HTMLElement {
 							}
 							delete data.uiRateFPS;
 							if (
-								data.uiRate != this.getAttribute( "uirate" ) || // 1.
+								(
+									data.uiRate !== this.getAttribute( "uirate" ) &&
+									data.uiRate !== +this.getAttribute( "uirate" )
+								) ||
 								data.sampleRate !== +this.getAttribute( "samplerate" ) ||
 								data.timelineNumbering !== +this.getAttribute( "timelinenumbering" ) ||
 								data.windowsLowGraphics !== ( this.getAttribute( "windowslowgraphics" ) === "" )
@@ -541,7 +544,7 @@ class gsuiDAW extends HTMLElement {
 			case "changelog":
 				break;
 			default:
-				dt.action && lg( "untracked action:", dt.action );
+				dt.action && console.log( "untracked action:", dt.action );
 				break;
 		}
 	}
@@ -549,8 +552,3 @@ class gsuiDAW extends HTMLElement {
 
 Object.seal( gsuiDAW );
 customElements.define( "gsui-daw", gsuiDAW );
-
-/*
-1. Why `!=` and not `!==` for "uiRate"?
-   Because uiRate can be "auto" or a number (string).
-*/

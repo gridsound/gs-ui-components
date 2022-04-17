@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-daw-popup-cookies", () => (
+GSUI.setTemplate( "gsui-daw-popup-cookies", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-popup-cookies" },
 		GSUI.createElement( "fieldset", null,
 			GSUI.createElement( "legend", null, "Render the current composition" ),
@@ -15,4 +15,4 @@ GSUI.setTemplate( "gsui-daw-popup-cookies", () => (
 			),
 		),
 	)
-) );
+);

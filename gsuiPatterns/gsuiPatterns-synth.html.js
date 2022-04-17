@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-patterns-synth", () => (
+GSUI.setTemplate( "gsui-patterns-synth", () =>
 	GSUI.createElement( "div", { class: "gsuiPatterns-synth" },
 		GSUI.createElement( "div", { class: "gsuiPatterns-synth-head" },
 			GSUI.createElement( "button", { class: "gsuiPatterns-synth-btn gsuiPatterns-synth-expand gsuiIcon", "data-action": "expand", "data-icon": "caret-right" } ),
@@ -21,4 +21,4 @@ GSUI.setTemplate( "gsui-patterns-synth", () => (
 			),
 		),
 	)
-) );
+);

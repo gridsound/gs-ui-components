@@ -1,6 +1,6 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-daw-popup-about", () => (
+GSUI.setTemplate( "gsui-daw-popup-about", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-popup-about" },
 		GSUI.createElement( "div", { class: "gsuiDAW-popup-about-head" },
 			GSUI.createElement( "span", { class: "gsuiDAW-popup-about-title" }, "GridSound" ),
@@ -28,4 +28,4 @@ GSUI.setTemplate( "gsui-daw-popup-about", () => (
 			GSUI.createElement( "a", { target: "_blank", rel: "noopener", title: "Discord",  class: "gsuiIcon gsuiIconB", "data-icon": "discord",  href: "https://discord.gg/NUYxHAg" } ),
 		),
 	)
-) );
+);

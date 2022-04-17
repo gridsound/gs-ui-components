@@ -1,13 +1,13 @@
 "use strict";
 
 class gsuiDrumrows extends HTMLElement {
-	#rows = new Map()
-	#lines = new Map()
-	#dragoverId = null
-	#elDragover = null
-	#elLinesParent = null
-	#timeoutIdDragleave = null
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrumrows" )
+	#rows = new Map();
+	#lines = new Map();
+	#dragoverId = null;
+	#elDragover = null;
+	#elLinesParent = null;
+	#timeoutIdDragleave = null;
+	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrumrows" );
 	#reorder = new gsuiReorder( {
 		rootElement: this,
 		direction: "column",
@@ -16,7 +16,7 @@ class gsuiDrumrows extends HTMLElement {
 		handleSelector: ".gsuiDrumrow-grip",
 		parentSelector: "gsui-drumrows",
 		onchange: this.#onreorderRows.bind( this ),
-	} )
+	} );
 
 	constructor() {
 		super();

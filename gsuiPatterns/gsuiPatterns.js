@@ -7,7 +7,7 @@ class gsuiPatterns extends HTMLElement {
 		editInfo: ( id, el ) => this.#openInfoPopup( id, el ),
 		undefined: id => this.onchange( "openPattern", id ),
 		redirect: ( id, el, e ) => this.#openChannelsPopup( "redirectPatternBuffer", id, e.target.dataset.id ),
-	} )
+	} );
 	#fnsSynth = Object.freeze( {
 		expand: id => this.expandSynth( id ),
 		undefined: id => this.onchange( "openSynth", id ),
@@ -21,8 +21,8 @@ class gsuiPatterns extends HTMLElement {
 				? this.onchange( "removeSynth", id )
 				: GSUI.popup.alert( "Error", "You have to keep at least one synthesizer" );
 		},
-	} )
-	#children = GSUI.getTemplate( "gsui-patterns" )
+	} );
+	#children = GSUI.getTemplate( "gsui-patterns" );
 	#elements = GSUI.findElements( this.#children, {
 		lists: {
 			slices: ".gsuiPatterns-panelSlices .gsuiPatterns-panel-list",
@@ -33,9 +33,9 @@ class gsuiPatterns extends HTMLElement {
 		newSlices: "[data-action='newSlices']",
 		newDrums: "[data-action='newDrums']",
 		newSynth: "[data-action='newSynth']",
-	} )
-	#nlKeysLists = this.#elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" )
-	static infoPopupContent = GSUI.getTemplate( "gsui-patterns-infoPopup" )
+	} );
+	#nlKeysLists = this.#elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" );
+	static infoPopupContent = GSUI.getTemplate( "gsui-patterns-infoPopup" );
 
 	constructor() {
 		super();

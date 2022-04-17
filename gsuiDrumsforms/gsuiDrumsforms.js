@@ -28,7 +28,7 @@ class gsuiDrumsforms extends gsuiSVGDefs {
 	}
 	static #createDrumcut( x, y, w, h ) {
 		return GSUI.createElementSVG( "rect", {
-			x: x,
+			x,
 			y: y + h * .8,
 			width: w * .9,
 			height: h * .2,

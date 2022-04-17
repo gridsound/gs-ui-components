@@ -86,7 +86,7 @@ GSUI.setTemplate( "gsui-daw", () => [
 	GSUI.createElement( "div", { class: "gsuiDAW-body" } ),
 ] );
 
-GSUI.setTemplate( "gsui-daw-cmps", () => (
+GSUI.setTemplate( "gsui-daw-cmps", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-dropdown", tabindex: 0 },
 		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head", "data-list": "local" },
 			GSUI.createElement( "i", { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "local" } ),
@@ -111,16 +111,16 @@ GSUI.setTemplate( "gsui-daw-cmps", () => (
 			),
 		),
 	)
-) );
+);
 
-GSUI.setTemplate( "gsui-daw-cmps-btn", ( { action, title, icon, text } ) => (
+GSUI.setTemplate( "gsui-daw-cmps-btn", ( { action, title, icon, text } ) =>
 	GSUI.createElement( "button", { class: "gsuiDAW-cmps-btn", "data-action": action, title },
 		GSUI.createElement( "i", { class: "gsuiDAW-cmps-btn-icon gsuiIcon", "data-icon": icon } ),
 		GSUI.createElement( "span", { class: "gsuiDAW-cmps-btn-text" }, text ),
 	)
-) );
+);
 
-GSUI.setTemplate( "gsui-daw-cmp", ( { id, saveMode } ) => (
+GSUI.setTemplate( "gsui-daw-cmp", ( { id, saveMode } ) =>
 	GSUI.createElement( "div", { class: "gsuiDAW-cmp", "data-id": id, draggable: "true", tabindex: 0 },
 		GSUI.createElement( "button", { class: "gsuiDAW-cmp-btn gsuiIcon", "data-action": "cmp-save", "data-icon": saveMode === "local" ? "save" : "upload" } ),
 		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-info", "data-action": "cmp-open" },
@@ -139,9 +139,9 @@ GSUI.setTemplate( "gsui-daw-cmp", ( { id, saveMode } ) => (
 		GSUI.createElement( "a", { href: true, class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "cmp-json",   "data-icon": "file-export", title: "Export to JSON file" } ),
 		GSUI.createElement( "button", {        class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "cmp-delete", "data-icon": "minus-oct", title: "Delete" } ),
 	)
-) );
+);
 
-GSUI.setTemplate( "gsui-daw-history", () => (
+GSUI.setTemplate( "gsui-daw-history", () =>
 	GSUI.createElement( "div", { class: "gsuiDAW-dropdown", tabindex: 0 },
 		GSUI.createElement( "div", { class: "gsuiDAW-dropdown-head" },
 			GSUI.createElement( "i", { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "history" } ),
@@ -153,11 +153,11 @@ GSUI.setTemplate( "gsui-daw-history", () => (
 			),
 		),
 	)
-) );
+);
 
-GSUI.setTemplate( "gsui-daw-history-action", ( { icon, desc, index } ) => (
+GSUI.setTemplate( "gsui-daw-history-action", ( { icon, desc, index } ) =>
 	GSUI.createElement( "div", { class: "gsuiDAW-history-action", "data-action": "historyAction", "data-index": index },
 		GSUI.createElement( "i", { class: "gsuiDAW-history-action-icon gsuiIcon", "data-icon": icon } ),
 		GSUI.createElement( "span", { class: "gsuiDAW-history-action-text" }, desc ),
 	)
-) );
+);

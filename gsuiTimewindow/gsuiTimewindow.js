@@ -1,15 +1,15 @@
 "use strict";
 
 class gsuiTimewindow extends HTMLElement {
-	#pxPerBeat = 0
-	#panelSize = 0
-	#lineHeight = 0
-	#mousedownPageX = 0
-	#mousedownPageY = 0
-	#onmouseupExtendBind = this.#onmouseupExtend.bind( this )
-	#onmousemoveExtendPanelBind = this.#onmousemoveExtendPanel.bind( this )
-	#onmousemoveExtendDownPanelBind = this.#onmousemoveExtendDownPanel.bind( this )
-	#children = GSUI.getTemplate( "gsui-timewindow" )
+	#pxPerBeat = 0;
+	#panelSize = 0;
+	#lineHeight = 0;
+	#mousedownPageX = 0;
+	#mousedownPageY = 0;
+	#onmouseupExtendBind = this.#onmouseupExtend.bind( this );
+	#onmousemoveExtendPanelBind = this.#onmousemoveExtendPanel.bind( this );
+	#onmousemoveExtendDownPanelBind = this.#onmousemoveExtendDownPanel.bind( this );
+	#children = GSUI.getTemplate( "gsui-timewindow" );
 	#elements = GSUI.findElements( this.#children, {
 		main: ".gsuiTimewindow-main",
 		down: ".gsuiTimewindow-contentDown",
@@ -21,7 +21,7 @@ class gsuiTimewindow extends HTMLElement {
 		loopA: ".gsuiTimewindow-loopA",
 		loopB: ".gsuiTimewindow-loopB",
 		currentTime: ".gsuiTimewindow-currentTime",
-	} )
+	} );
 
 	constructor() {
 		super();

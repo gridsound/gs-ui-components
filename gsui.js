@@ -1,10 +1,9 @@
 "use strict";
 
 class GSUI {
-
 	static noop() {}
-	static popup = document.createElement( "gsui-popup" )
-	static dragshield = document.createElement( "gsui-dragshield" )
+	static popup = document.createElement( "gsui-popup" );
+	static dragshield = document.createElement( "gsui-dragshield" );
 
 	// .........................................................................
 	static clamp( n, min, max ) {
@@ -95,7 +94,7 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static #templates = new Map()
+	static #templates = new Map();
 	static setTemplate( tmpId, fn ) {
 		GSUI.#templates.set( tmpId, fn );
 	}
@@ -152,13 +151,13 @@ class GSUI {
 			}
 		}
 	}
-	static #resizeMap = new Map()
+	static #resizeMap = new Map();
 	static #resizeObs = new ResizeObserver( entries => {
 		entries.forEach( e => {
 			GSUI.#resizeMap.get( e.target )
 				.forEach( fn => fn( e.contentRect.width, e.contentRect.height ) );
 		} );
-	} )
+	} );
 
 	// .........................................................................
 	static empty( el ) {

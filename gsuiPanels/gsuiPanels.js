@@ -1,12 +1,12 @@
 "use strict";
 
 class gsuiPanels extends HTMLElement {
-	#dir = ""
-	#dirX = false
-	#pageN = 0
-	#extend = null
-	#panBefore = null
-	#panAfter = null
+	#dir = "";
+	#dirX = false;
+	#pageN = 0;
+	#extend = null;
+	#panBefore = null;
+	#panAfter = null;
 
 	constructor() {
 		super();
@@ -71,12 +71,12 @@ class gsuiPanels extends HTMLElement {
 		if ( pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
 			this.#extend = tar;
 			this.#pageN = this.#dirX ? e.pageX : e.pageY;
-			this.#panBefore = Array.prototype.filter.call( this.children, el => (
+			this.#panBefore = Array.prototype.filter.call( this.children, el =>
 				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
-			) ).reverse();
-			this.#panAfter = Array.prototype.filter.call( this.children, el => (
+			).reverse();
+			this.#panAfter = Array.prototype.filter.call( this.children, el =>
 				pan === el || pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
-			) );
+			);
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
 			tar.classList.add( "gsui-hover" );
 			GSUI.unselectText();
