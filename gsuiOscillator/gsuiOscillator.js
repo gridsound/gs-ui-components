@@ -93,13 +93,8 @@ class gsuiOscillator extends HTMLElement {
 		arr.sort();
 		arr.forEach( w => {
 			if ( !this.#selectWaves[ w ] ) {
-				const opt = document.createElement( "option" );
-
 				this.#selectWaves[ w ] = true;
-				opt.value = w;
-				opt.className = "gsuiOscillator-waveOpt";
-				opt.textContent = w;
-				opts.push( opt );
+				opts.push( GSUI.createElement( "option", { class: "gsuiOscillator-waveOpt", value: w }, w ) );
 			}
 		} );
 		Element.prototype.append.apply( this.#elements.waveSelect, opts );

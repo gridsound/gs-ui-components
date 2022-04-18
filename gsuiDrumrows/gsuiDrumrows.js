@@ -50,10 +50,8 @@ class gsuiDrumrows extends HTMLElement {
 		gsuiReorder.listReorder( this.#elLinesParent, obj );
 	}
 	playRow( id ) {
-		const rect = document.createElement( "div" );
-
-		rect.classList.add( "gsuiDrumrow-startCursor" );
-		this.#rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" ).append( rect );
+		this.#rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" ).append(
+			GSUI.createElement( "div", { class: "gsuiDrumrow-startCursor" } ) );
 	}
 	stopRow( id ) {
 		this.#rows.get( id ).root.querySelectorAll( ".gsuiDrumrow-startCursor" )

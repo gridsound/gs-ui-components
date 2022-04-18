@@ -43,7 +43,7 @@ class gsuiEffects extends HTMLElement {
 				},
 			},
 		} );
-		this.#fillSelect();
+		this.#elements.addSelect.append( ...gsuiEffects.#createOptions() );
 	}
 
 	// .........................................................................
@@ -129,22 +129,17 @@ class gsuiEffects extends HTMLElement {
 	}
 
 	// .........................................................................
-	#createOption( enable, fxId, fxName ) {
-		const opt = document.createElement( "option" );
-
-		opt.value = fxId;
-		opt.disabled = !enable;
-		opt.textContent = fxName;
-		return opt;
-	}
-	#fillSelect() {
-		const def = this.#createOption( false, "", "-- Select an Fx" );
+	static #createOptions() {
+		const def = gsuiEffects.#createOption( true, "", "-- Select an Fx" );
 		const options = [ def ];
 
 		gsuiEffects.fxsMap.forEach( ( fx, id ) => {
-			options.push( this.#createOption( true, id, fx.name ) );
+			options.push( gsuiEffects.#createOption( false, id, fx.name ) );
 		} );
-		this.#elements.addSelect.append( ...options );
+		return options;
+	}
+	static #createOption( disabled, fxId, fxName ) {
+		return GSUI.createElement( "option", { value: fxId, disabled }, fxName );
 	}
 }
 

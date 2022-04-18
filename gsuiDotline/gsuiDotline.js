@@ -2,9 +2,9 @@
 
 class gsuiDotline {
 	constructor() {
-		const root = document.createElement( "div" );
-		const svg = GSUI.createElementSVG( "svg" );
 		const polyline = GSUI.createElementSVG( "polyline" );
+		const svg = GSUI.createElementSVG( "svg", null, polyline );
+		const root = GSUI.createElement( "div", { class: "gsuiDotline" }, svg );
 
 		this.rootElement = root;
 		this.oninput =
@@ -33,10 +33,7 @@ class gsuiDotline {
 		this._mousemoveDot = this._mousemoveDot.bind( this );
 		Object.seal( this );
 
-		svg.append( polyline );
 		GSUI.setAttribute( svg, "preserveAspectRatio", "none" );
-		root.append( svg );
-		root.className = "gsuiDotline";
 		root.oncontextmenu = () => false;
 		root.onmousedown = this._mousedown.bind( this );
 		this.options( {
@@ -216,10 +213,8 @@ class gsuiDotline {
 	// dots[].element
 	// .........................................................................
 	_createDotElement( id ) {
-		const el = document.createElement( "div" );
+		const el = GSUI.createElement( "div", { class: "gsuiDotline-dot", "data-id": id } );
 
-		el.className = "gsuiDotline-dot";
-		el.dataset.id = id;
 		this._dotsId = Math.max( this._dotsId, id );
 		this.rootElement.append( el );
 		return this._dots[ id ] = { id, element: el, x: 0, y: 0 };
