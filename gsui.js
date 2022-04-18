@@ -174,7 +174,7 @@ class GSUI {
 	} );
 
 	// .........................................................................
-	static empty( el ) {
+	static emptyElem( el ) {
 		while ( el.lastChild ) {
 			el.lastChild.remove();
 		}

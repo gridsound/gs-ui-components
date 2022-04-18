@@ -148,7 +148,7 @@ class gsuiDrumrows extends HTMLElement {
 	#changePattern( id, svg ) {
 		const elWave = this.#rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" );
 
-		GSUI.empty( elWave );
+		GSUI.emptyElem( elWave );
 		if ( svg ) {
 			svg.classList.add( "gsuiDrumrow-wave" );
 			elWave.append( svg );

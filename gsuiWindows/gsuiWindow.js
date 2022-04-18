@@ -75,8 +75,8 @@ class gsuiWindow extends HTMLElement {
 		this.#elements.icon.dataset.icon = icon;
 	}
 	empty() {
-		GSUI.empty( this.#elements.content );
-		GSUI.empty( this.#elements.headContent );
+		GSUI.emptyElem( this.#elements.content );
+		GSUI.emptyElem( this.#elements.headContent );
 	}
 	contentAppend( ...args ) {
 		this.#elements.content.append( ...args );

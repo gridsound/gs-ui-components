@@ -44,26 +44,26 @@ class gsuiPopup extends HTMLElement {
 
 	// .........................................................................
 	alert( title, msg, ok ) {
-		GSUI.empty( this.#elements.cnt );
+		GSUI.emptyElem( this.#elements.cnt );
 		this.#clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, false );
 		return this.#open( "alert", title, msg );
 	}
 	confirm( title, msg, ok, cancel ) {
-		GSUI.empty( this.#elements.cnt );
+		GSUI.emptyElem( this.#elements.cnt );
 		this.#clWindow.remove( "gsuiPopup-noCancel" );
 		this.#clWindow.add( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "confirm", title, msg );
 	}
 	prompt( title, msg, val, ok, cancel ) {
-		GSUI.empty( this.#elements.cnt );
+		GSUI.emptyElem( this.#elements.cnt );
 		this.#clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "prompt", title, msg, val );
 	}
 	custom( obj ) {
-		GSUI.empty( this.#elements.cnt );
+		GSUI.emptyElem( this.#elements.cnt );
 		this.#fnSubmit = obj.submit || null;
 		this.#clWindow.remove( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false );

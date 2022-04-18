@@ -49,7 +49,7 @@ class gsuiSVGDefs {
 
 		def.w = w;
 		def.h = h;
-		GSUI.empty( def.g );
+		GSUI.emptyElem( def.g );
 		def.g.append( ...elems );
 	}
 	createSVG( id ) {

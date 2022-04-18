@@ -110,7 +110,7 @@ class gsuiCurves extends HTMLElement {
 				} ) );
 			}
 		}
-		GSUI.empty( this.#elements.marks );
+		GSUI.emptyElem( this.#elements.marks );
 		this.#elements.marks.append( ...rects, ...marks );
 	}
 	#createPath( id, curve ) {
