@@ -131,7 +131,7 @@ class gsuiPianoroll extends HTMLElement {
 			const key = +blc.dataset.keyNote;
 			const maxRow = +this.#win.querySelector( ".gsui-row" ).dataset.midi;
 
-			this.#win.scrollTop = ( maxRow - key - 3.5 ) * this.#win.getAttribute( "lineheight" );
+			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUI.getAttrNum( this.#win, "lineheight" );
 		}
 	}
 	octaves( from, nb ) {

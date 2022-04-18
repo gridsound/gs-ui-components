@@ -68,7 +68,7 @@ class gsuiSlicer extends HTMLElement {
 		this.ondrop = e => {
 			const patId = e.dataTransfer.getData( "pattern-buffer" );
 
-			if ( patId && this.getAttribute( "disabled" ) === null ) {
+			if ( patId && GSUI.getAttr( this, "disabled" ) === null ) {
 				this.#dispatch( "dropBuffer", patId );
 			}
 		};

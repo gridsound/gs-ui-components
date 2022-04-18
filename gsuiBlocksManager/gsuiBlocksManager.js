@@ -116,7 +116,7 @@ class gsuiBlocksManager {
 		return this.#blcsEditing;
 	}
 	#getBeatSnap() {
-		return 1 / this.timeline.stepsPerBeat * this.timeline.getAttribute( "step" );
+		return 1 / this.timeline.stepsPerBeat * GSUI.getAttrNum( this.timeline, "step" );
 	}
 
 	// .........................................................................

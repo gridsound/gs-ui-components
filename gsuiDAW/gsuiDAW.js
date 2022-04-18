@@ -116,7 +116,7 @@ class gsuiDAW extends HTMLElement {
 				.then( res => res.text(), GSUI.noop )
 				.then( res => {
 					dt.spin = "";
-					dt.icon = res === this.getAttribute( "version" ) ? "check" : "warning";
+					dt.icon = res === GSUI.getAttr( this, "version" ) ? "check" : "warning";
 				} );
 		};
 		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.tap();
@@ -344,7 +344,7 @@ class gsuiDAW extends HTMLElement {
 			( saveMode === "local"
 				? this.#elements.cmpsLocalList
 				: this.#elements.cmpsCloudList ).append( root );
-			if ( `${ saveMode }:${ cmp.id }` === this.getAttribute( "currentcomposition" ) ) {
+			if ( `${ saveMode }:${ cmp.id }` === GSUI.getAttr( this, "currentcomposition" ) ) {
 				this.#loadComposition( saveMode, cmp.id );
 			}
 		}
@@ -452,8 +452,8 @@ class gsuiDAW extends HTMLElement {
 					e.target.parentNode.dataset.id );
 				break;
 			case "cmp-rename":
-				GSUI.popup.prompt( "Composition's title", "", this.getAttribute( "name" ), "Rename" )
-					.then( n => n && n !== this.getAttribute( "name" ) && this.#dispatch( "rename", n ) );
+				GSUI.popup.prompt( "Composition's title", "", GSUI.getAttr( this, "name" ), "Rename" )
+					.then( n => n && n !== GSUI.getAttr( this, "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "login":
 				GSUI.popup.custom( {
@@ -495,8 +495,8 @@ class gsuiDAW extends HTMLElement {
 				GSUI.popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
 				break;
 			case "tempo":
-				this.#popups.tempo.beatsPerMeasure.value = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
-				this.#popups.tempo.stepsPerBeat.value = +this.getAttribute( "timedivision" ).split( "/" )[ 1 ];
+				this.#popups.tempo.beatsPerMeasure.value = +GSUI.getAttr( this, "timedivision" ).split( "/" )[ 0 ];
+				this.#popups.tempo.stepsPerBeat.value = +GSUI.getAttr( this, "timedivision" ).split( "/" )[ 1 ];
 				this.#popups.tempo.bpm.value = GSUI.getAttrNum( this, "bpm" );
 				GSUI.popup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
 					.then( data => {
@@ -504,7 +504,7 @@ class gsuiDAW extends HTMLElement {
 							const newTimediv = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
 
 							if (
-								newTimediv !== this.getAttribute( "timedivision" ) ||
+								newTimediv !== GSUI.getAttr( this, "timedivision" ) ||
 								data.bpm !== GSUI.getAttrNum( this, "bpm" )
 							) {
 								this.#dispatch( "tempo", data );
@@ -515,11 +515,11 @@ class gsuiDAW extends HTMLElement {
 			case "settings":
 				this.#popups.settings.sampleRate.value = GSUI.getAttrNum( this, "samplerate" );
 				this.#popups.settings.timelineNumbering.value = GSUI.getAttrNum( this, "timelinenumbering" );
-				this.#popups.settings.windowsLowGraphics.checked = this.getAttribute( "windowslowgraphics" ) === "";
-				this.#popups.settings.uiRateRadio[ this.getAttribute( "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
-				if ( this.getAttribute( "uirate" ) !== "auto" ) {
-					this.#popups.settings.uiRateManualFPS.textContent = this.getAttribute( "uirate" ).padStart( 2, "0" );
-					this.#popups.settings.uiRateManualRange.value = this.getAttribute( "uirate" );
+				this.#popups.settings.windowsLowGraphics.checked = GSUI.getAttr( this, "windowslowgraphics" ) === "";
+				this.#popups.settings.uiRateRadio[ GSUI.getAttr( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
+				if ( GSUI.getAttr( this, "uirate" ) !== "auto" ) {
+					this.#popups.settings.uiRateManualFPS.textContent = GSUI.getAttr( this, "uirate" ).padStart( 2, "0" );
+					this.#popups.settings.uiRateManualRange.value = GSUI.getAttr( this, "uirate" );
 				}
 				GSUI.popup.custom( { title: "Settings", element: this.#popups.settings.root } )
 					.then( data => {
@@ -530,12 +530,12 @@ class gsuiDAW extends HTMLElement {
 							delete data.uiRateFPS;
 							if (
 								(
-									data.uiRate !== this.getAttribute( "uirate" ) &&
-									data.uiRate !== GSUI.getAttribute( this, "uirate" )
+									data.uiRate !== GSUI.getAttr( this, "uirate" ) &&
+									data.uiRate !== GSUI.getAttrNum( this, "uirate" )
 								) ||
 								data.sampleRate !== GSUI.getAttrNum( this, "samplerate" ) ||
 								data.timelineNumbering !== GSUI.getAttrNum( this, "timelinenumbering" ) ||
-								data.windowsLowGraphics !== ( this.getAttribute( "windowslowgraphics" ) === "" )
+								data.windowsLowGraphics !== ( GSUI.getAttr( this, "windowslowgraphics" ) === "" )
 							) {
 								this.#dispatch( "settings", data );
 							}

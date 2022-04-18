@@ -105,7 +105,7 @@ class gsuiOscillator extends HTMLElement {
 		const pan = prop === "pan" ? val : GSUI.getAttrNum( this, "pan" );
 
 		w0.type =
-		w1.type = prop === "type" ? val : this.getAttribute( "type" );
+		w1.type = prop === "type" ? val : GSUI.getAttr( this, "type" );
 		w0.amplitude = Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 );
 		w1.amplitude = Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 );
 		w0.draw();
@@ -146,7 +146,7 @@ class gsuiOscillator extends HTMLElement {
 		this.updateWave( "type", type );
 		this.#dispatch( "liveChange", "type", type );
 		this.#timeidType = setTimeout( () => {
-			if ( type !== this.getAttribute( "type" ) ) {
+			if ( type !== GSUI.getAttr( this, "type" ) ) {
 				GSUI.setAttr( this, "type", type );
 				this.#dispatch( "change", "type", type );
 			}

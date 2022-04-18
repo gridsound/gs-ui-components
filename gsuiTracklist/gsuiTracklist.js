@@ -42,7 +42,7 @@ class gsuiTracklist extends HTMLElement {
 		if ( inp.dataset.action === "rename" ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": inp.value = inp.parentNode.parentNode.getAttribute( "name" );
+				case "Escape": inp.value = GSUI.getAttr( inp.parentNode.parentNode, "name" );
 				case "Enter": inp.blur();
 			}
 		}

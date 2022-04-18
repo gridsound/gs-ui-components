@@ -267,7 +267,7 @@ class gsuiTimeline extends HTMLElement {
 				} else {
 					this.#dispatch( "inputCurrentTimeStart" );
 				}
-				this.#mousedownLoop = this.getAttribute( "loop" );
+				this.#mousedownLoop = GSUI.getAttr( this, "loop" );
 				this.#mousedownLoopA = this.loopA;
 				this.#mousedownLoopB = this.loopB;
 				document.addEventListener( "mousemove", this.#onmousemoveBind );
@@ -294,7 +294,7 @@ class gsuiTimeline extends HTMLElement {
 					const b = this.#mousedownLoopB + rel;
 					const loop = `${ a }-${ b }`;
 
-					if ( loop !== this.getAttribute( "loop" ) ) {
+					if ( loop !== GSUI.getAttr( this, "loop" ) ) {
 						GSUI.setAttr( this, "loop", loop );
 						this.#dispatch( "inputLoop", a, b );
 					}
@@ -321,7 +321,7 @@ class gsuiTimeline extends HTMLElement {
 						}
 						this.#mousedownBeat = this.#mousedownLoopA;
 					}
-					if ( loop !== this.getAttribute( "loop" ) ) {
+					if ( loop !== GSUI.getAttr( this, "loop" ) ) {
 						if ( aa !== bb ) {
 							GSUI.setAttr( this, "loop", loop );
 							this.#dispatch( "inputLoop", aa, bb );
@@ -339,11 +339,11 @@ class gsuiTimeline extends HTMLElement {
 		document.removeEventListener( "mouseup", this.#onmouseupBind );
 		switch ( this.#status ) {
 			case "draggingTime": {
-				const beat = this.getAttribute( "currenttime-preview" );
+				const beat = GSUI.getAttr( this, "currenttime-preview" );
 
 				this.removeAttribute( "currenttime-preview" );
 				this.#dispatch( "inputCurrentTimeEnd" );
-				if ( beat !== this.getAttribute( "currenttime" ) ) {
+				if ( beat !== GSUI.getAttr( this, "currenttime" ) ) {
 					GSUI.setAttr( this, "currenttime", beat );
 					this.#dispatch( "changeCurrentTime", +beat );
 				}
@@ -352,7 +352,7 @@ class gsuiTimeline extends HTMLElement {
 			case "draggingLoopHandleA":
 			case "draggingLoopHandleB":
 				this.#dispatch( "inputLoopEnd" );
-				if ( this.getAttribute( "loop" ) !== this.#mousedownLoop ) {
+				if ( GSUI.getAttr( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.loopA !== this.loopB ) {
 						this.#dispatch( "changeLoop", this.loopA, this.loopB );
 					} else {

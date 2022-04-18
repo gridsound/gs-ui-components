@@ -56,13 +56,13 @@ class gsuiTimewindow extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.#elements.panel.style.minWidth = `${ this.getAttribute( "panelsize" ) || 100 }px`;
+			this.#elements.panel.style.minWidth = `${ GSUI.getAttrNum( this, "panelsize" ) || 100 }px`;
 			this.append( ...this.#children );
 			if ( this.hasAttribute( "downpanel" ) ) {
 				this.#elements.panelDown.firstChild.onmousedown =
 				this.#elements.down.firstChild.onmousedown = this.#onmousedownExtend.bind( this, "down" );
 				this.#elements.panelDown.style.height =
-				this.#elements.down.style.height = `${ this.getAttribute( "downpanelsize" ) || 50 }px`;
+				this.#elements.down.style.height = `${ GSUI.getAttrNum( this, "downpanelsize" ) || 50 }px`;
 			} else {
 				this.#elements.panelDown.remove();
 				this.#elements.down.remove();

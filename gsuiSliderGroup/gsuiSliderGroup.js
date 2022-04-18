@@ -140,7 +140,7 @@ class gsuiSliderGroup extends HTMLElement {
 		return +( Math.round( val / this.#step ) * this.#step ).toFixed( 8 );
 	}
 	#updatePxPerBeat() {
-		const ppb = this.getAttribute( "pxperbeat" );
+		const ppb = GSUI.getAttrNum( this, "pxperbeat" );
 
 		this.#elements.slidersParent.style.fontSize = `${ ppb }px`;
 		if ( this.#elements.beatlines ) {
@@ -214,7 +214,7 @@ class gsuiSliderGroup extends HTMLElement {
 		const y = e.pageY - this.#bcr.top;
 		const min = this.#min;
 		const max = this.#max;
-		const xval = x / this.getAttribute( "pxperbeat" );
+		const xval = x / GSUI.getAttrNum( this, "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
 			: this.#roundVal( min + ( max - min ) *
