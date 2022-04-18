@@ -18,19 +18,19 @@ class GSUI {
 	static diffObjects( a, b ) {
 		let empty = true;
 		const diff = Object.entries( b ).reduce( ( diff, [ bk, bv ] ) => {
-				const av = a[ bk ],
-					newval = av === bv ? undefined :
-						typeof bv !== "object" || bv === null ? bv :
-						typeof av !== "object" || av === null
-							? Object.freeze( JSON.parse( JSON.stringify( bv ) ) )
-							: GSUI.diffObjects( av, bv );
+			const av = a[ bk ];
+			const newval = av === bv ? undefined :
+				typeof bv !== "object" || bv === null ? bv :
+				typeof av !== "object" || av === null
+					? Object.freeze( JSON.parse( JSON.stringify( bv ) ) )
+					: GSUI.diffObjects( av, bv );
 
-				if ( newval !== undefined ) {
-					empty = false;
-					diff[ bk ] = newval;
-				}
-				return diff;
-			}, {} );
+			if ( newval !== undefined ) {
+				empty = false;
+				diff[ bk ] = newval;
+			}
+			return diff;
+		}, {} );
 
 		Object.keys( a ).forEach( ak => {
 			if ( !( ak in b ) ) {
@@ -82,9 +82,9 @@ class GSUI {
 	}
 	static listenEvents( el, cbs ) {
 		el.addEventListener( "gsuiEvents", e => {
-			const d = e.detail,
-				cbs2 = cbs[ d.component ] || cbs.default,
-				fn = cbs2 && ( cbs2[ d.eventName ] || cbs2.default );
+			const d = e.detail;
+			const cbs2 = cbs[ d.component ] || cbs.default;
+			const fn = cbs2 && ( cbs2[ d.eventName ] || cbs2.default );
 
 			if ( fn && fn( d, e.target, e ) !== true ) {
 				e.stopPropagation();
@@ -140,8 +140,8 @@ class GSUI {
 		GSUI.#resizeObs.observe( el );
 	}
 	static unobserveSizeOf( el, fn ) {
-		const fns = GSUI.#resizeMap.get( el ),
-			fnInd = fns.indexOf( fn );
+		const fns = GSUI.#resizeMap.get( el );
+		const fnInd = fns.indexOf( fn );
 
 		GSUI.#resizeObs.unobserve( el );
 		if ( fnInd > -1 ) {
