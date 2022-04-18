@@ -7,7 +7,7 @@ class gsuiDrumrows extends HTMLElement {
 	#elDragover = null;
 	#elLinesParent = null;
 	#timeoutIdDragleave = null;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrumrows" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiDrumrows" );
 	#reorder = new gsuiReorder( {
 		rootElement: this,
 		direction: "column",
@@ -93,7 +93,7 @@ class gsuiDrumrows extends HTMLElement {
 		this.#lines.set( id, elLine );
 		this.append( html.root );
 		this.#elLinesParent.append( elLine );
-		GSUI.listenEvents( html.root, {
+		GSUI.listenEv( html.root, {
 			gsuiSlider: {
 				change: ( d, sli ) => this.#onchangeRowSlider( id, sli.dataset.prop, d.args[ 0 ] ),
 				input: ( d, sli ) => {

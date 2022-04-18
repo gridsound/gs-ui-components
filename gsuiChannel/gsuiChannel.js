@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiChannel extends HTMLElement {
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiChannel" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiChannel" );
 	#children = GSUI.getTemplate( "gsui-channel" );
 	#elements = GSUI.findElements( this.#children, {
 		name: ".gsuiChannel-name",
@@ -17,7 +17,7 @@ class gsuiChannel extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiSlider: {
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,

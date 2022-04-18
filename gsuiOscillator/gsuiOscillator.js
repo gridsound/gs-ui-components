@@ -2,7 +2,7 @@
 
 class gsuiOscillator extends HTMLElement {
 	#timeidType = null;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiOscillator" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiOscillator" );
 	#selectWaves = {
 		sine: true,
 		triangle: true,
@@ -37,7 +37,7 @@ class gsuiOscillator extends HTMLElement {
 		this.#elements.wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.#elements.waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.#elements.remove.onclick = () => this.#dispatch( "remove" );
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiSlider: {
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,

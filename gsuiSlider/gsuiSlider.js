@@ -17,7 +17,7 @@ class gsuiSlider extends HTMLElement {
 	#pxval = 0;
 	#pxmoved = 0;
 	#svgLineLen = 0;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlider" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiSlider" );
 	#children = GSUI.getTemplate( "gsui-slider" );
 	#elements = GSUI.findElements( this.#children, {
 		input: ".gsuiSlider-input",

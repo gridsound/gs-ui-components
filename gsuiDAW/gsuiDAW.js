@@ -12,7 +12,7 @@ class gsuiDAW extends HTMLElement {
 	#cmpSaveMode = "local";
 	#currentActionInd = -1;
 	#actions = null;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDAW" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiDAW" );
 	#children = GSUI.getTemplate( "gsui-daw" );
 	#timeSelecting = false;
 	#elements = GSUI.findElements( this.#children, {
@@ -136,7 +136,7 @@ class gsuiDAW extends HTMLElement {
 				this.#dispatch( "export" );
 			}
 		};
-		GSUI.listenEvents( this.#elements.volume, {
+		GSUI.listenEv( this.#elements.volume, {
 			gsuiSlider: {
 				input: d => this.#dispatch( "volume", d.args[ 0 ] ),
 				inputStart: GSUI.noop,
@@ -144,7 +144,7 @@ class gsuiDAW extends HTMLElement {
 				change: GSUI.noop,
 			},
 		} );
-		GSUI.listenEvents( this.#elements.currentTime, {
+		GSUI.listenEv( this.#elements.currentTime, {
 			gsuiSlider: {
 				inputStart: d => {
 					this.#timeSelecting = true;

@@ -12,7 +12,7 @@ class gsuiTimeline extends HTMLElement {
 	#mousedownBeat = 0;
 	#mousedownLoopA = 0;
 	#mousedownLoopB = 0;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiTimeline" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiTimeline" );
 	#onscrollBind = this.#onscroll.bind( this );
 	#onresizeBind = this.#onresize.bind( this );
 	#onmouseupBind = this.#onmouseup.bind( this );

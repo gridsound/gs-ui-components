@@ -3,7 +3,7 @@
 class gsuiEnvelope extends HTMLElement {
 	#dur = 4;
 	#waveWidth = 300;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEnvelope" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiEnvelope" );
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-envelope" );
 	#elements = GSUI.findElements( this.#children, {
@@ -23,7 +23,7 @@ class gsuiEnvelope extends HTMLElement {
 		Object.seal( this );
 
 		this.onchange = this.#onchangeForm.bind( this );
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiSlider: {
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,

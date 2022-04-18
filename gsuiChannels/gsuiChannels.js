@@ -25,7 +25,7 @@ class gsuiChannels extends HTMLElement {
 		Object.seal( this );
 
 		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiChannel: {
 				liveChange: ( d, chan ) => this.oninput( chan.dataset.id, ...d.args ),
 				change: ( d, chan ) => this.onchange( "changeChannel", chan.dataset.id, ...d.args ),

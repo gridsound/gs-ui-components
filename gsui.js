@@ -74,13 +74,13 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static dispatchEvent( el, component, eventName, ...args ) {
+	static dispatchEv( el, component, eventName, ...args ) {
 		el.dispatchEvent( new CustomEvent( "gsuiEvents", {
 			bubbles: true,
 			detail: { component, eventName, args },
 		} ) );
 	}
-	static listenEvents( el, cbs ) {
+	static listenEv( el, cbs ) {
 		el.addEventListener( "gsuiEvents", e => {
 			const d = e.detail;
 			const cbs2 = cbs[ d.component ] || cbs.default;

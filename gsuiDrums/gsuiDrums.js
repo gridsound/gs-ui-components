@@ -31,7 +31,7 @@ class gsuiDrums extends HTMLElement {
 	#elHover = this.#elDrumHover;
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiDrums" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiDrums" );
 
 	constructor() {
 		super();
@@ -39,7 +39,7 @@ class gsuiDrums extends HTMLElement {
 		this.drumrows = GSUI.createElem( "gsui-drumrows" );
 		Object.seal( this );
 
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiTimewindow: {
 				pxperbeat: d => {
 					this.setPxPerBeat( d.args[ 0 ] );

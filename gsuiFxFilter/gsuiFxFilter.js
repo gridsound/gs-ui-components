@@ -11,7 +11,7 @@ class gsuiFxFilter extends HTMLElement {
 		detune: a => a,
 		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
 	};
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiFxFilter" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiFxFilter" );
 	#children = GSUI.getTemplate( "gsui-fx-filter" );
 	#elements = GSUI.findElements( this.#children, {
 		type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
@@ -41,7 +41,7 @@ class gsuiFxFilter extends HTMLElement {
 		Object.seal( this );
 
 		this.#elements.type.onclick = this.#onclickType.bind( this );
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiSlider: {
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,

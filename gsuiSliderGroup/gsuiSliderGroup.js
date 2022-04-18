@@ -230,7 +230,7 @@ class gsuiSliderGroup extends HTMLElement {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
 				sli.value = rval;
 				this.#sliderValue( sli, rval );
-				GSUI.dispatchEvent( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
+				GSUI.dispatchEv( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
 			}
 		} );
 	}
@@ -248,9 +248,9 @@ class gsuiSliderGroup extends HTMLElement {
 			}
 		} );
 		if ( arr.length ) {
-			GSUI.dispatchEvent( this, "gsuiSliderGroup", "change", arr );
+			GSUI.dispatchEv( this, "gsuiSliderGroup", "change", arr );
 		}
-		GSUI.dispatchEvent( this, "gsuiSliderGroup", "inputEnd" );
+		GSUI.dispatchEv( this, "gsuiSliderGroup", "inputEnd" );
 	}
 }
 

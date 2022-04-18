@@ -3,7 +3,7 @@
 class gsuiLFO extends HTMLElement {
 	#dur = 4;
 	#waveWidth = 300;
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiLFO" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiLFO" );
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-lfo" );
 	#elements = GSUI.findElements( this.#children, {
@@ -22,7 +22,7 @@ class gsuiLFO extends HTMLElement {
 		Object.seal( this );
 
 		this.onchange = this.#onchangeForm.bind( this );
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiSlider: {
 				inputStart: GSUI.noop,
 				inputEnd: GSUI.noop,

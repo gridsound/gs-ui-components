@@ -66,15 +66,14 @@ class gsuiSynthesizer extends HTMLElement {
 		gsuiReorder.listReorder( this.#elements.oscList, obj );
 	}
 
-	// events:
 	// .........................................................................
 	#onclickNewOsc() {
-		GSUI.dispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
+		GSUI.dispatchEv( this, "gsuiSynthesizer", "addOscillator" );
 	}
 	#onchangeReorder() {
 		const oscs = gsuiReorder.listComputeOrderChange( this.#elements.oscList, {} );
 
-		GSUI.dispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
+		GSUI.dispatchEv( this, "gsuiSynthesizer", "reorderOscillator", oscs );
 	}
 }
 

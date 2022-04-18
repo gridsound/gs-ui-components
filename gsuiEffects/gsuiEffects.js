@@ -3,7 +3,7 @@
 class gsuiEffects extends HTMLElement {
 	static fxsMap = new Map();
 	#fxsHtml = new Map();
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiEffects" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiEffects" );
 	#children = GSUI.getTemplate( "gsui-effects" );
 	#elements = GSUI.findElements( this.#children, {
 		list: ".gsuiEffects-list",
@@ -27,7 +27,7 @@ class gsuiEffects extends HTMLElement {
 			handleSelector: ".gsuiEffects-fx-grip",
 			parentSelector: ".gsuiEffects-list",
 		} );
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			default: {
 				liveChange( d, t ) {
 					d.args.unshift( t.dataset.id );

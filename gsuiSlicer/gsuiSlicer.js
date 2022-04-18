@@ -15,7 +15,7 @@ class gsuiSlicer extends HTMLElement {
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
 	#onresizeBind = this.#onresize.bind( this );
-	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" );
+	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiSlicer" );
 	#children = GSUI.getTemplate( "gsui-slicer" );
 	#waveDef = GSUI.createElemSVG( "polyline" );
 	#elements = GSUI.findElements( this.#children, {

@@ -38,7 +38,7 @@ class gsuiPatternroll extends HTMLElement {
 		this.oneditBlock = null;
 		Object.seal( this );
 
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiTimewindow: {
 				pxperbeat: d => this.#ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
 				lineheight: d => this.#ongsuiTimewindowLineheight( d.args[ 0 ] ),

@@ -28,7 +28,7 @@ class gsuiTimewindow extends HTMLElement {
 		this.timeline = this.#elements.timeline;
 		Object.seal( this );
 
-		GSUI.listenEvents( this, {
+		GSUI.listenEv( this, {
 			gsuiTimeline: {
 				inputCurrentTime: GSUI.noop,
 				changeCurrentTime: d => {
@@ -169,7 +169,7 @@ class gsuiTimewindow extends HTMLElement {
 
 				GSUI.setAttr( this, "pxperbeat", ppbNew );
 				this.scrollLeft = scrollPpb * ppbNew + scrollIncr;
-				GSUI.dispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
+				GSUI.dispatchEv( this, "gsuiTimewindow", "pxperbeat", ppbNew );
 			}
 		}
 	}
@@ -190,7 +190,7 @@ class gsuiTimewindow extends HTMLElement {
 
 				GSUI.setAttr( this, "lineheight", lhNew );
 				this.scrollTop = scrollLh * lhNew + scrollIncr;
-				GSUI.dispatchEvent( this, "gsuiTimewindow", "lineheight", lhNew );
+				GSUI.dispatchEv( this, "gsuiTimewindow", "lineheight", lhNew );
 			}
 		}
 	}
