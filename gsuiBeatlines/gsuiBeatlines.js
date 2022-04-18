@@ -25,17 +25,17 @@ class gsuiBeatlines extends HTMLElement {
 
 	// .........................................................................
 	static #background( deg, bPM, sPB, colored ) {
-		return `
-			${ gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.15)", 1 / sPB ) },
-			${ gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.25)", 1 ) },
-			${ gsuiBeatlines.#repeat( deg, "1px", "rgba(0,0,0,.5)", bPM ) }
-			${ colored
+		return (
+			gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.15)", 1 / sPB, "," ) +
+			gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.25)", 1, "," ) +
+			gsuiBeatlines.#repeat( deg, "1px", "rgba(0,0,0,.5)", bPM, "" ) +
+			( colored
 				? `,repeating-linear-gradient(${ deg }deg, rgba(0,0,0,.08), rgba(0,0,0,.08) 1em, transparent 1em, transparent 2em)`
-				: "" }
-		`;
+				: "" )
+		);
 	}
-	static #repeat( deg, w, col, em ) {
-		return `repeating-linear-gradient(${ deg }deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)`;
+	static #repeat( deg, w, col, em, sep ) {
+		return `repeating-linear-gradient(${ deg }deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)${ sep }`;
 	}
 }
 
