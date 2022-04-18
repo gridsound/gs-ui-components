@@ -63,8 +63,8 @@ class gsuiEffects extends HTMLElement {
 		this.expandEffect( id, !root.classList.contains( "gsuiEffects-fx-expanded" ) );
 	}
 	expandEffect( id, b ) {
-		const html = this.#fxsHtml.get( id ),
-			type = html.root.dataset.type;
+		const html = this.#fxsHtml.get( id );
+		const type = html.root.dataset.type;
 
 		html.root.classList.toggle( "gsuiEffects-fx-expanded", b );
 		html.expand.dataset.icon = b ? "caret-down" : "caret-right";
@@ -73,20 +73,20 @@ class gsuiEffects extends HTMLElement {
 
 	// .........................................................................
 	addEffect( id, fx ) {
-		const root = GSUI.getTemplate( "gsui-effects-fx" ),
-			name = root.querySelector( ".gsuiEffects-fx-name" ),
-			expand = root.querySelector( ".gsuiEffects-fx-expand" ),
-			toggle = root.querySelector( ".gsuiEffects-fx-toggle" ),
-			remove = root.querySelector( ".gsuiEffects-fx-remove" ),
-			content = root.querySelector( ".gsuiEffects-fx-content" ),
-			fxAsset = gsuiEffects.fxsMap.get( fx.type ),
-			uiFx = new fxAsset.cmp(),
-			html = Object.seal( {
-				uiFx,
-				root,
-				expand,
-				content,
-			} );
+		const root = GSUI.getTemplate( "gsui-effects-fx" );
+		const name = root.querySelector( ".gsuiEffects-fx-name" );
+		const expand = root.querySelector( ".gsuiEffects-fx-expand" );
+		const toggle = root.querySelector( ".gsuiEffects-fx-toggle" );
+		const remove = root.querySelector( ".gsuiEffects-fx-remove" );
+		const content = root.querySelector( ".gsuiEffects-fx-content" );
+		const fxAsset = gsuiEffects.fxsMap.get( fx.type );
+		const uiFx = new fxAsset.cmp();
+		const html = Object.seal( {
+			uiFx,
+			root,
+			expand,
+			content,
+		} );
 
 		expand.onclick = () => this.expandToggleEffect( id );
 		toggle.onclick = () => this.#dispatch( "toggleEffect", id );
@@ -138,8 +138,8 @@ class gsuiEffects extends HTMLElement {
 		return opt;
 	}
 	#fillSelect() {
-		const def = this.#createOption( false, "", "-- Select an Fx" ),
-			options = [ def ];
+		const def = this.#createOption( false, "", "-- Select an Fx" );
+		const options = [ def ];
 
 		gsuiEffects.fxsMap.forEach( ( fx, id ) => {
 			options.push( this.#createOption( true, id, fx.name ) );

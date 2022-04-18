@@ -134,8 +134,8 @@ class gsuiBlocksManager {
 			case "b": // copy paste
 				if ( e.ctrlKey || e.altKey ) {
 					if ( this.#blcsSelected.size ) {
-						let whenMin = Infinity,
-							whenMax = 0;
+						let whenMin = Infinity;
+						let whenMax = 0;
 
 						blcsEditing.clear();
 						this.#blcsSelected.forEach( ( blc, id ) => {
@@ -271,9 +271,9 @@ class gsuiBlocksManager {
 		}
 	}
 	static #onmousemoveCrop() {
-		const croppingB = this.#status === "cropping-b",
-			cropBrut = this.#beatSnap * Math.round( ( this.#mmWhen - this.#mdWhen ) / this.#beatSnap ),
-			crop = Math.max( this.#valueAMin, Math.min( cropBrut, this.#valueAMax ) );
+		const croppingB = this.#status === "cropping-b";
+		const cropBrut = this.#beatSnap * Math.round( ( this.#mmWhen - this.#mdWhen ) / this.#beatSnap );
+		const crop = Math.max( this.#valueAMin, Math.min( cropBrut, this.#valueAMax ) );
 
 		if ( crop !== this.#valueA ) {
 			this.#valueA = crop;
@@ -295,9 +295,9 @@ class gsuiBlocksManager {
 	}
 	static #onmousemoveMove() {
 		const when = Math.max( this.#valueAMin,
-				Math.round( ( this.#mmWhen - this.#mdWhen ) / this.#beatSnap ) * this.#beatSnap ),
-			rows = Math.max( this.#valueBMin, Math.min( this.#valueBMax,
-				this.getRowIndexByPageY( this.#mmPageY ) - this.#mdRowInd ) );
+			Math.round( ( this.#mmWhen - this.#mdWhen ) / this.#beatSnap ) * this.#beatSnap );
+		const rows = Math.max( this.#valueBMin, Math.min( this.#valueBMax,
+			this.getRowIndexByPageY( this.#mmPageY ) - this.#mdRowInd ) );
 
 		if ( when !== this.#valueA ) {
 			this.#valueA = when;
@@ -327,35 +327,35 @@ class gsuiBlocksManager {
 		}
 	}
 	static #onmousemoveSelection2() {
-		const rowH = this.#fontSize,
-			st = this.#elSelection.style,
-			rowIndB = this.getRowIndexByPageY( this.#mmPageY ),
-			when = Math.min( this.#mdWhen, this.#mmWhen ),
-			duration = this.#getBeatSnap() + Math.abs( this.#mdWhen - this.#mmWhen ),
-			topRow = Math.min( this.#mdRowInd, rowIndB ),
-			bottomRow = Math.max( this.#mdRowInd, rowIndB ),
-			rowA = this.getRowByIndex( topRow ),
-			rowB = this.getRowByIndex( bottomRow ),
-			blcs = Object.entries( this.#data ).reduce( ( map, [ id, blc ] ) => {
-				if ( !this.#blcsSelected.has( id ) &&
+		const rowH = this.#fontSize;
+		const st = this.#elSelection.style;
+		const rowIndB = this.getRowIndexByPageY( this.#mmPageY );
+		const when = Math.min( this.#mdWhen, this.#mmWhen );
+		const duration = this.#getBeatSnap() + Math.abs( this.#mdWhen - this.#mmWhen );
+		const topRow = Math.min( this.#mdRowInd, rowIndB );
+		const bottomRow = Math.max( this.#mdRowInd, rowIndB );
+		const rowA = this.getRowByIndex( topRow );
+		const rowB = this.getRowByIndex( bottomRow );
+		const blcs = Object.entries( this.#data ).reduce( ( map, [ id, blc ] ) => {
+			if ( !this.#blcsSelected.has( id ) &&
 					blc.when < when + duration &&
 					blc.when + blc.duration > when
-				) {
-					const elBlc = this.#blcs.get( id ),
-						pA = rowA.compareDocumentPosition( elBlc ),
-						pB = rowB.compareDocumentPosition( elBlc );
+			) {
+				const elBlc = this.#blcs.get( id );
+				const pA = rowA.compareDocumentPosition( elBlc );
+				const pB = rowB.compareDocumentPosition( elBlc );
 
-					if ( pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
+				if ( pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
 						pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
-						pA & Node.DOCUMENT_POSITION_FOLLOWING &&
+					pA & Node.DOCUMENT_POSITION_FOLLOWING &&
 						pB & Node.DOCUMENT_POSITION_PRECEDING )
-					) {
-						this.#blockDOMChange( elBlc, "selected", true );
-						map.set( id, elBlc );
-					}
+				) {
+					this.#blockDOMChange( elBlc, "selected", true );
+					map.set( id, elBlc );
 				}
-				return map;
-			}, new Map() );
+			}
+			return map;
+		}, new Map() );
 
 		st.top = `${ topRow * rowH }px`;
 		st.left = `${ when * this.#pxPerBeat }px`;

@@ -119,8 +119,8 @@ class gsuiSlider extends HTMLElement {
 	}
 	setValue( val, bymouse ) {
 		if ( !this.#locked || bymouse ) {
-			const prevVal = this.#getInputVal(),
-				newVal = ( this.#elements.input.value = val, this.#getInputVal() );
+			const prevVal = this.#getInputVal();
+			const newVal = ( this.#elements.input.value = val, this.#getInputVal() );
 
 			if ( newVal !== prevVal ) {
 				this.#updateVal();
@@ -140,9 +140,9 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	#setType( type ) {
-		const st = this.#elements.lineColor.style,
-			circ = type === "circular",
-			axeX = type === "linear-x";
+		const st = this.#elements.lineColor.style;
+		const circ = type === "circular";
+		const axeX = type === "linear-x";
 
 		this.#circ = circ;
 		this.#axeX = axeX;
@@ -164,9 +164,9 @@ class gsuiSlider extends HTMLElement {
 	}
 	#setSVGcirc() {
 		if ( this.#circ && this.width && this.height ) {
-			const size = Math.min( this.width, this.height ),
-				cx = size / 2,
-				r = ~~( ( size - this.#strokeWidth ) / 2 );
+			const size = Math.min( this.width, this.height );
+			const cx = size / 2;
+			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
 			GSUI.setAttribute( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
 			GSUI.setAttributes( this.#elements.svgLine, { r, cx, cy: cx, } );
@@ -196,11 +196,11 @@ class gsuiSlider extends HTMLElement {
 	#updateVal() {
 		this.value = +this.#getInputVal();
 		if ( this.#connected ) {
-			const len = this.#getRange(),
-				prcval = ( this.value - this.#min ) / len,
-				prcstart = -this.#min / len,
-				prclen = Math.abs( prcval - prcstart ),
-				prcmin = Math.min( prcval, prcstart );
+			const len = this.#getRange();
+			const prcval = ( this.value - this.#min ) / len;
+			const prcstart = -this.#min / len;
+			const prclen = Math.abs( prcval - prcstart );
+			const prcmin = Math.min( prcval, prcstart );
 
 			if ( this.#circ ) {
 				const line = this.#elements.svgLineColor.style;
@@ -248,9 +248,9 @@ class gsuiSlider extends HTMLElement {
 	}
 	#onmousemove( e ) {
 		if ( this.#locked ) {
-			const bound = this.#getRange() / 5,
-				mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX,
-				val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval;
+			const bound = this.#getRange() / 5;
+			const mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX;
+			const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval;
 
 			if ( this.#min - bound < val && val < this.#max + bound ) {
 				this.#pxmoved += mov;

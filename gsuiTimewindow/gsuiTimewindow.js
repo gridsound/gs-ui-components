@@ -144,24 +144,24 @@ class gsuiTimewindow extends HTMLElement {
 
 	// .........................................................................
 	#onclickStep() {
-		const v = +this.getAttribute( "step" ),
-			frac =
-				v >= 1 ? 2 :
-				v >= .5 ? 4 :
-				v >= .25 ? 8 : 1;
+		const v = +this.getAttribute( "step" );
+		const frac =
+			v >= 1 ? 2 :
+			v >= .5 ? 4 :
+			v >= .25 ? 8 : 1;
 
 		GSUI.setAttribute( this, "step", 1 / frac );
 	}
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
-			const ppb = this.#pxPerBeat,
-				min = +this.getAttribute( "pxperbeatmin" ) || 8,
-				max = +this.getAttribute( "pxperbeatmax" ) || 512,
-				offpx = parseInt( this.#elements.panel.style.minWidth ),
-				mousepx = e.pageX - this.getBoundingClientRect().left - offpx,
-				scrollPpb = this.scrollLeft / ppb,
-				mul = e.deltaY > 0 ? .9 : 1.1,
-				ppbNew = Math.round( Math.min( Math.max( min, ppb * mul ), max ) );
+			const ppb = this.#pxPerBeat;
+			const min = +this.getAttribute( "pxperbeatmin" ) || 8;
+			const max = +this.getAttribute( "pxperbeatmax" ) || 512;
+			const offpx = parseInt( this.#elements.panel.style.minWidth );
+			const mousepx = e.pageX - this.getBoundingClientRect().left - offpx;
+			const scrollPpb = this.scrollLeft / ppb;
+			const mul = e.deltaY > 0 ? .9 : 1.1;
+			const ppbNew = Math.round( Math.min( Math.max( min, ppb * mul ), max ) );
 
 			e.preventDefault();
 			if ( ppbNew !== ppb ) {
@@ -175,14 +175,14 @@ class gsuiTimewindow extends HTMLElement {
 	}
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
-			const lh = this.#lineHeight,
-				min = +this.getAttribute( "lineheightmin" ) || 24,
-				max = +this.getAttribute( "lineheightmax" ) || 256,
-				offpx = parseInt( this.#elements.timeline.clientHeight ),
-				mousepx = e.pageY - this.getBoundingClientRect().top - offpx,
-				scrollLh = this.scrollTop / lh,
-				mul = e.deltaY > 0 ? .9 : 1.1,
-				lhNew = Math.round( Math.min( Math.max( min, lh * mul ), max ) );
+			const lh = this.#lineHeight;
+			const min = +this.getAttribute( "lineheightmin" ) || 24;
+			const max = +this.getAttribute( "lineheightmax" ) || 256;
+			const offpx = parseInt( this.#elements.timeline.clientHeight );
+			const mousepx = e.pageY - this.getBoundingClientRect().top - offpx;
+			const scrollLh = this.scrollTop / lh;
+			const mul = e.deltaY > 0 ? .9 : 1.1;
+			const lhNew = Math.round( Math.min( Math.max( min, lh * mul ), max ) );
 
 			e.preventDefault();
 			if ( lhNew !== lh ) {
@@ -210,18 +210,18 @@ class gsuiTimewindow extends HTMLElement {
 		document.addEventListener( "mouseup", this.#onmouseupExtendBind );
 	}
 	#onmousemoveExtendPanel( e ) {
-		const w = this.#panelSize + ( e.pageX - this.#mousedownPageX ),
-			min = +this.getAttribute( "panelsizemin" ) || 50,
-			max = +this.getAttribute( "panelsizemax" ) || 260,
-			w2 = Math.max( min, Math.min( w, max ) );
+		const w = this.#panelSize + ( e.pageX - this.#mousedownPageX );
+		const min = +this.getAttribute( "panelsizemin" ) || 50;
+		const max = +this.getAttribute( "panelsizemax" ) || 260;
+		const w2 = Math.max( min, Math.min( w, max ) );
 
 		this.#elements.panel.style.minWidth = `${ w2 }px`;
 	}
 	#onmousemoveExtendDownPanel( e ) {
-		const h = this.#panelSize + ( this.#mousedownPageY - e.pageY ),
-			min = +this.getAttribute( "downpanelsizemin" ) || 50,
-			max = +this.getAttribute( "downpanelsizemax" ) || 260,
-			h2 = Math.max( min, Math.min( h, max ) );
+		const h = this.#panelSize + ( this.#mousedownPageY - e.pageY );
+		const min = +this.getAttribute( "downpanelsizemin" ) || 50;
+		const max = +this.getAttribute( "downpanelsizemax" ) || 260;
+		const h2 = Math.max( min, Math.min( h, max ) );
 
 		this.#elements.panelDown.style.height =
 		this.#elements.down.style.height = `${ h2 }px`;

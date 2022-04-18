@@ -44,15 +44,15 @@ class gsuiSpectrum extends HTMLElement {
 		[ 200, 200,  20, 1   ], // 8
 	];
 	static draw( ctx, data, width = data.length ) {
-		const img = ctx.createImageData( width, 1 ),
-			imgData = img.data,
-			datalen = data.length;
+		const img = ctx.createImageData( width, 1 );
+		const imgData = img.data;
+		const datalen = data.length;
 		let diSave = -1;
 
 		for ( let i = 0; i < width; ++i ) {
-			const x = i * 4,
-				di = Math.max( Math.round( datalen * ( 2 ** ( ( i / width ) * 11 - 11 ) ) ), diSave + 1 ),
-				datum = 1 - Math.cos( data[ di ] / 255 * Math.PI / 2 );
+			const x = i * 4;
+			const di = Math.max( Math.round( datalen * ( 2 ** ( ( i / width ) * 11 - 11 ) ) ), diSave + 1 );
+			const datum = 1 - Math.cos( data[ di ] / 255 * Math.PI / 2 );
 
 			diSave = di;
 			if ( datum < .05 ) {
@@ -60,9 +60,9 @@ class gsuiSpectrum extends HTMLElement {
 				imgData[ x + 1 ] = 4 + 10 * datum | 0;
 				imgData[ x + 2 ] = 5 + 20 * datum | 0;
 			} else {
-				const colId = gsuiSpectrum.#datumDivision.findIndex( x => datum < x ),
-					col = gsuiSpectrum.#colors[ colId ],
-					datumCut = datum / col[ 3 ];
+				const colId = gsuiSpectrum.#datumDivision.findIndex( x => datum < x );
+				const col = gsuiSpectrum.#colors[ colId ];
+				const datumCut = datum / col[ 3 ];
 
 				imgData[ x     ] = col[ 0 ] * datumCut | 0;
 				imgData[ x + 1 ] = col[ 1 ] * datumCut | 0;

@@ -6,15 +6,15 @@ class gsuiDrumsforms extends gsuiSVGDefs {
 	}
 
 	static #render( drums, drumrows, sPB ) {
-		const rowsArr = Object.entries( drumrows ),
-			drmW = 1 / sPB,
-			drmH = 1 / rowsArr.length,
-			orders = rowsArr
-				.sort( ( a, b ) => a[ 1 ].order - b[ 1 ].order )
-				.reduce( ( obj, [ id ], i ) => {
-					obj[ id ] = i;
-					return obj;
-				}, {} );
+		const rowsArr = Object.entries( drumrows );
+		const drmW = 1 / sPB;
+		const drmH = 1 / rowsArr.length;
+		const orders = rowsArr
+			.sort( ( a, b ) => a[ 1 ].order - b[ 1 ].order )
+			.reduce( ( obj, [ id ], i ) => {
+				obj[ id ] = i;
+				return obj;
+			}, {} );
 
 		return Object.values( drums )
 			.map( d => ( "gain" in d

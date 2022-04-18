@@ -30,9 +30,9 @@ class gsuiCurves extends HTMLElement {
 
 	// .........................................................................
 	resized() {
-		const bcr = this.#elements.svg.getBoundingClientRect(),
-			w = bcr.width,
-			h = bcr.height;
+		const bcr = this.#elements.svg.getBoundingClientRect();
+		const w = bcr.width;
+		const h = bcr.height;
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
@@ -84,15 +84,15 @@ class gsuiCurves extends HTMLElement {
 		} );
 	}
 	#updateHzTexts() {
-		const [ w, h ] = this.#size,
-			nb = this.#options.nbBands,
-			nyquist = this.#options.nyquist,
-			rects = [],
-			marks = [];
+		const [ w, h ] = this.#size;
+		const nb = this.#options.nbBands;
+		const nyquist = this.#options.nyquist;
+		const rects = [];
+		const marks = [];
 
 		for ( let i = 0; i < nb; ++i ) {
-			const x = i / nb * w | 0,
-				Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) );
+			const x = i / nb * w | 0;
+			const Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) );
 
 			marks.push( GSUI.createElementSVG( "text", {
 				class: "gsuiCurves-markText",
@@ -121,9 +121,9 @@ class gsuiCurves extends HTMLElement {
 		} ) );
 	}
 	#createPathD( curve ) {
-		const w = this.#size[ 0 ],
-			len = curve.length,
-			d = [ `M 0 ${ this.#dbToY( curve[ 0 ] ) } ` ];
+		const w = this.#size[ 0 ];
+		const len = curve.length;
+		const d = [ `M 0 ${ this.#dbToY( curve[ 0 ] ) } ` ];
 
 		for ( let i = 1; i < len; ++i ) {
 		    d.push( `L ${ i / len * w | 0 } ${ this.#dbToY( curve[ i ] ) } ` );
@@ -131,8 +131,8 @@ class gsuiCurves extends HTMLElement {
 		return d.join( "" );
 	}
 	#dbToY( db ) {
-		const h = this.#size[ 1 ],
-			y = 20 * Math.log( Math.max( db, .0001 ) ) / Math.LN10;
+		const h = this.#size[ 1 ];
+		const y = 20 * Math.log( Math.max( db, .0001 ) ) / Math.LN10;
 
 		return h / 2 - y * ( h / 100 );
 	}

@@ -75,8 +75,8 @@ class gsuiPatternroll extends HTMLElement {
 
 	// .........................................................................
 	addTrack( id ) {
-		const elTrack = this.#tracklist.addTrack( id ),
-			row = elTrack.rowElement;
+		const elTrack = this.#tracklist.addTrack( id );
+		const row = elTrack.rowElement;
 
 		row.classList.toggle( "gsui-row-small", this.#blcManager.getFontSize() <= 44 );
 		row.onmousedown = this.#rowMousedown.bind( this );
@@ -159,8 +159,8 @@ class gsuiPatternroll extends HTMLElement {
 	// .........................................................................
 	#getRowByTrackId( id ) { return this.#rowsByTrackId.get( id ); }
 	#incrTrackId( id, incr ) {
-		const row = this.#getRowByTrackId( id ),
-			rowInd = this.#blcManager.getRowIndexByRow( row ) + incr;
+		const row = this.#getRowByTrackId( id );
+		const rowInd = this.#blcManager.getRowIndexByRow( row ) + incr;
 
 		return this.#blcManager.getRowByIndex( rowInd ).dataset.id;
 	}
@@ -193,8 +193,8 @@ class gsuiPatternroll extends HTMLElement {
 				e.dataTransfer.getData( "pattern-keys" );
 
 		if ( padId ) {
-			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) ),
-				track = this.#blcManager.getRowByIndex( this.#blcManager.getRowIndexByPageY( e.pageY ) ).dataset.id;
+			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) );
+			const track = this.#blcManager.getRowByIndex( this.#blcManager.getRowIndexByPageY( e.pageY ) ).dataset.id;
 
 			this.onchange( "add", padId, when, track );
 		}

@@ -7,9 +7,9 @@ class gsuiWaveforms extends gsuiSVGDefs {
 		this.#isHD = b;
 	}
 	update( id, buf ) {
-		const polygon = GSUI.createElementSVG( "polygon" ),
-			w = this.#isHD ? 260 : buf.duration * 48 | 0,
-			h = 48;
+		const polygon = GSUI.createElementSVG( "polygon" );
+		const w = this.#isHD ? 260 : buf.duration * 48 | 0;
+		const h = 48;
 
 		gsuiWaveform.drawBuffer( polygon, w, h, buf );
 		return super.update( id, w, h, polygon );

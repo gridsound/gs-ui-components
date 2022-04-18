@@ -128,8 +128,8 @@ class gsuiPianoroll extends HTMLElement {
 		const blc = this.#win.querySelector( ".gsuiBlocksManager-block" );
 
 		if ( blc ) {
-			const key = +blc.dataset.keyNote,
-				maxRow = +this.#win.querySelector( ".gsui-row" ).dataset.midi;
+			const key = +blc.dataset.keyNote;
+			const maxRow = +this.#win.querySelector( ".gsui-row" ).dataset.midi;
 
 			this.#win.scrollTop = ( maxRow - key - 3.5 ) * this.#win.getAttribute( "lineheight" );
 		}
@@ -153,8 +153,8 @@ class gsuiPianoroll extends HTMLElement {
 	// Block's UI functions
 	// ........................................................................
 	addKey( id, obj ) {
-		const blc = GSUI.getTemplate( "gsui-pianoroll-block" ),
-			dragline = new gsuiDragline();
+		const blc = GSUI.getTemplate( "gsui-pianoroll-block" );
+		const dragline = new gsuiDragline();
 
 		blc.dataset.id = id;
 		blc.onmousedown = this.#blcMousedown.bind( this, id );
@@ -182,8 +182,8 @@ class gsuiPianoroll extends HTMLElement {
 		this.#blockDOMChange( blc, "next", obj.next );
 	}
 	removeKey( id ) {
-		const blc = this.#blcManager.getBlocks().get( id ),
-			blcPrev = this.#blcManager.getBlocks().get( blc.dataset.prev );
+		const blc = this.#blcManager.getBlocks().get( id );
+		const blcPrev = this.#blcManager.getBlocks().get( blc.dataset.prev );
 
 		blc.remove();
 		if ( blcPrev ) {
@@ -374,8 +374,8 @@ class gsuiPianoroll extends HTMLElement {
 		}
 	}
 	#onchangeSlidersSelect() {
-		const prop = this.#slidersSelect.value,
-			grp = this.#uiSliderGroup;
+		const prop = this.#slidersSelect.value;
+		const grp = this.#uiSliderGroup;
 
 		switch ( prop ) {
 			case "pan":          grp.options( { min: -1, max: 1, def:  0, step: .05 } ); break;
@@ -386,10 +386,10 @@ class gsuiPianoroll extends HTMLElement {
 			case "gainLFOSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
 		this.#blcManager.getBlocks().forEach( ( blc, id ) => {
-			const val = +blc.dataset[ prop ],
-				val2 = prop.startsWith( "gainLFO" )
-					? gsuiPianoroll.#mulToX( val )
-					: val;
+			const val = +blc.dataset[ prop ];
+			const val2 = prop.startsWith( "gainLFO" )
+				? gsuiPianoroll.#mulToX( val )
+				: val;
 
 			this.#uiSliderGroup.setProp( id, "value", val2 );
 		} );
@@ -398,9 +398,9 @@ class gsuiPianoroll extends HTMLElement {
 	// Key's functions
 	// ........................................................................
 	#getDropAreas( id ) {
-		const d = this.#blcManager.getBlocks().get( id ).dataset,
-			when = +d.when + +d.duration,
-			arr = [];
+		const d = this.#blcManager.getBlocks().get( id ).dataset;
+		const when = +d.when + +d.duration;
+		const arr = [];
 
 		this.#blcManager.getBlocks().forEach( blc => {
 			const d = blc.dataset;

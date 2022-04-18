@@ -54,9 +54,9 @@ class gsuiTracklist extends HTMLElement {
 		}
 	}
 	#onchange( e ) {
-		const inp = e.target,
-			id = inp.parentNode.parentNode.dataset.id,
-			name = inp.value.trim();
+		const inp = e.target;
+		const id = inp.parentNode.parentNode.dataset.id;
+		const name = inp.value.trim();
 
 		inp.disabled = true;
 		GSUI.dispatchEvent( this, "gsuiTracklist", "renameTrack", id, name );
@@ -72,8 +72,8 @@ class gsuiTracklist extends HTMLElement {
 	}
 	#onmousedown( e ) {
 		if ( e.target.dataset.action === "toggle" ) {
-			const par = e.target.parentNode,
-				id = par.dataset.id;
+			const par = e.target.parentNode;
+			const id = par.dataset.id;
 
 			if ( e.button === 2 ) {
 				GSUI.dispatchEvent( this, "gsuiTracklist", "toggleSoloTrack", id );

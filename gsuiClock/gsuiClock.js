@@ -80,9 +80,9 @@ class gsuiClock extends HTMLElement {
 		];
 	}
 	static parseBeatsToBeats( beats, bPM, sPB ) {
-		const measures = Math.floor( beats / bPM ),
-			steps = Math.floor( ( beats - measures * bPM ) * sPB ),
-			msteps = beats * sPB - Math.floor( beats * sPB );
+		const measures = Math.floor( beats / bPM );
+		const steps = Math.floor( ( beats - measures * bPM ) * sPB );
+		const msteps = beats * sPB - Math.floor( beats * sPB );
 
 		return [
 			`${ measures + gsuiClock.numberingOff }`,
@@ -94,8 +94,8 @@ class gsuiClock extends HTMLElement {
 	// .........................................................................
 	setTime( beats ) {
 		const [ a, b, c ] = this.getAttribute( "mode" ) === "second"
-				? gsuiClock.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) || 60 )
-				: gsuiClock.parseBeatsToBeats( beats, this.#bPM, this.#sPB );
+			? gsuiClock.parseBeatsToSeconds( beats, +this.getAttribute( "bpm" ) || 60 )
+			: gsuiClock.parseBeatsToBeats( beats, this.#bPM, this.#sPB );
 
 		this.#timeSave = beats;
 		this.#setValue( 0, a );

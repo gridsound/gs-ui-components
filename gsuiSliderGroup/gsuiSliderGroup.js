@@ -116,8 +116,8 @@ class gsuiSliderGroup extends HTMLElement {
 		this.#sliderSelectedClass();
 	}
 	set( id, when, duration, value ) {
-		const element = GSUI.getTemplate( "gsui-slidergroup-slider" ),
-			sli = Object.seal( { element, when, duration, value, selected: false } );
+		const element = GSUI.getTemplate( "gsui-slidergroup-slider" );
+		const sli = Object.seal( { element, when, duration, value, selected: false } );
 
 		element.dataset.id = id;
 		this.#sliders.set( id, sli );
@@ -171,14 +171,14 @@ class gsuiSliderGroup extends HTMLElement {
 			"gsuiSliderGroup-slidersSelected", this.#selected.size > 0 );
 	}
 	#sliderValue( sli, val ) {
-		const el = sli.element.firstElementChild,
-			st = el.style,
-			max = this.#max,
-			min = this.#min,
-			valNum = Number.isFinite( val ) ? val : this.#def,
-			sameDir = min >= 0 === max >= 0,
-			percX = Math.abs( valNum - ( sameDir ? min : 0 ) ) / ( max - min ) * 100,
-			perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
+		const el = sli.element.firstElementChild;
+		const st = el.style;
+		const max = this.#max;
+		const min = this.#min;
+		const valNum = Number.isFinite( val ) ? val : this.#def;
+		const sameDir = min >= 0 === max >= 0;
+		const percX = Math.abs( valNum - ( sameDir ? min : 0 ) ) / ( max - min ) * 100;
+		const perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
 
 		st.height = `${ percX }%`;
 		if ( el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", valNum < 0 ) ) {
@@ -208,16 +208,16 @@ class gsuiSliderGroup extends HTMLElement {
 	}
 	#mousemove( e ) {
 		const sliders = this.#selected.size > 0
-				? this.#selected
-				: this.#sliders,
-			x = e.pageX - this.#bcr.left,
-			y = e.pageY - this.#bcr.top,
-			min = this.#min,
-			max = this.#max,
-			xval = x / this.getAttribute( "pxperbeat" ),
-			rval = this.#button === 2
-				? this.#def
-				: this.#roundVal( min + ( max - min ) *
+			? this.#selected
+			: this.#sliders;
+		const x = e.pageX - this.#bcr.left;
+		const y = e.pageY - this.#bcr.top;
+		const min = this.#min;
+		const max = this.#max;
+		const xval = x / this.getAttribute( "pxperbeat" );
+		const rval = this.#button === 2
+			? this.#def
+			: this.#roundVal( min + ( max - min ) *
 					( 1 - Math.min( Math.max( 0, y / this.#bcr.height ), 1 ) ) );
 		let firstWhen = 0;
 

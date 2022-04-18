@@ -135,18 +135,18 @@ class gsuiPopup extends HTMLElement {
 		}
 	}
 	#submitCustom() {
-		const fn = this.#fnSubmit,
-			inps = Array.from( this.#elements.form ),
-			obj = inps.reduce( ( obj, inp ) => {
-				if ( inp.name ) {
-					const val = this.#getInputValue( inp );
+		const fn = this.#fnSubmit;
+		const inps = Array.from( this.#elements.form );
+		const obj = inps.reduce( ( obj, inp ) => {
+			if ( inp.name ) {
+				const val = this.#getInputValue( inp );
 
-					if ( val !== null ) {
-						obj[ inp.name ] = val;
-					}
+				if ( val !== null ) {
+					obj[ inp.name ] = val;
 				}
-				return obj;
-			}, {} );
+			}
+			return obj;
+		}, {} );
 
 		if ( !fn ) {
 			this.#resolve( obj );

@@ -29,9 +29,9 @@ class gsuiPeriodicWave extends HTMLElement {
 
 	// .........................................................................
 	resized() {
-		const bcr = this.getBoundingClientRect(),
-			w = ~~bcr.width,
-			h = ~~bcr.height;
+		const bcr = this.getBoundingClientRect();
+		const w = ~~bcr.width;
+		const h = ~~bcr.height;
 
 		this.width = w;
 		this.height = h;
@@ -50,21 +50,21 @@ class gsuiPeriodicWave extends HTMLElement {
 		}
 	}
 	#draw( wave ) {
-		const dur = this.duration,
-			w = this.width,
-			h2 = this.height / 2,
-			hz = this.frequency * dur,
-			amp = -this.amplitude * .95 * h2,
-			delX = w / dur * this.delay,
-			attX = w / dur * this.attack,
-			pts = new Float32Array( w * 2 );
+		const dur = this.duration;
+		const w = this.width;
+		const h2 = this.height / 2;
+		const hz = this.frequency * dur;
+		const amp = -this.amplitude * .95 * h2;
+		const delX = w / dur * this.delay;
+		const attX = w / dur * this.attack;
+		const pts = new Float32Array( w * 2 );
 
 		for ( let x = 0; x < w; ++x ) {
 			let y = h2;
 
 			if ( x > delX ) {
-				const xd = x - delX,
-					att = xd < attX ? xd / attX : 1;
+				const xd = x - delX;
+				const att = xd < attX ? xd / attX : 1;
 
 				y += wave[ xd / w * 256 * hz % 256 | 0 ] * amp * att;
 			}
@@ -86,8 +86,8 @@ class gsuiPeriodicWave extends HTMLElement {
 		const cache = gsuiPeriodicWave.cache;
 
 		if ( !cache[ name ] ) {
-			const arr = [],
-				fn = gsuiPeriodicWave.getXFromWave.bind( null, real, imag );
+			const arr = [];
+			const fn = gsuiPeriodicWave.getXFromWave.bind( null, real, imag );
 
 			for ( let x = 0; x < 256; ++x ) {
 				arr.push( fn( x / 256 ) );

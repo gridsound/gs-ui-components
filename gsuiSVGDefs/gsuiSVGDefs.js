@@ -53,12 +53,12 @@ class gsuiSVGDefs {
 		def.g.append( ...elems );
 	}
 	createSVG( id ) {
-		const def = this.#defs.get( id ) || {},
-			use = GSUI.createElementSVG( "use" ),
-			svg = GSUI.createElementSVG( "svg", {
-				preserveAspectRatio: "none",
-				viewBox: `0 0 ${ def.w || this.#w } ${ def.h || this.#h }`,
-			}, use );
+		const def = this.#defs.get( id ) || {};
+		const use = GSUI.createElementSVG( "use" );
+		const svg = GSUI.createElementSVG( "svg", {
+			preserveAspectRatio: "none",
+			viewBox: `0 0 ${ def.w || this.#w } ${ def.h || this.#h }`,
+		}, use );
 
 		svg.dataset.id = id;
 		use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#idPref }${ id }` );

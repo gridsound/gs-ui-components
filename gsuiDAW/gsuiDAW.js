@@ -300,8 +300,8 @@ class gsuiDAW extends HTMLElement {
 		}
 	}
 	#updateDuration() {
-		const dur = +this.getAttribute( "duration" ),
-			[ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, +this.getAttribute( "bpm" ) );
+		const dur = +this.getAttribute( "duration" );
+		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, +this.getAttribute( "bpm" ) );
 
 		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
 		GSUI.setAttribute( this.#elements.currentTime, "max", dur );
@@ -330,14 +330,14 @@ class gsuiDAW extends HTMLElement {
 		) {
 			this.updateComposition( cmp );
 		} else {
-			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } ),
-				html = GSUI.findElements( root, {
-					root: ".gsuiDAW-cmp",
-					bpm: ".gsuiDAW-cmp-bpm",
-					name: ".gsuiDAW-cmp-name",
-					save: "[data-action='cmp-save']",
-					duration: ".gsuiDAW-cmp-duration",
-				} );
+			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } );
+			const html = GSUI.findElements( root, {
+				root: ".gsuiDAW-cmp",
+				bpm: ".gsuiDAW-cmp-bpm",
+				name: ".gsuiDAW-cmp-name",
+				save: "[data-action='cmp-save']",
+				duration: ".gsuiDAW-cmp-duration",
+			} );
 
 			this.#cmps[ saveMode ].set( cmp.id, html );
 			this.updateComposition( cmp );
@@ -350,16 +350,16 @@ class gsuiDAW extends HTMLElement {
 		}
 	}
 	updateComposition( cmp ) {
-		const html = this.#cmps[ cmp.options.saveMode ].get( cmp.id ),
-			[ min, sec ] = gsuiClock.parseBeatsToSeconds( cmp.duration, cmp.bpm );
+		const html = this.#cmps[ cmp.options.saveMode ].get( cmp.id );
+		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( cmp.duration, cmp.bpm );
 
 		html.bpm.textContent = cmp.bpm;
 		html.name.textContent = cmp.name;
 		html.duration.textContent = `${ min }:${ sec }`;
 	}
 	deleteComposition( cmp ) {
-		const cmps = this.#cmps[ cmp.options.saveMode ],
-			html = cmps.get( cmp.id );
+		const cmps = this.#cmps[ cmp.options.saveMode ];
+		const html = cmps.get( cmp.id );
 
 		if ( html ) {
 			html.root.remove();
@@ -436,8 +436,8 @@ class gsuiDAW extends HTMLElement {
 				break;
 			case "cmp-json": {
 				const json = this.onExportJSON(
-						this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
-						e.target.parentNode.dataset.id );
+					this.#elements.cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
+					e.target.parentNode.dataset.id );
 
 				if ( json ) {
 					GSUI.setAttribute( e.target, "href", json.url );

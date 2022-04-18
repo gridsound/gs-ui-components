@@ -2,18 +2,18 @@
 
 class gsuiFxDelay {
 	constructor() {
-		const root = gsuiFxDelay.template.cloneNode( true ),
-			elEchoes = root.querySelector( ".gsuiFxDelay-echoes" ),
-			elLinkBtn = root.querySelector( ".gsuiFxDelay-echoesLink" ),
-			uiSliderZoom = new gsuiSlider(),
-			uiDotline = new gsuiDotline(),
-			blines = new gsuiBeatlines( elEchoes ),
-			gsdata = new GSDataFxDelay( {
-				actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
-				dataCallbacks: {
-					changeEchoes: uiDotline.change.bind( uiDotline ),
-				},
-			} );
+		const root = gsuiFxDelay.template.cloneNode( true );
+		const elEchoes = root.querySelector( ".gsuiFxDelay-echoes" );
+		const elLinkBtn = root.querySelector( ".gsuiFxDelay-echoesLink" );
+		const uiSliderZoom = new gsuiSlider();
+		const uiDotline = new gsuiDotline();
+		const blines = new gsuiBeatlines( elEchoes );
+		const gsdata = new GSDataFxDelay( {
+			actionCallback: ( obj, msg ) => this.onchange( obj, msg ),
+			dataCallbacks: {
+				changeEchoes: uiDotline.change.bind( uiDotline ),
+			},
+		} );
 
 		this.rootElement = root;
 		this.gsdata = gsdata;

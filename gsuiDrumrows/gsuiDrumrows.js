@@ -63,11 +63,11 @@ class gsuiDrumrows extends HTMLElement {
 		this.#rows.get( id ).root.querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"]` ).checked = true;
 	}
 	setDrumPropValue( rowId, prop, val ) {
-		const el = this.#getPropBtn( rowId, prop ),
-			fixval = prop === "detune" ? val : val.toFixed( 2 ),
-			txtval = prop !== "gain"
-				? `${ val > 0 ? "+" : "" }${ fixval }`
-				: fixval;
+		const el = this.#getPropBtn( rowId, prop );
+		const fixval = prop === "detune" ? val : val.toFixed( 2 );
+		const txtval = prop !== "gain"
+			? `${ val > 0 ? "+" : "" }${ fixval }`
+			: fixval;
 
 		el.classList.add( "gsuiDrumrow-propSpanValue" );
 		el.textContent = txtval;
@@ -82,12 +82,12 @@ class gsuiDrumrows extends HTMLElement {
 	// .........................................................................
 	add( id, elLine ) {
 		const html = GSUI.findElements( GSUI.getTemplate( "gsui-drumrow" ), {
-				root: ".gsuiDrumrow",
-				name: ".gsuiDrumrow-name",
-				detune: ".gsuiDrumrow-detune gsui-slider",
-				gain: ".gsuiDrumrow-gain gsui-slider",
-				pan: ".gsuiDrumrow-pan gsui-slider",
-			} );
+			root: ".gsuiDrumrow",
+			name: ".gsuiDrumrow-name",
+			detune: ".gsuiDrumrow-detune gsui-slider",
+			gain: ".gsuiDrumrow-gain gsui-slider",
+			pan: ".gsuiDrumrow-pan gsui-slider",
+		} );
 
 		html.root.dataset.id =
 		elLine.dataset.id = id;
@@ -163,12 +163,12 @@ class gsuiDrumrows extends HTMLElement {
 
 	// .........................................................................
 	#namePrint( id, prop, val ) {
-		const el = this.#rows.get( id ).name,
-			text = prop === "pan"
-				? `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }`
-				: prop === "gain"
-					? `gain: ${ val.toFixed( 2 ) }`
-					: `pitch: ${ val > 0 ? "+" : "" }${ val }`;
+		const el = this.#rows.get( id ).name;
+		const text = prop === "pan"
+			? `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }`
+			: prop === "gain"
+				? `gain: ${ val.toFixed( 2 ) }`
+				: `pitch: ${ val > 0 ? "+" : "" }${ val }`;
 
 		el.textContent = text;
 		el.classList.add( "gsuiDrumrow-nameInfo" );
@@ -254,9 +254,9 @@ class gsuiDrumrows extends HTMLElement {
 	}
 	#ondragoverRows( e ) {
 		if ( e.dataTransfer.types.includes( "pattern-buffer" ) ) {
-			const tar = e.target,
-				isParent = tar.nodeName === "GSUI-DRUMROWS",
-				elDragover = isParent ? tar : tar.closest( ".gsuiDrumrow" );
+			const tar = e.target;
+			const isParent = tar.nodeName === "GSUI-DRUMROWS";
+			const elDragover = isParent ? tar : tar.closest( ".gsuiDrumrow" );
 
 			clearTimeout( this.#timeoutIdDragleave );
 			this.#timeoutIdDragleave = setTimeout( () => this.#ondragleaveRows(), 125 );

@@ -114,8 +114,8 @@ class gsuiPatterns extends HTMLElement {
 
 	// .........................................................................
 	expandSynth( id, b ) {
-		const elSyn = this.#getSynth( id ),
-			show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
+		const elSyn = this.#getSynth( id );
+		const show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
 
 		elSyn.querySelector( ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
 	}
@@ -266,9 +266,9 @@ class gsuiPatterns extends HTMLElement {
 		if ( parA === parB ) {
 			this.#onreorderPatterns( parA, elPat );
 		} else {
-			const patId = elPat.dataset.id,
-				synth = parB.parentNode.dataset.id,
-				patterns = { [ patId ]: { synth } };
+			const patId = elPat.dataset.id;
+			const synth = parB.parentNode.dataset.id;
+			const patterns = { [ patId ]: { synth } };
 
 			gsuiReorder.listComputeOrderChange( parA, patterns );
 			gsuiReorder.listComputeOrderChange( parB, patterns );

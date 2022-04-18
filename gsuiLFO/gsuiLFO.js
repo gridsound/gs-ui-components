@@ -85,8 +85,8 @@ class gsuiLFO extends HTMLElement {
 
 	// .........................................................................
 	updateWave( prop, val ) {
-		const w = this.#elements.wave,
-			bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
+		const w = this.#elements.wave;
+		const bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
 
 		w.type = this.getAttribute( "type" );
 		w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );
@@ -153,8 +153,8 @@ class gsuiLFO extends HTMLElement {
 	}
 	#oninputSlider( prop, val ) {
 		const realval = prop !== "amp"
-				? val
-				: val * Math.sign( this.getAttribute( "amp" ) );
+			? val
+			: val * Math.sign( this.getAttribute( "amp" ) );
 
 		this.#elements.sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
 		this.updateWave( prop, realval );
@@ -162,8 +162,8 @@ class gsuiLFO extends HTMLElement {
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
-				? val * Math.sign( this.getAttribute( "amp" ) )
-				: val;
+			? val * Math.sign( this.getAttribute( "amp" ) )
+			: val;
 
 		GSUI.setAttribute( this, prop, nval );
 		this.#dispatch( "change", prop, nval );

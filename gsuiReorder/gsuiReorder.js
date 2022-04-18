@@ -57,8 +57,8 @@ class gsuiReorder {
 	}
 	_ondragstart( e ) {
 		if ( this._elClicked && this._elClicked.matches( this._handleSelector ) ) {
-			const elItem = e.target,
-				itemId = elItem.dataset.id;
+			const elItem = e.target;
+			const itemId = elItem.dataset.id;
 
 			document.addEventListener( "drop", this._ondrop );
 			this._elClicked = null;
@@ -84,17 +84,17 @@ class gsuiReorder {
 		const now = Date.now();
 
 		if ( this._elDragged && now - this._dragoverTime > 60 ) {
-			const tar = e.target,
-				elDrag = this._elDragged,
-				elOver = tar === this._elDragover
-					? this._itemDragover
-					: tar.closest( `${ this._parentSelector } ${ this._itemSelector }` );
+			const tar = e.target;
+			const elDrag = this._elDragged;
+			const elOver = tar === this._elDragover
+				? this._itemDragover
+				: tar.closest( `${ this._parentSelector } ${ this._itemSelector }` );
 
 			this._dragoverTime = now;
 			if ( !elOver ) {
 				const elOver = tar === this._elDragover
-						? this._parentDragover
-						: tar.closest( this._parentSelector );
+					? this._parentDragover
+					: tar.closest( this._parentSelector );
 
 				this._parentDragover = elOver;
 				if ( elOver && elOver.lastElementChild !== elDrag ) {
@@ -131,9 +131,9 @@ class gsuiReorder {
 	}
 	_ondragend() {
 		if ( this._elDragged ) {
-			const el = this._elDragged,
-				oldInd = this._indDragged,
-				oldPar = this._elDraggedParent;
+			const el = this._elDragged;
+			const oldInd = this._indDragged;
+			const oldPar = this._elDraggedParent;
 
 			this._elDragged =
 			this._elDragover =

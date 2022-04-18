@@ -182,11 +182,11 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	#onmousedownHead( e ) {
-		const clTar = e.target.classList,
-			clicked =
-				clTar.contains( "gsuiWindow-head" ) ||
-				clTar.contains( "gsuiWindow-title" ) ||
-				clTar.contains( "gsuiWindow-headContent" );
+		const clTar = e.target.classList;
+		const clicked =
+			clTar.contains( "gsuiWindow-head" ) ||
+			clTar.contains( "gsuiWindow-title" ) ||
+			clTar.contains( "gsuiWindow-headContent" );
 
 		if ( clicked && !this.#maximized ) {
 			this.#mousedownPos.x = e.clientX;
@@ -215,10 +215,10 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	#onmousemoveHead( e ) {
-		const x = e.clientX - this.#mousedownPos.x,
-			y = e.clientY - this.#mousedownPos.y,
-			mmPos = this.#mousemovePos,
-			magnet = this.#calcCSSmagnet( "nesw", x, y );
+		const x = e.clientX - this.#mousedownPos.x;
+		const y = e.clientY - this.#mousedownPos.y;
+		const mmPos = this.#mousemovePos;
+		const magnet = this.#calcCSSmagnet( "nesw", x, y );
 
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
@@ -228,8 +228,8 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	#onmouseupHead() {
-		const { x, y } = this.rect,
-			m = this.#mousemovePos;
+		const { x, y } = this.rect;
+		const m = this.#mousemovePos;
 
 		this.#setClass( "dragging", false );
 		this.#resetCSSrelative( this.#elements.wrap.style );
@@ -241,10 +241,10 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	#onmousemoveHandler( dir, e ) {
-		const mmPos = this.#mousemovePos,
-			x = e.clientX - this.#mousedownPos.x,
-			y = e.clientY - this.#mousedownPos.y,
-			magnet = this.#calcCSSmagnet( dir, x, y );
+		const mmPos = this.#mousemovePos;
+		const x = e.clientX - this.#mousedownPos.x;
+		const y = e.clientY - this.#mousedownPos.y;
+		const magnet = this.#calcCSSmagnet( dir, x, y );
 
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
@@ -255,8 +255,8 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	#onmouseupHandler( dir ) {
-		const { x, y, w, h } = this.rect,
-			m = this.#mousemovePos;
+		const { x, y, w, h } = this.rect;
+		const m = this.#mousemovePos;
 
 		this.#setClass( "dragging", false );
 		this.#resetCSSrelative( this.#elements.wrap.style );
@@ -283,27 +283,27 @@ class gsuiWindow extends HTMLElement {
 		return this.#elements.head.getBoundingClientRect().height;
 	}
 	#calcCSSmagnet( dir, x, y ) {
-		const rc = this.rect,
-			dirW = dir.includes( "w" ),
-			dirN = dir.includes( "n" ),
-			dirE = dir.includes( "e" ),
-			dirS = dir.includes( "s" ),
-			tx = dirW ? rc.x + x : rc.x,
-			ty = dirN ? rc.y + y : rc.y,
-			parBCR = this.#parent.getBoundingClientRect(),
-			wins = [
-				...this.#parent._arrWindows,
-				{
-					dataset: {},
-					rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 },
-				}
-			];
-		let mgX = 0,
-			mgY = 0;
+		const rc = this.rect;
+		const dirW = dir.includes( "w" );
+		const dirN = dir.includes( "n" );
+		const dirE = dir.includes( "e" );
+		const dirS = dir.includes( "s" );
+		const tx = dirW ? rc.x + x : rc.x;
+		const ty = dirN ? rc.y + y : rc.y;
+		const parBCR = this.#parent.getBoundingClientRect();
+		const wins = [
+			...this.#parent._arrWindows,
+			{
+				dataset: {},
+				rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 },
+			}
+		];
+		let mgX = 0;
+		let mgY = 0;
 
 		if ( dirE && dirW ) {
-			const mgXa = this.#findClosestWin( wins, "x", tx + rc.w, 2, 0 ),
-				mgXb = this.#findClosestWin( wins, "x", tx, 0, 2 );
+			const mgXa = this.#findClosestWin( wins, "x", tx + rc.w, 2, 0 );
+			const mgXb = this.#findClosestWin( wins, "x", tx, 0, 2 );
 
 			if ( mgXa || mgXb ) {
 				mgX = Math.abs( mgXa || Infinity ) < Math.abs( mgXb || Infinity ) ? mgXa : mgXb;
@@ -314,8 +314,8 @@ class gsuiWindow extends HTMLElement {
 			mgX = this.#findClosestWin( wins, "x", tx, 0, 2 );
 		}
 		if ( dirS && dirN ) {
-			const mgYa = this.#findClosestWin( wins, "y", ty + rc.h, 2, 0 ),
-				mgYb = this.#findClosestWin( wins, "y", ty, 0, 2 );
+			const mgYa = this.#findClosestWin( wins, "y", ty + rc.h, 2, 0 );
+			const mgYb = this.#findClosestWin( wins, "y", ty, 0, 2 );
 
 			if ( mgYa || mgYb ) {
 				mgY = Math.abs( mgYa || Infinity ) < Math.abs( mgYb || Infinity ) ? mgYa : mgYb;
@@ -332,13 +332,13 @@ class gsuiWindow extends HTMLElement {
 
 		return wins.reduce( ( vMin, win ) => {
 			if ( win.dataset.id !== this.dataset.id && ( !win.isOpen || win.isOpen() ) ) {
-				const wrc = win.rect,
-					wrcDir = wrc[ dir ],
-					v1 = wrcDir - brdL - value,
-					v2 = wrcDir + ( dir === "x" ? wrc.w : wrc.h ) + brdR - value,
-					v1Abs = Math.abs( v1 ),
-					v2Abs = Math.abs( v2 ),
-					abs = Math.min( v1Abs, v2Abs );
+				const wrc = win.rect;
+				const wrcDir = wrc[ dir ];
+				const v1 = wrcDir - brdL - value;
+				const v2 = wrcDir + ( dir === "x" ? wrc.w : wrc.h ) + brdR - value;
+				const v1Abs = Math.abs( v1 );
+				const v2Abs = Math.abs( v2 );
+				const abs = Math.min( v1Abs, v2Abs );
 
 				if ( abs < 4 && abs < vAbsMin ) {
 					vAbsMin = abs;
@@ -361,8 +361,8 @@ class gsuiWindow extends HTMLElement {
 		st.bottom = `${ -y }px`;
 	}
 	#calcCSSrelativeResize( dir, mm ) {
-		const w = this.rect.w - this.#wMin,
-			h = this.rect.h - this.#mousedownHeadHeight - this.#hMin;
+		const w = this.rect.w - this.#wMin;
+		const h = this.rect.h - this.#mousedownHeadHeight - this.#hMin;
 
 		switch ( dir ) {
 			case "n" : if ( h - mm.y < 0 ) { mm.y =  h; } break;

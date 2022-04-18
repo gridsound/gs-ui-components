@@ -2,8 +2,8 @@
 
 class gsuiDragline {
 	constructor() {
-		const root = GSUI.getTemplate( "gsui-dragline" ),
-			svg = root.firstElementChild.firstElementChild;
+		const root = GSUI.getTemplate( "gsui-dragline" );
+		const svg = root.firstElementChild.firstElementChild;
 
 		this.onchange = () => {};
 		this.rootElement = root;
@@ -47,16 +47,16 @@ class gsuiDragline {
 		this._lineSize = parseFloat( getComputedStyle( this._polyline ).strokeWidth ) || 0;
 	}
 	_render( x, y ) {
-		const clMain = this._main.classList,
-			stMain = this._main.style,
-			stSvg = this._svg.style,
-			bcr = this.rootElement.getBoundingClientRect(),
-			w = x - bcr.left,
-			h = y - bcr.top,
-			wabs = Math.abs( w ),
-			habs = Math.abs( h ),
-			whmax = Math.max( wabs, habs ),
-			whmax2 = whmax * 2;
+		const clMain = this._main.classList;
+		const stMain = this._main.style;
+		const stSvg = this._svg.style;
+		const bcr = this.rootElement.getBoundingClientRect();
+		const w = x - bcr.left;
+		const h = y - bcr.top;
+		const wabs = Math.abs( w );
+		const habs = Math.abs( h );
+		const whmax = Math.max( wabs, habs );
+		const whmax2 = whmax * 2;
 
 		clMain.toggle( "gsuiDragline-down", h > 0 );
 		clMain.toggle( "gsuiDragline-right", w > 0 );
@@ -71,8 +71,8 @@ class gsuiDragline {
 		GSUI.setAttribute( this._polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	_unlink() {
-		const stMain = this._main.style,
-			stSvg = this._svg.style;
+		const stMain = this._main.style;
+		const stSvg = this._svg.style;
 
 		stMain.top =
 		stMain.left =

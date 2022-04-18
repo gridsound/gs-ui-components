@@ -2,8 +2,8 @@
 
 class gsuiWaveform {
 	constructor( el ) {
-		const svg = el || GSUI.createElementSVG( "svg" ),
-			poly = svg.querySelector( "polygon" );
+		const svg = el || GSUI.createElementSVG( "svg" );
+		const poly = svg.querySelector( "polygon" );
 
 		this.rootElement = svg;
 		this.polygon = poly;

@@ -30,9 +30,9 @@ class gsuiEnvelopeGraph extends HTMLElement {
 
 	// .........................................................................
 	resized() {
-		const bcr = this.getBoundingClientRect(),
-			w = ~~bcr.width,
-			h = ~~bcr.height;
+		const bcr = this.getBoundingClientRect();
+		const w = ~~bcr.width;
+		const h = ~~bcr.height;
 
 		this.#width = w;
 		this.#height = h;
@@ -42,8 +42,8 @@ class gsuiEnvelopeGraph extends HTMLElement {
 	draw() {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
-					this.#width, this.#height, this.duration,
-					this.attack, this.hold, this.decay, this.sustain, this.release );
+				this.#width, this.#height, this.duration,
+				this.attack, this.hold, this.decay, this.sustain, this.release );
 
 			GSUI.setAttribute( this.#attLine, "points", pts.slice( 0, 8 ).join( " " ) );
 			GSUI.setAttribute( this.#relLine, "points", pts.slice( -4 ).join( " " ) );
@@ -51,14 +51,14 @@ class gsuiEnvelopeGraph extends HTMLElement {
 		}
 	}
 	static #getPoints( w, h, dur, att, hold, dec, sus, rel ) {
-		const dur2 = dur !== "auto" ? dur : att + hold + dec + 1 + rel,
-			bpp = w / dur2,
-			attX = bpp * att,
-			holX = attX + bpp * hold,
-			decX = holX + bpp * dec,
-			susX = decX + bpp * ( dur === "auto" ? 1 : dur - att - hold - dec - rel ),
-			relX = susX + bpp * rel,
-			susY = h * ( 1 - sus );
+		const dur2 = dur !== "auto" ? dur : att + hold + dec + 1 + rel;
+		const bpp = w / dur2;
+		const attX = bpp * att;
+		const holX = attX + bpp * hold;
+		const decX = holX + bpp * dec;
+		const susX = decX + bpp * ( dur === "auto" ? 1 : dur - att - hold - dec - rel );
+		const relX = susX + bpp * rel;
+		const susY = h * ( 1 - sus );
 
 		return [
 			0,    h,

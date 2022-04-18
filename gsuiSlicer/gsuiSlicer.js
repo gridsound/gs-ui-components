@@ -143,9 +143,9 @@ class gsuiSlicer extends HTMLElement {
 	addSlice( id, obj ) {
 		if ( !( id in this.#slices ) ) {
 			const svg = GSUI.createElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
-					GSUI.createElementSVG( "use" ),
-				),
-				sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
+				GSUI.createElementSVG( "use" ),
+			);
+			const sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
 			this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 			svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
@@ -156,10 +156,10 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	changeSlice( id, obj ) {
-		const sli = this.#slices[ id ],
-			x = +( obj.x ?? sli.x ).toFixed( 10 ),
-			y = +( obj.y ?? sli.y ).toFixed( 10 ),
-			w = +( obj.w ?? sli.w ).toFixed( 10 );
+		const sli = this.#slices[ id ];
+		const x = +( obj.x ?? sli.x ).toFixed( 10 );
+		const y = +( obj.y ?? sli.y ).toFixed( 10 );
+		const w = +( obj.w ?? sli.w ).toFixed( 10 );
 
 		if ( "x" in obj || "w" in obj ) {
 			sli.x = x;
@@ -209,9 +209,9 @@ class gsuiSlicer extends HTMLElement {
 		this.#updateCurrentTime();
 	}
 	#updateCurrentTime() {
-		const t = +this.getAttribute( "currenttime" ) / +this.getAttribute( "duration" ),
-			sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w ),
-			srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
+		const t = +this.getAttribute( "currenttime" ) / +this.getAttribute( "duration" );
+		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w );
+		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
 		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, srcT, srcT < .5 );
 	}
@@ -259,9 +259,9 @@ class gsuiSlicer extends HTMLElement {
 
 	// .........................................................................
 	#onresize() {
-		const svg = this.#elements.diagonalLine,
-			w = svg.clientWidth,
-			h = svg.clientHeight;
+		const svg = this.#elements.diagonalLine;
+		const w = svg.clientWidth;
+		const h = svg.clientHeight;
 
 		GSUI.setAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
 		GSUI.setAttribute( svg.firstChild, "x2", w );
@@ -269,11 +269,11 @@ class gsuiSlicer extends HTMLElement {
 		this.#updatePxPerBeat();
 	}
 	#onclickStep() {
-		const v = +this.getAttribute( "step" ),
-			frac =
-				v >= 1 ? 2 :
-				v >= .5 ? 4 :
-				v >= .25 ? 8 : 1;
+		const v = +this.getAttribute( "step" );
+		const frac =
+			v >= 1 ? 2 :
+			v >= .5 ? 4 :
+			v >= .25 ? 8 : 1;
 
 		GSUI.setAttribute( this, "step", 1 / frac );
 	}
@@ -323,22 +323,22 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#onpointermoveSlices( e ) {
-		const sli = this.#getSliceByPageX( e.offsetX ),
-			bef = this.#slices[ this.#sliceIdBefore ],
-			xa = Math.min( bef.x, sli.x ),
-			xb = Math.max( bef.x, sli.x ),
-			list = Object.values( this.#slices ).filter( s => xa <= s.x && s.x <= xb ),
-			sliId = this.#ptrmoveFn( list, sli, e );
+		const sli = this.#getSliceByPageX( e.offsetX );
+		const bef = this.#slices[ this.#sliceIdBefore ];
+		const xa = Math.min( bef.x, sli.x );
+		const xb = Math.max( bef.x, sli.x );
+		const list = Object.values( this.#slices ).filter( s => xa <= s.x && s.x <= xb );
+		const sliId = this.#ptrmoveFn( list, sli, e );
 
 		this.#sliceIdBefore = sliId ?? sli.id;
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
 		list.forEach( sli => {
-			const dur = +this.getAttribute( "duration" ),
-				step = +this.getAttribute( "step" ),
-				yyy = GSUI.clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 ),
-				yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step,
-				y = yy / dur / this.#stepsPerBeat;
+			const dur = +this.getAttribute( "duration" );
+			const step = +this.getAttribute( "step" );
+			const yyy = GSUI.clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 );
+			const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
+			const y = yy / dur / this.#stepsPerBeat;
 
 			if ( sli.y !== y ) {
 				this.changeSlice( sli.id, { y } );
@@ -355,13 +355,13 @@ class gsuiSlicer extends HTMLElement {
 	#onpointermoveSlicesSplit( list ) {
 		list.forEach( sli => {
 			if ( !( sli.id in this.#slicesSplitted ) && sli.w > 1 / 128 ) {
-				const w2 = sli.w / 2,
-					newId = this.#slicesMaxId + 1,
-					newSli = {
-						x: sli.x + w2,
-						y: sli.y,
-						w: w2,
-					};
+				const w2 = sli.w / 2;
+				const newId = this.#slicesMaxId + 1;
+				const newSli = {
+					x: sli.x + w2,
+					y: sli.y,
+					w: w2,
+				};
 
 				this.#slicesSplitted[ newId ] =
 				this.#slicesSplitted[ sli.id ] = true;

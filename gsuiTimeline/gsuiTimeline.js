@@ -86,16 +86,16 @@ class gsuiTimeline extends HTMLElement {
 	// .........................................................................
 	previewCurrentTime( b ) { // to remove...
 		const ret = b !== false
-				? this.beatRound( b )
-				: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
+			? this.beatRound( b )
+			: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
 
 		GSUI.setAttribute( this, "currenttime-preview", b !== false ? ret : null );
 		return ret;
 	}
 	#changePxPerBeat( ppb ) {
-		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) ),
-			beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) ),
-			measuresOpa = Math.max( 0, Math.min( ( ppb - 6 ) / 20, .7 ) );
+		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) );
+		const beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) );
+		const measuresOpa = Math.max( 0, Math.min( ( ppb - 6 ) / 20, .7 ) );
 
 		this.pxPerBeat = ppb;
 		this.pxPerMeasure = this.beatsPerMeasure * ppb;
@@ -175,8 +175,8 @@ class gsuiTimeline extends HTMLElement {
 		return Math.max( 0, this.beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
 	}
 	#updateStepsBg() {
-		const sPB = this.stepsPerBeat,
-			dots = [];
+		const sPB = this.stepsPerBeat;
+		const dots = [];
 
 		for ( let i = 1; i < sPB; ++i ) {
 			dots.push(
@@ -193,11 +193,11 @@ class gsuiTimeline extends HTMLElement {
 		`;
 	}
 	#updateOffset() {
-		const offBeats = Math.floor( this.#scrollingAncestor.scrollLeft / this.pxPerMeasure ),
-			off = this.#onlyBigMeasures
-				? Math.floor( offBeats / this.beatsPerMeasure ) * this.beatsPerMeasure
-				: offBeats,
-			diff = off !== this.#offset;
+		const offBeats = Math.floor( this.#scrollingAncestor.scrollLeft / this.pxPerMeasure );
+		const off = this.#onlyBigMeasures
+			? Math.floor( offBeats / this.beatsPerMeasure ) * this.beatsPerMeasure
+			: offBeats;
+		const diff = off !== this.#offset;
 
 		if ( diff ) {
 			this.#offset = off;
@@ -206,9 +206,9 @@ class gsuiTimeline extends HTMLElement {
 		return diff;
 	}
 	#updateNumberMeasures() {
-		const elMeasures = this.#elements.measures,
-			px = this.pxPerMeasure * ( this.#onlyBigMeasures ? this.beatsPerMeasure : 1 ),
-			nb = Math.ceil( this.#scrollingAncestor.clientWidth / px ) + 1;
+		const elMeasures = this.#elements.measures;
+		const px = this.pxPerMeasure * ( this.#onlyBigMeasures ? this.beatsPerMeasure : 1 );
+		const nb = Math.ceil( this.#scrollingAncestor.clientWidth / px ) + 1;
 
 		if ( nb < 0 || nb > 500 ) {
 			return console.warn( "gsuiTimeline: anormal number of nodes to create", nb );
@@ -278,8 +278,8 @@ class gsuiTimeline extends HTMLElement {
 		}
 	}
 	#onmousemove( e ) {
-		const beat = this.#getBeatByPageX( e.pageX ),
-			beatRel = beat - this.#mousedownBeat;
+		const beat = this.#getBeatByPageX( e.pageX );
+		const beatRel = beat - this.#mousedownBeat;
 
 		if ( beatRel !== this.#mousemoveBeat ) {
 			this.#mousemoveBeat = beatRel;
@@ -289,10 +289,10 @@ class gsuiTimeline extends HTMLElement {
 					this.#dispatch( "inputCurrentTime", beat );
 					break;
 				case "draggingLoopBody": {
-					const rel = Math.max( -this.#mousedownLoopA, beatRel ),
-						a = this.#mousedownLoopA + rel,
-						b = this.#mousedownLoopB + rel,
-						loop = `${ a }-${ b }`;
+					const rel = Math.max( -this.#mousedownLoopA, beatRel );
+					const a = this.#mousedownLoopA + rel;
+					const b = this.#mousedownLoopB + rel;
+					const loop = `${ a }-${ b }`;
 
 					if ( loop !== this.getAttribute( "loop" ) ) {
 						GSUI.setAttribute( this, "loop", loop );
@@ -301,15 +301,15 @@ class gsuiTimeline extends HTMLElement {
 				} break;
 				case "draggingLoopHandleA":
 				case "draggingLoopHandleB": {
-					const handA = this.#status === "draggingLoopHandleA",
-						rel = handA
-							? Math.max( -this.#mousedownLoopA, beatRel )
-							: beatRel,
-						a = this.#mousedownLoopA + ( handA ? rel : 0 ),
-						b = this.#mousedownLoopB + ( handA ? 0 : rel ),
-						aa = Math.min( a, b ),
-						bb = Math.max( a, b ),
-						loop = `${ aa }-${ bb }`;
+					const handA = this.#status === "draggingLoopHandleA";
+					const rel = handA
+						? Math.max( -this.#mousedownLoopA, beatRel )
+						: beatRel;
+					const a = this.#mousedownLoopA + ( handA ? rel : 0 );
+					const b = this.#mousedownLoopB + ( handA ? 0 : rel );
+					const aa = Math.min( a, b );
+					const bb = Math.max( a, b );
+					const loop = `${ aa }-${ bb }`;
 
 					if ( a > b ) {
 						if ( handA ) {

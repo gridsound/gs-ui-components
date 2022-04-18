@@ -78,8 +78,8 @@ class gsuiChannels extends HTMLElement {
 		return this.#chanSelected;
 	}
 	selectChannel( id ) {
-		const chan = this.#chans[ id ],
-			pchan = this.#chans[ this.#chanSelected ];
+		const chan = this.#chans[ id ];
+		const pchan = this.#chans[ this.#chanSelected ];
 
 		pchan && GSUI.setAttribute( pchan, "selected", false );
 		GSUI.setAttribute( chan, "selected", true );
@@ -102,8 +102,8 @@ class gsuiChannels extends HTMLElement {
 
 	// .........................................................................
 	addChannel( id ) {
-		const chan = GSUI.createElement( "gsui-channel", { "data-id": id } ),
-			qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
+		const chan = GSUI.createElement( "gsui-channel", { "data-id": id } );
+		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
 		gsuiChannels.#selectChanInput.append( GSUI.createElement( "option", { value: id }, name ) );
@@ -172,13 +172,13 @@ class gsuiChannels extends HTMLElement {
 		const selId = this.#chanSelected;
 
 		if ( selId ) {
-			const chan = this.#chans[ selId ],
-				chanDest = chan.dataset.dest;
+			const chan = this.#chans[ selId ];
+			const chanDest = chan.dataset.dest;
 			let bOnce = false;
 
 			Object.entries( this.#chans ).forEach( ( [ id, chan ] ) => {
-				const a = id === chanDest,
-					b = chan.dataset.dest === selId;
+				const a = id === chanDest;
+				const b = chan.dataset.dest === selId;
 
 				GSUI.setAttribute( chan, "connecta", a ? "up" : "" );
 				GSUI.setAttribute( chan, "connectb", b ? "down" : "" );

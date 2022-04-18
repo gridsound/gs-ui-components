@@ -6,9 +6,9 @@ class gsuiKeysforms extends gsuiSVGDefs {
 	}
 
 	static #render( keys ) {
-		const arrKeys = Object.values( keys ),
-			{ min, size } = gsuiKeysforms.#calcMinMax( arrKeys ),
-			rowH = 1 / ( size + 1 );
+		const arrKeys = Object.values( keys );
+		const { min, size } = gsuiKeysforms.#calcMinMax( arrKeys );
+		const rowH = 1 / ( size + 1 );
 
 		return arrKeys.map( k => GSUI.createElementSVG( "rect", {
 			x: k.when,
@@ -18,8 +18,8 @@ class gsuiKeysforms extends gsuiSVGDefs {
 		} ) );
 	}
 	static #calcMinMax( arrKeys ) {
-		let min = Infinity,
-			max = -Infinity;
+		let min = Infinity;
+		let max = -Infinity;
 
 		arrKeys.forEach( k => {
 			min = Math.min( min, k.key );

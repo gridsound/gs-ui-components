@@ -153,8 +153,8 @@ class gsuiDrums extends HTMLElement {
 		this.#removeItem( id );
 	}
 	createDrumrow( id ) {
-		const elLine = GSUI.getTemplate( "gsui-drums-line" ),
-			grp = elLine.querySelector( "gsui-slidergroup" );
+		const elLine = GSUI.getTemplate( "gsui-drums-line" );
+		const grp = elLine.querySelector( "gsui-slidergroup" );
 
 		GSUI.setAttribute( grp, "pxperbeat", this.#pxPerBeat );
 		grp.dataset.id = id;
@@ -162,8 +162,8 @@ class gsuiDrums extends HTMLElement {
 		return elLine;
 	}
 	changeDrum( id, prop, val ) {
-		const rowId = this.#drumsMap.get( id )[ 0 ],
-			grp = this.#sliderGroups.get( rowId );
+		const rowId = this.#drumsMap.get( id )[ 0 ];
+		const grp = this.#sliderGroups.get( rowId );
 
 		this.changeDrumProp( id, prop, val );
 		if ( prop === grp.dataset.currentProp ) {
@@ -171,8 +171,8 @@ class gsuiDrums extends HTMLElement {
 		}
 	}
 	changeDrumProp( id, prop, val ) {
-		const sel = `.gsuiDrums-drumProp[data-value="${ prop }"] .gsuiDrums-drumPropValue`,
-			st = this.#drumsMap.get( id )[ 3 ].querySelector( sel ).style;
+		const sel = `.gsuiDrums-drumProp[data-value="${ prop }"] .gsuiDrums-drumPropValue`;
+		const st = this.#drumsMap.get( id )[ 3 ].querySelector( sel ).style;
 
 		switch ( prop ) {
 			case "detune":
@@ -190,8 +190,8 @@ class gsuiDrums extends HTMLElement {
 		}
 	}
 	#addItem( id, itemType, item, template ) {
-		const elItem = GSUI.getTemplate( template ),
-			stepDur = 1 / this.#stepsPerBeat;
+		const elItem = GSUI.getTemplate( template );
+		const stepDur = 1 / this.#stepsPerBeat;
 
 		elItem.dataset.id = id;
 		elItem.style.left = `${ item.when }em`;
@@ -223,18 +223,18 @@ class gsuiDrums extends HTMLElement {
 		return el;
 	}
 	#createPreviews( whenFrom, whenTo ) {
-		const rowId = this.#draggingRowId,
-			stepDur = 1 / this.#stepsPerBeat,
-			whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur ),
-			whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur ),
-			added = new Map(),
-			map = this.#previewsMap,
-			adding = this.#currAction.startsWith( "add" ),
-			itemType = this.#currAction.endsWith( "Drums" ) ? "drum" : "drumcut",
-			template = itemType === "drum"
-				? "gsui-drums-drum"
-				: "gsui-drums-drumcut",
-			drumsArr = [];
+		const rowId = this.#draggingRowId;
+		const stepDur = 1 / this.#stepsPerBeat;
+		const whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur );
+		const whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur );
+		const added = new Map();
+		const map = this.#previewsMap;
+		const adding = this.#currAction.startsWith( "add" );
+		const itemType = this.#currAction.endsWith( "Drums" ) ? "drum" : "drumcut";
+		const template = itemType === "drum"
+			? "gsui-drums-drum"
+			: "gsui-drums-drumcut";
+		const drumsArr = [];
 
 		this.#drumsMap.forEach( arr => {
 			if ( arr[ 0 ] === rowId && arr[ 1 ] === itemType ) {
@@ -281,17 +281,17 @@ class gsuiDrums extends HTMLElement {
 				this.#hoverPageX = e.pageX;
 				this.#onmousemoveLines2();
 			} else {
-				const tar = e.target,
-					elLine = this.#has( tar, "lineIn" )
-						? tar
-						: this.#has( tar, "drum" ) || this.#has( tar, "drumcut" )
-							? tar.parentNode
-							: null;
+				const tar = e.target;
+				const elLine = this.#has( tar, "lineIn" )
+					? tar
+					: this.#has( tar, "drum" ) || this.#has( tar, "drumcut" )
+						? tar.parentNode
+						: null;
 
 				if ( elLine ) {
-					const bcr = elLine.getBoundingClientRect(),
-						y = ( e.pageY - bcr.top ) / bcr.height,
-						elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
+					const bcr = elLine.getBoundingClientRect();
+					const y = ( e.pageY - bcr.top ) / bcr.height;
+					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
 
 					this.#hoverPageX = e.pageX;
 					this.#hoveringStatus = elHover === this.#elDrumHover ? "drum" : "drumcut";
@@ -313,8 +313,8 @@ class gsuiDrums extends HTMLElement {
 	}
 	#onmousemoveLines2() {
 		if ( this.#hoveringStatus ) {
-			const left = this.#elLines.getBoundingClientRect().left,
-				beat = ( ( this.#hoverPageX - left ) / this.#pxPerStep | 0 ) / this.#stepsPerBeat;
+			const left = this.#elLines.getBoundingClientRect().left;
+			const beat = ( ( this.#hoverPageX - left ) / this.#pxPerStep | 0 ) / this.#stepsPerBeat;
 
 			this.#hoverBeat = beat;
 			this.#elHover.style.left = `${ beat }em`;

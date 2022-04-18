@@ -105,9 +105,9 @@ class gsuiOscillator extends HTMLElement {
 		Element.prototype.append.apply( this.#elements.waveSelect, opts );
 	}
 	updateWave( prop, val ) {
-		const [ w0, w1 ] = this.#elements.waves,
-			gain = prop === "gain" ? val : +this.getAttribute( "gain" ),
-			pan = prop === "pan" ? val : +this.getAttribute( "pan" );
+		const [ w0, w1 ] = this.#elements.waves;
+		const gain = prop === "gain" ? val : +this.getAttribute( "gain" );
+		const pan = prop === "pan" ? val : +this.getAttribute( "pan" );
 
 		w0.type =
 		w1.type = prop === "type" ? val : this.getAttribute( "type" );
@@ -133,11 +133,11 @@ class gsuiOscillator extends HTMLElement {
 
 	// .........................................................................
 	#onclickPrevNext( dir ) {
-		const sel = this.#elements.waveSelect,
-			currOpt = sel.querySelector( `option[value="${ sel.value }"]` ),
-			opt = dir < 0
-				? currOpt.previousElementSibling
-				: currOpt.nextElementSibling;
+		const sel = this.#elements.waveSelect;
+		const currOpt = sel.querySelector( `option[value="${ sel.value }"]` );
+		const opt = dir < 0
+			? currOpt.previousElementSibling
+			: currOpt.nextElementSibling;
 
 		if ( opt ) {
 			sel.value = opt.value;

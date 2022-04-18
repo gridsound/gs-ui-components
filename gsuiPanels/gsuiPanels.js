@@ -22,8 +22,8 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#init() {
-		const pans = this.children,
-			size = this.#dirX ? this.clientWidth : this.clientHeight;
+		const pans = this.children;
+		const size = this.#dirX ? this.clientWidth : this.clientHeight;
 
 		this.style.overflow = "hidden";
 		this.#dirX = this.classList.contains( "gsuiPanels-x" );
@@ -45,11 +45,11 @@ class gsuiPanels extends HTMLElement {
 			let ret = mov;
 
 			if ( Math.abs( mov ) > .1 ) {
-				const style = getComputedStyle( pan ),
-					size = pan.getBoundingClientRect()[ dir ],
-					minsize = parseFloat( style[ `min-${ dir }` ] ) || 10,
-					maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity,
-					newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
+				const style = getComputedStyle( pan );
+				const size = pan.getBoundingClientRect()[ dir ];
+				const minsize = parseFloat( style[ `min-${ dir }` ] ) || 10;
+				const maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity;
+				const newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
 
 				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
 					pan.style[ dir ] = `${ newsizeCorrect / parentsize * 100 }%`;
@@ -65,8 +65,8 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#onpointerdown( e ) {
-		const tar = e.target,
-			pan = tar.parentNode;
+		const tar = e.target;
+		const pan = tar.parentNode;
 
 		if ( pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
 			this.#extend = tar;
@@ -93,9 +93,9 @@ class gsuiPanels extends HTMLElement {
 		this.onpointerup = null;
 	}
 	#onpointermove( e ) {
-		const px = ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN,
-			parentsize = this.#dirX ? this.clientWidth : this.clientHeight,
-			mov = px - gsuiPanels.#incrSizePans( this.#dir, px, parentsize, this.#panBefore );
+		const px = ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN;
+		const parentsize = this.#dirX ? this.clientWidth : this.clientHeight;
+		const mov = px - gsuiPanels.#incrSizePans( this.#dir, px, parentsize, this.#panBefore );
 
 		this.#pageN += mov;
 		if ( Math.abs( mov ) > 0 ) {
