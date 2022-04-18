@@ -10,7 +10,7 @@ class gsuiTimewindow extends HTMLElement {
 	#onmousemoveExtendPanelBind = this.#onmousemoveExtendPanel.bind( this );
 	#onmousemoveExtendDownPanelBind = this.#onmousemoveExtendDownPanel.bind( this );
 	#children = GSUI.getTemplate( "gsui-timewindow" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		main: ".gsuiTimewindow-main",
 		down: ".gsuiTimewindow-contentDown",
 		panel: ".gsuiTimewindow-panel",

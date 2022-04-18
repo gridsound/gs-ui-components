@@ -12,7 +12,7 @@ class gsuiWindow extends HTMLElement {
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 0;
 	#children = GSUI.getTemplate( "gsui-window" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		icon: ".gsuiWindow-icon",
 		wrap: ".gsuiWindow-wrap",
 		head: ".gsuiWindow-head",

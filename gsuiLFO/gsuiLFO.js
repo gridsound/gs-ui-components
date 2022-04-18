@@ -6,7 +6,7 @@ class gsuiLFO extends HTMLElement {
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiLFO" );
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-lfo" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		beatlines: "gsui-beatlines",
 		wave: "gsui-periodicwave",
 		sliders: {

@@ -8,7 +8,7 @@ class gsuiChannels extends HTMLElement {
 	#attached = false;
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-channels" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		pmain: ".gsuiChannels-panMain",
 		pchans: ".gsuiChannels-panChannels",
 		addBtn: ".gsuiChannels-addChan",

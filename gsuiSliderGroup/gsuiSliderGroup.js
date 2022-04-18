@@ -20,7 +20,7 @@ class gsuiSliderGroup extends HTMLElement {
 		selected: this.#sliderSelected.bind( this ),
 	} );
 	#children = GSUI.getTemplate( "gsui-slidergroup" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		slidersParent: ".gsuiSliderGroup-sliders",
 		defValue: ".gsuiSliderGroup-defaultValue",
 		beatlines: "gsui-beatlines",

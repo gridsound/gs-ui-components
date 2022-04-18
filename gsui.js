@@ -42,7 +42,7 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static findElements( root, graph ) {
+	static findElem( root, graph ) {
 		return typeof graph === "string"
 			? GSUI.#findElemStr( root, graph )
 			: Object.seal( Array.isArray( graph )
@@ -50,12 +50,12 @@ class GSUI {
 				: GSUI.#findElemObj( root, graph ) );
 	}
 	static #findElemArr( root, arr ) {
-		return arr.map( sel => GSUI.findElements( root, sel ) );
+		return arr.map( sel => GSUI.findElem( root, sel ) );
 	}
 	static #findElemObj( root, obj ) {
 		const ent = Object.entries( obj );
 
-		ent.forEach( kv => kv[ 1 ] = GSUI.findElements( root, kv[ 1 ] ) );
+		ent.forEach( kv => kv[ 1 ] = GSUI.findElem( root, kv[ 1 ] ) );
 		return Object.fromEntries( ent );
 	}
 	static #findElemStr( root, sel ) {

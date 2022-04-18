@@ -18,7 +18,7 @@ class gsuiSlicer extends HTMLElement {
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiSlicer" );
 	#children = GSUI.getTemplate( "gsui-slicer" );
 	#waveDef = GSUI.createElemSVG( "polyline" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		sourceCurrentTime: ".gsuiSlicer-source-currentTime",
 		slicesCurrentTime: ".gsuiSlicer-slices-currentTime",
 		previewCurrentTime: ".gsuiSlicer-preview-currentTime",

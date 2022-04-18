@@ -18,7 +18,7 @@ class gsuiTimeline extends HTMLElement {
 	#onmouseupBind = this.#onmouseup.bind( this );
 	#onmousemoveBind = this.#onmousemove.bind( this );
 	#children = GSUI.getTemplate( "gsui-timeline" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		steps: ".gsuiTimeline-steps",
 		beats: ".gsuiTimeline-beats",
 		measures: ".gsuiTimeline-measures",

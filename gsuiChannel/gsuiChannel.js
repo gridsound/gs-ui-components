@@ -3,7 +3,7 @@
 class gsuiChannel extends HTMLElement {
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiChannel" );
 	#children = GSUI.getTemplate( "gsui-channel" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		name: ".gsuiChannel-name",
 		analyser: "gsui-analyser",
 		pan: ".gsuiChannel-pan gsui-slider",

@@ -79,7 +79,7 @@ class gsuiDrumrows extends HTMLElement {
 
 	// .........................................................................
 	add( id, elLine ) {
-		const html = GSUI.findElements( GSUI.getTemplate( "gsui-drumrow" ), {
+		const html = GSUI.findElem( GSUI.getTemplate( "gsui-drumrow" ), {
 			root: ".gsuiDrumrow",
 			name: ".gsuiDrumrow-name",
 			detune: ".gsuiDrumrow-detune gsui-slider",

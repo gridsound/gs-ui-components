@@ -4,7 +4,7 @@ class gsuiSynthesizer extends HTMLElement {
 	#waveList = [];
 	#uiOscs = new Map();
 	#children = GSUI.getTemplate( "gsui-synthesizer" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		env: "gsui-envelope",
 		lfo: "gsui-lfo",
 		oscList: ".gsuiSynthesizer-oscList",

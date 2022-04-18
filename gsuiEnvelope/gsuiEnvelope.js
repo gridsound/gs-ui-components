@@ -6,7 +6,7 @@ class gsuiEnvelope extends HTMLElement {
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiEnvelope" );
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-envelope" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		beatlines: "gsui-beatlines",
 		graph: "gsui-envelope-graph",
 		sliders: {

@@ -8,7 +8,7 @@ class gsuiClock extends HTMLElement {
 	#attached = false;
 	#values = [ -1, -1, -1 ];
 	#children = GSUI.getTemplate( "gsui-clock" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		wrapRel: ".gsuiClock-relative",
 		modes: ".gsuiClock-modes",
 		nodes: [

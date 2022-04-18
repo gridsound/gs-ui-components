@@ -23,7 +23,7 @@ class gsuiPatterns extends HTMLElement {
 		},
 	} );
 	#children = GSUI.getTemplate( "gsui-patterns" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		lists: {
 			slices: ".gsuiPatterns-panelSlices .gsuiPatterns-panel-list",
 			drums: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",

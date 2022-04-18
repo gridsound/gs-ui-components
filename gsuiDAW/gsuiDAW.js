@@ -15,7 +15,7 @@ class gsuiDAW extends HTMLElement {
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiDAW" );
 	#children = GSUI.getTemplate( "gsui-daw" );
 	#timeSelecting = false;
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		head: ".gsuiDAW-head",
 		bpm: ".gsuiDAW-tempo-bpm",
 		bPM: ".gsuiDAW-tempo-beatsPerMeasure",
@@ -48,36 +48,36 @@ class gsuiDAW extends HTMLElement {
 		},
 	} );
 	#popups = {
-		auth: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-auth" ), {
+		auth: GSUI.findElem( GSUI.getTemplate( "gsui-daw-popup-auth" ), {
 			root: ".gsuiDAW-popup-auth",
 			error: ".gsuiDAW-popup-auth-error",
 		} ),
-		open: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-open" ), {
+		open: GSUI.findElem( GSUI.getTemplate( "gsui-daw-popup-open" ), {
 			root: ".gsuiDAW-popup-open",
 			inputOpenURL: "[name='url']",
 			inputOpenFile: "[name='file']",
 		} ),
-		tempo: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-tempo" ), {
+		tempo: GSUI.findElem( GSUI.getTemplate( "gsui-daw-popup-tempo" ), {
 			root: ".gsuiDAW-popup-tempo",
 			beatsPerMeasure: "[name='beatsPerMeasure']",
 			stepsPerBeat: "[name='stepsPerBeat']",
 			bpm: "[name='bpm']",
 			bpmTap: ".gsuiDAW-bpmTap",
 		} ),
-		about: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-about" ), {
+		about: GSUI.findElem( GSUI.getTemplate( "gsui-daw-popup-about" ), {
 			root: ".gsuiDAW-popup-about",
 			version: ".gsuiDAW-popup-about-versionNum",
 			versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
 			versionCheck: ".gsuiDAW-popup-about-versionCheck",
 		} ),
-		export: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-export" ), {
+		export: GSUI.findElem( GSUI.getTemplate( "gsui-daw-popup-export" ), {
 			root: ".gsuiDAW-popup-export",
 			button: ".gsuiDAW-popup-export-btn",
 			progress: ".gsuiDAW-popup-export-progress",
 		} ),
 		shortcuts: GSUI.getTemplate( "gsui-daw-popup-shortcuts" ),
 		cookies: GSUI.getTemplate( "gsui-daw-popup-cookies" ),
-		settings: GSUI.findElements( GSUI.getTemplate( "gsui-daw-popup-settings" ), {
+		settings: GSUI.findElem( GSUI.getTemplate( "gsui-daw-popup-settings" ), {
 			root: ".gsuiDAW-popup-settings",
 			sampleRate: "[name='sampleRate']",
 			uiRateRadio: {
@@ -331,7 +331,7 @@ class gsuiDAW extends HTMLElement {
 			this.updateComposition( cmp );
 		} else {
 			const root = GSUI.getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } );
-			const html = GSUI.findElements( root, {
+			const html = GSUI.findElem( root, {
 				root: ".gsuiDAW-cmp",
 				bpm: ".gsuiDAW-cmp-bpm",
 				name: ".gsuiDAW-cmp-name",

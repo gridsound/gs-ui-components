@@ -13,7 +13,7 @@ class gsuiFxFilter extends HTMLElement {
 	};
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiFxFilter" );
 	#children = GSUI.getTemplate( "gsui-fx-filter" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
 		graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
 		curves: "gsui-curves",

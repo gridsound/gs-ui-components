@@ -19,7 +19,7 @@ class gsuiSlider extends HTMLElement {
 	#svgLineLen = 0;
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiSlider" );
 	#children = GSUI.getTemplate( "gsui-slider" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		input: ".gsuiSlider-input",
 		line: ".gsuiSlider-line",
 		lineColor: ".gsuiSlider-lineColor",

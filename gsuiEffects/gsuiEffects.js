@@ -5,7 +5,7 @@ class gsuiEffects extends HTMLElement {
 	#fxsHtml = new Map();
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiEffects" );
 	#children = GSUI.getTemplate( "gsui-effects" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		list: ".gsuiEffects-list",
 		addBtn: ".gsuiEffects-addBtn",
 		addSelect: ".gsuiEffects-addSelect",

@@ -6,7 +6,7 @@ class gsuiPopup extends HTMLElement {
 	#resolve = null;
 	#fnSubmit = null;
 	#children = GSUI.getTemplate( "gsui-popup" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		ok: ".gsuiPopup-ok",
 		cnt: ".gsuiPopup-content",
 		msg: ".gsuiPopup-message",

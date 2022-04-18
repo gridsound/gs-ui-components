@@ -8,7 +8,7 @@ class gsuiCurves extends HTMLElement {
 		nbBands: 8,
 	} );
 	#children = GSUI.getTemplate( "gsui-curves" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		svg: "svg",
 		line: ".gsuiCurves-line",
 		marks: ".gsuiCurves-marks",

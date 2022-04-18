@@ -10,7 +10,7 @@ class gsuiOscillator extends HTMLElement {
 		square: true,
 	};
 	#children = GSUI.getTemplate( "gsui-oscillator" );
-	#elements = GSUI.findElements( this.#children, {
+	#elements = GSUI.findElem( this.#children, {
 		waveSelect: ".gsuiOscillator-waveSelect",
 		wavePrev: ".gsuiOscillator-wavePrev",
 		waveNext: ".gsuiOscillator-waveNext",
