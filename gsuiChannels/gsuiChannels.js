@@ -102,12 +102,10 @@ class gsuiChannels extends HTMLElement {
 
 	// .........................................................................
 	addChannel( id ) {
-		const chan = GSUI.createElement( "gsui-channel", { "data-id": id } );
+		const chan = GSUI.createElement( "gsui-channel", { "data-id": id } ),
+			qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
-
-		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
-
 		gsuiChannels.#selectChanInput.append( GSUI.createElement( "option", { value: id }, name ) );
 		this.#chans[ id ] = chan;
 		chan.analyser.onclick =
