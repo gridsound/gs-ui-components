@@ -131,6 +131,15 @@ class GSUI {
 			? el.setAttribute( attr, val === true ? "" : val )
 			: el.removeAttribute( attr );
 	}
+	static getAttrNum( el, attr ) {
+		const val = el.getAttribute( attr );
+		const n = +val;
+
+		if ( Number.isNaN( n ) ) {
+			console.error( `GSUI.getAttrNum: ${ attr } is NaN (${ val })` );
+		}
+		return n;
+	}
 
 	// .........................................................................
 	static observeSizeOf( el, fn ) {
