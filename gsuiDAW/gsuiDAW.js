@@ -224,7 +224,7 @@ class gsuiDAW extends HTMLElement {
 					this.#elements.logout.dataset.spin = val !== null ? "on" : "";
 					break;
 				case "username":
-					GSUI.setAttribute( this.#elements.userAvatar, "href",
+					GSUI.setAttr( this.#elements.userAvatar, "href",
 						val && `https://gridsound.com/#/u/${ val }` );
 					break;
 				case "name":
@@ -244,12 +244,12 @@ class gsuiDAW extends HTMLElement {
 					gsuiClock.numbering( val );
 					break;
 				case "bpm":
-					GSUI.setAttribute( this.#elements.clock, "bpm", val );
+					GSUI.setAttr( this.#elements.clock, "bpm", val );
 					this.#elements.bpm.textContent = val;
 					this.#updateDuration();
 					break;
 				case "timedivision":
-					GSUI.setAttribute( this.#elements.clock, "timedivision", val );
+					GSUI.setAttr( this.#elements.clock, "timedivision", val );
 					this.#elements.bPM.textContent = val.split( "/" )[ 0 ];
 					this.#elements.sPB.textContent = val.split( "/" )[ 1 ];
 					break;
@@ -263,7 +263,7 @@ class gsuiDAW extends HTMLElement {
 					}
 					break;
 				case "maxtime":
-					GSUI.setAttribute( this.#elements.currentTime, "max", val );
+					GSUI.setAttr( this.#elements.currentTime, "max", val );
 					break;
 				case "useravatar":
 					this.#elements.userAvatar.style.backgroundImage = val ? `url("${ val }")` : "";
@@ -295,8 +295,8 @@ class gsuiDAW extends HTMLElement {
 			html.root.classList.add( "gsuiDAW-cmp-loaded" );
 			html.root.parentNode.prepend( html.root );
 			html.root.parentNode.scrollTop = 0;
-			GSUI.setAttribute( this.#elements.cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
-			GSUI.setAttribute( this.#elements.cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
+			GSUI.setAttr( this.#elements.cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
+			GSUI.setAttr( this.#elements.cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
 		}
 	}
 	#updateDuration() {
@@ -304,7 +304,7 @@ class gsuiDAW extends HTMLElement {
 		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, +this.getAttribute( "bpm" ) );
 
 		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
-		GSUI.setAttribute( this.#elements.currentTime, "max", dur );
+		GSUI.setAttr( this.#elements.currentTime, "max", dur );
 	}
 
 	// .........................................................................
@@ -367,9 +367,9 @@ class gsuiDAW extends HTMLElement {
 		}
 	}
 	readyToDownload( url, name ) {
-		GSUI.setAttribute( this.#popups.export.button, "href", url );
-		GSUI.setAttribute( this.#popups.export.button, "download", name );
-		GSUI.setAttribute( this.#popups.export.button, "data-status", 2 );
+		GSUI.setAttr( this.#popups.export.button, "href", url );
+		GSUI.setAttr( this.#popups.export.button, "download", name );
+		GSUI.setAttr( this.#popups.export.button, "data-status", 2 );
 	}
 	static #ondragstartCmp( saveMode, e ) {
 		const elCmp = e.target.closest( ".gsuiDAW-cmp" );
@@ -386,7 +386,7 @@ class gsuiDAW extends HTMLElement {
 
 	// .........................................................................
 	toggleWindow( win, b ) {
-		GSUI.setAttribute( this.#elements.winBtns[ win ], "data-open", b );
+		GSUI.setAttr( this.#elements.winBtns[ win ], "data-open", b );
 	}
 	clearHistory() {
 		Array.from( this.#actions ).forEach( a => a.remove() );
@@ -400,12 +400,12 @@ class gsuiDAW extends HTMLElement {
 	}
 	undo() {
 		if ( this.#currentActionInd >= 0 ) {
-			GSUI.setAttribute( this.#actions[ this.#currentActionInd-- ], "data-undone", true );
+			GSUI.setAttr( this.#actions[ this.#currentActionInd-- ], "data-undone", true );
 		}
 	}
 	redo() {
 		if ( this.#currentActionInd < this.#actions.length - 1 ) {
-			GSUI.setAttribute( this.#actions[ ++this.#currentActionInd ], "data-undone", false );
+			GSUI.setAttr( this.#actions[ ++this.#currentActionInd ], "data-undone", false );
 		}
 	}
 
@@ -440,8 +440,8 @@ class gsuiDAW extends HTMLElement {
 					e.target.parentNode.dataset.id );
 
 				if ( json ) {
-					GSUI.setAttribute( e.target, "href", json.url );
-					GSUI.setAttribute( e.target, "download", json.name );
+					GSUI.setAttr( e.target, "href", json.url );
+					GSUI.setAttr( e.target, "download", json.name );
 				} else {
 					e.preventDefault();
 				}
@@ -484,10 +484,10 @@ class gsuiDAW extends HTMLElement {
 				GSUI.popup.custom( { title: "About", element: this.#popups.about.root } );
 				break;
 			case "export":
-				GSUI.setAttribute( this, "exporting", 0 );
-				GSUI.setAttribute( this.#popups.export.button, "href", "" );
-				GSUI.setAttribute( this.#popups.export.button, "download", "" );
-				GSUI.setAttribute( this.#popups.export.button, "data-status", 0 );
+				GSUI.setAttr( this, "exporting", 0 );
+				GSUI.setAttr( this.#popups.export.button, "href", "" );
+				GSUI.setAttr( this.#popups.export.button, "download", "" );
+				GSUI.setAttr( this.#popups.export.button, "data-status", 0 );
 				GSUI.popup.custom( { title: "Export", element: this.#popups.export.root } )
 					.then( () => this.#dispatch( "abortExport" ) );
 				break;

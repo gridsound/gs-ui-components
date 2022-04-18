@@ -22,12 +22,12 @@ class gsuiDrumsforms extends gsuiSVGDefs {
 				: gsuiDrumsforms.#createDrumcut )( d.when, orders[ d.row ] * drmH, drmW, drmH ) );
 	}
 	static #createDrum( x, y, w, h ) {
-		return GSUI.createElementSVG( "polygon", {
+		return GSUI.createElemSVG( "polygon", {
 			points: [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ].join( "," ),
 		} );
 	}
 	static #createDrumcut( x, y, w, h ) {
-		return GSUI.createElementSVG( "rect", {
+		return GSUI.createElemSVG( "rect", {
 			x,
 			y: y + h * .8,
 			width: w * .9,

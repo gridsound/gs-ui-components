@@ -97,13 +97,13 @@ GSUI.listenEvents( slicer, {
 			playSampleBtn.onclick();
 			playSampleBtn.onclick();
 			if ( prop === "duration" ) {
-				currentTimeInp.setAttribute( "max", val );
+				GSUI.setAttr( currentTimeInp, "max", val );
 			}
 		},
 	},
 } );
 
-currentTimeInp.oninput = () => GSUI.setAttribute( slicer, "currenttime", currentTimeInp.value );
+currentTimeInp.oninput = () => GSUI.setAttr( slicer, "currenttime", currentTimeInp.value );
 playSampleBtn.onclick = () => {
 	if ( absn ) {
 		absn.stop();

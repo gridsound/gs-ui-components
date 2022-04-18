@@ -17,7 +17,7 @@ class gsuiSlicer extends HTMLElement {
 	#onresizeBind = this.#onresize.bind( this );
 	#dispatch = GSUI.dispatchEvent.bind( null, this, "gsuiSlicer" );
 	#children = GSUI.getTemplate( "gsui-slicer" );
-	#waveDef = GSUI.createElementSVG( "polyline" );
+	#waveDef = GSUI.createElemSVG( "polyline" );
 	#elements = GSUI.findElements( this.#children, {
 		sourceCurrentTime: ".gsuiSlicer-source-currentTime",
 		slicesCurrentTime: ".gsuiSlicer-slices-currentTime",
@@ -49,8 +49,8 @@ class gsuiSlicer extends HTMLElement {
 		Object.seal( this );
 
 		if ( !defs ) {
-			document.body.prepend( GSUI.createElementSVG( "svg", { id: "gsuiSlicer-waveDefs" },
-				GSUI.createElementSVG( "defs" ),
+			document.body.prepend( GSUI.createElemSVG( "svg", { id: "gsuiSlicer-waveDefs" },
+				GSUI.createElemSVG( "defs" ),
 			) );
 			this.#waveDef.dataset.id = 1;
 		} else {
@@ -77,7 +77,7 @@ class gsuiSlicer extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			GSUI.setAttribute( this, "tabindex", -1 );
+			GSUI.setAttr( this, "tabindex", -1 );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
@@ -103,9 +103,9 @@ class gsuiSlicer extends HTMLElement {
 			switch ( prop ) {
 				case "timedivision":
 					this.#stepsPerBeat = +val.split( "/" )[ 1 ];
-					GSUI.setAttribute( this.#elements.timeline, "timedivision", val );
-					GSUI.setAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
-					GSUI.setAttribute( this.#elements.beatlines[ 1 ], "timedivision", val );
+					GSUI.setAttr( this.#elements.timeline, "timedivision", val );
+					GSUI.setAttr( this.#elements.beatlines[ 0 ], "timedivision", val );
+					GSUI.setAttr( this.#elements.beatlines[ 1 ], "timedivision", val );
 					break;
 				case "currenttime":
 					this.#setCurrentTime( +val );
@@ -142,10 +142,10 @@ class gsuiSlicer extends HTMLElement {
 	}
 	addSlice( id, obj ) {
 		if ( !( id in this.#slices ) ) {
-			const svg = GSUI.createElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
-				GSUI.createElementSVG( "use" ),
+			const svg = GSUI.createElemSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
+				GSUI.createElemSVG( "use" ),
 			);
-			const sli = GSUI.createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
+			const sli = GSUI.createElem( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
 			this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 			svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
@@ -173,7 +173,7 @@ class gsuiSlicer extends HTMLElement {
 			sli.y = y;
 			sli.sli.style.height = `${ ( 1 - y ) * 100 }%`;
 		}
-		sli.svg.setAttribute( "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
+		GSUI.setAttr( sli.svg, "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
 	}
 	removeSlice( id ) {
 		const sli = this.#slices[ id ];
@@ -202,10 +202,10 @@ class gsuiSlicer extends HTMLElement {
 	#setCurrentTime( beat ) {
 		const t = beat / +this.getAttribute( "duration" );
 
-		GSUI.setAttribute( this.#elements.timeline, "currenttime", beat );
+		GSUI.setAttr( this.#elements.timeline, "currenttime", beat );
 		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
 		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
-		GSUI.setAttribute( this, "hidetimes", t <= 0 || t >= 1 );
+		GSUI.setAttr( this, "hidetimes", t <= 0 || t >= 1 );
 		this.#updateCurrentTime();
 	}
 	#updateCurrentTime() {
@@ -234,9 +234,9 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.tools.split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
 	}
 	#updatePxPerBeat( dur ) {
-		GSUI.setAttribute( this.#elements.timeline, "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
-		GSUI.setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
-		GSUI.setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
+		GSUI.setAttr( this.#elements.timeline, "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
+		GSUI.setAttr( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
+		GSUI.setAttr( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
 	}
 	#convertStepToFrac( step ) {
 		return (
@@ -263,9 +263,9 @@ class gsuiSlicer extends HTMLElement {
 		const w = svg.clientWidth;
 		const h = svg.clientHeight;
 
-		GSUI.setAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
-		GSUI.setAttribute( svg.firstChild, "x2", w );
-		GSUI.setAttribute( svg.firstChild, "y2", h );
+		GSUI.setAttr( svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttr( svg.firstChild, "x2", w );
+		GSUI.setAttr( svg.firstChild, "y2", h );
 		this.#updatePxPerBeat();
 	}
 	#onclickStep() {
@@ -275,7 +275,7 @@ class gsuiSlicer extends HTMLElement {
 			v >= .5 ? 4 :
 			v >= .25 ? 8 : 1;
 
-		GSUI.setAttribute( this, "step", 1 / frac );
+		GSUI.setAttr( this, "step", 1 / frac );
 	}
 	#onclickTools( e ) {
 		this.#selectTool( e.target.dataset.action );

@@ -81,8 +81,8 @@ class gsuiChannels extends HTMLElement {
 		const chan = this.#chans[ id ];
 		const pchan = this.#chans[ this.#chanSelected ];
 
-		pchan && GSUI.setAttribute( pchan, "selected", false );
-		GSUI.setAttribute( chan, "selected", true );
+		pchan && GSUI.setAttr( pchan, "selected", false );
+		GSUI.setAttr( chan, "selected", true );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
 		this.onselectChan( id );
@@ -102,11 +102,11 @@ class gsuiChannels extends HTMLElement {
 
 	// .........................................................................
 	addChannel( id ) {
-		const chan = GSUI.createElement( "gsui-channel", { "data-id": id } );
+		const chan = GSUI.createElem( "gsui-channel", { "data-id": id } );
 		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
-		gsuiChannels.#selectChanInput.append( GSUI.createElement( "option", { value: id }, name ) );
+		gsuiChannels.#selectChanInput.append( GSUI.createElem( "option", { value: id }, name ) );
 		this.#chans[ id ] = chan;
 		chan.analyser.onclick =
 		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
@@ -139,16 +139,16 @@ class gsuiChannels extends HTMLElement {
 		gsuiChannels.#selectChanInput.querySelector( `option[value="${ id }"]` ).remove();
 	}
 	toggleChannel( id, b ) {
-		GSUI.setAttribute( this.#chans[ id ], "muted", !b );
+		GSUI.setAttr( this.#chans[ id ], "muted", !b );
 	}
 	changePanChannel( id, val ) {
-		GSUI.setAttribute( this.#chans[ id ], "pan", val );
+		GSUI.setAttr( this.#chans[ id ], "pan", val );
 	}
 	changeGainChannel( id, val ) {
-		GSUI.setAttribute( this.#chans[ id ], "gain", val );
+		GSUI.setAttr( this.#chans[ id ], "gain", val );
 	}
 	renameChannel( id, name ) {
-		GSUI.setAttribute( this.#chans[ id ], "name", name );
+		GSUI.setAttr( this.#chans[ id ], "name", name );
 		gsuiChannels.#selectChanInput.querySelector( `option[value="${ id }"]` ).textContent = name;
 	}
 	reorderChannel( id, n ) {
@@ -180,12 +180,12 @@ class gsuiChannels extends HTMLElement {
 				const a = id === chanDest;
 				const b = chan.dataset.dest === selId;
 
-				GSUI.setAttribute( chan, "connecta", a ? "up" : "" );
-				GSUI.setAttribute( chan, "connectb", b ? "down" : "" );
+				GSUI.setAttr( chan, "connecta", a ? "up" : "" );
+				GSUI.setAttr( chan, "connectb", b ? "down" : "" );
 				bOnce = bOnce || b;
 			} );
-			GSUI.setAttribute( chan, "connecta", selId !== "main" ? "down" : "" );
-			GSUI.setAttribute( chan, "connectb", bOnce ? "up" : "" );
+			GSUI.setAttr( chan, "connecta", selId !== "main" ? "down" : "" );
+			GSUI.setAttr( chan, "connectb", bOnce ? "up" : "" );
 		}
 	}
 }

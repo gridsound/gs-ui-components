@@ -20,9 +20,8 @@ class gsuiTracklist extends HTMLElement {
 		return this.#tracks.get( id );
 	}
 	addTrack( id ) {
-		const tr = GSUI.createElement( "gsui-track" );
+		const tr = GSUI.createElem( "gsui-track", { "data-id": id } );
 
-		tr.dataset.id =
 		tr.rowElement.dataset.id = id;
 		this.#tracks.set( id, tr );
 		this.append( tr );

@@ -1,12 +1,12 @@
 "use strict";
 
 GSUI.setTemplate( "gsui-dragline", () =>
-	GSUI.createElement( "div", { class: "gsuiDragline" },
-		GSUI.createElement( "div", { class: "gsuiDragline-main" },
-			GSUI.createElementSVG( "svg", { class: "gsuiDragline-line" },
-				GSUI.createElementSVG( "polyline" ),
+	GSUI.createElem( "div", { class: "gsuiDragline" },
+		GSUI.createElem( "div", { class: "gsuiDragline-main" },
+			GSUI.createElemSVG( "svg", { class: "gsuiDragline-line" },
+				GSUI.createElemSVG( "polyline" ),
 			),
-			GSUI.createElement( "div", { class: "gsuiDragline-to" } ),
+			GSUI.createElem( "div", { class: "gsuiDragline-to" } ),
 		),
 	)
 );

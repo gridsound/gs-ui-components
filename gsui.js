@@ -106,25 +106,27 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static createElement( tag, attr, ...children ) {
-		return GSUI.#createElement( "http://www.w3.org/1999/xhtml", tag, attr, children );
+	static createElem( tag, attr, ...children ) {
+		return GSUI.#createElem( "http://www.w3.org/1999/xhtml", tag, attr, children );
 	}
-	static createElementSVG( tag, attr, ...children ) {
-		return GSUI.#createElement( "http://www.w3.org/2000/svg", tag, attr, children );
+	static createElemSVG( tag, attr, ...children ) {
+		return GSUI.#createElem( "http://www.w3.org/2000/svg", tag, attr, children );
 	}
-	static #createElement( ns, tag, attr, children ) {
+	static #createElem( ns, tag, attrObj, children ) {
 		const el = document.createElementNS( ns, tag );
 
-		if ( attr ) {
-			GSUI.setAttributes( el, attr );
-		}
+		GSUI.setAttr( el, attrObj );
 		el.append( ...children.flat( 1 ).filter( ch => Boolean( ch ) || Number.isFinite( ch ) ) );
 		return el;
 	}
-	static setAttributes( el, obj ) {
-		Object.entries( obj ).forEach( kv => GSUI.setAttribute( el, ...kv ) );
+	static setAttr( el, attr, val ) {
+		if ( typeof attr === "string" ) {
+			GSUI.#setAttr( el, attr, val );
+		} else if ( attr ) {
+			Object.entries( attr ).forEach( kv => GSUI.#setAttr( el, ...kv ) );
+		}
 	}
-	static setAttribute( el, attr, val ) {
+	static #setAttr( el, attr, val ) {
 		val !== false && val !== null && val !== undefined
 			? el.setAttribute( attr, val === true ? "" : val )
 			: el.removeAttribute( attr );
@@ -176,7 +178,7 @@ class GSUI {
 		Object.entries( props ).forEach( ( [ p, val ] ) => {
 			el.hasAttribute( p )
 				? el.attributeChangedCallback( p, null, el.getAttribute( p ) )
-				: GSUI.setAttribute( el, p, val );
+				: GSUI.#setAttr( el, p, val );
 		} );
 	}
 }

@@ -139,7 +139,7 @@ class gsuiEffects extends HTMLElement {
 		return options;
 	}
 	static #createOption( disabled, fxId, fxName ) {
-		return GSUI.createElement( "option", { value: fxId, disabled }, fxName );
+		return GSUI.createElem( "option", { value: fxId, disabled }, fxName );
 	}
 }
 

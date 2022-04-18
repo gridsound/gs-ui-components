@@ -102,7 +102,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#elements.sliders.release[ 0 ].enable( b );
 	}
 	#changeTimedivision( val ) {
-		GSUI.setAttribute( this.#elements.beatlines, "timedivision", val );
+		GSUI.setAttr( this.#elements.beatlines, "timedivision", val );
 		this.updateWave();
 	}
 	#changeProp( prop, val ) {
@@ -112,7 +112,7 @@ class gsuiEnvelope extends HTMLElement {
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {
-		GSUI.setAttribute( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
+		GSUI.setAttr( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
 	}
 
 	// .........................................................................
@@ -124,7 +124,7 @@ class gsuiEnvelope extends HTMLElement {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiEnvelope-toggle":
-				GSUI.setAttribute( this, "toggle", !this.classList.contains( "gsuiEnvelope-enable" ) );
+				GSUI.setAttr( this, "toggle", !this.classList.contains( "gsuiEnvelope-enable" ) );
 				this.#dispatch( "toggle" );
 				break;
 		}
@@ -135,7 +135,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#dispatch( "liveChange", prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		GSUI.setAttribute( this, prop, val );
+		GSUI.setAttr( this, prop, val );
 		this.#dispatch( "change", prop, val );
 	}
 }

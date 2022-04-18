@@ -51,7 +51,7 @@ class gsuiDrumrows extends HTMLElement {
 	}
 	playRow( id ) {
 		this.#rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" ).append(
-			GSUI.createElement( "div", { class: "gsuiDrumrow-startCursor" } ) );
+			GSUI.createElem( "div", { class: "gsuiDrumrow-startCursor" } ) );
 	}
 	stopRow( id ) {
 		this.#rows.get( id ).root.querySelectorAll( ".gsuiDrumrow-startCursor" )

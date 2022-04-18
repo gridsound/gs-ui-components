@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiSpectrum extends HTMLElement {
-	#cnv = GSUI.createElement( "canvas" );
+	#cnv = GSUI.createElem( "canvas" );
 	#ctx = this.#cnv.getContext( "2d" );
 
 	constructor() {

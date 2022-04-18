@@ -67,9 +67,9 @@ const inpPBB = document.querySelector( "#pxPerbeat" );
 const inpBPM = document.querySelector( "#beatsPerMeasure" );
 const inpSPB = document.querySelector( "#stepsPerBeat" );
 
-inpPBB.oninput = e => GSUI.setAttribute( elTimeline, "pxperbeat", inpPBB.value );
+inpPBB.oninput = e => GSUI.setAttr( elTimeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
-inpSPB.oninput = e => GSUI.setAttribute( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
+inpSPB.oninput = e => GSUI.setAttr( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
 document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
 </body>

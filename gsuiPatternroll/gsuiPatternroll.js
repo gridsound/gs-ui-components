@@ -2,9 +2,9 @@
 
 class gsuiPatternroll extends HTMLElement {
 	#rowsByTrackId = new Map();
-	#tracklist = GSUI.createElement( "gsui-tracklist" );
-	#selectionElement = GSUI.createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
-	#win = GSUI.createElement( "gsui-timewindow", {
+	#tracklist = GSUI.createElem( "gsui-tracklist" );
+	#selectionElement = GSUI.createElem( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#win = GSUI.createElem( "gsui-timewindow", {
 		panelsize: 90,
 		panelsizemin: 24,
 		panelsizemax: 160,
@@ -52,7 +52,7 @@ class gsuiPatternroll extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiBlocksManager" );
-			GSUI.setAttribute( this, "tabindex", -1 );
+			GSUI.setAttr( this, "tabindex", -1 );
 			this.append( this.#win );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist );
 			this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
@@ -67,7 +67,7 @@ class gsuiPatternroll extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "currenttime":
-					GSUI.setAttribute( this.#win, "currenttime", val );
+					GSUI.setAttr( this.#win, "currenttime", val );
 					break;
 			}
 		}
@@ -84,9 +84,9 @@ class gsuiPatternroll extends HTMLElement {
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
 	}
 	removeTrack( id ) { this.#tracklist.removeTrack( id ); }
-	toggleTrack( id, b ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "toggle", b ); }
-	renameTrack( id, s ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "name", s ); }
-	reorderTrack( id, n ) { GSUI.setAttribute( this.#tracklist.getTrack( id ), "order", n ); }
+	toggleTrack( id, b ) { GSUI.setAttr( this.#tracklist.getTrack( id ), "toggle", b ); }
+	renameTrack( id, s ) { GSUI.setAttr( this.#tracklist.getTrack( id ), "name", s ); }
+	reorderTrack( id, n ) { GSUI.setAttr( this.#tracklist.getTrack( id ), "order", n ); }
 
 	// .........................................................................
 	addBlock( id, obj, { dataReady } ) {
@@ -95,7 +95,7 @@ class gsuiPatternroll extends HTMLElement {
 		elBlc.dataset.id = id;
 		elBlc.dataset.pattern = obj.pattern;
 		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
-		GSUI.setAttribute( elBlc, "data-missing", !dataReady );
+		GSUI.setAttr( elBlc, "data-missing", !dataReady );
 		this.#blcManager.getBlocks().set( id, elBlc );
 		this.onaddBlock( id, obj, elBlc );
 	}
@@ -134,10 +134,10 @@ class gsuiPatternroll extends HTMLElement {
 		return this.#blcManager.getBlocks();
 	}
 	timeDivision( a, b ) {
-		GSUI.setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
+		GSUI.setAttr( this.#win, "timedivision", `${ a }/${ b }` );
 	}
 	loop( a, b ) {
-		GSUI.setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		GSUI.setAttr( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 	}
 
 	// .........................................................................

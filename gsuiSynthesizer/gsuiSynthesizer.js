@@ -48,7 +48,7 @@ class gsuiSynthesizer extends HTMLElement {
 
 	// .........................................................................
 	addOscillator( id ) {
-		const uiOsc = GSUI.createElement( "gsui-oscillator", { "data-id": id } );
+		const uiOsc = GSUI.createElem( "gsui-oscillator", { "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );

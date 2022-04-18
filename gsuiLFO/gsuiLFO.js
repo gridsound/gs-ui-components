@@ -65,7 +65,7 @@ class gsuiLFO extends HTMLElement {
 			const num = +val;
 
 			switch ( prop ) {
-				case "timedivision": GSUI.setAttribute( this.#elements.beatlines, "timedivision", val ); break;
+				case "timedivision": GSUI.setAttr( this.#elements.beatlines, "timedivision", val ); break;
 				case "toggle": this.#changeToggle( val !== null ); break;
 				case "type": this.#changeType( val ); break;
 				case "delay":
@@ -104,7 +104,7 @@ class gsuiLFO extends HTMLElement {
 	#changeToggle( b ) {
 		this.classList.toggle( "gsuiLFO-enable", b );
 		this.querySelectorAll( ".gsuiLFO-typeRadio" )
-			.forEach( el => GSUI.setAttribute( el, "disabled", !b ) );
+			.forEach( el => GSUI.setAttr( el, "disabled", !b ) );
 		this.#elements.sliders.delay[ 0 ].enable( b );
 		this.#elements.sliders.attack[ 0 ].enable( b );
 		this.#elements.sliders.speed[ 0 ].enable( b );
@@ -124,7 +124,7 @@ class gsuiLFO extends HTMLElement {
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {
-		GSUI.setAttribute( this.#elements.beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
+		GSUI.setAttr( this.#elements.beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
 	}
 
 	// .........................................................................
@@ -136,16 +136,16 @@ class gsuiLFO extends HTMLElement {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-toggle":
-				GSUI.setAttribute( this, "toggle", !this.classList.contains( "gsuiLFO-enable" ) );
+				GSUI.setAttr( this, "toggle", !this.classList.contains( "gsuiLFO-enable" ) );
 				this.#dispatch( "toggle" );
 				break;
 			case "gsuiLFO-type":
-				GSUI.setAttribute( this, "type", e.target.value );
+				GSUI.setAttr( this, "type", e.target.value );
 				this.updateWave();
 				this.#dispatch( "change", "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				GSUI.setAttribute( this, "amp", -this.getAttribute( "amp" ) );
+				GSUI.setAttr( this, "amp", -this.getAttribute( "amp" ) );
 				this.updateWave();
 				this.#dispatch( "change", "amp", +this.getAttribute( "amp" ) );
 				break;
@@ -165,7 +165,7 @@ class gsuiLFO extends HTMLElement {
 			? val * Math.sign( this.getAttribute( "amp" ) )
 			: val;
 
-		GSUI.setAttribute( this, prop, nval );
+		GSUI.setAttr( this, prop, nval );
 		this.#dispatch( "change", prop, nval );
 	}
 }

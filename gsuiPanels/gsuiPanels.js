@@ -36,7 +36,7 @@ class gsuiPanels extends HTMLElement {
 			.forEach( ( pSize, i ) => {
 				pans[ i ].style[ this.#dir ] = `${ pSize / size * 100 }%`;
 				if ( i > 0 ) {
-					pans[ i ].append( GSUI.createElement( "div", { class: "gsuiPanels-extend" } ) );
+					pans[ i ].append( GSUI.createElem( "div", { class: "gsuiPanels-extend" } ) );
 				}
 			} );
 	}

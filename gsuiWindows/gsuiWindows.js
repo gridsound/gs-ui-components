@@ -22,7 +22,7 @@ class gsuiWindows extends HTMLElement {
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
 	createWindow( id ) {
-		const win = GSUI.createElement( "gsui-window" );
+		const win = GSUI.createElem( "gsui-window" );
 
 		win.setId( id );
 		win.setParent( this );

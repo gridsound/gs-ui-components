@@ -53,7 +53,7 @@ class gsuiTimeline extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			if ( !this.hasAttribute( "step" ) ) {
-				GSUI.setAttribute( this, "step", 1 );
+				GSUI.setAttr( this, "step", 1 );
 			}
 		}
 		this.#scrollingAncestor = this.#closestScrollingAncestor( this.parentNode );
@@ -89,7 +89,7 @@ class gsuiTimeline extends HTMLElement {
 			? this.beatRound( b )
 			: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
 
-		GSUI.setAttribute( this, "currenttime-preview", b !== false ? ret : null );
+		GSUI.setAttr( this, "currenttime-preview", b !== false ? ret : null );
 		return ret;
 	}
 	#changePxPerBeat( ppb ) {
@@ -218,7 +218,7 @@ class gsuiTimeline extends HTMLElement {
 			}
 		} else {
 			while ( elMeasures.children.length < nb ) {
-				elMeasures.append( GSUI.createElement( "span", { class: "gsuiTimeline-measure" } ) );
+				elMeasures.append( GSUI.createElem( "span", { class: "gsuiTimeline-measure" } ) );
 			}
 		}
 	}
@@ -285,7 +285,7 @@ class gsuiTimeline extends HTMLElement {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
 				case "draggingTime":
-					GSUI.setAttribute( this, "currenttime-preview", beat );
+					GSUI.setAttr( this, "currenttime-preview", beat );
 					this.#dispatch( "inputCurrentTime", beat );
 					break;
 				case "draggingLoopBody": {
@@ -295,7 +295,7 @@ class gsuiTimeline extends HTMLElement {
 					const loop = `${ a }-${ b }`;
 
 					if ( loop !== this.getAttribute( "loop" ) ) {
-						GSUI.setAttribute( this, "loop", loop );
+						GSUI.setAttr( this, "loop", loop );
 						this.#dispatch( "inputLoop", a, b );
 					}
 				} break;
@@ -323,7 +323,7 @@ class gsuiTimeline extends HTMLElement {
 					}
 					if ( loop !== this.getAttribute( "loop" ) ) {
 						if ( aa !== bb ) {
-							GSUI.setAttribute( this, "loop", loop );
+							GSUI.setAttr( this, "loop", loop );
 							this.#dispatch( "inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							this.removeAttribute( "loop" );
@@ -344,7 +344,7 @@ class gsuiTimeline extends HTMLElement {
 				this.removeAttribute( "currenttime-preview" );
 				this.#dispatch( "inputCurrentTimeEnd" );
 				if ( beat !== this.getAttribute( "currenttime" ) ) {
-					GSUI.setAttribute( this, "currenttime", beat );
+					GSUI.setAttr( this, "currenttime", beat );
 					this.#dispatch( "changeCurrentTime", +beat );
 				}
 			} break;

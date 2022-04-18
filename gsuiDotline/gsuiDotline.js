@@ -2,9 +2,9 @@
 
 class gsuiDotline {
 	constructor() {
-		const polyline = GSUI.createElementSVG( "polyline" );
-		const svg = GSUI.createElementSVG( "svg", null, polyline );
-		const root = GSUI.createElement( "div", { class: "gsuiDotline" }, svg );
+		const polyline = GSUI.createElemSVG( "polyline" );
+		const svg = GSUI.createElemSVG( "svg", null, polyline );
+		const root = GSUI.createElem( "div", { class: "gsuiDotline" }, svg );
 
 		this.rootElement = root;
 		this.oninput =
@@ -33,7 +33,7 @@ class gsuiDotline {
 		this._mousemoveDot = this._mousemoveDot.bind( this );
 		Object.seal( this );
 
-		GSUI.setAttribute( svg, "preserveAspectRatio", "none" );
+		GSUI.setAttr( svg, "preserveAspectRatio", "none" );
 		root.oncontextmenu = () => false;
 		root.onmousedown = this._mousedown.bind( this );
 		this.options( {
@@ -59,7 +59,7 @@ class gsuiDotline {
 
 		this._svgW = w;
 		this._svgH = h;
-		GSUI.setAttribute( this._elSVG, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.setAttr( this._elSVG, "viewBox", `0 0 ${ w } ${ h }` );
 		this._drawPolyline();
 	}
 	options( obj ) {
@@ -145,7 +145,7 @@ class gsuiDotline {
 		if ( lastDotLinked !== null ) {
 			arr.push( svgW, svgH - ( lastDotLinked - minY ) / height * svgH );
 		}
-		GSUI.setAttribute( this._elPoly, "points", arr.join( " " ) );
+		GSUI.setAttr( this._elPoly, "points", arr.join( " " ) );
 	}
 	_onchange() {
 		const obj = {};
@@ -213,7 +213,7 @@ class gsuiDotline {
 	// dots[].element
 	// .........................................................................
 	_createDotElement( id ) {
-		const el = GSUI.createElement( "div", { class: "gsuiDotline-dot", "data-id": id } );
+		const el = GSUI.createElem( "div", { class: "gsuiDotline-dot", "data-id": id } );
 
 		this._dotsId = Math.max( this._dotsId, id );
 		this.rootElement.append( el );

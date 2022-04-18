@@ -68,7 +68,7 @@ class gsuiSliderGroup extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "timedivision":
-					GSUI.setAttribute( this.#elements.beatlines, "timedivision", val );
+					GSUI.setAttr( this.#elements.beatlines, "timedivision", val );
 					break;
 				case "pxperbeat":
 					this.#updatePxPerBeat();
@@ -144,7 +144,7 @@ class gsuiSliderGroup extends HTMLElement {
 
 		this.#elements.slidersParent.style.fontSize = `${ ppb }px`;
 		if ( this.#elements.beatlines ) {
-			GSUI.setAttribute( this.#elements.beatlines, "pxperbeat", ppb );
+			GSUI.setAttr( this.#elements.beatlines, "pxperbeat", ppb );
 		}
 	}
 	#sliderWhen( sli, when ) {

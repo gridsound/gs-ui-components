@@ -54,7 +54,7 @@ class gsuiOscillator extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			GSUI.setAttribute( this, "draggable", "true" );
+			GSUI.setAttr( this, "draggable", "true" );
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
@@ -94,7 +94,7 @@ class gsuiOscillator extends HTMLElement {
 		arr.forEach( w => {
 			if ( !this.#selectWaves[ w ] ) {
 				this.#selectWaves[ w ] = true;
-				opts.push( GSUI.createElement( "option", { class: "gsuiOscillator-waveOpt", value: w }, w ) );
+				opts.push( GSUI.createElem( "option", { class: "gsuiOscillator-waveOpt", value: w }, w ) );
 			}
 		} );
 		Element.prototype.append.apply( this.#elements.waveSelect, opts );
@@ -147,7 +147,7 @@ class gsuiOscillator extends HTMLElement {
 		this.#dispatch( "liveChange", "type", type );
 		this.#timeidType = setTimeout( () => {
 			if ( type !== this.getAttribute( "type" ) ) {
-				GSUI.setAttribute( this, "type", type );
+				GSUI.setAttr( this, "type", type );
 				this.#dispatch( "change", "type", type );
 			}
 		}, 700 );
@@ -158,7 +158,7 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	#onchangeSlider( prop, val ) {
-		GSUI.setAttribute( this, prop, val );
+		GSUI.setAttr( this, prop, val );
 		this.#dispatch( "change", prop, val );
 	}
 	#oninputSlider( prop, val ) {

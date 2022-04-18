@@ -32,11 +32,11 @@ class gsuiTimewindow extends HTMLElement {
 			gsuiTimeline: {
 				inputCurrentTime: GSUI.noop,
 				changeCurrentTime: d => {
-					GSUI.setAttribute( this, "currenttime", d.args[ 0 ] );
+					GSUI.setAttr( this, "currenttime", d.args[ 0 ] );
 					return true;
 				},
 				inputLoop: d => {
-					GSUI.setAttribute( this, "loop", Number.isFinite( d.args[ 0 ] ) && `${ d.args[ 0 ] }-${ d.args[ 1 ] }` );
+					GSUI.setAttr( this, "loop", Number.isFinite( d.args[ 0 ] ) && `${ d.args[ 0 ] }-${ d.args[ 1 ] }` );
 					return true;
 				},
 				inputLoopEnd: () => this.style.overflowY = "",
@@ -69,13 +69,13 @@ class gsuiTimewindow extends HTMLElement {
 			}
 			this.#children = null;
 			if ( !this.hasAttribute( "step" ) ) {
-				GSUI.setAttribute( this, "step", 1 );
+				GSUI.setAttr( this, "step", 1 );
 			}
 			if ( !this.hasAttribute( "pxperbeat" ) ) {
-				GSUI.setAttribute( this, "pxperbeat", 100 );
+				GSUI.setAttr( this, "pxperbeat", 100 );
 			}
 			if ( !this.hasAttribute( "lineheight" ) ) {
-				GSUI.setAttribute( this, "lineheight", 48 );
+				GSUI.setAttr( this, "lineheight", 48 );
 			}
 		}
 	}
@@ -86,17 +86,17 @@ class gsuiTimewindow extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "step":
-					GSUI.setAttribute( this.#elements.timeline, "step", val );
+					GSUI.setAttr( this.#elements.timeline, "step", val );
 					this.#elements.stepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
 					break;
 				case "timedivision":
-					GSUI.setAttribute( this.#elements.timeline, "timedivision", val );
-					GSUI.setAttribute( this.#elements.beatlines, "timedivision", val );
+					GSUI.setAttr( this.#elements.timeline, "timedivision", val );
+					GSUI.setAttr( this.#elements.beatlines, "timedivision", val );
 					break;
 				case "pxperbeat":
 					this.#pxPerBeat = +val;
-					GSUI.setAttribute( this.#elements.timeline, "pxperbeat", val );
-					GSUI.setAttribute( this.#elements.beatlines, "pxperbeat", val );
+					GSUI.setAttr( this.#elements.timeline, "pxperbeat", val );
+					GSUI.setAttr( this.#elements.beatlines, "pxperbeat", val );
 					this.style.setProperty( "--gsuiTimewindow-pxperbeat", `${ val }px` );
 					this.#elements.currentTime.style.fontSize =
 					this.#elements.loopA.style.fontSize =
@@ -109,7 +109,7 @@ class gsuiTimewindow extends HTMLElement {
 				case "currenttime": {
 					const step = +this.getAttribute( "currenttimestep" );
 
-					GSUI.setAttribute( this.#elements.timeline, "currenttime", val );
+					GSUI.setAttr( this.#elements.timeline, "currenttime", val );
 					if ( step ) {
 						this.#elements.currentTime.style.left = `${ ( val / step | 0 ) * step }em`;
 					} else {
@@ -121,7 +121,7 @@ class gsuiTimewindow extends HTMLElement {
 						const [ a, b ] = val.split( "-" );
 
 						this.classList.add( "gsuiTimewindow-looping" );
-						GSUI.setAttribute( this.#elements.timeline, "loop", val );
+						GSUI.setAttr( this.#elements.timeline, "loop", val );
 						this.#elements.loopA.style.width = `${ a }em`;
 						this.#elements.loopB.style.left = `${ b }em`;
 					} else {
@@ -150,7 +150,7 @@ class gsuiTimewindow extends HTMLElement {
 			v >= .5 ? 4 :
 			v >= .25 ? 8 : 1;
 
-		GSUI.setAttribute( this, "step", 1 / frac );
+		GSUI.setAttr( this, "step", 1 / frac );
 	}
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
@@ -167,7 +167,7 @@ class gsuiTimewindow extends HTMLElement {
 			if ( ppbNew !== ppb ) {
 				const scrollIncr = mousepx / ppb * ( ppbNew - ppb );
 
-				GSUI.setAttribute( this, "pxperbeat", ppbNew );
+				GSUI.setAttr( this, "pxperbeat", ppbNew );
 				this.scrollLeft = scrollPpb * ppbNew + scrollIncr;
 				GSUI.dispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
 			}
@@ -188,7 +188,7 @@ class gsuiTimewindow extends HTMLElement {
 			if ( lhNew !== lh ) {
 				const scrollIncr = mousepx / lh * ( lhNew - lh );
 
-				GSUI.setAttribute( this, "lineheight", lhNew );
+				GSUI.setAttr( this, "lineheight", lhNew );
 				this.scrollTop = scrollLh * lhNew + scrollIncr;
 				GSUI.dispatchEvent( this, "gsuiTimewindow", "lineheight", lhNew );
 			}

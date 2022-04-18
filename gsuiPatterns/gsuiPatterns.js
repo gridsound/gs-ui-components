@@ -199,7 +199,7 @@ class gsuiPatterns extends HTMLElement {
 		const elPat = this.getPattern( id );
 
 		switch ( prop ) {
-			case "data-missing": GSUI.setAttribute( elPat, "data-missing", val ); break;
+			case "data-missing": GSUI.setAttr( elPat, "data-missing", val ); break;
 			case "order": elPat.dataset.order = val; break;
 			case "name":
 				elPat.dataset.name = val;
@@ -209,11 +209,11 @@ class gsuiPatterns extends HTMLElement {
 			case "destName": elPat.querySelector( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
 			case "synth": this.#getPatternParent( "keys", val ).append( elPat ); break;
 			case "bufferType":
-				GSUI.setAttribute( elPat, "data-buffer-type", val );
+				GSUI.setAttr( elPat, "data-buffer-type", val );
 				elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).dataset.icon = `buf-${ val || "undefined" }`;
 				break;
 			case "bufferBpm":
-				GSUI.setAttribute( elPat, "data-buffer-bpm", val );
+				GSUI.setAttr( elPat, "data-buffer-bpm", val );
 				break;
 		}
 	}

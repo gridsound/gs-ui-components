@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiDrums extends HTMLElement {
-	#win = GSUI.createElement( "gsui-timewindow", {
+	#win = GSUI.createElem( "gsui-timewindow", {
 		panelsize: 140,
 		panelsizemin: 70,
 		panelsizemax: 240,
@@ -26,8 +26,8 @@ class gsuiDrums extends HTMLElement {
 	#sliderGroups = new Map();
 	#elLines = null;
 	#elCurrentTime = null;
-	#elDrumHover = GSUI.createElement( "div", { class: "gsuiDrums-drumHover" }, GSUI.createElement( "div", { class: "gsuiDrums-drumHoverIn" } ) );
-	#elDrumcutHover = GSUI.createElement( "div", { class: "gsuiDrums-drumcutHover" }, GSUI.createElement( "div", { class: "gsuiDrums-drumcutHoverIn" } ) );
+	#elDrumHover = GSUI.createElem( "div", { class: "gsuiDrums-drumHover" }, GSUI.createElem( "div", { class: "gsuiDrums-drumHoverIn" } ) );
+	#elDrumcutHover = GSUI.createElem( "div", { class: "gsuiDrums-drumcutHover" }, GSUI.createElem( "div", { class: "gsuiDrums-drumcutHoverIn" } ) );
 	#elHover = this.#elDrumHover;
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
@@ -36,7 +36,7 @@ class gsuiDrums extends HTMLElement {
 	constructor() {
 		super();
 		this.timeline = this.#win.timeline;
-		this.drumrows = GSUI.createElement( "gsui-drumrows" );
+		this.drumrows = GSUI.createElem( "gsui-drumrows" );
 		Object.seal( this );
 
 		GSUI.listenEvents( this, {
@@ -61,7 +61,7 @@ class gsuiDrums extends HTMLElement {
 				},
 			},
 		} );
-		GSUI.setAttribute( this.#win, "step", 1 );
+		GSUI.setAttr( this.#win, "step", 1 );
 		this.#win.onscroll = this.#onmousemoveLines2.bind( this );
 		this.#elDrumHover.remove();
 		this.#elDrumcutHover.remove();
@@ -72,7 +72,7 @@ class gsuiDrums extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			GSUI.setAttribute( this, "tabindex", -1 );
+			GSUI.setAttr( this, "tabindex", -1 );
 			this.append( this.#win );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.drumrows );
 			this.#elCurrentTime = this.#win.querySelector( ".gsuiTimewindow-currentTime" );
@@ -89,10 +89,10 @@ class gsuiDrums extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "disabled":
-					GSUI.setAttribute( this.#win, "disabled", val );
+					GSUI.setAttr( this.#win, "disabled", val );
 					break;
 				case "currenttime":
-					GSUI.setAttribute( this.#win, "currenttime", val );
+					GSUI.setAttr( this.#win, "currenttime", val );
 					break;
 			}
 		}
@@ -100,25 +100,25 @@ class gsuiDrums extends HTMLElement {
 
 	// .........................................................................
 	loop( a, b ) {
-		GSUI.setAttribute( this.#win, "loop", a !== false && `${ a }-${ b }` );
+		GSUI.setAttr( this.#win, "loop", a !== false && `${ a }-${ b }` );
 	}
 	timeDivision( a, b ) {
 		this.#stepsPerBeat = b;
-		GSUI.setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
-		GSUI.setAttribute( this.#win, "currenttimestep", 1 / b );
+		GSUI.setAttr( this.#win, "timedivision", `${ a }/${ b }` );
+		GSUI.setAttr( this.#win, "currenttimestep", 1 / b );
 		this.setPxPerBeat( this.#pxPerBeat );
 		this.#elDrumHover.style.width =
 		this.#elDrumcutHover.style.width =
 		this.#elCurrentTime.style.width = `${ 1 / b }em`;
 	}
 	setFontSize( fs ) {
-		GSUI.setAttribute( this.#win, "lineheight", fs );
+		GSUI.setAttr( this.#win, "lineheight", fs );
 	}
 	setPxPerBeat( ppb ) {
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
-		GSUI.setAttribute( this.#win, "pxperbeat", ppb );
-		this.#sliderGroups.forEach( grp => GSUI.setAttribute( grp, "pxperbeat", ppb ) );
+		GSUI.setAttr( this.#win, "pxperbeat", ppb );
+		this.#sliderGroups.forEach( grp => GSUI.setAttr( grp, "pxperbeat", ppb ) );
 	}
 	setPropValues( rowId, prop, arr ) {
 		const grp = this.#sliderGroups.get( rowId );
@@ -156,7 +156,7 @@ class gsuiDrums extends HTMLElement {
 		const elLine = GSUI.getTemplate( "gsui-drums-line" );
 		const grp = elLine.querySelector( "gsui-slidergroup" );
 
-		GSUI.setAttribute( grp, "pxperbeat", this.#pxPerBeat );
+		GSUI.setAttr( grp, "pxperbeat", this.#pxPerBeat );
 		grp.dataset.id = id;
 		this.#sliderGroups.set( id, grp );
 		return elLine;

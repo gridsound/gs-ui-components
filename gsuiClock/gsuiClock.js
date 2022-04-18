@@ -128,7 +128,7 @@ class gsuiClock extends HTMLElement {
 	#onclickModes() {
 		const dpl = this.getAttribute( "mode" ) === "second" ? "beat" : "second";
 
-		GSUI.setAttribute( this, "mode", dpl );
+		GSUI.setAttr( this, "mode", dpl );
 		this.onchangeDisplay( dpl );
 	}
 }

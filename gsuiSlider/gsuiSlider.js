@@ -168,9 +168,9 @@ class gsuiSlider extends HTMLElement {
 			const cx = size / 2;
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			GSUI.setAttribute( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
-			GSUI.setAttributes( this.#elements.svgLine, { r, cx, cy: cx, } );
-			GSUI.setAttributes( this.#elements.svgLineColor, { r, cx, cy: cx, } );
+			GSUI.setAttr( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
+			GSUI.setAttr( this.#elements.svgLine, { r, cx, cy: cx, } );
+			GSUI.setAttr( this.#elements.svgLineColor, { r, cx, cy: cx, } );
 			this.#elements.svgLine.style.strokeWidth =
 			this.#elements.svgLineColor.style.strokeWidth = this.#strokeWidth;
 			this.#svgLineLen = r * 2 * Math.PI;
