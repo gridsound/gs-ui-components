@@ -131,6 +131,9 @@ class GSUI {
 			? el.setAttribute( attr, val === true ? "" : val )
 			: el.removeAttribute( attr );
 	}
+	static getAttr( el, attr ) {
+		return el.getAttribute( attr );
+	}
 	static getAttrNum( el, attr ) {
 		const val = el.getAttribute( attr );
 		const n = +val;
