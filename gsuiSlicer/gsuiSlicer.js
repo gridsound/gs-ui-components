@@ -200,7 +200,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#setCurrentTime( beat ) {
-		const t = beat / +this.getAttribute( "duration" );
+		const t = beat / GSUI.getAttrNum( this, "duration" );
 
 		GSUI.setAttr( this.#elements.timeline, "currenttime", beat );
 		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
@@ -209,7 +209,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#updateCurrentTime();
 	}
 	#updateCurrentTime() {
-		const t = +this.getAttribute( "currenttime" ) / +this.getAttribute( "duration" );
+		const t = GSUI.getAttrNum( this, "currenttime" ) / GSUI.getAttrNum( this, "duration" );
 		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w );
 		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
@@ -269,7 +269,7 @@ class gsuiSlicer extends HTMLElement {
 		this.#updatePxPerBeat();
 	}
 	#onclickStep() {
-		const v = +this.getAttribute( "step" );
+		const v = GSUI.getAttrNum( this, "step" );
 		const frac =
 			v >= 1 ? 2 :
 			v >= .5 ? 4 :
@@ -334,8 +334,8 @@ class gsuiSlicer extends HTMLElement {
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
 		list.forEach( sli => {
-			const dur = +this.getAttribute( "duration" );
-			const step = +this.getAttribute( "step" );
+			const dur = GSUI.getAttrNum( this, "duration" );
+			const step = GSUI.getAttrNum( this, "step" );
 			const yyy = GSUI.clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 );
 			const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
 			const y = yy / dur / this.#stepsPerBeat;

@@ -89,10 +89,10 @@ class gsuiLFO extends HTMLElement {
 		const bPM = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
 
 		w.type = this.getAttribute( "type" );
-		w.delay = prop === "delay" ? val : +this.getAttribute( "delay" );
-		w.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
-		w.frequency = prop === "speed" ? val : +this.getAttribute( "speed" );
-		w.amplitude = prop === "amp" ? val : +this.getAttribute( "amp" );
+		w.delay = prop === "delay" ? val : GSUI.getAttrNum( this, "delay" );
+		w.attack = prop === "attack" ? val : GSUI.getAttrNum( this, "attack" );
+		w.frequency = prop === "speed" ? val : GSUI.getAttrNum( this, "speed" );
+		w.amplitude = prop === "amp" ? val : GSUI.getAttrNum( this, "amp" );
 		w.duration =
 		this.#dur = Math.max( w.delay + w.attack + 2, bPM );
 		w.draw();
@@ -145,9 +145,9 @@ class gsuiLFO extends HTMLElement {
 				this.#dispatch( "change", "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				GSUI.setAttr( this, "amp", -this.getAttribute( "amp" ) );
+				GSUI.setAttr( this, "amp", -GSUI.getAttrNum( this, "amp" ) );
 				this.updateWave();
-				this.#dispatch( "change", "amp", +this.getAttribute( "amp" ) );
+				this.#dispatch( "change", "amp", GSUI.getAttrNum( this, "amp" ) );
 				break;
 		}
 	}

@@ -81,11 +81,11 @@ class gsuiEnvelope extends HTMLElement {
 	updateWave( prop, val ) {
 		const g = this.#elements.graph;
 
-		g.attack = prop === "attack" ? val : +this.getAttribute( "attack" );
-		g.hold = prop === "hold" ? val : +this.getAttribute( "hold" );
-		g.decay = prop === "decay" ? val : +this.getAttribute( "decay" );
-		g.sustain = prop === "sustain" ? val : +this.getAttribute( "sustain" );
-		g.release = prop === "release" ? val : +this.getAttribute( "release" );
+		g.attack = prop === "attack" ? val : GSUI.getAttrNum( this, "attack" );
+		g.hold = prop === "hold" ? val : GSUI.getAttrNum( this, "hold" );
+		g.decay = prop === "decay" ? val : GSUI.getAttrNum( this, "decay" );
+		g.sustain = prop === "sustain" ? val : GSUI.getAttrNum( this, "sustain" );
+		g.release = prop === "release" ? val : GSUI.getAttrNum( this, "release" );
 		g.duration =
 		this.#dur = Math.max( g.attack + g.hold + g.decay + .5 + g.release, 2 );
 		g.draw();

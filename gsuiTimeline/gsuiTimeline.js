@@ -87,7 +87,7 @@ class gsuiTimeline extends HTMLElement {
 	previewCurrentTime( b ) { // to remove...
 		const ret = b !== false
 			? this.beatRound( b )
-			: +this.getAttribute( "currenttime-preview" ) || +this.getAttribute( "currenttime" ) || 0;
+			: GSUI.getAttrNum( this, "currenttime-preview" ) || GSUI.getAttrNum( this, "currenttime" ) || 0;
 
 		GSUI.setAttr( this, "currenttime-preview", b !== false ? ret : null );
 		return ret;

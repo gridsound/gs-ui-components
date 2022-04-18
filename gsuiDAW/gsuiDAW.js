@@ -300,8 +300,8 @@ class gsuiDAW extends HTMLElement {
 		}
 	}
 	#updateDuration() {
-		const dur = +this.getAttribute( "duration" );
-		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, +this.getAttribute( "bpm" ) );
+		const dur = GSUI.getAttrNum( this, "duration" );
+		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, GSUI.getAttrNum( this, "bpm" ) );
 
 		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
 		GSUI.setAttr( this.#elements.currentTime, "max", dur );
@@ -497,7 +497,7 @@ class gsuiDAW extends HTMLElement {
 			case "tempo":
 				this.#popups.tempo.beatsPerMeasure.value = +this.getAttribute( "timedivision" ).split( "/" )[ 0 ];
 				this.#popups.tempo.stepsPerBeat.value = +this.getAttribute( "timedivision" ).split( "/" )[ 1 ];
-				this.#popups.tempo.bpm.value = +this.getAttribute( "bpm" );
+				this.#popups.tempo.bpm.value = GSUI.getAttrNum( this, "bpm" );
 				GSUI.popup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
 					.then( data => {
 						if ( data ) {
@@ -505,7 +505,7 @@ class gsuiDAW extends HTMLElement {
 
 							if (
 								newTimediv !== this.getAttribute( "timedivision" ) ||
-								data.bpm !== +this.getAttribute( "bpm" )
+								data.bpm !== GSUI.getAttrNum( this, "bpm" )
 							) {
 								this.#dispatch( "tempo", data );
 							}
@@ -513,8 +513,8 @@ class gsuiDAW extends HTMLElement {
 					} );
 				break;
 			case "settings":
-				this.#popups.settings.sampleRate.value = +this.getAttribute( "samplerate" );
-				this.#popups.settings.timelineNumbering.value = +this.getAttribute( "timelinenumbering" );
+				this.#popups.settings.sampleRate.value = GSUI.getAttrNum( this, "samplerate" );
+				this.#popups.settings.timelineNumbering.value = GSUI.getAttrNum( this, "timelinenumbering" );
 				this.#popups.settings.windowsLowGraphics.checked = this.getAttribute( "windowslowgraphics" ) === "";
 				this.#popups.settings.uiRateRadio[ this.getAttribute( "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
 				if ( this.getAttribute( "uirate" ) !== "auto" ) {
@@ -531,10 +531,10 @@ class gsuiDAW extends HTMLElement {
 							if (
 								(
 									data.uiRate !== this.getAttribute( "uirate" ) &&
-									data.uiRate !== +this.getAttribute( "uirate" )
+									data.uiRate !== GSUI.getAttribute( this, "uirate" )
 								) ||
-								data.sampleRate !== +this.getAttribute( "samplerate" ) ||
-								data.timelineNumbering !== +this.getAttribute( "timelinenumbering" ) ||
+								data.sampleRate !== GSUI.getAttrNum( this, "samplerate" ) ||
+								data.timelineNumbering !== GSUI.getAttrNum( this, "timelinenumbering" ) ||
 								data.windowsLowGraphics !== ( this.getAttribute( "windowslowgraphics" ) === "" )
 							) {
 								this.#dispatch( "settings", data );

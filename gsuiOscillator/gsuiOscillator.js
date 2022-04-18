@@ -101,8 +101,8 @@ class gsuiOscillator extends HTMLElement {
 	}
 	updateWave( prop, val ) {
 		const [ w0, w1 ] = this.#elements.waves;
-		const gain = prop === "gain" ? val : +this.getAttribute( "gain" );
-		const pan = prop === "pan" ? val : +this.getAttribute( "pan" );
+		const gain = prop === "gain" ? val : GSUI.getAttrNum( this, "gain" );
+		const pan = prop === "pan" ? val : GSUI.getAttrNum( this, "pan" );
 
 		w0.type =
 		w1.type = prop === "type" ? val : this.getAttribute( "type" );

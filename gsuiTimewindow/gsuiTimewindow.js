@@ -107,7 +107,7 @@ class gsuiTimewindow extends HTMLElement {
 					this.style.setProperty( "--gsuiTimewindow-lineH", `${ val }px` );
 					break;
 				case "currenttime": {
-					const step = +this.getAttribute( "currenttimestep" );
+					const step = GSUI.getAttrNum( this, "currenttimestep" );
 
 					GSUI.setAttr( this.#elements.timeline, "currenttime", val );
 					if ( step ) {
@@ -144,7 +144,7 @@ class gsuiTimewindow extends HTMLElement {
 
 	// .........................................................................
 	#onclickStep() {
-		const v = +this.getAttribute( "step" );
+		const v = GSUI.getAttrNum( this, "step" );
 		const frac =
 			v >= 1 ? 2 :
 			v >= .5 ? 4 :
@@ -155,8 +155,8 @@ class gsuiTimewindow extends HTMLElement {
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
 			const ppb = this.#pxPerBeat;
-			const min = +this.getAttribute( "pxperbeatmin" ) || 8;
-			const max = +this.getAttribute( "pxperbeatmax" ) || 512;
+			const min = GSUI.getAttrNum( this, "pxperbeatmin" ) || 8;
+			const max = GSUI.getAttrNum( this, "pxperbeatmax" ) || 512;
 			const offpx = parseInt( this.#elements.panel.style.minWidth );
 			const mousepx = e.pageX - this.getBoundingClientRect().left - offpx;
 			const scrollPpb = this.scrollLeft / ppb;
@@ -176,8 +176,8 @@ class gsuiTimewindow extends HTMLElement {
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
 			const lh = this.#lineHeight;
-			const min = +this.getAttribute( "lineheightmin" ) || 24;
-			const max = +this.getAttribute( "lineheightmax" ) || 256;
+			const min = GSUI.getAttrNum( this, "lineheightmin" ) || 24;
+			const max = GSUI.getAttrNum( this, "lineheightmax" ) || 256;
 			const offpx = parseInt( this.#elements.timeline.clientHeight );
 			const mousepx = e.pageY - this.getBoundingClientRect().top - offpx;
 			const scrollLh = this.scrollTop / lh;
@@ -211,16 +211,16 @@ class gsuiTimewindow extends HTMLElement {
 	}
 	#onmousemoveExtendPanel( e ) {
 		const w = this.#panelSize + ( e.pageX - this.#mousedownPageX );
-		const min = +this.getAttribute( "panelsizemin" ) || 50;
-		const max = +this.getAttribute( "panelsizemax" ) || 260;
+		const min = GSUI.getAttrNum( this, "panelsizemin" ) || 50;
+		const max = GSUI.getAttrNum( this, "panelsizemax" ) || 260;
 		const w2 = Math.max( min, Math.min( w, max ) );
 
 		this.#elements.panel.style.minWidth = `${ w2 }px`;
 	}
 	#onmousemoveExtendDownPanel( e ) {
 		const h = this.#panelSize + ( this.#mousedownPageY - e.pageY );
-		const min = +this.getAttribute( "downpanelsizemin" ) || 50;
-		const max = +this.getAttribute( "downpanelsizemax" ) || 260;
+		const min = GSUI.getAttrNum( this, "downpanelsizemin" ) || 50;
+		const max = GSUI.getAttrNum( this, "downpanelsizemax" ) || 260;
 		const h2 = Math.max( min, Math.min( h, max ) );
 
 		this.#elements.panelDown.style.height =
