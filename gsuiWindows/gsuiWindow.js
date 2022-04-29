@@ -263,13 +263,13 @@ class gsuiWindow extends HTMLElement {
 		this.#resetCSSrelative( this.#elements.handlers.style );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
-				case "e" : this.setSize( w + m.x, h       ); break;
+				case "e":  this.setSize( w + m.x, h       ); break;
 				case "se": this.setSize( w + m.x, h + m.y ); break;
-				case "s" : this.setSize( w,       h + m.y ); break;
+				case "s":  this.setSize( w,       h + m.y ); break;
 				case "sw": this.setSize( w - m.x, h + m.y ); this.setPosition( x + m.x, y       ); break;
-				case "w" : this.setSize( w - m.x, h       ); this.setPosition( x + m.x, y       ); break;
+				case "w":  this.setSize( w - m.x, h       ); this.setPosition( x + m.x, y       ); break;
 				case "nw": this.setSize( w - m.x, h - m.y ); this.setPosition( x + m.x, y + m.y ); break;
-				case "n" : this.setSize( w,       h - m.y ); this.setPosition( x,       y + m.y ); break;
+				case "n":  this.setSize( w,       h - m.y ); this.setPosition( x,       y + m.y ); break;
 				case "ne": this.setSize( w + m.x, h - m.y ); this.setPosition( x,       y + m.y ); break;
 			}
 		}
@@ -365,10 +365,10 @@ class gsuiWindow extends HTMLElement {
 		const h = this.rect.h - this.#mousedownHeadHeight - this.#hMin;
 
 		switch ( dir ) {
-			case "n" : if ( h - mm.y < 0 ) { mm.y =  h; } break;
-			case "s" : if ( h + mm.y < 0 ) { mm.y = -h; } break;
-			case "w" :                                    if ( w - mm.x < 0 ) { mm.x =  w; } break;
-			case "e" :                                    if ( w + mm.x < 0 ) { mm.x = -w; } break;
+			case "n":  if ( h - mm.y < 0 ) { mm.y =  h; } break;
+			case "s":  if ( h + mm.y < 0 ) { mm.y = -h; } break;
+			case "w":                                     if ( w - mm.x < 0 ) { mm.x =  w; } break;
+			case "e":                                     if ( w + mm.x < 0 ) { mm.x = -w; } break;
 			case "nw": if ( h - mm.y < 0 ) { mm.y =  h; } if ( w - mm.x < 0 ) { mm.x =  w; } break;
 			case "ne": if ( h - mm.y < 0 ) { mm.y =  h; } if ( w + mm.x < 0 ) { mm.x = -w; } break;
 			case "sw": if ( h + mm.y < 0 ) { mm.y = -h; } if ( w - mm.x < 0 ) { mm.x =  w; } break;
@@ -377,10 +377,10 @@ class gsuiWindow extends HTMLElement {
 	}
 	#setCSSrelativeResize( st, dir, mm ) {
 		switch ( dir ) {
-			case "n" : st.top    = `${  mm.y }px`; break;
-			case "s" : st.bottom = `${ -mm.y }px`; break;
-			case "w" : st.left   = `${  mm.x }px`; break;
-			case "e" : st.right  = `${ -mm.x }px`; break;
+			case "n":  st.top    = `${  mm.y }px`; break;
+			case "s":  st.bottom = `${ -mm.y }px`; break;
+			case "w":  st.left   = `${  mm.x }px`; break;
+			case "e":  st.right  = `${ -mm.x }px`; break;
 			case "nw": st.left   = `${  mm.x }px`; st.top    = `${  mm.y }px`; break;
 			case "ne": st.right  = `${ -mm.x }px`; st.top    = `${  mm.y }px`; break;
 			case "sw": st.left   = `${  mm.x }px`; st.bottom = `${ -mm.y }px`; break;
