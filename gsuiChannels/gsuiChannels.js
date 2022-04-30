@@ -5,7 +5,6 @@ class gsuiChannels extends HTMLElement {
 	#chanSelected = null;
 	#analyserW = 10;
 	#analyserH = 50;
-	#attached = false;
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-channels" );
 	#elements = GSUI.findElem( this.#children, {
@@ -51,11 +50,9 @@ class gsuiChannels extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 		}
-		this.#attached = true;
 		GSUI.observeSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
-		this.#attached = false;
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 
