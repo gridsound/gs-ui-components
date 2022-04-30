@@ -9,8 +9,6 @@ class gsuiDragline {
 	#evKeydown = null;
 	#evMouseup = null;
 	#evMousemove = null;
-	#dragging = false;
-	#lineSize = 0;
 	#elements = GSUI.findElem( this.rootElement, {
 		main: ".gsuiDragline-main",
 		svg: ".gsuiDragline-line",
@@ -38,15 +36,11 @@ class gsuiDragline {
 		if ( this.#linkedTo ) {
 			const bcr = this.#linkedTo.getBoundingClientRect();
 
-			this.#updateLineSize();
 			this.#render( bcr.left, bcr.top );
 		}
 	}
 
 	// .........................................................................
-	#updateLineSize() {
-		this.#lineSize = parseFloat( getComputedStyle( this.#elements.polyline ).strokeWidth ) || 0;
-	}
 	#render( x, y ) {
 		const clMain = this.#elements.main.classList;
 		const stMain = this.#elements.main.style;
@@ -97,7 +91,6 @@ class gsuiDragline {
 			el.classList.remove( "gsuiDragline-dropActive" );
 			delete el.onmouseup;
 		} );
-		this.#dragging = false;
 		document.removeEventListener( "mousemove", this.#evMousemove );
 		document.removeEventListener( "mouseup", this.#evMouseup );
 		document.removeEventListener( "keydown", this.#evKeydown );
@@ -106,7 +99,6 @@ class gsuiDragline {
 	// .........................................................................
 	#onmousedownTo( e ) {
 		if ( e.button === 0 ) {
-			this.#dragging = true;
 			this.#dropAreas = this.getDropAreas();
 			this.#dropAreas.forEach( el => {
 				el.onmouseup = this.#onmouseupDrop.bind( this );
@@ -119,7 +111,6 @@ class gsuiDragline {
 			document.addEventListener( "mousemove", this.#evMousemove );
 			document.addEventListener( "mouseup", this.#evMouseup );
 			document.addEventListener( "keydown", this.#evKeydown );
-			this.#updateLineSize();
 			this.#onmousemove( e );
 		}
 	}
