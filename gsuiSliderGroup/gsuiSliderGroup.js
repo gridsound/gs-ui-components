@@ -4,7 +4,6 @@ class gsuiSliderGroup extends HTMLElement {
 	#min = 0;
 	#max = 0;
 	#def = 0;
-	#exp = 0;
 	#step = 0;
 	#button = 0;
 	#sliders = new Map();
@@ -99,11 +98,10 @@ class gsuiSliderGroup extends HTMLElement {
 		this.#selected.clear();
 		this.#valueSaved.clear();
 	}
-	options( { min, max, step, exp, def } ) {
+	options( { min, max, step, def } ) {
 		this.#min = min;
 		this.#max = max;
 		this.#step = step;
-		this.#exp = exp ?? 0;
 		this.#def = def ?? max;
 		this.#elements.defValue.style.top = `${ 100 - ( this.#def - min ) / ( max - min ) * 100 }%`;
 	}
