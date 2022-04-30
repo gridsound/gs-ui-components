@@ -3,7 +3,6 @@
 class gsuiSlider extends HTMLElement {
 	#min = 0;
 	#max = 100;
-	#step = 1;
 	#scrollStep = 1;
 	#wheelChange = false;
 	#mousemoveSize = 0;
@@ -80,7 +79,7 @@ class gsuiSlider extends HTMLElement {
 					updateVal = true;
 					break;
 				case "step":
-					this.#elements.input.step = this.#step = +val;
+					this.#elements.input.step = +val;
 					updateVal = true;
 					break;
 				case "scroll-step":
