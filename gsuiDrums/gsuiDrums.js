@@ -13,7 +13,6 @@ class gsuiDrums extends HTMLElement {
 	} );
 	#hoverBeat = 0;
 	#hoverPageX = 0;
-	#linesPanelWidth = 0;
 	#stepsPerBeat = 4;
 	#pxPerBeat = 80;
 	#pxPerStep = this.#pxPerBeat / this.#stepsPerBeat;
