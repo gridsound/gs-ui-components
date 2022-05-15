@@ -83,16 +83,14 @@ class gsuiPeriodicWave extends HTMLElement {
 		}, 0 );
 	}
 	static addWave( name, real, imag ) {
-		const cache = gsuiPeriodicWave.cache;
-
-		if ( !cache[ name ] ) {
+		if ( !gsuiPeriodicWave.cache[ name ] ) {
 			const arr = [];
 			const fn = gsuiPeriodicWave.getXFromWave.bind( null, real, imag );
 
 			for ( let x = 0; x < 256; ++x ) {
 				arr.push( fn( x / 256 ) );
 			}
-			cache[ name ] = arr;
+			gsuiPeriodicWave.cache[ name ] = arr;
 		}
 	}
 }
