@@ -3,17 +3,25 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
-<link rel="shortcut icon" href="../../assets/favicon.png"/>
-<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiDragshield/gsuiDragshield.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-<link rel="stylesheet" href="../gsuiTimeline/gsuiTimeline.colors.default.css"/>
-<link rel="stylesheet" href="../gsuiTimeline/gsuiTimeline.css"/>
-<link rel="stylesheet" href="gsuiTimewindow.colors.default.css"/>
-<link rel="stylesheet" href="gsuiTimewindow.css"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiDragshield/gsuiDragshield.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiTimeline/gsuiTimeline.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiTimeline/gsuiTimeline.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiTimewindow/gsuiTimewindow.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiTimewindow/gsuiTimewindow.css"/>
+
+<!-- ....................................................................... -->
 <style>
 body {
 	--test-bg-color: #916;
@@ -58,6 +66,7 @@ gsui-timewindow {
 </head>
 <body>
 
+<!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-timewindow downpanel timedivision="4/4" pxperbeat="60"></gsui-timewindow>
 	<div id="timeForm">
@@ -68,14 +77,21 @@ gsui-timewindow {
 	</div>
 </div>
 
-<script src="../gsui.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsuiDragshield/gsuiDragshield.js"></script>
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-<script src="../gsuiTimeline/gsuiTimeline.html.js"></script>
-<script src="../gsuiTimeline/gsuiTimeline.js"></script>
-<script src="gsuiTimewindow.html.js"></script>
-<script src="gsuiTimewindow.js"></script>
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiDragshield/gsuiDragshield.js"></script>
+<script src="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="/gs-ui-components/gsuiTimeline/gsuiTimeline.html.js"></script>
+<script src="/gs-ui-components/gsuiTimeline/gsuiTimeline.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiTimewindow/gsuiTimewindow.html.js"></script>
+<script src="/gs-ui-components/gsuiTimewindow/gsuiTimewindow.js"></script>
+
+<!-- ....................................................................... -->
 <script>
 const win = document.querySelector( "gsui-timewindow" );
 const tracks = [];

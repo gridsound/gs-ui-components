@@ -3,37 +3,45 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
-<link rel="shortcut icon" href="../../assets/favicon.png"/>
-<link rel="stylesheet" href="../../assets/fonts/fonts.css"/>
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiPopup/gsuiPopup.colors.default.css"/>
-<link rel="stylesheet" href="../gsuiPopup/gsuiPopup.css"/>
-<link rel="stylesheet" href="../gsuiClock/gsuiClock.colors.default.css"/>
-<link rel="stylesheet" href="../gsuiClock/gsuiClock.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-<link rel="stylesheet" href="../gsuiSpectrum/gsuiSpectrum.css"/>
-<link rel="stylesheet" href="gsuiDAW.colors.default.css"/>
-<link rel="stylesheet" href="gsuiDAW.css"/>
-<link rel="stylesheet" href="gsuiDAW-btn.css"/>
-<link rel="stylesheet" href="gsuiDAW-cmp.css"/>
-<link rel="stylesheet" href="gsuiDAW-dropdown.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-user.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-save.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-ctrl.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-time.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-hist.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-wins.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-help.css"/>
-<link rel="stylesheet" href="gsuiDAW-area-vers.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-auth.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-open.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-about.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-tempo.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-export.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-settings.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-shortcuts.css"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiClock/gsuiClock.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiClock/gsuiClock.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-btn.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-cmp.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-dropdown.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-user.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-save.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-ctrl.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-time.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-hist.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-wins.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-help.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-area-vers.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-auth.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-open.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-about.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-tempo.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-export.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-settings.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDAW/gsuiDAW-popup-shortcuts.css"/>
+
+<!-- ....................................................................... -->
 <style>
 body {
 	--test-bg-color: #333;
@@ -48,31 +56,39 @@ body {
 </head>
 <body>
 
+<!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-daw focus="up" bpm="120" timedivision="4/4"></gsui-daw>
 </div>
 
-<script src="../gsui.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../../gs-wa-components/gswaBPMTap/gswaBPMTap.js"></script>
-<script src="../gsuiPopup/gsuiPopup.html.js"></script>
-<script src="../gsuiPopup/gsuiPopup.js"></script>
-<script src="../gsuiAnalyser/gsuiAnalyser.js"></script>
-<script src="../gsuiClock/gsuiClock.html.js"></script>
-<script src="../gsuiClock/gsuiClock.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-<script src="../gsuiSpectrum/gsuiSpectrum.js"></script>
-<script src="gsuiDAW.html.js"></script>
-<script src="gsuiDAW-popup-auth.html.js"></script>
-<script src="gsuiDAW-popup-open.html.js"></script>
-<script src="gsuiDAW-popup-about.html.js"></script>
-<script src="gsuiDAW-popup-tempo.html.js"></script>
-<script src="gsuiDAW-popup-export.html.js"></script>
-<script src="gsuiDAW-popup-cookies.html.js"></script>
-<script src="gsuiDAW-popup-settings.html.js"></script>
-<script src="gsuiDAW-popup-shortcuts.html.js"></script>
-<script src="gsuiDAW.js"></script>
+<!-- ....................................................................... -->
+<script src="/gs-wa-components/gswaBPMTap/gswaBPMTap.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsuiPopup/gsuiPopup.html.js"></script>
+<script src="/gs-ui-components/gsuiPopup/gsuiPopup.js"></script>
+<script src="/gs-ui-components/gsuiAnalyser/gsuiAnalyser.js"></script>
+<script src="/gs-ui-components/gsuiClock/gsuiClock.html.js"></script>
+<script src="/gs-ui-components/gsuiClock/gsuiClock.js"></script>
+<script src="/gs-ui-components/gsuiSlider/gsuiSlider.html.js"></script>
+<script src="/gs-ui-components/gsuiSlider/gsuiSlider.js"></script>
+<script src="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-auth.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-open.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-about.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-tempo.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-export.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-cookies.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-settings.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW-popup-shortcuts.html.js"></script>
+<script src="/gs-ui-components/gsuiDAW/gsuiDAW.js"></script>
+
+<!-- ....................................................................... -->
 <script>
 const el = document.querySelector( "gsui-daw" );
 
