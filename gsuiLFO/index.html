@@ -38,6 +38,7 @@ body {
 
 <!-- ....................................................................... -->
 <script src="/gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
+<script src="/assets/gswaPeriodicWavesList-v1.js"></script>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsui.js"></script>
@@ -52,5 +53,14 @@ body {
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiLFO/gsuiLFO.html.js"></script>
 <script src="/gs-ui-components/gsuiLFO/gsuiLFO.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elLFO = document.querySelector( "gsui-lfo" );
+const waves = gswaPeriodicWaves.loadWaves( gswaPeriodicWavesList );
+
+waves.forEach( ( w, name ) => gsuiPeriodicWave.addWave( name, w.real, w.imag ) );
+elLFO.updateWave();
+</script>
 </body>
 </html>

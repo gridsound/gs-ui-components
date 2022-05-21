@@ -67,5 +67,14 @@ body {
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiSynthesizer/gsuiSynthesizer.html.js"></script>
 <script src="/gs-ui-components/gsuiSynthesizer/gsuiSynthesizer.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elSyn = document.querySelector( "gsui-synthesizer" );
+const waves = gswaPeriodicWaves.loadWaves( gswaPeriodicWavesList );
+
+waves.forEach( ( w, name ) => gsuiPeriodicWave.addWave( name, w.real, w.imag ) );
+elSyn.setWaveList( waves );
+</script>
 </body>
 </html>

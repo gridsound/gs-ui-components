@@ -57,8 +57,8 @@ body {
 const elOsc = document.querySelector( "gsui-oscillator" );
 const waves = gswaPeriodicWaves.loadWaves( gswaPeriodicWavesList );
 
-elOsc.addWaves( Array.from( waves.keys() ) );
 waves.forEach( ( w, name ) => gsuiPeriodicWave.addWave( name, w.real, w.imag ) );
+elOsc.addWaves( Array.from( waves.keys() ) );
 </script>
 </body>
 </html>
