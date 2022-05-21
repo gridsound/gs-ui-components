@@ -71,11 +71,11 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="../gsui.js"></script>
-<script src="../test-assets/test.js"></script>
+<script src="/gs-wa-components/gswaSlicer/gswaSlicer.js"></script>
 
 <!-- ....................................................................... -->
-<script src="/gs-wa-components/gswaSlicer/gswaSlicer.js"></script>
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiDragshield/gsuiDragshield.js"></script>
@@ -138,15 +138,15 @@ rmSampleBtn.onclick = () => slicer.removeBuffer();
 loadSampleBtn.onclick = () => {
 	ctx = ctx || new AudioContext();
 	slicer.removeBuffer();
-	// fetch( "../test-assets/i-just-dont-know-why_F_minor.wav" )
-	// fetch( "../test-assets/the_purge_siren_3.wav" )
-	// fetch( "../test-assets/mental-help-hotline.m4a" )
-	// fetch( "../test-assets/still-listening-gentleman.wav" )
-	// fetch( "../test-assets/56k.ogg" )
-	// fetch( "../test-assets/LCU_808_180_DLKit_03_Full.wav" )
-	fetch( "../test-assets/Too Long - Steam Machine.wav" )
-	// fetch( "../test-assets/Robot Rock - Oh Yeah.wav" )
-	// fetch( "../test-assets/Television Rules The Nation - Crescendolls.wav" )
+	// fetch( "/gs-ui-components/test-assets/i-just-dont-know-why_F_minor.wav" )
+	// fetch( "/gs-ui-components/test-assets/the_purge_siren_3.wav" )
+	// fetch( "/gs-ui-components/test-assets/mental-help-hotline.m4a" )
+	// fetch( "/gs-ui-components/test-assets/still-listening-gentleman.wav" )
+	// fetch( "/gs-ui-components/test-assets/56k.ogg" )
+	// fetch( "/gs-ui-components/test-assets/LCU_808_180_DLKit_03_Full.wav" )
+	fetch( "/gs-ui-components/test-assets/Too Long - Steam Machine.wav" )
+	// fetch( "/gs-ui-components/test-assets/Robot Rock - Oh Yeah.wav" )
+	// fetch( "/gs-ui-components/test-assets/Television Rules The Nation - Crescendolls.wav" )
 		.then( res => res.arrayBuffer() )
 		.then( arr => ctx.decodeAudioData( arr ) )
 		.then( buf => {
