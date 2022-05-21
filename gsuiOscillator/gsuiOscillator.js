@@ -98,6 +98,7 @@ class gsuiOscillator extends HTMLElement {
 			}
 		} );
 		Element.prototype.append.apply( this.#elements.waveSelect, opts );
+		this.updateWave();
 	}
 	updateWave( prop, val ) {
 		const [ w0, w1 ] = this.#elements.waves;
