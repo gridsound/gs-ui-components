@@ -7,7 +7,7 @@ GSUI.setTemplate( "gsui-envelope", () => {
 				GSUI.createElem( "input", { class: "gsuiEnvelope-toggleCheckbox", name: "gsuiEnvelope-toggle", type: "checkbox" } ),
 				GSUI.createElem( "i", { class: "gsuiEnvelope-toggleIcon gsuiIcon", "data-icon": "toggle" } ),
 			),
-			GSUI.createElem( "span", { class: "gsuiEnvelope-title" }, "Env" ),
+			GSUI.createElem( "span", { class: "gsuiEnvelope-title" }, "env gain" ),
 		),
 		[
 			[ "attack", "attack", "att", 0, 1, .01 ],
