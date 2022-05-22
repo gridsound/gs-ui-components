@@ -30,17 +30,7 @@ GSUI.setTemplate( "gsui-lfo", () => {
 			[ "attack", "attack", "att", 0, 4, .03125 ],
 			[ "speed", "speed", "spd", .25, 18, .125 ],
 			[ "amp", "amplitude", "amp", .001, 1, .001 ],
-		].map( ( [ prop, title, text, min, max, step ] ) =>
-			GSUI.createElem( "div", { class: `gsuiLFO-prop gsuiLFO-${ prop }`, title },
-				GSUI.createElem( "div", { class: "gsuiLFO-propLabel" },
-					GSUI.createElem( "span", null, text ),
-					GSUI.createElem( "div", { class: "gsuiLFO-propValue" } ),
-				),
-				GSUI.createElem( "div", { class: "gsuiLFO-propContent" },
-					GSUI.createElem( "gsui-slider", { type: "linear-x", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
-				),
-			)
-		),
+		].map( props => GSUI.getTemplate( "gsui-lfo-slider", props ) ),
 		GSUI.createElem( "div", { class: "gsuiLFO-prop gsuiLFO-type" },
 			GSUI.createElem( "div", { class: "gsuiLFO-propLabel" }, "wave" ),
 			GSUI.createElem( "div", { class: "gsuiLFO-propContent" },
@@ -59,3 +49,15 @@ GSUI.setTemplate( "gsui-lfo", () => {
 		),
 	].flat( 1 );
 } );
+
+GSUI.setTemplate( "gsui-lfo-slider", ( [ prop, title, text, min, max, step ] ) => (
+	GSUI.createElem( "div", { class: `gsuiLFO-prop gsuiLFO-${ prop }`, title },
+		GSUI.createElem( "div", { class: "gsuiLFO-propLabel" },
+			GSUI.createElem( "span", null, text ),
+			GSUI.createElem( "div", { class: "gsuiLFO-propValue" } ),
+		),
+		GSUI.createElem( "div", { class: "gsuiLFO-propContent" },
+			GSUI.createElem( "gsui-slider", { type: "linear-x", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
+		),
+	)
+) );
