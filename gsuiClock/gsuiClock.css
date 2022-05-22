@@ -1,5 +1,6 @@
 gsui-clock {
-	display: inline-flex;
+	display: flex;
+	height: 100%;
 	color: var( --gsuiClock-color );
 	border-radius: 4px;
 	font-size: 22px;
