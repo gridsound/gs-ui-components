@@ -10,6 +10,7 @@ body {
 	--gsui-col-gain: rgb( var( --gsui-rgb-gain ) );
 	--gsui-col-detune: rgb( var( --gsui-rgb-detune ) );
 	--gsui-col-pattern: rgb( var( --gsui-rgb-pattern ) );
+	--gsui-col-lowpass: #d96;
 	--gsui-col-patternSelected: rgb( var( --gsui-rgb-patternSelected ) );
 	--gsui-col-currentTimeCursor: rgb( var( --gsui-rgb-currentTimeCursor ) );
 }
