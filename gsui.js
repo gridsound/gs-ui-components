@@ -53,10 +53,12 @@ class GSUI {
 		return arr.map( sel => GSUI.findElem( root, sel ) );
 	}
 	static #findElemObj( root, obj ) {
-		const ent = Object.entries( obj );
+		if ( obj ) {
+			const ent = Object.entries( obj );
 
-		ent.forEach( kv => kv[ 1 ] = GSUI.findElem( root, kv[ 1 ] ) );
-		return Object.fromEntries( ent );
+			ent.forEach( kv => kv[ 1 ] = GSUI.findElem( root, kv[ 1 ] ) );
+			return Object.fromEntries( ent );
+		}
 	}
 	static #findElemStr( root, sel ) {
 		if ( Array.isArray( root ) ) {
