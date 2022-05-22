@@ -3,10 +3,12 @@
 class gsuiLFO extends HTMLElement {
 	#dur = 4;
 	#waveWidth = 300;
+	#nyquist = 24000;
 	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiLFO" );
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.getTemplate( "gsui-lfo" );
 	#elements = GSUI.findElem( this.#children, {
+		title: ".gsuiLFO-title",
 		beatlines: "gsui-beatlines",
 		wave: "gsui-periodicwave",
 		sliders: {
@@ -14,6 +16,7 @@ class gsuiLFO extends HTMLElement {
 			attack: [ ".gsuiLFO-attack gsui-slider", ".gsuiLFO-attack .gsuiLFO-propValue" ],
 			speed:  [ ".gsuiLFO-speed  gsui-slider", ".gsuiLFO-speed  .gsuiLFO-propValue" ],
 			amp:    [ ".gsuiLFO-amp    gsui-slider", ".gsuiLFO-amp    .gsuiLFO-propValue" ],
+			lowpassfreq: null,
 		},
 	} );
 
@@ -42,6 +45,7 @@ class gsuiLFO extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.recallAttributes( this, {
+				target: "gain",
 				toggle: false,
 				timedivision: "4/4",
 				type: "sine",
@@ -58,19 +62,21 @@ class gsuiLFO extends HTMLElement {
 		GSUI.unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp" ];
+		return [ "target", "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
+				case "target": this.#changeTarget( val ); break;
 				case "timedivision": GSUI.setAttr( this.#elements.beatlines, "timedivision", val ); break;
 				case "toggle": this.#changeToggle( val !== null ); break;
 				case "type": this.#changeType( val ); break;
 				case "delay":
 				case "attack":
 				case "speed":
+				case "lowpassfreq":
 					this.#changeProp( prop, num );
 					break;
 				case "amp":
@@ -101,10 +107,27 @@ class gsuiLFO extends HTMLElement {
 	}
 
 	// .........................................................................
+	#changeTarget( t ) {
+		this.#elements.title.textContent = `LFO ${ t }`;
+
+		switch ( t ) {
+			case "gain":
+				if ( this.#elements.sliders.lowpassfreq ) {
+					this.#elements.sliders.lowpassfreq[ 0 ].parentNode.parentNode.remove();
+					this.#elements.sliders.lowpassfreq = null;
+				}
+				break;
+			case "lowpass": {
+				const lpFreq = GSUI.getTemplate( "gsui-lfo-slider", [ "lowpassfreq", "lowpass frequency", "LP", 10, this.#nyquist, 10 ] );
+
+				this.#elements.sliders.amp[ 0 ].parentNode.parentNode.after( lpFreq );
+				this.#elements.sliders.lowpassfreq = GSUI.findElem( lpFreq, [ "gsui-slider", ".gsuiLFO-propValue" ] );
+			} break;
+		}
+	}
 	#changeToggle( b ) {
 		this.classList.toggle( "gsuiLFO-enable", b );
-		this.querySelectorAll( ".gsuiLFO-typeRadio" )
-			.forEach( el => GSUI.setAttr( el, "disabled", !b ) );
+		this.querySelectorAll( ".gsuiLFO-typeRadio" ).forEach( el => GSUI.setAttr( el, "disabled", !b ) );
 		this.#elements.sliders.delay[ 0 ].enable( b );
 		this.#elements.sliders.attack[ 0 ].enable( b );
 		this.#elements.sliders.speed[ 0 ].enable( b );
@@ -118,13 +141,18 @@ class gsuiLFO extends HTMLElement {
 		this.querySelector( `.gsuiLFO-ampSignRadio[value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
 	}
 	#changeProp( prop, val ) {
-		const [ sli, span ] = this.#elements.sliders[ prop ];
+		const sli = this.#elements.sliders[ prop ];
 
-		sli.setValue( val );
-		span.textContent = val.toFixed( 2 );
+		if ( sli ) {
+			sli[ 0 ].setValue( val );
+			sli[ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
+		}
 	}
 	#updatePxPerBeat() {
 		GSUI.setAttr( this.#elements.beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
+	}
+	static #formatVal( prop, val ) {
+		return prop === "lowpassfreq" ? val : val.toFixed( 2 );
 	}
 
 	// .........................................................................
@@ -156,7 +184,7 @@ class gsuiLFO extends HTMLElement {
 			? val
 			: val * Math.sign( GSUI.getAttrNum( this, "amp" ) );
 
-		this.#elements.sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
+		this.#elements.sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		this.updateWave( prop, realval );
 		this.#dispatch( "liveChange", prop, realval );
 	}

@@ -7,7 +7,7 @@ GSUI.setTemplate( "gsui-lfo", () => {
 				GSUI.createElem( "input", { class: "gsuiLFO-btnInput gsuiLFO-toggleCheckbox", name: "gsuiLFO-toggle", type: "checkbox" } ),
 				GSUI.createElem( "i", { class: "gsuiLFO-btnIcon gsuiLFO-toggleIcon gsuiIcon", "data-icon": "toggle" } ),
 			),
-			GSUI.createElem( "span", { class: "gsuiLFO-title" }, "LFO" ),
+			GSUI.createElem( "span", { class: "gsuiLFO-title" }, "LFO ..." ),
 		),
 		GSUI.createElem( "div", { class: "gsuiLFO-graph" },
 			GSUI.createElem( "div", { class: "gsuiLFO-wave" },

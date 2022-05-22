@@ -17,6 +17,18 @@ gsui-lfo {
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
 	--gsuiSlider-lineBgColor: var( --gsuiLFO-ctrls-bg );
 }
+gsui-lfo[ target='gain' ] {
+	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
+}
+gsui-lfo[ target='lowpass' ] {
+	--gsuiLFO-ctrls-color: var( --gsui-col-lowpass );
+	grid-template:
+		"head head head  head   head  head  head  head" 24px
+		".    type delay attack speed amp   lpHz  .   " 28px
+		".    type graph graph  graph graph graph .   " 1fr
+		".    .    .     .      .     .     .     .   " 0
+		/0    32px 1fr   1fr    1fr   1fr   1fr   0;
+}
 
 /* .......................................................................... */
 .gsuiLFO-prop {
@@ -71,11 +83,14 @@ gsui-lfo {
 .gsuiLFO-attack {
 	grid-area: attack;
 }
+.gsuiLFO-speed {
+	grid-area: speed;
+}
 .gsuiLFO-amp {
 	grid-area: amp;
 }
-.gsuiLFO-speed {
-	grid-area: speed;
+.gsuiLFO-lowpassfreq {
+	grid-area: lpHz;
 }
 gsui-lfo .gsuiSlider-eventCatcher {
 	top: -26px;
