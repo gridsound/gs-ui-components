@@ -25,10 +25,8 @@
 <style>
 body {
 	--test-bg-color: #916;
+	--test-content-w: 400px;
 	--test-content-h: 260px;
-}
-gsui-timewindow {
-	height: calc( 100% - 32px );
 }
 .gsuiTimewindow-line {
 	height: var( --gsuiTimewindow-lineH );
@@ -59,9 +57,6 @@ gsui-timewindow {
 	border-bottom: 1px solid #0004;
 	cursor: default;
 }
-#timeForm {
-	margin-top: 10px;
-}
 </style>
 </head>
 <body>
@@ -69,12 +64,12 @@ gsui-timewindow {
 <!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-timewindow downpanel timedivision="4/4" pxperbeat="60"></gsui-timewindow>
-	<div id="timeForm">
-		<label>
-			<input id="timeDisabled" type="checkbox" name="disabled"/>
-			<span>disabled</span>
-		</label>
-	</div>
+</div>
+<div id="TEST-CTRLS">
+	<label>
+		<input id="timeDisabled" type="checkbox" name="disabled"/>
+		<span>disabled</span>
+	</label>
 </div>
 
 <!-- ....................................................................... -->

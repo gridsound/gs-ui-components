@@ -28,27 +28,8 @@ body {
 	--test-bg-color: #506;
 	--test-bg-color: #916;
 	--test-content-w: 380px;
-	--test-content-h: 420px;
-}
-#testWrap {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-#ctrls {
-	display: flex;
-	flex-direction: column;
-	gap: inherit;
-	font-size: 12px;
-}
-#ctrls > div {
-	display: flex;
-	gap: inherit;
-}
-#ctrls button {
-	font: inherit;
-	font-weight: bold;
-	flex: 1;
+	--test-content-minw: 280px;
+	--test-content-minh: 100px;
 }
 </style>
 </head>
@@ -57,16 +38,16 @@ body {
 <!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-slicer duration="8" timedivision="4/4"></gsui-slicer>
-	<div id="ctrls">
-		<div>
-			<button id="loadSample">Load a sample</button>
-			<button id="rmSample">Unload</button>
-			<button id="playSample">Play/Stop</button>
-		</div>
-		<div>
-			<span>currentTime</span>
-			<input id="currentTime" type="range" min="0" value="0" max="8" step=".001"/>
-		</div>
+</div>
+<div id="TEST-CTRLS">
+	<div>
+		<button id="loadSample">Load a sample</button>
+		<button id="rmSample">Unload</button>
+		<button id="playSample">Play/Stop</button>
+	</div>
+	<div>
+		<span>currentTime</span>
+		<input id="currentTime" type="range" min="0" value="0" max="8" step=".001"/>
 	</div>
 </div>
 
@@ -86,8 +67,8 @@ body {
 <script src="/gs-ui-components/gsuiTimeline/gsuiTimeline.js"></script>
 
 <!-- ....................................................................... -->
-<script src="gsuiSlicer.html.js"></script>
-<script src="gsuiSlicer.js"></script>
+<script src="/gs-ui-components/gsuiSlicer/gsuiSlicer.html.js"></script>
+<script src="/gs-ui-components/gsuiSlicer/gsuiSlicer.js"></script>
 
 <!-- ....................................................................... -->
 <script>

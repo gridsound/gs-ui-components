@@ -4,64 +4,68 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 
 (() => {
 
-document.addEventListener( "gsuiEvents", e => {
-	const { component, eventName, args } = e.detail;
+	document.addEventListener( "gsuiEvents", e => {
+		const { component, eventName, args } = e.detail;
 
-	console.warn( `gsuiEvent: [${ component }][${ eventName }]`, args );
-} );
+		console.warn( `gsuiEvent: [${ component }][${ eventName }]`, args );
+	} );
 
-document.body.append(
-	GSUI.createElement( "div", { id: "testBody" },
-		GSUI.createElement( "div", { id: "testHead" },
-			GSUI.createElement( "span", { id: "testTitle" }, "GSUI components testing" ),
-			GSUI.createElement( "select", { id: "testSelect" },
-				GSUI.createElement( "option", { value: "" }, "--" ),
-				GSUI.createElement( "option", { value: "gsuiDAW" }, "gsuiDAW" ),
-				GSUI.createElement( "option", { value: "gsuiChannel" }, "gsuiChannel" ),
-				GSUI.createElement( "option", { value: "gsuiClock" }, "gsuiClock" ),
-				GSUI.createElement( "option", { value: "gsuiEnvelope" }, "gsuiEnvelope" ),
-				GSUI.createElement( "option", { value: "gsuiKeys" }, "gsuiKeys" ),
-				GSUI.createElement( "option", { value: "gsuiLFO" }, "gsuiLFO" ),
-				GSUI.createElement( "option", { value: "gsuiOscillator" }, "gsuiOscillator" ),
-				GSUI.createElement( "option", { value: "gsuiSlicer" }, "gsuiSlicer" ),
-				GSUI.createElement( "option", { value: "gsuiSliderGroup" }, "gsuiSliderGroup" ),
-				GSUI.createElement( "option", { value: "gsuiSynthesizer" }, "gsuiSynthesizer" ),
-				GSUI.createElement( "option", { value: "gsuiTimeline" }, "gsuiTimeline" ),
-				GSUI.createElement( "option", { value: "gsuiTimewindow" }, "gsuiTimewindow" ),
+	document.body.append(
+		GSUI.createElem( "div", { id: "testBody" },
+			GSUI.createElem( "div", { id: "testHead" },
+				GSUI.createElem( "span", { id: "testTitle" }, "GSUI components testing" ),
+				GSUI.createElem( "select", { id: "testSelect" },
+					GSUI.createElem( "option", { value: "" }, "--" ),
+					GSUI.createElem( "option", { value: "gsuiDAW" }, "gsuiDAW" ),
+					GSUI.createElem( "option", { value: "gsuiChannel" }, "gsuiChannel" ),
+					GSUI.createElem( "option", { value: "gsuiClock" }, "gsuiClock" ),
+					GSUI.createElem( "option", { value: "gsuiEnvelope" }, "gsuiEnvelope" ),
+					GSUI.createElem( "option", { value: "gsuiKeys" }, "gsuiKeys" ),
+					GSUI.createElem( "option", { value: "gsuiLFO" }, "gsuiLFO" ),
+					GSUI.createElem( "option", { value: "gsuiOscillator" }, "gsuiOscillator" ),
+					GSUI.createElem( "option", { value: "gsuiSlicer" }, "gsuiSlicer" ),
+					GSUI.createElem( "option", { value: "gsuiSliderGroup" }, "gsuiSliderGroup" ),
+					GSUI.createElem( "option", { value: "gsuiSynthesizer" }, "gsuiSynthesizer" ),
+					GSUI.createElem( "option", { value: "gsuiTimeline" }, "gsuiTimeline" ),
+					GSUI.createElem( "option", { value: "gsuiTimewindow" }, "gsuiTimewindow" ),
+				),
+			),
+			GSUI.createElem( "div", { id: "testContent" },
+				GSUI.createElem( "div", { id: "testWrap" } ),
+				GSUI.createElem( "div", { id: "testCtrls" } ),
+			),
+			GSUI.createElem( "div", { id: "testDeps" } ),
+		),
+		GSUI.createElem( "div", { id: "testFoot" },
+			GSUI.createElem( "div", { id: "testCopyright" },
+				GSUI.createElem( "span", null, "© 2022 " ),
+				GSUI.createElem( "a", { href: "https://gridsound.com" }, "gridsound.com" ),
+				GSUI.createElem( "span", null, " all rights reserved" ),
 			),
 		),
-		GSUI.createElement( "div", { id: "testContent" },
-			GSUI.createElement( "div", { id: "testWrap" } ),
-		),
-		GSUI.createElement( "div", { id: "testDeps" } ),
-	),
-	GSUI.createElement( "div", { id: "testFoot" },
-		GSUI.createElement( "div", { id: "testCopyright" },
-			GSUI.createElement( "span", null, "© 2022 " ),
-			GSUI.createElement( "a", { href: "https://gridsound.com" }, "gridsound.com" ),
-			GSUI.createElement( "span", null, " all rights reserved" ),
-		),
-	),
-);
+	);
 
-Array.from( document.querySelector( "#TEST" ).children ).forEach( el => document.querySelector( "#testWrap" ).append( el ) )
+	const elTEST = document.querySelector( "#TEST" );
+	const elCTRLS = document.querySelector( "#TEST-CTRLS" );
+	elTEST && Array.from( elTEST.children ).forEach( el => document.querySelector( "#testWrap" ).append( el ) );
+	elCTRLS && Array.from( elCTRLS.children ).forEach( el => document.querySelector( "#testCtrls" ).append( el ) );
 
-function getPath() {
-	return location.pathname.split( "/" ).filter( Boolean );
-}
+	function getPath() {
+		return location.pathname.split( "/" ).filter( Boolean );
+	}
 
-const select = document.querySelector( "#testSelect" );
-const path = getPath();
-const curr = path.pop();
-
-document.title = `${ curr } (dev)`;
-select.value = curr;
-select.onchange = e => {
+	const select = document.querySelector( "#testSelect" );
 	const path = getPath();
+	const curr = path.pop();
 
-	path.pop();
-	path.push( e.target.value );
-	location.href = `${ location.origin }/${ path.join( "/" ) }`;
-}
+	document.title = `${ curr } (dev)`;
+	select.value = curr;
+	select.onchange = e => {
+		const path = getPath();
+
+		path.pop();
+		path.push( e.target.value );
+		location.href = `${ location.origin }/${ path.join( "/" ) }`;
+	}
 
 } )();

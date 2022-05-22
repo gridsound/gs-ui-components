@@ -1,7 +1,9 @@
 :root {
 	--test-bg-color: #22222a;
-	--test-content-w: 560px;
+	--test-content-w: auto;
 	--test-content-h: auto;
+	--test-content-minw: auto;
+	--test-content-minh: auto;
 	--test-content-resize: both;
 }
 
@@ -82,8 +84,11 @@ body.main {
 }
 #testContent {
 	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 	resize: var( --test-content-resize );
-	overflow: auto;
+	gap: 10px;
 	padding: 32px;
 	width: var( --test-content-w );
 	height: var( --test-content-h );
@@ -106,14 +111,19 @@ body.main {
 	pointer-events: none;
 }
 #testWrap {
+	flex: 1;
 	overflow: auto;
-	height: 100%;
+	min-width: var( --test-content-minw );
+	min-height: var( --test-content-minh );
 	scrollbar-width: thin;
 	scrollbar-color: #aaa #ddd;
 }
 #testWrap::-webkit-scrollbar { width: 8px; height: 8px; }
 #testWrap::-webkit-scrollbar-track { background-color: #ddd; }
 #testWrap::-webkit-scrollbar-thumb { background-color: #aaa; }
+#testCtrls:empty {
+	display: none;
+}
 #testDeps {
 	position: relative;
 	z-index: 1;
