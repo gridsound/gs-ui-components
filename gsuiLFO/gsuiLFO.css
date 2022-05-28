@@ -23,10 +23,11 @@ gsui-lfo[ target='gain' ] {
 gsui-lfo[ target='lowpass' ] {
 	--gsuiLFO-ctrls-color: var( --gsui-col-lowpass );
 	grid-template:
-		"head head head  head   head  head  head  head" 24px
-		".    type delay attack speed amp   lpHz  .   " 28px
-		".    type graph graph  graph graph graph .   " 1fr
-		".    .    .     .      .     .     .     .   " 0
+		"head head head    head     head    head    head    head" 24px
+		".    type delay   attack   speed   amp     lpHz    .   " 28px
+		".    type graph   graph    graph   graph   graph   .   " 1fr
+		".    type lpGraph lpGraph  lpGraph lpGraph lpGraph .   " .5fr
+		".    .    .       .        .       .       .       .   " 0
 		/0    32px 1fr   1fr    1fr   1fr   1fr   0;
 }
 
@@ -91,6 +92,9 @@ gsui-lfo[ target='lowpass' ] {
 }
 .gsuiLFO-lowpassfreq {
 	grid-area: lpHz;
+}
+gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassfreq {
+	display: none;
 }
 gsui-lfo .gsuiSlider-eventCatcher {
 	top: -26px;
@@ -175,6 +179,15 @@ gsui-lfo .gsuiSlider-eventCatcher {
 }
 .gsuiLFO-enable gsui-periodicwave {
 	color: var( --gsuiLFO-ctrls-color );
+}
+
+/* .......................................................................... */
+.gsuiLFO-lowpassGraph {
+	grid-area: lpGraph;
+	background-color: darkred;
+}
+gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassGraph {
+	display: none;
 }
 
 /* .......................................................................... */

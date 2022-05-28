@@ -12,11 +12,11 @@ class gsuiLFO extends HTMLElement {
 		beatlines: "gsui-beatlines",
 		wave: "gsui-periodicwave",
 		sliders: {
-			delay:  [ ".gsuiLFO-delay  gsui-slider", ".gsuiLFO-delay  .gsuiLFO-propValue" ],
-			attack: [ ".gsuiLFO-attack gsui-slider", ".gsuiLFO-attack .gsuiLFO-propValue" ],
-			speed:  [ ".gsuiLFO-speed  gsui-slider", ".gsuiLFO-speed  .gsuiLFO-propValue" ],
-			amp:    [ ".gsuiLFO-amp    gsui-slider", ".gsuiLFO-amp    .gsuiLFO-propValue" ],
-			lowpassfreq: null,
+			delay:       [ ".gsuiLFO-delay       gsui-slider", ".gsuiLFO-delay       .gsuiLFO-propValue" ],
+			attack:      [ ".gsuiLFO-attack      gsui-slider", ".gsuiLFO-attack      .gsuiLFO-propValue" ],
+			speed:       [ ".gsuiLFO-speed       gsui-slider", ".gsuiLFO-speed       .gsuiLFO-propValue" ],
+			amp:         [ ".gsuiLFO-amp         gsui-slider", ".gsuiLFO-amp         .gsuiLFO-propValue" ],
+			lowpassfreq: [ ".gsuiLFO-lowpassfreq gsui-slider", ".gsuiLFO-lowpassfreq .gsuiLFO-propValue" ],
 		},
 	} );
 
@@ -109,21 +109,7 @@ class gsuiLFO extends HTMLElement {
 	// .........................................................................
 	#changeTarget( t ) {
 		this.#elements.title.textContent = `LFO ${ t }`;
-
-		switch ( t ) {
-			case "gain":
-				if ( this.#elements.sliders.lowpassfreq ) {
-					this.#elements.sliders.lowpassfreq[ 0 ].parentNode.parentNode.remove();
-					this.#elements.sliders.lowpassfreq = null;
-				}
-				break;
-			case "lowpass": {
-				const lpFreq = GSUI.getTemplate( "gsui-lfo-slider", [ "lowpassfreq", "lowpass frequency", "LP", 10, this.#nyquist, 10 ] );
-
-				this.#elements.sliders.amp[ 0 ].parentNode.parentNode.after( lpFreq );
-				this.#elements.sliders.lowpassfreq = GSUI.findElem( lpFreq, [ "gsui-slider", ".gsuiLFO-propValue" ] );
-			} break;
-		}
+		this.#onresize();
 	}
 	#changeToggle( b ) {
 		this.classList.toggle( "gsuiLFO-enable", b );
@@ -152,7 +138,8 @@ class gsuiLFO extends HTMLElement {
 		GSUI.setAttr( this.#elements.beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
 	}
 	static #formatVal( prop, val ) {
-		return prop === "lowpassfreq" ? val : val.toFixed( 2 );
+		return val.toFixed( 2 );
+		// return prop === "lowpassfreq" ? val : val.toFixed( 2 );
 	}
 
 	// .........................................................................
