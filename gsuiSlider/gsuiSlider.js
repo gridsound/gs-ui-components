@@ -58,13 +58,16 @@ class gsuiSlider extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "type", "min", "max", "step", "scroll-step", "wheel-change", "mousemove-size", "stroke-width" ];
+		return [ "value", "type", "min", "max", "step", "scroll-step", "wheel-change", "mousemove-size", "stroke-width" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			let updateVal;
 
 			switch ( prop ) {
+				case "value":
+					this.setValue( val );
+					break;
 				case "type":
 					this.#setType( val );
 					this.#setSVGcirc();
@@ -223,6 +226,7 @@ class gsuiSlider extends HTMLElement {
 		const val = this.#getInputVal();
 
 		if ( this.#previousval !== val ) {
+			GSUI.$setAttribute( this, "value", val );
 			this.#dispatch( "change", +val );
 			this.#previousval = val;
 		}
