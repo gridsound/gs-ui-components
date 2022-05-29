@@ -142,7 +142,11 @@ gsui-lfo[ toggle ] .gsuiLFO-toggle {
 	inset: 0;
 	width: 10px;
 	display: flex;
+	pointer-events: none;
 	flex-direction: column;
+}
+gsui-lfo[ toggle ] .gsuiLFO-ampSigns {
+	pointer-events: auto;
 }
 .gsuiLFO-ampSign {
 	flex: 1;
@@ -202,6 +206,10 @@ gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassGraph {
 }
 .gsuiLFO-typeBtn {
 	flex: 1;
+	cursor: not-allowed;
+}
+gsui-lfo[ toggle ] .gsuiLFO-typeBtn {
+	cursor: pointer;
 }
 .gsuiLFO-typeSVG {
 	fill: none;
