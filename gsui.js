@@ -133,6 +133,9 @@ class GSUI {
 			? el.setAttribute( attr, val === true ? "" : val )
 			: el.removeAttribute( attr );
 	}
+	static $hasAttribute( el, attr ) {
+		return el.hasAttribute( attr );
+	}
 	static $getAttribute( el, attr ) {
 		return el.getAttribute( attr );
 	}
