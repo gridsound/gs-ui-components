@@ -83,8 +83,8 @@ class gsuiFxFilter extends HTMLElement {
 					this.#toggleTypeBtn( this.#currType, false );
 					this.#toggleTypeBtn( val, true );
 					this.#currType = val;
-					this.#elements.sliders.Q.enable( gainQ.q );
-					this.#elements.sliders.gain.enable( gainQ.gain );
+					GSUI.$setAttribute( this.#elements.sliders.Q, "disabled", !gainQ.q );
+					GSUI.$setAttribute( this.#elements.sliders.gain, "disabled", !gainQ.gain );
 				} break;
 				case "q":
 					this.#elements.sliders.Q.setValue( +val );
