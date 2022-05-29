@@ -112,12 +112,11 @@ class gsuiLFO extends HTMLElement {
 		this.#onresize();
 	}
 	#changeToggle( b ) {
-		this.classList.toggle( "gsuiLFO-enable", b );
 		this.querySelectorAll( ".gsuiLFO-typeRadio" ).forEach( el => GSUI.$setAttribute( el, "disabled", !b ) );
-		this.#elements.sliders.delay[ 0 ].enable( b );
-		this.#elements.sliders.attack[ 0 ].enable( b );
-		this.#elements.sliders.speed[ 0 ].enable( b );
-		this.#elements.sliders.amp[ 0 ].enable( b );
+		GSUI.$setAttribute( this.#elements.sliders.delay[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.attack[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.speed[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.amp[ 0 ], "disabled", !b );
 	}
 	#changeType( type ) {
 		this.#elements.wave.type = type;
@@ -151,7 +150,7 @@ class gsuiLFO extends HTMLElement {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-toggle":
-				GSUI.$setAttribute( this, "toggle", !this.classList.contains( "gsuiLFO-enable" ) );
+				GSUI.$setAttribute( this, "toggle", !GSUI.$hasAttribute( this, "toggle" ) );
 				this.#dispatch( "toggle" );
 				break;
 			case "gsuiLFO-type":

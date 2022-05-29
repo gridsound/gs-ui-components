@@ -39,7 +39,7 @@ GSUI.$setTemplate( "gsui-lfo", () => {
 					GSUI.$createElement( "div", { class: "gsuiLFO-propValue" } ),
 				),
 				GSUI.$createElement( "div", { class: "gsuiLFO-propContent" },
-					GSUI.$createElement( "gsui-slider", { type: "linear-x", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
+					GSUI.$createElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
 				),
 			)
 		),

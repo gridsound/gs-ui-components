@@ -125,7 +125,7 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	background: none;
 	transition: .2s color;
 }
-.gsuiLFO-enable .gsuiLFO-toggle {
+gsui-lfo[ toggle ] .gsuiLFO-toggle {
 	color: var( --gsuiLFO-ctrls-color );
 }
 
@@ -147,21 +147,21 @@ gsui-lfo .gsuiSlider-eventCatcher {
 .gsuiLFO-ampSign {
 	flex: 1;
 }
-.gsuiLFO-enable .gsuiLFO-ampSign {
+gsui-lfo[ toggle ] .gsuiLFO-ampSign {
 	color: var( --gsuiLFO-ctrls-color );
 }
 .gsuiLFO-ampSignIcon {
 	color: var( --gsuiLFO-wave-off );
 	font-size: 11px;
 }
-.gsuiLFO-enable .gsuiLFO-ampSignIcon {
+gsui-lfo[ toggle ] .gsuiLFO-ampSignIcon {
 	color: var( --gsuiLFO-ctrls-color );
 }
 .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
 	color: var( --gsuiLFO-ctrls-bg );
 	background-color: var( --gsuiLFO-wave-off );
 }
-.gsuiLFO-enable .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
+gsui-lfo[ toggle ] .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
 	background-color: var( --gsuiLFO-ctrls-color );
 }
 .gsuiLFO-wave {
@@ -177,7 +177,7 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	stroke-width: 2px;
 	transition: color .2s;
 }
-.gsuiLFO-enable gsui-periodicwave {
+gsui-lfo[ toggle ] gsui-periodicwave {
 	color: var( --gsuiLFO-ctrls-color );
 }
 
@@ -211,7 +211,7 @@ gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassGraph {
 	transition: .2s;
 	transition-property: stroke, background-color;
 }
-.gsuiLFO-enable .gsuiLFO-typeSVG {
+gsui-lfo[ toggle ] .gsuiLFO-typeSVG {
 	stroke: var( --gsuiLFO-ctrls-color );
 }
 .gsuiLFO-typeSVG path {
@@ -222,6 +222,6 @@ gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassGraph {
 	stroke: var( --gsuiLFO-ctrls-bg );
 	background-color: var( --gsuiLFO-wave-off );
 }
-.gsuiLFO-enable .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
+gsui-lfo[ toggle ] .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
 	background-color: var( --gsuiLFO-ctrls-color );
 }
