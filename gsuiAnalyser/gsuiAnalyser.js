@@ -34,8 +34,7 @@ class gsuiAnalyser extends HTMLElement {
 
 	// .........................................................................
 	static #moveImage( ctx ) {
-		ctx.putImageData(
-			ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );
+		ctx.putImageData( ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );
 	}
 	static #draw( ctx, ldata, rdata ) {
 		const w2 = ctx.canvas.width / 2;
@@ -45,13 +44,16 @@ class gsuiAnalyser extends HTMLElement {
 		const imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {
-			imgLflip.data[ x * 4     ] = imgL.data[ x2 * 4     ];
-			imgLflip.data[ x * 4 + 1 ] = imgL.data[ x2 * 4 + 1 ];
-			imgLflip.data[ x * 4 + 2 ] = imgL.data[ x2 * 4 + 2 ];
-			imgLflip.data[ x * 4 + 3 ] = imgL.data[ x2 * 4 + 3 ];
+			gsuiAnalyser.#drawPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
 		}
 		ctx.putImageData( imgLflip, 0, 0 );
 		ctx.putImageData( imgR, w2, 0 );
+	}
+	static #drawPx( imgLflip, imgL, x, x2 ) {
+		imgLflip[ x     ] = imgL[ x2     ];
+		imgLflip[ x + 1 ] = imgL[ x2 + 1 ];
+		imgLflip[ x + 2 ] = imgL[ x2 + 2 ];
+		imgLflip[ x + 3 ] = imgL[ x2 + 3 ];
 	}
 }
 
