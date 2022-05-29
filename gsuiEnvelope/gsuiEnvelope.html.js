@@ -22,7 +22,7 @@ GSUI.$setTemplate( "gsui-envelope", () => {
 					GSUI.$createElement( "div", { class: "gsuiEnvelope-propValue" } ),
 				),
 				GSUI.$createElement( "div", { class: "gsuiEnvelope-propContent" },
-					GSUI.$createElement( "gsui-slider", { type: "linear-x", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
+					GSUI.$createElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
 				),
 			)
 		),

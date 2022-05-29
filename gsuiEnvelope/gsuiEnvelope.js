@@ -94,12 +94,11 @@ class gsuiEnvelope extends HTMLElement {
 
 	// .........................................................................
 	#changeToggle( b ) {
-		this.classList.toggle( "gsuiEnvelope-enable", b );
-		this.#elements.sliders.attack[ 0 ].enable( b );
-		this.#elements.sliders.hold[ 0 ].enable( b );
-		this.#elements.sliders.decay[ 0 ].enable( b );
-		this.#elements.sliders.sustain[ 0 ].enable( b );
-		this.#elements.sliders.release[ 0 ].enable( b );
+		GSUI.$setAttribute( this.#elements.sliders.attack[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.hold[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.decay[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.sustain[ 0 ], "disabled", !b );
+		GSUI.$setAttribute( this.#elements.sliders.release[ 0 ], "disabled", !b );
 	}
 	#changeTimedivision( val ) {
 		GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val );
@@ -124,7 +123,7 @@ class gsuiEnvelope extends HTMLElement {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiEnvelope-toggle":
-				GSUI.$setAttribute( this, "toggle", !this.classList.contains( "gsuiEnvelope-enable" ) );
+				GSUI.$setAttribute( this, "toggle", !GSUI.$hasAttribute( this, "toggle" ) );
 				this.#dispatch( "toggle" );
 				break;
 		}
