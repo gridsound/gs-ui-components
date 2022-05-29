@@ -10,7 +10,7 @@ class gsuiKeysforms extends gsuiSVGDefs {
 		const { min, size } = gsuiKeysforms.#calcMinMax( arrKeys );
 		const rowH = 1 / ( size + 1 );
 
-		return arrKeys.map( k => GSUI.createElemSVG( "rect", {
+		return arrKeys.map( k => GSUI.$createElementSVG( "rect", {
 			x: k.when,
 			y: ( size - k.key + min ) * rowH,
 			width: k.duration,

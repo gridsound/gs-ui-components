@@ -18,8 +18,8 @@ class gsuiSliderGroup extends HTMLElement {
 		duration: this.#sliderDuration.bind( this ),
 		selected: this.#sliderSelected.bind( this ),
 	} );
-	#children = GSUI.getTemplate( "gsui-slidergroup" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-slidergroup" );
+	#elements = GSUI.$findElements( this.#children, {
 		slidersParent: ".gsuiSliderGroup-sliders",
 		defValue: ".gsuiSliderGroup-defaultValue",
 		beatlines: "gsui-beatlines",
@@ -54,9 +54,9 @@ class gsuiSliderGroup extends HTMLElement {
 			this.append( this.scrollElement );
 			this.#updatePxPerBeat();
 			this.#elements.slidersParent.onmousedown = this.#mousedown.bind( this );
-			GSUI.recallAttributes( this, { pxperbeat: 64 } );
+			GSUI.$recallAttributes( this, { pxperbeat: 64 } );
 			if ( beatlines ) {
-				GSUI.recallAttributes( this, { currenttime: 0, timedivision: "4/4" } );
+				GSUI.$recallAttributes( this, { currenttime: 0, timedivision: "4/4" } );
 			}
 		}
 	}
@@ -67,7 +67,7 @@ class gsuiSliderGroup extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "timedivision":
-					GSUI.setAttr( this.#elements.beatlines, "timedivision", val );
+					GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val );
 					break;
 				case "pxperbeat":
 					this.#updatePxPerBeat();
@@ -114,7 +114,7 @@ class gsuiSliderGroup extends HTMLElement {
 		this.#sliderSelectedClass();
 	}
 	set( id, when, duration, value ) {
-		const element = GSUI.getTemplate( "gsui-slidergroup-slider" );
+		const element = GSUI.$getTemplate( "gsui-slidergroup-slider" );
 		const sli = Object.seal( { element, when, duration, value, selected: false } );
 
 		element.dataset.id = id;
@@ -138,11 +138,11 @@ class gsuiSliderGroup extends HTMLElement {
 		return +( Math.round( val / this.#step ) * this.#step ).toFixed( 8 );
 	}
 	#updatePxPerBeat() {
-		const ppb = GSUI.getAttrNum( this, "pxperbeat" );
+		const ppb = GSUI.$getAttributeNum( this, "pxperbeat" );
 
 		this.#elements.slidersParent.style.fontSize = `${ ppb }px`;
 		if ( this.#elements.beatlines ) {
-			GSUI.setAttr( this.#elements.beatlines, "pxperbeat", ppb );
+			GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", ppb );
 		}
 	}
 	#sliderWhen( sli, when ) {
@@ -199,8 +199,8 @@ class gsuiSliderGroup extends HTMLElement {
 			this.#evMousemove = this.#mousemove.bind( this );
 			document.addEventListener( "mouseup", this.#evMouseup );
 			document.addEventListener( "mousemove", this.#evMousemove );
-			GSUI.unselectText();
-			GSUI.dragshield.show( "pointer" );
+			GSUI.$unselectText();
+			GSUI.$dragshield.show( "pointer" );
 			this.#mousemove( e );
 		}
 	}
@@ -212,7 +212,7 @@ class gsuiSliderGroup extends HTMLElement {
 		const y = e.pageY - this.#bcr.top;
 		const min = this.#min;
 		const max = this.#max;
-		const xval = x / GSUI.getAttrNum( this, "pxperbeat" );
+		const xval = x / GSUI.$getAttributeNum( this, "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
 			: this.#roundVal( min + ( max - min ) *
@@ -228,14 +228,14 @@ class gsuiSliderGroup extends HTMLElement {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
 				sli.value = rval;
 				this.#sliderValue( sli, rval );
-				GSUI.dispatchEv( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
+				GSUI.$dispatchEvent( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
 			}
 		} );
 	}
 	#mouseup() {
 		const arr = [];
 
-		GSUI.dragshield.hide();
+		GSUI.$dragshield.hide();
 		document.removeEventListener( "mouseup", this.#evMouseup );
 		document.removeEventListener( "mousemove", this.#evMousemove );
 		this.#evMouseup =
@@ -246,9 +246,9 @@ class gsuiSliderGroup extends HTMLElement {
 			}
 		} );
 		if ( arr.length ) {
-			GSUI.dispatchEv( this, "gsuiSliderGroup", "change", arr );
+			GSUI.$dispatchEvent( this, "gsuiSliderGroup", "change", arr );
 		}
-		GSUI.dispatchEv( this, "gsuiSliderGroup", "inputEnd" );
+		GSUI.$dispatchEvent( this, "gsuiSliderGroup", "inputEnd" );
 	}
 }
 

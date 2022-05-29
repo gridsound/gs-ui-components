@@ -73,8 +73,8 @@ const waves = gswaPeriodicWaves.loadWaves( gswaPeriodicWavesList );
 elLFOtarget.onchange = () => {
 	const t = elLFOtarget.value;
 
-	GSUI.setAttr( elLFO, "target", t );
-	GSUI.setAttr( elLFO, "lowpassfreq", t === "gain" ? null : .4 );
+	GSUI.$setAttribute( elLFO, "target", t );
+	GSUI.$setAttribute( elLFO, "lowpassfreq", t === "gain" ? null : .4 );
 };
 waves.forEach( ( w, name ) => gsuiPeriodicWave.addWave( name, w.real, w.imag ) );
 elLFO.updateWave();

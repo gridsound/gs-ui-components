@@ -60,7 +60,7 @@ class gsuiBlocksManager {
 		this.rootElement = opts.rootElement;
 		this.timeline = opts.timeline;
 		this.#opts = opts;
-		this.#opts.oneditBlock = opts.oneditBlock || GSUI.noop;
+		this.#opts.oneditBlock = opts.oneditBlock || GSUI.$noop;
 		this.#blockDOMChange = opts.blockDOMChange;
 		this.#elSelection = opts.selectionElement;
 		this.#nlRows = opts.rootElement.getElementsByClassName( "gsui-row" );
@@ -116,7 +116,7 @@ class gsuiBlocksManager {
 		return this.#blcsEditing;
 	}
 	#getBeatSnap() {
-		return 1 / this.timeline.stepsPerBeat * GSUI.getAttrNum( this.timeline, "step" );
+		return 1 / this.timeline.stepsPerBeat * GSUI.$getAttributeNum( this.timeline, "step" );
 	}
 
 	// .........................................................................
@@ -181,7 +181,7 @@ class gsuiBlocksManager {
 	onmousedown( e ) {
 		const blc = this.#getBlc( e.currentTarget );
 
-		GSUI.unselectText();
+		GSUI.$unselectText();
 		this.#mdBlc = blc;
 		this.#mdTarget = e.target;
 		if ( e.button === 2 ) {

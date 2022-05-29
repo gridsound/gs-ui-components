@@ -3,13 +3,13 @@
 class gsuiSVGDefs {
 	static #id = 0;
 	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`;
-	#elDefs = GSUI.createElemSVG( "defs" );
+	#elDefs = GSUI.$createElementSVG( "defs" );
 	#defs = new Map();
 	#w = 1;
 	#h = 1;
 
 	constructor() {
-		const svg = GSUI.createElemSVG( "svg" );
+		const svg = GSUI.$createElementSVG( "svg" );
 
 		this.rootElement = svg;
 		Object.freeze( this );
@@ -36,7 +36,7 @@ class gsuiSVGDefs {
 		if ( this.#defs.has( id ) ) {
 			console.error( `gsuiSVGDefs: ID "${ id }" already used` );
 		} else {
-			const g = GSUI.createElemSVG( "g" );
+			const g = GSUI.$createElementSVG( "g" );
 
 			g.id = `${ this.#idPref }${ id }`;
 			g.append( ...elems );
@@ -49,13 +49,13 @@ class gsuiSVGDefs {
 
 		def.w = w;
 		def.h = h;
-		GSUI.emptyElem( def.g );
+		GSUI.$emptyElement( def.g );
 		def.g.append( ...elems );
 	}
 	createSVG( id ) {
 		const def = this.#defs.get( id ) || {};
-		const use = GSUI.createElemSVG( "use" );
-		const svg = GSUI.createElemSVG( "svg", {
+		const use = GSUI.$createElementSVG( "use" );
+		const svg = GSUI.$createElementSVG( "svg", {
 			preserveAspectRatio: "none",
 			viewBox: `0 0 ${ def.w || this.#w } ${ def.h || this.#h }`,
 		}, use );
@@ -67,7 +67,7 @@ class gsuiSVGDefs {
 	setSVGViewbox( svg, x, w ) {
 		const h = this.#defs.get( svg.dataset.id ).h;
 
-		GSUI.setAttr( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
+		GSUI.$setAttribute( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
 	}
 }
 

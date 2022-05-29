@@ -34,5 +34,5 @@ gsuiWaveform.draw = function( polygon, w, h, data0, data1, bufferDuration, offse
 		dots0 += ` ${ p },${ h2 + lmin * h2 }`;
 		dots1  =  `${ p },${ h2 + rmax * h2 } ${ dots1 }`;
 	}
-	GSUI.setAttr( polygon, "points", `${ dots0 } ${ dots1 }` );
+	GSUI.$setAttribute( polygon, "points", `${ dots0 } ${ dots1 }` );
 };

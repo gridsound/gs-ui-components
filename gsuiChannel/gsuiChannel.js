@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiChannel extends HTMLElement {
-	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiChannel" );
-	#children = GSUI.getTemplate( "gsui-channel" );
-	#elements = GSUI.findElem( this.#children, {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiChannel" );
+	#children = GSUI.$getTemplate( "gsui-channel" );
+	#elements = GSUI.$findElements( this.#children, {
 		name: ".gsuiChannel-name",
 		analyser: "gsui-analyser",
 		pan: ".gsuiChannel-pan gsui-slider",
@@ -17,10 +17,10 @@ class gsuiChannel extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		GSUI.listenEv( this, {
+		GSUI.$listenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.noop,
-				inputEnd: GSUI.noop,
+				inputStart: GSUI.$noop,
+				inputEnd: GSUI.$noop,
 				input: ( d, sli ) => {
 					this.#dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
 				},
@@ -36,8 +36,8 @@ class gsuiChannel extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.setAttr( this, "draggable", "true" );
-			GSUI.recallAttributes( this, {
+			GSUI.$setAttribute( this, "draggable", "true" );
+			GSUI.$recallAttributes( this, {
 				name: "chan",
 				pan: 0,
 				gain: 1,

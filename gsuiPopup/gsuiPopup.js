@@ -5,8 +5,8 @@ class gsuiPopup extends HTMLElement {
 	#isOpen = false;
 	#resolve = null;
 	#fnSubmit = null;
-	#children = GSUI.getTemplate( "gsui-popup" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-popup" );
+	#elements = GSUI.$findElements( this.#children, {
 		ok: ".gsuiPopup-ok",
 		cnt: ".gsuiPopup-content",
 		msg: ".gsuiPopup-message",
@@ -44,26 +44,26 @@ class gsuiPopup extends HTMLElement {
 
 	// .........................................................................
 	alert( title, msg, ok ) {
-		GSUI.emptyElem( this.#elements.cnt );
+		GSUI.$emptyElement( this.#elements.cnt );
 		this.#clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, false );
 		return this.#open( "alert", title, msg );
 	}
 	confirm( title, msg, ok, cancel ) {
-		GSUI.emptyElem( this.#elements.cnt );
+		GSUI.$emptyElement( this.#elements.cnt );
 		this.#clWindow.remove( "gsuiPopup-noCancel" );
 		this.#clWindow.add( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "confirm", title, msg );
 	}
 	prompt( title, msg, val, ok, cancel ) {
-		GSUI.emptyElem( this.#elements.cnt );
+		GSUI.$emptyElement( this.#elements.cnt );
 		this.#clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "prompt", title, msg, val );
 	}
 	custom( obj ) {
-		GSUI.emptyElem( this.#elements.cnt );
+		GSUI.$emptyElement( this.#elements.cnt );
 		this.#fnSubmit = obj.submit || null;
 		this.#clWindow.remove( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false );

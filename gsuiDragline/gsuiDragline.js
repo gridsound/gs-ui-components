@@ -1,15 +1,15 @@
 "use strict";
 
 class gsuiDragline {
-	onchange = GSUI.noop;
-	rootElement = GSUI.getTemplate( "gsui-dragline" );
+	onchange = GSUI.$noop;
+	rootElement = GSUI.$getTemplate( "gsui-dragline" );
 	getDropAreas = null;
 	#linkedTo = null;
 	#dropAreas = null;
 	#evKeydown = null;
 	#evMouseup = null;
 	#evMousemove = null;
-	#elements = GSUI.findElem( this.rootElement, {
+	#elements = GSUI.$findElements( this.rootElement, {
 		main: ".gsuiDragline-main",
 		svg: ".gsuiDragline-line",
 		polyline: ".gsuiDragline-line polyline",
@@ -62,8 +62,8 @@ class gsuiDragline {
 		stSvg.width =
 		stSvg.height = `${ whmax2 }px`;
 		stSvg.margin = `${ -whmax }px`;
-		GSUI.setAttr( this.#elements.svg, "viewBox", `0 0 ${ whmax2 } ${ whmax2 }` );
-		GSUI.setAttr( this.#elements.polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
+		GSUI.$setAttribute( this.#elements.svg, "viewBox", `0 0 ${ whmax2 } ${ whmax2 }` );
+		GSUI.$setAttribute( this.#elements.polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	#unlink() {
 		const stMain = this.#elements.main.style;

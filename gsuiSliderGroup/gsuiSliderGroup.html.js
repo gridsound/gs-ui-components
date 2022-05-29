@@ -1,23 +1,23 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-slidergroup", () => {
+GSUI.$setTemplate( "gsui-slidergroup", () => {
 	return (
-		GSUI.createElem( "div", { class: "gsuiSliderGroup-slidersWrap" },
-			GSUI.createElem( "div", { class: "gsuiSliderGroup-sliders" },
-				GSUI.createElem( "gsui-beatlines", { coloredbeats: "" } ),
-				GSUI.createElem( "div", { class: "gsuiSliderGroup-currentTime" } ),
-				GSUI.createElem( "div", { class: "gsuiSliderGroup-defaultValue" } ),
-				GSUI.createElem( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),
-				GSUI.createElem( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopB" } ),
+		GSUI.$createElement( "div", { class: "gsuiSliderGroup-slidersWrap" },
+			GSUI.$createElement( "div", { class: "gsuiSliderGroup-sliders" },
+				GSUI.$createElement( "gsui-beatlines", { coloredbeats: "" } ),
+				GSUI.$createElement( "div", { class: "gsuiSliderGroup-currentTime" } ),
+				GSUI.$createElement( "div", { class: "gsuiSliderGroup-defaultValue" } ),
+				GSUI.$createElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),
+				GSUI.$createElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopB" } ),
 			),
 		)
 	);
 } );
 
-GSUI.setTemplate( "gsui-slidergroup-slider", () => {
+GSUI.$setTemplate( "gsui-slidergroup-slider", () => {
 	return (
-		GSUI.createElem( "div", { class: "gsuiSliderGroup-slider" },
-			GSUI.createElem( "div", { class: "gsuiSliderGroup-sliderInner" } ),
+		GSUI.$createElement( "div", { class: "gsuiSliderGroup-slider" },
+			GSUI.$createElement( "div", { class: "gsuiSliderGroup-sliderInner" } ),
 		)
 	);
 } );

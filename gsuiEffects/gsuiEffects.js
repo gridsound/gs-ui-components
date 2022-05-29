@@ -3,9 +3,9 @@
 class gsuiEffects extends HTMLElement {
 	static fxsMap = new Map();
 	#fxsHtml = new Map();
-	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiEffects" );
-	#children = GSUI.getTemplate( "gsui-effects" );
-	#elements = GSUI.findElem( this.#children, {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEffects" );
+	#children = GSUI.$getTemplate( "gsui-effects" );
+	#elements = GSUI.$findElements( this.#children, {
 		list: ".gsuiEffects-list",
 		addBtn: ".gsuiEffects-addBtn",
 		addSelect: ".gsuiEffects-addSelect",
@@ -13,7 +13,7 @@ class gsuiEffects extends HTMLElement {
 
 	constructor() {
 		super();
-		this.askData = GSUI.noop;
+		this.askData = GSUI.$noop;
 		Object.seal( this );
 
 		this.#elements.addBtn.onclick = () => this.#elements.addSelect.value = "";
@@ -27,7 +27,7 @@ class gsuiEffects extends HTMLElement {
 			handleSelector: ".gsuiEffects-fx-grip",
 			parentSelector: ".gsuiEffects-list",
 		} );
-		GSUI.listenEv( this, {
+		GSUI.$listenEvents( this, {
 			default: {
 				liveChange( d, t ) {
 					d.args.unshift( t.dataset.id );
@@ -73,7 +73,7 @@ class gsuiEffects extends HTMLElement {
 
 	// .........................................................................
 	addEffect( id, fx ) {
-		const root = GSUI.getTemplate( "gsui-effects-fx" );
+		const root = GSUI.$getTemplate( "gsui-effects-fx" );
 		const name = root.querySelector( ".gsuiEffects-fx-name" );
 		const expand = root.querySelector( ".gsuiEffects-fx-expand" );
 		const toggle = root.querySelector( ".gsuiEffects-fx-toggle" );
@@ -139,7 +139,7 @@ class gsuiEffects extends HTMLElement {
 		return options;
 	}
 	static #createOption( disabled, fxId, fxName ) {
-		return GSUI.createElem( "option", { value: fxId, disabled }, fxName );
+		return GSUI.$createElement( "option", { value: fxId, disabled }, fxName );
 	}
 }
 

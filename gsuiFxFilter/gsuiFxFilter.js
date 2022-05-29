@@ -11,9 +11,9 @@ class gsuiFxFilter extends HTMLElement {
 		detune: a => a,
 		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
 	};
-	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiFxFilter" );
-	#children = GSUI.getTemplate( "gsui-fx-filter" );
-	#elements = GSUI.findElem( this.#children, {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiFxFilter" );
+	#children = GSUI.$getTemplate( "gsui-fx-filter" );
+	#elements = GSUI.$findElements( this.#children, {
 		type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
 		graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
 		curves: "gsui-curves",
@@ -37,14 +37,14 @@ class gsuiFxFilter extends HTMLElement {
 
 	constructor() {
 		super();
-		this.askData = GSUI.noop;
+		this.askData = GSUI.$noop;
 		Object.seal( this );
 
 		this.#elements.type.onclick = this.#onclickType.bind( this );
-		GSUI.listenEv( this, {
+		GSUI.$listenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.noop,
-				inputEnd: GSUI.noop,
+				inputStart: GSUI.$noop,
+				inputEnd: GSUI.$noop,
 				input: ( d, sli ) => {
 					this.#oninputProp( sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
 				},
@@ -65,11 +65,11 @@ class gsuiFxFilter extends HTMLElement {
 			this.#onresize();
 			this.updateWave();
 		}
-		GSUI.observeSizeOf( this, this.#onresizeBind );
+		GSUI.$observeSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
 		this.#attached = false;
-		GSUI.unobserveSizeOf( this, this.#onresizeBind );
+		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "type", "frequency", "q", "gain", "detune" ];

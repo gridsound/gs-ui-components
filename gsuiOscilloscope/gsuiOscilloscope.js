@@ -2,7 +2,7 @@
 
 class gsuiOscilloscope {
 	constructor( canvas ) {
-		this.rootElement = canvas || GSUI.createElem( "canvas" );
+		this.rootElement = canvas || GSUI.$createElement( "canvas" );
 		this.rootElement.classList.add( "gsuiOscilloscope" );
 		this.ctx = this.rootElement.getContext( "2d" );
 		this.maxValue = 0;

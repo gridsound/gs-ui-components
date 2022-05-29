@@ -3,10 +3,10 @@
 class gsuiEnvelope extends HTMLElement {
 	#dur = 4;
 	#waveWidth = 300;
-	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiEnvelope" );
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEnvelope" );
 	#onresizeBind = this.#onresize.bind( this );
-	#children = GSUI.getTemplate( "gsui-envelope" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-envelope" );
+	#elements = GSUI.$findElements( this.#children, {
 		beatlines: "gsui-beatlines",
 		graph: "gsui-envelope-graph",
 		sliders: {
@@ -23,10 +23,10 @@ class gsuiEnvelope extends HTMLElement {
 		Object.seal( this );
 
 		this.onchange = this.#onchangeForm.bind( this );
-		GSUI.listenEv( this, {
+		GSUI.$listenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.noop,
-				inputEnd: GSUI.noop,
+				inputStart: GSUI.$noop,
+				inputEnd: GSUI.$noop,
 				input: ( d, sli ) => {
 					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
 				},
@@ -42,7 +42,7 @@ class gsuiEnvelope extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.recallAttributes( this, {
+			GSUI.$recallAttributes( this, {
 				toggle: false,
 				timedivision: "4/4",
 				attack: .1,
@@ -53,10 +53,10 @@ class gsuiEnvelope extends HTMLElement {
 			} );
 			this.updateWave();
 		}
-		GSUI.observeSizeOf( this, this.#onresizeBind );
+		GSUI.$observeSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
-		GSUI.unobserveSizeOf( this, this.#onresizeBind );
+		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "attack", "hold", "decay", "sustain", "release" ];
@@ -81,11 +81,11 @@ class gsuiEnvelope extends HTMLElement {
 	updateWave( prop, val ) {
 		const g = this.#elements.graph;
 
-		g.attack = prop === "attack" ? val : GSUI.getAttrNum( this, "attack" );
-		g.hold = prop === "hold" ? val : GSUI.getAttrNum( this, "hold" );
-		g.decay = prop === "decay" ? val : GSUI.getAttrNum( this, "decay" );
-		g.sustain = prop === "sustain" ? val : GSUI.getAttrNum( this, "sustain" );
-		g.release = prop === "release" ? val : GSUI.getAttrNum( this, "release" );
+		g.attack = prop === "attack" ? val : GSUI.$getAttributeNum( this, "attack" );
+		g.hold = prop === "hold" ? val : GSUI.$getAttributeNum( this, "hold" );
+		g.decay = prop === "decay" ? val : GSUI.$getAttributeNum( this, "decay" );
+		g.sustain = prop === "sustain" ? val : GSUI.$getAttributeNum( this, "sustain" );
+		g.release = prop === "release" ? val : GSUI.$getAttributeNum( this, "release" );
 		g.duration =
 		this.#dur = Math.max( g.attack + g.hold + g.decay + .5 + g.release, 2 );
 		g.draw();
@@ -102,7 +102,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#elements.sliders.release[ 0 ].enable( b );
 	}
 	#changeTimedivision( val ) {
-		GSUI.setAttr( this.#elements.beatlines, "timedivision", val );
+		GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val );
 		this.updateWave();
 	}
 	#changeProp( prop, val ) {
@@ -112,7 +112,7 @@ class gsuiEnvelope extends HTMLElement {
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {
-		GSUI.setAttr( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
+		GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
 	}
 
 	// .........................................................................
@@ -124,7 +124,7 @@ class gsuiEnvelope extends HTMLElement {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiEnvelope-toggle":
-				GSUI.setAttr( this, "toggle", !this.classList.contains( "gsuiEnvelope-enable" ) );
+				GSUI.$setAttribute( this, "toggle", !this.classList.contains( "gsuiEnvelope-enable" ) );
 				this.#dispatch( "toggle" );
 				break;
 		}
@@ -135,7 +135,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#dispatch( "liveChange", prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		GSUI.setAttr( this, prop, val );
+		GSUI.$setAttribute( this, prop, val );
 		this.#dispatch( "change", prop, val );
 	}
 }

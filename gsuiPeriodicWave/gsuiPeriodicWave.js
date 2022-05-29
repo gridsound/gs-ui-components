@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiPeriodicWave extends HTMLElement {
-	#svg = GSUI.createElemSVG( "svg", { preserveAspectRatio: "none" },
-		GSUI.createElemSVG( "polyline" )
+	#svg = GSUI.$createElementSVG( "svg", { preserveAspectRatio: "none" },
+		GSUI.$createElementSVG( "polyline" )
 	);
 	static cache = {};
 
@@ -35,7 +35,7 @@ class gsuiPeriodicWave extends HTMLElement {
 
 		this.width = w;
 		this.height = h;
-		GSUI.setAttr( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUI.$setAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.draw();
 	}
 	draw() {
@@ -71,7 +71,7 @@ class gsuiPeriodicWave extends HTMLElement {
 			pts[ x * 2 ] = x;
 			pts[ x * 2 + 1 ] = y;
 		}
-		GSUI.setAttr( this.#svg.firstChild, "points", pts.join( " " ) );
+		GSUI.$setAttribute( this.#svg.firstChild, "points", pts.join( " " ) );
 	}
 
 	// .........................................................................

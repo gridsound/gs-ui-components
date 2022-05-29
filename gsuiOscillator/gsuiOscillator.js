@@ -2,15 +2,15 @@
 
 class gsuiOscillator extends HTMLElement {
 	#timeidType = null;
-	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiOscillator" );
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiOscillator" );
 	#selectWaves = {
 		sine: true,
 		triangle: true,
 		sawtooth: true,
 		square: true,
 	};
-	#children = GSUI.getTemplate( "gsui-oscillator" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-oscillator" );
+	#elements = GSUI.$findElements( this.#children, {
 		waveSelect: ".gsuiOscillator-waveSelect",
 		wavePrev: ".gsuiOscillator-wavePrev",
 		waveNext: ".gsuiOscillator-waveNext",
@@ -37,10 +37,10 @@ class gsuiOscillator extends HTMLElement {
 		this.#elements.wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.#elements.waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.#elements.remove.onclick = () => this.#dispatch( "remove" );
-		GSUI.listenEv( this, {
+		GSUI.$listenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.noop,
-				inputEnd: GSUI.noop,
+				inputStart: GSUI.$noop,
+				inputEnd: GSUI.$noop,
 				input: ( d, sli ) => {
 					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
 				},
@@ -54,10 +54,10 @@ class gsuiOscillator extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			GSUI.setAttr( this, "draggable", "true" );
+			GSUI.$setAttribute( this, "draggable", "true" );
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.recallAttributes( this, {
+			GSUI.$recallAttributes( this, {
 				order: 0,
 				type: "sine",
 				detune: 0,
@@ -94,7 +94,7 @@ class gsuiOscillator extends HTMLElement {
 		arr.forEach( w => {
 			if ( !this.#selectWaves[ w ] ) {
 				this.#selectWaves[ w ] = true;
-				opts.push( GSUI.createElem( "option", { class: "gsuiOscillator-waveOpt", value: w }, w ) );
+				opts.push( GSUI.$createElement( "option", { class: "gsuiOscillator-waveOpt", value: w }, w ) );
 			}
 		} );
 		Element.prototype.append.apply( this.#elements.waveSelect, opts );
@@ -102,11 +102,11 @@ class gsuiOscillator extends HTMLElement {
 	}
 	updateWave( prop, val ) {
 		const [ w0, w1 ] = this.#elements.waves;
-		const gain = prop === "gain" ? val : GSUI.getAttrNum( this, "gain" );
-		const pan = prop === "pan" ? val : GSUI.getAttrNum( this, "pan" );
+		const gain = prop === "gain" ? val : GSUI.$getAttributeNum( this, "gain" );
+		const pan = prop === "pan" ? val : GSUI.$getAttributeNum( this, "pan" );
 
 		w0.type =
-		w1.type = prop === "type" ? val : GSUI.getAttr( this, "type" );
+		w1.type = prop === "type" ? val : GSUI.$getAttribute( this, "type" );
 		w0.amplitude = Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 );
 		w1.amplitude = Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 );
 		w0.draw();
@@ -147,8 +147,8 @@ class gsuiOscillator extends HTMLElement {
 		this.updateWave( "type", type );
 		this.#dispatch( "liveChange", "type", type );
 		this.#timeidType = setTimeout( () => {
-			if ( type !== GSUI.getAttr( this, "type" ) ) {
-				GSUI.setAttr( this, "type", type );
+			if ( type !== GSUI.$getAttribute( this, "type" ) ) {
+				GSUI.$setAttribute( this, "type", type );
 				this.#dispatch( "change", "type", type );
 			}
 		}, 700 );
@@ -159,7 +159,7 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	#onchangeSlider( prop, val ) {
-		GSUI.setAttr( this, prop, val );
+		GSUI.$setAttribute( this, prop, val );
 		this.#dispatch( "change", prop, val );
 	}
 	#oninputSlider( prop, val ) {

@@ -20,7 +20,7 @@ class gsuiTracklist extends HTMLElement {
 		return this.#tracks.get( id );
 	}
 	addTrack( id ) {
-		const tr = GSUI.createElem( "gsui-track", { "data-id": id } );
+		const tr = GSUI.$createElement( "gsui-track", { "data-id": id } );
 
 		tr.rowElement.dataset.id = id;
 		this.#tracks.set( id, tr );
@@ -42,7 +42,7 @@ class gsuiTracklist extends HTMLElement {
 		if ( inp.dataset.action === "rename" ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": inp.value = GSUI.getAttr( inp.parentNode.parentNode, "name" );
+				case "Escape": inp.value = GSUI.$getAttribute( inp.parentNode.parentNode, "name" );
 				case "Enter": inp.blur();
 			}
 		}
@@ -58,7 +58,7 @@ class gsuiTracklist extends HTMLElement {
 		const name = inp.value.trim();
 
 		inp.disabled = true;
-		GSUI.dispatchEv( this, "gsuiTracklist", "renameTrack", id, name );
+		GSUI.$dispatchEvent( this, "gsuiTracklist", "renameTrack", id, name );
 	}
 	#ondblclick( e ) {
 		const inp = e.target;
@@ -75,9 +75,9 @@ class gsuiTracklist extends HTMLElement {
 			const id = par.dataset.id;
 
 			if ( e.button === 2 ) {
-				GSUI.dispatchEv( this, "gsuiTracklist", "toggleSoloTrack", id );
+				GSUI.$dispatchEvent( this, "gsuiTracklist", "toggleSoloTrack", id );
 			} else if ( e.button === 0 ) {
-				GSUI.dispatchEv( this, "gsuiTracklist", "toggleTrack", id );
+				GSUI.$dispatchEvent( this, "gsuiTracklist", "toggleTrack", id );
 			}
 		}
 	}

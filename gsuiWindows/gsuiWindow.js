@@ -11,8 +11,8 @@ class gsuiWindow extends HTMLElement {
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 0;
-	#children = GSUI.getTemplate( "gsui-window" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-window" );
+	#elements = GSUI.$findElements( this.#children, {
 		icon: ".gsuiWindow-icon",
 		wrap: ".gsuiWindow-wrap",
 		head: ".gsuiWindow-head",
@@ -40,7 +40,7 @@ class gsuiWindow extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			GSUI.setAttr( this, "tabindex", 0 );
+			GSUI.$setAttribute( this, "tabindex", 0 );
 			this.append( ...this.#children );
 			this.#children = null;
 		}
@@ -75,8 +75,8 @@ class gsuiWindow extends HTMLElement {
 		this.#elements.icon.dataset.icon = icon;
 	}
 	empty() {
-		GSUI.emptyElem( this.#elements.content );
-		GSUI.emptyElem( this.#elements.headContent );
+		GSUI.$emptyElement( this.#elements.content );
+		GSUI.$emptyElement( this.#elements.headContent );
 	}
 	contentAppend( ...args ) {
 		this.#elements.content.append( ...args );

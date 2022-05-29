@@ -12,7 +12,7 @@ class gsuiSlicesforms extends gsuiSVGDefs {
 		] ).flat( 1 );
 	}
 	static #renderSliceRect( { x, y, w }, dur, opacity ) {
-		return GSUI.createElemSVG( "rect", {
+		return GSUI.$createElementSVG( "rect", {
 			x: dur * x,
 			y,
 			opacity,

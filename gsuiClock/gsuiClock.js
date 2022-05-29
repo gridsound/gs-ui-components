@@ -7,8 +7,8 @@ class gsuiClock extends HTMLElement {
 	#firstValueLen = -1;
 	#attached = false;
 	#values = [ -1, -1, -1 ];
-	#children = GSUI.getTemplate( "gsui-clock" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-clock" );
+	#elements = GSUI.$findElements( this.#children, {
 		wrapRel: ".gsuiClock-relative",
 		modes: ".gsuiClock-modes",
 		nodes: [
@@ -20,7 +20,7 @@ class gsuiClock extends HTMLElement {
 
 	constructor() {
 		super();
-		this.onchangeDisplay = GSUI.noop;
+		this.onchangeDisplay = GSUI.$noop;
 		Object.seal( this );
 
 		this.#elements.modes.onclick = this.#onclickModes.bind( this );
@@ -32,7 +32,7 @@ class gsuiClock extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.recallAttributes( this, {
+			GSUI.$recallAttributes( this, {
 				mode: "second",
 				bpm: 60,
 				timedivision: "4/4",
@@ -93,8 +93,8 @@ class gsuiClock extends HTMLElement {
 
 	// .........................................................................
 	setTime( beats ) {
-		const [ a, b, c ] = GSUI.getAttr( this, "mode" ) === "second"
-			? gsuiClock.parseBeatsToSeconds( beats, GSUI.getAttrNum( this, "bpm" ) || 60 )
+		const [ a, b, c ] = GSUI.$getAttribute( this, "mode" ) === "second"
+			? gsuiClock.parseBeatsToSeconds( beats, GSUI.$getAttributeNum( this, "bpm" ) || 60 )
 			: gsuiClock.parseBeatsToBeats( beats, this.#bPM, this.#sPB );
 
 		this.#timeSave = beats;
@@ -126,9 +126,9 @@ class gsuiClock extends HTMLElement {
 
 	// .........................................................................
 	#onclickModes() {
-		const dpl = GSUI.getAttr( this, "mode" ) === "second" ? "beat" : "second";
+		const dpl = GSUI.$getAttribute( this, "mode" ) === "second" ? "beat" : "second";
 
-		GSUI.setAttr( this, "mode", dpl );
+		GSUI.$setAttribute( this, "mode", dpl );
 		this.onchangeDisplay( dpl );
 	}
 }

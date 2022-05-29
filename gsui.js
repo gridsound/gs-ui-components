@@ -1,12 +1,12 @@
 "use strict";
 
 class GSUI {
-	static noop() {}
-	static popup = document.createElement( "gsui-popup" );
-	static dragshield = document.createElement( "gsui-dragshield" );
+	static $noop() {}
+	static $popup = document.createElement( "gsui-popup" );
+	static $dragshield = document.createElement( "gsui-dragshield" );
 
 	// .........................................................................
-	static clamp( n, min, max ) {
+	static $clamp( n, min, max ) {
 		return (
 			min < max
 				? Math.max( min, Math.min( n || 0, max ) )
@@ -15,7 +15,7 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static diffObjects( a, b ) {
+	static $diffObjects( a, b ) {
 		let empty = true;
 		const diff = Object.entries( b ).reduce( ( diff, [ bk, bv ] ) => {
 			const av = a[ bk ];
@@ -23,7 +23,7 @@ class GSUI {
 				typeof bv !== "object" || bv === null ? bv :
 				typeof av !== "object" || av === null
 					? Object.freeze( JSON.parse( JSON.stringify( bv ) ) )
-					: GSUI.diffObjects( av, bv );
+					: GSUI.$diffObjects( av, bv );
 
 			if ( newval !== undefined ) {
 				empty = false;
@@ -42,7 +42,7 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static findElem( root, graph ) {
+	static $findElements( root, graph ) {
 		return typeof graph === "string"
 			? GSUI.#findElemStr( root, graph )
 			: Object.seal( Array.isArray( graph )
@@ -50,13 +50,13 @@ class GSUI {
 				: GSUI.#findElemObj( root, graph ) );
 	}
 	static #findElemArr( root, arr ) {
-		return arr.map( sel => GSUI.findElem( root, sel ) );
+		return arr.map( sel => GSUI.$findElements( root, sel ) );
 	}
 	static #findElemObj( root, obj ) {
 		if ( obj ) {
 			const ent = Object.entries( obj );
 
-			ent.forEach( kv => kv[ 1 ] = GSUI.findElem( root, kv[ 1 ] ) );
+			ent.forEach( kv => kv[ 1 ] = GSUI.$findElements( root, kv[ 1 ] ) );
 			return Object.fromEntries( ent );
 		}
 	}
@@ -76,13 +76,13 @@ class GSUI {
 	}
 
 	// .........................................................................
-	static dispatchEv( el, component, eventName, ...args ) {
+	static $dispatchEvent( el, component, eventName, ...args ) {
 		el.dispatchEvent( new CustomEvent( "gsuiEvents", {
 			bubbles: true,
 			detail: { component, eventName, args },
 		} ) );
 	}
-	static listenEv( el, cbs ) {
+	static $listenEvents( el, cbs ) {
 		el.addEventListener( "gsuiEvents", e => {
 			const d = e.detail;
 			const cbs2 = cbs[ d.component ] || cbs.default;
@@ -97,57 +97,57 @@ class GSUI {
 
 	// .........................................................................
 	static #templates = new Map();
-	static setTemplate( tmpId, fn ) {
+	static $setTemplate( tmpId, fn ) {
 		GSUI.#templates.set( tmpId, fn );
 	}
-	static hasTemplate( tmpId ) {
+	static $hasTemplate( tmpId ) {
 		return GSUI.#templates.has( tmpId );
 	}
-	static getTemplate( tmpId, ...args ) {
+	static $getTemplate( tmpId, ...args ) {
 		return GSUI.#templates.get( tmpId )( ...args );
 	}
 
 	// .........................................................................
-	static createElem( tag, attr, ...children ) {
-		return GSUI.#createElem( "http://www.w3.org/1999/xhtml", tag, attr, children );
+	static $createElement( tag, attr, ...children ) {
+		return GSUI.#createElement( "http://www.w3.org/1999/xhtml", tag, attr, children );
 	}
-	static createElemSVG( tag, attr, ...children ) {
-		return GSUI.#createElem( "http://www.w3.org/2000/svg", tag, attr, children );
+	static $createElementSVG( tag, attr, ...children ) {
+		return GSUI.#createElement( "http://www.w3.org/2000/svg", tag, attr, children );
 	}
-	static #createElem( ns, tag, attrObj, children ) {
+	static #createElement( ns, tag, attrObj, children ) {
 		const el = document.createElementNS( ns, tag );
 
-		GSUI.setAttr( el, attrObj );
+		GSUI.$setAttribute( el, attrObj );
 		el.append( ...children.flat( 1 ).filter( ch => Boolean( ch ) || Number.isFinite( ch ) ) );
 		return el;
 	}
-	static setAttr( el, attr, val ) {
+	static $setAttribute( el, attr, val ) {
 		if ( typeof attr === "string" ) {
-			GSUI.#setAttr( el, attr, val );
+			GSUI.#setAttribute( el, attr, val );
 		} else if ( attr ) {
-			Object.entries( attr ).forEach( kv => GSUI.#setAttr( el, ...kv ) );
+			Object.entries( attr ).forEach( kv => GSUI.#setAttribute( el, ...kv ) );
 		}
 	}
-	static #setAttr( el, attr, val ) {
+	static #setAttribute( el, attr, val ) {
 		val !== false && val !== null && val !== undefined
 			? el.setAttribute( attr, val === true ? "" : val )
 			: el.removeAttribute( attr );
 	}
-	static getAttr( el, attr ) {
+	static $getAttribute( el, attr ) {
 		return el.getAttribute( attr );
 	}
-	static getAttrNum( el, attr ) {
+	static $getAttributeNum( el, attr ) {
 		const val = el.getAttribute( attr );
 		const n = +val;
 
 		if ( Number.isNaN( n ) ) {
-			console.error( `GSUI.getAttrNum: ${ attr } is NaN (${ val })` );
+			console.error( `GSUI.$getAttributeNum: ${ attr } is NaN (${ val })` );
 		}
 		return n;
 	}
 
 	// .........................................................................
-	static observeSizeOf( el, fn ) {
+	static $observeSizeOf( el, fn ) {
 		if ( GSUI.#resizeMap.has( el ) ) {
 			GSUI.#resizeMap.get( el ).push( fn );
 		} else {
@@ -155,7 +155,7 @@ class GSUI {
 		}
 		GSUI.#resizeObs.observe( el );
 	}
-	static unobserveSizeOf( el, fn ) {
+	static $unobserveSizeOf( el, fn ) {
 		const fns = GSUI.#resizeMap.get( el );
 		const fnInd = fns.indexOf( fn );
 
@@ -176,25 +176,25 @@ class GSUI {
 	} );
 
 	// .........................................................................
-	static emptyElem( el ) {
+	static $emptyElement( el ) {
 		while ( el.lastChild ) {
 			el.lastChild.remove();
 		}
 	}
 
 	// .........................................................................
-	static unselectText() {
+	static $unselectText() {
 		window.getSelection().removeAllRanges();
 	}
 
 	// .........................................................................
-	static recallAttributes( el, props ) {
+	static $recallAttributes( el, props ) {
 		Object.entries( props ).forEach( ( [ p, val ] ) => {
 			el.hasAttribute( p )
 				? el.attributeChangedCallback( p, null, el.getAttribute( p ) )
-				: GSUI.#setAttr( el, p, val );
+				: GSUI.#setAttribute( el, p, val );
 		} );
 	}
 }
 
-document.body.prepend( GSUI.dragshield, GSUI.popup );
+document.body.prepend( GSUI.$dragshield, GSUI.$popup );

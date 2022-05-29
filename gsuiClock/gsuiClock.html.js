@@ -1,16 +1,16 @@
 "use strict";
 
-GSUI.setTemplate( "gsui-clock", () => [
-	GSUI.createElem( "div", { class: "gsuiClock-relative" },
-		GSUI.createElem( "div", { class: "gsuiClock-absolute" },
-			GSUI.createElem( "div", { class: "gsuiClock-a" }, "0" ),
-			GSUI.createElem( "div", { class: "gsuiClock-b" }, "00" ),
-			GSUI.createElem( "div", { class: "gsuiClock-c" }, "000" ),
-			GSUI.createElem( "span", { class: "gsuiClock-modeText" } ),
+GSUI.$setTemplate( "gsui-clock", () => [
+	GSUI.$createElement( "div", { class: "gsuiClock-relative" },
+		GSUI.$createElement( "div", { class: "gsuiClock-absolute" },
+			GSUI.$createElement( "div", { class: "gsuiClock-a" }, "0" ),
+			GSUI.$createElement( "div", { class: "gsuiClock-b" }, "00" ),
+			GSUI.$createElement( "div", { class: "gsuiClock-c" }, "000" ),
+			GSUI.$createElement( "span", { class: "gsuiClock-modeText" } ),
 		),
 	),
-	GSUI.createElem( "button", { class: "gsuiClock-modes" },
-		GSUI.createElem( "div", { class: "gsuiClock-mode gsuiClock-beat" } ),
-		GSUI.createElem( "div", { class: "gsuiClock-mode gsuiClock-second" } ),
+	GSUI.$createElement( "button", { class: "gsuiClock-modes" },
+		GSUI.$createElement( "div", { class: "gsuiClock-mode gsuiClock-beat" } ),
+		GSUI.$createElement( "div", { class: "gsuiClock-mode gsuiClock-second" } ),
 	)
 ] );

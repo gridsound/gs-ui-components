@@ -7,7 +7,7 @@ class gsuiDrumrows extends HTMLElement {
 	#elDragover = null;
 	#elLinesParent = null;
 	#timeoutIdDragleave = null;
-	#dispatch = GSUI.dispatchEv.bind( null, this, "gsuiDrumrows" );
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDrumrows" );
 	#reorder = new gsuiReorder( {
 		rootElement: this,
 		direction: "column",
@@ -35,7 +35,7 @@ class gsuiDrumrows extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.append( ...GSUI.getTemplate( "gsui-drumrows" ) );
+			this.append( ...GSUI.$getTemplate( "gsui-drumrows" ) );
 		}
 	}
 
@@ -51,7 +51,7 @@ class gsuiDrumrows extends HTMLElement {
 	}
 	playRow( id ) {
 		this.#rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" ).append(
-			GSUI.createElem( "div", { class: "gsuiDrumrow-startCursor" } ) );
+			GSUI.$createElement( "div", { class: "gsuiDrumrow-startCursor" } ) );
 	}
 	stopRow( id ) {
 		this.#rows.get( id ).root.querySelectorAll( ".gsuiDrumrow-startCursor" )
@@ -79,7 +79,7 @@ class gsuiDrumrows extends HTMLElement {
 
 	// .........................................................................
 	add( id, elLine ) {
-		const html = GSUI.findElem( GSUI.getTemplate( "gsui-drumrow" ), {
+		const html = GSUI.$findElements( GSUI.$getTemplate( "gsui-drumrow" ), {
 			root: ".gsuiDrumrow",
 			name: ".gsuiDrumrow-name",
 			detune: ".gsuiDrumrow-detune gsui-slider",
@@ -93,14 +93,14 @@ class gsuiDrumrows extends HTMLElement {
 		this.#lines.set( id, elLine );
 		this.append( html.root );
 		this.#elLinesParent.append( elLine );
-		GSUI.listenEv( html.root, {
+		GSUI.$listenEvents( html.root, {
 			gsuiSlider: {
 				change: ( d, sli ) => this.#onchangeRowSlider( id, sli.dataset.prop, d.args[ 0 ] ),
 				input: ( d, sli ) => {
 					this.#namePrint( id, sli.dataset.prop, d.args[ 0 ] );
 					this.#dispatch( "liveChangeDrumrow", id, sli.dataset.prop, d.args[ 0 ] );
 				},
-				inputStart: GSUI.noop,
+				inputStart: GSUI.$noop,
 				inputEnd: () => this.#oninputendRowSlider( id ),
 			},
 		} );
@@ -148,7 +148,7 @@ class gsuiDrumrows extends HTMLElement {
 	#changePattern( id, svg ) {
 		const elWave = this.#rows.get( id ).root.querySelector( ".gsuiDrumrow-waveWrap" );
 
-		GSUI.emptyElem( elWave );
+		GSUI.$emptyElement( elWave );
 		if ( svg ) {
 			svg.classList.add( "gsuiDrumrow-wave" );
 			elWave.append( svg );

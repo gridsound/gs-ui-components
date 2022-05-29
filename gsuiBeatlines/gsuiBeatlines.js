@@ -12,7 +12,7 @@ class gsuiBeatlines extends HTMLElement {
 				case "coloredbeats":
 					this.style.backgroundImage = gsuiBeatlines.#background(
 						this.hasAttribute( "vertical" ) ? 180 : 90,
-						...( GSUI.getAttr( this, "timedivision" ) || "4/4" ).split( "/" ),
+						...( GSUI.$getAttribute( this, "timedivision" ) || "4/4" ).split( "/" ),
 						this.hasAttribute( "coloredbeats" ) );
 					break;
 				case "pxperbeat":

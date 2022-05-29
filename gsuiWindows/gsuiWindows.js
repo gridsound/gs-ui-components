@@ -22,7 +22,7 @@ class gsuiWindows extends HTMLElement {
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
 	createWindow( id ) {
-		const win = GSUI.createElem( "gsui-window" );
+		const win = GSUI.$createElement( "gsui-window" );
 
 		win.setId( id );
 		win.setParent( this );
@@ -43,13 +43,13 @@ class gsuiWindows extends HTMLElement {
 		this.#mouseFnMove = fnMove;
 		document.addEventListener( "mouseup", this.#mouseFnUp );
 		document.addEventListener( "mousemove", fnMove );
-		GSUI.unselectText();
-		GSUI.dragshield.show( cursor );
+		GSUI.$unselectText();
+		GSUI.$dragshield.show( cursor );
 	}
 	_stopMousemoving( fnUp, e ) {
 		document.removeEventListener( "mouseup", this.#mouseFnUp );
 		document.removeEventListener( "mousemove", this.#mouseFnMove );
-		GSUI.dragshield.hide();
+		GSUI.$dragshield.hide();
 		this.#mouseFnUp =
 		this.#mouseFnMove = null;
 		fnUp( e );

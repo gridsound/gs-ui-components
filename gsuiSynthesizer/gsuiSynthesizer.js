@@ -3,8 +3,8 @@
 class gsuiSynthesizer extends HTMLElement {
 	#waveList = [];
 	#uiOscs = new Map();
-	#children = GSUI.getTemplate( "gsui-synthesizer" );
-	#elements = GSUI.findElem( this.#children, {
+	#children = GSUI.$getTemplate( "gsui-synthesizer" );
+	#elements = GSUI.$findElements( this.#children, {
 		env: "gsui-envelope",
 		lfo: "gsui-lfo",
 		oscList: ".gsuiSynthesizer-oscList",
@@ -48,7 +48,7 @@ class gsuiSynthesizer extends HTMLElement {
 
 	// .........................................................................
 	addOscillator( id ) {
-		const uiOsc = GSUI.createElem( "gsui-oscillator", { "data-id": id } );
+		const uiOsc = GSUI.$createElement( "gsui-oscillator", { "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );
@@ -68,12 +68,12 @@ class gsuiSynthesizer extends HTMLElement {
 
 	// .........................................................................
 	#onclickNewOsc() {
-		GSUI.dispatchEv( this, "gsuiSynthesizer", "addOscillator" );
+		GSUI.$dispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
 	}
 	#onchangeReorder() {
 		const oscs = gsuiReorder.listComputeOrderChange( this.#elements.oscList, {} );
 
-		GSUI.dispatchEv( this, "gsuiSynthesizer", "reorderOscillator", oscs );
+		GSUI.$dispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
 	}
 }
 

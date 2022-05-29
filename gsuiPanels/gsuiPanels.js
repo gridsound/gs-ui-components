@@ -36,7 +36,7 @@ class gsuiPanels extends HTMLElement {
 			.forEach( ( pSize, i ) => {
 				pans[ i ].style[ this.#dir ] = `${ pSize / size * 100 }%`;
 				if ( i > 0 ) {
-					pans[ i ].append( GSUI.createElem( "div", { class: "gsuiPanels-extend" } ) );
+					pans[ i ].append( GSUI.$createElement( "div", { class: "gsuiPanels-extend" } ) );
 				}
 			} );
 	}
@@ -79,7 +79,7 @@ class gsuiPanels extends HTMLElement {
 			);
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
 			tar.classList.add( "gsui-hover" );
-			GSUI.unselectText();
+			GSUI.$unselectText();
 			this.setPointerCapture( e.pointerId );
 			this.onpointerup = this.#onpointerup.bind( this );
 			this.onpointermove = this.#onpointermove.bind( this );

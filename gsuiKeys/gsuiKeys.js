@@ -62,7 +62,7 @@ class gsuiKeys extends HTMLElement {
 		this.style.counterReset = `octave ${ maxOct }`;
 		this.style.height = `${ nbOct * 12 }em`;
 		for ( let i = 0; i < nbOct; ++i ) {
-			this.append( ...GSUI.getTemplate( "gsui-keys-octave" ) );
+			this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
 		}
 		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
 			const elRow = elKey.firstElementChild;
@@ -108,10 +108,10 @@ class gsuiKeys extends HTMLElement {
 		elKey.classList.toggle( "gsui-active", status );
 		if ( status ) {
 			this.#keysDown.set( midi );
-			GSUI.dispatchEv( this, "gsuiKeys", "keyDown", midi, this.#gain );
+			GSUI.$dispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
 		} else {
 			this.#keysDown.delete( midi );
-			GSUI.dispatchEv( this, "gsuiKeys", "keyUp", midi, this.#gain );
+			GSUI.$dispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
 		}
 	}
 
