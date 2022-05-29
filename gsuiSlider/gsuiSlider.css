@@ -6,12 +6,12 @@ gsui-slider {
 	user-select: none;
 }
 
-.gsuiSlider-disable {
+gsui-slider[ disabled ] {
 	cursor: not-allowed;
 	--gsuiSlider-lineColor: #fff;
 }
-.gsuiSlider-disable .gsuiSlider-lineColor,
-.gsuiSlider-disable .gsuiSlider-svgLineColor {
+gsui-slider[ disabled ] .gsuiSlider-lineColor,
+gsui-slider[ disabled ] .gsuiSlider-svgLineColor {
 	opacity: .25;
 }
 

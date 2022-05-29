@@ -8,7 +8,6 @@ class gsuiSlider extends HTMLElement {
 	#mousemoveSize = 0;
 	#strokeWidth = 4;
 	#previousval = "";
-	#enable = true;
 	#circ = false;
 	#axeX = false;
 	#locked = false;
@@ -135,10 +134,6 @@ class gsuiSlider extends HTMLElement {
 			}
 		}
 	}
-	enable( b ) {
-		this.#enable = b;
-		this.classList.toggle( "gsuiSlider-disable", !b );
-	}
 
 	// .........................................................................
 	#setType( type ) {
@@ -234,7 +229,7 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	#onwheel( e ) {
-		if ( this.#enable && this.#wheelChange ) {
+		if ( !GSUI.$hasAttribute( this, "disabled" ) && this.#wheelChange ) {
 			const d = e.deltaY > 0 ? -1 : 1;
 
 			this.setValue( +this.#getInputVal() + this.#scrollStep * d, true );
@@ -242,7 +237,7 @@ class gsuiSlider extends HTMLElement {
 		}
 	}
 	#onmousedown() {
-		if ( this.#enable ) {
+		if ( !GSUI.$hasAttribute( this, "disabled" ) ) {
 			this.#dispatch( "inputStart", this.value );
 			this.#pxval = this.#getRange() / this.#getMousemoveSize();
 			this.#pxmoved = 0;
