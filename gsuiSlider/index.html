@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.css"/>
+<style>
+body {
+	--test-bg-color: #487;
+	--test-content-w: 400px;
+	--test-content-h: 120px;
+}
+#testWrap {
+	overflow: initial;
+}
+#slider-wrap {
+	display: flex;
+	height: 100%;
+	gap: 8px;
+	--gsuiSlider-lineBgColor: #444;
+}
+#slider-wrap > div {
+	flex: 1;
+	display: flex;
+	gap: inherit;
+}
+#slider-wrap > div:first-child {
+	flex-direction: column;
+}
+#slider-wrap > div:first-child + div {
+	flex: .6;
+	flex-direction: column;
+}
+gsui-slider .gsuiSlider-eventCatcher {
+	inset: -4px;
+}
+gsui-slider.s0,
+gsui-slider.s1,
+gsui-slider.s2,
+gsui-slider.s3,
+gsui-slider.s4 {
+	width: 100%;
+	height: 8px;
+	min-width: 32px;
+	--gsuiSlider-lineColor: #ff9;
+}
+gsui-slider.s3 {
+	--gsuiSlider-lineColor: #ddf;
+	height: 16px;
+}
+gsui-slider.s4 {
+	--gsuiSlider-lineColor: #a8b;
+	min-height: 8px;
+	flex: 1;
+}
+gsui-slider.s5,
+gsui-slider.s6,
+gsui-slider.s7,
+gsui-slider.s8,
+gsui-slider.s9 {
+	width: 8px;
+	height: 100%;
+	--gsuiSlider-lineColor: #c5426e;
+}
+gsui-slider.s8 {
+	--gsuiSlider-lineColor: #fff;
+	width: 16px;
+}
+gsui-slider.s9 {
+	--gsuiSlider-lineColor: #7b8;
+	min-width: 8px;
+	flex: 1;
+}
+gsui-slider.sc1,
+gsui-slider.sc2 {
+	--gsuiSlider-lineColor: #cbf;
+	min-width: 16px;
+}
+gsui-slider.sc2 {
+	--gsuiSlider-lineColor: #db7;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<div id="slider-wrap">
+		<div>
+			<gsui-slider class="s0" type="linear-x" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s1" type="linear-x" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s2" type="linear-x" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s3" type="linear-x" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s4" type="linear-x" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+		</div>
+		<div>
+			<gsui-slider class="sc1" type="circular" min="0" max="100" step="1" mousemove-size="800" stroke-width="8"></gsui-slider>
+			<gsui-slider class="sc2" type="circular" min="0" max="100" step="1" mousemove-size="800" stroke-width="8"></gsui-slider>
+		</div>
+		<div>
+			<gsui-slider class="s5" type="linear-y" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s6" type="linear-y" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s7" type="linear-y" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s8" type="linear-y" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+			<gsui-slider class="s9" type="linear-y" min="0" max="100" step="1" mousemove-size="800"></gsui-slider>
+		</div>
+	</div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiSlider/gsuiSlider.html.js"></script>
+<script src="/gs-ui-components/gsuiSlider/gsuiSlider.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const sli = document.querySelector( "gsui-slider" );
+
+</script>
+</body>
+</html>
