@@ -358,13 +358,13 @@ class gsuiSlicer extends HTMLElement {
 		this.#sliceIdBefore = sliId ?? sli.id;
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
-		list.forEach( sli => {
-			const dur = GSUI.$getAttributeNum( this, "duration" );
-			const step = GSUI.$getAttributeNum( this, "step" );
-			const yyy = GSUI.$clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 );
-			const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
-			const y = yy / dur / this.#stepsPerBeat;
+		const dur = GSUI.$getAttributeNum( this, "duration" );
+		const step = GSUI.$getAttributeNum( this, "step" );
+		const yyy = GSUI.$clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 );
+		const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
+		const y = yy / dur / this.#stepsPerBeat;
 
+		list.forEach( sli => {
 			if ( sli.y !== y ) {
 				this.changeSlice( sli.id, { y } );
 			}
