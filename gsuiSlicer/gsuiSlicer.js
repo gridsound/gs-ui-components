@@ -14,6 +14,7 @@ class gsuiSlicer extends HTMLElement {
 	#slicesSaved = null;
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
+	#sliceCurrentTime = null;
 	#onresizeBind = this.#onresize.bind( this );
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiSlicer" );
 	#children = GSUI.$getTemplate( "gsui-slicer" );
@@ -156,6 +157,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	changeSlice( id, obj ) {
+		const t = this.#getTimeNorm();
 		const sli = this.#slices[ id ];
 		const x = +( obj.x ?? sli.x ).toFixed( 10 );
 		const y = +( obj.y ?? sli.y ).toFixed( 10 );
@@ -174,6 +176,9 @@ class gsuiSlicer extends HTMLElement {
 			sli.sli.style.height = `${ ( 1 - y ) * 100 }%`;
 		}
 		GSUI.$setAttribute( sli.svg, "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
+		if ( sli.x <= t && t < sli.x + sli.w ) {
+			this.#highlightSlice( sli );
+		}
 	}
 	removeSlice( id ) {
 		const sli = this.#slices[ id ];
@@ -186,10 +191,16 @@ class gsuiSlicer extends HTMLElement {
 				this.#slicesMaxId = Object.keys( this.#slices )
 					.reduce( ( max, k ) => Math.max( max, k ), 0 );
 			}
+			if ( sli === this.#sliceCurrentTime ) {
+				this.#highlightSlice( null );
+			}
 		}
 	}
 
 	// .........................................................................
+	#getTimeNorm() {
+		return GSUI.$getAttributeNum( this, "currenttime" ) / GSUI.$getAttributeNum( this, "duration" );
+	}
 	#setWaveform( buf ) {
 		if ( buf ) {
 			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
@@ -200,7 +211,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#setCurrentTime( beat ) {
-		const t = beat / GSUI.$getAttributeNum( this, "duration" );
+		const t = this.#getTimeNorm();
 
 		GSUI.$setAttribute( this.#elements.timeline, "currenttime", beat );
 		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
@@ -209,11 +220,25 @@ class gsuiSlicer extends HTMLElement {
 		this.#updateCurrentTime();
 	}
 	#updateCurrentTime() {
-		const t = GSUI.$getAttributeNum( this, "currenttime" ) / GSUI.$getAttributeNum( this, "duration" );
-		const sli = Object.values( this.#slices ).find( sli => sli.x <= t && t < sli.x + sli.w );
+		const t = this.#getTimeNorm();
+		const sli = Object.values( this.#slices ).find( s => s.x <= t && t < s.x + s.w );
 		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
 		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, srcT, srcT < .5 );
+		this.#highlightSlice( sli );
+	}
+	#highlightSlice( sli ) {
+		if ( sli !== this.#sliceCurrentTime ) {
+			if ( this.#sliceCurrentTime ) {
+				this.#sliceCurrentTime.sli.classList.remove( "gsuiSlicer-slices-slice-hl" );
+				this.#sliceCurrentTime.svg.classList.remove( "gsuiSlicer-preview-wave-hl" );
+			}
+			if ( sli ) {
+				sli.sli.classList.add( "gsuiSlicer-slices-slice-hl" );
+				sli.svg.classList.add( "gsuiSlicer-preview-wave-hl" );
+			}
+			this.#sliceCurrentTime = sli;
+		}
 	}
 	static #setLR( el, prc, fromLeft ) {
 		if ( fromLeft ) {

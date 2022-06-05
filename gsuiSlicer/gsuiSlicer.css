@@ -124,6 +124,11 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	height: 100%;
 	fill: var( --gsuiSlicer-source-wave );
 	border-right: 1px dashed var( --gsuiSlicer-preview-wave-border );
+	transition: background-color .5s;
+}
+.gsuiSlicer-preview-wave-hl {
+	background-color: var( --gsuiSlicer-preview-wave-hl-bg );
+	transition: none;
 }
 
 /* .......................................................................... */
@@ -178,10 +183,16 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	background-color: var( --gsuiSlicer-slice-bg );
 	pointer-events: none;
 	filter: grayscale( .5 ) opacity( .8 );
-	transition: filter .2s;
+	transition:
+		filter .2s,
+		background-color .5s;
 }
 .gsuiSlicer-loaded .gsuiSlicer-slices-slice {
 	filter: none;
+}
+.gsuiSlicer-slices-slice-hl {
+	background-color: var( --gsuiSlicer-slice-hl-bg );
+	transition: filter .2s;
 }
 
 /* .......................................................................... */
