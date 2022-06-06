@@ -146,11 +146,11 @@ class gsuiTimewindow extends HTMLElement {
 	#onclickStep() {
 		const v = GSUI.$getAttributeNum( this, "step" );
 		const frac =
-			v >= 1 ? 2 :
-			v >= .5 ? 4 :
-			v >= .25 ? 8 : 1;
+			v >= 1 ? .5 :
+			v >= .5 ? .25 :
+			v >= .25 ? .125 : 1;
 
-		GSUI.$setAttribute( this, "step", 1 / frac );
+		GSUI.$setAttribute( this, "step", frac );
 	}
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
