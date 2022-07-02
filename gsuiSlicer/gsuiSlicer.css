@@ -8,6 +8,7 @@ gsui-slicer {
 	min-width: 306px;
 	color: var( --gsuiSlicer-color );
 	background-color: var( --gsuiSlicer-bg );
+	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 }
 gsui-slicer[ disabled ] {

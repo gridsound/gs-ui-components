@@ -94,6 +94,7 @@ class gsuiSlicer extends HTMLElement {
 				step: 1,
 				duration: 4,
 				timedivision: "4/4",
+				hidetimes: true,
 			} );
 			this.#selectTool( "moveY" );
 		}
@@ -224,7 +225,7 @@ class gsuiSlicer extends HTMLElement {
 		GSUI.$setAttribute( this.#elements.timeline, "currenttime", beat );
 		this.#elements.slicesCurrentTime.style.left = `${ t * 100 }%`;
 		this.#elements.previewCurrentTime.style.left = `${ t * 100 }%`;
-		GSUI.$setAttribute( this, "hidetimes", t <= 0 || t >= 1 );
+		GSUI.$setAttribute( this, "hidetimes", t <= 0 || t >= .995 );
 		this.#updateCurrentTime( t );
 	}
 	#updateCurrentTime( t ) {
