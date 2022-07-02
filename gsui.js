@@ -128,6 +128,10 @@ class GSUI {
 			Object.entries( attr ).forEach( kv => GSUI.#setAttribute( el, ...kv ) );
 		}
 	}
+	static $setGetAttribute( el, attr, val ) {
+		GSUI.#setAttribute( el, attr, val );
+		return GSUI.$getAttribute( el, attr );
+	}
 	static #setAttribute( el, attr, val ) {
 		val !== false && val !== null && val !== undefined
 			? el.setAttribute( attr, val === true ? "" : val )
