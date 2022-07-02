@@ -78,20 +78,12 @@ class gsuiTimeline extends HTMLElement {
 				case "pxperbeat": this.#changePxPerBeat( +val ); break;
 				case "currenttime": this.#changeCurrentTime( +val ); break;
 				case "timedivision": this.#changeTimedivision( val ); break;
-				case "currenttime-preview": this.#changeCurrentTimePreview( val ); break;
+				case "currenttime-preview": this.#changeCurrentTimePreview( val === null ? null : +val ); break;
 			}
 		}
 	}
 
 	// .........................................................................
-	previewCurrentTime( b ) { // to remove...
-		const ret = b !== false
-			? this.beatRound( b )
-			: GSUI.$getAttributeNum( this, "currenttime-preview" ) || GSUI.$getAttributeNum( this, "currenttime" ) || 0;
-
-		GSUI.$setAttribute( this, "currenttime-preview", b !== false ? ret : null );
-		return ret;
-	}
 	#changePxPerBeat( ppb ) {
 		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) );
 		const beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) );
@@ -133,21 +125,21 @@ class gsuiTimeline extends HTMLElement {
 		this.#updateLoop();
 	}
 	#changeCurrentTime( t ) {
-		const rnd = this.beatRound( t );
-
-		if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
-			GSUI.$setAttribute( this, "currenttime", rnd );
-		} else {
-			this.#elements.cursor.style.left = `${ t }em`;
-		}
+		this.#elements.cursor.style.left = `${ t }em`;
 	}
 	#changeCurrentTimePreview( t ) {
-		if ( !t ) {
+		if ( t === null ) {
 			this.#elements.cursorPreview.remove();
 		} else {
-			this.#elements.cursorPreview.style.left = `${ t }em`;
-			if ( !this.#elements.cursorPreview.parentNode ) {
-				this.#elements.timeLine.append( this.#elements.cursorPreview );
+			const rnd = this.beatRound( t );
+
+			if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
+				GSUI.$setAttribute( this, "currenttime-preview", rnd );
+			} else {
+				this.#elements.cursorPreview.style.left = `${ t }em`;
+				if ( !this.#elements.cursorPreview.parentNode ) {
+					this.#elements.timeLine.append( this.#elements.cursorPreview );
+				}
 			}
 		}
 	}
