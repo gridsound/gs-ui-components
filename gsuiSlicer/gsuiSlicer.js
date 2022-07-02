@@ -214,17 +214,16 @@ class gsuiSlicer extends HTMLElement {
 		const t = this.#getTimeNorm();
 
 		GSUI.$setAttribute( this.#elements.timeline, "currenttime", beat );
-		gsuiSlicer.#setLR( this.#elements.slicesCurrentTime, t, t < .5 );
-		gsuiSlicer.#setLR( this.#elements.previewCurrentTime, t, t < .5 );
+		this.#elements.slicesCurrentTime.style.left = `${ t * 100 }%`;
+		this.#elements.previewCurrentTime.style.left = `${ t * 100 }%`;
 		GSUI.$setAttribute( this, "hidetimes", t <= 0 || t >= 1 );
-		this.#updateCurrentTime();
+		this.#updateCurrentTime( t );
 	}
-	#updateCurrentTime() {
-		const t = this.#getTimeNorm();
+	#updateCurrentTime( t ) {
 		const sli = Object.values( this.#slices ).find( s => s.x <= t && t < s.x + s.w );
 		const srcT = sli ? Math.min( sli.y + ( t - sli.x ), 1 ) : t;
 
-		gsuiSlicer.#setLR( this.#elements.sourceCurrentTime, srcT, srcT < .5 );
+		this.#elements.sourceCurrentTime.style.left = `${ srcT * 100 }%`;
 		this.#highlightSlice( sli );
 	}
 	#highlightSlice( sli ) {
@@ -238,15 +237,6 @@ class gsuiSlicer extends HTMLElement {
 				sli.svg.classList.add( "gsuiSlicer-preview-wave-hl" );
 			}
 			this.#sliceCurrentTime = sli;
-		}
-	}
-	static #setLR( el, prc, fromLeft ) {
-		if ( fromLeft ) {
-			el.style.left = `${ prc * 100 }%`;
-			el.style.right = "auto";
-		} else {
-			el.style.left = "auto";
-			el.style.right = `${ 100 - prc * 100 }%`;
 		}
 	}
 	#selectTool( t, change ) {

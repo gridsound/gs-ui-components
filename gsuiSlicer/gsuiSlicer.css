@@ -38,12 +38,13 @@ gsui-slicer[ disabled ] {
 	z-index: 1;
 	inset: 0 auto;
 	width: 2px;
+	margin-left: -1px;
 	background-color: var( --gsui-col-currentTimeCursor );
 	pointer-events: none;
 }
 gsui-slicer[ hidetimes ] .gsuiSlicer-currentTime,
 gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
-	opacity: 0;
+	display: none;
 }
 
 /* .......................................................................... */
