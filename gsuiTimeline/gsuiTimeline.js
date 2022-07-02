@@ -133,7 +133,13 @@ class gsuiTimeline extends HTMLElement {
 		this.#updateLoop();
 	}
 	#changeCurrentTime( t ) {
-		this.#elements.cursor.style.left = `${ t }em`;
+		const rnd = this.beatRound( t );
+
+		if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
+			GSUI.$setAttribute( this, "currenttime", rnd );
+		} else {
+			this.#elements.cursor.style.left = `${ t }em`;
+		}
 	}
 	#changeCurrentTimePreview( t ) {
 		if ( !t ) {
