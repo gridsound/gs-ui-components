@@ -73,6 +73,14 @@ class gsuiSlicer extends HTMLElement {
 				this.#dispatch( "dropBuffer", patId );
 			}
 		};
+		GSUI.$listenEvents( this, {
+			gsuiTimeline: {
+				changeCurrentTime: d => {
+					GSUI.$setAttribute( this, "currenttime", d.args[ 0 ] );
+					return true;
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
