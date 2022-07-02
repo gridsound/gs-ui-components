@@ -50,6 +50,11 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<div class="prop">
+		<input id="currentTime" type="range" value="0" min="0" max="4" step=".001" />
+		<span>current time</span>
+		<b>0</b>
+	</div>
+	<div class="prop">
 		<input id="pxPerbeat" type="range" value="80" min="2" max="128"/>
 		<span>px per beat</span>
 		<b>80</b>
@@ -77,10 +82,12 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elTimeline = document.querySelector( "gsui-timeline" );
+const inpTim = document.querySelector( "#currentTime" );
 const inpPBB = document.querySelector( "#pxPerbeat" );
 const inpBPM = document.querySelector( "#beatsPerMeasure" );
 const inpSPB = document.querySelector( "#stepsPerBeat" );
 
+inpTim.oninput = e => GSUI.$setAttribute( elTimeline, "currenttime", inpTim.value );
 inpPBB.oninput = e => GSUI.$setAttribute( elTimeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
 inpSPB.oninput = e => GSUI.$setAttribute( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
