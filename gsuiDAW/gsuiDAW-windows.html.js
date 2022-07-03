@@ -1,9 +1,5 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-daw-window-blocks", () =>
-	GSUI.$createElement( "div", { "data-window": "blocks" } )
-);
-
 GSUI.$setTemplate( "gsui-daw-window-main", () =>
 	GSUI.$createElement( "div", { "data-window": "main" } )
 );

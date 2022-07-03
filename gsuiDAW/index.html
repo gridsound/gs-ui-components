@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiClock/gsuiClock.colors.default.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiClock/gsuiClock.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPanels/gsuiPanels.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPanels/gsuiPanels.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.css"/>
 
@@ -71,6 +73,7 @@ body {
 <script src="/gs-ui-components/gsuiAnalyser/gsuiAnalyser.js"></script>
 <script src="/gs-ui-components/gsuiClock/gsuiClock.html.js"></script>
 <script src="/gs-ui-components/gsuiClock/gsuiClock.js"></script>
+<script src="/gs-ui-components/gsuiPanels/gsuiPanels.js"></script>
 <script src="/gs-ui-components/gsuiSlider/gsuiSlider.html.js"></script>
 <script src="/gs-ui-components/gsuiSlider/gsuiSlider.js"></script>
 <script src="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.js"></script>
@@ -113,7 +116,7 @@ el.deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 
 GSUI.$setAttribute( el, "currentcomposition", "cloud:idONL2" );
 // GSUI.$setAttribute( el, "saving", true );
 
-el.toggleWindow( "blocks", true );
+el.toggleWindow( "main", true );
 el.toggleWindow( "mixer", false );
 
 el.stackAction( "mute", "shhhhhhhh..." );
