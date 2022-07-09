@@ -1,0 +1,64 @@
+gsui-library {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	user-select: none;
+}
+
+/* .......................................................................... */
+.gsuiLibrary-head {
+}
+.gsuiLibrary-body {
+	flex: 1;
+	position: relative;
+	display: flex;
+	overflow: scroll hidden;
+	flex-wrap: wrap;
+	flex-direction: column;
+	background-color: var( --gsuiLibrary-bg );
+}
+
+/* .......................................................................... */
+.gsuiLibrary-sep {
+	display: flex;
+	align-items: center;
+	gap: 1ch;
+	min-width: 10px;
+	box-sizing: border-box;
+	height: 40px;
+	padding: 9px 8px;
+	font-size: 9px;
+	font-weight: bold;
+}
+.gsuiLibrary-sep .gsuiIcon {
+	opacity: .3;
+}
+
+/* .......................................................................... */
+.gsuiLibrary-sample {
+	position: relative;
+	z-index: 0;
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	position: relative;
+	min-width: 50px;
+	height: 20px;
+	cursor: pointer;
+	transition: background-color .2s;
+}
+.gsuiLibrary-sample:hover {
+	background-color: var( --gsuiLibrary-sample-hover-bg );
+}
+.gsuiLibrary-sample-wave {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.gsuiLibrary-sample-svg {
+	position: absolute;
+	fill: currentColor;
+	width: 100%;
+	height: 100%;
+	opacity: .2;
+}
