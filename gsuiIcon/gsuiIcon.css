@@ -91,6 +91,9 @@
 .gsuiIcon[ data-icon="arrows-h" ]::after { content: "\10f337"; }
 .gsuiIcon[ data-icon="arrow-dropdown" ]::before { content: "\f34a"; }
 .gsuiIcon[ data-icon="arrow-dropdown" ]::after { content: "\10f34a"; }
+.gsuiIcon[ data-icon="arrow-levelleftdown" ]::before { content: "\f3be"; transform: scale( -1, 1 ); }
+.gsuiIcon[ data-icon="arrow-levelleftdown" ]::after { content: "\10f3be"; transform: scale( -1, 1 ); }
+
 
 .gsuiIcon[ data-icon="sort" ]::before { content: "\f0dc"; }
 .gsuiIcon[ data-icon="sort" ]::after { content: "\10f0dc"; }
