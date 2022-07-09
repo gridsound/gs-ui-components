@@ -22,6 +22,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUI.$createElement( "option", { value: "gsuiEnvelope" }, "gsuiEnvelope" ),
 					GSUI.$createElement( "option", { value: "gsuiKeys" }, "gsuiKeys" ),
 					GSUI.$createElement( "option", { value: "gsuiLFO" }, "gsuiLFO" ),
+					GSUI.$createElement( "option", { value: "gsuiLibrary" }, "gsuiLibrary" ),
 					GSUI.$createElement( "option", { value: "gsuiOscillator" }, "gsuiOscillator" ),
 					GSUI.$createElement( "option", { value: "gsuiSlicer" }, "gsuiSlicer" ),
 					GSUI.$createElement( "option", { value: "gsuiSlider" }, "gsuiSlider" ),
