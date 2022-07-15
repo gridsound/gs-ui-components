@@ -31,15 +31,24 @@ class gsuiLibrary extends HTMLElement {
 
 		this.#elements.body.append( ...el );
 	}
-	loadSample( id, b ) {
-		const elSmp = this.#getSample( id );
+	loadSample( id ) {
+		const el = this.#getSample( id );
 
-		elSmp.classList.toggle( "gsuiLibrary-sample-loading", b );
-		if ( b ) {
-			elSmp.title += ' (loading...)';
-		} else if ( elSmp.title.endsWith( ' (loading...)' ) ) {
-			elSmp.title = elSmp.title.slice( 0, -13 );
-		}
+		el.classList.add( "gsuiLibrary-sample-loading" );
+		el.title = "loading...";
+	}
+	unloadSample( id ) {
+		const el = this.#getSample( id );
+
+		el.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
+		el.title = el.dataset.id;
+	}
+	readySample( id ) {
+		const el = this.#getSample( id );
+
+		el.classList.remove( "gsuiLibrary-sample-loading" );
+		el.classList.add( "gsuiLibrary-sample-ready" );
+		el.title = el.dataset.id;
 	}
 
 	// .........................................................................
@@ -47,8 +56,14 @@ class gsuiLibrary extends HTMLElement {
 		return this.#elements.body.querySelector( `[data-id="${ id }"]` );
 	}
 	#onclick( e ) {
-		if ( e.target.dataset.id && !e.target.classList.contains( "gsuiLibrary-sample-loading" ) ) {
-			this.#dispatch( "clickSample", e.target.dataset.id );
+		const el = e.target;
+
+		if ( el.dataset.id && !el.classList.contains( "gsuiLibrary-sample-loading" ) ) {
+			const act = el.classList.contains( "gsuiLibrary-sample-ready" )
+				? "playSample"
+				: "loadSample";
+
+			this.#dispatch( act, el.dataset.id );
 		}
 	}
 }

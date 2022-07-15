@@ -49,10 +49,13 @@ const elLib = document.querySelector( "gsui-library" );
 elLib.setLibrary( gsuiLibrarySamples );
 GSUI.$listenEvents( elLib, {
 	gsuiLibrary: {
-		clickSample: d => {
-			elLib.loadSample( d.args[ 0 ], true );
-			setTimeout( () => elLib.loadSample( d.args[ 0 ], false ), 10 * 1000 );
-		}
+		loadSample: d => {
+			elLib.loadSample( d.args[ 0 ] );
+			setTimeout( () => elLib.readySample( d.args[ 0 ] ), 2 * 1000 );
+		},
+		playSample: d => {
+			lg( d.args[ 0 ] );
+		},
 	},
 } );
 </script>
