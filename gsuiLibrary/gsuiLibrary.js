@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiLibrary extends HTMLElement {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiLibrary" );
 	#children = GSUI.$getTemplate( "gsui-library" );
 	#elements = GSUI.$findElements( this.#children, {
 		body: ".gsuiLibrary-body",
@@ -9,6 +10,7 @@ class gsuiLibrary extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
+		this.#elements.body.onclick = this.#onclick.bind( this );
 	}
 
 	// .........................................................................
@@ -28,6 +30,26 @@ class gsuiLibrary extends HTMLElement {
 		} );
 
 		this.#elements.body.append( ...el );
+	}
+	loadSample( id, b ) {
+		const elSmp = this.#getSample( id );
+
+		elSmp.classList.toggle( "gsuiLibrary-sample-loading", b );
+		if ( b ) {
+			elSmp.title += ' (loading...)';
+		} else if ( elSmp.title.endsWith( ' (loading...)' ) ) {
+			elSmp.title = elSmp.title.slice( 0, -13 );
+		}
+	}
+
+	// .........................................................................
+	#getSample( id ) {
+		return this.#elements.body.querySelector( `[data-id="${ id }"]` );
+	}
+	#onclick( e ) {
+		if ( e.target.dataset.id && !e.target.classList.contains( "gsuiLibrary-sample-loading" ) ) {
+			this.#dispatch( "clickSample", e.target.dataset.id );
+		}
 	}
 }
 
