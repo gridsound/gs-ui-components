@@ -6,6 +6,7 @@ class gsuiLibrary extends HTMLElement {
 	#elements = GSUI.$findElements( this.#children, {
 		body: ".gsuiLibrary-body",
 	} );
+	#map = new Map();
 
 	constructor() {
 		super();
@@ -24,37 +25,61 @@ class gsuiLibrary extends HTMLElement {
 	// .........................................................................
 	setLibrary( lib ) {
 		const el = lib.map( item => {
-			return typeof item !== "string"
-				? GSUI.$getTemplate( "gsui-library-sample", { title: item[ 0 ], points: item[ 1 ], viewBox: "0 0 40 10" } )
-				: GSUI.$getTemplate( "gsui-library-sep", item );
+			if ( typeof item !== "string" ) {
+				const el = GSUI.$getTemplate( "gsui-library-sample", { title: item[ 0 ], points: item[ 1 ], viewBox: "0 0 40 10" } );
+
+				this.#map.set( item[ 0 ], Object.seal( {
+					element: el,
+					cursor: null,
+					timeout: null,
+				} ) );
+				return el;
+			}
+			return GSUI.$getTemplate( "gsui-library-sep", item );
 		} );
 
 		this.#elements.body.append( ...el );
 	}
 	loadSample( id ) {
-		const el = this.#getSample( id );
+		const smp = this.#map.get( id );
 
-		el.classList.add( "gsuiLibrary-sample-loading" );
-		el.title = "loading...";
+		smp.element.classList.add( "gsuiLibrary-sample-loading" );
+		smp.element.title = "loading...";
 	}
 	unloadSample( id ) {
-		const el = this.#getSample( id );
+		const smp = this.#map.get( id );
 
-		el.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
-		el.title = el.dataset.id;
+		smp.element.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
+		smp.element.title = smp.element.dataset.id;
 	}
 	readySample( id ) {
-		const el = this.#getSample( id );
+		const smp = this.#map.get( id );
 
-		el.classList.remove( "gsuiLibrary-sample-loading" );
-		el.classList.add( "gsuiLibrary-sample-ready" );
-		el.title = el.dataset.id;
+		smp.element.classList.remove( "gsuiLibrary-sample-loading" );
+		smp.element.classList.add( "gsuiLibrary-sample-ready" );
+		smp.element.title = smp.element.dataset.id;
+	}
+	playSample( id, dur ) {
+		const smp = this.#map.get( id );
+
+		this.stopSample( id );
+		smp.element.classList.add( "gsuiLibrary-sample-playing" );
+		smp.cursor = GSUI.$createElement( "div", { class: "gsuiLibrary-sample-cursor" } );
+		smp.cursor.style.left = "0%";
+		smp.cursor.style.transitionDuration = `${ dur }s`;
+		smp.element.append( smp.cursor );
+		setTimeout( () => smp.cursor.style.left = "100%", 10 );
+		smp.timeout = setTimeout( this.stopSample.bind( this, id ), dur * 1000 );
+	}
+	stopSample( id ) {
+		const smp = this.#map.get( id );
+
+		clearTimeout( smp.timeout );
+		smp.cursor?.remove();
+		smp.element.classList.remove( "gsuiLibrary-sample-playing" );
 	}
 
 	// .........................................................................
-	#getSample( id ) {
-		return this.#elements.body.querySelector( `[data-id="${ id }"]` );
-	}
 	#onclick( e ) {
 		const el = e.target;
 

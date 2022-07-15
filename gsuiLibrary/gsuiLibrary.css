@@ -37,11 +37,7 @@ gsui-library {
 /* .......................................................................... */
 .gsuiLibrary-sample {
 	position: relative;
-	z-index: 0;
-	display: flex;
-	align-items: center;
-	justify-content: end;
-	position: relative;
+	overflow: hidden;
 	min-width: 50px;
 	height: 20px;
 	cursor: pointer;
@@ -50,6 +46,12 @@ gsui-library {
 .gsuiLibrary-sample-loading {
 	animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
 }
+@keyframes gsuiLibrary-sample-loading-anim {
+	0% { background-color: none; }
+	100% { background-color: var( --gsuiLibrary-sample-hover-bg ); }
+}
+
+/* .......................................................................... */
 .gsuiLibrary-sample-wave {
 	position: absolute;
 	width: 100%;
@@ -68,7 +70,28 @@ gsui-library {
 	opacity: .4;
 }
 
-@keyframes gsuiLibrary-sample-loading-anim {
-	0% { background-color: none; }
-	100% { background-color: var( --gsuiLibrary-sample-hover-bg ); }
+/* .......................................................................... */
+.gsuiLibrary-sample-cursor {
+	display: none;
+	position: absolute;
+	left: 0;
+	width: 2px;
+	height: 100%;
+	margin-left: -1px;
+	background-color: currentColor;
+	transition: 0s linear left;
+	pointer-events: none;
+}
+.gsuiLibrary-sample-cursor::before {
+	position: absolute;
+	content: "";
+	top: 0;
+	bottom: 0;
+	right: 100%;
+	width: 10px;
+	background-image: linear-gradient( 90deg, transparent, currentColor );
+	opacity: .2;
+}
+.gsuiLibrary-sample-playing .gsuiLibrary-sample-cursor {
+	display: block;
 }
