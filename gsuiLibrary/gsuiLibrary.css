@@ -10,6 +10,7 @@ gsui-library {
 }
 .gsuiLibrary-body {
 	flex: 1;
+	z-index: 0;
 	position: relative;
 	display: flex;
 	overflow: scroll hidden;
@@ -20,28 +21,47 @@ gsui-library {
 
 /* .......................................................................... */
 .gsuiLibrary-sep {
+	z-index: 1;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 	gap: 1ch;
-	min-width: 10px;
+	width: 60px;
+	min-width: 0;
 	box-sizing: border-box;
 	height: 40px;
 	padding: 9px 8px 9px 4px;
 	font-size: 9px;
 	font-weight: bold;
+	background-color: inherit;
 }
 .gsuiLibrary-sep .gsuiIcon {
 	opacity: .3;
+	pointer-events: none;
+}
+.gsuiLibrary-sep span {
+	pointer-events: none;
+}
+.gsuiLibrary-sep-expanded .gsuiIcon {
+	transform: rotate( 90deg );
 }
 
 /* .......................................................................... */
 .gsuiLibrary-sample {
 	position: relative;
 	overflow: hidden;
-	min-width: 50px;
+	width: 60px;
 	height: 20px;
+	min-width: 50px;
+	margin-top: -20px;
 	cursor: pointer;
-	transition: background-color .2s;
+	background-color: inherit;
+	transition:
+		margin-top .4s,
+		background-color .2s;
+}
+.gsuiLibrary-sample-expanded {
+	margin-top: 0px;
 }
 .gsuiLibrary-sample-loading {
 	animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
