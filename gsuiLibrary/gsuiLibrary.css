@@ -7,6 +7,18 @@ gsui-library {
 
 /* .......................................................................... */
 .gsuiLibrary-head {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 28px;
+	min-height: 28px;
+	padding: 0 6px;
+	background-color: var( --gsuiLibrary-head-bg );
+	user-select: none;
+}
+.gsuiLibrary-head-title {
+	font-size: 12px;
+	font-weight: bold;
 }
 .gsuiLibrary-body {
 	flex: 1;

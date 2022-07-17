@@ -1,7 +1,10 @@
 "use strict";
 
 GSUI.$setTemplate( "gsui-library", () => [
-	GSUI.$createElement( "div", { class: "gsuiLibrary-head" } ),
+	GSUI.$createElement( "div", { class: "gsuiLibrary-head" },
+		GSUI.$createElement( "i", { class: "gsuiLibrary-head-icon gsuiIcon", "data-icon": "waveform" } ),
+		GSUI.$createElement( "span", { class: "gsuiLibrary-head-title" }, "library" ),
+	),
 	GSUI.$createElement( "div", { class: "gsuiLibrary-body" } ),
 ] );
 
