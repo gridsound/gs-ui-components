@@ -42,6 +42,16 @@ class GSUI {
 	}
 
 	// .........................................................................
+	static $loadJSFile( src ) {
+		return new Promise( resolve => {
+			const js = GSUI.$createElement( "script", { src, type: "text/javascript" } );
+
+			js.onload = resolve;
+			document.head.append( js );
+		} );
+	}
+
+	// .........................................................................
 	static $findElements( root, graph ) {
 		return typeof graph === "string"
 			? GSUI.#findElemStr( root, graph )
