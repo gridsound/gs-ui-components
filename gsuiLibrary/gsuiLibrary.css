@@ -25,9 +25,10 @@ gsui-library {
 	z-index: 0;
 	position: relative;
 	display: flex;
-	overflow: scroll hidden;
+	align-content: flex-start;
 	flex-wrap: wrap;
 	flex-direction: column;
+	overflow: auto hidden;
 	background-color: var( --gsuiLibrary-bg );
 }
 
@@ -36,16 +37,14 @@ gsui-library {
 	z-index: 1;
 	display: flex;
 	align-items: center;
-	cursor: pointer;
-	gap: 1ch;
-	width: 60px;
-	min-width: 0;
 	box-sizing: border-box;
+	gap: 1ch;
+	width: 100px;
 	height: 40px;
 	padding: 9px 8px 9px 4px;
 	font-size: 9px;
 	font-weight: bold;
-	background-color: inherit;
+	cursor: pointer;
 }
 .gsuiLibrary-sep .gsuiIcon {
 	opacity: .3;
@@ -62,18 +61,21 @@ gsui-library {
 .gsuiLibrary-sample {
 	position: relative;
 	overflow: hidden;
-	width: 60px;
+	width: 100px;
 	height: 20px;
-	min-width: 50px;
 	margin-top: -20px;
 	cursor: pointer;
-	background-color: inherit;
+	opacity: 0;
+	pointer-events: none;
 	transition:
-		margin-top .4s,
+		margin-top .3s,
+		opacity .3s,
 		background-color .2s;
 }
 .gsuiLibrary-sample-expanded {
 	margin-top: 0px;
+	opacity: 1;
+	pointer-events: auto;
 }
 .gsuiLibrary-sample-loading {
 	animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
