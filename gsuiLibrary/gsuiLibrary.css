@@ -12,13 +12,16 @@ gsui-library {
 	gap: 4px;
 	height: 28px;
 	min-height: 28px;
+	line-height: 1;
 	padding: 0 6px;
 	background-color: var( --gsuiLibrary-head-bg );
 	user-select: none;
 }
+.gsuiLibrary-head-icon,
 .gsuiLibrary-head-title {
 	font-size: 12px;
 	font-weight: bold;
+	opacity: .7;
 }
 .gsuiLibrary-body {
 	flex: 1;
@@ -35,16 +38,20 @@ gsui-library {
 /* .......................................................................... */
 .gsuiLibrary-sep {
 	z-index: 1;
-	display: flex;
-	align-items: center;
 	box-sizing: border-box;
-	gap: 1ch;
 	width: 100px;
 	height: 40px;
-	padding: 9px 8px 9px 4px;
+	padding: 18px 8px 0 0;
+}
+.gsuiLibrary-sep-btn {
+	display: flex;
+	gap: 1ch;
+	cursor: pointer;
+	border: 0;
+	padding: 4px;
 	font-size: 9px;
 	font-weight: bold;
-	cursor: pointer;
+	background: none;
 }
 .gsuiLibrary-sep .gsuiIcon {
 	opacity: .3;

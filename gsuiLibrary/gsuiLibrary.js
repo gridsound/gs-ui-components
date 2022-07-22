@@ -98,8 +98,8 @@ class gsuiLibrary extends HTMLElement {
 	#onclick( e ) {
 		const el = e.target;
 
-		if ( el.classList.contains( "gsuiLibrary-sep" ) ) {
-			this.#expandGroup( el.dataset.id );
+		if ( el.classList.contains( "gsuiLibrary-sep-btn" ) ) {
+			this.#expandGroup( el.parentNode.dataset.id );
 		} else if ( el.classList.contains( "gsuiLibrary-sample" ) ) {
 			if ( !el.classList.contains( "gsuiLibrary-sample-loading" ) ) {
 				const act = el.classList.contains( "gsuiLibrary-sample-ready" )

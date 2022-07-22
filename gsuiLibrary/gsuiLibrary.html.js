@@ -10,8 +10,10 @@ GSUI.$setTemplate( "gsui-library", () => [
 
 GSUI.$setTemplate( "gsui-library-sep", id =>
 	GSUI.$createElement( "div", { class: "gsuiLibrary-sep gsuiLibrary-sep-expanded", "data-id": id, title: id },
-		GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "caret-right" } ),
-		GSUI.$createElement( "span", null, id ),
+		GSUI.$createElement( "button", { class: "gsuiLibrary-sep-btn", type: "button", tabindex: -1 },
+			GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "caret-right" } ),
+			GSUI.$createElement( "span", null, id ),
+		),
 	)
 );
 
