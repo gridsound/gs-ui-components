@@ -56,8 +56,8 @@ gsui-patterns {
 	align-items: center;
 	height: 28px;
 	min-height: 28px;
+	gap: 4px;
 	padding: 0 6px;
-	color: var( --gsuiPatterns-panel-menu-color );
 	background-color: var( --gsuiPatterns-panel-menu-bg );
 	user-select: none;
 }
@@ -65,10 +65,7 @@ gsui-patterns {
 .gsuiPatterns-panel-title {
 	font-size: 12px;
 	line-height: 1;
-	opacity: .5;
-}
-.gsuiPatterns-panel-icon {
-	margin-right: 4px;
+	opacity: .7;
 }
 .gsuiPatterns-panel-title {
 	font-size: 12px;
@@ -143,7 +140,6 @@ gsui-patterns {
 	text-align: center;
 	align-items: center;
 	justify-content: center;
-	color: var( --gsuiPatterns-panel-menu-color );
 	font-size: 12px;
 	font-weight: bold;
 	opacity: 0;
