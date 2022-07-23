@@ -67,7 +67,7 @@ body {
 <script>
 const elLFO = document.querySelector( "gsui-lfo" );
 const elLFOtarget = document.querySelector( "#lfoTarget" );
-const waves = gswaPeriodicWaves.loadWaves( gswaPeriodicWavesList );
+const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 elLFOtarget.onchange = () => {
 	const t = elLFOtarget.value;

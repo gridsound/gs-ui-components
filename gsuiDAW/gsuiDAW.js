@@ -119,7 +119,7 @@ class gsuiDAW extends HTMLElement {
 					dt.icon = res === GSUI.$getAttribute( this, "version" ) ? "check" : "warning";
 				} );
 		};
-		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.tap();
+		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.$tap();
 		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
 		this.#popups.settings.uiRateManualRange.oninput = e => {
 			this.#popups.settings.uiRateManualFPS.textContent =
