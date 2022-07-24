@@ -13,21 +13,21 @@ GSUI.$setTemplate( "gsui-patterns", () =>
 			title: "slices",
 			icon: "slices",
 			placeholder: "no slices yet",
-			button: { action: "newSlices", title: "Create a new slices pattern", txt: "new slices" },
+			button: { action: "newSlices", title: "Create a new slices pattern" },
 		} ),
 		GSUI.$getTemplate( "gsui-patterns-panel", {
 			class: "Drums",
 			title: "drums",
 			icon: "drums",
 			placeholder: "no drums yet",
-			button: { action: "newDrums", title: "Create a new drums pattern", txt: "new drums" },
+			button: { action: "newDrums", title: "Create a new drums pattern" },
 		} ),
 		GSUI.$getTemplate( "gsui-patterns-panel", {
 			class: "Keys",
 			title: "keys",
 			icon: "oscillator",
 			placeholder: "no synth yet",
-			button: { action: "newSynth", title: "Create a new synthesizer", txt: "new synth" },
+			button: { action: "newSynth", title: "Create a new synthesizer" },
 		} ),
 	)
 );
@@ -40,7 +40,6 @@ GSUI.$setTemplate( "gsui-patterns-panel", obj =>
 			obj.button &&
 				GSUI.$createElement( "button", { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
 					GSUI.$createElement( "i", { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "plus" } ),
-					GSUI.$createElement( "span", { class: "gsuiPatterns-btnText" }, obj.button.txt ),
 				),
 		),
 		GSUI.$createElement( "div", { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-panel-list" } ),

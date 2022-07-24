@@ -5,6 +5,7 @@
 	flex-direction: column;
 	height: var( --gsuiPatterns-pattern-h );
 	color: var( --gsuiPatterns-pattern-color );
+	font-size: 11px;
 	border-bottom: 2px solid transparent;
 	background-color: var( --gsuiPatterns-pattern-bg );
 	transition:
@@ -23,7 +24,6 @@
 	inset: 0;
 	width: calc( var( --gsuiPatterns-pattern-grip-w ) - 2px );
 	cursor: grab;
-	font-size: 14px;
 	text-align: center;
 	line-height: var( --gsuiPatterns-pattern-h );
 	background-color: var( --gsuiPatterns-pattern-head-bg );
@@ -38,7 +38,6 @@
 	opacity: .7;
 	color: inherit;
 	cursor: pointer;
-	font-size: 14px;
 	background: none;
 	transition: .1s opacity;
 }
@@ -62,18 +61,18 @@
 	flex: 1;
 	display: flex;
 	align-items: center;
-	padding: 0 8px;
+	padding: 0 6px;
 	overflow: hidden;
 }
 .gsuiPatterns-pattern-btnInfo {
 	width: 1em;
+	font-size: 14px;
 	margin-right: 8px;
 }
 .gsuiPatterns-pattern-name {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	font-size: 12px;
 	font-weight: bold;
 }
 .gsuiPatterns-pattern-name:empty::after {

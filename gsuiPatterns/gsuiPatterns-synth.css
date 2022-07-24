@@ -24,7 +24,7 @@
 	display: flex;
 	height: 32px;
 	line-height: 32px;
-	font-size: 12px;
+	font-size: 11px;
 	user-select: none;
 }
 
@@ -40,7 +40,6 @@
 	color: inherit;
 	cursor: pointer;
 	background: none;
-	font-size: 14px;
 	transition: .1s;
 	transition-property: background-color, opacity;
 }
