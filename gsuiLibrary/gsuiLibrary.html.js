@@ -18,7 +18,7 @@ GSUI.$setTemplate( "gsui-library-sep", id =>
 );
 
 GSUI.$setTemplate( "gsui-library-sample", obj =>
-	GSUI.$createElement( "div", { class: "gsuiLibrary-sample gsuiLibrary-sample-expanded", "data-id": obj.title, title: obj.title },
+	GSUI.$createElement( "div", { class: "gsuiLibrary-sample gsuiLibrary-sample-expanded", draggable: "true", "data-id": obj.title, title: obj.title },
 		GSUI.$createElement( "div", { class: "gsuiLibrary-sample-wave" },
 			GSUI.$createElementSVG( "svg", { class: "gsuiLibrary-sample-svg", viewBox: obj.viewBox, preserveAspectRatio: "none" },
 				GSUI.$createElementSVG( "polygon", { class: "gsuiLibrary-sample-poly", points: obj.points } ),
