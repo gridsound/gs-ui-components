@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiPatterns extends HTMLElement {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiPatterns" );
 	#fnsPattern = Object.freeze( {
 		clone: id => this.onchange( "clonePattern", id ),
 		remove: id => this.onchange( "removePattern", id ),
@@ -83,6 +84,13 @@ class gsuiPatterns extends HTMLElement {
 			parentSelector: ".gsuiPatterns-synth-patterns",
 			onchange: this.#onreorderPatternsKeys.bind( this ),
 		} );
+		this.#elements.lists.buffer.ondrop = e => {
+			const bufId = e.dataTransfer.getData( "library-buffer" );
+
+			if ( bufId ) {
+				this.#dispatch( "libraryBufferDropped", bufId );
+			}
+		};
 		this.#elements.lists.synth.ondragover = e => {
 			const syn = e.target.closest( ".gsuiPatterns-synth" );
 
