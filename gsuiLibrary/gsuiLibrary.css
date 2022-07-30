@@ -6,23 +6,6 @@ gsui-library {
 }
 
 /* .......................................................................... */
-.gsuiLibrary-head {
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	height: 24px;
-	min-height: 24px;
-	line-height: 1;
-	padding: 0 6px;
-	font-size: 11px;
-	background-color: var( --gsuiLibrary-head-bg );
-	user-select: none;
-}
-.gsuiLibrary-head-icon,
-.gsuiLibrary-head-title {
-	font-weight: bold;
-	opacity: .7;
-}
 .gsuiLibrary-body {
 	flex: 1;
 	z-index: 0;
