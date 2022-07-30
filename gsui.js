@@ -212,6 +212,42 @@ class GSUI {
 				: GSUI.#setAttribute( el, p, val );
 		} );
 	}
+
+	// .........................................................................
+	static $getFilesDataTransfert( dataTransferItems ) {
+		const files = [];
+
+		return new Promise( res => {
+			const proms = [];
+
+			for ( let it of dataTransferItems ) {
+				proms.push( GSUI.#getFilesDataTransfertRec( files, it.webkitGetAsEntry() ) );
+			}
+			Promise.all( proms ).then( () => res( files ) );
+		} );
+	}
+	static #getFilesDataTransfertRec( files, item, path = "" ) {
+		return new Promise( res => {
+			if ( item.isFile ) {
+				item.file( f => {
+					f.filepath = path + f.name;
+					files.push( f );
+					res( f );
+				} );
+			} else if ( item.isDirectory ) {
+				const dirReader = item.createReader();
+
+				dirReader.readEntries( entries => {
+					const proms = [];
+
+					for ( let ent of entries ) {
+						proms.push( GSUI.#getFilesDataTransfertRec( files, ent, path + item.name + "/" ) );
+					}
+					res( Promise.all( proms ) );
+				} );
+			}
+		} );
+	}
 }
 
 document.body.prepend( GSUI.$dragshield, GSUI.$popup );
