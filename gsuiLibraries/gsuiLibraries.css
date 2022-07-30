@@ -1,0 +1,62 @@
+gsui-libraries {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	user-select: none;
+}
+
+/* .......................................................................... */
+.gsuiLibraries-head {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 24px;
+	min-height: 24px;
+	line-height: 1;
+	padding: 0 6px;
+	font-size: 11px;
+	background-color: var( --gsuiLibraries-head-bg );
+	user-select: none;
+}
+.gsuiLibraries-head-icon,
+.gsuiLibraries-head-title {
+	font-weight: bold;
+	opacity: .7;
+}
+
+/* .......................................................................... */
+.gsuiLibraries-libBtns {
+	display: flex;
+	margin-left: 8px;
+	border-radius: 4px;
+	background-color: #0004;
+	overflow: hidden;
+}
+.gsuiLibraries-libBtn {
+	display: flex;
+	border: 0;
+	outline: 0;
+	padding: 4px 6px;
+	font: inherit;
+	font-weight: bold;
+	cursor: pointer;
+	background-color: transparent;
+}
+gsui-libraries:not( [ lib="default" ] ) .gsuiLibraries-libBtn[ data-lib="default" ],
+gsui-libraries:not( [ lib="local" ] ) .gsuiLibraries-libBtn[ data-lib="local" ] {
+	opacity: .3;
+}
+
+/* .......................................................................... */
+.gsuiLibraries-body {
+	position: relative;
+	flex: 1;
+}
+.gsuiLibraries-body gsui-library {
+	position: absolute;
+	inset: 0;
+}
+gsui-libraries:not( [ lib="default" ] ) .gsuiLibraries-default,
+gsui-libraries:not( [ lib="local" ] ) .gsuiLibraries-local {
+	display: none;
+}
