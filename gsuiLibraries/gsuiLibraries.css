@@ -56,7 +56,7 @@ gsui-libraries:not( [ lib="local" ] ) .gsuiLibraries-libBtn[ data-lib="local" ] 
 	position: absolute;
 	inset: 0;
 }
-gsui-libraries:not( [ lib="default" ] ) .gsuiLibraries-default,
-gsui-libraries:not( [ lib="local" ] ) .gsuiLibraries-local {
+gsui-libraries:not( [ lib="default" ] ) .gsuiLibrary-default,
+gsui-libraries:not( [ lib="local" ] ) .gsuiLibrary-local {
 	display: none;
 }

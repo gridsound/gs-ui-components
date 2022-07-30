@@ -4,11 +4,13 @@ class gsuiLibraries extends HTMLElement {
 	#children = GSUI.$getTemplate( "gsui-libraries" );
 	#elements = GSUI.$findElements( this.#children, {
 		libBtns: ".gsuiLibraries-libBtns",
-		libDef: ".gsuiLibraries-default",
-		libLoc: ".gsuiLibraries-local",
+		libDef: ".gsuiLibrary-default",
+		libLoc: ".gsuiLibrary-local",
 	} );
-	$defaultLocal = this.#elements.libLoc;
-	$defaultLibrary = this.#elements.libDef;
+	#libs = {
+		default: this.#elements.libDef,
+		local: this.#elements.libLoc,
+	};
 
 	constructor() {
 		super();
@@ -23,6 +25,11 @@ class gsuiLibraries extends HTMLElement {
 			this.#children = null;
 			GSUI.$recallAttributes( this, { lib: "default" } );
 		}
+	}
+
+	// .........................................................................
+	getLibrary( lib ) {
+		return this.#libs[ lib ];
 	}
 
 	// .........................................................................

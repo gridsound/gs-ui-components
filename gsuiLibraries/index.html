@@ -50,17 +50,18 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elLib = document.querySelector( "gsui-library" );
+const elLibs = document.querySelector( "gsui-libraries" );
+const elLibDef = elLibs.getLibrary( "default" );
 
-elLib.setLibrary( gsuiLibrarySamples );
-GSUI.$listenEvents( elLib, {
+elLibDef.setLibrary( gsuiLibrarySamples );
+GSUI.$listenEvents( elLibs, {
 	gsuiLibrary: {
 		loadSample: d => {
-			elLib.loadSample( d.args[ 0 ] );
-			setTimeout( () => elLib.readySample( d.args[ 0 ] ), 1 * 1000 );
+			elLibDef.loadSample( d.args[ 0 ] );
+			setTimeout( () => elLibDef.readySample( d.args[ 0 ] ), 1 * 1000 );
 		},
 		playSample: d => {
-			elLib.playSample( d.args[ 0 ], 1 );
+			elLibDef.playSample( d.args[ 0 ], 1 );
 		},
 	},
 } );

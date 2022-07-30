@@ -10,7 +10,7 @@ GSUI.$setTemplate( "gsui-libraries", () => [
 		),
 	),
 	GSUI.$createElement( "div", { class: "gsuiLibraries-body" },
-		GSUI.$createElement( "gsui-library", { class: "gsuiLibraries-default" } ),
-		GSUI.$createElement( "gsui-library", { class: "gsuiLibraries-local" } ),
+		GSUI.$createElement( "gsui-library", { class: "gsuiLibrary-default" } ),
+		GSUI.$createElement( "gsui-library", { class: "gsuiLibrary-local" } ),
 	),
 ] );
