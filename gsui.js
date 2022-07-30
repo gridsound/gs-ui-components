@@ -208,7 +208,7 @@ class GSUI {
 	static $recallAttributes( el, props ) {
 		Object.entries( props ).forEach( ( [ p, val ] ) => {
 			el.hasAttribute( p )
-				? el.attributeChangedCallback( p, null, el.getAttribute( p ) )
+				? el.attributeChangedCallback?.( p, null, el.getAttribute( p ) )
 				: GSUI.#setAttribute( el, p, val );
 		} );
 	}
