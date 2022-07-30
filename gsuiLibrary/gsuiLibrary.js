@@ -12,7 +12,7 @@ class gsuiLibrary extends HTMLElement {
 		super();
 		Object.seal( this );
 		this.#elements.body.onclick = this.#onclick.bind( this );
-		this.#elements.body.ondragstart = gsuiLibrary.#ondragstart;
+		this.#elements.body.ondragstart = this.#ondragstart.bind( this );
 	}
 
 	// .........................................................................
@@ -96,8 +96,8 @@ class gsuiLibrary extends HTMLElement {
 	}
 
 	// .........................................................................
-	static #ondragstart( e ) {
-		e.dataTransfer.setData( "library-buffer", e.target.dataset.id );
+	#ondragstart( e ) {
+		e.dataTransfer.setData( `library-buffer:${ GSUI.$getAttribute( this, "name" ) }`, e.target.dataset.id );
 	}
 	#onclick( e ) {
 		const el = e.target;

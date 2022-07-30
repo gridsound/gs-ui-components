@@ -85,10 +85,13 @@ class gsuiPatterns extends HTMLElement {
 			onchange: this.#onreorderPatternsKeys.bind( this ),
 		} );
 		this.#elements.lists.buffer.ondrop = e => {
-			const bufId = e.dataTransfer.getData( "library-buffer" );
+			const defBufId = e.dataTransfer.getData( "library-buffer:default" );
+			const locBufId = e.dataTransfer.getData( "library-buffer:local" );
 
-			if ( bufId ) {
-				this.#dispatch( "libraryBufferDropped", bufId );
+			if ( defBufId ) {
+				this.#dispatch( "libraryBufferDropped", "default", defBufId );
+			} else if ( locBufId ) {
+				this.#dispatch( "libraryBufferDropped", "local", locBufId );
 			}
 		};
 		this.#elements.lists.synth.ondragover = e => {
