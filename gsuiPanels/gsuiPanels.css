@@ -17,7 +17,6 @@
 /* .gsuiPanels-extend ------------------------------------------------------- */
 .gsuiPanels-extend {
 	position: absolute;
-	z-index: 999;
 	top: -2px;
 	left: 0;
 	width: 100%;
