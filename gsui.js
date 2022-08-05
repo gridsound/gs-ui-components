@@ -220,8 +220,12 @@ class GSUI {
 		return new Promise( res => {
 			const proms = [];
 
-			for ( let it of dataTransferItems ) {
-				proms.push( GSUI.#getFilesDataTransfertRec( files, it.webkitGetAsEntry() ) );
+			for ( const it of dataTransferItems ) {
+				const ent = it.webkitGetAsEntry();
+
+				if ( ent ) {
+					proms.push( GSUI.#getFilesDataTransfertRec( files, ent ) );
+				}
 			}
 			Promise.all( proms ).then( () => res( files ) );
 		} );
