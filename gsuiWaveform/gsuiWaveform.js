@@ -50,8 +50,8 @@ class gsuiWaveform {
 		const step = duration / bufferDuration * data0.length / w;
 		const ind = ~~( offset / bufferDuration * data0.length );
 		const iinc = ~~Math.max( 1, step / 100 );
-		let dots0 = `0,${ gsuiWaveform.formatNb( h2 + data0[ ind ] * h2 ) }`;
-		let dots1 = `0,${ gsuiWaveform.formatNb( h2 + data1[ ind ] * h2 ) }`;
+		let dots0 = `0,${ gsuiWaveform.#formatNb( h2 + data0[ ind ] * h2 ) }`;
+		let dots1 = `0,${ gsuiWaveform.#formatNb( h2 + data1[ ind ] * h2 ) }`;
 
 		for ( let p = 1; p < w; ++p ) {
 			let lmin = Infinity;
@@ -67,12 +67,12 @@ class gsuiWaveform {
 				rmax += 1 / h;
 				lmin -= 1 / h;
 			}
-			dots0 += ` ${ p },${ gsuiWaveform.formatNb( h2 + lmin * h2 ) }`;
-			dots1  =  `${ p },${ gsuiWaveform.formatNb( h2 + rmax * h2 ) } ${ dots1 }`;
+			dots0 += ` ${ p },${ gsuiWaveform.#formatNb( h2 + lmin * h2 ) }`;
+			dots1  =  `${ p },${ gsuiWaveform.#formatNb( h2 + rmax * h2 ) } ${ dots1 }`;
 		}
 		GSUI.$setAttribute( polygon, "points", `${ dots0 } ${ dots1 }` );
 	}
-	static formatNb( n ) {
+	static #formatNb( n ) {
 		return n.toFixed( 2 );
 	}
 }
