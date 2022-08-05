@@ -28,6 +28,7 @@ gsui-library {
 }
 .gsuiLibrary-sep-btn {
 	display: flex;
+	max-width: 100%;
 	gap: 1ch;
 	cursor: pointer;
 	border: 0;
@@ -42,6 +43,9 @@ gsui-library {
 }
 .gsuiLibrary-sep span {
 	pointer-events: none;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 .gsuiLibrary-sep-expanded .gsuiIcon {
 	transform: rotate( 90deg );
