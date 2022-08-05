@@ -41,11 +41,9 @@
 	margin-left: -32px;
 	background-color: var( --gsuiDAW-save-bg );
 	transition: .2s;
-	transition-property: margin-left, color, background-color, visibility;
-	visibility: hidden;
+	transition-property: margin-left, color, background-color;
 }
 gsui-daw:not( [ saved ] ) .gsuiDAW-cmp-loaded .gsuiDAW-cmp-btn[ data-action="cmp-save" ] {
-	visibility: visible;
 	margin-left: 0;
 }
 .gsuiDAW-cmp-btn[ data-action="cmp-save" ]:hover {
