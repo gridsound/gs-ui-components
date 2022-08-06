@@ -42,10 +42,16 @@ gsui-library {
 	pointer-events: none;
 }
 .gsuiLibrary-sep span {
-	pointer-events: none;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	padding-right: .1ch;
+	pointer-events: none;
+}
+.gsuiLibrary-sep span:empty::before {
+	content: "no name";
+	font-style: italic;
+	opacity: .5;
 }
 .gsuiLibrary-sep-expanded .gsuiIcon {
 	transform: rotate( 90deg );
