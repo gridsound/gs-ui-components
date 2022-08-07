@@ -23,8 +23,10 @@ gsui-library {
 	display: none;
 	align-items: center;
 	justify-content: center;
+	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
+	padding: 0 2ch;
 	text-align: center;
 	font-size: 12px;
 	font-style: italic;
