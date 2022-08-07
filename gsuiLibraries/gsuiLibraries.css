@@ -34,9 +34,11 @@ gsui-libraries {
 }
 .gsuiLibraries-libBtn {
 	display: flex;
+	align-items: center;
+	height: 18px;
 	border: 0;
 	outline: 0;
-	padding: 4px 6px;
+	padding: 2px 6px 0;
 	font: inherit;
 	font-weight: bold;
 	cursor: pointer;
