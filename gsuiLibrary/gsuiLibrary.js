@@ -104,7 +104,10 @@ class gsuiLibrary extends HTMLElement {
 
 	// .........................................................................
 	#ondragstart( e ) {
-		e.dataTransfer.setData( `library-buffer:${ GSUI.$getAttribute( this, "name" ) }`, e.target.dataset.id );
+		const dt = e.target.dataset;
+		const val = `${ dt.id }:${ dt.name }`;
+
+		e.dataTransfer.setData( `library-buffer:${ GSUI.$getAttribute( this, "name" ) }`, val );
 	}
 	#onclick( e ) {
 		const el = e.target;
