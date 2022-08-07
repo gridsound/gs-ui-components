@@ -16,6 +16,8 @@ class gsuiLibraries extends HTMLElement {
 		super();
 		Object.seal( this );
 		this.#elements.libBtns.onclick = gsuiLibraries.#onclickBtns.bind( null, this );
+		this.#libs.default.setPlaceholder( "loading..." );
+		this.#libs.local.setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
 	}
 
 	// .........................................................................
