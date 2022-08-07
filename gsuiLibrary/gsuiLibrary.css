@@ -19,6 +19,22 @@ gsui-library {
 }
 
 /* .......................................................................... */
+.gsuiLibrary-placeholder {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 12px;
+	font-style: italic;
+	opacity: .4;
+}
+.gsuiLibrary-placeholder:only-child {
+	display: flex;
+}
+
+/* .......................................................................... */
 .gsuiLibrary-sep {
 	z-index: 1;
 	box-sizing: border-box;

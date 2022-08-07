@@ -2,7 +2,9 @@
 
 GSUI.$setTemplate( "gsui-library", () => [
 	GSUI.$createElement( "div", { class: "gsuiLibrary-head" } ),
-	GSUI.$createElement( "div", { class: "gsuiLibrary-body" } ),
+	GSUI.$createElement( "div", { class: "gsuiLibrary-body" },
+		GSUI.$createElement( "div", { class: "gsuiLibrary-placeholder" }, "no sample here..." ),
+	),
 ] );
 
 GSUI.$setTemplate( "gsui-library-sep", id =>

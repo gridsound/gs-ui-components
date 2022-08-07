@@ -5,6 +5,7 @@ class gsuiLibrary extends HTMLElement {
 	#children = GSUI.$getTemplate( "gsui-library" );
 	#elements = GSUI.$findElements( this.#children, {
 		body: ".gsuiLibrary-body",
+		placeholder: ".gsuiLibrary-placeholder",
 	} );
 	#map = new Map();
 
@@ -24,6 +25,9 @@ class gsuiLibrary extends HTMLElement {
 	}
 
 	// .........................................................................
+	setPlaceholder( str ) {
+		this.#elements.placeholder.textContent = str;
+	}
 	setLibrary( lib ) {
 		const el = lib.map( item => {
 			if ( typeof item !== "string" ) {

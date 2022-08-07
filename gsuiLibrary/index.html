@@ -45,6 +45,7 @@ body {
 const elLib = document.querySelector( "gsui-library" );
 
 elLib.setLibrary( gsuiLibrarySamples );
+elLib.setPlaceholder( "hey, placeholder here" );
 GSUI.$listenEvents( elLib, {
 	gsuiLibrary: {
 		loadSample: d => {
