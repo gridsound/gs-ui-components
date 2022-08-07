@@ -29,18 +29,22 @@ class gsuiLibrary extends HTMLElement {
 		this.#elements.placeholder.textContent = str;
 	}
 	setLibrary( lib ) {
-		const el = lib.map( item => {
-			if ( typeof item !== "string" ) {
-				const el = GSUI.$getTemplate( "gsui-library-sample", { title: item[ 0 ], points: item[ 1 ], viewBox: "0 0 40 10" } );
+		const el = lib.map( smp => {
+			if ( typeof smp !== "string" ) {
+				const el = GSUI.$getTemplate( "gsui-library-sample", {
+					id: smp[ 0 ],
+					points: smp[ 1 ],
+					name: smp[ 2 ] || smp[ 0 ],
+				} );
 
-				this.#map.set( item[ 0 ], Object.seal( {
+				this.#map.set( smp[ 0 ], Object.seal( {
 					element: el,
 					cursor: null,
 					timeout: null,
 				} ) );
 				return el;
 			}
-			return GSUI.$getTemplate( "gsui-library-sep", item );
+			return GSUI.$getTemplate( "gsui-library-sep", smp );
 		} );
 
 		this.#elements.body.append( ...el );
