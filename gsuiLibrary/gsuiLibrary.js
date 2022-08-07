@@ -85,18 +85,17 @@ class gsuiLibrary extends HTMLElement {
 	}
 
 	// .........................................................................
-	#expandGroup( id ) {
-		const gr = this.querySelector( `.gsuiLibrary-sep[data-id="${ id }"]` );
-		const exp = !gr.classList.contains( "gsuiLibrary-sep-expanded" );
+	#expandGroup( elSep ) {
+		const exp = !elSep.classList.contains( "gsuiLibrary-sep-expanded" );
 
-		for ( let el = gr.nextElementSibling; el; el = el.nextElementSibling ) {
+		for ( let el = elSep.nextElementSibling; el; el = el.nextElementSibling ) {
 			if ( el.classList.contains( "gsuiLibrary-sample" ) ) {
 				el.classList.toggle( "gsuiLibrary-sample-expanded", exp );
 			} else {
 				break;
 			}
 		}
-		gr.classList.toggle( "gsuiLibrary-sep-expanded", exp );
+		elSep.classList.toggle( "gsuiLibrary-sep-expanded", exp );
 	}
 
 	// .........................................................................
@@ -107,7 +106,7 @@ class gsuiLibrary extends HTMLElement {
 		const el = e.target;
 
 		if ( el.classList.contains( "gsuiLibrary-sep-btn" ) ) {
-			this.#expandGroup( el.parentNode.dataset.id );
+			this.#expandGroup( el.parentNode );
 		} else if ( el.classList.contains( "gsuiLibrary-sample" ) ) {
 			if ( !el.classList.contains( "gsuiLibrary-sample-loading" ) ) {
 				const act = el.classList.contains( "gsuiLibrary-sample-ready" )
