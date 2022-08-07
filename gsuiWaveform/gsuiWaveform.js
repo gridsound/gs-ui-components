@@ -45,10 +45,23 @@ class gsuiWaveform {
 
 		gsuiWaveform.draw( polygon, w, h, d0, d1, buf.duration, off, dur );
 	}
-	static draw( polygon, w, h, data0, data1, bufferDuration, offset, duration ) {
+	static draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
+		GSUI.$setAttribute( polygon, "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
+	}
+	static getPointsFromBuffer( w, h, buf, offset, duration ) {
+		const d0 = buf.getChannelData( 0 );
+		const d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
+		const off = offset || 0;
+		const dur = duration || buf.duration - off;
+
+		return gsuiWaveform.#getPolygonPoints( w, h, d0, d1, buf.duration, off, dur );
+	}
+
+	// .........................................................................
+	static #getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) {
 		const h2 = h / 2;
-		const step = duration / bufferDuration * data0.length / w;
-		const ind = ~~( offset / bufferDuration * data0.length );
+		const step = dur / bufDur * data0.length / w;
+		const ind = ~~( offset / bufDur * data0.length );
 		const iinc = ~~Math.max( 1, step / 100 );
 		let dots0 = `0,${ gsuiWaveform.#formatNb( h2 + data0[ ind ] * h2 ) }`;
 		let dots1 = `0,${ gsuiWaveform.#formatNb( h2 + data1[ ind ] * h2 ) }`;
@@ -70,7 +83,7 @@ class gsuiWaveform {
 			dots0 += ` ${ p },${ gsuiWaveform.#formatNb( h2 + lmin * h2 ) }`;
 			dots1  =  `${ p },${ gsuiWaveform.#formatNb( h2 + rmax * h2 ) } ${ dots1 }`;
 		}
-		GSUI.$setAttribute( polygon, "points", `${ dots0 } ${ dots1 }` );
+		return `${ dots0 } ${ dots1 }`;
 	}
 	static #formatNb( n ) {
 		return n.toFixed( 2 );
