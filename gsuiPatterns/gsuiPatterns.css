@@ -2,6 +2,7 @@ gsui-patterns {
 	--gsuiPatterns-pattern-h: 54px;
 	--gsuiPatterns-pattern-head-h: 22px;
 	--gsuiPatterns-pattern-grip-w: 16px;
+	display: block;
 	height: 100%;
 }
 
