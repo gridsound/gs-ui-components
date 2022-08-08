@@ -7,7 +7,10 @@ class gsuiLibrary extends HTMLElement {
 		body: ".gsuiLibrary-body",
 		placeholder: ".gsuiLibrary-placeholder",
 	} );
-	#map = new Map();
+	#samplesMap = new Map();
+	#idPlaying = null;
+	#elCursor = null;
+	#stopTimeout = null;
 
 	constructor() {
 		super();
@@ -25,6 +28,11 @@ class gsuiLibrary extends HTMLElement {
 	}
 
 	// .........................................................................
+	clear() {
+		this.#samplesMap.forEach( el => el.remove() );
+		this.#samplesMap.clear();
+		this.#elements.body.querySelectorAll( ".gsuiLibrary-sep" ).forEach( el => el.remove() );
+	}
 	setPlaceholder( str ) {
 		this.#elements.placeholder.textContent = str;
 	}
@@ -37,11 +45,7 @@ class gsuiLibrary extends HTMLElement {
 					name: smp[ 2 ] || smp[ 0 ],
 				} );
 
-				this.#map.set( smp[ 0 ], Object.seal( {
-					element: el,
-					cursor: null,
-					timeout: null,
-				} ) );
+				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
 			}
 			return GSUI.$getTemplate( "gsui-library-sep", smp );
@@ -49,43 +53,51 @@ class gsuiLibrary extends HTMLElement {
 
 		this.#elements.body.append( ...el );
 	}
-	loadSample( id ) {
-		const smp = this.#map.get( id );
 
-		smp.element.classList.add( "gsuiLibrary-sample-loading" );
-		smp.element.title = "loading...";
+	// .........................................................................
+	loadSample( id ) {
+		const el = this.#samplesMap.get( id );
+
+		el.classList.add( "gsuiLibrary-sample-loading" );
+		el.title = "loading...";
 	}
 	unloadSample( id ) {
-		const smp = this.#map.get( id );
+		const el = this.#samplesMap.get( id );
 
-		smp.element.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
-		smp.element.title = smp.element.dataset.id;
+		el.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
+		el.title = el.dataset.name;
 	}
 	readySample( id ) {
-		const smp = this.#map.get( id );
+		const el = this.#samplesMap.get( id );
 
-		smp.element.classList.remove( "gsuiLibrary-sample-loading" );
-		smp.element.classList.add( "gsuiLibrary-sample-ready" );
-		smp.element.title = smp.element.dataset.id;
+		el.classList.remove( "gsuiLibrary-sample-loading" );
+		el.classList.add( "gsuiLibrary-sample-ready" );
+		el.title = el.dataset.name;
 	}
 	playSample( id, dur ) {
-		const smp = this.#map.get( id );
+		const el = this.#samplesMap.get( id );
 
-		this.stopSample( id );
-		smp.element.classList.add( "gsuiLibrary-sample-playing" );
-		smp.cursor = GSUI.$createElement( "div", { class: "gsuiLibrary-sample-cursor" } );
-		smp.cursor.style.left = "0%";
-		smp.cursor.style.transitionDuration = `${ dur }s`;
-		smp.element.append( smp.cursor );
-		setTimeout( () => smp.cursor.style.left = "100%", 10 );
-		smp.timeout = setTimeout( this.stopSample.bind( this, id ), dur * 1000 );
+		this.stopSample();
+		this.#idPlaying = id;
+		this.#elCursor = GSUI.$createElement( "div", { class: "gsuiLibrary-sample-cursor" } );
+		this.#elCursor.style.left = "0%";
+		this.#elCursor.style.transitionDuration = `${ dur }s`;
+		el.classList.add( "gsuiLibrary-sample-playing" );
+		el.append( this.#elCursor );
+		setTimeout( () => this.#elCursor.style.left = "100%", 10 );
+		this.#stopTimeout = setTimeout( this.stopSample.bind( this ), dur * 1000 );
 	}
-	stopSample( id ) {
-		const smp = this.#map.get( id );
+	stopSample() {
+		if ( this.#idPlaying ) {
+			const el = this.#samplesMap.get( this.#idPlaying );
 
-		clearTimeout( smp.timeout );
-		smp.cursor?.remove();
-		smp.element.classList.remove( "gsuiLibrary-sample-playing" );
+			clearTimeout( this.#stopTimeout );
+			this.#elCursor.remove();
+			el.classList.remove( "gsuiLibrary-sample-playing" );
+			this.#elCursor = null;
+			this.#idPlaying = null;
+			this.#stopTimeout = null;
+		}
 	}
 
 	// .........................................................................
