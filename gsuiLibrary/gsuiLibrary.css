@@ -43,6 +43,7 @@ gsui-library {
 	width: 100px;
 	height: 40px;
 	padding: 18px 8px 0 0;
+	counter-reset: smpNum 0;
 }
 .gsuiLibrary-sep-btn {
 	display: flex;
@@ -85,6 +86,7 @@ gsui-library {
 	cursor: pointer;
 	opacity: 0;
 	pointer-events: none;
+	counter-increment: smpNum +1;
 	transition:
 		margin-top .3s,
 		opacity .3s,
@@ -97,6 +99,17 @@ gsui-library {
 }
 .gsuiLibrary-sample-loading {
 	animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
+}
+.gsuiLibrary-sample::after {
+	content: counter( smpNum );
+	position: absolute;
+	inset: 0 6px 0 auto;
+	padding: 0 4px;
+	display: flex;
+	align-items: center;
+	font-size: 9px;
+	font-family: var( --gsui-font-monospace );
+	background-color: var( --gsuiLibrary-bg );
 }
 @keyframes gsuiLibrary-sample-loading-anim {
 	0% { background-color: none; }
