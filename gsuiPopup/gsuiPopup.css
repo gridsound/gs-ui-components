@@ -7,12 +7,9 @@ gsui-popup {
 	z-index: 2147483647;
 	color: #fff;
 	background-color: var( --gsuiPopup-overlay-bg );
-	backdrop-filter: blur( 10px );
-	transition: var( --gsuiPopup-dur );
-	transition-property: visibility, opacity;
+	backdrop-filter: grayscale( 1 ) blur( 2px );
 }
 gsui-popup:not( .gsuiPopup-show ) {
-	opacity: 0;
 	visibility: hidden;
 }
 
@@ -23,6 +20,13 @@ gsui-popup:not( .gsuiPopup-show ) {
 	background-color: var( --gsuiPopup-bg );
 	outline: 0;
 	box-shadow: 0 0 50px #000;
+	transition:
+		margin-top .2s,
+		opacity .5s;
+}
+gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
+	margin-top: -50px;
+	opacity: 0;
 }
 .gsuiPopup-window:focus-within {
 	box-shadow:
