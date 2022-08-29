@@ -1,6 +1,6 @@
 gsui-window {
 	--gsuiWindow-radius: 2px;
-	--gsuiWindow-head-height: 28px;
+	--gsuiWindow-head-height: 24px;
 	--gsuiWindow-border-width: 2px;
 	--gsuiWindow-handler-width: 4px;
 	--gsuiWindow-title-opacity: .8;
@@ -82,7 +82,6 @@ gsui-window:not( .gsuiWindow-dragging ),
 	position: absolute;
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
-	font-size: 16px;
 	background-color: var( --gsuiWindow-head-bg );
 	user-select: none;
 	-webkit-user-select: none;
@@ -114,18 +113,18 @@ gsui-window:not( .gsuiWindow-dragging ),
 	border: 0;
 	padding: 0;
 	outline: 0;
-	width: 32px;
-	min-width: 32px;
+	width: 24px;
+	min-width: 24px;
 	color: inherit;
 	cursor: inherit;
-	font-size: 16px;
+	font-size: 12px;
 	background: none;
 }
 .gsuiWindow-title {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: bold;
 	line-height: var( --gsuiWindow-head-height );
 }
@@ -151,7 +150,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 	height: 100%;
 	cursor: pointer;
 	color: inherit;
-	font-size: 14px;
+	font-size: 10px;
 	opacity: .6;
 	transition: .2s;
 	transition-property: opacity, background-color;
