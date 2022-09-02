@@ -37,6 +37,9 @@ class gsuiLibrary extends HTMLElement {
 		this.#elements.placeholder.textContent = str;
 	}
 	setLibrary( lib ) {
+		let lastSep;
+		const prevLastSep = Array.from( this.#elements.body.children )
+			.findLast( el => el.classList.contains( "gsuiLibrary-sep" ) );
 		const el = lib.map( smp => {
 			if ( typeof smp !== "string" ) {
 				const el = GSUI.$getTemplate( "gsui-library-sample", {
@@ -48,10 +51,13 @@ class gsuiLibrary extends HTMLElement {
 				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
 			}
-			return GSUI.$getTemplate( "gsui-library-sep", smp );
+			return lastSep = GSUI.$getTemplate( "gsui-library-sep", smp );
 		} );
 
 		this.#elements.body.append( ...el );
+		if ( lastSep && lastSep.dataset.id === prevLastSep?.dataset.id ) {
+			lastSep.remove();
+		}
 	}
 
 	// .........................................................................
