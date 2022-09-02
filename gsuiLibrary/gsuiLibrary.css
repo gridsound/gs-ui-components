@@ -93,7 +93,7 @@ gsui-library {
 		background-color .2s;
 }
 .gsuiLibrary-sample-expanded {
-	margin-top: 0px;
+	margin-top: 0;
 	opacity: 1;
 	pointer-events: auto;
 }
