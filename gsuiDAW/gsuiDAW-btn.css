@@ -7,8 +7,8 @@
 	outline: 0;
 	color: inherit;
 	cursor: pointer;
-	font-size: 16px;
 	line-height: 1;
+	font-size: 14px;
 	text-decoration: none;
 	border-radius: var( --radius );
 	background: none;
@@ -17,7 +17,7 @@
 	user-select: none;
 }
 .gsuiDAW-btn.gsuiIcon {
-	width: 32px;
+	width: 28px;
 }
 .gsuiDAW-btn:not( .gsuiDAW-btnColor ):hover {
 	color: #fff;
@@ -37,10 +37,6 @@
 .gsuiDAW-btnColor:hover {
 	color: var( --gsuiDAW-bg );
 	background-color: var( --gsui-color );
-}
-
-.gsuiDAW-btnBig {
-	font-size: 18px;
 }
 
 .gsuiDAW-btns {

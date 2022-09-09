@@ -18,8 +18,8 @@ gsui-daw {
 	padding: var( --gap );
 	gap: var( --gap );
 	grid-template:
-		"areaUser    areaCtrl    areaHist    areaHelp" 32px
-		"areaSave    areaTime    areaWins    areaVers" 24px
+		"areaUser    areaCtrl    areaHist    areaHelp" 28px
+		"areaSave    areaTime    areaWins    areaVers" 20px
 		/min-content min-content min-content 1fr;
 }
 .gsuiDAW-area {

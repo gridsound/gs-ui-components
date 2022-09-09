@@ -5,7 +5,7 @@
 }
 .gsuiDAW-areaWins .gsuiDAW-btn {
 	flex: 1;
-	font-size: 12px;
+	font-size: 11px;
 	background-color: var( --gsuiDAW-head-winBtn-bg );
 }
 .gsuiDAW-areaWins .gsuiDAW-btn + .gsuiDAW-btn {

@@ -15,12 +15,13 @@
 	background-size: cover;
 	background-color: #fff4;
 }
-.gsuiDAW-btn[ data-action="login" ] {
-	font-size: 26px;
-}
 .gsuiDAW-btn[ data-action="login" ],
 .gsuiDAW-btn[ data-action="logout" ] {
+	font-size: 24px;
 	opacity: .7;
+}
+.gsuiDAW-btn[ data-action="login" ] {
+	font-size: 22px;
 }
 gsui-daw[ logged ] .gsuiDAW-btn[ data-action="login" ],
 gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="logout" ],
@@ -31,6 +32,7 @@ gsui-daw:not( [ logged ] ) .gsuiDAW-btn[ data-action="profile" ] {
 	display: flex;
 }
 .gsuiDAW-btn[ data-action="cmps" ] {
+	font-size: 18px;
 	--gsui-color: var( --gsuiDAW-cmps-color );
 }
 

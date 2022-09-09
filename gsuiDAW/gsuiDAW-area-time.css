@@ -1,6 +1,6 @@
 .gsuiDAW-areaTime {
 	grid-area: areaTime;
-	padding: 10px;
+	padding: 8px;
 	border-radius: var( --radius );
 	background-color: var( --gsuiDAW-currentTime-bg );
 }

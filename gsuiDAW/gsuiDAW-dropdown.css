@@ -3,7 +3,7 @@
 	overflow: hidden;
 	display: grid;
 	z-index: 1;
-	top: calc( 68px + var( --gap ) );
+	top: calc( 60px + var( --gap ) );
 	height: 320px;
 	grid-template-rows: 32px 1fr;
 	box-sizing: border-box;

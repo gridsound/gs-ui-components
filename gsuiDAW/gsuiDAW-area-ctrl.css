@@ -15,27 +15,23 @@
 	right: calc( var( --gap ) * -1 );
 }
 .gsuiDAW-focusBtn {
+	display: flex;
 	position: relative;
-	width: 20px;
-	font-size: 8px;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 7px 3px 7px 8px;
 }
 .gsuiDAW-focusBtn span {
-	position: absolute;
-	top: 32%;
-	margin-top: -4px;
-	box-sizing: border-box;
-	width: 8px;
-	height: 8px;
-	border: 2px solid;
-	border-radius: 2px;
+	width: 5px;
+	height: 5px;
+	border-radius: 1px;
+	background-color: currentColor;
 	pointer-events: none;
-}
-.gsuiDAW-focusBtn span:last-child {
-	top: 68%;
+	opacity: .4;
 }
 gsui-daw[ focus="up" ] .gsuiDAW-focusBtn span:first-child,
 gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
-	background-color: currentColor;
+	opacity: 1;
 }
 .gsuiDAW-btn[ data-action="stop" ] {
 	margin-left: -3px;
@@ -55,9 +51,9 @@ gsui-daw gsui-clock {
 	align-items: center;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 40%;
+	height: 32%;
 	padding: 0 6px 0 8px;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 0;
 	font-family: var( --gsui-font-number );
 	pointer-events: none;
@@ -66,13 +62,13 @@ gsui-daw gsui-clock {
 	display: flex;
 	align-items: baseline;
 	padding-right: 7px;
-	font-size: 22px;
+	font-size: 18px;
 	font-family: var( --gsui-font-number );
 	pointer-events: none;
 }
 .gsuiDAW-tempo-bpm::after {
 	content: "bpm";
 	margin-left: 2px;
-	font-size: 14px;
+	font-size: 12px;
 	opacity: .5;
 }
