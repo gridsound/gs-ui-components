@@ -3,13 +3,16 @@
 	justify-content: end;
 }
 .gsuiDAW-version {
+	font-family: var( --gsui-font-number );
+}
+.gsuiDAW-changelog.gsuiIcon {
+	width: auto;
+}
+.gsuiDAW-version,
+.gsuiDAW-changelog {
 	opacity: .3;
 }
 .gsuiDAW-version:focus,
 .gsuiDAW-version:hover {
 	opacity: 1;
-}
-.gsuiDAW-version-num {
-	margin-left: 6px;
-	font-family: var( --gsui-font-number );
 }

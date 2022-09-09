@@ -25,7 +25,7 @@ class gsuiDAW extends HTMLElement {
 		cmpIcon: ".gsuiDAW-currCmp-localIcon",
 		cmpDuration: ".gsuiDAW-currCmp-dur",
 		play: "[data-action='play']",
-		vers: ".gsuiDAW-version-num",
+		vers: ".gsuiDAW-version",
 		clock: "gsui-clock",
 		spectrum: "gsui-spectrum",
 		volume: ".gsuiDAW-volume gsui-slider",
@@ -75,7 +75,6 @@ class gsuiDAW extends HTMLElement {
 			button: ".gsuiDAW-popup-export-btn",
 			progress: ".gsuiDAW-popup-export-progress",
 		} ),
-		shortcuts: GSUI.$getTemplate( "gsui-daw-popup-shortcuts" ),
 		cookies: GSUI.$getTemplate( "gsui-daw-popup-cookies" ),
 		settings: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-settings" ), {
 			root: ".gsuiDAW-popup-settings",
@@ -490,9 +489,6 @@ class gsuiDAW extends HTMLElement {
 				GSUI.$setAttribute( this.#popups.export.button, "data-status", 0 );
 				GSUI.$popup.custom( { title: "Export", element: this.#popups.export.root } )
 					.then( () => this.#dispatch( "abortExport" ) );
-				break;
-			case "shortcuts":
-				GSUI.$popup.custom( { title: "Keyboard / mouse shortcuts", element: this.#popups.shortcuts } );
 				break;
 			case "tempo":
 				this.#popups.tempo.beatsPerMeasure.value = +GSUI.$getAttribute( this, "timedivision" ).split( "/" )[ 0 ];
