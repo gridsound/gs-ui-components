@@ -6,7 +6,6 @@ class gsuiEffects extends HTMLElement {
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEffects" );
 	#children = GSUI.$getTemplate( "gsui-effects" );
 	#elements = GSUI.$findElements( this.#children, {
-		list: ".gsuiEffects-list",
 		addBtn: ".gsuiEffects-addBtn",
 		addSelect: ".gsuiEffects-addSelect",
 	} );
@@ -20,12 +19,12 @@ class gsuiEffects extends HTMLElement {
 		this.#elements.addSelect.onchange = this.#onchangeAddSelect.bind( this );
 		this.#elements.addSelect.onkeydown = () => false;
 		new gsuiReorder( {
-			rootElement: this.#elements.list,
+			rootElement: this,
 			direction: "column",
 			dataTransferType: "effect",
 			itemSelector: ".gsuiEffects-fx",
 			handleSelector: ".gsuiEffects-fx-grip",
-			parentSelector: ".gsuiEffects-list",
+			parentSelector: "gsui-effects",
 		} );
 		GSUI.$listenEvents( this, {
 			default: {
@@ -49,7 +48,8 @@ class gsuiEffects extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.append( this.#elements.list );
+			this.append( ...this.#children );
+			this.#children = null;
 		}
 	}
 
@@ -97,7 +97,7 @@ class gsuiEffects extends HTMLElement {
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
 		this.#fxsHtml.set( id, html );
-		this.#elements.list.append( root );
+		this.append( root );
 	}
 	removeEffect( id ) {
 		this.#fxsHtml.get( id ).root.remove();
@@ -116,7 +116,7 @@ class gsuiEffects extends HTMLElement {
 		html.uiFx.toggle( b );
 	}
 	reorderEffects( effects ) {
-		gsuiReorder.listReorder( this.#elements.list, effects );
+		gsuiReorder.listReorder( this, effects );
 	}
 
 	// .........................................................................

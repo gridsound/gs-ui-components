@@ -1,13 +1,11 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-effects", () =>
-	GSUI.$createElement( "div", { class: "gsuiEffects-list" },
-		GSUI.$createElement( "button", { class: "gsuiEffects-addBtn" },
-			GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
-		),
-		GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 4 } ),
-	)
-);
+GSUI.$setTemplate( "gsui-effects", () => [
+	GSUI.$createElement( "button", { class: "gsuiEffects-addBtn" },
+		GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
+	),
+	GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 4 } ),
+] );
 
 GSUI.$setTemplate( "gsui-effects-fx", () =>
 	GSUI.$createElement( "div", { class: "gsuiEffects-fx", draggable: "true" },
