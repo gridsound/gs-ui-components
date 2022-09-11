@@ -34,6 +34,12 @@ class gsuiLibrary extends HTMLElement {
 		this.#samplesMap.clear();
 		this.#elements.body.querySelectorAll( ".gsuiLibrary-sep" ).forEach( el => el.remove() );
 	}
+	unloadSamples() {
+		this.#samplesMap.forEach( el => {
+			el.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
+			el.title = el.dataset.name;
+		} );
+	}
 	setPlaceholder( str ) {
 		this.#elements.placeholder.textContent = str;
 	}
@@ -67,12 +73,6 @@ class gsuiLibrary extends HTMLElement {
 
 		el.classList.add( "gsuiLibrary-sample-loading" );
 		el.title = "loading...";
-	}
-	unloadSample( id ) {
-		const el = this.#samplesMap.get( id );
-
-		el.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
-		el.title = el.dataset.name;
 	}
 	readySample( id ) {
 		const el = this.#samplesMap.get( id );
