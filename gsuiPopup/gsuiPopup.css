@@ -96,7 +96,7 @@ gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
 	color: inherit;
 	text-decoration: none;
 }
-.gsuiPopup-content a:hover {
+.gsuiPopup-content a:not( .gsuiIcon ):hover {
 	text-decoration: underline;
 }
 .gsuiPopup-content fieldset {

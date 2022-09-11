@@ -54,7 +54,6 @@
 }
 .gsuiDAW-popup-about-links a:hover {
 	opacity: 1;
-	text-decoration: none;
 }
 .gsuiDAW-popup-about-links a:hover::before {
 	top: -4px;
