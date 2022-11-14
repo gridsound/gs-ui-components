@@ -1,20 +1,34 @@
 gsui-keys {
+	--gsuiKeys-firstOctave: 0;
+	--gsuiKeys-nbOctaves: 0;
+	--gsui-gradientDeg: 90deg;
 	display: block;
 	position: relative;
+	height: 100%;
 	z-index: 0;
+	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );;
 	user-select: none;
 	-webkit-user-select: none;
 }
+gsui-keys[ orient="vertical" ] {
+	height: calc( var( --gsuiKeys-nbOctaves ) * 12em );
+}
+gsui-keys[ orient="horizontal" ] {
+	--gsui-gradientDeg: 180deg;
+	width: calc( var( --gsuiKeys-nbOctaves ) * 12em );
+}
 
+/* .......................................................................... */
 gsui-keys,
 .gsuiKey {
 	background-image: linear-gradient(
-		90deg,
+		var( --gsui-gradientDeg ),
 		var( --gsuiKeys-whiteKey-gradA ),
 		var( --gsuiKeys-whiteKey-gradB )
 	);
 }
 
+/* .......................................................................... */
 .gsuiKey .gsuiKey-row {
 	display: none;
 }
@@ -29,35 +43,58 @@ gsui-keys,
 }
 .gsuiKey-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
 .gsuiKeyBlack-row:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
-
-.gsuiKey[ data-key="0" ],
-.gsuiKey[ data-key="5" ],
-.gsuiKey-row[ data-key="0" ],
-.gsuiKey-row[ data-key="5" ] {
-	border-bottom: 1px solid #0003;
-}
 .gsuiKey-row > div {
 	position: absolute;
 	inset: 0;
 }
 
+/* .......................................................................... */
+gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="0" ]:not( :last-child ),
+gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="5" ],
+gsui-keys[ orient="vertical" ] .gsuiKey-row[ data-key="0" ],
+gsui-keys[ orient="vertical" ] .gsuiKey-row[ data-key="5" ] {
+	border-bottom: 1px solid #0003;
+}
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ]:not( :last-child ),
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="5" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey-row[ data-key="0" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey-row[ data-key="5" ] {
+	border-left: 1px solid #0003;
+}
+
+/* .......................................................................... */
 .gsuiKey {
 	box-sizing: border-box;
 	position: absolute;
+}
+gsui-keys[ orient="vertical" ] .gsuiKey {
 	inset: auto 0;
+	top: calc( var( --gsuiKeys-key-id ) * 1em );
 	height: 1.5em;
+}
+gsui-keys[ orient="horizontal" ] .gsuiKey {
+	inset: 0 auto;
+	right: calc( var( --gsuiKeys-key-id ) * 1em );
+	width: 1.5em;
 }
 .gsuiKeyBlack {
 	position: absolute;
 	z-index: 1;
-	width: 65%;
-	height: 1em;
-	border-radius: 0 .1em .1em 0;
 	background-image: linear-gradient(
-		90deg,
+		var( --gsui-gradientDeg ),
 		var( --gsuiKeys-blackKey-gradA ),
 		var( --gsuiKeys-blackKey-gradB )
 	);
+}
+gsui-keys[ orient="vertical" ] .gsuiKeyBlack {
+	width: 65%;
+	height: 1em;
+	border-radius: 0 .1em .1em 0;
+}
+gsui-keys[ orient="horizontal" ] .gsuiKeyBlack {
+	width: 1em;
+	height: 65%;
+	border-radius: 0 0 .1em .1em;
 }
 .gsuiKey[ data-key="0" ] {
 	filter: brightness( .9 );
@@ -72,21 +109,27 @@ gsui-keys,
 	font-size: calc( 6px + .25em );
 	font-family: monospace;
 }
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ]::after {
+	left: .35em;
+	right: auto;
+}
 .gsuiKey.gsui-active {
 	background-image: linear-gradient(
-		90deg,
+		var( --gsui-gradientDeg ),
 		var( --gsuiKeys-activeKey-gradA ),
 		var( --gsuiKeys-activeKey-gradB )
 	);
 }
 
-.gsuiKey:last-child {
-	border-bottom: 0;
-}
-.gsuiKey[ data-key="9" ],
-.gsuiKey[ data-key="7" ],
-.gsuiKey[ data-key="2" ] {
+gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="9" ],
+gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="7" ],
+gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="2" ] {
 	height: 2em;
+}
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="9" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="7" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="2" ] {
+	width: 2em;
 }
 .gsuiKey[ data-key="9" ],
 .gsuiKey[ data-key="7" ],
@@ -94,4 +137,12 @@ gsui-keys,
 .gsuiKey[ data-key="2" ],
 .gsuiKey[ data-key="0" ] {
 	margin-top: -.5em;
+}
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="9" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="7" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="5" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="2" ],
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ] {
+	margin-top: 0;
+	margin-right: -.5em;
 }

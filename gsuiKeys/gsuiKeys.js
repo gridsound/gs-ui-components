@@ -33,7 +33,7 @@ class gsuiKeys extends HTMLElement {
 	#keysDown = new Map();
 	#gain = 1;
 	#nbOct = 0;
-	#rootTop = 0;
+	#rootStartPx = 0;
 	#octStart = 0;
 	#blackKeyR = 0;
 	#blackKeyH = 0;
@@ -50,6 +50,24 @@ class gsuiKeys extends HTMLElement {
 	}
 
 	// .........................................................................
+	connectedCallback() {
+		GSUI.$recallAttributes( this, {
+			orient: "vertical",
+		} );
+	}
+	static get observedAttributes() {
+		return [ "orient" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "orient":
+					break;
+			}
+		}
+	}
+
+	// .........................................................................
 	octaves( start, nbOct ) {
 		const maxOct = start + nbOct;
 
@@ -59,8 +77,8 @@ class gsuiKeys extends HTMLElement {
 		} );
 		this.#nbOct = nbOct;
 		this.#octStart = start;
-		this.style.counterReset = `octave ${ maxOct }`;
-		this.style.height = `${ nbOct * 12 }em`;
+		this.style.setProperty( "--gsuiKeys-firstOctave", start );
+		this.style.setProperty( "--gsuiKeys-nbOctaves", nbOct );
 		for ( let i = 0; i < nbOct; ++i ) {
 			this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
 		}
@@ -71,7 +89,7 @@ class gsuiKeys extends HTMLElement {
 			elRow._keyElement = elKey;
 			elKey.dataset.midi =
 			elRow.dataset.midi = midi - 1;
-			elKey.style.top =
+			elKey.style.setProperty( "--gsuiKeys-key-id", i );
 			elRow.style.top = `${ i }em`;
 			return midi - 1;
 		}, maxOct * 12 );
@@ -99,6 +117,9 @@ class gsuiKeys extends HTMLElement {
 	}
 
 	// .........................................................................
+	#isVertical() {
+		return GSUI.$getAttribute( this, "orient" ) === "vertical";
+	}
 	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
@@ -118,11 +139,13 @@ class gsuiKeys extends HTMLElement {
 	// .........................................................................
 	#onmousedown( e ) {
 		if ( this.#nbOct ) {
+			const isVert = this.#isVertical();
+			const rootBCR = this.getBoundingClientRect();
 			const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
 
-			this.#rootTop = this.getBoundingClientRect().top;
-			this.#blackKeyR = blackKeyBCR.right;
-			this.#blackKeyH = blackKeyBCR.height;
+			this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
+			this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
+			this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
 			this.#gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
 			document.addEventListener( "mouseup", this.#onmouseupBind );
 			document.addEventListener( "mousemove", this.#onmousemoveBind );
@@ -140,10 +163,14 @@ class gsuiKeys extends HTMLElement {
 		this.#gain = 1;
 	}
 	#onmousemove( e ) {
-		const fKeyInd = ( e.clientY - this.#rootTop ) / this.#blackKeyH;
+		const isVert = this.#isVertical();
+		const mouseAxeKey = isVert ? e.clientY : e.clientX;
+		const mouseAxeVel = isVert ? e.clientX : e.clientY;
+		const fKeyInd2 = ( mouseAxeKey - this.#rootStartPx ) / this.#blackKeyH;
+		const fKeyInd = isVert ? fKeyInd2 : this.#nbOct * 12 - fKeyInd2;
 		let iKeyInd = ~~fKeyInd;
 
-		if ( e.clientX > this.#blackKeyR && this.#isBlack( ~~( iKeyInd % 12 ) ) ) {
+		if ( mouseAxeVel > this.#blackKeyR && this.#isBlack( ~~( iKeyInd % 12 ) ) ) {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
 		if ( this.#keyIndMouse !== iKeyInd ) {

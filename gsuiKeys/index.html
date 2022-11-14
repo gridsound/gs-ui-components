@@ -28,6 +28,9 @@ body {
 <div id="TEST">
 	<gsui-keys></gsui-keys>
 </div>
+<div id="TEST-CTRLS">
+	<button id="toggleOrient">Toggle orient</button>
+</div>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsui.js"></script>
@@ -40,8 +43,21 @@ body {
 <!-- ....................................................................... -->
 <script>
 const el = document.querySelector( "gsui-keys" );
+const togOrient = document.querySelector( "#toggleOrient" );
+const testContent = document.querySelector( "#testContent" );
+const testWrap = document.querySelector( "#testWrap" );
 
+togOrient.onclick = () => {
+	const isHori = GSUI.$getAttribute( el, "orient" ) === "horizontal";
+	const width = testContent.offsetWidth;
+	const height = testContent.offsetHeight;
+
+	testContent.style.width = `${ height }px`;
+	testContent.style.height = `${ width }px`;
+	GSUI.$setAttribute( el, "orient", isHori ? "vertical" : "horizontal" );
+};
 el.octaves( 1, 4 );
+togOrient.onclick();
 </script>
 </body>
 </html>
