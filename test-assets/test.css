@@ -81,6 +81,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	display: flex;
+	box-sizing: border-box;
 	flex-direction: column;
 	resize: var( --test-content-resize );
 	gap: 10px;
