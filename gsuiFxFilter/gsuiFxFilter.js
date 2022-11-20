@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiFxFilter extends HTMLElement {
+	askData = GSUI.$noop;
 	#nyquist = 24000;
 	#attached = false;
 	#currType = "lowpass";
@@ -37,7 +38,6 @@ class gsuiFxFilter extends HTMLElement {
 
 	constructor() {
 		super();
-		this.askData = GSUI.$noop;
 		Object.seal( this );
 
 		this.#elements.type.onclick = this.#onclickType.bind( this );

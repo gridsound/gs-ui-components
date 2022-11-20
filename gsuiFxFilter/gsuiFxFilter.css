@@ -2,7 +2,6 @@ gsui-fx-filter {
 	display: grid;
 	box-sizing: border-box;
 	height: 100%;
-	color: inherit;
 	padding: 8px;
 	grid-gap: 8px;
 	grid-template:
