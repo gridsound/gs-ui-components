@@ -42,7 +42,6 @@ class gsuiEffects extends HTMLElement {
 				},
 			},
 		} );
-		this.#elements.addSelect.append( ...gsuiEffects.#createOptions() );
 	}
 
 	// .........................................................................
@@ -129,15 +128,6 @@ class gsuiEffects extends HTMLElement {
 	}
 
 	// .........................................................................
-	static #createOptions() {
-		const def = gsuiEffects.#createOption( true, "", "-- Select an Fx" );
-		const options = [ def ];
-
-		gsuiEffects.fxsMap.forEach( ( fx, id ) => {
-			options.push( gsuiEffects.#createOption( false, id, fx.name ) );
-		} );
-		return options;
-	}
 	static #createOption( disabled, fxId, fxName ) {
 		return GSUI.$createElement( "option", { value: fxId, disabled }, fxName );
 	}

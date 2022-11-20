@@ -4,7 +4,10 @@ GSUI.$setTemplate( "gsui-effects", () => [
 	GSUI.$createElement( "button", { class: "gsuiEffects-addBtn" },
 		GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
 	),
-	GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 4 } ),
+	GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 4 },
+		GSUI.$createElement( "option", { value: "", disabled: true }, "-- Select an Fx" ),
+		GSUI.$createElement( "option", { value: "filter" }, "Filter" ),
+	),
 ] );
 
 GSUI.$setTemplate( "gsui-effects-fx", () =>
