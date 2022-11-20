@@ -90,7 +90,9 @@ class gsuiEffects extends HTMLElement {
 		expand.onclick = () => this.expandToggleEffect( id );
 		toggle.onclick = () => this.#dispatch( "toggleEffect", id );
 		remove.onclick = () => this.#dispatch( "removeEffect", id );
-		uiFx.askData = this.askData.bind( null, id, fx.type );
+		if ( "askData" in uiFx ) {
+			uiFx.askData = this.askData.bind( null, id, fx.type );
+		}
 		uiFx.dataset.id = id;
 		root.dataset.type = fx.type;
 		name.textContent = fxAsset.name;
