@@ -49,16 +49,14 @@ gsui-keys,
 }
 
 /* .......................................................................... */
+.gsuiKey-row[ data-key="0" ],
+.gsuiKey-row[ data-key="5" ],
 gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="0" ]:not( :last-child ),
-gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="5" ],
-gsui-keys[ orient="vertical" ] .gsuiKey-row[ data-key="0" ],
-gsui-keys[ orient="vertical" ] .gsuiKey-row[ data-key="5" ] {
+gsui-keys[ orient="vertical" ] .gsuiKey[ data-key="5" ] {
 	border-bottom: 1px solid #0003;
 }
 gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ]:not( :last-child ),
-gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="5" ],
-gsui-keys[ orient="horizontal" ] .gsuiKey-row[ data-key="0" ],
-gsui-keys[ orient="horizontal" ] .gsuiKey-row[ data-key="5" ] {
+gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="5" ] {
 	border-left: 1px solid #0003;
 }
 
