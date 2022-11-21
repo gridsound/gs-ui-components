@@ -45,8 +45,8 @@ class gsuiFxDelay extends HTMLElement {
 			this.#children = null;
 			GSUI.$recallAttributes( this, {
 				time: .25,
-				gain: .2,
-				pan: 0,
+				gain: .7,
+				pan: -.2,
 			} );
 			this.#updateGraph();
 		}
@@ -97,7 +97,7 @@ class gsuiFxDelay extends HTMLElement {
 		Array.from( this.#nlDots ).forEach( ( dot, i ) => {
 			const opa = gain ** ( i + 1 );
 			const j = i + 1;
-			const top = i % 2 === 0
+			const top = i % 2 !== 0
 				? Math.min( Math.max( pan * j, -1 ), 1 )
 				: Math.min( Math.max( -pan * j, -1 ), 1 );
 
@@ -113,5 +113,5 @@ Object.freeze( gsuiFxDelay );
 customElements.define( "gsui-fx-delay", gsuiFxDelay );
 
 if ( typeof gsuiEffects !== "undefined" ) {
-	gsuiEffects.fxsMap.set( "delay", { cmp: gsuiFxDelay, name: "Delay", height: 80 } );
+	gsuiEffects.fxsMap.set( "delay", { cmp: gsuiFxDelay, name: "Delay", height: 140 } );
 }
