@@ -1,8 +1,8 @@
 gsui-fx-delay {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	box-sizing: border-box;
+	gap: 8px;
 	height: 100%;
 	padding: 8px;
 	background-color: var( --gsuiFxDelay-bg );
@@ -10,12 +10,12 @@ gsui-fx-delay {
 	--gsuiSlider-lineBgColor: var( --gsuiFxDelay-slider-bg );
 }
 
+/* .......................................................................... */
 .gsuiFxDelay-param {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 }
-
 .gsuiFxDelay-param::before {
 	width: 30px;
 	font-size: 12px;
@@ -31,6 +31,7 @@ gsui-fx-delay {
 	content: "pan";
 }
 
+/* .......................................................................... */
 .gsuiFxDelay-param gsui-slider {
 	flex: 1;
 	height: 10px;
@@ -40,4 +41,36 @@ gsui-fx-delay {
 	width: 30px;
 	font-size: 13px;
 	font-family: var( --gsui-font-number );
+}
+
+/* .......................................................................... */
+.gsuiFxDelay-graph {
+	position: relative;
+	overflow: hidden;
+	flex: 1;
+	border-radius: 6px;
+	background-color: var( --gsuiFxDelay-graph-bg );
+}
+.gsuiFxDelay-graph-lines {
+	position: absolute;
+	inset: 0;
+}
+.gsuiFxDelay-graph-line {
+	position: absolute;
+	top: calc( 50% - 1px );
+	width: 100%;
+	height: 2px;
+	background-color: currentColor;
+	opacity: .2;
+}
+.gsuiFxDelay-graph-source,
+.gsuiFxDelay-graph-echo {
+	position: absolute;
+	top: 50%;
+	width: 10px;
+	height: 10px;
+	margin-top: -5px;
+	margin-left: -5px;
+	border-radius: 50%;
+	background-color: currentColor;
 }

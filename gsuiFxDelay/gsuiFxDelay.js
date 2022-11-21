@@ -2,8 +2,11 @@
 
 class gsuiFxDelay extends HTMLElement {
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiFxDelay" );
+	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.$getTemplate( "gsui-fx-delay" );
+	#graphWidth = 0;
 	#elements = GSUI.$findElements( this.#children, {
+		beatlines: "gsui-beatlines",
 		sliders: {
 			time: "[data-prop='time'] gsui-slider",
 			gain: "[data-prop='gain'] gsui-slider",
@@ -15,6 +18,7 @@ class gsuiFxDelay extends HTMLElement {
 			pan: "[data-prop='pan'] .gsuiFxDelay-param-value",
 		},
 	} );
+	#nlDots = this.getElementsByClassName( "gsuiFxDelay-graph-echo" );
 
 	constructor() {
 		super();
@@ -44,7 +48,12 @@ class gsuiFxDelay extends HTMLElement {
 				gain: .2,
 				pan: 0,
 			} );
+			this.#updateGraph();
 		}
+		GSUI.$observeSizeOf( this, this.#onresizeBind );
+	}
+	disconnectedCallback() {
+		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "time", "gain", "pan" ];
@@ -57,6 +66,7 @@ class gsuiFxDelay extends HTMLElement {
 				case "pan":
 					this.#elements.sliders[ prop ].setValue( +val );
 					this.#elements.values[ prop ].textContent = ( +val ).toFixed( 2 );
+					this.#updateGraph();
 					break;
 			}
 		}
@@ -68,9 +78,34 @@ class gsuiFxDelay extends HTMLElement {
 	}
 
 	// .........................................................................
+	#onresize() {
+		this.#graphWidth = this.#elements.beatlines.getBoundingClientRect().width;
+		this.#updatePxPerBeat();
+	}
+	#updatePxPerBeat() {
+		GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", this.#graphWidth / 4 );
+	}
 	#oninputProp( prop, val ) {
-		this.#elements.values[ prop ].textContent = val.toFixed( 2 );
+		GSUI.$setAttribute( this, prop, val );
 		this.#dispatch( "liveChange", prop, val );
+	}
+	#updateGraph() {
+		const time = GSUI.$getAttributeNum( this, "time" ) / 4;
+		const gain = GSUI.$getAttributeNum( this, "gain" );
+		const pan = GSUI.$getAttributeNum( this, "pan" );
+
+		Array.from( this.#nlDots ).forEach( ( dot, i ) => {
+			const opa = gain ** ( i + 1 );
+			const j = i + 1;
+			const top = i % 2 === 0
+				? Math.min( Math.max( pan * j, -1 ), 1 )
+				: Math.min( Math.max( -pan * j, -1 ), 1 );
+
+			dot.style.display = opa > .01 ? "block" : "none";
+			dot.style.opacity = opa;
+			dot.style.left = `${ j * time * 100 }%`;
+			dot.style.top = `${ ( top / 2 + .5 ) * 100 }%`;
+		} );
 	}
 }
 
