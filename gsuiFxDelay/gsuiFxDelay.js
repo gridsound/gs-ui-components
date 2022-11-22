@@ -95,11 +95,9 @@ class gsuiFxDelay extends HTMLElement {
 		const pan = GSUI.$getAttributeNum( this, "pan" );
 
 		Array.from( this.#nlDots ).forEach( ( dot, i ) => {
-			const opa = gain ** ( i + 1 );
 			const j = i + 1;
-			const top = i % 2 !== 0
-				? Math.min( Math.max( pan * j, -1 ), 1 )
-				: Math.min( Math.max( -pan * j, -1 ), 1 );
+			const opa = gain ** j;
+			const top = i % 2 === 0 ? -pan : pan;
 
 			dot.style.display = opa > .01 ? "block" : "none";
 			dot.style.opacity = opa;

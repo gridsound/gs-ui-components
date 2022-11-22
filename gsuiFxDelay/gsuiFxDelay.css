@@ -16,6 +16,8 @@ gsui-fx-delay {
 	align-items: center;
 	gap: 8px;
 }
+
+/* .......................................................................... */
 .gsuiFxDelay-param::before {
 	width: 30px;
 	font-size: 12px;
@@ -37,6 +39,17 @@ gsui-fx-delay {
 	height: 10px;
 	min-width: 16px;
 }
+.gsuiFxDelay-param[ data-prop="time" ] gsui-slider {
+	--gsuiSlider-lineColor: var( --gsui-col-time );
+}
+.gsuiFxDelay-param[ data-prop="gain" ] gsui-slider {
+	--gsuiSlider-lineColor: var( --gsui-col-gain );
+}
+.gsuiFxDelay-param[ data-prop="pan" ] gsui-slider {
+	--gsuiSlider-lineColor: var( --gsui-col-pan );
+}
+
+/* .......................................................................... */
 .gsuiFxDelay-param-value {
 	width: 30px;
 	font-size: 13px;
