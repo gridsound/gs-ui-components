@@ -51,6 +51,18 @@ class gsuiEffects extends HTMLElement {
 			this.#children = null;
 		}
 	}
+	static get observedAttributes() {
+		return [ "timedivision" ];
+	}
+	attributeChangedCallback( prop, prev, val ) {
+		if ( prev !== val ) {
+			switch ( prop ) {
+				case "timedivision":
+					this.#fxsHtml.forEach( html => GSUI.$setAttribute( html.content.firstChild, "timedivision", val ) );
+					break;
+			}
+		}
+	}
 
 	// .........................................................................
 	getFxHTML( id ) {
@@ -94,6 +106,7 @@ class gsuiEffects extends HTMLElement {
 			uiFx.askData = this.askData.bind( null, id, fx.type );
 		}
 		uiFx.dataset.id = id;
+		GSUI.$setAttribute( uiFx, "timedivision", GSUI.$getAttribute( this, "timedivision" ) );
 		root.dataset.type = fx.type;
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
