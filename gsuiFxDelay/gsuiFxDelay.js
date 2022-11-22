@@ -44,10 +44,12 @@ class gsuiFxDelay extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.$recallAttributes( this, {
+				timedivision: "3/3",
 				time: .25,
 				gain: .7,
 				pan: -.2,
 			} );
+			this.#updatePxPerBeat();
 			this.#updateGraph();
 		}
 		GSUI.$observeSizeOf( this, this.#onresizeBind );
@@ -56,11 +58,15 @@ class gsuiFxDelay extends HTMLElement {
 		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "time", "gain", "pan" ];
+		return [ "timedivision", "time", "gain", "pan" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
+				case "timedivision":
+					GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val );
+					this.#updatePxPerBeat();
+					break;
 				case "time":
 				case "gain":
 				case "pan":
@@ -83,7 +89,9 @@ class gsuiFxDelay extends HTMLElement {
 		this.#updatePxPerBeat();
 	}
 	#updatePxPerBeat() {
-		GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", this.#graphWidth / 4 );
+		const bPM = GSUI.$getAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+
+		GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", this.#graphWidth / bPM );
 	}
 	#oninputProp( prop, val ) {
 		GSUI.$setAttribute( this, prop, val );
