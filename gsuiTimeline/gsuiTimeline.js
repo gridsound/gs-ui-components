@@ -103,11 +103,11 @@ class gsuiTimeline extends HTMLElement {
 			this.#updateMeasures();
 		}
 	}
-	#changeTimedivision( val ) {
-		const ts = val.split( "/" );
+	#changeTimedivision( timediv ) {
+		const [ bPM, sPB ] = timediv.split( "/" );
 
-		this.beatsPerMeasure = +ts[ 0 ];
-		this.stepsPerBeat = +ts[ 1 ];
+		this.beatsPerMeasure = +bPM;
+		this.stepsPerBeat = +sPB;
 		this.pxPerMeasure = this.beatsPerMeasure * this.pxPerBeat;
 		this.style.setProperty( "--gsuiTimeline-beats-per-measure", this.beatsPerMeasure );
 		this.#updateStepsBg();

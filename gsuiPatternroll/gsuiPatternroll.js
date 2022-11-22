@@ -133,8 +133,8 @@ class gsuiPatternroll extends HTMLElement {
 	getBlocks() {
 		return this.#blcManager.getBlocks();
 	}
-	timeDivision( a, b ) {
-		GSUI.$setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
+	timedivision( timediv ) {
+		GSUI.$setAttribute( this.#win, "timedivision", timediv );
 	}
 	loop( a, b ) {
 		GSUI.$setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );

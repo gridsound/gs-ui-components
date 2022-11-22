@@ -112,9 +112,9 @@ class gsuiPianoroll extends HTMLElement {
 	setCallbacks( cb ) {
 		this.onchange = cb.onchange;
 	}
-	timeDivision( a, b ) {
-		GSUI.$setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
-		GSUI.$setAttribute( this.#uiSliderGroup, "timedivision", `${ a }/${ b }` );
+	timedivision( timediv ) {
+		GSUI.$setAttribute( this.#win, "timedivision", timediv );
+		GSUI.$setAttribute( this.#uiSliderGroup, "timedivision", timediv );
 	}
 	loop( a, b ) {
 		GSUI.$setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );

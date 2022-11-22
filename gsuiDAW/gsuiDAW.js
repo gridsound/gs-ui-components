@@ -497,10 +497,11 @@ class gsuiDAW extends HTMLElement {
 				GSUI.$popup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
 					.then( data => {
 						if ( data ) {
-							const newTimediv = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
-
+							data.timedivision = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
+							delete data.beatsPerMeasure;
+							delete data.stepsPerBeat;
 							if (
-								newTimediv !== GSUI.$getAttribute( this, "timedivision" ) ||
+								data.timedivision !== GSUI.$getAttribute( this, "timedivision" ) ||
 								data.bpm !== GSUI.$getAttributeNum( this, "bpm" )
 							) {
 								this.#dispatch( "tempo", data );

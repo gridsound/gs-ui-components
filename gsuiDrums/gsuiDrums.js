@@ -101,14 +101,16 @@ class gsuiDrums extends HTMLElement {
 	loop( a, b ) {
 		GSUI.$setAttribute( this.#win, "loop", a !== false && `${ a }-${ b }` );
 	}
-	timeDivision( a, b ) {
-		this.#stepsPerBeat = b;
-		GSUI.$setAttribute( this.#win, "timedivision", `${ a }/${ b }` );
-		GSUI.$setAttribute( this.#win, "currenttimestep", 1 / b );
+	timedivision( timediv ) {
+		const sPB = timediv.split( "/" )[ 1 ];
+
+		this.#stepsPerBeat = sPB;
+		GSUI.$setAttribute( this.#win, "timedivision", timediv );
+		GSUI.$setAttribute( this.#win, "currenttimestep", 1 / sPB );
 		this.setPxPerBeat( this.#pxPerBeat );
 		this.#elDrumHover.style.width =
 		this.#elDrumcutHover.style.width =
-		this.#elCurrentTime.style.width = `${ 1 / b }em`;
+		this.#elCurrentTime.style.width = `${ 1 / sPB }em`;
 	}
 	setFontSize( fs ) {
 		GSUI.$setAttribute( this.#win, "lineheight", fs );
