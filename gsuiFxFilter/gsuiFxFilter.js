@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiFxFilter extends HTMLElement {
-	askData = GSUI.$noop;
+	$askData = GSUI.$noop;
 	#nyquist = 24000;
 	#attached = false;
 	#currType = "lowpass";
@@ -63,7 +63,7 @@ class gsuiFxFilter extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			this.#onresize();
-			this.updateWave();
+			this.$updateWave();
 		}
 		GSUI.$observeSizeOf( this, this.#onresizeBind );
 	}
@@ -101,16 +101,13 @@ class gsuiFxFilter extends HTMLElement {
 	}
 
 	// .........................................................................
-	setNyquist( n ) {
-		this.#nyquist = n;
-	}
-	toggle( b ) {
+	$toggle( b ) {
 		this.classList.toggle( "gsuiFxFilter-enable", b );
-		setTimeout( () => this.updateWave(), 150 );
+		setTimeout( () => this.$updateWave(), 150 );
 	}
-	updateWave() {
+	$updateWave() {
 		if ( this.#attached ) {
-			const curve = this.askData( "curve", this.#elements.curves.getWidth() );
+			const curve = this.$askData( "curve", this.#elements.curves.getWidth() );
 
 			if ( curve ) {
 				this.#elements.curves.setCurve( "0", curve );
@@ -130,7 +127,7 @@ class gsuiFxFilter extends HTMLElement {
 	}
 	#oninputProp( prop, val ) {
 		this.#dispatch( "liveChange", prop, val );
-		this.updateWave();
+		this.$updateWave();
 	}
 	#onclickType( e ) {
 		const type = e.target.dataset.type;

@@ -2,6 +2,7 @@
 
 class gsuiEffects extends HTMLElement {
 	static fxsMap = new Map();
+	$askData = GSUI.$noop;
 	#fxsHtml = new Map();
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEffects" );
 	#children = GSUI.$getTemplate( "gsui-effects" );
@@ -12,7 +13,6 @@ class gsuiEffects extends HTMLElement {
 
 	constructor() {
 		super();
-		this.askData = GSUI.$noop;
 		Object.seal( this );
 
 		this.#elements.addBtn.onclick = () => this.#elements.addSelect.value = "";
@@ -65,15 +65,15 @@ class gsuiEffects extends HTMLElement {
 	}
 
 	// .........................................................................
-	getFxHTML( id ) {
+	$getFxHTML( id ) {
 		return this.#fxsHtml.get( id );
 	}
-	expandToggleEffect( id ) {
+	$expandToggleEffect( id ) {
 		const root = this.#fxsHtml.get( id ).root;
 
-		this.expandEffect( id, !root.classList.contains( "gsuiEffects-fx-expanded" ) );
+		this.$expandEffect( id, !root.classList.contains( "gsuiEffects-fx-expanded" ) );
 	}
-	expandEffect( id, b ) {
+	$expandEffect( id, b ) {
 		const html = this.#fxsHtml.get( id );
 		const type = html.root.dataset.type;
 
@@ -83,7 +83,7 @@ class gsuiEffects extends HTMLElement {
 	}
 
 	// .........................................................................
-	addEffect( id, fx ) {
+	$addEffect( id, fx ) {
 		const root = GSUI.$getTemplate( "gsui-effects-fx" );
 		const name = root.querySelector( ".gsuiEffects-fx-name" );
 		const expand = root.querySelector( ".gsuiEffects-fx-expand" );
@@ -99,11 +99,11 @@ class gsuiEffects extends HTMLElement {
 			content,
 		} );
 
-		expand.onclick = () => this.expandToggleEffect( id );
+		expand.onclick = () => this.$expandToggleEffect( id );
 		toggle.onclick = () => this.#dispatch( "toggleEffect", id );
 		remove.onclick = () => this.#dispatch( "removeEffect", id );
-		if ( "askData" in uiFx ) {
-			uiFx.askData = this.askData.bind( null, id, fx.type );
+		if ( "$askData" in uiFx ) {
+			uiFx.$askData = this.$askData.bind( null, id, fx.type );
 		}
 		uiFx.dataset.id = id;
 		GSUI.$setAttribute( uiFx, "timedivision", GSUI.$getAttribute( this, "timedivision" ) );
@@ -113,27 +113,27 @@ class gsuiEffects extends HTMLElement {
 		this.#fxsHtml.set( id, html );
 		this.append( root );
 	}
-	removeEffect( id ) {
+	$removeEffect( id ) {
 		this.#fxsHtml.get( id ).root.remove();
 		this.#fxsHtml.delete( id );
 	}
-	changeEffect( id, prop, val ) {
+	$changeEffect( id, prop, val ) {
 		switch ( prop ) {
 			case "toggle": this.#changeToggle( id, val ); break;
 			case "order": this.#fxsHtml.get( id ).root.dataset.order = val; break;
 		}
 	}
-	#changeToggle( id, b ) {
-		const html = this.#fxsHtml.get( id );
-
-		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
-		html.uiFx.toggle( b );
-	}
-	reorderEffects( effects ) {
+	$reorderEffects( effects ) {
 		gsuiReorder.listReorder( this, effects );
 	}
 
 	// .........................................................................
+	#changeToggle( id, b ) {
+		const html = this.#fxsHtml.get( id );
+
+		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
+		html.uiFx.$toggle( b );
+	}
 	#onchangeAddSelect() {
 		const type = this.#elements.addSelect.value;
 

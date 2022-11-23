@@ -44,7 +44,7 @@ class gsuiFxDelay extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.$recallAttributes( this, {
-				timedivision: "3/3",
+				timedivision: "4/4",
 				time: .25,
 				gain: .7,
 				pan: -.2,
@@ -79,7 +79,7 @@ class gsuiFxDelay extends HTMLElement {
 	}
 
 	// .........................................................................
-	toggle( b ) {
+	$toggle( b ) {
 		this.classList.toggle( "gsuiFxDelay-enable", b );
 	}
 
