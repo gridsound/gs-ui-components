@@ -310,8 +310,8 @@
 .gsuiIcon[ data-icon="help" ]::after { content: "\10f0fa"; }
 .gsuiIcon[ data-icon="changelog" ]::before { content: "\f70e"; }
 .gsuiIcon[ data-icon="changelog" ]::after { content: "\10f70e"; }
-.gsuiIcon[ data-icon="about" ]::before { content: "\e020"; }
-.gsuiIcon[ data-icon="about" ]::after { content: "\10e020"; }
+.gsuiIcon[ data-icon="about" ]::before { content: "\f7a7"; }
+.gsuiIcon[ data-icon="about" ]::after { content: "\10f7a7"; }
 
 .gsuiIcon[ data-icon="keyboard" ]::before { content: "\f11c"; }
 .gsuiIcon[ data-icon="keyboard" ]::after { content: "\10f11c"; }
