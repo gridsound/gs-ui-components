@@ -144,6 +144,7 @@ body {
 	align-items: center;
 	margin-top: auto;
 	height: 48px;
+	min-height: 48px;
 }
 #testCopyright {
 	font-size: 11px;
@@ -153,4 +154,16 @@ body {
 }
 #testCopyright a {
 	color: inherit;
+}
+
+
+@media ( max-width: 800px ) {
+	.testLink {
+		font-size: 22px;
+	}
+}
+@media ( max-width: 450px ) {
+	.testLink {
+		font-size: 20px;
+	}
 }
