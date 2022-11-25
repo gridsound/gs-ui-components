@@ -6,7 +6,7 @@ GSUI.$setTemplate( "gsui-effects", () => [
 	),
 	GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 4 },
 		GSUI.$createElement( "option", { value: "", disabled: true }, "-- Select an Fx" ),
-		GSUI.$createElement( "option", { value: "delay" }, "Delay" ),
+		GSUI.$createElement( "option", { value: "delay" }, "Delay (echo)" ),
 		GSUI.$createElement( "option", { value: "filter" }, "Filter" ),
 	),
 ] );
