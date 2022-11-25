@@ -107,6 +107,7 @@ body {
 	pointer-events: none;
 }
 #testWrap {
+	position: relative;
 	flex: 1;
 	overflow: auto;
 	min-width: var( --test-content-minw );

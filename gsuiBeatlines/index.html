@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 460px;
+	--test-content-h: 320px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-beatlines timedivision="4/4" pxperbeat="28" coloredbeats></gsui-beatlines>
+</div>
+<div id="TEST-CTRLS">
+	<div>
+		<button id="vertical">toggle vertical</button>
+	</div>
+	<div>
+		<button id="coloredbeats">toggle coloredBeats</button>
+	</div>
+	<div>
+		<input id="pxPerBeat" type="range" value="28" min="1" max="200" step="1"/>
+		<b>28</b>
+		<span>pxPerBeat</span>
+	</div>
+	<div>
+		<input id="beatsPerMeasure" type="range" value="4" min="1" max="16" step="1"/>
+		<b>4</b>
+		<span>beatsPerMeasure</span>
+	</div>
+	<div>
+		<input id="stepsPerBeat" type="range" value="4" min="1" max="16" step="1"/>
+		<b>4</b>
+		<span>stepsPerBeat</span>
+	</div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.html.js"></script>
+<script src="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const uiBeatlines = document.querySelector( "gsui-beatlines" );
+const btnVerti = document.querySelector( "#vertical" );
+const btnColor = document.querySelector( "#coloredbeats" );
+const inputPPB = document.querySelector( "#pxPerBeat" );
+const inputBPM = document.querySelector( "#beatsPerMeasure" );
+const inputSPB = document.querySelector( "#stepsPerBeat" );
+
+btnColor.onclick = () => GSUI.$setAttribute( uiBeatlines, "coloredbeats", !GSUI.$hasAttribute( uiBeatlines, "coloredbeats" ) );
+btnVerti.onclick = () => GSUI.$setAttribute( uiBeatlines, "vertical", !GSUI.$hasAttribute( uiBeatlines, "vertical" ) );
+
+inputPPB.oninput =
+inputBPM.oninput =
+inputSPB.oninput = e => {
+	e.target.nextElementSibling.textContent = e.target.value;
+	GSUI.$setAttribute( uiBeatlines, "pxperbeat", inputPPB.value );
+	GSUI.$setAttribute( uiBeatlines, "timedivision", `${ inputBPM.value }/${ inputSPB.value }` );
+};
+</script>
+</body>
+</html>

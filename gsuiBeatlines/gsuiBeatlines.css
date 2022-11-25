@@ -1,6 +1,56 @@
 gsui-beatlines {
+	--gsui-deg: 90deg;
+	--gsui-bPM: 4em;
+	--gsui-sPB: .25em;
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
 	background-repeat: no-repeat;
+}
+gsui-beatlines[ vertical ] {
+	--gsui-deg: 180deg;
+}
+
+/* .......................................................................... */
+.gsuiBeatlines-bg {
+	position: absolute;
+	inset: 0;
+}
+.gsuiBeatlines-measures {
+	background-image: repeating-linear-gradient(
+		var( --gsui-deg ),
+		#0008,
+		#0008 1px,
+		transparent 1px,
+		transparent calc( var( --gsui-bPM ) - 1px ),
+		#0008 calc( var( --gsui-bPM ) - 1px ),
+		#0008 var( --gsui-bPM ) );
+}
+.gsuiBeatlines-steps {
+	background-image: repeating-linear-gradient(
+		var( --gsui-deg ),
+		#0002,
+		#0002 .5px,
+		transparent .5px,
+		transparent calc( var( --gsui-sPB ) - .5px ),
+		#0002 calc( var( --gsui-sPB ) - .5px ),
+		#0002 var( --gsui-sPB ) );
+}
+.gsuiBeatlines-beats {
+	background-image: repeating-linear-gradient(
+		var( --gsui-deg ),
+		#0004,
+		#0004 .5px,
+		transparent .5px,
+		transparent calc( 1em - .5px ),
+		#0004 calc( 1em - .5px ),
+		#0004 1em );
+}
+gsui-beatlines[ coloredbeats ] .gsuiBeatlines-beatsBG {
+	background-image: repeating-linear-gradient(
+		var( --gsui-deg ),
+		#0001,
+		#0001 1em,
+		transparent 1em,
+		transparent 2em );
 }

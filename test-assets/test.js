@@ -17,6 +17,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 				GSUI.$createElement( "select", { id: "testSelect" },
 					GSUI.$createElement( "option", { value: "" }, "--" ),
 					GSUI.$createElement( "option", { value: "gsuiDAW" }, "gsuiDAW" ),
+					GSUI.$createElement( "option", { value: "gsuiBeatlines" }, "gsuiBeatlines" ),
 					GSUI.$createElement( "option", { value: "gsuiChannel" }, "gsuiChannel" ),
 					GSUI.$createElement( "option", { value: "gsuiClock" }, "gsuiClock" ),
 					GSUI.$createElement( "option", { value: "gsuiEnvelope" }, "gsuiEnvelope" ),

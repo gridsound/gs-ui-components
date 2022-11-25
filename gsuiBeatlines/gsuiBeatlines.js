@@ -1,19 +1,25 @@
 "use strict";
 
 class gsuiBeatlines extends HTMLElement {
+	connectedCallback() {
+		if ( !this.firstChild ) {
+			this.append( ...GSUI.$getTemplate( "gsui-beatlines" ) );
+			GSUI.$recallAttributes( this, {
+				timedivision: "4/4",
+				coloredbeats: true,
+				pxperbeat: 10,
+			} );
+		}
+	}
 	static get observedAttributes() {
-		return [ "vertical", "timedivision", "pxperbeat", "coloredbeats" ];
+		return [ "timedivision", "pxperbeat" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "vertical":
 				case "timedivision":
-				case "coloredbeats":
-					this.style.backgroundImage = gsuiBeatlines.#background(
-						this.hasAttribute( "vertical" ) ? 180 : 90,
-						...( GSUI.$getAttribute( this, "timedivision" ) || "4/4" ).split( "/" ),
-						this.hasAttribute( "coloredbeats" ) );
+					this.style.setProperty( "--gsui-bPM", `${ val.split( "/" )[ 0 ] }em` );
+					this.style.setProperty( "--gsui-sPB", `${ 1 / val.split( "/" )[ 1 ] }em` );
 					break;
 				case "pxperbeat":
 					this.style.fontSize = `${ val }px`;
@@ -21,21 +27,6 @@ class gsuiBeatlines extends HTMLElement {
 					break;
 			}
 		}
-	}
-
-	// .........................................................................
-	static #background( deg, bPM, sPB, colored ) {
-		return (
-			gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.15)", 1 / sPB, "," ) +
-			gsuiBeatlines.#repeat( deg, ".5px", "rgba(0,0,0,.25)", 1, "," ) +
-			gsuiBeatlines.#repeat( deg, "1px", "rgba(0,0,0,.5)", bPM, "" ) +
-			( colored
-				? `,repeating-linear-gradient(${ deg }deg, rgba(0,0,0,.08), rgba(0,0,0,.08) 1em, transparent 1em, transparent 2em)`
-				: "" )
-		);
-	}
-	static #repeat( deg, w, col, em, sep ) {
-		return `repeating-linear-gradient(${ deg }deg, ${ col }, ${ col } ${ w }, transparent ${ w }, transparent calc(${ em }em - ${ w }), ${ col } calc(${ em }em - ${ w }), ${ col } ${ em }em)${ sep }`;
 	}
 }
 
