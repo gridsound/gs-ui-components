@@ -10,7 +10,7 @@ class gsuiSlider extends HTMLElement {
 	#previousval = "";
 	#circ = false;
 	#axeX = false;
-	#locked = false;
+	#ptrId = null;
 	#connected = false;
 	#pxval = 0;
 	#pxmoved = 0;
@@ -36,10 +36,9 @@ class gsuiSlider extends HTMLElement {
 		Object.seal( this );
 
 		this.onwheel = this.#onwheel.bind( this );
-		this.onmouseup = this.#onmouseup.bind( this );
-		this.onmousedown = this.#onmousedown.bind( this );
-		this.onmousemove = this.#onmousemove.bind( this );
-		this.onmouseleave = this.#onmouseleave.bind( this );
+		this.onblur = this.#onblur.bind( this );
+		this.onpointerdown = this.#onpointerdown.bind( this );
+		this.onpointerleave = this.#onpointerleave.bind( this );
 	}
 
 	// .........................................................................
@@ -54,6 +53,7 @@ class gsuiSlider extends HTMLElement {
 			this.#connected = true;
 			this.#setSVGcirc();
 			this.#updateVal();
+			GSUI.$setAttribute( this, "tabindex", "0" );
 		}
 	}
 	static get observedAttributes() {
@@ -106,20 +106,8 @@ class gsuiSlider extends HTMLElement {
 	}
 
 	// .........................................................................
-	static pointerLockChange() {
-		const el = document.pointerLockElement;
-
-		if ( el ) {
-			if ( el.nodeName === "GSUI-SLIDER" ) {
-				el.#locked = true;
-				gsuiSlider.focused = el;
-			}
-		} else if ( gsuiSlider.focused ) {
-			gsuiSlider.focused.#onmouseup();
-		}
-	}
 	setValue( val, bymouse ) {
-		if ( !this.#locked || bymouse ) {
+		if ( !this.onpointermove || bymouse ) {
 			const prevVal = this.#getInputVal();
 			const newVal = ( this.#elements.input.value = val, this.#getInputVal() );
 
@@ -236,40 +224,49 @@ class gsuiSlider extends HTMLElement {
 			return false;
 		}
 	}
-	#onmousedown() {
+	#onpointerdown( e ) {
 		if ( !GSUI.$hasAttribute( this, "disabled" ) ) {
-			this.#dispatch( "inputStart", this.value );
 			this.#pxval = this.#getRange() / this.#getMousemoveSize();
 			this.#pxmoved = 0;
+			this.#ptrId = e.pointerId;
+			this.setPointerCapture( e.pointerId );
+			this.onpointermove = this.#onpointermove.bind( this );
+			this.onpointerup = this.#onpointerup.bind( this );
+			this.focus();
 			this.requestPointerLock();
+			this.#dispatch( "inputStart", this.value );
 		}
 	}
-	#onmousemove( e ) {
-		if ( this.#locked ) {
-			const bound = this.#getRange() / 5;
-			const mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX;
-			const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval;
+	#onpointermove( e ) {
+		const bound = this.#getRange() / 5;
+		const mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX;
+		const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval;
 
-			if ( this.#min - bound < val && val < this.#max + bound ) {
-				this.#pxmoved += mov;
-			}
-			this.setValue( val, true );
+		if ( this.#min - bound < val && val < this.#max + bound ) {
+			this.#pxmoved += mov;
+		}
+		this.setValue( val, true );
+	}
+	#onpointerup() {
+		document.exitPointerLock();
+		if ( this.#ptrId ) {
+			this.releasePointerCapture( this.#ptrId );
+			this.#ptrId = null;
+		}
+		this.onpointermove =
+		this.onpointerup = null;
+		this.#onchange();
+		this.#dispatch( "inputEnd", this.value );
+	}
+	#onblur() {
+		if ( this.onpointermove ) {
+			this.#onpointerup();
 		}
 	}
-	#onmouseup() {
-		if ( this.#locked ) {
-			document.exitPointerLock();
-			this.#locked = false;
-			this.#onchange();
-			this.#dispatch( "inputEnd", this.value );
-		}
-	}
-	#onmouseleave() {
+	#onpointerleave() {
 		this.#onchange();
 	}
 }
 
 Object.seal( gsuiSlider );
 customElements.define( "gsui-slider", gsuiSlider );
-
-document.addEventListener( "pointerlockchange", gsuiSlider.pointerLockChange );
