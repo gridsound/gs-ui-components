@@ -47,6 +47,7 @@ class gsuiKeys extends HTMLElement {
 		Object.seal( this );
 
 		this.onmousedown = this.#onmousedown.bind( this );
+		this.oncontextmenu = () => false;
 	}
 
 	// .........................................................................
@@ -138,7 +139,7 @@ class gsuiKeys extends HTMLElement {
 
 	// .........................................................................
 	#onmousedown( e ) {
-		if ( this.#nbOct ) {
+		if ( this.#nbOct && e.button === 0 ) {
 			const isVert = this.#isVertical();
 			const rootBCR = this.getBoundingClientRect();
 			const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
