@@ -113,6 +113,10 @@ gsui-keys[ orient="horizontal" ] .gsuiKeyBlack {
 	border-radius: 3px;
 	background-color: var( --gsuiKeys-rootKey );
 }
+.gsuiKey-root.gsui-active::after {
+	color: var( --gsuiKeys-rootKey );
+	background-color: var( --gsuiKeys-whiteKey-gradB );
+}
 gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ]::after {
 	left: .35em;
 	right: auto;
