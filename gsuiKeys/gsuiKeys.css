@@ -102,10 +102,16 @@ gsui-keys[ orient="horizontal" ] .gsuiKeyBlack {
 	content: "C" counter( octave );
 	position: absolute;
 	right: .25em;
-	bottom: 0;
+	bottom: 2px;
 	color: #000;
 	font-size: calc( 6px + .25em );
 	font-family: monospace;
+}
+.gsuiKey-root[ data-key="0" ]::after {
+	color: var( --gsuiKeys-whiteKey-gradB );
+	padding: 0 2px;
+	border-radius: 3px;
+	background-color: var( --gsuiKeys-rootKey );
 }
 gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ]::after {
 	left: .35em;

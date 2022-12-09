@@ -54,15 +54,17 @@ class gsuiKeys extends HTMLElement {
 	connectedCallback() {
 		GSUI.$recallAttributes( this, {
 			orient: "vertical",
+			rootoctave: "4",
 		} );
 	}
 	static get observedAttributes() {
-		return [ "orient" ];
+		return [ "orient", "rootoctave" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "orient":
+				case "rootoctave":
+					this.#setRootOctave( +val );
 					break;
 			}
 		}
@@ -94,6 +96,7 @@ class gsuiKeys extends HTMLElement {
 			elRow.style.top = `${ i }em`;
 			return midi - 1;
 		}, maxOct * 12 );
+		this.#setRootOctave( GSUI.$getAttributeNum( this, "rootoctave" ) );
 		return this.querySelectorAll( ".gsui-row" );
 	}
 	getKeyElementFromMidi( midi ) {
@@ -118,6 +121,10 @@ class gsuiKeys extends HTMLElement {
 	}
 
 	// .........................................................................
+	#setRootOctave( oct ) {
+		this.querySelector( `.gsuiKey-root` )?.classList.remove( "gsuiKey-root" );
+		this.querySelector( `.gsuiKey[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKey-root" );
+	}
 	#isVertical() {
 		return GSUI.$getAttribute( this, "orient" ) === "vertical";
 	}
