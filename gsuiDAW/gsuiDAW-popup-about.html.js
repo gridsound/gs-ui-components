@@ -22,7 +22,7 @@ GSUI.$setTemplate( "gsui-daw-popup-about", () =>
 		GSUI.$createElement( "div", { class: "gsuiDAW-popup-about-links" },
 			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "GitHub",   class: "gsuiIcon gsuiIconB", "data-icon": "github",   href: "https://github.com/gridsound" } ),
 			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "Twitter",  class: "gsuiIcon gsuiIconB", "data-icon": "twitter",  href: "https://twitter.com/gridsound" } ),
-			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "YouTube",  class: "gsuiIcon gsuiIconB", "data-icon": "youtube",  href: "https://youtube.com/channel/UC2-jebT7TS8xJgJPymXqatA" } ),
+			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "YouTube",  class: "gsuiIcon gsuiIconB", "data-icon": "youtube",  href: "https://youtube.com/@gridsound" } ),
 			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "Facebook", class: "gsuiIcon gsuiIconB", "data-icon": "facebook", href: "https://facebook.com/gridsound" } ),
 			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "CodePen",  class: "gsuiIcon gsuiIconB", "data-icon": "codepen",  href: "https://codepen.io/gridsound" } ),
 			GSUI.$createElement( "a", { target: "_blank", rel: "noopener", title: "Discord",  class: "gsuiIcon gsuiIconB", "data-icon": "discord",  href: "https://discord.gg/NUYxHAg" } ),
