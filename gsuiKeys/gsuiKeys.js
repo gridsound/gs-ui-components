@@ -30,6 +30,7 @@ class gsuiKeys extends HTMLElement {
 		BracketLeft:  [ 2,  5 ], Equal:  [ 2,  6 ],
 		BracketRight: [ 2,  7 ],
 	};
+	#rootOctave = 0;
 	#keysDown = new Map();
 	#gain = 1;
 	#nbOct = 0;
@@ -96,17 +97,14 @@ class gsuiKeys extends HTMLElement {
 			elRow.style.top = `${ i }em`;
 			return midi - 1;
 		}, maxOct * 12 );
-		this.#setRootOctave( GSUI.$getAttributeNum( this, "rootoctave" ) );
+		this.#setRootOctave( this.#rootOctave );
 		return this.querySelectorAll( ".gsui-row" );
-	}
-	getKeyElementFromMidi( midi ) {
-		return this.children[ this.children.length - 1 - ( midi - this.#octStart * 12 ) ];
 	}
 	getMidiKeyFromKeyboard( e ) {
 		const k = gsuiKeys.keyboardToKey[ e.code ];
 
 		return k
-			? ( 4 + k[ 0 ] ) * 12 + k[ 1 ]
+			? ( this.#rootOctave + k[ 0 ] ) * 12 + k[ 1 ]
 			: false;
 	}
 	midiReleaseAllKeys() {
@@ -114,14 +112,18 @@ class gsuiKeys extends HTMLElement {
 		this.#onmouseup();
 	}
 	midiKeyDown( midi ) {
-		this.#keyUpDown( this.getKeyElementFromMidi( midi ), true );
+		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true );
 	}
 	midiKeyUp( midi ) {
-		this.#keyUpDown( this.getKeyElementFromMidi( midi ), false );
+		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), false );
 	}
 
 	// .........................................................................
+	#getKeyElementFromMidi( midi ) {
+		return this.children[ this.children.length - 1 - ( midi - this.#octStart * 12 ) ];
+	}
 	#setRootOctave( oct ) {
+		this.#rootOctave = oct;
 		this.querySelector( `.gsuiKey-root` )?.classList.remove( "gsuiKey-root" );
 		this.querySelector( `.gsuiKey[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKey-root" );
 	}
@@ -132,32 +134,38 @@ class gsuiKeys extends HTMLElement {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
 	#keyUpDown( elKey, status ) {
-		const midi = +elKey.dataset.midi;
+		if ( elKey ) {
+			const midi = +elKey.dataset.midi;
 
-		elKey.classList.toggle( "gsui-active", status );
-		if ( status ) {
-			this.#keysDown.set( midi );
-			GSUI.$dispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
-		} else {
-			this.#keysDown.delete( midi );
-			GSUI.$dispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
+			elKey.classList.toggle( "gsui-active", status );
+			if ( status ) {
+				this.#keysDown.set( midi );
+				GSUI.$dispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
+			} else {
+				this.#keysDown.delete( midi );
+				GSUI.$dispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
+			}
 		}
 	}
 
 	// .........................................................................
 	#onmousedown( e ) {
-		if ( this.#nbOct && e.button === 0 ) {
-			const isVert = this.#isVertical();
-			const rootBCR = this.getBoundingClientRect();
-			const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
+		if ( this.#nbOct ) {
+			if ( e.button === 2 ) {
+				GSUI.$setAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
+			} else if ( e.button === 0 ) {
+				const isVert = this.#isVertical();
+				const rootBCR = this.getBoundingClientRect();
+				const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
 
-			this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
-			this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
-			this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
-			this.#gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
-			document.addEventListener( "mouseup", this.#onmouseupBind );
-			document.addEventListener( "mousemove", this.#onmousemoveBind );
-			this.#onmousemove( e );
+				this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
+				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
+				this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
+				this.#gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
+				document.addEventListener( "mouseup", this.#onmouseupBind );
+				document.addEventListener( "mousemove", this.#onmousemoveBind );
+				this.#onmousemove( e );
+			}
 		}
 	}
 	#onmouseup() {
