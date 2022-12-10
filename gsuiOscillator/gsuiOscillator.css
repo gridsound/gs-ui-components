@@ -8,12 +8,12 @@ gsui-oscillator {
 	color: var( --gsuiOscillator-txt );
 	background-color: var( --gsuiOscillator-bg );
 	grid-template:
-		"grip .   .        .        .          .      .    .    ." 6px
-		"grip .   wavePrev waveNext waveSelect detune pan  gain ." 20px
-		"grip .   wave     wave     wave       detune pan  gain ." 1fr
-		"grip .   wave     wave     wave       detune pan  gain ." 1fr
-		"grip .   .        .        .          .      .    .    ." 6px
-		/20px 6px 14px     14px     1fr        48px   48px 48px 8px;
+		"grip .   .        .        .          .   .      .   .    .   .    ." 6px
+		"grip .   wavePrev waveNext waveSelect .   detune .   pan  .   gain ." 20px
+		"grip .   wave     wave     wave       .   detune .   pan  .   gain ." 1fr
+		"grip .   wave     wave     wave       .   detune .   pan  .   gain ." 1fr
+		"grip .   .        .        .          .   .      .   .    .   .    ." 6px
+		/20px 6px 14px     14px     1fr        6px 38px   6px 38px 6px 38px 10px;
 	--gsuiSlider-lineBgColor: var( --gsuiOscillator-slider-bg );
 }
 
@@ -30,26 +30,38 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
+.gsuiOscillator-prop {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 2px;
+	--gsuiSlider-lineColor: currentColor;
+}
 .gsuiOscillator-pan { grid-area: pan; color: var( --gsuiOscillator-pan ); }
 .gsuiOscillator-gain { grid-area: gain; color: var( --gsuiOscillator-gain ); }
 .gsuiOscillator-detune { grid-area: detune; color: var( --gsuiOscillator-detune ); }
-.gsuiOscillator-prop {
-	position: relative;
-	margin-left: 6px;
-	--gsuiSlider-lineColor: currentColor;
-}
 .gsuiOscillator-sliderWrap {
+	position: relative;
 	box-sizing: border-box;
-	height: 100%;
+	height: 32px;
+	min-height: 32px;
+}
+.gsuiOscillator-prop gsui-slider:first-child .gsuiSlider-eventCatcher {
+	bottom: -18px;
+}
+.gsuiOscillator-prop gsui-slider + gsui-slider {
+	position: absolute;
+	top: calc( 50% - 8px );
+	left: calc( 50% - 8px );
+	width: 16px;
+	height: 16px;
 }
 .gsuiOscillator-sliderValue {
-	position: absolute;
-	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-family: var( --gsui-font-number );
-	font-size: 14px;
+	font-size: 12px;
 	pointer-events: none;
 }
 

@@ -22,6 +22,7 @@ class gsuiOscillator extends HTMLElement {
 			pan: [ ".gsuiOscillator-pan gsui-slider", ".gsuiOscillator-pan .gsuiOscillator-sliderValue" ],
 			gain: [ ".gsuiOscillator-gain gsui-slider", ".gsuiOscillator-gain .gsuiOscillator-sliderValue" ],
 			detune: [ ".gsuiOscillator-detune gsui-slider", ".gsuiOscillator-detune .gsuiOscillator-sliderValue" ],
+			detunefine: [ ".gsuiOscillator-detune gsui-slider + gsui-slider", ".gsuiOscillator-detune .gsuiOscillator-sliderValue" ],
 		},
 		remove: ".gsuiOscillator-remove",
 	} );
@@ -61,6 +62,7 @@ class gsuiOscillator extends HTMLElement {
 				order: 0,
 				type: "sine",
 				detune: 0,
+				detunefine: 0,
 				gain: 1,
 				pan: 0,
 			} );
@@ -68,7 +70,7 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "order", "type", "detune", "gain", "pan" ];
+		return [ "order", "type", "detune", "detunefine", "gain", "pan" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -77,6 +79,7 @@ class gsuiOscillator extends HTMLElement {
 			switch ( prop ) {
 				case "order": this.#changeOrder( num ); break;
 				case "type": this.#changeType( val ); break;
+				case "detunefine":
 				case "detune":
 				case "gain":
 				case "pan":
@@ -122,9 +125,13 @@ class gsuiOscillator extends HTMLElement {
 	}
 	#changeProp( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
+		let val2 = val;
 
+		if ( prop.startsWith( "detune" ) ) {
+			val2 = GSUI.$getAttributeNum( this, "detune" ) + GSUI.$getAttributeNum( this, "detunefine" );
+		}
 		sli.setValue( val );
-		span.textContent = prop === "detune" ? val : val.toFixed( 2 );
+		span.textContent = val2.toFixed( 2 );
 	}
 
 	// .........................................................................
@@ -167,13 +174,15 @@ class gsuiOscillator extends HTMLElement {
 
 		if ( prop === "gain" ) {
 			this.updateWave( "gain", val );
-			val2 = val.toFixed( 2 );
 		} else if ( prop === "pan" ) {
 			this.updateWave( "pan", val );
-			val2 = val.toFixed( 2 );
+		} else if ( prop === "detune" ) {
+			val2 += GSUI.$getAttributeNum( this, "detunefine" );
+		} else if ( prop === "detunefine" ) {
+			val2 += GSUI.$getAttributeNum( this, "detune" );
 		}
-		this.#elements.sliders[ prop ][ 1 ].textContent = val2;
-		this.#dispatch( "liveChange", prop, +val2 );
+		this.#elements.sliders[ prop ][ 1 ].textContent = val2.toFixed( 2 );
+		this.#dispatch( "liveChange", prop, val );
 	}
 }
 

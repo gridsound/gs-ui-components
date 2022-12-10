@@ -21,7 +21,8 @@ GSUI.$setTemplate( "gsui-oscillator", () => {
 		].map( ( [ prop, title, min, max, step ] ) =>
 			GSUI.$createElement( "div", { class: `gsuiOscillator-prop gsuiOscillator-${ prop }`, title },
 				GSUI.$createElement( "div", { class: "gsuiOscillator-sliderWrap" },
-					GSUI.$createElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop } )
+					GSUI.$createElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
+					prop !== "detune" ? null : GSUI.$createElement( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3 } )
 				),
 				GSUI.$createElement( "div", { class: "gsuiOscillator-sliderValue" } ),
 			)
