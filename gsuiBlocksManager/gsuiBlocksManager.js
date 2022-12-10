@@ -125,6 +125,7 @@ class gsuiBlocksManager {
 
 		switch ( e.key ) {
 			case "Delete":
+			case "Backspace":
 				if ( this.#blcsSelected.size ) {
 					this.#blcsSelected.forEach( ( blc, id ) => blcsEditing.set( id, blc ) );
 					this.#status = "deleting";
