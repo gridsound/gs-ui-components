@@ -11,6 +11,7 @@ class gsuiLibrary extends HTMLElement {
 	#idPlaying = null;
 	#elCursor = null;
 	#stopTimeout = null;
+	#idFavs = new Map();
 
 	constructor() {
 		super();
@@ -44,6 +45,7 @@ class gsuiLibrary extends HTMLElement {
 		this.#elements.placeholder.textContent = str;
 	}
 	setLibrary( lib ) {
+		lg("setLibrary")
 		let lastSep;
 		const prevLastSep = Array.from( this.#elements.body.children )
 			.findLast( el => el.classList.contains( "gsuiLibrary-sep" ) );
@@ -55,6 +57,10 @@ class gsuiLibrary extends HTMLElement {
 					name: smp[ 2 ] || smp[ 0 ],
 				} );
 
+				lg(this.#idFavs, smp[ 0 ] )
+				if ( this.#idFavs.has( smp[ 0 ] ) ) {
+					el.classList.add( "gsuiLibrary-sample-fav" );
+				}
 				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
 			}
@@ -68,6 +74,12 @@ class gsuiLibrary extends HTMLElement {
 	}
 
 	// .........................................................................
+	bookmarkSample( id, b ) {
+		b
+			? this.#idFavs.set( id )
+			: this.#idFavs.delete( id );
+		this.#samplesMap.get( id )?.classList.toggle( "gsuiLibrary-sample-fav", b );
+	}
 	loadSample( id ) {
 		const el = this.#samplesMap.get( id );
 

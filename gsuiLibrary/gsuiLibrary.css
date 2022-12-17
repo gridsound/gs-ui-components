@@ -79,6 +79,8 @@ gsui-library {
 /* .......................................................................... */
 .gsuiLibrary-sample {
 	position: relative;
+	display: flex;
+	align-items: center;
 	overflow: hidden;
 	width: 100px;
 	height: 20px;
@@ -101,15 +103,23 @@ gsui-library {
 	animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
 }
 .gsuiLibrary-sample::after {
+	position: relative;
 	content: counter( smpNum );
-	position: absolute;
-	inset: 0 6px 0 auto;
-	padding: 0 4px;
-	display: flex;
+	display: inline-flex;
 	align-items: center;
+	margin-left: auto;
+	margin-right: 5px;
+	padding: 1px 3px;
+	border-radius: 3px;
 	font-size: 9px;
 	font-family: var( --gsui-font-monospace );
 	background-color: var( --gsuiLibrary-bg );
+	pointer-events: none;
+}
+.gsuiLibrary-sample-fav::after {
+	color: var( --gsuiLibrary-bg );
+	font-weight: bold;
+	background-color: var( --gsuiLibrary-sample-fav );
 }
 @keyframes gsuiLibrary-sample-loading-anim {
 	0% { background-color: none; }
@@ -130,8 +140,15 @@ gsui-library {
 	height: 100%;
 	opacity: .2;
 }
+.gsuiLibrary-sample-fav .gsuiLibrary-sample-svg {
+	opacity: .4;
+	fill: var( --gsuiLibrary-sample-fav );
+}
 .gsuiLibrary-sample:hover .gsuiLibrary-sample-svg {
 	opacity: .4;
+}
+.gsuiLibrary-sample-fav:hover .gsuiLibrary-sample-svg {
+	opacity: .6;
 }
 
 /* .......................................................................... */
