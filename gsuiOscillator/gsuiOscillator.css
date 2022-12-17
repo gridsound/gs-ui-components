@@ -51,10 +51,15 @@ gsui-oscillator {
 }
 .gsuiOscillator-prop gsui-slider + gsui-slider {
 	position: absolute;
+	overflow: hidden;
+	border-radius: 50%;
 	top: calc( 50% - 8px );
 	left: calc( 50% - 8px );
 	width: 16px;
 	height: 16px;
+}
+.gsuiOscillator-prop gsui-slider + gsui-slider .gsuiSlider-eventCatcher {
+	border-radius: 50%;
 }
 .gsuiOscillator-sliderValue {
 	display: flex;
