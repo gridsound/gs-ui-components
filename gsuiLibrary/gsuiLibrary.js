@@ -33,6 +33,7 @@ class gsuiLibrary extends HTMLElement {
 	clear() {
 		this.#samplesMap.forEach( el => el.remove() );
 		this.#samplesMap.clear();
+		this.#idFavs.clear();
 		this.#elements.body.querySelectorAll( ".gsuiLibrary-sep" ).forEach( el => el.remove() );
 	}
 	unloadSamples() {
@@ -45,7 +46,6 @@ class gsuiLibrary extends HTMLElement {
 		this.#elements.placeholder.textContent = str;
 	}
 	setLibrary( lib ) {
-		lg("setLibrary")
 		let lastSep;
 		const prevLastSep = Array.from( this.#elements.body.children )
 			.findLast( el => el.classList.contains( "gsuiLibrary-sep" ) );
@@ -57,7 +57,6 @@ class gsuiLibrary extends HTMLElement {
 					name: smp[ 2 ] || smp[ 0 ],
 				} );
 
-				lg(this.#idFavs, smp[ 0 ] )
 				if ( this.#idFavs.has( smp[ 0 ] ) ) {
 					el.classList.add( "gsuiLibrary-sample-fav" );
 				}
