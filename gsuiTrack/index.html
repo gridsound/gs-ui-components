@@ -27,12 +27,12 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-track toggle name="" order="20"></gsui-track>
+	<gsui-track name="" order="20"></gsui-track>
 </div>
 <div id="TEST-CTRLS">
 	<label>
-		<input id="toggle" type="checkbox" name="toggle" checked/>
-		<span>toggle</span>
+		<input id="mute" type="checkbox"/>
+		<span>mute</span>
 	</label>
 </div>
 
@@ -48,8 +48,8 @@ body {
 <script>
 const tr = document.querySelector( "gsui-track" );
 
-document.querySelector( "#toggle" ).onchange = e => {
-	GSUI.$setAttribute( tr, "toggle", e.target.checked );
+document.querySelector( "#mute" ).onchange = e => {
+	GSUI.$setAttribute( tr, "mute", e.target.checked );
 };
 </script>
 </body>

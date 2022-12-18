@@ -8,7 +8,7 @@ GSUI.$setTemplate( "gsui-track", () => [
 ] );
 
 GSUI.$setTemplate( "gsui-track-row", () =>
-	GSUI.$createElement( "div", { class: "gsuiTrack-row gsui-row gsui-mute" },
+	GSUI.$createElement( "div", { class: "gsuiTrack-row gsui-row" },
 		GSUI.$createElement( "div" ),
 	)
 );

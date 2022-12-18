@@ -84,7 +84,7 @@ class gsuiPatternroll extends HTMLElement {
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
 	}
 	removeTrack( id ) { this.#tracklist.removeTrack( id ); }
-	toggleTrack( id, b ) { GSUI.$setAttribute( this.#tracklist.getTrack( id ), "toggle", b ); }
+	toggleTrack( id, b ) { GSUI.$setAttribute( this.#tracklist.getTrack( id ), "mute", !b ); }
 	renameTrack( id, s ) { GSUI.$setAttribute( this.#tracklist.getTrack( id ), "name", s ); }
 	reorderTrack( id, n ) { GSUI.$setAttribute( this.#tracklist.getTrack( id ), "order", n ); }
 

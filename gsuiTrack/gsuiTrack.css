@@ -15,11 +15,11 @@ gsui-track,
 gsui-track:nth-child( even ) {
 	--rel-l: -1.7%;
 }
-gsui-track.gsui-mute {
+gsui-track[ mute ] {
 	--rel-l: -5%;
 	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
 }
-gsui-track.gsui-mute:nth-child( even ) {
+gsui-track[ mute ]:nth-child( even ) {
 	--rel-l: -5.5%;
 }
 
@@ -80,7 +80,7 @@ gsui-track.gsui-mute:nth-child( even ) {
 	background: none;
 	user-select: none;
 }
-.gsui-mute .gsuiTrack-name {
+gsui-track[ mute ] .gsuiTrack-name {
 	opacity: .5;
 }
 .gsuiTrack-name:focus {

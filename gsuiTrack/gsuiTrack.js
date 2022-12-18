@@ -13,20 +13,22 @@ class gsuiTrack extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.classList.add( "gsui-mute" );
 			this.append( ...this.#children );
 			this.#children = null;
+			GSUI.$recallAttributes( this, {
+				name: "",
+				order: 0,
+			} );
 		}
 	}
 	static get observedAttributes() {
-		return [ "toggle", "name", "order" ];
+		return [ "mute", "name", "order" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "toggle":
-					this.classList.toggle( "gsui-mute", val === null );
-					this.rowElement.classList.toggle( "gsui-mute", val === null );
+				case "mute":
+					this.rowElement.classList.toggle( "gsui-mute", val !== null );
 					break;
 				case "name":
 					this.#inpName.value = val;
