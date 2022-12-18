@@ -1,6 +1,6 @@
 gsui-track {
 	display: flex;
-	height: var( --gsuiTimewindow-lineH );
+	height: 100%;
 	background-color: hsl(
 		var( --gsuiTrack-hsl-h ),
 		var( --gsuiTrack-hsl-s ),

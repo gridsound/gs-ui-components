@@ -3,6 +3,10 @@ gsui-patternroll {
 	height: 100%;
 }
 
+gsui-patternroll gsui-track {
+	height: var( --gsuiTimewindow-lineH );
+}
+
 .gsuiPatternroll-block {
 	display: flex;
 	flex-direction: column;
