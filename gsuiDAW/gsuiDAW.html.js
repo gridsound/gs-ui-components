@@ -83,7 +83,7 @@ GSUI.$setTemplate( "gsui-daw", () => [
 			GSUI.$createElement( "div", { class: "gsuiDAW-libraries" } ),
 			GSUI.$createElement( "div", { class: "gsuiDAW-patterns" } ),
 		),
-		GSUI.$createElement( "div", { class: "gsuiDAW-windows" } ),
+		GSUI.$createElement( "gsui-windows", { class: "gsuiDAW-windows" } ),
 	),
 ] );
 
