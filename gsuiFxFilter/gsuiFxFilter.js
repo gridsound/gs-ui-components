@@ -140,7 +140,3 @@ class gsuiFxFilter extends HTMLElement {
 
 Object.freeze( gsuiFxFilter );
 customElements.define( "gsui-fx-filter", gsuiFxFilter );
-
-if ( typeof gsuiEffects !== "undefined" ) {
-	gsuiEffects.fxsMap.set( "filter", { cmp: gsuiFxFilter, name: "Filter", height: 160 } );
-}

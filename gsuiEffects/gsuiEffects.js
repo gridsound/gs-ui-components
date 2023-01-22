@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiEffects extends HTMLElement {
-	static fxsMap = new Map();
 	$askData = GSUI.$noop;
 	#fxsHtml = new Map();
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEffects" );
@@ -9,6 +8,10 @@ class gsuiEffects extends HTMLElement {
 	#elements = GSUI.$findElements( this.#children, {
 		addBtn: ".gsuiEffects-addBtn",
 		addSelect: ".gsuiEffects-addSelect",
+	} );
+	static #fxsMap = Object.freeze( {
+		delay: { cmp: "gsui-fx-delay", name: "Delay", height: 140 },
+		filter: { cmp: "gsui-fx-filter", name: "Filter", height: 160 },
 	} );
 
 	constructor() {
@@ -79,7 +82,7 @@ class gsuiEffects extends HTMLElement {
 
 		html.root.classList.toggle( "gsuiEffects-fx-expanded", b );
 		html.expand.dataset.icon = b ? "caret-down" : "caret-right";
-		html.content.style.height = `${ b ? gsuiEffects.fxsMap.get( type ).height : 0 }px`;
+		html.content.style.height = `${ b ? gsuiEffects.#fxsMap[ type ].height : 0 }px`;
 	}
 
 	// .........................................................................
@@ -90,8 +93,8 @@ class gsuiEffects extends HTMLElement {
 		const toggle = root.querySelector( ".gsuiEffects-fx-toggle" );
 		const remove = root.querySelector( ".gsuiEffects-fx-remove" );
 		const content = root.querySelector( ".gsuiEffects-fx-content" );
-		const fxAsset = gsuiEffects.fxsMap.get( fx.type );
-		const uiFx = new fxAsset.cmp();
+		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
+		const uiFx = GSUI.$createElement( fxAsset.cmp );
 		const html = Object.seal( {
 			uiFx,
 			root,

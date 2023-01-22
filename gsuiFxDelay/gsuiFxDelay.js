@@ -117,7 +117,3 @@ class gsuiFxDelay extends HTMLElement {
 
 Object.freeze( gsuiFxDelay );
 customElements.define( "gsui-fx-delay", gsuiFxDelay );
-
-if ( typeof gsuiEffects !== "undefined" ) {
-	gsuiEffects.fxsMap.set( "delay", { cmp: gsuiFxDelay, name: "Delay", height: 140 } );
-}
