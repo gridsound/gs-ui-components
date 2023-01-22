@@ -1,0 +1,23 @@
+gsui-panel {
+	display: flex;
+	height: 100%;
+}
+
+/* .......................................................................... */
+.gsuiPanel-extend {
+	--w: 8px;
+	position: relative;
+	z-index: 1;
+}
+.gsuiPanel-extend[ data-axis="x" ] {
+	min-width: var( --w );
+	left: calc( var( --w ) / -2 );
+	margin-right: calc( var( --w ) * -1 );
+	cursor: ew-resize;
+}
+.gsuiPanel-extend[ data-axis="y" ] {
+	min-height: var( --w );
+	top: calc( var( --w ) / -2 );
+	margin-bottom: calc( var( --w ) * -1 );
+	cursor: ns-resize;
+}
