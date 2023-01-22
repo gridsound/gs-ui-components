@@ -33,7 +33,7 @@ gsui-daw {
 .gsuiDAW-resources {
 	display: flex;
 	width: 300px;
-	min-width: 300px;
+	min-width: 330px;
 	max-width: 700px;
 	border-right: 3px solid #555;
 	background-color: #444;
