@@ -1,9 +1,8 @@
 gsui-windows {
-	--gsuiWindows-overflow: hidden;
 	display: block;
 	height: 100%;
 	position: relative;
-	overflow: var( --gsuiWindows-overflow );
+	overflow: auto;
 	scroll-behavior: smooth;
 }
 
