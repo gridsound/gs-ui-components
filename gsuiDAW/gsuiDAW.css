@@ -26,10 +26,6 @@ gsui-daw {
 	display: flex;
 	gap: inherit;
 }
-.gsuiDAW-body {
-	display: flex;
-	flex: 1;
-}
 .gsuiDAW-resources {
 	display: flex;
 	width: 300px;
@@ -38,6 +34,10 @@ gsui-daw {
 	border-right: 3px solid #555;
 	background-color: #444;
 	background-image: url( "data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E" );
+	transition: margin-left .2s;
+}
+.gsuiDAW-resources-closed {
+	margin-left: calc( var( --gsuiDAW-panel-margin, 0 ) - 3px );
 }
 .gsuiDAW-libraries {
 	flex: 1;

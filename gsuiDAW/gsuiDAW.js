@@ -36,8 +36,9 @@ class gsuiDAW extends HTMLElement {
 		cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
+		patternsPanel: ".gsuiDAW-resources",
 		winBtns: {
-			blocks: "[data-win='blocks']",
+			patterns: "[data-win='patterns']",
 			mixer: "[data-win='mixer']",
 			main: "[data-win='main']",
 			synth: "[data-win='synth']",
@@ -386,6 +387,12 @@ class gsuiDAW extends HTMLElement {
 	// .........................................................................
 	toggleWindow( win, b ) {
 		GSUI.$setAttribute( this.#elements.winBtns[ win ], "data-open", b );
+		if ( win === "patterns" ) {
+			const pan = this.#elements.patternsPanel;
+
+			pan.style.setProperty( "--gsuiDAW-panel-margin", b ? '0' : `-${ getComputedStyle( pan ).width }` );
+			pan.classList.toggle( "gsuiDAW-resources-closed", !b );
+		}
 	}
 	clearHistory() {
 		Array.from( this.#actions ).forEach( a => a.remove() );
@@ -468,7 +475,11 @@ class gsuiDAW extends HTMLElement {
 				this.showOpenPopup();
 				break;
 			case "window":
-				this.#dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
+				if ( dt.win !== "patterns" ) {
+					this.#dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
+				} else {
+					this.toggleWindow( "patterns", dt.open !== "" );
+				}
 				break;
 			case "historyAction":
 				if ( dt.index - this.#currentActionInd ) {
