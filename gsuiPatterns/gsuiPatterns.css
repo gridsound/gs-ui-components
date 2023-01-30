@@ -76,10 +76,14 @@ gsui-patterns {
 }
 
 /* .......................................................................... */
-.gsuiPatterns-panel-list {
-	flex: 1;
-	overflow: auto;
+.gsuiPatterns-panel-list-wrap {
 	position: relative;
+	flex: 1;
+}
+.gsuiPatterns-panel-list {
+	overflow: auto;
+	position: absolute;
+	inset: 0;
 }
 .gsuiPatterns-panel-list:empty {
 	display: none;
@@ -134,7 +138,7 @@ gsui-patterns {
 .gsuiPatterns-placeholder {
 	display: none;
 	overflow: hidden;
-	flex: 1;
+	height: 100%;
 	padding: 0 10px;
 	text-align: center;
 	align-items: center;
