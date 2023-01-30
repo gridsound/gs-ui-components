@@ -94,7 +94,6 @@
 .gsuiIcon[ data-icon="arrow-levelleftdown" ]::before { content: "\f3be"; transform: scale( -1, 1 ); }
 .gsuiIcon[ data-icon="arrow-levelleftdown" ]::after { content: "\10f3be"; transform: scale( -1, 1 ); }
 
-
 .gsuiIcon[ data-icon="sort" ]::before { content: "\f0dc"; }
 .gsuiIcon[ data-icon="sort" ]::after { content: "\10f0dc"; }
 .gsuiIcon[ data-icon="caret-up" ]::before { content: "\f0d8"; }
@@ -310,8 +309,8 @@
 .gsuiIcon[ data-icon="help" ]::after { content: "\10f0fa"; }
 .gsuiIcon[ data-icon="changelog" ]::before { content: "\f70e"; }
 .gsuiIcon[ data-icon="changelog" ]::after { content: "\10f70e"; }
-.gsuiIcon[ data-icon="about" ]::before { content: "\f7a7"; }
-.gsuiIcon[ data-icon="about" ]::after { content: "\10f7a7"; }
+.gsuiIcon[ data-icon="about" ]::before { content: "\e02f"; }
+.gsuiIcon[ data-icon="about" ]::after { content: "\10e02f"; }
 
 .gsuiIcon[ data-icon="keyboard" ]::before { content: "\f11c"; }
 .gsuiIcon[ data-icon="keyboard" ]::after { content: "\10f11c"; }
