@@ -1,6 +1,9 @@
 "use strict";
 
 class gsuiChannels extends HTMLElement {
+	oninput = null;
+	onchange = null;
+	onselectChan = null;
 	#chans = {};
 	#chanSelected = null;
 	#analyserW = 10;
@@ -17,10 +20,6 @@ class gsuiChannels extends HTMLElement {
 
 	constructor() {
 		super();
-
-		this.oninput =
-		this.onchange =
-		this.onselectChan = null;
 		Object.seal( this );
 
 		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
