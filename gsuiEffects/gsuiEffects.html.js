@@ -1,11 +1,10 @@
 "use strict";
 
 GSUI.$setTemplate( "gsui-effects", () => [
-	GSUI.$createElement( "button", { class: "gsuiEffects-addBtn" },
-		GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
+	GSUI.$createElement( "button", { class: "gsuiEffects-addBtn", title: "Add an effect" },
+		GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "add-effect" } ),
 	),
-	GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 4 },
-		GSUI.$createElement( "option", { value: "", disabled: true }, "-- Select an Fx" ),
+	GSUI.$createElement( "select", { class: "gsuiEffects-addSelect", size: 2 },
 		GSUI.$createElement( "option", { value: "delay" }, "Delay (echo)" ),
 		GSUI.$createElement( "option", { value: "filter" }, "Filter" ),
 	),
