@@ -14,6 +14,14 @@ GSUI.$setTemplate( "gsui-oscillator", () => {
 				GSUI.$createElement( "option", { class: "gsuiOscillator-waveOptNative", value: w }, w )
 			)
 		),
+		GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph" },
+			GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph-voices" } ),
+		),
+		GSUI.$createElement( "div", { class: "gsuiOscillator-unison" },
+			GSUI.$createElement( "gsui-slider", { type: "linear-y", min: 1, max: 9, step: 1, "mousemove-size": "400", "data-prop": "unisonvoices" } ),
+			GSUI.$createElement( "gsui-slider", { type: "linear-y", min: 0, max: 2, step: .01, "mousemove-size": "800", "data-prop": "unisondetune" } ),
+			GSUI.$createElement( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .001, "mousemove-size": "800", "data-prop": "unisonblend" } ),
+		),
 		[
 			[ "detune", "pitch", -24, 24, 1 ],
 			[ "pan", "pan", -1, 1, .02 ],

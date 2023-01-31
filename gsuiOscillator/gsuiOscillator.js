@@ -18,11 +18,15 @@ class gsuiOscillator extends HTMLElement {
 			"gsui-periodicwave:first-child",
 			"gsui-periodicwave:last-child",
 		],
+		unisonGraph: ".gsuiOscillator-unisonGraph-voices",
 		sliders: {
 			pan: [ ".gsuiOscillator-pan gsui-slider", ".gsuiOscillator-pan .gsuiOscillator-sliderValue" ],
 			gain: [ ".gsuiOscillator-gain gsui-slider", ".gsuiOscillator-gain .gsuiOscillator-sliderValue" ],
 			detune: [ ".gsuiOscillator-detune gsui-slider", ".gsuiOscillator-detune .gsuiOscillator-sliderValue" ],
 			detunefine: [ ".gsuiOscillator-detune gsui-slider + gsui-slider", ".gsuiOscillator-detune .gsuiOscillator-sliderValue" ],
+			unisonvoices: [ "gsui-slider[data-prop='unisonvoices']" ],
+			unisondetune: [ "gsui-slider[data-prop='unisondetune']" ],
+			unisonblend: [ "gsui-slider[data-prop='unisonblend']" ],
 		},
 		remove: ".gsuiOscillator-remove",
 	} );
@@ -65,12 +69,15 @@ class gsuiOscillator extends HTMLElement {
 				detunefine: 0,
 				gain: 1,
 				pan: 0,
+				unisonvoices: 5,
+				unisondetune: .2,
+				unisonblend: .3,
 			} );
 			this.updateWave();
 		}
 	}
 	static get observedAttributes() {
-		return [ "order", "type", "detune", "detunefine", "gain", "pan" ];
+		return [ "order", "type", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -79,11 +86,23 @@ class gsuiOscillator extends HTMLElement {
 			switch ( prop ) {
 				case "order": this.#changeOrder( num ); break;
 				case "type": this.#changeType( val ); break;
+				case "unisonvoices":
+					this.#updateUnisonGraphVoices( num );
+					this.#changePropSlider( "unisonvoices", num );
+					break;
+				case "unisondetune":
+					this.#updateUnisonGraphDetune( num );
+					this.#changePropSlider( "unisondetune", num );
+					break;
+				case "unisonblend":
+					this.#updateUnisonGraphBlend( num );
+					this.#changePropSlider( "unisonblend", num );
+					break;
 				case "detunefine":
 				case "detune":
 				case "gain":
 				case "pan":
-					this.#changeProp( prop, num );
+					this.#changePropSlider( prop, num );
 					break;
 			}
 		}
@@ -123,7 +142,7 @@ class gsuiOscillator extends HTMLElement {
 	#changeType( type ) {
 		this.#elements.waveSelect.value = type;
 	}
-	#changeProp( prop, val ) {
+	#changePropSlider( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
 		let val2 = val;
 
@@ -131,7 +150,33 @@ class gsuiOscillator extends HTMLElement {
 			val2 = GSUI.$getAttributeNum( this, "detune" ) + GSUI.$getAttributeNum( this, "detunefine" );
 		}
 		sli.setValue( val );
-		span.textContent = val2.toFixed( 2 );
+		GSUI.$setAttribute( sli, "title", `${ prop } ${ val2 }` );
+		if ( span ) {
+			span.textContent = val2.toFixed( 2 );
+		}
+	}
+	#updateUnisonGraphVoices( voices ) {
+		const svg = this.#elements.unisonGraph;
+		const elVoices = [];
+
+		for ( let i = 0; i < voices; ++i ) {
+			elVoices.push( GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph-voice" } ) );
+		}
+		GSUI.$emptyElement( svg );
+		svg.append( ...elVoices );
+		this.#updateUnisonGraphBlend( GSUI.$getAttributeNum( this, "unisonblend" ) );
+	}
+	#updateUnisonGraphDetune( detune ) {
+		const maxDetune = GSUI.$getAttributeNum( this.#elements.sliders.unisondetune[ 0 ], "max" );
+
+		this.#elements.unisonGraph.style.height = `${ GSUI.$easeOutCirc( detune / maxDetune ) * 100 }%`;
+	}
+	#updateUnisonGraphBlend( blend ) {
+		const vs = this.#elements.unisonGraph.childNodes;
+		const mid = Math.floor( vs.length / 2 );
+		const even = vs.length % 2 === 0;
+
+		vs.forEach( ( rc, i ) => rc.style.width = `${ i === mid || ( even && i === mid - 1 ) ? 100 : blend * 100 }%` );
 	}
 
 	// .........................................................................
@@ -171,17 +216,34 @@ class gsuiOscillator extends HTMLElement {
 	}
 	#oninputSlider( prop, val ) {
 		let val2 = val;
+		const span = this.#elements.sliders[ prop ][ 1 ];
 
-		if ( prop === "gain" ) {
-			this.updateWave( "gain", val );
-		} else if ( prop === "pan" ) {
-			this.updateWave( "pan", val );
-		} else if ( prop === "detune" ) {
-			val2 += GSUI.$getAttributeNum( this, "detunefine" );
-		} else if ( prop === "detunefine" ) {
-			val2 += GSUI.$getAttributeNum( this, "detune" );
+		switch ( prop ) {
+			case "gain":
+				this.updateWave( "gain", val );
+				break;
+			case "pan":
+				this.updateWave( "pan", val );
+				break;
+			case "unisonvoices":
+				this.#updateUnisonGraphVoices( val );
+				break;
+			case "unisondetune":
+				this.#updateUnisonGraphDetune( val );
+				break;
+			case "unisonblend":
+				this.#updateUnisonGraphBlend( val );
+				break;
+			case "detune":
+				val2 += GSUI.$getAttributeNum( this, "detunefine" );
+				break;
+			case "detunefine":
+				val2 += GSUI.$getAttributeNum( this, "detune" );
+				break;
 		}
-		this.#elements.sliders[ prop ][ 1 ].textContent = val2.toFixed( 2 );
+		if ( span ) {
+			span.textContent = val2.toFixed( 2 );
+		}
 		this.#dispatch( "liveChange", prop, val );
 	}
 }

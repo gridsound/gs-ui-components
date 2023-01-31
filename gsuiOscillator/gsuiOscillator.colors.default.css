@@ -7,6 +7,7 @@ gsui-oscillator {
 	--gsuiOscillator-pan-a: #faa;
 	--gsuiOscillator-pan-b: #aaf;
 	--gsuiOscillator-detune: var( --gsui-col-detune );
+	--gsuiOscillator-unison: var( --gsui-col-unison );
 	--gsuiOscillator-slider-bg: #0003;
 	--gsuiOscillator-grip-bg: #0002;
 	--gsuiOscillator-wave-bg: #0006;

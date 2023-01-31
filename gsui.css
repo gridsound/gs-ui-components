@@ -4,6 +4,7 @@ body {
 	--gsui-rgb-gain: 255, 255, 153;                     /* #ff9 */
 	--gsui-rgb-time: 255, 119, 119;                     /* #f77 */
 	--gsui-rgb-detune: 255, 255, 255;                   /* #fff */
+	--gsui-rgb-unison: 255, 153,  85;                   /* #f95 */
 	--gsui-rgb-pattern: 85, 170, 204;                   /* #5ac */
 	--gsui-rgb-patternSelected: 255, 136, 136;          /* #f88 */
 	--gsui-rgb-currentTimeCursor: 255, 255, 153;        /* #ff9 */
@@ -11,6 +12,7 @@ body {
 	--gsui-col-gain: rgb( var( --gsui-rgb-gain ) );
 	--gsui-col-time: rgb( var( --gsui-rgb-time ) );
 	--gsui-col-detune: rgb( var( --gsui-rgb-detune ) );
+	--gsui-col-unison: rgb( var( --gsui-rgb-unison ) );
 	--gsui-col-pattern: rgb( var( --gsui-rgb-pattern ) );
 	--gsui-col-lowpass: #d96;
 	--gsui-col-patternSelected: rgb( var( --gsui-rgb-patternSelected ) );

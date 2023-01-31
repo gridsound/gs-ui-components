@@ -8,13 +8,20 @@ gsui-oscillator {
 	color: var( --gsuiOscillator-txt );
 	background-color: var( --gsuiOscillator-bg );
 	grid-template:
-		"grip .   .        .        .          .   .      .   .    .   .    ." 6px
-		"grip .   wavePrev waveNext waveSelect .   detune .   pan  .   gain ." 20px
-		"grip .   wave     wave     wave       .   detune .   pan  .   gain ." 1fr
-		"grip .   wave     wave     wave       .   detune .   pan  .   gain ." 1fr
-		"grip .   .        .        .          .   .      .   .    .   .    ." 6px
-		/20px 6px 14px     14px     1fr        6px 38px   6px 38px 6px 38px 10px;
+		"grip .   .        .        .          .           .   .      .   .      .    .   .   .    ." 6px
+		"grip .   wavePrev waveNext waveSelect unisonGraph .   unison .   detune .   pan  .   gain ." 20px
+		"grip .   wave     wave     wave       unisonGraph .   unison .   detune .   pan  .   gain ." 1fr
+		"grip .   wave     wave     wave       unisonGraph .   unison .   detune .   pan  .   gain ." 1fr
+		"grip .   .        .        .          .           .   .      .   .      .   .    .   .    ." 6px
+		/20px 6px 14px     14px     1fr        10px        6px 32px   8px 36px   6px 36px 6px 36px 10px;
 	--gsuiSlider-lineBgColor: var( --gsuiOscillator-slider-bg );
+	container-type: inline-size;
+	container-name: gsuiOscillator;
+}
+@container gsuiOscillator (max-width: 300px) {
+	.gsuiOscillator-grip {
+		background-color: black !important;
+	}
 }
 
 /* .......................................................................... */
@@ -75,7 +82,7 @@ gsui-oscillator {
 	grid-area: wave;
 	position: relative;
 	flex: 1;
-	border-radius: 0 0 3px 3px;
+	border-bottom-left-radius: 3px;
 	background-color: var( --gsuiOscillator-wave-bg );
 }
 .gsuiOscillator-wave gsui-periodicwave {
@@ -133,7 +140,6 @@ gsui-oscillator {
 	padding-left: 6px;
 	font-size: 12px;
 	font-family: inherit;
-	border-top-right-radius: 3px;
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }
@@ -142,4 +148,50 @@ gsui-oscillator {
 }
 .gsuiOscillator-waveOptNative {
 	background-color: var( --gsuiOscillator-wave-optionNative );
+}
+
+/* .......................................................................... */
+.gsuiOscillator-unisonGraph {
+	grid-area: unisonGraph;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 0 3px 3px 0;
+	background-color: var( --gsuiOscillator-wave-bg );
+}
+.gsuiOscillator-unisonGraph-voices {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	margin: auto 0;
+	width: 100%;
+	min-height: 3px;
+	pointer-events: none;
+}
+.gsuiOscillator-unisonGraph-voice {
+	height: 3px;
+	min-width: 1px;
+	border-radius: 3px;
+	background-color: var( --gsuiOscillator-unison );
+	opacity: .75;
+}
+.gsuiOscillator-unisonGraph-voice:only-child {
+	margin: auto 0;
+}
+
+/* .......................................................................... */
+.gsuiOscillator-unison {
+	grid-area: unison;
+	display: flex;
+	gap: 5px;
+	--gsuiSlider-lineColor: var( --gsuiOscillator-unison );
+}
+.gsuiOscillator-unison gsui-slider + gsui-slider {
+	width: 6px;
+	min-width: 6px;
+}
+.gsuiOscillator-unison gsui-slider .gsuiSlider-eventCatcher {
+	inset: -3px;
 }
