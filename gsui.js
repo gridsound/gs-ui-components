@@ -5,6 +5,10 @@ class GSUI {
 	static $popup = document.createElement( "gsui-popup" );
 	static $dragshield = document.createElement( "gsui-dragshield" );
 
+	static $easeOutCirc( x ) {
+		return Math.sqrt( 1 - Math.pow( x - 1, 2 ) );
+	}
+
 	// .........................................................................
 	static $clamp( n, min, max ) {
 		return (
