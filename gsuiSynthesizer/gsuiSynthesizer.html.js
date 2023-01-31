@@ -6,6 +6,7 @@ GSUI.$setTemplate( "gsui-synthesizer", () => {
 		GSUI.$createElement( "div", { class: "gsuiSynthesizer-lfo" }, GSUI.$createElement( "gsui-lfo" ) ),
 		GSUI.$createElement( "div", { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
 			GSUI.$createElement( "span", { class: "gsuiSynthesizer-headTitle" }, "oscillators" ),
+			GSUI.$createElement( "span", { class: "gsuiSynthesizer-label gsuiSynthesizer-labelUnison" }, "unison" ),
 			GSUI.$createElement( "span", { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPitch" }, "pitch" ),
 			GSUI.$createElement( "span", { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPan" }, "pan" ),
 			GSUI.$createElement( "span", { class: "gsuiSynthesizer-label gsuiSynthesizer-labelGain" }, "gain" ),

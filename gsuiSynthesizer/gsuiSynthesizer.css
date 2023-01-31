@@ -11,7 +11,8 @@ gsui-synthesizer {
 .gsuiSynthesizer-head {
 	display: flex;
 	align-items: center;
-	padding-right: 8px;
+	gap: 6px;
+	padding: 0 10px 0 6px;
 	font-size: 14px;
 	line-height: 1em;
 	user-select: none;
@@ -20,17 +21,16 @@ gsui-synthesizer {
 .gsuiSynthesizer-headTitle {
 	opacity: .3;
 	line-height: 24px;
-	margin-left: 6px;
 }
 .gsuiSynthesizer-label {
-	width: 42px;
-	margin-left: 6px;
+	width: 36px;
 	text-align: center;
-	font-size: 12px;
+	font-size: 11px;
 	opacity: .5;
 }
-.gsuiSynthesizer-labelPitch {
+.gsuiSynthesizer-labelUnison {
 	margin-left: auto;
+	width: 38px;
 }
 
 /* .......................................................................... */
