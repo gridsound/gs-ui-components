@@ -3,7 +3,8 @@
 GSUI.$setTemplate( "gsui-channels", () => [
 	GSUI.$createElement( "div", { class: "gsuiChannels-panMain" } ),
 	GSUI.$createElement( "div", { class: "gsuiChannels-panChannels" },
-		GSUI.$createElement( "button", { class: "gsuiChannels-addChan" },
+		GSUI.$createElement( "button", { class: "gsuiChannels-addChan", title: "Add a channel" },
+			GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "channels" } ),
 			GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
 		),
 	),

@@ -39,6 +39,11 @@ gsui-channels {
 .gsuiChannels-addChan {
 	position: relative;
 	order: 2147483646;
+	display: flex;
+	flex-direction: column;
+	gap: 1ch;
+	align-items: center;
+	justify-content: center;
 	width: 52px;
 	border: 0;
 	padding: 0;
@@ -61,4 +66,10 @@ gsui-channels {
 	opacity: .4;
 	border: 2px dashed;
 	position: absolute;
+}
+.gsuiChannels-addChan .gsuiIcon:first-child {
+	font-size: 24px;
+}
+.gsuiChannels-addChan .gsuiIcon:last-child {
+	font-size: 14px;
 }
