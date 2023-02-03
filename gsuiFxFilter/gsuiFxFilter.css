@@ -1,6 +1,7 @@
 gsui-fx-filter {
 	display: grid;
 	box-sizing: border-box;
+	container: gsuiFxFilter / inline-size;
 	height: 100%;
 	padding: 8px;
 	grid-gap: 8px;
@@ -115,4 +116,11 @@ gsui-fx-filter .gsuiCurves-curve {
 	stroke: inherit;
 	stroke-width: inherit;
 	pointer-events: none;
+}
+
+/* .......................................................................... */
+@container gsuiFxFilter (max-width: 340px) {
+	.gsuiCurves-markText {
+		display: none;
+	}
 }
