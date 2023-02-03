@@ -7,7 +7,6 @@ gsui-window {
 	position: absolute;
 	z-index: 0;
 	outline: 0;
-	color: var( --gsuiWindow-color );
 	border-radius: var( --gsuiWindow-radius );
 	transition: .2s;
 	transition-property: opacity, visibility;
@@ -82,6 +81,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 	position: absolute;
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
+	color: var( --gsuiWindow-color );
 	background-color: var( --gsuiWindow-head-bg );
 	user-select: none;
 	-webkit-user-select: none;
