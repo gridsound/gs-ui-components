@@ -67,7 +67,6 @@ GSUI.$setTemplate( "gsui-daw", () => [
 			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiIcon", "data-action": "window", "data-icon": "drums",       "data-win": "drums",    title: "Open/close the drums window" } ),
 			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiIcon", "data-action": "window", "data-icon": "keys",        "data-win": "piano",    title: "Open/close the piano window" } ),
 			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiIcon", "data-action": "window", "data-icon": "slices",      "data-win": "slicer",   title: "Open/close the slices window" } ),
-			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiIcon", "data-action": "window", "data-icon": "effects",     "data-win": "effects",  title: "Open/close the effects window" } ),
 		),
 		GSUI.$createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaHelp" },
 			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "cookies", "data-icon": "cookie", title: "Cookies" } ),
