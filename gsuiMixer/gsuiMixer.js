@@ -4,14 +4,11 @@ class gsuiMixer extends HTMLElement {
 	#children = GSUI.$getTemplate( "gsui-mixer" );
 	#elements = GSUI.$findElements( this.#children, {
 		channels: "gsui-channels",
+		effects: "gsui-effects",
 	} );
-	channels = this.#elements.channels;
 
 	constructor() {
 		super();
-		this.channels.oninput = lg;
-		this.channels.onchange = lg;
-		this.channels.onselectChan = lg;
 		Object.seal( this );
 	}
 
@@ -20,9 +17,15 @@ class gsuiMixer extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( this.#children );
 			this.#children = null;
-			// GSUI.$recallAttributes( this, {
-			// } );
 		}
+	}
+
+	// .........................................................................
+	getChannels() {
+		return this.#elements.channels;
+	}
+	getEffects() {
+		return this.#elements.effects;
 	}
 }
 

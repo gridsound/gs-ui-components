@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiChannels/gsuiChannels.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiEffects/gsuiEffects.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiPanel/gsuiPanel.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.colors.default.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="/gs-ui-components/gsuiMixer/gsuiMixer.css"/>
@@ -54,6 +56,8 @@ body {
 <script src="/gs-ui-components/gsuiEffects/gsuiEffects.html.js"></script>
 <script src="/gs-ui-components/gsuiEffects/gsuiEffects.js"></script>
 <script src="/gs-ui-components/gsuiPanel/gsuiPanel.js"></script>
+<script src="/gs-ui-components/gsuiPopup/gsuiPopup.html.js"></script>
+<script src="/gs-ui-components/gsuiPopup/gsuiPopup.js"></script>
 <script src="/gs-ui-components/gsuiReorder/gsuiReorder.js"></script>
 
 <!-- ....................................................................... -->
@@ -63,12 +67,14 @@ body {
 <!-- ....................................................................... -->
 <script>
 const mix = document.querySelector( "gsui-mixer" );
+const chans = mix.getChannels();
 
-mix.channels.addChannel( "main" );
-mix.channels.addChannel( "1" );
-mix.channels.addChannel( "2" );
-mix.channels.addChannel( "3" );
-mix.channels.addChannel( "4" );
+chans.addChannel( "main" );
+chans.renameChannel( "main", "main" );
+chans.addChannel( "1" );
+chans.addChannel( "2" );
+chans.addChannel( "3" );
+chans.addChannel( "4" );
 </script>
 </body>
 </html>
