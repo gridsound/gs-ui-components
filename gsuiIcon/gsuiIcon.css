@@ -152,8 +152,8 @@
 .gsuiIcon[ data-icon="unmute" ]::before { content: "\f028"; }
 .gsuiIcon[ data-icon="unmute" ]::after { content: "\10f028"; }
 
-.gsuiIcon[ data-icon="close" ]::before { content: "\f00d"; font-size: 1.15em; }
-.gsuiIcon[ data-icon="close" ]::after { content: "\10f00d"; font-size: 1.15em; }
+.gsuiIcon[ data-icon="close" ]::before { content: "\f00d"; }
+.gsuiIcon[ data-icon="close" ]::after { content: "\10f00d"; }
 .gsuiIcon[ data-icon="restore" ]::before { content: "\f2d2"; }
 .gsuiIcon[ data-icon="restore" ]::after { content: "\10f2d2"; }
 .gsuiIcon[ data-icon="minimize" ]::before { content: "\f2d1"; }
