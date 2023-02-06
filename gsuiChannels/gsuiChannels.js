@@ -70,9 +70,6 @@ class gsuiChannels extends HTMLElement {
 	updateAudioData( id, ldata, rdata ) {
 		this.#chans[ id ].analyser.draw( ldata, rdata );
 	}
-	getSelectedChannelId() {
-		return this.#chanSelected;
-	}
 	selectChannel( id ) {
 		const chan = this.#chans[ id ];
 		const pchan = this.#chans[ this.#chanSelected ];
@@ -81,7 +78,7 @@ class gsuiChannels extends HTMLElement {
 		GSUI.$setAttribute( chan, "selected", true );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
-		this.onselectChan( id );
+		this.onselectChan?.( id );
 	}
 	static openSelectChannelPopup( currChanId ) {
 		return new Promise( res => {
@@ -109,6 +106,10 @@ class gsuiChannels extends HTMLElement {
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
+		qs( "rename" ).onclick = () => {
+			GSUI.$popup.prompt( "Rename channel", "", GSUI.$getAttribute( this.#chans[ id ], "name" ) )
+				.then( name => this.onchange( "renameChannel", id, name ) );
+		};
 		chan.analyser.setResolution( this.#analyserW, this.#analyserH );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();

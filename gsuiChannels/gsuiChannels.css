@@ -31,9 +31,6 @@ gsui-channels {
 	opacity: 0;
 	margin-left: 16px;
 }
-.gsuiChannels-panChannels gsui-channel:nth-child( odd ) {
-	--gsuiChannel-bg: var( --gsuiChannel-bg2 );
-}
 
 /* .......................................................................... */
 .gsuiChannels-addChan {
