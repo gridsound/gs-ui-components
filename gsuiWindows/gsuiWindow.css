@@ -161,6 +161,9 @@ gsui-window:not( .gsuiWindow-dragging ),
 	opacity: 1;
 	background-color: rgba( 0, 0, 0, .1 );
 }
+.gsuiWindow-headBtn[ data-icon="close" ] {
+	font-size: 12px;
+}
 .gsuiWindow-headBtn[ data-icon="close" ]:focus,
 .gsuiWindow-headBtn[ data-icon="close" ]:hover {
 	background-color: var( --gsuiWindow-btn-close-color );
