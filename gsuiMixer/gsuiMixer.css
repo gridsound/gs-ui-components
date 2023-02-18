@@ -19,7 +19,6 @@ gsui-mixer {
 	min-width: 200px;
 	border-left: 2px solid var( --gsuiMixer-effects-border );
 	background-color: var( --gsuiMixer-effects-bg );
-	box-shadow: var( --gsuiMixer-effects-shadow );
 }
 gsui-mixer .gsuiPanel-extend {
 	z-index: 2;
@@ -28,6 +27,7 @@ gsui-mixer .gsuiPanel-extend {
 /* .......................................................................... */
 .gsuiMixer-head {
 	display: flex;
+	z-index: 1;
 	gap: 6px;
 	padding: 2px 6px;
 	font-size: 10px;

@@ -1,5 +1,6 @@
 gsui-channels {
 	display: flex;
+	z-index: 0;
 	height: 100%;
 	position: relative;
 	color: var( --gsuiChannels-color );
@@ -12,11 +13,13 @@ gsui-channels {
 .gsuiChannels-panMain {
 	position: absolute;
 	inset: 0 auto 0 0;
+	padding-right: 4px;
+	background-color: #3a3a3a;
 }
 .gsuiChannels-panChannels {
 	position: absolute;
 	overflow: scroll;
-	inset: 0 0 0 calc( 52px + 6px );
+	inset: 0 0 0 calc( 52px + 4px );
 	display: grid;
 	grid-auto-flow: column;
 	grid-auto-columns: min-content;

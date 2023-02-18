@@ -17,6 +17,15 @@ class gsuiMixer extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( this.#children );
 			this.#children = null;
+			new gsuiScrollShadow( {
+				scrolledElem: this.querySelector( ".gsuiChannels-panChannels" ),
+				leftShadow: this.querySelector( ".gsuiChannels-panMain" ),
+				rightShadow: this.querySelector( ".gsuiMixer-effects" ),
+			} );
+			new gsuiScrollShadow( {
+				scrolledElem: this.#elements.effects,
+				topShadow: this.querySelector( ".gsuiMixer-effects .gsuiMixer-head" ),
+			} );
 		}
 	}
 
