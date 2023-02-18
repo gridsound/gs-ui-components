@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 400px;
+	--test-content-h: 400px;
+}
+#testWrap {
+	display: flex;
+	flex-direction: column;
+}
+#middle {
+	display: flex;
+	flex: 1;
+	max-height: 200px;
+}
+#scroll {
+	flex: 1;
+	overflow: auto;
+	background-color: indianred;
+}
+#scroll::-webkit-scrollbar {
+/*	display: none;*/
+}
+#topShadow,
+#bottomShadow {
+	min-height: 50px;
+	margin: 0 50px;
+	background-color: dodgerblue;
+}
+#leftShadow,
+#rightShadow {
+	width: 50px;
+	min-width: 50px;
+	height: 100%;
+	background-color: dodgerblue;
+}
+#scrollContent {
+	width: 500px;
+	height: 500px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<div id="topShadow"></div>
+	<div id="middle">
+		<div id="leftShadow"></div>
+		<div id="scroll">
+			<div id="scrollContent"></div>
+		</div>
+		<div id="rightShadow"></div>
+	</div>
+	<div id="bottomShadow"></div>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+new gsuiScrollShadow( {
+	scrolledElem: document.querySelector( "#scroll" ),
+	topShadow: document.querySelector( "#topShadow" ),
+	leftShadow: document.querySelector( "#leftShadow" ),
+	rightShadow: document.querySelector( "#rightShadow" ),
+	bottomShadow: document.querySelector( "#bottomShadow" ),
+} );
+</script>
+</body>
+</html>

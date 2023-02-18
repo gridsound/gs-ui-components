@@ -30,6 +30,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUI.$createElement( "option", { value: "gsuiMixer" }, "gsuiMixer" ),
 					GSUI.$createElement( "option", { value: "gsuiOscillator" }, "gsuiOscillator" ),
 					GSUI.$createElement( "option", { value: "gsuiPanel" }, "gsuiPanel" ),
+					GSUI.$createElement( "option", { value: "gsuiScrollShadow" }, "gsuiScrollShadow" ),
 					GSUI.$createElement( "option", { value: "gsuiSlicer" }, "gsuiSlicer" ),
 					GSUI.$createElement( "option", { value: "gsuiSlider" }, "gsuiSlider" ),
 					GSUI.$createElement( "option", { value: "gsuiSliderGroup" }, "gsuiSliderGroup" ),

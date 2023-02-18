@@ -1,0 +1,17 @@
+.gsuiScrollShadow {
+	--gsuiScrollShadow-dist: 0;
+	--gsuiScrollShadow-x: 0;
+	--gsuiScrollShadow-y: 0;
+	z-index: 1;
+}
+.gsuiScrollShadow[ data-dir='top' ] { --gsuiScrollShadow-y: 1; }
+.gsuiScrollShadow[ data-dir='left' ] { --gsuiScrollShadow-x: 1; }
+.gsuiScrollShadow[ data-dir='right' ] { --gsuiScrollShadow-x: -1; }
+.gsuiScrollShadow[ data-dir='bottom' ] { --gsuiScrollShadow-y: -1; }
+.gsuiScrollShadow-shadowed {
+	box-shadow:
+		calc( var( --gsuiScrollShadow-dist ) * var( --gsuiScrollShadow-x ) )
+		calc( var( --gsuiScrollShadow-dist ) * var( --gsuiScrollShadow-y ) )
+		calc( var( --gsuiScrollShadow-dist ) * 2 )
+		#0004;
+}
