@@ -77,6 +77,14 @@ class gsuiTimewindow extends HTMLElement {
 			if ( !this.hasAttribute( "lineheight" ) ) {
 				GSUI.$setAttribute( this, "lineheight", 48 );
 			}
+			new gsuiScrollShadow( {
+				scrolledElem: this,
+				leftShadow: this.#elements.panel,
+				topShadow: [
+					this.querySelector( ".gsuiTimewindow-panelUp" ),
+					this.querySelector( ".gsuiTimewindow-time" ),
+				],
+			} );
 		}
 	}
 	static get observedAttributes() {

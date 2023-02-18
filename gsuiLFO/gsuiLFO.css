@@ -11,11 +11,9 @@ gsui-lfo {
 		".    type graph graph  graph graph .   " 1fr
 		".    .    .     .      .     .     .   " 0
 		/0    32px 1fr   1fr    1fr   1fr   0;
-	color: var( --gsuiLFO-txt );
 	font-family: var( --gsui-font );
-	background-color: var( --gsuiLFO-bg );
+	background-color: var( --gsui-item-bg );
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
-	--gsuiSlider-lineBgColor: var( --gsuiLFO-ctrls-bg );
 }
 gsui-lfo[ target='gain' ] {
 	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
@@ -77,7 +75,6 @@ gsui-lfo[ toggle ] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var( --gsuiLFO-ctrls-bg );
 }
 
 /* .......................................................................... */
@@ -109,7 +106,7 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	grid-area: head;
 	display: flex;
 	align-items: center;
-	background-color: var( --gsuiLFO-head-bg );
+	background-color: var( --gsui-head-bg );
 	user-select: none;
 }
 .gsuiLFO-title {
@@ -150,6 +147,7 @@ gsui-lfo[ toggle ] .gsuiLFO-ampSigns {
 }
 .gsuiLFO-ampSign {
 	flex: 1;
+	background-color: var( --gsui-slider-bg-opaque );
 }
 gsui-lfo[ toggle ] .gsuiLFO-ampSign {
 	color: var( --gsuiLFO-ctrls-color );
@@ -207,6 +205,7 @@ gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassGraph {
 .gsuiLFO-typeBtn {
 	flex: 1;
 	cursor: not-allowed;
+	background-color: var( --gsuiSlider-lineBgColor );
 }
 gsui-lfo[ toggle ] .gsuiLFO-typeBtn {
 	cursor: pointer;
@@ -215,7 +214,6 @@ gsui-lfo[ toggle ] .gsuiLFO-typeBtn {
 	fill: none;
 	stroke: var( --gsuiLFO-wave-off );
 	stroke-width: 2px;
-	background-color: var( --gsuiLFO-ctrls-bg );
 	transition: .2s;
 	transition-property: stroke, background-color;
 }

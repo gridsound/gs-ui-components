@@ -1,12 +1,9 @@
-:root {
-	--gsuiEffects-color: #fff;
-}
-
 gsui-effects {
 	display: flex;
+	height: 100%;
 	overflow: auto;
 	flex-direction: column;
-	color: var( --gsuiEffects-color );
+	background-color: var( --gsui-items-bg );
 }
 
 /* .......................................................................... */
@@ -70,6 +67,9 @@ gsui-effects {
 }
 
 /* .......................................................................... */
+.gsuiEffects-fx {
+	background-color: var( --gsuiEffects-fx-head-bg, var( --gsui-item-bg-disabled ) );
+}
 .gsuiEffects-fx-enable {
 	--gsuiEffects-fx-head-bg: var( --gsui-item-bg );
 	--gsuiEffects-fx-head-toggle-color: var( --gsui-toggle-on );
@@ -81,7 +81,6 @@ gsui-effects {
 	box-sizing: border-box;
 	border-bottom: 2px solid #0002;
 	font-size: 12px;
-	background-color: var( --gsuiEffects-fx-head-bg, var( --gsui-item-bg-disabled ) );
 }
 .gsuiEffects-fx:not( .gsuiEffects-fx-expanded ) + .gsuiEffects-fx .gsuiEffects-fx-head {
 	border-top: 2px solid #fff1;
@@ -138,6 +137,7 @@ gsui-effects {
 	height: 0;
 	opacity: 0;
 	overflow: hidden;
+	background-color: var( --gsui-item-more-bg );
 	transition: .1s;
 	transition-property: height, opacity;
 }

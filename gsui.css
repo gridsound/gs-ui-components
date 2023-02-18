@@ -19,11 +19,17 @@ body {
 	--gsui-col-currentTimeCursor: rgb( var( --gsui-rgb-currentTimeCursor ) );
 
 	/* ...................................................................... */
-	--gsui-item-bg: #555;
+	--gsui-head-bg: #3a3a3a;
+	--gsui-items-bg: #474747;
+	--gsui-item-bg: #5c5c5c;
+	--gsui-item-more-bg: #fff2;
 	--gsui-item-bg-disabled: #505050;
 	--gsui-item-bg-selected: #666;
 	--gsui-toggle-on: #ffa;
 	--gsui-toggle-off: #222;
+	--gsui-slider-bg: #0003;
+	--gsui-slider-bg-opaque: #444;
+	--gsuiSlider-lineBgColor: var( --gsui-slider-bg );
 }
 
 * {

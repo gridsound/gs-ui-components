@@ -1,5 +1,4 @@
 gsui-drumrows {
-	--gsuiDrumrow-slider-bg: #444;
 	--gsuiDrumrow-pan: var( --gsui-col-pan );
 	--gsuiDrumrow-gain: var( --gsui-col-gain );
 	--gsuiDrumrow-detune: var( --gsui-col-detune );

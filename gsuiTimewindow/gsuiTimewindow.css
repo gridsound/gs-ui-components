@@ -6,7 +6,6 @@ gsui-timewindow {
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	color: var( --gsuiTimewindow-color );
 	background-color: var( --gsuiTimewindow-bg );
 	scrollbar-width: none;
 }
@@ -28,13 +27,14 @@ gsui-timewindow[ disabled ] {
 }
 .gsuiTimewindow-main {
 	z-index: 0;
+	margin-left: -1px;
 }
 .gsuiTimewindow-panel {
 	position: sticky;
 	z-index: 1;
 	left: 0;
-	background-color: var( --gsuiTimewindow-panel-bg );
-	box-shadow: 1px 0 var( --gsuiTimewindow-panel-border );
+	border-right: 1px solid var( --gsuiTimewindow-panel-border );
+	background-color: var( --gsui-items-bg );
 }
 .gsuiTimewindow-panelUp,
 .gsuiTimewindow-time {
@@ -44,12 +44,13 @@ gsui-timewindow[ disabled ] {
 	height: 32px;
 }
 .gsuiTimewindow-panelUp {
+    box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	padding-right: 4px;
-	background-color: var( --gsuiTimewindow-panelUp-bg );
-	background-image: var( --gsuiWindow-bgImg );
+	border-bottom: 2px solid #0005;
+	background-color: var( --gsui-head-bg );
 }
 .gsuiTimewindow-panelContent,
 .gsuiTimewindow-mainBody {

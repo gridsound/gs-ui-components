@@ -10,8 +10,6 @@ gsui-fx-filter {
 		"type graph     gain detune" 1fr
 		".    frequency .    .     " 8px
 		/32px 1fr       8px  50px;
-	background-color: #666;
-	--gsuiSlider-lineBgColor: var( --gsuiFxFilter-inputBg );
 }
 
 /* .......................................................................... */
@@ -97,7 +95,7 @@ gsui-fx-filter .gsuiCurves-curve {
 	cursor: pointer;
 	stroke: var( --gsuiFxFilter-gain );
 	stroke-width: 1.5px;
-	background-color: var( --gsuiFxFilter-inputBg );
+	background-color: var( --gsui-slider-bg );
 }
 .gsuiFxFilter-areaType-btn:hover,
 .gsuiFxFilter-areaType-btn:focus {

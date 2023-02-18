@@ -5,9 +5,7 @@ gsui-fx-delay {
 	gap: 8px;
 	height: 100%;
 	padding: 8px;
-	background-color: var( --gsuiFxDelay-bg );
 	--gsuiSlider-lineColor: var( --gsuiFxDelay-slider );
-	--gsuiSlider-lineBgColor: var( --gsuiFxDelay-slider-bg );
 }
 
 /* .......................................................................... */

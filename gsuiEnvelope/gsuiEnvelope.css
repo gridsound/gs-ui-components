@@ -10,11 +10,9 @@ gsui-envelope {
 		".    graph  graph graph graph   graph   .   " 1fr
 		".    .      .     .     .        .       .   " 0
 		/0    1fr    1fr   1fr   1fr      1fr     0;
-	color: var( --gsuiEnvelope-txt );
 	font-family: var( --gsui-font );
-	background-color: var( --gsuiEnvelope-bg );
+	background-color: var( --gsui-item-bg );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
-	--gsuiSlider-lineBgColor: var( --gsuiEnvelope-ctrls-bg );
 }
 gsui-envelope[ toggle ] {
 	--gsuiEnvelope-toggle-color: var( --gsui-toggle-on );
@@ -72,7 +70,7 @@ gsui-envelope .gsuiSlider-eventCatcher {
 	grid-area: head;
 	display: flex;
 	align-items: center;
-	background-color: var( --gsuiEnvelope-head-bg );
+	background-color: var( --gsui-head-bg );
 	user-select: none;
 }
 .gsuiEnvelope-title {

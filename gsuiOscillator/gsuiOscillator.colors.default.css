@@ -1,14 +1,10 @@
 gsui-oscillator {
-	--gsuiOscillator-txt: #fff;
-	--gsuiOscillator-txt-low: #fff7;
-	--gsuiOscillator-bg: #666;
 	--gsuiOscillator-pan: var( --gsui-col-pan );
 	--gsuiOscillator-gain: var( --gsui-col-gain );
 	--gsuiOscillator-pan-a: #faa;
 	--gsuiOscillator-pan-b: #aaf;
 	--gsuiOscillator-detune: var( --gsui-col-detune );
 	--gsuiOscillator-unison: var( --gsui-col-unison );
-	--gsuiOscillator-slider-bg: #0003;
 	--gsuiOscillator-grip-bg: #0002;
 	--gsuiOscillator-wave-bg: #0006;
 	--gsuiOscillator-wave-option: #444;

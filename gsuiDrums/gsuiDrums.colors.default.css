@@ -1,5 +1,4 @@
 gsui-drums {
-	--gsuiDrums-color: #fff;
 	--gsuiDrums-drum-bg: rgba( var( --gsui-rgb-pattern ), .8 );
 	--gsuiDrums-drum-color: #000;
 	--gsuiDrums-drumprop-bg: #0002;

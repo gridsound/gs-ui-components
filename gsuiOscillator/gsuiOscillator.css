@@ -5,16 +5,12 @@ gsui-oscillator {
 	height: 100%;
 	min-width: 260px;
 	min-height: 60px;
-	color: var( --gsuiOscillator-txt );
-	background-color: var( --gsuiOscillator-bg );
+	background-color: var( --gsui-item-bg );
 	grid-template:
-		"grip .   .        .        .          .           .   .      .   .      .    .   .   .    ." 6px
-		"grip .   wavePrev waveNext waveSelect unisonGraph .   unison .   detune .   pan  .   gain ." 20px
-		"grip .   wave     wave     wave       unisonGraph .   unison .   detune .   pan  .   gain ." 1fr
-		"grip .   wave     wave     wave       unisonGraph .   unison .   detune .   pan  .   gain ." 1fr
-		"grip .   .        .        .          .           .   .      .   .      .   .    .   .    ." 6px
-		/20px 6px 14px     14px     1fr        10px        6px 32px   8px 36px   6px 36px 6px 36px 10px;
-	--gsuiSlider-lineBgColor: var( --gsuiOscillator-slider-bg );
+		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
+		"grip .   wave .   unison .   detune .   pan  .   gain ." 1fr
+		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
+		/20px 6px 1fr  6px 32px   8px 36px   6px 36px 6px 36px 10px;
 	container-type: inline-size;
 	container-name: gsuiOscillator;
 }
@@ -78,12 +74,23 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-wave {
+.gsuiOscillator-waveWrap {
 	grid-area: wave;
-	position: relative;
-	flex: 1;
-	border-bottom-left-radius: 3px;
+	display: flex;
+	border-radius: 3px;
 	background-color: var( --gsuiOscillator-wave-bg );
+}
+.gsuiOscillator-waveWrap-left {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+.gsuiOscillator-waveWrap-top {
+	display: flex;
+}
+.gsuiOscillator-wave {
+	flex: 1;
+	position: relative;
 }
 .gsuiOscillator-wave gsui-periodicwave {
 	position: absolute;
@@ -102,21 +109,15 @@ gsui-oscillator {
 	padding: 0;
 	outline: 0;
 	cursor: pointer;
-	color: var( --gsuiOscillator-txt-low );
-	background-color: var( --gsuiOscillator-wave-bg );
-	transition: .1s color;
+	color: inherit;
+	background: none;
+	opacity: .5;
+	transition: .1s opacity;
 }
 .gsuiOscillator-waveBtn {
 	width: 14px;
 	font-size: 16px;
 	text-align: center;
-}
-.gsuiOscillator-wavePrev {
-	grid-area: wavePrev;
-	border-top-left-radius: 3px;
-}
-.gsuiOscillator-waveNext {
-	grid-area: waveNext;
 }
 .gsuiOscillator-remove {
 	position: absolute;
@@ -125,18 +126,18 @@ gsui-oscillator {
 	font-size: 12px;
 	background: none;
 }
-.gsuiOscillator-waveBtn:focus,
+.gsuiOscillator-waveBtn:focus-visible,
 .gsuiOscillator-waveBtn:hover,
-.gsuiOscillator-waveSelect:focus,
+.gsuiOscillator-waveSelect:focus-visible,
 .gsuiOscillator-waveSelect:hover,
-.gsuiOscillator-remove:focus,
+.gsuiOscillator-remove:focus-visible,
 .gsuiOscillator-remove:hover {
-	color: var( --gsuiOscillator-txt );
+	opacity: 1;
 }
 
 /* .......................................................................... */
 .gsuiOscillator-waveSelect {
-	grid-area: waveSelect;
+	flex: 1;
 	padding-left: 6px;
 	font-size: 12px;
 	font-family: inherit;
@@ -152,13 +153,11 @@ gsui-oscillator {
 
 /* .......................................................................... */
 .gsuiOscillator-unisonGraph {
-	grid-area: unisonGraph;
 	overflow: hidden;
 	display: flex;
-	align-items: center;
 	flex-direction: column;
-	border-radius: 0 3px 3px 0;
-	background-color: var( --gsuiOscillator-wave-bg );
+	align-items: center;
+	width: 10px;
 }
 .gsuiOscillator-unisonGraph-voices {
 	display: flex;

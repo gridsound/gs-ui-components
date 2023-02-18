@@ -1,8 +1,10 @@
 gsui-synthesizer {
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	position: relative;
 	box-sizing: border-box;
-	color: var( --gsuiSynthesizer-color );
+	height: 100%;
 	scrollbar-width: thin;
 	scrollbar-color: #ddd #222;
 }
@@ -16,7 +18,7 @@ gsui-synthesizer {
 	font-size: 14px;
 	line-height: 1em;
 	user-select: none;
-	background-color: var( --gsuiSynthesizer-head-bg );
+	background-color: var( --gsui-head-bg );
 }
 .gsuiSynthesizer-headTitle {
 	opacity: .3;
@@ -44,11 +46,12 @@ gsui-synthesizer {
 	height: 24px;
 }
 .gsuiSynthesizer-oscList {
+	flex: 1;
 	display: grid;
 	grid-auto-flow: row;
 	grid-auto-rows: min-content;
 	counter-reset: count-osc;
-	background-color: var( --gsuiSynthesizer-bg );
+	background-color: var( --gsui-items-bg );
 }
 
 /* .......................................................................... */

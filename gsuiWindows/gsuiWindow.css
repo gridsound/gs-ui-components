@@ -97,7 +97,6 @@ gsui-window:not( .gsuiWindow-dragging ),
 	overflow: auto;
 	inset: var( --gsuiWindow-head-height ) 0 0;
 	background-color: var( --gsuiWindow-bg );
-	background-image: var( --gsuiWindow-bgImg );
 }
 .gsuiWindow-minimized .gsuiWindow-content {
 	display: none;

@@ -3,19 +3,25 @@
 GSUI.$setTemplate( "gsui-oscillator", () => {
 	return [
 		GSUI.$createElement( "div", { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
-		GSUI.$createElement( "div", { class: "gsuiOscillator-wave" },
-			GSUI.$createElement( "gsui-periodicwave" ),
-			GSUI.$createElement( "gsui-periodicwave" ),
-		),
-		GSUI.$createElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
-		GSUI.$createElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
-		GSUI.$createElement( "select", { class: "gsuiOscillator-waveSelect" },
-			[ "sine", "triangle", "sawtooth", "square" ].map( w =>
-				GSUI.$createElement( "option", { class: "gsuiOscillator-waveOptNative", value: w }, w )
-			)
-		),
-		GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph" },
-			GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph-voices" } ),
+		GSUI.$createElement( "div", { class: "gsuiOscillator-waveWrap" },
+			GSUI.$createElement( "div", { class: "gsuiOscillator-waveWrap-left" },
+				GSUI.$createElement( "div", { class: "gsuiOscillator-waveWrap-top" },
+					GSUI.$createElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
+					GSUI.$createElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
+					GSUI.$createElement( "select", { class: "gsuiOscillator-waveSelect" },
+						[ "sine", "triangle", "sawtooth", "square" ].map( w =>
+							GSUI.$createElement( "option", { class: "gsuiOscillator-waveOptNative", value: w }, w )
+						)
+					),
+				),
+				GSUI.$createElement( "div", { class: "gsuiOscillator-wave" },
+					GSUI.$createElement( "gsui-periodicwave" ),
+					GSUI.$createElement( "gsui-periodicwave" ),
+				),
+			),
+			GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph" },
+				GSUI.$createElement( "div", { class: "gsuiOscillator-unisonGraph-voices" } ),
+			),
 		),
 		GSUI.$createElement( "div", { class: "gsuiOscillator-unison" },
 			GSUI.$createElement( "gsui-slider", { type: "linear-y", min: 1, max: 9, step: 1, "mousemove-size": "400", "data-prop": "unisonvoices" } ),

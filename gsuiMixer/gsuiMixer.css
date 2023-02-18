@@ -33,7 +33,7 @@ gsui-mixer .gsuiPanel-extend {
 	font-size: 10px;
 	line-height: 20px;
 	border-bottom: 2px solid var( --gsuiMixer-head-border );
-	background-color: var( --gsuiMixer-head-bg );
+	background-color: var( --gsui-head-bg );
 	user-select: none;
 	pointer-events: none;
 }

@@ -74,6 +74,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	align-items: center;
 	justify-content: center;
 	inset: 1em 0 0 var( --grip-w );
+	background-color: var( --gsui-item-more-bg );
 }
 .gsuiDrumrow-prop {
 	outline: 0;
@@ -203,7 +204,6 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-detune,
 .gsuiDrumrow-pan,
 .gsuiDrumrow-gain {
-	--gsuiSlider-lineBgColor: var( --gsuiDrumrow-slider-bg );
 	position: absolute;
 	inset: var( --name-h ) auto 4px;
 	width: var( --slider-w );
