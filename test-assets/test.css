@@ -21,6 +21,18 @@ body {
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E" );
 }
 
+#title {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+	padding-top: 2em;
+	font-size: 26px;
+	gap: 1ch;
+}
+#title span {
+	text-shadow: 0 0 20px #fff5;
+}
+
 #testLinks {
 	flex: 1;
 	display: flex;
@@ -37,7 +49,7 @@ body {
 .testLink {
 	margin: .5ch;
 	padding: .5ch 1ch;
-	font-size: 24px;
+	font-size: min( 4vw, 4vh, 24px );
 	font-weight: bold;
 	border-radius: .5ch;
 }
@@ -156,14 +168,10 @@ body {
 	color: inherit;
 }
 
-
-@media ( max-width: 800px ) {
-	.testLink {
+@media ( max-width: 500px ) {
+	#title {
+		align-items: center;
+		flex-direction: column;
 		font-size: 22px;
-	}
-}
-@media ( max-width: 450px ) {
-	.testLink {
-		font-size: 20px;
 	}
 }
