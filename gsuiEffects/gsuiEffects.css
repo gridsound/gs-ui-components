@@ -70,13 +70,18 @@ gsui-effects {
 }
 
 /* .......................................................................... */
+.gsuiEffects-fx-enable {
+	--gsuiEffects-fx-head-bg: var( --gsui-item-bg );
+	--gsuiEffects-fx-head-toggle-color: var( --gsui-toggle-on );
+	--gsuiEffects-fx-head-name-opacity: 1;
+}
 .gsuiEffects-fx-head {
 	display: flex;
 	height: 36px;
 	box-sizing: border-box;
 	border-bottom: 2px solid #0002;
 	font-size: 12px;
-	background-color: #555;
+	background-color: var( --gsuiEffects-fx-head-bg, var( --gsui-item-bg-disabled ) );
 }
 .gsuiEffects-fx:not( .gsuiEffects-fx-expanded ) + .gsuiEffects-fx .gsuiEffects-fx-head {
 	border-top: 2px solid #fff1;
@@ -108,22 +113,17 @@ gsui-effects {
 }
 .gsuiEffects-fx-expand {
 	font-size: 14px;
+	opacity: var( --gsuiEffects-fx-head-name-opacity, .5 );
 }
 .gsuiEffects-fx-toggle {
 	font-size: 8px;
-	color: #222;
-}
-.gsuiEffects-fx-enable .gsuiEffects-fx-toggle {
-	color: #ffa;
+	color: var( --gsuiEffects-fx-head-toggle-color, var( --gsui-toggle-off ) );
 }
 .gsuiEffects-fx-name {
 	flex: 1;
 	align-self: center;
 	padding-left: 6px;
-	opacity: .5;
-}
-.gsuiEffects-fx-enable .gsuiEffects-fx-name {
-	opacity: 1;
+	opacity: var( --gsuiEffects-fx-head-name-opacity, .5 );
 }
 .gsuiEffects-fx-remove {
 	width: 32px;

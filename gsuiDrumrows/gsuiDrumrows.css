@@ -36,21 +36,24 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	--props-h: 1.5em;
 	position: relative;
 	box-sizing: border-box;
-	height: calc( 1em + 1px );
-	min-height: calc( 1em + 1px );
-	margin-top: -1px;
-	border: 0 solid var( --gsuiDrumrow-border );
-	border-width: 1px 0;
-	background-color: var( --gsuiDrumrow-bg );
-	transition: .2s height, .2s min-height, .1s filter;
+	height: 1em;
+	min-height: 1em;
+	border-top: 2px solid #ffffff11;
+	border-bottom: 2px solid #0000003b;
+	background-color: var( --gsui-item-bg );
+	transition:
+		.2s height,
+		.2s min-height;
 }
 .gsuiDrumrow-mute {
-	--gsuiDrumrow-toggle-bg: var( --gsuiDrumrow-toggleOff-bg );
-	filter: brightness( .8 ) contrast( .8 );
+	--gsuiDrumrow-toggle-color: var( --gsui-toggle-off );
+	border-color: transparent;
+	background-color: var( --gsui-item-bg-disabled );
 }
 .gsuiDrumrow-open {
 	height: calc( 1em + 1px + var( --props-h ) );
 	min-height: calc( 1em + 1px + var( --props-h ) );
+	background-color: var( --gsui-item-bg-selected );
 }
 
 /* .......................................................................... */
@@ -60,7 +63,6 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	inset: 0 0 auto var( --grip-w );
 	height: 1em;
 	min-height: 1em;
-	border-bottom: 1px dashed var( --gsuiDrumrow-border );
 }
 .gsuiDrumrow.gsuiDrumrows-dragover .gsuiDrumrow-main {
 	opacity: 0;
@@ -110,7 +112,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	background-color: var( --gsuiDrumrow-prop-bgHover );
 }
 .gsuiDrumrow-propRadio:checked + .gsuiDrumrow-propSpan {
-	color: var( --gsuiDrumrow-bg );
+	color: var( --gsui-item-bg );
 	background-color: var( --color );
 }
 
@@ -139,7 +141,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	outline: 0;
 	padding: 0;
 	font-size: 8px;
-	color: var( --gsuiDrumrow-toggle-bg );
+	color: var( --gsuiDrumrow-toggle-color, var( --gsui-toggle-on ) );
 	cursor: pointer;
 	background: none;
 	transition: .1s opacity;
@@ -166,7 +168,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-waveWrap {
 	position: absolute;
 	overflow: hidden;
-	inset: var( --name-h ) calc( var( --slider-w ) * 3 + 8px ) 0 0;
+	inset: var( --name-h ) calc( var( --slider-w ) * 3 + 8px ) 4px 0;
 	pointer-events: none;
 }
 .gsuiDrumrow-wave {
@@ -204,7 +206,7 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-gain {
 	--gsuiSlider-lineBgColor: var( --gsuiDrumrow-slider-bg );
 	position: absolute;
-	inset: var( --name-h ) auto 2px;
+	inset: var( --name-h ) auto 4px;
 	width: var( --slider-w );
 }
 .gsuiDrumrow .gsuiSlider-eventCatcher {

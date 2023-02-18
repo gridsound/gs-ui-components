@@ -9,7 +9,7 @@ gsui-channel {
 	min-width: 52px;
 	border-left: 2px solid #ffffff11;
 	border-right: 2px solid #0000003b;
-	background-color: var( --gsuiChannel-bg );
+	background-color: var( --gsuiChannel-bg, var( --gsui-item-bg ) );
 	--gsuiSlider-lineBgColor: rgba( 0, 0, 0, .2 );
 	transition: .2s background-color;
 }
@@ -17,13 +17,15 @@ gsui-channel[ selected ] + gsui-channel {
 	border-left-color: #ffffff07;
 }
 gsui-mixer gsui-channel[ selected ] {
-	--gsuiChannel-bg: var( --gsuiChannel-selected-bg );
+	background-color: var( --gsui-item-bg-selected );
+	--gsuiChannel-name-weight: bold;
+	--gsuiChannel-name-shadow: inset 0 -2px var( --gsuiChannel-gain-color );
 }
 gsui-channel[ muted ] {
-	--gsuiChannel-toggle-bg: var( --gsuiChannel-toggleOff-bg );
-}
-gsui-channel[ muted ] gsui-slider {
-	--gsuiSlider-lineColor: rgba( 255, 255, 255, .3 );
+	--gsuiChannel-bg: var( --gsui-item-bg-disabled );
+	--gsuiChannel-toggle-color: var( --gsui-toggle-off );
+	--gsuiChannel-name-opacity: .5;
+	--gsuiChannel-slider-color: #fff5;
 }
 
 /* .......................................................................... */
@@ -79,11 +81,9 @@ gsui-channel .gsuiChannel-headBtn:hover {
 	font-size: 12px;
 	font-family: var( --gsuiChannel-name-font );
 	background-color: transparent;
+	box-shadow: var( --gsuiChannel-name-shadow, none );
 	transition: inherit;
 	transition-property: box-shadow;
-}
-gsui-channel[ selected ] .gsuiChannel-nameWrap {
-	box-shadow: inset 0 -2px var( --gsuiChannel-gain-color );
 }
 .gsuiChannel-name {
 	display: block;
@@ -91,18 +91,10 @@ gsui-channel[ selected ] .gsuiChannel-nameWrap {
 	word-wrap: break-word;
 	text-align: center;
 	font-size: 10px;
+	font-weight: var( --gsuiChannel-name-weight, normal );
 	padding-right: .15ch;
 	user-select: none;
-	-webkit-user-select: none;
-}
-gsui-channel[ selected ] .gsuiChannel-name {
-	font-weight: bold;
-}
-gsui-channel[ muted ] .gsuiChannel-name {
-	opacity: .5;
-}
-.gsuiMixer-panMain .gsuiChannel-name {
-	font-style: italic;
+	opacity: var( --gsuiChannel-name-opacity, 1 );
 }
 
 /* .......................................................................... */
@@ -123,7 +115,7 @@ gsui-channel gsui-analyser {
 	font-size: 8px;
 	min-height: 18px;
 	cursor: pointer;
-	color: var( --gsuiChannel-toggle-bg );
+	color: var( --gsuiChannel-toggle-color, var( --gsui-toggle-on ) );
 	background: none;
 }
 
@@ -134,14 +126,14 @@ gsui-channel gsui-analyser {
 	min-height: 24px;
 	z-index: 1;
 	overflow: hidden;
-	--gsuiSlider-lineColor: var( --gsuiChannel-pan-color );
+	--gsuiSlider-lineColor: var( --gsuiChannel-slider-color, var( --gsuiChannel-pan-color ) );
 }
 .gsuiChannel-gain {
 	flex: 1;
 	width: 6px;
 	min-height: 32px;
 	margin-top: 6px;
-	--gsuiSlider-lineColor: var( --gsuiChannel-gain-color );
+	--gsuiSlider-lineColor: var( --gsuiChannel-slider-color, var( --gsuiChannel-gain-color ) );
 }
 .gsuiChannel-gain .gsuiSlider-eventCatcher {
 	left: -12px;

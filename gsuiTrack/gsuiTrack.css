@@ -1,48 +1,45 @@
 gsui-track {
+	box-sizing: border-box;
 	display: flex;
 	height: 100%;
-	background-color: hsl(
-		var( --gsuiTrack-hsl-h ),
-		var( --gsuiTrack-hsl-s ),
-		calc( var( --gsuiTrack-hsl-l ) + var( --rel-l, 0% ) )
-	);
+	border-top: 2px solid #ffffff11;
+	border-bottom: 2px solid #0000003b;
+	background-color: var( --gsui-item-bg );
 }
 gsui-track,
 .gsuiTrack-row,
 .gsuiTrack-toggle::before {
 	transition: .2s background-color;
 }
-gsui-track:nth-child( even ) {
-	--rel-l: -1.7%;
-}
 gsui-track[ mute ] {
-	--rel-l: -5%;
-	--gsuiTrack-toggle-bg: var( --gsuiTrack-toggleOff-bg );
-}
-gsui-track[ mute ]:nth-child( even ) {
-	--rel-l: -5.5%;
+	--gsuiTrack-toggle-bg: var( --gsui-toggle-off );
+	border: 0;
+	background-color: var( --gsui-item-bg-disabled );
 }
 
 /* .......................................................................... */
 .gsuiTrack-row {
+	box-sizing: border-box;
 	position: relative;
 	z-index: 0;
+	border-top: 2px solid #ffffff0b;
+	border-bottom: 2px solid #00000026;
 	height: var( --gsuiTimewindow-lineH );
-	background-color: rgba( 0, 0, 0, var( --rel-a, 0 ) );
-}
-.gsuiTrack-row:nth-child( even ) {
-	--rel-a: .06;
 }
 .gsuiTrack-row.gsui-mute {
-	--rel-a: .25;
-}
-.gsuiTrack-row.gsui-mute:nth-child( even ) {
-	--rel-a: .29;
+	border: 0;
+	background-color: #00000012;
 }
 .gsuiTrack-row > div {
 	position: absolute;
-	inset: 0;
+	height: inherit;
+	top: -2px;
+	left: 0;
+	right: 0;
 	font-size: var( --gsuiTimewindow-pxperbeat );
+}
+.gsuiTrack-row.gsui-mute > div {
+	top: 0;
 }
 
 /* .......................................................................... */
@@ -55,7 +52,7 @@ gsui-track[ mute ]:nth-child( even ) {
 	min-width: 24px;
 	align-items: center;
 	justify-content: center;
-	color: var( --gsuiTrack-toggle-bg );
+	color: var( --gsuiTrack-toggle-bg, var( --gsui-toggle-on ) );
 	font-size: 8px;
 	background: none;
 }
@@ -75,7 +72,7 @@ gsui-track[ mute ]:nth-child( even ) {
 	font-weight: bold;
 	font-family: inherit;
 	text-overflow: ellipsis;
-	color: var( --gsuiTrack-color );
+	color: inherit;
 	cursor: default;
 	background: none;
 	user-select: none;

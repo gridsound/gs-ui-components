@@ -17,6 +17,13 @@ body {
 	--gsui-col-lowpass: #d96;
 	--gsui-col-patternSelected: rgb( var( --gsui-rgb-patternSelected ) );
 	--gsui-col-currentTimeCursor: rgb( var( --gsui-rgb-currentTimeCursor ) );
+
+	/* ...................................................................... */
+	--gsui-item-bg: #555;
+	--gsui-item-bg-disabled: #505050;
+	--gsui-item-bg-selected: #666;
+	--gsui-toggle-on: #ffa;
+	--gsui-toggle-off: #222;
 }
 
 * {

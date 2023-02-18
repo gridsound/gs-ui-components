@@ -16,6 +16,9 @@ gsui-envelope {
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 	--gsuiSlider-lineBgColor: var( --gsuiEnvelope-ctrls-bg );
 }
+gsui-envelope[ toggle ] {
+	--gsuiEnvelope-toggle-color: var( --gsui-toggle-on );
+}
 
 /* .......................................................................... */
 .gsuiEnvelope-prop {
@@ -86,14 +89,11 @@ gsui-envelope .gsuiSlider-eventCatcher {
 	outline: 0;
 	padding: 0;
 	width: 24px;
-	color: var( --gsuiEnvelope-toggle-off );
+	color: var( --gsuiEnvelope-toggle-color, var( --gsui-toggle-off ) );
 	font-size: 8px;
 	cursor: pointer;
 	background: none;
 	transition: .2s color;
-}
-gsui-envelope[ toggle ] .gsuiEnvelope-toggle {
-	color: var( --gsuiEnvelope-ctrls-color );
 }
 .gsuiEnvelope-toggleCheckbox {
 	display: none;

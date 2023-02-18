@@ -30,6 +30,9 @@ gsui-lfo[ target='lowpass' ] {
 		".    .    .       .        .       .       .       .   " 0
 		/0    32px 1fr   1fr    1fr   1fr   1fr   0;
 }
+gsui-lfo[ toggle ] {
+	--gsuiLFO-toggle-color: var( --gsui-toggle-on );
+}
 
 /* .......................................................................... */
 .gsuiLFO-prop {
@@ -120,13 +123,10 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	outline: 0;
 	padding: 0;
 	width: 24px;
-	color: var( --gsuiLFO-toggle-off );
+	color: var( --gsuiLFO-toggle-color, var( --gsui-toggle-off ) );
 	font-size: 8px;
 	background: none;
 	transition: .2s color;
-}
-gsui-lfo[ toggle ] .gsuiLFO-toggle {
-	color: var( --gsuiLFO-ctrls-color );
 }
 
 /* .......................................................................... */
