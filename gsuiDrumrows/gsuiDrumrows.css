@@ -53,14 +53,13 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 .gsuiDrumrow-open {
 	height: calc( 1em + 1px + var( --props-h ) );
 	min-height: calc( 1em + 1px + var( --props-h ) );
-	background-color: var( --gsui-item-bg-selected );
 }
 
 /* .......................................................................... */
 .gsuiDrumrow-main {
 	position: absolute;
 	box-sizing: border-box;
-	inset: 0 0 auto var( --grip-w );
+	inset: 0 1px auto var( --grip-w );
 	height: 1em;
 	min-height: 1em;
 }
