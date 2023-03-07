@@ -144,11 +144,6 @@ class gsuiEffects extends HTMLElement {
 		this.#elements.addSelect.value = "";
 		this.#dispatch( "addEffect", type );
 	}
-
-	// .........................................................................
-	static #createOption( disabled, fxId, fxName ) {
-		return GSUI.$createElement( "option", { value: fxId, disabled }, fxName );
-	}
 }
 
 Object.freeze( gsuiEffects );
