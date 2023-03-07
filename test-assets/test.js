@@ -48,7 +48,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		),
 		GSUI.$createElement( "div", { id: "testFoot" },
 			GSUI.$createElement( "div", { id: "testCopyright" },
-				GSUI.$createElement( "span", null, "© 2022 " ),
+				GSUI.$createElement( "span", null, "© 2023 " ),
 				GSUI.$createElement( "a", { href: "https://gridsound.com" }, "gridsound.com" ),
 				GSUI.$createElement( "span", null, " all rights reserved" ),
 			),
