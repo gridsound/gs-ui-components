@@ -77,6 +77,11 @@ chans.addChannel( "1" );
 chans.addChannel( "2" );
 chans.addChannel( "3" );
 chans.addChannel( "4" );
+chans.$getChannel( "1" ).$addEffect( "0", { type: "delay" } );
+chans.$getChannel( "1" ).$addEffect( "1", { type: "filter" } );
+chans.$getChannel( "1" ).$addEffect( "2", { type: "filter" } );
+chans.$getChannel( "2" ).$addEffect( "2", { type: "filter" } );
+chans.$getChannel( "1" ).$updateEffect( "2", { order: -1, toggle: false } );
 </script>
 </body>
 </html>
