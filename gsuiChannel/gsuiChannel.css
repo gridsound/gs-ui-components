@@ -12,9 +12,6 @@ gsui-channel {
 	background-color: var( --gsuiChannel-bg, var( --gsui-item-bg ) );
 	transition: .2s background-color;
 }
-gsui-channel[ selected ] + gsui-channel {
-	border-left-color: #ffffff07;
-}
 gsui-mixer gsui-channel[ selected ] {
 	background-color: var( --gsui-item-bg-selected );
 	--gsuiChannel-name-weight: bold;
@@ -97,12 +94,49 @@ gsui-channel .gsuiChannel-headBtn:hover {
 }
 
 /* .......................................................................... */
-gsui-channel gsui-analyser {
+.gsuiChannel-analyser {
+	position: relative;
+	overflow: hidden;
 	flex: 2;
 	width: inherit;
 	margin-left: 0;
 	min-height: 16px;
+}
+gsui-channel gsui-analyser {
+	height: 100%;
 	opacity: .8;
+}
+.gsuiChannel-effects {
+	display: grid;
+	position: absolute;
+	inset: auto 0 0;
+}
+.gsuiChannel-effect {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 12px;
+	border: 0;
+	color: inherit;
+	font-family: inherit;
+	font-size: 6px;
+	cursor: pointer;
+	border-top: 1px solid #222;
+	border-left: 2px solid #ffffff08;
+	border-right: 2px solid #0002;
+	background-color: #333;
+}
+.gsuiChannel-effect:focus-visible,
+.gsuiChannel-effect:hover {
+	background-color: #3a3a3a;
+}
+.gsuiChannel-effect-name {
+	pointer-events: none;
+	opacity: .3;
+}
+.gsuiChannel-effect-enable .gsuiChannel-effect-name {
+	opacity: 1;
 }
 
 /* .......................................................................... */

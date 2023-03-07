@@ -1,11 +1,12 @@
 "use strict";
 
 class gsuiChannel extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiChannel" );
 	#children = GSUI.$getTemplate( "gsui-channel" );
 	#elements = GSUI.$findElements( this.#children, {
+		nameWrap: ".gsuiChannel-nameWrap",
 		name: ".gsuiChannel-name",
 		analyser: "gsui-analyser",
+		effects: ".gsuiChannel-effects",
 		pan: ".gsuiChannel-pan gsui-slider",
 		gain: ".gsuiChannel-gain gsui-slider",
 		connecta: ".gsuiChannel-connectA",
@@ -17,15 +18,25 @@ class gsuiChannel extends HTMLElement {
 		super();
 		Object.seal( this );
 
+		this.#elements.nameWrap.onclick =
+		this.#elements.analyser.onclick = () => {
+			GSUI.$dispatchEvent( this, "gsuiChannel", "selectChannel" );
+		};
+		this.#elements.effects.onclick = e => {
+			if ( e.target.dataset.id ) {
+				GSUI.$dispatchEvent( this, "gsuiChannel", "selectChannel" );
+				GSUI.$dispatchEvent( this, "gsuiChannel", "selectEffect", e.target.dataset.id );
+			}
+		};
 		GSUI.$listenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUI.$noop,
 				inputEnd: GSUI.$noop,
 				input: ( d, sli ) => {
-					this.#dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
+					GSUI.$dispatchEvent( this, "gsuiChannel", "liveChange", sli.dataset.prop, d.args[ 0 ] );
 				},
 				change: ( d, sli ) => {
-					this.#dispatch( "change", sli.dataset.prop, d.args[ 0 ] );
+					GSUI.$dispatchEvent( this, "gsuiChannel", "change", sli.dataset.prop, d.args[ 0 ] );
 				},
 			},
 		} );
@@ -64,6 +75,25 @@ class gsuiChannel extends HTMLElement {
 					break;
 			}
 		}
+	}
+
+	// .........................................................................
+	$addEffect( id, obj ) {
+		this.#elements.effects.append( GSUI.$getTemplate( "gsui-channel-effect", id, obj.type ) );
+	}
+	$removeEffect( id ) {
+		this.#getEffect( id ).remove();
+	}
+	$updateEffect( id, obj ) {
+		if ( "order" in obj ) {
+			this.#getEffect( id ).style.order = obj.order;
+		}
+		if ( "toggle" in obj ) {
+			this.#getEffect( id ).classList.toggle( "gsuiChannel-effect-enable", obj.toggle );
+		}
+	}
+	#getEffect( id ) {
+		return this.#elements.effects.querySelector( `[data-id="${ id }"]` );
 	}
 }
 

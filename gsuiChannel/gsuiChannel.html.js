@@ -6,7 +6,10 @@ GSUI.$setTemplate( "gsui-channel", () => [
 	),
 	GSUI.$createElement( "button", { class: "gsuiChannel-headBtn gsuiChannel-rename gsuiIcon", "data-icon": "pen", title: "Rename the channel" } ),
 	GSUI.$createElement( "button", { class: "gsuiChannel-headBtn gsuiChannel-delete gsuiIcon", "data-icon": "close", title: "Remove the channel" } ),
-	GSUI.$createElement( "gsui-analyser" ),
+	GSUI.$createElement( "div", { class: "gsuiChannel-analyser" },
+		GSUI.$createElement( "gsui-analyser" ),
+		GSUI.$createElement( "div", { class: "gsuiChannel-effects" } ),
+	),
 	GSUI.$createElement( "button", { class: "gsuiChannel-toggle gsuiIcon", "data-icon": "toggle" } ),
 	GSUI.$createElement( "div", { class: "gsuiChannel-pan" },
 		GSUI.$createElement( "gsui-slider", { type: "circular", min: -1, max: 1, step: .02, "mousemove-size": 800, "stroke-width": 3, "data-prop": "pan" } ),
@@ -20,3 +23,9 @@ GSUI.$setTemplate( "gsui-channel", () => [
 	),
 	GSUI.$createElement( "div", { class: "gsuiChannel-grip gsuiIcon", "data-icon": "grip-h" } ),
 ] );
+
+GSUI.$setTemplate( "gsui-channel-effect", ( id, name ) =>
+	GSUI.$createElement( "button", { class: "gsuiChannel-effect gsuiChannel-effect-enable", "data-id": id },
+		GSUI.$createElement( "span", { class: "gsuiChannel-effect-name" }, name ),
+	),
+);
