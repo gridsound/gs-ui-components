@@ -24,7 +24,7 @@ body {
 	--gsui-item-bg: #5c5c5c;
 	--gsui-item-more-bg: #fff2;
 	--gsui-item-bg-disabled: #505050;
-	--gsui-item-bg-selected: #666;
+	--gsui-item-bg-selected: #616161;
 	--gsui-toggle-on: #ffa;
 	--gsui-toggle-off: #222;
 	--gsui-slider-bg: #0003;
@@ -36,6 +36,6 @@ body {
 	scrollbar-width: thin;
 	scrollbar-color: #ddd #222;
 }
-::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background-color: #222; }
-::-webkit-scrollbar-thumb { background-color: #ddd; }
+::-webkit-scrollbar-thumb { background-color: #aaa; }
