@@ -4,6 +4,7 @@ class gsuiChannels extends HTMLElement {
 	oninput = null;
 	onchange = null;
 	onselectChan = null;
+	onselectEffect = null;
 	#chans = {};
 	#chanSelected = null;
 	#analyserW = 10;
@@ -25,6 +26,8 @@ class gsuiChannels extends HTMLElement {
 		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
 		GSUI.$listenEvents( this, {
 			gsuiChannel: {
+				selectChannel: ( d, chan ) => this.selectChannel( chan.dataset.id ),
+				selectEffect: ( d, chan ) => this.onselectEffect( chan.dataset.id, d.args[ 0 ] ),
 				liveChange: ( d, chan ) => this.oninput( chan.dataset.id, ...d.args ),
 				change: ( d, chan ) => this.onchange( "changeChannel", chan.dataset.id, ...d.args ),
 			},
@@ -94,6 +97,9 @@ class gsuiChannels extends HTMLElement {
 	}
 
 	// .........................................................................
+	$getChannel( id ) {
+		return this.#chans[ id ];
+	}
 	addChannel( id ) {
 		const chan = GSUI.$createElement( "gsui-channel", { "data-id": id } );
 		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
@@ -101,8 +107,6 @@ class gsuiChannels extends HTMLElement {
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
 		gsuiChannels.#selectChanInput.append( GSUI.$createElement( "option", { value: id }, name ) );
 		this.#chans[ id ] = chan;
-		chan.analyser.onclick =
-		qs( "nameWrap" ).onclick = this.selectChannel.bind( this, id );
 		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
