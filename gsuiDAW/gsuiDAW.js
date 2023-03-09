@@ -76,7 +76,6 @@ class gsuiDAW extends HTMLElement {
 			button: ".gsuiDAW-popup-export-btn",
 			progress: ".gsuiDAW-popup-export-progress",
 		} ),
-		cookies: GSUI.$getTemplate( "gsui-daw-popup-cookies" ),
 		settings: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-settings" ), {
 			root: ".gsuiDAW-popup-settings",
 			sampleRate: "[name='sampleRate']",
@@ -485,10 +484,6 @@ class gsuiDAW extends HTMLElement {
 				if ( dt.index - this.#currentActionInd ) {
 					this.#dispatch( "redoN", dt.index - this.#currentActionInd );
 				}
-				break;
-			case "cookies":
-				GSUI.$popup.custom( { title: "Cookies consent", element: this.#popups.cookies } )
-					.then( arg => arg !== undefined && this.#dispatch( "oki-cookies" ) );
 				break;
 			case "about":
 				GSUI.$popup.custom( { title: "About", element: this.#popups.about.root } );

@@ -69,7 +69,6 @@ GSUI.$setTemplate( "gsui-daw", () => [
 			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiIcon", "data-action": "window", "data-icon": "slices",      "data-win": "slicer",   title: "Open/close the slices window" } ),
 		),
 		GSUI.$createElement( "div", { class: "gsuiDAW-area gsuiDAW-areaHelp" },
-			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "cookies", "data-icon": "cookie", title: "Cookies" } ),
 			GSUI.$createElement( "a",      { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "help", "data-icon": "help", title: "Help", href: "https://github.com/gridsound/daw/wiki/help", target: "_blank", rel: "noopener" } ),
 			GSUI.$createElement( "button", { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon gsuiDAW-btnColor", "data-action": "about", "data-icon": "about", title: "About" } ),
 		),
