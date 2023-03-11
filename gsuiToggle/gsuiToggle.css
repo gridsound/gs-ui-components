@@ -1,0 +1,22 @@
+gsui-toggle {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font: 8px "FontAwesome";
+	cursor: pointer;
+	color: var( --gsui-toggle-on );
+}
+gsui-toggle[ off ] {
+	color: var( --gsui-toggle-off );
+}
+gsui-toggle::before {
+	position: absolute;
+	content: "\f111";
+	opacity: .6;
+	pointer-events: none;
+}
+gsui-toggle::after {
+	content: "\10f111";
+	pointer-events: none;
+}
