@@ -17,9 +17,8 @@ class gsuiLibrary extends HTMLElement {
 		super();
 		Object.seal( this );
 		this.#elements.body.onclick = this.#onclick.bind( this );
-		this.#elements.body.onmousedown = this.#onmousedown.bind( this );
 		this.#elements.body.ondragstart = this.#ondragstart.bind( this );
-		this.#elements.body.oncontextmenu = () => false;
+		this.#elements.body.oncontextmenu = this.#oncontextmenu.bind( this );
 	}
 
 	// .........................................................................
@@ -154,10 +153,11 @@ class gsuiLibrary extends HTMLElement {
 			this.#dispatch( act, el.dataset.id );
 		}
 	}
-	#onmousedown( e ) {
-		if ( e.button === 2 && e.target.classList.contains( "gsuiLibrary-sample" ) ) {
+	#oncontextmenu( e ) {
+		if ( e.target.classList.contains( "gsuiLibrary-sample" ) ) {
 			this.#dispatch( "stopSample" );
 		}
+		return false;
 	}
 }
 
