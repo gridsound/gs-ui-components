@@ -4,11 +4,17 @@ class gsuiToggle extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
-		this.onclick = () => {
-			const off = GSUI.$getAttribute( this, "off" ) !== null;
+		this.oncontextmenu = () => false;
+		this.onmousedown = e => {
+			if ( e.button === 2 ) {
+				GSUI.$setAttribute( this, "off", false );
+				GSUI.$dispatchEvent( this, "gsuiToggle", "toggleOnly" );
+			} else if ( e.button === 0 ) {
+				const off = GSUI.$getAttribute( this, "off" ) !== null;
 
-			GSUI.$dispatchEvent( this, "gsuiToggle", "toggle", off );
-			GSUI.$setAttribute( this, "off", !off );
+				GSUI.$setAttribute( this, "off", !off );
+				GSUI.$dispatchEvent( this, "gsuiToggle", "toggle", off );
+			}
 		};
 	}
 
