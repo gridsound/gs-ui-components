@@ -11,6 +11,11 @@ class gsuiToggle extends HTMLElement {
 			GSUI.$setAttribute( this, "off", !off );
 		};
 	}
+
+	// .........................................................................
+	connectedCallback() {
+		GSUI.$setAttribute( this, "tabindex", 0 );
+	}
 }
 
 Object.freeze( gsuiToggle );

@@ -4,19 +4,27 @@ gsui-toggle {
 	align-items: center;
 	justify-content: center;
 	font: 8px "FontAwesome";
+	outline: 0;
 	cursor: pointer;
 	color: var( --gsui-toggle-on );
 }
 gsui-toggle[ off ] {
 	color: var( --gsui-toggle-off );
 }
+gsui-toggle::before,
+gsui-toggle::after {
+	transition: .2s text-shadow;
+	pointer-events: none;
+}
+gsui-toggle:focus-visible::before,
+gsui-toggle:focus-visible::after {
+	text-shadow: 0 0 10px var( --gsui-toggle-on );
+}
 gsui-toggle::before {
 	position: absolute;
 	content: "\f111";
 	opacity: .6;
-	pointer-events: none;
 }
 gsui-toggle::after {
 	content: "\10f111";
-	pointer-events: none;
 }
