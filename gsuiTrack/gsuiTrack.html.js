@@ -1,9 +1,9 @@
 "use strict";
 
 GSUI.$setTemplate( "gsui-track", () => [
-	GSUI.$createElement( "button", { class: "gsuiTrack-toggle gsuiIcon", "data-action": "toggle", "data-icon": "toggle", title: "toggle track" } ),
+	GSUI.$createElement( "gsui-toggle", { title: "toggle track (right click for solo)" } ),
 	GSUI.$createElement( "div", { class: "gsuiTrack-nameWrap" },
-		GSUI.$createElement( "input", { class: "gsuiTrack-name", "data-action": "rename", type: "text", disabled: "", spellcheck: "false" } ),
+		GSUI.$createElement( "input", { class: "gsuiTrack-name", type: "text", disabled: true, spellcheck: "false" } ),
 	),
 ] );
 

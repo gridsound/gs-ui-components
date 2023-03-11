@@ -8,6 +8,22 @@ class gsuiTrack extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
+		this.onchange = this.#onchange.bind( this );
+		this.onkeydown = this.#onkeydown.bind( this );
+		this.ondblclick = this.#ondblclick.bind( this );
+		this.#inpName.onblur = this.#onblur.bind( this );
+		GSUI.$listenEvents( this, {
+			gsuiToggle: {
+				toggle: d => {
+					GSUI.$setAttribute( this, "mute", !d.args[ 0 ] );
+					GSUI.$dispatchEvent( this, "gsuiTrack", "toggle", d.args[ 0 ] );
+				},
+				toggleSolo: () => {
+					GSUI.$setAttribute( this, "mute", false );
+					GSUI.$dispatchEvent( this, "gsuiTrack", "toggleSolo" );
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -29,6 +45,7 @@ class gsuiTrack extends HTMLElement {
 			switch ( prop ) {
 				case "mute":
 					this.rowElement.classList.toggle( "gsui-mute", val !== null );
+					GSUI.$setAttribute( this.firstElementChild, "off", val !== null );
 					break;
 				case "name":
 					this.#inpName.value = val;
@@ -39,6 +56,34 @@ class gsuiTrack extends HTMLElement {
 					break;
 			}
 		}
+	}
+
+	// .........................................................................
+	#ondblclick( e ) {
+		if ( e.target === this.#inpName ) {
+			this.#inpName.disabled = false;
+			this.#inpName.select();
+			this.#inpName.focus();
+		}
+	}
+	#onkeydown( e ) {
+		if ( e.target === this.#inpName ) {
+			e.stopPropagation();
+			switch ( e.key ) {
+				case "Escape": this.#inpName.value = GSUI.$getAttribute( this, "name" );
+				case "Enter": this.#inpName.blur();
+			}
+		}
+	}
+	#onchange() {
+		const n = this.#inpName.value.trim();
+
+		this.#inpName.disabled = true;
+		GSUI.$setAttribute( this, "name", n );
+		GSUI.$dispatchEvent( this, "gsuiTrack", "rename", n );
+	}
+	#onblur() {
+		this.#inpName.disabled = true;
 	}
 }
 

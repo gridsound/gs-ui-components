@@ -7,12 +7,10 @@ gsui-track {
 	background-color: var( --gsui-item-bg );
 }
 gsui-track,
-.gsuiTrack-row,
-.gsuiTrack-toggle::before {
+.gsuiTrack-row {
 	transition: .2s background-color;
 }
 gsui-track[ mute ] {
-	--gsuiTrack-toggle-bg: var( --gsui-toggle-off );
 	border: 0;
 	background-color: var( --gsui-item-bg-disabled );
 }
@@ -44,18 +42,8 @@ gsui-track[ mute ] {
 }
 
 /* .......................................................................... */
-.gsuiTrack-toggle {
-	cursor: pointer;
-	display: flex;
-	border: 0;
-	outline: 0;
-	padding: 0;
+gsui-track gsui-toggle {
 	min-width: 24px;
-	align-items: center;
-	justify-content: center;
-	color: var( --gsuiTrack-toggle-bg, var( --gsui-toggle-on ) );
-	font-size: 8px;
-	background: none;
 }
 .gsuiTrack-nameWrap {
 	position: relative;
