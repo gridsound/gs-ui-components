@@ -19,12 +19,16 @@ gsui-track[ mute ] {
 
 /* .......................................................................... */
 .gsuiTrack-row {
-	box-sizing: border-box;
 	position: relative;
 	z-index: 0;
+	height: var( --gsuiTimewindow-lineH );
+}
+.gsuiTrack-row::before {
+	content: "";
+	position: absolute;
+	inset: 0;
 	border-top: 2px solid #ffffff0b;
 	border-bottom: 2px solid #00000026;
-	height: var( --gsuiTimewindow-lineH );
 }
 .gsuiTrack-row.gsui-mute {
 	border: 0;
@@ -32,10 +36,7 @@ gsui-track[ mute ] {
 }
 .gsuiTrack-row > div {
 	position: absolute;
-	height: inherit;
-	top: -2px;
-	left: 0;
-	right: 0;
+	inset: 0;
 	font-size: var( --gsuiTimewindow-pxperbeat );
 }
 .gsuiTrack-row.gsui-mute > div {
