@@ -26,16 +26,16 @@ gsui-mixer .gsuiPanel-extend {
 
 /* .......................................................................... */
 .gsuiMixer-head {
+	box-sizing: border-box;
 	display: flex;
-	z-index: 1;
+	align-items: center;
 	gap: 6px;
-	padding: 2px 6px;
+	height: 26px;
+	min-height: 26px;
+	padding: 2px 6px 0;
 	font-size: 10px;
-	line-height: 20px;
-	border-bottom: 2px solid var( --gsuiMixer-head-border );
-	background-color: var( --gsui-head-bg );
-	user-select: none;
-	pointer-events: none;
+	border-bottom: 2px solid var(--gsuiMixer-head-border );
+	background-color: var(--gsui-head-bg );
 }
 .gsuiMixer-head-title {
 	font-weight: bold;
