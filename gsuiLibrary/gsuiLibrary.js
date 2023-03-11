@@ -16,6 +16,7 @@ class gsuiLibrary extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
+		this.#elements.body.onclick = this.#onclick.bind( this );
 		this.#elements.body.onmousedown = this.#onmousedown.bind( this );
 		this.#elements.body.ondragstart = this.#ondragstart.bind( this );
 		this.#elements.body.oncontextmenu = () => false;
@@ -139,25 +140,23 @@ class gsuiLibrary extends HTMLElement {
 
 		e.dataTransfer.setData( `library-buffer:${ GSUI.$getAttribute( this, "name" ) }`, val );
 	}
-	#onmousedown( e ) {
+	#onclick( e ) {
 		const el = e.target;
+		const cl = el.classList;
 
-		if ( el.classList.contains( "gsuiLibrary-sep-btn" ) ) {
-			if ( e.button === 0 ) {
-				this.#expandGroup( el.parentNode );
-			}
-		} else if ( el.classList.contains( "gsuiLibrary-sample" ) ) {
-			if ( e.button === 2 ) {
-				this.#dispatch( "stopSample" );
-			} else if ( e.button === 0 ) {
-				if ( !el.classList.contains( "gsuiLibrary-sample-loading" ) ) {
-					const act = el.classList.contains( "gsuiLibrary-sample-ready" )
-						? "playSample"
-						: "loadSample";
+		if ( cl.contains( "gsuiLibrary-sep-btn" ) ) {
+			this.#expandGroup( el.parentNode );
+		} else if ( cl.contains( "gsuiLibrary-sample" ) && !cl.contains( "gsuiLibrary-sample-loading" ) ) {
+			const act = cl.contains( "gsuiLibrary-sample-ready" )
+				? "playSample"
+				: "loadSample";
 
-					this.#dispatch( act, el.dataset.id );
-				}
-			}
+			this.#dispatch( act, el.dataset.id );
+		}
+	}
+	#onmousedown( e ) {
+		if ( e.button === 2 && e.target.classList.contains( "gsuiLibrary-sample" ) ) {
+			this.#dispatch( "stopSample" );
 		}
 	}
 }
