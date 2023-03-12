@@ -3,12 +3,12 @@ gsui-envelope {
 	height: 100%;
 	min-height: 76px;
 	box-sizing: border-box;
+	padding: 6px;
 	grid-gap: 6px;
 	grid-template:
-		".    attack hold  decay sustain release .   " 28px
-		".    graph  graph graph graph   graph   .   " 1fr
-		".    .      .     .     .        .      .   " 0
-		/0    1fr    1fr   1fr   1fr      1fr     0;
+		"attack hold  decay sustain release" 28px
+		"graph  graph graph graph   graph  " 1fr
+		/1fr    1fr   1fr   1fr      1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );

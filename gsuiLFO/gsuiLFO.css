@@ -4,12 +4,12 @@ gsui-lfo {
 	min-width: 300px;
 	min-height: 76px;
 	box-sizing: border-box;
+	padding: 6px;
 	grid-gap: 6px;
 	grid-template:
-		".    type delay attack speed amp   .   " 28px
-		".    type graph graph  graph graph .   " 1fr
-		".    .    .     .      .     .     .   " 0
-		/0    32px 1fr   1fr    1fr   1fr   0;
+		"type delay attack speed amp  " 28px
+		"type graph graph  graph graph" 1fr
+		/32px 1fr   1fr    1fr   1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );

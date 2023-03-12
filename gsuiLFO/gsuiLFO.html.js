@@ -18,7 +18,6 @@ GSUI.$setTemplate( "gsui-lfo", () => {
 				),
 			),
 		),
-		GSUI.$createElement( "div", { class: "gsuiLFO-lowpassGraph" } ),
 		[
 			[ "delay", "delay", "del", 0, 4, .03125 ],
 			[ "attack", "attack", "att", 0, 4, .03125 ],
