@@ -129,8 +129,6 @@
 .gsuiIcon[ data-icon="pause" ]::after { content: "\10f04c"; opacity: 1; }
 .gsuiIcon[ data-icon="eject" ]::before { content: "\f052"; }
 .gsuiIcon[ data-icon="eject" ]::after { content: "\10f052"; }
-.gsuiIcon[ data-icon="toggle" ]::before { content: "\f111"; opacity: .6; }
-.gsuiIcon[ data-icon="toggle" ]::after { content: "\10f111"; opacity: 1; }
 
 .gsuiIcon[ data-icon="circle" ]::before { content: "\f111"; opacity: .6; }
 .gsuiIcon[ data-icon="circle" ]::after { content: "\10f111"; opacity: 1; }
