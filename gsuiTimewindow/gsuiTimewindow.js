@@ -68,15 +68,12 @@ class gsuiTimewindow extends HTMLElement {
 				this.#elements.down.remove();
 			}
 			this.#children = null;
-			if ( !this.hasAttribute( "step" ) ) {
-				GSUI.$setAttribute( this, "step", 1 );
-			}
-			if ( !this.hasAttribute( "pxperbeat" ) ) {
-				GSUI.$setAttribute( this, "pxperbeat", 100 );
-			}
-			if ( !this.hasAttribute( "lineheight" ) ) {
-				GSUI.$setAttribute( this, "lineheight", 48 );
-			}
+			GSUI.$recallAttributes( this, {
+				step: 1,
+				pxperbeat: 100,
+				lineheight: 48,
+				currenttime: 0,
+			} );
 			new gsuiScrollShadow( {
 				scrolledElem: this,
 				leftShadow: this.#elements.panel,

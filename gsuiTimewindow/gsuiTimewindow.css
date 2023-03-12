@@ -27,7 +27,6 @@ gsui-timewindow[ disabled ] {
 }
 .gsuiTimewindow-main {
 	z-index: 0;
-	margin-left: -1px;
 }
 .gsuiTimewindow-panel {
 	position: sticky;
@@ -106,6 +105,9 @@ gsui-timewindow gsui-timeline {
 	width: 2px;
 	margin-left: -1px;
 	background-color: var( --gsuiTimewindow-currentTime-fill );
+}
+gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
+	display: none;
 }
 .gsuiTimewindow-loop {
 	opacity: 0;
