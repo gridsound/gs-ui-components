@@ -13,9 +13,13 @@ gsui-synthesizer {
 .gsuiSynthesizer-head {
 	display: flex;
 	align-items: center;
+	box-sizing: border-box;
+	height: 24px;
 	font-size: 14px;
 	line-height: 1em;
 	user-select: none;
+	padding-top: 2px;
+	border-bottom: 2px solid #0002;
 	background-color: var( --gsui-head-bg );
 }
 .gsuiSynthesizer-headTitle {
@@ -49,7 +53,7 @@ gsui-synthesizer {
 .gsuiSynthesizer-headOscs {
 	gap: 6px;
 	height: 24px;
-	padding: 0 10px 0 8px;
+	padding: 2px 10px 0 8px;
 }
 .gsuiSynthesizer-oscList {
 	flex: 1;
