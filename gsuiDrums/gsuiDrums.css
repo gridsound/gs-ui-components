@@ -8,6 +8,9 @@ gsui-drums .gsuiTimewindow-currentTime {
 	margin-left: 0;
 	opacity: .1;
 }
+gsui-drums gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
+	display: block;
+}
 gsui-drums .gsuiTimewindow-step {
 	display: none;
 }
