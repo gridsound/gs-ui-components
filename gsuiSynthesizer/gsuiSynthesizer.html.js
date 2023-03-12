@@ -2,7 +2,15 @@
 
 GSUI.$setTemplate( "gsui-synthesizer", () => {
 	return [
+		GSUI.$createElement( "div", { class: "gsuiSynthesizer-head" },
+			GSUI.$createElement( "gsui-toggle", { "data-related": "env", off: true } ),
+			GSUI.$createElement( "span", { class: "gsuiSynthesizer-headTitle" }, "envelope gain" ),
+		),
 		GSUI.$createElement( "div", { class: "gsuiSynthesizer-env" }, GSUI.$createElement( "gsui-envelope" ) ),
+		GSUI.$createElement( "div", { class: "gsuiSynthesizer-head" },
+			GSUI.$createElement( "gsui-toggle", { "data-related": "lfo", off: true } ),
+			GSUI.$createElement( "span", { class: "gsuiSynthesizer-headTitle" }, "LFO gain" ),
+		),
 		GSUI.$createElement( "div", { class: "gsuiSynthesizer-lfo" }, GSUI.$createElement( "gsui-lfo" ) ),
 		GSUI.$createElement( "div", { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
 			GSUI.$createElement( "span", { class: "gsuiSynthesizer-headTitle" }, "oscillators" ),

@@ -5,6 +5,8 @@ class gsuiSynthesizer extends HTMLElement {
 	#uiOscs = new Map();
 	#children = GSUI.$getTemplate( "gsui-synthesizer" );
 	#elements = GSUI.$findElements( this.#children, {
+		toggleEnv: "gsui-toggle[data-related='env']",
+		toggleLFO: "gsui-toggle[data-related='lfo']",
 		env: "gsui-envelope",
 		lfo: "gsui-lfo",
 		oscList: ".gsuiSynthesizer-oscList",
@@ -27,6 +29,18 @@ class gsuiSynthesizer extends HTMLElement {
 			parentSelector: ".gsuiSynthesizer-oscList",
 			onchange: this.#onchangeReorder.bind( this ),
 		} );
+		GSUI.$listenEvents( this, {
+			gsuiToggle: {
+				toggle: ( d, btn ) => {
+					const isEnv = btn.dataset.related === "env";
+					const ev = isEnv ? "toggleEnv" : "toggleLFO";
+					const el = isEnv ? this.#elements.env : this.#elements.lfo;
+
+					GSUI.$setAttribute( el, "toggle", d.args[ 0 ] );
+					GSUI.$dispatchEvent( this, "gsuiSynthesizer", ev, d.args[ 0 ] );
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -44,6 +58,20 @@ class gsuiSynthesizer extends HTMLElement {
 	}
 	getOscillator( id ) {
 		return this.#uiOscs.get( id );
+	}
+
+	// .........................................................................
+	changeEnvProp( prop, val ) {
+		if ( prop === "toggle" ) {
+			GSUI.$setAttribute( this.#elements.toggleEnv, "off", !val );
+		}
+		GSUI.$setAttribute( this.#elements.env, prop, val );
+	}
+	changeLFOProp( prop, val ) {
+		if ( prop === "toggle" ) {
+			GSUI.$setAttribute( this.#elements.toggleLFO, "off", !val );
+		}
+		GSUI.$setAttribute( this.#elements.lfo, prop, val );
 	}
 
 	// .........................................................................

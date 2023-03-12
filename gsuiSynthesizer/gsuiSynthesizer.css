@@ -13,22 +13,25 @@ gsui-synthesizer {
 .gsuiSynthesizer-head {
 	display: flex;
 	align-items: center;
-	gap: 6px;
-	padding: 0 10px 0 6px;
 	font-size: 14px;
 	line-height: 1em;
 	user-select: none;
 	background-color: var( --gsui-head-bg );
 }
 .gsuiSynthesizer-headTitle {
-	opacity: .3;
+	font-size: 10px;
+	font-weight: bold;
 	line-height: 24px;
+}
+.gsuiSynthesizer-head gsui-toggle {
+	align-self: normal;
+	width: 24px;
 }
 .gsuiSynthesizer-label {
 	width: 36px;
 	text-align: center;
-	font-size: 11px;
-	opacity: .5;
+	font-size: 10px;
+	opacity: .75;
 }
 .gsuiSynthesizer-labelUnison {
 	margin-left: auto;
@@ -38,12 +41,15 @@ gsui-synthesizer {
 /* .......................................................................... */
 .gsuiSynthesizer-env,
 .gsuiSynthesizer-lfo {
-	height: 118px;
+	height: 90px;
+	min-height: 90px;
 }
 
 /* .......................................................................... */
 .gsuiSynthesizer-headOscs {
+	gap: 6px;
 	height: 24px;
+	padding: 0 10px 0 6px;
 }
 .gsuiSynthesizer-oscList {
 	flex: 1;
