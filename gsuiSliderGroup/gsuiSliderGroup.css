@@ -23,7 +23,6 @@ gsui-slidergroup {
 	user-select: none;
 }
 
-/* slider */
 /* .......................................................................... */
 .gsuiSliderGroup-slider {
 	position: absolute;
@@ -64,7 +63,6 @@ gsui-slidergroup {
 	border-width: 0 0 1px;
 }
 
-/* currentTime, loopA/B */
 /* .......................................................................... */
 .gsuiSliderGroup-loop,
 .gsuiSliderGroup-currentTime {
@@ -85,6 +83,9 @@ gsui-slidergroup {
 	width: 2px;
 	margin-left: -1px;
 	background-color: var( --gsuiSliderGroup-currentTime-color );
+}
+gsui-slidergroup[ currenttime="0" ] .gsuiSliderGroup-currentTime {
+	display: none;
 }
 .gsuiSliderGroup-loop {
 	background-color: transparent;
