@@ -2,6 +2,7 @@
 
 class gsuiTrack extends HTMLElement {
 	rowElement = GSUI.$getTemplate( "gsui-track-row" );
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiTrack" );
 	#children = GSUI.$getTemplate( "gsui-track" );
 	#inpName = this.#children[ 1 ].firstChild;
 
@@ -16,11 +17,11 @@ class gsuiTrack extends HTMLElement {
 			gsuiToggle: {
 				toggle: d => {
 					GSUI.$setAttribute( this, "mute", !d.args[ 0 ] );
-					GSUI.$dispatchEvent( this, "gsuiTrack", "toggle", d.args[ 0 ] );
+					this.#dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
 					GSUI.$setAttribute( this, "mute", false );
-					GSUI.$dispatchEvent( this, "gsuiTrack", "toggleSolo" );
+					this.#dispatch( "toggleSolo" );
 				},
 			},
 		} );
@@ -80,7 +81,7 @@ class gsuiTrack extends HTMLElement {
 
 		this.#inpName.disabled = true;
 		GSUI.$setAttribute( this, "name", n );
-		GSUI.$dispatchEvent( this, "gsuiTrack", "rename", n );
+		this.#dispatch( "rename", n );
 	}
 	#onblur() {
 		this.#inpName.disabled = true;

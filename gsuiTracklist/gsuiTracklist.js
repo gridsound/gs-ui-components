@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiTracklist extends HTMLElement {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiTracklist" );
 	#tracks = new Map();
 
 	constructor() {
@@ -8,9 +9,9 @@ class gsuiTracklist extends HTMLElement {
 		Object.seal( this );
 		GSUI.$listenEvents( this, {
 			gsuiTrack: {
-				rename: ( d, tr ) => GSUI.$dispatchEvent( this, "gsuiTracklist", "renameTrack", tr.dataset.id, d.args[ 0 ] ),
-				toggle: ( d, tr ) => GSUI.$dispatchEvent( this, "gsuiTracklist", "toggleTrack", tr.dataset.id ),
-				toggleSolo: ( d, tr ) => GSUI.$dispatchEvent( this, "gsuiTracklist", "toggleSoloTrack", tr.dataset.id ),
+				rename: ( d, tr ) => this.#dispatch( "renameTrack", tr.dataset.id, d.args[ 0 ] ),
+				toggle: ( d, tr ) => this.#dispatch( "toggleTrack", tr.dataset.id ),
+				toggleSolo: ( d, tr ) => this.#dispatch( "toggleSoloTrack", tr.dataset.id ),
 			},
 		} );
 	}
