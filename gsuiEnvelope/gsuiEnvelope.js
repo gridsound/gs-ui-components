@@ -22,7 +22,6 @@ class gsuiEnvelope extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		this.onchange = this.#onchangeForm.bind( this );
 		GSUI.$listenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUI.$noop,
@@ -119,14 +118,6 @@ class gsuiEnvelope extends HTMLElement {
 		this.#waveWidth = this.#elements.beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
 		this.#elements.graph.resized();
-	}
-	#onchangeForm( e ) {
-		switch ( e.target.name ) {
-			case "gsuiEnvelope-toggle":
-				GSUI.$setAttribute( this, "toggle", !GSUI.$hasAttribute( this, "toggle" ) );
-				this.#dispatch( "toggle" );
-				break;
-		}
 	}
 	#oninputSlider( prop, val ) {
 		this.#elements.sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
