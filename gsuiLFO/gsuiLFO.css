@@ -2,11 +2,10 @@ gsui-lfo {
 	display: grid;
 	height: 100%;
 	min-width: 300px;
-	min-height: 100px;
+	min-height: 76px;
 	box-sizing: border-box;
 	grid-gap: 6px;
 	grid-template:
-		"head head head  head   head  head  head" 24px
 		".    type delay attack speed amp   .   " 28px
 		".    type graph graph  graph graph .   " 1fr
 		".    .    .     .      .     .     .   " 0
@@ -14,22 +13,7 @@ gsui-lfo {
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
-}
-gsui-lfo[ target='gain' ] {
 	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
-}
-gsui-lfo[ target='lowpass' ] {
-	--gsuiLFO-ctrls-color: var( --gsui-col-lowpass );
-	grid-template:
-		"head head head    head     head    head    head    head" 24px
-		".    type delay   attack   speed   amp     lpHz    .   " 28px
-		".    type graph   graph    graph   graph   graph   .   " 1fr
-		".    type lpGraph lpGraph  lpGraph lpGraph lpGraph .   " .5fr
-		".    .    .       .        .       .       .       .   " 0
-		/0    32px 1fr   1fr    1fr   1fr   1fr   0;
-}
-gsui-lfo[ toggle ] {
-	--gsuiLFO-toggle-color: var( --gsui-toggle-on );
 }
 
 /* .......................................................................... */
@@ -90,40 +74,9 @@ gsui-lfo[ toggle ] {
 .gsuiLFO-amp {
 	grid-area: amp;
 }
-.gsuiLFO-lowpassfreq {
-	grid-area: lpHz;
-}
-gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassfreq {
-	display: none;
-}
 gsui-lfo .gsuiSlider-eventCatcher {
 	top: -26px;
 	bottom: -6px;
-}
-
-/* .......................................................................... */
-.gsuiLFO-head {
-	grid-area: head;
-	display: flex;
-	align-items: center;
-	background-color: var( --gsui-head-bg );
-	user-select: none;
-}
-.gsuiLFO-title {
-	font-size: 14px;
-	opacity: .3;
-}
-.gsuiLFO-toggle {
-	align-self: normal;
-	border: 0;
-	margin: 0;
-	outline: 0;
-	padding: 0;
-	width: 24px;
-	color: var( --gsuiLFO-toggle-color, var( --gsui-toggle-off ) );
-	font-size: 8px;
-	background: none;
-	transition: .2s color;
 }
 
 /* .......................................................................... */
@@ -181,15 +134,6 @@ gsui-lfo[ toggle ] .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
 }
 gsui-lfo[ toggle ] gsui-periodicwave {
 	color: var( --gsuiLFO-ctrls-color );
-}
-
-/* .......................................................................... */
-.gsuiLFO-lowpassGraph {
-	grid-area: lpGraph;
-	background-color: darkred;
-}
-gsui-lfo:not( [ target='lowpass' ] ) .gsuiLFO-lowpassGraph {
-	display: none;
 }
 
 /* .......................................................................... */

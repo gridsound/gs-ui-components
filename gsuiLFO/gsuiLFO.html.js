@@ -2,13 +2,6 @@
 
 GSUI.$setTemplate( "gsui-lfo", () => {
 	return [
-		GSUI.$createElement( "div", { class: "gsuiLFO-head" },
-			GSUI.$createElement( "label", { class: "gsuiLFO-btn gsuiLFO-toggle", title: "Toggle LFO" },
-				GSUI.$createElement( "input", { class: "gsuiLFO-btnInput gsuiLFO-toggleCheckbox", name: "gsuiLFO-toggle", type: "checkbox" } ),
-				GSUI.$createElement( "i", { class: "gsuiLFO-btnIcon gsuiLFO-toggleIcon gsuiIcon", "data-icon": "toggle" } ),
-			),
-			GSUI.$createElement( "span", { class: "gsuiLFO-title" }, "LFO ..." ),
-		),
 		GSUI.$createElement( "div", { class: "gsuiLFO-graph" },
 			GSUI.$createElement( "div", { class: "gsuiLFO-wave" },
 				GSUI.$createElement( "gsui-beatlines", { coloredbeats: "" } ),
@@ -31,7 +24,6 @@ GSUI.$setTemplate( "gsui-lfo", () => {
 			[ "attack", "attack", "att", 0, 4, .03125 ],
 			[ "speed", "speed", "spd", .25, 18, .125 ],
 			[ "amp", "amplitude", "amp", .001, 1, .001 ],
-			[ "lowpassfreq", "lowpass frequency", "LP", 0, 1, .001 ],
 		].map( ( [ prop, title, text, min, max, step ] ) =>
 			GSUI.$createElement( "div", { class: `gsuiLFO-prop gsuiLFO-${ prop }`, title },
 				GSUI.$createElement( "div", { class: "gsuiLFO-propLabel" },

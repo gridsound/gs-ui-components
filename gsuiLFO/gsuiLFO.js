@@ -45,7 +45,6 @@ class gsuiLFO extends HTMLElement {
 			this.append( ...this.#children );
 			this.#children = null;
 			GSUI.$recallAttributes( this, {
-				target: "gain",
 				toggle: false,
 				timedivision: "4/4",
 				type: "sine",
@@ -62,14 +61,13 @@ class gsuiLFO extends HTMLElement {
 		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
-		return [ "target", "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
+		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			const num = +val;
 
 			switch ( prop ) {
-				case "target": this.#changeTarget( val ); break;
 				case "timedivision": GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val ); break;
 				case "toggle": this.#changeToggle( val !== null ); break;
 				case "type": this.#changeType( val ); break;
@@ -107,10 +105,6 @@ class gsuiLFO extends HTMLElement {
 	}
 
 	// .........................................................................
-	#changeTarget( t ) {
-		this.#elements.title.textContent = `LFO ${ t }`;
-		this.#onresize();
-	}
 	#changeToggle( b ) {
 		this.querySelectorAll( ".gsuiLFO-typeRadio" ).forEach( el => GSUI.$setAttribute( el, "disabled", !b ) );
 		GSUI.$setAttribute( this.#elements.sliders.delay[ 0 ], "disabled", !b );
@@ -149,10 +143,6 @@ class gsuiLFO extends HTMLElement {
 	}
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
-			case "gsuiLFO-toggle":
-				GSUI.$setAttribute( this, "toggle", !GSUI.$hasAttribute( this, "toggle" ) );
-				this.#dispatch( "toggle" );
-				break;
 			case "gsuiLFO-type":
 				GSUI.$setAttribute( this, "type", e.target.value );
 				this.updateWave();
