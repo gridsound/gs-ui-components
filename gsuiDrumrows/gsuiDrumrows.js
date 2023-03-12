@@ -30,6 +30,22 @@ class gsuiDrumrows extends HTMLElement {
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		this.oncontextmenu = this.#oncontextmenuRows.bind( this );
 		this.onanimationend = this.#onanimationendRows.bind( this );
+		GSUI.$listenEvents( this, {
+			gsuiToggle: {
+				toggle: ( d, btn ) => {
+					const id = btn.parentNode.parentNode.dataset.id;
+
+					this.#changeToggle( id, d.args[ 0 ] );
+					this.#dispatch( "change", "toggleDrumrow", id, d.args[ 0 ] );
+				},
+				toggleSolo: ( d, btn ) => {
+					const id = btn.parentNode.parentNode.dataset.id;
+
+					this.#changeToggle( id, true );
+					this.#dispatch( "change", "toggleSoloDrumrow", id );
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -82,6 +98,7 @@ class gsuiDrumrows extends HTMLElement {
 		const html = GSUI.$findElements( GSUI.$getTemplate( "gsui-drumrow" ), {
 			root: ".gsuiDrumrow",
 			name: ".gsuiDrumrow-name",
+			toggle: "gsui-toggle",
 			detune: ".gsuiDrumrow-detune gsui-slider",
 			gain: ".gsuiDrumrow-gain gsui-slider",
 			pan: ".gsuiDrumrow-pan gsui-slider",
@@ -139,6 +156,7 @@ class gsuiDrumrows extends HTMLElement {
 		el.textContent = name;
 	}
 	#changeToggle( id, b ) {
+		GSUI.$setAttribute( this.#rows.get( id ).toggle, "off", !b );
 		this.#rows.get( id ).root.classList.toggle( "gsuiDrumrow-mute", !b );
 		this.#lines.get( id ).classList.toggle( "gsuiDrumrow-mute", !b );
 	}
@@ -206,7 +224,6 @@ class gsuiDrumrows extends HTMLElement {
 
 			switch ( e.target.dataset.action ) {
 				case "props": this.#expandProps( id ); break;
-				case "toggle": this.#dispatch( "change", "toggleDrumrow", id ); break;
 				case "delete": this.#dispatch( "change", "removeDrumrow", id ); break;
 			}
 		}
@@ -225,9 +242,7 @@ class gsuiDrumrows extends HTMLElement {
 	}
 	#oncontextmenuRows( e ) {
 		e.preventDefault();
-		if ( e.target.dataset.action === "toggle" ) {
-			this.#dispatch( "change", "toggleSoloDrumrow", e.target.closest( ".gsuiDrumrow" ).dataset.id );
-		} else if ( e.target.classList.contains( "gsuiDrumrow-propSpan" ) ) {
+		if ( e.target.classList.contains( "gsuiDrumrow-propSpan" ) ) {
 			this.#dispatch( "propFilters", e.target.previousElementSibling.value );
 		}
 	}

@@ -16,7 +16,7 @@ GSUI.$setTemplate( "gsui-drumrow", () =>
 			GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "grip-v" } ),
 		),
 		GSUI.$createElement( "div", { class: "gsuiDrumrow-main" },
-			GSUI.$createElement( "button", { type: "button", class: "gsuiIcon gsuiDrumrow-btnToggle", "data-action": "toggle", "data-icon": "toggle", title: "Toggle the drumrow (right click for solo)" } ),
+			GSUI.$createElement( "gsui-toggle", { title: "Toggle the drumrow (right click for solo)" } ),
 			GSUI.$createElement( "button", { type: "button", class: "gsuiIcon gsuiDrumrow-btnProps", "data-action": "props", "data-icon": "drumprops", title: "Expand props panel" } ),
 			GSUI.$createElement( "button", { type: "button", class: "gsuiIcon gsuiDrumrow-btnDelete", "data-action": "delete", "data-icon": "close", title: "Remove the drumrow" } ),
 			GSUI.$createElement( "span", { class: "gsuiDrumrow-name" } ),

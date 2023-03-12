@@ -46,7 +46,6 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 		.2s min-height;
 }
 .gsuiDrumrow-mute {
-	--gsuiDrumrow-toggle-color: var( --gsui-toggle-off );
 	border-color: transparent;
 	background-color: var( --gsui-item-bg-disabled );
 }
@@ -132,19 +131,11 @@ gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
 	pointer-events: none;
 	opacity: .4;
 }
-.gsuiDrumrow-btnToggle {
+gsui-drumrows gsui-toggle {
 	position: absolute;
 	inset: 0 auto auto 0;
 	width: var( --toggle-w );
 	height: var( --name-h );
-	border: 0;
-	outline: 0;
-	padding: 0;
-	font-size: 8px;
-	color: var( --gsuiDrumrow-toggle-color, var( --gsui-toggle-on ) );
-	cursor: pointer;
-	background: none;
-	transition: .1s opacity;
 }
 .gsuiDrumrow-name {
 	position: absolute;
