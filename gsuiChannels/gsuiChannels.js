@@ -30,6 +30,7 @@ class gsuiChannels extends HTMLElement {
 				selectEffect: ( d, chan ) => this.onselectEffect( chan.dataset.id, d.args[ 0 ] ),
 				liveChange: ( d, chan ) => this.oninput( chan.dataset.id, ...d.args ),
 				change: ( d, chan ) => this.onchange( "changeChannel", chan.dataset.id, ...d.args ),
+				toggle: ( d, chan ) => this.onchange( "toggleChannel", chan.dataset.id ),
 			},
 		} );
 		new gsuiReorder( {
@@ -107,7 +108,6 @@ class gsuiChannels extends HTMLElement {
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
 		gsuiChannels.#selectChanInput.append( GSUI.$createElement( "option", { value: id }, name ) );
 		this.#chans[ id ] = chan;
-		qs( "toggle" ).onclick = () => this.onchange( "toggleChannel", id );
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
 		qs( "rename" ).onclick = () => {

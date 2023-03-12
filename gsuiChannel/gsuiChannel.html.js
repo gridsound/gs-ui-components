@@ -10,7 +10,7 @@ GSUI.$setTemplate( "gsui-channel", () => [
 		GSUI.$createElement( "gsui-analyser" ),
 		GSUI.$createElement( "div", { class: "gsuiChannel-effects" } ),
 	),
-	GSUI.$createElement( "button", { class: "gsuiChannel-toggle gsuiIcon", "data-icon": "toggle" } ),
+	GSUI.$createElement( "gsui-toggle" ),
 	GSUI.$createElement( "div", { class: "gsuiChannel-pan" },
 		GSUI.$createElement( "gsui-slider", { type: "circular", min: -1, max: 1, step: .02, "mousemove-size": 800, "stroke-width": 3, "data-prop": "pan" } ),
 	),

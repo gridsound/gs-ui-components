@@ -1,8 +1,10 @@
 "use strict";
 
 class gsuiChannel extends HTMLElement {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiChannel" );
 	#children = GSUI.$getTemplate( "gsui-channel" );
 	#elements = GSUI.$findElements( this.#children, {
+		toggle: "gsui-toggle",
 		nameWrap: ".gsuiChannel-nameWrap",
 		name: ".gsuiChannel-name",
 		analyser: "gsui-analyser",
@@ -20,23 +22,33 @@ class gsuiChannel extends HTMLElement {
 
 		this.#elements.nameWrap.onclick =
 		this.#elements.analyser.onclick = () => {
-			GSUI.$dispatchEvent( this, "gsuiChannel", "selectChannel" );
+			this.#dispatch( "selectChannel" );
 		};
 		this.#elements.effects.onclick = e => {
 			if ( e.target.dataset.id ) {
-				GSUI.$dispatchEvent( this, "gsuiChannel", "selectChannel" );
-				GSUI.$dispatchEvent( this, "gsuiChannel", "selectEffect", e.target.dataset.id );
+				this.#dispatch( "selectChannel" );
+				this.#dispatch( "selectEffect", e.target.dataset.id );
 			}
 		};
 		GSUI.$listenEvents( this, {
+			gsuiToggle: {
+				toggle: d => {
+					GSUI.$setAttribute( this, "muted", !d.args[ 0 ] );
+					this.#dispatch( "toggle", d.args[ 0 ] );
+				},
+				toggleSolo: () => {
+					GSUI.$setAttribute( this, "muted", false );
+					this.#dispatch( "toggleSolo" );
+				},
+			},
 			gsuiSlider: {
 				inputStart: GSUI.$noop,
 				inputEnd: GSUI.$noop,
 				input: ( d, sli ) => {
-					GSUI.$dispatchEvent( this, "gsuiChannel", "liveChange", sli.dataset.prop, d.args[ 0 ] );
+					this.#dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
 				},
 				change: ( d, sli ) => {
-					GSUI.$dispatchEvent( this, "gsuiChannel", "change", sli.dataset.prop, d.args[ 0 ] );
+					this.#dispatch( "change", sli.dataset.prop, d.args[ 0 ] );
 				},
 			},
 		} );
@@ -57,13 +69,16 @@ class gsuiChannel extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "name", "pan", "gain", "connecta", "connectb" ];
+		return [ "name", "muted", "pan", "gain", "connecta", "connectb" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
 			switch ( prop ) {
 				case "name":
 					this.#elements.name.textContent = val;
+					break;
+				case "muted":
+					GSUI.$setAttribute( this.#elements.toggle, "off", val !== null );
 					break;
 				case "pan":
 				case "gain":

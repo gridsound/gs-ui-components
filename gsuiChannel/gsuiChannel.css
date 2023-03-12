@@ -19,7 +19,6 @@ gsui-mixer gsui-channel[ selected ] {
 }
 gsui-channel[ muted ] {
 	--gsuiChannel-bg: var( --gsui-item-bg-disabled );
-	--gsuiChannel-toggle-color: var( --gsui-toggle-off );
 	--gsuiChannel-name-opacity: .5;
 	--gsuiChannel-slider-color: #fff5;
 }
@@ -140,16 +139,9 @@ gsui-channel gsui-analyser {
 }
 
 /* .......................................................................... */
-.gsuiChannel-toggle {
+gsui-channel gsui-toggle {
 	width: 100%;
-	border: 0;
-	padding: 0;
-	outline: 0;
-	font-size: 8px;
 	min-height: 18px;
-	cursor: pointer;
-	color: var( --gsuiChannel-toggle-color, var( --gsui-toggle-on ) );
-	background: none;
 }
 
 /* .......................................................................... */
