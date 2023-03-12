@@ -7,6 +7,7 @@ gsui-toggle {
 	outline: 0;
 	cursor: pointer;
 	color: var( --gsui-toggle-on );
+	transition: color .1s;
 }
 gsui-toggle[ off ] {
 	color: var( --gsui-toggle-off );
@@ -22,9 +23,9 @@ gsui-toggle:focus-visible::after {
 }
 gsui-toggle::before {
 	position: absolute;
-	content: "\f111";
+	content: "\f312";
 	opacity: .6;
 }
 gsui-toggle::after {
-	content: "\10f111";
+	content: "\10f312";
 }
