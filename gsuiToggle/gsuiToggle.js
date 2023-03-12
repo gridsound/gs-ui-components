@@ -7,7 +7,6 @@ class gsuiToggle extends HTMLElement {
 		this.oncontextmenu = () => false;
 		this.onmousedown = e => {
 			if ( e.button === 2 ) {
-				GSUI.$setAttribute( this, "off", false );
 				GSUI.$dispatchEvent( this, "gsuiToggle", "toggleSolo" );
 			} else if ( e.button === 0 ) {
 				const off = GSUI.$getAttribute( this, "off" ) !== null;
