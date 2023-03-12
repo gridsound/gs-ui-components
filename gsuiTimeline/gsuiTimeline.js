@@ -52,9 +52,10 @@ class gsuiTimeline extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			if ( !this.hasAttribute( "step" ) ) {
-				GSUI.$setAttribute( this, "step", 1 );
-			}
+			GSUI.$recallAttributes( this, {
+				step: 1,
+				currenttime: 0,
+			} );
 		}
 		this.#scrollingAncestor = this.#closestScrollingAncestor( this.parentNode );
 		this.#scrollingAncestor.addEventListener( "scroll", this.#onscrollBind );
