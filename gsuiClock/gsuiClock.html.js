@@ -1,7 +1,7 @@
 "use strict";
 
 GSUI.$setTemplate( "gsui-clock", () => [
-	GSUI.$createElement( "div", { class: "gsuiClock-relative" },
+	GSUI.$createElement( "div", { class: "gsuiClock-relative", inert: true },
 		GSUI.$createElement( "div", { class: "gsuiClock-absolute" },
 			GSUI.$createElement( "div", { class: "gsuiClock-a" }, "0" ),
 			GSUI.$createElement( "div", { class: "gsuiClock-b" }, "00" ),
