@@ -72,7 +72,6 @@ gsui-effects {
 }
 .gsuiEffects-fx-enable {
 	--gsuiEffects-fx-head-bg: var( --gsui-item-bg );
-	--gsuiEffects-fx-head-toggle-color: var( --gsui-toggle-on );
 	--gsuiEffects-fx-head-name-opacity: 1;
 }
 .gsuiEffects-fx-head {
@@ -89,7 +88,6 @@ gsui-effects {
 	border-top: 2px solid #0001;
 }
 .gsuiEffects-fx-expand,
-.gsuiEffects-fx-toggle,
 .gsuiEffects-fx-remove {
 	width: 20px;
 	border: 0;
@@ -114,9 +112,8 @@ gsui-effects {
 	font-size: 14px;
 	opacity: var( --gsuiEffects-fx-head-name-opacity, .5 );
 }
-.gsuiEffects-fx-toggle {
-	font-size: 8px;
-	color: var( --gsuiEffects-fx-head-toggle-color, var( --gsui-toggle-off ) );
+.gsuiEffects-fx-head gsui-toggle {
+	width: 20px;
 }
 .gsuiEffects-fx-name {
 	flex: 1;

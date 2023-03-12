@@ -30,14 +30,19 @@ class gsuiEffects extends HTMLElement {
 			parentSelector: "gsui-effects",
 		} );
 		GSUI.$listenEvents( this, {
+			gsuiToggle: {
+				toggle: ( d, btn ) => {
+					this.#dispatch( "toggleEffect", btn.parentNode.parentNode.dataset.id );
+				},
+			},
 			default: {
-				liveChange( d, t ) {
+				liveChange: ( d, t ) => {
 					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
 					d.eventName = "liveChangeEffect";
 					return true;
 				},
-				changeProp( d, t ) {
+				changeProp: ( d, t ) => {
 					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
 					d.eventName = "changeEffect";
@@ -90,7 +95,6 @@ class gsuiEffects extends HTMLElement {
 		const root = GSUI.$getTemplate( "gsui-effects-fx" );
 		const name = root.querySelector( ".gsuiEffects-fx-name" );
 		const expand = root.querySelector( ".gsuiEffects-fx-expand" );
-		const toggle = root.querySelector( ".gsuiEffects-fx-toggle" );
 		const remove = root.querySelector( ".gsuiEffects-fx-remove" );
 		const content = root.querySelector( ".gsuiEffects-fx-content" );
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
@@ -103,14 +107,14 @@ class gsuiEffects extends HTMLElement {
 		} );
 
 		expand.onclick = () => this.$expandToggleEffect( id );
-		toggle.onclick = () => this.#dispatch( "toggleEffect", id );
 		remove.onclick = () => this.#dispatch( "removeEffect", id );
 		if ( "$askData" in uiFx ) {
 			uiFx.$askData = this.$askData.bind( null, id, fx.type );
 		}
+		root.dataset.id =
 		uiFx.dataset.id = id;
-		GSUI.$setAttribute( uiFx, "timedivision", GSUI.$getAttribute( this, "timedivision" ) );
 		root.dataset.type = fx.type;
+		GSUI.$setAttribute( uiFx, "timedivision", GSUI.$getAttribute( this, "timedivision" ) );
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
 		this.#fxsHtml.set( id, html );
