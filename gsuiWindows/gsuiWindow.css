@@ -155,7 +155,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 	transition-property: opacity, background-color;
 	background: none;
 }
-.gsuiWindow-headBtn:focus,
+.gsuiWindow-headBtn:focus-visible,
 .gsuiWindow-headBtn:hover {
 	opacity: 1;
 	background-color: rgba( 0, 0, 0, .1 );
@@ -163,7 +163,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 .gsuiWindow-headBtn[ data-icon="close" ] {
 	font-size: 12px;
 }
-.gsuiWindow-headBtn[ data-icon="close" ]:focus,
+.gsuiWindow-headBtn[ data-icon="close" ]:focus-visible,
 .gsuiWindow-headBtn[ data-icon="close" ]:hover {
 	background-color: var( --gsuiWindow-btn-close-color );
 }
