@@ -4,7 +4,7 @@ class gsuiSlider extends HTMLElement {
 	#min = 0;
 	#max = 100;
 	#scrollStep = 1;
-	#wheelChange = false;
+	#scrollIncr = 0;
 	#mousemoveSize = 0;
 	#strokeWidth = 4;
 	#previousval = "";
@@ -12,6 +12,7 @@ class gsuiSlider extends HTMLElement {
 	#axeX = false;
 	#ptrId = null;
 	#connected = false;
+	#onwheelBinded = this.#onwheel.bind( this );
 	#pxval = 0;
 	#pxmoved = 0;
 	#svgLineLen = 0;
@@ -35,7 +36,6 @@ class gsuiSlider extends HTMLElement {
 		this.height = 0;
 		Object.seal( this );
 
-		this.onwheel = this.#onwheel.bind( this );
 		this.onblur = this.#onblur.bind( this );
 		this.onpointerdown = this.#onpointerdown.bind( this );
 		this.onpointerleave = this.#onpointerleave.bind( this );
@@ -57,7 +57,7 @@ class gsuiSlider extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "value", "type", "min", "max", "step", "scroll-step", "wheel-change", "mousemove-size", "stroke-width" ];
+		return [ "value", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -86,9 +86,6 @@ class gsuiSlider extends HTMLElement {
 					break;
 				case "scroll-step":
 					this.#scrollStep = +val;
-					break;
-				case "wheel-change":
-					this.#wheelChange = typeof val === "string";
 					break;
 				case "mousemove-size":
 					this.#mousemoveSize = +val;
@@ -217,10 +214,12 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	#onwheel( e ) {
-		if ( !GSUI.$hasAttribute( this, "disabled" ) && this.#wheelChange ) {
+		if ( this.#ptrId ) {
 			const d = e.deltaY > 0 ? -1 : 1;
+			const step = this.#scrollStep || this.#elements.input.step;
 
-			this.setValue( +this.#getInputVal() + this.#scrollStep * d, true );
+			this.#scrollIncr += step * d;
+			this.setValue( +this.#getInputVal() + step * d, true );
 			return false;
 		}
 	}
@@ -228,10 +227,12 @@ class gsuiSlider extends HTMLElement {
 		if ( !GSUI.$hasAttribute( this, "disabled" ) ) {
 			this.#pxval = this.#getRange() / this.#getMousemoveSize();
 			this.#pxmoved = 0;
+			this.#scrollIncr = 0;
 			this.#ptrId = e.pointerId;
 			this.setPointerCapture( e.pointerId );
 			this.onpointermove = this.#onpointermove.bind( this );
 			this.onpointerup = this.#onpointerup.bind( this );
+			document.body.addEventListener( "wheel", this.#onwheelBinded );
 			this.focus();
 			this.requestPointerLock();
 			this.#dispatch( "inputStart", this.value );
@@ -240,7 +241,7 @@ class gsuiSlider extends HTMLElement {
 	#onpointermove( e ) {
 		const bound = this.#getRange() / 5;
 		const mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX;
-		const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval;
+		const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval + this.#scrollIncr;
 
 		if ( this.#min - bound < val && val < this.#max + bound ) {
 			this.#pxmoved += mov;
@@ -253,6 +254,7 @@ class gsuiSlider extends HTMLElement {
 			this.releasePointerCapture( this.#ptrId );
 			this.#ptrId = null;
 		}
+		document.body.removeEventListener( "wheel", this.#onwheelBinded );
 		this.onpointermove =
 		this.onpointerup = null;
 		this.#onchange();
