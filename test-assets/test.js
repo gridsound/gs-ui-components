@@ -39,6 +39,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUI.$createElement( "option", { value: "gsuiTimewindow" }, "gsuiTimewindow" ),
 					GSUI.$createElement( "option", { value: "gsuiToggle" }, "gsuiToggle" ),
 					GSUI.$createElement( "option", { value: "gsuiTrack" }, "gsuiTrack" ),
+					GSUI.$createElement( "option", { value: "gsuiWindows" }, "gsuiWindows" ),
 				),
 			),
 			GSUI.$createElement( "div", { id: "testContent" },
