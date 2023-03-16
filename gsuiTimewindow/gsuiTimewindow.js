@@ -16,6 +16,8 @@ class gsuiTimewindow extends HTMLElement {
 		panel: ".gsuiTimewindow-panel",
 		panelDown: ".gsuiTimewindow-panelContentDown",
 		stepBtn: ".gsuiTimewindow-step",
+		sliderZoomX: "gsui-slider[data-zoom=x]",
+		sliderZoomY: "gsui-slider[data-zoom=y]",
 		timeline: "gsui-timeline",
 		beatlines: "gsui-beatlines",
 		loopA: ".gsuiTimewindow-loopA",
@@ -29,6 +31,27 @@ class gsuiTimewindow extends HTMLElement {
 		Object.seal( this );
 
 		GSUI.$listenEvents( this, {
+			gsuiSlider: {
+				input: ( d, sli ) => {
+					if ( sli.dataset.zoom === "x" ) {
+						const val = GSUI.$easeInCirc( d.args[ 0 ] );
+						const newVal = this.#getPPBmin() + val * ( this.#getPPBmax() - this.#getPPBmin() );
+						const scrollBack = this.#calcScrollBack( this.scrollLeft, this.#pxPerBeat, newVal, 0 );
+
+						this.scrollLeft = scrollBack;
+						GSUI.$setAttribute( this, "pxperbeat", newVal );
+						GSUI.$dispatchEvent( this, "gsuiTimewindow", "pxperbeat", newVal );
+					} else if ( sli.dataset.zoom === "y" ) {
+						const val = GSUI.$easeInCirc( d.args[ 0 ] );
+						const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
+						const scrollBack = this.#calcScrollBack( this.scrollTop, this.#lineHeight, newVal, 0 );
+
+						this.scrollTop = scrollBack;
+						GSUI.$setAttribute( this, "lineheight", newVal );
+						GSUI.$dispatchEvent( this, "gsuiTimewindow", "lineheight", newVal );
+					}
+				},
+			},
 			gsuiTimeline: {
 				inputCurrentTime: GSUI.$noop,
 				changeCurrentTime: d => {
@@ -102,6 +125,7 @@ class gsuiTimewindow extends HTMLElement {
 					this.#pxPerBeat = +val;
 					GSUI.$setAttribute( this.#elements.timeline, "pxperbeat", val );
 					GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", val );
+					GSUI.$setAttribute( this.#elements.sliderZoomX, "value", GSUI.$easeOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
 					this.style.setProperty( "--gsuiTimewindow-pxperbeat", `${ val }px` );
 					this.#elements.currentTime.style.fontSize =
 					this.#elements.loopA.style.fontSize =
@@ -109,6 +133,7 @@ class gsuiTimewindow extends HTMLElement {
 					break;
 				case "lineheight":
 					this.#lineHeight = +val;
+					GSUI.$setAttribute( this.#elements.sliderZoomY, "value", GSUI.$easeOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
 					this.style.setProperty( "--gsuiTimewindow-lineH", `${ val }px` );
 					break;
 				case "currenttime": {
@@ -146,6 +171,16 @@ class gsuiTimewindow extends HTMLElement {
 			step >= .25 ? "1 / 4" : "1 / 8"
 		);
 	}
+	#getPPBmin() { return GSUI.$getAttributeNum( this, "pxperbeatmin" ) || 8; }
+	#getPPBmax() { return GSUI.$getAttributeNum( this, "pxperbeatmax" ) || 512; }
+	#getLHmin() { return GSUI.$getAttributeNum( this, "lineheightmin" ) || 24; }
+	#getLHmax() { return GSUI.$getAttributeNum( this, "lineheightmax" ) || 256; }
+	#calcScrollBack( scroll, currValue, newValue, mousepx ) {
+		const scrollVal = scroll / currValue;
+		const scrollIncr = mousepx / currValue * ( newValue - currValue );
+
+		return scrollVal * newValue + scrollIncr;
+	}
 
 	// .........................................................................
 	#onclickStep() {
@@ -159,42 +194,30 @@ class gsuiTimewindow extends HTMLElement {
 	}
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
-			const ppb = this.#pxPerBeat;
-			const min = GSUI.$getAttributeNum( this, "pxperbeatmin" ) || 8;
-			const max = GSUI.$getAttributeNum( this, "pxperbeatmax" ) || 512;
-			const offpx = parseInt( this.#elements.panel.style.minWidth );
-			const mousepx = e.pageX - this.getBoundingClientRect().left - offpx;
-			const scrollPpb = this.scrollLeft / ppb;
 			const mul = e.deltaY > 0 ? .9 : 1.1;
-			const ppbNew = Math.round( Math.min( Math.max( min, ppb * mul ), max ) );
+			const ppbNew = Math.round( Math.min( Math.max( this.#getPPBmin(), this.#pxPerBeat * mul ), this.#getPPBmax() ) );
 
 			e.preventDefault();
-			if ( ppbNew !== ppb ) {
-				const scrollIncr = mousepx / ppb * ( ppbNew - ppb );
+			if ( ppbNew !== this.#pxPerBeat ) {
+				const px = e.pageX - this.getBoundingClientRect().left - parseInt( this.#elements.panel.style.minWidth );
 
+				this.scrollLeft = this.#calcScrollBack( this.scrollLeft, this.#pxPerBeat, ppbNew, px );
 				GSUI.$setAttribute( this, "pxperbeat", ppbNew );
-				this.scrollLeft = scrollPpb * ppbNew + scrollIncr;
 				GSUI.$dispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
 			}
 		}
 	}
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
-			const lh = this.#lineHeight;
-			const min = GSUI.$getAttributeNum( this, "lineheightmin" ) || 24;
-			const max = GSUI.$getAttributeNum( this, "lineheightmax" ) || 256;
-			const offpx = parseInt( this.#elements.timeline.clientHeight );
-			const mousepx = e.pageY - this.getBoundingClientRect().top - offpx;
-			const scrollLh = this.scrollTop / lh;
 			const mul = e.deltaY > 0 ? .9 : 1.1;
-			const lhNew = Math.round( Math.min( Math.max( min, lh * mul ), max ) );
+			const lhNew = Math.round( Math.min( Math.max( this.#getLHmin(), this.#lineHeight * mul ), this.#getLHmax() ) );
 
 			e.preventDefault();
-			if ( lhNew !== lh ) {
-				const scrollIncr = mousepx / lh * ( lhNew - lh );
+			if ( lhNew !== this.#lineHeight ) {
+				const px = e.pageY - this.getBoundingClientRect().top - parseInt( this.#elements.timeline.clientHeight );
 
+				this.scrollTop = this.#calcScrollBack( this.scrollTop, this.#lineHeight, lhNew, px );
 				GSUI.$setAttribute( this, "lineheight", lhNew );
-				this.scrollTop = scrollLh * lhNew + scrollIncr;
 				GSUI.$dispatchEvent( this, "gsuiTimewindow", "lineheight", lhNew );
 			}
 		}

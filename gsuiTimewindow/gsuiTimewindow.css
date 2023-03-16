@@ -145,3 +145,13 @@ gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 	white-space: nowrap;
 	margin-right: 6px;
 }
+
+.gsuiTimewindow-panelUp gsui-slider {
+	width: 6px;
+	height: 80%;
+	--gsuiSlider-lineColor: var( --gsuiTimewindow-bg );
+}
+.gsuiTimewindow-panelUp gsui-slider:first-of-type {
+	margin-left: 4px;
+	margin-right: 2px;
+}

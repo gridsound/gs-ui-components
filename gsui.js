@@ -5,6 +5,9 @@ class GSUI {
 	static $popup = document.createElement( "gsui-popup" );
 	static $dragshield = document.createElement( "gsui-dragshield" );
 
+	static $easeInCirc( x ) {
+		return 1 - Math.sqrt( 1 - Math.pow( x, 2 ) );
+	}
 	static $easeOutCirc( x ) {
 		return Math.sqrt( 1 - Math.pow( x - 1, 2 ) );
 	}
