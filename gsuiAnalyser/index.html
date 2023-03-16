@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 200px;
+	--test-content-h: 300px;
+}
+gsui-analyser {
+	height: 100%;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-analyser></gsui-analyser>
+</div>
+<div id="TEST-CTRLS">
+	<button id="play" disabled>play</button>
+	<button id="stop">stop</button>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.js"></script>
+<script src="/gs-ui-components/gsuiAnalyser/gsuiAnalyser.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const play = document.querySelector( "#play" );
+const stop = document.querySelector( "#stop" );
+const analyser = document.querySelector( "gsui-analyser" );
+const ctx = new AudioContext();
+const anL = ctx.createAnalyser();
+const anR = ctx.createAnalyser();
+const split = ctx.createChannelSplitter( 2 );
+const fftSize = 2048;
+const anLData = new Uint8Array( fftSize / 2 );
+const anRData = new Uint8Array( fftSize / 2 );
+let buffer;
+let absn;
+
+analyser.setResolution( 100, 500 );
+
+anL.fftSize = fftSize;
+anR.fftSize = fftSize;
+anL.smoothingTimeConstant = 0;
+anR.smoothingTimeConstant = 0;
+
+split.connect( anL, 0 );
+split.connect( anR, 1 );
+
+fetch( "../test-assets/Cymatics-IcedOut.wav" )
+	.then( res => res.arrayBuffer() )
+	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( buf => {
+		buffer = buf;
+		play.disabled = false;
+	} );
+
+stop.onclick = () => {
+	absn?.stop();
+};
+play.onclick = () => {
+	stop.onclick();
+	absn = ctx.createBufferSource();
+	absn.buffer = buffer;
+	absn.loop = true;
+	absn.connect( split );
+	absn.connect( ctx.destination );
+	absn.start();
+};
+
+function frame() {
+	anL.getByteFrequencyData( anLData );
+	anR.getByteFrequencyData( anRData );
+	analyser.draw( anLData, anRData );
+	requestAnimationFrame( frame );
+}
+
+frame();
+</script>
+</body>
+</html>

@@ -36,7 +36,6 @@ body {
 #testLinks {
 	flex: 1;
 	display: flex;
-	max-width: 600px;
 	flex-wrap: wrap;
 	align-self: center;
 	align-items: center;
