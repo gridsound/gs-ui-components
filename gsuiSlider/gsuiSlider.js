@@ -3,7 +3,7 @@
 class gsuiSlider extends HTMLElement {
 	#min = 0;
 	#max = 100;
-	#scrollStep = 1;
+	#scrollStep = 0;
 	#scrollIncr = 0;
 	#mousemoveSize = 0;
 	#strokeWidth = 4;
@@ -220,6 +220,7 @@ class gsuiSlider extends HTMLElement {
 
 			this.#scrollIncr += step * d;
 			this.setValue( +this.#getInputVal() + step * d, true );
+			e.preventDefault();
 			return false;
 		}
 	}
@@ -232,7 +233,7 @@ class gsuiSlider extends HTMLElement {
 			this.setPointerCapture( e.pointerId );
 			this.onpointermove = this.#onpointermove.bind( this );
 			this.onpointerup = this.#onpointerup.bind( this );
-			document.body.addEventListener( "wheel", this.#onwheelBinded );
+			document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
 			this.focus();
 			this.requestPointerLock();
 			this.#dispatch( "inputStart", this.value );
