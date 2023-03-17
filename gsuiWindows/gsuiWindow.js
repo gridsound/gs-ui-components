@@ -51,14 +51,17 @@ class gsuiWindow extends HTMLElement {
 	open() { return this.openToggle( true ); }
 	close() { return this.openToggle( false ); }
 	openToggle( b ) {
-		if ( b ) {
-			this.#show = true;
-			this.#setClass( "show", true );
-			this.#parent._open( this );
-		} else if ( !this.onclose || this.onclose() !== false ) {
-			this.#show = false;
-			this.#setClass( "show", false );
-			this.#parent._close( this );
+		if ( b !== this.#show ) {
+			if ( b ) {
+				this.#show = true;
+				this.#setClass( "show", true );
+				this.#parent._open( this );
+			} else if ( !this.onclose || this.onclose() !== false ) {
+				this.#show = false;
+				this.#setClass( "show", false );
+				GSUI.$emptyElement( this.#elements.content );
+				this.#parent._close( this );
+			}
 		}
 	}
 
