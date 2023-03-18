@@ -68,6 +68,7 @@ class gsuiTimewindow extends HTMLElement {
 				inputCurrentTimeStart: () => this.style.overflowY = "hidden",
 			},
 		} );
+		this.timeline.$setScrollingParent( this );
 		this.ondragstart = () => false;
 		this.#elements.main.onwheel = this.#onwheel.bind( this );
 		this.#elements.stepBtn.onclick = this.#onclickStep.bind( this );

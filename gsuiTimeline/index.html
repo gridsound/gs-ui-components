@@ -86,18 +86,19 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elTimeline = document.querySelector( "gsui-timeline" );
+const timeline = document.querySelector( "gsui-timeline" );
 const inpTPr = document.querySelector( "#currentTimePreview" );
 const inpTim = document.querySelector( "#currentTime" );
 const inpPBB = document.querySelector( "#pxPerbeat" );
 const inpBPM = document.querySelector( "#beatsPerMeasure" );
 const inpSPB = document.querySelector( "#stepsPerBeat" );
 
-inpTPr.oninput = e => GSUI.$setAttribute( elTimeline, "currenttime-preview", inpTPr.value );
-inpTim.oninput = e => GSUI.$setAttribute( elTimeline, "currenttime", inpTim.value );
-inpPBB.oninput = e => GSUI.$setAttribute( elTimeline, "pxperbeat", inpPBB.value );
+timeline.$setScrollingParent( document.querySelector( "#wrapOut" ) );
+inpTPr.oninput = e => GSUI.$setAttribute( timeline, "currenttime-preview", inpTPr.value );
+inpTim.oninput = e => GSUI.$setAttribute( timeline, "currenttime", inpTim.value );
+inpPBB.oninput = e => GSUI.$setAttribute( timeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
-inpSPB.oninput = e => GSUI.$setAttribute( elTimeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
+inpSPB.oninput = e => GSUI.$setAttribute( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
 document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
 </body>

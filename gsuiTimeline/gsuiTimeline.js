@@ -4,7 +4,7 @@ class gsuiTimeline extends HTMLElement {
 	#status = "";
 	#step = 1;
 	#offset = null;
-	#scrollingAncestor = null;
+	#scrollingAncestor = document.body;
 	#mousedownLoop = "";
 	#onlyBigMeasures = false;
 	#mousedownDate = 0;
@@ -57,16 +57,12 @@ class gsuiTimeline extends HTMLElement {
 				currenttime: 0,
 			} );
 		}
-		this.#scrollingAncestor = this.#closestScrollingAncestor( this.parentNode );
-		this.#scrollingAncestor.addEventListener( "scroll", this.#onscrollBind );
-		GSUI.$observeSizeOf( this.#scrollingAncestor, this.#onresizeBind );
 		this.#updateOffset();
 		this.#updateNumberMeasures();
 		this.#updateMeasures();
 	}
 	disconnectedCallback() {
-		this.#scrollingAncestor.removeEventListener( "scroll", this.#onscrollBind );
-		GSUI.$unobserveSizeOf( this.#scrollingAncestor, this.#onresizeBind );
+		this.#unscrollEvent();
 	}
 	static get observedAttributes() {
 		return [ "step", "timedivision", "pxperbeat", "loop", "currenttime", "currenttime-preview" ];
@@ -85,6 +81,30 @@ class gsuiTimeline extends HTMLElement {
 	}
 
 	// .........................................................................
+	$setScrollingParent( el ) {
+		this.#unscrollEvent();
+		this.#scrollingAncestor = el;
+		el.addEventListener( "scroll", this.#onscrollBind );
+		GSUI.$observeSizeOf( el, this.#onresizeBind );
+	}
+	#unscrollEvent() {
+		if ( this.#scrollingAncestor ) {
+			this.#scrollingAncestor.removeEventListener( "scroll", this.#onscrollBind );
+			GSUI.$unobserveSizeOf( this.#scrollingAncestor, this.#onresizeBind );
+		}
+	}
+
+	// .........................................................................
+	beatCeil( beat ) { return this.#beatCalc( Math.ceil, beat ); }
+	beatRound( beat ) { return this.#beatCalc( Math.round, beat ); }
+	beatFloor( beat ) { return this.#beatCalc( Math.floor, beat ); }
+	#beatCalc( mathFn, beat ) {
+		const mod = 1 / this.stepsPerBeat * this.#step;
+
+		return mathFn( beat / mod ) * mod;
+	}
+
+	// .........................................................................
 	#changePxPerBeat( ppb ) {
 		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) );
 		const beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) );
@@ -98,11 +118,9 @@ class gsuiTimeline extends HTMLElement {
 		this.style.setProperty( "--gsuiTimeline-measures-opacity", measuresOpa );
 		this.#elements.steps.style.opacity = stepsOpa;
 		this.#elements.beats.style.opacity = beatsOpa;
-		if ( this.#scrollingAncestor ) {
-			this.#updateOffset();
-			this.#updateNumberMeasures();
-			this.#updateMeasures();
-		}
+		this.#updateOffset();
+		this.#updateNumberMeasures();
+		this.#updateMeasures();
 	}
 	#changeTimedivision( timediv ) {
 		const [ bPM, sPB ] = timediv.split( "/" );
@@ -146,23 +164,6 @@ class gsuiTimeline extends HTMLElement {
 	}
 
 	// .........................................................................
-	beatCeil( beat ) { return this.#beatCalc( Math.ceil, beat ); }
-	beatRound( beat ) { return this.#beatCalc( Math.round, beat ); }
-	beatFloor( beat ) { return this.#beatCalc( Math.floor, beat ); }
-	#beatCalc( mathFn, beat ) {
-		const mod = 1 / this.stepsPerBeat * this.#step;
-
-		return mathFn( beat / mod ) * mod;
-	}
-
-	// .........................................................................
-	#closestScrollingAncestor( el ) {
-		const ov = getComputedStyle( el ).overflowX;
-
-		return ov === "auto" || ov === "scroll" || el === document.body
-			? el
-			: this.#closestScrollingAncestor( el.parentNode );
-	}
 	#setStatus( st ) {
 		this.classList.remove( `gsuiTimeline-${ this.#status }` );
 		this.classList.toggle( `gsuiTimeline-${ st }`, !!st );
