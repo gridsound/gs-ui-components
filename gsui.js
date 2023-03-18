@@ -181,10 +181,10 @@ class GSUI {
 	}
 	static $unobserveSizeOf( el, fn ) {
 		const fns = GSUI.#resizeMap.get( el );
-		const fnInd = fns.indexOf( fn );
+		const fnInd = fns?.indexOf( fn );
 
-		GSUI.#resizeObs.unobserve( el );
 		if ( fnInd > -1 ) {
+			GSUI.#resizeObs.unobserve( el );
 			fns.splice( fnInd, 1 );
 			if ( fns.length === 0 ) {
 				GSUI.#resizeMap.delete( el );
