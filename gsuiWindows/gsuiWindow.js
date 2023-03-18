@@ -225,9 +225,9 @@ class gsuiWindow extends HTMLElement {
 
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
-		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos.x, mmPos.y );
+		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos );
 		if ( !this.#parent._lowGraphics ) {
-			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos.x, mmPos.y );
+			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos );
 		}
 	}
 	#onmouseupHead() {
@@ -298,7 +298,7 @@ class gsuiWindow extends HTMLElement {
 			...this.#parent._arrWindows,
 			{
 				dataset: {},
-				rect: { x: 0, y: 0, w: parBCR.width - 4, h: parBCR.height - 4 },
+				rect: { x: 0, y: 0, w: parBCR.width, h: parBCR.height },
 			}
 		];
 		let mgX = 0;
@@ -357,11 +357,13 @@ class gsuiWindow extends HTMLElement {
 		st.right =
 		st.bottom = 0;
 	}
-	#setCSSrelativeMove( st, x, y ) {
-		st.top    = `${  y }px`;
-		st.left   = `${  x }px`;
-		st.right  = `${ -x }px`;
-		st.bottom = `${ -y }px`;
+	#setCSSrelativeMove( st, p ) {
+		p.x = Math.max( -parseFloat( this.style.left ), p.x );
+		p.y = Math.max( -parseFloat( this.style.top ), p.y );
+		st.top    = `${  p.y }px`;
+		st.left   = `${  p.x }px`;
+		st.right  = `${ -p.x }px`;
+		st.bottom = `${ -p.y }px`;
 	}
 	#calcCSSrelativeResize( dir, mm ) {
 		const w = this.rect.w - this.#wMin;
