@@ -12,13 +12,12 @@ class gsuiWindows extends HTMLElement {
 		this.onopen =
 		this.onclose = null;
 		this._arrWindows = [];
-		this._lowGraphics = false;
 		Object.seal( this );
 	}
 
 	// .........................................................................
-	$lowGraphics( b ) {
-		this._lowGraphics = b;
+	$setLowGraphics( b ) {
+		this._arrWindows.forEach( win => win.$setLowGraphics( b ) );
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
 	$createWindow( id ) {

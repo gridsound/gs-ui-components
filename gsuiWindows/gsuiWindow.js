@@ -7,6 +7,7 @@ class gsuiWindow extends HTMLElement {
 	#parent = null;
 	#minimized = false;
 	#maximized = false;
+	#lowGraphics = false;
 	#restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
@@ -69,6 +70,9 @@ class gsuiWindow extends HTMLElement {
 	// .........................................................................
 	$setParent( p ) {
 		this.#parent = p;
+	}
+	$setLowGraphics( b ) {
+		this.#lowGraphics = b;
 	}
 	$setId( id ) {
 		this.dataset.id = id;
@@ -222,7 +226,7 @@ class gsuiWindow extends HTMLElement {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos );
-		if ( !this.#parent._lowGraphics ) {
+		if ( !this.#lowGraphics ) {
 			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos );
 		}
 	}
@@ -249,7 +253,7 @@ class gsuiWindow extends HTMLElement {
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
 		this.#setCSSrelativeResize( this.#elements.handlers.style, dir, mmPos );
-		if ( !this.#parent._lowGraphics ) {
+		if ( !this.#lowGraphics ) {
 			this.#setCSSrelativeResize( this.#elements.wrap.style, dir, mmPos );
 		}
 	}
