@@ -188,6 +188,7 @@ class gsuiWindow extends HTMLElement {
 		const clTar = e.target.classList;
 		const clicked =
 			clTar.contains( "gsuiWindow-head" ) ||
+			clTar.contains( "gsuiWindow-icon" ) ||
 			clTar.contains( "gsuiWindow-title" ) ||
 			clTar.contains( "gsuiWindow-headContent" );
 
