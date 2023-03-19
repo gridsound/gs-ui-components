@@ -358,8 +358,15 @@ class gsuiWindow extends HTMLElement {
 		st.bottom = 0;
 	}
 	#setCSSrelativeMove( st, p ) {
-		p.x = Math.max( -parseFloat( this.style.left ), p.x );
-		p.y = Math.max( -parseFloat( this.style.top ), p.y );
+		const top = parseFloat( this.style.top );
+		const left = parseFloat( this.style.left );
+		const minX = -left - this.clientWidth + ( 3 * 24 + 10 );
+		const minY = -top;
+		const maxX = this.parentNode.clientWidth - left - 24 - 10;
+		const maxY = this.parentNode.clientHeight - top - 24;
+
+		p.y = Math.max( minY, Math.min( p.y, maxY ) );
+		p.x = Math.max( minX, Math.min( p.x, maxX ) );
 		st.top    = `${  p.y }px`;
 		st.left   = `${  p.x }px`;
 		st.right  = `${ -p.x }px`;
