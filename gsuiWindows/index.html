@@ -46,6 +46,9 @@ gsui-windows {
 		<button id="winB">winB</button>
 		<button id="winC">winC</button>
 	</div>
+	<div>
+		<button id="addContent">addContent</button>
+	</div>
 </div>
 
 <!-- ....................................................................... -->
@@ -63,6 +66,7 @@ gsui-windows {
 <!-- ....................................................................... -->
 <script>
 const wins = document.querySelector( "gsui-windows" );
+const addBtn = document.querySelector( "#addContent" );
 const winA = wins.createWindow( "winA" );
 const winB = wins.createWindow( "winB" );
 const winC = wins.createWindow( "winC" );
@@ -71,6 +75,11 @@ document.querySelector( "#lowGraphics" ).onchange = e => wins.lowGraphics( e.tar
 document.querySelector( "#winA" ).onclick = () => winA.open();
 document.querySelector( "#winB" ).onclick = () => winB.open();
 document.querySelector( "#winC" ).onclick = () => winC.open();
+addBtn.onclick = () => {
+	winA.contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "A" ) );
+	winB.contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "B" ) );
+	winC.contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "C" ) );
+};
 
 winA.setSize( 100, 100 );
 winA.setPosition( 10, 10 );
@@ -84,6 +93,7 @@ winC.setPosition( 230, 10 );
 winA.open();
 winB.open();
 winC.open();
+addBtn.onclick();
 </script>
 </body>
 </html>
