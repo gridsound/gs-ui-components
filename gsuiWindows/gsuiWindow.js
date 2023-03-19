@@ -46,7 +46,7 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "x", "y", "w", "h", "wmin", "hmin" ];
+		return [ "x", "y", "w", "h", "wmin", "hmin", "lowgraphics", "icon", "title" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
@@ -57,6 +57,9 @@ class gsuiWindow extends HTMLElement {
 				case "h": this.style.height = `${ this.rect.h = +val }px`; break;
 				case "wmin": this.#wMin = +val; break;
 				case "hmin": this.#hMin = +val; break;
+				case "lowgraphics": this.#lowGraphics = val !== null; break;
+				case "icon": this.#elements.icon.dataset.icon = val; break;
+				case "title": this.#elements.title.textContent = val; break;
 			}
 		}
 	}
@@ -83,15 +86,6 @@ class gsuiWindow extends HTMLElement {
 	// .........................................................................
 	$setParent( p ) {
 		this.#parent = p;
-	}
-	$setLowGraphics( b ) {
-		this.#lowGraphics = b;
-	}
-	$setTitle( t ) {
-		this.#elements.title.textContent = t;
-	}
-	$setTitleIcon( icon ) {
-		this.#elements.icon.dataset.icon = icon;
 	}
 	$empty() {
 		GSUI.$emptyElement( this.#elements.content );

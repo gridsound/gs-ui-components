@@ -22,7 +22,7 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 500px;
+	--test-content-w: 560px;
 	--test-content-h: 400px;
 }
 gsui-windows {
@@ -81,9 +81,9 @@ addBtn.onclick = () => {
 	winC.$contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "C" ) );
 };
 
-GSUI.$setAttribute( winA, { x:  10, y: 10, w: 100, h: 100 } );
-GSUI.$setAttribute( winB, { x: 120, y: 10, w: 100, h: 100 } );
-GSUI.$setAttribute( winC, { x: 230, y: 10, w: 100, h: 100 } );
+GSUI.$setAttribute( winA, { x:  10, y: 10, w: 140, h: 100, icon: "osc-square", title: "Aaa" } );
+GSUI.$setAttribute( winB, { x: 160, y: 10, w: 140, h: 100, icon: "osc-square", title: "Bbb" } );
+GSUI.$setAttribute( winC, { x: 310, y: 10, w: 140, h: 100, icon: "osc-square", title: "Ccc" } );
 
 winA.$open();
 winB.$open();

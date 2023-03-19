@@ -17,7 +17,7 @@ class gsuiWindows extends HTMLElement {
 
 	// .........................................................................
 	$setLowGraphics( b ) {
-		this._arrWindows.forEach( win => win.$setLowGraphics( b ) );
+		this._arrWindows.forEach( win => GSUI.$setAttribute( win, "lowgraphics", b ) );
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
 	$createWindow( id ) {
