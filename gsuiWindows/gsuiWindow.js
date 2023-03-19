@@ -114,7 +114,7 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "minimized", false );
 			this.#maximized = true;
 			this.#minimized = false;
-			this.focus();
+			this.focus( { preventScroll: true } );
 			this.#parent._winMaximized( this.dataset.id );
 		}
 	}
@@ -142,7 +142,7 @@ class gsuiWindow extends HTMLElement {
 		if ( this.#minimized || this.#maximized ) {
 			const rcRestore = this.#restoreRect;
 
-			this.focus();
+			this.focus( { preventScroll: true } );
 			this.#setClass( "minimized", false );
 			this.#setClass( "maximized", false );
 			this.#minimized =
