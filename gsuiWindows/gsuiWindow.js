@@ -72,9 +72,6 @@ class gsuiWindow extends HTMLElement {
 	$setLowGraphics( b ) {
 		this.#lowGraphics = b;
 	}
-	$setId( id ) {
-		this.dataset.id = id;
-	}
 	$setTitle( t ) {
 		this.#elements.title.textContent = t;
 	}
@@ -90,12 +87,6 @@ class gsuiWindow extends HTMLElement {
 	}
 	$headAppend( ...args ) {
 		this.#elements.headContent.append( ...args );
-	}
-	$getZIndex() {
-		return +this.style.zIndex || 0;
-	}
-	$setZIndex( z ) {
-		this.style.zIndex = z;
 	}
 	$setSize( w, h ) {
 		this.rect.w = w;

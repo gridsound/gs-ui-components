@@ -23,7 +23,7 @@ class gsuiWindows extends HTMLElement {
 	$createWindow( id ) {
 		const win = GSUI.$createElement( "gsui-window" );
 
-		win.$setId( id );
+		win.dataset.id = id;
 		win.$setParent( this );
 		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
 		this._arrWindows.push( win );
@@ -64,14 +64,16 @@ class gsuiWindows extends HTMLElement {
 	}
 	#onfocusinWin( win, e ) {
 		if ( win !== this.#focusedWindow ) {
-			const z = win.$getZIndex();
+			const z = +win.style.zIndex || 0;
 
 			this._arrWindows.forEach( win => {
-				if ( win.$getZIndex() > z ) {
-					win.$setZIndex( win.$getZIndex() - 1 );
+				const zz = +win.style.zIndex || 0;
+
+				if ( zz > z ) {
+					win.style.zIndex = zz - 1;
 				}
 			} );
-			win.$setZIndex( this._arrWindows.length - 1 );
+			win.style.zIndex = this._arrWindows.length - 1;
 			this.#focusedWindow = win;
 		}
 	}
