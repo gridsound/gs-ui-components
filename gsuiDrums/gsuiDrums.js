@@ -14,7 +14,7 @@ class gsuiDrums extends HTMLElement {
 	#hoverBeat = 0;
 	#hoverPageX = 0;
 	#stepsPerBeat = 4;
-	#pxPerBeat = 80;
+	#pxPerBeat = 70;
 	#pxPerStep = this.#pxPerBeat / this.#stepsPerBeat;
 	#currAction = "";
 	#draggingRowId = null;
