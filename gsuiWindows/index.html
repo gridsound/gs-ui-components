@@ -81,14 +81,9 @@ addBtn.onclick = () => {
 	winC.$contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "C" ) );
 };
 
-winA.$setSize( 100, 100 );
-winA.$setPosition( 10, 10 );
-
-winB.$setSize( 100, 100 );
-winB.$setPosition( 120, 10 );
-
-winC.$setSize( 100, 100 );
-winC.$setPosition( 230, 10 );
+GSUI.$setAttribute( winA, { x:  10, y: 10, w: 100, h: 100 } );
+GSUI.$setAttribute( winB, { x: 120, y: 10, w: 100, h: 100 } );
+GSUI.$setAttribute( winC, { x: 230, y: 10, w: 100, h: 100 } );
 
 winA.$open();
 winB.$open();
