@@ -17,36 +17,35 @@ class gsuiWindows extends HTMLElement {
 	}
 
 	// .........................................................................
-	lowGraphics( b ) {
+	$lowGraphics( b ) {
 		this._lowGraphics = b;
 		this.classList.toggle( "gsuiWindows-lowGraphics", b );
 	}
-	createWindow( id ) {
+	$createWindow( id ) {
 		const win = GSUI.$createElement( "gsui-window" );
 
-		win.setId( id );
-		win.setParent( this );
-		win.movable( true );
-		win.addEventListener( "focusin", this._onfocusinWin.bind( this, win ) );
+		win.$setId( id );
+		win.$setParent( this );
+		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
 		this._arrWindows.push( win );
 		this.#objWindows[ id ] = win;
 		this.append( win );
 		return win;
 	}
-	window( winId ) {
+	$window( winId ) {
 		return this.#objWindows[ winId ];
 	}
 
 	// .........................................................................
 	_startMousemoving( cursor, fnMove, fnUp ) {
-		this.#mouseFnUp = this._stopMousemoving.bind( this, fnUp );
+		this.#mouseFnUp = this.#stopMousemoving.bind( this, fnUp );
 		this.#mouseFnMove = fnMove;
 		document.addEventListener( "mouseup", this.#mouseFnUp );
 		document.addEventListener( "mousemove", fnMove );
 		GSUI.$unselectText();
 		GSUI.$dragshield.show( cursor );
 	}
-	_stopMousemoving( fnUp, e ) {
+	#stopMousemoving( fnUp, e ) {
 		document.removeEventListener( "mouseup", this.#mouseFnUp );
 		document.removeEventListener( "mousemove", this.#mouseFnMove );
 		GSUI.$dragshield.hide();
@@ -55,30 +54,25 @@ class gsuiWindows extends HTMLElement {
 		fnUp( e );
 	}
 	_open( win ) {
-		win.focus();
-		this._onfocusinWin( win );
-		if ( this.onopen ) {
-			this.onopen( win );
-		}
+		this.#onfocusinWin( win );
+		this.onopen?.( win );
 	}
 	_close( win ) {
 		if ( win === this.#focusedWindow ) {
 			this.#focusedWindow = null;
 		}
-		if ( this.onclose ) {
-			this.onclose( win );
-		}
+		this.onclose?.( win );
 	}
-	_onfocusinWin( win, e ) {
+	#onfocusinWin( win, e ) {
 		if ( win !== this.#focusedWindow ) {
-			const z = win.getZIndex();
+			const z = win.$getZIndex();
 
 			this._arrWindows.forEach( win => {
-				if ( win.getZIndex() > z ) {
-					win.setZIndex( win.getZIndex() - 1 );
+				if ( win.$getZIndex() > z ) {
+					win.$setZIndex( win.$getZIndex() - 1 );
 				}
 			} );
-			win.setZIndex( this._arrWindows.length - 1 );
+			win.$setZIndex( this._arrWindows.length - 1 );
 			this.#focusedWindow = win;
 		}
 		if ( e && win.onfocusin ) {
@@ -87,14 +81,11 @@ class gsuiWindows extends HTMLElement {
 	}
 	_winMaximized( _winId ) {
 		++this.#nbWindowsMaximized;
-		this.classList.add( "gsuiWindows-maximized" );
 		this.scrollTop =
 		this.scrollLeft = 0;
 	}
 	_winRestored( _winId ) {
-		if ( --this.#nbWindowsMaximized === 0 ) {
-			this.classList.remove( "gsuiWindows-maximized" );
-		}
+		--this.#nbWindowsMaximized;
 	}
 }
 

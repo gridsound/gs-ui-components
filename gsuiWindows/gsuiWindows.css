@@ -2,10 +2,6 @@ gsui-windows {
 	display: block;
 	height: 100%;
 	position: relative;
-	overflow: auto;
-	scroll-behavior: smooth;
-}
-
-gsui-windows.gsuiWindows-maximized {
 	overflow: hidden;
+	scroll-behavior: smooth;
 }

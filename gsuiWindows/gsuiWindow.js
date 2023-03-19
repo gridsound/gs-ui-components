@@ -29,7 +29,7 @@ class gsuiWindow extends HTMLElement {
 		this.onfocusin = null;
 		Object.seal( this );
 
-		this.#elements.icon.ondblclick = this.close.bind( this );
+		this.#elements.icon.ondblclick = this.$close.bind( this );
 		this.#elements.headBtns.onclick = this.#onclickBtns.bind( this );
 		this.#elements.head.onmousedown = this.#onmousedownHead.bind( this );
 		this.#elements.title.ondblclick =
@@ -43,14 +43,15 @@ class gsuiWindow extends HTMLElement {
 			GSUI.$setAttribute( this, "tabindex", 0 );
 			this.append( ...this.#children );
 			this.#children = null;
+			this.#setClass( "movable", true );
 		}
 	}
 
 	// .........................................................................
-	isOpen() { return this.#show; }
-	open() { return this.openToggle( true ); }
-	close() { return this.openToggle( false ); }
-	openToggle( b ) {
+	$isOpen() { return this.#show; }
+	$open() { return this.$openToggle( true ); }
+	$close() { return this.$openToggle( false ); }
+	$openToggle( b ) {
 		if ( b !== this.#show ) {
 			if ( b ) {
 				this.#show = true;
@@ -65,35 +66,54 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 
-	setParent( p ) {
+	// .........................................................................
+	$setParent( p ) {
 		this.#parent = p;
 	}
-	setId( id ) {
+	$setId( id ) {
 		this.dataset.id = id;
 	}
-	setTitle( t ) {
+	$setTitle( t ) {
 		this.#elements.title.textContent = t;
 	}
-	setTitleIcon( icon ) {
+	$setTitleIcon( icon ) {
 		this.#elements.icon.dataset.icon = icon;
 	}
-	empty() {
+	$empty() {
 		GSUI.$emptyElement( this.#elements.content );
 		GSUI.$emptyElement( this.#elements.headContent );
 	}
-	contentAppend( ...args ) {
+	$contentAppend( ...args ) {
 		this.#elements.content.append( ...args );
 	}
-	headAppend( ...args ) {
+	$headAppend( ...args ) {
 		this.#elements.headContent.append( ...args );
 	}
-
-	focus() {
-		if ( !this.contains( document.activeElement ) ) {
-			setTimeout( this.focus.bind( this ), 50 );
-		}
+	$getZIndex() {
+		return +this.style.zIndex || 0;
 	}
-	maximize() {
+	$setZIndex( z ) {
+		this.style.zIndex = z;
+	}
+	$setSize( w, h ) {
+		this.rect.w = w;
+		this.rect.h = h;
+		this.style.width = `${ w }px`;
+		this.style.height = `${ h }px`;
+	}
+	$setMinSize( w, h ) {
+		this.#wMin = w;
+		this.#hMin = h;
+	}
+	$setPosition( x, y ) {
+		this.rect.x = x;
+		this.rect.y = y;
+		this.style.left = `${ x }px`;
+		this.style.top = `${ y }px`;
+	}
+
+	// .........................................................................
+	$maximize() {
 		if ( !this.#maximized ) {
 			const st = this.style;
 
@@ -112,7 +132,7 @@ class gsuiWindow extends HTMLElement {
 			this.#parent._winMaximized( this.dataset.id );
 		}
 	}
-	minimize() {
+	$minimize() {
 		if ( !this.#minimized ) {
 			const rcRestore = this.#restoreRect;
 
@@ -123,12 +143,12 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "maximized", false );
 			this.#minimized = true;
 			this.#maximized = false;
-			this.setSize( rcRestore.w, this.#getHeadHeight() );
-			this.setPosition( rcRestore.x, rcRestore.y );
+			this.$setSize( rcRestore.w, this.#getHeadHeight() );
+			this.$setPosition( rcRestore.x, rcRestore.y );
 			this.#parent._winRestored( this.dataset.id );
 		}
 	}
-	restore() {
+	$restore() {
 		if ( this.#minimized || this.#maximized ) {
 			const rcRestore = this.#restoreRect;
 
@@ -137,51 +157,26 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "maximized", false );
 			this.#minimized =
 			this.#maximized = false;
-			this.setSize( rcRestore.w, rcRestore.h );
-			this.setPosition( rcRestore.x, rcRestore.y );
+			this.$setSize( rcRestore.w, rcRestore.h );
+			this.$setPosition( rcRestore.x, rcRestore.y );
 			this.#parent._winRestored( this.dataset.id );
 		}
 	}
 
-	movable( b ) {
-		this.#setClass( "movable", b );
-	}
-	getZIndex() {
-		return +this.style.zIndex || 0;
-	}
-	setZIndex( z ) {
-		this.style.zIndex = z;
-	}
-	setSize( w, h ) {
-		this.rect.w = w;
-		this.rect.h = h;
-		this.style.width = `${ w }px`;
-		this.style.height = `${ h }px`;
-	}
-	setMinSize( w, h ) {
-		this.#wMin = w;
-		this.#hMin = h;
-	}
-	setPosition( x, y ) {
-		this.rect.x = x;
-		this.rect.y = y;
-		this.style.left = `${ x }px`;
-		this.style.top = `${ y }px`;
-	}
-
 	// .........................................................................
 	#onclickBtns( e ) {
-		const act = e.target.dataset.icon;
-
-		if ( act ) {
-			this[ act ]();
+		switch ( e.target.dataset.icon ) {
+			case "minimize": return this.$minimize();
+			case "restore": return this.$restore();
+			case "maximize": return this.$maximize();
+			case "close": return this.$close();
 		}
 	}
 	#ondblclickTitle( e ) {
 		if ( e.target === e.currentTarget ) {
 			this.#maximized
-				? this.restore()
-				: this.maximize();
+				? this.$restore()
+				: this.$maximize();
 		}
 	}
 	#onmousedownHead( e ) {
@@ -239,7 +234,7 @@ class gsuiWindow extends HTMLElement {
 		this.#resetCSSrelative( this.#elements.wrap.style );
 		this.#resetCSSrelative( this.#elements.handlers.style );
 		if ( m.x || m.y ) {
-			this.setPosition( x + m.x, y + m.y );
+			this.$setPosition( x + m.x, y + m.y );
 			this.#restoreRect.x = this.rect.x;
 			this.#restoreRect.y = this.rect.y;
 		}
@@ -267,14 +262,14 @@ class gsuiWindow extends HTMLElement {
 		this.#resetCSSrelative( this.#elements.handlers.style );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
-				case "e":  this.setSize( w + m.x, h       ); break;
-				case "se": this.setSize( w + m.x, h + m.y ); break;
-				case "s":  this.setSize( w,       h + m.y ); break;
-				case "sw": this.setSize( w - m.x, h + m.y ); this.setPosition( x + m.x, y       ); break;
-				case "w":  this.setSize( w - m.x, h       ); this.setPosition( x + m.x, y       ); break;
-				case "nw": this.setSize( w - m.x, h - m.y ); this.setPosition( x + m.x, y + m.y ); break;
-				case "n":  this.setSize( w,       h - m.y ); this.setPosition( x,       y + m.y ); break;
-				case "ne": this.setSize( w + m.x, h - m.y ); this.setPosition( x,       y + m.y ); break;
+				case "e":  this.$setSize( w + m.x, h       ); break;
+				case "se": this.$setSize( w + m.x, h + m.y ); break;
+				case "s":  this.$setSize( w,       h + m.y ); break;
+				case "sw": this.$setSize( w - m.x, h + m.y ); this.$setPosition( x + m.x, y       ); break;
+				case "w":  this.$setSize( w - m.x, h       ); this.$setPosition( x + m.x, y       ); break;
+				case "nw": this.$setSize( w - m.x, h - m.y ); this.$setPosition( x + m.x, y + m.y ); break;
+				case "n":  this.$setSize( w,       h - m.y ); this.$setPosition( x,       y + m.y ); break;
+				case "ne": this.$setSize( w + m.x, h - m.y ); this.$setPosition( x,       y + m.y ); break;
 			}
 		}
 	}
@@ -335,7 +330,7 @@ class gsuiWindow extends HTMLElement {
 		let vAbsMin = Infinity;
 
 		return wins.reduce( ( vMin, win ) => {
-			if ( win.dataset.id !== this.dataset.id && ( !win.isOpen || win.isOpen() ) ) {
+			if ( win.dataset.id !== this.dataset.id && ( !win.$isOpen || win.$isOpen() ) ) {
 				const wrc = win.rect;
 				const wrcDir = wrc[ dir ];
 				const v1 = wrcDir - brdL - value;
