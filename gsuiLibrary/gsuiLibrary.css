@@ -41,8 +41,8 @@ gsui-library {
 	z-index: 1;
 	box-sizing: border-box;
 	width: 100px;
-	height: 40px;
-	padding: 18px 8px 0 0;
+	height: 28px;
+	padding: 10px 8px 0 0;
 	counter-reset: smpNum 0;
 }
 .gsuiLibrary-sep-btn {
@@ -83,8 +83,8 @@ gsui-library {
 	align-items: center;
 	overflow: hidden;
 	width: 100px;
-	height: 20px;
-	margin-top: -20px;
+	height: 14px;
+	margin-top: -14px;
 	cursor: pointer;
 	opacity: 0;
 	pointer-events: none;
@@ -115,6 +115,11 @@ gsui-library {
 	font-family: var( --gsui-font-monospace );
 	background-color: var( --gsuiLibrary-bg );
 	pointer-events: none;
+	opacity: 0;
+}
+.gsuiLibrary-sample:hover::after,
+.gsuiLibrary-sample-fav::after {
+	opacity: 1;
 }
 .gsuiLibrary-sample-fav::after {
 	color: var( --gsuiLibrary-bg );
