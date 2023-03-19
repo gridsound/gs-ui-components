@@ -74,9 +74,6 @@ class gsuiWindows extends HTMLElement {
 			win.$setZIndex( this._arrWindows.length - 1 );
 			this.#focusedWindow = win;
 		}
-		if ( e && win.onfocusin ) {
-			win.onfocusin( e );
-		}
 	}
 	_winMaximized( _winId ) {
 		++this.#nbWindowsMaximized;

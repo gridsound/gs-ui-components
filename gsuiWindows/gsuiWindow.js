@@ -27,7 +27,6 @@ class gsuiWindow extends HTMLElement {
 	constructor() {
 		super();
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
-		this.onfocusin = null;
 		Object.seal( this );
 
 		this.#elements.icon.ondblclick = this.$close.bind( this );
@@ -44,7 +43,6 @@ class gsuiWindow extends HTMLElement {
 			GSUI.$setAttribute( this, "tabindex", 0 );
 			this.append( ...this.#children );
 			this.#children = null;
-			this.#setClass( "movable", true );
 		}
 	}
 
