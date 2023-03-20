@@ -49,18 +49,16 @@ class gsuiWindow extends HTMLElement {
 		return [ "x", "y", "w", "h", "wmin", "hmin", "lowgraphics", "icon", "title" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "y": this.style.top = `${ this.rect.y = +val }px`; break;
-				case "x": this.style.left = `${ this.rect.x = +val }px`; break;
-				case "w": this.style.width = `${ this.rect.w = +val }px`; break;
-				case "h": this.style.height = `${ this.rect.h = +val }px`; break;
-				case "wmin": this.#wMin = +val; break;
-				case "hmin": this.#hMin = +val; break;
-				case "lowgraphics": this.#lowGraphics = val !== null; break;
-				case "icon": this.#elements.icon.dataset.icon = val; break;
-				case "title": this.#elements.title.textContent = val; break;
-			}
+		switch ( prop ) {
+			case "y": this.style.top = `${ this.rect.y = +val }px`; break;
+			case "x": this.style.left = `${ this.rect.x = +val }px`; break;
+			case "w": this.style.width = `${ this.rect.w = +val }px`; break;
+			case "h": this.style.height = `${ this.rect.h = +val }px`; break;
+			case "wmin": this.#wMin = +val; break;
+			case "hmin": this.#hMin = +val; break;
+			case "lowgraphics": this.#lowGraphics = val !== null; break;
+			case "icon": this.#elements.icon.dataset.icon = val; break;
+			case "title": this.#elements.title.textContent = val; break;
 		}
 	}
 
@@ -80,6 +78,8 @@ class gsuiWindow extends HTMLElement {
 				GSUI.$emptyElement( this.#elements.content );
 				this.#parent._close( this );
 			}
+		} else if ( this.#minimized ) {
+			this.$restore();
 		}
 	}
 
@@ -115,7 +115,6 @@ class gsuiWindow extends HTMLElement {
 			this.#maximized = true;
 			this.#minimized = false;
 			this.focus( { preventScroll: true } );
-			this.#parent._winMaximized( this.dataset.id );
 		}
 	}
 	$minimize() {
@@ -135,12 +134,14 @@ class gsuiWindow extends HTMLElement {
 				w: rcRestore.w,
 				h: this.#getHeadHeight(),
 			} );
-			this.#parent._winRestored( this.dataset.id );
+			GSUI.$emptyElement( this.#elements.content );
+			this.#parent._close( this );
 		}
 	}
 	$restore() {
 		if ( this.#minimized || this.#maximized ) {
 			const rcRestore = this.#restoreRect;
+			const wasMinimized = this.#minimized;
 
 			this.focus( { preventScroll: true } );
 			this.#setClass( "minimized", false );
@@ -153,7 +154,9 @@ class gsuiWindow extends HTMLElement {
 				w: rcRestore.w,
 				h: rcRestore.h,
 			} );
-			this.#parent._winRestored( this.dataset.id );
+			if ( wasMinimized ) {
+				this.#parent._open( this );
+			}
 		}
 	}
 

@@ -2,7 +2,6 @@
 
 class gsuiWindows extends HTMLElement {
 	#objWindows = {};
-	#nbWindowsMaximized = 0;
 	#mouseFnUp = null;
 	#mouseFnMove = null;
 	#focusedWindow = null;
@@ -76,14 +75,6 @@ class gsuiWindows extends HTMLElement {
 			win.style.zIndex = this._arrWindows.length - 1;
 			this.#focusedWindow = win;
 		}
-	}
-	_winMaximized( _winId ) {
-		++this.#nbWindowsMaximized;
-		this.scrollTop =
-		this.scrollLeft = 0;
-	}
-	_winRestored( _winId ) {
-		--this.#nbWindowsMaximized;
 	}
 }
 
