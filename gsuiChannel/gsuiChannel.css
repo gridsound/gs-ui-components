@@ -5,8 +5,8 @@ gsui-channel {
 	align-items: center;
 	flex-direction: column;
 	height: 100%;
-	width: 52px;
-	min-width: 52px;
+	width: 50px;
+	min-width: 50px;
 	border-left: 2px solid #ffffff11;
 	border-right: 2px solid #0000003b;
 	background-color: var( --gsuiChannel-bg, var( --gsui-item-bg ) );
@@ -69,7 +69,7 @@ gsui-channel .gsuiChannel-headBtn:hover {
 	width: 100%;
 	border: 0;
 	outline: 0;
-	padding: 3px;
+	padding: 0 3px;
 	color: inherit;
 	height: 34px;
 	min-height: 34px;
@@ -83,11 +83,11 @@ gsui-channel .gsuiChannel-headBtn:hover {
 .gsuiChannel-name {
 	display: block;
 	overflow: hidden;
-	word-wrap: break-word;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	text-align: center;
-	font-size: 10px;
+	font-size: 9px;
 	font-weight: var( --gsuiChannel-name-weight, normal );
-	padding-right: .15ch;
 	user-select: none;
 	opacity: var( --gsuiChannel-name-opacity, 1 );
 }

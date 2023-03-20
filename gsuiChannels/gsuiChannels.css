@@ -17,7 +17,7 @@ gsui-channels {
 .gsuiChannels-panChannels {
 	position: absolute;
 	overflow: scroll;
-	inset: 0 0 0 calc( 52px + 3px );
+	inset: 0 0 0 calc( 50px + 3px );
 	display: grid;
 	grid-auto-flow: column;
 	grid-auto-columns: min-content;
