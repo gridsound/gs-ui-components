@@ -22,16 +22,16 @@
 /* .......................................................................... */
 .gsuiPatterns-synth-head {
 	display: flex;
-	height: 32px;
-	line-height: 32px;
-	font-size: 11px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 9px;
 	user-select: none;
 }
 
 /* .......................................................................... */
 .gsuiPatterns-synth-btn {
-	width: 20px;
-	min-width: 20px;
+	width: 14px;
+	min-width: 14px;
 	margin: 0;
 	border: 0;
 	outline: 0;
@@ -53,8 +53,8 @@
 
 /* .......................................................................... */
 .gsuiPatterns-synth-expand {
-	width: 16px;
-	min-width: 16px;
+	width: 14px;
+	min-width: 14px;
 	background-color: var( --gsuiPatterns-synth-expand-bg );
 }
 .gsuiPatterns-synth-expanded .gsuiPatterns-synth-expand {

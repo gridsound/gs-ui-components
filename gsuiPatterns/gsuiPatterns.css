@@ -1,7 +1,7 @@
 gsui-patterns {
-	--gsuiPatterns-pattern-h: 54px;
-	--gsuiPatterns-pattern-head-h: 22px;
-	--gsuiPatterns-pattern-grip-w: 16px;
+	--gsuiPatterns-pattern-h: 42px;
+	--gsuiPatterns-pattern-head-h: 20px;
+	--gsuiPatterns-pattern-grip-w: 14px;
 	display: block;
 	height: 100%;
 }
@@ -102,8 +102,8 @@ gsui-patterns {
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	height: 16px;
-	padding: 0 6px;
+	height: 14px;
+	padding: 0 4px;
 	border: 0;
 	outline: 0;
 	cursor: pointer;

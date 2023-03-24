@@ -5,7 +5,7 @@
 	flex-direction: column;
 	height: var( --gsuiPatterns-pattern-h );
 	color: var( --gsuiPatterns-pattern-color );
-	font-size: 11px;
+	font-size: 9px;
 	border-bottom: 2px solid transparent;
 	background-color: var( --gsuiPatterns-pattern-bg );
 	transition:
@@ -31,7 +31,7 @@
 
 /* .......................................................................... */
 .gsuiPatterns-pattern-btn {
-	width: 20px;
+	width: 14px;
 	border: 0;
 	outline: 0;
 	padding: 0;
@@ -61,13 +61,13 @@
 	flex: 1;
 	display: flex;
 	align-items: center;
-	padding: 0 6px;
+	padding: 0 4px;
 	overflow: hidden;
 }
 .gsuiPatterns-pattern-btnInfo {
 	width: 1em;
-	font-size: 14px;
-	margin-right: 8px;
+	font-size: 10px;
+	margin-right: 6px;
 }
 .gsuiPatterns-pattern-name {
 	overflow: hidden;
