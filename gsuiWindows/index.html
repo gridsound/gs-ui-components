@@ -41,6 +41,10 @@ gsui-windows {
 		<input id="lowGraphics" type="checkbox"/>
 		<span>low graphics</span>
 	</label>
+	<label>
+		<input id="noMinimize" type="checkbox"/>
+		<span>no minimize</span>
+	</label>
 	<div>
 		<button id="winA">winA</button>
 		<button id="winB">winB</button>
@@ -72,6 +76,7 @@ const winB = wins.$createWindow( "winB" );
 const winC = wins.$createWindow( "winC" );
 
 document.querySelector( "#lowGraphics" ).onchange = e => GSUI.$setAttribute( wins, "lowgraphics", e.target.checked );
+document.querySelector( "#noMinimize" ).onchange = e => GSUI.$setAttribute( wins, "nominimize", e.target.checked );
 document.querySelector( "#winA" ).onclick = () => winA.$open();
 document.querySelector( "#winB" ).onclick = () => winB.$open();
 document.querySelector( "#winC" ).onclick = () => winC.$open();

@@ -160,16 +160,24 @@ gsui-window:not( .gsuiWindow-dragging ),
 	opacity: 1;
 	background-color: rgba( 0, 0, 0, .1 );
 }
-.gsuiWindow-headBtn[ data-icon="close" ] {
+.gsuiWindow-headBtn .gsuiIcon[ data-icon="compress" ],
+.gsuiWindow-headBtn .gsuiIcon[ data-icon="expand" ],
+.gsuiWindow-headBtn[ data-action="close" ] {
 	font-size: 12px;
 }
-.gsuiWindow-headBtn[ data-icon="close" ]:focus-visible,
-.gsuiWindow-headBtn[ data-icon="close" ]:hover {
+.gsuiWindow-headBtn[ data-action="close" ]:focus-visible,
+.gsuiWindow-headBtn[ data-action="close" ]:hover {
 	background-color: var( --gsuiWindow-btn-close-color );
 }
-.gsuiWindow-minimized .gsuiWindow-headBtn[ data-icon="minimize" ],
-.gsuiWindow-maximized .gsuiWindow-headBtn[ data-icon="maximize" ],
+
+gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="minimize" ],
+gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
+gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="maximize" ] .gsuiIcon[ data-icon="maximize" ],
+gsui-windows:not( [ nominimize ] ) .gsuiWindow-headBtn[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
+gsui-windows:not( [ nominimize ] ) .gsuiWindow-headBtn[ data-action="maximize" ] .gsuiIcon[ data-icon="expand" ],
+.gsuiWindow-minimized .gsuiWindow-headBtn[ data-action="minimize" ],
+.gsuiWindow-maximized .gsuiWindow-headBtn[ data-action="maximize" ],
 gsui-window:not( .gsuiWindow-minimized ):not( .gsuiWindow-maximized )
-.gsuiWindow-headBtn[ data-icon="restore" ] {
+.gsuiWindow-headBtn[ data-action="restore" ] {
 	display: none;
 }

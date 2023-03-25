@@ -158,6 +158,10 @@
 .gsuiIcon[ data-icon="minimize" ]::after { content: "\10f2d1"; opacity: 1; }
 .gsuiIcon[ data-icon="maximize" ]::before { content: "\f2d0"; }
 .gsuiIcon[ data-icon="maximize" ]::after { content: "\10f2d0"; opacity: 0; }
+.gsuiIcon[ data-icon="expand" ]::before { content: "\f065"; }
+.gsuiIcon[ data-icon="expand" ]::after { content: "\10f065"; }
+.gsuiIcon[ data-icon="compress" ]::before { content: "\f326"; }
+.gsuiIcon[ data-icon="compress" ]::after { content: "\10f326"; }
 
 .gsuiIcon[ data-icon="save" ]::before { content: "\f0c7"; }
 .gsuiIcon[ data-icon="save" ]::after { content: "\10f0c7"; opacity: .4; }
