@@ -71,7 +71,7 @@ const winA = wins.$createWindow( "winA" );
 const winB = wins.$createWindow( "winB" );
 const winC = wins.$createWindow( "winC" );
 
-document.querySelector( "#lowGraphics" ).onchange = e => wins.$setLowGraphics( e.target.checked );
+document.querySelector( "#lowGraphics" ).onchange = e => GSUI.$setAttribute( wins, "lowgraphics", e.target.checked );
 document.querySelector( "#winA" ).onclick = () => winA.$open();
 document.querySelector( "#winB" ).onclick = () => winB.$open();
 document.querySelector( "#winC" ).onclick = () => winC.$open();

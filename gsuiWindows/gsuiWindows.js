@@ -15,15 +15,9 @@ class gsuiWindows extends HTMLElement {
 	}
 
 	// .........................................................................
-	$setLowGraphics( b ) {
-		this._arrWindows.forEach( win => GSUI.$setAttribute( win, "lowgraphics", b ) );
-		this.classList.toggle( "gsuiWindows-lowGraphics", b );
-	}
 	$createWindow( id ) {
-		const win = GSUI.$createElement( "gsui-window" );
+		const win = GSUI.$createElement( "gsui-window", { "data-id": id } );
 
-		win.dataset.id = id;
-		win.$setParent( this );
 		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
 		this._arrWindows.push( win );
 		this.#objWindows[ id ] = win;

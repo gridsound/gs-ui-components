@@ -4,10 +4,8 @@ class gsuiWindow extends HTMLElement {
 	#wMin = 32;
 	#hMin = 32;
 	#show = false;
-	#parent = null;
 	#minimized = false;
 	#maximized = false;
-	#lowGraphics = false;
 	#restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
@@ -46,7 +44,7 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "x", "y", "w", "h", "wmin", "hmin", "lowgraphics", "icon", "title" ];
+		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "title" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		switch ( prop ) {
@@ -56,7 +54,6 @@ class gsuiWindow extends HTMLElement {
 			case "h": this.style.height = `${ this.rect.h = +val }px`; break;
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
-			case "lowgraphics": this.#lowGraphics = val !== null; break;
 			case "icon": this.#elements.icon.dataset.icon = val; break;
 			case "title": this.#elements.title.textContent = val; break;
 		}
@@ -71,12 +68,12 @@ class gsuiWindow extends HTMLElement {
 			if ( b ) {
 				this.#show = true;
 				this.#setClass( "show", true );
-				this.#parent._open( this );
+				this.parentNode._open( this );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				this.#setClass( "show", false );
 				GSUI.$emptyElement( this.#elements.content );
-				this.#parent._close( this );
+				this.parentNode._close( this );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -84,9 +81,6 @@ class gsuiWindow extends HTMLElement {
 	}
 
 	// .........................................................................
-	$setParent( p ) {
-		this.#parent = p;
-	}
 	$empty() {
 		GSUI.$emptyElement( this.#elements.content );
 		GSUI.$emptyElement( this.#elements.headContent );
@@ -116,7 +110,7 @@ class gsuiWindow extends HTMLElement {
 			this.#maximized = true;
 			this.#minimized = false;
 			if ( wasMinimized ) {
-				this.#parent._open( this );
+				this.parentNode._open( this );
 			}
 			this.focus( { preventScroll: true } );
 		}
@@ -139,7 +133,7 @@ class gsuiWindow extends HTMLElement {
 				h: this.#getHeadHeight(),
 			} );
 			GSUI.$emptyElement( this.#elements.content );
-			this.#parent._close( this );
+			this.parentNode._close( this );
 		}
 	}
 	$restore() {
@@ -159,14 +153,14 @@ class gsuiWindow extends HTMLElement {
 				h: rcRestore.h,
 			} );
 			if ( wasMinimized ) {
-				this.#parent._open( this );
+				this.parentNode._open( this );
 			}
 		}
 	}
 
 	// .........................................................................
 	#onclickBtns( e ) {
-		switch ( e.target.dataset.icon ) {
+		switch ( e.target.dataset.action ) {
 			case "minimize": return this.$minimize();
 			case "restore": return this.$restore();
 			case "maximize": return this.$maximize();
@@ -194,7 +188,7 @@ class gsuiWindow extends HTMLElement {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			this.#setClass( "dragging", true );
-			this.#parent._startMousemoving( "move",
+			this.parentNode._startMousemoving( "move",
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
@@ -209,7 +203,7 @@ class gsuiWindow extends HTMLElement {
 			this.#mousemovePos.y = 0;
 			this.#mousedownHeadHeight = this.#getHeadHeight();
 			this.#setClass( "dragging", true );
-			this.#parent._startMousemoving( `${ dir }-resize`,
+			this.parentNode._startMousemoving( `${ dir }-resize`,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}
@@ -223,7 +217,7 @@ class gsuiWindow extends HTMLElement {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos );
-		if ( !this.#lowGraphics ) {
+		if ( !GSUI.$hasAttribute( this.parentNode, "lowgraphics" ) ) {
 			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos );
 		}
 	}
@@ -253,7 +247,7 @@ class gsuiWindow extends HTMLElement {
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
 		this.#setCSSrelativeResize( this.#elements.handlers.style, dir, mmPos );
-		if ( !this.#lowGraphics ) {
+		if ( !GSUI.$hasAttribute( this.parentNode, "lowgraphics" ) ) {
 			this.#setCSSrelativeResize( this.#elements.wrap.style, dir, mmPos );
 		}
 	}
@@ -293,9 +287,9 @@ class gsuiWindow extends HTMLElement {
 		const dirS = dir.includes( "s" );
 		const tx = dirW ? rc.x + x : rc.x;
 		const ty = dirN ? rc.y + y : rc.y;
-		const parBCR = this.#parent.getBoundingClientRect();
+		const parBCR = this.parentNode.getBoundingClientRect();
 		const wins = [
-			...this.#parent._arrWindows,
+			...this.parentNode._arrWindows,
 			{
 				dataset: {},
 				rect: { x: 0, y: 0, w: parBCR.width, h: parBCR.height },
