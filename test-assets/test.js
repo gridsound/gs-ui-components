@@ -21,6 +21,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUI.$createElement( "option", { value: "gsuiBeatlines" }, "gsuiBeatlines" ),
 					GSUI.$createElement( "option", { value: "gsuiChannel" }, "gsuiChannel" ),
 					GSUI.$createElement( "option", { value: "gsuiClock" }, "gsuiClock" ),
+					GSUI.$createElement( "option", { value: "gsuiDotline" }, "gsuiDotline" ),
 					GSUI.$createElement( "option", { value: "gsuiEnvelope" }, "gsuiEnvelope" ),
 					GSUI.$createElement( "option", { value: "gsuiFxDelay" }, "gsuiFxDelay" ),
 					GSUI.$createElement( "option", { value: "gsuiFxFilter" }, "gsuiFxFilter" ),
