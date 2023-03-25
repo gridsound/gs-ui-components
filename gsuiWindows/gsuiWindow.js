@@ -102,11 +102,12 @@ class gsuiWindow extends HTMLElement {
 	$maximize() {
 		if ( !this.#maximized ) {
 			const st = this.style;
+			const wasMinimized = this.#minimized;
 
 			this.#restoreRect.x = this.rect.x;
 			this.#restoreRect.y = this.rect.y;
 			this.#restoreRect.w = this.rect.w;
-			if ( !this.#minimized ) {
+			if ( !wasMinimized ) {
 				this.#restoreRect.h = this.rect.h;
 			}
 			st.top = st.left = st.right = st.bottom = st.width = st.height = "";
@@ -114,6 +115,9 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "minimized", false );
 			this.#maximized = true;
 			this.#minimized = false;
+			if ( wasMinimized ) {
+				this.#parent._open( this );
+			}
 			this.focus( { preventScroll: true } );
 		}
 	}
