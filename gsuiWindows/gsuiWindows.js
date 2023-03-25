@@ -10,8 +10,15 @@ class gsuiWindows extends HTMLElement {
 		super();
 		this.onopen =
 		this.onclose = null;
-		this._arrWindows = [];
 		Object.seal( this );
+
+		GSUI.$listenEvents( this, {
+			gsuiWindow: {
+				open: ( d, win ) => this.#onopen( win ),
+				close: ( d, win ) => this.#onclose( win ),
+				startMousemoving: d => this.#startMousemoving( ...d.args ),
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -19,7 +26,6 @@ class gsuiWindows extends HTMLElement {
 		const win = GSUI.$createElement( "gsui-window", { "data-id": id } );
 
 		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
-		this._arrWindows.push( win );
 		this.#objWindows[ id ] = win;
 		this.append( win );
 		return win;
@@ -29,7 +35,7 @@ class gsuiWindows extends HTMLElement {
 	}
 
 	// .........................................................................
-	_startMousemoving( cursor, fnMove, fnUp ) {
+	#startMousemoving( cursor, fnMove, fnUp ) {
 		this.#mouseFnUp = this.#stopMousemoving.bind( this, fnUp );
 		this.#mouseFnMove = fnMove;
 		document.addEventListener( "mouseup", this.#mouseFnUp );
@@ -45,11 +51,11 @@ class gsuiWindows extends HTMLElement {
 		this.#mouseFnMove = null;
 		fnUp( e );
 	}
-	_open( win ) {
+	#onopen( win ) {
 		this.#onfocusinWin( win );
 		this.onopen?.( win );
 	}
-	_close( win ) {
+	#onclose( win ) {
 		if ( win === this.#focusedWindow ) {
 			this.#focusedWindow = null;
 		}
@@ -59,14 +65,14 @@ class gsuiWindows extends HTMLElement {
 		if ( win !== this.#focusedWindow ) {
 			const z = +win.style.zIndex || 0;
 
-			this._arrWindows.forEach( win => {
+			this.childNodes.forEach( win => {
 				const zz = +win.style.zIndex || 0;
 
 				if ( zz > z ) {
 					win.style.zIndex = zz - 1;
 				}
 			} );
-			win.style.zIndex = this._arrWindows.length - 1;
+			win.style.zIndex = this.childElementCount - 1;
 			this.#focusedWindow = win;
 		}
 	}

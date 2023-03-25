@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiWindow extends HTMLElement {
+	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiWindow" );
 	#wMin = 32;
 	#hMin = 32;
 	#show = false;
@@ -68,12 +69,12 @@ class gsuiWindow extends HTMLElement {
 			if ( b ) {
 				this.#show = true;
 				this.#setClass( "show", true );
-				this.parentNode._open( this );
+				this.#dispatch( "open" );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				this.#setClass( "show", false );
 				GSUI.$emptyElement( this.#elements.content );
-				this.parentNode._close( this );
+				this.#dispatch( "close" );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -110,7 +111,7 @@ class gsuiWindow extends HTMLElement {
 			this.#maximized = true;
 			this.#minimized = false;
 			if ( wasMinimized ) {
-				this.parentNode._open( this );
+				this.#dispatch( "open" );
 			}
 			this.focus( { preventScroll: true } );
 		}
@@ -133,7 +134,7 @@ class gsuiWindow extends HTMLElement {
 				h: this.#getHeadHeight(),
 			} );
 			GSUI.$emptyElement( this.#elements.content );
-			this.parentNode._close( this );
+			this.#dispatch( "close" );
 		}
 	}
 	$restore() {
@@ -153,7 +154,7 @@ class gsuiWindow extends HTMLElement {
 				h: rcRestore.h,
 			} );
 			if ( wasMinimized ) {
-				this.parentNode._open( this );
+				this.#dispatch( "open" );
 			}
 		}
 	}
@@ -188,7 +189,7 @@ class gsuiWindow extends HTMLElement {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			this.#setClass( "dragging", true );
-			this.parentNode._startMousemoving( "move",
+			this.#dispatch( "startMousemoving", "move",
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
@@ -203,7 +204,7 @@ class gsuiWindow extends HTMLElement {
 			this.#mousemovePos.y = 0;
 			this.#mousedownHeadHeight = this.#getHeadHeight();
 			this.#setClass( "dragging", true );
-			this.parentNode._startMousemoving( `${ dir }-resize`,
+			this.#dispatch( "startMousemoving", `${ dir }-resize`,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}
@@ -289,7 +290,7 @@ class gsuiWindow extends HTMLElement {
 		const ty = dirN ? rc.y + y : rc.y;
 		const parBCR = this.parentNode.getBoundingClientRect();
 		const wins = [
-			...this.parentNode._arrWindows,
+			...this.parentNode.childNodes,
 			{
 				dataset: {},
 				rect: { x: 0, y: 0, w: parBCR.width, h: parBCR.height },
