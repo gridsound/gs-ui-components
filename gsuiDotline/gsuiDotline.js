@@ -17,7 +17,6 @@ class gsuiDotline extends HTMLElement {
 	#dotMaxY = 0;
 	#dotMinY = 0;
 	#mousebtn = 0;
-	#rootBCR = null;
 	#activeDot = null;
 	#onresizeBind = this.#onresize.bind( this );
 	#children = GSUI.$getTemplate( "gsui-dotline" );
@@ -53,7 +52,6 @@ class gsuiDotline extends HTMLElement {
 			} );
 		}
 		GSUI.$observeSizeOf( this, this.#onresizeBind );
-		this.#onresize();
 	}
 	disconnectedCallback() {
 		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
@@ -111,9 +109,6 @@ class gsuiDotline extends HTMLElement {
 			"lastDotLinked" in o
 		);
 	}
-	#updateBCR() {
-		return this.#rootBCR = this.getBoundingClientRect();
-	}
 	#sortDots( a, b ) {
 		return a.x - b.x;
 	}
@@ -152,17 +147,11 @@ class gsuiDotline extends HTMLElement {
 	}
 
 	// .........................................................................
-	#epurePageX( px ) {
-		const o = this.#opt;
-		const r = this.#rootBCR;
-
-		return ( px - r.left - window.scrollX ) / r.width * o.width + o.minX;
+	#getPtrX( e ) {
+		return e.offsetX / this.clientWidth * this.#opt.width + this.#opt.minX;
 	}
-	#epurePageY( py ) {
-		const o = this.#opt;
-		const r = this.#rootBCR;
-
-		return o.height - ( py - r.top - window.scrollY ) / r.height * o.height + o.minY;
+	#getPtrY( e ) {
+		return this.#opt.height - e.offsetY / this.clientHeight * this.#opt.height + this.#opt.minY;
 	}
 	#epureNb( n, min, max ) {
 		const step = this.#opt.step;
@@ -203,9 +192,7 @@ class gsuiDotline extends HTMLElement {
 	}
 
 	// .........................................................................
-	#onresize() {
-		const { width: w, height: h } = this.#updateBCR();
-
+	#onresize( w, h ) {
 		this.#svgW = w;
 		this.#svgH = h;
 		GSUI.$setAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
@@ -229,14 +216,10 @@ class gsuiDotline extends HTMLElement {
 			let isAfter = false;
 			let prevDot;
 
-			this.#updateBCR();
 			if ( !id ) {
-				const x = this.#epurePageX( e.pageX );
-				const y = this.#epurePageY( e.pageY );
-
 				id = `${ this.#dotsId + 1 }`;
 				this.#createDotElement( id );
-				this.#updateDotElement( id, x, y );
+				this.#updateDotElement( id, this.#getPtrX( e ), this.#getPtrY( e ) );
 				this.#drawPolyline();
 			}
 			this.#selectDotElement( id, true );
@@ -289,8 +272,8 @@ class gsuiDotline extends HTMLElement {
 	#onpointermoveDot( e ) {
 		if ( this.#mousebtn === 0 ) {
 			const opt = this.#opt;
-			let incX = opt.width / this.#rootBCR.width * ( e.pageX - this.#pageX );
-			let incY = opt.height / this.#rootBCR.height * -( e.pageY - this.#pageY );
+			let incX = opt.width / this.clientWidth * ( e.pageX - this.#pageX );
+			let incY = opt.height / this.clientHeight * -( e.pageY - this.#pageY );
 
 			if ( incX ) {
 				incX = incX < 0
