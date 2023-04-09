@@ -22,6 +22,9 @@ class GSUI {
 	}
 
 	// .........................................................................
+	static $jsonCopy( o ) {
+		return JSON.parse( JSON.stringify( o ) );
+	}
 	static $diffObjects( a, b ) {
 		let empty = true;
 		const diff = Object.entries( b ).reduce( ( diff, [ bk, bv ] ) => {
@@ -29,7 +32,7 @@ class GSUI {
 			const newval = av === bv ? undefined :
 				typeof bv !== "object" || bv === null ? bv :
 				typeof av !== "object" || av === null
-					? Object.freeze( JSON.parse( JSON.stringify( bv ) ) )
+					? Object.freeze( GSUI.$jsonCopy( bv ) )
 					: GSUI.$diffObjects( av, bv );
 
 			if ( newval !== undefined ) {
