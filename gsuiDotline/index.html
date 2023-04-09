@@ -18,11 +18,14 @@
 <style>
 body {
 	--test-content-w: 400px;
-	--test-content-h: 200px;
+	--test-content-h: 210px;
 	--test-content-resize: both;
 }
 #testWrap {
 	display: flex;
+}
+gsui-dotline {
+	height: 100px;
 }
 </style>
 </head>
@@ -51,6 +54,11 @@ body {
 <script>
 const line = document.querySelector( "gsui-dotline" );
 
+GSUI.$listenEvents( line, {
+	gsuiDotline: {
+		change: d => lg(d.args[ 0 ]),
+	},
+} );
 document.querySelector( "#movelinked" ).onchange = e => GSUI.$setAttribute( line, "movelinked", e.target.checked );
 line.change( {
 	1: { x: 10, y: 10 },

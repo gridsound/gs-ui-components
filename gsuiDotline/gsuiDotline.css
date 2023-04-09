@@ -13,6 +13,7 @@ gsui-dotline {
 	overflow: hidden;
 	stroke: currentColor;
 	stroke-width: 2px;
+	background-color: indianred;
 }
 
 /* .......................................................................... */
