@@ -46,7 +46,7 @@ gsui-daw {
 .gsuiDAW-patterns {
 	flex: 1;
 }
-.gsuiDAW-windows {
+gsui-daw gsui-windows {
 	flex: 1;
 	z-index: 0;
 	background-color: var( --gsuiDAW-content-bg );

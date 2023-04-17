@@ -37,6 +37,7 @@ class gsuiDAW extends HTMLElement {
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
 		patternsPanel: ".gsuiDAW-resources",
+		windows: "gsui-windows",
 		winBtns: {
 			patterns: "[data-win='patterns']",
 			mixer: "[data-win='mixer']",
@@ -133,6 +134,11 @@ class gsuiDAW extends HTMLElement {
 			if ( d.status === "0" ) {
 				d.status = "1";
 				this.#dispatch( "export" );
+			}
+		};
+		this.#elements.windows.onkeydown = e => {
+			if ( e.key === "Tab" ) {
+				e.preventDefault();
 			}
 		};
 		GSUI.$listenEvents( this.#elements.volume, {
