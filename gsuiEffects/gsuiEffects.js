@@ -95,14 +95,16 @@ class gsuiEffects extends HTMLElement {
 		const root = GSUI.$getTemplate( "gsui-effects-fx" );
 		const name = root.querySelector( ".gsuiEffects-fx-name" );
 		const expand = root.querySelector( ".gsuiEffects-fx-expand" );
+		const toggle = root.querySelector( "gsui-toggle" );
 		const remove = root.querySelector( ".gsuiEffects-fx-remove" );
 		const content = root.querySelector( ".gsuiEffects-fx-content" );
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
 		const uiFx = GSUI.$createElement( fxAsset.cmp );
 		const html = Object.seal( {
-			uiFx,
 			root,
+			uiFx,
 			expand,
+			toggle,
 			content,
 		} );
 
@@ -139,6 +141,7 @@ class gsuiEffects extends HTMLElement {
 		const html = this.#fxsHtml.get( id );
 
 		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
+		GSUI.$setAttribute( html.toggle, "off", !b );
 		html.uiFx.$toggle( b );
 	}
 	#onchangeAddSelect() {
