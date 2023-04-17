@@ -85,9 +85,6 @@ gsui-patterns {
 	position: absolute;
 	inset: 0;
 }
-.gsuiPatterns-panel-list:empty {
-	display: none;
-}
 
 /* .......................................................................... */
 .gsuiPatterns-destArrow {
@@ -148,7 +145,6 @@ gsui-patterns {
 	opacity: 0;
 	transition: .3s;
 	transition-property: opacity;
-	user-select: none;
 }
 .gsuiPatterns-placeholderToCheck .gsuiPatterns-placeholder:only-child,
 .gsuiPatterns-placeholderToCheck:empty + .gsuiPatterns-placeholder {

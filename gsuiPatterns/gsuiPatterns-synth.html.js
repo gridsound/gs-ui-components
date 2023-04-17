@@ -16,7 +16,7 @@ GSUI.$setTemplate( "gsui-patterns-synth", () =>
 			GSUI.$createElement( "button", { class: "gsuiPatterns-synth-btn gsuiIcon", "data-action": "delete", "data-icon": "close", title: "Delete the synthesizer and its patterns" } ),
 		),
 		GSUI.$createElement( "div", { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-synth-patterns" },
-			GSUI.$createElement( "div", { class: "gsuiPatterns-placeholder" },
+			GSUI.$createElement( "div", { class: "gsuiPatterns-placeholder", inert: true },
 				GSUI.$createElement( "span", null, "this synthesizer has no related pattern" ),
 			),
 		),

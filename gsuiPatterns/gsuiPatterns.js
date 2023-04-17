@@ -233,11 +233,7 @@ class gsuiPatterns extends HTMLElement {
 		this.getPattern( id ).querySelector( ".gsuiPatterns-pattern-content" ).append( svg );
 	}
 	deletePattern( id ) {
-		const elPat = this.getPattern( id );
-
-		if ( elPat ) { // 2.
-			elPat.remove();
-		}
+		this.getPattern( id )?.remove(); // 2.
 	}
 
 	// .........................................................................

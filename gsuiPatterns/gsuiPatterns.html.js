@@ -44,7 +44,7 @@ GSUI.$setTemplate( "gsui-patterns-panel", obj =>
 		),
 		GSUI.$createElement( "div", { class: "gsuiPatterns-panel-list-wrap" },
 			GSUI.$createElement( "div", { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-panel-list" } ),
-			GSUI.$createElement( "div", { class: "gsuiPatterns-placeholder" },
+			GSUI.$createElement( "div", { class: "gsuiPatterns-placeholder", inert: true },
 				GSUI.$createElement( "span", null, obj.placeholder ),
 			),
 		),
