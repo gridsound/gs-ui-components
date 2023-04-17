@@ -21,7 +21,6 @@ class gsuiScrollShadow {
 		gsuiScrollShadow.#initShadow( this.#bottomShadow, 'bottom' );
 		this.#scrolledElem.addEventListener( "scroll", this.#onscrollBind );
 		GSUI.$observeSizeOf( this.#scrolledElem, this.#onscrollBind );
-		const arr = [];
 	}
 
 	// .........................................................................
