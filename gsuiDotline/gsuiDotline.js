@@ -129,10 +129,16 @@ class gsuiDotline extends HTMLElement {
 
 	// .........................................................................
 	#getPtrX( e ) {
-		return e.offsetX / this.clientWidth * this.#w + this.#xmin;
+		const step = GSUI.$getAttributeNum( this, "step" );
+		const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
+
+		return Math.round( x / step ) * step;
 	}
 	#getPtrY( e ) {
-		return this.#h - e.offsetY / this.clientHeight * this.#h + this.#ymin;
+		const step = GSUI.$getAttributeNum( this, "step" );
+		const y = this.#h - e.offsetY / this.clientHeight * this.#h + this.#ymin;
+
+		return Math.round( y / step ) * step;
 	}
 
 	// .........................................................................
@@ -204,13 +210,14 @@ class gsuiDotline extends HTMLElement {
 					.sort( ( a, b ) => this.#sortDots( a[ 1 ], b[ 1 ] ) )
 					.find( ( [ dId, d ], i, arr ) => {
 						if ( dId === id ) {
+							const step = GSUI.$getAttributeNum( this, "step" );
 							const dotA = arr[ i - 1 ]?.[ 1 ];
 							const dotB = arr[ i + 1 ]?.[ 1 ];
 
-							this.#dotMinX = ( dotA?.x || this.#xmin ) - dat.x;
 							this.#dotMinY = this.#ymin - dat.y;
-							this.#dotMaxX = ( dotB?.x || this.#xmax ) - dat.x;
 							this.#dotMaxY = this.#ymax - dat.y;
+							this.#dotMinX = ( dotA ? dotA.x + step : this.#xmin ) - dat.x;
+							this.#dotMaxX = ( dotB ? dotB.x - step : this.#xmax ) - dat.x;
 							return true;
 						}
 					} );
@@ -237,7 +244,7 @@ class gsuiDotline extends HTMLElement {
 						}
 						return isAfter;
 					} ).map( ( [ dId, d ] ) => ( { id: dId, x: d.x, y: d.y } ) );
-				this.#dotMinX = ( prevDot?.x || this.#xmin ) - this.#dotMinX;
+				this.#dotMinX = ( prevDot?.x ?? this.#xmin ) - this.#dotMinX;
 				this.#dotMinY = this.#ymin - this.#dotMinY;
 				this.#dotMaxX = this.#xmax - this.#dotMaxX;
 				this.#dotMaxY = this.#ymax - this.#dotMaxY;
