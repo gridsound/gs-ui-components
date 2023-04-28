@@ -24,23 +24,36 @@ body {
 #testWrap {
 	display: flex;
 }
+#testCtrls input[ type="number" ] {
+	width: 42px;
+}
 </style>
 </head>
 <body>
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-dotline viewbox="10 0 150 100" step="10"></gsui-dotline>
+	<gsui-dotline viewbox="10 0 150 100"></gsui-dotline>
 </div>
 <div id="TEST-CTRLS">
-	<label>
-		<input id="movelinked" type="checkbox"/>
-		<span>dots moving linked</span>
-	</label>
-	<label>
-		<input id="step" type="number" step=".01"/>
-		<span>step</span>
-	</label>
+	<div>
+		<label>
+			<input id="movelinked" type="checkbox"/>
+			<span>dots moving linked</span>
+		</label>
+	</div>
+	<div>
+		<label>
+			<input id="xstep" type="number" step=".01" value="1"/>
+			<span>x step</span>
+		</label>
+	</div>
+	<div>
+		<label>
+			<input id="ystep" type="number" step=".01" value="1"/>
+			<span>y step</span>
+		</label>
+	</div>
 </div>
 
 <!-- ....................................................................... -->
@@ -60,7 +73,8 @@ GSUI.$listenEvents( line, {
 		change: d => lg( d.args[ 0 ] ),
 	},
 } );
-document.querySelector( "#step" ).onchange = e => GSUI.$setAttribute( line, "step", e.target.value );
+document.querySelector( "#xstep" ).onchange = e => GSUI.$setAttribute( line, "xstep", e.target.value );
+document.querySelector( "#ystep" ).onchange = e => GSUI.$setAttribute( line, "ystep", e.target.value );
 document.querySelector( "#movelinked" ).onchange = e => GSUI.$setAttribute( line, "movelinked", e.target.checked );
 line.change( {
 	1: { x: 20, y: 10 },

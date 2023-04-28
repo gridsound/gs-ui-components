@@ -44,7 +44,8 @@ class gsuiDotline extends HTMLElement {
 			this.#children = null;
 			GSUI.$recallAttributes( this, {
 				viewbox: "0 0 100 100",
-				step: 1,
+				xstep: 1,
+				ystep: 1,
 			} );
 		}
 		GSUI.$observeSizeOf( this, this.#onresizeBind );
@@ -129,13 +130,13 @@ class gsuiDotline extends HTMLElement {
 
 	// .........................................................................
 	#getPtrX( e ) {
-		const step = GSUI.$getAttributeNum( this, "step" );
+		const step = GSUI.$getAttributeNum( this, "xstep" );
 		const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
 
 		return Math.round( x / step ) * step;
 	}
 	#getPtrY( e ) {
-		const step = GSUI.$getAttributeNum( this, "step" );
+		const step = GSUI.$getAttributeNum( this, "ystep" );
 		const y = this.#h - e.offsetY / this.clientHeight * this.#h + this.#ymin;
 
 		return Math.round( y / step ) * step;
@@ -195,12 +196,12 @@ class gsuiDotline extends HTMLElement {
 				this.#drawPolyline();
 			}
 		} else if ( e.button === 0 ) {
-			const step = GSUI.$getAttributeNum( this, "step" );
+			const xstep = GSUI.$getAttributeNum( this, "xstep" );
 
 			if ( !id ) {
 				const x = this.#getPtrX( e );
 				const closest = Object.entries( this.#data )
-					.find( d => Math.abs( d[ 1 ].x - x ) < step );
+					.find( d => Math.abs( d[ 1 ].x - x ) < xstep );
 
 				if ( closest ) {
 					id = closest[ 0 ];
@@ -225,8 +226,8 @@ class gsuiDotline extends HTMLElement {
 
 							this.#dotMinY = this.#ymin - dat.y;
 							this.#dotMaxY = this.#ymax - dat.y;
-							this.#dotMinX = ( dotA ? dotA.x + step : this.#xmin ) - dat.x;
-							this.#dotMaxX = ( dotB ? dotB.x - step : this.#xmax ) - dat.x;
+							this.#dotMinX = ( dotA ? dotA.x + xstep : this.#xmin ) - dat.x;
+							this.#dotMaxX = ( dotB ? dotB.x - xstep : this.#xmax ) - dat.x;
 							return true;
 						}
 					} );
@@ -253,7 +254,7 @@ class gsuiDotline extends HTMLElement {
 						}
 						return isAfter;
 					} ).map( ( [ dId, d ] ) => ( { id: dId, x: d.x, y: d.y } ) );
-				this.#dotMinX = ( prevDot?.x ?? this.#xmin ) - this.#dotMinX + step;
+				this.#dotMinX = ( prevDot?.x ?? this.#xmin ) - this.#dotMinX + xstep;
 				this.#dotMinY = this.#ymin - this.#dotMinY;
 				this.#dotMaxX = this.#xmax - this.#dotMaxX;
 				this.#dotMaxY = this.#ymax - this.#dotMaxY;
@@ -272,14 +273,15 @@ class gsuiDotline extends HTMLElement {
 	}
 	#onpointermoveDot( e ) {
 		if ( this.#mousebtn === 0 ) {
-			const step = GSUI.$getAttributeNum( this, "step" );
+			const xstep = GSUI.$getAttributeNum( this, "xstep" );
+			const ystep = GSUI.$getAttributeNum( this, "ystep" );
 			let incX = this.#w / this.clientWidth * ( e.pageX - this.#pageX );
 			let incY = this.#h / this.clientHeight * -( e.pageY - this.#pageY );
 
 			incX = Math.max( this.#dotMinX, Math.min( incX, this.#dotMaxX ) );
 			incY = Math.max( this.#dotMinY, Math.min( incY, this.#dotMaxY ) );
-			incX = Math.round( incX / step ) * step;
-			incY = Math.round( incY / step ) * step;
+			incX = Math.round( incX / xstep ) * xstep;
+			incY = Math.round( incY / ystep ) * ystep;
 			this.#dotsMoving.forEach( d => {
 				this.#updateDotElement( d.id, d.x + incX, d.y + incY );
 			} );
