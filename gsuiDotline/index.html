@@ -18,14 +18,11 @@
 <style>
 body {
 	--test-content-w: 400px;
-	--test-content-h: 210px;
+	--test-content-h: 240px;
 	--test-content-resize: both;
 }
 #testWrap {
 	display: flex;
-}
-gsui-dotline {
-	height: 100px;
 }
 </style>
 </head>
@@ -33,12 +30,16 @@ gsui-dotline {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-dotline></gsui-dotline>
+	<gsui-dotline viewbox="10 0 150 100" step="10"></gsui-dotline>
 </div>
 <div id="TEST-CTRLS">
 	<label>
 		<input id="movelinked" type="checkbox"/>
 		<span>dots moving linked</span>
+	</label>
+	<label>
+		<input id="step" type="number" step=".01"/>
+		<span>step</span>
 	</label>
 </div>
 
@@ -56,20 +57,16 @@ const line = document.querySelector( "gsui-dotline" );
 
 GSUI.$listenEvents( line, {
 	gsuiDotline: {
-		change: d => lg(d.args[ 0 ]),
+		change: d => lg( d.args[ 0 ] ),
 	},
 } );
+document.querySelector( "#step" ).onchange = e => GSUI.$setAttribute( line, "step", e.target.value );
 document.querySelector( "#movelinked" ).onchange = e => GSUI.$setAttribute( line, "movelinked", e.target.checked );
 line.change( {
-	1: { x: 10, y: 10 },
+	1: { x: 20, y: 10 },
 	2: { x: 50, y: 90 },
 	3: { x: 90, y: 10 },
 	4: { x: 120, y: 50 },
-} );
-line.options( {
-	// firstDotLinked: true,
-	// lastDotLinked: true,
-	// moveMode: "linked",
 } );
 </script>
 </body>
