@@ -74,7 +74,7 @@ class gsuiDotline extends HTMLElement {
 	}
 
 	// .........................................................................
-	change( diff ) {
+	$change( diff ) {
 		Object.entries( diff ).forEach( ( [ id, diffDot ] ) => {
 			if ( !diffDot ) {
 				if ( id in this.#data ) {
@@ -95,30 +95,35 @@ class gsuiDotline extends HTMLElement {
 	}
 
 	// .........................................................................
-	#sortDots( a, b ) {
+	static #sortDots( a, b ) {
 		return a.x - b.x;
 	}
-	#drawPolyline() {
+	static #sortDots2( a, b ) {
+		return a[ 1 ].x - b[ 1 ].x;
+	}
+	static $draw( data, svgW, svgH, w, h, xmin, ymin ) {
 		const arr = [];
-		const data = Object.values( this.#data ).sort( this.#sortDots );
-		const svgW = this.#svgW;
-		const svgH = this.#svgH;
 		const firstDotLinked = null;
 		const lastDotLinked = null;
 
 		if ( firstDotLinked !== null ) {
-			arr.push( 0, svgH - ( firstDotLinked - this.#ymin ) / this.#h * svgH );
+			arr.push( 0, svgH - ( firstDotLinked - ymin ) / h * svgH );
 		}
-		data.forEach( d => {
-			arr.push(
-				( d.x - this.#xmin ) / this.#w * svgW,
-				svgH - ( d.y - this.#ymin ) / this.#h * svgH
-			);
-		} );
+		Object.values( data ).sort( gsuiDotline.#sortDots )
+			.forEach( d => {
+				arr.push(
+					( d.x - xmin ) / w * svgW,
+					svgH - ( d.y - ymin ) / h * svgH
+				);
+			} );
 		if ( lastDotLinked !== null ) {
-			arr.push( svgW, svgH - ( lastDotLinked - this.#ymin ) / this.#h * svgH );
+			arr.push( svgW, svgH - ( lastDotLinked - ymin ) / h * svgH );
 		}
-		GSUI.$setAttribute( this.#elements.polyline, "points", arr.join( " " ) );
+		return arr.join( " " );
+	}
+	#drawPolyline() {
+		GSUI.$setAttribute( this.#elements.polyline, "points",
+			gsuiDotline.$draw( this.#data, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
 	}
 	#onchange() {
 		const diff = GSUI.$diffObjects( this.#dataSaved, this.#data );
@@ -218,7 +223,7 @@ class gsuiDotline extends HTMLElement {
 
 				this.#dotsMoving = [ { id, x: dat.x, y: dat.y } ];
 				Object.entries( this.#data )
-					.sort( ( a, b ) => this.#sortDots( a[ 1 ], b[ 1 ] ) )
+					.sort( gsuiDotline.#sortDots2 )
 					.find( ( [ dId, d ], i, arr ) => {
 						if ( dId === id ) {
 							const dotA = arr[ i - 1 ]?.[ 1 ];
@@ -240,7 +245,7 @@ class gsuiDotline extends HTMLElement {
 				this.#dotMaxX =
 				this.#dotMaxY = -Infinity;
 				this.#dotsMoving = Object.entries( this.#data )
-					.sort( ( a, b ) => this.#sortDots( a[ 1 ], b[ 1 ] ) )
+					.sort( gsuiDotline.#sortDots2 )
 					.filter( ( [ dId, d ], i, arr ) => {
 						isAfter ||= dId === id;
 						if ( isAfter ) {
@@ -253,7 +258,8 @@ class gsuiDotline extends HTMLElement {
 							prevDot = d;
 						}
 						return isAfter;
-					} ).map( ( [ dId, d ] ) => ( { id: dId, x: d.x, y: d.y } ) );
+					} )
+					.map( ( [ dId, d ] ) => ( { id: dId, x: d.x, y: d.y } ) );
 				this.#dotMinX = ( prevDot?.x ?? this.#xmin ) - this.#dotMinX + xstep;
 				this.#dotMinY = this.#ymin - this.#dotMinY;
 				this.#dotMaxX = this.#xmax - this.#dotMaxX;

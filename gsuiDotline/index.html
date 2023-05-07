@@ -70,13 +70,13 @@ const line = document.querySelector( "gsui-dotline" );
 
 GSUI.$listenEvents( line, {
 	gsuiDotline: {
-		change: d => lg( d.args[ 0 ] ),
+		change: d => console.log( d.args[ 0 ] ),
 	},
 } );
 document.querySelector( "#xstep" ).onchange = e => GSUI.$setAttribute( line, "xstep", e.target.value );
 document.querySelector( "#ystep" ).onchange = e => GSUI.$setAttribute( line, "ystep", e.target.value );
 document.querySelector( "#movelinked" ).onchange = e => GSUI.$setAttribute( line, "movelinked", e.target.checked );
-line.change( {
+line.$change( {
 	1: { x: 20, y: 10 },
 	2: { x: 50, y: 90 },
 	3: { x: 90, y: 10 },
