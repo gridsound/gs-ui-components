@@ -2,21 +2,16 @@
 
 class gsuiSVGDefs {
 	static #id = 0;
-	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`;
-	#elDefs = GSUI.$createElementSVG( "defs" );
-	#defs = new Map();
 	#w = 1;
 	#h = 1;
+	#idPref = `gsuiSVGDefs_${ gsuiSVGDefs.#id++ }_`;
+	#defs = new Map();
+	#elDefs = GSUI.$createElementSVG( "defs" );
 
 	constructor() {
-		const svg = GSUI.$createElementSVG( "svg" );
+		const svg = GSUI.$createElementSVG( "svg", { class: "gsuiSVGDefs", style: "display:none" }, this.#elDefs );
 
-		this.rootElement = svg;
 		Object.freeze( this );
-
-		svg.style.display = "none";
-		svg.classList.add( "gsuiSVGDefs" );
-		svg.append( this.#elDefs );
 		document.body.prepend( svg );
 	}
 
