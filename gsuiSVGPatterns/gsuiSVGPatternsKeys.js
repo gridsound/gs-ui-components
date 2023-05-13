@@ -1,13 +1,9 @@
 "use strict";
 
-class gsuiKeysforms extends gsuiSVGDefs {
-	update( id, keys, dur ) {
-		return super.update( id, dur, 1, ...gsuiKeysforms.#render( keys ) );
-	}
-
-	static #render( keys ) {
+class gsuiSVGPatternsKeys {
+	static $render( keys ) {
 		const arrKeys = Object.values( keys );
-		const { min, size } = gsuiKeysforms.#calcMinMax( arrKeys );
+		const { min, size } = gsuiSVGPatternsKeys.#calcMinMax( arrKeys );
 		const rowH = 1 / ( size + 1 );
 
 		return arrKeys.map( k => GSUI.$createElementSVG( "rect", {
@@ -31,4 +27,4 @@ class gsuiKeysforms extends gsuiSVGDefs {
 	}
 }
 
-Object.freeze( gsuiKeysforms );
+Object.freeze( gsuiSVGPatternsKeys );
