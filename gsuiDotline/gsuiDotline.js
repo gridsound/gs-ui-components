@@ -111,8 +111,8 @@ class gsuiDotline extends HTMLElement {
 		Object.values( data ).sort( gsuiDotline.#sortDots )
 			.forEach( d => {
 				arr.push(
-					( d.x - xmin ) / w * svgW,
-					svgH - ( d.y - ymin ) / h * svgH
+					GSUI.$round( ( d.x - xmin ) / w * svgW, 3 ),
+					GSUI.$round( svgH - ( d.y - ymin ) / h * svgH, 3 ),
 				);
 			} );
 		if ( lastDotLinked !== null ) {
