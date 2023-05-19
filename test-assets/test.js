@@ -3,7 +3,6 @@
 function lg( a ) { return console.log.apply( console, arguments ), a; }
 
 (() => {
-
 	document.addEventListener( "gsuiEvents", e => {
 		const { component, eventName, args } = e.detail;
 
@@ -37,6 +36,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUI.$createElement( "option", { value: "gsuiSlider" }, "gsuiSlider" ),
 					GSUI.$createElement( "option", { value: "gsuiSliderGroup" }, "gsuiSliderGroup" ),
 					GSUI.$createElement( "option", { value: "gsuiSpectrum" }, "gsuiSpectrum" ),
+					GSUI.$createElement( "option", { value: "gsuiSVGPatterns" }, "gsuiSVGPatterns" ),
 					GSUI.$createElement( "option", { value: "gsuiSynthesizer" }, "gsuiSynthesizer" ),
 					GSUI.$createElement( "option", { value: "gsuiTimeline" }, "gsuiTimeline" ),
 					GSUI.$createElement( "option", { value: "gsuiTimewindow" }, "gsuiTimewindow" ),

@@ -37,8 +37,8 @@ class gsuiSVGPatterns {
 	// .........................................................................
 	static $setSVGViewbox( type, svg, offset, dur, bps ) {
 		switch ( type ) {
-			case "buffer": return gsuiSVGPatterns.#setSVGViewbox( type, svg, x * ( 48 / bps ), w * ( 48 / bps ) );
-			case "bufferHD": return gsuiSVGPatterns.#setSVGViewbox( type, svg, x * 260, w * 260 );
+			case "buffer": return gsuiSVGPatterns.#setSVGViewbox( type, svg, offset * ( 48 / bps ), dur * ( 48 / bps ) );
+			case "bufferHD": return gsuiSVGPatterns.#setSVGViewbox( type, svg, offset * 260, dur * 260 );
 			default: return gsuiSVGPatterns.#setSVGViewbox( type, svg, offset, dur );
 		}
 	}
@@ -84,7 +84,7 @@ class gsuiSVGPatterns {
 			gsuiSVGPatterns.#update( "bufferHD", id, data );
 		} else {
 			gsuiSVGPatterns.#update( type, id, data, dur );
-			gsuiSVGPatterns.$setSVGViewbox( type, svg, 0, dur )
+			gsuiSVGPatterns.$setSVGViewbox( type, svg, 0, dur );
 		}
 	}
 	static #update( type, id, data, dur ) {

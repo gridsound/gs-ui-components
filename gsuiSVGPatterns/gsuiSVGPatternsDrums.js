@@ -19,15 +19,15 @@ class gsuiSVGPatternsDrums {
 	}
 	static #createDrum( x, y, w, h ) {
 		return GSUI.$createElementSVG( "polygon", {
-			points: [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ].join( "," ),
+			points: GSUI.$round( [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ], 3 ).join( "," ),
 		} );
 	}
 	static #createDrumcut( x, y, w, h ) {
 		return GSUI.$createElementSVG( "rect", {
-			x,
-			y: y + h * .8,
-			width: w * .9,
-			height: h * .2,
+			x: GSUI.$round( x, 3 ),
+			y: GSUI.$round( y + h * .8, 3 ),
+			width: GSUI.$round( w * .9, 3 ),
+			height: GSUI.$round( h * .2, 3 ),
 		} );
 	}
 }

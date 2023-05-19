@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 400px;
+	--test-content-h: 520px;
+}
+#testWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+#testWrap .patternSVG {
+	height: 80px;
+	font-size: 0;
+}
+#testWrap svg {
+	width: 100%;
+	height: 100%;
+	fill: #fffd;
+	background-color: #0004;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<div class="patternSVG"></div>
+	<div class="patternSVG"></div>
+	<div class="patternSVG"></div>
+	<div class="patternSVG"></div>
+	<div class="patternSVG"></div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatterns.js"></script>
+<script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsKeys.js"></script>
+<script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsDrums.js"></script>
+<script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsSlices.js"></script>
+<script src="/gs-ui-components/gsuiWaveform/gsuiWaveform.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const divs = document.querySelectorAll( "#testWrap div" );
+const ctx = new AudioContext();
+
+const dur = 4;
+const bps = 60 / 60;
+
+gsuiSVGPatterns.$add( "keys", "pA" );
+gsuiSVGPatterns.$add( "drums", "pB" );
+gsuiSVGPatterns.$add( "slices", "pC" );
+gsuiSVGPatterns.$add( "buffer", "pD" );
+gsuiSVGPatterns.$add( "bufferHD", "pD" );
+
+const svgA = gsuiSVGPatterns.$createSVG( "keys", "pA" );
+const svgB = gsuiSVGPatterns.$createSVG( "drums", "pB" );
+const svgC = gsuiSVGPatterns.$createSVG( "slices", "pC" );
+const svgD = gsuiSVGPatterns.$createSVG( "buffer", "pD" );
+const svgE = gsuiSVGPatterns.$createSVG( "bufferHD", "pD" );
+divs[ 0 ].append( svgA );
+divs[ 1 ].append( svgB );
+divs[ 2 ].append( svgC );
+divs[ 3 ].append( svgD );
+divs[ 4 ].append( svgE );
+
+gsuiSVGPatterns.$setSVGViewbox( "keys", svgA, 0, dur, bps );
+gsuiSVGPatterns.$setSVGViewbox( "drums", svgB, 0, dur, bps );
+gsuiSVGPatterns.$setSVGViewbox( "slices", svgC, 0, dur, bps );
+
+gsuiSVGPatterns.$update( "keys", "pA", {
+	k0: { key: 12 * 4 + 0, when: 0, duration: 1 },
+	k1: { key: 12 * 4 + 4, when: 1, duration: 1 },
+	k2: { key: 12 * 4 + 1, when: 2, duration: 1 },
+	k3: { key: 12 * 4 + 0, when: 3, duration: 1 },
+	k4: { key: 12 * 4 + 7, when: 2, duration: .5 },
+	k5: { key: 12 * 4 + 11, when: 3.00, duration: .15 },
+	k6: { key: 12 * 4 + 11, when: 3.25, duration: .15 },
+	k7: { key: 12 * 4 + 11, when: 3.50, duration: .15 },
+	k8: { key: 12 * 4 + 11, when: 3.75, duration: .25 },
+}, dur, svgA );
+gsuiSVGPatterns.$update( "drums", "pB", [
+	{
+		d00: { row: "rA", when: 0, gain: 1 },
+		d01: { row: "rA", when: 1, gain: 1 },
+		d02: { row: "rA", when: 2, gain: 1 },
+		d03: { row: "rA", when: 3, gain: 1 },
+		d10: { row: "rB", when: 1, gain: 1 },
+		d11: { row: "rB", when: 3, gain: 1 },
+		d20: { row: "rC", when: 0, gain: 1 },
+		d21: { row: "rC", when: 1 },
+		d30: { row: "rD", when: 2, gain: 1 },
+		c31: { row: "rD", when: 2.5 },
+	},
+	{
+		rA: { order: 0 },
+		rB: { order: 1 },
+		rC: { order: 2 },
+		rD: { order: 3 },
+	},
+	4,
+], dur, svgB );
+gsuiSVGPatterns.$update( "slices", "pC", {
+	s0: { x: 1 / 16 *  0, y: .00, w: 1 /  4 },
+	s1: { x: 1 / 16 *  4, y: .25, w: 1 /  4 },
+	s2: { x: 1 / 16 *  8, y: .50, w: 1 /  8 },
+	s3: { x: 1 / 16 * 10, y: .00, w: 1 / 16 },
+	s4: { x: 1 / 16 * 11, y: .00, w: 1 / 16 },
+	s5: { x: 1 / 16 * 12, y: .75, w: 1 /  4 },
+}, dur, svgC );
+
+fetch( "../test-assets/okay.wav" )
+	.then( res => res.arrayBuffer() )
+	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( buf => {
+		gsuiSVGPatterns.$update( "buffer", "pD", buf );
+		gsuiSVGPatterns.$setSVGViewbox( "buffer", svgD, 0, dur, bps );
+	} );
+</script>
+</body>
+</html>
