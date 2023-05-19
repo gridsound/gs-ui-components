@@ -6,7 +6,6 @@ class gsuiDotline extends HTMLElement {
 	#dataSaved = null;
 	#dots = {};
 	#dotsMoving = [];
-	#dotsId = 0;
 	#svgW = 0;
 	#svgH = 0;
 	#w = 1;
@@ -134,6 +133,9 @@ class gsuiDotline extends HTMLElement {
 	}
 
 	// .........................................................................
+	#getNextId() {
+		return `${ 1 + Object.keys( this.#data ).reduce( ( max, id ) => Math.max( max, id ), 0 ) }`;
+	}
 	#getPtrX( e ) {
 		const step = GSUI.$getAttributeNum( this, "xstep" );
 		const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
@@ -151,7 +153,6 @@ class gsuiDotline extends HTMLElement {
 	#createDotElement( id ) {
 		const el = GSUI.$createElement( "div", { class: "gsuiDotline-dot", "data-id": id } );
 
-		this.#dotsId = Math.max( this.#dotsId, id );
 		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
 		this.#dots[ id ] = el;
 		this.append( el );
@@ -211,7 +212,7 @@ class gsuiDotline extends HTMLElement {
 				if ( closest ) {
 					id = closest[ 0 ];
 				} else {
-					id = `${ this.#dotsId + 1 }`;
+					id = this.#getNextId();
 					this.#createDotElement( id );
 					this.#updateDotElement( id, x, this.#getPtrY( e ) );
 					this.#drawPolyline();
