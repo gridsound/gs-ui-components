@@ -278,7 +278,16 @@ class gsuiDotline extends HTMLElement {
 		this.#onchange();
 	}
 	#onpointermoveDot( e ) {
-		if ( this.#mousebtn === 0 ) {
+		if ( this.#mousebtn === 2 ) {
+			const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
+			const y = this.#h - ( e.offsetY / this.clientHeight * this.#h + this.#ymin );
+			const dat = Object.entries( this.#data ).find( d => Math.abs( x - d[ 1 ].x ) < 3 );
+
+			if ( dat ) {
+				this.#deleteDotElement( dat[ 0 ] );
+				this.#drawPolyline();
+			}
+		} else if ( this.#mousebtn === 0 ) {
 			const xstep = GSUI.$getAttributeNum( this, "xstep" );
 			const ystep = GSUI.$getAttributeNum( this, "ystep" );
 			let incX = this.#w / this.clientWidth * ( e.pageX - this.#pageX );
