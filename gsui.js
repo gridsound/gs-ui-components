@@ -13,6 +13,11 @@ class GSUI {
 	}
 
 	// .........................................................................
+	static $round( val, dec = 0 ) {
+		return typeof val === "number"
+			? +val.toFixed( dec )
+			: val.map( n => +n.toFixed( dec ) );
+	}
 	static $clamp( n, min, max ) {
 		return (
 			min < max
