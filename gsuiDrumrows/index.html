@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiToggle/gsuiToggle.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiDrumrows/gsuiDrumrows.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDrumrows/gsuiDrumrows.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 300px;
+	--test-content-h: 380px;
+	--test-content-resize: both;
+}
+gsui-drumrows {
+	--gsuiTimewindow-lineH: 48px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-drumrows></gsui-drumrows>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiReorder/gsuiReorder.js"></script>
+<script src="/gs-ui-components/gsuiSlider/gsuiSlider.html.js"></script>
+<script src="/gs-ui-components/gsuiSlider/gsuiSlider.js"></script>
+<script src="/gs-ui-components/gsuiToggle/gsuiToggle.js"></script>
+<script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatterns.js"></script>
+<script src="/gs-ui-components/gsuiWaveform/gsuiWaveform.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiDrumrows/gsuiDrumrows.html.js"></script>
+<script src="/gs-ui-components/gsuiDrumrows/gsuiDrumrows.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const drumrows = document.querySelector( "gsui-drumrows" );
+const ctx = new AudioContext();
+
+drumrows.setLinesParent( GSUI.$createElement( "div" ), "foo" );
+
+GSUI.$listenEvents( drumrows, {
+	gsuiDrumrows: {
+		change: d => console.log( ...d.args ),
+	},
+} );
+
+initRow( "dr0", "kick 017", 0, 0, 1, "kick-017" );
+initRow( "dr1", "clap 013", 0, .2, .7, "clap-013" );
+initRow( "dr2", "hat 024", 0, .2, .7, "hat-024" );
+initRow( "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
+initRow( "dr4", "snare 018", 0, 0, .5, "snare-018" );
+
+function initRow( drumId, name, detune, pan, gain, bufName ) {
+	drumrows.add( drumId, GSUI.$createElement( "div" ) );
+	drumrows.change( drumId, "name", name );
+	drumrows.change( drumId, "detune", detune );
+	drumrows.change( drumId, "pan", pan );
+	drumrows.change( drumId, "gain", gain );
+	fetch( `../test-assets/${ bufName }.wav` )
+		.then( res => res.arrayBuffer() )
+		.then( arr => ctx.decodeAudioData( arr ) )
+		.then( buf => {
+			gsuiSVGPatterns.$add( "buffer", bufName );
+			gsuiSVGPatterns.$add( "bufferHD", bufName );
+			gsuiSVGPatterns.$update( "buffer", bufName, buf );
+			drumrows.change( drumId, "pattern", gsuiSVGPatterns.$createSVG( "bufferHD", bufName ) );
+		} );
+}
+</script>
+</body>
+</html>
