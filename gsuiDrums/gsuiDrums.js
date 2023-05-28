@@ -31,13 +31,12 @@ class gsuiDrums extends HTMLElement {
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDrums" );
+	timeline = this.#win.timeline;
+	drumrows = GSUI.$createElement( "gsui-drumrows" );
 
 	constructor() {
 		super();
-		this.timeline = this.#win.timeline;
-		this.drumrows = GSUI.$createElement( "gsui-drumrows" );
 		Object.seal( this );
-
 		GSUI.$listenEvents( this, {
 			gsuiTimewindow: {
 				pxperbeat: d => {
@@ -173,7 +172,7 @@ class gsuiDrums extends HTMLElement {
 	}
 	changeDrumProp( id, prop, val ) {
 		const sel = `.gsuiDrums-drumProp[data-value="${ prop }"] .gsuiDrums-drumPropValue`;
-		const st = this.#drumsMap.get( id )[ 3 ].querySelector( sel ).style;
+		const st = this.#drumsMap.get( id )[ 2 ].querySelector( sel ).style;
 
 		switch ( prop ) {
 			case "detune":
@@ -198,10 +197,10 @@ class gsuiDrums extends HTMLElement {
 		elItem.style.left = `${ item.when }em`;
 		elItem.style.width = `${ stepDur }em`;
 		this.#qS( `line[data-id='${ item.row }'] .gsuiDrums-lineIn` ).append( elItem );
-		this.#drumsMap.set( id, [ item.row, itemType, Math.round( item.when / stepDur ), elItem ] );
+		this.#drumsMap.set( id, [ item.row, itemType, elItem ] );
 	}
 	#removeItem( id ) {
-		const elItem = this.#drumsMap.get( id )[ 3 ];
+		const elItem = this.#drumsMap.get( id )[ 2 ];
 
 		elItem.remove();
 		this.#drumsMap.delete( id );
