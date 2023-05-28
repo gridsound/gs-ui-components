@@ -21,7 +21,6 @@ class gsuiDrumrows extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
-
 		this.ondrop = this.#ondropRows.bind( this );
 		this.onclick = this.#onclickRows.bind( this );
 		this.onchange = this.#onchangeRows.bind( this );
