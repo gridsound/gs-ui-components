@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiDragshield/gsuiDragshield.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.css"/>
@@ -24,6 +25,7 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiTimewindow/gsuiTimewindow.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiSliderGroup/gsuiSliderGroup.colors.default.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiSliderGroup/gsuiSliderGroup.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDrum/gsuiDrum.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="/gs-ui-components/gsuiDrums/gsuiDrums.colors.default.css"/>
@@ -42,7 +44,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-drums></gsui-drums>
+	<gsui-drums timedivision="4/4"></gsui-drums>
 </div>
 
 <!-- ....................................................................... -->
@@ -51,6 +53,7 @@ body {
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiReorder/gsuiReorder.js"></script>
+<script src="/gs-ui-components/gsuiDragshield/gsuiDragshield.js"></script>
 <script src="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.js"></script>
 <script src="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.html.js"></script>
 <script src="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.js"></script>
@@ -67,6 +70,9 @@ body {
 <script src="/gs-ui-components/gsuiTimewindow/gsuiTimewindow.js"></script>
 <script src="/gs-ui-components/gsuiSliderGroup/gsuiSliderGroup.html.js"></script>
 <script src="/gs-ui-components/gsuiSliderGroup/gsuiSliderGroup.js"></script>
+<script src="/gs-ui-components/gsuiDrum/gsuiDrum.html.js"></script>
+<script src="/gs-ui-components/gsuiDrum/gsuiDrum.js"></script>
+<script src="/gs-ui-components/gsuiDrum/gsuiDrumcut.js"></script>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiDrums/gsuiDrums.html.js"></script>
@@ -75,16 +81,7 @@ body {
 <!-- ....................................................................... -->
 <script>
 const drums = document.querySelector( "gsui-drums" );
-const drumrows = document.querySelector( "gsui-drumrows" );
 const ctx = new AudioContext();
-
-GSUI.$listenEvents( drumrows, {
-	gsuiDrumrows: {
-		change: d => console.log( ...d.args ),
-	},
-} );
-
-drums.timedivision( "4/4" );
 
 initRow( "dr0", "kick 017", 0, 0, 1, "kick-017" );
 initRow( "dr1", "clap 013", 0, .2, .7, "clap-013" );
@@ -92,16 +89,33 @@ initRow( "dr2", "hat 024", 0, .2, .7, "hat-024" );
 initRow( "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
 initRow( "dr4", "snare 018", 0, 0, .5, "snare-018" );
 
-drums.addDrum( "d0", { row: "dr0", when: 0 } );
-drums.changeDrum( "d0", "gain", .5 );
-drums.changeDrumProp( "d0", "gain", .5 );
+drums.addDrum( "d00", { row: "dr0", when: .00 } );
+drums.addDrum( "d01", { row: "dr0", when: .25 } );
+drums.addDrum( "d02", { row: "dr0", when: .50 } );
+drums.addDrum( "d04", { row: "dr0", when: .75 } );
+drums.addDrum( "d05", { row: "dr0", when: 1 } );
+drums.changeDrum( "d00", "gain", .5 );
+drums.addDrumcut( "dc00", { row: "dr0", when: 1 } );
+
+drums.addDrum( "d10", { row: "dr1", when: 1.00 } );
+drums.addDrum( "d11", { row: "dr1", when: 1.25 } );
+drums.addDrum( "d12", { row: "dr1", when: 1.50 } );
+drums.addDrum( "d14", { row: "dr1", when: 1.75 } );
+drums.addDrum( "d15", { row: "dr1", when: 2 } );
+drums.changeDrum( "d10", "gain", .5 );
+drums.addDrumcut( "dc10", { row: "dr1", when: 2 } );
+
+drums.addDrum( "d30", { row: "dr3", when: 2 } );
+drums.addDrum( "d31", { row: "dr3", when: 2.125 } );
+
+drums.addDrum( "d41", { row: "dr4", when: 2.0625 } );
 
 function initRow( drumId, name, detune, pan, gain, bufName ) {
-	drumrows.add( drumId, drums.createDrumrow( drumId ) );
-	drumrows.change( drumId, "name", name );
-	drumrows.change( drumId, "detune", detune );
-	drumrows.change( drumId, "pan", pan );
-	drumrows.change( drumId, "gain", gain );
+	drums.$addDrumrow( drumId );
+	drums.$changeDrumrow( drumId, "name", name );
+	drums.$changeDrumrow( drumId, "detune", detune );
+	drums.$changeDrumrow( drumId, "pan", pan );
+	drums.$changeDrumrow( drumId, "gain", gain );
 	fetch( `../test-assets/${ bufName }.wav` )
 		.then( res => res.arrayBuffer() )
 		.then( arr => ctx.decodeAudioData( arr ) )
@@ -109,7 +123,7 @@ function initRow( drumId, name, detune, pan, gain, bufName ) {
 			gsuiSVGPatterns.$add( "buffer", bufName );
 			gsuiSVGPatterns.$add( "bufferHD", bufName );
 			gsuiSVGPatterns.$update( "buffer", bufName, buf );
-			drumrows.change( drumId, "pattern", gsuiSVGPatterns.$createSVG( "bufferHD", bufName ) );
+			drums.$changeDrumrow( drumId, "pattern", gsuiSVGPatterns.$createSVG( "bufferHD", bufName ) );
 		} );
 }
 </script>

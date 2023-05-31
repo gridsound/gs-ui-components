@@ -75,7 +75,7 @@ class gsuiDrumrows extends HTMLElement {
 	setPropFilter( id, prop ) {
 		this.#rows.get( id ).root.querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"]` ).checked = true;
 	}
-	setDrumPropValue( rowId, prop, val ) {
+	$setDrumPropValue( rowId, prop, val ) {
 		const el = this.#getPropBtn( rowId, prop );
 		const fixval = prop === "detune" ? val : val.toFixed( 2 );
 		const txtval = prop !== "gain"
@@ -85,7 +85,7 @@ class gsuiDrumrows extends HTMLElement {
 		el.classList.add( "gsuiDrumrow-propSpanValue" );
 		el.textContent = txtval;
 	}
-	removeDrumPropValue( rowId, prop ) {
+	$removeDrumPropValue( rowId, prop ) {
 		const el = this.#getPropBtn( rowId, prop );
 
 		el.classList.remove( "gsuiDrumrow-propSpanValue" );

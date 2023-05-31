@@ -6,6 +6,7 @@ gsui-drums {
 /* .......................................................................... */
 gsui-drums .gsuiTimewindow-currentTime {
 	margin-left: 0;
+	width: var( --gsuiDrums-pxperstep, 1px );
 	opacity: .1;
 }
 gsui-drums gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
@@ -80,59 +81,7 @@ gsui-drums gsui-slider[ data-zoom="y" ] {
 }
 
 /* .......................................................................... */
-.gsuiDrums-drum,
-.gsuiDrums-drumcut {
-	position: absolute;
-	width: 1em;
-}
-.gsuiDrums-drum {
-	height: 66%;
-}
-.gsuiDrums-drumcut {
-	bottom: 1px;
-	height: calc( 34% - 2px );
-}
 .gsuiDrums-previewDeleted,
 .gsuiDrums-preview {
 	opacity: .4;
-}
-.gsuiDrums-drumIn,
-.gsuiDrums-drumcutIn {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	height: 100%;
-	margin: 0 1px 1px 0;
-	border-radius: 2px;
-	color: var( --gsuiDrums-drum-color );
-	background-color: var( --gsuiDrums-drum-bg );
-	pointer-events: none;
-}
-.gsuiDrums-drumcutIn {
-	font-size: 10px;
-	background-color: var( --gsuiDrums-drumcut-bg );
-}
-.gsuiDrums-drumcutIn .gsuiIcon {
-	opacity: .7;
-}
-.gsuiDrums-drumProp {
-	position: relative;
-	width: 100%;
-	height: 3px;
-	background-color: var( --gsuiDrums-drumprop-bg );
-	transition: .1s height;
-}
-.gsuiDrums-lineOpen[ data-prop="pan" ] .gsuiDrums-drumProp[ data-value="pan" ],
-.gsuiDrums-lineOpen[ data-prop="gain" ] .gsuiDrums-drumProp[ data-value="gain" ],
-.gsuiDrums-lineOpen[ data-prop="detune" ] .gsuiDrums-drumProp[ data-value="detune" ] {
-	height: 6px;
-}
-.gsuiDrums-drumProp + .gsuiDrums-drumProp {
-	margin-top: 2px;
-}
-.gsuiDrums-drumPropValue {
-	position: absolute;
-	height: 100%;
-	background-color: var( --gsuiDrums-drumprop-color );
 }
