@@ -15,13 +15,16 @@ class gsuiDrum extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "when", "gain", "pan", "detune" ];
+		return [ "when", "duration", "gain", "pan", "detune" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "when":
 					this.style.left = `${ val }em`;
+					break;
+				case "duration":
+					this.style.width = `${ val }em`;
 					break;
 				case "pan":
 				case "gain":

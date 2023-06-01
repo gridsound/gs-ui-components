@@ -55,6 +55,10 @@ class gsuiDrumrows extends HTMLElement {
 	}
 
 	// .........................................................................
+	$getRowLine( rowId ) {
+		return this.#lines.get( rowId );
+		return this.#lines.get( rowId ).getElementsByTagName( `gsui-${ type }` );
+	}
 	setLinesParent( el, childClass ) {
 		this.#elLinesParent = el;
 		this.#reorder.setShadowElement( el );

@@ -15,13 +15,16 @@ class gsuiDrumcut extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "when" ];
+		return [ "when", "duration" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "when":
 					this.style.left = `${ val }em`;
+					break;
+				case "duration":
+					this.style.width = `${ val }em`;
 					break;
 			}
 		}

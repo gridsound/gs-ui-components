@@ -23,6 +23,7 @@ class gsuiDrums extends HTMLElement {
 	#drumsMap = new Map();
 	#previewsMap = new Map();
 	#sliderGroups = new Map();
+	#linesMap = new Map();
 	#elLines = null;
 	#elDrumHover = GSUI.$createElement( "div", { class: "gsuiDrums-drumHover" }, GSUI.$createElement( "div", { class: "gsuiDrums-drumHoverIn" } ) );
 	#elDrumcutHover = GSUI.$createElement( "div", { class: "gsuiDrums-drumcutHover" }, GSUI.$createElement( "div", { class: "gsuiDrums-drumcutHoverIn" } ) );
@@ -116,7 +117,10 @@ class gsuiDrums extends HTMLElement {
 		this.#drumrows.reorderDrumrows( obj );
 	}
 	$addDrumrow( rowId ) {
-		this.#drumrows.add( rowId, this.createDrumrow( rowId ) );
+		const elLine = this.createDrumrow( rowId );
+
+		this.#linesMap.set( rowId, elLine );
+		this.#drumrows.add( rowId, elLine );
 		this.#setPropFilter( rowId, "gain" );
 	}
 	$removeDrumrow( rowId ) {
@@ -135,9 +139,9 @@ class gsuiDrums extends HTMLElement {
 	// .........................................................................
 	addDrum( id, drum ) {
 		const grp = this.#sliderGroups.get( drum.row );
+		const elItem = this.#addItem( id, "drum", drum );
 
-		this.#addItem( id, "drum", drum );
-		grp.set( id, drum.when, 1 / this.#stepsPerBeat, 0 );
+		grp.set( id, drum.when, GSUI.$getAttributeNum( elItem, "duration" ), 0 );
 	}
 	removeDrum( id ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
@@ -171,31 +175,109 @@ class gsuiDrums extends HTMLElement {
 	}
 	#addItem( id, itemType, item ) {
 		const elTag = `gsui-${ itemType }`;
+		const { when, row: rowId } = item;
 		const elItem = GSUI.$createElement( elTag, {
 			"data-id": id,
-			when: item.when,
+			when,
+			duration: this.#calcItemWidth( itemType, rowId, when ),
 		} );
+		const [ closest, closestW ] = this.#getPrevItem( rowId, itemType, when );
 
-		elItem.style.width = `${ 1 / this.#stepsPerBeat }em`;
-		this.#qS( `line[data-id='${ item.row }'] .gsuiDrums-lineIn` ).append( elItem );
-		this.#drumsMap.set( id, [ item.row, itemType, elItem ] );
+		if ( closest ) {
+			const closestD = GSUI.$getAttributeNum( closest, "duration" );
+
+			if ( closestW + closestD > when ) {
+				for ( let d = 1; d < 8; d *= 2 ) {
+					if ( closestW + closestD / d <= when ) {
+						GSUI.$setAttribute( closest, "duration", closestD / d );
+						this.#sliderGroups.get( rowId ).setProp( closest.dataset.id, "duration", closestD / d );
+						break;
+					}
+				}
+			}
+		}
+		this.#qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elItem );
+		this.#drumsMap.set( id, [ rowId, itemType, elItem ] );
+		return elItem;
 	}
 	#removeItem( id ) {
-		const elItem = this.#drumsMap.get( id )[ 2 ];
+		const [ rowId, itemType, elItem ] = this.#drumsMap.get( id );
+		const when = GSUI.$getAttributeNum( elItem, "when" );
+		const [ closest, closestW ] = this.#getPrevItem( rowId, itemType, when );
 
 		elItem.remove();
 		this.#drumsMap.delete( id );
+		if ( closest ) {
+			const closestD = GSUI.$getAttributeNum( closest, "duration" );
+			const dur = this.#calcItemWidth( itemType, rowId, closestW );
+
+			if ( dur !== closestD ) {
+				GSUI.$setAttribute( closest, "duration", dur );
+				this.#sliderGroups.get( rowId ).setProp( closest.dataset.id, "duration", dur );
+			}
+		}
+	}
+	#calcItemWidth( itemType, rowId, when ) {
+		const wmax = this.#calcItemWidthMax( when );
+		const [ , closestW ] = this.#getNextItem( rowId, itemType, when );
+
+		if ( Number.isFinite( closestW ) ) {
+			for ( let d = 1; d < 8; d *= 2 ) {
+				if ( when + wmax / d <= closestW ) {
+					return wmax / d;
+				}
+			}
+		}
+		return wmax;
+	}
+	#calcItemWidthMax( when ) {
+		const stepDur = 1 / this.#stepsPerBeat;
+		const stepPerc = ( when % stepDur ) / stepDur * 100;
+		let d = 1;
+
+		for ( ; d < 8; d *= 2 ) {
+			if ( Math.abs( stepPerc % ( 100 / d ) ) < 5 ) {
+				break;
+			}
+		}
+		return stepDur / d;
 	}
 
 	// .........................................................................
+	#getItems( rowId, itemType ) {
+		return this.#drumrows.$getRowLine( rowId ).getElementsByTagName( `gsui-${ itemType }` );
+	}
+	#getPrevItem( rowId, itemType, when ) {
+		return gsuiDrums.#getClosestItem( this.#getItems( rowId, itemType ), when, gsuiDrums.#closestBefore, -Infinity );
+	}
+	#getNextItem( rowId, itemType, when ) {
+		return gsuiDrums.#getClosestItem( this.#getItems( rowId, itemType ), when, gsuiDrums.#closestAfter, Infinity );
+	}
+	static #getClosestItem( items, when, cmpFn, dir ) {
+		return Array.from( items ).reduce( gsuiDrums.#getClosestItem2.bind( null, when, cmpFn ), [ null, dir ] );
+	}
+	static #getClosestItem2( when, cmpFn, found, d ) {
+		const dw = GSUI.$getAttributeNum( d, "when" );
+
+		if ( cmpFn( found, when, dw ) ) {
+			found[ 0 ] = d;
+			found[ 1 ] = dw;
+		}
+		return found;
+	}
+	static #closestBefore( found, when, dw ) {
+		return found[ 1 ] < dw && dw < when;
+	}
+	static #closestAfter( found, when, dw ) {
+		return when < dw && dw < found[ 1 ];
+	}
 	#setPropFilterAll( prop ) {
 		Array.from( this.getElementsByClassName( "gsuiDrums-line" ) )
 			.forEach( el => this.#setPropFilter( el.dataset.id, prop ) );
 	}
 	#setPropFilter( rowId, prop ) {
 		const grp = this.#sliderGroups.get( rowId );
-		const line = this.#qS( `line[data-id='${ rowId }']` );
-		const drms = line.getElementsByTagName( "gsui-drum" );
+		const line = this.#drumrows.$getRowLine( rowId );
 
 		line.dataset.prop =
 		grp.dataset.currentProp = prop;
@@ -204,7 +286,7 @@ class gsuiDrums extends HTMLElement {
 			case "gain": grp.options( { min: 0, max: 1, step: .025, def: .8 } ); break;
 			case "detune": grp.options( { min: -12, max: 12, step: 1, def: 0 } ); break;
 		}
-		Array.from( drms ).forEach( d => {
+		Array.from( this.#getItems( rowId, "drum" ) ).forEach( d => {
 			grp.setProp( d.dataset.id, "value", GSUI.$getAttributeNum( d, prop ) );
 		} );
 		this.#drumrows.setPropFilter( rowId, prop );
@@ -216,10 +298,12 @@ class gsuiDrums extends HTMLElement {
 	}
 	#createPreview( itemType, rowId, when ) {
 		const elTag = `gsui-${ itemType }`;
-		const el = GSUI.$createElement( elTag, { when } );
+		const el = GSUI.$createElement( elTag, {
+			when,
+			duration: 1 / this.#stepsPerBeat,
+		} );
 
 		el.classList.add( "gsuiDrums-preview" );
-		el.style.width = `${ 1 / this.#stepsPerBeat }em`;
 		this.#qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
 		return el;
 	}

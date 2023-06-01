@@ -100,15 +100,33 @@ drums.addDrumcut( "dc00", { row: "dr0", when: 1 } );
 drums.addDrum( "d10", { row: "dr1", when: 1.00 } );
 drums.addDrum( "d11", { row: "dr1", when: 1.25 } );
 drums.addDrum( "d12", { row: "dr1", when: 1.50 } );
-drums.addDrum( "d14", { row: "dr1", when: 1.75 } );
-drums.addDrum( "d15", { row: "dr1", when: 2 } );
+drums.addDrum( "d13", { row: "dr1", when: 1.75 } );
+drums.addDrum( "d14", { row: "dr1", when: 2 } );
 drums.changeDrum( "d10", "gain", .5 );
 drums.addDrumcut( "dc10", { row: "dr1", when: 2 } );
 
 drums.addDrum( "d30", { row: "dr3", when: 2 } );
-drums.addDrum( "d31", { row: "dr3", when: 2.125 } );
 
-drums.addDrum( "d41", { row: "dr4", when: 2.0625 } );
+drums.addDrum( "d21", { row: "dr2", when: 2 } );
+drums.addDrum( "d31", { row: "dr3", when: 2.125 } );
+drums.addDrum( "d41", { row: "dr4", when: 2.1875 } );
+
+drums.addDrum( "d34", { row: "dr3", when: 3 } );
+// drums.addDrum( "d32", { row: "dr3", when: 3.0625 } );
+drums.addDrum( "d33", { row: "dr3", when: 3.125 } );
+
+drums.addDrum( "d42", { row: "dr4", when: 3.0625 } );
+drums.addDrum( "d43", { row: "dr4", when: 3.125 } );
+drums.addDrum( "d44", { row: "dr4", when: 3 } );
+
+drums.addDrum( "d15", { row: "dr1", when: 3 } );
+drums.addDrum( "d16", { row: "dr1", when: 3.125 } );
+drums.addDrum( "d17", { row: "dr1", when: 3.1875 } );
+drums.addDrum( "d22", { row: "dr2", when: 3 } );
+drums.addDrum( "d23", { row: "dr2", when: 3.125 } );
+drums.removeDrum( "d16" );
+drums.removeDrum( "d17" );
+drums.removeDrum( "d23" );
 
 function initRow( drumId, name, detune, pan, gain, bufName ) {
 	drums.$addDrumrow( drumId );
