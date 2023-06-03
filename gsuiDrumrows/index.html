@@ -14,6 +14,7 @@
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="/gs-ui-components/gsuiSlider/gsuiSlider.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiToggle/gsuiToggle.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDrumrow/gsuiDrumrow.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="/gs-ui-components/gsuiDrumrows/gsuiDrumrows.colors.default.css"/>
@@ -49,6 +50,8 @@ gsui-drumrows {
 <script src="/gs-ui-components/gsuiToggle/gsuiToggle.js"></script>
 <script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatterns.js"></script>
 <script src="/gs-ui-components/gsuiWaveform/gsuiWaveform.js"></script>
+<script src="/gs-ui-components/gsuiDrumrow/gsuiDrumrow.html.js"></script>
+<script src="/gs-ui-components/gsuiDrumrow/gsuiDrumrow.js"></script>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiDrumrows/gsuiDrumrows.html.js"></script>
@@ -58,14 +61,6 @@ gsui-drumrows {
 <script>
 const drumrows = document.querySelector( "gsui-drumrows" );
 const ctx = new AudioContext();
-
-drumrows.setLinesParent( GSUI.$createElement( "div" ), "foo" );
-
-GSUI.$listenEvents( drumrows, {
-	gsuiDrumrows: {
-		change: d => console.log( ...d.args ),
-	},
-} );
 
 initRow( "dr0", "kick 017", 0, 0, 1, "kick-017" );
 initRow( "dr1", "clap 013", 0, .2, .7, "clap-013" );

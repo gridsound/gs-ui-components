@@ -19,7 +19,7 @@ class gsuiDrums extends HTMLElement {
 	#currAction = "";
 	#draggingRowId = null;
 	#draggingWhenStart = 0;
-	#hoveringStatus = "";
+	#hoverItemType = "";
 	#drumsMap = new Map();
 	#previewsMap = new Map();
 	#sliderGroups = new Map();
@@ -32,6 +32,19 @@ class gsuiDrums extends HTMLElement {
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDrums" );
 	#drumrows = GSUI.$createElement( "gsui-drumrows" );
+	#reorder = new gsuiReorder( {
+		rootElement: this.#drumrows,
+		direction: "column",
+		dataTransferType: "drumrow",
+		itemSelector: "gsui-drumrow",
+		handleSelector: ".gsuiDrumrow-grip",
+		parentSelector: "gsui-drumrows",
+		onchange: ( elRow ) => {
+			const rows = gsuiReorder.listComputeOrderChange( this.#drumrows, {} );
+
+			this.#dispatch( "reorderDrumrow", elRow.dataset.id, rows );
+		},
+	} );
 	timeline = this.#win.timeline;
 
 	constructor() {
@@ -42,6 +55,8 @@ class gsuiDrums extends HTMLElement {
 				pxperbeat: d => this.#setPxPerBeat( d.args[ 0 ] ),
 			},
 			gsuiDrumrows: {
+				toggle: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrumrow-mute" ),
+				expand: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrums-lineOpen" ),
 				propFilter: d => this.#setPropFilter( ...d.args ),
 				propFilters: d => this.#setPropFilterAll( ...d.args ),
 			},
@@ -76,7 +91,8 @@ class gsuiDrums extends HTMLElement {
 			this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
 			this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 			this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
-			this.#drumrows.setLinesParent( this.#elLines, "gsuiDrums-line" );
+			this.#reorder.setShadowElement( this.#elLines );
+			this.#reorder.setShadowChildClass( "gsuiDrums-line" );
 		}
 	}
 	static get observedAttributes() {
@@ -114,20 +130,30 @@ class gsuiDrums extends HTMLElement {
 
 	// .........................................................................
 	$reorderDrumrows( obj ) {
-		this.#drumrows.reorderDrumrows( obj );
+		gsuiReorder.listReorder( this.#drumrows, obj );
+		gsuiReorder.listReorder( this.#elLines, obj );
 	}
 	$addDrumrow( rowId ) {
-		const elLine = this.createDrumrow( rowId );
+		const elLine = this.#createDrumrow( rowId );
 
+		elLine.dataset.id = rowId;
+		this.#drumrows.add( rowId );
 		this.#linesMap.set( rowId, elLine );
-		this.#drumrows.add( rowId, elLine );
+		this.#elLines.append( elLine );
 		this.#setPropFilter( rowId, "gain" );
 	}
 	$removeDrumrow( rowId ) {
 		this.#drumrows.remove( rowId );
+		this.#linesMap.get( rowId ).remove();
+		this.#linesMap.delete( rowId );
 	}
 	$changeDrumrow( rowId, prop, val ) {
-		this.#drumrows.change( rowId, prop, val );
+		if ( prop === "order" ) {
+			this.querySelector( `gsui-drumrow[data-id="${ rowId }"]` ).dataset.order = val;
+			this.#linesMap.get( rowId ).dataset.order = val;
+		} else {
+			this.#drumrows.change( rowId, prop, val );
+		}
 	}
 	$startDrumrow( rowId ) {
 		this.#drumrows.playRow( rowId );
@@ -155,7 +181,7 @@ class gsuiDrums extends HTMLElement {
 	removeDrumcut( id ) {
 		this.#removeItem( id );
 	}
-	createDrumrow( id ) {
+	#createDrumrow( id ) {
 		const elLine = GSUI.$getTemplate( "gsui-drums-line" );
 		const grp = elLine.querySelector( "gsui-slidergroup" );
 
@@ -245,7 +271,7 @@ class gsuiDrums extends HTMLElement {
 
 	// .........................................................................
 	#getItems( rowId, itemType ) {
-		return this.#drumrows.$getRowLine( rowId ).getElementsByTagName( `gsui-${ itemType }` );
+		return this.#linesMap.get( rowId ).getElementsByTagName( `gsui-${ itemType }` );
 	}
 	#getPrevItem( rowId, itemType, when ) {
 		return gsuiDrums.#getClosestItem( this.#getItems( rowId, itemType ), when, gsuiDrums.#closestBefore, -Infinity );
@@ -277,7 +303,7 @@ class gsuiDrums extends HTMLElement {
 	}
 	#setPropFilter( rowId, prop ) {
 		const grp = this.#sliderGroups.get( rowId );
-		const line = this.#drumrows.$getRowLine( rowId );
+		const line = this.#linesMap.get( rowId );
 
 		line.dataset.prop =
 		grp.dataset.currentProp = prop;
@@ -378,7 +404,7 @@ class gsuiDrums extends HTMLElement {
 					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
 
 					this.#hoverPageX = e.pageX;
-					this.#hoveringStatus = elHover === this.#elDrumHover ? "drum" : "drumcut";
+					this.#hoverItemType = elHover === this.#elDrumHover ? "drum" : "drumcut";
 					if ( elHover !== this.#elHover ) {
 						if ( this.#elHover ) {
 							this.#elHover.remove();
@@ -396,7 +422,7 @@ class gsuiDrums extends HTMLElement {
 		}
 	}
 	#onmousemoveLines2() {
-		if ( this.#hoveringStatus ) {
+		if ( this.#hoverItemType ) {
 			const left = this.#elLines.getBoundingClientRect().left;
 			const beat = ( ( this.#hoverPageX - left ) / this.#pxPerStep | 0 ) / this.#stepsPerBeat;
 
@@ -409,7 +435,7 @@ class gsuiDrums extends HTMLElement {
 	}
 	#onmouseleaveLines() {
 		if ( !this.#currAction ) {
-			this.#hoveringStatus = "";
+			this.#hoverItemType = "";
 			this.#elHover.remove();
 		}
 	}

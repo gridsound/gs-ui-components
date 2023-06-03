@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiReorder/gsuiReorder.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiDragshield/gsuiDragshield.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.css"/>
@@ -26,6 +27,7 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiSliderGroup/gsuiSliderGroup.colors.default.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiSliderGroup/gsuiSliderGroup.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiDrum/gsuiDrum.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDrumrow/gsuiDrumrow.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="/gs-ui-components/gsuiDrums/gsuiDrums.colors.default.css"/>
@@ -53,6 +55,8 @@ body {
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiReorder/gsuiReorder.js"></script>
+<script src="/gs-ui-components/gsuiReorder/gsuiReorder.listReorder.js"></script>
+<script src="/gs-ui-components/gsuiReorder/gsuiReorder.listComputeOrderChange.js"></script>
 <script src="/gs-ui-components/gsuiDragshield/gsuiDragshield.js"></script>
 <script src="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.js"></script>
 <script src="/gs-ui-components/gsuiBeatlines/gsuiBeatlines.html.js"></script>
@@ -73,6 +77,8 @@ body {
 <script src="/gs-ui-components/gsuiDrum/gsuiDrum.html.js"></script>
 <script src="/gs-ui-components/gsuiDrum/gsuiDrum.js"></script>
 <script src="/gs-ui-components/gsuiDrum/gsuiDrumcut.js"></script>
+<script src="/gs-ui-components/gsuiDrumrow/gsuiDrumrow.html.js"></script>
+<script src="/gs-ui-components/gsuiDrumrow/gsuiDrumrow.js"></script>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiDrums/gsuiDrums.html.js"></script>
@@ -83,11 +89,11 @@ body {
 const drums = document.querySelector( "gsui-drums" );
 const ctx = new AudioContext();
 
-initRow( "dr0", "kick 017", 0, 0, 1, "kick-017" );
-initRow( "dr1", "clap 013", 0, .2, .7, "clap-013" );
-initRow( "dr2", "hat 024", 0, .2, .7, "hat-024" );
-initRow( "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
-initRow( "dr4", "snare 018", 0, 0, .5, "snare-018" );
+initRow( 0, "dr0", "kick 017", 0, 0, 1, "kick-017" );
+initRow( 1, "dr1", "clap 013", 0, .2, .7, "clap-013" );
+initRow( 2, "dr2", "hat 024", 0, .2, .7, "hat-024" );
+initRow( 3, "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
+initRow( 4, "dr4", "snare 018", 0, 0, .5, "snare-018" );
 
 drums.addDrum( "d00", { row: "dr0", when: .00 } );
 drums.addDrum( "d01", { row: "dr0", when: .25 } );
@@ -109,9 +115,13 @@ drums.addDrum( "d30", { row: "dr3", when: 2 } );
 
 drums.addDrum( "d21", { row: "dr2", when: 2 } );
 drums.addDrum( "d31", { row: "dr3", when: 2.125 } );
-drums.addDrum( "d41", { row: "dr4", when: 2.1875 } );
 
-drums.addDrum( "d34", { row: "dr3", when: 3 } );
+drums.addDrum( "d45", { row: "dr4", when: 2.0 } );
+drums.addDrum( "d46", { row: "dr4", when: 2.0625 } );
+drums.addDrum( "d41", { row: "dr4", when: 2.1875 } );
+drums.removeDrum( "d46" );
+
+// drums.addDrum( "d34", { row: "dr3", when: 3 } );
 // drums.addDrum( "d32", { row: "dr3", when: 3.0625 } );
 drums.addDrum( "d33", { row: "dr3", when: 3.125 } );
 
@@ -128,12 +138,13 @@ drums.removeDrum( "d16" );
 drums.removeDrum( "d17" );
 drums.removeDrum( "d23" );
 
-function initRow( drumId, name, detune, pan, gain, bufName ) {
+function initRow( order, drumId, name, detune, pan, gain, bufName ) {
 	drums.$addDrumrow( drumId );
 	drums.$changeDrumrow( drumId, "name", name );
 	drums.$changeDrumrow( drumId, "detune", detune );
 	drums.$changeDrumrow( drumId, "pan", pan );
 	drums.$changeDrumrow( drumId, "gain", gain );
+	drums.$changeDrumrow( drumId, "order", order );
 	fetch( `../test-assets/${ bufName }.wav` )
 		.then( res => res.arrayBuffer() )
 		.then( arr => ctx.decodeAudioData( arr ) )
