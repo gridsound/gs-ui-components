@@ -271,7 +271,14 @@ class gsuiDrums extends HTMLElement {
 
 	// .........................................................................
 	#getItems( rowId, itemType ) {
-		return this.#linesMap.get( rowId ).getElementsByTagName( `gsui-${ itemType }` );
+		const arr = [];
+
+		this.#drumsMap.forEach( d => {
+			if ( d[ 0 ] === rowId && d[ 1 ] === itemType ) {
+				arr.push( d[ 2 ] );
+			}
+		} );
+		return arr;
 	}
 	#getPrevItem( rowId, itemType, when ) {
 		return gsuiDrums.#getClosestItem( this.#getItems( rowId, itemType ), when, gsuiDrums.#closestBefore, -Infinity );
@@ -280,7 +287,7 @@ class gsuiDrums extends HTMLElement {
 		return gsuiDrums.#getClosestItem( this.#getItems( rowId, itemType ), when, gsuiDrums.#closestAfter, Infinity );
 	}
 	static #getClosestItem( items, when, cmpFn, dir ) {
-		return Array.from( items ).reduce( gsuiDrums.#getClosestItem2.bind( null, when, cmpFn ), [ null, dir ] );
+		return items.reduce( gsuiDrums.#getClosestItem2.bind( null, when, cmpFn ), [ null, dir ] );
 	}
 	static #getClosestItem2( when, cmpFn, found, d ) {
 		const dw = GSUI.$getAttributeNum( d, "when" );
@@ -312,7 +319,7 @@ class gsuiDrums extends HTMLElement {
 			case "gain": grp.options( { min: 0, max: 1, step: .025, def: .8 } ); break;
 			case "detune": grp.options( { min: -12, max: 12, step: 1, def: 0 } ); break;
 		}
-		Array.from( this.#getItems( rowId, "drum" ) ).forEach( d => {
+		this.#getItems( rowId, "drum" ).forEach( d => {
 			grp.setProp( d.dataset.id, "value", GSUI.$getAttributeNum( d, prop ) );
 		} );
 		this.#drumrows.setPropFilter( rowId, prop );
@@ -342,22 +349,15 @@ class gsuiDrums extends HTMLElement {
 		const map = this.#previewsMap;
 		const adding = this.#currAction.startsWith( "add" );
 		const itemType = this.#currAction.endsWith( "Drums" ) ? "drum" : "drumcut";
-		const drumsArr = [];
+		const drumsArr = this.#getItems( rowId, itemType );
 
-		this.#drumsMap.forEach( arr => {
-			if ( arr[ 0 ] === rowId && arr[ 1 ] === itemType ) {
-				drumsArr.push( arr );
-			}
-		} );
 		for ( let w = whenA; w <= whenB; ++w ) {
 			added.set( w );
 			if ( !map.has( w ) ) {
 				if ( adding ) {
 					map.set( w, this.#createPreview( itemType, rowId, w * stepDur ) );
 				} else {
-					drumsArr.find( arr => {
-						const el = arr[ 2 ];
-
+					drumsArr.find( el => {
 						if ( GSUI.$getAttributeNum( el, "when" ) / stepDur === w ) {
 							el.classList.add( "gsuiDrums-previewDeleted" );
 							map.set( w, el );
