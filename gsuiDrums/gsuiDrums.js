@@ -12,6 +12,8 @@ class gsuiDrums extends HTMLElement {
 		pxperbeatmax: 160,
 	} );
 	#hoverBeat = 0;
+	#hoverDur = 0;
+	#hoverDurSaved = 0;
 	#hoverPageX = 0;
 	#stepsPerBeat = 4;
 	#pxPerBeat = 70;
@@ -118,8 +120,6 @@ class gsuiDrums extends HTMLElement {
 		GSUI.$setAttribute( this.#win, "currenttimestep", 1 / sPB );
 		this.#setPxPerBeat( this.#pxPerBeat );
 		this.style.setProperty( "--gsuiDrums-pxperstep", `${ 1 / sPB }em` );
-		this.#elDrumHover.style.width =
-		this.#elDrumcutHover.style.width = `${ 1 / sPB }em`;
 	}
 	#setPxPerBeat( ppb ) {
 		this.#pxPerBeat = ppb;
@@ -333,7 +333,7 @@ class gsuiDrums extends HTMLElement {
 		const elTag = `gsui-${ itemType }`;
 		const el = GSUI.$createElement( elTag, {
 			when,
-			duration: 1 / this.#stepsPerBeat,
+			duration: this.#hoverDurSaved,
 		} );
 
 		el.classList.add( "gsuiDrums-preview" );
@@ -342,7 +342,7 @@ class gsuiDrums extends HTMLElement {
 	}
 	#createPreviews( whenFrom, whenTo ) {
 		const rowId = this.#draggingRowId;
-		const stepDur = 1 / this.#stepsPerBeat;
+		const stepDur = this.#hoverDurSaved;
 		const whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur );
 		const whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur );
 		const added = new Map();
@@ -355,7 +355,17 @@ class gsuiDrums extends HTMLElement {
 			added.set( w );
 			if ( !map.has( w ) ) {
 				if ( adding ) {
-					map.set( w, this.#createPreview( itemType, rowId, w * stepDur ) );
+					const ww = GSUI.$round( w * stepDur, 3 );
+					const found = drumsArr.find( d => {
+						const dw = GSUI.$getAttributeNum( d, "when" );
+						const dd = GSUI.$getAttributeNum( d, "duration" );
+
+						return dw <= ww && ww < dw + dd;
+					} );
+
+					if ( !found ) {
+						map.set( w, this.#createPreview( itemType, rowId, ww ) );
+					}
 				} else {
 					drumsArr.find( el => {
 						if ( GSUI.$getAttributeNum( el, "when" ) / stepDur === w ) {
@@ -403,6 +413,7 @@ class gsuiDrums extends HTMLElement {
 					const y = ( e.pageY - bcr.top ) / bcr.height;
 					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
 
+					this.#draggingRowId = rowId;
 					this.#hoverPageX = e.pageX;
 					this.#hoverItemType = elHover === this.#elDrumHover ? "drum" : "drumcut";
 					if ( elHover !== this.#elHover ) {
@@ -424,12 +435,30 @@ class gsuiDrums extends HTMLElement {
 	#onmousemoveLines2() {
 		if ( this.#hoverItemType ) {
 			const left = this.#elLines.getBoundingClientRect().left;
-			const beat = ( ( this.#hoverPageX - left ) / this.#pxPerStep | 0 ) / this.#stepsPerBeat;
+			const when = ( this.#hoverPageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
+			const [ prevItem, prevW ] = this.#getPrevItem( this.#draggingRowId, this.#hoverItemType, when );
+			const prevD = prevItem && GSUI.$getAttributeNum( prevItem, "duration" );
 
-			this.#hoverBeat = beat;
-			this.#elHover.style.left = `${ beat }em`;
+			if ( prevItem && prevW < when && when < prevW + prevD ) {
+				this.#hoverBeat = prevW;
+				this.#hoverDur = prevD;
+			} else {
+				if ( this.#currAction ) {
+					this.#hoverBeat = Math.floor( when / this.#hoverDurSaved ) * this.#hoverDurSaved;
+					this.#hoverDur = this.#hoverDurSaved;
+				} else {
+					const whenCut = Math.floor( ( this.#hoverPageX - left ) / this.#pxPerStep ) / this.#stepsPerBeat;
+
+					this.#hoverBeat = prevItem && prevW + prevD > whenCut
+						? prevW + prevD
+						: whenCut;
+					this.#hoverDur = this.#calcItemWidth( this.#hoverItemType, this.#draggingRowId, this.#hoverBeat );
+				}
+			}
+			this.#elHover.style.left = `${ this.#hoverBeat }em`;
+			this.#elHover.style.width = `${ this.#hoverDur }em`;
 			if ( this.#currAction ) {
-				this.#createPreviews( this.#draggingWhenStart, beat );
+				this.#createPreviews( this.#draggingWhenStart, this.#hoverBeat );
 			}
 		}
 	}
@@ -446,6 +475,7 @@ class gsuiDrums extends HTMLElement {
 				: `remove${ itemType }`;
 			this.#draggingRowId = this.#elHover.closest( ".gsuiDrums-line" ).dataset.id;
 			this.#draggingWhenStart = this.#hoverBeat;
+			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
 			GSUI.$unselectText();
 			this.#elLines.onmousemove = null;
@@ -454,12 +484,19 @@ class gsuiDrums extends HTMLElement {
 		}
 	}
 	#onmouseupNew() {
-		this.#removePreviews( this.#currAction.startsWith( "add" ) );
+		const adding = this.#currAction.startsWith( "add" );
+		const arr = [];
+
+		this.#previewsMap.forEach( adding
+			? ( p, w ) => arr.push( w / this.#stepsPerBeat )
+			: p => arr.push( p.dataset.id ) );
+		this.#removePreviews( adding );
 		document.removeEventListener( "mousemove", this.#onmousemoveLinesBind );
 		document.removeEventListener( "mouseup", this.#onmouseupNewBind );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
-		this.#dispatch( "change", this.#currAction, this.#draggingRowId,
-			this.#draggingWhenStart, this.#hoverBeat );
+		if ( arr.length > 0 ) {
+			this.#dispatch( "change", this.#currAction, this.#draggingRowId, arr );
+		}
 		this.#currAction = "";
 	}
 }
