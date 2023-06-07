@@ -19,7 +19,7 @@ class gsuiDrumrows extends HTMLElement {
 				remove: ( d, el ) => this.#dispatch( "remove", el.dataset.id ),
 				expand: ( d, el ) => this.#dispatch( "expand", el.dataset.id ),
 				toggle: ( d, el ) => this.#dispatch( "toggle", el.dataset.id, ...d.args ),
-				toggleSolo: ( d, el ) => this.#dispatch( "change", "toggleSoloDrumrow", el.dataset.id ),
+				toggleSolo: ( d, el ) => this.#dispatch( "toggleSolo", el.dataset.id ),
 				changeProp: ( d, el ) => this.#dispatch( "change", "changeDrumrow", el.dataset.id, ...d.args ),
 				liveChangeProp: ( d, el ) => this.#dispatch( "liveChangeDrumrow", el.dataset.id, ...d.args ),
 				propFilter: ( d, el ) => this.#dispatch( "propFilter", el.dataset.id, ...d.args ),
@@ -37,7 +37,7 @@ class gsuiDrumrows extends HTMLElement {
 
 	// .........................................................................
 	playRow( id ) {
-		this.#rows.get( id ).$start();
+		this.#rows.get( id ).$play();
 	}
 	stopRow( id ) {
 		this.#rows.get( id ).$stop();

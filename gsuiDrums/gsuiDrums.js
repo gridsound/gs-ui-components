@@ -57,10 +57,13 @@ class gsuiDrums extends HTMLElement {
 				pxperbeat: d => this.#setPxPerBeat( d.args[ 0 ] ),
 			},
 			gsuiDrumrows: {
-				toggle: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrumrow-mute" ),
-				expand: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrums-lineOpen" ),
 				propFilter: d => this.#setPropFilter( ...d.args ),
 				propFilters: d => this.#setPropFilterAll( ...d.args ),
+				expand: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrums-lineOpen" ),
+				toggle: d => {
+					this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrumrow-mute" );
+					return true;
+				},
 			},
 			gsuiSliderGroup: {
 				change: ( d, t ) => {
@@ -80,6 +83,8 @@ class gsuiDrums extends HTMLElement {
 		this.#win.onscroll = this.#onmousemoveLines2.bind( this );
 		this.#elDrumHover.remove();
 		this.#elDrumcutHover.remove();
+		this.#elDrumHover.ondblclick = this.#ondblclickSplit.bind( this, "Drums" );
+		this.#elDrumcutHover.ondblclick = this.#ondblclickSplit.bind( this, "Drumcuts" );
 		this.#elDrumHover.onmousedown = this.#onmousedownNew.bind( this, "Drums" );
 		this.#elDrumcutHover.onmousedown = this.#onmousedownNew.bind( this, "Drumcuts" );
 	}
@@ -148,11 +153,16 @@ class gsuiDrums extends HTMLElement {
 		this.#linesMap.delete( rowId );
 	}
 	$changeDrumrow( rowId, prop, val ) {
-		if ( prop === "order" ) {
-			this.querySelector( `gsui-drumrow[data-id="${ rowId }"]` ).dataset.order = val;
-			this.#linesMap.get( rowId ).dataset.order = val;
-		} else {
-			this.#drumrows.change( rowId, prop, val );
+		switch ( prop ) {
+			case "order":
+				this.querySelector( `gsui-drumrow[data-id="${ rowId }"]` ).dataset.order = val;
+				this.#linesMap.get( rowId ).dataset.order = val;
+				break;
+			case "toggle":
+				this.#linesMap.get( rowId ).classList.toggle( "gsuiDrumrow-mute", !val );
+			default:
+				this.#drumrows.change( rowId, prop, val );
+				break;
 		}
 	}
 	$startDrumrow( rowId ) {
@@ -224,6 +234,7 @@ class gsuiDrums extends HTMLElement {
 		}
 		this.#qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elItem );
 		this.#drumsMap.set( id, [ rowId, itemType, elItem ] );
+		this.#onmousemoveLines2();
 		return elItem;
 	}
 	#removeItem( id ) {
@@ -286,6 +297,14 @@ class gsuiDrums extends HTMLElement {
 	#getNextItem( rowId, itemType, when ) {
 		return gsuiDrums.#getClosestItem( this.#getItems( rowId, itemType ), when, gsuiDrums.#closestAfter, Infinity );
 	}
+	#getItemWhen( rowId, itemType, when ) {
+		return this.#getItems( rowId, itemType ).find( d => {
+			const dw = GSUI.$getAttributeNum( d, "when" );
+			const dd = GSUI.$getAttributeNum( d, "duration" );
+
+			return dw <= when && when < dw + dd;
+		} );
+	}
 	static #getClosestItem( items, when, cmpFn, dir ) {
 		return items.reduce( gsuiDrums.#getClosestItem2.bind( null, when, cmpFn ), [ null, dir ] );
 	}
@@ -343,48 +362,46 @@ class gsuiDrums extends HTMLElement {
 	#createPreviews( whenFrom, whenTo ) {
 		const rowId = this.#draggingRowId;
 		const stepDur = this.#hoverDurSaved;
+		const when1A = Math.min( whenFrom, whenTo );
+		const when1B = Math.max( whenFrom, whenTo );
 		const whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur );
 		const whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur );
 		const added = new Map();
-		const map = this.#previewsMap;
+		const newPreviewMap = new Map();
 		const adding = this.#currAction.startsWith( "add" );
 		const itemType = this.#currAction.endsWith( "Drums" ) ? "drum" : "drumcut";
 		const drumsArr = this.#getItems( rowId, itemType );
 
-		for ( let w = whenA; w <= whenB; ++w ) {
-			added.set( w );
-			if ( !map.has( w ) ) {
-				if ( adding ) {
-					const ww = GSUI.$round( w * stepDur, 3 );
-					const found = drumsArr.find( d => {
-						const dw = GSUI.$getAttributeNum( d, "when" );
-						const dd = GSUI.$getAttributeNum( d, "duration" );
+		this.#previewsMap.forEach( el => {
+			adding
+				? el.remove()
+				: el.classList.remove( "gsuiDrums-previewDeleted" );
+		} );
+		if ( !adding ) {
+			drumsArr.forEach( d => {
+				const dw = GSUI.$getAttributeNum( d, "when" );
 
-						return dw <= ww && ww < dw + dd;
-					} );
+				if ( when1A <= dw && dw <= when1B ) {
+					d.classList.add( "gsuiDrums-previewDeleted" );
+					newPreviewMap.set( d.dataset.id, d );
+				}
+			} );
+		} else {
+			for ( let w = when1A; w <= when1B; w += stepDur ) {
+				const ww = GSUI.$round( w, 5 );
+				const found = drumsArr.find( d => {
+					const dw = GSUI.$getAttributeNum( d, "when" );
+					const dd = GSUI.$getAttributeNum( d, "duration" );
 
-					if ( !found ) {
-						map.set( w, this.#createPreview( itemType, rowId, ww ) );
-					}
-				} else {
-					drumsArr.find( el => {
-						if ( GSUI.$getAttributeNum( el, "when" ) / stepDur === w ) {
-							el.classList.add( "gsuiDrums-previewDeleted" );
-							map.set( w, el );
-							return true;
-						}
-					} );
+					return dw <= ww && ww < dw + dd;
+				} );
+
+				if ( !found ) {
+					newPreviewMap.set( ww, this.#createPreview( itemType, rowId, ww ) );
 				}
 			}
 		}
-		map.forEach( ( el, w ) => {
-			if ( !added.has( w ) ) {
-				adding
-					? el.remove()
-					: el.classList.remove( "gsuiDrums-previewDeleted" );
-				map.delete( w );
-			}
-		} );
+		this.#previewsMap = newPreviewMap;
 	}
 	#removePreviews( adding ) {
 		this.#previewsMap.forEach( adding
@@ -488,7 +505,7 @@ class gsuiDrums extends HTMLElement {
 		const arr = [];
 
 		this.#previewsMap.forEach( adding
-			? ( p, w ) => arr.push( w / this.#stepsPerBeat )
+			? ( p, w ) => arr.push( { when: w } )
 			: p => arr.push( p.dataset.id ) );
 		this.#removePreviews( adding );
 		document.removeEventListener( "mousemove", this.#onmousemoveLinesBind );
@@ -498,6 +515,22 @@ class gsuiDrums extends HTMLElement {
 			this.#dispatch( "change", this.#currAction, this.#draggingRowId, arr );
 		}
 		this.#currAction = "";
+	}
+	#ondblclickSplit( itemType ) {
+		const d = this.#getItemWhen( this.#draggingRowId, this.#hoverItemType, this.#hoverBeat );
+
+		if ( d ) {
+			const act = `add${ itemType }`;
+			const dw = GSUI.$getAttributeNum( d, "when" );
+			const dd = GSUI.$getAttributeNum( d, "duration" ) / 2;
+
+			this.#dispatch( "change", act, this.#draggingRowId, [ {
+				pan: GSUI.$getAttributeNum( d, "pan" ),
+				gain: GSUI.$getAttributeNum( d, "gain" ),
+				detune: GSUI.$getAttributeNum( d, "detune" ),
+				when: GSUI.$getAttributeNum( d, "when" ) + GSUI.$getAttributeNum( d, "duration" ) / 2,
+			} ] );
+		}
 	}
 }
 
