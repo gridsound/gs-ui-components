@@ -25,6 +25,7 @@ class gsuiReorder {
 		this._indDragged = 0;
 		this._droppedInside = false;
 		this._ondrop = this._ondrop.bind( this );
+		this._ondragoverTop = e => e.preventDefault();
 		this._dragoverTime = 0;
 		Object.seal( this );
 
@@ -61,6 +62,7 @@ class gsuiReorder {
 			const itemId = elItem.dataset.id;
 
 			document.addEventListener( "drop", this._ondrop );
+			document.addEventListener( "dragover", this._ondragoverTop );
 			this._elClicked = null;
 			this._elDragged = elItem;
 			this._elDraggedParent = elItem.parentNode;
@@ -142,7 +144,6 @@ class gsuiReorder {
 			if ( this._elShadowDragged ) {
 				this._elShadowDragged.classList.remove( "gsuiReorder-dragging" );
 			}
-			document.removeEventListener( "drop", this._ondrop );
 			if ( this._droppedInside ) {
 				const ind = this._getIndex( el );
 
@@ -156,6 +157,8 @@ class gsuiReorder {
 					? oldPar.prepend( el )
 					: oldPar.children[ oldInd - 1 ].after( el );
 			}
+			document.removeEventListener( "drop", this._ondrop );
+			document.removeEventListener( "dragover", this._ondragoverTop );
 		}
 	}
 }
