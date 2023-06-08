@@ -9,7 +9,7 @@ class gsuiDrums extends HTMLElement {
 		lineheightmin: 48,
 		lineheightmax: 48,
 		pxperbeatmin: 50,
-		pxperbeatmax: 160,
+		pxperbeatmax: 300,
 	} );
 	#hoverBeat = 0;
 	#hoverDur = 0;
@@ -223,7 +223,7 @@ class gsuiDrums extends HTMLElement {
 			const closestD = GSUI.$getAttributeNum( closest, "duration" );
 
 			if ( closestW + closestD > when ) {
-				for ( let d = 1; d < 8; d *= 2 ) {
+				for ( let d = 1; d < 16; d *= 2 ) {
 					if ( closestW + closestD / d <= when ) {
 						GSUI.$setAttribute( closest, "duration", closestD / d );
 						this.#sliderGroups.get( rowId ).setProp( closest.dataset.id, "duration", closestD / d );
@@ -258,7 +258,7 @@ class gsuiDrums extends HTMLElement {
 		const [ , closestW ] = this.#getNextItem( rowId, itemType, when );
 
 		if ( Number.isFinite( closestW ) ) {
-			for ( let d = 1; d < 8; d *= 2 ) {
+			for ( let d = 1; d < 16; d *= 2 ) {
 				if ( when + wmax / d <= closestW ) {
 					return wmax / d;
 				}
@@ -271,7 +271,7 @@ class gsuiDrums extends HTMLElement {
 		const stepPerc = ( when % stepDur ) / stepDur * 100;
 		let d = 1;
 
-		for ( ; d < 8; d *= 2 ) {
+		for ( ; d < 16; d *= 2 ) {
 			if ( Math.abs( stepPerc % ( 100 / d ) ) < 5 ) {
 				break;
 			}
@@ -517,8 +517,9 @@ class gsuiDrums extends HTMLElement {
 	}
 	#ondblclickSplit( itemType, e ) {
 		const d = this.#getItemWhen( this.#draggingRowId, this.#hoverItemType, this.#hoverBeat );
+		const dd = d && GSUI.$getAttributeNum( d, "duration" ) / 2;
 
-		if ( d ) {
+		if ( d && dd > 1 / this.#stepsPerBeat / ( 8 + 1 ) ) {
 			const left = this.#elLines.getBoundingClientRect().left;
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUI.$getAttributeNum( d, "when" );
