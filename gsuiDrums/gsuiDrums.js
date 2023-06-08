@@ -234,7 +234,6 @@ class gsuiDrums extends HTMLElement {
 		}
 		this.#qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elItem );
 		this.#drumsMap.set( id, [ rowId, itemType, elItem ] );
-		this.#onmousemoveLines2();
 		return elItem;
 	}
 	#removeItem( id ) {
@@ -516,19 +515,24 @@ class gsuiDrums extends HTMLElement {
 		}
 		this.#currAction = "";
 	}
-	#ondblclickSplit( itemType ) {
+	#ondblclickSplit( itemType, e ) {
 		const d = this.#getItemWhen( this.#draggingRowId, this.#hoverItemType, this.#hoverBeat );
 
 		if ( d ) {
-			const act = `add${ itemType }`;
+			const left = this.#elLines.getBoundingClientRect().left;
+			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUI.$getAttributeNum( d, "when" );
 			const dd = GSUI.$getAttributeNum( d, "duration" ) / 2;
 
-			this.#dispatch( "change", act, this.#draggingRowId, [ {
+			this.#hoverBeat = when < dw + dd ? dw : dw + dd;
+			this.#hoverDur = dd;
+			this.#elHover.style.left = `${ this.#hoverBeat }em`;
+			this.#elHover.style.width = `${ this.#hoverDur }em`;
+			this.#dispatch( "change", `add${ itemType }`, this.#draggingRowId, [ {
 				pan: GSUI.$getAttributeNum( d, "pan" ),
 				gain: GSUI.$getAttributeNum( d, "gain" ),
 				detune: GSUI.$getAttributeNum( d, "detune" ),
-				when: GSUI.$getAttributeNum( d, "when" ) + GSUI.$getAttributeNum( d, "duration" ) / 2,
+				when: dw + dd,
 			} ] );
 		}
 	}
