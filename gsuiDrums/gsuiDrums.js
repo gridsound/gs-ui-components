@@ -524,17 +524,18 @@ class gsuiDrums extends HTMLElement {
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUI.$getAttributeNum( d, "when" );
 			const dd = GSUI.$getAttributeNum( d, "duration" ) / 2;
+			const obj = { when: dw + dd }
 
 			this.#hoverBeat = when < dw + dd ? dw : dw + dd;
 			this.#hoverDur = dd;
 			this.#elHover.style.left = `${ this.#hoverBeat }em`;
 			this.#elHover.style.width = `${ this.#hoverDur }em`;
-			this.#dispatch( "change", `add${ itemType }`, this.#draggingRowId, [ {
-				pan: GSUI.$getAttributeNum( d, "pan" ),
-				gain: GSUI.$getAttributeNum( d, "gain" ),
-				detune: GSUI.$getAttributeNum( d, "detune" ),
-				when: dw + dd,
-			} ] );
+			if ( itemType === "drums" ) {
+				obj.pan = GSUI.$getAttributeNum( d, "pan" );
+				obj.gain = GSUI.$getAttributeNum( d, "gain" );
+				obj.detune = GSUI.$getAttributeNum( d, "detune" );
+			}
+			this.#dispatch( "change", `add${ itemType }`, this.#draggingRowId, [ obj ] );
 		}
 	}
 }
