@@ -181,6 +181,8 @@
 .gsuiIcon[ data-icon="file-export" ]::after { content: "\10f56e"; }
 .gsuiIcon[ data-icon="file-corrupt" ]::before { content: "\f877"; }
 .gsuiIcon[ data-icon="file-corrupt" ]::after { content: "\10f877"; }
+.gsuiIcon[ data-icon="file-music" ]::before { content: "\f8b6"; }
+.gsuiIcon[ data-icon="file-music" ]::after { content: "\10f8b6"; }
 
 .gsuiIcon[ data-icon="login" ]::before { content: "\f090"; }
 .gsuiIcon[ data-icon="login" ]::after { content: "\10f090"; }
