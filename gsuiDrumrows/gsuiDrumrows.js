@@ -125,7 +125,7 @@ class gsuiDrumrows extends HTMLElement {
 		if ( e.dataTransfer.types.includes( "pattern-buffer" ) ) {
 			const tar = e.target;
 			const isParent = tar.nodeName === "GSUI-DRUMROWS";
-			const elDragover = isParent ? tar : tar.closest( ".gsuiDrumrow" );
+			const elDragover = isParent ? tar : tar.closest( "gsui-drumrow" );
 
 			clearTimeout( this.#timeoutIdDragleave );
 			this.#timeoutIdDragleave = setTimeout( () => this.#ondragleaveRows(), 125 );
