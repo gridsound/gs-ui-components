@@ -84,8 +84,12 @@ class gsuiChannels extends HTMLElement {
 		this.#updateChanConnections();
 		this.onselectChan?.( id );
 	}
-	static openSelectChannelPopup( currChanId ) {
+	static openSelectChannelPopup( chans, currChanId ) {
 		return new Promise( res => {
+			gsuiChannels.#selectChanInput.append(
+				...Object.entries( chans ).map(
+					kv => GSUI.$createElement( "option", { value: kv[ 0 ] }, kv[ 1 ].name ) )
+			);
 			gsuiChannels.#selectChanInput.value = currChanId;
 			GSUI.$popup.custom( {
 				title: "Channels",
@@ -93,7 +97,7 @@ class gsuiChannels extends HTMLElement {
 				submit( data ) {
 					res( data.channel !== currChanId ? data.channel : null );
 				}
-			} );
+			} ).then(() => GSUI.$emptyElement( gsuiChannels.#selectChanInput ) );
 		} );
 	}
 
@@ -106,7 +110,6 @@ class gsuiChannels extends HTMLElement {
 		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
 		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
-		gsuiChannels.#selectChanInput.append( GSUI.$createElement( "option", { value: id }, name ) );
 		this.#chans[ id ] = chan;
 		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
@@ -137,7 +140,6 @@ class gsuiChannels extends HTMLElement {
 		}
 		delete this.#chans[ id ];
 		chan.remove();
-		gsuiChannels.#selectChanInput.querySelector( `option[value="${ id }"]` ).remove();
 	}
 	toggleChannel( id, b ) {
 		GSUI.$setAttribute( this.#chans[ id ], "muted", !b );
@@ -150,7 +152,6 @@ class gsuiChannels extends HTMLElement {
 	}
 	renameChannel( id, name ) {
 		GSUI.$setAttribute( this.#chans[ id ], "name", name );
-		gsuiChannels.#selectChanInput.querySelector( `option[value="${ id }"]` ).textContent = name;
 	}
 	reorderChannel( id, n ) {
 		this.#chans[ id ].dataset.order = n;

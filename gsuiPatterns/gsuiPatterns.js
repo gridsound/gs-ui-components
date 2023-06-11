@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiPatterns extends HTMLElement {
+	$getChannels = () => [];
 	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiPatterns" );
 	#fnsPattern = Object.freeze( {
 		clone: id => this.onchange( "clonePattern", id ),
@@ -139,7 +140,7 @@ class gsuiPatterns extends HTMLElement {
 		} );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
-		gsuiChannels.openSelectChannelPopup( currChanId )
+		gsuiChannels.openSelectChannelPopup( this.$getChannels(), currChanId )
 			.then( chanId => chanId && this.onchange( action, objId, chanId ) );
 	}
 	#openInfoPopup( id, el ) {
