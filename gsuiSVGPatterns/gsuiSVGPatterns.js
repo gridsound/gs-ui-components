@@ -5,6 +5,7 @@ class gsuiSVGPatterns {
 		$keys: gsuiSVGPatterns.#initSVG( "SVG_Keys_" ),
 		$drums: gsuiSVGPatterns.#initSVG( "SVG_Drums_" ),
 		$slices: gsuiSVGPatterns.#initSVG( "SVG_Slices_" ),
+		$automation: gsuiSVGPatterns.#initSVG( "SVG_Automation_" ),
 		$buffer: gsuiSVGPatterns.#initSVG( "SVG_Buffer_" ),
 		$bufferHD: gsuiSVGPatterns.#initSVG( "SVG_BufferHD_" ),
 	} );
@@ -26,6 +27,7 @@ class gsuiSVGPatterns {
 		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$keys.$map );
 		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$drums.$map );
 		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$slices.$map );
+		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$automation.$map );
 		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$buffer.$map );
 		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$bufferHD.$map );
 	}
@@ -94,6 +96,7 @@ class gsuiSVGPatterns {
 			case "keys": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsKeys.$render( data ) );
 			case "drums": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsDrums.$render( ...data ) );
 			case "slices": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsSlices.$render( data, dur ) );
+			case "automation": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
 			case "buffer":
 			case "bufferHD": {
 				const polygon = GSUI.$createElementSVG( "polygon" );
@@ -117,6 +120,7 @@ class gsuiSVGPatterns {
 			case "keys": return gsuiSVGPatterns.#SVGs.$keys;
 			case "drums": return gsuiSVGPatterns.#SVGs.$drums;
 			case "slices": return gsuiSVGPatterns.#SVGs.$slices;
+			case "automation": return gsuiSVGPatterns.#SVGs.$automation;
 			case "buffer": return gsuiSVGPatterns.#SVGs.$buffer;
 			case "bufferHD": return gsuiSVGPatterns.#SVGs.$bufferHD;
 		}

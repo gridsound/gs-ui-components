@@ -11,21 +11,18 @@
 <link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
 
 <!-- ....................................................................... -->
-<link rel="stylesheet" href="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.css"/>
-
-<!-- ....................................................................... -->
 <style>
 body {
 	--test-content-w: 400px;
-	--test-content-h: 520px;
+	--test-content-h: 480px;
 }
 #testWrap {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 8px;
 }
 #testWrap .patternSVG {
-	height: 80px;
+	height: 60px;
 	font-size: 0;
 }
 #testWrap svg {
@@ -34,12 +31,18 @@ body {
 	fill: #fffd;
 	background-color: #0004;
 }
+#testWrap  .patternSVG:nth-child( 4 ) svg {
+	fill: none;
+	stroke: #fffd;
+	stroke-width: .05px;
+}
 </style>
 </head>
 <body>
 
 <!-- ....................................................................... -->
 <div id="TEST">
+	<div class="patternSVG"></div>
 	<div class="patternSVG"></div>
 	<div class="patternSVG"></div>
 	<div class="patternSVG"></div>
@@ -56,6 +59,8 @@ body {
 <script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsKeys.js"></script>
 <script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsDrums.js"></script>
 <script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsSlices.js"></script>
+<script src="/gs-ui-components/gsuiSVGPatterns/gsuiSVGPatternsAutomation.js"></script>
+<script src="/gs-ui-components/gsuiDotline/gsuiDotline.js"></script>
 <script src="/gs-ui-components/gsuiWaveform/gsuiWaveform.js"></script>
 
 <!-- ....................................................................... -->
@@ -69,23 +74,27 @@ const bps = 60 / 60;
 gsuiSVGPatterns.$add( "keys", "pA" );
 gsuiSVGPatterns.$add( "drums", "pB" );
 gsuiSVGPatterns.$add( "slices", "pC" );
-gsuiSVGPatterns.$add( "buffer", "pD" );
-gsuiSVGPatterns.$add( "bufferHD", "pD" );
+gsuiSVGPatterns.$add( "automation", "pD" );
+gsuiSVGPatterns.$add( "buffer", "pE" );
+gsuiSVGPatterns.$add( "bufferHD", "pE" );
 
 const svgA = gsuiSVGPatterns.$createSVG( "keys", "pA" );
 const svgB = gsuiSVGPatterns.$createSVG( "drums", "pB" );
 const svgC = gsuiSVGPatterns.$createSVG( "slices", "pC" );
-const svgD = gsuiSVGPatterns.$createSVG( "buffer", "pD" );
-const svgE = gsuiSVGPatterns.$createSVG( "bufferHD", "pD" );
+const svgD = gsuiSVGPatterns.$createSVG( "automation", "pD" );
+const svgE = gsuiSVGPatterns.$createSVG( "buffer", "pE" );
+const svgF = gsuiSVGPatterns.$createSVG( "bufferHD", "pE" );
 divs[ 0 ].append( svgA );
 divs[ 1 ].append( svgB );
 divs[ 2 ].append( svgC );
 divs[ 3 ].append( svgD );
 divs[ 4 ].append( svgE );
+divs[ 5 ].append( svgF );
 
 gsuiSVGPatterns.$setSVGViewbox( "keys", svgA, 0, dur, bps );
 gsuiSVGPatterns.$setSVGViewbox( "drums", svgB, 0, dur, bps );
 gsuiSVGPatterns.$setSVGViewbox( "slices", svgC, 0, dur, bps );
+gsuiSVGPatterns.$setSVGViewbox( "automation", svgD, 0, dur, bps );
 
 gsuiSVGPatterns.$update( "keys", "pA", {
 	k0: { key: 12 * 4 + 0, when: 0, duration: 1 },
@@ -127,13 +136,20 @@ gsuiSVGPatterns.$update( "slices", "pC", {
 	s4: { x: 1 / 16 * 11, y: .00, w: 1 / 16 },
 	s5: { x: 1 / 16 * 12, y: .75, w: 1 /  4 },
 }, dur, svgC );
+gsuiSVGPatterns.$update( "automation", "pD", {
+	d0: { x: 0, y: 0 },
+	d1: { x: 1, y: 1 },
+	d2: { x: 2, y: 0 },
+	d3: { x: 3, y: 1 },
+	d4: { x: 4, y: 0 },
+}, dur, svgD );
 
 fetch( "../test-assets/okay.wav" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
-		gsuiSVGPatterns.$update( "buffer", "pD", buf );
-		gsuiSVGPatterns.$setSVGViewbox( "buffer", svgD, 0, dur, bps );
+		gsuiSVGPatterns.$update( "buffer", "pE", buf );
+		gsuiSVGPatterns.$setSVGViewbox( "buffer", svgE, 0, dur, bps );
 	} );
 </script>
 </body>
