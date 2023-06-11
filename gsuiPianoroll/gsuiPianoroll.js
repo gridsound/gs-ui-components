@@ -65,6 +65,8 @@ class gsuiPianoroll extends HTMLElement {
 				change: d => this.#ongsuiSliderGroupChange( d ),
 			},
 		} );
+		this.ondragover = () => false;
+		this.ondrop = this.#ondrop.bind( this );
 		this.#slidersSelect.onchange = this.#onchangeSlidersSelect.bind( this );
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
@@ -393,6 +395,28 @@ class gsuiPianoroll extends HTMLElement {
 
 			this.#uiSliderGroup.setProp( id, "value", val2 );
 		} );
+	}
+	#ondrop( e ) {
+		const files = e.dataTransfer.items;
+
+		if ( files.length === 1 ) {
+			const ext = files[ 0 ].webkitGetAsEntry().name.split( "." ).at( -1 ).toLowerCase();
+
+			if ( ext === "mid" || ext === "midi" ) {
+				e.preventDefault();
+				e.stopPropagation();
+				GSUI.$getFilesDataTransfert( files )
+					.then( files => this.#ondropMIDI( files[ 0 ] ) );
+			}
+		}
+	}
+	#ondropMIDI( mid ) {
+		const rd = new FileReader();
+
+		rd.onload = e => {
+			GSUI.$dispatchEvent( this, "gsuiPianoroll", "midiDropped", new Uint8Array( e.target.result ) );
+		};
+		rd.readAsArrayBuffer( mid );
 	}
 
 	// Key's functions
