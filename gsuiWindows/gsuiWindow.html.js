@@ -14,7 +14,7 @@ GSUI.$setTemplate( "gsui-window", id => [
 	GSUI.$createElement( "div", { class: "gsuiWindow-wrap" },
 		GSUI.$createElement( "div", { class: "gsuiWindow-head" },
 			GSUI.$createElement( "button", { class: "gsuiWindow-icon gsuiIcon", tabindex: -1 } ),
-			GSUI.$createElement( "div", { class: "gsuiWindow-title" } ),
+			GSUI.$createElement( "div", { class: "gsuiWindow-name" } ),
 			GSUI.$createElement( "div", { class: "gsuiWindow-headContent" } ),
 			GSUI.$createElement( "div", { class: "gsuiWindow-headBtns" },
 				GSUI.$createElement( "button", { class: "gsuiWindow-headBtn gsuiIcon", "data-action": "minimize", "data-icon": "minimize", title: "Minimize" } ),

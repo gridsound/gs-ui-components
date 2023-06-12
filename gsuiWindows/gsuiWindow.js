@@ -16,7 +16,7 @@ class gsuiWindow extends HTMLElement {
 		icon: ".gsuiWindow-icon",
 		wrap: ".gsuiWindow-wrap",
 		head: ".gsuiWindow-head",
-		title: ".gsuiWindow-title",
+		name: ".gsuiWindow-name",
 		content: ".gsuiWindow-content",
 		handlers: ".gsuiWindow-handlers",
 		headBtns: ".gsuiWindow-headBtns",
@@ -31,7 +31,7 @@ class gsuiWindow extends HTMLElement {
 		this.#elements.icon.ondblclick = this.$close.bind( this );
 		this.#elements.headBtns.onclick = this.#onclickBtns.bind( this );
 		this.#elements.head.onmousedown = this.#onmousedownHead.bind( this );
-		this.#elements.title.ondblclick =
+		this.#elements.name.ondblclick =
 		this.#elements.headContent.ondblclick = this.#ondblclickTitle.bind( this );
 		this.#elements.handlers.onmousedown = this.#onmousedownHandlers.bind( this );
 	}
@@ -45,7 +45,7 @@ class gsuiWindow extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "title" ];
+		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "name" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		switch ( prop ) {
@@ -56,7 +56,7 @@ class gsuiWindow extends HTMLElement {
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
 			case "icon": this.#elements.icon.dataset.icon = val; break;
-			case "title": this.#elements.title.textContent = val; break;
+			case "name": this.#elements.name.textContent = val; break;
 		}
 	}
 
@@ -180,7 +180,7 @@ class gsuiWindow extends HTMLElement {
 		const clicked =
 			clTar.contains( "gsuiWindow-head" ) ||
 			clTar.contains( "gsuiWindow-icon" ) ||
-			clTar.contains( "gsuiWindow-title" ) ||
+			clTar.contains( "gsuiWindow-name" ) ||
 			clTar.contains( "gsuiWindow-headContent" );
 
 		if ( clicked && !this.#maximized ) {
