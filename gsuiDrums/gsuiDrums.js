@@ -530,7 +530,7 @@ class gsuiDrums extends HTMLElement {
 			this.#hoverDur = dd;
 			this.#elHover.style.left = `${ this.#hoverBeat }em`;
 			this.#elHover.style.width = `${ this.#hoverDur }em`;
-			if ( itemType === "drums" ) {
+			if ( itemType === "Drums" ) {
 				obj.pan = GSUI.$getAttributeNum( d, "pan" );
 				obj.gain = GSUI.$getAttributeNum( d, "gain" );
 				obj.detune = GSUI.$getAttributeNum( d, "detune" );
