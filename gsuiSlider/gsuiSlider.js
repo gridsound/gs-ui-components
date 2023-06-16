@@ -225,7 +225,7 @@ class gsuiSlider extends HTMLElement {
 		}
 	}
 	#onpointerdown( e ) {
-		if ( !GSUI.$hasAttribute( this, "disabled" ) ) {
+		if ( e.button === 0 && !GSUI.$hasAttribute( this, "disabled" ) ) {
 			this.#pxval = this.#getRange() / this.#getMousemoveSize();
 			this.#pxmoved = 0;
 			this.#scrollIncr = 0;
