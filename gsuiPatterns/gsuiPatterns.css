@@ -34,13 +34,13 @@ gsui-patterns {
 }
 
 /* .......................................................................... */
-.gsuiPatterns-panel:first-child {
-	min-height: 24px;
-}
 .gsuiPatterns-panel {
 	display: flex;
 	flex-direction: column;
-	min-height: 28px;
+	min-height: 26px;
+}
+.gsuiPatterns-panel:first-child {
+	min-height: 24px;
 }
 .gsuiPatterns-panelBuffers,
 .gsuiPatterns-panelDrums,
@@ -55,6 +55,7 @@ gsui-patterns {
 .gsuiPatterns-panel-menu {
 	display: flex;
 	align-items: center;
+	box-sizing: border-box;
 	height: 24px;
 	min-height: 24px;
 	gap: 4px;
@@ -62,6 +63,11 @@ gsui-patterns {
 	font-size: 11px;
 	background-color: var( --gsuiPatterns-panel-menu-bg );
 	user-select: none;
+}
+.gsuiPatterns-panel:not( :first-child ) .gsuiPatterns-panel-menu {
+	height: 26px;
+	min-height: 26px;
+	border-top: 2px solid #fff4;
 }
 .gsuiPatterns-panel-icon,
 .gsuiPatterns-panel-title {
