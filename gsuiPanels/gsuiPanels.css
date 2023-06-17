@@ -2,22 +2,23 @@ gsui-panels {
 	position: relative;
 	display: flex;
 	height: 100%;
+	overflow: hidden;
 }
-.gsuiPanels-y {
+gsui-panels[ dir="y" ] {
 	flex-direction: column;
 }
-.gsuiPanels-x > div:first-child { padding-left: 4px; }
-.gsuiPanels-y > div:first-child { padding-top: 4px; }
-.gsuiPanels-x > div + div:not( .gsuiPanels-extend ) { border-left: 4px solid var( --gsuiPanels-border ); }
-.gsuiPanels-y > div + div:not( .gsuiPanels-extend ) { border-top: 4px solid var( --gsuiPanels-border ); }
 
 /* .......................................................................... */
-.gsuiPanels-panelAbsolute {
+.gsuiPanels-panel {
 	position: absolute;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 }
+gsui-panels[ dir="x" ] > .gsuiPanels-panel:first-child { padding-left: 4px; }
+gsui-panels[ dir="y" ] > .gsuiPanels-panel:first-child { padding-top: 4px; }
+gsui-panels[ dir="x" ] > .gsuiPanels-panel + .gsuiPanels-panel:not( .gsuiPanels-extend ) { border-left: 4px solid var( --gsuiPanels-border ); }
+gsui-panels[ dir="y" ] > .gsuiPanels-panel + .gsuiPanels-panel:not( .gsuiPanels-extend ) { border-top: 4px solid var( --gsuiPanels-border ); }
 
 /* .......................................................................... */
 .gsuiPanels-extend {
@@ -32,12 +33,12 @@ gsui-panels {
 .gsuiPanels-extend:hover {
 	background-color: var( --gsuiPanels-extendColor );
 }
-.gsuiPanels-x > div > .gsuiPanels-extend {
+gsui-panels[ dir="x" ] > .gsuiPanels-panel > .gsuiPanels-extend {
 	cursor: col-resize;
 	width: 4px;
 	margin-left: -2px;
 }
-.gsuiPanels-y > div > .gsuiPanels-extend {
+gsui-panels[ dir="y" ] > .gsuiPanels-panel > .gsuiPanels-extend {
 	cursor: row-resize;
 	height: 4px;
 	margin-top: -2px;

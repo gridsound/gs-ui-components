@@ -1,7 +1,7 @@
 "use strict";
 
 GSUI.$setTemplate( "gsui-patterns", () =>
-	GSUI.$createElement( "gsui-panels", { class: "gsuiPanels-y" },
+	GSUI.$createElement( "gsui-panels", { dir: "y" },
 		GSUI.$getTemplate( "gsui-patterns-panel", {
 			class: "Buffers",
 			title: "buffers",

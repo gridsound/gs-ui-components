@@ -27,8 +27,7 @@ class gsuiPanels extends HTMLElement {
 		const size = this.#dirX ? this.clientWidth : this.clientHeight;
 
 		this.#pans = Array.from( this.children );
-		this.style.overflow = "hidden";
-		this.#dirX = this.classList.contains( "gsuiPanels-x" );
+		this.#dirX = GSUI.$getAttribute( this, "dir" ) === "x";
 		this.#dir = this.#dirX ? "width" : "height";
 		this.#pos = this.#dirX ? "left" : "top";
 		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
@@ -36,7 +35,7 @@ class gsuiPanels extends HTMLElement {
 		this.#pans.at( -1 ).classList.add( "gsuiPanels-last" );
 		this.#pans.map( p => [ p, p.getBoundingClientRect()[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
-				p.classList.add( 'gsuiPanels-panelAbsolute' );
+				p.classList.add( 'gsuiPanels-panel' );
 				p.style[ this.#dir ] = `${ perc }%`;
 				p.style[ this.#pos ] = `${ x }%`;
 				if ( x > 0 ) {
