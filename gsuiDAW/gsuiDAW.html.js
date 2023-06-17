@@ -77,12 +77,14 @@ GSUI.$setTemplate( "gsui-daw", () => [
 			GSUI.$createElement( "a", { class: "gsuiDAW-btn gsuiDAW-changelog gsuiIcon", "data-icon": "changelog", title: "Changelog", href: "https://github.com/gridsound/daw/wiki/changelog", target: "_blank", rel: "noopener" } ),
 		),
 	),
-	GSUI.$createElement( "gsui-panel", { class: "gsuiDAW-body" },
+	GSUI.$createElement( "gsui-panels", { class: "gsuiDAW-body", dir: "x" },
 		GSUI.$createElement( "div", { class: "gsuiDAW-resources" },
 			GSUI.$createElement( "div", { class: "gsuiDAW-libraries" } ),
 			GSUI.$createElement( "div", { class: "gsuiDAW-patterns" } ),
 		),
-		GSUI.$createElement( "gsui-windows" ),
+		GSUI.$createElement( "div", { class: "gsuiDAW-windows" },
+			GSUI.$createElement( "gsui-windows" ),
+		),
 	),
 ] );
 
