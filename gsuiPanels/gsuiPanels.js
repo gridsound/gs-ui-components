@@ -24,12 +24,13 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#init() {
-		const size = this.#dirX ? this.clientWidth : this.clientHeight;
+		const dirX = GSUI.$getAttribute( this, "dir" ) === "x";
+		const size = dirX ? this.clientWidth : this.clientHeight;
 
 		this.#pans = Array.from( this.children );
-		this.#dirX = GSUI.$getAttribute( this, "dir" ) === "x";
-		this.#dir = this.#dirX ? "width" : "height";
-		this.#pos = this.#dirX ? "left" : "top";
+		this.#dirX = dirX;
+		this.#dir = dirX ? "width" : "height";
+		this.#pos = dirX ? "left" : "top";
 		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
 		this.#pans.map( p => [ p, p.getBoundingClientRect()[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
