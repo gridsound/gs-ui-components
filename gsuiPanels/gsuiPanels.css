@@ -1,20 +1,25 @@
-.gsuiPanels-x,
-.gsuiPanels-y {
+gsui-panels {
+	position: relative;
 	display: flex;
 	height: 100%;
 }
 .gsuiPanels-y {
 	flex-direction: column;
 }
-.gsuiPanels-x > div:not( .gsuiPanels-extend ),
-.gsuiPanels-y > div:not( .gsuiPanels-extend ) {
-	position: relative;
-	box-sizing: border-box;
-}
+.gsuiPanels-x > div:first-child { padding-left: 4px; }
+.gsuiPanels-y > div:first-child { padding-top: 4px; }
 .gsuiPanels-x > div + div:not( .gsuiPanels-extend ) { border-left: 4px solid var( --gsuiPanels-border ); }
 .gsuiPanels-y > div + div:not( .gsuiPanels-extend ) { border-top: 4px solid var( --gsuiPanels-border ); }
 
-/* .gsuiPanels-extend ------------------------------------------------------- */
+/* .......................................................................... */
+.gsuiPanels-panelAbsolute {
+	position: absolute;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+}
+
+/* .......................................................................... */
 .gsuiPanels-extend {
 	position: absolute;
 	top: -2px;

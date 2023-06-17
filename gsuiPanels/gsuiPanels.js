@@ -2,15 +2,17 @@
 
 class gsuiPanels extends HTMLElement {
 	#dir = "";
+	#pos = "";
 	#dirX = false;
 	#pageN = 0;
 	#extend = null;
+	#pans = null;
 	#panBefore = null;
 	#panAfter = null;
+	#panAfterMinSize = 0;
 
 	constructor() {
 		super();
-
 		Object.seal( this );
 		this.onpointerdown = this.#onpointerdown.bind( this );
 	}
@@ -22,42 +24,40 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#init() {
-		const pans = this.children;
 		const size = this.#dirX ? this.clientWidth : this.clientHeight;
 
+		this.#pans = Array.from( this.children );
 		this.style.overflow = "hidden";
 		this.#dirX = this.classList.contains( "gsuiPanels-x" );
 		this.#dir = this.#dirX ? "width" : "height";
+		this.#pos = this.#dirX ? "left" : "top";
 		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
 		this.querySelectorAll( ".gsuiPanels-last" ).forEach( el => el.classList.remove( "gsuiPanels-last" ) );
-		pans[ pans.length - 1 ].classList.add( "gsuiPanels-last" );
-		Array.prototype
-			.map.call( pans, pan => pan.getBoundingClientRect()[ this.#dir ] )
-			.forEach( ( pSize, i ) => {
-				pans[ i ].style[ this.#dir ] = `${ pSize / size * 100 }%`;
-				if ( i > 0 ) {
-					pans[ i ].append( GSUI.$createElement( "div", { class: "gsuiPanels-extend" } ) );
+		this.#pans.at( -1 ).classList.add( "gsuiPanels-last" );
+		this.#pans.map( p => [ p, p.getBoundingClientRect()[ this.#dir ] / size * 100 ] )
+			.reduce( ( x, [ p, perc ] ) => {
+				p.classList.add( 'gsuiPanels-panelAbsolute' );
+				p.style[ this.#dir ] = `${ perc }%`;
+				p.style[ this.#pos ] = `${ x }%`;
+				if ( x > 0 ) {
+					p.append( GSUI.$createElement( "div", { class: "gsuiPanels-extend" } ) );
 				}
-			} );
+				return x + perc;
+			}, 0 );
 	}
 	static #incrSizePans( dir, mov, parentsize, pans ) {
 		return pans.reduce( ( mov, pan ) => {
+			const style = getComputedStyle( pan );
+			const size = Math.round( pan.getBoundingClientRect()[ dir ] );
+			const minsize = parseFloat( style[ `min-${ dir }` ] ) || 10;
+			const maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity;
+			const newsizeCorrect = Math.round( Math.max( minsize, Math.min( size + mov, maxsize ) ) );
 			let ret = mov;
 
-			if ( Math.abs( mov ) > .1 ) {
-				const style = getComputedStyle( pan );
-				const size = pan.getBoundingClientRect()[ dir ];
-				const minsize = parseFloat( style[ `min-${ dir }` ] ) || 10;
-				const maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity;
-				const newsizeCorrect = Math.max( minsize, Math.min( size + mov, maxsize ) );
-
-				if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
-					pan.style[ dir ] = `${ newsizeCorrect / parentsize * 100 }%`;
-					ret -= newsizeCorrect - size;
-					if ( pan.onresizing ) {
-						pan.onresizing( pan );
-					}
-				}
+			if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
+				pan.style[ dir ] = `${ GSUI.$round( newsizeCorrect / parentsize * 100, 10 ) }%`;
+				ret -= newsizeCorrect - size;
+				pan.onresizing?.( pan );
 			}
 			return ret;
 		}, mov );
@@ -69,14 +69,15 @@ class gsuiPanels extends HTMLElement {
 		const pan = tar.parentNode;
 
 		if ( pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
+			const pInd = this.#pans.indexOf( pan );
+
 			this.#extend = tar;
 			this.#pageN = this.#dirX ? e.pageX : e.pageY;
-			this.#panBefore = Array.prototype.filter.call( this.children, el =>
-				pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_PRECEDING
-			).reverse();
-			this.#panAfter = Array.prototype.filter.call( this.children, el =>
-				pan === el || pan.compareDocumentPosition( el ) & Node.DOCUMENT_POSITION_FOLLOWING
-			);
+			this.#panBefore = this.#pans.slice( 0, pInd ).reverse();
+			this.#panAfter = this.#pans.slice( pInd );
+			this.#panAfterMinSize = this.#panAfter.reduce( ( n, p ) => {
+				return n + parseFloat( getComputedStyle( p )[ `min-${ this.#dir }` ] ) || 10;
+			}, 0 );
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
 			tar.classList.add( "gsui-hover" );
 			GSUI.$unselectText();
@@ -93,14 +94,22 @@ class gsuiPanels extends HTMLElement {
 		this.onpointerup = null;
 	}
 	#onpointermove( e ) {
-		const px = ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN;
+		const px = Math.round( ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN );
 		const parentsize = this.#dirX ? this.clientWidth : this.clientHeight;
-		const mov = px - gsuiPanels.#incrSizePans( this.#dir, px, parentsize, this.#panBefore );
+		const currBeforeSize = this.#panBefore.reduce( ( n, p ) => {
+			return n + parseFloat( getComputedStyle( p )[ this.#dir ] );
+		}, 0 );
+		const px2 = px <= 0 ? px : Math.min( px, parentsize - currBeforeSize - this.#panAfterMinSize );
+		const mov = px2 - gsuiPanels.#incrSizePans( this.#dir, px2, parentsize, this.#panBefore );
 
 		this.#pageN += mov;
 		if ( Math.abs( mov ) > 0 ) {
 			gsuiPanels.#incrSizePans( this.#dir, -mov, parentsize, this.#panAfter );
 		}
+		this.#pans.reduce( ( x, p ) => {
+			p.style[ this.#pos ] = `${ x }%`;
+			return x + parseFloat( p.style[ this.#dir ] );
+		}, 0 );
 	}
 }
 
