@@ -1,7 +1,7 @@
 "use strict";
 
 GSUI.$setTemplate( "gsui-mixer", () =>
-	GSUI.$createElement( "gsui-panel", {},
+	GSUI.$createElement( "gsui-panels", { dir: "x" },
 		GSUI.$createElement( "div", { class: "gsuiMixer-channels" },
 			GSUI.$createElement( "div", { class: "gsuiMixer-head", inert: true },
 				GSUI.$createElement( "i", { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "channels" } ),

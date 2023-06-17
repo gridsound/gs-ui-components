@@ -20,7 +20,8 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiChannel/gsuiChannel.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiChannels/gsuiChannels.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiEffects/gsuiEffects.css"/>
-<link rel="stylesheet" href="/gs-ui-components/gsuiPanel/gsuiPanel.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPanels/gsuiPanels.colors.default.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiPanels/gsuiPanels.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.colors.default.css"/>
 
@@ -59,7 +60,7 @@ body {
 <script src="/gs-ui-components/gsuiChannels/gsuiChannels.js"></script>
 <script src="/gs-ui-components/gsuiEffects/gsuiEffects.html.js"></script>
 <script src="/gs-ui-components/gsuiEffects/gsuiEffects.js"></script>
-<script src="/gs-ui-components/gsuiPanel/gsuiPanel.js"></script>
+<script src="/gs-ui-components/gsuiPanels/gsuiPanels.js"></script>
 <script src="/gs-ui-components/gsuiPopup/gsuiPopup.html.js"></script>
 <script src="/gs-ui-components/gsuiPopup/gsuiPopup.js"></script>
 <script src="/gs-ui-components/gsuiReorder/gsuiReorder.js"></script>
@@ -79,6 +80,7 @@ chans.addChannel( "1" );
 chans.addChannel( "2" );
 chans.addChannel( "3" );
 chans.addChannel( "4" );
+chans.renameChannel( "4", "secret chan" );
 chans.$getChannel( "1" ).$addEffect( "0", { type: "delay" } );
 chans.$getChannel( "1" ).$addEffect( "1", { type: "filter" } );
 chans.$getChannel( "1" ).$addEffect( "2", { type: "filter" } );
