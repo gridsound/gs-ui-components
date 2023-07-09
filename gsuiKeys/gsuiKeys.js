@@ -40,14 +40,14 @@ class gsuiKeys extends HTMLElement {
 	#blackKeyH = 0;
 	#keyIndMouse = 0;
 	#elKeyMouse = null;
-	#onmouseupBind = this.#onmouseup.bind( this );
-	#onmousemoveBind = this.#onmousemove.bind( this );
+	#onptrupBind = this.#onptrup.bind( this );
+	#onptrmoveBind = this.#onptrmove.bind( this );
 
 	constructor() {
 		super();
 		Object.seal( this );
 
-		this.onmousedown = this.#onmousedown.bind( this );
+		this.onpointerdown = this.#onptrdown.bind( this );
 		this.oncontextmenu = () => false;
 	}
 
@@ -83,7 +83,7 @@ class gsuiKeys extends HTMLElement {
 	}
 	midiReleaseAllKeys() {
 		this.#keysDown.forEach( ( _, midi ) => this.midiKeyUp( midi ) );
-		this.#onmouseup();
+		this.#onptrup();
 	}
 	midiKeyDown( midi ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true );
@@ -150,8 +150,10 @@ class gsuiKeys extends HTMLElement {
 	}
 
 	// .........................................................................
-	#onmousedown( e ) {
+	#onptrdown( e ) {
 		if ( this.#nbOct ) {
+			lg(e.button)
+			e.preventDefault();
 			if ( e.button === 2 ) {
 				GSUI.$setAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
 			} else if ( e.button === 0 ) {
@@ -165,15 +167,15 @@ class gsuiKeys extends HTMLElement {
 				this.#gain = Math.min( isVert
 					? e.offsetX / ( e.target.clientWidth - 1 )
 					: e.offsetY / ( e.target.clientHeight - 1 ), 1 );
-				document.addEventListener( "mouseup", this.#onmouseupBind );
-				document.addEventListener( "mousemove", this.#onmousemoveBind );
-				this.#onmousemove( e );
+				document.addEventListener( "pointerup", this.#onptrupBind );
+				document.addEventListener( "pointermove", this.#onptrmoveBind );
+				this.#onptrmove( e );
 			}
 		}
 	}
-	#onmouseup() {
-		document.removeEventListener( "mouseup", this.#onmouseupBind );
-		document.removeEventListener( "mousemove", this.#onmousemoveBind );
+	#onptrup() {
+		document.removeEventListener( "pointerup", this.#onptrupBind );
+		document.removeEventListener( "pointermove", this.#onptrmoveBind );
 		if ( this.#elKeyMouse ) {
 			this.#keyUpDown( this.#elKeyMouse, false );
 			this.#elKeyMouse =
@@ -181,7 +183,7 @@ class gsuiKeys extends HTMLElement {
 		}
 		this.#gain = 1;
 	}
-	#onmousemove( e ) {
+	#onptrmove( e ) {
 		const isVert = this.#isVertical();
 		const mouseAxeKey = isVert ? e.clientY : e.clientX;
 		const mouseAxeVel = isVert ? e.clientX : e.clientY;
@@ -189,6 +191,8 @@ class gsuiKeys extends HTMLElement {
 		const fKeyInd = isVert ? fKeyInd2 : this.#nbOct * 12 - fKeyInd2;
 		let iKeyInd = ~~fKeyInd;
 
+		lg("MOVE")
+		e.preventDefault();
 		if ( mouseAxeVel > this.#blackKeyR && this.#isBlack( ~~( iKeyInd % 12 ) ) ) {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}

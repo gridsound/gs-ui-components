@@ -4,6 +4,7 @@ gsui-keys {
 	--gsui-gradientDeg: 90deg;
 	display: block;
 	position: relative;
+	touch-action: none;
 	height: 100%;
 	z-index: 0;
 	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );;
