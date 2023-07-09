@@ -25,6 +25,9 @@ class GSUI {
 				: Math.max( max, Math.min( n || 0, min ) )
 		);
 	}
+	static $splitNums( str, del = " " ) {
+		return str.split( del ).map( n => +n );
+	}
 
 	// .........................................................................
 	static $jsonCopy( o ) {

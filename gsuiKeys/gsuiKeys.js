@@ -64,7 +64,7 @@ class gsuiKeys extends HTMLElement {
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "octaves": this.#setOctaves( ...val.split( " " ) ); break;
+				case "octaves": this.#setOctaves( ...GSUI.$splitNums( val ) ); break;
 				case "rootoctave": this.#setRootOctave( +val ); break;
 			}
 		}
