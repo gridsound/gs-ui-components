@@ -59,46 +59,20 @@ class gsuiKeys extends HTMLElement {
 		} );
 	}
 	static get observedAttributes() {
-		return [ "orient", "rootoctave" ];
+		return [ "octaves", "rootoctave" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "rootoctave":
-					this.#setRootOctave( +val );
-					break;
+				case "octaves": this.#setOctaves( ...val.split( " " ) ); break;
+				case "rootoctave": this.#setRootOctave( +val ); break;
 			}
 		}
 	}
 
 	// .........................................................................
-	octaves( start, nbOct ) {
-		const maxOct = start + nbOct;
-
-		Array.prototype.forEach.call( this.children, el => {
-			el.remove();
-			el._rowElement.remove();
-		} );
-		this.#nbOct = nbOct;
-		this.#octStart = start;
-		this.style.setProperty( "--gsuiKeys-firstOctave", start );
-		this.style.setProperty( "--gsuiKeys-nbOctaves", nbOct );
-		for ( let i = 0; i < nbOct; ++i ) {
-			this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
-		}
-		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
-			const elRow = elKey.firstElementChild;
-
-			elKey._rowElement = elRow;
-			elRow._keyElement = elKey;
-			elKey.dataset.midi =
-			elRow.dataset.midi = midi - 1;
-			elKey.style.setProperty( "--gsuiKeys-key-id", i );
-			elRow.style.top = `${ i }em`;
-			return midi - 1;
-		}, maxOct * 12 );
-		this.#setRootOctave( this.#rootOctave );
-		return this.querySelectorAll( ".gsui-row" );
+	$getRows() {
+		return [ ...this.getElementsByClassName( "gsui-row" ) ];
 	}
 	getMidiKeyFromKeyboard( e ) {
 		const k = gsuiKeys.keyboardToKey[ e.code ];
@@ -126,6 +100,33 @@ class gsuiKeys extends HTMLElement {
 		this.#rootOctave = oct;
 		this.querySelector( `.gsuiKey-root` )?.classList.remove( "gsuiKey-root" );
 		this.querySelector( `.gsuiKey[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKey-root" );
+	}
+	#setOctaves( start, nbOct ) {
+		const maxOct = start + nbOct;
+
+		Array.prototype.forEach.call( this.children, el => {
+			el.remove();
+			el._rowElement.remove();
+		} );
+		this.#nbOct = nbOct;
+		this.#octStart = start;
+		this.style.setProperty( "--gsuiKeys-firstOctave", start );
+		this.style.setProperty( "--gsuiKeys-nbOctaves", nbOct );
+		for ( let i = 0; i < nbOct; ++i ) {
+			this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
+		}
+		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
+			const elRow = elKey.firstElementChild;
+
+			elKey._rowElement = elRow;
+			elRow._keyElement = elKey;
+			elKey.dataset.midi =
+			elRow.dataset.midi = midi - 1;
+			elKey.style.setProperty( "--gsuiKeys-key-id", i );
+			elRow.style.top = `${ i }em`;
+			return midi - 1;
+		}, maxOct * 12 );
+		this.#setRootOctave( this.#rootOctave );
 	}
 	#isVertical() {
 		return GSUI.$getAttribute( this, "orient" ) === "vertical";

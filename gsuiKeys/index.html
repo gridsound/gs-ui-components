@@ -26,7 +26,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-keys rootoctave="2"></gsui-keys>
+	<gsui-keys octaves="4 2" rootoctave="2"></gsui-keys>
 </div>
 <div id="TEST-CTRLS">
 	<button id="toggleOrient">Toggle orient</button>
@@ -42,22 +42,21 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const el = document.querySelector( "gsui-keys" );
+const uiKeys = document.querySelector( "gsui-keys" );
 const togOrient = document.querySelector( "#toggleOrient" );
 const testContent = document.querySelector( "#testContent" );
 const testWrap = document.querySelector( "#testWrap" );
 
 togOrient.onclick = () => {
-	const isHori = GSUI.$getAttribute( el, "orient" ) === "horizontal";
+	const isHori = GSUI.$getAttribute( uiKeys, "orient" ) === "horizontal";
 	const width = testContent.offsetWidth;
 	const height = testContent.offsetHeight;
 
 	testContent.style.width = `${ height }px`;
 	testContent.style.height = `${ width }px`;
-	GSUI.$setAttribute( el, "orient", isHori ? "vertical" : "horizontal" );
+	GSUI.$setAttribute( uiKeys, "orient", isHori ? "vertical" : "horizontal" );
 };
-el.octaves( 1, 4 );
-togOrient.onclick();
+// togOrient.onclick();
 </script>
 </body>
 </html>

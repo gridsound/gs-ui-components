@@ -137,7 +137,9 @@ class gsuiPianoroll extends HTMLElement {
 		}
 	}
 	octaves( from, nb ) {
-		const rows = this.uiKeys.octaves( from, nb );
+		GSUI.$setAttribute( this.uiKeys, "octaves", `${ from } ${ nb }` );
+
+		const rows = this.uiKeys.$getRows();
 
 		Object.keys( this.#rowsByMidi ).forEach( k => delete this.#rowsByMidi[ k ] );
 		rows.forEach( el => {
