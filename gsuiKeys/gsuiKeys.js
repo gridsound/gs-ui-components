@@ -162,7 +162,9 @@ class gsuiKeys extends HTMLElement {
 				this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
 				this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
-				this.#gain = Math.min( e.layerX / ( e.target.clientWidth - 1 ), 1 );
+				this.#gain = Math.min( isVert
+					? e.offsetX / ( e.target.clientWidth - 1 )
+					: e.offsetY / ( e.target.clientHeight - 1 ), 1 );
 				document.addEventListener( "mouseup", this.#onmouseupBind );
 				document.addEventListener( "mousemove", this.#onmousemoveBind );
 				this.#onmousemove( e );
