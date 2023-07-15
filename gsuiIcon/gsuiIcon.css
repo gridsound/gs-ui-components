@@ -9,6 +9,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	writing-mode: initial;
 	font-family: "FontAwesome";
 	font-size: 1em;
 	font-style: normal;
