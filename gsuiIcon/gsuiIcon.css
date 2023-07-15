@@ -79,6 +79,10 @@
 .gsuiIcon[ data-icon="wordpress" ]::after { content: "\10f411"; }
 
 /* .......................................................................... */
+.gsuiIcon[ data-icon="arrow-up" ]::before { content: "\f062"; }
+.gsuiIcon[ data-icon="arrow-up" ]::after { content: "\10f062"; }
+.gsuiIcon[ data-icon="arrow-down" ]::before { content: "\f063"; }
+.gsuiIcon[ data-icon="arrow-down" ]::after { content: "\10f063"; }
 .gsuiIcon[ data-icon="arrow-left" ]::before { content: "\f355"; }
 .gsuiIcon[ data-icon="arrow-left" ]::after { content: "\10f355"; }
 .gsuiIcon[ data-icon="arrow-right" ]::before { content: "\f356"; }
