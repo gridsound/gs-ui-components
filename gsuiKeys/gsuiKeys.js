@@ -102,30 +102,35 @@ class gsuiKeys extends HTMLElement {
 		this.querySelector( `.gsuiKey[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKey-root" );
 	}
 	#setOctaves( start, nbOct ) {
-		const maxOct = start + nbOct;
-
-		Array.prototype.forEach.call( this.children, el => {
-			el.remove();
-			el._rowElement.remove();
-		} );
-		this.#nbOct = nbOct;
-		this.#octStart = start;
 		this.style.setProperty( "--gsuiKeys-firstOctave", start );
 		this.style.setProperty( "--gsuiKeys-nbOctaves", nbOct );
-		for ( let i = 0; i < nbOct; ++i ) {
-			this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
+		if ( nbOct > this.#nbOct ) {
+			for ( let i = this.#nbOct; i < nbOct; ++i ) {
+				this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
+			}
+		} else if ( nbOct < this.#nbOct ) {
+			Array.from( this.children ).forEach( ( el, i ) => {
+				if ( i >= nbOct * 12 ) {
+					el.remove();
+					el._rowElement.remove();
+				}
+			} );
 		}
+		this.#nbOct = nbOct;
+		this.#octStart = start;
 		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
-			const elRow = elKey.firstElementChild;
+			const elRow = elKey.getElementsByClassName( "gsuiKey-row" )[ 0 ];
 
-			elKey._rowElement = elRow;
-			elRow._keyElement = elKey;
-			elKey.dataset.midi =
-			elRow.dataset.midi = midi - 1;
+			elKey.dataset.midi = midi - 1;
 			elKey.style.setProperty( "--gsuiKeys-key-id", i );
-			elRow.style.top = `${ i }em`;
+			if ( elRow ) {
+				elKey._rowElement = elRow;
+				elRow._keyElement = elKey;
+				elRow.dataset.midi = midi - 1;
+				elRow.style.top = `${ i }em`;
+			}
 			return midi - 1;
-		}, maxOct * 12 );
+		}, ( start + nbOct ) * 12 );
 		this.#setRootOctave( this.#rootOctave );
 	}
 	#isVertical() {
@@ -152,7 +157,6 @@ class gsuiKeys extends HTMLElement {
 	// .........................................................................
 	#onptrdown( e ) {
 		if ( this.#nbOct ) {
-			lg(e.button)
 			e.preventDefault();
 			if ( e.button === 2 ) {
 				GSUI.$setAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
@@ -191,7 +195,6 @@ class gsuiKeys extends HTMLElement {
 		const fKeyInd = isVert ? fKeyInd2 : this.#nbOct * 12 - fKeyInd2;
 		let iKeyInd = ~~fKeyInd;
 
-		lg("MOVE")
 		e.preventDefault();
 		if ( mouseAxeVel > this.#blackKeyR && this.#isBlack( ~~( iKeyInd % 12 ) ) ) {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
