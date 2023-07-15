@@ -4,6 +4,7 @@ class GSUI {
 	static $noop() {}
 	static $popup = document.createElement( "gsui-popup" );
 	static $dragshield = document.createElement( "gsui-dragshield" );
+	static $mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/u.test( navigator.userAgent );
 
 	static $easeInCirc( x ) {
 		return 1 - Math.sqrt( 1 - Math.pow( x, 2 ) );
