@@ -1,0 +1,3 @@
+[submodule "gs-utils"]
+	path = gs-utils
+	url = https://github.com/gridsound/gs-utils.git
