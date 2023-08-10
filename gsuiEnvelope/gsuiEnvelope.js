@@ -3,10 +3,10 @@
 class gsuiEnvelope extends HTMLElement {
 	#dur = 4;
 	#waveWidth = 300;
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEnvelope" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiEnvelope" );
 	#onresizeBind = this.#onresize.bind( this );
-	#children = GSUI.$getTemplate( "gsui-envelope" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-envelope" );
+	#elements = GSUfindElements( this.#children, {
 		beatlines: "gsui-beatlines",
 		graph: "gsui-envelope-graph",
 		sliders: {
@@ -22,10 +22,10 @@ class gsuiEnvelope extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.$noop,
-				inputEnd: GSUI.$noop,
+				inputStart: GSUnoop,
+				inputEnd: GSUnoop,
 				input: ( d, sli ) => {
 					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
 				},
@@ -41,7 +41,7 @@ class gsuiEnvelope extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				toggle: false,
 				timedivision: "4/4",
 				attack: .1,
@@ -52,10 +52,10 @@ class gsuiEnvelope extends HTMLElement {
 			} );
 			this.updateWave();
 		}
-		GSUI.$observeSizeOf( this, this.#onresizeBind );
+		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
-		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "attack", "hold", "decay", "sustain", "release" ];
@@ -80,11 +80,11 @@ class gsuiEnvelope extends HTMLElement {
 	updateWave( prop, val ) {
 		const g = this.#elements.graph;
 
-		g.attack = prop === "attack" ? val : GSUI.$getAttributeNum( this, "attack" );
-		g.hold = prop === "hold" ? val : GSUI.$getAttributeNum( this, "hold" );
-		g.decay = prop === "decay" ? val : GSUI.$getAttributeNum( this, "decay" );
-		g.sustain = prop === "sustain" ? val : GSUI.$getAttributeNum( this, "sustain" );
-		g.release = prop === "release" ? val : GSUI.$getAttributeNum( this, "release" );
+		g.attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );
+		g.hold = prop === "hold" ? val : GSUgetAttributeNum( this, "hold" );
+		g.decay = prop === "decay" ? val : GSUgetAttributeNum( this, "decay" );
+		g.sustain = prop === "sustain" ? val : GSUgetAttributeNum( this, "sustain" );
+		g.release = prop === "release" ? val : GSUgetAttributeNum( this, "release" );
 		g.duration =
 		this.#dur = Math.max( g.attack + g.hold + g.decay + .5 + g.release, 2 );
 		g.draw();
@@ -93,14 +93,14 @@ class gsuiEnvelope extends HTMLElement {
 
 	// .........................................................................
 	#changeToggle( b ) {
-		GSUI.$setAttribute( this.#elements.sliders.attack[ 0 ], "disabled", !b );
-		GSUI.$setAttribute( this.#elements.sliders.hold[ 0 ], "disabled", !b );
-		GSUI.$setAttribute( this.#elements.sliders.decay[ 0 ], "disabled", !b );
-		GSUI.$setAttribute( this.#elements.sliders.sustain[ 0 ], "disabled", !b );
-		GSUI.$setAttribute( this.#elements.sliders.release[ 0 ], "disabled", !b );
+		GSUsetAttribute( this.#elements.sliders.attack[ 0 ], "disabled", !b );
+		GSUsetAttribute( this.#elements.sliders.hold[ 0 ], "disabled", !b );
+		GSUsetAttribute( this.#elements.sliders.decay[ 0 ], "disabled", !b );
+		GSUsetAttribute( this.#elements.sliders.sustain[ 0 ], "disabled", !b );
+		GSUsetAttribute( this.#elements.sliders.release[ 0 ], "disabled", !b );
 	}
 	#changeTimedivision( val ) {
-		GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val );
+		GSUsetAttribute( this.#elements.beatlines, "timedivision", val );
 		this.updateWave();
 	}
 	#changeProp( prop, val ) {
@@ -110,7 +110,7 @@ class gsuiEnvelope extends HTMLElement {
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {
-		GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
+		GSUsetAttribute( this.#elements.beatlines, "pxperbeat", this.#waveWidth / this.#dur );
 	}
 
 	// .........................................................................
@@ -125,7 +125,7 @@ class gsuiEnvelope extends HTMLElement {
 		this.#dispatch( "liveChange", prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		GSUI.$setAttribute( this, prop, val );
+		GSUsetAttribute( this, prop, val );
 		this.#dispatch( "change", prop, val );
 	}
 }

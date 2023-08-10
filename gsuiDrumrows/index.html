@@ -40,7 +40,8 @@ gsui-drumrows {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -69,7 +70,7 @@ initRow( "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
 initRow( "dr4", "snare 018", 0, 0, .5, "snare-018" );
 
 function initRow( drumId, name, detune, pan, gain, bufName ) {
-	drumrows.add( drumId, GSUI.$createElement( "div" ) );
+	drumrows.add( drumId, GSUcreateElement( "div" ) );
 	drumrows.change( drumId, "name", name );
 	drumrows.change( drumId, "detune", detune );
 	drumrows.change( drumId, "pan", pan );

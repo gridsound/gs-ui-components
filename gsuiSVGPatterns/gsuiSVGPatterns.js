@@ -11,8 +11,8 @@ class gsuiSVGPatterns {
 	} );
 
 	static #initSVG( pref ) {
-		const defs = GSUI.$createElementSVG( "defs" );
-		const svg = GSUI.$createElementSVG( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
+		const defs = GSUcreateElementSVG( "defs" );
+		const svg = GSUcreateElementSVG( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
 
 		document.body.prepend( svg );
 		return Object.freeze( {
@@ -47,13 +47,13 @@ class gsuiSVGPatterns {
 	static #setSVGViewbox( type, svg, x, w ) {
 		const h = gsuiSVGPatterns.#getList( type ).$map.get( svg.dataset.id ).h;
 
-		GSUI.$setAttribute( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
+		GSUsetAttribute( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
 	}
 	static $createSVG( type, id ) {
 		const SVG = gsuiSVGPatterns.#getList( type );
 		const def = SVG.$map.get( id ) || {};
-		const use = GSUI.$createElementSVG( "use" );
-		const svg = GSUI.$createElementSVG( "svg", {
+		const use = GSUcreateElementSVG( "use" );
+		const svg = GSUcreateElementSVG( "svg", {
 			preserveAspectRatio: "none",
 			viewBox: `0 0 ${ def.w || 260 } ${ def.h || 48 }`,
 			"data-id": id,
@@ -68,7 +68,7 @@ class gsuiSVGPatterns {
 		if ( SVG.$map.has( id ) ) {
 			console.error( `gsuiSVGPatterns: ID "${ id }" already used` );
 		} else {
-			const g = GSUI.$createElementSVG( "g", { id: `${ SVG.$prefix }${ id }` } );
+			const g = GSUcreateElementSVG( "g", { id: `${ SVG.$prefix }${ id }` } );
 
 			SVG.$map.set( id, { g, w: 0, h: 0 } );
 			SVG.$defs.append( g );
@@ -99,7 +99,7 @@ class gsuiSVGPatterns {
 			case "automation": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
 			case "buffer":
 			case "bufferHD": {
-				const polygon = GSUI.$createElementSVG( "polygon" );
+				const polygon = GSUcreateElementSVG( "polygon" );
 				const w = type === "buffer" ? data.duration * 48 | 0 : 260;
 
 				gsuiWaveform.drawBuffer( polygon, w, 48, data );
@@ -110,7 +110,7 @@ class gsuiSVGPatterns {
 	static #update2( def, id, w, h, ...elems ) {
 		def.w = w;
 		def.h = h;
-		GSUI.$emptyElement( def.g );
+		GSUemptyElement( def.g );
 		def.g.append( ...elems );
 	}
 

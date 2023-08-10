@@ -4,12 +4,12 @@ class gsuiSVGPatternsKeys {
 	static $render( keys ) {
 		const arrKeys = Object.values( keys );
 		const { min, size } = gsuiSVGPatternsKeys.#calcMinMax( arrKeys );
-		const rowH = GSUI.$round( 1 / ( size + 1 ), 3 );
+		const rowH = GSUroundNum( 1 / ( size + 1 ), 3 );
 
-		return arrKeys.map( k => GSUI.$createElementSVG( "rect", {
-			x: GSUI.$round( k.when, 3 ),
-			y: GSUI.$round( ( size - k.key + min ) * rowH, 3 ),
-			width: GSUI.$round( k.duration, 3 ),
+		return arrKeys.map( k => GSUcreateElementSVG( "rect", {
+			x: GSUroundNum( k.when, 3 ),
+			y: GSUroundNum( ( size - k.key + min ) * rowH, 3 ),
+			width: GSUroundNum( k.duration, 3 ),
 			height: rowH,
 		} ) );
 	}

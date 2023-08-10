@@ -1,54 +1,54 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-daw-window-main", () =>
-	GSUI.$createElement( "div", { "data-window": "main" } )
+GSUsetTemplate( "gsui-daw-window-main", () =>
+	GSUcreateElement( "div", { "data-window": "main" } )
 );
 
-GSUI.$setTemplate( "gsui-daw-window-piano", () =>
-	GSUI.$createElement( "div", { "data-window": "piano" },
-		GSUI.$createElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUI.$createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
+GSUsetTemplate( "gsui-daw-window-piano", () =>
+	GSUcreateElement( "div", { "data-window": "piano" },
+		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
 		),
 	)
 );
 
-GSUI.$setTemplate( "gsui-daw-window-synth", () =>
-	GSUI.$createElement( "div", { "data-window": "synth" },
-		GSUI.$createElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUI.$createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
-			GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "arrow-right" } ),
-			GSUI.$createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synthChannel" },
-				GSUI.$createElement( "i", { class: "gsuiIcon", "data-icon": "mixer" } ),
-				GSUI.$createElement( "span" ),
+GSUsetTemplate( "gsui-daw-window-synth", () =>
+	GSUcreateElement( "div", { "data-window": "synth" },
+		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
+			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "arrow-right" } ),
+			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synthChannel" },
+				GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "mixer" } ),
+				GSUcreateElement( "span" ),
 			),
 		),
 	)
 );
 
-GSUI.$setTemplate( "gsui-daw-window-mixer", () =>
-	GSUI.$createElement( "div", { "data-window": "mixer" } )
+GSUsetTemplate( "gsui-daw-window-mixer", () =>
+	GSUcreateElement( "div", { "data-window": "mixer" } )
 );
 
-GSUI.$setTemplate( "gsui-daw-window-effects", () =>
-	GSUI.$createElement( "div", { "data-window": "effects" },
-		GSUI.$createElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUI.$createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "channel" } ),
+GSUsetTemplate( "gsui-daw-window-effects", () =>
+	GSUcreateElement( "div", { "data-window": "effects" },
+		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "channel" } ),
 		),
 	)
 );
 
-GSUI.$setTemplate( "gsui-daw-window-drums", () =>
-	GSUI.$createElement( "div", { "data-window": "drums" },
-		GSUI.$createElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUI.$createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "drums" } ),
+GSUsetTemplate( "gsui-daw-window-drums", () =>
+	GSUcreateElement( "div", { "data-window": "drums" },
+		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "drums" } ),
 		),
 	)
 );
 
-GSUI.$setTemplate( "gsui-daw-window-slicer", () =>
-	GSUI.$createElement( "div", { "data-window": "slicer" },
-		GSUI.$createElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUI.$createElement( "button", { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
+GSUsetTemplate( "gsui-daw-window-slicer", () =>
+	GSUcreateElement( "div", { "data-window": "slicer" },
+		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
+			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
 		),
 	)
 );

@@ -1,10 +1,10 @@
 "use strict";
 
 class gsuiEnvelopeGraph extends HTMLElement {
-	#mainLine = GSUI.$createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-mainLine" } );
-	#attLine = GSUI.$createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } );
-	#relLine = GSUI.$createElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } );
-	#svg = GSUI.$createElementSVG( "svg", { preserveAspectRatio: "none" },
+	#mainLine = GSUcreateElementSVG( "polyline", { class: "gsuiEnvelopeGraph-mainLine" } );
+	#attLine = GSUcreateElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } );
+	#relLine = GSUcreateElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } );
+	#svg = GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" },
 		this.#mainLine, this.#attLine, this.#relLine );
 	#width = 0;
 	#height = 0;
@@ -36,7 +36,7 @@ class gsuiEnvelopeGraph extends HTMLElement {
 
 		this.#width = w;
 		this.#height = h;
-		GSUI.$setAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.draw();
 	}
 	draw() {
@@ -45,9 +45,9 @@ class gsuiEnvelopeGraph extends HTMLElement {
 				this.#width, this.#height, this.duration,
 				this.attack, this.hold, this.decay, this.sustain, this.release );
 
-			GSUI.$setAttribute( this.#attLine, "points", pts.slice( 0, 8 ).join( " " ) );
-			GSUI.$setAttribute( this.#relLine, "points", pts.slice( -4 ).join( " " ) );
-			GSUI.$setAttribute( this.#mainLine, "points", pts.join( " " ) );
+			GSUsetAttribute( this.#attLine, "points", pts.slice( 0, 8 ).join( " " ) );
+			GSUsetAttribute( this.#relLine, "points", pts.slice( -4 ).join( " " ) );
+			GSUsetAttribute( this.#mainLine, "points", pts.join( " " ) );
 		}
 	}
 	static #getPoints( w, h, dur, att, hold, dec, sus, rel ) {

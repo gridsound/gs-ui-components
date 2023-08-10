@@ -16,10 +16,10 @@ class gsuiSlicer extends HTMLElement {
 	#sliceIdBefore = null;
 	#sliceCurrentTime = null;
 	#onresizeBind = this.#onresize.bind( this );
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiSlicer" );
-	#children = GSUI.$getTemplate( "gsui-slicer" );
-	#waveDef = GSUI.$createElementSVG( "polyline" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiSlicer" );
+	#children = GSUgetTemplate( "gsui-slicer" );
+	#waveDef = GSUcreateElementSVG( "polyline" );
+	#elements = GSUfindElements( this.#children, {
 		sourceCurrentTime: ".gsuiSlicer-source-currentTime",
 		slicesCurrentTime: ".gsuiSlicer-slices-currentTime",
 		previewCurrentTime: ".gsuiSlicer-preview-currentTime",
@@ -50,8 +50,8 @@ class gsuiSlicer extends HTMLElement {
 		Object.seal( this );
 
 		if ( !defs ) {
-			document.body.prepend( GSUI.$createElementSVG( "svg", { id: "gsuiSlicer-waveDefs" },
-				GSUI.$createElementSVG( "defs" ),
+			document.body.prepend( GSUcreateElementSVG( "svg", { id: "gsuiSlicer-waveDefs" },
+				GSUcreateElementSVG( "defs" ),
 			) );
 			this.#waveDef.dataset.id = 1;
 		} else {
@@ -69,14 +69,14 @@ class gsuiSlicer extends HTMLElement {
 		this.ondrop = e => {
 			const patId = e.dataTransfer.getData( "pattern-buffer" );
 
-			if ( patId && GSUI.$getAttribute( this, "disabled" ) === null ) {
+			if ( patId && GSUgetAttribute( this, "disabled" ) === null ) {
 				this.#dispatch( "dropBuffer", patId );
 			}
 		};
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiTimeline: {
 				changeCurrentTime: d => {
-					GSUI.$setAttribute( this, "currenttime", d.args[ 0 ] );
+					GSUsetAttribute( this, "currenttime", d.args[ 0 ] );
 					return true;
 				},
 			},
@@ -86,10 +86,10 @@ class gsuiSlicer extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( this.#children ) {
-			GSUI.$setAttribute( this, "tabindex", -1 );
+			GSUsetAttribute( this, "tabindex", -1 );
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				currenttime: 0,
 				step: 1,
 				duration: 4,
@@ -99,11 +99,11 @@ class gsuiSlicer extends HTMLElement {
 			this.#selectTool( "moveY" );
 		}
 		document.querySelector( "#gsuiSlicer-waveDefs defs" ).append( this.#waveDef );
-		GSUI.$observeSizeOf( this, this.#onresizeBind );
+		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
 		this.#waveDef.remove();
-		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "currenttime", "duration", "step", "timedivision" ];
@@ -113,9 +113,9 @@ class gsuiSlicer extends HTMLElement {
 			switch ( prop ) {
 				case "timedivision":
 					this.#stepsPerBeat = +val.split( "/" )[ 1 ];
-					GSUI.$setAttribute( this.#elements.timeline, "timedivision", val );
-					GSUI.$setAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
-					GSUI.$setAttribute( this.#elements.beatlines[ 1 ], "timedivision", val );
+					GSUsetAttribute( this.#elements.timeline, "timedivision", val );
+					GSUsetAttribute( this.#elements.beatlines[ 0 ], "timedivision", val );
+					GSUsetAttribute( this.#elements.beatlines[ 1 ], "timedivision", val );
 					break;
 				case "currenttime":
 					this.#setCurrentTime( +val );
@@ -152,10 +152,10 @@ class gsuiSlicer extends HTMLElement {
 	}
 	addSlice( id, obj ) {
 		if ( !( id in this.#slices ) ) {
-			const svg = GSUI.$createElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
-				GSUI.$createElementSVG( "use" ),
+			const svg = GSUcreateElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
+				GSUcreateElementSVG( "use" ),
 			);
-			const sli = GSUI.$createElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
+			const sli = GSUcreateElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
 			this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 			svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
@@ -184,7 +184,7 @@ class gsuiSlicer extends HTMLElement {
 			sli.y = y;
 			sli.sli.style.height = `${ ( 1 - y ) * 100 }%`;
 		}
-		GSUI.$setAttribute( sli.svg, "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
+		GSUsetAttribute( sli.svg, "viewBox", `${ ( x - ( x - y ) ) * gsuiSlicer.#resW } 0 ${ w * gsuiSlicer.#resW } ${ gsuiSlicer.#resH }` );
 		if ( sli.x <= t && t < sli.x + sli.w ) {
 			this.#highlightSlice( sli );
 		}
@@ -208,7 +208,7 @@ class gsuiSlicer extends HTMLElement {
 
 	// .........................................................................
 	#getTimeNorm() {
-		return GSUI.$getAttributeNum( this, "currenttime" ) / GSUI.$getAttributeNum( this, "duration" );
+		return GSUgetAttributeNum( this, "currenttime" ) / GSUgetAttributeNum( this, "duration" );
 	}
 	#setWaveform( buf ) {
 		if ( buf ) {
@@ -222,10 +222,10 @@ class gsuiSlicer extends HTMLElement {
 	#setCurrentTime( beat ) {
 		const t = this.#getTimeNorm();
 
-		GSUI.$setAttribute( this.#elements.timeline, "currenttime", beat );
+		GSUsetAttribute( this.#elements.timeline, "currenttime", beat );
 		this.#elements.slicesCurrentTime.style.left = `${ t * 100 }%`;
 		this.#elements.previewCurrentTime.style.left = `${ t * 100 }%`;
-		GSUI.$setAttribute( this, "hidetimes", t <= 0 || t >= .995 );
+		GSUsetAttribute( this, "hidetimes", t <= 0 || t >= .995 );
 		this.#updateCurrentTime( t );
 	}
 	#updateCurrentTime( t ) {
@@ -258,9 +258,9 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.tools.split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
 	}
 	#updatePxPerBeat( dur ) {
-		GSUI.$setAttribute( this.#elements.timeline, "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
-		GSUI.$setAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
-		GSUI.$setAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
+		GSUsetAttribute( this.#elements.timeline, "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
+		GSUsetAttribute( this.#elements.beatlines[ 0 ], "pxperbeat", this.#elements.slices.clientWidth / ( dur || this.#dur ) );
+		GSUsetAttribute( this.#elements.beatlines[ 1 ], "pxperbeat", this.#elements.slices.clientHeight / ( dur || this.#dur ) );
 	}
 	#convertStepToFrac( step ) {
 		return (
@@ -270,7 +270,7 @@ class gsuiSlicer extends HTMLElement {
 		);
 	}
 	#getSliceByPageX( offsetX ) {
-		const x = GSUI.$clamp( offsetX / this.#elements.slices.clientWidth, 0, .9999 );
+		const x = GSUclampNum( offsetX / this.#elements.slices.clientWidth, 0, .9999 );
 
 		return Object.values( this.#slices ).find( s => s.x <= x && x < s.x + s.w );
 	}
@@ -287,19 +287,19 @@ class gsuiSlicer extends HTMLElement {
 		const w = svg.clientWidth;
 		const h = svg.clientHeight;
 
-		GSUI.$setAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
-		GSUI.$setAttribute( svg.firstChild, "x2", w );
-		GSUI.$setAttribute( svg.firstChild, "y2", h );
+		GSUsetAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetAttribute( svg.firstChild, "x2", w );
+		GSUsetAttribute( svg.firstChild, "y2", h );
 		this.#updatePxPerBeat();
 	}
 	#onclickStep() {
-		const v = GSUI.$getAttributeNum( this, "step" );
+		const v = GSUgetAttributeNum( this, "step" );
 		const frac =
 			v >= 1 ? 2 :
 			v >= .5 ? 4 :
 			v >= .25 ? 8 : 1;
 
-		GSUI.$setAttribute( this, "step", 1 / frac );
+		GSUsetAttribute( this, "step", 1 / frac );
 	}
 	#onclickTools( e ) {
 		this.#selectTool( e.target.dataset.action );
@@ -318,7 +318,7 @@ class gsuiSlicer extends HTMLElement {
 			if ( this.#ptrmoveFn ) {
 				const sli = this.#getSliceByPageX( e.offsetX );
 
-				GSUI.$unselectText();
+				GSUunselectText();
 				this.#slicesSaved = this.#copySlicesData();
 				this.#elements.slices.setPointerCapture( e.pointerId );
 				this.#elements.slices.onpointerup = this.#onpointerupSlices.bind( this );
@@ -333,7 +333,7 @@ class gsuiSlicer extends HTMLElement {
 		}
 	}
 	#onpointerupSlices( e ) {
-		const diff = GSUI.$diffObjects( this.#slicesSaved, this.#copySlicesData() );
+		const diff = GSUdiffObjects( this.#slicesSaved, this.#copySlicesData() );
 
 		this.#elements.slices.releasePointerCapture( e.pointerId );
 		this.#elements.slices.onpointermove =
@@ -357,9 +357,9 @@ class gsuiSlicer extends HTMLElement {
 		this.#sliceIdBefore = sliId ?? sli.id;
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
-		const dur = GSUI.$getAttributeNum( this, "duration" );
-		const step = GSUI.$getAttributeNum( this, "step" );
-		const yyy = GSUI.$clamp( e.offsetY / this.#elements.slices.clientHeight, 0, 1 );
+		const dur = GSUgetAttributeNum( this, "duration" );
+		const step = GSUgetAttributeNum( this, "step" );
+		const yyy = GSUclampNum( e.offsetY / this.#elements.slices.clientHeight, 0, 1 );
 		const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
 		const y = yy / dur / this.#stepsPerBeat;
 

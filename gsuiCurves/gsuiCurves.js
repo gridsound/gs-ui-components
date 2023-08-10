@@ -7,8 +7,8 @@ class gsuiCurves extends HTMLElement {
 		nyquist: 24000,
 		nbBands: 8,
 	} );
-	#children = GSUI.$getTemplate( "gsui-curves" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-curves" );
+	#elements = GSUfindElements( this.#children, {
 		svg: "svg",
 		line: ".gsuiCurves-line",
 		marks: ".gsuiCurves-marks",
@@ -36,7 +36,7 @@ class gsuiCurves extends HTMLElement {
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
-		GSUI.$setAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.redraw();
 	}
 	options( opt ) {
@@ -51,7 +51,7 @@ class gsuiCurves extends HTMLElement {
 		if ( curve ) {
 			this.#curves.set( id, curve );
 			if ( path ) {
-				GSUI.$setAttribute( path, "d", this.#createPathD( curve ) );
+				GSUsetAttribute( path, "d", this.#createPathD( curve ) );
 			} else {
 				this.#createPath( id, curve );
 			}
@@ -64,7 +64,7 @@ class gsuiCurves extends HTMLElement {
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
-			GSUI.$setAttribute( this.#elements.curves.querySelector( `[data-id="${ id }"]` ),
+			GSUsetAttribute( this.#elements.curves.querySelector( `[data-id="${ id }"]` ),
 				"d", this.#createPathD( curve ) );
 		} );
 	}
@@ -76,7 +76,7 @@ class gsuiCurves extends HTMLElement {
 	#updateLinePos() {
 		const [ w, h ] = this.#size;
 
-		GSUI.$setAttribute( this.#elements.line, {
+		GSUsetAttribute( this.#elements.line, {
 			x1: 0,
 			x2: w,
 			y1: h / 2,
@@ -94,13 +94,13 @@ class gsuiCurves extends HTMLElement {
 			const x = i / nb * w | 0;
 			const Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) );
 
-			marks.push( GSUI.$createElementSVG( "text", {
+			marks.push( GSUcreateElementSVG( "text", {
 				class: "gsuiCurves-markText",
 				x: x + 3,
 				y: 14,
 			}, Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` ) );
 			if ( i % 2 === 0 ) {
-				rects.push( GSUI.$createElementSVG( "rect", {
+				rects.push( GSUcreateElementSVG( "rect", {
 					class: "gsuiCurves-markBg",
 					x,
 					y: 0,
@@ -110,11 +110,11 @@ class gsuiCurves extends HTMLElement {
 				} ) );
 			}
 		}
-		GSUI.$emptyElement( this.#elements.marks );
+		GSUemptyElement( this.#elements.marks );
 		this.#elements.marks.append( ...rects, ...marks );
 	}
 	#createPath( id, curve ) {
-		this.#elements.curves.append( GSUI.$createElementSVG( "path", {
+		this.#elements.curves.append( GSUcreateElementSVG( "path", {
 			class: "gsuiCurves-curve",
 			"data-id": id,
 			d: this.#createPathD( curve ),

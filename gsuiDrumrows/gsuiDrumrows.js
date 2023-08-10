@@ -5,7 +5,7 @@ class gsuiDrumrows extends HTMLElement {
 	#dragoverId = null;
 	#elDragover = null;
 	#timeoutIdDragleave = null;
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDrumrows" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDrumrows" );
 
 	constructor() {
 		super();
@@ -14,7 +14,7 @@ class gsuiDrumrows extends HTMLElement {
 		this.ondragover = this.#ondragoverRows.bind( this );
 		this.ondragstart = e => e.stopPropagation();
 		this.onmousedown = this.#onmousedownRows.bind( this );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiDrumrow: {
 				remove: ( d, el ) => this.#dispatch( "remove", el.dataset.id ),
 				expand: ( d, el ) => this.#dispatch( "expand", el.dataset.id ),
@@ -31,7 +31,7 @@ class gsuiDrumrows extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.append( ...GSUI.$getTemplate( "gsui-drumrows" ) );
+			this.append( ...GSUgetTemplate( "gsui-drumrows" ) );
 		}
 	}
 
@@ -64,7 +64,7 @@ class gsuiDrumrows extends HTMLElement {
 
 	// .........................................................................
 	add( id ) {
-		const elDrumrow = GSUI.$createElement( "gsui-drumrow", { "data-id": id } );
+		const elDrumrow = GSUcreateElement( "gsui-drumrow", { "data-id": id } );
 
 		this.#rows.set( id, elDrumrow );
 		this.append( elDrumrow );
@@ -81,7 +81,7 @@ class gsuiDrumrows extends HTMLElement {
 			case "detune":
 			case "toggle":
 			case "duration":
-				GSUI.$setAttribute( this.#rows.get( id ), prop, val );
+				GSUsetAttribute( this.#rows.get( id ), prop, val );
 				break;
 			case "pattern":
 				this.#rows.get( id ).$changePattern( val );

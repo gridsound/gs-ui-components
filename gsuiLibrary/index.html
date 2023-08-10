@@ -32,7 +32,8 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 <script src="/assets/gsuiLibrarySamples-v1.js"></script>
 
@@ -50,7 +51,7 @@ elLib.bookmarkSample( "clap-001", true );
 elLib.bookmarkSample( "clap-013", true );
 elLib.bookmarkSample( "hat-003", true );
 elLib.bookmarkSample( "crash-001", true );
-GSUI.$listenEvents( elLib, {
+GSUlistenEvents( elLib, {
 	gsuiLibrary: {
 		loadSample: d => {
 			elLib.loadSample( d.args[ 0 ] );

@@ -16,9 +16,9 @@ class gsuiSlider extends HTMLElement {
 	#pxval = 0;
 	#pxmoved = 0;
 	#svgLineLen = 0;
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiSlider" );
-	#children = GSUI.$getTemplate( "gsui-slider" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiSlider" );
+	#children = GSUgetTemplate( "gsui-slider" );
+	#elements = GSUfindElements( this.#children, {
 		input: ".gsuiSlider-input",
 		line: ".gsuiSlider-line",
 		lineColor: ".gsuiSlider-lineColor",
@@ -53,7 +53,7 @@ class gsuiSlider extends HTMLElement {
 			this.#connected = true;
 			this.#setSVGcirc();
 			this.#updateVal();
-			GSUI.$setAttribute( this, "tabindex", "0" );
+			GSUsetAttribute( this, "tabindex", "0" );
 		}
 	}
 	static get observedAttributes() {
@@ -150,9 +150,9 @@ class gsuiSlider extends HTMLElement {
 			const cx = size / 2;
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			GSUI.$setAttribute( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
-			GSUI.$setAttribute( this.#elements.svgLine, { r, cx, cy: cx, } );
-			GSUI.$setAttribute( this.#elements.svgLineColor, { r, cx, cy: cx, } );
+			GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
+			GSUsetAttribute( this.#elements.svgLine, { r, cx, cy: cx, } );
+			GSUsetAttribute( this.#elements.svgLineColor, { r, cx, cy: cx, } );
 			this.#elements.svgLine.style.strokeWidth =
 			this.#elements.svgLineColor.style.strokeWidth = this.#strokeWidth;
 			this.#svgLineLen = r * 2 * Math.PI;
@@ -206,7 +206,7 @@ class gsuiSlider extends HTMLElement {
 		const val = this.#getInputVal();
 
 		if ( this.#previousval !== val ) {
-			GSUI.$setAttribute( this, "value", val );
+			GSUsetAttribute( this, "value", val );
 			this.#dispatch( "change", +val );
 			this.#previousval = val;
 		}
@@ -225,7 +225,7 @@ class gsuiSlider extends HTMLElement {
 		}
 	}
 	#onpointerdown( e ) {
-		if ( e.button === 0 && !GSUI.$hasAttribute( this, "disabled" ) ) {
+		if ( e.button === 0 && !GSUhasAttribute( this, "disabled" ) ) {
 			this.#pxval = this.#getRange() / this.#getMousemoveSize();
 			this.#pxmoved = 0;
 			this.#scrollIncr = 0;

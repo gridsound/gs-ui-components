@@ -1,12 +1,12 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-drums-line", () =>
-	GSUI.$createElement( "div", { class: "gsuiDrums-line" },
-		GSUI.$createElement( "div", { class: "gsuiDrums-lineDrums" },
-			GSUI.$createElement( "div", { class: "gsuiDrums-lineIn" } ),
+GSUsetTemplate( "gsui-drums-line", () =>
+	GSUcreateElement( "div", { class: "gsuiDrums-line" },
+		GSUcreateElement( "div", { class: "gsuiDrums-lineDrums" },
+			GSUcreateElement( "div", { class: "gsuiDrums-lineIn" } ),
 		),
-		GSUI.$createElement( "div", { class: "gsuiDrums-lineProps" },
-			GSUI.$createElement( "gsui-slidergroup" ),
+		GSUcreateElement( "div", { class: "gsuiDrums-lineProps" },
+			GSUcreateElement( "gsui-slidergroup" ),
 		),
 	)
 );

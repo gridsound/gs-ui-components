@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiFxDelay extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiFxDelay" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiFxDelay" );
 	#onresizeBind = this.#onresize.bind( this );
-	#children = GSUI.$getTemplate( "gsui-fx-delay" );
+	#children = GSUgetTemplate( "gsui-fx-delay" );
 	#graphWidth = 0;
-	#elements = GSUI.$findElements( this.#children, {
+	#elements = GSUfindElements( this.#children, {
 		beatlines: "gsui-beatlines",
 		sliders: {
 			time: "[data-prop='time'] gsui-slider",
@@ -24,10 +24,10 @@ class gsuiFxDelay extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.$noop,
-				inputEnd: GSUI.$noop,
+				inputStart: GSUnoop,
+				inputEnd: GSUnoop,
 				input: ( d, sli ) => {
 					this.#oninputProp( sli.parentNode.dataset.prop, d.args[ 0 ] );
 				},
@@ -43,7 +43,7 @@ class gsuiFxDelay extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				timedivision: "4/4",
 				time: .25,
 				gain: .7,
@@ -52,10 +52,10 @@ class gsuiFxDelay extends HTMLElement {
 			this.#updatePxPerBeat();
 			this.#updateGraph();
 		}
-		GSUI.$observeSizeOf( this, this.#onresizeBind );
+		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
-		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "timedivision", "time", "gain", "pan" ];
@@ -64,7 +64,7 @@ class gsuiFxDelay extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "timedivision":
-					GSUI.$setAttribute( this.#elements.beatlines, "timedivision", val );
+					GSUsetAttribute( this.#elements.beatlines, "timedivision", val );
 					this.#updatePxPerBeat();
 					break;
 				case "time":
@@ -89,18 +89,18 @@ class gsuiFxDelay extends HTMLElement {
 		this.#updatePxPerBeat();
 	}
 	#updatePxPerBeat() {
-		const bPM = GSUI.$getAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+		const bPM = GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
 
-		GSUI.$setAttribute( this.#elements.beatlines, "pxperbeat", this.#graphWidth / bPM );
+		GSUsetAttribute( this.#elements.beatlines, "pxperbeat", this.#graphWidth / bPM );
 	}
 	#oninputProp( prop, val ) {
-		GSUI.$setAttribute( this, prop, val );
+		GSUsetAttribute( this, prop, val );
 		this.#dispatch( "liveChange", prop, val );
 	}
 	#updateGraph() {
-		const time = GSUI.$getAttributeNum( this, "time" ) / 4;
-		const gain = GSUI.$getAttributeNum( this, "gain" );
-		const pan = GSUI.$getAttributeNum( this, "pan" );
+		const time = GSUgetAttributeNum( this, "time" ) / 4;
+		const gain = GSUgetAttributeNum( this, "gain" );
+		const pan = GSUgetAttributeNum( this, "pan" );
 
 		Array.from( this.#nlDots ).forEach( ( dot, i ) => {
 			const j = i + 1;

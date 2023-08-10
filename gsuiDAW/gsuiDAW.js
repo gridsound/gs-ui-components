@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiDAW extends HTMLElement {
-	onSubmitLogin = GSUI.$noop;
-	onSubmitOpen = GSUI.$noop;
-	onExportJSON = GSUI.$noop;
+	onSubmitLogin = GSUnoop;
+	onSubmitOpen = GSUnoop;
+	onExportJSON = GSUnoop;
 	#cmps = {
 		local: new Map(),
 		cloud: new Map(),
@@ -12,10 +12,10 @@ class gsuiDAW extends HTMLElement {
 	#cmpSaveMode = "local";
 	#currentActionInd = -1;
 	#actions = null;
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDAW" );
-	#children = GSUI.$getTemplate( "gsui-daw" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDAW" );
+	#children = GSUgetTemplate( "gsui-daw" );
 	#timeSelecting = false;
-	#elements = GSUI.$findElements( this.#children, {
+	#elements = GSUfindElements( this.#children, {
 		head: ".gsuiDAW-head",
 		bpm: ".gsuiDAW-tempo-bpm",
 		bPM: ".gsuiDAW-tempo-beatsPerMeasure",
@@ -50,34 +50,34 @@ class gsuiDAW extends HTMLElement {
 		},
 	} );
 	#popups = {
-		auth: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-auth" ), {
+		auth: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-auth" ), {
 			root: ".gsuiDAW-popup-auth",
 			error: ".gsuiDAW-popup-auth-error",
 		} ),
-		open: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-open" ), {
+		open: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-open" ), {
 			root: ".gsuiDAW-popup-open",
 			inputOpenURL: "[name='url']",
 			inputOpenFile: "[name='file']",
 		} ),
-		tempo: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-tempo" ), {
+		tempo: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-tempo" ), {
 			root: ".gsuiDAW-popup-tempo",
 			beatsPerMeasure: "[name='beatsPerMeasure']",
 			stepsPerBeat: "[name='stepsPerBeat']",
 			bpm: "[name='bpm']",
 			bpmTap: ".gsuiDAW-bpmTap",
 		} ),
-		about: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-about" ), {
+		about: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-about" ), {
 			root: ".gsuiDAW-popup-about",
 			version: ".gsuiDAW-popup-about-versionNum",
 			versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
 			versionCheck: ".gsuiDAW-popup-about-versionCheck",
 		} ),
-		export: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-export" ), {
+		export: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-export" ), {
 			root: ".gsuiDAW-popup-export",
 			button: ".gsuiDAW-popup-export-btn",
 			progress: ".gsuiDAW-popup-export-progress",
 		} ),
-		settings: GSUI.$findElements( GSUI.$getTemplate( "gsui-daw-popup-settings" ), {
+		settings: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-settings" ), {
 			root: ".gsuiDAW-popup-settings",
 			sampleRate: "[name='sampleRate']",
 			uiRateRadio: {
@@ -113,10 +113,10 @@ class gsuiDAW extends HTMLElement {
 			dt.icon = "none";
 			dt.spin = "on";
 			fetch( `https://gridsound.com/daw/VERSION?${ Math.random() }` )
-				.then( res => res.text(), GSUI.$noop )
+				.then( res => res.text(), GSUnoop )
 				.then( res => {
 					dt.spin = "";
-					dt.icon = res === GSUI.$getAttribute( this, "version" ) ? "check" : "warning";
+					dt.icon = res === GSUgetAttribute( this, "version" ) ? "check" : "warning";
 				} );
 		};
 		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.$tap();
@@ -141,15 +141,15 @@ class gsuiDAW extends HTMLElement {
 				e.preventDefault();
 			}
 		};
-		GSUI.$listenEvents( this.#elements.volume, {
+		GSUlistenEvents( this.#elements.volume, {
 			gsuiSlider: {
 				input: d => this.#dispatch( "volume", d.args[ 0 ] ),
-				inputStart: GSUI.$noop,
-				inputEnd: GSUI.$noop,
-				change: GSUI.$noop,
+				inputStart: GSUnoop,
+				inputEnd: GSUnoop,
+				change: GSUnoop,
 			},
 		} );
-		GSUI.$listenEvents( this.#elements.currentTime, {
+		GSUlistenEvents( this.#elements.currentTime, {
 			gsuiSlider: {
 				inputStart: d => {
 					this.#timeSelecting = true;
@@ -174,7 +174,7 @@ class gsuiDAW extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				saved: true,
 				uirate: "auto",
 				timelinenumbering: 0,
@@ -229,7 +229,7 @@ class gsuiDAW extends HTMLElement {
 					this.#elements.logout.dataset.spin = val !== null ? "on" : "";
 					break;
 				case "username":
-					GSUI.$setAttribute( this.#elements.userAvatar, "href",
+					GSUsetAttribute( this.#elements.userAvatar, "href",
 						val && `https://gridsound.com/#/u/${ val }` );
 					break;
 				case "name":
@@ -249,12 +249,12 @@ class gsuiDAW extends HTMLElement {
 					gsuiClock.numbering( val );
 					break;
 				case "bpm":
-					GSUI.$setAttribute( this.#elements.clock, "bpm", val );
+					GSUsetAttribute( this.#elements.clock, "bpm", val );
 					this.#elements.bpm.textContent = val;
 					this.#updateDuration();
 					break;
 				case "timedivision":
-					GSUI.$setAttribute( this.#elements.clock, "timedivision", val );
+					GSUsetAttribute( this.#elements.clock, "timedivision", val );
 					this.#elements.bPM.textContent = val.split( "/" )[ 0 ];
 					this.#elements.sPB.textContent = val.split( "/" )[ 1 ];
 					break;
@@ -268,7 +268,7 @@ class gsuiDAW extends HTMLElement {
 					}
 					break;
 				case "maxtime":
-					GSUI.$setAttribute( this.#elements.currentTime, "max", val );
+					GSUsetAttribute( this.#elements.currentTime, "max", val );
 					break;
 				case "useravatar":
 					this.#elements.userAvatar.style.backgroundImage = val ? `url("${ val }")` : "";
@@ -300,23 +300,23 @@ class gsuiDAW extends HTMLElement {
 			html.root.classList.add( "gsuiDAW-cmp-loaded" );
 			html.root.parentNode.prepend( html.root );
 			html.root.parentNode.scrollTop = 0;
-			GSUI.$setAttribute( this.#elements.cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
-			GSUI.$setAttribute( this.#elements.cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
+			GSUsetAttribute( this.#elements.cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
+			GSUsetAttribute( this.#elements.cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
 		}
 	}
 	#updateDuration() {
-		const dur = GSUI.$getAttributeNum( this, "duration" );
-		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, GSUI.$getAttributeNum( this, "bpm" ) );
+		const dur = GSUgetAttributeNum( this, "duration" );
+		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, GSUgetAttributeNum( this, "bpm" ) );
 
 		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
-		GSUI.$setAttribute( this.#elements.currentTime, "max", dur );
+		GSUsetAttribute( this.#elements.currentTime, "max", dur );
 	}
 
 	// .........................................................................
 	showOpenPopup() {
 		this.#popups.open.inputOpenFile.value =
 		this.#popups.open.inputOpenURL.value = "";
-		GSUI.$popup.custom( {
+		GSUpopup.custom( {
 			title: "Open",
 			element: this.#popups.open.root,
 			submit: obj => this.onSubmitOpen( obj.url, obj.file ),
@@ -335,8 +335,8 @@ class gsuiDAW extends HTMLElement {
 		) {
 			this.updateComposition( cmp );
 		} else {
-			const root = GSUI.$getTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } );
-			const html = GSUI.$findElements( root, {
+			const root = GSUgetTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } );
+			const html = GSUfindElements( root, {
 				root: ".gsuiDAW-cmp",
 				bpm: ".gsuiDAW-cmp-bpm",
 				name: ".gsuiDAW-cmp-name",
@@ -349,7 +349,7 @@ class gsuiDAW extends HTMLElement {
 			( saveMode === "local"
 				? this.#elements.cmpsLocalList
 				: this.#elements.cmpsCloudList ).append( root );
-			if ( `${ saveMode }:${ cmp.id }` === GSUI.$getAttribute( this, "currentcomposition" ) ) {
+			if ( `${ saveMode }:${ cmp.id }` === GSUgetAttribute( this, "currentcomposition" ) ) {
 				this.#loadComposition( saveMode, cmp.id );
 			}
 		}
@@ -372,9 +372,9 @@ class gsuiDAW extends HTMLElement {
 		}
 	}
 	readyToDownload( url, name ) {
-		GSUI.$setAttribute( this.#popups.export.button, "href", url );
-		GSUI.$setAttribute( this.#popups.export.button, "download", name );
-		GSUI.$setAttribute( this.#popups.export.button, "data-status", 2 );
+		GSUsetAttribute( this.#popups.export.button, "href", url );
+		GSUsetAttribute( this.#popups.export.button, "download", name );
+		GSUsetAttribute( this.#popups.export.button, "data-status", 2 );
 	}
 	static #ondragstartCmp( saveMode, e ) {
 		const elCmp = e.target.closest( ".gsuiDAW-cmp" );
@@ -391,7 +391,7 @@ class gsuiDAW extends HTMLElement {
 
 	// .........................................................................
 	toggleWindow( win, b ) {
-		GSUI.$setAttribute( this.#elements.winBtns[ win ], "data-open", b );
+		GSUsetAttribute( this.#elements.winBtns[ win ], "data-open", b );
 		if ( win === "patterns" ) {
 			const pan = this.#elements.patternsPanel;
 
@@ -405,18 +405,18 @@ class gsuiDAW extends HTMLElement {
 	}
 	stackAction( icon, desc ) {
 		Array.from( this.#actions ).forEach( a => "undone" in a.dataset && a.remove() );
-		this.#elements.historyList.append( GSUI.$getTemplate( "gsui-daw-history-action", { icon, desc, index: this.#actions.length } ) );
+		this.#elements.historyList.append( GSUgetTemplate( "gsui-daw-history-action", { icon, desc, index: this.#actions.length } ) );
 		this.#elements.historyList.scroll( 0, Number.MAX_SAFE_INTEGER );
 		this.#currentActionInd = this.#actions.length - 1;
 	}
 	undo() {
 		if ( this.#currentActionInd >= 0 ) {
-			GSUI.$setAttribute( this.#actions[ this.#currentActionInd-- ], "data-undone", true );
+			GSUsetAttribute( this.#actions[ this.#currentActionInd-- ], "data-undone", true );
 		}
 	}
 	redo() {
 		if ( this.#currentActionInd < this.#actions.length - 1 ) {
-			GSUI.$setAttribute( this.#actions[ ++this.#currentActionInd ], "data-undone", false );
+			GSUsetAttribute( this.#actions[ ++this.#currentActionInd ], "data-undone", false );
 		}
 	}
 
@@ -451,8 +451,8 @@ class gsuiDAW extends HTMLElement {
 					e.target.parentNode.dataset.id );
 
 				if ( json ) {
-					GSUI.$setAttribute( e.target, "href", json.url );
-					GSUI.$setAttribute( e.target, "download", json.name );
+					GSUsetAttribute( e.target, "href", json.url );
+					GSUsetAttribute( e.target, "download", json.name );
 				} else {
 					e.preventDefault();
 				}
@@ -463,11 +463,11 @@ class gsuiDAW extends HTMLElement {
 					e.target.parentNode.dataset.id );
 				break;
 			case "cmp-rename":
-				GSUI.$popup.prompt( "Composition's title", "", GSUI.$getAttribute( this, "name" ), "Rename" )
-					.then( n => n && n !== GSUI.$getAttribute( this, "name" ) && this.#dispatch( "rename", n ) );
+				GSUpopup.prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
+					.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "login":
-				GSUI.$popup.custom( {
+				GSUpopup.custom( {
 					ok: "Sign in",
 					title: "Authentication",
 					element: this.#popups.auth.root,
@@ -492,29 +492,29 @@ class gsuiDAW extends HTMLElement {
 				}
 				break;
 			case "about":
-				GSUI.$popup.custom( { title: "About", element: this.#popups.about.root } );
+				GSUpopup.custom( { title: "About", element: this.#popups.about.root } );
 				break;
 			case "export":
-				GSUI.$setAttribute( this, "exporting", 0 );
-				GSUI.$setAttribute( this.#popups.export.button, "href", "" );
-				GSUI.$setAttribute( this.#popups.export.button, "download", "" );
-				GSUI.$setAttribute( this.#popups.export.button, "data-status", 0 );
-				GSUI.$popup.custom( { title: "Export", element: this.#popups.export.root } )
+				GSUsetAttribute( this, "exporting", 0 );
+				GSUsetAttribute( this.#popups.export.button, "href", "" );
+				GSUsetAttribute( this.#popups.export.button, "download", "" );
+				GSUsetAttribute( this.#popups.export.button, "data-status", 0 );
+				GSUpopup.custom( { title: "Export", element: this.#popups.export.root } )
 					.then( () => this.#dispatch( "abortExport" ) );
 				break;
 			case "tempo":
-				this.#popups.tempo.beatsPerMeasure.value = +GSUI.$getAttribute( this, "timedivision" ).split( "/" )[ 0 ];
-				this.#popups.tempo.stepsPerBeat.value = +GSUI.$getAttribute( this, "timedivision" ).split( "/" )[ 1 ];
-				this.#popups.tempo.bpm.value = GSUI.$getAttributeNum( this, "bpm" );
-				GSUI.$popup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
+				this.#popups.tempo.beatsPerMeasure.value = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+				this.#popups.tempo.stepsPerBeat.value = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 1 ];
+				this.#popups.tempo.bpm.value = GSUgetAttributeNum( this, "bpm" );
+				GSUpopup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
 					.then( data => {
 						if ( data ) {
 							data.timedivision = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
 							delete data.beatsPerMeasure;
 							delete data.stepsPerBeat;
 							if (
-								data.timedivision !== GSUI.$getAttribute( this, "timedivision" ) ||
-								data.bpm !== GSUI.$getAttributeNum( this, "bpm" )
+								data.timedivision !== GSUgetAttribute( this, "timedivision" ) ||
+								data.bpm !== GSUgetAttributeNum( this, "bpm" )
 							) {
 								this.#dispatch( "tempo", data );
 							}
@@ -522,15 +522,15 @@ class gsuiDAW extends HTMLElement {
 					} );
 				break;
 			case "settings":
-				this.#popups.settings.sampleRate.value = GSUI.$getAttributeNum( this, "samplerate" );
-				this.#popups.settings.timelineNumbering.value = GSUI.$getAttributeNum( this, "timelinenumbering" );
-				this.#popups.settings.windowsLowGraphics.checked = GSUI.$getAttribute( this, "windowslowgraphics" ) === "";
-				this.#popups.settings.uiRateRadio[ GSUI.$getAttribute( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
-				if ( GSUI.$getAttribute( this, "uirate" ) !== "auto" ) {
-					this.#popups.settings.uiRateManualFPS.textContent = GSUI.$getAttribute( this, "uirate" ).padStart( 2, "0" );
-					this.#popups.settings.uiRateManualRange.value = GSUI.$getAttribute( this, "uirate" );
+				this.#popups.settings.sampleRate.value = GSUgetAttributeNum( this, "samplerate" );
+				this.#popups.settings.timelineNumbering.value = GSUgetAttributeNum( this, "timelinenumbering" );
+				this.#popups.settings.windowsLowGraphics.checked = GSUgetAttribute( this, "windowslowgraphics" ) === "";
+				this.#popups.settings.uiRateRadio[ GSUgetAttribute( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
+				if ( GSUgetAttribute( this, "uirate" ) !== "auto" ) {
+					this.#popups.settings.uiRateManualFPS.textContent = GSUgetAttribute( this, "uirate" ).padStart( 2, "0" );
+					this.#popups.settings.uiRateManualRange.value = GSUgetAttribute( this, "uirate" );
 				}
-				GSUI.$popup.custom( { title: "Settings", element: this.#popups.settings.root } )
+				GSUpopup.custom( { title: "Settings", element: this.#popups.settings.root } )
 					.then( data => {
 						if ( data ) {
 							if ( data.uiRate === "manual" ) {
@@ -539,12 +539,12 @@ class gsuiDAW extends HTMLElement {
 							delete data.uiRateFPS;
 							if (
 								(
-									data.uiRate !== GSUI.$getAttribute( this, "uirate" ) &&
-									data.uiRate !== GSUI.$getAttributeNum( this, "uirate" )
+									data.uiRate !== GSUgetAttribute( this, "uirate" ) &&
+									data.uiRate !== GSUgetAttributeNum( this, "uirate" )
 								) ||
-								data.sampleRate !== GSUI.$getAttributeNum( this, "samplerate" ) ||
-								data.timelineNumbering !== GSUI.$getAttributeNum( this, "timelinenumbering" ) ||
-								data.windowsLowGraphics !== ( GSUI.$getAttribute( this, "windowslowgraphics" ) === "" )
+								data.sampleRate !== GSUgetAttributeNum( this, "samplerate" ) ||
+								data.timelineNumbering !== GSUgetAttributeNum( this, "timelinenumbering" ) ||
+								data.windowsLowGraphics !== ( GSUgetAttribute( this, "windowslowgraphics" ) === "" )
 							) {
 								this.#dispatch( "settings", data );
 							}

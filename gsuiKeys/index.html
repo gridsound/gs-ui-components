@@ -33,7 +33,8 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -48,13 +49,13 @@ const testContent = document.querySelector( "#testContent" );
 const testWrap = document.querySelector( "#testWrap" );
 
 togOrient.onclick = () => {
-	const isHori = GSUI.$getAttribute( uiKeys, "orient" ) === "horizontal";
+	const isHori = GSUgetAttribute( uiKeys, "orient" ) === "horizontal";
 	const width = testContent.offsetWidth;
 	const height = testContent.offsetHeight;
 
 	testContent.style.width = `${ height }px`;
 	testContent.style.height = `${ width }px`;
-	GSUI.$setAttribute( uiKeys, "orient", isHori ? "vertical" : "horizontal" );
+	GSUsetAttribute( uiKeys, "orient", isHori ? "vertical" : "horizontal" );
 };
 // togOrient.onclick();
 </script>

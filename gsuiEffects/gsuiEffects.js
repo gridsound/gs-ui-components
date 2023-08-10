@@ -1,11 +1,11 @@
 "use strict";
 
 class gsuiEffects extends HTMLElement {
-	$askData = GSUI.$noop;
+	$askData = GSUnoop;
 	#fxsHtml = new Map();
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiEffects" );
-	#children = GSUI.$getTemplate( "gsui-effects" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiEffects" );
+	#children = GSUgetTemplate( "gsui-effects" );
+	#elements = GSUfindElements( this.#children, {
 		addBtn: ".gsuiEffects-addBtn",
 		addSelect: ".gsuiEffects-addSelect",
 	} );
@@ -29,7 +29,7 @@ class gsuiEffects extends HTMLElement {
 			handleSelector: ".gsuiEffects-fx-grip",
 			parentSelector: "gsui-effects",
 		} );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
 					this.#dispatch( "toggleEffect", btn.parentNode.parentNode.dataset.id );
@@ -66,7 +66,7 @@ class gsuiEffects extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "timedivision":
-					this.#fxsHtml.forEach( html => GSUI.$setAttribute( html.content.firstChild, "timedivision", val ) );
+					this.#fxsHtml.forEach( html => GSUsetAttribute( html.content.firstChild, "timedivision", val ) );
 					break;
 			}
 		}
@@ -92,14 +92,14 @@ class gsuiEffects extends HTMLElement {
 
 	// .........................................................................
 	$addEffect( id, fx ) {
-		const root = GSUI.$getTemplate( "gsui-effects-fx" );
+		const root = GSUgetTemplate( "gsui-effects-fx" );
 		const name = root.querySelector( ".gsuiEffects-fx-name" );
 		const expand = root.querySelector( ".gsuiEffects-fx-expand" );
 		const toggle = root.querySelector( "gsui-toggle" );
 		const remove = root.querySelector( ".gsuiEffects-fx-remove" );
 		const content = root.querySelector( ".gsuiEffects-fx-content" );
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
-		const uiFx = GSUI.$createElement( fxAsset.cmp );
+		const uiFx = GSUcreateElement( fxAsset.cmp );
 		const html = Object.seal( {
 			root,
 			uiFx,
@@ -116,7 +116,7 @@ class gsuiEffects extends HTMLElement {
 		root.dataset.id =
 		uiFx.dataset.id = id;
 		root.dataset.type = fx.type;
-		GSUI.$setAttribute( uiFx, "timedivision", GSUI.$getAttribute( this, "timedivision" ) );
+		GSUsetAttribute( uiFx, "timedivision", GSUgetAttribute( this, "timedivision" ) );
 		name.textContent = fxAsset.name;
 		content.append( uiFx );
 		this.#fxsHtml.set( id, html );
@@ -141,7 +141,7 @@ class gsuiEffects extends HTMLElement {
 		const html = this.#fxsHtml.get( id );
 
 		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
-		GSUI.$setAttribute( html.toggle, "off", !b );
+		GSUsetAttribute( html.toggle, "off", !b );
 		html.uiFx.$toggle( b );
 	}
 	#onchangeAddSelect() {

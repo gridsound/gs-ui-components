@@ -60,7 +60,9 @@ gsui-dotline {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
+<script src="/gs-utils/gs-utils-json.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -71,14 +73,14 @@ gsui-dotline {
 <script>
 const line = document.querySelector( "gsui-dotline" );
 
-GSUI.$listenEvents( line, {
+GSUlistenEvents( line, {
 	gsuiDotline: {
 		change: d => console.log( d.args[ 0 ] ),
 	},
 } );
-document.querySelector( "#xstep" ).onchange = e => GSUI.$setAttribute( line, "xstep", e.target.value );
-document.querySelector( "#ystep" ).onchange = e => GSUI.$setAttribute( line, "ystep", e.target.value );
-document.querySelector( "#movelinked" ).onchange = e => GSUI.$setAttribute( line, "movelinked", e.target.checked );
+document.querySelector( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep", e.target.value );
+document.querySelector( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
+document.querySelector( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
 line.$change( {
 	1: { x: 20, y: 10 },
 	2: { x: 50, y: 90 },

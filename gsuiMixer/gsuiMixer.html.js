@@ -1,20 +1,20 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-mixer", () =>
-	GSUI.$createElement( "gsui-panels", { dir: "x" },
-		GSUI.$createElement( "div", { class: "gsuiMixer-channels" },
-			GSUI.$createElement( "div", { class: "gsuiMixer-head", inert: true },
-				GSUI.$createElement( "i", { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "channels" } ),
-				GSUI.$createElement( "span", { class: "gsuiMixer-head-title" }, "channels" ),
+GSUsetTemplate( "gsui-mixer", () =>
+	GSUcreateElement( "gsui-panels", { dir: "x" },
+		GSUcreateElement( "div", { class: "gsuiMixer-channels" },
+			GSUcreateElement( "div", { class: "gsuiMixer-head", inert: true },
+				GSUcreateElement( "i", { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "channels" } ),
+				GSUcreateElement( "span", { class: "gsuiMixer-head-title" }, "channels" ),
 			),
-			GSUI.$createElement( "gsui-channels" ),
+			GSUcreateElement( "gsui-channels" ),
 		),
-		GSUI.$createElement( "div", { class: "gsuiMixer-effects" },
-			GSUI.$createElement( "div", { class: "gsuiMixer-head", inert: true },
-				GSUI.$createElement( "i", { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "effects" } ),
-				GSUI.$createElement( "span", { class: "gsuiMixer-head-title" }, "effects" ),
+		GSUcreateElement( "div", { class: "gsuiMixer-effects" },
+			GSUcreateElement( "div", { class: "gsuiMixer-head", inert: true },
+				GSUcreateElement( "i", { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "effects" } ),
+				GSUcreateElement( "span", { class: "gsuiMixer-head-title" }, "effects" ),
 			),
-			GSUI.$createElement( "gsui-effects" ),
+			GSUcreateElement( "gsui-effects" ),
 		),
 	),
 );

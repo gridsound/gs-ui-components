@@ -24,7 +24,7 @@ class gsuiPanels extends HTMLElement {
 
 	// .........................................................................
 	#init() {
-		const dirX = GSUI.$getAttribute( this, "dir" ) === "x";
+		const dirX = GSUgetAttribute( this, "dir" ) === "x";
 		const size = dirX ? this.clientWidth : this.clientHeight;
 
 		this.#pans = Array.from( this.children );
@@ -38,7 +38,7 @@ class gsuiPanels extends HTMLElement {
 				p.style[ this.#dir ] = `${ perc }%`;
 				p.style[ this.#pos ] = `${ x }%`;
 				if ( x > 0 ) {
-					p.append( GSUI.$createElement( "div", { class: "gsuiPanels-extend" } ) );
+					p.append( GSUcreateElement( "div", { class: "gsuiPanels-extend" } ) );
 				}
 				return x + perc;
 			}, 0 );
@@ -53,7 +53,7 @@ class gsuiPanels extends HTMLElement {
 			let ret = mov;
 
 			if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
-				pan.style[ dir ] = `${ GSUI.$round( newsizeCorrect / parentsize * 100, 10 ) }%`;
+				pan.style[ dir ] = `${ GSUroundNum( newsizeCorrect / parentsize * 100, 10 ) }%`;
 				ret -= newsizeCorrect - size;
 				pan.onresizing?.( pan );
 			}
@@ -78,7 +78,7 @@ class gsuiPanels extends HTMLElement {
 			}, 0 );
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
 			tar.classList.add( "gsui-hover" );
-			GSUI.$unselectText();
+			GSUunselectText();
 			this.setPointerCapture( e.pointerId );
 			this.onpointerup = this.#onpointerup.bind( this );
 			this.onpointermove = this.#onpointermove.bind( this );

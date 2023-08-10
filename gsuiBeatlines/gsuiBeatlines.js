@@ -3,8 +3,8 @@
 class gsuiBeatlines extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			this.append( ...GSUI.$getTemplate( "gsui-beatlines" ) );
-			GSUI.$recallAttributes( this, {
+			this.append( ...GSUgetTemplate( "gsui-beatlines" ) );
+			GSUrecallAttributes( this, {
 				timedivision: "4/4",
 				coloredbeats: true,
 				pxperbeat: 10,

@@ -1,7 +1,7 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-dotline", () => [
-	GSUI.$createElementSVG( "svg", { preserveAspectRatio: "none" },
-		GSUI.$createElementSVG( "polyline" ),
+GSUsetTemplate( "gsui-dotline", () => [
+	GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" },
+		GSUcreateElementSVG( "polyline" ),
 	),
 ] );

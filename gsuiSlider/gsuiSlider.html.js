@@ -1,13 +1,13 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-slider", () => [
-	GSUI.$createElement( "input", { type: "range", class: "gsuiSlider-input" } ),
-	GSUI.$createElement( "div", { class: "gsuiSlider-line" },
-		GSUI.$createElement( "div", { class: "gsuiSlider-lineColor" } ),
+GSUsetTemplate( "gsui-slider", () => [
+	GSUcreateElement( "input", { type: "range", class: "gsuiSlider-input" } ),
+	GSUcreateElement( "div", { class: "gsuiSlider-line" },
+		GSUcreateElement( "div", { class: "gsuiSlider-lineColor" } ),
 	),
-	GSUI.$createElementSVG( "svg", { class: "gsuiSlider-svg" },
-		GSUI.$createElementSVG( "circle", { class: "gsuiSlider-svgLine" } ),
-		GSUI.$createElementSVG( "circle", { class: "gsuiSlider-svgLineColor" } ),
+	GSUcreateElementSVG( "svg", { class: "gsuiSlider-svg" },
+		GSUcreateElementSVG( "circle", { class: "gsuiSlider-svgLine" } ),
+		GSUcreateElementSVG( "circle", { class: "gsuiSlider-svgLineColor" } ),
 	),
-	GSUI.$createElement( "div", { class: "gsuiSlider-eventCatcher" } ),
+	GSUcreateElement( "div", { class: "gsuiSlider-eventCatcher" } ),
 ] );

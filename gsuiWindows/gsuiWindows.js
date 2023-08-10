@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiWindows extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiWindows" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiWindows" );
 	#objWindows = {};
 	#mouseFnUp = null;
 	#mouseFnMove = null;
@@ -10,7 +10,7 @@ class gsuiWindows extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiWindow: {
 				open: ( d, win ) => this.#onopen( win ),
 				close: ( d, win ) => this.#onclose( win ),
@@ -21,7 +21,7 @@ class gsuiWindows extends HTMLElement {
 
 	// .........................................................................
 	$createWindow( id ) {
-		const win = GSUI.$createElement( "gsui-window", { "data-id": id } );
+		const win = GSUcreateElement( "gsui-window", { "data-id": id } );
 
 		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
 		this.#objWindows[ id ] = win;
@@ -38,13 +38,13 @@ class gsuiWindows extends HTMLElement {
 		this.#mouseFnMove = fnMove;
 		document.addEventListener( "mouseup", this.#mouseFnUp );
 		document.addEventListener( "mousemove", fnMove );
-		GSUI.$unselectText();
-		GSUI.$dragshield.show( cursor );
+		GSUunselectText();
+		GSUdragshield.show( cursor );
 	}
 	#stopMousemoving( fnUp, e ) {
 		document.removeEventListener( "mouseup", this.#mouseFnUp );
 		document.removeEventListener( "mousemove", this.#mouseFnMove );
-		GSUI.$dragshield.hide();
+		GSUdragshield.hide();
 		this.#mouseFnUp =
 		this.#mouseFnMove = null;
 		fnUp( e );

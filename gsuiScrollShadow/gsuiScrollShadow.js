@@ -20,7 +20,7 @@ class gsuiScrollShadow {
 		gsuiScrollShadow.#initShadow( this.#rightShadow, 'right' );
 		gsuiScrollShadow.#initShadow( this.#bottomShadow, 'bottom' );
 		this.#scrolledElem.addEventListener( "scroll", this.#onscrollBind );
-		GSUI.$observeSizeOf( this.#scrolledElem, this.#onscrollBind );
+		GSUobserveSizeOf( this.#scrolledElem, this.#onscrollBind );
 	}
 
 	// .........................................................................

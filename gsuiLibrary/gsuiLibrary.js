@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiLibrary extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiLibrary" );
-	#children = GSUI.$getTemplate( "gsui-library" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiLibrary" );
+	#children = GSUgetTemplate( "gsui-library" );
+	#elements = GSUfindElements( this.#children, {
 		body: ".gsuiLibrary-body",
 		placeholder: ".gsuiLibrary-placeholder",
 	} );
@@ -51,7 +51,7 @@ class gsuiLibrary extends HTMLElement {
 			.findLast( el => el.classList.contains( "gsuiLibrary-sep" ) );
 		const el = lib.map( smp => {
 			if ( typeof smp !== "string" ) {
-				const el = GSUI.$getTemplate( "gsui-library-sample", {
+				const el = GSUgetTemplate( "gsui-library-sample", {
 					id: smp[ 0 ],
 					points: smp[ 1 ],
 					name: smp[ 2 ] || smp[ 0 ],
@@ -63,7 +63,7 @@ class gsuiLibrary extends HTMLElement {
 				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
 			}
-			return lastSep = GSUI.$getTemplate( "gsui-library-sep", smp );
+			return lastSep = GSUgetTemplate( "gsui-library-sep", smp );
 		} );
 
 		this.#elements.body.append( ...el );
@@ -97,7 +97,7 @@ class gsuiLibrary extends HTMLElement {
 
 		this.stopSample();
 		this.#idPlaying = id;
-		this.#elCursor = GSUI.$createElement( "div", { class: "gsuiLibrary-sample-cursor" } );
+		this.#elCursor = GSUcreateElement( "div", { class: "gsuiLibrary-sample-cursor" } );
 		this.#elCursor.style.left = "0%";
 		this.#elCursor.style.transitionDuration = `${ dur }s`;
 		el.classList.add( "gsuiLibrary-sample-playing" );
@@ -137,7 +137,7 @@ class gsuiLibrary extends HTMLElement {
 		const dt = e.target.dataset;
 		const val = `${ dt.id }:${ dt.name }`;
 
-		e.dataTransfer.setData( `library-buffer:${ GSUI.$getAttribute( this, "name" ) }`, val );
+		e.dataTransfer.setData( `library-buffer:${ GSUgetAttribute( this, "name" ) }`, val );
 	}
 	#onclick( e ) {
 		const el = e.target;

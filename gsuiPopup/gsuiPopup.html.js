@@ -1,15 +1,15 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-popup", () =>
-	GSUI.$createElement( "div", { class: "gsuiPopup-window", tabindex: 0 },
-		GSUI.$createElement( "div", { class: "gsuiPopup-head" } ),
-		GSUI.$createElement( "form", { class: "gsuiPopup-body" },
-			GSUI.$createElement( "div", { class: "gsuiPopup-content" } ),
-			GSUI.$createElement( "div", { class: "gsuiPopup-message" } ),
-			GSUI.$createElement( "input", { class: "gsuiPopup-inputText", type: "text" } ),
-			GSUI.$createElement( "div", { class: "gsuiPopup-btns" },
-				GSUI.$createElement( "input", { type: "button", class: "gsuiPopup-cancel", value: "Cancel" } ),
-				GSUI.$createElement( "input", { type: "submit", class: "gsuiPopup-ok", value: "Ok" } ),
+GSUsetTemplate( "gsui-popup", () =>
+	GSUcreateElement( "div", { class: "gsuiPopup-window", tabindex: 0 },
+		GSUcreateElement( "div", { class: "gsuiPopup-head" } ),
+		GSUcreateElement( "form", { class: "gsuiPopup-body" },
+			GSUcreateElement( "div", { class: "gsuiPopup-content" } ),
+			GSUcreateElement( "div", { class: "gsuiPopup-message" } ),
+			GSUcreateElement( "input", { class: "gsuiPopup-inputText", type: "text" } ),
+			GSUcreateElement( "div", { class: "gsuiPopup-btns" },
+				GSUcreateElement( "input", { type: "button", class: "gsuiPopup-cancel", value: "Cancel" } ),
+				GSUcreateElement( "input", { type: "submit", class: "gsuiPopup-ok", value: "Ok" } ),
 			),
 		),
 	)

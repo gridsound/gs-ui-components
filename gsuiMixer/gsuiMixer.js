@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiMixer extends HTMLElement {
-	#children = GSUI.$getTemplate( "gsui-mixer" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-mixer" );
+	#elements = GSUfindElements( this.#children, {
 		channels: "gsui-channels",
 		effects: "gsui-effects",
 	} );

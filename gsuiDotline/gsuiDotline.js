@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiDotline extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDotline" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDotline" );
 	#data = {};
 	#dataSaved = null;
 	#dots = {};
@@ -23,8 +23,8 @@ class gsuiDotline extends HTMLElement {
 	#mousebtn = 0;
 	#activeDot = null;
 	#onresizeBind = this.#onresize.bind( this );
-	#children = GSUI.$getTemplate( "gsui-dotline" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-dotline" );
+	#elements = GSUfindElements( this.#children, {
 		svg: "svg",
 		polyline: "polyline",
 	} );
@@ -41,16 +41,16 @@ class gsuiDotline extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				viewbox: "0 0 100 100",
 				xstep: 1,
 				ystep: 1,
 			} );
 		}
-		GSUI.$observeSizeOf( this, this.#onresizeBind );
+		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
-		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "viewbox" ];
@@ -111,8 +111,8 @@ class gsuiDotline extends HTMLElement {
 		Object.values( data ).sort( gsuiDotline.#sortDots )
 			.forEach( d => {
 				arr.push(
-					GSUI.$round( ( d.x - xmin ) / w * svgW, 3 ),
-					GSUI.$round( svgH - ( d.y - ymin ) / h * svgH, 3 ),
+					GSUroundNum( ( d.x - xmin ) / w * svgW, 3 ),
+					GSUroundNum( svgH - ( d.y - ymin ) / h * svgH, 3 ),
 				);
 			} );
 		if ( lastDotLinked !== null ) {
@@ -121,11 +121,11 @@ class gsuiDotline extends HTMLElement {
 		return arr.join( " " );
 	}
 	#drawPolyline() {
-		GSUI.$setAttribute( this.#elements.polyline, "points",
+		GSUsetAttribute( this.#elements.polyline, "points",
 			gsuiDotline.$draw( this.#data, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
 	}
 	#onchange() {
-		const diff = GSUI.$diffObjects( this.#dataSaved, this.#data );
+		const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
 		if ( diff ) {
 			this.#dispatch( "change", diff );
@@ -137,13 +137,13 @@ class gsuiDotline extends HTMLElement {
 		return `${ 1 + Object.keys( this.#data ).reduce( ( max, id ) => Math.max( max, id ), 0 ) }`;
 	}
 	#getPtrX( e ) {
-		const step = GSUI.$getAttributeNum( this, "xstep" );
+		const step = GSUgetAttributeNum( this, "xstep" );
 		const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
 
 		return Math.round( x / step ) * step;
 	}
 	#getPtrY( e ) {
-		const step = GSUI.$getAttributeNum( this, "ystep" );
+		const step = GSUgetAttributeNum( this, "ystep" );
 		const y = this.#h - e.offsetY / this.clientHeight * this.#h + this.#ymin;
 
 		return Math.round( y / step ) * step;
@@ -151,7 +151,7 @@ class gsuiDotline extends HTMLElement {
 
 	// .........................................................................
 	#createDotElement( id ) {
-		const el = GSUI.$createElement( "div", { class: "gsuiDotline-dot", "data-id": id } );
+		const el = GSUcreateElement( "div", { class: "gsuiDotline-dot", "data-id": id } );
 
 		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
 		this.#dots[ id ] = el;
@@ -182,15 +182,15 @@ class gsuiDotline extends HTMLElement {
 	#onresize( w, h ) {
 		this.#svgW = w;
 		this.#svgH = h;
-		GSUI.$setAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
 		this.#drawPolyline();
 	}
 	#onpointerdown( e ) {
 		let id = e.target.dataset.id;
 
-		GSUI.$unselectText();
+		GSUunselectText();
 		this.setPointerCapture( e.pointerId );
-		this.#dataSaved = GSUI.$jsonCopy( this.#data );
+		this.#dataSaved = GSUjsonCopy( this.#data );
 		this.#mousebtn = e.button;
 		this.#pageX = e.pageX;
 		this.#pageY = e.pageY;
@@ -202,7 +202,7 @@ class gsuiDotline extends HTMLElement {
 				this.#drawPolyline();
 			}
 		} else if ( e.button === 0 ) {
-			const xstep = GSUI.$getAttributeNum( this, "xstep" );
+			const xstep = GSUgetAttributeNum( this, "xstep" );
 
 			if ( !id ) {
 				const x = this.#getPtrX( e );
@@ -219,7 +219,7 @@ class gsuiDotline extends HTMLElement {
 				}
 			}
 			this.#selectDotElement( id, true );
-			if ( !GSUI.$hasAttribute( this, "movelinked" ) ) {
+			if ( !GSUhasAttribute( this, "movelinked" ) ) {
 				const dat = this.#data[ id ];
 
 				this.#dotsMoving = [ { id, x: dat.x, y: dat.y } ];
@@ -289,8 +289,8 @@ class gsuiDotline extends HTMLElement {
 				this.#drawPolyline();
 			}
 		} else if ( this.#mousebtn === 0 ) {
-			const xstep = GSUI.$getAttributeNum( this, "xstep" );
-			const ystep = GSUI.$getAttributeNum( this, "ystep" );
+			const xstep = GSUgetAttributeNum( this, "xstep" );
+			const ystep = GSUgetAttributeNum( this, "ystep" );
 			let incX = this.#w / this.clientWidth * ( e.pageX - this.#pageX );
 			let incY = this.#h / this.clientHeight * -( e.pageY - this.#pageY );
 

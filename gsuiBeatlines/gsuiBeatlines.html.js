@@ -1,8 +1,8 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-beatlines", () => [
-	GSUI.$createElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-measures" } ),
-	GSUI.$createElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-beats" } ),
-	GSUI.$createElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-steps" } ),
-	GSUI.$createElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-beatsBG" } ),
+GSUsetTemplate( "gsui-beatlines", () => [
+	GSUcreateElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-measures" } ),
+	GSUcreateElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-beats" } ),
+	GSUcreateElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-steps" } ),
+	GSUcreateElement( "div", { class: "gsuiBeatlines-bg gsuiBeatlines-beatsBG" } ),
 ] );

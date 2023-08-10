@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiDrumcut extends HTMLElement {
-	#children = GSUI.$getTemplate( "gsui-drumcut" );
+	#children = GSUgetTemplate( "gsui-drumcut" );
 
 	constructor() {
 		super();

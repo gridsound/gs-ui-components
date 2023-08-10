@@ -53,7 +53,7 @@ class gsuiKeys extends HTMLElement {
 
 	// .........................................................................
 	connectedCallback() {
-		GSUI.$recallAttributes( this, {
+		GSUrecallAttributes( this, {
 			orient: "vertical",
 			rootoctave: "4",
 		} );
@@ -64,7 +64,7 @@ class gsuiKeys extends HTMLElement {
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			switch ( prop ) {
-				case "octaves": this.#setOctaves( ...GSUI.$splitNums( val ) ); break;
+				case "octaves": this.#setOctaves( ...GSUsplitNums( val ) ); break;
 				case "rootoctave": this.#setRootOctave( +val ); break;
 			}
 		}
@@ -106,7 +106,7 @@ class gsuiKeys extends HTMLElement {
 		this.style.setProperty( "--gsuiKeys-nbOctaves", nbOct );
 		if ( nbOct > this.#nbOct ) {
 			for ( let i = this.#nbOct; i < nbOct; ++i ) {
-				this.append( ...GSUI.$getTemplate( "gsui-keys-octave" ) );
+				this.append( ...GSUgetTemplate( "gsui-keys-octave" ) );
 			}
 		} else if ( nbOct < this.#nbOct ) {
 			Array.from( this.children ).forEach( ( el, i ) => {
@@ -134,7 +134,7 @@ class gsuiKeys extends HTMLElement {
 		this.#setRootOctave( this.#rootOctave );
 	}
 	#isVertical() {
-		return GSUI.$getAttribute( this, "orient" ) === "vertical";
+		return GSUgetAttribute( this, "orient" ) === "vertical";
 	}
 	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
@@ -146,10 +146,10 @@ class gsuiKeys extends HTMLElement {
 			elKey.classList.toggle( "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
-				GSUI.$dispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
+				GSUdispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
 			} else {
 				this.#keysDown.delete( midi );
-				GSUI.$dispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
+				GSUdispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
 			}
 		}
 	}
@@ -159,7 +159,7 @@ class gsuiKeys extends HTMLElement {
 		if ( this.#nbOct ) {
 			e.preventDefault();
 			if ( e.button === 2 ) {
-				GSUI.$setAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
+				GSUsetAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();
 				const rootBCR = this.getBoundingClientRect();

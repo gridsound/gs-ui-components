@@ -56,7 +56,8 @@ gsui-windows {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -75,20 +76,20 @@ const winA = wins.$createWindow( "winA" );
 const winB = wins.$createWindow( "winB" );
 const winC = wins.$createWindow( "winC" );
 
-document.querySelector( "#lowGraphics" ).onchange = e => GSUI.$setAttribute( wins, "lowgraphics", e.target.checked );
-document.querySelector( "#noMinimize" ).onchange = e => GSUI.$setAttribute( wins, "nominimize", e.target.checked );
+document.querySelector( "#lowGraphics" ).onchange = e => GSUsetAttribute( wins, "lowgraphics", e.target.checked );
+document.querySelector( "#noMinimize" ).onchange = e => GSUsetAttribute( wins, "nominimize", e.target.checked );
 document.querySelector( "#winA" ).onclick = () => winA.$open();
 document.querySelector( "#winB" ).onclick = () => winB.$open();
 document.querySelector( "#winC" ).onclick = () => winC.$open();
 addBtn.onclick = () => {
-	winA.$contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "A" ) );
-	winB.$contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "B" ) );
-	winC.$contentAppend( GSUI.$createElement( "span", { class: "myContent" }, "C" ) );
+	winA.$contentAppend( GSUcreateElement( "span", { class: "myContent" }, "A" ) );
+	winB.$contentAppend( GSUcreateElement( "span", { class: "myContent" }, "B" ) );
+	winC.$contentAppend( GSUcreateElement( "span", { class: "myContent" }, "C" ) );
 };
 
-GSUI.$setAttribute( winA, { x:  10, y: 10, w: 140, h: 100, icon: "osc-square", name: "Aaa" } );
-GSUI.$setAttribute( winB, { x: 160, y: 10, w: 140, h: 100, icon: "osc-square", name: "Bbb" } );
-GSUI.$setAttribute( winC, { x: 310, y: 10, w: 140, h: 100, icon: "osc-square", name: "Ccc" } );
+GSUsetAttribute( winA, { x:  10, y: 10, w: 140, h: 100, icon: "osc-square", name: "Aaa" } );
+GSUsetAttribute( winB, { x: 160, y: 10, w: 140, h: 100, icon: "osc-square", name: "Bbb" } );
+GSUsetAttribute( winC, { x: 310, y: 10, w: 140, h: 100, icon: "osc-square", name: "Ccc" } );
 
 winA.$open();
 winB.$open();

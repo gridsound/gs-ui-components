@@ -40,7 +40,8 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 <script src="/gs-ui-components/gsuiToggle/gsuiToggle.js"></script>
 <script src="/gs-ui-components/gsuiAnalyser/gsuiAnalyser.js"></script>
@@ -56,7 +57,7 @@ body {
 <script>
 const chan = document.querySelector( "gsui-channel" );
 
-GSUI.$setAttribute( chan, "name", "chan" );
+GSUsetAttribute( chan, "name", "chan" );
 </script>
 </body>
 </html>

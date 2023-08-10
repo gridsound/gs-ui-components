@@ -2,7 +2,7 @@
 
 class gsuiPatterns extends HTMLElement {
 	$getChannels = () => [];
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiPatterns" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiPatterns" );
 	#fnsPattern = Object.freeze( {
 		clone: id => this.onchange( "clonePattern", id ),
 		remove: id => this.onchange( "removePattern", id ),
@@ -21,11 +21,11 @@ class gsuiPatterns extends HTMLElement {
 		delete: id => {
 			this.#elements.lists.synth.children.length > 1
 				? this.onchange( "removeSynth", id )
-				: GSUI.$popup.alert( "Error", "You have to keep at least one synthesizer" );
+				: GSUpopup.alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
-	#children = GSUI.$getTemplate( "gsui-patterns" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-patterns" );
+	#elements = GSUfindElements( this.#children, {
 		lists: {
 			slices: ".gsuiPatterns-panelSlices .gsuiPatterns-panel-list",
 			drums: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
@@ -37,7 +37,7 @@ class gsuiPatterns extends HTMLElement {
 		newSynth: "[data-action='newSynth']",
 	} );
 	#nlKeysLists = this.#elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" );
-	static infoPopupContent = GSUI.$getTemplate( "gsui-patterns-infoPopup" );
+	static infoPopupContent = GSUgetTemplate( "gsui-patterns-infoPopup" );
 
 	constructor() {
 		super();
@@ -157,7 +157,7 @@ class gsuiPatterns extends HTMLElement {
 		}
 		gsuiPatterns.infoPopupContent.querySelector( "[name='bpm']" ).value = el.dataset.bufferBpm;
 		gsuiPatterns.infoPopupContent.querySelector( "[name='name']" ).value = el.dataset.name;
-		GSUI.$popup.custom( {
+		GSUpopup.custom( {
 			title: "Buffer's info",
 			element: gsuiPatterns.infoPopupContent,
 			submit: data => {
@@ -175,7 +175,7 @@ class gsuiPatterns extends HTMLElement {
 
 	// .........................................................................
 	addSynth( id ) {
-		const elSyn = GSUI.$getTemplate( "gsui-patterns-synth" );
+		const elSyn = GSUgetTemplate( "gsui-patterns-synth" );
 
 		elSyn.dataset.id = id;
 		this.#elements.lists.synth.prepend( elSyn );
@@ -195,7 +195,7 @@ class gsuiPatterns extends HTMLElement {
 
 	// .........................................................................
 	addPattern( id, { type, synth } ) {
-		const elPat = GSUI.$getTemplate( "gsui-patterns-pattern" );
+		const elPat = GSUgetTemplate( "gsui-patterns-pattern" );
 
 		elPat.dataset.id = id;
 		if ( type !== "buffer" ) {
@@ -211,7 +211,7 @@ class gsuiPatterns extends HTMLElement {
 		const elPat = this.getPattern( id );
 
 		switch ( prop ) {
-			case "data-missing": GSUI.$setAttribute( elPat, "data-missing", val ); break;
+			case "data-missing": GSUsetAttribute( elPat, "data-missing", val ); break;
 			case "order": elPat.dataset.order = val; break;
 			case "name":
 				elPat.dataset.name = val;
@@ -221,11 +221,11 @@ class gsuiPatterns extends HTMLElement {
 			case "destName": elPat.querySelector( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
 			case "synth": this.#getPatternParent( "keys", val ).append( elPat ); break;
 			case "bufferType":
-				GSUI.$setAttribute( elPat, "data-buffer-type", val );
+				GSUsetAttribute( elPat, "data-buffer-type", val );
 				elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).dataset.icon = `buf-${ val || "undefined" }`;
 				break;
 			case "bufferBpm":
-				GSUI.$setAttribute( elPat, "data-buffer-bpm", val );
+				GSUsetAttribute( elPat, "data-buffer-bpm", val );
 				break;
 		}
 	}

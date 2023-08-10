@@ -53,7 +53,9 @@ body {
 <script src="/gs-wa-components/gswaSlicer/gswaSlicer.js"></script>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
+<script src="/gs-utils/gs-utils-json.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -86,7 +88,7 @@ slicer.addSlice(  5, { x: .625, y: .625, w: .125 } );
 slicer.addSlice(  6, { x: .750, y: .750, w: .125 } );
 slicer.addSlice(  7, { x: .875, y: .875, w: .125 } );
 
-GSUI.$listenEvents( slicer, {
+GSUlistenEvents( slicer, {
 	gsuiSlicer: {
 		changeProp: d => {
 			const [ prop, val ] = d.args;
@@ -94,13 +96,13 @@ GSUI.$listenEvents( slicer, {
 			playSampleBtn.onclick();
 			playSampleBtn.onclick();
 			if ( prop === "duration" ) {
-				GSUI.$setAttribute( currentTimeInp, "max", val );
+				GSUsetAttribute( currentTimeInp, "max", val );
 			}
 		},
 	},
 } );
 
-currentTimeInp.oninput = () => GSUI.$setAttribute( slicer, "currenttime", currentTimeInp.value );
+currentTimeInp.oninput = () => GSUsetAttribute( slicer, "currenttime", currentTimeInp.value );
 playSampleBtn.onclick = () => {
 	if ( absn ) {
 		absn.stop();

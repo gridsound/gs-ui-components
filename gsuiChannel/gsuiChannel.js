@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiChannel extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiChannel" );
-	#children = GSUI.$getTemplate( "gsui-channel" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiChannel" );
+	#children = GSUgetTemplate( "gsui-channel" );
+	#elements = GSUfindElements( this.#children, {
 		toggle: "gsui-toggle",
 		nameWrap: ".gsuiChannel-nameWrap",
 		name: ".gsuiChannel-name",
@@ -30,20 +30,20 @@ class gsuiChannel extends HTMLElement {
 				this.#dispatch( "selectEffect", e.target.dataset.id );
 			}
 		};
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: d => {
-					GSUI.$setAttribute( this, "muted", !d.args[ 0 ] );
+					GSUsetAttribute( this, "muted", !d.args[ 0 ] );
 					this.#dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
-					GSUI.$setAttribute( this, "muted", false );
+					GSUsetAttribute( this, "muted", false );
 					this.#dispatch( "toggleSolo" );
 				},
 			},
 			gsuiSlider: {
-				inputStart: GSUI.$noop,
-				inputEnd: GSUI.$noop,
+				inputStart: GSUnoop,
+				inputEnd: GSUnoop,
 				input: ( d, sli ) => {
 					this.#dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
 				},
@@ -59,8 +59,8 @@ class gsuiChannel extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$setAttribute( this, "draggable", "true" );
-			GSUI.$recallAttributes( this, {
+			GSUsetAttribute( this, "draggable", "true" );
+			GSUrecallAttributes( this, {
 				name: "chan",
 				pan: 0,
 				gain: 1,
@@ -78,7 +78,7 @@ class gsuiChannel extends HTMLElement {
 					this.#elements.name.textContent = val;
 					break;
 				case "muted":
-					GSUI.$setAttribute( this.#elements.toggle, "off", val !== null );
+					GSUsetAttribute( this.#elements.toggle, "off", val !== null );
 					break;
 				case "pan":
 				case "gain":
@@ -94,7 +94,7 @@ class gsuiChannel extends HTMLElement {
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.#elements.effects.append( GSUI.$getTemplate( "gsui-channel-effect", id, obj.type ) );
+		this.#elements.effects.append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
 	}
 	$removeEffect( id ) {
 		this.#getEffect( id ).remove();

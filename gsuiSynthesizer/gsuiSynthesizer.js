@@ -3,8 +3,8 @@
 class gsuiSynthesizer extends HTMLElement {
 	#waveList = [];
 	#uiOscs = new Map();
-	#children = GSUI.$getTemplate( "gsui-synthesizer" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-synthesizer" );
+	#elements = GSUfindElements( this.#children, {
 		toggleEnv: "gsui-toggle[data-related='env']",
 		toggleLFO: "gsui-toggle[data-related='lfo']",
 		env: "gsui-envelope",
@@ -29,15 +29,15 @@ class gsuiSynthesizer extends HTMLElement {
 			parentSelector: ".gsuiSynthesizer-oscList",
 			onchange: this.#onchangeReorder.bind( this ),
 		} );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
 					const isEnv = btn.dataset.related === "env";
 					const ev = isEnv ? "toggleEnv" : "toggleLFO";
 					const el = isEnv ? this.#elements.env : this.#elements.lfo;
 
-					GSUI.$setAttribute( el, "toggle", d.args[ 0 ] );
-					GSUI.$dispatchEvent( this, "gsuiSynthesizer", ev, d.args[ 0 ] );
+					GSUsetAttribute( el, "toggle", d.args[ 0 ] );
+					GSUdispatchEvent( this, "gsuiSynthesizer", ev, d.args[ 0 ] );
 				},
 			},
 		} );
@@ -63,20 +63,20 @@ class gsuiSynthesizer extends HTMLElement {
 	// .........................................................................
 	changeEnvProp( prop, val ) {
 		if ( prop === "toggle" ) {
-			GSUI.$setAttribute( this.#elements.toggleEnv, "off", !val );
+			GSUsetAttribute( this.#elements.toggleEnv, "off", !val );
 		}
-		GSUI.$setAttribute( this.#elements.env, prop, val );
+		GSUsetAttribute( this.#elements.env, prop, val );
 	}
 	changeLFOProp( prop, val ) {
 		if ( prop === "toggle" ) {
-			GSUI.$setAttribute( this.#elements.toggleLFO, "off", !val );
+			GSUsetAttribute( this.#elements.toggleLFO, "off", !val );
 		}
-		GSUI.$setAttribute( this.#elements.lfo, prop, val );
+		GSUsetAttribute( this.#elements.lfo, prop, val );
 	}
 
 	// .........................................................................
 	addOscillator( id ) {
-		const uiOsc = GSUI.$createElement( "gsui-oscillator", { "data-id": id } );
+		const uiOsc = GSUcreateElement( "gsui-oscillator", { "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );
@@ -96,12 +96,12 @@ class gsuiSynthesizer extends HTMLElement {
 
 	// .........................................................................
 	#onclickNewOsc() {
-		GSUI.$dispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
+		GSUdispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
 	}
 	#onchangeReorder() {
 		const oscs = gsuiReorder.listComputeOrderChange( this.#elements.oscList, {} );
 
-		GSUI.$dispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
+		GSUdispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
 	}
 }
 

@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiFxFilter extends HTMLElement {
-	$askData = GSUI.$noop;
+	$askData = GSUnoop;
 	#nyquist = 24000;
 	#attached = false;
 	#currType = "lowpass";
@@ -12,9 +12,9 @@ class gsuiFxFilter extends HTMLElement {
 		detune: a => a,
 		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
 	};
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiFxFilter" );
-	#children = GSUI.$getTemplate( "gsui-fx-filter" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiFxFilter" );
+	#children = GSUgetTemplate( "gsui-fx-filter" );
+	#elements = GSUfindElements( this.#children, {
 		type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
 		graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
 		curves: "gsui-curves",
@@ -41,10 +41,10 @@ class gsuiFxFilter extends HTMLElement {
 		Object.seal( this );
 
 		this.#elements.type.onclick = this.#onclickType.bind( this );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiSlider: {
-				inputStart: GSUI.$noop,
-				inputEnd: GSUI.$noop,
+				inputStart: GSUnoop,
+				inputEnd: GSUnoop,
 				input: ( d, sli ) => {
 					this.#oninputProp( sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
 				},
@@ -65,11 +65,11 @@ class gsuiFxFilter extends HTMLElement {
 			this.#onresize();
 			this.$updateWave();
 		}
-		GSUI.$observeSizeOf( this, this.#onresizeBind );
+		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
 	disconnectedCallback() {
 		this.#attached = false;
-		GSUI.$unobserveSizeOf( this, this.#onresizeBind );
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "type", "frequency", "q", "gain", "detune" ];
@@ -83,8 +83,8 @@ class gsuiFxFilter extends HTMLElement {
 					this.#toggleTypeBtn( this.#currType, false );
 					this.#toggleTypeBtn( val, true );
 					this.#currType = val;
-					GSUI.$setAttribute( this.#elements.sliders.Q, "disabled", !gainQ.q );
-					GSUI.$setAttribute( this.#elements.sliders.gain, "disabled", !gainQ.gain );
+					GSUsetAttribute( this.#elements.sliders.Q, "disabled", !gainQ.q );
+					GSUsetAttribute( this.#elements.sliders.gain, "disabled", !gainQ.gain );
 				} break;
 				case "q":
 					this.#elements.sliders.Q.setValue( +val );

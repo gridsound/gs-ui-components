@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiTrack extends HTMLElement {
-	rowElement = GSUI.$getTemplate( "gsui-track-row" );
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiTrack" );
-	#children = GSUI.$getTemplate( "gsui-track" );
+	rowElement = GSUgetTemplate( "gsui-track-row" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiTrack" );
+	#children = GSUgetTemplate( "gsui-track" );
 	#inpName = this.#children[ 1 ].firstChild;
 
 	constructor() {
@@ -13,14 +13,14 @@ class gsuiTrack extends HTMLElement {
 		this.onkeydown = this.#onkeydown.bind( this );
 		this.ondblclick = this.#ondblclick.bind( this );
 		this.#inpName.onblur = this.#onblur.bind( this );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: d => {
-					GSUI.$setAttribute( this, "mute", !d.args[ 0 ] );
+					GSUsetAttribute( this, "mute", !d.args[ 0 ] );
 					this.#dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
-					GSUI.$setAttribute( this, "mute", false );
+					GSUsetAttribute( this, "mute", false );
 					this.#dispatch( "toggleSolo" );
 				},
 			},
@@ -32,7 +32,7 @@ class gsuiTrack extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				name: "",
 				order: 0,
 			} );
@@ -46,7 +46,7 @@ class gsuiTrack extends HTMLElement {
 			switch ( prop ) {
 				case "mute":
 					this.rowElement.classList.toggle( "gsui-mute", val !== null );
-					GSUI.$setAttribute( this.firstElementChild, "off", val !== null );
+					GSUsetAttribute( this.firstElementChild, "off", val !== null );
 					break;
 				case "name":
 					this.#inpName.value = val;
@@ -71,7 +71,7 @@ class gsuiTrack extends HTMLElement {
 		if ( e.target === this.#inpName ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": this.#inpName.value = GSUI.$getAttribute( this, "name" );
+				case "Escape": this.#inpName.value = GSUgetAttribute( this, "name" );
 				case "Enter": this.#inpName.blur();
 			}
 		}
@@ -80,7 +80,7 @@ class gsuiTrack extends HTMLElement {
 		const n = this.#inpName.value.trim();
 
 		this.#inpName.disabled = true;
-		GSUI.$setAttribute( this, "name", n );
+		GSUsetAttribute( this, "name", n );
 		this.#dispatch( "rename", n );
 	}
 	#onblur() {

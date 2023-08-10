@@ -49,7 +49,8 @@ body {
 <script src="/assets/gswaPeriodicWavesList-v1.js"></script>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -72,8 +73,8 @@ const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 elLFOtarget.onchange = () => {
 	const t = elLFOtarget.value;
 
-	GSUI.$setAttribute( elLFO, "target", t );
-	GSUI.$setAttribute( elLFO, "lowpassfreq", t === "gain" ? null : .4 );
+	GSUsetAttribute( elLFO, "target", t );
+	GSUsetAttribute( elLFO, "lowpassfreq", t === "gain" ? null : .4 );
 };
 waves.forEach( ( w, name ) => gsuiPeriodicWave.addWave( name, w.real, w.imag ) );
 elLFO.updateWave();

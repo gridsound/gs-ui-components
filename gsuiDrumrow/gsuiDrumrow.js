@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiDrumrow extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiDrumrow" );
-	#children = GSUI.$getTemplate( "gsui-drumrow" );
-	#elements = GSUI.$findElements( this.#children, {
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDrumrow" );
+	#children = GSUgetTemplate( "gsui-drumrow" );
+	#elements = GSUfindElements( this.#children, {
 		$name: ".gsuiDrumrow-name",
 		toggle: "gsui-toggle",
 		pan: ".gsuiDrumrow-pan gsui-slider",
@@ -19,14 +19,14 @@ class gsuiDrumrow extends HTMLElement {
 		this.onchange = e => this.#dispatch( "propFilter", e.target.value );
 		this.oncontextmenu = this.#oncontextmenuRows.bind( this );
 		this.onanimationend = this.#onanimationend.bind( this );
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
-					GSUI.$setAttribute( this, "toggle", d.args[ 0 ] );
+					GSUsetAttribute( this, "toggle", d.args[ 0 ] );
 					this.#dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: ( d, btn ) => {
-					GSUI.$setAttribute( this, "toggle", true );
+					GSUsetAttribute( this, "toggle", true );
 					this.#dispatch( "toggleSolo" );
 				},
 			},
@@ -36,7 +36,7 @@ class gsuiDrumrow extends HTMLElement {
 					this.#namePrint( sli.dataset.prop, d.args[ 0 ] );
 					this.#dispatch( "liveChangeProp", sli.dataset.prop, d.args[ 0 ] );
 				},
-				inputStart: GSUI.$noop,
+				inputStart: GSUnoop,
 				inputEnd: () => this.#oninputendSlider(),
 			},
 		} );
@@ -47,8 +47,8 @@ class gsuiDrumrow extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$setAttribute( this, "draggable", "true" );
-			GSUI.$recallAttributes( this, {
+			GSUsetAttribute( this, "draggable", "true" );
+			GSUrecallAttributes( this, {
 				toggle: true,
 			} );
 		}
@@ -64,21 +64,21 @@ class gsuiDrumrow extends HTMLElement {
 				case "detune": this.#elements[ prop ].setValue( val ); break;
 				case "name": this.#elements.$name.textContent = val; break;
 				case "duration": this.#elements.waveWrap.style.animationDuration = `${ val * 2 }s`; break;
-				case "toggle": GSUI.$setAttribute( this.#elements.toggle, "off", val !== "" ); break;
+				case "toggle": GSUsetAttribute( this.#elements.toggle, "off", val !== "" ); break;
 			}
 		}
 	}
 
 	// .........................................................................
 	$changePattern( svg ) {
-		GSUI.$emptyElement( this.#elements.waveWrap );
+		GSUemptyElement( this.#elements.waveWrap );
 		if ( svg ) {
 			svg.classList.add( "gsuiDrumrow-wave" );
 			this.#elements.waveWrap.append( svg );
 		}
 	}
 	$play() {
-		this.#elements.waveWrap.append( GSUI.$createElement( "div", { class: "gsuiDrumrow-startCursor" } ) );
+		this.#elements.waveWrap.append( GSUcreateElement( "div", { class: "gsuiDrumrow-startCursor" } ) );
 	}
 	$stop() {
 		this.querySelectorAll( ".gsuiDrumrow-startCursor" ).forEach( el => el.remove() );
@@ -101,7 +101,7 @@ class gsuiDrumrow extends HTMLElement {
 	#oninputendSlider( id ) {
 		const el = this.#elements.$name;
 
-		el.textContent = GSUI.$getAttribute( this, "name" );
+		el.textContent = GSUgetAttribute( this, "name" );
 		el.classList.remove( "gsuiDrumrow-nameInfo" );
 	}
 	#onanimationend( e ) {

@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiWindow extends HTMLElement {
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiWindow" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiWindow" );
 	#wMin = 32;
 	#hMin = 32;
 	#show = false;
@@ -11,8 +11,8 @@ class gsuiWindow extends HTMLElement {
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 0;
-	#children = GSUI.$getTemplate( "gsui-window" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-window" );
+	#elements = GSUfindElements( this.#children, {
 		icon: ".gsuiWindow-icon",
 		wrap: ".gsuiWindow-wrap",
 		head: ".gsuiWindow-head",
@@ -39,7 +39,7 @@ class gsuiWindow extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		if ( !this.firstChild ) {
-			GSUI.$setAttribute( this, "tabindex", 0 );
+			GSUsetAttribute( this, "tabindex", 0 );
 			this.append( ...this.#children );
 			this.#children = null;
 		}
@@ -73,7 +73,7 @@ class gsuiWindow extends HTMLElement {
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				this.#setClass( "show", false );
-				GSUI.$emptyElement( this.#elements.content );
+				GSUemptyElement( this.#elements.content );
 				this.#dispatch( "close" );
 			}
 		} else if ( this.#minimized ) {
@@ -83,8 +83,8 @@ class gsuiWindow extends HTMLElement {
 
 	// .........................................................................
 	$empty() {
-		GSUI.$emptyElement( this.#elements.content );
-		GSUI.$emptyElement( this.#elements.headContent );
+		GSUemptyElement( this.#elements.content );
+		GSUemptyElement( this.#elements.headContent );
 	}
 	$contentAppend( ...args ) {
 		this.#elements.content.append( ...args );
@@ -127,13 +127,13 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "maximized", false );
 			this.#minimized = true;
 			this.#maximized = false;
-			GSUI.$setAttribute( this, {
+			GSUsetAttribute( this, {
 				x: rcRestore.x,
 				y: rcRestore.y,
 				w: rcRestore.w,
 				h: this.#getHeadHeight(),
 			} );
-			GSUI.$emptyElement( this.#elements.content );
+			GSUemptyElement( this.#elements.content );
 			this.#dispatch( "close" );
 		}
 	}
@@ -147,7 +147,7 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "maximized", false );
 			this.#minimized =
 			this.#maximized = false;
-			GSUI.$setAttribute( this, {
+			GSUsetAttribute( this, {
 				x: rcRestore.x,
 				y: rcRestore.y,
 				w: rcRestore.w,
@@ -218,7 +218,7 @@ class gsuiWindow extends HTMLElement {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos );
-		if ( !GSUI.$hasAttribute( this.parentNode, "lowgraphics" ) ) {
+		if ( !GSUhasAttribute( this.parentNode, "lowgraphics" ) ) {
 			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos );
 		}
 	}
@@ -230,7 +230,7 @@ class gsuiWindow extends HTMLElement {
 		this.#resetCSSrelative( this.#elements.wrap.style );
 		this.#resetCSSrelative( this.#elements.handlers.style );
 		if ( m.x || m.y ) {
-			GSUI.$setAttribute( this, {
+			GSUsetAttribute( this, {
 				x: x + m.x,
 				y: y + m.y,
 			} );
@@ -248,7 +248,7 @@ class gsuiWindow extends HTMLElement {
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
 		this.#setCSSrelativeResize( this.#elements.handlers.style, dir, mmPos );
-		if ( !GSUI.$hasAttribute( this.parentNode, "lowgraphics" ) ) {
+		if ( !GSUhasAttribute( this.parentNode, "lowgraphics" ) ) {
 			this.#setCSSrelativeResize( this.#elements.wrap.style, dir, mmPos );
 		}
 	}
@@ -261,14 +261,14 @@ class gsuiWindow extends HTMLElement {
 		this.#resetCSSrelative( this.#elements.handlers.style );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
-				case "e":  GSUI.$setAttribute( this, { w: w + m.x, h          } ); break;
-				case "se": GSUI.$setAttribute( this, { w: w + m.x, h: h + m.y } ); break;
-				case "s":  GSUI.$setAttribute( this, { w,          h: h + m.y } ); break;
-				case "sw": GSUI.$setAttribute( this, { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
-				case "w":  GSUI.$setAttribute( this, { w: w - m.x, h         , x: x + m.x, y          } ); break;
-				case "nw": GSUI.$setAttribute( this, { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
-				case "n":  GSUI.$setAttribute( this, { w,          h: h - m.y, x,          y: y + m.y } ); break;
-				case "ne": GSUI.$setAttribute( this, { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;
+				case "e":  GSUsetAttribute( this, { w: w + m.x, h          } ); break;
+				case "se": GSUsetAttribute( this, { w: w + m.x, h: h + m.y } ); break;
+				case "s":  GSUsetAttribute( this, { w,          h: h + m.y } ); break;
+				case "sw": GSUsetAttribute( this, { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
+				case "w":  GSUsetAttribute( this, { w: w - m.x, h         , x: x + m.x, y          } ); break;
+				case "nw": GSUsetAttribute( this, { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
+				case "n":  GSUsetAttribute( this, { w,          h: h - m.y, x,          y: y + m.y } ); break;
+				case "ne": GSUsetAttribute( this, { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;
 			}
 		}
 	}

@@ -12,13 +12,13 @@ class gsuiTimeline extends HTMLElement {
 	#mousedownBeat = 0;
 	#mousedownLoopA = 0;
 	#mousedownLoopB = 0;
-	#dispatch = GSUI.$dispatchEvent.bind( null, this, "gsuiTimeline" );
+	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiTimeline" );
 	#onscrollBind = this.#onscroll.bind( this );
 	#onresizeBind = this.#onresize.bind( this );
 	#onmouseupBind = this.#onmouseup.bind( this );
 	#onmousemoveBind = this.#onmousemove.bind( this );
-	#children = GSUI.$getTemplate( "gsui-timeline" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-timeline" );
+	#elements = GSUfindElements( this.#children, {
 		steps: ".gsuiTimeline-steps",
 		beats: ".gsuiTimeline-beats",
 		measures: ".gsuiTimeline-measures",
@@ -52,7 +52,7 @@ class gsuiTimeline extends HTMLElement {
 		if ( !this.firstChild ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, {
+			GSUrecallAttributes( this, {
 				step: 1,
 				currenttime: 0,
 			} );
@@ -85,12 +85,12 @@ class gsuiTimeline extends HTMLElement {
 		this.#unscrollEvent();
 		this.#scrollingAncestor = el;
 		el.addEventListener( "scroll", this.#onscrollBind );
-		GSUI.$observeSizeOf( el, this.#onresizeBind );
+		GSUobserveSizeOf( el, this.#onresizeBind );
 	}
 	#unscrollEvent() {
 		if ( this.#scrollingAncestor ) {
 			this.#scrollingAncestor.removeEventListener( "scroll", this.#onscrollBind );
-			GSUI.$unobserveSizeOf( this.#scrollingAncestor, this.#onresizeBind );
+			GSUunobserveSizeOf( this.#scrollingAncestor, this.#onresizeBind );
 		}
 	}
 
@@ -153,7 +153,7 @@ class gsuiTimeline extends HTMLElement {
 			const rnd = this.beatRound( t );
 
 			if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
-				GSUI.$setAttribute( this, "currenttime-preview", rnd );
+				GSUsetAttribute( this, "currenttime-preview", rnd );
 			} else {
 				this.#elements.cursorPreview.style.left = `${ t }em`;
 				if ( !this.#elements.cursorPreview.parentNode ) {
@@ -218,7 +218,7 @@ class gsuiTimeline extends HTMLElement {
 			}
 		} else {
 			while ( elMeasures.children.length < nb ) {
-				elMeasures.append( GSUI.$createElement( "span", { class: "gsuiTimeline-measure" } ) );
+				elMeasures.append( GSUcreateElement( "span", { class: "gsuiTimeline-measure" } ) );
 			}
 		}
 	}
@@ -267,12 +267,12 @@ class gsuiTimeline extends HTMLElement {
 				} else {
 					this.#dispatch( "inputCurrentTimeStart" );
 				}
-				this.#mousedownLoop = GSUI.$getAttribute( this, "loop" );
+				this.#mousedownLoop = GSUgetAttribute( this, "loop" );
 				this.#mousedownLoopA = this.loopA;
 				this.#mousedownLoopB = this.loopB;
 				document.addEventListener( "mousemove", this.#onmousemoveBind );
 				document.addEventListener( "mouseup", this.#onmouseupBind );
-				GSUI.$unselectText();
+				GSUunselectText();
 				this.#onmousemove( e );
 			}
 		}
@@ -285,7 +285,7 @@ class gsuiTimeline extends HTMLElement {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
 				case "draggingTime":
-					GSUI.$setAttribute( this, "currenttime-preview", beat );
+					GSUsetAttribute( this, "currenttime-preview", beat );
 					this.#dispatch( "inputCurrentTime", beat );
 					break;
 				case "draggingLoopBody": {
@@ -294,8 +294,8 @@ class gsuiTimeline extends HTMLElement {
 					const b = this.#mousedownLoopB + rel;
 					const loop = `${ a }-${ b }`;
 
-					if ( loop !== GSUI.$getAttribute( this, "loop" ) ) {
-						GSUI.$setAttribute( this, "loop", loop );
+					if ( loop !== GSUgetAttribute( this, "loop" ) ) {
+						GSUsetAttribute( this, "loop", loop );
 						this.#dispatch( "inputLoop", a, b );
 					}
 				} break;
@@ -321,9 +321,9 @@ class gsuiTimeline extends HTMLElement {
 						}
 						this.#mousedownBeat = this.#mousedownLoopA;
 					}
-					if ( loop !== GSUI.$getAttribute( this, "loop" ) ) {
+					if ( loop !== GSUgetAttribute( this, "loop" ) ) {
 						if ( aa !== bb ) {
-							GSUI.$setAttribute( this, "loop", loop );
+							GSUsetAttribute( this, "loop", loop );
 							this.#dispatch( "inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							this.removeAttribute( "loop" );
@@ -339,12 +339,12 @@ class gsuiTimeline extends HTMLElement {
 		document.removeEventListener( "mouseup", this.#onmouseupBind );
 		switch ( this.#status ) {
 			case "draggingTime": {
-				const beat = GSUI.$getAttribute( this, "currenttime-preview" );
+				const beat = GSUgetAttribute( this, "currenttime-preview" );
 
 				this.removeAttribute( "currenttime-preview" );
 				this.#dispatch( "inputCurrentTimeEnd" );
-				if ( beat !== GSUI.$getAttribute( this, "currenttime" ) ) {
-					GSUI.$setAttribute( this, "currenttime", beat );
+				if ( beat !== GSUgetAttribute( this, "currenttime" ) ) {
+					GSUsetAttribute( this, "currenttime", beat );
 					this.#dispatch( "changeCurrentTime", +beat );
 				}
 			} break;
@@ -352,7 +352,7 @@ class gsuiTimeline extends HTMLElement {
 			case "draggingLoopHandleA":
 			case "draggingLoopHandleB":
 				this.#dispatch( "inputLoopEnd" );
-				if ( GSUI.$getAttribute( this, "loop" ) !== this.#mousedownLoop ) {
+				if ( GSUgetAttribute( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.loopA !== this.loopB ) {
 						this.#dispatch( "changeLoop", this.loopA, this.loopB );
 					} else {

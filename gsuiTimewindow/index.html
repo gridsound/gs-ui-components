@@ -74,7 +74,8 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -98,11 +99,11 @@ const tracks = [];
 const rows = [];
 
 document.querySelector( "#timeDisabled" ).onchange = e => {
-	GSUI.$setAttribute( win, "disabled", e.target.checked );
+	GSUsetAttribute( win, "disabled", e.target.checked );
 };
 for ( let i = 0; i < 10; ++i ) {
-	tracks.push( GSUI.$createElement( "div", { class: "myRow" }, `track ${ i }` ) );
-	rows.push( GSUI.$createElement( "div", { class: "myRow" }, `row ${ i }` ) );
+	tracks.push( GSUcreateElement( "div", { class: "myRow" }, `track ${ i }` ) );
+	rows.push( GSUcreateElement( "div", { class: "myRow" }, `row ${ i }` ) );
 }
 document.querySelector( ".gsuiTimewindow-panelContent" ).append( ...tracks );
 document.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );

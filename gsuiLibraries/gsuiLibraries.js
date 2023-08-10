@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiLibraries extends HTMLElement {
-	#children = GSUI.$getTemplate( "gsui-libraries" );
-	#elements = GSUI.$findElements( this.#children, {
+	#children = GSUgetTemplate( "gsui-libraries" );
+	#elements = GSUfindElements( this.#children, {
 		libBtns: ".gsuiLibraries-libBtns",
 		libDef: ".gsuiLibrary-default",
 		libLoc: ".gsuiLibrary-local",
@@ -25,7 +25,7 @@ class gsuiLibraries extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
-			GSUI.$recallAttributes( this, { lib: "default" } );
+			GSUrecallAttributes( this, { lib: "default" } );
 		}
 	}
 
@@ -37,7 +37,7 @@ class gsuiLibraries extends HTMLElement {
 	// .........................................................................
 	static #onclickBtns( root, e ) {
 		if ( e.target.dataset.lib ) {
-			GSUI.$setAttribute( root, "lib", e.target.dataset.lib );
+			GSUsetAttribute( root, "lib", e.target.dataset.lib );
 		}
 	}
 }

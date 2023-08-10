@@ -77,7 +77,8 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -94,11 +95,11 @@ const inpBPM = document.querySelector( "#beatsPerMeasure" );
 const inpSPB = document.querySelector( "#stepsPerBeat" );
 
 timeline.$setScrollingParent( document.querySelector( "#wrapOut" ) );
-inpTPr.oninput = e => GSUI.$setAttribute( timeline, "currenttime-preview", inpTPr.value );
-inpTim.oninput = e => GSUI.$setAttribute( timeline, "currenttime", inpTim.value );
-inpPBB.oninput = e => GSUI.$setAttribute( timeline, "pxperbeat", inpPBB.value );
+inpTPr.oninput = e => GSUsetAttribute( timeline, "currenttime-preview", inpTPr.value );
+inpTim.oninput = e => GSUsetAttribute( timeline, "currenttime", inpTim.value );
+inpPBB.oninput = e => GSUsetAttribute( timeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
-inpSPB.oninput = e => GSUI.$setAttribute( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
+inpSPB.oninput = e => GSUsetAttribute( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
 document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
 </body>

@@ -1,9 +1,9 @@
 "use strict";
 
-GSUI.$setTemplate( "gsui-curves", () =>
-	GSUI.$createElementSVG( "svg", { class: "gsuiCurves-svg", preserveAspectRatio: "none" },
-		GSUI.$createElementSVG( "line", { class: "gsuiCurves-line", "shape-rendering": "crispEdges" } ),
-		GSUI.$createElementSVG( "g", { class: "gsuiCurves-marks" } ),
-		GSUI.$createElementSVG( "g", { class: "gsuiCurves-curves" } ),
+GSUsetTemplate( "gsui-curves", () =>
+	GSUcreateElementSVG( "svg", { class: "gsuiCurves-svg", preserveAspectRatio: "none" },
+		GSUcreateElementSVG( "line", { class: "gsuiCurves-line", "shape-rendering": "crispEdges" } ),
+		GSUcreateElementSVG( "g", { class: "gsuiCurves-marks" } ),
+		GSUcreateElementSVG( "g", { class: "gsuiCurves-curves" } ),
 	)
 );

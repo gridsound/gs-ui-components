@@ -67,7 +67,8 @@ body {
 <script src="/gs-wa-components/gswaBPMTap/gswaBPMTap.js"></script>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsui.js"></script>
+<script src="/gs-utils/gs-utils.js"></script>
+<script src="/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 <script src="/gs-ui-components/gsuiPopup/gsuiPopup.html.js"></script>
 <script src="/gs-ui-components/gsuiPopup/gsuiPopup.js"></script>
@@ -96,17 +97,17 @@ body {
 <script>
 const el = document.querySelector( "gsui-daw" );
 
-GSUI.$setAttribute( el, "version", "3.14.15" );
-// GSUI.$setAttribute( el, "logged", true );
-// GSUI.$setAttribute( el, "logging", true );
-// GSUI.$setAttribute( el, "focus", "down" );
-GSUI.$setAttribute( el, "saved", false );
-GSUI.$setAttribute( el, "samplerate", 48000 );
-GSUI.$setAttribute( el, "uirate", 5 );
-// GSUI.$setAttribute( el, "windowslowgraphics", true );
-GSUI.$setAttribute( el, "duration", 8 );
-GSUI.$setAttribute( el, "bpm", 240 );
-GSUI.$setAttribute( el, "currentcomposition", "local:idLOCA" );
+GSUsetAttribute( el, "version", "3.14.15" );
+// GSUsetAttribute( el, "logged", true );
+// GSUsetAttribute( el, "logging", true );
+// GSUsetAttribute( el, "focus", "down" );
+GSUsetAttribute( el, "saved", false );
+GSUsetAttribute( el, "samplerate", 48000 );
+GSUsetAttribute( el, "uirate", 5 );
+// GSUsetAttribute( el, "windowslowgraphics", true );
+GSUsetAttribute( el, "duration", 8 );
+GSUsetAttribute( el, "bpm", 240 );
+GSUsetAttribute( el, "currentcomposition", "local:idLOCA" );
 
 el.addComposition( { id: "idLOCA", name: "my first compo", bpm: 105, duration: 16, options: { saveMode: "local" } } );
 el.addComposition( { id: "idLOCB", name: "a second compo", bpm: 90, duration: 24, options: { saveMode: "local" } } );
@@ -114,8 +115,8 @@ el.addComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21,
 el.addComposition( { id: "idONL2", name: "compo online 2", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 el.deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 
-GSUI.$setAttribute( el, "currentcomposition", "cloud:idONL2" );
-// GSUI.$setAttribute( el, "saving", true );
+GSUsetAttribute( el, "currentcomposition", "cloud:idONL2" );
+// GSUsetAttribute( el, "saving", true );
 
 el.toggleWindow( "main", true );
 el.toggleWindow( "mixer", false );

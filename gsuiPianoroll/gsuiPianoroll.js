@@ -3,17 +3,17 @@
 class gsuiPianoroll extends HTMLElement {
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
-	#uiSliderGroup = GSUI.$createElement( "gsui-slidergroup", { beatlines: "" } );
-	#selectionElement = GSUI.$createElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
-	#slidersSelect = GSUI.$createElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 6 },
-		GSUI.$createElement( "option", { value: "gain", selected: "" }, "gain" ),
-		GSUI.$createElement( "option", { value: "pan" }, "pan" ),
-		GSUI.$createElement( "option", { value: "lowpass" }, "lowpass" ),
-		GSUI.$createElement( "option", { value: "highpass" }, "highpass" ),
-		GSUI.$createElement( "option", { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
-		GSUI.$createElement( "option", { value: "gainLFOAmp" }, "gain.lfo.amp" ),
+	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
+	#selectionElement = GSUcreateElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#slidersSelect = GSUcreateElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 6 },
+		GSUcreateElement( "option", { value: "gain", selected: "" }, "gain" ),
+		GSUcreateElement( "option", { value: "pan" }, "pan" ),
+		GSUcreateElement( "option", { value: "lowpass" }, "lowpass" ),
+		GSUcreateElement( "option", { value: "highpass" }, "highpass" ),
+		GSUcreateElement( "option", { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
+		GSUcreateElement( "option", { value: "gainLFOAmp" }, "gain.lfo.amp" ),
 	);
-	#win = GSUI.$createElement( "gsui-timewindow", {
+	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,
 		panelsizemin: 100,
 		panelsizemax: 130,
@@ -45,11 +45,11 @@ class gsuiPianoroll extends HTMLElement {
 	constructor() {
 		super();
 		this.timeline = this.#win.timeline;
-		this.uiKeys = GSUI.$createElement( "gsui-keys" );
+		this.uiKeys = GSUcreateElement( "gsui-keys" );
 		this.onchange = null;
 		Object.seal( this );
 
-		GSUI.$listenEvents( this, {
+		GSUlistenEvents( this, {
 			gsuiTimewindow: {
 				pxperbeat: d => this.#ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
 				lineheight: d => this.#ongsuiTimewindowLineheight( d.args[ 0 ] ),
@@ -78,7 +78,7 @@ class gsuiPianoroll extends HTMLElement {
 	connectedCallback() {
 		if ( !this.firstChild ) {
 			this.classList.add( "gsuiBlocksManager" );
-			GSUI.$setAttribute( this, "tabindex", -1 );
+			GSUsetAttribute( this, "tabindex", -1 );
 			this.append( this.#win );
 			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
 			this.#win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this.#slidersSelect );
@@ -94,11 +94,11 @@ class gsuiPianoroll extends HTMLElement {
 		if ( prev !== val ) {
 			switch ( prop ) {
 				case "disabled":
-					GSUI.$setAttribute( this.#win, "disabled", val );
+					GSUsetAttribute( this.#win, "disabled", val );
 					break;
 				case "currenttime":
-					GSUI.$setAttribute( this.#win, "currenttime", val );
-					GSUI.$setAttribute( this.#uiSliderGroup, "currenttime", val );
+					GSUsetAttribute( this.#win, "currenttime", val );
+					GSUsetAttribute( this.#uiSliderGroup, "currenttime", val );
 					break;
 			}
 		}
@@ -115,13 +115,13 @@ class gsuiPianoroll extends HTMLElement {
 		this.onchange = cb.onchange;
 	}
 	timedivision( timediv ) {
-		GSUI.$setAttribute( this.#win, "timedivision", timediv );
-		GSUI.$setAttribute( this.#uiSliderGroup, "timedivision", timediv );
+		GSUsetAttribute( this.#win, "timedivision", timediv );
+		GSUsetAttribute( this.#uiSliderGroup, "timedivision", timediv );
 	}
 	loop( a, b ) {
-		GSUI.$setAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
-		GSUI.$setAttribute( this.#uiSliderGroup, "loopa", a );
-		GSUI.$setAttribute( this.#uiSliderGroup, "loopb", b );
+		GSUsetAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		GSUsetAttribute( this.#uiSliderGroup, "loopa", a );
+		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
 	}
 	scrollToMiddle() {
 		this.#win.scrollTop = this.#win.querySelector( ".gsuiTimewindow-rows" ).clientHeight / 2;
@@ -133,11 +133,11 @@ class gsuiPianoroll extends HTMLElement {
 			const key = +blc.dataset.keyNote;
 			const maxRow = +this.#win.querySelector( ".gsui-row" ).dataset.midi;
 
-			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUI.$getAttributeNum( this.#win, "lineheight" );
+			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUgetAttributeNum( this.#win, "lineheight" );
 		}
 	}
 	octaves( from, nb ) {
-		GSUI.$setAttribute( this.uiKeys, "octaves", `${ from } ${ nb }` );
+		GSUsetAttribute( this.uiKeys, "octaves", `${ from } ${ nb }` );
 
 		const rows = this.uiKeys.$getRows();
 
@@ -157,7 +157,7 @@ class gsuiPianoroll extends HTMLElement {
 	// Block's UI functions
 	// ........................................................................
 	addKey( id, obj ) {
-		const blc = GSUI.$getTemplate( "gsui-pianoroll-block" );
+		const blc = GSUgetTemplate( "gsui-pianoroll-block" );
 		const dragline = new gsuiDragline();
 
 		blc.dataset.id = id;
@@ -286,7 +286,7 @@ class gsuiPianoroll extends HTMLElement {
 	#ongsuiTimewindowPxperbeat( ppb ) {
 		this.#blcManager.setPxPerBeat( ppb );
 		this.#blcManager.getBlocks().forEach( blc => blc._dragline.redraw() );
-		GSUI.$setAttribute( this.#uiSliderGroup, "pxperbeat", ppb );
+		GSUsetAttribute( this.#uiSliderGroup, "pxperbeat", ppb );
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.setFontSize( px );
@@ -294,12 +294,12 @@ class gsuiPianoroll extends HTMLElement {
 		this.#blcManager.getBlocks().forEach( blc => blc._dragline.redraw() );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
-		GSUI.$setAttribute( this.#uiSliderGroup, "currenttime", t );
+		GSUsetAttribute( this.#uiSliderGroup, "currenttime", t );
 		return true;
 	}
 	#ongsuiTimelineChangeLoop( ret, a, b ) {
-		GSUI.$setAttribute( this.#uiSliderGroup, "loopa", a );
-		GSUI.$setAttribute( this.#uiSliderGroup, "loopb", b );
+		GSUsetAttribute( this.#uiSliderGroup, "loopa", a );
+		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
 		return ret;
 	}
 	#ongsuiSliderGroupInput( val ) {
@@ -407,7 +407,7 @@ class gsuiPianoroll extends HTMLElement {
 			if ( ext === "mid" || ext === "midi" ) {
 				e.preventDefault();
 				e.stopPropagation();
-				GSUI.$getFilesDataTransfert( files )
+				GSUgetFilesDataTransfert( files )
 					.then( files => this.#ondropMIDI( files[ 0 ] ) );
 			}
 		}
@@ -416,7 +416,7 @@ class gsuiPianoroll extends HTMLElement {
 		const rd = new FileReader();
 
 		rd.onload = e => {
-			GSUI.$dispatchEvent( this, "gsuiPianoroll", "midiDropped", new Uint8Array( e.target.result ) );
+			GSUdispatchEvent( this, "gsuiPianoroll", "midiDropped", new Uint8Array( e.target.result ) );
 		};
 		rd.readAsArrayBuffer( mid );
 	}

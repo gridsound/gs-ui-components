@@ -18,16 +18,16 @@ class gsuiSVGPatternsDrums {
 				: gsuiSVGPatternsDrums.#createDrumcut )( d.when, orders[ d.row ] * drmH, drmW, drmH ) );
 	}
 	static #createDrum( x, y, w, h ) {
-		return GSUI.$createElementSVG( "polygon", {
-			points: GSUI.$round( [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ], 3 ).join( "," ),
+		return GSUcreateElementSVG( "polygon", {
+			points: GSUroundNum( [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ], 3 ).join( "," ),
 		} );
 	}
 	static #createDrumcut( x, y, w, h ) {
-		return GSUI.$createElementSVG( "rect", {
-			x: GSUI.$round( x, 3 ),
-			y: GSUI.$round( y + h * .8, 3 ),
-			width: GSUI.$round( w * .9, 3 ),
-			height: GSUI.$round( h * .2, 3 ),
+		return GSUcreateElementSVG( "rect", {
+			x: GSUroundNum( x, 3 ),
+			y: GSUroundNum( y + h * .8, 3 ),
+			width: GSUroundNum( w * .9, 3 ),
+			height: GSUroundNum( h * .2, 3 ),
 		} );
 	}
 }
