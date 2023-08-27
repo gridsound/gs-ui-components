@@ -2,6 +2,7 @@
 
 class gsuiOscillator extends HTMLElement {
 	#timeidType = null;
+	#typeSaved = "";
 	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiOscillator" );
 	#selectWaves = {
 		sine: true,
@@ -136,7 +137,15 @@ class gsuiOscillator extends HTMLElement {
 		this.dataset.order = n;
 	}
 	#changeType( type ) {
+		const noise = type === "noise";
+
 		this.#elements.waveSelect.value = type;
+		GSUsetAttribute( this.#elements.sliders.detune[ 0 ], "disabled", noise );
+		GSUsetAttribute( this.#elements.sliders.detunefine[ 0 ], "disabled", noise );
+		GSUsetAttribute( this.#elements.sliders.unisonvoices[ 0 ], "disabled", noise );
+		GSUsetAttribute( this.#elements.sliders.unisondetune[ 0 ], "disabled", noise );
+		GSUsetAttribute( this.#elements.sliders.unisonblend[ 0 ], "disabled", noise );
+		this.updateWave( "type", type );
 	}
 	#changePropSlider( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
@@ -192,11 +201,11 @@ class gsuiOscillator extends HTMLElement {
 		const type = this.#elements.waveSelect.value;
 
 		clearTimeout( this.#timeidType );
-		this.updateWave( "type", type );
+		GSUsetAttribute( this, "type", type );
 		this.#dispatch( "liveChange", "type", type );
 		this.#timeidType = setTimeout( () => {
-			if ( type !== GSUgetAttribute( this, "type" ) ) {
-				GSUsetAttribute( this, "type", type );
+			if ( type !== this.#typeSaved ) {
+				this.#typeSaved = type;
 				this.#dispatch( "change", "type", type );
 			}
 		}, 700 );

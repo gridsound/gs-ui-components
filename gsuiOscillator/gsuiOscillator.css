@@ -72,6 +72,10 @@ gsui-oscillator {
 	font-size: 12px;
 	pointer-events: none;
 }
+gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderValue {
+	filter: grayscale( 1 );
+	opacity: .4;
+}
 
 /* .......................................................................... */
 .gsuiOscillator-waveWrap {
@@ -158,6 +162,9 @@ gsui-oscillator {
 	flex-direction: column;
 	align-items: center;
 	width: 10px;
+}
+gsui-oscillator[ type="noise" ] .gsuiOscillator-unisonGraph {
+	filter: grayscale( 1 );
 }
 .gsuiOscillator-unisonGraph-voices {
 	display: flex;

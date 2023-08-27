@@ -59,6 +59,7 @@ const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elOsc.addWaves( Array.from( waves.keys() ) );
+GSUsetAttribute( elOsc, "type", "noise" );
 </script>
 </body>
 </html>
