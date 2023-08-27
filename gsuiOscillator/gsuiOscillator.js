@@ -8,8 +8,9 @@ class gsuiOscillator extends HTMLElement {
 		triangle: true,
 		sawtooth: true,
 		square: true,
+		noise: true,
 	};
-	#children = GSUgetTemplate( "gsui-oscillator" );
+	#children = GSUgetTemplate( "gsui-oscillator", Object.keys( this.#selectWaves ) );
 	#elements = GSUfindElements( this.#children, {
 		waveSelect: ".gsuiOscillator-waveSelect",
 		wavePrev: ".gsuiOscillator-wavePrev",

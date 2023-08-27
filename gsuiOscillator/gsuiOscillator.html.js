@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-oscillator", () => {
+GSUsetTemplate( "gsui-oscillator", waves => {
 	return [
 		GSUcreateElement( "div", { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUcreateElement( "div", { class: "gsuiOscillator-waveWrap" },
@@ -9,9 +9,7 @@ GSUsetTemplate( "gsui-oscillator", () => {
 					GSUcreateElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
 					GSUcreateElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
 					GSUcreateElement( "select", { class: "gsuiOscillator-waveSelect" },
-						[ "sine", "triangle", "sawtooth", "square" ].map( w =>
-							GSUcreateElement( "option", { class: "gsuiOscillator-waveOptNative", value: w }, w )
-						)
+						waves.map( w => GSUcreateElement( "option", { class: "gsuiOscillator-waveOptNative", value: w }, w ) )
 					),
 				),
 				GSUcreateElement( "div", { class: "gsuiOscillator-wave" },
