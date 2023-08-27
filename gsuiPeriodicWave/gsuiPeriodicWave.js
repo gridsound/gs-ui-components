@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiPeriodicWave extends HTMLElement {
-	static #cache = {};
+	static #cache = { noise: Array.from( { length: 256 }, () => Math.random() * 2 - 1 ) };
 	#width = 0;
 	#height = 0;
 	#options = Object.seal( {
