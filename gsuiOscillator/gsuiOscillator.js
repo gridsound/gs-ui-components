@@ -35,8 +35,6 @@ class gsuiOscillator extends HTMLElement {
 		super();
 		Object.seal( this );
 
-		this.#elements.waves[ 0 ].frequency =
-		this.#elements.waves[ 1 ].frequency = 1;
 		this.#elements.waveSelect.onchange = this.#onchangeSelect.bind( this );
 		this.#elements.waveSelect.onkeydown = this.#onkeydownSelect.bind( this );
 		this.#elements.wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
@@ -124,15 +122,12 @@ class gsuiOscillator extends HTMLElement {
 	}
 	updateWave( prop, val ) {
 		const [ w0, w1 ] = this.#elements.waves;
+		const type = prop === "type" ? val : GSUgetAttribute( this, "type" );
 		const gain = prop === "gain" ? val : GSUgetAttributeNum( this, "gain" );
 		const pan = prop === "pan" ? val : GSUgetAttributeNum( this, "pan" );
 
-		w0.type =
-		w1.type = prop === "type" ? val : GSUgetAttribute( this, "type" );
-		w0.amplitude = Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 );
-		w1.amplitude = Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 );
-		w0.draw();
-		w1.draw();
+		w0.$options( { type, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
+		w1.$options( { type, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
 
 	// .........................................................................

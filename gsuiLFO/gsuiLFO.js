@@ -91,16 +91,18 @@ class gsuiLFO extends HTMLElement {
 	updateWave( prop, val ) {
 		const w = this.#elements.wave;
 		const bPM = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+		const opt = {
+			type: GSUgetAttribute( this, "type" ),
+			delay: prop === "delay" ? val : GSUgetAttributeNum( this, "delay" ),
+			attack: prop === "attack" ? val : GSUgetAttributeNum( this, "attack" ),
+			frequency: prop === "speed" ? val : GSUgetAttributeNum( this, "speed" ),
+			amplitude: prop === "amp" ? val : GSUgetAttributeNum( this, "amp" ),
+		};
 
-		w.type = GSUgetAttribute( this, "type" );
-		w.delay = prop === "delay" ? val : GSUgetAttributeNum( this, "delay" );
-		w.attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );
-		w.frequency = prop === "speed" ? val : GSUgetAttributeNum( this, "speed" );
-		w.amplitude = prop === "amp" ? val : GSUgetAttributeNum( this, "amp" );
-		w.duration =
-		this.#dur = Math.max( w.delay + w.attack + 2, bPM );
-		w.draw();
-		w.style.opacity = Math.min( 6 / w.frequency, 1 );
+		opt.duration =
+		this.#dur = Math.max( opt.delay + opt.attack + 2, bPM );
+		w.$options( opt );
+		w.style.opacity = Math.min( 6 / opt.frequency, 1 );
 		this.#updatePxPerBeat();
 	}
 
@@ -113,7 +115,7 @@ class gsuiLFO extends HTMLElement {
 		GSUsetAttribute( this.#elements.sliders.amp[ 0 ], "disabled", !b );
 	}
 	#changeType( type ) {
-		this.#elements.wave.type = type;
+		this.#elements.wave.$options( { type } );
 		this.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
 	}
 	#changeAmpSign( amp ) {
@@ -139,7 +141,7 @@ class gsuiLFO extends HTMLElement {
 	#onresize() {
 		this.#waveWidth = this.#elements.beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
-		this.#elements.wave.resized();
+		this.#elements.wave.$resized();
 	}
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
