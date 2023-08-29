@@ -41,6 +41,7 @@ body {
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
 <script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
+<script src="/gs-ui-components/gs-utils/gs-utils-json.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -60,6 +61,11 @@ const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elOsc.addWaves( Array.from( waves.keys() ) );
 GSUsetAttribute( elOsc, "type", "noise" );
+GSUsetAttribute( elOsc, "type", "sine" );
+GSUsetAttribute( elOsc, "type", "triangle" );
+GSUsetAttribute( elOsc, "type", "square" );
+GSUsetAttribute( elOsc, "type", "sawtooth" );
+GSUsetAttribute( elOsc, "gain", .5 );
 </script>
 </body>
 </html>

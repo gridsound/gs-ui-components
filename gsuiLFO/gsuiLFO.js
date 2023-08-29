@@ -44,6 +44,7 @@ class gsuiLFO extends HTMLElement {
 		if ( this.#children ) {
 			this.append( ...this.#children );
 			this.#children = null;
+			this.#elements.wave.$nbLines( 1 );
 			GSUrecallAttributes( this, {
 				toggle: false,
 				timedivision: "4/4",
@@ -101,7 +102,7 @@ class gsuiLFO extends HTMLElement {
 
 		opt.duration =
 		this.#dur = Math.max( opt.delay + opt.attack + 2, bPM );
-		w.$options( opt );
+		w.$options( 0, opt );
 		w.style.opacity = Math.min( 6 / opt.frequency, 1 );
 		this.#updatePxPerBeat();
 	}
@@ -115,7 +116,7 @@ class gsuiLFO extends HTMLElement {
 		GSUsetAttribute( this.#elements.sliders.amp[ 0 ], "disabled", !b );
 	}
 	#changeType( type ) {
-		this.#elements.wave.$options( { type } );
+		this.#elements.wave.$options( 0, { type } );
 		this.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
 	}
 	#changeAmpSign( amp ) {

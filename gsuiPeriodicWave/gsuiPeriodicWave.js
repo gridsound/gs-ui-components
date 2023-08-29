@@ -4,17 +4,8 @@ class gsuiPeriodicWave extends HTMLElement {
 	static #cache = { noise: Array.from( { length: 256 }, () => Math.random() * 2 - 1 ) };
 	#width = 0;
 	#height = 0;
-	#options = Object.seal( {
-		type: "",
-		delay: 0,
-		attack: 0,
-		frequency: 1,
-		amplitude: 1,
-		duration: 1,
-	} );
-	#svg = GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" },
-		GSUcreateElementSVG( "polyline" )
-	);
+	#options = [];
+	#svg = GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" } );
 
 	constructor() {
 		super();
@@ -30,9 +21,21 @@ class gsuiPeriodicWave extends HTMLElement {
 	}
 
 	// .........................................................................
-	$options( opt ) {
-		Object.assign( this.#options, opt );
-		this.$draw();
+	$nbLines( n ) {
+		GSUarrayLength( this.#options, n, () => Object.seal( {
+			type: "",
+			delay: 0,
+			attack: 0,
+			frequency: 1,
+			amplitude: 1,
+			duration: 1,
+			opacity: 1,
+		} ) );
+		GSUsetSVGChildrenNumber( this.#svg, n, "polyline" );
+	}
+	$options( lineN, opt ) {
+		Object.assign( this.#options[ lineN ], opt );
+		this.#drawLine( lineN );
 	}
 	$resized() {
 		const bcr = this.getBoundingClientRect();
@@ -42,20 +45,17 @@ class gsuiPeriodicWave extends HTMLElement {
 		this.#width = w;
 		this.#height = h;
 		GSUsetAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
-		this.$draw();
+		this.#options.forEach( ( _, i ) => this.#drawLine( i ) );
 	}
-	$draw() {
-		const type = this.#options.type;
+	#drawLine( lineN ) {
+		const opt = this.#options[ lineN ];
+		const wave = gsuiPeriodicWave.#cache[ opt.type ];
 
-		if ( this.firstChild && type ) {
-			const wave = gsuiPeriodicWave.#cache[ type ];
-
-			if ( wave ) {
-				GSUsetAttribute( this.#svg.firstChild, "points",
-					gsuiPeriodicWave.#draw( wave, this.#options, this.#width, this.#height ) );
-			} else {
-				console.error( `gsuiPeriodicWave: unknown wave "${ type }"` );
-			}
+		if ( opt && wave ) {
+			GSUsetAttribute( this.#svg.children[ lineN ], {
+				points: gsuiPeriodicWave.#draw( wave, opt, this.#width, this.#height ),
+				"stroke-opacity": opt.opacity,
+			} );
 		}
 	}
 

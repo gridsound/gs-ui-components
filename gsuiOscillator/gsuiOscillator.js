@@ -4,6 +4,7 @@ class gsuiOscillator extends HTMLElement {
 	#timeidType = null;
 	#typeSaved = "";
 	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiOscillator" );
+	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), 100 );
 	#selectWaves = {
 		sine: true,
 		triangle: true,
@@ -62,6 +63,8 @@ class gsuiOscillator extends HTMLElement {
 			GSUsetAttribute( this, "draggable", "true" );
 			this.append( ...this.#children );
 			this.#children = null;
+			this.#elements.waves[ 0 ].$nbLines( 1 );
+			this.#elements.waves[ 1 ].$nbLines( 1 );
 			GSUrecallAttributes( this, {
 				order: 0,
 				type: "sine",
@@ -73,7 +76,7 @@ class gsuiOscillator extends HTMLElement {
 				unisondetune: .2,
 				unisonblend: .3,
 			} );
-			this.updateWave();
+			this.#updateWaveDeb();
 		}
 	}
 	static get observedAttributes() {
@@ -105,6 +108,9 @@ class gsuiOscillator extends HTMLElement {
 					this.#changePropSlider( prop, num );
 					break;
 			}
+			if ( prop === "type" || prop === "gain" || prop === "pan" || prop === "detune" || prop === "detunefine" ) {
+				this.#updateWaveDeb();
+			}
 		}
 	}
 
@@ -120,16 +126,20 @@ class gsuiOscillator extends HTMLElement {
 			}
 		} );
 		Element.prototype.append.apply( this.#elements.waveSelect, opts );
-		this.updateWave();
+		this.#updateWaveDeb();
 	}
-	updateWave( prop, val ) {
+	#updateWave( prop, val ) {
 		const [ w0, w1 ] = this.#elements.waves;
 		const type = prop === "type" ? val : GSUgetAttribute( this, "type" );
 		const gain = prop === "gain" ? val : GSUgetAttributeNum( this, "gain" );
 		const pan = prop === "pan" ? val : GSUgetAttributeNum( this, "pan" );
+		const det = prop === "detune" ? val : GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );
+		const hz = type === "noise"
+			? 1
+			: 2 ** ( ( det - -24 ) / 12 );
 
-		w0.$options( { type, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
-		w1.$options( { type, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
+		w0.$options( 0, { type, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
+		w1.$options( 0, { type, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
 
 	// .........................................................................
@@ -145,7 +155,6 @@ class gsuiOscillator extends HTMLElement {
 		GSUsetAttribute( this.#elements.sliders.unisonvoices[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisondetune[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisonblend[ 0 ], "disabled", noise );
-		this.updateWave( "type", type );
 	}
 	#changePropSlider( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
@@ -160,15 +169,8 @@ class gsuiOscillator extends HTMLElement {
 			span.textContent = val2.toFixed( 2 );
 		}
 	}
-	#updateUnisonGraphVoices( voices ) {
-		const svg = this.#elements.unisonGraph;
-		const elVoices = [];
-
-		for ( let i = 0; i < voices; ++i ) {
-			elVoices.push( GSUcreateElement( "div", { class: "gsuiOscillator-unisonGraph-voice" } ) );
-		}
-		GSUemptyElement( svg );
-		svg.append( ...elVoices );
+	#updateUnisonGraphVoices( n ) {
+		GSUsetChildrenNumber( this.#elements.unisonGraph, n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
 		this.#updateUnisonGraphBlend( GSUgetAttributeNum( this, "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {
@@ -225,10 +227,10 @@ class gsuiOscillator extends HTMLElement {
 
 		switch ( prop ) {
 			case "gain":
-				this.updateWave( "gain", val );
+				this.#updateWave( "gain", val );
 				break;
 			case "pan":
-				this.updateWave( "pan", val );
+				this.#updateWave( "pan", val );
 				break;
 			case "unisonvoices":
 				this.#updateUnisonGraphVoices( val );
@@ -241,9 +243,11 @@ class gsuiOscillator extends HTMLElement {
 				break;
 			case "detune":
 				val2 += GSUgetAttributeNum( this, "detunefine" );
+				this.#updateWave( "detune", val2 );
 				break;
 			case "detunefine":
 				val2 += GSUgetAttributeNum( this, "detune" );
+				this.#updateWave( "detune", val2 );
 				break;
 		}
 		if ( span ) {
