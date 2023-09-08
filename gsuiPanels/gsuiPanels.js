@@ -10,6 +10,7 @@ class gsuiPanels extends HTMLElement {
 	#panBefore = null;
 	#panAfter = null;
 	#panAfterMinSize = 0;
+	#onresizeBind = this.#onresize.bind( this );
 
 	constructor() {
 		super();
@@ -20,6 +21,10 @@ class gsuiPanels extends HTMLElement {
 	// .........................................................................
 	connectedCallback() {
 		this.#init();
+		GSUobserveSizeOf( this, this.#onresizeBind );
+	}
+	disconnectedCallback() {
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 
 	// .........................................................................
@@ -34,13 +39,15 @@ class gsuiPanels extends HTMLElement {
 		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
 		this.#pans.map( p => [ p, p.getBoundingClientRect()[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
-				p.classList.add( 'gsuiPanels-panel' );
-				p.style[ this.#dir ] = `${ perc }%`;
+				const perc2 = GSUroundNum( perc, 1 );
+
+				p.classList.add( "gsuiPanels-panel" );
+				p.style[ this.#dir ] = `${ perc2 }%`;
 				p.style[ this.#pos ] = `${ x }%`;
 				if ( x > 0 ) {
 					p.append( GSUcreateElement( "div", { class: "gsuiPanels-extend" } ) );
 				}
-				return x + perc;
+				return x + perc2;
 			}, 0 );
 	}
 	static #incrSizePans( dir, mov, parentsize, pans ) {
@@ -53,7 +60,7 @@ class gsuiPanels extends HTMLElement {
 			let ret = mov;
 
 			if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
-				pan.style[ dir ] = `${ GSUroundNum( newsizeCorrect / parentsize * 100, 10 ) }%`;
+				pan.style[ dir ] = `${ GSUroundNum( newsizeCorrect / parentsize * 100, 2 ) }%`;
 				ret -= newsizeCorrect - size;
 				pan.onresizing?.( pan );
 			}
@@ -62,6 +69,46 @@ class gsuiPanels extends HTMLElement {
 	}
 
 	// .........................................................................
+	#onresize() {
+		const tot = this.getBoundingClientRect()[ this.#dir ];
+		const tot2 = this.#pans.reduce( ( sz, p ) => sz + p.getBoundingClientRect()[ this.#dir ], 0 );
+
+		if ( Math.abs( tot2 - tot ) > 0 ) {
+			const mindir = this.#dirX ? "minWidth" : "minHeight";
+			let pmax;
+			let pmin;
+			let pmaxPerc = 0;
+			let pminPerc = Infinity;
+
+			this.#pans.forEach( p => {
+				const st = getComputedStyle( p );
+				const perc = parseFloat( st[ this.#dir ] ) / parseFloat( st[ mindir ] );
+
+				if ( perc > pmaxPerc ) {
+					pmax = p;
+					pmaxPerc = perc;
+				}
+				if ( perc < pminPerc ) {
+					pmin = p;
+					pminPerc = perc;
+				}
+			} );
+
+			const pan = tot2 / tot > 1
+				? pmaxPerc > 1 ? pmax : null
+				: pminPerc < Infinity ? pmin : null;
+
+			if ( pan ) {
+				const perc = tot2 / tot * 100 - 100;
+
+				pan.style[ this.#dir ] = `${ parseFloat( pan.style[ this.#dir ] ) - perc }%`;
+			}
+		}
+		this.#pans.reduce( ( x, p ) => {
+			p.style[ this.#pos ] = `${ GSUroundNum( x / tot * 100, 2 ) }%`;
+			return x + p.getBoundingClientRect()[ this.#dir ];
+		}, 0 );
+	}
 	#onpointerdown( e ) {
 		const tar = e.target;
 		const pan = tar.parentNode;
