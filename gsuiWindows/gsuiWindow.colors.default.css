@@ -1,7 +1,6 @@
 gsui-window {
 	--gsuiWindow-bg: #444;
-	--gsuiWindow-color: #222;
-	--gsuiWindow-head-bg: #888;
+	--gsuiWindow-head-bg: #595959;
 	--gsuiWindow-border-color: #444;
 	--gsuiWindow-btn-close-color: #ba5d5d88;
 	--gsuiWindow-focused-border-color: #689acb;

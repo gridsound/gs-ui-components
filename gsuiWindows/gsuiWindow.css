@@ -81,7 +81,6 @@ gsui-window:not( .gsuiWindow-dragging ),
 	position: absolute;
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
-	color: var( --gsuiWindow-color );
 	background-color: var( --gsuiWindow-head-bg );
 	user-select: none;
 	-webkit-user-select: none;
