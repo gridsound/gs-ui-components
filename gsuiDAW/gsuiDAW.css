@@ -26,6 +26,13 @@ gsui-daw {
 	display: flex;
 	gap: inherit;
 }
+.gsuiDAW-body[ resources-hidden ] .gsuiDAW-resources {
+	display: none;
+}
+.gsuiDAW-body[ resources-hidden ] .gsuiDAW-windows {
+	left: 0 !important;
+	width: 100% !important;
+}
 .gsuiDAW-resources {
 	display: flex;
 	width: 300px;
@@ -33,10 +40,6 @@ gsui-daw {
 	max-width: 700px;
 	border-right: 3px solid #555;
 	background-color: #444;
-	transition: margin-left .2s;
-}
-.gsuiDAW-resources-closed {
-	margin-left: calc( var( --gsuiDAW-panel-margin, 0 ) - 3px );
 }
 .gsuiDAW-libraries {
 	flex: 1;

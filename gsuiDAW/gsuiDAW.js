@@ -36,6 +36,7 @@ class gsuiDAW extends HTMLElement {
 		cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
 		cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
 		historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
+		body: ".gsuiDAW-body",
 		patternsPanel: ".gsuiDAW-resources",
 		windows: "gsui-windows",
 		winBtns: {
@@ -393,10 +394,7 @@ class gsuiDAW extends HTMLElement {
 	toggleWindow( win, b ) {
 		GSUsetAttribute( this.#elements.winBtns[ win ], "data-open", b );
 		if ( win === "patterns" ) {
-			const pan = this.#elements.patternsPanel;
-
-			pan.style.setProperty( "--gsuiDAW-panel-margin", b ? '0' : `-${ getComputedStyle( pan ).width }` );
-			pan.classList.toggle( "gsuiDAW-resources-closed", !b );
+			GSUsetAttribute( this.#elements.body, "resources-hidden", !b );
 		}
 	}
 	clearHistory() {
