@@ -5,7 +5,7 @@ GSUsetTemplate( "gsui-daw-popup-export", () =>
 		GSUcreateElement( "fieldset", null,
 			GSUcreateElement( "legend", null, "Render the current composition" ),
 			GSUcreateElement( "div", { class: "gsuiDAW-popup-export-wrap" },
-				GSUcreateElement( "a", { href: true, class: "gsuiDAW-popup-export-btn", "data-status": 0 },
+				GSUcreateA( { class: "gsuiDAW-popup-export-btn", "data-status": 0 },
 					GSUcreateElement( "span", { class: "gsuiDAW-popup-export-btn0" },
 						GSUcreateElement( "span", null, "Render" ),
 						GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "render" } ),

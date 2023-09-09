@@ -22,8 +22,8 @@ GSUsetTemplate( "gsui-daw-popup-auth", () =>
 			),
 			GSUcreateElement( "div", { class: "gsuiDAW-popup-auth-error" } ),
 		),
-		GSUcreateElement( "a", { target: "_blank", rel: "noopener", href: "https://gridsound.com/#/forgotPassword" }, "Forgot password ?" ),
+		GSUcreateAExt( { href: "https://gridsound.com/#/forgotPassword" }, "Forgot password ?" ),
 		GSUcreateElement( "br" ),
-		GSUcreateElement( "a", { target: "_blank", rel: "noopener", href: "https://gridsound.com/#/auth" }, "Create a new account" ),
+		GSUcreateAExt( { href: "https://gridsound.com/#/auth" }, "Create a new account" ),
 	)
 );

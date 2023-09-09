@@ -57,7 +57,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		GSUcreateElement( "div", { id: "testFoot" },
 			GSUcreateElement( "div", { id: "testCopyright" },
 				GSUcreateElement( "span", null, "© 2023 " ),
-				GSUcreateElement( "a", { href: "https://gridsound.com" }, "gridsound.com" ),
+				GSUcreateA( { href: "https://gridsound.com" }, "gridsound.com" ),
 				GSUcreateElement( "span", null, " all rights reserved" ),
 			),
 		),
