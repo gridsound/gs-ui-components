@@ -46,7 +46,7 @@ GSUsetTemplate( "gsui-fx-filter", () => [
 ] );
 
 GSUsetTemplate( "gsui-fx-filter-type", ( type, d ) =>
-	GSUcreateElement( "button", { class: "gsuiFxFilter-areaType-btn", "data-type": type, title: type },
+	GSUcreateButton( { class: "gsuiFxFilter-areaType-btn", "data-type": type, title: type },
 		GSUcreateElementSVG( "svg", { viewBox: "0 0 16 12" },
 			GSUcreateElementSVG( "path", { d } ),
 		),

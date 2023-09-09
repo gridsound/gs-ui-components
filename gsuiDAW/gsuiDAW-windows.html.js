@@ -7,7 +7,7 @@ GSUsetTemplate( "gsui-daw-window-main", () =>
 GSUsetTemplate( "gsui-daw-window-piano", () =>
 	GSUcreateElement( "div", { "data-window": "piano" },
 		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
+			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
 		),
 	)
 );
@@ -15,9 +15,9 @@ GSUsetTemplate( "gsui-daw-window-piano", () =>
 GSUsetTemplate( "gsui-daw-window-synth", () =>
 	GSUcreateElement( "div", { "data-window": "synth" },
 		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
+			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
 			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "arrow-right" } ),
-			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "synthChannel" },
+			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "synthChannel" },
 				GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "mixer" } ),
 				GSUcreateElement( "span" ),
 			),
@@ -32,7 +32,7 @@ GSUsetTemplate( "gsui-daw-window-mixer", () =>
 GSUsetTemplate( "gsui-daw-window-effects", () =>
 	GSUcreateElement( "div", { "data-window": "effects" },
 		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "channel" } ),
+			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "channel" } ),
 		),
 	)
 );
@@ -40,7 +40,7 @@ GSUsetTemplate( "gsui-daw-window-effects", () =>
 GSUsetTemplate( "gsui-daw-window-drums", () =>
 	GSUcreateElement( "div", { "data-window": "drums" },
 		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "drums" } ),
+			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "drums" } ),
 		),
 	)
 );
@@ -48,7 +48,7 @@ GSUsetTemplate( "gsui-daw-window-drums", () =>
 GSUsetTemplate( "gsui-daw-window-slicer", () =>
 	GSUcreateElement( "div", { "data-window": "slicer" },
 		GSUcreateElement( "div", { class: "gsuiDAW-winMenu" },
-			GSUcreateElement( "button", { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
+			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
 		),
 	)
 );

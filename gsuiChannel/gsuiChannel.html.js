@@ -1,11 +1,11 @@
 "use strict";
 
 GSUsetTemplate( "gsui-channel", () => [
-	GSUcreateElement( "button", { class: "gsuiChannel-nameWrap" },
+	GSUcreateButton( { class: "gsuiChannel-nameWrap" },
 		GSUcreateElement( "span", { class: "gsuiChannel-name" } ),
 	),
-	GSUcreateElement( "button", { class: "gsuiChannel-headBtn gsuiChannel-rename gsuiIcon", "data-icon": "pen", title: "Rename the channel" } ),
-	GSUcreateElement( "button", { class: "gsuiChannel-headBtn gsuiChannel-delete gsuiIcon", "data-icon": "close", title: "Remove the channel" } ),
+	GSUcreateButton( { class: "gsuiChannel-headBtn gsuiChannel-rename gsuiIcon", "data-icon": "pen", title: "Rename the channel" } ),
+	GSUcreateButton( { class: "gsuiChannel-headBtn gsuiChannel-delete gsuiIcon", "data-icon": "close", title: "Remove the channel" } ),
 	GSUcreateElement( "div", { class: "gsuiChannel-analyser" },
 		GSUcreateElement( "gsui-analyser" ),
 		GSUcreateElement( "div", { class: "gsuiChannel-effects" } ),
@@ -17,7 +17,7 @@ GSUsetTemplate( "gsui-channel", () => [
 	GSUcreateElement( "div", { class: "gsuiChannel-gain" },
 		GSUcreateElement( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .01, "mousemove-size": 400, "data-prop": "gain" } ),
 	),
-	GSUcreateElement( "button", { class: "gsuiChannel-connect" },
+	GSUcreateButton( { class: "gsuiChannel-connect" },
 		GSUcreateElement( "i", { class: "gsuiChannel-connectA gsuiIcon", "data-icon": "caret-up" } ),
 		GSUcreateElement( "i", { class: "gsuiChannel-connectB gsuiIcon", "data-icon": "caret-up" } ),
 	),
@@ -25,7 +25,7 @@ GSUsetTemplate( "gsui-channel", () => [
 ] );
 
 GSUsetTemplate( "gsui-channel-effect", ( id, name ) =>
-	GSUcreateElement( "button", { class: "gsuiChannel-effect gsuiChannel-effect-enable", "data-id": id },
+	GSUcreateButton( { class: "gsuiChannel-effect gsuiChannel-effect-enable", "data-id": id },
 		GSUcreateElement( "span", { class: "gsuiChannel-effect-name" }, name ),
 	),
 );

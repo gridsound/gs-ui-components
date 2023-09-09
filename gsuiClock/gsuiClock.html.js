@@ -9,7 +9,7 @@ GSUsetTemplate( "gsui-clock", () => [
 			GSUcreateElement( "span", { class: "gsuiClock-modeText" } ),
 		),
 	),
-	GSUcreateElement( "button", { class: "gsuiClock-modes" },
+	GSUcreateButton( { class: "gsuiClock-modes" },
 		GSUcreateElement( "div", { class: "gsuiClock-mode gsuiClock-beat" } ),
 		GSUcreateElement( "div", { class: "gsuiClock-mode gsuiClock-second" } ),
 	)

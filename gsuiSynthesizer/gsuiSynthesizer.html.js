@@ -20,7 +20,7 @@ GSUsetTemplate( "gsui-synthesizer", () => {
 			GSUcreateElement( "span", { class: "gsuiSynthesizer-label gsuiSynthesizer-labelGain" }, "gain" ),
 		),
 		GSUcreateElement( "div", { class: "gsuiSynthesizer-oscList" },
-			GSUcreateElement( "button", { class: "gsuiSynthesizer-newOsc" },
+			GSUcreateButton( { class: "gsuiSynthesizer-newOsc" },
 				GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
 			),
 		),

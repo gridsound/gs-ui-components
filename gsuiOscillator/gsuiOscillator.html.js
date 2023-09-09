@@ -6,8 +6,8 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 		GSUcreateElement( "div", { class: "gsuiOscillator-waveWrap" },
 			GSUcreateElement( "div", { class: "gsuiOscillator-waveWrap-left" },
 				GSUcreateElement( "div", { class: "gsuiOscillator-waveWrap-top" },
-					GSUcreateElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
-					GSUcreateElement( "button", { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
+					GSUcreateButton( { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
+					GSUcreateButton( { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
 					GSUcreateElement( "select", { class: "gsuiOscillator-waveSelect" },
 						waves.map( w => GSUcreateElement( "option", { class: "gsuiOscillator-waveOptNative", value: w }, w ) )
 					),
@@ -39,6 +39,6 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 				GSUcreateElement( "div", { class: "gsuiOscillator-sliderValue" } ),
 			)
 		),
-		GSUcreateElement( "button", { class: "gsuiOscillator-remove gsuiIcon", "data-icon": "close", title: "Remove the oscillator" } ),
+		GSUcreateButton( { class: "gsuiOscillator-remove gsuiIcon", "data-icon": "close", title: "Remove the oscillator" } ),
 	].flat( 1 );
 } );

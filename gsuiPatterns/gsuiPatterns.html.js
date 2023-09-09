@@ -38,7 +38,7 @@ GSUsetTemplate( "gsui-patterns-panel", obj =>
 			GSUcreateElement( "i", { class: "gsuiPatterns-panel-icon gsuiIcon", "data-icon": obj.icon } ),
 			GSUcreateElement( "span", { class: "gsuiPatterns-panel-title" }, obj.title ),
 			obj.button &&
-				GSUcreateElement( "button", { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
+				GSUcreateButton( { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
 					GSUcreateElement( "i", { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "plus" } ),
 				),
 		),

@@ -3,7 +3,7 @@
 GSUsetTemplate( "gsui-channels", () => [
 	GSUcreateElement( "div", { class: "gsuiChannels-panMain" } ),
 	GSUcreateElement( "div", { class: "gsuiChannels-panChannels" },
-		GSUcreateElement( "button", { class: "gsuiChannels-addChan", title: "Add a channel" },
+		GSUcreateButton( { class: "gsuiChannels-addChan", title: "Add a channel" },
 			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "channels" } ),
 			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "plus" } ),
 		),

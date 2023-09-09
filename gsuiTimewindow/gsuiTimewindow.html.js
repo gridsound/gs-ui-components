@@ -3,7 +3,7 @@
 GSUsetTemplate( "gsui-timewindow", () => [
 	GSUcreateElement( "div", { class: "gsuiTimewindow-panel" },
 		GSUcreateElement( "div", { class: "gsuiTimewindow-panelUp" },
-			GSUcreateElement( "button", { class: "gsuiTimewindow-step" },
+			GSUcreateButton( { class: "gsuiTimewindow-step" },
 				GSUcreateElement( "span", { class: "gsuiTimewindow-stepValue" } ),
 				GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "magnet" } ),
 			),
