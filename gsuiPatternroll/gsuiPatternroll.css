@@ -8,12 +8,16 @@ gsui-patternroll gsui-track {
 }
 
 .gsuiPatternroll-block {
+	container: gsuiPatternrollBlock / inline-size;
 	box-sizing: border-box;
 	white-space: nowrap;
 	color: var( --gsuiPatterns-pattern-color );
-	border-radius: 1px;
+	border-radius: 2px;
 	border-top: 2px solid #ffffff4f;
-	border-bottom: 2px solid #0000000d;
+	border-bottom: 2px solid #0000001f;
+	border-left: 2px solid #ffffff69;
+	border-right: 1px solid #00000033;
+	box-shadow: 0 0 0px 1px #00000047;
 	--gsuiPatterns-pattern-color: #223;
 }
 .gsui-mute .gsuiPatternroll-block {
@@ -86,4 +90,11 @@ gsui-patternroll gsui-track {
 	text-overflow: ellipsis;
 	user-select: none;
 	-webkit-user-select: none;
+}
+
+/* .......................................................................... */
+@container gsuiPatternrollBlock ( max-width: 32px ) {
+	.gsuiPatternroll-block-name {
+		display: none;
+	}
 }

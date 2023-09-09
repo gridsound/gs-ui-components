@@ -238,7 +238,7 @@ class gsuiPianoroll extends HTMLElement {
 			case "key": {
 				const row = this.#getRowByMidi( val );
 
-				el.dataset.key = gsuiKeys.keyNames.en[ row.dataset.key ];
+				el.firstChild.textContent = gsuiKeys.keyNames.en[ row.dataset.key ];
 				row.firstElementChild.append( el );
 				this.#blockRedrawDragline( el );
 			} break;

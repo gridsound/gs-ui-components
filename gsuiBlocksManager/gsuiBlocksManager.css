@@ -27,7 +27,8 @@
 .gsuiBlocksManager-block {
 	position: absolute;
 	z-index: 1;
-	height: 100%;
+	top: 0;
+	bottom: 0;
 	background-color: var( --gsuiBlocksManager-blockColor );
 	transition: .1s;
 	transition-property: opacity, background-color;

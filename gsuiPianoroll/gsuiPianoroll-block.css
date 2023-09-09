@@ -1,20 +1,20 @@
 .gsuiPianoroll-block {
+	container: gsuiPianorollBlock / size;
 	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
 }
-.gsuiPianoroll-block::after {
-	content: attr( data-key );
+
+/* .......................................................................... */
+.gsuiPianoroll-block-key {
 	position: absolute;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	left: 0;
-	width: 16px;
-	max-width: 100%;
+	left: 4px;
 	height: 100%;
 	color: #000;
 	font-size: 11px;
 	font-weight: bold;
 	opacity: .4;
+	user-select: none;
 	pointer-events: none;
 }
 
@@ -36,7 +36,6 @@
 	left: -4px;
 }
 
-/* .gsuiDragline-to */
 /* .......................................................................... */
 .gsuiPianoroll-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
 	background-color: transparent;
@@ -48,4 +47,16 @@
 .gsuiPianoroll-block:hover      .gsuiDragline-linked .gsuiDragline-to,
 .gsuiPianoroll-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
 	transform: translateX( -2px );
+}
+
+/* .......................................................................... */
+@container gsuiPianorollBlock ( max-width: 24px ) {
+	.gsuiPianoroll-block-key {
+		display: none;
+	}
+}
+@container gsuiPianorollBlock ( max-height: 14px ) {
+	.gsuiPianoroll-block-key {
+		font-size: 10px;
+	}
 }
