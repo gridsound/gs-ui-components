@@ -76,7 +76,6 @@ gsui-track[ mute ] .gsuiTrack-name {
 	color: inherit;
 	font-style: italic;
 	font-weight: normal;
-	opacity: .3;
 }
 .gsuiTrack-name:focus::placeholder {
 	color: transparent;

@@ -15,7 +15,7 @@ gsui-libraries {
 	line-height: 1;
 	padding: 0 6px;
 	font-size: 11px;
-	background-color: var( --gsuiLibraries-head-bg );
+	background-color: var( --gsui-win-head-bg );
 	user-select: none;
 }
 .gsuiLibraries-head-icon,

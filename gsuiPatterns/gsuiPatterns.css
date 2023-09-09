@@ -61,7 +61,7 @@ gsui-patterns {
 	gap: 4px;
 	padding: 0 6px;
 	font-size: 11px;
-	background-color: var( --gsuiPatterns-panel-menu-bg );
+	background-color: var( --gsui-win-head-bg );
 	user-select: none;
 }
 .gsuiPatterns-panel:not( :first-child ) .gsuiPatterns-panel-menu {

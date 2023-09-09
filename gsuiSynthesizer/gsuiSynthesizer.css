@@ -20,7 +20,7 @@ gsui-synthesizer {
 	user-select: none;
 	padding-top: 2px;
 	border-bottom: 2px solid #0002;
-	background-color: var( --gsui-head-bg );
+	background-color: var( --gsui-win-head2-bg );
 }
 .gsuiSynthesizer-headTitle {
 	font-size: 10px;

@@ -37,19 +37,19 @@ gsui-timewindow[ disabled ] {
 }
 .gsuiTimewindow-panelUp,
 .gsuiTimewindow-time {
+	box-sizing: border-box;
 	position: sticky;
 	z-index: 2;
 	top: 0;
 	height: 32px;
+	border-bottom: 2px solid #0005;
 }
 .gsuiTimewindow-panelUp {
-    box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	padding-right: 4px;
-	border-bottom: 2px solid #0005;
-	background-color: var( --gsui-head-bg );
+	background-color: var( --gsui-win-head2-bg );
 }
 .gsuiTimewindow-panelContent,
 .gsuiTimewindow-mainBody {

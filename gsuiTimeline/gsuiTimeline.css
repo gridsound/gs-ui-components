@@ -6,7 +6,6 @@ gsui-timeline {
 	position: relative;
 	display: block;
 	height: 100%;
-	color: var( --gsuiTimeline-color );
 	background-color: var( --gsuiTimeline-bg );
 	--gsuiTimeline-beats-offset: 0;
 	--gsuiTimeline-beats-incr: 1;

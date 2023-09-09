@@ -7,7 +7,7 @@ gsui-daw {
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
-	color: var( --gsuiDAW-color );
+	color: var( --gsui-col-text );
 	font-size: 16px;
 	background-color: var( --gsuiDAW-bg );
 }
@@ -21,6 +21,7 @@ gsui-daw {
 		"areaUser    areaCtrl    areaHist    areaHelp" 28px
 		"areaSave    areaTime    areaWins    areaVers" 20px
 		/min-content min-content min-content 1fr;
+	border-bottom: 2px solid var( --gsui-win-brd );
 }
 .gsuiDAW-area {
 	display: flex;
@@ -38,8 +39,8 @@ gsui-daw {
 	width: 300px;
 	min-width: 330px;
 	max-width: 700px;
-	border-right: 3px solid #555;
-	background-color: #444;
+	border-right: 3px solid var( --gsui-win-brd );
+	background-color: var( --gsui-items-bg );
 }
 .gsuiDAW-libraries {
 	flex: 1;

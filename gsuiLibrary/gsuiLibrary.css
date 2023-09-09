@@ -52,6 +52,7 @@ gsui-library {
 	cursor: pointer;
 	border: 0;
 	padding: 4px;
+	color: inherit;
 	font-size: 9px;
 	font-weight: bold;
 	background: none;

@@ -18,7 +18,7 @@ gsui-window:not( .gsuiWindow-show ) {
 }
 gsui-window:focus-within {
 	--gsuiWindow-title-opacity: 1;
-	--gsuiWindow-border-color: var( --gsuiWindow-focused-border-color );
+	--gsui-win-brd: var( --gsui-win-brd-foc );
 }
 .gsuiWindow-maximized {
 	--gsuiWindow-radius: 0;
@@ -30,7 +30,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 .gsuiWindows-lowGraphics .gsuiWindow-dragging {
 	box-shadow: 0 0 0
 		var( --gsuiWindow-border-width )
-		var( --gsuiWindow-border-color );
+		var( --gsui-win-brd );
 }
 
 /* .......................................................................... */
@@ -81,7 +81,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 	position: absolute;
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
-	background-color: var( --gsuiWindow-head-bg );
+	background-color: var( --gsui-win-head-bg );
 	user-select: none;
 	-webkit-user-select: none;
 }
@@ -95,7 +95,6 @@ gsui-window:not( .gsuiWindow-dragging ),
 	position: absolute;
 	overflow: auto;
 	inset: var( --gsuiWindow-head-height ) 0 0;
-	background-color: var( --gsuiWindow-bg );
 }
 .gsuiWindow-minimized .gsuiWindow-content {
 	display: none;
@@ -166,7 +165,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 }
 .gsuiWindow-headBtn[ data-action="close" ]:focus-visible,
 .gsuiWindow-headBtn[ data-action="close" ]:hover {
-	background-color: var( --gsuiWindow-btn-close-color );
+	background-color: var( --gsui-win-close );
 }
 
 gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="minimize" ],

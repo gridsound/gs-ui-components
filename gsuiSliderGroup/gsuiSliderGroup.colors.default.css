@@ -3,7 +3,7 @@ gsui-slidergroup {
 	--gsuiSliderGroup-defaultValue-color: #0004;
 	--gsuiSliderGroup-slider-width: 6px;
 	--gsuiSliderGroup-slider-bg: #0002;
-	--gsuiSliderGroup-slider-color: rgba( var( --gsui-rgb-pattern ), .8 );
-	--gsuiSliderGroup-slider-color-selected: rgba( var( --gsui-rgb-patternSelected ), .8 );
+	--gsuiSliderGroup-slider-color: var( --gsui-col-pattern8 );
+	--gsuiSliderGroup-slider-color-selected: var( --gsui-col-patternSelected8 );
 	--gsuiSliderGroup-loop-color: #0004;
 }

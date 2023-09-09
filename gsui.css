@@ -1,25 +1,24 @@
 body {
 	color-scheme: dark;
-	--gsui-rgb-pan: 221, 153, 255;                      /* #d9f */
-	--gsui-rgb-gain: 255, 255, 153;                     /* #ff9 */
-	--gsui-rgb-time: 255, 119, 119;                     /* #f77 */
-	--gsui-rgb-detune: 255, 255, 255;                   /* #fff */
-	--gsui-rgb-unison: 255, 153,  85;                   /* #f95 */
-	--gsui-rgb-pattern: 85, 170, 204;                   /* #5ac */
-	--gsui-rgb-patternSelected: 255, 136, 136;          /* #f88 */
-	--gsui-rgb-currentTimeCursor: 255, 255, 153;        /* #ff9 */
-	--gsui-col-pan: rgb( var( --gsui-rgb-pan ) );
-	--gsui-col-gain: rgb( var( --gsui-rgb-gain ) );
-	--gsui-col-time: rgb( var( --gsui-rgb-time ) );
-	--gsui-col-detune: rgb( var( --gsui-rgb-detune ) );
-	--gsui-col-unison: rgb( var( --gsui-rgb-unison ) );
-	--gsui-col-pattern: rgb( var( --gsui-rgb-pattern ) );
+	--gsui-col-text: #fff;
+	--gsui-col-pan: #d9f;
+	--gsui-col-gain: #ff9;
+	--gsui-col-time: #f77;
+	--gsui-col-detune: #fff;
+	--gsui-col-unison: #f95;
 	--gsui-col-lowpass: #d96;
-	--gsui-col-patternSelected: rgb( var( --gsui-rgb-patternSelected ) );
-	--gsui-col-currentTimeCursor: rgb( var( --gsui-rgb-currentTimeCursor ) );
-
-	/* ...................................................................... */
-	--gsui-head-bg: #3a3a3a;
+	--gsui-col-currentTimeCursor: #ff9;
+	--gsui-col-currentTimeCursor-1: #ff91;
+	--gsui-col-pattern: #5ac;
+	--gsui-col-pattern8: #5acb;
+	--gsui-col-pattern2: #5ac4;
+	--gsui-col-patternSelected: #f88;
+	--gsui-col-patternSelected8: #f88b;
+	--gsui-win-head-bg: #595959;
+	--gsui-win-head2-bg: #3a3a3a;
+	--gsui-win-brd: #3a3a3a;
+	--gsui-win-brd-foc: #689acb;
+	--gsui-win-close: #ba5d5d;
 	--gsui-items-bg: #474747;
 	--gsui-item-bg: #5c5c5c;
 	--gsui-item-more-bg: #fff2;

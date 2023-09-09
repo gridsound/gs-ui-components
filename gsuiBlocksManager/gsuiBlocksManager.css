@@ -2,8 +2,8 @@
 	--gsuiBlocksManager-timeline-height: 32px;
 	--gsuiBlocksManager-selection-bgColor: #b226;
 	--gsuiBlocksManager-selection-borderColor: #f44;
-	--gsuiBlocksManager-blockColor: rgba( var( --gsui-rgb-pattern ), .8 );
-	--gsuiBlocksManager-blockSelectedColor: rgba( var( --gsui-rgb-patternSelected ), .8 );
+	--gsuiBlocksManager-blockColor: var( --gsui-col-pattern8 );
+	--gsuiBlocksManager-blockSelectedColor: var( --gsui-col-patternSelected8 );
 }
 
 /* .......................................................................... */
