@@ -78,7 +78,7 @@ class gsuiDrumrow extends HTMLElement {
 		}
 	}
 	$play() {
-		this.#elements.waveWrap.append( GSUcreateElement( "div", { class: "gsuiDrumrow-startCursor" } ) );
+		this.#elements.waveWrap.append( GSUcreateDiv( { class: "gsuiDrumrow-startCursor" } ) );
 	}
 	$stop() {
 		this.querySelectorAll( ".gsuiDrumrow-startCursor" ).forEach( el => el.remove() );

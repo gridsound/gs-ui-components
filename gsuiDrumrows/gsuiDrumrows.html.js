@@ -1,11 +1,11 @@
 "use strict";
 
 GSUsetTemplate( "gsui-drumrows", () => [
-	GSUcreateElement( "div", { class: "gsuiDrumrows-drop" },
-		GSUcreateElement( "div", { class: "gsuiDrumrows-dropIn" },
-			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
-			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
-			GSUcreateElement( "i", { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
+	GSUcreateDiv( { class: "gsuiDrumrows-drop" },
+		GSUcreateDiv( { class: "gsuiDrumrows-dropIn" },
+			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
+			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
+			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
 		),
 	),
 ] );

@@ -88,7 +88,7 @@ class gsuiChannels extends HTMLElement {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.append(
 				...Object.entries( chans ).map(
-					kv => GSUcreateElement( "option", { value: kv[ 0 ] }, kv[ 1 ].name ) )
+					kv => GSUcreateOption( { value: kv[ 0 ] }, kv[ 1 ].name ) )
 			);
 			gsuiChannels.#selectChanInput.value = currChanId;
 			GSUpopup.custom( {

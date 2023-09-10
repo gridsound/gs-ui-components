@@ -97,7 +97,7 @@ class gsuiLibrary extends HTMLElement {
 
 		this.stopSample();
 		this.#idPlaying = id;
-		this.#elCursor = GSUcreateElement( "div", { class: "gsuiLibrary-sample-cursor" } );
+		this.#elCursor = GSUcreateDiv( { class: "gsuiLibrary-sample-cursor" } );
 		this.#elCursor.style.left = "0%";
 		this.#elCursor.style.transitionDuration = `${ dur }s`;
 		el.classList.add( "gsuiLibrary-sample-playing" );

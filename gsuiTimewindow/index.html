@@ -102,8 +102,8 @@ document.querySelector( "#timeDisabled" ).onchange = e => {
 	GSUsetAttribute( win, "disabled", e.target.checked );
 };
 for ( let i = 0; i < 10; ++i ) {
-	tracks.push( GSUcreateElement( "div", { class: "myRow" }, `track ${ i }` ) );
-	rows.push( GSUcreateElement( "div", { class: "myRow" }, `row ${ i }` ) );
+	tracks.push( GSUcreateDiv( { class: "myRow" }, `track ${ i }` ) );
+	rows.push( GSUcreateDiv( { class: "myRow" }, `row ${ i }` ) );
 }
 document.querySelector( ".gsuiTimewindow-panelContent" ).append( ...tracks );
 document.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );

@@ -45,7 +45,7 @@ class gsuiPanels extends HTMLElement {
 				p.style[ this.#dir ] = `${ perc2 }%`;
 				p.style[ this.#pos ] = `${ x }%`;
 				if ( x > 0 ) {
-					p.append( GSUcreateElement( "div", { class: "gsuiPanels-extend" } ) );
+					p.append( GSUcreateDiv( { class: "gsuiPanels-extend" } ) );
 				}
 				return x + perc2;
 			}, 0 );

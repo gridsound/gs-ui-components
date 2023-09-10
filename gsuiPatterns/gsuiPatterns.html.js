@@ -33,19 +33,19 @@ GSUsetTemplate( "gsui-patterns", () =>
 );
 
 GSUsetTemplate( "gsui-patterns-panel", obj =>
-	GSUcreateElement( "div", { class: `gsuiPatterns-panel gsuiPatterns-panel${ obj.class }` },
-		GSUcreateElement( "div", { class: "gsuiPatterns-panel-menu" },
-			GSUcreateElement( "i", { class: "gsuiPatterns-panel-icon gsuiIcon", "data-icon": obj.icon } ),
-			GSUcreateElement( "span", { class: "gsuiPatterns-panel-title" }, obj.title ),
+	GSUcreateDiv( { class: `gsuiPatterns-panel gsuiPatterns-panel${ obj.class }` },
+		GSUcreateDiv( { class: "gsuiPatterns-panel-menu" },
+			GSUcreateI( { class: "gsuiPatterns-panel-icon gsuiIcon", "data-icon": obj.icon } ),
+			GSUcreateSpan( { class: "gsuiPatterns-panel-title" }, obj.title ),
 			obj.button &&
 				GSUcreateButton( { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
-					GSUcreateElement( "i", { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "plus" } ),
+					GSUcreateI( { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "plus" } ),
 				),
 		),
-		GSUcreateElement( "div", { class: "gsuiPatterns-panel-list-wrap" },
-			GSUcreateElement( "div", { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-panel-list" } ),
-			GSUcreateElement( "div", { class: "gsuiPatterns-placeholder", inert: true },
-				GSUcreateElement( "span", null, obj.placeholder ),
+		GSUcreateDiv( { class: "gsuiPatterns-panel-list-wrap" },
+			GSUcreateDiv( { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-panel-list" } ),
+			GSUcreateDiv( { class: "gsuiPatterns-placeholder", inert: true },
+				GSUcreateSpan( null, obj.placeholder ),
 			),
 		),
 	)

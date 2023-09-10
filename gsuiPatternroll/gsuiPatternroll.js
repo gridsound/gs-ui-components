@@ -3,7 +3,7 @@
 class gsuiPatternroll extends HTMLElement {
 	#rowsByTrackId = new Map();
 	#tracklist = GSUcreateElement( "gsui-tracklist" );
-	#selectionElement = GSUcreateElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 90,
 		panelsizemin: 24,

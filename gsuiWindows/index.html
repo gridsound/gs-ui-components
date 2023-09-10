@@ -81,9 +81,9 @@ document.querySelector( "#winA" ).onclick = () => winA.$open();
 document.querySelector( "#winB" ).onclick = () => winB.$open();
 document.querySelector( "#winC" ).onclick = () => winC.$open();
 addBtn.onclick = () => {
-	winA.$contentAppend( GSUcreateElement( "span", { class: "myContent" }, "A" ) );
-	winB.$contentAppend( GSUcreateElement( "span", { class: "myContent" }, "B" ) );
-	winC.$contentAppend( GSUcreateElement( "span", { class: "myContent" }, "C" ) );
+	winA.$contentAppend( GSUcreateSpan( { class: "myContent" }, "A" ) );
+	winB.$contentAppend( GSUcreateSpan( { class: "myContent" }, "B" ) );
+	winC.$contentAppend( GSUcreateSpan( { class: "myContent" }, "C" ) );
 };
 
 GSUsetAttribute( winA, { x:  10, y: 10, w: 140, h: 100, icon: "osc-square", name: "Aaa" } );

@@ -151,7 +151,7 @@ class gsuiDotline extends HTMLElement {
 
 	// .........................................................................
 	#createDotElement( id ) {
-		const el = GSUcreateElement( "div", { class: "gsuiDotline-dot", "data-id": id } );
+		const el = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
 
 		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
 		this.#dots[ id ] = el;

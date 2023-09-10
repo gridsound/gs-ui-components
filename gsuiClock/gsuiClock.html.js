@@ -1,16 +1,16 @@
 "use strict";
 
 GSUsetTemplate( "gsui-clock", () => [
-	GSUcreateElement( "div", { class: "gsuiClock-relative", inert: true },
-		GSUcreateElement( "div", { class: "gsuiClock-absolute" },
-			GSUcreateElement( "div", { class: "gsuiClock-a" }, "0" ),
-			GSUcreateElement( "div", { class: "gsuiClock-b" }, "00" ),
-			GSUcreateElement( "div", { class: "gsuiClock-c" }, "000" ),
-			GSUcreateElement( "span", { class: "gsuiClock-modeText" } ),
+	GSUcreateDiv( { class: "gsuiClock-relative", inert: true },
+		GSUcreateDiv( { class: "gsuiClock-absolute" },
+			GSUcreateDiv( { class: "gsuiClock-a" }, "0" ),
+			GSUcreateDiv( { class: "gsuiClock-b" }, "00" ),
+			GSUcreateDiv( { class: "gsuiClock-c" }, "000" ),
+			GSUcreateSpan( { class: "gsuiClock-modeText" } ),
 		),
 	),
 	GSUcreateButton( { class: "gsuiClock-modes" },
-		GSUcreateElement( "div", { class: "gsuiClock-mode gsuiClock-beat" } ),
-		GSUcreateElement( "div", { class: "gsuiClock-mode gsuiClock-second" } ),
+		GSUcreateDiv( { class: "gsuiClock-mode gsuiClock-beat" } ),
+		GSUcreateDiv( { class: "gsuiClock-mode gsuiClock-second" } ),
 	)
 ] );

@@ -1,16 +1,16 @@
 "use strict";
 
 GSUsetTemplate( "gsui-patternroll-block", () =>
-	GSUcreateElement( "div", { class: "gsuiBlocksManager-block gsuiPatternroll-block", "data-action": "move" },
-		GSUcreateElement( "div", { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropA", "data-action": "cropA" } ),
-		GSUcreateElement( "div", { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropB", "data-action": "cropB" } ),
-		GSUcreateElement( "div", { class: "gsuiPatternroll-block-header" },
-			GSUcreateElement( "span", { class: "gsuiPatternroll-block-name" } ),
+	GSUcreateDiv( { class: "gsuiBlocksManager-block gsuiPatternroll-block", "data-action": "move" },
+		GSUcreateDiv( { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropA", "data-action": "cropA" } ),
+		GSUcreateDiv( { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropB", "data-action": "cropB" } ),
+		GSUcreateDiv( { class: "gsuiPatternroll-block-header" },
+			GSUcreateSpan( { class: "gsuiPatternroll-block-name" } ),
 		),
-		GSUcreateElement( "div", { class: "gsuiPatternroll-block-content" } ),
-		GSUcreateElement( "div", { class: "gsuiPatternroll-block-placeholder" },
-			GSUcreateElement( "i", { class: "gsuiPatternroll-block-placeholderIcon gsuiIcon", "data-icon": "file-corrupt" } ),
-			GSUcreateElement( "span", { class: "gsuiPatternroll-block-placeholderText" }, "missing data" ),
+		GSUcreateDiv( { class: "gsuiPatternroll-block-content" } ),
+		GSUcreateDiv( { class: "gsuiPatternroll-block-placeholder" },
+			GSUcreateI( { class: "gsuiPatternroll-block-placeholderIcon gsuiIcon", "data-icon": "file-corrupt" } ),
+			GSUcreateSpan( { class: "gsuiPatternroll-block-placeholderText" }, "missing data" ),
 		),
 	)
 );

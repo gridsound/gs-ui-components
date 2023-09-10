@@ -4,14 +4,14 @@ class gsuiPianoroll extends HTMLElement {
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
-	#selectionElement = GSUcreateElement( "div", { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
-	#slidersSelect = GSUcreateElement( "select", { class: "gsuiPianoroll-slidersSelect", size: 6 },
-		GSUcreateElement( "option", { value: "gain", selected: "" }, "gain" ),
-		GSUcreateElement( "option", { value: "pan" }, "pan" ),
-		GSUcreateElement( "option", { value: "lowpass" }, "lowpass" ),
-		GSUcreateElement( "option", { value: "highpass" }, "highpass" ),
-		GSUcreateElement( "option", { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
-		GSUcreateElement( "option", { value: "gainLFOAmp" }, "gain.lfo.amp" ),
+	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#slidersSelect = GSUcreateSelect( { class: "gsuiPianoroll-slidersSelect", size: 6 },
+		GSUcreateOption( { value: "gain", selected: "" } ),
+		GSUcreateOption( { value: "pan" } ),
+		GSUcreateOption( { value: "lowpass" } ),
+		GSUcreateOption( { value: "highpass" } ),
+		GSUcreateOption( { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
+		GSUcreateOption( { value: "gainLFOAmp" }, "gain.lfo.amp" ),
 	);
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,

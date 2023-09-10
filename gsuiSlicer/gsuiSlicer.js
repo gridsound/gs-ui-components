@@ -155,7 +155,7 @@ class gsuiSlicer extends HTMLElement {
 			const svg = GSUcreateElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
 				GSUcreateElementSVG( "use" ),
 			);
-			const sli = GSUcreateElement( "div", { class: "gsuiSlicer-slices-slice", "data-id": id } );
+			const sli = GSUcreateDiv( { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
 			this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 			svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );

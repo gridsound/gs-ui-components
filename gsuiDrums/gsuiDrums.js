@@ -27,8 +27,8 @@ class gsuiDrums extends HTMLElement {
 	#sliderGroups = new Map();
 	#linesMap = new Map();
 	#elLines = null;
-	#elDrumHover = GSUcreateElement( "div", { class: "gsuiDrums-drumHover" }, GSUcreateElement( "div", { class: "gsuiDrums-drumHoverIn" } ) );
-	#elDrumcutHover = GSUcreateElement( "div", { class: "gsuiDrums-drumcutHover" }, GSUcreateElement( "div", { class: "gsuiDrums-drumcutHoverIn" } ) );
+	#elDrumHover = GSUcreateDiv( { class: "gsuiDrums-drumHover" }, GSUcreateDiv( { class: "gsuiDrums-drumHoverIn" } ) );
+	#elDrumcutHover = GSUcreateDiv( { class: "gsuiDrums-drumcutHover" }, GSUcreateDiv( { class: "gsuiDrums-drumcutHoverIn" } ) );
 	#elHover = this.#elDrumHover;
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );

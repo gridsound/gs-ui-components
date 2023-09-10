@@ -218,7 +218,7 @@ class gsuiTimeline extends HTMLElement {
 			}
 		} else {
 			while ( elMeasures.children.length < nb ) {
-				elMeasures.append( GSUcreateElement( "span", { class: "gsuiTimeline-measure" } ) );
+				elMeasures.append( GSUcreateSpan( { class: "gsuiTimeline-measure" } ) );
 			}
 		}
 	}

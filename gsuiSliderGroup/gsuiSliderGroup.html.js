@@ -2,13 +2,13 @@
 
 GSUsetTemplate( "gsui-slidergroup", () => {
 	return (
-		GSUcreateElement( "div", { class: "gsuiSliderGroup-slidersWrap" },
-			GSUcreateElement( "div", { class: "gsuiSliderGroup-sliders" },
+		GSUcreateDiv( { class: "gsuiSliderGroup-slidersWrap" },
+			GSUcreateDiv( { class: "gsuiSliderGroup-sliders" },
 				GSUcreateElement( "gsui-beatlines", { coloredbeats: "" } ),
-				GSUcreateElement( "div", { class: "gsuiSliderGroup-currentTime" } ),
-				GSUcreateElement( "div", { class: "gsuiSliderGroup-defaultValue" } ),
-				GSUcreateElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),
-				GSUcreateElement( "div", { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopB" } ),
+				GSUcreateDiv( { class: "gsuiSliderGroup-currentTime" } ),
+				GSUcreateDiv( { class: "gsuiSliderGroup-defaultValue" } ),
+				GSUcreateDiv( { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),
+				GSUcreateDiv( { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopB" } ),
 			),
 		)
 	);
@@ -16,8 +16,8 @@ GSUsetTemplate( "gsui-slidergroup", () => {
 
 GSUsetTemplate( "gsui-slidergroup-slider", () => {
 	return (
-		GSUcreateElement( "div", { class: "gsuiSliderGroup-slider" },
-			GSUcreateElement( "div", { class: "gsuiSliderGroup-sliderInner" } ),
+		GSUcreateDiv( { class: "gsuiSliderGroup-slider" },
+			GSUcreateDiv( { class: "gsuiSliderGroup-sliderInner" } ),
 		)
 	);
 } );

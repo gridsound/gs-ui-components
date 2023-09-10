@@ -70,7 +70,7 @@ initRow( "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
 initRow( "dr4", "snare 018", 0, 0, .5, "snare-018" );
 
 function initRow( drumId, name, detune, pan, gain, bufName ) {
-	drumrows.add( drumId, GSUcreateElement( "div" ) );
+	drumrows.add( drumId, GSUcreateDiv() );
 	drumrows.change( drumId, "name", name );
 	drumrows.change( drumId, "detune", detune );
 	drumrows.change( drumId, "pan", pan );
