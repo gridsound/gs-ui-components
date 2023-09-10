@@ -118,7 +118,7 @@ class gsuiDrums extends HTMLElement {
 
 	// .........................................................................
 	#timedivision( timediv ) {
-		const sPB = timediv.split( "/" )[ 1 ];
+		const sPB = +timediv.split( "/" )[ 1 ];
 
 		this.#stepsPerBeat = sPB;
 		GSUsetAttribute( this.#win, "timedivision", timediv );
