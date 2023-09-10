@@ -7,6 +7,7 @@ gsui-drum {
 	height: 66%;
 }
 gsui-drumcut {
+	container: gsuiDrumcut / inline-size;
 	bottom: 1px;
 	height: calc( 34% - 2px );
 }
@@ -15,13 +16,15 @@ gsui-drumcut {
 .gsuiDrum-in,
 .gsuiDrumcut-in {
 	display: flex;
+	box-sizing: border-box;
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
 	height: 100%;
-	margin: 0 1px 1px 0;
-	border-radius: 2px;
-	color: var( --gsuiDrums-drum-color );
+	border-radius: 3px;
+	border-top: 2px solid #ffffff4f;
+	border-bottom: 2px solid #0000001f;
+	border-right: 1px solid #00000033;
 	background-color: var( --gsuiDrums-drum-bg );
 }
 .gsuiDrumcut-in {
@@ -29,7 +32,7 @@ gsui-drumcut {
 	background-color: var( --gsuiDrums-drumcut-bg );
 }
 .gsuiDrumcut-in .gsuiIcon {
-	opacity: .7;
+	opacity: .6;
 }
 
 /* .......................................................................... */
@@ -52,4 +55,11 @@ gsui-drumcut {
 	position: absolute;
 	height: 100%;
 	background-color: var( --gsuiDrums-drumprop-color );
+}
+
+/* .......................................................................... */
+@container gsuiDrumcut ( max-width: 14px ) {
+	.gsuiDrumcut-in .gsuiIcon {
+		display: none;
+	}
 }
