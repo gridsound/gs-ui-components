@@ -48,6 +48,7 @@ gsui-timewindow[ disabled ] {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	gap: 2px;
 	padding-right: 4px;
 	background-color: var( --gsui-win-head2-bg );
 }
@@ -124,9 +125,11 @@ gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 .gsuiTimewindow-step {
 	display: flex;
 	align-items: center;
+	gap: 4px;
+	margin-right: 4px;
 	border: 0;
 	outline: 0;
-	padding: 4px;
+	padding: 0;
 	border-radius: 4px;
 	font-size: inherit;
 	font-family: var( --gsui-font-number );
@@ -143,15 +146,10 @@ gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 }
 .gsuiTimewindow-stepValue {
 	white-space: nowrap;
-	margin-right: 6px;
 }
 
 .gsuiTimewindow-panelUp gsui-slider {
 	width: 6px;
 	height: 80%;
 	--gsuiSlider-lineColor: var( --gsuiTimewindow-bg );
-}
-.gsuiTimewindow-panelUp gsui-slider:first-of-type {
-	margin-left: 4px;
-	margin-right: 2px;
 }

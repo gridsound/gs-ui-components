@@ -168,8 +168,8 @@ class gsuiTimewindow extends HTMLElement {
 	#convertStepToFrac( step ) {
 		return (
 			step >= 1 ? "1" :
-			step >= .5 ? "1 / 2" :
-			step >= .25 ? "1 / 4" : "1 / 8"
+			step >= .5 ? "1/2" :
+			step >= .25 ? "1/4" : "1/8"
 		);
 	}
 	#getPPBmin() { return GSUgetAttributeNum( this, "pxperbeatmin" ) || 8; }
