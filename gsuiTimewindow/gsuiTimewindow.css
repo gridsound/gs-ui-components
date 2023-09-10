@@ -42,7 +42,7 @@ gsui-timewindow[ disabled ] {
 	z-index: 2;
 	top: 0;
 	height: 32px;
-	border-bottom: 2px solid #0005;
+	border-bottom: 2px solid #272727;
 }
 .gsuiTimewindow-panelUp {
 	display: flex;
