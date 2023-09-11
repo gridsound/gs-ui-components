@@ -96,6 +96,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 	position: absolute;
 	overflow: auto;
 	inset: var( --gsuiWindow-head-height ) 0 0;
+	background-color: var( --gsui-app-bg );
 }
 .gsuiWindow-minimized .gsuiWindow-content {
 	display: none;
