@@ -1,6 +1,0 @@
-gsui-timewindow {
-	--gsuiTimewindow-bg: #456168;
-	--gsuiTimewindow-loop-bg: #0004;
-	--gsuiTimewindow-panel-border: #222;
-	--gsuiTimewindow-currentTime-fill: var( --gsui-col-currentTimeCursor );
-}

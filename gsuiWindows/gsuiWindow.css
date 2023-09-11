@@ -4,6 +4,7 @@ gsui-window {
 	--gsuiWindow-border-width: 2px;
 	--gsuiWindow-handler-width: 4px;
 	--gsuiWindow-title-opacity: .8;
+	--gsuiWindow-border: var( --gsui-win-brd );
 	position: absolute;
 	z-index: 0;
 	outline: 0;
@@ -18,7 +19,7 @@ gsui-window:not( .gsuiWindow-show ) {
 }
 gsui-window:focus-within {
 	--gsuiWindow-title-opacity: 1;
-	--gsui-win-brd: var( --gsui-win-brd-foc );
+	--gsuiWindow-border: var( --gsui-win-brd-foc );
 }
 .gsuiWindow-maximized {
 	--gsuiWindow-radius: 0;
@@ -30,7 +31,7 @@ gsui-window:not( .gsuiWindow-dragging ),
 .gsuiWindows-lowGraphics .gsuiWindow-dragging {
 	box-shadow: 0 0 0
 		var( --gsuiWindow-border-width )
-		var( --gsui-win-brd );
+		var( --gsuiWindow-border );
 }
 
 /* .......................................................................... */

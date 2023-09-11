@@ -6,7 +6,7 @@ gsui-timeline {
 	position: relative;
 	display: block;
 	height: 100%;
-	background-color: var( --gsuiTimeline-bg );
+	background-color: var( --gsui-timeline-bg );
 	--gsuiTimeline-beats-offset: 0;
 	--gsuiTimeline-beats-incr: 1;
 	--gsuiTimeline-beats-per-measure: 4;
@@ -56,7 +56,7 @@ gsui-timeline {
 	margin-left: -2px;
 	width: 4px;
 	height: 100%;
-	background-color: var( --gsuiTimeline-bg );
+	background-color: var( --gsui-timeline-bg );
 }
 .gsuiTimeline-measure::after {
 	display: flex;
@@ -89,7 +89,7 @@ gsui-timeline {
 .gsuiTimeline-draggingLoopHandleA .gsuiTimeline-loopLine,
 .gsuiTimeline-draggingLoopHandleB .gsuiTimeline-loopLine,
 .gsuiTimeline-draggingTime .gsuiTimeline-timeLine {
-	background-color: var( --gsuiTimeline-lines-bg );
+	background-color: var( --gsui-ovl-1 );
 }
 .gsuiTimeline-timeLine {
 	top: 50%;
@@ -102,8 +102,8 @@ gsui-timeline {
 	position: absolute;
 	margin-left: -8px;
 	bottom: 1px;
-	fill: var( --gsuiTimeline-cursor-fill );
-	stroke: var( --gsuiTimeline-cursor-fill );
+	fill: var( --gsui-col-currentTimeCursor );
+	stroke: var( --gsui-col-currentTimeCursor );
 	stroke-width: 2px;
 	stroke-linejoin: round;
 	pointer-events: none;
@@ -128,7 +128,7 @@ gsui-timeline {
 .gsuiTimeline-loopBody {
 	height: 100%;
 	transition: filter .2s;
-	background-color: var( --gsuiTimeline-loop-bg );
+	background-color: var( --gsui-timeline-loop-bg );
 }
 .gsuiTimeline-loopBody:hover,
 .gsuiTimeline-draggingLoopBody .gsuiTimeline-loopBody {
@@ -161,5 +161,5 @@ gsui-timeline {
 .gsuiTimeline-draggingLoopHandleA .gsuiTimeline-loopBorderA,
 .gsuiTimeline-draggingLoopHandleB .gsuiTimeline-loopBorderB {
 	bottom: -3px;
-	background-color: var( --gsuiTimeline-loopBorder-bg );
+	background-color: var( --gsui-col-text );
 }

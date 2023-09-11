@@ -13,6 +13,6 @@
 	border-left: 1px dashed rgba( 0, 0, 0, .2 );
 }
 .gsuiDAW-areaWins .gsuiDAW-btn[ data-open ] {
-	color: var( --gsuiDAW-bg );
+	color: var( --gsui-app-head-bg );
 	background-color: var( --gsuiDAW-head-winBtn-open-bg );
 }

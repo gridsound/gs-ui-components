@@ -9,7 +9,7 @@ gsui-daw {
 	height: 100%;
 	color: var( --gsui-col-text );
 	font-size: 16px;
-	background-color: var( --gsuiDAW-bg );
+	background-color: var( --gsui-app-bg );
 }
 
 /* .......................................................................... */
@@ -22,6 +22,7 @@ gsui-daw {
 		"areaSave    areaTime    areaWins    areaVers" 20px
 		/min-content min-content min-content 1fr;
 	border-bottom: 2px solid var( --gsui-win-brd );
+	background-color: var( --gsui-app-head-bg );
 }
 .gsuiDAW-area {
 	display: flex;
@@ -55,7 +56,6 @@ gsui-daw {
 }
 gsui-daw gsui-windows {
 	z-index: 0;
-	background-color: var( --gsuiDAW-content-bg );
 	background-image: url( "data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E" );
 	background-attachment: local;
 }

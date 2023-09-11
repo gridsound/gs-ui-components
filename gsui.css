@@ -1,5 +1,6 @@
 body {
 	color-scheme: dark;
+	--gsui-ovl-1: #ffffff08;
 	--gsui-col-text: #fff;
 	--gsui-col-pan: #d9f;
 	--gsui-col-gain: #ff9;
@@ -8,17 +9,21 @@ body {
 	--gsui-col-unison: #f95;
 	--gsui-col-lowpass: #d96;
 	--gsui-col-currentTimeCursor: #ff9;
-	--gsui-col-currentTimeCursor-1: #ff91;
 	--gsui-col-pattern: #5ac;
 	--gsui-col-pattern8: #5acb;
 	--gsui-col-pattern2: #5ac4;
 	--gsui-col-patternSelected: #f88;
 	--gsui-col-patternSelected8: #f88b;
+	--gsui-app-bg: #222;
+	--gsui-app-head-bg: #444;
 	--gsui-win-head-bg: #595959;
 	--gsui-win-head2-bg: #3a3a3a;
 	--gsui-win-brd: #3a3a3a;
 	--gsui-win-brd-foc: #689acb;
 	--gsui-win-close: #ba5d5d;
+	--gsui-timewin-bg: #456168;
+	--gsui-timeline-bg: #222;
+	--gsui-timeline-loop-bg: #656586;
 	--gsui-items-bg: #474747;
 	--gsui-item-bg: #5c5c5c;
 	--gsui-item-more-bg: #fff2;
