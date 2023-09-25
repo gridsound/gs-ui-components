@@ -5,7 +5,7 @@ gsui-clock {
 	max-height: 28px;
 	border-radius: 4px;
 	font-size: 18px;
-	background-color: var( --gsuiClock-bg );
+	background-color: var( --gsui-clock-bg );
 }
 
 .gsuiClock-relative {

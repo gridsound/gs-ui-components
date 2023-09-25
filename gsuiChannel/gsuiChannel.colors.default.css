@@ -1,8 +1,0 @@
-gsui-channel {
-	--gsuiChannel-pan-color: var( --gsui-col-pan );
-	--gsuiChannel-gain-color: var( --gsui-col-gain );
-	--gsuiChannel-connect-input-color: #f99;
-	--gsuiChannel-connect-output-color: var( --gsui-col-gain );
-	--gsuiChannel-analyser-bg: #222;
-	--gsuiChannel-name-font: var( --gsui-font );
-}

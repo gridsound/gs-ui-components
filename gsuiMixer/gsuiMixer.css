@@ -1,7 +1,8 @@
 gsui-mixer {
+	position: relative;
+	z-index: 0;
 	display: flex;
 	height: 100%;
-	background-color: var( --gsuiMixer-bg );
 }
 
 /* .......................................................................... */
@@ -12,16 +13,11 @@ gsui-mixer {
 	min-width: 140px;
 }
 .gsuiMixer-effects {
-	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	width: 50%;
 	min-width: 200px;
-	border-left: 2px solid var( --gsuiMixer-effects-border );
-	background-color: var( --gsuiMixer-effects-bg );
-}
-gsui-mixer .gsuiPanel-extend {
-	z-index: 2;
+	border-left: 2px solid var( --gsui-win-head2-brd );
 }
 
 /* .......................................................................... */
@@ -34,7 +30,7 @@ gsui-mixer .gsuiPanel-extend {
 	min-height: 26px;
 	padding: 2px 6px 0;
 	font-size: 10px;
-	border-bottom: 2px solid var( --gsuiMixer-head-border );
+	border-bottom: 2px solid var( --gsui-win-head2-brd );
 	background-color: var( --gsui-win-head2-bg );
 }
 .gsuiMixer-head-title {

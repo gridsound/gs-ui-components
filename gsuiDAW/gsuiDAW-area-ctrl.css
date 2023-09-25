@@ -44,7 +44,7 @@ gsui-daw gsui-clock {
 }
 .gsuiDAW-tempo {
 	white-space: nowrap;
-	background-color: #222;
+	background-color: var( --gsui-clock-bg );
 }
 .gsuiDAW-tempo-timeDivision {
 	display: flex;

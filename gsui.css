@@ -18,9 +18,12 @@ body {
 	--gsui-app-head-bg: #444;
 	--gsui-win-head-bg: #595959;
 	--gsui-win-head2-bg: #3a3a3a;
+	--gsui-win-head2-brd: #323232;
 	--gsui-win-brd: #3a3a3a;
 	--gsui-win-brd-foc: #689acb;
 	--gsui-win-close: #ba5d5d;
+	--gsui-screen-spectrum: #000;
+	--gsui-clock-bg: #222;
 	--gsui-timewin-bg: #456168;
 	--gsui-timeline-bg: #222;
 	--gsui-timeline-loop-bg: #656586;
