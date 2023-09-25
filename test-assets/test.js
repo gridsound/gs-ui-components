@@ -9,6 +9,16 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		console.warn( `gsuiEvent: [${ component }][${ eventName }]`, args );
 	} );
 
+	document.head.prepend(
+		GSUcreateElement( "meta", { charset: "utf-8" } ),
+		GSUcreateElement( "meta", { name: "viewport", content: "width=device-width, user-scalable=no, initial-scale=1" } ),
+		GSUcreateElement( "link", { rel: "shortcut icon", href: "/assets/favicon.png" } ),
+		GSUcreateElement( "link", { rel: "stylesheet", href: "/assets/fonts/fonts.css" } ),
+		GSUcreateElement( "link", { rel: "stylesheet", href: "/gs-ui-components/test-assets/test.css" } ),
+		GSUcreateElement( "link", { rel: "stylesheet", href: "/gs-ui-components/gsui.css" } ),
+		GSUcreateElement( "link", { rel: "stylesheet", href: "/gs-ui-components/gsuiIcon/gsuiIcon.css" } ),
+	);
+
 	document.body.append(
 		GSUcreateDiv( { id: "testBody" },
 			GSUcreateDiv( { id: "testHead" },
