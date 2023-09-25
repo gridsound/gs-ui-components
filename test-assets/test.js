@@ -62,7 +62,6 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 				GSUcreateDiv( { id: "testWrap" } ),
 				GSUcreateDiv( { id: "testCtrls" } ),
 			),
-			GSUcreateDiv( { id: "testDeps" } ),
 		),
 		GSUcreateDiv( { id: "testFoot" },
 			GSUcreateDiv( { id: "testCopyright" },

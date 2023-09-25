@@ -21,6 +21,7 @@ body {
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E" );
 }
 
+/* -------------------------------------------------------------------------- */
 #title {
 	display: flex;
 	align-items: baseline;
@@ -33,6 +34,7 @@ body {
 	text-shadow: 0 0 20px #fff5;
 }
 
+/* -------------------------------------------------------------------------- */
 #testLinks {
 	flex: 1;
 	display: flex;
@@ -59,6 +61,7 @@ body {
 	100% { background-color: #ffffff08; }
 }
 
+/* -------------------------------------------------------------------------- */
 #testBody {
 	flex: 1;
 	display: flex;
@@ -66,10 +69,13 @@ body {
 	flex-direction: column;
 	justify-content: center;
 }
+
+/* -------------------------------------------------------------------------- */
 #testHead {
 	position: relative;
 	z-index: 1;
 	display: flex;
+	gap: 16px;
 	align-items: center;
 	margin-bottom: 32px;
 }
@@ -77,7 +83,6 @@ body {
 	font-weight: bold;
 }
 #testSelect {
-	margin-left: 16px;
 	border: 0;
 	border-radius: 4px;
 	padding: 6px 4px;
@@ -88,6 +93,8 @@ body {
 #testSelect option {
 	background-color: #000;
 }
+
+/* -------------------------------------------------------------------------- */
 #testContent {
 	position: relative;
 	overflow: hidden;
@@ -132,23 +139,8 @@ body {
 #testCtrls:empty {
 	display: none;
 }
-#testDeps {
-	position: relative;
-	z-index: 1;
-	margin-top: 32px;
-	font-size: 11px;
-}
-#testDeps:empty {
-	display: none;
-}
-#testDeps::before {
-	content: "dependencies:";
-	opacity: .5;
-}
-.testDep {
-	margin-left: 1.5ch;
-	font-weight: bold;
-}
+
+/* -------------------------------------------------------------------------- */
 #testFoot {
 	display: flex;
 	justify-content: center;
@@ -167,6 +159,7 @@ body {
 	color: inherit;
 }
 
+/* -------------------------------------------------------------------------- */
 @media ( max-width: 500px ) {
 	#title {
 		align-items: center;
