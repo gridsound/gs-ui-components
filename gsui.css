@@ -1,7 +1,7 @@
 body {
 	color-scheme: dark;
+	color: #fff;
 	--gsui-ovl-1: #ffffff08;
-	--gsui-col-text: #fff;
 	--gsui-col-pan: #d9f;
 	--gsui-col-gain: #ff9;
 	--gsui-col-time: #f77;
