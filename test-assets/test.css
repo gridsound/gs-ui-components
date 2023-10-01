@@ -78,6 +78,7 @@ body {
 	gap: 16px;
 	align-items: center;
 	margin-bottom: 32px;
+	color: #fff;
 }
 #testTitle {
 	font-weight: bold;
@@ -92,6 +93,17 @@ body {
 }
 #testSelect option {
 	background-color: #000;
+}
+#testSkin {
+	border: 0;
+	padding: 0;
+	color: inherit;
+	cursor: pointer;
+	background: none;
+	transition: transform .2s;
+}
+body[ data-skin="white" ] #testSkin {
+	transform: rotate( 180deg );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -148,6 +160,7 @@ body {
 	margin-top: auto;
 	height: 48px;
 	min-height: 48px;
+	color: #fff;
 }
 #testCopyright {
 	font-size: 11px;

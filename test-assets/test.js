@@ -47,6 +47,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiTrack" } ),
 					GSUcreateOption( { value: "gsuiWindows" } ),
 				),
+				GSUcreateButton( { id: "testSkin", class: "gsuiIcon", "data-icon": "adjust" } ),
 			),
 			GSUcreateDiv( { id: "testContent" },
 				GSUcreateDiv( { id: "testWrap" } ),
@@ -64,6 +65,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 
 	const elTEST = document.querySelector( "#TEST" );
 	const elCTRLS = document.querySelector( "#TEST-CTRLS" );
+	const elSkin = document.querySelector( "#testSkin" );
 	elTEST && Array.from( elTEST.children ).forEach( el => document.querySelector( "#testWrap" ).append( el ) );
 	elCTRLS && Array.from( elCTRLS.children ).forEach( el => document.querySelector( "#testCtrls" ).append( el ) );
 
@@ -74,6 +76,18 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 	const select = document.querySelector( "#testSelect" );
 	const path = getPath();
 	const curr = path.pop();
+
+	const hasLightSkin = Array.from( document.head.querySelectorAll( "link" ) ).some( ln => ln.href.endsWith( "gsuiSkins-light.css" ) );
+
+	if ( !hasLightSkin ) {
+		elSkin.remove();
+	} else {
+		elSkin.onclick = () => {
+			document.body.dataset.skin = document.body.dataset.skin === "white"
+				? ""
+				: "white";
+		};
+	}
 
 	document.title = `${ curr } (dev)`;
 	select.value = curr;
