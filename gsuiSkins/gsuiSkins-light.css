@@ -1,0 +1,37 @@
+body[ data-skin="white" ] {
+	color-scheme: light;
+	color: #222;
+	--gsui-ovl-1: #0000000b;
+	--gsui-col-pan: #f69;
+	--gsui-col-gain: #77d;
+	--gsui-col-time: #f77;
+	--gsui-col-detune: #111;
+	--gsui-col-unison: #f95;
+	--gsui-col-lowpass: #d96;
+	--gsui-col-currentTimeCursor: #000;
+	--gsui-col-pattern: #5ac;
+	--gsui-col-pattern8: #77dc;
+	--gsui-col-pattern2: #77d4;
+	--gsui-col-patternSelected: #f88;
+	--gsui-col-patternSelected8: #0009;
+	--gsui-app-bg: #fff;
+	--gsui-app-head-bg: #ddd;
+	--gsui-win-head-bg: #a5a5a5;
+	--gsui-win-head2-bg: #c3c3c3;
+	--gsui-win-head2-brd: #999;
+	--gsui-win-brd: #999;
+	--gsui-win-brd-foc: #77d;
+	--gsui-win-close: #ba5d5d;
+	--gsui-timewin-bg: #abe2f0;
+	--gsui-timeline-bg: #fff;
+	--gsui-timeline-loop-bg: #c87e9a;
+	--gsui-items-bg: #ddd;
+	--gsui-item-bg: #eee;
+	--gsui-item-more-bg: #fff2;
+	--gsui-item-bg-disabled: #aaa;
+	--gsui-item-bg-selected: #fff;
+	--gsui-toggle-on: #77d;
+	--gsui-toggle-off: #222;
+	--gsui-slider-bg: #0002;
+	--gsui-slider-bg-opaque: #444;
+}
