@@ -82,10 +82,14 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 	if ( !hasLightSkin ) {
 		elSkin.remove();
 	} else {
+		document.body.dataset.skin = localStorage.getItem( "skin" ) || "";
 		elSkin.onclick = () => {
-			document.body.dataset.skin = document.body.dataset.skin === "white"
+			const skin = document.body.dataset.skin === "white"
 				? ""
 				: "white";
+
+			localStorage.setItem( "skin", skin );
+			document.body.dataset.skin = skin;
 		};
 	}
 
