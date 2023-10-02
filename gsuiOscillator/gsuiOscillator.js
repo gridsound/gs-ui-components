@@ -90,7 +90,7 @@ class gsuiOscillator extends HTMLElement {
 			this.#elements.waves[ 1 ].$nbLines( 1 );
 			GSUrecallAttributes( this, {
 				order: 0,
-				type: "sine",
+				wave: "sine",
 				detune: 0,
 				detunefine: 0,
 				gain: 1,
@@ -103,7 +103,7 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "order", "type", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "order", "wave", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -111,7 +111,7 @@ class gsuiOscillator extends HTMLElement {
 
 			switch ( prop ) {
 				case "order": this.#changeOrder( num ); break;
-				case "type": this.#changeType( val ); break;
+				case "wave": this.#changeWave( val ); break;
 				case "unisonvoices":
 					this.#updateUnisonGraphVoices( num );
 					this.#changePropSlider( "unisonvoices", num );
@@ -131,7 +131,7 @@ class gsuiOscillator extends HTMLElement {
 					this.#changePropSlider( prop, num );
 					break;
 			}
-			if ( prop === "type" || prop === "gain" || prop === "pan" || prop === "detune" || prop === "detunefine" ) {
+			if ( prop === "wave" || prop === "gain" || prop === "pan" || prop === "detune" || prop === "detunefine" ) {
 				this.#updateWaveDeb();
 			}
 		}
@@ -153,26 +153,26 @@ class gsuiOscillator extends HTMLElement {
 	}
 	#updateWave( prop, val ) {
 		const [ w0, w1 ] = this.#elements.waves;
-		const type = prop === "type" ? val : GSUgetAttribute( this, "type" );
+		const wave = prop === "wave" ? val : GSUgetAttribute( this, "wave" );
 		const gain = prop === "gain" ? val : GSUgetAttributeNum( this, "gain" );
 		const pan = prop === "pan" ? val : GSUgetAttributeNum( this, "pan" );
 		const det = prop === "detune" ? val : GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );
-		const hz = type === "noise"
+		const hz = wave === "noise"
 			? 1
 			: 2 ** ( ( det - -24 ) / 12 );
 
-		w0.$options( 0, { type, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
-		w1.$options( 0, { type, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
+		w0.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
+		w1.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
 
 	// .........................................................................
 	#changeOrder( n ) {
 		this.dataset.order = n;
 	}
-	#changeType( type ) {
-		const noise = type === "noise";
+	#changeWave( w ) {
+		const noise = w === "noise";
 
-		this.#elements.waveSelect.value = type;
+		this.#elements.waveSelect.value = w;
 		GSUsetAttribute( this.#elements.sliders.detune[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.detunefine[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisonvoices[ 0 ], "disabled", noise );
@@ -223,15 +223,15 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	#onchangeSelect() {
-		const type = this.#elements.waveSelect.value;
+		const w = this.#elements.waveSelect.value;
 
 		clearTimeout( this.#timeidType );
-		GSUsetAttribute( this, "type", type );
-		this.#dispatch( "liveChange", "type", type );
+		GSUsetAttribute( this, "wave", w );
+		this.#dispatch( "liveChange", "wave", w );
 		this.#timeidType = setTimeout( () => {
-			if ( type !== this.#typeSaved ) {
-				this.#typeSaved = type;
-				this.#dispatch( "change", "type", type );
+			if ( w !== this.#typeSaved ) {
+				this.#typeSaved = w;
+				this.#dispatch( "change", "wave", w );
 			}
 		}, 700 );
 	}

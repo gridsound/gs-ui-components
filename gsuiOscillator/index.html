@@ -31,7 +31,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-oscillator type="sine" detune="-12" detunefine="-.75" gain=".75" pan=".25"></gsui-oscillator>
+	<gsui-oscillator wave="sine" detune="-12" detunefine="-.75" gain=".75" pan=".25"></gsui-oscillator>
 </div>
 
 <!-- ....................................................................... -->
@@ -60,11 +60,11 @@ const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elOsc.addWaves( Array.from( waves.keys() ) );
-GSUsetAttribute( elOsc, "type", "noise" );
-GSUsetAttribute( elOsc, "type", "sine" );
-GSUsetAttribute( elOsc, "type", "triangle" );
-GSUsetAttribute( elOsc, "type", "square" );
-GSUsetAttribute( elOsc, "type", "sawtooth" );
+GSUsetAttribute( elOsc, "wave", "noise" );
+GSUsetAttribute( elOsc, "wave", "sine" );
+GSUsetAttribute( elOsc, "wave", "triangle" );
+GSUsetAttribute( elOsc, "wave", "square" );
+GSUsetAttribute( elOsc, "wave", "sawtooth" );
 GSUsetAttribute( elOsc, "gain", .5 );
 </script>
 </body>
