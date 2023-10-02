@@ -2,6 +2,8 @@
 
 class gsuiOscillator extends HTMLElement {
 	#timeidType = null;
+	#dragleaveDeb = GSUdebounce( () => GSUsetAttribute( this, "dragover", false ), 175 );
+	#dragleaveWaveDeb = GSUdebounce( () => GSUsetAttribute( this, "dragoverwave", false ), 175 );
 	#typeSaved = "";
 	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiOscillator" );
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), 100 );
@@ -14,6 +16,7 @@ class gsuiOscillator extends HTMLElement {
 	};
 	#children = GSUgetTemplate( "gsui-oscillator", Object.keys( this.#selectWaves ) );
 	#elements = GSUfindElements( this.#children, {
+		waveWrap: ".gsuiOscillator-waveWrap",
 		waveSelect: ".gsuiOscillator-waveSelect",
 		wavePrev: ".gsuiOscillator-wavePrev",
 		waveNext: ".gsuiOscillator-waveNext",
@@ -43,6 +46,26 @@ class gsuiOscillator extends HTMLElement {
 		this.#elements.wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.#elements.waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.#elements.remove.onclick = () => this.#dispatch( "remove" );
+		this.#elements.waveWrap.ondragover = e => {
+			e.stopPropagation();
+			GSUsetAttribute( this, "dragoverwave", true );
+			GSUsetAttribute( this, "dragover", false );
+			this.#dragleaveWaveDeb();
+			return false;
+		};
+		this.ondragover = e => {
+			GSUsetAttribute( this, "dragoverwave", false );
+			GSUsetAttribute( this, "dragover", true );
+			this.#dragleaveDeb();
+			return false;
+		};
+		this.ondrop = e => {
+			const tar = e.target.closest( "gsui-oscillator, .gsuiOscillator-waveWrap" );
+			const act = tar.nodeName === "GSUI-OSCILLATOR" ? "drop" : "wavedrop";
+
+			this.#dispatch( act, e.dataTransfer );
+			return false;
+		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUnoop,

@@ -79,6 +79,7 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 
 /* .......................................................................... */
 .gsuiOscillator-waveWrap {
+	position: relative;
 	grid-area: wave;
 	display: flex;
 	border-radius: 3px;
@@ -200,4 +201,40 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-unisonGraph {
 }
 .gsuiOscillator-unison gsui-slider .gsuiSlider-eventCatcher {
 	inset: -3px;
+}
+
+/* .......................................................................... */
+.gsuiOscillator-dragging,
+.gsuiOscillator-wave-dragging {
+	position: absolute;
+	opacity: 0;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 22px;
+	transition: opacity .2s;
+	pointer-events: none;
+}
+.gsuiOscillator-wave-dragExtra {
+	position: absolute;
+	inset: -6px 0;
+}
+gsui-oscillator[ dragover ] .gsuiOscillator-dragging,
+gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave-dragging {
+	opacity: 1;
+}
+gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave,
+gsui-oscillator[ dragoverwave ] .gsuiOscillator-waveWrap-top,
+gsui-oscillator[ dragoverwave ] .gsuiOscillator-unisonGraph,
+gsui-oscillator[ dragover ] .gsuiOscillator-wave,
+gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap-top,
+gsui-oscillator[ dragover ] .gsuiOscillator-unisonGraph,
+gsui-oscillator[ dragover ] .gsuiOscillator-unison,
+gsui-oscillator[ dragover ] .gsuiOscillator-prop,
+gsui-oscillator[ dragover ] .gsuiOscillator-remove {
+	opacity: 0;
+}
+gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap {
+	opacity: .33;
 }

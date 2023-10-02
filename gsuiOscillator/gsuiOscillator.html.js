@@ -4,6 +4,7 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 	return [
 		GSUcreateDiv( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUcreateDiv( { class: "gsuiOscillator-waveWrap" },
+			GSUcreateDiv( { class: "gsuiOscillator-wave-dragExtra" } ),
 			GSUcreateDiv( { class: "gsuiOscillator-waveWrap-left" },
 				GSUcreateDiv( { class: "gsuiOscillator-waveWrap-top" },
 					GSUcreateButton( { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
@@ -19,6 +20,9 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 			),
 			GSUcreateDiv( { class: "gsuiOscillator-unisonGraph" },
 				GSUcreateDiv( { class: "gsuiOscillator-unisonGraph-voices" } ),
+			),
+			GSUcreateDiv( { class: "gsuiOscillator-wave-dragging" },
+				GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown", animate: true } ),
 			),
 		),
 		GSUcreateDiv( { class: "gsuiOscillator-unison" },
@@ -40,5 +44,8 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 			)
 		),
 		GSUcreateButton( { class: "gsuiOscillator-remove gsuiIcon", "data-icon": "close", title: "Remove the oscillator" } ),
+		GSUcreateDiv( { class: "gsuiOscillator-dragging" },
+			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown", animate: true } ),
+		),
 	].flat( 1 );
 } );
