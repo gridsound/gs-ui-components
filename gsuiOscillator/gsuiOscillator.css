@@ -80,6 +80,7 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 /* .......................................................................... */
 .gsuiOscillator-waveWrap {
 	position: relative;
+	overflow: hidden;
 	grid-area: wave;
 	display: flex;
 	border-radius: 3px;
@@ -89,9 +90,11 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 }
 .gsuiOscillator-waveWrap-top {
 	display: flex;
+	height: 18px;
 }
 .gsuiOscillator-wave {
 	flex: 1;
@@ -119,10 +122,22 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 	opacity: .5;
 	transition: .1s opacity;
 }
+gsui-oscillator[ source ] .gsuiOscillator-waveBtn,
+gsui-oscillator[ source ] .gsuiOscillator-waveSelect,
+gsui-oscillator[ wave ] .gsuiOscillator-sourceIcon,
+gsui-oscillator[ wave ] .gsuiOscillator-sourceName {
+	display: none;
+}
+.gsuiOscillator-sourceIcon,
 .gsuiOscillator-waveBtn {
 	width: 14px;
 	font-size: 16px;
 	text-align: center;
+}
+.gsuiOscillator-sourceIcon {
+	margin-left: 6px;
+	font-size: 12px;
+	opacity: .5;
 }
 .gsuiOscillator-remove {
 	position: absolute;
@@ -141,13 +156,18 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 }
 
 /* .......................................................................... */
+.gsuiOscillator-sourceName,
 .gsuiOscillator-waveSelect {
 	flex: 1;
 	padding-left: 6px;
 	font-size: 12px;
 	font-family: inherit;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	-moz-appearance: none;
 	-webkit-appearance: none;
+	opacity: .5;
 }
 .gsuiOscillator-waveOpt {
 	background-color: var( --gsuiOscillator-wave-option );

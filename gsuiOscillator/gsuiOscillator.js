@@ -20,6 +20,7 @@ class gsuiOscillator extends HTMLElement {
 		waveSelect: ".gsuiOscillator-waveSelect",
 		wavePrev: ".gsuiOscillator-wavePrev",
 		waveNext: ".gsuiOscillator-waveNext",
+		sourceName: ".gsuiOscillator-sourceName",
 		waves: [
 			"gsui-periodicwave:first-child",
 			"gsui-periodicwave:last-child",
@@ -90,7 +91,8 @@ class gsuiOscillator extends HTMLElement {
 			this.#elements.waves[ 1 ].$nbLines( 1 );
 			GSUrecallAttributes( this, {
 				order: 0,
-				wave: "sine",
+				wave: undefined,
+				source: undefined,
 				detune: 0,
 				detunefine: 0,
 				gain: 1,
@@ -103,7 +105,7 @@ class gsuiOscillator extends HTMLElement {
 		}
 	}
 	static get observedAttributes() {
-		return [ "order", "wave", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "order", "wave", "source", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
@@ -112,6 +114,7 @@ class gsuiOscillator extends HTMLElement {
 			switch ( prop ) {
 				case "order": this.#changeOrder( num ); break;
 				case "wave": this.#changeWave( val ); break;
+				case "source": this.#changeSource( val ); break;
 				case "unisonvoices":
 					this.#updateUnisonGraphVoices( num );
 					this.#changePropSlider( "unisonvoices", num );
@@ -169,6 +172,10 @@ class gsuiOscillator extends HTMLElement {
 	#changeOrder( n ) {
 		this.dataset.order = n;
 	}
+	#changeSource( src ) {
+		this.#elements.sourceName.textContent = src;
+		GSUsetAttribute( this, "wave", false );
+	}
 	#changeWave( w ) {
 		const noise = w === "noise";
 
@@ -178,6 +185,7 @@ class gsuiOscillator extends HTMLElement {
 		GSUsetAttribute( this.#elements.sliders.unisonvoices[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisondetune[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisonblend[ 0 ], "disabled", noise );
+		GSUsetAttribute( this, "source", false );
 	}
 	#changePropSlider( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
