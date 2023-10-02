@@ -316,6 +316,8 @@
 .gsuiIcon[ data-icon="tint" ]::before { content: "\f043"; }
 .gsuiIcon[ data-icon="tint" ]::after { content: "\10f043"; }
 
+.gsuiIcon[ data-icon="adjust" ]::before { content: "\f042"; }
+.gsuiIcon[ data-icon="adjust" ]::after { content: "\10f042"; }
 .gsuiIcon[ data-icon="settings" ]::before { content: "\f013"; }
 .gsuiIcon[ data-icon="settings" ]::after { content: "\10f013"; }
 .gsuiIcon[ data-icon="help" ]::before { content: "\f0fa"; }
