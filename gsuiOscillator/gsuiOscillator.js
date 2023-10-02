@@ -55,9 +55,14 @@ class gsuiOscillator extends HTMLElement {
 			return false;
 		};
 		this.ondragover = e => {
-			GSUsetAttribute( this, "dragoverwave", false );
-			GSUsetAttribute( this, "dragover", true );
-			this.#dragleaveDeb();
+			const bcr = this.getBoundingClientRect();
+			const y = e.pageY - bcr.y;
+
+			if ( y > 8 && y < bcr.height - 8 ) {
+				GSUsetAttribute( this, "dragoverwave", false );
+				GSUsetAttribute( this, "dragover", true );
+				this.#dragleaveDeb();
+			}
 			return false;
 		};
 		this.ondrop = e => {
@@ -174,7 +179,9 @@ class gsuiOscillator extends HTMLElement {
 	}
 	#changeSource( src ) {
 		this.#elements.sourceName.textContent = src;
-		GSUsetAttribute( this, "wave", false );
+		if ( src ) {
+			GSUsetAttribute( this, "wave", false );
+		}
 	}
 	#changeWave( w ) {
 		const noise = w === "noise";
@@ -185,7 +192,9 @@ class gsuiOscillator extends HTMLElement {
 		GSUsetAttribute( this.#elements.sliders.unisonvoices[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisondetune[ 0 ], "disabled", noise );
 		GSUsetAttribute( this.#elements.sliders.unisonblend[ 0 ], "disabled", noise );
-		GSUsetAttribute( this, "source", false );
+		if ( w ) {
+			GSUsetAttribute( this, "source", false );
+		}
 	}
 	#changePropSlider( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];

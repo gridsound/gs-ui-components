@@ -4,7 +4,6 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 	return [
 		GSUcreateDiv( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUcreateDiv( { class: "gsuiOscillator-waveWrap" },
-			GSUcreateDiv( { class: "gsuiOscillator-wave-dragExtra" } ),
 			GSUcreateDiv( { class: "gsuiOscillator-waveWrap-left" },
 				GSUcreateDiv( { class: "gsuiOscillator-waveWrap-top" },
 					GSUcreateButton( { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),

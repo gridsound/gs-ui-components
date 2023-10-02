@@ -236,10 +236,6 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-unisonGraph {
 	transition: opacity .2s;
 	pointer-events: none;
 }
-.gsuiOscillator-wave-dragExtra {
-	position: absolute;
-	inset: -6px 0;
-}
 gsui-oscillator[ dragover ] .gsuiOscillator-dragging,
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave-dragging {
 	opacity: 1;
