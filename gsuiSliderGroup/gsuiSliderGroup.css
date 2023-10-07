@@ -35,20 +35,20 @@ gsui-slidergroup {
 	content: "";
 	position: absolute;
 	height: 100%;
-	width: var( --gsuiSliderGroup-slider-width );
-	background-color: var( --gsuiSliderGroup-slider-bg );
+	width: 6px;
+	background-color: #0002;
 }
 .gsuiSliderGroup-slidersSelected .gsuiSliderGroup-slider:not( .gsuiSliderGroup-sliderSelected ) {
 	pointer-events: none;
 }
 .gsuiSliderGroup-sliderInner {
 	position: absolute;
-	width: var( --gsuiSliderGroup-slider-width );
-	color: var( --gsuiSliderGroup-slider-color );
+	width: 6px;
+	color: var( --gsui-col-pattern8 );
 	background-color: currentColor;
 }
 .gsuiSliderGroup-sliderSelected .gsuiSliderGroup-sliderInner {
-	color: var( --gsuiSliderGroup-slider-color-selected );
+	color: var( --gsui-col-patternSelected8 );
 }
 .gsuiSliderGroup-sliderInner::after {
 	content: "";
@@ -76,13 +76,13 @@ gsui-slidergroup {
 	position: absolute;
 	left: 0;
 	right: 0;
-	border-top: 1px dotted var( --gsuiSliderGroup-defaultValue-color );
+	border-top: 1px dotted #0004;
 	pointer-events: none;
 }
 .gsuiSliderGroup-currentTime {
 	width: 2px;
 	margin-left: -1px;
-	background-color: var( --gsuiSliderGroup-currentTime-color );
+	background-color: var( --gsui-col-currentTimeCursor );
 }
 gsui-slidergroup[ currenttime="0" ] .gsuiSliderGroup-currentTime {
 	display: none;
@@ -94,5 +94,5 @@ gsui-slidergroup[ currenttime="0" ] .gsuiSliderGroup-currentTime {
 .gsuiSliderGroup-loopA { left: 0; }
 .gsuiSliderGroup-loopB { right: 0; }
 .gsuiSliderGroup-loopOn {
-	background-color: var( --gsuiSliderGroup-loop-color );
+	background-color: #0004;
 }
