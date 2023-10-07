@@ -432,7 +432,7 @@ class gsuiPianoroll extends HTMLElement {
 			const d = blc.dataset;
 
 			if ( +d.when >= when && ( d.prev === undefined || d.prev === id ) ) {
-				arr.push( blc.firstElementChild );
+				arr.push( blc.getElementsByClassName( 'gsuiDragline-drop' )[ 0 ] );
 			}
 		} );
 		return arr;
