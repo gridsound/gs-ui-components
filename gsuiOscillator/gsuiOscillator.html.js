@@ -14,6 +14,7 @@ GSUsetTemplate( "gsui-oscillator", waves => {
 					GSUcreateI( { class: "gsuiOscillator-sourceIcon gsuiIcon", "data-icon": "waveform" } ),
 					GSUcreateSpan( { class: "gsuiOscillator-sourceName" } ),
 				),
+				GSUcreateDiv( { class: "gsuiOscillator-source" } ),
 				GSUcreateDiv( { class: "gsuiOscillator-wave" },
 					GSUcreateElement( "gsui-periodicwave" ),
 					GSUcreateElement( "gsui-periodicwave" ),

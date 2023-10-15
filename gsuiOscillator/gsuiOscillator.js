@@ -21,6 +21,7 @@ class gsuiOscillator extends HTMLElement {
 		wavePrev: ".gsuiOscillator-wavePrev",
 		waveNext: ".gsuiOscillator-waveNext",
 		sourceName: ".gsuiOscillator-sourceName",
+		source: ".gsuiOscillator-source",
 		waves: [
 			"gsui-periodicwave:first-child",
 			"gsui-periodicwave:last-child",
@@ -66,10 +67,14 @@ class gsuiOscillator extends HTMLElement {
 			return false;
 		};
 		this.ondrop = e => {
-			const tar = e.target.closest( "gsui-oscillator, .gsuiOscillator-waveWrap" );
-			const act = tar.nodeName === "GSUI-OSCILLATOR" ? "drop" : "wavedrop";
+			const data = e.dataTransfer.getData( "pattern-buffer" );
 
-			this.#dispatch( act, e.dataTransfer );
+			if ( data ) {
+				const tar = e.target.closest( "gsui-oscillator, .gsuiOscillator-waveWrap" );
+				const act = tar.nodeName === "GSUI-OSCILLATOR" ? "drop" : "wavedrop";
+
+				this.#dispatch( act, data );
+			}
 			return false;
 		};
 		GSUlistenEvents( this, {
@@ -171,6 +176,10 @@ class gsuiOscillator extends HTMLElement {
 
 		w0.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
 		w1.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
+	}
+	$updateSourceWave( svg ) {
+		GSUemptyElement( this.#elements.source );
+		this.#elements.source.append( svg );
 	}
 
 	// .........................................................................

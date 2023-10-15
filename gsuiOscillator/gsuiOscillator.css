@@ -96,9 +96,20 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 	display: flex;
 	height: 18px;
 }
-.gsuiOscillator-wave {
+.gsuiOscillator-wave,
+.gsuiOscillator-source {
 	flex: 1;
 	position: relative;
+}
+gsui-oscillator[ wave ] .gsuiOscillator-source,
+gsui-oscillator[ source ] .gsuiOscillator-wave {
+	display: none;
+}
+.gsuiOscillator-source svg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	fill: currentColor;
 }
 .gsuiOscillator-wave gsui-periodicwave {
 	position: absolute;
@@ -135,7 +146,7 @@ gsui-oscillator[ wave ] .gsuiOscillator-sourceName {
 	text-align: center;
 }
 .gsuiOscillator-sourceIcon {
-	margin-left: 6px;
+	margin-left: 8px;
 	font-size: 12px;
 	opacity: .5;
 }
@@ -162,18 +173,23 @@ gsui-oscillator[ wave ] .gsuiOscillator-sourceName {
 	padding-left: 6px;
 	font-size: 12px;
 	font-family: inherit;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 	-moz-appearance: none;
 	-webkit-appearance: none;
-	opacity: .5;
 }
 .gsuiOscillator-waveOpt {
 	background-color: var( --gsuiOscillator-wave-option );
 }
 .gsuiOscillator-waveOptNative {
 	background-color: var( --gsuiOscillator-wave-optionNative );
+}
+.gsuiOscillator-sourceName {
+	display: flex;
+	align-items: center;
+	padding-left: 12px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	opacity: .5;
 }
 
 /* .......................................................................... */
@@ -241,6 +257,7 @@ gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave-dragging {
 	opacity: 1;
 }
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave,
+gsui-oscillator[ dragoverwave ] .gsuiOscillator-source,
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-waveWrap-top,
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-unisonGraph,
 gsui-oscillator[ dragover ] .gsuiOscillator-wave,
