@@ -2,7 +2,9 @@ body {
 	color-scheme: dark;
 	color: #fff;
 	--gsui-ovl-1: #ffffff08;
-	--gsui-col-pan: #d9f;
+	--gsui-col-pan: #ae9ce5;
+	--gsui-col-pan-l: #faa;
+	--gsui-col-pan-r: #aaf;
 	--gsui-col-gain: #ff9;
 	--gsui-col-time: #f77;
 	--gsui-col-detune: #fff;
