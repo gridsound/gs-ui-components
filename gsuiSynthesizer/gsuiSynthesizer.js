@@ -20,6 +20,17 @@ class gsuiSynthesizer extends HTMLElement {
 		Object.seal( this );
 
 		this.#elements.newOsc.onclick = this.#onclickNewOsc.bind( this );
+		this.#elements.newOsc.ondragenter = () => this.#ondrag( true );
+		this.#elements.newOsc.ondragleave = () => this.#ondrag( false );
+		this.#elements.newOsc.ondrop = e => {
+			const data = e.dataTransfer.getData( "pattern-buffer" );
+
+			this.#ondrag( false );
+			if ( data ) {
+				GSUdispatchEvent( this, "gsuiSynthesizer", "addNewBuffer", data );
+			}
+			return false;
+		};
 		new gsuiReorder( {
 			rootElement: this.#elements.oscList,
 			direction: "column",
@@ -102,6 +113,11 @@ class gsuiSynthesizer extends HTMLElement {
 		const oscs = gsuiReorder.listComputeOrderChange( this.#elements.oscList, {} );
 
 		GSUdispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
+	}
+	#ondrag( b ) {
+		GSUsetAttribute( this.#elements.newOsc, "data-hover", b );
+		GSUsetAttribute( this.#elements.newOsc.firstChild, "data-icon", b ? "arrow-dropdown" : "plus" );
+		GSUsetAttribute( this.#elements.newOsc.firstChild, "animate", b );
 	}
 }
 
