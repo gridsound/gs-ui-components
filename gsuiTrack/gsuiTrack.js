@@ -61,7 +61,7 @@ class gsuiTrack extends HTMLElement {
 
 	// .........................................................................
 	#ondblclick( e ) {
-		if ( e.target === this.#inpName ) {
+		if ( e.target.classList.contains( "gsuiTrack-nameWrap" ) ) {
 			this.#inpName.disabled = false;
 			this.#inpName.select();
 			this.#inpName.focus();

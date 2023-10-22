@@ -66,6 +66,9 @@ gsui-track gsui-toggle {
 	background: none;
 	user-select: none;
 }
+.gsuiTrack-name[ disabled ] {
+	pointer-events: none;
+}
 gsui-track[ mute ] .gsuiTrack-name {
 	opacity: .5;
 }
