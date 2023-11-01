@@ -20,7 +20,6 @@ gsui-slidergroup {
 	position: absolute;
 	width: 1000000px;
 	height: 100%;
-	user-select: none;
 }
 
 /* .......................................................................... */

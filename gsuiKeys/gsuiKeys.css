@@ -8,8 +8,6 @@ gsui-keys {
 	height: 100%;
 	z-index: 0;
 	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );;
-	user-select: none;
-	-webkit-user-select: none;
 }
 gsui-keys[ orient="vertical" ] {
 	height: calc( var( --gsuiKeys-nbOctaves ) * 12em );

@@ -8,7 +8,6 @@ gsui-slicer {
 	min-width: 306px;
 	color: var( --gsuiSlicer-color );
 	background-color: var( --gsuiSlicer-bg );
-	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 }
 gsui-slicer[ disabled ] {
@@ -224,7 +223,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	cursor: pointer;
 	white-space: nowrap;
 	background-color: #fff2;
-	user-select: none;
 	opacity: .6;
 	transition: .2s opacity;
 }

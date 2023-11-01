@@ -26,7 +26,6 @@ gsui-envelope {
 	height: 20px;
 	font-size: 12px;
 	opacity: .5;
-	user-select: none;
 }
 .gsuiEnvelope-propValue::before {
 	content: "·";

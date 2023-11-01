@@ -33,7 +33,6 @@
 	font-size: 14px;
 	border-radius: inherit inherit 0 0;
 	background-color: #888;
-	user-select: none;
 }
 .gsuiDAW-dropdown-icon {
 	margin: 0 6px;
@@ -71,7 +70,6 @@
 	font-size: 12px;
 	font-style: italic;
 	opacity: .5;
-	user-select: none;
 }
 .gsuiDAW-dropdown-placeholder:only-child {
 	display: flex;

@@ -5,7 +5,6 @@ gsui-slider {
 	height: 100%;
 	outline: 0;
 	touch-action: none;
-	user-select: none;
 }
 
 gsui-slider[ disabled ] {

@@ -6,7 +6,6 @@
 	margin-right: var( --gap );
 	font-size: 28px;
 	font-family: var( --gsui-font-title );
-	user-select: none;
 }
 .gsuiDAW-btn[ data-action="profile" ] {
 	width: 32px;

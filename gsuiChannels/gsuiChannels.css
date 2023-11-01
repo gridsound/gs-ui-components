@@ -4,8 +4,6 @@ gsui-channels {
 	height: 100%;
 	position: relative;
 	background-color: var( --gsui-items-bg );
-	user-select: none;
-	-webkit-user-select: none;
 }
 
 /* .......................................................................... */

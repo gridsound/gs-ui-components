@@ -83,8 +83,6 @@ gsui-window:not( .gsuiWindow-dragging ),
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
 	background-color: var( --gsui-win-head-bg );
-	user-select: none;
-	-webkit-user-select: none;
 }
 .gsuiWindow-dragging .gsuiWindow-head {
 	cursor: move;

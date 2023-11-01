@@ -64,7 +64,6 @@ gsui-track gsui-toggle {
 	color: inherit;
 	cursor: default;
 	background: none;
-	user-select: none;
 }
 .gsuiTrack-name[ disabled ] {
 	pointer-events: none;

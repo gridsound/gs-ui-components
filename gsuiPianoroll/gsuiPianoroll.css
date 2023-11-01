@@ -38,7 +38,6 @@ gsui-pianoroll .gsuiTimewindow-panelContentDown {
 	color: inherit;
 	cursor: pointer;
 	font-size: 11px;
-	user-select: none;
 	border-radius: 4px;
 	background-color: #fff2;
 	scrollbar-width: none;

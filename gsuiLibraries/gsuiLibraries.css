@@ -2,7 +2,6 @@ gsui-libraries {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	user-select: none;
 }
 
 /* .......................................................................... */
@@ -16,7 +15,6 @@ gsui-libraries {
 	padding: 0 6px;
 	font-size: 11px;
 	background-color: var( --gsui-win-head-bg );
-	user-select: none;
 }
 .gsuiLibraries-head-icon,
 .gsuiLibraries-head-title {

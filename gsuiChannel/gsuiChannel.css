@@ -88,7 +88,6 @@ gsui-channel .gsuiChannel-headBtn:hover {
 	text-align: center;
 	font-size: 9px;
 	font-weight: var( --gsuiChannel-name-weight, normal );
-	user-select: none;
 	opacity: var( --gsuiChannel-name-opacity, 1 );
 }
 

@@ -17,7 +17,6 @@ gsui-synthesizer {
 	height: 24px;
 	font-size: 14px;
 	line-height: 1em;
-	user-select: none;
 	padding-top: 2px;
 	border-bottom: 2px solid #0002;
 	background-color: var( --gsui-win-head2-bg );

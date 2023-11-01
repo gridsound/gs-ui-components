@@ -38,7 +38,6 @@ gsui-daw gsui-spectrum {
 	color: var( --gsuiDAW-history-action-color );
 	font-size: 14px;
 	font-family: var( --gsui-font-monospace );
-	user-select: none;
 	background-color: var( --gsuiDAW-history-action-bg );
 	transition: filter .2s;
 }

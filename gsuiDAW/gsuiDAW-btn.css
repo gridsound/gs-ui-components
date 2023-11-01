@@ -13,7 +13,6 @@
 	background: none;
 	transition: .2s;
 	transition-property: color, opacity, background-color;
-	user-select: none;
 }
 .gsuiDAW-btn.gsuiIcon {
 	width: 28px;

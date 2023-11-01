@@ -37,8 +37,6 @@ gsui-patternroll gsui-track {
 	font-weight: bold;
 	background-color: #fff3;
 	pointer-events: none;
-	user-select: none;
-	-webkit-user-select: none;
 }
 .gsuiPatternroll-block-name {
 	overflow: hidden;
@@ -88,8 +86,6 @@ gsui-patternroll gsui-track {
 .gsuiPatternroll-block-placeholderText {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	user-select: none;
-	-webkit-user-select: none;
 }
 
 /* .......................................................................... */

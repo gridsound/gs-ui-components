@@ -133,7 +133,6 @@ gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 	color: inherit;
 	cursor: pointer;
 	background: none;
-	user-select: none;
 	opacity: .5;
 	transition: .2s opacity;
 }

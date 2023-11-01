@@ -48,3 +48,7 @@ body {
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background-color: #222; }
 ::-webkit-scrollbar-thumb { background-color: #aaa; }
+
+html {
+	user-select: none;
+}
