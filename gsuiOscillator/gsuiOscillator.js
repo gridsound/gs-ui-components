@@ -177,7 +177,7 @@ class gsuiOscillator extends HTMLElement {
 		w0.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
 		w1.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
-	$updateSourceWave( svg ) {
+	$updateSourceWaveform( svg ) {
 		GSUemptyElement( this.#elements.source );
 		this.#elements.source.append( svg );
 	}
@@ -194,13 +194,14 @@ class gsuiOscillator extends HTMLElement {
 	}
 	#changeWave( w ) {
 		const noise = w === "noise";
+		const slid = this.#elements.sliders;
 
 		this.#elements.waveSelect.value = w;
-		GSUsetAttribute( this.#elements.sliders.detune[ 0 ], "disabled", noise );
-		GSUsetAttribute( this.#elements.sliders.detunefine[ 0 ], "disabled", noise );
-		GSUsetAttribute( this.#elements.sliders.unisonvoices[ 0 ], "disabled", noise );
-		GSUsetAttribute( this.#elements.sliders.unisondetune[ 0 ], "disabled", noise );
-		GSUsetAttribute( this.#elements.sliders.unisonblend[ 0 ], "disabled", noise );
+		GSUsetAttribute( slid.detune[ 0 ], "disabled", noise );
+		GSUsetAttribute( slid.detunefine[ 0 ], "disabled", noise );
+		GSUsetAttribute( slid.unisonvoices[ 0 ], "disabled", noise );
+		GSUsetAttribute( slid.unisondetune[ 0 ], "disabled", noise );
+		GSUsetAttribute( slid.unisonblend[ 0 ], "disabled", noise );
 		if ( w ) {
 			GSUsetAttribute( this, "source", false );
 		}

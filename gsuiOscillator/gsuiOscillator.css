@@ -11,13 +11,6 @@ gsui-oscillator {
 		"grip .   wave .   unison .   detune .   pan  .   gain ." 1fr
 		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
 		/20px 6px 1fr  6px 32px   8px 36px   6px 36px 6px 36px 10px;
-	container-type: inline-size;
-	container-name: gsuiOscillator;
-}
-@container gsuiOscillator (max-width: 300px) {
-	.gsuiOscillator-grip {
-		background-color: black !important;
-	}
 }
 
 /* .......................................................................... */
@@ -72,7 +65,7 @@ gsui-oscillator {
 	font-size: 12px;
 	pointer-events: none;
 }
-gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderValue {
+gsui-oscillator[ wave="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderValue {
 	filter: grayscale( 1 );
 	opacity: .4;
 }
@@ -96,20 +89,18 @@ gsui-oscillator[ type="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 	display: flex;
 	height: 18px;
 }
+.gsuiOscillator-waveWrap-bottom {
+	position: relative;
+	flex: 1;
+}
 .gsuiOscillator-wave,
 .gsuiOscillator-source {
-	flex: 1;
-	position: relative;
-}
-gsui-oscillator[ wave ] .gsuiOscillator-source,
-gsui-oscillator[ source ] .gsuiOscillator-wave {
-	display: none;
-}
-.gsuiOscillator-source svg {
 	position: absolute;
-	width: 100%;
-	height: 100%;
-	fill: var( --gsui-col-pan );
+	inset: 0;
+}
+gsui-oscillator:not( [ source ] ) .gsuiOscillator-source,
+gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
+	visibility: hidden;
 }
 .gsuiOscillator-wave gsui-periodicwave {
 	position: absolute;
@@ -118,6 +109,12 @@ gsui-oscillator[ source ] .gsuiOscillator-wave {
 .gsuiOscillator-wave gsui-periodicwave:last-child { color: var( --gsui-col-pan-r ); }
 .gsuiOscillator-wave polyline {
 	stroke-opacity: .8;
+}
+.gsuiOscillator-source svg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	fill: var( --gsui-col-pan );
 }
 
 /* .......................................................................... */
@@ -133,10 +130,10 @@ gsui-oscillator[ source ] .gsuiOscillator-wave {
 	opacity: .5;
 	transition: .1s opacity;
 }
-gsui-oscillator[ source ] .gsuiOscillator-waveBtn,
-gsui-oscillator[ source ] .gsuiOscillator-waveSelect,
-gsui-oscillator[ wave ] .gsuiOscillator-sourceIcon,
-gsui-oscillator[ wave ] .gsuiOscillator-sourceName {
+gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveBtn,
+gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveSelect,
+gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceIcon,
+gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	display: none;
 }
 .gsuiOscillator-sourceIcon,
@@ -183,12 +180,11 @@ gsui-oscillator[ wave ] .gsuiOscillator-sourceName {
 	background-color: #333;
 }
 .gsuiOscillator-sourceName {
-	display: flex;
-	align-items: center;
 	padding-left: 12px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	line-height: 18px;
 	opacity: .5;
 }
 
@@ -200,7 +196,7 @@ gsui-oscillator[ wave ] .gsuiOscillator-sourceName {
 	align-items: center;
 	width: 10px;
 }
-gsui-oscillator[ type="noise" ] .gsuiOscillator-unisonGraph {
+gsui-oscillator[ wave="noise" ] .gsuiOscillator-unisonGraph {
 	filter: grayscale( 1 );
 }
 .gsuiOscillator-unisonGraph-voices {
@@ -256,12 +252,11 @@ gsui-oscillator[ dragover ] .gsuiOscillator-dragging,
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave-dragging {
 	opacity: 1;
 }
-gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave,
-gsui-oscillator[ dragoverwave ] .gsuiOscillator-source,
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-waveWrap-top,
+gsui-oscillator[ dragoverwave ] .gsuiOscillator-waveWrap-bottom,
 gsui-oscillator[ dragoverwave ] .gsuiOscillator-unisonGraph,
-gsui-oscillator[ dragover ] .gsuiOscillator-wave,
 gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap-top,
+gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap-bottom,
 gsui-oscillator[ dragover ] .gsuiOscillator-unisonGraph,
 gsui-oscillator[ dragover ] .gsuiOscillator-unison,
 gsui-oscillator[ dragover ] .gsuiOscillator-prop,
