@@ -86,12 +86,13 @@ class gsuiSynthesizer extends HTMLElement {
 	}
 
 	// .........................................................................
-	addOscillator( id ) {
-		const uiOsc = GSUcreateElement( "gsui-oscillator", { "data-id": id } );
+	addOscillator( id, props ) {
+		const uiOsc = GSUcreateElement( "gsui-oscillator", { ...props, "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );
 		this.#elements.oscList.append( uiOsc );
+		return uiOsc;
 	}
 	removeOscillator( id ) {
 		const osc = this.#uiOscs.get( id );
