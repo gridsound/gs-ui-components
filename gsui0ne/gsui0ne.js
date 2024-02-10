@@ -11,9 +11,11 @@ class gsui0ne extends HTMLElement {
 	constructor( o ) {
 		super();
 		this.#attributes = o.$attributes || {};
-		this.#children = GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) );
-		this.$elements = GSUfindElements( this.#children, o.$elements );
 		this.$dispatch = GSUdispatchEvent.bind( null, this, o.$cmpName );
+		if ( GSUhasTemplate( o.$tagName ) ) {
+			this.#children = GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) );
+			this.$elements = GSUfindElements( this.#children, o.$elements );
+		}
 	}
 
 	// .........................................................................
