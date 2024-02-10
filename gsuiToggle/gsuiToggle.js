@@ -5,7 +5,7 @@ class gsuiToggle extends gsui0ne {
 		super( {
 			$cmpName: "gsuiToggle",
 			$tagName: "gsui-toggle",
-			$attributes: { tabindex: 0 }
+			$attributes: { tabindex: 0 },
 		} );
 		Object.seal( this );
 		this.oncontextmenu = GSUnoopFalse;

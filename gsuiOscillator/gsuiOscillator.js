@@ -117,7 +117,7 @@ class gsuiOscillator extends gsui0ne {
 	static get observedAttributes() {
 		return [ "order", "wave", "source", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
-	$attributeChanged( prop, prev, val ) {
+	$attributeChanged( prop, val ) {
 		const num = +val;
 
 		switch ( prop ) {

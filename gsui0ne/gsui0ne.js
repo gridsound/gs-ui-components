@@ -39,7 +39,7 @@ class gsui0ne extends HTMLElement {
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( !this.#children && prev !== val ) {
-			this.$attributeChanged?.( prop, prev, val );
+			this.$attributeChanged?.( prop, val, prev );
 		}
 	}
 }
