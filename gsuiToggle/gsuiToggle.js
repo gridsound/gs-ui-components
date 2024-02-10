@@ -1,25 +1,24 @@
 "use strict";
 
-class gsuiToggle extends HTMLElement {
+class gsuiToggle extends gsui0ne {
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiToggle",
+			$tagName: "gsui-toggle",
+			$attributes: { tabindex: 0 }
+		} );
 		Object.seal( this );
-		this.oncontextmenu = () => false;
+		this.oncontextmenu = GSUnoopFalse;
 		this.onmousedown = e => {
 			if ( e.button === 2 ) {
-				GSUdispatchEvent( this, "gsuiToggle", "toggleSolo" );
+				this.$dispatch( "toggleSolo" );
 			} else if ( e.button === 0 ) {
-				const off = GSUgetAttribute( this, "off" ) !== null;
+				const off = GSUhasAttribute( this, "off" );
 
 				GSUsetAttribute( this, "off", !off );
-				GSUdispatchEvent( this, "gsuiToggle", "toggle", off );
+				this.$dispatch( "toggle", off );
 			}
 		};
-	}
-
-	// .........................................................................
-	connectedCallback() {
-		GSUsetAttribute( this, "tabindex", 0 );
 	}
 }
 
