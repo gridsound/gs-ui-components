@@ -8,7 +8,7 @@ class gsui0ne extends HTMLElement {
 	#isConnected = false;
 	#connectionCount = 0;
 
-	constructor( o ) {
+	constructor( o = {} ) {
 		super();
 		this.#attributes = o.$attributes || {};
 		this.$dispatch = GSUdispatchEvent.bind( null, this, o.$cmpName );
