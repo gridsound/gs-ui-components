@@ -1,30 +1,30 @@
 "use strict";
 
-class gsuiAnalyser extends HTMLElement {
-	#cnv = GSUcreateElement( "canvas" );
-	#ctx = this.#cnv.getContext( "2d" );
+class gsuiAnalyser extends gsui0ne {
+	#ctx = null;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiAnalyser",
+			$tagName: "gsui-analyser",
+			$template: GSUcreateElement( "canvas" ),
+			$elements: {
+				cnv: "canvas",
+			},
+		} );
+		this.#ctx = this.$elements.cnv.getContext( "2d" );
 		Object.seal( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#cnv );
-		}
-	}
-
-	// .........................................................................
 	clear() {
-		this.#ctx.clearRect( 0, 0, this.#cnv.width, this.#cnv.height );
+		this.#ctx.clearRect( 0, 0, this.$elements.cnv.width, this.$elements.cnv.height );
 	}
 	setResolution( w, h ) {
-		const img = this.#ctx.getImageData( 0, 0, this.#cnv.width, this.#cnv.height );
+		const img = this.#ctx.getImageData( 0, 0, this.$elements.cnv.width, this.$elements.cnv.height );
 
-		this.#cnv.width = w;
-		this.#cnv.height = h;
+		this.$elements.cnv.width = w;
+		this.$elements.cnv.height = h;
 		this.#ctx.putImageData( img, 0, 0 );
 	}
 	draw( ldata, rdata ) {
