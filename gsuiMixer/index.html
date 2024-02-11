@@ -46,6 +46,7 @@ body {
 <script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
 <script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
 <script src="/gs-ui-components/gsuiScrollShadow/gsuiScrollShadow.js"></script>
 <script src="/gs-ui-components/gsuiToggle/gsuiToggle.js"></script>
 <script src="/gs-ui-components/gsuiAnalyser/gsuiAnalyser.js"></script>
@@ -72,13 +73,13 @@ body {
 const mix = document.querySelector( "gsui-mixer" );
 const chans = mix.getChannels();
 
-chans.addChannel( "main" );
-chans.renameChannel( "main", "main" );
-chans.addChannel( "1" );
-chans.addChannel( "2" );
-chans.addChannel( "3" );
-chans.addChannel( "4" );
-chans.renameChannel( "4", "secret chan" );
+chans.$addChannel( "main" );
+chans.$renameChannel( "main", "main" );
+chans.$addChannel( "1" );
+chans.$addChannel( "2" );
+chans.$addChannel( "3" );
+chans.$addChannel( "4" );
+chans.$renameChannel( "4", "secret chan" );
 chans.$getChannel( "1" ).$addEffect( "0", { type: "delay" } );
 chans.$getChannel( "1" ).$addEffect( "1", { type: "filter" } );
 chans.$getChannel( "1" ).$addEffect( "2", { type: "filter" } );

@@ -140,7 +140,7 @@ class gsuiPatterns extends HTMLElement {
 		} );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
-		gsuiChannels.openSelectChannelPopup( this.$getChannels(), currChanId )
+		gsuiChannels.$openSelectChannelPopup( this.$getChannels(), currChanId )
 			.then( chanId => chanId && this.onchange( action, objId, chanId ) );
 	}
 	#openInfoPopup( id, el ) {

@@ -1,36 +1,38 @@
 "use strict";
 
-class gsuiChannels extends HTMLElement {
-	oninput = null;
-	onchange = null;
-	onselectChan = null;
-	onselectEffect = null;
+class gsuiChannels extends gsui0ne {
+	$oninput = null;
+	$onchange = null;
+	$onselectChan = null;
+	$onselectEffect = null;
 	#chans = {};
 	#chanSelected = null;
 	#analyserW = 10;
 	#analyserH = 50;
 	#onresizeBind = this.#onresize.bind( this );
-	#children = GSUgetTemplate( "gsui-channels" );
-	#elements = GSUfindElements( this.#children, {
-		pmain: ".gsuiChannels-panMain",
-		pchans: ".gsuiChannels-panChannels",
-		addBtn: ".gsuiChannels-addChan",
-	} );
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
 	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiChannels",
+			$tagName: "gsui-channels",
+			$elements: {
+				pmain: ".gsuiChannels-panMain",
+				pchans: ".gsuiChannels-panChannels",
+				addBtn: ".gsuiChannels-addChan",
+			},
+		} );
 		Object.seal( this );
 
-		this.#elements.addBtn.onclick = () => this.onchange( "addChannel" );
+		this.$elements.addBtn.onclick = () => this.$onchange( "addChannel" );
 		GSUlistenEvents( this, {
 			gsuiChannel: {
-				selectChannel: ( d, chan ) => this.selectChannel( chan.dataset.id ),
-				selectEffect: ( d, chan ) => this.onselectEffect( chan.dataset.id, d.args[ 0 ] ),
-				liveChange: ( d, chan ) => this.oninput( chan.dataset.id, ...d.args ),
-				change: ( d, chan ) => this.onchange( "changeChannel", chan.dataset.id, ...d.args ),
-				toggle: ( d, chan ) => this.onchange( "toggleChannel", chan.dataset.id ),
+				selectChannel: ( d, chan ) => this.$selectChannel( chan.dataset.id ),
+				selectEffect: ( d, chan ) => this.$onselectEffect( chan.dataset.id, d.args[ 0 ] ),
+				liveChange: ( d, chan ) => this.$oninput( chan.dataset.id, ...d.args ),
+				change: ( d, chan ) => this.$onchange( "changeChannel", chan.dataset.id, ...d.args ),
+				toggle: ( d, chan ) => this.$onchange( "toggleChannel", chan.dataset.id ),
 			},
 		} );
 		new gsuiReorder( {
@@ -41,21 +43,17 @@ class gsuiChannels extends HTMLElement {
 			handleSelector: ".gsuiChannel-grip",
 			parentSelector: ".gsuiChannels-panChannels",
 			onchange: elChan => {
-				this.onchange( "reorderChannel", elChan.dataset.id,
-					gsuiReorder.listComputeOrderChange( this.#elements.pchans, {} ) );
+				this.$onchange( "reorderChannel", elChan.dataset.id,
+					gsuiReorder.listComputeOrderChange( this.$elements.pchans, {} ) );
 			},
 		} );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...this.#children );
-			this.#children = null;
-		}
+	$connected() {
 		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
-	disconnectedCallback() {
+	$disconnected() {
 		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 
@@ -64,17 +62,17 @@ class gsuiChannels extends HTMLElement {
 		const chans = Object.values( this.#chans );
 
 		if ( chans.length ) {
-			const { width, height } = chans[ 0 ].analyser.getBoundingClientRect();
+			const { width, height } = chans[ 0 ].$analyser.getBoundingClientRect();
 
 			this.#analyserW = width;
 			this.#analyserH = height;
-			chans.forEach( chan => chan.analyser.setResolution( width, height ) );
+			chans.forEach( chan => chan.$analyser.setResolution( width, height ) );
 		}
 	}
-	updateAudioData( id, ldata, rdata ) {
-		this.#chans[ id ].analyser.draw( ldata, rdata );
+	$updateAudioData( id, ldata, rdata ) {
+		this.#chans[ id ].$analyser.draw( ldata, rdata );
 	}
-	selectChannel( id ) {
+	$selectChannel( id ) {
 		const chan = this.#chans[ id ];
 		const pchan = this.#chans[ this.#chanSelected ];
 
@@ -82,9 +80,9 @@ class gsuiChannels extends HTMLElement {
 		GSUsetAttribute( chan, "selected", true );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
-		this.onselectChan?.( id );
+		this.$onselectChan?.( id );
 	}
-	static openSelectChannelPopup( chans, currChanId ) {
+	static $openSelectChannelPopup( chans, currChanId ) {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.append(
 				...Object.entries( chans ).map(
@@ -105,61 +103,61 @@ class gsuiChannels extends HTMLElement {
 	$getChannel( id ) {
 		return this.#chans[ id ];
 	}
-	addChannel( id ) {
+	$addChannel( id ) {
 		const chan = GSUcreateElement( "gsui-channel", { "data-id": id } );
 		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
-		( id === "main" ? this.#elements.pmain : this.#elements.pchans ).append( chan );
+		( id === "main" ? this.$elements.pmain : this.$elements.pchans ).append( chan );
 		this.#chans[ id ] = chan;
-		qs( "delete" ).onclick = () => this.onchange( "removeChannel", id );
-		qs( "connect" ).onclick = () => this.onchange( "redirectChannel", this.#chanSelected, id );
+		qs( "delete" ).onclick = () => this.$onchange( "removeChannel", id );
+		qs( "connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
 		qs( "rename" ).onclick = () => {
 			GSUpopup.prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
-				.then( name => this.onchange( "renameChannel", id, name ) );
+				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
-		chan.analyser.setResolution( this.#analyserW, this.#analyserH );
+		chan.$analyser.setResolution( this.#analyserW, this.#analyserH );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
-			this.selectChannel( id );
+			this.$selectChannel( id );
 		}
 	}
-	removeChannel( id ) {
+	$removeChannel( id ) {
 		const chan = this.#chans[ id ];
 
 		if ( id === this.#chanSelected ) {
 			const next = this.#getNextChan( chan, "nextElementSibling" );
 
 			if ( next ) {
-				this.selectChannel( next.dataset.id );
+				this.$selectChannel( next.dataset.id );
 			} else {
 				const prev = this.#getNextChan( chan, "previousElementSibling" );
 
-				this.selectChannel( prev ? prev.dataset.id : "main" );
+				this.$selectChannel( prev ? prev.dataset.id : "main" );
 			}
 		}
 		delete this.#chans[ id ];
 		chan.remove();
 	}
-	toggleChannel( id, b ) {
+	$toggleChannel( id, b ) {
 		GSUsetAttribute( this.#chans[ id ], "muted", !b );
 	}
-	changePanChannel( id, val ) {
+	$changePanChannel( id, val ) {
 		GSUsetAttribute( this.#chans[ id ], "pan", val );
 	}
-	changeGainChannel( id, val ) {
+	$changeGainChannel( id, val ) {
 		GSUsetAttribute( this.#chans[ id ], "gain", val );
 	}
-	renameChannel( id, name ) {
+	$renameChannel( id, name ) {
 		GSUsetAttribute( this.#chans[ id ], "name", name );
 	}
-	reorderChannel( id, n ) {
+	$reorderChannel( id, n ) {
 		this.#chans[ id ].dataset.order = n;
 	}
-	reorderChannels( channels ) {
-		gsuiReorder.listReorder( this.#elements.pchans, channels );
+	$reorderChannels( channels ) {
+		gsuiReorder.listReorder( this.$elements.pchans, channels );
 	}
-	redirectChannel( id, dest ) {
+	$redirectChannel( id, dest ) {
 		this.#chans[ id ].dataset.dest = dest;
 		this.#updateChanConnections();
 	}

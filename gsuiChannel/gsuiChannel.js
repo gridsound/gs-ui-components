@@ -1,100 +1,94 @@
 "use strict";
 
-class gsuiChannel extends HTMLElement {
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiChannel" );
-	#children = GSUgetTemplate( "gsui-channel" );
-	#elements = GSUfindElements( this.#children, {
-		toggle: "gsui-toggle",
-		nameWrap: ".gsuiChannel-nameWrap",
-		name: ".gsuiChannel-name",
-		analyser: "gsui-analyser",
-		effects: ".gsuiChannel-effects",
-		pan: ".gsuiChannel-pan gsui-slider",
-		gain: ".gsuiChannel-gain gsui-slider",
-		connecta: ".gsuiChannel-connectA",
-		connectb: ".gsuiChannel-connectB",
-	} );
-	analyser = this.#elements.analyser;
+class gsuiChannel extends gsui0ne {
+	$analyser = null;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiChannel",
+			$tagName: "gsui-channel",
+			$elements: {
+				toggle: "gsui-toggle",
+				nameWrap: ".gsuiChannel-nameWrap",
+				name: ".gsuiChannel-name",
+				analyser: "gsui-analyser",
+				effects: ".gsuiChannel-effects",
+				pan: ".gsuiChannel-pan gsui-slider",
+				gain: ".gsuiChannel-gain gsui-slider",
+				connecta: ".gsuiChannel-connectA",
+				connectb: ".gsuiChannel-connectB",
+			},
+			$attributes: {
+				draggable: "true",
+				name: "chan",
+				pan: 0,
+				gain: 1,
+				connecta: "down",
+			},
+		} );
 		Object.seal( this );
 
-		this.#elements.nameWrap.onclick =
-		this.#elements.analyser.onclick = () => {
-			this.#dispatch( "selectChannel" );
+		this.$analyser = this.$elements.analyser;
+		this.$analyser.onclick =
+		this.$elements.nameWrap.onclick = () => {
+			this.$dispatch( "selectChannel" );
 		};
-		this.#elements.effects.onclick = e => {
+		this.$elements.effects.onclick = e => {
 			if ( e.target.dataset.id ) {
-				this.#dispatch( "selectChannel" );
-				this.#dispatch( "selectEffect", e.target.dataset.id );
+				this.$dispatch( "selectChannel" );
+				this.$dispatch( "selectEffect", e.target.dataset.id );
 			}
 		};
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: d => {
 					GSUsetAttribute( this, "muted", !d.args[ 0 ] );
-					this.#dispatch( "toggle", d.args[ 0 ] );
+					this.$dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
 					GSUsetAttribute( this, "muted", false );
-					this.#dispatch( "toggleSolo" );
+					this.$dispatch( "toggleSolo" );
 				},
 			},
 			gsuiSlider: {
 				inputStart: GSUnoop,
 				inputEnd: GSUnoop,
 				input: ( d, sli ) => {
-					this.#dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
+					this.$dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
 				},
 				change: ( d, sli ) => {
-					this.#dispatch( "change", sli.dataset.prop, d.args[ 0 ] );
+					this.$dispatch( "change", sli.dataset.prop, d.args[ 0 ] );
 				},
 			},
 		} );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...this.#children );
-			this.#children = null;
-			GSUsetAttribute( this, "draggable", "true" );
-			GSUrecallAttributes( this, {
-				name: "chan",
-				pan: 0,
-				gain: 1,
-				connecta: "down",
-			} );
-		}
-	}
 	static get observedAttributes() {
 		return [ "name", "muted", "pan", "gain", "connecta", "connectb" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( !this.#children && prev !== val ) {
-			switch ( prop ) {
-				case "name":
-					this.#elements.name.textContent = val;
-					break;
-				case "muted":
-					GSUsetAttribute( this.#elements.toggle, "off", val !== null );
-					break;
-				case "pan":
-				case "gain":
-					this.#elements[ prop ].setValue( val );
-					break;
-				case "connecta":
-				case "connectb":
-					this.#elements[ prop ].dataset.icon = val ? `caret-${ val }` : "";
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "name":
+				this.$elements.name.textContent = val;
+				break;
+			case "muted":
+				GSUsetAttribute( this.$elements.toggle, "off", val !== null );
+				break;
+			case "pan":
+			case "gain":
+				this.$elements[ prop ].setValue( val );
+				break;
+			case "connecta":
+			case "connectb":
+				this.$elements[ prop ].dataset.icon = val ? `caret-${ val }` : "";
+				break;
 		}
 	}
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.#elements.effects.append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
+		this.$elements.effects.append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
 	}
 	$removeEffect( id ) {
 		this.#getEffect( id ).remove();
@@ -108,7 +102,7 @@ class gsuiChannel extends HTMLElement {
 		}
 	}
 	#getEffect( id ) {
-		return this.#elements.effects.querySelector( `[data-id="${ id }"]` );
+		return this.$elements.effects.querySelector( `[data-id="${ id }"]` );
 	}
 }
 
