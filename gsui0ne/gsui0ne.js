@@ -3,9 +3,9 @@
 class gsui0ne extends HTMLElement {
 	$dispatch = null;
 	$elements = null;
+	$isConnected = false;
 	#children = null;
 	#attributes = null;
-	#isConnected = false;
 	#connectionCount = 0;
 
 	constructor( o = {} ) {
@@ -22,7 +22,7 @@ class gsui0ne extends HTMLElement {
 
 	// .........................................................................
 	connectedCallback() {
-		this.#isConnected = true;
+		this.$isConnected = true;
 		if ( ++this.#connectionCount === 1 ) {
 			if ( this.#children ) {
 				Array.isArray( this.#children )
@@ -33,12 +33,11 @@ class gsui0ne extends HTMLElement {
 			this.$firstTimeConnected?.();
 			GSUrecallAttributes( this, this.#attributes );
 			this.#attributes = null;
-		} else {
-			this.$connected?.();
 		}
+		this.$connected?.();
 	}
 	disconnectedCallback() {
-		this.#isConnected = false;
+		this.$isConnected = false;
 		this.$disconnected?.();
 	}
 	attributeChangedCallback( prop, prev, val ) {
