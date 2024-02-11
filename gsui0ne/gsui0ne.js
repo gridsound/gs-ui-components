@@ -12,8 +12,10 @@ class gsui0ne extends HTMLElement {
 		super();
 		this.#attributes = o.$attributes || {};
 		this.$dispatch = GSUdispatchEvent.bind( null, this, o.$cmpName );
-		if ( GSUhasTemplate( o.$tagName ) ) {
-			this.#children = GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) );
+		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
+			? GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) )
+			: null );
+		if ( this.#children ) {
 			this.$elements = GSUfindElements( this.#children, o.$elements );
 		}
 	}
@@ -23,7 +25,9 @@ class gsui0ne extends HTMLElement {
 		this.#isConnected = true;
 		if ( ++this.#connectionCount === 1 ) {
 			if ( this.#children ) {
-				this.append( ...this.#children );
+				Array.isArray( this.#children )
+					? this.append( ...this.#children )
+					: this.append( this.#children );
 				this.#children = null;
 			}
 			this.$firstTimeConnected?.();
