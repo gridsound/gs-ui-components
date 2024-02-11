@@ -1,28 +1,30 @@
 "use strict";
 
-class gsuiSynthesizer extends HTMLElement {
+class gsuiSynthesizer extends gsui0ne {
 	#waveList = [];
 	#uiOscs = new Map();
-	#children = GSUgetTemplate( "gsui-synthesizer" );
-	#elements = GSUfindElements( this.#children, {
-		toggleEnv: "gsui-toggle[data-related='env']",
-		toggleLFO: "gsui-toggle[data-related='lfo']",
-		env: "gsui-envelope",
-		lfo: "gsui-lfo",
-		oscList: ".gsuiSynthesizer-oscList",
-		newOsc: ".gsuiSynthesizer-newOsc",
-	} );
 
 	constructor() {
-		super();
-		this.env = this.#elements.env;
-		this.lfo = this.#elements.lfo;
+		super( {
+			$cmpName: "gsuiSynthesizer",
+			$tagName: "gsui-synthesizer",
+			$elements: {
+				toggleEnv: "gsui-toggle[data-related='env']",
+				toggleLFO: "gsui-toggle[data-related='lfo']",
+				env: "gsui-envelope",
+				lfo: "gsui-lfo",
+				oscList: ".gsuiSynthesizer-oscList",
+				newOsc: ".gsuiSynthesizer-newOsc",
+			},
+		} );
+		this.env = this.$elements.env;
+		this.lfo = this.$elements.lfo;
 		Object.seal( this );
 
-		this.#elements.newOsc.onclick = this.#onclickNewOsc.bind( this );
-		this.#elements.newOsc.ondragenter = () => this.#ondrag( true );
-		this.#elements.newOsc.ondragleave = () => this.#ondrag( false );
-		this.#elements.newOsc.ondrop = e => {
+		this.$elements.newOsc.onclick = this.#onclickNewOsc.bind( this );
+		this.$elements.newOsc.ondragenter = () => this.#ondrag( true );
+		this.$elements.newOsc.ondragleave = () => this.#ondrag( false );
+		this.$elements.newOsc.ondrop = e => {
 			const data = e.dataTransfer.getData( "pattern-buffer" );
 
 			this.#ondrag( false );
@@ -32,7 +34,7 @@ class gsuiSynthesizer extends HTMLElement {
 			return false;
 		};
 		new gsuiReorder( {
-			rootElement: this.#elements.oscList,
+			rootElement: this.$elements.oscList,
 			direction: "column",
 			dataTransferType: "oscillator",
 			itemSelector: "gsui-oscillator",
@@ -45,7 +47,7 @@ class gsuiSynthesizer extends HTMLElement {
 				toggle: ( d, btn ) => {
 					const isEnv = btn.dataset.related === "env";
 					const ev = isEnv ? "toggleEnv" : "toggleLFO";
-					const el = isEnv ? this.#elements.env : this.#elements.lfo;
+					const el = isEnv ? this.$elements.env : this.$elements.lfo;
 
 					GSUsetAttribute( el, "toggle", d.args[ 0 ] );
 					GSUdispatchEvent( this, "gsuiSynthesizer", ev, d.args[ 0 ] );
@@ -55,46 +57,38 @@ class gsuiSynthesizer extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...this.#children );
-			this.#children = null;
-		}
-	}
-
-	// .........................................................................
-	setWaveList( arr ) {
+	$setWaveList( arr ) {
 		this.#waveList = arr;
 		this.#uiOscs.forEach( o => o.addWaves( arr ) );
 	}
-	getOscillator( id ) {
+	$getOscillator( id ) {
 		return this.#uiOscs.get( id );
 	}
 
 	// .........................................................................
-	changeEnvProp( prop, val ) {
+	$changeEnvProp( prop, val ) {
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.#elements.toggleEnv, "off", !val );
+			GSUsetAttribute( this.$elements.toggleEnv, "off", !val );
 		}
-		GSUsetAttribute( this.#elements.env, prop, val );
+		GSUsetAttribute( this.$elements.env, prop, val );
 	}
-	changeLFOProp( prop, val ) {
+	$changeLFOProp( prop, val ) {
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.#elements.toggleLFO, "off", !val );
+			GSUsetAttribute( this.$elements.toggleLFO, "off", !val );
 		}
-		GSUsetAttribute( this.#elements.lfo, prop, val );
+		GSUsetAttribute( this.$elements.lfo, prop, val );
 	}
 
 	// .........................................................................
-	addOscillator( id, props ) {
+	$addOscillator( id, props ) {
 		const uiOsc = GSUcreateElement( "gsui-oscillator", { ...props, "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );
-		this.#elements.oscList.append( uiOsc );
+		this.$elements.oscList.append( uiOsc );
 		return uiOsc;
 	}
-	removeOscillator( id ) {
+	$removeOscillator( id ) {
 		const osc = this.#uiOscs.get( id );
 
 		if ( osc ) {
@@ -102,8 +96,8 @@ class gsuiSynthesizer extends HTMLElement {
 			this.#uiOscs.delete( id );
 		}
 	}
-	reorderOscillators( obj ) {
-		gsuiReorder.listReorder( this.#elements.oscList, obj );
+	$reorderOscillators( obj ) {
+		gsuiReorder.listReorder( this.$elements.oscList, obj );
 	}
 
 	// .........................................................................
@@ -111,14 +105,14 @@ class gsuiSynthesizer extends HTMLElement {
 		GSUdispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
 	}
 	#onchangeReorder() {
-		const oscs = gsuiReorder.listComputeOrderChange( this.#elements.oscList, {} );
+		const oscs = gsuiReorder.listComputeOrderChange( this.$elements.oscList, {} );
 
 		GSUdispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
 	}
 	#ondrag( b ) {
-		GSUsetAttribute( this.#elements.newOsc, "data-hover", b );
-		GSUsetAttribute( this.#elements.newOsc.firstChild, "data-icon", b ? "arrow-dropdown" : "plus" );
-		GSUsetAttribute( this.#elements.newOsc.firstChild, "animate", b );
+		GSUsetAttribute( this.$elements.newOsc, "data-hover", b );
+		GSUsetAttribute( this.$elements.newOsc.firstChild, "data-icon", b ? "arrow-dropdown" : "plus" );
+		GSUsetAttribute( this.$elements.newOsc.firstChild, "animate", b );
 	}
 }
 
