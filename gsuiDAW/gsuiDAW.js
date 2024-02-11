@@ -98,7 +98,7 @@ class gsuiDAW extends HTMLElement {
 		this.spectrum = this.#elements.spectrum;
 		Object.seal( this );
 
-		this.clock.onchangeDisplay = display => this.#dispatch( "changeDisplayClock", display );
+		this.clock.$onchangeDisplay = display => this.#dispatch( "changeDisplayClock", display );
 		this.spectrum.setResolution( 140 );
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.#elements.head.onclick = this.#onclickHead.bind( this );
@@ -154,13 +154,13 @@ class gsuiDAW extends HTMLElement {
 			gsuiSlider: {
 				inputStart: d => {
 					this.#timeSelecting = true;
-					this.#elements.clock.setTime( d.args[ 0 ] );
+					this.#elements.clock.$setTime( d.args[ 0 ] );
 				},
 				inputEnd: () => {
 					this.#timeSelecting = false;
 				},
 				input: d => {
-					this.#elements.clock.setTime( d.args[ 0 ] );
+					this.#elements.clock.$setTime( d.args[ 0 ] );
 					this.#dispatch( "currentTimeLive", d.args[ 0 ] );
 				},
 				change: d => {
@@ -247,7 +247,7 @@ class gsuiDAW extends HTMLElement {
 					this.#updateDuration();
 					break;
 				case "timelinenumbering":
-					gsuiClock.numbering( val );
+					gsuiClock.$numbering( val );
 					break;
 				case "bpm":
 					GSUsetAttribute( this.#elements.clock, "bpm", val );
@@ -264,7 +264,7 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "currenttime":
 					if ( !this.#timeSelecting ) {
-						this.#elements.clock.setTime( val );
+						this.#elements.clock.$setTime( val );
 						this.#elements.currentTime.setValue( val );
 					}
 					break;
@@ -307,7 +307,7 @@ class gsuiDAW extends HTMLElement {
 	}
 	#updateDuration() {
 		const dur = GSUgetAttributeNum( this, "duration" );
-		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( dur, GSUgetAttributeNum( this, "bpm" ) );
+		const [ min, sec ] = gsuiClock.$parseBeatsToSeconds( dur, GSUgetAttributeNum( this, "bpm" ) );
 
 		this.#elements.cmpDuration.textContent = `${ min }:${ sec }`;
 		GSUsetAttribute( this.#elements.currentTime, "max", dur );
@@ -357,7 +357,7 @@ class gsuiDAW extends HTMLElement {
 	}
 	updateComposition( cmp ) {
 		const html = this.#cmps[ cmp.options.saveMode ].get( cmp.id );
-		const [ min, sec ] = gsuiClock.parseBeatsToSeconds( cmp.duration, cmp.bpm );
+		const [ min, sec ] = gsuiClock.$parseBeatsToSeconds( cmp.duration, cmp.bpm );
 
 		html.bpm.textContent = cmp.bpm;
 		html.name.textContent = cmp.name;
