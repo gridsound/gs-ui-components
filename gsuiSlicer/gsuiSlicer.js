@@ -67,10 +67,14 @@ class gsuiSlicer extends HTMLElement {
 		this.#elements.tools.split.onclick =
 		this.#elements.tools.merge.onclick = this.#onclickTools.bind( this );
 		this.ondrop = e => {
-			const patId = e.dataTransfer.getData( "pattern-buffer" );
+			const [ patType, patId ] = GSUgetDataTransfer( e, [
+				"pattern-buffer",
+				"library-buffer:default",
+				"library-buffer:local",
+			] );
 
-			if ( patId && GSUgetAttribute( this, "disabled" ) === null ) {
-				this.#dispatch( "dropBuffer", patId );
+			if ( patId && !GSUhasAttribute( this, "disabled" ) ) {
+				this.#dispatch( "dropBuffer", patType, patId );
 			}
 		};
 		GSUlistenEvents( this, {
