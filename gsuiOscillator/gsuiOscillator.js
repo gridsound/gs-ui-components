@@ -85,14 +85,15 @@ class gsuiOscillator extends gsui0ne {
 		};
 		this.ondrop = e => {
 			const tar = e.target.closest( "gsui-oscillator, .gsuiOscillator-waveWrap" );
-			const act = tar.nodeName === "GSUI-OSCILLATOR" ? "drop" : "wavedrop";
-			const patBufId = e.dataTransfer.getData( "pattern-buffer" );
-			const defBufId = e.dataTransfer.getData( "library-buffer:default" );
-			const locBufId = e.dataTransfer.getData( "library-buffer:local" );
+			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
+				"pattern-buffer",
+				"library-buffer:default",
+				"library-buffer:local",
+			] );
 
-			     if ( patBufId ) { this.$dispatch( act, "pattern-buffer", patBufId ); }
-			else if ( defBufId ) { this.$dispatch( act, "library-buffer:default", defBufId ); }
-			else if ( locBufId ) { this.$dispatch( act, "library-buffer:local", locBufId ); }
+			if ( bufId ) {
+				this.$dispatch( tar.nodeName === "GSUI-OSCILLATOR" ? "drop" : "wavedrop", bufType, bufId );
+			}
 			return false;
 		};
 		GSUlistenEvents( this, {

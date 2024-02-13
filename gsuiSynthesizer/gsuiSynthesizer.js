@@ -25,14 +25,16 @@ class gsuiSynthesizer extends gsui0ne {
 		this.$elements.newOsc.ondragenter = () => this.#ondrag( true );
 		this.$elements.newOsc.ondragleave = () => this.#ondrag( false );
 		this.$elements.newOsc.ondrop = e => {
-			const patBufId = e.dataTransfer.getData( "pattern-buffer" );
-			const defBufId = e.dataTransfer.getData( "library-buffer:default" );
-			const locBufId = e.dataTransfer.getData( "library-buffer:local" );
+			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
+				"pattern-buffer",
+				"library-buffer:default",
+				"library-buffer:local",
+			] );
 
 			this.#ondrag( false );
-			     if ( patBufId ) { this.$dispatch( "addNewBuffer", "pattern-buffer", patBufId ); }
-			else if ( defBufId ) { this.$dispatch( "addNewBuffer", "library-buffer:default", defBufId ); }
-			else if ( locBufId ) { this.$dispatch( "addNewBuffer", "library-buffer:local", locBufId ); }
+			if ( bufId ) {
+				this.$dispatch( "addNewBuffer", bufType, bufId );
+			}
 			return false;
 		};
 		new gsuiReorder( {
