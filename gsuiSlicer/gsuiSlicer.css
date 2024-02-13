@@ -7,6 +7,7 @@ gsui-slicer {
 	height: 100%;
 	min-width: 306px;
 	color: var( --gsuiSlicer-color );
+	outline: 0;
 	background-color: var( --gsuiSlicer-bg );
 	-webkit-tap-highlight-color: transparent;
 }
@@ -71,6 +72,9 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	opacity: .4;
 }
 .gsuiSlicer-source-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	opacity: .4;
 }
 .gsuiSlicer-source-name:empty::after {
