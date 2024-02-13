@@ -25,12 +25,14 @@ class gsuiSynthesizer extends gsui0ne {
 		this.$elements.newOsc.ondragenter = () => this.#ondrag( true );
 		this.$elements.newOsc.ondragleave = () => this.#ondrag( false );
 		this.$elements.newOsc.ondrop = e => {
-			const data = e.dataTransfer.getData( "pattern-buffer" );
+			const patBufId = e.dataTransfer.getData( "pattern-buffer" );
+			const defBufId = e.dataTransfer.getData( "library-buffer:default" );
+			const locBufId = e.dataTransfer.getData( "library-buffer:local" );
 
 			this.#ondrag( false );
-			if ( data ) {
-				GSUdispatchEvent( this, "gsuiSynthesizer", "addNewBuffer", data );
-			}
+			     if ( patBufId ) { this.$dispatch( "addNewBuffer", "pattern-buffer", patBufId ); }
+			else if ( defBufId ) { this.$dispatch( "addNewBuffer", "library-buffer:default", defBufId ); }
+			else if ( locBufId ) { this.$dispatch( "addNewBuffer", "library-buffer:local", locBufId ); }
 			return false;
 		};
 		new gsuiReorder( {
@@ -50,7 +52,7 @@ class gsuiSynthesizer extends gsui0ne {
 					const el = isEnv ? this.$elements.env : this.$elements.lfo;
 
 					GSUsetAttribute( el, "toggle", d.args[ 0 ] );
-					GSUdispatchEvent( this, "gsuiSynthesizer", ev, d.args[ 0 ] );
+					this.$dispatch( ev, d.args[ 0 ] );
 				},
 			},
 		} );
@@ -102,12 +104,12 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	#onclickNewOsc() {
-		GSUdispatchEvent( this, "gsuiSynthesizer", "addOscillator" );
+		this.$dispatch( "addOscillator" );
 	}
 	#onchangeReorder() {
 		const oscs = gsuiReorder.listComputeOrderChange( this.$elements.oscList, {} );
 
-		GSUdispatchEvent( this, "gsuiSynthesizer", "reorderOscillator", oscs );
+		this.$dispatch( "reorderOscillator", oscs );
 	}
 	#ondrag( b ) {
 		GSUsetAttribute( this.$elements.newOsc, "data-hover", b );
