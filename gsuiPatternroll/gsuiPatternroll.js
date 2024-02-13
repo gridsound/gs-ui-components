@@ -186,17 +186,20 @@ class gsuiPatternroll extends HTMLElement {
 		this.#blcManager.onmousedown( e );
 	}
 	#drop( e ) {
-		const padId =
-				e.dataTransfer.getData( "pattern-buffer" ) ||
-				e.dataTransfer.getData( "pattern-slices" ) ||
-				e.dataTransfer.getData( "pattern-drums" ) ||
-				e.dataTransfer.getData( "pattern-keys" );
+		const [ patType, patId ] = GSUgetDataTransfer( e, [
+			"library-buffer:default",
+			"library-buffer:local",
+			"pattern-buffer",
+			"pattern-slices",
+			"pattern-drums",
+			"pattern-keys",
+		] );
 
-		if ( padId ) {
+		if ( patId ) {
 			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) );
 			const track = this.#blcManager.getRowByIndex( this.#blcManager.getRowIndexByPageY( e.pageY ) ).dataset.id;
 
-			this.onchange( "add", padId, when, track );
+			this.onchange( "add", patType, patId, when, track );
 		}
 	}
 }
