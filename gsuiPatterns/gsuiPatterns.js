@@ -91,9 +91,9 @@ class gsuiPatterns extends gsui0ne {
 			const locBufId = e.dataTransfer.getData( "library-buffer:local" );
 
 			if ( defBufId ) {
-				this.$dispatch( "libraryBufferDropped", "default", defBufId );
+				this.$dispatch( "libraryBufferDropped", "library-buffer:default", defBufId );
 			} else if ( locBufId ) {
-				this.$dispatch( "libraryBufferDropped", "local", locBufId );
+				this.$dispatch( "libraryBufferDropped", "library-buffer:local", locBufId );
 			}
 		};
 		this.$elements.lists.synth.ondragover = e => {
