@@ -87,13 +87,13 @@ class gsuiPatterns extends gsui0ne {
 			onchange: this.#onreorderPatternsKeys.bind( this ),
 		} );
 		this.$elements.lists.buffer.ondrop = e => {
-			const defBufId = e.dataTransfer.getData( "library-buffer:default" );
-			const locBufId = e.dataTransfer.getData( "library-buffer:local" );
+			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
+				"library-buffer:default",
+				"library-buffer:local",
+			] );
 
-			if ( defBufId ) {
-				this.$dispatch( "libraryBufferDropped", "library-buffer:default", defBufId );
-			} else if ( locBufId ) {
-				this.$dispatch( "libraryBufferDropped", "library-buffer:local", locBufId );
+			if ( bufId ) {
+				this.$dispatch( "libraryBufferDropped", bufType, bufId );
 			}
 		};
 		this.$elements.lists.synth.ondragover = e => {
