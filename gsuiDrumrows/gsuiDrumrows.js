@@ -104,12 +104,16 @@ class gsuiDrumrows extends HTMLElement {
 	}
 	#ondropRows( e ) {
 		if ( this.#dragoverId ) {
-			const patId = e.dataTransfer.getData( "pattern-buffer" );
+			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
+				"pattern-buffer",
+				"library-buffer:default",
+				"library-buffer:local",
+			] );
 
-			if ( patId ) {
+			if ( bufId ) {
 				this.#dragoverId === Infinity
-					? this.#dispatch( "change", "addDrumrow", patId )
-					: this.#dispatch( "change", "changeDrumrowPattern", this.#dragoverId, patId );
+					? this.#dispatch( "change", "addDrumrow", bufType, bufId )
+					: this.#dispatch( "change", "changeDrumrowPattern", this.#dragoverId, bufType, bufId );
 			}
 		}
 		this.#ondragleaveRows();
@@ -122,7 +126,7 @@ class gsuiDrumrows extends HTMLElement {
 		}
 	}
 	#ondragoverRows( e ) {
-		if ( e.dataTransfer.types.includes( "pattern-buffer" ) ) {
+		if ( GSUhasDataTransfer( e, [ "pattern-buffer", "library-buffer:default", "library-buffer:local" ] ) ) {
 			const tar = e.target;
 			const isParent = tar.nodeName === "GSUI-DRUMROWS";
 			const elDragover = isParent ? tar : tar.closest( "gsui-drumrow" );
