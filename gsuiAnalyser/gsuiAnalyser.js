@@ -8,23 +8,20 @@ class gsuiAnalyser extends gsui0ne {
 			$cmpName: "gsuiAnalyser",
 			$tagName: "gsui-analyser",
 			$template: GSUcreateElement( "canvas" ),
-			$elements: {
-				cnv: "canvas",
-			},
 		} );
-		this.#ctx = this.$elements.cnv.getContext( "2d" );
+		this.#ctx = this.$element.getContext( "2d" );
 		Object.seal( this );
 	}
 
 	// .........................................................................
 	clear() {
-		this.#ctx.clearRect( 0, 0, this.$elements.cnv.width, this.$elements.cnv.height );
+		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
 	}
 	setResolution( w, h ) {
-		const img = this.#ctx.getImageData( 0, 0, this.$elements.cnv.width, this.$elements.cnv.height );
+		const img = this.#ctx.getImageData( 0, 0, this.$element.width, this.$element.height );
 
-		this.$elements.cnv.width = w;
-		this.$elements.cnv.height = h;
+		this.$element.width = w;
+		this.$element.height = h;
 		this.#ctx.putImageData( img, 0, 0 );
 	}
 	draw( ldata, rdata ) {
