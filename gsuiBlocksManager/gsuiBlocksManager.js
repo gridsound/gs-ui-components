@@ -68,29 +68,29 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	getOpts() { return this.#opts; }
-	setData( data ) { this.#data = data; }
-	setFontSize( px ) { this.#fontSize = px; }
-	setPxPerBeat( px ) { this.#pxPerBeat = px; }
-	getFontSize() { return this.#fontSize; }
-	getPxPerBeat() { return this.#pxPerBeat; }
-	getRows() { return this.#nlRows; }
-	getBlocks() { return this.#blcs; }
-	getSelectedBlocks() { return this.#blcsSelected; }
+	$getOpts() { return this.#opts; }
+	$setData( data ) { this.#data = data; }
+	$setFontSize( px ) { this.#fontSize = px; }
+	$setPxPerBeat( px ) { this.#pxPerBeat = px; }
+	$getFontSize() { return this.#fontSize; }
+	$getPxPerBeat() { return this.#pxPerBeat; }
+	$getRows() { return this.#nlRows; }
+	$getBlocks() { return this.#blcs; }
+	$getSelectedBlocks() { return this.#blcsSelected; }
 
 	// .........................................................................
 	#getRow0BCR() { return this.#nlRows[ 0 ].getBoundingClientRect(); }
-	getRowByIndex( ind ) { return this.#nlRows[ ind ]; }
-	getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.#nlRows, row ); }
-	getRowIndexByPageY( pageY ) {
+	$getRowByIndex( ind ) { return this.#nlRows[ ind ]; }
+	$getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.#nlRows, row ); }
+	$getRowIndexByPageY( pageY ) {
 		const ind = Math.floor( ( pageY - this.#getRow0BCR().top ) / this.#fontSize );
 
 		return Math.max( 0, Math.min( ind, this.#nlRows.length - 1 ) );
 	}
-	getWhenByPageX( pageX ) {
+	$getWhenByPageX( pageX ) {
 		return Math.max( 0, ( pageX - this.#getRow0BCR().left ) / this.#pxPerBeat );
 	}
-	roundBeat( beat ) {
+	$roundBeat( beat ) {
 		return Math.max( 0, this.timeline.beatFloor( beat ) );
 	}
 
@@ -179,7 +179,7 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	onmousedown( e ) {
+	$onmousedown( e ) {
 		const blc = this.#getBlc( e.currentTarget );
 
 		GSUunselectText();
@@ -193,16 +193,16 @@ class gsuiBlocksManager {
 				this.#blcsEditing.set( blc.dataset.id, blc );
 			}
 		} else if ( e.button === 0 ) {
-			const mdWhenReal = this.getWhenByPageX( e.pageX );
+			const mdWhenReal = this.$getWhenByPageX( e.pageX );
 
 			this.#mdPageX = e.pageX;
 			this.#mdPageY = e.pageY;
-			this.#mdWhen = this.roundBeat( mdWhenReal );
+			this.#mdWhen = this.$roundBeat( mdWhenReal );
 			this.#beatSnap = this.#getBeatSnap();
 			if ( e.shiftKey ) {
 				this.#mmFn = gsuiBlocksManager.#mousemoveFns.selection1;
 				this.#status = "selecting-1";
-				this.#mdRowInd = this.getRowIndexByPageY( e.pageY );
+				this.#mdRowInd = this.$getRowIndexByPageY( e.pageY );
 			} else if ( blc ) {
 				const fnAct = gsuiBlocksManager.#mousedownFns[ e.target.dataset.action ];
 
@@ -221,9 +221,9 @@ class gsuiBlocksManager {
 	static #onmousedownMove( data, blcsEditing, _blc, e ) {
 		this.#mmFn = gsuiBlocksManager.#mousemoveFns.move;
 		this.#status = "moving";
-		this.#mdRowInd = this.getRowIndexByPageY( e.pageY );
+		this.#mdRowInd = this.$getRowIndexByPageY( e.pageY );
 		blcsEditing.forEach( ( blc, id ) => {
-			const valB = this.getRowIndexByRow( blc.parentNode.parentNode );
+			const valB = this.$getRowIndexByRow( blc.parentNode.parentNode );
 
 			this.#valueAMin = Math.min( this.#valueAMin, data[ id ].when );
 			this.#valueBMin = Math.min( this.#valueBMin, valB );
@@ -265,9 +265,9 @@ class gsuiBlocksManager {
 				this.#mmPageX = e.pageX;
 				this.#mmPageY = e.pageY;
 			}
-			const mmWhenReal = this.getWhenByPageX( this.#mmPageX );
+			const mmWhenReal = this.$getWhenByPageX( this.#mmPageX );
 
-			this.#mmWhen = this.roundBeat( mmWhenReal );
+			this.#mmWhen = this.$roundBeat( mmWhenReal );
 			this.#mmFn( e );
 		}
 	}
@@ -298,7 +298,7 @@ class gsuiBlocksManager {
 		const when = Math.max( this.#valueAMin,
 			Math.round( ( this.#mmWhen - this.#mdWhen ) / this.#beatSnap ) * this.#beatSnap );
 		const rows = Math.max( this.#valueBMin, Math.min( this.#valueBMax,
-			this.getRowIndexByPageY( this.#mmPageY ) - this.#mdRowInd ) );
+			this.$getRowIndexByPageY( this.#mmPageY ) - this.#mdRowInd ) );
 
 		if ( when !== this.#valueA ) {
 			this.#valueA = when;
@@ -330,13 +330,13 @@ class gsuiBlocksManager {
 	static #onmousemoveSelection2() {
 		const rowH = this.#fontSize;
 		const st = this.#elSelection.style;
-		const rowIndB = this.getRowIndexByPageY( this.#mmPageY );
+		const rowIndB = this.$getRowIndexByPageY( this.#mmPageY );
 		const when = Math.min( this.#mdWhen, this.#mmWhen );
 		const duration = this.#getBeatSnap() + Math.abs( this.#mdWhen - this.#mmWhen );
 		const topRow = Math.min( this.#mdRowInd, rowIndB );
 		const bottomRow = Math.max( this.#mdRowInd, rowIndB );
-		const rowA = this.getRowByIndex( topRow );
-		const rowB = this.getRowByIndex( bottomRow );
+		const rowA = this.$getRowByIndex( topRow );
+		const rowB = this.$getRowByIndex( bottomRow );
 		const blcs = Object.entries( this.#data ).reduce( ( map, [ id, blc ] ) => {
 			if ( !this.#blcsSelected.has( id ) &&
 					blc.when < when + duration &&

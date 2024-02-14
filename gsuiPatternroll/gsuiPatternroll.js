@@ -78,7 +78,7 @@ class gsuiPatternroll extends HTMLElement {
 		const elTrack = this.#tracklist.addTrack( id );
 		const row = elTrack.rowElement;
 
-		row.classList.toggle( "gsui-row-small", this.#blcManager.getFontSize() <= 44 );
+		row.classList.toggle( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 );
 		row.onmousedown = this.#rowMousedown.bind( this );
 		this.#rowsByTrackId.set( row.dataset.id, row );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
@@ -96,42 +96,42 @@ class gsuiPatternroll extends HTMLElement {
 		elBlc.dataset.pattern = obj.pattern;
 		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
 		GSUsetAttribute( elBlc, "data-missing", !dataReady );
-		this.#blcManager.getBlocks().set( id, elBlc );
+		this.#blcManager.$getBlocks().set( id, elBlc );
 		this.onaddBlock( id, obj, elBlc );
 	}
 	removeBlock( id ) {
-		this.#blcManager.getBlocks().get( id ).remove();
-		this.#blcManager.getBlocks().delete( id );
-		this.#blcManager.getSelectedBlocks().delete( id );
+		this.#blcManager.$getBlocks().get( id ).remove();
+		this.#blcManager.$getBlocks().delete( id );
+		this.#blcManager.$getSelectedBlocks().delete( id );
 	}
 	changeBlockProp( id, prop, val ) {
-		const blc = this.#blcManager.getBlocks().get( id );
+		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
 		if ( prop === "track" ) {
 			blc.dataset.track = val;
 		} else if ( prop === "selected" ) {
 			val
-				? this.#blcManager.getSelectedBlocks().set( id, blc )
-				: this.#blcManager.getSelectedBlocks().delete( id );
+				? this.#blcManager.$getSelectedBlocks().set( id, blc )
+				: this.#blcManager.$getSelectedBlocks().delete( id );
 		}
 	}
 	updateBlockViewBox( id, obj ) {
-		this.oneditBlock( id, obj, this.#blcManager.getBlocks().get( id ) );
+		this.oneditBlock( id, obj, this.#blcManager.$getBlocks().get( id ) );
 	}
 
 	// .........................................................................
-	setData( data ) {
-		this.#blcManager.setData( data );
+	$setData( data ) {
+		this.#blcManager.$setData( data );
 	}
 	setCallbacks( cb ) {
 		this.onchange = cb.onchange;
 		this.onaddBlock = cb.onaddBlock;
 		this.oneditBlock = cb.oneditBlock;
-		this.#blcManager.getOpts().oneditBlock = cb.oneditBlock;
+		this.#blcManager.$getOpts().oneditBlock = cb.oneditBlock;
 	}
-	getBlocks() {
-		return this.#blcManager.getBlocks();
+	$getBlocks() {
+		return this.#blcManager.$getBlocks();
 	}
 	timedivision( timediv ) {
 		GSUsetAttribute( this.#win, "timedivision", timediv );
@@ -160,30 +160,30 @@ class gsuiPatternroll extends HTMLElement {
 	#getRowByTrackId( id ) { return this.#rowsByTrackId.get( id ); }
 	#incrTrackId( id, incr ) {
 		const row = this.#getRowByTrackId( id );
-		const rowInd = this.#blcManager.getRowIndexByRow( row ) + incr;
+		const rowInd = this.#blcManager.$getRowIndexByRow( row ) + incr;
 
-		return this.#blcManager.getRowByIndex( rowInd ).dataset.id;
+		return this.#blcManager.$getRowByIndex( rowInd ).dataset.id;
 	}
 
 	// .........................................................................
 	#ongsuiTimewindowPxperbeat( ppb ) {
-		this.#blcManager.setPxPerBeat( ppb );
+		this.#blcManager.$setPxPerBeat( ppb );
 	}
 	#ongsuiTimewindowLineheight( px ) {
-		this.#blcManager.setFontSize( px );
-		Array.from( this.#blcManager.getRows() ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
+		this.#blcManager.$setFontSize( px );
+		Array.from( this.#blcManager.$getRows() ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
 	}
 
 	// .........................................................................
 	#rowMousedown( e ) {
-		this.#blcManager.onmousedown( e );
-		if ( e.button === 0 && !e.shiftKey && this.#blcManager.getSelectedBlocks().size ) {
+		this.#blcManager.$onmousedown( e );
+		if ( e.button === 0 && !e.shiftKey && this.#blcManager.$getSelectedBlocks().size ) {
 			this.onchange( "unselection" );
 		}
 	}
 	#blcMousedown( id, e ) {
 		e.stopPropagation();
-		this.#blcManager.onmousedown( e );
+		this.#blcManager.$onmousedown( e );
 	}
 	#drop( e ) {
 		const [ patType, patId ] = GSUgetDataTransfer( e, [
@@ -196,8 +196,8 @@ class gsuiPatternroll extends HTMLElement {
 		] );
 
 		if ( patId ) {
-			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) );
-			const track = this.#blcManager.getRowByIndex( this.#blcManager.getRowIndexByPageY( e.pageY ) ).dataset.id;
+			const when = this.#blcManager.$roundBeat( this.#blcManager.$getWhenByPageX( e.pageX ) );
+			const track = this.#blcManager.$getRowByIndex( this.#blcManager.$getRowIndexByPageY( e.pageY ) ).dataset.id;
 
 			this.onchange( "add", patType, patId, when, track );
 		}

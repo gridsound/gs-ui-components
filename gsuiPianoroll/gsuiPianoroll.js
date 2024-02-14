@@ -108,8 +108,8 @@ class gsuiPianoroll extends HTMLElement {
 	reset() {
 		this.#currKeyDuration = 1;
 	}
-	setData( data ) {
-		this.#blcManager.setData( data );
+	$setData( data ) {
+		this.#blcManager.$setData( data );
 	}
 	setCallbacks( cb ) {
 		this.onchange = cb.onchange;
@@ -167,10 +167,10 @@ class gsuiPianoroll extends HTMLElement {
 		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
 		blc.append( dragline.rootElement );
 		dragline.getDropAreas = this.#getDropAreas.bind( this, id );
-		this.#blcManager.getBlocks().set( id, blc );
+		this.#blcManager.$getBlocks().set( id, blc );
 		obj.selected
-			? this.#blcManager.getSelectedBlocks().set( id, blc )
-			: this.#blcManager.getSelectedBlocks().delete( id );
+			? this.#blcManager.$getSelectedBlocks().set( id, blc )
+			: this.#blcManager.$getSelectedBlocks().delete( id );
 		this.#uiSliderGroup.set( id, obj.when, obj.duration, obj[ this.#slidersSelect.value ] );
 		this.#blockDOMChange( blc, "key", obj.key );
 		this.#blockDOMChange( blc, "when", obj.when );
@@ -186,19 +186,19 @@ class gsuiPianoroll extends HTMLElement {
 		this.#blockDOMChange( blc, "next", obj.next );
 	}
 	removeKey( id ) {
-		const blc = this.#blcManager.getBlocks().get( id );
-		const blcPrev = this.#blcManager.getBlocks().get( blc.dataset.prev );
+		const blc = this.#blcManager.$getBlocks().get( id );
+		const blcPrev = this.#blcManager.$getBlocks().get( blc.dataset.prev );
 
 		blc.remove();
 		if ( blcPrev ) {
 			blcPrev._dragline.linkTo( null );
 		}
-		this.#blcManager.getBlocks().delete( id );
-		this.#blcManager.getSelectedBlocks().delete( id );
+		this.#blcManager.$getBlocks().delete( id );
+		this.#blcManager.$getSelectedBlocks().delete( id );
 		this.#uiSliderGroup.delete( id );
 	}
 	changeKeyProp( id, prop, val ) {
-		const blc = this.#blcManager.getBlocks().get( id );
+		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
 		if ( val === null ) {
@@ -208,8 +208,8 @@ class gsuiPianoroll extends HTMLElement {
 		}
 		if ( prop === "selected" ) {
 			val
-				? this.#blcManager.getSelectedBlocks().set( id, blc )
-				: this.#blcManager.getSelectedBlocks().delete( id );
+				? this.#blcManager.$getSelectedBlocks().set( id, blc )
+				: this.#blcManager.$getSelectedBlocks().delete( id );
 		}
 	}
 	#blockDOMChange( el, prop, val ) {
@@ -243,13 +243,13 @@ class gsuiPianoroll extends HTMLElement {
 				this.#blockRedrawDragline( el );
 			} break;
 			case "prev": {
-				const blc = this.#blcManager.getBlocks().get( val );
+				const blc = this.#blcManager.$getBlocks().get( val );
 
 				el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!val );
 				blc && blc._dragline.linkTo( el._draglineDrop );
 			} break;
 			case "next": {
-				const blc = this.#blcManager.getBlocks().get( val );
+				const blc = this.#blcManager.$getBlocks().get( val );
 
 				el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!val );
 				el._dragline.linkTo( blc && blc._draglineDrop );
@@ -272,7 +272,7 @@ class gsuiPianoroll extends HTMLElement {
 		}
 	}
 	#blockRedrawDragline( el ) {
-		const blcPrev = this.#blcManager.getBlocks().get( el.dataset.prev );
+		const blcPrev = this.#blcManager.$getBlocks().get( el.dataset.prev );
 
 		el._dragline.redraw();
 		blcPrev && blcPrev._dragline.redraw();
@@ -284,14 +284,14 @@ class gsuiPianoroll extends HTMLElement {
 
 	// ........................................................................
 	#ongsuiTimewindowPxperbeat( ppb ) {
-		this.#blcManager.setPxPerBeat( ppb );
-		this.#blcManager.getBlocks().forEach( blc => blc._dragline.redraw() );
+		this.#blcManager.$setPxPerBeat( ppb );
+		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
 		GSUsetAttribute( this.#uiSliderGroup, "pxperbeat", ppb );
 	}
 	#ongsuiTimewindowLineheight( px ) {
-		this.#blcManager.setFontSize( px );
-		Array.from( this.#blcManager.getRows() ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
-		this.#blcManager.getBlocks().forEach( blc => blc._dragline.redraw() );
+		this.#blcManager.$setFontSize( px );
+		Array.from( this.#blcManager.$getRows() ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
+		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
 		GSUsetAttribute( this.#uiSliderGroup, "currenttime", t );
@@ -366,13 +366,13 @@ class gsuiPianoroll extends HTMLElement {
 
 		e.stopPropagation();
 		if ( !dline.contains( e.target ) ) {
-			this.#blcManager.onmousedown( e );
+			this.#blcManager.$onmousedown( e );
 		}
 	}
 	#rowMousedown( key, e ) {
-		this.#blcManager.onmousedown( e );
+		this.#blcManager.$onmousedown( e );
 		if ( e.button === 0 && !e.shiftKey ) {
-			const when = this.#blcManager.roundBeat( this.#blcManager.getWhenByPageX( e.pageX ) );
+			const when = this.#blcManager.$roundBeat( this.#blcManager.$getWhenByPageX( e.pageX ) );
 
 			this.onchange( "add", key, when, this.#currKeyDuration );
 		}
@@ -389,7 +389,7 @@ class gsuiPianoroll extends HTMLElement {
 			case "gainLFOAmp":   grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 			case "gainLFOSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
-		this.#blcManager.getBlocks().forEach( ( blc, id ) => {
+		this.#blcManager.$getBlocks().forEach( ( blc, id ) => {
 			const val = +blc.dataset[ prop ];
 			const val2 = prop.startsWith( "gainLFO" )
 				? gsuiPianoroll.#mulToX( val )
@@ -424,11 +424,11 @@ class gsuiPianoroll extends HTMLElement {
 	// Key's functions
 	// ........................................................................
 	#getDropAreas( id ) {
-		const d = this.#blcManager.getBlocks().get( id ).dataset;
+		const d = this.#blcManager.$getBlocks().get( id ).dataset;
 		const when = +d.when + +d.duration;
 		const arr = [];
 
-		this.#blcManager.getBlocks().forEach( blc => {
+		this.#blcManager.$getBlocks().forEach( blc => {
 			const d = blc.dataset;
 
 			if ( +d.when >= when && ( d.prev === undefined || d.prev === id ) ) {
