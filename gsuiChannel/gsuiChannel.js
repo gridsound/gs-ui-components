@@ -8,11 +8,11 @@ class gsuiChannel extends gsui0ne {
 			$cmpName: "gsuiChannel",
 			$tagName: "gsui-channel",
 			$elements: {
-				toggle: "gsui-toggle",
-				nameWrap: ".gsuiChannel-nameWrap",
-				name: ".gsuiChannel-name",
-				analyser: "gsui-analyser",
-				effects: ".gsuiChannel-effects",
+				$toggle: "gsui-toggle",
+				$nameWrap: ".gsuiChannel-nameWrap",
+				$name: ".gsuiChannel-name",
+				$analyser: "gsui-analyser",
+				$effects: ".gsuiChannel-effects",
 				pan: ".gsuiChannel-pan gsui-slider",
 				gain: ".gsuiChannel-gain gsui-slider",
 				connecta: ".gsuiChannel-connectA",
@@ -28,12 +28,12 @@ class gsuiChannel extends gsui0ne {
 		} );
 		Object.seal( this );
 
-		this.$analyser = this.$elements.analyser;
+		this.$analyser = this.$elements.$analyser;
 		this.$analyser.onclick =
-		this.$elements.nameWrap.onclick = () => {
+		this.$elements.$nameWrap.onclick = () => {
 			this.$dispatch( "selectChannel" );
 		};
-		this.$elements.effects.onclick = e => {
+		this.$elements.$effects.onclick = e => {
 			if ( e.target.dataset.id ) {
 				this.$dispatch( "selectChannel" );
 				this.$dispatch( "selectEffect", e.target.dataset.id );
@@ -70,10 +70,10 @@ class gsuiChannel extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "name":
-				this.$elements.name.textContent = val;
+				this.$elements.$name.textContent = val;
 				break;
 			case "muted":
-				GSUsetAttribute( this.$elements.toggle, "off", val !== null );
+				GSUsetAttribute( this.$elements.$toggle, "off", val !== null );
 				break;
 			case "pan":
 			case "gain":
@@ -88,7 +88,7 @@ class gsuiChannel extends gsui0ne {
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.$elements.effects.append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
+		this.$elements.$effects.append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
 	}
 	$removeEffect( id ) {
 		this.#getEffect( id ).remove();
@@ -102,7 +102,7 @@ class gsuiChannel extends gsui0ne {
 		}
 	}
 	#getEffect( id ) {
-		return this.$elements.effects.querySelector( `[data-id="${ id }"]` );
+		return this.$elements.$effects.querySelector( `[data-id="${ id }"]` );
 	}
 }
 

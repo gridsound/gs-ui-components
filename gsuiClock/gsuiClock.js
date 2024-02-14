@@ -13,9 +13,9 @@ class gsuiClock extends gsui0ne {
 			$cmpName: "gsuiClock",
 			$tagName: "gsui-clock",
 			$elements: {
-				wrapRel: ".gsuiClock-relative",
-				modes: ".gsuiClock-modes",
-				nodes: [
+				$wrapRel: ".gsuiClock-relative",
+				$modes: ".gsuiClock-modes",
+				$nodes: [
 					".gsuiClock-a",
 					".gsuiClock-b",
 					".gsuiClock-c",
@@ -29,7 +29,7 @@ class gsuiClock extends gsui0ne {
 		} );
 		Object.seal( this );
 
-		this.$elements.modes.onclick = this.#onclickModes.bind( this );
+		this.$elements.$modes.onclick = this.#onclickModes.bind( this );
 	}
 
 	// .........................................................................
@@ -104,15 +104,15 @@ class gsuiClock extends gsui0ne {
 	// .........................................................................
 	#setValue( ind, val ) {
 		if ( val !== this.#values[ ind ] ) {
-			this.$elements.nodes[ ind ].textContent =
+			this.$elements.$nodes[ ind ].textContent =
 			this.#values[ ind ] = val;
 		}
 	}
 	#updateWidth() {
-		const len = this.$elements.nodes[ 0 ].textContent.length;
+		const len = this.$elements.$nodes[ 0 ].textContent.length;
 
-		this.$elements.wrapRel.style.width =
-		this.$elements.wrapRel.style.minWidth = `${ 4.5 + len * .7 }ch`;
+		this.$elements.$wrapRel.style.width =
+		this.$elements.$wrapRel.style.minWidth = `${ 4.5 + len * .7 }ch`;
 	}
 
 	// .........................................................................

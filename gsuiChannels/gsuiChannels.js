@@ -18,14 +18,14 @@ class gsuiChannels extends gsui0ne {
 			$cmpName: "gsuiChannels",
 			$tagName: "gsui-channels",
 			$elements: {
-				pmain: ".gsuiChannels-panMain",
-				pchans: ".gsuiChannels-panChannels",
-				addBtn: ".gsuiChannels-addChan",
+				$pmain: ".gsuiChannels-panMain",
+				$pchans: ".gsuiChannels-panChannels",
+				$addBtn: ".gsuiChannels-addChan",
 			},
 		} );
 		Object.seal( this );
 
-		this.$elements.addBtn.onclick = () => this.$onchange( "addChannel" );
+		this.$elements.$addBtn.onclick = () => this.$onchange( "addChannel" );
 		GSUlistenEvents( this, {
 			gsuiChannel: {
 				selectChannel: ( d, chan ) => this.$selectChannel( chan.dataset.id ),
@@ -44,7 +44,7 @@ class gsuiChannels extends gsui0ne {
 			parentSelector: ".gsuiChannels-panChannels",
 			onchange: elChan => {
 				this.$onchange( "reorderChannel", elChan.dataset.id,
-					gsuiReorder.listComputeOrderChange( this.$elements.pchans, {} ) );
+					gsuiReorder.listComputeOrderChange( this.$elements.$pchans, {} ) );
 			},
 		} );
 	}
@@ -107,7 +107,7 @@ class gsuiChannels extends gsui0ne {
 		const chan = GSUcreateElement( "gsui-channel", { "data-id": id } );
 		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
-		( id === "main" ? this.$elements.pmain : this.$elements.pchans ).append( chan );
+		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).append( chan );
 		this.#chans[ id ] = chan;
 		qs( "delete" ).onclick = () => this.$onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
@@ -155,7 +155,7 @@ class gsuiChannels extends gsui0ne {
 		this.#chans[ id ].dataset.order = n;
 	}
 	$reorderChannels( channels ) {
-		gsuiReorder.listReorder( this.$elements.pchans, channels );
+		gsuiReorder.listReorder( this.$elements.$pchans, channels );
 	}
 	$redirectChannel( id, dest ) {
 		this.#chans[ id ].dataset.dest = dest;
