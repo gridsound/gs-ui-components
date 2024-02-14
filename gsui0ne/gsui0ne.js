@@ -2,6 +2,7 @@
 
 class gsui0ne extends HTMLElement {
 	$dispatch = null;
+	$element = null;
 	$elements = null;
 	$isConnected = false;
 	#children = null;
@@ -16,6 +17,7 @@ class gsui0ne extends HTMLElement {
 			? GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) )
 			: null );
 		if ( this.#children ) {
+			this.$element = Array.isArray( this.#children ) ? this.#children[ 0 ] : this.#children;
 			this.$elements = GSUfindElements( this.#children, o.$elements );
 		}
 	}
