@@ -14,17 +14,17 @@ class gsuiAnalyser extends gsui0ne {
 	}
 
 	// .........................................................................
-	clear() {
+	$clear() {
 		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
 	}
-	setResolution( w, h ) {
+	$setResolution( w, h ) {
 		const img = this.#ctx.getImageData( 0, 0, this.$element.width, this.$element.height );
 
 		this.$element.width = w;
 		this.$element.height = h;
 		this.#ctx.putImageData( img, 0, 0 );
 	}
-	draw( ldata, rdata ) {
+	$draw( ldata, rdata ) {
 		gsuiAnalyser.#moveImage( this.#ctx );
 		gsuiAnalyser.#draw( this.#ctx, ldata, rdata );
 	}
@@ -36,8 +36,8 @@ class gsuiAnalyser extends gsui0ne {
 	static #draw( ctx, ldata, rdata ) {
 		const w2 = ctx.canvas.width / 2;
 		const len = Math.min( w2, ldata.length );
-		const imgL = gsuiSpectrum.draw( ctx, ldata, w2 );
-		const imgR = gsuiSpectrum.draw( ctx, rdata, w2 );
+		const imgL = gsuiSpectrum.$draw( ctx, ldata, w2 );
+		const imgR = gsuiSpectrum.$draw( ctx, rdata, w2 );
 		const imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {

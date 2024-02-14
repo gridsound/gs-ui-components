@@ -99,7 +99,7 @@ class gsuiDAW extends HTMLElement {
 		Object.seal( this );
 
 		this.clock.$onchangeDisplay = display => this.#dispatch( "changeDisplayClock", display );
-		this.spectrum.setResolution( 140 );
+		this.spectrum.$setResolution( 140 );
 		this.#actions = this.#elements.historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.#elements.head.onclick = this.#onclickHead.bind( this );
 		this.#elements.cmpsCloudList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "cloud" );
@@ -284,7 +284,7 @@ class gsuiDAW extends HTMLElement {
 
 	// .........................................................................
 	updateSpectrum( data ) {
-		this.#elements.spectrum.draw( data );
+		this.#elements.spectrum.$draw( data );
 	}
 	#unloadComposition() {
 		this.#cmpId = null;

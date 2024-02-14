@@ -27,7 +27,7 @@ class gsuiWaveform {
 	empty() {
 		this.polygon.removeAttribute( "points" );
 	}
-	setResolution( w, h ) {
+	$setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
 		GSUsetAttribute( this.rootElement, "viewBox", `0 0 ${ w } ${ h }` );
@@ -43,9 +43,9 @@ class gsuiWaveform {
 		const off = offset || 0;
 		const dur = duration || buf.duration - off;
 
-		gsuiWaveform.draw( polygon, w, h, d0, d1, buf.duration, off, dur );
+		gsuiWaveform.$draw( polygon, w, h, d0, d1, buf.duration, off, dur );
 	}
-	static draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
+	static $draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
 		GSUsetAttribute( polygon, "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
 	}
 	static getPointsFromBuffer( w, h, buf, offset, duration ) {

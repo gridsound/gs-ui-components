@@ -37,9 +37,9 @@ class gsuiEnvelopeGraph extends HTMLElement {
 		this.#width = w;
 		this.#height = h;
 		GSUsetAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
-		this.draw();
+		this.$draw();
 	}
-	draw() {
+	$draw() {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
 				this.#width, this.#height, this.duration,

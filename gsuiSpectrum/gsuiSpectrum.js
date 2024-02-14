@@ -22,12 +22,12 @@ class gsuiSpectrum extends HTMLElement {
 	clear() {
 		this.#ctx.clearRect( 0, 0, this.#cnv.width, 1 );
 	}
-	setResolution( w ) {
+	$setResolution( w ) {
 		this.#cnv.width = w;
 		this.#cnv.height = 1;
 	}
-	draw( data ) {
-		this.#ctx.putImageData( gsuiSpectrum.draw( this.#ctx, data, this.#cnv.width ), 0, 0 );
+	$draw( data ) {
+		this.#ctx.putImageData( gsuiSpectrum.$draw( this.#ctx, data, this.#cnv.width ), 0, 0 );
 	}
 
 	// .........................................................................
@@ -43,7 +43,7 @@ class gsuiSpectrum extends HTMLElement {
 		[ 200, 128,  10, .8  ], // 7
 		[ 200, 200,  20, 1   ], // 8
 	];
-	static draw( ctx, data, width = data.length ) {
+	static $draw( ctx, data, width = data.length ) {
 		const img = ctx.createImageData( width, 1 );
 		const imgData = img.data;
 		const datalen = data.length;

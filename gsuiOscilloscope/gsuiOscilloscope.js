@@ -15,7 +15,7 @@ class gsuiOscilloscope {
 		this.drawEnd();
 	}
 
-	setResolution( w, h ) {
+	$setResolution( w, h ) {
 		this.rootElement.width = w;
 		this.rootElement.height = h;
 	}
@@ -31,7 +31,7 @@ class gsuiOscilloscope {
 	drawEnd( fn ) {
 		this.fnEnd = fn || function() {};
 	}
-	draw( data ) {
+	$draw( data ) {
 		const ctx = this.ctx;
 		const w = this.rootElement.width;
 		const h = this.rootElement.height;

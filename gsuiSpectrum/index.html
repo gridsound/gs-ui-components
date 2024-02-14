@@ -55,7 +55,7 @@ const anData = new Uint8Array( fftSize / 2 );
 let buffer;
 let absn;
 
-spectrum.setResolution( 1024 );
+spectrum.$setResolution( 1024 );
 
 an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;
@@ -83,7 +83,7 @@ play.onclick = () => {
 
 function frame() {
 	an.getByteFrequencyData( anData );
-	spectrum.draw( anData );
+	spectrum.$draw( anData );
 	requestAnimationFrame( frame );
 }
 

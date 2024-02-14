@@ -60,7 +60,7 @@ const anRData = new Uint8Array( fftSize / 2 );
 let buffer;
 let absn;
 
-analyser.setResolution( 100, 500 );
+analyser.$setResolution( 100, 500 );
 
 anL.fftSize = fftSize;
 anR.fftSize = fftSize;
@@ -94,7 +94,7 @@ play.onclick = () => {
 function frame() {
 	anL.getByteFrequencyData( anLData );
 	anR.getByteFrequencyData( anRData );
-	analyser.draw( anLData, anRData );
+	analyser.$draw( anLData, anRData );
 	requestAnimationFrame( frame );
 }
 

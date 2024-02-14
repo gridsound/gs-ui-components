@@ -66,11 +66,11 @@ class gsuiChannels extends gsui0ne {
 
 			this.#analyserW = width;
 			this.#analyserH = height;
-			chans.forEach( chan => chan.$analyser.setResolution( width, height ) );
+			chans.forEach( chan => chan.$analyser.$setResolution( width, height ) );
 		}
 	}
 	$updateAudioData( id, ldata, rdata ) {
-		this.#chans[ id ].$analyser.draw( ldata, rdata );
+		this.#chans[ id ].$analyser.$draw( ldata, rdata );
 	}
 	$selectChannel( id ) {
 		const chan = this.#chans[ id ];
@@ -115,7 +115,7 @@ class gsuiChannels extends gsui0ne {
 			GSUpopup.prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
-		chan.$analyser.setResolution( this.#analyserW, this.#analyserH );
+		chan.$analyser.$setResolution( this.#analyserW, this.#analyserH );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
