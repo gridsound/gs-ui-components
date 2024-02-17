@@ -317,7 +317,7 @@ class gsuiDAW extends HTMLElement {
 	showOpenPopup() {
 		this.#popups.open.inputOpenFile.value =
 		this.#popups.open.inputOpenURL.value = "";
-		GSUpopup.custom( {
+		GSUpopup.$custom( {
 			title: "Open",
 			element: this.#popups.open.root,
 			submit: obj => this.onSubmitOpen( obj.url, obj.file ),
@@ -461,11 +461,11 @@ class gsuiDAW extends HTMLElement {
 					e.target.parentNode.dataset.id );
 				break;
 			case "cmp-rename":
-				GSUpopup.prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
+				GSUpopup.$prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
 					.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.#dispatch( "rename", n ) );
 				break;
 			case "login":
-				GSUpopup.custom( {
+				GSUpopup.$custom( {
 					ok: "Sign in",
 					title: "Authentication",
 					element: this.#popups.auth.root,
@@ -490,21 +490,21 @@ class gsuiDAW extends HTMLElement {
 				}
 				break;
 			case "about":
-				GSUpopup.custom( { title: "About", element: this.#popups.about.root } );
+				GSUpopup.$custom( { title: "About", element: this.#popups.about.root } );
 				break;
 			case "export":
 				GSUsetAttribute( this, "exporting", 0 );
 				GSUsetAttribute( this.#popups.export.button, "href", "" );
 				GSUsetAttribute( this.#popups.export.button, "download", "" );
 				GSUsetAttribute( this.#popups.export.button, "data-status", 0 );
-				GSUpopup.custom( { title: "Export", element: this.#popups.export.root } )
+				GSUpopup.$custom( { title: "Export", element: this.#popups.export.root } )
 					.then( () => this.#dispatch( "abortExport" ) );
 				break;
 			case "tempo":
 				this.#popups.tempo.beatsPerMeasure.value = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
 				this.#popups.tempo.stepsPerBeat.value = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 1 ];
 				this.#popups.tempo.bpm.value = GSUgetAttributeNum( this, "bpm" );
-				GSUpopup.custom( { title: "Tempo", element: this.#popups.tempo.root } )
+				GSUpopup.$custom( { title: "Tempo", element: this.#popups.tempo.root } )
 					.then( data => {
 						if ( data ) {
 							data.timedivision = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
@@ -528,7 +528,7 @@ class gsuiDAW extends HTMLElement {
 					this.#popups.settings.uiRateManualFPS.textContent = GSUgetAttribute( this, "uirate" ).padStart( 2, "0" );
 					this.#popups.settings.uiRateManualRange.value = GSUgetAttribute( this, "uirate" );
 				}
-				GSUpopup.custom( { title: "Settings", element: this.#popups.settings.root } )
+				GSUpopup.$custom( { title: "Settings", element: this.#popups.settings.root } )
 					.then( data => {
 						if ( data ) {
 							if ( data.uiRate === "manual" ) {

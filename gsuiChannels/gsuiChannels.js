@@ -89,7 +89,7 @@ class gsuiChannels extends gsui0ne {
 					kv => GSUcreateOption( { value: kv[ 0 ] }, kv[ 1 ].name ) )
 			);
 			gsuiChannels.#selectChanInput.value = currChanId;
-			GSUpopup.custom( {
+			GSUpopup.$custom( {
 				title: "Channels",
 				element: gsuiChannels.#selectChanPopup,
 				submit( data ) {
@@ -112,7 +112,7 @@ class gsuiChannels extends gsui0ne {
 		qs( "delete" ).onclick = () => this.$onchange( "removeChannel", id );
 		qs( "connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
 		qs( "rename" ).onclick = () => {
-			GSUpopup.prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
+			GSUpopup.$prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
 		chan.$analyser.$setResolution( this.#analyserW, this.#analyserH );

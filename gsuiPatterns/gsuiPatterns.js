@@ -20,7 +20,7 @@ class gsuiPatterns extends gsui0ne {
 		delete: id => {
 			this.$elements.lists.synth.children.length > 1
 				? this.onchange( "removeSynth", id )
-				: GSUpopup.alert( "Error", "You have to keep at least one synthesizer" );
+				: GSUpopup.$alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
 	#nlKeysLists = this.$elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" );
@@ -150,7 +150,7 @@ class gsuiPatterns extends gsui0ne {
 		}
 		gsuiPatterns.infoPopupContent.querySelector( "[name='bpm']" ).value = el.dataset.bufferBpm;
 		gsuiPatterns.infoPopupContent.querySelector( "[name='name']" ).value = el.dataset.name;
-		GSUpopup.custom( {
+		GSUpopup.$custom( {
 			title: "Buffer's info",
 			element: gsuiPatterns.infoPopupContent,
 			submit: data => {

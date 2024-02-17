@@ -36,17 +36,17 @@ class gsuiReorder {
 		this.#parentSelector = opt.parentSelector ?? "";
 		this.#preventDefault = opt.preventDefault ?? true;
 		Object.seal( this );
-
 		root.addEventListener( "mousedown", this.#onmousedown.bind( this ), { passive: true } );
 		root.addEventListener( "dragstart", this.#ondragstart.bind( this ), { passive: false } );
 		root.addEventListener( "dragover", this.#ondragover.bind( this ), { passive: true } );
 		root.addEventListener( "dragend", this.#ondragend.bind( this ), { passive: true } );
 	}
 
-	setShadowElement( el ) {
+	// .........................................................................
+	$setShadowElement( el ) {
 		this.#elShadowParent = el;
 	}
-	setShadowChildClass( cl ) {
+	$setShadowChildClass( cl ) {
 		this.#shadowClass = `.${ cl }`;
 	}
 

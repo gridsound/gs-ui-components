@@ -1,33 +1,35 @@
 "use strict";
 
-class gsuiPopup extends HTMLElement {
+class gsuiPopup extends gsui0ne {
 	#type = "";
 	#isOpen = false;
 	#resolve = null;
 	#fnSubmit = null;
-	#children = GSUgetTemplate( "gsui-popup" );
-	#elements = GSUfindElements( this.#children, {
-		ok: ".gsuiPopup-ok",
-		cnt: ".gsuiPopup-content",
-		msg: ".gsuiPopup-message",
-		text: ".gsuiPopup-inputText",
-		form: ".gsuiPopup-body",
-		window: ".gsuiPopup-window",
-		header: ".gsuiPopup-head",
-		cancel: ".gsuiPopup-cancel",
-	} );
-	#clWindow = this.#elements.window.classList;
+	#clWindow = null;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiPopup",
+			$tagName: "gsui-popup",
+			$elements: {
+				ok: ".gsuiPopup-ok",
+				cnt: ".gsuiPopup-content",
+				msg: ".gsuiPopup-message",
+				text: ".gsuiPopup-inputText",
+				form: ".gsuiPopup-body",
+				window: ".gsuiPopup-window",
+				header: ".gsuiPopup-head",
+				cancel: ".gsuiPopup-cancel",
+			},
+		} );
 		Object.seal( this );
-
+		this.#clWindow = this.$elements.window.classList;
 		this.onclick =
-		this.#elements.cancel.onclick = this.#cancelClick.bind( this );
-		this.#elements.form.onsubmit = this.#submit.bind( this );
-		this.#elements.window.onkeyup =
-		this.#elements.window.onclick = e => e.stopPropagation();
-		this.#elements.window.onkeydown = e => {
+		this.$elements.cancel.onclick = this.#cancelClick.bind( this );
+		this.$elements.form.onsubmit = this.#submit.bind( this );
+		this.$elements.window.onkeyup =
+		this.$elements.window.onclick = e => e.stopPropagation();
+		this.$elements.window.onkeydown = e => {
 			e.stopPropagation();
 			if ( e.key === "Escape" ) {
 				this.#cancelClick();
@@ -35,44 +37,37 @@ class gsuiPopup extends HTMLElement {
 		};
 	}
 
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#children );
-			this.#children = null;
-		}
-	}
-
 	// .........................................................................
-	alert( title, msg, ok ) {
-		GSUemptyElement( this.#elements.cnt );
+	$alert( title, msg, ok ) {
+		GSUemptyElement( this.$elements.cnt );
 		this.#clWindow.add( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, false );
 		return this.#open( "alert", title, msg );
 	}
-	confirm( title, msg, ok, cancel ) {
-		GSUemptyElement( this.#elements.cnt );
+	$confirm( title, msg, ok, cancel ) {
+		GSUemptyElement( this.$elements.cnt );
 		this.#clWindow.remove( "gsuiPopup-noCancel" );
 		this.#clWindow.add( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "confirm", title, msg );
 	}
-	prompt( title, msg, val, ok, cancel ) {
-		GSUemptyElement( this.#elements.cnt );
+	$prompt( title, msg, val, ok, cancel ) {
+		GSUemptyElement( this.$elements.cnt );
 		this.#clWindow.remove( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "prompt", title, msg, val );
 	}
-	custom( obj ) {
-		GSUemptyElement( this.#elements.cnt );
+	$custom( obj ) {
+		GSUemptyElement( this.$elements.cnt );
 		this.#fnSubmit = obj.submit || null;
 		this.#clWindow.remove( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false );
 		obj.element
-			? this.#elements.cnt.append( obj.element )
-			: this.#elements.cnt.append( ...obj.elements );
+			? this.$elements.cnt.append( obj.element )
+			: this.$elements.cnt.append( ...obj.elements );
 		return this.#open( "custom", obj.title );
 	}
-	close() {
+	$close() {
 		if ( this.#isOpen ) {
 			this.#cancelClick();
 		}
@@ -81,25 +76,25 @@ class gsuiPopup extends HTMLElement {
 	// .........................................................................
 	#setOkCancelBtns( ok, cancel ) {
 		this.#clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
-		this.#elements.cancel.value = cancel || "Cancel";
-		this.#elements.ok.value = ok || "Ok";
+		this.$elements.cancel.value = cancel || "Cancel";
+		this.$elements.ok.value = ok || "Ok";
 	}
 	#open( type, title, msg, value ) {
 		this.#type = type;
 		this.#isOpen = true;
-		this.#elements.header.textContent = title;
-		this.#elements.msg.innerHTML = msg || "";
-		this.#elements.text.value = arguments.length > 3 ? value : "";
-		this.#elements.window.dataset.type = type;
+		this.$elements.header.textContent = title;
+		this.$elements.msg.innerHTML = msg || "";
+		this.$elements.text.value = arguments.length > 3 ? value : "";
+		this.$elements.window.dataset.type = type;
 		this.classList.add( "gsuiPopup-show" );
 		setTimeout( () => {
 			if ( type === "prompt" ) {
-				this.#elements.text.select();
+				this.$elements.text.select();
 			} else {
 				const inp = type !== "custom" ? null
-					: this.#elements.cnt.querySelector( "input, select" );
+					: this.$elements.cnt.querySelector( "input, select" );
 
-				( inp || this.#elements.ok ).focus();
+				( inp || this.$elements.ok ).focus();
 			}
 		}, 250 );
 		return new Promise( res => this.#resolve = res )
@@ -117,7 +112,7 @@ class gsuiPopup extends HTMLElement {
 	#submit() {
 		switch ( this.#type ) {
 			case "alert": this.#resolve( undefined ); break;
-			case "prompt": this.#resolve( this.#elements.text.value ); break;
+			case "prompt": this.#resolve( this.$elements.text.value ); break;
 			case "confirm": this.#resolve( true ); break;
 			case "custom": this.#submitCustom(); break;
 		}
@@ -136,7 +131,7 @@ class gsuiPopup extends HTMLElement {
 	}
 	#submitCustom() {
 		const fn = this.#fnSubmit;
-		const inps = Array.from( this.#elements.form );
+		const inps = Array.from( this.$elements.form );
 		const obj = inps.reduce( ( obj, inp ) => {
 			if ( inp.name ) {
 				const val = this.#getInputValue( inp );

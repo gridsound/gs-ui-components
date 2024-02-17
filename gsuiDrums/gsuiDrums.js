@@ -99,8 +99,8 @@ class gsuiDrums extends gsui0ne {
 		this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
-		this.#reorder.setShadowElement( this.#elLines );
-		this.#reorder.setShadowChildClass( "gsuiDrums-line" );
+		this.#reorder.$setShadowElement( this.#elLines );
+		this.#reorder.$setShadowChildClass( "gsuiDrums-line" );
 	}
 	static get observedAttributes() {
 		return [ "disabled", "currenttime", "timedivision", "loop" ];
