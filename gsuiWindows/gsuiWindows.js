@@ -1,14 +1,16 @@
 "use strict";
 
-class gsuiWindows extends HTMLElement {
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiWindows" );
+class gsuiWindows extends gsui0ne {
 	#objWindows = {};
 	#mouseFnUp = null;
 	#mouseFnMove = null;
 	#focusedWindow = null;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiWindows",
+			$tagName: "gsui-windows",
+		} );
 		Object.seal( this );
 		GSUlistenEvents( this, {
 			gsuiWindow: {
@@ -51,13 +53,13 @@ class gsuiWindows extends HTMLElement {
 	}
 	#onopen( win ) {
 		this.#onfocusinWin( win );
-		this.#dispatch( "open", win );
+		this.$dispatch( "open", win );
 	}
 	#onclose( win ) {
 		if ( win === this.#focusedWindow ) {
 			this.#focusedWindow = null;
 		}
-		this.#dispatch( "close", win );
+		this.$dispatch( "close", win );
 	}
 	#onfocusinWin( win, e ) {
 		if ( win !== this.#focusedWindow ) {

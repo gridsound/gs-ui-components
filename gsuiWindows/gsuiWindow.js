@@ -1,53 +1,47 @@
 "use strict";
 
-class gsuiWindow extends HTMLElement {
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiWindow" );
+class gsuiWindow extends gsui0ne {
 	#wMin = 32;
 	#hMin = 32;
 	#show = false;
 	#minimized = false;
 	#maximized = false;
-	#restoreRect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
-	#mousedownHeadHeight = 0;
-	#children = GSUgetTemplate( "gsui-window" );
-	#elements = GSUfindElements( this.#children, {
-		icon: ".gsuiWindow-icon",
-		wrap: ".gsuiWindow-wrap",
-		head: ".gsuiWindow-head",
-		name: ".gsuiWindow-name",
-		content: ".gsuiWindow-content",
-		handlers: ".gsuiWindow-handlers",
-		headBtns: ".gsuiWindow-headBtns",
-		headContent: ".gsuiWindow-headContent",
-	} );
+	#mousedownHeadHeight = 24;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiWindow",
+			$tagName: "gsui-window",
+			$elements: {
+				$icon: ".gsuiWindow-icon",
+				$wrap: ".gsuiWindow-wrap",
+				$head: ".gsuiWindow-head",
+				$name: ".gsuiWindow-name",
+				$content: ".gsuiWindow-content",
+				$handlers: ".gsuiWindow-handlers",
+				$headBtns: ".gsuiWindow-headBtns",
+				$headContent: ".gsuiWindow-headContent",
+			},
+			$attributes: { tabindex: 0 },
+		} );
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 		Object.seal( this );
 
-		this.#elements.icon.ondblclick = this.$close.bind( this );
-		this.#elements.headBtns.onclick = this.#onclickBtns.bind( this );
-		this.#elements.head.onmousedown = this.#onmousedownHead.bind( this );
-		this.#elements.name.ondblclick =
-		this.#elements.headContent.ondblclick = this.#ondblclickTitle.bind( this );
-		this.#elements.handlers.onmousedown = this.#onmousedownHandlers.bind( this );
+		this.$elements.$icon.ondblclick = this.$close.bind( this );
+		this.$elements.$headBtns.onclick = this.#onclickBtns.bind( this );
+		this.$elements.$head.onmousedown = this.#onmousedownHead.bind( this );
+		this.$elements.$name.ondblclick =
+		this.$elements.$headContent.ondblclick = this.#ondblclickTitle.bind( this );
+		this.$elements.$handlers.onmousedown = this.#onmousedownHandlers.bind( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			GSUsetAttribute( this, "tabindex", 0 );
-			this.append( ...this.#children );
-			this.#children = null;
-		}
-	}
 	static get observedAttributes() {
 		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "name" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
+	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "y": this.style.top = `${ this.rect.y = +val }px`; break;
 			case "x": this.style.left = `${ this.rect.x = +val }px`; break;
@@ -55,8 +49,8 @@ class gsuiWindow extends HTMLElement {
 			case "h": this.style.height = `${ this.rect.h = +val }px`; break;
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
-			case "icon": this.#elements.icon.dataset.icon = val; break;
-			case "name": this.#elements.name.textContent = val; break;
+			case "icon": this.$elements.$icon.dataset.icon = val; break;
+			case "name": this.$elements.$name.textContent = val; break;
 		}
 	}
 
@@ -69,12 +63,12 @@ class gsuiWindow extends HTMLElement {
 			if ( b ) {
 				this.#show = true;
 				this.#setClass( "show", true );
-				this.#dispatch( "open" );
+				this.$dispatch( "open" );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				this.#setClass( "show", false );
-				GSUemptyElement( this.#elements.content );
-				this.#dispatch( "close" );
+				GSUemptyElement( this.$elements.$content );
+				this.$dispatch( "close" );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -83,14 +77,14 @@ class gsuiWindow extends HTMLElement {
 
 	// .........................................................................
 	$empty() {
-		GSUemptyElement( this.#elements.content );
-		GSUemptyElement( this.#elements.headContent );
+		GSUemptyElement( this.$elements.$content );
+		GSUemptyElement( this.$elements.$headContent );
 	}
 	$contentAppend( ...args ) {
-		this.#elements.content.append( ...args );
+		this.$elements.$content.append( ...args );
 	}
 	$headAppend( ...args ) {
-		this.#elements.headContent.append( ...args );
+		this.$elements.$headContent.append( ...args );
 	}
 
 	// .........................................................................
@@ -99,47 +93,28 @@ class gsuiWindow extends HTMLElement {
 			const st = this.style;
 			const wasMinimized = this.#minimized;
 
-			this.#restoreRect.x = this.rect.x;
-			this.#restoreRect.y = this.rect.y;
-			this.#restoreRect.w = this.rect.w;
-			if ( !wasMinimized ) {
-				this.#restoreRect.h = this.rect.h;
-			}
-			st.top = st.left = st.right = st.bottom = st.width = st.height = "";
 			this.#setClass( "maximized", true );
 			this.#setClass( "minimized", false );
 			this.#maximized = true;
 			this.#minimized = false;
 			if ( wasMinimized ) {
-				this.#dispatch( "open" );
+				this.$dispatch( "open" );
 			}
 			this.focus( { preventScroll: true } );
 		}
 	}
 	$minimize() {
 		if ( !this.#minimized ) {
-			const rcRestore = this.#restoreRect;
-
-			if ( !this.#maximized ) {
-				Object.assign( rcRestore, this.rect );
-			}
 			this.#setClass( "minimized", true );
 			this.#setClass( "maximized", false );
 			this.#minimized = true;
 			this.#maximized = false;
-			GSUsetAttribute( this, {
-				x: rcRestore.x,
-				y: rcRestore.y,
-				w: rcRestore.w,
-				h: this.#getHeadHeight(),
-			} );
-			GSUemptyElement( this.#elements.content );
-			this.#dispatch( "close" );
+			GSUemptyElement( this.$elements.$content );
+			this.$dispatch( "close" );
 		}
 	}
 	$restore() {
 		if ( this.#minimized || this.#maximized ) {
-			const rcRestore = this.#restoreRect;
 			const wasMinimized = this.#minimized;
 
 			this.focus( { preventScroll: true } );
@@ -147,14 +122,8 @@ class gsuiWindow extends HTMLElement {
 			this.#setClass( "maximized", false );
 			this.#minimized =
 			this.#maximized = false;
-			GSUsetAttribute( this, {
-				x: rcRestore.x,
-				y: rcRestore.y,
-				w: rcRestore.w,
-				h: rcRestore.h,
-			} );
 			if ( wasMinimized ) {
-				this.#dispatch( "open" );
+				this.$dispatch( "open" );
 			}
 		}
 	}
@@ -189,7 +158,7 @@ class gsuiWindow extends HTMLElement {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			this.#setClass( "dragging", true );
-			this.#dispatch( "startMousemoving", "move",
+			this.$dispatch( "startMousemoving", "move",
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
@@ -202,9 +171,8 @@ class gsuiWindow extends HTMLElement {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			this.#mousedownHeadHeight = this.#getHeadHeight();
 			this.#setClass( "dragging", true );
-			this.#dispatch( "startMousemoving", `${ dir }-resize`,
+			this.$dispatch( "startMousemoving", `${ dir }-resize`,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}
@@ -217,9 +185,9 @@ class gsuiWindow extends HTMLElement {
 
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
-		this.#setCSSrelativeMove( this.#elements.handlers.style, mmPos );
+		this.#setCSSrelativeMove( this.$elements.$handlers.style, mmPos );
 		if ( !GSUhasAttribute( this.parentNode, "lowgraphics" ) ) {
-			this.#setCSSrelativeMove( this.#elements.wrap.style, mmPos );
+			this.#setCSSrelativeMove( this.$elements.$wrap.style, mmPos );
 		}
 	}
 	#onmouseupHead() {
@@ -227,15 +195,13 @@ class gsuiWindow extends HTMLElement {
 		const m = this.#mousemovePos;
 
 		this.#setClass( "dragging", false );
-		this.#resetCSSrelative( this.#elements.wrap.style );
-		this.#resetCSSrelative( this.#elements.handlers.style );
+		this.#resetCSSrelative( this.$elements.$wrap.style );
+		this.#resetCSSrelative( this.$elements.$handlers.style );
 		if ( m.x || m.y ) {
 			GSUsetAttribute( this, {
 				x: x + m.x,
 				y: y + m.y,
 			} );
-			this.#restoreRect.x = this.rect.x;
-			this.#restoreRect.y = this.rect.y;
 		}
 	}
 	#onmousemoveHandler( dir, e ) {
@@ -247,9 +213,9 @@ class gsuiWindow extends HTMLElement {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
-		this.#setCSSrelativeResize( this.#elements.handlers.style, dir, mmPos );
+		this.#setCSSrelativeResize( this.$elements.$handlers.style, dir, mmPos );
 		if ( !GSUhasAttribute( this.parentNode, "lowgraphics" ) ) {
-			this.#setCSSrelativeResize( this.#elements.wrap.style, dir, mmPos );
+			this.#setCSSrelativeResize( this.$elements.$wrap.style, dir, mmPos );
 		}
 	}
 	#onmouseupHandler( dir ) {
@@ -257,8 +223,8 @@ class gsuiWindow extends HTMLElement {
 		const m = this.#mousemovePos;
 
 		this.#setClass( "dragging", false );
-		this.#resetCSSrelative( this.#elements.wrap.style );
-		this.#resetCSSrelative( this.#elements.handlers.style );
+		this.#resetCSSrelative( this.$elements.$wrap.style );
+		this.#resetCSSrelative( this.$elements.$handlers.style );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
 				case "e":  GSUsetAttribute( this, { w: w + m.x, h          } ); break;
@@ -276,9 +242,6 @@ class gsuiWindow extends HTMLElement {
 	// .........................................................................
 	#setClass( clazz, b ) {
 		this.classList.toggle( `gsuiWindow-${ clazz }`, b );
-	}
-	#getHeadHeight() {
-		return this.#elements.head.getBoundingClientRect().height;
 	}
 	#calcCSSmagnet( dir, x, y ) {
 		const rc = this.rect;

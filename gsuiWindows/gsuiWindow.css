@@ -23,8 +23,13 @@ gsui-window:focus-within {
 }
 .gsuiWindow-maximized {
 	--gsuiWindow-radius: 0;
-	inset: 0;
+	inset: 0 !important;
+	width: auto !important;
+	height: auto !important;
 	overflow: hidden;
+}
+.gsuiWindow-minimized {
+	height: 24px !important;
 }
 .gsuiWindow-handlers::before,
 gsui-window:not( .gsuiWindow-dragging ),
