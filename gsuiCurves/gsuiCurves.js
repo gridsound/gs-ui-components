@@ -1,52 +1,46 @@
 "use strict";
 
-class gsuiCurves extends HTMLElement {
+class gsuiCurves extends gsui0ne {
 	#size = Object.seal( [ 0, 0 ] );
 	#curves = new Map();
 	#options = Object.seal( {
 		nyquist: 24000,
 		nbBands: 8,
 	} );
-	#children = GSUgetTemplate( "gsui-curves" );
-	#elements = GSUfindElements( this.#children, {
-		svg: "svg",
-		line: ".gsuiCurves-line",
-		marks: ".gsuiCurves-marks",
-		curves: ".gsuiCurves-curves",
-	} );
 
 	constructor() {
-		super();
-		Object.freeze( this );
+		super( {
+			$cmpName: "gsuiCurves",
+			$tagName: "gsui-curves",
+			$elements: {
+				$svg: "svg",
+				$line: ".gsuiCurves-line",
+				$marks: ".gsuiCurves-marks",
+				$curves: ".gsuiCurves-curves",
+			},
+		} );
+		Object.seal( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( this.#children ) {
-			this.append( this.#children );
-			this.#children = null;
-		}
-	}
-
-	// .........................................................................
-	resized() {
-		const bcr = this.#elements.svg.getBoundingClientRect();
+	$resized() {
+		const bcr = this.$elements.$svg.getBoundingClientRect();
 		const w = bcr.width;
 		const h = bcr.height;
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
-		GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
-		this.redraw();
+		GSUsetAttribute( this.$elements.$svg, "viewBox", `0 0 ${ w } ${ h }` );
+		this.#redraw();
 	}
-	options( opt ) {
+	$options( opt ) {
 		Object.assign( this.#options, opt );
 		if ( "nbBands" in opt || "nyquist" in opt ) {
 			this.#updateHzTexts();
 		}
 	}
-	setCurve( id, curve ) {
-		const path = this.#elements.curves.querySelector( `[data-id="${ id }"]` );
+	$setCurve( id, curve ) {
+		const path = this.$elements.$curves.querySelector( `[data-id="${ id }"]` );
 
 		if ( curve ) {
 			this.#curves.set( id, curve );
@@ -60,15 +54,15 @@ class gsuiCurves extends HTMLElement {
 			path.remove();
 		}
 	}
-	redraw() {
+	#redraw() {
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
-			GSUsetAttribute( this.#elements.curves.querySelector( `[data-id="${ id }"]` ),
+			GSUsetAttribute( this.$elements.$curves.querySelector( `[data-id="${ id }"]` ),
 				"d", this.#createPathD( curve ) );
 		} );
 	}
-	getWidth() {
+	$getWidth() {
 		return this.#size[ 0 ];
 	}
 
@@ -76,7 +70,7 @@ class gsuiCurves extends HTMLElement {
 	#updateLinePos() {
 		const [ w, h ] = this.#size;
 
-		GSUsetAttribute( this.#elements.line, {
+		GSUsetAttribute( this.$elements.$line, {
 			x1: 0,
 			x2: w,
 			y1: h / 2,
@@ -110,11 +104,11 @@ class gsuiCurves extends HTMLElement {
 				} ) );
 			}
 		}
-		GSUemptyElement( this.#elements.marks );
-		this.#elements.marks.append( ...rects, ...marks );
+		GSUemptyElement( this.$elements.$marks );
+		this.$elements.$marks.append( ...rects, ...marks );
 	}
 	#createPath( id, curve ) {
-		this.#elements.curves.append( GSUcreateElementSVG( "path", {
+		this.$elements.$curves.append( GSUcreateElementSVG( "path", {
 			class: "gsuiCurves-curve",
 			"data-id": id,
 			d: this.#createPathD( curve ),

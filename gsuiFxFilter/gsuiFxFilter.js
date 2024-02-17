@@ -107,10 +107,10 @@ class gsuiFxFilter extends HTMLElement {
 	}
 	$updateWave() {
 		if ( this.#attached ) {
-			const curve = this.$askData( "curve", this.#elements.curves.getWidth() );
+			const curve = this.$askData( "curve", this.#elements.curves.$getWidth() );
 
 			if ( curve ) {
-				this.#elements.curves.setCurve( "0", curve );
+				this.#elements.curves.$setCurve( "0", curve );
 			}
 		}
 	}
@@ -123,7 +123,7 @@ class gsuiFxFilter extends HTMLElement {
 
 	// .........................................................................
 	#onresize() {
-		this.#elements.curves.resized();
+		this.#elements.curves.$resized();
 	}
 	#oninputProp( prop, val ) {
 		this.#dispatch( "liveChange", prop, val );

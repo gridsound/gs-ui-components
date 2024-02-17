@@ -1,26 +1,27 @@
 "use strict";
 
-class gsuiEffects extends HTMLElement {
+class gsuiEffects extends gsui0ne {
 	$askData = GSUnoop;
 	#fxsHtml = new Map();
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiEffects" );
-	#children = GSUgetTemplate( "gsui-effects" );
-	#elements = GSUfindElements( this.#children, {
-		addBtn: ".gsuiEffects-addBtn",
-		addSelect: ".gsuiEffects-addSelect",
-	} );
 	static #fxsMap = Object.freeze( {
 		delay: { cmp: "gsui-fx-delay", name: "Delay", height: 140 },
 		filter: { cmp: "gsui-fx-filter", name: "Filter", height: 160 },
 	} );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiEffects",
+			$tagName: "gsui-effects",
+			$elements: {
+				$addBtn: ".gsuiEffects-addBtn",
+				$addSelect: ".gsuiEffects-addSelect",
+			},
+		} );
 		Object.seal( this );
 
-		this.#elements.addBtn.onclick = () => this.#elements.addSelect.value = "";
-		this.#elements.addSelect.onchange = this.#onchangeAddSelect.bind( this );
-		this.#elements.addSelect.onkeydown = () => false;
+		this.$elements.$addBtn.onclick = () => this.$elements.$addSelect.value = "";
+		this.$elements.$addSelect.onchange = this.#onchangeAddSelect.bind( this );
+		this.$elements.$addSelect.onkeydown = () => false;
 		new gsuiReorder( {
 			rootElement: this,
 			direction: "column",
@@ -32,7 +33,7 @@ class gsuiEffects extends HTMLElement {
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
-					this.#dispatch( "toggleEffect", btn.parentNode.parentNode.dataset.id );
+					this.$dispatch( "toggleEffect", btn.parentNode.parentNode.dataset.id );
 				},
 			},
 			default: {
@@ -53,22 +54,14 @@ class gsuiEffects extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...this.#children );
-			this.#children = null;
-		}
-	}
 	static get observedAttributes() {
 		return [ "timedivision" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "timedivision":
-					this.#fxsHtml.forEach( html => GSUsetAttribute( html.content.firstChild, "timedivision", val ) );
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "timedivision":
+				this.#fxsHtml.forEach( html => GSUsetAttribute( html.content.firstChild, "timedivision", val ) );
+				break;
 		}
 	}
 
@@ -109,7 +102,7 @@ class gsuiEffects extends HTMLElement {
 		} );
 
 		expand.onclick = () => this.$expandToggleEffect( id );
-		remove.onclick = () => this.#dispatch( "removeEffect", id );
+		remove.onclick = () => this.$dispatch( "removeEffect", id );
 		if ( "$askData" in uiFx ) {
 			uiFx.$askData = this.$askData.bind( null, id, fx.type );
 		}
@@ -145,11 +138,11 @@ class gsuiEffects extends HTMLElement {
 		html.uiFx.$toggle( b );
 	}
 	#onchangeAddSelect() {
-		const type = this.#elements.addSelect.value;
+		const type = this.$elements.$addSelect.value;
 
-		this.#elements.addSelect.blur();
-		this.#elements.addSelect.value = "";
-		this.#dispatch( "addEffect", type );
+		this.$elements.$addSelect.blur();
+		this.$elements.$addSelect.value = "";
+		this.$dispatch( "addEffect", type );
 	}
 }
 
