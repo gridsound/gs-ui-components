@@ -1,44 +1,36 @@
 "use strict";
 
-class gsuiDrum extends HTMLElement {
-	#children = GSUgetTemplate( "gsui-drum" );
-
+class gsuiDrum extends gsui0ne {
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiDrum",
+			$tagName: "gsui-drum",
+		} );
 		Object.seal( this );
 	}
 
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#children );
-			this.#children = null;
-		}
-	}
 	static get observedAttributes() {
 		return [ "when", "duration", "gain", "pan", "detune" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "when":
-					this.style.left = `${ val }em`;
-					break;
-				case "duration":
-					this.style.width = `${ val }em`;
-					break;
-				case "pan":
-				case "gain":
-				case "detune":
-					this.#changeProp( prop, val );
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "when":
+				this.style.left = `${ val }em`;
+				break;
+			case "duration":
+				this.style.width = `${ val }em`;
+				break;
+			case "pan":
+			case "gain":
+			case "detune":
+				this.#changeProp( prop, val );
+				break;
 		}
 	}
 
 	// .........................................................................
 	#changeProp( prop, val ) {
-		const sel = `.gsuiDrum-prop[data-value="${ prop }"] .gsuiDrum-propValue`;
-		const st = this.querySelector( sel ).style;
+		const st = this.querySelector( `.gsuiDrum-prop[data-value="${ prop }"]` ).firstChild.style;
 
 		switch ( prop ) {
 			case "detune":

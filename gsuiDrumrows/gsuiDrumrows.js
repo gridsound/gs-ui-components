@@ -1,14 +1,16 @@
 "use strict";
 
-class gsuiDrumrows extends HTMLElement {
+class gsuiDrumrows extends gsui0ne {
 	#rows = new Map();
 	#dragoverId = null;
 	#elDragover = null;
 	#timeoutIdDragleave = null;
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDrumrows" );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiDrumrows",
+			$tagName: "gsui-drumrows",
+		} );
 		Object.seal( this );
 		this.ondrop = this.#ondropRows.bind( this );
 		this.ondragover = this.#ondragoverRows.bind( this );
@@ -16,33 +18,26 @@ class gsuiDrumrows extends HTMLElement {
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		GSUlistenEvents( this, {
 			gsuiDrumrow: {
-				remove: ( d, el ) => this.#dispatch( "remove", el.dataset.id ),
-				expand: ( d, el ) => this.#dispatch( "expand", el.dataset.id ),
-				toggle: ( d, el ) => this.#dispatch( "toggle", el.dataset.id, ...d.args ),
-				toggleSolo: ( d, el ) => this.#dispatch( "toggleSolo", el.dataset.id ),
-				changeProp: ( d, el ) => this.#dispatch( "change", "changeDrumrow", el.dataset.id, ...d.args ),
-				liveChangeProp: ( d, el ) => this.#dispatch( "liveChangeDrumrow", el.dataset.id, ...d.args ),
-				propFilter: ( d, el ) => this.#dispatch( "propFilter", el.dataset.id, ...d.args ),
-				propFilters: ( d, el ) => this.#dispatch( "propFilters", ...d.args ),
+				remove: ( d, el ) => this.$dispatch( "remove", el.dataset.id ),
+				expand: ( d, el ) => this.$dispatch( "expand", el.dataset.id ),
+				toggle: ( d, el ) => this.$dispatch( "toggle", el.dataset.id, ...d.args ),
+				toggleSolo: ( d, el ) => this.$dispatch( "toggleSolo", el.dataset.id ),
+				changeProp: ( d, el ) => this.$dispatch( "change", "changeDrumrow", el.dataset.id, ...d.args ),
+				liveChangeProp: ( d, el ) => this.$dispatch( "liveChangeDrumrow", el.dataset.id, ...d.args ),
+				propFilter: ( d, el ) => this.$dispatch( "propFilter", el.dataset.id, ...d.args ),
+				propFilters: ( d, el ) => this.$dispatch( "propFilters", ...d.args ),
 			},
 		} );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...GSUgetTemplate( "gsui-drumrows" ) );
-		}
-	}
-
-	// .........................................................................
-	playRow( id ) {
+	$playRow( id ) {
 		this.#rows.get( id ).$play();
 	}
-	stopRow( id ) {
+	$stopRow( id ) {
 		this.#rows.get( id ).$stop();
 	}
-	setPropFilter( id, prop ) {
+	$setPropFilter( id, prop ) {
 		this.#rows.get( id ).querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"]` ).checked = true;
 	}
 	$setDrumPropValue( rowId, prop, val ) {
@@ -63,17 +58,17 @@ class gsuiDrumrows extends HTMLElement {
 	}
 
 	// .........................................................................
-	add( id ) {
+	$add( id ) {
 		const elDrumrow = GSUcreateElement( "gsui-drumrow", { "data-id": id } );
 
 		this.#rows.set( id, elDrumrow );
 		this.append( elDrumrow );
 	}
-	remove( id ) {
+	$remove( id ) {
 		this.#rows.get( id ).remove();
 		this.#rows.delete( id );
 	}
-	change( id, prop, val ) {
+	$change( id, prop, val ) {
 		switch ( prop ) {
 			case "pan":
 			case "name":
@@ -97,7 +92,7 @@ class gsuiDrumrows extends HTMLElement {
 	// .........................................................................
 	#onmousedownRows( e ) {
 		if ( ( e.button === 0 || e.button === 2 ) && e.target.classList.contains( "gsuiDrumrow-main" ) ) {
-			this.#dispatch(
+			this.$dispatch(
 				e.button === 0 ? "liveStartDrum" : "liveStopDrum",
 				e.target.parentNode.dataset.id );
 		}
@@ -112,8 +107,8 @@ class gsuiDrumrows extends HTMLElement {
 
 			if ( bufId ) {
 				this.#dragoverId === Infinity
-					? this.#dispatch( "change", "addDrumrow", bufType, bufId )
-					: this.#dispatch( "change", "changeDrumrowPattern", this.#dragoverId, bufType, bufId );
+					? this.$dispatch( "change", "addDrumrow", bufType, bufId )
+					: this.$dispatch( "change", "changeDrumrowPattern", this.#dragoverId, bufType, bufId );
 			}
 		}
 		this.#ondragleaveRows();

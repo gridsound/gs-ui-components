@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiDrums extends HTMLElement {
+class gsuiDrums extends gsui0ne {
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 140,
 		panelsizemin: 70,
@@ -32,7 +32,6 @@ class gsuiDrums extends HTMLElement {
 	#elHover = this.#elDrumHover;
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDrums" );
 	#drumrows = GSUcreateElement( "gsui-drumrows" );
 	#reorder = new gsuiReorder( {
 		rootElement: this.#drumrows,
@@ -44,13 +43,17 @@ class gsuiDrums extends HTMLElement {
 		onchange: ( elRow ) => {
 			const rows = gsuiReorder.listComputeOrderChange( this.#drumrows, {} );
 
-			this.#dispatch( "reorderDrumrow", elRow.dataset.id, rows );
+			this.$dispatch( "reorderDrumrow", elRow.dataset.id, rows );
 		},
 	} );
 	timeline = this.#win.timeline;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiDrums",
+			$tagName: "gsui-drums",
+			$attributes: { "tabindex": -1 },
+		} );
 		Object.seal( this );
 		GSUlistenEvents( this, {
 			gsuiTimewindow: {
@@ -90,29 +93,24 @@ class gsuiDrums extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			GSUsetAttribute( this, "tabindex", -1 );
-			this.append( this.#win );
-			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#drumrows );
-			this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
-			this.#elLines.onmousemove = this.#onmousemoveLinesBind;
-			this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
-			this.#reorder.setShadowElement( this.#elLines );
-			this.#reorder.setShadowChildClass( "gsuiDrums-line" );
-		}
+	$firstTimeConnected() {
+		this.append( this.#win );
+		this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#drumrows );
+		this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
+		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
+		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
+		this.#reorder.setShadowElement( this.#elLines );
+		this.#reorder.setShadowChildClass( "gsuiDrums-line" );
 	}
 	static get observedAttributes() {
 		return [ "disabled", "currenttime", "timedivision", "loop" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "disabled": return GSUsetAttribute( this.#win, "disabled", val );
-				case "currenttime": return GSUsetAttribute( this.#win, "currenttime", val );
-				case "timedivision": return this.#timedivision( val );
-				case "loop": return GSUsetAttribute( this.#win, "loop", val );
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "disabled": return GSUsetAttribute( this.#win, "disabled", val );
+			case "currenttime": return GSUsetAttribute( this.#win, "currenttime", val );
+			case "timedivision": return this.#timedivision( val );
+			case "loop": return GSUsetAttribute( this.#win, "loop", val );
 		}
 	}
 
@@ -142,13 +140,13 @@ class gsuiDrums extends HTMLElement {
 		const elLine = this.#createDrumrow( rowId );
 
 		elLine.dataset.id = rowId;
-		this.#drumrows.add( rowId );
+		this.#drumrows.$add( rowId );
 		this.#linesMap.set( rowId, elLine );
 		this.#elLines.append( elLine );
 		this.#setPropFilter( rowId, "gain" );
 	}
 	$removeDrumrow( rowId ) {
-		this.#drumrows.remove( rowId );
+		this.#drumrows.$remove( rowId );
 		this.#linesMap.get( rowId ).remove();
 		this.#linesMap.delete( rowId );
 	}
@@ -161,34 +159,34 @@ class gsuiDrums extends HTMLElement {
 			case "toggle":
 				this.#linesMap.get( rowId ).classList.toggle( "gsuiDrumrow-mute", !val );
 			default:
-				this.#drumrows.change( rowId, prop, val );
+				this.#drumrows.$change( rowId, prop, val );
 				break;
 		}
 	}
 	$startDrumrow( rowId ) {
-		this.#drumrows.playRow( rowId );
+		this.#drumrows.$playRow( rowId );
 	}
 	$stopDrumrow( rowId ) {
-		this.#drumrows.stopRow( rowId );
+		this.#drumrows.$stopRow( rowId );
 	}
 
 	// .........................................................................
-	addDrum( id, drum ) {
+	$addDrum( id, drum ) {
 		const grp = this.#sliderGroups.get( drum.row );
 		const elItem = this.#addItem( id, "drum", drum );
 
 		grp.set( id, drum.when, GSUgetAttributeNum( elItem, "duration" ), 0 );
 	}
-	removeDrum( id ) {
+	$removeDrum( id ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
 
 		this.#sliderGroups.get( rowId ).delete( id );
 		this.#removeItem( id );
 	}
-	addDrumcut( id, drumcut ) {
+	$addDrumcut( id, drumcut ) {
 		this.#addItem( id, "drumcut", drumcut );
 	}
-	removeDrumcut( id ) {
+	$removeDrumcut( id ) {
 		this.#removeItem( id );
 	}
 	#createDrumrow( id ) {
@@ -200,7 +198,7 @@ class gsuiDrums extends HTMLElement {
 		this.#sliderGroups.set( id, grp );
 		return elLine;
 	}
-	changeDrum( id, prop, val ) {
+	$changeDrum( id, prop, val ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
 		const grp = this.#sliderGroups.get( rowId );
 
@@ -340,7 +338,7 @@ class gsuiDrums extends HTMLElement {
 		this.#getItems( rowId, "drum" ).forEach( d => {
 			grp.setProp( d.dataset.id, "value", GSUgetAttributeNum( d, prop ) );
 		} );
-		this.#drumrows.setPropFilter( rowId, prop );
+		this.#drumrows.$setPropFilter( rowId, prop );
 	}
 
 	// .........................................................................
@@ -511,7 +509,7 @@ class gsuiDrums extends HTMLElement {
 		document.removeEventListener( "mouseup", this.#onmouseupNewBind );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 		if ( arr.length > 0 ) {
-			this.#dispatch( "change", this.#currAction, this.#draggingRowId, arr );
+			this.$dispatch( "change", this.#currAction, this.#draggingRowId, arr );
 		}
 		this.#currAction = "";
 	}
@@ -535,7 +533,7 @@ class gsuiDrums extends HTMLElement {
 				obj.gain = GSUgetAttributeNum( d, "gain" );
 				obj.detune = GSUgetAttributeNum( d, "detune" );
 			}
-			this.#dispatch( "change", `add${ itemType }`, this.#draggingRowId, [ obj ] );
+			this.$dispatch( "change", `add${ itemType }`, this.#draggingRowId, [ obj ] );
 		}
 	}
 }

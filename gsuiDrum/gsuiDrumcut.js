@@ -1,32 +1,25 @@
 "use strict";
 
-class gsuiDrumcut extends HTMLElement {
-	#children = GSUgetTemplate( "gsui-drumcut" );
-
+class gsuiDrumcut extends gsui0ne {
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiDrumcut",
+			$tagName: "gsui-drumcut",
+		} );
 		Object.seal( this );
 	}
 
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#children );
-			this.#children = null;
-		}
-	}
 	static get observedAttributes() {
 		return [ "when", "duration" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "when":
-					this.style.left = `${ val }em`;
-					break;
-				case "duration":
-					this.style.width = `${ val }em`;
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "when":
+				this.style.left = `${ val }em`;
+				break;
+			case "duration":
+				this.style.width = `${ val }em`;
+				break;
 		}
 	}
 }

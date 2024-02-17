@@ -71,11 +71,11 @@ initRow( "dr3", "openhat 012", .2, -.5, .6, "openhat-012" );
 initRow( "dr4", "snare 018", 0, 0, .5, "snare-018" );
 
 function initRow( drumId, name, detune, pan, gain, bufName ) {
-	drumrows.add( drumId, GSUcreateDiv() );
-	drumrows.change( drumId, "name", name );
-	drumrows.change( drumId, "detune", detune );
-	drumrows.change( drumId, "pan", pan );
-	drumrows.change( drumId, "gain", gain );
+	drumrows.$add( drumId, GSUcreateDiv() );
+	drumrows.$change( drumId, "name", name );
+	drumrows.$change( drumId, "detune", detune );
+	drumrows.$change( drumId, "pan", pan );
+	drumrows.$change( drumId, "gain", gain );
 	fetch( `../test-assets/${ bufName }.wav` )
 		.then( res => res.arrayBuffer() )
 		.then( arr => ctx.decodeAudioData( arr ) )
@@ -83,7 +83,7 @@ function initRow( drumId, name, detune, pan, gain, bufName ) {
 			gsuiSVGPatterns.$add( "buffer", bufName );
 			gsuiSVGPatterns.$add( "bufferHD", bufName );
 			gsuiSVGPatterns.$update( "buffer", bufName, buf );
-			drumrows.change( drumId, "pattern", gsuiSVGPatterns.$createSVG( "bufferHD", bufName ) );
+			drumrows.$change( drumId, "pattern", gsuiSVGPatterns.$createSVG( "bufferHD", bufName ) );
 		} );
 }
 </script>
