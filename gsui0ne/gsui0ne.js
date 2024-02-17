@@ -32,9 +32,9 @@ class gsui0ne extends HTMLElement {
 					: this.append( this.#children );
 				this.#children = null;
 			}
-			this.$firstTimeConnected?.();
 			GSUrecallAttributes( this, this.#attributes );
 			this.#attributes = null;
+			this.$firstTimeConnected?.();
 		}
 		this.$connected?.();
 	}
