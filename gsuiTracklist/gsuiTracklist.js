@@ -1,26 +1,28 @@
 "use strict";
 
-class gsuiTracklist extends HTMLElement {
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiTracklist" );
+class gsuiTracklist extends gsui0ne {
 	#tracks = new Map();
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiTracklist",
+			$tagName: "gsui-tracklist",
+		} );
 		Object.seal( this );
 		GSUlistenEvents( this, {
 			gsuiTrack: {
-				rename: ( d, tr ) => this.#dispatch( "renameTrack", tr.dataset.id, d.args[ 0 ] ),
-				toggle: ( d, tr ) => this.#dispatch( "toggleTrack", tr.dataset.id ),
-				toggleSolo: ( d, tr ) => this.#dispatch( "toggleSoloTrack", tr.dataset.id ),
+				rename: ( d, tr ) => this.$dispatch( "renameTrack", tr.dataset.id, d.args[ 0 ] ),
+				toggle: ( d, tr ) => this.$dispatch( "toggleTrack", tr.dataset.id ),
+				toggleSolo: ( d, tr ) => this.$dispatch( "toggleSoloTrack", tr.dataset.id ),
 			},
 		} );
 	}
 
 	// .........................................................................
-	getTrack( id ) {
+	$getTrack( id ) {
 		return this.#tracks.get( id );
 	}
-	addTrack( id ) {
+	$addTrack( id ) {
 		const tr = GSUcreateElement( "gsui-track", { "data-id": id } );
 
 		tr.rowElement.dataset.id = id;
@@ -28,7 +30,7 @@ class gsuiTracklist extends HTMLElement {
 		this.append( tr );
 		return tr;
 	}
-	removeTrack( id ) {
+	$removeTrack( id ) {
 		const tr = this.#tracks.get( id );
 
 		tr.remove();

@@ -75,7 +75,7 @@ class gsuiPatternroll extends HTMLElement {
 
 	// .........................................................................
 	addTrack( id ) {
-		const elTrack = this.#tracklist.addTrack( id );
+		const elTrack = this.#tracklist.$addTrack( id );
 		const row = elTrack.rowElement;
 
 		row.classList.toggle( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 );
@@ -83,10 +83,10 @@ class gsuiPatternroll extends HTMLElement {
 		this.#rowsByTrackId.set( row.dataset.id, row );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
 	}
-	removeTrack( id ) { this.#tracklist.removeTrack( id ); }
-	toggleTrack( id, b ) { GSUsetAttribute( this.#tracklist.getTrack( id ), "mute", !b ); }
-	renameTrack( id, s ) { GSUsetAttribute( this.#tracklist.getTrack( id ), "name", s ); }
-	reorderTrack( id, n ) { GSUsetAttribute( this.#tracklist.getTrack( id ), "order", n ); }
+	removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
+	toggleTrack( id, b ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "mute", !b ); }
+	renameTrack( id, s ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "name", s ); }
+	reorderTrack( id, n ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "order", n ); }
 
 	// .........................................................................
 	addBlock( id, obj, { dataReady } ) {
