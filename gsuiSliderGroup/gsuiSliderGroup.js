@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiSliderGroup extends HTMLElement {
+class gsuiSliderGroup extends gsui0ne {
 	#min = 0;
 	#max = 0;
 	#def = 0;
@@ -18,107 +18,102 @@ class gsuiSliderGroup extends HTMLElement {
 		duration: this.#sliderDuration.bind( this ),
 		selected: this.#sliderSelected.bind( this ),
 	} );
-	#children = GSUgetTemplate( "gsui-slidergroup" );
-	#elements = GSUfindElements( this.#children, {
-		slidersParent: ".gsuiSliderGroup-sliders",
-		defValue: ".gsuiSliderGroup-defaultValue",
-		beatlines: "gsui-beatlines",
-		currentTime: ".gsuiSliderGroup-currentTime",
-		loopA: ".gsuiSliderGroup-loopA",
-		loopB: ".gsuiSliderGroup-loopB",
-	} );
-	scrollElement = this.#children;
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiSliderGroup",
+			$tagName: "gsui-slidergroup",
+			$elements: {
+				$slidersParent: ".gsuiSliderGroup-sliders",
+				$defValue: ".gsuiSliderGroup-defaultValue",
+				$beatlines: "gsui-beatlines",
+				$currentTime: ".gsuiSliderGroup-currentTime",
+				$loopA: ".gsuiSliderGroup-loopA",
+				$loopB: ".gsuiSliderGroup-loopB",
+			},
+			$attributes: {
+				pxperbeat: 64,
+			},
+		} );
 		Object.seal( this );
-
-		this.#children.oncontextmenu = () => false;
+		this.$element.oncontextmenu = () => false;
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			const beatlines = this.hasAttribute( "beatlines" );
+	$firstTimeConnected() {
+		const beatlines = this.hasAttribute( "beatlines" );
 
-			if ( !beatlines ) {
-				this.#elements.beatlines.remove();
-				this.#elements.currentTime.remove();
-				this.#elements.loopA.remove();
-				this.#elements.loopB.remove();
-				this.#elements.beatlines =
-				this.#elements.currentTime =
-				this.#elements.loopA =
-				this.#elements.loopB = null;
-			}
-			this.append( this.scrollElement );
-			this.#updatePxPerBeat();
-			this.#elements.slidersParent.onmousedown = this.#mousedown.bind( this );
+		if ( !beatlines ) {
+			this.$elements.$beatlines.remove();
+			this.$elements.$currentTime.remove();
+			this.$elements.$loopA.remove();
+			this.$elements.$loopB.remove();
+			this.$elements.$beatlines =
+			this.$elements.$currentTime =
+			this.$elements.$loopA =
+			this.$elements.$loopB = null;
+		}
+		this.#updatePxPerBeat();
+		this.$elements.$slidersParent.onmousedown = this.#mousedown.bind( this );
+		if ( beatlines ) {
 			GSUrecallAttributes( this, {
-				pxperbeat: 64,
+				currenttime: 0,
+				timedivision: "4/4",
 			} );
-			if ( beatlines ) {
-				GSUrecallAttributes( this, {
-					currenttime: 0,
-					timedivision: "4/4",
-				} );
-			}
 		}
 	}
 	static get observedAttributes() {
 		return [ "timedivision", "pxperbeat", "currenttime", "loopa", "loopb" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "timedivision":
-					GSUsetAttribute( this.#elements.beatlines, "timedivision", val );
-					break;
-				case "pxperbeat":
-					this.#updatePxPerBeat();
-					break;
-				case "currenttime":
-					this.#elements.currentTime.style.left = `${ val }em`;
-					break;
-				case "loopa":
-					this.#elements.loopA.classList.toggle( "gsuiSliderGroup-loopOn", val );
-					if ( val ) {
-						this.#elements.loopA.style.width = `${ val }em`;
-					}
-					break;
-				case "loopb":
-					this.#elements.loopB.classList.toggle( "gsuiSliderGroup-loopOn", val );
-					if ( val ) {
-						this.#elements.loopB.style.left = `${ val }em`;
-					}
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "timedivision":
+				GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
+				break;
+			case "pxperbeat":
+				this.#updatePxPerBeat();
+				break;
+			case "currenttime":
+				this.$elements.$currentTime.style.left = `${ val }em`;
+				break;
+			case "loopa":
+				this.$elements.$loopA.classList.toggle( "gsuiSliderGroup-loopOn", val );
+				if ( val ) {
+					this.$elements.$loopA.style.width = `${ val }em`;
+				}
+				break;
+			case "loopb":
+				this.$elements.$loopB.classList.toggle( "gsuiSliderGroup-loopOn", val );
+				if ( val ) {
+					this.$elements.$loopB.style.left = `${ val }em`;
+				}
+				break;
 		}
 	}
 
 	// .........................................................................
-	empty() {
+	$empty() {
 		this.#sliders.forEach( s => s.element.remove() );
 		this.#sliders.clear();
 		this.#selected.clear();
 		this.#valueSaved.clear();
 	}
-	options( { min, max, step, def } ) {
+	$options( { min, max, step, def } ) {
 		this.#min = min;
 		this.#max = max;
 		this.#step = step;
 		this.#def = def ?? max;
-		this.#elements.defValue.style.top = `${ 100 - ( this.#def - min ) / ( max - min ) * 100 }%`;
+		this.$elements.$defValue.style.top = `${ 100 - ( this.#def - min ) / ( max - min ) * 100 }%`;
 	}
 
 	// .........................................................................
-	delete( id ) {
+	$delete( id ) {
 		this.#sliders.get( id ).element.remove();
 		this.#sliders.delete( id );
 		this.#selected.delete( id );
 		this.#sliderSelectedClass();
 	}
-	set( id, when, duration, value ) {
+	$set( id, when, duration, value ) {
 		const element = GSUgetTemplate( "gsui-slidergroup-slider" );
 		const sli = Object.seal( { element, when, duration, value, selected: false } );
 
@@ -127,9 +122,9 @@ class gsuiSliderGroup extends HTMLElement {
 		this.#sliderWhen( sli, when );
 		this.#sliderValue( sli, value );
 		this.#sliderDuration( sli, duration );
-		this.#elements.slidersParent.append( element );
+		this.$elements.$slidersParent.append( element );
 	}
-	setProp( id, prop, value ) {
+	$setProp( id, prop, value ) {
 		const sli = this.#sliders.get( id );
 
 		if ( sli ) {
@@ -145,9 +140,9 @@ class gsuiSliderGroup extends HTMLElement {
 	#updatePxPerBeat() {
 		const ppb = GSUgetAttributeNum( this, "pxperbeat" );
 
-		this.#elements.slidersParent.style.fontSize = `${ ppb }px`;
-		if ( this.#elements.beatlines ) {
-			GSUsetAttribute( this.#elements.beatlines, "pxperbeat", ppb );
+		this.$elements.$slidersParent.style.fontSize = `${ ppb }px`;
+		if ( this.$elements.$beatlines ) {
+			GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", ppb );
 		}
 	}
 	#sliderWhen( sli, when ) {
@@ -170,7 +165,7 @@ class gsuiSliderGroup extends HTMLElement {
 		}
 	}
 	#sliderSelectedClass() {
-		this.#elements.slidersParent.classList.toggle(
+		this.$elements.$slidersParent.classList.toggle(
 			"gsuiSliderGroup-slidersSelected", this.#selected.size > 0 );
 	}
 	#sliderValue( sli, val ) {
@@ -196,7 +191,7 @@ class gsuiSliderGroup extends HTMLElement {
 	// .........................................................................
 	#mousedown( e ) {
 		if ( !this.#evMouseup && ( e.button === 0 || e.button === 2 ) ) {
-			this.#bcr = this.#elements.slidersParent.getBoundingClientRect();
+			this.#bcr = this.$elements.$slidersParent.getBoundingClientRect();
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
@@ -233,7 +228,7 @@ class gsuiSliderGroup extends HTMLElement {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
 				sli.value = rval;
 				this.#sliderValue( sli, rval );
-				GSUdispatchEvent( this, "gsuiSliderGroup", "input", sli.element.dataset.id, rval );
+				this.$dispatch( "input", sli.element.dataset.id, rval );
 			}
 		} );
 	}
@@ -251,9 +246,9 @@ class gsuiSliderGroup extends HTMLElement {
 			}
 		} );
 		if ( arr.length ) {
-			GSUdispatchEvent( this, "gsuiSliderGroup", "change", arr );
+			this.$dispatch( "change", arr );
 		}
-		GSUdispatchEvent( this, "gsuiSliderGroup", "inputEnd" );
+		this.$dispatch( "inputEnd" );
 	}
 }
 

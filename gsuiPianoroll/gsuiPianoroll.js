@@ -171,7 +171,7 @@ class gsuiPianoroll extends HTMLElement {
 		obj.selected
 			? this.#blcManager.$getSelectedBlocks().set( id, blc )
 			: this.#blcManager.$getSelectedBlocks().delete( id );
-		this.#uiSliderGroup.set( id, obj.when, obj.duration, obj[ this.#slidersSelect.value ] );
+		this.#uiSliderGroup.$set( id, obj.when, obj.duration, obj[ this.#slidersSelect.value ] );
 		this.#blockDOMChange( blc, "key", obj.key );
 		this.#blockDOMChange( blc, "when", obj.when );
 		this.#blockDOMChange( blc, "duration", obj.duration );
@@ -195,7 +195,7 @@ class gsuiPianoroll extends HTMLElement {
 		}
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
-		this.#uiSliderGroup.delete( id );
+		this.#uiSliderGroup.$delete( id );
 	}
 	changeKeyProp( id, prop, val ) {
 		const blc = this.#blcManager.$getBlocks().get( id );
@@ -216,12 +216,12 @@ class gsuiPianoroll extends HTMLElement {
 		switch ( prop ) {
 			case "when":
 				el.style.left = `${ val }em`;
-				this.#uiSliderGroup.setProp( el.dataset.id, "when", val );
+				this.#uiSliderGroup.$setProp( el.dataset.id, "when", val );
 				this.#blockRedrawDragline( el );
 				break;
 			case "duration":
 				el.style.width = `${ val }em`;
-				this.#uiSliderGroup.setProp( el.dataset.id, "duration", val );
+				this.#uiSliderGroup.$setProp( el.dataset.id, "duration", val );
 				this.#currKeyDuration = val;
 				this.#blockRedrawDragline( el );
 				break;
@@ -230,7 +230,7 @@ class gsuiPianoroll extends HTMLElement {
 				break;
 			case "selected":
 				el.classList.toggle( "gsuiBlocksManager-block-selected", !!val );
-				this.#uiSliderGroup.setProp( el.dataset.id, "selected", !!val );
+				this.#uiSliderGroup.$setProp( el.dataset.id, "selected", !!val );
 				break;
 			case "row":
 				this.#blockDOMChange( el, "key", el.dataset.keyNote - val );
@@ -268,7 +268,7 @@ class gsuiPianoroll extends HTMLElement {
 	}
 	#blockSliderUpdate( nodeName, el, val ) {
 		if ( this.#slidersSelect.value === nodeName ) {
-			this.#uiSliderGroup.setProp( el.dataset.id, "value", val );
+			this.#uiSliderGroup.$setProp( el.dataset.id, "value", val );
 		}
 	}
 	#blockRedrawDragline( el ) {
@@ -382,12 +382,12 @@ class gsuiPianoroll extends HTMLElement {
 		const grp = this.#uiSliderGroup;
 
 		switch ( prop ) {
-			case "pan":          grp.options( { min: -1, max: 1, def:  0, step: .05 } ); break;
-			case "gain":         grp.options( { min:  0, max: 1, def: .8, step: .025 } ); break;
-			case "lowpass":      grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
-			case "highpass":     grp.options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
-			case "gainLFOAmp":   grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
-			case "gainLFOSpeed": grp.options( { min: -6, max: 6, def:  0, step: 1 } ); break;
+			case "pan":          grp.$options( { min: -1, max: 1, def:  0, step: .05 } ); break;
+			case "gain":         grp.$options( { min:  0, max: 1, def: .8, step: .025 } ); break;
+			case "lowpass":      grp.$options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "highpass":     grp.$options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "gainLFOAmp":   grp.$options( { min: -6, max: 6, def:  0, step: 1 } ); break;
+			case "gainLFOSpeed": grp.$options( { min: -6, max: 6, def:  0, step: 1 } ); break;
 		}
 		this.#blcManager.$getBlocks().forEach( ( blc, id ) => {
 			const val = +blc.dataset[ prop ];
@@ -395,7 +395,7 @@ class gsuiPianoroll extends HTMLElement {
 				? gsuiPianoroll.#mulToX( val )
 				: val;
 
-			this.#uiSliderGroup.setProp( id, "value", val2 );
+			grp.$setProp( id, "value", val2 );
 		} );
 	}
 	#ondrop( e ) {

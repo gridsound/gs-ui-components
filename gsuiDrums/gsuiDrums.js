@@ -175,12 +175,12 @@ class gsuiDrums extends gsui0ne {
 		const grp = this.#sliderGroups.get( drum.row );
 		const elItem = this.#addItem( id, "drum", drum );
 
-		grp.set( id, drum.when, GSUgetAttributeNum( elItem, "duration" ), 0 );
+		grp.$set( id, drum.when, GSUgetAttributeNum( elItem, "duration" ), 0 );
 	}
 	$removeDrum( id ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
 
-		this.#sliderGroups.get( rowId ).delete( id );
+		this.#sliderGroups.get( rowId ).$delete( id );
 		this.#removeItem( id );
 	}
 	$addDrumcut( id, drumcut ) {
@@ -204,7 +204,7 @@ class gsuiDrums extends gsui0ne {
 
 		GSUsetAttribute( this.#drumsMap.get( id )[ 2 ], prop, val );
 		if ( prop === grp.dataset.currentProp ) {
-			grp.setProp( id, "value", val );
+			grp.$setProp( id, "value", val );
 		}
 	}
 	#addItem( id, itemType, item ) {
@@ -224,7 +224,7 @@ class gsuiDrums extends gsui0ne {
 				for ( let d = 1; d < 16; d *= 2 ) {
 					if ( closestW + closestD / d <= when ) {
 						GSUsetAttribute( closest, "duration", closestD / d );
-						this.#sliderGroups.get( rowId ).setProp( closest.dataset.id, "duration", closestD / d );
+						this.#sliderGroups.get( rowId ).$setProp( closest.dataset.id, "duration", closestD / d );
 						break;
 					}
 				}
@@ -247,7 +247,7 @@ class gsuiDrums extends gsui0ne {
 
 			if ( dur !== closestD ) {
 				GSUsetAttribute( closest, "duration", dur );
-				this.#sliderGroups.get( rowId ).setProp( closest.dataset.id, "duration", dur );
+				this.#sliderGroups.get( rowId ).$setProp( closest.dataset.id, "duration", dur );
 			}
 		}
 	}
@@ -331,12 +331,12 @@ class gsuiDrums extends gsui0ne {
 		line.dataset.prop =
 		grp.dataset.currentProp = prop;
 		switch ( prop ) {
-			case "pan": grp.options( { min: -1, max: 1, step: .05, def: 0 } ); break;
-			case "gain": grp.options( { min: 0, max: 1, step: .025, def: .8 } ); break;
-			case "detune": grp.options( { min: -12, max: 12, step: 1, def: 0 } ); break;
+			case "pan": grp.$options( { min: -1, max: 1, step: .05, def: 0 } ); break;
+			case "gain": grp.$options( { min: 0, max: 1, step: .025, def: .8 } ); break;
+			case "detune": grp.$options( { min: -12, max: 12, step: 1, def: 0 } ); break;
 		}
 		this.#getItems( rowId, "drum" ).forEach( d => {
-			grp.setProp( d.dataset.id, "value", GSUgetAttributeNum( d, prop ) );
+			grp.$setProp( d.dataset.id, "value", GSUgetAttributeNum( d, prop ) );
 		} );
 		this.#drumrows.$setPropFilter( rowId, prop );
 	}
