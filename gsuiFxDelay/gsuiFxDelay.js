@@ -68,7 +68,7 @@ class gsuiFxDelay extends gsui0ne {
 			case "time":
 			case "gain":
 			case "pan":
-				this.$elements.$sliders[ prop ].setValue( +val );
+				this.$elements.$sliders[ prop ].$setValue( +val );
 				this.$elements.$values[ prop ].textContent = ( +val ).toFixed( 2 );
 				this.#updateGraph();
 				break;

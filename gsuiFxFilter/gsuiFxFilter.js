@@ -87,14 +87,14 @@ class gsuiFxFilter extends HTMLElement {
 					GSUsetAttribute( this.#elements.sliders.gain, "disabled", !gainQ.gain );
 				} break;
 				case "q":
-					this.#elements.sliders.Q.setValue( +val );
+					this.#elements.sliders.Q.$setValue( +val );
 					break;
 				case "gain":
 				case "detune":
-					this.#elements.sliders[ prop ].setValue( +val );
+					this.#elements.sliders[ prop ].$setValue( +val );
 					break;
 				case "frequency":
-					this.#elements.sliders.frequency.setValue( ( Math.log2( val / this.#nyquist ) + 11 ) / 11 );
+					this.#elements.sliders.frequency.$setValue( ( Math.log2( val / this.#nyquist ) + 11 ) / 11 );
 					break;
 			}
 		}

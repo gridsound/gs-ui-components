@@ -260,12 +260,12 @@ class gsuiDAW extends HTMLElement {
 					this.#elements.sPB.textContent = val.split( "/" )[ 1 ];
 					break;
 				case "volume":
-					this.#elements.volume.setValue( val );
+					this.#elements.volume.$setValue( val );
 					break;
 				case "currenttime":
 					if ( !this.#timeSelecting ) {
 						this.#elements.clock.$setTime( val );
-						this.#elements.currentTime.setValue( val );
+						this.#elements.currentTime.$setValue( val );
 					}
 					break;
 				case "maxtime":

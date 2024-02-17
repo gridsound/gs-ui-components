@@ -126,7 +126,7 @@ class gsuiLFO extends HTMLElement {
 		const sli = this.#elements.sliders[ prop ];
 
 		if ( sli ) {
-			sli[ 0 ].setValue( val );
+			sli[ 0 ].$setValue( val );
 			sli[ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		}
 	}

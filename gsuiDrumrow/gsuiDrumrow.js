@@ -54,7 +54,7 @@ class gsuiDrumrow extends gsui0ne {
 		switch ( prop ) {
 			case "pan":
 			case "gain":
-			case "detune": this.$elements[ prop ].setValue( val ); break;
+			case "detune": this.$elements[ prop ].$setValue( val ); break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "duration": this.$elements.waveWrap.style.animationDuration = `${ val * 2 }s`; break;
 			case "toggle": GSUsetAttribute( this.$elements.toggle, "off", val !== "" ); break;

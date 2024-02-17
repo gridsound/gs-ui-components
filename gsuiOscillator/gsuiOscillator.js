@@ -213,7 +213,7 @@ class gsuiOscillator extends gsui0ne {
 		if ( prop.startsWith( "detune" ) ) {
 			val2 = GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );
 		}
-		sli.setValue( val );
+		sli.$setValue( val );
 		GSUsetAttribute( sli, "title", `${ prop } ${ val2 }` );
 		if ( span ) {
 			span.textContent = val2.toFixed( 2 );

@@ -106,7 +106,7 @@ class gsuiEnvelope extends HTMLElement {
 	#changeProp( prop, val ) {
 		const [ sli, span ] = this.#elements.sliders[ prop ];
 
-		sli.setValue( val );
+		sli.$setValue( val );
 		span.textContent = val.toFixed( 2 );
 	}
 	#updatePxPerBeat() {

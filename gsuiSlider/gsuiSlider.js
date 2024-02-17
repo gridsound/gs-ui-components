@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiSlider extends HTMLElement {
+class gsuiSlider extends gsui0ne {
 	#min = 0;
 	#max = 100;
 	#scrollStep = 0;
@@ -11,26 +11,28 @@ class gsuiSlider extends HTMLElement {
 	#circ = false;
 	#axeX = false;
 	#ptrId = null;
-	#connected = false;
 	#onwheelBinded = this.#onwheel.bind( this );
 	#pxval = 0;
 	#pxmoved = 0;
 	#svgLineLen = 0;
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiSlider" );
-	#children = GSUgetTemplate( "gsui-slider" );
-	#elements = GSUfindElements( this.#children, {
-		input: ".gsuiSlider-input",
-		line: ".gsuiSlider-line",
-		lineColor: ".gsuiSlider-lineColor",
-		svg: ".gsuiSlider-svg",
-		svgLine: ".gsuiSlider-svgLine",
-		svgLineColor: ".gsuiSlider-svgLineColor",
-	} );
 	static focused = null;
 
 	constructor() {
-		super();
-
+		super( {
+			$cmpName: "gsuiSlider",
+			$tagName: "gsui-slider",
+			$elements: {
+				$input: ".gsuiSlider-input",
+				$line: ".gsuiSlider-line",
+				$lineColor: ".gsuiSlider-lineColor",
+				$svg: ".gsuiSlider-svg",
+				$svgLine: ".gsuiSlider-svgLine",
+				$svgLineColor: ".gsuiSlider-svgLineColor",
+			},
+			$attributes: {
+				tabindex: 0,
+			},
+		} );
 		this.value = "";
 		this.width =
 		this.height = 0;
@@ -42,76 +44,68 @@ class gsuiSlider extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( this.#children ) {
-			const brc = this.getBoundingClientRect();
+	$firstTimeConnected() {
+		const brc = this.getBoundingClientRect();
 
-			this.append( ...this.#children );
-			this.width = brc.width;
-			this.height = brc.height;
-			this.#children = null;
-			this.#connected = true;
-			this.#setSVGcirc();
-			this.#updateVal();
-			GSUsetAttribute( this, "tabindex", "0" );
-		}
+		this.width = brc.width;
+		this.height = brc.height;
+		this.#setSVGcirc();
+		this.#updateVal();
 	}
 	static get observedAttributes() {
 		return [ "value", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			let updateVal;
+	$attributeChanged( prop, val ) {
+		let updateVal;
 
-			switch ( prop ) {
-				case "value":
-					this.setValue( val );
-					break;
-				case "type":
-					this.#setType( val );
-					this.#setSVGcirc();
-					updateVal = true;
-					break;
-				case "min":
-					this.#elements.input.min = this.#min = +val;
-					updateVal = true;
-					break;
-				case "max":
-					this.#elements.input.max = this.#max = +val;
-					updateVal = true;
-					break;
-				case "step":
-					this.#elements.input.step = +val;
-					updateVal = true;
-					break;
-				case "scroll-step":
-					this.#scrollStep = +val;
-					break;
-				case "mousemove-size":
-					this.#mousemoveSize = +val;
-					break;
-				case "stroke-width":
-					this.#strokeWidth = +val;
-					this.#setSVGcirc();
-					break;
-			}
-			if ( updateVal ) {
-				this.#previousval = this.#getInputVal();
-				this.#updateVal();
-			}
+		switch ( prop ) {
+			case "value":
+				this.$setValue( val );
+				break;
+			case "type":
+				this.#setType( val );
+				this.#setSVGcirc();
+				updateVal = true;
+				break;
+			case "min":
+				this.$elements.$input.min = this.#min = +val;
+				updateVal = true;
+				break;
+			case "max":
+				this.$elements.$input.max = this.#max = +val;
+				updateVal = true;
+				break;
+			case "step":
+				this.$elements.$input.step = +val;
+				updateVal = true;
+				break;
+			case "scroll-step":
+				this.#scrollStep = +val;
+				break;
+			case "mousemove-size":
+				this.#mousemoveSize = +val;
+				break;
+			case "stroke-width":
+				this.#strokeWidth = +val;
+				this.#setSVGcirc();
+				break;
+		}
+		if ( updateVal ) {
+			this.#previousval = this.#getInputVal();
+			this.#updateVal();
 		}
 	}
 
 	// .........................................................................
-	setValue( val, bymouse ) {
+	$setValue( val, bymouse ) {
 		if ( !this.onpointermove || bymouse ) {
 			const prevVal = this.#getInputVal();
-			const newVal = ( this.#elements.input.value = val, this.#getInputVal() );
+			const newVal = ( this.$elements.$input.value = val, this.#getInputVal() );
 
 			if ( newVal !== prevVal ) {
 				this.#updateVal();
 				if ( bymouse ) {
-					this.#dispatch( "input", +newVal );
+					this.$dispatch( "input", +newVal );
 				}
 			}
 			if ( !bymouse ) {
@@ -122,7 +116,7 @@ class gsuiSlider extends HTMLElement {
 
 	// .........................................................................
 	#setType( type ) {
-		const st = this.#elements.lineColor.style;
+		const st = this.$elements.$lineColor.style;
 		const circ = type === "circular";
 		const axeX = type === "linear-x";
 
@@ -150,16 +144,16 @@ class gsuiSlider extends HTMLElement {
 			const cx = size / 2;
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ size } ${ size }` );
-			GSUsetAttribute( this.#elements.svgLine, { r, cx, cy: cx, } );
-			GSUsetAttribute( this.#elements.svgLineColor, { r, cx, cy: cx, } );
-			this.#elements.svgLine.style.strokeWidth =
-			this.#elements.svgLineColor.style.strokeWidth = this.#strokeWidth;
+			GSUsetAttribute( this.$elements.$svg, "viewBox", `0 0 ${ size } ${ size }` );
+			GSUsetAttribute( this.$elements.$svgLine, { r, cx, cy: cx, } );
+			GSUsetAttribute( this.$elements.$svgLineColor, { r, cx, cy: cx, } );
+			this.$elements.$svgLine.style.strokeWidth =
+			this.$elements.$svgLineColor.style.strokeWidth = this.#strokeWidth;
 			this.#svgLineLen = r * 2 * Math.PI;
 		}
 	}
 	#getInputVal() {
-		const val = this.#elements.input.value;
+		const val = this.$elements.$input.value;
 
 		return Math.abs( +val ) < .000001 ? "0" : val;
 	}
@@ -171,13 +165,13 @@ class gsuiSlider extends HTMLElement {
 			this.#circ
 				? this.#svgLineLen
 				: this.#axeX
-					? this.#elements.line.getBoundingClientRect().width
-					: this.#elements.line.getBoundingClientRect().height
+					? this.$elements.$line.getBoundingClientRect().width
+					: this.$elements.$line.getBoundingClientRect().height
 		);
 	}
 	#updateVal() {
 		this.value = +this.#getInputVal();
-		if ( this.#connected ) {
+		if ( this.$isConnected ) {
 			const len = this.#getRange();
 			const prcval = ( this.value - this.#min ) / len;
 			const prcstart = -this.#min / len;
@@ -185,12 +179,12 @@ class gsuiSlider extends HTMLElement {
 			const prcmin = Math.min( prcval, prcstart );
 
 			if ( this.#circ ) {
-				const line = this.#elements.svgLineColor.style;
+				const line = this.$elements.$svgLineColor.style;
 
 				line.transform = `rotate(${ 90 + prcmin * 360 }deg)`;
 				line.strokeDasharray = `${ prclen * this.#svgLineLen }, 999999`;
 			} else {
-				const line = this.#elements.lineColor.style;
+				const line = this.$elements.$lineColor.style;
 
 				if ( this.#axeX ) {
 					line.left = `${ prcmin * 100 }%`;
@@ -207,7 +201,7 @@ class gsuiSlider extends HTMLElement {
 
 		if ( this.#previousval !== val ) {
 			GSUsetAttribute( this, "value", val );
-			this.#dispatch( "change", +val );
+			this.$dispatch( "change", +val );
 			this.#previousval = val;
 		}
 	}
@@ -216,10 +210,10 @@ class gsuiSlider extends HTMLElement {
 	#onwheel( e ) {
 		if ( this.#ptrId ) {
 			const d = e.deltaY > 0 ? -1 : 1;
-			const step = this.#scrollStep || this.#elements.input.step;
+			const step = this.#scrollStep || this.$elements.$input.step;
 
 			this.#scrollIncr += step * d;
-			this.setValue( +this.#getInputVal() + step * d, true );
+			this.$setValue( +this.#getInputVal() + step * d, true );
 			e.preventDefault();
 			return false;
 		}
@@ -236,7 +230,7 @@ class gsuiSlider extends HTMLElement {
 			document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
 			this.focus();
 			this.requestPointerLock();
-			this.#dispatch( "inputStart", this.value );
+			this.$dispatch( "inputStart", this.value );
 		}
 	}
 	#onpointermove( e ) {
@@ -247,7 +241,7 @@ class gsuiSlider extends HTMLElement {
 		if ( this.#min - bound < val && val < this.#max + bound ) {
 			this.#pxmoved += mov;
 		}
-		this.setValue( val, true );
+		this.$setValue( val, true );
 	}
 	#onpointerup() {
 		document.exitPointerLock();
@@ -259,7 +253,7 @@ class gsuiSlider extends HTMLElement {
 		this.onpointermove =
 		this.onpointerup = null;
 		this.#onchange();
-		this.#dispatch( "inputEnd", this.value );
+		this.$dispatch( "inputEnd", this.value );
 	}
 	#onblur() {
 		if ( this.onpointermove ) {
