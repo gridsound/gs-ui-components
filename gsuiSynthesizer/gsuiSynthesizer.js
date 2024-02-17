@@ -9,22 +9,22 @@ class gsuiSynthesizer extends gsui0ne {
 			$cmpName: "gsuiSynthesizer",
 			$tagName: "gsui-synthesizer",
 			$elements: {
-				toggleEnv: "gsui-toggle[data-related='env']",
-				toggleLFO: "gsui-toggle[data-related='lfo']",
-				env: "gsui-envelope",
-				lfo: "gsui-lfo",
-				oscList: ".gsuiSynthesizer-oscList",
-				newOsc: ".gsuiSynthesizer-newOsc",
+				$toggleEnv: "gsui-toggle[data-related='env']",
+				$toggleLFO: "gsui-toggle[data-related='lfo']",
+				$env: "gsui-envelope",
+				$lfo: "gsui-lfo",
+				$oscList: ".gsuiSynthesizer-oscList",
+				$newOsc: ".gsuiSynthesizer-newOsc",
 			},
 		} );
-		this.env = this.$elements.env;
-		this.lfo = this.$elements.lfo;
+		this.env = this.$elements.$env;
+		this.lfo = this.$elements.$lfo;
 		Object.seal( this );
 
-		this.$elements.newOsc.onclick = this.#onclickNewOsc.bind( this );
-		this.$elements.newOsc.ondragenter = () => this.#ondrag( true );
-		this.$elements.newOsc.ondragleave = () => this.#ondrag( false );
-		this.$elements.newOsc.ondrop = e => {
+		this.$elements.$newOsc.onclick = this.#onclickNewOsc.bind( this );
+		this.$elements.$newOsc.ondragenter = () => this.#ondrag( true );
+		this.$elements.$newOsc.ondragleave = () => this.#ondrag( false );
+		this.$elements.$newOsc.ondrop = e => {
 			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
 				"pattern-buffer",
 				"library-buffer:default",
@@ -38,7 +38,7 @@ class gsuiSynthesizer extends gsui0ne {
 			return false;
 		};
 		new gsuiReorder( {
-			rootElement: this.$elements.oscList,
+			rootElement: this.$elements.$oscList,
 			direction: "column",
 			dataTransferType: "oscillator",
 			itemSelector: "gsui-oscillator",
@@ -51,7 +51,7 @@ class gsuiSynthesizer extends gsui0ne {
 				toggle: ( d, btn ) => {
 					const isEnv = btn.dataset.related === "env";
 					const ev = isEnv ? "toggleEnv" : "toggleLFO";
-					const el = isEnv ? this.$elements.env : this.$elements.lfo;
+					const el = isEnv ? this.$elements.$env : this.$elements.$lfo;
 
 					GSUsetAttribute( el, "toggle", d.args[ 0 ] );
 					this.$dispatch( ev, d.args[ 0 ] );
@@ -72,15 +72,15 @@ class gsuiSynthesizer extends gsui0ne {
 	// .........................................................................
 	$changeEnvProp( prop, val ) {
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.toggleEnv, "off", !val );
+			GSUsetAttribute( this.$elements.$toggleEnv, "off", !val );
 		}
-		GSUsetAttribute( this.$elements.env, prop, val );
+		GSUsetAttribute( this.$elements.$env, prop, val );
 	}
 	$changeLFOProp( prop, val ) {
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.toggleLFO, "off", !val );
+			GSUsetAttribute( this.$elements.$toggleLFO, "off", !val );
 		}
-		GSUsetAttribute( this.$elements.lfo, prop, val );
+		GSUsetAttribute( this.$elements.$lfo, prop, val );
 	}
 
 	// .........................................................................
@@ -89,7 +89,7 @@ class gsuiSynthesizer extends gsui0ne {
 
 		this.#uiOscs.set( id, uiOsc );
 		uiOsc.addWaves( this.#waveList );
-		this.$elements.oscList.append( uiOsc );
+		this.$elements.$oscList.append( uiOsc );
 		return uiOsc;
 	}
 	$removeOscillator( id ) {
@@ -101,7 +101,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 	}
 	$reorderOscillators( obj ) {
-		gsuiReorder.listReorder( this.$elements.oscList, obj );
+		gsuiReorder.listReorder( this.$elements.$oscList, obj );
 	}
 
 	// .........................................................................
@@ -109,14 +109,14 @@ class gsuiSynthesizer extends gsui0ne {
 		this.$dispatch( "addOscillator" );
 	}
 	#onchangeReorder() {
-		const oscs = gsuiReorder.listComputeOrderChange( this.$elements.oscList, {} );
+		const oscs = gsuiReorder.listComputeOrderChange( this.$elements.$oscList, {} );
 
 		this.$dispatch( "reorderOscillator", oscs );
 	}
 	#ondrag( b ) {
-		GSUsetAttribute( this.$elements.newOsc, "data-hover", b );
-		GSUsetAttribute( this.$elements.newOsc.firstChild, "data-icon", b ? "arrow-dropdown" : "plus" );
-		GSUsetAttribute( this.$elements.newOsc.firstChild, "animate", b );
+		GSUsetAttribute( this.$elements.$newOsc, "data-hover", b );
+		GSUsetAttribute( this.$elements.$newOsc.firstChild, "data-icon", b ? "arrow-dropdown" : "plus" );
+		GSUsetAttribute( this.$elements.$newOsc.firstChild, "animate", b );
 	}
 }
 

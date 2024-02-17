@@ -48,7 +48,7 @@ class gsuiTimeline extends gsui0ne {
 		this.onmousedown = this.#onmousedown.bind( this );
 	}
 
-	static numbering( from ) {
+	static $numbering( from ) {
 		document.body.style.setProperty( "--gsuiTimeline-numbering", +from );
 	}
 

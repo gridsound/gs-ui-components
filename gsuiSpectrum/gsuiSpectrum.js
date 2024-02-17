@@ -1,33 +1,29 @@
 "use strict";
 
-class gsuiSpectrum extends HTMLElement {
-	#cnv = GSUcreateElement( "canvas" );
-	#ctx = this.#cnv.getContext( "2d" );
+class gsuiSpectrum extends gsui0ne {
+	#ctx = null;
 
 	constructor() {
-		super();
-
+		super( {
+			$cmpName: "gsuiSpectrum",
+			$tagName: "gsui-spectrum",
+			$template: GSUcreateElement( "canvas" ),
+		} );
 		Object.seal( this );
-		this.#cnv.height = 1;
+		this.#ctx = this.$element.getContext( "2d" );
+		this.$element.height = 1;
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#cnv );
-		}
-	}
-
-	// .........................................................................
-	clear() {
-		this.#ctx.clearRect( 0, 0, this.#cnv.width, 1 );
+	$clear() {
+		this.#ctx.clearRect( 0, 0, this.$element.width, 1 );
 	}
 	$setResolution( w ) {
-		this.#cnv.width = w;
-		this.#cnv.height = 1;
+		this.$element.width = w;
+		this.$element.height = 1;
 	}
 	$draw( data ) {
-		this.#ctx.putImageData( gsuiSpectrum.$draw( this.#ctx, data, this.#cnv.width ), 0, 0 );
+		this.#ctx.putImageData( gsuiSpectrum.$draw( this.#ctx, data, this.$element.width ), 0, 0 );
 	}
 
 	// .........................................................................
