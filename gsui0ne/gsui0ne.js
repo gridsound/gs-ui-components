@@ -43,7 +43,7 @@ class gsui0ne extends HTMLElement {
 		this.$disconnected?.();
 	}
 	attributeChangedCallback( prop, prev, val ) {
-		if ( !this.#children && prev !== val ) {
+		if ( prev !== val ) {
 			this.$attributeChanged?.( prop, val, prev );
 		}
 	}
