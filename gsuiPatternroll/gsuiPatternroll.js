@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiPatternroll extends HTMLElement {
+class gsuiPatternroll extends gsui0ne {
 	#rowsByTrackId = new Map();
 	#tracklist = GSUcreateElement( "gsui-tracklist" );
 	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
@@ -31,13 +31,16 @@ class gsuiPatternroll extends HTMLElement {
 	} );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiPatternroll",
+			$tagName: "gsui-patternroll",
+			$attributes: { tabindex: -1 },
+		} );
 		this.timeline = this.#win.timeline;
 		this.onchange =
 		this.onaddBlock =
 		this.oneditBlock = null;
 		Object.seal( this );
-
 		GSUlistenEvents( this, {
 			gsuiTimewindow: {
 				pxperbeat: d => this.#ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
@@ -49,32 +52,27 @@ class gsuiPatternroll extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.classList.add( "gsuiBlocksManager" );
-			GSUsetAttribute( this, "tabindex", -1 );
-			this.append( this.#win );
-			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist );
-			this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
-			this.#win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this.#drop.bind( this );
-			this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
-		}
+	$firstTimeConnected() {
+		this.classList.add( "gsuiBlocksManager" );
+		this.append( this.#win );
+		this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist );
+		this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
+		this.#win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this.#drop.bind( this );
+		this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 	}
 	static get observedAttributes() {
 		return [ "currenttime" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "currenttime":
-					GSUsetAttribute( this.#win, "currenttime", val );
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "currenttime":
+				GSUsetAttribute( this.#win, "currenttime", val );
+				break;
 		}
 	}
 
 	// .........................................................................
-	addTrack( id ) {
+	$addTrack( id ) {
 		const elTrack = this.#tracklist.$addTrack( id );
 		const row = elTrack.rowElement;
 
@@ -83,13 +81,13 @@ class gsuiPatternroll extends HTMLElement {
 		this.#rowsByTrackId.set( row.dataset.id, row );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
 	}
-	removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
-	toggleTrack( id, b ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "mute", !b ); }
-	renameTrack( id, s ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "name", s ); }
-	reorderTrack( id, n ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "order", n ); }
+	$removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
+	$toggleTrack( id, b ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "mute", !b ); }
+	$renameTrack( id, s ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "name", s ); }
+	$reorderTrack( id, n ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "order", n ); }
 
 	// .........................................................................
-	addBlock( id, obj, { dataReady } ) {
+	$addBlock( id, obj, { dataReady } ) {
 		const elBlc = GSUgetTemplate( "gsui-patternroll-block" );
 
 		elBlc.dataset.id = id;
@@ -99,12 +97,12 @@ class gsuiPatternroll extends HTMLElement {
 		this.#blcManager.$getBlocks().set( id, elBlc );
 		this.onaddBlock( id, obj, elBlc );
 	}
-	removeBlock( id ) {
+	$removeBlock( id ) {
 		this.#blcManager.$getBlocks().get( id ).remove();
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
 	}
-	changeBlockProp( id, prop, val ) {
+	$changeBlockProp( id, prop, val ) {
 		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
@@ -116,7 +114,7 @@ class gsuiPatternroll extends HTMLElement {
 				: this.#blcManager.$getSelectedBlocks().delete( id );
 		}
 	}
-	updateBlockViewBox( id, obj ) {
+	$updateBlockViewBox( id, obj ) {
 		this.oneditBlock( id, obj, this.#blcManager.$getBlocks().get( id ) );
 	}
 
@@ -124,7 +122,7 @@ class gsuiPatternroll extends HTMLElement {
 	$setData( data ) {
 		this.#blcManager.$setData( data );
 	}
-	setCallbacks( cb ) {
+	$setCallbacks( cb ) {
 		this.onchange = cb.onchange;
 		this.onaddBlock = cb.onaddBlock;
 		this.oneditBlock = cb.oneditBlock;
@@ -133,10 +131,10 @@ class gsuiPatternroll extends HTMLElement {
 	$getBlocks() {
 		return this.#blcManager.$getBlocks();
 	}
-	timedivision( timediv ) {
+	$timedivision( timediv ) {
 		GSUsetAttribute( this.#win, "timedivision", timediv );
 	}
-	loop( a, b ) {
+	$loop( a, b ) {
 		GSUsetAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 	}
 

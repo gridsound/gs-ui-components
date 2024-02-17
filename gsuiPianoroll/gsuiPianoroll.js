@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiPianoroll extends HTMLElement {
+class gsuiPianoroll extends gsui0ne {
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
@@ -43,7 +43,11 @@ class gsuiPianoroll extends HTMLElement {
 	} );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiPianoroll",
+			$tagName: "gsui-pianoroll",
+			$attributes: { tabindex: -1 },
+		} );
 		this.timeline = this.#win.timeline;
 		this.uiKeys = GSUcreateElement( "gsui-keys" );
 		this.onchange = null;
@@ -71,62 +75,57 @@ class gsuiPianoroll extends HTMLElement {
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
 		this.#onchangeSlidersSelect();
-		this.reset();
+		this.$reset();
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.classList.add( "gsuiBlocksManager" );
-			GSUsetAttribute( this, "tabindex", -1 );
-			this.append( this.#win );
-			this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
-			this.#win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this.#slidersSelect );
-			this.#win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this.#uiSliderGroup );
-			this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
-			this.scrollToMiddle();
-		}
+	$firstTimeConnected() {
+		this.classList.add( "gsuiBlocksManager" );
+		this.append( this.#win );
+		this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
+		this.#win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this.#slidersSelect );
+		this.#win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this.#uiSliderGroup );
+		this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
+		this.$scrollToMiddle();
 	}
 	static get observedAttributes() {
 		return [ "disabled", "currenttime" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "disabled":
-					GSUsetAttribute( this.#win, "disabled", val );
-					break;
-				case "currenttime":
-					GSUsetAttribute( this.#win, "currenttime", val );
-					GSUsetAttribute( this.#uiSliderGroup, "currenttime", val );
-					break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "disabled":
+				GSUsetAttribute( this.#win, "disabled", val );
+				break;
+			case "currenttime":
+				GSUsetAttribute( this.#win, "currenttime", val );
+				GSUsetAttribute( this.#uiSliderGroup, "currenttime", val );
+				break;
 		}
 	}
 
 	// .........................................................................
-	reset() {
+	$reset() {
 		this.#currKeyDuration = 1;
 	}
 	$setData( data ) {
 		this.#blcManager.$setData( data );
 	}
-	setCallbacks( cb ) {
+	$setCallbacks( cb ) {
 		this.onchange = cb.onchange;
 	}
-	timedivision( timediv ) {
+	$timedivision( timediv ) {
 		GSUsetAttribute( this.#win, "timedivision", timediv );
 		GSUsetAttribute( this.#uiSliderGroup, "timedivision", timediv );
 	}
-	loop( a, b ) {
+	$loop( a, b ) {
 		GSUsetAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 		GSUsetAttribute( this.#uiSliderGroup, "loopa", a );
 		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
 	}
-	scrollToMiddle() {
+	$scrollToMiddle() {
 		this.#win.scrollTop = this.#win.querySelector( ".gsuiTimewindow-rows" ).clientHeight / 2;
 	}
-	scrollToKeys() {
+	$scrollToKeys() {
 		const blc = this.#win.querySelector( ".gsuiBlocksManager-block" );
 
 		if ( blc ) {
@@ -136,7 +135,7 @@ class gsuiPianoroll extends HTMLElement {
 			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUgetAttributeNum( this.#win, "lineheight" );
 		}
 	}
-	octaves( from, nb ) {
+	$octaves( from, nb ) {
 		GSUsetAttribute( this.uiKeys, "octaves", `${ from } ${ nb }` );
 
 		const rows = this.uiKeys.$getRows();
@@ -150,13 +149,13 @@ class gsuiPianoroll extends HTMLElement {
 		} );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).style.height = `${ rows.length }em`;
-		this.scrollToMiddle();
-		this.reset();
+		this.$scrollToMiddle();
+		this.$reset();
 	}
 
 	// Block's UI functions
 	// ........................................................................
-	addKey( id, obj ) {
+	$addKey( id, obj ) {
 		const blc = GSUgetTemplate( "gsui-pianoroll-block" );
 		const dragline = new gsuiDragline();
 
@@ -185,7 +184,7 @@ class gsuiPianoroll extends HTMLElement {
 		this.#blockDOMChange( blc, "prev", obj.prev );
 		this.#blockDOMChange( blc, "next", obj.next );
 	}
-	removeKey( id ) {
+	$removeKey( id ) {
 		const blc = this.#blcManager.$getBlocks().get( id );
 		const blcPrev = this.#blcManager.$getBlocks().get( blc.dataset.prev );
 
@@ -197,7 +196,7 @@ class gsuiPianoroll extends HTMLElement {
 		this.#blcManager.$getSelectedBlocks().delete( id );
 		this.#uiSliderGroup.$delete( id );
 	}
-	changeKeyProp( id, prop, val ) {
+	$changeKeyProp( id, prop, val ) {
 		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
@@ -416,7 +415,7 @@ class gsuiPianoroll extends HTMLElement {
 		const rd = new FileReader();
 
 		rd.onload = e => {
-			GSUdispatchEvent( this, "gsuiPianoroll", "midiDropped", new Uint8Array( e.target.result ) );
+			this.$dispatch( "midiDropped", new Uint8Array( e.target.result ) );
 		};
 		rd.readAsArrayBuffer( mid );
 	}
