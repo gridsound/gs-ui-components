@@ -91,7 +91,7 @@ class gsuiBlocksManager {
 		return Math.max( 0, ( pageX - this.#getRow0BCR().left ) / this.#pxPerBeat );
 	}
 	$roundBeat( beat ) {
-		return Math.max( 0, this.timeline.beatFloor( beat ) );
+		return Math.max( 0, this.timeline.$beatFloor( beat ) );
 	}
 
 	// .........................................................................
@@ -146,7 +146,7 @@ class gsuiBlocksManager {
 							whenMax = Math.max( whenMax, d.when + d.duration );
 							blcsEditing.set( id, blc );
 						} );
-						whenMax = this.timeline.beatCeil( whenMax ) - whenMin;
+						whenMax = this.timeline.$beatCeil( whenMax ) - whenMin;
 						this.#opts.managercallDuplicating( blcsEditing, whenMax );
 						blcsEditing.clear();
 					}

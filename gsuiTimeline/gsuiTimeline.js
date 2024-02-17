@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiTimeline extends HTMLElement {
+class gsuiTimeline extends gsui0ne {
 	#status = "";
 	#step = 1;
 	#offset = null;
@@ -12,24 +12,29 @@ class gsuiTimeline extends HTMLElement {
 	#mousedownBeat = 0;
 	#mousedownLoopA = 0;
 	#mousedownLoopB = 0;
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiTimeline" );
 	#onscrollBind = this.#onscroll.bind( this );
 	#onresizeBind = this.#onresize.bind( this );
 	#onmouseupBind = this.#onmouseup.bind( this );
 	#onmousemoveBind = this.#onmousemove.bind( this );
-	#children = GSUgetTemplate( "gsui-timeline" );
-	#elements = GSUfindElements( this.#children, {
-		steps: ".gsuiTimeline-steps",
-		beats: ".gsuiTimeline-beats",
-		measures: ".gsuiTimeline-measures",
-		loop: ".gsuiTimeline-loop",
-		timeLine: ".gsuiTimeline-timeLine",
-		cursor: ".gsuiTimeline-cursor",
-		cursorPreview: ".gsuiTimeline-cursorPreview",
-	} );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiTimeline",
+			$tagName: "gsui-timeline",
+			$elements: {
+				$steps: ".gsuiTimeline-steps",
+				$beats: ".gsuiTimeline-beats",
+				$measures: ".gsuiTimeline-measures",
+				$loop: ".gsuiTimeline-loop",
+				$timeLine: ".gsuiTimeline-timeLine",
+				$cursor: ".gsuiTimeline-cursor",
+				$cursorPreview: ".gsuiTimeline-cursorPreview",
+			},
+			$attributes: {
+				step: 1,
+				currenttime: 0,
+			},
+		} );
 		this.beatsPerMeasure = 4;
 		this.stepsPerBeat = 4;
 		this.pxPerBeat = 10;
@@ -39,7 +44,7 @@ class gsuiTimeline extends HTMLElement {
 		this.looping = false;
 		Object.seal( this );
 
-		this.#elements.cursorPreview.remove();
+		this.$elements.$cursorPreview.remove();
 		this.onmousedown = this.#onmousedown.bind( this );
 	}
 
@@ -48,35 +53,25 @@ class gsuiTimeline extends HTMLElement {
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...this.#children );
-			this.#children = null;
-			GSUrecallAttributes( this, {
-				step: 1,
-				currenttime: 0,
-			} );
-		}
+	$firstTimeConnected() {
 		this.#updateOffset();
 		this.#updateNumberMeasures();
 		this.#updateMeasures();
 	}
-	disconnectedCallback() {
+	$disconnected() {
 		this.#unscrollEvent();
 	}
 	static get observedAttributes() {
 		return [ "step", "timedivision", "pxperbeat", "loop", "currenttime", "currenttime-preview" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "step": this.#step = +val; break;
-				case "loop": this.#changeLoop( val ); break;
-				case "pxperbeat": this.#changePxPerBeat( +val ); break;
-				case "currenttime": this.#changeCurrentTime( +val ); break;
-				case "timedivision": this.#changeTimedivision( val ); break;
-				case "currenttime-preview": this.#changeCurrentTimePreview( val === null ? null : +val ); break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "step": this.#step = +val; break;
+			case "loop": this.#changeLoop( val ); break;
+			case "pxperbeat": this.#changePxPerBeat( +val ); break;
+			case "currenttime": this.#changeCurrentTime( +val ); break;
+			case "timedivision": this.#changeTimedivision( val ); break;
+			case "currenttime-preview": this.#changeCurrentTimePreview( val === null ? null : +val ); break;
 		}
 	}
 
@@ -95,9 +90,9 @@ class gsuiTimeline extends HTMLElement {
 	}
 
 	// .........................................................................
-	beatCeil( beat ) { return this.#beatCalc( Math.ceil, beat ); }
-	beatRound( beat ) { return this.#beatCalc( Math.round, beat ); }
-	beatFloor( beat ) { return this.#beatCalc( Math.floor, beat ); }
+	$beatCeil( beat ) { return this.#beatCalc( Math.ceil, beat ); }
+	$beatRound( beat ) { return this.#beatCalc( Math.round, beat ); }
+	$beatFloor( beat ) { return this.#beatCalc( Math.floor, beat ); }
 	#beatCalc( mathFn, beat ) {
 		const mod = 1 / this.stepsPerBeat * this.#step;
 
@@ -116,8 +111,8 @@ class gsuiTimeline extends HTMLElement {
 		this.style.fontSize = `${ ppb }px`;
 		this.style.setProperty( "--gsuiTimeline-beats-incr", this.#onlyBigMeasures ? this.beatsPerMeasure : 1 );
 		this.style.setProperty( "--gsuiTimeline-measures-opacity", measuresOpa );
-		this.#elements.steps.style.opacity = stepsOpa;
-		this.#elements.beats.style.opacity = beatsOpa;
+		this.$elements.$steps.style.opacity = stepsOpa;
+		this.$elements.$beats.style.opacity = beatsOpa;
 		this.#updateOffset();
 		this.#updateNumberMeasures();
 		this.#updateMeasures();
@@ -144,20 +139,20 @@ class gsuiTimeline extends HTMLElement {
 		this.#updateLoop();
 	}
 	#changeCurrentTime( t ) {
-		this.#elements.cursor.style.left = `${ t }em`;
+		this.$elements.$cursor.style.left = `${ t }em`;
 	}
 	#changeCurrentTimePreview( t ) {
 		if ( t === null ) {
-			this.#elements.cursorPreview.remove();
+			this.$elements.$cursorPreview.remove();
 		} else {
-			const rnd = this.beatRound( t );
+			const rnd = this.$beatRound( t );
 
 			if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
 				GSUsetAttribute( this, "currenttime-preview", rnd );
 			} else {
-				this.#elements.cursorPreview.style.left = `${ t }em`;
-				if ( !this.#elements.cursorPreview.parentNode ) {
-					this.#elements.timeLine.append( this.#elements.cursorPreview );
+				this.$elements.$cursorPreview.style.left = `${ t }em`;
+				if ( !this.$elements.$cursorPreview.parentNode ) {
+					this.$elements.$timeLine.append( this.$elements.$cursorPreview );
 				}
 			}
 		}
@@ -170,9 +165,9 @@ class gsuiTimeline extends HTMLElement {
 		this.#status = st;
 	}
 	#getBeatByPageX( pageX ) {
-		const bcrX = this.#elements.timeLine.getBoundingClientRect().x;
+		const bcrX = this.$elements.$timeLine.getBoundingClientRect().x;
 
-		return Math.max( 0, this.beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
+		return Math.max( 0, this.$beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
 	}
 	#updateStepsBg() {
 		const sPB = this.stepsPerBeat;
@@ -185,7 +180,7 @@ class gsuiTimeline extends HTMLElement {
 				`currentColor calc( ${ i / sPB }em + 1px )`,
 				`transparent calc( ${ i / sPB }em + 1px )` );
 		}
-		this.#elements.steps.style.backgroundImage = `
+		this.$elements.$steps.style.backgroundImage = `
 			repeating-linear-gradient(90deg, transparent 0em,
 				${ dots.join( "," ) },
 				transparent calc( ${ 1 }em )
@@ -206,7 +201,7 @@ class gsuiTimeline extends HTMLElement {
 		return diff;
 	}
 	#updateNumberMeasures() {
-		const elMeasures = this.#elements.measures;
+		const elMeasures = this.$elements.$measures;
 		const px = this.pxPerMeasure * ( this.#onlyBigMeasures ? this.beatsPerMeasure : 1 );
 		const nb = Math.ceil( this.#scrollingAncestor.clientWidth / px ) + 1;
 
@@ -223,7 +218,7 @@ class gsuiTimeline extends HTMLElement {
 		}
 	}
 	#updateMeasures() {
-		Array.prototype.forEach.call( this.#elements.measures.children, ( el, i ) => {
+		Array.prototype.forEach.call( this.$elements.$measures.children, ( el, i ) => {
 			el.classList.toggle( "gsuiTimeline-measureBig",
 				this.#onlyBigMeasures || ( this.#offset + i ) % this.beatsPerMeasure === 0 );
 		} );
@@ -231,8 +226,8 @@ class gsuiTimeline extends HTMLElement {
 	#updateLoop() {
 		this.classList.toggle( "gsuiTimeline-looping", this.looping );
 		if ( this.looping ) {
-			this.#elements.loop.style.left = `${ this.loopA }em`;
-			this.#elements.loop.style.width = `${ this.loopB - this.loopA }em`;
+			this.$elements.$loop.style.left = `${ this.loopA }em`;
+			this.$elements.$loop.style.width = `${ this.loopB - this.loopA }em`;
 		}
 	}
 
@@ -253,7 +248,7 @@ class gsuiTimeline extends HTMLElement {
 			this.#mousedownDate = Date.now();
 		} else {
 			this.#setStatus(
-				e.target === this.#elements.cursor.parentNode ? "draggingTime" :
+				e.target === this.$elements.$cursor.parentNode ? "draggingTime" :
 				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? "draggingLoopBody" :
 				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? "draggingLoopHandleA" :
 				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) || loopLine ? "draggingLoopHandleB" : "" );
@@ -263,9 +258,9 @@ class gsuiTimeline extends HTMLElement {
 				if ( loopLine ) {
 					this.loopA =
 					this.loopB = this.#mousedownBeat;
-					this.#dispatch( "inputLoopStart" );
+					this.$dispatch( "inputLoopStart" );
 				} else {
-					this.#dispatch( "inputCurrentTimeStart" );
+					this.$dispatch( "inputCurrentTimeStart" );
 				}
 				this.#mousedownLoop = GSUgetAttribute( this, "loop" );
 				this.#mousedownLoopA = this.loopA;
@@ -286,7 +281,7 @@ class gsuiTimeline extends HTMLElement {
 			switch ( this.#status ) {
 				case "draggingTime":
 					GSUsetAttribute( this, "currenttime-preview", beat );
-					this.#dispatch( "inputCurrentTime", beat );
+					this.$dispatch( "inputCurrentTime", beat );
 					break;
 				case "draggingLoopBody": {
 					const rel = Math.max( -this.#mousedownLoopA, beatRel );
@@ -296,7 +291,7 @@ class gsuiTimeline extends HTMLElement {
 
 					if ( loop !== GSUgetAttribute( this, "loop" ) ) {
 						GSUsetAttribute( this, "loop", loop );
-						this.#dispatch( "inputLoop", a, b );
+						this.$dispatch( "inputLoop", a, b );
 					}
 				} break;
 				case "draggingLoopHandleA":
@@ -324,10 +319,10 @@ class gsuiTimeline extends HTMLElement {
 					if ( loop !== GSUgetAttribute( this, "loop" ) ) {
 						if ( aa !== bb ) {
 							GSUsetAttribute( this, "loop", loop );
-							this.#dispatch( "inputLoop", aa, bb );
+							this.$dispatch( "inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							this.removeAttribute( "loop" );
-							this.#dispatch( "inputLoop", false );
+							this.$dispatch( "inputLoop", false );
 						}
 					}
 				} break;
@@ -342,22 +337,22 @@ class gsuiTimeline extends HTMLElement {
 				const beat = GSUgetAttribute( this, "currenttime-preview" );
 
 				this.removeAttribute( "currenttime-preview" );
-				this.#dispatch( "inputCurrentTimeEnd" );
+				this.$dispatch( "inputCurrentTimeEnd" );
 				if ( beat !== GSUgetAttribute( this, "currenttime" ) ) {
 					GSUsetAttribute( this, "currenttime", beat );
-					this.#dispatch( "changeCurrentTime", +beat );
+					this.$dispatch( "changeCurrentTime", +beat );
 				}
 			} break;
 			case "draggingLoopBody":
 			case "draggingLoopHandleA":
 			case "draggingLoopHandleB":
-				this.#dispatch( "inputLoopEnd" );
+				this.$dispatch( "inputLoopEnd" );
 				if ( GSUgetAttribute( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.loopA !== this.loopB ) {
-						this.#dispatch( "changeLoop", this.loopA, this.loopB );
+						this.$dispatch( "changeLoop", this.loopA, this.loopB );
 					} else {
 						this.removeAttribute( "loop" );
-						this.#dispatch( "changeLoop", false );
+						this.$dispatch( "changeLoop", false );
 					}
 				}
 				break;
