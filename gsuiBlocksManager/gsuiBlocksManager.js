@@ -23,7 +23,7 @@ class gsuiBlocksManager {
 	} );
 	rootElement = null;
 	timeline = null;
-	#data = null;
+	#data = {};
 	#opts = null;
 	#fontSize = 10;
 	#pxPerBeat = 10;
