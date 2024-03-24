@@ -40,12 +40,12 @@ gsui-keys,
 .gsuiKeyBlack-row {
 	background-color: var( --gsuiKeys-blackRow-bg );
 }
-.gsuiKey-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
-.gsuiKeyBlack-row:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
 .gsuiKey-row > div {
 	position: absolute;
 	inset: 0;
 }
+gsui-pianoroll:has(.gsuiBlocksManager-selection-hidden) .gsuiKey-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
+gsui-pianoroll:has(.gsuiBlocksManager-selection-hidden) .gsuiKeyBlack-row:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
 
 /* .......................................................................... */
 .gsuiKey-row[ data-key="0" ],
