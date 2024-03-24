@@ -20,11 +20,12 @@ class gsuiPopup extends gsui0ne {
 				window: ".gsuiPopup-window",
 				header: ".gsuiPopup-head",
 				cancel: ".gsuiPopup-cancel",
+				overlay: ".gsuiPopup-overlay",
 			},
 		} );
 		Object.seal( this );
 		this.#clWindow = this.$elements.window.classList;
-		this.onclick =
+		this.$elements.overlay.onclick =
 		this.$elements.cancel.onclick = this.#cancelClick.bind( this );
 		this.$elements.form.onsubmit = this.#submit.bind( this );
 		this.$elements.window.onkeyup =

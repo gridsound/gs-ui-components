@@ -1,6 +1,7 @@
 "use strict";
 
-GSUsetTemplate( "gsui-popup", () =>
+GSUsetTemplate( "gsui-popup", () => [
+	GSUcreateDiv( { class: "gsuiPopup-overlay" } ),
 	GSUcreateDiv( { class: "gsuiPopup-window", tabindex: 0 },
 		GSUcreateDiv( { class: "gsuiPopup-head" } ),
 		GSUcreateElement( "form", { class: "gsuiPopup-body" },
@@ -13,4 +14,4 @@ GSUsetTemplate( "gsui-popup", () =>
 			),
 		),
 	)
-);
+] );
