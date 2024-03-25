@@ -69,6 +69,9 @@ class gsuiPianoroll extends gsui0ne {
 				inputEnd: () => this.#ongsuiSliderGroupInputEnd(),
 				change: d => this.#ongsuiSliderGroupChange( d ),
 			},
+			gsuiBlocksManager: {
+				deletePreviewBlock: () => this.$removeKey( "preview" ),
+			},
 		} );
 		this.ondragover = GSUnoopFalse;
 		this.ondrop = this.#ondrop.bind( this );
@@ -78,9 +81,6 @@ class gsuiPianoroll extends gsui0ne {
 			const key = +rows[ rowInd ].dataset.midi;
 
 			return this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } );
-		};
-		this.#blcManager.$ondeletePreviewBlock = () => {
-			this.$removeKey( "preview" );
 		};
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
