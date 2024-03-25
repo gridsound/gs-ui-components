@@ -10,20 +10,20 @@ class gsuiPatterns extends gsui0ne {
 		redirect: ( id, el, e ) => this.#openChannelsPopup( "redirectPatternBuffer", id, e.target.dataset.id ),
 	} );
 	#fnsSynth = Object.freeze( {
-		expand: id => this.expandSynth( id ),
+		expand: id => this.$expandSynth( id ),
 		undefined: id => this.onchange( "openSynth", id ),
 		redirect: ( id, e ) => this.#openChannelsPopup( "redirectSynth", id, e.target.dataset.id ),
 		newPattern: id => {
 			this.onchange( "addPatternKeys", id );
-			this.expandSynth( id, true );
+			this.$expandSynth( id, true );
 		},
 		delete: id => {
-			this.$elements.lists.synth.children.length > 1
+			this.$elements.$lists.synth.children.length > 1
 				? this.onchange( "removeSynth", id )
 				: GSUpopup.$alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
-	#nlKeysLists = this.$elements.lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" );
+	#nlKeysLists = this.$elements.$lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" );
 	static infoPopupContent = GSUgetTemplate( "gsui-patterns-infoPopup" );
 
 	constructor() {
@@ -31,15 +31,15 @@ class gsuiPatterns extends gsui0ne {
 			$cmpName: "gsuiPatterns",
 			$tagName: "gsui-patterns",
 			$elements: {
-				lists: {
+				$lists: {
 					slices: ".gsuiPatterns-panelSlices .gsuiPatterns-panel-list",
 					drums: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
 					synth: ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list",
 					buffer: ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list",
 				},
-				newSlices: "[data-action='newSlices']",
-				newDrums: "[data-action='newDrums']",
-				newSynth: "[data-action='newSynth']",
+				$newSlices: "[data-action='newSlices']",
+				$newDrums: "[data-action='newDrums']",
+				$newSynth: "[data-action='newSynth']",
 			},
 		} );
 		this.onchange =
@@ -47,37 +47,37 @@ class gsuiPatterns extends gsui0ne {
 		Object.seal( this );
 
 		new gsuiReorder( {
-			rootElement: this.$elements.lists.buffer,
+			rootElement: this.$elements.$lists.buffer,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-buffer",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this.#onreorderPatterns.bind( this, this.$elements.lists.buffer ),
+			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.buffer ),
 		} );
 		new gsuiReorder( {
-			rootElement: this.$elements.lists.slices,
+			rootElement: this.$elements.$lists.slices,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-slices",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this.#onreorderPatterns.bind( this, this.$elements.lists.slices ),
+			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.slices ),
 		} );
 		new gsuiReorder( {
-			rootElement: this.$elements.lists.drums,
+			rootElement: this.$elements.$lists.drums,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-drums",
 			itemSelector: ".gsuiPatterns-pattern",
 			handleSelector: ".gsuiPatterns-pattern-grip",
 			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this.#onreorderPatterns.bind( this, this.$elements.lists.drums ),
+			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.drums ),
 		} );
 		new gsuiReorder( {
-			rootElement: this.$elements.lists.synth,
+			rootElement: this.$elements.$lists.synth,
 			direction: "column",
 			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
 			dataTransferType: "pattern-keys",
@@ -86,7 +86,7 @@ class gsuiPatterns extends gsui0ne {
 			parentSelector: ".gsuiPatterns-synth-patterns",
 			onchange: this.#onreorderPatternsKeys.bind( this ),
 		} );
-		this.$elements.lists.buffer.ondrop = e => {
+		this.$elements.$lists.buffer.ondrop = e => {
 			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
 				"library-buffer:default",
 				"library-buffer:local",
@@ -96,38 +96,38 @@ class gsuiPatterns extends gsui0ne {
 				this.$dispatch( "libraryBufferDropped", bufType, bufId );
 			}
 		};
-		this.$elements.lists.synth.ondragover = e => {
+		this.$elements.$lists.synth.ondragover = e => {
 			const syn = e.target.closest( ".gsuiPatterns-synth" );
 
 			if ( syn ) {
-				this.expandSynth( syn.dataset.id, true );
+				this.$expandSynth( syn.dataset.id, true );
 			}
 		};
-		this.$elements.lists.synth.ondblclick = e => {
+		this.$elements.$lists.synth.ondblclick = e => {
 			if ( e.target.classList.contains( "gsuiPatterns-synth-info" ) ) {
-				this.expandSynth( e.target.closest( ".gsuiPatterns-synth" ).dataset.id );
+				this.$expandSynth( e.target.closest( ".gsuiPatterns-synth" ).dataset.id );
 			}
 		};
-		this.$elements.lists.buffer.onclick =
-		this.$elements.lists.slices.onclick =
-		this.$elements.lists.drums.onclick = this.#onclickListPatterns.bind( this );
-		this.$elements.lists.synth.onclick = this.#onclickSynths.bind( this );
-		this.$elements.newSlices.onclick = () => this.onchange( "addPatternSlices" );
-		this.$elements.newDrums.onclick = () => this.onchange( "addPatternDrums" );
-		this.$elements.newSynth.onclick = () => this.onchange( "addSynth" );
+		this.$elements.$lists.buffer.onclick =
+		this.$elements.$lists.slices.onclick =
+		this.$elements.$lists.drums.onclick = this.#onclickListPatterns.bind( this );
+		this.$elements.$lists.synth.onclick = this.#onclickSynths.bind( this );
+		this.$elements.$newSlices.onclick = () => this.onchange( "addPatternSlices" );
+		this.$elements.$newDrums.onclick = () => this.onchange( "addPatternDrums" );
+		this.$elements.$newSynth.onclick = () => this.onchange( "addSynth" );
 	}
 
 	// .........................................................................
-	expandSynth( id, b ) {
+	$expandSynth( id, b ) {
 		const elSyn = this.#getSynth( id );
 		const show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
 
 		elSyn.querySelector( ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
 	}
-	reorderPatterns( patterns ) {
-		gsuiReorder.listReorder( this.$elements.lists.buffer, patterns );
-		gsuiReorder.listReorder( this.$elements.lists.slices, patterns );
-		gsuiReorder.listReorder( this.$elements.lists.drums, patterns );
+	$reorderPatterns( patterns ) {
+		gsuiReorder.listReorder( this.$elements.$lists.buffer, patterns );
+		gsuiReorder.listReorder( this.$elements.$lists.slices, patterns );
+		gsuiReorder.listReorder( this.$elements.$lists.drums, patterns );
 		Array.prototype.forEach.call( this.#nlKeysLists, list => {
 			gsuiReorder.listReorder( list, patterns );
 		} );
@@ -161,19 +161,19 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	updateChannel( id, name ) {
+	$updateChannel( id, name ) {
 		this.querySelectorAll( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` )
 			.forEach( el => el.textContent = name );
 	}
 
 	// .........................................................................
-	addSynth( id ) {
+	$addSynth( id ) {
 		const elSyn = GSUgetTemplate( "gsui-patterns-synth" );
 
 		elSyn.dataset.id = id;
-		this.$elements.lists.synth.prepend( elSyn );
+		this.$elements.$lists.synth.prepend( elSyn );
 	}
-	changeSynth( id, prop, val ) {
+	$changeSynth( id, prop, val ) {
 		const elSyn = this.#getSynth( id );
 
 		switch ( prop ) {
@@ -182,12 +182,12 @@ class gsuiPatterns extends gsui0ne {
 			case "destName": elSyn.querySelector( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).textContent = val; break;
 		}
 	}
-	deleteSynth( id ) {
+	$deleteSynth( id ) {
 		this.#getSynth( id ).remove();
 	}
 
 	// .........................................................................
-	addPattern( id, { type, synth } ) {
+	$addPattern( id, { type, synth } ) {
 		const elPat = GSUgetTemplate( "gsui-patterns-pattern" );
 
 		elPat.dataset.id = id;
@@ -200,8 +200,8 @@ class gsuiPatterns extends gsui0ne {
 		}
 		this.#getPatternParent( type, synth ).append( elPat );
 	}
-	changePattern( id, prop, val ) {
-		const elPat = this.getPattern( id );
+	$changePattern( id, prop, val ) {
+		const elPat = this.$getPattern( id );
 
 		switch ( prop ) {
 			case "data-missing": GSUsetAttribute( elPat, "data-missing", val ); break;
@@ -222,39 +222,39 @@ class gsuiPatterns extends gsui0ne {
 				break;
 		}
 	}
-	appendPatternSVG( id, svg ) {
+	$appendPatternSVG( id, svg ) {
 		svg.classList.add( "gsuiPatterns-pattern-svg" );
-		this.getPattern( id ).querySelector( ".gsuiPatterns-pattern-content" ).append( svg );
+		this.$getPattern( id ).querySelector( ".gsuiPatterns-pattern-content" ).append( svg );
 	}
-	deletePattern( id ) {
-		this.getPattern( id )?.remove(); // 2.
+	$deletePattern( id ) {
+		this.$getPattern( id )?.remove(); // 2.
 	}
 
 	// .........................................................................
-	selectPattern( type, id ) {
-		const elList = this.$elements.lists[ type === "keys" ? "synth" : type ];
+	$selectPattern( type, id ) {
+		const elList = this.$elements.$lists[ type === "keys" ? "synth" : type ];
 
 		elList.querySelector( ".gsuiPatterns-pattern-selected" )?.classList?.remove( "gsuiPatterns-pattern-selected" );
-		this.getPattern( id )?.classList?.add( "gsuiPatterns-pattern-selected" );
+		this.$getPattern( id )?.classList?.add( "gsuiPatterns-pattern-selected" );
 	}
-	selectSynth( id ) {
-		this.$elements.lists.synth.querySelector( ".gsuiPatterns-synth-selected" )?.classList?.remove( "gsuiPatterns-synth-selected" );
+	$selectSynth( id ) {
+		this.$elements.$lists.synth.querySelector( ".gsuiPatterns-synth-selected" )?.classList?.remove( "gsuiPatterns-synth-selected" );
 		this.#getSynth( id ).classList.add( "gsuiPatterns-synth-selected" );
 	}
 
 	// .........................................................................
-	getPattern( id ) {
+	$getPattern( id ) {
 		return this.querySelector( `.gsuiPatterns-pattern[data-id="${ id }"]` );
 	}
 	#getSynth( id ) {
-		return this.$elements.lists.synth.querySelector( `.gsuiPatterns-synth[data-id="${ id }"]` );
+		return this.$elements.$lists.synth.querySelector( `.gsuiPatterns-synth[data-id="${ id }"]` );
 	}
 	#getPatternParent( type, synthId ) {
 		switch ( type ) {
 			case "slices":
 			case "buffer":
-			case "drums": return this.$elements.lists[ type ];
-			case "keys": return this.$elements.lists.synth.querySelector( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
+			case "drums": return this.$elements.$lists[ type ];
+			case "keys": return this.$elements.$lists.synth.querySelector( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
 		}
 	}
 
