@@ -4,7 +4,6 @@ class gsuiBlocksManager {
 	rootElement = null;
 	timeline = null;
 	$oncreatePreviewBlock = null;
-	$ondeletePreviewBlock = null;
 	#data = {};
 	#opts = null;
 	#fontSize = 10;
@@ -27,14 +26,15 @@ class gsuiBlocksManager {
 	#mmPageY = 0;
 	#mmWhen = 0;
 	#beatSnap = 0;
-	#valueA = null;
-	#valueB = null;
+	#valueA = 0;
+	#valueB = 0;
 	#valueAMin = Infinity;
 	#valueBMin = Infinity;
 	#valueAMax = -Infinity;
 	#valueBMax = -Infinity;
 	#onmousemoveBind = this.#onmousemove.bind( this );
 	#onmouseupBind = this.#onmouseup.bind( this );
+	#prevPreview = null;
 
 	constructor( opts ) {
 		Object.seal( this );
@@ -77,6 +77,9 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
+	#dispatch( ...args ) {
+		GSUdispatchEvent( this.rootElement.firstChild, "gsuiBlocksManager", ...args );
+	}
 	#isBlc( el ) {
 		return el.classList.contains( "gsuiBlocksManager-block" );
 	}
@@ -193,6 +196,25 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
+	#stopPreview() {
+		if ( this.#prevPreview ) {
+			this.#dispatch( "stopPreviewAudio", ...this.#prevPreview );
+			this.#prevPreview = null;
+		}
+	}
+	#startPreview() {
+		if ( this.#blcsEditing.size === 1 && ( this.#status === "create" || this.#status === "move" ) ) {
+			this.#blcsEditing.forEach( ( blc, id ) => {
+				const key = +blc.parentNode.parentNode.dataset.midi;
+
+				this.#stopPreview();
+				this.#prevPreview = [ id, key ];
+				this.#dispatch( "startPreviewAudio", id, key );
+			} );
+		}
+	}
+
+	// .........................................................................
 	$onmousedown( e ) {
 		const blc = this.#getBlc( e.currentTarget );
 
@@ -228,6 +250,7 @@ class gsuiBlocksManager {
 					if ( fnAct ) {
 						const blcsEditing = this.#fillBlcsMap( blc2 );
 
+						this.#startPreview();
 						blc2.classList.add( "gsui-hover" );
 						e.target.classList.add( "gsui-hover" );
 						fnAct.call( this, this.#data, blcsEditing, blc2, e );
@@ -324,6 +347,7 @@ class gsuiBlocksManager {
 		if ( rows !== this.#valueB ) {
 			this.#valueB = rows;
 			this.#blcsEditing.forEach( blc => this.#blockDOMChange( blc, "row", rows ) );
+			this.#startPreview();
 		}
 	}
 	#onmousemoveDelete( e ) {
@@ -397,12 +421,13 @@ class gsuiBlocksManager {
 		this.#mdBlc =
 		this.#mdTarget = null;
 		this.#valueA =
-		this.#valueB = null;
+		this.#valueB = 0;
 		this.#valueAMin =
 		this.#valueBMin = Infinity;
 		this.#valueAMax =
 		this.#valueBMax = -Infinity;
 		this.#blcsEditing.clear();
+		this.#stopPreview();
 		document.removeEventListener( "mousemove", this.#onmousemoveBind );
 		document.removeEventListener( "mouseup", this.#onmouseupBind );
 	}
@@ -417,7 +442,7 @@ class gsuiBlocksManager {
 				const blc = blcsEditing.get( "preview" );
 				const midi = blc.parentNode.parentNode.dataset.midi;
 
-				this.$ondeletePreviewBlock();
+				this.#dispatch( "deletePreviewBlock" );
 				this.#opts.managercallCreate( {
 					midi: +midi,
 					when: +blc.dataset.when + this.#valueA,
@@ -429,7 +454,7 @@ class gsuiBlocksManager {
 	#onmouseupDelete( blcsEditing ) {
 		if ( blcsEditing.size || this.#blcsSelected.size ) {
 			if ( blcsEditing.has( "preview" ) ) {
-				this.$ondeletePreviewBlock();
+				this.#dispatch( "deletePreviewBlock" );
 			} else {
 				this.#opts.managercallDeleting( blcsEditing );
 			}
