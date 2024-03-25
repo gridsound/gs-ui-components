@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiPanels extends HTMLElement {
+class gsuiPanels extends gsui0ne {
 	#dir = "";
 	#pos = "";
 	#dirX = false;
@@ -13,17 +13,22 @@ class gsuiPanels extends HTMLElement {
 	#onresizeBind = this.#onresize.bind( this );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiPanels",
+			$tagName: "gsui-panels",
+		} );
 		Object.seal( this );
 		this.onpointerdown = this.#onpointerdown.bind( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
+	$firstTimeConnected() {
 		this.#init();
+	}
+	$connected() {
 		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
-	disconnectedCallback() {
+	$disconnected() {
 		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 
