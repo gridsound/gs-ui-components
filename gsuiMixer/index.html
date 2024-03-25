@@ -71,7 +71,7 @@ body {
 <!-- ....................................................................... -->
 <script>
 const mix = document.querySelector( "gsui-mixer" );
-const chans = mix.getChannels();
+const chans = mix.$getChannels();
 
 chans.$addChannel( "main" );
 chans.$renameChannel( "main", "main" );

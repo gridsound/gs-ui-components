@@ -1,40 +1,37 @@
 "use strict";
 
-class gsuiMixer extends HTMLElement {
-	#children = GSUgetTemplate( "gsui-mixer" );
-	#elements = GSUfindElements( this.#children, {
-		channels: "gsui-channels",
-		effects: "gsui-effects",
-	} );
-
+class gsuiMixer extends gsui0ne {
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiMixer",
+			$tagName: "gsui-mixer",
+			$elements: {
+				$channels: "gsui-channels",
+				$effects: "gsui-effects",
+			},
+		} );
 		Object.seal( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#children );
-			this.#children = null;
-			new gsuiScrollShadow( {
-				scrolledElem: this.querySelector( ".gsuiChannels-panChannels" ),
-				leftShadow: this.querySelector( ".gsuiChannels-panMain" ),
-				rightShadow: this.querySelector( ".gsuiMixer-effects" ),
-			} );
-			new gsuiScrollShadow( {
-				scrolledElem: this.#elements.effects,
-				topShadow: this.querySelector( ".gsuiMixer-effects .gsuiMixer-head" ),
-			} );
-		}
+	$firstTimeConnected() {
+		new gsuiScrollShadow( {
+			scrolledElem: this.querySelector( ".gsuiChannels-panChannels" ),
+			leftShadow: this.querySelector( ".gsuiChannels-panMain" ),
+			rightShadow: this.querySelector( ".gsuiMixer-effects" ),
+		} );
+		new gsuiScrollShadow( {
+			scrolledElem: this.$elements.$effects,
+			topShadow: this.querySelector( ".gsuiMixer-effects .gsuiMixer-head" ),
+		} );
 	}
 
 	// .........................................................................
-	getChannels() {
-		return this.#elements.channels;
+	$getChannels() {
+		return this.$elements.$channels;
 	}
-	getEffects() {
-		return this.#elements.effects;
+	$getEffects() {
+		return this.$elements.$effects;
 	}
 }
 
