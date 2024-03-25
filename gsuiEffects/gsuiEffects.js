@@ -21,7 +21,7 @@ class gsuiEffects extends gsui0ne {
 
 		this.$elements.$addBtn.onclick = () => this.$elements.$addSelect.value = "";
 		this.$elements.$addSelect.onchange = this.#onchangeAddSelect.bind( this );
-		this.$elements.$addSelect.onkeydown = () => false;
+		this.$elements.$addSelect.onkeydown = GSUnoopFalse;
 		new gsuiReorder( {
 			rootElement: this,
 			direction: "column",

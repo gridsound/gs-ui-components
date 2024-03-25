@@ -32,7 +32,7 @@ class gsuiDotline extends HTMLElement {
 	constructor() {
 		super();
 		Object.seal( this );
-		this.oncontextmenu = () => false;
+		this.oncontextmenu = GSUnoopFalse;
 		this.onpointerdown = this.#onpointerdown.bind( this );
 	}
 

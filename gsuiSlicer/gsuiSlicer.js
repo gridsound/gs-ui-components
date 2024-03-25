@@ -68,7 +68,7 @@ class gsuiSlicer extends gsui0ne {
 				( max, p ) => Math.max( max, p.dataset.id ), 0 );
 		}
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
-		this.$elements.$slices.oncontextmenu = () => false;
+		this.$elements.$slices.oncontextmenu = GSUnoopFalse;
 		this.$elements.$slices.onpointerdown = this.#onpointerdownSlices.bind( this );
 		this.$elements.$step.onclick = this.#onclickStep.bind( this );
 		this.$elements.$tools.$moveY.onclick =

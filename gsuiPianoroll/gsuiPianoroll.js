@@ -70,7 +70,7 @@ class gsuiPianoroll extends gsui0ne {
 				change: d => this.#ongsuiSliderGroupChange( d ),
 			},
 		} );
-		this.ondragover = () => false;
+		this.ondragover = GSUnoopFalse;
 		this.ondrop = this.#ondrop.bind( this );
 		this.#slidersSelect.onchange = this.#onchangeSlidersSelect.bind( this );
 		this.#blcManager.$oncreatePreviewBlock = ( rowInd, when ) => {

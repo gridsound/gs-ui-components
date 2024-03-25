@@ -48,7 +48,7 @@ class gsuiKeys extends HTMLElement {
 		Object.seal( this );
 
 		this.onpointerdown = this.#onptrdown.bind( this );
-		this.oncontextmenu = () => false;
+		this.oncontextmenu = GSUnoopFalse;
 	}
 
 	// .........................................................................

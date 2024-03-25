@@ -36,7 +36,7 @@ class gsuiSliderGroup extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$element.oncontextmenu = () => false;
+		this.$element.oncontextmenu = GSUnoopFalse;
 	}
 
 	// .........................................................................

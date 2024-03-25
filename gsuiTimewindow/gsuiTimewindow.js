@@ -77,7 +77,7 @@ class gsuiTimewindow extends gsui0ne {
 			},
 		} );
 		this.timeline.$setScrollingParent( this );
-		this.ondragstart = () => false;
+		this.ondragstart = GSUnoopFalse;
 		this.$elements.main.onwheel = this.#onwheel.bind( this );
 		this.$elements.stepBtn.onclick = this.#onclickStep.bind( this );
 		this.$elements.main.querySelector( ".gsuiTimewindow-mainContent" ).oncontextmenu = e => e.preventDefault();
