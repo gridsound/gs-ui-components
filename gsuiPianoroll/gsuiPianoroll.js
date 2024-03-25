@@ -37,6 +37,7 @@ class gsuiPianoroll extends gsui0ne {
 		managercallSelecting: ids => this.onchange( "selection", ids ),
 		managercallUnselecting: () => this.onchange( "unselection" ),
 		managercallUnselectingOne: keyId => this.onchange( "unselectionOne", keyId ),
+		managercallCreate: obj => this.onchange( "add", obj.midi, obj.when, obj.duration ),
 		managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
 		managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
 		managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
@@ -72,6 +73,15 @@ class gsuiPianoroll extends gsui0ne {
 		this.ondragover = () => false;
 		this.ondrop = this.#ondrop.bind( this );
 		this.#slidersSelect.onchange = this.#onchangeSlidersSelect.bind( this );
+		this.#blcManager.$oncreatePreviewBlock = ( rowInd, when ) => {
+			const rows = this.#blcManager.$getRows();
+			const key = +rows[ rowInd ].dataset.midi;
+
+			return this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } );
+		};
+		this.#blcManager.$ondeletePreviewBlock = () => {
+			this.$removeKey( "preview" );
+		};
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
 		this.#onchangeSlidersSelect();
@@ -171,9 +181,9 @@ class gsuiPianoroll extends gsui0ne {
 			? this.#blcManager.$getSelectedBlocks().set( id, blc )
 			: this.#blcManager.$getSelectedBlocks().delete( id );
 		this.#uiSliderGroup.$set( id, obj.when, obj.duration, obj[ this.#slidersSelect.value ] );
-		this.#blockDOMChange( blc, "key", obj.key );
-		this.#blockDOMChange( blc, "when", obj.when );
-		this.#blockDOMChange( blc, "duration", obj.duration );
+		this.$changeKeyProp( id, "key", obj.key );
+		this.$changeKeyProp( id, "when", obj.when );
+		this.$changeKeyProp( id, "duration", obj.duration );
 		this.#blockDOMChange( blc, "selected", obj.selected );
 		this.#blockDOMChange( blc, "pan", obj.pan );
 		this.#blockDOMChange( blc, "gain", obj.gain );
@@ -183,6 +193,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blockDOMChange( blc, "gainLFOAmp", obj.gainLFOAmp );
 		this.#blockDOMChange( blc, "prev", obj.prev );
 		this.#blockDOMChange( blc, "next", obj.next );
+		return blc;
 	}
 	$removeKey( id ) {
 		const blc = this.#blcManager.$getBlocks().get( id );
@@ -370,11 +381,6 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#rowMousedown( key, e ) {
 		this.#blcManager.$onmousedown( e );
-		if ( e.button === 0 && !e.shiftKey ) {
-			const when = this.#blcManager.$roundBeat( this.#blcManager.$getWhenByPageX( e.pageX ) );
-
-			this.onchange( "add", key, when, this.#currKeyDuration );
-		}
 	}
 	#onchangeSlidersSelect() {
 		const prop = this.#slidersSelect.value;
@@ -431,7 +437,7 @@ class gsuiPianoroll extends gsui0ne {
 			const d = blc.dataset;
 
 			if ( +d.when >= when && ( d.prev === undefined || d.prev === id ) ) {
-				arr.push( blc.getElementsByClassName( 'gsuiDragline-drop' )[ 0 ] );
+				arr.push( blc.getElementsByClassName( "gsuiDragline-drop" )[ 0 ] );
 			}
 		} );
 		return arr;

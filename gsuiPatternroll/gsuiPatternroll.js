@@ -106,12 +106,14 @@ class gsuiPatternroll extends gsui0ne {
 		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
-		if ( prop === "track" ) {
-			blc.dataset.track = val;
-		} else if ( prop === "selected" ) {
-			val
-				? this.#blcManager.$getSelectedBlocks().set( id, blc )
-				: this.#blcManager.$getSelectedBlocks().delete( id );
+		switch ( prop ) {
+			case "when":
+			case "track": blc.dataset[ prop ] = val; break;
+			case "selected":
+				val
+					? this.#blcManager.$getSelectedBlocks().set( id, blc )
+					: this.#blcManager.$getSelectedBlocks().delete( id );
+				break;
 		}
 	}
 	$updateBlockViewBox( id, obj ) {
