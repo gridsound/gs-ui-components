@@ -1,23 +1,23 @@
 "use strict";
 
-class gsuiPeriodicWave extends HTMLElement {
+class gsuiPeriodicWave extends gsui0ne {
 	static #cache = { noise: Array.from( { length: 256 }, () => Math.random() * 2 - 1 ) };
 	#width = 0;
 	#height = 0;
 	#options = [];
-	#svg = GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" } );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiPeriodicWave",
+			$tagName: "gsui-periodicwave",
+			$template: GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" } ),
+		} );
 		Object.seal( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( this.#svg );
-			this.$resized();
-		}
+	$firstTimeConnected() {
+		this.$resized();
 	}
 
 	// .........................................................................
@@ -31,7 +31,7 @@ class gsuiPeriodicWave extends HTMLElement {
 			duration: 1,
 			opacity: 1,
 		} ) );
-		GSUsetSVGChildrenNumber( this.#svg, n, "polyline" );
+		GSUsetSVGChildrenNumber( this.$element, n, "polyline" );
 	}
 	$options( lineN, opt ) {
 		Object.assign( this.#options[ lineN ], opt );
@@ -44,7 +44,7 @@ class gsuiPeriodicWave extends HTMLElement {
 
 		this.#width = w;
 		this.#height = h;
-		GSUsetAttribute( this.#svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetAttribute( this.$element, "viewBox", `0 0 ${ w } ${ h }` );
 		this.#options.forEach( ( _, i ) => this.#drawLine( i ) );
 	}
 	#drawLine( lineN ) {
@@ -52,7 +52,7 @@ class gsuiPeriodicWave extends HTMLElement {
 		const wave = gsuiPeriodicWave.#cache[ opt.type ];
 
 		if ( opt && wave ) {
-			GSUsetAttribute( this.#svg.children[ lineN ], {
+			GSUsetAttribute( this.$element.children[ lineN ], {
 				points: gsuiPeriodicWave.#draw( wave, opt, this.#width, this.#height ),
 				"stroke-opacity": opt.opacity,
 			} );
