@@ -71,8 +71,18 @@ class gsuiPianoroll extends gsui0ne {
 			},
 			gsuiBlocksManager: {
 				deletePreviewBlock: () => this.$removeKey( "preview" ),
-				startPreviewAudio: d => ( this.uiKeys.midiKeyDown( d.args[ 1 ] ), true ),
-				stopPreviewAudio: d => ( this.uiKeys.midiKeyUp( d.args[ 1 ] ), true ),
+				startPreviewAudio: d => {
+					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
+						this.uiKeys.midiKeyDown( d.args[ 1 ] );
+						return true;
+					}
+				},
+				stopPreviewAudio: d => {
+					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
+						this.uiKeys.midiKeyUp( d.args[ 1 ] );
+						return true;
+					}
+				},
 			},
 		} );
 		this.ondragover = GSUnoopFalse;
