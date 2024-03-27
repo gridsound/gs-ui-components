@@ -25,7 +25,11 @@ class gsuiPopup extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#clWindow = this.$elements.window.classList;
-		this.$elements.overlay.onclick =
+		this.$elements.overlay.onclick = () => {
+			if ( !this.#clWindow.contains( "gsuiPopup-noCancelOverlay" ) ) {
+				this.#cancelClick();
+			}
+		};
 		this.$elements.cancel.onclick = this.#cancelClick.bind( this );
 		this.$elements.form.onsubmit = this.#submit.bind( this );
 		this.$elements.window.onkeyup =
@@ -62,7 +66,7 @@ class gsuiPopup extends gsui0ne {
 		GSUemptyElement( this.$elements.cnt );
 		this.#fnSubmit = obj.submit || null;
 		this.#clWindow.remove( "gsuiPopup-noText" );
-		this.#setOkCancelBtns( obj.ok, obj.cancel || false );
+		this.#setOkCancelBtns( obj.ok, obj.cancel || false, obj.noOverlayCancel );
 		obj.element
 			? this.$elements.cnt.append( obj.element )
 			: this.$elements.cnt.append( ...obj.elements );
@@ -75,8 +79,9 @@ class gsuiPopup extends gsui0ne {
 	}
 
 	// .........................................................................
-	#setOkCancelBtns( ok, cancel ) {
+	#setOkCancelBtns( ok, cancel, noOverlayCancel ) {
 		this.#clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
+		this.#clWindow.toggle( "gsuiPopup-noCancelOverlay", noOverlayCancel === true );
 		this.$elements.cancel.value = cancel || "Cancel";
 		this.$elements.ok.value = ok || "Ok";
 	}

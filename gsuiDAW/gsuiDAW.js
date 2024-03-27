@@ -134,6 +134,7 @@ class gsuiDAW extends HTMLElement {
 			}
 			if ( d.status === "0" ) {
 				d.status = "1";
+				document.querySelector( ".gsuiPopup-window" ).classList.add( "gsuiPopup-noCancelOverlay" );
 				this.#dispatch( "export" );
 			}
 		};
