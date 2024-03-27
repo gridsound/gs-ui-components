@@ -21,7 +21,7 @@
 .gsuiDAW-dropdown:focus-within {
 	z-index: 2;
 }
-.gsuiDAW-dropdown-btn:focus + .gsuiDAW-dropdown,
+.gsuiDAW-dropdown-btn:focus ~ .gsuiDAW-dropdown,
 .gsuiDAW-dropdown:focus-within {
 	opacity: 1;
 	visibility: visible;
@@ -48,9 +48,10 @@
 }
 .gsuiDAW-dropdown-backdrop {
 	position: absolute;
-	inset: 68px 0 0;
+	z-index: 1;
+	inset: 62px 0 0;
 	opacity: 0;
-	background-color: #0004;
+	backdrop-filter: brightness( .5 ) grayscale( 1 ) blur( 2px );
 	visibility: hidden;
 	transition: .4s;
 	transition-property: visibility, opacity;

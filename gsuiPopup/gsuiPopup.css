@@ -15,8 +15,7 @@ gsui-popup:not( .gsuiPopup-show ) {
 .gsuiPopup-overlay {
 	position: absolute;
 	inset: 0;
-	backdrop-filter: grayscale( 1 ) blur( 2px );
-	background-color: var( --gsuiPopup-overlay-bg );
+	backdrop-filter: brightness( .5 ) grayscale( 1 ) blur( 2px );
 }
 
 /* .......................................................................... */
