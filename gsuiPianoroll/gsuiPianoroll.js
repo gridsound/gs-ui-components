@@ -71,6 +71,8 @@ class gsuiPianoroll extends gsui0ne {
 			},
 			gsuiBlocksManager: {
 				deletePreviewBlock: () => this.$removeKey( "preview" ),
+				startPreviewAudio: d => ( this.uiKeys.midiKeyDown( d.args[ 1 ] ), true ),
+				stopPreviewAudio: d => ( this.uiKeys.midiKeyUp( d.args[ 1 ] ), true ),
 			},
 		} );
 		this.ondragover = GSUnoopFalse;
