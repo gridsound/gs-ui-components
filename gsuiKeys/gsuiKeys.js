@@ -1,10 +1,16 @@
 "use strict";
 
 class gsuiKeys extends gsui0ne {
-	static $keyNames = Object.freeze( {
-		en: Object.freeze( [ "c",  "c#",  "d",  "d#",  "e",  "f",  "f#",  "g",   "g#",   "a",  "a#",  "b" ] ),
-		fr: Object.freeze( [ "do", "do#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ] ),
-	} );
+	static $keyNotations = {
+		OneTwo:  [ "1",  "1#",  "2",  "2#",  "3",  "4",  "4#",  "5",   "5#",   "6",  "6#",  "7" ],
+		DoRéMi:  [ "do", "do#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ],
+		UtRéMi:  [ "ut", "ut#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ],
+		CDEFGAB: [ "C",  "C#",  "D",  "D#",  "E",  "F",  "F#",  "G",   "G#",   "A",  "A#",  "B" ],
+		CDEFGAH: [ "C",  "C#",  "D",  "D#",  "E",  "F",  "F#",  "G",   "G#",   "A",  "A#",  "H" ],
+	};
+	static $keyNotation( id ) {
+		document.body.style.setProperty( "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
+	}
 	static $keyboardToKey = { // 1.
 		KeyZ:   [ -1,  0 ], KeyS:      [ -1,  1 ],
 		KeyX:   [ -1,  2 ], KeyD:      [ -1,  3 ],

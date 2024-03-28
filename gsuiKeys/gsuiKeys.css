@@ -1,3 +1,7 @@
+:root {
+	--gsuiKeys-keyNotation: "do";
+}
+
 gsui-keys {
 	--gsuiKeys-firstOctave: 0;
 	--gsuiKeys-nbOctaves: 0;
@@ -7,7 +11,7 @@ gsui-keys {
 	touch-action: none;
 	height: 100%;
 	z-index: 0;
-	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );;
+	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );
 }
 gsui-keys[ orient="vertical" ] {
 	height: calc( var( --gsuiKeys-nbOctaves ) * 12em );
@@ -98,7 +102,7 @@ gsui-keys[ orient="horizontal" ] .gsuiKeyBlack {
 }
 .gsuiKey[ data-key="0" ]::after {
 	counter-increment: octave -1;
-	content: "C" counter( octave );
+	content: var(--gsuiKeys-keyNotation) "·" counter( octave );
 	position: absolute;
 	right: .25em;
 	bottom: 2px;
