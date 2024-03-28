@@ -1,6 +1,16 @@
 "use strict";
 
 class gsuiPianoroll extends gsui0ne {
+	static #keyNotation = [];
+	static $keyNotation( id ) {
+		const kn = gsuiKeys.$keyNotations[ id ];
+
+		gsuiPianoroll.#keyNotation = kn;
+		document.querySelectorAll( ".gsuiPianoroll-block" ).forEach( blc => {
+			blc.firstChild.textContent = kn[ blc.parentNode.parentNode.dataset.key ];
+		} );
+	}
+
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
@@ -175,8 +185,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.$reset();
 	}
 
-	// Block's UI functions
-	// ........................................................................
+	// .........................................................................
 	$addKey( id, obj ) {
 		const blc = GSUgetTemplate( "gsui-pianoroll-block" );
 		const dragline = new gsuiDragline();
@@ -260,7 +269,7 @@ class gsuiPianoroll extends gsui0ne {
 			case "key": {
 				const row = this.#getRowByMidi( val );
 
-				el.firstChild.textContent = gsuiKeys.$keyNames.en[ row.dataset.key ];
+				el.firstChild.textContent = gsuiPianoroll.#keyNotation[ row.dataset.key ];
 				row.firstElementChild.append( el );
 				this.#blockRedrawDragline( el );
 			} break;
@@ -300,11 +309,10 @@ class gsuiPianoroll extends gsui0ne {
 		blcPrev && blcPrev._dragline.redraw();
 	}
 
-	// Private small getters
-	// ........................................................................
+	// .........................................................................
 	#getRowByMidi( midi ) { return this.#rowsByMidi[ midi ]; }
 
-	// ........................................................................
+	// .........................................................................
 	#ongsuiTimewindowPxperbeat( ppb ) {
 		this.#blcManager.$setPxPerBeat( ppb );
 		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
@@ -382,7 +390,7 @@ class gsuiPianoroll extends gsui0ne {
 		if ( mul >=  .25   ) { return -6; }
 	}
 
-	// ........................................................................
+	// .........................................................................
 	#blcMousedown( id, e ) {
 		const dline = e.currentTarget._dragline.rootElement;
 
@@ -438,8 +446,7 @@ class gsuiPianoroll extends gsui0ne {
 		rd.readAsArrayBuffer( mid );
 	}
 
-	// Key's functions
-	// ........................................................................
+	// .........................................................................
 	#getDropAreas( id ) {
 		const d = this.#blcManager.$getBlocks().get( id ).dataset;
 		const when = +d.when + +d.duration;
