@@ -89,6 +89,7 @@ class gsuiDAW extends HTMLElement {
 			uiRateManualRange: "[name='uiRateFPS']",
 			windowsLowGraphics: "[name='windowsLowGraphics']",
 			timelineNumbering: "[name='timelineNumbering']",
+			keyNotation: "[name='keyNotation']",
 		} ),
 	};
 
@@ -180,6 +181,7 @@ class gsuiDAW extends HTMLElement {
 				saved: true,
 				uirate: "auto",
 				timelinenumbering: 0,
+				keynotation: "DoRéMi",
 				bpm: 60,
 				name: "",
 				duration: 10,
@@ -206,6 +208,7 @@ class gsuiDAW extends HTMLElement {
 			"saving",
 			"timedivision",
 			"timelinenumbering",
+			"keynotation",
 			"useravatar",
 			"username",
 			"version",
@@ -249,6 +252,11 @@ class gsuiDAW extends HTMLElement {
 					break;
 				case "timelinenumbering":
 					gsuiClock.$numbering( val );
+					gsuiTimeline.$numbering( val );
+					break;
+				case "keynotation":
+					gsuiKeys.$keyNotation( val );
+					gsuiPianoroll.$keyNotation( val );
 					break;
 				case "bpm":
 					GSUsetAttribute( this.#elements.clock, "bpm", val );
@@ -522,6 +530,7 @@ class gsuiDAW extends HTMLElement {
 				break;
 			case "settings":
 				this.#popups.settings.sampleRate.value = GSUgetAttributeNum( this, "samplerate" );
+				this.#popups.settings.keyNotation.value = GSUgetAttribute( this, "keynotation" );
 				this.#popups.settings.timelineNumbering.value = GSUgetAttributeNum( this, "timelinenumbering" );
 				this.#popups.settings.windowsLowGraphics.checked = GSUgetAttribute( this, "windowslowgraphics" ) === "";
 				this.#popups.settings.uiRateRadio[ GSUgetAttribute( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
@@ -541,6 +550,7 @@ class gsuiDAW extends HTMLElement {
 									data.uiRate !== GSUgetAttribute( this, "uirate" ) &&
 									data.uiRate !== GSUgetAttributeNum( this, "uirate" )
 								) ||
+								data.keyNotation !== GSUgetAttribute( this, "keynotation" ) ||
 								data.sampleRate !== GSUgetAttributeNum( this, "samplerate" ) ||
 								data.timelineNumbering !== GSUgetAttributeNum( this, "timelinenumbering" ) ||
 								data.windowsLowGraphics !== ( GSUgetAttribute( this, "windowslowgraphics" ) === "" )
