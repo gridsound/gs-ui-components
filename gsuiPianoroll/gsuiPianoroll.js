@@ -73,13 +73,13 @@ class gsuiPianoroll extends gsui0ne {
 				deletePreviewBlock: () => this.$removeKey( "preview" ),
 				startPreviewAudio: d => {
 					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
-						this.uiKeys.midiKeyDown( d.args[ 1 ] );
+						this.uiKeys.$midiKeyDown( d.args[ 1 ] );
 						return true;
 					}
 				},
 				stopPreviewAudio: d => {
 					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
-						this.uiKeys.midiKeyUp( d.args[ 1 ] );
+						this.uiKeys.$midiKeyUp( d.args[ 1 ] );
 						return true;
 					}
 				},
@@ -260,7 +260,7 @@ class gsuiPianoroll extends gsui0ne {
 			case "key": {
 				const row = this.#getRowByMidi( val );
 
-				el.firstChild.textContent = gsuiKeys.keyNames.en[ row.dataset.key ];
+				el.firstChild.textContent = gsuiKeys.$keyNames.en[ row.dataset.key ];
 				row.firstElementChild.append( el );
 				this.#blockRedrawDragline( el );
 			} break;

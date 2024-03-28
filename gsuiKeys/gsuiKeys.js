@@ -1,11 +1,11 @@
 "use strict";
 
-class gsuiKeys extends HTMLElement {
-	static keyNames = Object.freeze( {
+class gsuiKeys extends gsui0ne {
+	static $keyNames = Object.freeze( {
 		en: Object.freeze( [ "c",  "c#",  "d",  "d#",  "e",  "f",  "f#",  "g",   "g#",   "a",  "a#",  "b" ] ),
 		fr: Object.freeze( [ "do", "do#", "ré", "ré#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si" ] ),
 	} );
-	static keyboardToKey = { // 1.
+	static $keyboardToKey = { // 1.
 		KeyZ:   [ -1,  0 ], KeyS:      [ -1,  1 ],
 		KeyX:   [ -1,  2 ], KeyD:      [ -1,  3 ],
 		KeyC:   [ -1,  4 ],
@@ -44,29 +44,27 @@ class gsuiKeys extends HTMLElement {
 	#onptrmoveBind = this.#onptrmove.bind( this );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiKeys",
+			$tagName: "gsui-keys",
+			$attributes: {
+				orient: "vertical",
+				rootoctave: "4",
+			},
+		} );
 		Object.seal( this );
-
 		this.onpointerdown = this.#onptrdown.bind( this );
 		this.oncontextmenu = GSUnoopFalse;
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		GSUrecallAttributes( this, {
-			orient: "vertical",
-			rootoctave: "4",
-		} );
-	}
 	static get observedAttributes() {
 		return [ "octaves", "rootoctave" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "octaves": this.#setOctaves( ...GSUsplitNums( val ) ); break;
-				case "rootoctave": this.#setRootOctave( +val ); break;
-			}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "octaves": this.#setOctaves( ...GSUsplitNums( val ) ); break;
+			case "rootoctave": this.#setRootOctave( +val ); break;
 		}
 	}
 
@@ -74,21 +72,21 @@ class gsuiKeys extends HTMLElement {
 	$getRows() {
 		return [ ...this.getElementsByClassName( "gsui-row" ) ];
 	}
-	getMidiKeyFromKeyboard( e ) {
-		const k = gsuiKeys.keyboardToKey[ e.code ];
+	$getMidiKeyFromKeyboard( e ) {
+		const k = gsuiKeys.$keyboardToKey[ e.code ];
 
 		return k
 			? ( this.#rootOctave + k[ 0 ] ) * 12 + k[ 1 ]
 			: false;
 	}
-	midiReleaseAllKeys() {
-		this.#keysDown.forEach( ( _, midi ) => this.midiKeyUp( midi ) );
+	$midiReleaseAllKeys() {
+		this.#keysDown.forEach( ( _, midi ) => this.$midiKeyUp( midi ) );
 		this.#onptrup();
 	}
-	midiKeyDown( midi ) {
+	$midiKeyDown( midi ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true );
 	}
-	midiKeyUp( midi ) {
+	$midiKeyUp( midi ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), false );
 	}
 
@@ -216,8 +214,3 @@ class gsuiKeys extends HTMLElement {
 
 Object.freeze( gsuiKeys );
 customElements.define( "gsui-keys", gsuiKeys );
-
-/*
-1. The arrays inside keyboardToKey have this format: [ relative octave, key index (C = 0, C# = 1) ].
-The arrangement of the code represent the white and black keys.
-*/
