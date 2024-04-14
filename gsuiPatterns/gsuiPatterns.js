@@ -150,6 +150,7 @@ class gsuiPatterns extends gsui0ne {
 		}
 		gsuiPatterns.infoPopupContent.querySelector( "[name='bpm']" ).value = el.dataset.bufferBpm;
 		gsuiPatterns.infoPopupContent.querySelector( "[name='name']" ).value = el.dataset.name;
+		gsuiPatterns.infoPopupContent.querySelector( "[name='reverse']" ).checked = el.dataset.reverse === "";
 		GSUpopup.$custom( {
 			title: "Buffer's info",
 			element: gsuiPatterns.infoPopupContent,
@@ -194,8 +195,6 @@ class gsuiPatterns extends gsui0ne {
 		if ( type !== "buffer" ) {
 			elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).remove();
 			elPat.querySelector( ".gsuiPatterns-pattern-dest" ).remove();
-		} else {
-			elPat.querySelector( "[data-action='clone']" ).remove(); // 1.
 		}
 		this.#getPatternParent( type, synth ).append( elPat );
 	}
@@ -205,6 +204,7 @@ class gsuiPatterns extends gsui0ne {
 		switch ( prop ) {
 			case "data-missing": GSUsetAttribute( elPat, "data-missing", val ); break;
 			case "order": elPat.dataset.order = val; break;
+			case "reverse": GSUsetAttribute( elPat, "data-reverse", val ); break;
 			case "name":
 				elPat.dataset.name = val;
 				elPat.querySelector( ".gsuiPatterns-pattern-name" ).title = val;
@@ -227,7 +227,7 @@ class gsuiPatterns extends gsui0ne {
 		this.$getPattern( id ).querySelector( ".gsuiPatterns-pattern-content" ).append( svg );
 	}
 	$deletePattern( id ) {
-		this.$getPattern( id )?.remove(); // 2.
+		this.$getPattern( id )?.remove(); // 1.
 	}
 
 	// .........................................................................
@@ -299,6 +299,5 @@ Object.freeze( gsuiPatterns );
 customElements.define( "gsui-patterns", gsuiPatterns );
 
 /*
-1. The cloning feature for the patterns of type buffer is removed because it's for the moment useless.
-2. We are checking if the pattern exists because the entire synth could have been removed before.
+1. We are checking if the pattern exists because the entire synth could have been removed before.
 */
