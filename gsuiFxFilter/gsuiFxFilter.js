@@ -1,9 +1,8 @@
 "use strict";
 
-class gsuiFxFilter extends HTMLElement {
+class gsuiFxFilter extends gsui0ne {
 	$askData = GSUnoop;
 	#nyquist = 24000;
-	#attached = false;
 	#currType = "lowpass";
 	#onresizeBind = this.#onresize.bind( this );
 	#fnValue = {
@@ -12,35 +11,36 @@ class gsuiFxFilter extends HTMLElement {
 		detune: a => a,
 		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
 	};
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiFxFilter" );
-	#children = GSUgetTemplate( "gsui-fx-filter" );
-	#elements = GSUfindElements( this.#children, {
-		type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
-		graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
-		curves: "gsui-curves",
-		sliders: {
-			Q: ".gsuiFxFilter-areaQ gsui-slider",
-			gain: ".gsuiFxFilter-areaGain gsui-slider",
-			detune: ".gsuiFxFilter-areaDetune gsui-slider",
-			frequency: ".gsuiFxFilter-areaFrequency gsui-slider",
-		},
-	} );
-	static typeGainQ = Object.freeze( {
-		lowpass:   Object.freeze( { gain: false, q: true } ),
-		highpass:  Object.freeze( { gain: false, q: true } ),
-		bandpass:  Object.freeze( { gain: false, q: true } ),
-		lowshelf:  Object.freeze( { gain: true,  q: false } ),
-		highshelf: Object.freeze( { gain: true,  q: false } ),
-		peaking:   Object.freeze( { gain: true,  q: true } ),
-		notch:     Object.freeze( { gain: false, q: true } ),
-		allpass:   Object.freeze( { gain: false, q: true } ),
-	} );
+	static typeGainQ = {
+		lowpass:   { gain: false, q: true },
+		highpass:  { gain: false, q: true },
+		bandpass:  { gain: false, q: true },
+		lowshelf:  { gain: true,  q: false },
+		highshelf: { gain: true,  q: false },
+		peaking:   { gain: true,  q: true },
+		notch:     { gain: false, q: true },
+		allpass:   { gain: false, q: true },
+	};
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiFxFilter",
+			$tagName: "gsui-fx-filter",
+			$elements: {
+				$type: ".gsuiFxFilter-areaType .gsuiFxFilter-area-content",
+				$graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
+				$curves: "gsui-curves",
+				$sliders: {
+					Q: ".gsuiFxFilter-areaQ gsui-slider",
+					gain: ".gsuiFxFilter-areaGain gsui-slider",
+					detune: ".gsuiFxFilter-areaDetune gsui-slider",
+					frequency: ".gsuiFxFilter-areaFrequency gsui-slider",
+				},
+			},
+		} );
 		Object.seal( this );
 
-		this.#elements.type.onclick = this.#onclickType.bind( this );
+		this.$elements.$type.onclick = this.#onclickType.bind( this );
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUnoop,
@@ -49,54 +49,46 @@ class gsuiFxFilter extends HTMLElement {
 					this.#oninputProp( sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
 				},
 				change: ( d, sli ) => {
-					this.#dispatch( "changeProp", sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
+					this.$dispatch( "changeProp", sli.dataset.prop, this.#fnValue[ sli.dataset.prop ]( d.args[ 0 ] ) );
 				},
 			},
 		} );
-		this.#elements.graph.append( this.#elements.curves );
+		this.$elements.$graph.append( this.$elements.$curves );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		this.#attached = true;
-		if ( this.#children ) {
-			this.append( ...this.#children );
-			this.#children = null;
-			this.#onresize();
-			this.$updateWave();
-		}
+	$connected() {
+		this.#onresize();
+		this.$updateWave();
 		GSUobserveSizeOf( this, this.#onresizeBind );
 	}
-	disconnectedCallback() {
-		this.#attached = false;
+	$disconnected() {
 		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "type", "frequency", "q", "gain", "detune" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( prev !== val ) {
-			switch ( prop ) {
-				case "type": {
-					const gainQ = gsuiFxFilter.typeGainQ[ val ];
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "type": {
+				const gainQ = gsuiFxFilter.typeGainQ[ val ];
 
-					this.#toggleTypeBtn( this.#currType, false );
-					this.#toggleTypeBtn( val, true );
-					this.#currType = val;
-					GSUsetAttribute( this.#elements.sliders.Q, "disabled", !gainQ.q );
-					GSUsetAttribute( this.#elements.sliders.gain, "disabled", !gainQ.gain );
-				} break;
-				case "q":
-					this.#elements.sliders.Q.$setValue( +val );
-					break;
-				case "gain":
-				case "detune":
-					this.#elements.sliders[ prop ].$setValue( +val );
-					break;
-				case "frequency":
-					this.#elements.sliders.frequency.$setValue( ( Math.log2( val / this.#nyquist ) + 11 ) / 11 );
-					break;
-			}
+				this.#toggleTypeBtn( this.#currType, false );
+				this.#toggleTypeBtn( val, true );
+				this.#currType = val;
+				GSUsetAttribute( this.$elements.$sliders.Q, "disabled", !gainQ.q );
+				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", !gainQ.gain );
+			} break;
+			case "q":
+				this.$elements.$sliders.Q.$setValue( +val );
+				break;
+			case "gain":
+			case "detune":
+				this.$elements.$sliders[ prop ].$setValue( +val );
+				break;
+			case "frequency":
+				this.$elements.$sliders.frequency.$setValue( ( Math.log2( val / this.#nyquist ) + 11 ) / 11 );
+				break;
 		}
 	}
 
@@ -106,34 +98,34 @@ class gsuiFxFilter extends HTMLElement {
 		setTimeout( () => this.$updateWave(), 150 );
 	}
 	$updateWave() {
-		if ( this.#attached ) {
-			const curve = this.$askData( "curve", this.#elements.curves.$getWidth() );
+		if ( this.$isConnected ) {
+			const curve = this.$askData( "curve", this.$elements.$curves.$getWidth() );
 
 			if ( curve ) {
-				this.#elements.curves.$setCurve( "0", curve );
+				this.$elements.$curves.$setCurve( "0", curve );
 			}
 		}
 	}
 
 	// .........................................................................
 	#toggleTypeBtn( type, b ) {
-		this.#elements.type.querySelector( `[data-type="${ type }"]` )
+		this.$elements.$type.querySelector( `[data-type="${ type }"]` )
 			.classList.toggle( "gsuiFxFilter-areaType-btnSelected", b );
 	}
 
 	// .........................................................................
 	#onresize() {
-		this.#elements.curves.$resized();
+		this.$elements.$curves.$resized();
 	}
 	#oninputProp( prop, val ) {
-		this.#dispatch( "liveChange", prop, val );
+		this.$dispatch( "liveChange", prop, val );
 		this.$updateWave();
 	}
 	#onclickType( e ) {
 		const type = e.target.dataset.type;
 
 		if ( type && !e.target.classList.contains( "gsuiFxFilter-areaType-btnSelected" ) ) {
-			this.#dispatch( "changeProp", "type", type );
+			this.$dispatch( "changeProp", "type", type );
 		}
 	}
 }
