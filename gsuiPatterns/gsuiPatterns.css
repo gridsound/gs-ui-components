@@ -9,6 +9,7 @@ gsui-patterns {
 /* .......................................................................... */
 #gsuiPatterns-infoPopupContent label {
 	display: flex;
+	align-self: start;
 	align-items: center;
 	height: 32px;
 	cursor: pointer;
@@ -89,13 +90,6 @@ gsui-patterns {
 	overflow: auto;
 	position: absolute;
 	inset: 0;
-}
-
-/* .......................................................................... */
-.gsuiPatterns-destArrow {
-	margin: 0 4px;
-	opacity: .7;
-	pointer-events: none;
 }
 
 /* .......................................................................... */

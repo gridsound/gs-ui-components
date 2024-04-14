@@ -58,16 +58,16 @@
 	transition: inherit;
 }
 .gsuiPatterns-pattern-info {
-	flex: 1;
 	display: flex;
 	align-items: center;
+	flex: 1;
+	gap: 4px;
 	padding: 0 4px;
 	overflow: hidden;
 }
 .gsuiPatterns-pattern-btnInfo {
 	width: 1em;
 	font-size: 10px;
-	margin-right: 6px;
 }
 .gsuiPatterns-pattern-name {
 	overflow: hidden;

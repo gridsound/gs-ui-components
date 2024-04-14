@@ -193,7 +193,6 @@ class gsuiPatterns extends gsui0ne {
 		elPat.dataset.id = id;
 		if ( type !== "buffer" ) {
 			elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).remove();
-			elPat.querySelector( ".gsuiPatterns-destArrow" ).remove();
 			elPat.querySelector( ".gsuiPatterns-pattern-dest" ).remove();
 		} else {
 			elPat.querySelector( "[data-action='clone']" ).remove(); // 1.
@@ -208,6 +207,7 @@ class gsuiPatterns extends gsui0ne {
 			case "order": elPat.dataset.order = val; break;
 			case "name":
 				elPat.dataset.name = val;
+				elPat.querySelector( ".gsuiPatterns-pattern-name" ).title = val;
 				elPat.querySelector( ".gsuiPatterns-pattern-name" ).textContent = val;
 				break;
 			case "dest": elPat.querySelector( ".gsuiPatterns-pattern-dest" ).dataset.id = val; break;

@@ -67,6 +67,7 @@
 	overflow: hidden;
 	align-items: center;
 	padding-left: 6px;
+	gap: 6px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	font-weight: bold;

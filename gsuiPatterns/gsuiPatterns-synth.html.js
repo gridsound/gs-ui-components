@@ -6,7 +6,6 @@ GSUsetTemplate( "gsui-patterns-synth", () =>
 			GSUcreateButton( { class: "gsuiPatterns-synth-btn gsuiPatterns-synth-expand gsuiIcon", "data-action": "expand", "data-icon": "caret-right" } ),
 			GSUcreateDiv( { class: "gsuiPatterns-synth-info" },
 				GSUcreateDiv( { class: "gsuiPatterns-synth-name" } ),
-				GSUcreateI( { class: "gsuiPatterns-destArrow gsuiIcon", "data-icon": "arrow-right" } ),
 				GSUcreateButton( { class: "gsuiPatterns-btnSolid gsuiPatterns-synth-dest", "data-action": "redirect", title: "Redirect this synthesizer" },
 					GSUcreateI( { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "mixer" } ),
 					GSUcreateSpan( { class: "gsuiPatterns-btnText" } ),

@@ -50,6 +50,7 @@
 /* .......................................................................... */
 .gsuiDAW-winBtn + .gsuiIcon {
 	margin: 0 6px;
+	font-size: 12px;
 	pointer-events: none;
 }
 
