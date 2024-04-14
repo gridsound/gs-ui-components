@@ -1,6 +1,12 @@
 "use strict";
 
 class gsuiEnvelopeGraph extends gsui0ne {
+	$attack = .25;
+	$hold = .25;
+	$decay = .25;
+	$sustain = .8;
+	$release = 1;
+	$duration = 4;
 	#width = 0;
 	#height = 0;
 
@@ -15,12 +21,6 @@ class gsuiEnvelopeGraph extends gsui0ne {
 				$relLine: ".gsuiEnvelopeGraph-line + .gsuiEnvelopeGraph-line",
 			},
 		} );
-		this.attack = .25;
-		this.hold = .25;
-		this.decay = .25;
-		this.sustain = .8;
-		this.release = 1;
-		this.duration = 4;
 		Object.seal( this );
 	}
 
@@ -43,8 +43,8 @@ class gsuiEnvelopeGraph extends gsui0ne {
 	$draw() {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
-				this.#width, this.#height, this.duration,
-				this.attack, this.hold, this.decay, this.sustain, this.release );
+				this.#width, this.#height, this.$duration,
+				this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
 
 			GSUsetAttribute( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
 			GSUsetAttribute( this.$elements.$relLine, "points", pts.slice( -4 ).join( " " ) );
