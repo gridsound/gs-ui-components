@@ -38,6 +38,7 @@ body {
 <script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
 <script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
 <script src="/assets/gsuiLibrarySamples-v1.js"></script>
 
 <!-- ....................................................................... -->
@@ -51,17 +52,17 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elLibs = document.querySelector( "gsui-libraries" );
-const elLibDef = elLibs.getLibrary( "default" );
+const elLibDef = elLibs.$getLibrary( "default" );
 
-elLibDef.setLibrary( gsuiLibrarySamples );
+elLibDef.$setLibrary( gsuiLibrarySamples );
 GSUlistenEvents( elLibs, {
 	gsuiLibrary: {
 		loadSample: d => {
-			elLibDef.loadSample( d.args[ 0 ] );
-			setTimeout( () => elLibDef.readySample( d.args[ 0 ] ), 1 * 1000 );
+			elLibDef.$loadSample( d.args[ 0 ] );
+			setTimeout( () => elLibDef.$readySample( d.args[ 0 ] ), 1 * 1000 );
 		},
 		playSample: d => {
-			elLibDef.playSample( d.args[ 0 ], 1 );
+			elLibDef.$playSample( d.args[ 0 ], 1 );
 		},
 	},
 } );

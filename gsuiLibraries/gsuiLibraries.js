@@ -1,37 +1,28 @@
 "use strict";
 
-class gsuiLibraries extends HTMLElement {
-	#children = GSUgetTemplate( "gsui-libraries" );
-	#elements = GSUfindElements( this.#children, {
-		libBtns: ".gsuiLibraries-libBtns",
-		libDef: ".gsuiLibrary-default",
-		libLoc: ".gsuiLibrary-local",
-	} );
-	#libs = {
-		default: this.#elements.libDef,
-		local: this.#elements.libLoc,
-	};
-
+class gsuiLibraries extends gsui0ne {
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiLibraries",
+			$tagName: "gsui-libraries",
+			$elements: {
+				$libBtns: ".gsuiLibraries-libBtns",
+				$libDef: ".gsuiLibrary-default",
+				$libLoc: ".gsuiLibrary-local",
+			},
+			$attributes: {
+				lib: "default",
+			},
+		} );
 		Object.seal( this );
-		this.#elements.libBtns.onclick = gsuiLibraries.#onclickBtns.bind( null, this );
-		this.#libs.default.setPlaceholder( "loading..." );
-		this.#libs.local.setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
+		this.$elements.$libBtns.onclick = gsuiLibraries.#onclickBtns.bind( null, this );
+		this.$elements.$libDef.$setPlaceholder( "loading..." );
+		this.$elements.$libLoc.$setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( this.#children ) {
-			this.append( ...this.#children );
-			this.#children = null;
-			GSUrecallAttributes( this, { lib: "default" } );
-		}
-	}
-
-	// .........................................................................
-	getLibrary( lib ) {
-		return this.#libs[ lib ];
+	$getLibrary( lib ) {
+		return lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef;
 	}
 
 	// .........................................................................

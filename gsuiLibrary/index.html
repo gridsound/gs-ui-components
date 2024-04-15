@@ -35,6 +35,7 @@ body {
 <script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
 <script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
 <script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
 <script src="/assets/gsuiLibrarySamples-v1.js"></script>
 
 <!-- ....................................................................... -->
@@ -45,20 +46,20 @@ body {
 <script>
 const elLib = document.querySelector( "gsui-library" );
 
-elLib.setLibrary( gsuiLibrarySamples );
-elLib.setPlaceholder( "hey, placeholder here" );
-elLib.bookmarkSample( "clap-001", true );
-elLib.bookmarkSample( "clap-013", true );
-elLib.bookmarkSample( "hat-003", true );
-elLib.bookmarkSample( "crash-001", true );
+elLib.$setLibrary( gsuiLibrarySamples );
+elLib.$setPlaceholder( "hey, placeholder here" );
+elLib.$bookmarkSample( "clap-001", true );
+elLib.$bookmarkSample( "clap-013", true );
+elLib.$bookmarkSample( "hat-003", true );
+elLib.$bookmarkSample( "crash-001", true );
 GSUlistenEvents( elLib, {
 	gsuiLibrary: {
 		loadSample: d => {
-			elLib.loadSample( d.args[ 0 ] );
-			setTimeout( () => elLib.readySample( d.args[ 0 ] ), 1 * 1000 );
+			elLib.$loadSample( d.args[ 0 ] );
+			setTimeout( () => elLib.$readySample( d.args[ 0 ] ), 1 * 1000 );
 		},
 		playSample: d => {
-			elLib.playSample( d.args[ 0 ], 1 );
+			elLib.$playSample( d.args[ 0 ], 1 );
 		},
 	},
 } );
