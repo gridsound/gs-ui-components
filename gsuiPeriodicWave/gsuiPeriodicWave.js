@@ -34,8 +34,10 @@ class gsuiPeriodicWave extends gsui0ne {
 		GSUsetSVGChildrenNumber( this.$element, n, "polyline" );
 	}
 	$options( lineN, opt ) {
-		Object.assign( this.#options[ lineN ], opt );
-		this.#drawLine( lineN );
+		if ( this.#options[ lineN ] ) {
+			Object.assign( this.#options[ lineN ], opt );
+			this.#drawLine( lineN );
+		}
 	}
 	$resized() {
 		const bcr = this.getBoundingClientRect();
