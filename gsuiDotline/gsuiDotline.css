@@ -21,7 +21,7 @@ gsui-dotline svg {
 	width: 100%;
 	height: 100%;
 }
-gsui-dotline polyline {
+gsui-dotline path {
 	fill: none;
 }
 

@@ -2,6 +2,6 @@
 
 GSUsetTemplate( "gsui-dotline", () => [
 	GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" },
-		GSUcreateElementSVG( "polyline" ),
+		GSUcreateElementSVG( "path" ),
 	),
 ] );

@@ -28,7 +28,7 @@ class gsuiDotline extends gsui0ne {
 			$tagName: "gsui-dotline",
 			$elements: {
 				$svg: "svg",
-				$polyline: "polyline",
+				$path: "path",
 			},
 			$attributes: {
 				viewbox: "0 0 100 100",
@@ -94,29 +94,22 @@ class gsuiDotline extends gsui0ne {
 	static #sortDots2( a, b ) {
 		return a[ 1 ].x - b[ 1 ].x;
 	}
-	static $draw( data, svgW, svgH, w, h, xmin, ymin ) {
+	static #draw( data, svgW, svgH, w, h, xmin, ymin ) {
 		const arr = [];
-		const firstDotLinked = null;
-		const lastDotLinked = null;
 
-		if ( firstDotLinked !== null ) {
-			arr.push( 0, svgH - ( firstDotLinked - ymin ) / h * svgH );
-		}
 		Object.values( data ).sort( gsuiDotline.#sortDots )
-			.forEach( d => {
+			.forEach( (d, i) => {
 				arr.push(
+					!i ? "M" : "L",
 					GSUroundNum( ( d.x - xmin ) / w * svgW, 3 ),
 					GSUroundNum( svgH - ( d.y - ymin ) / h * svgH, 3 ),
 				);
 			} );
-		if ( lastDotLinked !== null ) {
-			arr.push( svgW, svgH - ( lastDotLinked - ymin ) / h * svgH );
-		}
 		return arr.join( " " );
 	}
 	#drawPolyline() {
-		GSUsetAttribute( this.$elements.$polyline, "points",
-			gsuiDotline.$draw( this.#data, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
+		GSUsetAttribute( this.$elements.$path, "d",
+			gsuiDotline.#draw( this.#data, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
 	}
 	#onchange() {
 		const diff = GSUdiffObjects( this.#dataSaved, this.#data );
