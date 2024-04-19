@@ -1,7 +1,6 @@
 "use strict";
 
-class gsuiDotline extends HTMLElement {
-	#dispatch = GSUdispatchEvent.bind( null, this, "gsuiDotline" );
+class gsuiDotline extends gsui0ne {
 	#data = {};
 	#dataSaved = null;
 	#dots = {};
@@ -22,54 +21,49 @@ class gsuiDotline extends HTMLElement {
 	#dotMinY = 0;
 	#mousebtn = 0;
 	#activeDot = null;
-	#onresizeBind = this.#onresize.bind( this );
-	#children = GSUgetTemplate( "gsui-dotline" );
-	#elements = GSUfindElements( this.#children, {
-		svg: "svg",
-		polyline: "polyline",
-	} );
 
 	constructor() {
-		super();
+		super( {
+			$cmpName: "gsuiDotline",
+			$tagName: "gsui-dotline",
+			$elements: {
+				$svg: "svg",
+				$polyline: "polyline",
+			},
+			$attributes: {
+				viewbox: "0 0 100 100",
+				xstep: 1,
+				ystep: 1,
+			},
+		} );
 		Object.seal( this );
 		this.oncontextmenu = GSUnoopFalse;
 		this.onpointerdown = this.#onpointerdown.bind( this );
 	}
 
 	// .........................................................................
-	connectedCallback() {
-		if ( !this.firstChild ) {
-			this.append( ...this.#children );
-			this.#children = null;
-			GSUrecallAttributes( this, {
-				viewbox: "0 0 100 100",
-				xstep: 1,
-				ystep: 1,
-			} );
-		}
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	disconnectedCallback() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
-	}
 	static get observedAttributes() {
 		return [ "viewbox" ];
 	}
-	attributeChangedCallback( prop, prev, val ) {
-		if ( !this.#children && prev !== val ) {
-			switch ( prop ) {
-				case "viewbox": {
-					const v = val.split( " " );
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "viewbox": {
+				const v = val.split( " " );
 
-					this.#xmin = +v[ 0 ];
-					this.#ymin = +v[ 1 ];
-					this.#xmax = +v[ 2 ];
-					this.#ymax = +v[ 3 ];
-					this.#w = this.#xmax - this.#xmin;
-					this.#h = this.#ymax - this.#ymin;
-				} break;
-			}
+				this.#xmin = +v[ 0 ];
+				this.#ymin = +v[ 1 ];
+				this.#xmax = +v[ 2 ];
+				this.#ymax = +v[ 3 ];
+				this.#w = this.#xmax - this.#xmin;
+				this.#h = this.#ymax - this.#ymin;
+			} break;
 		}
+	}
+	$onresize( w, h ) {
+		this.#svgW = w;
+		this.#svgH = h;
+		GSUsetAttribute( this.$elements.$svg, "viewBox", `0 0 ${ w } ${ h }` );
+		this.#drawPolyline();
 	}
 
 	// .........................................................................
@@ -121,14 +115,14 @@ class gsuiDotline extends HTMLElement {
 		return arr.join( " " );
 	}
 	#drawPolyline() {
-		GSUsetAttribute( this.#elements.polyline, "points",
+		GSUsetAttribute( this.$elements.$polyline, "points",
 			gsuiDotline.$draw( this.#data, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
 	}
 	#onchange() {
 		const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
 		if ( diff ) {
-			this.#dispatch( "change", diff );
+			this.$dispatch( "change", diff );
 		}
 	}
 
@@ -179,12 +173,6 @@ class gsuiDotline extends HTMLElement {
 	}
 
 	// .........................................................................
-	#onresize( w, h ) {
-		this.#svgW = w;
-		this.#svgH = h;
-		GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ w } ${ h }` );
-		this.#drawPolyline();
-	}
 	#onpointerdown( e ) {
 		let id = e.target.dataset.id;
 
