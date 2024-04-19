@@ -7,6 +7,7 @@ class gsui0ne extends HTMLElement {
 	$isConnected = false;
 	#children = null;
 	#attributes = null;
+	#onresizeBind = null;
 	#connectionCount = 0;
 
 	constructor( o = {} ) {
@@ -19,6 +20,9 @@ class gsui0ne extends HTMLElement {
 		if ( this.#children ) {
 			this.$element = Array.isArray( this.#children ) ? this.#children[ 0 ] : this.#children;
 			this.$elements = GSUfindElements( this.#children, o.$elements );
+		}
+		if ( this.$onresize ) {
+			this.#onresizeBind = this.$onresize.bind( this );
 		}
 	}
 
@@ -37,8 +41,12 @@ class gsui0ne extends HTMLElement {
 			this.$firstTimeConnected?.();
 		}
 		this.$connected?.();
+		if ( this.#onresizeBind ) {
+			GSUobserveSizeOf( this, this.#onresizeBind );
+		}
 	}
 	disconnectedCallback() {
+		GSUunobserveSizeOf( this, this.#onresizeBind );
 		this.$isConnected = false;
 		this.$disconnected?.();
 	}
