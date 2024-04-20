@@ -10,7 +10,6 @@ class gsuiPanels extends gsui0ne {
 	#panBefore = null;
 	#panAfter = null;
 	#panAfterMinSize = 0;
-	#onresizeBind = this.#onresize.bind( this );
 
 	constructor() {
 		super( {
@@ -24,12 +23,6 @@ class gsuiPanels extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.#init();
-	}
-	$connected() {
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	$disconnected() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 
 	// .........................................................................
@@ -74,7 +67,7 @@ class gsuiPanels extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onresize() {
+	$onresize() {
 		const tot = this.getBoundingClientRect()[ this.#dir ];
 		const tot2 = this.#pans.reduce( ( sz, p ) => sz + p.getBoundingClientRect()[ this.#dir ], 0 );
 
