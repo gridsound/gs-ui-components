@@ -36,7 +36,7 @@ gsui-dotline {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-dotline viewbox="10 0 150 100"></gsui-dotline>
+	<gsui-dotline viewbox="10 20 150 100"></gsui-dotline>
 </div>
 <div id="TEST-CTRLS">
 	<div>
@@ -83,10 +83,16 @@ document.querySelector( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep
 document.querySelector( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
 document.querySelector( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
 line.$change( {
+	/**/
+	1: { x:  10, y:  20 },
+	2: { x: 150, y: 100 },
+	/**/
+	/** /
 	1: { x: 20, y: 10 },
 	2: { x: 50, y: 90 },
 	3: { x: 90, y: 10 },
 	4: { x: 120, y: 50 },
+	/**/
 } );
 </script>
 </body>

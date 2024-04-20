@@ -26,17 +26,21 @@ gsui-dotline path {
 }
 
 /* .......................................................................... */
-.gsuiDotline-dot {
+.gsuiDotline-dot,
+.gsuiDotline-cdot {
+	--w: var( --gsuiDotline-dotSize );
 	position: absolute;
 	z-index: 1;
 	box-sizing: border-box;
-	width: var( --gsuiDotline-dotSize );
-	height: var( --gsuiDotline-dotSize );
-	margin:
-		calc( var( --gsuiDotline-dotSize ) / -2 ) 0 0
-		calc( var( --gsuiDotline-dotSize ) / -2 );
 	border-radius: 50%;
 	border: 2px solid;
+	width: var( --w );
+	height: var( --w );
+	margin:
+		calc( var( --w ) / -2 ) 0 0
+		calc( var( --w ) / -2 );
+}
+.gsuiDotline-dot {
 	background-color: var( --gsuiDotline-dotBg );
 	transition: .2s;
 	transition-property: background-color;
@@ -44,4 +48,8 @@ gsui-dotline path {
 .gsuiDotline-dot:hover,
 .gsuiDotline-dotSelected {
 	--gsuiDotline-dotBg: currentColor;
+}
+.gsuiDotline-cdot {
+	--w: calc( var( --gsuiDotline-dotSize ) - 2px );
+	border-width: 1px;
 }

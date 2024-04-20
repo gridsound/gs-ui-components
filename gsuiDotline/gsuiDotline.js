@@ -5,6 +5,8 @@ class gsuiDotline extends gsui0ne {
 	#dataSorted = [];
 	#dataSaved = null;
 	#dots = {};
+	#cdots = {};
+	#dotMovingInd = [];
 	#dotsMoving = [];
 	#svgW = 0;
 	#svgH = 0;
@@ -110,6 +112,17 @@ class gsuiDotline extends gsui0ne {
 	#drawPolyline() {
 		GSUsetAttribute( this.$elements.$path, "d",
 			gsuiDotline.#draw( this.#dataSorted, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
+		this.#dataSorted.reduce( ( prev, [ id, dot ] ) => {
+			if ( prev ) {
+				const cdot = this.#cdots[ id ];
+				const prevXp = this.#getPercX( prev.x );
+				const prevYp = this.#getPercY( prev.y );
+
+				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) / 2 + prevXp }%`;
+				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) / 2 + prevYp }%`;
+			}
+			return dot;
+		}, null );
 	}
 	#onchange() {
 		const diff = GSUdiffObjects( this.#dataSaved, this.#data );
@@ -135,26 +148,57 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#createDotElement( id, x, y ) {
-		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
+		this.#data[ id ] = Object.seal( { x: +x.toFixed( 7 ), y: +y.toFixed( 7 ) } );
 		this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
-		this.#updateDotElement( id, x, y );
 		this.#sortDots();
+		this.#dotMovingInd = this.#dataSorted.findIndex( d => d[ 0 ] === id );
+		if ( this.#dotMovingInd > 0 ) {
+			this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
+		}
+		this.#updateDotElement( id, x, y );
+		if ( this.#dotMovingInd > 0 ) {
+			this.append( this.#cdots[ id ] );
+		}
 		this.append( this.#dots[ id ] );
 	}
 	#updateDotElement( id, x, y ) {
 		const dat = this.#data[ id ];
 		const dot = this.#dots[ id ];
+		const dotInd = this.#dataSorted.findIndex( d => d[ 0 ] === id );
+		const dotApercX = this.#getPercX( x );
+		const dotApercY = this.#getPercY( y );
 
 		dat.x = +x.toFixed( 7 );
 		dat.y = +y.toFixed( 7 );
-		dot.style.left = `${ ( x - this.#xmin ) / this.#w * 100 }%`;
-		dot.style.top = `${ 100 - ( ( y - this.#ymin ) / this.#h * 100 ) }%`;
+		dot.style.left = `${ dotApercX }%`;
+		dot.style.top = `${ dotApercY }%`;
 	}
 	#deleteDotElement( id ) {
+		const dotInd = this.#dataSorted.findIndex( d => d[ 0 ] === id );
+		const dotPrev = this.#dataSorted[ dotInd - 1 ];
+		const dotNext = this.#dataSorted[ dotInd + 1 ];
+
 		this.#dots[ id ].remove();
-		delete this.#dots[ id ];
+		this.#cdots[ id ]?.remove();
 		delete this.#data[ id ];
+		delete this.#dots[ id ];
+		delete this.#cdots[ id ];
 		this.#sortDots();
+		if ( !dotPrev ) {
+			if ( dotNext ) {
+				this.#cdots[ dotNext[ 0 ] ].remove();
+				delete this.#cdots[ dotNext[ 0 ] ];
+			}
+		} else if ( dotNext ) {
+			const crvDot = this.#cdots[ dotNext[ 0 ] ];
+			const dotApercX = this.#getPercX( dotPrev[ 1 ].x );
+			const dotApercY = this.#getPercY( dotPrev[ 1 ].y );
+			const dotBpercX = this.#getPercX( dotNext[ 1 ].x );
+			const dotBpercY = this.#getPercY( dotNext[ 1 ].y );
+
+			crvDot.style.left = `${ ( dotBpercX - dotApercX ) / 2 + dotApercX }%`;
+			crvDot.style.top  = `${ ( dotBpercY - dotApercY ) / 2 + dotApercY }%`;
+		}
 	}
 	#sortDots() {
 		this.#dataSorted = Object.entries( this.#data ).sort( ( a, b ) => a[ 1 ].x - b[ 1 ].x );
@@ -165,9 +209,12 @@ class gsuiDotline extends gsui0ne {
 		this.#activeDot = b ? dot : null;
 		dot.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
+	#getPercX( x ) { return ( x - this.#xmin ) / this.#w * 100; }
+	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
 
 	// .........................................................................
 	#onpointerdown( e ) {
+		let isDot = e.target.classList.contains( "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
 		GSUunselectText();
@@ -179,7 +226,7 @@ class gsuiDotline extends gsui0ne {
 		this.onpointerup = this.#onpointerupDot.bind( this );
 		this.onpointermove = this.#onpointermoveDot.bind( this );
 		if ( e.button === 2 ) {
-			if ( id ) {
+			if ( isDot && id ) {
 				this.#deleteDotElement( id );
 				this.#drawPolyline();
 			}
@@ -190,6 +237,7 @@ class gsuiDotline extends gsui0ne {
 				const x = this.#getPtrX( e );
 				const closest = this.#dataSorted.find( d => Math.abs( d[ 1 ].x - x ) < xstep );
 
+				isDot = true;
 				if ( closest ) {
 					id = closest[ 0 ];
 				} else {
@@ -198,50 +246,54 @@ class gsuiDotline extends gsui0ne {
 					this.#drawPolyline();
 				}
 			}
-			this.#selectDotElement( id, true );
-			if ( !GSUhasAttribute( this, "movelinked" ) ) {
-				const dat = this.#data[ id ];
+			if ( isDot ) {
+				this.#selectDotElement( id, true );
+				if ( !GSUhasAttribute( this, "movelinked" ) ) {
+					const dat = this.#data[ id ];
 
-				this.#dotsMoving = [ { id, x: dat.x, y: dat.y } ];
-				this.#dataSorted.find( ( [ dId, d ], i, arr ) => {
-					if ( dId === id ) {
-						const dotA = arr[ i - 1 ]?.[ 1 ];
-						const dotB = arr[ i + 1 ]?.[ 1 ];
+					this.#dotsMoving = [ { id, x: dat.x, y: dat.y } ];
+					this.#dataSorted.find( ( [ dId, d ], i, arr ) => {
+						if ( dId === id ) {
+							const dotA = arr[ i - 1 ]?.[ 1 ];
+							const dotB = arr[ i + 1 ]?.[ 1 ];
 
-						this.#dotMinY = this.#ymin - dat.y;
-						this.#dotMaxY = this.#ymax - dat.y;
-						this.#dotMinX = ( dotA ? dotA.x + xstep : this.#xmin ) - dat.x;
-						this.#dotMaxX = ( dotB ? dotB.x - xstep : this.#xmax ) - dat.x;
-						return true;
-					}
-				} );
+							this.#dotMinY = this.#ymin - dat.y;
+							this.#dotMaxY = this.#ymax - dat.y;
+							this.#dotMinX = ( dotA ? dotA.x + xstep : this.#xmin ) - dat.x;
+							this.#dotMaxX = ( dotB ? dotB.x - xstep : this.#xmax ) - dat.x;
+							return true;
+						}
+					} );
+				} else {
+					let isAfter = false;
+					let prevDot;
+
+					this.#dotMinX =
+					this.#dotMinY = Infinity;
+					this.#dotMaxX =
+					this.#dotMaxY = -Infinity;
+					this.#dotsMoving = this.#dataSorted
+						.filter( ( [ dId, d ], i, arr ) => {
+							isAfter ||= dId === id;
+							if ( isAfter ) {
+								this.#dotMinX = Math.min( d.x, this.#dotMinX );
+								this.#dotMinY = Math.min( d.y, this.#dotMinY );
+								this.#dotMaxX = Math.max( d.x, this.#dotMaxX );
+								this.#dotMaxY = Math.max( d.y, this.#dotMaxY );
+							}
+							if ( arr[ i + 1 ]?.[ 0 ] === id ) {
+								prevDot = d;
+							}
+							return isAfter;
+						} )
+						.map( ( [ dId, d ] ) => ( { id: dId, x: d.x, y: d.y } ) );
+					this.#dotMinX = ( prevDot?.x ?? this.#xmin ) - this.#dotMinX + xstep;
+					this.#dotMinY = this.#ymin - this.#dotMinY;
+					this.#dotMaxX = this.#xmax - this.#dotMaxX;
+					this.#dotMaxY = this.#ymax - this.#dotMaxY;
+				}
 			} else {
-				let isAfter = false;
-				let prevDot;
-
-				this.#dotMinX =
-				this.#dotMinY = Infinity;
-				this.#dotMaxX =
-				this.#dotMaxY = -Infinity;
-				this.#dotsMoving = this.#dataSorted
-					.filter( ( [ dId, d ], i, arr ) => {
-						isAfter ||= dId === id;
-						if ( isAfter ) {
-							this.#dotMinX = Math.min( d.x, this.#dotMinX );
-							this.#dotMinY = Math.min( d.y, this.#dotMinY );
-							this.#dotMaxX = Math.max( d.x, this.#dotMaxX );
-							this.#dotMaxY = Math.max( d.y, this.#dotMaxY );
-						}
-						if ( arr[ i + 1 ]?.[ 0 ] === id ) {
-							prevDot = d;
-						}
-						return isAfter;
-					} )
-					.map( ( [ dId, d ] ) => ( { id: dId, x: d.x, y: d.y } ) );
-				this.#dotMinX = ( prevDot?.x ?? this.#xmin ) - this.#dotMinX + xstep;
-				this.#dotMinY = this.#ymin - this.#dotMinY;
-				this.#dotMaxX = this.#xmax - this.#dotMaxX;
-				this.#dotMaxY = this.#ymax - this.#dotMaxY;
+				// curvedot clicked
 			}
 		}
 	}
