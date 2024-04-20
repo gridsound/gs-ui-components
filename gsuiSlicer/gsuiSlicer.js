@@ -3,7 +3,6 @@
 class gsuiSlicer extends gsui0ne {
 	static #resW = 1000;
 	static #resH = 64;
-
 	#dur = 4;
 	#tool = "";
 	#slices = {};
@@ -15,7 +14,6 @@ class gsuiSlicer extends gsui0ne {
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
 	#sliceCurrentTime = null;
-	#onresizeBind = this.#onresize.bind( this );
 	#waveDef = GSUcreateElementSVG( "polyline" );
 	timeline = null;
 
@@ -101,12 +99,8 @@ class gsuiSlicer extends gsui0ne {
 		this.#selectTool( "moveY" );
 		document.querySelector( "#gsuiSlicer-waveDefs defs" ).append( this.#waveDef );
 	}
-	$connected() {
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
 	$disconnected() {
 		this.#waveDef.remove();
-		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "currenttime", "duration", "step", "timedivision" ];
@@ -130,6 +124,16 @@ class gsuiSlicer extends gsui0ne {
 				this.$elements.$step.firstChild.textContent = this.#convertStepToFrac( +val );
 				break;
 		}
+	}
+	$onresize() {
+		const svg = this.$elements.$diagonalLine;
+		const w = svg.clientWidth;
+		const h = svg.clientHeight;
+
+		GSUsetAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetAttribute( svg.firstChild, "x2", w );
+		GSUsetAttribute( svg.firstChild, "y2", h );
+		this.#updatePxPerBeat();
 	}
 
 	// .........................................................................
@@ -284,16 +288,6 @@ class gsuiSlicer extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onresize() {
-		const svg = this.$elements.$diagonalLine;
-		const w = svg.clientWidth;
-		const h = svg.clientHeight;
-
-		GSUsetAttribute( svg, "viewBox", `0 0 ${ w } ${ h }` );
-		GSUsetAttribute( svg.firstChild, "x2", w );
-		GSUsetAttribute( svg.firstChild, "y2", h );
-		this.#updatePxPerBeat();
-	}
 	#onclickStep() {
 		const v = GSUgetAttributeNum( this, "step" );
 		const frac =
