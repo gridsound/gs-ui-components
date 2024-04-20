@@ -79,8 +79,7 @@ class gsuiDotline extends gsui0ne {
 				if ( dat ) {
 					this.#updateDotElement( id, diffDot.x ?? dat.x, diffDot.y ?? dat.y );
 				} else {
-					this.#createDotElement( id );
-					this.#updateDotElement( id, diffDot.x, diffDot.y );
+					this.#createDotElement( id, diffDot.x, diffDot.y );
 				}
 			}
 		} );
@@ -144,12 +143,11 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
-	#createDotElement( id ) {
-		const el = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
-
+	#createDotElement( id, x, y ) {
 		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
-		this.#dots[ id ] = el;
-		this.append( el );
+		this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
+		this.#updateDotElement( id, x, y );
+		this.append( this.#dots[ id ] );
 	}
 	#updateDotElement( id, x, y ) {
 		const dat = this.#data[ id ];
@@ -201,8 +199,7 @@ class gsuiDotline extends gsui0ne {
 					id = closest[ 0 ];
 				} else {
 					id = this.#getNextId();
-					this.#createDotElement( id );
-					this.#updateDotElement( id, x, this.#getPtrY( e ) );
+					this.#createDotElement( id, x, this.#getPtrY( e ) );
 					this.#drawPolyline();
 				}
 			}
