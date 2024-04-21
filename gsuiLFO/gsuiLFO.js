@@ -4,7 +4,6 @@ class gsuiLFO extends gsui0ne {
 	#dur = 4;
 	#waveWidth = 300;
 	#nyquist = 24000;
-	#onresizeBind = this.#onresize.bind( this );
 
 	constructor() {
 		super( {
@@ -52,12 +51,6 @@ class gsuiLFO extends gsui0ne {
 	$firstTimeConnected() {
 		this.$elements.$wave.$nbLines( 1 );
 		this.updateWave();
-	}
-	$connected() {
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	$disconnected() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
@@ -133,11 +126,10 @@ class gsuiLFO extends gsui0ne {
 	}
 	static #formatVal( prop, val ) {
 		return val.toFixed( 2 );
-		// return prop === "lowpassfreq" ? val : val.toFixed( 2 );
 	}
 
 	// .........................................................................
-	#onresize() {
+	$onresize() {
 		this.#waveWidth = this.$elements.$beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
 		this.$elements.$wave.$resized();
