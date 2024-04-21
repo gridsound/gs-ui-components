@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiFxDelay extends gsui0ne {
-	#onresizeBind = this.#onresize.bind( this );
 	#graphWidth = 0;
 	#nlDots = this.getElementsByClassName( "gsuiFxDelay-graph-echo" );
 
@@ -50,12 +49,6 @@ class gsuiFxDelay extends gsui0ne {
 		this.#updatePxPerBeat();
 		this.#updateGraph();
 	}
-	$connected() {
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	$disconnected() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
-	}
 	static get observedAttributes() {
 		return [ "timedivision", "time", "gain", "pan" ];
 	}
@@ -81,7 +74,7 @@ class gsuiFxDelay extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onresize() {
+	$onresize() {
 		this.#graphWidth = this.$elements.$beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
 	}
