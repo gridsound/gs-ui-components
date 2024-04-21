@@ -24,6 +24,9 @@ class gsuiScrollShadow {
 	}
 
 	// .........................................................................
+	$disconnected() {
+		GSUunobserveSizeOf( this.#scrolledElem, this.#onscrollBind );
+	}
 	static #initShadow( elems, dir ) {
 		elems.forEach( el => {
 			el.classList.add( "gsuiScrollShadow" );
