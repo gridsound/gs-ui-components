@@ -4,6 +4,7 @@ class gsuiTimewindow extends gsui0ne {
 	#pxPerBeat = 0;
 	#panelSize = 0;
 	#lineHeight = 0;
+	#scrollShadow = null;
 	#mousedownPageX = 0;
 	#mousedownPageY = 0;
 	#onmouseupExtendBind = this.#onmouseupExtend.bind( this );
@@ -97,7 +98,7 @@ class gsuiTimewindow extends gsui0ne {
 			this.$elements.panelDown.remove();
 			this.$elements.down.remove();
 		}
-		new gsuiScrollShadow( {
+		this.#scrollShadow = new gsuiScrollShadow( {
 			scrolledElem: this,
 			leftShadow: this.$elements.panel,
 			topShadow: [
@@ -105,6 +106,9 @@ class gsuiTimewindow extends gsui0ne {
 				this.querySelector( ".gsuiTimewindow-time" ),
 			],
 		} );
+	}
+	$disconnected() {
+		this.#scrollShadow.$disconnected();
 	}
 	static get observedAttributes() {
 		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop" ];
