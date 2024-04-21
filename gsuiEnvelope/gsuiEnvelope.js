@@ -3,7 +3,6 @@
 class gsuiEnvelope extends gsui0ne {
 	#dur = 4;
 	#waveWidth = 300;
-	#onresizeBind = this.#onresize.bind( this );
 
 	constructor() {
 		super( {
@@ -49,12 +48,6 @@ class gsuiEnvelope extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.updateWave();
-	}
-	$connected() {
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	$disconnected() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "toggle", "attack", "hold", "decay", "sustain", "release" ];
@@ -111,7 +104,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onresize() {
+	$onresize() {
 		this.#waveWidth = this.$elements.$beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
 		this.$elements.$graph.resized();
