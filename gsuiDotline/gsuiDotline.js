@@ -6,7 +6,6 @@ class gsuiDotline extends gsui0ne {
 	#dataSaved = null;
 	#dots = {};
 	#cdots = {};
-	#dotMovingInd = [];
 	#dotsMoving = [];
 	#svgW = 0;
 	#svgH = 0;
@@ -110,19 +109,31 @@ class gsuiDotline extends gsui0ne {
 		return arr.join( " " );
 	}
 	#drawPolyline() {
+		const cdots = { ...this.#cdots };
+
 		GSUsetAttribute( this.$elements.$path, "d",
 			gsuiDotline.#draw( this.#dataSorted, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
 		this.#dataSorted.reduce( ( prev, [ id, dot ] ) => {
 			if ( prev ) {
-				const cdot = this.#cdots[ id ];
 				const prevXp = this.#getPercX( prev.x );
 				const prevYp = this.#getPercY( prev.y );
+				let cdot = this.#cdots[ id ];
 
+				if ( !cdot ) {
+					cdot =
+					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
+					this.append( cdot );
+				}
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) / 2 + prevXp }%`;
 				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) / 2 + prevYp }%`;
+				delete cdots[ id ];
 			}
 			return dot;
 		}, null );
+		Object.entries( cdots ).forEach( d => {
+			d[ 1 ].remove();
+			delete this.#cdots[ d[ 0 ] ];
+		} );
 	}
 	#onchange() {
 		const diff = GSUdiffObjects( this.#dataSaved, this.#data );
@@ -151,54 +162,20 @@ class gsuiDotline extends gsui0ne {
 		this.#data[ id ] = Object.seal( { x: +x.toFixed( 7 ), y: +y.toFixed( 7 ) } );
 		this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
 		this.#sortDots();
-		this.#dotMovingInd = this.#dataSorted.findIndex( d => d[ 0 ] === id );
-		if ( this.#dotMovingInd > 0 ) {
-			this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
-		}
 		this.#updateDotElement( id, x, y );
-		if ( this.#dotMovingInd > 0 ) {
-			this.append( this.#cdots[ id ] );
-		}
 		this.append( this.#dots[ id ] );
 	}
 	#updateDotElement( id, x, y ) {
-		const dat = this.#data[ id ];
-		const dot = this.#dots[ id ];
-		const dotInd = this.#dataSorted.findIndex( d => d[ 0 ] === id );
-		const dotApercX = this.#getPercX( x );
-		const dotApercY = this.#getPercY( y );
-
-		dat.x = +x.toFixed( 7 );
-		dat.y = +y.toFixed( 7 );
-		dot.style.left = `${ dotApercX }%`;
-		dot.style.top = `${ dotApercY }%`;
+		this.#data[ id ].x = +x.toFixed( 7 );
+		this.#data[ id ].y = +y.toFixed( 7 );
+		this.#dots[ id ].style.left = `${ this.#getPercX( x ) }%`;
+		this.#dots[ id ].style.top = `${ this.#getPercY( y ) }%`;
 	}
 	#deleteDotElement( id ) {
-		const dotInd = this.#dataSorted.findIndex( d => d[ 0 ] === id );
-		const dotPrev = this.#dataSorted[ dotInd - 1 ];
-		const dotNext = this.#dataSorted[ dotInd + 1 ];
-
 		this.#dots[ id ].remove();
-		this.#cdots[ id ]?.remove();
 		delete this.#data[ id ];
 		delete this.#dots[ id ];
-		delete this.#cdots[ id ];
 		this.#sortDots();
-		if ( !dotPrev ) {
-			if ( dotNext ) {
-				this.#cdots[ dotNext[ 0 ] ].remove();
-				delete this.#cdots[ dotNext[ 0 ] ];
-			}
-		} else if ( dotNext ) {
-			const crvDot = this.#cdots[ dotNext[ 0 ] ];
-			const dotApercX = this.#getPercX( dotPrev[ 1 ].x );
-			const dotApercY = this.#getPercY( dotPrev[ 1 ].y );
-			const dotBpercX = this.#getPercX( dotNext[ 1 ].x );
-			const dotBpercY = this.#getPercY( dotNext[ 1 ].y );
-
-			crvDot.style.left = `${ ( dotBpercX - dotApercX ) / 2 + dotApercX }%`;
-			crvDot.style.top  = `${ ( dotBpercY - dotApercY ) / 2 + dotApercY }%`;
-		}
 	}
 	#sortDots() {
 		this.#dataSorted = Object.entries( this.#data ).sort( ( a, b ) => a[ 1 ].x - b[ 1 ].x );
