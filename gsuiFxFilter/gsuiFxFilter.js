@@ -4,7 +4,6 @@ class gsuiFxFilter extends gsui0ne {
 	$askData = GSUnoop;
 	#nyquist = 24000;
 	#currType = "lowpass";
-	#onresizeBind = this.#onresize.bind( this );
 	#fnValue = {
 		Q: a => a,
 		gain: a => a,
@@ -58,12 +57,8 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	$connected() {
-		this.#onresize();
+		this.$onresize();
 		this.$updateWave();
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	$disconnected() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
 	}
 	static get observedAttributes() {
 		return [ "type", "frequency", "q", "gain", "detune" ];
@@ -114,7 +109,7 @@ class gsuiFxFilter extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onresize() {
+	$onresize() {
 		this.$elements.$curves.$resized();
 	}
 	#oninputProp( prop, val ) {
