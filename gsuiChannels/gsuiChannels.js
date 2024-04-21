@@ -9,7 +9,6 @@ class gsuiChannels extends gsui0ne {
 	#chanSelected = null;
 	#analyserW = 10;
 	#analyserH = 50;
-	#onresizeBind = this.#onresize.bind( this );
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
 	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" );
 
@@ -50,15 +49,7 @@ class gsuiChannels extends gsui0ne {
 	}
 
 	// .........................................................................
-	$connected() {
-		GSUobserveSizeOf( this, this.#onresizeBind );
-	}
-	$disconnected() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
-	}
-
-	// .........................................................................
-	#onresize() {
+	$onresize() {
 		const chans = Object.values( this.#chans );
 
 		if ( chans.length ) {
