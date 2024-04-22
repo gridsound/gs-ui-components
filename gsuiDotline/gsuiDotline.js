@@ -6,6 +6,7 @@ class gsuiDotline extends gsui0ne {
 	#dataSaved = null;
 	#dots = {};
 	#cdots = {};
+	#dotsOpt = {};
 	#dotsMoving = [];
 	#svgW = 0;
 	#svgH = 0;
@@ -93,6 +94,9 @@ class gsuiDotline extends gsui0ne {
 
 		return new Float32Array( arr );
 	}
+	$setDotOptions( id, opts ) {
+		this.#dotsOpt[ id ] ||= { ...opts };
+	}
 
 	// .........................................................................
 	static #draw( dataSorted, svgW, svgH, w, h, xmin, ymin ) {
@@ -159,24 +163,35 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
-	#createDotElement( id, x, y ) {
-		this.#data[ id ] = Object.seal( { x: +x.toFixed( 7 ), y: +y.toFixed( 7 ) } );
+	#createDotElement( id, x, y, byMouse ) {
+		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
 		this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
+		this.#updateDotElement( id, x, y, byMouse );
+		this.$elements.$root.append( this.#dots[ id ] );
 		this.#sortDots();
-		this.#updateDotElement( id, x, y );
-		this.append( this.#dots[ id ] );
 	}
-	#updateDotElement( id, x, y ) {
-		this.#data[ id ].x = +x.toFixed( 7 );
-		this.#data[ id ].y = +y.toFixed( 7 );
-		this.#dots[ id ].style.left = `${ this.#getPercX( x ) }%`;
-		this.#dots[ id ].style.top = `${ this.#getPercY( y ) }%`;
+	#updateDotElement( id, x, y, byMouse ) {
+		const opt = this.#dotsOpt[ id ];
+
+		if ( !byMouse || !opt?.freezeX ) {
+			this.#data[ id ].x = +x.toFixed( 7 );
+			this.#dots[ id ].style.left = `${ this.#getPercX( x ) }%`;
+		}
+		if ( !byMouse || !opt?.freezeY ) {
+			this.#data[ id ].y = +y.toFixed( 7 );
+			this.#dots[ id ].style.top = `${ this.#getPercY( y ) }%`;
+		}
 	}
 	#deleteDotElement( id ) {
-		this.#dots[ id ].remove();
-		delete this.#data[ id ];
-		delete this.#dots[ id ];
-		this.#sortDots();
+		const opt = this.#dotsOpt[ id ];
+
+		if ( opt?.deletable !== false ) {
+			this.#dots[ id ].remove();
+			delete this.#data[ id ];
+			delete this.#dots[ id ];
+			delete this.#dotsOpt[ id ];
+			this.#sortDots();
+		}
 	}
 	#sortDots() {
 		this.#dataSorted = Object.entries( this.#data ).sort( ( a, b ) => a[ 1 ].x - b[ 1 ].x );
@@ -220,7 +235,7 @@ class gsuiDotline extends gsui0ne {
 					id = closest[ 0 ];
 				} else {
 					id = `${ 1 + this.#dataSorted.reduce( ( max, [ id ] ) => Math.max( max, id ), 0 ) }`;
-					this.#createDotElement( id, x, this.#getPtrY( e ) );
+					this.#createDotElement( id, x, this.#getPtrY( e ), true );
 					this.#drawPolyline();
 				}
 			}
@@ -310,7 +325,7 @@ class gsuiDotline extends gsui0ne {
 			incX = Math.round( incX / xstep ) * xstep;
 			incY = Math.round( incY / ystep ) * ystep;
 			this.#dotsMoving.forEach( d => {
-				this.#updateDotElement( d.id, d.x + incX, d.y + incY );
+				this.#updateDotElement( d.id, d.x + incX, d.y + incY, true );
 			} );
 			this.#drawPolyline();
 		}

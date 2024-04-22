@@ -82,15 +82,19 @@ GSUlistenEvents( line, {
 document.querySelector( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep", e.target.value );
 document.querySelector( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
 document.querySelector( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
+
+line.$setDotOptions( '1', { freezeX: true, deletable: false } );
+line.$setDotOptions( '2', { freezeX: true, deletable: false } );
+
 line.$change( {
 	/**/
 	1: { x:  10, y:  20 },
 	2: { x: 150, y: 100 },
 	/**/
 	/** /
-	1: { x: 20, y: 10 },
-	2: { x: 50, y: 90 },
-	3: { x: 90, y: 10 },
+	1: { x:  20, y: 10 },
+	2: { x:  50, y: 90 },
+	3: { x:  90, y: 10 },
 	4: { x: 120, y: 50 },
 	/**/
 } );
