@@ -29,6 +29,7 @@ class gsuiDotline extends gsui0ne {
 			$cmpName: "gsuiDotline",
 			$tagName: "gsui-dotline",
 			$elements: {
+				$root: ".gsuiDotline-padding",
 				$svg: "svg",
 				$path: "path",
 			},
@@ -120,7 +121,7 @@ class gsuiDotline extends gsui0ne {
 				if ( !cdot ) {
 					cdot =
 					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
-					this.append( cdot );
+					this.$elements.$root.append( cdot );
 				}
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) / 2 + prevXp }%`;
 				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) / 2 + prevYp }%`;
@@ -142,15 +143,17 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
+	#getW() { return this.$elements.$root.clientWidth; }
+	#getH() { return this.$elements.$root.clientHeight; }
 	#getPtrX( e ) {
 		const step = GSUgetAttributeNum( this, "xstep" );
-		const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
+		const x = e.offsetX / this.#getW() * this.#w + this.#xmin;
 
 		return Math.round( x / step ) * step;
 	}
 	#getPtrY( e ) {
 		const step = GSUgetAttributeNum( this, "ystep" );
-		const y = this.#h - e.offsetY / this.clientHeight * this.#h + this.#ymin;
+		const y = this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin;
 
 		return Math.round( y / step ) * step;
 	}
@@ -288,8 +291,8 @@ class gsuiDotline extends gsui0ne {
 	}
 	#onpointermoveDot( e ) {
 		if ( this.#mousebtn === 2 ) {
-			const x = e.offsetX / this.clientWidth * this.#w + this.#xmin;
-			const y = this.#h - ( e.offsetY / this.clientHeight * this.#h + this.#ymin );
+			const x = e.offsetX / this.#getW() * this.#w + this.#xmin;
+			const y = this.#h - ( e.offsetY / this.#getH() * this.#h + this.#ymin );
 			const dat = this.#dataSorted.find( d => Math.abs( x - d[ 1 ].x ) < 3 );
 
 			if ( dat ) {
@@ -299,8 +302,8 @@ class gsuiDotline extends gsui0ne {
 		} else if ( this.#mousebtn === 0 ) {
 			const xstep = GSUgetAttributeNum( this, "xstep" );
 			const ystep = GSUgetAttributeNum( this, "ystep" );
-			let incX = this.#w / this.clientWidth * ( e.pageX - this.#pageX );
-			let incY = this.#h / this.clientHeight * -( e.pageY - this.#pageY );
+			let incX = this.#w / this.#getW() * ( e.pageX - this.#pageX );
+			let incY = this.#h / this.#getH() * -( e.pageY - this.#pageY );
 
 			incX = Math.max( this.#dotMinX, Math.min( incX, this.#dotMaxX ) );
 			incY = Math.max( this.#dotMinY, Math.min( incY, this.#dotMaxY ) );
