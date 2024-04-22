@@ -86,7 +86,7 @@ class gsuiDotline extends gsui0ne {
 		} );
 		this.#drawPolyline();
 	}
-	$getPoints( nb ) { // nb > 1
+	$getCurveData( nb ) { // nb > 1
 		const p = this.$elements.$path;
 		const pLen = p.getTotalLength();
 		const arr = GSUnewArray( nb, i => this.#ymin + this.#h * ( 1 - p.getPointAtLength( i / ( nb - 1 ) * pLen ).y / this.#svgH ) );
