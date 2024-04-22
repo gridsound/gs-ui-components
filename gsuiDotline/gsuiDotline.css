@@ -56,5 +56,6 @@ gsui-dotline path {
 }
 .gsuiDotline-cdot {
 	--w: calc( var( --gsuiDotline-dotSize ) - 2px );
+	display: none;
 	border-width: 1px;
 }
