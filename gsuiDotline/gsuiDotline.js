@@ -87,6 +87,9 @@ class gsuiDotline extends gsui0ne {
 		} );
 		this.#drawPolyline();
 	}
+	$getData() {
+		return this.#data;
+	}
 	$getCurveData( nb ) { // nb > 1
 		const p = this.$elements.$path;
 		const pLen = p.getTotalLength();
