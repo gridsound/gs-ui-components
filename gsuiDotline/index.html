@@ -83,8 +83,8 @@ document.querySelector( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep
 document.querySelector( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
 document.querySelector( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
 
-line.$setDotOptions( '1', { freezeX: true, deletable: false } );
-line.$setDotOptions( '2', { freezeX: true, deletable: false } );
+line.$setDotOptions( "1", { freezeX: true, deletable: false } );
+line.$setDotOptions( "2", { freezeX: true, deletable: false } );
 
 line.$change( {
 	/**/

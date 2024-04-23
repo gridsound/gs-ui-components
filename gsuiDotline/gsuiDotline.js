@@ -305,18 +305,19 @@ class gsuiDotline extends gsui0ne {
 		this.#onchange();
 	}
 	#onpointermoveDot( e ) {
+		const xstep = GSUgetAttributeNum( this, "xstep" );
+		const ystep = GSUgetAttributeNum( this, "ystep" );
+
 		if ( this.#mousebtn === 2 ) {
 			const x = e.offsetX / this.#getW() * this.#w + this.#xmin;
 			const y = this.#h - ( e.offsetY / this.#getH() * this.#h + this.#ymin );
-			const dat = this.#dataSorted.find( d => Math.abs( x - d[ 1 ].x ) < 3 );
+			const dat = this.#dataSorted.find( d => Math.abs( x - d[ 1 ].x ) < xstep );
 
 			if ( dat ) {
 				this.#deleteDotElement( dat[ 0 ] );
 				this.#drawPolyline();
 			}
 		} else if ( this.#mousebtn === 0 ) {
-			const xstep = GSUgetAttributeNum( this, "xstep" );
-			const ystep = GSUgetAttributeNum( this, "ystep" );
 			let incX = this.#w / this.#getW() * ( e.pageX - this.#pageX );
 			let incY = this.#h / this.#getH() * -( e.pageY - this.#pageY );
 
