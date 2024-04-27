@@ -181,11 +181,17 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#createDotElement( id, x, y, byMouse ) {
-		this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
-		this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
-		this.#updateDotElement( id, x, y, byMouse );
-		this.$elements.$root.append( this.#dots[ id ] );
-		this.#sortDots();
+		if ( !byMouse || (
+			this.#xmin <= x && x <= this.#xmax &&
+			this.#ymin <= y && y <= this.#ymax
+		) ) {
+			this.#data[ id ] = Object.seal( { x: 0, y: 0 } );
+			this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
+			this.#updateDotElement( id, x, y, byMouse );
+			this.$elements.$root.append( this.#dots[ id ] );
+			this.#sortDots();
+			return id;
+		}
 	}
 	#updateDotElement( id, x, y, byMouse ) {
 		const opt = this.#dotsOpt[ id ];
@@ -252,13 +258,17 @@ class gsuiDotline extends gsui0ne {
 					id = closest[ 0 ];
 				} else {
 					id = `${ 1 + this.#dataSorted.reduce( ( max, [ id ] ) => Math.max( max, id ), 0 ) }`;
-					this.#createDotElement( id, x, this.#getPtrY( e ), true );
-					this.#drawPolyline();
+					id = this.#createDotElement( id, x, this.#getPtrY( e ), true );
+					if ( id ) {
+						this.#drawPolyline();
+					}
 				}
 			}
-			isDot
-				? this.#onpointerdownDot( id, xstep )
-				: this.#onpointerdownCurveDot( id, xstep );
+			if ( id ) {
+				isDot
+					? this.#onpointerdownDot( id, xstep )
+					: this.#onpointerdownCurveDot( id, xstep );
+			}
 		}
 	}
 	#onpointerdownDot( id, xstep ) {
