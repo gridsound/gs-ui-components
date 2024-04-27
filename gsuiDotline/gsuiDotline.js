@@ -87,18 +87,32 @@ class gsuiDotline extends gsui0ne {
 		} );
 		this.#drawPolyline();
 	}
+	$setDotOptions( id, opts ) {
+		this.#dotsOpt[ id ] ||= { ...opts };
+	}
 	$getData() {
 		return this.#data;
 	}
 	$getCurveData( nb ) { // nb > 1
 		const p = this.$elements.$path;
+		const xstep = this.#svgW / ( nb - 1 );
 		const pLen = p.getTotalLength();
-		const arr = GSUnewArray( nb, i => this.#ymin + this.#h * ( 1 - p.getPointAtLength( i / ( nb - 1 ) * pLen ).y / this.#svgH ) );
+		const pStep = pLen / 1000;
+		const arr = [];
+		let pt = null;
+		let i = 0;
 
+		for ( let pi = 0; pi < pLen; pi += pStep ) {
+			pt = p.getPointAtLength( pi );
+			if ( pt.x >= i * xstep ) {
+				arr.push( this.#ymin + this.#h * ( 1 - pt.y / this.#svgH ) );
+				++i;
+			}
+		}
+		if ( arr.length < nb && pt ) {
+			arr.push( this.#ymin + this.#h * ( 1 - pt.y / this.#svgH ) );
+		}
 		return new Float32Array( arr );
-	}
-	$setDotOptions( id, opts ) {
-		this.#dotsOpt[ id ] ||= { ...opts };
 	}
 
 	// .........................................................................
