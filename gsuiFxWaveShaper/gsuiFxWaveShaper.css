@@ -1,0 +1,104 @@
+gsui-fx-waveshaper {
+	display: block;
+	height: 100%;
+	container: gsuiFxWaveshaper / size;
+}
+
+/* .......................................................................... */
+.gsuiFxWaveShaper-in {
+	box-sizing: border-box;
+	display: flex;
+	height: 100%;
+	gap: 8px;
+	padding: 8px;
+}
+.gsuiFxWaveShaper-side-graph {
+	flex: 2;
+}
+.gsuiFxWaveShaper-side-waves {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
+}
+
+/* .......................................................................... */
+.gsuiFxWaveShaper-graph {
+	position: relative;
+	height: 100%;
+}
+.gsuiFxWaveShaper-graph::after {
+	content: "";
+	position: absolute;
+	z-index: 1;
+	inset: 0;
+	pointer-events: none;
+	box-shadow: inset 0 0 50px #0009;
+	border-radius: 6px;
+}
+.gsuiFxWaveShaper-graph gsui-dotline {
+	box-sizing: border-box;
+	border: 2px solid #0004;
+	border-radius: 6px;
+	background-color: #242f48;
+}
+.gsuiFxWaveShaper-graph-diag {
+	position: absolute;
+	z-index: 1;
+	top: 4px;
+	left: 4px;
+	width: calc( 100% - 8px );
+	height: calc( 100% - 8px );
+	opacity: .2;
+	pointer-events: none;
+}
+.gsuiFxWaveShaper-graph-diag line {
+	stroke: currentColor;
+	stroke-width: 2px;
+	stroke-dasharray: 10 5;
+}
+.gsuiFxWaveShaper-graph-x,
+.gsuiFxWaveShaper-graph-y {
+	position: absolute;
+	z-index: 1;
+	background-color: #fff1;
+}
+.gsuiFxWaveShaper-graph-x {
+	top: 50%;
+	width: 100%;
+	height: 1px;
+}
+.gsuiFxWaveShaper-graph-y {
+	left: 50%;
+	width: 1px;
+	height: 100%;
+}
+
+/* .......................................................................... */
+.gsuiFxWaveShaper-waves-title {
+	display: none;
+	font-weight: 600;
+	font-size: 11px;
+	opacity: .2;
+}
+.gsuiFxWaveShaper-waves {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+	fill: none;
+	stroke: #fff;
+	stroke-width: 2px;
+	background-color: #0004;
+	transform: scaleY( -1 );
+}
+.gsuiFxWaveShaper-waveA {
+	opacity: .1;
+}
+
+/* .......................................................................... */
+@container gsuiFxWaveshaper ( aspect-ratio < 1 ) {
+	.gsuiFxWaveShaper-in {
+		flex-direction: column;
+	}
+}

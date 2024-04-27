@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiDotline/gsuiDotline.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiFxWaveShaper/gsuiFxWaveShaper.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 460px;
+	--test-content-h: 240px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-fx-waveshaper></gsui-fx-waveshaper>
+</div>
+<div id="TEST-CTRLS">
+	<button id="btnReset" type="button">reset</button>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
+<script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
+<script src="/gs-ui-components/gs-utils/gs-utils-json.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiDotline/gsuiDotline.html.js"></script>
+<script src="/gs-ui-components/gsuiDotline/gsuiDotline.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiFxWaveShaper/gsuiFxWaveShaper.html.js"></script>
+<script src="/gs-ui-components/gsuiFxWaveShaper/gsuiFxWaveShaper.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const fx = document.querySelector( "gsui-fx-waveshaper" );
+
+document.querySelector( "#btnReset" ).onclick = () => fx.$reset();
+
+GSUlistenEvents( this, {
+	gsuiFxWaveShaper: {
+		changeProp: d => fx.$changeCurveData( d.args[ 1 ] ),
+	}
+} );
+</script>
+</body>
+</html>

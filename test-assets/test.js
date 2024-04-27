@@ -26,6 +26,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiEnvelope" } ),
 					GSUcreateOption( { value: "gsuiFxDelay" } ),
 					GSUcreateOption( { value: "gsuiFxFilter" } ),
+					GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
 					GSUcreateOption( { value: "gsuiKeys" } ),
 					GSUcreateOption( { value: "gsuiLFO" } ),
 					GSUcreateOption( { value: "gsuiLibrary" } ),
