@@ -245,6 +245,7 @@ class gsuiDotline extends gsui0ne {
 			if ( isDot && id ) {
 				this.#deleteDotElement( id );
 				this.#drawPolyline();
+				this.$dispatch( "input" );
 			}
 		} else if ( e.button === 0 ) {
 			const xstep = GSUgetAttributeNum( this, "xstep" );
@@ -261,6 +262,7 @@ class gsuiDotline extends gsui0ne {
 					id = this.#createDotElement( id, x, this.#getPtrY( e ), true );
 					if ( id ) {
 						this.#drawPolyline();
+						this.$dispatch( "input" );
 					}
 				}
 			}
@@ -343,6 +345,7 @@ class gsuiDotline extends gsui0ne {
 			if ( dat ) {
 				this.#deleteDotElement( dat[ 0 ] );
 				this.#drawPolyline();
+				this.$dispatch( "input" );
 			}
 		} else if ( this.#mousebtn === 0 ) {
 			let incX = this.#w / this.#getW() * ( e.pageX - this.#pageX );
@@ -356,6 +359,7 @@ class gsuiDotline extends gsui0ne {
 				this.#updateDotElement( d.id, d.x + incX, d.y + incY, true );
 			} );
 			this.#drawPolyline();
+			this.$dispatch( "input" );
 		}
 	}
 }
