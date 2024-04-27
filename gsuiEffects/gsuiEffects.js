@@ -6,6 +6,7 @@ class gsuiEffects extends gsui0ne {
 	static #fxsMap = Object.freeze( {
 		delay: { cmp: "gsui-fx-delay", name: "Delay", height: 140 },
 		filter: { cmp: "gsui-fx-filter", name: "Filter", height: 160 },
+		waveshaper: { cmp: "gsui-fx-waveshaper", name: "WaveShaper", height: 160 },
 	} );
 
 	constructor() {
