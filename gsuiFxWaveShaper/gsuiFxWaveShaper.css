@@ -89,6 +89,7 @@ gsui-fx-waveshaper {
 	fill: none;
 	stroke: #fff;
 	stroke-width: 2px;
+	stroke-linejoin: round;
 	background-color: #0004;
 	transform: scaleY( -1 );
 }
