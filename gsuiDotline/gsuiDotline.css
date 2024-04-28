@@ -10,6 +10,7 @@ gsui-dotline {
 	position: relative;
 	stroke: currentColor;
 	stroke-width: 2px;
+	touch-action: none;
 }
 
 /* .......................................................................... */
