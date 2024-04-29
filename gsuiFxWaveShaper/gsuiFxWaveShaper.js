@@ -84,7 +84,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 	}
 	#updateWaveB() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
-		const graphData = this.$elements.$dotline.$getCurveData( len );
+		const graphData = this.$elements.$dotline.$getCurveFloat32( len );
 		const w = this.$elements.$waves.clientWidth;
 		const h = this.$elements.$waves.clientHeight;
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( graphData[ Math.round( ( ( y + 1 ) / 2 ) * ( len - 1 ) ) ] || 0 ) }` );
