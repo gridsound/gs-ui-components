@@ -31,8 +31,7 @@ class gsuiDotline extends gsui0ne {
 			$tagName: "gsui-dotline",
 			$elements: {
 				$root: ".gsuiDotline-padding",
-				$svg: "svg",
-				$path: "path",
+				$svg: "gsui-dotlinesvg",
 			},
 			$attributes: {
 				viewbox: "0 0 100 100",
@@ -60,13 +59,12 @@ class gsuiDotline extends gsui0ne {
 				this.#ymax = +v[ 3 ];
 				this.#w = this.#xmax - this.#xmin;
 				this.#h = this.#ymax - this.#ymin;
+				this.$elements.$svg.$setDataBox( val );
 			} break;
 		}
 	}
 	$onresize( w, h ) {
-		this.#svgW = w;
-		this.#svgH = h;
-		GSUsetAttribute( this.$elements.$svg, "viewBox", `0 0 ${ w } ${ h }` );
+		this.$elements.$svg.$setSVGSize( w, h );
 		this.#drawPolyline();
 	}
 
@@ -93,46 +91,15 @@ class gsuiDotline extends gsui0ne {
 	$getData() {
 		return this.#data;
 	}
-	$getCurveData( nb ) { // nb > 1
-		const p = this.$elements.$path;
-		const xstep = this.#svgW / ( nb - 1 );
-		const pLen = p.getTotalLength();
-		const pStep = pLen / 1000;
-		const arr = [];
-		let pt = null;
-		let i = 0;
-
-		for ( let pi = 0; pi < pLen; pi += pStep ) {
-			pt = p.getPointAtLength( pi );
-			if ( pt.x >= i * xstep ) {
-				arr.push( this.#ymin + this.#h * ( 1 - pt.y / this.#svgH ) );
-				++i;
-			}
-		}
-		if ( arr.length < nb && pt ) {
-			arr.push( this.#ymin + this.#h * ( 1 - pt.y / this.#svgH ) );
-		}
-		return new Float32Array( arr );
+	$getCurveFloat32( nb ) {
+		return this.$elements.$svg.$getCurveFloat32( nb );
 	}
 
 	// .........................................................................
-	static #draw( dataSorted, svgW, svgH, w, h, xmin, ymin ) {
-		const arr = [];
-
-		dataSorted.forEach( ( [ id, dot ], i ) => {
-			arr.push(
-				!i ? "M" : "L",
-				GSUroundNum( ( dot.x - xmin ) / w * svgW, 3 ),
-				GSUroundNum( svgH - ( dot.y - ymin ) / h * svgH, 3 ),
-			);
-		} );
-		return arr.join( " " );
-	}
 	#drawPolyline() {
 		const cdots = { ...this.#cdots };
 
-		GSUsetAttribute( this.$elements.$path, "d",
-			gsuiDotline.#draw( this.#dataSorted, this.#svgW, this.#svgH, this.#w, this.#h, this.#xmin, this.#ymin ) );
+		this.$elements.$svg.$setCurve( this.#data );
 		this.#dataSorted.reduce( ( prev, [ id, dot ] ) => {
 			if ( prev ) {
 				const prevXp = this.#getPercX( prev.x );
