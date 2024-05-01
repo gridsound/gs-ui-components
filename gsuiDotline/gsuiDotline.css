@@ -16,6 +16,7 @@ gsui-dotline {
 /* .......................................................................... */
 .gsuiDotline-padding {
 	position: absolute;
+	z-index: 0;
 	inset: calc( var( --gsuiDotline-dotSize ) / 2 );
 }
 
