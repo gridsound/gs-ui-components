@@ -1,16 +1,52 @@
 gsui-fx-waveshaper {
-	display: block;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 	height: 100%;
+	padding: 8px;
 	container: gsuiFxWaveshaper / size;
 }
 
 /* .......................................................................... */
+.gsuiFxWaveShaper-params {
+	display: flex;
+	align-items: center;
+	font-size: 10px;
+}
+.gsuiFxWaveShaper-oversample {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample {
+	color: #fff8;
+}
+
+.gsuiFxWaveShaper-oversample select {
+	margin: 0;
+	outline: 0;
+	padding: 0 6px;
+	cursor: pointer;
+	border: 1px solid #111;
+	border-radius: 3px;
+	color: inherit;
+	background-color: #0005;
+	-webkit-appearance: none;
+}
+.gsuiFxWaveShaper-oversample option {
+	background-color: #333;
+}
+.gsuiFxWaveShaper-oversample select:hover,
+.gsuiFxWaveShaper-oversample select:focus {
+	background-color: #0002;
+}
+
+/* .......................................................................... */
 .gsuiFxWaveShaper-in {
-	box-sizing: border-box;
 	display: flex;
 	height: 100%;
-	gap: 8px;
-	padding: 8px;
+	gap: inherit;
 }
 .gsuiFxWaveShaper-side-graph {
 	flex: 2;
@@ -74,12 +110,6 @@ gsui-fx-waveshaper {
 }
 
 /* .......................................................................... */
-.gsuiFxWaveShaper-waves-title {
-	display: none;
-	font-weight: 600;
-	font-size: 11px;
-	opacity: .2;
-}
 .gsuiFxWaveShaper-waves {
 	position: absolute;
 	width: 100%;

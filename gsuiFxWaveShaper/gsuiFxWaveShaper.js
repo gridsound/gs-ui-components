@@ -11,13 +11,17 @@ class gsuiFxWaveShaper extends gsui0ne {
 			$cmpName: "gsuiFxWaveShaper",
 			$tagName: "gsui-fx-waveshaper",
 			$elements: {
+				$oversampleSelect: ".gsuiFxWaveShaper-oversample select",
+				$oversampleToggle: ".gsuiFxWaveShaper-oversample gsui-toggle",
 				$svgDiag: ".gsuiFxWaveShaper-graph-diag",
 				$dotline: "gsui-dotline",
 				$waves: ".gsuiFxWaveShaper-waves",
 				$waveA: ".gsuiFxWaveShaper-waveA",
 				$waveB: ".gsuiFxWaveShaper-waveB",
 			},
-			$attributes: {},
+			$attributes: {
+				oversample: "none",
+			},
 		} );
 		Object.seal( this );
 		this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
@@ -27,15 +31,33 @@ class gsuiFxWaveShaper extends gsui0ne {
 			1: { x:  1, y:  1 },
 			2: { x:  0, y:  0 },
 		} );
+		this.$elements.$oversampleSelect.onchange = e => {
+			if ( this.$elements.$oversampleToggle.$isOn() ) {
+				this.#onchangeOversample();
+			}
+		};
 		GSUlistenEvents( this, {
 			gsuiDotline: {
 				change: d => this.$dispatch( "changeProp", "curve", d.args[ 0 ] ),
 				input: () => this.#updateWaveB(),
-			}
+			},
+			gsuiToggle: {
+				toggle: () => this.#onchangeOversample(),
+			},
 		} );
 	}
 
 	// .........................................................................
+	static get observedAttributes() {
+		return [ "oversample" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "oversample":
+				GSUsetAttribute( this.$elements.$oversampleToggle, "off", val === "none" );
+				break;
+		}
+	}
 	$onresize() {
 		const svg = this.$elements.$svgDiag;
 		const w = svg.clientWidth;
@@ -72,6 +94,13 @@ class gsuiFxWaveShaper extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onchangeOversample() {
+		const val = this.$elements.$oversampleToggle.$isOn()
+			? this.$elements.$oversampleSelect.value
+			: "none";
+
+		this.$dispatch( "changeProp", "oversample", val );
+	}
 	#updateWaveA() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
 		const svg = this.$elements.$waves;

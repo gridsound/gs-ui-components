@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
 <link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiToggle/gsuiToggle.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiDotline/gsuiDotline.css"/>
 
 <!-- ....................................................................... -->
@@ -45,6 +46,7 @@ body {
 <script src="/gs-ui-components/gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
 <script src="/gs-ui-components/gsuiDotline/gsuiDotline.html.js"></script>
 <script src="/gs-ui-components/gsuiDotline/gsuiDotline.js"></script>
+<script src="/gs-ui-components/gsuiToggle/gsuiToggle.js"></script>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsuiFxWaveShaper/gsuiFxWaveShaper.html.js"></script>
@@ -58,7 +60,16 @@ document.querySelector( "#btnReset" ).onclick = () => fx.$reset();
 
 GSUlistenEvents( this, {
 	gsuiFxWaveShaper: {
-		changeProp: d => fx.$changeCurveData( d.args[ 1 ] ),
+		changeProp: d => {
+			switch ( d.args[ 0 ] ) {
+				case "curve":
+					fx.$changeCurveData( d.args[ 1 ] );
+					break;
+				case "oversample":
+					GSUsetAttribute( fx, "oversample", d.args[ 1 ] );
+					break;
+			}
+		},
 	}
 } );
 </script>

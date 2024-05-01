@@ -1,6 +1,16 @@
 "use strict";
 
-GSUsetTemplate( "gsui-fx-waveshaper", () => (
+GSUsetTemplate( "gsui-fx-waveshaper", () => [
+	GSUcreateDiv( { class: "gsuiFxWaveShaper-params" },
+		GSUcreateDiv( { class: "gsuiFxWaveShaper-oversample" },
+			GSUcreateElement( "gsui-toggle", { off: true } ),
+			GSUcreateSpan( null, "oversample" ),
+			GSUcreateSelect( null,
+				GSUcreateOption( { value: "2x" } ),
+				GSUcreateOption( { value: "4x" } ),
+			),
+		),
+	),
 	GSUcreateDiv( { class: "gsuiFxWaveShaper-in" },
 		GSUcreateDiv( { class: "gsuiFxWaveShaper-side-graph" },
 			GSUcreateDiv( { class: "gsuiFxWaveShaper-graph" },
@@ -13,11 +23,10 @@ GSUsetTemplate( "gsui-fx-waveshaper", () => (
 			),
 		),
 		GSUcreateDiv( { class: "gsuiFxWaveShaper-side-waves" },
-			GSUcreateSpan( { class: "gsuiFxWaveShaper-waves-title" }, "visualisation" ),
 			GSUcreateElementSVG( "svg", { class: "gsuiFxWaveShaper-waves", preserveAspectRatio: "none", inert: true },
 				GSUcreateElementSVG( "polyline", { class: "gsuiFxWaveShaper-waveA" } ),
 				GSUcreateElementSVG( "polyline", { class: "gsuiFxWaveShaper-waveB" } ),
 			),
 		),
-	)
-) );
+	),
+] );
