@@ -20,6 +20,9 @@ class gsuiToggle extends gsui0ne {
 			}
 		};
 	}
+	$isOn() {
+		return !GSUhasAttribute( this, "off" );
+	}
 }
 
 Object.freeze( gsuiToggle );
