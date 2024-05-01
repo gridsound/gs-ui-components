@@ -61,10 +61,13 @@ class gsuiFxFilter extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "type", "frequency", "q", "gain", "detune" ];
+		return [ "type", "frequency", "q", "gain", "detune", "off" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "off":
+				setTimeout( () => this.$updateWave(), 150 );
+				break;
 			case "type": {
 				const gainQ = gsuiFxFilter.typeGainQ[ val ];
 
@@ -88,10 +91,6 @@ class gsuiFxFilter extends gsui0ne {
 	}
 
 	// .........................................................................
-	$toggle( b ) {
-		this.classList.toggle( "gsuiFxFilter-enable", b );
-		setTimeout( () => this.$updateWave(), 150 );
-	}
 	$updateWave() {
 		if ( this.$isConnected ) {
 			const curve = this.$askData( "curve", this.$elements.$curves.$getWidth() );

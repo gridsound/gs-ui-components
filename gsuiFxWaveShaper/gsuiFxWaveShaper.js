@@ -76,7 +76,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 		this.#updateWaveA();
 		this.#updateWaveB();
 	}
-	$toggle() {}
 
 	// .........................................................................
 	$changeCurveData( diff ) {

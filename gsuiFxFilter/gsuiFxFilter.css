@@ -74,7 +74,7 @@ gsui-fx-filter .gsuiCurves-curve {
 	color: currentColor;
 	opacity: .25;
 }
-.gsuiFxFilter-enable .gsuiCurves-curve {
+gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
 	color: var( --gsuiFxFilter-frequency );
 	opacity: 1;
 }
