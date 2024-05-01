@@ -50,7 +50,6 @@ gsui-fx-waveshaper {
 	width: calc( 100% - 8px );
 	height: calc( 100% - 8px );
 	opacity: .2;
-	pointer-events: none;
 }
 .gsuiFxWaveShaper-graph-diag line {
 	stroke: currentColor;
