@@ -13,6 +13,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			$elements: {
 				$oversampleSelect: ".gsuiFxWaveShaper-oversample select",
 				$oversampleToggle: ".gsuiFxWaveShaper-oversample gsui-toggle",
+				$reset: ".gsuiFxWaveShaper-reset",
 				$svgDiag: ".gsuiFxWaveShaper-graph-diag",
 				$dotline: "gsui-dotline",
 				$waves: ".gsuiFxWaveShaper-waves",
@@ -31,6 +32,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			1: { x:  1, y:  1 },
 			2: { x:  0, y:  0 },
 		} );
+		this.$elements.$reset.onclick = () => this.#reset();
 		this.$elements.$oversampleSelect.onchange = e => {
 			if ( this.$elements.$oversampleToggle.$isOn() ) {
 				this.#onchangeOversample();
@@ -80,7 +82,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		this.$elements.$dotline.$change( diff );
 		this.#updateWaveB();
 	}
-	$reset() {
+	#reset() {
 		const diff =  { 0: { y: -1 }, 1: { y: 1 } };
 
 		GSUforEach( this.$elements.$dotline.$getData(), ( id, d ) => {

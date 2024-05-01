@@ -30,9 +30,6 @@ body {
 <div id="TEST">
 	<gsui-fx-waveshaper></gsui-fx-waveshaper>
 </div>
-<div id="TEST-CTRLS">
-	<button id="btnReset" type="button">reset</button>
-</div>
 
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
@@ -55,8 +52,6 @@ body {
 <!-- ....................................................................... -->
 <script>
 const fx = document.querySelector( "gsui-fx-waveshaper" );
-
-document.querySelector( "#btnReset" ).onclick = () => fx.$reset();
 
 GSUlistenEvents( this, {
 	gsuiFxWaveShaper: {

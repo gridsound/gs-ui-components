@@ -10,6 +10,7 @@ GSUsetTemplate( "gsui-fx-waveshaper", () => [
 				GSUcreateOption( { value: "4x" } ),
 			),
 		),
+		GSUcreateButton( { class: "gsuiFxWaveShaper-reset" }, "reset" ),
 	),
 	GSUcreateDiv( { class: "gsuiFxWaveShaper-in" },
 		GSUcreateDiv( { class: "gsuiFxWaveShaper-side-graph" },

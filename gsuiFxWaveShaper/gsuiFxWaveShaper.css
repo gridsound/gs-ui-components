@@ -43,6 +43,11 @@ gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample {
 }
 
 /* .......................................................................... */
+.gsuiFxWaveShaper-reset {
+	margin-left: auto;
+}
+
+/* .......................................................................... */
 .gsuiFxWaveShaper-in {
 	display: flex;
 	height: 100%;
