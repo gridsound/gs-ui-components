@@ -7,6 +7,9 @@ gsui-fx-waveshaper {
 	padding: 8px;
 	container: gsuiFxWaveshaper / size;
 }
+gsui-fx-waveShaper[ off ] {
+	color: #fff8;
+}
 
 /* .......................................................................... */
 .gsuiFxWaveShaper-params {
@@ -19,19 +22,21 @@ gsui-fx-waveshaper {
 	align-items: center;
 	gap: 4px;
 }
-gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample {
-	color: #fff8;
-}
 
+/* .......................................................................... */
+.gsuiFxWaveShaper-reset,
 .gsuiFxWaveShaper-oversample select {
 	margin: 0;
 	outline: 0;
 	padding: 0 6px;
-	cursor: pointer;
+	height: 18px;
 	border: 1px solid #111;
 	border-radius: 3px;
 	color: inherit;
+	cursor: pointer;
 	background-color: #0005;
+}
+.gsuiFxWaveShaper-oversample select {
 	-webkit-appearance: none;
 }
 .gsuiFxWaveShaper-oversample option {
@@ -40,6 +45,10 @@ gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample {
 .gsuiFxWaveShaper-oversample select:hover,
 .gsuiFxWaveShaper-oversample select:focus {
 	background-color: #0002;
+}
+gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample > span,
+gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
+	opacity: .5;
 }
 
 /* .......................................................................... */
@@ -121,7 +130,7 @@ gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample {
 	height: 100%;
 	border-radius: 4px;
 	fill: none;
-	stroke: #fff;
+	stroke: currentColor;
 	stroke-width: 2px;
 	stroke-linejoin: round;
 	background-color: #0004;

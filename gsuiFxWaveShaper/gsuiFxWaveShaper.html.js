@@ -2,9 +2,9 @@
 
 GSUsetTemplate( "gsui-fx-waveshaper", () => [
 	GSUcreateDiv( { class: "gsuiFxWaveShaper-params" },
-		GSUcreateDiv( { class: "gsuiFxWaveShaper-oversample" },
+		GSUcreateDiv( { class: "gsuiFxWaveShaper-oversample", title: "OverSampling" },
 			GSUcreateElement( "gsui-toggle", { off: true } ),
-			GSUcreateSpan( null, "oversample" ),
+			GSUcreateSpan( null, "ovrsmp" ),
 			GSUcreateSelect( null,
 				GSUcreateOption( { value: "2x" } ),
 				GSUcreateOption( { value: "4x" } ),

@@ -57,6 +57,9 @@ class gsuiFxWaveShaper extends gsui0ne {
 		switch ( prop ) {
 			case "oversample":
 				GSUsetAttribute( this.$elements.$oversampleToggle, "off", val === "none" );
+				if ( val !== "none" ) {
+					this.$elements.$oversampleSelect.value = val;
+				}
 				break;
 		}
 	}
@@ -73,9 +76,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		this.#updateWaveA();
 		this.#updateWaveB();
 	}
-	$toggle( b ) {
-		// this.classList.toggle( "gsuiFx-enable", b );
-	}
+	$toggle() {}
 
 	// .........................................................................
 	$changeCurveData( diff ) {
