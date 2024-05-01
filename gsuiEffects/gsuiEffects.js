@@ -136,7 +136,8 @@ class gsuiEffects extends gsui0ne {
 
 		html.root.classList.toggle( "gsuiEffects-fx-enable", b );
 		GSUsetAttribute( html.toggle, "off", !b );
-		html.uiFx.$toggle( b );
+		GSUsetAttribute( html.uiFx, "off", !b );
+		html.uiFx.$toggle?.( b );
 	}
 	#onchangeAddSelect() {
 		const type = this.$elements.$addSelect.value;
