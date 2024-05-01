@@ -52,3 +52,7 @@ body {
 html {
 	user-select: none;
 }
+
+*[ inert ] {
+	pointer-events: none;
+}
