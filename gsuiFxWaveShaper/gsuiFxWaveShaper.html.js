@@ -28,7 +28,7 @@ GSUsetTemplate( "gsui-fx-waveshaper", () => [
 				GSUcreateDiv( { class: "gsuiFxWaveShaper-graph-unit gsuiFxWaveShaper-graph-x-minus", inert: true } ),
 				GSUcreateDiv( { class: "gsuiFxWaveShaper-graph-unit gsuiFxWaveShaper-graph-y-plus", inert: true } ),
 				GSUcreateDiv( { class: "gsuiFxWaveShaper-graph-unit gsuiFxWaveShaper-graph-y-minus", inert: true } ),
-				GSUcreateElement( "gsui-dotline", { viewbox: "-1 -1 1 1", xstep: .05, ystep: .05 } ),
+				GSUcreateElement( "gsui-dotline", { viewbox: "-1 -1 1 1", xstep: .01, ystep: .01 } ),
 			),
 		),
 		GSUcreateDiv( { class: "gsuiFxWaveShaper-side-waves" },
