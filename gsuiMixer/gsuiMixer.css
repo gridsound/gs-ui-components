@@ -16,7 +16,7 @@ gsui-mixer {
 	display: flex;
 	flex-direction: column;
 	width: 50%;
-	min-width: 200px;
+	min-width: 250px;
 	border-left: 2px solid var( --gsui-win-head2-brd );
 }
 
