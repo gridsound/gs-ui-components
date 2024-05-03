@@ -42,7 +42,10 @@ class gsuiFxWaveShaper extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiDotline: {
 				change: d => this.$dispatch( "changeProp", "curve", d.args[ 0 ] ),
-				input: () => this.#updateWaveB(),
+				input: d => {
+					this.#updateWaveB();
+					this.$dispatch( "liveChange", "curve", d.args[ 0 ] );
+				},
 			},
 			gsuiToggle: {
 				toggle: () => this.#onchangeOversample(),
