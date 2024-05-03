@@ -3,6 +3,11 @@
 class gsuiFxWaveShaper extends gsui0ne {
 	static #wavesNbPts = 256;
 	static #sinePts = GSUnewArray( gsuiFxWaveShaper.#wavesNbPts, i => Math.sin( i / gsuiFxWaveShaper.#wavesNbPts * Math.PI * 2 ) );
+	static #defPtsAsym = {
+		0: { x: -1, y: -1 },
+		1: { x:  1, y:  1 },
+		2: { x:  0, y:  0 },
+	};
 	#wavesW = 0;
 	#wavesH = 0;
 
@@ -27,12 +32,8 @@ class gsuiFxWaveShaper extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
 		this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
-		this.$changeCurveData( {
-			0: { x: -1, y: -1 },
-			1: { x:  1, y:  1 },
-			2: { x:  0, y:  0 },
-		} );
-		this.$elements.$reset.onclick = () => this.#reset();
+		this.$changeCurveData( gsuiFxWaveShaper.#defPtsAsym );
+		this.$elements.$reset.onclick = this.#onreset.bind( this );
 		this.$elements.$oversampleSelect.onchange = e => {
 			if ( this.$elements.$oversampleToggle.$isOn() ) {
 				this.#onchangeOversample();
@@ -82,20 +83,18 @@ class gsuiFxWaveShaper extends gsui0ne {
 		this.$elements.$dotline.$change( diff );
 		this.#updateWaveB();
 	}
-	#reset() {
-		const diff =  { 0: { y: -1 }, 1: { y: 1 } };
-
-		GSUforEach( this.$elements.$dotline.$getData(), ( id, d ) => {
-			if ( -1 < d.x && d.x < 1 ) {
-				diff[ id ] = undefined;
-			}
-		} );
-		diff[ 2 ] = { x: 0, y: 0 };
-		this.$changeCurveData( diff );
-		this.#updateWaveB();
-	}
 
 	// .........................................................................
+	#onreset() {
+		const diff = GSUdiffObjects(
+			this.$elements.$dotline.$getData(),
+			gsuiFxWaveShaper.#defPtsAsym
+		);
+
+		if ( diff ) {
+			this.$dispatch( "changeProp", "curve", diff );
+		}
+	}
 	#onchangeOversample() {
 		const val = this.$elements.$oversampleToggle.$isOn()
 			? this.$elements.$oversampleSelect.value
