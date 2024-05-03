@@ -214,6 +214,7 @@ class gsuiDotline extends gsui0ne {
 		this.onpointermove = this.#onpointermoveDot.bind( this );
 		if ( e.button === 2 ) {
 			if ( isDot && id ) {
+				e.preventDefault();
 				this.#deleteDotElement( id );
 				this.#drawPolyline();
 				this.$dispatch( "input" );
