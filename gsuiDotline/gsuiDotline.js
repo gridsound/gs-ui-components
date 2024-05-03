@@ -145,6 +145,8 @@ class gsuiDotline extends gsui0ne {
 
 		return Math.round( y / step ) * step;
 	}
+	#getPercX( x ) { return ( x - this.#xmin ) / this.#w * 100; }
+	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
 
 	// .........................................................................
 	#createDotElement( id, x, y, byMouse ) {
@@ -192,14 +194,6 @@ class gsuiDotline extends gsui0ne {
 		this.#activeDot = b ? dot : null;
 		dot.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
-	#getPercX( x ) { return ( x - this.#xmin ) / this.#w * 100; }
-	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
-	#getNewId() {
-		let i = 0;
-
-		for ( ; i in this.#data; ++i ) {}
-		return `${ i }`;
-	}
 
 	// .........................................................................
 	#onpointerdown( e ) {
@@ -229,7 +223,7 @@ class gsuiDotline extends gsui0ne {
 				isDot = true;
 				id = this.#dataSorted.find( d => Math.abs( d[ 1 ].x - x ) < xstep )?.[ 0 ];
 				if ( !id ) {
-					id = this.#createDotElement( this.#getNewId(), x, this.#getPtrY( e ), true );
+					id = this.#createDotElement( GSUgetNewId( this.#data ), x, this.#getPtrY( e ), true );
 					if ( id ) {
 						this.#drawPolyline();
 						this.$dispatch( "input" );
