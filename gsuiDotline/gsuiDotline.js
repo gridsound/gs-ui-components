@@ -60,6 +60,10 @@ class gsuiDotline extends gsui0ne {
 				this.#w = this.#xmax - this.#xmin;
 				this.#h = this.#ymax - this.#ymin;
 				this.$elements.$svg.$setDataBox( val );
+				Object.entries( this.#data ).forEach( ( [ id, d ] ) => {
+					this.#updateDotElement( id, d.x, d.y );
+				} );
+				this.#drawPolyline();
 			} break;
 		}
 	}
