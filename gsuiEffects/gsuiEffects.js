@@ -47,6 +47,12 @@ class gsuiEffects extends gsui0ne {
 				changeProp: ( d, t ) => {
 					d.args.unshift( t.dataset.id );
 					d.component = "gsuiEffects";
+					d.eventName = "changeEffectProp";
+					return true;
+				},
+				changeProps: ( d, t ) => {
+					d.args.unshift( t.dataset.id );
+					d.component = "gsuiEffects";
 					d.eventName = "changeEffect";
 					return true;
 				},
