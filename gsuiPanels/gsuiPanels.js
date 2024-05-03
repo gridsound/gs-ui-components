@@ -111,7 +111,7 @@ class gsuiPanels extends gsui0ne {
 		const tar = e.target;
 		const pan = tar.parentNode;
 
-		if ( pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
+		if ( e.button === 0 && pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
 			const pInd = this.#pans.indexOf( pan );
 
 			this.#extend = tar;
