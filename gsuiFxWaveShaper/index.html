@@ -53,15 +53,26 @@ body {
 <script>
 const fx = document.querySelector( "gsui-fx-waveshaper" );
 
-GSUlistenEvents( this, {
+GSUlistenEvents( fx, {
 	gsuiFxWaveShaper: {
+		liveChange: d => {
+		},
 		changeProp: d => {
 			switch ( d.args[ 0 ] ) {
 				case "curve":
 					fx.$changeCurveData( d.args[ 1 ] );
 					break;
+				case "symmetry":
 				case "oversample":
-					GSUsetAttribute( fx, "oversample", d.args[ 1 ] );
+					GSUsetAttribute( fx, d.args[ 0 ], d.args[ 1 ] );
+					break;
+			}
+		},
+		changeProps: d => {
+			switch ( d.args[ 0 ] ) {
+				case "symmetry":
+					fx.$changeCurveData( d.args[ 1 ].curve );
+					GSUsetAttribute( fx, "symmetry", d.args[ 1 ].symmetry );
 					break;
 			}
 		},
