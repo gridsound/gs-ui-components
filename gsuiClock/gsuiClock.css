@@ -1,8 +1,8 @@
 gsui-clock {
 	display: flex;
 	width: min-content;
-	height: 100%;
-	max-height: 28px;
+	height: 28px;
+	min-height: 28px;
 	border-radius: 4px;
 	font-size: 18px;
 	background-color: var( --gsui-clock-bg );
