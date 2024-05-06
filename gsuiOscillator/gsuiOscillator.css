@@ -3,7 +3,7 @@ gsui-oscillator {
 	position: relative;
 	box-sizing: border-box;
 	height: 100%;
-	min-width: 260px;
+	min-width: 320px;
 	min-height: 60px;
 	background-color: var( --gsui-item-bg );
 	grid-template:
@@ -40,7 +40,6 @@ gsui-oscillator {
 	position: relative;
 	box-sizing: border-box;
 	height: 32px;
-	min-height: 32px;
 }
 .gsuiOscillator-prop gsui-slider:first-child .gsuiSlider-eventCatcher {
 	bottom: -18px;
