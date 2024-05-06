@@ -4,6 +4,8 @@ gsui-fx-delay {
 	box-sizing: border-box;
 	gap: 8px;
 	height: 100%;
+	min-width: 160px;
+	min-height: 110px;
 	padding: 8px;
 	--gsuiSlider-lineColor: var( --gsuiFxDelay-slider );
 }
@@ -35,7 +37,6 @@ gsui-fx-delay {
 .gsuiFxDelay-param gsui-slider {
 	flex: 1;
 	height: 10px;
-	min-width: 16px;
 }
 .gsuiFxDelay-param[ data-prop="time" ] gsui-slider {
 	--gsuiSlider-lineColor: var( --gsui-col-time );
