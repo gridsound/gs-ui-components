@@ -31,7 +31,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 				$waveB: ".gsuiFxWaveShaper-waveB",
 			},
 			$attributes: {
-				symmetry: false,
+				symmetry: true,
 				oversample: "none",
 			},
 		} );

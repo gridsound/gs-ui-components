@@ -3,6 +3,8 @@ gsui-fx-waveshaper {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+	min-width: 246px;
+	min-height: 90px;
 	height: 100%;
 	padding: 8px;
 	container: gsuiFxWaveshaper / size;
