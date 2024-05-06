@@ -95,8 +95,16 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 			document.body.dataset.skin = skin;
 		};
 	}
-	elCtrls.style.maxHeight = `${ elCtrls.clientHeight }px`;
-	document.body.style.setProperty( "--test-ctrls-h", `${ elCtrls.clientHeight }px` );
+	setCtrlsHeight();
+	setTimeout( setCtrlsHeight, 100 );
+
+	function setCtrlsHeight() {
+		const h = `${ elCtrls.scrollHeight }px`;
+
+		elCtrls.style.maxHeight = h;
+		document.body.style.setProperty( "--test-ctrls-h", h );
+	}
+
 	document.body.style.setProperty( "--test-content-minw", getComputedStyle( elWrap.firstChild ).minWidth );
 	document.body.style.setProperty( "--test-content-minh", getComputedStyle( elWrap.firstChild ).minHeight );
 	document.title = `${ curr } (dev)`;

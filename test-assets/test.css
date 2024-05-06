@@ -154,7 +154,7 @@ body[ data-skin="white" ] #testSkin {
 }
 #testCtrls input[ type="range" ] {
 	width: 100%;
-	max-width: 300px;
+	max-width: min( 200px, 100% );
 	margin: 0;
 	padding: 0;
 }
