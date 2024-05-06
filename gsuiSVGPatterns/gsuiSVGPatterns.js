@@ -45,9 +45,7 @@ class gsuiSVGPatterns {
 		}
 	}
 	static #setSVGViewbox( type, svg, x, w ) {
-		const h = gsuiSVGPatterns.#getList( type ).$map.get( svg.dataset.id ).h;
-
-		GSUsetAttribute( svg, "viewBox", `${ x } 0 ${ w } ${ h }` );
+		GSUsetViewBox( svg, x, 0, w, gsuiSVGPatterns.#getList( type ).$map.get( svg.dataset.id ).h );
 	}
 	static $createSVG( type, id ) {
 		const SVG = gsuiSVGPatterns.#getList( type );

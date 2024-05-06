@@ -37,7 +37,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 		this.#width = w;
 		this.#height = h;
-		GSUsetAttribute( this.$elements.$svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetViewBoxWH( this.$elements.$svg, w, h );
 		this.$draw();
 	}
 	$draw() {

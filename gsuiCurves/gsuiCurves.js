@@ -30,7 +30,7 @@ class gsuiCurves extends gsui0ne {
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
-		GSUsetAttribute( this.$elements.$svg, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetViewBoxWH( this.$elements.$svg, w, h );
 		this.#redraw();
 	}
 	$options( opt ) {

@@ -62,7 +62,7 @@ class gsuiDragline {
 		stSvg.width =
 		stSvg.height = `${ whmax2 }px`;
 		stSvg.margin = `${ -whmax }px`;
-		GSUsetAttribute( this.#elements.svg, "viewBox", `0 0 ${ whmax2 } ${ whmax2 }` );
+		GSUsetViewBoxWH( this.#elements.svg, whmax2, whmax2 );
 		GSUsetAttribute( this.#elements.polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	#unlink() {

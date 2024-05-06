@@ -30,7 +30,7 @@ class gsuiWaveform {
 	$setResolution( w, h ) {
 		this.width = w;
 		this.height = h;
-		GSUsetAttribute( this.rootElement, "viewBox", `0 0 ${ w } ${ h }` );
+		GSUsetViewBoxWH( this.rootElement, w, h );
 	}
 	drawBuffer( buf, offset, duration ) {
 		gsuiWaveform.drawBuffer( this.polygon, this.width, this.height, buf, offset, duration );
