@@ -1,8 +1,8 @@
 :root {
 	--test-content-w: auto;
 	--test-content-h: auto;
-	--test-content-minw: auto;
-	--test-content-minh: auto;
+	--test-content-minw: 0px;
+	--test-content-minh: 0px;
 	--test-content-resize: both;
 }
 
@@ -21,7 +21,7 @@ body {
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E" );
 }
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 #title {
 	display: flex;
 	align-items: baseline;
@@ -34,7 +34,7 @@ body {
 	text-shadow: 0 0 20px #fff5;
 }
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 #testLinks {
 	flex: 1;
 	display: flex;
@@ -61,7 +61,7 @@ body {
 	100% { background-color: #ffffff08; }
 }
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 #testBody {
 	flex: 1;
 	display: flex;
@@ -70,7 +70,7 @@ body {
 	justify-content: center;
 }
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 #testHead {
 	position: relative;
 	z-index: 1;
@@ -106,25 +106,27 @@ body[ data-skin="white" ] #testSkin {
 	transform: rotate( 180deg );
 }
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 #testContent {
 	position: relative;
 	overflow: hidden;
 	display: flex;
-	box-sizing: border-box;
 	flex-direction: column;
 	resize: var( --test-content-resize );
 	gap: 10px;
 	padding: 32px;
 	width: var( --test-content-w );
 	height: var( --test-content-h );
-	min-width: 100px;
-	min-height: 50px;
+	min-width: var( --test-content-minw );
+	min-height: calc( var( --test-content-minh ) + 10px + var( --test-ctrls-h, 0px ) );
 	border-radius: 8px;
 	border: 2px solid #0003;
 	border-bottom-width: 6px;
 	background-color: #22222a;
 	box-shadow: 0 0 20px 20px #22222a;
+}
+#testContent:has( #testCtrls:empty ) {
+	min-height: var( --test-content-minh );
 }
 #testContent::after {
 	content: "";
@@ -138,21 +140,26 @@ body[ data-skin="white" ] #testSkin {
 }
 #testWrap {
 	position: relative;
+	overflow: hidden;
 	flex: 1;
-	overflow: auto;
-	min-width: var( --test-content-minw );
-	min-height: var( --test-content-minh );
-	scrollbar-width: thin;
-	scrollbar-color: #aaa #ddd;
 }
-#testWrap::-webkit-scrollbar { width: 8px; height: 8px; }
-#testWrap::-webkit-scrollbar-track { background-color: #ddd; }
-#testWrap::-webkit-scrollbar-thumb { background-color: #aaa; }
+
+/* .......................................................................... */
+#testCtrls {
+	overflow: auto;
+	scrollbar-width: thin;
+}
 #testCtrls:empty {
 	display: none;
 }
+#testCtrls input[ type="range" ] {
+	width: 100%;
+	max-width: 300px;
+	margin: 0;
+	padding: 0;
+}
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 #testFoot {
 	display: flex;
 	justify-content: center;
@@ -172,7 +179,7 @@ body[ data-skin="white" ] #testSkin {
 	color: inherit;
 }
 
-/* -------------------------------------------------------------------------- */
+/* .......................................................................... */
 @media ( max-width: 500px ) {
 	#title {
 		align-items: center;

@@ -15,38 +15,38 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 				GSUcreateSpan( { id: "testTitle" }, "GSUI components testing" ),
 				GSUcreateSelect( { id: "testSelect" },
 					GSUcreateOption( { value: "" }, "--" ),
-					GSUcreateOption( { value: "gsuiDAW" } ),
-					GSUcreateOption( { value: "gsuiAnalyser" } ),
-					GSUcreateOption( { value: "gsuiBeatlines" } ),
-					GSUcreateOption( { value: "gsuiChannel" } ),
-					GSUcreateOption( { value: "gsuiClock" } ),
-					GSUcreateOption( { value: "gsuiDrums" } ),
-					GSUcreateOption( { value: "gsuiDrumrows" } ),
-					GSUcreateOption( { value: "gsuiDotline" } ),
-					GSUcreateOption( { value: "gsuiEnvelope" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWindows" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPanels" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiClock" } ),
+					GSUcreateOption( { value: "gsuiLibraries" } ),
+					GSUcreateOption( { value: "gsuiLibrary" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiMixer" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiChannel" } ),
 					GSUcreateOption( { value: "gsuiFxDelay" } ),
 					GSUcreateOption( { value: "gsuiFxFilter" } ),
 					GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
-					GSUcreateOption( { value: "gsuiKeys" } ),
-					GSUcreateOption( { value: "gsuiLFO" } ),
-					GSUcreateOption( { value: "gsuiLibrary" } ),
-					GSUcreateOption( { value: "gsuiLibraries" } ),
-					GSUcreateOption( { value: "gsuiMixer" } ),
-					GSUcreateOption( { value: "gsuiOscillator" } ),
-					GSUcreateOption( { value: "gsuiPanels" } ),
-					GSUcreateOption( { value: "gsuiPianoroll" } ),
-					GSUcreateOption( { value: "gsuiScrollShadow" } ),
-					GSUcreateOption( { value: "gsuiSlicer" } ),
-					GSUcreateOption( { value: "gsuiSlider" } ),
-					GSUcreateOption( { value: "gsuiSliderGroup" } ),
-					GSUcreateOption( { value: "gsuiSpectrum" } ),
-					GSUcreateOption( { value: "gsuiSVGPatterns" } ),
-					GSUcreateOption( { value: "gsuiSynthesizer" } ),
-					GSUcreateOption( { value: "gsuiTimeline" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyser" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSpectrum" } ),
 					GSUcreateOption( { value: "gsuiTimewindow" } ),
-					GSUcreateOption( { value: "gsuiToggle" } ),
+					GSUcreateOption( { value: "gsuiTimeline" } ),
+					GSUcreateOption( { value: "gsuiBeatlines" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPianoroll" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiKeys" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSliderGroup" } ),
+					GSUcreateOption( { value: "gsuiDrums" } ),
+					GSUcreateOption( { value: "gsuiDrumrows" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSynthesizer" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiOscillator" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiEnvelope" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiLFO" } ),
 					GSUcreateOption( { value: "gsuiTrack" } ),
-					GSUcreateOption( { value: "gsuiWindows" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSlicer" } ),
+					GSUcreateOption( { value: "gsuiDotline" } ),
+					GSUcreateOption( { value: "gsuiScrollShadow" } ),
+					GSUcreateOption( { value: "gsuiSlider" } ),
+					GSUcreateOption( { value: "gsuiSVGPatterns" } ),
+					GSUcreateOption( { value: "gsuiToggle" } ),
 				),
 				GSUcreateButton( { id: "testSkin", class: "gsuiIcon", "data-icon": "adjust" } ),
 			),
@@ -67,8 +67,10 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 	const elTEST = document.querySelector( "#TEST" );
 	const elCTRLS = document.querySelector( "#TEST-CTRLS" );
 	const elSkin = document.querySelector( "#testSkin" );
-	elTEST && Array.from( elTEST.children ).forEach( el => document.querySelector( "#testWrap" ).append( el ) );
-	elCTRLS && Array.from( elCTRLS.children ).forEach( el => document.querySelector( "#testCtrls" ).append( el ) );
+	const elWrap = document.querySelector( "#testWrap" );
+	const elCtrls = document.querySelector( "#testCtrls" );
+	elTEST && Array.from( elTEST.children ).forEach( el => elWrap.append( el ) );
+	elCTRLS && Array.from( elCTRLS.children ).forEach( el => elCtrls.append( el ) );
 
 	function getPath() {
 		return location.pathname.split( "/" ).filter( Boolean );
@@ -93,7 +95,10 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 			document.body.dataset.skin = skin;
 		};
 	}
-
+	elCtrls.style.maxHeight = `${ elCtrls.clientHeight }px`;
+	document.body.style.setProperty( "--test-ctrls-h", `${ elCtrls.clientHeight }px` );
+	document.body.style.setProperty( "--test-content-minw", getComputedStyle( elWrap.firstChild ).minWidth );
+	document.body.style.setProperty( "--test-content-minh", getComputedStyle( elWrap.firstChild ).minHeight );
 	document.title = `${ curr } (dev)`;
 	select.value = curr;
 	select.onchange = e => {
@@ -102,5 +107,5 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		path.pop();
 		path.push( e.target.value );
 		location.href = `${ location.origin }/${ path.join( "/" ) }`;
-	}
+	};
 } )();
