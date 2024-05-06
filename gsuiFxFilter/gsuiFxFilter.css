@@ -3,6 +3,8 @@ gsui-fx-filter {
 	box-sizing: border-box;
 	container: gsuiFxFilter / inline-size;
 	height: 100%;
+	min-width: 210px;
+	min-height: 160px;
 	padding: 8px;
 	grid-gap: 8px;
 	grid-template:
@@ -50,10 +52,6 @@ gsui-fx-filter {
 .gsuiFxFilter-areaFrequency {
 	grid-area: frequency;
 	--gsuiSlider-lineColor: var( --gsuiFxFilter-frequency );
-}
-.gsuiFxFilter-areaQ gsui-slider,
-.gsuiFxFilter-areaDetune gsui-slider {
-	min-height: 40px;
 }
 
 /* .......................................................................... */
