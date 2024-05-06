@@ -4,9 +4,10 @@ gsui-channel {
 	position: relative;
 	align-items: center;
 	flex-direction: column;
-	height: 100%;
 	width: 50px;
+	height: 100%;
 	min-width: 50px;
+	min-height: 160px;
 	border-left: 2px solid #ffffff11;
 	border-right: 2px solid #0000003b;
 	background-color: var( --gsuiChannel-bg, var( --gsui-item-bg ) );
@@ -71,7 +72,6 @@ gsui-channel .gsuiChannel-headBtn:hover {
 	outline: 0;
 	padding: 0 3px;
 	height: 34px;
-	min-height: 34px;
 	font-size: 12px;
 	font-family: inherit;
 	color: inherit;
@@ -98,7 +98,6 @@ gsui-channel .gsuiChannel-headBtn:hover {
 	flex: 2;
 	width: inherit;
 	margin-left: 0;
-	min-height: 16px;
 }
 gsui-channel gsui-analyser {
 	height: 100%;
@@ -140,14 +139,13 @@ gsui-channel gsui-analyser {
 /* .......................................................................... */
 gsui-channel gsui-toggle {
 	width: 100%;
-	min-height: 18px;
+	height: 18px;
 }
 
 /* .......................................................................... */
 .gsuiChannel-pan {
 	width: 100%;
 	height: 24px;
-	min-height: 24px;
 	z-index: 1;
 	overflow: hidden;
 	--gsuiSlider-lineColor: var( --gsuiChannel-slider-color, var( --gsui-col-pan ) );
@@ -172,7 +170,6 @@ gsui-channel gsui-toggle {
 	outline: 0;
 	z-index: 1;
 	height: 16px;
-	min-height: 16px;
 	cursor: pointer;
 	font-size: 16px;
 	background-color: transparent;
