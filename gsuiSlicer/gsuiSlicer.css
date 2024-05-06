@@ -5,7 +5,8 @@ gsui-slicer {
 	box-sizing: border-box;
 	gap: 10px;
 	height: 100%;
-	min-width: 306px;
+	min-width: 220px;
+	min-height: 200px;
 	color: var( --gsuiSlicer-color );
 	outline: 0;
 	background-color: var( --gsuiSlicer-bg );
@@ -95,7 +96,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	position: relative;
 	overflow: hidden;
 	height: 100%;
-	min-height: 20px;
 }
 .gsuiSlicer-source-wave {
 	position: absolute;
@@ -109,7 +109,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 .gsuiSlicer-time {
 	overflow: hidden;
 	height: 20px;
-	min-height: 20px;
 	margin-bottom: -10px;
 	background-color: var( --gsuiSlicer-source-bg );
 }
@@ -140,7 +139,6 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 .gsuiSlicer-slices {
 	flex: 1;
 	margin-top: -10px;
-	min-height: 100px;
 	overflow: hidden;
 	color: #000;
 	border-bottom-width: 2px;
