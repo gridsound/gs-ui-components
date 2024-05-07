@@ -95,7 +95,7 @@ class gsuiDrums extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.append( this.#win );
-		this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#drumrows );
+		this.#win.$appendPanel( this.#drumrows );
 		this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );

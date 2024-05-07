@@ -17,8 +17,10 @@ class gsuiTimewindow extends gsui0ne {
 			$tagName: "gsui-timewindow",
 			$elements: {
 				$main: ".gsuiTimewindow-main",
+				$mainCnt: ".gsuiTimewindow-mainContent",
 				$down: ".gsuiTimewindow-contentDown",
 				$panel: ".gsuiTimewindow-panel",
+				$panelCnt: ".gsuiTimewindow-panelContent",
 				$panelDown: ".gsuiTimewindow-panelContentDown",
 				$stepBtn: ".gsuiTimewindow-step",
 				$sliderZoomX: "gsui-slider[data-zoom=x]",
@@ -81,8 +83,8 @@ class gsuiTimewindow extends gsui0ne {
 		this.ondragstart = GSUnoopFalse;
 		this.$elements.$main.onwheel = this.#onwheel.bind( this );
 		this.$elements.$stepBtn.onclick = this.#onclickStep.bind( this );
-		this.$elements.$main.querySelector( ".gsuiTimewindow-mainContent" ).oncontextmenu = e => e.preventDefault();
-		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelContent" ).onwheel = this.#onwheelPanel.bind( this );
+		this.$elements.$mainCnt.oncontextmenu = e => e.preventDefault();
+		this.$elements.$panelCnt.onwheel = this.#onwheelPanel.bind( this );
 		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this.#onmousedownExtend.bind( this, "side" );
 	}
 
@@ -163,6 +165,12 @@ class gsuiTimewindow extends gsui0ne {
 				break;
 		}
 	}
+
+	// .........................................................................
+	$appendMain( ...el ) { this.$elements.$mainCnt.append( ...el ); }
+	$appendDown( ...el ) { this.$elements.$down.append( ...el ); }
+	$appendPanel( ...el ) { this.$elements.$panelCnt.append( ...el ); }
+	$appendPanelDown( ...el ) { this.$elements.$panelDown.append( ...el ); }
 
 	// .........................................................................
 	#convertStepToFrac( step ) {

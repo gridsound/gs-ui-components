@@ -55,8 +55,8 @@ class gsuiPatternroll extends gsui0ne {
 	$firstTimeConnected() {
 		this.classList.add( "gsuiBlocksManager" );
 		this.append( this.#win );
-		this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.#tracklist );
-		this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
+		this.#win.$appendPanel( this.#tracklist );
+		this.#win.$appendMain( this.#selectionElement );
 		this.#win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this.#drop.bind( this );
 		this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 	}

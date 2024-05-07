@@ -114,10 +114,10 @@ class gsuiPianoroll extends gsui0ne {
 	$firstTimeConnected() {
 		this.classList.add( "gsuiBlocksManager" );
 		this.append( this.#win );
-		this.#win.querySelector( ".gsuiTimewindow-panelContent" ).append( this.uiKeys );
-		this.#win.querySelector( ".gsuiTimewindow-panelContentDown" ).prepend( this.#slidersSelect );
-		this.#win.querySelector( ".gsuiTimewindow-contentDown" ).prepend( this.#uiSliderGroup );
-		this.#win.querySelector( ".gsuiTimewindow-mainContent" ).append( this.#selectionElement );
+		this.#win.$appendPanel( this.uiKeys );
+		this.#win.$appendPanelDown( this.#slidersSelect );
+		this.#win.$appendDown( this.#uiSliderGroup );
+		this.#win.$appendMain( this.#selectionElement );
 		this.$scrollToMiddle();
 	}
 	static get observedAttributes() {
