@@ -14,8 +14,6 @@ class gsuiTimeline extends gsui0ne {
 	#mousedownLoopB = 0;
 	#onscrollBind = this.#onscroll.bind( this );
 	#onresizeBind = this.#onresize.bind( this );
-	#onmouseupBind = this.#onmouseup.bind( this );
-	#onmousemoveBind = this.#onmousemove.bind( this );
 
 	constructor() {
 		super( {
@@ -45,7 +43,8 @@ class gsuiTimeline extends gsui0ne {
 		Object.seal( this );
 
 		this.$elements.$cursorPreview.remove();
-		this.onmousedown = this.#onmousedown.bind( this );
+		this.onpointerdown = this.#onptrdown.bind( this );
+		this.onpointerleave = e => this.onpointerup?.( e );
 	}
 
 	static $numbering( from ) {
@@ -241,7 +240,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#updateNumberMeasures();
 		this.#updateMeasures();
 	}
-	#onmousedown( e ) {
+	#onptrdown( e ) {
 		const loopLine = e.target.classList.contains( "gsuiTimeline-loopLine" );
 
 		if ( loopLine && Date.now() - this.#mousedownDate > 500 ) {
@@ -265,14 +264,15 @@ class gsuiTimeline extends gsui0ne {
 				this.#mousedownLoop = GSUgetAttribute( this, "loop" );
 				this.#mousedownLoopA = this.loopA;
 				this.#mousedownLoopB = this.loopB;
-				document.addEventListener( "mousemove", this.#onmousemoveBind );
-				document.addEventListener( "mouseup", this.#onmouseupBind );
+				this.setPointerCapture( e.pointerId );
+				this.onpointermove = this.#onptrmove.bind( this );
+				this.onpointerup = this.#onptrup.bind( this );
 				GSUunselectText();
-				this.#onmousemove( e );
+				this.#onptrmove( e );
 			}
 		}
 	}
-	#onmousemove( e ) {
+	#onptrmove( e ) {
 		const beat = this.#getBeatByPageX( e.pageX );
 		const beatRel = beat - this.#mousedownBeat;
 
@@ -329,9 +329,10 @@ class gsuiTimeline extends gsui0ne {
 			}
 		}
 	}
-	#onmouseup() {
-		document.removeEventListener( "mousemove", this.#onmousemoveBind );
-		document.removeEventListener( "mouseup", this.#onmouseupBind );
+	#onptrup( e ) {
+		this.onpointermove =
+		this.onpointerup = null;
+		this.setPointerCapture( e.pointerId );
 		switch ( this.#status ) {
 			case "draggingTime": {
 				const beat = GSUgetAttribute( this, "currenttime-preview" );
