@@ -42,6 +42,7 @@ class gsuiDotline extends gsui0ne {
 		Object.seal( this );
 		this.oncontextmenu = GSUnoopFalse;
 		this.onpointerdown = this.#onpointerdown.bind( this );
+		this.onpointerleave = e => this.onpointerup?.( e );
 	}
 
 	// .........................................................................
