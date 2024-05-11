@@ -10,12 +10,10 @@ class gsuiSlider extends gsui0ne {
 	#previousval = "";
 	#circ = false;
 	#axeX = false;
-	#ptrId = null;
 	#onwheelBinded = this.#onwheel.bind( this );
 	#pxval = 0;
 	#pxmoved = 0;
 	#svgLineLen = 0;
-	static focused = null;
 
 	constructor() {
 		super( {
@@ -32,14 +30,12 @@ class gsuiSlider extends gsui0ne {
 			$attributes: {
 				tabindex: 0,
 			},
+			$ptrlock: true,
 		} );
 		this.value = "";
 		this.width =
 		this.height = 0;
 		Object.seal( this );
-
-		this.onpointerdown = this.#onpointerdown.bind( this );
-		this.onpointerleave = () => this.onpointerup?.();
 	}
 
 	// .........................................................................
@@ -97,7 +93,7 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	$setValue( val, bymouse ) {
-		if ( !this.onpointermove || bymouse ) {
+		if ( !this.$isActive || bymouse ) {
 			const prevVal = this.#getInputVal();
 			const newVal = ( this.$elements.$input.value = val, this.#getInputVal() );
 
@@ -207,7 +203,7 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	#onwheel( e ) {
-		if ( this.#ptrId ) {
+		if ( this.$isActive ) {
 			const d = e.deltaY > 0 ? -1 : 1;
 			const step = this.#scrollStep || this.$elements.$input.step;
 
@@ -217,22 +213,18 @@ class gsuiSlider extends gsui0ne {
 			return false;
 		}
 	}
-	#onpointerdown( e ) {
-		if ( e.button === 0 && !GSUhasAttribute( this, "disabled" ) ) {
-			this.#pxval = this.#getRange() / this.#getMousemoveSize();
-			this.#pxmoved = 0;
-			this.#scrollIncr = 0;
-			this.#ptrId = e.pointerId;
-			this.setPointerCapture( e.pointerId );
-			this.onpointermove = this.#onpointermove.bind( this );
-			this.onpointerup = this.#onpointerup.bind( this );
-			document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-			this.focus();
-			this.requestPointerLock();
-			this.$dispatch( "inputStart", this.value );
+	$onptrdown( e ) {
+		if ( e.button !== 0 || GSUhasAttribute( this, "disabled" ) ) {
+			return false;
 		}
+		this.#pxval = this.#getRange() / this.#getMousemoveSize();
+		this.#pxmoved = 0;
+		this.#scrollIncr = 0;
+		document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
+		this.focus();
+		this.$dispatch( "inputStart", this.value );
 	}
-	#onpointermove( e ) {
+	$onptrmove( e ) {
 		const bound = this.#getRange() / 5;
 		const mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX;
 		const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval + this.#scrollIncr;
@@ -242,15 +234,8 @@ class gsuiSlider extends gsui0ne {
 		}
 		this.$setValue( val, true );
 	}
-	#onpointerup() {
-		document.exitPointerLock();
-		if ( this.#ptrId ) {
-			this.releasePointerCapture( this.#ptrId );
-			this.#ptrId = null;
-		}
+	$onptrup( e ) {
 		document.body.removeEventListener( "wheel", this.#onwheelBinded );
-		this.onpointermove =
-		this.onpointerup = null;
 		this.#onchange();
 		this.$dispatch( "inputEnd", this.value );
 	}
