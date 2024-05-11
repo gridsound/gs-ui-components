@@ -31,10 +31,10 @@ class gsuiWindow extends gsui0ne {
 
 		this.$elements.$icon.ondblclick = this.$close.bind( this );
 		this.$elements.$headBtns.onclick = this.#onclickBtns.bind( this );
-		this.$elements.$head.onmousedown = this.#onmousedownHead.bind( this );
+		this.$elements.$head.onpointerdown = this.#onptrdownHead.bind( this );
 		this.$elements.$name.ondblclick =
 		this.$elements.$headContent.ondblclick = this.#ondblclickTitle.bind( this );
-		this.$elements.$handlers.onmousedown = this.#onmousedownHandlers.bind( this );
+		this.$elements.$handlers.onpointerdown = this.#onptrdownHandlers.bind( this );
 	}
 
 	// .........................................................................
@@ -144,7 +144,7 @@ class gsuiWindow extends gsui0ne {
 				: this.$maximize();
 		}
 	}
-	#onmousedownHead( e ) {
+	#onptrdownHead( e ) {
 		const clTar = e.target.classList;
 		const clicked =
 			clTar.contains( "gsuiWindow-head" ) ||
@@ -158,12 +158,12 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			this.#setClass( "dragging", true );
-			this.$dispatch( "startMousemoving", "move",
+			this.$dispatch( "startMousemoving", "move", e.pointerId,
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
 	}
-	#onmousedownHandlers( e ) {
+	#onptrdownHandlers( e ) {
 		const dir = e.target.dataset.dir;
 
 		if ( dir ) {
@@ -172,7 +172,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			this.#setClass( "dragging", true );
-			this.$dispatch( "startMousemoving", `${ dir }-resize`,
+			this.$dispatch( "startMousemoving", `${ dir }-resize`, e.pointerId,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}

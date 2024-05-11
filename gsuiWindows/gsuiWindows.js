@@ -2,8 +2,6 @@
 
 class gsuiWindows extends gsui0ne {
 	#objWindows = {};
-	#mouseFnUp = null;
-	#mouseFnMove = null;
 	#focusedWindow = null;
 
 	constructor() {
@@ -19,6 +17,7 @@ class gsuiWindows extends gsui0ne {
 				startMousemoving: d => this.#startMousemoving( ...d.args ),
 			},
 		} );
+		this.onpointerleave = e => this.onpointerup?.( e );
 	}
 
 	// .........................................................................
@@ -35,20 +34,18 @@ class gsuiWindows extends gsui0ne {
 	}
 
 	// .........................................................................
-	#startMousemoving( cursor, fnMove, fnUp ) {
-		this.#mouseFnUp = this.#stopMousemoving.bind( this, fnUp );
-		this.#mouseFnMove = fnMove;
-		document.addEventListener( "mouseup", this.#mouseFnUp );
-		document.addEventListener( "mousemove", fnMove );
+	#startMousemoving( cursor, ptrId, fnMove, fnUp ) {
 		GSUunselectText();
-		GSUdragshield.show( cursor );
+		this.setPointerCapture( ptrId );
+		this.onpointerup = this.#stopMousemoving.bind( this, fnUp );
+		this.onpointermove = fnMove;
+		this.style.cursor = cursor;
 	}
 	#stopMousemoving( fnUp, e ) {
-		document.removeEventListener( "mouseup", this.#mouseFnUp );
-		document.removeEventListener( "mousemove", this.#mouseFnMove );
-		GSUdragshield.hide();
-		this.#mouseFnUp =
-		this.#mouseFnMove = null;
+		this.releasePointerCapture( e.pointerId );
+		this.onpointerup =
+		this.onpointermove = null;
+		this.style.cursor = "";
 		fnUp( e );
 	}
 	#onopen( win ) {
