@@ -4,7 +4,9 @@ class gsui0ne extends HTMLElement {
 	$dispatch = null;
 	$element = null;
 	$elements = null;
+	$isActive = false;
 	$isConnected = false;
+	#ptrlock = false;
 	#children = null;
 	#attributes = null;
 	#onresizeBind = null;
@@ -23,6 +25,11 @@ class gsui0ne extends HTMLElement {
 		}
 		if ( this.$onresize ) {
 			this.#onresizeBind = this.$onresize.bind( this );
+		}
+		if ( this.$onptrdown && this.$onptrup ) {
+			this.oncontextmenu = GSUnoopFalse;
+			this.onpointerdown = this.#onptrdown.bind( this );
+			this.#ptrlock = o.$ptrlock || false;
 		}
 	}
 
@@ -53,6 +60,35 @@ class gsui0ne extends HTMLElement {
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
 			this.$attributeChanged?.( prop, val, prev );
+		}
+	}
+
+	// .........................................................................
+	#onptrdown( e ) {
+		this.$isActive = true;
+		if ( this.$onptrdown( e ) === false ) {
+			this.$isActive = false;
+		} else {
+			this.#ptrlock
+				? this.requestPointerLock()
+				: this.setPointerCapture( e.pointerId );
+			this.onpointerup =
+			this.onpointerleave = this.#onptrup.bind( this );
+			if ( this.$onptrmove ) {
+				this.onpointermove = this.$onptrmove.bind( this );
+			}
+		}
+	}
+	#onptrup( e ) {
+		if ( this.$isActive ) {
+			this.$isActive = false;
+			this.onpointermove =
+			this.onpointerup =
+			this.onpointerleave = null;
+			this.#ptrlock
+				? document.exitPointerLock()
+				: this.releasePointerCapture( e.pointerId );
+			this.$onptrup( e );
 		}
 	}
 }
