@@ -38,9 +38,8 @@ class gsuiSlider extends gsui0ne {
 		this.height = 0;
 		Object.seal( this );
 
-		this.onblur = this.#onblur.bind( this );
 		this.onpointerdown = this.#onpointerdown.bind( this );
-		this.onpointerleave = this.#onpointerleave.bind( this );
+		this.onpointerleave = () => this.onpointerup?.();
 	}
 
 	// .........................................................................
@@ -254,14 +253,6 @@ class gsuiSlider extends gsui0ne {
 		this.onpointerup = null;
 		this.#onchange();
 		this.$dispatch( "inputEnd", this.value );
-	}
-	#onblur() {
-		if ( this.onpointermove ) {
-			this.#onpointerup();
-		}
-	}
-	#onpointerleave() {
-		this.#onchange();
 	}
 }
 
