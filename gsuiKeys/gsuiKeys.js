@@ -46,8 +46,7 @@ class gsuiKeys extends gsui0ne {
 	#blackKeyH = 0;
 	#keyIndMouse = 0;
 	#elKeyMouse = null;
-	#onptrupBind = this.#onptrup.bind( this );
-	#onptrmoveBind = this.#onptrmove.bind( this );
+	#ptrId = null;
 
 	constructor() {
 		super( {
@@ -59,8 +58,9 @@ class gsuiKeys extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.onpointerdown = this.#onptrdown.bind( this );
 		this.oncontextmenu = GSUnoopFalse;
+		this.onpointerdown = this.#onptrdown.bind( this );
+		this.onpointerleave = () => this.onpointerup?.();
 	}
 
 	// .........................................................................
@@ -87,7 +87,7 @@ class gsuiKeys extends gsui0ne {
 	}
 	$midiReleaseAllKeys() {
 		this.#keysDown.forEach( ( _, midi ) => this.$midiKeyUp( midi ) );
-		this.#onptrup();
+		this.onpointerup?.();
 	}
 	$midiKeyDown( midi ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true );
@@ -169,21 +169,25 @@ class gsuiKeys extends gsui0ne {
 				const rootBCR = this.getBoundingClientRect();
 				const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
 
+				this.#ptrId = e.pointerId;
+				this.setPointerCapture( this.#ptrId );
 				this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
 				this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
 				this.#gain = Math.min( isVert
 					? e.offsetX / ( e.target.clientWidth - 1 )
 					: e.offsetY / ( e.target.clientHeight - 1 ), 1 );
-				document.addEventListener( "pointerup", this.#onptrupBind );
-				document.addEventListener( "pointermove", this.#onptrmoveBind );
+				this.onpointermove = this.#onptrmove.bind( this );
+				this.onpointerup = this.#onptrup.bind( this );
 				this.#onptrmove( e );
 			}
 		}
 	}
 	#onptrup() {
-		document.removeEventListener( "pointerup", this.#onptrupBind );
-		document.removeEventListener( "pointermove", this.#onptrmoveBind );
+		this.releasePointerCapture( this.#ptrId );
+		this.onpointermove =
+		this.onpointerup =
+		this.#ptrId = null;
 		if ( this.#elKeyMouse ) {
 			this.#keyUpDown( this.#elKeyMouse, false );
 			this.#elKeyMouse =
