@@ -40,9 +40,6 @@ class gsuiDotline extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.oncontextmenu = GSUnoopFalse;
-		this.onpointerdown = this.#onpointerdown.bind( this );
-		this.onpointerleave = e => this.onpointerup?.( e );
 	}
 
 	// .........................................................................
@@ -201,21 +198,17 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onpointerdown( e ) {
+	$onptrdown( e ) {
 		let isDot = e.target.classList.contains( "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
 		GSUunselectText();
-		this.setPointerCapture( e.pointerId );
 		this.#dataSaved = GSUjsonCopy( this.#data );
 		this.#mousebtn = e.button;
 		this.#pageX = e.pageX;
 		this.#pageY = e.pageY;
-		this.onpointerup = this.#onpointerupDot.bind( this );
-		this.onpointermove = this.#onpointermoveDot.bind( this );
 		if ( e.button === 2 ) {
 			if ( isDot && id ) {
-				e.preventDefault();
 				this.#deleteDotElement( id );
 				this.#drawPolyline();
 				this.$dispatch( "input", this.#data );
@@ -293,17 +286,14 @@ class gsuiDotline extends gsui0ne {
 	#onpointerdownCurveDot( id, xstep ) {
 		console.log( "gsuiDotline.#onpointerdownCurveDot", id );
 	}
-	#onpointerupDot( e ) {
+	$onptrup( e ) {
 		if ( this.#activeDot ) {
 			this.#selectDotElement( this.#activeDot.dataset.id, false );
 		}
-		this.releasePointerCapture( e.pointerId );
-		this.onpointermove = null;
-		this.onpointerup = null;
 		this.#dotsMoving.length = 0;
 		this.#onchange();
 	}
-	#onpointermoveDot( e ) {
+	$onptrmove( e ) {
 		const xstep = GSUgetAttributeNum( this, "xstep" );
 		const ystep = GSUgetAttributeNum( this, "ystep" );
 
