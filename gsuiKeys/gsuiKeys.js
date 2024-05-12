@@ -44,9 +44,7 @@ class gsuiKeys extends gsui0ne {
 	#octStart = 0;
 	#blackKeyR = 0;
 	#blackKeyH = 0;
-	#keyIndMouse = 0;
-	#elKeyMouse = null;
-	#ptrId = null;
+	#keyIndByPtr = new Map();
 
 	constructor() {
 		super( {
@@ -58,9 +56,6 @@ class gsuiKeys extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.oncontextmenu = GSUnoopFalse;
-		this.onpointerdown = this.#onptrdown.bind( this );
-		this.onpointerleave = () => this.onpointerup?.();
 	}
 
 	// .........................................................................
@@ -87,7 +82,6 @@ class gsuiKeys extends gsui0ne {
 	}
 	$midiReleaseAllKeys() {
 		this.#keysDown.forEach( ( _, midi ) => this.$midiKeyUp( midi ) );
-		this.onpointerup?.();
 	}
 	$midiKeyDown( midi ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true );
@@ -159,9 +153,8 @@ class gsuiKeys extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onptrdown( e ) {
+	$onptrdown( e ) {
 		if ( this.#nbOct ) {
-			e.preventDefault();
 			if ( e.button === 2 ) {
 				GSUsetAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
 			} else if ( e.button === 0 ) {
@@ -169,33 +162,29 @@ class gsuiKeys extends gsui0ne {
 				const rootBCR = this.getBoundingClientRect();
 				const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
 
-				this.#ptrId = e.pointerId;
-				this.setPointerCapture( this.#ptrId );
 				this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
 				this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
 				this.#gain = Math.min( isVert
 					? e.offsetX / ( e.target.clientWidth - 1 )
 					: e.offsetY / ( e.target.clientHeight - 1 ), 1 );
-				this.onpointermove = this.#onptrmove.bind( this );
-				this.onpointerup = this.#onptrup.bind( this );
-				this.#onptrmove( e );
+				this.$onptrmove( e );
+				return;
 			}
 		}
+		return false;
 	}
-	#onptrup() {
-		this.releasePointerCapture( this.#ptrId );
-		this.onpointermove =
-		this.onpointerup =
-		this.#ptrId = null;
-		if ( this.#elKeyMouse ) {
-			this.#keyUpDown( this.#elKeyMouse, false );
-			this.#elKeyMouse =
-			this.#keyIndMouse = null;
+	$onptrup( e ) {
+		const currKeyInd = this.#keyIndByPtr.get( e.pointerId );
+
+		this.#keyIndByPtr.delete( e.pointerId );
+		if ( this.children[ currKeyInd ] ) {
+			this.#keyUpDown( this.children[ currKeyInd ], false );
 		}
 		this.#gain = 1;
 	}
-	#onptrmove( e ) {
+	$onptrmove( e ) {
+		const currKeyInd = this.#keyIndByPtr.get( e.pointerId );
 		const isVert = this.#isVertical();
 		const mouseAxeKey = isVert ? e.clientY : e.clientX;
 		const mouseAxeVel = isVert ? e.clientX : e.clientY;
@@ -203,19 +192,17 @@ class gsuiKeys extends gsui0ne {
 		const fKeyInd = isVert ? fKeyInd2 : this.#nbOct * 12 - fKeyInd2;
 		let iKeyInd = ~~fKeyInd;
 
-		e.preventDefault();
 		if ( mouseAxeVel > this.#blackKeyR && this.#isBlack( ~~( iKeyInd % 12 ) ) ) {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
-		if ( this.#keyIndMouse !== iKeyInd ) {
+		if ( currKeyInd !== iKeyInd ) {
 			const elKey = this.children[ iKeyInd ];
 
 			if ( elKey ) {
-				if ( this.#elKeyMouse ) {
-					this.#keyUpDown( this.#elKeyMouse, false );
+				if ( this.children[ currKeyInd ] ) {
+					this.#keyUpDown( this.children[ currKeyInd ], false );
 				}
-				this.#elKeyMouse = elKey;
-				this.#keyIndMouse = iKeyInd;
+				this.#keyIndByPtr.set( e.pointerId, iKeyInd );
 				this.#keyUpDown( elKey, true );
 			}
 		}
