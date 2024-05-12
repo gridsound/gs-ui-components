@@ -10,8 +10,6 @@ class gsuiSliderGroup extends gsui0ne {
 	#selected = new Map();
 	#valueSaved = new Map();
 	#bcr = null;
-	#evMouseup = null;
-	#evMousemove = null;
 	#uiFn = Object.freeze( {
 		when: this.#sliderWhen.bind( this ),
 		value: this.#sliderValue.bind( this ),
@@ -36,7 +34,6 @@ class gsuiSliderGroup extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$element.oncontextmenu = GSUnoopFalse;
 	}
 
 	// .........................................................................
@@ -54,7 +51,6 @@ class gsuiSliderGroup extends gsui0ne {
 			this.$elements.$loopB = null;
 		}
 		this.#updatePxPerBeat();
-		this.$elements.$slidersParent.onmousedown = this.#mousedown.bind( this );
 		if ( beatlines ) {
 			GSUrecallAttributes( this, {
 				currenttime: 0,
@@ -189,22 +185,19 @@ class gsuiSliderGroup extends gsui0ne {
 	}
 
 	// .........................................................................
-	#mousedown( e ) {
-		if ( !this.#evMouseup && ( e.button === 0 || e.button === 2 ) ) {
+	$onptrdown( e ) {
+		if ( e.button === 0 || e.button === 2 ) {
 			this.#bcr = this.$elements.$slidersParent.getBoundingClientRect();
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
-			this.#evMouseup = this.#mouseup.bind( this );
-			this.#evMousemove = this.#mousemove.bind( this );
-			document.addEventListener( "mouseup", this.#evMouseup );
-			document.addEventListener( "mousemove", this.#evMousemove );
 			GSUunselectText();
-			GSUdragshield.show( "pointer" );
-			this.#mousemove( e );
+			this.$onptrmove( e );
+			return;
 		}
+		return false;
 	}
-	#mousemove( e ) {
+	$onptrmove( e ) {
 		const sliders = this.#selected.size > 0
 			? this.#selected
 			: this.#sliders;
@@ -232,14 +225,9 @@ class gsuiSliderGroup extends gsui0ne {
 			}
 		} );
 	}
-	#mouseup() {
+	$onptrup() {
 		const arr = [];
 
-		GSUdragshield.hide();
-		document.removeEventListener( "mouseup", this.#evMouseup );
-		document.removeEventListener( "mousemove", this.#evMousemove );
-		this.#evMouseup =
-		this.#evMousemove = null;
 		this.#sliders.forEach( ( sli, id ) => {
 			if ( sli.value !== this.#valueSaved.get( id ) ) {
 				arr.push( [ id, sli.value ] );
