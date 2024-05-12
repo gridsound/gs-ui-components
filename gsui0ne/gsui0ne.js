@@ -6,6 +6,7 @@ class gsui0ne extends HTMLElement {
 	$elements = null;
 	$isActive = false;
 	$isConnected = false;
+	#ptrMap = new Map();
 	#ptrlock = false;
 	#children = null;
 	#attributes = null;
@@ -72,22 +73,28 @@ class gsui0ne extends HTMLElement {
 			this.#ptrlock
 				? this.requestPointerLock()
 				: this.setPointerCapture( e.pointerId );
-			this.onpointerup =
-			this.onpointerleave = this.#onptrup.bind( this );
-			if ( this.$onptrmove ) {
-				this.onpointermove = this.$onptrmove.bind( this );
+			this.#ptrMap.set( e.pointerId );
+			if ( this.#ptrMap.size < 2 ) {
+				this.onpointerup =
+				this.onpointerleave = this.#onptrup.bind( this );
+				if ( this.$onptrmove ) {
+					this.onpointermove = this.$onptrmove.bind( this );
+				}
 			}
 		}
 	}
 	#onptrup( e ) {
 		if ( this.$isActive ) {
-			this.$isActive = false;
-			this.onpointermove =
-			this.onpointerup =
-			this.onpointerleave = null;
 			this.#ptrlock
 				? document.exitPointerLock()
 				: this.releasePointerCapture( e.pointerId );
+			this.#ptrMap.delete( e.pointerId );
+			if ( this.#ptrMap.size < 1 ) {
+				this.$isActive = false;
+				this.onpointermove =
+				this.onpointerup =
+				this.onpointerleave = null;
+			}
 			this.$onptrup( e );
 		}
 	}
