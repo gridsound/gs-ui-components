@@ -41,10 +41,7 @@ class gsuiTimeline extends gsui0ne {
 		this.loopB = 0;
 		this.looping = false;
 		Object.seal( this );
-
 		this.$elements.$cursorPreview.remove();
-		this.onpointerdown = this.#onptrdown.bind( this );
-		this.onpointerleave = e => this.onpointerup?.( e );
 	}
 
 	static $numbering( from ) {
@@ -240,7 +237,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#updateNumberMeasures();
 		this.#updateMeasures();
 	}
-	#onptrdown( e ) {
+	$onptrdown( e ) {
 		const loopLine = e.target.classList.contains( "gsuiTimeline-loopLine" );
 
 		if ( loopLine && Date.now() - this.#mousedownDate > 500 ) {
@@ -264,15 +261,14 @@ class gsuiTimeline extends gsui0ne {
 				this.#mousedownLoop = GSUgetAttribute( this, "loop" );
 				this.#mousedownLoopA = this.loopA;
 				this.#mousedownLoopB = this.loopB;
-				this.setPointerCapture( e.pointerId );
-				this.onpointermove = this.#onptrmove.bind( this );
-				this.onpointerup = this.#onptrup.bind( this );
 				GSUunselectText();
-				this.#onptrmove( e );
+				this.$onptrmove( e );
+				return;
 			}
 		}
+		return false;
 	}
-	#onptrmove( e ) {
+	$onptrmove( e ) {
 		const beat = this.#getBeatByPageX( e.pageX );
 		const beatRel = beat - this.#mousedownBeat;
 
@@ -329,10 +325,7 @@ class gsuiTimeline extends gsui0ne {
 			}
 		}
 	}
-	#onptrup( e ) {
-		this.onpointermove =
-		this.onpointerup = null;
-		this.setPointerCapture( e.pointerId );
+	$onptrup( e ) {
 		switch ( this.#status ) {
 			case "draggingTime": {
 				const beat = GSUgetAttribute( this, "currenttime-preview" );
