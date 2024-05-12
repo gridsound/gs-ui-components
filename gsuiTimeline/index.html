@@ -100,7 +100,7 @@ inpTim.oninput = e => GSUsetAttribute( timeline, "currenttime", inpTim.value );
 inpPBB.oninput = e => GSUsetAttribute( timeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
 inpSPB.oninput = e => GSUsetAttribute( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
-document.body.oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
+document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
 </body>
 </html>
