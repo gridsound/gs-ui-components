@@ -10,6 +10,10 @@ class gsuiTimewindow extends gsui0ne {
 	#onptrupExtendBind = this.#onptrupExtend.bind( this );
 	#onptrmoveExtendPanelBind = this.#onptrmoveExtendPanel.bind( this );
 	#onptrmoveExtendDownPanelBind = this.#onptrmoveExtendDownPanel.bind( this );
+	#scrollX = 0;
+	#scrollY = 0;
+	#scrollXint = 0;
+	#scrollYint = 0;
 
 	constructor() {
 		super( {
@@ -47,17 +51,17 @@ class gsuiTimewindow extends gsui0ne {
 					if ( sli.dataset.zoom === "x" ) {
 						const val = GSUeaseInCirc( d.args[ 0 ] );
 						const newVal = this.#getPPBmin() + val * ( this.#getPPBmax() - this.#getPPBmin() );
-						const scrollBack = this.#calcScrollBack( this.scrollLeft, this.#pxPerBeat, newVal, 0 );
+						const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
 
-						this.scrollLeft = scrollBack;
+						this.#setScrollX( scrollBack );
 						GSUsetAttribute( this, "pxperbeat", newVal );
 						GSUdispatchEvent( this, "gsuiTimewindow", "pxperbeat", newVal );
 					} else if ( sli.dataset.zoom === "y" ) {
 						const val = GSUeaseInCirc( d.args[ 0 ] );
 						const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
-						const scrollBack = this.#calcScrollBack( this.scrollTop, this.#lineHeight, newVal, 0 );
+						const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, newVal, 0 );
 
-						this.scrollTop = scrollBack;
+						this.#setScrollY( scrollBack );
 						GSUsetAttribute( this, "lineheight", newVal );
 						GSUdispatchEvent( this, "gsuiTimewindow", "lineheight", newVal );
 					}
@@ -86,6 +90,16 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$mainCnt.oncontextmenu = e => e.preventDefault();
 		this.$elements.$panelCnt.onwheel = this.#onwheelPanel.bind( this );
 		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelExtendY" ).onpointerdown = this.#onptrdownExtend.bind( this, "side" );
+		this.addEventListener( "scroll", e => {
+			if ( this.#scrollXint !== e.currentTarget.scrollLeft ) {
+				this.#scrollX =
+				this.#scrollXint = e.currentTarget.scrollLeft;
+			}
+			if ( this.#scrollYint !== e.currentTarget.scrollTop ) {
+				this.#scrollY =
+				this.#scrollYint = e.currentTarget.scrollTop;
+			}
+		} );
 	}
 
 	// .........................................................................
@@ -190,6 +204,19 @@ class gsuiTimewindow extends gsui0ne {
 
 		return scrollVal * ppbNew + scrollIncr;
 	}
+	#rangePPB( ppb ) {
+		return Math.min( Math.max( this.#getPPBmin(), ppb ), this.#getPPBmax() );
+	}
+	#setScrollX( px ) {
+		this.#scrollX = Math.max( 0, px );
+		this.#scrollXint = parseInt( this.#scrollX );
+		this.scrollLeft = this.#scrollX;
+	}
+	#setScrollY( px ) {
+		this.#scrollY = Math.max( 0, px );
+		this.#scrollYint = parseInt( this.#scrollY );
+		this.scrollTop = this.#scrollY;
+	}
 
 	// .........................................................................
 	#onclickStep() {
@@ -204,16 +231,20 @@ class gsuiTimewindow extends gsui0ne {
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
 			const mul = e.deltaY > 0 ? .9 : 1.1;
-			const ppbNew = Math.round( Math.min( Math.max( this.#getPPBmin(), this.#pxPerBeat * mul ), this.#getPPBmax() ) );
 
 			e.preventDefault();
-			if ( ppbNew !== this.#pxPerBeat ) {
-				const px = e.pageX - this.getBoundingClientRect().left - parseInt( this.$elements.$panel.style.minWidth );
+			this.#onwheel2( this.#pxPerBeat * mul, e.pageX );
+		}
+	}
+	#onwheel2( ppb, pageX ) {
+		const ppbNew = this.#rangePPB( ppb );
 
-				this.scrollLeft = this.#calcScrollBack( this.scrollLeft, this.#pxPerBeat, ppbNew, px );
-				GSUsetAttribute( this, "pxperbeat", ppbNew );
-				GSUdispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
-			}
+		if ( ppbNew !== this.#pxPerBeat ) {
+			const px = pageX - this.getBoundingClientRect().left - this.$elements.$panel.clientWidth;
+
+			this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppbNew, px ) );
+			GSUsetAttribute( this, "pxperbeat", ppbNew );
+			GSUdispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
 		}
 	}
 	#onwheelPanel( e ) {
@@ -225,7 +256,7 @@ class gsuiTimewindow extends gsui0ne {
 			if ( lhNew !== this.#lineHeight ) {
 				const px = e.pageY - this.getBoundingClientRect().top - parseInt( this.$elements.$timeline.clientHeight );
 
-				this.scrollTop = this.#calcScrollBack( this.scrollTop, this.#lineHeight, lhNew, px );
+				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
 				GSUsetAttribute( this, "lineheight", lhNew );
 				GSUdispatchEvent( this, "gsuiTimewindow", "lineheight", lhNew );
 			}
