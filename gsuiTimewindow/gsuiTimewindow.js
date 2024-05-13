@@ -5,11 +5,11 @@ class gsuiTimewindow extends gsui0ne {
 	#panelSize = 0;
 	#lineHeight = 0;
 	#scrollShadow = null;
-	#mousedownPageX = 0;
-	#mousedownPageY = 0;
-	#onmouseupExtendBind = this.#onmouseupExtend.bind( this );
-	#onmousemoveExtendPanelBind = this.#onmousemoveExtendPanel.bind( this );
-	#onmousemoveExtendDownPanelBind = this.#onmousemoveExtendDownPanel.bind( this );
+	#ptrdownPageX = 0;
+	#ptrdownPageY = 0;
+	#onptrupExtendBind = this.#onptrupExtend.bind( this );
+	#onptrmoveExtendPanelBind = this.#onptrmoveExtendPanel.bind( this );
+	#onptrmoveExtendDownPanelBind = this.#onptrmoveExtendDownPanel.bind( this );
 
 	constructor() {
 		super( {
@@ -85,15 +85,15 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$stepBtn.onclick = this.#onclickStep.bind( this );
 		this.$elements.$mainCnt.oncontextmenu = e => e.preventDefault();
 		this.$elements.$panelCnt.onwheel = this.#onwheelPanel.bind( this );
-		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelExtendY" ).onmousedown = this.#onmousedownExtend.bind( this, "side" );
+		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelExtendY" ).onpointerdown = this.#onptrdownExtend.bind( this, "side" );
 	}
 
 	// .........................................................................
 	$firstTimeConnected() {
 		this.$elements.$panel.style.minWidth = `${ GSUgetAttributeNum( this, "panelsize" ) || 100 }px`;
 		if ( this.hasAttribute( "downpanel" ) ) {
-			this.$elements.$panelDown.firstChild.onmousedown =
-			this.$elements.$down.firstChild.onmousedown = this.#onmousedownExtend.bind( this, "down" );
+			this.$elements.$panelDown.firstChild.onpointerdown =
+			this.$elements.$down.firstChild.onpointerdown = this.#onptrdownExtend.bind( this, "down" );
 			this.$elements.$panelDown.style.height =
 			this.$elements.$down.style.height = `${ GSUgetAttributeNum( this, "downpanelsize" ) || 50 }px`;
 		} else {
@@ -184,11 +184,11 @@ class gsuiTimewindow extends gsui0ne {
 	#getPPBmax() { return GSUgetAttributeNum( this, "pxperbeatmax" ) || 512; }
 	#getLHmin() { return GSUgetAttributeNum( this, "lineheightmin" ) || 24; }
 	#getLHmax() { return GSUgetAttributeNum( this, "lineheightmax" ) || 256; }
-	#calcScrollBack( scroll, currValue, newValue, mousepx ) {
-		const scrollVal = scroll / currValue;
-		const scrollIncr = mousepx / currValue * ( newValue - currValue );
+	#calcScrollBack( scroll, ppb, ppbNew, ptrPx ) {
+		const scrollVal = scroll / ppb;
+		const scrollIncr = ptrPx / ppb * ( ppbNew - ppb );
 
-		return scrollVal * newValue + scrollIncr;
+		return scrollVal * ppbNew + scrollIncr;
 	}
 
 	// .........................................................................
@@ -231,31 +231,30 @@ class gsuiTimewindow extends gsui0ne {
 			}
 		}
 	}
-	#onmousedownExtend( panel, e ) {
+	#onptrdownExtend( panel, e ) {
 		GSUunselectText();
+		this.setPointerCapture( e.pointerId );
 		if ( panel === "side" ) {
 			this.#panelSize = this.$elements.$panel.clientWidth;
-			this.#mousedownPageX = e.pageX;
-			GSUdragshield.show( "ew-resize" );
-			document.addEventListener( "mousemove", this.#onmousemoveExtendPanelBind );
+			this.#ptrdownPageX = e.pageX;
+			document.addEventListener( "pointermove", this.#onptrmoveExtendPanelBind );
 		} else {
 			this.#panelSize = this.$elements.$down.clientHeight;
-			this.#mousedownPageY = e.pageY;
-			GSUdragshield.show( "ns-resize" );
-			document.addEventListener( "mousemove", this.#onmousemoveExtendDownPanelBind );
+			this.#ptrdownPageY = e.pageY;
+			document.addEventListener( "pointermove", this.#onptrmoveExtendDownPanelBind );
 		}
-		document.addEventListener( "mouseup", this.#onmouseupExtendBind );
+		document.addEventListener( "pointerup", this.#onptrupExtendBind );
 	}
-	#onmousemoveExtendPanel( e ) {
-		const w = this.#panelSize + ( e.pageX - this.#mousedownPageX );
+	#onptrmoveExtendPanel( e ) {
+		const w = this.#panelSize + ( e.pageX - this.#ptrdownPageX );
 		const min = GSUgetAttributeNum( this, "panelsizemin" ) || 50;
 		const max = GSUgetAttributeNum( this, "panelsizemax" ) || 260;
 		const w2 = Math.max( min, Math.min( w, max ) );
 
 		this.$elements.$panel.style.minWidth = `${ w2 }px`;
 	}
-	#onmousemoveExtendDownPanel( e ) {
-		const h = this.#panelSize + ( this.#mousedownPageY - e.pageY );
+	#onptrmoveExtendDownPanel( e ) {
+		const h = this.#panelSize + ( this.#ptrdownPageY - e.pageY );
 		const min = GSUgetAttributeNum( this, "downpanelsizemin" ) || 50;
 		const max = GSUgetAttributeNum( this, "downpanelsizemax" ) || 260;
 		const h2 = Math.max( min, Math.min( h, max ) );
@@ -263,11 +262,11 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$panelDown.style.height =
 		this.$elements.$down.style.height = `${ h2 }px`;
 	}
-	#onmouseupExtend() {
-		document.removeEventListener( "mousemove", this.#onmousemoveExtendDownPanelBind );
-		document.removeEventListener( "mousemove", this.#onmousemoveExtendPanelBind );
-		document.removeEventListener( "mouseup", this.#onmouseupExtendBind );
-		GSUdragshield.hide();
+	#onptrupExtend( e ) {
+		this.releasePointerCapture( e.pointerId );
+		document.removeEventListener( "pointermove", this.#onptrmoveExtendDownPanelBind );
+		document.removeEventListener( "pointermove", this.#onptrmoveExtendPanelBind );
+		document.removeEventListener( "pointerup", this.#onptrupExtendBind );
 	}
 }
 
