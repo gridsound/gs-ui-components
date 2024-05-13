@@ -155,7 +155,7 @@ class gsuiPianoroll extends gsui0ne {
 		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
 	}
 	$scrollToMiddle() {
-		this.#win.scrollTop = this.#win.querySelector( ".gsuiTimewindow-rows" ).clientHeight / 2;
+		this.#win.firstChild.scrollTop = this.#win.querySelector( ".gsuiTimewindow-rows" ).clientHeight / 2;
 	}
 	$scrollToKeys() {
 		const blc = this.#win.querySelector( ".gsuiBlocksManager-block" );
