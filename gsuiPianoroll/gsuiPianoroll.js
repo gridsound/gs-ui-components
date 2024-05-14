@@ -139,6 +139,9 @@ class gsuiPianoroll extends gsui0ne {
 	$reset() {
 		this.#currKeyDuration = 1;
 	}
+	$changeDuration( dur ) {
+		GSUsetAttribute( this.#win, "duration", dur );
+	}
 	$setData( data ) {
 		this.#blcManager.$setData( data );
 	}

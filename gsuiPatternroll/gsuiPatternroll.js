@@ -72,6 +72,9 @@ class gsuiPatternroll extends gsui0ne {
 	}
 
 	// .........................................................................
+	$changeDuration( dur ) {
+		GSUsetAttribute( this.#win, "duration", dur );
+	}
 	$addTrack( id ) {
 		const elTrack = this.#tracklist.$addTrack( id );
 		const row = elTrack.rowElement;

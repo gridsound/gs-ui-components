@@ -10,7 +10,6 @@ class gsuiTimewindow extends gsui0ne {
 	#onptrupExtendBind = this.#onptrupExtend.bind( this );
 	#onptrmoveExtendPanelBind = this.#onptrmoveExtendPanel.bind( this );
 	#onptrmoveExtendDownPanelBind = this.#onptrmoveExtendDownPanel.bind( this );
-	#mutationObs = null;
 	#minimapAction = null;
 	#minimapPPBSaved = 0;
 	#minimapPtrPageX = 0;
@@ -22,7 +21,6 @@ class gsuiTimewindow extends gsui0ne {
 	#scrollY = 0;
 	#scrollXint = 0;
 	#scrollYint = 0;
-	#duration = 0;
 
 	constructor() {
 		super( {
@@ -53,6 +51,7 @@ class gsuiTimewindow extends gsui0ne {
 			},
 			$attributes: {
 				step: 1,
+				duration: 0,
 				pxperbeat: 100,
 				lineheight: 48,
 				currenttime: 0,
@@ -144,23 +143,17 @@ class gsuiTimewindow extends gsui0ne {
 		} );
 		this.#minimapUpdate();
 	}
-	$connected() {
-		this.#mutationObs = new MutationObserver( () => {
-			this.#duration = this.#minimapGetDataDuration();
-			this.#minimapUpdate();
-		} );
-		this.#mutationObs.observe( this.$elements.$rows, { attributes: true, childList: true, subtree: true } );
-	}
 	$disconnected() {
-		this.#mutationObs.disconnect();
 		this.#scrollShadow.$disconnected();
-		this.#mutationObs = null;
 	}
 	static get observedAttributes() {
-		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop" ];
+		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop", "duration" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "duration":
+				this.#minimapUpdate();
+				break;
 			case "step":
 				GSUsetAttribute( this.$elements.$timeline, "step", val );
 				this.$elements.$stepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
@@ -224,7 +217,6 @@ class gsuiTimewindow extends gsui0ne {
 		const mapPx = this.$elements.$minimapTrack.clientWidth;
 		const durPx = this.#minimapGetMaxView();
 
-		lg( "minimapUpdate" );
 		this.$elements.$minimapThumb.style.left = `${ this.#scrollX / durPx * 100 }%`;
 		this.$elements.$minimapThumb.style.width = `${ mapPx / durPx * 100 }%`;
 	}
@@ -251,17 +243,12 @@ class gsuiTimewindow extends gsui0ne {
 		// return this.#minimapAction === "thumb" ? this.#minimapViewMax : viewSize;
 	}
 	#minimapGetDuration() {
+		const dur = GSUgetAttributeNum( this, "duration" );
 		const time = GSUgetAttributeNum( this, "currenttime" );
 		const loopStr = GSUgetAttribute( this, "loop" );
 		const loop = loopStr ? GSUsplitNums( loopStr, "-" )[ 1 ] : 0;
 
-		return Math.max( time, loop, this.#duration, 0 );
-	}
-	#minimapGetDataDuration() {
-		const blcs = this.$elements.$mainCnt.querySelectorAll( ".gsuiBlocksManager-block, gsui-drum, gsui-drumcut" );
-
-		return Array.prototype.reduce.call( blcs, ( dur, blc ) =>
-			Math.max( dur, parseFloat( blc.style.left ) + parseFloat( blc.style.width ) ), 0 );
+		return Math.max( time, loop, dur, 0 );
 	}
 	#onptrdownMinimap( e ) {
 		const act = e.target.dataset.action;

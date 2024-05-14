@@ -132,6 +132,9 @@ class gsuiDrums extends gsui0ne {
 	}
 
 	// .........................................................................
+	$changeDuration( dur ) {
+		GSUsetAttribute( this.#win, "duration", dur );
+	}
 	$reorderDrumrows( obj ) {
 		gsuiReorder.listReorder( this.#drumrows, obj );
 		gsuiReorder.listReorder( this.#elLines, obj );
