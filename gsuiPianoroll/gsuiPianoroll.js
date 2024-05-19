@@ -10,7 +10,7 @@ class gsuiPianoroll extends gsui0ne {
 			blc.firstChild.textContent = kn[ blc.parentNode.parentNode.dataset.key ];
 		} );
 	}
-
+	$onchange = null;
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
@@ -43,14 +43,14 @@ class gsuiPianoroll extends gsui0ne {
 		selectionElement: this.#selectionElement,
 		timeline: this.#win.timeline,
 		blockDOMChange: this.#blockDOMChange.bind( this ),
-		managercallDuplicating: ( keysMap, wIncr ) => this.onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
-		managercallSelecting: ids => this.onchange( "selection", ids ),
-		managercallUnselecting: () => this.onchange( "unselection" ),
-		managercallUnselectingOne: keyId => this.onchange( "unselectionOne", keyId ),
-		managercallCreate: obj => this.onchange( "add", obj.midi, obj.when, obj.duration ),
-		managercallMoving: ( keysMap, wIncr, kIncr ) => this.onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
-		managercallCroppingB: ( keysMap, dIncr ) => this.onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
-		managercallDeleting: keysMap => this.onchange( "remove", Array.from( keysMap.keys() ) ),
+		managercallDuplicating: ( keysMap, wIncr ) => this.$onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
+		managercallSelecting: ids => this.$onchange( "selection", ids ),
+		managercallUnselecting: () => this.$onchange( "unselection" ),
+		managercallUnselectingOne: keyId => this.$onchange( "unselectionOne", keyId ),
+		managercallCreate: obj => this.$onchange( "add", obj.midi, obj.when, obj.duration ),
+		managercallMoving: ( keysMap, wIncr, kIncr ) => this.$onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
+		managercallCroppingB: ( keysMap, dIncr ) => this.$onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
+		managercallDeleting: keysMap => this.$onchange( "remove", Array.from( keysMap.keys() ) ),
 	} );
 
 	constructor() {
@@ -61,7 +61,6 @@ class gsuiPianoroll extends gsui0ne {
 		} );
 		this.timeline = this.#win.timeline;
 		this.uiKeys = GSUcreateElement( "gsui-keys" );
-		this.onchange = null;
 		Object.seal( this );
 
 		GSUlistenEvents( this, {
@@ -146,7 +145,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blcManager.$setData( data );
 	}
 	$setCallbacks( cb ) {
-		this.onchange = cb.onchange;
+		this.$onchange = cb.$onchange;
 	}
 	$timedivision( timediv ) {
 		GSUsetAttribute( this.#win, "timedivision", timediv );
@@ -465,7 +464,7 @@ class gsuiPianoroll extends gsui0ne {
 		return arr;
 	}
 	#onchangeDragline( id, el ) {
-		this.onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
+		this.$onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
 	}
 }
 

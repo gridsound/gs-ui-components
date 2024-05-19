@@ -1,6 +1,9 @@
 "use strict";
 
 class gsuiPatternroll extends gsui0ne {
+	$onchange = null;
+	$onaddBlock = null;
+	$oneditBlock = null;
 	#rowsByTrackId = new Map();
 	#tracklist = GSUcreateElement( "gsui-tracklist" );
 	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
@@ -20,14 +23,14 @@ class gsuiPatternroll extends gsui0ne {
 		selectionElement: this.#selectionElement,
 		timeline: this.#win.timeline,
 		blockDOMChange: this.#blockDOMChange.bind( this ),
-		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
-		managercallDeleting: blcsMap => this.onchange( "deletion", Array.from( blcsMap.keys() ) ),
-		managercallSelecting: ids => this.onchange( "selection", ids ),
-		managercallUnselecting: () => this.onchange( "unselection" ),
-		managercallUnselectingOne: blcId => this.onchange( "unselectionOne", blcId ),
-		managercallDuplicating: ( blcsMap, wIncr ) => this.onchange( "duplicate", wIncr ),
-		managercallCroppingA: ( blcsMap, wIncr ) => this.onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
-		managercallCroppingB: ( blcsMap, wIncr ) => this.onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
+		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.$onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
+		managercallDeleting: blcsMap => this.$onchange( "deletion", Array.from( blcsMap.keys() ) ),
+		managercallSelecting: ids => this.$onchange( "selection", ids ),
+		managercallUnselecting: () => this.$onchange( "unselection" ),
+		managercallUnselectingOne: blcId => this.$onchange( "unselectionOne", blcId ),
+		managercallDuplicating: ( blcsMap, wIncr ) => this.$onchange( "duplicate", wIncr ),
+		managercallCroppingA: ( blcsMap, wIncr ) => this.$onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
+		managercallCroppingB: ( blcsMap, wIncr ) => this.$onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
 	} );
 
 	constructor() {
@@ -37,9 +40,6 @@ class gsuiPatternroll extends gsui0ne {
 			$attributes: { tabindex: -1 },
 		} );
 		this.timeline = this.#win.timeline;
-		this.onchange =
-		this.onaddBlock =
-		this.oneditBlock = null;
 		Object.seal( this );
 		GSUlistenEvents( this, {
 			gsuiTimewindow: {
@@ -98,7 +98,7 @@ class gsuiPatternroll extends gsui0ne {
 		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
 		GSUsetAttribute( elBlc, "data-missing", !dataReady );
 		this.#blcManager.$getBlocks().set( id, elBlc );
-		this.onaddBlock( id, obj, elBlc );
+		this.$onaddBlock( id, obj, elBlc );
 	}
 	$removeBlock( id ) {
 		this.#blcManager.$getBlocks().get( id ).remove();
@@ -120,7 +120,7 @@ class gsuiPatternroll extends gsui0ne {
 		}
 	}
 	$updateBlockViewBox( id, obj ) {
-		this.oneditBlock( id, obj, this.#blcManager.$getBlocks().get( id ) );
+		this.$oneditBlock( id, obj, this.#blcManager.$getBlocks().get( id ) );
 	}
 
 	// .........................................................................
@@ -128,10 +128,10 @@ class gsuiPatternroll extends gsui0ne {
 		this.#blcManager.$setData( data );
 	}
 	$setCallbacks( cb ) {
-		this.onchange = cb.onchange;
-		this.onaddBlock = cb.onaddBlock;
-		this.oneditBlock = cb.oneditBlock;
-		this.#blcManager.$getOpts().oneditBlock = cb.oneditBlock;
+		this.$onchange = cb.$onchange;
+		this.$onaddBlock = cb.$onaddBlock;
+		this.$oneditBlock = cb.$oneditBlock;
+		this.#blcManager.$getOpts().oneditBlock = cb.$oneditBlock;
 	}
 	$getBlocks() {
 		return this.#blcManager.$getBlocks();
@@ -181,7 +181,7 @@ class gsuiPatternroll extends gsui0ne {
 	#rowMousedown( e ) {
 		this.#blcManager.$onmousedown( e );
 		if ( e.button === 0 && !e.shiftKey && this.#blcManager.$getSelectedBlocks().size ) {
-			this.onchange( "unselection" );
+			this.$onchange( "unselection" );
 		}
 	}
 	#blcMousedown( id, e ) {
@@ -202,7 +202,7 @@ class gsuiPatternroll extends gsui0ne {
 			const when = this.#blcManager.$roundBeat( this.#blcManager.$getWhenByPageX( e.pageX ) );
 			const track = this.#blcManager.$getRowByIndex( this.#blcManager.$getRowIndexByPageY( e.pageY ) ).dataset.id;
 
-			this.onchange( "add", patType, patId, when, track );
+			this.$onchange( "add", patType, patId, when, track );
 		}
 	}
 }
