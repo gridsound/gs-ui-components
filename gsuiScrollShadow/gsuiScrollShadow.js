@@ -43,7 +43,7 @@ class gsuiScrollShadow {
 	}
 	static #onscroll2( elems, scroll ) {
 		elems.forEach( el => {
-			el.style.setProperty( "--gsuiScrollShadow-dist", `${ Math.min( scroll / 5, 5 ) }px` );
+			GSUsetStyle( el, "--gsuiScrollShadow-dist", `${ Math.min( scroll / 5, 5 ) }px` );
 			el.classList.toggle( "gsuiScrollShadow-shadowed", scroll > 0 );
 		} );
 	}

@@ -102,11 +102,13 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		const h = `${ elCtrls.scrollHeight }px`;
 
 		elCtrls.style.maxHeight = h;
-		document.body.style.setProperty( "--test-ctrls-h", h );
+		GSUsetStyle( document.body, "--test-ctrls-h", h );
 	}
 
-	document.body.style.setProperty( "--test-content-minw", getComputedStyle( elWrap.firstChild ).minWidth );
-	document.body.style.setProperty( "--test-content-minh", getComputedStyle( elWrap.firstChild ).minHeight );
+	GSUsetStyle( document.body, {
+		"--test-content-minw": getComputedStyle( elWrap.firstChild ).minWidth,
+		"--test-content-minh": getComputedStyle( elWrap.firstChild ).minHeight,
+	} );
 	document.title = `${ curr } (dev)`;
 	select.value = curr;
 	select.onchange = e => {

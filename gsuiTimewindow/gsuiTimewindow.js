@@ -167,7 +167,7 @@ class gsuiTimewindow extends gsui0ne {
 				GSUsetAttribute( this.$elements.$timeline, "pxperbeat", val );
 				GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", val );
 				GSUsetAttribute( this.$elements.$sliderZoomX, "value", GSUeaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
-				this.style.setProperty( "--gsuiTimewindow-pxperbeat", `${ val }px` );
+				GSUsetStyle( this, "--gsuiTimewindow-pxperbeat", `${ val }px` );
 				this.$elements.$currentTime.style.fontSize =
 				this.$elements.$loopA.style.fontSize =
 				this.$elements.$loopB.style.fontSize = `${ val }px`;
@@ -177,7 +177,7 @@ class gsuiTimewindow extends gsui0ne {
 			case "lineheight":
 				this.#lineHeight = +val;
 				GSUsetAttribute( this.$elements.$sliderZoomY, "value", GSUeaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
-				this.style.setProperty( "--gsuiTimewindow-lineH", `${ val }px` );
+				GSUsetStyle( this, "--gsuiTimewindow-lineH", `${ val }px` );
 				break;
 			case "currenttime": {
 				const step = GSUgetAttributeNum( this, "currenttimestep" );

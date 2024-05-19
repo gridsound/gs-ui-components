@@ -9,7 +9,7 @@ class gsuiKeys extends gsui0ne {
 		CDEFGAH: [ "C",  "C#",  "D",  "D#",  "E",  "F",  "F#",  "G",   "G#",   "A",  "A#",  "H" ],
 	};
 	static $keyNotation( id ) {
-		document.body.style.setProperty( "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
+		GSUsetStyle( document.body, "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
 	}
 	static $keyboardToKey = { // 1.
 		KeyZ:   [ -1,  0 ], KeyS:      [ -1,  1 ],
@@ -100,8 +100,10 @@ class gsuiKeys extends gsui0ne {
 		this.querySelector( `.gsuiKey[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKey-root" );
 	}
 	#setOctaves( start, nbOct ) {
-		this.style.setProperty( "--gsuiKeys-firstOctave", start );
-		this.style.setProperty( "--gsuiKeys-nbOctaves", nbOct );
+		GSUsetStyle( this, {
+			"--gsuiKeys-firstOctave": start,
+			"--gsuiKeys-nbOctaves": nbOct,
+		} );
 		if ( nbOct > this.#nbOct ) {
 			for ( let i = this.#nbOct; i < nbOct; ++i ) {
 				this.append( ...GSUgetTemplate( "gsui-keys-octave" ) );
@@ -120,7 +122,7 @@ class gsuiKeys extends gsui0ne {
 			const elRow = elKey.getElementsByClassName( "gsuiKey-row" )[ 0 ];
 
 			elKey.dataset.midi = midi - 1;
-			elKey.style.setProperty( "--gsuiKeys-key-id", i );
+			GSUsetStyle( elKey, "--gsuiKeys-key-id", i );
 			if ( elRow ) {
 				elKey._rowElement = elRow;
 				elRow._keyElement = elKey;
