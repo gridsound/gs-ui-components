@@ -9,6 +9,7 @@ class gsuiWindow extends gsui0ne {
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 24;
+	#resetCSS = { top: 0, left: 0, right: 0, bottom: 0 };
 
 	constructor() {
 		super( {
@@ -90,7 +91,6 @@ class gsuiWindow extends gsui0ne {
 	// .........................................................................
 	$maximize() {
 		if ( !this.#maximized ) {
-			const st = this.style;
 			const wasMinimized = this.#minimized;
 
 			this.#setClass( "maximized", true );
@@ -195,8 +195,8 @@ class gsuiWindow extends gsui0ne {
 		const m = this.#mousemovePos;
 
 		this.#setClass( "dragging", false );
-		this.#resetCSSrelative( this.$elements.$wrap.style );
-		this.#resetCSSrelative( this.$elements.$handlers.style );
+		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
+		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
 			GSUsetAttribute( this, {
 				x: x + m.x,
@@ -223,8 +223,8 @@ class gsuiWindow extends gsui0ne {
 		const m = this.#mousemovePos;
 
 		this.#setClass( "dragging", false );
-		this.#resetCSSrelative( this.$elements.$wrap.style );
-		this.#resetCSSrelative( this.$elements.$handlers.style );
+		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
+		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
 				case "e":  GSUsetAttribute( this, { w: w + m.x, h          } ); break;
@@ -308,12 +308,6 @@ class gsuiWindow extends gsui0ne {
 			}
 			return vMin;
 		}, 0 );
-	}
-	#resetCSSrelative( st ) {
-		st.top =
-		st.left =
-		st.right =
-		st.bottom = 0;
 	}
 	#setCSSrelativeMove( st, p ) {
 		const top = parseFloat( this.style.top );

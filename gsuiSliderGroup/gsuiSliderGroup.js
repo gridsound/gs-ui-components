@@ -165,23 +165,20 @@ class gsuiSliderGroup extends gsui0ne {
 			"gsuiSliderGroup-slidersSelected", this.#selected.size > 0 );
 	}
 	#sliderValue( sli, val ) {
-		const el = sli.element.firstElementChild;
-		const st = el.style;
 		const max = this.#max;
 		const min = this.#min;
 		const valNum = Number.isFinite( val ) ? val : this.#def;
 		const sameDir = min >= 0 === max >= 0;
 		const percX = Math.abs( valNum - ( sameDir ? min : 0 ) ) / ( max - min ) * 100;
 		const perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
+		const el = sli.element.firstElementChild;
+		const innerDown = el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", valNum < 0 );
 
-		st.height = `${ percX }%`;
-		if ( el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", valNum < 0 ) ) {
-			st.top = `${ 100 - perc0 }%`;
-			st.bottom = "auto";
-		} else {
-			st.top = "auto";
-			st.bottom = `${ perc0 }%`;
-		}
+		GSUsetStyle( el, {
+			height: `${ percX }%`,
+			top: innerDown ? `${ 100 - perc0 }%` : "auto",
+			bottom: innerDown ? "auto" : `${ perc0 }%`,
+		} );
 	}
 
 	// .........................................................................

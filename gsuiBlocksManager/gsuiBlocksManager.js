@@ -370,7 +370,6 @@ class gsuiBlocksManager {
 	}
 	#onmousemoveSelect2() {
 		const rowH = this.#fontSize;
-		const st = this.#elSelection.style;
 		const rowIndB = this.$getRowIndexByPageY( this.#mmPageY );
 		const when = Math.min( this.#mdWhen, this.#mmWhen );
 		const duration = this.#getBeatSnap() + Math.abs( this.#mdWhen - this.#mmWhen );
@@ -399,10 +398,12 @@ class gsuiBlocksManager {
 			return map;
 		}, new Map() );
 
-		st.top = `${ topRow * rowH }px`;
-		st.left = `${ when * this.#pxPerBeat }px`;
-		st.width = `${ duration * this.#pxPerBeat }px`;
-		st.height = `${ ( bottomRow - topRow + 1 ) * rowH }px`;
+		GSUsetStyle( this.#elSelection, {
+			top: `${ topRow * rowH }px`,
+			left: `${ when * this.#pxPerBeat }px`,
+			width: `${ duration * this.#pxPerBeat }px`,
+			height: `${ ( bottomRow - topRow + 1 ) * rowH }px`,
+		} );
 		this.#blcsEditing.forEach( ( blc, id ) => this.#blockDOMChange( blc, "selected", blcs.has( id ) ) );
 		this.#blcsEditing = blcs;
 	}

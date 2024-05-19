@@ -43,8 +43,6 @@ class gsuiDragline {
 	// .........................................................................
 	#render( x, y ) {
 		const clMain = this.#elements.main.classList;
-		const stMain = this.#elements.main.style;
-		const stSvg = this.#elements.svg.style;
 		const bcr = this.rootElement.getBoundingClientRect();
 		const w = x - bcr.left;
 		const h = y - bcr.top;
@@ -55,27 +53,32 @@ class gsuiDragline {
 
 		clMain.toggle( "gsuiDragline-down", h > 0 );
 		clMain.toggle( "gsuiDragline-right", w > 0 );
-		stMain.top = `${ Math.min( h, 0 ) }px`;
-		stMain.left = `${ Math.min( w, 0 ) }px`;
-		stMain.width = `${ wabs }px`;
-		stMain.height = `${ habs }px`;
-		stSvg.width =
-		stSvg.height = `${ whmax2 }px`;
-		stSvg.margin = `${ -whmax }px`;
+		GSUsetStyle( this.#elements.main, {
+			top: `${ Math.min( h, 0 ) }px`,
+			left: `${ Math.min( w, 0 ) }px`,
+			width: `${ wabs }px`,
+			height: `${ habs }px`,
+		} );
+		GSUsetStyle( this.#elements.svg, {
+			width: `${ whmax2 }px`,
+			height: `${ whmax2 }px`,
+			margin: `${ -whmax }px`,
+		} );
 		GSUsetViewBoxWH( this.#elements.svg, whmax2, whmax2 );
 		GSUsetAttribute( this.#elements.polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	#unlink() {
-		const stMain = this.#elements.main.style;
-		const stSvg = this.#elements.svg.style;
-
-		stMain.top =
-		stMain.left =
-		stMain.width =
-		stMain.height =
-		stSvg.width =
-		stSvg.height =
-		stSvg.margin = "0px";
+		GSUsetStyle( this.#elements.main, {
+			top: 0,
+			left: 0,
+			width: 0,
+			height: 0,
+		} );
+		GSUsetStyle( this.#elements.svg, {
+			width: 0,
+			height: 0,
+			margin: 0,
+		} );
 	}
 	#cancelDrag() {
 		this.#resetDrag();

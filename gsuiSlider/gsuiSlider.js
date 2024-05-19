@@ -111,7 +111,6 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	#setType( type ) {
-		const st = this.$elements.$lineColor.style;
 		const circ = type === "circular";
 		const axeX = type === "linear-x";
 
@@ -120,17 +119,12 @@ class gsuiSlider extends gsui0ne {
 		this.classList.toggle( "gsuiSlider-circular", circ );
 		this.classList.toggle( "gsuiSlider-linear", !circ );
 		if ( !circ ) {
-			if ( axeX ) {
-				st.left =
-				st.width = "";
-				st.top = "0";
-				st.height = "100%";
-			} else {
-				st.top =
-				st.height = "";
-				st.left = "0";
-				st.width = "100%";
-			}
+			GSUsetStyle( this.$elements.$lineColor, {
+				top: axeX ? "0" : "",
+				left: axeX ? "" : "0",
+				width: axeX ? "" : "100%",
+				height: axeX ? "100%" : "",
+			} );
 		}
 	}
 	#setSVGcirc() {
@@ -174,20 +168,19 @@ class gsuiSlider extends gsui0ne {
 			const prcmin = Math.min( prcval, prcstart );
 
 			if ( this.#circ ) {
-				const line = this.$elements.$svgLineColor.style;
-
-				line.transform = `rotate(${ 90 + prcmin * 360 }deg)`;
-				line.strokeDasharray = `${ prclen * this.#svgLineLen }, 999999`;
+				GSUsetStyle( this.$elements.$svgLineColor, {
+					transform: `rotate(${ 90 + prcmin * 360 }deg)`,
+					strokeDasharray: `${ prclen * this.#svgLineLen }, 999999`,
+				} );
 			} else {
-				const line = this.$elements.$lineColor.style;
-
-				if ( this.#axeX ) {
-					line.left = `${ prcmin * 100 }%`;
-					line.width = `${ prclen * 100 }%`;
-				} else {
-					line.bottom = `${ prcmin * 100 }%`;
-					line.height = `${ prclen * 100 }%`;
-				}
+				GSUsetStyle( this.$elements.$lineColor, this.#axeX
+					? {
+						left:  `${ prcmin * 100 }%`,
+						width: `${ prclen * 100 }%`,
+					} : {
+						bottom: `${ prcmin * 100 }%`,
+						height: `${ prclen * 100 }%`,
+					} );
 			}
 		}
 	}

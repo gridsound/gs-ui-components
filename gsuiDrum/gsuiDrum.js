@@ -30,7 +30,7 @@ class gsuiDrum extends gsui0ne {
 
 	// .........................................................................
 	#changeProp( prop, val ) {
-		const st = this.querySelector( `.gsuiDrum-prop[data-value="${ prop }"]` ).firstChild.style;
+		const st = {};
 
 		switch ( prop ) {
 			case "detune":
@@ -46,6 +46,7 @@ class gsuiDrum extends gsui0ne {
 				st.width = `${ val * 100 }%`;
 				break;
 		}
+		GSUsetStyle( this.querySelector( `.gsuiDrum-prop[data-value="${ prop }"]` ).firstChild, st );
 	}
 }
 
