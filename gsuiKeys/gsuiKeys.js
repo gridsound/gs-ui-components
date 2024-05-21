@@ -157,6 +157,7 @@ class gsuiKeys extends gsui0ne {
 	// .........................................................................
 	$onptrdown( e ) {
 		if ( this.#nbOct ) {
+			GSUunselectText();
 			if ( e.button === 2 ) {
 				GSUsetAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
 			} else if ( e.button === 0 ) {
