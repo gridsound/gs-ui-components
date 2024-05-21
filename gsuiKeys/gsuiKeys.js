@@ -11,7 +11,7 @@ class gsuiKeys extends gsui0ne {
 	static $keyNotation( id ) {
 		GSUsetStyle( document.body, "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
 	}
-	static $keyboardToKey = { // 1.
+	static $keyboardToKey = {
 		KeyZ:   [ -1,  0 ], KeyS:      [ -1,  1 ],
 		KeyX:   [ -1,  2 ], KeyD:      [ -1,  3 ],
 		KeyC:   [ -1,  4 ],
@@ -146,10 +146,10 @@ class gsuiKeys extends gsui0ne {
 			elKey.classList.toggle( "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
-				GSUdispatchEvent( this, "gsuiKeys", "keyDown", midi, this.#gain );
+				this.$dispatch( "keyDown", midi, this.#gain );
 			} else {
 				this.#keysDown.delete( midi );
-				GSUdispatchEvent( this, "gsuiKeys", "keyUp", midi, this.#gain );
+				this.$dispatch( "keyUp", midi, this.#gain );
 			}
 		}
 	}
