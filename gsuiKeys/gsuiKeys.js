@@ -169,8 +169,8 @@ class gsuiKeys extends gsui0ne {
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
 				this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
 				this.#gain = Math.min( isVert
-					? e.offsetX / ( e.target.clientWidth - 1 )
-					: e.offsetY / ( e.target.clientHeight - 1 ), 1 );
+					? e.offsetX / ( e.currentTarget.clientWidth * .5 )
+					: e.offsetY / ( e.currentTarget.clientHeight * .5 ), 1 );
 				this.$onptrmove( e );
 				return;
 			}
