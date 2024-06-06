@@ -27,6 +27,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiFxFilter" } ),
 					GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyser" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserTime" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSpectrum" } ),
 					GSUcreateOption( { value: "gsuiTimewindow" } ),
 					GSUcreateOption( { value: "gsuiTimeline" } ),

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiAnalyserTime/gsuiAnalyserTime.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 512px;
+	--test-content-h: 256px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-analysertime></gsui-analysertime>
+</div>
+<div id="TEST-CTRLS">
+	<button id="play" disabled>play</button>
+	<button id="stop">stop</button>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
+<script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiAnalyserTime/gsuiAnalyserTime.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const play = document.querySelector( "#play" );
+const stop = document.querySelector( "#stop" );
+const analyserTime = document.querySelector( "gsui-analysertime" );
+const ctx = new AudioContext();
+const an = ctx.createAnalyser();
+const fftSize = 1024 * .25;
+const anData = new Uint8Array( fftSize / 2 );
+let buffer;
+let absn;
+
+analyserTime.$setResolution( 512, 128 );
+
+an.fftSize = fftSize;
+an.smoothingTimeConstant = 0;
+
+fetch( "../test-assets/Cymatics-IcedOut.wav" )
+	.then( res => res.arrayBuffer() )
+	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( buf => {
+		buffer = buf;
+		play.disabled = false;
+	} );
+
+stop.onclick = () => {
+	absn?.stop();
+};
+play.onclick = () => {
+	stop.onclick();
+	absn = ctx.createBufferSource();
+	absn.buffer = buffer;
+	absn.loop = true;
+	absn.connect( an );
+	absn.connect( ctx.destination );
+	absn.start();
+};
+
+function frame() {
+	an.getByteTimeDomainData( anData );
+	analyserTime.$draw( anData );
+	requestAnimationFrame( frame );
+}
+
+frame();
+</script>
+</body>
+</html>
