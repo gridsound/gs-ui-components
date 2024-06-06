@@ -19,17 +19,35 @@ body {
 	--test-content-w: 512px;
 	--test-content-h: 256px;
 }
+.prop {
+	display: flex;
+	align-items: center;
+}
+.prop span,
+.prop b {
+	margin-left: 1ch;
+}
 </style>
 </head>
 <body>
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-analysertime></gsui-analysertime>
+	<gsui-analysertime pinch="1" amp="2"></gsui-analysertime>
 </div>
 <div id="TEST-CTRLS">
 	<button id="play" disabled>play</button>
 	<button id="stop">stop</button>
+	<div class="prop">
+		<input id="ampInput" type="range" value="1" min="0.1" max="16" step=".01" />
+		<span>amp</span>
+		<b>1</b>
+	</div>
+	<div class="prop">
+		<input id="pinchInput" type="range" value="1" min="0" max="1" step=".01" />
+		<span>pinch</span>
+		<b>1</b>
+	</div>
 </div>
 
 <!-- ....................................................................... -->
@@ -46,14 +64,14 @@ body {
 const play = document.querySelector( "#play" );
 const stop = document.querySelector( "#stop" );
 const analyserTime = document.querySelector( "gsui-analysertime" );
+const ampInput = document.querySelector( "#ampInput" );
+const pinchInput = document.querySelector( "#pinchInput" );
 const ctx = new AudioContext();
 const an = ctx.createAnalyser();
-const fftSize = 1024 * .25;
+const fftSize = 256;
 const anData = new Uint8Array( fftSize / 2 );
 let buffer;
 let absn;
-
-analyserTime.$setResolution( 512, 128 );
 
 an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;
@@ -78,6 +96,10 @@ play.onclick = () => {
 	absn.connect( ctx.destination );
 	absn.start();
 };
+
+ampInput.oninput = e => GSUsetAttribute( analyserTime, "amp", e.target.value );
+pinchInput.oninput = e => GSUsetAttribute( analyserTime, "pinch", e.target.value );
+document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 
 function frame() {
 	an.getByteTimeDomainData( anData );
