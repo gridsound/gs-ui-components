@@ -30,7 +30,7 @@ gsui-timewindow[ disabled ] {
 .gsuiTimewindow-minimap {
 	box-sizing: border-box;
 	display: flex;
-	height: 32px;
+	height: 16px;
 	background-color: var( --gsui-timewin-bg );
 }
 .gsuiTimewindow-minimapPanel {
