@@ -113,31 +113,31 @@ GSUsetAttribute( el, "duration", 8 );
 GSUsetAttribute( el, "bpm", 240 );
 GSUsetAttribute( el, "currentcomposition", "local:idLOCA" );
 
-el.addComposition( { id: "idLOCA", name: "my first compo", bpm: 105, duration: 16, options: { saveMode: "local" } } );
-el.addComposition( { id: "idLOCB", name: "a second compo", bpm: 90, duration: 24, options: { saveMode: "local" } } );
-el.addComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
-el.addComposition( { id: "idONL2", name: "compo online 2", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
-el.deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
+el.$addComposition( { id: "idLOCA", name: "my first compo", bpm: 105, duration: 16, options: { saveMode: "local" } } );
+el.$addComposition( { id: "idLOCB", name: "a second compo", bpm: 90, duration: 24, options: { saveMode: "local" } } );
+el.$addComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
+el.$addComposition( { id: "idONL2", name: "compo online 2", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
+el.$deleteComposition( { id: "idONL1", name: "compo online", bpm: 135, duration: 21, options: { saveMode: "cloud" } } );
 
 GSUsetAttribute( el, "currentcomposition", "cloud:idONL2" );
 // GSUsetAttribute( el, "saving", true );
 
-el.toggleWindow( "main", true );
-el.toggleWindow( "mixer", false );
+el.$toggleWindow( "main", true );
+el.$toggleWindow( "mixer", false );
 
-el.stackAction( "mute", "shhhhhhhh..." );
-el.stackAction( "unmute", "make some noise" );
-el.stackAction( "plus", "add some love" );
-el.stackAction( "minus", "remove some hate" );
-el.stackAction( "pen", "rename stuff" );
-el.stackAction( "osc-sine", "synth params" );
-el.stackAction( "keys", "keyyyyysss" );
-el.stackAction( "arrows", "move elements" );
-el.stackAction( "slices", "slices stuff" );
-el.stackAction( "loop", "loop loop loooooooop" );
-el.stackAction( "mixer", "mixer changes" );
-el.stackAction( "redirect", "redirection -->" );
-el.undo();
+el.$stackAction( "mute", "shhhhhhhh..." );
+el.$stackAction( "unmute", "make some noise" );
+el.$stackAction( "plus", "add some love" );
+el.$stackAction( "minus", "remove some hate" );
+el.$stackAction( "pen", "rename stuff" );
+el.$stackAction( "osc-sine", "synth params" );
+el.$stackAction( "keys", "keyyyyysss" );
+el.$stackAction( "arrows", "move elements" );
+el.$stackAction( "slices", "slices stuff" );
+el.$stackAction( "loop", "loop loop loooooooop" );
+el.$stackAction( "mixer", "mixer changes" );
+el.$stackAction( "redirect", "redirection -->" );
+el.$undo();
 </script>
 </body>
 </html>
