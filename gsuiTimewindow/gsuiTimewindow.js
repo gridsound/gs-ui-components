@@ -70,7 +70,7 @@ class gsuiTimewindow extends gsui0ne {
 
 						this.#setScrollX( scrollBack );
 						GSUsetAttribute( this, "pxperbeat", newVal );
-						GSUdispatchEvent( this, "gsuiTimewindow", "pxperbeat", newVal );
+						this.$dispatch( "pxperbeat", newVal );
 					} else if ( sli.dataset.zoom === "y" ) {
 						const val = GSUeaseInCirc( d.args[ 0 ] );
 						const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
@@ -78,7 +78,7 @@ class gsuiTimewindow extends gsui0ne {
 
 						this.#setScrollY( scrollBack );
 						GSUsetAttribute( this, "lineheight", newVal );
-						GSUdispatchEvent( this, "gsuiTimewindow", "lineheight", newVal );
+						this.$dispatch( "lineheight", newVal );
 					}
 				},
 			},
@@ -377,7 +377,7 @@ class gsuiTimewindow extends gsui0ne {
 
 			this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppbNew, px ) );
 			GSUsetAttribute( this, "pxperbeat", ppbNew );
-			GSUdispatchEvent( this, "gsuiTimewindow", "pxperbeat", ppbNew );
+			this.$dispatch( "pxperbeat", ppbNew );
 		}
 	}
 	#onwheelPanel( e ) {
@@ -391,7 +391,7 @@ class gsuiTimewindow extends gsui0ne {
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
 				GSUsetAttribute( this, "lineheight", lhNew );
-				GSUdispatchEvent( this, "gsuiTimewindow", "lineheight", lhNew );
+				this.$dispatch( "lineheight", lhNew );
 			}
 		}
 	}
