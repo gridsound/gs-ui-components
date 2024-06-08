@@ -83,7 +83,7 @@ class gsuiKeys extends gsui0ne {
 	$midiReleaseAllKeys() {
 		this.#keysDown.forEach( ( _, midi ) => this.$midiKeyUp( midi ) );
 	}
-	$midiKeyDown( midi, vel ) {
+	$midiKeyDown( midi, vel = 1 ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true, vel );
 	}
 	$midiKeyUp( midi ) {
