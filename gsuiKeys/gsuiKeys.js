@@ -83,8 +83,8 @@ class gsuiKeys extends gsui0ne {
 	$midiReleaseAllKeys() {
 		this.#keysDown.forEach( ( _, midi ) => this.$midiKeyUp( midi ) );
 	}
-	$midiKeyDown( midi ) {
-		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true );
+	$midiKeyDown( midi, vel ) {
+		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), true, vel );
 	}
 	$midiKeyUp( midi ) {
 		this.#keyUpDown( this.#getKeyElementFromMidi( midi ), false );
@@ -139,17 +139,17 @@ class gsuiKeys extends gsui0ne {
 	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
-	#keyUpDown( elKey, status ) {
+	#keyUpDown( elKey, status, vel ) {
 		if ( elKey ) {
 			const midi = +elKey.dataset.midi;
 
 			elKey.classList.toggle( "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
-				this.$dispatch( "keyDown", midi, this.#gain );
+				this.$dispatch( "keyDown", midi, vel );
 			} else {
 				this.#keysDown.delete( midi );
-				this.$dispatch( "keyUp", midi, this.#gain );
+				this.$dispatch( "keyUp", midi );
 			}
 		}
 	}
@@ -206,7 +206,7 @@ class gsuiKeys extends gsui0ne {
 					this.#keyUpDown( this.children[ currKeyInd ], false );
 				}
 				this.#keyIndByPtr.set( e.pointerId, iKeyInd );
-				this.#keyUpDown( elKey, true );
+				this.#keyUpDown( elKey, true, this.#gain );
 			}
 		}
 	}
