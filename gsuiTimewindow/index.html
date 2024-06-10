@@ -68,6 +68,7 @@ body {
 		<input id="timeDisabled" type="checkbox" name="disabled"/>
 		<span>disabled</span>
 	</label>
+	<button id="playStop" type="button" name="playStop">Play!</button>
 </div>
 
 <!-- ....................................................................... -->
@@ -94,10 +95,29 @@ body {
 const win = document.querySelector( "gsui-timewindow" );
 const tracks = [];
 const rows = [];
+let play = false;
+let intervalId = 0;
+let currenttime = 0;
 
 document.querySelector( "#timeDisabled" ).onchange = e => {
 	GSUsetAttribute( win, "disabled", e.target.checked );
 };
+
+document.querySelector( "#playStop" ).onclick = e => {
+	play = !play;
+	e.target.textContent = play ? "Stop" : "Play!" ;
+	if (play) {
+		intervalId = setInterval( () => {
+			currenttime = ( currenttime + .05 ) % 8;
+			GSUsetAttribute( win, "currenttime", currenttime );
+		}, 50 );
+	} else {
+		clearInterval( intervalId );
+		currenttime = 0;
+		GSUsetAttribute( win, "currenttime", 0 );
+	}
+};
+
 for ( let i = 0; i < 10; ++i ) {
 	tracks.push( GSUcreateDiv( { class: "myRow" }, `track ${ i }` ) );
 	rows.push( GSUcreateDiv( { class: "myRow" }, `row ${ i }` ) );
