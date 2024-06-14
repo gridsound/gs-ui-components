@@ -68,6 +68,8 @@ body {
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
+	gap: 32px;
+	max-width: 100%;
 }
 
 /* .......................................................................... */
@@ -75,12 +77,13 @@ body {
 	position: relative;
 	z-index: 1;
 	display: flex;
-	gap: 16px;
+	flex-direction: column;
 	align-items: center;
-	margin-bottom: 32px;
+	gap: 6px;
 	color: #fff;
 }
 #testTitle {
+	font-size: 12px;
 	font-weight: bold;
 }
 #testSelect {
@@ -108,6 +111,7 @@ body[ data-skin="white" ] #testSkin {
 
 /* .......................................................................... */
 #testContent {
+	box-sizing: border-box;
 	position: relative;
 	overflow: hidden;
 	display: flex;
@@ -115,6 +119,7 @@ body[ data-skin="white" ] #testSkin {
 	resize: var( --test-content-resize );
 	gap: 10px;
 	padding: 32px;
+	max-width: 100%;
 	width: var( --test-content-w );
 	height: var( --test-content-h );
 	min-width: var( --test-content-minw );
