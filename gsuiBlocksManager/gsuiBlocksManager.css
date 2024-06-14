@@ -28,7 +28,7 @@
 	position: absolute;
 	z-index: 1;
 	top: 0;
-	bottom: 0;
+	bottom: 1px;
 	background-color: var( --gsuiBlocksManager-blockColor );
 	transition: .1s;
 	transition-property: opacity, background-color;
