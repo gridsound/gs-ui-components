@@ -11,7 +11,6 @@ gsui-timewindow::-webkit-scrollbar {
 	display: none;
 }
 gsui-timewindow[ disabled ] {
-	overflow: hidden;
 	pointer-events: none;
 	filter: grayscale( 1 ) brightness( .4 );
 }
@@ -23,6 +22,7 @@ gsui-timewindow[ disabled ] {
 	display: flex;
 	align-items: start;
 	overflow: auto;
+	overscroll-behavior: none;
 	scrollbar-width: none;
 }
 
