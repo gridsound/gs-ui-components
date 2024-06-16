@@ -361,12 +361,18 @@ class gsuiTimewindow extends gsui0ne {
 
 		GSUsetAttribute( this, "step", frac );
 	}
+	#getWheelDelta( d ) {
+		let inc = 1.1;
+
+		if ( -50 < d && d < 50 ) {
+			inc = 1 + Math.abs( d ) / 100;
+		}
+		return d > 0 ? 1 / inc : inc;
+	}
 	#onwheel( e ) {
 		if ( e.ctrlKey ) {
-			const mul = e.deltaY > 0 ? .9 : 1.1;
-
 			e.preventDefault();
-			this.#onwheel2( this.#pxPerBeat * mul, e.pageX );
+			this.#onwheel2( this.#pxPerBeat * this.#getWheelDelta( e.deltaY ), e.pageX );
 		}
 	}
 	#onwheel2( ppb, pageX ) {
@@ -382,7 +388,7 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
-			const mul = e.deltaY > 0 ? .9 : 1.1;
+			const mul = this.#getWheelDelta( e.deltaY );
 			const lhNew = Math.round( Math.min( Math.max( this.#getLHmin(), this.#lineHeight * mul ), this.#getLHmax() ) );
 
 			e.preventDefault();
