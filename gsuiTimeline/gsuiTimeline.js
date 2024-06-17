@@ -3,6 +3,13 @@
 class gsuiTimeline extends gsui0ne {
 	#status = "";
 	#step = 1;
+	#beatsPerMeasure = 4;
+	#stepsPerBeat = 4;
+	#pxPerBeat = 10;
+	#pxPerMeasure = this.#beatsPerMeasure * this.#pxPerBeat;
+	#loopA = 0;
+	#loopB = 0;
+	#looping = false;
 	#offset = null;
 	#scrollingAncestor = document.body;
 	#mousedownLoop = "";
@@ -33,13 +40,6 @@ class gsuiTimeline extends gsui0ne {
 				currenttime: 0,
 			},
 		} );
-		this.beatsPerMeasure = 4;
-		this.stepsPerBeat = 4;
-		this.pxPerBeat = 10;
-		this.pxPerMeasure = this.beatsPerMeasure * this.pxPerBeat;
-		this.loopA =
-		this.loopB = 0;
-		this.looping = false;
 		Object.seal( this );
 	}
 
@@ -90,7 +90,7 @@ class gsuiTimeline extends gsui0ne {
 	$beatRound( beat ) { return this.#beatCalc( Math.round, beat ); }
 	$beatFloor( beat ) { return this.#beatCalc( Math.floor, beat ); }
 	#beatCalc( mathFn, beat ) {
-		const mod = 1 / this.stepsPerBeat * this.#step;
+		const mod = 1 / this.#stepsPerBeat * this.#step;
 
 		return mathFn( beat / mod ) * mod;
 	}
@@ -101,12 +101,12 @@ class gsuiTimeline extends gsui0ne {
 		const beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) );
 		const measuresOpa = Math.max( 0, Math.min( ( ppb - 6 ) / 20, .7 ) );
 
-		this.pxPerBeat = ppb;
-		this.pxPerMeasure = this.beatsPerMeasure * ppb;
+		this.#pxPerBeat = ppb;
+		this.#pxPerMeasure = this.#beatsPerMeasure * ppb;
 		this.#onlyBigMeasures = ppb < 6;
 		GSUsetStyle( this, {
 			fontSize: `${ ppb }px`,
-			"--gsuiTimeline-beats-incr": this.#onlyBigMeasures ? this.beatsPerMeasure : 1,
+			"--gsuiTimeline-beats-incr": this.#onlyBigMeasures ? this.#beatsPerMeasure : 1,
 			"--gsuiTimeline-measures-opacity": measuresOpa,
 		} );
 		this.$elements.$steps.style.opacity = stepsOpa;
@@ -118,10 +118,10 @@ class gsuiTimeline extends gsui0ne {
 	#changeTimedivision( timediv ) {
 		const [ bPM, sPB ] = timediv.split( "/" );
 
-		this.beatsPerMeasure = +bPM;
-		this.stepsPerBeat = +sPB;
-		this.pxPerMeasure = this.beatsPerMeasure * this.pxPerBeat;
-		GSUsetStyle( this, "--gsuiTimeline-beats-per-measure", this.beatsPerMeasure );
+		this.#beatsPerMeasure = +bPM;
+		this.#stepsPerBeat = +sPB;
+		this.#pxPerMeasure = this.#beatsPerMeasure * this.#pxPerBeat;
+		GSUsetStyle( this, "--gsuiTimeline-beats-per-measure", this.#beatsPerMeasure );
 		this.#updateStepsBg();
 		if ( this.#scrollingAncestor ) {
 			this.#updateNumberMeasures();
@@ -131,9 +131,9 @@ class gsuiTimeline extends gsui0ne {
 	#changeLoop( val ) {
 		const [ a, b ] = ( val || "0-0" ).split( "-" );
 
-		this.looping = !!val;
-		this.loopA = +a;
-		this.loopB = +b;
+		this.#looping = !!val;
+		this.#loopA = +a;
+		this.#loopB = +b;
 		this.#updateLoop();
 	}
 	#changeCurrentTime( t ) {
@@ -165,10 +165,10 @@ class gsuiTimeline extends gsui0ne {
 	#getBeatByPageX( pageX ) {
 		const bcrX = this.getBoundingClientRect().x;
 
-		return Math.max( 0, this.$beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
+		return Math.max( 0, this.$beatRound( ( pageX - bcrX ) / this.#pxPerBeat ) );
 	}
 	#updateStepsBg() {
-		const sPB = this.stepsPerBeat;
+		const sPB = this.#stepsPerBeat;
 		const dots = [];
 
 		for ( let i = 1; i < sPB; ++i ) {
@@ -186,9 +186,9 @@ class gsuiTimeline extends gsui0ne {
 		`;
 	}
 	#updateOffset() {
-		const offBeats = Math.floor( this.#scrollingAncestor.scrollLeft / this.pxPerMeasure );
+		const offBeats = Math.floor( this.#scrollingAncestor.scrollLeft / this.#pxPerMeasure );
 		const off = this.#onlyBigMeasures
-			? Math.floor( offBeats / this.beatsPerMeasure ) * this.beatsPerMeasure
+			? Math.floor( offBeats / this.#beatsPerMeasure ) * this.#beatsPerMeasure
 			: offBeats;
 		const diff = off !== this.#offset;
 
@@ -200,7 +200,7 @@ class gsuiTimeline extends gsui0ne {
 	}
 	#updateNumberMeasures() {
 		const elMeasures = this.$elements.$measures;
-		const px = this.pxPerMeasure * ( this.#onlyBigMeasures ? this.beatsPerMeasure : 1 );
+		const px = this.#pxPerMeasure * ( this.#onlyBigMeasures ? this.#beatsPerMeasure : 1 );
 		const nb = Math.ceil( this.#scrollingAncestor.clientWidth / px ) + 1;
 
 		if ( nb < 0 || nb > 500 ) {
@@ -218,14 +218,14 @@ class gsuiTimeline extends gsui0ne {
 	#updateMeasures() {
 		Array.prototype.forEach.call( this.$elements.$measures.children, ( el, i ) => {
 			el.classList.toggle( "gsuiTimeline-measureBig",
-				this.#onlyBigMeasures || ( this.#offset + i ) % this.beatsPerMeasure === 0 );
+				this.#onlyBigMeasures || ( this.#offset + i ) % this.#beatsPerMeasure === 0 );
 		} );
 	}
 	#updateLoop() {
-		this.classList.toggle( "gsuiTimeline-looping", this.looping );
-		if ( this.looping ) {
-			this.$elements.$loop.style.left = `${ this.loopA }em`;
-			this.$elements.$loop.style.width = `${ this.loopB - this.loopA }em`;
+		this.classList.toggle( "gsuiTimeline-looping", this.#looping );
+		if ( this.#looping ) {
+			this.$elements.$loop.style.left = `${ this.#loopA }em`;
+			this.$elements.$loop.style.width = `${ this.#loopB - this.#loopA }em`;
 		}
 	}
 
@@ -246,17 +246,17 @@ class gsuiTimeline extends gsui0ne {
 			Date.now() - this.#mousedownPrevDate < 500 &&
 			GSUapproxEqual( this.#mousedownPrevX, e.pageX, 20 )
 		) ) {
-			if ( e.button !== 2 || !this.looping ) {
-				this.loopA =
-				this.loopB = this.#mousedownBeat;
+			if ( e.button !== 2 || !this.#looping ) {
+				this.#loopA =
+				this.#loopB = this.#mousedownBeat;
 				this.$dispatch( "inputLoopStart" );
 				this.#setStatus( "draggingLoopHandleB" );
-			} else if ( e.button === 2 && this.looping ) {
-				if ( this.#mousedownBeat < ( this.loopB + this.loopA ) / 2 ) {
-					this.loopA = this.#mousedownBeat;
+			} else if ( e.button === 2 && this.#looping ) {
+				if ( this.#mousedownBeat < ( this.#loopB + this.#loopA ) / 2 ) {
+					this.#loopA = this.#mousedownBeat;
 					this.#setStatus( "draggingLoopHandleA" );
 				} else {
-					this.loopB = this.#mousedownBeat;
+					this.#loopB = this.#mousedownBeat;
 					this.#setStatus( "draggingLoopHandleB" );
 				}
 			}
@@ -272,8 +272,8 @@ class gsuiTimeline extends gsui0ne {
 		if ( this.#status ) {
 			this.$dispatch( "inputCurrentTimeStart" );
 			this.#mousedownLoop = GSUgetAttribute( this, "loop" );
-			this.#mousedownLoopA = this.loopA;
-			this.#mousedownLoopB = this.loopB;
+			this.#mousedownLoopA = this.#loopA;
+			this.#mousedownLoopB = this.#loopB;
 			GSUunselectText();
 			this.$onptrmove( e );
 			return;
@@ -354,8 +354,8 @@ class gsuiTimeline extends gsui0ne {
 			case "draggingLoopHandleB":
 				this.$dispatch( "inputLoopEnd" );
 				if ( GSUgetAttribute( this, "loop" ) !== this.#mousedownLoop ) {
-					if ( this.loopA !== this.loopB ) {
-						this.$dispatch( "changeLoop", this.loopA, this.loopB );
+					if ( this.#loopA !== this.#loopB ) {
+						this.$dispatch( "changeLoop", this.#loopA, this.#loopB );
 					} else {
 						this.removeAttribute( "loop" );
 						this.$dispatch( "changeLoop", false );
