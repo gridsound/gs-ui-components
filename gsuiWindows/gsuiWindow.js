@@ -63,11 +63,11 @@ class gsuiWindow extends gsui0ne {
 		if ( b !== this.#show ) {
 			if ( b ) {
 				this.#show = true;
-				this.#setClass( "show", true );
+				GSUsetAttribute( this, "show", true );
 				this.$dispatch( "open" );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
-				this.#setClass( "show", false );
+				GSUsetAttribute( this, "show", false );
 				GSUemptyElement( this.$elements.$content );
 				this.$dispatch( "close" );
 			}
@@ -93,10 +93,9 @@ class gsuiWindow extends gsui0ne {
 		if ( !this.#maximized ) {
 			const wasMinimized = this.#minimized;
 
-			this.#setClass( "maximized", true );
-			this.#setClass( "minimized", false );
-			this.#maximized = true;
+			GSUsetAttribute( this, { minimized: false, maximized: true } );
 			this.#minimized = false;
+			this.#maximized = true;
 			if ( wasMinimized ) {
 				this.$dispatch( "open" );
 			}
@@ -105,8 +104,7 @@ class gsuiWindow extends gsui0ne {
 	}
 	$minimize() {
 		if ( !this.#minimized ) {
-			this.#setClass( "minimized", true );
-			this.#setClass( "maximized", false );
+			GSUsetAttribute( this, { minimized: true, maximized: false } );
 			this.#minimized = true;
 			this.#maximized = false;
 			GSUemptyElement( this.$elements.$content );
@@ -118,8 +116,7 @@ class gsuiWindow extends gsui0ne {
 			const wasMinimized = this.#minimized;
 
 			this.focus( { preventScroll: true } );
-			this.#setClass( "minimized", false );
-			this.#setClass( "maximized", false );
+			GSUsetAttribute( this, { minimized: false, maximized: false } );
 			this.#minimized =
 			this.#maximized = false;
 			if ( wasMinimized ) {
@@ -157,7 +154,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			this.#setClass( "dragging", true );
+			GSUsetAttribute( this, "dragging", true );
 			this.$dispatch( "startMousemoving", "move", e.pointerId,
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
@@ -171,7 +168,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			this.#setClass( "dragging", true );
+			GSUsetAttribute( this, "dragging", true );
 			this.$dispatch( "startMousemoving", `${ dir }-resize`, e.pointerId,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
@@ -194,7 +191,7 @@ class gsuiWindow extends gsui0ne {
 		const { x, y } = this.rect;
 		const m = this.#mousemovePos;
 
-		this.#setClass( "dragging", false );
+		GSUsetAttribute( this, "dragging", false );
 		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
@@ -222,7 +219,7 @@ class gsuiWindow extends gsui0ne {
 		const { x, y, w, h } = this.rect;
 		const m = this.#mousemovePos;
 
-		this.#setClass( "dragging", false );
+		GSUsetAttribute( this, "dragging", false );
 		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
@@ -240,9 +237,6 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	#setClass( clazz, b ) {
-		this.classList.toggle( `gsuiWindow-${ clazz }`, b );
-	}
 	#calcCSSmagnet( dir, x, y ) {
 		const rc = this.rect;
 		const dirW = dir.includes( "w" );
