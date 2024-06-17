@@ -43,12 +43,12 @@ gsui-patterns {
 .gsuiPatterns-panel:first-child {
 	min-height: 24px;
 }
-.gsuiPatterns-panelBuffers,
-.gsuiPatterns-panelDrums,
-.gsuiPatterns-panelSlices {
+.gsuiPatterns-panel[ data-type="buffers" ],
+.gsuiPatterns-panel[ data-type="drums" ],
+.gsuiPatterns-panel[ data-type="slices" ] {
 	height: 20%;
 }
-.gsuiPatterns-panelKeys {
+.gsuiPatterns-panel[ data-type="keys" ] {
 	height: 40%;
 }
 

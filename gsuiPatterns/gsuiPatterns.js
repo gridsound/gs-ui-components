@@ -32,10 +32,10 @@ class gsuiPatterns extends gsui0ne {
 			$tagName: "gsui-patterns",
 			$elements: {
 				$lists: {
-					slices: ".gsuiPatterns-panelSlices .gsuiPatterns-panel-list",
-					drums: ".gsuiPatterns-panelDrums .gsuiPatterns-panel-list",
-					synth: ".gsuiPatterns-panelKeys .gsuiPatterns-panel-list",
-					buffer: ".gsuiPatterns-panelBuffers .gsuiPatterns-panel-list",
+					slices: ".gsuiPatterns-panel[data-type='slices'] .gsuiPatterns-panel-list",
+					drums: ".gsuiPatterns-panel[data-type='drums'] .gsuiPatterns-panel-list",
+					synth: ".gsuiPatterns-panel[data-type='keys'] .gsuiPatterns-panel-list",
+					buffer: ".gsuiPatterns-panel[data-type='buffers'] .gsuiPatterns-panel-list",
 				},
 				$newSlices: "[data-action='newSlices']",
 				$newDrums: "[data-action='newDrums']",
