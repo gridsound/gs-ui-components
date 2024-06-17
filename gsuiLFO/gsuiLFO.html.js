@@ -23,7 +23,7 @@ GSUsetTemplate( "gsui-lfo", () => [
 		[ "speed", "speed", "spd", .25, 18, .125 ],
 		[ "amp", "amplitude", "amp", .001, 1, .001 ],
 	].map( ( [ prop, title, text, min, max, step ] ) =>
-		GSUcreateDiv( { class: `gsuiLFO-prop gsuiLFO-${ prop }`, title },
+		GSUcreateDiv( { class: "gsuiLFO-prop", title, "data-prop": prop },
 			GSUcreateDiv( { class: "gsuiLFO-propLabel" },
 				GSUcreateSpan( null, text ),
 				GSUcreateDiv( { class: "gsuiLFO-propValue" } ),

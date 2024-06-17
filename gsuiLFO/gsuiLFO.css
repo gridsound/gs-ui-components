@@ -61,18 +61,10 @@ gsui-lfo {
 }
 
 /* .......................................................................... */
-.gsuiLFO-delay {
-	grid-area: delay;
-}
-.gsuiLFO-attack {
-	grid-area: attack;
-}
-.gsuiLFO-speed {
-	grid-area: speed;
-}
-.gsuiLFO-amp {
-	grid-area: amp;
-}
+.gsuiLFO-prop[ data-prop="delay" ] { grid-area: delay }
+.gsuiLFO-prop[ data-prop="attack" ] { grid-area: attack }
+.gsuiLFO-prop[ data-prop="speed" ] { grid-area: speed }
+.gsuiLFO-prop[ data-prop="amp" ] { grid-area: amp }
 gsui-lfo .gsuiSlider-eventCatcher {
 	top: -26px;
 	bottom: -6px;
