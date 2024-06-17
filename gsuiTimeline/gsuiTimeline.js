@@ -7,7 +7,8 @@ class gsuiTimeline extends gsui0ne {
 	#scrollingAncestor = document.body;
 	#mousedownLoop = "";
 	#onlyBigMeasures = false;
-	#mousedownDate = 0;
+	#mousedownPrevX = 0;
+	#mousedownPrevDate = 0;
 	#mousemoveBeat = 0;
 	#mousedownBeat = 0;
 	#mousedownLoopA = 0;
@@ -24,7 +25,6 @@ class gsuiTimeline extends gsui0ne {
 				$beats: ".gsuiTimeline-beats",
 				$measures: ".gsuiTimeline-measures",
 				$loop: ".gsuiTimeline-loop",
-				$timeLine: ".gsuiTimeline-timeLine",
 				$cursor: ".gsuiTimeline-cursor",
 				$cursorPreview: ".gsuiTimeline-cursorPreview",
 			},
@@ -41,7 +41,6 @@ class gsuiTimeline extends gsui0ne {
 		this.loopB = 0;
 		this.looping = false;
 		Object.seal( this );
-		this.$elements.$cursorPreview.remove();
 	}
 
 	static $numbering( from ) {
@@ -53,6 +52,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#updateOffset();
 		this.#updateNumberMeasures();
 		this.#updateMeasures();
+		this.$elements.$cursorPreview.remove();
 	}
 	$disconnected() {
 		this.#unscrollEvent();
@@ -150,7 +150,7 @@ class gsuiTimeline extends gsui0ne {
 			} else {
 				this.$elements.$cursorPreview.style.left = `${ t }em`;
 				if ( !this.$elements.$cursorPreview.parentNode ) {
-					this.$elements.$timeLine.append( this.$elements.$cursorPreview );
+					this.append( this.$elements.$cursorPreview );
 				}
 			}
 		}
@@ -163,7 +163,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#status = st;
 	}
 	#getBeatByPageX( pageX ) {
-		const bcrX = this.$elements.$timeLine.getBoundingClientRect().x;
+		const bcrX = this.getBoundingClientRect().x;
 
 		return Math.max( 0, this.$beatRound( ( pageX - bcrX ) / this.pxPerBeat ) );
 	}
@@ -240,33 +240,43 @@ class gsuiTimeline extends gsui0ne {
 		this.#updateMeasures();
 	}
 	$onptrdown( e ) {
-		const loopLine = e.target.classList.contains( "gsuiTimeline-loopLine" );
-
-		if ( loopLine && Date.now() - this.#mousedownDate > 500 ) {
-			this.#mousedownDate = Date.now();
+		this.#mousemoveBeat = null;
+		this.#mousedownBeat = this.#getBeatByPageX( e.pageX );
+		if ( e.button === 2 || (
+			Date.now() - this.#mousedownPrevDate < 500 &&
+			GSUapproxEqual( this.#mousedownPrevX, e.pageX, 20 )
+		) ) {
+			if ( e.button !== 2 || !this.looping ) {
+				this.loopA =
+				this.loopB = this.#mousedownBeat;
+				this.$dispatch( "inputLoopStart" );
+				this.#setStatus( "draggingLoopHandleB" );
+			} else if ( e.button === 2 && this.looping ) {
+				if ( this.#mousedownBeat < ( this.loopB + this.loopA ) / 2 ) {
+					this.loopA = this.#mousedownBeat;
+					this.#setStatus( "draggingLoopHandleA" );
+				} else {
+					this.loopB = this.#mousedownBeat;
+					this.#setStatus( "draggingLoopHandleB" );
+				}
+			}
 		} else {
+			this.#mousedownPrevX = e.pageX;
+			this.#mousedownPrevDate = Date.now();
 			this.#setStatus(
 				e.target === this.$elements.$cursor.parentNode ? "draggingTime" :
 				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? "draggingLoopBody" :
 				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? "draggingLoopHandleA" :
-				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) || loopLine ? "draggingLoopHandleB" : "" );
-			if ( this.#status ) {
-				this.#mousemoveBeat = null;
-				this.#mousedownBeat = this.#getBeatByPageX( e.pageX );
-				if ( loopLine ) {
-					this.loopA =
-					this.loopB = this.#mousedownBeat;
-					this.$dispatch( "inputLoopStart" );
-				} else {
-					this.$dispatch( "inputCurrentTimeStart" );
-				}
-				this.#mousedownLoop = GSUgetAttribute( this, "loop" );
-				this.#mousedownLoopA = this.loopA;
-				this.#mousedownLoopB = this.loopB;
-				GSUunselectText();
-				this.$onptrmove( e );
-				return;
-			}
+				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) ? "draggingLoopHandleB" : "" );
+		}
+		if ( this.#status ) {
+			this.$dispatch( "inputCurrentTimeStart" );
+			this.#mousedownLoop = GSUgetAttribute( this, "loop" );
+			this.#mousedownLoopA = this.loopA;
+			this.#mousedownLoopB = this.loopB;
+			GSUunselectText();
+			this.$onptrmove( e );
+			return;
 		}
 		return false;
 	}

@@ -77,26 +77,6 @@ gsui-timeline {
 }
 
 /* .......................................................................... */
-.gsuiTimeline-loopLine,
-.gsuiTimeline-timeLine {
-	position: absolute;
-	inset: 0 0 50%;
-	transition: .2s background-color;
-}
-.gsuiTimeline-loopLine:hover,
-.gsuiTimeline-timeLine:hover,
-.gsuiTimeline-draggingLoopBody .gsuiTimeline-loopLine,
-.gsuiTimeline-draggingLoopHandleA .gsuiTimeline-loopLine,
-.gsuiTimeline-draggingLoopHandleB .gsuiTimeline-loopLine,
-.gsuiTimeline-draggingTime .gsuiTimeline-timeLine {
-	background-color: var( --gsui-ovl-1 );
-}
-.gsuiTimeline-timeLine {
-	top: 50%;
-	bottom: 0;
-}
-
-/* .......................................................................... */
 .gsuiTimeline-cursor,
 .gsuiTimeline-cursorPreview {
 	position: absolute;
@@ -115,6 +95,7 @@ gsui-timeline {
 /* .......................................................................... */
 .gsuiTimeline-loop {
 	position: absolute;
+	top: 0;
 	height: 6px;
 	transition: .1s;
 	transition-property: opacity, visibility;
