@@ -158,9 +158,8 @@ class gsuiTimeline extends gsui0ne {
 
 	// .........................................................................
 	#setStatus( st ) {
-		this.classList.remove( `gsuiTimeline-${ this.#status }` );
-		this.classList.toggle( `gsuiTimeline-${ st }`, !!st );
 		this.#status = st;
+		GSUsetAttribute( this, "status", st );
 	}
 	#getBeatByPageX( pageX ) {
 		const bcrX = this.getBoundingClientRect().x;

@@ -112,7 +112,7 @@ gsui-timeline {
 	background-color: var( --gsui-timeline-loop-bg );
 }
 .gsuiTimeline-loopBody:hover,
-.gsuiTimeline-draggingLoopBody .gsuiTimeline-loopBody {
+gsui-timeline[ status="draggingLoopBody" ] .gsuiTimeline-loopBody {
 	filter: brightness( 1.2 );
 }
 
@@ -139,8 +139,8 @@ gsui-timeline {
 .gsuiTimeline-loopBorderA { left: 0; }
 .gsuiTimeline-loopBorderB { right: 0; }
 .gsuiTimeline-loopHandle:hover + .gsuiTimeline-loopBorder,
-.gsuiTimeline-draggingLoopHandleA .gsuiTimeline-loopBorderA,
-.gsuiTimeline-draggingLoopHandleB .gsuiTimeline-loopBorderB {
+gsui-timeline[ status="draggingLoopHandleA" ] .gsuiTimeline-loopBorderA,
+gsui-timeline[ status="draggingLoopHandleB" ] .gsuiTimeline-loopBorderB {
 	bottom: -3px;
 	background-color: currentColor;
 }
