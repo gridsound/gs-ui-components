@@ -12,11 +12,11 @@ class gsuiEnvelope extends gsui0ne {
 				$beatlines: "gsui-beatlines",
 				$graph: "gsui-envelope-graph",
 				$sliders: {
-					attack:  [ ".gsuiEnvelope-attack  gsui-slider", ".gsuiEnvelope-attack  .gsuiEnvelope-propValue" ],
-					hold:    [ ".gsuiEnvelope-hold    gsui-slider", ".gsuiEnvelope-hold    .gsuiEnvelope-propValue" ],
-					decay:   [ ".gsuiEnvelope-decay   gsui-slider", ".gsuiEnvelope-decay   .gsuiEnvelope-propValue" ],
-					sustain: [ ".gsuiEnvelope-sustain gsui-slider", ".gsuiEnvelope-sustain .gsuiEnvelope-propValue" ],
-					release: [ ".gsuiEnvelope-release gsui-slider", ".gsuiEnvelope-release .gsuiEnvelope-propValue" ],
+					attack:  [ ".gsuiEnvelope-prop[data-prop='attack']  gsui-slider", ".gsuiEnvelope-prop[data-prop='attack']  .gsuiEnvelope-propValue" ],
+					hold:    [ ".gsuiEnvelope-prop[data-prop='hold']    gsui-slider", ".gsuiEnvelope-prop[data-prop='hold']    .gsuiEnvelope-propValue" ],
+					decay:   [ ".gsuiEnvelope-prop[data-prop='decay']   gsui-slider", ".gsuiEnvelope-prop[data-prop='decay']   .gsuiEnvelope-propValue" ],
+					sustain: [ ".gsuiEnvelope-prop[data-prop='sustain'] gsui-slider", ".gsuiEnvelope-prop[data-prop='sustain'] .gsuiEnvelope-propValue" ],
+					release: [ ".gsuiEnvelope-prop[data-prop='release'] gsui-slider", ".gsuiEnvelope-prop[data-prop='release'] .gsuiEnvelope-propValue" ],
 				},
 			},
 			$attributes: {

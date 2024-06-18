@@ -19,6 +19,13 @@ gsui-envelope {
 	display: flex;
 	flex-direction: column;
 }
+.gsuiEnvelope-prop[ data-prop="attack" ] { grid-area: attack }
+.gsuiEnvelope-prop[ data-prop="hold" ] { grid-area: hold }
+.gsuiEnvelope-prop[ data-prop="decay" ] { grid-area: decay }
+.gsuiEnvelope-prop[ data-prop="sustain" ] { grid-area: sustain }
+.gsuiEnvelope-prop[ data-prop="release" ] { grid-area: release }
+
+/* .......................................................................... */
 .gsuiEnvelope-propLabel {
 	display: flex;
 	align-self: center;
@@ -37,23 +44,6 @@ gsui-envelope {
 .gsuiEnvelope-propContent {
 	flex: 1;
 	position: relative;
-}
-
-/* .......................................................................... */
-.gsuiEnvelope-attack {
-	grid-area: attack;
-}
-.gsuiEnvelope-hold {
-	grid-area: hold;
-}
-.gsuiEnvelope-decay {
-	grid-area: decay;
-}
-.gsuiEnvelope-sustain {
-	grid-area: sustain;
-}
-.gsuiEnvelope-release {
-	grid-area: release;
 }
 gsui-envelope .gsuiSlider-eventCatcher {
 	top: -26px;
