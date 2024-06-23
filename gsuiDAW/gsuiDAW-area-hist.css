@@ -11,7 +11,7 @@
 	width: auto;
 	padding: 0 6px 0 3px;
 }
-gsui-daw gsui-spectrum {
+gsui-daw gsui-analyser-hz {
 	flex: 1;
 	border-radius: var( --radius );
 	width: 140px;

@@ -73,7 +73,7 @@ class gsuiDAW extends gsui0ne {
 				$play: "[data-action='play']",
 				$vers: ".gsuiDAW-version",
 				$clock: "gsui-clock",
-				$spectrum: "gsui-spectrum",
+				$analyserHz: "gsui-analyser-hz",
 				$volume: ".gsuiDAW-volume gsui-slider",
 				$currentTime: ".gsuiDAW-areaTime gsui-slider",
 				$userAvatar: "[data-action='profile']",
@@ -116,7 +116,7 @@ class gsuiDAW extends gsui0ne {
 
 		this.#actions = this.$elements.$historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.$elements.$clock.$onchangeDisplay = display => this.$dispatch( "changeDisplayClock", display );
-		this.$elements.$spectrum.$setResolution( 140 );
+		this.$elements.$analyserHz.$setResolution( 140 );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
 		this.$elements.$cmpsCloudList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "cloud" );
 		this.$elements.$cmpsLocalList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "local" );
@@ -286,7 +286,7 @@ class gsuiDAW extends gsui0ne {
 
 	// .........................................................................
 	$updateSpectrum( data ) {
-		this.$elements.$spectrum.$draw( data );
+		this.$elements.$analyserHz.$draw( data );
 	}
 	#unloadComposition() {
 		this.#cmpId = null;

@@ -55,7 +55,7 @@ GSUsetTemplate( "gsui-daw", () => [
 				GSUcreateDiv( { class: "gsuiDAW-dropdown-backdrop" } ),
 				GSUgetTemplate( "gsui-daw-history" ),
 			),
-			GSUcreateElement( "gsui-spectrum" ),
+			GSUcreateElement( "gsui-analyser-hz" ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiDAW-btnColor gsuiIcon", "data-action": "export",   "data-icon": "export",   title: "Export the composition" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "settings", "data-icon": "settings", title: "Settings" } ),
 		),
