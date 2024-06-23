@@ -1,12 +1,12 @@
 gsui-analyser-hz,
-gsui-analyser {
+gsui-analyser-hz-hist {
 	display: flex;
 	position: relative;
 	overflow: hidden;
 	background-color: var( --gsui-screen-spectrum );
 }
 gsui-analyser-hz canvas,
-gsui-analyser canvas {
+gsui-analyser-hz-hist canvas {
 	position: absolute;
 	width: 100%;
 	height: 100%;

@@ -1,12 +1,12 @@
 "use strict";
 
-class gsuiAnalyser extends gsui0ne {
+class gsuiAnalyserHzHist extends gsui0ne {
 	#ctx = null;
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiAnalyser",
-			$tagName: "gsui-analyser",
+			$cmpName: "gsuiAnalyserHzHist",
+			$tagName: "gsui-analyser-hz-hist",
 			$template: GSUcreateElement( "canvas" ),
 		} );
 		this.#ctx = this.$element.getContext( "2d" );
@@ -25,8 +25,8 @@ class gsuiAnalyser extends gsui0ne {
 		this.#ctx.putImageData( img, 0, 0 );
 	}
 	$draw( ldata, rdata ) {
-		gsuiAnalyser.#moveImage( this.#ctx );
-		gsuiAnalyser.#draw( this.#ctx, ldata, rdata );
+		gsuiAnalyserHzHist.#moveImage( this.#ctx );
+		gsuiAnalyserHzHist.#draw( this.#ctx, ldata, rdata );
 	}
 
 	// .........................................................................
@@ -41,7 +41,7 @@ class gsuiAnalyser extends gsui0ne {
 		const imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {
-			gsuiAnalyser.#drawPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
+			gsuiAnalyserHzHist.#drawPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
 		}
 		ctx.putImageData( imgLflip, 0, 0 );
 		ctx.putImageData( imgR, w2, 0 );
@@ -54,5 +54,5 @@ class gsuiAnalyser extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiAnalyser );
-customElements.define( "gsui-analyser", gsuiAnalyser );
+Object.freeze( gsuiAnalyserHzHist );
+customElements.define( "gsui-analyser-hz-hist", gsuiAnalyserHzHist );

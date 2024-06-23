@@ -19,7 +19,7 @@ body {
 	--test-content-w: 200px;
 	--test-content-h: 300px;
 }
-gsui-analyser {
+gsui-analyser-hz-hist {
 	height: 100%;
 }
 </style>
@@ -28,7 +28,7 @@ gsui-analyser {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-analyser></gsui-analyser>
+	<gsui-analyser-hz-hist></gsui-analyser-hz-hist>
 </div>
 <div id="TEST-CTRLS">
 	<button id="play" disabled>play</button>
@@ -43,13 +43,13 @@ gsui-analyser {
 <!-- ....................................................................... -->
 <script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
 <script src="/gs-ui-components/gsuiAnalyserHz/gsuiAnalyserHz.js"></script>
-<script src="/gs-ui-components/gsuiAnalyser/gsuiAnalyser.js"></script>
+<script src="/gs-ui-components/gsuiAnalyserHzHist/gsuiAnalyserHzHist.js"></script>
 
 <!-- ....................................................................... -->
 <script>
 const play = document.querySelector( "#play" );
 const stop = document.querySelector( "#stop" );
-const analyser = document.querySelector( "gsui-analyser" );
+const analyser = document.querySelector( "gsui-analyser-hz-hist" );
 const ctx = new AudioContext();
 const anL = ctx.createAnalyser();
 const anR = ctx.createAnalyser();
