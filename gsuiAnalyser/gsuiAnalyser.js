@@ -36,8 +36,8 @@ class gsuiAnalyser extends gsui0ne {
 	static #draw( ctx, ldata, rdata ) {
 		const w2 = ctx.canvas.width / 2;
 		const len = Math.min( w2, ldata.length );
-		const imgL = gsuiSpectrum.$draw( ctx, ldata, w2 );
-		const imgR = gsuiSpectrum.$draw( ctx, rdata, w2 );
+		const imgL = gsuiAnalyserHz.$draw( ctx, ldata, w2 );
+		const imgR = gsuiAnalyserHz.$draw( ctx, rdata, w2 );
 		const imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {

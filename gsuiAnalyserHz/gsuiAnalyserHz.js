@@ -1,12 +1,12 @@
 "use strict";
 
-class gsuiSpectrum extends gsui0ne {
+class gsuiAnalyserHz extends gsui0ne {
 	#ctx = null;
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiSpectrum",
-			$tagName: "gsui-spectrum",
+			$cmpName: "gsuiAnalyserHz",
+			$tagName: "gsui-analyser-hz",
 			$template: GSUcreateElement( "canvas" ),
 		} );
 		Object.seal( this );
@@ -23,7 +23,7 @@ class gsuiSpectrum extends gsui0ne {
 		this.$element.height = 1;
 	}
 	$draw( data ) {
-		this.#ctx.putImageData( gsuiSpectrum.$draw( this.#ctx, data, this.$element.width ), 0, 0 );
+		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.$element.width ), 0, 0 );
 	}
 
 	// .........................................................................
@@ -56,8 +56,8 @@ class gsuiSpectrum extends gsui0ne {
 				imgData[ x + 1 ] = 4 + 10 * datum | 0;
 				imgData[ x + 2 ] = 5 + 20 * datum | 0;
 			} else {
-				const colId = gsuiSpectrum.#datumDivision.findIndex( x => datum < x );
-				const col = gsuiSpectrum.#colors[ colId ];
+				const colId = gsuiAnalyserHz.#datumDivision.findIndex( x => datum < x );
+				const col = gsuiAnalyserHz.#colors[ colId ];
 				const datumCut = datum / col[ 3 ];
 
 				imgData[ x     ] = col[ 0 ] * datumCut | 0;
@@ -70,5 +70,5 @@ class gsuiSpectrum extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiSpectrum );
-customElements.define( "gsui-spectrum", gsuiSpectrum );
+Object.freeze( gsuiAnalyserHz );
+customElements.define( "gsui-analyser-hz", gsuiAnalyserHz );

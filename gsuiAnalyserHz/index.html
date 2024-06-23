@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
 
 <!-- ....................................................................... -->
-<link rel="stylesheet" href="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiAnalyserHz/gsuiAnalyserHz.css"/>
 
 <!-- ....................................................................... -->
 <style>
@@ -19,7 +19,7 @@ body {
 	--test-content-w: 400px;
 	--test-content-h: 300px;
 }
-gsui-spectrum {
+gsui-analyser-hz {
 	height: 100%;
 }
 </style>
@@ -28,7 +28,7 @@ gsui-spectrum {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-spectrum></gsui-spectrum>
+	<gsui-analyser-hz></gsui-analyser-hz>
 </div>
 <div id="TEST-CTRLS">
 	<button id="play" disabled>play</button>
@@ -42,13 +42,13 @@ gsui-spectrum {
 <script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsuiSpectrum/gsuiSpectrum.js"></script>
+<script src="/gs-ui-components/gsuiAnalyserHz/gsuiAnalyserHz.js"></script>
 
 <!-- ....................................................................... -->
 <script>
 const play = document.querySelector( "#play" );
 const stop = document.querySelector( "#stop" );
-const spectrum = document.querySelector( "gsui-spectrum" );
+const spectrum = document.querySelector( "gsui-analyser-hz" );
 const ctx = new AudioContext();
 const an = ctx.createAnalyser();
 const fftSize = 4096;
