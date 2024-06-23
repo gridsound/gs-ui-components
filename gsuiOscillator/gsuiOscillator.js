@@ -23,6 +23,7 @@ class gsuiOscillator extends gsui0ne {
 			$tmpArgs: [ Object.keys( gsuiOscillator_defaultWaves ) ],
 			$elements: {
 				$waveWrap: ".gsuiOscillator-waveWrap",
+				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
 				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavePrev: ".gsuiOscillator-wavePrev",
 				$waveNext: ".gsuiOscillator-waveNext",
@@ -41,6 +42,7 @@ class gsuiOscillator extends gsui0ne {
 					unisonvoices: [ "gsui-slider[data-prop='unisonvoices']" ],
 					unisondetune: [ "gsui-slider[data-prop='unisondetune']" ],
 					unisonblend: [ "gsui-slider[data-prop='unisonblend']" ],
+					phaze: [ "gsui-slider[data-prop='phaze']" ],
 				},
 				$remove: ".gsuiOscillator-remove",
 			},
@@ -53,6 +55,7 @@ class gsuiOscillator extends gsui0ne {
 				detunefine: 0,
 				gain: 1,
 				pan: 0,
+				phaze: 0,
 				unisonvoices: 5,
 				unisondetune: .2,
 				unisonblend: .3,
@@ -117,7 +120,7 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "order", "wave", "source", "detune", "detunefine", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "order", "wave", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	$attributeChanged( prop, val ) {
 		const num = +val;
@@ -126,6 +129,10 @@ class gsuiOscillator extends gsui0ne {
 			case "order": this.#changeOrder( num ); break;
 			case "wave": this.#changeWave( val ); break;
 			case "source": this.#changeSource( val ); break;
+			case "phaze":
+				this.#updatePhaze( num );
+				this.#changePropSlider( "phaze", num );
+				break;
 			case "unisonvoices":
 				this.#updateUnisonGraphVoices( num );
 				this.#changePropSlider( "unisonvoices", num );
@@ -219,6 +226,9 @@ class gsuiOscillator extends gsui0ne {
 			span.textContent = val2.toFixed( 2 );
 		}
 	}
+	#updatePhaze( n ) {
+		this.$elements.$waveWrapBottom.style.marginLeft = `${ n * 10 }%`;
+	}
 	#updateUnisonGraphVoices( n ) {
 		GSUsetChildrenNumber( this.$elements.$unisonGraph, n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
 		this.#updateUnisonGraphBlend( GSUgetAttributeNum( this, "unisonblend" ) );
@@ -276,6 +286,9 @@ class gsuiOscillator extends gsui0ne {
 		const span = this.$elements.$sliders[ prop ][ 1 ];
 
 		switch ( prop ) {
+			case "phaze":
+				this.#updatePhaze( val );
+				break;
 			case "gain":
 				this.#updateWave( "gain", val );
 				break;

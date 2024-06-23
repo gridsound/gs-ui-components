@@ -70,11 +70,17 @@ gsui-oscillator[ wave="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 }
 
 /* .......................................................................... */
+.gsuiOscillator-waveColumn {
+	display: flex;
+	flex-direction: column;
+	grid-area: wave;
+	gap: 4px;
+}
 .gsuiOscillator-waveWrap {
 	position: relative;
 	overflow: hidden;
-	grid-area: wave;
 	display: flex;
+	flex: 1;
 	border-radius: 3px;
 	background-color: #0006;
 }
@@ -91,6 +97,7 @@ gsui-oscillator[ wave="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 .gsuiOscillator-waveWrap-bottom {
 	position: relative;
 	flex: 1;
+	width: 100%;
 }
 .gsuiOscillator-wave,
 .gsuiOscillator-source {
@@ -114,6 +121,13 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 	width: 100%;
 	height: 100%;
 	fill: var( --gsui-col-pan );
+}
+.gsuiOscillator-waveColumn gsui-slider {
+	height: 4px;
+	--gsuiSlider-lineColor: #b8b;
+}
+.gsuiOscillator-waveColumn gsui-slider .gsuiSlider-eventCatcher {
+	inset: -4px 0;
 }
 
 /* .......................................................................... */
