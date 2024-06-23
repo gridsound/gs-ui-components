@@ -50,5 +50,4 @@ class gsuiDrum extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiDrum );
-customElements.define( "gsui-drum", gsuiDrum );
+GSUdefineElement( "gsui-drum", gsuiDrum );

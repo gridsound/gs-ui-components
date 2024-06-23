@@ -565,5 +565,4 @@ class gsuiDAW extends gsui0ne {
 	}
 }
 
-Object.seal( gsuiDAW );
-customElements.define( "gsui-daw", gsuiDAW );
+GSUdefineElement( "gsui-daw", gsuiDAW );

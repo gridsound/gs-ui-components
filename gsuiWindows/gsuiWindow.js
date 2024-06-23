@@ -347,5 +347,4 @@ class gsuiWindow extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiWindow );
-customElements.define( "gsui-window", gsuiWindow );
+GSUdefineElement( "gsui-window", gsuiWindow );

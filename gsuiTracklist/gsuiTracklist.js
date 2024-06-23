@@ -39,5 +39,4 @@ class gsuiTracklist extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiTracklist );
-customElements.define( "gsui-tracklist", gsuiTracklist );
+GSUdefineElement( "gsui-tracklist", gsuiTracklist );

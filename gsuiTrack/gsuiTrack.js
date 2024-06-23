@@ -83,5 +83,4 @@ class gsuiTrack extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiTrack );
-customElements.define( "gsui-track", gsuiTrack );
+GSUdefineElement( "gsui-track", gsuiTrack );

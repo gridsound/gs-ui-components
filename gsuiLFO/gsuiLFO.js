@@ -167,5 +167,4 @@ class gsuiLFO extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiLFO );
-customElements.define( "gsui-lfo", gsuiLFO );
+GSUdefineElement( "gsui-lfo", gsuiLFO );

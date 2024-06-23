@@ -295,8 +295,7 @@ class gsuiPatterns extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiPatterns );
-customElements.define( "gsui-patterns", gsuiPatterns );
+GSUdefineElement( "gsui-patterns", gsuiPatterns );
 
 /*
 1. We are checking if the pattern exists because the entire synth could have been removed before.

@@ -72,5 +72,4 @@ class gsuiEnvelopeGraph extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiEnvelopeGraph );
-customElements.define( "gsui-envelope-graph", gsuiEnvelopeGraph );
+GSUdefineElement( "gsui-envelope-graph", gsuiEnvelopeGraph );

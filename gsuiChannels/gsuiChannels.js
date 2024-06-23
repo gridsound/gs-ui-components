@@ -181,5 +181,4 @@ class gsuiChannels extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiChannels );
-customElements.define( "gsui-channels", gsuiChannels );
+GSUdefineElement( "gsui-channels", gsuiChannels );

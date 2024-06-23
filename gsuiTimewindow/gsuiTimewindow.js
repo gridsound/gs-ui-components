@@ -443,5 +443,4 @@ class gsuiTimewindow extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiTimewindow );
-customElements.define( "gsui-timewindow", gsuiTimewindow );
+GSUdefineElement( "gsui-timewindow", gsuiTimewindow );

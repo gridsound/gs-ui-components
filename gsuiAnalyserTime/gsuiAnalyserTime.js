@@ -72,5 +72,4 @@ class gsuiAnalyserTime extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiAnalyserTime );
-customElements.define( "gsui-analysertime", gsuiAnalyserTime );
+GSUdefineElement( "gsui-analysertime", gsuiAnalyserTime );

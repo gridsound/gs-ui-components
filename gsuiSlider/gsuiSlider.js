@@ -234,5 +234,4 @@ class gsuiSlider extends gsui0ne {
 	}
 }
 
-Object.seal( gsuiSlider );
-customElements.define( "gsui-slider", gsuiSlider );
+GSUdefineElement( "gsui-slider", gsuiSlider );

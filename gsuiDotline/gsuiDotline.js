@@ -324,5 +324,4 @@ class gsuiDotline extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiDotline );
-customElements.define( "gsui-dotline", gsuiDotline );
+GSUdefineElement( "gsui-dotline", gsuiDotline );

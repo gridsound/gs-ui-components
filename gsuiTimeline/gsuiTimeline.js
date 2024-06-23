@@ -366,5 +366,4 @@ class gsuiTimeline extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiTimeline );
-customElements.define( "gsui-timeline", gsuiTimeline );
+GSUdefineElement( "gsui-timeline", gsuiTimeline );

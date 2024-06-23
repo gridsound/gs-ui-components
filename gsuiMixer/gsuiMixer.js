@@ -42,5 +42,4 @@ class gsuiMixer extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiMixer );
-customElements.define( "gsui-mixer", gsuiMixer );
+GSUdefineElement( "gsui-mixer", gsuiMixer );

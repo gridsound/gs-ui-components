@@ -405,5 +405,4 @@ class gsuiSlicer extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiSlicer );
-customElements.define( "gsui-slicer", gsuiSlicer );
+GSUdefineElement( "gsui-slicer", gsuiSlicer );

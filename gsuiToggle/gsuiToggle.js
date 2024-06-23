@@ -25,5 +25,4 @@ class gsuiToggle extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiToggle );
-customElements.define( "gsui-toggle", gsuiToggle );
+GSUdefineElement( "gsui-toggle", gsuiToggle );

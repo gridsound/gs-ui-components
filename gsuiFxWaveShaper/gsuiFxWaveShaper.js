@@ -176,5 +176,4 @@ class gsuiFxWaveShaper extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiFxWaveShaper );
-customElements.define( "gsui-fx-waveshaper", gsuiFxWaveShaper );
+GSUdefineElement( "gsui-fx-waveshaper", gsuiFxWaveShaper );

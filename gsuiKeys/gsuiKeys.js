@@ -212,5 +212,4 @@ class gsuiKeys extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiKeys );
-customElements.define( "gsui-keys", gsuiKeys );
+GSUdefineElement( "gsui-keys", gsuiKeys );

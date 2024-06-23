@@ -120,5 +120,4 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiSynthesizer );
-customElements.define( "gsui-synthesizer", gsuiSynthesizer );
+GSUdefineElement( "gsui-synthesizer", gsuiSynthesizer );

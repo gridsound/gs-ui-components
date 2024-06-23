@@ -132,5 +132,4 @@ class gsuiCurves extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiCurves );
-customElements.define( "gsui-curves", gsuiCurves );
+GSUdefineElement( "gsui-curves", gsuiCurves );

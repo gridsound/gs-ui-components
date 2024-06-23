@@ -156,5 +156,4 @@ class gsuiPanels extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiPanels );
-customElements.define( "gsui-panels", gsuiPanels );
+GSUdefineElement( "gsui-panels", gsuiPanels );

@@ -54,5 +54,4 @@ class gsuiAnalyserHzHist extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiAnalyserHzHist );
-customElements.define( "gsui-analyser-hz-hist", gsuiAnalyserHzHist );
+GSUdefineElement( "gsui-analyser-hz-hist", gsuiAnalyserHzHist );

@@ -468,5 +468,4 @@ class gsuiPianoroll extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiPianoroll );
-customElements.define( "gsui-pianoroll", gsuiPianoroll );
+GSUdefineElement( "gsui-pianoroll", gsuiPianoroll );

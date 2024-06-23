@@ -120,5 +120,4 @@ class gsuiEnvelope extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiEnvelope );
-customElements.define( "gsui-envelope", gsuiEnvelope );
+GSUdefineElement( "gsui-envelope", gsuiEnvelope );

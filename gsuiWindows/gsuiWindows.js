@@ -75,5 +75,4 @@ class gsuiWindows extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiWindows );
-customElements.define( "gsui-windows", gsuiWindows );
+GSUdefineElement( "gsui-windows", gsuiWindows );

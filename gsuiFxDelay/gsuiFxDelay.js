@@ -100,5 +100,4 @@ class gsuiFxDelay extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiFxDelay );
-customElements.define( "gsui-fx-delay", gsuiFxDelay );
+GSUdefineElement( "gsui-fx-delay", gsuiFxDelay );

@@ -103,5 +103,4 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiPeriodicWave );
-customElements.define( "gsui-periodicwave", gsuiPeriodicWave );
+GSUdefineElement( "gsui-periodicwave", gsuiPeriodicWave );

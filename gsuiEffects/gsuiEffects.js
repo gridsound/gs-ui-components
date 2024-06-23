@@ -153,5 +153,4 @@ class gsuiEffects extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiEffects );
-customElements.define( "gsui-effects", gsuiEffects );
+GSUdefineElement( "gsui-effects", gsuiEffects );

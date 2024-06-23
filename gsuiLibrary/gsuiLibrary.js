@@ -154,5 +154,4 @@ class gsuiLibrary extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiLibrary );
-customElements.define( "gsui-library", gsuiLibrary );
+GSUdefineElement( "gsui-library", gsuiLibrary );

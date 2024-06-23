@@ -207,5 +207,4 @@ class gsuiPatternroll extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiPatternroll );
-customElements.define( "gsui-patternroll", gsuiPatternroll );
+GSUdefineElement( "gsui-patternroll", gsuiPatternroll );

@@ -237,5 +237,4 @@ class gsuiSliderGroup extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiSliderGroup );
-customElements.define( "gsui-slidergroup", gsuiSliderGroup );
+GSUdefineElement( "gsui-slidergroup", gsuiSliderGroup );

@@ -320,5 +320,4 @@ class gsuiOscillator extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiOscillator );
-customElements.define( "gsui-oscillator", gsuiOscillator );
+GSUdefineElement( "gsui-oscillator", gsuiOscillator );

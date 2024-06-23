@@ -24,5 +24,4 @@ class gsuiDrumcut extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiDrumcut );
-customElements.define( "gsui-drumcut", gsuiDrumcut );
+GSUdefineElement( "gsui-drumcut", gsuiDrumcut );

@@ -120,5 +120,4 @@ class gsuiDrumrow extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiDrumrow );
-customElements.define( "gsui-drumrow", gsuiDrumrow );
+GSUdefineElement( "gsui-drumrow", gsuiDrumrow );

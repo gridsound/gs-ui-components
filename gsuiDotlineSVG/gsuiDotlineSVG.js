@@ -77,5 +77,4 @@ class gsuiDotlineSVG extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiDotlineSVG );
-customElements.define( "gsui-dotlinesvg", gsuiDotlineSVG );
+GSUdefineElement( "gsui-dotlinesvg", gsuiDotlineSVG );

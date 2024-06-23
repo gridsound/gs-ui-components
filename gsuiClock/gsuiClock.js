@@ -124,5 +124,4 @@ class gsuiClock extends gsui0ne {
 	}
 }
 
-Object.seal( gsuiClock );
-customElements.define( "gsui-clock", gsuiClock );
+GSUdefineElement( "gsui-clock", gsuiClock );

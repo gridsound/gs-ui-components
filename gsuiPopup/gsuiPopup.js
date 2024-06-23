@@ -167,5 +167,4 @@ class gsuiPopup extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiPopup );
-customElements.define( "gsui-popup", gsuiPopup );
+GSUdefineElement( "gsui-popup", gsuiPopup );

@@ -124,5 +124,4 @@ class gsuiFxFilter extends gsui0ne {
 	}
 }
 
-Object.freeze( gsuiFxFilter );
-customElements.define( "gsui-fx-filter", gsuiFxFilter );
+GSUdefineElement( "gsui-fx-filter", gsuiFxFilter );
