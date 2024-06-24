@@ -69,7 +69,7 @@ const pinchInput = document.querySelector( "#pinchInput" );
 const ctx = new AudioContext();
 const an = ctx.createAnalyser();
 const fftSize = 256;
-const anData = new Uint8Array( fftSize / 2 );
+const anData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
@@ -102,7 +102,7 @@ pinchInput.oninput = e => GSUsetAttribute( analyserTime, "pinch", e.target.value
 document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 
 function frame() {
-	an.getByteTimeDomainData( anData );
+	an.getFloatTimeDomainData( anData );
 	analyserTime.$draw( anData );
 	requestAnimationFrame( frame );
 }

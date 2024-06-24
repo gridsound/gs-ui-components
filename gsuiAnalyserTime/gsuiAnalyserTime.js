@@ -65,8 +65,7 @@ class gsuiAnalyserTime extends gsui0ne {
 		const pin2 =
 			perc <     pin ?       perc   / pin :
 			perc > 1 - pin ? ( 1 - perc ) / pin : 1;
-		const d = data[ i ] / 256 * 2 - 1;
-		const d2 = Math.max( -1, Math.min( d * amp, 1 ) );
+		const d2 = Math.max( -1, Math.min( data[ i ] * amp, 1 ) );
 
 		return h2 + d2 * GSUeaseOutCirc( pin2 ) * h2;
 	}
