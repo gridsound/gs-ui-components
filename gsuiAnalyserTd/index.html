@@ -76,7 +76,7 @@ const pinchInput = document.querySelector( "#pinchInput" );
 const smoothInput = document.querySelector( "#smoothInput" );
 const ctx = new AudioContext();
 const an = ctx.createAnalyser();
-const fftSize = 256;
+const fftSize = 1024;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
@@ -102,7 +102,7 @@ play.onclick = () => {
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
-	// absn.connect( ctx.destination );
+	absn.connect( ctx.destination );
 	absn.start();
 };
 

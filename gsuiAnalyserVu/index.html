@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="/assets/favicon.png"/>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsui.css"/>
+<link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="/gs-ui-components/gsuiAnalyserVu/gsuiAnalyserVu.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 200px;
+	--test-content-h: 500px;
+}
+.prop {
+	display: flex;
+	align-items: center;
+}
+.prop span,
+.prop b {
+	margin-left: 1ch;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-analyser-vu max="120"></gsui-analyser-vu>
+</div>
+<div id="TEST-CTRLS">
+	<button id="play" disabled>kick</button>
+	<input type="range" id="hardValue" min="0" max="2" step=".01" value="0"/>
+</div>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gs-utils/gs-utils.js"></script>
+<script src="/gs-ui-components/gs-utils/gs-utils-dom.js"></script>
+<script src="/gs-ui-components/test-assets/test.js"></script>
+<script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="/gs-ui-components/gsuiAnalyserVu/gsuiAnalyserVu.html.js"></script>
+<script src="/gs-ui-components/gsuiAnalyserVu/gsuiAnalyserVu.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const play = document.querySelector( "#play" );
+const analyserVu = document.querySelector( "gsui-analyser-vu" );
+const ctx = new AudioContext();
+const anL = ctx.createAnalyser();
+const anR = ctx.createAnalyser();
+const split = ctx.createChannelSplitter( 2 );
+const fftSize = 32;
+const anDataL = new Float32Array( fftSize / 2 );
+const anDataR = new Float32Array( fftSize / 2 );
+let buffer;
+let absn;
+
+anL.fftSize = anR.fftSize = fftSize;
+anL.smoothingTimeConstant = anR.smoothingTimeConstant = 0;
+split.connect( anL, 0 );
+split.connect( anR, 1 );
+
+let hardVal = 0;
+document.querySelector( "#hardValue" ).oninput = e => hardVal = +e.target.value;
+
+fetch( "../test-assets/808kick.wav" )
+	.then( res => res.arrayBuffer() )
+	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( buf => {
+		buffer = buf;
+		play.disabled = false;
+	} );
+
+play.onclick = () => {
+	hardVal = null;
+	absn = ctx.createBufferSource();
+	absn.buffer = buffer;
+	absn.connect( split );
+	absn.connect( ctx.destination );
+	absn.start();
+};
+
+function frame() {
+	if ( typeof hardVal === "number" ) {
+		analyserVu.$draw( [ hardVal ], [ hardVal ] );
+	} else {
+		anL.getFloatTimeDomainData( anDataL );
+		anR.getFloatTimeDomainData( anDataR );
+		analyserVu.$draw( anDataL, anDataR );
+	}
+	requestAnimationFrame( frame );
+}
+
+frame();
+</script>
+</body>
+</html>
