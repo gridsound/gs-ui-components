@@ -38,6 +38,7 @@ body {
 <div id="TEST-CTRLS">
 	<button id="play" disabled>play</button>
 	<button id="stop">stop</button>
+	<button id="freeze">freeze</button>
 	<div class="prop">
 		<input id="ampInput" type="range" value="1" min="0.1" max="16" step=".01" />
 		<span>amp</span>
@@ -63,6 +64,7 @@ body {
 <script>
 const play = document.querySelector( "#play" );
 const stop = document.querySelector( "#stop" );
+const freeze = document.querySelector( "#freeze" );
 const analyserTime = document.querySelector( "gsui-analysertime" );
 const ampInput = document.querySelector( "#ampInput" );
 const pinchInput = document.querySelector( "#pinchInput" );
@@ -72,6 +74,7 @@ const fftSize = 256;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
+let frozen = false;
 
 an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;
@@ -84,9 +87,9 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 		play.disabled = false;
 	} );
 
-stop.onclick = () => {
-	absn?.stop();
-};
+freeze.onpointerdown = () => { frozen = !frozen };
+freeze.onpointerup = () => { frozen = false };
+stop.onclick = () => { absn?.stop(); };
 play.onclick = () => {
 	stop.onclick();
 	absn = ctx.createBufferSource();
@@ -103,7 +106,9 @@ document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSiblin
 
 function frame() {
 	an.getFloatTimeDomainData( anData );
-	analyserTime.$draw( anData );
+	if ( !frozen ) {
+		analyserTime.$draw( anData );
+	}
 	requestAnimationFrame( frame );
 }
 
