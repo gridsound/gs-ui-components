@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiAnalyserTime extends gsui0ne {
+class gsuiAnalyserTd extends gsui0ne {
 	#ctx = null;
 	#amp = 1;
 	#pinch = 0;
@@ -11,8 +11,8 @@ class gsuiAnalyserTime extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiAnalyserTime",
-			$tagName: "gsui-analysertime",
+			$cmpName: "gsuiAnalyserTd",
+			$tagName: "gsui-analyser-td",
 			$template: GSUcreateElement( "canvas" ),
 			$attributes: {
 				amp: 1,
@@ -54,7 +54,7 @@ class gsuiAnalyserTime extends gsui0ne {
 		const w = this.$element.width;
 		const h = this.$element.height;
 		const xInc = w / data.length;
-		const calcY = gsuiAnalyserTime.#calcY.bind( null, data, this.#amp, h / 2, this.#pinch / 2 );
+		const calcY = gsuiAnalyserTd.#calcY.bind( null, data, this.#amp, h / 2, this.#pinch / 2 );
 		const r = Math.round( 255 - this.#drawMax * 255 );
 		const g = Math.round( this.#drawMax *  64 );
 		const b = Math.round( this.#drawMax * 255 );
@@ -87,4 +87,4 @@ class gsuiAnalyserTime extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-analysertime", gsuiAnalyserTime );
+GSUdefineElement( "gsui-analyser-td", gsuiAnalyserTd );

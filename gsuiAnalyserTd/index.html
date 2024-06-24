@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/gs-ui-components/test-assets/test.css"/>
 
 <!-- ....................................................................... -->
-<link rel="stylesheet" href="/gs-ui-components/gsuiAnalyserTime/gsuiAnalyserTime.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiAnalyserTd/gsuiAnalyserTd.css"/>
 
 <!-- ....................................................................... -->
 <style>
@@ -33,7 +33,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-analysertime pinch="1" amp="2"></gsui-analysertime>
+	<gsui-analyser-td pinch="1" amp="2"></gsui-analyser-td>
 </div>
 <div id="TEST-CTRLS">
 	<button id="play" disabled>play</button>
@@ -63,14 +63,14 @@ body {
 <script src="/gs-ui-components/gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
-<script src="/gs-ui-components/gsuiAnalyserTime/gsuiAnalyserTime.js"></script>
+<script src="/gs-ui-components/gsuiAnalyserTd/gsuiAnalyserTd.js"></script>
 
 <!-- ....................................................................... -->
 <script>
 const play = document.querySelector( "#play" );
 const stop = document.querySelector( "#stop" );
 const freeze = document.querySelector( "#freeze" );
-const analyserTime = document.querySelector( "gsui-analysertime" );
+const analyserTd = document.querySelector( "gsui-analyser-td" );
 const ampInput = document.querySelector( "#ampInput" );
 const pinchInput = document.querySelector( "#pinchInput" );
 const smoothInput = document.querySelector( "#smoothInput" );
@@ -102,19 +102,19 @@ play.onclick = () => {
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
-	absn.connect( ctx.destination );
+	// absn.connect( ctx.destination );
 	absn.start();
 };
 
-ampInput.oninput = e => GSUsetAttribute( analyserTime, "amp", e.target.value );
-pinchInput.oninput = e => GSUsetAttribute( analyserTime, "pinch", e.target.value );
-smoothInput.oninput = e => GSUsetAttribute( analyserTime, "smooth", e.target.value );
+ampInput.oninput = e => GSUsetAttribute( analyserTd, "amp", e.target.value );
+pinchInput.oninput = e => GSUsetAttribute( analyserTd, "pinch", e.target.value );
+smoothInput.oninput = e => GSUsetAttribute( analyserTd, "smooth", e.target.value );
 document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 
 function frame() {
 	an.getFloatTimeDomainData( anData );
 	if ( !frozen ) {
-		analyserTime.$draw( anData );
+		analyserTd.$draw( anData );
 	}
 	requestAnimationFrame( frame );
 }
