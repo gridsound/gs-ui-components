@@ -49,6 +49,11 @@ body {
 		<span>pinch</span>
 		<b>1</b>
 	</div>
+	<div class="prop">
+		<input id="smoothInput" type="range" value="0" min="0" max="1" step=".01" />
+		<span>smooth</span>
+		<b>1</b>
+	</div>
 </div>
 
 <!-- ....................................................................... -->
@@ -68,6 +73,7 @@ const freeze = document.querySelector( "#freeze" );
 const analyserTime = document.querySelector( "gsui-analysertime" );
 const ampInput = document.querySelector( "#ampInput" );
 const pinchInput = document.querySelector( "#pinchInput" );
+const smoothInput = document.querySelector( "#smoothInput" );
 const ctx = new AudioContext();
 const an = ctx.createAnalyser();
 const fftSize = 256;
@@ -102,6 +108,7 @@ play.onclick = () => {
 
 ampInput.oninput = e => GSUsetAttribute( analyserTime, "amp", e.target.value );
 pinchInput.oninput = e => GSUsetAttribute( analyserTime, "pinch", e.target.value );
+smoothInput.oninput = e => GSUsetAttribute( analyserTime, "smooth", e.target.value );
 document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 
 function frame() {
