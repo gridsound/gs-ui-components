@@ -1,6 +1,6 @@
 gsui-analyser-vu {
 	display: flex;
-	gap: 2px;
+	gap: min( max( 5%, 1px ), 8px );
 	height: 100%;
 }
 
