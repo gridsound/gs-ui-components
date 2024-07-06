@@ -1,11 +1,23 @@
-gsui-analyser-td {
+gsui-analyser-td,
+gsui-analyser-td-hist {
 	display: flex;
 	position: relative;
 	overflow: hidden;
 	height: 100%;
+	background-color: var( --gsui-screen-spectrum );
 }
-gsui-analyser-td canvas {
+gsui-analyser-td canvas,
+gsui-analyser-td-hist canvas {
 	position: absolute;
 	width: 100%;
 	height: 100%;
+}
+
+gsui-analyser-td-hist::after {
+	position: absolute;
+	content: "";
+	width: 1px;
+	height: 100%;
+	left: 50%;
+	background-color: #0004;
 }
