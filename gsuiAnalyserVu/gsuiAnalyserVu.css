@@ -14,7 +14,7 @@ gsui-analyser-vu {
 .gsuiAnalyserVu-meter-val {
 	position: absolute;
 	inset: auto 0 0;
-	background-color: #ff7;
+	background-color: #ff9;
 }
 .gsuiAnalyserVu-meter-val-max {
 	position: absolute;

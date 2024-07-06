@@ -2,7 +2,7 @@
 
 GSUsetTemplate( "gsui-channels", () => [
 	GSUcreateDiv( { class: "gsuiChannels-panMain" },
-		GSUcreateElement( "gsui-analyser-vu", { max: 120 } ),
+		GSUcreateElement( "gsui-analyser-vu", { title: "VU of selected channel" } ),
 	),
 	GSUcreateDiv( { class: "gsuiChannels-panChannels" },
 		GSUcreateButton( { class: "gsuiChannels-addChan", title: "Add a channel" },
