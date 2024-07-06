@@ -14,22 +14,10 @@ class gsuiAnalyserVu extends gsui0ne {
 			$cmpName: "gsuiAnalyserVu",
 			$tagName: "gsui-analyser-vu",
 			$elements: {
-				$metersVal: [
-					"[data-chan='L'] .gsuiAnalyserVu-meter-val",
-					"[data-chan='R'] .gsuiAnalyserVu-meter-val",
-				],
-				$metersValMax: [
-					"[data-chan='L'] .gsuiAnalyserVu-meter-val-max",
-					"[data-chan='R'] .gsuiAnalyserVu-meter-val-max",
-				],
-				$metersTick: [
-					"[data-chan='L'] .gsuiAnalyserVu-meter-tick",
-					"[data-chan='R'] .gsuiAnalyserVu-meter-tick",
-				],
-				$meters0dB: [
-					"[data-chan='L'] .gsuiAnalyserVu-meter-0dB",
-					"[data-chan='R'] .gsuiAnalyserVu-meter-0dB",
-				],
+				$metersVal: "[].gsuiAnalyserVu-meter-val",
+				$metersValMax: "[].gsuiAnalyserVu-meter-val-max",
+				$metersTick: "[].gsuiAnalyserVu-meter-tick",
+				$meters0dB: "[].gsuiAnalyserVu-meter-0dB",
 			},
 			$attributes: {
 				max: 100,
