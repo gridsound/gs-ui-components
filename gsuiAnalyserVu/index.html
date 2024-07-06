@@ -16,7 +16,7 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 200px;
+	--test-content-w: 110px;
 	--test-content-h: 500px;
 }
 .prop {
@@ -58,14 +58,14 @@ const ctx = new AudioContext();
 const anL = ctx.createAnalyser();
 const anR = ctx.createAnalyser();
 const split = ctx.createChannelSplitter( 2 );
-const fftSize = 32;
+const fftSize = 1024;
 const anDataL = new Float32Array( fftSize / 2 );
 const anDataR = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
-anL.fftSize = anR.fftSize = fftSize;
-anL.smoothingTimeConstant = anR.smoothingTimeConstant = 0;
+anL.fftSize =
+anR.fftSize = fftSize;
 split.connect( anL, 0 );
 split.connect( anR, 1 );
 
