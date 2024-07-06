@@ -1,7 +1,9 @@
 "use strict";
 
 GSUsetTemplate( "gsui-channels", () => [
-	GSUcreateDiv( { class: "gsuiChannels-panMain" } ),
+	GSUcreateDiv( { class: "gsuiChannels-panMain" },
+		GSUcreateElement( "gsui-analyser-vu", { max: 120 } ),
+	),
 	GSUcreateDiv( { class: "gsuiChannels-panChannels" },
 		GSUcreateButton( { class: "gsuiChannels-addChan", title: "Add a channel" },
 			GSUcreateI( { class: "gsuiIcon", "data-icon": "channels" } ),

@@ -17,6 +17,7 @@ class gsuiChannels extends gsui0ne {
 			$cmpName: "gsuiChannels",
 			$tagName: "gsui-channels",
 			$elements: {
+				$vu: "gsui-analyser-vu",
 				$pmain: ".gsuiChannels-panMain",
 				$pchans: ".gsuiChannels-panChannels",
 				$addBtn: ".gsuiChannels-addChan",
@@ -59,6 +60,9 @@ class gsuiChannels extends gsui0ne {
 			this.#analyserH = height;
 			chans.forEach( chan => chan.$analyser.$setResolution( width, height ) );
 		}
+	}
+	$updateVu( ldata, rdata ) {
+		this.$elements.$vu.$draw( ldata, rdata );
 	}
 	$updateAudioData( id, ldata, rdata ) {
 		this.#chans[ id ].$analyser.$draw( ldata, rdata );
