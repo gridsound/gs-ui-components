@@ -41,8 +41,8 @@ gsui-timewindow[ disabled ] {
 .gsuiTimewindow-minimapTrack {
 	position: relative;
 	flex: 1;
-	border-top: 1px solid #0005;
-	background-color: #0002;
+	border-top: 1px solid #0008;
+	background-color: #0006;
 }
 .gsuiTimewindow-minimapThumb,
 .gsuiTimewindow-minimapLoop,
@@ -53,17 +53,13 @@ gsui-timewindow[ disabled ] {
 }
 .gsuiTimewindow-minimapThumb {
 	cursor: pointer;
-	background-color: #fff1;
+	background-color: #fff3;
 }
-/*.gsuiTimewindow-minimapThumb:not( :has( :hover ) ):hover {*/
-/*	background-color: #ffffff15;*/
-/*}*/
 .gsuiTimewindow-minimapThumb-crop {
 	position: absolute;
 	width: min( 8px, 25% );
 	height: 100%;
 	cursor: ew-resize;
-	background-color: #fff1;
 }
 .gsuiTimewindow-minimapThumb-crop[ data-action="cropB" ] {
 	right: 0;
@@ -72,16 +68,12 @@ gsui-timewindow[ disabled ] {
 	background-color: #fff2;
 }
 .gsuiTimewindow-minimapLoop {
-	border: 0 solid #ddf;
-	border-width: 0 2px;
-	background-color: #ddf5;
-	pointer-events: none;
+	background-color: #99f2;
 }
 .gsuiTimewindow-minimapCurrentTime {
 	width: 2px;
 	margin-left: -1px;
 	background-color: var( --gsui-col-currentTimeCursor );
-	pointer-events: none;
 }
 gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-minimapCurrentTime,
 gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
@@ -113,7 +105,7 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	position: sticky;
 	z-index: 2;
 	top: 0;
-	height: 32px;
+	height: 28px;
 	border-bottom: 2px solid #272727;
 }
 .gsuiTimewindow-panelUp {

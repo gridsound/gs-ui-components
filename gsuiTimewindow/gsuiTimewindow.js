@@ -210,6 +210,7 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	$onresize() {
 		this.#minimapUpdate();
+		this.#minimapUpdateCurrentTimeLoop();
 	}
 
 	// .........................................................................
