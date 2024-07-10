@@ -1,17 +1,7 @@
 "use strict";
 
-function GSUsum( arr ) {
-	return arr.reduce( ( sum, n ) => sum + n, 0 );
-}
-
-function GSUavg( arr ) {
-	return GSUsum( arr ) / arr.length;
-}
-
 class gsuiAnalyserTdHist extends gsui0ne {
 	#ctx = null;
-	#avgL = GSUnewArray( 1, 0 );
-	#avgR = GSUnewArray( 1, 0 );
 
 	constructor() {
 		super( {
