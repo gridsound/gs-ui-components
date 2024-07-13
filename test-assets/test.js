@@ -29,7 +29,6 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHz" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHzHist" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserTd" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserTdHist" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserVu" } ),
 					GSUcreateOption( { value: "gsuiTimewindow" } ),
 					GSUcreateOption( { value: "gsuiTimeline" } ),
