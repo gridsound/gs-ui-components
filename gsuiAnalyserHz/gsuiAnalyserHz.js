@@ -1,6 +1,24 @@
 "use strict";
 
 class gsuiAnalyserHz extends gsui0ne {
+	static #colors = [
+		// datum    R    G    B
+		[ .99,    255, 255, 255 ],
+		[ .98,    255, 255, 100 ],
+		[ .97,    200, 200, 100 ],
+		[ .95,    200, 200,  40 ],
+		[ .9,      60,  80,  40 ],
+		[ .8,      50,  50,  40 ],
+		[ .7,      50,  50,  60 ],
+		[ .6,      40,  40,  60 ],
+		[ .4,      30,  30,  80 ],
+		[ .3,      20,  20,  50 ],
+		[ .25,     10,  10,  35 ],
+		[ .17,      5,   5,  25 ],
+		[ .1,       0,   0,  10 ],
+		[ .01,      0,   0,   5 ],
+		[  0,       0,   0,   0 ],
+	];
 	#ctx = null;
 
 	constructor() {
@@ -27,43 +45,21 @@ class gsuiAnalyserHz extends gsui0ne {
 	}
 
 	// .........................................................................
-	static #datumDivision = [ .08, .15, .17, .25, .3, .4, .6, .8, Infinity ];
-	static #colors = [
-		[   5,   2,  20, .08 ], // 0
-		[   8,   5,  30, .15 ], // 1
-		[  15,   7,  50, .17 ], // 2
-		[  75,   7,  35, .25 ],   // 3
-		[  80,   0,   0, .3  ],   // 4
-		[ 180,   0,   0, .4  ],   // 5
-		[ 200,  25,  10, .6  ], // 6
-		[ 200, 128,  10, .8  ], // 7
-		[ 200, 200,  20, 1   ], // 8
-	];
 	static $draw( ctx, data, width = data.length ) {
 		const img = ctx.createImageData( width, 1 );
 		const imgData = img.data;
-		const datalen = data.length;
 		let diSave = -1;
 
 		for ( let i = 0; i < width; ++i ) {
 			const x = i * 4;
-			const di = Math.max( Math.round( datalen * ( 2 ** ( ( i / width ) * 11 - 11 ) ) ), diSave + 1 );
-			const datum = 1 - Math.cos( data[ di ] / 255 * Math.PI / 2 );
+			const i2 = Math.floor( GSUeaseInCirc( i / width, 2 ) * data.length );
+			const datum = GSUeaseOutCirc( 1 - ( data[ i2 ] / -200 ) ) || 0;
+			const [ , r, g, b ] = gsuiAnalyserHz.#colors.find( arr => arr[ 0 ] <= datum ) || gsuiAnalyserHz.#colors.at( -1 );
 
-			diSave = di;
-			if ( datum < .05 ) {
-				imgData[ x     ] = 4 + 10 * datum | 0;
-				imgData[ x + 1 ] = 4 + 10 * datum | 0;
-				imgData[ x + 2 ] = 5 + 20 * datum | 0;
-			} else {
-				const colId = gsuiAnalyserHz.#datumDivision.findIndex( x => datum < x );
-				const col = gsuiAnalyserHz.#colors[ colId ];
-				const datumCut = datum / col[ 3 ];
-
-				imgData[ x     ] = col[ 0 ] * datumCut | 0;
-				imgData[ x + 1 ] = col[ 1 ] * datumCut | 0;
-				imgData[ x + 2 ] = col[ 2 ] * datumCut | 0;
-			}
+			diSave = i2;
+			imgData[ x     ] = r * datum | 0;
+			imgData[ x + 1 ] = g * datum | 0;
+			imgData[ x + 2 ] = b * datum | 0;
 			imgData[ x + 3 ] = 255;
 		}
 		return img;

@@ -52,7 +52,7 @@ const spectrum = document.querySelector( "gsui-analyser-hz" );
 const ctx = new AudioContext();
 const an = ctx.createAnalyser();
 const fftSize = 4096;
-const anData = new Uint8Array( fftSize / 2 );
+const anData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
@@ -83,7 +83,7 @@ play.onclick = () => {
 };
 
 function frame() {
-	an.getByteFrequencyData( anData );
+	an.getFloatFrequencyData( anData );
 	spectrum.$draw( anData );
 	requestAnimationFrame( frame );
 }
