@@ -55,8 +55,8 @@ const anL = ctx.createAnalyser();
 const anR = ctx.createAnalyser();
 const split = ctx.createChannelSplitter( 2 );
 const fftSize = 2048;
-const anLData = new Uint8Array( fftSize / 2 );
-const anRData = new Uint8Array( fftSize / 2 );
+const anLData = new Float32Array( fftSize / 2 );
+const anRData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
@@ -92,8 +92,8 @@ play.onclick = () => {
 };
 
 function frame() {
-	anL.getByteFrequencyData( anLData );
-	anR.getByteFrequencyData( anRData );
+	anL.getFloatFrequencyData( anLData );
+	anR.getFloatFrequencyData( anRData );
 	analyser.$draw( anLData, anRData );
 	requestAnimationFrame( frame );
 }

@@ -2,6 +2,7 @@
 
 class gsuiAnalyserHzHist extends gsui0ne {
 	#ctx = null;
+	#type = "hz";
 
 	constructor() {
 		super( {
@@ -24,16 +25,24 @@ class gsuiAnalyserHzHist extends gsui0ne {
 		this.$element.height = h;
 		this.#ctx.putImageData( img, 0, 0 );
 	}
+	$setType( t ) {
+		this.#type = t;
+	}
 	$draw( ldata, rdata ) {
 		gsuiAnalyserHzHist.#moveImage( this.#ctx );
-		gsuiAnalyserHzHist.#draw( this.#ctx, ldata, rdata );
+		switch ( this.#type ) {
+			case "hz": gsuiAnalyserHzHist.#drawHz( this.#ctx, ldata, rdata ); break;
+			case "td": gsuiAnalyserHzHist.#drawTd( this.#ctx, ldata, rdata ); break;
+		}
 	}
 
 	// .........................................................................
 	static #moveImage( ctx ) {
 		ctx.putImageData( ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );
 	}
-	static #draw( ctx, ldata, rdata ) {
+
+	// .........................................................................
+	static #drawHz( ctx, ldata, rdata ) {
 		const w2 = ctx.canvas.width / 2;
 		const len = Math.min( w2, ldata.length );
 		const imgL = gsuiAnalyserHz.$draw( ctx, ldata, w2 );
@@ -41,16 +50,31 @@ class gsuiAnalyserHzHist extends gsui0ne {
 		const imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {
-			gsuiAnalyserHzHist.#drawPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
+			gsuiAnalyserHzHist.#drawHzPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
 		}
 		ctx.putImageData( imgLflip, 0, 0 );
 		ctx.putImageData( imgR, w2, 0 );
 	}
-	static #drawPx( imgLflip, imgL, x, x2 ) {
+	static #drawHzPx( imgLflip, imgL, x, x2 ) {
 		imgLflip[ x     ] = imgL[ x2     ];
 		imgLflip[ x + 1 ] = imgL[ x2 + 1 ];
 		imgLflip[ x + 2 ] = imgL[ x2 + 2 ];
 		imgLflip[ x + 3 ] = imgL[ x2 + 3 ];
+	}
+
+	// .........................................................................
+	static #drawTd( ctx, ldata, rdata ) {
+		const l = gsuiAnalyserHzHist.#drawTdMax( ldata );
+		const r = gsuiAnalyserHzHist.#drawTdMax( rdata );
+		const w = ctx.canvas.width;
+		const a = w / 2 - l * w / 2;
+		const b = l * w / 2 + r * w / 2;
+
+		ctx.beginPath(); ctx.fillStyle = "#000"; ctx.rect( 0, 0, w, 1 ); ctx.fill();
+		ctx.beginPath(); ctx.fillStyle = "#ff9"; ctx.rect( a, 0, b, 1 ); ctx.fill();
+	}
+	static #drawTdMax( arr ) {
+		return Array.prototype.reduce.call( arr, ( res, n ) => Math.max( res, Math.abs( n ) ), 0 );
 	}
 }
 
