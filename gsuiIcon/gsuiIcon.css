@@ -145,6 +145,8 @@
 
 .gsuiIcon[ data-icon="circle" ]::before { content: "\f111"; opacity: .6; }
 .gsuiIcon[ data-icon="circle" ]::after { content: "\10f111"; opacity: 1; }
+.gsuiIcon[ data-icon="dot-circle" ]::before { content: "\f192"; }
+.gsuiIcon[ data-icon="dot-circle" ]::after { content: "\10f192"; }
 .gsuiIcon[ data-icon="square" ]::before { content: "\f0c8"; opacity: .6; }
 .gsuiIcon[ data-icon="square" ]::after { content: "\10f0c8"; opacity: 1; }
 .gsuiIcon[ data-icon="triangle" ]::before { content: "\f2ec"; opacity: .6; }
