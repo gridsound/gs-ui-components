@@ -48,7 +48,7 @@ class gsuiMixer extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "analyser":
-				this.querySelectorAll( "gsui-channel gsui-analyser-hist" ).forEach( el => el.$setType( val ) );
+				this.$elements.$channels.$setAnalyserType( val );
 				break;
 		}
 	}

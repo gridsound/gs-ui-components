@@ -9,6 +9,7 @@ class gsuiChannels extends gsui0ne {
 	#chanSelected = null;
 	#analyserW = 10;
 	#analyserH = 50;
+	#analyserType = "hz";
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
 	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" );
 
@@ -61,6 +62,10 @@ class gsuiChannels extends gsui0ne {
 			chans.forEach( chan => chan.$analyser.$setResolution( width, height ) );
 		}
 	}
+	$setAnalyserType( t ) {
+		this.#analyserType = t;
+		this.querySelectorAll( "gsui-channel gsui-analyser-hist" ).forEach( el => el.$setType( t ) );
+	}
 	$updateVu( ldata, rdata ) {
 		this.$elements.$vu.$draw( ldata, rdata );
 	}
@@ -111,6 +116,7 @@ class gsuiChannels extends gsui0ne {
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
 		chan.$analyser.$setResolution( this.#analyserW, this.#analyserH );
+		chan.$analyser.$setType( this.#analyserType );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
