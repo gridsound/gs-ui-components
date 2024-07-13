@@ -11,9 +11,19 @@ class gsuiMixer extends gsui0ne {
 			$elements: {
 				$channels: "gsui-channels",
 				$effects: "gsui-effects",
+				$analyserType: ".gsuiMixer-analyserTypes-labels",
+			},
+			$attributes: {
+				analyser: "hz",
 			},
 		} );
 		Object.seal( this );
+		this.$elements.$analyserType.onclick = () => {
+			const type = GSUgetAttribute( this, "analyser" ) === "hz" ? "td" : "hz";
+
+			GSUsetAttribute( this, "analyser", type );
+			this.$dispatch( "changeAnalyser", type );
+		};
 	}
 
 	// .........................................................................
@@ -32,14 +42,20 @@ class gsuiMixer extends gsui0ne {
 		this.#shadowChans.$disconnected();
 		this.#shadowEffects.$disconnected();
 	}
+	static get observedAttributes() {
+		return [ "analyser" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "analyser":
+				this.querySelectorAll( "gsui-channel gsui-analyser-hist" ).forEach( el => el.$setType( val ) );
+				break;
+		}
+	}
 
 	// .........................................................................
-	$getChannels() {
-		return this.$elements.$channels;
-	}
-	$getEffects() {
-		return this.$elements.$effects;
-	}
+	$getChannels() { return this.$elements.$channels; }
+	$getEffects() { return this.$elements.$effects; }
 }
 
 GSUdefineElement( "gsui-mixer", gsuiMixer );

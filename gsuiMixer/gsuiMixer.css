@@ -36,3 +36,37 @@ gsui-mixer {
 .gsuiMixer-head-title {
 	font-weight: bold;
 }
+
+/* .......................................................................... */
+.gsuiMixer-analyserTypes {
+	margin-left: 10px;
+	display: flex;
+	gap: 4px;
+	opacity: .8;
+}
+.gsuiMixer-analyserTypes > .gsuiIcon {
+	font-size: 13px;
+}
+.gsuiMixer-analyserTypes-labels {
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+}
+
+/* .......................................................................... */
+.gsuiMixer-analyserTypes-label {
+	display: flex;
+	align-items: center;
+	height: 9px;
+	gap: .5ch;
+	font-size: 8px;
+}
+.gsuiMixer-analyserTypes-label span { opacity: .7 }
+.gsuiMixer-analyserTypes-label .gsuiIcon::after { opacity: .3 }
+.gsuiMixer-analyserTypes-label .gsuiIcon::before { opacity: 0 }
+gsui-mixer[ analyser="td" ] .gsuiMixer-analyserTypes-label:first-child .gsuiIcon::before,
+gsui-mixer[ analyser="hz" ] .gsuiMixer-analyserTypes-label:last-child .gsuiIcon::before,
+gsui-mixer[ analyser="td" ] .gsuiMixer-analyserTypes-label:first-child span,
+gsui-mixer[ analyser="hz" ] .gsuiMixer-analyserTypes-label:last-child span {
+	opacity: 1;
+}
