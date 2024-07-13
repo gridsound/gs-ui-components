@@ -1,13 +1,13 @@
 "use strict";
 
-class gsuiAnalyserHzHist extends gsui0ne {
+class gsuiAnalyserHist extends gsui0ne {
 	#ctx = null;
 	#type = "hz";
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiAnalyserHzHist",
-			$tagName: "gsui-analyser-hz-hist",
+			$cmpName: "gsuiAnalyserHist",
+			$tagName: "gsui-analyser-hist",
 			$template: GSUcreateElement( "canvas" ),
 		} );
 		this.#ctx = this.$element.getContext( "2d" );
@@ -29,10 +29,10 @@ class gsuiAnalyserHzHist extends gsui0ne {
 		this.#type = t;
 	}
 	$draw( ldata, rdata ) {
-		gsuiAnalyserHzHist.#moveImage( this.#ctx );
+		gsuiAnalyserHist.#moveImage( this.#ctx );
 		switch ( this.#type ) {
-			case "hz": gsuiAnalyserHzHist.#drawHz( this.#ctx, ldata, rdata ); break;
-			case "td": gsuiAnalyserHzHist.#drawTd( this.#ctx, ldata, rdata ); break;
+			case "hz": gsuiAnalyserHist.#drawHz( this.#ctx, ldata, rdata ); break;
+			case "td": gsuiAnalyserHist.#drawTd( this.#ctx, ldata, rdata ); break;
 		}
 	}
 
@@ -50,7 +50,7 @@ class gsuiAnalyserHzHist extends gsui0ne {
 		const imgLflip = ctx.createImageData( len, 1 );
 
 		for ( let x = 0, x2 = len - 1; x < len; ++x, --x2 ) {
-			gsuiAnalyserHzHist.#drawHzPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
+			gsuiAnalyserHist.#drawHzPx( imgLflip.data, imgL.data, x * 4, x2 * 4 );
 		}
 		ctx.putImageData( imgLflip, 0, 0 );
 		ctx.putImageData( imgR, w2, 0 );
@@ -64,8 +64,8 @@ class gsuiAnalyserHzHist extends gsui0ne {
 
 	// .........................................................................
 	static #drawTd( ctx, ldata, rdata ) {
-		const l = gsuiAnalyserHzHist.#drawTdMax( ldata );
-		const r = gsuiAnalyserHzHist.#drawTdMax( rdata );
+		const l = gsuiAnalyserHist.#drawTdMax( ldata );
+		const r = gsuiAnalyserHist.#drawTdMax( rdata );
 		const w = ctx.canvas.width;
 		const a = w / 2 - l * w / 2;
 		const b = l * w / 2 + r * w / 2;
@@ -78,4 +78,4 @@ class gsuiAnalyserHzHist extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-analyser-hz-hist", gsuiAnalyserHzHist );
+GSUdefineElement( "gsui-analyser-hist", gsuiAnalyserHist );

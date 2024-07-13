@@ -11,7 +11,7 @@ class gsuiChannel extends gsui0ne {
 				$toggle: "gsui-toggle",
 				$nameWrap: ".gsuiChannel-nameWrap",
 				$name: ".gsuiChannel-name",
-				$analyser: "gsui-analyser-hz-hist",
+				$analyser: "gsui-analyser-hist",
 				$effects: ".gsuiChannel-effects",
 				pan: ".gsuiChannel-pan gsui-slider",
 				gain: ".gsuiChannel-gain gsui-slider",

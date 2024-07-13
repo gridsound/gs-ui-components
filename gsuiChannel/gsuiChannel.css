@@ -99,7 +99,7 @@ gsui-channel .gsuiChannel-headBtn:hover {
 	width: inherit;
 	margin-left: 0;
 }
-gsui-channel gsui-analyser-hz-hist {
+gsui-channel gsui-analyser-hist {
 	height: 100%;
 	opacity: .8;
 }

@@ -7,7 +7,7 @@ GSUsetTemplate( "gsui-channel", () => [
 	GSUcreateButton( { class: "gsuiChannel-headBtn gsuiChannel-rename gsuiIcon", "data-icon": "pen", title: "Rename the channel" } ),
 	GSUcreateButton( { class: "gsuiChannel-headBtn gsuiChannel-delete gsuiIcon", "data-icon": "close", title: "Remove the channel" } ),
 	GSUcreateDiv( { class: "gsuiChannel-analyser" },
-		GSUcreateElement( "gsui-analyser-hz-hist" ),
+		GSUcreateElement( "gsui-analyser-hist" ),
 		GSUcreateDiv( { class: "gsuiChannel-effects" } ),
 	),
 	GSUcreateElement( "gsui-toggle" ),
