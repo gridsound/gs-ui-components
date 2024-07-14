@@ -15,6 +15,18 @@ class gsuiAnalyserHist extends gsui0ne {
 	}
 
 	// .........................................................................
+	static get observedAttributes() {
+		return [ "type" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "type":
+				this.#type = val;
+				break;
+		}
+	}
+
+	// .........................................................................
 	$clear() {
 		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
 	}
@@ -24,9 +36,6 @@ class gsuiAnalyserHist extends gsui0ne {
 		this.$element.width = w;
 		this.$element.height = h;
 		this.#ctx.putImageData( img, 0, 0 );
-	}
-	$setType( t ) {
-		this.#type = t;
 	}
 	$draw( ldata, rdata ) {
 		gsuiAnalyserHist.#moveImage( this.#ctx );

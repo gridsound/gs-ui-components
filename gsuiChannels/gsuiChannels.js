@@ -64,7 +64,7 @@ class gsuiChannels extends gsui0ne {
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
-		this.querySelectorAll( "gsui-channel gsui-analyser-hist" ).forEach( el => el.$setType( t ) );
+		this.querySelectorAll( "gsui-channel gsui-analyser-hist" ).forEach( el => GSUsetAttribute( el, "type", t ) );
 	}
 	$updateVu( ldata, rdata ) {
 		this.$elements.$vu.$draw( ldata, rdata );
@@ -116,7 +116,7 @@ class gsuiChannels extends gsui0ne {
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
 		chan.$analyser.$setResolution( this.#analyserW, this.#analyserH );
-		chan.$analyser.$setType( this.#analyserType );
+		GSUsetAttribute( chan.$analyser, "type", this.#analyserType );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
