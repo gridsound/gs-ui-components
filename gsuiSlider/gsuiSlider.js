@@ -8,6 +8,8 @@ class gsuiSlider extends gsui0ne {
 	#mousemoveSize = 0;
 	#strokeWidth = 4;
 	#previousval = "";
+	#previousValOninput = "";
+	#oninputThr = null;
 	#circ = false;
 	#axeX = false;
 	#onwheelBinded = this.#onwheel.bind( this );
@@ -29,6 +31,7 @@ class gsuiSlider extends gsui0ne {
 			},
 			$attributes: {
 				tabindex: 0,
+				throttle: 100,
 			},
 			$ptrlock: true,
 		} );
@@ -48,7 +51,7 @@ class gsuiSlider extends gsui0ne {
 		this.#updateVal();
 	}
 	static get observedAttributes() {
-		return [ "value", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width" ];
+		return [ "value", "type", "min", "max", "step", "scroll-step", "throttle", "mousemove-size", "stroke-width" ];
 	}
 	$attributeChanged( prop, val ) {
 		let updateVal;
@@ -61,6 +64,9 @@ class gsuiSlider extends gsui0ne {
 				this.#setType( val );
 				this.#setSVGcirc();
 				updateVal = true;
+				break;
+			case "throttle":
+				this.#oninputThr = GSUthrottle( this.#oninput.bind( this ), +val );
 				break;
 			case "min":
 				this.$elements.$input.min = this.#min = +val;
@@ -100,7 +106,7 @@ class gsuiSlider extends gsui0ne {
 			if ( newVal !== prevVal ) {
 				this.#updateVal();
 				if ( bymouse ) {
-					this.$dispatch( "input", +newVal );
+					this.#oninputThr( newVal );
 				}
 			}
 			if ( !bymouse ) {
@@ -189,8 +195,14 @@ class gsuiSlider extends gsui0ne {
 
 		if ( this.#previousval !== val ) {
 			GSUsetAttribute( this, "value", val );
-			this.$dispatch( "change", +val );
 			this.#previousval = val;
+			this.$dispatch( "change", +val );
+		}
+	}
+	#oninput( val ) {
+		if ( val !== this.#previousValOninput ) {
+			this.#previousValOninput = val;
+			this.$dispatch( "input", +val );
 		}
 	}
 
