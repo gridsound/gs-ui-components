@@ -100,6 +100,9 @@ class gsuiChannels extends gsui0ne {
 	}
 
 	// .........................................................................
+	$reorderChannels( channels ) {
+		gsuiReorder.listReorder( this.$elements.$pchans, channels );
+	}
 	$getChannel( id ) {
 		return this.#chans[ id ];
 	}
@@ -140,27 +143,17 @@ class gsuiChannels extends gsui0ne {
 		delete this.#chans[ id ];
 		chan.remove();
 	}
-	$toggleChannel( id, b ) {
-		GSUsetAttribute( this.#chans[ id ], "muted", !b );
-	}
-	$changePanChannel( id, val ) {
-		GSUsetAttribute( this.#chans[ id ], "pan", val );
-	}
-	$changeGainChannel( id, val ) {
-		GSUsetAttribute( this.#chans[ id ], "gain", val );
-	}
-	$renameChannel( id, name ) {
-		GSUsetAttribute( this.#chans[ id ], "name", name );
-	}
-	$reorderChannel( id, n ) {
-		this.#chans[ id ].dataset.order = n;
-	}
-	$reorderChannels( channels ) {
-		gsuiReorder.listReorder( this.$elements.$pchans, channels );
-	}
-	$redirectChannel( id, dest ) {
-		this.#chans[ id ].dataset.dest = dest;
-		this.#updateChanConnections();
+	$changeChannel( id, prop, val ) {
+		const chan = this.#chans[ id ];
+
+		switch ( prop ) {
+			case "pan":
+			case "gain":
+			case "name": GSUsetAttribute( chan, prop, val ); break;
+			case "toggle": GSUsetAttribute( chan, "muted", !val ); break;
+			case "order": chan.dataset.order = val; break;
+			case "dest": chan.dataset.dest = val; this.#updateChanConnections(); break;
+		}
 	}
 
 	// .........................................................................
