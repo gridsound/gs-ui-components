@@ -129,7 +129,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		const srcData = this.$elements.$dotline.$getData();
 
 		if ( symmetry ) {
-			GSUforEach( srcData, ( id, d ) => {
+			GSUforEach( srcData, ( d, id ) => {
 				if ( d.x <= 0 ) {
 					curve[ id ] = undefined;
 				} else if ( d.y < 0 ) {
