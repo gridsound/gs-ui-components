@@ -70,8 +70,8 @@ const inputPPB = document.querySelector( "#pxPerBeat" );
 const inputBPM = document.querySelector( "#beatsPerMeasure" );
 const inputSPB = document.querySelector( "#stepsPerBeat" );
 
-btnColor.onclick = () => GSUsetAttribute( uiBeatlines, "coloredbeats", !GSUhasAttribute( uiBeatlines, "coloredbeats" ) );
-btnVerti.onclick = () => GSUsetAttribute( uiBeatlines, "vertical", !GSUhasAttribute( uiBeatlines, "vertical" ) );
+btnColor.onclick = () => GSUtoggleAttribute( uiBeatlines, "coloredbeats" );
+btnVerti.onclick = () => GSUtoggleAttribute( uiBeatlines, "vertical" );
 
 inputPPB.oninput =
 inputBPM.oninput =
