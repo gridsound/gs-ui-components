@@ -120,13 +120,12 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "order", "wave", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "wave", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	$attributeChanged( prop, val ) {
 		const num = +val;
 
 		switch ( prop ) {
-			case "order": this.#changeOrder( num ); break;
 			case "wave": this.#changeWave( val ); break;
 			case "source": this.#changeSource( val ); break;
 			case "phaze":
@@ -190,9 +189,6 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
-	#changeOrder( n ) {
-		this.dataset.order = n;
-	}
 	#changeSource( src ) {
 		this.$elements.$sourceName.textContent = src;
 		if ( src ) {
