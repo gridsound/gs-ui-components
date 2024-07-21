@@ -48,7 +48,6 @@ class gsuiTrack extends gsui0ne {
 				this.$elements.$inpName.value = val;
 				break;
 			case "order":
-				this.dataset.order = val;
 				this.$elements.$inpName.placeholder = `track ${ +val + 1 }`;
 				break;
 		}
