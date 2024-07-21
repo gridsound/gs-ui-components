@@ -6,8 +6,8 @@ gsuiReorder.listComputeOrderChange = ( list, obj ) => {
 	Array.prototype.forEach.call( list.children, el => {
 		const dt = el.dataset;
 
-		if ( "id" in dt && "order" in dt ) {
-			if ( +dt.order !== i ) {
+		if ( "id" in dt && ( "order" in dt || GSUhasAttribute( el, "order" ) ) ) {
+			if ( +( dt.order || GSUgetAttribute( el, "order" ) ) !== i ) {
 				const objId = obj[ dt.id ];
 
 				if ( objId ) {

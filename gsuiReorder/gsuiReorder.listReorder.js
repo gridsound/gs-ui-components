@@ -5,8 +5,10 @@ gsuiReorder.listReorder = ( list, optObj ) => {
 
 	if ( toSort ) {
 		const arr = Array.prototype
-			.filter.call( list.children, el => "order" in el.dataset )
-			.sort( ( a, b ) => a.dataset.order - b.dataset.order );
+			.filter.call( list.children, el => GSUhasAttribute( el, "order" ) || "order" in el.dataset )
+			.sort( ( a, b ) =>
+				+( a.dataset.order || GSUgetAttribute( a, "order" ) ) -
+				+( b.dataset.order || GSUgetAttribute( b, "order" ) ) );
 
 		list.append( ...arr );
 	}
