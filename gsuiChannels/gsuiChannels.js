@@ -147,11 +147,11 @@ class gsuiChannels extends gsui0ne {
 		const chan = this.#chans[ id ];
 
 		switch ( prop ) {
+			case "order":
 			case "pan":
 			case "gain":
 			case "name": GSUsetAttribute( chan, prop, val ); break;
 			case "toggle": GSUsetAttribute( chan, "muted", !val ); break;
-			case "order": chan.dataset.order = val; break;
 			case "dest": chan.dataset.dest = val; this.#updateChanConnections(); break;
 		}
 	}
