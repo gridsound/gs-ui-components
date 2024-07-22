@@ -9,7 +9,8 @@ class gsuiSlider extends gsui0ne {
 	#strokeWidth = 4;
 	#previousval = "";
 	#previousValOninput = "";
-	#oninputThr = null;
+	#oninputBind = this.#oninput.bind( this );
+	#oninputThr = this.#oninputBind;
 	#circ = false;
 	#axeX = false;
 	#onwheelBinded = this.#onwheel.bind( this );
@@ -31,7 +32,6 @@ class gsuiSlider extends gsui0ne {
 			},
 			$attributes: {
 				tabindex: 0,
-				throttle: 100,
 			},
 			$ptrlock: true,
 		} );
@@ -66,7 +66,9 @@ class gsuiSlider extends gsui0ne {
 				updateVal = true;
 				break;
 			case "throttle":
-				this.#oninputThr = GSUthrottle( this.#oninput.bind( this ), +val );
+				this.#oninputThr = val
+					? GSUthrottle( this.#oninputBind, +val )
+					: this.#oninputBind;
 				break;
 			case "min":
 				this.$elements.$input.min = this.#min = +val;
