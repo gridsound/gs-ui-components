@@ -104,7 +104,7 @@ class gsuiEffects extends gsui0ne {
 	$changeEffect( id, prop, val ) {
 		switch ( prop ) {
 			case "toggle": GSUsetAttribute( this.#fxsHtml.get( id ), "enable", val ); break;
-			case "order": GSUsetAttribute( this.#fxsHtml.get( id ), "data-order", val ); break;
+			case "order": GSUsetAttribute( this.#fxsHtml.get( id ), "order", val ); break;
 		}
 	}
 	$reorderEffects( effects ) {
