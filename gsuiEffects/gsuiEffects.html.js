@@ -10,16 +10,3 @@ GSUsetTemplate( "gsui-effects", () => [
 		GSUcreateOption( { value: "waveshaper" }, "WaveShaper" ),
 	),
 ] );
-
-GSUsetTemplate( "gsui-effects-fx", () =>
-	GSUcreateDiv( { class: "gsuiEffects-fx", draggable: "true" },
-		GSUcreateDiv( { class: "gsuiEffects-fx-head" },
-			GSUcreateDiv( { class: "gsuiEffects-fx-grip gsuiIcon", "data-icon": "grip-v" } ),
-			GSUcreateButton( { class: "gsuiEffects-fx-expand gsuiIcon", "data-icon": "caret-right" } ),
-			GSUcreateElement( "gsui-toggle", { title: "Toggle this effect" } ),
-			GSUcreateSpan( { class: "gsuiEffects-fx-name" } ),
-			GSUcreateButton( { class: "gsuiEffects-fx-remove gsuiIcon", "data-icon": "close", title: "Delete this effect" } ),
-		),
-		GSUcreateDiv( { class: "gsuiEffects-fx-content" } ),
-	)
-);

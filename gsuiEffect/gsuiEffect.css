@@ -1,0 +1,87 @@
+gsui-effect {
+	background-color: var( --gsuiEffect-head-bg, var( --gsui-item-bg-disabled ) );
+}
+gsui-effect[ enable ] {
+	--gsuiEffect-head-bg: var( --gsui-item-bg );
+	--gsuiEffect-head-name-opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiEffect-head {
+	display: flex;
+	height: 36px;
+	box-sizing: border-box;
+	border-bottom: 2px solid #0002;
+	font-size: 12px;
+}
+gsui-effect:not( [ expanded ] ) + gsui-effect .gsuiEffect-head {
+	border-top: 2px solid #fff1;
+}
+gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
+	border-top: 2px solid #0001;
+}
+.gsuiEffect-expand,
+.gsuiEffect-remove {
+	width: 20px;
+	border: 0;
+	padding: 0;
+	outline: 0;
+	color: inherit;
+	cursor: pointer;
+	font-size: inherit;
+	background-color: transparent;
+}
+.gsuiEffect-grip {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	font-size: 12px;
+	cursor: grab;
+	opacity: .6;
+	background-color: #0002;
+}
+.gsuiEffect-expand {
+	font-size: 14px;
+	opacity: var( --gsuiEffect-head-name-opacity, .5 );
+}
+.gsuiEffect-head gsui-toggle {
+	width: 20px;
+}
+.gsuiEffect-name {
+	flex: 1;
+	align-self: center;
+	padding-left: 6px;
+	opacity: var( --gsuiEffect-head-name-opacity, .5 );
+}
+.gsuiEffect-remove {
+	width: 32px;
+	opacity: .3;
+	transition: .1s opacity;
+}
+.gsuiEffect-remove:hover,
+.gsuiEffect-remove:focus {
+	opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiEffect-content {
+	height: 0;
+	opacity: 0;
+	overflow: hidden;
+	background-color: var( --gsui-item-more-bg );
+	transition: .1s;
+	transition-property: height, opacity;
+}
+gsui-effect[ expanded ] .gsuiEffect-content {
+	height: 160px;
+	opacity: 1;
+}
+gsui-effect[ expanded ] .gsuiEffect-expand::before,
+gsui-effect[ expanded ] .gsuiEffect-expand::after {
+	transform: rotate( 90deg );
+}
+
+.gsuiEffect-content > * {
+	box-shadow: inset 0 0 20px #0000001c;
+}

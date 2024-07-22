@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="/gs-ui-components/gsuiAnalyserVu/gsuiAnalyserVu.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiChannel/gsuiChannel.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiChannels/gsuiChannels.css"/>
+<link rel="stylesheet" href="/gs-ui-components/gsuiEffect/gsuiEffect.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiEffects/gsuiEffects.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiPanels/gsuiPanels.css"/>
 <link rel="stylesheet" href="/gs-ui-components/gsuiPopup/gsuiPopup.css"/>
@@ -59,6 +60,8 @@ body {
 <script src="/gs-ui-components/gsuiChannel/gsuiChannel.js"></script>
 <script src="/gs-ui-components/gsuiChannels/gsuiChannels.html.js"></script>
 <script src="/gs-ui-components/gsuiChannels/gsuiChannels.js"></script>
+<script src="/gs-ui-components/gsuiEffect/gsuiEffect.html.js"></script>
+<script src="/gs-ui-components/gsuiEffect/gsuiEffect.js"></script>
 <script src="/gs-ui-components/gsuiEffects/gsuiEffects.html.js"></script>
 <script src="/gs-ui-components/gsuiEffects/gsuiEffects.js"></script>
 <script src="/gs-ui-components/gsuiPanels/gsuiPanels.js"></script>
@@ -74,6 +77,7 @@ body {
 <script>
 const mix = document.querySelector( "gsui-mixer" );
 const chans = mix.$getChannels();
+const fxs = mix.$getEffects();
 
 chans.$addChannel( "main" );
 chans.$changeChannelProp( "main", "name", "main" );
