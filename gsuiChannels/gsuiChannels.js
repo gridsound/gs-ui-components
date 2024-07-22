@@ -143,7 +143,7 @@ class gsuiChannels extends gsui0ne {
 		delete this.#chans[ id ];
 		chan.remove();
 	}
-	$changeChannel( id, prop, val ) {
+	$changeChannelProp( id, prop, val ) {
 		const chan = this.#chans[ id ];
 
 		switch ( prop ) {
