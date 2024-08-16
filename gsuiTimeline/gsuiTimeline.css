@@ -30,8 +30,8 @@ gsui-timeline {
 		transparent 0,
 		transparent calc( 1em - 2px ),
 		currentColor calc( 1em - 2px ),
-		currentColor calc( 1em ),
-		transparent calc( 1em )
+		currentColor 1em,
+		transparent 1em
 	);
 }
 
