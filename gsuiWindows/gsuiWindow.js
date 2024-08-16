@@ -319,18 +319,25 @@ class gsuiWindow extends gsui0ne {
 		st.bottom = `${ -p.y }px`;
 	}
 	#calcCSSrelativeResize( dir, mm ) {
-		const w = this.rect.w - this.#wMin;
-		const h = this.rect.h - this.#mousedownHeadHeight - this.#hMin;
+		const rc = this.rect;
+		const w = rc.w - this.#wMin;
+		const h = rc.h - this.#hMin - this.#mousedownHeadHeight;
 
 		switch ( dir ) {
-			case "n":  if ( h - mm.y < 0 ) { mm.y =  h; } break;
-			case "s":  if ( h + mm.y < 0 ) { mm.y = -h; } break;
-			case "w":                                     if ( w - mm.x < 0 ) { mm.x =  w; } break;
-			case "e":                                     if ( w + mm.x < 0 ) { mm.x = -w; } break;
-			case "nw": if ( h - mm.y < 0 ) { mm.y =  h; } if ( w - mm.x < 0 ) { mm.x =  w; } break;
-			case "ne": if ( h - mm.y < 0 ) { mm.y =  h; } if ( w + mm.x < 0 ) { mm.x = -w; } break;
-			case "sw": if ( h + mm.y < 0 ) { mm.y = -h; } if ( w - mm.x < 0 ) { mm.x =  w; } break;
-			case "se": if ( h + mm.y < 0 ) { mm.y = -h; } if ( w + mm.x < 0 ) { mm.x = -w; } break;
+			case "n":
+			case "nw":
+			case "ne": if ( h - mm.y < 0 ) { mm.y =  h; } else if ( rc.y + mm.y < 0 ) { mm.y = -rc.y; } break;
+			case "s":
+			case "sw":
+			case "se": if ( h + mm.y < 0 ) { mm.y = -h; } break;
+		}
+		switch ( dir ) {
+			case "w":
+			case "nw":
+			case "sw": if ( w - mm.x < 0 ) { mm.x =  w; } break;
+			case "e":
+			case "ne":
+			case "se": if ( w + mm.x < 0 ) { mm.x = -w; } break;
 		}
 	}
 	#setCSSrelativeResize( st, dir, mm ) {
