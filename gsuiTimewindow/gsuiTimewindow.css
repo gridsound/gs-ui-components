@@ -105,7 +105,7 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	position: sticky;
 	z-index: 2;
 	top: 0;
-	height: 28px;
+	height: 26px;
 	border-bottom: 2px solid #272727;
 }
 .gsuiTimewindow-panelUp {
