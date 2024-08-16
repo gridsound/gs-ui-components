@@ -48,7 +48,7 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "pan", "gain", "detune", "order", "toggle", "duration" ];
+		return [ "name", "pan", "gain", "detune", "toggle", "duration" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
