@@ -14,9 +14,8 @@ gsui-synthesizer {
 	display: flex;
 	align-items: center;
 	box-sizing: border-box;
-	height: 24px;
+	height: 26px;
 	font-size: 14px;
-	line-height: 1em;
 	padding-top: 2px;
 	border-bottom: 2px solid #0002;
 	background-color: var( --gsui-win-head2-bg );
