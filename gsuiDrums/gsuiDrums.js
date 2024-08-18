@@ -140,7 +140,7 @@ class gsuiDrums extends gsui0ne {
 		gsuiReorder.listReorder( this.#elLines, obj );
 	}
 	$addDrumrow( rowId ) {
-		const elLine = this.#createDrumrow( rowId );
+		const elLine = this.#createDrumrowLine( rowId );
 
 		elLine.dataset.id = rowId;
 		this.#drumrows.$add( rowId );
@@ -156,7 +156,7 @@ class gsuiDrums extends gsui0ne {
 	$changeDrumrow( rowId, prop, val ) {
 		switch ( prop ) {
 			case "order":
-				this.querySelector( `gsui-drumrow[data-id="${ rowId }"]` ).dataset.order = val;
+				GSUsetAttribute( this.querySelector( `gsui-drumrow[data-id="${ rowId }"]` ), "order", val );
 				this.#linesMap.get( rowId ).dataset.order = val;
 				break;
 			case "toggle":
@@ -192,7 +192,7 @@ class gsuiDrums extends gsui0ne {
 	$removeDrumcut( id ) {
 		this.#removeItem( id );
 	}
-	#createDrumrow( id ) {
+	#createDrumrowLine( id ) {
 		const elLine = GSUgetTemplate( "gsui-drums-line" );
 		const grp = elLine.querySelector( "gsui-slidergroup" );
 
