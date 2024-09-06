@@ -24,13 +24,6 @@ class gsuiDAW extends gsui0ne {
 			inputOpenURL: "[name='url']",
 			inputOpenFile: "[name='file']",
 		} ),
-		tempo: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-tempo" ), {
-			root: ".gsuiDAW-popup-tempo",
-			beatsPerMeasure: "[name='beatsPerMeasure']",
-			stepsPerBeat: "[name='stepsPerBeat']",
-			bpm: "[name='bpm']",
-			bpmTap: ".gsuiDAW-bpmTap",
-		} ),
 		about: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-about" ), {
 			root: ".gsuiDAW-popup-about",
 			version: ".gsuiDAW-popup-about-versionNum",
@@ -63,9 +56,6 @@ class gsuiDAW extends gsui0ne {
 			$tagName: "gsui-daw",
 			$elements: {
 				$head: ".gsuiDAW-head",
-				$bpm: ".gsuiDAW-tempo-bpm",
-				$bPM: ".gsuiDAW-tempo-beatsPerMeasure",
-				$sPB: ".gsuiDAW-tempo-stepsPerBeat",
 				$cmpName: ".gsuiDAW-currCmp-name",
 				$cmpSave: ".gsuiDAW-currCmp-saveBtn",
 				$cmpIcon: ".gsuiDAW-currCmp-localIcon",
@@ -73,6 +63,7 @@ class gsuiDAW extends gsui0ne {
 				$play: "[data-action='play']",
 				$vers: ".gsuiDAW-version",
 				$clock: "gsui-clock",
+				$tempo: "gsui-tempo",
 				$analyserHz: "gsui-analyser-hz",
 				$volume: ".gsuiDAW-volume gsui-slider",
 				$currentTime: ".gsuiDAW-areaTime gsui-slider",
@@ -136,7 +127,6 @@ class gsuiDAW extends gsui0ne {
 					dt.icon = res === GSUgetAttribute( this, "version" ) ? "check" : "warning";
 				} );
 		};
-		this.#popups.tempo.bpmTap.onclick = () => this.#popups.tempo.bpm.value = gswaBPMTap.$tap();
 		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
 		this.#popups.settings.uiRateManualRange.oninput = e => {
 			this.#popups.settings.uiRateManualFPS.textContent =
@@ -254,13 +244,12 @@ class gsuiDAW extends gsui0ne {
 				break;
 			case "bpm":
 				GSUsetAttribute( this.$elements.$clock, "bpm", val );
-				this.$elements.$bpm.textContent = val;
+				GSUsetAttribute( this.$elements.$tempo, "bpm", val );
 				this.#updateDuration();
 				break;
 			case "timedivision":
 				GSUsetAttribute( this.$elements.$clock, "timedivision", val );
-				this.$elements.$bPM.textContent = val.split( "/" )[ 0 ];
-				this.$elements.$sPB.textContent = val.split( "/" )[ 1 ];
+				GSUsetAttribute( this.$elements.$tempo, "timedivision", val );
 				break;
 			case "volume":
 				this.$elements.$volume.$setValue( val );
@@ -501,25 +490,6 @@ class gsuiDAW extends gsui0ne {
 				GSUsetAttribute( this.#popups.export.button, "data-status", 0 );
 				GSUpopup.$custom( { title: "Export", element: this.#popups.export.root } )
 					.then( () => this.$dispatch( "abortExport" ) );
-				break;
-			case "tempo":
-				this.#popups.tempo.beatsPerMeasure.value = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
-				this.#popups.tempo.stepsPerBeat.value = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 1 ];
-				this.#popups.tempo.bpm.value = GSUgetAttributeNum( this, "bpm" );
-				GSUpopup.$custom( { title: "Tempo", element: this.#popups.tempo.root } )
-					.then( data => {
-						if ( data ) {
-							data.timedivision = `${ data.beatsPerMeasure }/${ data.stepsPerBeat }`;
-							delete data.beatsPerMeasure;
-							delete data.stepsPerBeat;
-							if (
-								data.timedivision !== GSUgetAttribute( this, "timedivision" ) ||
-								data.bpm !== GSUgetAttributeNum( this, "bpm" )
-							) {
-								this.$dispatch( "tempo", data );
-							}
-						}
-					} );
 				break;
 			case "settings":
 				this.#popups.settings.sampleRate.value = GSUgetAttributeNum( this, "samplerate" );

@@ -39,36 +39,3 @@ gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 .gsuiDAW-btn[ data-action="reset" ] {
 	margin-left: -2px;
 }
-gsui-daw gsui-clock {
-	border-radius: var( --radius );
-}
-.gsuiDAW-tempo {
-	white-space: nowrap;
-	background-color: var( --gsui-clock-bg );
-}
-.gsuiDAW-tempo-timeDivision {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 32%;
-	padding: 0 6px 0 8px;
-	font-size: 12px;
-	line-height: 0;
-	font-family: var( --gsui-font-number );
-	pointer-events: none;
-}
-.gsuiDAW-tempo-bpm {
-	display: flex;
-	align-items: baseline;
-	padding-right: 7px;
-	font-size: 18px;
-	font-family: var( --gsui-font-number );
-	pointer-events: none;
-}
-.gsuiDAW-tempo-bpm::after {
-	content: "bpm";
-	margin-left: 2px;
-	font-size: 12px;
-	opacity: .5;
-}
