@@ -20,6 +20,7 @@ class gsuiTempo extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$btn.onclick = this.$onclickBtn.bind( this );
 		this.$elements.$popup.onsubmit = this.$onsubmitPopup.bind( this );
+		this.$elements.$popup.onkeydown = e => e.stopPropagation();
 		this.$elements.$bpmTap.onclick = () => this.$elements.$popup[ 2 ].value = gswaBPMTap.$tap();
 	}
 
