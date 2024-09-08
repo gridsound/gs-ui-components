@@ -1,0 +1,27 @@
+"use strict";
+
+GSUsetTemplate( "gsui-cmp-player", () => [
+	GSUcreateDiv( { class: "gsuiCmpPlayer-play gsuiIcon", "data-icon": "play" } ),
+	GSUcreateDiv( { class: "gsuiCmpPlayer-body" },
+		GSUcreateDiv( { class: "gsuiCmpPlayer-text" },
+			GSUcreateDiv( { class: "gsuiCmpPlayer-name" },
+				GSUcreateA( { class: "gsuiCmpPlayer-nameLink", href: false } ),
+			),
+			GSUcreateDiv( { class: "gsuiCmpPlayer-info" },
+				GSUcreateDiv( { class: "gsuiCmpPlayer-time" },
+					GSUcreateI( { class: "gsuiIcon", "data-icon": "clock" } ),
+					GSUcreateDiv( { class: "gsuiCmpPlayer-currentTime" } ),
+					GSUcreateDiv( { class: "gsuiCmpPlayer-duration" } ),
+				),
+				GSUcreateDiv( { class: "gsuiCmpPlayer-tempo" },
+					GSUcreateI( { class: "gsuiIcon", "data-icon": "speed" } ),
+					GSUcreateSpan( { class: "gsuiCmpPlayer-bpm" } ),
+				),
+			),
+		),
+		GSUcreateDiv( { class: "gsuiCmpPlayer-slider" },
+			GSUcreateDiv( { class: "gsuiCmpPlayer-sliderValue" } ),
+			GSUcreateDiv( { class: "gsuiCmpPlayer-sliderInput" } ),
+		),
+	),
+] );

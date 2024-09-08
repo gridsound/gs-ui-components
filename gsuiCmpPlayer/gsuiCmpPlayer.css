@@ -1,0 +1,122 @@
+gsui-cmp-player {
+	display: flex;
+	position: relative;
+	overflow: hidden;
+	height: 64px;
+	border-radius: 6px;
+	background-color: #2e355b;
+	background-image: linear-gradient( 45deg, #0003, transparent );
+}
+
+/* .......................................................................... */
+.gsuiCmpPlayer-play {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 28px;
+	width: 64px;
+	min-width: 64px;
+	color: #fff4;
+	cursor: pointer;
+	background-color: #0001;
+}
+
+/* .......................................................................... */
+.gsuiCmpPlayer-body {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+/* .......................................................................... */
+.gsuiCmpPlayer-text {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0 10px;
+}
+.gsuiCmpPlayer-name {
+	position: relative;
+	height: 1.4em;
+	line-height: 1.4em;
+	font-size: 20px;
+	transition: height .2s;
+}
+gsui-cmp-player[ playing ] .gsuiCmpPlayer-name {
+	height: 1.3em;
+}
+.gsuiCmpPlayer-nameLink {
+	position: absolute;
+	max-width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	color: inherit;
+	text-overflow: ellipsis;
+	text-decoration: none;
+}
+.gsuiCmpPlayer-info {
+	display: flex;
+	font-size: 16px;
+	font-family: var( --gsui-font-number );
+	white-space: nowrap;
+	opacity: .7;
+}
+.gsuiCmpPlayer-time,
+.gsuiCmpPlayer-tempo {
+	display: flex;
+	align-items: baseline;
+}
+gsui-cmp-player:not( [ playing ] ) .gsuiCmpPlayer-currentTime {
+	display: none;
+}
+.gsuiCmpPlayer-currentTime::after {
+	content: "\A0-\A0";
+}
+.gsuiCmpPlayer-tempo {
+	margin-left: 16px;
+}
+.gsuiCmpPlayer-time .gsuiIcon,
+.gsuiCmpPlayer-tempo .gsuiIcon {
+	margin-right: 6px;
+	opacity: .5;
+}
+.gsuiCmpPlayer-bpm {
+	display: inline-flex;
+	align-items: baseline;
+}
+.gsuiCmpPlayer-bpm::after {
+	content: "bpm";
+	margin-left: 4px;
+	font-size: 11px;
+	font-family: var( --gsui-font );
+}
+
+/* .......................................................................... */
+.gsuiCmpPlayer-slider {
+	position: relative;
+	overflow: hidden;
+	height: 0;
+	cursor: pointer;
+	transition: .2s;
+	transition-property: height;
+	background-color: #0003;
+}
+gsui-cmp-player[ playing ] .gsuiCmpPlayer-slider {
+	height: 10px;
+}
+.gsuiCmpPlayer-sliderValue {
+	width: 0;
+	height: 100%;
+	pointer-events: none;
+	background-color: #65b;
+}
+.gsuiCmpPlayer-sliderInput {
+	position: absolute;
+	cursor: inherit;
+	top: 0;
+	margin: 0;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+}
