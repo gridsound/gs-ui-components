@@ -18,7 +18,7 @@
 <style>
 body {
 	--test-content-w: 400px;
-	--test-content-h: 260px;
+	--test-content-h: 220px;
 	--test-content-resize: horizontal;
 }
 </style>
@@ -27,10 +27,9 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-cmp-player playing name="Dopest song ever created"></gsui-cmp-player>
+	<gsui-cmp-player duration="3600" name="Dopest song ever created"></gsui-cmp-player>
 </div>
 <div id="TEST-CTRLS">
-	<div><button id="playing" type="button">toggle playing</button></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -50,14 +49,20 @@ body {
 <script>
 const elCmp = document.querySelector( "gsui-cmp-player" );
 const bpmInp = document.querySelector( "#bpm" );
-const playingBtn = document.querySelector( "#playing" );
 const durationInp = document.querySelector( "#duration" );
 const currentTimeInp = document.querySelector( "#currentTime" );
 
 bpmInp.oninput = () => GSUsetAttribute( elCmp, "bpm", bpmInp.value );
-playingBtn.onclick = () => GSUtoggleAttribute( elCmp, "playing" );
 durationInp.oninput = () => GSUsetAttribute( elCmp, "duration", durationInp.value );
 currentTimeInp.oninput = () => GSUsetAttribute( elCmp, "currenttime", currentTimeInp.value );
+
+GSUlistenEvents( document.body, {
+	gsuiCmpPlayer: {
+		play: () => GSUsetAttribute( elCmp, "playing", true ),
+		stop: () => GSUsetAttribute( elCmp, "playing", false ),
+		currentTime: d => GSUsetAttribute( elCmp, "currenttime", d.args[ 0 ] ),
+	},
+} );
 </script>
 </body>
 </html>
