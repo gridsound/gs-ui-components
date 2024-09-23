@@ -9,6 +9,7 @@ class gsuiCmpPlayer extends gsui0ne {
 			$tagName: "gsui-cmp-player",
 			$elements: {
 				$play: ".gsuiCmpPlayer-play",
+				$edit: ".gsuiCmpPlayer-edit",
 				$name: ".gsuiCmpPlayer-nameLink",
 				$bpm: ".gsuiCmpPlayer-bpm",
 				$dur: ".gsuiCmpPlayer-duration",
@@ -30,13 +31,14 @@ class gsuiCmpPlayer extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "link", "duration", "bpm", "playing", "currenttime" ];
+		return [ "name", "link", "edit", "duration", "bpm", "playing", "currenttime" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "bpm": this.$elements.$bpm.textContent = val; break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "link": GSUsetAttribute( this.$elements.$name, "href", val ); break;
+			case "edit": GSUsetAttribute( this.$elements.$edit, "href", val ); break;
 			case "playing": GSUsetAttribute( this.$elements.$play, "data-icon", val === "" ? "pause" : "play" ); break;
 			case "duration":
 				this.$elements.$dur.textContent = gsuiCmpPlayer.$calcDuration( val );

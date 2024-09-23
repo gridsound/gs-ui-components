@@ -9,16 +9,43 @@ gsui-cmp-player {
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-play {
+.gsuiCmpPlayer-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 28px;
-	width: 64px;
-	min-width: 64px;
+	border: 0;
+	outline: 0;
+	font-size: 16px;
+	text-decoration: none;
 	color: #fff4;
 	cursor: pointer;
 	background-color: #0001;
+}
+.gsuiCmpPlayer-btn:focus-visible,
+.gsuiCmpPlayer-btn:hover {
+	color: #fff8;
+	background-color: #0002;
+}
+.gsuiCmpPlayer-play {
+	width: 64px;
+	min-width: 64px;
+	font-size: 28px;
+}
+.gsuiCmpPlayer-edit {
+	width: 42px;
+	min-width: 42px;
+}
+.gsuiCmpPlayer-edit[ href="" ] {
+	display: none;
+}
+.gsuiCmpPlayer-edit i:first-child {
+	margin-left: 3px;
+}
+.gsuiCmpPlayer-edit i:last-child {
+	margin-top: 9px;
+	margin-left: -3px;
+	font-size: 12px;
+	text-shadow: -1px -1px 0px #2a3153;
 }
 
 /* .......................................................................... */
@@ -55,7 +82,15 @@ gsui-cmp-player[ playing ] .gsuiCmpPlayer-name {
 	text-overflow: ellipsis;
 	text-decoration: none;
 }
+.gsuiCmpPlayer-info-wrap {
+	position: relative;
+	width: 100%;
+	height: 20px;
+	overflow: hidden;
+}
 .gsuiCmpPlayer-info {
+	position: absolute;
+	inset: 0;
 	display: flex;
 	font-size: 16px;
 	font-family: var( --gsui-font-number );
