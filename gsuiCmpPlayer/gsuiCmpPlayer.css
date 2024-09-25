@@ -13,6 +13,8 @@ gsui-cmp-player {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 42px;
+	min-width: 42px;
 	border: 0;
 	outline: 0;
 	font-size: 16px;
@@ -20,20 +22,18 @@ gsui-cmp-player {
 	color: #fff4;
 	cursor: pointer;
 	background-color: #0001;
+	transition: color, background-color;
+	transition-duration: .2s;
 }
 .gsuiCmpPlayer-btn:focus-visible,
 .gsuiCmpPlayer-btn:hover {
-	color: #fff8;
+	color: #fff;
 	background-color: #0002;
 }
 .gsuiCmpPlayer-play {
 	width: 64px;
 	min-width: 64px;
 	font-size: 28px;
-}
-.gsuiCmpPlayer-edit {
-	width: 42px;
-	min-width: 42px;
 }
 .gsuiCmpPlayer-edit[ href="" ] {
 	display: none;
@@ -45,7 +45,19 @@ gsui-cmp-player {
 	margin-top: 9px;
 	margin-left: -3px;
 	font-size: 12px;
-	text-shadow: -1px -1px 0px #2a3153;
+	text-shadow: -1px -1px 0 #2a3153;
+}
+.gsuiCmpPlayer-delete {
+	color: #fff9;
+	background-color: #f005;
+}
+.gsuiCmpPlayer-delete:focus-visible,
+.gsuiCmpPlayer-delete:hover {
+	background-color: #f227;
+}
+gsui-cmp-player:not( [ edit ] ) .gsuiCmpPlayer-edit,
+gsui-cmp-player:not( [ deletable ] ) .gsuiCmpPlayer-delete {
+	display: none;
 }
 
 /* .......................................................................... */
@@ -63,6 +75,8 @@ gsui-cmp-player {
 	justify-content: center;
 	padding: 0 10px;
 }
+
+/* .......................................................................... */
 .gsuiCmpPlayer-name {
 	position: relative;
 	height: 1.4em;
@@ -82,6 +96,21 @@ gsui-cmp-player[ playing ] .gsuiCmpPlayer-name {
 	text-overflow: ellipsis;
 	text-decoration: none;
 }
+gsui-cmp-player[ private ] .gsuiCmpPlayer-nameLink::before {
+	content: "private";
+	box-sizing: border-box;
+	margin-right: 6px;
+	line-height: 12px;
+	padding: 4px 8px;
+	border: 2px solid #fff3;
+	border-radius: 999px;
+	vertical-align: middle;
+	font-size: 10px;
+	font-weight: bold;
+	background-color: #0004;
+}
+
+/* .......................................................................... */
 .gsuiCmpPlayer-info-wrap {
 	position: relative;
 	width: 100%;

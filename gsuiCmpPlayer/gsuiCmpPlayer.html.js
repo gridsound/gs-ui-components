@@ -30,4 +30,5 @@ GSUsetTemplate( "gsui-cmp-player", () => [
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "music" } ),
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "pen" } ),
 	),
+	GSUcreateButton( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-delete gsuiIcon", "data-icon": "close", title: "Delete this composition" } ),
 ] );
