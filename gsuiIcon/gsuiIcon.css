@@ -177,8 +177,8 @@
 .gsuiIcon[ data-icon="expand" ]::after { content: "\10f065"; }
 .gsuiIcon[ data-icon="compress" ]::before { content: "\f326"; }
 .gsuiIcon[ data-icon="compress" ]::after { content: "\10f326"; }
-.gsuiIcon[ data-icon="trash-restore" ]::before { content: "\f829"; }
-.gsuiIcon[ data-icon="trash-restore" ]::after { content: "\10f829"; }
+.gsuiIcon[ data-icon="trash-restore" ]::before { content: "\f895"; }
+.gsuiIcon[ data-icon="trash-restore" ]::after { content: "\10f895"; }
 
 .gsuiIcon[ data-icon="save" ]::before { content: "\f0c7"; }
 .gsuiIcon[ data-icon="save" ]::after { content: "\10f0c7"; opacity: .4; }
