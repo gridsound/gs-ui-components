@@ -20,6 +20,7 @@ gsui-cmp-player {
 	font-size: 16px;
 	text-decoration: none;
 	color: #fff4;
+	font-size: 20px;
 	cursor: pointer;
 	background-color: #0001;
 	transition: color, background-color;
