@@ -23,7 +23,7 @@ class gsuiDrum extends gsui0ne {
 			case "pan":
 			case "gain":
 			case "detune":
-				this.#changeProp( prop, val );
+				this.#changeProp( prop, +val );
 				break;
 		}
 	}
