@@ -9,7 +9,7 @@ gsui-fx-waveshaper {
 	padding: 8px;
 	container: gsuiFxWaveshaper / size;
 }
-gsui-fx-waveShaper[ off ] {
+gsui-fx-waveshaper[ off ] {
 	color: #fff8;
 }
 
@@ -50,9 +50,9 @@ gsui-fx-waveShaper[ off ] {
 .gsuiFxWaveShaper-oversample select:focus {
 	background-color: #0002;
 }
-gsui-fx-waveShaper:not( [ symmetry ] ) .gsuiFxWaveShaper-symmetry > span,
-gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample > span,
-gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
+gsui-fx-waveshaper:not( [ symmetry ] ) .gsuiFxWaveShaper-symmetry > span,
+gsui-fx-waveshaper[ oversample="none" ] .gsuiFxWaveShaper-oversample > span,
+gsui-fx-waveshaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
 	opacity: .5;
 }
 
@@ -140,16 +140,16 @@ gsui-fx-waveShaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
 .gsuiFxWaveShaper-graph-x-minus::before { content: "in -" }
 .gsuiFxWaveShaper-graph-y-plus::before  { content: "out +" }
 .gsuiFxWaveShaper-graph-y-minus::before { content: "out -" }
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-x,
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-y,
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-x-minus,
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-y-minus {
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-x,
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y,
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-x-minus,
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-minus {
 	display: none;
 }
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-x-plus { bottom: 0 }
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus { left: 2px; width: auto }
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-x-plus::before { content: "in" }
-gsui-fx-waveShaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus::before { content: "out" }
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-x-plus { bottom: 0 }
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus { left: 2px; width: auto }
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-x-plus::before { content: "in" }
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus::before { content: "out" }
 
 /* .......................................................................... */
 .gsuiFxWaveShaper-waves {
