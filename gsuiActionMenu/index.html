@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiActionMenu.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 200px;
+	--test-content-h: 200px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<button id="btn-test">menu</button>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="../gsui0ne/gsui0ne.js"></script>
+<script src="gsuiActionMenu.js"></script>
+<script src="calcAbsolutePosition.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const btn = document.querySelector( "#btn-test" );
+const actionMenu = new gsuiActionMenu();
+
+const act1 = {
+	id: "a00",
+	icon: "triangle",
+	name: "Lorem ipsum",
+};
+const act2 = {
+	id: "a01",
+	icon: "diamond",
+	name: "Dolor sit amet",
+	desc: "This is a description under the name",
+};
+const act3 = {
+	id: "a02",
+	icon: "hexagon",
+	name: "Consectetur adipiscing elit",
+	desc: "This is a super very long description also under the name it should appear on multiple lines",
+};
+
+actionMenu.$closeAfterClick( false );
+actionMenu.$bindTargetElement( btn );
+actionMenu.$setCallback( actionMenuClick );
+actionMenu.$setActions( [
+	act1, act2, act3,
+	act1, act2, act3,
+	act1, act2, act3,
+	act1, act2, act3,
+	act1, act2, act3,
+	act1, act2, act3,
+] );
+
+function actionMenuClick( act ) {
+	console.log( "actionMenuClick", act );
+}
+</script>
+</body>
+</html>
