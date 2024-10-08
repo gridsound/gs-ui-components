@@ -77,6 +77,8 @@ GSUlistenEvents( document.body, {
 	gsuiCmpPlayer: {
 		play: () => GSUsetAttribute( elCmp, "playing", true ),
 		stop: () => GSUsetAttribute( elCmp, "playing", false ),
+		delete: () => GSUsetAttribute( elCmp, "deleting", true ),
+		restore: () => GSUsetAttribute( elCmp, "restoring", true ),
 		currentTime: d => GSUsetAttribute( elCmp, "currenttime", d.args[ 0 ] ),
 	},
 } );

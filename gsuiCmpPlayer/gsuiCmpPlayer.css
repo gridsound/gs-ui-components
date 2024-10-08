@@ -6,7 +6,10 @@ gsui-cmp-player {
 	border-radius: 6px;
 	background-color: #2e355b;
 	background-image: linear-gradient( 45deg, #0003, transparent );
+	transition: transform .3s;
 }
+gsui-cmp-player[ deleting ] { transform: translateX( 100% ) }
+gsui-cmp-player[ restoring ] { transform: translateX( -100% ) }
 
 /* .......................................................................... */
 .gsuiCmpPlayer-btn {
