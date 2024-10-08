@@ -97,6 +97,7 @@ class gsuiCmpPlayer extends gsui0ne {
 			this.#actionMenu.$setActions( this.#actions );
 			this.#actionMenu.$setDirection( this.#actionMenuDir );
 			this.#actionMenu.$setMaxSize( "260px", "180px" );
+			this.#actionMenu.$setCallback( act => this.$dispatch( act ) );
 		}
 		if ( actionsStr ) {
 			this.#actions.forEach( act => this.#actionMenu.$showAction( act.id, actionsStr.includes( act.id ) ) );
