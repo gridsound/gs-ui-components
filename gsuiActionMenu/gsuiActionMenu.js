@@ -1,9 +1,15 @@
 "use strict";
 
 class gsuiActionMenu {
+	#minw = "100px";
+	#minh = "100px";
+	#maxw = "400px";
+	#maxh = "400px";
 	#actions = [];
 	#onclickFn = GSUnoop;
+	#direction = "bottom";
 	#closeAfterClick = true;
+	#elParent = document.body;
 	#elMenu = null;
 	#elTarget = null;
 	#isOpen = false;
@@ -14,6 +20,20 @@ class gsuiActionMenu {
 	$bindTargetElement( btn ) {
 		this.#elTarget = btn;
 		btn.addEventListener( "click", this.#onclickTarget.bind( this ) );
+	}
+	$setDirection( dir ) {
+		this.#direction = dir;
+	}
+	$setMinSize( w, h ) {
+		this.#minw = w;
+		this.#minh = h;
+	}
+	$setMaxSize( w, h ) {
+		this.#maxw = w;
+		this.#maxh = h;
+	}
+	$setMenuParent( el ) {
+		this.#elParent = el;
 	}
 	$setCallback( fn ) {
 		this.#onclickFn = fn;
@@ -62,12 +82,12 @@ class gsuiActionMenu {
 			if ( this.#elMenu ) {
 				GSUsetAttribute( this.#elMenu, "data-open", true );
 			} else {
-				this.#elMenu = gsuiActionMenu.#createMenuElement( this.#actions );
+				this.#elMenu = this.#createMenuElement();
 				this.#elMenu.onclick = this.#onclickActions.bind( this );
-				document.body.prepend( this.#elMenu );
+				this.#elParent.prepend( this.#elMenu );
 				document.body.addEventListener( "pointerdown", this.#onptrdownBodyBind );
 				this.#timeoutId = setTimeout( () => {
-					gsuiActionMenu.#positionMenuElement( this.#elMenu, this.#elTarget );
+					this.#positionMenuElement();
 					GSUsetAttribute( this.#elMenu, "data-open", true );
 				}, 10 );
 			}
@@ -85,10 +105,10 @@ class gsuiActionMenu {
 			}, 250 );
 		}
 	}
-	static #createMenuElement( actions ) {
-		return GSUcreateDiv( { class: "gsuiActionMenu" },
+	#createMenuElement() {
+		return GSUcreateDiv( { class: "gsuiActionMenu", "data-dir": this.#direction, style: { minWidth: this.#minw, minHeight: this.#minh, maxWidth: this.#maxw, maxHeight: this.#maxh } },
 			GSUcreateDiv( { class: "gsuiActionMenu-arrow" } ),
-			GSUcreateDiv( { class: "gsuiActionMenu-actions" }, actions.map( act =>
+			GSUcreateDiv( { class: "gsuiActionMenu-actions" }, this.#actions.map( act =>
 				!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
 					act.icon && GSUcreateI( { class: "gsuiIcon", "data-icon": act.icon, inert: true } ),
 					GSUcreateDiv( { class: "gsuiActionMenu-action-body", inert: true },
@@ -96,32 +116,26 @@ class gsuiActionMenu {
 						act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),
 					),
 				)
-			) )
+			) ),
 		);
 	}
-	static #positionMenuElement( elMenu, elTarget ) {
-		const tarBCR = elTarget.getBoundingClientRect();
-		const elHtml = document.documentElement;
+	#positionMenuElement() {
+		const tarBCR = this.#elTarget.getBoundingClientRect();
+		const menuBCR = this.#elMenu.getBoundingClientRect();
+		const elArrow = this.#elMenu.querySelector( ".gsuiActionMenu-arrow" );
+		const posObj = getAbsPos( this.#direction, tarBCR, this.#elMenu.clientWidth, this.#elMenu.clientHeight, {
+			margin: 8,
+			withArrow: true,
+			absolute: this.#elParent === document.body,
+		} );
 
-		GSUsetStyle( elMenu, {
-			left: `${ elHtml.scrollLeft + tarBCR.x + tarBCR.width / 2 - elMenu.clientWidth / 2 }px`,
-			top: `${ elHtml.scrollTop + tarBCR.y + tarBCR.height + 8 }px`,
+		GSUsetStyle( this.#elMenu, {
+			left: posObj.left,
+			top: posObj.top,
+		} );
+		GSUsetStyle( elArrow, {
+			left: posObj.arrowLeft,
+			top: posObj.arrowTop,
 		} );
 	}
 }
-
-// const elArrow = elMenu.querySelector( ".gsuiActionMenu-arrow" );
-// const posObj = calcAbsolutePosition( "bottom", tarBCR, elMenu.clientWidth, elMenu.clientHeight, {
-// 	margin: 8,
-// 	withArrow: true,
-// 	absolute: true,
-// } );
-
-// GSUsetStyle( elMenu, {
-// 	left: posObj.left,
-// 	top: posObj.top,
-// } );
-// GSUsetStyle( elArrow, {
-// 	left: posObj.arrowLeft,
-// 	top: posObj.arrowTop,
-// } );

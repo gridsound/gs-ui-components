@@ -1,13 +1,12 @@
 .gsuiActionMenu {
-	z-index: 1;
+	--brd-color: #444;
+	--brd: 2px solid var( --brd-color );
+	z-index: 2;
 	position: absolute;
+	box-sizing: border-box;
 	display: flex;
 	max-width: 260px;
 	max-height: 260px;
-	border: 2px solid #222;
-	border-radius: 4px;
-	padding: 4px;
-	background-color: #444;
 	box-shadow: 0 4px 10px 5px #0003;
 	opacity: 0;
 	visibility: hidden;
@@ -18,24 +17,36 @@
 	opacity: 1;
 	visibility: visible;
 }
-.gsuiActionMenu-arrow {
-	content: "";
-	position: absolute;
-	top: -5px;
-	left: calc( 50% - 3px );
-	width: 6px;
-	height: 6px;
-	border: inherit;
-	border-right: 0;
-	border-bottom: 0;
-	border-radius: 2px;
-	transform: rotate( 45deg );
-	background-color: inherit;
-}
 
 /* .......................................................................... */
 .gsuiActionMenu-actions {
+	position: relative;
 	overflow: auto;
+	width: 100%;
+	padding: 4px;
+	border: var( --brd );
+	border-radius: 4px;
+	background-color: #444;
+}
+.gsuiActionMenu-arrow {
+	content: "";
+	position: absolute;
+	box-sizing: border-box;
+	top: -3px;
+	left: 50%;
+	width: 8px;
+	height: 8px;
+	margin-top: -4px;
+	margin-left: -4px;
+	border: var( --brd );
+	border-right: 0;
+	border-bottom: 0;
+	border-radius: 2px 0 0 0;
+	background-color: var( --brd-color );
+	transform: rotate( 45deg );
+}
+.gsuiActionMenu[ data-dir^="top" ] .gsuiActionMenu-arrow {
+	transform: rotate( 225deg );
 }
 
 /* .......................................................................... */
@@ -55,8 +66,8 @@
 	transition-property: color, background-color;
 }
 .gsuiActionMenu-action:hover {
-	color: #111;
-	background-color: #fff;
+/*	color: #111;*/
+	background-color: #fff2;
 }
 .gsuiActionMenu-action-body {
 	display: flex;

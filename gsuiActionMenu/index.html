@@ -17,8 +17,25 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 200px;
+	--test-content-w: 400px;
 	--test-content-h: 200px;
+}
+#testContent,
+#testWrap {
+	overflow: visible;
+}
+#testWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: start;
+}
+.btnLines {
+	display: flex;
+	gap: 8px;
+}
+.btnWrap {
+	position: relative;
 }
 </style>
 </head>
@@ -26,7 +43,16 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<button id="btn-test">menu</button>
+	<div class="btnLines">
+		<span class="btnWrap"><button id="btn-bottom-right">bottom right</button></span>
+		<span class="btnWrap"><button id="btn-bottom">bottom</button></span>
+		<span class="btnWrap"><button id="btn-bottom-left">bottom left</button></span>
+	</div>
+	<div class="btnLines">
+		<span class="btnWrap"><button id="btn-top-right">top right</button></span>
+		<span class="btnWrap"><button id="btn-top">top</button></span>
+		<span class="btnWrap"><button id="btn-top-left">top left</button></span>
+	</div>
 </div>
 <div id="TEST-CTRLS">
 </div>
@@ -39,12 +65,23 @@ body {
 <!-- ....................................................................... -->
 <script src="../gsui0ne/gsui0ne.js"></script>
 <script src="gsuiActionMenu.js"></script>
-<script src="calcAbsolutePosition.js"></script>
+<script src="getAbsPos.js"></script>
 
 <!-- ....................................................................... -->
 <script>
-const btn = document.querySelector( "#btn-test" );
-const actionMenu = new gsuiActionMenu();
+const btnBottom = document.querySelector( "#btn-bottom" );
+const btnBottomLeft = document.querySelector( "#btn-bottom-left" );
+const btnBottomRight = document.querySelector( "#btn-bottom-right" );
+const btnTop = document.querySelector( "#btn-top" );
+const btnTopLeft = document.querySelector( "#btn-top-left" );
+const btnTopRight = document.querySelector( "#btn-top-right" );
+const par = document.querySelector( "#menu-parent" );
+const actionMenuBottom = new gsuiActionMenu();
+const actionMenuBottomLeft = new gsuiActionMenu();
+const actionMenuBottomRight = new gsuiActionMenu();
+const actionMenuTop = new gsuiActionMenu();
+const actionMenuTopLeft = new gsuiActionMenu();
+const actionMenuTopRight = new gsuiActionMenu();
 
 const act1 = {
 	id: "a00",
@@ -64,17 +101,33 @@ const act3 = {
 	desc: "This is a super very long description also under the name it should appear on multiple lines",
 };
 
-actionMenu.$closeAfterClick( false );
-actionMenu.$bindTargetElement( btn );
-actionMenu.$setCallback( actionMenuClick );
-actionMenu.$setActions( [
-	act1, act2, act3,
-	act1, act2, act3,
-	act1, act2, act3,
-	act1, act2, act3,
-	act1, act2, act3,
-	act1, act2, act3,
-] );
+initActionMenu( btnBottom, actionMenuBottom, "bottom" );
+initActionMenu( btnBottomLeft, actionMenuBottomLeft, "bottom left" );
+initActionMenu( btnBottomRight, actionMenuBottomRight, "bottom right" );
+initActionMenu( btnTop, actionMenuTop, "top" );
+initActionMenu( btnTopLeft, actionMenuTopLeft, "top left" );
+initActionMenu( btnTopRight, actionMenuTopRight, "top right" );
+
+// btnTop.click();
+// btnBottom.click();
+
+function initActionMenu( btn, menu, dir ) {
+	menu.$setMinSize( "260px", "260px" );
+	menu.$setMaxSize( "300px", "300px" );
+	menu.$closeAfterClick( false );
+	menu.$bindTargetElement( btn );
+	menu.$setDirection( dir );
+	menu.$setMenuParent( btn.parentNode );
+	menu.$setCallback( actionMenuClick );
+	menu.$setActions( [
+		act1, act2, act3,
+		act1, act2, act3,
+		act1, act2, act3,
+		act1, act2, act3,
+		act1, act2, act3,
+		act1, act2, act3,
+	] );
+}
 
 function actionMenuClick( act ) {
 	console.log( "actionMenuClick", act );
