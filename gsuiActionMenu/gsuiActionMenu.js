@@ -2,7 +2,7 @@
 
 class gsuiActionMenu {
 	#minw = "100px";
-	#minh = "100px";
+	#minh = "32px";
 	#maxw = "400px";
 	#maxh = "400px";
 	#actions = [];
