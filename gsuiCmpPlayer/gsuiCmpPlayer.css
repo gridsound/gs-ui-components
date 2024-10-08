@@ -1,10 +1,11 @@
 gsui-cmp-player {
+	--gsui-bg: #2e355b;
 	display: flex;
 	position: relative;
 	overflow: hidden;
 	height: 64px;
 	border-radius: 6px;
-	background-color: #2e355b;
+	background-color: var( --gsui-bg );
 	background-image: linear-gradient( 45deg, #0003, transparent );
 	transition: transform .3s;
 }
@@ -46,7 +47,7 @@ gsui-cmp-player[ restoring ] { transform: translateX( -100% ) }
 	margin-top: 9px;
 	margin-left: -3px;
 	font-size: 12px;
-	text-shadow: -1px -1px 0 #2a3153;
+	text-shadow: -1px -1px 0 var( --gsui-bg );
 }
 .gsuiCmpPlayer-actions {
 	background-color: transparent;
