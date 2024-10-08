@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiActionMenu/gsuiActionMenu.css"/>
+
+<!-- ....................................................................... -->
 <link rel="stylesheet" href="gsuiCmpPlayer.css"/>
 
 <!-- ....................................................................... -->
@@ -27,13 +30,11 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-cmp-player duration="3600" bpm="120" name="Dopest song ever created"></gsui-cmp-player>
+	<gsui-cmp-player duration="3600" bpm="120" name="Dopest song ever created" actions="open visible delete"></gsui-cmp-player>
 </div>
 <div id="TEST-CTRLS">
 	<div><label><input id="private" type="checkbox" /> private</label></div>
 	<div><label><input id="editable" type="checkbox" /> editable</label></div>
-	<div><label><input id="restorable" type="checkbox" /> restorable</label></div>
-	<div><label><input id="deletable" type="checkbox" /> deletable</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -46,6 +47,10 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
+<script src="../gsuiActionMenu/gsuiActionMenu.js"></script>
+<script src="../gsuiActionMenu/getAbsPos.js"></script>
+
+<!-- ....................................................................... -->
 <script src="gsuiCmpPlayer.html.js"></script>
 <script src="gsuiCmpPlayer.js"></script>
 
@@ -54,20 +59,15 @@ body {
 const elCmp = document.querySelector( "gsui-cmp-player" );
 const privateInp = document.querySelector( "#private" );
 const editableInp = document.querySelector( "#editable" );
-const restorableInp = document.querySelector( "#restorable" );
-const deletableInp = document.querySelector( "#deletable" );
 const bpmInp = document.querySelector( "#bpm" );
 const durationInp = document.querySelector( "#duration" );
 const currentTimeInp = document.querySelector( "#currentTime" );
 
 privateInp.onchange = () => GSUtoggleAttribute( elCmp, "private" );
-restorableInp.onchange = () => GSUtoggleAttribute( elCmp, "restorable" );
-deletableInp.onchange = () => GSUtoggleAttribute( elCmp, "deletable" );
-editableInp.onchange = () => GSUsetAttribute( elCmp, "edit", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
+editableInp.onchange = () => GSUsetAttribute( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
 privateInp.click();
 editableInp.click();
-deletableInp.click();
 
 bpmInp.oninput = () => GSUsetAttribute( elCmp, "bpm", bpmInp.value );
 durationInp.oninput = () => GSUsetAttribute( elCmp, "duration", durationInp.value );

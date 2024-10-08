@@ -26,10 +26,9 @@ GSUsetTemplate( "gsui-cmp-player", () => [
 			GSUcreateDiv( { class: "gsuiCmpPlayer-sliderInput" } ),
 		),
 	),
-	GSUcreateAExt( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-edit", title: "Open in the DAW" },
+	GSUcreateAExt( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-dawlink", title: "Open in the DAW" },
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "music", inert: true } ),
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "pen", inert: true } ),
 	),
-	GSUcreateButton( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-restore gsuiIcon", "data-action": "restore", "data-icon": "trash-restore", title: "Restore this composition" } ),
-	GSUcreateButton( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-delete gsuiIcon", "data-action": "delete", "data-icon": "close", title: "Delete this composition" } ),
+	GSUcreateButton( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-actions gsuiIcon", "data-icon": "ellipsis-v" } ),
 ] );

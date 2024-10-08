@@ -36,37 +36,20 @@ gsui-cmp-player {
 	min-width: 64px;
 	font-size: 28px;
 }
-.gsuiCmpPlayer-edit[ href="" ] {
-	display: none;
-}
-.gsuiCmpPlayer-edit i:first-child {
+.gsuiCmpPlayer-dawlink i:first-child {
 	margin-left: 3px;
 }
-.gsuiCmpPlayer-edit i:last-child {
+.gsuiCmpPlayer-dawlink i:last-child {
 	margin-top: 9px;
 	margin-left: -3px;
 	font-size: 12px;
 	text-shadow: -1px -1px 0 #2a3153;
 }
-.gsuiCmpPlayer-restore {
-	color: #fff9;
-	background-color: #88f4;
+.gsuiCmpPlayer-actions {
+	background-color: transparent;
 }
-.gsuiCmpPlayer-restore:focus-visible,
-.gsuiCmpPlayer-restore:hover {
-	background-color: #88f8;
-}
-.gsuiCmpPlayer-delete {
-	color: #fff9;
-	background-color: #f005;
-}
-.gsuiCmpPlayer-delete:focus-visible,
-.gsuiCmpPlayer-delete:hover {
-	background-color: #f227;
-}
-gsui-cmp-player:not( [ edit ] ) .gsuiCmpPlayer-edit,
-gsui-cmp-player:not( [ deletable ] ) .gsuiCmpPlayer-delete,
-gsui-cmp-player:not( [ restorable ] ) .gsuiCmpPlayer-restore {
+.gsuiCmpPlayer-dawlink:not( [ href ] ),
+gsui-cmp-player:not( [ actions ] ) .gsuiCmpPlayer-actions {
 	display: none;
 }
 

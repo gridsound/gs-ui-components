@@ -2,6 +2,9 @@
 
 class gsuiCmpPlayer extends gsui0ne {
 	#settingTime = null;
+	#actionMenu = null;
+	#actions = null;
+	#actionMenuDir = "top left";
 
 	constructor() {
 		super( {
@@ -9,13 +12,14 @@ class gsuiCmpPlayer extends gsui0ne {
 			$tagName: "gsui-cmp-player",
 			$elements: {
 				$play: ".gsuiCmpPlayer-play",
-				$edit: ".gsuiCmpPlayer-edit",
 				$name: ".gsuiCmpPlayer-nameLink",
 				$bpm: ".gsuiCmpPlayer-bpm",
 				$dur: ".gsuiCmpPlayer-duration",
 				$time: ".gsuiCmpPlayer-currentTime",
 				$timeInpVal: ".gsuiCmpPlayer-sliderValue",
 				$timeInpTrk: ".gsuiCmpPlayer-sliderInput",
+				$dawlink: ".gsuiCmpPlayer-dawlink",
+				$actionsBtn: ".gsuiCmpPlayer-actions",
 			},
 			$attributes: {
 				name: "",
@@ -38,15 +42,20 @@ class gsuiCmpPlayer extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "link", "edit", "duration", "bpm", "playing", "currenttime" ];
+		return [ "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "bpm": this.$elements.$bpm.textContent = val; break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "link": GSUsetAttribute( this.$elements.$name, "href", val ); break;
-			case "edit": GSUsetAttribute( this.$elements.$edit, "href", val ); break;
+			case "dawlink": GSUsetAttribute( this.$elements.$dawlink, "href", val ); break;
 			case "playing": GSUsetAttribute( this.$elements.$play, "data-icon", val === "" ? "pause" : "play" ); break;
+			case "actions": this.#updateActionMenu( val ); break;
+			case "actionsdir":
+				this.#actionMenuDir = val;
+				this.#actionMenu?.$setDirection( val );
+				break;
 			case "duration":
 				this.$elements.$dur.textContent = gsuiCmpPlayer.$calcDuration( val );
 				this.$updateTimeSlider();
@@ -74,6 +83,25 @@ class gsuiCmpPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
+	#updateActionMenu( actionsStr ) {
+		if ( !this.#actionMenu ) {
+			this.#actions = [
+				{ hidden: true, id: "open",    icon: "heart",         name: "Make it visible and open-source", desc: "The world will be able to listen to your music and will have access to the source and be able to fork it." },
+				{ hidden: true, id: "visible", icon: "public",        name: "Make it visible", desc: "The world will be able to listen to your music, without the source (only the mp3)." },
+				{ hidden: true, id: "private", icon: "private",       name: "Make it private", desc: "Only you will see the composition, no one will be able to listen it online." },
+				{ hidden: true, id: "delete",  icon: "trash",         name: "Delete it", desc: "The composition will stay in your private bin for 30 days (only premium users have access to the bin)." },
+				{ hidden: true, id: "restore", icon: "trash-restore", name: "Restore it", desc: "Get the composition out of the bin." },
+			];
+			this.#actionMenu = new gsuiActionMenu();
+			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn );
+			this.#actionMenu.$setActions( this.#actions );
+			this.#actionMenu.$setDirection( this.#actionMenuDir );
+			this.#actionMenu.$setMaxSize( "260px", "180px" );
+		}
+		if ( actionsStr ) {
+			this.#actions.forEach( act => this.#actionMenu.$showAction( act.id, actionsStr.includes( act.id ) ) );
+		}
+	}
 	#ptrDown( e ) {
 		e.target.setPointerCapture( e.pointerId );
 		e.target.onpointerup = this.#ptrUp.bind( this );
