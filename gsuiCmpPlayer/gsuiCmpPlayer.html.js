@@ -26,7 +26,7 @@ GSUsetTemplate( "gsui-cmp-player", () => [
 			GSUcreateDiv( { class: "gsuiCmpPlayer-sliderInput" } ),
 		),
 	),
-	GSUcreateAExt( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-dawlink", title: "Open in the DAW" },
+	GSUcreateAExt( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-dawlink", title: "Open in the DAW", href: false },
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "music", inert: true } ),
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "pen", inert: true } ),
 	),
