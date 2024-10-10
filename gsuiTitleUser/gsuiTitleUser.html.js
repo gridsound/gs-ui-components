@@ -15,6 +15,7 @@ GSUsetTemplate( "gsui-titleuser", () => [
 	),
 	GSUcreateDiv( { class: "gsuiTitleUser-cmp" },
 		GSUcreateButton( { class: "gsuiTitleUser-save gsuiIcon", "data-icon": "upload", title: "Save composition" } ),
+		GSUcreateSpan( { class: "gsuiTitleUser-justSaved", inert: true }, "SAVED" ),
 		GSUcreateButton( { class: "gsuiTitleUser-rename", title: "Edit composition's title" },
 			GSUcreateSpan( { class: "gsuiTitleUser-cmpName", inert: true } ),
 			GSUcreateI( { class: "gsuiTitleUser-cmpEditIcon gsuiIcon", "data-icon": "pen", inert: true } ),

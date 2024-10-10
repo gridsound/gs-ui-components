@@ -32,6 +32,9 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<div><button id="connected">toggle connected</button></div>
+	<div><button id="connecting">toggle connecting</button></div>
+	<div><button id="disconnecting">toggle disconnecting</button></div>
+	<div><button id="saving">toggle saving</button></div>
 	<div><button id="saved">toggle saved</button></div>
 	<div><button id="longUser">toggle long username</button></div>
 	<div><button id="cmpName">toggle cmpname</button></div>
@@ -51,11 +54,17 @@ body {
 <script>
 const elCmp = document.querySelector( "gsui-titleuser" );
 const connected = document.querySelector( "#connected" );
+const connecting = document.querySelector( "#connecting" );
+const disconnecting = document.querySelector( "#disconnecting" );
+const saving = document.querySelector( "#saving" );
 const saved = document.querySelector( "#saved" );
 const cmpName = document.querySelector( "#cmpName" );
 const longUser = document.querySelector( "#longUser" );
 
 connected.onclick = () => GSUtoggleAttribute( elCmp, "connected" );
+connecting.onclick = () => GSUtoggleAttribute( elCmp, "connecting" );
+disconnecting.onclick = () => GSUtoggleAttribute( elCmp, "disconnecting" );
+saving.onclick = () => GSUtoggleAttribute( elCmp, "saving" );
 saved.onclick = () => GSUtoggleAttribute( elCmp, "saved" );
 cmpName.onclick = () => GSUtoggleAttribute( elCmp, "cmpname", "Angry and evil nasty potato" );
 longUser.onclick = () => {

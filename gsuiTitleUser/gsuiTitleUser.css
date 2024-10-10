@@ -5,18 +5,21 @@ gsui-titleuser {
 	gap: 4px;
 }
 
+/* .......................................................................... */
 .gsuiTitleUser-top {
 	display: flex;
 	height: 28px;
 	gap: 8px;
 }
 
+/* .......................................................................... */
 .gsuiTitleUser-gs {
 	align-self: center;
 	font-size: 28px;
 	font-family: var(--gsui-font-title);
 }
 
+/* .......................................................................... */
 .gsuiTitleUser-user {
 	display: flex;
 	align-items: center;
@@ -92,6 +95,8 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 	border-radius: 4px;
 	background-color: #6677aa;
 }
+
+/* .......................................................................... */
 .gsuiTitleUser-save {
 	overflow: hidden;
 	cursor: pointer;
@@ -104,6 +109,28 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 gsui-titleuser[ saved ] .gsuiTitleUser-save {
 	width: 0;
 }
+.gsuiTitleUser-justSaved {
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 0;
+	color: #ff9;
+	font-size: 10px;
+	font-weight: bold;
+	background-color: #333;
+	transition: width .2s;
+}
+gsui-titleuser[ just-saved ] .gsuiTitleUser-justSaved {
+	width: 48px;
+	animation: .5s gsui-saved-fade 2s ease-out forwards;
+}
+@keyframes gsui-saved-fade {
+	  0% { width: 48px }
+	100% { width: 0 }
+}
+
+/* .......................................................................... */
 .gsuiTitleUser-rename {
 	overflow: hidden;
 	display: flex;

@@ -28,8 +28,8 @@ class gsuiTitleUser extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "username", "avatar", "cmpname", "cmpdur" ];
-		// "saved", "connected"
+		return [ "name", "username", "avatar", "cmpname", "cmpdur", "saved", "saving", "connecting", "disconnecting" ];
+		// "just-saved", "connected"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -45,6 +45,21 @@ class gsuiTitleUser extends gsui0ne {
 
 				this.$elements.$cmpDur.textContent = `${ dur.m }:${ dur.s }`;
 			} break;
+			case "saving":
+				GSUsetAttribute( this.$elements.$save, "data-spin", val === "" ? "on" : false );
+				if ( val === "" ) {
+					GSUsetAttribute( this, "just-saved", false );
+				}
+				break;
+			case "saved":
+				GSUsetAttribute( this, "just-saved", val === "" );
+				break;
+			case "connecting":
+				GSUsetAttribute( this.$elements.$login, "data-spin", val === "" ? "on" : false );
+				break;
+			case "disconnecting":
+				GSUsetAttribute( this.$elements.$logout, "data-spin", val === "" ? "on" : false );
+				break;
 		}
 	}
 
