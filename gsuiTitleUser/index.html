@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiTitleUser.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-resize: horizontal;
+}
+#testWrap {
+	background: #444;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-titleuser avatar="../test-assets/avatar.jpg"></gsui-titleuser>
+</div>
+<div id="TEST-CTRLS">
+	<div><button id="connected">toggle connected</button></div>
+	<div><button id="saved">toggle saved</button></div>
+	<div><button id="longUser">toggle long username</button></div>
+	<div><button id="cmpName">toggle cmpname</button></div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiTitleUser.html.js"></script>
+<script src="gsuiTitleUser.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elCmp = document.querySelector( "gsui-titleuser" );
+const connected = document.querySelector( "#connected" );
+const saved = document.querySelector( "#saved" );
+const cmpName = document.querySelector( "#cmpName" );
+const longUser = document.querySelector( "#longUser" );
+
+connected.onclick = () => GSUtoggleAttribute( elCmp, "connected" );
+saved.onclick = () => GSUtoggleAttribute( elCmp, "saved" );
+cmpName.onclick = () => GSUtoggleAttribute( elCmp, "cmpname", "Angry and evil nasty potato" );
+longUser.onclick = () => {
+	const isShort = GSUgetAttribute( elCmp, "name" ) === "John";
+
+	GSUsetAttribute( elCmp, "name", isShort ? "John Wick (the hitman)" : "John" );
+	GSUsetAttribute( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
+};
+
+longUser.click();
+longUser.click();
+connected.click();
+cmpName.click();
+</script>
+</body>
+</html>

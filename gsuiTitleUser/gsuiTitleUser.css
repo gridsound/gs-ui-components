@@ -1,0 +1,150 @@
+gsui-titleuser {
+	display: flex;
+	flex-direction: column;
+	width: 260px;
+	gap: 4px;
+}
+
+.gsuiTitleUser-top {
+	display: flex;
+	height: 28px;
+	gap: 8px;
+}
+
+.gsuiTitleUser-gs {
+	align-self: center;
+	font-size: 28px;
+	font-family: var(--gsui-font-title);
+}
+
+.gsuiTitleUser-user {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	max-width: 112px;
+	text-decoration: none;
+	color: inherit;
+}
+.gsuiTitleUser-avatar {
+	box-sizing: border-box;
+	width: 28px;
+	min-width: 28px;
+	height: 28px;
+	border: 2px solid #222;
+	border-radius: 4px;
+	background-size: cover;
+	background-position: center;
+	background-color: #fff4;
+}
+.gsuiTitleUser-names {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	white-space: nowrap;
+	gap: 2px;
+}
+.gsuiTitleUser-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: bold;
+	font-size: 14px;
+}
+.gsuiTitleUser-username {
+	margin-top: -5px;
+	font-size: 10px;
+	opacity: .8;
+}
+.gsuiTitleUser-username::before {
+	content: "@";
+	opacity: .6;
+}
+
+/* .......................................................................... */
+.gsuiTitleUser-login,
+.gsuiTitleUser-logout {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	border: 0;
+	outline: 0;
+	color: inherit;
+	font-size: 20px;
+	cursor: pointer;
+	background: none;
+	opacity: .7;
+	transition: .2s;
+	transition-property: opacity;
+}
+.gsuiTitleUser-logout:hover {
+	opacity: 1;
+}
+gsui-titleuser[ connected ] .gsuiTitleUser-login,
+gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-logout,
+gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiTitleUser-cmp {
+	overflow: hidden;
+	display: flex;
+	border-radius: 4px;
+	background-color: #6677aa;
+}
+.gsuiTitleUser-save {
+	overflow: hidden;
+	cursor: pointer;
+	border: 0;
+	padding: 0;
+	width: 32px;
+	background-color: #ba5d5d;
+	transition: width .2s;
+}
+gsui-titleuser[ saved ] .gsuiTitleUser-save {
+	width: 0;
+}
+.gsuiTitleUser-rename {
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	flex: 1;
+	border: 0;
+	font-family: inherit;
+	cursor: pointer;
+	background: none;
+}
+.gsuiTitleUser-cmpName {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding-right: .4ch;
+}
+.gsuiTitleUser-cmpName:empty::after {
+	content: "Untitled";
+	font-style: italic;
+	opacity: .7;
+}
+gsui-titleuser:not( [ saved ] ) .gsuiTitleUser-cmpName::before {
+	content: "*";
+}
+.gsuiTitleUser-cmpEditIcon {
+	width: 0;
+	display: inline-block;
+	overflow: hidden;
+	opacity: 0;	
+	transition: .1s;
+	transition-property: width, margin-left, opacity;
+}
+.gsuiTitleUser-rename:hover .gsuiTitleUser-cmpEditIcon {
+	width: 1.4ch;
+	margin-left: 4px;
+	opacity: 1;	
+}
+.gsuiTitleUser-cmpDur {
+
+}
+.gsuiTitleUser-cmpDur::before {
+	content: "·";
+	margin: 4px;
+}
