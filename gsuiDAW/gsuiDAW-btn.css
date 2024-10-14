@@ -8,6 +8,7 @@
 	color: inherit;
 	cursor: pointer;
 	font-size: 14px;
+	line-height: 28px;
 	text-decoration: none;
 	border-radius: var( --radius );
 	background: none;

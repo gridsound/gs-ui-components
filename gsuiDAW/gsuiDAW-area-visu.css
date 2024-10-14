@@ -1,5 +1,5 @@
-.gsuiDAW-areaHist {
-	grid-area: areaHist;
+.gsuiDAW-areaVisu {
+	grid-area: areaVisu;
 }
 .gsuiDAW-history {
 	background-color: var( --gsuiDAW-history-bg );
