@@ -167,11 +167,9 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	font-size: 12px;
 	background: none;
 }
-.gsuiOscillator-waveBtn:focus-visible,
 .gsuiOscillator-waveBtn:hover,
 .gsuiOscillator-waveSelect:focus-visible,
 .gsuiOscillator-waveSelect:hover,
-.gsuiOscillator-remove:focus-visible,
 .gsuiOscillator-remove:hover {
 	opacity: 1;
 }
