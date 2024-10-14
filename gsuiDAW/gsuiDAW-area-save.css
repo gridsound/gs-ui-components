@@ -28,14 +28,6 @@ gsui-daw[ saved ] .gsuiDAW-currCmp-saveBtn {
 	padding: 0 4px;
 	font-size: 14px;
 }
-.gsuiDAW-currCmp-localIcon {
-	display: none;
-	margin-right: .3em;
-	pointer-events: none;
-}
-gsui-daw[ saved ] .gsuiDAW-currCmp-localIcon {
-	display: inline-block;
-}
 .gsuiDAW-currCmp-name {
 	overflow: hidden;
 	white-space: nowrap;

@@ -2,27 +2,12 @@
 
 class gsuiDAW extends gsui0ne {
 	$onSubmitLogin = GSUnoop;
-	$onSubmitOpen = GSUnoop;
-	$onExportJSON = GSUnoop;
 	$clock = null;
-	#cmps = {
-		local: new Map(),
-		cloud: new Map(),
-	};
-	#cmpId = null;
-	#cmpSaveMode = "local";
-	#currentActionInd = -1;
-	#actions = null;
 	#timeSelecting = false;
 	#popups = {
 		auth: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-auth" ), {
 			root: ".gsuiDAW-popup-auth",
 			error: ".gsuiDAW-popup-auth-error",
-		} ),
-		open: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-open" ), {
-			root: ".gsuiDAW-popup-open",
-			inputOpenURL: "[name='url']",
-			inputOpenFile: "[name='file']",
 		} ),
 		about: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-about" ), {
 			root: ".gsuiDAW-popup-about",
@@ -58,7 +43,6 @@ class gsuiDAW extends gsui0ne {
 				$head: ".gsuiDAW-head",
 				$cmpName: ".gsuiDAW-currCmp-name",
 				$cmpSave: ".gsuiDAW-currCmp-saveBtn",
-				$cmpIcon: ".gsuiDAW-currCmp-localIcon",
 				$cmpDuration: ".gsuiDAW-currCmp-dur",
 				$play: "[data-action='play']",
 				$vers: ".gsuiDAW-version",
@@ -70,9 +54,6 @@ class gsuiDAW extends gsui0ne {
 				$userAvatar: "[data-action='profile']",
 				$login: "[data-action='login']",
 				$logout: "[data-action='logout']",
-				$cmpsLocalList: ".gsuiDAW-dropdown-list[data-list='local']",
-				$cmpsCloudList: ".gsuiDAW-dropdown-list[data-list='cloud']",
-				$historyList: ".gsuiDAW-history .gsuiDAW-dropdown-list",
 				$body: ".gsuiDAW-body",
 				$patternsPanel: ".gsuiDAW-resources",
 				$windows: "gsui-windows",
@@ -105,16 +86,9 @@ class gsuiDAW extends gsui0ne {
 		this.$clock = this.$elements.$clock; // do it by attribute
 		Object.seal( this );
 
-		this.#actions = this.$elements.$historyList.getElementsByClassName( "gsuiDAW-history-action" );
 		this.$elements.$clock.$onchangeDisplay = display => this.$dispatch( "changeDisplayClock", display );
 		this.$elements.$analyserHz.$setResolution( 140 );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
-		this.$elements.$cmpsCloudList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "cloud" );
-		this.$elements.$cmpsLocalList.ondragstart = gsuiDAW.#ondragstartCmp.bind( null, "local" );
-		this.$elements.$cmpsCloudList.ondragover =
-		this.$elements.$cmpsLocalList.ondragover = e => e.preventDefault();
-		this.$elements.$cmpsCloudList.ondrop =
-		this.$elements.$cmpsLocalList.ondrop = this.#ondropCmp.bind( this );
 		this.#popups.about.versionCheck.onclick = () => {
 			const dt = this.#popups.about.versionIcon.dataset;
 
@@ -180,8 +154,8 @@ class gsuiDAW extends gsui0ne {
 	// .........................................................................
 	static get observedAttributes() {
 		return [
+			"saved",
 			"bpm",
-			"currentcomposition",
 			"currenttime",
 			"duration",
 			"errauth",
@@ -202,11 +176,6 @@ class gsuiDAW extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "currentcomposition":
-				val
-					? this.#loadComposition( ...val.split( ":" ) )
-					: this.#unloadComposition();
-				break;
 			case "errauth":
 				this.#popups.auth.error.textContent = val;
 				break;
@@ -218,21 +187,17 @@ class gsuiDAW extends gsui0ne {
 				this.$elements.$logout.dataset.spin = val !== null ? "on" : "";
 				break;
 			case "username":
-				GSUsetAttribute( this.$elements.$userAvatar, "href",
-					val && `https://gridsound.com/#/u/${ val }` );
+				GSUsetAttribute( this.$elements.$userAvatar, "href", val && `https://gridsound.com/#/u/${ val }` );
 				break;
 			case "name":
-				this.$elements.$cmpName.textContent = val;
+			case "saved":
+				this.#updateName();
 				break;
 			case "playing":
 				this.$elements.$play.dataset.icon = val !== null ? "pause" : "play";
 				break;
 			case "saving":
-				this.#cmps[ this.#cmpSaveMode ].get( this.#cmpId ).save.dataset.spin =
 				this.$elements.$cmpSave.dataset.spin = val !== null ? "on" : "";
-				break;
-			case "duration":
-				this.#updateDuration();
 				break;
 			case "timelinenumbering":
 				gsuiClock.$numbering( val );
@@ -245,6 +210,7 @@ class gsuiDAW extends gsui0ne {
 			case "bpm":
 				GSUsetAttribute( this.$elements.$clock, "bpm", val );
 				GSUsetAttribute( this.$elements.$tempo, "bpm", val );
+			case "duration":
 				this.#updateDuration();
 				break;
 			case "timedivision":
@@ -277,25 +243,6 @@ class gsuiDAW extends gsui0ne {
 	$updateSpectrum( data ) {
 		this.$elements.$analyserHz.$draw( data );
 	}
-	#unloadComposition() {
-		this.#cmpId = null;
-		this.#cmpSaveMode = "local";
-		this.querySelector( ".gsuiDAW-cmp-loaded" )?.classList?.remove( "gsuiDAW-cmp-loaded" );
-	}
-	#loadComposition( saveMode, id ) {
-		const html = this.#cmps[ saveMode ].get( id );
-
-		this.#unloadComposition();
-		if ( html ) {
-			this.#cmpId = id;
-			this.#cmpSaveMode = saveMode;
-			html.root.classList.add( "gsuiDAW-cmp-loaded" );
-			html.root.parentNode.prepend( html.root );
-			html.root.parentNode.scrollTop = 0;
-			GSUsetAttribute( this.$elements.$cmpIcon, "data-icon", saveMode === "local" ? "local" : "cloud" );
-			GSUsetAttribute( this.$elements.$cmpSave, "data-icon", saveMode === "local" ? "save" : "upload" );
-		}
-	}
 	#updateDuration() {
 		const dur = GSUgetAttributeNum( this, "duration" );
 		const [ min, sec ] = gsuiClock.$parseBeatsToSeconds( dur, GSUgetAttributeNum( this, "bpm" ) );
@@ -303,82 +250,19 @@ class gsuiDAW extends gsui0ne {
 		this.$elements.$cmpDuration.textContent = `${ min }:${ sec }`;
 		GSUsetAttribute( this.$elements.$currentTime, "max", dur );
 	}
+	#updateName() {
+		const name = GSUgetAttribute( this, "name" );
+		const title = name || "GridSound";
+
+		this.$elements.$cmpName.textContent = name;
+		document.title = GSUhasAttribute( this, "saved" ) ? title : `*${ title }`;
+	}
 
 	// .........................................................................
-	$showOpenPopup() {
-		this.#popups.open.inputOpenFile.value =
-		this.#popups.open.inputOpenURL.value = "";
-		GSUpopup.$custom( {
-			title: "Open",
-			element: this.#popups.open.root,
-			submit: obj => this.$onSubmitOpen( obj.url, obj.file ),
-		} );
-	}
-	$clearCompositions() { // unused
-		this.#cmps.local.forEach( html => html.root.remove() );
-		this.#cmps.cloud.forEach( html => html.root.remove() );
-	}
-	$addComposition( cmp ) {
-		const saveMode = cmp.options.saveMode;
-
-		if (
-			( saveMode === "local" && this.#cmps.local.has( cmp.id ) ) ||
-			( saveMode === "cloud" && this.#cmps.cloud.has( cmp.id ) )
-		) {
-			this.$updateComposition( cmp );
-		} else {
-			const root = GSUgetTemplate( "gsui-daw-cmp", { id: cmp.id, saveMode } );
-			const html = GSUfindElements( root, {
-				root: ".gsuiDAW-cmp",
-				bpm: ".gsuiDAW-cmp-bpm",
-				name: ".gsuiDAW-cmp-name",
-				save: "[data-action='cmp-save']",
-				duration: ".gsuiDAW-cmp-duration",
-			} );
-
-			this.#cmps[ saveMode ].set( cmp.id, html );
-			this.$updateComposition( cmp );
-			( saveMode === "local"
-				? this.$elements.$cmpsLocalList
-				: this.$elements.$cmpsCloudList ).append( root );
-			if ( `${ saveMode }:${ cmp.id }` === GSUgetAttribute( this, "currentcomposition" ) ) {
-				this.#loadComposition( saveMode, cmp.id );
-			}
-		}
-	}
-	$updateComposition( cmp ) {
-		const html = this.#cmps[ cmp.options.saveMode ].get( cmp.id );
-		const [ min, sec ] = gsuiClock.$parseBeatsToSeconds( cmp.duration, cmp.bpm );
-
-		html.bpm.textContent = cmp.bpm;
-		html.name.textContent = cmp.name;
-		html.duration.textContent = `${ min }:${ sec }`;
-	}
-	$deleteComposition( cmp ) {
-		const cmps = this.#cmps[ cmp.options.saveMode ];
-		const html = cmps.get( cmp.id );
-
-		if ( html ) {
-			html.root.remove();
-			cmps.delete( cmp.id );
-		}
-	}
 	$readyToDownload( url, name ) {
 		GSUsetAttribute( this.#popups.export.button, "href", url );
 		GSUsetAttribute( this.#popups.export.button, "download", name );
 		GSUsetAttribute( this.#popups.export.button, "data-status", 2 );
-	}
-	static #ondragstartCmp( saveMode, e ) {
-		const elCmp = e.target.closest( ".gsuiDAW-cmp" );
-
-		e.dataTransfer.setData( "text/plain", `${ saveMode }:${ elCmp.dataset.id }` );
-	}
-	#ondropCmp( e ) {
-		const [ saveMode, id ] = e.dataTransfer.getData( "text/plain" ).split( ":" );
-
-		if ( saveMode !== e.currentTarget.dataset.list ) {
-			this.$dispatch( "switchCompositionLocation", saveMode, id );
-		}
 	}
 
 	// .........................................................................
@@ -388,26 +272,6 @@ class gsuiDAW extends gsui0ne {
 			GSUsetAttribute( this.$elements.$body, "resources-hidden", !b );
 		}
 	}
-	$clearHistory() { // unused
-		Array.from( this.#actions ).forEach( a => a.remove() );
-		this.#currentActionInd = -1;
-	}
-	$stackAction( icon, desc ) {
-		Array.from( this.#actions ).forEach( a => "undone" in a.dataset && a.remove() );
-		this.$elements.$historyList.append( GSUgetTemplate( "gsui-daw-history-action", { icon, desc, index: this.#actions.length } ) );
-		this.$elements.$historyList.scroll( 0, Number.MAX_SAFE_INTEGER );
-		this.#currentActionInd = this.#actions.length - 1;
-	}
-	$undo() {
-		if ( this.#currentActionInd >= 0 ) {
-			GSUsetAttribute( this.#actions[ this.#currentActionInd-- ], "data-undone", true );
-		}
-	}
-	$redo() {
-		if ( this.#currentActionInd < this.#actions.length - 1 ) {
-			GSUsetAttribute( this.#actions[ ++this.#currentActionInd ], "data-undone", false );
-		}
-	}
 
 	// .........................................................................
 	#onclickHead( e ) {
@@ -415,8 +279,6 @@ class gsuiDAW extends gsui0ne {
 
 		switch ( dt.action ) {
 			case "logout":
-			case "localNewCmp":
-			case "cloudNewCmp":
 			case "focusSwitch":
 			case "play":
 			case "stop":
@@ -425,32 +287,7 @@ class gsuiDAW extends gsui0ne {
 			case "redo":
 				this.$dispatch( dt.action );
 				break;
-			case "cmp-save":
-				this.$dispatch( "save" );
-				break;
-			case "cmp-open":
-				e.preventDefault();
-				this.$dispatch( "open",
-					this.$elements.$cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
-					e.target.parentNode.dataset.id );
-				break;
-			case "cmp-json": {
-				const json = this.$onExportJSON(
-					this.$elements.$cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
-					e.target.parentNode.dataset.id );
-
-				if ( json ) {
-					GSUsetAttribute( e.target, "href", json.url );
-					GSUsetAttribute( e.target, "download", json.name );
-				} else {
-					e.preventDefault();
-				}
-			} break;
-			case "cmp-delete":
-				this.$dispatch( "delete",
-					this.$elements.$cmpsLocalList.contains( e.target.parentNode ) ? "local" : "cloud",
-					e.target.parentNode.dataset.id );
-				break;
+			case "cmp-save": this.$dispatch( "save" ); break;
 			case "cmp-rename":
 				GSUpopup.$prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
 					.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.$dispatch( "rename", n ) );
@@ -465,19 +302,11 @@ class gsuiDAW extends gsui0ne {
 					this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
 				} );
 				break;
-			case "localOpenCmp":
-				this.$showOpenPopup();
-				break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
 					this.$dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
 				} else {
 					this.$toggleWindow( "patterns", dt.open !== "" );
-				}
-				break;
-			case "historyAction":
-				if ( dt.index - this.#currentActionInd ) {
-					this.$dispatch( "redoN", dt.index - this.#currentActionInd );
 				}
 				break;
 			case "about":
@@ -523,9 +352,7 @@ class gsuiDAW extends gsui0ne {
 						}
 					} );
 				break;
-			case "cmps":
 			case "help":
-			case "undoMore":
 			case "changelog":
 				break;
 			default:

@@ -7,16 +7,10 @@ GSUsetTemplate( "gsui-daw", () => [
 			GSUcreateAExt( { class: "gsuiDAW-btn", "data-action": "profile", title: "Cloud profile" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon", "data-action": "login",  "data-icon": "profile", title: "Login to GridSound" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon", "data-action": "logout", "data-icon": "logout",  title: "Logout" } ),
-			GSUcreateDiv( { class: "gsuiDAW-cmps" },
-				GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-dropdown-btn gsuiDAW-btnColor gsuiIcon", "data-action": "cmps", "data-icon": "musics", title: "Create cloud/local compositions" } ),
-				GSUcreateDiv( { class: "gsuiDAW-dropdown-backdrop" } ),
-				GSUgetTemplate( "gsui-daw-cmps" ),
-			),
 		),
 		GSUcreateDiv( { class: "gsuiDAW-area gsuiDAW-areaSave gsuiDAW-btns" },
-			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnColor gsuiDAW-currCmp-saveBtn gsuiIcon", "data-action": "cmp-save", title: "Save composition" } ),
+			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnColor gsuiDAW-currCmp-saveBtn gsuiIcon", "data-action": "cmp-save", "data-icon": "upload", title: "Save composition" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-currCmp-editBtn", "data-action": "cmp-rename", title: "Edit composition's title" },
-				GSUcreateI(    { class: "gsuiDAW-currCmp-localIcon gsuiIcon" } ),
 				GSUcreateSpan( { class: "gsuiDAW-currCmp-name" } ),
 				GSUcreateI(    { class: "gsuiDAW-currCmp-editIcon gsuiIcon", "data-icon": "pen" } ),
 				GSUcreateSpan( { class: "gsuiDAW-currCmp-dur" } ),
@@ -43,11 +37,8 @@ GSUsetTemplate( "gsui-daw", () => [
 		),
 		GSUcreateDiv( { class: "gsuiDAW-area gsuiDAW-areaHist" },
 			GSUcreateDiv( { class: "gsuiDAW-btns gsuiDAW-history" },
-				GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon",                      "data-action": "undo",     "data-icon": "undo",       title: "Undo the previous action" } ),
-				GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon",                      "data-action": "redo",     "data-icon": "redo",       title: "Redo the last action" } ),
-				GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-dropdown-btn gsuiIcon", "data-action": "undoMore", "data-icon": "caret-down", title: "Show the actions list" } ),
-				GSUcreateDiv( { class: "gsuiDAW-dropdown-backdrop" } ),
-				GSUgetTemplate( "gsui-daw-history" ),
+				GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon", "data-action": "undo", "data-icon": "undo", title: "Undo the previous action" } ),
+				GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon", "data-action": "redo", "data-icon": "redo", title: "Redo the last action" } ),
 			),
 			GSUcreateElement( "gsui-analyser-hz" ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiDAW-btnColor gsuiIcon", "data-action": "export",   "data-icon": "export",   title: "Export the composition" } ),
@@ -81,79 +72,3 @@ GSUsetTemplate( "gsui-daw", () => [
 		),
 	),
 ] );
-
-GSUsetTemplate( "gsui-daw-cmps", () =>
-	GSUcreateDiv( { class: "gsuiDAW-dropdown", tabindex: 0 },
-		GSUcreateDiv( { class: "gsuiDAW-dropdown-head", "data-list": "local" },
-			GSUcreateI( { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "local" } ),
-			GSUcreateSpan( { class: "gsuiDAW-dropdown-title" }, "local" ),
-			GSUgetTemplate( "gsui-daw-cmps-btn", { action: "localNewCmp", icon: "plus", text: "new", title: "Create a new composition on this computer" } ),
-			GSUgetTemplate( "gsui-daw-cmps-btn", { action: "localOpenCmp", icon: "folder-open", text: "open", title: "Open a composition on this computer" } ),
-		),
-		GSUcreateDiv( { class: "gsuiDAW-dropdown-head", "data-list": "cloud" },
-			GSUcreateI( { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "cloud" } ),
-			GSUcreateSpan( { class: "gsuiDAW-dropdown-title" }, "cloud" ),
-			GSUgetTemplate( "gsui-daw-cmps-btn", { action: "cloudNewCmp", icon: "plus", text: "new", title: "Create a new composition on your cloud profile" } ),
-		),
-		GSUcreateDiv( { class: "gsuiDAW-dropdown-list", "data-list": "local" },
-			GSUcreateDiv( { class: "gsuiDAW-dropdown-placeholder" },
-				GSUcreateSpan( null, "there is no local composition here" ),
-			),
-		),
-		GSUcreateDiv( { class: "gsuiDAW-dropdown-list", "data-list": "cloud" },
-			GSUcreateDiv( { class: "gsuiDAW-dropdown-placeholder" },
-				GSUcreateSpan( null, "you don't have any cloud composition yet" ),
-				GSUcreateSpan( null, "you are not connected" ),
-			),
-		),
-	)
-);
-
-GSUsetTemplate( "gsui-daw-cmps-btn", ( { action, title, icon, text } ) =>
-	GSUcreateButton( { class: "gsuiDAW-cmps-btn", "data-action": action, title },
-		GSUcreateI( { class: "gsuiDAW-cmps-btn-icon gsuiIcon", "data-icon": icon } ),
-		GSUcreateSpan( { class: "gsuiDAW-cmps-btn-text" }, text ),
-	)
-);
-
-GSUsetTemplate( "gsui-daw-cmp", ( { id, saveMode } ) =>
-	GSUcreateDiv( { class: "gsuiDAW-cmp", "data-id": id, draggable: "true", tabindex: 0 },
-		GSUcreateButton( { class: "gsuiDAW-cmp-btn gsuiIcon", "data-action": "cmp-save", "data-icon": saveMode === "local" ? "save" : "upload" } ),
-		GSUcreateA( { class: "gsuiDAW-cmp-info", "data-action": "cmp-open" },
-			GSUcreateDiv( { class: "gsuiDAW-cmp-name" } ),
-			GSUcreateDiv( null,
-				GSUcreateSpan( { class: "gsuiDAW-cmp-duration-wrap" },
-					GSUcreateI( { class: "gsuiIcon", "data-icon": "clock" } ),
-					GSUcreateSpan( { class: "gsuiDAW-cmp-duration" } ),
-				),
-				GSUcreateSpan( { class: "gsuiDAW-cmp-bpm-wrap" },
-					GSUcreateI( { class: "gsuiIcon", "data-icon": "speed" } ),
-					GSUcreateSpan( { class: "gsuiDAW-cmp-bpm" } ),
-				),
-			),
-		),
-		GSUcreateA( { class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "cmp-json", "data-icon": "file-export", title: "Export to JSON file" } ),
-		GSUcreateButton( { class: "gsuiDAW-cmp-btn gsuiDAW-cmp-btn-light gsuiIcon", "data-action": "cmp-delete", "data-icon": "minus-oct", title: "Delete" } ),
-	)
-);
-
-GSUsetTemplate( "gsui-daw-history", () =>
-	GSUcreateDiv( { class: "gsuiDAW-dropdown", tabindex: 0 },
-		GSUcreateDiv( { class: "gsuiDAW-dropdown-head" },
-			GSUcreateI( { class: "gsuiDAW-dropdown-icon gsuiIcon", "data-icon": "history" } ),
-			GSUcreateSpan( { class: "gsuiDAW-dropdown-title" }, "history" ),
-		),
-		GSUcreateDiv( { class: "gsuiDAW-dropdown-list" },
-			GSUcreateDiv( { class: "gsuiDAW-dropdown-placeholder" },
-				GSUcreateSpan( null, "there is nothing to undo" ),
-			),
-		),
-	)
-);
-
-GSUsetTemplate( "gsui-daw-history-action", ( { icon, desc, index } ) =>
-	GSUcreateDiv( { class: "gsuiDAW-history-action", "data-action": "historyAction", "data-index": index, title: desc },
-		GSUcreateI( { class: "gsuiDAW-history-action-icon gsuiIcon", "data-icon": icon } ),
-		GSUcreateSpan( { class: "gsuiDAW-history-action-text" }, desc ),
-	)
-);
