@@ -51,8 +51,7 @@
 }
 .gsuiIcon.gsuiIcon.gsuiIcon[ data-spin="on" ]::after {
 	display: inline-block;
-	content: "\10f3f4";
-	animation: .7s infinite linear gsuiIcon-spin;
+	content: "\10f111";
 	opacity: .4;
 }
 
