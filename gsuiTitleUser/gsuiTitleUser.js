@@ -10,6 +10,7 @@ class gsuiTitleUser extends gsui0ne {
 				$userLink: ".gsuiTitleUser-user",
 				$username: ".gsuiTitleUser-username",
 				$avatar: ".gsuiTitleUser-avatar",
+				$cmpEditBtn: ".gsuiTitleUser-rename",
 				$cmpName: ".gsuiTitleUser-cmpName",
 				$cmpDur: ".gsuiTitleUser-cmpDur",
 				$login: ".gsuiTitleUser-login",
@@ -24,6 +25,7 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$login.onclick = () => this.$dispatch( "login" );
 		this.$elements.$logout.onclick = () => this.$dispatch( "logout" );
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
+		this.$elements.$cmpEditBtn.onclick = () => this.$dispatch( "rename" );
 	}
 
 	// .........................................................................
