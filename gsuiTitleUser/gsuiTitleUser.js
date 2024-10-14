@@ -1,6 +1,8 @@
 "use strict";
 
 class gsuiTitleUser extends gsui0ne {
+	#alreadySavedBefore = false;
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiTitleUser",
@@ -18,6 +20,7 @@ class gsuiTitleUser extends gsui0ne {
 				$save: ".gsuiTitleUser-save",
 			},
 			$attributes: {
+				saved: true,
 				cmpdur: 0,
 			},
 		} );
@@ -54,7 +57,10 @@ class gsuiTitleUser extends gsui0ne {
 				}
 				break;
 			case "saved":
-				GSUsetAttribute( this, "just-saved", val === "" );
+				if ( this.#alreadySavedBefore ) {
+					GSUsetAttribute( this, "just-saved", val === "" );
+				}
+				this.#alreadySavedBefore = true;
 				break;
 			case "connecting":
 				GSUsetAttribute( this.$elements.$login, "data-spin", val === "" ? "on" : false );
@@ -64,8 +70,6 @@ class gsuiTitleUser extends gsui0ne {
 				break;
 		}
 	}
-
-	// .........................................................................
 }
 
 GSUdefineElement( "gsui-titleuser", gsuiTitleUser );
