@@ -145,7 +145,7 @@ gsui-titleuser[ just-saved ] .gsuiTitleUser-justSaved {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	padding-right: .4ch;
+	padding-right: 2px;
 }
 .gsuiTitleUser-cmpName:empty::after {
 	content: "Untitled";
