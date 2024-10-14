@@ -106,6 +106,12 @@ gsui-cmp-player[ private ] .gsuiCmpPlayer-nameLink::before {
 	font-weight: bold;
 	background-color: #0004;
 }
+.gsuiCmpPlayer-nameLink:empty::after {
+	content: "Untitled";
+	font-style: italic;
+	padding-right: 2px;
+	opacity: .7;
+}
 
 /* .......................................................................... */
 .gsuiCmpPlayer-info-wrap {

@@ -30,11 +30,12 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-cmp-player duration="3600" bpm="120" name="Dopest song ever created" actions="open visible delete"></gsui-cmp-player>
+	<gsui-cmp-player duration="3600" bpm="120" actions="open visible delete"></gsui-cmp-player>
 </div>
 <div id="TEST-CTRLS">
 	<div><label><input id="private" type="checkbox" /> private</label></div>
 	<div><label><input id="editable" type="checkbox" /> editable</label></div>
+	<div><label><input id="titled" type="checkbox" /> titled</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -57,12 +58,14 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elCmp = document.querySelector( "gsui-cmp-player" );
+const titledInp = document.querySelector( "#titled" );
 const privateInp = document.querySelector( "#private" );
 const editableInp = document.querySelector( "#editable" );
 const bpmInp = document.querySelector( "#bpm" );
 const durationInp = document.querySelector( "#duration" );
 const currentTimeInp = document.querySelector( "#currentTime" );
 
+titledInp.onchange = () => GSUtoggleAttribute( elCmp, "name", "Dopest song ever created" );
 privateInp.onchange = () => GSUtoggleAttribute( elCmp, "private" );
 editableInp.onchange = () => GSUsetAttribute( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
