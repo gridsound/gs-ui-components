@@ -18,7 +18,7 @@ gsui-daw {
 	gap: var( --gap );
 	grid-template:
 		"areaUser    areaCtrl    areaVisu    areaHelp" 28px
-		"areaSave    areaTime    areaWins    areaVers" 20px
+		"areaUser    areaTime    areaWins    areaVers" 20px
 		/min-content min-content min-content 1fr;
 	border-bottom: 2px solid var( --gsui-win-brd );
 	background-color: var( --gsui-app-head-bg );
@@ -26,6 +26,9 @@ gsui-daw {
 .gsuiDAW-area {
 	display: flex;
 	gap: inherit;
+}
+.gsuiDAW-areaUser {
+	grid-area: areaUser;
 }
 .gsuiDAW-body[ resources-hidden ] .gsuiDAW-resources {
 	display: none;

@@ -10,7 +10,7 @@
 gsui-daw gsui-analyser-hz {
 	flex: 1;
 	border-radius: var( --radius );
-	width: 140px;
+	width: 180px;
 	min-width: 48px;
 	background-color: #000;
 }

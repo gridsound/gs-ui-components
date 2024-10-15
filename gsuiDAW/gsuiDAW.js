@@ -41,9 +41,7 @@ class gsuiDAW extends gsui0ne {
 			$tagName: "gsui-daw",
 			$elements: {
 				$head: ".gsuiDAW-head",
-				$cmpName: ".gsuiDAW-currCmp-name",
-				$cmpSave: ".gsuiDAW-currCmp-saveBtn",
-				$cmpDuration: ".gsuiDAW-currCmp-dur",
+				$titleUser: "gsui-titleuser",
 				$play: "[data-action='play']",
 				$vers: ".gsuiDAW-version",
 				$clock: "gsui-clock",
@@ -51,9 +49,6 @@ class gsuiDAW extends gsui0ne {
 				$analyserHz: "gsui-analyser-hz",
 				$volume: ".gsuiDAW-volume gsui-slider",
 				$currentTime: ".gsuiDAW-areaTime gsui-slider",
-				$userAvatar: "[data-action='profile']",
-				$login: "[data-action='login']",
-				$logout: "[data-action='logout']",
 				$body: ".gsuiDAW-body",
 				$patternsPanel: ".gsuiDAW-resources",
 				$windows: "gsui-windows",
@@ -123,6 +118,26 @@ class gsuiDAW extends gsui0ne {
 				e.preventDefault();
 			}
 		};
+		GSUlistenEvents( this, {
+			gsuiTitleUser: {
+				save: () => { this.$dispatch( "save" ); },
+				logout: () => { this.$dispatch( "logout" ); },
+				rename: () => {
+					GSUpopup.$prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
+						.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.$dispatch( "rename", n ) );
+				},
+				login: () => {
+					GSUpopup.$custom( {
+						ok: "Sign in",
+						title: "Authentication",
+						element: this.#popups.auth.root,
+						submit: obj => this.$onSubmitLogin( obj.email, obj.password ),
+					} ).then( () => {
+						this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
+					} );
+				},
+			},
+		} );
 		GSUlistenEvents( this.$elements.$volume, {
 			gsuiSlider: {
 				input: d => this.$dispatch( "volume", d.args[ 0 ] ),
@@ -164,12 +179,9 @@ class gsuiDAW extends gsui0ne {
 			"maxtime",
 			"name",
 			"playing",
-			"saving",
 			"timedivision",
 			"timelinenumbering",
 			"keynotation",
-			"useravatar",
-			"username",
 			"version",
 			"volume",
 		];
@@ -183,11 +195,8 @@ class gsuiDAW extends gsui0ne {
 				this.#popups.export.progress.value = val;
 				break;
 			case "logging":
-				this.$elements.$login.dataset.spin =
-				this.$elements.$logout.dataset.spin = val !== null ? "on" : "";
-				break;
-			case "username":
-				GSUsetAttribute( this.$elements.$userAvatar, "href", val && `https://gridsound.com/#/u/${ val }` );
+				GSUsetAttribute( this.$elements.$titleUser, "connecting", val !== null );
+				GSUsetAttribute( this.$elements.$titleUser, "disconnecting", val !== null );
 				break;
 			case "name":
 			case "saved":
@@ -195,9 +204,6 @@ class gsuiDAW extends gsui0ne {
 				break;
 			case "playing":
 				this.$elements.$play.dataset.icon = val !== null ? "pause" : "play";
-				break;
-			case "saving":
-				this.$elements.$cmpSave.dataset.spin = val !== null ? "on" : "";
 				break;
 			case "timelinenumbering":
 				gsuiClock.$numbering( val );
@@ -229,9 +235,6 @@ class gsuiDAW extends gsui0ne {
 			case "maxtime":
 				GSUsetAttribute( this.$elements.$currentTime, "max", val );
 				break;
-			case "useravatar":
-				this.$elements.$userAvatar.style.backgroundImage = val ? `url("${ val }")` : "";
-				break;
 			case "version":
 				this.$elements.$vers.textContent = val;
 				this.#popups.about.version.textContent = val;
@@ -240,22 +243,26 @@ class gsuiDAW extends gsui0ne {
 	}
 
 	// .........................................................................
+	$getTitleUser() {
+		return this.$elements.$titleUser;
+	}
 	$updateSpectrum( data ) {
 		this.$elements.$analyserHz.$draw( data );
 	}
 	#updateDuration() {
 		const dur = GSUgetAttributeNum( this, "duration" );
-		const [ min, sec ] = gsuiClock.$parseBeatsToSeconds( dur, GSUgetAttributeNum( this, "bpm" ) );
 
-		this.$elements.$cmpDuration.textContent = `${ min }:${ sec }`;
+		GSUsetAttribute( this.$elements.$titleUser, "cmpdur", dur / ( GSUgetAttributeNum( this, "bpm" ) / 60 ) );
 		GSUsetAttribute( this.$elements.$currentTime, "max", dur );
 	}
 	#updateName() {
+		const saved = GSUhasAttribute( this, "saved" );
 		const name = GSUgetAttribute( this, "name" );
 		const title = name || "GridSound";
 
-		this.$elements.$cmpName.textContent = name;
-		document.title = GSUhasAttribute( this, "saved" ) ? title : `*${ title }`;
+		GSUsetAttribute( this.$elements.$titleUser, "cmpname", name );
+		GSUsetAttribute( this.$elements.$titleUser, "saved", saved );
+		document.title = saved ? title : `*${ title }`;
 	}
 
 	// .........................................................................
@@ -278,7 +285,6 @@ class gsuiDAW extends gsui0ne {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
-			case "logout":
 			case "focusSwitch":
 			case "play":
 			case "stop":
@@ -286,21 +292,6 @@ class gsuiDAW extends gsui0ne {
 			case "undo":
 			case "redo":
 				this.$dispatch( dt.action );
-				break;
-			case "cmp-save": this.$dispatch( "save" ); break;
-			case "cmp-rename":
-				GSUpopup.$prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
-					.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.$dispatch( "rename", n ) );
-				break;
-			case "login":
-				GSUpopup.$custom( {
-					ok: "Sign in",
-					title: "Authentication",
-					element: this.#popups.auth.root,
-					submit: obj => this.$onSubmitLogin( obj.email, obj.password ),
-				} ).then( () => {
-					this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
-				} );
 				break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
