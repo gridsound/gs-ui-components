@@ -92,6 +92,7 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 .gsuiTitleUser-cmp {
 	overflow: hidden;
 	display: flex;
+	height: 20px;
 	border-radius: 4px;
 	background-color: #6677aa;
 }
