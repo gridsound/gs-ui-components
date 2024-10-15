@@ -7,8 +7,6 @@ class gsuiChannels extends gsui0ne {
 	$onselectEffect = null;
 	#chans = {};
 	#chanSelected = null;
-	#analyserW = 10;
-	#analyserH = 50;
 	#analyserType = "hz";
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
 	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" );
@@ -52,15 +50,7 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const chans = Object.values( this.#chans );
-
-		if ( chans.length ) {
-			const { width, height } = chans[ 0 ].$analyser.getBoundingClientRect();
-
-			this.#analyserW = width;
-			this.#analyserH = height;
-			chans.forEach( chan => chan.$analyser.$setResolution( width, height ) );
-		}
+		Object.values( this.#chans ).forEach( chan => chan.$analyser.$updateResolution() );
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
@@ -118,7 +108,7 @@ class gsuiChannels extends gsui0ne {
 			GSUpopup.$prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
-		chan.$analyser.$setResolution( this.#analyserW, this.#analyserH );
+		chan.$analyser.$updateResolution();
 		GSUsetAttribute( chan.$analyser, "type", this.#analyserType );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
