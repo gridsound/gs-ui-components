@@ -30,6 +30,11 @@ class gsuiAnalyserHist extends gsui0ne {
 	$clear() {
 		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
 	}
+	$updateResolution() {
+		const { width, height } = this.$element.getBoundingClientRect();
+
+		this.$setResolution( width, height );
+	}
 	$setResolution( w, h ) {
 		const img = this.#ctx.getImageData( 0, 0, this.$element.width, this.$element.height );
 
