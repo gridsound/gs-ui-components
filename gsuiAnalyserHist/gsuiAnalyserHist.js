@@ -10,7 +10,7 @@ class gsuiAnalyserHist extends gsui0ne {
 			$tagName: "gsui-analyser-hist",
 			$template: GSUcreateElement( "canvas" ),
 		} );
-		this.#ctx = this.$element.getContext( "2d" );
+		this.#ctx = this.$element.getContext( "2d", { willReadFrequently: true } );
 		Object.seal( this );
 	}
 
