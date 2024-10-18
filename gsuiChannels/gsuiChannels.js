@@ -110,6 +110,7 @@ class gsuiChannels extends gsui0ne {
 		};
 		chan.$analyser.$updateResolution();
 		GSUsetAttribute( chan.$analyser, "type", this.#analyserType );
+		this.$dispatch( "nbChannelsChange" );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
@@ -132,6 +133,7 @@ class gsuiChannels extends gsui0ne {
 		}
 		delete this.#chans[ id ];
 		chan.remove();
+		this.$dispatch( "nbChannelsChange" );
 	}
 	$changeChannelProp( id, prop, val ) {
 		const chan = this.#chans[ id ];
