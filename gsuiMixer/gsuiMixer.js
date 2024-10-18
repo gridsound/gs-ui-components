@@ -24,6 +24,13 @@ class gsuiMixer extends gsui0ne {
 			GSUsetAttribute( this, "analyser", type );
 			this.$dispatch( "changeAnalyser", type );
 		};
+		GSUlistenEvents( this, {
+			gsuiChannels: {
+				nbChannelsChange: () => {
+					this.#shadowChans.$update();
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
