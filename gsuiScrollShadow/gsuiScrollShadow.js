@@ -15,10 +15,10 @@ class gsuiScrollShadow {
 		this.#leftShadow = o.leftShadow ? [ o.leftShadow ].flat() : [];
 		this.#rightShadow = o.rightShadow ? [ o.rightShadow ].flat() : [];
 		this.#bottomShadow = o.bottomShadow ? [ o.bottomShadow ].flat() : [];
-		gsuiScrollShadow.#initShadow( this.#topShadow, 'top' );
-		gsuiScrollShadow.#initShadow( this.#leftShadow, 'left' );
-		gsuiScrollShadow.#initShadow( this.#rightShadow, 'right' );
-		gsuiScrollShadow.#initShadow( this.#bottomShadow, 'bottom' );
+		gsuiScrollShadow.#initShadow( this.#topShadow, "top" );
+		gsuiScrollShadow.#initShadow( this.#leftShadow, "left" );
+		gsuiScrollShadow.#initShadow( this.#rightShadow, "right" );
+		gsuiScrollShadow.#initShadow( this.#bottomShadow, "bottom" );
 		this.#scrolledElem.addEventListener( "scroll", this.#onscrollBind );
 		GSUobserveSizeOf( this.#scrolledElem, this.#onscrollBind );
 	}
@@ -26,6 +26,11 @@ class gsuiScrollShadow {
 	// .........................................................................
 	$disconnected() {
 		GSUunobserveSizeOf( this.#scrolledElem, this.#onscrollBind );
+	}
+
+	// .........................................................................
+	$update() {
+		this.#onscroll();
 	}
 	static #initShadow( elems, dir ) {
 		elems.forEach( el => {
