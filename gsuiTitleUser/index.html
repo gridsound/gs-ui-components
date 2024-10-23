@@ -36,6 +36,7 @@ body {
 	<div><button id="disconnecting">toggle disconnecting</button></div>
 	<div><button id="saving">toggle saving</button></div>
 	<div><button id="saved">toggle saved</button></div>
+	<div><button id="just-saved">toggle just-saved</button></div>
 	<div><button id="longUser">toggle long username</button></div>
 	<div><button id="cmpName">toggle cmpname</button></div>
 </div>
@@ -58,6 +59,7 @@ const connecting = document.querySelector( "#connecting" );
 const disconnecting = document.querySelector( "#disconnecting" );
 const saving = document.querySelector( "#saving" );
 const saved = document.querySelector( "#saved" );
+const justSaved = document.querySelector( "#just-saved" );
 const cmpName = document.querySelector( "#cmpName" );
 const longUser = document.querySelector( "#longUser" );
 
@@ -66,6 +68,7 @@ connecting.onclick = () => GSUtoggleAttribute( elCmp, "connecting" );
 disconnecting.onclick = () => GSUtoggleAttribute( elCmp, "disconnecting" );
 saving.onclick = () => GSUtoggleAttribute( elCmp, "saving" );
 saved.onclick = () => GSUtoggleAttribute( elCmp, "saved" );
+justSaved.onclick = () => GSUtoggleAttribute( elCmp, "just-saved" );
 cmpName.onclick = () => GSUtoggleAttribute( elCmp, "cmpname", "Angry and evil nasty potato" );
 longUser.onclick = () => {
 	const isShort = GSUgetAttribute( elCmp, "name" ) === "John";
