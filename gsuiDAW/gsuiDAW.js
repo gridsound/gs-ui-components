@@ -261,6 +261,22 @@ class gsuiDAW extends gsui0ne {
 			this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
 		} );
 	}
+	$login( u ) {
+		GSUsetAttribute( this.$elements.$titleUser, {
+			name: `${ u.firstname } ${ u.lastname }`,
+			avatar: u.avatar,
+			username: u.username,
+			connected: true,
+		} );
+	}
+	$logout() {
+		GSUsetAttribute( this.$elements.$titleUser, {
+			name: false,
+			avatar: false,
+			username: false,
+			connected: false,
+		} );
+	}
 
 	// .........................................................................
 	#updateDuration() {
