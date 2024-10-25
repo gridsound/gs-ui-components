@@ -249,6 +249,19 @@ class gsuiDAW extends gsui0ne {
 	$updateSpectrum( data ) {
 		this.$elements.$analyserHz.$draw( data );
 	}
+	$readyToDownload( url, name ) {
+		GSUsetAttribute( this.#popups.export.button, "href", url );
+		GSUsetAttribute( this.#popups.export.button, "download", name );
+		GSUsetAttribute( this.#popups.export.button, "data-status", 2 );
+	}
+	$toggleWindow( win, b ) {
+		GSUsetAttribute( this.$elements.$winBtns[ win ], "data-open", b );
+		if ( win === "patterns" ) {
+			GSUsetAttribute( this.$elements.$body, "resources-hidden", !b );
+		}
+	}
+
+	// .........................................................................
 	#updateDuration() {
 		const dur = GSUgetAttributeNum( this, "duration" );
 
@@ -263,21 +276,6 @@ class gsuiDAW extends gsui0ne {
 		GSUsetAttribute( this.$elements.$titleUser, "cmpname", name );
 		GSUsetAttribute( this.$elements.$titleUser, "saved", saved );
 		document.title = saved ? title : `*${ title }`;
-	}
-
-	// .........................................................................
-	$readyToDownload( url, name ) {
-		GSUsetAttribute( this.#popups.export.button, "href", url );
-		GSUsetAttribute( this.#popups.export.button, "download", name );
-		GSUsetAttribute( this.#popups.export.button, "data-status", 2 );
-	}
-
-	// .........................................................................
-	$toggleWindow( win, b ) {
-		GSUsetAttribute( this.$elements.$winBtns[ win ], "data-open", b );
-		if ( win === "patterns" ) {
-			GSUsetAttribute( this.$elements.$body, "resources-hidden", !b );
-		}
 	}
 
 	// .........................................................................
