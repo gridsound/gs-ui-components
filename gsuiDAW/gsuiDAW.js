@@ -120,21 +120,12 @@ class gsuiDAW extends gsui0ne {
 		};
 		GSUlistenEvents( this, {
 			gsuiTitleUser: {
-				save: () => { this.$dispatch( "save" ); },
-				logout: () => { this.$dispatch( "logout" ); },
+				save: () => this.$dispatch( "save" ),
+				logout: () => this.$dispatch( "logout" ),
+				login: () => this.$showLoginPopup(),
 				rename: () => {
 					GSUpopup.$prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
 						.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.$dispatch( "rename", n ) );
-				},
-				login: () => {
-					GSUpopup.$custom( {
-						ok: "Sign in",
-						title: "Authentication",
-						element: this.#popups.auth.root,
-						submit: obj => this.$onSubmitLogin( obj.email, obj.password ),
-					} ).then( () => {
-						this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
-					} );
 				},
 			},
 		} );
@@ -259,6 +250,16 @@ class gsuiDAW extends gsui0ne {
 		if ( win === "patterns" ) {
 			GSUsetAttribute( this.$elements.$body, "resources-hidden", !b );
 		}
+	}
+	$showLoginPopup() {
+		GSUpopup.$custom( {
+			ok: "Sign in",
+			title: "Authentication",
+			element: this.#popups.auth.root,
+			submit: obj => this.$onSubmitLogin( obj.email, obj.password ),
+		} ).then( () => {
+			this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
+		} );
 	}
 
 	// .........................................................................
