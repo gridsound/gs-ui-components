@@ -93,6 +93,7 @@ gsui-cmp-player[ playing ] .gsuiCmpPlayer-name {
 	text-overflow: ellipsis;
 	text-decoration: none;
 }
+gsui-cmp-player[ opensource ] .gsuiCmpPlayer-nameLink::before,
 gsui-cmp-player[ private ] .gsuiCmpPlayer-nameLink::before {
 	content: "private";
 	box-sizing: border-box;
@@ -105,6 +106,9 @@ gsui-cmp-player[ private ] .gsuiCmpPlayer-nameLink::before {
 	font-size: 10px;
 	font-weight: bold;
 	background-color: #0004;
+}
+gsui-cmp-player[ opensource ] .gsuiCmpPlayer-nameLink::before {
+	content: "open-source";
 }
 .gsuiCmpPlayer-nameLink:empty::after {
 	content: "Untitled";

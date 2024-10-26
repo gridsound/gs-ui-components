@@ -34,6 +34,7 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<div><label><input id="private" type="checkbox" /> private</label></div>
+	<div><label><input id="opensource" type="checkbox" /> open source</label></div>
 	<div><label><input id="editable" type="checkbox" /> editable</label></div>
 	<div><label><input id="titled" type="checkbox" /> titled</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
@@ -60,6 +61,7 @@ body {
 const elCmp = document.querySelector( "gsui-cmp-player" );
 const titledInp = document.querySelector( "#titled" );
 const privateInp = document.querySelector( "#private" );
+const opensourceInp = document.querySelector( "#opensource" );
 const editableInp = document.querySelector( "#editable" );
 const bpmInp = document.querySelector( "#bpm" );
 const durationInp = document.querySelector( "#duration" );
@@ -67,6 +69,7 @@ const currentTimeInp = document.querySelector( "#currentTime" );
 
 titledInp.onchange = () => GSUtoggleAttribute( elCmp, "name", "Dopest song ever created" );
 privateInp.onchange = () => GSUtoggleAttribute( elCmp, "private" );
+opensourceInp.onchange = () => GSUtoggleAttribute( elCmp, "opensource" );
 editableInp.onchange = () => GSUsetAttribute( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
 privateInp.click();
