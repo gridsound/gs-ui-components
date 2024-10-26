@@ -190,8 +190,10 @@ class gsuiDAW extends gsui0ne {
 				GSUsetAttribute( this.$elements.$titleUser, "disconnecting", val !== null );
 				break;
 			case "name":
+				GSUsetAttribute( this.$elements.$titleUser, "cmpname", val );
+				break;
 			case "saved":
-				this.#updateName();
+				GSUsetAttribute( this.$elements.$titleUser, "saved", val );
 				break;
 			case "playing":
 				this.$elements.$play.dataset.icon = val !== null ? "pause" : "play";
@@ -284,15 +286,6 @@ class gsuiDAW extends gsui0ne {
 
 		GSUsetAttribute( this.$elements.$titleUser, "cmpdur", dur / ( GSUgetAttributeNum( this, "bpm" ) / 60 ) );
 		GSUsetAttribute( this.$elements.$currentTime, "max", dur );
-	}
-	#updateName() {
-		const saved = GSUhasAttribute( this, "saved" );
-		const name = GSUgetAttribute( this, "name" );
-		const title = name || "GridSound";
-
-		GSUsetAttribute( this.$elements.$titleUser, "cmpname", name );
-		GSUsetAttribute( this.$elements.$titleUser, "saved", saved );
-		document.title = saved ? title : `*${ title }`;
 	}
 
 	// .........................................................................
