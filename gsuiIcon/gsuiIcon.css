@@ -176,6 +176,8 @@
 .gsuiIcon[ data-icon="expand" ]::after { content: "\10f065"; }
 .gsuiIcon[ data-icon="compress" ]::before { content: "\f326"; }
 .gsuiIcon[ data-icon="compress" ]::after { content: "\10f326"; }
+.gsuiIcon[ data-icon="fork" ]::before { content: "\f126"; }
+.gsuiIcon[ data-icon="fork" ]::after { content: "\10f126"; }
 .gsuiIcon[ data-icon="trash" ]::before { content: "\f1f8"; }
 .gsuiIcon[ data-icon="trash" ]::after { content: "\10f1f8"; }
 .gsuiIcon[ data-icon="trash-restore" ]::before { content: "\f895"; }
