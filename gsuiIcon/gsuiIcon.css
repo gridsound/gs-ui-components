@@ -272,6 +272,8 @@
 
 .gsuiIcon[ data-icon="pen" ]::before { content: "\f304"; }
 .gsuiIcon[ data-icon="pen" ]::after { content: "\10f304"; }
+.gsuiIcon[ data-icon="eye" ]::before { content: "\f06e"; }
+.gsuiIcon[ data-icon="eye" ]::after { content: "\10f06e"; }
 .gsuiIcon[ data-icon="crop" ]::before { content: "\f125"; }
 .gsuiIcon[ data-icon="crop" ]::after { content: "\10f125"; }
 .gsuiIcon[ data-icon="erase" ]::before { content: "\f12d"; }
