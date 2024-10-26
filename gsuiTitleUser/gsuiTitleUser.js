@@ -33,13 +33,12 @@ class gsuiTitleUser extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "username", "avatar", "cmpname", "cmpdur", "just-saved", "saving", "connecting", "disconnecting" ];
-		// "saved", "connected"
+		return [ "name", "username", "avatar", "cmpname", "cmpdur", "just-saved", "saved", "saving", "connecting", "disconnecting" ];
+		// "connected"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "name": this.$elements.$name.textContent = val; break;
-			case "cmpname": this.$elements.$cmpName.textContent = val; break;
 			case "avatar": this.$elements.$avatar.style.backgroundImage = `url(${ val })`; break;
 			case "username": {
 				this.$elements.$username.textContent = val;
@@ -50,6 +49,8 @@ class gsuiTitleUser extends gsui0ne {
 
 				this.$elements.$cmpDur.textContent = `${ dur.m }:${ dur.s }`;
 			} break;
+			case "saved":
+			case "cmpname": this.#updateCmpName(); break;
 			case "saving": GSUsetAttribute( this.$elements.$save, "data-spin", val === "" ? "on" : false ); break;
 			case "connecting": GSUsetAttribute( this.$elements.$login, "data-spin", val === "" ? "on" : false ); break;
 			case "disconnecting": GSUsetAttribute( this.$elements.$logout, "data-spin", val === "" ? "on" : false ); break;
@@ -60,6 +61,15 @@ class gsuiTitleUser extends gsui0ne {
 				}
 				break;
 		}
+	}
+
+	// .........................................................................
+	#updateCmpName() {
+		const name = GSUgetAttribute( this, "cmpname" );
+		const title = name || "GridSound";
+
+		this.$elements.$cmpName.textContent = name;
+		document.title = GSUhasAttribute( this, "saved" ) ? title : `*${ title }`;
 	}
 }
 
