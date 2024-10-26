@@ -29,6 +29,7 @@ GSUsetTemplate( "gsui-cmp-player", () => [
 	GSUcreateAExt( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-dawlink", title: "Open in the DAW", href: false },
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "music", inert: true } ),
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "pen", inert: true } ),
+		GSUcreateI( { class: "gsuiIcon", "data-icon": "eye", inert: true } ),
 	),
 	GSUcreateButton( { class: "gsuiCmpPlayer-btn gsuiCmpPlayer-actions gsuiIcon", "data-icon": "ellipsis-v" } ),
 ] );

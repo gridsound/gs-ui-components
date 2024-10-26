@@ -40,19 +40,29 @@ gsui-cmp-player[ restoring ] { transform: translateX( -100% ) }
 	min-width: 64px;
 	font-size: 28px;
 }
+
+/* .......................................................................... */
 .gsuiCmpPlayer-dawlink i:first-child {
 	margin-left: 3px;
 }
-.gsuiCmpPlayer-dawlink i:last-child {
-	margin-top: 9px;
-	margin-left: -3px;
+.gsuiCmpPlayer-dawlink i + i {
+	margin-top: 12px;
+	margin-left: -4px;
 	font-size: 12px;
 	text-shadow: -1px -1px 0 var( --gsui-bg );
+}
+.gsuiCmpPlayer-dawlink i[ data-icon="eye" ]::before { opacity: .6 }
+.gsuiCmpPlayer-dawlink i[ data-icon="eye" ]::after { opacity: 1 }
+.gsuiCmpPlayer-dawlink i[ data-icon="eye" ] {
+	margin-top: 22px;
+	margin-left: -5px;
 }
 .gsuiCmpPlayer-actions {
 	background-color: transparent;
 }
 .gsuiCmpPlayer-dawlink:not( [ href ] ),
+gsui-cmp-player[ itsmine ] .gsuiCmpPlayer-dawlink i[ data-icon="eye" ],
+gsui-cmp-player:not( [ itsmine ] ) .gsuiCmpPlayer-dawlink i[ data-icon="pen" ],
 gsui-cmp-player:not( [ actions ] ) .gsuiCmpPlayer-actions {
 	display: none;
 }

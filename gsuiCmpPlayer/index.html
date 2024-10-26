@@ -21,7 +21,7 @@
 <style>
 body {
 	--test-content-w: 500px;
-	--test-content-h: 300px;
+	--test-content-h: 310px;
 	--test-content-resize: horizontal;
 }
 </style>
@@ -30,9 +30,10 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-cmp-player duration="3600" bpm="120" actions="open visible delete"></gsui-cmp-player>
+	<gsui-cmp-player duration="3600" bpm="120" actions="open visible fork delete"></gsui-cmp-player>
 </div>
 <div id="TEST-CTRLS">
+	<div><label><input id="itsmine" type="checkbox" /> its mine</label></div>
 	<div><label><input id="private" type="checkbox" /> private</label></div>
 	<div><label><input id="opensource" type="checkbox" /> open source</label></div>
 	<div><label><input id="editable" type="checkbox" /> editable</label></div>
@@ -60,6 +61,7 @@ body {
 <script>
 const elCmp = document.querySelector( "gsui-cmp-player" );
 const titledInp = document.querySelector( "#titled" );
+const itsmineInp = document.querySelector( "#itsmine" );
 const privateInp = document.querySelector( "#private" );
 const opensourceInp = document.querySelector( "#opensource" );
 const editableInp = document.querySelector( "#editable" );
@@ -68,10 +70,12 @@ const durationInp = document.querySelector( "#duration" );
 const currentTimeInp = document.querySelector( "#currentTime" );
 
 titledInp.onchange = () => GSUtoggleAttribute( elCmp, "name", "Dopest song ever created" );
+itsmineInp.onchange = () => GSUtoggleAttribute( elCmp, "itsmine" );
 privateInp.onchange = () => GSUtoggleAttribute( elCmp, "private" );
 opensourceInp.onchange = () => GSUtoggleAttribute( elCmp, "opensource" );
 editableInp.onchange = () => GSUsetAttribute( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
+itsmineInp.click();
 privateInp.click();
 editableInp.click();
 
