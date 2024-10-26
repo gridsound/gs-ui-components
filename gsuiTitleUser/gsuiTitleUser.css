@@ -94,7 +94,10 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 	display: flex;
 	height: 20px;
 	border-radius: 4px;
-	background-color: #6677aa;
+	background-color: #67a;
+}
+gsui-titleuser[ readonly ] .gsuiTitleUser-cmp {
+	background-color: #a66;
 }
 
 /* .......................................................................... */
@@ -106,6 +109,9 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 	width: 32px;
 	background-color: #ba5d5d;
 	transition: width .2s;
+}
+gsui-titleuser[ readonly ] .gsuiTitleUser-save {
+	display: none;
 }
 gsui-titleuser[ saved ] .gsuiTitleUser-save {
 	width: 0;
@@ -148,12 +154,15 @@ gsui-titleuser[ just-saved ] .gsuiTitleUser-justSaved {
 	text-overflow: ellipsis;
 	padding-right: 2px;
 }
+gsui-titleuser[ readonly ] .gsuiTitleUser-cmpName {
+	font-style: italic;
+}
 .gsuiTitleUser-cmpName:empty::after {
 	content: "Untitled";
 	font-style: italic;
 	opacity: .7;
 }
-gsui-titleuser:not( [ saved ] ) .gsuiTitleUser-cmpName::before {
+gsui-titleuser:not( [ saved ] ):not( [ readonly ] ) .gsuiTitleUser-cmpName::before {
 	content: "*";
 }
 .gsuiTitleUser-cmpEditIcon {

@@ -31,6 +31,7 @@ body {
 	<gsui-titleuser avatar="../test-assets/avatar.jpg"></gsui-titleuser>
 </div>
 <div id="TEST-CTRLS">
+	<div><button id="readonly">toggle readonly</button></div>
 	<div><button id="connected">toggle connected</button></div>
 	<div><button id="connecting">toggle connecting</button></div>
 	<div><button id="disconnecting">toggle disconnecting</button></div>
@@ -54,6 +55,7 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elCmp = document.querySelector( "gsui-titleuser" );
+const readonly = document.querySelector( "#readonly" );
 const connected = document.querySelector( "#connected" );
 const connecting = document.querySelector( "#connecting" );
 const disconnecting = document.querySelector( "#disconnecting" );
@@ -63,6 +65,7 @@ const justSaved = document.querySelector( "#just-saved" );
 const cmpName = document.querySelector( "#cmpName" );
 const longUser = document.querySelector( "#longUser" );
 
+readonly.onclick = () => GSUtoggleAttribute( elCmp, "readonly" );
 connected.onclick = () => GSUtoggleAttribute( elCmp, "connected" );
 connecting.onclick = () => GSUtoggleAttribute( elCmp, "connecting" );
 disconnecting.onclick = () => GSUtoggleAttribute( elCmp, "disconnecting" );
