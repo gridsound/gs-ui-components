@@ -3,7 +3,7 @@ gsui-com-profile {
 	flex-direction: column;
 	container: gsuiComProfileQuery / inline-size;
 	--gsuiComProfile-height: 120px;
-	--gsuiComProfile-padding: 10px;
+	--gsuiComProfile-padding: 16px;
 	gap: 0;
 	transition: gap .2s;
 }
@@ -48,8 +48,8 @@ gsui-com-profile[ itsme ] .gsuiComProfile-main {
 	object-fit: cover;
 	border-radius: 0;
 }
-.gsuiComProfile-main-avatar:not( .userAvatarHas ) img,
-.gsuiComProfile-main-avatar.userAvatarHas .gsuiIcon {
+gsui-com-profile:not( [ hasavatar ] ) .gsuiComProfile-main-avatar img,
+gsui-com-profile[ hasavatar ] .gsuiComProfile-main-avatar .gsuiIcon {
 	display: none;
 }
 
@@ -70,6 +70,7 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	display: none;
 }
 
+/* .......................................................................... */
 .gsuiComProfile-main-info {
 	grid-area: info;
 	display: flex;
@@ -102,13 +103,15 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	text-overflow: ellipsis;
 }
 
+/* .......................................................................... */
 .gsuiComProfile-main-email {
+	overflow: hidden;
 	display: flex;
 	align-items: flex-start;
 	flex-direction: column;
 	flex-basis: 100%;
 	font-size: 16px;
-	margin-top: 8px;
+	margin-top: 4px;
 }
 .gsuiComProfile-main-email-addr,
 .gsuiComProfile-main-email-not {
@@ -136,6 +139,12 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	border: 0;
 	padding: 0;
 	background: none;
+}
+.gsuiComProfile-main-email-toSend,
+.gsuiComProfile-main-email-sent {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 gsui-com-profile[ emailsending ] .gsuiComProfile-main-email-not,
 gsui-com-profile[ emailsent ] .gsuiComProfile-main-email-not {
@@ -218,6 +227,7 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 /* .......................................................................... */
 @container gsuiComProfileQuery ( max-width: 450px ) {
 	.gsuiComProfile-main {
+		--gsuiComProfile-padding: 10px;
 		height: auto;
 		padding: var( --gsuiComProfile-padding );
 		grid-row-gap: var( --gsuiComProfile-padding );
