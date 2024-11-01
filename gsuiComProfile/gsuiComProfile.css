@@ -108,6 +108,7 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	display: flex;
 	align-items: baseline;
 	gap: .5ch;
+	max-width: 100%;
 }
 .gsuiComProfile-main-email-addr span:empty::before {
 	content: "private email";
