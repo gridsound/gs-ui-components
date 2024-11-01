@@ -355,7 +355,7 @@ class gsuiDAW extends gsui0ne {
 			case "changelog":
 				break;
 			default:
-				dt.action && console.log( "untracked action:", dt.action );
+				dt.action && lg( "gsuiDAW: untracked action:", dt.action );
 				break;
 		}
 	}

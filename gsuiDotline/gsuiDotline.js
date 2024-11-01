@@ -284,7 +284,7 @@ class gsuiDotline extends gsui0ne {
 		}
 	}
 	#onpointerdownCurveDot( id, xstep ) {
-		console.log( "gsuiDotline.#onpointerdownCurveDot", id );
+		lg( "gsuiDotline.#onpointerdownCurveDot", id );
 	}
 	$onptrup( e ) {
 		if ( this.#activeDot ) {
