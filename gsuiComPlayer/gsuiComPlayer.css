@@ -1,4 +1,4 @@
-gsui-cmp-player {
+gsui-com-player {
 	--gsui-bg: #2e355b;
 	display: flex;
 	position: relative;
@@ -9,11 +9,11 @@ gsui-cmp-player {
 	background-image: linear-gradient( 45deg, #0003, transparent );
 	transition: transform .3s;
 }
-gsui-cmp-player[ deleting ] { transform: translateX( 100% ) }
-gsui-cmp-player[ restoring ] { transform: translateX( -100% ) }
+gsui-com-player[ deleting ] { transform: translateX( 100% ) }
+gsui-com-player[ restoring ] { transform: translateX( -100% ) }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-btn {
+.gsuiComPlayer-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -30,52 +30,52 @@ gsui-cmp-player[ restoring ] { transform: translateX( -100% ) }
 	transition: color, background-color;
 	transition-duration: .2s;
 }
-.gsuiCmpPlayer-btn:focus-visible,
-.gsuiCmpPlayer-btn:hover {
+.gsuiComPlayer-btn:focus-visible,
+.gsuiComPlayer-btn:hover {
 	color: #fff;
 	background-color: #0002;
 }
-.gsuiCmpPlayer-play {
+.gsuiComPlayer-play {
 	width: 64px;
 	min-width: 64px;
 	font-size: 28px;
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-dawlink i:first-child {
+.gsuiComPlayer-dawlink i:first-child {
 	margin-left: 3px;
 }
-.gsuiCmpPlayer-dawlink i + i {
+.gsuiComPlayer-dawlink i + i {
 	margin-top: 12px;
 	margin-left: -4px;
 	font-size: 12px;
 	text-shadow: -1px -1px 0 var( --gsui-bg );
 }
-.gsuiCmpPlayer-dawlink i[ data-icon="eye" ]::before { opacity: .6 }
-.gsuiCmpPlayer-dawlink i[ data-icon="eye" ]::after { opacity: 1 }
-.gsuiCmpPlayer-dawlink i[ data-icon="eye" ] {
+.gsuiComPlayer-dawlink i[ data-icon="eye" ]::before { opacity: .6 }
+.gsuiComPlayer-dawlink i[ data-icon="eye" ]::after { opacity: 1 }
+.gsuiComPlayer-dawlink i[ data-icon="eye" ] {
 	margin-top: 22px;
 	margin-left: -5px;
 }
-.gsuiCmpPlayer-actions {
+.gsuiComPlayer-actions {
 	background-color: transparent;
 }
-.gsuiCmpPlayer-dawlink:not( [ href ] ),
-gsui-cmp-player[ itsmine ] .gsuiCmpPlayer-dawlink i[ data-icon="eye" ],
-gsui-cmp-player:not( [ itsmine ] ) .gsuiCmpPlayer-dawlink i[ data-icon="pen" ],
-gsui-cmp-player:not( [ actions ] ) .gsuiCmpPlayer-actions {
+.gsuiComPlayer-dawlink:not( [ href ] ),
+gsui-com-player[ itsmine ] .gsuiComPlayer-dawlink i[ data-icon="eye" ],
+gsui-com-player:not( [ itsmine ] ) .gsuiComPlayer-dawlink i[ data-icon="pen" ],
+gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 	display: none;
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-body {
+.gsuiComPlayer-body {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-text {
+.gsuiComPlayer-text {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -84,17 +84,17 @@ gsui-cmp-player:not( [ actions ] ) .gsuiCmpPlayer-actions {
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-name {
+.gsuiComPlayer-name {
 	position: relative;
 	height: 1.4em;
 	line-height: 1.4em;
 	font-size: 20px;
 	transition: height .2s;
 }
-gsui-cmp-player[ playing ] .gsuiCmpPlayer-name {
+gsui-com-player[ playing ] .gsuiComPlayer-name {
 	height: 1.3em;
 }
-.gsuiCmpPlayer-nameLink {
+.gsuiComPlayer-nameLink {
 	position: absolute;
 	max-width: 100%;
 	overflow: hidden;
@@ -103,8 +103,8 @@ gsui-cmp-player[ playing ] .gsuiCmpPlayer-name {
 	text-overflow: ellipsis;
 	text-decoration: none;
 }
-gsui-cmp-player[ opensource ] .gsuiCmpPlayer-nameLink::before,
-gsui-cmp-player[ private ] .gsuiCmpPlayer-nameLink::before {
+gsui-com-player[ opensource ] .gsuiComPlayer-nameLink::before,
+gsui-com-player[ private ] .gsuiComPlayer-nameLink::before {
 	content: "private";
 	box-sizing: border-box;
 	margin-right: 6px;
@@ -117,10 +117,10 @@ gsui-cmp-player[ private ] .gsuiCmpPlayer-nameLink::before {
 	font-weight: bold;
 	background-color: #0004;
 }
-gsui-cmp-player[ opensource ] .gsuiCmpPlayer-nameLink::before {
+gsui-com-player[ opensource ] .gsuiComPlayer-nameLink::before {
 	content: "open-source";
 }
-.gsuiCmpPlayer-nameLink:empty::after {
+.gsuiComPlayer-nameLink:empty::after {
 	content: "Untitled";
 	font-style: italic;
 	padding-right: 2px;
@@ -128,13 +128,13 @@ gsui-cmp-player[ opensource ] .gsuiCmpPlayer-nameLink::before {
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-info-wrap {
+.gsuiComPlayer-info-wrap {
 	position: relative;
 	width: 100%;
 	height: 20px;
 	overflow: hidden;
 }
-.gsuiCmpPlayer-info {
+.gsuiComPlayer-info {
 	position: absolute;
 	inset: 0;
 	display: flex;
@@ -143,30 +143,30 @@ gsui-cmp-player[ opensource ] .gsuiCmpPlayer-nameLink::before {
 	white-space: nowrap;
 	opacity: .7;
 }
-.gsuiCmpPlayer-time,
-.gsuiCmpPlayer-tempo {
+.gsuiComPlayer-time,
+.gsuiComPlayer-tempo {
 	display: flex;
 	align-items: baseline;
 }
-gsui-cmp-player:not( [ playing ] ) .gsuiCmpPlayer-currentTime {
+gsui-com-player:not( [ playing ] ) .gsuiComPlayer-currentTime {
 	display: none;
 }
-.gsuiCmpPlayer-currentTime::after {
+.gsuiComPlayer-currentTime::after {
 	content: "\A0-\A0";
 }
-.gsuiCmpPlayer-tempo {
+.gsuiComPlayer-tempo {
 	margin-left: 16px;
 }
-.gsuiCmpPlayer-time .gsuiIcon,
-.gsuiCmpPlayer-tempo .gsuiIcon {
+.gsuiComPlayer-time .gsuiIcon,
+.gsuiComPlayer-tempo .gsuiIcon {
 	margin-right: 6px;
 	opacity: .5;
 }
-.gsuiCmpPlayer-bpm {
+.gsuiComPlayer-bpm {
 	display: inline-flex;
 	align-items: baseline;
 }
-.gsuiCmpPlayer-bpm::after {
+.gsuiComPlayer-bpm::after {
 	content: "bpm";
 	margin-left: 4px;
 	font-size: 11px;
@@ -174,7 +174,7 @@ gsui-cmp-player:not( [ playing ] ) .gsuiCmpPlayer-currentTime {
 }
 
 /* .......................................................................... */
-.gsuiCmpPlayer-slider {
+.gsuiComPlayer-slider {
 	position: relative;
 	overflow: hidden;
 	height: 0;
@@ -183,16 +183,16 @@ gsui-cmp-player:not( [ playing ] ) .gsuiCmpPlayer-currentTime {
 	transition-property: height;
 	background-color: #0003;
 }
-gsui-cmp-player[ playing ] .gsuiCmpPlayer-slider {
+gsui-com-player[ playing ] .gsuiComPlayer-slider {
 	height: 10px;
 }
-.gsuiCmpPlayer-sliderValue {
+.gsuiComPlayer-sliderValue {
 	width: 0;
 	height: 100%;
 	pointer-events: none;
 	background-color: #65b;
 }
-.gsuiCmpPlayer-sliderInput {
+.gsuiComPlayer-sliderInput {
 	position: absolute;
 	cursor: inherit;
 	top: 0;

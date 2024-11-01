@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiCmpPlayer extends gsui0ne {
+class gsuiComPlayer extends gsui0ne {
 	#settingTime = null;
 	#actionMenu = null;
 	#actions = null;
@@ -8,18 +8,18 @@ class gsuiCmpPlayer extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiCmpPlayer",
-			$tagName: "gsui-cmp-player",
+			$cmpName: "gsuiComPlayer",
+			$tagName: "gsui-com-player",
 			$elements: {
-				$play: ".gsuiCmpPlayer-play",
-				$name: ".gsuiCmpPlayer-nameLink",
-				$bpm: ".gsuiCmpPlayer-bpm",
-				$dur: ".gsuiCmpPlayer-duration",
-				$time: ".gsuiCmpPlayer-currentTime",
-				$timeInpVal: ".gsuiCmpPlayer-sliderValue",
-				$timeInpTrk: ".gsuiCmpPlayer-sliderInput",
-				$dawlink: ".gsuiCmpPlayer-dawlink",
-				$actionsBtn: ".gsuiCmpPlayer-actions",
+				$play: ".gsuiComPlayer-play",
+				$name: ".gsuiComPlayer-nameLink",
+				$bpm: ".gsuiComPlayer-bpm",
+				$dur: ".gsuiComPlayer-duration",
+				$time: ".gsuiComPlayer-currentTime",
+				$timeInpVal: ".gsuiComPlayer-sliderValue",
+				$timeInpTrk: ".gsuiComPlayer-sliderInput",
+				$dawlink: ".gsuiComPlayer-dawlink",
+				$actionsBtn: ".gsuiComPlayer-actions",
 			},
 			$attributes: {
 				name: "",
@@ -57,12 +57,12 @@ class gsuiCmpPlayer extends gsui0ne {
 				this.#actionMenu?.$setDirection( val );
 				break;
 			case "duration":
-				this.$elements.$dur.textContent = gsuiCmpPlayer.$calcDuration( val );
+				this.$elements.$dur.textContent = gsuiComPlayer.$calcDuration( val );
 				this.$updateTimeSlider();
 				break;
 			case "currenttime":
 				if ( this.#settingTime === null ) {
-					this.$elements.$time.textContent = gsuiCmpPlayer.$calcDuration( val );
+					this.$elements.$time.textContent = gsuiComPlayer.$calcDuration( val );
 					this.$updateTimeSlider();
 				}
 				break;
@@ -128,4 +128,4 @@ class gsuiCmpPlayer extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-cmp-player", gsuiCmpPlayer );
+GSUdefineElement( "gsui-com-player", gsuiComPlayer );

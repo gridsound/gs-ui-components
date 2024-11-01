@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="../gsuiActionMenu/gsuiActionMenu.css"/>
 
 <!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiCmpPlayer.css"/>
+<link rel="stylesheet" href="gsuiComPlayer.css"/>
 
 <!-- ....................................................................... -->
 <style>
@@ -30,7 +30,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-cmp-player duration="3600" bpm="120" actions="open visible fork delete"></gsui-cmp-player>
+	<gsui-com-player duration="3600" bpm="120" actions="open visible fork delete"></gsui-com-player>
 </div>
 <div id="TEST-CTRLS">
 	<div><label><input id="itsmine" type="checkbox" /> its mine</label></div>
@@ -54,12 +54,12 @@ body {
 <script src="../gsuiActionMenu/getAbsPos.js"></script>
 
 <!-- ....................................................................... -->
-<script src="gsuiCmpPlayer.html.js"></script>
-<script src="gsuiCmpPlayer.js"></script>
+<script src="gsuiComPlayer.html.js"></script>
+<script src="gsuiComPlayer.js"></script>
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = document.querySelector( "gsui-cmp-player" );
+const elCmp = document.querySelector( "gsui-com-player" );
 const titledInp = document.querySelector( "#titled" );
 const itsmineInp = document.querySelector( "#itsmine" );
 const privateInp = document.querySelector( "#private" );
@@ -84,7 +84,7 @@ durationInp.oninput = () => GSUsetAttribute( elCmp, "duration", durationInp.valu
 currentTimeInp.oninput = () => GSUsetAttribute( elCmp, "currenttime", currentTimeInp.value );
 
 GSUlistenEvents( document.body, {
-	gsuiCmpPlayer: {
+	gsuiComPlayer: {
 		play: () => GSUsetAttribute( elCmp, "playing", true ),
 		stop: () => GSUsetAttribute( elCmp, "playing", false ),
 		delete: () => GSUsetAttribute( elCmp, "deleting", true ),
