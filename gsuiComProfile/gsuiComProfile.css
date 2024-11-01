@@ -57,7 +57,6 @@ gsui-com-profile[ hasavatar ] .gsuiComProfile-main-avatar .gsuiIcon {
 .gsuiComProfile-main-edit {
 	grid-area: edit;
 	display: flex;
-	overflow: hidden;
 	align-items: center;
 	justify-content: center;
 	border: 0;
@@ -84,9 +83,6 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 }
 .gsuiComProfile-main-username,
 .gsuiComProfile-main-fullname {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	line-height: 1;
 	padding-bottom: 2px;
 	font-size: 42px;
@@ -96,11 +92,6 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	row-gap: 0;
 	column-gap: 8px;
 	font-size: 24px;
-}
-.gsuiComProfile-main-lastname,
-.gsuiComProfile-main-firstname {
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 /* .......................................................................... */
@@ -113,13 +104,6 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	font-size: 16px;
 	margin-top: 4px;
 }
-.gsuiComProfile-main-email-addr,
-.gsuiComProfile-main-email-not {
-	max-width: 100%;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-}
 .gsuiComProfile-main-email-addr {
 	display: flex;
 	align-items: baseline;
@@ -131,6 +115,7 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 .gsuiComProfile-main-email-not {
 	display: flex;
 	align-items: center;
+	max-width: 100%;
 	gap: .7ch;
 	color: #da6035;
 	font: inherit;
@@ -139,12 +124,6 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	border: 0;
 	padding: 0;
 	background: none;
-}
-.gsuiComProfile-main-email-toSend,
-.gsuiComProfile-main-email-sent {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 gsui-com-profile[ emailsending ] .gsuiComProfile-main-email-not,
 gsui-com-profile[ emailsent ] .gsuiComProfile-main-email-not {
