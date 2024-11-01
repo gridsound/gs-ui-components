@@ -45,7 +45,8 @@ gsui-com-profile[ itsme ] .gsuiComProfile-main {
 .gsuiComProfile-main-avatar img {
 	width: 100%;
 	height: 100%;
-	border-radius: inherit;
+	object-fit: cover;
+	border-radius: 0;
 }
 .gsuiComProfile-main-avatar:not( .userAvatarHas ) img,
 .gsuiComProfile-main-avatar.userAvatarHas .gsuiIcon {
@@ -232,7 +233,7 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 		grid-template-columns: var( --gsuiComProfile-height ) 1fr;
 		grid-template-rows: var( --gsuiComProfile-height ) 34px;
 	}
-	.gsuiComProfile-main-avatar {
-		border-radius: 4px;
+	.gsuiComProfile-main-avatar img {
+		border-radius: 6px;
 	}
 }

@@ -6,6 +6,7 @@ class gsuiComProfile extends gsui0ne {
 			$cmpName: "gsuiComProfile",
 			$tagName: "gsui-com-profile",
 			$elements: {
+				$avatar: ".gsuiComProfile-main-avatar img",
 				$email: ".gsuiComProfile-main-email-addr span",
 				$emailpub: ".gsuiComProfile-main-email-addr .gsuiIcon",
 				$username: ".gsuiComProfile-main-username",
@@ -22,6 +23,7 @@ class gsuiComProfile extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		this.$elements.$avatar.onload = () => GSUsetAttribute( this, "hasavatar", true );
 		this.$elements.$form.onsubmit = e => {
 			const tar = e.target;
 
@@ -52,7 +54,7 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "email", "emailpublic", "username", "lastname", "firstname", "emailtoverify" ];
+		return [ "email", "emailpublic", "username", "lastname", "firstname", "emailtoverify", "avatar" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -61,6 +63,10 @@ class gsuiComProfile extends gsui0ne {
 			case "username": this.$elements.$username.textContent = val; break;
 			case "lastname": this.$elements.$lastname.textContent = val; break;
 			case "firstname": this.$elements.$firstname.textContent = val; break;
+			case "avatar":
+				GSUsetAttribute( this, "hasavatar", false );
+				this.$elements.$avatar.src = val || "";
+				break;
 		}
 	}
 }

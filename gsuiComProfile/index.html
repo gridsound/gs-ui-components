@@ -35,6 +35,7 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<div><label><input id="itsme" type="checkbox" /> itsme</label></div>
+	<div><label><input id="avatar" type="checkbox" /> avatar</label></div>
 	<div><label><input id="email" type="checkbox" /> email</label></div>
 	<div><label><input id="emailpublic" type="checkbox" /> email public</label></div>
 	<div><label><input id="emailtoverify" type="checkbox" /> email to verify</label></div>
@@ -58,6 +59,7 @@ body {
 const elCmp = document.querySelector( "gsui-com-profile" );
 const itsme = document.querySelector( "#itsme" );
 const email = document.querySelector( "#email" );
+const avatar = document.querySelector( "#avatar" );
 const emailpublic = document.querySelector( "#emailpublic" );
 const emailtoverify = document.querySelector( "#emailtoverify" );
 const emailsending = document.querySelector( "#emailsending" );
@@ -69,11 +71,13 @@ emailpublic.onchange = () => GSUtoggleAttribute( elCmp, "emailpublic" );
 emailtoverify.onchange = () => GSUtoggleAttribute( elCmp, "emailtoverify" );
 emailsending.onchange = () => GSUtoggleAttribute( elCmp, "emailsending" );
 emailsent.onchange = () => GSUtoggleAttribute( elCmp, "emailsent" );
+avatar.onchange = () => GSUtoggleAttribute( elCmp, "avatar", "../test-assets/avatar.jpg" );
 
 itsme.click();
 email.click();
 emailpublic.click();
 emailtoverify.click();
+avatar.click();
 document.querySelector( ".gsuiComProfile-main-edit" ).click();
 </script>
 </body>
