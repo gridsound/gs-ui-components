@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiComProfile.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 550px;
+	--test-content-w: 320px;
+	--test-content-w: 700px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-com-profile
+		lastname="Wick"
+		firstname="John"
+		username="Baba Yaga"
+	></gsui-com-profile>
+</div>
+<div id="TEST-CTRLS">
+	<div><label><input id="itsme" type="checkbox" /> itsme</label></div>
+	<div><label><input id="email" type="checkbox" /> email</label></div>
+	<div><label><input id="emailpublic" type="checkbox" /> email public</label></div>
+	<div><label><input id="emailtoverify" type="checkbox" /> email to verify</label></div>
+	<div><label><input id="emailsending" type="checkbox" /> email sending</label></div>
+	<div><label><input id="emailsent" type="checkbox" /> email sent</label></div>
+	<!-- <div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div> -->
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiComProfile.html.js"></script>
+<script src="gsuiComProfile.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elCmp = document.querySelector( "gsui-com-profile" );
+const itsme = document.querySelector( "#itsme" );
+const email = document.querySelector( "#email" );
+const emailpublic = document.querySelector( "#emailpublic" );
+const emailtoverify = document.querySelector( "#emailtoverify" );
+const emailsending = document.querySelector( "#emailsending" );
+const emailsent = document.querySelector( "#emailsent" );
+
+itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
+email.onchange = () => GSUtoggleAttribute( elCmp, "email", "john.wick@hitman.com" );
+emailpublic.onchange = () => GSUtoggleAttribute( elCmp, "emailpublic" );
+emailtoverify.onchange = () => GSUtoggleAttribute( elCmp, "emailtoverify" );
+emailsending.onchange = () => GSUtoggleAttribute( elCmp, "emailsending" );
+emailsent.onchange = () => GSUtoggleAttribute( elCmp, "emailsent" );
+
+itsme.click();
+email.click();
+emailpublic.click();
+emailtoverify.click();
+document.querySelector( ".gsuiComProfile-main-edit" ).click();
+</script>
+</body>
+</html>

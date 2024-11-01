@@ -1,0 +1,238 @@
+gsui-com-profile {
+	display: flex;
+	flex-direction: column;
+	container: gsuiComProfileQuery / inline-size;
+	--gsuiComProfile-height: 120px;
+	--gsuiComProfile-padding: 10px;
+	gap: 0;
+	transition: gap .2s;
+}
+gsui-com-profile[ editing ] {
+	gap: 20px;
+}
+
+.gsuiComProfile-main {
+	display: grid;
+	overflow: hidden;
+	grid-column-gap: var( --gsuiComProfile-padding );
+	grid-template:
+		"avatar info edit" 1.5fr
+		/ var( --gsuiComProfile-height ) 1fr 0;
+	position: relative;
+	height: var( --gsuiComProfile-height );
+	border-radius: 6px;
+	font-size: 14px;
+	color: #333;
+	background-color: #fff;
+}
+gsui-com-profile[ itsme ] .gsuiComProfile-main {
+	grid-template-columns: var( --gsuiComProfile-height ) 1fr 42px;
+}
+
+/* .......................................................................... */
+.gsuiComProfile-main-avatar {
+	grid-area: avatar;
+	font-size: 72px;
+	color: #2e355b;
+	background-color: #0000000f;
+}
+.gsuiComProfile-main-avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+}
+.gsuiComProfile-main-avatar img {
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+}
+.gsuiComProfile-main-avatar:not( .userAvatarHas ) img,
+.gsuiComProfile-main-avatar.userAvatarHas .gsuiIcon {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiComProfile-main-edit {
+	grid-area: edit;
+	display: flex;
+	overflow: hidden;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	color: #0006;
+	cursor: pointer;
+	font-size: 20px;
+	background-color: #0001;
+}
+gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
+	display: none;
+}
+
+.gsuiComProfile-main-info {
+	grid-area: info;
+	display: flex;
+	gap: .5ch;
+	align-items: baseline;
+	min-width: 0;
+	flex-wrap: wrap;
+	align-self: center;
+	row-gap: 0;
+	column-gap: 12px;
+}
+.gsuiComProfile-main-username,
+.gsuiComProfile-main-fullname {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	line-height: 1;
+	padding-bottom: 2px;
+	font-size: 42px;
+}
+.gsuiComProfile-main-fullname {
+	display: flex;
+	row-gap: 0;
+	column-gap: 8px;
+	font-size: 24px;
+}
+.gsuiComProfile-main-lastname,
+.gsuiComProfile-main-firstname {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.gsuiComProfile-main-email {
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	flex-basis: 100%;
+	font-size: 16px;
+	margin-top: 8px;
+}
+.gsuiComProfile-main-email-addr,
+.gsuiComProfile-main-email-not {
+	max-width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.gsuiComProfile-main-email-addr {
+	display: flex;
+	align-items: baseline;
+	gap: .5ch;
+}
+.gsuiComProfile-main-email-addr span:empty::before {
+	content: "private email";
+}
+.gsuiComProfile-main-email-not {
+	display: flex;
+	align-items: center;
+	gap: .7ch;
+	color: #da6035;
+	font: inherit;
+	font-size: 12px;
+	cursor: pointer;
+	border: 0;
+	padding: 0;
+	background: none;
+}
+gsui-com-profile[ emailsending ] .gsuiComProfile-main-email-not,
+gsui-com-profile[ emailsent ] .gsuiComProfile-main-email-not {
+	cursor: default;
+}
+gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIcon {
+	display: none;
+}
+gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-email-not,
+gsui-com-profile:not( [ emailtoverify ] ) .gsuiComProfile-main-email-not,
+gsui-com-profile[ emailsent ] .gsuiComProfile-main-email-toSend,
+gsui-com-profile:not( [ emailsent ] ) .gsuiComProfile-main-email-sent {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiComProfile-edit-title {
+	font-size: 14px;
+}
+.gsuiComProfile-edit-title,
+.gsuiComProfile-form {
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: .2s;
+	transition-property: max-height, opacity;
+}
+gsui-com-profile[ editing ] .gsuiComProfile-edit-title {
+	opacity: .7;
+	max-height: 24px;
+}
+gsui-com-profile[ editing ] .gsuiComProfile-form {
+	opacity: 1;
+	max-height: 600px;
+}
+.gsuiComProfile-form {
+	display: grid;
+	grid-gap: 20px;
+	font-size: 12px;
+	padding: 20px;
+	border-radius: 6px;
+	background-color: #fff2;
+}
+gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
+	padding: 0;
+}
+.gsuiComProfile-form-label {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	margin-bottom: 4px;
+	opacity: .5;
+}
+.gsuiComProfile-form-input:not( [ type="checkbox" ] ) {
+	width: 100%;
+	box-sizing: border-box;
+	padding: .8em;
+	outline: 0;
+	border: 0;
+	border-radius: 2px;
+	margin-bottom: 4px;
+	color: #111;
+	background-color: #eee;
+}
+.gsuiComProfile-form label {
+	display: block;
+}
+.gsuiComProfile-form div:has( input[ type="checkbox" ] ) {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+.gsuiComProfile-form-btns {
+	display: grid;
+	grid-gap: 20px;
+	grid-template-columns: auto auto;
+	justify-content: flex-end;
+}
+
+/* .......................................................................... */
+@container gsuiComProfileQuery ( max-width: 450px ) {
+	.gsuiComProfile-main {
+		height: auto;
+		padding: var( --gsuiComProfile-padding );
+		grid-row-gap: var( --gsuiComProfile-padding );
+		grid-template:
+			"avatar info" var( --gsuiComProfile-height )
+			"edit   edit" 1fr
+			/ var( --gsuiComProfile-height ) 1fr;
+	}
+	gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main {
+		padding-bottom: 0;
+	}
+	gsui-com-profile[ itsme ] .gsuiComProfile-main {
+		grid-template-columns: var( --gsuiComProfile-height ) 1fr;
+		grid-template-rows: var( --gsuiComProfile-height ) 34px;
+	}
+	.gsuiComProfile-main-avatar {
+		border-radius: 4px;
+	}
+}

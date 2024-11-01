@@ -15,6 +15,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 				GSUcreateSpan( { id: "testTitle" }, "GSUI components testing" ),
 				GSUcreateSelect( { id: "testSelect" },
 					GSUcreateOption( { value: "" }, "--" ),
+					GSUcreateOption( { value: "gsuiComProfile" } ),
 					GSUcreateOption( { value: "gsuiCmpPlayer" } ),
 					GSUcreateOption( { value: "" }, "--" ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
