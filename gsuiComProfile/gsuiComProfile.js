@@ -20,6 +20,7 @@ class gsuiComProfile extends gsui0ne {
 				$form: ".gsuiComProfile-form",
 				$cancel: "gsui-com-button:not([type='submit'])",
 				$submit: "gsui-com-button[type='submit']",
+				$error: ".gsuiComProfile-form-error",
 				$inputs: "[].gsuiComProfile-form input",
 			},
 			$attributes: {
@@ -68,6 +69,7 @@ class gsuiComProfile extends gsui0ne {
 			this.$elements.$inputs[ 2 ].value = GSUgetAttribute( this, "email" );
 			this.$elements.$inputs[ 3 ].checked = GSUhasAttribute( this, "emailpublic" );
 		}
+		this.$elements.$error.textContent = "";
 		GSUtoggleAttribute( this, "editing" );
 	}
 	#onclickVerify() {
@@ -89,13 +91,12 @@ class gsuiComProfile extends gsui0ne {
 
 		GSUsetAttribute( this.$elements.$submit, "loading", true );
 		this.#savingPromise?.( obj )
-			.then(
-				() => GSUsetAttribute( this, obj ),
-				err => lg( 'saving catch', err ),
-			).finally( () => {
-				GSUsetAttribute( this.$elements.$submit, "loading", false );
+			.then( () => {
+				GSUsetAttribute( this, obj );
 				GSUsetAttribute( this, "editing", false );
-			} );
+			} )
+			.catch( err => this.$elements.$error.textContent = err )
+			.finally( () => GSUsetAttribute( this.$elements.$submit, "loading", false ) );
 		return false;
 	}
 }

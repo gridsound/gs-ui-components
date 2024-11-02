@@ -202,6 +202,11 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 	gap: 20px;
 	justify-content: end;
 }
+.gsuiComProfile-form-error {
+	color: #f66;
+	font-size: 14px;
+	font-weight: bold;
+}
 
 /* .......................................................................... */
 @container gsuiComProfileQuery ( max-width: 450px ) {

@@ -46,6 +46,7 @@ body {
 	<div><label><input id="emailtoverify" type="checkbox" /> email to verify</label></div>
 	<div><label><input id="emailsending" type="checkbox" /> email sending</label></div>
 	<div><label><input id="emailsent" type="checkbox" /> email sent</label></div>
+	<div><label><input id="savefail" type="checkbox" /> saving will fail</label></div>
 	<!-- <div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div> -->
 </div>
 
@@ -73,6 +74,7 @@ const emailpublic = document.querySelector( "#emailpublic" );
 const emailtoverify = document.querySelector( "#emailtoverify" );
 const emailsending = document.querySelector( "#emailsending" );
 const emailsent = document.querySelector( "#emailsent" );
+const savefail = document.querySelector( "#savefail" );
 
 itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
 email.onchange = () => GSUtoggleAttribute( elCmp, "email", "john.wick@hitman.com" );
@@ -84,14 +86,16 @@ avatar.onchange = () => GSUtoggleAttribute( elCmp, "avatar", "../test-assets/ava
 
 itsme.click();
 email.click();
-emailpublic.click();
+// emailpublic.click();
 emailtoverify.click();
 avatar.click();
 // document.querySelector( ".gsuiComProfile-main-edit" ).click();
 
 function promRes( obj ) {
 	return new Promise( ( res, rej ) => {
-		setTimeout( () => res(), 1000 );
+		setTimeout( () => {
+			savefail.checked ? rej( "Error in the server or somewhere else.. who knows?" ) : res();
+		}, 1000 );
 	} );
 }
 
