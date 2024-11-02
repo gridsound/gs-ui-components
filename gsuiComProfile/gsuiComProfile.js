@@ -15,7 +15,7 @@ class gsuiComProfile extends gsui0ne {
 				$emailVerify: ".gsuiComProfile-main-email-not",
 				$edit: ".gsuiComProfile-main-edit",
 				$form: ".gsuiComProfile-form",
-				$cancel: ".gsuiComProfile-btn:not([type='submit'])",
+				$cancel: "gsui-com-button:not([type='submit'])",
 				$inputs: "[].gsuiComProfile-form input",
 			},
 			$attributes: {

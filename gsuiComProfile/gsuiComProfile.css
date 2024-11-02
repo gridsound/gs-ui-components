@@ -198,10 +198,9 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 	gap: 6px;
 }
 .gsuiComProfile-form-btns {
-	display: grid;
-	grid-gap: 20px;
-	grid-template-columns: auto auto;
-	justify-content: flex-end;
+	display: flex;
+	gap: 20px;
+	justify-content: end;
 }
 
 /* .......................................................................... */
