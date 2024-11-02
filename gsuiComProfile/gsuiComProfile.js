@@ -91,7 +91,7 @@ class gsuiComProfile extends gsui0ne {
 
 		GSUsetAttribute( this.$elements.$submit, "loading", true );
 		this.#savingPromise?.( obj )
-			.then( () => {
+			.then( obj => {
 				GSUsetAttribute( this, obj );
 				GSUsetAttribute( this, "editing", false );
 			} )
