@@ -1,0 +1,26 @@
+gsui-com-avatar {
+	container-type: inline-size;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 24px;
+	min-height: 24px;
+	background-color: #0001;
+}
+
+gsui-com-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+gsui-com-avatar .gsuiIcon {
+	position: absolute;
+	font-size: 60cqw;
+	color: #2e355b;
+}
+
+gsui-com-avatar:not( [ loaded ] ) img,
+gsui-com-avatar[ loaded ] .gsuiIcon {
+	display: none;
+}
