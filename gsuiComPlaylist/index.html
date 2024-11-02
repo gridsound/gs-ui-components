@@ -64,11 +64,14 @@ const itsme = document.querySelector( "#itsme" );
 
 itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
 
-itsme.click();
+elCmp.$setDAWURL( "//localhost/gridsound/daw/" );
 
+itsme.click();
 elCmp.$addCompositions( [
-	{ name: "cmp 001", bpm: 120, timedivision: "4/4", duration: 30 },
-	{ name: "cmp 002", bpm:  90, timedivision: "3/4", duration: 75 },
+	{ id: "cmp001", name: "cmp 001", bpm: 120, timedivision: "4/4", duration: 30 },
+	{ id: "cmp002", name: "cmp 002", bpm:  90, timedivision: "3/4", duration: 75, public: true },
+	{ id: "cmp003", name: "cmp 003", bpm: 135, timedivision: "4/4", duration: 67, public: true, opensource: true },
+	{ id: "cmp003", name: "cmp 003", bpm: 135, timedivision: "4/4", duration: 67, deleted: "2024" },
 ] );
 // elCmp.$clearCompositions();
 </script>

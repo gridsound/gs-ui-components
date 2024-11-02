@@ -1,7 +1,9 @@
 "use strict";
 
 class gsuiComPlaylist extends gsui0ne {
+	#dawURL = "";
 	#cmps = new Map();
+	#itsMe = false;
 
 	constructor() {
 		super( {
@@ -27,28 +29,61 @@ class gsuiComPlaylist extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "itsme": val !== "" && GSUsetAttribute( this, "bin", false ); break;
+			case "itsme":
+				this.#itsMe = val === "";
+				!this.#itsMe && GSUsetAttribute( this, "bin", false );
+				break;
 		}
 	}
 
 	// .........................................................................
+	$setDAWURL( url ) {
+		this.#dawURL = url;
+	}
 	$clearCompositions() {
 		GSUemptyElement( this.$elements.$listCmps );
 		GSUemptyElement( this.$elements.$listBin );
 		this.#setNbCmps( 0 );
 		this.#setNbBin( 0 );
+		this.#cmps.clear();
 	}
 	$changeCompositionProp( id, prop, val ) {
 		GSUsetAttribute( this.#cmps.get( id ), prop, val );
 	}
 	$addCompositions( arr ) {
-	}
-	$addCompositionsBin( arr ) {
+		arr.forEach( cmp => {
+			const elCmp = this.#createCmp( cmp );
+
+			this.#cmps.set( cmp.id, elCmp );
+			( cmp.deleted
+				? this.$elements.$listBin
+				: this.$elements.$listCmps
+			).append( elCmp );
+		} );
+		this.#setNbCmps( this.$elements.$listCmps.childElementCount );
+		this.#setNbBin( this.$elements.$listBin.childElementCount );
 	}
 
 	// .........................................................................
 	#setNbCmps( n ) { this.$elements.$headLinkCmps.firstChild.textContent = n; }
 	#setNbBin( n ) { this.$elements.$headLinkBin.firstChild.textContent = n; }
+	#createCmp( cmp ) {
+		const id = cmp.id;
+		const del = cmp.deleted;
+
+		return GSUcreateElement( "gsui-com-player", {
+			"data-id": id,
+			link: del ? false : `#/cmp/${ id }`,
+			dawlink: del ? false : `${ this.#dawURL }#${ id }`,
+			itsmine: this.#itsMe,
+			private: !cmp.public,
+			opensource: cmp.opensource,
+			name: cmp.name,
+			bpm: cmp.bpm,
+			duration: cmp.duration * 60 / cmp.bpm,
+			// actions: !this.#itsMe ? false : del ? "restore" : "fork delete",
+		} );
+	}
 }
 
 GSUdefineElement( "gsui-com-playlist", gsuiComPlaylist );
