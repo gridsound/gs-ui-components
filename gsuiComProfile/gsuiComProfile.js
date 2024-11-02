@@ -42,10 +42,11 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "email", "emailpublic", "emailtoverify", "username", "lastname", "firstname", "avatar" ];
+		return [ "itsme", "email", "emailpublic", "emailtoverify", "username", "lastname", "firstname", "avatar" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "itsme": val !== "" && GSUtoggleAttribute( this, "editing", false ); break;
 			case "email": this.$elements.$email.textContent = val; break;
 			case "emailpublic": this.$elements.$emailpub.dataset.icon = val === "" ? "public" : "private"; break;
 			case "username": this.$elements.$username.textContent = val; break;
