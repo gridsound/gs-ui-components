@@ -23,7 +23,10 @@ body {
 }
 #testWrap {
 	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
 	gap: 12px;
+	max-width: 230px;
 }
 </style>
 </head>
@@ -35,6 +38,7 @@ body {
 	<gsui-com-button text="Save" type="submit"></gsui-com-button>
 	<gsui-com-button text="Danger" type="danger"></gsui-com-button>
 	<gsui-com-button text="Loading..." loading></gsui-com-button>
+	<gsui-com-button text="Disabled" disabled></gsui-com-button>
 </div>
 <div id="TEST-CTRLS">
 </div>
