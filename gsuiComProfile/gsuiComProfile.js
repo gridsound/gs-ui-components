@@ -1,6 +1,9 @@
 "use strict";
 
 class gsuiComProfile extends gsui0ne {
+	#savingPromise = null;
+	#verifyPromise = null;
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiComProfile",
@@ -16,6 +19,7 @@ class gsuiComProfile extends gsui0ne {
 				$edit: ".gsuiComProfile-main-edit",
 				$form: ".gsuiComProfile-form",
 				$cancel: "gsui-com-button:not([type='submit'])",
+				$submit: "gsui-com-button[type='submit']",
 				$inputs: "[].gsuiComProfile-form input",
 			},
 			$attributes: {
@@ -23,38 +27,16 @@ class gsuiComProfile extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		this.$elements.$edit.onclick = this.#onclickEdit.bind( this );
+		this.$elements.$form.onsubmit = this.#onsubmit.bind( this );
+		this.$elements.$emailVerify.onclick = this.#onclickVerify.bind( this );
 		this.$elements.$avatar.onload = () => GSUsetAttribute( this, "hasavatar", true );
-		this.$elements.$form.onsubmit = e => {
-			const tar = e.target;
-
-			this.$dispatch( "edit", {
-				firstname: tar[ 0 ].value,
-				lastname: tar[ 1 ].value,
-				email: tar[ 2 ].value,
-				emailpublic: tar[ 3 ].checked,
-			} );
-			return false;
-		};
-		this.$elements.$emailVerify.onclick = () => {
-			if ( !GSUhasAttribute( this, "emailsent" ) && !GSUhasAttribute( this, "emailsending" ) ) {
-				this.$dispatch( "verifyEmail" );
-			}
-		};
 		this.$elements.$cancel.onclick = () => GSUsetAttribute( this, "editing", false );
-		this.$elements.$edit.onclick = () => {
-			if ( !GSUhasAttribute( this, "editing" ) ) {
-				this.$elements.$inputs[ 0 ].value = GSUgetAttribute( this, "firstname" );
-				this.$elements.$inputs[ 1 ].value = GSUgetAttribute( this, "lastname" );
-				this.$elements.$inputs[ 2 ].value = GSUgetAttribute( this, "email" );
-				this.$elements.$inputs[ 3 ].checked = GSUhasAttribute( this, "emailpublic" );
-			}
-			GSUtoggleAttribute( this, "editing" );
-		};
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "email", "emailpublic", "username", "lastname", "firstname", "emailtoverify", "avatar" ];
+		return [ "email", "emailpublic", "username", "lastname", "firstname", "avatar" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -68,6 +50,53 @@ class gsuiComProfile extends gsui0ne {
 				this.$elements.$avatar.src = val || "";
 				break;
 		}
+	}
+
+	// .........................................................................
+	$setSavingCallbackPromise( fn ) {
+		this.#savingPromise = fn;
+	}
+	$setVerifyEmailCallbackPromise( fn ) {
+		this.#verifyPromise = fn;
+	}
+
+	// .........................................................................
+	#onclickEdit() {
+		if ( !GSUhasAttribute( this, "editing" ) ) {
+			this.$elements.$inputs[ 0 ].value = GSUgetAttribute( this, "firstname" );
+			this.$elements.$inputs[ 1 ].value = GSUgetAttribute( this, "lastname" );
+			this.$elements.$inputs[ 2 ].value = GSUgetAttribute( this, "email" );
+			this.$elements.$inputs[ 3 ].checked = GSUhasAttribute( this, "emailpublic" );
+		}
+		GSUtoggleAttribute( this, "editing" );
+	}
+	#onclickVerify() {
+		if ( !GSUhasAttribute( this, "emailsent" ) && !GSUhasAttribute( this, "emailsending" ) ) {
+			GSUsetAttribute( this, "emailsending", true );
+			this.#verifyPromise?.()
+				.then( () => GSUsetAttribute( this, "emailsent", true ) )
+				.finally( () => GSUsetAttribute( this, "emailsending", false ) );
+		}
+	}
+	#onsubmit( e ) {
+		const tar = e.target;
+		const obj = {
+			firstname: tar[ 0 ].value,
+			lastname: tar[ 1 ].value,
+			email: tar[ 2 ].value,
+			emailpublic: tar[ 3 ].checked,
+		};
+
+		GSUsetAttribute( this.$elements.$submit, "loading", true );
+		this.#savingPromise?.( obj )
+			.then(
+				() => GSUsetAttribute( this, obj ),
+				err => lg( 'saving catch', err ),
+			).finally( () => {
+				GSUsetAttribute( this.$elements.$submit, "loading", false );
+				GSUsetAttribute( this, "editing", false );
+			} );
+		return false;
 	}
 }
 

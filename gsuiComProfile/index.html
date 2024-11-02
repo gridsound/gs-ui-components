@@ -88,6 +88,15 @@ emailpublic.click();
 emailtoverify.click();
 avatar.click();
 // document.querySelector( ".gsuiComProfile-main-edit" ).click();
+
+function promRes( obj ) {
+	return new Promise( ( res, rej ) => {
+		setTimeout( () => res(), 1000 );
+	} );
+}
+
+elCmp.$setSavingCallbackPromise( promRes );
+elCmp.$setVerifyEmailCallbackPromise( promRes );
 </script>
 </body>
 </html>
