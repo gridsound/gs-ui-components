@@ -3,6 +3,11 @@
 class gsuiComProfile extends gsui0ne {
 	#savingPromise = null;
 	#verifyPromise = null;
+	static #emailTexts = {
+		$verify: "Email not verify, send a confirmation email again",
+		$sending: "Email sending...",
+		$sent: "Email sent",
+	};
 
 	constructor() {
 		super( {
@@ -16,6 +21,7 @@ class gsuiComProfile extends gsui0ne {
 				$lastname: ".gsuiComProfile-main-lastname",
 				$firstname: ".gsuiComProfile-main-firstname",
 				$emailVerify: ".gsuiComProfile-main-email-not",
+				$emailVerifyText: ".gsuiComProfile-main-email-not span",
 				$edit: ".gsuiComProfile-main-edit",
 				$form: ".gsuiComProfile-form",
 				$cancel: "gsui-com-button:not([type='submit'])",
@@ -36,7 +42,7 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "email", "emailpublic", "username", "lastname", "firstname", "avatar" ];
+		return [ "email", "emailpublic", "emailtoverify", "username", "lastname", "firstname", "avatar" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -46,6 +52,7 @@ class gsuiComProfile extends gsui0ne {
 			case "lastname": this.$elements.$lastname.textContent = val; break;
 			case "firstname": this.$elements.$firstname.textContent = val; break;
 			case "avatar": GSUsetAttribute( this.$elements.$avatar, "src", val || false ); break;
+			case "emailtoverify": this.$elements.$emailVerifyText.textContent = val !== "" ? "" : gsuiComProfile.#emailTexts.$verify; break;
 		}
 	}
 
@@ -69,10 +76,12 @@ class gsuiComProfile extends gsui0ne {
 		GSUtoggleAttribute( this, "editing" );
 	}
 	#onclickVerify() {
-		if ( !GSUhasAttribute( this, "emailsent" ) && !GSUhasAttribute( this, "emailsending" ) ) {
+		if ( !GSUhasAttribute( this, "emailsending" ) ) {
 			GSUsetAttribute( this, "emailsending", true );
+			this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sending;
 			this.#verifyPromise?.()
-				.then( () => GSUsetAttribute( this, "emailsent", true ) )
+				.then( () => this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sent )
+				.catch( err => this.$elements.$emailVerifyText.textContent = err )
 				.finally( () => GSUsetAttribute( this, "emailsending", false ) );
 		}
 	}

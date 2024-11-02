@@ -107,17 +107,12 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	padding: 0;
 	background: none;
 }
-gsui-com-profile[ emailsending ] .gsuiComProfile-main-email-not,
-gsui-com-profile[ emailsent ] .gsuiComProfile-main-email-not {
+gsui-com-profile[ emailsending ] .gsuiComProfile-main-email-not {
 	cursor: default;
-}
-gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIcon {
-	display: none;
 }
 gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-email-not,
 gsui-com-profile:not( [ emailtoverify ] ) .gsuiComProfile-main-email-not,
-gsui-com-profile[ emailsent ] .gsuiComProfile-main-email-toSend,
-gsui-com-profile:not( [ emailsent ] ) .gsuiComProfile-main-email-sent {
+gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIcon {
 	display: none;
 }
 
