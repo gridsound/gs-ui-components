@@ -9,7 +9,7 @@ class gsuiComProfile extends gsui0ne {
 			$cmpName: "gsuiComProfile",
 			$tagName: "gsui-com-profile",
 			$elements: {
-				$avatar: ".gsuiComProfile-main-avatar img",
+				$avatar: "gsui-com-avatar",
 				$email: ".gsuiComProfile-main-email-addr span",
 				$emailpub: ".gsuiComProfile-main-email-addr .gsuiIcon",
 				$username: ".gsuiComProfile-main-username",
@@ -31,7 +31,6 @@ class gsuiComProfile extends gsui0ne {
 		this.$elements.$edit.onclick = this.#onclickEdit.bind( this );
 		this.$elements.$form.onsubmit = this.#onsubmit.bind( this );
 		this.$elements.$emailVerify.onclick = this.#onclickVerify.bind( this );
-		this.$elements.$avatar.onload = () => GSUsetAttribute( this, "hasavatar", true );
 		this.$elements.$cancel.onclick = () => GSUsetAttribute( this, "editing", false );
 	}
 
@@ -46,10 +45,7 @@ class gsuiComProfile extends gsui0ne {
 			case "username": this.$elements.$username.textContent = val; break;
 			case "lastname": this.$elements.$lastname.textContent = val; break;
 			case "firstname": this.$elements.$firstname.textContent = val; break;
-			case "avatar":
-				GSUsetAttribute( this, "hasavatar", false );
-				this.$elements.$avatar.src = val || "";
-				break;
+			case "avatar": GSUsetAttribute( this.$elements.$avatar, "src", val || false ); break;
 		}
 	}
 

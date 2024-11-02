@@ -30,27 +30,8 @@ gsui-com-profile[ itsme ] .gsuiComProfile-main {
 }
 
 /* .......................................................................... */
-.gsuiComProfile-main-avatar {
+gsui-com-profile gsui-com-avatar {
 	grid-area: avatar;
-	font-size: 72px;
-	color: #2e355b;
-	background-color: #0000000f;
-}
-.gsuiComProfile-main-avatar {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-}
-.gsuiComProfile-main-avatar img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 0;
-}
-gsui-com-profile:not( [ hasavatar ] ) .gsuiComProfile-main-avatar img,
-gsui-com-profile[ hasavatar ] .gsuiComProfile-main-avatar .gsuiIcon {
-	display: none;
 }
 
 /* .......................................................................... */
@@ -227,7 +208,7 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 		grid-template-columns: var( --gsuiComProfile-height ) 1fr;
 		grid-template-rows: var( --gsuiComProfile-height ) 34px;
 	}
-	.gsuiComProfile-main-avatar img {
+	gsui-com-profile gsui-com-avatar {
 		border-radius: 6px;
 	}
 }

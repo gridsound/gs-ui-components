@@ -2,10 +2,7 @@
 
 GSUsetTemplate( "gsui-com-profile", () => [
 	GSUcreateDiv( { class: "gsuiComProfile-main" },
-		GSUcreateDiv( { class: "gsuiComProfile-main-avatar" },
-			GSUcreateElement( "img", { src: "" } ),
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "musician" } ),
-		),
+		GSUcreateElement( "gsui-com-avatar" ),
 		GSUcreateDiv( { class: "gsuiComProfile-main-info" },
 			GSUcreateDiv( { class: "gsuiComProfile-main-username gsui-ellipsis" } ),
 			GSUcreateDiv( { class: "gsuiComProfile-main-fullname gsui-ellipsis" },
