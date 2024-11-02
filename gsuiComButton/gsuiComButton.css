@@ -20,6 +20,9 @@
 	100% { background-position: 28px; }
 }
 
+gsui-com-button {
+	padding-bottom: var( --btn-borderBottomWidth );
+}
 gsui-com-button[ loading ] {
 	pointer-events: none;
 }
@@ -47,7 +50,6 @@ gsui-com-button[ type="danger" ] {
 	text-align: center;
 	text-decoration: none;
 	background-color: var( --btn-colorA );
-	margin-bottom: var( --btn-borderBottomWidth );
 	box-shadow: 0 var( --btn-borderBottomWidth ) 0 var( --btn-colorB );
 	cursor: pointer;
 	transition:
@@ -74,7 +76,6 @@ gsui-com-button:not( [ loading ] ) .gsuiComButton-btn:disabled {
 	border-color: transparent;
 	transform: translate( 0, var( --btn-borderBottomWidth ) );
 	box-shadow: 0 0 0 var( --btn-colorB );
-/*	margin-bottom: 0;*/
 }
 .gsuiComButton-btn::before {
 	content: "";
