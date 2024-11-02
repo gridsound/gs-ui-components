@@ -14,7 +14,7 @@ GSUsetTemplate( "gsui-com-profile", () => [
 			),
 			GSUcreateDiv( { class: "gsuiComProfile-main-email" },
 				GSUcreateSpan( { class: "gsuiComProfile-main-email-addr" },
-					GSUcreateI( { class: "gsuiIcon" } ),
+					GSUcreateI( { class: "gsuiIcon", "data-icon": "private" } ),
 					GSUcreateSpan( { class: "gsui-ellipsis" } ),
 				),
 				GSUcreateButton( { class: "gsuiComProfile-main-email-not" },
