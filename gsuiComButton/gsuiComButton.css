@@ -1,0 +1,111 @@
+:root {
+	--btn-borderBottomWidth: 3px;
+	--btn-pressDuration: .05s;
+	--btn-colorDuration: .2s;
+	--btn-rippleDuration: .7s;
+	--btn-outline: 2px solid;
+	--btn-outlineColor: rgba( 255, 255, 255, .2 );
+	--btn-text: #fff;
+	--btn-font: sans-serif;
+	--btn-colorA: hsl( 0, 0%, 61% );
+	--btn-colorB: hsl( 0, 0%, 42% );
+	--btn-submit-colorA: hsl( 210, 100%, 56% );
+	--btn-submit-colorB: hsl( 210, 100%, 40% );
+	--btn-danger-colorA: hsl( 0, 68%, 53% );
+	--btn-danger-colorB: hsl( 0, 68%, 42% );
+}
+
+@keyframes gsuiComButton-loading-anim {
+	  0% { background-position: 0; }
+	100% { background-position: 28px; }
+}
+
+gsui-com-button[ loading ] {
+	pointer-events: none;
+}
+gsui-com-button[ type="submit" ] {
+	--btn-colorA: var( --btn-submit-colorA );
+	--btn-colorB: var( --btn-submit-colorB );
+}
+gsui-com-button[ type="danger" ] {
+	--btn-colorA: var( --btn-danger-colorA );
+	--btn-colorB: var( --btn-danger-colorB );
+}
+
+.gsuiComButton-btn {
+	display: inline-block;
+	position: relative;
+	box-sizing: border-box;
+	border: var( --btn-outline ) transparent;
+	outline: 0;
+	border-radius: 2px;
+	padding: .3em .7em;
+	color: var( --btn-text );
+	font-size: 14px;
+	font-weight: bold;
+	font-family: var( --btn-font );
+	text-align: center;
+	text-decoration: none;
+	background-color: var( --btn-colorA );
+	margin-bottom: var( --btn-borderBottomWidth );
+	box-shadow: 0 var( --btn-borderBottomWidth ) 0 var( --btn-colorB );
+	cursor: pointer;
+	transition:
+		var( --btn-colorDuration ) border-color,
+		var( --btn-pressDuration ) box-shadow,
+		var( --btn-pressDuration ) transform;
+}
+.gsuiComButton-btn:hover {
+	text-decoration: none;
+}
+.gsuiComButton-btn.rippleEffect-active .rippleEffect-circle {
+	transition-duration: var( --btn-rippleDuration );
+}
+.gsuiComButton-btn:disabled {
+	pointer-events: none;
+}
+gsui-com-button:not( [ loading ] ) .gsuiComButton-btn:disabled {
+	color: #fff9;
+}
+.gsuiComButton-btn:focus {
+	border-color: var( --btn-outlineColor );
+}
+.gsuiComButton-btn:active {
+	border-color: transparent;
+	transform: translate( 0, var( --btn-borderBottomWidth ) );
+	box-shadow: 0 0 0 var( --btn-colorB );
+/*	margin-bottom: 0;*/
+}
+.gsuiComButton-btn::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 10px,
+		#0002 10px,
+		#0002 20px
+	);
+	background-size: 28px;
+	opacity: 1;
+	animation: linear infinite .5s gsuiComButton-loading-anim;
+	transition: var( --btn-colorDuration );
+	transition-property; visibility, opacity;
+	visibility: hidden;
+	opacity: 0;
+}
+gsui-com-button[ loading ] .gsuiComButton-btn::before {
+	visibility: visible;
+	opacity: 1;
+}
+
+.gsuiComButton-text {
+	position: relative;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
