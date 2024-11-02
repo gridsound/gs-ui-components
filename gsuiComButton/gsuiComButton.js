@@ -1,6 +1,8 @@
 "use strict";
 
 class gsuiComButton extends gsui0ne {
+	#href = null;
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiComButton",
@@ -11,11 +13,16 @@ class gsuiComButton extends gsui0ne {
 		} );
 		Object.seal( this );
 		gsuiRipple.$init( this.$element );
+		this.$element.addEventListener( "click", () => {
+			if ( GSUhasAttribute( this, "href" ) ) {
+				window.location = this.#href;
+			}
+		} );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "text", "loading", "disabled", "type" ];
+		return [ "text", "loading", "disabled", "type", "href" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -23,6 +30,7 @@ class gsuiComButton extends gsui0ne {
 			case "loading": this.#updateDisabled(); break;
 			case "text": this.$element.firstChild.textContent = val; break;
 			case "type": this.$element.type = val === "submit" ? val : "button"; break;
+			case "href": this.#href = val; break;
 		}
 	}
 
