@@ -19,6 +19,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiComButton" } ),
 					GSUcreateOption( { value: "gsuiComProfile" } ),
 					GSUcreateOption( { value: "gsuiComPlayer" } ),
+					GSUcreateOption( { value: "gsuiComPlaylist" } ),
 					GSUcreateOption( { value: "" }, "--" ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWindows" } ),

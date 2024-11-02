@@ -1,0 +1,112 @@
+gsui-com-playlist {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* .......................................................................... */
+.gsuiComPlaylist-head {
+	display: flex;
+	gap: 20px;
+}
+.gsuiComPlaylist-head-btn {
+	display: flex;
+	gap: 6px;
+	border: 0;
+	padding: 0;
+	color: inherit;
+	font: inherit;
+	font-size: 14px;
+	text-decoration: none;
+	opacity: .3;
+	cursor: pointer;
+	background: none;
+}
+gsui-com-playlist:not( [ bin ] ) .gsuiComPlaylist-head-btn:first-child,
+gsui-com-playlist[ bin ] .gsuiComPlaylist-head-btn:last-child {
+	opacity: 1;
+}
+.gsuiComPlaylist-head-btn span:first-child {
+	font-weight: bold;
+}
+.gsuiComPlaylist-head-btn span:last-child {
+	opacity: .7;
+}
+
+/* .......................................................................... */
+gsui-com-playlist:not( [ itsme ] ) .gsuiComPlaylist-head-btn:last-child {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiComPlaylist-list {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+.gsuiComPlaylist-list:empty,
+gsui-com-playlist[ bin ] .gsuiComPlaylist-list[ data-list="cmps" ],
+gsui-com-playlist:not( [ bin ] ) .gsuiComPlaylist-list[ data-list="bin" ] {
+	display: none;
+}
+.gsuiComPlaylist-list[ data-list="bin" ] gsui-com-player {
+	opacity: .6;
+	--gsui-bg: #fff4;
+}
+
+/* .......................................................................... */
+.gsuiComPlaylist-placeh {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 40px;
+	gap: 20px;
+}
+.gsuiComPlaylist-placeh-text {
+	max-width: 360px;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	line-height: 1.6em;
+	opacity: .7;
+}
+.gsuiComPlaylist-placeh-draw {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100px;
+	height: 100px;
+	opacity: .5;
+}
+.gsuiComPlaylist-placeh-draw .gsuiIcon {
+	font-size: 60px;
+}
+
+/* .......................................................................... */
+gsui-com-playlist[ bin ] .gsuiComPlaylist-placeh[ data-list="cmps" ],
+gsui-com-playlist:not( [ bin ] ) .gsuiComPlaylist-placeh[ data-list="bin" ],
+.gsuiComPlaylist-list[ data-list="cmps" ]:not( :empty ) ~ .gsuiComPlaylist-placeh[ data-list="cmps" ],
+.gsuiComPlaylist-list[ data-list="bin" ]:not( :empty ) ~ .gsuiComPlaylist-placeh[ data-list="bin" ] {
+	display: none;
+}
+gsui-com-playlist:not( [ itsme ] ) .gsuiComPlaylist-placeh[ data-list="cmps" ] .gsuiComPlaylist-placeh-text span:last-child {
+	display: none;
+}
+.gsuiComPlaylist-placeh[ data-list="cmps" ] .gsuiComPlaylist-placeh-draw::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0;
+	height: 40%;
+	border-radius: 50%;
+	background-color: #fff3;
+}
+.gsuiComPlaylist-placeh[ data-list="bin" ] .gsuiComPlaylist-placeh-draw::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0;
+	height: 40%;
+	border-radius: 50%;
+	background-color: #fff3;
+}

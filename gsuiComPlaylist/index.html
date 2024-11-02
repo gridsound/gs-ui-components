@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiComAvatar/gsuiComAvatar.css"/>
+<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
+<link rel="stylesheet" href="../gsuiComPlayer/gsuiComPlayer.css"/>
+<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiComPlaylist.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+/*	--test-content-w: 320px;*/
+	--test-content-w: 530px;
+/*	--test-content-w: 700px;*/
+/*	--test-content-resize: horizontal;*/
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-com-playlist></gsui-com-playlist>
+</div>
+<div id="TEST-CTRLS">
+	<div><label><input id="itsme" type="checkbox" /> itsme</label></div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="../gsuiComAvatar/gsuiComAvatar.js"></script>
+<script src="../gsuiComButton/gsuiComButton.js"></script>
+<script src="../gsuiComPlayer/gsuiComPlayer.html.js"></script>
+<script src="../gsuiComPlayer/gsuiComPlayer.js"></script>
+<script src="../gsuiRipple/gsuiRipple.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiComPlaylist.html.js"></script>
+<script src="gsuiComPlaylist.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elCmp = document.querySelector( "gsui-com-playlist" );
+const itsme = document.querySelector( "#itsme" );
+
+itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
+
+itsme.click();
+
+elCmp.$addCompositions( [
+	{ name: "cmp 001", bpm: 120, timedivision: "4/4", duration: 30 },
+	{ name: "cmp 002", bpm:  90, timedivision: "3/4", duration: 75 },
+] );
+// elCmp.$clearCompositions();
+</script>
+</body>
+</html>
