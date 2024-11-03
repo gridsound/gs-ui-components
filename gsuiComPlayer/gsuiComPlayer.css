@@ -11,6 +11,12 @@ gsui-com-player {
 }
 gsui-com-player[ deleting ] { transform: translateX( 100% ) }
 gsui-com-player[ restoring ] { transform: translateX( -100% ) }
+gsui-com-player[ forking ] { animation: .25s gsuiComPlayer-forking-anim forwards; }
+
+@keyframes gsuiComPlayer-forking-anim {
+	  0% { height:  0   }
+	100% { height: 64px }
+}
 
 /* .......................................................................... */
 .gsuiComPlayer-btn {
