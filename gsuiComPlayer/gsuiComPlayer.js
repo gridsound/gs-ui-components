@@ -42,7 +42,7 @@ class gsuiComPlayer extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir" ];
+		return [ "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir", "actionloading" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -55,6 +55,10 @@ class gsuiComPlayer extends gsui0ne {
 			case "actionsdir":
 				this.#actionMenuDir = val;
 				this.#actionMenu?.$setDirection( val );
+				break;
+			case "actionloading":
+				GSUsetAttribute( this.$elements.$actionsBtn, "data-spin", val === "" ? "on" : false );
+				this.$elements.$actionsBtn.disabled = val === "";
 				break;
 			case "duration":
 				this.$elements.$dur.textContent = gsuiComPlayer.$calcDuration( val );
