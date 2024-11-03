@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiActionMenu/gsuiActionMenu.css"/>
 <link rel="stylesheet" href="../gsuiComAvatar/gsuiComAvatar.css"/>
 <link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
 <link rel="stylesheet" href="../gsuiComPlayer/gsuiComPlayer.css"/>
@@ -51,6 +52,8 @@ body {
 <script src="../gsuiComButton/gsuiComButton.js"></script>
 <script src="../gsuiComPlayer/gsuiComPlayer.html.js"></script>
 <script src="../gsuiComPlayer/gsuiComPlayer.js"></script>
+<script src="../gsuiActionMenu/getAbsPos.js"></script>
+<script src="../gsuiActionMenu/gsuiActionMenu.js"></script>
 <script src="../gsuiRipple/gsuiRipple.js"></script>
 
 <!-- ....................................................................... -->
@@ -62,17 +65,44 @@ body {
 const elCmp = document.querySelector( "gsui-com-playlist" );
 const itsme = document.querySelector( "#itsme" );
 
+const cmps = [
+	{ id: "cmp001", name: "cmp 001", bpm: 120, timedivision: "4/4", durationSec: 30 },
+	{ id: "cmp002", name: "cmp 002", bpm:  90, timedivision: "3/4", durationSec: 75, public: true },
+	{ id: "cmp003", name: "cmp 003", bpm: 135, timedivision: "4/4", durationSec: 67, public: true, opensource: true },
+	{ id: "cmp004", name: "cmp 004", bpm: 113, timedivision: "4/4", durationSec: 55, deleted: "2024" },
+];
+
+function promRes() {
+	return new Promise( ( res, rej ) => {
+		setTimeout( () => res(), 1000 );
+	} );
+}
+
+function forkRes( id ) {
+	const cmp = { ...cmps.find( cmp => cmp.id === id ) };
+
+	return new Promise( ( res, rej ) => {
+		setTimeout( () => res( cmp ), 1000 );
+	} );
+}
+
 itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
 
 elCmp.$setDAWURL( "//localhost/gridsound/daw/" );
+elCmp.$setForkCallbackPromise( forkRes );
+elCmp.$setDeleteCallbackPromise( promRes );
+elCmp.$setRestoreCallbackPromise( promRes );
 
 itsme.click();
 elCmp.$addCompositions( [
-	{ id: "cmp001", name: "cmp 001", bpm: 120, timedivision: "4/4", duration: 30 },
-	{ id: "cmp002", name: "cmp 002", bpm:  90, timedivision: "3/4", duration: 75, public: true },
-	{ id: "cmp003", name: "cmp 003", bpm: 135, timedivision: "4/4", duration: 67, public: true, opensource: true },
-	{ id: "cmp003", name: "cmp 003", bpm: 135, timedivision: "4/4", duration: 67, deleted: "2024" },
+	{ id: "cmp001", name: "cmp 001", bpm: 120, timedivision: "4/4", durationSec: 30 },
+	{ id: "cmp002", name: "cmp 002", bpm:  90, timedivision: "3/4", durationSec: 75, public: true },
+	{ id: "cmp003", name: "cmp 003", bpm: 135, timedivision: "4/4", durationSec: 67, public: true, opensource: true },
+	{ id: "cmp004", name: "cmp 004", bpm: 113, timedivision: "4/4", durationSec: 55, deleted: "2024" },
 ] );
+elCmp.$changeCompositionProp( "cmp002", "name", "cmp #twoooo2" );
+elCmp.$changeCompositionProp( "cmp002", "bpm", 92 );
+elCmp.$changeCompositionProp( "cmp002", "durationSec", 72 );
 // elCmp.$clearCompositions();
 </script>
 </body>
