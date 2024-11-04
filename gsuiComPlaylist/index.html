@@ -38,7 +38,11 @@ body {
 	<gsui-com-playlist></gsui-com-playlist>
 </div>
 <div id="TEST-CTRLS">
-	<div><label><input id="itsme" type="checkbox" /> itsme</label></div>
+	<form id="form" name="okay">
+		<div><label><input name="testWhoami" type="radio" value="" /> whoami=""</label></div>
+		<div><label><input name="testWhoami" type="radio" value="itsme" /> whoami="itsme"</label></div>
+		<div><label><input name="testWhoami" type="radio" value="itsme+" checked /> whoami="itsme+"</label></div>
+	</form>
 </div>
 
 <!-- ....................................................................... -->
@@ -63,7 +67,15 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elCmp = document.querySelector( "gsui-com-playlist" );
+const form = document.querySelector( "#form" );
 const itsme = document.querySelector( "#itsme" );
+
+GSUsetAttribute( elCmp, "whoami", "itsme+" );
+form.addEventListener( "change", e => {
+	if ( e.target.name === "testWhoami" ) {
+		GSUsetAttribute( elCmp, "whoami", e.target.value );
+	}
+} );
 
 const cmps = [
 	{ id: "cmp001", name: "cmp 001", bpm: 120, timedivision: "4/4", durationSec: 30 },
@@ -86,14 +98,11 @@ function forkRes( id ) {
 	} );
 }
 
-itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
-
 elCmp.$setDAWURL( "//localhost/gridsound/daw/" );
 elCmp.$setForkCallbackPromise( forkRes );
 elCmp.$setDeleteCallbackPromise( promRes );
 elCmp.$setRestoreCallbackPromise( promRes );
 
-itsme.click();
 elCmp.$addCompositions( [
 	{ id: "cmp001", name: "cmp 001", bpm: 120, timedivision: "4/4", durationSec: 30 },
 	{ id: "cmp002", name: "cmp 002", bpm:  90, timedivision: "3/4", durationSec: 75, public: true },

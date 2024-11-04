@@ -4,6 +4,7 @@ class gsuiComPlaylist extends gsui0ne {
 	#dawURL = "";
 	#cmps = new Map();
 	#itsMe = false;
+	#premium = false;
 	#forkPromise = null;
 	#deletePromise = null;
 	#restorePromise = null;
@@ -34,13 +35,17 @@ class gsuiComPlaylist extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "itsme" ];
+		return [ "whoami" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "itsme":
-				this.#itsMe = val === "";
-				!this.#itsMe && GSUsetAttribute( this, "bin", false );
+			case "whoami":
+				this.#itsMe = val === "itsme+" || val === "itsme";
+				this.#premium = val === "itsme+";
+				if ( !this.#premium ) {
+					GSUsetAttribute( this, "bin", false );
+				}
+				this.#updateAllCmpsActions();
 				break;
 		}
 	}
@@ -81,23 +86,40 @@ class gsuiComPlaylist extends gsui0ne {
 		const id = cmp.id;
 		const elCmp = GSUcreateElement( "gsui-com-player", {
 			"data-id": id,
-			itsmine: this.#itsMe,
 			private: !cmp.public,
 			opensource: cmp.opensource,
 			name: cmp.name,
 			bpm: cmp.bpm,
 			duration: cmp.durationSec,
+			deleted: !!cmp.deleted,
 		} );
 
-		this.#updateCmpLinks( elCmp, cmp.deleted );
+		this.#updateCmpLinks( elCmp );
 		return elCmp;
 	}
-	#updateCmpLinks( elCmp, del ) {
+	#updateCmpLinks( elCmp ) {
+		const del = GSUhasAttribute( elCmp, "deleted" );
+
 		GSUsetAttribute( elCmp, {
 			link: del ? false : `#/cmp/${ elCmp.dataset.id }`,
 			dawlink: del ? false : `${ this.#dawURL }#${ elCmp.dataset.id }`,
-			actions: !this.#itsMe ? "fork" : del ? "restore" : "fork delete",
 		} );
+		this.#updateCmpActions( elCmp );
+	}
+	#updateAllCmpsActions() {
+		this.querySelectorAll( "gsui-com-player" ).forEach( elCmp => this.#updateCmpActions( elCmp ) );
+	}
+	#updateCmpActions( elCmp ) {
+		const del = GSUhasAttribute( elCmp, "deleted" );
+		const isOpen = GSUhasAttribute( elCmp, "opensource" );
+		const isPrivate = GSUhasAttribute( elCmp, "private" );
+		const isVisible = !isPrivate && !isOpen;
+
+		GSUsetAttribute( elCmp, "itsmine", this.#itsMe );
+		GSUsetAttribute( elCmp, "actions",
+			del ? "restore" :
+			this.#premium ? `fork delete${ isPrivate ? "" : " private" }${ isOpen ? "" : " open" }${ isVisible ? "" : " visible" }` :
+			this.#itsMe ? "fork delete" : "fork" );
 	}
 
 	// .........................................................................
@@ -138,8 +160,9 @@ class gsuiComPlaylist extends gsui0ne {
 						: this.$elements.$listCmps.prepend( elCmp );
 					GSUsetAttribute( elCmp, attr, false );
 					GSUsetAttribute( elCmp, "actionloading", false );
+					GSUsetAttribute( elCmp, "deleted", del );
 					this.#updateNbCmps();
-					this.#updateCmpLinks( elCmp, del );
+					this.#updateCmpLinks( elCmp );
 				}, 350 );
 			} )
 			.catch( () => {

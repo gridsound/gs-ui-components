@@ -34,7 +34,7 @@ gsui-com-playlist[ bin ] .gsuiComPlaylist-head-btn:last-child {
 }
 
 /* .......................................................................... */
-gsui-com-playlist:not( [ itsme ] ) .gsuiComPlaylist-head-btn:last-child {
+gsui-com-playlist:not( [ whoami="itsme+" ] ) .gsuiComPlaylist-head-btn:last-child {
 	display: none;
 }
 
@@ -91,7 +91,7 @@ gsui-com-playlist:not( [ bin ] ) .gsuiComPlaylist-placeh[ data-list="bin" ],
 .gsuiComPlaylist-list[ data-list="bin" ]:not( :empty ) ~ .gsuiComPlaylist-placeh[ data-list="bin" ] {
 	display: none;
 }
-gsui-com-playlist:not( [ itsme ] ) .gsuiComPlaylist-placeh[ data-list="cmps" ] .gsuiComPlaylist-placeh-text span:last-child {
+gsui-com-playlist:not( [ whoami^="itsme" ] ) .gsuiComPlaylist-placeh[ data-list="cmps" ] .gsuiComPlaylist-placeh-text span:last-child {
 	display: none;
 }
 .gsuiComPlaylist-placeh[ data-list="cmps" ] .gsuiComPlaylist-placeh-draw::after {
