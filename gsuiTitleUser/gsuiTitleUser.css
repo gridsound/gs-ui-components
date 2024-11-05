@@ -166,6 +166,7 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 	align-items: center;
 	flex: 1;
 	border: 0;
+	outline: 0;
 	font-family: inherit;
 	cursor: pointer;
 	background: none;
@@ -195,7 +196,7 @@ gsui-titleuser:not( [ saved ] ):not( [ readonly ] ) .gsuiTitleUser-cmpName::befo
 	transition: .1s;
 	transition-property: width, margin-left, opacity;
 }
-.gsuiTitleUser-rename:hover .gsuiTitleUser-cmpEditIcon {
+gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover .gsuiTitleUser-cmpEditIcon {
 	width: 1.4ch;
 	margin-left: 4px;
 	opacity: 1;	

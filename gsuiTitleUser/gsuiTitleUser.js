@@ -29,7 +29,7 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$login.onclick = () => this.$dispatch( "login" );
 		this.$elements.$logout.onclick = () => this.$dispatch( "logout" );
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
-		this.$elements.$cmpEditBtn.onclick = () => GSUsetAttribute( this, "renaming", true );
+		this.$elements.$cmpEditBtn.onclick = () => !GSUhasAttribute( this, "readonly" ) && GSUsetAttribute( this, "renaming", true );
 		this.$elements.$cmpEditInp.onblur = e => GSUhasAttribute( this, "renaming" ) && this.#onkeydownRename( "Enter" );
 		this.$elements.$cmpEditInp.onkeydown = e => { e.stopPropagation(); this.#onkeydownRename( e.key ); };
 	}
