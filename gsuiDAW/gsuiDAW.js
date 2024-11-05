@@ -123,10 +123,7 @@ class gsuiDAW extends gsui0ne {
 				save: () => this.$dispatch( "save" ),
 				logout: () => this.$dispatch( "logout" ),
 				login: () => this.$showLoginPopup(),
-				rename: () => {
-					GSUpopup.$prompt( "Composition's title", "", GSUgetAttribute( this, "name" ), "Rename" )
-						.then( n => n && n !== GSUgetAttribute( this, "name" ) && this.$dispatch( "rename", n ) );
-				},
+				rename: d => this.$dispatch( "rename", d.args[ 0 ] ),
 			},
 		} );
 		GSUlistenEvents( this.$elements.$volume, {
