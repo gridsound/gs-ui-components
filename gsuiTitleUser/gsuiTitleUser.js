@@ -31,17 +31,7 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
 		this.$elements.$cmpEditBtn.onclick = () => GSUsetAttribute( this, "renaming", true );
 		this.$elements.$cmpEditInp.onblur = e => GSUhasAttribute( this, "renaming" ) && this.#onkeydownRename( "Enter" );
-		this.$elements.$cmpEditInp.onkeydown = e => this.#onkeydownRename( e.key );
-	}
-
-	#onkeydownRename( key ) {
-		switch ( key ) {
-			case "Enter":
-				if ( this.$elements.$cmpEditInp.value !== GSUgetAttribute( this, "cmpname" ) ) {
-					this.$dispatch( "rename", GSUtrim2( this.$elements.$cmpEditInp.value ) );
-				}
-			case "Escape": GSUsetAttribute( this, "renaming", false );
-		}
+		this.$elements.$cmpEditInp.onkeydown = e => { e.stopPropagation(); this.#onkeydownRename( e.key ); };
 	}
 
 	// .........................................................................
@@ -89,6 +79,15 @@ class gsuiTitleUser extends gsui0ne {
 
 		this.$elements.$cmpName.textContent = name;
 		document.title = GSUhasAttribute( this, "saved" ) ? title : `*${ title }`;
+	}
+	#onkeydownRename( key ) {
+		switch ( key ) {
+			case "Enter":
+				if ( this.$elements.$cmpEditInp.value !== GSUgetAttribute( this, "cmpname" ) ) {
+					this.$dispatch( "rename", GSUtrim2( this.$elements.$cmpEditInp.value ) );
+				}
+			case "Escape": GSUsetAttribute( this, "renaming", false );
+		}
 	}
 }
 
