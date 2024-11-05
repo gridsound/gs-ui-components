@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
+<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiPopup.colors.default.css"/>
+<link rel="stylesheet" href="gsuiPopup.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-resize: none;
+}
+#testWrap {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	gap: 12px;
+	max-width: 230px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-com-button text="alert"></gsui-com-button>
+	<gsui-com-button text="confirm"></gsui-com-button>
+	<gsui-com-button text="prompt"></gsui-com-button>
+	<gsui-com-button text="custom" type="submit"></gsui-com-button>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="../gsuiRipple/gsuiRipple.js"></script>
+<script src="../gsuiComButton/gsuiComButton.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiPopup.html.js"></script>
+<script src="gsuiPopup.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+document.querySelector( "gsui-com-button[text='alert']" ).onclick = () => {
+	GSUpopup.$alert( "Error 2025", "Should reboot everything!" )
+		.then( ( ...args ) => lg( "GSUpopup.$alert", args ) );
+};
+document.querySelector( "gsui-com-button[text='confirm']" ).onclick = () => {
+	GSUpopup.$confirm( "Error 2025", "Should we reboot the system?" )
+		.then( ( ...args ) => lg( "GSUpopup.$confirm", args ) );
+};
+document.querySelector( "gsui-com-button[text='prompt']" ).onclick = () => {
+	GSUpopup.$prompt( "Error 2025", "Name the new report:", "Lorem ipsum" )
+		.then( ( ...args ) => lg( "GSUpopup.$prompt", args ) );
+};
+
+const customContent = (
+	GSUcreateElement( "fieldset", { style: "display:flex; flex-direction:column; gap:6px" },
+		GSUcreateElement( "legend", null, "custom content" ),
+		GSUcreateLabel( { style: "display:flex; align-items:center" },
+			GSUcreateSpan( { style: "width:100px" }, "username" ),
+			GSUcreateInput( { type: "text", nane: "username", required: true, style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
+		),
+		GSUcreateLabel( { style: "display:flex; align-items:center" },
+			GSUcreateSpan( { style: "width:100px" }, "password" ),
+			GSUcreateInput( { type: "password", nane: "password", required: true, style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
+		),
+	)
+);
+
+document.querySelector( "gsui-com-button[text='custom']" ).onclick = () => {
+	GSUpopup.$custom( {
+		title: "Custom title",
+		noOverlayCancel: true,
+		element: customContent,
+		submit: GSUnoop,
+		cancel: "Cancel",
+	} )
+		.then( ( ...args ) => lg( "GSUpopup.$custom", args ) );
+};
+
+document.querySelector( "gsui-com-button[text='custom']" ).click();
+</script>
+</body>
+</html>

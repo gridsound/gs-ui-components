@@ -23,6 +23,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "" }, "--" ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWindows" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPopup" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPanels" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiClock" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiTempo" } ),
