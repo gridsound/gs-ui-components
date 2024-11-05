@@ -89,7 +89,7 @@ class gsuiPopup extends gsui0ne {
 		this.#type = type;
 		this.#isOpen = true;
 		this.$elements.header.textContent = title;
-		this.$elements.msg.innerHTML = msg || "";
+		this.$elements.msg.textContent = msg || "";
 		this.$elements.text.value = arguments.length > 3 ? value : "";
 		this.$elements.window.dataset.type = type;
 		this.classList.add( "gsuiPopup-show" );
