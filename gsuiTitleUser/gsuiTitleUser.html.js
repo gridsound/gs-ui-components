@@ -21,5 +21,6 @@ GSUsetTemplate( "gsui-titleuser", () => [
 			GSUcreateI(    { class: "gsuiTitleUser-cmpEditIcon gsuiIcon", "data-icon": "pen", inert: true } ),
 			GSUcreateSpan( { class: "gsuiTitleUser-cmpDur", inert: true } ),
 		),
+		GSUcreateInput( { class: "gsuiTitleUser-rename-inp", type: "text", placeholder: "Untitled..." } ),
 	),
 ] );

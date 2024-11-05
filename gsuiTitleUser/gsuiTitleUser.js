@@ -13,6 +13,7 @@ class gsuiTitleUser extends gsui0ne {
 				$username: ".gsuiTitleUser-username",
 				$avatar: ".gsuiTitleUser-avatar",
 				$cmpEditBtn: ".gsuiTitleUser-rename",
+				$cmpEditInp: ".gsuiTitleUser-rename-inp",
 				$cmpName: ".gsuiTitleUser-cmpName",
 				$cmpDur: ".gsuiTitleUser-cmpDur",
 				$login: ".gsuiTitleUser-login",
@@ -28,12 +29,24 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$login.onclick = () => this.$dispatch( "login" );
 		this.$elements.$logout.onclick = () => this.$dispatch( "logout" );
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
-		this.$elements.$cmpEditBtn.onclick = () => this.$dispatch( "rename" );
+		this.$elements.$cmpEditBtn.onclick = () => GSUsetAttribute( this, "renaming", true );
+		this.$elements.$cmpEditInp.onblur = e => GSUhasAttribute( this, "renaming" ) && this.#onkeydownRename( "Enter" );
+		this.$elements.$cmpEditInp.onkeydown = e => this.#onkeydownRename( e.key );
+	}
+
+	#onkeydownRename( key ) {
+		switch ( key ) {
+			case "Enter":
+				if ( this.$elements.$cmpEditInp.value !== GSUgetAttribute( this, "cmpname" ) ) {
+					this.$dispatch( "rename", GSUtrim2( this.$elements.$cmpEditInp.value ) );
+				}
+			case "Escape": GSUsetAttribute( this, "renaming", false );
+		}
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "username", "avatar", "cmpname", "cmpdur", "just-saved", "saved", "saving", "connecting", "disconnecting" ];
+		return [ "name", "username", "avatar", "cmpname", "cmpdur", "just-saved", "saved", "saving", "connecting", "disconnecting", "renaming" ];
 		// "connected"
 	}
 	$attributeChanged( prop, val ) {
@@ -58,6 +71,12 @@ class gsuiTitleUser extends gsui0ne {
 				if ( val === "" ) {
 					clearTimeout( this.#justSavedTimeout );
 					this.#justSavedTimeout = setTimeout( () => GSUsetAttribute( this, "just-saved", false ), 2500 );
+				}
+				break;
+			case "renaming":
+				if ( val === "" ) {
+					this.$elements.$cmpEditInp.value = GSUgetAttribute( this, "cmpname" );
+					this.$elements.$cmpEditInp.focus();
 				}
 				break;
 		}

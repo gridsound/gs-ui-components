@@ -80,6 +80,15 @@ longUser.onclick = () => {
 	GSUsetAttribute( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
 };
 
+GSUlistenEvents( elCmp, {
+	gsuiTitleUser: {
+		rename: d => {
+			lg( `rename: [${ d.args[ 0 ] }]` );
+			GSUsetAttribute( elCmp, "cmpname", d.args[ 0 ] );
+		},
+	},
+} );
+
 longUser.click();
 longUser.click();
 connected.click();

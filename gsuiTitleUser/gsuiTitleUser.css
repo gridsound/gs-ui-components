@@ -138,6 +138,28 @@ gsui-titleuser[ just-saved ] .gsuiTitleUser-justSaved {
 }
 
 /* .......................................................................... */
+.gsuiTitleUser-rename-inp {
+	flex: 1;
+	border: 0;
+	outline: 0;
+	font: inherit;
+	font-size: 14px;
+	font-family: monospace;
+	font-style: italic;
+	padding: 0 6px;
+	background: none;
+}
+.gsuiTitleUser-rename-inp::placeholder {
+	color: inherit;
+	font-style: italic;
+	opacity: .5;
+}
+gsui-titleuser[ renaming ] .gsuiTitleUser-rename,
+gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
+	display: none;
+}
+
+/* .......................................................................... */
 .gsuiTitleUser-rename {
 	overflow: hidden;
 	display: flex;
@@ -177,9 +199,6 @@ gsui-titleuser:not( [ saved ] ):not( [ readonly ] ) .gsuiTitleUser-cmpName::befo
 	width: 1.4ch;
 	margin-left: 4px;
 	opacity: 1;	
-}
-.gsuiTitleUser-cmpDur {
-
 }
 .gsuiTitleUser-cmpDur::before {
 	content: "·";
