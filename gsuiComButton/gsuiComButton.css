@@ -21,7 +21,7 @@
 }
 
 gsui-com-button {
-	padding-bottom: var( --btn-borderBottomWidth );
+	height: 28px;
 }
 gsui-com-button[ loading ] {
 	pointer-events: none;
@@ -39,10 +39,11 @@ gsui-com-button[ type="danger" ] {
 	display: inline-block;
 	position: relative;
 	box-sizing: border-box;
+	height: calc( 100% - var( --btn-borderBottomWidth ) );
 	border: var( --btn-outline ) transparent;
 	outline: 0;
 	border-radius: 2px;
-	padding: .3em .7em;
+	padding: 0 10px;
 	color: var( --btn-text );
 	font-size: 14px;
 	font-weight: bold;
