@@ -79,11 +79,11 @@ const customContent = (
 		GSUcreateElement( "legend", null, "custom content" ),
 		GSUcreateLabel( { style: "display:flex; align-items:center" },
 			GSUcreateSpan( { style: "width:100px" }, "username" ),
-			GSUcreateInput( { type: "text", nane: "username", required: true, style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
+			GSUcreateInput( { type: "text", name: "username", required: true, placeholder: "neo", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
 		),
 		GSUcreateLabel( { style: "display:flex; align-items:center" },
 			GSUcreateSpan( { style: "width:100px" }, "password" ),
-			GSUcreateInput( { type: "password", nane: "password", required: true, style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
+			GSUcreateInput( { type: "password", name: "password", required: true, placeholder: "1234", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
 		),
 	)
 );
@@ -91,12 +91,11 @@ const customContent = (
 document.querySelector( "gsui-com-button[text='custom']" ).onclick = () => {
 	GSUpopup.$custom( {
 		title: "Custom title",
+		cancel: "Cancel",
 		noOverlayCancel: true,
 		element: customContent,
-		submit: GSUnoop,
-		cancel: "Cancel",
-	} )
-		.then( ( ...args ) => lg( "GSUpopup.$custom", args ) );
+		submit: obj => obj.username.toLowerCase() === "neo" && obj.password === "1234",
+	} ).then( ( ...args ) => lg( "GSUpopup.$custom", args ) );
 };
 
 document.querySelector( "gsui-com-button[text='custom']" ).click();
