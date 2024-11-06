@@ -1,4 +1,6 @@
 gsui-popup {
+	--gsuiPopup-bg: #555;
+	--gsuiPopup-header-bg: #333;
 	display: flex;
 	position: fixed;
 	align-items: center;
@@ -22,8 +24,8 @@ gsui-popup:not( .gsuiPopup-show ) {
 .gsuiPopup-window {
 	position: relative;
 	overflow: hidden;
-	min-width: var( --gsuiPopup-minWidth );
-	border-radius: var( --gsuiPopup-radius );
+	min-width: 250px;
+	border-radius: 4px;
 	background-color: var( --gsuiPopup-bg );
 	outline: 0;
 	box-shadow: 0 0 50px #000;
@@ -47,21 +49,25 @@ gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
 }
 
 .gsuiPopup-head {
-	padding: var( --gsuiPopup-padding );
-	font-size: var( --gsuiPopup-header-fontSize );
+	padding: 10px;
+	font-size: 16px;
 	background-color: var( --gsuiPopup-header-bg );
 }
 .gsuiPopup-body {
-	font-size: var( --gsuiPopup-body-fontSize );
-	padding: var( --gsuiPopup-padding );
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-size: 14px;
+	padding: 10px;
 }
 .gsuiPopup-content:not( :empty ) + .gsuiPopup-message,
-.gsuiPopup-content:not( :empty ) ~ input {
+.gsuiPopup-content:not( :empty ) ~ input,
+.gsuiPopup-content:empty,
+.gsuiPopup-message:empty {
 	display: none;
 }
 
-.gsuiPopup-inputText,
-.gsuiPopup-btns input {
+.gsuiPopup-inputText {
 	padding: .6em 1.25em;
 	border: 0;
 	border-radius: 4px;
@@ -82,21 +88,9 @@ gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
 	height: 32px;
 }
 .gsuiPopup-btns {
-	margin-top: var( --gsuiPopup-padding );
-	text-align: center;
-}
-.gsuiPopup-btns input {
-	color: #fff;
-	font-weight: bold;
-	font-family: inherit;
-	background-color: var( --gsuiPopup-btn-bg );
-	cursor: pointer;
-}
-.gsuiPopup-btns input + input {
-	margin-left: var( --gsuiPopup-padding );
-}
-.gsuiPopup-btns .gsuiPopup-ok {
-	background-color: var( --gsuiPopup-btnOk-bg );
+	display: flex;
+	justify-content: center;
+	gap: 10px;
 }
 
 /* .......................................................................... */
@@ -112,7 +106,7 @@ gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
 	flex-direction: column;
 	border: 2px solid #444;
 	border-radius: 4px;
-	margin-bottom: 10px;
+	margin: 0;
 }
 .gsuiPopup-content legend {
 	font-size: 12px;

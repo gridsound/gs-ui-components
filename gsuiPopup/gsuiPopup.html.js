@@ -9,8 +9,8 @@ GSUsetTemplate( "gsui-popup", () => [
 			GSUcreateDiv( { class: "gsuiPopup-message" } ),
 			GSUcreateInput( { class: "gsuiPopup-inputText", type: "text" } ),
 			GSUcreateDiv( { class: "gsuiPopup-btns" },
-				GSUcreateInput( { type: "button", class: "gsuiPopup-cancel", value: "Cancel" } ),
-				GSUcreateInput( { type: "submit", class: "gsuiPopup-ok", value: "Ok" } ),
+				GSUcreateElement( "gsui-com-button", { class: "gsuiPopup-cancel", text: "Cancel" } ),
+				GSUcreateElement( "gsui-com-button", { class: "gsuiPopup-ok", text: "Ok", type: "submit" } ),
 			),
 		),
 	)
