@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
+<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
 <link rel="stylesheet" href="../gsuiPopup/gsuiPopup.css"/>
 <link rel="stylesheet" href="../gsuiAnalyserHist/gsuiAnalyserHist.css"/>
 <link rel="stylesheet" href="../gsuiPanels/gsuiPanels.css"/>
@@ -32,7 +34,6 @@
 <link rel="stylesheet" href="gsuiDAW-area-wins.css"/>
 <link rel="stylesheet" href="gsuiDAW-area-help.css"/>
 <link rel="stylesheet" href="gsuiDAW-area-vers.css"/>
-<link rel="stylesheet" href="gsuiDAW-popup-auth.css"/>
 <link rel="stylesheet" href="gsuiDAW-popup-about.css"/>
 <link rel="stylesheet" href="gsuiDAW-popup-export.css"/>
 <link rel="stylesheet" href="gsuiDAW-popup-settings.css"/>
@@ -66,6 +67,8 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
+<script src="../gsuiRipple/gsuiRipple.js"></script>
+<script src="../gsuiComButton/gsuiComButton.js"></script>
 <script src="../gsuiPopup/gsuiPopup.html.js"></script>
 <script src="../gsuiPopup/gsuiPopup.js"></script>
 <script src="../gsuiAnalyserHz/gsuiAnalyserHz.js"></script>
@@ -88,7 +91,6 @@ body {
 
 <!-- ....................................................................... -->
 <script src="gsuiDAW.html.js"></script>
-<script src="gsuiDAW-popup-auth.html.js"></script>
 <script src="gsuiDAW-popup-about.html.js"></script>
 <script src="gsuiDAW-popup-export.html.js"></script>
 <script src="gsuiDAW-popup-settings.html.js"></script>
@@ -100,8 +102,6 @@ const el = document.querySelector( "gsui-daw" );
 
 GSUsetAttribute( el, {
 	version: "3.14.15",
-	// logged: true,
-	// logging: true,
 	// focus: "down",
 	saved: false,
 	samplerate: 48000,
@@ -110,7 +110,6 @@ GSUsetAttribute( el, {
 	bpm: 240,
 	composition: "id-composition-864f16we1sv",
 	// windowslowgraphics: true,
-	// saving: true,
 } );
 
 el.$toggleWindow( "main", true );

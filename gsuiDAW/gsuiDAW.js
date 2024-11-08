@@ -1,14 +1,9 @@
 "use strict";
 
 class gsuiDAW extends gsui0ne {
-	$onSubmitLogin = GSUnoop;
 	$clock = null;
 	#timeSelecting = false;
 	#popups = {
-		auth: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-auth" ), {
-			root: ".gsuiDAW-popup-auth",
-			error: ".gsuiDAW-popup-auth-error",
-		} ),
 		about: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-about" ), {
 			root: ".gsuiDAW-popup-about",
 			version: ".gsuiDAW-popup-about-versionNum",
@@ -121,8 +116,6 @@ class gsuiDAW extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiTitleUser: {
 				save: () => this.$dispatch( "save" ),
-				logout: () => this.$dispatch( "logout" ),
-				login: () => this.$showLoginPopup(),
 				rename: d => this.$dispatch( "rename", d.args[ 0 ] ),
 			},
 		} );
@@ -161,9 +154,7 @@ class gsuiDAW extends gsui0ne {
 			"bpm",
 			"currenttime",
 			"duration",
-			"errauth",
 			"exporting",
-			"logging",
 			"maxtime",
 			"name",
 			"playing",
@@ -176,15 +167,8 @@ class gsuiDAW extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "errauth":
-				this.#popups.auth.error.textContent = val;
-				break;
 			case "exporting":
 				this.#popups.export.progress.value = val;
-				break;
-			case "logging":
-				GSUsetAttribute( this.$elements.$titleUser, "connecting", val !== null );
-				GSUsetAttribute( this.$elements.$titleUser, "disconnecting", val !== null );
 				break;
 			case "name":
 				GSUsetAttribute( this.$elements.$titleUser, "cmpname", val );
@@ -249,32 +233,6 @@ class gsuiDAW extends gsui0ne {
 		if ( win === "patterns" ) {
 			GSUsetAttribute( this.$elements.$body, "resources-hidden", !b );
 		}
-	}
-	$showLoginPopup() {
-		GSUpopup.$custom( {
-			ok: "Sign in",
-			title: "Authentication",
-			element: this.#popups.auth.root,
-			submit: obj => this.$onSubmitLogin( obj.email, obj.password ),
-		} ).then( () => {
-			this.#popups.auth.root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
-		} );
-	}
-	$login( u ) {
-		GSUsetAttribute( this.$elements.$titleUser, {
-			name: `${ u.firstname } ${ u.lastname }`,
-			avatar: u.avatar,
-			username: u.username,
-			connected: true,
-		} );
-	}
-	$logout() {
-		GSUsetAttribute( this.$elements.$titleUser, {
-			name: false,
-			avatar: false,
-			username: false,
-			connected: false,
-		} );
 	}
 
 	// .........................................................................
