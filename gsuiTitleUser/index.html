@@ -12,6 +12,11 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
+<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
+<link rel="stylesheet" href="../gsuiPopup/gsuiPopup.css"/>
+
+<!-- ....................................................................... -->
 <link rel="stylesheet" href="gsuiTitleUser.css"/>
 
 <!-- ....................................................................... -->
@@ -49,6 +54,12 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
+<script src="../gsuiRipple/gsuiRipple.js"></script>
+<script src="../gsuiComButton/gsuiComButton.js"></script>
+<script src="../gsuiPopup/gsuiPopup.html.js"></script>
+<script src="../gsuiPopup/gsuiPopup.js"></script>
+
+<!-- ....................................................................... -->
 <script src="gsuiTitleUser.html.js"></script>
 <script src="gsuiTitleUser.js"></script>
 
@@ -79,6 +90,12 @@ longUser.onclick = () => {
 	GSUsetAttribute( elCmp, "name", isShort ? "John Wick (the hitman)" : "John" );
 	GSUsetAttribute( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
 };
+
+const logout0 = () => new Promise( ( res, rej ) => setTimeout( () => rej(), 1000 ) );
+const logout1 = () => new Promise( ( res, rej ) => setTimeout( () => res(), 1000 ) );
+
+elCmp.$setLogoutCallbackPromise( logout0 );
+// elCmp.$setLogoutCallbackPromise( logout1 );
 
 GSUlistenEvents( elCmp, {
 	gsuiTitleUser: {

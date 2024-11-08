@@ -2,6 +2,12 @@
 
 class gsuiTitleUser extends gsui0ne {
 	#justSavedTimeout = null;
+	#loginPromise = null;
+	#logoutPromise = null;
+	#loginPopup = GSUfindElements( GSUgetTemplate( "gsui-titleuser-popup" ), {
+		$root: ".gsuiTitleUser-popup",
+		$error: ".gsuiTitleUser-popup-error",
+	} );
 
 	constructor() {
 		super( {
@@ -26,8 +32,8 @@ class gsuiTitleUser extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$login.onclick = () => this.$dispatch( "login" );
-		this.$elements.$logout.onclick = () => this.$dispatch( "logout" );
+		this.$elements.$login.onclick = this.#onclickLogin.bind( this );
+		this.$elements.$logout.onclick = this.#onclickLogout.bind( this );
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
 		this.$elements.$cmpEditBtn.onclick = () => !GSUhasAttribute( this, "readonly" ) && GSUsetAttribute( this, "renaming", true );
 		this.$elements.$cmpEditInp.onblur = e => GSUhasAttribute( this, "renaming" ) && this.#onkeydownRename( "Enter" );
@@ -73,12 +79,54 @@ class gsuiTitleUser extends gsui0ne {
 	}
 
 	// .........................................................................
+	$showLoginPopup() { return this.#onclickLogin(); }
+	$setLoginCallbackPromise( fn ) { this.#loginPromise = fn; }
+	$setLogoutCallbackPromise( fn ) { this.#logoutPromise = fn; }
+	$setUserInfo( me ) {
+		GSUsetAttribute( this, {
+			name: !me ? "" : `${ me.firstname } ${ me.lastname }`,
+			avatar: !me ? "" : me.avatar,
+			username: !me ? "" : me.username,
+			connected: !!me,
+		} );
+		return me;
+	}
+
+	// .........................................................................
 	#updateCmpName() {
 		const name = GSUgetAttribute( this, "cmpname" );
 		const title = name || "GridSound";
 
 		this.$elements.$cmpName.textContent = name;
 		document.title = GSUhasAttribute( this, "saved" ) ? title : `*${ title }`;
+	}
+	#onclickLogout() {
+		GSUsetAttribute( this, "disconnecting", true );
+		return this.#logoutPromise?.()
+			.then( () => this.$setUserInfo( null ) )
+			.finally( () => GSUsetAttribute( this, "disconnecting", false ) );
+	}
+	#onclickLogin() {
+		return GSUpopup.$custom( {
+			ok: "Sign in",
+			title: "Authentication",
+			element: this.#loginPopup.$root,
+			submit: this.#onsubmitLogin.bind( this ),
+		} ).then( () => {
+			this.#loginPopup.$root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
+			GSUsetAttribute( this, "connecting", false );
+			return GSUhasAttribute( this, "connected" );
+		} );
+	}
+	#onsubmitLogin( obj ) {
+		GSUsetAttribute( this, "connecting", true );
+		this.#loginPopup.$error.textContent = "";
+		return this.#loginPromise?.( obj.email, obj.password )
+			.then( me => this.$setUserInfo( me ) )
+			.catch( res => {
+				this.#loginPopup.$error.textContent = res.msg;
+				return false;
+			} );
 	}
 	#onkeydownRename( key ) {
 		switch ( key ) {

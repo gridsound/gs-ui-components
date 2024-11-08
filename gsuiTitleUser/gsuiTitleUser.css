@@ -205,3 +205,19 @@ gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover .gsuiTitleUser-cm
 	content: "·";
 	margin: 4px;
 }
+
+/* .......................................................................... */
+.gsuiTitleUser-popup {
+	width: 340px;
+}
+.gsuiTitleUser-popup a {
+	font-size: 11px;
+}
+.gsuiTitleUser-popup-error {
+	margin-top: 12px;
+	font-size: 12px;
+	color: #ed9a8b;
+}
+.gsuiTitleUser-popup-error:empty {
+	display: none;
+}

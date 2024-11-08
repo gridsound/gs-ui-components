@@ -24,3 +24,31 @@ GSUsetTemplate( "gsui-titleuser", () => [
 		GSUcreateInput( { class: "gsuiTitleUser-rename-inp", type: "text", placeholder: "Untitled..." } ),
 	),
 ] );
+
+GSUsetTemplate( "gsui-titleuser-popup", () =>
+	GSUcreateDiv( { class: "gsuiTitleUser-popup" },
+		GSUcreateElement( "fieldset", null,
+			GSUcreateElement( "legend", null, "Sign in" ),
+			GSUcreateDiv( { class: "gsuiPopup-row" },
+				GSUcreateDiv( { class: "gsuiPopup-row-title" },
+					GSUcreateSpan( null, "Username" ),
+					GSUcreateElement( "br" ),
+					GSUcreateElement( "small", null, "(or email)" ),
+				),
+				GSUcreateDiv( { class: "gsuiPopup-row-values" },
+					GSUcreateInput( { class: "gsuiPopup-inputText", required: true, name: "email", type: "text" } ),
+				),
+			),
+			GSUcreateDiv( { class: "gsuiPopup-row" },
+				GSUcreateDiv( { class: "gsuiPopup-row-title" }, "Password" ),
+				GSUcreateDiv( { class: "gsuiPopup-row-values" },
+					GSUcreateInput( { class: "gsuiPopup-inputText", required: true, name: "password", type: "password" } ),
+				),
+			),
+			GSUcreateDiv( { class: "gsuiTitleUser-popup-error" } ),
+		),
+		GSUcreateAExt( { href: "https://gridsound.com/#/forgotPassword" }, "Forgot password ?" ),
+		GSUcreateElement( "br" ),
+		GSUcreateAExt( { href: "https://gridsound.com/#/auth" }, "Create a new account" ),
+	)
+);
