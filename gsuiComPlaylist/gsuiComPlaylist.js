@@ -99,10 +99,11 @@ class gsuiComPlaylist extends gsui0ne {
 	}
 	#updateCmpLinks( elCmp ) {
 		const del = GSUhasAttribute( elCmp, "deleted" );
+		const open = GSUhasAttribute( elCmp, "opensource" );
 
 		GSUsetAttribute( elCmp, {
 			link: del ? false : `#/cmp/${ elCmp.dataset.id }`,
-			dawlink: del ? false : `${ this.#dawURL }#${ elCmp.dataset.id }`,
+			dawlink: del || !( this.#itsMe || open ) ? false : `${ this.#dawURL }#${ elCmp.dataset.id }`,
 		} );
 		this.#updateCmpActions( elCmp );
 	}
