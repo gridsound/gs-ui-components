@@ -3,6 +3,7 @@
 class gsuiEffects extends gsui0ne {
 	$askData = GSUnoop;
 	#fxsHtml = new Map();
+	#actionMenu = new gsuiActionMenu();
 	static #fxsMap = Object.freeze( {
 		delay: { cmp: "gsui-fx-delay", name: "Delay" },
 		filter: { cmp: "gsui-fx-filter", name: "Filter" },
@@ -19,10 +20,7 @@ class gsuiEffects extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
-		this.$elements.$addBtn.onclick = () => this.$elements.$addSelect.value = "";
-		this.$elements.$addSelect.onchange = this.#onchangeAddSelect.bind( this );
-		this.$elements.$addSelect.onkeydown = GSUnoopFalse;
+		this.#initActionMenu();
 		new gsuiReorder( {
 			rootElement: this,
 			direction: "column",
@@ -112,12 +110,16 @@ class gsuiEffects extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onchangeAddSelect() {
-		const type = this.$elements.$addSelect.value;
-
-		this.$elements.$addSelect.blur();
-		this.$elements.$addSelect.value = "";
-		this.$dispatch( "addEffect", type );
+	#initActionMenu() {
+		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn );
+		this.#actionMenu.$setDirection( "bottom" );
+		this.#actionMenu.$setMaxSize( "260px", "180px" );
+		this.#actionMenu.$setCallback( act => this.$dispatch( "addEffect", act ) );
+		this.#actionMenu.$setActions( [
+			{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
+			{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },
+			{ id: "waveshaper", name: "WaveShaper", desc: "Distortion" },
+		] );
 	}
 }
 
