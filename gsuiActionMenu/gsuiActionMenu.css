@@ -1,52 +1,5 @@
-.gsuiActionMenu {
-	--brd-color: #444;
-	--brd: 2px solid var( --brd-color );
-	z-index: 2;
-	position: absolute;
-	box-sizing: border-box;
-	display: flex;
-	max-width: 260px;
-	max-height: 260px;
-	box-shadow: 0 4px 10px 5px #0003;
-	opacity: 0;
-	visibility: hidden;
-	transition: .2s;
-	transition-property: opacity, visibility;
-}
-.gsuiActionMenu[ data-open ] {
-	opacity: 1;
-	visibility: visible;
-}
-
-/* .......................................................................... */
 .gsuiActionMenu-actions {
-	position: relative;
 	overflow: auto;
-	width: 100%;
-	padding: 4px;
-	border: var( --brd );
-	border-radius: 4px;
-	background-color: #444;
-}
-.gsuiActionMenu-arrow {
-	content: "";
-	position: absolute;
-	box-sizing: border-box;
-	top: -3px;
-	left: 50%;
-	width: 8px;
-	height: 8px;
-	margin-top: -4px;
-	margin-left: -4px;
-	border: var( --brd );
-	border-right: 0;
-	border-bottom: 0;
-	border-radius: 2px 0 0 0;
-	background-color: var( --brd-color );
-	transform: rotate( 45deg );
-}
-.gsuiActionMenu[ data-dir^="top" ] .gsuiActionMenu-arrow {
-	transform: rotate( 225deg );
 }
 
 /* .......................................................................... */
