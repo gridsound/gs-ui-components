@@ -1,6 +1,12 @@
 "use strict";
 
 class gsuiTempo extends gsui0ne {
+	#dropdown = new gsuiDropdown();
+	#popup = GSUfindElements( GSUgetTemplate( "gsui-tempo-dropdown" ), {
+		$form: ".gsuiTempo-popup",
+		$bpmTap: ".gsuiTempo-tap",
+	} );
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiTempo",
@@ -9,8 +15,6 @@ class gsuiTempo extends gsui0ne {
 				$btn: ".gsuiTempo-btn",
 				$bpm: ".gsuiTempo-bpm",
 				$timediv: ".gsuiTempo-timeDivision",
-				$popup: ".gsuiTempo-popup",
-				$bpmTap: ".gsuiTempo-tap",
 			},
 			$attributes: {
 				timedivision: "4/4",
@@ -18,10 +22,12 @@ class gsuiTempo extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$btn.onclick = this.$onclickBtn.bind( this );
-		this.$elements.$popup.onsubmit = this.$onsubmitPopup.bind( this );
-		this.$elements.$popup.onkeydown = e => e.stopPropagation();
-		this.$elements.$bpmTap.onclick = () => this.$elements.$popup[ 2 ].value = gswaBPMTap.$tap();
+		this.#dropdown.$setDirection( "bottom" );
+		this.#dropdown.$bindTargetElement( this.$elements.$btn );
+		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
+		this.#popup.$form.onsubmit = this.$onsubmitPopup.bind( this );
+		this.#popup.$form.onkeydown = e => e.stopPropagation();
+		this.#popup.$bpmTap.onclick = () => this.#popup.$form[ 2 ].value = gswaBPMTap.$tap();
 	}
 
 	// .........................................................................
@@ -31,41 +37,40 @@ class gsuiTempo extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "bpm":
-				this.$elements.$popup[ 2 ].value =
+				this.#popup.$form[ 2 ].value =
 				this.$elements.$bpm.textContent = val;
 				break;
 			case "timedivision": {
 				const div = GSUsplitNums( val, "/" );
 
-				this.$elements.$popup[ 0 ].value =
-				this.$elements.$timediv.firstChild.textContent = div[ 0 ];
-				this.$elements.$popup[ 1 ].value =
-				this.$elements.$timediv.lastChild.textContent = div[ 1 ];
+				this.#popup.$form[ 0 ].value = this.$elements.$timediv.firstChild.textContent = div[ 0 ];
+				this.#popup.$form[ 1 ].value = this.$elements.$timediv.lastChild.textContent = div[ 1 ];
 			} break;
 		}
 	}
 
 	// .........................................................................
-	$onclickBtn() {
-		const f = this.$elements.$popup;
-		const div = GSUsplitNums( GSUgetAttribute( this, "timedivision" ), "/" );
+	#createPopup() {
+		const f = this.#popup.$form;
+		const time = GSUsplitNums( GSUgetAttribute( this, "timedivision" ), "/" );
 
-		f[ 0 ].value = div[ 0 ];
-		f[ 1 ].value = div[ 1 ];
+		f[ 0 ].value = time[ 0 ];
+		f[ 1 ].value = time[ 1 ];
 		f[ 2 ].value = GSUgetAttributeNum( this, "bpm" );
+		return f;
 	}
 	$onsubmitPopup( e ) {
 		const f = e.target;
-		const div = `${ f[ 0 ].value }/${ f[ 1 ].value }`;
+		const time = `${ f[ 0 ].value }/${ f[ 1 ].value }`;
 		const bpm = f[ 2 ].value;
 
-		if ( div !== GSUgetAttribute( this, "timedivision" ) || bpm !== GSUgetAttribute( this, "bpm" ) ) {
+		if ( time !== GSUgetAttribute( this, "timedivision" ) || bpm !== GSUgetAttribute( this, "bpm" ) ) {
 			this.$dispatch( "change", {
 				bpm: +bpm,
-				timedivision: div,
+				timedivision: time,
 			} );
 		}
-		document.activeElement.blur();
+		this.#dropdown.$close();
 		return false;
 	}
 }

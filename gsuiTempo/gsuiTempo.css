@@ -43,56 +43,15 @@ gsui-tempo {
 
 /* .......................................................................... */
 .gsuiTempo-popup {
-	position: absolute;
-	z-index: 1;
-	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	top: calc( 100% + 4px );
-	left: 50%;
-	width: 260px;
-	margin-top: -10px;
-	margin-left: -130px;
-	outline: 0;
-	border: 2px solid var( --gsui-clock-bg );
-	border-radius: 4px;
-	padding: 8px;
-	background-color: var( --gsui-app-head-bg );
-	box-shadow: 0 4px 10px 5px #0003;
-	visibility: hidden;
-	opacity: 0;
-	transition: .2s;
-	transition-property: opacity, visibility, margin-top;
-	pointer-events: none;
 }
-.gsuiTempo-btn:focus + .gsuiTempo-popup,
-.gsuiTempo-popup:focus-within {
-	visibility: visible;
-	opacity: 1;
-	margin-top: 0;
-	pointer-events: auto;
-}
-
-.gsuiTempo-popup::before {
-	content: "";
-	position: absolute;
-	top: -5px;
-	left: calc( 50% - 3px );
-	width: 6px;
-	height: 6px;
-	border: inherit;
-	border-right: 0;
-	border-bottom: 0;
-	border-radius: 2px;
-	transform: rotate( 45deg );
-	background-color: inherit;
-}
-
 .gsuiTempo-row {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 6px;
 	height: 24px;
 }
 .gsuiTempo-popup label {

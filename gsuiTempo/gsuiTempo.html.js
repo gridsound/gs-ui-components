@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-tempo", () => [
+GSUsetTemplate( "gsui-tempo", () =>
 	GSUcreateButton( { class: "gsuiTempo-btn", title: "Edit the time signature and BPM" },
 		GSUcreateDiv( { class: "gsuiTempo-timeDivision" },
 			GSUcreateSpan( { class: "gsuiTempo-beatsPerMeasure" } ),
@@ -8,6 +8,9 @@ GSUsetTemplate( "gsui-tempo", () => [
 		),
 		GSUcreateSpan( { class: "gsuiTempo-bpm" } ),
 	),
+);
+
+GSUsetTemplate( "gsui-tempo-dropdown", () =>
 	GSUcreateElement( "form", { class: "gsuiTempo-popup", tabindex: -1 },
 		GSUcreateDiv( { class: "gsuiTempo-row" },
 			GSUcreateLabel( null, "Beats per measure" ),
@@ -28,4 +31,4 @@ GSUsetTemplate( "gsui-tempo", () => [
 			GSUcreateButton( { type: "submit" }, "Ok" ),
 		),
 	),
-] );
+);
