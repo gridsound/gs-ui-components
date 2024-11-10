@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
+<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
+
+<!-- ....................................................................... -->
 <link rel="stylesheet" href="gsuiActionMenu.css"/>
 
 <!-- ....................................................................... -->
@@ -27,14 +31,15 @@ body {
 #testWrap {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 16px;
 	align-items: start;
 }
 .btnLines {
 	display: flex;
-	gap: 8px;
+	gap: 16px;
 }
 .btnWrap {
+	display: flex;
 	position: relative;
 }
 </style>
@@ -44,14 +49,14 @@ body {
 <!-- ....................................................................... -->
 <div id="TEST">
 	<div class="btnLines">
-		<span class="btnWrap"><button id="btn-bottom-right">bottom right</button></span>
-		<span class="btnWrap"><button id="btn-bottom">bottom</button></span>
-		<span class="btnWrap"><button id="btn-bottom-left">bottom left</button></span>
+		<span class="btnWrap"><gsui-com-button id="btn-bottom-right" text="bottom right"></gsui-com-button></span>
+		<span class="btnWrap"><gsui-com-button id="btn-bottom" text="bottom"></gsui-com-button></span>
+		<span class="btnWrap"><gsui-com-button id="btn-bottom-left" text="bottom left"></gsui-com-button></span>
 	</div>
 	<div class="btnLines">
-		<span class="btnWrap"><button id="btn-top-right">top right</button></span>
-		<span class="btnWrap"><button id="btn-top">top</button></span>
-		<span class="btnWrap"><button id="btn-top-left">top left</button></span>
+		<span class="btnWrap"><gsui-com-button id="btn-top-right" text="top right"></gsui-com-button></span>
+		<span class="btnWrap"><gsui-com-button id="btn-top" text="top"></gsui-com-button></span>
+		<span class="btnWrap"><gsui-com-button id="btn-top-left" text="top left"></gsui-com-button></span>
 	</div>
 </div>
 <div id="TEST-CTRLS">
@@ -64,6 +69,10 @@ body {
 
 <!-- ....................................................................... -->
 <script src="../gsui0ne/gsui0ne.js"></script>
+<script src="../gsuiRipple/gsuiRipple.js"></script>
+<script src="../gsuiComButton/gsuiComButton.js"></script>
+
+<!-- ....................................................................... -->
 <script src="gsuiActionMenu.js"></script>
 <script src="getAbsPos.js"></script>
 
