@@ -2,6 +2,7 @@ body {
 	color-scheme: dark;
 	color: #fff;
 	--gsui-ovl-1: #ffffff08;
+	--gsui-col-Q: #d7b;
 	--gsui-col-pan: #ae9ce5;
 	--gsui-col-pan-l: #faa;
 	--gsui-col-pan-r: #aaf;
@@ -10,6 +11,7 @@ body {
 	--gsui-col-detune: #fff;
 	--gsui-col-unison: #f95;
 	--gsui-col-lowpass: #d96;
+	--gsui-col-frequency: #8c8;
 	--gsui-col-currentTimeCursor: #ff9;
 	--gsui-col-pattern: #5ac;
 	--gsui-col-pattern8: #5acb;

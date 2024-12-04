@@ -39,19 +39,19 @@ gsui-fx-filter {
 }
 .gsuiFxFilter-areaGain {
 	grid-area: gain;
-	--gsuiSlider-lineColor: var( --gsuiFxFilter-gain );
+	--gsuiSlider-lineColor: var( --gsui-col-gain );
 }
 .gsuiFxFilter-areaQ {
 	grid-area: Q;
-	--gsuiSlider-lineColor: var( --gsuiFxFilter-Q );
+	--gsuiSlider-lineColor: var( --gsui-col-Q );
 }
 .gsuiFxFilter-areaDetune {
 	grid-area: detune;
-	--gsuiSlider-lineColor: var( --gsuiFxFilter-detune );
+	--gsuiSlider-lineColor: var( --gsui-col-detune );
 }
 .gsuiFxFilter-areaFrequency {
 	grid-area: frequency;
-	--gsuiSlider-lineColor: var( --gsuiFxFilter-frequency );
+	--gsuiSlider-lineColor: var( --gsui-col-frequency );
 }
 
 /* .......................................................................... */
@@ -66,14 +66,14 @@ gsui-fx-filter {
 }
 .gsuiFxFilter-areaGraph .gsuiFxFilter-area-content {
 	border-radius: 4px;
-	background-color: rgba( 0, 0, 0, .5 );
+	background-color: var( --gsui-screen-graph );
 }
 gsui-fx-filter .gsuiCurves-curve {
 	color: currentColor;
 	opacity: .25;
 }
 gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
-	color: var( --gsuiFxFilter-frequency );
+	color: var( --gsui-col-frequency );
 	opacity: 1;
 }
 
@@ -91,7 +91,7 @@ gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
 	outline: 0;
 	padding: 0;
 	cursor: pointer;
-	stroke: var( --gsuiFxFilter-gain );
+	stroke: var( --gsui-col-gain );
 	stroke-width: 1.5px;
 	background-color: var( --gsui-slider-bg );
 }
@@ -101,7 +101,7 @@ gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
 }
 .gsuiFxFilter-areaType-btnSelected {
 	stroke: #222;
-	background-color: var( --gsuiFxFilter-gain );
+	background-color: var( --gsui-col-gain );
 }
 .gsuiFxFilter-areaType-btn svg {
 	position: absolute;

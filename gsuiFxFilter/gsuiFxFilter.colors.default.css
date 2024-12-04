@@ -1,6 +1,0 @@
-gsui-fx-filter {
-	--gsuiFxFilter-Q: #d7b;
-	--gsuiFxFilter-gain: var( --gsui-col-gain );
-	--gsuiFxFilter-detune: var( --gsui-col-detune );
-	--gsuiFxFilter-frequency: #8c8;
-}
