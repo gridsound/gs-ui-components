@@ -82,7 +82,7 @@ gsui-oscillator[ wave="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 	display: flex;
 	flex: 1;
 	border-radius: 3px;
-	background-color: #0006;
+	background-color: var( --gsui-screen-graph );
 }
 .gsuiOscillator-waveWrap-left {
 	flex: 1;
