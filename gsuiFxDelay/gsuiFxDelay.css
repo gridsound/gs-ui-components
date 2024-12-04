@@ -7,7 +7,6 @@ gsui-fx-delay {
 	min-width: 160px;
 	min-height: 110px;
 	padding: 8px;
-	--gsuiSlider-lineColor: var( --gsuiFxDelay-slider );
 }
 
 /* .......................................................................... */
@@ -61,7 +60,7 @@ gsui-fx-delay {
 	overflow: hidden;
 	flex: 1;
 	border-radius: 6px;
-	background-color: var( --gsuiFxDelay-graph-bg );
+	background-color: var( --gsui-screen-graph );
 }
 .gsuiFxDelay-graph-lines {
 	position: absolute;
