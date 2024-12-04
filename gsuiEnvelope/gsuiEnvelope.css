@@ -11,6 +11,8 @@ gsui-envelope {
 		/1fr    1fr   1fr   1fr      1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
+	--gsuiEnvelope-wave-off: #777;
+	--gsuiEnvelope-ctrls-color: #ff9;
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 }
 
@@ -56,7 +58,7 @@ gsui-envelope .gsuiSlider-eventCatcher {
 	position: relative;
 	overflow: hidden;
 	border-radius: 4px;
-	background-color: var( --gsuiEnvelope-wave-bg );
+	background-color: var( --gsui-screen-graph );
 }
 gsui-envelope gsui-envelope-graph {
 	position: absolute;
