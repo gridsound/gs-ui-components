@@ -12,8 +12,10 @@ gsui-lfo {
 		/32px 1fr   1fr    1fr   1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
-	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
+	--gsuiLFO-wave-off: #777;
+	--gsuiLFO-ctrls-bg: #555;
 	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
+	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
 }
 
 /* .......................................................................... */
@@ -76,7 +78,7 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	position: relative;
 	overflow: hidden;
 	border-radius: 4px;
-	background-color: var( --gsuiLFO-wave-bg );
+	background-color: var( --gsui-screen-graph );
 }
 .gsuiLFO-ampSigns {
 	position: absolute;
