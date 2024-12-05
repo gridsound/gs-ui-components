@@ -6,7 +6,6 @@ gsui-synthesizer {
 	box-sizing: border-box;
 	height: 100%;
 	scrollbar-width: thin;
-	scrollbar-color: #ddd #222;
 }
 
 /* .......................................................................... */
