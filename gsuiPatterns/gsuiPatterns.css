@@ -62,7 +62,7 @@ gsui-patterns {
 	gap: 4px;
 	padding: 0 6px;
 	font-size: 11px;
-	background-color: var( --gsui-win-head-bg );
+	background-color: var( --gsui-head2-bg );
 }
 .gsuiPatterns-panel:not( :first-child ) .gsuiPatterns-panel-menu {
 	height: 26px;

@@ -125,5 +125,5 @@ gsui-tempo {
 	font-size: 12px;
 	font-weight: 600;
 	cursor: pointer;
-	background-color: #67a;
+	background-color: var( --gsui-btn-playPause-bg );
 }

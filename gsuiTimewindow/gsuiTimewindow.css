@@ -114,7 +114,7 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	justify-content: flex-end;
 	gap: 2px;
 	padding-right: 4px;
-	background-color: var( --gsui-win-head2-bg );
+	background-color: var( --gsui-head3-bg );
 }
 .gsuiTimewindow-panelContent,
 .gsuiTimewindow-mainBody {

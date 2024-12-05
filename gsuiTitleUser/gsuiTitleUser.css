@@ -94,10 +94,10 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 	display: flex;
 	height: 20px;
 	border-radius: 4px;
-	background-color: #67a;
+	background-color: var( --gsui-btn-cmp-bg );
 }
 gsui-titleuser[ readonly ] .gsuiTitleUser-cmp {
-	background-color: #a66;
+	background-color: var( --gsui-btn-cmp-readonly-bg );
 }
 
 /* .......................................................................... */

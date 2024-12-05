@@ -8,7 +8,8 @@ gsui-analyser-vu {
 	position: relative;
 	flex: 1;
 	height: 100%;
-	background-color: #222;
+	background-color: var( --gsui-screen-spectrum );
+	filter: var( --gsui-screen-spectrum-filter );
 }
 
 .gsuiAnalyserVu-meter-val {

@@ -4,5 +4,5 @@
 }
 
 .gsuiDAW-btn[ data-action="about" ] {
-	--gsui-color: var( --gsuiDAW-about-color );
+	--gsui-color: var( --gsui-btn-about-txt );
 }

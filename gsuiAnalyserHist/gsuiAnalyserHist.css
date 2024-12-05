@@ -6,6 +6,7 @@ gsui-analyser-hist {
 	overflow: hidden;
 	height: 100%;
 	background-color: var( --gsui-screen-spectrum );
+	filter: var( --gsui-screen-spectrum-filter );
 }
 
 gsui-analyser-hz canvas,

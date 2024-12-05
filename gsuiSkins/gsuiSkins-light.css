@@ -2,26 +2,48 @@ body[ data-skin="white" ] {
 	color-scheme: light;
 	color: #222;
 	--gsui-ovl-1: #0000000b;
+	/* ................................ */
 	--gsui-col-pan: #f69;
 	--gsui-col-gain: #77d;
 	--gsui-col-time: #f77;
 	--gsui-col-detune: #111;
 	--gsui-col-unison: #f95;
 	--gsui-col-lowpass: #d96;
+	/* ................................ */
 	--gsui-col-currentTimeCursor: #000;
+	/* ................................ */
 	--gsui-col-pattern: #5ac;
 	--gsui-col-pattern8: #77dc;
 	--gsui-col-pattern2: #77d4;
 	--gsui-col-patternSelected: #f88;
 	--gsui-col-patternSelected8: #0009;
+	/* ................................ */
 	--gsui-app-bg: #fff;
-	--gsui-app-head-bg: #ddd;
-	--gsui-win-head-bg: #a5a5a5;
-	--gsui-win-head2-bg: #c3c3c3;
-	--gsui-win-head2-brd: #999;
+	--gsui-head1-bg: #e4e4e4;
+	--gsui-head2-bg: #ddd;
+	--gsui-head3-bg: #c9c9c9;
+	--gsui-head3-brd: #999;
 	--gsui-win-brd: #999;
 	--gsui-win-brd-foc: #77d;
 	--gsui-win-close: #ba5d5d;
+	/* ................................ */
+	--gsui-screen-spectrum: #000;
+	--gsui-screen-spectrum-filter: invert( 1 ) hue-rotate( 320deg );
+	--gsui-screen-graph: #d8d8d8;
+	/* ................................ */
+	--gsui-btn-openWin-bg: #0002;
+	--gsui-btn-openWin-open-bg: #a7357e;
+	--gsui-btn-playPause-bg: #d194ff;
+	--gsui-btn-default-bg: #0002;
+	--gsui-btn-cmp-bg: #d194ff;
+	--gsui-btn-cmp-readonly-bg: #f97777;
+	--gsui-btn-history-bg: #bbb;
+	--gsui-btn-export-txt: #ad2c51;
+	--gsui-btn-about-txt: #ad2c51;
+	--gsui-main-currentTime-bg: #fff9;
+	--gsui-main-currentTime-lineColor: #ab7ad0;
+	--gsui-main-currentTime-lineBgColor: #0003;
+	--gsui-clock-bg: #fff9;
 	--gsui-timewin-bg: #abe2f0;
 	--gsui-timeline-bg: #fff;
 	--gsui-timeline-loop-bg: #c87e9a;

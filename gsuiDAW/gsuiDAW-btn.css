@@ -24,7 +24,7 @@
 }
 
 .gsuiDAW-btnBg {
-	background-color: var( --gsuiDAW-btn-bg );
+	background-color: var( --gsui-btn-default-bg );
 }
 .gsuiDAW-btnBg:hover {
 	background-color: #fff3;
@@ -34,7 +34,7 @@
 	color: var( --gsui-color );
 }
 .gsuiDAW-btnColor:hover {
-	color: var( --gsui-app-head-bg );
+	color: var( --gsui-head1-bg );
 	background-color: var( --gsui-color );
 }
 

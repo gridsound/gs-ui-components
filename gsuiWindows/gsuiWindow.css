@@ -86,7 +86,7 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	position: absolute;
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
-	background-color: var( --gsui-win-head-bg );
+	background-color: var( --gsui-head2-bg );
 }
 gsui-window[ dragging ] .gsuiWindow-head {
 	cursor: move;

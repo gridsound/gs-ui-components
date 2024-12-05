@@ -2,7 +2,7 @@
 	grid-area: areaVisu;
 }
 .gsuiDAW-history {
-	background-color: var( --gsuiDAW-history-bg );
+	background-color: var( --gsui-btn-history-bg );
 }
 .gsuiDAW-btn[ data-action="redo" ] {
 	margin-left: -4px;
@@ -15,5 +15,5 @@ gsui-daw gsui-analyser-hz {
 	background-color: #000;
 }
 .gsuiDAW-btn[ data-action="export" ] {
-	--gsui-color: var( --gsuiDAW-export-color );
+	--gsui-color: var( --gsui-btn-export-txt );
 }

@@ -6,13 +6,13 @@
 .gsuiDAW-areaWins .gsuiDAW-btn {
 	flex: 1;
 	font-size: 11px;
-	background-color: var( --gsuiDAW-head-winBtn-bg );
+	background-color: var( --gsui-btn-openWin-bg );
 }
 .gsuiDAW-areaWins .gsuiDAW-btn + .gsuiDAW-btn {
 	margin-left: 0;
 	border-left: 1px dashed rgba( 0, 0, 0, .2 );
 }
 .gsuiDAW-areaWins .gsuiDAW-btn[ data-open ] {
-	color: var( --gsui-app-head-bg );
-	background-color: var( --gsuiDAW-head-winBtn-open-bg );
+	color: var( --gsui-head1-bg );
+	background-color: var( --gsui-btn-openWin-open-bg );
 }

@@ -2,12 +2,12 @@
 	grid-area: areaCtrl;
 }
 .gsuiDAW-playPauseStop {
-	background-color: var( --gsuiDAW-playPauseStop-bg );
+	background-color: var( --gsui-btn-playPause-bg );
 }
 .gsuiDAW-volume {
 	width: 6px;
 	--gsuiSlider-lineRadius: 4px;
-	--gsuiSlider-lineColor: var( --gsuiDAW-playPauseStop-bg );
+	--gsuiSlider-lineColor: var( --gsui-btn-playPause-bg );
 	--gsuiSlider-lineBgColor: #222;
 }
 .gsuiDAW-volume .gsuiSlider-eventCatcher {

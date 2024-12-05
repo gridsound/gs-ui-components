@@ -9,6 +9,11 @@ gsui-daw {
 	height: 100%;
 	font-size: 16px;
 	background-color: var( --gsui-app-bg );
+	--gsuiDAW-winBtn-bg: #0004;
+	--gsuiDAW-winBtn-chan-color: #ce93d8;
+	--gsuiDAW-winBtn-synth-color: #a5d6a7;
+	--gsuiDAW-winBtn-slices-color: #e29d8a;
+	--gsuiDAW-winBtn-pattern-color: #81d4fa;
 }
 
 /* .......................................................................... */
@@ -21,7 +26,7 @@ gsui-daw {
 		"areaUser    areaTime    areaWins    areaVers" 20px
 		/min-content min-content min-content 1fr;
 	border-bottom: 2px solid var( --gsui-win-brd );
-	background-color: var( --gsui-app-head-bg );
+	background-color: var( --gsui-head1-bg );
 }
 .gsuiDAW-area {
 	display: flex;
