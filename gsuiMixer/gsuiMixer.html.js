@@ -22,6 +22,7 @@ GSUsetTemplate( "gsui-mixer", () =>
 				GSUcreateSpan( { class: "gsuiMixer-head-title" }, "effects" ),
 			),
 			GSUcreateElement( "gsui-effects" ),
+			GSUcreateDiv( { class: "gsuiMixer-bottomShadow", inert: true } ),
 		),
 	),
 );

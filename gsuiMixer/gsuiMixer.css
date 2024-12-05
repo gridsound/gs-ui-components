@@ -38,6 +38,14 @@ gsui-mixer {
 }
 
 /* .......................................................................... */
+.gsuiMixer-bottomShadow {
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	height: 50px;
+}
+
+/* .......................................................................... */
 .gsuiMixer-analyserTypes {
 	margin-left: 10px;
 	display: flex;

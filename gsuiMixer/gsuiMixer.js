@@ -30,6 +30,11 @@ class gsuiMixer extends gsui0ne {
 					this.#shadowChans.$update();
 				},
 			},
+			gsuiEffect: {
+				expand: () => {
+					setTimeout( () => this.#shadowEffects.$update(), 100 );
+				},
+			},
 		} );
 	}
 
@@ -43,6 +48,7 @@ class gsuiMixer extends gsui0ne {
 		this.#shadowEffects = new gsuiScrollShadow( {
 			scrolledElem: this.$elements.$effects,
 			topShadow: this.querySelector( ".gsuiMixer-effects .gsuiMixer-head" ),
+			bottomShadow: this.querySelector( ".gsuiMixer-effects .gsuiMixer-bottomShadow" ),
 		} );
 	}
 	$disconnected() {
