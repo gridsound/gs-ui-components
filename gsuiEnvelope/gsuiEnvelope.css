@@ -12,7 +12,7 @@ gsui-envelope {
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
 	--gsuiEnvelope-wave-off: #777;
-	--gsuiEnvelope-ctrls-color: #ff9;
+	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 }
 
