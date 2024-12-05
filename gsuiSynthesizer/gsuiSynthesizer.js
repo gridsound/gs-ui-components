@@ -3,6 +3,7 @@
 class gsuiSynthesizer extends gsui0ne {
 	#waveList = [];
 	#uiOscs = new Map();
+	#shadow = null;
 
 	constructor() {
 		super( {
@@ -58,6 +59,18 @@ class gsuiSynthesizer extends gsui0ne {
 				},
 			},
 		} );
+	}
+
+	// .........................................................................
+	$connected() {
+		this.#shadow = new gsuiScrollShadow( {
+			scrolledElem: this.querySelector( ".gsuiSynthesizer-scrollArea" ),
+			topShadow: this.querySelector( ".gsuiSynthesizer-shadowTop" ),
+			bottomShadow: this.querySelector( ".gsuiSynthesizer-shadowBottom" ),
+		} );
+	}
+	$disconnected() {
+		this.#shadow.$disconnected();
 	}
 
 	// .........................................................................

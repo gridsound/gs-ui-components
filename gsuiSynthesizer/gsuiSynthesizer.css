@@ -1,11 +1,24 @@
 gsui-synthesizer {
 	display: flex;
 	flex-direction: column;
-	overflow: auto;
+	overflow: hidden;
 	position: relative;
 	box-sizing: border-box;
 	height: 100%;
-	scrollbar-width: thin;
+}
+
+/* .......................................................................... */
+.gsuiSynthesizer-shadowTop,
+.gsuiSynthesizer-shadowBottom {
+	position: absolute;
+	width: 100%;
+	height: 50px;
+}
+.gsuiSynthesizer-shadowTop { bottom: 100% }
+.gsuiSynthesizer-shadowBottom { top: 100% }
+.gsuiSynthesizer-scrollArea {
+	overflow: auto;
+	height: 100%;
 }
 
 /* .......................................................................... */
@@ -17,7 +30,7 @@ gsui-synthesizer {
 	font-size: 14px;
 	padding-top: 2px;
 	border-bottom: 2px solid #0002;
-	background-color: var( --gsui-win-head2-bg );
+	background-color: var( --gsui-head3-bg );
 }
 .gsuiSynthesizer-headTitle {
 	font-size: 10px;
