@@ -18,7 +18,10 @@ class gsuiEffect extends gsui0ne {
 		} );
 		Object.seal( this );
 
-		this.$elements.$expand.onclick = () => GSUtoggleAttribute( this, "expanded" );
+		this.$elements.$expand.onclick = () => {
+			GSUtoggleAttribute( this, "expanded" );
+			this.$dispatch( "expand" );
+		};
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		GSUlistenEvents( this, {
 			gsuiToggle: {
