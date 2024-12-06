@@ -10,6 +10,8 @@ class gsuiFxReverb extends gsui0ne {
 				$wetSli: "[data-prop='wet'] gsui-slider",
 				$dryValue: "[data-prop='dry'] .gsuiEffect-param-value",
 				$wetValue: "[data-prop='wet'] .gsuiEffect-param-value",
+				$graphDry: ".gsuiFxReverb-graph-dry",
+				$graphWet: ".gsuiFxReverb-graph-wet",
 			},
 			$attributes: {
 				dry: 0,
@@ -41,10 +43,12 @@ class gsuiFxReverb extends gsui0ne {
 			case "dry":
 				this.$elements.$dryValue.textContent = GSUroundNum( val * 100 );
 				GSUsetAttribute( this.$elements.$drySli, "value", val );
+				this.$elements.$graphDry.style.opacity = val;
 				break;
 			case "wet":
 				this.$elements.$wetValue.textContent = GSUroundNum( val * 100 );
 				GSUsetAttribute( this.$elements.$wetSli, "value", val );
+				this.$elements.$graphWet.style.opacity = val / 2;
 				break;
 		}
 	}

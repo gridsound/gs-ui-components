@@ -11,5 +11,8 @@ GSUsetTemplate( "gsui-fx-reverb", () => [
 		GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .01 } ),
 		GSUcreateSpan( { class: "gsuiEffect-param-value" } ),
 	),
-	GSUcreateDiv( { class: "gsuiFxReverb-graph" } ),
+	GSUcreateDiv( { class: "gsuiFxReverb-graph" },
+		GSUcreateDiv( { class: "gsuiFxReverb-graph-wet" } ),
+		GSUcreateDiv( { class: "gsuiFxReverb-graph-dry" } ),
+	),
 ] );
