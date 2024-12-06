@@ -82,6 +82,32 @@ gsui-effect[ expanded ] .gsuiEffect-expand::after {
 	transform: rotate( 90deg );
 }
 
+/* .......................................................................... */
 .gsuiEffect-content > * {
 	box-shadow: inset 0 0 20px #0000001c;
+}
+
+/* .......................................................................... */
+.gsuiEffect-param-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.gsuiEffect-param-label {
+	font-size: 12px;
+	font-weight: bold;
+	opacity: .7;
+}
+.gsuiEffect-param-value {
+	border: 2px solid #0003;
+	border-radius: 3px;
+	padding: 0 6px;
+	text-align: end;
+	font-size: 13px;
+	font-family: var( --gsui-font-number );
+	white-space: nowrap;
+	background-color: #0003;
+}
+.gsuiEffect-param-value::after {
+	opacity: .6;
 }

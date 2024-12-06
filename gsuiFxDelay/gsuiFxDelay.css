@@ -10,48 +10,30 @@ gsui-fx-delay {
 }
 
 /* .......................................................................... */
-.gsuiFxDelay-param {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-/* .......................................................................... */
-.gsuiFxDelay-param::before {
-	width: 30px;
-	font-size: 12px;
-	font-weight: bold;
-}
-.gsuiFxDelay-param[ data-prop="time" ]::before {
-	content: "time";
-}
-.gsuiFxDelay-param[ data-prop="gain" ]::before {
-	content: "gain";
-}
-.gsuiFxDelay-param[ data-prop="pan" ]::before {
-	content: "pan";
-}
-
-/* .......................................................................... */
-.gsuiFxDelay-param gsui-slider {
+.gsuiEffect-param-row gsui-slider {
 	flex: 1;
 	height: 10px;
 }
-.gsuiFxDelay-param[ data-prop="time" ] gsui-slider {
-	--gsuiSlider-lineColor: var( --gsui-col-time );
-}
-.gsuiFxDelay-param[ data-prop="gain" ] gsui-slider {
-	--gsuiSlider-lineColor: var( --gsui-col-gain );
-}
-.gsuiFxDelay-param[ data-prop="pan" ] gsui-slider {
-	--gsuiSlider-lineColor: var( --gsui-col-pan );
+.gsuiEffect-param-row[ data-prop="time" ] gsui-slider { --gsuiSlider-lineColor: var( --gsui-col-time ) }
+.gsuiEffect-param-row[ data-prop="gain" ] gsui-slider { --gsuiSlider-lineColor: var( --gsui-col-gain ) }
+.gsuiEffect-param-row[ data-prop="pan" ] gsui-slider { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
+.gsuiEffect-param-row .gsuiSlider-eventCatcher {
+	inset: -4px 0;
 }
 
 /* .......................................................................... */
-.gsuiFxDelay-param-value {
+gsui-fx-delay .gsuiEffect-param-label {
 	width: 30px;
-	font-size: 13px;
-	font-family: var( --gsui-font-number );
+}
+gsui-fx-delay .gsuiEffect-param-value {
+	width: 40px;
+}
+.gsuiEffect-param-row[ data-prop="time" ] .gsuiEffect-param-value::after {
+	content: " b";
+}
+.gsuiEffect-param-row[ data-prop="pan" ] .gsuiEffect-param-value::after,
+.gsuiEffect-param-row[ data-prop="gain" ] .gsuiEffect-param-value::after {
+	content: " %";
 }
 
 /* .......................................................................... */

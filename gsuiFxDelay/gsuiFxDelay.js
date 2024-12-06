@@ -16,9 +16,9 @@ class gsuiFxDelay extends gsui0ne {
 					pan: "[data-prop='pan'] gsui-slider",
 				},
 				$values: {
-					time: "[data-prop='time'] .gsuiFxDelay-param-value",
-					gain: "[data-prop='gain'] .gsuiFxDelay-param-value",
-					pan: "[data-prop='pan'] .gsuiFxDelay-param-value",
+					time: "[data-prop='time'] .gsuiEffect-param-value",
+					gain: "[data-prop='gain'] .gsuiEffect-param-value",
+					pan: "[data-prop='pan'] .gsuiEffect-param-value",
 				},
 			},
 			$attributes: {
@@ -60,11 +60,16 @@ class gsuiFxDelay extends gsui0ne {
 				break;
 			case "time":
 			case "gain":
-			case "pan":
+			case "pan": {
+				const str =
+					prop === "pan" ? GSUsignNum( Math.round( val * 100 ) ) :
+					prop === "gain" ? Math.round( val * 100 ) :
+					( +val ).toFixed( 2 );
+
+				this.$elements.$values[ prop ].textContent = str;
 				this.$elements.$sliders[ prop ].$setValue( +val );
-				this.$elements.$values[ prop ].textContent = ( +val ).toFixed( 2 );
 				this.#updateGraph();
-				break;
+			} break;
 		}
 	}
 
