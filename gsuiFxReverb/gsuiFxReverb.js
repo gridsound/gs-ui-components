@@ -12,6 +12,7 @@ class gsuiFxReverb extends gsui0ne {
 				$dryValue: "[data-prop='dry'] .gsuiEffect-param-value",
 				$wetValue: "[data-prop='wet'] .gsuiEffect-param-value",
 				$delValue: "[data-prop='delay'] .gsuiEffect-param-value",
+				$beatlines: "gsui-beatlines",
 				$graphDry: ".gsuiFxReverb-graph-dry",
 				$graphWet: ".gsuiFxReverb-graph-wet",
 			},
@@ -19,6 +20,7 @@ class gsuiFxReverb extends gsui0ne {
 				dry: 0,
 				wet: 0,
 				delay: 0,
+				timedivision: "4/4",
 			},
 		} );
 		Object.seal( this );
@@ -38,11 +40,20 @@ class gsuiFxReverb extends gsui0ne {
 	}
 
 	// .........................................................................
+	$firstTimeConnected() {
+		this.#updatePxPerBeat();
+		this.#updateWetPos();
+	}
 	static get observedAttributes() {
-		return [ "dry", "wet", "delay" ];
+		return [ "timedivision", "dry", "wet", "delay" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "timedivision":
+				GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
+				this.#updatePxPerBeat();
+				this.#updateWetPos();
+				break;
 			case "dry":
 				this.$elements.$dryValue.textContent = GSUroundNum( val * 100 );
 				GSUsetAttribute( this.$elements.$drySli, "value", val );
@@ -56,15 +67,31 @@ class gsuiFxReverb extends gsui0ne {
 			case "delay":
 				this.$elements.$delValue.textContent = ( +val ).toFixed( 2 );
 				GSUsetAttribute( this.$elements.$delSli, "value", val );
-				this.$elements.$graphWet.style.left = `${ val * 25 }%`;
+				this.#updateWetPos();
 				break;
 		}
 	}
 
 	// .........................................................................
+	$onresize() {
+		this.#updatePxPerBeat();
+	}
 	#oninputProp( prop, val ) {
 		GSUsetAttribute( this, prop, val );
 		this.$dispatch( "liveChange", prop, val );
+	}
+
+	// .........................................................................
+	#updatePxPerBeat() {
+		const bPM = GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+
+		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.$elements.$beatlines.clientWidth / bPM );
+	}
+	#updateWetPos() {
+		const delay = GSUgetAttributeNum( this, "delay" );
+		const ppb = GSUgetAttributeNum( this.$elements.$beatlines, "pxperbeat" );
+
+		this.$elements.$graphWet.style.left = `${ ( delay * ppb ) / this.$elements.$beatlines.clientWidth * 100 }%`;
 	}
 }
 

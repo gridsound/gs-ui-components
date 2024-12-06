@@ -17,6 +17,7 @@ GSUsetTemplate( "gsui-fx-reverb", () => [
 		GSUcreateSpan( { class: "gsuiEffect-param-value" } ),
 	),
 	GSUcreateDiv( { class: "gsuiFxReverb-graph" },
+		GSUcreateElement( "gsui-beatlines", { timedivision: "4/4" } ),
 		GSUcreateDiv( { class: "gsuiFxReverb-graph-wet" } ),
 		GSUcreateDiv( { class: "gsuiFxReverb-graph-dry" } ),
 	),
