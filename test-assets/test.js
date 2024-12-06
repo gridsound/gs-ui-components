@@ -34,6 +34,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiChannel" } ),
 					GSUcreateOption( { value: "gsuiFxDelay" } ),
 					GSUcreateOption( { value: "gsuiFxFilter" } ),
+					GSUcreateOption( { value: "gsuiFxReverb" } ),
 					GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHz" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserTd" } ),
