@@ -8,14 +8,17 @@ class gsuiFxReverb extends gsui0ne {
 			$elements: {
 				$drySli: "[data-prop='dry'] gsui-slider",
 				$wetSli: "[data-prop='wet'] gsui-slider",
+				$delSli: "[data-prop='delay'] gsui-slider",
 				$dryValue: "[data-prop='dry'] .gsuiEffect-param-value",
 				$wetValue: "[data-prop='wet'] .gsuiEffect-param-value",
+				$delValue: "[data-prop='delay'] .gsuiEffect-param-value",
 				$graphDry: ".gsuiFxReverb-graph-dry",
 				$graphWet: ".gsuiFxReverb-graph-wet",
 			},
 			$attributes: {
 				dry: 0,
 				wet: 0,
+				delay: 0,
 			},
 		} );
 		Object.seal( this );
@@ -36,7 +39,7 @@ class gsuiFxReverb extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "dry", "wet" ];
+		return [ "dry", "wet", "delay" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -49,6 +52,11 @@ class gsuiFxReverb extends gsui0ne {
 				this.$elements.$wetValue.textContent = GSUroundNum( val * 100 );
 				GSUsetAttribute( this.$elements.$wetSli, "value", val );
 				this.$elements.$graphWet.style.opacity = val / 2;
+				break;
+			case "delay":
+				this.$elements.$delValue.textContent = ( +val ).toFixed( 2 );
+				GSUsetAttribute( this.$elements.$delSli, "value", val );
+				this.$elements.$graphWet.style.left = `${ val * 25 }%`;
 				break;
 		}
 	}

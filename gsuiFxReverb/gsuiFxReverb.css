@@ -11,23 +11,30 @@ gsui-fx-reverb {
 
 /* .......................................................................... */
 gsui-fx-reverb .gsuiEffect-param-label {
-	min-width: 26px;
+	min-width: 36px;
 }
 gsui-fx-reverb gsui-slider {
 	height: 10px;
 	--gsuiSlider-lineColor: var( --gsui-col-gain );
 }
 gsui-fx-reverb .gsuiEffect-param-value {
-	width: 42px;
+	width: 46px;
 	align-self: stretch;
 }
 gsui-fx-reverb .gsuiEffect-param-value::after {
 	content: " %";
 }
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] gsui-slider {
+	--gsuiSlider-lineColor: var( --gsui-col-time );
+}
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] .gsuiEffect-param-value::after {
+	content: " b";
+}
 
 /* .......................................................................... */
 .gsuiFxReverb-graph {
 	position: relative;
+	overflow: hidden;
 	flex: 1;
 	min-height: 32px;
 	border-radius: 6px;
