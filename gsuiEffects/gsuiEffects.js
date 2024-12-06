@@ -7,6 +7,7 @@ class gsuiEffects extends gsui0ne {
 	static #fxsMap = Object.freeze( {
 		delay: { cmp: "gsui-fx-delay", name: "Delay" },
 		filter: { cmp: "gsui-fx-filter", name: "Filter" },
+		reverb: { cmp: "gsui-fx-reverb", name: "Reverb" },
 		waveshaper: { cmp: "gsui-fx-waveshaper", name: "WaveShaper" },
 	} );
 
@@ -118,6 +119,7 @@ class gsuiEffects extends gsui0ne {
 		this.#actionMenu.$setActions( [
 			{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
 			{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },
+			{ id: "reverb",     name: "Reverb",     desc: "Convolution reverberation" },
 			{ id: "waveshaper", name: "WaveShaper", desc: "Distortion" },
 		] );
 	}
