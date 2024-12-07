@@ -24,7 +24,7 @@
 <style>
 body {
 	--test-content-w: 460px;
-	--test-content-h: 240px;
+	--test-content-h: 280px;
 }
 gsui-fx-reverb {
 	background-color: #ffffff09;
@@ -63,6 +63,9 @@ const uiFx = document.querySelector( "gsui-fx-reverb" );
 GSUsetAttribute( uiFx, "dry", .9 );
 GSUsetAttribute( uiFx, "wet", .7 );
 GSUsetAttribute( uiFx, "delay", .25 );
+GSUsetAttribute( uiFx, "delay", 0 );
+GSUsetAttribute( uiFx, "decay", 2 );
+GSUsetAttribute( uiFx, "fadein", 1 );
 </script>
 </body>
 </html>

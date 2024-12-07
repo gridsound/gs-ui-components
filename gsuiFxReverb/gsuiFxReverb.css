@@ -7,6 +7,7 @@ gsui-fx-reverb {
 	min-height: 100px;
 	gap: 8px;
 	padding: 8px;
+	--gsui-fadein-p: 0%;
 }
 
 /* .......................................................................... */
@@ -24,10 +25,14 @@ gsui-fx-reverb .gsuiEffect-param-value {
 gsui-fx-reverb .gsuiEffect-param-value::after {
 	content: " %";
 }
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] gsui-slider {
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] gsui-slider,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] gsui-slider,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] gsui-slider {
 	--gsuiSlider-lineColor: var( --gsui-col-time );
 }
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] .gsuiEffect-param-value::after {
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] .gsuiEffect-param-value::after,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] .gsuiEffect-param-value::after,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] .gsuiEffect-param-value::after {
 	content: " b";
 }
 
@@ -52,5 +57,5 @@ gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] .gsuiEffect-param-valu
 	inset: 15% auto 15% 0;
 	width: 50%;
 	border-radius: 2px;
-	background-image: linear-gradient( 90deg, #fff, transparent );
+	background-image: linear-gradient( 90deg, transparent, #fff5, #fff var( --gsui-fadein-p ), #fff5, transparent );
 }
