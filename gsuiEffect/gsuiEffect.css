@@ -73,6 +73,7 @@ gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
 	transition: .1s;
 	transition-property: height, opacity;
 }
+gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content { height: 180px }
 gsui-effect[ expanded ] .gsuiEffect-content {
 	height: 160px;
 	opacity: 1;
