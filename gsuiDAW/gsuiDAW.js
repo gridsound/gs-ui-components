@@ -84,7 +84,7 @@ class gsuiDAW extends gsui0ne {
 
 			dt.icon = "none";
 			dt.spin = "on";
-			fetch( `https://gridsound.com/daw/VERSION?${ Math.random() }` )
+			fetch( `version?${ Math.random() }` )
 				.then( res => res.text(), GSUnoop )
 				.then( res => {
 					dt.spin = "";
