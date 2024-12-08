@@ -57,5 +57,5 @@ gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] .gsuiEffect-param-val
 	inset: 15% auto 15% 0;
 	width: 50%;
 	border-radius: 2px;
-	background-image: linear-gradient( 90deg, transparent, #fff5, #fff var( --gsui-fadein-p ), #fff5, transparent );
+	background-image: linear-gradient( 90deg, transparent, currentColor var( --gsui-fadein-p ), transparent );
 }
