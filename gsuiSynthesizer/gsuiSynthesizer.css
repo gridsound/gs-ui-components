@@ -3,7 +3,6 @@ gsui-synthesizer {
 	flex-direction: column;
 	overflow: hidden;
 	position: relative;
-	box-sizing: border-box;
 	height: 100%;
 }
 
@@ -17,6 +16,8 @@ gsui-synthesizer {
 .gsuiSynthesizer-shadowTop { bottom: 100% }
 .gsuiSynthesizer-shadowBottom { top: 100% }
 .gsuiSynthesizer-scrollArea {
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	height: 100%;
 }
