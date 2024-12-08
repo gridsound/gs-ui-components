@@ -68,7 +68,7 @@ class gsuiFxReverb extends gsui0ne {
 			case "wet":
 				this.$elements.$wetValue.textContent = GSUroundNum( val * 100 );
 				GSUsetAttribute( this.$elements.$wetSli, "value", val );
-				this.$elements.$graphWet.style.opacity = val / 2;
+				this.$elements.$graphWet.style.opacity = GSUeaseOutCirc( val / 10 );
 				break;
 			case "delay":
 				this.$elements.$delValue.textContent = ( +val ).toFixed( 2 );
