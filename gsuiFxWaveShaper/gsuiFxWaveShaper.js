@@ -38,7 +38,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
 		this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
-		this.$changeCurveData( gsuiFxWaveShaper.#defPtsAsym );
+		this.$changeCurveData( gsuiFxWaveShaper.#defPtsSym );
 		this.$elements.$reset.onclick = this.#onreset.bind( this );
 		this.$elements.$oversampleSelect.onchange = e => {
 			if ( this.$elements.$oversampleToggle.$isOn() ) {
