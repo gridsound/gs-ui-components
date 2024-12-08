@@ -10,7 +10,7 @@ gsui-fx-filter {
 	grid-template:
 		"type graph     gain Q     " 1fr
 		"type graph     gain detune" 1fr
-		".    frequency .    .     " 8px
+		"type frequency gain detune" 8px
 		/32px 1fr       8px  50px;
 }
 
@@ -19,11 +19,9 @@ gsui-fx-filter {
 	display: flex;
 	flex-direction: column;
 }
-.gsuiFxFilter-area-label {
+gsui-fx-filter .gsuiEffect-param-label {
 	align-self: center;
 	height: 20px;
-	font-size: 12px;
-	opacity: .5;
 }
 .gsuiFxFilter-area-content {
 	flex: 1;
@@ -47,6 +45,7 @@ gsui-fx-filter {
 }
 .gsuiFxFilter-areaDetune {
 	grid-area: detune;
+	margin-top: 16px;
 	--gsuiSlider-lineColor: var( --gsui-col-detune );
 }
 .gsuiFxFilter-areaFrequency {
@@ -61,7 +60,7 @@ gsui-fx-filter {
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaGraph .gsuiFxFilter-area-label {
+.gsuiFxFilter-areaGraph .gsuiEffect-param-label {
 	align-self: flex-start;
 }
 .gsuiFxFilter-areaGraph .gsuiFxFilter-area-content {
