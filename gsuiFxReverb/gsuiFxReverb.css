@@ -19,7 +19,7 @@ gsui-fx-reverb gsui-slider {
 	--gsuiSlider-lineColor: var( --gsui-col-gain );
 }
 gsui-fx-reverb .gsuiEffect-param-value {
-	width: 46px;
+	width: 52px;
 	align-self: stretch;
 }
 gsui-fx-reverb .gsuiEffect-param-value::after {
