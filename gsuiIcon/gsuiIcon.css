@@ -222,6 +222,14 @@
 .gsuiIcon[ data-icon="history" ]::before { content: "\f1da"; }
 .gsuiIcon[ data-icon="history" ]::after { content: "\10f1da"; }
 
+.gsuiIcon[ data-icon="amp-guitar" ]::before { content: "\f8a1"; }
+.gsuiIcon[ data-icon="amp-guitar" ]::after { content: "\10f8a1"; }
+.gsuiIcon[ data-icon="sax-hot" ]::before { content: "\f8db"; }
+.gsuiIcon[ data-icon="sax-hot" ]::after { content: "\10f8db"; }
+.gsuiIcon[ data-icon="piano" ]::before { content: "\f8d4"; }
+.gsuiIcon[ data-icon="piano" ]::after { content: "\10f8d4"; }
+.gsuiIcon[ data-icon="drum" ]::before { content: "\f569"; }
+.gsuiIcon[ data-icon="drum" ]::after { content: "\10f569"; }
 .gsuiIcon[ data-icon="keys" ]::before { content: "\f8d5"; }
 .gsuiIcon[ data-icon="keys" ]::after { content: "\10f8d5"; }
 .gsuiIcon[ data-icon="drums" ]::before { content: "\f2a1"; }
