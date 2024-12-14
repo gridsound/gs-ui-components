@@ -1,11 +1,11 @@
 "use strict";
 
-GSUsetTemplate( "gsui-daw-window-main", () =>
-	GSUcreateDiv( { "data-window": "main" } )
+GSUsetTemplate( "gsui-daw-window-composition", () =>
+	GSUcreateDiv( { "data-window": "composition" } )
 );
 
-GSUsetTemplate( "gsui-daw-window-piano", () =>
-	GSUcreateDiv( { "data-window": "piano" },
+GSUsetTemplate( "gsui-daw-window-keys", () =>
+	GSUcreateDiv( { "data-window": "keys" },
 		GSUcreateDiv( { class: "gsuiDAW-winMenu" },
 			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
 		),
@@ -45,8 +45,8 @@ GSUsetTemplate( "gsui-daw-window-drums", () =>
 	)
 );
 
-GSUsetTemplate( "gsui-daw-window-slicer", () =>
-	GSUcreateDiv( { "data-window": "slicer" },
+GSUsetTemplate( "gsui-daw-window-slices", () =>
+	GSUcreateDiv( { "data-window": "slices" },
 		GSUcreateDiv( { class: "gsuiDAW-winMenu" },
 			GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
 		),
