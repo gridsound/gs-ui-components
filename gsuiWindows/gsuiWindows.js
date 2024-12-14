@@ -71,6 +71,7 @@ class gsuiWindows extends gsui0ne {
 			} );
 			win.style.zIndex = this.childElementCount - 1;
 			this.#focusedWindow = win;
+			this.$dispatch( "focus", win.dataset.id );
 		}
 	}
 }
