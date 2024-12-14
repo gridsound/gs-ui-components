@@ -14,7 +14,7 @@ GSUsetTemplate( "gsui-window", id => [
 	GSUcreateDiv( { class: "gsuiWindow-wrap" },
 		GSUcreateDiv( { class: "gsuiWindow-head" },
 			GSUcreateButton( { class: "gsuiWindow-icon gsuiIcon", tabindex: -1 } ),
-			GSUcreateDiv( { class: "gsuiWindow-name" } ),
+			GSUcreateDiv( { class: "gsuiWindow-name", inert: true } ),
 			GSUcreateDiv( { class: "gsuiWindow-headContent" } ),
 			GSUcreateDiv( { class: "gsuiWindow-headBtns" },
 				GSUcreateButton( { class: "gsuiWindow-headBtn gsuiIcon", "data-action": "minimize", "data-icon": "minimize", title: "Minimize" } ),
