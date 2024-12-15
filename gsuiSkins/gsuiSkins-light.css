@@ -56,4 +56,7 @@ body[ data-skin="white" ] {
 	--gsui-toggle-off: #222;
 	--gsui-slider-bg: #0002;
 	--gsui-slider-bg-opaque: #444;
+	--gsuiLibrary-bg: #bef;
+	--gsuiLibrary-sample-fav: #03f;
+	--gsuiLibrary-sample-hover-bg: #0001;
 }
