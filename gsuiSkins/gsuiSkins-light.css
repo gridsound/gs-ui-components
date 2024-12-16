@@ -59,4 +59,14 @@ body[ data-skin="white" ] {
 	--gsuiLibrary-bg: #bef;
 	--gsuiLibrary-sample-fav: #03f;
 	--gsuiLibrary-sample-hover-bg: #0001;
+	--gsuiKeys-blackRow-bg: #0000001a;
+	--gsuiKeys-blackRow-hover-bg: #00000026;
+	--gsuiKeys-whiteRow-hover-bg: #ffffff26;
+	--gsuiKeys-blackKey-gradA: #111;
+	--gsuiKeys-blackKey-gradB: #444;
+	--gsuiKeys-whiteKey-gradA: #ccc;
+	--gsuiKeys-whiteKey-gradB: #eee;
+	--gsuiKeys-activeKey-gradA: #353b52;
+	--gsuiKeys-activeKey-gradB: #7886bd;
+	--gsuiKeys-rootKey: #c143a4;
 }

@@ -5,7 +5,6 @@
 gsui-keys {
 	--gsuiKeys-firstOctave: 0;
 	--gsuiKeys-nbOctaves: 0;
-	--gsui-gradientDeg: 90deg;
 	display: block;
 	position: relative;
 	touch-action: none;
@@ -14,10 +13,11 @@ gsui-keys {
 	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );
 }
 gsui-keys[ orient="vertical" ] {
+	--gsuiKeys-gradientDeg: 90deg;
 	height: calc( var( --gsuiKeys-nbOctaves ) * 12em );
 }
 gsui-keys[ orient="horizontal" ] {
-	--gsui-gradientDeg: 180deg;
+	--gsuiKeys-gradientDeg: 180deg;
 	width: calc( var( --gsuiKeys-nbOctaves ) * 12em );
 }
 
@@ -25,7 +25,7 @@ gsui-keys[ orient="horizontal" ] {
 gsui-keys,
 .gsuiKey {
 	background-image: linear-gradient(
-		var( --gsui-gradientDeg ),
+		var( --gsuiKeys-gradientDeg ),
 		var( --gsuiKeys-whiteKey-gradA ),
 		var( --gsuiKeys-whiteKey-gradB )
 	);
@@ -82,7 +82,7 @@ gsui-keys[ orient="horizontal" ] .gsuiKey {
 	position: absolute;
 	z-index: 1;
 	background-image: linear-gradient(
-		var( --gsui-gradientDeg ),
+		var( --gsuiKeys-gradientDeg ),
 		var( --gsuiKeys-blackKey-gradA ),
 		var( --gsuiKeys-blackKey-gradB )
 	);
@@ -126,7 +126,7 @@ gsui-keys[ orient="horizontal" ] .gsuiKey[ data-key="0" ]::after {
 }
 .gsuiKey.gsui-active {
 	background-image: linear-gradient(
-		var( --gsui-gradientDeg ),
+		var( --gsuiKeys-gradientDeg ),
 		var( --gsuiKeys-activeKey-gradA ),
 		var( --gsuiKeys-activeKey-gradB )
 	);
