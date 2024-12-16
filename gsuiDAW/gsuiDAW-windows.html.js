@@ -13,7 +13,7 @@ GSUsetTemplate( "gsui-daw-window-keys", () =>
 GSUsetTemplate( "gsui-daw-window-synth", () =>
 	GSUcreateDiv( { "data-window": "synth" },
 		GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
-		GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-right" } ),
+		GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-right", inert: true } ),
 		GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "synthChannel" },
 			GSUcreateI( { class: "gsuiIcon", "data-icon": "mixer" } ),
 			GSUcreateSpan(),

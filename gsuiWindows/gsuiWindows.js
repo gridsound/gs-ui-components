@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiWindows extends gsui0ne {
-	#objWindows = {};
+	#elWindows = {};
 	#focusedWindow = null;
 
 	constructor() {
@@ -25,12 +25,12 @@ class gsuiWindows extends gsui0ne {
 		const win = GSUcreateElement( "gsui-window", { "data-id": id } );
 
 		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
-		this.#objWindows[ id ] = win;
+		this.#elWindows[ id ] = win;
 		this.append( win );
 		return win;
 	}
 	$window( winId ) {
-		return this.#objWindows[ winId ];
+		return this.#elWindows[ winId ];
 	}
 
 	// .........................................................................

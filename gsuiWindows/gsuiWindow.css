@@ -134,6 +134,7 @@ gsui-window[ dragging ] .gsuiWindow-head {
 	display: flex;
 	align-items: center;
 	padding-left: .5em;
+	gap: 6px;
 }
 .gsuiWindow-headBtns {
 	height: 100%;
