@@ -59,3 +59,27 @@
 .gsuiDAW-winBtn[ data-target="pianoroll" ] { color: var( --gsuiDAW-winBtn-pattern-color ); }
 .gsuiDAW-winBtn[ data-target="synth" ] { color: var( --gsuiDAW-winBtn-synth-color ); }
 .gsuiDAW-winBtn[ data-target="slices" ] { color: var( --gsuiDAW-winBtn-slices-color ); }
+
+/* .......................................................................... */
+.gsuiDAW-window-playPause {
+	overflow: hidden;
+	display: flex;
+	border-radius: 4px;
+}
+.gsuiDAW-window-playPause button {
+	width: 18px;
+	height: 16px;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	color: #fff;
+	font-size: 8px;
+	cursor: pointer;
+	background-color: var( --gsui-btn-playPause-bg );
+}
+.gsuiDAW-window-playPause button[ data-icon="play" ] {
+	padding-left: 2px;
+}
+.gsuiDAW-window-playPause button:hover {
+	filter: brightness( 1.2 );
+}
