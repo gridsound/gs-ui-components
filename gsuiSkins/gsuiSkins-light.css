@@ -93,4 +93,15 @@ body[ data-skin="white" ] {
 	--gsuiPatterns-pattern-head-bg: #0003;
 	--gsuiPatterns-pattern-head-selected-bg: #fff3;
 	--gsuiPatterns-pattern-dest-bg: #fff1;
+	/* ................................ */
+	--gsuiSlicer-bg: #666;
+	--gsuiSlicer-color: #fff;
+	--gsuiSlicer-slicers-bg: #47475c;
+	--gsuiSlicer-source-bg: #334;
+	--gsuiSlicer-source-wave: var( --gsui-col-pattern );
+	--gsuiSlicer-preview-wave-border: #fff2;
+	--gsuiSlicer-preview-wave-hl-bg: #fff1;
+	--gsuiSlicer-slice-bg: #44c4;
+	--gsuiSlicer-slice-hl-bg: #77f4;
+	--gsuiSlicer-slice-border: #32325a;
 }
