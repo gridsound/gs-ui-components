@@ -1,9 +1,0 @@
-gsui-drumrows {
-	--gsuiDrumrow-pan: var( --gsui-col-pan );
-	--gsuiDrumrow-gain: var( --gsui-col-gain );
-	--gsuiDrumrow-detune: var( --gsui-col-detune );
-	--gsuiDrumrow-border: #0002;
-	--gsuiDrumrow-color: #fff;
-	--gsuiDrumrow-grip-bg: #0001;
-	--gsuiDrumrow-prop-bgHover: #fff2;
-}

@@ -110,6 +110,24 @@ body {
 	--gsuiSlicer-slice-bg: #44c4;
 	--gsuiSlicer-slice-hl-bg: #77f4;
 	--gsuiSlicer-slice-border: #32325a;
+	/* ................................ */
+	--gsuiDrumrow-pan: var( --gsui-col-pan );
+	--gsuiDrumrow-gain: var( --gsui-col-gain );
+	--gsuiDrumrow-detune: var( --gsui-col-detune );
+	--gsuiDrumrow-border: #0002;
+	--gsuiDrumrow-color: #fff;
+	--gsuiDrumrow-grip-bg: #0001;
+	--gsuiDrumrow-prop-bgHover: #fff2;
+	/* ................................ */
+	--gsuiDrums-drum-bg: var( --gsui-col-pattern8 );
+	--gsuiDrums-drumprop-bg: #0002;
+	--gsuiDrums-drumprop-color: #0004;
+	--gsuiDrums-drumcut-bg: #d46;
+	--gsuiDrums-line-border: #2e4145;
+	--gsuiDrums-line-mute-bg: #0003;
+	--gsuiDrums-loop-bg: #000;
+	--gsuiDrums-drumHover-border: var( --gsui-col-pattern );
+	--gsuiDrums-drumHover-bg: var( --gsui-col-pattern2 );
 }
 
 /* .......................................................................... */
