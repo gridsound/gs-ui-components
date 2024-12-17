@@ -81,5 +81,9 @@
 	padding-left: 2px;
 }
 .gsuiDAW-window-playPause button:hover {
+	color: #fffa;
 	filter: brightness( 1.2 );
+}
+.gsuiDAW-window-playPause button:active {
+	padding-top: 2px;
 }
