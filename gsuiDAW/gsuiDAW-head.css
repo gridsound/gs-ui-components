@@ -1,0 +1,123 @@
+.gsuiDAW-areaCtrl {
+	grid-area: areaCtrl;
+}
+.gsuiDAW-playPauseStop {
+	background-color: var( --gsui-btn-playPause-bg );
+}
+.gsuiDAW-volume {
+	width: 6px;
+	--gsuiSlider-lineRadius: 4px;
+	--gsuiSlider-lineColor: var( --gsui-btn-playPause-bg );
+	--gsuiSlider-lineBgColor: #222;
+}
+.gsuiDAW-volume .gsuiSlider-eventCatcher {
+	left: -12px;
+	right: calc( var( --gap ) * -1 );
+}
+.gsuiDAW-focusBtn {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 7px 3px 7px 8px;
+}
+.gsuiDAW-focusBtn:active {
+	padding-top: 7px;
+}
+.gsuiDAW-focusBtn span {
+	width: 5px;
+	height: 5px;
+	border-radius: 1px;
+	background-color: currentColor;
+	pointer-events: none;
+	opacity: .4;
+}
+gsui-daw[ focus="up" ] .gsuiDAW-focusBtn span:first-child,
+gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
+	opacity: 1;
+}
+.gsuiDAW-btn[ data-action="stop" ] {
+	margin-left: -3px;
+}
+.gsuiDAW-btn[ data-action="reset" ] {
+	margin-left: -2px;
+}
+.gsuiDAW-history {
+	background-color: var( --gsui-btn-history-bg );
+}
+.gsuiDAW-btn[ data-action="redo" ] {
+	margin-left: -4px;
+}
+
+/* .......................................................................... */
+.gsuiDAW-areaTime {
+	grid-area: areaTime;
+	padding: 8px;
+	border-radius: var( --radius );
+	background-color: var( --gsui-main-currentTime-bg );
+}
+.gsuiDAW-areaTime gsui-slider {
+	--gsuiSlider-lineColor: var( --gsui-main-currentTime-lineColor );
+	--gsuiSlider-lineBgColor: var( --gsui-main-currentTime-lineBgColor );
+}
+.gsuiDAW-areaTime .gsuiSlider-eventCatcher {
+	inset: -10px;
+}
+
+/* .......................................................................... */
+.gsuiDAW-areaVisu {
+	grid-area: areaVisu;
+}
+gsui-daw gsui-analyser-hz {
+	flex: 1;
+	border-radius: var( --radius );
+	width: 180px;
+	min-width: 48px;
+	background-color: #000;
+}
+.gsuiDAW-btn[ data-action="export" ] {
+	--gsui-color: var( --gsui-btn-export-txt );
+}
+
+/* .......................................................................... */
+.gsuiDAW-areaWins {
+	grid-area: areaWins;
+	white-space: nowrap;
+	gap: 0;
+}
+.gsuiDAW-areaWins .gsuiDAW-btn {
+	flex: 1;
+	font-size: 11px;
+	background-color: var( --gsui-btn-openWin-bg );
+}
+.gsuiDAW-areaWins .gsuiDAW-btn + .gsuiDAW-btn {
+	margin-left: 0;
+	border-left: 1px dashed rgba( 0, 0, 0, .2 );
+}
+.gsuiDAW-areaWins .gsuiDAW-btn[ data-open ] {
+	color: var( --gsui-head1-bg );
+	background-color: var( --gsui-btn-openWin-open-bg );
+}
+
+/* .......................................................................... */
+.gsuiDAW-areaHelp {
+	grid-area: areaHelp;
+	justify-content: end;
+}
+.gsuiDAW-btn[ data-action="about" ] {
+	--gsui-color: var( --gsui-btn-about-txt );
+}
+
+/* .......................................................................... */
+.gsuiDAW-areaVers {
+	grid-area: areaVers;
+	justify-content: end;
+}
+.gsuiDAW-version {
+	gap: .6ch;
+	font-family: var( --gsui-font-number );
+	opacity: .3;
+}
+.gsuiDAW-version:hover {
+	opacity: 1;
+}
