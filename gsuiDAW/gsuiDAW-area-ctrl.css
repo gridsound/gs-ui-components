@@ -21,6 +21,9 @@
 	justify-content: space-between;
 	padding: 7px 3px 7px 8px;
 }
+.gsuiDAW-focusBtn:active {
+	padding-top: 7px;
+}
 .gsuiDAW-focusBtn span {
 	width: 5px;
 	height: 5px;

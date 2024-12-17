@@ -22,6 +22,9 @@
 	color: #fff;
 	opacity: 1;
 }
+.gsuiDAW-btn:active {
+	padding-top: 4px;
+}
 
 .gsuiDAW-btnBg {
 	background-color: var( --gsui-btn-default-bg );
