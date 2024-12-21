@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiGlitchText.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 400px;
+	--test-content-h: 220px;
+}
+#testWrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-glitchtext>GridSound</gsui-glitchtext>
+</div>
+<div id="TEST-CTRLS">
+	<label>
+		<input id="glitch-enable" type="checkbox"/>
+		<span>enable</span>
+	</label>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiGlitchText.html.js"></script>
+<script src="gsuiGlitchText.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const glitch = document.querySelector( "gsui-glitchtext" );
+const inpEnable = document.querySelector( "#glitch-enable" );
+
+GSUsetAttribute( glitch, "texts", [
+	"GridSound",
+	"gRIDsOUND",
+	"&<:]$+\\#)",
+	"6/1)20^?}",
+	"9-!>5θnu]",
+].join( " " ) );
+
+inpEnable.onchange = () => GSUsetAttribute( glitch, "enable", inpEnable.checked );
+inpEnable.click();
+</script>
+</body>
+</html>

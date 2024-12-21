@@ -21,6 +21,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiComPlayer" } ),
 					GSUcreateOption( { value: "gsuiComPlaylist" } ),
 					GSUcreateOption( { value: "" }, "--" ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiGlitchText" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWindows" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPopup" } ),

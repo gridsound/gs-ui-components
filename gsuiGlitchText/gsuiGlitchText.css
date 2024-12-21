@@ -1,0 +1,50 @@
+gsui-glitchtext {
+	position: relative;
+	color: #ccc;
+	line-height: 1em;
+	font-size: 68px;
+	font-family: "oswald", monospace;
+}
+.gsuiGlitchText-blended {
+	color: #fff;
+}
+
+/* .......................................................................... */
+.gsuiGlitchText-clip {
+	position: relative;
+}
+.gsuiGlitchText-clip + .gsuiGlitchText-clip {
+	position: absolute;
+	top: 0;
+}
+.gsuiGlitchText:not( .gsuiGlitchText-blended ) .gsuiGlitchText-clip + .gsuiGlitchText-clip {
+	display: none;
+}
+
+/* .......................................................................... */
+.gsuiGlitchText-word {
+	margin: 0;
+	white-space: nowrap;
+}
+
+/* .......................................................................... */
+.gsuiGlitchText-blend {
+	position: absolute;
+	top: 0;
+	opacity: 0;
+	transition: .1s;
+	transition-property: opacity;
+}
+.gsuiGlitchText-blendA {
+	color: #2af;
+	margin: -.03em 0 0 .03em;
+	mix-blend-mode: darken;
+}
+.gsuiGlitchText-blendB {
+	color: #f64;
+	margin: .03em 0 0 -.03em;
+	mix-blend-mode: color-burn;
+}
+.gsuiGlitchText-blended .gsuiGlitchText-blend {
+	opacity: .4;
+}
