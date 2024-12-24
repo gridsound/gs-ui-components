@@ -114,6 +114,8 @@
 .gsuiIcon[ data-icon="caret-left" ]::after { content: "\10f0d9"; }
 .gsuiIcon[ data-icon="caret-right" ]::before { content: "\f0da"; }
 .gsuiIcon[ data-icon="caret-right" ]::after { content: "\10f0da"; }
+.gsuiIcon[ data-icon="chevron-double-right" ]::before { content: "\f324"; }
+.gsuiIcon[ data-icon="chevron-double-right" ]::after { content: "\10f324"; }
 
 .gsuiIcon[ data-icon="osc-sine" ]::before { content: "\f899"; }
 .gsuiIcon[ data-icon="osc-sine" ]::after { content: "\10f899"; }
