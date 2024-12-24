@@ -65,8 +65,12 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<label>
-		<input id="timeDisabled" type="checkbox" name="disabled"/>
+		<input id="disabled" type="checkbox" name="disabled"/>
 		<span>disabled</span>
+	</label>
+	<label>
+		<input id="autoscroll" type="checkbox" name="autoscroll"/>
+		<span>auto-scrolling</span>
 	</label>
 	<button id="playStop" type="button" name="playStop">Play!</button>
 </div>
@@ -93,17 +97,19 @@ body {
 <!-- ....................................................................... -->
 <script>
 const win = document.querySelector( "gsui-timewindow" );
+const inpDisabled = document.querySelector( "#disabled" );
+const inpAutoscroll = document.querySelector( "#autoscroll" );
+const inpPlayStop = document.querySelector( "#playStop" );
 const tracks = [];
 const rows = [];
 let play = false;
 let intervalId = 0;
 let currenttime = 0;
 
-document.querySelector( "#timeDisabled" ).onchange = e => {
-	GSUsetAttribute( win, "disabled", e.target.checked );
-};
+inpDisabled.onchange = e => GSUsetAttribute( win, "disabled", e.target.checked );
+inpAutoscroll.onchange = e => GSUsetAttribute( win, "autoscroll", e.target.checked );
 
-document.querySelector( "#playStop" ).onclick = e => {
+inpPlayStop.onclick = e => {
 	play = !play;
 	e.target.textContent = play ? "Stop" : "Play!" ;
 	if (play) {
@@ -116,6 +122,7 @@ document.querySelector( "#playStop" ).onclick = e => {
 		currenttime = 0;
 		GSUsetAttribute( win, "currenttime", 0 );
 	}
+	GSUsetAttribute( win, "playing", play );
 };
 
 for ( let i = 0; i < 10; ++i ) {
@@ -124,6 +131,9 @@ for ( let i = 0; i < 10; ++i ) {
 }
 win.$appendPanel( ...tracks );
 document.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
+
+inpAutoscroll.click();
+inpPlayStop.click();
 </script>
 </body>
 </html>

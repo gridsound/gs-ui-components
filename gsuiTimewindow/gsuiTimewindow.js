@@ -1,6 +1,9 @@
 "use strict";
 
 class gsuiTimewindow extends gsui0ne {
+	#playing = false;
+	#autoscroll = false;
+	#currentTime = 0;
 	#pxPerBeat = 0;
 	#panelSize = 0;
 	#lineHeight = 0;
@@ -147,10 +150,13 @@ class gsuiTimewindow extends gsui0ne {
 		this.#scrollShadow.$disconnected();
 	}
 	static get observedAttributes() {
-		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop", "duration" ];
+		return [ "step", "timedivision", "pxperbeat", "lineheight", "currenttime", "loop", "duration", "autoscroll", "playing" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "playing":
+				this.#playing = val === "";
+				break;
 			case "duration":
 				this.#minimapUpdate();
 				break;
@@ -161,6 +167,10 @@ class gsuiTimewindow extends gsui0ne {
 			case "timedivision":
 				GSUsetAttribute( this.$elements.$timeline, "timedivision", val );
 				GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
+				break;
+			case "autoscroll":
+				this.#autoscroll = val === "";
+				this.#centerOnCurrentTime();
 				break;
 			case "pxperbeat":
 				this.#pxPerBeat = +val;
@@ -182,6 +192,7 @@ class gsuiTimewindow extends gsui0ne {
 			case "currenttime": {
 				const step = GSUgetAttributeNum( this, "currenttimestep" );
 
+				this.#currentTime = +val;
 				GSUsetAttribute( this.$elements.$timeline, "currenttime", val );
 				if ( step ) {
 					this.$elements.$currentTime.style.left = `${ ( val / step | 0 ) * step }em`;
@@ -190,6 +201,7 @@ class gsuiTimewindow extends gsui0ne {
 				}
 				this.#minimapUpdate();
 				this.#minimapUpdateCurrentTimeLoop();
+				this.#centerOnCurrentTime();
 			} break;
 			case "loop":
 				if ( val ) {
@@ -222,11 +234,10 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$minimapThumb.style.width = `${ mapPx / durPx * 100 }%`;
 	}
 	#minimapUpdateCurrentTimeLoop() {
-		const time = GSUgetAttributeNum( this, "currenttime" );
 		const loopStr = GSUgetAttribute( this, "loop" );
 		const durBeat = this.#minimapGetMaxView() / this.#pxPerBeat;
 
-		this.$elements.$minimapCurrentTime.style.left = `${ time / durBeat * 100 }%`;
+		this.$elements.$minimapCurrentTime.style.left = `${ this.#currentTime / durBeat * 100 }%`;
 		if ( loopStr ) {
 			const [ a, b ] = GSUsplitNums( loopStr, "-" );
 
@@ -350,6 +361,16 @@ class gsuiTimewindow extends gsui0ne {
 		this.#scrollY = Math.max( 0, px );
 		this.#scrollYint = parseInt( this.#scrollY );
 		this.$elements.$scroll.scrollTop = this.#scrollY;
+	}
+	#centerOnCurrentTime() {
+		if ( this.#autoscroll && this.#playing ) {
+			const winSize = this.$elements.$minimapTrack.clientWidth * .75;
+			const currPx = this.#currentTime * this.#pxPerBeat;
+
+			this.$elements.$scroll.scrollLeft =
+			this.#scrollX = Math.max( 0, currPx - winSize );
+			this.#scrollXint = parseInt( this.#scrollX );
+		}
 	}
 
 	// .........................................................................
