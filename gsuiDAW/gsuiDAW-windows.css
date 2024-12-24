@@ -61,12 +61,17 @@
 .gsuiDAW-winBtn[ data-target="slices" ] { color: var( --gsuiDAW-winBtn-slices-color ); }
 
 /* .......................................................................... */
+.gsuiDAW-window-ctrl {
+	display: flex;
+	align-items: center;
+	gap: inherit;
+}
 .gsuiDAW-window-playPause {
 	overflow: hidden;
 	display: flex;
 	border-radius: 4px;
 }
-.gsuiDAW-window-playPause button {
+.gsuiDAW-window-ctrl button {
 	width: 18px;
 	height: 16px;
 	padding: 0;
@@ -77,13 +82,24 @@
 	cursor: pointer;
 	background-color: var( --gsui-btn-playPause-bg );
 }
-.gsuiDAW-window-playPause button[ data-icon="play" ] {
-	padding-left: 2px;
-}
 .gsuiDAW-window-playPause button:hover {
 	color: #fffa;
+}
+.gsuiDAW-window-ctrl button:hover {
 	filter: brightness( 1.2 );
 }
-.gsuiDAW-window-playPause button:active {
+.gsuiDAW-window-ctrl button:active {
 	padding-top: 2px;
+}
+.gsuiDAW-window-ctrl button[ data-icon="play" ] {
+	padding-left: 2px;
+}
+.gsuiDAW-window-ctrl button[ data-action="autoscroll" ] {
+	width: 16px;
+	border: 2px solid #67a;
+	border-radius: 999px;
+	background: none;
+}
+gsui-window:has( gsui-timewindow[ autoscroll ] ) .gsuiDAW-window-ctrl button[ data-action="autoscroll" ] {
+	background-color: #67a;
 }
