@@ -107,7 +107,7 @@ class gsuiEnvelope extends gsui0ne {
 	$onresize() {
 		this.#waveWidth = this.$elements.$beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
-		this.$elements.$graph.resized();
+		this.$elements.$graph.$resized();
 	}
 	#oninputSlider( prop, val ) {
 		this.$elements.$sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );

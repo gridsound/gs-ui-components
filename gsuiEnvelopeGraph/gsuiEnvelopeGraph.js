@@ -24,11 +24,11 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.resized();
+		this.$resized();
 	}
 
 	// .........................................................................
-	resized() {
+	$resized() {
 		GSUsetViewBoxWH( this.$elements.$svg, this.clientWidth, this.clientHeight );
 		this.$draw();
 	}
