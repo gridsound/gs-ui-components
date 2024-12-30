@@ -14,5 +14,5 @@ gsui-envelope-graph svg {
 	stroke-dasharray: 12 4;
 	stroke-opacity: .5;
 	fill: currentColor;
-	fill-opacity: .1;
+	fill-opacity: .05;
 }

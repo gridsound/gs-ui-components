@@ -7,8 +7,6 @@ class gsuiEnvelopeGraph extends gsui0ne {
 	$sustain = .8;
 	$release = 1;
 	$duration = 4;
-	#width = 0;
-	#height = 0;
 
 	constructor() {
 		super( {
@@ -31,19 +29,13 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	resized() {
-		const bcr = this.getBoundingClientRect();
-		const w = ~~bcr.width;
-		const h = ~~bcr.height;
-
-		this.#width = w;
-		this.#height = h;
-		GSUsetViewBoxWH( this.$elements.$svg, w, h );
+		GSUsetViewBoxWH( this.$elements.$svg, this.clientWidth, this.clientHeight );
 		this.$draw();
 	}
 	$draw() {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
-				this.#width, this.#height, this.$duration,
+				this.clientWidth, this.clientHeight, this.$duration,
 				this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
 
 			GSUsetAttribute( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
