@@ -47,7 +47,7 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.updateWave();
+		this.$updateWave();
 	}
 	static get observedAttributes() {
 		return [ "toggle", "attack", "hold", "decay", "sustain", "release" ];
@@ -67,7 +67,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 
 	// .........................................................................
-	updateWave( prop, val ) {
+	$updateWave( prop, val ) {
 		const g = this.$elements.$graph;
 
 		g.$attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );
@@ -91,7 +91,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 	#changeTimedivision( val ) {
 		GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
-		this.updateWave();
+		this.$updateWave();
 	}
 	#changeProp( prop, val ) {
 		const [ sli, span ] = this.$elements.$sliders[ prop ];
@@ -111,7 +111,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 	#oninputSlider( prop, val ) {
 		this.$elements.$sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
-		this.updateWave( prop, val );
+		this.$updateWave( prop, val );
 		this.$dispatch( "liveChange", prop, val );
 	}
 	#onchangeSlider( prop, val ) {
