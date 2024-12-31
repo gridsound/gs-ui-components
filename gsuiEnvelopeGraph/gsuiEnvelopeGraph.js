@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiEnvelopeGraph extends gsui0ne {
+	$amp = 1;
 	$attack = .25;
 	$hold = .25;
 	$decay = .25;
@@ -36,14 +37,14 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
 				this.clientWidth, this.clientHeight, this.$duration,
-				this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
+				this.$amp, this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
 
 			GSUsetAttribute( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
 			GSUsetAttribute( this.$elements.$relLine, "points", pts.slice( -4 ).join( " " ) );
 			GSUsetAttribute( this.$elements.$mainLine, "points", pts.join( " " ) );
 		}
 	}
-	static #getPoints( w, h, dur, att, hold, dec, sus, rel ) {
+	static #getPoints( w, h, dur, amp, att, hold, dec, sus, rel ) {
 		const dur2 = dur !== "auto" ? dur : att + hold + dec + 1 + rel;
 		const bpp = w / dur2;
 		const attX = bpp * att;
@@ -51,14 +52,16 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		const decX = holX + bpp * dec;
 		const susX = decX + bpp * ( dur === "auto" ? 1 : dur - att - hold - dec - rel );
 		const relX = susX + bpp * rel;
-		const susY = h * ( 1 - sus );
+		const holY = h - ( h * amp );
+		const susY = h - ( h * amp * sus );
+		const padTop = 2;
 
 		return [
 			0,    h,
-			attX, 2,
-			holX, 2,
-			decX, susY + 2,
-			susX, susY + 2,
+			attX, holY + padTop,
+			holX, holY + padTop,
+			decX, susY + padTop,
+			susX, susY + padTop,
 			relX, h,
 		];
 	}
