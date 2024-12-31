@@ -50,7 +50,7 @@ class gsuiLFO extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.$elements.$wave.$nbLines( 1 );
-		this.updateWave();
+		this.$updateWave();
 	}
 	static get observedAttributes() {
 		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
@@ -80,7 +80,7 @@ class gsuiLFO extends gsui0ne {
 	}
 
 	// .........................................................................
-	updateWave( prop, val ) {
+	$updateWave( prop, val ) {
 		const w = this.$elements.$wave;
 		const bPM = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
 		const opt = {
@@ -138,12 +138,12 @@ class gsuiLFO extends gsui0ne {
 		switch ( e.target.name ) {
 			case "gsuiLFO-type":
 				GSUsetAttribute( this, "type", e.target.value );
-				this.updateWave();
+				this.$updateWave();
 				this.$dispatch( "change", "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
 				GSUsetAttribute( this, "amp", -GSUgetAttributeNum( this, "amp" ) );
-				this.updateWave();
+				this.$updateWave();
 				this.$dispatch( "change", "amp", GSUgetAttributeNum( this, "amp" ) );
 				break;
 		}
@@ -154,7 +154,7 @@ class gsuiLFO extends gsui0ne {
 			: val * Math.sign( GSUgetAttributeNum( this, "amp" ) );
 
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
-		this.updateWave( prop, realval );
+		this.$updateWave( prop, realval );
 		this.$dispatch( "liveChange", prop, realval );
 	}
 	#onchangeSlider( prop, val ) {
