@@ -36,6 +36,9 @@ gsui-envelope {
 	font-size: 12px;
 	opacity: .5;
 }
+.gsuiEnvelope-propLabel span:first-child {
+	font-size: 10px;
+}
 .gsuiEnvelope-propValue::before {
 	content: "·";
 	margin: 0 2px;

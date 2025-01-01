@@ -11,7 +11,7 @@ GSUsetTemplate( "gsui-envelope", () => [
 		GSUcreateDiv( { class: "gsuiEnvelope-prop", title, "data-prop": prop },
 			GSUcreateDiv( { class: "gsuiEnvelope-propLabel" },
 				GSUcreateSpan( null, text ),
-				GSUcreateDiv( { class: "gsuiEnvelope-propValue" } ),
+				GSUcreateSpan( { class: "gsuiEnvelope-propValue" } ),
 			),
 			GSUcreateDiv( { class: "gsuiEnvelope-propContent" },
 				GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
