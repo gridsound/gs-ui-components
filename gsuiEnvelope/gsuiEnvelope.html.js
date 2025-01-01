@@ -7,7 +7,7 @@ GSUsetTemplate( "gsui-envelope", () => [
 		[ "decay", "decay", "dec", 0, 1, .01 ],
 		[ "sustain", "sustain", "sus", 0, 1, .01 ],
 		[ "release", "release", "rel", 0, 4, .01 ],
-		[ "amp", "amplification", "amp", -1, 1, .01 ],
+		[ "amp", "amplification", "pitch", -24, 24, 1 ],
 	].map( ( [ prop, title, text, min, max, step ] ) =>
 		GSUcreateDiv( { class: "gsuiEnvelope-prop", title, "data-prop": prop },
 			GSUcreateDiv( { class: "gsuiEnvelope-propLabel" },

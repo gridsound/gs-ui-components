@@ -60,10 +60,6 @@ class gsuiEnvelope extends gsui0ne {
 		switch ( prop ) {
 			case "type":
 				this.#type = val;
-				if ( val === "detune" ) {
-					GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], { min: -24, max: +24, step: 1 } );
-					GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "value", GSUgetAttribute( this, "amp" ) );
-				}
 				this.$onresize();
 				this.$updateWave();
 				break;
