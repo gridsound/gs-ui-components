@@ -54,7 +54,7 @@ class gsuiEnvelope extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "type", "toggle", "amp", "attack", "hold", "decay", "sustain", "release" ];
+		return [ "type", "toggle", "timedivision", "amp", "attack", "hold", "decay", "sustain", "release" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
