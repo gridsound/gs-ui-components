@@ -31,6 +31,9 @@ gsui-lfo {
 	font-size: 12px;
 	opacity: .5;
 }
+.gsuiLFO-propLabel span:first-child {
+	font-size: 10px;
+}
 .gsuiLFO-propValue::before {
 	content: "·";
 	margin: 0 2px;

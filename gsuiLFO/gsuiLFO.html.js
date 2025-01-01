@@ -26,7 +26,7 @@ GSUsetTemplate( "gsui-lfo", () => [
 		GSUcreateDiv( { class: "gsuiLFO-prop", title, "data-prop": prop },
 			GSUcreateDiv( { class: "gsuiLFO-propLabel" },
 				GSUcreateSpan( null, text ),
-				GSUcreateDiv( { class: "gsuiLFO-propValue" } ),
+				GSUcreateSpan( { class: "gsuiLFO-propValue" } ),
 			),
 			GSUcreateDiv( { class: "gsuiLFO-propContent" },
 				GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
