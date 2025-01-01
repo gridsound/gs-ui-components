@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiEnvelope extends gsui0ne {
+	#type = "gain";
 	#dur = 4;
 	#waveWidth = 300;
 
@@ -21,8 +22,10 @@ class gsuiEnvelope extends gsui0ne {
 				},
 			},
 			$attributes: {
+				type: "gain",
 				toggle: false,
 				timedivision: "4/4",
+				amp: 24,
 				attack: .1,
 				hold: .1,
 				decay: .1,
@@ -51,12 +54,22 @@ class gsuiEnvelope extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "toggle", "amp", "attack", "hold", "decay", "sustain", "release" ];
+		return [ "type", "toggle", "amp", "attack", "hold", "decay", "sustain", "release" ];
 	}
-	$attributeChanged( prop, val, prev ) {
+	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "type":
+				this.#type = val;
+				if ( val === "detune" ) {
+					GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], { min: -24, max: +24, step: 1 } );
+					GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "value", GSUgetAttribute( this, "amp" ) );
+				}
+				this.$onresize();
+				this.$updateWave();
+				break;
 			case "toggle": this.#changeToggle( val !== null ); break;
 			case "timedivision": this.#changeTimedivision( val ); break;
+			case "amp":
 			case "attack":
 			case "hold":
 			case "decay":
@@ -64,23 +77,16 @@ class gsuiEnvelope extends gsui0ne {
 			case "release":
 				this.#changeProp( prop, +val );
 				break;
-			case "amp":
-				this.#changeProp( "amp", +val );
-				if ( val === null || prev === null ) {
-					this.$onresize();
-					this.$updateWave();
-				}
-				break;
 		}
 	}
 
 	// .........................................................................
 	$updateWave( prop, val ) {
 		const g = this.$elements.$graph;
-		const amp = !GSUhasAttribute( this, "amp" ) ? 1 :
-			Math.abs( prop === "amp" ? val : GSUgetAttributeNum( this, "amp" ) ) / 24;
+		const amp = prop === "amp" ? val : GSUgetAttributeNum( this, "amp" );
+		const amp2 = this.#type === "detune" ? amp / 24 : 1;
 
-		g.$amp = amp;
+		g.$amp = amp2;
 		g.$attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );
 		g.$hold = prop === "hold" ? val : GSUgetAttributeNum( this, "hold" );
 		g.$decay = prop === "decay" ? val : GSUgetAttributeNum( this, "decay" );

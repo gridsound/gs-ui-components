@@ -33,8 +33,12 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<label>
-		<input id="withAmp" type="checkbox"/>
-		<span>with amp (-12)</span>
+		<input type="radio" name="type" value="gain"/>
+		<span>gain</span>
+	</label>
+	<label>
+		<input type="radio" name="type" value="detune"/>
+		<span>detune</span>
 	</label>
 </div>
 
@@ -59,11 +63,12 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elEnv = document.querySelector( "gsui-envelope" );
-const inpWithAmp = document.querySelector( "#withAmp" );
+const elCtrls = document.querySelector( "#testCtrls" );
+const inpTypeGain = elCtrls.querySelector( "input[value='gain']" );
 
-inpWithAmp.onchange = () => {
-	GSUsetAttribute( elEnv, "amp", GSUhasAttribute( elEnv, "amp" ) ? false : "-12" );
-};
+elCtrls.onchange = e => GSUsetAttribute( elEnv, "type", e.target.value );
+
+inpTypeGain.click();
 </script>
 </body>
 </html>
