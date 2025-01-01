@@ -21,7 +21,7 @@
 <style>
 body {
 	--test-content-w: 460px;
-	--test-content-h: 180px;
+	--test-content-h: 220px;
 }
 </style>
 </head>
@@ -30,6 +30,12 @@ body {
 <!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".1" decay=".1" sustain=".7" release="1"></gsui-envelope>
+</div>
+<div id="TEST-CTRLS">
+	<label>
+		<input id="withAmp" type="checkbox"/>
+		<span>with amp (-12)</span>
+	</label>
 </div>
 
 <!-- ....................................................................... -->
@@ -49,5 +55,15 @@ body {
 <!-- ....................................................................... -->
 <script src="gsuiEnvelope.html.js"></script>
 <script src="gsuiEnvelope.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elEnv = document.querySelector( "gsui-envelope" );
+const inpWithAmp = document.querySelector( "#withAmp" );
+
+inpWithAmp.onchange = () => {
+	GSUsetAttribute( elEnv, "amp", GSUhasAttribute( elEnv, "amp" ) ? false : "-12" );
+};
+</script>
 </body>
 </html>

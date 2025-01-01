@@ -12,6 +12,7 @@ class gsuiEnvelope extends gsui0ne {
 				$beatlines: "gsui-beatlines",
 				$graph: "gsui-envelope-graph",
 				$sliders: {
+					amp:     [ ".gsuiEnvelope-prop[data-prop='amp']     gsui-slider", ".gsuiEnvelope-prop[data-prop='amp']     .gsuiEnvelope-propValue" ],
 					attack:  [ ".gsuiEnvelope-prop[data-prop='attack']  gsui-slider", ".gsuiEnvelope-prop[data-prop='attack']  .gsuiEnvelope-propValue" ],
 					hold:    [ ".gsuiEnvelope-prop[data-prop='hold']    gsui-slider", ".gsuiEnvelope-prop[data-prop='hold']    .gsuiEnvelope-propValue" ],
 					decay:   [ ".gsuiEnvelope-prop[data-prop='decay']   gsui-slider", ".gsuiEnvelope-prop[data-prop='decay']   .gsuiEnvelope-propValue" ],
@@ -50,9 +51,9 @@ class gsuiEnvelope extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "toggle", "attack", "hold", "decay", "sustain", "release" ];
+		return [ "toggle", "amp", "attack", "hold", "decay", "sustain", "release" ];
 	}
-	$attributeChanged( prop, val ) {
+	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
 			case "toggle": this.#changeToggle( val !== null ); break;
 			case "timedivision": this.#changeTimedivision( val ); break;
@@ -63,13 +64,23 @@ class gsuiEnvelope extends gsui0ne {
 			case "release":
 				this.#changeProp( prop, +val );
 				break;
+			case "amp":
+				this.#changeProp( "amp", +val );
+				if ( val === null || prev === null ) {
+					this.$onresize();
+					this.$updateWave();
+				}
+				break;
 		}
 	}
 
 	// .........................................................................
 	$updateWave( prop, val ) {
 		const g = this.$elements.$graph;
+		const amp = !GSUhasAttribute( this, "amp" ) ? 1 :
+			Math.abs( prop === "amp" ? val : GSUgetAttributeNum( this, "amp" ) ) / 24;
 
+		g.$amp = amp;
 		g.$attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );
 		g.$hold = prop === "hold" ? val : GSUgetAttributeNum( this, "hold" );
 		g.$decay = prop === "decay" ? val : GSUgetAttributeNum( this, "decay" );
@@ -83,6 +94,7 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	#changeToggle( b ) {
+		GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.hold[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.decay[ 0 ], "disabled", !b );
@@ -97,10 +109,15 @@ class gsuiEnvelope extends gsui0ne {
 		const [ sli, span ] = this.$elements.$sliders[ prop ];
 
 		sli.$setValue( val );
-		span.textContent = val.toFixed( 2 );
+		span.textContent = gsuiEnvelope.#formatValue( prop, val );
 	}
 	#updatePxPerBeat() {
 		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.#waveWidth / this.#dur );
+	}
+	static #formatValue( prop, val ) {
+		return prop !== "amp"
+			? val.toFixed( 2 )
+			: GSUsignNum( val.toFixed( 0 ) );
 	}
 
 	// .........................................................................
@@ -110,7 +127,7 @@ class gsuiEnvelope extends gsui0ne {
 		this.$elements.$graph.$resized();
 	}
 	#oninputSlider( prop, val ) {
-		this.$elements.$sliders[ prop ][ 1 ].textContent = val.toFixed( 2 );
+		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiEnvelope.#formatValue( prop, val );
 		this.$updateWave( prop, val );
 		this.$dispatch( "liveChange", prop, val );
 	}

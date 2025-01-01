@@ -8,6 +8,7 @@ gsui-envelope {
 	grid-template:
 		"attack hold  decay sustain release" 28px
 		"graph  graph graph graph   graph  " 1fr
+		"amp    amp   amp   amp     amp    " 8px
 		/1fr    1fr   1fr   1fr      1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
@@ -15,12 +16,19 @@ gsui-envelope {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 }
+gsui-envelope:not( [ amp ] ) {
+	grid-template:
+		"attack hold  decay sustain release" 28px
+		"graph  graph graph graph   graph  " 1fr
+		/1fr    1fr   1fr   1fr      1fr;
+}
 
 /* .......................................................................... */
 .gsuiEnvelope-prop {
 	display: flex;
 	flex-direction: column;
 }
+.gsuiEnvelope-prop[ data-prop="amp" ] { grid-area: amp }
 .gsuiEnvelope-prop[ data-prop="attack" ] { grid-area: attack }
 .gsuiEnvelope-prop[ data-prop="hold" ] { grid-area: hold }
 .gsuiEnvelope-prop[ data-prop="decay" ] { grid-area: decay }
@@ -50,9 +58,34 @@ gsui-envelope {
 	flex: 1;
 	position: relative;
 }
+gsui-envelope gsui-slider {
+	height: 8px;
+}
 gsui-envelope .gsuiSlider-eventCatcher {
 	top: -26px;
 	bottom: -6px;
+}
+
+/* .......................................................................... */
+gsui-envelope:not( [ amp ] ) .gsuiEnvelope-prop[ data-prop="amp" ] {
+	display: none;
+}
+.gsuiEnvelope-prop[ data-prop="amp" ] {
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+}
+.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propLabel {
+	height: auto;
+}
+.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propValue {
+	width: 24px;
+}
+.gsuiEnvelope-prop[ data-prop="amp" ] gsui-slider {
+	width: 80px;
+}
+.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiSlider-eventCatcher {
+	inset: -6px;
 }
 
 /* .......................................................................... */
@@ -65,7 +98,7 @@ gsui-envelope .gsuiSlider-eventCatcher {
 }
 gsui-envelope gsui-envelope-graph {
 	position: absolute;
-	inset: 4px 0 0;
+	inset: 2px 0 0;
 	color: var( --gsuiEnvelope-wave-off );
 }
 gsui-envelope[ toggle ] gsui-envelope-graph {
