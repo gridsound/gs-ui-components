@@ -37,7 +37,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
 				this.clientWidth, this.clientHeight, this.$duration,
-				this.$amp, this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
+				Math.abs( this.$amp ), this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
 
 			GSUsetAttribute( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
 			GSUsetAttribute( this.$elements.$relLine, "points", pts.slice( -4 ).join( " " ) );
