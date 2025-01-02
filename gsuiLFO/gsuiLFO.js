@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiLFO extends gsui0ne {
+	#lfo = "gain";
 	#dur = 4;
 	#waveWidth = 300;
 	#nyquist = 24000;
@@ -139,12 +140,12 @@ class gsuiLFO extends gsui0ne {
 			case "gsuiLFO-type":
 				GSUsetAttribute( this, "type", e.target.value );
 				this.$updateWave();
-				this.$dispatch( "change", "type", e.target.value );
+				this.$dispatch( "change", this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
 				GSUsetAttribute( this, "amp", -GSUgetAttributeNum( this, "amp" ) );
 				this.$updateWave();
-				this.$dispatch( "change", "amp", GSUgetAttributeNum( this, "amp" ) );
+				this.$dispatch( "change", this.#lfo, "amp", GSUgetAttributeNum( this, "amp" ) );
 				break;
 		}
 	}
@@ -155,7 +156,7 @@ class gsuiLFO extends gsui0ne {
 
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		this.$updateWave( prop, realval );
-		this.$dispatch( "liveChange", prop, realval );
+		this.$dispatch( "liveChange", this.#lfo, prop, realval );
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
@@ -163,7 +164,7 @@ class gsuiLFO extends gsui0ne {
 			: val;
 
 		GSUsetAttribute( this, prop, nval );
-		this.$dispatch( "change", prop, nval );
+		this.$dispatch( "change", this.#lfo, prop, nval );
 	}
 }
 
