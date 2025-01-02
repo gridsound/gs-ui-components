@@ -392,7 +392,7 @@ class gsuiTimewindow extends gsui0ne {
 		return d > 0 ? 1 / inc : inc;
 	}
 	#onwheel( e ) {
-		if ( e.ctrlKey || ( this.#autoscroll && !e.deltaY ) ) {
+		if ( e.ctrlKey || ( this.#autoscroll && this.#playing && !e.deltaY ) ) {
 			e.preventDefault();
 		}
 		if ( e.ctrlKey ) {
