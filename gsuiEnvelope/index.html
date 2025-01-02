@@ -66,7 +66,7 @@ const elEnv = document.querySelector( "gsui-envelope" );
 const elCtrls = document.querySelector( "#testCtrls" );
 const inpTypeGain = elCtrls.querySelector( "input[value='gain']" );
 
-elCtrls.onchange = e => GSUsetAttribute( elEnv, "type", e.target.value );
+elCtrls.onchange = e => GSUsetAttribute( elEnv, "env", e.target.value );
 
 inpTypeGain.click();
 </script>

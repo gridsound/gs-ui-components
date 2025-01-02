@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiEnvelope extends gsui0ne {
-	#type = "gain";
+	#env = "gain";
 	#dur = 4;
 	#waveWidth = 300;
 
@@ -22,7 +22,7 @@ class gsuiEnvelope extends gsui0ne {
 				},
 			},
 			$attributes: {
-				type: "gain",
+				env: "gain",
 				toggle: false,
 				timedivision: "4/4",
 				amp: 24,
@@ -54,12 +54,12 @@ class gsuiEnvelope extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "type", "toggle", "timedivision", "amp", "attack", "hold", "decay", "sustain", "release" ];
+		return [ "env", "toggle", "timedivision", "amp", "attack", "hold", "decay", "sustain", "release" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "type":
-				this.#type = val;
+			case "env":
+				this.#env = val;
 				this.$onresize();
 				this.$updateWave();
 				break;
@@ -80,7 +80,7 @@ class gsuiEnvelope extends gsui0ne {
 	$updateWave( prop, val ) {
 		const g = this.$elements.$graph;
 		const amp = prop === "amp" ? val : GSUgetAttributeNum( this, "amp" );
-		const amp2 = this.#type === "detune" ? amp / 24 : 1;
+		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
 		g.$amp = amp2;
 		g.$attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );

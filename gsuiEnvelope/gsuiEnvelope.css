@@ -13,7 +13,7 @@ gsui-envelope {
 	--gsuiEnvelope-wave-off: #777;
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 }
-gsui-envelope[ type="detune" ] {
+gsui-envelope[ env="detune" ] {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-detune );
 	grid-template:
 		"attack hold  decay sustain release" 28px
@@ -67,7 +67,7 @@ gsui-envelope .gsuiSlider-eventCatcher {
 }
 
 /* .......................................................................... */
-gsui-envelope[ type="gain" ] .gsuiEnvelope-prop[ data-prop="amp" ] {
+gsui-envelope[ env="gain" ] .gsuiEnvelope-prop[ data-prop="amp" ] {
 	display: none;
 }
 .gsuiEnvelope-prop[ data-prop="amp" ] {
