@@ -4,23 +4,45 @@ class gsuiSynthesizer extends gsui0ne {
 	#waveList = [];
 	#uiOscs = new Map();
 	#shadow = null;
+	#data = {
+		env: {
+			gain: {},
+			detune: {},
+		},
+		lfo: {
+			gain: {},
+		},
+	};
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiSynthesizer",
 			$tagName: "gsui-synthesizer",
 			$elements: {
-				$toggleEnv: "gsui-toggle[data-related='env']",
-				$toggleLFO: "gsui-toggle[data-related='lfo']",
+				$heads: "[].gsuiSynthesizer-head",
+				$tabs: {
+					env: {
+						gain: "[data-tab='env gain']",
+						detune: "[data-tab='env detune']",
+					},
+					lfo: {
+						gain: "[data-tab='lfo gain']",
+					},
+				},
 				$env: "gsui-envelope",
 				$lfo: "gsui-lfo",
 				$oscList: ".gsuiSynthesizer-oscList",
 				$newOsc: ".gsuiSynthesizer-newOsc",
 			},
+			$attributes: {
+				timedivision: "4/4",
+				// env: "gain",
+				// lfo: "gain",
+			},
 		} );
-		this.env = this.$elements.$env;
-		this.lfo = this.$elements.$lfo;
 		Object.seal( this );
+
+		const onclickHeadsBind = this.#onclickHeads.bind( this );
 
 		this.$elements.$newOsc.onclick = this.#onclickNewOsc.bind( this );
 		this.$elements.$newOsc.ondragenter = () => this.#ondrag( true );
@@ -38,6 +60,7 @@ class gsuiSynthesizer extends gsui0ne {
 			}
 			return false;
 		};
+		this.$elements.$heads.forEach( el => el.onclick = onclickHeadsBind );
 		new gsuiReorder( {
 			rootElement: this.$elements.$oscList,
 			direction: "column",
@@ -50,15 +73,21 @@ class gsuiSynthesizer extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
-					const isEnv = btn.dataset.related === "env";
-					const ev = isEnv ? "toggleEnv" : "toggleLFO";
-					const el = isEnv ? this.$elements.$env : this.$elements.$lfo;
+					const [ lfoEnv, prop ] = btn.parentNode.dataset.tab.split( " " );
+					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-					GSUsetAttribute( el, "toggle", d.args[ 0 ] );
-					this.$dispatch( ev, d.args[ 0 ] );
+					if ( lfoEnv === "env" && GSUgetAttribute( this.$elements.$env, "env" ) === prop ) {
+						GSUsetAttribute( this.$elements.$env, "toggle", d.args[ 0 ] );
+					}
+					if ( lfoEnv === "lfo" ) {
+						GSUsetAttribute( this.$elements.$lfo, "toggle", d.args[ 0 ] );
+					}
+					this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
 				},
 			},
 		} );
+		this.#selectTab( "env", "gain" );
+		this.#selectTab( "lfo", "gain" );
 	}
 
 	// .........................................................................
@@ -72,6 +101,17 @@ class gsuiSynthesizer extends gsui0ne {
 	$disconnected() {
 		this.#shadow.$disconnected();
 	}
+	static get observedAttributes() {
+		return [ "timedivision" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "timedivision":
+				GSUsetAttribute( this.$elements.$env, "timedivision", val );
+				GSUsetAttribute( this.$elements.$lfo, "timedivision", val );
+				break;
+		}
+	}
 
 	// .........................................................................
 	$setWaveList( arr ) {
@@ -83,17 +123,30 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
-	$changeEnvProp( prop, val ) {
-		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.$toggleEnv, "off", !val );
+	$updateGraph( envLFO, prop ) {
+		const elCmp = envLFO === "env" ? this.$elements.$env : this.$elements.$lfo;
+
+		if ( prop === GSUgetAttribute( elCmp, envLFO ) ) {
+			elCmp.$updateWave();
 		}
-		GSUsetAttribute( this.$elements.$env, prop, val );
 	}
-	$changeLFOProp( prop, val ) {
-		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.$toggleLFO, "off", !val );
+	$changeEnvProp( env, prop, val ) {
+		this.#data.env[ env ][ prop ] = val;
+		if ( env === GSUgetAttribute( this.$elements.$env, "env" ) ) {
+			GSUsetAttribute( this.$elements.$env, prop, val );
 		}
-		GSUsetAttribute( this.$elements.$lfo, prop, val );
+		if ( prop === "toggle" ) {
+			GSUsetAttribute( this.$elements.$tabs.env[ env ].firstChild, "off", !val );
+		}
+	}
+	$changeLFOProp( lfo, prop, val ) {
+		this.#data.lfo[ lfo ][ prop ] = val;
+		if ( lfo === GSUgetAttribute( this.$elements.$lfo, "lfo" ) ) {
+			GSUsetAttribute( this.$elements.$lfo, prop, val );
+		}
+		if ( prop === "toggle" ) {
+			GSUsetAttribute( this.$elements.$tabs.lfo[ lfo ].firstChild, "off", !val );
+		}
 	}
 
 	// .........................................................................
@@ -118,6 +171,28 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
+	#selectTab( lfoEnv, prop ) {
+		const tabs = this.$elements.$tabs[ lfoEnv ];
+
+		if ( !GSUhasAttribute( tabs[ prop ], "data-selected" ) ) {
+			GSUforEach( tabs, el => GSUsetAttribute( el, "data-selected", el.dataset.tab.endsWith( prop ) ) );
+			if ( lfoEnv === "env" ) {
+				GSUsetAttribute( this.$elements.$env, this.#data[ lfoEnv ][ prop ] );
+				GSUsetAttribute( this.$elements.$env, "env", prop );
+			}
+		}
+	}
+
+	// .........................................................................
+	#onclickHeads( e ) {
+		const tab = ( e.target.tagName === "GSUI-TOGGLE"
+			? e.target.parentNode
+			: e.target ).dataset.tab;
+
+		if ( tab ) {
+			this.#selectTab( ...tab.split( " " ) );
+		}
+	}
 	#onclickNewOsc() {
 		this.$dispatch( "addOscillator" );
 	}

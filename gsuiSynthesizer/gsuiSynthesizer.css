@@ -28,19 +28,42 @@ gsui-synthesizer {
 	align-items: center;
 	box-sizing: border-box;
 	height: 26px;
-	font-size: 14px;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 24px;
 	padding-top: 2px;
 	border-bottom: 2px solid #0002;
 	background-color: var( --gsui-head3-bg );
 }
 .gsuiSynthesizer-headTitle {
-	font-size: 10px;
-	font-weight: bold;
-	line-height: 24px;
+	margin: 0 10px;
 }
-.gsuiSynthesizer-head gsui-toggle {
+.gsuiSynthesizer-headTab {
+	display: flex;
+	align-items: center;
+	padding-right: 10px;
+	cursor: pointer;
+	background-color: #ffffff0b;
+}
+.gsuiSynthesizer-headTab[ data-selected ] {
+	cursor: default;
+	background-color: #ffffff1b;
+}
+.gsuiSynthesizer-headTab:not( [ data-selected ] ):hover {
+	background-color: #ffffff11;
+}
+.gsuiSynthesizer-headTab gsui-toggle {
 	align-self: normal;
-	width: 24px;
+	justify-content: end;
+	width: 18px;
+	margin-right: 8px;
+}
+.gsuiSynthesizer-headTab span {
+	opacity: .7;
+}
+.gsuiSynthesizer-headTab:hover span,
+.gsuiSynthesizer-headTab[ data-selected ] span {
+	opacity: 1;
 }
 .gsuiSynthesizer-label {
 	width: 36px;
@@ -63,7 +86,7 @@ gsui-synthesizer {
 .gsuiSynthesizer-headOscs {
 	gap: 6px;
 	height: 24px;
-	padding: 2px 10px 0 8px;
+	padding: 2px 10px 0 0;
 }
 .gsuiSynthesizer-oscList {
 	flex: 1;
