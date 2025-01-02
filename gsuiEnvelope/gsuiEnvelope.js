@@ -131,11 +131,11 @@ class gsuiEnvelope extends gsui0ne {
 	#oninputSlider( prop, val ) {
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiEnvelope.#formatValue( prop, val );
 		this.$updateWave( prop, val );
-		this.$dispatch( "liveChange", prop, val );
+		this.$dispatch( "liveChange", this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
 		GSUsetAttribute( this, prop, val );
-		this.$dispatch( "change", prop, val );
+		this.$dispatch( "change", this.#env, prop, val );
 	}
 }
 
