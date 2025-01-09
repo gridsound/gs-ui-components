@@ -75,10 +75,10 @@ gsui-oscillator[ wave="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderVal
 	flex-direction: column;
 	grid-area: wave;
 	gap: 4px;
+	overflow: hidden;
 }
 .gsuiOscillator-waveWrap {
 	position: relative;
-	overflow: hidden;
 	display: flex;
 	flex: 1;
 	border-radius: 3px;
@@ -177,7 +177,6 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 /* .......................................................................... */
 .gsuiOscillator-sourceName,
 .gsuiOscillator-waveSelect {
-	flex: 1;
 	padding-left: 6px;
 	font-size: 12px;
 	font-family: inherit;
@@ -191,7 +190,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	background-color: #333;
 }
 .gsuiOscillator-sourceName {
-	padding-left: 12px;
+	padding: 0 8px 0 12px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
