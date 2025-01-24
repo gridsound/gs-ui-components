@@ -43,9 +43,7 @@ class gsuiDrumrows extends gsui0ne {
 	$setDrumPropValue( rowId, prop, val ) {
 		const el = this.#getPropBtn( rowId, prop );
 		const fixval = prop === "detune" ? val : val.toFixed( 2 );
-		const txtval = prop !== "gain"
-			? `${ val > 0 ? "+" : "" }${ fixval }`
-			: fixval;
+		const txtval = prop === "gain" ? fixval : GSUsignNum( fixval );
 
 		el.classList.add( "gsuiDrumrow-propSpanValue" );
 		el.textContent = txtval;
