@@ -78,15 +78,15 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	#namePrint( prop, val ) {
-		const el = this.$elements.$name;
-		const text = prop === "pan"
-			? `pan: ${ val > 0 ? "+" : "" }${ val.toFixed( 2 ) }`
-			: prop === "gain"
-				? `gain: ${ val.toFixed( 2 ) }`
-				: `pitch: ${ val > 0 ? "+" : "" }${ val }`;
-
-		el.textContent = text;
-		el.classList.add( "gsuiDrumrow-nameInfo" );
+		this.$elements.$name.textContent = gsuiDrumrow.#namePrint2( prop, val );
+		this.$elements.$name.classList.add( "gsuiDrumrow-nameInfo" );
+	}
+	static #namePrint2( prop, val ) {
+		switch ( prop ) {
+			case "pan": return `pan: ${ GSUsignNum( val.toFixed( 2 ) ) }`;
+			case "gain": return `gain: ${ val.toFixed( 2 ) }`;
+			case "detune": return `pitch: ${ GSUsignNum( val ) }`;
+		}
 	}
 
 	// .........................................................................
