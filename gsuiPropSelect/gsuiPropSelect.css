@@ -1,0 +1,54 @@
+.gsuiPropSelect-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	justify-content: center;
+	box-sizing: border-box;
+	height: 100%;
+	gap: 6px;
+	padding: 6px;
+}
+
+/* .......................................................................... */
+.gsuiPropSelect-btn {
+	outline: 0;
+	border: 1px dashed;
+	border-radius: 3px;
+	padding: 2px;
+	font-size: 11px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.gsuiPropSelect-btn[ data-prop="gain" ]   { color: var( --gsuiDrumrow-gain ) }
+.gsuiPropSelect-btn[ data-prop="pan" ]    { color: var( --gsuiDrumrow-pan ) }
+.gsuiPropSelect-btn[ data-prop="detune" ] { color: var( --gsuiDrumrow-detune ) }
+.gsuiPropSelect-btn:hover {
+	background-color: #fff1;
+}
+.gsuiPropSelect-btn:has( :checked ) {
+	background-color: currentColor;
+}
+
+/* .......................................................................... */
+.gsuiPropSelect-btn-radio {
+	position: absolute;
+	visibility: hidden;
+}
+.gsuiPropSelect-btn-span {
+	padding: 2px 4px;
+	border-radius: 3px;
+	transition: .1s background-color;
+}
+.gsuiPropSelect-btn:has( :checked ) .gsuiPropSelect-btn-span {
+	color: #333;
+}
+.gsuiPropSelect-btn-span[ data-value ] {
+	font-size: 14px;
+	font-family: var( --gsui-font-number );
+}
+.gsuiPropSelect-btn-span[ data-value ]::before {
+	content: attr( data-value );
+}
+.gsuiPropSelect-btn-span:not( [ data-value ] )::before {
+	content: attr( data-label );
+}
