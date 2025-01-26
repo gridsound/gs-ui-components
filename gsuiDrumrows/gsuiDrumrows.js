@@ -37,22 +37,17 @@ class gsuiDrumrows extends gsui0ne {
 	$stopRow( id ) {
 		this.#rows.get( id ).$stop();
 	}
-	$setPropFilter( id, prop ) {
-		this.#rows.get( id ).querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"]` ).checked = true;
+	$setPropFilter( rowId, prop ) {
+		GSUsetAttribute( this.#getPropSelect( rowId ), "prop", prop );
 	}
 	$setDrumPropValue( rowId, prop, val ) {
-		const el = this.#getPropBtn( rowId, prop );
-		const fixval = prop === "detune" ? val : val.toFixed( 2 );
-		const txtval = prop === "gain" ? fixval : GSUsignNum( fixval );
-
-		el.classList.add( "gsuiDrumrow-propSpanValue" );
-		el.textContent = txtval;
+		GSUsetAttribute( this.#getPropSelect( rowId ), "value", val );
 	}
 	$removeDrumPropValue( rowId, prop ) {
-		const el = this.#getPropBtn( rowId, prop );
-
-		el.classList.remove( "gsuiDrumrow-propSpanValue" );
-		el.textContent = prop === "detune" ? "pitch" : prop;
+		GSUsetAttribute( this.#getPropSelect( rowId ), "value", false );
+	}
+	#getPropSelect( rowId ) {
+		return this.#rows.get( rowId ).querySelector( "gsui-prop-select" );
 	}
 
 	// .........................................................................
@@ -80,11 +75,6 @@ class gsuiDrumrows extends gsui0ne {
 				this.#rows.get( id ).$changePattern( val );
 				break;
 		}
-	}
-
-	// .........................................................................
-	#getPropBtn( rowId, prop ) {
-		return this.#rows.get( rowId ).querySelector( `.gsuiDrumrow-propRadio[value="${ prop }"] + .gsuiDrumrow-propSpan` );
 	}
 
 	// .........................................................................

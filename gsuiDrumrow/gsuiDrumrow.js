@@ -20,8 +20,6 @@ class gsuiDrumrow extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
-		this.onchange = e => this.$dispatch( "propFilter", e.target.value );
-		this.oncontextmenu = this.#oncontextmenuRows.bind( this );
 		this.onanimationend = this.#onanimationend.bind( this );
 		GSUlistenEvents( this, {
 			gsuiToggle: {
@@ -42,6 +40,10 @@ class gsuiDrumrow extends gsui0ne {
 				},
 				inputStart: GSUnoop,
 				inputEnd: () => this.#oninputendSlider(),
+			},
+			gsuiPropSelect: {
+				select: d => this.$dispatch( "propFilter", d.args[ 0 ] ),
+				selectAll: d => this.$dispatch( "propFilters", d.args[ 0 ] ),
 			},
 		} );
 	}
@@ -99,12 +101,6 @@ class gsuiDrumrow extends gsui0ne {
 	#onanimationend( e ) {
 		if ( e.target.classList.contains( "gsuiDrumrow-startCursor" ) ) {
 			e.target.remove();
-		}
-	}
-	#oncontextmenuRows( e ) {
-		e.preventDefault();
-		if ( e.target.classList.contains( "gsuiDrumrow-propSpan" ) ) {
-			this.$dispatch( "propFilters", e.target.previousElementSibling.value );
 		}
 	}
 	#onclick( e ) {

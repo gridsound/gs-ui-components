@@ -38,52 +38,11 @@ gsui-drumrow.gsuiDrumrows-dragover .gsuiDrumrow-main {
 	opacity: 0;
 	pointer-events: none;
 }
-.gsuiDrumrow-props {
+gsui-drumrow gsui-prop-select {
 	position: absolute;
 	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	inset: 1em 0 0 var( --grip-w );
 	background-color: var( --gsui-item-more-bg );
-}
-.gsuiDrumrow-prop {
-	outline: 0;
-	font-size: 11px;
-	font-weight: bold;
-	font-family: inherit;
-	cursor: pointer;
-}
-.gsuiDrumrow-propPan { --color: var( --gsuiDrumrow-pan ); }
-.gsuiDrumrow-propGain { --color: var( --gsuiDrumrow-gain ); }
-.gsuiDrumrow-propDetune { --color: var( --gsuiDrumrow-detune ); }
-.gsuiDrumrow-prop + .gsuiDrumrow-prop {
-	margin-left: 4px;
-}
-.gsuiDrumrow-propRadio {
-	position: absolute;
-	visibility: hidden;
-}
-.gsuiDrumrow-propSpan {
-	color: var( --color );
-	padding: 2px 4px;
-	border-radius: 3px;
-	opacity: 0;
-	transition: .1s background-color, .2s opacity;
-}
-.gsuiDrumrow-propSpanValue {
-	font-size: 14px;
-	font-family: var( --gsui-font-number );
-}
-.gsuiDrumrow-open .gsuiDrumrow-propSpan {
-	opacity: 1;
-}
-.gsuiDrumrow-propSpan:hover {
-	background-color: var( --gsuiDrumrow-prop-bgHover );
-}
-.gsuiDrumrow-propRadio:checked + .gsuiDrumrow-propSpan {
-	color: var( --gsui-item-bg );
-	background-color: var( --color );
 }
 
 /* .......................................................................... */
