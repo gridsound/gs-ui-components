@@ -20,7 +20,7 @@ GSUsetTemplate( "gsui-drumrow", () => [
 			GSUcreateElement( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .01, "mousemove-size": 400, "data-prop": "gain" } ),
 		),
 	),
-	GSUcreateElement( "gsui-prop-select" ),
+	GSUcreateElement( "gsui-prop-select", { props: "gain pan detune:pitch" } ),
 	GSUcreateDiv( { class: "gsuiDrumrows-drop" },
 		GSUcreateDiv( { class: "gsuiDrumrows-dropIn" },
 			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),

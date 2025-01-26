@@ -19,10 +19,13 @@ class gsuiPropSelect extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "prop", "value" ];
+		return [ "props", "prop", "value" ];
 	}
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
+			case "props":
+				this.#createProps( val );
+				break;
 			case "prop":
 				this.#getBtn( val ).firstChild.click();
 				if ( prev ) {
@@ -37,6 +40,12 @@ class gsuiPropSelect extends gsui0ne {
 	}
 
 	// .........................................................................
+	#createProps( s ) {
+		const elBtns = s.split( " " ).map( p => GSUgetTemplate( "gsui-prop-select-btn", ...p.split( ":" ) ) );
+
+		GSUemptyElement( this.$elements.$form );
+		this.$elements.$form.append( ...elBtns );
+	}
 	#getBtn( prop ) {
 		return this.querySelector( `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
 	}
