@@ -133,15 +133,15 @@ gsui-drumrow .gsuiSlider-eventCatcher {
 	inset: -2px;
 }
 .gsuiDrumrow-detune {
-	--gsuiSlider-lineColor: var( --gsuiDrumrow-detune );
+	--gsuiSlider-lineColor: var( --gsui-col-detune );
 	right: calc( 2 * var( --slider-w ) + 6px );
 }
 .gsuiDrumrow-pan {
-	--gsuiSlider-lineColor: var( --gsuiDrumrow-pan );
+	--gsuiSlider-lineColor: var( --gsui-col-pan );
 	right: calc( var( --slider-w ) + 4px );
 }
 .gsuiDrumrow-gain {
-	--gsuiSlider-lineColor: var( --gsuiDrumrow-gain );
+	--gsuiSlider-lineColor: var( --gsui-col-gain );
 	right: 2px;
 }
 
