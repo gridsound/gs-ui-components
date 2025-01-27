@@ -15,14 +15,7 @@ class gsuiPianoroll extends gsui0ne {
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
 	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
-	#slidersSelect = GSUcreateSelect( { class: "gsuiPianoroll-slidersSelect", size: 6 },
-		GSUcreateOption( { value: "gain", selected: "" } ),
-		GSUcreateOption( { value: "pan" } ),
-		GSUcreateOption( { value: "lowpass" } ),
-		GSUcreateOption( { value: "highpass" } ),
-		GSUcreateOption( { value: "gainLFOSpeed" }, "gain.lfo.speed" ),
-		GSUcreateOption( { value: "gainLFOAmp" }, "gain.lfo.amp" ),
-	);
+	#propSelect = GSUcreateElement( "gsui-prop-select", { prop: "gain", props: "gain pan lowpass highpass gainLFOSpeed:gain.lfo.speed gainLFOAmp:gain.lfo.amp" } );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,
 		panelsizemin: 100,
@@ -73,6 +66,9 @@ class gsuiPianoroll extends gsui0ne {
 				changeLoop: d => this.#ongsuiTimelineChangeLoop( true, ...d.args ),
 				changeCurrentTime: d => this.#ongsuiTimelineChangeCurrentTime( d.args[ 0 ] ),
 			},
+			gsuiPropSelect: {
+				select: d => this.#onchangePropSelect(),
+			},
 			gsuiSliderGroup: {
 				input: d => this.#ongsuiSliderGroupInput( d.args[ 1 ] ),
 				inputEnd: () => this.#ongsuiSliderGroupInputEnd(),
@@ -82,7 +78,7 @@ class gsuiPianoroll extends gsui0ne {
 				deletePreviewBlock: () => this.$removeKey( "preview" ),
 				startPreviewAudio: d => {
 					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
-						this.uiKeys.$midiKeyDown( d.args[ 1 ] );
+						this.uiKeys.$midiKeyDown( d.args[ 1 ] ); // should be called differently
 						return true;
 					}
 				},
@@ -96,7 +92,6 @@ class gsuiPianoroll extends gsui0ne {
 		} );
 		this.ondragover = GSUnoopFalse;
 		this.ondrop = this.#ondrop.bind( this );
-		this.#slidersSelect.onchange = this.#onchangeSlidersSelect.bind( this );
 		this.#blcManager.$oncreatePreviewBlock = ( rowInd, when ) => {
 			const rows = this.#blcManager.$getRows();
 			const key = +rows[ rowInd ].dataset.midi;
@@ -105,7 +100,7 @@ class gsuiPianoroll extends gsui0ne {
 		};
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
-		this.#onchangeSlidersSelect();
+		this.#onchangePropSelect();
 		this.$reset();
 	}
 
@@ -114,7 +109,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.classList.add( "gsuiBlocksManager" );
 		this.append( this.#win );
 		this.#win.$appendPanel( this.uiKeys );
-		this.#win.$appendPanelDown( this.#slidersSelect );
+		this.#win.$appendPanelDown( this.#propSelect );
 		this.#win.$appendDown( this.#uiSliderGroup );
 		this.#win.$appendMain( this.#selectionElement );
 		this.$scrollToMiddle();
@@ -203,7 +198,7 @@ class gsuiPianoroll extends gsui0ne {
 		obj.selected
 			? this.#blcManager.$getSelectedBlocks().set( id, blc )
 			: this.#blcManager.$getSelectedBlocks().delete( id );
-		this.#uiSliderGroup.$set( id, obj.when, obj.duration, obj[ this.#slidersSelect.value ] );
+		this.#uiSliderGroup.$set( id, obj.when, obj.duration, obj[ this.#propSelect.$getCurrentProp() ] );
 		this.$changeKeyProp( id, "key", obj.key );
 		this.$changeKeyProp( id, "when", obj.when );
 		this.$changeKeyProp( id, "duration", obj.duration );
@@ -300,7 +295,7 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	#blockSliderUpdate( nodeName, el, val ) {
-		if ( this.#slidersSelect.value === nodeName ) {
+		if ( this.#propSelect.$getCurrentProp() === nodeName ) {
 			this.#uiSliderGroup.$setProp( el.dataset.id, "value", val );
 		}
 	}
@@ -335,21 +330,18 @@ class gsuiPianoroll extends gsui0ne {
 		return ret;
 	}
 	#ongsuiSliderGroupInput( val ) {
-		const prop = this.#slidersSelect.value;
+		const prop = this.#propSelect.$getCurrentProp();
+		const val2 = prop.startsWith( "gainLFO" )
+			? `x ${ gsuiPianoroll.#xToMul( val ).toFixed( 2 ) }`
+			: val.toFixed( 2 );
 
-		Array.prototype.find.call( this.#slidersSelect.children,
-			o => o.value === prop ).dataset.number = ( prop.startsWith( "gainLFO" )
-			? gsuiPianoroll.#xToMul( val )
-			: val ).toFixed( 2 );
+		GSUsetAttribute( this.#propSelect, "value", val2 );
 	}
 	#ongsuiSliderGroupInputEnd() {
-		const prop = this.#slidersSelect.value;
-
-		delete Array.prototype.find.call( this.#slidersSelect.children,
-			o => o.value === prop ).dataset.number;
+		GSUsetAttribute( this.#propSelect, "value", false );
 	}
 	#ongsuiSliderGroupChange( d ) {
-		const prop = this.#slidersSelect.value;
+		const prop = this.#propSelect.$getCurrentProp();
 
 		d.component = "gsuiPianoroll";
 		d.eventName = "changeKeysProps";
@@ -404,8 +396,8 @@ class gsuiPianoroll extends gsui0ne {
 	#rowMousedown( key, e ) {
 		this.#blcManager.$onmousedown( e );
 	}
-	#onchangeSlidersSelect() {
-		const prop = this.#slidersSelect.value;
+	#onchangePropSelect() {
+		const prop = this.#propSelect.$getCurrentProp();
 		const grp = this.#uiSliderGroup;
 
 		switch ( prop ) {
