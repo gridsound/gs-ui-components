@@ -1,6 +1,8 @@
 "use strict";
 
 class gsuiPropSelect extends gsui0ne {
+	#prop = null;
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiPropSelect",
@@ -23,20 +25,15 @@ class gsuiPropSelect extends gsui0ne {
 	}
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
-			case "props":
-				this.#createProps( val );
-				break;
-			case "prop":
-				this.#getBtn( val ).firstChild.click();
-				if ( prev ) {
-					this.#setValue( prev, false );
-				}
-				this.#setValue( val, GSUgetAttribute( this, "value" ) );
-				break;
-			case "value":
-				this.#setValue( GSUgetAttribute( this, "prop" ), val );
-				break;
+			case "props": this.#createProps( val ); break;
+			case "prop": this.#setProp( val, prev ); break;
+			case "value": this.#setValue( this.#prop, val ); break;
 		}
+	}
+
+	// .........................................................................
+	$getCurrentProp() {
+		return this.#prop;
 	}
 
 	// .........................................................................
@@ -45,12 +42,25 @@ class gsuiPropSelect extends gsui0ne {
 
 		GSUemptyElement( this.$elements.$form );
 		this.$elements.$form.append( ...elBtns );
+		if ( this.#prop ) {
+			this.#setProp( this.#prop );
+		}
+	}
+	#setProp( prop, prev ) {
+		this.#prop = prop;
+		this.#setValue( prev, false );
+		this.#getBtn( prop )?.firstChild.click();
+		this.#setValue( prop, GSUgetAttribute( this, "value" ) );
 	}
 	#getBtn( prop ) {
 		return this.querySelector( `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
 	}
 	#setValue( prop, val ) {
-		GSUsetAttribute( this.#getBtn( prop ).lastChild, "data-value", gsuiPropSelect.#formatValue( prop, val ) );
+		const btn = this.#getBtn( prop );
+
+		if ( btn ) {
+			GSUsetAttribute( btn.lastChild, "data-value", gsuiPropSelect.#formatValue( prop, val ) );
+		}
 	}
 	static #formatValue( prop, val ) {
 		if ( !val ) {
@@ -61,6 +71,7 @@ class gsuiPropSelect extends gsui0ne {
 			case "gain": return ( +val ).toFixed( 2 );
 			case "pan": return GSUsignNum( ( +val ).toFixed( 2 ) );
 		}
+		return val;
 	}
 
 	// .........................................................................
@@ -68,7 +79,7 @@ class gsuiPropSelect extends gsui0ne {
 		const prop = e.target.value;
 
 		e.stopImmediatePropagation();
-		if ( prop !== GSUgetAttribute( this, "prop" ) ) {
+		if ( prop !== this.#prop ) {
 			GSUsetAttribute( this, "prop", prop );
 			this.$dispatch( "select", prop );
 		}

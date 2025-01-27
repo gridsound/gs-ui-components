@@ -5,7 +5,7 @@
 	justify-content: center;
 	box-sizing: border-box;
 	height: 100%;
-	gap: 6px;
+	gap: 3px;
 	padding: 6px;
 }
 
@@ -19,9 +19,13 @@
 	font-weight: bold;
 	cursor: pointer;
 }
-.gsuiPropSelect-btn[ data-prop="gain" ]   { color: var( --gsuiDrumrow-gain ) }
-.gsuiPropSelect-btn[ data-prop="pan" ]    { color: var( --gsuiDrumrow-pan ) }
-.gsuiPropSelect-btn[ data-prop="detune" ] { color: var( --gsuiDrumrow-detune ) }
+.gsuiPropSelect-btn[ data-prop="gainLFOSpeed" ],
+.gsuiPropSelect-btn[ data-prop="gainLFOAmp" ],
+.gsuiPropSelect-btn[ data-prop="gain" ]     { color: var( --gsui-col-gain ) }
+.gsuiPropSelect-btn[ data-prop="pan" ]      { color: var( --gsui-col-pan ) }
+.gsuiPropSelect-btn[ data-prop="detune" ]   { color: var( --gsui-col-detune ) }
+.gsuiPropSelect-btn[ data-prop="lowpass" ]  { color: var( --gsui-col-lowpass ) }
+.gsuiPropSelect-btn[ data-prop="highpass" ] { color: var( --gsui-col-highpass ) }
 .gsuiPropSelect-btn:hover {
 	background-color: #fff1;
 }

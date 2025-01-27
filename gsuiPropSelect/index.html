@@ -23,7 +23,8 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-prop-select props="gain pan detune:pitch"></gsui-prop-select>
+	<gsui-prop-select></gsui-prop-select>
+	<!-- <gsui-prop-select prop="pan" props="gain pan detune:pitch"></gsui-prop-select> -->
 </div>
 
 <!-- ....................................................................... -->
@@ -35,5 +36,13 @@ body {
 <!-- ....................................................................... -->
 <script src="gsuiPropSelect.html.js"></script>
 <script src="gsuiPropSelect.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const uiProp = document.querySelector( "gsui-prop-select" );
+
+GSUsetAttribute( uiProp, "prop", "pan" );
+GSUsetAttribute( uiProp, "props", "gain pan detune:pitch" );
+</script>
 </body>
 </html>
