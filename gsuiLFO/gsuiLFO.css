@@ -17,6 +17,9 @@ gsui-lfo {
 	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
 }
+gsui-lfo[ lfo="detune" ] {
+	--gsuiLFO-ctrls-color: var( --gsui-col-detune );
+}
 
 /* .......................................................................... */
 .gsuiLFO-prop {

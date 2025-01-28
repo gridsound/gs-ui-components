@@ -55,13 +55,18 @@ class gsuiLFO extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
+		return [ "lfo", "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
 	}
 	$attributeChanged( prop, val, prev ) {
 		if ( this.firstChild ) {
 			const num = +val;
 
 			switch ( prop ) {
+				case "lfo":
+					this.#lfo = val;
+					this.$onresize();
+					this.$updateWave();
+					break;
 				case "timedivision": GSUsetAttribute( this.$elements.$beatlines, "timedivision", val ); break;
 				case "toggle": this.#changeToggle( val !== null ); break;
 				case "type": this.#changeType( val ); break;
@@ -84,13 +89,13 @@ class gsuiLFO extends gsui0ne {
 	// .........................................................................
 	$updateWave( prop, val ) {
 		const w = this.$elements.$wave;
-		const bPM = +GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+		const bPM = +this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
 		const opt = {
-			type: GSUgetAttribute( this, "type" ),
-			delay: prop === "delay" ? val : GSUgetAttributeNum( this, "delay" ),
-			attack: prop === "attack" ? val : GSUgetAttributeNum( this, "attack" ),
-			frequency: prop === "speed" ? val : GSUgetAttributeNum( this, "speed" ),
-			amplitude: prop === "amp" ? val : GSUgetAttributeNum( this, "amp" ),
+			type: this.$getAttr( "type" ),
+			delay: prop === "delay" ? val : this.$getAttrNum( "delay" ),
+			attack: prop === "attack" ? val : this.$getAttrNum( "attack" ),
+			frequency: prop === "speed" ? val : this.$getAttrNum( "speed" ),
+			amplitude: prop === "amp" ? val : this.$getAttrNum( "amp" ),
 		};
 
 		opt.duration =
@@ -144,16 +149,16 @@ class gsuiLFO extends gsui0ne {
 				this.$dispatch( "change", this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				GSUsetAttribute( this, "amp", -GSUgetAttributeNum( this, "amp" ) );
+				GSUsetAttribute( this, "amp", -this.$getAttrNum( "amp" ) );
 				this.$updateWave();
-				this.$dispatch( "change", this.#lfo, "amp", GSUgetAttributeNum( this, "amp" ) );
+				this.$dispatch( "change", this.#lfo, "amp", this.$getAttrNum( "amp" ) );
 				break;
 		}
 	}
 	#oninputSlider( prop, val ) {
 		const realval = prop !== "amp"
 			? val
-			: val * Math.sign( GSUgetAttributeNum( this, "amp" ) );
+			: val * Math.sign( this.$getAttrNum( "amp" ) );
 
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		this.$updateWave( prop, realval );
@@ -161,7 +166,7 @@ class gsuiLFO extends gsui0ne {
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
-			? val * Math.sign( GSUgetAttributeNum( this, "amp" ) )
+			? val * Math.sign( this.$getAttrNum( "amp" ) )
 			: val;
 
 		GSUsetAttribute( this, prop, nval );

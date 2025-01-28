@@ -77,7 +77,7 @@ elLFOtarget.onchange = () => {
 	GSUsetAttribute( elLFO, "lowpassfreq", t === "gain" ? null : .4 );
 };
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
-elLFO.updateWave();
+elLFO.$updateWave();
 </script>
 </body>
 </html>
