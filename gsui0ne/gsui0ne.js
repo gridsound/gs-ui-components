@@ -45,7 +45,6 @@ class gsui0ne extends HTMLElement {
 				this.#children = null;
 			}
 			GSUrecallAttributes( this, this.#attributes );
-			this.#attributes = null;
 			this.$firstTimeConnected?.();
 		}
 		this.$connected?.();
@@ -60,9 +59,15 @@ class gsui0ne extends HTMLElement {
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
+			this.#attributes[ prop ] = val;
 			this.$attributeChanged?.( prop, val, prev );
 		}
 	}
+
+	// .........................................................................
+	$setAttr( a, val ) { GSUsetAttribute( this, a, val ); }
+	$getAttr( a ) { return this.#attributes[ a ]; }
+	$getAttrNum( a ) { return +this.#attributes[ a ]; }
 
 	// .........................................................................
 	#onptrdown( e ) {
