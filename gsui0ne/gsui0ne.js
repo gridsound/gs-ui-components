@@ -67,7 +67,15 @@ class gsui0ne extends HTMLElement {
 	// .........................................................................
 	$setAttr( a, val ) { GSUsetAttribute( this, a, val ); }
 	$getAttr( a ) { return this.#attributes[ a ]; }
-	$getAttrNum( a ) { return +this.#attributes[ a ]; }
+	$getAttrNum( a ) {
+		const val = this.#attributes[ a ];
+		const n = +val;
+
+		if ( Number.isNaN( n ) ) {
+			console.error( `gsui0ne.$getAttrNum: ${ a } is NaN (${ val })` );
+		}
+		return n;
+	}
 
 	// .........................................................................
 	#onptrdown( e ) {
