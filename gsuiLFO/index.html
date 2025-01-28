@@ -35,11 +35,12 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<label>
-		<span>target</span>
-		<select id="lfoTarget">
-			<option value="gain">gain</option>
-			<option value="lowpass">lowpass</option>
-		</select>
+		<input type="radio" name="type" value="gain"/>
+		<span>gain</span>
+	</label>
+	<label>
+		<input type="radio" name="type" value="detune"/>
+		<span>detune</span>
 	</label>
 </div>
 
@@ -67,17 +68,15 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elLFO = document.querySelector( "gsui-lfo" );
-const elLFOtarget = document.querySelector( "#lfoTarget" );
+const elCtrls = document.querySelector( "#testCtrls" );
+const inpTypeGain = elCtrls.querySelector( "input[value='gain']" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
-elLFOtarget.onchange = () => {
-	const t = elLFOtarget.value;
+elCtrls.onchange = e => GSUsetAttribute( elLFO, "lfo", e.target.value );
 
-	GSUsetAttribute( elLFO, "target", t );
-	GSUsetAttribute( elLFO, "lowpassfreq", t === "gain" ? null : .4 );
-};
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elLFO.$updateWave();
+inpTypeGain.click();
 </script>
 </body>
 </html>
