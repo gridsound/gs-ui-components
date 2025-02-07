@@ -32,7 +32,7 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 		),
 		GSUcreateDiv( { class: "gsuiSynthesizer-oscList" },
 			GSUcreateButton( { class: "gsuiSynthesizer-newOsc" },
-				GSUcreateI( { class: "gsuiIcon", "data-icon": "plus" } ),
+				GSUcreateI( { class: "gsuiIcon", "data-icon": "plus", inert: true } ),
 			),
 		),
 	),

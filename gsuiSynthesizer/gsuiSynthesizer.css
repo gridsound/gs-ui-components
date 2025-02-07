@@ -113,6 +113,7 @@ gsui-synthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
 	position: relative;
 	order: 2147483647;
 	border: 0;
+	outline: 0;
 	height: 52px;
 	color: inherit;
 	font-size: 18px;
@@ -133,7 +134,4 @@ gsui-synthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
 	inset: 6px;
 	opacity: .4;
 	border: 2px dashed;
-}
-.gsuiSynthesizer-newOsc .gsuiIcon {
-	pointer-events: none;
 }
