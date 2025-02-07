@@ -11,6 +11,7 @@ class gsuiSynthesizer extends gsui0ne {
 		},
 		lfo: {
 			gain: {},
+			detune: {},
 		},
 	};
 
@@ -27,6 +28,7 @@ class gsuiSynthesizer extends gsui0ne {
 					},
 					lfo: {
 						gain: "[data-tab='lfo gain']",
+						detune: "[data-tab='lfo detune']",
 					},
 				},
 				$env: "gsui-envelope",
@@ -76,11 +78,8 @@ class gsuiSynthesizer extends gsui0ne {
 					const [ lfoEnv, prop ] = btn.parentNode.dataset.tab.split( " " );
 					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-					if ( lfoEnv === "env" && GSUgetAttribute( this.$elements.$env, "env" ) === prop ) {
-						GSUsetAttribute( this.$elements.$env, "toggle", d.args[ 0 ] );
-					}
-					if ( lfoEnv === "lfo" ) {
-						GSUsetAttribute( this.$elements.$lfo, "toggle", d.args[ 0 ] );
+					if ( GSUgetAttribute( elCmp, lfoEnv ) === prop ) {
+						GSUsetAttribute( elCmp, "toggle", d.args[ 0 ] );
 					}
 					this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
 				},
@@ -175,11 +174,11 @@ class gsuiSynthesizer extends gsui0ne {
 		const tabs = this.$elements.$tabs[ lfoEnv ];
 
 		if ( !GSUhasAttribute( tabs[ prop ], "data-selected" ) ) {
+			const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
+
 			GSUforEach( tabs, el => GSUsetAttribute( el, "data-selected", el.dataset.tab.endsWith( prop ) ) );
-			if ( lfoEnv === "env" ) {
-				GSUsetAttribute( this.$elements.$env, this.#data[ lfoEnv ][ prop ] );
-				GSUsetAttribute( this.$elements.$env, "env", prop );
-			}
+			GSUsetAttribute( elCmp, this.#data[ lfoEnv ][ prop ] );
+			GSUsetAttribute( elCmp, lfoEnv, prop );
 		}
 	}
 
