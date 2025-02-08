@@ -81,7 +81,7 @@ class gsuiBlocksManager {
 		GSUdispatchEvent( this.rootElement.firstChild, "gsuiBlocksManager", ...args );
 	}
 	#isBlc( el ) {
-		return el.classList.contains( "gsuiBlocksManager-block" );
+		return el?.classList?.contains( "gsuiBlocksManager-block" ); // 1.
 	}
 	#getBlc( el ) {
 		if ( this.#isBlc( el ) ) {
@@ -489,3 +489,7 @@ class gsuiBlocksManager {
 }
 
 Object.freeze( gsuiBlocksManager );
+
+/*
+1. Need two check because sometimes `el` can be <html> or document.
+*/
