@@ -68,7 +68,8 @@ gsui-timewindow[ disabled ] {
 	background-color: #fff2;
 }
 .gsuiTimewindow-minimapLoop {
-	background-color: #99f2;
+	height: 30%;
+	background-color: #99f7;
 }
 .gsuiTimewindow-minimapCurrentTime {
 	width: 2px;
