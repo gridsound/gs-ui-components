@@ -36,7 +36,7 @@
 .gsuiBlocksManager-block-selected {
 	--gsuiBlocksManager-blockColor: var( --gsuiBlocksManager-blockSelectedColor );
 }
-.gsuiBlocksManager-block-hidden {
+.gsuiBlocksManager-block-hidden.gsuiBlocksManager-block-hidden.gsuiBlocksManager-block-hidden {
 	z-index: 0;
 	opacity: .3;
 }
