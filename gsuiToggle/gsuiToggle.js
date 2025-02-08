@@ -5,6 +5,7 @@ class gsuiToggle extends gsui0ne {
 		super( {
 			$cmpName: "gsuiToggle",
 			$tagName: "gsui-toggle",
+			$template: GSUcreateI( { class: "gsuiIcon", "data-icon": "hexagon", inert: true } ),
 			$attributes: { tabindex: 0 },
 		} );
 		Object.seal( this );

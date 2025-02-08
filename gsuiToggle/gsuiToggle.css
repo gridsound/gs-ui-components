@@ -3,29 +3,12 @@ gsui-toggle {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	font: 8px "FontAwesome";
+	font-size: 8px;
 	outline: 0;
 	cursor: pointer;
 	color: var( --gsui-toggle-on );
-	transition: color .1s;
+	transition: color .25s;
 }
 gsui-toggle[ off ] {
 	color: var( --gsui-toggle-off );
-}
-gsui-toggle::before,
-gsui-toggle::after {
-	transition: .2s text-shadow;
-	pointer-events: none;
-}
-gsui-toggle:focus-visible::before,
-gsui-toggle:focus-visible::after {
-	text-shadow: 0 0 10px var( --gsui-toggle-on );
-}
-gsui-toggle::before {
-	position: absolute;
-	content: "\f312";
-	opacity: .6;
-}
-gsui-toggle::after {
-	content: "\10f312";
 }
