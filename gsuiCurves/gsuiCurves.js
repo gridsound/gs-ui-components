@@ -86,7 +86,7 @@ class gsuiCurves extends gsui0ne {
 
 		for ( let i = 0; i < nb; ++i ) {
 			const x = i / nb * w | 0;
-			const Hz = Math.round( nyquist * ( 2 ** ( i / nb * 11 - 11 ) ) );
+			const Hz = Math.round( GSUXtoHz( i / nb ) * nyquist );
 
 			marks.push( GSUcreateElementSVG( "text", {
 				class: "gsuiCurves-markText",

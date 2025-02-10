@@ -8,7 +8,7 @@ class gsuiFxFilter extends gsui0ne {
 		Q: a => a,
 		gain: a => a,
 		detune: a => a,
-		frequency: a => this.#nyquist * ( 2 ** ( a * 11 - 11 ) ),
+		frequency: a => GSUXtoHz( a ) * this.#nyquist,
 	};
 	static typeGainQ = {
 		lowpass:   { gain: false, q: true },
@@ -85,7 +85,7 @@ class gsuiFxFilter extends gsui0ne {
 				this.$elements.$sliders[ prop ].$setValue( +val );
 				break;
 			case "frequency":
-				this.$elements.$sliders.frequency.$setValue( ( Math.log2( val / this.#nyquist ) + 11 ) / 11 );
+				this.$elements.$sliders.frequency.$setValue( GSUHztoX( val / this.#nyquist ) );
 				break;
 		}
 	}
