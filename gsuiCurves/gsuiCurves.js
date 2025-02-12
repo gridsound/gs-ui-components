@@ -10,6 +10,7 @@ class gsuiCurves extends gsui0ne {
 			$cmpName: "gsuiCurves",
 			$tagName: "gsui-curves",
 			$elements: {
+				$analyser: "gsui-analyser-hz",
 				$svg: "svg",
 				$line: ".gsuiCurves-line",
 				$marks: ".gsuiCurves-marks",
@@ -31,6 +32,7 @@ class gsuiCurves extends gsui0ne {
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
 		GSUsetViewBoxWH( this.$elements.$svg, w, h );
+		this.$elements.$analyser.$setResolution( w );
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
@@ -40,6 +42,9 @@ class gsuiCurves extends gsui0ne {
 	}
 	$getWidth() {
 		return this.#size[ 0 ];
+	}
+	$drawAnalyser( data ) {
+		this.$elements.$analyser.$draw( data );
 	}
 	$setCurve( id, curve ) {
 		const path = this.$elements.$curves.querySelector( `[data-id="${ id }"]` );

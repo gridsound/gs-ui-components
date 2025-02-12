@@ -37,6 +37,12 @@ gsui-curves {
 }
 
 /* .......................................................................... */
+gsui-curves gsui-analyser-hz {
+	position: absolute;
+	inset: 0;
+}
+
+/* .......................................................................... */
 .gsuiCurves-svg {
 	position: absolute;
 	width: 100%;
