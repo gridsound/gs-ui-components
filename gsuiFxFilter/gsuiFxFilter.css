@@ -1,7 +1,6 @@
 gsui-fx-filter {
 	display: grid;
 	box-sizing: border-box;
-	container: gsuiFxFilter / inline-size;
 	height: 100%;
 	min-width: 210px;
 	min-height: 160px;
@@ -25,7 +24,6 @@ gsui-fx-filter .gsuiEffect-param-label {
 }
 .gsuiFxFilter-area-content {
 	flex: 1;
-	position: relative;
 }
 
 /* .......................................................................... */
@@ -62,10 +60,6 @@ gsui-fx-filter .gsuiEffect-param-label {
 /* .......................................................................... */
 .gsuiFxFilter-areaGraph .gsuiEffect-param-label {
 	align-self: flex-start;
-}
-.gsuiFxFilter-areaGraph .gsuiFxFilter-area-content {
-	border-radius: 4px;
-	background-color: var( --gsui-screen-graph );
 }
 gsui-fx-filter .gsuiCurves-curve {
 	color: currentColor;
@@ -111,11 +105,4 @@ gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
 	stroke: inherit;
 	stroke-width: inherit;
 	pointer-events: none;
-}
-
-/* .......................................................................... */
-@container gsuiFxFilter (max-width: 340px) {
-	.gsuiCurves-markText {
-		display: none;
-	}
 }

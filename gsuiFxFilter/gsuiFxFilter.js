@@ -57,7 +57,6 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	$connected() {
-		this.$onresize();
 		this.$updateWave();
 	}
 	static get observedAttributes() {
@@ -96,6 +95,9 @@ class gsuiFxFilter extends gsui0ne {
 			}
 		}
 	}
+	$updateAnalyser( data ) {
+		this.$elements.$curves.$drawAnalyser( data );
+	}
 
 	// .........................................................................
 	#toggleTypeBtn( type, b ) {
@@ -104,9 +106,6 @@ class gsuiFxFilter extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize() {
-		this.$elements.$curves.$resized();
-	}
 	#oninputProp( prop, val ) {
 		this.$dispatch( "liveChange", prop, val );
 		this.$updateWave();
