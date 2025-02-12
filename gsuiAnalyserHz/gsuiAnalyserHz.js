@@ -48,15 +48,13 @@ class gsuiAnalyserHz extends gsui0ne {
 	static $draw( ctx, data, width = data.length ) {
 		const img = ctx.createImageData( width, 1 );
 		const imgData = img.data;
-		let diSave = -1;
 
 		for ( let i = 0; i < width; ++i ) {
 			const x = i * 4;
-			const i2 = Math.floor( GSUeaseInCirc( i / width, 2 ) * data.length );
+			const i2 = Math.round( GSUXtoHz( i / width ) * data.length );
 			const datum = GSUeaseOutCirc( 1 - ( data[ i2 ] / -200 ) ) || 0;
 			const [ , r, g, b ] = gsuiAnalyserHz.#colors.find( arr => arr[ 0 ] <= datum ) || gsuiAnalyserHz.#colors.at( -1 );
 
-			diSave = i2;
 			imgData[ x     ] = r * datum | 0;
 			imgData[ x + 1 ] = g * datum | 0;
 			imgData[ x + 2 ] = b * datum | 0;
