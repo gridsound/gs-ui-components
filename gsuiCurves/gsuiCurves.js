@@ -3,10 +3,7 @@
 class gsuiCurves extends gsui0ne {
 	#size = Object.seal( [ 0, 0 ] );
 	#curves = new Map();
-	#options = Object.seal( {
-		nyquist: 24000,
-		nbBands: 8,
-	} );
+	#nyquist = 24000;
 
 	constructor() {
 		super( {
@@ -23,7 +20,10 @@ class gsuiCurves extends gsui0ne {
 	}
 
 	// .........................................................................
-	$resized() {
+	$connected() {
+		this.$onresize();
+	}
+	$onresize() {
 		const bcr = this.$elements.$svg.getBoundingClientRect();
 		const w = bcr.width;
 		const h = bcr.height;
@@ -31,13 +31,15 @@ class gsuiCurves extends gsui0ne {
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
 		GSUsetViewBoxWH( this.$elements.$svg, w, h );
-		this.#redraw();
+		this.#updateHzTexts();
+		this.#updateLinePos();
+		this.#curves.forEach( ( curve, id ) => {
+			GSUsetAttribute( this.$elements.$curves.querySelector( `[data-id="${ id }"]` ),
+				"d", this.#createPathD( curve ) );
+		} );
 	}
-	$options( opt ) {
-		Object.assign( this.#options, opt );
-		if ( "nbBands" in opt || "nyquist" in opt ) {
-			this.#updateHzTexts();
-		}
+	$getWidth() {
+		return this.#size[ 0 ];
 	}
 	$setCurve( id, curve ) {
 		const path = this.$elements.$curves.querySelector( `[data-id="${ id }"]` );
@@ -54,17 +56,6 @@ class gsuiCurves extends gsui0ne {
 			path.remove();
 		}
 	}
-	#redraw() {
-		this.#updateHzTexts();
-		this.#updateLinePos();
-		this.#curves.forEach( ( curve, id ) => {
-			GSUsetAttribute( this.$elements.$curves.querySelector( `[data-id="${ id }"]` ),
-				"d", this.#createPathD( curve ) );
-		} );
-	}
-	$getWidth() {
-		return this.#size[ 0 ];
-	}
 
 	// .........................................................................
 	#updateLinePos() {
@@ -78,34 +69,17 @@ class gsuiCurves extends gsui0ne {
 		} );
 	}
 	#updateHzTexts() {
-		const [ w, h ] = this.#size;
-		const nb = this.#options.nbBands;
-		const nyquist = this.#options.nyquist;
-		const rects = [];
-		const marks = [];
+		const el = this.$elements.$marks;
+		const nb = this.#size[ 0 ] / 36 | 0;
 
-		for ( let i = 0; i < nb; ++i ) {
-			const x = i / nb * w | 0;
-			const Hz = Math.round( GSUXtoHz( i / nb ) * nyquist );
+		if ( nb !== el.children.length ) {
+			GSUemptyElement( el );
+			el.append( ...GSUnewArray( nb, i => {
+				const Hz = Math.round( GSUXtoHz( i / nb ) * this.#nyquist );
 
-			marks.push( GSUcreateElementSVG( "text", {
-				class: "gsuiCurves-markText",
-				x: x + 3,
-				y: 14,
-			}, Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` ) );
-			if ( i % 2 === 0 ) {
-				rects.push( GSUcreateElementSVG( "rect", {
-					class: "gsuiCurves-markBg",
-					x,
-					y: 0,
-					width: w / nb | 0,
-					height: h,
-					"shape-rendering": "crispEdges",
-				} ) );
-			}
+				return GSUcreateDiv( { "data-hz": Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` } );
+			} ) );
 		}
-		GSUemptyElement( this.$elements.$marks );
-		this.$elements.$marks.append( ...rects, ...marks );
 	}
 	#createPath( id, curve ) {
 		this.$elements.$curves.append( GSUcreateElementSVG( "path", {

@@ -1,30 +1,56 @@
 gsui-curves {
-	display: block;
-	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
 	height: 100%;
 }
+
+/* .......................................................................... */
+.gsuiCurves-marks {
+	display: flex;
+	align-items: center;
+	height: 10px;
+}
+.gsuiCurves-marks div {
+	flex: 1;
+	font-size: 10px;
+}
+.gsuiCurves-marks div::before {
+	content: attr( data-hz );
+	display: flex;
+	padding-left: 3px;
+	margin-right: 3px;
+	opacity: .2;
+	background-color: #000;
+}
+.gsuiCurves-marks div:last-child::before {
+	margin-right: 0;
+}
+
+/* .......................................................................... */
+.gsuiCurves-graph {
+	flex: 1;
+	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+	background-color: var(--gsui-screen-graph);
+}
+
+/* .......................................................................... */
 .gsuiCurves-svg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 }
-.gsuiCurves-markText {
-	fill: currentColor;
-	font-size: 10px;
-	opacity: .2;
-}
-.gsuiCurves-markBg {
-	fill: currentColor;
-	opacity: .03;
-}
 .gsuiCurves-line {
 	stroke: currentColor;
 	stroke-width: 2;
 	stroke-dasharray: 4;
-	opacity: .1;
+	opacity: .3;
 }
 .gsuiCurves-curve {
 	fill: none;
 	stroke: currentColor;
 	stroke-width: 3;
+	filter: drop-shadow( 0 -3px 0 #0005 ) drop-shadow( 0 3px 0 #0005 );
 }
