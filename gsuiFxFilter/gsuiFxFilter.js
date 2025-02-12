@@ -30,7 +30,7 @@ class gsuiFxFilter extends gsui0ne {
 				$graph: ".gsuiFxFilter-areaGraph .gsuiFxFilter-area-content",
 				$curves: "gsui-curves",
 				$sliders: {
-					Q: ".gsuiFxFilter-areaQ gsui-slider",
+					q: ".gsuiFxFilter-areaQ gsui-slider",
 					gain: ".gsuiFxFilter-areaGain gsui-slider",
 					detune: ".gsuiFxFilter-areaDetune gsui-slider",
 					frequency: ".gsuiFxFilter-areaFrequency gsui-slider",
@@ -68,18 +68,14 @@ class gsuiFxFilter extends gsui0ne {
 			case "off":
 				setTimeout( () => this.$updateWave(), 150 );
 				break;
-			case "type": {
-				const gainQ = gsuiFxFilter.typeGainQ[ val ];
-
+			case "type":
 				this.#toggleTypeBtn( this.#currType, false );
 				this.#toggleTypeBtn( val, true );
 				this.#currType = val;
-				GSUsetAttribute( this.$elements.$sliders.Q, "disabled", !gainQ.q );
-				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", !gainQ.gain );
-			} break;
-			case "q":
-				this.$elements.$sliders.Q.$setValue( +val );
+				GSUsetAttribute( this.$elements.$sliders.q, "disabled", !gsuiFxFilter.typeGainQ[ val ].q );
+				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", !gsuiFxFilter.typeGainQ[ val ].gain );
 				break;
+			case "q":
 			case "gain":
 			case "detune":
 				this.$elements.$sliders[ prop ].$setValue( +val );
