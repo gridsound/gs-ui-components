@@ -33,13 +33,13 @@ gsui-curves {
 	position: relative;
 	overflow: hidden;
 	border-radius: 4px;
-	background-color: var(--gsui-screen-graph);
 }
 
 /* .......................................................................... */
 gsui-curves gsui-analyser-hz {
 	position: absolute;
 	inset: 0;
+	background-color: var(--gsui-screen-graph);
 }
 
 /* .......................................................................... */

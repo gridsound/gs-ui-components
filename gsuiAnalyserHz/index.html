@@ -34,10 +34,11 @@ gsui-analyser-hz {
 	<button id="play" disabled>play</button>
 	<button id="stop">stop</button>
 	<select id="bgcolor">
-		<option value="0 0 0">bgcolor="0 0 0"</option>
-		<option value="50 50 50">bgcolor="50 50 50"</option>
-		<option value="50 50 200">bgcolor="50 50 200"</option>
-		<option value="255 0 0">bgcolor="255 0 0"</option>
+		<option value="transparent">transparent</option>
+		<option value="rgb(0 0 0)">rgb(0 0 0)</option>
+		<option value="rgb(50 50 50)">rgb(50 50 50)</option>
+		<option value="rgb(50 50 200)">rgb(50 50 200)</option>
+		<option value="rgb(255 0 0)">rgb(255 0 0)</option>
 	</select>
 	<input id="gain" type="range" min="0" max="1" step=".001" value="1"/>
 </div>
@@ -83,7 +84,7 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	} );
 
 gain.oninput = () => gainNode.gain.setValueAtTime( gain.value, 0 );
-bgcolor.onchange = () => GSUsetAttribute( spectrum, "bgcolor", bgcolor.value );
+bgcolor.onchange = () => GSUsetStyle( spectrum, "backgroundColor", bgcolor.value );
 stop.onclick = () => absn?.stop();
 play.onclick = () => {
 	stop.onclick();
@@ -99,6 +100,8 @@ function frame() {
 	spectrum.$draw( anData );
 	requestAnimationFrame( frame );
 }
+
+bgcolor.onchange();
 
 frame();
 </script>
