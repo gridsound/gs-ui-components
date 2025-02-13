@@ -57,7 +57,7 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	$connected() {
-		this.$updateWave();
+		this.#updateWave();
 	}
 	static get observedAttributes() {
 		return [ "type", "frequency", "q", "gain", "detune", "off" ];
@@ -65,7 +65,7 @@ class gsuiFxFilter extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "off":
-				setTimeout( () => this.$updateWave(), 150 );
+				setTimeout( () => this.#updateWave(), 20 );
 				break;
 			case "type":
 				this.#toggleTypeBtn( this.#currType, false );
@@ -77,16 +77,17 @@ class gsuiFxFilter extends gsui0ne {
 			case "q":
 			case "gain":
 			case "detune":
-				this.$elements.$sliders[ prop ].$setValue( +val );
-				break;
 			case "frequency":
-				this.$elements.$sliders.frequency.$setValue( GSUHztoX( val / this.#nyquist ) );
+				this.$elements.$sliders[ prop ].$setValue( prop === "frequency"
+					? GSUHztoX( val / this.#nyquist )
+					: +val );
+				setTimeout( () => this.#updateWave(), 20 );
 				break;
 		}
 	}
 
 	// .........................................................................
-	$updateWave() {
+	#updateWave() {
 		if ( this.$isConnected ) {
 			const curve = this.$askData( "curve", this.$elements.$curves.$getWidth() );
 
@@ -108,7 +109,7 @@ class gsuiFxFilter extends gsui0ne {
 	// .........................................................................
 	#oninputProp( prop, val ) {
 		this.$dispatch( "liveChange", prop, val );
-		this.$updateWave();
+		this.#updateWave();
 	}
 	#onclickType( e ) {
 		const type = e.target.dataset.type;
