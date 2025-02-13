@@ -4,6 +4,7 @@ class gsuiCurves extends gsui0ne {
 	#size = Object.seal( [ 0, 0 ] );
 	#curves = new Map();
 	#nyquist = 24000;
+	#analyserResolutionDeb = GSUdebounce( w => GSUsetAttribute( this.$elements.$analyser, "resolution", w ), 200 );
 
 	constructor() {
 		super( {
@@ -32,7 +33,7 @@ class gsuiCurves extends gsui0ne {
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
 		GSUsetViewBoxWH( this.$elements.$svg, w, h );
-		GSUsetAttribute( this.$elements.$analyser, "resolution", w );
+		this.#analyserResolutionDeb( w );
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
