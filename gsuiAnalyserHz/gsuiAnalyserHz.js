@@ -26,7 +26,7 @@ class gsuiAnalyserHz extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserHz",
 			$tagName: "gsui-analyser-hz",
-			$template: GSUcreateElement( "canvas" ),
+			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {
 				resolution: 256,
 				bgcolor: "0 0 0",

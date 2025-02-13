@@ -8,7 +8,7 @@ class gsuiAnalyserHist extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserHist",
 			$tagName: "gsui-analyser-hist",
-			$template: GSUcreateElement( "canvas" ),
+			$template: GSUcreateElement( "canvas", { inert: true } ),
 		} );
 		this.#ctx = this.$element.getContext( "2d", { willReadFrequently: true } );
 		Object.seal( this );
