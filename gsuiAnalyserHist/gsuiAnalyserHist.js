@@ -2,13 +2,17 @@
 
 class gsuiAnalyserHist extends gsui0ne {
 	#ctx = null;
-	#type = "hz";
+	#type = null;
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiAnalyserHist",
 			$tagName: "gsui-analyser-hist",
 			$template: GSUcreateElement( "canvas", { inert: true } ),
+			$attributes: {
+				type: "hz", // hz | td
+				resolution: "100 200",
+			},
 		} );
 		this.#ctx = this.$element.getContext( "2d", { willReadFrequently: true } );
 		Object.seal( this );
@@ -16,13 +20,21 @@ class gsuiAnalyserHist extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "type" ];
+		return [ "type", "resolution" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "type":
 				this.#type = val;
 				break;
+			case "resolution": {
+				const img = this.#ctx.getImageData( 0, 0, this.$element.width, this.$element.height );
+				const [ w, h ] = GSUsplitNums( val );
+
+				this.$element.width = w;
+				this.$element.height = h;
+				this.#ctx.putImageData( img, 0, 0 );
+			} break;
 		}
 	}
 
@@ -31,28 +43,16 @@ class gsuiAnalyserHist extends gsui0ne {
 		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
 	}
 	$updateResolution() {
-		const { width, height } = this.$element.getBoundingClientRect();
-
-		this.$setResolution( width, height );
-	}
-	$setResolution( w, h ) {
-		const img = this.#ctx.getImageData( 0, 0, this.$element.width, this.$element.height );
-
-		this.$element.width = w;
-		this.$element.height = h;
-		this.#ctx.putImageData( img, 0, 0 );
+		GSUsetAttribute( this, "resolution", `${ this.$element.clientWidth } ${ this.$element.clientHeight }` );
 	}
 	$draw( ldata, rdata ) {
-		gsuiAnalyserHist.#moveImage( this.#ctx );
-		switch ( this.#type ) {
-			case "hz": gsuiAnalyserHist.#drawHz( this.#ctx, ldata, rdata ); break;
-			case "td": gsuiAnalyserHist.#drawTd( this.#ctx, ldata, rdata ); break;
-		}
-	}
+		const ctx = this.#ctx;
 
-	// .........................................................................
-	static #moveImage( ctx ) {
-		ctx.putImageData( ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );
+		ctx.putImageData( ctx.getImageData( 0, 0, this.$element.width, this.$element.height - 1 ), 0, 1 );
+		switch ( this.#type ) {
+			case "hz": gsuiAnalyserHist.#drawHz( ctx, ldata, rdata ); break;
+			case "td": gsuiAnalyserHist.#drawTd( ctx, ldata, rdata ); break;
+		}
 	}
 
 	// .........................................................................

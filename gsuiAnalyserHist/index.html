@@ -61,7 +61,7 @@ const anRData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
-analyser.$setResolution( 100, 500 );
+GSUsetAttribute( analyser, "resolution", "400 500" );
 
 anL.fftSize = fftSize;
 anR.fftSize = fftSize;
