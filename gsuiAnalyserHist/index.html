@@ -33,6 +33,10 @@ gsui-analyser-hist {
 <div id="TEST-CTRLS">
 	<button id="play" disabled>play</button>
 	<button id="stop">stop</button>
+	<select id="type">
+		<option value="hz">type="hz"</option>
+		<option value="td">type="td"</option>
+	</select>
 </div>
 
 <!-- ....................................................................... -->
@@ -50,6 +54,7 @@ gsui-analyser-hist {
 <script>
 const play = document.querySelector( "#play" );
 const stop = document.querySelector( "#stop" );
+const type = document.querySelector( "#type" );
 const analyser = document.querySelector( "gsui-analyser-hist" );
 const ctx = new AudioContext();
 const anL = ctx.createAnalyser();
@@ -79,6 +84,9 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 		play.disabled = false;
 	} );
 
+type.onchange = () => {
+	GSUsetAttribute( analyser, "type", type.value );
+};
 stop.onclick = () => {
 	absn?.stop();
 };
@@ -93,8 +101,16 @@ play.onclick = () => {
 };
 
 function frame() {
-	anL.getFloatFrequencyData( anLData );
-	anR.getFloatFrequencyData( anRData );
+	switch ( type.value ) {
+		case "hz":
+			anL.getFloatFrequencyData( anLData );
+			anR.getFloatFrequencyData( anRData );
+			break;
+		case "td":
+			anL.getFloatTimeDomainData( anLData );
+			anR.getFloatTimeDomainData( anRData );
+			break;
+	}
 	analyser.$draw( anLData, anRData );
 	requestAnimationFrame( frame );
 }
