@@ -19,6 +19,7 @@ class gsuiAnalyserHz extends gsui0ne {
 		[ .01,      0,   0,   5 ],
 		[  0,       0,   0,   0 ],
 	];
+	#bgcolor = [ 0, 0, 0 ];
 	#ctx = null;
 
 	constructor() {
@@ -26,10 +27,29 @@ class gsuiAnalyserHz extends gsui0ne {
 			$cmpName: "gsuiAnalyserHz",
 			$tagName: "gsui-analyser-hz",
 			$template: GSUcreateElement( "canvas" ),
+			$attributes: {
+				bgcolor: "0 0 0",
+			},
 		} );
 		Object.seal( this );
 		this.#ctx = this.$element.getContext( "2d" );
 		this.$element.height = 1;
+	}
+
+	// .........................................................................
+	static get observedAttributes() {
+		return [ "bgcolor" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "bgcolor": {
+				const rgb = GSUsplitNums( val );
+
+				this.#bgcolor[ 0 ] = rgb[ 0 ];
+				this.#bgcolor[ 1 ] = rgb[ 1 ];
+				this.#bgcolor[ 2 ] = rgb[ 2 ];
+			} break;
+		}
 	}
 
 	// .........................................................................
@@ -41,23 +61,25 @@ class gsuiAnalyserHz extends gsui0ne {
 		this.$element.height = 1;
 	}
 	$draw( data ) {
-		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.$element.width ), 0, 0 );
+		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.$element.width, this.#bgcolor ), 0, 0 );
 	}
 
 	// .........................................................................
-	static $draw( ctx, data, width = data.length ) {
+	static $draw( ctx, data, width = data.length, bgcolor = [ 0, 0, 0 ] ) {
 		const img = ctx.createImageData( width, 1 );
 		const imgData = img.data;
+		const [ bgR, bgG, bgB ] = bgcolor;
 
 		for ( let i = 0; i < width; ++i ) {
 			const x = i * 4;
 			const i2 = Math.round( GSUXtoHz( i / width ) * data.length );
 			const datum = GSUeaseOutCirc( 1 - ( data[ i2 ] / -200 ) ) || 0;
+			const rdatum = 1 - datum;
 			const [ , r, g, b ] = gsuiAnalyserHz.#colors.find( arr => arr[ 0 ] <= datum ) || gsuiAnalyserHz.#colors.at( -1 );
 
-			imgData[ x     ] = r * datum | 0;
-			imgData[ x + 1 ] = g * datum | 0;
-			imgData[ x + 2 ] = b * datum | 0;
+			imgData[ x     ] = Math.min( bgR * rdatum + r * datum, 255 ) | 0;
+			imgData[ x + 1 ] = Math.min( bgG * rdatum + g * datum, 255 ) | 0;
+			imgData[ x + 2 ] = Math.min( bgB * rdatum + b * datum, 255 ) | 0;
 			imgData[ x + 3 ] = 255;
 		}
 		return img;
