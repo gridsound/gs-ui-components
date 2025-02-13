@@ -67,7 +67,7 @@ const anData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
-spectrum.$setResolution( 1024 );
+GSUsetAttribute( spectrum, "resolution", 1024 );
 
 an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;

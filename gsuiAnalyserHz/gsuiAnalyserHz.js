@@ -28,20 +28,24 @@ class gsuiAnalyserHz extends gsui0ne {
 			$tagName: "gsui-analyser-hz",
 			$template: GSUcreateElement( "canvas" ),
 			$attributes: {
+				resolution: 256,
 				bgcolor: "0 0 0",
 			},
 		} );
 		Object.seal( this );
 		this.#ctx = this.$element.getContext( "2d" );
-		this.$element.height = 1;
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "bgcolor" ];
+		return [ "bgcolor", "resolution" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "resolution":
+				this.$element.width = +val;
+				this.$element.height = 1;
+				break;
 			case "bgcolor": {
 				const rgb = GSUsplitNums( val );
 
@@ -55,10 +59,6 @@ class gsuiAnalyserHz extends gsui0ne {
 	// .........................................................................
 	$clear() {
 		this.#ctx.clearRect( 0, 0, this.$element.width, 1 );
-	}
-	$setResolution( w ) {
-		this.$element.width = w;
-		this.$element.height = 1;
 	}
 	$draw( data ) {
 		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.$element.width, this.#bgcolor ), 0, 0 );

@@ -32,7 +32,7 @@ class gsuiCurves extends gsui0ne {
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
 		GSUsetViewBoxWH( this.$elements.$svg, w, h );
-		this.$elements.$analyser.$setResolution( w );
+		GSUsetAttribute( this.$elements.$analyser, "resolution", w );
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {

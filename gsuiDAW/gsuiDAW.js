@@ -77,7 +77,6 @@ class gsuiDAW extends gsui0ne {
 		Object.seal( this );
 
 		this.$elements.$clock.$onchangeDisplay = display => this.$dispatch( "changeDisplayClock", display );
-		this.$elements.$analyserHz.$setResolution( 140 );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
 		this.#popups.about.versionCheck.onclick = () => {
 			const dt = this.#popups.about.versionIcon.dataset;

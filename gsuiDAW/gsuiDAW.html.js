@@ -29,7 +29,7 @@ GSUsetTemplate( "gsui-daw", () => [
 			GSUcreateElement( "gsui-slider", { "data-action": "currentTime", type: "linear-x", min: 0, step: .01 } ),
 		),
 		GSUcreateDiv( { class: "gsuiDAW-area gsuiDAW-areaVisu" },
-			GSUcreateElement( "gsui-analyser-hz" ),
+			GSUcreateElement( "gsui-analyser-hz", { resolution: 140 } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiDAW-btnColor gsuiIcon", "data-action": "export",   "data-icon": "export",   title: "Export the composition" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon",                  "data-action": "settings", "data-icon": "settings", title: "Settings" } ),
 		),
