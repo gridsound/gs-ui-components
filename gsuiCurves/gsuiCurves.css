@@ -58,5 +58,5 @@ gsui-curves gsui-analyser-hz {
 	fill: none;
 	stroke: currentColor;
 	stroke-width: 3;
-	filter: drop-shadow( 0 -3px 0 #0005 ) drop-shadow( 0 3px 0 #0005 );
+	filter: drop-shadow( 0 -1px 0 #000a ) drop-shadow( 0 1px 0 #000a );
 }
