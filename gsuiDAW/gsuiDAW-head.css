@@ -68,7 +68,7 @@ gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 .gsuiDAW-areaVisu {
 	grid-area: areaVisu;
 }
-gsui-daw gsui-analyser-hz {
+.gsuiDAW-head gsui-analyser-hz {
 	flex: 1;
 	border-radius: var( --radius );
 	width: 180px;
