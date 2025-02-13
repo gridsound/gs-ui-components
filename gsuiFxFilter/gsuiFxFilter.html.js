@@ -22,7 +22,7 @@ GSUsetTemplate( "gsui-fx-filter", () => [
 	),
 	GSUcreateDiv( { class: "gsuiFxFilter-area gsuiFxFilter-areaFrequency" },
 		GSUcreateDiv( { class: "gsuiFxFilter-area-content" },
-			GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .0001, "data-prop": "frequency" } ),
+			GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .001, "data-prop": "frequency" } ),
 		),
 	),
 	GSUcreateDiv( { class: "gsuiFxFilter-area gsuiFxFilter-areaGain" },
