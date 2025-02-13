@@ -64,9 +64,6 @@ class gsuiFxFilter extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "off":
-				setTimeout( () => this.#updateWave(), 20 );
-				break;
 			case "type":
 				this.#toggleTypeBtn( this.#currType, false );
 				this.#toggleTypeBtn( val, true );
@@ -77,13 +74,13 @@ class gsuiFxFilter extends gsui0ne {
 			case "q":
 			case "gain":
 			case "detune":
+				this.$elements.$sliders[ prop ].$setValue( +val );
+				break;
 			case "frequency":
-				this.$elements.$sliders[ prop ].$setValue( prop === "frequency"
-					? GSUHztoX( val / this.#nyquist )
-					: +val );
-				setTimeout( () => this.#updateWave(), 20 );
+				this.$elements.$sliders.frequency.$setValue( GSUHztoX( val / this.#nyquist ) );
 				break;
 		}
+		setTimeout( () => this.#updateWave(), 20 );
 	}
 
 	// .........................................................................
