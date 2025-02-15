@@ -2,6 +2,9 @@
 
 GSUsetTemplate( "gsui-noise", txt => [
 	GSUcreateSpan( { class: "gsuiNoise-type" }, "white noise" ),
-	GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .001 } ),
-	GSUcreateSpan( { class: "gsuiNoise-value" }, 0 ),
+	GSUcreateElement( "gsui-slider", { "data-prop": "gain", type: "linear-x", min: 0, max: 1, step: .001 } ),
+	GSUcreateSpan( { class: "gsuiNoise-value", "data-prop": "gain" } ),
+	GSUcreateSpan( null, "pan" ),
+	GSUcreateElement( "gsui-slider", { "data-prop": "pan", type: "linear-x", min: -1, max: 1, step: .001 } ),
+	GSUcreateSpan( { class: "gsuiNoise-value", "data-prop": "pan" } ),
 ] );

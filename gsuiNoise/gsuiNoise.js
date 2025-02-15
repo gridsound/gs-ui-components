@@ -6,12 +6,19 @@ class gsuiNoise extends gsui0ne {
 			$cmpName: "gsuiNoise",
 			$tagName: "gsui-noise",
 			$elements: {
-				$value: ".gsuiNoise-value",
-				$slider: "gsui-slider",
+				$values: {
+					gain: ".gsuiNoise-value[data-prop=gain]",
+					pan: ".gsuiNoise-value[data-prop=pan]",
+				},
+				$sliders: {
+					gain: "gsui-slider[data-prop=gain]",
+					pan: "gsui-slider[data-prop=pan]",
+				},
 			},
 			$attributes: {
 				toggle: false,
-				value: 0,
+				gain: 0,
+				pan: 0,
 			},
 		} );
 		Object.seal( this );
@@ -19,12 +26,12 @@ class gsuiNoise extends gsui0ne {
 			gsuiSlider: {
 				inputStart: GSUnoop,
 				inputEnd: GSUnoop,
-				input: d => {
-					this.#setValue( d.args[ 0 ] );
-					this.$dispatch( "input", d.args[ 0 ] );
+				input: ( d, t ) => {
+					this.#setValue( t.dataset.prop, d.args[ 0 ] );
+					this.$dispatch( "input", t.dataset.prop, d.args[ 0 ] );
 				},
-				change: d => {
-					this.$dispatch( "change", d.args[ 0 ] );
+				change: ( d, t ) => {
+					this.$dispatch( "change", t.dataset.prop, d.args[ 0 ] );
 				},
 			},
 		} );
@@ -32,23 +39,29 @@ class gsuiNoise extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "toggle", "value" ];
+		return [ "toggle", "gain", "pan" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "toggle":
-				GSUsetAttribute( this.$elements.$slider, "disabled", val === null );
+				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", val === null );
+				GSUsetAttribute( this.$elements.$sliders.pan, "disabled", val === null );
 				break;
-			case "value":
-				this.#setValue( val );
-				this.$elements.$slider.$setValue( val );
+			case "gain":
+			case "pan":
+				this.#setValue( prop, val );
+				this.$elements.$sliders[ prop ].$setValue( val );
 				break;
 		}
 	}
 
 	// .........................................................................
-	#setValue( val ) {
-		this.$elements.$value.textContent = Math.round( val * 100 );
+	#setValue( prop, val ) {
+		const val2 = Math.round( val * 100 );
+
+		this.$elements.$values[ prop ].textContent = prop === "pan"
+			? GSUsignNum( val2 )
+			: val2;
 	}
 }
 
