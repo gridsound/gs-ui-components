@@ -1,0 +1,30 @@
+gsui-noise {
+	box-sizing: border-box;
+	display: flex;
+	align-items: baseline;
+	min-width: 240px;
+	gap: 8px;
+	padding: 6px 10px;
+	font-size: 12px;
+	background-color: var( --gsui-item-bg );
+}
+
+.gsuiNoise-type {
+	opacity: .5;
+}
+.gsuiNoise-value {
+	font-weight: bold;
+	font-family: var( --gsui-font-number );
+	opacity: .5;
+}
+.gsuiNoise-value::after {
+	content: "%";
+	font-weight: normal;
+}
+gsui-noise gsui-slider {
+	width: 100px;
+	height: 8px;
+}
+gsui-noise .gsuiSlider-eventCatcher {
+	inset: -10px -8px;
+}

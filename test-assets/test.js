@@ -51,6 +51,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiDrumrows" } ),
 					GSUcreateOption( { value: "gsuiPropSelect" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSynthesizer" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiNoise" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiOscillator" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiEnvelope" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiLFO" } ),
