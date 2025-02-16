@@ -5,7 +5,6 @@ const gsuiOscillator_defaultWaves = {
 	triangle: true,
 	sawtooth: true,
 	square: true,
-	noise: true,
 };
 
 class gsuiOscillator extends gsui0ne {
@@ -176,9 +175,7 @@ class gsuiOscillator extends gsui0ne {
 		const gain = prop === "gain" ? val : GSUgetAttributeNum( this, "gain" );
 		const pan = prop === "pan" ? val : GSUgetAttributeNum( this, "pan" );
 		const det = prop === "detune" ? val : GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );
-		const hz = wave === "noise"
-			? 1
-			: 2 ** ( ( det - -24 ) / 12 );
+		const hz = 2 ** ( ( det - -24 ) / 12 );
 
 		w0.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
 		w1.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
@@ -196,15 +193,9 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#changeWave( w ) {
-		const noise = w === "noise";
 		const slid = this.$elements.$sliders;
 
 		this.$elements.$waveSelect.value = w;
-		GSUsetAttribute( slid.detune[ 0 ], "disabled", noise );
-		GSUsetAttribute( slid.detunefine[ 0 ], "disabled", noise );
-		GSUsetAttribute( slid.unisonvoices[ 0 ], "disabled", noise );
-		GSUsetAttribute( slid.unisondetune[ 0 ], "disabled", noise );
-		GSUsetAttribute( slid.unisonblend[ 0 ], "disabled", noise );
 		if ( w ) {
 			GSUsetAttribute( this, "source", false );
 		}
