@@ -1,7 +1,7 @@
 gsui-noise {
 	box-sizing: border-box;
 	display: flex;
-	align-items: baseline;
+	align-items: center;
 	min-width: 380px;
 	gap: 8px;
 	padding: 6px 10px;
@@ -39,10 +39,13 @@ gsui-noise[ color="brown" ] .gsuiNoise-type-color { background-color: #bd6c40 }
 .gsuiNoise-type-txt::after {
 	content: " noise";
 }
-.gsuiNoise-type select {
+.gsuiNoise-type-select {
 	position: absolute;
 	width: 100%;
 	opacity: 0;
+}
+gsui-noise:not( [ toggle ] ) .gsuiNoise-type-select {
+	cursor: not-allowed;
 }
 
 /* .......................................................................... */

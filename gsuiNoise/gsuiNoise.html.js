@@ -4,7 +4,7 @@ GSUsetTemplate( "gsui-noise", txt => [
 	GSUcreateDiv( { class: "gsuiNoise-type" },
 		GSUcreateDiv( { class: "gsuiNoise-type-color" } ),
 		GSUcreateSpan( { class: "gsuiNoise-type-txt" }, "white" ),
-		GSUcreateSelect( null,
+		GSUcreateSelect( { class: "gsuiNoise-type-select" },
 			GSUcreateOption( { value: "white" } ),
 			GSUcreateOption( { value: "pink" } ),
 			GSUcreateOption( { value: "brown" } ),

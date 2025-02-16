@@ -56,6 +56,7 @@ class gsuiNoise extends gsui0ne {
 			case "toggle":
 				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", val === null );
 				GSUsetAttribute( this.$elements.$sliders.pan, "disabled", val === null );
+				GSUsetAttribute( this.$elements.$colorSelect, "disabled", val === null );
 				break;
 			case "color":
 				this.$elements.$colorTxt.textContent = val;
