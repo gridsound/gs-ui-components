@@ -30,6 +30,12 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 		),
 		GSUcreateElement( "gsui-lfo" ),
 		// .....................................................................
+		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headNoise" },
+			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "noise" ),
+			GSUcreateElement( "gsui-toggle", { off: true } ),
+		),
+		GSUcreateElement( "gsui-noise" ),
+		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
 			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "oscillators" ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelUnison" }, "unison" ),

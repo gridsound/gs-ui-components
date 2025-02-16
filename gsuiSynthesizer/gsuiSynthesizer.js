@@ -5,6 +5,7 @@ class gsuiSynthesizer extends gsui0ne {
 	#uiOscs = new Map();
 	#shadow = null;
 	#data = {
+		noise: {},
 		env: {
 			gain: {},
 			detune: {},
@@ -31,6 +32,8 @@ class gsuiSynthesizer extends gsui0ne {
 						detune: "[data-tab='lfo detune']",
 					},
 				},
+				$noise: "gsui-noise",
+				$noiseToggle: ".gsuiSynthesizer-headNoise gsui-toggle",
 				$env: "gsui-envelope",
 				$lfo: "gsui-lfo",
 				$oscList: ".gsuiSynthesizer-oscList",
@@ -75,14 +78,24 @@ class gsuiSynthesizer extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
-					const [ lfoEnv, prop ] = btn.parentNode.dataset.tab.split( " " );
-					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
+					const tab = btn.parentNode.dataset.tab;
 
-					if ( GSUgetAttribute( elCmp, lfoEnv ) === prop ) {
-						GSUsetAttribute( elCmp, "toggle", d.args[ 0 ] );
+					if ( !tab ) {
+						this.$dispatch( "toggleNoise", d.args[ 0 ] )
+					} else {
+						const [ lfoEnv, prop ] = btn.parentNode.dataset.tab.split( " " );
+						const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
+
+						if ( GSUgetAttribute( elCmp, lfoEnv ) === prop ) {
+							GSUsetAttribute( elCmp, "toggle", d.args[ 0 ] );
+						}
+						this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
 					}
-					this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
 				},
+			},
+			gsuiNoise: {
+				input: d => this.$dispatch( "inputNoise", ...d.args ),
+				change: d => this.$dispatch( "changeNoise", ...d.args ),
 			},
 		} );
 		this.#selectTab( "env", "gain" );
@@ -127,6 +140,13 @@ class gsuiSynthesizer extends gsui0ne {
 
 		if ( prop === GSUgetAttribute( elCmp, envLFO ) ) {
 			elCmp.$updateWave();
+		}
+	}
+	$changeNoiseProp( prop, val ) {
+		this.#data.noise[ prop ] = val;
+		GSUsetAttribute( this.$elements.$noise, prop, val );
+		if ( prop === "toggle" ) {
+			GSUsetAttribute( this.$elements.$noiseToggle, "off", !val );
 		}
 	}
 	$changeEnvProp( env, prop, val ) {

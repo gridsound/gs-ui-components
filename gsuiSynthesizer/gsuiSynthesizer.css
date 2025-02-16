@@ -86,6 +86,14 @@ gsui-synthesizer gsui-lfo {
 }
 
 /* .......................................................................... */
+.gsuiSynthesizer-headNoise .gsuiSynthesizer-headTitle {
+	margin-right: 4px;
+}
+.gsuiSynthesizer-headNoise gsui-toggle {
+	width: 24px;
+}
+
+/* .......................................................................... */
 .gsuiSynthesizer-headOscs {
 	gap: 6px;
 	height: 24px;
