@@ -77,7 +77,10 @@ gsui-synthesizer {
 }
 
 /* .......................................................................... */
-.gsuiSynthesizer-lfo {
+gsui-synthesizer gsui-envelope {
+	height: min-content;
+}
+gsui-synthesizer gsui-lfo {
 	height: 90px;
 	min-height: 90px;
 }
@@ -95,17 +98,6 @@ gsui-synthesizer {
 	grid-auto-rows: min-content;
 	counter-reset: count-osc;
 	background-color: var( --gsui-items-bg );
-}
-
-/* .......................................................................... */
-gsui-synthesizer gsui-oscillator {
-	transition: .2s filter;
-}
-gsui-synthesizer gsui-oscillator:hover {
-	filter: brightness( 1.05 );
-}
-gsui-synthesizer gsui-oscillator:only-of-type .gsuiOscillator-remove {
-	display: none;
 }
 
 /* .......................................................................... */

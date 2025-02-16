@@ -3,6 +3,7 @@
 GSUsetTemplate( "gsui-synthesizer", () => [
 	GSUcreateDiv( { class: "gsuiSynthesizer-shadowTop" } ),
 	GSUcreateDiv( { class: "gsuiSynthesizer-scrollArea" },
+		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head" },
 			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "envelopes" ),
 			GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": "env gain" },
@@ -14,7 +15,8 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 				GSUcreateSpan( { inert: true }, "pitch" ),
 			),
 		),
-		GSUcreateDiv( { class: "gsuiSynthesizer-env" }, GSUcreateElement( "gsui-envelope" ) ),
+		GSUcreateElement( "gsui-envelope" ),
+		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head" },
 			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "LFO" ),
 			GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": "lfo gain" },
@@ -26,7 +28,8 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 				GSUcreateSpan( { inert: true }, "pitch" ),
 			),
 		),
-		GSUcreateDiv( { class: "gsuiSynthesizer-lfo" }, GSUcreateElement( "gsui-lfo" ) ),
+		GSUcreateElement( "gsui-lfo" ),
+		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
 			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "oscillators" ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelUnison" }, "unison" ),
