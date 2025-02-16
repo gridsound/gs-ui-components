@@ -9,9 +9,43 @@ gsui-noise {
 	background-color: var( --gsui-item-bg );
 }
 
+/* .......................................................................... */
+.gsuiNoise-type-txt,
 gsui-noise > span {
 	opacity: .5;
 }
+
+/* .......................................................................... */
+.gsuiNoise-type {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 92px;
+	gap: 4px;
+	cursor: pointer;
+}
+.gsuiNoise-type-color {
+	width: 10px;
+	height: 10px;
+	border: 1px solid #000c;
+	border-radius: 3px;
+}
+gsui-noise:not( [ toggle ] ) .gsuiNoise-type-color {
+	opacity: .3;
+}
+gsui-noise[ color="white" ] .gsuiNoise-type-color { background-color: #fff }
+gsui-noise[ color="pink" ] .gsuiNoise-type-color { background-color: #b04565 }
+gsui-noise[ color="brown" ] .gsuiNoise-type-color { background-color: #bd6c40 }
+.gsuiNoise-type-txt::after {
+	content: " noise";
+}
+.gsuiNoise-type select {
+	position: absolute;
+	width: 100%;
+	opacity: 0;
+}
+
+/* .......................................................................... */
 .gsuiNoise-value {
 	width: 27px;
 	font-weight: bold;
@@ -21,6 +55,8 @@ gsui-noise > span {
 	content: "%";
 	font-weight: normal;
 }
+
+/* .......................................................................... */
 gsui-noise gsui-slider {
 	height: 8px;
 }

@@ -14,14 +14,24 @@ class gsuiNoise extends gsui0ne {
 					gain: "gsui-slider[data-prop=gain]",
 					pan: "gsui-slider[data-prop=pan]",
 				},
+				$colorTxt: ".gsuiNoise-type-txt",
+				$colorSelect: ".gsuiNoise-type select",
 			},
 			$attributes: {
 				toggle: false,
+				color: "white",
 				gain: 0,
 				pan: 0,
 			},
 		} );
 		Object.seal( this );
+		this.$elements.$colorSelect.onkeydown = GSUnoopFalse;
+		this.$elements.$colorSelect.onchange = () => {
+			const col = this.$elements.$colorSelect.value;
+
+			GSUsetAttribute( this, "color", col );
+			this.$dispatch( "change", "color", col );
+		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUnoop,
@@ -39,13 +49,16 @@ class gsuiNoise extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "toggle", "gain", "pan" ];
+		return [ "toggle", "color", "gain", "pan" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "toggle":
 				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", val === null );
 				GSUsetAttribute( this.$elements.$sliders.pan, "disabled", val === null );
+				break;
+			case "color":
+				this.$elements.$colorTxt.textContent = val;
 				break;
 			case "gain":
 			case "pan":
