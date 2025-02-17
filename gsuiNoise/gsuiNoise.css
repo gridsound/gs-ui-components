@@ -22,7 +22,6 @@ gsui-noise > span {
 	align-items: center;
 	width: 92px;
 	gap: 4px;
-	cursor: pointer;
 }
 .gsuiNoise-type-color {
 	width: 10px;
@@ -43,6 +42,7 @@ gsui-noise[ color="brown" ] .gsuiNoise-type-color { background-color: #bd6c40 }
 	position: absolute;
 	width: 100%;
 	opacity: 0;
+	cursor: pointer;
 }
 gsui-noise:not( [ toggle ] ) .gsuiNoise-type-select {
 	cursor: not-allowed;
