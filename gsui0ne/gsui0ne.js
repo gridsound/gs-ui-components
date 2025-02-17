@@ -83,16 +83,21 @@ class gsui0ne extends HTMLElement {
 		if ( this.$onptrdown( e ) === false ) {
 			this.$isActive = false;
 		} else {
-			this.#ptrlock
-				? this.requestPointerLock()
-				: this.setPointerCapture( e.pointerId );
-			this.#ptrMap.set( e.pointerId );
-			if ( this.#ptrMap.size < 2 ) {
-				this.onpointerup =
-				this.onpointerleave = this.#onptrup.bind( this );
-				if ( this.$onptrmove ) {
-					this.onpointermove = this.$onptrmove.bind( this );
-				}
+			if ( this.#ptrlock ) {
+				this.requestPointerLock().then( () => this.#onptrdown2( e ) );
+			} else {
+				this.setPointerCapture( e.pointerId );
+				this.#onptrdown2( e );
+			}
+		}
+	}
+	#onptrdown2( e ) {
+		this.#ptrMap.set( e.pointerId );
+		if ( this.#ptrMap.size < 2 ) {
+			this.onpointerup =
+			this.onpointerleave = this.#onptrup.bind( this );
+			if ( this.$onptrmove ) {
+				this.onpointermove = this.$onptrmove.bind( this );
 			}
 		}
 	}
