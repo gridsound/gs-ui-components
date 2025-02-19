@@ -71,6 +71,11 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
+	$clear() {
+		GSUforEach( this.#dots, ( d, id ) => this.#deleteDotElement2( id ) );
+		this.#dataSorted = [];
+		this.#drawPolyline();
+	}
 	$change( diff ) {
 		Object.entries( diff ).forEach( ( [ id, diffDot ] ) => {
 			if ( !diffDot ) {
@@ -180,12 +185,15 @@ class gsuiDotline extends gsui0ne {
 		const opt = this.#dotsOpt[ id ];
 
 		if ( opt?.deletable !== false ) {
-			this.#dots[ id ].remove();
-			delete this.#data[ id ];
-			delete this.#dots[ id ];
-			delete this.#dotsOpt[ id ];
+			this.#deleteDotElement2( id );
 			this.#sortDots();
 		}
+	}
+	#deleteDotElement2( id ) {
+		this.#dots[ id ].remove();
+		delete this.#data[ id ];
+		delete this.#dots[ id ];
+		delete this.#dotsOpt[ id ];
 	}
 	#sortDots() {
 		this.#dataSorted = Object.entries( this.#data ).sort( ( a, b ) => a[ 1 ].x - b[ 1 ].x );
