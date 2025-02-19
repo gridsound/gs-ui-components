@@ -62,6 +62,9 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 
 	// .........................................................................
+	static $addWave( name, real, imag ) {
+		gsuiPeriodicWave.#cache[ name ] ||= GSUrealImagToXY( real, imag );
+	}
 	static #draw( wave, opt, w, h ) {
 		const hz = opt.frequency * opt.duration;
 		const amp = -opt.amplitude * .95 * h / 2;
@@ -82,24 +85,6 @@ class gsuiPeriodicWave extends gsui0ne {
 			pts[ x * 2 + 1 ] = y;
 		}
 		return pts.join( " " );
-	}
-	static $addWave( name, real, imag ) {
-		if ( !gsuiPeriodicWave.#cache[ name ] ) {
-			const arr = [];
-			const fn = gsuiPeriodicWave.#getXFromWave.bind( null, real, imag );
-
-			for ( let x = 0; x < 256; ++x ) {
-				arr.push( fn( x / 256 ) );
-			}
-			gsuiPeriodicWave.#cache[ name ] = arr;
-		}
-	}
-	static #getXFromWave( a, b, t ) {
-		return a.reduce( ( val, ak, k ) => {
-			const tmp = Math.PI * 2 * k * t;
-
-			return val + ak * Math.cos( tmp ) + b[ k ] * Math.sin( tmp );
-		}, 0 );
 	}
 }
 
