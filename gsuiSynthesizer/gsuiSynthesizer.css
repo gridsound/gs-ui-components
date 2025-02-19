@@ -41,6 +41,7 @@ gsui-synthesizer {
 .gsuiSynthesizer-headTab {
 	display: flex;
 	align-items: center;
+	height: 100%;
 	padding-right: 10px;
 	cursor: pointer;
 	background-color: #ffffff0b;
