@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiPeriodicWave extends gsui0ne {
-	static #cache = { noise: Array.from( { length: 256 }, () => Math.random() * 2 - 1 ) };
+	static #cache = {};
 	#width = 0;
 	#height = 0;
 	#options = [];
