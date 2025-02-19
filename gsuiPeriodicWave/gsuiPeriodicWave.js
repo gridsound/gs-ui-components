@@ -10,7 +10,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPeriodicWave",
 			$tagName: "gsui-periodicwave",
-			$template: GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" } ),
+			$template: GSUcreateElementSVG( "svg", { preserveAspectRatio: "none", inert: true } ),
 		} );
 		Object.seal( this );
 	}
