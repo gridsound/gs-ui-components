@@ -6,11 +6,16 @@ gsui-oscillator {
 	min-width: 320px;
 	min-height: 60px;
 	background-color: var( --gsui-item-bg );
+	transition: .2s;
+	transition-property: min-height;
 	grid-template:
 		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
 		"grip .   wave .   unison .   detune .   pan  .   gain ." 1fr
 		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
 		/20px 6px 1fr  6px 32px   8px 36px   6px 36px 6px 36px 10px;
+}
+gsui-oscillator[ waveedit ] {
+	min-height: 110px;
 }
 
 /* .......................................................................... */
@@ -132,6 +137,7 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 
 /* .......................................................................... */
 .gsuiOscillator-remove,
+.gsuiOscillator-waveEdit-exit,
 .gsuiOscillator-waveBtn,
 .gsuiOscillator-waveSelect {
 	border: 0;
@@ -160,6 +166,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	font-size: 12px;
 	opacity: .5;
 }
+.gsuiOscillator-waveEdit-exit,
 .gsuiOscillator-remove {
 	position: absolute;
 	inset: 0 2px auto auto;
@@ -170,8 +177,57 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-waveBtn:hover,
 .gsuiOscillator-waveSelect:focus-visible,
 .gsuiOscillator-waveSelect:hover,
-.gsuiOscillator-remove:hover {
+.gsuiOscillator-remove:hover,
+.gsuiOscillator-waveEdit-exit:hover {
 	opacity: 1;
+}
+
+/* .......................................................................... */
+.gsuiOscillator-waveBtn[ data-action="waveEdit" ] {
+	position: relative;
+	color: #94bfff;
+	width: 29px;
+}
+.gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:first-child {
+	position: absolute;
+	inset: 0 auto 0 0;
+	opacity: .8;
+}
+.gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:last-child {
+	position: absolute;
+	inset: 0 0 0 auto;
+	margin-top: -2px;
+	font-size: .7em;
+}
+.gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:last-child::before {
+	text-shadow: -2px 0px #373742;
+}
+
+/* .......................................................................... */
+.gsuiOscillator-waveEdit {
+	position: absolute;
+	overflow: hidden;
+	inset: 0 0 0 20px;
+	background-color: #000c;
+	opacity: 0;
+	visibility: hidden;
+	transform: scale( .8 );
+	transition: .2s;
+	transition-property: opacity, visibility, transform;
+}
+gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
+	opacity: 1;
+	visibility: visible;
+	transform: scale( 1 );
+}
+.gsuiOscillator-waveEdit-exit {
+	transform: translateY( -20px );
+	transition:
+		.1s opacity,
+		.5s transform .25s;
+}
+gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit-exit {
+	transform: translateY( 0 );
 }
 
 /* .......................................................................... */
@@ -180,6 +236,9 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	padding-left: 6px;
 	font-size: 12px;
 	font-family: inherit;
+}
+.gsuiOscillator-waveSelect {
+	flex: 1;
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }

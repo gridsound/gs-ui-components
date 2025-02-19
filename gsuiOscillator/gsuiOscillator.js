@@ -26,6 +26,9 @@ class gsuiOscillator extends gsui0ne {
 				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavePrev: ".gsuiOscillator-wavePrev",
 				$waveNext: ".gsuiOscillator-waveNext",
+				$waveEditWrap: ".gsuiOscillator-waveEdit",
+				$waveEditBtn: ".gsuiOscillator-waveBtn[data-action=waveEdit]",
+				$waveEditExit: ".gsuiOscillator-waveEdit-exit",
 				$sourceName: ".gsuiOscillator-sourceName",
 				$source: ".gsuiOscillator-source",
 				$waves: [
@@ -61,11 +64,13 @@ class gsuiOscillator extends gsui0ne {
 			}
 		} );
 		Object.seal( this );
-
 		this.$elements.$waveSelect.onchange = this.#onchangeSelect.bind( this );
 		this.$elements.$waveSelect.onkeydown = this.#onkeydownSelect.bind( this );
 		this.$elements.$wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
+		this.$elements.$waveEditBtn.onclick = this.#openWaveEdit.bind( this, true );
+		this.$elements.$waveEditExit.onclick = this.#openWaveEdit.bind( this, false );
+		this.$elements.$waveEditWrap.onpointerdown = e => e.preventDefault();
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		this.$elements.$waveWrap.ondragover = e => {
 			e.stopPropagation();
@@ -234,6 +239,9 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
+	#openWaveEdit( b ) {
+		GSUsetAttribute( this, "waveedit", b );
+	}
 	#onclickPrevNext( dir ) {
 		const sel = this.$elements.$waveSelect;
 		const currOpt = sel.querySelector( `option[value="${ sel.value }"]` );

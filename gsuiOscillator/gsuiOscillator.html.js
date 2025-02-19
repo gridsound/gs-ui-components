@@ -11,6 +11,10 @@ GSUsetTemplate( "gsui-oscillator", waves => [
 					GSUcreateSelect( { class: "gsuiOscillator-waveSelect" },
 						waves.map( w => GSUcreateOption( { class: "gsuiOscillator-waveOptNative", value: w } ) )
 					),
+					GSUcreateButton( { class: "gsuiOscillator-waveBtn", "data-action": "waveEdit", title: "Edit wave" },
+						GSUcreateI( { class: "gsuiIcon", "data-icon": "oscillator" } ),
+						GSUcreateI( { class: "gsuiIcon", "data-icon": "pen" } ),
+					),
 					GSUcreateI( { class: "gsuiOscillator-sourceIcon gsuiIcon", "data-icon": "waveform" } ),
 					GSUcreateSpan( { class: "gsuiOscillator-sourceName" } ),
 				),
@@ -52,5 +56,9 @@ GSUsetTemplate( "gsui-oscillator", waves => [
 	GSUcreateButton( { class: "gsuiOscillator-remove gsuiIcon", "data-icon": "close", title: "Remove the oscillator" } ),
 	GSUcreateDiv( { class: "gsuiOscillator-dragging" },
 		GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown", animate: true } ),
+	),
+	GSUcreateDiv( { class: "gsuiOscillator-waveEdit" },
+		GSUcreateElement( "gsui-wave-edit" ),
+		GSUcreateButton( { class: "gsuiOscillator-waveEdit-exit gsuiIcon", "data-icon": "close", title: "Exit wave edition" } ),
 	),
 ].flat( 1 ) );

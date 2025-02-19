@@ -14,6 +14,8 @@
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
 <link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
+<link rel="stylesheet" href="../gsuiWaveEdit/gsuiWaveEdit.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="gsuiOscillator.css"/>
@@ -47,6 +49,12 @@ body {
 <script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
 <script src="../gsuiSlider/gsuiSlider.html.js"></script>
 <script src="../gsuiSlider/gsuiSlider.js"></script>
+<script src="../gsuiDotlineSVG/gsuiDotlineSVG.html.js"></script>
+<script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
+<script src="../gsuiDotline/gsuiDotline.html.js"></script>
+<script src="../gsuiDotline/gsuiDotline.js"></script>
+<script src="../gsuiWaveEdit/gsuiWaveEdit.html.js"></script>
+<script src="../gsuiWaveEdit/gsuiWaveEdit.js"></script>
 
 <!-- ....................................................................... -->
 <script src="gsuiOscillator.html.js"></script>
@@ -66,6 +74,8 @@ GSUsetAttribute( elOsc, "wave", "square" );
 GSUsetAttribute( elOsc, "gain", .5 );
 GSUsetAttribute( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
 GSUsetAttribute( elOsc, "wave", "sawtooth" );
+
+// setTimeout( () => GSUsetAttribute( elOsc, "waveedit", true ), 200 );
 </script>
 </body>
 </html>
