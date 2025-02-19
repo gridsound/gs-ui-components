@@ -1,6 +1,12 @@
 "use strict";
 
 class gsuiWaveEdit extends gsui0ne {
+	#waveNull = true;
+	static #waveDefault = GSUdeepFreeze( {
+		0: { x:    0, y: 50 },
+		1: { x:  100, y: 50 },
+	} );
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiWaveEdit",
@@ -8,38 +14,43 @@ class gsuiWaveEdit extends gsui0ne {
 			$elements: {
 				$dotline: "gsui-dotline",
 			},
-			$attributes: {
-			},
 		} );
 		Object.seal( this );
-		this.$elements.$dotline.$change( {
-			0: { x:    0, y: 50 },
-			1: { x:  100, y: 50 },
-		} );
-		this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
-		this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
+		this.$init();
 		GSUlistenEvents( this, {
-			xxxx: {
-				xxxx: d => {
-					//
+			gsuiDotline: {
+				input: d => {
+					d.component = "gsuiWaveEdit";
+					return true;
+				},
+				change: d => {
+					if ( this.#waveNull ) {
+						d.args[ 0 ] = GSUdeepAssign( GSUdeepCopy( gsuiWaveEdit.#waveDefault ), d.args[ 0 ] );
+						this.#waveNull = false;
+					}
+					d.component = "gsuiWaveEdit";
+					return true;
 				},
 			},
 		} );
 	}
 
 	// .........................................................................
-	static get observedAttributes() {
-		return [ "xxxx" ];
-	}
-	$attributeChanged( prop, val ) {
-		switch ( prop ) {
-			case "xxxx":
-				//
-				break;
+	$init() {
+		if ( this.#waveNull ) {
+			this.$elements.$dotline.$change( gsuiWaveEdit.#waveDefault );
+			this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
+			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		}
 	}
-
-	// .........................................................................
+	$change( obj ) {
+		this.#waveNull = false;
+		this.$elements.$dotline.$change( obj );
+	}
+	$clear() {
+		this.#waveNull = true;
+		this.$elements.$dotline.$clear();
+	}
 }
 
 GSUdefineElement( "gsui-wave-edit", gsuiWaveEdit );
