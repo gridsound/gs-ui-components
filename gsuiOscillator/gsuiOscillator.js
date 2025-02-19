@@ -27,6 +27,7 @@ class gsuiOscillator extends gsui0ne {
 				$wavePrev: ".gsuiOscillator-wavePrev",
 				$waveNext: ".gsuiOscillator-waveNext",
 				$waveEditWrap: ".gsuiOscillator-waveEdit",
+				$waveEdit: "gsui-wave-edit",
 				$waveEditBtn: ".gsuiOscillator-waveBtn[data-action=waveEdit]",
 				$waveEditExit: ".gsuiOscillator-waveEdit-exit",
 				$sourceName: ".gsuiOscillator-sourceName",
@@ -114,6 +115,20 @@ class gsuiOscillator extends gsui0ne {
 					this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] );
 				},
 			},
+			gsuiWaveEdit: {
+				input: d => {
+					d.component = "gsuiOscillator";
+					d.eventName = "inputWaveEdit";
+					d.target = this;
+					return true;
+				},
+				change: d => {
+					d.component = "gsuiOscillator";
+					d.eventName = "changeWaveEdit";
+					d.target = this;
+					return true;
+				},
+			},
 		} );
 	}
 
@@ -185,6 +200,14 @@ class gsuiOscillator extends gsui0ne {
 		w0.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
 		w1.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
+	$changeCustomWave( obj ) {
+		if ( obj ) {
+			this.$elements.$waveEdit.$change( obj );
+		} else {
+			this.$elements.$waveEdit.$clear();
+			this.#openWaveEdit( false );
+		}
+	}
 	$updateSourceWaveform( svg ) {
 		GSUemptyElement( this.$elements.$source );
 		this.$elements.$source.append( svg );
@@ -240,6 +263,9 @@ class gsuiOscillator extends gsui0ne {
 
 	// .........................................................................
 	#openWaveEdit( b ) {
+		if ( b ) {
+			this.$elements.$waveEdit.$init();
+		}
 		GSUsetAttribute( this, "waveedit", b );
 	}
 	#onclickPrevNext( dir ) {
