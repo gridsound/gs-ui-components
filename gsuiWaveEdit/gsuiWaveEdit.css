@@ -1,0 +1,31 @@
+gsui-wave-edit {
+	position: relative;
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	background-color: var(--gsui-item-bg);
+}
+
+.gsuiWaveEdit-title {
+	position: absolute;
+	inset: 2px auto auto 10px;
+	font-size: 22px;
+	font-weight: bold;
+	opacity: .1;
+}
+
+.gsuiWaveEdit-graph {
+	position: relative;
+	height: 100%;
+	box-shadow: inset 0 0 20px 0 #0005;
+	background-color: var( --gsui-screen-graph );
+}
+.gsuiWaveEdit-graph-lineX {
+	position: absolute;
+	top: calc( 50% - 1px );
+	width: 100%;
+	border-bottom: 2px solid #fff5;
+}
+gsui-wave-edit gsui-dotline {
+	height: 100%;
+}
