@@ -207,6 +207,7 @@ class gsuiOscillator extends gsui0ne {
 			this.$elements.$waveEdit.$clear();
 			this.#openWaveEdit( false );
 		}
+		GSUsetAttribute( this, "hascustomwave", !!obj );
 	}
 	$updateSourceWaveform( svg ) {
 		GSUemptyElement( this.$elements.$source );

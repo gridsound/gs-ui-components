@@ -9,7 +9,8 @@ GSUsetTemplate( "gsui-oscillator", waves => [
 					GSUcreateButton( { class: "gsuiOscillator-waveBtn gsuiOscillator-wavePrev gsuiIcon", "data-icon": "caret-left", title: "Previous wave" } ),
 					GSUcreateButton( { class: "gsuiOscillator-waveBtn gsuiOscillator-waveNext gsuiIcon", "data-icon": "caret-right", title: "Next wave" } ),
 					GSUcreateSelect( { class: "gsuiOscillator-waveSelect" },
-						waves.map( w => GSUcreateOption( { class: "gsuiOscillator-waveOptNative", value: w } ) )
+						GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: "CUSTOM" } ),
+						waves.map( w => GSUcreateOption( { class: "gsuiOscillator-waveOptNative", value: w } ) ),
 					),
 					GSUcreateButton( { class: "gsuiOscillator-waveBtn", "data-action": "waveEdit", title: "Edit wave" },
 						GSUcreateI( { class: "gsuiIcon", "data-icon": "oscillator" } ),
