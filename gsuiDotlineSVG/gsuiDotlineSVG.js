@@ -40,13 +40,13 @@ class gsuiDotlineSVG extends gsui0ne {
 	}
 	$setCurve( data ) {
 		GSUsetAttribute( this.$elements.$path, "d",
-			Object.entries( data )
-				.sort( ( a, b ) => a[ 1 ].x - b[ 1 ].x )
+			Object.values( data )
+				.sort( ( a, b ) => a.x - b.x )
 				.reduce( this.#setCurveDot.bind( this ), [] )
 				.join( " " )
 		);
 	}
-	#setCurveDot( arr, [ , dot ], i ) {
+	#setCurveDot( arr, dot, i ) {
 		arr.push(
 			!i ? "M" : "L",
 			GSUroundNum( ( dot.x - this.#xmin ) / this.#w * this.#svgW, 5 ),
