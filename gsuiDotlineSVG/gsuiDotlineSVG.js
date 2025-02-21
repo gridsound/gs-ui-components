@@ -54,27 +54,6 @@ class gsuiDotlineSVG extends gsui0ne {
 		);
 		return arr;
 	}
-	$getCurveFloat32( nb ) { // nb > 1
-		const p = this.$elements.$path;
-		const xstep = this.#svgW / ( nb - 1 );
-		const pLen = p.getTotalLength();
-		const pStep = pLen / 1000;
-		const arr = [];
-		let pt = null;
-		let i = 0;
-
-		for ( let pi = 0; pi < pLen; pi += pStep ) {
-			pt = p.getPointAtLength( pi );
-			if ( pt.x >= i * xstep ) {
-				arr.push( this.#ymin + this.#h * ( 1 - pt.y / this.#svgH ) );
-				++i;
-			}
-		}
-		if ( arr.length < nb && pt ) {
-			arr.push( this.#ymin + this.#h * ( 1 - pt.y / this.#svgH ) );
-		}
-		return new Float32Array( arr );
-	}
 }
 
 GSUdefineElement( "gsui-dotlinesvg", gsuiDotlineSVG );

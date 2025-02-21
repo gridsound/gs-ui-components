@@ -98,9 +98,6 @@ class gsuiDotline extends gsui0ne {
 	$getData() {
 		return this.#data;
 	}
-	$getCurveFloat32( nb ) {
-		return this.$elements.$svg.$getCurveFloat32( nb );
-	}
 
 	// .........................................................................
 	#drawPolyline() {
