@@ -202,7 +202,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:last-child::before {
 	text-shadow: -2px 0px #373742;
 }
-gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value="CUSTOM" ] {
+gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom" ] {
 	display: none;
 }
 
