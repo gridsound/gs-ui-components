@@ -39,7 +39,7 @@ gsui-dotline path {
 	z-index: 1;
 	box-sizing: border-box;
 	border-radius: 50%;
-	border: 2px solid;
+	border: calc( var( --w ) / 4 ) solid;
 	width: var( --w );
 	height: var( --w );
 	margin:
