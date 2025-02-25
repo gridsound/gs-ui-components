@@ -24,6 +24,7 @@ class gsuiDotline extends gsui0ne {
 	#dotMinY = 0;
 	#mousebtn = 0;
 	#activeDot = null;
+	#beatlines = null;
 
 	constructor() {
 		super( {
@@ -44,7 +45,7 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "viewbox" ];
+		return [ "viewbox", "beatlines" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -63,11 +64,24 @@ class gsuiDotline extends gsui0ne {
 				} );
 				this.#drawPolyline();
 			} break;
+			case "beatlines":
+				if ( val === "" && !this.#beatlines ) {
+					this.#beatlines = [
+						GSUcreateElement( "gsui-beatlines" ),
+						GSUcreateElement( "gsui-beatlines" ),
+					];
+					this.$elements.$root.prepend( ...this.#beatlines );
+				}
+				break;
 		}
 	}
 	$onresize( w, h ) {
 		this.$elements.$svg.$setSVGSize( w, h );
 		this.#drawPolyline();
+		if ( this.#beatlines ) {
+			GSUsetAttribute( this.#beatlines[ 0 ], "pxperbeat", this.$elements.$svg.firstChild.clientWidth / 8 );
+			GSUsetAttribute( this.#beatlines[ 1 ], "pxperbeat", this.$elements.$svg.firstChild.clientHeight / 8 );
+		}
 	}
 
 	// .........................................................................

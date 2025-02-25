@@ -20,6 +20,7 @@ gsui-dotline {
 	inset: calc( var( --gsuiDotline-dotSize ) / 2 );
 }
 
+/* .......................................................................... */
 gsui-dotline svg {
 	position: absolute;
 	left: 0;
@@ -29,6 +30,9 @@ gsui-dotline svg {
 }
 gsui-dotline path {
 	fill: none;
+}
+gsui-dotline gsui-beatlines + gsui-beatlines {
+	--gsui-deg: 0deg;
 }
 
 /* .......................................................................... */
