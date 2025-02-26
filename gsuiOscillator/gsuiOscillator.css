@@ -3,7 +3,7 @@ gsui-oscillator {
 	position: relative;
 	box-sizing: border-box;
 	height: 100%;
-	min-width: 320px;
+	min-width: 364px;
 	min-height: 60px;
 	background-color: var( --gsui-item-bg );
 	transition: .2s;
@@ -158,6 +158,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-sourceIcon,
 .gsuiOscillator-waveBtn {
 	width: 14px;
+	min-width: 14px;
 	font-size: 16px;
 	text-align: center;
 }
@@ -187,6 +188,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	position: relative;
 	color: #94bfff;
 	width: 29px;
+	min-width: 29px;
 }
 .gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:first-child {
 	position: absolute;
@@ -211,7 +213,7 @@ gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom
 	position: absolute;
 	overflow: hidden;
 	inset: 0 0 0 20px;
-	background-color: #000c;
+	background-color: var( --gsui-item-bg );
 	opacity: 0;
 	visibility: hidden;
 	transform: scale( .8 );
@@ -224,6 +226,7 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 	transform: scale( 1 );
 }
 .gsuiOscillator-waveEdit-exit {
+	right: 3px;
 	transform: translateY( -20px );
 	transition:
 		.1s opacity,
@@ -236,7 +239,7 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit-exit {
 /* .......................................................................... */
 .gsuiOscillator-sourceName,
 .gsuiOscillator-waveSelect {
-	padding-left: 6px;
+	margin: 0 6px;
 	font-size: 12px;
 	font-family: inherit;
 }
@@ -252,7 +255,7 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit-exit {
 	background-color: #333;
 }
 .gsuiOscillator-sourceName {
-	padding: 0 8px 0 12px;
+	margin-left: 8px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;

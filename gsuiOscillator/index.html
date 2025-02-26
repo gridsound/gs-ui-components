@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
 <link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
 <link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
 <link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
@@ -46,6 +47,8 @@ body {
 
 <!-- ....................................................................... -->
 <script src="../gsui0ne/gsui0ne.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.html.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
 <script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
 <script src="../gsuiSlider/gsuiSlider.html.js"></script>
 <script src="../gsuiSlider/gsuiSlider.js"></script>
@@ -66,7 +69,8 @@ const elOsc = document.querySelector( "gsui-oscillator" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
-elOsc.addWaves( Array.from( waves.keys() ) );
+elOsc.$addWaveCustom( "custom.s0.o0" );
+elOsc.$addWaves( Array.from( waves.keys() ) );
 GSUsetAttribute( elOsc, "wave", "noise" );
 GSUsetAttribute( elOsc, "wave", "sine" );
 GSUsetAttribute( elOsc, "wave", "triangle" );

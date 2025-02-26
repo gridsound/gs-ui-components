@@ -176,7 +176,10 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
-	addWaves( arr ) {
+	$addWaveCustom( name ) {
+		this.$elements.$waveSelect.prepend( GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: name } ) );
+	}
+	$addWaves( arr ) {
 		const opts = [];
 
 		arr.sort();
@@ -186,7 +189,7 @@ class gsuiOscillator extends gsui0ne {
 				opts.push( GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: w } ) );
 			}
 		} );
-		Element.prototype.append.apply( this.$elements.$waveSelect, opts );
+		this.$elements.$waveSelect.append( ...opts );
 		this.#updateWaveDeb();
 	}
 	#updateWave( prop, val ) {
@@ -207,6 +210,7 @@ class gsuiOscillator extends gsui0ne {
 			this.$elements.$waveEdit.$clear();
 			this.#openWaveEdit( false );
 		}
+		this.#updateWaveDeb();
 		GSUsetAttribute( this, "hascustomwave", !!obj );
 	}
 	$updateSourceWaveform( svg ) {
