@@ -3,8 +3,8 @@
 class gsuiWaveEdit extends gsui0ne {
 	#waveNull = true;
 	static #waveDefault = GSUdeepFreeze( {
-		0: { x:    0, y: 50 },
-		1: { x:  100, y: 50 },
+		0: { x: 0, y: 0 },
+		1: { x: 1, y: 0 },
 	} );
 
 	constructor() {
