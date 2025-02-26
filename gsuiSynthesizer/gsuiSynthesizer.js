@@ -128,7 +128,10 @@ class gsuiSynthesizer extends gsui0ne {
 	// .........................................................................
 	$setWaveList( arr ) {
 		this.#waveList = arr;
-		this.#uiOscs.forEach( o => o.addWaves( arr ) );
+		this.#uiOscs.forEach( ( o, id ) => {
+			o.$addWaveCustom( `custom.s${ this.dataset.id }.o${ id }` );
+			o.$addWaves( arr );
+		} );
 	}
 	$getOscillator( id ) {
 		return this.#uiOscs.get( id );
@@ -173,7 +176,8 @@ class gsuiSynthesizer extends gsui0ne {
 		const uiOsc = GSUcreateElement( "gsui-oscillator", { ...props, "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
-		uiOsc.addWaves( this.#waveList );
+		uiOsc.$addWaveCustom( `custom.s${ this.dataset.id }.o${ id }` );
+		uiOsc.$addWaves( this.#waveList );
 		this.$elements.$oscList.append( uiOsc );
 		return uiOsc;
 	}
