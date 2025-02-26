@@ -137,7 +137,6 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 
 /* .......................................................................... */
 .gsuiOscillator-remove,
-.gsuiOscillator-waveEdit-exit,
 .gsuiOscillator-waveBtn,
 .gsuiOscillator-waveSelect {
 	border: 0;
@@ -167,7 +166,6 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	font-size: 12px;
 	opacity: .5;
 }
-.gsuiOscillator-waveEdit-exit,
 .gsuiOscillator-remove {
 	position: absolute;
 	inset: 0 2px auto auto;
@@ -178,8 +176,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-waveBtn:hover,
 .gsuiOscillator-waveSelect:focus-visible,
 .gsuiOscillator-waveSelect:hover,
-.gsuiOscillator-remove:hover,
-.gsuiOscillator-waveEdit-exit:hover {
+.gsuiOscillator-remove:hover {
 	opacity: 1;
 }
 
@@ -224,16 +221,6 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 	opacity: 1;
 	visibility: visible;
 	transform: scale( 1 );
-}
-.gsuiOscillator-waveEdit-exit {
-	right: 3px;
-	transform: translateY( -20px );
-	transition:
-		.1s opacity,
-		.5s transform .25s;
-}
-gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit-exit {
-	transform: translateY( 0 );
 }
 
 /* .......................................................................... */

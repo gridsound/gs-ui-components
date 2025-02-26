@@ -59,6 +59,5 @@ GSUsetTemplate( "gsui-oscillator", waves => [
 	),
 	GSUcreateDiv( { class: "gsuiOscillator-waveEdit" },
 		GSUcreateElement( "gsui-wave-edit" ),
-		GSUcreateButton( { class: "gsuiOscillator-waveEdit-exit gsuiIcon", "data-icon": "close", title: "Exit wave edition" } ),
 	),
 ].flat( 1 ) );

@@ -29,7 +29,6 @@ class gsuiOscillator extends gsui0ne {
 				$waveEditWrap: ".gsuiOscillator-waveEdit",
 				$waveEdit: "gsui-wave-edit",
 				$waveEditBtn: ".gsuiOscillator-waveBtn[data-action=waveEdit]",
-				$waveEditExit: ".gsuiOscillator-waveEdit-exit",
 				$sourceName: ".gsuiOscillator-sourceName",
 				$source: ".gsuiOscillator-source",
 				$waves: [
@@ -70,7 +69,6 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.$elements.$waveEditBtn.onclick = this.#openWaveEdit.bind( this, true );
-		this.$elements.$waveEditExit.onclick = this.#openWaveEdit.bind( this, false );
 		this.$elements.$waveEditWrap.onpointerdown = e => e.preventDefault();
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		this.$elements.$waveWrap.ondragover = e => {
@@ -116,6 +114,7 @@ class gsuiOscillator extends gsui0ne {
 				},
 			},
 			gsuiWaveEdit: {
+				back: () => this.#openWaveEdit( false ),
 				input: d => {
 					d.component = "gsuiOscillator";
 					d.eventName = "inputWaveEdit";
