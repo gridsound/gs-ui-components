@@ -2,6 +2,7 @@
 
 GSUsetTemplate( "gsui-wave-edit", () => [
 	GSUcreateSpan( { class: "gsuiWaveEdit-head" },
+		GSUcreateButton( { class: "gsuiWaveEdit-back gsuiIcon", "data-action": "back", "data-icon": "arrow-left" } ),
 		GSUcreateSpan( { class: "gsuiWaveEdit-title", inert: true }, "wave-edition" ),
 	),
 	GSUcreateDiv( { class: "gsuiWaveEdit-graph" },

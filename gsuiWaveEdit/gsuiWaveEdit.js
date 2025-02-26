@@ -12,10 +12,18 @@ class gsuiWaveEdit extends gsui0ne {
 			$cmpName: "gsuiWaveEdit",
 			$tagName: "gsui-wave-edit",
 			$elements: {
+				$head: ".gsuiWaveEdit-head",
 				$dotline: "gsui-dotline",
 			},
 		} );
 		Object.seal( this );
+		this.$elements.$head.onclick = e => {
+			switch ( e.target.dataset.action ) {
+				case "back":
+					this.$dispatch( "back" );
+					break;
+			}
+		};
 		this.$init();
 		GSUlistenEvents( this, {
 			gsuiDotline: {
