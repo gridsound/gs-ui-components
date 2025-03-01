@@ -2,8 +2,8 @@ gsui-track {
 	box-sizing: border-box;
 	display: flex;
 	height: 100%;
-	border-top: 2px solid #ffffff11;
-	border-bottom: 2px solid #0000003b;
+	border-top: var( --gsui-item-brdtop );
+	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
 }
 gsui-track,
