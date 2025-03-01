@@ -11,14 +11,14 @@ gsui-effect[ enable ] {
 	display: flex;
 	height: 36px;
 	box-sizing: border-box;
-	border-bottom: 2px solid #0002;
+	border-bottom: var( --gsui-item-brdbottom );
 	font-size: 12px;
 }
 gsui-effect:not( [ expanded ] ) + gsui-effect .gsuiEffect-head {
-	border-top: 2px solid #fff1;
+	border-top: var( --gsui-item-brdtop );
 }
 gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
-	border-top: 2px solid #0001;
+	border-top: var( --gsui-item-brdbottom );
 }
 .gsuiEffect-expand,
 .gsuiEffect-remove {

@@ -10,8 +10,8 @@ gsui-drumrow {
 	box-sizing: border-box;
 	height: 1em;
 	min-height: 1em;
-	border-top: 2px solid #ffffff11;
-	border-bottom: 2px solid #0000003b;
+	border-top: var( --gsui-item-brdtop );
+	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
 	transition:
 		.2s height,

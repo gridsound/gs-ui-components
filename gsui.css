@@ -55,6 +55,8 @@ body {
 	--gsui-timeline-loop-bg: #656586;
 	--gsui-items-bg: #474747;
 	--gsui-item-bg: #5c5c5c;
+	--gsui-item-brdtop: 2px solid #fff1;
+	--gsui-item-brdbottom: 2px solid #0000003b;
 	--gsui-item-more-bg: #fff2;
 	--gsui-item-bg-disabled: #505050;
 	--gsui-item-bg-selected: #616161;

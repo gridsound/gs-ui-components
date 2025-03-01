@@ -8,8 +8,8 @@ gsui-channel {
 	height: 100%;
 	min-width: 50px;
 	min-height: 160px;
-	border-left: 2px solid #ffffff11;
-	border-right: 2px solid #0000003b;
+	border-left: var( --gsui-item-brdtop );
+	border-right: var( --gsui-item-brdbottom );
 	background-color: var( --gsuiChannel-bg, var( --gsui-item-bg ) );
 	transition: .2s background-color;
 }
