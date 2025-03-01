@@ -4,7 +4,6 @@ gsui-wave-edit {
 	height: 100%;
 	flex-direction: column;
 	background-color: var(--gsui-item-bg);
-	--gsuiDotline-dotSize: 4px;
 }
 
 .gsuiWaveEdit-head {
