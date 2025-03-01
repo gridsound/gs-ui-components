@@ -9,6 +9,7 @@ class gsuiDotlineSVG extends gsui0ne {
 	#ymax = 0;
 	#svgW = 0;
 	#svgH = 0;
+	#resW = 500;
 
 	constructor() {
 		super( {
@@ -28,6 +29,9 @@ class gsuiDotlineSVG extends gsui0ne {
 		this.#svgH = h;
 		GSUsetViewBoxWH( this.$elements.$svg, w, h );
 	}
+	$setResolution( w ) {
+		this.#resW = w;
+	}
 	$setDataBox( box ) {
 		const n = box.split( " " );
 
@@ -39,20 +43,24 @@ class gsuiDotlineSVG extends gsui0ne {
 		this.#h = this.#ymax - this.#ymin;
 	}
 	$setCurve( data ) {
-		GSUsetAttribute( this.$elements.$path, "d",
-			Object.values( data )
-				.sort( ( a, b ) => a.x - b.x )
-				.reduce( this.#setCurveDot.bind( this ), [] )
-				.join( " " )
-		);
+		const xy = GSUsampleDotLine( data, this.#resW );
+		const curveDots = [];
+
+		if ( xy.length > 1 ) {
+			const xy0 = xy.shift();
+
+			curveDots.push( "M", this.#calcX( xy0[ 0 ] ), this.#calcY( xy0[ 1 ] ) );
+			xy.forEach( dot => curveDots.push( "L", this.#calcX( dot[ 0 ] ), this.#calcY( dot[ 1 ] ) ) );
+		}
+		GSUsetAttribute( this.$elements.$path, "d", curveDots.join( " " ) );
 	}
-	#setCurveDot( arr, dot, i ) {
-		arr.push(
-			!i ? "M" : "L",
-			GSUroundNum( ( dot.x - this.#xmin ) / this.#w * this.#svgW, 5 ),
-			GSUroundNum( this.#svgH - ( dot.y - this.#ymin ) / this.#h * this.#svgH, 5 ),
-		);
-		return arr;
+
+	// .........................................................................
+	#calcX( x ) {
+		return GSUroundNum( ( x - this.#xmin ) / this.#w * this.#svgW, 5 );
+	}
+	#calcY( y ) {
+		return GSUroundNum( this.#svgH - ( y - this.#ymin ) / this.#h * this.#svgH, 5 );
 	}
 }
 
