@@ -20,8 +20,8 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 400px;
-	--test-content-h: 240px;
+	--test-content-w: 500px;
+	--test-content-h: 560px;
 	--test-content-resize: both;
 }
 #testWrap {
@@ -39,7 +39,7 @@ gsui-dotline {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-dotline beatlines viewbox="10 20 150 100"></gsui-dotline>
+	<gsui-dotline beatlines viewbox="-50 -50 50 50"></gsui-dotline>
 </div>
 <div id="TEST-CTRLS">
 	<div>
@@ -93,19 +93,15 @@ document.querySelector( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep
 document.querySelector( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
 
 line.$setDotOptions( "1", { freezeX: true, deletable: false } );
-line.$setDotOptions( "2", { freezeX: true, deletable: false } );
+line.$setDotOptions( "6", { freezeX: true, deletable: false } );
 
 line.$change( {
-	/**/
-	1: { x:  10, y:  20 },
-	2: { x: 150, y: 100 },
-	/**/
-	/** /
-	1: { x:  20, y: 10 },
-	2: { x:  50, y: 90 },
-	3: { x:  90, y: 10 },
-	4: { x: 120, y: 50 },
-	/**/
+	1: { x: -50, y: -50 },
+	2: { x: -40, y: -10, type: "sineWave",     val: 1 },
+	3: { x: -20, y:  20, type: "squareWave",   val: 4 },
+	4: { x:   0, y:   0, type: "sineWave",     val: 2 },
+	5: { x:  10, y:  30, type: "triangleWave", val: 3 },
+	6: { x:  50, y:  50, type: "stair",        val: 3 },
 } );
 </script>
 </body>
