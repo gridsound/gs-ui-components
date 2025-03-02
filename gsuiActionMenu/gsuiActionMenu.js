@@ -18,7 +18,9 @@ class gsuiActionMenu {
 	}
 
 	// .........................................................................
+	$open() { this.#dropdown.$open(); }
 	$bindTargetElement( btn ) { this.#dropdown.$bindTargetElement( btn ); }
+	$setTarget( tar ) { this.#dropdown.$setTarget( tar ); }
 	$setDirection( dir ) { this.#dropdown.$setDirection( dir ); }
 	$setMenuParent( el ) { this.#dropdown.$setParent( el ); }
 	$setMinSize( w, h ) {
