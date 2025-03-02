@@ -11,24 +11,21 @@ class gsuiDropdown {
 	#onbeforeOpening = GSUnoop;
 	#onopenCreateElement = null;
 
+	$open() { this.#open(); }
+	$close() { this.#close(); }
+	$setParent( el ) { this.#elParent = el; }
+	$setDirection( dir ) { this.#direction = dir; }
+	$onbeforeOpening( fn ) { this.#onbeforeOpening = fn; }
+	$onopenCreateElement( fn ) { this.#onopenCreateElement = fn; }
+	$setTarget( el ) {
+		this.#elBtn = el;
+		if ( this.#isOpen ) {
+			this.#positionElement();
+		}
+	}
 	$bindTargetElement( btn ) {
 		this.#elBtn = btn;
 		btn.addEventListener( "click", this.#onclickTarget.bind( this ) );
-	}
-	$setParent( el ) {
-		this.#elParent = el;
-	}
-	$setDirection( dir ) {
-		this.#direction = dir;
-	}
-	$onbeforeOpening( fn ) {
-		this.#onbeforeOpening = fn;
-	}
-	$onopenCreateElement( fn ) {
-		this.#onopenCreateElement = fn;
-	}
-	$close() {
-		this.#close();
 	}
 
 	// .........................................................................
