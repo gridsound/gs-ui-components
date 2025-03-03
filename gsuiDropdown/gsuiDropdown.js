@@ -6,6 +6,7 @@ class gsuiDropdown {
 	#isOpen = false;
 	#direction = "bottom";
 	#elParent = document.body;
+	#elContent = null;
 	#timeoutId = null;
 	#onptrdownBodyBind = this.#onptrdownBody.bind( this );
 	#onbeforeOpening = GSUnoop;
@@ -27,6 +28,9 @@ class gsuiDropdown {
 	$bindTargetElement( btn ) {
 		this.#elBtn = btn;
 		btn.addEventListener( "click", this.#onclickTarget.bind( this ) );
+	}
+	$getContent() {
+		return this.#elContent;
 	}
 
 	// .........................................................................
@@ -66,13 +70,16 @@ class gsuiDropdown {
 			this.#timeoutId = setTimeout( () => {
 				this.#elem.remove();
 				this.#elem = null;
+				this.#elContent = null;
 			}, 250 );
 		}
 	}
 	#createElement() {
+		this.#elContent = this.#onopenCreateElement?.();
+
 		return GSUcreateDiv( { class: "gsuiDropdown", "data-dir": this.#direction },
 			GSUcreateDiv( { class: "gsuiDropdown-arrow", inert: true } ),
-			GSUcreateDiv( { class: "gsuiDropdown-content" }, this.#onopenCreateElement?.() ),
+			GSUcreateDiv( { class: "gsuiDropdown-content" }, this.#elContent ),
 		);
 	}
 	#positionElement() {
