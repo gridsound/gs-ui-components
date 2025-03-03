@@ -11,6 +11,7 @@ class gsuiDropdown {
 	#onbeforeOpening = GSUnoop;
 	#onopenCreateElement = null;
 
+	$isOpen() { return this.#isOpen; }
 	$open() { this.#open(); }
 	$close() { this.#close(); }
 	$setParent( el ) { this.#elParent = el; }
