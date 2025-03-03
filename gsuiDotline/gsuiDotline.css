@@ -1,8 +1,6 @@
-:root {
-	--gsuiDotline-dotSize: 4px;
-}
-
 gsui-dotline {
+	--gsuiDotline-dotSize: 4px;
+	--gsuiDotline-cdotSize: 8px;
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -37,7 +35,6 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 /* .......................................................................... */
 .gsuiDotline-dot,
 .gsuiDotline-cdot {
-	--w: var( --gsuiDotline-dotSize );
 	position: absolute;
 	z-index: 1;
 	box-sizing: border-box;
@@ -49,7 +46,13 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 		calc( var( --w ) / -2 );
 }
 .gsuiDotline-dot {
+	--w: var( --gsuiDotline-dotSize );
 	background-color: currentColor;
+}
+.gsuiDotline-cdot {
+	--w: var( --gsuiDotline-cdotSize );
+	display: none;
+	border: 1px solid;
 }
 .gsuiDotline-dot::before {
 	content: "";
@@ -60,9 +63,4 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 .gsuiDotline-dot:hover::before,
 .gsuiDotline-dotSelected::before {
 	background-color: #fff3;
-}
-.gsuiDotline-cdot {
-	--w: calc( var( --gsuiDotline-dotSize ) - 2px );
-	display: none;
-	border-width: 1px;
 }
