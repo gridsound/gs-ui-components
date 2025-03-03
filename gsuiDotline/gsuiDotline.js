@@ -162,7 +162,6 @@ class gsuiDotline extends gsui0ne {
 				this.#menu.$close();
 				if ( this.#deleteDotElement( this.#menuDotId ) ) {
 					this.#drawPolyline();
-					this.$dispatch( "input", this.#data );
 					this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
 				}
 				break;
@@ -184,7 +183,6 @@ class gsuiDotline extends gsui0ne {
 						dotDiff.val = 2;
 					}
 					this.#drawPolyline();
-					this.$dispatch( "input", this.#data );
 					this.$dispatch( "change", { [ this.#menuDotId ]: dotDiff } );
 				}
 				this.#menu.$close();
