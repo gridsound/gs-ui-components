@@ -25,6 +25,8 @@ class gsuiDotline extends gsui0ne {
 	#mousebtn = 0;
 	#activeDot = null;
 	#beatlines = null;
+	#menu = new gsuiActionMenu();
+	#menuDotId = null;
 
 	constructor() {
 		super( {
@@ -41,6 +43,19 @@ class gsuiDotline extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		this.#menu.$setMinSize( "120px", "140px" );
+		this.#menu.$setMaxSize( "120px", "140px" );
+		this.#menu.$closeAfterClick( false );
+		this.#menu.$setDirection( "bottom" );
+		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
+		this.#menu.$setActions( [
+			{ id: "delete",       icon: "close",     name: "delete" },
+			{ id: "line",         icon: "radio-btn", name: "line" },
+			{ id: "stair",        icon: "radio-btn", name: "stair" },
+			{ id: "sineWave",     icon: "radio-btn", name: "sine-wave" },
+			{ id: "triangleWave", icon: "radio-btn", name: "triangle-wave" },
+			{ id: "squareWave",   icon: "radio-btn", name: "square-wave" },
+		] );
 	}
 
 	// .........................................................................
@@ -117,6 +132,43 @@ class gsuiDotline extends gsui0ne {
 	}
 	$getData() {
 		return this.#data;
+	}
+
+	// .........................................................................
+	#onclickActions( act ) {
+		switch ( act ) {
+			case "delete":
+				this.#menu.$close();
+				if ( this.#deleteDotElement( this.#menuDotId ) ) {
+					this.#drawPolyline();
+					this.$dispatch( "input", this.#data );
+					this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
+				}
+				break;
+			case "line":
+			case "stair":
+			case "sineWave":
+			case "squareWave":
+			case "triangleWave": {
+				const dot = this.#data[ this.#menuDotId ];
+				const dotVal = dot.val;
+
+				if ( dot.type !== act ) {
+					const dotDiff = { type: act };
+
+					this.#updateMenu( act );
+					dot.type = act;
+					if ( typeof dot.val !== "number" ) {
+						dot.val =
+						dotDiff.val = 2;
+					}
+					this.#drawPolyline();
+					this.$dispatch( "input", this.#data );
+					this.$dispatch( "change", { [ this.#menuDotId ]: dotDiff } );
+					this.#menu.$close();
+				}
+			} break;
+		}
 	}
 
 	// .........................................................................
@@ -209,7 +261,9 @@ class gsuiDotline extends gsui0ne {
 		if ( opt?.deletable !== false ) {
 			this.#deleteDotElement2( id );
 			this.#sortDots();
+			return true;
 		}
+		return false;
 	}
 	#deleteDotElement2( id ) {
 		this.#dots[ id ].remove();
@@ -226,6 +280,13 @@ class gsuiDotline extends gsui0ne {
 		this.#activeDot = b ? dot : null;
 		dot.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
+	#updateMenu( type ) {
+		this.#menu.$changeAction( "line",         "icon", type === "line"         ? "radio-btn-checked" : "radio-btn" );
+		this.#menu.$changeAction( "stair",        "icon", type === "stair"        ? "radio-btn-checked" : "radio-btn" );
+		this.#menu.$changeAction( "sineWave",     "icon", type === "sineWave"     ? "radio-btn-checked" : "radio-btn" );
+		this.#menu.$changeAction( "squareWave",   "icon", type === "squareWave"   ? "radio-btn-checked" : "radio-btn" );
+		this.#menu.$changeAction( "triangleWave", "icon", type === "triangleWave" ? "radio-btn-checked" : "radio-btn" );
+	}
 
 	// .........................................................................
 	$onptrdown( e ) {
@@ -239,9 +300,10 @@ class gsuiDotline extends gsui0ne {
 		this.#pageY = e.pageY;
 		if ( e.button === 2 ) {
 			if ( isDot && id ) {
-				this.#deleteDotElement( id );
-				this.#drawPolyline();
-				this.$dispatch( "input", this.#data );
+				this.#menuDotId = id;
+				this.#updateMenu( this.#data[ id ].type );
+				this.#menu.$setTarget( e.target );
+				this.#menu.$open();
 			}
 		} else if ( e.button === 0 ) {
 			const xstep = GSUgetAttributeNum( this, "xstep" );
@@ -334,17 +396,7 @@ class gsuiDotline extends gsui0ne {
 		const xstep = GSUgetAttributeNum( this, "xstep" );
 		const ystep = GSUgetAttributeNum( this, "ystep" );
 
-		if ( this.#mousebtn === 2 ) {
-			const x = e.offsetX / this.#getW() * this.#w + this.#xmin;
-			const y = this.#h - ( e.offsetY / this.#getH() * this.#h + this.#ymin );
-			const dat = this.#dataSorted.find( d => Math.abs( x - d[ 1 ].x ) < xstep );
-
-			if ( dat ) {
-				this.#deleteDotElement( dat[ 0 ] );
-				this.#drawPolyline();
-				this.$dispatch( "input", this.#data );
-			}
-		} else if ( this.#mousebtn === 0 ) {
+		if ( this.#mousebtn === 0 ) {
 			let incX = this.#w / this.#getW() * ( e.pageX - this.#pageX );
 			let incY = this.#h / this.#getH() * -( e.pageY - this.#pageY );
 
