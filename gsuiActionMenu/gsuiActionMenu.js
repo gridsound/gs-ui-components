@@ -48,6 +48,21 @@ class gsuiActionMenu {
 			act.hidden = !b;
 		}
 	}
+	$changeAction( id, prop, val ) {
+		const act = this.#actions.find( act => act.id === id );
+		const elActions = this.#dropdown.$getContent();
+
+		if ( act ) {
+			act[ prop ] = val;
+			if ( elActions ) {
+				switch ( prop ) {
+					case "icon":
+						elActions.querySelector( `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).dataset.icon = val;
+						break;
+				}
+			}
+		}
+	}
 
 	// .........................................................................
 	#onclickActions( e ) {
