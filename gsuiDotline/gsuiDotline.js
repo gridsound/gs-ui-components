@@ -153,7 +153,7 @@ class gsuiDotline extends gsui0ne {
 				const dot = this.#data[ this.#menuDotId ];
 				const dotVal = dot.val;
 
-				if ( dot.type !== act ) {
+				if ( dot.type !== act && this.#menuDotId !== this.#dataSorted[ 0 ][ 0 ] ) {
 					const dotDiff = { type: act };
 
 					this.#updateMenu( act );
@@ -165,8 +165,8 @@ class gsuiDotline extends gsui0ne {
 					this.#drawPolyline();
 					this.$dispatch( "input", this.#data );
 					this.$dispatch( "change", { [ this.#menuDotId ]: dotDiff } );
-					this.#menu.$close();
 				}
+				this.#menu.$close();
 			} break;
 		}
 	}
