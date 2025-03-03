@@ -105,7 +105,7 @@ class gsuiComPlayer extends gsui0ne {
 			this.#actionMenu.$setCallback( act => this.$dispatch( act ) );
 		}
 		if ( actionsStr ) {
-			this.#actions.forEach( act => this.#actionMenu.$showAction( act.id, actionsStr.includes( act.id ) ) );
+			this.#actions.forEach( act => this.#actionMenu.$changeAction( act.id, "hidden", !actionsStr.includes( act.id ) ) );
 		}
 	}
 	#ptrDown( e ) {
