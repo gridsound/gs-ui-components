@@ -50,6 +50,9 @@ class gsuiSlider extends gsui0ne {
 		this.#setSVGcirc();
 		this.#updateVal();
 	}
+	$connected() {
+		this.#updateVal();
+	}
 	static get observedAttributes() {
 		return [ "value", "type", "min", "max", "step", "scroll-step", "throttle", "mousemove-size", "stroke-width" ];
 	}
