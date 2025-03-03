@@ -74,6 +74,7 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 }
 .gsuiDotline-cdot gsui-slider {
 	position: absolute;
+	z-index: 3;
 	top: 50%;
 	left: 50%;
 	width: 16px;

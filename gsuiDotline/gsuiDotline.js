@@ -25,7 +25,7 @@ class gsuiDotline extends gsui0ne {
 	#mousebtn = 0;
 	#activeDot = null;
 	#beatlines = null;
-	#curveSlider = GSUcreateElement( "gsui-slider", { type: "circular", min: -32, max: 32, step: 1, "mousemove-size": 2000, "stroke-width": 4 } );
+	#curveSlider = GSUcreateElement( "gsui-slider", { type: "circular", min: -32, max: 32, step: .01, "mousemove-size": 2000, "stroke-width": 4 } );
 	#menu = new gsuiActionMenu();
 	#menuDotId = null;
 
@@ -51,7 +51,7 @@ class gsuiDotline extends gsui0ne {
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
 		this.#menu.$setActions( [
 			{ id: "delete",       icon: "close",     name: "delete" },
-			{ id: "line",         icon: "radio-btn", name: "line" },
+			{ id: "curve",        icon: "radio-btn", name: "curve" },
 			{ id: "stair",        icon: "radio-btn", name: "stair" },
 			{ id: "sineWave",     icon: "radio-btn", name: "sine-wave" },
 			{ id: "triangleWave", icon: "radio-btn", name: "triangle-wave" },
@@ -165,7 +165,7 @@ class gsuiDotline extends gsui0ne {
 					this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
 				}
 				break;
-			case "line":
+			case "curve":
 			case "stair":
 			case "sineWave":
 			case "squareWave":
@@ -345,8 +345,8 @@ class gsuiDotline extends gsui0ne {
 						id: GSUgetNewId( this.#data ),
 						x,
 						y: this.#getPtrY( e ),
-						type: "line",
-						val: null,
+						type: "curve",
+						val: 0,
 						byMouse: true,
 					} );
 					if ( id ) {
