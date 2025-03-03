@@ -41,13 +41,6 @@ class gsuiActionMenu {
 	$setActions( arr ) {
 		this.#actions = arr.filter( Boolean ).map( act => ( { ...act } ) );
 	}
-	$showAction( id, b ) {
-		const act = this.#actions.find( act => act.id === id );
-
-		if ( act ) {
-			act.hidden = !b;
-		}
-	}
 	$changeAction( id, prop, val ) {
 		const act = this.#actions.find( act => act.id === id );
 		const elActions = this.#dropdown.$getContent();
