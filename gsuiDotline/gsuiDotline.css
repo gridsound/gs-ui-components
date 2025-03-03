@@ -36,7 +36,6 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 .gsuiDotline-dot,
 .gsuiDotline-cdot {
 	position: absolute;
-	z-index: 1;
 	box-sizing: border-box;
 	border-radius: 50%;
 	width: var( --w );
@@ -47,20 +46,39 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 }
 .gsuiDotline-dot {
 	--w: var( --gsuiDotline-dotSize );
+	z-index: 2;
 	background-color: currentColor;
 }
 .gsuiDotline-cdot {
 	--w: var( --gsuiDotline-cdotSize );
-	display: none;
+	z-index: 1;
 	border: 1px solid;
 }
-.gsuiDotline-dot::before {
+.gsuiDotline-dot::before,
+.gsuiDotline-cdot::before {
 	content: "";
 	position: absolute;
 	inset: -4px;
 	border-radius: 50%;
 }
 .gsuiDotline-dot:hover::before,
+.gsuiDotline-cdot:hover::before,
 .gsuiDotline-dotSelected::before {
 	background-color: #fff3;
+}
+
+.gsuiDotline-cdot:hover {
+	--w: 24px;
+	border: 0;
+	background-color: #000;
+}
+.gsuiDotline-cdot gsui-slider {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 16px;
+	height: 16px;
+	margin: -8px 0 0 -8px;
+	--gsuiSlider-lineColor: #fff;
+	--gsuiSlider-lineBgColor: #fff1;
 }

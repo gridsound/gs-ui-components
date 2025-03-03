@@ -25,6 +25,7 @@ class gsuiDotline extends gsui0ne {
 	#mousebtn = 0;
 	#activeDot = null;
 	#beatlines = null;
+	#curveSlider = GSUcreateElement( "gsui-slider", { type: "circular", min: -32, max: 32, step: 1, "mousemove-size": 2000, "stroke-width": 4 } );
 	#menu = new gsuiActionMenu();
 	#menuDotId = null;
 
@@ -56,6 +57,26 @@ class gsuiDotline extends gsui0ne {
 			{ id: "triangleWave", icon: "radio-btn", name: "triangle-wave" },
 			{ id: "squareWave",   icon: "radio-btn", name: "square-wave" },
 		] );
+		GSUlistenEvents( this, {
+			gsuiSlider: {
+				inputEnd: GSUnoop,
+				inputStart: GSUnoop,
+				input: d => {
+					const dotId = d.target.parentNode.dataset.id;
+
+					this.#data[ dotId ].val = d.args[ 0 ];
+					this.#drawPolyline();
+					this.$dispatch( "input", this.#data );
+				},
+				change: d => {
+					const dotId = d.target.parentNode.dataset.id;
+
+					this.#data[ dotId ].val = d.args[ 0 ];
+					this.#drawPolyline();
+					this.$dispatch( "change", { [ dotId ]: { val: d.args[ 0 ] } } );
+				},
+			}
+		} );
 	}
 
 	// .........................................................................
@@ -186,6 +207,8 @@ class gsuiDotline extends gsui0ne {
 					cdot =
 					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
 					this.$elements.$root.append( cdot );
+					cdot.onpointerenter = this.#onpointerenterCurveDot.bind( this );
+					cdot.onpointerleave = this.#onpointerleaveCurveDot.bind( this );
 				}
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) / 2 + prevXp }%`;
 				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) / 2 + prevYp }%`;
@@ -290,9 +313,13 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	$onptrdown( e ) {
+		const isSVG = e.target.tagName === "svg";
 		let isDot = e.target.classList.contains( "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
+		if ( !isSVG && !isDot ) {
+			return false;
+		}
 		GSUunselectText();
 		this.#dataSaved = GSUjsonCopy( this.#data );
 		this.#mousebtn = e.button;
@@ -305,7 +332,9 @@ class gsuiDotline extends gsui0ne {
 				this.#menu.$setTarget( e.target );
 				this.#menu.$open();
 			}
-		} else if ( e.button === 0 ) {
+			return false;
+		}
+		if ( e.button === 0 ) {
 			const xstep = GSUgetAttributeNum( this, "xstep" );
 
 			if ( !id ) {
@@ -328,12 +357,12 @@ class gsuiDotline extends gsui0ne {
 					}
 				}
 			}
-			if ( id ) {
-				isDot
-					? this.#onpointerdownDot( id, xstep )
-					: this.#onpointerdownCurveDot( id, xstep );
+			if ( id && isDot ) {
+				this.#onpointerdownDot( id, xstep );
+				return true;
 			}
 		}
+		return false;
 	}
 	#onpointerdownDot( id, xstep ) {
 		this.#selectDotElement( id, true );
@@ -382,8 +411,14 @@ class gsuiDotline extends gsui0ne {
 			this.#dotMaxY = this.#ymax - this.#dotMaxY;
 		}
 	}
-	#onpointerdownCurveDot( id, xstep ) {
-		lg( "gsuiDotline.#onpointerdownCurveDot", id );
+	#onpointerenterCurveDot( e ) {
+		const cdot = e.target;
+
+		this.#curveSlider.$setValue( this.#data[ cdot.dataset.id ].val );
+		cdot.append( this.#curveSlider );
+	}
+	#onpointerleaveCurveDot() {
+		this.#curveSlider.remove();
 	}
 	$onptrup( e ) {
 		if ( this.#activeDot ) {
