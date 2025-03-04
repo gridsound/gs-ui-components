@@ -44,8 +44,8 @@ class gsuiDotline extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#menu.$setMinSize( "120px", "140px" );
-		this.#menu.$setMaxSize( "120px", "140px" );
+		this.#menu.$setMinSize( "130px", "140px" );
+		this.#menu.$setMaxSize( "130px", "140px" );
 		this.#menu.$closeAfterClick( false );
 		this.#menu.$setDirection( "bottom" );
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
@@ -141,8 +141,8 @@ class gsuiDotline extends gsui0ne {
 						id,
 						x: diffDot.x ?? dat.x,
 						y: diffDot.y ?? dat.y,
-						type: diffDot.type || dat.type,
-						val: diffDot.val || dat.val,
+						type: diffDot.type ?? dat.type,
+						val: diffDot.val ?? dat.val,
 					} );
 			}
 		} );
@@ -302,7 +302,7 @@ class gsuiDotline extends gsui0ne {
 		dot.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
 	#updateMenu( type ) {
-		this.#menu.$changeAction( "line",         "icon", type === "line"         ? "radio-btn-checked" : "radio-btn" );
+		this.#menu.$changeAction( "curve",        "icon", type === "curve"        ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "stair",        "icon", type === "stair"        ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "sineWave",     "icon", type === "sineWave"     ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "squareWave",   "icon", type === "squareWave"   ? "radio-btn-checked" : "radio-btn" );
@@ -315,23 +315,15 @@ class gsuiDotline extends gsui0ne {
 		let isDot = e.target.classList.contains( "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
-		if ( !isSVG && !isDot ) {
+		GSUunselectText();
+		this.#onrightclickDot( e );
+		if ( e.button === 2 || ( !isSVG && !isDot ) ) {
 			return false;
 		}
-		GSUunselectText();
 		this.#dataSaved = GSUjsonCopy( this.#data );
 		this.#mousebtn = e.button;
 		this.#pageX = e.pageX;
 		this.#pageY = e.pageY;
-		if ( e.button === 2 ) {
-			if ( isDot && id ) {
-				this.#menuDotId = id;
-				this.#updateMenu( this.#data[ id ].type );
-				this.#menu.$setTarget( e.target );
-				this.#menu.$open();
-			}
-			return false;
-		}
 		if ( e.button === 0 ) {
 			const xstep = GSUgetAttributeNum( this, "xstep" );
 
@@ -361,6 +353,14 @@ class gsuiDotline extends gsui0ne {
 			}
 		}
 		return false;
+	}
+	#onrightclickDot( e ) {
+		if ( e.button === 2 && e.target.classList.contains( "gsuiDotline-dot" ) ) {
+			this.#menuDotId = e.target.dataset.id;
+			this.#updateMenu( this.#data[ this.#menuDotId ].type );
+			this.#menu.$setTarget( e.target );
+			this.#menu.$open();
+		}
 	}
 	#onpointerdownDot( id, xstep ) {
 		this.#selectDotElement( id, true );
