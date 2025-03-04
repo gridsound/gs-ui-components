@@ -311,7 +311,7 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	$onptrdown( e ) {
-		const isSVG = e.target.tagName === "svg";
+		const isSVG = e.target.classList.contains( "gsuiDotline-padding" );
 		let isDot = e.target.classList.contains( "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
