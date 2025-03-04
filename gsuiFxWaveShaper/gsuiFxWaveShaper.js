@@ -4,13 +4,13 @@ class gsuiFxWaveShaper extends gsui0ne {
 	static #wavesNbPts = 256;
 	static #sinePts = GSUnewArray( gsuiFxWaveShaper.#wavesNbPts, i => Math.sin( i / gsuiFxWaveShaper.#wavesNbPts * Math.PI * 2 ) );
 	static #defPtsAsym = {
-		0: { x: -1, y: -1 },
-		1: { x:  1, y:  1 },
-		2: { x:  0, y:  0 },
+		0: { x: -1, y: -1, type: null,    val: null },
+		1: { x:  1, y:  1, type: "curve", val: 0 },
+		2: { x:  0, y:  0, type: "curve", val: 0 },
 	};
 	static #defPtsSym = {
-		0: { x:  0, y:  0 },
-		1: { x:  1, y:  1 },
+		0: { x:  0, y:  0, type: null,    val: null },
+		1: { x:  1, y:  1, type: "curve", val: 0 },
 	};
 	#wavesW = 0;
 	#wavesH = 0;
