@@ -316,6 +316,7 @@ class gsuiDotline extends gsui0ne {
 		let id = e.target.dataset.id;
 
 		GSUunselectText();
+		this.#onrightclickSlider( e );
 		this.#onrightclickDot( e );
 		if ( e.button === 2 || ( !isSVG && !isDot ) ) {
 			return false;
@@ -353,6 +354,17 @@ class gsuiDotline extends gsui0ne {
 			}
 		}
 		return false;
+	}
+	#onrightclickSlider( e ) {
+		if ( e.button === 2 && e.target.classList.contains( "gsuiSlider-eventCatcher" ) ) {
+			const id = e.target.closest( ".gsuiDotline-cdot" ).dataset.id;
+			const dot = this.#data[ id ];
+
+			dot.val = dot.type === "curve" ? 0 : 1;
+			this.#curveSlider.$setValue( dot.val );
+			this.#drawPolyline();
+			this.$dispatch( "change", { [ id ]: { val: dot.val } } );
+		}
 	}
 	#onrightclickDot( e ) {
 		if ( e.button === 2 && e.target.classList.contains( "gsuiDotline-dot" ) ) {
