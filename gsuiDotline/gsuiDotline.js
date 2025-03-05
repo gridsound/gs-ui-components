@@ -173,14 +173,16 @@ class gsuiDotline extends gsui0ne {
 			case "squareWave":
 			case "triangleWave": {
 				const dot = this.#data[ this.#menuDotId ];
-				const dotVal = dot.val;
 
 				if ( dot.type !== act && this.#menuDotId !== this.#dataSorted[ 0 ][ 0 ] ) {
 					const dotDiff = { type: act };
 
 					this.#updateMenu( act );
 					dot.type = act;
-					if ( typeof dot.val !== "number" ) {
+					if ( act === "hold" && dot.val !== null ) {
+						dot.val =
+						dotDiff.val = null;
+					} else if ( typeof dot.val !== "number" ) {
 						dot.val =
 						dotDiff.val = 2;
 					}
