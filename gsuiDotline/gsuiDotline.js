@@ -210,6 +210,7 @@ class gsuiDotline extends gsui0ne {
 					cdot.onpointerenter = this.#onpointerenterCurveDot.bind( this );
 					cdot.onpointerleave = this.#onpointerleaveCurveDot.bind( this );
 				}
+				GSUsetAttribute( cdot, "data-type", dot.type );
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) / 2 + prevXp }%`;
 				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) / 2 + prevYp }%`;
 				delete cdots[ id ];

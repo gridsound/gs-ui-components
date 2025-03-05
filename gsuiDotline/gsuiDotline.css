@@ -66,6 +66,9 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 .gsuiDotline-dotSelected::before {
 	background-color: #fff3;
 }
+.gsuiDotline-cdot[ data-type="hold" ] {
+	display: none;
+}
 
 .gsuiDotline-cdot:hover {
 	--w: 24px;
