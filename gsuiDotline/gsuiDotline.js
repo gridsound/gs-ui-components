@@ -44,13 +44,14 @@ class gsuiDotline extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#menu.$setMinSize( "130px", "140px" );
-		this.#menu.$setMaxSize( "130px", "140px" );
+		this.#menu.$setMinSize( "130px", "168px" );
+		this.#menu.$setMaxSize( "130px", "168px" );
 		this.#menu.$closeAfterClick( false );
 		this.#menu.$setDirection( "bottom" );
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
 		this.#menu.$setActions( [
 			{ id: "delete",       icon: "close",     name: "delete" },
+			{ id: "hold",         icon: "radio-btn", name: "hold" },
 			{ id: "curve",        icon: "radio-btn", name: "curve" },
 			{ id: "stair",        icon: "radio-btn", name: "stair" },
 			{ id: "sineWave",     icon: "radio-btn", name: "sine-wave" },
@@ -165,6 +166,7 @@ class gsuiDotline extends gsui0ne {
 					this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
 				}
 				break;
+			case "hold":
 			case "curve":
 			case "stair":
 			case "sineWave":
@@ -302,6 +304,7 @@ class gsuiDotline extends gsui0ne {
 		dot.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
 	#updateMenu( type ) {
+		this.#menu.$changeAction( "hold",         "icon", type === "hold"         ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "curve",        "icon", type === "curve"        ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "stair",        "icon", type === "stair"        ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "sineWave",     "icon", type === "sineWave"     ? "radio-btn-checked" : "radio-btn" );
