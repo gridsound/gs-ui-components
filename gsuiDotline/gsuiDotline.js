@@ -364,7 +364,7 @@ class gsuiDotline extends gsui0ne {
 			const id = e.target.closest( ".gsuiDotline-cdot" ).dataset.id;
 			const dot = this.#data[ id ];
 
-			dot.val = dot.type === "curve" ? 0 : 1;
+			dot.val = 0;
 			this.#curveSlider.$setValue( dot.val );
 			this.#drawPolyline();
 			this.$dispatch( "change", { [ id ]: { val: dot.val } } );
