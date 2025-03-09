@@ -203,6 +203,9 @@ class gsuiDotline extends gsui0ne {
 			if ( prev ) {
 				const prevXp = this.#getPercX( prev.x );
 				const prevYp = this.#getPercY( prev.y );
+				const cdotY = dot.type !== "curve"
+					? .5
+					: _GSUsampleDotLine_fns.curve( dot.val, .5 );
 				let cdot = this.#cdots[ id ];
 
 				if ( !cdot ) {
@@ -213,8 +216,8 @@ class gsuiDotline extends gsui0ne {
 					cdot.onpointerleave = this.#onpointerleaveCurveDot.bind( this );
 				}
 				GSUsetAttribute( cdot, "data-type", dot.type );
-				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) / 2 + prevXp }%`;
-				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) / 2 + prevYp }%`;
+				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) * .5 + prevXp }%`;
+				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) * cdotY + prevYp }%`;
 				delete cdots[ id ];
 			}
 			return dot;
