@@ -208,7 +208,6 @@ gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom
 /* .......................................................................... */
 .gsuiOscillator-waveEdit {
 	position: absolute;
-	overflow: hidden;
 	inset: 0 0 0 20px;
 	background-color: var( --gsui-item-bg );
 	opacity: 0;
