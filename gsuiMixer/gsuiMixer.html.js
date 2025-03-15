@@ -29,7 +29,7 @@ GSUsetTemplate( "gsui-mixer", () =>
 
 GSUsetTemplate( "gsui-mixer-analyser-label", txt =>
 	GSUcreateDiv( { class: "gsuiMixer-analyserTypes-label", inert: true },
-		GSUcreateI( { class: "gsuiIcon", "data-icon": "dot-circle" } ),
+		GSUcreateI( { class: "gsuiIcon", "data-icon": "radio-btn-checked" } ),
 		GSUcreateSpan( null, txt ),
 	)
 );
