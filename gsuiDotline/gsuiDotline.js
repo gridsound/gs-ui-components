@@ -44,8 +44,8 @@ class gsuiDotline extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#menu.$setMinSize( "130px", "168px" );
-		this.#menu.$setMaxSize( "130px", "168px" );
+		this.#menu.$setMinSize( "130px", "192px" );
+		this.#menu.$setMaxSize( "130px", "192px" );
 		this.#menu.$closeAfterClick( false );
 		this.#menu.$setDirection( "bottom" );
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
@@ -53,6 +53,7 @@ class gsuiDotline extends gsui0ne {
 			{ id: "delete",       icon: "close",     name: "delete" },
 			{ id: "hold",         icon: "radio-btn", name: "hold" },
 			{ id: "curve",        icon: "radio-btn", name: "curve" },
+			{ id: "doubleCurve",  icon: "radio-btn", name: "double-curve" },
 			{ id: "stair",        icon: "radio-btn", name: "stair" },
 			{ id: "sineWave",     icon: "radio-btn", name: "sine-wave" },
 			{ id: "triangleWave", icon: "radio-btn", name: "triangle-wave" },
@@ -158,39 +159,31 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#onclickActions( act ) {
-		switch ( act ) {
-			case "delete":
-				this.#menu.$close();
-				if ( this.#deleteDotElement( this.#menuDotId ) ) {
-					this.#drawPolyline();
-					this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
-				}
-				break;
-			case "hold":
-			case "curve":
-			case "stair":
-			case "sineWave":
-			case "squareWave":
-			case "triangleWave": {
-				const dot = this.#data[ this.#menuDotId ];
+		if ( act === "delete" ) {
+			this.#menu.$close();
+			if ( this.#deleteDotElement( this.#menuDotId ) ) {
+				this.#drawPolyline();
+				this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
+			}
+		} else {
+			const dot = this.#data[ this.#menuDotId ];
 
-				if ( dot.type !== act && this.#menuDotId !== this.#dataSorted[ 0 ][ 0 ] ) {
-					const dotDiff = { type: act };
+			if ( dot.type !== act && this.#menuDotId !== this.#dataSorted[ 0 ][ 0 ] ) {
+				const dotDiff = { type: act };
 
-					this.#updateMenu( act );
-					dot.type = act;
-					if ( act === "hold" && dot.val !== null ) {
-						dot.val =
-						dotDiff.val = null;
-					} else if ( typeof dot.val !== "number" ) {
-						dot.val =
-						dotDiff.val = 2;
-					}
-					this.#drawPolyline();
-					this.$dispatch( "change", { [ this.#menuDotId ]: dotDiff } );
+				this.#updateMenu( act );
+				dot.type = act;
+				if ( act === "hold" && dot.val !== null ) {
+					dot.val =
+					dotDiff.val = null;
+				} else if ( typeof dot.val !== "number" ) {
+					dot.val =
+					dotDiff.val = 2;
 				}
-				this.#menu.$close();
-			} break;
+				this.#drawPolyline();
+				this.$dispatch( "change", { [ this.#menuDotId ]: dotDiff } );
+			}
+			this.#menu.$close();
 		}
 	}
 
@@ -315,6 +308,7 @@ class gsuiDotline extends gsui0ne {
 		this.#menu.$changeAction( "stair",        "icon", type === "stair"        ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "sineWave",     "icon", type === "sineWave"     ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "squareWave",   "icon", type === "squareWave"   ? "radio-btn-checked" : "radio-btn" );
+		this.#menu.$changeAction( "doubleCurve",  "icon", type === "doubleCurve"  ? "radio-btn-checked" : "radio-btn" );
 		this.#menu.$changeAction( "triangleWave", "icon", type === "triangleWave" ? "radio-btn-checked" : "radio-btn" );
 	}
 
