@@ -181,6 +181,8 @@
 .gsuiIcon[ data-icon="radio-btn" ]::after { content: "\10f111"; }
 .gsuiIcon[ data-icon="radio-btn-checked" ]::before { content: "\f192"; }
 .gsuiIcon[ data-icon="radio-btn-checked" ]::after { content: "\10f192"; }
+.gsuiIcon[ data-icon="info" ]::before { content: "\f2fd"; }
+.gsuiIcon[ data-icon="info" ]::after { content: "\10f2fd"; opacity: .3 }
 
 .gsuiIcon[ data-icon="save" ]::before { content: "\f0c7"; }
 .gsuiIcon[ data-icon="save" ]::after { content: "\10f0c7"; opacity: .4; }

@@ -1,0 +1,10 @@
+gsui-help-link a {
+	color: inherit;
+}
+gsui-help-link a::before,
+gsui-help-link a::after {
+	color: var( --gsuiHelpLink-txt );
+}
+gsui-help-link a:hover::before {
+	color: currentColor;
+}
