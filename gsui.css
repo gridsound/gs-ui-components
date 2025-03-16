@@ -66,6 +66,8 @@ body {
 	--gsui-slider-bg-opaque: #444;
 	--gsuiSlider-lineBgColor: var( --gsui-slider-bg );
 	/* ................................ */
+	--gsuiHelpLink-txt: #fb7;
+	/* ................................ */
 	--gsuiLibrary-bg: #233240;
 	--gsuiLibrary-sample-fav: #9af;
 	--gsuiLibrary-sample-hover-bg: #fff1;

@@ -36,7 +36,13 @@ gsui-synthesizer {
 	background-color: var( --gsui-head3-bg );
 }
 .gsuiSynthesizer-headTitle {
+	display: flex;
+	align-items: center;
+	gap: 6px;
 	margin: 0 10px;
+}
+.gsuiSynthesizer-headTitle gsui-help-link {
+	font-size: 14px;
 }
 .gsuiSynthesizer-headTab {
 	display: flex;

@@ -37,7 +37,10 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 		GSUcreateElement( "gsui-noise" ),
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
-			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "oscillators" ),
+			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" },
+				GSUcreateSpan( null, "oscillators" ),
+				GSUcreateElement( "gsui-help-link", { page: "synth-oscillator" } ),
+			),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelUnison" }, "unison" ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPitch" }, "pitch" ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPan" }, "pan" ),
