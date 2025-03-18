@@ -5,42 +5,27 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 	GSUcreateDiv( { class: "gsuiSynthesizer-scrollArea" },
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head" },
-			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "envelopes" ),
-			GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": "env gain" },
-				GSUcreateElement( "gsui-toggle", { off: true } ),
-				GSUcreateSpan( { inert: true }, "gain" ),
-			),
-			GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": "env detune" },
-				GSUcreateElement( "gsui-toggle", { off: true } ),
-				GSUcreateSpan( { inert: true }, "pitch" ),
-			),
+			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "envelopes", help: "synth-envelopes" } ),
+			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "env gain", name: "gain" } ),
+			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "env detune", name: "pitch" } ),
 		),
 		GSUcreateElement( "gsui-envelope" ),
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head" },
-			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "LFO" ),
-			GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": "lfo gain" },
-				GSUcreateElement( "gsui-toggle", { off: true } ),
-				GSUcreateSpan( { inert: true }, "gain" ),
-			),
-			GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": "lfo detune" },
-				GSUcreateElement( "gsui-toggle", { off: true } ),
-				GSUcreateSpan( { inert: true }, "pitch" ),
-			),
+			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "LFOs", help: "synth-LFOs" } ),
+			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "lfo gain", name: "gain" } ),
+			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "lfo detune", name: "pitch" } ),
 		),
 		GSUcreateElement( "gsui-lfo" ),
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headNoise" },
-			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" }, "noise" ),
+			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "noise", help: "synth-noise" } ),
 			GSUcreateElement( "gsui-toggle", { off: true } ),
 		),
 		GSUcreateElement( "gsui-noise" ),
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
-			GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" },
-				GSUcreateSpan( null, "oscillators" ),
-				GSUcreateElement( "gsui-help-link", { page: "synth-oscillator" } ),
-			),
+			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "oscillators", help: "synth-oscillator" } ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelUnison" }, "unison" ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPitch" }, "pitch" ),
 			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPan" }, "pan" ),
@@ -54,3 +39,17 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 	),
 	GSUcreateDiv( { class: "gsuiSynthesizer-shadowBottom" } ),
 ] );
+
+GSUsetTemplate( "gsui-synthesizer-headTitle", p =>
+	GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" },
+		GSUcreateSpan( null, p.name ),
+		GSUcreateElement( "gsui-help-link", { page: p.help } ),
+	)
+);
+
+GSUsetTemplate( "gsui-synthesizer-headTab", p =>
+	GSUcreateDiv( { class: "gsuiSynthesizer-headTab", "data-tab": p.id },
+		GSUcreateElement( "gsui-toggle", { off: true } ),
+		GSUcreateSpan( { inert: true }, p.name ),
+	)
+);
