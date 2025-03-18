@@ -34,13 +34,14 @@ body[ data-skin="white" ] {
 	/* ................................ */
 	--gsui-btn-openWin-bg: #0002;
 	--gsui-btn-openWin-open-bg: #a7357e;
-	--gsui-btn-playPause-bg: #d194ff;
+	--gsui-btn-playPause-bg: #8841bd;
 	--gsui-btn-default-bg: #0002;
-	--gsui-btn-cmp-bg: #d194ff;
+	--gsui-btn-cmp-bg: #8841bd;
 	--gsui-btn-cmp-readonly-bg: #f97777;
 	--gsui-btn-history-bg: #bbb;
 	--gsui-btn-export-txt: #ad2c51;
 	--gsui-btn-about-txt: #ad2c51;
+	--gsui-btn-help-txt: #f9c;
 	--gsui-main-currentTime-bg: #fff9;
 	--gsui-main-currentTime-lineColor: #ab7ad0;
 	--gsui-main-currentTime-lineBgColor: #0003;

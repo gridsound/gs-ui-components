@@ -255,6 +255,12 @@ class gsuiDAW extends gsui0ne {
 			case "redo":
 				this.$dispatch( dt.action );
 				break;
+			case "help": {
+				const hide = GSUhasAttribute( this, "gsuihelplink-hide" );
+
+				GSUsetAttribute( this, "gsuihelplink-hide", !hide );
+				this.$dispatch( "toggleHelpLinks", hide );
+			} break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
 					this.$dispatch( dt.open === undefined ? "openWindow" : "closeWindow", dt.win );
@@ -305,7 +311,6 @@ class gsuiDAW extends gsui0ne {
 						}
 					} );
 				break;
-			case "help":
 			case "changelog":
 				break;
 			default:

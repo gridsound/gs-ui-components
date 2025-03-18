@@ -107,6 +107,9 @@ gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 .gsuiDAW-btn[ data-action="about" ] {
 	--gsui-color: var( --gsui-btn-about-txt );
 }
+.gsuiDAW-btn[ data-action="help" ] {
+	color: var( --gsui-btn-help-txt );
+}
 
 /* .......................................................................... */
 .gsuiDAW-areaVers {

@@ -43,7 +43,7 @@ GSUsetTemplate( "gsui-daw", () => [
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiIcon", "data-action": "window", "data-icon": "slices",      "data-win": "slices",      title: "Open/close the slicer window" } ),
 		),
 		GSUcreateDiv( { class: "gsuiDAW-area gsuiDAW-areaHelp" },
-			GSUcreateAExt( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon", "data-action": "help", "data-icon": "help", title: "Help", href: "https://github.com/gridsound/daw/wiki/help" } ),
+			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon", "data-action": "help", "data-icon": "help", title: "Toggle help links" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiIcon gsuiDAW-btnColor", "data-action": "about", "data-icon": "about", title: "About" } ),
 		),
 		GSUcreateDiv( { class: "gsuiDAW-area gsuiDAW-areaVers" },
