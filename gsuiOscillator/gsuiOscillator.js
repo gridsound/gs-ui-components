@@ -241,8 +241,22 @@ class gsuiOscillator extends gsui0ne {
 		}
 		sli.$setValue( val );
 		GSUsetAttribute( sli, "title", `${ prop } ${ val2 }` );
+		gsuiOscillator.#setTextValue( span, prop, val2 );
+	}
+	static #setTextValue( span, prop, val ) {
 		if ( span ) {
-			span.textContent = val2.toFixed( 2 );
+			switch ( prop ) {
+				case "detune":
+				case "detunefine":
+					span.textContent = GSUsignNum( val.toFixed( 2 ) );
+					break;
+				case "gain":
+					span.textContent = `${ Math.round( val * 100 ) }%`;
+					break;
+				case "pan":
+					span.textContent = `${ GSUsignNum( Math.round( val * 100 ) ) }%`;
+					break;
+			}
 		}
 	}
 	#updatePhaze( n ) {
@@ -338,9 +352,7 @@ class gsuiOscillator extends gsui0ne {
 				this.#updateWave( "detune", val2 );
 				break;
 		}
-		if ( span ) {
-			span.textContent = val2.toFixed( 2 );
-		}
+		gsuiOscillator.#setTextValue( span, prop, val2 );
 		this.$dispatch( "liveChange", prop, val );
 	}
 }
