@@ -72,10 +72,11 @@ class gsuiNoise extends gsui0ne {
 	// .........................................................................
 	#setValue( prop, val ) {
 		const val2 = Math.round( val * 100 );
-
-		this.$elements.$values[ prop ].textContent = prop === "pan"
+		const val3 = prop === "pan"
 			? GSUsignNum( val2 )
 			: val2;
+
+		this.$elements.$values[ prop ].textContent = `${ val3 }%`;
 	}
 }
 

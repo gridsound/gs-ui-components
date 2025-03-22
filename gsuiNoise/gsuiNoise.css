@@ -51,12 +51,7 @@ gsui-noise:not( [ toggle ] ) .gsuiNoise-type-select {
 /* .......................................................................... */
 .gsuiNoise-value {
 	width: 27px;
-	font-weight: bold;
 	font-family: var( --gsui-font-number );
-}
-.gsuiNoise-value::after {
-	content: "%";
-	font-weight: normal;
 }
 
 /* .......................................................................... */
