@@ -8,6 +8,7 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "envelopes", help: "synth-envelopes" } ),
 			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "env gain", name: "gain" } ),
 			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "env detune", name: "pitch" } ),
+			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "env lowpass", name: "lowpass" } ),
 		),
 		GSUcreateElement( "gsui-envelope" ),
 		// .....................................................................

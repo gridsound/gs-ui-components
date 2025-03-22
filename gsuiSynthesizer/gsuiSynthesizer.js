@@ -9,6 +9,7 @@ class gsuiSynthesizer extends gsui0ne {
 		env: {
 			gain: {},
 			detune: {},
+			lowpass: {},
 		},
 		lfo: {
 			gain: {},
@@ -26,6 +27,7 @@ class gsuiSynthesizer extends gsui0ne {
 					env: {
 						gain: "[data-tab='env gain']",
 						detune: "[data-tab='env detune']",
+						lowpass: "[data-tab='env lowpass']",
 					},
 					lfo: {
 						gain: "[data-tab='lfo gain']",
