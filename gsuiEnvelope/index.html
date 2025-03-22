@@ -40,6 +40,10 @@ body {
 		<input type="radio" name="type" value="detune"/>
 		<span>detune</span>
 	</label>
+	<label>
+		<input type="radio" name="type" value="lowpass"/>
+		<span>lowpass</span>
+	</label>
 </div>
 
 <!-- ....................................................................... -->
@@ -64,11 +68,10 @@ body {
 <script>
 const elEnv = document.querySelector( "gsui-envelope" );
 const elCtrls = document.querySelector( "#testCtrls" );
-const inpTypeGain = elCtrls.querySelector( "input[value='gain']" );
 
 elCtrls.onchange = e => GSUsetAttribute( elEnv, "env", e.target.value );
 
-inpTypeGain.click();
+elCtrls.querySelector( "input[value='lowpass']" ).click();
 </script>
 </body>
 </html>

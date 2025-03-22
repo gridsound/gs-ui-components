@@ -14,6 +14,7 @@ class gsuiEnvelope extends gsui0ne {
 				$graph: "gsui-envelope-graph",
 				$sliders: {
 					amp:     [ ".gsuiEnvelope-prop[data-prop='amp']     gsui-slider", ".gsuiEnvelope-prop[data-prop='amp']     .gsuiEnvelope-propValue" ],
+					q:       [ ".gsuiEnvelope-prop[data-prop='q']       gsui-slider", ".gsuiEnvelope-prop[data-prop='q']       .gsuiEnvelope-propValue" ],
 					attack:  [ ".gsuiEnvelope-prop[data-prop='attack']  gsui-slider", ".gsuiEnvelope-prop[data-prop='attack']  .gsuiEnvelope-propValue" ],
 					hold:    [ ".gsuiEnvelope-prop[data-prop='hold']    gsui-slider", ".gsuiEnvelope-prop[data-prop='hold']    .gsuiEnvelope-propValue" ],
 					decay:   [ ".gsuiEnvelope-prop[data-prop='decay']   gsui-slider", ".gsuiEnvelope-prop[data-prop='decay']   .gsuiEnvelope-propValue" ],
@@ -26,6 +27,7 @@ class gsuiEnvelope extends gsui0ne {
 				toggle: false,
 				timedivision: "4/4",
 				amp: 24,
+				q: 1,
 				attack: .1,
 				hold: .1,
 				decay: .1,
@@ -39,12 +41,8 @@ class gsuiEnvelope extends gsui0ne {
 			gsuiSlider: {
 				inputStart: GSUnoop,
 				inputEnd: GSUnoop,
-				input: ( d, sli ) => {
-					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, sli ) => {
-					this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] );
-				},
+				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
+				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
 			},
 		} );
 	}
@@ -54,7 +52,7 @@ class gsuiEnvelope extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "env", "toggle", "timedivision", "amp", "attack", "hold", "decay", "sustain", "release" ];
+		return [ "env", "toggle", "timedivision", "amp", "q", "attack", "hold", "decay", "sustain", "release" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -66,6 +64,7 @@ class gsuiEnvelope extends gsui0ne {
 			case "toggle": this.#changeToggle( val !== null ); break;
 			case "timedivision": this.#changeTimedivision( val ); break;
 			case "amp":
+			case "q":
 			case "attack":
 			case "hold":
 			case "decay":
@@ -97,6 +96,7 @@ class gsuiEnvelope extends gsui0ne {
 	// .........................................................................
 	#changeToggle( b ) {
 		GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
+		GSUsetAttribute( this.$elements.$sliders.q[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.hold[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.decay[ 0 ], "disabled", !b );

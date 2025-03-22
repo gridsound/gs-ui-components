@@ -13,13 +13,17 @@ gsui-envelope {
 	--gsuiEnvelope-wave-off: #777;
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 }
-gsui-envelope[ env="detune" ] {
+gsui-envelope[ env="detune" ],
+gsui-envelope[ env="lowpass" ] {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-detune );
 	grid-template:
 		"attack hold  decay sustain release" 28px
 		"graph  graph graph graph   graph  " 1fr
 		"amp    amp   .     .       .      " 8px
 		/1fr    1fr   1fr   1fr     1fr;
+}
+gsui-envelope[ env="lowpass" ] {
+	--gsuiEnvelope-ctrls-color: var( --gsui-col-lowpass );
 }
 
 /* .......................................................................... */
@@ -29,6 +33,7 @@ gsui-envelope[ env="detune" ] {
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 }
 .gsuiEnvelope-prop[ data-prop="amp" ]     { grid-area: amp }
+.gsuiEnvelope-prop[ data-prop="q" ]       { grid-area: amp }
 .gsuiEnvelope-prop[ data-prop="attack" ]  { grid-area: attack }
 .gsuiEnvelope-prop[ data-prop="hold" ]    { grid-area: hold }
 .gsuiEnvelope-prop[ data-prop="decay" ]   { grid-area: decay }
@@ -67,21 +72,28 @@ gsui-envelope .gsuiSlider-eventCatcher {
 }
 
 /* .......................................................................... */
-gsui-envelope[ env="gain" ] .gsuiEnvelope-prop[ data-prop="amp" ] {
+gsui-envelope:not( [ env="detune" ] ) .gsuiEnvelope-prop[ data-prop="amp" ],
+gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 	display: none;
 }
-.gsuiEnvelope-prop[ data-prop="amp" ] {
+.gsuiEnvelope-prop[ data-prop="amp" ],
+.gsuiEnvelope-prop[ data-prop="q" ] {
 	flex-direction: row;
 	align-items: center;
 	gap: 8px;
 }
-.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propLabel {
+.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propLabel,
+.gsuiEnvelope-prop[ data-prop="q" ] .gsuiEnvelope-propLabel {
 	height: auto;
 }
 .gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propValue {
 	width: 24px;
 }
-.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiSlider-eventCatcher {
+.gsuiEnvelope-prop[ data-prop="q" ] .gsuiEnvelope-propValue {
+	width: 36px;
+}
+.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiSlider-eventCatcher,
+.gsuiEnvelope-prop[ data-prop="q" ] .gsuiSlider-eventCatcher {
 	inset: -6px;
 }
 
