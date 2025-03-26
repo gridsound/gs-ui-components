@@ -60,6 +60,7 @@ class gsuiNoise extends gsui0ne {
 				break;
 			case "color":
 				this.$elements.$colorTxt.textContent = val;
+				this.$elements.$colorSelect.value = val;
 				break;
 			case "gain":
 			case "pan":
