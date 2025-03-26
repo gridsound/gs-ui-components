@@ -191,8 +191,8 @@ class gsuiSynthesizer extends gsui0ne {
 			this.#uiOscs.delete( id );
 		}
 	}
-	$reorderOscillators( obj ) {
-		gsuiReorder.listReorder( this.$elements.$oscList, obj );
+	$reorderOscillators() {
+		gsuiReorder.listReorder( this.$elements.$oscList );
 	}
 
 	// .........................................................................
