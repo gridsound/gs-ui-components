@@ -193,7 +193,10 @@ gsui-channel gsui-toggle {
 	opacity: .6;
 	background-color: #0002;
 }
-.gsuiMixer-panMain .gsuiChannel-grip {
-	visibility: hidden;
+gsui-channel[ data-id="main" ] .gsuiChannel-grip {
 	pointer-events: none;
+}
+gsui-channel[ data-id="main" ] .gsuiChannel-grip::after,
+gsui-channel[ data-id="main" ] .gsuiChannel-grip::before {
+	display: none;
 }
