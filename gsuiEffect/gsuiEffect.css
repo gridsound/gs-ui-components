@@ -49,12 +49,16 @@ gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
 	width: 20px;
 }
 .gsuiEffect-name {
-	flex: 1;
 	align-self: center;
 	padding-left: 6px;
 	opacity: var( --gsuiEffect-head-name-opacity, .5 );
 }
+.gsuiEffect-head gsui-help-link {
+	align-self: center;
+	margin-left: 6px;
+}
 .gsuiEffect-remove {
+	margin-left: auto;
 	width: 32px;
 	opacity: .3;
 	transition: .1s opacity;

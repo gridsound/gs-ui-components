@@ -8,6 +8,7 @@ class gsuiEffect extends gsui0ne {
 			$elements: {
 				$toggle: "gsui-toggle",
 				$name: ".gsuiEffect-name",
+				$help: "gsui-help-link",
 				$expand: ".gsuiEffect-expand",
 				$remove: ".gsuiEffect-remove",
 				$content: ".gsuiEffect-content",
@@ -45,6 +46,7 @@ class gsuiEffect extends gsui0ne {
 				break;
 			case "name":
 				this.$elements.$name.textContent = val;
+				GSUsetAttribute( this.$elements.$help, "page", `mixer-effects-${ val }` );
 				break;
 		}
 	}
