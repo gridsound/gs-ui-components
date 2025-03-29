@@ -293,7 +293,7 @@ class gsuiOscillator extends gsui0ne {
 			? currOpt.previousElementSibling
 			: currOpt.nextElementSibling;
 
-		if ( opt ) {
+		if ( opt && ( dir > 0 || currOpt.value !== "sine" || GSUhasAttribute( this, "hascustomwave" ) ) ) {
 			sel.value = opt.value;
 			this.#onchangeSelect();
 		}
