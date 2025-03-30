@@ -3,6 +3,7 @@
 class gsuiSlider extends gsui0ne {
 	#min = 0;
 	#max = 100;
+	#revert = 1;
 	#scrollStep = 0;
 	#scrollIncr = 0;
 	#mousemoveSize = 0;
@@ -54,7 +55,7 @@ class gsuiSlider extends gsui0ne {
 		this.#updateVal();
 	}
 	static get observedAttributes() {
-		return [ "value", "type", "min", "max", "step", "scroll-step", "throttle", "mousemove-size", "stroke-width" ];
+		return [ "value", "revert", "type", "min", "max", "step", "scroll-step", "throttle", "mousemove-size", "stroke-width" ];
 	}
 	$attributeChanged( prop, val ) {
 		let updateVal;
@@ -62,6 +63,9 @@ class gsuiSlider extends gsui0ne {
 		switch ( prop ) {
 			case "value":
 				this.$setValue( val );
+				break;
+			case "revert":
+				this.#revert = val !== null ? -1 : 1;
 				break;
 			case "type":
 				this.#setType( val );
@@ -236,7 +240,7 @@ class gsuiSlider extends gsui0ne {
 	}
 	$onptrmove( e ) {
 		const bound = this.#getRange() / 5;
-		const mov = this.#circ || !this.#axeX ? -e.movementY : e.movementX;
+		const mov = ( this.#circ || !this.#axeX ? -e.movementY : e.movementX ) * this.#revert;
 		const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval + this.#scrollIncr;
 
 		if ( this.#min - bound < val && val < this.#max + bound ) {
