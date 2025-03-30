@@ -426,8 +426,13 @@ class gsuiDotline extends gsui0ne {
 	}
 	#onpointerenterCurveDot( e ) {
 		const cdot = e.target;
+		const id = cdot.dataset.id;
+		const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
+		const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
+		const dotBY = this.#dataSorted[ ind ][ 1 ].y;
 
-		this.#curveSlider.$setValue( this.#data[ cdot.dataset.id ].val );
+		GSUsetAttribute( this.#curveSlider, "revert", dotAY > dotBY );
+		this.#curveSlider.$setValue( this.#data[ id ].val );
 		cdot.append( this.#curveSlider );
 	}
 	#onpointerleaveCurveDot() {
