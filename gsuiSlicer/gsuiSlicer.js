@@ -121,7 +121,7 @@ class gsuiSlicer extends gsui0ne {
 				this.#updatePxPerBeat();
 				break;
 			case "step":
-				this.$elements.$step.firstChild.textContent = this.#convertStepToFrac( +val );
+				this.$elements.$step.firstChild.textContent = GSUfloatToFraction( +val );
 				break;
 		}
 	}
@@ -267,13 +267,6 @@ class gsuiSlicer extends gsui0ne {
 		GSUsetAttribute( this.$elements.$timeline, "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );
 		GSUsetAttribute( this.$elements.$beatlines[ 0 ], "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );
 		GSUsetAttribute( this.$elements.$beatlines[ 1 ], "pxperbeat", this.$elements.$slices.clientHeight / ( dur || this.#dur ) );
-	}
-	#convertStepToFrac( step ) {
-		return (
-			step >= 1 ? "1" :
-			step >= .5 ? "1/2" :
-			step >= .25 ? "1/4" : "1/8"
-		);
 	}
 	#getSliceByPageX( offsetX ) {
 		const x = GSUclampNum( offsetX / this.$elements.$slices.clientWidth, 0, .9999 );

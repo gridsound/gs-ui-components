@@ -162,7 +162,7 @@ class gsuiTimewindow extends gsui0ne {
 				break;
 			case "step":
 				GSUsetAttribute( this.$elements.$timeline, "step", val );
-				this.$elements.$stepBtn.firstChild.textContent = this.#convertStepToFrac( +val );
+				this.$elements.$stepBtn.firstChild.textContent = GSUfloatToFraction( +val );
 				break;
 			case "timedivision":
 				GSUsetAttribute( this.$elements.$timeline, "timedivision", val );
@@ -332,13 +332,6 @@ class gsuiTimewindow extends gsui0ne {
 	$appendPanelDown( ...el ) { this.$elements.$panelDown.append( ...el ); }
 
 	// .........................................................................
-	#convertStepToFrac( step ) {
-		return (
-			step >= 1 ? "1" :
-			step >= .5 ? "1/2" :
-			step >= .25 ? "1/4" : "1/8"
-		);
-	}
 	#getPPBmin() { return GSUgetAttributeNum( this, "pxperbeatmin" ) || 8; }
 	#getPPBmax() { return GSUgetAttributeNum( this, "pxperbeatmax" ) || 512; }
 	#getLHmin() { return GSUgetAttributeNum( this, "lineheightmin" ) || 24; }
