@@ -37,7 +37,7 @@ class gsuiSlicer extends gsui0ne {
 				$timeline: "gsui-timeline",
 				$preview: ".gsuiSlicer-preview",
 				$slices: ".gsuiSlicer-slices-wrap",
-				$step: ".gsuiSlicer-btn-step",
+				$step: "gsui-step-select",
 				$tools: {
 					$moveY: ".gsuiSlicer-btn[data-action='moveY']",
 					$reset: ".gsuiSlicer-btn[data-action='reset']",
@@ -68,7 +68,6 @@ class gsuiSlicer extends gsui0ne {
 		this.#waveDef.id = `gsuiSlicer-waveDef-${ this.#waveDef.dataset.id }`;
 		this.$elements.$slices.oncontextmenu = GSUnoopFalse;
 		this.$elements.$slices.onpointerdown = this.#onpointerdownSlices.bind( this );
-		this.$elements.$step.onclick = this.#onclickStep.bind( this );
 		this.$elements.$tools.$moveY.onclick =
 		this.$elements.$tools.$reset.onclick =
 		this.$elements.$tools.$split.onclick =
@@ -90,6 +89,9 @@ class gsuiSlicer extends gsui0ne {
 					GSUsetAttribute( this, "currenttime", d.args[ 0 ] );
 					return true;
 				},
+			},
+			gsuiStepSelect: {
+				onchange: d => GSUsetAttribute( this, "step", d.args[ 0 ] ),
 			},
 		} );
 	}
@@ -121,7 +123,7 @@ class gsuiSlicer extends gsui0ne {
 				this.#updatePxPerBeat();
 				break;
 			case "step":
-				this.$elements.$step.firstChild.textContent = GSUfloatToFraction( +val );
+				GSUsetAttribute( this.$elements.$step, "step", val );
 				break;
 		}
 	}
@@ -281,15 +283,6 @@ class gsuiSlicer extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onclickStep() {
-		const v = GSUgetAttributeNum( this, "step" );
-		const frac =
-			v >= 1 ? 2 :
-			v >= .5 ? 4 :
-			v >= .25 ? 8 : 1;
-
-		GSUsetAttribute( this, "step", 1 / frac );
-	}
 	#onclickTools( e ) {
 		this.#selectTool( e.target.dataset.action );
 	}
@@ -347,7 +340,7 @@ class gsuiSlicer extends gsui0ne {
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
 		const dur = GSUgetAttributeNum( this, "duration" );
-		const step = GSUgetAttributeNum( this, "step" );
+		const step = this.$elements.$step.$getStep();
 		const yyy = GSUclampNum( e.offsetY / this.$elements.$slices.clientHeight, 0, 1 );
 		const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
 		const y = yy / dur / this.#stepsPerBeat;

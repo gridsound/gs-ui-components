@@ -209,6 +209,11 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 }
 
 /* .......................................................................... */
+gsui-slicer gsui-step-select {
+	margin-right: auto;
+}
+
+/* .......................................................................... */
 .gsuiSlicer-btn {
 	display: flex;
 	align-items: center;
@@ -235,10 +240,4 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 .gsuiSlicer-btn:focus,
 .gsuiSlicer-btn:hover {
 	opacity: 1;
-}
-
-/* .......................................................................... */
-.gsuiSlicer-btn-step {
-	margin-right: auto;
-	font-family: var( --gsui-font-number );
 }
