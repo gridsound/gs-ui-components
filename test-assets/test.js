@@ -44,6 +44,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiTimewindow" } ),
 					GSUcreateOption( { value: "gsuiTimeline" } ),
 					GSUcreateOption( { value: "gsuiBeatlines" } ),
+					GSUcreateOption( { value: "gsuiStepSelect" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPianoroll" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiKeys" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSliderGroup" } ),
