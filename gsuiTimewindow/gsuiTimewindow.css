@@ -185,29 +185,9 @@ gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 .gsuiTimewindow-loopB { right: 0; }
 
 /* .......................................................................... */
-.gsuiTimewindow-step {
-	display: flex;
-	align-items: center;
-	gap: 4px;
+gsui-timewindow gsui-step-select {
 	margin-right: 4px;
-	border: 0;
-	outline: 0;
-	padding: 0;
-	border-radius: 4px;
-	font-size: inherit;
-	font-family: var( --gsui-font-number );
-	color: inherit;
-	cursor: pointer;
-	background: none;
-	opacity: .5;
-	transition: .2s opacity;
-}
-.gsuiTimewindow-step:focus,
-.gsuiTimewindow-step:hover {
-	opacity: 1;
-}
-.gsuiTimewindow-stepValue {
-	white-space: nowrap;
+	height: 18px;
 }
 
 .gsuiTimewindow-panelUp gsui-slider {

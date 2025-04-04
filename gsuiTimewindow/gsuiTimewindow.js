@@ -38,7 +38,7 @@ class gsuiTimewindow extends gsui0ne {
 				$panel: ".gsuiTimewindow-panel",
 				$panelCnt: ".gsuiTimewindow-panelContent",
 				$panelDown: ".gsuiTimewindow-panelContentDown",
-				$stepBtn: ".gsuiTimewindow-step",
+				$stepBtn: "gsui-step-select",
 				$sliderZoomX: "gsui-slider[data-zoom=x]",
 				$sliderZoomY: "gsui-slider[data-zoom=y]",
 				$timeline: "gsui-timeline",
@@ -85,6 +85,9 @@ class gsuiTimewindow extends gsui0ne {
 					}
 				},
 			},
+			gsuiStepSelect: {
+				onchange: d => GSUsetAttribute( this, "step", d.args[ 0 ] ),
+			},
 			gsuiTimeline: {
 				inputCurrentTime: GSUnoop,
 				changeCurrentTime: d => {
@@ -104,7 +107,6 @@ class gsuiTimewindow extends gsui0ne {
 		this.timeline.$setScrollingParent( this.$elements.$scroll );
 		this.ondragstart = GSUnoopFalse;
 		this.$elements.$main.onwheel = this.#onwheel.bind( this );
-		this.$elements.$stepBtn.onclick = this.#onclickStep.bind( this );
 		this.$elements.$mainCnt.oncontextmenu = e => e.preventDefault();
 		this.$elements.$panelCnt.onwheel = this.#onwheelPanel.bind( this );
 		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelExtendY" ).onpointerdown = this.#onptrdownExtend.bind( this, "side" );
@@ -161,8 +163,8 @@ class gsuiTimewindow extends gsui0ne {
 				this.#minimapUpdate();
 				break;
 			case "step":
+				GSUsetAttribute( this.$elements.$stepBtn, "step", val );
 				GSUsetAttribute( this.$elements.$timeline, "step", val );
-				this.$elements.$stepBtn.firstChild.textContent = GSUfloatToFraction( +val );
 				break;
 			case "timedivision":
 				GSUsetAttribute( this.$elements.$timeline, "timedivision", val );
@@ -367,15 +369,6 @@ class gsuiTimewindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onclickStep() {
-		const v = GSUgetAttributeNum( this, "step" );
-		const frac =
-			v >= 1 ? .5 :
-			v >= .5 ? .25 :
-			v >= .25 ? .125 : 1;
-
-		GSUsetAttribute( this, "step", frac );
-	}
 	#getWheelDelta( d ) {
 		let inc = 1.1;
 
