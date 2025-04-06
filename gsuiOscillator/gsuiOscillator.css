@@ -15,7 +15,7 @@ gsui-oscillator {
 		/20px 6px 1fr  6px 32px   8px 36px   6px 36px 6px 36px 10px;
 }
 gsui-oscillator[ waveedit ] {
-	min-height: 110px;
+	min-height: 160px;
 }
 
 /* .......................................................................... */
