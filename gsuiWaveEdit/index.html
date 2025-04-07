@@ -76,30 +76,13 @@ el.$change( {
 	0: {
 		index: 0,
 		curve: {
-			0: { x: 0, y: -1, type: null, val: null },
-			1: { x: 1, y:  1, type: "curve", val: null },
-		},
-	},
-	1: {
-		index: 1,
-		curve: {
-			0: { x: 0, y: -1, type: null, val: null },
-			1: { x: 1, y:  1, type: "curve", val: 1 },
-		},
-	},
-	2: {
-		index: .5,
-		curve: {
-			0: { x: 0, y: -1, type: null, val: null },
-			1: { x: 1, y:  1, type: "curve", val: 2 },
+			0: { x: 0,    y:  0, type: null, val: null },
+			1: { x: 0.25, y:  1, type: "curve", val: 1.34 },
+			2: { x: 0.75, y: -1, type: "doubleCurve", val: 1.5 },
+			3: { x: 1,    y:  0, type: "curve", val: -1.34 },
 		},
 	},
 } );
-
-// el.$change( {
-// 	0: { x: 0, y: -1, type: null, val: null },
-// 	1: { x: 1, y:  1, type: "curve", val: null },
-// } );
 </script>
 </body>
 </html>

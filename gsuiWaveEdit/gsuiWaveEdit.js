@@ -103,6 +103,10 @@ class gsuiWaveEdit extends gsui0ne {
 	// .........................................................................
 	#updateSortWaves() {
 		this.#elWavesSorted = Array.from( this.#elWaves ).sort( ( a, b ) => a.dataset.index - b.dataset.index );
+		this.#elWavesSorted.forEach( ( w, i ) => {
+			w.style.order = i;
+			w.querySelector( ".gsuiWaveEdit-wavestep-num" ).textContent = i + 1;
+		} );
 	}
 	#getWaveElement( wId ) {
 		return this.#elWavesSorted.find( w => w.dataset.id === wId );
@@ -162,10 +166,6 @@ class gsuiWaveEdit extends gsui0ne {
 		this.#updateSortWaves();
 		elW.querySelector( "gsui-dotlinesvg" ).$setSVGSize( 100, 50 );
 		elW.querySelector( "gsui-dotlinesvg" ).$setDataBox( "0 -1 1 1" );
-		this.#elWavesSorted.forEach( ( w, i ) => {
-			w.style.order = i;
-			w.querySelector( ".gsuiWaveEdit-wavestep-num" ).textContent = i + 1;
-		} );
 	}
 	#removeWave( wId ) {
 		const w = this.#getWaveElement( wId );
