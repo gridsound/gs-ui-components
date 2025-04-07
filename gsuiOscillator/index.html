@@ -76,7 +76,7 @@ const elOsc = document.querySelector( "gsui-oscillator" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
-elOsc.$addWaveCustom( "custom.s0.o0" );
+elOsc.$addWaveCustom( GSUformatWaveCustomName( 0, 0 ) );
 elOsc.$addWaves( Array.from( waves.keys() ) );
 GSUsetAttribute( elOsc, "wave", "noise" );
 GSUsetAttribute( elOsc, "wave", "sine" );
