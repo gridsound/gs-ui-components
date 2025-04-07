@@ -72,6 +72,34 @@ body {
 <script>
 const el = document.querySelector( "gsui-wave-edit" );
 
+el.$change( {
+	0: {
+		index: 0,
+		curve: {
+			0: { x: 0, y: -1, type: null, val: null },
+			1: { x: 1, y:  1, type: "curve", val: null },
+		},
+	},
+	1: {
+		index: 1,
+		curve: {
+			0: { x: 0, y: -1, type: null, val: null },
+			1: { x: 1, y:  1, type: "curve", val: 1 },
+		},
+	},
+	2: {
+		index: .5,
+		curve: {
+			0: { x: 0, y: -1, type: null, val: null },
+			1: { x: 1, y:  1, type: "curve", val: 2 },
+		},
+	},
+} );
+
+// el.$change( {
+// 	0: { x: 0, y: -1, type: null, val: null },
+// 	1: { x: 1, y:  1, type: "curve", val: null },
+// } );
 </script>
 </body>
 </html>
