@@ -68,7 +68,7 @@ class gsuiDotline extends gsui0ne {
 
 					this.#data[ dotId ].val = d.args[ 0 ];
 					this.#drawPolyline();
-					this.$dispatch( "input", this.#data );
+					this.$dispatch( "input", GSUdeepCopy( this.#data ) );
 				},
 				change: d => {
 					const dotId = d.target.parentNode.dataset.id;
@@ -347,7 +347,7 @@ class gsuiDotline extends gsui0ne {
 					} );
 					if ( id ) {
 						this.#drawPolyline();
-						this.$dispatch( "input", this.#data );
+						this.$dispatch( "input", GSUdeepCopy( this.#data ) );
 					}
 				}
 			}
@@ -466,7 +466,7 @@ class gsuiDotline extends gsui0ne {
 				} );
 			} );
 			this.#drawPolyline();
-			this.$dispatch( "input", this.#data );
+			this.$dispatch( "input", GSUdeepCopy( this.#data ) );
 		}
 	}
 }
