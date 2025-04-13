@@ -3,7 +3,7 @@ gsui-wave-edit {
 	display: flex;
 	height: 100%;
 	flex-direction: column;
-	background-color: var(--gsui-item-bg);
+	background-color: var( --gsui-item-bg );
 }
 
 /* .......................................................................... */
@@ -71,7 +71,7 @@ gsui-wave-edit {
 	--gsui-svg-cursor: auto;
 }
 .gsuiWaveEdit-wavestep[ data-selected ] {
-	background-color: #232339;
+	background-color: #493d7b;
 	--gsui-num-opacity: .9;
 	--gsui-svg-cursor: none;
 }

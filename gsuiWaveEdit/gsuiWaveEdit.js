@@ -2,7 +2,7 @@
 
 class gsuiWaveEdit extends gsui0ne {
 	#waveNull = true;
-	#waveSelected = null;
+	#waveSelected = "0";
 	#elWaves = this.getElementsByClassName( "gsuiWaveEdit-wavestep" );
 	#elWavesSorted = [];
 	#data = {};
@@ -46,8 +46,11 @@ class gsuiWaveEdit extends gsui0ne {
 					const obj = this.#waveNull
 						? GSUdeepAssign( GSUdeepCopy( gsuiWaveEdit.#waveDefault ), d.args[ 0 ] )
 						: d.args[ 0 ];
+					const obj2 = this.#waveNull
+						? { curve: obj, index: 0 }
+						: { curve: obj }
 
-					d.args[ 0 ] = { [ this.#waveSelected ]: { curve: obj } };
+					d.args[ 0 ] = { [ this.#waveSelected ]: obj2 };
 					d.component = "gsuiWaveEdit";
 					this.#waveNull = false;
 					this.$change( d.args[ 0 ] );
@@ -97,7 +100,10 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 	$clear() {
 		this.#waveNull = true;
+		this.#waveSelected = "0";
 		this.$elements.$dotline.$clear();
+		this.#elWavesSorted.forEach( w => w.remove() );
+		this.#data = {};
 	}
 
 	// .........................................................................
