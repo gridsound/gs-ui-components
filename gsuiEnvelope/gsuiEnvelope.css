@@ -10,8 +10,13 @@ gsui-envelope {
 		/1fr    1fr   1fr   1fr     1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
-	--gsuiEnvelope-wave-off: #777;
+	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
+	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
+	--gsuiBeatlines-lines: var( --gsuiEnvelope-wave-col );
+}
+gsui-envelope[ toggle ] {
+	--gsuiEnvelope-wave-col: var( --gsuiEnvelope-ctrls-color );
 }
 gsui-envelope[ env="detune" ],
 gsui-envelope[ env="lowpass" ] {
@@ -30,7 +35,6 @@ gsui-envelope[ env="lowpass" ] {
 .gsuiEnvelope-prop {
 	display: flex;
 	flex-direction: column;
-	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 }
 .gsuiEnvelope-prop[ data-prop="amp" ]     { grid-area: amp }
 .gsuiEnvelope-prop[ data-prop="q" ]       { grid-area: amp }
@@ -109,8 +113,5 @@ gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 gsui-envelope gsui-envelope-graph {
 	position: absolute;
 	inset: 2px 0 0;
-	color: var( --gsuiEnvelope-wave-off );
-}
-gsui-envelope[ toggle ] gsui-envelope-graph {
-	color: var( --gsuiEnvelope-ctrls-color );
+	color: var( --gsuiEnvelope-wave-col );
 }
