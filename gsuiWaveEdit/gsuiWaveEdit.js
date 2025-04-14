@@ -86,6 +86,8 @@ class gsuiWaveEdit extends gsui0ne {
 					if ( wId === this.#waveSelected ) {
 						this.$elements.$dotline.$change( w.curve );
 					}
+				} else if ( "index" in w ) {
+					this.#getWaveElement( wId ).dataset.index = w.index;
 				}
 			}
 		} );
