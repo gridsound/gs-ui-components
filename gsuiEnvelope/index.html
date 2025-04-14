@@ -33,17 +33,14 @@ body {
 </div>
 <div id="TEST-CTRLS">
 	<label>
-		<input type="radio" name="type" value="gain"/>
-		<span>gain</span>
+		<input id="inpToggle" type="checkbox" checked/>
+		<span>toggle</span>
 	</label>
-	<label>
-		<input type="radio" name="type" value="detune"/>
-		<span>detune</span>
-	</label>
-	<label>
-		<input type="radio" name="type" value="lowpass"/>
-		<span>lowpass</span>
-	</label>
+	<select id="inpTarget">
+		<option value="gain">gain</option>
+		<option value="detune">detune</option>
+		<option value="lowpass">lowpass</option>
+	</select>
 </div>
 
 <!-- ....................................................................... -->
@@ -67,11 +64,11 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elEnv = document.querySelector( "gsui-envelope" );
-const elCtrls = document.querySelector( "#testCtrls" );
+const inpToggle = document.querySelector( "#inpToggle" );
+const inpTarget = document.querySelector( "#inpTarget" );
 
-elCtrls.onchange = e => GSUsetAttribute( elEnv, "env", e.target.value );
-
-elCtrls.querySelector( "input[value='lowpass']" ).click();
+inpToggle.onchange = e => GSUsetAttribute( elEnv, "toggle", inpToggle.checked );
+inpTarget.onchange = e => GSUsetAttribute( elEnv, "env", inpTarget.value );
 </script>
 </body>
 </html>
