@@ -113,6 +113,12 @@ gsui-slider.sc2 {
 		</div>
 	</div>
 </div>
+<div id="TEST-CTRLS">
+	<label>
+		<input type="checkbox" id="inpDisabled"/>
+		disabled
+	</label>
+</div>
 
 <!-- ....................................................................... -->
 <script src="../gs-utils/gs-utils.js"></script>
@@ -126,8 +132,10 @@ gsui-slider.sc2 {
 
 <!-- ....................................................................... -->
 <script>
-const sli = document.querySelector( "gsui-slider" );
+const sli = document.querySelectorAll( "gsui-slider" );
+const inpDisabled = document.querySelector( "#inpDisabled" );
 
+inpDisabled.onchange = e => sli.forEach( sli => GSUsetAttribute( sli, "disabled", inpDisabled.checked ) );
 </script>
 </body>
 </html>
