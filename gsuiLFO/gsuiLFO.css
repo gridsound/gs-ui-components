@@ -12,13 +12,18 @@ gsui-lfo {
 		/32px 1fr   1fr    1fr   1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
-	--gsuiLFO-wave-off: #777;
-	--gsuiLFO-ctrls-bg: #555;
-	--gsuiLFO-ctrls-color: var( --gsui-col-gain );
-	--gsuiSlider-lineColor: var( --gsuiLFO-ctrls-color );
+	--gsuiLFO-cursor: not-allowed;
+	--gsuiLFO-input-theme: var( --gsui-col-gain );
+	--gsuiLFO-input-col: var( --gsui-slider-col-disabled );
+	--gsuiBeatlines-lines: var( --gsuiLFO-input-col );
+	--gsuiSlider-lineColor: var( --gsuiLFO-input-theme );
 }
 gsui-lfo[ lfo="detune" ] {
-	--gsuiLFO-ctrls-color: var( --gsui-col-detune );
+	--gsuiLFO-input-theme: var( --gsui-col-detune );
+}
+gsui-lfo[ toggle ] {
+	--gsuiLFO-input-col: var( --gsuiLFO-input-theme );
+	--gsuiLFO-cursor: pointer;
 }
 
 /* .......................................................................... */
@@ -91,32 +96,20 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	inset: 0;
 	width: 10px;
 	display: flex;
-	pointer-events: none;
 	flex-direction: column;
-}
-gsui-lfo[ toggle ] .gsuiLFO-ampSigns {
-	pointer-events: auto;
 }
 .gsuiLFO-ampSign {
 	flex: 1;
-	background-color: var( --gsui-slider-bg-opaque );
-}
-gsui-lfo[ toggle ] .gsuiLFO-ampSign {
-	color: var( --gsuiLFO-ctrls-color );
+	background-color: var( --gsui-slider-bg );
+	cursor: var( --gsuiLFO-cursor );
 }
 .gsuiLFO-ampSignIcon {
-	color: var( --gsuiLFO-wave-off );
+	color: var( --gsuiLFO-input-col );
 	font-size: 11px;
 }
-gsui-lfo[ toggle ] .gsuiLFO-ampSignIcon {
-	color: var( --gsuiLFO-ctrls-color );
-}
 .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
-	color: var( --gsuiLFO-ctrls-bg );
-	background-color: var( --gsuiLFO-wave-off );
-}
-gsui-lfo[ toggle ] .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
-	background-color: var( --gsuiLFO-ctrls-color );
+	color: var( --gsui-slider-bg );
+	background-color: var( --gsuiLFO-input-col );
 }
 .gsuiLFO-wave {
 	position: absolute;
@@ -127,12 +120,9 @@ gsui-lfo[ toggle ] .gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
 	position: absolute;
 	top: 6px;
 	height: calc( 100% - 12px );
-	color: var( --gsuiLFO-wave-off );
+	color: var( --gsuiLFO-input-col );
 	stroke-width: 2px;
 	transition: color .2s;
-}
-gsui-lfo[ toggle ] gsui-periodicwave {
-	color: var( --gsuiLFO-ctrls-color );
 }
 
 /* .......................................................................... */
@@ -147,30 +137,21 @@ gsui-lfo[ toggle ] gsui-periodicwave {
 }
 .gsuiLFO-typeBtn {
 	flex: 1;
-	cursor: not-allowed;
-	background-color: var( --gsuiSlider-lineBgColor );
-}
-gsui-lfo[ toggle ] .gsuiLFO-typeBtn {
-	cursor: pointer;
+	cursor: var( --gsuiLFO-cursor );
 }
 .gsuiLFO-typeSVG {
 	fill: none;
-	stroke: var( --gsuiLFO-wave-off );
+	stroke: var( --gsuiLFO-input-col );
 	stroke-width: 2px;
+	background-color: var( --gsui-slider-bg );
 	transition: .2s;
 	transition-property: stroke, background-color;
 }
-gsui-lfo[ toggle ] .gsuiLFO-typeSVG {
-	stroke: var( --gsuiLFO-ctrls-color );
+.gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
+	stroke: var( --gsui-slider-bg );
+	background-color: var( --gsuiLFO-input-col );
 }
 .gsuiLFO-typeSVG path {
 	transform: scale( .6 );
 	transform-origin: center;
-}
-.gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
-	stroke: var( --gsuiLFO-ctrls-bg );
-	background-color: var( --gsuiLFO-wave-off );
-}
-gsui-lfo[ toggle ] .gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
-	background-color: var( --gsuiLFO-ctrls-color );
 }

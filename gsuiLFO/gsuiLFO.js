@@ -112,7 +112,7 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	#changeToggle( b ) {
-		this.querySelectorAll( ".gsuiLFO-typeRadio" ).forEach( el => GSUsetAttribute( el, "disabled", !b ) );
+		this.querySelectorAll( "input[type=radio]" ).forEach( el => GSUsetAttribute( el, "disabled", !b ) );
 		GSUsetAttribute( this.$elements.$sliders.delay[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.speed[ 0 ], "disabled", !b );
