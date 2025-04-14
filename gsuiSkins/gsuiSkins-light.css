@@ -56,8 +56,12 @@ body[ data-skin="white" ] {
 	--gsui-item-bg-selected: #fff;
 	--gsui-toggle-on: #77d;
 	--gsui-toggle-off: #222;
-	--gsui-slider-bg: #0002;
-	--gsui-slider-bg-opaque: #444;
+	/* ................................ */
+	--gsui-slider-bg: #aaa;
+	--gsui-slider-col-disabled: #555;
+	--gsuiSlider-lineColor: #000;
+	--gsuiSlider-lineColor-disabled: var( --gsui-slider-col-disabled );
+	--gsuiSlider-lineBgColor: var( --gsui-slider-bg );
 	/* ................................ */
 	--gsuiLibrary-bg: #bef;
 	--gsuiLibrary-sample-fav: #03f;

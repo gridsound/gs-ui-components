@@ -1,4 +1,5 @@
 gsui-slider {
+	--gsuiSlider-lineColor2: var( --gsuiSlider-lineColor );
 	display: block;
 	position: relative;
 	width: 100%;
@@ -6,14 +7,9 @@ gsui-slider {
 	outline: 0;
 	touch-action: none;
 }
-
 gsui-slider[ disabled ] {
+	--gsuiSlider-lineColor2: var( --gsuiSlider-lineColor-disabled );
 	cursor: not-allowed;
-	--gsuiSlider-lineColor: #fff;
-}
-gsui-slider[ disabled ] .gsuiSlider-lineColor,
-gsui-slider[ disabled ] .gsuiSlider-svgLineColor {
-	opacity: .25;
 }
 
 .gsuiSlider-line,
@@ -31,11 +27,11 @@ gsui-slider[ disabled ] .gsuiSlider-svgLineColor {
 .gsuiSlider-line {
 	overflow: hidden;
 	border-radius: var( --gsuiSlider-lineRadius, 2px );
-	background-color: var( --gsuiSlider-lineBgColor, #000 );
+	background-color: var( --gsuiSlider-lineBgColor );
 }
 .gsuiSlider-lineColor {
 	position: absolute;
-	background-color: var( --gsuiSlider-lineColor, #fff );
+	background-color: var( --gsuiSlider-lineColor2 );
 }
 
 .gsuiSlider-svg {
@@ -49,5 +45,5 @@ gsui-slider[ disabled ] .gsuiSlider-svgLineColor {
 	fill: none;
 	transform-origin: center;
 }
-.gsuiSlider-svgLine { stroke: var( --gsuiSlider-lineBgColor, #000 ); }
-.gsuiSlider-svgLineColor { stroke: var( --gsuiSlider-lineColor, #fff ); }
+.gsuiSlider-svgLine { stroke: var( --gsuiSlider-lineBgColor ); }
+.gsuiSlider-svgLineColor { stroke: var( --gsuiSlider-lineColor2 ); }

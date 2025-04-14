@@ -34,7 +34,6 @@ body {
 	/* ................................ */
 	--gsui-screen-spectrum: #000;
 	--gsui-screen-spectrum-filter: none;
-	--gsui-screen-graph: #333;
 	--gsui-screen-graph: #373742;
 	/* ................................ */
 	--gsui-btn-openWin-bg: #222;
@@ -63,8 +62,11 @@ body {
 	--gsui-item-bg-selected: #616161;
 	--gsui-toggle-on: #ffa;
 	--gsui-toggle-off: #222;
-	--gsui-slider-bg: #0003;
-	--gsui-slider-bg-opaque: #444;
+	/* ................................ */
+	--gsui-slider-bg: #444;
+	--gsui-slider-col-disabled: #777;
+	--gsuiSlider-lineColor: #fff;
+	--gsuiSlider-lineColor-disabled: var( --gsui-slider-col-disabled );
 	--gsuiSlider-lineBgColor: var( --gsui-slider-bg );
 	/* ................................ */
 	--gsuiHelpLink-txt: #fb7;
