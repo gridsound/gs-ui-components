@@ -138,18 +138,22 @@ class gsuiWaveEdit extends gsui0ne {
 		}
 	}
 	#createCloneObj( wId ) {
+		const elWaves = this.#elWavesSorted;
 		const w = this.#data[ wId ];
-		const wOrder = this.#getWaveOrder( wId );
-		const wNext = this.#elWavesSorted[ wOrder + 1 ];
-		const wId2 = GSUgetNewId( this.#data );
-		const wInd2 = !wNext ? 1 : GSUavg( w.index, wNext.dataset.index );
-		const obj = { [ wId2 ]: {
-			index: wInd2,
+		const wNew = {
+			index: 1,
 			curve: GSUdeepCopy( w.curve ),
-		} };
+		};
+		const obj = { [ GSUgetNewId( this.#data ) ]: wNew };
 
-		if ( !wNext && wOrder > 0 ) {
-			obj[ wId ] = { index: GSUavg( this.#elWavesSorted[ wOrder - 1 ].dataset.index, w.index ) };
+		if ( elWaves.length > 1 ) {
+			const wOrder = this.#getWaveOrder( wId );
+
+			if ( wOrder < elWaves.length - 1 ) {
+				wNew.index = GSUavg( w.index, elWaves[ wOrder + 1 ].dataset.index );
+			} else {
+				obj[ wId ] = { index: GSUavg( elWaves[ wOrder - 1 ].dataset.index, w.index ) };
+			}
 		}
 		return obj;
 	}
