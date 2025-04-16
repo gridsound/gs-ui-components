@@ -5,7 +5,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	#h = 0;
 	#boxW = 0;
 	#boxH = 0;
-	#waves = {};
+	#waves = [];
 	#perspective = null;
 
 	constructor() {
@@ -38,15 +38,18 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 	}
 	$setWavetable( wt ) {
-		this.#waves = {};
+		this.#waves.length = 0;
 		GSUforEach( wt, ( wave, wId ) => {
 			const dots = this.#getDots( wave );
 
-			this.#waves[ wId ] = {
-				d0: dots.shift(),
-				rest: dots,
-			};
+			this.#waves.push( {
+				id: wId,
+				index: wave.index,
+				dot0: dots.shift(),
+				dots: dots,
+			} );
 		} );
+		this.#waves.sort( ( a, b ) => a.index - b.index );
 	}
 	#getDots( w ) {
 		const dots = GSUsampleDotLine( w.curve, 62 );
@@ -56,12 +59,10 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 
 	// .........................................................................
-	$draw( wt ) {
-		const wtEnt = Object.entries( wt ).sort( ( a, b ) => a[ 1 ].index - b[ 1 ].index );
-
+	$draw() {
 		this.#drawBox();
-		GSUsetSVGChildrenNumber( this.$elements.$gWaves, wtEnt.length, "path" );
-		wtEnt.forEach( ( [ wId, wave ], i, arr ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wId, !i ? 0 : i / ( arr.length - 1 ) ) );
+		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "path" );
+		this.#waves.forEach( ( wave, i, arr ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wave ) );
 	}
 	#drawBox() {
 		const l = this.$elements.$lines;
@@ -82,12 +83,11 @@ class gsuiWavetableGraph extends gsui0ne {
 	static #drawLine( line, a, b ) {
 		GSUsetAttribute( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
-	#drawWave( el, wId, z ) {
-		const dots = this.#waves[ wId ];
+	#drawWave( el, wave ) {
 		const curveDots = [];
 
-		curveDots.push( "M", ...this.#getCoord( dots.d0[ 0 ], dots.d0[ 1 ], z ) );
-		dots.rest.forEach( dot => curveDots.push( "L", ...this.#getCoord( dot[ 0 ], dot[ 1 ], z ) ) );
+		curveDots.push( "M", ...this.#getCoord( wave.dot0[ 0 ], wave.dot0[ 1 ], wave.index ) );
+		wave.dots.forEach( dot => curveDots.push( "L", ...this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index ) ) );
 		GSUsetAttribute( el, "d", curveDots.join( " " ) );
 	}
 

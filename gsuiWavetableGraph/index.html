@@ -80,7 +80,7 @@ const wt = {
 		},
 	},
 	2: {
-		index: .66,
+		index: .9,
 		curve: {
 			0: { x: 0,    y:  0, type: null, val: null },
 			1: { x: 0.5,  y:  1, type: "curve", val: 0 },
@@ -103,10 +103,10 @@ inpPer0.oninput = () => { el.$setPerspective( { camX: +inpPer0.value, camY: +inp
 inpPer1.oninput = () => { el.$setPerspective( { camX: +inpPer0.value, camY: +inpPer1.value } ); el.$draw( wt ); };
 
 el.$setWavetable( wt );
-
 el.$setResolution( 300, 300 );
+el.$draw();
+
 // inpPer0.oninput();
-el.$draw( wt );
 </script>
 </body>
 </html>
