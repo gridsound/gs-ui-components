@@ -7,6 +7,8 @@ class gsuiWavetableGraph extends gsui0ne {
 	#boxH = 0;
 	#waves = [];
 	#perspective = null;
+	#ptrX = 0;
+	#ptrY = 0;
 
 	constructor() {
 		super( {
@@ -134,6 +136,30 @@ class gsuiWavetableGraph extends gsui0ne {
 			- x * camY3
 			+ -y * h2
 			+ z * ( camY2 * camX2 );
+	}
+
+	// .........................................................................
+	$onptrdown( e ) {
+		this.style.cursor = "grabbing";
+		this.#ptrX = 0;
+		this.#ptrY = 0;
+	}
+	$onptrup( e ) {
+		this.style.cursor = "grab";
+		this.$setPerspective( {
+			camX: .5,
+			camY: .5,
+		} );
+		this.$draw();
+	}
+	$onptrmove( e ) {
+		this.#ptrX += e.movementX;
+		this.#ptrY += e.movementY;
+		this.$setPerspective( {
+			camX: GSUclampNum( 0, 1, .5 - this.#ptrX / 100 ),
+			camY: GSUclampNum( 0, 1, .5 + this.#ptrY / 100 ),
+		} );
+		this.$draw();
 	}
 }
 

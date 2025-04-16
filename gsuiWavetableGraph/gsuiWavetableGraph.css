@@ -2,6 +2,7 @@ gsui-wavetable-graph {
 	display: block;
 	color: #8f8;
 	color: #a0a9ff;
+	cursor: grab;
 	background-color: #0005;
 }
 
