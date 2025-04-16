@@ -1,0 +1,24 @@
+gsui-wavetable-graph {
+	display: block;
+	color: #8f8;
+	color: #a0a9ff;
+	background-color: #0005;
+}
+
+gsui-wavetable-graph svg {
+	width: 100%;
+	height: 100%;
+	stroke: currentColor;
+}
+
+gsui-wavetable-graph svg line {
+	stroke-width: 2px;
+	opacity: .1;
+}
+
+gsui-wavetable-graph svg path {
+	fill: currentColor;
+	fill-opacity: .1;
+	stroke-width: 2px;
+	stroke: currentColor;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiWavetableGraph.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 400px;
+	--test-content-h: 480px;
+}
+gsui-wavetable-graph {
+	width: 300px;
+	height: 300px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-wavetable-graph></gsui-wavetable-graph>
+</div>
+<div id="TEST-CTRLS">
+	<label>
+		<input id="per0" type="range" min="0" max="1" step=".01"/>
+		<span>camX</span>
+	</label>
+	<label>
+		<input id="per1" type="range" min="0" max="1" step=".01"/>
+		<span>camY</span>
+	</label>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-json.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiWavetableGraph.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const el = document.querySelector( "gsui-wavetable-graph" );
+const inpPer0 = document.querySelector( "#per0" );
+const inpPer1 = document.querySelector( "#per1" );
+const inpPer2 = document.querySelector( "#per2" );
+
+const wt = {
+	0: {
+		index: 0,
+		curve: {
+			0: { x: 0,    y:  0, type: null, val: null },
+			1: { x: 0.25, y:  1, type: "curve", val: 1.34 },
+			2: { x: 0.75, y: -1, type: "doubleCurve", val: 1.5 },
+			3: { x: 1,    y:  0, type: "curve", val: -1.34 },
+		},
+	},
+	1: {
+		index: .33,
+		curve: {
+			0: { x: 0,    y:  0, type: null, val: null },
+			1: { x: 0.25, y:  1, type: "curve", val: 0 },
+			2: { x: 0.75, y: -1, type: "curve", val: 0 },
+			3: { x: 1,    y:  0, type: "curve", val: 0 },
+		},
+	},
+	2: {
+		index: .66,
+		curve: {
+			0: { x: 0,    y:  0, type: null, val: null },
+			1: { x: 0.5,  y:  1, type: "curve", val: 0 },
+			2: { x: 0.51, y: -1, type: "curve", val: 0 },
+			3: { x: 1,    y:  0, type: "curve", val: 0 },
+		},
+	},
+	3: {
+		index: 1,
+		curve: {
+			0: { x: .01, y:  1, type: null, val: null },
+			1: { x: .5,  y:  1, type: "curve", val: 0 },
+			2: { x: .5,  y: -1, type: "curve", val: 0 },
+			3: { x: .99, y: -1, type: "curve", val: 0 },
+		},
+	},
+};
+
+inpPer0.oninput = () => { el.$setPerspective( { camX: +inpPer0.value, camY: +inpPer1.value } ); el.$draw( wt ); };
+inpPer1.oninput = () => { el.$setPerspective( { camX: +inpPer0.value, camY: +inpPer1.value } ); el.$draw( wt ); };
+
+el.$setWavetable( wt );
+
+el.$setResolution( 300, 300 );
+// inpPer0.oninput();
+el.$draw( wt );
+</script>
+</body>
+</html>
