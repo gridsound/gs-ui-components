@@ -17,6 +17,13 @@ gsui-wavetable-graph svg {
 	opacity: .1;
 }
 
+.gsuiWavetableGraph-interp polyline {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 10px;
+	opacity: .05;
+}
+
 .gsuiWavetableGraph-waves polyline {
 	fill: currentColor;
 	fill-opacity: .1;

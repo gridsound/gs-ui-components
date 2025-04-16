@@ -18,11 +18,15 @@ class gsuiWavetableGraph extends gsui0ne {
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-box" },
 					GSUnewArray( 12, () => GSUcreateElementSVG( "line" ) ),
 				),
+				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-interp" },
+					GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
+				),
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-waves" } ),
 			),
 			$elements: {
 				$svg: "svg",
 				$lines: "[]g:nth-of-type(1) line",
+				$inters: "[]g:nth-of-type(2) polyline",
 				$gWaves: ".gsuiWavetableGraph-waves",
 			},
 		} );
@@ -66,6 +70,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#drawBox();
 		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "polyline" );
 		this.#waves.forEach( ( wave, i ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wave ) );
+		this.$elements.$inters.forEach( ( inter, i, arr ) => this.#drawInter( inter, i / ( arr.length - 1 ) ) );
 	}
 	#drawBox() {
 		const l = this.$elements.$lines;
@@ -88,6 +93,14 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	#drawWave( el, wave ) {
 		GSUsetAttribute( el, "points", wave.dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index ) ).join( " " ) );
+	}
+	#drawInter( el, x ) {
+		GSUsetAttribute( el, "points", this.#waves.map( wave => {
+			const dotsI = x * ( wave.dots.length - 1 ) | 0;
+			const dot = wave.dots[ dotsI ];
+
+			return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
+		} ).join( " " ) );
 	}
 
 	// .........................................................................
