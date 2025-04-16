@@ -12,12 +12,12 @@ gsui-wavetable-graph svg {
 	stroke: currentColor;
 }
 
-gsui-wavetable-graph svg line {
+.gsuiWavetableGraph-box line {
 	stroke-width: 2px;
 	opacity: .1;
 }
 
-gsui-wavetable-graph svg path {
+.gsuiWavetableGraph-waves polyline {
 	fill: currentColor;
 	fill-opacity: .1;
 	stroke-width: 2px;

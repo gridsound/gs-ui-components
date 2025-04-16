@@ -15,13 +15,15 @@ class gsuiWavetableGraph extends gsui0ne {
 			$cmpName: "gsuiWavetableGraph",
 			$tagName: "gsui-wavetable-graph",
 			$template: GSUcreateElementSVG( "svg", { preserveAspectRatio: "none", inert: true },
-				GSUnewArray( 12, () => GSUcreateElementSVG( "line" ) ),
-				GSUcreateElementSVG( "g" ),
+				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-box" },
+					GSUnewArray( 12, () => GSUcreateElementSVG( "line" ) ),
+				),
+				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-waves" } ),
 			),
 			$elements: {
 				$svg: "svg",
-				$lines: "[]line",
-				$gWaves: "g:nth-of-type(1)",
+				$lines: "[]g:nth-of-type(1) line",
+				$gWaves: ".gsuiWavetableGraph-waves",
 			},
 		} );
 		Object.seal( this );
@@ -47,7 +49,6 @@ class gsuiWavetableGraph extends gsui0ne {
 			this.#waves.push( {
 				id: wId,
 				index: wave.index,
-				dot0: dots.shift(),
 				dots: dots,
 			} );
 		} );
@@ -63,8 +64,8 @@ class gsuiWavetableGraph extends gsui0ne {
 	// .........................................................................
 	$draw() {
 		this.#drawBox();
-		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "path" );
-		this.#waves.forEach( ( wave, i, arr ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wave ) );
+		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "polyline" );
+		this.#waves.forEach( ( wave, i ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wave ) );
 	}
 	#drawBox() {
 		const l = this.$elements.$lines;
@@ -86,11 +87,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		GSUsetAttribute( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
 	#drawWave( el, wave ) {
-		const curveDots = [];
-
-		curveDots.push( "M", ...this.#getCoord( wave.dot0[ 0 ], wave.dot0[ 1 ], wave.index ) );
-		wave.dots.forEach( dot => curveDots.push( "L", ...this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index ) ) );
-		GSUsetAttribute( el, "d", curveDots.join( " " ) );
+		GSUsetAttribute( el, "points", wave.dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index ) ).join( " " ) );
 	}
 
 	// .........................................................................
@@ -120,7 +117,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		const { camX, camY } = this.#perspective;
 		const camY2 = 100 * -camY;
 		const xAmp = camY2 * camX * -2;
-		const yAmp = -( 20 + 50 * ( 1 - camY ) );
+		const yAmp = -70 * ( 1 - camY );
 		const zAmp = camX <= .5
 			? camY2
 			: ( camY2 * ( 1 - 2 * ( camX - .5 ) ) );
