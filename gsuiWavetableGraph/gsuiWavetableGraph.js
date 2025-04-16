@@ -102,40 +102,33 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	#calcX( x, y, z ) {
 		const { camX } = this.#perspective;
-		const margin = this.#w / 2 - this.#boxW / 2;
 		const camX2 = camX <= .5
 			? camX * 2
 			: 1 - 2 * ( camX - .5 );
+		const xAmp = camX <= .5
+			? 100 + x * ( 1 - camX2 ) * 50
+			: camX2 * 100;
+		const zAmp = camX <= .5
+			? camX2 * 100
+			: 100 + z * ( 1 - camX2 ) * 50;
 
-		if ( camX <= .5 ) {
-			return margin
-				+ x * 100 + x * ( 1 - camX2 ) * 50
-				+ z * camX2 * 100;
-		}
-		return margin
-			+ x * camX2 * 100
-			+ z * 100 + z * ( 1 - camX2 ) * 50;
+		return this.#w / 2 - this.#boxW / 2
+			+ x * xAmp
+			+ z * zAmp;
 	}
 	#calcY( x, y, z ) {
 		const { camX, camY } = this.#perspective;
-		const margin = this.#h / 2 - this.#boxH / 2;
-		const h2 = 20 + 50 * ( 1 - camY );
 		const camY2 = 100 * -camY;
-		const camY3 = camY2 * camX * 2;
+		const xAmp = camY2 * camX * -2;
+		const yAmp = -( 20 + 50 * ( 1 - camY ) );
+		const zAmp = camX <= .5
+			? camY2
+			: ( camY2 * ( 1 - 2 * ( camX - .5 ) ) );
 
-		if ( camX <= .5 ) {
-			return margin
-				- x * camY3
-				+ -y * h2
-				+ z * camY2;
-		}
-
-		const camX2 = 1 - ( ( camX - .5 ) * 2 );
-
-		return margin
-			- x * camY3
-			+ -y * h2
-			+ z * ( camY2 * camX2 );
+		return this.#h / 2 - this.#boxH / 2
+			+ x * xAmp
+			+ y * yAmp
+			+ z * zAmp;
 	}
 
 	// .........................................................................
