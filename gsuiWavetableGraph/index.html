@@ -18,11 +18,11 @@
 <style>
 body {
 	--test-content-w: 400px;
-	--test-content-h: 480px;
+	--test-content-h: 400px;
 }
 gsui-wavetable-graph {
-	width: 300px;
-	height: 300px;
+	width: 100%;
+	height: 100%;
 }
 </style>
 </head>
@@ -31,16 +31,6 @@ gsui-wavetable-graph {
 <!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-wavetable-graph></gsui-wavetable-graph>
-</div>
-<div id="TEST-CTRLS">
-	<label>
-		<input id="per0" type="range" min="0" max="1" step=".01"/>
-		<span>camX</span>
-	</label>
-	<label>
-		<input id="per1" type="range" min="0" max="1" step=".01"/>
-		<span>camY</span>
-	</label>
 </div>
 
 <!-- ....................................................................... -->
@@ -64,28 +54,28 @@ const wt = {
 	0: {
 		index: 0,
 		curve: {
-			0: { x: 0,    y:  0, type: null, val: null },
-			1: { x: 0.25, y:  1, type: "curve", val: 1.34 },
-			2: { x: 0.75, y: -1, type: "doubleCurve", val: 1.5 },
-			3: { x: 1,    y:  0, type: "curve", val: -1.34 },
+			0: { x: 0,   y:  0, type: null, val: null },
+			1: { x: .25, y:  1, type: "curve", val: 1.34 },
+			2: { x: .75, y: -1, type: "doubleCurve", val: 1.5 },
+			3: { x: 1,   y:  0, type: "curve", val: -1.34 },
 		},
 	},
 	1: {
-		index: .33,
+		index: .3333,
 		curve: {
-			0: { x: 0,    y:  0, type: null, val: null },
-			1: { x: 0.25, y:  1, type: "curve", val: 0 },
-			2: { x: 0.75, y: -1, type: "curve", val: 0 },
-			3: { x: 1,    y:  0, type: "curve", val: 0 },
+			0: { x: 0,   y:  0, type: null, val: null },
+			1: { x: .25, y:  1, type: "curve", val: 0 },
+			2: { x: .75, y: -1, type: "curve", val: 0 },
+			3: { x: 1,   y:  0, type: "curve", val: 0 },
 		},
 	},
 	2: {
-		index: .66,
+		index: .6666,
 		curve: {
-			0: { x: 0,    y:  0, type: null, val: null },
-			1: { x: 0.5,  y:  1, type: "curve", val: 0 },
-			2: { x: 0.51, y: -1, type: "curve", val: 0 },
-			3: { x: 1,    y:  0, type: "curve", val: 0 },
+			0: { x: 0,  y:  0, type: null, val: null },
+			1: { x: .5, y:  1, type: "curve", val: 0 },
+			2: { x: .5, y: -1, type: "curve", val: 0 },
+			3: { x: 1,  y:  0, type: "curve", val: 0 },
 		},
 	},
 	3: {
@@ -99,14 +89,9 @@ const wt = {
 	},
 };
 
-inpPer0.oninput = () => { el.$setPerspective( { camX: +inpPer0.value, camY: +inpPer1.value } ); el.$draw( wt ); };
-inpPer1.oninput = () => { el.$setPerspective( { camX: +inpPer0.value, camY: +inpPer1.value } ); el.$draw( wt ); };
-
 el.$setWavetable( wt );
 el.$setResolution( 300, 300 );
 el.$draw();
-
-// inpPer0.oninput();
 </script>
 </body>
 </html>

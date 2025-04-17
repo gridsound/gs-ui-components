@@ -3,6 +3,7 @@ gsui-wavetable-graph {
 	color: #8f8;
 	color: #a0a9ff;
 	cursor: grab;
+	touch-action: none;
 	background-color: #0005;
 }
 
@@ -26,7 +27,7 @@ gsui-wavetable-graph svg {
 
 .gsuiWavetableGraph-waves polyline {
 	fill: currentColor;
-	fill-opacity: .1;
+	fill-opacity: .2;
 	stroke-width: 2px;
 	stroke: currentColor;
 }
