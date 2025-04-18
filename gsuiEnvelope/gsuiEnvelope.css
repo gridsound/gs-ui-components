@@ -1,15 +1,9 @@
 gsui-envelope {
-	display: grid;
+	display: block;
 	height: 100%;
-	box-sizing: border-box;
-	padding: 6px;
-	grid-gap: 6px;
-	grid-template:
-		"attack hold  decay sustain release" 28px
-		"graph  graph graph graph   graph  " 1fr
-		/1fr    1fr   1fr   1fr     1fr;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
+	--gsuiEnvelope-nbProps: 5;
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
@@ -18,61 +12,69 @@ gsui-envelope {
 gsui-envelope[ toggle ] {
 	--gsuiEnvelope-wave-col: var( --gsuiEnvelope-ctrls-color );
 }
-gsui-envelope[ env="detune" ],
-gsui-envelope[ env="lowpass" ] {
+gsui-envelope[ env="detune" ] {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-detune );
-	grid-template:
-		"attack hold  decay sustain release" 28px
-		"graph  graph graph graph   graph  " 1fr
-		"amp    amp   .     .       .      " 8px
-		/1fr    1fr   1fr   1fr     1fr;
+	--gsuiEnvelope-nbProps: 6;
 }
 gsui-envelope[ env="lowpass" ] {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-lowpass );
+	--gsuiEnvelope-nbProps: 6;
 }
 
 /* .......................................................................... */
-.gsuiEnvelope-prop {
+.gsuiEnvelope-in {
+	display: flex;
+	height: 100%;
+	min-height: calc( var( --gsuiEnvelope-nbProps ) * ( 18px + 2px ) - 2px + 2 * 6px );
+	gap: 6px;
+	padding: 6px;
+	box-sizing: border-box;
+}
+
+/* .......................................................................... */
+.gsuiEnvelope-props {
 	display: flex;
 	flex-direction: column;
+	gap: 2px
 }
-.gsuiEnvelope-prop[ data-prop="amp" ]     { grid-area: amp }
-.gsuiEnvelope-prop[ data-prop="q" ]       { grid-area: amp }
-.gsuiEnvelope-prop[ data-prop="attack" ]  { grid-area: attack }
-.gsuiEnvelope-prop[ data-prop="hold" ]    { grid-area: hold }
-.gsuiEnvelope-prop[ data-prop="decay" ]   { grid-area: decay }
-.gsuiEnvelope-prop[ data-prop="sustain" ] { grid-area: sustain }
-.gsuiEnvelope-prop[ data-prop="release" ] { grid-area: release }
+.gsuiEnvelope-prop {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
 
 /* .......................................................................... */
 .gsuiEnvelope-propLabel {
 	display: flex;
 	align-self: center;
 	align-items: baseline;
-	height: 20px;
 	font-size: 12px;
 	opacity: .5;
 }
 .gsuiEnvelope-propLabel span:first-child {
-	font-size: 10px;
-}
-.gsuiEnvelope-propValue::before {
-	content: "·";
-	margin: 0 2px;
+	width: 38px;
+	font-weight: bold;
 }
 .gsuiEnvelope-propValue {
 	font-family: var( --gsui-font-number );
+	padding: 0 4px;
+	width: 28px;
+	text-align: end;
+	border: 2px solid #0005;
+	border-radius: 4px;
+	background-color: #0004;
 }
 .gsuiEnvelope-propContent {
 	flex: 1;
 	position: relative;
+	min-width: 32px;
 }
 gsui-envelope gsui-slider {
 	height: 8px;
 }
 gsui-envelope .gsuiSlider-eventCatcher {
-	top: -26px;
-	bottom: -6px;
+	top: -2px;
+	bottom: -2px;
 }
 
 /* .......................................................................... */
@@ -90,12 +92,6 @@ gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 .gsuiEnvelope-prop[ data-prop="q" ] .gsuiEnvelope-propLabel {
 	height: auto;
 }
-.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propValue {
-	width: 24px;
-}
-.gsuiEnvelope-prop[ data-prop="q" ] .gsuiEnvelope-propValue {
-	width: 36px;
-}
 .gsuiEnvelope-prop[ data-prop="amp" ] .gsuiSlider-eventCatcher,
 .gsuiEnvelope-prop[ data-prop="q" ] .gsuiSlider-eventCatcher {
 	inset: -6px;
@@ -103,10 +99,9 @@ gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 
 /* .......................................................................... */
 .gsuiEnvelope-graph {
-	grid-area: graph;
+	flex: 1;
 	position: relative;
 	overflow: hidden;
-	min-height: 44px;
 	border-radius: 4px;
 	background-color: var( --gsui-screen-graph );
 }
