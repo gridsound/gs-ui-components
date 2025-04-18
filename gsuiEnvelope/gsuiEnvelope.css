@@ -3,7 +3,6 @@ gsui-envelope {
 	height: 100%;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
-	--gsuiEnvelope-nbProps: 5;
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
@@ -14,18 +13,16 @@ gsui-envelope[ toggle ] {
 }
 gsui-envelope[ env="detune" ] {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-detune );
-	--gsuiEnvelope-nbProps: 6;
 }
 gsui-envelope[ env="lowpass" ] {
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-lowpass );
-	--gsuiEnvelope-nbProps: 6;
 }
 
 /* .......................................................................... */
 .gsuiEnvelope-in {
 	display: flex;
 	height: 100%;
-	min-height: calc( var( --gsuiEnvelope-nbProps ) * ( 18px + 2px ) - 2px + 2 * 6px );
+	min-height: min-content;
 	gap: 6px;
 	padding: 6px;
 	box-sizing: border-box;
@@ -50,13 +47,14 @@ gsui-envelope gsui-envelope-graph {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	gap: 2px
+	min-height: min-content;
+	gap: 2px;
 }
 .gsuiEnvelope-prop {
 	display: flex;
 	align-items: center;
+	flex: 1;
 	gap: 8px;
-	height: 20px;
 }
 
 /* .......................................................................... */
@@ -81,6 +79,7 @@ gsui-envelope gsui-envelope-graph {
 gsui-envelope gsui-slider {
 	flex: 1;
 	height: 8px;
+	min-width: 40px;
 }
 gsui-envelope .gsuiSlider-eventCatcher {
 	top: -2px;
