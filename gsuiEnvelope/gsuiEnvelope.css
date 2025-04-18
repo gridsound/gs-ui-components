@@ -32,8 +32,23 @@ gsui-envelope[ env="lowpass" ] {
 }
 
 /* .......................................................................... */
+.gsuiEnvelope-graph {
+	flex: 2;
+	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+	background-color: var( --gsui-screen-graph );
+}
+gsui-envelope gsui-envelope-graph {
+	position: absolute;
+	inset: 2px 0 0;
+	color: var( --gsuiEnvelope-wave-col );
+}
+
+/* .......................................................................... */
 .gsuiEnvelope-props {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 2px
 }
@@ -41,35 +56,30 @@ gsui-envelope[ env="lowpass" ] {
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	height: 20px;
 }
 
 /* .......................................................................... */
 .gsuiEnvelope-propLabel {
-	display: flex;
-	align-self: center;
-	align-items: baseline;
+	width: 30px;
 	font-size: 12px;
+	font-weight: bold;
 	opacity: .5;
 }
-.gsuiEnvelope-propLabel span:first-child {
-	width: 38px;
-	font-weight: bold;
-}
 .gsuiEnvelope-propValue {
-	font-family: var( --gsui-font-number );
+	box-sizing: border-box;
 	padding: 0 4px;
-	width: 28px;
+	width: 44px;
 	text-align: end;
+	font-size: 14px;
+	font-family: var( --gsui-font-number );
 	border: 2px solid #0005;
 	border-radius: 4px;
 	background-color: #0004;
-}
-.gsuiEnvelope-propContent {
-	flex: 1;
-	position: relative;
-	min-width: 32px;
+	opacity: .5;
 }
 gsui-envelope gsui-slider {
+	flex: 1;
 	height: 8px;
 }
 gsui-envelope .gsuiSlider-eventCatcher {
@@ -82,31 +92,7 @@ gsui-envelope:not( [ env="detune" ] ) .gsuiEnvelope-prop[ data-prop="amp" ],
 gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 	display: none;
 }
-.gsuiEnvelope-prop[ data-prop="amp" ],
-.gsuiEnvelope-prop[ data-prop="q" ] {
-	flex-direction: row;
-	align-items: center;
-	gap: 8px;
-}
-.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiEnvelope-propLabel,
-.gsuiEnvelope-prop[ data-prop="q" ] .gsuiEnvelope-propLabel {
-	height: auto;
-}
 .gsuiEnvelope-prop[ data-prop="amp" ] .gsuiSlider-eventCatcher,
 .gsuiEnvelope-prop[ data-prop="q" ] .gsuiSlider-eventCatcher {
 	inset: -6px;
-}
-
-/* .......................................................................... */
-.gsuiEnvelope-graph {
-	flex: 1;
-	position: relative;
-	overflow: hidden;
-	border-radius: 4px;
-	background-color: var( --gsui-screen-graph );
-}
-gsui-envelope gsui-envelope-graph {
-	position: absolute;
-	inset: 2px 0 0;
-	color: var( --gsuiEnvelope-wave-col );
 }
