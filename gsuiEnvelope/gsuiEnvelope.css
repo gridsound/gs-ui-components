@@ -82,16 +82,13 @@ gsui-envelope gsui-slider {
 	min-width: 40px;
 }
 gsui-envelope .gsuiSlider-eventCatcher {
-	top: -2px;
-	bottom: -2px;
+	top: -6px;
+	bottom: -6px;
+	left: -52px;
 }
 
 /* .......................................................................... */
 gsui-envelope:not( [ env="detune" ] ) .gsuiEnvelope-prop[ data-prop="amp" ],
 gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 	display: none;
-}
-.gsuiEnvelope-prop[ data-prop="amp" ] .gsuiSlider-eventCatcher,
-.gsuiEnvelope-prop[ data-prop="q" ] .gsuiSlider-eventCatcher {
-	inset: -6px;
 }
