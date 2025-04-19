@@ -5,6 +5,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	#h = 0;
 	#boxW = 0;
 	#boxH = 0;
+	#drawSz = 100;
 	#waves = [];
 	#perspective = { camX: .5, camY: .5 };
 	#selectedWave = null;
@@ -46,6 +47,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	$setResolution( w, h ) {
 		this.#w = w;
 		this.#h = h;
+		this.#drawSz = Math.min( this.#w, this.#h ) / 2.1;
 		GSUsetViewBoxWH( this.$element, w, h );
 	}
 	#setPerspective( obj ) {
@@ -175,12 +177,11 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	#calcX( x, y, z ) {
 		const { camX } = this.#perspective;
-		const sz = this.#w / 2.1;
 		const camX2 = camX <= .5
 			? camX * 2
 			: 1 - 2 * ( camX - .5 );
-		const amp1 = sz + sz / 2 * ( 1 - camX2 );
-		const amp2 = camX2 * sz;
+		const amp1 = this.#drawSz + this.#drawSz / 2 * ( 1 - camX2 );
+		const amp2 = camX2 * this.#drawSz;
 		const xAmp = camX <= .5 ? amp1 : amp2;
 		const zAmp = camX <= .5 ? amp2 : amp1;
 
@@ -190,10 +191,9 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	#calcY( x, y, z ) {
 		const { camX, camY } = this.#perspective;
-		const sz = this.#h / 2.1;
-		const camY2 = sz * -camY;
+		const camY2 = this.#drawSz * -camY;
 		const xAmp = camY2 * camX * -2;
-		const yAmp = -( sz * .7 )  * ( 1 - camY );
+		const yAmp = -( this.#drawSz * .7 )  * ( 1 - camY );
 		const zAmp = camX <= .5
 			? camY2
 			: ( camY2 * ( 1 - 2 * ( camX - .5 ) ) );
