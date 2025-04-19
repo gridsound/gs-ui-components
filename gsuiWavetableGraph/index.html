@@ -32,6 +32,17 @@ gsui-wavetable-graph {
 <div id="TEST" data-min-auto>
 	<gsui-wavetable-graph></gsui-wavetable-graph>
 </div>
+<div id="TEST-CTRLS">
+	<div>
+		<input id="waveSelected" type="range" min="0" value="0"/>
+	</div>
+	<div>
+		<input id="morph" type="range" min="0" max="1" value="0" step="0.01"/>
+	</div>
+	<div>
+		<button id="rmMorph">no morph</button>
+	</div>
+</div>
 
 <!-- ....................................................................... -->
 <script src="../gs-utils/gs-utils.js"></script>
@@ -46,9 +57,9 @@ gsui-wavetable-graph {
 <!-- ....................................................................... -->
 <script>
 const el = document.querySelector( "gsui-wavetable-graph" );
-const inpPer0 = document.querySelector( "#per0" );
-const inpPer1 = document.querySelector( "#per1" );
-const inpPer2 = document.querySelector( "#per2" );
+const inpMorph = document.querySelector( "#morph" );
+const inpWaveSelected = document.querySelector( "#waveSelected" );
+const inpRmMorph = document.querySelector( "#rmMorph" );
 
 const wt = {
 	0: {
@@ -60,8 +71,8 @@ const wt = {
 			3: { x: 1,   y:  0, type: "curve", val: -1.34 },
 		},
 	},
-	1: {
-		index: .3333,
+	2: {
+		index: .6666,
 		curve: {
 			0: { x: 0,   y:  0, type: null, val: null },
 			1: { x: .25, y:  1, type: "curve", val: 0 },
@@ -69,8 +80,8 @@ const wt = {
 			3: { x: 1,   y:  0, type: "curve", val: 0 },
 		},
 	},
-	2: {
-		index: .6666,
+	3: {
+		index: 1,
 		curve: {
 			0: { x: 0,  y:  0, type: null, val: null },
 			1: { x: .5, y:  1, type: "curve", val: 0 },
@@ -78,8 +89,8 @@ const wt = {
 			3: { x: 1,  y:  0, type: "curve", val: 0 },
 		},
 	},
-	3: {
-		index: 1,
+	1: {
+		index: .3333,
 		curve: {
 			0: { x: .01, y:  1, type: null, val: null },
 			1: { x: .5,  y:  1, type: "curve", val: 0 },
@@ -89,7 +100,18 @@ const wt = {
 	},
 };
 
+inpWaveSelected.max = Object.keys( wt ).length - 1;
+
+inpWaveSelected.oninput = () => {
+	el.$selectCurrentWave( `${ inpWaveSelected.value }` );
+	el.$draw();
+};
+
+inpRmMorph.onclick = () => el.$setMorphingWaveAt( -1 );
+inpMorph.oninput = () => el.$setMorphingWaveAt( inpMorph.value );
+
 el.$setWavetable( wt );
+el.$selectCurrentWave( "0" );
 el.$setResolution( 300, 300 );
 el.$draw();
 </script>

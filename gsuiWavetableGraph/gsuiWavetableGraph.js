@@ -7,6 +7,8 @@ class gsuiWavetableGraph extends gsui0ne {
 	#boxH = 0;
 	#waves = [];
 	#perspective = { camX: .5, camY: .5 };
+	#selectedWave = null;
+	#morphingWaveAt = -1;
 
 	constructor() {
 		super( {
@@ -20,12 +22,17 @@ class gsuiWavetableGraph extends gsui0ne {
 					GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
 				),
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-waves" } ),
+				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-morph" },
+					GSUcreateElementSVG( "polyline" ),
+					GSUcreateElementSVG( "polyline" ),
+				),
 			),
 			$elements: {
 				$svg: "svg",
 				$lines: "[]g:nth-of-type(1) line",
 				$inters: "[]g:nth-of-type(2) polyline",
 				$gWaves: ".gsuiWavetableGraph-waves",
+				$gMorph: ".gsuiWavetableGraph-morph",
 			},
 		} );
 		Object.seal( this );
@@ -58,6 +65,13 @@ class gsuiWavetableGraph extends gsui0ne {
 		} );
 		this.#waves.sort( ( a, b ) => a.index - b.index );
 	}
+	$selectCurrentWave( wId ) {
+		this.#selectedWave = wId;
+	}
+	$setMorphingWaveAt( index ) {
+		this.#morphingWaveAt = index;
+		this.#drawMorph();
+	}
 	#getDots( w ) {
 		const dots = GSUsampleDotLine( w.curve, 80 );
 
@@ -73,6 +87,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length * 2, "polyline" );
 		this.#waves.forEach( this.#drawWave.bind( this ) );
 		// this.$elements.$inters.forEach( ( inter, i, arr ) => this.#drawInter( inter, i / ( arr.length - 1 ) ) );
+		this.#drawMorph();
 	}
 	#drawBox() {
 		const l = this.$elements.$lines;
@@ -93,15 +108,52 @@ class gsuiWavetableGraph extends gsui0ne {
 	static #drawLine( line, a, b ) {
 		GSUsetAttribute( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
+	#drawMorph() {
+		const z = this.#morphingWaveAt;
+		const g = this.$elements.$gMorph;
+
+		if ( z >= 0 ) {
+			const waveA = this.#waves.findLast( w => w.index <= z );
+			const waveB = this.#waves.find( w => w.index > z );
+
+			if ( waveA || waveB ) {
+				let curveDots;
+
+				if ( !waveA ) {
+					curveDots = waveB.dots;
+				} else if ( !waveB ) {
+					curveDots = waveA.dots;
+				} else {
+					const avgZ = ( z - waveA.index ) / ( waveB.index - waveA.index );
+
+					curveDots = waveA.dots.map( ( wA, i ) => [
+						wA[ 0 ] * ( 1 - avgZ ) + waveB.dots[ i ][ 0 ] * avgZ,
+						wA[ 1 ] * ( 1 - avgZ ) + waveB.dots[ i ][ 1 ] * avgZ,
+					] );
+				}
+				this.#drawWave2( null, curveDots, g, 0, z );
+				return;
+			}
+		}
+		GSUsetAttribute( g.children[ 0 ], "points", false );
+		GSUsetAttribute( g.children[ 1 ], "points", false );
+	}
 	#drawWave( wave, i ) {
 		// const z = wave.index;
 		const z = i / ( this.#waves.length - 1 ) || 0;
-		const curveDots = wave.dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
 
-		GSUsetAttribute( this.$elements.$gWaves.children[ i * 2 ], "points", curveDots.join( " " ) );
+		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, i, z );
+	}
+	#drawWave2( wId, dots, g, i, z ) {
+		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
+		const isSel = this.#selectedWave === wId;
+
+		GSUsetAttribute( g.children[ i * 2 ], "data-selected", isSel );
+		GSUsetAttribute( g.children[ i * 2 ], "points", curveDots.join( " " ) );
 		curveDots.shift();
 		curveDots.pop();
-		GSUsetAttribute( this.$elements.$gWaves.children[ i * 2 + 1 ], "points", curveDots.join( " " ) );
+		GSUsetAttribute( g.children[ i * 2 + 1 ], "data-selected", isSel );
+		GSUsetAttribute( g.children[ i * 2 + 1 ], "points", curveDots.join( " " ) );
 	}
 	#drawInter( el, x ) {
 		GSUsetAttribute( el, "points", this.#waves.map( ( wave, i ) => {
