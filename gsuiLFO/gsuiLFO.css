@@ -4,6 +4,7 @@ gsui-lfo {
 	display: block;
 	position: relative;
 	height: 100%;
+	min-height: 90px;
 	box-sizing: border-box;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
@@ -25,33 +26,29 @@ gsui-lfo[ toggle ] {
 .gsuiLFO-in {
 	position: absolute;
 	inset: 0;
-	display: grid;
+	display: flex;
 	padding: 6px;
-	grid-gap: 0 6px;
-	grid-template:
-		"delay  type graph" 1fr
-		"attack type graph" 1fr
-		"speed  type graph" 1fr
-		"amp    type graph" 1fr
-		/1fr    28px 2fr;
+	gap: 6px;
 }
 
 /* .......................................................................... */
+.gsuiLFO-props {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	gap: 2px;
+}
 .gsuiLFO-prop {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	flex: 1;
+	gap: 6px;
+	font-size: 12px;
 }
 .gsuiLFO-propLabel {
-	display: flex;
-	align-self: center;
-	align-items: baseline;
-	font-size: 12px;
-	opacity: .5;
-}
-.gsuiLFO-propLabel span:first-child {
-	width: 38px;
+	min-width: 30px;
 	font-weight: bold;
+	opacity: .5;
 }
 .gsuiLFO-propValue {
 	font-family: var( --gsui-font-number );
@@ -61,12 +58,17 @@ gsui-lfo[ toggle ] {
 	border: 2px solid #0005;
 	border-radius: 4px;
 	background-color: #0004;
+	opacity: .5;
 }
-.gsuiLFO-propContent {
-	position: relative;
-	min-width: 32px;
+gsui-lfo gsui-slider {
 	flex: 1;
 	height: 8px;
+	min-width: 40px;
+}
+gsui-lfo .gsuiSlider-eventCatcher {
+	top: -6px;
+	bottom: -6px;
+	left: -52px;
 }
 
 /* .......................................................................... */
@@ -89,20 +91,10 @@ gsui-lfo[ toggle ] {
 }
 
 /* .......................................................................... */
-.gsuiLFO-prop[ data-prop="delay" ] { grid-area: delay }
-.gsuiLFO-prop[ data-prop="attack" ] { grid-area: attack }
-.gsuiLFO-prop[ data-prop="speed" ] { grid-area: speed }
-.gsuiLFO-prop[ data-prop="amp" ] { grid-area: amp }
-gsui-lfo .gsuiSlider-eventCatcher {
-	top: -2px;
-	bottom: -2px;
-}
-
-/* .......................................................................... */
 .gsuiLFO-graph {
-	grid-area: graph;
 	position: relative;
 	overflow: hidden;
+	flex: 2;
 	border-radius: 4px;
 	background-color: var( --gsui-screen-graph );
 }
@@ -142,9 +134,6 @@ gsui-lfo .gsuiSlider-eventCatcher {
 
 /* .......................................................................... */
 .gsuiLFO-type {
-	grid-area: type;
-}
-.gsuiLFO-type .gsuiLFO-propContent {
 	display: flex;
 	overflow: hidden;
 	border-radius: 4px;
@@ -176,13 +165,10 @@ gsui-lfo .gsuiSlider-eventCatcher {
 /* .......................................................................... */
 @container gsui-lfo-query ( orientation: portrait ) {
 	.gsuiLFO-in {
-		grid-gap: 6px;
-		grid-template:
-			"delay  type"  20px
-			"attack type"  20px
-			"speed  type"  20px
-			"amp    type"  20px
-			"graph  graph" 1fr
-			/1fr    28px;
+		flex-direction: column;
+	}
+	.gsuiLFO-type {
+		flex-direction: row;
+		height: 16px;
 	}
 }
