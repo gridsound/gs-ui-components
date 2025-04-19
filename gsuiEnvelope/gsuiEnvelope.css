@@ -3,6 +3,7 @@ gsui-envelope {
 	container-name: gsui-envelope-query;
 	display: block;
 	height: 100%;
+	min-width: 144px;
 	font-family: var( --gsui-font );
 	background-color: var( --gsui-item-bg );
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
@@ -46,28 +47,32 @@ gsui-envelope gsui-envelope-graph {
 /* .......................................................................... */
 .gsuiEnvelope-props {
 	display: flex;
-	flex: 1;
 	flex-direction: column;
-	gap: 2px;
+	justify-content: space-around;
+	flex: 1;
 }
 .gsuiEnvelope-prop {
 	display: flex;
 	align-items: center;
-	flex: 1;
+	height: 18px;
 	gap: 6px;
 	font-size: 12px;
+}
+gsui-envelope:not( [ env="detune" ] ) .gsuiEnvelope-prop[ data-prop="amp" ],
+gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
+	display: none;
 }
 
 /* .......................................................................... */
 .gsuiEnvelope-propLabel {
-	width: 30px;
+	min-width: 32px;
 	font-weight: bold;
 	opacity: .5;
 }
 .gsuiEnvelope-propValue {
 	box-sizing: border-box;
 	padding: 0 4px;
-	width: 44px;
+	min-width: 44px;
 	text-align: end;
 	font-family: var( --gsui-font-number );
 	border: 2px solid #0005;
@@ -84,12 +89,6 @@ gsui-envelope .gsuiSlider-eventCatcher {
 	top: -6px;
 	bottom: -6px;
 	left: -52px;
-}
-
-/* .......................................................................... */
-gsui-envelope:not( [ env="detune" ] ) .gsuiEnvelope-prop[ data-prop="amp" ],
-gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
-	display: none;
 }
 
 /* .......................................................................... */
