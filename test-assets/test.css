@@ -1,11 +1,3 @@
-:root {
-	--test-content-w: auto;
-	--test-content-h: auto;
-	--test-content-minw: 0px;
-	--test-content-minh: 0px;
-	--test-content-resize: both;
-}
-
 html,
 body {
 	height: 100%;
@@ -116,22 +108,23 @@ body[ data-skin="white" ] #testSkin {
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	resize: var( --test-content-resize );
+	resize: var( --test-content-resize, both );
 	gap: 10px;
 	padding: 32px;
 	max-width: 100%;
-	width: var( --test-content-w );
-	height: var( --test-content-h );
-	min-width: var( --test-content-minw );
-	min-height: calc( var( --test-content-minh ) + 10px + var( --test-ctrls-h, 0px ) );
+	width: var( --test-content-w, auto );
+	height: var( --test-content-h, auto );
 	border-radius: 8px;
 	border: 2px solid #0003;
 	border-bottom-width: 6px;
 	background-color: #22222a;
 	box-shadow: 0 0 20px 20px #22222a;
 }
-#testContent:has( #testCtrls:empty ) {
-	min-height: var( --test-content-minh );
+#testContent:not( [ data-min-auto ] ):not( [ data-min-x-auto ] ) {
+	min-width: fit-content;
+}
+#testContent:not( [ data-min-auto ] ):not( [ data-min-y-auto ] ) {
+	min-height: fit-content;
 }
 #testContent::after {
 	content: "";

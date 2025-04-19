@@ -90,6 +90,10 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 	const elCtrls = document.querySelector( "#testCtrls" );
 	elTEST && Array.from( elTEST.children ).forEach( el => elWrap.append( el ) );
 	elCTRLS && Array.from( elCTRLS.children ).forEach( el => elCtrls.append( el ) );
+	if ( elTEST.dataset.minAuto === "" ) { document.querySelector( "#testContent" ).dataset.minAuto = ""; }
+	if ( elTEST.dataset.minXAuto === "" ) { document.querySelector( "#testContent" ).dataset.minXAuto = ""; }
+	if ( elTEST.dataset.minYAuto === "" ) { document.querySelector( "#testContent" ).dataset.minYAuto = ""; }
+	elTEST.remove();
 
 	function getPath() {
 		return location.pathname.split( "/" ).filter( Boolean );
@@ -114,20 +118,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 			document.body.dataset.skin = skin;
 		};
 	}
-	setCtrlsHeight();
-	setTimeout( setCtrlsHeight, 100 );
 
-	function setCtrlsHeight() {
-		const h = `${ elCtrls.scrollHeight }px`;
-
-		elCtrls.style.maxHeight = h;
-		GSUsetStyle( document.body, "--test-ctrls-h", h );
-	}
-
-	GSUsetStyle( document.body, {
-		"--test-content-minw": getComputedStyle( elWrap.firstChild ).minWidth,
-		"--test-content-minh": getComputedStyle( elWrap.firstChild ).minHeight,
-	} );
 	document.title = `${ curr } (dev)`;
 	select.value = curr;
 	select.onchange = e => {
