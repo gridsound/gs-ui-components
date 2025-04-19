@@ -32,11 +32,22 @@ gsui-wave-edit {
 }
 
 /* .......................................................................... */
+.gsuiWaveEdit-scroll {
+	overflow: auto;
+	position: absolute;
+	inset: 20px 0 0;
+	display: flex;
+	flex-direction: column;
+	background-color: var( --gsui-screen-graph );
+}
+
+/* .......................................................................... */
 .gsuiWaveEdit-graph {
-	position: relative;
+	position: sticky;
+	left: 0;
+	top: 0;
 	flex: 1;
 	box-shadow: inset 0 0 20px 0 #0005;
-	background-color: var( --gsui-screen-graph );
 }
 .gsuiWaveEdit-graph gsui-dotline {
 	height: 100%;
@@ -45,10 +56,11 @@ gsui-wave-edit {
 
 /* .......................................................................... */
 .gsuiWaveEdit-waves {
-	overflow: auto;
 	display: grid;
 	grid-auto-flow: column;
 	justify-content: start;
+	width: max-content;
+	min-width: 100%;
 	flex: .3;
 	padding: 2px 0;
 	min-height: min-content;
