@@ -12,7 +12,7 @@ gsui-drums .gsuiTimewindow-currentTime {
 gsui-drums gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 	display: block;
 }
-gsui-drums .gsuiTimewindow-step,
+gsui-drums gsui-step-select,
 gsui-drums gsui-slider[ data-zoom="y" ] {
 	display: none;
 }
