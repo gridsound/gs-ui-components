@@ -18,9 +18,9 @@ class gsuiWavetableGraph extends gsui0ne {
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-box" },
 					GSUnewArray( 12, () => GSUcreateElementSVG( "line" ) ),
 				),
-				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-interp" },
-					GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
-				),
+				// GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-interp" },
+				// 	GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
+				// ),
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-waves" } ),
 			),
 			$elements: {
@@ -31,17 +31,21 @@ class gsuiWavetableGraph extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$setPerspective( { camX: .5, camY: .5 } );
+		this.#setPerspective( { camX: .5, camY: .5 } );
 	}
 
 	// .........................................................................
+	$onresize( w, h ) {
+		this.$setResolution( w, h );
+		this.$draw();
+	}
 	$setResolution( w, h ) {
 		this.#w = w;
 		this.#h = h;
 		this.#updateBoxSize();
 		GSUsetViewBoxWH( this.$element, w, h );
 	}
-	$setPerspective( obj ) {
+	#setPerspective( obj ) {
 		this.#perspective = obj;
 		this.#updateBoxSize();
 	}
@@ -70,10 +74,6 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize( w, h ) {
-		this.$setResolution( w, h );
-		this.$draw();
-	}
 	$draw() {
 		this.#drawBox();
 		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "polyline" );
@@ -157,7 +157,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	$onptrup( e ) {
 		this.style.cursor = "grab";
-		this.$setPerspective( {
+		this.#setPerspective( {
 			camX: .5,
 			camY: .5,
 		} );
@@ -166,7 +166,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	$onptrmove( e ) {
 		this.#ptrX += e.movementX;
 		this.#ptrY += e.movementY;
-		this.$setPerspective( {
+		this.#setPerspective( {
 			camX: GSUclampNum( 0, 1, .5 - this.#ptrX / 100 ),
 			camY: GSUclampNum( 0, 1, .5 + this.#ptrY / 100 ),
 		} );

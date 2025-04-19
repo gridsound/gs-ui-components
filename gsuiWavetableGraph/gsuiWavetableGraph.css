@@ -1,4 +1,5 @@
 gsui-wavetable-graph {
+	position: relative;
 	display: block;
 	color: #8f8;
 	color: #a0a9ff;
@@ -8,8 +9,8 @@ gsui-wavetable-graph {
 }
 
 gsui-wavetable-graph svg {
-	width: 100%;
-	height: 100%;
+	position: absolute;
+	inset: 0;
 	stroke: currentColor;
 }
 
