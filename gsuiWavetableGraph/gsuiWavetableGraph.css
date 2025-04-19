@@ -22,13 +22,17 @@ gsui-wavetable-graph svg {
 .gsuiWavetableGraph-interp polyline {
 	fill: none;
 	stroke: currentColor;
-	stroke-width: 10px;
-	opacity: .05;
+	stroke-width: 1px;
+	opacity: .2;
 }
 
-.gsuiWavetableGraph-waves polyline {
-	fill: currentColor;
-	fill-opacity: .2;
+.gsuiWavetableGraph-waves polyline:nth-child( even ) {
+	fill: none;
 	stroke-width: 2px;
 	stroke: currentColor;
+}
+.gsuiWavetableGraph-waves polyline:nth-child( odd ) {
+	stroke: none;
+	fill: currentColor;
+	fill-opacity: .2;
 }

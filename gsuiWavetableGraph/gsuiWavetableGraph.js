@@ -16,9 +16,9 @@ class gsuiWavetableGraph extends gsui0ne {
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-box" },
 					GSUnewArray( 12, () => GSUcreateElementSVG( "line" ) ),
 				),
-				// GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-interp" },
-				// 	GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
-				// ),
+				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-interp" },
+					GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
+				),
 				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-waves" } ),
 			),
 			$elements: {
@@ -70,8 +70,8 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
 		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 		this.#drawBox();
-		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "polyline" );
-		this.#waves.forEach( ( wave, i ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wave ) );
+		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length * 2, "polyline" );
+		this.#waves.forEach( this.#drawWave.bind( this ) );
 		// this.$elements.$inters.forEach( ( inter, i, arr ) => this.#drawInter( inter, i / ( arr.length - 1 ) ) );
 	}
 	#drawBox() {
@@ -93,15 +93,24 @@ class gsuiWavetableGraph extends gsui0ne {
 	static #drawLine( line, a, b ) {
 		GSUsetAttribute( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
-	#drawWave( el, wave ) {
-		GSUsetAttribute( el, "points", wave.dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index ) ).join( " " ) );
+	#drawWave( wave, i ) {
+		// const z = wave.index;
+		const z = i / ( this.#waves.length - 1 ) || 0;
+		const curveDots = wave.dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
+
+		GSUsetAttribute( this.$elements.$gWaves.children[ i * 2 ], "points", curveDots.join( " " ) );
+		curveDots.shift();
+		curveDots.pop();
+		GSUsetAttribute( this.$elements.$gWaves.children[ i * 2 + 1 ], "points", curveDots.join( " " ) );
 	}
 	#drawInter( el, x ) {
-		GSUsetAttribute( el, "points", this.#waves.map( wave => {
+		GSUsetAttribute( el, "points", this.#waves.map( ( wave, i ) => {
 			const dotsI = x * ( wave.dots.length - 1 ) | 0;
 			const dot = wave.dots[ dotsI ];
+			// const z = wave.index;
+			const z = i / ( this.#waves.length - 1 ) || 0;
 
-			return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
+			return this.#getCoord( dot[ 0 ], dot[ 1 ], z );
 		} ).join( " " ) );
 	}
 
