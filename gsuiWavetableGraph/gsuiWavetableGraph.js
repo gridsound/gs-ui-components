@@ -6,9 +6,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	#boxW = 0;
 	#boxH = 0;
 	#waves = [];
-	#perspective = null;
-	#ptrX = 0;
-	#ptrY = 0;
+	#perspective = { camX: .5, camY: .5 };
 
 	constructor() {
 		super( {
@@ -31,7 +29,6 @@ class gsuiWavetableGraph extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#setPerspective( { camX: .5, camY: .5 } );
 	}
 
 	// .........................................................................
@@ -42,16 +39,11 @@ class gsuiWavetableGraph extends gsui0ne {
 	$setResolution( w, h ) {
 		this.#w = w;
 		this.#h = h;
-		this.#updateBoxSize();
 		GSUsetViewBoxWH( this.$element, w, h );
 	}
 	#setPerspective( obj ) {
-		this.#perspective = obj;
-		this.#updateBoxSize();
-	}
-	#updateBoxSize() {
-		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
-		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
+		this.#perspective.camX = obj.camX ?? this.#perspective.camX;
+		this.#perspective.camY = obj.camY ?? this.#perspective.camY;
 	}
 	$setWavetable( wt ) {
 		this.#waves.length = 0;
@@ -75,6 +67,8 @@ class gsuiWavetableGraph extends gsui0ne {
 
 	// .........................................................................
 	$draw() {
+		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
+		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 		this.#drawBox();
 		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length, "polyline" );
 		this.#waves.forEach( ( wave, i ) => this.#drawWave( this.$elements.$gWaves.children[ i ], wave ) );
@@ -152,23 +146,14 @@ class gsuiWavetableGraph extends gsui0ne {
 	// .........................................................................
 	$onptrdown( e ) {
 		this.style.cursor = "grabbing";
-		this.#ptrX = 0;
-		this.#ptrY = 0;
 	}
 	$onptrup( e ) {
 		this.style.cursor = "grab";
-		this.#setPerspective( {
-			camX: .5,
-			camY: .5,
-		} );
-		this.$draw();
 	}
 	$onptrmove( e ) {
-		this.#ptrX += e.movementX;
-		this.#ptrY += e.movementY;
 		this.#setPerspective( {
-			camX: GSUclampNum( 0, 1, .5 - this.#ptrX / 100 ),
-			camY: GSUclampNum( 0, 1, .5 + this.#ptrY / 100 ),
+			camX: GSUclampNum( 0, 1, this.#perspective.camX - e.movementX / 100 ),
+			camY: GSUclampNum( 0, 1, this.#perspective.camY + e.movementY / 100 ),
 		} );
 		this.$draw();
 	}
