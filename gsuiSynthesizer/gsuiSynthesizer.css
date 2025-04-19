@@ -18,7 +18,7 @@ gsui-synthesizer {
 .gsuiSynthesizer-scrollArea {
 	display: flex;
 	flex-direction: column;
-	overflow: hidden auto;
+	overflow: auto;
 	height: 100%;
 }
 
