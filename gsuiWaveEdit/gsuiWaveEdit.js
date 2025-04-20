@@ -212,17 +212,19 @@ class gsuiWaveEdit extends gsui0ne {
 		this.#updateSortWaves();
 	}
 	#selectWave( wId ) {
-		const wsel = this.#getWaveElement( this.#waveSelected );
+		const elW = this.#getWaveElement( wId );
+		const elWsel = this.#getWaveElement( this.#waveSelected );
 
-		if ( wsel ) {
-			delete wsel.dataset.selected;
+		if ( elWsel ) {
+			delete elWsel.dataset.selected;
 		}
+		this.#waveSelected = wId;
 		this.$elements.$wtGraph.$selectCurrentWave( wId );
 		this.$elements.$wtGraph.$draw();
-		this.#waveSelected = wId;
-		this.#getWaveElement( wId ).dataset.selected = "";
 		this.$elements.$dotline.$clear();
 		this.$elements.$dotline.$change( this.#data[ wId ].curve );
+		elW.dataset.selected = "";
+		elW.scrollIntoView();
 	}
 }
 
