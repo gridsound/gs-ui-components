@@ -2,7 +2,7 @@
 
 class gsuiWaveEdit extends gsui0ne {
 	#waveNull = true;
-	#waveSelected = "0";
+	#waveSelected = null;
 	#elWaves = this.getElementsByClassName( "gsuiWaveEdit-wavestep" );
 	#elWavesSorted = [];
 	#data = {};
@@ -212,18 +212,20 @@ class gsuiWaveEdit extends gsui0ne {
 		this.#updateSortWaves();
 	}
 	#selectWave( wId ) {
-		const elW = this.#getWaveElement( wId );
-		const elWsel = this.#getWaveElement( this.#waveSelected );
+		if ( this.#waveSelected !== wId ) {
+			const elW = this.#getWaveElement( wId );
+			const elWsel = this.#getWaveElement( this.#waveSelected );
 
-		if ( elWsel ) {
-			delete elWsel.dataset.selected;
+			if ( elWsel ) {
+				delete elWsel.dataset.selected;
+			}
+			this.#waveSelected = wId;
+			this.$elements.$wtGraph.$selectCurrentWave( wId );
+			this.$elements.$wtGraph.$draw();
+			this.$elements.$dotline.$clear();
+			this.$elements.$dotline.$change( this.#data[ wId ].curve );
+			elW.dataset.selected = "";
 		}
-		this.#waveSelected = wId;
-		this.$elements.$wtGraph.$selectCurrentWave( wId );
-		this.$elements.$wtGraph.$draw();
-		this.$elements.$dotline.$clear();
-		this.$elements.$dotline.$change( this.#data[ wId ].curve );
-		elW.dataset.selected = "";
 		elW.scrollIntoView();
 	}
 }
