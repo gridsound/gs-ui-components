@@ -66,6 +66,9 @@ gsui-wave-edit gsui-wavetable-graph {
 	height: 100%;
 	color: #b3a5ea;
 }
+.gsuiWaveEdit-graph .gsuiDotline-padding {
+	inset: 16px;
+}
 
 /* .......................................................................... */
 .gsuiWaveEdit-waves {
