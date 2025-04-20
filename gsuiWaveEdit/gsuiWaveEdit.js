@@ -83,6 +83,12 @@ class gsuiWaveEdit extends gsui0ne {
 		const wavesH = this.$elements.$waves.clientHeight - 4;
 
 		this.$elements.$waves.style.fontSize = `${ ratio * wavesH }px`;
+		GSUforEach( this.#data, ( w, wId ) => {
+			const svg = this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" );
+
+			svg.$setSVGSize( svg.clientWidth, svg.clientHeight );
+			svg.$setCurve( w.curve );
+		} );
 	}
 	$change( obj ) {
 		const wavesToUpdate = [];
