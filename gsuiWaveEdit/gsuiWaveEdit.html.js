@@ -22,7 +22,7 @@ GSUsetTemplate( "gsui-wave-edit", () => [
 GSUsetTemplate( "gsui-wave-edit-wavestep", ( id, ind ) =>
 	GSUcreateDiv( { class: "gsuiWaveEdit-wavestep", "data-id": id, "data-index": ind },
 		GSUcreateElement( "gsui-dotlinesvg", { "data-action": "select" } ),
-		GSUcreateDiv( { class: "gsuiWaveEdit-wavestep-head" },
+		GSUcreateDiv( { class: "gsuiWaveEdit-wavestep-head", "data-action": "select" },
 			GSUcreateSpan( { class: "gsuiWaveEdit-wavestep-num", inert: true } ),
 			GSUcreateDiv( { class: "gsuiWaveEdit-wavestep-btn gsuiIcon", "data-action": "clone", "data-icon": "clone", title: "Clone this wave" } ),
 			GSUcreateDiv( { class: "gsuiWaveEdit-wavestep-btn gsuiIcon", "data-action": "remove", "data-icon": "close", title: "Remove this wave" } ),
