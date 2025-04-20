@@ -132,18 +132,35 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
+	$onresize() {
+		const wedit = GSUhasAttribute( this, "waveedit" );
+		const w = this.clientWidth;
+		const h = wedit
+			? 340
+			: w < 700
+				? 78
+				: 168;
+
+		this.$dispatch( "resize" );
+		this.style.minHeight = `${ h }px`;
+		this.$elements.$waves[ 0 ].$resized();
+		this.$elements.$waves[ 1 ].$resized();
+	}
 	$firstTimeConnected() {
 		this.$elements.$waves[ 0 ].$nbLines( 1 );
 		this.$elements.$waves[ 1 ].$nbLines( 1 );
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "wave", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "wave", "waveedit", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	$attributeChanged( prop, val ) {
 		const num = +val;
 
 		switch ( prop ) {
+			case "waveedit":
+				this.$onresize();
+				break;
 			case "wave": this.#changeWave( val ); break;
 			case "source": this.#changeSource( val ); break;
 			case "phaze":

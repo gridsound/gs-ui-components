@@ -1,21 +1,30 @@
 gsui-oscillator {
-	display: grid;
+	container-type: size;
+	container-name: gsui-oscillator-query;
+	display: flex;
 	position: relative;
 	box-sizing: border-box;
 	height: 100%;
 	min-width: 364px;
-	min-height: 60px;
+	min-height: 78px;
 	background-color: var( --gsui-item-bg );
 	transition: .2s;
 	transition-property: min-height;
-	grid-template:
-		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
-		"grip .   wave .   unison .   detune .   pan  .   gain ." 1fr
-		"grip .   .    .   .      .   .      .   .    .   .    ." 6px
-		/20px 6px 1fr  6px 32px   8px 36px   6px 36px 6px 36px 10px;
 }
 gsui-oscillator[ waveedit ] {
-	min-height: 160px;
+	min-height: 340px;
+}
+.gsuiOscillator-in {
+	display: grid;
+	width: 100%;
+	height: 100%;
+	grid-template:
+		"grip .   .    .    .         .    .        .    .      .    .       ." 6px
+		"grip .   wave .    unisonLbl .    pitchLbl .    panLbl .    gainLbl ." 12px
+		"grip .   wave .    .         .    .        .    .      .    .       ." 6px
+		"grip .   wave .    unison    .    detune   .    pan    .    gain    ." 1fr
+		"grip .   .    .    .         .    .        .    .      .    .       ." 6px
+		/20px 6px 1fr  6px  48px      8px  36px     6px  36px   6px  36px    10px;
 }
 
 /* .......................................................................... */
@@ -28,6 +37,18 @@ gsui-oscillator[ waveedit ] {
 	cursor: grab;
 	opacity: .6;
 	background-color: #0002;
+}
+
+/* .......................................................................... */
+.gsuiOscillator-head-label:nth-of-type( 1 ) { grid-area: unisonLbl }
+.gsuiOscillator-head-label:nth-of-type( 2 ) { grid-area: pitchLbl }
+.gsuiOscillator-head-label:nth-of-type( 3 ) { grid-area: panLbl }
+.gsuiOscillator-head-label:nth-of-type( 4 ) { grid-area: gainLbl }
+.gsuiOscillator-head-label {
+	display: flex;
+	justify-content: center;
+	font-size: 12px;
+	opacity: .5;
 }
 
 /* .......................................................................... */
@@ -186,6 +207,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	color: #94bfff;
 	width: 29px;
 	min-width: 29px;
+	margin-right: 2px;
 }
 .gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:first-child {
 	position: absolute;
@@ -231,6 +253,7 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 }
 .gsuiOscillator-waveSelect {
 	flex: 1;
+	min-width: 0;
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }
@@ -255,7 +278,9 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 10px;
+	min-width: 10px;
+	border-radius: 99px;
+	background-color: #0002;
 }
 gsui-oscillator[ wave="noise" ] .gsuiOscillator-unisonGraph {
 	filter: grayscale( 1 );
@@ -295,6 +320,9 @@ gsui-oscillator[ wave="noise" ] .gsuiOscillator-unisonGraph {
 .gsuiOscillator-unison gsui-slider .gsuiSlider-eventCatcher {
 	inset: -3px;
 }
+.gsuiOscillator-unison gsui-slider[ data-prop="unisonvoices" ] .gsuiSlider-eventCatcher {
+	left: -16px;
+}
 
 /* .......................................................................... */
 .gsuiOscillator-dragging,
@@ -326,4 +354,34 @@ gsui-oscillator[ dragover ] .gsuiOscillator-remove {
 }
 gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap {
 	opacity: .33;
+}
+
+/* .......................................................................... */
+@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 168px ) {
+	.gsuiOscillator-in {
+		grid-template:
+			"grip .   .    .    .         .     .       ."  6px
+			"grip .   wave .    unisonLbl .     panLbl  ." 12px
+			"grip .   wave .    unison    .     pan     ." 64px
+			"grip .   wave .    .         .     .       ."  6px
+			"grip .   wave .    pitchLbl  .     gainLbl ." 12px
+			"grip .   wave .    detune    .     gain    ." 64px
+			"grip .   wave .    .         .     .       ."  1fr
+			"grip .   .    .    .         .     .       ."  6px
+			/20px 6px 1fr  6px  48px      6px   48px    6px;
+	}
+	.gsuiOscillator-unison {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+}
+@container gsui-oscillator-query ( min-width: 500px ) OR ( min-height: 200px ) {
+	gsui-periodicwave {
+		stroke-width: 2px;
+	}
+}
+@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 400px ) {
+	gsui-periodicwave {
+		stroke-width: 4px;
+	}
 }
