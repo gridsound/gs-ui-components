@@ -18,6 +18,9 @@ class gsuiWaveEdit extends gsui0ne {
 			$elements: {
 				$head: ".gsuiWaveEdit-head",
 				$dotline: "gsui-dotline",
+				$wtGraphWrap: ".gsuiWaveEdit-wt-graph",
+				$wtGraph: "gsui-wavetable-graph",
+				$scroll: ".gsuiWaveEdit-scroll",
 				$waves: ".gsuiWaveEdit-waves",
 			},
 		} );
@@ -68,6 +71,13 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		}
 	}
+	$onresize( w ) {
+		const h2 = this.$elements.$scroll.clientHeight;
+		const h3 = Math.min( h2, w / 3 );
+
+		this.$elements.$scroll.style.left = `${ h3 }px`;
+		this.$elements.$wtGraphWrap.style.width = `${ h3 }px`;
+	}
 	$change( obj ) {
 		const wavesToUpdate = [];
 		let toSelect = null;
@@ -98,6 +108,8 @@ class gsuiWaveEdit extends gsui0ne {
 		wavesToUpdate.forEach( wId => {
 			this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data[ wId ].curve );
 		} );
+		this.$elements.$wtGraph.$setWavetable( this.#data );
+		this.$elements.$wtGraph.$draw();
 		return obj;
 	}
 	$clear() {
@@ -199,6 +211,8 @@ class gsuiWaveEdit extends gsui0ne {
 		if ( wsel ) {
 			delete wsel.dataset.selected;
 		}
+		this.$elements.$wtGraph.$selectCurrentWave( wId );
+		this.$elements.$wtGraph.$draw();
 		this.#waveSelected = wId;
 		this.#getWaveElement( wId ).dataset.selected = "";
 		this.$elements.$dotline.$clear();
