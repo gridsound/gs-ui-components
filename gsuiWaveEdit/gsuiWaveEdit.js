@@ -72,11 +72,17 @@ class gsuiWaveEdit extends gsui0ne {
 		}
 	}
 	$onresize( w ) {
+		const dl = this.$elements.$dotline;
 		const h2 = this.$elements.$scroll.clientHeight;
 		const h3 = Math.min( h2, w / 3 );
 
 		this.$elements.$scroll.style.left = `${ h3 }px`;
 		this.$elements.$wtGraphWrap.style.width = `${ h3 }px`;
+
+		const ratio = dl.clientWidth / dl.clientHeight;
+		const wavesH = this.$elements.$waves.clientHeight - 4;
+
+		this.$elements.$waves.style.fontSize = `${ ratio * wavesH }px`;
 	}
 	$change( obj ) {
 		const wavesToUpdate = [];
