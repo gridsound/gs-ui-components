@@ -27,10 +27,6 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head gsuiSynthesizer-headOscs" },
 			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "oscillators", help: "synth-oscillator" } ),
-			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelUnison" }, "unison" ),
-			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPitch" }, "pitch" ),
-			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelPan" }, "pan" ),
-			GSUcreateSpan( { class: "gsuiSynthesizer-label gsuiSynthesizer-labelGain" }, "gain" ),
 		),
 		GSUcreateDiv( { class: "gsuiSynthesizer-oscList" },
 			GSUcreateButton( { class: "gsuiSynthesizer-newOsc" },

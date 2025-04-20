@@ -72,16 +72,6 @@ gsui-synthesizer {
 .gsuiSynthesizer-headTab[ data-selected ] span {
 	opacity: 1;
 }
-.gsuiSynthesizer-label {
-	width: 36px;
-	text-align: center;
-	font-size: 10px;
-	opacity: .75;
-}
-.gsuiSynthesizer-labelUnison {
-	margin-left: auto;
-	width: 38px;
-}
 
 /* .......................................................................... */
 gsui-synthesizer gsui-envelope {
