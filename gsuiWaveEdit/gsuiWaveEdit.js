@@ -225,8 +225,8 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$dotline.$clear();
 			this.$elements.$dotline.$change( this.#data[ wId ].curve );
 			elW.dataset.selected = "";
+			GSUscrollIntoViewX( elW, this.$elements.$scroll );
 		}
-		elW.scrollIntoView();
 	}
 }
 
