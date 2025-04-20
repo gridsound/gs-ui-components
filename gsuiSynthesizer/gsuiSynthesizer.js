@@ -99,6 +99,9 @@ class gsuiSynthesizer extends gsui0ne {
 				input: d => this.$dispatch( "inputNoise", ...d.args ),
 				change: d => this.$dispatch( "changeNoise", ...d.args ),
 			},
+			gsuiOscillator: {
+				resize: () => this.#shadow.$update(),
+			},
 		} );
 		this.#selectTab( "env", "gain" );
 		this.#selectTab( "lfo", "gain" );
