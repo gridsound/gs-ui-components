@@ -6,6 +6,7 @@ class gsuiWaveEdit extends gsui0ne {
 	#elWaves = this.getElementsByClassName( "gsuiWaveEdit-wavestep" );
 	#elWavesSorted = [];
 	#data = {};
+	#redrawWavesDeb = GSUthrottle( this.#redrawWaves.bind( this ), 100 );
 	static #waveDefault = GSUdeepFreeze( {
 		0: { x: 0, y: 0, type: null,    val: null },
 		1: { x: 1, y: 0, type: "curve", val: 0 },
@@ -64,13 +65,6 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 
 	// .........................................................................
-	$init() {
-		if ( this.#waveNull ) {
-			this.$elements.$dotline.$change( gsuiWaveEdit.#waveDefault );
-			this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
-			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
-		}
-	}
 	$onresize( w ) {
 		const dl = this.$elements.$dotline;
 		const h2 = this.$elements.$scroll.clientHeight;
@@ -83,12 +77,25 @@ class gsuiWaveEdit extends gsui0ne {
 		const wavesH = this.$elements.$waves.clientHeight - 4;
 
 		this.$elements.$waves.style.fontSize = `${ ratio * wavesH }px`;
+		this.#redrawWavesDeb();
+	}
+	#redrawWaves() {
+		lg('redrawWaves')
 		GSUforEach( this.#data, ( w, wId ) => {
 			const svg = this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" );
 
 			svg.$setSVGSize( svg.clientWidth, svg.clientHeight );
 			svg.$setCurve( w.curve );
 		} );
+	}
+
+	// .........................................................................
+	$init() {
+		if ( this.#waveNull ) {
+			this.$elements.$dotline.$change( gsuiWaveEdit.#waveDefault );
+			this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
+			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
+		}
 	}
 	$change( obj ) {
 		const wavesToUpdate = [];
