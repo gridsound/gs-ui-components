@@ -10,8 +10,6 @@ class gsuiSlider extends gsui0ne {
 	#strokeWidth = 4;
 	#previousval = "";
 	#previousValOninput = "";
-	#oninputBind = this.#oninput.bind( this );
-	#oninputThr = this.#oninputBind;
 	#circ = false;
 	#axeX = false;
 	#onwheelBinded = this.#onwheel.bind( this );
@@ -52,7 +50,7 @@ class gsuiSlider extends gsui0ne {
 		this.#updateVal();
 	}
 	static get observedAttributes() {
-		return [ "value", "revert", "type", "min", "max", "step", "scroll-step", "throttle", "mousemove-size", "stroke-width" ];
+		return [ "value", "revert", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width" ];
 	}
 	$attributeChanged( prop, val ) {
 		let updateVal;
@@ -68,11 +66,6 @@ class gsuiSlider extends gsui0ne {
 				this.#setType( val );
 				this.#setSVGcirc();
 				updateVal = true;
-				break;
-			case "throttle":
-				this.#oninputThr = val
-					? GSUthrottle( this.#oninputBind, +val )
-					: this.#oninputBind;
 				break;
 			case "min":
 				this.$elements.$input.min = this.#min = +val;
@@ -112,7 +105,7 @@ class gsuiSlider extends gsui0ne {
 			if ( newVal !== prevVal ) {
 				this.#updateVal();
 				if ( bymouse ) {
-					this.#oninputThr( newVal );
+					this.#oninput( newVal );
 				}
 			}
 			if ( !bymouse ) {
