@@ -31,9 +31,6 @@ class gsuiSlider extends gsui0ne {
 				$svgLine: ".gsuiSlider-svgLine",
 				$svgLineColor: ".gsuiSlider-svgLineColor",
 			},
-			$attributes: {
-				tabindex: 0,
-			},
 			$ptrlock: true,
 		} );
 		this.value = "";
@@ -235,7 +232,6 @@ class gsuiSlider extends gsui0ne {
 		this.#pxmoved = 0;
 		this.#scrollIncr = 0;
 		document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-		this.focus();
 		this.$dispatch( "inputStart", this.value );
 	}
 	$onptrmove( e ) {
