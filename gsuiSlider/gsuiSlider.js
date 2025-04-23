@@ -3,114 +3,78 @@
 class gsuiSlider extends gsui0ne {
 	#min = 0;
 	#max = 100;
+	#step = 1;
+	#value = 0;
 	#revert = 1;
+	#valueSave = 0;
 	#scrollStep = 0;
 	#scrollIncr = 0;
-	#mousemoveSize = 0;
 	#strokeWidth = 4;
-	#previousval = "";
-	#previousValOninput = "";
+	#mousemoveSize = 0;
 	#circ = false;
 	#axeX = false;
-	#onwheelBinded = this.#onwheel.bind( this );
 	#pxval = 0;
 	#pxmoved = 0;
 	#svgLineLen = 0;
+	#onwheelBinded = this.#onwheel.bind( this );
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiSlider",
 			$tagName: "gsui-slider",
 			$elements: {
-				$input: ".gsuiSlider-input",
 				$line: ".gsuiSlider-line",
 				$lineColor: ".gsuiSlider-lineColor",
 				$svg: ".gsuiSlider-svg",
 				$svgLine: ".gsuiSlider-svgLine",
 				$svgLineColor: ".gsuiSlider-svgLineColor",
 			},
+			$attributes: {
+				min: 0,
+				max: 100,
+				step: 1,
+				value: 0,
+			},
 			$ptrlock: true,
 		} );
-		this.value = "";
-		this.width =
-		this.height = 0;
 		Object.seal( this );
 	}
 
 	// .........................................................................
 	$firstTimeConnected() {
-		const brc = this.getBoundingClientRect();
-
-		this.width = brc.width;
-		this.height = brc.height;
 		this.#setSVGcirc();
-		this.#updateVal();
+		this.#updateVal( this.#value );
 	}
 	$connected() {
-		this.#updateVal();
+		this.#updateVal( this.#value );
 	}
 	static get observedAttributes() {
 		return [ "value", "revert", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width" ];
 	}
 	$attributeChanged( prop, val ) {
-		let updateVal;
-
 		switch ( prop ) {
+			case "min": this.#min = +val; break;
+			case "max": this.#max = +val; break;
+			case "step": this.#step = +val; break;
+			case "value": this.#value = +val; break;
+			case "type": this.#setType( val ); break;
+			case "revert": this.#revert = val !== null ? -1 : 1; break;
+			case "scroll-step": this.#scrollStep = +val; break;
+			case "stroke-width": this.#strokeWidth = +val; break;
+			case "mousemove-size": this.#mousemoveSize = +val; break;
+		}
+		switch ( prop ) {
+			case "type":
+			case "min":
+			case "max":
+			case "step":
 			case "value":
-				this.$setValue( val );
-				break;
-			case "revert":
-				this.#revert = val !== null ? -1 : 1;
+				this.#updateVal( this.#value );
 				break;
 			case "type":
-				this.#setType( val );
-				this.#setSVGcirc();
-				updateVal = true;
-				break;
-			case "min":
-				this.$elements.$input.min = this.#min = +val;
-				updateVal = true;
-				break;
-			case "max":
-				this.$elements.$input.max = this.#max = +val;
-				updateVal = true;
-				break;
-			case "step":
-				this.$elements.$input.step = +val;
-				updateVal = true;
-				break;
-			case "scroll-step":
-				this.#scrollStep = +val;
-				break;
-			case "mousemove-size":
-				this.#mousemoveSize = +val;
-				break;
 			case "stroke-width":
-				this.#strokeWidth = +val;
 				this.#setSVGcirc();
 				break;
-		}
-		if ( updateVal ) {
-			this.#previousval = this.#getInputVal();
-			this.#updateVal();
-		}
-	}
-
-	// .........................................................................
-	$setValue( val, bymouse ) {
-		if ( !this.$isActive || bymouse ) {
-			const prevVal = this.#getInputVal();
-			const newVal = ( this.$elements.$input.value = val, this.#getInputVal() );
-
-			if ( newVal !== prevVal ) {
-				this.#updateVal();
-				if ( bymouse ) {
-					this.#oninput( newVal );
-				}
-			}
-			if ( !bymouse ) {
-				this.#previousval = newVal;
-			}
 		}
 	}
 
@@ -133,8 +97,8 @@ class gsuiSlider extends gsui0ne {
 		}
 	}
 	#setSVGcirc() {
-		if ( this.#circ && this.width && this.height ) {
-			const size = Math.min( this.width, this.height );
+		if ( this.#circ && this.$isConnected ) {
+			const size = Math.min( this.clientWidth, this.clientHeight );
 			const cx = size / 2;
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
@@ -146,13 +110,11 @@ class gsuiSlider extends gsui0ne {
 			this.#svgLineLen = r * 2 * Math.PI;
 		}
 	}
-	#getInputVal() {
-		const val = this.$elements.$input.value;
-
-		return Math.abs( +val ) < .000001 ? "0" : val;
-	}
 	#getRange() {
 		return this.#max - this.#min;
+	}
+	#formatValue( val ) {
+		return GSUMround( GSUclampNum( val, this.#min, this.#max ), this.#step );
 	}
 	#getMousemoveSize() {
 		return this.#mousemoveSize || (
@@ -163,11 +125,10 @@ class gsuiSlider extends gsui0ne {
 					: this.$elements.$line.getBoundingClientRect().height
 		);
 	}
-	#updateVal() {
-		this.value = +this.#getInputVal();
+	#updateVal( val ) {
 		if ( this.$isConnected ) {
 			const len = this.#getRange();
-			const prcval = ( this.value - this.#min ) / len;
+			const prcval = ( val - this.#min ) / len;
 			const prcstart = -this.#min / len;
 			const prclen = Math.abs( prcval - prcstart );
 			const prcmin = Math.min( prcval, prcstart );
@@ -190,17 +151,15 @@ class gsuiSlider extends gsui0ne {
 		}
 	}
 	#onchange() {
-		const val = this.#getInputVal();
-
-		if ( this.#previousval !== val ) {
-			GSUsetAttribute( this, "value", val );
-			this.#previousval = val;
-			this.$dispatch( "change", +val );
+		if ( this.#value !== this.#valueSave ) {
+			this.#valueSave = this.#value;
+			GSUsetAttribute( this, "value", this.#value );
+			this.$dispatch( "change", this.#value );
 		}
 	}
 	#oninput( val ) {
-		if ( val !== this.#previousValOninput ) {
-			this.#previousValOninput = val;
+		if ( val !== this.#value ) {
+			this.#value = val;
 			this.$dispatch( "input", +val );
 		}
 	}
@@ -209,38 +168,44 @@ class gsuiSlider extends gsui0ne {
 	#onwheel( e ) {
 		if ( this.$isActive ) {
 			const d = e.deltaY > 0 ? -1 : 1;
-			const step = this.#scrollStep || this.$elements.$input.step;
+			const step = this.#scrollStep || this.#step;
+			const val = this.#formatValue( this.#value + step * d );
 
 			this.#scrollIncr += step * d;
-			this.$setValue( +this.#getInputVal() + step * d, true );
+			this.#updateVal( val );
+			this.#oninput( val );
 			e.preventDefault();
 			return false;
 		}
 	}
 	$onptrdown( e ) {
+		e.preventDefault();
 		if ( e.button !== 0 || GSUhasAttribute( this, "disabled" ) ) {
 			return false;
 		}
+		this.#valueSave = this.#value;
 		this.#pxval = this.#getRange() / this.#getMousemoveSize();
 		this.#pxmoved = 0;
 		this.#scrollIncr = 0;
 		document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-		this.$dispatch( "inputStart", this.value );
+		this.$dispatch( "inputStart", this.#value );
 	}
 	$onptrmove( e ) {
 		const bound = this.#getRange() / 5;
 		const mov = ( this.#circ || !this.#axeX ? -e.movementY : e.movementX ) * this.#revert;
-		const val = +this.#previousval + ( this.#pxmoved + mov ) * this.#pxval + this.#scrollIncr;
+		const val = this.#valueSave + ( this.#pxmoved + mov ) * this.#pxval + this.#scrollIncr;
+		const val2 = this.#formatValue( val );
 
 		if ( this.#min - bound < val && val < this.#max + bound ) {
 			this.#pxmoved += mov;
 		}
-		this.$setValue( val, true );
+		this.#updateVal( val2 );
+		this.#oninput( val2 );
 	}
 	$onptrup( e ) {
 		document.body.removeEventListener( "wheel", this.#onwheelBinded );
+		this.$dispatch( "inputEnd", this.#value );
 		this.#onchange();
-		this.$dispatch( "inputEnd", this.value );
 	}
 }
 

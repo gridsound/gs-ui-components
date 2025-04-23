@@ -1,7 +1,6 @@
 "use strict";
 
 GSUsetTemplate( "gsui-slider", () => [
-	GSUcreateInput( { type: "range", class: "gsuiSlider-input" } ),
 	GSUcreateDiv( { class: "gsuiSlider-line" },
 		GSUcreateDiv( { class: "gsuiSlider-lineColor" } ),
 	),

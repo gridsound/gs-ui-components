@@ -18,7 +18,6 @@ gsui-slider[ disabled ] {
 	inset: 0;
 }
 
-.gsuiSlider-input,
 .gsuiSlider-linear .gsuiSlider-svg,
 .gsuiSlider-circular .gsuiSlider-line {
 	display: none;
