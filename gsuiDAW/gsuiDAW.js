@@ -197,12 +197,12 @@ class gsuiDAW extends gsui0ne {
 				GSUsetAttribute( this.$elements.$tempo, "timedivision", val );
 				break;
 			case "volume":
-				this.$elements.$volume.$setValue( val );
+				GSUsetAttribute( this.$elements.$volume, "value", val );
 				break;
 			case "currenttime":
 				if ( !this.#timeSelecting ) {
 					this.$elements.$clock.$setTime( val );
-					this.$elements.$currentTime.$setValue( val );
+					GSUsetAttribute( this.$elements.$currentTime, "value", val );
 				}
 				break;
 			case "maxtime":

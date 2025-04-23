@@ -77,7 +77,7 @@ class gsuiChannel extends gsui0ne {
 				break;
 			case "pan":
 			case "gain":
-				this.$elements[ prop ].$setValue( val );
+				GSUsetAttribute( this.$elements[ prop ], "value", val );
 				break;
 			case "connecta":
 			case "connectb":

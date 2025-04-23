@@ -67,7 +67,7 @@ class gsuiFxDelay extends gsui0ne {
 					( +val ).toFixed( 2 );
 
 				this.$elements.$values[ prop ].textContent = str;
-				this.$elements.$sliders[ prop ].$setValue( +val );
+				GSUsetAttribute( this.$elements.$sliders[ prop ], "value", val );
 				this.#updateGraph();
 			} break;
 		}

@@ -74,10 +74,10 @@ class gsuiFxFilter extends gsui0ne {
 			case "q":
 			case "gain":
 			case "detune":
-				this.$elements.$sliders[ prop ].$setValue( +val );
+				GSUsetAttribute( this.$elements.$sliders[ prop ], "value", val );
 				break;
 			case "frequency":
-				this.$elements.$sliders.frequency.$setValue( GSUHztoX( val / this.#nyquist ) );
+				GSUsetAttribute( this.$elements.$sliders.frequency, "value", GSUHztoX( val / this.#nyquist ) );
 				break;
 		}
 		setTimeout( () => this.#updateWave(), 20 );

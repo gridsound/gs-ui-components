@@ -65,7 +65,7 @@ class gsuiNoise extends gsui0ne {
 			case "gain":
 			case "pan":
 				this.#setValue( prop, val );
-				this.$elements.$sliders[ prop ].$setValue( val );
+				GSUsetAttribute( this.$elements.$sliders[ prop ], "value", val );
 				break;
 		}
 	}

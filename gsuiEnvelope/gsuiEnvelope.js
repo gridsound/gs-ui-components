@@ -110,7 +110,7 @@ class gsuiEnvelope extends gsui0ne {
 	#changeProp( prop, val ) {
 		const [ sli, span ] = this.$elements.$sliders[ prop ];
 
-		sli.$setValue( val );
+		GSUsetAttribute( sli, "value", val );
 		span.textContent = gsuiEnvelope.#formatValue( prop, val );
 	}
 	#updatePxPerBeat() {

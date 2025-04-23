@@ -129,7 +129,7 @@ class gsuiLFO extends gsui0ne {
 		const sli = this.$elements.$sliders[ prop ];
 
 		if ( sli ) {
-			sli[ 0 ].$setValue( val );
+			GSUsetAttribute( sli[ 0 ], "value", val );
 			sli[ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		}
 	}
