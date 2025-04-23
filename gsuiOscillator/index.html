@@ -89,7 +89,19 @@ GSUsetAttribute( elOsc, "gain", .5 );
 GSUsetAttribute( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
 GSUsetAttribute( elOsc, "wave", "sawtooth" );
 
-// setTimeout( () => GSUsetAttribute( elOsc, "waveedit", true ), 200 );
+elOsc.$askWaveCustomData = () => ( {
+	waves: {
+		0: {
+			index: 0,
+			curve: {
+				0: { x: 0, y: 0, type: null, val: null },
+				1: { x: 1, y: 0, type: "curve", val: 0 },
+			},
+		},
+	},
+} );
+
+setTimeout( () => GSUsetAttribute( elOsc, "waveedit", true ), 200 );
 </script>
 </body>
 </html>

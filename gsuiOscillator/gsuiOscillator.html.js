@@ -62,8 +62,6 @@ GSUsetTemplate( "gsui-oscillator", waves =>
 		GSUcreateDiv( { class: "gsuiOscillator-dragging" },
 			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown", animate: true } ),
 		),
-		GSUcreateDiv( { class: "gsuiOscillator-waveEdit" },
-			GSUcreateElement( "gsui-wave-edit" ),
-		),
+		GSUcreateDiv( { class: "gsuiOscillator-waveEdit" } ),
 	)
 );
