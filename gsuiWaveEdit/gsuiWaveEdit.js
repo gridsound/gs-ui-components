@@ -5,12 +5,8 @@ class gsuiWaveEdit extends gsui0ne {
 	#waveSelected = null;
 	#elWaves = this.getElementsByClassName( "gsuiWaveEdit-wavestep" );
 	#elWavesSorted = [];
-	#data = {};
+	#data = GSUgetModel( "wavetable" );
 	#redrawWavesDeb = GSUthrottle( this.#redrawWaves.bind( this ), 100 );
-	static #waveDefault = GSUdeepFreeze( {
-		0: { x: 0, y: 0, type: null,    val: null },
-		1: { x: 1, y: 0, type: "curve", val: 0 },
-	} );
 
 	constructor() {
 		super( {
@@ -18,11 +14,12 @@ class gsuiWaveEdit extends gsui0ne {
 			$tagName: "gsui-wave-edit",
 			$elements: {
 				$head: ".gsuiWaveEdit-head",
-				$dotline: "gsui-dotline",
+				$dotline: ".gsuiWaveEdit-graph gsui-dotline",
 				$wtGraphWrap: ".gsuiWaveEdit-wt-graph",
 				$wtGraph: "gsui-wavetable-graph",
 				$scroll: ".gsuiWaveEdit-scroll",
 				$waves: ".gsuiWaveEdit-waves",
+				$wtDotline: ".gsuiWaveEdit-wtpos gsui-dotline",
 			},
 		} );
 		Object.seal( this );
@@ -42,23 +39,17 @@ class gsuiWaveEdit extends gsui0ne {
 				this.#execWaveAction( w.dataset.id, act );
 			}
 		};
-		this.$init();
 		GSUlistenEvents( this, {
 			gsuiDotline: {
 				input: GSUnoop,
-				change: d => {
-					const obj = this.#waveNull
-						? GSUdeepAssign( GSUdeepCopy( gsuiWaveEdit.#waveDefault ), d.args[ 0 ] )
-						: d.args[ 0 ];
-					const obj2 = this.#waveNull
-						? { curve: obj, index: 0 }
-						: { curve: obj }
+				change: ( d, t ) => {
+					const isWave = t.parentNode.classList.contains( "gsuiWaveEdit-graph" );
 
-					d.args[ 0 ] = { [ this.#waveSelected ]: obj2 };
-					d.component = "gsuiWaveEdit";
+					this.$dispatch(
+						isWave ? "changeWavetable" : "changeWavetableCurve",
+						this.#onchangeDotlines( d.args[ 0 ], isWave ? "wave" : "wtpos" )
+					);
 					this.#waveNull = false;
-					this.$change( d.args[ 0 ] );
-					return true;
 				},
 			},
 		} );
@@ -80,8 +71,7 @@ class gsuiWaveEdit extends gsui0ne {
 		this.#redrawWavesDeb();
 	}
 	#redrawWaves() {
-		lg('redrawWaves')
-		GSUforEach( this.#data, ( w, wId ) => {
+		GSUforEach( this.#data.waves, ( w, wId ) => {
 			const svg = this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" );
 
 			svg.$setSVGSize( svg.clientWidth, svg.clientHeight );
@@ -90,22 +80,33 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 
 	// .........................................................................
-	$init() {
-		if ( this.#waveNull ) {
-			this.$elements.$dotline.$change( gsuiWaveEdit.#waveDefault );
-			this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
-			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
-		}
+	$firstTimeConnected() {
+		this.#addWave( "0", this.#data.waves[ 0 ] );
+		this.#getWaveElement( "0" ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ 0 ].curve );
+		this.#selectWave( "0" );
+		this.$elements.$dotline.$change( this.#data.waves[ 0 ].curve );
+		this.$elements.$wtGraph.$setWavetable( this.#data.waves );
+		this.$elements.$wtGraph.$draw();
+		this.$elements.$wtDotline.$change( this.#data.wtCurve );
+	}
+	$clear() {
+		this.#waveNull = true;
+		this.#waveSelected = "0";
+		this.$elements.$dotline.$clear();
+		this.#elWavesSorted.forEach( w => w.remove() );
+		this.#data = {};
 	}
 	$change( obj ) {
 		const wavesToUpdate = [];
 		let toSelect = null;
 
-		this.#waveNull = false;
-		GSUforEach( obj, ( w, wId ) => {
+		if ( !obj ) {
+			return obj;
+		}
+		GSUforEach( obj.waves, ( w, wId ) => {
 			if ( !w ) {
 				this.#removeWave( wId );
-			} else if ( !( wId in this.#data ) ) {
+			} else if ( !( wId in this.#data.waves ) ) {
 				wavesToUpdate.push( wId );
 				toSelect = wId;
 				this.#addWave( wId, w );
@@ -120,23 +121,40 @@ class gsuiWaveEdit extends gsui0ne {
 				}
 			}
 		} );
+		if ( obj.wtCurve ) {
+			this.$elements.$wtDotline.$change( obj.wtCurve );
+		}
 		GSUdiffAssign( this.#data, obj );
 		if ( toSelect ) {
 			this.#selectWave( toSelect );
 		}
 		wavesToUpdate.forEach( wId => {
-			this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data[ wId ].curve );
+			this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ wId ].curve );
 		} );
-		this.$elements.$wtGraph.$setWavetable( this.#data );
+		this.$elements.$wtGraph.$setWavetable( this.#data.waves );
 		this.$elements.$wtGraph.$draw();
 		return obj;
 	}
-	$clear() {
-		this.#waveNull = true;
-		this.#waveSelected = "0";
-		this.$elements.$dotline.$clear();
-		this.#elWavesSorted.forEach( w => w.remove() );
-		this.#data = {};
+
+	// .........................................................................
+	#onchangeDotlines( crvObj, src ) {
+		const obj = {};
+
+		if ( this.#waveNull ) {
+			GSUdeepAssign( obj, this.#data );
+			if ( src === "wave" ) {
+				GSUdeepAssign( obj.waves[ this.#waveSelected ].curve, crvObj );
+			} else if ( src === "wtpos" ) {
+				GSUdeepAssign( obj.wtCurve, crvObj );
+			}
+		} else {
+			if ( src === "wave" ) {
+				obj.waves = { [ this.#waveSelected ]: { curve: crvObj } };
+			} else if ( src === "wtpos" ) {
+				obj.wtCurve = crvObj;
+			}
+		}
+		return obj;
 	}
 
 	// .........................................................................
@@ -159,23 +177,23 @@ class gsuiWaveEdit extends gsui0ne {
 		switch ( act ) {
 			case "select": this.#selectWave( wId ); break;
 			case "clone":
-				this.$dispatch( "change", this.$change( this.#createCloneObj( wId ) ) );
+				this.$dispatch( "changeWavetable", this.$change( this.#createCloneObj( wId ) ) );
 				break;
 			case "remove":
 				if ( this.#elWavesSorted.length > 1 ) {
-					this.$dispatch( "change", this.$change( this.#createRemoveObj( wId ) ) );
+					this.$dispatch( "changeWavetable", this.$change( this.#createRemoveObj( wId ) ) );
 				}
 				break;
 		}
 	}
 	#createCloneObj( wId ) {
 		const elWaves = this.#elWavesSorted;
-		const w = this.#data[ wId ];
+		const w = this.#data.waves[ wId ];
 		const wNew = {
 			index: 1,
 			curve: GSUdeepCopy( w.curve ),
 		};
-		const obj = { [ GSUgetNewId( this.#data ) ]: wNew };
+		const waves = { [ GSUgetNewId( this.#data.waves ) ]: wNew };
 
 		if ( elWaves.length > 1 ) {
 			const wOrder = this.#getWaveOrder( wId );
@@ -183,22 +201,22 @@ class gsuiWaveEdit extends gsui0ne {
 			if ( wOrder < elWaves.length - 1 ) {
 				wNew.index = GSUavg( w.index, elWaves[ wOrder + 1 ].dataset.index );
 			} else {
-				obj[ wId ] = { index: GSUavg( elWaves[ wOrder - 1 ].dataset.index, w.index ) };
+				waves[ wId ] = { index: GSUavg( elWaves[ wOrder - 1 ].dataset.index, w.index ) };
 			}
 		}
-		return obj;
+		return { waves };
 	}
 	#createRemoveObj( wId ) {
-		const waves = this.#elWavesSorted;
+		const elWaves = this.#elWavesSorted;
 		const order = this.#getWaveOrder( wId );
-		const obj = { [ wId ]: undefined };
+		const waves = { [ wId ]: undefined };
 
 		if ( order === 0 ) {
-			obj[ waves[ 1 ].dataset.id ] = { index: 0 };
-		} else if ( order === waves.length - 1 && waves.length > 2 ) {
-			obj[ waves.at( -2 ).dataset.id ] = { index: 1 };
+			waves[ elWaves[ 1 ].dataset.id ] = { index: 0 };
+		} else if ( order === elWaves.length - 1 && elWaves.length > 2 ) {
+			waves[ elWaves.at( -2 ).dataset.id ] = { index: 1 };
 		}
-		return obj;
+		return { waves };
 	}
 
 	// .........................................................................
@@ -236,7 +254,7 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$wtGraph.$selectCurrentWave( wId );
 			this.$elements.$wtGraph.$draw();
 			this.$elements.$dotline.$clear();
-			this.$elements.$dotline.$change( this.#data[ wId ].curve );
+			this.$elements.$dotline.$change( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$scroll );
 		}
