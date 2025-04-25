@@ -47,7 +47,7 @@ class gsuiWaveEdit extends gsui0ne {
 
 					this.$dispatch(
 						isWave ? "changeWavetable" : "changeWavetableCurve",
-						this.#onchangeDotlines( d.args[ 0 ], isWave ? "wave" : "wtpos" )
+						this.$change( this.#onchangeDotlines( d.args[ 0 ], isWave ? "wave" : "wtpos" ) )
 					);
 					this.#waveNull = false;
 				},
