@@ -298,7 +298,6 @@ class gsuiOscillator extends gsui0ne {
 		if ( b ) {
 			this.#elWaveEdit = GSUcreateElement( "gsui-wave-edit" );
 			this.$elements.$waveEditWrap.append( this.#elWaveEdit );
-			this.#elWaveEdit.$init();
 			this.#elWaveEdit.$change( this.$askWaveCustomData() );
 		} else {
 			this.#elWaveEdit.remove();
