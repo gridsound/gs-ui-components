@@ -243,7 +243,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#mousedownBeat = this.#getBeatByPageX( e.pageX );
 		if ( e.button === 2 || (
 			Date.now() - this.#mousedownPrevDate < 500 &&
-			GSUapproxEqual( this.#mousedownPrevX, e.pageX, 20 )
+			GSUMathApprox( this.#mousedownPrevX, e.pageX, 20 )
 		) ) {
 			if ( e.button !== 2 || !this.#looping ) {
 				this.#loopA =
