@@ -59,6 +59,7 @@ class gsuiReorder2 {
 	}
 	#onptrup( e ) {
 		const orderDiff = GSUdiffObjects( this.#dataSave, this.#createOrderMap() );
+		const movingId = this.#movingItem.dataset.id;
 
 		this.#destroyFake();
 		this.#currentIndex = -1;
@@ -71,7 +72,7 @@ class gsuiReorder2 {
 		this.#parent.removeEventListener( "pointerup", this.#onptrupBind );
 		this.#parent.releasePointerCapture( e.pointerId );
 		if ( orderDiff ) {
-			this.#onchange?.( orderDiff );
+			this.#onchange?.( orderDiff, movingId );
 		}
 	}
 
