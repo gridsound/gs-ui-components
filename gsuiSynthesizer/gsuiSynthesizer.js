@@ -68,14 +68,11 @@ class gsuiSynthesizer extends gsui0ne {
 			return false;
 		};
 		this.$elements.$heads.forEach( el => el.onclick = onclickHeadsBind );
-		new gsuiReorder( {
-			rootElement: this.$elements.$oscList,
-			direction: "column",
-			dataTransferType: "oscillator",
-			itemSelector: "gsui-oscillator",
-			handleSelector: ".gsuiOscillator-grip",
-			parentSelector: ".gsuiSynthesizer-oscList",
-			onchange: this.#onchangeReorder.bind( this ),
+		new gsuiReorder2( {
+			$parent: this.$elements.$oscList,
+			$itemSelector: "gsui-oscillator",
+			$itemGripSelector: ".gsuiOscillator-grip",
+			$onchange: obj => this.$dispatch( "reorderOscillator", obj ),
 		} );
 		GSUlistenEvents( this, {
 			gsuiToggle: {
@@ -194,9 +191,6 @@ class gsuiSynthesizer extends gsui0ne {
 			this.#uiOscs.delete( id );
 		}
 	}
-	$reorderOscillators() {
-		gsuiReorder.listReorder( this.$elements.$oscList );
-	}
 
 	// .........................................................................
 	#selectTab( lfoEnv, prop ) {
@@ -223,11 +217,6 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	#onclickNewOsc() {
 		this.$dispatch( "addOscillator" );
-	}
-	#onchangeReorder() {
-		const oscs = gsuiReorder.listComputeOrderChange( this.$elements.$oscList, {} );
-
-		this.$dispatch( "reorderOscillator", oscs );
 	}
 	#ondrag( b ) {
 		GSUsetAttribute( this.$elements.$newOsc, "data-hover", b );
