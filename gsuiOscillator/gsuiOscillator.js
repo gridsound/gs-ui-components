@@ -50,7 +50,6 @@ class gsuiOscillator extends gsui0ne {
 				$remove: ".gsuiOscillator-remove",
 			},
 			$attributes: {
-				draggable: "true",
 				order: 0,
 				wave: undefined,
 				source: undefined,
@@ -151,10 +150,11 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "wave", "waveedit", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "order", "wave", "waveedit", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "order": this.style.order = val; break;
 			case "wave": this.#changeWave( val ); break;
 			case "phaze": this.#updatePhaze( +val ); break;
 			case "source": this.#changeSource( val ); break;
