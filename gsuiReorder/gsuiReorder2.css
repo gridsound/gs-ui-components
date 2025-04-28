@@ -1,0 +1,32 @@
+.gsuiReorder-moving {
+	opacity: 0 !important;
+	visibility: hidden !important;
+}
+
+#gsuiReorder-fake {
+	z-index: 1;
+	position: absolute;
+	overflow: hidden;
+	box-sizing: border-box;
+	width: 60px;
+	height: 60px;
+	color: var( --gsuiReorder-skeleton-txt );
+	border: 2px solid;
+}
+#gsuiReorder-fake::before,
+#gsuiReorder-fake-grip::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-color: currentColor;
+	opacity: .2;
+}
+#gsuiReorder-fake-grip {
+	position: absolute;
+	box-sizing: border-box;
+	border: inherit;
+	margin: -2px;
+}
+#gsuiReorder-fake-grip::before {
+	opacity: .4;
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiReorder2.css"/>
+<style>
+body {
+	--test-content-w: 420px;
+	--test-content-h: 200px;
+}
+#my-list {
+	display: grid;
+	gap: 8px;
+	grid-auto-flow: row;
+	grid-auto-rows: min-content;
+	touch-action: none;
+}
+.my-item {
+	display: flex;
+	align-items: center;
+	height: 50px;
+	gap: 8px;
+	border-radius: 8px;
+	background-color: #555;
+}
+.my-item-grip {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	align-self: stretch;
+	background-color: #0005;
+	cursor: grab;
+}
+.my-item-grip::before {
+	content: "↕️";
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<div id="my-list">
+		<div data-id="i0"  class="my-item" style="order:  0"><div class="my-item-grip"></div>item  #0</div>
+		<div data-id="i1"  class="my-item" style="order:  1"><div class="my-item-grip"></div>item  #1</div>
+		<div data-id="i2"  class="my-item" style="order:  2"><div class="my-item-grip"></div>item  #2</div>
+		<div data-id="i3"  class="my-item" style="order:  3"><div class="my-item-grip"></div>item  #3</div>
+		<div data-id="i4"  class="my-item" style="order:  4"><div class="my-item-grip"></div>item  #4</div>
+<!-- -- >
+		<div data-id="i5"  class="my-item" style="order:  5"><div class="my-item-grip"></div>item  #5</div>
+		<div data-id="i6"  class="my-item" style="order:  6"><div class="my-item-grip"></div>item  #6</div>
+		<div data-id="i7"  class="my-item" style="order:  7"><div class="my-item-grip"></div>item  #7</div>
+		<div data-id="i8"  class="my-item" style="order:  8"><div class="my-item-grip"></div>item  #8</div>
+		<div data-id="i9"  class="my-item" style="order:  9"><div class="my-item-grip"></div>item  #9</div>
+		<div data-id="i10" class="my-item" style="order: 10"><div class="my-item-grip"></div>item #10</div>
+		<div data-id="i11" class="my-item" style="order: 11"><div class="my-item-grip"></div>item #11</div>
+		<div data-id="i12" class="my-item" style="order: 12"><div class="my-item-grip"></div>item #12</div>
+		<div data-id="i13" class="my-item" style="order: 13"><div class="my-item-grip"></div>item #13</div>
+		<div data-id="i14" class="my-item" style="order: 14"><div class="my-item-grip"></div>item #14</div>
+<!-- -->
+	</div>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-json.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiReorder2.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const myList = document.querySelector( "#my-list" );
+const reorder = new gsuiReorder2( {
+	$parent: myList,
+	$itemSelector: ".my-item",
+	$itemGripSelector: ".my-item-grip",
+	$onchange: onchange,
+} );
+
+function onchange( obj ) {
+	console.log( "onchange", obj );
+}
+</script>
+</body>
+</html>

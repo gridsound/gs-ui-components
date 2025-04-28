@@ -71,6 +71,8 @@ body {
 	/* ................................ */
 	--gsuiHelpLink-txt: #fb7;
 	/* ................................ */
+	--gsuiReorder-skeleton-txt: #1e90ff;
+	/* ................................ */
 	--gsuiLibrary-bg: #233240;
 	--gsuiLibrary-sample-fav: #9af;
 	--gsuiLibrary-sample-hover-bg: #fff1;
