@@ -37,6 +37,7 @@ class gsuiReorder2 {
 				this.#parent.setPointerCapture( e.pointerId );
 				this.#parent.addEventListener( "pointermove", this.#onptrmoveBind );
 				this.#parent.addEventListener( "pointerup", this.#onptrupBind );
+				this.#parent.style.cursor = "grabbing";
 				this.#createFake( e, e.target );
 				GSUunselectText();
 			}
@@ -65,6 +66,7 @@ class gsuiReorder2 {
 		this.#dataSave = null;
 		this.#movingItem.classList.remove( "gsuiReorder-moving" );
 		this.#movingItem = null;
+		this.#parent.style.cursor = "";
 		this.#parent.removeEventListener( "pointermove", this.#onptrmoveBind );
 		this.#parent.removeEventListener( "pointerup", this.#onptrupBind );
 		this.#parent.releasePointerCapture( e.pointerId );
