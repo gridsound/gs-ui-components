@@ -65,10 +65,13 @@ class gsuiChannel extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "muted", "pan", "gain", "connecta", "connectb" ];
+		return [ "order", "name", "muted", "pan", "gain", "connecta", "connectb" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "order":
+				this.style.order = val;
+				break;
 			case "name":
 				this.$elements.$name.textContent = val;
 				break;
