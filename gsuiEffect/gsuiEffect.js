@@ -36,10 +36,13 @@ class gsuiEffect extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "enable", "name" ];
+		return [ "order", "enable", "name" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "order":
+				this.style.order = val;
+				break;
 			case "enable":
 				GSUsetAttribute( this.$elements.$toggle, "off", val !== "" );
 				GSUsetAttribute( this.$elements.$content.firstChild, "off", val !== "" );
