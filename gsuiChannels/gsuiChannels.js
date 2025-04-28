@@ -34,17 +34,11 @@ class gsuiChannels extends gsui0ne {
 				toggle: ( d, chan ) => this.$onchange( "toggleChannel", chan.dataset.id ),
 			},
 		} );
-		new gsuiReorder( {
-			rootElement: this,
-			direction: "row",
-			dataTransferType: "channel",
-			itemSelector: "gsui-channel",
-			handleSelector: ".gsuiChannel-grip",
-			parentSelector: ".gsuiChannels-panChannels",
-			onchange: elChan => {
-				this.$onchange( "reorderChannel", elChan.dataset.id,
-					gsuiReorder.listComputeOrderChange( this.$elements.$pchans, {} ) );
-			},
+		new gsuiReorder2( {
+			$parent: this.$elements.$pchans,
+			$itemSelector: "gsui-channel",
+			$itemGripSelector: ".gsuiChannel-grip",
+			$onchange: ( obj, chanId ) => this.$onchange( "reorderChannel", chanId, obj ),
 		} );
 	}
 
@@ -90,9 +84,6 @@ class gsuiChannels extends gsui0ne {
 	}
 
 	// .........................................................................
-	$reorderChannels( channels ) {
-		gsuiReorder.listReorder( this.$elements.$pchans, channels );
-	}
 	$getChannel( id ) {
 		return this.#chans[ id ];
 	}
