@@ -19,7 +19,6 @@ class gsuiChannel extends gsui0ne {
 				connectb: ".gsuiChannel-connectB",
 			},
 			$attributes: {
-				draggable: "true",
 				name: "chan",
 				pan: 0,
 				gain: 1,
