@@ -22,13 +22,11 @@ class gsuiEffects extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
-		new gsuiReorder( {
-			rootElement: this,
-			direction: "column",
-			dataTransferType: "effect",
-			itemSelector: "gsui-effect",
-			handleSelector: ".gsuiEffect-grip",
-			parentSelector: "gsui-effects",
+		new gsuiReorder2( {
+			$parent: this,
+			$itemSelector: "gsui-effect",
+			$itemGripSelector: ".gsuiEffect-grip",
+			$onchange: ( obj, fxId ) => this.$dispatch( "reorderEffect", fxId, obj ),
 		} );
 		GSUlistenEvents( this, {
 			gsuiEffect: {
@@ -105,9 +103,6 @@ class gsuiEffects extends gsui0ne {
 			case "toggle": GSUsetAttribute( this.#fxsHtml.get( id ), "enable", val ); break;
 			case "order": GSUsetAttribute( this.#fxsHtml.get( id ), "order", val ); break;
 		}
-	}
-	$reorderEffects( effects ) {
-		gsuiReorder.listReorder( this, effects );
 	}
 
 	// .........................................................................
