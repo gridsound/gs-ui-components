@@ -44,10 +44,8 @@ class gsuiReorder2 {
 		}
 	}
 	#onptrmove( e ) {
-		const ptr = this.#dirX
-			? e.clientX - this.#ptrMargin.x + this.#movingItem.clientWidth / 2
-			: e.clientY - this.#ptrMargin.y + this.#movingItem.clientHeight / 2;
-		const ind = this.#findClosestIndex( ptr );
+		const ptr = this.#dirX ? e.clientX : e.clientY;
+		const ind = this.#itemsData.findIndex( it => GSUinRange( ptr, it.$pos, it.$pos + it.$size ) );
 
 		this.#movingFake.style.top = `${ e.clientY - this.#ptrMargin.y }px`;
 		this.#movingFake.style.left = `${ e.clientX - this.#ptrMargin.x }px`;
@@ -78,40 +76,26 @@ class gsuiReorder2 {
 
 	// .........................................................................
 	#createOrderMap() {
-		return this.#itemsData.reduce( ( obj, it ) => ( obj[ it[ 0 ].dataset.id ] = { order: it[ 2 ] }, obj ), {} );
+		return this.#itemsData.reduce( ( obj, it ) => ( obj[ it.$elem.dataset.id ] = { order: it.$order }, obj ), {} );
 	}
 	#createItemsData() {
 		this.#itemsData = Array.from( this.#parent.children )
 			.filter( el => el.matches( this.#itemSel ) )
 			.map( el => {
 				const bcr = el.getBoundingClientRect();
-				const sz = this.#dirX ? el.clientWidth : el.clientHeight;
-				const pos = this.#dirX ? bcr.x : bcr.y;
-				const order = +getComputedStyle( el ).order;
 
-				return [ el, pos + sz / 2, order ];
+				return {
+					$elem: el,
+					$pos: this.#dirX ? bcr.x : bcr.y,
+					$size: this.#dirX ? el.clientWidth : el.clientHeight,
+					$order: +getComputedStyle( el ).order,
+				};
 			} )
-			.sort( ( a, b ) => a[ 1 ] - b[ 1 ] );
-	}
-	#findClosestIndex( x ) {
-		let min = -1;
-		let minDist = Infinity;
-
-		this.#itemsData.forEach( ( it, i ) => {
-			const dist = Math.abs( it[ 1 ] - x );
-
-			if ( dist < minDist ) {
-				minDist = dist;
-				min = i;
-			}
-		} );
-		return min;
+			.sort( ( a, b ) => a.$pos - b.$pos );
 	}
 	#reorderMoving( ind ) {
-		GSUarrayRemove( this.#itemsData, it => it[ 0 ] === this.#movingItem );
-		this.#itemsData.forEach( ( it, i ) => {
-			it[ 0 ].style.order = i < ind ? i : i + 1;
-		} );
+		GSUarrayRemove( this.#itemsData, it => it.$elem === this.#movingItem );
+		this.#itemsData.forEach( ( it, i ) => it.$elem.style.order = i < ind ? i : i + 1 );
 		this.#movingItem.style.order = ind;
 	}
 
