@@ -11,14 +11,19 @@ gsui-effect[ enable ] {
 	display: flex;
 	height: 36px;
 	box-sizing: border-box;
+	border-top: var( --gsui-item-brdtop );
 	border-bottom: var( --gsui-item-brdbottom );
 	font-size: 12px;
 }
-gsui-effect:not( [ expanded ] ) + gsui-effect .gsuiEffect-head {
-	border-top: var( --gsui-item-brdtop );
-}
-gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
-	border-top: var( --gsui-item-brdbottom );
+.gsuiEffect-grip {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	font-size: 12px;
+	cursor: grab;
+	opacity: .6;
+	background-color: #0002;
 }
 .gsuiEffect-expand,
 .gsuiEffect-remove {
@@ -31,19 +36,23 @@ gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
 	font-size: inherit;
 	background-color: transparent;
 }
-.gsuiEffect-grip {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 16px;
-	font-size: 12px;
-	cursor: grab;
-	opacity: .6;
-	background-color: #0002;
-}
 .gsuiEffect-expand {
 	font-size: 14px;
 	opacity: var( --gsuiEffect-head-name-opacity, .5 );
+}
+gsui-effect[ expanded ] .gsuiEffect-expand::before,
+gsui-effect[ expanded ] .gsuiEffect-expand::after {
+	transform: rotate( 90deg );
+}
+.gsuiEffect-remove {
+	margin-left: auto;
+	width: 32px;
+	opacity: .3;
+	transition: .1s opacity;
+}
+.gsuiEffect-remove:hover,
+.gsuiEffect-remove:focus {
+	opacity: 1;
 }
 .gsuiEffect-head gsui-toggle {
 	width: 20px;
@@ -57,16 +66,6 @@ gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
 	align-self: center;
 	margin-left: 6px;
 }
-.gsuiEffect-remove {
-	margin-left: auto;
-	width: 32px;
-	opacity: .3;
-	transition: .1s opacity;
-}
-.gsuiEffect-remove:hover,
-.gsuiEffect-remove:focus {
-	opacity: 1;
-}
 
 /* .......................................................................... */
 .gsuiEffect-content {
@@ -77,14 +76,13 @@ gsui-effect[ expanded ] + gsui-effect .gsuiEffect-head {
 	transition: .1s;
 	transition-property: height, opacity;
 }
-gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content { height: 180px }
 gsui-effect[ expanded ] .gsuiEffect-content {
 	height: 160px;
 	opacity: 1;
+	border-bottom: var( --gsui-item-brdbottom );
 }
-gsui-effect[ expanded ] .gsuiEffect-expand::before,
-gsui-effect[ expanded ] .gsuiEffect-expand::after {
-	transform: rotate( 90deg );
+gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content {
+	height: 180px;
 }
 
 /* .......................................................................... */
