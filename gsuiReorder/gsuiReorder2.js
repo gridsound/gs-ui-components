@@ -11,7 +11,7 @@ class gsuiReorder2 {
 	#onptrupBind = this.#onptrup.bind( this );
 	#movingItem = null;
 	#movingFake = null;
-	#currentIndex = -1;
+	#currentPx = 0;
 	#ptrMargin = { x: 0, y: 0 };
 	#itemsData = null;
 	#dataSave = null;
@@ -31,6 +31,7 @@ class gsuiReorder2 {
 			if ( this.#movingItem ) {
 				e.preventDefault();
 				this.#dirX = getComputedStyle( this.#parent ).gridAutoFlow !== "row";
+				this.#currentPx = this.#dirX ? e.clientX : e.clientY;
 				this.#movingItem.classList.add( "gsuiReorder-moving" );
 				this.#createItemsData();
 				this.#dataSave = this.#createOrderMap();
@@ -45,12 +46,12 @@ class gsuiReorder2 {
 	}
 	#onptrmove( e ) {
 		const ptr = this.#dirX ? e.clientX : e.clientY;
-		const ind = this.#itemsData.findIndex( it => GSUinRange( ptr, it.$pos, it.$pos + it.$size ) );
+		const ind = this.#getIndexCrossing( ptr );
 
+		this.#currentPx = ptr;
 		this.#movingFake.style.top = `${ e.clientY - this.#ptrMargin.y }px`;
 		this.#movingFake.style.left = `${ e.clientX - this.#ptrMargin.x }px`;
-		if ( ind > -1 && ind !== this.#currentIndex ) {
-			this.#currentIndex = ind;
+		if ( ind > -1 ) {
 			this.#reorderMoving( ind );
 			this.#createItemsData();
 		}
@@ -60,7 +61,6 @@ class gsuiReorder2 {
 		const movingId = this.#movingItem.dataset.id;
 
 		this.#destroyFake();
-		this.#currentIndex = -1;
 		this.#itemsData = null;
 		this.#dataSave = null;
 		this.#movingItem.classList.remove( "gsuiReorder-moving" );
@@ -75,6 +75,9 @@ class gsuiReorder2 {
 	}
 
 	// .........................................................................
+	#getIndexCrossing( ptr ) {
+		return this.#itemsData.findIndex( it => GSUinRange( it.$pos + it.$size / 2, ptr, this.#currentPx ) );
+	}
 	#createOrderMap() {
 		return this.#itemsData.reduce( ( obj, it ) => ( obj[ it.$elem.dataset.id ] = { order: it.$order }, obj ), {} );
 	}
