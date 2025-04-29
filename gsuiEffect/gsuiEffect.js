@@ -13,9 +13,6 @@ class gsuiEffect extends gsui0ne {
 				$remove: ".gsuiEffect-remove",
 				$content: ".gsuiEffect-content",
 			},
-			$attributes: {
-				draggable: "true",
-			},
 		} );
 		Object.seal( this );
 
