@@ -17,12 +17,24 @@ body {
 	--test-content-w: 420px;
 	--test-content-h: 200px;
 }
-#my-list {
-	display: grid;
+#testWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px
+}
+
+/* .......................................................................... */
+.my-list {
+	display: flex;
+	flex-direction: column;
 	gap: 8px;
-	grid-auto-flow: row;
-	grid-auto-rows: min-content;
+	padding: 8px;
+	border: 4px solid #ce29aa;
+	border-radius: 12px;
 	touch-action: none;
+}
+.my-list:first-child {
+	display: none;
 }
 .my-item {
 	display: flex;
@@ -44,36 +56,38 @@ body {
 .my-item-grip::before {
 	content: "↕️";
 }
-[ data-id="i2" ] { height: 160px }
-[ data-id="i4" ] { height: 100px }
+
+/* .......................................................................... */
+#testWrap[ data-scene="1" ] [ data-id="i1" ] { height: 26px }
+#testWrap[ data-scene="1" ] [ data-id="i2" ] { height: 160px }
+#testWrap[ data-scene="1" ] [ data-id="i4" ] { height: 100px }
+#testWrap[ data-scene="2" ] .my-list:first-child { display: flex }
 </style>
 </head>
 <body>
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<div id="my-list">
-		<div data-id="i0"  class="my-item" style="order:  0"><div class="my-item-grip"></div>item  #0</div>
-		<div data-id="i1"  class="my-item" style="order:  1"><div class="my-item-grip"></div>item  #1</div>
-		<div data-id="i2"  class="my-item" style="order:  2"><div class="my-item-grip"></div>item  #2</div>
-		<div data-id="i3"  class="my-item" style="order:  3"><div class="my-item-grip"></div>item  #3</div>
-		<div data-id="i4"  class="my-item" style="order:  4"><div class="my-item-grip"></div>item  #4</div>
-		<div data-id="i5"  class="my-item" style="order:  5"><div class="my-item-grip"></div>item  #5</div>
-<!-- -- >
-		<div data-id="i5"  class="my-item" style="order:  5"><div class="my-item-grip"></div>item  #5</div>
-		<div data-id="i6"  class="my-item" style="order:  6"><div class="my-item-grip"></div>item  #6</div>
-		<div data-id="i7"  class="my-item" style="order:  7"><div class="my-item-grip"></div>item  #7</div>
-		<div data-id="i8"  class="my-item" style="order:  8"><div class="my-item-grip"></div>item  #8</div>
-		<div data-id="i9"  class="my-item" style="order:  9"><div class="my-item-grip"></div>item  #9</div>
-		<div data-id="i10" class="my-item" style="order: 10"><div class="my-item-grip"></div>item #10</div>
-		<div data-id="i11" class="my-item" style="order: 11"><div class="my-item-grip"></div>item #11</div>
-		<div data-id="i12" class="my-item" style="order: 12"><div class="my-item-grip"></div>item #12</div>
-		<div data-id="i13" class="my-item" style="order: 13"><div class="my-item-grip"></div>item #13</div>
-		<div data-id="i14" class="my-item" style="order: 14"><div class="my-item-grip"></div>item #14</div>
-<!-- -->
+	<div class="my-list">
+		<div data-id="ia" class="my-item" style="order: 0" draggable="true"><div class="my-item-grip"></div>item #a</div>
+		<div data-id="ib" class="my-item" style="order: 1" draggable="true"><div class="my-item-grip"></div>item #b</div>
+		<div data-id="ic" class="my-item" style="order: 2" draggable="true"><div class="my-item-grip"></div>item #c</div>
+	</div>
+	<div class="my-list">
+		<div data-id="i0" class="my-item" style="order: 0" draggable="true"><div class="my-item-grip"></div>item #0</div>
+		<div data-id="i1" class="my-item" style="order: 1" draggable="true"><div class="my-item-grip"></div>item #1</div>
+		<div data-id="i2" class="my-item" style="order: 2" draggable="true"><div class="my-item-grip"></div>item #2</div>
+		<div data-id="i3" class="my-item" style="order: 3" draggable="true"><div class="my-item-grip"></div>item #3</div>
+		<div data-id="i4" class="my-item" style="order: 4" draggable="true"><div class="my-item-grip"></div>item #4</div>
+		<div data-id="i5" class="my-item" style="order: 5" draggable="true"><div class="my-item-grip"></div>item #5</div>
 	</div>
 </div>
 <div id="TEST-CTRLS">
+	<select id="scenario">
+		<option value="0">classic</option>
+		<option value="1">items with different sizes</option>
+		<option value="2" selected>items in different parents</option>
+	</select>
 </div>
 
 <!-- ....................................................................... -->
@@ -88,9 +102,12 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const myList = document.querySelector( "#my-list" );
+const testWrap = document.querySelector( "#testWrap" );
+const inpScenario = document.querySelector( "#scenario" );
+const myLists = document.querySelectorAll( ".my-list" );
 const reorder = new gsuiReorder2( {
-	$parent: myList,
+	$parent: testWrap,
+	$parentSelector: ".my-list",
 	$itemSelector: ".my-item",
 	$itemGripSelector: ".my-item-grip",
 	$onchange: onchange,
@@ -99,6 +116,12 @@ const reorder = new gsuiReorder2( {
 function onchange( obj, movingElementId ) {
 	console.log( "onchange", obj, movingElementId );
 }
+
+inpScenario.onchange = () => {
+	GSUsetAttribute( testWrap, "data-scene", inpScenario.value );
+};
+
+inpScenario.onchange();
 </script>
 </body>
 </html>

@@ -10,6 +10,7 @@ class gsuiReorder2 {
 	#onptrmoveBind = this.#onptrmove.bind( this );
 	#onptrupBind = this.#onptrup.bind( this );
 	#movingItem = null;
+	#movingItemParent = null;
 	#movingFake = null;
 	#currentPx = 0;
 	#ptrMargin = { x: 0, y: 0 };
@@ -30,7 +31,8 @@ class gsuiReorder2 {
 			this.#movingItem = e.target.closest( this.#itemSel );
 			if ( this.#movingItem ) {
 				e.preventDefault();
-				this.#dirX = getComputedStyle( this.#parent ).gridAutoFlow !== "row";
+				this.#movingItemParent = this.#movingItem.parentNode;
+				this.#dirX = getComputedStyle( this.#movingItemParent ).gridAutoFlow !== "row";
 				this.#currentPx = this.#dirX ? e.clientX : e.clientY;
 				this.#movingItem.classList.add( "gsuiReorder-moving" );
 				this.#createItemsData();
@@ -66,6 +68,7 @@ class gsuiReorder2 {
 		this.#dataSave = null;
 		this.#movingItem.classList.remove( "gsuiReorder-moving" );
 		this.#movingItem = null;
+		this.#movingItemParent = null;
 		this.#parent.style.cursor = "";
 		this.#parent.removeEventListener( "pointermove", this.#onptrmoveBind );
 		this.#parent.removeEventListener( "pointerup", this.#onptrupBind );
@@ -83,7 +86,7 @@ class gsuiReorder2 {
 		return this.#itemsData.reduce( ( obj, it ) => ( obj[ it.$elem.dataset.id ] = { order: it.$order }, obj ), {} );
 	}
 	#createItemsData() {
-		this.#itemsData = Array.from( this.#parent.children )
+		this.#itemsData = Array.from( this.#movingItemParent.children )
 			.filter( el => el.matches( this.#itemSel ) )
 			.map( el => {
 				const bcr = el.getBoundingClientRect();
