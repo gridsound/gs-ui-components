@@ -22,10 +22,6 @@ gsui-drums .gsuiTimewindow-rows {
 }
 
 /* .......................................................................... */
-.gsuiDrums-line.gsuiReorder-dragging {
-	opacity: .5;
-	background-color: #0004;
-}
 .gsuiDrums-line {
 	position: relative;
 	width: 1000000px;

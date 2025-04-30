@@ -78,12 +78,6 @@ class gsuiReorder {
 			this.#indDragged = this.#getIndex( elItem );
 			e.dataTransfer.effectAllowed = "move";
 			e.dataTransfer.setData( this.#dataTransferType, this.#dataTransfer( elItem ) );
-			setTimeout( () => {
-				this.#elDragged.classList.add( "gsuiReorder-dragging" );
-				if ( this.#elShadowDragged ) {
-					this.#elShadowDragged.classList.add( "gsuiReorder-dragging" );
-				}
-			}, 20 );
 		} else if ( this.#preventDefault ) {
 			e.preventDefault();
 		}
@@ -146,10 +140,6 @@ class gsuiReorder {
 			this.#elDragged =
 			this.#elDragover =
 			this.#itemDragover = null;
-			el.classList.remove( "gsuiReorder-dragging" );
-			if ( this.#elShadowDragged ) {
-				this.#elShadowDragged.classList.remove( "gsuiReorder-dragging" );
-			}
 			if ( this.#droppedInside ) {
 				const ind = this.#getIndex( el );
 
