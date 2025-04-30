@@ -98,8 +98,14 @@ class gsuiReorder2 {
 	}
 	#reorderMoving( ind ) {
 		GSUarrayRemove( this.#itemsData, it => it.$elem === this.#movingItem );
-		this.#itemsData.forEach( ( it, i ) => it.$elem.style.order = i < ind ? i : i + 1 );
-		this.#movingItem.style.order = ind;
+		this.#itemsData.forEach( ( it, i ) => this.#setElemOrder( it.$elem, i < ind ? i : i + 1 ) );
+		this.#setElemOrder( this.#movingItem, ind );
+	}
+	#setElemOrder( el, n ) {
+		el.style.order = n;
+		if ( GSUdomIsCustomElement( el ) ) {
+			GSUsetAttribute( el, "order", n );
+		}
 	}
 
 	// .........................................................................
