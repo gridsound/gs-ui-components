@@ -35,6 +35,7 @@ class gsuiDrums extends gsui0ne {
 	#drumrows = GSUcreateElement( "gsui-drumrows" );
 	#reorder = new gsuiReorder2( {
 		$parent: this.#drumrows,
+		$parentSelector: "gsui-drumrows",
 		$itemSelector: "gsui-drumrow",
 		$itemGripSelector: ".gsuiDrumrow-grip",
 		$onchange: ( obj, rowId ) => this.$dispatch( "reorderDrumrow", rowId, obj ),

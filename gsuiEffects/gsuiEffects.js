@@ -24,6 +24,7 @@ class gsuiEffects extends gsui0ne {
 		this.#initActionMenu();
 		new gsuiReorder2( {
 			$parent: this,
+			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
 			$itemGripSelector: ".gsuiEffect-grip",
 			$onchange: ( obj, fxId ) => this.$dispatch( "reorderEffect", fxId, obj ),
