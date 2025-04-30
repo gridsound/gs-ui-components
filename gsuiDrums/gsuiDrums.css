@@ -16,6 +16,10 @@ gsui-drums gsui-step-select,
 gsui-drums gsui-slider[ data-zoom="y" ] {
 	display: none;
 }
+gsui-drums .gsuiTimewindow-rows {
+	display: flex;
+	flex-direction: column;
+}
 
 /* .......................................................................... */
 .gsuiDrums-line.gsuiReorder-dragging {

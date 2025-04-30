@@ -56,6 +56,7 @@ class gsuiDrumrows extends gsui0ne {
 
 		this.#rows.set( id, elDrumrow );
 		this.append( elDrumrow );
+		return elDrumrow;
 	}
 	$remove( id ) {
 		this.#rows.get( id ).remove();
@@ -63,6 +64,7 @@ class gsuiDrumrows extends gsui0ne {
 	}
 	$change( id, prop, val ) {
 		switch ( prop ) {
+			case "order":
 			case "pan":
 			case "name":
 			case "gain":

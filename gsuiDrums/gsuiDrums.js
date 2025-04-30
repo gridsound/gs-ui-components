@@ -33,18 +33,11 @@ class gsuiDrums extends gsui0ne {
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
 	#drumrows = GSUcreateElement( "gsui-drumrows" );
-	#reorder = new gsuiReorder( {
-		rootElement: this.#drumrows,
-		direction: "column",
-		dataTransferType: "drumrow",
-		itemSelector: "gsui-drumrow",
-		handleSelector: ".gsuiDrumrow-grip",
-		parentSelector: "gsui-drumrows",
-		onchange: ( elRow ) => {
-			const rows = gsuiReorder.listComputeOrderChange( this.#drumrows, {} );
-
-			this.$dispatch( "reorderDrumrow", elRow.dataset.id, rows );
-		},
+	#reorder = new gsuiReorder2( {
+		$parent: this.#drumrows,
+		$itemSelector: "gsui-drumrow",
+		$itemGripSelector: ".gsuiDrumrow-grip",
+		$onchange: ( obj, rowId ) => this.$dispatch( "reorderDrumrow", rowId, obj ),
 	} );
 	timeline = this.#win.timeline;
 
@@ -63,10 +56,6 @@ class gsuiDrums extends gsui0ne {
 				propFilter: d => this.#setPropFilter( ...d.args ),
 				propFilters: d => this.#setPropFilterAll( ...d.args ),
 				expand: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrums-lineOpen" ),
-				toggle: d => {
-					this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrumrow-mute" );
-					return true;
-				},
 			},
 			gsuiSliderGroup: {
 				change: ( d, t ) => {
@@ -99,8 +88,6 @@ class gsuiDrums extends gsui0ne {
 		this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
-		this.#reorder.$setShadowElement( this.#elLines );
-		this.#reorder.$setShadowChildClass( "gsuiDrums-line" );
 	}
 	static get observedAttributes() {
 		return [ "disabled", "currenttime", "timedivision", "loop" ];
@@ -135,17 +122,13 @@ class gsuiDrums extends gsui0ne {
 	$changeDuration( dur ) {
 		GSUsetAttribute( this.#win, "duration", dur );
 	}
-	$reorderDrumrows( obj ) {
-		gsuiReorder.listReorder( this.#drumrows, obj );
-		gsuiReorder.listReorder( this.#elLines, obj );
-	}
 	$addDrumrow( rowId ) {
-		const elLine = this.#createDrumrowLine( rowId );
+		const elLine = this.#drumrows.$add( rowId );
+		const elDrumLine = this.#createDrumrowLine( rowId );
 
-		elLine.dataset.id = rowId;
-		this.#drumrows.$add( rowId );
-		this.#linesMap.set( rowId, elLine );
-		this.#elLines.append( elLine );
+		elLine.$associateDrumLine( elDrumLine );
+		this.#linesMap.set( rowId, elDrumLine );
+		this.#elLines.append( elDrumLine );
 		this.#setPropFilter( rowId, "gain" );
 	}
 	$removeDrumrow( rowId ) {
@@ -154,17 +137,7 @@ class gsuiDrums extends gsui0ne {
 		this.#linesMap.delete( rowId );
 	}
 	$changeDrumrow( rowId, prop, val ) {
-		switch ( prop ) {
-			case "order":
-				GSUsetAttribute( this.querySelector( `gsui-drumrow[data-id="${ rowId }"]` ), "order", val );
-				this.#linesMap.get( rowId ).dataset.order = val;
-				break;
-			case "toggle":
-				this.#linesMap.get( rowId ).classList.toggle( "gsuiDrumrow-mute", !val );
-			default:
-				this.#drumrows.$change( rowId, prop, val );
-				break;
-		}
+		this.#drumrows.$change( rowId, prop, val );
 	}
 	$startDrumrow( rowId ) {
 		this.#drumrows.$playRow( rowId );
@@ -197,6 +170,7 @@ class gsuiDrums extends gsui0ne {
 		const grp = elLine.querySelector( "gsui-slidergroup" );
 
 		GSUsetAttribute( grp, "pxperbeat", this.#pxPerBeat );
+		elLine.dataset.id = id;
 		grp.dataset.id = id;
 		this.#sliderGroups.set( id, grp );
 		return elLine;

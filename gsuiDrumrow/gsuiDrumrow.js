@@ -1,6 +1,8 @@
 "use strict";
 
 class gsuiDrumrow extends gsui0ne {
+	#elDrumLine = null;
+
 	constructor() {
 		super( {
 			$cmpName: "gsuiDrumrow",
@@ -14,7 +16,6 @@ class gsuiDrumrow extends gsui0ne {
 				waveWrap: ".gsuiDrumrow-waveWrap",
 			},
 			$attributes: {
-				draggable: "true",
 				toggle: true,
 			},
 		} );
@@ -50,7 +51,7 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "pan", "gain", "detune", "toggle", "duration" ];
+		return [ "order", "toggle", "name", "pan", "gain", "detune", "duration" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -59,11 +60,27 @@ class gsuiDrumrow extends gsui0ne {
 			case "detune": GSUsetAttribute( this.$elements[ prop ], "value", val ); break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "duration": this.$elements.waveWrap.style.animationDuration = `${ val * 2 }s`; break;
-			case "toggle": GSUsetAttribute( this.$elements.toggle, "off", val !== "" ); break;
+			case "order":
+				this.style.order = val;
+				if ( this.#elDrumLine ) {
+					this.#elDrumLine.style.order = val;
+				}
+				break;
+			case "toggle":
+				GSUsetAttribute( this.$elements.toggle, "off", val !== "" );
+				if ( this.#elDrumLine ) {
+					this.#elDrumLine.classList.toggle( "gsuiDrumrow-mute", val !== "" );
+				}
+				break;
 		}
 	}
 
 	// .........................................................................
+	$associateDrumLine( el ) {
+		this.#elDrumLine = el;
+		el.style.order = GSUgetAttribute( this, "order" );
+		el.classList.toggle( "gsuiDrumrow-mute", !GSUhasAttribute( this, "toggle" ) );
+	}
 	$changePattern( svg ) {
 		GSUemptyElement( this.$elements.waveWrap );
 		if ( svg ) {
