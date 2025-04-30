@@ -48,6 +48,7 @@ class gsuiReorder2 {
 		const ptr = this.#dirX ? e.clientX : e.clientY;
 		const ind = this.#getIndexCrossing( ptr );
 
+		e.preventDefault(); // for apple?
 		this.#currentPx = ptr;
 		this.#movingFake.style.top = `${ e.clientY - this.#ptrMargin.y }px`;
 		this.#movingFake.style.left = `${ e.clientX - this.#ptrMargin.x }px`;
