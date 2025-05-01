@@ -1,6 +1,5 @@
 .gsuiReorder-moving {
-	opacity: 0 !important;
-	visibility: hidden !important;
+	opacity: .2 !important;
 }
 
 #gsuiReorder-fake {
