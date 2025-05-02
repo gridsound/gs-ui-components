@@ -6,6 +6,7 @@ class gsuiReorder2 {
 	#parSel = "";
 	#itemSel = "";
 	#gripSel = "";
+	#ondrop = null;
 	#onchange = null;
 	#onptrdownBind = this.#onptrdown.bind( this );
 	#onptrmoveBind = this.#onptrmove.bind( this );
@@ -26,6 +27,7 @@ class gsuiReorder2 {
 		this.#itemSel = opt.$itemSelector;
 		this.#gripSel = opt.$itemGripSelector;
 		this.#onchange = opt.$onchange;
+		this.#ondrop = opt.$ondrop;
 		this.#root.addEventListener( "pointerdown", this.#onptrdownBind );
 	}
 
@@ -78,36 +80,70 @@ class gsuiReorder2 {
 				this.#currentPx = ptr;
 				par.append( this.#movingItem );
 				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#root, this.#parSel );
+				gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
 				gsuiReorder2.#reorderMoving( items, this.#movingItem, newInd );
-				this.#movingItemParent = par;
 				this.#movingIndex = newInd;
 				this.#itemsData = gsuiReorder2.#createItemsData( par, this.#itemSel );
 			}
 		}
+		this.#movingItemParent = par;
 	}
 	#onptrup( e ) {
+		if ( !this.#movingItemParent ) {
+			this.#ondrop?.( gsuiReorder2.#getDropTargetInfo( e ) );
+			gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
+			gsuiReorder2.#cancelAllChanges( this.#dataSave );
+		}
+
 		const newOrderMap = gsuiReorder2.#createOrderMap( this.#root, this.#itemSel );
-		const orderDiff = GSUdiffObjects( this.#dataSave, newOrderMap );
+		const orderDiff = gsuiReorder2.#diffOrderMaps( this.#dataSave, newOrderMap );
 		const movingId = this.#movingItem.dataset.id;
 
+		this.#reset( e );
+		if ( orderDiff ) {
+			this.#onchange?.( orderDiff, movingId );
+		}
+	}
+	#reset( e ) {
 		this.#movingFake.remove();
 		this.#movingFake = null;
 		this.#itemsData = null;
 		this.#dataSave = null;
-		this.#movingItem.classList.remove( "gsuiReorder-moving" );
-		this.#movingItem = null;
+		if ( this.#movingItem ) {
+			this.#movingItem.classList.remove( "gsuiReorder-moving" );
+			this.#movingItem = null;
+		}
 		this.#movingItemParent = null;
 		this.#movingItemParentOriginal = null;
 		this.#movingIndex = -1;
 		this.#parentsCoord = null;
 		this.#rootBCR = null;
-		this.#root.style.cursor = "";
-		this.#root.removeEventListener( "pointermove", this.#onptrmoveBind );
-		this.#root.removeEventListener( "pointerup", this.#onptrupBind );
-		this.#root.releasePointerCapture( e.pointerId );
-		if ( orderDiff ) {
-			this.#onchange?.( orderDiff, movingId );
+		if ( this.#root ) {
+			this.#root.style.cursor = "";
+			this.#root.removeEventListener( "pointermove", this.#onptrmoveBind );
+			this.#root.removeEventListener( "pointerup", this.#onptrupBind );
+			this.#root.releasePointerCapture( e.pointerId );
 		}
+	}
+
+	// .........................................................................
+	static #getDropTargetInfo( e ) {
+		const elem = document.elementFromPoint( e.clientX, e.clientY );
+		const elemBCR = elem.getBoundingClientRect();
+
+		return {
+			$target: elem,
+			$offsetX: e.clientX - elemBCR.x,
+			$offsetY: e.clientY - elemBCR.y,
+		};
+	}
+	static #cancelAllChanges( orderMapSave ) {
+		GSUforEach( orderMapSave, it => {
+			gsuiReorder2.#setElemOrder( it.$elem, it.order );
+			if ( it.$elemParent !== it.$elem.parentNode ) {
+				it.$elemParent.append( it.$elem );
+			}
+		} );
 	}
 
 	// .........................................................................
@@ -187,12 +223,25 @@ class gsuiReorder2 {
 				return ret;
 			}, [ -1, 0 ] )[ 0 ];
 	}
+	static #diffOrderMaps( a, b ) {
+		gsuiReorder2.#cleanOrderMap( a );
+		gsuiReorder2.#cleanOrderMap( b );
+		return GSUdiffObjects( a, b );
+	}
+	static #cleanOrderMap( map ) {
+		GSUforEach( map, it => {
+			delete it.$elemParent;
+			delete it.$elem;
+		} );
+	}
 	static #createOrderMap( root, itemSel ) {
 		return Array.from( root.querySelectorAll( itemSel ) )
 			.reduce( ( obj, el ) => {
 				obj[ el.dataset.id ] = {
 					order: +getComputedStyle( el ).order,
 					parent: el.parentNode.dataset.id,
+					$elemParent: el.parentNode,
+					$elem: el,
 				};
 				return obj;
 			}, {} );

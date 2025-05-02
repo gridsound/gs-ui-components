@@ -110,12 +110,13 @@ const reorder = new gsuiReorder2( {
 	$parentSelector: ".my-list",
 	$itemSelector: ".my-item",
 	$itemGripSelector: ".my-item-grip",
-	$onchange: onchange,
+	$onchange: ( obj, movingElementId ) => {
+		console.log( "onchange", obj, movingElementId );
+	},
+	$ondrop: ( dropInfo ) => {
+		console.log( "ondrop", dropInfo );
+	},
 } );
-
-function onchange( obj, movingElementId ) {
-	console.log( "onchange", obj, movingElementId );
-}
 
 inpScenario.onchange = () => {
 	GSUsetAttribute( testWrap, "data-scene", inpScenario.value );
