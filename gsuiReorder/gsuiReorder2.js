@@ -8,9 +8,11 @@ class gsuiReorder2 {
 	#gripSel = "";
 	#ondrop = null;
 	#onchange = null;
+	#onkeydownBind = this.#onkeydown.bind( this );
 	#onptrdownBind = this.#onptrdown.bind( this );
 	#onptrmoveBind = this.#onptrmove.bind( this );
 	#onptrupBind = this.#onptrup.bind( this );
+	#ptrId = null;
 	#movingIndex = -1;
 	#movingItem = null;
 	#movingItemParent = null;
@@ -46,10 +48,12 @@ class gsuiReorder2 {
 				this.#movingIndex = gsuiReorder2.#findElemIndex( this.#itemsData, this.#movingItem );
 				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#root, this.#parSel );
 				this.#dataSave = gsuiReorder2.#createOrderMap( this.#root, this.#itemSel );
-				this.#root.setPointerCapture( e.pointerId );
+				this.#root.style.cursor = "grabbing";
+				this.#ptrId = e.pointerId;
+				this.#root.setPointerCapture( this.#ptrId );
 				this.#root.addEventListener( "pointermove", this.#onptrmoveBind );
 				this.#root.addEventListener( "pointerup", this.#onptrupBind );
-				this.#root.style.cursor = "grabbing";
+				document.body.addEventListener( "keydown", this.#onkeydownBind );
 				this.#movingFake = gsuiReorder2.#createGhostElement( this.#movingItem, e.target, e );
 				GSUunselectText();
 			}
@@ -99,12 +103,19 @@ class gsuiReorder2 {
 		const orderDiff = gsuiReorder2.#diffOrderMaps( this.#dataSave, newOrderMap );
 		const movingId = this.#movingItem.dataset.id;
 
-		this.#reset( e );
+		this.#reset();
 		if ( orderDiff ) {
 			this.#onchange?.( orderDiff, movingId );
 		}
 	}
-	#reset( e ) {
+	#onkeydown( e ) {
+		if ( e.key === "Escape" ) {
+			gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
+			gsuiReorder2.#cancelAllChanges( this.#dataSave );
+			this.#reset();
+		}
+	}
+	#reset() {
 		this.#movingFake.remove();
 		this.#movingFake = null;
 		this.#itemsData = null;
@@ -122,7 +133,9 @@ class gsuiReorder2 {
 			this.#root.style.cursor = "";
 			this.#root.removeEventListener( "pointermove", this.#onptrmoveBind );
 			this.#root.removeEventListener( "pointerup", this.#onptrupBind );
-			this.#root.releasePointerCapture( e.pointerId );
+			this.#root.releasePointerCapture( this.#ptrId );
+			document.body.removeEventListener( "keydown", this.#onkeydownBind );
+			this.#ptrId = null;
 		}
 	}
 
