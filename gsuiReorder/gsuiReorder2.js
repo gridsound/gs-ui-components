@@ -1,19 +1,21 @@
 "use strict";
 
 class gsuiReorder2 {
-	#root = null;
-	#rootBCR = null;
-	#parSel = "";
-	#itemSel = "";
-	#gripSel = "";
-	#ondrop = null;
-	#onchange = null;
-	#ondragover = null;
+	#opt = Object.seal( {
+		$root: null,
+		$parentSelector: "",
+		$itemSelector: "",
+		$itemGripSelector: "",
+		$onchange: null,
+		$ondrop: null,
+		$ondragover: null,
+	} );
 	#onkeydownBind = this.#onkeydown.bind( this );
 	#onptrdownBind = this.#onptrdown.bind( this );
 	#onptrmoveBind = this.#onptrmove.bind( this );
 	#onptrupBind = this.#onptrup.bind( this );
 	#ptrId = null;
+	#rootBCR = null;
 	#elDragovering = null;
 	#movingIndex = -1;
 	#movingItem = null;
@@ -26,36 +28,30 @@ class gsuiReorder2 {
 	#dataSave = null;
 
 	constructor( opt ) {
-		this.#root = opt.$parent;
-		this.#parSel = opt.$parentSelector;
-		this.#itemSel = opt.$itemSelector;
-		this.#gripSel = opt.$itemGripSelector;
-		this.#ondrop = opt.$ondrop;
-		this.#onchange = opt.$onchange;
-		this.#ondragover = opt.$ondragover;
-		this.#root.addEventListener( "pointerdown", this.#onptrdownBind );
+		Object.assign( this.#opt, opt );
+		this.#opt.$root.addEventListener( "pointerdown", this.#onptrdownBind );
 	}
 
 	// .........................................................................
 	#onptrdown( e ) {
-		if ( e.target.matches( this.#gripSel ) ) {
-			this.#movingItem = e.target.closest( this.#itemSel );
+		if ( e.target.matches( this.#opt.$itemGripSelector ) ) {
+			this.#movingItem = e.target.closest( this.#opt.$itemSelector );
 			if ( this.#movingItem ) {
 				e.preventDefault();
-				this.#rootBCR = this.#root.getBoundingClientRect();
+				this.#rootBCR = this.#opt.$root.getBoundingClientRect();
 				this.#movingItemParent =
 				this.#movingItemParentOriginal = this.#movingItem.parentNode;
 				this.#currentPx = gsuiReorder2.#getGlobalPtr( this.#movingItemParent, e );
-				this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#itemSel );
+				this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 				this.#movingItem.classList.add( "gsuiReorder-moving" );
 				this.#movingIndex = gsuiReorder2.#findElemIndex( this.#itemsData, this.#movingItem );
-				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#root, this.#parSel );
-				this.#dataSave = gsuiReorder2.#createOrderMap( this.#root, this.#itemSel );
-				this.#root.style.cursor = "grabbing";
+				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#opt.$root, this.#opt.$parentSelector );
+				this.#dataSave = gsuiReorder2.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
+				this.#opt.$root.style.cursor = "grabbing";
 				this.#ptrId = e.pointerId;
-				this.#root.setPointerCapture( this.#ptrId );
-				this.#root.addEventListener( "pointermove", this.#onptrmoveBind );
-				this.#root.addEventListener( "pointerup", this.#onptrupBind );
+				this.#opt.$root.setPointerCapture( this.#ptrId );
+				this.#opt.$root.addEventListener( "pointermove", this.#onptrmoveBind );
+				this.#opt.$root.addEventListener( "pointerup", this.#onptrupBind );
 				document.body.addEventListener( "keydown", this.#onkeydownBind );
 				this.#movingFake = gsuiReorder2.#createGhostElement( this.#movingItem, e.target, e );
 				GSUunselectText();
@@ -79,41 +75,41 @@ class gsuiReorder2 {
 				if ( ind > -1 ) {
 					gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, ind );
 					this.#movingIndex = ind;
-					this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#itemSel );
+					this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 				}
 			} else {
-				const items = gsuiReorder2.#createItemsData( par, this.#itemSel );
+				const items = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
 				const newInd = gsuiReorder2.#getIndexHovering( items, ptr );
 
 				this.#currentPx = ptr;
 				par.append( this.#movingItem );
-				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#root, this.#parSel );
+				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#opt.$root, this.#opt.$parentSelector );
 				gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
 				gsuiReorder2.#reorderMoving( items, this.#movingItem, newInd );
 				this.#movingIndex = newInd;
-				this.#itemsData = gsuiReorder2.#createItemsData( par, this.#itemSel );
+				this.#itemsData = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
 			}
 		}
 		this.#movingItemParent = par;
 	}
 	#onptrup( e ) {
 		if ( !this.#movingItemParent ) {
-			const dropInfo = this.#ondrop && gsuiReorder2.#getDropTargetInfo( e );
+			const dropInfo = this.#opt.$ondrop && gsuiReorder2.#getDropTargetInfo( e );
 
 			if ( dropInfo ) {
-				this.#ondrop?.( dropInfo );
+				this.#opt.$ondrop( dropInfo );
 			}
 			gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
 			gsuiReorder2.#cancelAllChanges( this.#dataSave );
 		}
 
-		const newOrderMap = gsuiReorder2.#createOrderMap( this.#root, this.#itemSel );
+		const newOrderMap = gsuiReorder2.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 		const orderDiff = gsuiReorder2.#diffOrderMaps( this.#dataSave, newOrderMap );
 		const movingId = this.#movingItem.dataset.id;
 
 		this.#reset();
 		if ( orderDiff ) {
-			this.#onchange?.( orderDiff, movingId );
+			this.#opt.$onchange?.( orderDiff, movingId );
 		}
 	}
 	#onkeydown( e ) {
@@ -124,13 +120,13 @@ class gsuiReorder2 {
 		}
 	}
 	#whatAreDraggingOver( e ) {
-		if ( this.#ondragover ) {
+		if ( this.#opt.$ondragover ) {
 			const elem = document.elementFromPoint( e.clientX, e.clientY );
 
 			if ( elem !== this.#elDragovering ) {
 				this.#elDragovering = elem;
 				if ( elem?.classList.contains( "gsuiReorder-dropArea" ) ) {
-					this.#ondragover( elem );
+					this.#opt.$ondragover( elem );
 				}
 			}
 		}
@@ -150,11 +146,11 @@ class gsuiReorder2 {
 		this.#movingIndex = -1;
 		this.#parentsCoord = null;
 		this.#rootBCR = null;
-		if ( this.#root ) {
-			this.#root.style.cursor = "";
-			this.#root.removeEventListener( "pointermove", this.#onptrmoveBind );
-			this.#root.removeEventListener( "pointerup", this.#onptrupBind );
-			this.#root.releasePointerCapture( this.#ptrId );
+		if ( this.#opt.$root ) {
+			this.#opt.$root.style.cursor = "";
+			this.#opt.$root.removeEventListener( "pointermove", this.#onptrmoveBind );
+			this.#opt.$root.removeEventListener( "pointerup", this.#onptrupBind );
+			this.#opt.$root.releasePointerCapture( this.#ptrId );
 			document.body.removeEventListener( "keydown", this.#onkeydownBind );
 			this.#ptrId = null;
 		}
