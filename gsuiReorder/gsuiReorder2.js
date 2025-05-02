@@ -94,7 +94,11 @@ class gsuiReorder2 {
 	}
 	#onptrup( e ) {
 		if ( !this.#movingItemParent ) {
-			this.#ondrop?.( gsuiReorder2.#getDropTargetInfo( e ) );
+			const dropInfo = this.#ondrop && gsuiReorder2.#getDropTargetInfo( e );
+
+			if ( dropInfo ) {
+				this.#ondrop?.( dropInfo );
+			}
 			gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
 			gsuiReorder2.#cancelAllChanges( this.#dataSave );
 		}
@@ -142,9 +146,9 @@ class gsuiReorder2 {
 	// .........................................................................
 	static #getDropTargetInfo( e ) {
 		const elem = document.elementFromPoint( e.clientX, e.clientY );
-		const elemBCR = elem.getBoundingClientRect();
+		const elemBCR = elem?.getBoundingClientRect();
 
-		return {
+		return !elem ? null : {
 			$target: elem,
 			$offsetX: e.clientX - elemBCR.x,
 			$offsetY: e.clientY - elemBCR.y,
