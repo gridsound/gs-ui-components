@@ -8,11 +8,13 @@ class gsuiReorder2 {
 	#gripSel = "";
 	#ondrop = null;
 	#onchange = null;
+	#ondragover = null;
 	#onkeydownBind = this.#onkeydown.bind( this );
 	#onptrdownBind = this.#onptrdown.bind( this );
 	#onptrmoveBind = this.#onptrmove.bind( this );
 	#onptrupBind = this.#onptrup.bind( this );
 	#ptrId = null;
+	#elDragovering = null;
 	#movingIndex = -1;
 	#movingItem = null;
 	#movingItemParent = null;
@@ -28,8 +30,9 @@ class gsuiReorder2 {
 		this.#parSel = opt.$parentSelector;
 		this.#itemSel = opt.$itemSelector;
 		this.#gripSel = opt.$itemGripSelector;
-		this.#onchange = opt.$onchange;
 		this.#ondrop = opt.$ondrop;
+		this.#onchange = opt.$onchange;
+		this.#ondragover = opt.$ondragover;
 		this.#root.addEventListener( "pointerdown", this.#onptrdownBind );
 	}
 
@@ -67,6 +70,7 @@ class gsuiReorder2 {
 		e.preventDefault(); // 1.
 		this.#movingFake.style.top = `${ e.clientY }px`;
 		this.#movingFake.style.left = `${ e.clientX }px`;
+		this.#whatAreDraggingOver( e );
 		if ( par ) {
 			if ( par === this.#movingItemParent ) {
 				const ind = gsuiReorder2.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
@@ -119,9 +123,22 @@ class gsuiReorder2 {
 			this.#reset();
 		}
 	}
+	#whatAreDraggingOver( e ) {
+		if ( this.#ondragover ) {
+			const elem = document.elementFromPoint( e.clientX, e.clientY );
+
+			if ( elem !== this.#elDragovering ) {
+				this.#elDragovering = elem;
+				if ( elem?.classList.contains( "gsuiReorder-dropArea" ) ) {
+					this.#ondragover( elem );
+				}
+			}
+		}
+	}
 	#reset() {
 		this.#movingFake.remove();
 		this.#movingFake = null;
+		this.#elDragovering = null;
 		this.#itemsData = null;
 		this.#dataSave = null;
 		if ( this.#movingItem ) {

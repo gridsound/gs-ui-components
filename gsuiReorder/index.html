@@ -58,6 +58,13 @@ body {
 }
 
 /* .......................................................................... */
+#dropArea {
+	width: 100%;
+	height: 60px;
+	background-color: indianred;
+}
+
+/* .......................................................................... */
 #testWrap[ data-scene="1" ] [ data-id="i1" ] { height: 26px }
 #testWrap[ data-scene="1" ] [ data-id="i2" ] { height: 160px }
 #testWrap[ data-scene="1" ] [ data-id="i4" ] { height: 100px }
@@ -81,6 +88,7 @@ body {
 		<div data-id="i4" class="my-item" style="order: 4"><div class="my-item-grip"></div>item #4</div>
 		<div data-id="i5" class="my-item" style="order: 5"><div class="my-item-grip"></div>item #5</div>
 	</div>
+	<div id="dropArea" class="gsuiReorder-dropArea"></div>
 </div>
 <div id="TEST-CTRLS">
 	<select id="scenario">
@@ -111,10 +119,13 @@ const reorder = new gsuiReorder2( {
 	$itemSelector: ".my-item",
 	$itemGripSelector: ".my-item-grip",
 	$onchange: ( obj, movingElementId ) => {
-		console.log( "onchange", obj, movingElementId );
+		console.log( "$onchange", obj, movingElementId );
 	},
-	$ondrop: ( dropInfo ) => {
-		console.log( "ondrop", dropInfo );
+	$ondrop: dropInfo => {
+		console.log( "$ondrop", dropInfo );
+	},
+	$ondragover: elem => {
+		console.log( "$ondragover", elem );
 	},
 } );
 
