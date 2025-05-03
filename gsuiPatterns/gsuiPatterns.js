@@ -56,15 +56,23 @@ class gsuiPatterns extends gsui0ne {
 			parentSelector: ".gsuiPatterns-panel-list",
 			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.buffer ),
 		} );
-		new gsuiReorder( {
-			rootElement: this.$elements.$lists.slices,
-			direction: "column",
-			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
-			dataTransferType: "pattern-slices",
-			itemSelector: ".gsuiPatterns-pattern",
-			handleSelector: ".gsuiPatterns-pattern-grip",
-			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.slices ),
+		new gsuiReorder2( {
+			$root: this.$elements.$lists.slices,
+			$parentSelector: ".gsuiPatterns-panel-list",
+			$itemSelector: ".gsuiPatterns-pattern",
+			$itemGripSelector: ".gsuiPatterns-pattern-grip",
+			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
+			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$ondrop: obj => {
+				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+
+				this.$dispatch( "dropPattern", {
+					$type: "pattern-slices",
+					$pattern: obj.$item,
+					$when: Math.floor( obj.$offsetX / ppb ),
+					$track: obj.$target.parentNode.dataset.id,
+				} );
+			},
 		} );
 		new gsuiReorder2( {
 			$root: this.$elements.$lists.drums,

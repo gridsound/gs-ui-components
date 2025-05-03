@@ -193,8 +193,6 @@ class gsuiPatternroll extends gsui0ne {
 			"library-buffer:default",
 			"library-buffer:local",
 			"pattern-buffer",
-			"pattern-slices",
-			"pattern-drums",
 			"pattern-keys",
 		] );
 
