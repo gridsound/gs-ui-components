@@ -4,7 +4,6 @@ gsui-oscillator {
 	display: flex;
 	position: relative;
 	box-sizing: border-box;
-	height: 100%;
 	min-width: 364px;
 	min-height: 78px;
 	background-color: var( --gsui-item-bg );

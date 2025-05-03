@@ -206,7 +206,7 @@ class gsuiReorder2 {
 		return gsuiReorder2.#isDirX( par ) ? e.clientX : e.clientY;
 	}
 	static #isDirX( el ) {
-		return !!el && getComputedStyle( el ).gridAutoFlow !== "row";
+		return !!el && getComputedStyle( el ).flexDirection === "row";
 	}
 	static #overWhichParent( rootBCR, parents, e ) {
 		const pX = e.offsetX;

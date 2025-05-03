@@ -22,9 +22,7 @@ gsui-channels gsui-analyser-vu {
 	position: absolute;
 	overflow: scroll;
 	inset: 0 0 0 calc( var(--vuW) + 3px + 50px );
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: min-content;
+	display: flex;
 	scrollbar-width: none;
 }
 .gsuiChannels-panChannels::-webkit-scrollbar {
