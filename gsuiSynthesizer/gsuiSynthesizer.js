@@ -69,7 +69,7 @@ class gsuiSynthesizer extends gsui0ne {
 		};
 		this.$elements.$heads.forEach( el => el.onclick = onclickHeadsBind );
 		new gsuiReorder2( {
-			$parent: this.$elements.$oscList,
+			$root: this.$elements.$oscList,
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: ".gsuiOscillator-grip",

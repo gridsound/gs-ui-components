@@ -35,7 +35,7 @@ class gsuiChannels extends gsui0ne {
 			},
 		} );
 		new gsuiReorder2( {
-			$parent: this.$elements.$pchans,
+			$root: this.$elements.$pchans,
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",

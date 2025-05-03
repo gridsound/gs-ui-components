@@ -34,7 +34,7 @@ class gsuiDrums extends gsui0ne {
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
 	#drumrows = GSUcreateElement( "gsui-drumrows" );
 	#reorder = new gsuiReorder2( {
-		$parent: this.#drumrows,
+		$root: this.#drumrows,
 		$parentSelector: "gsui-drumrows",
 		$itemSelector: "gsui-drumrow",
 		$itemGripSelector: ".gsuiDrumrow-grip",
