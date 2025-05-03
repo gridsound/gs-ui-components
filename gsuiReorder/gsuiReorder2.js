@@ -20,7 +20,7 @@ class gsuiReorder2 {
 	#movingIndex = -1;
 	#movingItem = null;
 	#movingItemParent = null;
-	#movingItemParentOriginal = null;
+	#movingItemParentLast = null;
 	#movingFake = null;
 	#parentsCoord = null;
 	#currentPx = 0;
@@ -40,7 +40,7 @@ class gsuiReorder2 {
 				e.preventDefault();
 				this.#rootBCR = this.#opt.$root.getBoundingClientRect();
 				this.#movingItemParent =
-				this.#movingItemParentOriginal = this.#movingItem.parentNode;
+				this.#movingItemParentLast = this.#movingItem.parentNode;
 				this.#currentPx = gsuiReorder2.#getGlobalPtr( this.#movingItemParent, e );
 				this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 				this.#movingItem.classList.add( "gsuiReorder-moving" );
@@ -68,14 +68,14 @@ class gsuiReorder2 {
 		this.#movingFake.style.left = `${ e.clientX }px`;
 		this.#whatAreDraggingOver( e );
 		if ( par ) {
-			if ( par === this.#movingItemParent ) {
+			if ( par === this.#movingItemParentLast ) {
 				const ind = gsuiReorder2.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
 
 				this.#currentPx = ptr;
 				if ( ind > -1 ) {
 					gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, ind );
 					this.#movingIndex = ind;
-					this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
+					this.#itemsData = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
 				}
 			} else {
 				const items = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
@@ -89,6 +89,7 @@ class gsuiReorder2 {
 				this.#movingIndex = newInd;
 				this.#itemsData = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
 			}
+			this.#movingItemParentLast = par;
 		}
 		this.#movingItemParent = par;
 	}
@@ -142,7 +143,7 @@ class gsuiReorder2 {
 			this.#movingItem = null;
 		}
 		this.#movingItemParent = null;
-		this.#movingItemParentOriginal = null;
+		this.#movingItemParentLast = null;
 		this.#movingIndex = -1;
 		this.#parentsCoord = null;
 		this.#rootBCR = null;
