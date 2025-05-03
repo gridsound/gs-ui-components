@@ -98,7 +98,7 @@ class gsuiReorder2 {
 	}
 	#onptrup( e ) {
 		if ( !this.#movingItemParent ) {
-			const dropInfo = this.#opt.$ondrop && gsuiReorder2.#getDropTargetInfo( e );
+			const dropInfo = this.#opt.$ondrop && gsuiReorder2.#getDropTargetInfo( this.#elAreaDragovering, e );
 
 			if ( dropInfo ) {
 				this.#opt.$ondrop( dropInfo );
@@ -132,9 +132,12 @@ class gsuiReorder2 {
 				if ( this.#elAreaDragovering ) {
 					this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
 				}
-				if ( this.#dropAreaList.includes( elem ) ) {
-					this.#elAreaDragovering = elem;
-					elem.classList.add( "gsuiReorder-dropArea-hover" );
+
+				const area = this.#dropAreaList.find( el => el.contains( elem ) ) || null;
+
+				this.#elAreaDragovering = area;
+				if ( area ) {
+					area.classList.add( "gsuiReorder-dropArea-hover" );
 				}
 			}
 		}
@@ -143,7 +146,10 @@ class gsuiReorder2 {
 		const list = this.#opt.$getTargetList?.();
 
 		if ( !GSUisEmpty( list ) ) {
-			this.#dropAreaList = GSUforEach( list, el => el.classList.add( "gsuiReorder-dropArea" ) );
+			this.#dropAreaList = GSUforEach( list, ( el, i ) => {
+				el.classList.add( "gsuiReorder-dropArea" );
+				el.style.animationDelay = `${ i * .0125 }s`;
+			} );
 		}
 	}
 	#reset() {
@@ -154,7 +160,10 @@ class gsuiReorder2 {
 			this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
 			this.#elAreaDragovering = null;
 		}
-		GSUforEach( this.#dropAreaList, el => el.classList.remove( "gsuiReorder-dropArea" ) );
+		GSUforEach( this.#dropAreaList, el => {
+			el.classList.remove( "gsuiReorder-dropArea" );
+			el.style.animationDelay = "";
+		} );
 		this.#dropAreaList = null;
 		this.#itemsData = null;
 		this.#dataSave = null;
@@ -178,14 +187,12 @@ class gsuiReorder2 {
 	}
 
 	// .........................................................................
-	static #getDropTargetInfo( e ) {
-		const elem = document.elementFromPoint( e.clientX, e.clientY );
-
-		if ( elem?.classList.contains( "gsuiReorder-dropArea" ) ) {
-			const elemBCR = elem.getBoundingClientRect();
+	static #getDropTargetInfo( elArea, e ) {
+		if ( elArea ) {
+			const elemBCR = elArea.getBoundingClientRect();
 
 			return {
-				$target: elem,
+				$target: elArea,
 				$offsetX: e.clientX - elemBCR.x,
 				$offsetY: e.clientY - elemBCR.y,
 			};
