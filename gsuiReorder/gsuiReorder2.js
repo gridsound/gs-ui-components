@@ -8,7 +8,7 @@ class gsuiReorder2 {
 		$itemGripSelector: "",
 		$onchange: null,
 		$ondrop: null,
-		$ondragover: null,
+		$getTargetList: null,
 	} );
 	#onkeydownBind = this.#onkeydown.bind( this );
 	#onptrdownBind = this.#onptrdown.bind( this );
@@ -17,6 +17,7 @@ class gsuiReorder2 {
 	#ptrId = null;
 	#rootBCR = null;
 	#elDragovering = null;
+	#elAreaDragovering = null;
 	#movingIndex = -1;
 	#movingItem = null;
 	#movingItemParent = null;
@@ -26,6 +27,7 @@ class gsuiReorder2 {
 	#currentPx = 0;
 	#itemsData = null;
 	#dataSave = null;
+	#dropAreaList = null;
 
 	constructor( opt ) {
 		Object.assign( this.#opt, opt );
@@ -55,6 +57,7 @@ class gsuiReorder2 {
 				document.body.addEventListener( "keydown", this.#onkeydownBind );
 				this.#movingFake = gsuiReorder2.#createGhostElement( this.#movingItem, e.target, e );
 				GSUunselectText();
+				this.#showTargetList();
 			}
 		}
 	}
@@ -121,21 +124,38 @@ class gsuiReorder2 {
 		}
 	}
 	#whatAreDraggingOver( e ) {
-		if ( this.#opt.$ondragover ) {
+		if ( this.#dropAreaList ) {
 			const elem = document.elementFromPoint( e.clientX, e.clientY );
 
 			if ( elem !== this.#elDragovering ) {
 				this.#elDragovering = elem;
-				if ( elem?.classList.contains( "gsuiReorder-dropArea" ) ) {
-					this.#opt.$ondragover( elem );
+				if ( this.#elAreaDragovering ) {
+					this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
+				}
+				if ( this.#dropAreaList.includes( elem ) ) {
+					this.#elAreaDragovering = elem;
+					elem.classList.add( "gsuiReorder-dropArea-hover" );
 				}
 			}
+		}
+	}
+	#showTargetList() {
+		const list = this.#opt.$getTargetList?.();
+
+		if ( !GSUisEmpty( list ) ) {
+			this.#dropAreaList = GSUforEach( list, el => el.classList.add( "gsuiReorder-dropArea" ) );
 		}
 	}
 	#reset() {
 		this.#movingFake.remove();
 		this.#movingFake = null;
 		this.#elDragovering = null;
+		if ( this.#elAreaDragovering ) {
+			this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
+			this.#elAreaDragovering = null;
+		}
+		GSUforEach( this.#dropAreaList, el => el.classList.remove( "gsuiReorder-dropArea" ) );
+		this.#dropAreaList = null;
 		this.#itemsData = null;
 		this.#dataSave = null;
 		if ( this.#movingItem ) {
@@ -160,13 +180,17 @@ class gsuiReorder2 {
 	// .........................................................................
 	static #getDropTargetInfo( e ) {
 		const elem = document.elementFromPoint( e.clientX, e.clientY );
-		const elemBCR = elem?.getBoundingClientRect();
 
-		return !elem ? null : {
-			$target: elem,
-			$offsetX: e.clientX - elemBCR.x,
-			$offsetY: e.clientY - elemBCR.y,
-		};
+		if ( elem?.classList.contains( "gsuiReorder-dropArea" ) ) {
+			const elemBCR = elem.getBoundingClientRect();
+
+			return {
+				$target: elem,
+				$offsetX: e.clientX - elemBCR.x,
+				$offsetY: e.clientY - elemBCR.y,
+			};
+		}
+		return null;
 	}
 	static #cancelAllChanges( orderMapSave ) {
 		GSUforEach( orderMapSave, it => {
