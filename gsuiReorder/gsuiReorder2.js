@@ -302,7 +302,7 @@ class gsuiReorder2 {
 			.reduce( ( obj, el ) => {
 				obj[ el.dataset.id ] = {
 					order: +getComputedStyle( el ).order,
-					parent: el.parentNode.dataset.id,
+					parent: el.parentNode.closest( "[data-id]" )?.dataset.id || null,
 					$elemParent: el.parentNode,
 					$elem: el,
 				};
