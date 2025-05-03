@@ -9,9 +9,7 @@
 .gsuiReorder-dropArea::after {
 	content: "";
 	position: absolute;
-	inset: 6px;
 	inset: 0;
-	color: transparent;
 	border-radius: inherit;
 	background-color: transparent;
 	opacity: .3;

@@ -98,7 +98,7 @@ class gsuiReorder2 {
 	}
 	#onptrup( e ) {
 		if ( !this.#movingItemParent ) {
-			const dropInfo = this.#opt.$ondrop && gsuiReorder2.#getDropTargetInfo( this.#elAreaDragovering, e );
+			const dropInfo = this.#opt.$ondrop && gsuiReorder2.#getDropTargetInfo( this.#elAreaDragovering, this.#movingItem, e );
 
 			if ( dropInfo ) {
 				this.#opt.$ondrop( dropInfo );
@@ -187,11 +187,12 @@ class gsuiReorder2 {
 	}
 
 	// .........................................................................
-	static #getDropTargetInfo( elArea, e ) {
+	static #getDropTargetInfo( elArea, elItem, e ) {
 		if ( elArea ) {
 			const elemBCR = elArea.getBoundingClientRect();
 
 			return {
+				$item: elItem.dataset.id,
 				$target: elArea,
 				$offsetX: e.clientX - elemBCR.x,
 				$offsetY: e.clientY - elemBCR.y,
