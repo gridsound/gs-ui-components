@@ -261,9 +261,9 @@ class gsuiReorder2 {
 				ret[ 2 ] = diff;
 			}
 			return ret;
-		}, [ -1, Infinity, 0 ] );
+		}, [ 0, Infinity, 0 ] );
 
-		if ( res[ 0 ] > -1 && res[ 2 ] > 0 ) {
+		if ( res[ 2 ] > 0 && items.length > 0 ) {
 			++res[ 0 ];
 		}
 		return res[ 0 ];
