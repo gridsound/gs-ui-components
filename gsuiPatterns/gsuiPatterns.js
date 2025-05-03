@@ -66,15 +66,23 @@ class gsuiPatterns extends gsui0ne {
 			parentSelector: ".gsuiPatterns-panel-list",
 			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.slices ),
 		} );
-		new gsuiReorder( {
-			rootElement: this.$elements.$lists.drums,
-			direction: "column",
-			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
-			dataTransferType: "pattern-drums",
-			itemSelector: ".gsuiPatterns-pattern",
-			handleSelector: ".gsuiPatterns-pattern-grip",
-			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.drums ),
+		new gsuiReorder2( {
+			$root: this.$elements.$lists.drums,
+			$parentSelector: ".gsuiPatterns-panel-list",
+			$itemSelector: ".gsuiPatterns-pattern",
+			$itemGripSelector: ".gsuiPatterns-pattern-grip",
+			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
+			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$ondrop: obj => {
+				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+
+				this.$dispatch( "dropPattern", {
+					$type: "pattern-drums",
+					$pattern: obj.$item,
+					$when: Math.floor( obj.$offsetX / ppb ),
+					$track: obj.$target.parentNode.dataset.id,
+				} );
+			},
 		} );
 		new gsuiReorder( {
 			rootElement: this.$elements.$lists.synth,
@@ -127,7 +135,6 @@ class gsuiPatterns extends gsui0ne {
 	$reorderPatterns( patterns ) {
 		gsuiReorder.listReorder( this.$elements.$lists.buffer, patterns );
 		gsuiReorder.listReorder( this.$elements.$lists.slices, patterns );
-		gsuiReorder.listReorder( this.$elements.$lists.drums, patterns );
 		Array.prototype.forEach.call( this.#nlKeysLists, list => {
 			gsuiReorder.listReorder( list, patterns );
 		} );
@@ -203,7 +210,10 @@ class gsuiPatterns extends gsui0ne {
 
 		switch ( prop ) {
 			case "data-missing": GSUsetAttribute( elPat, "data-missing", val ); break;
-			case "order": elPat.dataset.order = val; break;
+			case "order":
+				elPat.dataset.order = val; // to delete
+				elPat.style.order = val;
+				break;
 			case "reverse": GSUsetAttribute( elPat, "data-reverse", val ); break;
 			case "name":
 				elPat.dataset.name = val;
