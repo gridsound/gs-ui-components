@@ -92,15 +92,33 @@ class gsuiPatterns extends gsui0ne {
 				} );
 			},
 		} );
-		new gsuiReorder( {
-			rootElement: this.$elements.$lists.synth,
-			direction: "column",
-			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
-			dataTransferType: "pattern-keys",
-			itemSelector: ".gsuiPatterns-pattern",
-			handleSelector: ".gsuiPatterns-pattern-grip",
-			parentSelector: ".gsuiPatterns-synth-patterns",
-			onchange: this.#onreorderPatternsKeys.bind( this ),
+		new gsuiReorder2( {
+			$root: this.$elements.$lists.synth,
+			$parentSelector: ".gsuiPatterns-synth-patterns",
+			$itemSelector: ".gsuiPatterns-pattern",
+			$itemGripSelector: ".gsuiPatterns-pattern-grip",
+			$onchange: ( obj, patId ) => {
+				if ( "parent" in obj[ patId ] ) {
+					const synth = obj[ patId ].parent;
+
+					obj[ patId ].synth = synth;
+					delete obj[ patId ].parent;
+					this.onchange( "redirectPatternKeys", patId, synth, obj );
+				} else {
+					this.onchange( "reorderPattern", patId, obj );
+				}
+			},
+			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$ondrop: obj => {
+				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+
+				this.$dispatch( "dropPattern", {
+					$type: "pattern-keys",
+					$pattern: obj.$item,
+					$when: Math.floor( obj.$offsetX / ppb ),
+					$track: obj.$target.parentNode.dataset.id,
+				} );
+			},
 		} );
 		this.$elements.$lists.buffer.ondrop = e => {
 			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
@@ -280,19 +298,6 @@ class gsuiPatterns extends gsui0ne {
 	#onreorderPatterns( list, elPat ) {
 		this.onchange( "reorderPattern", elPat.dataset.id,
 			gsuiReorder.listComputeOrderChange( list, {} ) );
-	}
-	#onreorderPatternsKeys( elPat, indA, indB, parA, parB ) {
-		if ( parA === parB ) {
-			this.#onreorderPatterns( parA, elPat );
-		} else {
-			const patId = elPat.dataset.id;
-			const synth = parB.parentNode.dataset.id;
-			const patterns = { [ patId ]: { synth } };
-
-			gsuiReorder.listComputeOrderChange( parA, patterns );
-			gsuiReorder.listComputeOrderChange( parB, patterns );
-			this.onchange( "redirectPatternKeys", patId, synth, patterns );
-		}
 	}
 	#onclickListPatterns( e ) {
 		const pat = e.target.closest( ".gsuiPatterns-pattern" );

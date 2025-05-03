@@ -96,6 +96,8 @@
 .gsuiPatterns-synth-patterns {
 	position: relative;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 	min-height: 0;
 	background-color: var( --gsuiPatterns-synth-patterns-bg );
 	transition: .3s min-height;
