@@ -22,7 +22,7 @@ class gsuiEffects extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
-		new gsuiReorder2( {
+		new gsuiReorder( {
 			$root: this,
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",

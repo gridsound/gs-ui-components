@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="../test-assets/test.css"/>
 
 <!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiReorder2.css"/>
+<link rel="stylesheet" href="gsuiReorder.css"/>
 <style>
 body {
 	--test-content-w: 420px;
@@ -108,14 +108,14 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
-<script src="gsuiReorder2.js"></script>
+<script src="gsuiReorder.js"></script>
 
 <!-- ....................................................................... -->
 <script>
 const testWrap = document.querySelector( "#testWrap" );
 const inpScenario = document.querySelector( "#scenario" );
 const myLists = document.querySelectorAll( ".my-list" );
-const reorder = new gsuiReorder2( {
+const reorder = new gsuiReorder( {
 	$root: testWrap,
 	$parentSelector: ".my-list",
 	$itemSelector: ".my-item",

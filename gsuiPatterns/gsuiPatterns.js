@@ -44,7 +44,7 @@ class gsuiPatterns extends gsui0ne {
 		this.onchange = null;
 		Object.seal( this );
 
-		new gsuiReorder2( {
+		new gsuiReorder( {
 			$root: this.$elements.$lists.buffer,
 			$parentSelector: ".gsuiPatterns-panel-list",
 			$itemSelector: ".gsuiPatterns-pattern",
@@ -62,7 +62,7 @@ class gsuiPatterns extends gsui0ne {
 				} );
 			},
 		} );
-		new gsuiReorder2( {
+		new gsuiReorder( {
 			$root: this.$elements.$lists.slices,
 			$parentSelector: ".gsuiPatterns-panel-list",
 			$itemSelector: ".gsuiPatterns-pattern",
@@ -80,7 +80,7 @@ class gsuiPatterns extends gsui0ne {
 				} );
 			},
 		} );
-		new gsuiReorder2( {
+		new gsuiReorder( {
 			$root: this.$elements.$lists.drums,
 			$parentSelector: ".gsuiPatterns-panel-list",
 			$itemSelector: ".gsuiPatterns-pattern",
@@ -98,7 +98,7 @@ class gsuiPatterns extends gsui0ne {
 				} );
 			},
 		} );
-		new gsuiReorder2( {
+		new gsuiReorder( {
 			$root: this.$elements.$lists.synth,
 			$parentSelector: ".gsuiPatterns-synth-patterns",
 			$itemSelector: ".gsuiPatterns-pattern",

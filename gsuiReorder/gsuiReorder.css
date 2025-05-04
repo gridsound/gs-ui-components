@@ -13,13 +13,13 @@
 	border-radius: inherit;
 	background-color: transparent;
 	opacity: .3;
-	animation: gsuiReorder2-dropArea-anim .5s forwards ease;
+	animation: gsuiReorder-dropArea-anim .5s forwards ease;
 	animation-delay: inherit;
 }
 .gsuiReorder-dropArea-hover::after {
 	opacity: 1;
 }
-@keyframes gsuiReorder2-dropArea-anim {
+@keyframes gsuiReorder-dropArea-anim {
 	  0% { background-color: transparent }
 	 20% { background-color: #1e90ff }
 	100% { background-color: #1e90ff50 }

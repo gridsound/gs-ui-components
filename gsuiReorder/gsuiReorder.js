@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiReorder2 {
+class gsuiReorder {
 	#opt = Object.seal( {
 		$root: null,
 		$parentSelector: "",
@@ -43,18 +43,18 @@ class gsuiReorder2 {
 				this.#rootBCR = this.#opt.$root.getBoundingClientRect();
 				this.#movingItemParent =
 				this.#movingItemParentLast = this.#movingItem.parentNode;
-				this.#currentPx = gsuiReorder2.#getGlobalPtr( this.#movingItemParent, e );
-				this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
+				this.#currentPx = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
+				this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 				this.#movingItem.classList.add( "gsuiReorder-moving" );
-				this.#movingIndex = gsuiReorder2.#findElemIndex( this.#itemsData, this.#movingItem );
-				this.#dataSave = gsuiReorder2.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
+				this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
+				this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 				this.#opt.$root.style.cursor = "grabbing";
 				this.#ptrId = e.pointerId;
 				this.#opt.$root.setPointerCapture( this.#ptrId );
 				this.#opt.$root.addEventListener( "pointermove", this.#onptrmoveBind );
 				this.#opt.$root.addEventListener( "pointerup", this.#onptrupBind );
 				document.body.addEventListener( "keydown", this.#onkeydownBind );
-				this.#movingFake = gsuiReorder2.#createGhostElement( this.#movingItem, e.target, e );
+				this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, e.target, e );
 				GSUunselectText();
 				this.#showTargetList();
 			}
@@ -62,8 +62,8 @@ class gsuiReorder2 {
 	}
 	#onptrmove( e ) {
 		const oldPtr = this.#currentPx;
-		const par = gsuiReorder2.#overWhichParent( this.#opt.$root, this.#rootBCR, this.#opt.$parentSelector, e );
-		const ptr = gsuiReorder2.#getGlobalPtr( par, e );
+		const par = gsuiReorder.#overWhichParent( this.#opt.$root, this.#rootBCR, this.#opt.$parentSelector, e );
+		const ptr = gsuiReorder.#getGlobalPtr( par, e );
 
 		e.preventDefault(); // 1.
 		this.#movingFake.style.top = `${ e.clientY }px`;
@@ -71,24 +71,24 @@ class gsuiReorder2 {
 		this.#whatAreDraggingOver( e );
 		if ( par ) {
 			if ( par === this.#movingItemParentLast ) {
-				const ind = gsuiReorder2.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
+				const ind = gsuiReorder.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
 
 				this.#currentPx = ptr;
 				if ( ind > -1 ) {
-					gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, ind );
+					gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, ind );
 					this.#movingIndex = ind;
-					this.#itemsData = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
+					this.#itemsData = gsuiReorder.#createItemsData( par, this.#opt.$itemSelector );
 				}
 			} else {
-				const items = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
-				const newInd = gsuiReorder2.#getIndexHovering( items, ptr );
+				const items = gsuiReorder.#createItemsData( par, this.#opt.$itemSelector );
+				const newInd = gsuiReorder.#getIndexHovering( items, ptr );
 
 				this.#currentPx = ptr;
 				par.append( this.#movingItem );
-				gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
-				gsuiReorder2.#reorderMoving( items, this.#movingItem, newInd );
+				gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
+				gsuiReorder.#reorderMoving( items, this.#movingItem, newInd );
 				this.#movingIndex = newInd;
-				this.#itemsData = gsuiReorder2.#createItemsData( par, this.#opt.$itemSelector );
+				this.#itemsData = gsuiReorder.#createItemsData( par, this.#opt.$itemSelector );
 			}
 			this.#movingItemParentLast = par;
 		}
@@ -96,17 +96,17 @@ class gsuiReorder2 {
 	}
 	#onptrup( e ) {
 		if ( !this.#movingItemParent ) {
-			const dropInfo = this.#opt.$ondrop && gsuiReorder2.#getDropTargetInfo( this.#elAreaDragovering, this.#movingItem, e );
+			const dropInfo = this.#opt.$ondrop && gsuiReorder.#getDropTargetInfo( this.#elAreaDragovering, this.#movingItem, e );
 
 			if ( dropInfo ) {
 				this.#opt.$ondrop( dropInfo );
 			}
-			gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
-			gsuiReorder2.#cancelAllChanges( this.#dataSave );
+			gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
+			gsuiReorder.#cancelAllChanges( this.#dataSave );
 		}
 
-		const newOrderMap = gsuiReorder2.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
-		const orderDiff = gsuiReorder2.#diffOrderMaps( this.#dataSave, newOrderMap );
+		const newOrderMap = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
+		const orderDiff = gsuiReorder.#diffOrderMaps( this.#dataSave, newOrderMap );
 		const movingId = this.#movingItem.dataset.id;
 
 		this.#reset();
@@ -116,8 +116,8 @@ class gsuiReorder2 {
 	}
 	#onkeydown( e ) {
 		if ( e.key === "Escape" ) {
-			gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
-			gsuiReorder2.#cancelAllChanges( this.#dataSave );
+			gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
+			gsuiReorder.#cancelAllChanges( this.#dataSave );
 			this.#reset();
 		}
 	}
@@ -200,7 +200,7 @@ class gsuiReorder2 {
 	}
 	static #cancelAllChanges( orderMapSave ) {
 		GSUforEach( orderMapSave, it => {
-			gsuiReorder2.#setElemOrder( it.$elem, it.order );
+			gsuiReorder.#setElemOrder( it.$elem, it.order );
 			if ( it.$elemParent !== it.$elem.parentNode ) {
 				it.$elemParent.append( it.$elem );
 			}
@@ -209,7 +209,7 @@ class gsuiReorder2 {
 
 	// .........................................................................
 	static #getGlobalPtr( par, e ) {
-		return gsuiReorder2.#isDirX( par ) ? e.clientX : e.clientY;
+		return gsuiReorder.#isDirX( par ) ? e.clientX : e.clientY;
 	}
 	static #isDirX( el ) {
 		return !!el && getComputedStyle( el ).flexDirection === "row";
@@ -222,7 +222,7 @@ class gsuiReorder2 {
 			GSUinRange( pY, 0, rootBCR.height );
 
 		if ( overRoot ) {
-			const parents = gsuiReorder2.#calcParentsCoord( elRoot, parSel );
+			const parents = gsuiReorder.#calcParentsCoord( elRoot, parSel );
 			const par = parents.find( par => {
 				const parX = par.$bcr.x - rootBCR.x;
 				const parY = par.$bcr.y - rootBCR.y;
@@ -286,8 +286,8 @@ class gsuiReorder2 {
 			}, [ -1, 0 ] )[ 0 ];
 	}
 	static #diffOrderMaps( a, b ) {
-		gsuiReorder2.#cleanOrderMap( a );
-		gsuiReorder2.#cleanOrderMap( b );
+		gsuiReorder.#cleanOrderMap( a );
+		gsuiReorder.#cleanOrderMap( b );
 		return GSUdiffObjects( a, b );
 	}
 	static #cleanOrderMap( map ) {
@@ -312,7 +312,7 @@ class gsuiReorder2 {
 		return items.findIndex( it => el === it.$elem );
 	}
 	static #createItemsData( par, itemSel ) {
-		const dirX = gsuiReorder2.#isDirX( par );
+		const dirX = gsuiReorder.#isDirX( par );
 
 		return Array.from( par.children )
 			.filter( el => el.matches( itemSel ) )
@@ -331,9 +331,9 @@ class gsuiReorder2 {
 	static #reorderMoving( items, elItem, ind ) {
 		const items2 = items.filter( it => it.$elem !== elItem );
 
-		items2.forEach( ( it, i ) => gsuiReorder2.#setElemOrder( it.$elem, i < ind ? i : i + 1 ) );
+		items2.forEach( ( it, i ) => gsuiReorder.#setElemOrder( it.$elem, i < ind ? i : i + 1 ) );
 		if ( elItem ) {
-			gsuiReorder2.#setElemOrder( elItem, ind );
+			gsuiReorder.#setElemOrder( elItem, ind );
 		}
 	}
 	static #setElemOrder( el, n ) {

@@ -34,7 +34,7 @@ class gsuiChannels extends gsui0ne {
 				toggle: ( d, chan ) => this.$onchange( "toggleChannel", chan.dataset.id ),
 			},
 		} );
-		new gsuiReorder2( {
+		new gsuiReorder( {
 			$root: this.$elements.$pchans,
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
