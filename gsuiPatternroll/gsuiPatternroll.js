@@ -192,8 +192,6 @@ class gsuiPatternroll extends gsui0ne {
 		const [ patType, patId ] = GSUgetDataTransfer( e, [
 			"library-buffer:default",
 			"library-buffer:local",
-			"pattern-buffer",
-			"pattern-keys",
 		] );
 
 		if ( patId ) {

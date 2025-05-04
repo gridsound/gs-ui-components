@@ -23,7 +23,6 @@ class gsuiPatterns extends gsui0ne {
 				: GSUpopup.$alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
-	#nlKeysLists = this.$elements.$lists.synth.getElementsByClassName( "gsuiPatterns-synth-patterns" );
 	static infoPopupContent = GSUgetTemplate( "gsui-patterns-infoPopup" );
 
 	constructor() {
@@ -42,19 +41,26 @@ class gsuiPatterns extends gsui0ne {
 				$newSynth: "[data-action='newSynth']",
 			},
 		} );
-		this.onchange =
-		this.onpatternDataTransfer = null;
+		this.onchange = null;
 		Object.seal( this );
 
-		new gsuiReorder( {
-			rootElement: this.$elements.$lists.buffer,
-			direction: "column",
-			dataTransfer: ( ...args ) => this.onpatternDataTransfer( ...args ),
-			dataTransferType: "pattern-buffer",
-			itemSelector: ".gsuiPatterns-pattern",
-			handleSelector: ".gsuiPatterns-pattern-grip",
-			parentSelector: ".gsuiPatterns-panel-list",
-			onchange: this.#onreorderPatterns.bind( this, this.$elements.$lists.buffer ),
+		new gsuiReorder2( {
+			$root: this.$elements.$lists.buffer,
+			$parentSelector: ".gsuiPatterns-panel-list",
+			$itemSelector: ".gsuiPatterns-pattern",
+			$itemGripSelector: ".gsuiPatterns-pattern-grip",
+			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
+			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$ondrop: obj => {
+				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+
+				this.$dispatch( "dropPattern", {
+					$type: "pattern-buffer",
+					$pattern: obj.$item,
+					$when: Math.floor( obj.$offsetX / ppb ),
+					$track: obj.$target.parentNode.dataset.id,
+				} );
+			},
 		} );
 		new gsuiReorder2( {
 			$root: this.$elements.$lists.slices,
@@ -157,13 +163,6 @@ class gsuiPatterns extends gsui0ne {
 		const show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
 
 		elSyn.querySelector( ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
-	}
-	$reorderPatterns( patterns ) {
-		gsuiReorder.listReorder( this.$elements.$lists.buffer, patterns );
-		gsuiReorder.listReorder( this.$elements.$lists.slices, patterns );
-		Array.prototype.forEach.call( this.#nlKeysLists, list => {
-			gsuiReorder.listReorder( list, patterns );
-		} );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
 		gsuiChannels.$openSelectChannelPopup( this.$getChannels(), currChanId )

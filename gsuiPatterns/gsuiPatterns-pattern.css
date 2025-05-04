@@ -3,7 +3,7 @@
 	position: relative;
 	box-sizing: border-box;
 	flex-direction: column;
-	height: var( --gsuiPatterns-pattern-h );
+	min-height: var( --gsuiPatterns-pattern-h );
 	color: var( --gsuiPatterns-pattern-color );
 	font-size: 9px;
 	border-bottom: 2px solid transparent;
