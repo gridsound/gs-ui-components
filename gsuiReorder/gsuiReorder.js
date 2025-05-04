@@ -3,6 +3,7 @@
 class gsuiReorder {
 	#opt = Object.seal( {
 		$root: null,
+		$reorder: true,
 		$parentSelector: "",
 		$itemSelector: "",
 		$itemGripSelector: "",
@@ -45,7 +46,10 @@ class gsuiReorder {
 				this.#movingItemParentLast = this.#movingItem.parentNode;
 				this.#currentPx = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
 				this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
-				this.#movingItem.classList.add( "gsuiReorder-moving" );
+				this.#movingItem.classList.add( "gsuiReorder-dragging" );
+				if ( this.#opt.$reorder ) {
+					this.#movingItem.classList.add( "gsuiReorder-reordering" );
+				}
 				this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
 				this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 				this.#opt.$root.style.cursor = "grabbing";
@@ -69,7 +73,7 @@ class gsuiReorder {
 		this.#movingFake.style.top = `${ e.clientY }px`;
 		this.#movingFake.style.left = `${ e.clientX }px`;
 		this.#whatAreDraggingOver( e );
-		if ( par ) {
+		if ( par && this.#opt.$reorder ) {
 			if ( par === this.#movingItemParentLast ) {
 				const ind = gsuiReorder.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
 
@@ -167,7 +171,7 @@ class gsuiReorder {
 		this.#itemsData = null;
 		this.#dataSave = null;
 		if ( this.#movingItem ) {
-			this.#movingItem.classList.remove( "gsuiReorder-moving" );
+			this.#movingItem.classList.remove( "gsuiReorder-dragging", "gsuiReorder-reordering" );
 			this.#movingItem = null;
 		}
 		this.#movingItemParent = null;
