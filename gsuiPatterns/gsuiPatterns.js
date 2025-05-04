@@ -51,16 +51,7 @@ class gsuiPatterns extends gsui0ne {
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
 			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
 			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-			$ondrop: obj => {
-				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
-
-				this.$dispatch( "dropPattern", {
-					$type: "pattern-buffer",
-					$pattern: obj.$item,
-					$when: Math.floor( obj.$offsetX / ppb ),
-					$track: obj.$target.parentNode.dataset.id,
-				} );
-			},
+			$ondrop: this.#ondropPattern.bind( this, "pattern-buffer" ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$lists.slices,
@@ -69,16 +60,7 @@ class gsuiPatterns extends gsui0ne {
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
 			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
 			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-			$ondrop: obj => {
-				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
-
-				this.$dispatch( "dropPattern", {
-					$type: "pattern-slices",
-					$pattern: obj.$item,
-					$when: Math.floor( obj.$offsetX / ppb ),
-					$track: obj.$target.parentNode.dataset.id,
-				} );
-			},
+			$ondrop: this.#ondropPattern.bind( this, "pattern-slices" ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$lists.drums,
@@ -87,16 +69,7 @@ class gsuiPatterns extends gsui0ne {
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
 			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
 			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-			$ondrop: obj => {
-				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
-
-				this.$dispatch( "dropPattern", {
-					$type: "pattern-drums",
-					$pattern: obj.$item,
-					$when: Math.floor( obj.$offsetX / ppb ),
-					$track: obj.$target.parentNode.dataset.id,
-				} );
-			},
+			$ondrop: this.#ondropPattern.bind( this, "pattern-drums" ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$lists.synth,
@@ -115,22 +88,13 @@ class gsuiPatterns extends gsui0ne {
 				}
 			},
 			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$ondrop: this.#ondropPattern.bind( this, "pattern-keys" ),
 			$ondragoverenter: el => {
 				const synthId = el.closest( ".gsuiPatterns-synth-head" )?.parentNode.dataset.id;
 
 				if ( synthId ) {
 					this.$expandSynth( synthId, true );
 				}
-			},
-			$ondrop: obj => {
-				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
-
-				this.$dispatch( "dropPattern", {
-					$type: "pattern-keys",
-					$pattern: obj.$item,
-					$when: Math.floor( obj.$offsetX / ppb ),
-					$track: obj.$target.parentNode.dataset.id,
-				} );
 			},
 		} );
 		this.$elements.$lists.buffer.ondrop = e => {
@@ -294,6 +258,16 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
+	#ondropPattern( patType, drop ) {
+		const ppb = GSUgetAttributeNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+
+		this.$dispatch( "dropPattern", {
+			$type: patType,
+			$pattern: drop.$item,
+			$when: Math.floor( drop.$offsetX / ppb ),
+			$track: drop.$target.parentNode.dataset.id,
+		} );
+	}
 	#onclickListPatterns( e ) {
 		const pat = e.target.closest( ".gsuiPatterns-pattern" );
 
