@@ -6,9 +6,10 @@ class gsuiReorder2 {
 		$parentSelector: "",
 		$itemSelector: "",
 		$itemGripSelector: "",
+		$getTargetList: null,
 		$onchange: null,
 		$ondrop: null,
-		$getTargetList: null,
+		$ondragoverenter: null,
 	} );
 	#onkeydownBind = this.#onkeydown.bind( this );
 	#onptrdownBind = this.#onptrdown.bind( this );
@@ -23,7 +24,6 @@ class gsuiReorder2 {
 	#movingItemParent = null;
 	#movingItemParentLast = null;
 	#movingFake = null;
-	#parentsCoord = null;
 	#currentPx = 0;
 	#itemsData = null;
 	#dataSave = null;
@@ -47,7 +47,6 @@ class gsuiReorder2 {
 				this.#itemsData = gsuiReorder2.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 				this.#movingItem.classList.add( "gsuiReorder-moving" );
 				this.#movingIndex = gsuiReorder2.#findElemIndex( this.#itemsData, this.#movingItem );
-				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#opt.$root, this.#opt.$parentSelector );
 				this.#dataSave = gsuiReorder2.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 				this.#opt.$root.style.cursor = "grabbing";
 				this.#ptrId = e.pointerId;
@@ -63,7 +62,7 @@ class gsuiReorder2 {
 	}
 	#onptrmove( e ) {
 		const oldPtr = this.#currentPx;
-		const par = gsuiReorder2.#overWhichParent( this.#rootBCR, this.#parentsCoord, e );
+		const par = gsuiReorder2.#overWhichParent( this.#opt.$root, this.#rootBCR, this.#opt.$parentSelector, e );
 		const ptr = gsuiReorder2.#getGlobalPtr( par, e );
 
 		e.preventDefault(); // 1.
@@ -86,7 +85,6 @@ class gsuiReorder2 {
 
 				this.#currentPx = ptr;
 				par.append( this.#movingItem );
-				this.#parentsCoord = gsuiReorder2.#calcParentsCoord( this.#opt.$root, this.#opt.$parentSelector );
 				gsuiReorder2.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
 				gsuiReorder2.#reorderMoving( items, this.#movingItem, newInd );
 				this.#movingIndex = newInd;
@@ -124,11 +122,12 @@ class gsuiReorder2 {
 		}
 	}
 	#whatAreDraggingOver( e ) {
-		if ( this.#dropAreaList ) {
-			const elem = document.elementFromPoint( e.clientX, e.clientY );
+		const elem = document.elementFromPoint( e.clientX, e.clientY );
 
-			if ( elem !== this.#elDragovering ) {
-				this.#elDragovering = elem;
+		if ( elem !== this.#elDragovering ) {
+			this.#elDragovering = elem;
+			this.#opt.$ondragoverenter?.( elem );
+			if ( this.#dropAreaList ) {
 				if ( this.#elAreaDragovering ) {
 					this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
 				}
@@ -174,7 +173,6 @@ class gsuiReorder2 {
 		this.#movingItemParent = null;
 		this.#movingItemParentLast = null;
 		this.#movingIndex = -1;
-		this.#parentsCoord = null;
 		this.#rootBCR = null;
 		if ( this.#opt.$root ) {
 			this.#opt.$root.style.cursor = "";
@@ -216,7 +214,7 @@ class gsuiReorder2 {
 	static #isDirX( el ) {
 		return !!el && getComputedStyle( el ).flexDirection === "row";
 	}
-	static #overWhichParent( rootBCR, parents, e ) {
+	static #overWhichParent( elRoot, rootBCR, parSel, e ) {
 		const pX = e.offsetX;
 		const pY = e.offsetY;
 		const overRoot =
@@ -224,6 +222,7 @@ class gsuiReorder2 {
 			GSUinRange( pY, 0, rootBCR.height );
 
 		if ( overRoot ) {
+			const parents = gsuiReorder2.#calcParentsCoord( elRoot, parSel );
 			const par = parents.find( par => {
 				const parX = par.$bcr.x - rootBCR.x;
 				const parY = par.$bcr.y - rootBCR.y;
