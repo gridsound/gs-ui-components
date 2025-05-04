@@ -109,6 +109,13 @@ class gsuiPatterns extends gsui0ne {
 				}
 			},
 			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$ondragoverenter: el => {
+				const synthId = el.closest( ".gsuiPatterns-synth-head" )?.parentNode.dataset.id;
+
+				if ( synthId ) {
+					this.$expandSynth( synthId, true );
+				}
+			},
 			$ondrop: obj => {
 				const ppb = GSUgetAttributeNum( obj.$target.closest( "gsui-timewindow" ), "pxperbeat" );
 
@@ -128,13 +135,6 @@ class gsuiPatterns extends gsui0ne {
 
 			if ( bufId ) {
 				this.$dispatch( "libraryBufferDropped", bufType, bufId );
-			}
-		};
-		this.$elements.$lists.synth.ondragover = e => {
-			const syn = e.target.closest( ".gsuiPatterns-synth" );
-
-			if ( syn ) {
-				this.$expandSynth( syn.dataset.id, true );
 			}
 		};
 		this.$elements.$lists.synth.ondblclick = e => {
