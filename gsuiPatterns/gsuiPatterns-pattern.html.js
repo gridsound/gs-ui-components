@@ -1,7 +1,7 @@
 "use strict";
 
 GSUsetTemplate( "gsui-patterns-pattern", () =>
-	GSUcreateDiv( { class: "gsuiPatterns-pattern", draggable: "true" },
+	GSUcreateDiv( { class: "gsuiPatterns-pattern" },
 		GSUcreateDiv( { class: "gsuiPatterns-pattern-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUcreateDiv( { class: "gsuiPatterns-pattern-head" },
 			GSUcreateDiv( { class: "gsuiPatterns-pattern-info" },
