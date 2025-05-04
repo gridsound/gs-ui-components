@@ -294,10 +294,6 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onreorderPatterns( list, elPat ) {
-		this.onchange( "reorderPattern", elPat.dataset.id,
-			gsuiReorder.listComputeOrderChange( list, {} ) );
-	}
 	#onclickListPatterns( e ) {
 		const pat = e.target.closest( ".gsuiPatterns-pattern" );
 
