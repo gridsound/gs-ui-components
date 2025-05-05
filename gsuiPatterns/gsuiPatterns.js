@@ -43,64 +43,7 @@ class gsuiPatterns extends gsui0ne {
 		} );
 		this.onchange = null;
 		Object.seal( this );
-
-		new gsuiReorder( {
-			$root: this.$elements.$lists.buffer,
-			$parentSelector: ".gsuiPatterns-panel-list",
-			$itemSelector: ".gsuiPatterns-pattern",
-			$itemGripSelector: ".gsuiPatterns-pattern-grip",
-			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
-			$getTargetList: () => [
-				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
-				document.querySelector( ".gsuiSynthesizer-newOsc" ),
-				...document.querySelectorAll( ".gsuiTrack-row > div" ),
-			],
-			$ondrop: this.#ondropPatternInSynth.bind( this ),
-		} );
-		new gsuiReorder( {
-			$root: this.$elements.$lists.slices,
-			$parentSelector: ".gsuiPatterns-panel-list",
-			$itemSelector: ".gsuiPatterns-pattern",
-			$itemGripSelector: ".gsuiPatterns-pattern-grip",
-			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
-			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-slices" ),
-		} );
-		new gsuiReorder( {
-			$root: this.$elements.$lists.drums,
-			$parentSelector: ".gsuiPatterns-panel-list",
-			$itemSelector: ".gsuiPatterns-pattern",
-			$itemGripSelector: ".gsuiPatterns-pattern-grip",
-			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
-			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-drums" ),
-		} );
-		new gsuiReorder( {
-			$root: this.$elements.$lists.synth,
-			$parentSelector: ".gsuiPatterns-synth-patterns",
-			$itemSelector: ".gsuiPatterns-pattern",
-			$itemGripSelector: ".gsuiPatterns-pattern-grip",
-			$onchange: ( obj, patId ) => {
-				if ( "parent" in obj[ patId ] ) {
-					const synth = obj[ patId ].parent;
-
-					obj[ patId ].synth = synth;
-					delete obj[ patId ].parent;
-					this.onchange( "redirectPatternKeys", patId, synth, obj );
-				} else {
-					this.onchange( "reorderPattern", patId, obj );
-				}
-			},
-			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-keys" ),
-			$ondragoverenter: el => {
-				const synthId = el.closest( ".gsuiPatterns-synth-head" )?.parentNode.dataset.id;
-
-				if ( synthId ) {
-					this.$expandSynth( synthId, true );
-				}
-			},
-		} );
+		this.#initReorders();
 		this.$elements.$lists.buffer.ondrop = e => {
 			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
 				"library-buffer:default",
@@ -123,6 +66,90 @@ class gsuiPatterns extends gsui0ne {
 		this.$elements.$newSlices.onclick = () => this.onchange( "addPatternSlices" );
 		this.$elements.$newDrums.onclick = () => this.onchange( "addPatternDrums" );
 		this.$elements.$newSynth.onclick = () => this.onchange( "addSynth" );
+	}
+
+	// .........................................................................
+	#initReorders() {
+		this.#initReorder( {
+			$root: this.$elements.$lists.buffer,
+			$getTargetList: () => [
+				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
+				document.querySelector( ".gsuiSynthesizer-newOsc" ),
+				...document.querySelectorAll( ".gsuiTrack-row > div" ),
+			],
+			$ondrop: this.#ondropPatternInSynth.bind( this ),
+		} );
+		this.#initReorder( {
+			$root: this.$elements.$lists.slices,
+			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-slices" ),
+		} );
+		this.#initReorder( {
+			$root: this.$elements.$lists.drums,
+			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-drums" ),
+		} );
+		this.#initReorder( {
+			$root: this.$elements.$lists.synth,
+			$parentSelector: ".gsuiPatterns-synth-patterns",
+			$onchange: ( obj, patId ) => {
+				if ( "parent" in obj[ patId ] ) {
+					const synth = obj[ patId ].parent;
+
+					obj[ patId ].synth = synth;
+					delete obj[ patId ].parent;
+					this.onchange( "redirectPatternKeys", patId, synth, obj );
+				} else {
+					this.onchange( "reorderPattern", patId, obj );
+				}
+			},
+			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-keys" ),
+			$ondragoverenter: el => {
+				const synthId = el.closest( ".gsuiPatterns-synth-head" )?.parentNode.dataset.id;
+
+				if ( synthId ) {
+					this.$expandSynth( synthId, true );
+				}
+			},
+		} );
+	}
+	#initReorder( opt ) {
+		new gsuiReorder( Object.assign( {
+			$parentSelector: ".gsuiPatterns-panel-list",
+			$itemSelector: ".gsuiPatterns-pattern",
+			$itemGripSelector: ".gsuiPatterns-pattern-grip",
+			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
+			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+		}, opt ) );
+	}
+	#ondropPatternInSynth( drop ) {
+		const dropOscWave = drop.$target.classList.contains( "gsuiOscillator-waveWrap" );
+		const dropNewOsc = drop.$target.classList.contains( "gsuiSynthesizer-newOsc" );
+
+		if ( dropOscWave || dropNewOsc ) {
+			const obj = {
+				$synthId: drop.$target.closest( "gsui-synthesizer" ).dataset.id,
+				$patternType: "pattern-buffer",
+				$patternId: drop.$item,
+			};
+
+			if ( dropNewOsc ) {
+				this.$dispatch( "dropBufferOnSynthNew", obj );
+			} else {
+				obj.$oscId = drop.$target.closest( "gsui-oscillator" ).dataset.id;
+				this.$dispatch( "dropBufferOnSynthOsc", obj );
+			}
+		} else {
+			this.#ondropPatternInTrack( "pattern-buffer", drop );
+		}
+	}
+	#ondropPatternInTrack( patType, drop ) {
+		const ppb = GSUgetAttributeNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+
+		this.$dispatch( "dropPattern", {
+			$type: patType,
+			$pattern: drop.$item,
+			$when: Math.floor( drop.$offsetX / ppb ),
+			$track: drop.$target.parentNode.dataset.id,
+		} );
 	}
 
 	// .........................................................................
@@ -262,37 +289,6 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	#ondropPatternInSynth( drop ) {
-		const dropOscWave = drop.$target.classList.contains( "gsuiOscillator-waveWrap" );
-		const dropNewOsc = drop.$target.classList.contains( "gsuiSynthesizer-newOsc" );
-
-		if ( dropOscWave || dropNewOsc ) {
-			const obj = {
-				$synthId: drop.$target.closest( "gsui-synthesizer" ).dataset.id,
-				$patternType: "pattern-buffer",
-				$patternId: drop.$item,
-			};
-
-			if ( dropNewOsc ) {
-				this.$dispatch( "dropBufferOnSynthNew", obj );
-			} else {
-				obj.$oscId = drop.$target.closest( "gsui-oscillator" ).dataset.id;
-				this.$dispatch( "dropBufferOnSynthOsc", obj );
-			}
-		} else {
-			this.#ondropPatternInTrack( "pattern-buffer", drop );
-		}
-	}
-	#ondropPatternInTrack( patType, drop ) {
-		const ppb = GSUgetAttributeNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
-
-		this.$dispatch( "dropPattern", {
-			$type: patType,
-			$pattern: drop.$item,
-			$when: Math.floor( drop.$offsetX / ppb ),
-			$track: drop.$target.parentNode.dataset.id,
-		} );
-	}
 	#onclickListPatterns( e ) {
 		const pat = e.target.closest( ".gsuiPatterns-pattern" );
 
