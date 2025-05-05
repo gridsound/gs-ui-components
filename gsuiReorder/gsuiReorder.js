@@ -3,10 +3,9 @@
 class gsuiReorder {
 	#opt = Object.seal( {
 		$root: null,
-		$reorder: true,
 		$parentSelector: "",
 		$itemSelector: "",
-		$itemGripSelector: "",
+		$itemGripSelector: "*",
 		$getTargetList: null,
 		$onchange: null,
 		$ondrop: null,
@@ -47,7 +46,7 @@ class gsuiReorder {
 				this.#currentPx = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
 				this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 				this.#movingItem.classList.add( "gsuiReorder-dragging" );
-				if ( this.#opt.$reorder ) {
+				if ( this.#opt.$onchange ) {
 					this.#movingItem.classList.add( "gsuiReorder-reordering" );
 				}
 				this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
@@ -58,7 +57,7 @@ class gsuiReorder {
 				this.#opt.$root.addEventListener( "pointermove", this.#onptrmoveBind );
 				this.#opt.$root.addEventListener( "pointerup", this.#onptrupBind );
 				document.body.addEventListener( "keydown", this.#onkeydownBind );
-				this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, e.target, e );
+				this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, this.#opt.$itemGripSelector === "*" ? null : e.target, e );
 				GSUunselectText();
 				this.#showTargetList();
 			}
@@ -73,7 +72,7 @@ class gsuiReorder {
 		this.#movingFake.style.top = `${ e.clientY }px`;
 		this.#movingFake.style.left = `${ e.clientX }px`;
 		this.#whatAreDraggingOver( e );
-		if ( par && this.#opt.$reorder ) {
+		if ( par && this.#opt.$onchange ) {
 			if ( par === this.#movingItemParentLast ) {
 				const ind = gsuiReorder.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
 
@@ -349,7 +348,7 @@ class gsuiReorder {
 	static #createGhostElement( elItem, elGrip, e ) {
 		const itemSt = getComputedStyle( elItem );
 		const itemBCR = elItem.getBoundingClientRect();
-		const gripBCR = elGrip.getBoundingClientRect();
+		const gripBCR = elGrip?.getBoundingClientRect();
 		const w = elItem.clientWidth;
 		const h = elItem.clientHeight;
 		const style = {
@@ -361,7 +360,7 @@ class gsuiReorder {
 			height: `${ h }px`,
 			borderRadius: itemSt.borderRadius,
 		};
-		const fakeGrip = GSUcreateDiv( { id: "gsuiReorder-fake-grip", style: {
+		const fakeGrip = elGrip && GSUcreateDiv( { id: "gsuiReorder-fake-grip", style: {
 			top: `${ gripBCR.y - itemBCR.y }px`,
 			left: `${ gripBCR.x - itemBCR.x }px`,
 			width: `${ elGrip.clientWidth }px`,

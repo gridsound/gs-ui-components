@@ -1,4 +1,4 @@
-.gsuiReorder-moving {
+.gsuiReorder-dragging.gsuiReorder-reordering {
 	opacity: .2 !important;
 }
 
@@ -9,6 +9,7 @@
 .gsuiReorder-dropArea::after {
 	content: "";
 	position: absolute;
+	z-index: 1;
 	inset: 0;
 	border-radius: inherit;
 	background-color: transparent;
