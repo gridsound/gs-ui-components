@@ -16,7 +16,6 @@ class gsuiReorder {
 	#onptrmoveBind = this.#onptrmove.bind( this );
 	#onptrupBind = this.#onptrup.bind( this );
 	#ptrId = null;
-	#rootBCR = null;
 	#elDragovering = null;
 	#elAreaDragovering = null;
 	#movingIndex = -1;
@@ -40,7 +39,6 @@ class gsuiReorder {
 			this.#movingItem = e.target.closest( this.#opt.$itemSelector );
 			if ( this.#movingItem ) {
 				e.preventDefault();
-				this.#rootBCR = this.#opt.$root.getBoundingClientRect();
 				this.#movingItemParent =
 				this.#movingItemParentLast = this.#movingItem.parentNode;
 				this.#currentPx = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
@@ -176,7 +174,6 @@ class gsuiReorder {
 		this.#movingItemParent = null;
 		this.#movingItemParentLast = null;
 		this.#movingIndex = -1;
-		this.#rootBCR = null;
 		if ( this.#opt.$root ) {
 			this.#opt.$root.style.cursor = "";
 			this.#opt.$root.removeEventListener( "pointermove", this.#onptrmoveBind );
@@ -217,9 +214,10 @@ class gsuiReorder {
 	static #isDirX( el ) {
 		return !!el && getComputedStyle( el ).flexDirection === "row";
 	}
-	static #overWhichParent( elRoot, rootBCR, parSel, e ) {
+	static #overWhichParent( elRoot, parSel, e ) {
 		const pX = e.offsetX;
 		const pY = e.offsetY;
+		const rootBCR = elRoot.getBoundingClientRect();
 		const overRoot =
 			GSUinRange( pX, 0, rootBCR.width ) &&
 			GSUinRange( pY, 0, rootBCR.height );
