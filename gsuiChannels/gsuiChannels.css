@@ -44,7 +44,7 @@ gsui-channels gsui-analyser-vu {
 	gap: 1ch;
 	align-items: center;
 	justify-content: center;
-	width: 52px;
+	min-width: 52px;
 	border: 0;
 	padding: 0;
 	outline: 0;
