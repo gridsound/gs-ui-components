@@ -7,20 +7,10 @@ gsui-drumrows::-webkit-scrollbar {
 	display: none;
 }
 
-/* .......................................................................... */
-.gsuiDrumrows-drop {
+.gsuiDrumrows-dropNew {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	order: 2147483647;
 	height: 1em;
-	pointer-events: none;
-	opacity: 0;
-}
-gsui-drumrows.gsuiDrumrows-dragover > .gsuiDrumrows-drop {
-	opacity: 1;
-}
-.gsuiDrumrows-dropIn {
-	font-size: 24px;
-	opacity: .5;
 }

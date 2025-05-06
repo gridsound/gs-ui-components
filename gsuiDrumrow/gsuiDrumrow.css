@@ -34,10 +34,6 @@ gsui-drumrow:not( [ toggle ] ) {
 	height: 1em;
 	min-height: 1em;
 }
-gsui-drumrow.gsuiDrumrows-dragover .gsuiDrumrow-main {
-	opacity: 0;
-	pointer-events: none;
-}
 gsui-drumrow gsui-prop-select {
 	position: absolute;
 	overflow: hidden;
@@ -146,13 +142,6 @@ gsui-drumrow .gsuiSlider-eventCatcher {
 }
 
 /* .......................................................................... */
-gsui-drumrow .gsuiDrumrows-drop {
-	position: absolute;
-	inset: 0;
-}
-gsui-drumrow.gsuiDrumrows-dragover .gsuiDrumrows-drop {
-	opacity: 1;
-}
 .gsuiDrumrow-btnProps,
 .gsuiDrumrow-btnDelete {
 	position: absolute;

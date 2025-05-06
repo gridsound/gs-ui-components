@@ -2,19 +2,14 @@
 
 class gsuiDrumrows extends gsui0ne {
 	#rows = new Map();
-	#dragoverId = null;
-	#elDragover = null;
-	#timeoutIdDragleave = null;
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiDrumrows",
 			$tagName: "gsui-drumrows",
+			$template: GSUcreateDiv( { class: "gsuiDrumrows-dropNew" } ),
 		} );
 		Object.seal( this );
-		this.ondrop = this.#ondropRows.bind( this );
-		this.ondragover = this.#ondragoverRows.bind( this );
-		this.ondragstart = e => e.stopPropagation();
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		GSUlistenEvents( this, {
 			gsuiDrumrow: {
@@ -22,7 +17,7 @@ class gsuiDrumrows extends gsui0ne {
 				expand: ( d, el ) => this.$dispatch( "expand", el.dataset.id ),
 				toggle: ( d, el ) => this.$dispatch( "toggle", el.dataset.id, ...d.args ),
 				toggleSolo: ( d, el ) => this.$dispatch( "toggleSolo", el.dataset.id ),
-				changeProp: ( d, el ) => this.$dispatch( "change", "changeDrumrow", el.dataset.id, ...d.args ),
+				changeProp: ( d, el ) => this.$dispatch( "change", el.dataset.id, ...d.args ),
 				liveChangeProp: ( d, el ) => this.$dispatch( "liveChangeDrumrow", el.dataset.id, ...d.args ),
 				propFilter: ( d, el ) => this.$dispatch( "propFilter", el.dataset.id, ...d.args ),
 				propFilters: ( d, el ) => this.$dispatch( "propFilters", ...d.args ),
@@ -85,54 +80,6 @@ class gsuiDrumrows extends gsui0ne {
 			this.$dispatch(
 				e.button === 0 ? "liveStartDrum" : "liveStopDrum",
 				e.target.parentNode.dataset.id );
-		}
-	}
-	#ondropRows( e ) {
-		if ( this.#dragoverId ) {
-			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
-				"pattern-buffer",
-				"library-buffer:default",
-				"library-buffer:local",
-			] );
-
-			if ( bufId ) {
-				this.#dragoverId === Infinity
-					? this.$dispatch( "change", "addDrumrow", bufType, bufId )
-					: this.$dispatch( "change", "changeDrumrowPattern", this.#dragoverId, bufType, bufId );
-			}
-		}
-		this.#ondragleaveRows();
-	}
-	#ondragleaveRows() {
-		if ( this.#elDragover ) {
-			this.#elDragover.classList.remove( "gsuiDrumrows-dragover" );
-			this.#elDragover =
-			this.#dragoverId = null;
-		}
-	}
-	#ondragoverRows( e ) {
-		if ( GSUhasDataTransfer( e, [ "pattern-buffer", "library-buffer:default", "library-buffer:local" ] ) ) {
-			const tar = e.target;
-			const isParent = tar.nodeName === "GSUI-DRUMROWS";
-			const elDragover = isParent ? tar : tar.closest( "gsui-drumrow" );
-
-			clearTimeout( this.#timeoutIdDragleave );
-			this.#timeoutIdDragleave = setTimeout( () => this.#ondragleaveRows(), 125 );
-			if ( elDragover !== this.#elDragover ) {
-				this.#dragoverId = null;
-				if ( isParent ) {
-					this.#dragoverId = Infinity;
-				} else if ( elDragover ) {
-					this.#dragoverId = elDragover.dataset.id;
-				}
-				if ( this.#elDragover ) {
-					this.#elDragover.classList.remove( "gsuiDrumrows-dragover" );
-				}
-				this.#elDragover = elDragover;
-				if ( elDragover ) {
-					elDragover.classList.add( "gsuiDrumrows-dragover" );
-				}
-			}
 		}
 	}
 }

@@ -21,11 +21,4 @@ GSUsetTemplate( "gsui-drumrow", () => [
 		),
 	),
 	GSUcreateElement( "gsui-prop-select", { props: "gain pan detune:pitch" } ),
-	GSUcreateDiv( { class: "gsuiDrumrows-drop" },
-		GSUcreateDiv( { class: "gsuiDrumrows-dropIn" },
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown" } ),
-		),
-	),
 ] );
