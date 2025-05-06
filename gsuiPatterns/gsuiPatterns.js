@@ -43,7 +43,10 @@ class gsuiPatterns extends gsui0ne {
 		} );
 		this.onchange = null;
 		Object.seal( this );
-		this.#initReorders();
+		this.#initReorderBuffers();
+		this.#initReorderSlices();
+		this.#initReorderDrums();
+		this.#initReorderKeys();
 		this.$elements.$lists.buffer.ondrop = e => {
 			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
 				"library-buffer:default",
@@ -69,24 +72,28 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	#initReorders() {
-		this.#initReorder( {
-			$root: this.$elements.$lists.buffer,
-			$getTargetList: () => [
-				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
-				document.querySelector( ".gsuiSynthesizer-newOsc" ),
-				...document.querySelectorAll( ".gsuiTrack-row > div" ),
-			],
-			$ondrop: this.#ondropPatternInSynth.bind( this ),
-		} );
+	#initReorder( opt ) {
+		new gsuiReorder( Object.assign( {
+			$parentSelector: ".gsuiPatterns-panel-list",
+			$itemSelector: ".gsuiPatterns-pattern",
+			$itemGripSelector: ".gsuiPatterns-pattern-grip",
+			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
+			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+		}, opt ) );
+	}
+	#initReorderSlices() {
 		this.#initReorder( {
 			$root: this.$elements.$lists.slices,
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-slices" ),
 		} );
+	}
+	#initReorderDrums() {
 		this.#initReorder( {
 			$root: this.$elements.$lists.drums,
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-drums" ),
 		} );
+	}
+	#initReorderKeys() {
 		this.#initReorder( {
 			$root: this.$elements.$lists.synth,
 			$parentSelector: ".gsuiPatterns-synth-patterns",
@@ -111,32 +118,38 @@ class gsuiPatterns extends gsui0ne {
 			},
 		} );
 	}
-	#initReorder( opt ) {
-		new gsuiReorder( Object.assign( {
-			$parentSelector: ".gsuiPatterns-panel-list",
-			$itemSelector: ".gsuiPatterns-pattern",
-			$itemGripSelector: ".gsuiPatterns-pattern-grip",
-			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
-			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
-		}, opt ) );
+	#initReorderBuffers() {
+		this.#initReorder( {
+			$root: this.$elements.$lists.buffer,
+			$ondrop: this.#ondropPatternBuffer.bind( this ),
+			$getTargetList: () => [
+				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
+				document.querySelector( ".gsuiSynthesizer-newOsc" ),
+				...document.querySelectorAll( "gsui-drumrow" ),
+				document.querySelector( ".gsuiDrumrows-dropNew" ),
+				...document.querySelectorAll( ".gsuiTrack-row > div" ),
+			],
+		} );
 	}
-	#ondropPatternInSynth( drop ) {
-		const dropOscWave = drop.$target.classList.contains( "gsuiOscillator-waveWrap" );
-		const dropNewOsc = drop.$target.classList.contains( "gsuiSynthesizer-newOsc" );
+	#ondropPatternBuffer( drop ) {
+		const tar = drop.$target;
+		const obj = {
+			$patternType: "pattern-buffer",
+			$patternId: drop.$item,
+		};
 
-		if ( dropOscWave || dropNewOsc ) {
-			const obj = {
-				$synthId: drop.$target.closest( "gsui-synthesizer" ).dataset.id,
-				$patternType: "pattern-buffer",
-				$patternId: drop.$item,
-			};
-
-			if ( dropNewOsc ) {
-				this.$dispatch( "dropBufferOnSynthNew", obj );
-			} else {
-				obj.$oscId = drop.$target.closest( "gsui-oscillator" ).dataset.id;
-				this.$dispatch( "dropBufferOnSynthOsc", obj );
-			}
+		if ( tar.tagName === "GSUI-DRUMROW" ) {
+			obj.$drumrowId = tar.dataset.id;
+			this.$dispatch( "dropBufferOnDrumrow", obj );
+		} else if ( tar.classList.contains( "gsuiDrumrows-dropNew" ) ) {
+			this.$dispatch( "dropBufferOnDrumrowNew", obj );
+		} else if ( tar.classList.contains( "gsuiOscillator-waveWrap" ) ) {
+			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
+			obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
+			this.$dispatch( "dropBufferOnOsc", obj );
+		} else if ( tar.classList.contains( "gsuiSynthesizer-newOsc" ) ) {
+			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
+			this.$dispatch( "dropBufferOnOscNew", obj );
 		} else {
 			this.#ondropPatternInTrack( "pattern-buffer", drop );
 		}
