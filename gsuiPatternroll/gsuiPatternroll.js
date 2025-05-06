@@ -57,7 +57,6 @@ class gsuiPatternroll extends gsui0ne {
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#tracklist );
 		this.#win.$appendMain( this.#selectionElement );
-		this.#win.querySelector( ".gsuiTimewindow-rows" ).ondrop = this.#drop.bind( this );
 		this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 	}
 	static get observedAttributes() {
@@ -187,19 +186,6 @@ class gsuiPatternroll extends gsui0ne {
 	#blcMousedown( id, e ) {
 		e.stopPropagation();
 		this.#blcManager.$onmousedown( e );
-	}
-	#drop( e ) {
-		const [ patType, patId ] = GSUgetDataTransfer( e, [
-			"library-buffer:default",
-			"library-buffer:local",
-		] );
-
-		if ( patId ) {
-			const when = this.#blcManager.$roundBeat( this.#blcManager.$getWhenByPageX( e.pageX ) );
-			const track = this.#blcManager.$getRowByIndex( this.#blcManager.$getRowIndexByPageY( e.pageY ) ).dataset.id;
-
-			this.$onchange( "add", patType, patId, when, track );
-		}
 	}
 }
 
