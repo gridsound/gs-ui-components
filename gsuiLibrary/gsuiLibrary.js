@@ -17,9 +17,53 @@ class gsuiLibrary extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		this.#initReorder();
 		this.$elements.$body.onclick = this.#onclick.bind( this );
-		this.$elements.$body.ondragstart = this.#ondragstart.bind( this );
 		this.$elements.$body.oncontextmenu = this.#oncontextmenu.bind( this );
+	}
+
+	// .........................................................................
+	#initReorder() {
+		new gsuiReorder( {
+			$root: this.$elements.$body,
+			$pxDelay: 10,
+			$parentSelector: ".gsuiLibrary-body",
+			$itemSelector: ".gsuiLibrary-sample",
+			$getTargetList: () => [
+				document.querySelector( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
+				document.querySelector( ".gsuiSynthesizer-newOsc" ),
+				...document.querySelectorAll( "gsui-drumrow" ),
+				document.querySelector( ".gsuiDrumrows-dropNew" ),
+				...document.querySelectorAll( ".gsuiTrack-row > div" ),
+			],
+			$ondrop: drop => {
+				const tar = drop.$target;
+				const dt = drop.$itemElement.dataset;
+				const $name = `${ dt.id }:${ dt.name }`;
+				const obj = { $name };
+
+				if ( tar.classList.contains( "gsuiPatterns-panel-list-wrap" ) ) {
+					this.$dispatch( "dropOnPatterns", obj );
+				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
+					obj.$drumrowId = tar.dataset.id;
+					this.$dispatch( "dropOnDrumrow", obj );
+				} else if ( tar.classList.contains( "gsuiDrumrows-dropNew" ) ) {
+					this.$dispatch( "dropOnDrumrowNew", obj );
+				} else if ( tar.classList.contains( "gsuiOscillator-waveWrap" ) ) {
+					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
+					obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
+					this.$dispatch( "dropOnOsc", obj );
+				} else if ( tar.classList.contains( "gsuiSynthesizer-newOsc" ) ) {
+					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
+					this.$dispatch( "dropOnOscNew", obj );
+				} else {
+					obj.$when = Math.floor( drop.$offsetX / GSUgetAttributeNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
+					obj.$track = tar.parentNode.dataset.id;
+					this.$dispatch( "dropOnTracks", obj );
+				}
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -126,12 +170,6 @@ class gsuiLibrary extends gsui0ne {
 	}
 
 	// .........................................................................
-	#ondragstart( e ) {
-		const dt = e.target.dataset;
-		const val = `${ dt.id }:${ dt.name }`;
-
-		e.dataTransfer.setData( `library-buffer:${ GSUgetAttribute( this, "name" ) }`, val );
-	}
 	#onclick( e ) {
 		const el = e.target;
 		const cl = el.classList;
