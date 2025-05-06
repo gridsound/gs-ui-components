@@ -52,21 +52,6 @@ class gsuiSynthesizer extends gsui0ne {
 		const onclickHeadsBind = this.#onclickHeads.bind( this );
 
 		this.$elements.$newOsc.onclick = this.#onclickNewOsc.bind( this );
-		this.$elements.$newOsc.ondragenter = () => this.#ondrag( true );
-		this.$elements.$newOsc.ondragleave = () => this.#ondrag( false );
-		this.$elements.$newOsc.ondrop = e => {
-			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
-				"pattern-buffer",
-				"library-buffer:default",
-				"library-buffer:local",
-			] );
-
-			this.#ondrag( false );
-			if ( bufId ) {
-				this.$dispatch( "addNewBuffer", bufType, bufId );
-			}
-			return false;
-		};
 		this.$elements.$heads.forEach( el => el.onclick = onclickHeadsBind );
 		new gsuiReorder( {
 			$root: this.$elements.$oscList,
@@ -218,11 +203,6 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	#onclickNewOsc() {
 		this.$dispatch( "addOscillator" );
-	}
-	#ondrag( b ) {
-		GSUsetAttribute( this.$elements.$newOsc, "data-hover", b );
-		GSUsetAttribute( this.$elements.$newOsc.firstChild, "data-icon", b ? "arrow-dropdown" : "plus" );
-		GSUsetAttribute( this.$elements.$newOsc.firstChild, "animate", b );
 	}
 }
 
