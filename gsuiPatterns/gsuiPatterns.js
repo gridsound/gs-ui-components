@@ -47,16 +47,6 @@ class gsuiPatterns extends gsui0ne {
 		this.#initReorderSlices();
 		this.#initReorderDrums();
 		this.#initReorderKeys();
-		this.$elements.$lists.buffer.ondrop = e => {
-			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
-				"library-buffer:default",
-				"library-buffer:local",
-			] );
-
-			if ( bufId ) {
-				this.$dispatch( "libraryBufferDropped", bufType, bufId );
-			}
-		};
 		this.$elements.$lists.synth.ondblclick = e => {
 			if ( e.target.classList.contains( "gsuiPatterns-synth-info" ) ) {
 				this.$expandSynth( e.target.closest( ".gsuiPatterns-synth" ).dataset.id );
