@@ -336,24 +336,6 @@ gsui-oscillator[ wave="noise" ] .gsuiOscillator-unisonGraph {
 	transition: opacity .2s;
 	pointer-events: none;
 }
-gsui-oscillator[ dragover ] .gsuiOscillator-dragging,
-gsui-oscillator[ dragoverwave ] .gsuiOscillator-wave-dragging {
-	opacity: 1;
-}
-gsui-oscillator[ dragoverwave ] .gsuiOscillator-waveWrap-top,
-gsui-oscillator[ dragoverwave ] .gsuiOscillator-waveWrap-bottom,
-gsui-oscillator[ dragoverwave ] .gsuiOscillator-unisonGraph,
-gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap-top,
-gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap-bottom,
-gsui-oscillator[ dragover ] .gsuiOscillator-unisonGraph,
-gsui-oscillator[ dragover ] .gsuiOscillator-unison,
-gsui-oscillator[ dragover ] .gsuiOscillator-prop,
-gsui-oscillator[ dragover ] .gsuiOscillator-remove {
-	opacity: 0;
-}
-gsui-oscillator[ dragover ] .gsuiOscillator-waveWrap {
-	opacity: .33;
-}
 
 /* .......................................................................... */
 @container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 168px ) {

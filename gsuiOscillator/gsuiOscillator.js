@@ -10,8 +10,6 @@ const gsuiOscillator_defaultWaves = {
 class gsuiOscillator extends gsui0ne {
 	$askWaveCustomData = GSUnoop;
 	#timeidType = null;
-	#dragleaveDeb = GSUdebounce( () => GSUsetAttribute( this, "dragover", false ), 175 );
-	#dragleaveWaveDeb = GSUdebounce( () => GSUsetAttribute( this, "dragoverwave", false ), 175 );
 	#typeSaved = "";
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), 100 );
 	#selectWaves = { ...gsuiOscillator_defaultWaves };
@@ -71,28 +69,9 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveEditBtn.onclick = () => GSUtoggleAttribute( this, "waveedit" );
 		this.$elements.$waveEditWrap.onpointerdown = e => e.preventDefault();
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
-		this.$elements.$waveWrap.ondragover = e => {
-			e.stopPropagation();
-			GSUsetAttribute( this, "dragoverwave", true );
-			GSUsetAttribute( this, "dragover", false );
-			this.#dragleaveWaveDeb();
-			return false;
-		};
-		this.ondragover = e => {
-			const bcr = this.getBoundingClientRect();
-			const y = e.pageY - bcr.y;
-
-			if ( y > 8 && y < bcr.height - 8 ) {
-				GSUsetAttribute( this, "dragoverwave", false );
-				GSUsetAttribute( this, "dragover", true );
-				this.#dragleaveDeb();
-			}
-			return false;
-		};
 		this.ondrop = e => {
 			const tar = e.target.closest( "gsui-oscillator, .gsuiOscillator-waveWrap" );
 			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
-				"pattern-buffer",
 				"library-buffer:default",
 				"library-buffer:local",
 			] );
