@@ -26,7 +26,7 @@ class gsuiLibrary extends gsui0ne {
 	#initReorder() {
 		new gsuiReorder( {
 			$root: this.$elements.$body,
-			$pxDelay: 10,
+			$pxDelay: 6,
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
 			$getTargetList: () => [
