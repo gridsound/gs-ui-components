@@ -3,6 +3,7 @@
 class gsuiReorder {
 	#opt = Object.seal( {
 		$root: null,
+		$pxDelay: 0,
 		$parentSelector: "",
 		$itemSelector: "",
 		$itemGripSelector: "*",
@@ -16,14 +17,16 @@ class gsuiReorder {
 	#onptrmoveBind = this.#onptrmove.bind( this );
 	#onptrupBind = this.#onptrup.bind( this );
 	#ptrId = null;
+	#dragging = false;
 	#elDragovering = null;
 	#elAreaDragovering = null;
+	#elPtrDown = null;
 	#movingIndex = -1;
 	#movingItem = null;
 	#movingItemParent = null;
 	#movingItemParentLast = null;
 	#movingFake = null;
-	#currentPx = 0;
+	#currentPtr = null;
 	#itemsData = null;
 	#dataSave = null;
 	#dropAreaList = null;
@@ -36,45 +39,72 @@ class gsuiReorder {
 	// .........................................................................
 	#onptrdown( e ) {
 		if ( e.target.matches( this.#opt.$itemGripSelector ) ) {
+			GSUunselectText();
 			this.#movingItem = e.target.closest( this.#opt.$itemSelector );
 			if ( this.#movingItem ) {
 				e.preventDefault();
 				this.#movingItemParent =
 				this.#movingItemParentLast = this.#movingItem.parentNode;
-				this.#currentPx = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
-				this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
-				this.#movingItem.classList.add( "gsuiReorder-dragging" );
-				if ( this.#opt.$onchange ) {
-					this.#movingItem.classList.add( "gsuiReorder-reordering" );
-				}
-				this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
-				this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
-				this.#opt.$root.style.cursor = "grabbing";
+				this.#currentPtr = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
 				this.#ptrId = e.pointerId;
-				this.#opt.$root.setPointerCapture( this.#ptrId );
 				this.#opt.$root.addEventListener( "pointermove", this.#onptrmoveBind );
 				this.#opt.$root.addEventListener( "pointerup", this.#onptrupBind );
 				document.body.addEventListener( "keydown", this.#onkeydownBind );
-				this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, this.#opt.$itemGripSelector === "*" ? null : e.target, e );
-				GSUunselectText();
-				this.#showTargetList();
+				this.#elPtrDown = e.target;
+				this.#elPtrDown.style.cursor = "grabbing";
 			}
 		}
 	}
 	#onptrmove( e ) {
-		const oldPtr = this.#currentPx;
-		const par = gsuiReorder.#overWhichParent( this.#opt.$root, this.#rootBCR, this.#opt.$parentSelector, e );
+		e.preventDefault(); // 1.
+		this.#dragging
+			? this.#onptrmoveDrag( e )
+			: this.#onptrmovePreDrag( e );
+	}
+	#onptrup( e ) {
+		if ( this.#dragging ) {
+			this.#onptrupDrag( e );
+		}
+		this.#reset();
+	}
+	#startDragging( e ) {
+		this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
+		this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
+		this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
+		this.#opt.$root.style.cursor = "grabbing";
+		this.#elPtrDown.style.cursor = "";
+		this.#movingItem.classList.add( "gsuiReorder-dragging" );
+		if ( this.#opt.$onchange ) {
+			this.#movingItem.classList.add( "gsuiReorder-reordering" );
+		}
+		this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, this.#opt.$itemGripSelector === "*" ? null : e.target, e );
+		this.#showTargetList();
+		this.#opt.$root.setPointerCapture( this.#ptrId );
+		this.#dragging = true;
+	}
+	#onptrmovePreDrag( e ) {
+		const ptr = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
+		const x = Math.abs( this.#currentPtr.x - ptr.x );
+		const y = Math.abs( this.#currentPtr.y - ptr.y );
+
+		if ( x >= this.#opt.$pxDelay || y >= this.#opt.$pxDelay ) {
+			this.#currentPtr = ptr;
+			this.#startDragging( e );
+		}
+	}
+	#onptrmoveDrag( e ) {
+		const oldPtr = this.#currentPtr;
+		const par = gsuiReorder.#overWhichParent( this.#opt.$root, this.#opt.$parentSelector, e );
 		const ptr = gsuiReorder.#getGlobalPtr( par, e );
 
-		e.preventDefault(); // 1.
 		this.#movingFake.style.top = `${ e.clientY }px`;
 		this.#movingFake.style.left = `${ e.clientX }px`;
 		this.#whatAreDraggingOver( e );
 		if ( par && this.#opt.$onchange ) {
 			if ( par === this.#movingItemParentLast ) {
-				const ind = gsuiReorder.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr, oldPtr );
+				const ind = gsuiReorder.#getIndexCrossing( this.#itemsData, this.#movingIndex, ptr.xy, oldPtr.xy );
 
-				this.#currentPx = ptr;
+				this.#currentPtr = ptr;
 				if ( ind > -1 ) {
 					gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, ind );
 					this.#movingIndex = ind;
@@ -82,9 +112,9 @@ class gsuiReorder {
 				}
 			} else {
 				const items = gsuiReorder.#createItemsData( par, this.#opt.$itemSelector );
-				const newInd = gsuiReorder.#getIndexHovering( items, ptr );
+				const newInd = gsuiReorder.#getIndexHovering( items, ptr.xy );
 
-				this.#currentPx = ptr;
+				this.#currentPtr = ptr;
 				par.append( this.#movingItem );
 				gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
 				gsuiReorder.#reorderMoving( items, this.#movingItem, newInd );
@@ -95,7 +125,7 @@ class gsuiReorder {
 		}
 		this.#movingItemParent = par;
 	}
-	#onptrup( e ) {
+	#onptrupDrag( e ) {
 		if ( !this.#movingItemParent ) {
 			const dropInfo = this.#opt.$ondrop && gsuiReorder.#getDropTargetInfo( this.#elAreaDragovering, this.#movingItem, e );
 
@@ -110,18 +140,21 @@ class gsuiReorder {
 		const orderDiff = gsuiReorder.#diffOrderMaps( this.#dataSave, newOrderMap );
 		const movingId = this.#movingItem.dataset.id;
 
-		this.#reset();
 		if ( orderDiff ) {
 			this.#opt.$onchange?.( orderDiff, movingId );
 		}
 	}
 	#onkeydown( e ) {
 		if ( e.key === "Escape" ) {
-			gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
-			gsuiReorder.#cancelAllChanges( this.#dataSave );
+			if ( this.#dragging ) {
+				gsuiReorder.#reorderMoving( this.#itemsData, this.#movingItem, Infinity );
+				gsuiReorder.#cancelAllChanges( this.#dataSave );
+			}
 			this.#reset();
 		}
 	}
+
+	// .........................................................................
 	#whatAreDraggingOver( e ) {
 		const elem = document.elementFromPoint( e.clientX, e.clientY );
 
@@ -143,7 +176,7 @@ class gsuiReorder {
 		}
 	}
 	#showTargetList() {
-		const list = this.#opt.$getTargetList?.();
+		const list = this.#opt.$getTargetList?.().filter( Boolean );
 
 		if ( !GSUisEmpty( list ) ) {
 			this.#dropAreaList = GSUforEach( list, ( el, i ) => {
@@ -153,9 +186,17 @@ class gsuiReorder {
 		}
 	}
 	#reset() {
-		this.#movingFake.remove();
-		this.#movingFake = null;
+		this.#dragging = false;
 		this.#elDragovering = null;
+		if ( this.#elPtrDown ) {
+			this.#elPtrDown.style.cursor = "";
+			this.#elPtrDown = null;
+		}
+		this.#currentPtr = null;
+		if ( this.#movingFake ) {
+			this.#movingFake.remove();
+			this.#movingFake = null;
+		}
 		if ( this.#elAreaDragovering ) {
 			this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
 			this.#elAreaDragovering = null;
@@ -190,7 +231,8 @@ class gsuiReorder {
 			const elemBCR = elArea.getBoundingClientRect();
 
 			return {
-				$item: elItem.dataset.id,
+				$item: elItem.dataset.id, // to delete (should be the element)
+				$itemElement: elItem,
 				$target: elArea,
 				$offsetX: e.clientX - elemBCR.x,
 				$offsetY: e.clientY - elemBCR.y,
@@ -209,7 +251,11 @@ class gsuiReorder {
 
 	// .........................................................................
 	static #getGlobalPtr( par, e ) {
-		return gsuiReorder.#isDirX( par ) ? e.clientX : e.clientY;
+		return {
+			x: e.clientX,
+			y: e.clientY,
+			xy: gsuiReorder.#isDirX( par ) ? e.clientX : e.clientY,
+		};
 	}
 	static #isDirX( el ) {
 		return !!el && getComputedStyle( el ).flexDirection === "row";
