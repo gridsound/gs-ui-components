@@ -8,6 +8,7 @@ class gsuiDotline extends gsui0ne {
 	#cdots = {};
 	#dotsOpt = {};
 	#dotsMoving = [];
+	#cdotActiveId = null;
 	#svgW = 0;
 	#svgH = 0;
 	#w = 1;
@@ -25,7 +26,6 @@ class gsuiDotline extends gsui0ne {
 	#mousebtn = 0;
 	#activeDot = null;
 	#beatlines = null;
-	#curveSlider = GSUcreateElement( "gsui-slider", { type: "circular", min: -32, max: 32, step: .01, "mousemove-size": 2000, "stroke-width": 4 } );
 	#menu = new gsuiActionMenu();
 	#menuDotId = null;
 
@@ -36,6 +36,7 @@ class gsuiDotline extends gsui0ne {
 			$elements: {
 				$root: ".gsuiDotline-padding",
 				$svg: "gsui-dotlinesvg",
+				$slider: "gsui-slider",
 			},
 			$attributes: {
 				viewbox: "0 0 100 100",
@@ -64,18 +65,14 @@ class gsuiDotline extends gsui0ne {
 				inputEnd: GSUnoop,
 				inputStart: GSUnoop,
 				input: d => {
-					const dotId = d.target.parentNode.dataset.id;
-
-					this.#data[ dotId ].val = d.args[ 0 ];
+					this.#data[ this.#cdotActiveId ].val = d.args[ 0 ];
 					this.#drawPolyline();
 					this.$dispatch( "input", GSUdeepCopy( this.#data ) );
 				},
 				change: d => {
-					const dotId = d.target.parentNode.dataset.id;
-
-					this.#data[ dotId ].val = d.args[ 0 ];
+					this.#data[ this.#cdotActiveId ].val = d.args[ 0 ];
 					this.#drawPolyline();
-					this.$dispatch( "change", { [ dotId ]: { val: d.args[ 0 ] } } );
+					this.$dispatch( "change", { [ this.#cdotActiveId ]: { val: d.args[ 0 ] } } );
 				},
 			}
 		} );
@@ -205,8 +202,6 @@ class gsuiDotline extends gsui0ne {
 					cdot =
 					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
 					this.$elements.$root.append( cdot );
-					cdot.onpointerenter = this.#onpointerenterCurveDot.bind( this );
-					cdot.onpointerleave = this.#onpointerleaveCurveDot.bind( this );
 				}
 				GSUsetAttribute( cdot, "data-type", dot.type );
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) * .5 + prevXp }%`;
@@ -321,6 +316,7 @@ class gsuiDotline extends gsui0ne {
 		GSUunselectText();
 		this.#onrightclickSlider( e );
 		this.#onrightclickDot( e );
+		this.#onptrdownCurveDot( e );
 		if ( e.button === 2 || ( !isSVG && !isDot ) ) {
 			return false;
 		}
@@ -352,7 +348,7 @@ class gsuiDotline extends gsui0ne {
 				}
 			}
 			if ( id && isDot ) {
-				this.#onpointerdownDot( id, xstep );
+				this.#onptrdownDot( id, xstep );
 				return true;
 			}
 		}
@@ -364,7 +360,7 @@ class gsuiDotline extends gsui0ne {
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
-			this.#curveSlider.$setValue( dot.val );
+			GSUsetAttribute( this.$elements.$slider, "value", dot.val );
 			this.#drawPolyline();
 			this.$dispatch( "change", { [ id ]: { val: dot.val } } );
 		}
@@ -377,7 +373,7 @@ class gsuiDotline extends gsui0ne {
 			this.#menu.$open();
 		}
 	}
-	#onpointerdownDot( id, xstep ) {
+	#onptrdownDot( id, xstep ) {
 		this.#selectDotElement( id, true );
 		if ( !GSUhasAttribute( this, "movelinked" ) ) {
 			const dat = this.#data[ id ];
@@ -424,19 +420,20 @@ class gsuiDotline extends gsui0ne {
 			this.#dotMaxY = this.#ymax - this.#dotMaxY;
 		}
 	}
-	#onpointerenterCurveDot( e ) {
-		const cdot = e.target;
-		const id = cdot.dataset.id;
-		const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
-		const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
-		const dotBY = this.#dataSorted[ ind ][ 1 ].y;
+	#onptrdownCurveDot( e ) {
+		if ( e.target.classList.contains( "gsuiDotline-cdot" ) ) {
+			const id = e.target.dataset.id;
+			const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
+			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
+			const dotBY = this.#dataSorted[ ind ][ 1 ].y;
 
-		GSUsetAttribute( this.#curveSlider, "revert", dotAY > dotBY );
-		this.#curveSlider.$setValue( this.#data[ id ].val );
-		cdot.append( this.#curveSlider );
-	}
-	#onpointerleaveCurveDot() {
-		this.#curveSlider.remove();
+			this.#cdotActiveId = id;
+			GSUsetAttribute( this.$elements.$slider, {
+				revert: dotAY > dotBY,
+				value: this.#data[ id ].val,
+			} );
+			this.$elements.$slider.$ptrDown( e );
+		}
 	}
 	$onptrup( e ) {
 		if ( this.#activeDot ) {

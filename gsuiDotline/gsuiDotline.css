@@ -2,7 +2,6 @@ gsui-dotline {
 	--gsuiDotline-dotSize: 4px;
 	--gsuiDotline-cdotSize: 8px;
 	display: block;
-	overflow: hidden;
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -34,6 +33,14 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 }
 
 /* .......................................................................... */
+gsui-dotline gsui-slider {
+	width: 10px;
+	height: 32px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* .......................................................................... */
 .gsuiDotline-dot,
 .gsuiDotline-cdot {
 	position: absolute;
@@ -54,6 +61,10 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 	--w: var( --gsuiDotline-cdotSize );
 	z-index: 1;
 	border: 1px solid;
+	transition:
+		.2s width,
+		.2s height,
+		.2s margin;
 }
 .gsuiDotline-dot::before,
 .gsuiDotline-cdot::before {
@@ -70,21 +81,4 @@ gsui-dotline gsui-beatlines + gsui-beatlines {
 .gsuiDotline-cdot[ data-type="hold" ],
 .gsuiDotline-cdot[ data-type="line" ] {
 	display: none;
-}
-
-.gsuiDotline-cdot:hover {
-	--w: 24px;
-	border: 0;
-	background-color: #000;
-}
-.gsuiDotline-cdot gsui-slider {
-	position: absolute;
-	z-index: 3;
-	top: 50%;
-	left: 50%;
-	width: 16px;
-	height: 16px;
-	margin: -8px 0 0 -8px;
-	--gsuiSlider-lineColor: #fff;
-	--gsuiSlider-lineBgColor: #fff1;
 }
