@@ -53,6 +53,17 @@ class gsuiWaveEdit extends gsui0ne {
 				},
 			},
 		} );
+		GSUlistenEvents( this.$elements.$wtDotline, {
+			gsuiDotline: {
+				inputstart: ( { args: [ d ] } ) => this.$elements.$wtGraph.$setMorphingWaveAt( d.$data[ d.$dotId ].y ),
+				inputend: () => this.$elements.$wtGraph.$setMorphingWaveAt( -1 ),
+				input: ( { args: [ d ] } ) => {
+					if ( d.$target === "dot" ) {
+						this.$elements.$wtGraph.$setMorphingWaveAt( d.$data[ d.$dotId ].y );
+					}
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
