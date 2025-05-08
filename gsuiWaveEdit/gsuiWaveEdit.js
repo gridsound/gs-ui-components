@@ -98,6 +98,7 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 	$change( obj ) {
 		const wavesToUpdate = [];
+		let toSort = false;
 		let toSelect = null;
 
 		if ( !obj ) {
@@ -105,10 +106,12 @@ class gsuiWaveEdit extends gsui0ne {
 		}
 		GSUforEach( obj.waves, ( w, wId ) => {
 			if ( !w ) {
+				toSort = true;
 				this.#removeWave( wId );
 			} else if ( !( wId in this.#data.waves ) ) {
 				wavesToUpdate.push( wId );
 				toSelect = wId;
+				toSort = true;
 				this.#addWave( wId, w );
 			} else {
 				if ( w.curve ) {
@@ -116,11 +119,16 @@ class gsuiWaveEdit extends gsui0ne {
 					if ( wId === this.#waveSelected ) {
 						this.$elements.$dotline.$change( w.curve );
 					}
-				} else if ( "index" in w ) {
+				}
+				if ( "index" in w ) {
+					toSort = true;
 					this.#getWaveElement( wId ).dataset.index = w.index;
 				}
 			}
 		} );
+		if ( toSort ) {
+			this.#updateSortWaves();
+		}
 		if ( obj.wtCurve ) {
 			this.$elements.$wtDotline.$change( obj.wtCurve );
 		}
