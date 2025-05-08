@@ -141,10 +141,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		GSUsetAttribute( g.children[ 1 ], "points", false );
 	}
 	#drawWave( wave, i ) {
-		// const z = wave.index;
-		const z = i / ( this.#waves.length - 1 ) || 0;
-
-		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, i, z );
+		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, i, wave.index );
 	}
 	#drawWave2( wId, dots, g, i, z ) {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
@@ -161,10 +158,8 @@ class gsuiWavetableGraph extends gsui0ne {
 		GSUsetAttribute( el, "points", this.#waves.map( ( wave, i ) => {
 			const dotsI = x * ( wave.dots.length - 1 ) | 0;
 			const dot = wave.dots[ dotsI ];
-			// const z = wave.index;
-			const z = i / ( this.#waves.length - 1 ) || 0;
 
-			return this.#getCoord( dot[ 0 ], dot[ 1 ], z );
+			return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
 		} ).join( " " ) );
 	}
 
