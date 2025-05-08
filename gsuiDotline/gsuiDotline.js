@@ -8,7 +8,6 @@ class gsuiDotline extends gsui0ne {
 	#cdots = {};
 	#dotsOpt = {};
 	#dotsMoving = [];
-	#cdotActiveId = null;
 	#svgW = 0;
 	#svgH = 0;
 	#w = 1;
@@ -24,7 +23,7 @@ class gsuiDotline extends gsui0ne {
 	#dotMaxY = 0;
 	#dotMinY = 0;
 	#mousebtn = 0;
-	#activeDot = null;
+	#activeDotId = null;
 	#beatlines = null;
 	#menu = new gsuiActionMenu();
 	#menuDotId = null;
@@ -65,14 +64,14 @@ class gsuiDotline extends gsui0ne {
 				inputEnd: GSUnoop,
 				inputStart: GSUnoop,
 				input: d => {
-					this.#data[ this.#cdotActiveId ].val = d.args[ 0 ];
+					this.#data[ this.#activeDotId ].val = d.args[ 0 ];
 					this.#drawPolyline();
-					this.$dispatch( "input", GSUdeepCopy( this.#data ) );
+					this.#oninput( "curve" );
 				},
 				change: d => {
-					this.#data[ this.#cdotActiveId ].val = d.args[ 0 ];
+					this.#data[ this.#activeDotId ].val = d.args[ 0 ];
 					this.#drawPolyline();
-					this.$dispatch( "change", { [ this.#cdotActiveId ]: { val: d.args[ 0 ] } } );
+					this.#onchange( { [ this.#activeDotId ]: { val: d.args[ 0 ] } } );
 				},
 			}
 		} );
@@ -158,7 +157,7 @@ class gsuiDotline extends gsui0ne {
 			this.#menu.$close();
 			if ( this.#deleteDotElement( this.#menuDotId ) ) {
 				this.#drawPolyline();
-				this.$dispatch( "change", { [ this.#menuDotId ]: undefined } );
+				this.#onchange( { [ this.#menuDotId ]: undefined } );
 			}
 		} else {
 			const dot = this.#data[ this.#menuDotId ];
@@ -176,7 +175,7 @@ class gsuiDotline extends gsui0ne {
 					dotDiff.val = 2;
 				}
 				this.#drawPolyline();
-				this.$dispatch( "change", { [ this.#menuDotId ]: dotDiff } );
+				this.#onchange( { [ this.#menuDotId ]: dotDiff } );
 			}
 			this.#menu.$close();
 		}
@@ -213,11 +212,33 @@ class gsuiDotline extends gsui0ne {
 			delete this.#cdots[ id ];
 		} );
 	}
-	#onchange() {
-		const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
-		if ( diff ) {
-			this.$dispatch( "change", diff );
+	// .........................................................................
+	#oninput( tar ) {
+		this.$dispatch( "input", {
+			$target: tar,
+			$dotId: this.#activeDotId,
+			$data: GSUdeepCopy( this.#data ),
+		} );
+	}
+	#oninputstart() {
+		this.$dispatch( "inputstart", {
+			$dotId: this.#activeDotId,
+			$data: GSUdeepCopy( this.#data ),
+		} );
+	}
+	#oninputend() {
+		this.$dispatch( "inputend" );
+	}
+	#onchange( obj ) {
+		if ( obj ) {
+			this.$dispatch( "change", obj );
+		} else {
+			const diff = GSUdiffObjects( this.#dataSaved, this.#data );
+
+			if ( diff ) {
+				this.$dispatch( "change", diff );
+			}
 		}
 	}
 
@@ -292,7 +313,7 @@ class gsuiDotline extends gsui0ne {
 	#selectDotElement( id, b ) {
 		const dot = this.#dots[ id ];
 
-		this.#activeDot = b ? dot : null;
+		this.#activeDotId = b ? id : null;
 		dot.classList.toggle( "gsuiDotline-dotSelected", b );
 	}
 	#updateMenu( type ) {
@@ -324,6 +345,7 @@ class gsuiDotline extends gsui0ne {
 		this.#pageY = e.pageY;
 		if ( e.button === 0 ) {
 			const xstep = GSUgetAttributeNum( this, "xstep" );
+			let isNewDot = false;
 
 			if ( !id ) {
 				const x = this.#getPtrX( e );
@@ -340,13 +362,17 @@ class gsuiDotline extends gsui0ne {
 						byMouse: true,
 					} );
 					if ( id ) {
+						isNewDot = true;
 						this.#drawPolyline();
-						this.$dispatch( "input", GSUdeepCopy( this.#data ) );
 					}
 				}
 			}
 			if ( id && isDot ) {
 				this.#onptrdownDot( id, xstep );
+				this.#oninputstart();
+				if ( isNewDot ) {
+					this.#oninput( "dot" );
+				}
 				return true;
 			}
 		}
@@ -360,7 +386,7 @@ class gsuiDotline extends gsui0ne {
 			dot.val = 0;
 			GSUsetAttribute( this.$elements.$slider, "value", dot.val );
 			this.#drawPolyline();
-			this.$dispatch( "change", { [ id ]: { val: dot.val } } );
+			this.#onchange( { [ id ]: { val: dot.val } } );
 		}
 	}
 	#onrightclickDot( e ) {
@@ -425,7 +451,7 @@ class gsuiDotline extends gsui0ne {
 			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
 			const dotBY = this.#dataSorted[ ind ][ 1 ].y;
 
-			this.#cdotActiveId = id;
+			this.#activeDotId = id;
 			GSUsetAttribute( this.$elements.$slider, {
 				revert: dotAY > dotBY,
 				value: this.#data[ id ].val,
@@ -434,10 +460,11 @@ class gsuiDotline extends gsui0ne {
 		}
 	}
 	$onptrup( e ) {
-		if ( this.#activeDot ) {
-			this.#selectDotElement( this.#activeDot.dataset.id, false );
+		if ( this.#activeDotId ) {
+			this.#selectDotElement( this.#activeDotId, false );
 		}
 		this.#dotsMoving.length = 0;
+		this.#oninputend();
 		this.#onchange();
 	}
 	$onptrmove( e ) {
@@ -461,7 +488,7 @@ class gsuiDotline extends gsui0ne {
 				} );
 			} );
 			this.#drawPolyline();
-			this.$dispatch( "input", GSUdeepCopy( this.#data ) );
+			this.#oninput( "dot" );
 		}
 	}
 }
