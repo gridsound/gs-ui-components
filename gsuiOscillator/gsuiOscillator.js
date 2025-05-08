@@ -69,28 +69,12 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveEditBtn.onclick = () => GSUtoggleAttribute( this, "waveedit" );
 		this.$elements.$waveEditWrap.onpointerdown = e => e.preventDefault();
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
-		this.ondrop = e => {
-			const tar = e.target.closest( "gsui-oscillator, .gsuiOscillator-waveWrap" );
-			const [ bufType, bufId ] = GSUgetDataTransfer( e, [
-				"library-buffer:default",
-				"library-buffer:local",
-			] );
-
-			if ( bufId ) {
-				this.$dispatch( tar.nodeName === "GSUI-OSCILLATOR" ? "drop" : "wavedrop", bufType, bufId );
-			}
-			return false;
-		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUnoop,
 				inputEnd: GSUnoop,
-				input: ( d, sli ) => {
-					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, sli ) => {
-					this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] );
-				},
+				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
+				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
 			},
 			gsuiWaveEdit: {
 				back: () => GSUsetAttribute( this, "waveedit", false ),
