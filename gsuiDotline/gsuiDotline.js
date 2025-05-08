@@ -94,9 +94,7 @@ class gsuiDotline extends gsui0ne {
 				this.#w = this.#xmax - this.#xmin;
 				this.#h = this.#ymax - this.#ymin;
 				this.$elements.$svg.$setDataBox( val );
-				Object.entries( this.#data ).forEach( ( [ id, d ] ) => {
-					this.#updateDotElement( { id, ...d } );
-				} );
+				GSUforEach( this.#data, ( d, id ) => this.#updateDotElement( { id, ...d } ) );
 				this.#drawPolyline();
 			} break;
 			case "beatlines":
@@ -126,7 +124,7 @@ class gsuiDotline extends gsui0ne {
 		this.#drawPolyline();
 	}
 	$change( diff ) {
-		Object.entries( diff ).forEach( ( [ id, diffDot ] ) => {
+		GSUforEach( diff, ( diffDot, id ) => {
 			if ( !diffDot ) {
 				if ( id in this.#data ) {
 					this.#deleteDotElement( id );
@@ -210,9 +208,9 @@ class gsuiDotline extends gsui0ne {
 			}
 			return dot;
 		}, null );
-		Object.entries( cdots ).forEach( d => {
-			d[ 1 ].remove();
-			delete this.#cdots[ d[ 0 ] ];
+		GSUforEach( cdots, ( d, id ) => {
+			d.remove();
+			delete this.#cdots[ id ];
 		} );
 	}
 	#onchange() {
