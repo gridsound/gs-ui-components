@@ -78,6 +78,9 @@ class gsui0ne extends HTMLElement {
 	}
 
 	// .........................................................................
+	$ptrDown( e ) {
+		this.#onptrdown( e );
+	}
 	#onptrdown( e ) {
 		this.$isActive = true;
 		if ( this.$onptrdown( e ) === false ) {
