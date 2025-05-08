@@ -39,6 +39,12 @@ class gsuiWaveEdit extends gsui0ne {
 				this.#execWaveAction( w.dataset.id, act );
 			}
 		};
+		new gsuiReorder( {
+			$root: this.$elements.$waves,
+			$parentSelector: ".gsuiWaveEdit-waves",
+			$itemSelector: ".gsuiWaveEdit-wavestep",
+			$onchange: this.#onreorderWaves.bind( this ),
+		} );
 		GSUlistenEvents( this.$elements.$dotline, {
 			gsuiDotline: {
 				input: GSUnoop,
@@ -82,16 +88,6 @@ class gsuiWaveEdit extends gsui0ne {
 		this.$elements.$waves.style.fontSize = `${ ratio * wavesH }px`;
 		this.#redrawWavesDeb();
 	}
-	#redrawWaves() {
-		GSUforEach( this.#data.waves, ( w, wId ) => {
-			const svg = this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" );
-
-			svg.$setSVGSize( svg.clientWidth, svg.clientHeight );
-			svg.$setCurve( w.curve );
-		} );
-	}
-
-	// .........................................................................
 	$firstTimeConnected() {
 		this.#addWave( "0", this.#data.waves[ 0 ] );
 		this.#getWaveElement( "0" ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ 0 ].curve );
@@ -101,6 +97,8 @@ class gsuiWaveEdit extends gsui0ne {
 		this.$elements.$wtGraph.$draw();
 		this.$elements.$wtDotline.$change( this.#data.wtCurve );
 	}
+
+	// .........................................................................
 	$clear() {
 		this.#waveNull = true;
 		this.#waveSelected = "0";
@@ -157,6 +155,21 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onreorderWaves( obj ) {
+		const elWavesSorted = Array.from( this.#elWaves ).sort( ( a, b ) => a.style.order - b.style.order );
+		const nbWaves = elWavesSorted.length;
+		const wavesObj = {};
+
+		elWavesSorted.forEach( ( elWave, i ) => {
+			const wId = elWave.dataset.id;
+			const index = GSUMathRound( i / ( nbWaves - 1 ), .001 );
+
+			if ( index !== this.#data.waves[ wId ].index ) {
+				wavesObj[ wId ] = { index };
+			}
+		} );
+		this.$dispatch( "changeWavetable", this.$change( { waves: wavesObj } ) );
+	}
 	#onchangeDotlines( crvObj, src ) {
 		const obj = {};
 
@@ -237,6 +250,14 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 
 	// .........................................................................
+	#redrawWaves() {
+		GSUforEach( this.#data.waves, ( w, wId ) => {
+			const svg = this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" );
+
+			svg.$setSVGSize( svg.clientWidth, svg.clientHeight );
+			svg.$setCurve( w.curve );
+		} );
+	}
 	#addWave( wId, w ) {
 		const elW = GSUgetTemplate( "gsui-wave-edit-wavestep", wId, w.index );
 
