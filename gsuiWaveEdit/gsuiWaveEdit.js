@@ -262,6 +262,8 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$wtGraph.$selectCurrentWave( wId );
 			this.$elements.$wtGraph.$draw();
 			this.$elements.$dotline.$clear();
+			this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
+			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 			this.$elements.$dotline.$change( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$scroll );
