@@ -113,7 +113,7 @@ class gsuiPatterns extends gsui0ne {
 			$root: this.$elements.$lists.buffer,
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => [
-				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
+				...document.querySelectorAll( "gsui-oscillator:not([waveedit]) .gsuiOscillator-waveWrap" ),
 				document.querySelector( ".gsuiSynthesizer-newOsc" ),
 				...document.querySelectorAll( "gsui-drumrow" ),
 				document.querySelector( ".gsuiDrumrows-dropNew" ),

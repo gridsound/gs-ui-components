@@ -31,7 +31,7 @@ class gsuiLibrary extends gsui0ne {
 			$itemSelector: ".gsuiLibrary-sample",
 			$getTargetList: () => [
 				document.querySelector( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
-				...document.querySelectorAll( ".gsuiOscillator-waveWrap" ),
+				...document.querySelectorAll( "gsui-oscillator:not([waveedit]) .gsuiOscillator-waveWrap" ),
 				document.querySelector( ".gsuiSynthesizer-newOsc" ),
 				...document.querySelectorAll( "gsui-drumrow" ),
 				document.querySelector( ".gsuiDrumrows-dropNew" ),
