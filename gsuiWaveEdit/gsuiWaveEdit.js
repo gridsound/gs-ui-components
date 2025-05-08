@@ -196,46 +196,43 @@ class gsuiWaveEdit extends gsui0ne {
 		switch ( act ) {
 			case "select": this.#selectWave( wId ); break;
 			case "clone":
-				this.$dispatch( "changeWavetable", this.$change( this.#createCloneObj( wId ) ) );
+				this.$dispatch( "changeWavetable", this.$change( gsuiWaveEdit.#createCloneObj( this.#data.waves, wId ) ) );
 				break;
 			case "remove":
 				if ( this.#elWavesSorted.length > 1 ) {
-					this.$dispatch( "changeWavetable", this.$change( this.#createRemoveObj( wId ) ) );
+					this.$dispatch( "changeWavetable", this.$change( gsuiWaveEdit.#createRemoveObj( this.#data.waves, wId ) ) );
 				}
 				break;
 		}
 	}
-	#createCloneObj( wId ) {
-		const elWaves = this.#elWavesSorted;
-		const w = this.#data.waves[ wId ];
-		const wNew = {
-			index: 1,
-			curve: GSUdeepCopy( w.curve ),
-		};
-		const waves = { [ GSUgetNewId( this.#data.waves ) ]: wNew };
+	static #createCloneObj( wavesData, wId ) {
+		const wNew = GSUdeepCopy( wavesData[ wId ] );
+		const waves = { [ GSUgetNewId( wavesData ) ]: wNew };
 
-		if ( elWaves.length > 1 ) {
-			const wOrder = this.#getWaveOrder( wId );
-
-			if ( wOrder < elWaves.length - 1 ) {
-				wNew.index = GSUavg( w.index, elWaves[ wOrder + 1 ].dataset.index );
-			} else {
-				waves[ wId ] = { index: GSUavg( elWaves[ wOrder - 1 ].dataset.index, w.index ) };
-			}
-		}
-		return { waves };
+		wNew.index += .000000001;
+		return { waves: gsuiWaveEdit.#createReorderingIndex( waves, wavesData ) };
 	}
-	#createRemoveObj( wId ) {
-		const elWaves = this.#elWavesSorted;
-		const order = this.#getWaveOrder( wId );
-		const waves = { [ wId ]: undefined };
+	static #createRemoveObj( wavesData, wId ) {
+		return { waves: gsuiWaveEdit.#createReorderingIndex( { [ wId ]: undefined }, wavesData ) };
+	}
+	static #createReorderingIndex( wavesObj, wavesData ) {
+		const wavesCpy = GSUdiffAssign( GSUdeepCopy( wavesData ), wavesObj );
+		const nbWaves = Object.keys( wavesCpy ).length;
 
-		if ( order === 0 ) {
-			waves[ elWaves[ 1 ].dataset.id ] = { index: 0 };
-		} else if ( order === elWaves.length - 1 && elWaves.length > 2 ) {
-			waves[ elWaves.at( -2 ).dataset.id ] = { index: 1 };
-		}
-		return { waves };
+		Object.entries( wavesCpy )
+			.sort( ( a, b ) => a[ 1 ].index - b[ 1 ].index )
+			.forEach( ( kv, i ) => {
+				const index = GSUMathRound( i / ( nbWaves - 1 ), .001 );
+
+				if ( wavesCpy[ kv[ 0 ] ].index !== index ) {
+					if ( kv[ 0 ] in wavesObj ) {
+						wavesObj[ kv[ 0 ] ].index = index;
+					} else {
+						wavesObj[ kv[ 0 ] ] = { index };
+					}
+				}
+			} );
+		return wavesObj;
 	}
 
 	// .........................................................................
