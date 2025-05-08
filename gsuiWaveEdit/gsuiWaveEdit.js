@@ -39,16 +39,13 @@ class gsuiWaveEdit extends gsui0ne {
 				this.#execWaveAction( w.dataset.id, act );
 			}
 		};
-		GSUlistenEvents( this, {
+		GSUlistenEvents( this.$elements.$dotline, {
 			gsuiDotline: {
 				input: GSUnoop,
-				change: ( d, t ) => {
-					const isWave = t.parentNode.classList.contains( "gsuiWaveEdit-graph" );
-
-					this.$dispatch(
-						isWave ? "changeWavetable" : "changeWavetableCurve",
-						this.$change( this.#onchangeDotlines( d.args[ 0 ], isWave ? "wave" : "wtpos" ) )
-					);
+				inputend: GSUnoop,
+				inputstart: GSUnoop,
+				change: d => {
+					this.$dispatch( "changeWavetable", this.$change( this.#onchangeDotlines( d.args[ 0 ], "wave" ) ) );
 					this.#waveNull = false;
 				},
 			},
@@ -61,6 +58,10 @@ class gsuiWaveEdit extends gsui0ne {
 					if ( d.$target === "dot" ) {
 						this.$elements.$wtGraph.$setMorphingWaveAt( d.$data[ d.$dotId ].y );
 					}
+				},
+				change: d => {
+					this.$dispatch( "changeWavetableCurve", this.$change( this.#onchangeDotlines( d.args[ 0 ], "wtpos" ) ) );
+					this.#waveNull = false;
 				},
 			},
 		} );
