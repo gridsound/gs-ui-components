@@ -1,9 +1,10 @@
 gsui-wave-edit {
 	position: relative;
+	overflow: hidden;
 	display: flex;
 	height: 100%;
 	min-width: 240px;
-	min-height: 120px;
+	min-height: 200px;
 	flex-direction: column;
 	background-color: var( --gsui-screen-graph );
 }
@@ -40,20 +41,19 @@ gsui-wave-edit {
 	display: flex;
 	flex: 2;
 }
-.gsuiWaveEdit-wt-graph {
+.gsuiWaveEdit-body-graph {
+	flex: 1;
 	height: 100%;
 	box-shadow: inset 0 0 110px 0 #0008;
+}
+.gsuiWaveEdit-body-waves {
+	flex: 2;
+	display: flex;
+	flex-direction: column;
 }
 gsui-wave-edit gsui-wavetable-graph {
 	width: 100%;
 	height: 100%;
-}
-.gsuiWaveEdit-scroll {
-	overflow: auto;
-	position: absolute;
-	inset: 0;
-	display: flex;
-	flex-direction: column;
 }
 
 /* .......................................................................... */
@@ -69,23 +69,24 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-waves {
-	display: grid;
-	grid-auto-flow: column;
-	justify-content: start;
-	width: max-content;
-	min-width: 100%;
+.gsuiWaveEdit-waves-wrap {
+	position: relative;
 	flex: .3;
-	padding: 2px 0;
-	min-height: min-content;
-	max-height: 100px;
+	max-height: 80px;
+	min-height: 42px;
+}
+.gsuiWaveEdit-waves {
+	position: absolute;
+	overflow: scroll;
+	inset: 0;
+	display: flex;
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%230001'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E" );
 }
 
 /* .......................................................................... */
 .gsuiWaveEdit-wavestep {
 	display: flex;
-	width: 1em;
+	min-width: 120px;
 	height: 100%;
 	margin-left: 2px;
 	border-right: 3px solid #0003;

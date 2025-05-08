@@ -15,9 +15,8 @@ class gsuiWaveEdit extends gsui0ne {
 			$elements: {
 				$head: ".gsuiWaveEdit-head",
 				$dotline: ".gsuiWaveEdit-graph gsui-dotline",
-				$wtGraphWrap: ".gsuiWaveEdit-wt-graph",
+				$wtGraphWrap: ".gsuiWaveEdit-body-graph",
 				$wtGraph: "gsui-wavetable-graph",
-				$scroll: ".gsuiWaveEdit-scroll",
 				$waves: ".gsuiWaveEdit-waves",
 				$wtDotline: ".gsuiWaveEdit-wtpos gsui-dotline",
 			},
@@ -37,6 +36,14 @@ class gsuiWaveEdit extends gsui0ne {
 				const w = e.target.closest( ".gsuiWaveEdit-wavestep" );
 
 				this.#execWaveAction( w.dataset.id, act );
+			}
+		};
+		this.$elements.$dotline.onwheel = e => {
+			const delta = e.shiftKey ? e.deltaY : e.deltaX;
+
+			if ( delta ) {
+				e.preventDefault();
+				this.$elements.$waves.scrollLeft += delta;
 			}
 		};
 		new gsuiReorder( {
@@ -75,17 +82,6 @@ class gsuiWaveEdit extends gsui0ne {
 
 	// .........................................................................
 	$onresize( w ) {
-		const dl = this.$elements.$dotline;
-		const h2 = this.$elements.$scroll.clientHeight;
-		const h3 = Math.min( h2, w / 3 );
-
-		this.$elements.$scroll.style.left = `${ h3 }px`;
-		this.$elements.$wtGraphWrap.style.width = `${ h3 }px`;
-
-		const ratio = dl.clientWidth / dl.clientHeight;
-		const wavesH = this.$elements.$waves.clientHeight - 4;
-
-		this.$elements.$waves.style.fontSize = `${ ratio * wavesH }px`;
 		this.#redrawWavesDeb();
 	}
 	$firstTimeConnected() {
@@ -296,7 +292,7 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 			this.$elements.$dotline.$change( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
-			GSUscrollIntoViewX( elW, this.$elements.$scroll );
+			GSUscrollIntoViewX( elW, this.$elements.$waves );
 		}
 	}
 }
