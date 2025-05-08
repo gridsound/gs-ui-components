@@ -353,8 +353,8 @@ class gsuiDotline extends gsui0ne {
 		return false;
 	}
 	#onrightclickSlider( e ) {
-		if ( e.button === 2 && e.target.classList.contains( "gsuiSlider-eventCatcher" ) ) {
-			const id = e.target.closest( ".gsuiDotline-cdot" ).dataset.id;
+		if ( e.button === 2 && e.target.classList.contains( "gsuiDotline-cdot" ) ) {
+			const id = e.target.dataset.id;
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
