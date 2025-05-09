@@ -232,7 +232,7 @@ class gsuiWaveEdit extends gsui0ne {
 		Object.entries( wavesCpy )
 			.sort( ( a, b ) => a[ 1 ].index - b[ 1 ].index )
 			.forEach( ( kv, i ) => {
-				const index = GSUMathRound( i / ( nbWaves - 1 ), .001 );
+				const index = GSUMathRound( i / ( nbWaves - 1 ) || 0, .001 );
 
 				if ( wavesCpy[ kv[ 0 ] ].index !== index ) {
 					if ( kv[ 0 ] in wavesObj ) {
