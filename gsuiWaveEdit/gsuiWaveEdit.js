@@ -19,6 +19,7 @@ class gsuiWaveEdit extends gsui0ne {
 				$wtGraph: "gsui-wavetable-graph",
 				$waves: ".gsuiWaveEdit-waves",
 				$wtDotline: ".gsuiWaveEdit-wtpos gsui-dotline",
+				$wtposWavelines: ".gsuiWaveEdit-wtpos-waves",
 			},
 		} );
 		Object.seal( this );
@@ -100,6 +101,7 @@ class gsuiWaveEdit extends gsui0ne {
 		this.#waveSelected = "0";
 		this.$elements.$dotline.$clear();
 		this.#elWavesSorted.forEach( w => w.remove() );
+		GSUemptyElement( this.$elements.$wtposWavelines );
 		this.#data = {};
 	}
 	$change( obj ) {
@@ -129,6 +131,7 @@ class gsuiWaveEdit extends gsui0ne {
 				if ( "index" in w ) {
 					toSort = true;
 					this.#getWaveElement( wId ).dataset.index = w.index;
+					this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` ).style.top = `${ ( 1 - w.index ) * 100 }%`;
 				}
 			}
 		} );
@@ -256,16 +259,24 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 	#addWave( wId, w ) {
 		const elW = GSUgetTemplate( "gsui-wave-edit-wavestep", wId, w.index );
+		const elWLine = GSUcreateDiv( {
+			class: "gsuiWaveEdit-wtpos-wave",
+			"data-id": wId,
+			style: { top: `${ ( 1 - w.index ) * 100 }%` },
+		} );
 
 		this.$elements.$waves.append( elW );
+		this.$elements.$wtposWavelines.append( elWLine );
 		this.#updateSortWaves();
 		elW.querySelector( "gsui-dotlinesvg" ).$setSVGSize( 100, 50 );
 		elW.querySelector( "gsui-dotlinesvg" ).$setDataBox( "0 -1 1 1" );
 	}
 	#removeWave( wId ) {
 		const w = this.#getWaveElement( wId );
+		const elWLine = this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` );
 
 		w?.remove();
+		elWLine?.remove();
 		if ( wId === this.#waveSelected ) {
 			const order = this.#getWaveOrder( wId );
 			const wNew = this.#elWavesSorted[ order + 1 ] || this.#elWavesSorted[ order - 1 ];
@@ -283,6 +294,7 @@ class gsuiWaveEdit extends gsui0ne {
 
 			if ( elWsel ) {
 				delete elWsel.dataset.selected;
+				delete this.querySelector( ".gsuiWaveEdit-wtpos-wave[data-selected]" ).dataset.selected;
 			}
 			this.#waveSelected = wId;
 			this.$elements.$wtGraph.$selectCurrentWave( wId );
@@ -292,6 +304,7 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 			this.$elements.$dotline.$change( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
+			this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` ).dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$waves );
 		}
 	}

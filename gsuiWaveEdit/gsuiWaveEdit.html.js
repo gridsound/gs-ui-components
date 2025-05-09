@@ -20,6 +20,7 @@ GSUsetTemplate( "gsui-wave-edit", () => [
 		),
 	),
 	GSUcreateDiv( { class: "gsuiWaveEdit-wtpos" },
+		GSUcreateDiv( { class: "gsuiWaveEdit-wtpos-waves" } ),
 		GSUcreateElement( "gsui-dotline", { viewbox: "0 0 1 1", xstep: 1 / 100, ystep: 1 / 100 } ),
 	),
 ] );

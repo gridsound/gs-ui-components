@@ -1,4 +1,6 @@
 gsui-wave-edit {
+	--gsuiWaveEdit-wave: #b3a5ea;
+	--gsuiWaveEdit-wave-selected: #8f8;
 	position: relative;
 	overflow: hidden;
 	display: flex;
@@ -65,7 +67,7 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 .gsuiWaveEdit-graph gsui-dotline {
 	height: 100%;
-	color: #b3a5ea;
+	color: var( --gsuiWaveEdit-wave );
 }
 
 /* .......................................................................... */
@@ -107,7 +109,7 @@ gsui-wave-edit gsui-wavetable-graph {
 	position: relative;
 	cursor: pointer;
 	fill: none;
-	stroke: #b3a5ea;
+	stroke: var( --gsuiWaveEdit-wave );
 	stroke-width: 2px;
 	pointer-events: var( --gsui-svg-cursor );
 }
@@ -148,7 +150,24 @@ gsui-wave-edit gsui-wavetable-graph {
 
 /* .......................................................................... */
 .gsuiWaveEdit-wtpos {
-	margin-top: 4px;
+	position: relative;
 	flex: 1;
+	margin-top: 6px;
 	background-color: #0005;
+}
+.gsuiWaveEdit-wtpos-waves {
+	position: absolute;
+	inset: 0 0 1px;
+	color: var( --gsuiWaveEdit-wave );
+	opacity: .7;
+}
+.gsuiWaveEdit-wtpos-wave {
+	position: absolute;
+	inset: auto 0;
+	border-top: 1px solid currentColor;
+	opacity: .5;
+}
+.gsuiWaveEdit-wtpos-wave[ data-selected ] {
+	color: var( --gsuiWaveEdit-wave-selected );
+	opacity: 1;
 }
