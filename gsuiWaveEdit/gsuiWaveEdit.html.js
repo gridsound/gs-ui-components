@@ -30,7 +30,7 @@ GSUsetTemplate( "gsui-wave-edit", () => [
 			GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurve-dur" },
 				GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurve-dur-body" },
 					GSUcreateSpan( { inert: true }, "duration" ),
-					GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 8, step: 1 } ),
+					GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 8, step: 1, "mousemove-size": 300 } ),
 				),
 				GSUcreateElement( "b", { inert: true }, 1 ),
 			),

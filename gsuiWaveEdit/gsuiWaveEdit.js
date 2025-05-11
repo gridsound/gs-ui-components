@@ -92,6 +92,18 @@ class gsuiWaveEdit extends gsui0ne {
 				},
 			},
 		} );
+		GSUlistenEvents( this.$elements.$wtposCurveDurSli, {
+			gsuiSlider: {
+				inputstart: GSUnoop,
+				inputend: GSUnoop,
+				input: ( { args: [ d ] } ) => this.#wtposCurve_setDuration( d ),
+				change: ( { args: [ d ] } ) => {
+					this.$dispatch( "changeWavetable", this.$change( { wtposCurves: {
+						[ this.#wtposCurveSelected ]: { duration: d },
+					} } ) );
+				},
+			},
+		} );
 	}
 
 	// .........................................................................
