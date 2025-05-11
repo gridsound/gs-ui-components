@@ -3,6 +3,8 @@
 class gsuiWaveEdit extends gsui0ne {
 	#waveNull = true;
 	#waveSelected = null;
+	#wtposCurveSelected = null;
+	#wtposCurveDuration = 0;
 	#elWaves = this.getElementsByClassName( "gsuiWaveEdit-wavestep" );
 	#elWavesSorted = [];
 	#data = GSUgetModel( "wavetable" );
@@ -20,6 +22,10 @@ class gsuiWaveEdit extends gsui0ne {
 				$waves: ".gsuiWaveEdit-waves",
 				$wtDotline: ".gsuiWaveEdit-wtpos gsui-dotline",
 				$wtposWavelines: ".gsuiWaveEdit-wtpos-waves",
+				$wtposBeatlines: ".gsuiWaveEdit-wtpos gsui-beatlines",
+				$wtposCurves: ".gsuiWaveEdit-wtposCurves",
+				$wtposCurveDur: ".gsuiWaveEdit-wtposCurve-dur > b",
+				$wtposCurveDurSli: ".gsuiWaveEdit-wtposCurve-dur gsui-slider",
 			},
 		} );
 		Object.seal( this );
@@ -45,6 +51,13 @@ class gsuiWaveEdit extends gsui0ne {
 			if ( delta ) {
 				e.preventDefault();
 				this.$elements.$waves.scrollLeft += delta;
+			}
+		};
+		this.$elements.$wtposCurves.onclick = e => {
+			const dt = e.target.dataset;
+
+			if ( dt.id && dt.selected !== "" ) {
+				this.#wtposCurve_selectCurve( dt.id );
 			}
 		};
 		new gsuiReorder( {
@@ -84,11 +97,13 @@ class gsuiWaveEdit extends gsui0ne {
 	// .........................................................................
 	$onresize( w ) {
 		this.#redrawWavesDeb();
+		this.#wtposCurve_updateBeatline();
 	}
 	$firstTimeConnected() {
 		this.#addWave( "0", this.#data.waves[ 0 ] );
 		this.#getWaveElement( "0" ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ 0 ].curve );
 		this.#selectWave( "0" );
+		this.#wtposCurve_selectCurve( "0" );
 		this.$elements.$dotline.$change( this.#data.waves[ 0 ].curve );
 		this.$elements.$wtGraph.$setWavetable( this.#data.waves );
 		this.$elements.$wtGraph.$draw();
@@ -135,12 +150,19 @@ class gsuiWaveEdit extends gsui0ne {
 				}
 			}
 		} );
+		GSUforEach( obj.wtposCurves, ( c, cId ) => {
+			if ( "duration" in c ) {
+				if ( cId === this.#wtposCurveSelected ) {
+					this.#wtposCurve_setDuration( c.duration );
+				}
+			}
+		} );
 		if ( toSort ) {
 			this.#updateSortWaves();
 		}
-		if ( obj.wtCurve ) {
-			this.$elements.$wtDotline.$change( obj.wtCurve );
-		}
+		// if ( obj.wtCurve ) {
+		// 	this.$elements.$wtDotline.$change( obj.wtCurve );
+		// }
 		GSUdiffAssign( this.#data, obj );
 		if ( toSelect ) {
 			this.#selectWave( toSelect );
@@ -307,6 +329,35 @@ class gsuiWaveEdit extends gsui0ne {
 			this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` ).dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$waves );
 		}
+	}
+
+	// .........................................................................
+	#wtposCurve_selectCurve( id ) {
+		if ( id !== this.#wtposCurveSelected ) {
+			const wtposCurve = this.#data.wtposCurves[ id ];
+
+			if ( this.#wtposCurveSelected ) {
+				delete this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ this.#wtposCurveSelected }']` ).dataset.selected;
+			}
+			this.#wtposCurveSelected = id;
+			this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ id }']` ).dataset.selected = "";
+			this.#wtposCurve_setDuration( wtposCurve.duration );
+			this.$elements.$wtDotline.$clear();
+			this.$elements.$wtDotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
+			this.$elements.$wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
+			this.$elements.$wtDotline.$change( wtposCurve.curve );
+		}
+	}
+	#wtposCurve_setDuration( dur ) {
+		this.#wtposCurveDuration = dur;
+		this.$elements.$wtposCurveDur.textContent = `${ dur }`.padStart( 2, "0" );
+		GSUsetAttribute( this.$elements.$wtposCurveDurSli, "value", dur );
+		this.#wtposCurve_updateBeatline();
+	}
+	#wtposCurve_updateBeatline() {
+		const bl = this.$elements.$wtposBeatlines;
+
+		GSUsetAttribute( bl, "pxperbeat", bl.clientWidth / this.#wtposCurveDuration );
 	}
 }
 

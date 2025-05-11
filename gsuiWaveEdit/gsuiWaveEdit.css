@@ -5,8 +5,8 @@ gsui-wave-edit {
 	overflow: hidden;
 	display: flex;
 	height: 100%;
-	min-width: 240px;
-	min-height: 200px;
+	min-width: 440px;
+	min-height: 240px;
 	flex-direction: column;
 	background-color: var( --gsui-screen-graph );
 }
@@ -83,6 +83,7 @@ gsui-wave-edit gsui-wavetable-graph {
 	inset: 0;
 	display: flex;
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%230001'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E" );
+	background-color: #0003;
 }
 
 /* .......................................................................... */
@@ -152,12 +153,99 @@ gsui-wave-edit gsui-wavetable-graph {
 .gsuiWaveEdit-wtpos {
 	position: relative;
 	flex: 1;
-	margin-top: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 6px;
+}
+
+/* .......................................................................... */
+.gsuiWaveEdit-wtpos-head {
+	display: flex;
+	flex: 1;
+	gap: 10px;
+}
+
+/* .......................................................................... */
+.gsuiWaveEdit-wtposCurves {
+	flex: 1;
+	display: flex;
+	gap: 8px;
+}
+.gsuiWaveEdit-wtposCurve {
+	position: relative;
+	flex: 1;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #0005;
+}
+.gsuiWaveEdit-wtposCurve[ data-selected ] {
+	cursor: default;
+}
+.gsuiWaveEdit-wtposCurve[ data-selected ]::before {
+	content: "";
+	position: absolute;
+	top: calc( 100% + 1px );
+	width: 50%;
+	left: 25%;
+	height: 3px;
+	border-radius: 99px;
+	background-color: var( --gsuiWaveEdit-wave );
+}
+
+/* .......................................................................... */
+.gsuiWaveEdit-wtposCurve-dur {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+.gsuiWaveEdit-wtposCurve-dur-body {
+	display: flex;
+	flex-direction: column;
+}
+.gsuiWaveEdit-wtposCurve-dur-body > span {
+	font-size: 12px;
+	font-weight: bold;
+	opacity: .5;
+}
+.gsuiWaveEdit-wtposCurve-dur-body gsui-slider {
+	height: 8px;
+}
+.gsuiWaveEdit-wtposCurve-dur-body .gsuiSlider-eventCatcher {
+	top: -15px;
+	right: -60px;
+}
+.gsuiWaveEdit-wtposCurve-dur > b {
+	display: flex;
+	align-items: baseline;
+	height: 20px;
+	gap: .5ch;
+	border-radius: 4px;
+	padding: 2px 6px;
+	font-family: var( --gsui-font-number );
+	background-color: #0005;
+}
+.gsuiWaveEdit-wtposCurve-dur > b::after {
+	content: " Beat";
+	font-size: .8em;
+	font-weight: normal;
+	font-family: var( --gsui-font );
+	opacity: .5;
+}
+
+/* .......................................................................... */
+.gsuiWaveEdit-wtpos-graph {
+	--gsui-pad: 4px;
+	flex: 3;
+	position: relative;
+	border-radius: 4px;
+	padding: var( --gsui-pad );
 	background-color: #0005;
 }
 .gsuiWaveEdit-wtpos-waves {
 	position: absolute;
-	inset: 0 0 1px;
+/*	inset: 0 0 1px;*/
+	inset: var( --gsui-pad );
 	color: var( --gsuiWaveEdit-wave );
 	opacity: .7;
 }
@@ -170,4 +258,8 @@ gsui-wave-edit gsui-wavetable-graph {
 .gsuiWaveEdit-wtpos-wave[ data-selected ] {
 	color: var( --gsuiWaveEdit-wave-selected );
 	opacity: 1;
+}
+.gsuiWaveEdit-wtpos gsui-beatlines {
+	inset: var( --gsui-pad );
+	color: currentColor;
 }
