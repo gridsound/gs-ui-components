@@ -64,6 +64,7 @@ class gsuiWaveEdit extends gsui0ne {
 			$root: this.$elements.$waves,
 			$parentSelector: ".gsuiWaveEdit-waves",
 			$itemSelector: ".gsuiWaveEdit-wavestep",
+			$itemGripSelector: ".gsuiWaveEdit-wavestep gsui-dotlinesvg",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
 		GSUlistenEvents( this.$elements.$dotline, {

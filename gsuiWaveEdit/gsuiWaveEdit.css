@@ -96,23 +96,22 @@ gsui-wave-edit gsui-wavetable-graph {
 	border-radius: 6px;
 	background-color: #282830;
 	--gsui-num-opacity: .3;
-	--gsui-svg-cursor: auto;
+	--gsui-svg-cursor: pointer;
 }
 .gsuiWaveEdit-wavestep[ data-selected ] {
 	background-color: #493d7b;
 	--gsui-num-opacity: .9;
-	--gsui-svg-cursor: none;
+	--gsui-svg-cursor: grab;
 }
 
 /* .......................................................................... */
 .gsuiWaveEdit-wavestep gsui-dotlinesvg {
 	flex: 1;
 	position: relative;
-	cursor: pointer;
 	fill: none;
 	stroke: var( --gsuiWaveEdit-wave );
 	stroke-width: 2px;
-	pointer-events: var( --gsui-svg-cursor );
+	cursor: var( --gsui-svg-cursor );
 }
 .gsuiWaveEdit-wavestep svg {
 	position: absolute;
