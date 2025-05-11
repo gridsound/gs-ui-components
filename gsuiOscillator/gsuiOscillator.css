@@ -4,7 +4,7 @@ gsui-oscillator {
 	display: flex;
 	position: relative;
 	box-sizing: border-box;
-	min-width: 364px;
+	min-width: 460px;
 	min-height: 78px;
 	background-color: var( --gsui-item-bg );
 	transition: .2s;
