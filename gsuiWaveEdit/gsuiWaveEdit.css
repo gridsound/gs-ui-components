@@ -41,7 +41,7 @@ gsui-wave-edit {
 .gsuiWaveEdit-body {
 	position: relative;
 	display: flex;
-	flex: 2;
+	flex: 3;
 }
 .gsuiWaveEdit-body-graph {
 	flex: 1;
@@ -152,7 +152,7 @@ gsui-wave-edit gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWaveEdit-wtpos {
 	position: relative;
-	flex: 1;
+	flex: 2;
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
@@ -178,9 +178,11 @@ gsui-wave-edit gsui-wavetable-graph {
 	border-radius: 4px;
 	cursor: pointer;
 	background-color: #0005;
+	opacity: .6;
 }
 .gsuiWaveEdit-wtposCurve[ data-selected ] {
 	cursor: default;
+	opacity: 1;
 }
 .gsuiWaveEdit-wtposCurve[ data-selected ]::before {
 	content: "";
@@ -195,7 +197,7 @@ gsui-wave-edit gsui-wavetable-graph {
 .gsuiWaveEdit-wtposCurve gsui-dotlinesvg {
 	position: absolute;
 	overflow: hidden;
-	inset: 0;
+	inset: 4px;
 	border-radius: inherit;
 }
 .gsuiWaveEdit-wtposCurve svg {
@@ -257,7 +259,6 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 .gsuiWaveEdit-wtpos-waves {
 	position: absolute;
-/*	inset: 0 0 1px;*/
 	inset: var( --gsui-pad );
 	color: var( --gsuiWaveEdit-wave );
 	opacity: .7;

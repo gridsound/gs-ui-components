@@ -71,10 +71,7 @@ class gsuiWaveEdit extends gsui0ne {
 				input: GSUnoop,
 				inputend: GSUnoop,
 				inputstart: GSUnoop,
-				change: d => {
-					this.$dispatch( "changeWavetable", this.$change( this.#onchangeDotlines( d.args[ 0 ], "wave" ) ) );
-					this.#waveNull = false;
-				},
+				change: d => this.#onchange( { waves: { [ this.#waveSelected ]: { curve: d.args[ 0 ] } } } ),
 			},
 		} );
 		GSUlistenEvents( this.$elements.$wtDotline, {
@@ -86,22 +83,15 @@ class gsuiWaveEdit extends gsui0ne {
 						this.$elements.$wtGraph.$setMorphingWaveAt( d.$data[ d.$dotId ].y );
 					}
 				},
-				change: d => {
-					this.$dispatch( "changeWavetableCurve", this.$change( this.#onchangeDotlines( d.args[ 0 ], "wtpos" ) ) );
-					this.#waveNull = false;
-				},
+				change: d => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { curve: d.args[ 0 ] } } } ),
 			},
 		} );
 		GSUlistenEvents( this.$elements.$wtposCurveDurSli, {
 			gsuiSlider: {
 				inputstart: GSUnoop,
 				inputend: GSUnoop,
-				input: ( { args: [ d ] } ) => this.#wtposCurve_setDuration( d ),
-				change: ( { args: [ d ] } ) => {
-					this.$dispatch( "changeWavetable", this.$change( { wtposCurves: {
-						[ this.#wtposCurveSelected ]: { duration: d },
-					} } ) );
-				},
+				input: d => this.#wtposCurve_setDuration( d.args[ 0 ] ),
+				change: d => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { duration: d.args[ 0 ] } } } ),
 			},
 		} );
 	}
@@ -169,13 +159,15 @@ class gsuiWaveEdit extends gsui0ne {
 					this.#wtposCurve_setDuration( c.duration );
 				}
 			}
+			if ( c.curve ) {
+				if ( cId === this.#wtposCurveSelected ) {
+					this.$elements.$wtDotline.$change( c.curve );
+				}
+			}
 		} );
 		if ( toSort ) {
 			this.#updateSortWaves();
 		}
-		// if ( obj.wtCurve ) {
-		// 	this.$elements.$wtDotline.$change( obj.wtCurve );
-		// }
 		GSUdiffAssign( this.#data, obj );
 		if ( toSelect ) {
 			this.#selectWave( toSelect );
@@ -189,6 +181,12 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onchange( obj ) {
+		const obj2 = !this.#waveNull ? obj : GSUdeepAssign( GSUdeepCopy( this.#data ), obj );
+
+		this.$dispatch( "changeWavetable", this.$change( obj2 ) );
+		this.#waveNull = false;
+	}
 	#onreorderWaves( obj ) {
 		const elWavesSorted = Array.from( this.#elWaves ).sort( ( a, b ) => a.style.order - b.style.order );
 		const nbWaves = elWavesSorted.length;
@@ -202,26 +200,7 @@ class gsuiWaveEdit extends gsui0ne {
 				wavesObj[ wId ] = { index };
 			}
 		} );
-		this.$dispatch( "changeWavetable", this.$change( { waves: wavesObj } ) );
-	}
-	#onchangeDotlines( crvObj, src ) {
-		const obj = {};
-
-		if ( this.#waveNull ) {
-			GSUdeepAssign( obj, this.#data );
-			if ( src === "wave" ) {
-				GSUdeepAssign( obj.waves[ this.#waveSelected ].curve, crvObj );
-			} else if ( src === "wtpos" ) {
-				GSUdeepAssign( obj.wtCurve, crvObj );
-			}
-		} else {
-			if ( src === "wave" ) {
-				obj.waves = { [ this.#waveSelected ]: { curve: crvObj } };
-			} else if ( src === "wtpos" ) {
-				obj.wtCurve = crvObj;
-			}
-		}
-		return obj;
+		this.#onchange( { waves: wavesObj } );
 	}
 
 	// .........................................................................
@@ -244,11 +223,11 @@ class gsuiWaveEdit extends gsui0ne {
 		switch ( act ) {
 			case "select": this.#selectWave( wId ); break;
 			case "clone":
-				this.$dispatch( "changeWavetable", this.$change( gsuiWaveEdit.#createCloneObj( this.#data.waves, wId ) ) );
+				this.#onchange( gsuiWaveEdit.#createCloneObj( this.#data.waves, wId ) );
 				break;
 			case "remove":
 				if ( this.#elWavesSorted.length > 1 ) {
-					this.$dispatch( "changeWavetable", this.$change( gsuiWaveEdit.#createRemoveObj( this.#data.waves, wId ) ) );
+					this.#onchange( gsuiWaveEdit.#createRemoveObj( this.#data.waves, wId ) );
 				}
 				break;
 		}
@@ -326,10 +305,13 @@ class gsuiWaveEdit extends gsui0ne {
 		if ( this.#waveSelected !== wId ) {
 			const elW = this.#getWaveElement( wId );
 			const elWsel = this.#getWaveElement( this.#waveSelected );
+			const elLsel = this.querySelector( ".gsuiWaveEdit-wtpos-wave[data-selected]" );
 
 			if ( elWsel ) {
 				delete elWsel.dataset.selected;
-				delete this.querySelector( ".gsuiWaveEdit-wtpos-wave[data-selected]" ).dataset.selected;
+			}
+			if ( elLsel ) {
+				delete elLsel.dataset.selected;
 			}
 			this.#waveSelected = wId;
 			this.$elements.$wtGraph.$selectCurrentWave( wId );
