@@ -88,8 +88,8 @@ class gsuiWaveEdit extends gsui0ne {
 		} );
 		GSUlistenEvents( this.$elements.$wtposCurveDurSli, {
 			gsuiSlider: {
-				inputstart: GSUnoop,
-				inputend: GSUnoop,
+				inputStart: GSUnoop,
+				inputEnd: GSUnoop,
 				input: d => this.#wtposCurve_setDuration( d.args[ 0 ] ),
 				change: d => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { duration: d.args[ 0 ] } } } ),
 			},
@@ -124,6 +124,7 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 	$change( obj ) {
 		const wavesToUpdate = [];
+		const curvesToUpdate = [];
 		let toSort = false;
 		let toSelect = null;
 
@@ -160,6 +161,7 @@ class gsuiWaveEdit extends gsui0ne {
 				}
 			}
 			if ( c.curve ) {
+				curvesToUpdate.push( cId );
 				if ( cId === this.#wtposCurveSelected ) {
 					this.$elements.$wtDotline.$change( c.curve );
 				}
@@ -172,9 +174,8 @@ class gsuiWaveEdit extends gsui0ne {
 		if ( toSelect ) {
 			this.#selectWave( toSelect );
 		}
-		wavesToUpdate.forEach( wId => {
-			this.#getWaveElement( wId ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ wId ].curve );
-		} );
+		wavesToUpdate.forEach( id => this.#getWaveElement( id ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ id ].curve ) );
+		curvesToUpdate.forEach( id => this.#wtposCurve_updatePreview( id ) );
 		this.$elements.$wtGraph.$setWavetable( this.#data.waves );
 		this.$elements.$wtGraph.$draw();
 		return obj;
