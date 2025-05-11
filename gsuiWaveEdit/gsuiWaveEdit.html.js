@@ -22,7 +22,10 @@ GSUsetTemplate( "gsui-wave-edit", () => [
 	GSUcreateDiv( { class: "gsuiWaveEdit-wtpos" },
 		GSUcreateDiv( { class: "gsuiWaveEdit-wtpos-head" },
 			GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurves" },
-				GSUnewArray( 10, i => GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurve", "data-id": i } ) ),
+				GSUnewArray( 10, i =>
+					GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurve", "data-id": i },
+						GSUcreateElement( "gsui-dotlinesvg", { inert: true } ),
+					) ),
 			),
 			GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurve-dur" },
 				GSUcreateDiv( { class: "gsuiWaveEdit-wtposCurve-dur-body" },

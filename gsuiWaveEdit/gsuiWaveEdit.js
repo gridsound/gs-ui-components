@@ -104,6 +104,7 @@ class gsuiWaveEdit extends gsui0ne {
 		this.#getWaveElement( "0" ).querySelector( "gsui-dotlinesvg" ).$setCurve( this.#data.waves[ 0 ].curve );
 		this.#selectWave( "0" );
 		this.#wtposCurve_selectCurve( "0" );
+		GSUforEach( this.#data.wtposCurves, ( c, id ) => this.#wtposCurve_updatePreview( id ) );
 		this.$elements.$dotline.$change( this.#data.waves[ 0 ].curve );
 		this.$elements.$wtGraph.$setWavetable( this.#data.waves );
 		this.$elements.$wtGraph.$draw();
@@ -332,6 +333,15 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 
 	// .........................................................................
+	#wtposCurve_updatePreview( id ) {
+		const wtposCurve = this.#data.wtposCurves[ id ];
+		const elPreview = this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ id }']` );
+		const dlSVG = elPreview.querySelector( "gsui-dotlinesvg" );
+
+		dlSVG.$setSVGSize( 60, 30 );
+		dlSVG.$setDataBox( "0 0 1 1" );
+		dlSVG.$setCurve( wtposCurve.curve );
+	}
 	#wtposCurve_selectCurve( id ) {
 		if ( id !== this.#wtposCurveSelected ) {
 			const wtposCurve = this.#data.wtposCurves[ id ];
