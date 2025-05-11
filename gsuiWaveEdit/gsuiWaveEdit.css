@@ -267,7 +267,7 @@ gsui-wave-edit gsui-wavetable-graph {
 	position: absolute;
 	inset: auto 0;
 	border-top: 1px solid currentColor;
-	opacity: .5;
+	opacity: .25;
 }
 .gsuiWaveEdit-wtpos-wave[ data-selected ] {
 	color: var( --gsuiWaveEdit-wave-selected );
