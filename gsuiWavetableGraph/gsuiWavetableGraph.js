@@ -146,13 +146,14 @@ class gsuiWavetableGraph extends gsui0ne {
 	#drawWave2( wId, dots, g, i, z ) {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
 		const isSel = this.#selectedWave === wId;
+		const i2 = ( this.#waves.length - 1 - i ) * 2;
 
-		GSUsetAttribute( g.children[ i * 2 ], "data-selected", isSel );
-		GSUsetAttribute( g.children[ i * 2 ], "points", curveDots.join( " " ) );
+		GSUsetAttribute( g.children[ i2 ], "data-selected", isSel );
+		GSUsetAttribute( g.children[ i2 ], "points", curveDots.join( " " ) );
 		curveDots.shift();
 		curveDots.pop();
-		GSUsetAttribute( g.children[ i * 2 + 1 ], "data-selected", isSel );
-		GSUsetAttribute( g.children[ i * 2 + 1 ], "points", curveDots.join( " " ) );
+		GSUsetAttribute( g.children[ i2 + 1 ], "data-selected", isSel );
+		GSUsetAttribute( g.children[ i2 + 1 ], "points", curveDots.join( " " ) );
 	}
 	#drawInter( el, x ) {
 		GSUsetAttribute( el, "points", this.#waves.map( ( wave, i ) => {
