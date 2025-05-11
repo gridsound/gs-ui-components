@@ -141,19 +141,18 @@ class gsuiWavetableGraph extends gsui0ne {
 		GSUsetAttribute( g.children[ 1 ], "points", false );
 	}
 	#drawWave( wave, i ) {
-		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, i, wave.index );
+		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, ( this.#waves.length - 1 - i ) * 2, wave.index );
 	}
 	#drawWave2( wId, dots, g, i, z ) {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
 		const isSel = this.#selectedWave === wId;
-		const i2 = ( this.#waves.length - 1 - i ) * 2;
 
-		GSUsetAttribute( g.children[ i2 ], "data-selected", isSel );
-		GSUsetAttribute( g.children[ i2 ], "points", curveDots.join( " " ) );
+		GSUsetAttribute( g.children[ i ], "data-selected", isSel );
+		GSUsetAttribute( g.children[ i ], "points", curveDots.join( " " ) );
 		curveDots.shift();
 		curveDots.pop();
-		GSUsetAttribute( g.children[ i2 + 1 ], "data-selected", isSel );
-		GSUsetAttribute( g.children[ i2 + 1 ], "points", curveDots.join( " " ) );
+		GSUsetAttribute( g.children[ i + 1 ], "data-selected", isSel );
+		GSUsetAttribute( g.children[ i + 1 ], "points", curveDots.join( " " ) );
 	}
 	#drawInter( el, x ) {
 		GSUsetAttribute( el, "points", this.#waves.map( ( wave, i ) => {
