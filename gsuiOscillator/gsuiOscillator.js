@@ -67,7 +67,6 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.$elements.$waveEditBtn.onclick = () => GSUtoggleAttribute( this, "waveedit" );
-		this.$elements.$waveEditWrap.onpointerdown = e => e.preventDefault();
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		GSUlistenEvents( this, {
 			gsuiSlider: {
