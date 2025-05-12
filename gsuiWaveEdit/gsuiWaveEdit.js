@@ -6,7 +6,6 @@ class gsuiWaveEdit extends gsui0ne {
 	#wtposCurveSelected = null;
 	#wtposCurveDuration = 0;
 	#data = GSUgetModel( "wavetable" );
-	#wtwaves_redrawAll_deb = GSUthrottle( this.#wtwaves_redrawAll.bind( this ), 100 );
 
 	constructor() {
 		super( {
@@ -97,7 +96,6 @@ class gsuiWaveEdit extends gsui0ne {
 
 	// .........................................................................
 	$onresize( w ) {
-		this.#wtwaves_redrawAll_deb();
 		this.#wtposCurve_updateBeatline();
 	}
 	$firstTimeConnected() {
@@ -265,14 +263,6 @@ class gsuiWaveEdit extends gsui0ne {
 	#wtwaves_updatePreview( id ) {
 		this.#wtwaves_getSVG( id ).$setCurve( this.#data.waves[ id ].curve );
 	}
-	#wtwaves_redrawAll() {
-		GSUforEach( this.#data.waves, ( w, wId ) => {
-			const svg = this.#wtwaves_getSVG( wId );
-
-			svg.$setSVGSize( svg.clientWidth, svg.clientHeight );
-			svg.$setCurve( w.curve );
-		} );
-	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = GSUgetTemplate( "gsui-wave-edit-wavestep", wId, w.index );
 		const elWLine = GSUcreateDiv( {
@@ -284,7 +274,7 @@ class gsuiWaveEdit extends gsui0ne {
 		this.$elements.$waves.append( elW );
 		this.$elements.$wtposWavelines.append( elWLine );
 		this.#wtwaves_updateWavesOrder();
-		elW.querySelector( "gsui-dotlinesvg" ).$setSVGSize( 100, 50 );
+		elW.querySelector( "gsui-dotlinesvg" ).$setSVGSize( 60, 40 );
 		elW.querySelector( "gsui-dotlinesvg" ).$setDataBox( "0 -1 1 1" );
 	}
 	#wtwaves_removeWave( wId ) {

@@ -73,8 +73,6 @@ gsui-wave-edit gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWaveEdit-waves-wrap {
 	position: relative;
-	flex: .3;
-	max-height: 80px;
 	min-height: 42px;
 }
 .gsuiWaveEdit-waves {
@@ -89,7 +87,7 @@ gsui-wave-edit gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWaveEdit-wavestep {
 	display: flex;
-	min-width: 120px;
+	min-width: 70px;
 	height: 100%;
 	margin-left: 2px;
 	border-right: 3px solid #0003;
