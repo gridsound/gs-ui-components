@@ -159,8 +159,8 @@ gsui-wave-edit gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWaveEdit-wtpos-head {
 	display: flex;
-	flex: 1;
 	gap: 10px;
+	min-height: 32px;
 }
 
 /* .......................................................................... */
@@ -248,7 +248,7 @@ gsui-wave-edit gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWaveEdit-wtpos-graph {
 	--gsui-pad: 4px;
-	flex: 3;
+	flex: 1;
 	position: relative;
 	border-radius: 4px;
 	padding: var( --gsui-pad );
