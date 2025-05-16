@@ -102,7 +102,7 @@ gsui-keys[ orient="horizontal" ] .gsuiKeyBlack {
 }
 .gsuiKey[ data-key="0" ]::after {
 	counter-increment: octave -1;
-	content: var(--gsuiKeys-keyNotation) "·" counter( octave );
+	content: var( --gsuiKeys-keyNotation ) "·" counter( octave );
 	position: absolute;
 	right: .25em;
 	bottom: 2px;

@@ -8,7 +8,7 @@ gsui-channels {
 }
 
 gsui-channels gsui-analyser-vu {
-	width: var(--vuW);
+	width: var( --vuW );
 }
 
 /* .......................................................................... */
@@ -21,7 +21,7 @@ gsui-channels gsui-analyser-vu {
 .gsuiChannels-panChannels {
 	position: absolute;
 	overflow: scroll;
-	inset: 0 0 0 calc( var(--vuW) + 3px + 50px );
+	inset: 0 0 0 calc( var( --vuW ) + 3px + 50px );
 	display: flex;
 	scrollbar-width: none;
 }

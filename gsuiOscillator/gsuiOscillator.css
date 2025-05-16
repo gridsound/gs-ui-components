@@ -6,8 +6,8 @@ gsui-oscillator {
 	box-sizing: border-box;
 	min-width: 460px;
 	min-height: 82px;
-	border-top: var(--gsui-item-brdtop);
-	border-bottom: var(--gsui-item-brdbottom);
+	border-top: var( --gsui-item-brdtop );
+	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
 	transition: .2s;
 	transition-property: min-height;

@@ -16,7 +16,7 @@ gsui-titleuser {
 .gsuiTitleUser-gs {
 	align-self: center;
 	font-size: 28px;
-	font-family: var(--gsui-font-title);
+	font-family: var( --gsui-font-title );
 }
 
 /* .......................................................................... */
