@@ -6,6 +6,8 @@ gsui-noise {
 	gap: 8px;
 	padding: 6px 10px;
 	font-size: 12px;
+	border-top: var( --gsui-item-brdtop );
+	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
 }
 
