@@ -126,7 +126,7 @@ class gsuiEnvelope extends gsui0ne {
 	$onresize() {
 		const nbProps = this.#env === "gain" ? 5 : 6;
 
-		this.style.minHeight = `${ nbProps * 18 + 2 * 6 }px`;
+		this.style.minHeight = `${ nbProps * 20 - 2 + 2 * 8 }px`;
 		this.#waveWidth = this.$elements.$beatlines.getBoundingClientRect().width;
 		this.#updatePxPerBeat();
 		this.$elements.$graph.$resized();

@@ -1,10 +1,13 @@
 gsui-envelope {
 	container-type: size;
 	container-name: gsui-envelope-query;
+	box-sizing: border-box;
 	display: block;
 	height: 100%;
 	min-width: 144px;
 	font-family: var( --gsui-font );
+	border-top: var( --gsui-item-brdtop );
+	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
@@ -49,6 +52,7 @@ gsui-envelope gsui-envelope-graph {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	gap: 2px;
 	flex: 1;
 }
 .gsuiEnvelope-prop {
