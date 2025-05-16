@@ -77,10 +77,6 @@ gsui-synthesizer {
 gsui-synthesizer gsui-envelope {
 	height: min-content;
 }
-gsui-synthesizer gsui-lfo {
-	height: 90px;
-	min-height: 90px;
-}
 
 /* .......................................................................... */
 .gsuiSynthesizer-headNoise .gsuiSynthesizer-headTitle {
