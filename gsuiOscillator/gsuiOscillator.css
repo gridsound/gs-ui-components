@@ -351,13 +351,8 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 		margin-bottom: 6px;
 	}
 }
-@container gsui-oscillator-query ( min-width: 500px ) OR ( min-height: 200px ) {
+@container gsui-oscillator-query ( min-width: 600px ) OR ( min-height: 200px ) {
 	gsui-periodicwave {
 		stroke-width: 2px;
-	}
-}
-@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 400px ) {
-	gsui-periodicwave {
-		stroke-width: 4px;
 	}
 }
