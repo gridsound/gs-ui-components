@@ -68,6 +68,11 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.$elements.$waveEditBtn.onclick = () => GSUtoggleAttribute( this, "waveedit" );
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
+		this.addEventListener( "transitionend", e => {
+			if ( e.propertyName === "min-height" && this.#elWaveEdit ) {
+				GSUsetStyle( this, "transition", "none" );
+			}
+		} );
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUnoop,
@@ -260,6 +265,7 @@ class gsuiOscillator extends gsui0ne {
 			this.$elements.$waveEditWrap.append( this.#elWaveEdit );
 			this.#elWaveEdit.$change( this.$askWaveCustomData() );
 		} else {
+			GSUsetStyle( this, "transition", "" );
 			this.#elWaveEdit.remove();
 			this.#elWaveEdit = null;
 		}
