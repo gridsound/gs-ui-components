@@ -258,7 +258,6 @@ gsui-wave-edit gsui-wavetable-graph {
 	position: absolute;
 	inset: var( --gsui-pad );
 	color: var( --gsuiWaveEdit-wave );
-	opacity: .7;
 }
 .gsuiWaveEdit-wtpos-wave {
 	position: absolute;
