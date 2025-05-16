@@ -89,10 +89,6 @@ gsui-oscillator[ waveedit ] {
 	font-size: 12px;
 	pointer-events: none;
 }
-gsui-oscillator[ wave="noise" ] .gsuiOscillator-detune .gsuiOscillator-sliderValue {
-	filter: grayscale( 1 );
-	opacity: .4;
-}
 
 /* .......................................................................... */
 .gsuiOscillator-waveColumn {
@@ -280,9 +276,6 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 	min-width: 10px;
 	border-radius: 99px;
 	background-color: #0002;
-}
-gsui-oscillator[ wave="noise" ] .gsuiOscillator-unisonGraph {
-	filter: grayscale( 1 );
 }
 .gsuiOscillator-unisonGraph-voices {
 	display: flex;
