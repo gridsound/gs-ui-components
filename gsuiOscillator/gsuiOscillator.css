@@ -5,7 +5,9 @@ gsui-oscillator {
 	position: relative;
 	box-sizing: border-box;
 	min-width: 460px;
-	min-height: 78px;
+	min-height: 82px;
+	border-top: var(--gsui-item-brdtop);
+	border-bottom: var(--gsui-item-brdbottom);
 	background-color: var( --gsui-item-bg );
 	transition: .2s;
 	transition-property: min-height;
@@ -331,7 +333,7 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 }
 
 /* .......................................................................... */
-@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 168px ) {
+@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
 	.gsuiOscillator-in {
 		grid-template:
 			"grip .   .    .    .         .     .       ."  6px

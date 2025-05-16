@@ -102,7 +102,7 @@ class gsuiOscillator extends gsui0ne {
 		const w = this.clientWidth;
 		const h = wedit
 			? Math.max( 340, w / 2 )
-			: w < 700 ? 78 : 168;
+			: w < 700 ? 82 : 174;
 
 		this.style.minHeight = `${ h }px`;
 		this.$elements.$waves[ 0 ].$resized();
