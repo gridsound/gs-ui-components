@@ -137,6 +137,7 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 .gsuiOscillator-wave gsui-periodicwave:first-child { color: var( --gsui-col-pan-l ); }
 .gsuiOscillator-wave gsui-periodicwave:last-child { color: var( --gsui-col-pan-r ); }
 .gsuiOscillator-wave polyline {
+	stroke-width: 2px;
 	stroke-opacity: .8;
 }
 .gsuiOscillator-source svg {
@@ -350,8 +351,6 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
-}
-@container gsui-oscillator-query ( min-width: 600px ) OR ( min-height: 200px ) {
 	gsui-periodicwave {
 		stroke-width: 2px;
 	}
