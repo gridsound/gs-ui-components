@@ -37,14 +37,31 @@ gsui-envelope[ env="lowpass" ] {
 .gsuiEnvelope-graph {
 	flex: 2;
 	position: relative;
-	overflow: hidden;
 	border-radius: 4px;
 	background-color: var( --gsui-screen-graph );
 }
+gsui-envelope gsui-beatlines {
+	overflow: hidden;
+	border-radius: inherit;
+}
 gsui-envelope gsui-envelope-graph {
 	position: absolute;
+	overflow: hidden;
 	inset: 2px 0 0;
+	border-radius: inherit;
 	color: var( --gsuiEnvelope-wave-col );
+}
+.gsuiEnvelope-keyPreviews {
+	position: absolute;
+	inset: 2px 0 0;
+}
+.gsuiEnvelope-keyPreview {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	margin: -5px 0 0 -5px;
+	border-radius: 50%;
+	background-color: var( --gsuiEnvelope-ctrls-color );
 }
 
 /* .......................................................................... */

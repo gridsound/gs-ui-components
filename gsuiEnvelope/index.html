@@ -29,7 +29,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".1" decay=".1" sustain=".7" release="1"></gsui-envelope>
+	<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".15" decay=".1" sustain=".7" amp="12" release="1"></gsui-envelope>
 </div>
 <div id="TEST-CTRLS">
 	<label>
@@ -38,9 +38,27 @@ body {
 	</label>
 	<select id="inpTarget">
 		<option value="gain">gain</option>
-		<option value="detune">detune</option>
+		<option value="detune" selected>detune</option>
 		<option value="lowpass">lowpass</option>
 	</select>
+	<br/><br/>
+	<div>
+		<span>BPM:</span>
+		<input id="inpBPM" type="range" min="10" max="999" step="1" value="120" style="width:100px"/>
+		<b id="bpm"></b>
+	</div>
+	<div>
+		<span>startKey:</span>
+		<button class="btnPlay" data-dur=".25">.25</button>
+		<button class="btnPlay" data-dur=".5">.5</button>
+		<button class="btnPlay" data-dur="1">1</button>
+		<button class="btnPlay" data-dur="2">2</button>
+		<button class="btnPlay" data-dur="4">4</button>
+	</div>
+	<div>
+		<span>startKey (live):</span>
+		<button id="btnPlayLive">live</button>
+	</div>
 </div>
 
 <!-- ....................................................................... -->
@@ -66,9 +84,24 @@ body {
 const elEnv = document.querySelector( "gsui-envelope" );
 const inpToggle = document.querySelector( "#inpToggle" );
 const inpTarget = document.querySelector( "#inpTarget" );
+const btnsPlay = document.querySelectorAll( ".btnPlay" );
+const btnPlayLive = document.querySelector( "#btnPlayLive" );
+const inpBPM = document.querySelector( "#inpBPM" );
+const spanBPM = document.querySelector( "#bpm" );
+let bpm = 0;
 
 inpToggle.onchange = e => GSUsetAttribute( elEnv, "toggle", inpToggle.checked );
 inpTarget.onchange = e => GSUsetAttribute( elEnv, "env", inpTarget.value );
+inpTarget.onchange();
+
+btnsPlay.forEach( btn => btn.onclick = () => elEnv.$startKey( "key-0", bpm, +btn.dataset.dur ) );
+btnPlayLive.onpointerdown = () => elEnv.$startKey( "keylive-0", bpm );
+btnPlayLive.onclick = () => elEnv.$stopKey( "keylive-0" );
+inpBPM.oninput = () => {
+	bpm = +inpBPM.value;
+	spanBPM.textContent = bpm;
+};
+inpBPM.oninput();
 </script>
 </body>
 </html>

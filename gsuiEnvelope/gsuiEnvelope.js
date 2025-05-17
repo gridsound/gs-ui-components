@@ -3,7 +3,10 @@
 class gsuiEnvelope extends gsui0ne {
 	#env = "gain";
 	#dur = 4;
+	#ppb = 0;
 	#waveWidth = 300;
+	#keyPreviews = [];
+	#keyAnimId = null;
 
 	constructor() {
 		super( {
@@ -12,6 +15,7 @@ class gsuiEnvelope extends gsui0ne {
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$graph: "gsui-envelope-graph",
+				$keyPreviews: ".gsuiEnvelope-keyPreviews",
 				$sliders: {
 					amp:     [ ".gsuiEnvelope-prop[data-prop='amp']     gsui-slider", ".gsuiEnvelope-prop[data-prop='amp']     .gsuiEnvelope-propValue" ],
 					q:       [ ".gsuiEnvelope-prop[data-prop='q']       gsui-slider", ".gsuiEnvelope-prop[data-prop='q']       .gsuiEnvelope-propValue" ],
@@ -114,7 +118,8 @@ class gsuiEnvelope extends gsui0ne {
 		span.textContent = gsuiEnvelope.#formatValue( prop, val );
 	}
 	#updatePxPerBeat() {
-		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.#waveWidth / this.#dur );
+		this.#ppb = this.#waveWidth / this.#dur;
+		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.#ppb );
 	}
 	static #formatValue( prop, val ) {
 		return prop !== "amp"
@@ -139,6 +144,92 @@ class gsuiEnvelope extends gsui0ne {
 	#onchangeSlider( prop, val ) {
 		GSUsetAttribute( this, prop, val );
 		this.$dispatch( "change", this.#env, prop, val );
+	}
+
+	// .........................................................................
+	$startKey( id, bpm, dur = null ) {
+		const el = GSUcreateDiv( { class: "gsuiEnvelope-keyPreview", style: { left: 0, top: "100%" } } );
+
+		this.#keyPreviews.push( {
+			$id: id,
+			$bps: bpm / 60,
+			$dur: dur ?? Infinity,
+			$elem: el,
+			$when: Date.now() / 1000,
+		} );
+		this.$elements.$keyPreviews.append( el );
+		if ( !this.#keyAnimId ) {
+			this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+		}
+	}
+	$stopKey( id ) {
+		this.#keyPreviews.forEach( p => {
+			if ( p.$id === id ) {
+				p.$dur = ( Date.now() / 1000 - p.$when ) * p.$bps;
+			}
+		} );
+	}
+	#keyAnimFrame() {
+		const percPerBeat = this.#ppb / this.#waveWidth;
+		const toRm = [];
+
+		this.#keyPreviews.forEach( this.#keyAnimFramePreview.bind( this, toRm, Date.now() / 1000 ) );
+		if ( toRm.length > 0 ) {
+			this.#keyPreviews = this.#keyPreviews.filter( p => !toRm.includes( p ) );
+			if ( !this.#keyPreviews.length ) {
+				clearInterval( this.#keyAnimId );
+				this.#keyAnimId = null;
+			}
+		}
+	}
+	#keyAnimFramePreview( toRm, now, p ) {
+		const since = ( now - p.$when ) * p.$bps;
+		const g = this.$elements.$graph;
+		const x = gsuiEnvelope.#keyPreviewCalcX( since, p.$dur, g, this.#dur );
+
+		if ( x > 1 ) {
+			p.$elem.remove();
+			toRm.push( p );
+		} else {
+			const y = gsuiEnvelope.#keyPreviewCalcY( since, p.$dur, g );
+			const y2 = 1 - y * Math.abs( g.$amp );
+
+			GSUsetStyle( p.$elem, {
+				top: `${ y2 * 100 }%`,
+				left: `${ x * 100 }%`,
+			} );
+		}
+	}
+	static #keyPreviewCalcX( since, dur, g, graphDur ) {
+		const ahd = g.$attack + g.$hold + g.$decay;
+
+		if ( since < ahd && since < dur ) {
+			return since / graphDur;
+		}
+		if ( since < dur ) {
+			const dur2 = dur === Infinity ? since + 1 : dur;
+			const a = ahd / graphDur;
+			const t = ( since - ahd ) / ( dur2 - ahd );
+			const susDur = ( graphDur - ahd - g.$release ) / graphDur;
+
+			return a + Math.min( t, 1 ) * susDur;
+		}
+		return ( 1 - g.$release / graphDur ) + ( since - dur ) / graphDur;
+	}
+	static #keyPreviewCalcY( since, dur, g ) {
+		if ( since < dur ) {
+			if ( since < g.$attack ) {
+				return since / g.$attack;
+			}
+			if ( since < g.$attack + g.$hold ) {
+				return 1;
+			}
+			if ( since < g.$attack + g.$hold + g.$decay ) {
+				return 1 - ( since - g.$attack - g.$hold ) / g.$decay * ( 1 - g.$sustain );
+			}
+			return g.$sustain;
+		}
+		return ( 1 - ( since - dur ) / g.$release ) * g.$sustain;
 	}
 }
 
