@@ -89,7 +89,6 @@ gsui-synthesizer gsui-envelope {
 /* .......................................................................... */
 .gsuiSynthesizer-headOscs {
 	gap: 6px;
-	height: 24px;
 	padding: 2px 10px 0 0;
 }
 .gsuiSynthesizer-oscList {
