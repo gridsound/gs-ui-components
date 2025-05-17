@@ -351,7 +351,4 @@ gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
-	gsui-periodicwave {
-		stroke-width: 2px;
-	}
 }
