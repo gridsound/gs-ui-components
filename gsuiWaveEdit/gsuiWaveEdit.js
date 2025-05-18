@@ -53,8 +53,9 @@ class gsuiWaveEdit extends gsui0ne {
 		this.$elements.$wtposCurves.onclick = e => {
 			const dt = e.target.dataset;
 
-			if ( dt.id && dt.selected !== "" ) {
+			if ( dt.id && dt.id !== this.#wtposCurveSelected ) {
 				this.#wtposCurve_selectCurve( dt.id );
+				this.$dispatch( "selectWavetableCurve", dt.id );
 			}
 		};
 		new gsuiReorder( {
@@ -330,20 +331,18 @@ class gsuiWaveEdit extends gsui0ne {
 		dlSVG.$setCurve( wtposCurve.curve );
 	}
 	#wtposCurve_selectCurve( id ) {
-		if ( id !== this.#wtposCurveSelected ) {
-			const wtposCurve = this.#data.wtposCurves[ id ];
+		const wtposCurve = this.#data.wtposCurves[ id ];
 
-			if ( this.#wtposCurveSelected ) {
-				delete this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ this.#wtposCurveSelected }']` ).dataset.selected;
-			}
-			this.#wtposCurveSelected = id;
-			this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ id }']` ).dataset.selected = "";
-			this.#wtposCurve_setDuration( wtposCurve.duration );
-			this.$elements.$wtDotline.$clear();
-			this.$elements.$wtDotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
-			this.$elements.$wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
-			this.$elements.$wtDotline.$change( wtposCurve.curve );
+		if ( this.#wtposCurveSelected ) {
+			delete this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ this.#wtposCurveSelected }']` ).dataset.selected;
 		}
+		this.#wtposCurveSelected = id;
+		this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ id }']` ).dataset.selected = "";
+		this.#wtposCurve_setDuration( wtposCurve.duration );
+		this.$elements.$wtDotline.$clear();
+		this.$elements.$wtDotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
+		this.$elements.$wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
+		this.$elements.$wtDotline.$change( wtposCurve.curve );
 	}
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;

@@ -73,6 +73,13 @@ class gsuiOscillator extends gsui0ne {
 				GSUsetStyle( this, "transition", "none" );
 			}
 		} );
+
+		const redirEv = d => {
+			d.component = "gsuiOscillator";
+			d.target = this;
+			return true;
+		};
+
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				inputStart: GSUnoop,
@@ -82,16 +89,9 @@ class gsuiOscillator extends gsui0ne {
 			},
 			gsuiWaveEdit: {
 				back: () => GSUsetAttribute( this, "waveedit", false ),
-				changeWavetable: d => {
-					d.component = "gsuiOscillator";
-					d.target = this;
-					return true;
-				},
-				changeWavetableCurve: d => {
-					d.component = "gsuiOscillator";
-					d.target = this;
-					return true;
-				},
+				changeWavetable: redirEv,
+				changeWavetableCurve: redirEv,
+				selectWavetableCurve: redirEv,
 			},
 		} );
 	}
