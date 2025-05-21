@@ -170,7 +170,7 @@ class gsuiDotline extends gsui0ne {
 				if ( act === "hold" && dot.val !== null ) {
 					dot.val =
 					dotDiff.val = null;
-				} else if ( typeof dot.val !== "number" ) {
+				} else if ( !GSUisNum( dot.val ) ) {
 					dot.val =
 					dotDiff.val = 2;
 				}

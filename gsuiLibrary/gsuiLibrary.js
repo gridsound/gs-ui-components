@@ -87,7 +87,7 @@ class gsuiLibrary extends gsui0ne {
 		const prevLastSep = Array.from( this.$elements.$body.children )
 			.findLast( el => el.classList.contains( "gsuiLibrary-sep" ) );
 		const el = lib.map( smp => {
-			if ( typeof smp !== "string" ) {
+			if ( !GSUisStr( smp ) ) {
 				const el = GSUgetTemplate( "gsui-library-sample", {
 					id: smp[ 0 ],
 					points: smp[ 1 ],

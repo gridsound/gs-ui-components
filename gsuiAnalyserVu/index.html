@@ -90,7 +90,7 @@ play.onclick = () => {
 };
 
 function frame() {
-	if ( typeof hardVal === "number" ) {
+	if ( GSUisNum( hardVal ) ) {
 		analyserVu.$draw( [ hardVal ], [ hardVal ] );
 	} else {
 		anL.getFloatTimeDomainData( anDataL );
