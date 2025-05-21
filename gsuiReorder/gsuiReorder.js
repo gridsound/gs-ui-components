@@ -265,8 +265,8 @@ class gsuiReorder {
 		const pY = e.offsetY;
 		const rootBCR = elRoot.getBoundingClientRect();
 		const overRoot =
-			GSUinRange( pX, 0, rootBCR.width ) &&
-			GSUinRange( pY, 0, rootBCR.height );
+			GSUmathInRange( pX, 0, rootBCR.width ) &&
+			GSUmathInRange( pY, 0, rootBCR.height );
 
 		if ( overRoot ) {
 			const parents = gsuiReorder.#calcParentsCoord( elRoot, parSel );
@@ -275,8 +275,8 @@ class gsuiReorder {
 				const parY = par.$bcr.y - rootBCR.y;
 
 				return (
-					GSUinRange( pX, parX, parX + par.$bcr.width ) &&
-					GSUinRange( pY, parY, parY + par.$bcr.height )
+					GSUmathInRange( pX, parX, parX + par.$bcr.width ) &&
+					GSUmathInRange( pY, parY, parY + par.$bcr.height )
 				);
 			} );
 
@@ -317,7 +317,7 @@ class gsuiReorder {
 	static #getIndexCrossing( items, movingIndex, ptr, oldPtr ) {
 		return items
 			.reduce( ( arr, it, i ) => {
-				if ( GSUinRange( it.$pos + it.$size / 2, ptr, oldPtr ) ) {
+				if ( GSUmathInRange( it.$pos + it.$size / 2, ptr, oldPtr ) ) {
 					arr.push( i );
 				}
 				return arr;

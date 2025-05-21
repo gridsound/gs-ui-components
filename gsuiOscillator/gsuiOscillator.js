@@ -227,13 +227,13 @@ class gsuiOscillator extends gsui0ne {
 			switch ( prop ) {
 				case "detune":
 				case "detunefine":
-					span.textContent = GSUsignNum( val.toFixed( 2 ) );
+					span.textContent = GSUmathSign( val.toFixed( 2 ) );
 					break;
 				case "gain":
 					span.textContent = `${ Math.round( val * 100 ) }%`;
 					break;
 				case "pan":
-					span.textContent = `${ GSUsignNum( Math.round( val * 100 ) ) }%`;
+					span.textContent = `${ GSUmathSign( Math.round( val * 100 ) ) }%`;
 					break;
 			}
 		}
@@ -248,7 +248,7 @@ class gsuiOscillator extends gsui0ne {
 	#updateUnisonGraphDetune( detune ) {
 		const maxDetune = GSUgetAttributeNum( this.$elements.$sliders.unisondetune[ 0 ], "max" );
 
-		this.$elements.$unisonGraph.style.height = `${ GSUeaseOutCirc( detune / maxDetune ) * 100 }%`;
+		this.$elements.$unisonGraph.style.height = `${ GSUmathEaseOutCirc( detune / maxDetune ) * 100 }%`;
 	}
 	#updateUnisonGraphBlend( blend ) {
 		const vs = this.$elements.$unisonGraph.childNodes;

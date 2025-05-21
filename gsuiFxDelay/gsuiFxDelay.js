@@ -62,7 +62,7 @@ class gsuiFxDelay extends gsui0ne {
 			case "gain":
 			case "pan": {
 				const str =
-					prop === "pan" ? GSUsignNum( Math.round( val * 100 ) ) :
+					prop === "pan" ? GSUmathSign( Math.round( val * 100 ) ) :
 					prop === "gain" ? Math.round( val * 100 ) :
 					( +val ).toFixed( 2 );
 

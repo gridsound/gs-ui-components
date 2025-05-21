@@ -114,7 +114,7 @@ class gsuiSlider extends gsui0ne {
 		return this.#max - this.#min;
 	}
 	#formatValue( val ) {
-		return GSUmathRound( GSUclampNum( val, this.#min, this.#max ), this.#step );
+		return GSUmathRound( GSUmathClamp( val, this.#min, this.#max ), this.#step );
 	}
 	#getMousemoveSize() {
 		return this.#mousemoveSize || (

@@ -67,9 +67,9 @@ class gsuiPropSelect extends gsui0ne {
 			return false;
 		}
 		switch ( prop ) {
-			case "detune": return GSUsignNum( val );
+			case "detune": return GSUmathSign( val );
 			case "gain": return ( +val ).toFixed( 2 );
-			case "pan": return GSUsignNum( ( +val ).toFixed( 2 ) );
+			case "pan": return GSUmathSign( ( +val ).toFixed( 2 ) );
 		}
 		return val;
 	}

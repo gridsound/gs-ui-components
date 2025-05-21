@@ -124,7 +124,7 @@ class gsuiEnvelope extends gsui0ne {
 	static #formatValue( prop, val ) {
 		return prop !== "amp"
 			? val.toFixed( 2 )
-			: GSUsignNum( val.toFixed( 0 ) );
+			: GSUmathSign( val.toFixed( 0 ) );
 	}
 
 	// .........................................................................

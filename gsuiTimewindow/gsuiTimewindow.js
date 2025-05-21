@@ -67,7 +67,7 @@ class gsuiTimewindow extends gsui0ne {
 			gsuiSlider: {
 				input: ( d, sli ) => {
 					if ( sli.dataset.zoom === "x" ) {
-						const val = GSUeaseInCirc( d.args[ 0 ] );
+						const val = GSUmathEaseInCirc( d.args[ 0 ] );
 						const newVal = this.#getPPBmin() + val * ( this.#getPPBmax() - this.#getPPBmin() );
 						const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
 
@@ -75,7 +75,7 @@ class gsuiTimewindow extends gsui0ne {
 						GSUsetAttribute( this, "pxperbeat", newVal );
 						this.$dispatch( "pxperbeat", newVal );
 					} else if ( sli.dataset.zoom === "y" ) {
-						const val = GSUeaseInCirc( d.args[ 0 ] );
+						const val = GSUmathEaseInCirc( d.args[ 0 ] );
 						const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
 						const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, newVal, 0 );
 
@@ -178,7 +178,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.#pxPerBeat = +val;
 				GSUsetAttribute( this.$elements.$timeline, "pxperbeat", val );
 				GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", val );
-				GSUsetAttribute( this.$elements.$sliderZoomX, "value", GSUeaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
+				GSUsetAttribute( this.$elements.$sliderZoomX, "value", GSUmathEaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
 				GSUsetStyle( this, "--gsuiTimewindow-pxperbeat", `${ val }px` );
 				this.$elements.$currentTime.style.fontSize =
 				this.$elements.$loopA.style.fontSize =
@@ -188,7 +188,7 @@ class gsuiTimewindow extends gsui0ne {
 				break;
 			case "lineheight":
 				this.#lineHeight = +val;
-				GSUsetAttribute( this.$elements.$sliderZoomY, "value", GSUeaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
+				GSUsetAttribute( this.$elements.$sliderZoomY, "value", GSUmathEaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
 				GSUsetStyle( this, "--gsuiTimewindow-lineH", `${ val }px` );
 				break;
 			case "currenttime": {

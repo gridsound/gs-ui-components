@@ -208,8 +208,8 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	$onptrmove( e ) {
 		this.#setPerspective( {
-			camX: GSUclampNum( 0, 1, this.#perspective.camX - e.movementX / this.#drawSz / 2 ),
-			camY: GSUclampNum( 0, 1, this.#perspective.camY + e.movementY / this.#drawSz / 2 ),
+			camX: GSUmathClamp( 0, 1, this.#perspective.camX - e.movementX / this.#drawSz / 2 ),
+			camY: GSUmathClamp( 0, 1, this.#perspective.camY + e.movementY / this.#drawSz / 2 ),
 		} );
 		this.$draw();
 	}

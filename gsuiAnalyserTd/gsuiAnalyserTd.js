@@ -34,7 +34,7 @@ class gsuiAnalyserTd extends gsui0ne {
 			case "amp": this.#amp = +val; break;
 			case "color": this.#color = val; break;
 			case "pinch": this.#pinch = +val; break;
-			case "smooth": this.#smooth = GSUeaseOutCirc( +val ); break;
+			case "smooth": this.#smooth = GSUmathEaseOutCirc( +val ); break;
 		}
 	}
 	$onresize( w, h ) {
@@ -73,7 +73,7 @@ class gsuiAnalyserTd extends gsui0ne {
 		ctx.globalCompositeOperation = "source-over";
 		ctx.lineWidth = Math.max( 2, h / 150 ) + Math.round( 1 * this.#drawMax );
 		ctx.strokeStyle = this.#color;
-		ctx.globalAlpha = GSUeaseOutCirc( this.#drawMax, 8 );
+		ctx.globalAlpha = GSUmathEaseOutCirc( this.#drawMax, 8 );
 		ctx.stroke();
 	}
 	static #calcY( data, amp, h2, pin, i ) {
@@ -83,7 +83,7 @@ class gsuiAnalyserTd extends gsui0ne {
 			perc > 1 - pin ? ( 1 - perc ) / pin : 1;
 		const d2 = Math.max( -1, Math.min( data[ i ] * amp, 1 ) );
 
-		return h2 + d2 * GSUeaseOutCirc( pin2 ) * h2;
+		return h2 + d2 * GSUmathEaseOutCirc( pin2 ) * h2;
 	}
 }
 

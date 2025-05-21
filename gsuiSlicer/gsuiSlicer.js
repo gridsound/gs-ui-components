@@ -271,7 +271,7 @@ class gsuiSlicer extends gsui0ne {
 		GSUsetAttribute( this.$elements.$beatlines[ 1 ], "pxperbeat", this.$elements.$slices.clientHeight / ( dur || this.#dur ) );
 	}
 	#getSliceByPageX( offsetX ) {
-		const x = GSUclampNum( offsetX / this.$elements.$slices.clientWidth, 0, .9999 );
+		const x = GSUmathClamp( offsetX / this.$elements.$slices.clientWidth, 0, .9999 );
 
 		return Object.values( this.#slices ).find( s => s.x <= x && x < s.x + s.w );
 	}
@@ -341,7 +341,7 @@ class gsuiSlicer extends gsui0ne {
 	#onpointermoveSlicesY( list, _sli, e ) {
 		const dur = GSUgetAttributeNum( this, "duration" );
 		const step = this.$elements.$step.$getStep();
-		const yyy = GSUclampNum( e.offsetY / this.$elements.$slices.clientHeight, 0, 1 );
+		const yyy = GSUmathClamp( e.offsetY / this.$elements.$slices.clientHeight, 0, 1 );
 		const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
 		const y = yy / dur / this.#stepsPerBeat;
 

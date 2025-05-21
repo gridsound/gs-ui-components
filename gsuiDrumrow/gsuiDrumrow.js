@@ -102,9 +102,9 @@ class gsuiDrumrow extends gsui0ne {
 	}
 	static #namePrint2( prop, val ) {
 		switch ( prop ) {
-			case "pan": return `pan: ${ GSUsignNum( val.toFixed( 2 ) ) }`;
+			case "pan": return `pan: ${ GSUmathSign( val.toFixed( 2 ) ) }`;
 			case "gain": return `gain: ${ val.toFixed( 2 ) }`;
-			case "detune": return `pitch: ${ GSUsignNum( val ) }`;
+			case "detune": return `pitch: ${ GSUmathSign( val ) }`;
 		}
 	}
 

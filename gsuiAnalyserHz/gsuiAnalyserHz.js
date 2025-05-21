@@ -63,7 +63,7 @@ class gsuiAnalyserHz extends gsui0ne {
 		for ( let i = 0; i < width; ++i ) {
 			const x = i * 4;
 			const i2 = Math.round( GSUXtoHz( i / width ) * data.length );
-			const datum = GSUeaseOutCirc( 1 - ( data[ i2 ] / -200 ) ) || 0;
+			const datum = GSUmathEaseOutCirc( 1 - ( data[ i2 ] / -200 ) ) || 0;
 			const [ , r, g, b ] = gsuiAnalyserHz.#colors.find( arr => arr[ 0 ] <= datum ) || gsuiAnalyserHz.#colors.at( -1 );
 
 			imgData[ x     ] = Math.min( r * datum, 255 ) | 0;
