@@ -1,6 +1,6 @@
-gsui-wave-edit {
-	--gsuiWaveEdit-wave: #b3a5ea;
-	--gsuiWaveEdit-wave-selected: #8f8;
+gsui-wavetable {
+	--gsuiWavetable-wave: #b3a5ea;
+	--gsuiWavetable-wave-selected: #8f8;
 	position: relative;
 	overflow: hidden;
 	display: flex;
@@ -12,7 +12,7 @@ gsui-wave-edit {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-head {
+.gsuiWavetable-head {
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -20,7 +20,7 @@ gsui-wave-edit {
 	padding: 0 6px;
 	background-color: var( --gsui-item-bg );
 }
-.gsuiWaveEdit-back {
+.gsuiWavetable-back {
 	border: 0;
 	padding: 0;
 	font-size: 12px;
@@ -28,54 +28,54 @@ gsui-wave-edit {
 	background: none;
 	opacity: .6;
 }
-.gsuiWaveEdit-back:hover {
+.gsuiWavetable-back:hover {
 	opacity: 1;
 }
-.gsuiWaveEdit-title {
+.gsuiWavetable-title {
 	margin-bottom: 1px;
 	font-size: 12px;
 	opacity: .5;
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-body {
+.gsuiWavetable-waves {
 	position: relative;
 	display: flex;
 	flex: 3;
 }
-.gsuiWaveEdit-body-graph {
+.gsuiWavetable-waves-graph {
 	flex: 1;
 	height: 100%;
 	box-shadow: inset 0 0 110px 0 #0008;
 }
-.gsuiWaveEdit-body-waves {
+.gsuiWavetable-waves-editor {
 	flex: 2;
 	display: flex;
 	flex-direction: column;
 }
-gsui-wave-edit gsui-wavetable-graph {
+gsui-wavetable gsui-wavetable-graph {
 	width: 100%;
 	height: 100%;
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-graph {
+.gsuiWavetable-wave-editor {
 	position: sticky;
 	left: 0;
 	top: 0;
 	flex: 1;
 }
-.gsuiWaveEdit-graph gsui-dotline {
+.gsuiWavetable-wave-editor gsui-dotline {
 	height: 100%;
-	color: var( --gsuiWaveEdit-wave );
+	color: var( --gsuiWavetable-wave );
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-waves-wrap {
+.gsuiWavetable-waves-list-wrap {
 	position: relative;
 	min-height: 42px;
 }
-.gsuiWaveEdit-waves {
+.gsuiWavetable-waves-list {
 	position: absolute;
 	overflow: scroll;
 	inset: 0;
@@ -85,7 +85,7 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wavestep {
+.gsuiWavetable-wave {
 	display: flex;
 	min-width: 70px;
 	height: 100%;
@@ -96,22 +96,22 @@ gsui-wave-edit gsui-wavetable-graph {
 	--gsui-num-opacity: .3;
 	--gsui-svg-cursor: pointer;
 }
-.gsuiWaveEdit-wavestep[ data-selected ] {
+.gsuiWavetable-wave[ data-selected ] {
 	background-color: #493d7b;
 	--gsui-num-opacity: .9;
 	--gsui-svg-cursor: grab;
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wavestep gsui-dotlinesvg {
+.gsuiWavetable-wave gsui-dotlinesvg {
 	flex: 1;
 	position: relative;
 	fill: none;
-	stroke: var( --gsuiWaveEdit-wave );
+	stroke: var( --gsuiWavetable-wave );
 	stroke-width: 2px;
 	cursor: var( --gsui-svg-cursor );
 }
-.gsuiWaveEdit-wavestep svg {
+.gsuiWavetable-wave svg {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -120,7 +120,7 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wavestep-head {
+.gsuiWavetable-wave-head {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -129,25 +129,25 @@ gsui-wave-edit gsui-wavetable-graph {
 	line-height: 1.3;
 	background-color: #0001;
 }
-.gsuiWaveEdit-wavestep-num {
+.gsuiWavetable-wave-num {
 	font-weight: bold;
 	margin-bottom: auto;
 	opacity: var( --gsui-num-opacity );
 }
-.gsuiWaveEdit-wavestep-btn {
+.gsuiWavetable-wave-btn {
 	cursor: pointer;
 	opacity: .2;
 }
-.gsuiWaveEdit-wavestep-btn[ data-action="clone" ] {
+.gsuiWavetable-wave-btn[ data-action="clone" ] {
 	font-size: .72em;
 	margin-right: auto;
 }
-.gsuiWaveEdit-wavestep-btn:hover {
+.gsuiWavetable-wave-btn:hover {
 	opacity: .5;
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wtpos {
+.gsuiWavetable-posCurves {
 	position: relative;
 	flex: 2;
 	display: flex;
@@ -157,19 +157,19 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wtpos-head {
+.gsuiWavetable-posCurves-head {
 	display: flex;
 	gap: 10px;
 	min-height: 32px;
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wtposCurves {
+.gsuiWavetable-posCurves-list {
 	flex: 1;
 	display: flex;
 	gap: 8px;
 }
-.gsuiWaveEdit-wtposCurve {
+.gsuiWavetable-posCurve {
 	position: relative;
 	flex: 1;
 	border-radius: 4px;
@@ -177,11 +177,11 @@ gsui-wave-edit gsui-wavetable-graph {
 	background-color: #0005;
 	opacity: .6;
 }
-.gsuiWaveEdit-wtposCurve[ data-selected ] {
+.gsuiWavetable-posCurve[ data-selected ] {
 	cursor: default;
 	opacity: 1;
 }
-.gsuiWaveEdit-wtposCurve[ data-selected ]::before {
+.gsuiWavetable-posCurve[ data-selected ]::before {
 	content: "";
 	position: absolute;
 	top: calc( 100% + 1px );
@@ -189,15 +189,15 @@ gsui-wave-edit gsui-wavetable-graph {
 	left: 25%;
 	height: 3px;
 	border-radius: 99px;
-	background-color: var( --gsuiWaveEdit-wave );
+	background-color: var( --gsuiWavetable-wave );
 }
-.gsuiWaveEdit-wtposCurve gsui-dotlinesvg {
+.gsuiWavetable-posCurve gsui-dotlinesvg {
 	position: absolute;
 	overflow: hidden;
 	inset: 4px;
 	border-radius: inherit;
 }
-.gsuiWaveEdit-wtposCurve svg {
+.gsuiWavetable-posCurve svg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -206,28 +206,28 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wtposCurve-dur {
+.gsuiWavetable-posCurve-dur {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 }
-.gsuiWaveEdit-wtposCurve-dur-body {
+.gsuiWavetable-posCurve-dur-body {
 	display: flex;
 	flex-direction: column;
 }
-.gsuiWaveEdit-wtposCurve-dur-body > span {
+.gsuiWavetable-posCurve-dur-body > span {
 	font-size: 12px;
 	font-weight: bold;
 	opacity: .5;
 }
-.gsuiWaveEdit-wtposCurve-dur-body gsui-slider {
+.gsuiWavetable-posCurve-dur-body gsui-slider {
 	height: 8px;
 }
-.gsuiWaveEdit-wtposCurve-dur-body .gsuiSlider-eventCatcher {
+.gsuiWavetable-posCurve-dur-body .gsuiSlider-eventCatcher {
 	top: -15px;
 	right: -60px;
 }
-.gsuiWaveEdit-wtposCurve-dur > b {
+.gsuiWavetable-posCurve-dur > b {
 	display: flex;
 	align-items: baseline;
 	height: 20px;
@@ -237,7 +237,7 @@ gsui-wave-edit gsui-wavetable-graph {
 	font-family: var( --gsui-font-number );
 	background-color: #0005;
 }
-.gsuiWaveEdit-wtposCurve-dur > b::after {
+.gsuiWavetable-posCurve-dur > b::after {
 	content: " Beat";
 	font-size: .8em;
 	font-weight: normal;
@@ -246,7 +246,7 @@ gsui-wave-edit gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWaveEdit-wtpos-graph {
+.gsuiWavetable-posCurves-graph {
 	--gsui-pad: 4px;
 	flex: 1;
 	position: relative;
@@ -254,22 +254,22 @@ gsui-wave-edit gsui-wavetable-graph {
 	padding: var( --gsui-pad );
 	background-color: #0005;
 }
-.gsuiWaveEdit-wtpos-waves {
+.gsuiWavetable-posCurves-graph-waves {
 	position: absolute;
 	inset: var( --gsui-pad );
-	color: var( --gsuiWaveEdit-wave );
+	color: var( --gsuiWavetable-wave );
 }
-.gsuiWaveEdit-wtpos-wave {
+.gsuiWavetable-posCurve-wave {
 	position: absolute;
 	inset: auto 0;
 	border-top: 1px solid currentColor;
 	opacity: .25;
 }
-.gsuiWaveEdit-wtpos-wave[ data-selected ] {
-	color: var( --gsuiWaveEdit-wave-selected );
+.gsuiWavetable-posCurve-wave[ data-selected ] {
+	color: var( --gsuiWavetable-wave-selected );
 	opacity: 1;
 }
-.gsuiWaveEdit-wtpos gsui-beatlines {
+.gsuiWavetable-posCurves gsui-beatlines {
 	inset: var( --gsui-pad );
 	color: currentColor;
 }

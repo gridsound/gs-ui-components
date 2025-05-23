@@ -56,7 +56,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiOscillator" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiEnvelope" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiLFO" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWaveEdit" } ),
+					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWavetable" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWavetableGraph" } ),
 					GSUcreateOption( { value: "gsuiTrack" } ),
 					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSlicer" } ),

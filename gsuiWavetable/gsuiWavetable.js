@@ -1,6 +1,6 @@
 "use strict";
 
-class gsuiWaveEdit extends gsui0ne {
+class gsuiWavetable extends gsui0ne {
 	#waveNull = true;
 	#waveSelected = null;
 	#wtposCurveSelected = null;
@@ -9,20 +9,19 @@ class gsuiWaveEdit extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWaveEdit",
-			$tagName: "gsui-wave-edit",
+			$cmpName: "gsuiWavetable",
+			$tagName: "gsui-wavetable",
 			$elements: {
-				$head: ".gsuiWaveEdit-head",
-				$dotline: ".gsuiWaveEdit-graph gsui-dotline",
-				$wtGraphWrap: ".gsuiWaveEdit-body-graph",
+				$head: ".gsuiWavetable-head",
+				$dotline: ".gsuiWavetable-wave-editor gsui-dotline",
 				$wtGraph: "gsui-wavetable-graph",
-				$waves: ".gsuiWaveEdit-waves",
-				$wtDotline: ".gsuiWaveEdit-wtpos gsui-dotline",
-				$wtposWavelines: ".gsuiWaveEdit-wtpos-waves",
-				$wtposBeatlines: ".gsuiWaveEdit-wtpos gsui-beatlines",
-				$wtposCurves: ".gsuiWaveEdit-wtposCurves",
-				$wtposCurveDur: ".gsuiWaveEdit-wtposCurve-dur > b",
-				$wtposCurveDurSli: ".gsuiWaveEdit-wtposCurve-dur gsui-slider",
+				$waves: ".gsuiWavetable-waves-list",
+				$wtDotline: ".gsuiWavetable-posCurves gsui-dotline",
+				$wtposWavelines: ".gsuiWavetable-posCurves-waves",
+				$wtposBeatlines: ".gsuiWavetable-posCurves gsui-beatlines",
+				$wtposCurves: ".gsuiWavetable-posCurves",
+				$wtposCurveDur: ".gsuiWavetable-posCurve-dur > b",
+				$wtposCurveDurSli: ".gsuiWavetable-posCurve-dur gsui-slider",
 			},
 		} );
 		Object.seal( this );
@@ -37,7 +36,7 @@ class gsuiWaveEdit extends gsui0ne {
 			const act = e.target.dataset.action;
 
 			if ( act ) {
-				const w = e.target.closest( ".gsuiWaveEdit-wavestep" );
+				const w = e.target.closest( ".gsuiWavetable-wave" );
 
 				this.#execWaveAction( w.dataset.id, act );
 			}
@@ -60,9 +59,9 @@ class gsuiWaveEdit extends gsui0ne {
 		};
 		new gsuiReorder( {
 			$root: this.$elements.$waves,
-			$parentSelector: ".gsuiWaveEdit-waves",
-			$itemSelector: ".gsuiWaveEdit-wavestep",
-			$itemGripSelector: ".gsuiWaveEdit-wavestep gsui-dotlinesvg",
+			$parentSelector: ".gsuiWavetable-waves-list",
+			$itemSelector: ".gsuiWavetable-wave",
+			$itemGripSelector: ".gsuiWavetable-wave gsui-dotlinesvg",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
 		GSUlistenEvents( this.$elements.$dotline, {
@@ -148,7 +147,7 @@ class gsuiWaveEdit extends gsui0ne {
 				if ( "index" in w ) {
 					toSort = true;
 					this.#wtwaves_getElem( wId ).dataset.index = w.index;
-					this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` ).style.top = `${ ( 1 - w.index ) * 100 }%`;
+					this.querySelector( `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` ).style.top = `${ ( 1 - w.index ) * 100 }%`;
 				}
 			}
 		} );
@@ -207,11 +206,11 @@ class gsuiWaveEdit extends gsui0ne {
 		switch ( act ) {
 			case "select": this.#wtwaves_selectWave( wId ); break;
 			case "clone":
-				this.#onchange( gsuiWaveEdit.#createCloneObj( this.#data.waves, wId ) );
+				this.#onchange( gsuiWavetable.#createCloneObj( this.#data.waves, wId ) );
 				break;
 			case "remove":
 				if ( Object.keys( this.#data.waves ).length > 1 ) {
-					this.#onchange( gsuiWaveEdit.#createRemoveObj( this.#data.waves, wId ) );
+					this.#onchange( gsuiWavetable.#createRemoveObj( this.#data.waves, wId ) );
 				}
 				break;
 		}
@@ -221,10 +220,10 @@ class gsuiWaveEdit extends gsui0ne {
 		const waves = { [ GSUgetNewId( wavesData ) ]: wNew };
 
 		wNew.index += .000000001;
-		return { waves: gsuiWaveEdit.#createReorderingIndex( waves, wavesData ) };
+		return { waves: gsuiWavetable.#createReorderingIndex( waves, wavesData ) };
 	}
 	static #createRemoveObj( wavesData, wId ) {
-		return { waves: gsuiWaveEdit.#createReorderingIndex( { [ wId ]: undefined }, wavesData ) };
+		return { waves: gsuiWavetable.#createReorderingIndex( { [ wId ]: undefined }, wavesData ) };
 	}
 	static #createReorderingIndex( wavesObj, wavesData ) {
 		const wavesCpy = GSUdiffAssign( GSUdeepCopy( wavesData ), wavesObj );
@@ -252,22 +251,22 @@ class gsuiWaveEdit extends gsui0ne {
 			.sort( ( a, b ) => a.dataset.index - b.dataset.index )
 			.forEach( ( w, i ) => {
 				w.style.order = i;
-				w.querySelector( ".gsuiWaveEdit-wavestep-num" ).textContent = i + 1;
+				w.querySelector( ".gsuiWavetable-wave-num" ).textContent = i + 1;
 			} );
 	}
 	#wtwaves_getElem( id ) {
-		return this.querySelector( `.gsuiWaveEdit-wavestep[data-id='${ id }']` );
+		return this.querySelector( `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
 	#wtwaves_getSVG( id ) {
-		return this.querySelector( `.gsuiWaveEdit-wavestep[data-id='${ id }'] gsui-dotlinesvg` );
+		return this.querySelector( `.gsuiWavetable-wave[data-id='${ id }'] gsui-dotlinesvg` );
 	}
 	#wtwaves_updatePreview( id ) {
 		this.#wtwaves_getSVG( id ).$setCurve( this.#data.waves[ id ].curve );
 	}
 	#wtwaves_addWave( wId, w ) {
-		const elW = GSUgetTemplate( "gsui-wave-edit-wavestep", wId, w.index );
+		const elW = GSUgetTemplate( "gsui-wavetable-wave", wId, w.index );
 		const elWLine = GSUcreateDiv( {
-			class: "gsuiWaveEdit-wtpos-wave",
+			class: "gsuiWavetable-posCurve-wave",
 			"data-id": wId,
 			style: { top: `${ ( 1 - w.index ) * 100 }%` },
 		} );
@@ -280,7 +279,7 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 	#wtwaves_removeWave( wId ) {
 		const w = this.#wtwaves_getElem( wId );
-		const elWLine = this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` );
+		const elWLine = this.querySelector( `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` );
 
 		w?.remove();
 		elWLine?.remove();
@@ -299,7 +298,7 @@ class gsuiWaveEdit extends gsui0ne {
 		if ( this.#waveSelected !== wId ) {
 			const elW = this.#wtwaves_getElem( wId );
 			const elWsel = this.#wtwaves_getElem( this.#waveSelected );
-			const elLsel = this.querySelector( ".gsuiWaveEdit-wtpos-wave[data-selected]" );
+			const elLsel = this.querySelector( ".gsuiWavetable-posCurve-wave[data-selected]" );
 
 			if ( elWsel ) {
 				delete elWsel.dataset.selected;
@@ -315,7 +314,7 @@ class gsuiWaveEdit extends gsui0ne {
 			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 			this.$elements.$dotline.$change( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
-			this.querySelector( `.gsuiWaveEdit-wtpos-wave[data-id='${ wId }']` ).dataset.selected = "";
+			this.querySelector( `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` ).dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$waves );
 		}
 	}
@@ -323,7 +322,7 @@ class gsuiWaveEdit extends gsui0ne {
 	// .........................................................................
 	#wtposCurve_updatePreview( id ) {
 		const wtposCurve = this.#data.wtposCurves[ id ];
-		const elPreview = this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ id }']` );
+		const elPreview = this.querySelector( `.gsuiWavetable-posCurve[data-id='${ id }']` );
 		const dlSVG = elPreview.querySelector( "gsui-dotlinesvg" );
 
 		dlSVG.$setSVGSize( 60, 30 );
@@ -334,10 +333,10 @@ class gsuiWaveEdit extends gsui0ne {
 		const wtposCurve = this.#data.wtposCurves[ id ];
 
 		if ( this.#wtposCurveSelected ) {
-			delete this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ this.#wtposCurveSelected }']` ).dataset.selected;
+			delete this.querySelector( `.gsuiWavetable-posCurve[data-id='${ this.#wtposCurveSelected }']` ).dataset.selected;
 		}
 		this.#wtposCurveSelected = id;
-		this.querySelector( `.gsuiWaveEdit-wtposCurve[data-id='${ id }']` ).dataset.selected = "";
+		this.querySelector( `.gsuiWavetable-posCurve[data-id='${ id }']` ).dataset.selected = "";
 		this.#wtposCurve_setDuration( wtposCurve.duration );
 		this.$elements.$wtDotline.$clear();
 		this.$elements.$wtDotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
@@ -357,4 +356,4 @@ class gsuiWaveEdit extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-wave-edit", gsuiWaveEdit );
+GSUdefineElement( "gsui-wavetable", gsuiWavetable );

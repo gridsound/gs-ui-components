@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="../gsuiWavetableGraph/gsuiWavetableGraph.css"/>
 
 <!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiWaveEdit.css"/>
+<link rel="stylesheet" href="gsuiWavetable.css"/>
 
 <!-- ....................................................................... -->
 <style>
@@ -36,7 +36,7 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-wave-edit></gsui-wave-edit>
+	<gsui-wavetable></gsui-wavetable>
 </div>
 <!-- <div id="TEST-CTRLS">
 	<label>
@@ -71,12 +71,12 @@ body {
 <script src="../gsuiWavetableGraph/gsuiWavetableGraph.js"></script>
 
 <!-- ....................................................................... -->
-<script src="gsuiWaveEdit.html.js"></script>
-<script src="gsuiWaveEdit.js"></script>
+<script src="gsuiWavetable.html.js"></script>
+<script src="gsuiWavetable.js"></script>
 
 <!-- ....................................................................... -->
 <script>
-const el = document.querySelector( "gsui-wave-edit" );
+const el = document.querySelector( "gsui-wavetable" );
 
 el.$change( {
 	waves: {
@@ -99,6 +99,15 @@ el.$change( {
 			},
 		},
 	},
+	// wtposCurves: {
+	// 	0: {
+	// 		duration: 1,
+	// 		curve: {
+	// 			0: { x:  0, y:  0, type: null, val: null },
+	// 			1: { x:  1, y:  1, type: "curve", val: 0 },
+	// 		},
+	// 	},
+	// },
 } );
 </script>
 </body>

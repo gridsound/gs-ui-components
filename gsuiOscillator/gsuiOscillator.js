@@ -13,7 +13,7 @@ class gsuiOscillator extends gsui0ne {
 	#typeSaved = "";
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), 100 );
 	#selectWaves = { ...gsuiOscillator_defaultWaves };
-	#elWaveEdit = null;
+	#elWavetable = null;
 
 	constructor() {
 		super( {
@@ -69,7 +69,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveEditBtn.onclick = () => GSUtoggleAttribute( this, "waveedit" );
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		this.addEventListener( "transitionend", e => {
-			if ( e.propertyName === "min-height" && this.#elWaveEdit ) {
+			if ( e.propertyName === "min-height" && this.#elWavetable ) {
 				GSUsetStyle( this, "transition", "none" );
 			}
 		} );
@@ -87,7 +87,7 @@ class gsuiOscillator extends gsui0ne {
 				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
 				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
 			},
-			gsuiWaveEdit: {
+			gsuiWavetable: {
 				back: () => GSUsetAttribute( this, "waveedit", false ),
 				changeWavetable: redirEv,
 				changeWavetableCurve: redirEv,
@@ -180,11 +180,11 @@ class gsuiOscillator extends gsui0ne {
 		w1.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
 	$changeCustomWave( obj ) {
-		if ( this.#elWaveEdit ) {
+		if ( this.#elWavetable ) {
 			if ( obj ) {
-				this.#elWaveEdit.$change( obj );
+				this.#elWavetable.$change( obj );
 			} else {
-				this.#elWaveEdit.$clear();
+				this.#elWavetable.$clear();
 				GSUsetAttribute( this, "waveedit", false );
 			}
 		}
@@ -261,13 +261,13 @@ class gsuiOscillator extends gsui0ne {
 	// .........................................................................
 	#openWaveEdit( b ) {
 		if ( b ) {
-			this.#elWaveEdit = GSUcreateElement( "gsui-wave-edit" );
-			this.$elements.$waveEditWrap.append( this.#elWaveEdit );
-			this.#elWaveEdit.$change( this.$askWaveCustomData() );
+			this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
+			this.$elements.$waveEditWrap.append( this.#elWavetable );
+			this.#elWavetable.$change( this.$askWaveCustomData() );
 		} else {
 			GSUsetStyle( this, "transition", "" );
-			this.#elWaveEdit.remove();
-			this.#elWaveEdit = null;
+			this.#elWavetable.remove();
+			this.#elWavetable = null;
 		}
 		GSUsetAttribute( this, "waveedit", b );
 		this.$onresize();
