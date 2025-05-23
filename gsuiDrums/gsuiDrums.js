@@ -363,7 +363,7 @@ class gsuiDrums extends gsui0ne {
 			} );
 		} else {
 			for ( let w = when1A; w <= when1B; w += stepDur ) {
-				const ww = GSUroundNum( w, 5 );
+				const ww = GSUmathFix( w, 5 );
 				const found = drumsArr.find( d => {
 					const dw = GSUgetAttributeNum( d, "when" );
 					const dd = GSUgetAttributeNum( d, "duration" );

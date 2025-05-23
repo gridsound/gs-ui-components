@@ -61,12 +61,12 @@ class gsuiFxReverb extends gsui0ne {
 				this.#updateWetPos();
 				break;
 			case "dry":
-				this.$elements.$dryValue.textContent = GSUroundNum( val * 100 );
+				this.$elements.$dryValue.textContent = GSUmathFix( val * 100 );
 				GSUsetAttribute( this.$elements.$drySli, "value", val );
 				this.$elements.$graphDry.style.opacity = val;
 				break;
 			case "wet":
-				this.$elements.$wetValue.textContent = GSUroundNum( val * 100 );
+				this.$elements.$wetValue.textContent = GSUmathFix( val * 100 );
 				GSUsetAttribute( this.$elements.$wetSli, "value", val );
 				this.$elements.$graphWet.style.opacity = GSUmathEaseOutCirc( val / 10 );
 				break;

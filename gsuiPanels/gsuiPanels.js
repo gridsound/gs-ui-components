@@ -37,7 +37,7 @@ class gsuiPanels extends gsui0ne {
 		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
 		this.#pans.map( p => [ p, p.getBoundingClientRect()[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
-				const perc2 = GSUroundNum( perc, 1 );
+				const perc2 = GSUmathFix( perc, 1 );
 
 				p.classList.add( "gsuiPanels-panel" );
 				p.style[ this.#dir ] = `${ perc2 }%`;
@@ -58,7 +58,7 @@ class gsuiPanels extends gsui0ne {
 			let ret = mov;
 
 			if ( Math.abs( newsizeCorrect - size ) >= .1 ) {
-				pan.style[ dir ] = `${ GSUroundNum( newsizeCorrect / parentsize * 100, 2 ) }%`;
+				pan.style[ dir ] = `${ GSUmathFix( newsizeCorrect / parentsize * 100, 2 ) }%`;
 				ret -= newsizeCorrect - size;
 				pan.onresizing?.( pan );
 			}
@@ -103,7 +103,7 @@ class gsuiPanels extends gsui0ne {
 			}
 		}
 		this.#pans.reduce( ( x, p ) => {
-			p.style[ this.#pos ] = `${ GSUroundNum( x / tot * 100, 2 ) }%`;
+			p.style[ this.#pos ] = `${ GSUmathFix( x / tot * 100, 2 ) }%`;
 			return x + p.getBoundingClientRect()[ this.#dir ];
 		}, 0 );
 	}

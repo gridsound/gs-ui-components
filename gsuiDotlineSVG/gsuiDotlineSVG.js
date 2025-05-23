@@ -41,7 +41,7 @@ class gsuiDotlineSVG extends gsui0ne {
 		this.#h = this.#ymax - this.#ymin;
 	}
 	$setCurve( data ) {
-		const xy = GSUsampleDotLine( data, this.#resW );
+		const xy = GSUmathSampleDotLine( data, this.#resW );
 		const curveDots = [];
 
 		if ( xy.length > 1 ) {
@@ -55,10 +55,10 @@ class gsuiDotlineSVG extends gsui0ne {
 
 	// .........................................................................
 	#calcX( x ) {
-		return GSUroundNum( ( x - this.#xmin ) / this.#w * this.#svgW, 5 );
+		return GSUmathFix( ( x - this.#xmin ) / this.#w * this.#svgW, 5 );
 	}
 	#calcY( y ) {
-		return GSUroundNum( this.#svgH - ( y - this.#ymin ) / this.#h * this.#svgH, 5 );
+		return GSUmathFix( this.#svgH - ( y - this.#ymin ) / this.#h * this.#svgH, 5 );
 	}
 }
 

@@ -75,7 +75,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#drawMorph();
 	}
 	#getDots( w ) {
-		const dots = GSUsampleDotLine( w.curve, 80 );
+		const dots = GSUmathSampleDotLine( w.curve, 80 );
 
 		dots.forEach( d => d[ 1 ] = d[ 1 ] / 2 + .5 );
 		return [ [ 0, .5 ], ...dots, [ 1, .5 ] ];

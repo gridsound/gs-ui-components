@@ -19,15 +19,15 @@ class gsuiSVGPatternsDrums {
 	}
 	static #createDrum( x, y, w, h ) {
 		return GSUcreateElementSVG( "polygon", {
-			points: GSUroundNum( [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ], 3 ).join( "," ),
+			points: GSUmathFix( [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ], 3 ).join( "," ),
 		} );
 	}
 	static #createDrumcut( x, y, w, h ) {
 		return GSUcreateElementSVG( "rect", {
-			x: GSUroundNum( x, 3 ),
-			y: GSUroundNum( y + h * .8, 3 ),
-			width: GSUroundNum( w * .9, 3 ),
-			height: GSUroundNum( h * .2, 3 ),
+			x: GSUmathFix( x, 3 ),
+			y: GSUmathFix( y + h * .8, 3 ),
+			width: GSUmathFix( w * .9, 3 ),
+			height: GSUmathFix( h * .2, 3 ),
 		} );
 	}
 }

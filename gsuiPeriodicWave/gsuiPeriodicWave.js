@@ -63,7 +63,7 @@ class gsuiPeriodicWave extends gsui0ne {
 
 	// .........................................................................
 	static $addWave( name, real, imag ) {
-		gsuiPeriodicWave.#cache[ name ] = GSUrealImagToXY( real, imag, 256 );
+		gsuiPeriodicWave.#cache[ name ] = GSUmathRealImagToXY( real, imag, 256 );
 	}
 	static #draw( wave, opt, w, h ) {
 		const hz = opt.frequency * opt.duration;

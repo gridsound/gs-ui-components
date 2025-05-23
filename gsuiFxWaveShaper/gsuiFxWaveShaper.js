@@ -155,7 +155,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 	}
 	#updateWaveB() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
-		const graphData = GSUsampleDotLine( this.$elements.$dotline.$getData(), len ).map( d => d[ 1 ] );
+		const graphData = GSUmathSampleDotLine( this.$elements.$dotline.$getData(), len ).map( d => d[ 1 ] );
 		const graphData2 = GSUhasAttribute( this, "symmetry" )
 			? this.#addGraphSymmetry( graphData )
 			: graphData;
