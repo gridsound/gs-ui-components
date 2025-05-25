@@ -192,7 +192,7 @@ class gsuiDotline extends gsui0ne {
 				const prevYp = this.#getPercY( prev.y );
 				const cdotY = dot.type !== "curve"
 					? .5
-					: _GSUmathSampleDotLine_fns.curve( dot.val, .5 );
+					: GSUmathDotLineGetYFromDot( "curve", dot.val, .5 );
 				let cdot = this.#cdots[ id ];
 
 				if ( !cdot ) {
