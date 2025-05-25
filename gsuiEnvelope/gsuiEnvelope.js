@@ -170,7 +170,6 @@ class gsuiEnvelope extends gsui0ne {
 		} );
 	}
 	#keyAnimFrame() {
-		const percPerBeat = this.#ppb / this.#waveWidth;
 		const toRm = [];
 
 		this.#keyPreviews.forEach( this.#keyAnimFramePreview.bind( this, toRm, Date.now() / 1000 ) );
