@@ -12,7 +12,7 @@ gsui-oscillator {
 	transition: .2s;
 	transition-property: min-height;
 }
-gsui-oscillator[ waveedit ] {
+gsui-oscillator[ wavetable ] {
 	min-height: 340px;
 }
 .gsuiOscillator-in {
@@ -200,25 +200,25 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-waveBtn[ data-action="waveEdit" ] {
+.gsuiOscillator-waveBtn[ data-action="wavetable" ] {
 	position: relative;
 	color: #94bfff;
 	width: 29px;
 	min-width: 29px;
 	margin-right: 2px;
 }
-.gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:first-child {
+.gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:first-child {
 	position: absolute;
 	inset: 0 auto 0 0;
 	opacity: .8;
 }
-.gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:last-child {
+.gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:last-child {
 	position: absolute;
 	inset: 0 0 0 auto;
 	margin-top: -2px;
 	font-size: .7em;
 }
-.gsuiOscillator-waveBtn[ data-action="waveEdit" ] .gsuiIcon:last-child::before {
+.gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:last-child::before {
 	text-shadow: -2px 0px #373742;
 }
 gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom" ] {
@@ -226,7 +226,7 @@ gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom
 }
 
 /* .......................................................................... */
-.gsuiOscillator-waveEdit {
+.gsuiOscillator-wavetable {
 	position: absolute;
 	inset: 0 0 0 20px;
 	background-color: var( --gsui-item-bg );
@@ -236,7 +236,7 @@ gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom
 	transition: .2s;
 	transition-property: opacity, visibility, transform;
 }
-gsui-oscillator[ waveedit ] .gsuiOscillator-waveEdit {
+gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 	opacity: 1;
 	visibility: visible;
 	transform: scale( 1 );

@@ -26,8 +26,8 @@ class gsuiOscillator extends gsui0ne {
 				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavePrev: ".gsuiOscillator-wavePrev",
 				$waveNext: ".gsuiOscillator-waveNext",
-				$waveEditWrap: ".gsuiOscillator-waveEdit",
-				$waveEditBtn: ".gsuiOscillator-waveBtn[data-action=waveEdit]",
+				$wavetableWrap: ".gsuiOscillator-wavetable",
+				$wavetableBtn: ".gsuiOscillator-waveBtn[data-action=wavetable]",
 				$sourceName: ".gsuiOscillator-sourceName",
 				$source: ".gsuiOscillator-source",
 				$waves: [
@@ -66,7 +66,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveSelect.onkeydown = this.#onkeydownSelect.bind( this );
 		this.$elements.$wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
-		this.$elements.$waveEditBtn.onclick = () => GSUtoggleAttribute( this, "waveedit" );
+		this.$elements.$wavetableBtn.onclick = () => GSUtoggleAttribute( this, "wavetable" );
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		this.addEventListener( "transitionend", e => {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {
@@ -88,7 +88,7 @@ class gsuiOscillator extends gsui0ne {
 				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
 			},
 			gsuiWavetable: {
-				back: () => GSUsetAttribute( this, "waveedit", false ),
+				back: () => GSUsetAttribute( this, "wavetable", false ),
 				changeWavetable: redirEv,
 				changeWavetableCurve: redirEv,
 				selectWavetableCurve: redirEv,
@@ -98,7 +98,7 @@ class gsuiOscillator extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const wedit = GSUhasAttribute( this, "waveedit" );
+		const wedit = GSUhasAttribute( this, "wavetable" );
 		const w = this.clientWidth;
 		const h = wedit
 			? Math.max( 340, w / 2 )
@@ -115,7 +115,7 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "order", "wave", "waveedit", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "order", "wave", "wavetable", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -123,7 +123,7 @@ class gsuiOscillator extends gsui0ne {
 			case "wave": this.#changeWave( val ); break;
 			case "phaze": this.#updatePhaze( +val ); break;
 			case "source": this.#changeSource( val ); break;
-			case "waveedit": this.#openWaveEdit( val === "" ); break;
+			case "wavetable": this.#openWavetable( val === "" ); break;
 			case "unisonvoices": this.#updateUnisonGraphVoices( +val ); break;
 			case "unisondetune": this.#updateUnisonGraphDetune( +val ); break;
 			case "unisonblend": this.#updateUnisonGraphBlend( +val ); break;
@@ -185,7 +185,7 @@ class gsuiOscillator extends gsui0ne {
 				this.#elWavetable.$change( obj );
 			} else {
 				this.#elWavetable.$clear();
-				GSUsetAttribute( this, "waveedit", false );
+				GSUsetAttribute( this, "wavetable", false );
 			}
 		}
 		this.#updateWaveDeb();
@@ -259,17 +259,17 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
-	#openWaveEdit( b ) {
+	#openWavetable( b ) {
 		if ( b ) {
 			this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
-			this.$elements.$waveEditWrap.append( this.#elWavetable );
+			this.$elements.$wavetableWrap.append( this.#elWavetable );
 			this.#elWavetable.$change( this.$askWaveCustomData() );
 		} else {
 			GSUsetStyle( this, "transition", "" );
 			this.#elWavetable.remove();
 			this.#elWavetable = null;
 		}
-		GSUsetAttribute( this, "waveedit", b );
+		GSUsetAttribute( this, "wavetable", b );
 		this.$onresize();
 	}
 	#onclickPrevNext( dir ) {
