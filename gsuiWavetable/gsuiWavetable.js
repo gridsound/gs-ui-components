@@ -5,6 +5,9 @@ class gsuiWavetable extends gsui0ne {
 	#waveSelected = null;
 	#wtposCurveSelected = null;
 	#wtposCurveDuration = 0;
+	#keyPreviews = [];
+	#keyAnimId = null;
+	#lastKeyPreview = null;
 	#data = GSUgetModel( "wavetable" );
 
 	constructor() {
@@ -17,11 +20,12 @@ class gsuiWavetable extends gsui0ne {
 				$wtGraph: "gsui-wavetable-graph",
 				$waves: ".gsuiWavetable-waves-list",
 				$wtDotline: ".gsuiWavetable-posCurves gsui-dotline",
-				$wtposWavelines: ".gsuiWavetable-posCurves-waves",
+				$wtposWavelines: ".gsuiWavetable-posCurves-graph-waves",
 				$wtposBeatlines: ".gsuiWavetable-posCurves gsui-beatlines",
-				$wtposCurves: ".gsuiWavetable-posCurves",
+				$wtposCurves: ".gsuiWavetable-posCurves-list",
 				$wtposCurveDur: ".gsuiWavetable-posCurve-dur > b",
 				$wtposCurveDurSli: ".gsuiWavetable-posCurve-dur gsui-slider",
+				$keyPreviews: ".gsuiWavetable-posCurves-graph .gsuiWavetable-keyPreviews",
 			},
 		} );
 		Object.seal( this );
@@ -342,6 +346,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$wtDotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
 		this.$elements.$wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		this.$elements.$wtDotline.$change( wtposCurve.curve );
+		this.#keyPreviews.forEach( p => p.$elemA.style.display = p.$wtposCurveId === id ? "block" : "none" );
 	}
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;
@@ -353,6 +358,74 @@ class gsuiWavetable extends gsui0ne {
 		const bl = this.$elements.$wtposBeatlines;
 
 		GSUsetAttribute( bl, "pxperbeat", bl.clientWidth / this.#wtposCurveDuration );
+	}
+
+	// .........................................................................
+	$startKey( id, wtposCurveId, bpm, dur = null ) {
+		const elB = GSUcreateDiv( { class: "gsuiWavetable-keyPreview" } );
+		const elA = GSUcreateDiv( { class: "gsuiWavetable-keyPreview", style: {
+			display: wtposCurveId === this.#wtposCurveSelected ? "block" : "none",
+		} } );
+
+		this.#keyPreviews.push( {
+			$id: id,
+			$wtposCurveId: wtposCurveId,
+			$bps: bpm / 60,
+			$dur: dur ?? Infinity,
+			$elemA: elA,
+			$elemB: elB,
+			$when: Date.now() / 1000,
+		} );
+		this.$elements.$keyPreviews.append( elA );
+		this.$elements.$wtposCurves.children[ wtposCurveId ].querySelector( ".gsuiWavetable-keyPreviews" ).append( elB );
+		this.#lastKeyPreview = id;
+		if ( !this.#keyAnimId ) {
+			this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+		}
+	}
+	$stopKey( id ) {
+		this.#keyPreviews.forEach( p => {
+			if ( p.$id === id ) {
+				p.$dur = ( Date.now() / 1000 - p.$when ) * p.$bps;
+			}
+		} );
+	}
+	#keyAnimFrame() {
+		const toRm = [];
+
+		this.#keyPreviews.forEach( this.#keyAnimFramePreview.bind( this, toRm, Date.now() / 1000 ) );
+		if ( toRm.length > 0 ) {
+			this.#keyPreviews = this.#keyPreviews.filter( p => !toRm.includes( p ) );
+			if ( !this.#keyPreviews.length ) {
+				clearInterval( this.#keyAnimId );
+				this.#keyAnimId = null;
+			}
+		}
+	}
+	#keyAnimFramePreview( toRm, now, p ) {
+		const since = ( now - p.$when ) * p.$bps;
+
+		if ( since >= p.$dur ) {
+			p.$elemA.remove();
+			p.$elemB.remove();
+			toRm.push( p );
+			if ( p.$id === this.#lastKeyPreview ) {
+				this.$elements.$wtGraph.$setMorphingWaveAt( -1 );
+			}
+		} else {
+			const wtposCurve = this.#data.wtposCurves[ p.$wtposCurveId ];
+			const x = Math.min( since / wtposCurve.duration, 1 );
+			const y = GSUmathDotLineGetYFromX( wtposCurve.curve, x );
+
+			GSUsetStyle( p.$elemB, "left", `${ x * 100 }%` );
+			GSUsetStyle( p.$elemA, {
+				top: `${ ( 1 - y ) * 100 }%`,
+				left: `${ x * 100 }%`,
+			} );
+			if ( p.$id === this.#lastKeyPreview ) {
+				this.$elements.$wtGraph.$setMorphingWaveAt( y );
+			}
+		}
 	}
 }
 

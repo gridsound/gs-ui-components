@@ -24,6 +24,7 @@ GSUsetTemplate( "gsui-wavetable", () => [
 			GSUcreateDiv( { class: "gsuiWavetable-posCurves-list" },
 				GSUnewArray( 10, i =>
 					GSUcreateDiv( { class: "gsuiWavetable-posCurve", "data-id": i },
+						GSUcreateDiv( { class: "gsuiWavetable-keyPreviews", inert: true } ),
 						GSUcreateElement( "gsui-dotlinesvg", { inert: true } ),
 					) ),
 			),
@@ -36,9 +37,10 @@ GSUsetTemplate( "gsui-wavetable", () => [
 			),
 		),
 		GSUcreateDiv( { class: "gsuiWavetable-posCurves-graph" },
-			GSUcreateDiv( { class: "gsuiWavetable-posCurves-waves" } ),
-			GSUcreateElement( "gsui-beatlines" ),
+			GSUcreateDiv( { class: "gsuiWavetable-posCurves-graph-waves", inert: true } ),
+			GSUcreateElement( "gsui-beatlines", { inert: true } ),
 			GSUcreateElement( "gsui-dotline", { viewbox: "0 0 1 1", xstep: 1 / 100, ystep: 1 / 100 } ),
+			GSUcreateDiv( { class: "gsuiWavetable-keyPreviews", inert: true } ),
 		),
 	),
 ] );

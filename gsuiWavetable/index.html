@@ -38,12 +38,35 @@ body {
 <div id="TEST">
 	<gsui-wavetable></gsui-wavetable>
 </div>
-<!-- <div id="TEST-CTRLS">
-	<label>
-		<input id="mute" type="checkbox"/>
-		<span>mute</span>
-	</label>
-</div> -->
+<div id="TEST-CTRLS">
+	<div data-wtposcurve="0">
+		<code>wtposCurve[0]</code>
+		<button data-key-dur=".25">.25</button>
+		<button data-key-dur=".5">.5</button>
+		<button data-key-dur="1">1</button>
+		<button data-key-dur="2">2</button>
+		<button data-key-dur="4">4</button>
+		<button data-key-dur="8">8</button>
+	</div>
+	<div data-wtposcurve="1">
+		<code>wtposCurve[1]</code>
+		<button data-key-dur=".25">.25</button>
+		<button data-key-dur=".5">.5</button>
+		<button data-key-dur="1">1</button>
+		<button data-key-dur="2">2</button>
+		<button data-key-dur="4">4</button>
+		<button data-key-dur="8">8</button>
+	</div>
+	<div data-wtposcurve="2">
+		<code>wtposCurve[2]</code>
+		<button data-key-dur=".25">.25</button>
+		<button data-key-dur=".5">.5</button>
+		<button data-key-dur="1">1</button>
+		<button data-key-dur="2">2</button>
+		<button data-key-dur="4">4</button>
+		<button data-key-dur="8">8</button>
+	</div>
+</div>
 
 <!-- ....................................................................... -->
 <script src="../gs-utils/gs-utils.js"></script>
@@ -76,9 +99,20 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const el = document.querySelector( "gsui-wavetable" );
+const elWT = document.querySelector( "gsui-wavetable" );
+const elCtrls = document.querySelector( "#testCtrls" );
+const bpm = 120;
 
-el.$change( {
+elCtrls.onclick = e => {
+	const dur = +e.target.dataset.keyDur;
+	const cId = e.target.parentNode.dataset.wtposcurve;
+
+	if ( dur ) {
+		elWT.$startKey( "k0", cId, bpm, dur );
+	}
+};
+
+elWT.$change( {
 	waves: {
 		0: {
 			index: 0,

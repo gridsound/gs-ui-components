@@ -162,6 +162,13 @@ gsui-wavetable gsui-wavetable-graph {
 	gap: 10px;
 	min-height: 32px;
 }
+.gsuiWavetable-keyPreview {
+	position: absolute;
+	left: 0;
+	top: 100%;
+	border-radius: 50%;
+	background-color: currentColor;
+}
 
 /* .......................................................................... */
 .gsuiWavetable-posCurves-list {
@@ -190,6 +197,17 @@ gsui-wavetable gsui-wavetable-graph {
 	height: 3px;
 	border-radius: 99px;
 	background-color: var( --gsuiWavetable-wave );
+}
+.gsuiWavetable-posCurve .gsuiWavetable-keyPreviews {
+	position: absolute;
+	inset: auto 5px 100%;
+	height: 2px;
+}
+.gsuiWavetable-posCurve .gsuiWavetable-keyPreview {
+	top: 0;
+	width: 2px;
+	height: 100%;
+	margin-left: -1px;
 }
 .gsuiWavetable-posCurve gsui-dotlinesvg {
 	position: absolute;
@@ -272,4 +290,15 @@ gsui-wavetable gsui-wavetable-graph {
 .gsuiWavetable-posCurves gsui-beatlines {
 	inset: var( --gsui-pad );
 	color: currentColor;
+}
+
+/* .......................................................................... */
+.gsuiWavetable-posCurves-graph .gsuiWavetable-keyPreviews {
+	position: absolute;
+	inset: var( --gsui-pad );
+}
+.gsuiWavetable-posCurves-graph .gsuiWavetable-keyPreview {
+	width: 10px;
+	height: 10px;
+	margin: -5px 0 0 -5px;
 }
