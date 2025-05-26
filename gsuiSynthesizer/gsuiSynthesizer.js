@@ -4,6 +4,7 @@ class gsuiSynthesizer extends gsui0ne {
 	#waveList = [];
 	#uiOscs = new Map();
 	#shadow = null;
+	#previews = {};
 	#data = {
 		noise: {},
 		env: {
@@ -99,6 +100,8 @@ class gsuiSynthesizer extends gsui0ne {
 		} );
 	}
 	$disconnected() {
+		GSUforEach( this.#previews, id => clearTimeout( id ) );
+		this.#previews = {};
 		this.#shadow.$disconnected();
 	}
 	static get observedAttributes() {
@@ -111,6 +114,22 @@ class gsuiSynthesizer extends gsui0ne {
 				GSUsetAttribute( this.$elements.$lfo, "timedivision", val );
 				break;
 		}
+	}
+
+	// .........................................................................
+	$startKeyPreview( startedKeyId, blcs, bpm, when, dur ) {
+		this.#previews[ startedKeyId ] = setTimeout( () => {
+			const wtposCurves = blcs[ 0 ][ 1 ].wtposCurves;
+
+			this.$elements.$env.$startKey( startedKeyId, bpm, dur );
+			this.#uiOscs.forEach( ( osc, oscId ) => osc.$startKey( startedKeyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
+		}, when * 1000 );
+	}
+	$stopKeyPreview( startedKeyId ) {
+		clearTimeout( this.#previews[ startedKeyId ] );
+		delete this.#previews[ startedKeyId ];
+		this.$elements.$env.$stopKey( startedKeyId );
+		this.#uiOscs.forEach( osc => osc.$stopKey( startedKeyId ) );
 	}
 
 	// .........................................................................
