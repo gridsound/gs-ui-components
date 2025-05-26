@@ -377,7 +377,7 @@ class gsuiWavetable extends gsui0ne {
 			$when: Date.now() / 1000,
 		} );
 		this.$elements.$keyPreviews.append( elA );
-		this.$elements.$wtposCurves.children[ wtposCurveId ].querySelector( ".gsuiWavetable-keyPreviews" ).append( elB );
+		this.$elements.$wtposCurves.children[ +wtposCurveId ].querySelector( ".gsuiWavetable-keyPreviews" ).append( elB );
 		this.#lastKeyPreview = id;
 		if ( !this.#keyAnimId ) {
 			this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
