@@ -152,6 +152,14 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
+	$startKey( startedKeyId, wtposCurveId, bpm, dur ) {
+		this.#elWavetable?.$startKey( startedKeyId, wtposCurveId, bpm, dur );
+	}
+	$stopKey( startedKeyId ) {
+		this.#elWavetable?.$stopKey( startedKeyId );
+	}
+
+	// .........................................................................
 	$addWaveCustom( name ) {
 		this.$elements.$waveSelect.prepend( GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: name } ) );
 	}
