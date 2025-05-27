@@ -9,12 +9,14 @@ gsui-envelope {
 	border-top: var( --gsui-item-brdtop );
 	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
+	--gsuiEnvelope-previews: none;
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
 	--gsuiBeatlines-lines: var( --gsuiEnvelope-wave-col );
 }
 gsui-envelope[ toggle ] {
+	--gsuiEnvelope-previews: block;
 	--gsuiEnvelope-wave-col: var( --gsuiEnvelope-ctrls-color );
 }
 gsui-envelope[ env="detune" ] {
@@ -52,6 +54,7 @@ gsui-envelope gsui-envelope-graph {
 	color: var( --gsuiEnvelope-wave-col );
 }
 .gsuiEnvelope-keyPreviews {
+	display: var( --gsuiEnvelope-previews );
 	position: absolute;
 	inset: 2px 0 0;
 }

@@ -148,18 +148,20 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
-		const el = GSUcreateDiv( { class: "gsuiEnvelope-keyPreview", style: { left: 0, top: "100%" } } );
+		if ( GSUhasAttribute( this, "toggle" ) ) {
+			const el = GSUcreateDiv( { class: "gsuiEnvelope-keyPreview", style: { left: 0, top: "100%" } } );
 
-		this.#keyPreviews.push( {
-			$id: id,
-			$bps: bpm / 60,
-			$dur: dur ?? Infinity,
-			$elem: el,
-			$when: Date.now() / 1000,
-		} );
-		this.$elements.$keyPreviews.append( el );
-		if ( !this.#keyAnimId ) {
-			this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+			this.#keyPreviews.push( {
+				$id: id,
+				$bps: bpm / 60,
+				$dur: dur ?? Infinity,
+				$elem: el,
+				$when: Date.now() / 1000,
+			} );
+			this.$elements.$keyPreviews.append( el );
+			if ( !this.#keyAnimId ) {
+				this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+			}
 		}
 	}
 	$stopKey( id ) {
