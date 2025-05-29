@@ -4,7 +4,6 @@ class gsuiLFO extends gsui0ne {
 	#lfo = "gain";
 	#dur = 4;
 	#waveWidth = 300;
-	#nyquist = 24000;
 
 	constructor() {
 		super( {
@@ -39,12 +38,8 @@ class gsuiLFO extends gsui0ne {
 			gsuiSlider: {
 				inputStart: GSUnoop,
 				inputEnd: GSUnoop,
-				input: ( d, sli ) => {
-					this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, sli ) => {
-					this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] );
-				},
+				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
+				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
 			},
 		} );
 	}
