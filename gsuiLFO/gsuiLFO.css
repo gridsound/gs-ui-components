@@ -10,6 +10,7 @@ gsui-lfo {
 	border-top: var( --gsui-item-brdtop );
 	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
+	--gsuiLFO-previews: none;
 	--gsuiLFO-cursor: not-allowed;
 	--gsuiLFO-input-theme: var( --gsui-col-gain );
 	--gsuiLFO-input-col: var( --gsui-slider-col-disabled );
@@ -20,6 +21,7 @@ gsui-lfo[ lfo="detune" ] {
 	--gsuiLFO-input-theme: var( --gsui-col-detune );
 }
 gsui-lfo[ toggle ] {
+	--gsuiLFO-previews: block;
 	--gsuiLFO-input-col: var( --gsuiLFO-input-theme );
 	--gsuiLFO-cursor: pointer;
 }
@@ -132,6 +134,19 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	color: var( --gsuiLFO-input-col );
 	stroke-width: 2px;
 	transition: color .2s;
+}
+.gsuiLFO-keyPreviews {
+	display: var( --gsuiLFO-previews );
+	position: absolute;
+	inset: 2px 0 0;
+}
+.gsuiLFO-keyPreview {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	margin: -5px 0 0 -5px;
+	border-radius: 50%;
+	background-color: var( --gsuiLFO-input-col );
 }
 
 /* .......................................................................... */

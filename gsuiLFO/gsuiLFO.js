@@ -2,8 +2,11 @@
 
 class gsuiLFO extends gsui0ne {
 	#lfo = "gain";
+	#amp = 1;
 	#dur = 4;
 	#waveWidth = 300;
+	#keyPreviews = [];
+	#keyAnimId = null;
 
 	constructor() {
 		super( {
@@ -12,6 +15,7 @@ class gsuiLFO extends gsui0ne {
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$wave: "gsui-periodicwave",
+				$keyPreviews: ".gsuiLFO-keyPreviews",
 				$sliders: {
 					delay:  [ ".gsuiLFO-prop[data-prop='delay']  gsui-slider", ".gsuiLFO-prop[data-prop='delay']  .gsuiLFO-propValue" ],
 					attack: [ ".gsuiLFO-prop[data-prop='attack'] gsui-slider", ".gsuiLFO-prop[data-prop='attack'] .gsuiLFO-propValue" ],
@@ -74,6 +78,7 @@ class gsuiLFO extends gsui0ne {
 					this.#changeProp( prop, num );
 					break;
 				case "amp":
+					this.#amp = num;
 					if ( num > 0 !== prev > 0 ) {
 						this.#changeAmpSign( num );
 					}
@@ -172,6 +177,62 @@ class gsuiLFO extends gsui0ne {
 		GSUsetAttribute( this, prop, nval );
 		this.$dispatch( "change", this.#lfo, prop, nval );
 	}
+
+	// .........................................................................
+	$startKey( id, bpm, dur = null ) {
+		if ( GSUhasAttribute( this, "toggle" ) ) {
+			const el = GSUcreateDiv( { class: "gsuiLFO-keyPreview", style: { left: 0, top: "50%" } } );
+
+			this.#keyPreviews.push( {
+				$id: id,
+				$bps: bpm / 60,
+				$dur: dur ?? Infinity,
+				$elem: el,
+				$when: Date.now() / 1000,
+			} );
+			this.$elements.$keyPreviews.append( el );
+			if ( !this.#keyAnimId ) {
+				this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+			}
+		}
+	}
+	$stopKey( id ) {
+		this.#keyPreviews.forEach( p => {
+			if ( p.$id === id ) {
+				p.$dur = 0;
+			}
+		} );
+	}
+	#keyAnimFrame() {
+		const toRm = [];
+
+		this.#keyPreviews.forEach( this.#keyAnimFramePreview.bind( this, toRm, Date.now() / 1000 ) );
+		if ( toRm.length > 0 ) {
+			this.#keyPreviews = this.#keyPreviews.filter( p => !toRm.includes( p ) );
+			if ( !this.#keyPreviews.length ) {
+				clearInterval( this.#keyAnimId );
+				this.#keyAnimId = null;
+			}
+		}
+	}
+	#keyAnimFramePreview( toRm, now, p ) {
+		const since = ( now - p.$when ) * p.$bps;
+		const g = this.$elements.$graph;
+
+		if ( since > p.$dur ) {
+			p.$elem.remove();
+			toRm.push( p );
+		} else {
+			const x = since / this.#dur;
+			const y = this.$elements.$wave.$getY( 0, x * this.#waveWidth );
+
+			GSUsetStyle( p.$elem, {
+				top: `${ 50 + y * 50 }%`,
+				left: `${ x * 100 }%`,
+			} );
+		}
+	}
+
 }
 
 GSUdefineElement( "gsui-lfo", gsuiLFO );

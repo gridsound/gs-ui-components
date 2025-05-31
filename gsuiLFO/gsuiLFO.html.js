@@ -33,6 +33,7 @@ GSUsetTemplate( "gsui-lfo", () =>
 			GSUcreateDiv( { class: "gsuiLFO-wave" },
 				GSUcreateElement( "gsui-beatlines", { coloredbeats: "" } ),
 				GSUcreateElement( "gsui-periodicwave" ),
+				GSUcreateDiv( { class: "gsuiLFO-keyPreviews" } ),
 			),
 			GSUcreateDiv( { class: "gsuiLFO-ampSigns" },
 				GSUcreateLabel( { class: "gsuiLFO-btn gsuiLFO-ampSign" },
