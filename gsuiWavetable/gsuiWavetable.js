@@ -386,7 +386,7 @@ class gsuiWavetable extends gsui0ne {
 	$stopKey( id ) {
 		this.#keyPreviews.forEach( p => {
 			if ( p.$id === id ) {
-				p.$dur = ( Date.now() / 1000 - p.$when ) * p.$bps;
+				p.$dur = 0;
 			}
 		} );
 	}
