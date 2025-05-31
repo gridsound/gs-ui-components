@@ -2,8 +2,6 @@
 
 class gsuiPeriodicWave extends gsui0ne {
 	static #cache = {};
-	#width = 0;
-	#height = 0;
 	#options = [];
 
 	constructor() {
@@ -40,13 +38,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		}
 	}
 	$resized() {
-		const bcr = this.getBoundingClientRect();
-		const w = ~~bcr.width;
-		const h = ~~bcr.height;
-
-		this.#width = w;
-		this.#height = h;
-		GSUsetViewBoxWH( this.$element, w, h );
+		GSUsetViewBoxWH( this.$element, this.clientWidth, this.clientHeight );
 		this.#options.forEach( ( _, i ) => this.#drawLine( i ) );
 	}
 	#drawLine( lineN ) {
@@ -55,7 +47,7 @@ class gsuiPeriodicWave extends gsui0ne {
 
 		if ( opt && wave ) {
 			GSUsetAttribute( this.$element.children[ lineN ], {
-				points: gsuiPeriodicWave.#draw( wave, opt, this.#width, this.#height ),
+				points: gsuiPeriodicWave.#draw( wave, opt, this.clientWidth, this.clientHeight ),
 				"stroke-opacity": opt.opacity,
 			} );
 		}
