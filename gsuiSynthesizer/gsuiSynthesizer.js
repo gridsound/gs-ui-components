@@ -117,19 +117,30 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
-	$startKeyPreview( startedKeyId, blcs, bpm, when, dur ) {
-		this.#previews[ startedKeyId ] = setTimeout( () => {
-			const wtposCurves = blcs[ 0 ][ 1 ].wtposCurves;
+	$startKeyPreview( keyId, key, bpm, when, dur ) {
+		this.#previews[ keyId ] = setTimeout( () => {
+			const wtposCurves = key.wtposCurves;
 
-			this.$elements.$env.$startKey( startedKeyId, bpm, dur );
-			this.#uiOscs.forEach( ( osc, oscId ) => osc.$startKey( startedKeyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
+			this.#previews[ keyId ] = null;
+			this.$elements.$env.$startKey( keyId, bpm, dur );
+			this.$elements.$lfo.$startKey( keyId, bpm, dur );
+			this.#uiOscs.forEach( ( osc, oscId ) => osc.$startKey( keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
 		}, when * 1000 );
 	}
-	$stopKeyPreview( startedKeyId ) {
-		clearTimeout( this.#previews[ startedKeyId ] );
-		delete this.#previews[ startedKeyId ];
-		this.$elements.$env.$stopKey( startedKeyId );
-		this.#uiOscs.forEach( osc => osc.$stopKey( startedKeyId ) );
+	$stopKeyPreview( keyId, bpm, rel ) {
+		const pId = this.#previews[ keyId ];
+
+		if ( pId ) {
+			clearTimeout( pId );
+		}
+		delete this.#previews[ keyId ];
+		if ( pId === null ) {
+			this.$elements.$env.$stopKey( keyId );
+			setTimeout( () => {
+				this.$elements.$lfo.$stopKey( keyId );
+				this.#uiOscs.forEach( osc => osc.$stopKey( keyId ) );
+			}, rel / ( bpm / 60 ) * 1000 );
+		}
 	}
 
 	// .........................................................................
