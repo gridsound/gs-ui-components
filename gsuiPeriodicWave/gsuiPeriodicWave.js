@@ -19,6 +19,9 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 
 	// .........................................................................
+	$getY( lineN, xBeat ) {
+		return gsuiPeriodicWave.#getY( this.#getDrawData( lineN ), xBeat );
+	}
 	$nbLines( n ) {
 		GSUarrayLength( this.#options, n, () => Object.seal( {
 			type: "",
@@ -43,40 +46,51 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 	#drawLine( lineN ) {
 		const opt = this.#options[ lineN ];
-		const wave = gsuiPeriodicWave.#cache[ opt.type ];
 
-		if ( opt && wave ) {
+		if ( opt && opt.type in gsuiPeriodicWave.#cache ) {
 			GSUsetAttribute( this.$element.children[ lineN ], {
-				points: gsuiPeriodicWave.#draw( wave, opt, this.clientWidth, this.clientHeight ),
+				points: gsuiPeriodicWave.#draw( this.#getDrawData( lineN ) ),
 				"stroke-opacity": opt.opacity,
 			} );
 		}
+	}
+	#getDrawData( lineN ) {
+		const w = this.clientWidth;
+		const h = this.clientHeight;
+		const opt = this.#options[ lineN ];
+
+		return {
+			w,
+			h,
+			wave: gsuiPeriodicWave.#cache[ opt.type ],
+			delX: w / opt.duration * opt.delay,
+			attX: w / opt.duration * opt.attack,
+			amp: -opt.amplitude * .95,
+			hz: opt.frequency * opt.duration,
+		};
 	}
 
 	// .........................................................................
 	static $addWave( name, real, imag ) {
 		gsuiPeriodicWave.#cache[ name ] = GSUmathRealImagToXY( real, imag, 256 );
 	}
-	static #draw( wave, opt, w, h ) {
-		const hz = opt.frequency * opt.duration;
-		const amp = -opt.amplitude * .95 * h / 2;
-		const delX = w / opt.duration * opt.delay;
-		const attX = w / opt.duration * opt.attack;
-		const pts = new Float32Array( w * 2 );
+	static #draw( drawInfo ) {
+		const pts = new Float32Array( drawInfo.w * 2 );
 
-		for ( let x = 0; x < w; ++x ) {
-			let y = h / 2;
-
-			if ( x > delX ) {
-				const xd = x - delX;
-				const att = xd < attX ? xd / attX : 1;
-
-				y += wave[ xd / w * 256 * hz % 256 | 0 ] * amp * att;
-			}
+		for ( let x = 0; x < drawInfo.w; ++x ) {
 			pts[ x * 2 ] = x;
-			pts[ x * 2 + 1 ] = y;
+			pts[ x * 2 + 1 ] = drawInfo.h / 2 + gsuiPeriodicWave.#getY( drawInfo, x ) * drawInfo.h / 2;
 		}
 		return pts.join( " " );
+	}
+	static #getY( { w, wave, delX, attX, amp, hz }, x ) {
+		if ( x > delX ) {
+			const xd = x - delX;
+			const att = xd < attX ? xd / attX : 1;
+
+			return wave[ xd / w * 256 * hz % 256 | 0 ] * amp * att;
+		}
+		return 0;
 	}
 }
 
