@@ -118,10 +118,10 @@ inpPlayStop.onclick = e => {
 	play = !play;
 	e.target.textContent = play ? "Stop" : "Play!" ;
 	if (play) {
-		intervalId = setInterval( () => {
+		intervalId = GSUsetInterval( () => {
 			currenttime = ( currenttime + .05 ) % 8;
 			GSUsetAttribute( win, "currenttime", currenttime );
-		}, 50 );
+		}, .05 );
 	} else {
 		clearInterval( intervalId );
 		currenttime = 0;

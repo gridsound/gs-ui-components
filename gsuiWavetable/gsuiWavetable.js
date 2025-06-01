@@ -380,7 +380,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$wtposCurves.children[ +wtposCurveId ].querySelector( ".gsuiWavetable-keyPreviews" ).append( elB );
 		this.#lastKeyPreview = id;
 		if ( !this.#keyAnimId ) {
-			this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+			this.#keyAnimId = GSUsetInterval( this.#keyAnimFrame.bind( this ), 1 / 60 );
 		}
 	}
 	$stopKey( id ) {

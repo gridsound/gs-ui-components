@@ -192,7 +192,7 @@ class gsuiLFO extends gsui0ne {
 			} );
 			this.$elements.$keyPreviews.append( el );
 			if ( !this.#keyAnimId ) {
-				this.#keyAnimId = setInterval( this.#keyAnimFrame.bind( this ), 1000 / 60 );
+				this.#keyAnimId = GSUsetInterval( this.#keyAnimFrame.bind( this ), 1 / 60 );
 			}
 		}
 	}

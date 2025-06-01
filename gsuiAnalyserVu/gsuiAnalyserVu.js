@@ -75,7 +75,7 @@ class gsuiAnalyserVu extends gsui0ne {
 		}
 	}
 	#maxFall( c ) {
-		this.#intervalIDs[ c ] = setInterval( () => {
+		this.#intervalIDs[ c ] = GSUsetInterval( () => {
 			const maxSt = this.$elements.$metersTick[ c ].style;
 
 			this.#maxs[ c ] -= 1;
@@ -87,7 +87,7 @@ class gsuiAnalyserVu extends gsui0ne {
 			} else {
 				maxSt.bottom = this.#cssVal( this.#maxs[ c ] );
 			}
-		}, 1000 / 60 );
+		}, 1 / 60 );
 	}
 	static #getMax( arr ) {
 		return Array.prototype.reduce.call( arr, ( res, n ) => Math.max( res, Math.abs( n ) ), 0 );

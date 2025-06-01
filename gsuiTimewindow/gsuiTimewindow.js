@@ -285,9 +285,9 @@ class gsuiTimewindow extends gsui0ne {
 				const side = e.pageX > this.$elements.$minimapThumb.getBoundingClientRect().left ? 1 : -1;
 
 				this.onpointerup = this.#onptrupMinimap.bind( this );
-				this.#minimapIntervalId = setInterval( () => {
+				this.#minimapIntervalId = GSUsetInterval( () => {
 					this.#setScrollX( this.#scrollX + 10 * side );
-				}, 10 );
+				}, .01 );
 			} break;
 		}
 	}
