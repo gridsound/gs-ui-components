@@ -318,7 +318,7 @@ class gsuiTimewindow extends gsui0ne {
 		}
 	}
 	#onptrupMinimap( e ) {
-		clearInterval( this.#minimapIntervalId );
+		GSUclearInterval( this.#minimapIntervalId );
 		this.#minimapAction = null;
 		this.onpointermove = null;
 		this.onpointerup = null;

@@ -123,7 +123,7 @@ inpPlayStop.onclick = e => {
 			GSUsetAttribute( win, "currenttime", currenttime );
 		}, .05 );
 	} else {
-		clearInterval( intervalId );
+		GSUclearInterval( intervalId );
 		currenttime = 0;
 		GSUsetAttribute( win, "currenttime", 0 );
 	}

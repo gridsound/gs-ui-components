@@ -67,7 +67,7 @@ class gsuiAnalyserVu extends gsui0ne {
 		this.$elements.$metersVal[ c ].style.height = h;
 		this.$elements.$metersValMax[ c ].style.height = `${ hmax }%`;
 		if ( max > this.#maxs[ c ] ) {
-			clearInterval( this.#intervalIDs[ c ] );
+			GSUclearInterval( this.#intervalIDs[ c ] );
 			this.#maxs[ c ] = max;
 			this.$elements.$metersTick[ c ].style.opacity = 1;
 			this.$elements.$metersTick[ c ].style.bottom = h;
@@ -80,7 +80,7 @@ class gsuiAnalyserVu extends gsui0ne {
 
 			this.#maxs[ c ] -= 1;
 			if ( this.#maxs[ c ] <= 0 ) {
-				clearInterval( this.#intervalIDs[ c ] );
+				GSUclearInterval( this.#intervalIDs[ c ] );
 				this.#maxs[ c ] = 0;
 				maxSt.opacity = 0;
 				maxSt.bottom = "calc(0% + 2px)";

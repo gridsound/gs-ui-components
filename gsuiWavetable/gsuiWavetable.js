@@ -397,7 +397,7 @@ class gsuiWavetable extends gsui0ne {
 		if ( toRm.length > 0 ) {
 			this.#keyPreviews = this.#keyPreviews.filter( p => !toRm.includes( p ) );
 			if ( !this.#keyPreviews.length ) {
-				clearInterval( this.#keyAnimId );
+				GSUclearInterval( this.#keyAnimId );
 				this.#keyAnimId = null;
 			}
 		}
