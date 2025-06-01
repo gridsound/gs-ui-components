@@ -99,10 +99,9 @@ function frame() {
 		anR.getFloatTimeDomainData( anDataR );
 		analyserVu.$draw( anDataL, anDataR );
 	}
-	requestAnimationFrame( frame );
 }
 
-frame();
+GSUsetInterval( frame, 0 );
 </script>
 </body>
 </html>

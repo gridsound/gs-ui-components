@@ -100,12 +100,11 @@ play.onclick = () => {
 function frame() {
 	an.getFloatFrequencyData( anData );
 	spectrum.$draw( anData );
-	requestAnimationFrame( frame );
 }
 
 bgcolor.onchange();
 
-frame();
+GSUsetInterval( frame, 0 );
 </script>
 </body>
 </html>

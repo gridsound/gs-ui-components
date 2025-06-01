@@ -118,10 +118,9 @@ function frame() {
 	if ( !frozen ) {
 		analyserTd.$draw( anData );
 	}
-	requestAnimationFrame( frame );
 }
 
-frame();
+GSUsetInterval( frame, 0 );
 </script>
 </body>
 </html>

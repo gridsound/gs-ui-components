@@ -114,10 +114,9 @@ function frame() {
 			break;
 	}
 	analyser.$draw( anLData, anRData );
-	requestAnimationFrame( frame );
 }
 
-frame();
+GSUsetInterval( frame, 0 );
 </script>
 </body>
 </html>
