@@ -54,10 +54,10 @@ class gsuiDropdown {
 				this.#elem = this.#createElement();
 				this.#elParent.prepend( this.#elem );
 				document.body.addEventListener( "pointerdown", this.#onptrdownBodyBind );
-				this.#timeoutId = setTimeout( () => {
+				this.#timeoutId = GSUsetTimeout( () => {
 					this.#positionElement();
 					GSUsetAttribute( this.#elem, "data-open", true );
-				}, 10 );
+				}, .01 );
 			}
 		}
 	}
@@ -67,11 +67,11 @@ class gsuiDropdown {
 			clearTimeout( this.#timeoutId );
 			GSUsetAttribute( this.#elem, "data-open", false );
 			document.body.removeEventListener( "pointerdown", this.#onptrdownBodyBind );
-			this.#timeoutId = setTimeout( () => {
+			this.#timeoutId = GSUsetTimeout( () => {
 				this.#elem.remove();
 				this.#elem = null;
 				this.#elContent = null;
-			}, 250 );
+			}, .25 );
 		}
 	}
 	#createElement() {

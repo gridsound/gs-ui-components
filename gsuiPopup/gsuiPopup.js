@@ -93,7 +93,7 @@ class gsuiPopup extends gsui0ne {
 		this.$elements.text.value = arguments.length > 3 ? value : "";
 		this.$elements.window.dataset.type = type;
 		this.classList.add( "gsuiPopup-show" );
-		setTimeout( () => {
+		GSUsetTimeout( () => {
 			if ( type === "prompt" ) {
 				this.$elements.text.select();
 			} else {
@@ -102,7 +102,7 @@ class gsuiPopup extends gsui0ne {
 
 				( inp || this.$elements.ok ).focus();
 			}
-		}, 250 );
+		}, .25 );
 		return new Promise( res => this.#resolve = res )
 			.then( val => {
 				this.#isOpen = false;

@@ -298,12 +298,12 @@ class gsuiOscillator extends gsui0ne {
 		clearTimeout( this.#timeidType );
 		GSUsetAttribute( this, "wave", w );
 		this.$dispatch( "liveChange", "wave", w );
-		this.#timeidType = setTimeout( () => {
+		this.#timeidType = GSUsetTimeout( () => {
 			if ( w !== this.#typeSaved ) {
 				this.#typeSaved = w;
 				this.$dispatch( "change", "wave", w );
 			}
-		}, 700 );
+		}, .7 );
 	}
 	#onkeydownSelect( e ) {
 		if ( e.key.length === 1 ) {

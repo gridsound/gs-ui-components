@@ -62,7 +62,7 @@ GSUlistenEvents( elLibs, {
 	gsuiLibrary: {
 		loadSample: d => {
 			elLibDef.$loadSample( d.args[ 0 ] );
-			setTimeout( () => elLibDef.$readySample( d.args[ 0 ] ), 1 * 1000 );
+			GSUsetTimeout( () => elLibDef.$readySample( d.args[ 0 ] ), 1 );
 		},
 		playSample: d => {
 			elLibDef.$playSample( d.args[ 0 ], 1 );

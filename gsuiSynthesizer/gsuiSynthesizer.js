@@ -118,14 +118,14 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	$startKeyPreview( keyId, key, bpm, when, dur ) {
-		this.#previews[ keyId ] = setTimeout( () => {
+		this.#previews[ keyId ] = GSUsetTimeout( () => {
 			const wtposCurves = key.wtposCurves;
 
 			this.#previews[ keyId ] = null;
 			this.$elements.$env.$startKey( keyId, bpm, dur );
 			this.$elements.$lfo.$startKey( keyId, bpm, dur );
 			this.#uiOscs.forEach( ( osc, oscId ) => osc.$startKey( keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
-		}, when * 1000 );
+		}, when );
 	}
 	$stopKeyPreview( keyId, bpm, rel ) {
 		const pId = this.#previews[ keyId ];
@@ -136,10 +136,10 @@ class gsuiSynthesizer extends gsui0ne {
 		delete this.#previews[ keyId ];
 		if ( pId === null ) {
 			this.$elements.$env.$stopKey( keyId );
-			setTimeout( () => {
+			GSUsetTimeout( () => {
 				this.$elements.$lfo.$stopKey( keyId );
 				this.#uiOscs.forEach( osc => osc.$stopKey( keyId ) );
-			}, rel / ( bpm / 60 ) * 1000 );
+			}, rel / ( bpm / 60 ) );
 		}
 	}
 

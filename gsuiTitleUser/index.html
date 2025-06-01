@@ -93,8 +93,8 @@ longUser.onclick = () => {
 	GSUsetAttribute( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
 };
 
-const logout0 = () => new Promise( ( res, rej ) => setTimeout( () => rej(), 1000 ) );
-const logout1 = () => new Promise( ( res, rej ) => setTimeout( () => res(), 1000 ) );
+const logout0 = () => new Promise( ( res, rej ) => GSUsetTimeout( rej, 1 ) );
+const logout1 = () => new Promise( ( res, rej ) => GSUsetTimeout( res, 1 ) );
 
 elCmp.$setLogoutCallbackPromise( logout0 );
 // elCmp.$setLogoutCallbackPromise( logout1 );

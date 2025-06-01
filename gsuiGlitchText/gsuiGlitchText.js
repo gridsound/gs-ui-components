@@ -53,8 +53,8 @@ class gsuiGlitchText extends gsui0ne {
 	}
 	#frame() {
 		this.#glitch();
-		setTimeout( this.#unglitchBind, 50 + Math.random() * 200 );
-		this.#frameId = setTimeout( this.#frameBind, 250 + Math.random() * 400 );
+		GSUsetTimeout( this.#unglitchBind, .05 + Math.random() * .2 );
+		this.#frameId = GSUsetTimeout( this.#frameBind, .25 + Math.random() * .4 );
 	}
 	#glitch() {
 		const clip1 = this.#randDouble( .2 );

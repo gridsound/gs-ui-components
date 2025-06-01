@@ -80,7 +80,7 @@ class gsuiFxFilter extends gsui0ne {
 				GSUsetAttribute( this.$elements.$sliders.frequency, "value", GSUHztoX( val / this.#nyquist ) );
 				break;
 		}
-		setTimeout( () => this.#updateWave(), 20 );
+		GSUsetTimeout( () => this.#updateWave(), .02 );
 	}
 
 	// .........................................................................

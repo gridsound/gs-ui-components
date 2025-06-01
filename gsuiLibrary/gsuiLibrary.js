@@ -139,8 +139,8 @@ class gsuiLibrary extends gsui0ne {
 		this.#elCursor.style.transitionDuration = `${ dur }s`;
 		el.classList.add( "gsuiLibrary-sample-playing" );
 		el.append( this.#elCursor );
-		setTimeout( () => this.#elCursor.style.left = "100%", 10 );
-		this.#stopTimeout = setTimeout( this.$stopSample.bind( this ), dur * 1000 );
+		GSUsetTimeout( () => this.#elCursor.style.left = "100%", .01 );
+		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
 	}
 	$stopSample() {
 		if ( this.#idPlaying ) {

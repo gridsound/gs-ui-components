@@ -137,9 +137,7 @@ class gsuiComPlaylist extends gsui0ne {
 					this.$elements.$listCmps.prepend( elNewCmp );
 					this.#updateNbCmps();
 					GSUsetAttribute( elCmp, "actionloading", false );
-					setTimeout( () => {
-						GSUsetAttribute( elNewCmp, "forking", false );
-					}, 350 );
+					GSUsetTimeout( () => GSUsetAttribute( elNewCmp, "forking", false ), .35 );
 				}
 			} )
 			.finally( () => GSUsetAttribute( elCmp, "actionloading", false ) );
@@ -155,7 +153,7 @@ class gsuiComPlaylist extends gsui0ne {
 				const attr = del ? "deleting" : "restoring";
 
 				GSUsetAttribute( elCmp, attr, true );
-				setTimeout( () => {
+				GSUsetTimeout( () => {
 					del
 						? this.$elements.$listBin.prepend( elCmp )
 						: this.$elements.$listCmps.prepend( elCmp );
@@ -164,7 +162,7 @@ class gsuiComPlaylist extends gsui0ne {
 					GSUsetAttribute( elCmp, "deleted", del );
 					this.#updateNbCmps();
 					this.#updateCmpLinks( elCmp );
-				}, 350 );
+				}, .35 );
 			} )
 			.catch( () => {
 				GSUsetAttribute( elCmp, "actionloading", false );

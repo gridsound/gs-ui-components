@@ -32,7 +32,7 @@ class gsuiMixer extends gsui0ne {
 			},
 			gsuiEffect: {
 				expand: () => {
-					setTimeout( () => this.#shadowEffects.$update(), 100 );
+					GSUsetTimeout( () => this.#shadowEffects.$update(), .1 );
 				},
 			},
 		} );

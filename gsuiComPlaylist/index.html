@@ -89,16 +89,14 @@ const cmps = [
 ];
 
 function promRes() {
-	return new Promise( ( res, rej ) => {
-		setTimeout( () => res(), 1000 );
-	} );
+	return new Promise( res => GSUsetTimeout( res, 1 ) );
 }
 
 function forkRes( id ) {
 	const cmp = { ...cmps.find( cmp => cmp.id === id ) };
 
-	return new Promise( ( res, rej ) => {
-		setTimeout( () => res( cmp ), 1000 );
+	return new Promise( res => {
+		GSUsetTimeout( () => res( cmp ), 1 );
 	} );
 }
 

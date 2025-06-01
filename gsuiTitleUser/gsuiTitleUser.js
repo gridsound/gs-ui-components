@@ -66,7 +66,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "just-saved":
 				if ( val === "" ) {
 					clearTimeout( this.#justSavedTimeout );
-					this.#justSavedTimeout = setTimeout( () => GSUsetAttribute( this, "just-saved", false ), 2500 );
+					this.#justSavedTimeout = GSUsetTimeout( () => GSUsetAttribute( this, "just-saved", false ), 2.5 );
 				}
 				break;
 			case "renaming":

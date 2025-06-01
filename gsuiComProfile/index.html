@@ -96,9 +96,9 @@ avatar.click();
 
 function promRes( obj ) {
 	return new Promise( ( res, rej ) => {
-		setTimeout( () => {
+		GSUsetTimeout( () => {
 			savefail.checked ? rej( "Error in the server or somewhere else.. who knows?" ) : res();
-		}, 1000 );
+		}, 1 );
 	} );
 }
 
