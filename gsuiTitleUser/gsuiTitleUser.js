@@ -65,7 +65,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "disconnecting": GSUsetAttribute( this.$elements.$logout, "data-spin", val === "" ? "on" : false ); break;
 			case "just-saved":
 				if ( val === "" ) {
-					clearTimeout( this.#justSavedTimeout );
+					GSUclearTimeout( this.#justSavedTimeout );
 					this.#justSavedTimeout = GSUsetTimeout( () => GSUsetAttribute( this, "just-saved", false ), 2.5 );
 				}
 				break;

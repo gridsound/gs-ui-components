@@ -47,7 +47,7 @@ class gsuiDropdown {
 	#open() {
 		if ( !this.#isOpen && this.#onbeforeOpening() !== false ) {
 			this.#isOpen = true;
-			clearTimeout( this.#timeoutId );
+			GSUclearTimeout( this.#timeoutId );
 			if ( this.#elem ) {
 				GSUsetAttribute( this.#elem, "data-open", true );
 			} else {
@@ -64,7 +64,7 @@ class gsuiDropdown {
 	#close() {
 		if ( this.#isOpen ) {
 			this.#isOpen = false;
-			clearTimeout( this.#timeoutId );
+			GSUclearTimeout( this.#timeoutId );
 			GSUsetAttribute( this.#elem, "data-open", false );
 			document.body.removeEventListener( "pointerdown", this.#onptrdownBodyBind );
 			this.#timeoutId = GSUsetTimeout( () => {

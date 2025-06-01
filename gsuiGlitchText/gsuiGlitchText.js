@@ -47,7 +47,7 @@ class gsuiGlitchText extends gsui0ne {
 		}
 	}
 	#off() {
-		clearTimeout( this.#frameId );
+		GSUclearTimeout( this.#frameId );
 		this.#frameId = null;
 		this.#unglitchBind();
 	}

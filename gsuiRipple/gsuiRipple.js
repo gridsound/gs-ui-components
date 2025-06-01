@@ -40,7 +40,7 @@ class gsuiRipple {
 			top: `${ y * 100 }%`,
 		} } );
 
-		clearTimeout( obj.$timeoutId );
+		GSUclearTimeout( obj.$timeoutId );
 		if ( obj.$elCirc ) {
 			obj.$elCirc.remove();
 		}

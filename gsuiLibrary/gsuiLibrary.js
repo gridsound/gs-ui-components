@@ -146,7 +146,7 @@ class gsuiLibrary extends gsui0ne {
 		if ( this.#idPlaying ) {
 			const el = this.#samplesMap.get( this.#idPlaying );
 
-			clearTimeout( this.#stopTimeout );
+			GSUclearTimeout( this.#stopTimeout );
 			this.#elCursor.remove();
 			el.classList.remove( "gsuiLibrary-sample-playing" );
 			this.#elCursor = null;

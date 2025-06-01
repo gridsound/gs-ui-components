@@ -100,7 +100,7 @@ class gsuiSynthesizer extends gsui0ne {
 		} );
 	}
 	$disconnected() {
-		GSUforEach( this.#previews, id => clearTimeout( id ) );
+		GSUforEach( this.#previews, id => GSUclearTimeout( id ) );
 		this.#previews = {};
 		this.#shadow.$disconnected();
 	}
@@ -131,7 +131,7 @@ class gsuiSynthesizer extends gsui0ne {
 		const pId = this.#previews[ keyId ];
 
 		if ( pId ) {
-			clearTimeout( pId );
+			GSUclearTimeout( pId );
 		}
 		delete this.#previews[ keyId ];
 		if ( pId === null ) {

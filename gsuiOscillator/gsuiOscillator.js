@@ -295,7 +295,7 @@ class gsuiOscillator extends gsui0ne {
 	#onchangeSelect() {
 		const w = this.$elements.$waveSelect.value;
 
-		clearTimeout( this.#timeidType );
+		GSUclearTimeout( this.#timeidType );
 		GSUsetAttribute( this, "wave", w );
 		this.$dispatch( "liveChange", "wave", w );
 		this.#timeidType = GSUsetTimeout( () => {
