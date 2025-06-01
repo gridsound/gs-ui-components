@@ -7,7 +7,7 @@ class gsuiAnalyserTd extends gsui0ne {
 	#color = "#fff";
 	#smooth = 0;
 	#drawMax = 0;
-	#setResDeb = GSUdebounce( this.#setResolution.bind( this ), 200 );
+	#setResDeb = GSUdebounce( this.#setResolution.bind( this ), .2 );
 
 	constructor() {
 		super( {

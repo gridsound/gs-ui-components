@@ -5,8 +5,8 @@ class gsuiAnalyserVu extends gsui0ne {
 	#dBmax = 1;
 	#intervalIDs = {};
 	#maxFallDeb = [
-		GSUdebounce( this.#maxFall.bind( this, 0 ), 1000 ),
-		GSUdebounce( this.#maxFall.bind( this, 1 ), 1000 ),
+		GSUdebounce( this.#maxFall.bind( this, 0 ), 1 ),
+		GSUdebounce( this.#maxFall.bind( this, 1 ), 1 ),
 	];
 
 	constructor() {

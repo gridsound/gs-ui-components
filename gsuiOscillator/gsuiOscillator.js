@@ -11,7 +11,7 @@ class gsuiOscillator extends gsui0ne {
 	$askWaveCustomData = GSUnoop;
 	#timeidType = null;
 	#typeSaved = "";
-	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), 100 );
+	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), .1 );
 	#selectWaves = { ...gsuiOscillator_defaultWaves };
 	#elWavetable = null;
 

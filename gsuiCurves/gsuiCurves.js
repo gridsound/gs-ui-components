@@ -4,7 +4,7 @@ class gsuiCurves extends gsui0ne {
 	#size = Object.seal( [ 0, 0 ] );
 	#curves = new Map();
 	#nyquist = 24000;
-	#analyserResolutionDeb = GSUdebounce( w => GSUsetAttribute( this.$elements.$analyser, "resolution", w ), 200 );
+	#analyserResolutionDeb = GSUdebounce( w => GSUsetAttribute( this.$elements.$analyser, "resolution", w ), .2 );
 
 	constructor() {
 		super( {
