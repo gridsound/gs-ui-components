@@ -56,7 +56,7 @@ class gsuiSlider extends gsui0ne {
 			case "min": this.#min = +val; break;
 			case "max": this.#max = +val; break;
 			case "step": this.#step = +val; break;
-			case "value": this.#value = +val; break;
+			case "value": this.#value = this.#valueSave = +val; break;
 			case "type": this.#setType( val ); break;
 			case "revert": this.#revert = val !== null ? -1 : 1; break;
 			case "scroll-step": this.#scrollStep = +val; break;
@@ -180,15 +180,29 @@ class gsuiSlider extends gsui0ne {
 	}
 	$onptrdown( e ) {
 		e.preventDefault();
-		if ( e.button !== 0 || GSUhasAttribute( this, "disabled" ) ) {
+		if ( GSUhasAttribute( this, "disabled" ) ) {
 			return false;
 		}
-		this.#valueSave = this.#value;
-		this.#pxval = this.#getRange() / this.#getMousemoveSize();
-		this.#pxmoved = 0;
-		this.#scrollIncr = 0;
-		document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-		this.$dispatch( "inputStart", this.#value );
+		switch ( e.button ) {
+			default: return false;
+			case 1: {
+				const def = GSUhasAttribute( this, "defaultValue" ) && GSUgetAttributeNum( this, "defaultValue" );
+
+				if ( def !== false && this.#value !== def ) {
+					this.#value = def;
+					this.#onchange();
+				}
+				return false;
+			}
+			case 0:
+				this.#valueSave = this.#value;
+				this.#pxval = this.#getRange() / this.#getMousemoveSize();
+				this.#pxmoved = 0;
+				this.#scrollIncr = 0;
+				document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
+				this.$dispatch( "inputStart", this.#value );
+				break;
+		}
 	}
 	$onptrmove( e ) {
 		const bound = this.#getRange() / 5;
