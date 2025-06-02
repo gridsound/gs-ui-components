@@ -56,7 +56,7 @@ class gsuiSlider extends gsui0ne {
 			case "min": this.#min = +val; break;
 			case "max": this.#max = +val; break;
 			case "step": this.#step = +val; break;
-			case "value": this.#value = this.#valueSave = +val; break;
+			case "value": this.#value = +val; break;
 			case "type": this.#setType( val ); break;
 			case "revert": this.#revert = val !== null ? -1 : 1; break;
 			case "scroll-step": this.#scrollStep = +val; break;
@@ -151,11 +151,9 @@ class gsuiSlider extends gsui0ne {
 		}
 	}
 	#onchange() {
-		if ( this.#value !== this.#valueSave ) {
-			this.#valueSave = this.#value;
-			GSUsetAttribute( this, "value", this.#value );
-			this.$dispatch( "change", this.#value );
-		}
+		this.#valueSave = this.#value;
+		GSUsetAttribute( this, "value", this.#value );
+		this.$dispatch( "change", this.#value );
 	}
 	#oninput( val ) {
 		if ( val !== this.#value ) {
@@ -219,7 +217,9 @@ class gsuiSlider extends gsui0ne {
 	$onptrup( e ) {
 		document.body.removeEventListener( "wheel", this.#onwheelBinded );
 		this.$dispatch( "inputEnd", this.#value );
-		this.#onchange();
+		if ( this.#value !== this.#valueSave ) {
+			this.#onchange();
+		}
 	}
 }
 
