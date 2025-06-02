@@ -35,25 +35,25 @@ GSUsetTemplate( "gsui-oscillator", waves =>
 					GSUcreateI( { class: "gsuiIcon", "data-icon": "arrow-dropdown", animate: true } ),
 				),
 			),
-			GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .001, "mousemove-size": "400", "data-prop": "phaze" } ),
+			GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .001, "mousemove-size": "400", "data-prop": "phaze", defaultValue: 0 } ),
 		),
 		GSUcreateDiv( { class: "gsuiOscillator-unison" },
 			GSUcreateDiv( { class: "gsuiOscillator-unisonGraph" },
 				GSUcreateDiv( { class: "gsuiOscillator-unisonGraph-voices" } ),
 			),
-			GSUcreateElement( "gsui-slider", { type: "linear-y", min: 1, max: 9, step: 1, "mousemove-size": "400", "data-prop": "unisonvoices" } ),
+			GSUcreateElement( "gsui-slider", { type: "linear-y", min: 1, max: 9, step: 1, "mousemove-size": "400", "data-prop": "unisonvoices", defaultValue: 1 } ),
 			GSUcreateElement( "gsui-slider", { type: "linear-y", min: 0, max: 2, step: .01, "mousemove-size": "800", "data-prop": "unisondetune" } ),
 			GSUcreateElement( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .001, "mousemove-size": "800", "data-prop": "unisonblend" } ),
 		),
 		[
-			[ "detune", "pitch", -24, 24, 1 ],
-			[ "pan", "pan", -1, 1, .02 ],
-			[ "gain", "gain", 0, 1, .01 ],
-		].map( ( [ prop, title, min, max, step ] ) =>
+			[ "detune", "pitch", -24, 24, 1, 0 ],
+			[ "pan", "pan", -1, 1, .02, 0 ],
+			[ "gain", "gain", 0, 1, .01, 1 ],
+		].map( ( [ prop, title, min, max, step, def ] ) =>
 			GSUcreateDiv( { class: `gsuiOscillator-prop gsuiOscillator-${ prop }`, title },
 				GSUcreateDiv( { class: "gsuiOscillator-sliderWrap" },
-					GSUcreateElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop } ),
-					prop !== "detune" ? null : GSUcreateElement( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3 } )
+					GSUcreateElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop, defaultValue: def } ),
+					prop !== "detune" ? null : GSUcreateElement( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3, defaultValue: 0 } )
 				),
 				GSUcreateDiv( { class: "gsuiOscillator-sliderValue" } ),
 			)
