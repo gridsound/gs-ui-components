@@ -38,13 +38,18 @@ class gsuiPropSelect extends gsui0ne {
 
 	// .........................................................................
 	#createProps( s ) {
-		const elBtns = s.split( " " ).map( p => GSUgetTemplate( "gsui-prop-select-btn", ...p.split( ":" ) ) );
+		const elBtns = s.split( " " ).map( p => this.#createProp( p ) );
 
 		GSUemptyElement( this.$elements.$form );
 		this.$elements.$form.append( ...elBtns );
 		if ( this.#prop ) {
 			this.#setProp( this.#prop );
 		}
+	}
+	#createProp( prop ) {
+		return prop.startsWith( "---" )
+			? GSUcreateDiv( { class: "gsuiPropSelect-sep" }, prop.slice( 3, -3 ) )
+			: GSUgetTemplate( "gsui-prop-select-btn", ...prop.split( ":" ) );
 	}
 	#setProp( prop, prev ) {
 		this.#prop = prop;

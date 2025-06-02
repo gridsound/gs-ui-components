@@ -45,7 +45,17 @@ body {
 const uiProp = document.querySelector( "gsui-prop-select" );
 
 GSUsetAttribute( uiProp, "prop", "pan" );
-GSUsetAttribute( uiProp, "props", "gain pan detune:pitch" );
+GSUsetAttribute( uiProp, "props", [
+	"gain",
+	"pan",
+	"detune:pitch",
+	"lowpass:lp",
+	"highpass:hp",
+	"---osc-wavetables---",
+	"wtpos0:0",
+	"wtpos1:1",
+	"wtpos2:2",
+].join( " " ) );
 </script>
 </body>
 </html>
