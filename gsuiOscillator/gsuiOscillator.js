@@ -21,6 +21,7 @@ class gsuiOscillator extends gsui0ne {
 			$tagName: "gsui-oscillator",
 			$tmpArgs: [ Object.keys( gsuiOscillator_defaultWaves ) ],
 			$elements: {
+				$id: ".gsuiOscillator-id",
 				$waveWrap: ".gsuiOscillator-waveWrap",
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
 				$waveSelect: ".gsuiOscillator-waveSelect",
@@ -48,6 +49,7 @@ class gsuiOscillator extends gsui0ne {
 				$remove: ".gsuiOscillator-remove",
 			},
 			$attributes: {
+				"data-id": "0",
 				order: 0,
 				wave: undefined,
 				source: undefined,
@@ -115,10 +117,11 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "order", "wave", "wavetable", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "data-id", "order", "wave", "wavetable", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "data-id": this.$elements.$id.textContent = val; break;
 			case "order": this.style.order = val; break;
 			case "wave": this.#changeWave( val ); break;
 			case "phaze": this.#updatePhaze( +val ); break;

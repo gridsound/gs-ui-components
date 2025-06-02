@@ -3,6 +3,7 @@
 GSUsetTemplate( "gsui-oscillator", waves =>
 	GSUcreateDiv( { class: "gsuiOscillator-in" },
 		GSUcreateDiv( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
+		GSUcreateDiv( { class: "gsuiOscillator-id", inert: true } ),
 		GSUcreateSpan( { class: "gsuiOscillator-head-label" }, "unison" ),
 		GSUcreateSpan( { class: "gsuiOscillator-head-label" }, "pitch" ),
 		GSUcreateSpan( { class: "gsuiOscillator-head-label" }, "pan" ),

@@ -39,6 +39,20 @@ gsui-oscillator[ wavetable ] {
 	opacity: .6;
 	background-color: #0002;
 }
+.gsuiOscillator-id {
+	position: absolute;
+	width: 20px;
+	height: 22px;
+	left: 0;
+	top: -2px;
+	font-size: 20px;
+	font-family: var( --gsui-font-number );
+	font-weight: bold;
+	text-align: center;
+	text-shadow: 2px 2px #000;
+	background-color: #0005;
+	opacity: .4;
+}
 
 /* .......................................................................... */
 .gsuiOscillator-head-label:nth-of-type( 1 ) { grid-area: unisonLbl }
