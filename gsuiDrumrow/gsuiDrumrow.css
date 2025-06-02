@@ -22,8 +22,8 @@ gsui-drumrow:not( [ toggle ] ) {
 	background-color: var( --gsui-item-bg-disabled );
 }
 .gsuiDrumrow-open {
-	height: calc( 1em + 1px + var( --props-h ) );
-	min-height: calc( 1em + 1px + var( --props-h ) );
+	height: calc( 1em + var( --props-h ) );
+	min-height: calc( 1em + var( --props-h ) );
 }
 
 /* .......................................................................... */
@@ -31,13 +31,13 @@ gsui-drumrow:not( [ toggle ] ) {
 	position: absolute;
 	box-sizing: border-box;
 	inset: 0 1px auto var( --grip-w );
-	height: 1em;
-	min-height: 1em;
+	height: calc( 1em - 4px );
+	min-height: calc( 1em - 4px );
 }
 gsui-drumrow gsui-prop-select {
 	position: absolute;
 	overflow: hidden;
-	inset: 1em 0 0 var( --grip-w );
+	inset: calc( 1em - 3px ) 1px 0 var( --grip-w );
 	background-color: var( --gsui-item-more-bg );
 }
 
@@ -122,7 +122,7 @@ gsui-drumrow:not( [ toggle ] ) .gsuiDrumrow-startCursor {
 .gsuiDrumrow-pan,
 .gsuiDrumrow-gain {
 	position: absolute;
-	inset: var( --name-h ) auto 4px;
+	inset: var( --name-h ) auto 2px;
 	width: var( --slider-w );
 }
 gsui-drumrow .gsuiSlider-eventCatcher {
