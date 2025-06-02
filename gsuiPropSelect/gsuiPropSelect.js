@@ -7,16 +7,13 @@ class gsuiPropSelect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPropSelect",
 			$tagName: "gsui-prop-select",
-			$elements: {
-				$form: ".gsuiPropSelect-form",
-			},
 			$attributes: {
 				prop: "gain",
 			},
 		} );
 		Object.seal( this );
+		this.onclick = this.#onclick.bind( this );
 		this.oncontextmenu = this.#oncontextmenu.bind( this );
-		this.$elements.$form.onchange = this.#onchange.bind( this );
 	}
 
 	// .........................................................................
@@ -40,21 +37,30 @@ class gsuiPropSelect extends gsui0ne {
 	#createProps( s ) {
 		const elBtns = s.split( " " ).map( p => this.#createProp( p ) );
 
-		GSUemptyElement( this.$elements.$form );
-		this.$elements.$form.append( ...elBtns );
+		GSUemptyElement( this );
+		this.append( ...elBtns );
 		if ( this.#prop ) {
 			this.#setProp( this.#prop );
 		}
 	}
-	#createProp( prop ) {
-		return prop.startsWith( "---" )
-			? GSUcreateDiv( { class: "gsuiPropSelect-sep" }, prop.slice( 3, -3 ) )
-			: GSUgetTemplate( "gsui-prop-select-btn", ...prop.split( ":" ) );
+	#createProp( p ) {
+		const isSep = p.startsWith( "---" );
+		const p2 = isSep
+			? p.slice( 3, -3 )
+			: p.split( ":" );
+
+		return isSep
+			? GSUcreateDiv( { class: "gsuiPropSelect-sep", inert: true }, p2 )
+			: GSUcreateDiv( { class: "gsuiPropSelect-btn", "data-prop": p2[ 0 ], "data-label": p2[ 1 ] || p2[ 0 ] } )
 	}
 	#setProp( prop, prev ) {
+		const btn = this.#getBtn( prop );
+		const btnPrev = this.#getBtn( prev );
+
 		this.#prop = prop;
 		this.#setValue( prev, false );
-		this.#getBtn( prop )?.firstChild.click();
+		btn && GSUsetAttribute( btn, "data-selected", true );
+		btnPrev && GSUsetAttribute( btnPrev, "data-selected", false );
 		this.#setValue( prop, GSUgetAttribute( this, "value" ) );
 	}
 	#getBtn( prop ) {
@@ -64,7 +70,7 @@ class gsuiPropSelect extends gsui0ne {
 		const btn = this.#getBtn( prop );
 
 		if ( btn ) {
-			GSUsetAttribute( btn.lastChild, "data-value", gsuiPropSelect.#formatValue( prop, val ) );
+			GSUsetAttribute( btn, "data-value", gsuiPropSelect.#formatValue( prop, val ) );
 		}
 	}
 	static #formatValue( prop, val ) {
@@ -80,11 +86,10 @@ class gsuiPropSelect extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onchange( e ) {
-		const prop = e.target.value;
+	#onclick( e ) {
+		const prop = e.target.dataset.prop;
 
-		e.stopImmediatePropagation();
-		if ( prop !== this.#prop ) {
+		if ( prop && prop !== this.#prop ) {
 			GSUsetAttribute( this, "prop", prop );
 			this.$dispatch( "select", prop );
 		}
