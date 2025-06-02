@@ -15,11 +15,20 @@ class gsuiPianoroll extends gsui0ne {
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
 	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
-	#propSelect = GSUcreateElement( "gsui-prop-select", { prop: "gain", props: "gain pan lowpass highpass gainLFOSpeed:gain.lfo.speed gainLFOAmp:gain.lfo.amp" } );
+	#propSelectList = [
+		"gain",
+		"pan",
+		"lowpass:lp",
+		"highpass:hp",
+		"---gain.LFO---",
+		"gainLFOSpeed:speed",
+		"gainLFOAmp:amp",
+	];
+	#propSelect = GSUcreateElement( "gsui-prop-select", { prop: "gain", props: this.#propSelectList.join( " " ) } );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,
 		panelsizemin: 100,
-		panelsizemax: 130,
+		panelsizemax: 160,
 		lineheight: 20,
 		lineheightmin: 12,
 		lineheightmax: 32,
@@ -28,7 +37,7 @@ class gsuiPianoroll extends gsui0ne {
 		pxperbeatmax: 200,
 		downpanel: "",
 		downpanelsize: 120,
-		downpanelsizemin: 120,
+		downpanelsizemin:  80,
 		downpanelsizemax: 160,
 	} );
 	#blcManager = new gsuiBlocksManager( {
