@@ -50,7 +50,7 @@ class gsuiPanels extends gsui0ne {
 	}
 	static #incrSizePans( dir, mov, parentsize, pans ) {
 		return pans.reduce( ( mov, pan ) => {
-			const style = getComputedStyle( pan );
+			const style = GSUgetStyle( pan );
 			const size = Math.round( pan.getBoundingClientRect()[ dir ] );
 			const minsize = parseFloat( style[ `min-${ dir }` ] ) || 10;
 			const maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity;
@@ -79,7 +79,7 @@ class gsuiPanels extends gsui0ne {
 			let pminPerc = Infinity;
 
 			this.#pans.forEach( p => {
-				const st = getComputedStyle( p );
+				const st = GSUgetStyle( p );
 				const perc = parseFloat( st[ this.#dir ] ) / parseFloat( st[ mindir ] );
 
 				if ( perc > pmaxPerc ) {
@@ -119,7 +119,7 @@ class gsuiPanels extends gsui0ne {
 			this.#panBefore = this.#pans.slice( 0, pInd ).reverse();
 			this.#panAfter = this.#pans.slice( pInd );
 			this.#panAfterMinSize = this.#panAfter.reduce( ( n, p ) => {
-				return n + parseFloat( getComputedStyle( p )[ `min-${ this.#dir }` ] ) || 10;
+				return n + parseFloat( GSUgetStyle( p )[ `min-${ this.#dir }` ] ) || 10;
 			}, 0 );
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
 			tar.classList.add( "gsui-hover" );
@@ -139,9 +139,7 @@ class gsuiPanels extends gsui0ne {
 	#onpointermove( e ) {
 		const px = Math.round( ( this.#dirX ? e.pageX : e.pageY ) - this.#pageN );
 		const parentsize = this.#dirX ? this.clientWidth : this.clientHeight;
-		const currBeforeSize = this.#panBefore.reduce( ( n, p ) => {
-			return n + parseFloat( getComputedStyle( p )[ this.#dir ] );
-		}, 0 );
+		const currBeforeSize = this.#panBefore.reduce( ( n, p ) => n + parseFloat( GSUgetStyle( p )[ this.#dir ] ), 0 );
 		const px2 = px <= 0 ? px : Math.min( px, parentsize - currBeforeSize - this.#panAfterMinSize );
 		const mov = px2 - gsuiPanels.#incrSizePans( this.#dir, px2, parentsize, this.#panBefore );
 

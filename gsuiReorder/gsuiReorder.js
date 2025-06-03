@@ -258,7 +258,7 @@ class gsuiReorder {
 		};
 	}
 	static #isDirX( el ) {
-		return !!el && getComputedStyle( el ).flexDirection === "row";
+		return !!el && GSUgetStyle( el, "flexDirection" ) === "row";
 	}
 	static #overWhichParent( elRoot, parSel, e ) {
 		const pX = e.offsetX;
@@ -347,7 +347,7 @@ class gsuiReorder {
 		return Array.from( root.querySelectorAll( itemSel ) )
 			.reduce( ( obj, el ) => {
 				obj[ el.dataset.id ] = {
-					order: +getComputedStyle( el ).order,
+					order: +GSUgetStyle( el, "order" ),
 					parent: el.parentNode.closest( "[data-id]" )?.dataset.id || null,
 					$elemParent: el.parentNode,
 					$elem: el,
@@ -370,7 +370,7 @@ class gsuiReorder {
 					$elem: el,
 					$pos: dirX ? bcr.x : bcr.y,
 					$size: dirX ? el.clientWidth : el.clientHeight,
-					$order: +getComputedStyle( el ).order,
+					$order: +GSUgetStyle( el, "order" ),
 				};
 			} )
 			.sort( ( a, b ) => a.$pos - b.$pos );
@@ -390,7 +390,7 @@ class gsuiReorder {
 		}
 	}
 	static #createGhostElement( elItem, elGrip, e ) {
-		const itemSt = getComputedStyle( elItem );
+		const itemSt = GSUgetStyle( elItem );
 		const itemBCR = elItem.getBoundingClientRect();
 		const gripBCR = elGrip?.getBoundingClientRect();
 		const w = elItem.clientWidth;
