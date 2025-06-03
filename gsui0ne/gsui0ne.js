@@ -21,7 +21,7 @@ class gsui0ne extends HTMLElement {
 			? GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) )
 			: null );
 		if ( this.#children ) {
-			this.$element = Array.isArray( this.#children ) ? this.#children[ 0 ] : this.#children;
+			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
 			this.$elements = GSUfindElements( this.#children, o.$elements );
 		}
 		if ( this.$onresize ) {
@@ -39,7 +39,7 @@ class gsui0ne extends HTMLElement {
 		this.$isConnected = true;
 		if ( ++this.#connectionCount === 1 ) {
 			if ( this.#children ) {
-				Array.isArray( this.#children )
+				GSUisArr( this.#children )
 					? this.append( ...this.#children )
 					: this.append( this.#children );
 				this.#children = null;
