@@ -51,7 +51,7 @@ GSUsetTemplate( "gsui-oscillator", waves =>
 			[ "pan", "pan", -1, 1, .02, 0 ],
 			[ "gain", "gain", 0, 1, .01, 1 ],
 		].map( ( [ prop, title, min, max, step, def ] ) =>
-			GSUcreateDiv( { class: `gsuiOscillator-prop gsuiOscillator-${ prop }`, title },
+			GSUcreateDiv( { class: "gsuiOscillator-prop", "data-prop": prop, title },
 				GSUcreateDiv( { class: "gsuiOscillator-sliderWrap" },
 					GSUcreateElement( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop, defaultValue: def } ),
 					prop !== "detune" ? null : GSUcreateElement( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3, defaultValue: 0 } )

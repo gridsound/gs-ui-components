@@ -73,9 +73,9 @@ gsui-oscillator[ wavetable ] {
 	gap: 2px;
 	--gsuiSlider-lineColor: currentColor;
 }
-.gsuiOscillator-pan { grid-area: pan; color: var( --gsui-col-pan ); }
-.gsuiOscillator-gain { grid-area: gain; color: var( --gsui-col-gain ); }
-.gsuiOscillator-detune { grid-area: detune; color: var( --gsui-col-detune ); }
+.gsuiOscillator-prop[ data-prop="pan" ] { grid-area: pan; color: var( --gsui-col-pan ); }
+.gsuiOscillator-prop[ data-prop="gain" ] { grid-area: gain; color: var( --gsui-col-gain ); }
+.gsuiOscillator-prop[ data-prop="detune" ] { grid-area: detune; color: var( --gsui-col-detune ); }
 .gsuiOscillator-sliderWrap {
 	position: relative;
 	box-sizing: border-box;
