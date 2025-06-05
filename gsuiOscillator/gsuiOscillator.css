@@ -1,6 +1,5 @@
 gsui-oscillator {
-	container-type: size;
-	container-name: gsui-oscillator-query;
+	container: gsuiOscillator-query / size;
 	display: flex;
 	position: relative;
 	box-sizing: border-box;
@@ -348,7 +347,7 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 }
 
 /* .......................................................................... */
-@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
+@container gsuiOscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
 	.gsuiOscillator-in {
 		grid-template:
 			"grip .   .    .    .         .     .       ."  6px

@@ -1,6 +1,5 @@
 gsui-envelope {
-	container-type: size;
-	container-name: gsui-envelope-query;
+	container: gsuiEnvelope-query / size;
 	box-sizing: border-box;
 	display: block;
 	height: 100%;
@@ -116,7 +115,7 @@ gsui-envelope .gsuiSlider-eventCatcher {
 }
 
 /* .......................................................................... */
-@container gsui-envelope-query ( orientation: portrait ) OR ( ( max-width: 340px ) AND ( min-height: 160px ) ) {
+@container gsuiEnvelope-query ( orientation: portrait ) OR ( ( max-width: 340px ) AND ( min-height: 160px ) ) {
 	.gsuiEnvelope-in {
 		flex-direction: column;
 	}

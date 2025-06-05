@@ -8,7 +8,7 @@ gsui-patternroll gsui-track {
 }
 
 .gsuiPatternroll-block {
-	container: gsuiPatternrollBlock / inline-size;
+	container: gsuiPatternroll-block-query / inline-size;
 	box-sizing: border-box;
 	white-space: nowrap;
 	color: var( --gsuiPatterns-pattern-color );
@@ -89,7 +89,7 @@ gsui-patternroll gsui-track {
 }
 
 /* .......................................................................... */
-@container gsuiPatternrollBlock ( max-width: 32px ) {
+@container gsuiPatternroll-block-query ( max-width: 32px ) {
 	.gsuiPatternroll-block-name {
 		display: none;
 	}

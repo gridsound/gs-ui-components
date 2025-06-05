@@ -7,7 +7,7 @@ gsui-drum {
 	height: 66%;
 }
 gsui-drumcut {
-	container: gsuiDrumcut / inline-size;
+	container: gsuiDrumcut-query / inline-size;
 	bottom: 1px;
 	height: calc( 34% - 2px );
 }
@@ -58,7 +58,7 @@ gsui-drumcut {
 }
 
 /* .......................................................................... */
-@container gsuiDrumcut ( max-width: 14px ) {
+@container gsuiDrumcut-query ( max-width: 14px ) {
 	.gsuiDrumcut-in .gsuiIcon {
 		display: none;
 	}

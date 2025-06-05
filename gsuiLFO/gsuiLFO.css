@@ -1,6 +1,5 @@
 gsui-lfo {
-	container-type: size;
-	container-name: gsui-lfo-query;
+	container: gsuiLFO-query / size;
 	display: block;
 	position: relative;
 	height: 94px;
@@ -180,7 +179,7 @@ gsui-lfo .gsuiSlider-eventCatcher {
 }
 
 /* .......................................................................... */
-@container gsui-lfo-query ( orientation: portrait ) {
+@container gsuiLFO-query ( orientation: portrait ) {
 	.gsuiLFO-in {
 		flex-direction: column;
 	}

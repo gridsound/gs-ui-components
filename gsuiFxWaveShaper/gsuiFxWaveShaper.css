@@ -1,4 +1,5 @@
 gsui-fx-waveshaper {
+	container: gsuiFxWaveShaper-query / size;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -7,7 +8,6 @@ gsui-fx-waveshaper {
 	min-height: 90px;
 	height: 100%;
 	padding: 8px;
-	container: gsuiFxWaveshaper / size;
 }
 gsui-fx-waveshaper[ off ] {
 	color: #fff8;
@@ -165,7 +165,7 @@ gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus::before { content:
 }
 
 /* .......................................................................... */
-@container gsuiFxWaveshaper ( aspect-ratio < 1 ) {
+@container gsuiFxWaveShaper-query ( aspect-ratio < 1 ) {
 	.gsuiFxWaveShaper-in {
 		flex-direction: column;
 	}

@@ -1,7 +1,7 @@
 gsui-com-profile {
 	display: flex;
 	flex-direction: column;
-	container: gsuiComProfileQuery / inline-size;
+	container: gsuiComProfile-query / inline-size;
 	--gsuiComProfile-height: 120px;
 	--gsuiComProfile-padding: 16px;
 	gap: 0;
@@ -185,7 +185,7 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 }
 
 /* .......................................................................... */
-@container gsuiComProfileQuery ( max-width: 450px ) {
+@container gsuiComProfile-query ( max-width: 450px ) {
 	.gsuiComProfile-main {
 		--gsuiComProfile-padding: 10px;
 		height: auto;
