@@ -90,13 +90,12 @@ class gsuiChannels extends gsui0ne {
 	}
 	$addChannel( id ) {
 		const chan = GSUcreateElement( "gsui-channel", { "data-id": id } );
-		const qs = n => chan.querySelector( `.gsuiChannel-${ n }` );
 
 		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).append( chan );
 		this.#chans[ id ] = chan;
-		qs( "delete" ).onclick = () => this.$onchange( "removeChannel", id );
-		qs( "connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
-		qs( "rename" ).onclick = () => {
+		chan.querySelector( ".gsuiChannel-delete" ).onclick = () => this.$onchange( "removeChannel", id );
+		chan.querySelector( ".gsuiChannel-connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
+		chan.querySelector( ".gsuiChannel-rename" ).onclick = () => {
 			GSUpopup.$prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
