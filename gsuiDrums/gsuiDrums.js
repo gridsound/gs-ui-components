@@ -208,7 +208,7 @@ class gsuiDrums extends gsui0ne {
 				}
 			}
 		}
-		this.#qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elItem );
+		this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elItem );
 		this.#drumsMap.set( id, [ rowId, itemType, elItem ] );
 		return elItem;
 	}
@@ -320,8 +320,8 @@ class gsuiDrums extends gsui0ne {
 	}
 
 	// .........................................................................
-	#qS( c ) {
-		return ( this.firstChild ? this : this.#win ).querySelector( `.gsuiDrums-${ c }` );
+	#qS( sel ) {
+		return ( this.firstChild ? this : this.#win ).querySelector( sel );
 	}
 	#createPreview( itemType, rowId, when ) {
 		const elTag = `gsui-${ itemType }`;
@@ -331,7 +331,7 @@ class gsuiDrums extends gsui0ne {
 		} );
 
 		el.classList.add( "gsuiDrums-preview" );
-		this.#qS( `line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
+		this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
 		return el;
 	}
 	#createPreviews( whenFrom, whenTo ) {
