@@ -33,9 +33,9 @@ GSUsetTemplate( "gsui-daw-windowHeads", () => [
 GSUsetTemplate( "gsui-daw-window-playPause", () => [
 	GSUcreateDiv( { "class": "gsuiDAW-window-ctrl" },
 		GSUcreateDiv( { "class": "gsuiDAW-window-playPause" },
-			GSUcreateButton( { class: "gsuiIcon", "data-action": "play", "data-icon": "play" } ),
-			GSUcreateButton( { class: "gsuiIcon", "data-action": "stop", "data-icon": "stop" } ),
+			GSUcreateButton( { "data-action": "play", icon: "play" } ),
+			GSUcreateButton( { "data-action": "stop", icon: "stop" } ),
 		),
-		GSUcreateButton( { class: "gsuiIcon", "data-action": "autoscroll", "data-icon": "chevron-double-right", title: "Auto scrolling" } ),
+		GSUcreateButton( { "data-action": "autoscroll", icon: "chevron-double-right", title: "Auto scrolling" } ),
 	),
 ] );

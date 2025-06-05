@@ -1,7 +1,7 @@
 "use strict";
 
 GSUsetTemplate( "gsui-com-player", () => [
-	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-play gsuiIcon", "data-icon": "play" } ),
+	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-play", icon: "play" } ),
 	GSUcreateDiv( { class: "gsuiComPlayer-body" },
 		GSUcreateDiv( { class: "gsuiComPlayer-text" },
 			GSUcreateDiv( { class: "gsuiComPlayer-name" },
@@ -31,5 +31,5 @@ GSUsetTemplate( "gsui-com-player", () => [
 		GSUcreateIcon( { icon: "pen" } ),
 		GSUcreateIcon( { icon: "eye" } ),
 	),
-	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-actions gsuiIcon", "data-icon": "ellipsis-v" } ),
+	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-actions", icon: "ellipsis-v" } ),
 ] );

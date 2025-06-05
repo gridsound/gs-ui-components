@@ -38,9 +38,9 @@ GSUsetTemplate( "gsui-slicer", () => [
 	),
 	GSUcreateDiv( { class: "gsuiSlicer-menu" },
 		GSUcreateElement( "gsui-step-select" ),
-		GSUcreateButton( { class: "gsuiSlicer-btn gsuiIcon", "data-action": "moveY", "data-icon": "hand-pointer", title: "Move slices vertically" } ),
-		GSUcreateButton( { class: "gsuiSlicer-btn gsuiIcon", "data-action": "reset", "data-icon": "slices", title: "Reset slices vertically" } ),
-		GSUcreateButton( { class: "gsuiSlicer-btn gsuiIcon", "data-action": "split", "data-icon": "cut", title: "Cut slices in half" } ),
-		GSUcreateButton( { class: "gsuiSlicer-btn gsuiIcon", "data-action": "merge", "data-icon": "erase", title: "Merge slices together" } ),
+		GSUcreateButton( { class: "gsuiSlicer-btn", "data-action": "moveY", icon: "hand-pointer", title: "Move slices vertically" } ),
+		GSUcreateButton( { class: "gsuiSlicer-btn", "data-action": "reset", icon: "slices",       title: "Reset slices vertically" } ),
+		GSUcreateButton( { class: "gsuiSlicer-btn", "data-action": "split", icon: "cut",          title: "Cut slices in half" } ),
+		GSUcreateButton( { class: "gsuiSlicer-btn", "data-action": "merge", icon: "erase",        title: "Merge slices together" } ),
 	),
 ] );

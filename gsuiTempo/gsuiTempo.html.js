@@ -24,7 +24,7 @@ GSUsetTemplate( "gsui-tempo-dropdown", () =>
 			GSUcreateLabel( null, "BPM " ),
 			GSUcreateDiv( null,
 				GSUcreateInput( { type: "number", step: .01, min: 1, max: 999.99, required: true } ),
-				GSUcreateButton( { class: "gsuiTempo-tap gsuiIcon", "data-icon": "tint" } ),
+				GSUcreateButton( { class: "gsuiTempo-tap", icon: "tint" } ),
 			),
 		),
 		GSUcreateDiv( { class: "gsuiTempo-row" },

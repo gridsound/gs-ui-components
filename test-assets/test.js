@@ -68,7 +68,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiActionMenu" } ),
 					GSUcreateOption( { value: "gsuiReorder" } ),
 				),
-				GSUcreateButton( { id: "testSkin", class: "gsuiIcon", "data-icon": "adjust" } ),
+				GSUcreateButton( { id: "testSkin", icon: "adjust" } ),
 			),
 			GSUcreateDiv( { id: "testContent" },
 				GSUcreateDiv( { id: "testWrap" } ),

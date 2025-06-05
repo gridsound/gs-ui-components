@@ -20,7 +20,7 @@ GSUsetTemplate( "gsui-com-profile", () => [
 				),
 			),
 		),
-		GSUcreateButton( { class: "gsuiComProfile-main-edit gsuiIcon", "data-icon": "pen" } ),
+		GSUcreateButton( { class: "gsuiComProfile-main-edit", icon: "pen" } ),
 	),
 	GSUcreateDiv( { class: "gsuiComProfile-edit-title" }, "Profile edition" ),
 	GSUcreateElement( "form", { class: "gsuiComProfile-form" },

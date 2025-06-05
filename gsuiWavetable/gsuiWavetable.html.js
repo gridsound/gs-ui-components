@@ -2,7 +2,7 @@
 
 GSUsetTemplate( "gsui-wavetable", () => [
 	GSUcreateSpan( { class: "gsuiWavetable-head" },
-		GSUcreateButton( { class: "gsuiWavetable-back gsuiIcon", "data-action": "back", "data-icon": "arrow-left", title: "Save and close the wavetable edition" } ),
+		GSUcreateButton( { class: "gsuiWavetable-back", "data-action": "back", icon: "arrow-left", title: "Save and close the wavetable edition" } ),
 		GSUcreateSpan( { class: "gsuiWavetable-title", inert: true }, "wavetable editor" ),
 		GSUcreateElement( "gsui-help-link", { page: "synth-wave-edition" } ),
 	),
