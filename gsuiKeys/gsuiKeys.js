@@ -96,8 +96,8 @@ class gsuiKeys extends gsui0ne {
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;
-		this.querySelector( `.gsuiKey-root` )?.classList.remove( "gsuiKey-root" );
-		this.querySelector( `.gsuiKey[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKey-root" );
+		this.querySelector( `.gsuiKeys-rootKey` )?.classList.remove( "gsuiKeys-rootKey" );
+		this.querySelector( `.gsuiKeys-key[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKeys-rootKey" );
 	}
 	#setOctaves( start, nbOct ) {
 		GSUsetStyle( this, {
@@ -119,7 +119,7 @@ class gsuiKeys extends gsui0ne {
 		this.#nbOct = nbOct;
 		this.#octStart = start;
 		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
-			const elRow = elKey.getElementsByClassName( "gsuiKey-row" )[ 0 ];
+			const elRow = elKey.getElementsByClassName( "gsuiKeys-row" )[ 0 ];
 
 			elKey.dataset.midi = midi - 1;
 			GSUsetStyle( elKey, "--gsuiKeys-key-id", i );

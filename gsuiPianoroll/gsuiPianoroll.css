@@ -16,7 +16,7 @@ gsui-pianoroll gsui-keys {
 gsui-pianoroll .gsuiTimewindow-rows {
 	font-size: var( --gsuiTimewindow-lineH );
 }
-gsui-pianoroll .gsuiKey-row > div {
+gsui-pianoroll .gsuiKeys-row > div {
 	font-size: var( --gsuiTimewindow-pxperbeat );
 }
 gsui-pianoroll gsui-prop-select {
