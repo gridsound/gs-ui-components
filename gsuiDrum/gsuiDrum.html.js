@@ -12,6 +12,6 @@ GSUsetTemplate( "gsui-drum", () =>
 
 GSUsetTemplate( "gsui-drumcut", () =>
 	GSUcreateDiv( { class: "gsuiDrumcut-in", inert: true },
-		GSUcreateI( { class: "gsuiIcon", "data-icon": "drumcut" } ),
+		GSUcreateIcon( { icon: "drumcut" } ),
 	)
 );

@@ -49,7 +49,7 @@ GSUsetTemplate( "gsui-daw", () => [
 		GSUcreateDiv( { class: "gsuiDAW-area gsuiDAW-areaVers" },
 			GSUcreateAExt( { class: "gsuiDAW-btn gsuiDAW-version", "data-action": "version", title: "Changelog", href: "https://github.com/gridsound/daw/wiki/changelog" },
 				GSUcreateSpan( { class: "gsuiDAW-version-number" } ),
-				GSUcreateI( { class: "gsuiIcon", "data-icon": "changelog" } ),
+				GSUcreateIcon( { icon: "changelog" } ),
 			),
 		),
 	),

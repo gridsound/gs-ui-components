@@ -7,7 +7,7 @@ class gsuiComAvatar extends gsui0ne {
 			$tagName: "gsui-com-avatar",
 			$template: [
 				GSUcreateElement( "img", { src: "" } ),
-				GSUcreateI( { class: "gsuiIcon", "data-icon": "musician", inert: true } ),
+				GSUcreateIcon( { icon: "musician" } ),
 			],
 		} );
 		Object.seal( this );

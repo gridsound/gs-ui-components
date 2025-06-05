@@ -6,8 +6,8 @@ GSUsetTemplate( "gsui-channels", () => [
 	),
 	GSUcreateDiv( { class: "gsuiChannels-panChannels" },
 		GSUcreateButton( { class: "gsuiChannels-addChan", title: "Add a channel" },
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "channels" } ),
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "plus" } ),
+			GSUcreateIcon( { icon: "channels" } ),
+			GSUcreateIcon( { icon: "plus" } ),
 		),
 	),
 ] );

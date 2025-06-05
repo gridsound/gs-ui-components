@@ -8,7 +8,7 @@ GSUsetTemplate( "gsui-patterns-pattern", () =>
 				GSUcreateButton( { class: "gsuiPatterns-pattern-btn gsuiPatterns-pattern-btnInfo gsuiIcon", "data-action": "editInfo", "data-icon": "buf-undefined", title: "Edit buffer's info" } ),
 				GSUcreateDiv( { class: "gsuiPatterns-pattern-name" } ),
 				GSUcreateButton( { class: "gsuiPatterns-btnSolid gsuiPatterns-pattern-dest", "data-action": "redirect", title: "Redirect this pattern" },
-					GSUcreateI( { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "mixer" } ),
+					GSUcreateIcon( { class: "gsuiPatterns-btnIcon", icon: "mixer" } ),
 					GSUcreateSpan( { class: "gsuiPatterns-btnText" } ),
 				),
 			),
@@ -17,7 +17,7 @@ GSUsetTemplate( "gsui-patterns-pattern", () =>
 		),
 		GSUcreateDiv( { class: "gsuiPatterns-pattern-content" } ),
 		GSUcreateDiv( { class: "gsuiPatterns-pattern-placeholder" },
-			GSUcreateI( { class: "gsuiPatterns-pattern-placeholderIcon gsuiIcon", "data-icon": "file-corrupt" } ),
+			GSUcreateIcon( { class: "gsuiPatterns-pattern-placeholderIcon", icon: "file-corrupt" } ),
 			GSUcreateSpan( { class: "gsuiPatterns-pattern-placeholderText" }, "missing data" ),
 		),
 	)

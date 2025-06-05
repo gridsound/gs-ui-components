@@ -4,11 +4,11 @@ GSUsetTemplate( "gsui-mixer", () =>
 	GSUcreateElement( "gsui-panels", { dir: "x" },
 		GSUcreateDiv( { class: "gsuiMixer-channels" },
 			GSUcreateDiv( { class: "gsuiMixer-head" },
-				GSUcreateI( { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "channels", inert: true } ),
+				GSUcreateIcon( { class: "gsuiMixer-head-icon", icon: "channels" } ),
 				GSUcreateSpan( { class: "gsuiMixer-head-title", inert: true }, "channels" ),
 				GSUcreateElement( "gsui-help-link", { page: "mixer-channels" } ),
 				GSUcreateDiv( { class: "gsuiMixer-analyserTypes" },
-					GSUcreateI( { class: "gsuiIcon", "data-icon": "waveform" } ),
+					GSUcreateIcon( { icon: "waveform" } ),
 					GSUcreateDiv( { class: "gsuiMixer-analyserTypes-labels" },
 						GSUgetTemplate( "gsui-mixer-analyser-label", "timeDomain" ),
 						GSUgetTemplate( "gsui-mixer-analyser-label", "frequency" ),
@@ -19,7 +19,7 @@ GSUsetTemplate( "gsui-mixer", () =>
 		),
 		GSUcreateDiv( { class: "gsuiMixer-effects" },
 			GSUcreateDiv( { class: "gsuiMixer-head" },
-				GSUcreateI( { class: "gsuiMixer-head-icon gsuiIcon", "data-icon": "effects", inert: true } ),
+				GSUcreateIcon( { class: "gsuiMixer-head-icon", icon: "effects" } ),
 				GSUcreateSpan( { class: "gsuiMixer-head-title", inert: true }, "effects" ),
 				GSUcreateElement( "gsui-help-link", { page: "mixer-effects" } ),
 			),
@@ -31,7 +31,7 @@ GSUsetTemplate( "gsui-mixer", () =>
 
 GSUsetTemplate( "gsui-mixer-analyser-label", txt =>
 	GSUcreateDiv( { class: "gsuiMixer-analyserTypes-label", inert: true },
-		GSUcreateI( { class: "gsuiIcon", "data-icon": "radio-btn-checked" } ),
+		GSUcreateIcon( { icon: "radio-btn-checked" } ),
 		GSUcreateSpan( null, txt ),
 	)
 );

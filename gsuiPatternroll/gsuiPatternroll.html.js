@@ -9,7 +9,7 @@ GSUsetTemplate( "gsui-patternroll-block", () =>
 		),
 		GSUcreateDiv( { class: "gsuiPatternroll-block-content" } ),
 		GSUcreateDiv( { class: "gsuiPatternroll-block-placeholder" },
-			GSUcreateI( { class: "gsuiPatternroll-block-placeholderIcon gsuiIcon", "data-icon": "file-corrupt" } ),
+			GSUcreateIcon( { class: "gsuiPatternroll-block-placeholderIcon", icon: "file-corrupt" } ),
 			GSUcreateSpan( { class: "gsuiPatternroll-block-placeholderText" }, "missing data" ),
 		),
 	)

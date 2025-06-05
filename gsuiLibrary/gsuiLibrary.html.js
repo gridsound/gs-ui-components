@@ -10,7 +10,7 @@ GSUsetTemplate( "gsui-library", () => [
 GSUsetTemplate( "gsui-library-sep", id =>
 	GSUcreateDiv( { class: "gsuiLibrary-sep gsuiLibrary-sep-expanded", "data-id": id, title: id },
 		GSUcreateButton( { class: "gsuiLibrary-sep-btn", tabindex: -1 },
-			GSUcreateI( { class: "gsuiIcon", "data-icon": "caret-right" } ),
+			GSUcreateIcon( { icon: "caret-right" } ),
 			GSUcreateSpan( null, id ),
 		),
 	)

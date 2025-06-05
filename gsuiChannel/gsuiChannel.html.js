@@ -18,8 +18,8 @@ GSUsetTemplate( "gsui-channel", () => [
 		GSUcreateElement( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .01, "mousemove-size": 400, "data-prop": "gain", defaultValue: 1 } ),
 	),
 	GSUcreateButton( { class: "gsuiChannel-connect" },
-		GSUcreateI( { class: "gsuiChannel-connectA gsuiIcon", "data-icon": "caret-up" } ),
-		GSUcreateI( { class: "gsuiChannel-connectB gsuiIcon", "data-icon": "caret-up" } ),
+		GSUcreateIcon( { class: "gsuiChannel-connectA", icon: "caret-up" } ),
+		GSUcreateIcon( { class: "gsuiChannel-connectB", icon: "caret-up" } ),
 	),
 	GSUcreateDiv( { class: "gsuiChannel-grip gsuiIcon", "data-icon": "grip-h" } ),
 ] );

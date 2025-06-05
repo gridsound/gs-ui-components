@@ -7,7 +7,7 @@ GSUsetTemplate( "gsui-patterns-synth", () =>
 			GSUcreateDiv( { class: "gsuiPatterns-synth-info" },
 				GSUcreateDiv( { class: "gsuiPatterns-synth-name" } ),
 				GSUcreateButton( { class: "gsuiPatterns-btnSolid gsuiPatterns-synth-dest", "data-action": "redirect", title: "Redirect this synthesizer" },
-					GSUcreateI( { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "mixer" } ),
+					GSUcreateIcon( { class: "gsuiPatterns-btnIcon", icon: "mixer" } ),
 					GSUcreateSpan( { class: "gsuiPatterns-btnText" } ),
 				),
 			),

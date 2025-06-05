@@ -2,7 +2,7 @@
 
 GSUsetTemplate( "gsui-drumrow", () => [
 	GSUcreateDiv( { class: "gsuiDrumrow-grip" },
-		GSUcreateI( { class: "gsuiIcon", "data-icon": "grip-v" } ),
+		GSUcreateIcon( { icon: "grip-v" } ),
 	),
 	GSUcreateDiv( { class: "gsuiDrumrow-main" },
 		GSUcreateElement( "gsui-toggle", { title: "Toggle the drumrow (right click for solo)" } ),

@@ -77,7 +77,7 @@ class gsuiActionMenu {
 		};
 		const elem = GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, this.#actions.map( act =>
 			!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
-				act.icon && GSUcreateI( { class: "gsuiIcon", "data-icon": act.icon, inert: true } ),
+				act.icon && GSUcreateIcon( { icon: act.icon } ),
 				GSUcreateDiv( { class: "gsuiActionMenu-action-body", inert: true },
 					GSUcreateSpan( { class: "gsuiActionMenu-action-name" }, act.name ),
 					act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),

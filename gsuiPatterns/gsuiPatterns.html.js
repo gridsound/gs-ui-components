@@ -35,10 +35,10 @@ GSUsetTemplate( "gsui-patterns", () =>
 GSUsetTemplate( "gsui-patterns-panel", obj =>
 	GSUcreateDiv( { class: "gsuiPatterns-panel", "data-type": obj.type },
 		GSUcreateDiv( { class: "gsuiPatterns-panel-menu" },
-			GSUcreateI( { class: "gsuiPatterns-panel-icon gsuiIcon", "data-icon": obj.icon } ),
+			GSUcreateIcon( { class: "gsuiPatterns-panel-icon", icon: obj.icon } ),
 			GSUcreateSpan( { class: "gsuiPatterns-panel-title" }, obj.title ),
 			obj.button && GSUcreateButton( { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
-				GSUcreateI( { class: "gsuiPatterns-btnIcon gsuiIcon", "data-icon": "plus" } ),
+				GSUcreateIcon( { class: "gsuiPatterns-btnIcon", icon: "plus" } ),
 			),
 		),
 		GSUcreateDiv( { class: "gsuiPatterns-panel-list-wrap" },
