@@ -20,12 +20,12 @@ GSUsetTemplate( "gsui-daw-popup-about", () =>
 			") and start uploading your compositions online ", GSUcreateIcon( { icon: "cloud" } ),
 		),
 		GSUcreateDiv( { class: "gsuiDAW-popup-about-links" },
-			GSUcreateAExt( { title: "GitHub",   class: "gsuiIcon gsuiIconB", "data-icon": "github",   href: "https://github.com/gridsound" } ),
-			GSUcreateAExt( { title: "Twitter",  class: "gsuiIcon gsuiIconB", "data-icon": "twitter",  href: "https://twitter.com/gridsound" } ),
-			GSUcreateAExt( { title: "YouTube",  class: "gsuiIcon gsuiIconB", "data-icon": "youtube",  href: "https://youtube.com/@gridsound" } ),
-			GSUcreateAExt( { title: "Facebook", class: "gsuiIcon gsuiIconB", "data-icon": "facebook", href: "https://facebook.com/gridsound" } ),
-			GSUcreateAExt( { title: "CodePen",  class: "gsuiIcon gsuiIconB", "data-icon": "codepen",  href: "https://codepen.io/gridsound" } ),
-			GSUcreateAExt( { title: "Discord",  class: "gsuiIcon gsuiIconB", "data-icon": "discord",  href: "https://discord.gg/NUYxHAg" } ),
+			GSUcreateAExt( { title: "GitHub",   class: "gsuiIcon", "data-icon": "br-github",   href: "https://github.com/gridsound" } ),
+			GSUcreateAExt( { title: "Twitter",  class: "gsuiIcon", "data-icon": "br-twitter",  href: "https://twitter.com/gridsound" } ),
+			GSUcreateAExt( { title: "YouTube",  class: "gsuiIcon", "data-icon": "br-youtube",  href: "https://youtube.com/@gridsound" } ),
+			GSUcreateAExt( { title: "Facebook", class: "gsuiIcon", "data-icon": "br-facebook", href: "https://facebook.com/gridsound" } ),
+			GSUcreateAExt( { title: "CodePen",  class: "gsuiIcon", "data-icon": "br-codepen",  href: "https://codepen.io/gridsound" } ),
+			GSUcreateAExt( { title: "Discord",  class: "gsuiIcon", "data-icon": "br-discord",  href: "https://discord.gg/NUYxHAg" } ),
 		),
 	)
 );

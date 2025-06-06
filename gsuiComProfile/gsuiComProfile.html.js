@@ -29,7 +29,7 @@ GSUsetTemplate( "gsui-com-profile", () => [
 			GSUcreateDiv( null,
 				GSUcreateSpan( null, "GridSound accepts, for the moment, only " ),
 				GSUcreateAExt( { class: "highlight", href: "https://gravatar.com" },
-					GSUcreateIcon( { class: "gsuiIconB", icon: "wordpress" } ),
+					GSUcreateIcon( { icon: "br-wordpress" } ),
 					GSUcreateSpan( null, "WordPress - Gravatar" ),
 				),
 				GSUcreateSpan( null, " as avatar." ),
