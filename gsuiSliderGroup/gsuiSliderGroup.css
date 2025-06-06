@@ -37,7 +37,7 @@ gsui-slidergroup {
 	width: 6px;
 	background-color: #0002;
 }
-.gsuiSliderGroup-slidersSelected .gsuiSliderGroup-slider:not( .gsuiSliderGroup-sliderSelected ) {
+gsui-slidergroup:has( .gsuiSliderGroup-sliderSelected ) .gsuiSliderGroup-slider:not( .gsuiSliderGroup-sliderSelected ) {
 	pointer-events: none;
 }
 .gsuiSliderGroup-sliderInner {
@@ -75,7 +75,7 @@ gsui-slidergroup {
 	position: absolute;
 	left: 0;
 	right: 0;
-	border-top: 1px dotted #0004;
+	border-top: 1px dotted #0008;
 	pointer-events: none;
 }
 .gsuiSliderGroup-currentTime {

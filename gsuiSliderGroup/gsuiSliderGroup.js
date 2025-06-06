@@ -107,7 +107,6 @@ class gsuiSliderGroup extends gsui0ne {
 		this.#sliders.get( id ).element.remove();
 		this.#sliders.delete( id );
 		this.#selected.delete( id );
-		this.#sliderSelectedClass();
 	}
 	$set( id, when, duration, value ) {
 		const element = GSUgetTemplate( "gsui-slidergroup-slider" );
@@ -157,12 +156,7 @@ class gsuiSliderGroup extends gsui0ne {
 				: this.#selected.delete( sli.element.dataset.id );
 			sli.element.classList.toggle( "gsuiSliderGroup-sliderSelected", !!b );
 			sli.element.style.zIndex = zind + ( b ? 1000 : -1000 );
-			this.#sliderSelectedClass();
 		}
-	}
-	#sliderSelectedClass() {
-		this.$elements.$slidersParent.classList.toggle(
-			"gsuiSliderGroup-slidersSelected", this.#selected.size > 0 );
 	}
 	#sliderValue( sli, val ) {
 		const max = this.#max;
