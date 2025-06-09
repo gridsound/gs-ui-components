@@ -132,7 +132,7 @@ class gsuiPopup extends gsui0ne {
 			case "range":
 			case "number": return +inp.value;
 			case "checkbox": return inp.checked;
-			case "select-one": return Number.isNaN( +inp.value ) ? inp.value : +inp.value;
+			case "select-one": return GSUisNaN( +inp.value ) ? inp.value : +inp.value;
 		}
 	}
 	#submitCustom() {

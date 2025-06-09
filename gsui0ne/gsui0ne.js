@@ -71,7 +71,7 @@ class gsui0ne extends HTMLElement {
 		const val = this.#attributes[ a ];
 		const n = +val;
 
-		if ( Number.isNaN( n ) ) {
+		if ( GSUisNaN( n ) ) {
 			console.error( `gsui0ne.$getAttrNum: ${ a } is NaN (${ val })` );
 		}
 		return n;
