@@ -86,20 +86,15 @@ class gsuiTimeline extends gsui0ne {
 	}
 
 	// .........................................................................
-	$beatCeil( beat ) { return this.#beatCalc( Math.ceil, beat ); }
-	$beatRound( beat ) { return this.#beatCalc( Math.round, beat ); }
-	$beatFloor( beat ) { return this.#beatCalc( Math.floor, beat ); }
-	#beatCalc( mathFn, beat ) {
-		const mod = 1 / this.#stepsPerBeat * this.#step;
-
-		return mathFn( beat / mod ) * mod;
-	}
+	$beatCeil(  beat ) { return GSUmathCeil(  beat, 1 / this.#stepsPerBeat * this.#step ); }
+	$beatRound( beat ) { return GSUmathRound( beat, 1 / this.#stepsPerBeat * this.#step ); }
+	$beatFloor( beat ) { return GSUmathFloor( beat, 1 / this.#stepsPerBeat * this.#step ); }
 
 	// .........................................................................
 	#changePxPerBeat( ppb ) {
-		const stepsOpa = Math.max( 0, Math.min( ( ppb - 32 ) / 256, .5 ) );
-		const beatsOpa = Math.max( 0, Math.min( ( ppb - 20 ) / 40, .6 ) );
-		const measuresOpa = Math.max( 0, Math.min( ( ppb - 6 ) / 20, .7 ) );
+		const stepsOpa = GSUmathClamp( ( ppb - 32 ) / 256, 0, .5 );
+		const beatsOpa = GSUmathClamp( ( ppb - 20 ) /  40, 0, .6 );
+		const measuOpa = GSUmathClamp( ( ppb -  6 ) /  20, 0, .7 );
 
 		this.#pxPerBeat = ppb;
 		this.#pxPerMeasure = this.#beatsPerMeasure * ppb;
@@ -107,7 +102,7 @@ class gsuiTimeline extends gsui0ne {
 		GSUsetStyle( this, {
 			fontSize: `${ ppb }px`,
 			"--gsuiTimeline-beats-incr": this.#onlyBigMeasures ? this.#beatsPerMeasure : 1,
-			"--gsuiTimeline-measures-opacity": measuresOpa,
+			"--gsuiTimeline-measures-opacity": measuOpa,
 		} );
 		this.$elements.$steps.style.opacity = stepsOpa;
 		this.$elements.$beats.style.opacity = beatsOpa;
