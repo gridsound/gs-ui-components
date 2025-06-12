@@ -11,6 +11,7 @@ class gsuiTimeline extends gsui0ne {
 	#loopB = 0;
 	#looping = false;
 	#offset = null;
+	#maxDuration = Infinity;
 	#scrollingAncestor = document.body;
 	#mousedownLoop = "";
 	#onlyBigMeasures = false;
@@ -58,13 +59,14 @@ class gsuiTimeline extends gsui0ne {
 		this.#unscrollEvent();
 	}
 	static get observedAttributes() {
-		return [ "step", "timedivision", "pxperbeat", "loop", "currenttime", "currenttime-preview" ];
+		return [ "step", "timedivision", "pxperbeat", "loop", "maxduration", "currenttime", "currenttime-preview" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "step": this.#step = +val; break;
 			case "loop": this.#changeLoop( val ); break;
 			case "pxperbeat": this.#changePxPerBeat( +val ); break;
+			case "maxduration": this.#maxDuration = +val || Infinity; break;
 			case "currenttime": this.#changeCurrentTime( +val ); break;
 			case "timedivision": this.#changeTimedivision( val ); break;
 			case "currenttime-preview": this.#changeCurrentTimePreview( val === null ? null : +val ); break;
@@ -159,7 +161,7 @@ class gsuiTimeline extends gsui0ne {
 	#getBeatByPageX( pageX ) {
 		const bcrX = this.getBoundingClientRect().x;
 
-		return Math.max( 0, this.$beatRound( ( pageX - bcrX ) / this.#pxPerBeat ) );
+		return GSUmathClamp( this.$beatRound( ( pageX - bcrX ) / this.#pxPerBeat ), 0, this.#maxDuration );
 	}
 	#updateStepsBg() {
 		const sPB = this.#stepsPerBeat;
