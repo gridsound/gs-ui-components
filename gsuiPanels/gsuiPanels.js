@@ -35,7 +35,7 @@ class gsuiPanels extends gsui0ne {
 		this.#dir = dirX ? "width" : "height";
 		this.#pos = dirX ? "left" : "top";
 		this.querySelectorAll( ".gsuiPanels-extend" ).forEach( el => el.remove() );
-		this.#pans.map( p => [ p, p.getBoundingClientRect()[ this.#dir ] / size * 100 ] )
+		this.#pans.map( p => [ p, GSUdomBCR( p )[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
 				const perc2 = GSUmathFix( perc, 1 );
 
@@ -51,7 +51,7 @@ class gsuiPanels extends gsui0ne {
 	static #incrSizePans( dir, mov, parentsize, pans ) {
 		return pans.reduce( ( mov, pan ) => {
 			const style = GSUgetStyle( pan );
-			const size = Math.round( pan.getBoundingClientRect()[ dir ] );
+			const size = Math.round( GSUdomBCR( pan )[ dir ] );
 			const minsize = parseFloat( style[ `min-${ dir }` ] ) || 10;
 			const maxsize = parseFloat( style[ `max-${ dir }` ] ) || Infinity;
 			const newsizeCorrect = Math.round( Math.max( minsize, Math.min( size + mov, maxsize ) ) );
@@ -68,8 +68,8 @@ class gsuiPanels extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const tot = this.getBoundingClientRect()[ this.#dir ];
-		const tot2 = this.#pans.reduce( ( sz, p ) => sz + p.getBoundingClientRect()[ this.#dir ], 0 );
+		const tot = GSUdomBCR( this )[ this.#dir ];
+		const tot2 = this.#pans.reduce( ( sz, p ) => sz + GSUdomBCR( p )[ this.#dir ], 0 );
 
 		if ( Math.abs( tot2 - tot ) > 0 ) {
 			const mindir = this.#dirX ? "minWidth" : "minHeight";
@@ -104,7 +104,7 @@ class gsuiPanels extends gsui0ne {
 		}
 		this.#pans.reduce( ( x, p ) => {
 			p.style[ this.#pos ] = `${ GSUmathFix( x / tot * 100, 2 ) }%`;
-			return x + p.getBoundingClientRect()[ this.#dir ];
+			return x + GSUdomBCR( p )[ this.#dir ];
 		}, 0 );
 	}
 	#onpointerdown( e ) {

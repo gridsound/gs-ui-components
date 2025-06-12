@@ -34,18 +34,18 @@ class gsuiDragline {
 	}
 	redraw() {
 		if ( this.#linkedTo ) {
-			const bcr = this.#linkedTo.getBoundingClientRect();
+			const bcr = GSUdomBCR( this.#linkedTo );
 
-			this.#render( bcr.left, bcr.top );
+			this.#render( bcr.x, bcr.y );
 		}
 	}
 
 	// .........................................................................
 	#render( x, y ) {
 		const clMain = this.#elements.main.classList;
-		const bcr = this.rootElement.getBoundingClientRect();
-		const w = x - bcr.left;
-		const h = y - bcr.top;
+		const bcr = GSUdomBCR( this.rootElement );
+		const w = x - bcr.x;
+		const h = y - bcr.y;
 		const wabs = Math.abs( w );
 		const habs = Math.abs( h );
 		const whmax = Math.max( wabs, habs );

@@ -245,12 +245,12 @@ class gsuiWindow extends gsui0ne {
 		const dirS = dir.includes( "s" );
 		const tx = dirW ? rc.x + x : rc.x;
 		const ty = dirN ? rc.y + y : rc.y;
-		const parBCR = this.parentNode.getBoundingClientRect();
+		const [ w, h ] = GSUdomBCRwh( this.parentNode );
 		const wins = [
 			...this.parentNode.childNodes,
 			{
 				dataset: {},
-				rect: { x: 0, y: 0, w: parBCR.width, h: parBCR.height },
+				rect: { x: 0, y: 0, w, h },
 			}
 		];
 		let mgX = 0;

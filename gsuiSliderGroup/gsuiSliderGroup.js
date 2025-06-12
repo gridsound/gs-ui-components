@@ -178,7 +178,7 @@ class gsuiSliderGroup extends gsui0ne {
 	// .........................................................................
 	$onptrdown( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
-			this.#bcr = this.$elements.$slidersParent.getBoundingClientRect();
+			this.#bcr = GSUdomBCR( this.$elements.$slidersParent );
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
@@ -192,15 +192,15 @@ class gsuiSliderGroup extends gsui0ne {
 		const sliders = this.#selected.size > 0
 			? this.#selected
 			: this.#sliders;
-		const x = e.pageX - this.#bcr.left;
-		const y = e.pageY - this.#bcr.top;
+		const x = e.pageX - this.#bcr.x;
+		const y = e.pageY - this.#bcr.y;
 		const min = this.#min;
 		const max = this.#max;
 		const xval = x / GSUgetAttributeNum( this, "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
 			: this.#roundVal( min + ( max - min ) *
-					( 1 - Math.min( Math.max( 0, y / this.#bcr.height ), 1 ) ) );
+					( 1 - Math.min( Math.max( 0, y / this.#bcr.h ), 1 ) ) );
 		let firstWhen = 0;
 
 		sliders.forEach( sli => {

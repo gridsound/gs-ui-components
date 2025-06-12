@@ -25,11 +25,11 @@ class gsuiRipple {
 	}
 	static #ptrdown( e ) {
 		const el = e.currentTarget;
-		const bcr = el.getBoundingClientRect();
+		const [ x, y, w, h ] = GSUdomBCRxywh( el );
 
 		gsuiRipple.#exec( e,
-			( e.clientX - bcr.left ) / bcr.width,
-			( e.clientY - bcr.top ) / bcr.height,
+			( e.clientX - x ) / w,
+			( e.clientY - y ) / h,
 		);
 	}
 	static #exec( e, x, y ) {

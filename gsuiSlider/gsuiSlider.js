@@ -120,9 +120,7 @@ class gsuiSlider extends gsui0ne {
 		return this.#mousemoveSize || (
 			this.#circ
 				? this.#svgLineLen
-				: this.#axeX
-					? this.$elements.$line.getBoundingClientRect().width
-					: this.$elements.$line.getBoundingClientRect().height
+				: GSUdomBCRwh( this.$elements.$line )[ +!this.#axeX ]
 		);
 	}
 	#updateVal( val ) {

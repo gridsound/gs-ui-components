@@ -165,9 +165,7 @@ class gsuiTimeline extends gsui0ne {
 		GSUsetAttribute( this, "status", st );
 	}
 	#getBeatByPageX( pageX ) {
-		const bcrX = this.getBoundingClientRect().x;
-
-		return GSUmathClamp( this.$beatRound( ( pageX - bcrX ) / this.#pxPerBeat ), 0, this.#maxDuration );
+		return GSUmathClamp( this.$beatRound( ( pageX - GSUdomBCRxy( this )[ 0 ] ) / this.#pxPerBeat ), 0, this.#maxDuration );
 	}
 	#updateStepsBg() {
 		const sPB = this.#stepsPerBeat;

@@ -115,7 +115,7 @@ class gsuiComPlayer extends gsui0ne {
 		this.#ptrMove( e );
 	}
 	#ptrMove( e ) {
-		const bcr = e.target.getBoundingClientRect();
+		const bcr = GSUdomBCR( e.target );
 		const x = GSUmathClamp( ( e.clientX - bcr.x ) / bcr.width, 0, 1 );
 
 		this.#settingTime = x;

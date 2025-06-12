@@ -162,12 +162,12 @@ class gsuiKeys extends gsui0ne {
 				GSUsetAttribute( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();
-				const rootBCR = this.getBoundingClientRect();
-				const blackKeyBCR = this.children[ 1 ].getBoundingClientRect();
+				const [ x, y ] = GSUdomBCRxy( this );
+				const blackKeyBCR = GSUdomBCR( this.children[ 1 ] );
 
-				this.#rootStartPx = isVert ? rootBCR.top : rootBCR.left;
+				this.#rootStartPx = isVert ? y : x;
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
-				this.#blackKeyH = isVert ? blackKeyBCR.height : blackKeyBCR.width;
+				this.#blackKeyH = isVert ? blackKeyBCR.h : blackKeyBCR.w;
 				this.#gain = Math.min( isVert
 					? e.offsetX / ( e.currentTarget.clientWidth * .5 )
 					: e.offsetY / ( e.currentTarget.clientHeight * .5 ), 1 );

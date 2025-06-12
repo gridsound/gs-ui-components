@@ -228,14 +228,14 @@ class gsuiReorder {
 	// .........................................................................
 	static #getDropTargetInfo( elArea, elItem, e ) {
 		if ( elArea ) {
-			const elemBCR = elArea.getBoundingClientRect();
+			const [ x, y ] = GSUdomBCRxy( elArea );
 
 			return {
 				$item: elItem.dataset.id, // to delete (should be the element)
 				$itemElement: elItem,
 				$target: elArea,
-				$offsetX: e.clientX - elemBCR.x,
-				$offsetY: e.clientY - elemBCR.y,
+				$offsetX: e.clientX - x,
+				$offsetY: e.clientY - y,
 			};
 		}
 		return null;
@@ -263,20 +263,17 @@ class gsuiReorder {
 	static #overWhichParent( elRoot, parSel, e ) {
 		const pX = e.offsetX;
 		const pY = e.offsetY;
-		const rootBCR = elRoot.getBoundingClientRect();
-		const overRoot =
-			GSUmathInRange( pX, 0, rootBCR.width ) &&
-			GSUmathInRange( pY, 0, rootBCR.height );
+		const [ x, y, w, h ] = GSUdomBCRxywh( elRoot );
 
-		if ( overRoot ) {
+		if ( GSUmathInRange( pX, 0, w ) && GSUmathInRange( pY, 0, h ) ) {
 			const parents = gsuiReorder.#calcParentsCoord( elRoot, parSel );
 			const par = parents.find( par => {
-				const parX = par.$bcr.x - rootBCR.x;
-				const parY = par.$bcr.y - rootBCR.y;
+				const parX = par.$bcr[ 0 ] - x;
+				const parY = par.$bcr[ 1 ] - y;
 
 				return (
-					GSUmathInRange( pX, parX, parX + par.$bcr.width ) &&
-					GSUmathInRange( pY, parY, parY + par.$bcr.height )
+					GSUmathInRange( pX, parX, parX + par.$bcr[ 2 ] ) &&
+					GSUmathInRange( pY, parY, parY + par.$bcr[ 3 ] )
 				);
 			} );
 
@@ -293,7 +290,7 @@ class gsuiReorder {
 
 		return parents.map( par => ( {
 			$elem: par,
-			$bcr: par.getBoundingClientRect(),
+			$bcr: GSUdomBCRxywh( par ),
 		} ) );
 	}
 	static #getIndexHovering( items, ptr ) {
@@ -364,11 +361,11 @@ class gsuiReorder {
 		return Array.from( par.children )
 			.filter( el => el.matches( itemSel ) )
 			.map( el => {
-				const bcr = el.getBoundingClientRect();
+				const [ x, y ] = GSUdomBCRxy( el );
 
 				return {
 					$elem: el,
-					$pos: dirX ? bcr.x : bcr.y,
+					$pos: dirX ? x : y,
 					$size: dirX ? el.clientWidth : el.clientHeight,
 					$order: +GSUgetStyle( el, "order" ),
 				};
@@ -390,27 +387,23 @@ class gsuiReorder {
 		}
 	}
 	static #createGhostElement( elItem, elGrip, e ) {
-		const itemSt = GSUgetStyle( elItem );
-		const itemBCR = elItem.getBoundingClientRect();
-		const gripBCR = elGrip?.getBoundingClientRect();
-		const w = elItem.clientWidth;
-		const h = elItem.clientHeight;
-		const style = {
+		const [ x, y, w, h ] = GSUdomBCRxywh( elItem );
+		const [ gx, gy, gw, gh ] = GSUdomBCRxywh( elGrip );
+		const fakeGrip = elGrip && GSUcreateDiv( { id: "gsuiReorder-fake-grip", style: {
+			top: `${ gy - y }px`,
+			left: `${ gx - x }px`,
+			width: `${ gw }px`,
+			height: `${ gh }px`,
+		} } );
+		const movingFake = GSUcreateDiv( { id: "gsuiReorder-fake", style: {
 			top: `${ e.clientY }px`,
 			left: `${ e.clientX }px`,
-			marginTop: `-${ e.clientY - itemBCR.y }px`,
-			marginLeft: `-${ e.clientX - itemBCR.x }px`,
+			marginTop: `-${ e.clientY - y }px`,
+			marginLeft: `-${ e.clientX - x }px`,
 			width: `${ w }px`,
 			height: `${ h }px`,
-			borderRadius: itemSt.borderRadius,
-		};
-		const fakeGrip = elGrip && GSUcreateDiv( { id: "gsuiReorder-fake-grip", style: {
-			top: `${ gripBCR.y - itemBCR.y }px`,
-			left: `${ gripBCR.x - itemBCR.x }px`,
-			width: `${ elGrip.clientWidth }px`,
-			height: `${ elGrip.clientHeight }px`,
-		} } );
-		const movingFake = GSUcreateDiv( { id: "gsuiReorder-fake", style }, fakeGrip );
+			borderRadius: GSUgetStyle( elItem, "borderRadius" ),
+		} }, fakeGrip );
 
 		document.body.append( movingFake );
 		return movingFake;

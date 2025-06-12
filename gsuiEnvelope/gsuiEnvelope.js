@@ -132,7 +132,7 @@ class gsuiEnvelope extends gsui0ne {
 		const nbProps = this.#env === "gain" ? 5 : 6;
 
 		this.style.minHeight = `${ nbProps * 20 - 2 + 2 * 8 }px`;
-		this.#waveWidth = this.$elements.$beatlines.getBoundingClientRect().width;
+		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines )[ 0 ];
 		this.#updatePxPerBeat();
 		this.$elements.$graph.$resized();
 	}

@@ -75,7 +75,7 @@ class gsuiFxDelay extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#graphWidth = this.$elements.$beatlines.getBoundingClientRect().width;
+		this.#graphWidth = GSUdomBCRwh( this.$elements.$beatlines )[ 0 ];
 		this.#updatePxPerBeat();
 	}
 	#updatePxPerBeat() {

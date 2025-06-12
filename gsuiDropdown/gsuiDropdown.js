@@ -83,8 +83,7 @@ class gsuiDropdown {
 		);
 	}
 	#positionElement() {
-		const tarBCR = this.#elBtn.getBoundingClientRect();
-		const menuBCR = this.#elem.getBoundingClientRect();
+		const tarBCR = GSUdomBCR( this.#elBtn );
 		const elArrow = this.#elem.querySelector( ".gsuiDropdown-arrow" );
 		const posObj = getAbsPos( this.#direction, tarBCR, this.#elem.clientWidth, this.#elem.clientHeight, {
 			margin: 8,

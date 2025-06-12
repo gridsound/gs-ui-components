@@ -61,16 +61,16 @@ class gsuiBlocksManager {
 	$getSelectedBlocks() { return this.#blcsSelected; }
 
 	// .........................................................................
-	#getRow0BCR() { return this.#nlRows[ 0 ].getBoundingClientRect(); }
+	#getRow0BCR() { return GSUdomBCR( this.#nlRows[ 0 ] ); }
 	$getRowByIndex( ind ) { return this.#nlRows[ ind ]; }
 	$getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.#nlRows, row ); }
 	$getRowIndexByPageY( pageY ) {
-		const ind = Math.floor( ( pageY - this.#getRow0BCR().top ) / this.#fontSize );
+		const ind = Math.floor( ( pageY - this.#getRow0BCR().y ) / this.#fontSize );
 
 		return Math.max( 0, Math.min( ind, this.#nlRows.length - 1 ) );
 	}
 	$getWhenByPageX( pageX ) {
-		return Math.max( 0, ( pageX - this.#getRow0BCR().left ) / this.#pxPerBeat );
+		return Math.max( 0, ( pageX - this.#getRow0BCR().x ) / this.#pxPerBeat );
 	}
 	$roundBeat( beat ) {
 		return Math.max( 0, this.timeline.$beatFloor( beat ) );

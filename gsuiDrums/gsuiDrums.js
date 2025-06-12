@@ -401,8 +401,8 @@ class gsuiDrums extends gsui0ne {
 
 				if ( elLine ) {
 					const rowId = elLine.parentNode.parentNode.dataset.id;
-					const bcr = elLine.getBoundingClientRect();
-					const y = ( e.pageY - bcr.top ) / bcr.height;
+					const bcr = GSUdomBCR( elLine );
+					const y = ( e.pageY - bcr.y ) / bcr.h;
 					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
 
 					this.#draggingRowId = rowId;
@@ -426,7 +426,7 @@ class gsuiDrums extends gsui0ne {
 	}
 	#onmousemoveLines2() {
 		if ( this.#hoverItemType ) {
-			const left = this.#elLines.getBoundingClientRect().left;
+			const left = GSUdomBCRxy( this.#elLines )[ 0 ];
 			const when = ( this.#hoverPageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const [ prevItem, prevW ] = this.#getPrevItem( this.#draggingRowId, this.#hoverItemType, when );
 			const prevD = prevItem && GSUgetAttributeNum( prevItem, "duration" );
@@ -496,7 +496,7 @@ class gsuiDrums extends gsui0ne {
 		const dd = d && GSUgetAttributeNum( d, "duration" ) / 2;
 
 		if ( d && dd > 1 / this.#stepsPerBeat / ( 8 + 1 ) ) {
-			const left = this.#elLines.getBoundingClientRect().left;
+			const left = GSUdomBCRxy( this.#elLines )[ 0 ];
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUgetAttributeNum( d, "when" );
 			const dd = GSUgetAttributeNum( d, "duration" ) / 2;

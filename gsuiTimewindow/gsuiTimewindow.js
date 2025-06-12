@@ -281,7 +281,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.onpointerup = this.#onptrupMinimap.bind( this );
 				break;
 			case "track": {
-				const side = e.pageX > this.$elements.$minimapThumb.getBoundingClientRect().left ? 1 : -1;
+				const side = e.pageX > GSUdomBCRxy( this.$elements.$minimapThumb )[ 0 ] ? 1 : -1;
 
 				this.onpointerup = this.#onptrupMinimap.bind( this );
 				this.#minimapIntervalId = GSUsetInterval( () => {
@@ -292,7 +292,7 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveMinimap( e ) {
 		const act = this.#minimapAction;
-		const bcr = this.$elements.$minimapTrack.getBoundingClientRect();
+		const bcr = GSUdomBCR( this.$elements.$minimapTrack );
 
 		switch ( act ) {
 			case "thumb": {
@@ -305,14 +305,14 @@ class gsuiTimewindow extends gsui0ne {
 			} break;
 			case "cropA":
 			case "cropB": {
-				const pageX = Math.max( bcr.left, Math.min( e.pageX, bcr.right ) );
+				const pageX = Math.max( bcr.x, Math.min( e.pageX, bcr.right ) );
 				const relPx = pageX - this.#minimapPtrPageX;
 				const rel = 1 - relPx / this.#minimapThumbSaved;
 				const ppbNew = this.#rangePPB( act === "cropA"
 					? this.#minimapPPBSaved / rel
 					: this.#minimapPPBSaved * rel );
 
-				this.#onwheel2( ppbNew, act === "cropA" ? bcr.right : bcr.left );
+				this.#onwheel2( ppbNew, act === "cropA" ? bcr.right : bcr.x );
 			} break;
 		}
 	}
@@ -388,7 +388,7 @@ class gsuiTimewindow extends gsui0ne {
 		const ppbNew = this.#rangePPB( ppb );
 
 		if ( ppbNew !== this.#pxPerBeat ) {
-			const px = pageX - this.getBoundingClientRect().left - this.$elements.$panel.clientWidth;
+			const px = pageX - GSUdomBCRxy( this )[ 0 ] - this.$elements.$panel.clientWidth;
 
 			this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppbNew, px ) );
 			GSUsetAttribute( this, "pxperbeat", ppbNew );
@@ -402,7 +402,7 @@ class gsuiTimewindow extends gsui0ne {
 
 			e.preventDefault();
 			if ( lhNew !== this.#lineHeight ) {
-				const px = e.pageY - this.getBoundingClientRect().top - parseInt( this.$elements.$timeline.clientHeight );
+				const px = e.pageY - GSUdomBCRxy( this )[ 1 ] - this.$elements.$timeline.clientHeight;
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
 				GSUsetAttribute( this, "lineheight", lhNew );

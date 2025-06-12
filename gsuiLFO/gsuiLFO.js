@@ -142,7 +142,7 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#waveWidth = this.$elements.$beatlines.getBoundingClientRect().width;
+		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines )[ 0 ];
 		this.#updatePxPerBeat();
 		this.$elements.$wave.$resized();
 	}

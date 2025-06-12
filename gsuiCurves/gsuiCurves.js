@@ -26,9 +26,7 @@ class gsuiCurves extends gsui0ne {
 		this.$onresize();
 	}
 	$onresize() {
-		const bcr = this.$elements.$svg.getBoundingClientRect();
-		const w = bcr.width;
-		const h = bcr.height;
+		const [ w, h ] = GSUdomBCRwh( this.$elements.$svg );
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
