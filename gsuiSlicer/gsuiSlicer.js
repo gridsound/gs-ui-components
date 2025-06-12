@@ -120,6 +120,7 @@ class gsuiSlicer extends gsui0ne {
 				break;
 			case "duration":
 				this.#dur = +val;
+				GSUsetAttribute( this.$elements.$timeline, "maxduration", val );
 				this.#updatePxPerBeat();
 				break;
 			case "step":
