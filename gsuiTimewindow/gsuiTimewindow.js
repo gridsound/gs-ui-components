@@ -104,7 +104,6 @@ class gsuiTimewindow extends gsui0ne {
 				inputCurrentTimeStart: () => this.style.overflowY = "hidden",
 			},
 		} );
-		this.timeline.$setScrollingParent( this.$elements.$scroll );
 		this.ondragstart = GSUnoopFalse;
 		this.$elements.$main.onwheel = this.#onwheel.bind( this );
 		this.$elements.$mainCnt.oncontextmenu = e => e.preventDefault();

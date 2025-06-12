@@ -55,8 +55,11 @@ class gsuiTimeline extends gsui0ne {
 		this.#updateMeasures();
 		this.$elements.$cursorPreview.remove();
 	}
+	$connected() {
+		this.#setScrollingParent( GSUdomClosestScrollable( this ) );
+	}
 	$disconnected() {
-		this.#unscrollEvent();
+		this.#unscrollEvent( this.#scrollingAncestor );
 	}
 	static get observedAttributes() {
 		return [ "step", "timedivision", "pxperbeat", "loop", "maxduration", "currenttime", "currenttime-preview" ];
@@ -74,17 +77,20 @@ class gsuiTimeline extends gsui0ne {
 	}
 
 	// .........................................................................
-	$setScrollingParent( el ) {
-		this.#unscrollEvent();
-		this.#scrollingAncestor = el;
-		el.addEventListener( "scroll", this.#onscrollBind );
-		GSUobserveSizeOf( el, this.#onresizeBind );
-	}
-	#unscrollEvent() {
-		if ( this.#scrollingAncestor ) {
-			this.#scrollingAncestor.removeEventListener( "scroll", this.#onscrollBind );
-			GSUunobserveSizeOf( this.#scrollingAncestor, this.#onresizeBind );
+	#setScrollingParent( el ) {
+		this.#unscrollEvent( this.#scrollingAncestor );
+		if ( el ) {
+			this.#scrollingAncestor = el;
+			el.addEventListener( "scroll", this.#onscrollBind );
+			GSUobserveSizeOf( el, this.#onresizeBind );
 		}
+	}
+	#unscrollEvent( el ) {
+		if ( el ) {
+			el.removeEventListener( "scroll", this.#onscrollBind );
+			GSUunobserveSizeOf( el, this.#onresizeBind );
+		}
+		this.#scrollingAncestor = null;
 	}
 
 	// .........................................................................

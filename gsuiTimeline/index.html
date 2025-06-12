@@ -97,7 +97,6 @@ const inpPBB = document.querySelector( "#pxPerbeat" );
 const inpBPM = document.querySelector( "#beatsPerMeasure" );
 const inpSPB = document.querySelector( "#stepsPerBeat" );
 
-timeline.$setScrollingParent( document.querySelector( "#wrapOut" ) );
 inpTPr.oninput = e => GSUsetAttribute( timeline, "currenttime-preview", inpTPr.value );
 inpTim.oninput = e => GSUsetAttribute( timeline, "currenttime", inpTim.value );
 inpPBB.oninput = e => GSUsetAttribute( timeline, "pxperbeat", inpPBB.value );
