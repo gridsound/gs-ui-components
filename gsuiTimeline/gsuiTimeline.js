@@ -188,7 +188,8 @@ class gsuiTimeline extends gsui0ne {
 		`;
 	}
 	#updateOffset() {
-		const offBeats = Math.floor( this.#scrollingAncestor.scrollLeft / this.#pxPerMeasure );
+		const scrollX = this.#scrollingAncestor?.scrollLeft || 0;
+		const offBeats = Math.floor( scrollX / this.#pxPerMeasure );
 		const off = this.#onlyBigMeasures
 			? Math.floor( offBeats / this.#beatsPerMeasure ) * this.#beatsPerMeasure
 			: offBeats;
@@ -203,9 +204,10 @@ class gsuiTimeline extends gsui0ne {
 	#updateNumberMeasures() {
 		const elMeasures = this.$elements.$measures;
 		const px = this.#pxPerMeasure * ( this.#onlyBigMeasures ? this.#beatsPerMeasure : 1 );
-		const nb = Math.ceil( this.#scrollingAncestor.clientWidth / px ) + 1;
+		const w = this.#scrollingAncestor?.clientWidth || this.clientWidth;
+		const nb = Math.ceil( w / px ) + 1 || 0;
 
-		if ( nb < 0 || nb > 500 ) {
+		if ( !GSUmathInRange( nb, 0, 500 ) ) {
 			return console.warn( "gsuiTimeline: anormal number of nodes to create", nb );
 		} else if ( elMeasures.children.length > nb ) {
 			while ( elMeasures.children.length > nb ) {
