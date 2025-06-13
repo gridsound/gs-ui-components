@@ -46,6 +46,7 @@ body {
 <script src="../gs-utils/gs-utils-math.js"></script>
 <script src="../gs-utils/gs-utils-func.js"></script>
 <script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../gs-utils/gs-utils-audio-nodes.dev.js"></script>
 <script src="../test-assets/test.js"></script>
 <script src="../gsui0ne/gsui0ne.js"></script>
 
@@ -58,9 +59,9 @@ body {
 const play = document.querySelector( "#play" );
 const analyserVu = document.querySelector( "gsui-analyser-vu" );
 const ctx = new AudioContext();
-const anL = ctx.createAnalyser();
-const anR = ctx.createAnalyser();
-const split = ctx.createChannelSplitter( 2 );
+const anL = GSUaudioAnalyser( ctx );
+const anR = GSUaudioAnalyser( ctx );
+const split = GSUaudioChannelSplitter( ctx, 2 );
 const fftSize = 1024;
 const anDataL = new Float32Array( fftSize / 2 );
 const anDataR = new Float32Array( fftSize / 2 );
@@ -85,7 +86,7 @@ fetch( "../test-assets/808kick.wav" )
 
 play.onclick = () => {
 	hardVal = null;
-	absn = ctx.createBufferSource();
+	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.connect( split );
 	absn.connect( ctx.destination );

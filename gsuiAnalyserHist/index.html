@@ -46,6 +46,7 @@ gsui-analyser-hist {
 <script src="../gs-utils/gs-utils-func.js"></script>
 <script src="../gs-utils/gs-utils-checkType.dev.js"></script>
 <script src="../gs-utils/gs-utils-audio.js"></script>
+<script src="../gs-utils/gs-utils-audio-nodes.dev.js"></script>
 <script src="../test-assets/test.js"></script>
 
 <!-- ....................................................................... -->
@@ -60,9 +61,9 @@ const stop = document.querySelector( "#stop" );
 const type = document.querySelector( "#type" );
 const analyser = document.querySelector( "gsui-analyser-hist" );
 const ctx = new AudioContext();
-const anL = ctx.createAnalyser();
-const anR = ctx.createAnalyser();
-const split = ctx.createChannelSplitter( 2 );
+const anL = GSUaudioAnalyser( ctx );
+const anR = GSUaudioAnalyser( ctx );
+const split = GSUaudioChannelSplitter( ctx, 2 );
 const fftSize = 2048;
 const anLData = new Float32Array( fftSize / 2 );
 const anRData = new Float32Array( fftSize / 2 );
@@ -95,7 +96,7 @@ stop.onclick = () => {
 };
 play.onclick = () => {
 	stop.onclick();
-	absn = ctx.createBufferSource();
+	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( split );

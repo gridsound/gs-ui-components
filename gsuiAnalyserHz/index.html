@@ -50,6 +50,7 @@ gsui-analyser-hz {
 <script src="../gs-utils/gs-utils-func.js"></script>
 <script src="../gs-utils/gs-utils-checkType.dev.js"></script>
 <script src="../gs-utils/gs-utils-audio.js"></script>
+<script src="../gs-utils/gs-utils-audio-nodes.dev.js"></script>
 <script src="../test-assets/test.js"></script>
 <script src="../gsui0ne/gsui0ne.js"></script>
 
@@ -64,8 +65,8 @@ const gain = document.querySelector( "#gain" );
 const bgcolor = document.querySelector( "#bgcolor" );
 const spectrum = document.querySelector( "gsui-analyser-hz" );
 const ctx = new AudioContext();
-const an = ctx.createAnalyser();
-const gainNode = ctx.createGain();
+const an = GSUaudioAnalyser( ctx );
+const gainNode = GSUaudioGain( ctx );
 const fftSize = 4096;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
@@ -91,7 +92,7 @@ bgcolor.onchange = () => GSUsetStyle( spectrum, "backgroundColor", bgcolor.value
 stop.onclick = () => absn?.stop();
 play.onclick = () => {
 	stop.onclick();
-	absn = ctx.createBufferSource();
+	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( gainNode );

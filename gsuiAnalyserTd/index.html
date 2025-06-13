@@ -62,6 +62,7 @@ body {
 <script src="../gs-utils/gs-utils-math.js"></script>
 <script src="../gs-utils/gs-utils-func.js"></script>
 <script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../gs-utils/gs-utils-audio-nodes.dev.js"></script>
 <script src="../test-assets/test.js"></script>
 <script src="../gsui0ne/gsui0ne.js"></script>
 
@@ -78,7 +79,7 @@ const ampInput = document.querySelector( "#ampInput" );
 const pinchInput = document.querySelector( "#pinchInput" );
 const smoothInput = document.querySelector( "#smoothInput" );
 const ctx = new AudioContext();
-const an = ctx.createAnalyser();
+const an = GSUaudioAnalyser( ctx );
 const fftSize = 1024;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
@@ -101,7 +102,7 @@ freeze.onpointerup = () => { frozen = false };
 stop.onclick = () => { absn?.stop(); };
 play.onclick = () => {
 	stop.onclick();
-	absn = ctx.createBufferSource();
+	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
