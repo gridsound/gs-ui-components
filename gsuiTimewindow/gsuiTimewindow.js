@@ -305,7 +305,7 @@ class gsuiTimewindow extends gsui0ne {
 			} break;
 			case "cropA":
 			case "cropB": {
-				const pageX = Math.max( bcr.x, Math.min( e.pageX, bcr.right ) );
+				const pageX = GSUmathClamp( e.pageX, bcr.x, bcr.right );
 				const relPx = pageX - this.#minimapPtrPageX;
 				const rel = 1 - relPx / this.#minimapThumbSaved;
 				const ppbNew = this.#rangePPB( act === "cropA"
@@ -344,7 +344,7 @@ class gsuiTimewindow extends gsui0ne {
 		return scrollVal * ppbNew + scrollIncr;
 	}
 	#rangePPB( ppb ) {
-		return Math.min( Math.max( this.#getPPBmin(), ppb ), this.#getPPBmax() );
+		return GSUmathClamp( ppb, this.#getPPBmin(), this.#getPPBmax() );
 	}
 	#setScrollX( px ) {
 		this.#scrollX = Math.max( 0, px );
@@ -398,7 +398,7 @@ class gsuiTimewindow extends gsui0ne {
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
 			const mul = this.#getWheelDelta( e.deltaY );
-			const lhNew = Math.round( Math.min( Math.max( this.#getLHmin(), this.#lineHeight * mul ), this.#getLHmax() ) );
+			const lhNew = GSUmathRound( GSUmathClamp( this.#lineHeight * mul, this.#getLHmin(), this.#getLHmax() ) );
 
 			e.preventDefault();
 			if ( lhNew !== this.#lineHeight ) {
@@ -429,20 +429,18 @@ class gsuiTimewindow extends gsui0ne {
 		const w = this.#panelSize + ( e.pageX - this.#ptrdownPageX );
 		const min = GSUgetAttributeNum( this, "panelsizemin" ) || 50;
 		const max = GSUgetAttributeNum( this, "panelsizemax" ) || 260;
-		const w2 = Math.max( min, Math.min( w, max ) );
 
 		this.$elements.$minimapPanel.style.width =
-		this.$elements.$panel.style.minWidth = `${ w2 }px`;
+		this.$elements.$panel.style.minWidth = `${ GSUmathClamp( w, min, max ) }px`;
 		this.#minimapUpdate();
 	}
 	#onptrmoveExtendDownPanel( e ) {
 		const h = this.#panelSize + ( this.#ptrdownPageY - e.pageY );
 		const min = GSUgetAttributeNum( this, "downpanelsizemin" ) || 50;
 		const max = GSUgetAttributeNum( this, "downpanelsizemax" ) || 260;
-		const h2 = Math.max( min, Math.min( h, max ) );
 
 		this.$elements.$panelDown.style.height =
-		this.$elements.$down.style.height = `${ h2 }px`;
+		this.$elements.$down.style.height = `${ GSUmathClamp( h, min, max ) }px`;
 	}
 	#onptrupExtend( e ) {
 		e.target.releasePointerCapture( e.pointerId );
