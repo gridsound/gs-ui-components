@@ -71,13 +71,13 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const play = document.querySelector( "#play" );
-const stop = document.querySelector( "#stop" );
-const freeze = document.querySelector( "#freeze" );
-const analyserTd = document.querySelector( "gsui-analyser-td" );
-const ampInput = document.querySelector( "#ampInput" );
-const pinchInput = document.querySelector( "#pinchInput" );
-const smoothInput = document.querySelector( "#smoothInput" );
+const play = GSUdomQS( "#play" );
+const stop = GSUdomQS( "#stop" );
+const freeze = GSUdomQS( "#freeze" );
+const analyserTd = GSUdomQS( "gsui-analyser-td" );
+const ampInput = GSUdomQS( "#ampInput" );
+const pinchInput = GSUdomQS( "#pinchInput" );
+const smoothInput = GSUdomQS( "#smoothInput" );
 const ctx = new AudioContext();
 const an = GSUaudioAnalyser( ctx );
 const fftSize = 1024;
@@ -113,7 +113,7 @@ play.onclick = () => {
 ampInput.oninput = e => GSUsetAttribute( analyserTd, "amp", e.target.value );
 pinchInput.oninput = e => GSUsetAttribute( analyserTd, "pinch", e.target.value );
 smoothInput.oninput = e => GSUsetAttribute( analyserTd, "smooth", e.target.value );
-document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
+GSUdomQS( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 
 function frame() {
 	an.getFloatTimeDomainData( anData );

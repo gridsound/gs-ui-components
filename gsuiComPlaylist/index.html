@@ -71,9 +71,9 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = document.querySelector( "gsui-com-playlist" );
-const form = document.querySelector( "#form" );
-const itsme = document.querySelector( "#itsme" );
+const elCmp = GSUdomQS( "gsui-com-playlist" );
+const form = GSUdomQS( "#form" );
+const itsme = GSUdomQS( "#itsme" );
 
 GSUsetAttribute( elCmp, "whoami", "itsme+" );
 form.addEventListener( "change", e => {

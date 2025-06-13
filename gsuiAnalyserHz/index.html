@@ -59,11 +59,11 @@ gsui-analyser-hz {
 
 <!-- ....................................................................... -->
 <script>
-const play = document.querySelector( "#play" );
-const stop = document.querySelector( "#stop" );
-const gain = document.querySelector( "#gain" );
-const bgcolor = document.querySelector( "#bgcolor" );
-const spectrum = document.querySelector( "gsui-analyser-hz" );
+const play = GSUdomQS( "#play" );
+const stop = GSUdomQS( "#stop" );
+const gain = GSUdomQS( "#gain" );
+const bgcolor = GSUdomQS( "#bgcolor" );
+const spectrum = GSUdomQS( "gsui-analyser-hz" );
 const ctx = new AudioContext();
 const an = GSUaudioAnalyser( ctx );
 const gainNode = GSUaudioGain( ctx );

@@ -68,16 +68,16 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = document.querySelector( "gsui-titleuser" );
-const readonly = document.querySelector( "#readonly" );
-const connected = document.querySelector( "#connected" );
-const connecting = document.querySelector( "#connecting" );
-const disconnecting = document.querySelector( "#disconnecting" );
-const saving = document.querySelector( "#saving" );
-const saved = document.querySelector( "#saved" );
-const justSaved = document.querySelector( "#just-saved" );
-const cmpName = document.querySelector( "#cmpName" );
-const longUser = document.querySelector( "#longUser" );
+const elCmp = GSUdomQS( "gsui-titleuser" );
+const readonly = GSUdomQS( "#readonly" );
+const connected = GSUdomQS( "#connected" );
+const connecting = GSUdomQS( "#connecting" );
+const disconnecting = GSUdomQS( "#disconnecting" );
+const saving = GSUdomQS( "#saving" );
+const saved = GSUdomQS( "#saved" );
+const justSaved = GSUdomQS( "#just-saved" );
+const cmpName = GSUdomQS( "#cmpName" );
+const longUser = GSUdomQS( "#longUser" );
 
 readonly.onclick = () => GSUtoggleAttribute( elCmp, "readonly" );
 connected.onclick = () => GSUtoggleAttribute( elCmp, "connected" );

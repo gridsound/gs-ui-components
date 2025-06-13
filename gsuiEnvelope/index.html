@@ -84,13 +84,13 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elEnv = document.querySelector( "gsui-envelope" );
-const inpToggle = document.querySelector( "#inpToggle" );
-const inpTarget = document.querySelector( "#inpTarget" );
-const btnsPlay = document.querySelectorAll( ".btnPlay" );
-const btnPlayLive = document.querySelector( "#btnPlayLive" );
-const inpBPM = document.querySelector( "#inpBPM" );
-const spanBPM = document.querySelector( "#bpm" );
+const elEnv = GSUdomQS( "gsui-envelope" );
+const inpToggle = GSUdomQS( "#inpToggle" );
+const inpTarget = GSUdomQS( "#inpTarget" );
+const btnsPlay = GSUdomQSA( ".btnPlay" );
+const btnPlayLive = GSUdomQS( "#btnPlayLive" );
+const inpBPM = GSUdomQS( "#inpBPM" );
+const spanBPM = GSUdomQS( "#bpm" );
 let bpm = 0;
 
 inpToggle.onchange = e => GSUsetAttribute( elEnv, "toggle", inpToggle.checked );

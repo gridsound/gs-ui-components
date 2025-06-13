@@ -102,10 +102,10 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const win = document.querySelector( "gsui-timewindow" );
-const inpDisabled = document.querySelector( "#disabled" );
-const inpAutoscroll = document.querySelector( "#autoscroll" );
-const inpPlayStop = document.querySelector( "#playStop" );
+const win = GSUdomQS( "gsui-timewindow" );
+const inpDisabled = GSUdomQS( "#disabled" );
+const inpAutoscroll = GSUdomQS( "#autoscroll" );
+const inpPlayStop = GSUdomQS( "#playStop" );
 const tracks = [];
 const rows = [];
 let play = false;
@@ -136,7 +136,7 @@ for ( let i = 0; i < 10; ++i ) {
 	rows.push( GSUcreateDiv( { class: "myRow" }, `row ${ i }` ) );
 }
 win.$appendPanel( ...tracks );
-document.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
+GSUdomQS( ".gsuiTimewindow-rows" ).append( ...rows );
 
 inpAutoscroll.click();
 inpPlayStop.click();

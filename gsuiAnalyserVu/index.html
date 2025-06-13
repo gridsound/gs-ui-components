@@ -56,8 +56,8 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const play = document.querySelector( "#play" );
-const analyserVu = document.querySelector( "gsui-analyser-vu" );
+const play = GSUdomQS( "#play" );
+const analyserVu = GSUdomQS( "gsui-analyser-vu" );
 const ctx = new AudioContext();
 const anL = GSUaudioAnalyser( ctx );
 const anR = GSUaudioAnalyser( ctx );
@@ -74,7 +74,7 @@ split.connect( anL, 0 );
 split.connect( anR, 1 );
 
 let hardVal = 0;
-document.querySelector( "#hardValue" ).oninput = e => hardVal = +e.target.value;
+GSUdomQS( "#hardValue" ).oninput = e => hardVal = +e.target.value;
 
 fetch( "../test-assets/808kick.wav" )
 	.then( res => res.arrayBuffer() )

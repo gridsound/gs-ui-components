@@ -75,11 +75,11 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const slicer = document.querySelector( "gsui-slicer" ),
-	rmSampleBtn = document.querySelector( "#rmSample" ),
-	loadSampleBtn = document.querySelector( "#loadSample" ),
-	playSampleBtn = document.querySelector( "#playSample" ),
-	currentTimeInp = document.querySelector( "#currentTime" );
+const slicer = GSUdomQS( "gsui-slicer" ),
+	rmSampleBtn = GSUdomQS( "#rmSample" ),
+	loadSampleBtn = GSUdomQS( "#loadSample" ),
+	playSampleBtn = GSUdomQS( "#playSample" ),
+	currentTimeInp = GSUdomQS( "#currentTime" );
 let ctx, buffer, absn;
 
 slicer.$addSlice(  0, { x: .000, y: .000, w: .125 } );

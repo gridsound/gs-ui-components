@@ -57,9 +57,9 @@ gsui-com-avatar {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = document.querySelector( "gsui-com-avatar" );
-const avatar = document.querySelector( "#avatar" );
-const ava404 = document.querySelector( "#ava404" );
+const elCmp = GSUdomQS( "gsui-com-avatar" );
+const avatar = GSUdomQS( "#avatar" );
+const ava404 = GSUdomQS( "#ava404" );
 
 avatar.onchange = () => GSUsetAttribute( elCmp, "src", !avatar.checked ? false : "../test-assets/avatar.jpg" );
 ava404.onchange = () => GSUsetAttribute( elCmp, "src", !ava404.checked ? false : "../test-assets/ava404.jpg" );

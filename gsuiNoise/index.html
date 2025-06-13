@@ -54,8 +54,8 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const noi = document.querySelector( "gsui-noise" );
-const inpToggle = document.querySelector( "#toggle" );
+const noi = GSUdomQS( "gsui-noise" );
+const inpToggle = GSUdomQS( "#toggle" );
 
 inpToggle.onchange = () => GSUsetAttribute( noi, "toggle", inpToggle.checked );
 

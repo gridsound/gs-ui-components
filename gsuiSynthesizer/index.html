@@ -83,7 +83,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elSyn = document.querySelector( "gsui-synthesizer" );
+const elSyn = GSUdomQS( "gsui-synthesizer" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );

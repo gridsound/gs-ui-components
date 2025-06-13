@@ -67,17 +67,17 @@ gsui-windows {
 
 <!-- ....................................................................... -->
 <script>
-const wins = document.querySelector( "gsui-windows" );
-const addBtn = document.querySelector( "#addContent" );
+const wins = GSUdomQS( "gsui-windows" );
+const addBtn = GSUdomQS( "#addContent" );
 const winA = wins.$createWindow( "winA" );
 const winB = wins.$createWindow( "winB" );
 const winC = wins.$createWindow( "winC" );
 
-document.querySelector( "#lowGraphics" ).onchange = e => GSUsetAttribute( wins, "lowgraphics", e.target.checked );
-document.querySelector( "#noMinimize" ).onchange = e => GSUsetAttribute( wins, "nominimize", e.target.checked );
-document.querySelector( "#winA" ).onclick = () => winA.$open();
-document.querySelector( "#winB" ).onclick = () => winB.$open();
-document.querySelector( "#winC" ).onclick = () => winC.$open();
+GSUdomQS( "#lowGraphics" ).onchange = e => GSUsetAttribute( wins, "lowgraphics", e.target.checked );
+GSUdomQS( "#noMinimize" ).onchange = e => GSUsetAttribute( wins, "nominimize", e.target.checked );
+GSUdomQS( "#winA" ).onclick = () => winA.$open();
+GSUdomQS( "#winB" ).onclick = () => winB.$open();
+GSUdomQS( "#winC" ).onclick = () => winC.$open();
 addBtn.onclick = () => {
 	winA.$contentAppend( GSUcreateSpan( { class: "myContent" }, "A" ) );
 	winB.$contentAppend( GSUcreateSpan( { class: "myContent" }, "B" ) );

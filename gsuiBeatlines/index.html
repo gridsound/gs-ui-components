@@ -66,12 +66,12 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const uiBeatlines = document.querySelector( "gsui-beatlines" );
-const btnVerti = document.querySelector( "#vertical" );
-const btnColor = document.querySelector( "#coloredbeats" );
-const inputPPB = document.querySelector( "#pxPerBeat" );
-const inputBPM = document.querySelector( "#beatsPerMeasure" );
-const inputSPB = document.querySelector( "#stepsPerBeat" );
+const uiBeatlines = GSUdomQS( "gsui-beatlines" );
+const btnVerti = GSUdomQS( "#vertical" );
+const btnColor = GSUdomQS( "#coloredbeats" );
+const inputPPB = GSUdomQS( "#pxPerBeat" );
+const inputBPM = GSUdomQS( "#beatsPerMeasure" );
+const inputSPB = GSUdomQS( "#stepsPerBeat" );
 
 btnColor.onclick = () => GSUtoggleAttribute( uiBeatlines, "coloredbeats" );
 btnVerti.onclick = () => GSUtoggleAttribute( uiBeatlines, "vertical" );

@@ -56,10 +56,10 @@ gsui-analyser-hist {
 
 <!-- ....................................................................... -->
 <script>
-const play = document.querySelector( "#play" );
-const stop = document.querySelector( "#stop" );
-const type = document.querySelector( "#type" );
-const analyser = document.querySelector( "gsui-analyser-hist" );
+const play = GSUdomQS( "#play" );
+const stop = GSUdomQS( "#stop" );
+const type = GSUdomQS( "#type" );
+const analyser = GSUdomQS( "gsui-analyser-hist" );
 const ctx = new AudioContext();
 const anL = GSUaudioAnalyser( ctx );
 const anR = GSUaudioAnalyser( ctx );

@@ -46,10 +46,10 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const uiKeys = document.querySelector( "gsui-keys" );
-const togOrient = document.querySelector( "#toggleOrient" );
-const testContent = document.querySelector( "#testContent" );
-const testWrap = document.querySelector( "#testWrap" );
+const uiKeys = GSUdomQS( "gsui-keys" );
+const togOrient = GSUdomQS( "#toggleOrient" );
+const testContent = GSUdomQS( "#testContent" );
+const testWrap = GSUdomQS( "#testWrap" );
 
 togOrient.onclick = () => {
 	const isHori = GSUgetAttribute( uiKeys, "orient" ) === "horizontal";

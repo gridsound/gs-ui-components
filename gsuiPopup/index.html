@@ -63,15 +63,15 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-document.querySelector( "gsui-com-button[text='alert']" ).onclick = () => {
+GSUdomQS( "gsui-com-button[text='alert']" ).onclick = () => {
 	GSUpopup.$alert( "Error 2025", "Should reboot everything!" )
 		.then( ( ...args ) => lg( "GSUpopup.$alert", args ) );
 };
-document.querySelector( "gsui-com-button[text='confirm']" ).onclick = () => {
+GSUdomQS( "gsui-com-button[text='confirm']" ).onclick = () => {
 	GSUpopup.$confirm( "Error 2025", "Should we reboot the system?" )
 		.then( ( ...args ) => lg( "GSUpopup.$confirm", args ) );
 };
-document.querySelector( "gsui-com-button[text='prompt']" ).onclick = () => {
+GSUdomQS( "gsui-com-button[text='prompt']" ).onclick = () => {
 	GSUpopup.$prompt( "Error 2025", "Name the new report:", "Lorem ipsum" )
 		.then( ( ...args ) => lg( "GSUpopup.$prompt", args ) );
 };
@@ -90,7 +90,7 @@ const customContent = (
 	)
 );
 
-document.querySelector( "gsui-com-button[text='custom']" ).onclick = () => {
+GSUdomQS( "gsui-com-button[text='custom']" ).onclick = () => {
 	GSUpopup.$custom( {
 		title: "Custom title",
 		cancel: "Cancel",
@@ -100,7 +100,7 @@ document.querySelector( "gsui-com-button[text='custom']" ).onclick = () => {
 	} ).then( ( ...args ) => lg( "GSUpopup.$custom", args ) );
 };
 
-// document.querySelector( "gsui-com-button[text='custom']" ).click();
+// GSUdomQS( "gsui-com-button[text='custom']" ).click();
 </script>
 </body>
 </html>

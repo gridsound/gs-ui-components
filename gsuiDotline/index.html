@@ -92,16 +92,16 @@ gsui-dotline {
 
 <!-- ....................................................................... -->
 <script>
-const line = document.querySelector( "gsui-dotline" );
+const line = GSUdomQS( "gsui-dotline" );
 
 GSUlistenEvents( line, {
 	gsuiDotline: {
 		change: d => console.log( d.args[ 0 ] ),
 	},
 } );
-document.querySelector( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep", e.target.value );
-document.querySelector( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
-document.querySelector( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
+GSUdomQS( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep", e.target.value );
+GSUdomQS( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
+GSUdomQS( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
 
 line.$setDotOptions( "1", { freezeX: true, deletable: false } );
 line.$setDotOptions( "6", { freezeX: true, deletable: false } );

@@ -90,19 +90,19 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const timeline = document.querySelector( "gsui-timeline" );
-const inpTPr = document.querySelector( "#currentTimePreview" );
-const inpTim = document.querySelector( "#currentTime" );
-const inpPBB = document.querySelector( "#pxPerbeat" );
-const inpBPM = document.querySelector( "#beatsPerMeasure" );
-const inpSPB = document.querySelector( "#stepsPerBeat" );
+const timeline = GSUdomQS( "gsui-timeline" );
+const inpTPr = GSUdomQS( "#currentTimePreview" );
+const inpTim = GSUdomQS( "#currentTime" );
+const inpPBB = GSUdomQS( "#pxPerbeat" );
+const inpBPM = GSUdomQS( "#beatsPerMeasure" );
+const inpSPB = GSUdomQS( "#stepsPerBeat" );
 
 inpTPr.oninput = e => GSUsetAttribute( timeline, "currenttime-preview", inpTPr.value );
 inpTim.oninput = e => GSUsetAttribute( timeline, "currenttime", inpTim.value );
 inpPBB.oninput = e => GSUsetAttribute( timeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
 inpSPB.oninput = e => GSUsetAttribute( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
-document.querySelector( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
+GSUdomQS( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
 </body>
 </html>

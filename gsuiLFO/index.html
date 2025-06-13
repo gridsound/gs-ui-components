@@ -88,9 +88,9 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elLFO = document.querySelector( "gsui-lfo" );
-const inpToggle = document.querySelector( "#toggle" );
-const inpTarget = document.querySelector( "#lfoTarget" );
+const elLFO = GSUdomQS( "gsui-lfo" );
+const inpToggle = GSUdomQS( "#toggle" );
+const inpTarget = GSUdomQS( "#lfoTarget" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 inpToggle.onchange = e => GSUsetAttribute( elLFO, "toggle", e.target.checked );
@@ -99,10 +99,10 @@ inpTarget.onchange = e => GSUsetAttribute( elLFO, "lfo", e.target.value );
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elLFO.$updateWave();
 
-const btnsPlay = document.querySelectorAll( ".btnPlay" );
-const btnPlayLive = document.querySelector( "#btnPlayLive" );
-const inpBPM = document.querySelector( "#inpBPM" );
-const spanBPM = document.querySelector( "#bpm" );
+const btnsPlay = GSUdomQSA( ".btnPlay" );
+const btnPlayLive = GSUdomQS( "#btnPlayLive" );
+const inpBPM = GSUdomQS( "#inpBPM" );
+const spanBPM = GSUdomQS( "#bpm" );
 let bpm = 0;
 
 btnsPlay.forEach( btn => btn.onclick = () => elLFO.$startKey( "key-0", bpm, +btn.dataset.dur ) );

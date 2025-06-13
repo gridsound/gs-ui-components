@@ -56,9 +56,9 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const tr = document.querySelector( "gsui-track" );
+const tr = GSUdomQS( "gsui-track" );
 
-document.querySelector( "#mute" ).onchange = e => {
+GSUdomQS( "#mute" ).onchange = e => {
 	GSUsetAttribute( tr, "mute", e.target.checked );
 };
 </script>

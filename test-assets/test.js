@@ -84,27 +84,27 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		),
 	);
 
-	const elTEST = document.querySelector( "#TEST" );
-	const elCTRLS = document.querySelector( "#TEST-CTRLS" );
-	const elSkin = document.querySelector( "#testSkin" );
-	const elWrap = document.querySelector( "#testWrap" );
-	const elCtrls = document.querySelector( "#testCtrls" );
+	const elTEST = GSUdomQS( "#TEST" );
+	const elCTRLS = GSUdomQS( "#TEST-CTRLS" );
+	const elSkin = GSUdomQS( "#testSkin" );
+	const elWrap = GSUdomQS( "#testWrap" );
+	const elCtrls = GSUdomQS( "#testCtrls" );
 	elTEST && Array.from( elTEST.children ).forEach( el => elWrap.append( el ) );
 	elCTRLS && Array.from( elCTRLS.children ).forEach( el => elCtrls.append( el ) );
-	if ( elTEST.dataset.minAuto === "" ) { document.querySelector( "#testContent" ).dataset.minAuto = ""; }
-	if ( elTEST.dataset.minXAuto === "" ) { document.querySelector( "#testContent" ).dataset.minXAuto = ""; }
-	if ( elTEST.dataset.minYAuto === "" ) { document.querySelector( "#testContent" ).dataset.minYAuto = ""; }
+	if ( elTEST.dataset.minAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minAuto = ""; }
+	if ( elTEST.dataset.minXAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minXAuto = ""; }
+	if ( elTEST.dataset.minYAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minYAuto = ""; }
 	elTEST.remove();
 
 	function getPath() {
 		return location.pathname.split( "/" ).filter( Boolean );
 	}
 
-	const select = document.querySelector( "#testSelect" );
+	const select = GSUdomQS( "#testSelect" );
 	const path = getPath();
 	const curr = path.pop();
 
-	const hasLightSkin = Array.from( document.head.querySelectorAll( "link" ) ).some( ln => ln.href.endsWith( "gsuiSkins-light.css" ) );
+	const hasLightSkin = Array.from( GSUdomQSA( document.head, "link" ) ).some( ln => ln.href.endsWith( "gsuiSkins-light.css" ) );
 
 	if ( !hasLightSkin ) {
 		elSkin.remove();

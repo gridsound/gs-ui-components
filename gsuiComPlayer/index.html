@@ -64,15 +64,15 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = document.querySelector( "gsui-com-player" );
-const titledInp = document.querySelector( "#titled" );
-const itsmineInp = document.querySelector( "#itsmine" );
-const privateInp = document.querySelector( "#private" );
-const opensourceInp = document.querySelector( "#opensource" );
-const editableInp = document.querySelector( "#editable" );
-const bpmInp = document.querySelector( "#bpm" );
-const durationInp = document.querySelector( "#duration" );
-const currentTimeInp = document.querySelector( "#currentTime" );
+const elCmp = GSUdomQS( "gsui-com-player" );
+const titledInp = GSUdomQS( "#titled" );
+const itsmineInp = GSUdomQS( "#itsmine" );
+const privateInp = GSUdomQS( "#private" );
+const opensourceInp = GSUdomQS( "#opensource" );
+const editableInp = GSUdomQS( "#editable" );
+const bpmInp = GSUdomQS( "#bpm" );
+const durationInp = GSUdomQS( "#duration" );
+const currentTimeInp = GSUdomQS( "#currentTime" );
 
 titledInp.onchange = () => GSUtoggleAttribute( elCmp, "name", "Dopest song ever created" );
 itsmineInp.onchange = () => GSUtoggleAttribute( elCmp, "itsmine" );

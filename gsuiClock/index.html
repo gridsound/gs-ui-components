@@ -45,8 +45,8 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elClock = document.querySelector( "gsui-clock" );
-const elInput = document.querySelector( "#time" );
+const elClock = GSUdomQS( "gsui-clock" );
+const elInput = GSUdomQS( "#time" );
 
 elInput.oninput = () => elClock.$setTime( +elInput.value );
 elInput.oninput();

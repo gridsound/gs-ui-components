@@ -70,15 +70,15 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = document.querySelector( "gsui-com-profile" );
-const itsme = document.querySelector( "#itsme" );
-const email = document.querySelector( "#email" );
-const avatar = document.querySelector( "#avatar" );
-const emailpublic = document.querySelector( "#emailpublic" );
-const emailtoverify = document.querySelector( "#emailtoverify" );
-const emailsending = document.querySelector( "#emailsending" );
-const emailsent = document.querySelector( "#emailsent" );
-const savefail = document.querySelector( "#savefail" );
+const elCmp = GSUdomQS( "gsui-com-profile" );
+const itsme = GSUdomQS( "#itsme" );
+const email = GSUdomQS( "#email" );
+const avatar = GSUdomQS( "#avatar" );
+const emailpublic = GSUdomQS( "#emailpublic" );
+const emailtoverify = GSUdomQS( "#emailtoverify" );
+const emailsending = GSUdomQS( "#emailsending" );
+const emailsent = GSUdomQS( "#emailsent" );
+const savefail = GSUdomQS( "#savefail" );
 
 itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
 email.onchange = () => GSUtoggleAttribute( elCmp, "email", "john.wick@hitman.com" );
@@ -93,7 +93,7 @@ email.click();
 // emailpublic.click();
 emailtoverify.click();
 avatar.click();
-// document.querySelector( ".gsuiComProfile-main-edit" ).click();
+// GSUdomQS( ".gsuiComProfile-main-edit" ).click();
 
 function promRes( obj ) {
 	return new Promise( ( res, rej ) => {
