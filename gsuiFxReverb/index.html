@@ -63,12 +63,12 @@ gsui-fx-reverb {
 <script>
 const uiFx = GSUdomQS( "gsui-fx-reverb" );
 
-GSUsetAttribute( uiFx, "dry", .9 );
-GSUsetAttribute( uiFx, "wet", .7 );
-GSUsetAttribute( uiFx, "delay", .25 );
-GSUsetAttribute( uiFx, "delay", 0 );
-GSUsetAttribute( uiFx, "decay", 2 );
-GSUsetAttribute( uiFx, "fadein", 1 );
+GSUdomSetAttr( uiFx, "dry", .9 );
+GSUdomSetAttr( uiFx, "wet", .7 );
+GSUdomSetAttr( uiFx, "delay", .25 );
+GSUdomSetAttr( uiFx, "delay", 0 );
+GSUdomSetAttr( uiFx, "decay", 2 );
+GSUdomSetAttr( uiFx, "fadein", 1 );
 </script>
 </body>
 </html>

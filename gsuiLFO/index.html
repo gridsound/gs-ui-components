@@ -93,8 +93,8 @@ const inpToggle = GSUdomQS( "#toggle" );
 const inpTarget = GSUdomQS( "#lfoTarget" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
-inpToggle.onchange = e => GSUsetAttribute( elLFO, "toggle", e.target.checked );
-inpTarget.onchange = e => GSUsetAttribute( elLFO, "lfo", e.target.value );
+inpToggle.onchange = e => GSUdomSetAttr( elLFO, "toggle", e.target.checked );
+inpTarget.onchange = e => GSUdomSetAttr( elLFO, "lfo", e.target.value );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elLFO.$updateWave();

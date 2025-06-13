@@ -90,8 +90,8 @@ cmpName.onclick = () => GSUtoggleAttribute( elCmp, "cmpname", "Angry and evil na
 longUser.onclick = () => {
 	const isShort = GSUdomGetAttr( elCmp, "name" ) === "John";
 
-	GSUsetAttribute( elCmp, "name", isShort ? "John Wick (the hitman)" : "John" );
-	GSUsetAttribute( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
+	GSUdomSetAttr( elCmp, "name", isShort ? "John Wick (the hitman)" : "John" );
+	GSUdomSetAttr( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
 };
 
 const logout0 = () => new Promise( ( res, rej ) => GSUsetTimeout( rej, 1 ) );
@@ -104,7 +104,7 @@ GSUlistenEvents( elCmp, {
 	gsuiTitleUser: {
 		rename: d => {
 			lg( `rename: [${ d.args[ 0 ] }]` );
-			GSUsetAttribute( elCmp, "cmpname", d.args[ 0 ] );
+			GSUdomSetAttr( elCmp, "cmpname", d.args[ 0 ] );
 		},
 	},
 } );

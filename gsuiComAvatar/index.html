@@ -61,8 +61,8 @@ const elCmp = GSUdomQS( "gsui-com-avatar" );
 const avatar = GSUdomQS( "#avatar" );
 const ava404 = GSUdomQS( "#ava404" );
 
-avatar.onchange = () => GSUsetAttribute( elCmp, "src", !avatar.checked ? false : "../test-assets/avatar.jpg" );
-ava404.onchange = () => GSUsetAttribute( elCmp, "src", !ava404.checked ? false : "../test-assets/ava404.jpg" );
+avatar.onchange = () => GSUdomSetAttr( elCmp, "src", !avatar.checked ? false : "../test-assets/avatar.jpg" );
+ava404.onchange = () => GSUdomSetAttr( elCmp, "src", !ava404.checked ? false : "../test-assets/ava404.jpg" );
 </script>
 </body>
 </html>

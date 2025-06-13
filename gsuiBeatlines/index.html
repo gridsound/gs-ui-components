@@ -80,8 +80,8 @@ inputPPB.oninput =
 inputBPM.oninput =
 inputSPB.oninput = e => {
 	e.target.nextElementSibling.textContent = e.target.value;
-	GSUsetAttribute( uiBeatlines, "pxperbeat", inputPPB.value );
-	GSUsetAttribute( uiBeatlines, "timedivision", `${ inputBPM.value }/${ inputSPB.value }` );
+	GSUdomSetAttr( uiBeatlines, "pxperbeat", inputPPB.value );
+	GSUdomSetAttr( uiBeatlines, "timedivision", `${ inputBPM.value }/${ inputSPB.value }` );
 };
 </script>
 </body>

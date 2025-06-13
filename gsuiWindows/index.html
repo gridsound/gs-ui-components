@@ -73,8 +73,8 @@ const winA = wins.$createWindow( "winA" );
 const winB = wins.$createWindow( "winB" );
 const winC = wins.$createWindow( "winC" );
 
-GSUdomQS( "#lowGraphics" ).onchange = e => GSUsetAttribute( wins, "lowgraphics", e.target.checked );
-GSUdomQS( "#noMinimize" ).onchange = e => GSUsetAttribute( wins, "nominimize", e.target.checked );
+GSUdomQS( "#lowGraphics" ).onchange = e => GSUdomSetAttr( wins, "lowgraphics", e.target.checked );
+GSUdomQS( "#noMinimize" ).onchange = e => GSUdomSetAttr( wins, "nominimize", e.target.checked );
 GSUdomQS( "#winA" ).onclick = () => winA.$open();
 GSUdomQS( "#winB" ).onclick = () => winB.$open();
 GSUdomQS( "#winC" ).onclick = () => winC.$open();
@@ -84,9 +84,9 @@ addBtn.onclick = () => {
 	winC.$contentAppend( GSUcreateSpan( { class: "myContent" }, "C" ) );
 };
 
-GSUsetAttribute( winA, { x:  10, y: 10, w: 140, h: 100, icon: "osc-square", name: "Aaa" } );
-GSUsetAttribute( winB, { x: 160, y: 10, w: 140, h: 100, icon: "osc-square", name: "Bbb" } );
-GSUsetAttribute( winC, { x: 310, y: 10, w: 140, h: 100, icon: "osc-square", name: "Ccc" } );
+GSUdomSetAttr( winA, { x:  10, y: 10, w: 140, h: 100, icon: "osc-square", name: "Aaa" } );
+GSUdomSetAttr( winB, { x: 160, y: 10, w: 140, h: 100, icon: "osc-square", name: "Bbb" } );
+GSUdomSetAttr( winC, { x: 310, y: 10, w: 140, h: 100, icon: "osc-square", name: "Ccc" } );
 
 winA.$open();
 winB.$open();

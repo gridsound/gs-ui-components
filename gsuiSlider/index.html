@@ -138,7 +138,7 @@ gsui-slider.sc2 {
 const sli = GSUdomQSA( "gsui-slider" );
 const inpDisabled = GSUdomQS( "#inpDisabled" );
 
-inpDisabled.onchange = e => sli.forEach( sli => GSUsetAttribute( sli, "disabled", inpDisabled.checked ) );
+inpDisabled.onchange = e => sli.forEach( sli => GSUdomSetAttr( sli, "disabled", inpDisabled.checked ) );
 </script>
 </body>
 </html>

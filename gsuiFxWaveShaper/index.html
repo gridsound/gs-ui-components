@@ -76,7 +76,7 @@ GSUlistenEvents( fx, {
 					break;
 				case "symmetry":
 				case "oversample":
-					GSUsetAttribute( fx, d.args[ 0 ], d.args[ 1 ] );
+					GSUdomSetAttr( fx, d.args[ 0 ], d.args[ 1 ] );
 					break;
 			}
 		},
@@ -84,7 +84,7 @@ GSUlistenEvents( fx, {
 			switch ( d.args[ 0 ] ) {
 				case "symmetry":
 					fx.$changeCurveData( d.args[ 1 ].curve );
-					GSUsetAttribute( fx, "symmetry", d.args[ 1 ].symmetry );
+					GSUdomSetAttr( fx, "symmetry", d.args[ 1 ].symmetry );
 					break;
 			}
 		},

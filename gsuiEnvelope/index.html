@@ -93,8 +93,8 @@ const inpBPM = GSUdomQS( "#inpBPM" );
 const spanBPM = GSUdomQS( "#bpm" );
 let bpm = 0;
 
-inpToggle.onchange = e => GSUsetAttribute( elEnv, "toggle", inpToggle.checked );
-inpTarget.onchange = e => GSUsetAttribute( elEnv, "env", inpTarget.value );
+inpToggle.onchange = e => GSUdomSetAttr( elEnv, "toggle", inpToggle.checked );
+inpTarget.onchange = e => GSUdomSetAttr( elEnv, "env", inpTarget.value );
 inpTarget.onchange();
 
 btnsPlay.forEach( btn => btn.onclick = () => elEnv.$startKey( "key-0", bpm, +btn.dataset.dur ) );

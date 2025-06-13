@@ -110,9 +110,9 @@ play.onclick = () => {
 	absn.start();
 };
 
-ampInput.oninput = e => GSUsetAttribute( analyserTd, "amp", e.target.value );
-pinchInput.oninput = e => GSUsetAttribute( analyserTd, "pinch", e.target.value );
-smoothInput.oninput = e => GSUsetAttribute( analyserTd, "smooth", e.target.value );
+ampInput.oninput = e => GSUdomSetAttr( analyserTd, "amp", e.target.value );
+pinchInput.oninput = e => GSUdomSetAttr( analyserTd, "pinch", e.target.value );
+smoothInput.oninput = e => GSUdomSetAttr( analyserTd, "smooth", e.target.value );
 GSUdomQS( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 
 function frame() {

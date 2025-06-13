@@ -58,7 +58,7 @@ body {
 const glitch = GSUdomQS( "gsui-glitchtext" );
 const inpEnable = GSUdomQS( "#glitch-enable" );
 
-GSUsetAttribute( glitch, "texts", [
+GSUdomSetAttr( glitch, "texts", [
 	"GridSound",
 	"gRIDsOUND",
 	"&<:]$+\\#)",
@@ -66,7 +66,7 @@ GSUsetAttribute( glitch, "texts", [
 	"9-!>5θnu]",
 ].join( " " ) );
 
-inpEnable.onchange = () => GSUsetAttribute( glitch, "enable", inpEnable.checked );
+inpEnable.onchange = () => GSUdomSetAttr( glitch, "enable", inpEnable.checked );
 inpEnable.click();
 </script>
 </body>

@@ -112,8 +112,8 @@ let play = false;
 let intervalId = 0;
 let currenttime = 0;
 
-inpDisabled.onchange = e => GSUsetAttribute( win, "disabled", e.target.checked );
-inpAutoscroll.onchange = e => GSUsetAttribute( win, "autoscroll", e.target.checked );
+inpDisabled.onchange = e => GSUdomSetAttr( win, "disabled", e.target.checked );
+inpAutoscroll.onchange = e => GSUdomSetAttr( win, "autoscroll", e.target.checked );
 
 inpPlayStop.onclick = e => {
 	play = !play;
@@ -121,14 +121,14 @@ inpPlayStop.onclick = e => {
 	if (play) {
 		intervalId = GSUsetInterval( () => {
 			currenttime = ( currenttime + .05 ) % 8;
-			GSUsetAttribute( win, "currenttime", currenttime );
+			GSUdomSetAttr( win, "currenttime", currenttime );
 		}, .05 );
 	} else {
 		GSUclearInterval( intervalId );
 		currenttime = 0;
-		GSUsetAttribute( win, "currenttime", 0 );
+		GSUdomSetAttr( win, "currenttime", 0 );
 	}
-	GSUsetAttribute( win, "playing", play );
+	GSUdomSetAttr( win, "playing", play );
 };
 
 for ( let i = 0; i < 10; ++i ) {

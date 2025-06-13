@@ -70,7 +70,7 @@ const anRData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
-GSUsetAttribute( analyser, "resolution", "400 500" );
+GSUdomSetAttr( analyser, "resolution", "400 500" );
 
 anL.fftSize = fftSize;
 anR.fftSize = fftSize;
@@ -89,7 +89,7 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	} );
 
 type.onchange = () => {
-	GSUsetAttribute( analyser, "type", type.value );
+	GSUdomSetAttr( analyser, "type", type.value );
 };
 stop.onclick = () => {
 	absn?.stop();

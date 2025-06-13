@@ -97,11 +97,11 @@ const inpPBB = GSUdomQS( "#pxPerbeat" );
 const inpBPM = GSUdomQS( "#beatsPerMeasure" );
 const inpSPB = GSUdomQS( "#stepsPerBeat" );
 
-inpTPr.oninput = e => GSUsetAttribute( timeline, "currenttime-preview", inpTPr.value );
-inpTim.oninput = e => GSUsetAttribute( timeline, "currenttime", inpTim.value );
-inpPBB.oninput = e => GSUsetAttribute( timeline, "pxperbeat", inpPBB.value );
+inpTPr.oninput = e => GSUdomSetAttr( timeline, "currenttime-preview", inpTPr.value );
+inpTim.oninput = e => GSUdomSetAttr( timeline, "currenttime", inpTim.value );
+inpPBB.oninput = e => GSUdomSetAttr( timeline, "pxperbeat", inpPBB.value );
 inpBPM.oninput =
-inpSPB.oninput = e => GSUsetAttribute( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
+inpSPB.oninput = e => GSUdomSetAttr( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
 GSUdomQS( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
 </script>
 </body>

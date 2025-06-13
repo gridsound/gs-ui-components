@@ -99,9 +99,9 @@ GSUlistenEvents( line, {
 		change: d => console.log( d.args[ 0 ] ),
 	},
 } );
-GSUdomQS( "#xstep" ).onchange = e => GSUsetAttribute( line, "xstep", e.target.value );
-GSUdomQS( "#ystep" ).onchange = e => GSUsetAttribute( line, "ystep", e.target.value );
-GSUdomQS( "#movelinked" ).onchange = e => GSUsetAttribute( line, "movelinked", e.target.checked );
+GSUdomQS( "#xstep" ).onchange = e => GSUdomSetAttr( line, "xstep", e.target.value );
+GSUdomQS( "#ystep" ).onchange = e => GSUdomSetAttr( line, "ystep", e.target.value );
+GSUdomQS( "#movelinked" ).onchange = e => GSUdomSetAttr( line, "movelinked", e.target.checked );
 
 line.$setDotOptions( "1", { freezeX: true, deletable: false } );
 line.$setDotOptions( "6", { freezeX: true, deletable: false } );

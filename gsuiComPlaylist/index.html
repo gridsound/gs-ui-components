@@ -75,10 +75,10 @@ const elCmp = GSUdomQS( "gsui-com-playlist" );
 const form = GSUdomQS( "#form" );
 const itsme = GSUdomQS( "#itsme" );
 
-GSUsetAttribute( elCmp, "whoami", "itsme+" );
+GSUdomSetAttr( elCmp, "whoami", "itsme+" );
 form.addEventListener( "change", e => {
 	if ( e.target.name === "testWhoami" ) {
-		GSUsetAttribute( elCmp, "whoami", e.target.value );
+		GSUdomSetAttr( elCmp, "whoami", e.target.value );
 	}
 } );
 

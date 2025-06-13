@@ -88,13 +88,13 @@ const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elOsc.$addWaveCustom( GSUformatWavetableName( 0, 0 ) );
 elOsc.$addWaves( Array.from( waves.keys() ) );
-GSUsetAttribute( elOsc, "wave", "noise" );
-GSUsetAttribute( elOsc, "wave", "sine" );
-GSUsetAttribute( elOsc, "wave", "triangle" );
-GSUsetAttribute( elOsc, "wave", "square" );
-GSUsetAttribute( elOsc, "gain", .5 );
-GSUsetAttribute( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
-GSUsetAttribute( elOsc, "wave", "sawtooth" );
+GSUdomSetAttr( elOsc, "wave", "noise" );
+GSUdomSetAttr( elOsc, "wave", "sine" );
+GSUdomSetAttr( elOsc, "wave", "triangle" );
+GSUdomSetAttr( elOsc, "wave", "square" );
+GSUdomSetAttr( elOsc, "gain", .5 );
+GSUdomSetAttr( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
+GSUdomSetAttr( elOsc, "wave", "sawtooth" );
 
 elOsc.$askWaveCustomData = () => ( {
 	waves: {
@@ -108,7 +108,7 @@ elOsc.$askWaveCustomData = () => ( {
 	},
 } );
 
-// GSUsetTimeout( () => GSUsetAttribute( elOsc, "wavetable", true ), .2 );
+// GSUsetTimeout( () => GSUdomSetAttr( elOsc, "wavetable" ), .2 );
 </script>
 </body>
 </html>

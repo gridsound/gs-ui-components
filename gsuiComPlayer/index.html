@@ -78,23 +78,23 @@ titledInp.onchange = () => GSUtoggleAttribute( elCmp, "name", "Dopest song ever 
 itsmineInp.onchange = () => GSUtoggleAttribute( elCmp, "itsmine" );
 privateInp.onchange = () => GSUtoggleAttribute( elCmp, "private" );
 opensourceInp.onchange = () => GSUtoggleAttribute( elCmp, "opensource" );
-editableInp.onchange = () => GSUsetAttribute( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
+editableInp.onchange = () => GSUdomSetAttr( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
 itsmineInp.click();
 privateInp.click();
 editableInp.click();
 
-bpmInp.oninput = () => GSUsetAttribute( elCmp, "bpm", bpmInp.value );
-durationInp.oninput = () => GSUsetAttribute( elCmp, "duration", durationInp.value );
-currentTimeInp.oninput = () => GSUsetAttribute( elCmp, "currenttime", currentTimeInp.value );
+bpmInp.oninput = () => GSUdomSetAttr( elCmp, "bpm", bpmInp.value );
+durationInp.oninput = () => GSUdomSetAttr( elCmp, "duration", durationInp.value );
+currentTimeInp.oninput = () => GSUdomSetAttr( elCmp, "currenttime", currentTimeInp.value );
 
 GSUlistenEvents( document.body, {
 	gsuiComPlayer: {
-		play: () => GSUsetAttribute( elCmp, "playing", true ),
+		play: () => GSUdomSetAttr( elCmp, "playing" ),
 		stop: () => GSUdomRmAttr( elCmp, "playing" ),
-		delete: () => GSUsetAttribute( elCmp, "deleting", true ),
-		restore: () => GSUsetAttribute( elCmp, "restoring", true ),
-		currentTime: d => GSUsetAttribute( elCmp, "currenttime", d.args[ 0 ] ),
+		delete: () => GSUdomSetAttr( elCmp, "deleting" ),
+		restore: () => GSUdomSetAttr( elCmp, "restoring" ),
+		currentTime: d => GSUdomSetAttr( elCmp, "currenttime", d.args[ 0 ] ),
 	},
 } );
 </script>
