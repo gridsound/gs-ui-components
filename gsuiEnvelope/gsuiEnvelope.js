@@ -148,7 +148,7 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
-		if ( GSUhasAttribute( this, "toggle" ) ) {
+		if ( GSUdomHasAttr( this, "toggle" ) ) {
 			const el = GSUcreateDiv( { class: "gsuiEnvelope-keyPreview", style: { left: 0, top: "100%" } } );
 
 			this.#keyPreviews.push( {

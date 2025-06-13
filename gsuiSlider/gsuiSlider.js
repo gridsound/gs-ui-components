@@ -176,13 +176,13 @@ class gsuiSlider extends gsui0ne {
 	}
 	$onptrdown( e ) {
 		e.preventDefault();
-		if ( GSUhasAttribute( this, "disabled" ) ) {
+		if ( GSUdomHasAttr( this, "disabled" ) ) {
 			return false;
 		}
 		switch ( e.button ) {
 			default: return false;
 			case 1: {
-				const def = GSUhasAttribute( this, "defaultValue" ) && GSUgetAttributeNum( this, "defaultValue" );
+				const def = GSUdomHasAttr( this, "defaultValue" ) && GSUgetAttributeNum( this, "defaultValue" );
 
 				if ( def !== false && this.#value !== def ) {
 					this.#value = def;

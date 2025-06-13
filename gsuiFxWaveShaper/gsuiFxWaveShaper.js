@@ -107,7 +107,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 	#onreset() {
 		const diff = GSUdiffObjects(
 			this.$elements.$dotline.$getData(),
-			GSUhasAttribute( this, "symmetry" )
+			GSUdomHasAttr( this, "symmetry" )
 				? gsuiFxWaveShaper.#defPtsSym
 				: gsuiFxWaveShaper.#defPtsAsym
 		);
@@ -156,7 +156,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 	#updateWaveB() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
 		const graphData = GSUmathSampleDotLine( this.$elements.$dotline.$getData(), len ).map( d => d[ 1 ] );
-		const graphData2 = GSUhasAttribute( this, "symmetry" )
+		const graphData2 = GSUdomHasAttr( this, "symmetry" )
 			? this.#addGraphSymmetry( graphData )
 			: graphData;
 		const w = this.$elements.$waves.clientWidth;

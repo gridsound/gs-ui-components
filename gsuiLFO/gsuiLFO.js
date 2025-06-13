@@ -180,7 +180,7 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
-		if ( GSUhasAttribute( this, "toggle" ) ) {
+		if ( GSUdomHasAttr( this, "toggle" ) ) {
 			const el = GSUcreateDiv( { class: "gsuiLFO-keyPreview", style: { left: 0, top: "50%" } } );
 
 			this.#keyPreviews.push( {

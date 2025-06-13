@@ -98,8 +98,8 @@ class gsuiComPlaylist extends gsui0ne {
 		return elCmp;
 	}
 	#updateCmpLinks( elCmp ) {
-		const del = GSUhasAttribute( elCmp, "deleted" );
-		const open = GSUhasAttribute( elCmp, "opensource" );
+		const del = GSUdomHasAttr( elCmp, "deleted" );
+		const open = GSUdomHasAttr( elCmp, "opensource" );
 
 		GSUsetAttribute( elCmp, {
 			link: del ? false : `#/cmp/${ elCmp.dataset.id }`,
@@ -111,9 +111,9 @@ class gsuiComPlaylist extends gsui0ne {
 		GSUdomQSA( this, "gsui-com-player" ).forEach( elCmp => this.#updateCmpActions( elCmp ) );
 	}
 	#updateCmpActions( elCmp ) {
-		const del = GSUhasAttribute( elCmp, "deleted" );
-		const isOpen = GSUhasAttribute( elCmp, "opensource" );
-		const isPrivate = GSUhasAttribute( elCmp, "private" );
+		const del = GSUdomHasAttr( elCmp, "deleted" );
+		const isOpen = GSUdomHasAttr( elCmp, "opensource" );
+		const isPrivate = GSUdomHasAttr( elCmp, "private" );
 		const isVisible = !isPrivate && !isOpen;
 
 		GSUsetAttribute( elCmp, "itsmine", this.#itsMe );

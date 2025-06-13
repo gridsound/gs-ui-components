@@ -67,17 +67,17 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	#onclickEdit() {
-		if ( !GSUhasAttribute( this, "editing" ) ) {
+		if ( !GSUdomHasAttr( this, "editing" ) ) {
 			this.$elements.$inputs[ 0 ].value = GSUgetAttribute( this, "firstname" );
 			this.$elements.$inputs[ 1 ].value = GSUgetAttribute( this, "lastname" );
 			this.$elements.$inputs[ 2 ].value = GSUgetAttribute( this, "email" );
-			this.$elements.$inputs[ 3 ].checked = GSUhasAttribute( this, "emailpublic" );
+			this.$elements.$inputs[ 3 ].checked = GSUdomHasAttr( this, "emailpublic" );
 		}
 		this.$elements.$error.textContent = "";
 		GSUtoggleAttribute( this, "editing" );
 	}
 	#onclickVerify() {
-		if ( !GSUhasAttribute( this, "emailsending" ) ) {
+		if ( !GSUdomHasAttr( this, "emailsending" ) ) {
 			GSUsetAttribute( this, "emailsending", true );
 			this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sending;
 			this.#verifyPromise?.()

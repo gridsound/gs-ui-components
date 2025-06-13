@@ -399,7 +399,7 @@ class gsuiDotline extends gsui0ne {
 	}
 	#onptrdownDot( id, xstep ) {
 		this.#selectDotElement( id, true );
-		if ( !GSUhasAttribute( this, "movelinked" ) ) {
+		if ( !GSUdomHasAttr( this, "movelinked" ) ) {
 			const dat = this.#data[ id ];
 
 			this.#dotsMoving = [ { id, ...dat } ];

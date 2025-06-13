@@ -256,7 +256,7 @@ class gsuiDAW extends gsui0ne {
 				this.$dispatch( dt.action );
 				break;
 			case "help": {
-				const hide = GSUhasAttribute( this, "gsuihelplink-hide" );
+				const hide = GSUdomHasAttr( this, "gsuihelplink-hide" );
 
 				GSUsetAttribute( this, "gsuihelplink-hide", !hide );
 				this.$dispatch( "toggleHelpLinks", hide );

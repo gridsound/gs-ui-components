@@ -79,7 +79,7 @@ class gsuiSlicer extends gsui0ne {
 				"library-buffer:local",
 			] );
 
-			if ( patId && !GSUhasAttribute( this, "disabled" ) ) {
+			if ( patId && !GSUdomHasAttr( this, "disabled" ) ) {
 				this.$dispatch( "dropBuffer", patType, patId );
 			}
 		};

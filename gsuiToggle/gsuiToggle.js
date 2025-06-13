@@ -14,7 +14,7 @@ class gsuiToggle extends gsui0ne {
 			if ( e.button === 2 ) {
 				this.$dispatch( "toggleSolo" );
 			} else if ( e.button === 0 ) {
-				const off = GSUhasAttribute( this, "off" );
+				const off = GSUdomHasAttr( this, "off" );
 
 				GSUsetAttribute( this, "off", !off );
 				this.$dispatch( "toggle", off );
@@ -22,7 +22,7 @@ class gsuiToggle extends gsui0ne {
 		};
 	}
 	$isOn() {
-		return !GSUhasAttribute( this, "off" );
+		return !GSUdomHasAttr( this, "off" );
 	}
 }
 

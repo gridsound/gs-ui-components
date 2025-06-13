@@ -35,8 +35,8 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$login.onclick = this.#onclickLogin.bind( this );
 		this.$elements.$logout.onclick = this.#onclickLogout.bind( this );
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
-		this.$elements.$cmpEditBtn.onclick = () => !GSUhasAttribute( this, "readonly" ) && GSUsetAttribute( this, "renaming", true );
-		this.$elements.$cmpEditInp.onblur = e => GSUhasAttribute( this, "renaming" ) && this.#onkeydownRename( "Enter" );
+		this.$elements.$cmpEditBtn.onclick = () => !GSUdomHasAttr( this, "readonly" ) && GSUsetAttribute( this, "renaming", true );
+		this.$elements.$cmpEditInp.onblur = e => GSUdomHasAttr( this, "renaming" ) && this.#onkeydownRename( "Enter" );
 		this.$elements.$cmpEditInp.onkeydown = e => { e.stopPropagation(); this.#onkeydownRename( e.key ); };
 	}
 
@@ -98,7 +98,7 @@ class gsuiTitleUser extends gsui0ne {
 		const title = name || "GridSound";
 
 		this.$elements.$cmpName.textContent = name;
-		document.title = GSUhasAttribute( this, "saved" ) ? title : `*${ title }`;
+		document.title = GSUdomHasAttr( this, "saved" ) ? title : `*${ title }`;
 	}
 	#onclickLogout() {
 		GSUsetAttribute( this, "disconnecting", true );
@@ -115,7 +115,7 @@ class gsuiTitleUser extends gsui0ne {
 		} ).then( () => {
 			GSUdomQSA( this.#loginPopup.$root, "input" ).forEach( inp => inp.value = "" );
 			GSUdomRmAttr( this, "connecting" );
-			return GSUhasAttribute( this, "connected" );
+			return GSUdomHasAttr( this, "connected" );
 		} );
 	}
 	#onsubmitLogin( obj ) {

@@ -212,7 +212,7 @@ class gsuiSynthesizer extends gsui0ne {
 	#selectTab( lfoEnv, prop ) {
 		const tabs = this.$elements.$tabs[ lfoEnv ];
 
-		if ( !GSUhasAttribute( tabs[ prop ], "data-selected" ) ) {
+		if ( !GSUdomHasAttr( tabs[ prop ], "data-selected" ) ) {
 			const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
 			GSUforEach( tabs, el => GSUsetAttribute( el, "data-selected", el.dataset.tab.endsWith( prop ) ) );

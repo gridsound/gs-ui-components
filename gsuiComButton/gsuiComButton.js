@@ -14,7 +14,7 @@ class gsuiComButton extends gsui0ne {
 		Object.seal( this );
 		gsuiRipple.$init( this.$element );
 		this.$element.addEventListener( "click", () => {
-			if ( GSUhasAttribute( this, "href" ) ) {
+			if ( GSUdomHasAttr( this, "href" ) ) {
 				window.location = this.#href;
 			}
 		} );
@@ -36,7 +36,7 @@ class gsuiComButton extends gsui0ne {
 
 	// .........................................................................
 	#updateDisabled() {
-		this.$element.disabled = GSUhasAttribute( this, "disabled" ) || GSUhasAttribute( this, "loading" );
+		this.$element.disabled = GSUdomHasAttr( this, "disabled" ) || GSUdomHasAttr( this, "loading" );
 	}
 }
 

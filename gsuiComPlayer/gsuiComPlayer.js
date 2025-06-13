@@ -29,7 +29,7 @@ class gsuiComPlayer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$play.onclick = () => this.$dispatch( GSUhasAttribute( this, "playing" ) ? "stop" : "play" );
+		this.$elements.$play.onclick = () => this.$dispatch( GSUdomHasAttr( this, "playing" ) ? "stop" : "play" );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
 		this.onclick = e => {
 			const act = e.target.dataset.action;

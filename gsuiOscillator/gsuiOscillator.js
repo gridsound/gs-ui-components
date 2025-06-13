@@ -100,7 +100,7 @@ class gsuiOscillator extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const wedit = GSUhasAttribute( this, "wavetable" );
+		const wedit = GSUdomHasAttr( this, "wavetable" );
 		const w = this.clientWidth;
 		const h = wedit
 			? Math.max( 340, w / 2 )
@@ -290,7 +290,7 @@ class gsuiOscillator extends gsui0ne {
 			? currOpt.previousElementSibling
 			: currOpt.nextElementSibling;
 
-		if ( opt && ( dir > 0 || currOpt.value !== "sine" || GSUhasAttribute( this, "hascustomwave" ) ) ) {
+		if ( opt && ( dir > 0 || currOpt.value !== "sine" || GSUdomHasAttr( this, "hascustomwave" ) ) ) {
 			sel.value = opt.value;
 			this.#onchangeSelect();
 		}
