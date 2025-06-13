@@ -82,15 +82,15 @@ class gsuiEnvelope extends gsui0ne {
 	// .........................................................................
 	$updateWave( prop, val ) {
 		const g = this.$elements.$graph;
-		const amp = prop === "amp" ? val : GSUgetAttributeNum( this, "amp" );
+		const amp = prop === "amp" ? val : GSUdomGetAttrNum( this, "amp" );
 		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
 		g.$amp = amp2;
-		g.$attack = prop === "attack" ? val : GSUgetAttributeNum( this, "attack" );
-		g.$hold = prop === "hold" ? val : GSUgetAttributeNum( this, "hold" );
-		g.$decay = prop === "decay" ? val : GSUgetAttributeNum( this, "decay" );
-		g.$sustain = prop === "sustain" ? val : GSUgetAttributeNum( this, "sustain" );
-		g.$release = prop === "release" ? val : GSUgetAttributeNum( this, "release" );
+		g.$attack = prop === "attack" ? val : GSUdomGetAttrNum( this, "attack" );
+		g.$hold = prop === "hold" ? val : GSUdomGetAttrNum( this, "hold" );
+		g.$decay = prop === "decay" ? val : GSUdomGetAttrNum( this, "decay" );
+		g.$sustain = prop === "sustain" ? val : GSUdomGetAttrNum( this, "sustain" );
+		g.$release = prop === "release" ? val : GSUdomGetAttrNum( this, "release" );
 		g.$duration =
 		this.#dur = Math.max( g.$attack + g.$hold + g.$decay + .5 + g.$release, 2 );
 		g.$draw();

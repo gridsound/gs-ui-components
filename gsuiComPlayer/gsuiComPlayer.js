@@ -80,8 +80,8 @@ class gsuiComPlayer extends gsui0ne {
 		return `${ t.m }:${ t.s }`;
 	}
 	$updateTimeSlider() {
-		const dur = GSUgetAttributeNum( this, "duration" );
-		const time = GSUgetAttributeNum( this, "currenttime" );
+		const dur = GSUdomGetAttrNum( this, "duration" );
+		const time = GSUdomGetAttrNum( this, "currenttime" );
 
 		this.$elements.$timeInpVal.style.width = `${ time / dur * 100 }%`;
 	}
@@ -128,7 +128,7 @@ class gsuiComPlayer extends gsui0ne {
 		e.target.onpointerup =
 		e.target.onpointermove =
 		this.#settingTime = null;
-		this.$dispatch( "currentTime", t * GSUgetAttributeNum( this, "duration" ) );
+		this.$dispatch( "currentTime", t * GSUdomGetAttrNum( this, "duration" ) );
 	}
 }
 

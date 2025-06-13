@@ -88,9 +88,9 @@ class gsuiFxDelay extends gsui0ne {
 		this.$dispatch( "liveChange", prop, val );
 	}
 	#updateGraph() {
-		const time = GSUgetAttributeNum( this, "time" ) / 4;
-		const gain = GSUgetAttributeNum( this, "gain" );
-		const pan = GSUgetAttributeNum( this, "pan" );
+		const time = GSUdomGetAttrNum( this, "time" ) / 4;
+		const gain = GSUdomGetAttrNum( this, "gain" );
+		const pan = GSUdomGetAttrNum( this, "pan" );
 
 		Array.from( this.#nlDots ).forEach( ( dot, i ) => {
 			const j = i + 1;

@@ -236,9 +236,9 @@ class gsuiDAW extends gsui0ne {
 
 	// .........................................................................
 	#updateDuration() {
-		const dur = GSUgetAttributeNum( this, "duration" );
+		const dur = GSUdomGetAttrNum( this, "duration" );
 
-		GSUsetAttribute( this.$elements.$titleUser, "cmpdur", dur / ( GSUgetAttributeNum( this, "bpm" ) / 60 ) );
+		GSUsetAttribute( this.$elements.$titleUser, "cmpdur", dur / ( GSUdomGetAttrNum( this, "bpm" ) / 60 ) );
 		GSUsetAttribute( this.$elements.$currentTime, "max", dur );
 	}
 
@@ -280,9 +280,9 @@ class gsuiDAW extends gsui0ne {
 					.then( () => this.$dispatch( "abortExport" ) );
 				break;
 			case "settings":
-				this.#popups.settings.sampleRate.value = GSUgetAttributeNum( this, "samplerate" );
+				this.#popups.settings.sampleRate.value = GSUdomGetAttrNum( this, "samplerate" );
 				this.#popups.settings.keyNotation.value = GSUdomGetAttr( this, "keynotation" );
-				this.#popups.settings.timelineNumbering.value = GSUgetAttributeNum( this, "timelinenumbering" );
+				this.#popups.settings.timelineNumbering.value = GSUdomGetAttrNum( this, "timelinenumbering" );
 				this.#popups.settings.windowsLowGraphics.checked = GSUdomGetAttr( this, "windowslowgraphics" ) === "";
 				this.#popups.settings.uiRateRadio[ GSUdomGetAttr( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
 				if ( GSUdomGetAttr( this, "uirate" ) !== "auto" ) {
@@ -299,11 +299,11 @@ class gsuiDAW extends gsui0ne {
 							if (
 								(
 									data.uiRate !== GSUdomGetAttr( this, "uirate" ) &&
-									data.uiRate !== GSUgetAttributeNum( this, "uirate" )
+									data.uiRate !== GSUdomGetAttrNum( this, "uirate" )
 								) ||
 								data.keyNotation !== GSUdomGetAttr( this, "keynotation" ) ||
-								data.sampleRate !== GSUgetAttributeNum( this, "samplerate" ) ||
-								data.timelineNumbering !== GSUgetAttributeNum( this, "timelinenumbering" ) ||
+								data.sampleRate !== GSUdomGetAttrNum( this, "samplerate" ) ||
+								data.timelineNumbering !== GSUdomGetAttrNum( this, "timelinenumbering" ) ||
 								data.windowsLowGraphics !== ( GSUdomGetAttr( this, "windowslowgraphics" ) === "" )
 							) {
 								this.$dispatch( "settings", data );

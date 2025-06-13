@@ -58,7 +58,7 @@ class gsuiLibrary extends gsui0ne {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 					this.$dispatch( "dropOnOscNew", obj );
 				} else {
-					obj.$when = Math.floor( drop.$offsetX / GSUgetAttributeNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
+					obj.$when = Math.floor( drop.$offsetX / GSUdomGetAttrNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
 					obj.$track = tar.parentNode.dataset.id;
 					this.$dispatch( "dropOnTracks", obj );
 				}

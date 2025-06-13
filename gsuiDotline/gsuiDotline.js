@@ -246,13 +246,13 @@ class gsuiDotline extends gsui0ne {
 	#getW() { return this.$elements.$root.clientWidth; }
 	#getH() { return this.$elements.$root.clientHeight; }
 	#getPtrX( e ) {
-		const step = GSUgetAttributeNum( this, "xstep" );
+		const step = GSUdomGetAttrNum( this, "xstep" );
 		const x = e.offsetX / this.#getW() * this.#w + this.#xmin;
 
 		return Math.round( x / step ) * step;
 	}
 	#getPtrY( e ) {
-		const step = GSUgetAttributeNum( this, "ystep" );
+		const step = GSUdomGetAttrNum( this, "ystep" );
 		const y = this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin;
 
 		return Math.round( y / step ) * step;
@@ -344,7 +344,7 @@ class gsuiDotline extends gsui0ne {
 		this.#pageX = e.pageX;
 		this.#pageY = e.pageY;
 		if ( e.button === 0 ) {
-			const xstep = GSUgetAttributeNum( this, "xstep" );
+			const xstep = GSUdomGetAttrNum( this, "xstep" );
 			let isNewDot = false;
 
 			if ( !id ) {
@@ -468,8 +468,8 @@ class gsuiDotline extends gsui0ne {
 		this.#onchange();
 	}
 	$onptrmove( e ) {
-		const xstep = GSUgetAttributeNum( this, "xstep" );
-		const ystep = GSUgetAttributeNum( this, "ystep" );
+		const xstep = GSUdomGetAttrNum( this, "xstep" );
+		const ystep = GSUdomGetAttrNum( this, "ystep" );
 
 		if ( this.#mousebtn === 0 ) {
 			let incX = this.#w / this.#getW() * ( e.pageX - this.#pageX );

@@ -85,7 +85,7 @@ class gsuiClock extends gsui0ne {
 	// .........................................................................
 	$setTime( beats ) {
 		const [ a, b, c ] = GSUdomGetAttr( this, "mode" ) === "second"
-			? gsuiClock.$parseBeatsToSeconds( beats, GSUgetAttributeNum( this, "bpm" ) || 60 )
+			? gsuiClock.$parseBeatsToSeconds( beats, GSUdomGetAttrNum( this, "bpm" ) || 60 )
 			: gsuiClock.$parseBeatsToBeats( beats, this.#bPM, this.#sPB );
 
 		this.#timeSave = beats;

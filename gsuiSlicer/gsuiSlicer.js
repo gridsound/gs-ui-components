@@ -217,7 +217,7 @@ class gsuiSlicer extends gsui0ne {
 
 	// .........................................................................
 	#getTimeNorm() {
-		return GSUgetAttributeNum( this, "currenttime" ) / GSUgetAttributeNum( this, "duration" );
+		return GSUdomGetAttrNum( this, "currenttime" ) / GSUdomGetAttrNum( this, "duration" );
 	}
 	#setWaveform( buf ) {
 		if ( buf ) {
@@ -340,7 +340,7 @@ class gsuiSlicer extends gsui0ne {
 		this.#sliceIdBefore = sliId ?? sli.id;
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
-		const dur = GSUgetAttributeNum( this, "duration" );
+		const dur = GSUdomGetAttrNum( this, "duration" );
 		const step = this.$elements.$step.$getStep();
 		const yyy = GSUmathClamp( e.offsetY / this.$elements.$slices.clientHeight, 0, 1 );
 		const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;

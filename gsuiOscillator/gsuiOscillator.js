@@ -182,9 +182,9 @@ class gsuiOscillator extends gsui0ne {
 	#updateWave( prop, val ) {
 		const [ w0, w1 ] = this.$elements.$waves;
 		const wave = prop === "wave" ? val : GSUdomGetAttr( this, "wave" );
-		const gain = prop === "gain" ? val : GSUgetAttributeNum( this, "gain" );
-		const pan = prop === "pan" ? val : GSUgetAttributeNum( this, "pan" );
-		const det = prop === "detune" ? val : GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );
+		const gain = prop === "gain" ? val : GSUdomGetAttrNum( this, "gain" );
+		const pan = prop === "pan" ? val : GSUdomGetAttrNum( this, "pan" );
+		const det = prop === "detune" ? val : GSUdomGetAttrNum( this, "detune" ) + GSUdomGetAttrNum( this, "detunefine" );
 		const hz = 2 ** ( ( det - -24 ) / 12 );
 
 		w0.$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
@@ -227,7 +227,7 @@ class gsuiOscillator extends gsui0ne {
 		let val2 = val;
 
 		if ( prop.startsWith( "detune" ) ) {
-			val2 = GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );
+			val2 = GSUdomGetAttrNum( this, "detune" ) + GSUdomGetAttrNum( this, "detunefine" );
 		}
 		GSUsetAttribute( sli, "value", val );
 		GSUsetAttribute( sli, "title", `${ prop } ${ val2 }` );
@@ -254,10 +254,10 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#updateUnisonGraphVoices( n ) {
 		GSUsetChildrenNumber( this.$elements.$unisonGraph, n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
-		this.#updateUnisonGraphBlend( GSUgetAttributeNum( this, "unisonblend" ) );
+		this.#updateUnisonGraphBlend( GSUdomGetAttrNum( this, "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {
-		const maxDetune = GSUgetAttributeNum( this.$elements.$sliders.unisondetune[ 0 ], "max" );
+		const maxDetune = GSUdomGetAttrNum( this.$elements.$sliders.unisondetune[ 0 ], "max" );
 
 		this.$elements.$unisonGraph.style.height = `${ GSUmathEaseOutCirc( detune / maxDetune ) * 100 }%`;
 	}
@@ -341,11 +341,11 @@ class gsuiOscillator extends gsui0ne {
 				this.#updateUnisonGraphBlend( val );
 				break;
 			case "detune":
-				val2 += GSUgetAttributeNum( this, "detunefine" );
+				val2 += GSUdomGetAttrNum( this, "detunefine" );
 				this.#updateWave( "detune", val2 );
 				break;
 			case "detunefine":
-				val2 += GSUgetAttributeNum( this, "detune" );
+				val2 += GSUdomGetAttrNum( this, "detune" );
 				this.#updateWave( "detune", val2 );
 				break;
 		}

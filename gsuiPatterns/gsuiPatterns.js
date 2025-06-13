@@ -145,7 +145,7 @@ class gsuiPatterns extends gsui0ne {
 		}
 	}
 	#ondropPatternInTrack( patType, drop ) {
-		const ppb = GSUgetAttributeNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+		const ppb = GSUdomGetAttrNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
 
 		this.$dispatch( "dropPattern", {
 			$type: patType,

@@ -170,7 +170,7 @@ class gsuiPianoroll extends gsui0ne {
 			const key = +blc.dataset.keyNote;
 			const maxRow = +GSUdomQS( this.#win, ".gsui-row" ).dataset.midi;
 
-			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUgetAttributeNum( this.#win, "lineheight" );
+			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUdomGetAttrNum( this.#win, "lineheight" );
 		}
 	}
 	$octaves( from, nb ) {

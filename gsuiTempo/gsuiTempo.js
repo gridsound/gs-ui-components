@@ -56,7 +56,7 @@ class gsuiTempo extends gsui0ne {
 
 		f[ 0 ].value = time[ 0 ];
 		f[ 1 ].value = time[ 1 ];
-		f[ 2 ].value = GSUgetAttributeNum( this, "bpm" );
+		f[ 2 ].value = GSUdomGetAttrNum( this, "bpm" );
 		return f;
 	}
 	$onsubmitPopup( e ) {

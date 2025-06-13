@@ -127,12 +127,12 @@ class gsuiTimewindow extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.$elements.$minimapPanel.style.width =
-		this.$elements.$panel.style.minWidth = `${ GSUgetAttributeNum( this, "panelsize" ) || 100 }px`;
+		this.$elements.$panel.style.minWidth = `${ GSUdomGetAttrNum( this, "panelsize" ) || 100 }px`;
 		if ( this.hasAttribute( "downpanel" ) ) {
 			this.$elements.$panelDown.firstChild.onpointerdown =
 			this.$elements.$down.firstChild.onpointerdown = this.#onptrdownExtend.bind( this, "down" );
 			this.$elements.$panelDown.style.height =
-			this.$elements.$down.style.height = `${ GSUgetAttributeNum( this, "downpanelsize" ) || 50 }px`;
+			this.$elements.$down.style.height = `${ GSUdomGetAttrNum( this, "downpanelsize" ) || 50 }px`;
 		} else {
 			this.$elements.$panelDown.remove();
 			this.$elements.$down.remove();
@@ -191,7 +191,7 @@ class gsuiTimewindow extends gsui0ne {
 				GSUsetStyle( this, "--gsuiTimewindow-lineH", `${ val }px` );
 				break;
 			case "currenttime": {
-				const step = GSUgetAttributeNum( this, "currenttimestep" );
+				const step = GSUdomGetAttrNum( this, "currenttimestep" );
 
 				this.#currentTime = +val;
 				GSUsetAttribute( this.$elements.$timeline, "currenttime", val );
@@ -256,8 +256,8 @@ class gsuiTimewindow extends gsui0ne {
 		// return this.#minimapAction === "thumb" ? this.#minimapViewMax : viewSize;
 	}
 	#minimapGetDuration() {
-		const dur = GSUgetAttributeNum( this, "duration" );
-		const time = GSUgetAttributeNum( this, "currenttime" );
+		const dur = GSUdomGetAttrNum( this, "duration" );
+		const time = GSUdomGetAttrNum( this, "currenttime" );
 		const loopStr = GSUdomGetAttr( this, "loop" );
 		const loop = loopStr ? GSUsplitNums( loopStr, "-" )[ 1 ] : 0;
 
@@ -333,10 +333,10 @@ class gsuiTimewindow extends gsui0ne {
 	$appendPanelDown( ...el ) { this.$elements.$panelDown.append( ...el ); }
 
 	// .........................................................................
-	#getPPBmin() { return GSUgetAttributeNum( this, "pxperbeatmin" ) || 8; }
-	#getPPBmax() { return GSUgetAttributeNum( this, "pxperbeatmax" ) || 512; }
-	#getLHmin() { return GSUgetAttributeNum( this, "lineheightmin" ) || 24; }
-	#getLHmax() { return GSUgetAttributeNum( this, "lineheightmax" ) || 256; }
+	#getPPBmin() { return GSUdomGetAttrNum( this, "pxperbeatmin" ) || 8; }
+	#getPPBmax() { return GSUdomGetAttrNum( this, "pxperbeatmax" ) || 512; }
+	#getLHmin() { return GSUdomGetAttrNum( this, "lineheightmin" ) || 24; }
+	#getLHmax() { return GSUdomGetAttrNum( this, "lineheightmax" ) || 256; }
 	#calcScrollBack( scroll, ppb, ppbNew, ptrPx ) {
 		const scrollVal = scroll / ppb;
 		const scrollIncr = ptrPx / ppb * ( ppbNew - ppb );
@@ -427,8 +427,8 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveExtendPanel( e ) {
 		const w = this.#panelSize + ( e.pageX - this.#ptrdownPageX );
-		const min = GSUgetAttributeNum( this, "panelsizemin" ) || 50;
-		const max = GSUgetAttributeNum( this, "panelsizemax" ) || 260;
+		const min = GSUdomGetAttrNum( this, "panelsizemin" ) || 50;
+		const max = GSUdomGetAttrNum( this, "panelsizemax" ) || 260;
 
 		this.$elements.$minimapPanel.style.width =
 		this.$elements.$panel.style.minWidth = `${ GSUmathClamp( w, min, max ) }px`;
@@ -436,8 +436,8 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveExtendDownPanel( e ) {
 		const h = this.#panelSize + ( this.#ptrdownPageY - e.pageY );
-		const min = GSUgetAttributeNum( this, "downpanelsizemin" ) || 50;
-		const max = GSUgetAttributeNum( this, "downpanelsizemax" ) || 260;
+		const min = GSUdomGetAttrNum( this, "downpanelsizemin" ) || 50;
+		const max = GSUdomGetAttrNum( this, "downpanelsizemax" ) || 260;
 
 		this.$elements.$panelDown.style.height =
 		this.$elements.$down.style.height = `${ GSUmathClamp( h, min, max ) }px`;

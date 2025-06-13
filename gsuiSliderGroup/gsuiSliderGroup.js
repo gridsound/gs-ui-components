@@ -133,7 +133,7 @@ class gsuiSliderGroup extends gsui0ne {
 		return GSUmathFix( GSUmathRound( val, this.#step ), 8 );
 	}
 	#updatePxPerBeat() {
-		const ppb = GSUgetAttributeNum( this, "pxperbeat" );
+		const ppb = GSUdomGetAttrNum( this, "pxperbeat" );
 
 		this.$elements.$slidersParent.style.fontSize = `${ ppb }px`;
 		if ( this.$elements.$beatlines ) {
@@ -196,7 +196,7 @@ class gsuiSliderGroup extends gsui0ne {
 		const y = e.pageY - this.#bcr.y;
 		const min = this.#min;
 		const max = this.#max;
-		const xval = x / GSUgetAttributeNum( this, "pxperbeat" );
+		const xval = x / GSUdomGetAttrNum( this, "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
 			: this.#roundVal( min + ( max - min ) * ( 1 - GSUmathClamp( y / this.#bcr.h, 0, 1 ) ) );

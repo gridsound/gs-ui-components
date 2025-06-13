@@ -104,10 +104,10 @@ class gsuiFxReverb extends gsui0ne {
 		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.$elements.$beatlines.clientWidth / bPM );
 	}
 	#updateWetPos() {
-		const delay = GSUgetAttributeNum( this, "delay" );
-		const decay = GSUgetAttributeNum( this, "decay" );
-		const fadein = GSUgetAttributeNum( this, "fadein" );
-		const ppb = GSUgetAttributeNum( this.$elements.$beatlines, "pxperbeat" );
+		const delay = GSUdomGetAttrNum( this, "delay" );
+		const decay = GSUdomGetAttrNum( this, "decay" );
+		const fadein = GSUdomGetAttrNum( this, "fadein" );
+		const ppb = GSUdomGetAttrNum( this.$elements.$beatlines, "pxperbeat" );
 		const graphW = this.$elements.$beatlines.clientWidth;
 
 		this.$elements.$graphWet.style.left = `${ ( delay * ppb ) / graphW * 100 }%`;
