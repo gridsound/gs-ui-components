@@ -113,7 +113,7 @@ class gsuiTitleUser extends gsui0ne {
 			element: this.#loginPopup.$root,
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {
-			this.#loginPopup.$root.querySelectorAll( "input" ).forEach( inp => inp.value = "" );
+			GSUdomQSA( this.#loginPopup.$root, "input" ).forEach( inp => inp.value = "" );
 			GSUsetAttribute( this, "connecting", false );
 			return GSUhasAttribute( this, "connected" );
 		} );

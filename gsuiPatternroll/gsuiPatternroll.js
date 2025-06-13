@@ -57,7 +57,7 @@ class gsuiPatternroll extends gsui0ne {
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#tracklist );
 		this.#win.$appendMain( this.#selectionElement );
-		this.#win.querySelector( "gsui-beatlines" ).removeAttribute( "coloredbeats" );
+		GSUdomQS( this.#win, "gsui-beatlines" ).removeAttribute( "coloredbeats" );
 	}
 	static get observedAttributes() {
 		return [ "currenttime" ];
@@ -81,7 +81,7 @@ class gsuiPatternroll extends gsui0ne {
 		row.classList.toggle( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 );
 		row.onmousedown = this.#rowMousedown.bind( this );
 		this.#rowsByTrackId.set( row.dataset.id, row );
-		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( row );
+		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).append( row );
 	}
 	$removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
 	$toggleTrack( id, b ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "mute", !b ); }

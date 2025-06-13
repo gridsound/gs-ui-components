@@ -64,7 +64,7 @@ class gsuiPropSelect extends gsui0ne {
 		this.#setValue( prop, GSUgetAttribute( this, "value" ) );
 	}
 	#getBtn( prop ) {
-		return this.querySelector( `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
+		return GSUdomQS( this, `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
 	}
 	#setValue( prop, val ) {
 		const btn = this.#getBtn( prop );

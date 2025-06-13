@@ -18,7 +18,7 @@ class gsuiSlicer extends gsui0ne {
 	timeline = null;
 
 	constructor() {
-		const defs = document.querySelector( "#gsuiSlicer-waveDefs defs" );
+		const defs = GSUdomQS( "#gsuiSlicer-waveDefs defs" );
 
 		super( {
 			$cmpName: "gsuiSlicer",
@@ -99,7 +99,7 @@ class gsuiSlicer extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.#selectTool( "moveY" );
-		document.querySelector( "#gsuiSlicer-waveDefs defs" ).append( this.#waveDef );
+		GSUdomQS( "#gsuiSlicer-waveDefs defs" ).append( this.#waveDef );
 	}
 	$disconnected() {
 		this.#waveDef.remove();

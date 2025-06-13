@@ -9,7 +9,7 @@ class gsuiChannels extends gsui0ne {
 	#chanSelected = null;
 	#analyserType = "hz";
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
-	static #selectChanInput = gsuiChannels.#selectChanPopup.querySelector( "select" );
+	static #selectChanInput = GSUdomQS( gsuiChannels.#selectChanPopup, "select" );
 
 	constructor() {
 		super( {
@@ -49,7 +49,7 @@ class gsuiChannels extends gsui0ne {
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
-		this.querySelectorAll( "gsui-channel gsui-analyser-hist" ).forEach( el => GSUsetAttribute( el, "type", t ) );
+		GSUdomQSA( this, "gsui-channel gsui-analyser-hist" ).forEach( el => GSUsetAttribute( el, "type", t ) );
 	}
 	$updateVu( ldata, rdata ) {
 		this.$elements.$vu.$draw( ldata, rdata );
@@ -93,9 +93,9 @@ class gsuiChannels extends gsui0ne {
 
 		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).append( chan );
 		this.#chans[ id ] = chan;
-		chan.querySelector( ".gsuiChannel-delete" ).onclick = () => this.$onchange( "removeChannel", id );
-		chan.querySelector( ".gsuiChannel-connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
-		chan.querySelector( ".gsuiChannel-rename" ).onclick = () => {
+		GSUdomQS( chan, ".gsuiChannel-delete" ).onclick = () => this.$onchange( "removeChannel", id );
+		GSUdomQS( chan, ".gsuiChannel-connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
+		GSUdomQS( chan, ".gsuiChannel-rename" ).onclick = () => {
 			GSUpopup.$prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};

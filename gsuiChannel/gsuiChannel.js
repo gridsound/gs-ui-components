@@ -104,7 +104,7 @@ class gsuiChannel extends gsui0ne {
 		}
 	}
 	#getEffect( id ) {
-		return this.$elements.$effects.querySelector( `[data-id="${ id }"]` );
+		return GSUdomQS( this.$elements.$effects, `[data-id="${ id }"]` );
 	}
 }
 

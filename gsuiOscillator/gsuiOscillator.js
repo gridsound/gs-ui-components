@@ -285,7 +285,7 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#onclickPrevNext( dir ) {
 		const sel = this.$elements.$waveSelect;
-		const currOpt = sel.querySelector( `option[value="${ sel.value }"]` );
+		const currOpt = GSUdomQS( sel, `option[value="${ sel.value }"]` );
 		const opt = dir < 0
 			? currOpt.previousElementSibling
 			: currOpt.nextElementSibling;

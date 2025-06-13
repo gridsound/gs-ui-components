@@ -112,7 +112,7 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	#changeToggle( b ) {
-		this.querySelectorAll( "input[type=radio]" ).forEach( el => GSUsetAttribute( el, "disabled", !b ) );
+		GSUdomQSA( this, "input[type=radio]" ).forEach( el => GSUsetAttribute( el, "disabled", !b ) );
 		GSUsetAttribute( this.$elements.$sliders.delay[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
 		GSUsetAttribute( this.$elements.$sliders.speed[ 0 ], "disabled", !b );
@@ -120,10 +120,10 @@ class gsuiLFO extends gsui0ne {
 	}
 	#changeType( type ) {
 		this.$elements.$wave.$options( 0, { type } );
-		this.querySelector( `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
+		GSUdomQS( this, `.gsuiLFO-typeRadio[value="${ type }"]` ).checked = true;
 	}
 	#changeAmpSign( amp ) {
-		this.querySelector( `.gsuiLFO-ampSignRadio[value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
+		GSUdomQS( this, `.gsuiLFO-ampSignRadio[value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
 	}
 	#changeProp( prop, val ) {
 		const sli = this.$elements.$sliders[ prop ];

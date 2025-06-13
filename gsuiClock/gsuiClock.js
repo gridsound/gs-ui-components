@@ -59,7 +59,7 @@ class gsuiClock extends gsui0ne {
 	static #numberingOff = 1;
 	static $numbering( from ) {
 		gsuiClock.#numberingOff = +from;
-		document.querySelectorAll( "gsui-clock" ).forEach( el => el.#resetTime() );
+		GSUdomQSA( "gsui-clock" ).forEach( el => el.#resetTime() );
 	}
 	static $parseBeatsToSeconds( beats, bpm ) {
 		const seconds = beats / ( bpm / 60 );

@@ -92,7 +92,7 @@ class gsuiDrumrow extends gsui0ne {
 		this.$elements.waveWrap.append( GSUcreateDiv( { class: "gsuiDrumrow-startCursor" } ) );
 	}
 	$stop() {
-		this.querySelectorAll( ".gsuiDrumrow-startCursor" ).forEach( el => el.remove() );
+		GSUdomQSA( this, ".gsuiDrumrow-startCursor" ).forEach( el => el.remove() );
 	}
 
 	// .........................................................................

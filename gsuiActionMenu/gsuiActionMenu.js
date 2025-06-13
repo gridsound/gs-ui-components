@@ -50,7 +50,7 @@ class gsuiActionMenu {
 			if ( elActions ) {
 				switch ( prop ) {
 					case "icon":
-						elActions.querySelector( `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).dataset.icon = val;
+						GSUdomQS( elActions, `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).dataset.icon = val;
 						break;
 				}
 			}

@@ -68,7 +68,7 @@ class gsuiPatterns extends gsui0ne {
 			$itemSelector: ".gsuiPatterns-pattern",
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
 			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
-			$getTargetList: () => [ ...document.querySelectorAll( ".gsuiTrack-row > div" ) ],
+			$getTargetList: () => [ ...GSUdomQSA( ".gsuiTrack-row > div" ) ],
 		}, opt ) );
 	}
 	#initReorderSlices() {
@@ -113,11 +113,11 @@ class gsuiPatterns extends gsui0ne {
 			$root: this.$elements.$lists.buffer,
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => [
-				...document.querySelectorAll( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				document.querySelector( ".gsuiSynthesizer-newOsc" ),
-				...document.querySelectorAll( "gsui-drumrow" ),
-				document.querySelector( ".gsuiDrumrows-dropNew" ),
-				...document.querySelectorAll( ".gsuiTrack-row > div" ),
+				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
+				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
+				...GSUdomQSA( "gsui-drumrow" ),
+				GSUdomQS( ".gsuiDrumrows-dropNew" ),
+				...GSUdomQSA( ".gsuiTrack-row > div" ),
 			],
 		} );
 	}
@@ -160,27 +160,27 @@ class gsuiPatterns extends gsui0ne {
 		const elSyn = this.#getSynth( id );
 		const show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
 
-		elSyn.querySelector( ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
+		GSUdomQS( elSyn, ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
 		gsuiChannels.$openSelectChannelPopup( this.$getChannels(), currChanId )
 			.then( chanId => chanId && this.onchange( action, objId, chanId ) );
 	}
 	#openInfoPopup( id, el ) {
-		const radio = gsuiPatterns.infoPopupContent.querySelector( `[value="${ el.dataset.bufferType }"]` );
+		const radio = GSUdomQS( gsuiPatterns.infoPopupContent, `[value="${ el.dataset.bufferType }"]` );
 
 		if ( radio ) {
 			radio.checked = true;
 		} else {
-			const radio = gsuiPatterns.infoPopupContent.querySelector( "input:checked" );
+			const radio = GSUdomQS( gsuiPatterns.infoPopupContent, "input:checked" );
 
 			if ( radio ) {
 				radio.checked = false;
 			}
 		}
-		gsuiPatterns.infoPopupContent.querySelector( "[name='bpm']" ).value = el.dataset.bufferBpm;
-		gsuiPatterns.infoPopupContent.querySelector( "[name='name']" ).value = el.dataset.name;
-		gsuiPatterns.infoPopupContent.querySelector( "[name='reverse']" ).checked = el.dataset.reverse === "";
+		GSUdomQS( gsuiPatterns.infoPopupContent, "[name='bpm']" ).value = el.dataset.bufferBpm;
+		GSUdomQS( gsuiPatterns.infoPopupContent, "[name='name']" ).value = el.dataset.name;
+		GSUdomQS( gsuiPatterns.infoPopupContent, "[name='reverse']" ).checked = el.dataset.reverse === "";
 		GSUpopup.$custom( {
 			title: "Buffer's info",
 			element: gsuiPatterns.infoPopupContent,
@@ -193,7 +193,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$updateChannel( id, name ) {
-		this.querySelectorAll( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` )
+		GSUdomQSA( this, `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` )
 			.forEach( el => el.textContent = name );
 	}
 
@@ -208,9 +208,9 @@ class gsuiPatterns extends gsui0ne {
 		const elSyn = this.#getSynth( id );
 
 		switch ( prop ) {
-			case "name": elSyn.querySelector( ".gsuiPatterns-synth-name" ).textContent = val; break;
-			case "dest": elSyn.querySelector( ".gsuiPatterns-synth-dest" ).dataset.id = val; break;
-			case "destName": elSyn.querySelector( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).textContent = val; break;
+			case "name": GSUdomQS( elSyn, ".gsuiPatterns-synth-name" ).textContent = val; break;
+			case "dest": GSUdomQS( elSyn, ".gsuiPatterns-synth-dest" ).dataset.id = val; break;
+			case "destName": GSUdomQS( elSyn, ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).textContent = val; break;
 		}
 	}
 	$deleteSynth( id ) {
@@ -223,8 +223,8 @@ class gsuiPatterns extends gsui0ne {
 
 		elPat.dataset.id = id;
 		if ( type !== "buffer" ) {
-			elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).remove();
-			elPat.querySelector( ".gsuiPatterns-pattern-dest" ).remove();
+			GSUdomQS( elPat, ".gsuiPatterns-pattern-btnInfo" ).remove();
+			GSUdomQS( elPat, ".gsuiPatterns-pattern-dest" ).remove();
 		}
 		this.#getPatternParent( type, synth ).append( elPat );
 	}
@@ -240,15 +240,15 @@ class gsuiPatterns extends gsui0ne {
 			case "reverse": GSUsetAttribute( elPat, "data-reverse", val ); break;
 			case "name":
 				elPat.dataset.name = val;
-				elPat.querySelector( ".gsuiPatterns-pattern-name" ).title = val;
-				elPat.querySelector( ".gsuiPatterns-pattern-name" ).textContent = val;
+				GSUdomQS( elPat, ".gsuiPatterns-pattern-name" ).title = val;
+				GSUdomQS( elPat, ".gsuiPatterns-pattern-name" ).textContent = val;
 				break;
-			case "dest": elPat.querySelector( ".gsuiPatterns-pattern-dest" ).dataset.id = val; break;
-			case "destName": elPat.querySelector( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
+			case "dest": GSUdomQS( elPat, ".gsuiPatterns-pattern-dest" ).dataset.id = val; break;
+			case "destName": GSUdomQS( elPat, ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
 			case "synth": this.#getPatternParent( "keys", val ).append( elPat ); break;
 			case "bufferType":
 				GSUsetAttribute( elPat, "data-buffer-type", val );
-				elPat.querySelector( ".gsuiPatterns-pattern-btnInfo" ).dataset.icon = `buf-${ val || "undefined" }`;
+				GSUdomQS( elPat, ".gsuiPatterns-pattern-btnInfo" ).dataset.icon = `buf-${ val || "undefined" }`;
 				break;
 			case "bufferBpm":
 				GSUsetAttribute( elPat, "data-buffer-bpm", val );
@@ -257,7 +257,7 @@ class gsuiPatterns extends gsui0ne {
 	}
 	$appendPatternSVG( id, svg ) {
 		svg.classList.add( "gsuiPatterns-pattern-svg" );
-		this.$getPattern( id ).querySelector( ".gsuiPatterns-pattern-content" ).append( svg );
+		GSUdomQS( this.$getPattern( id ), ".gsuiPatterns-pattern-content" ).append( svg );
 	}
 	$deletePattern( id ) {
 		this.$getPattern( id )?.remove(); // 1.
@@ -267,27 +267,27 @@ class gsuiPatterns extends gsui0ne {
 	$selectPattern( type, id ) {
 		const elList = this.$elements.$lists[ type === "keys" ? "synth" : type ];
 
-		elList.querySelector( ".gsuiPatterns-pattern-selected" )?.classList?.remove( "gsuiPatterns-pattern-selected" );
+		GSUdomQS( elList, ".gsuiPatterns-pattern-selected" )?.classList?.remove( "gsuiPatterns-pattern-selected" );
 		this.$getPattern( id )?.classList?.add( "gsuiPatterns-pattern-selected" );
 	}
 	$selectSynth( id ) {
-		this.$elements.$lists.synth.querySelector( ".gsuiPatterns-synth-selected" )?.classList?.remove( "gsuiPatterns-synth-selected" );
+		GSUdomQS( this.$elements.$lists.synth, ".gsuiPatterns-synth-selected" )?.classList?.remove( "gsuiPatterns-synth-selected" );
 		this.#getSynth( id ).classList.add( "gsuiPatterns-synth-selected" );
 	}
 
 	// .........................................................................
 	$getPattern( id ) {
-		return this.querySelector( `.gsuiPatterns-pattern[data-id="${ id }"]` );
+		return GSUdomQS( this, `.gsuiPatterns-pattern[data-id="${ id }"]` );
 	}
 	#getSynth( id ) {
-		return this.$elements.$lists.synth.querySelector( `.gsuiPatterns-synth[data-id="${ id }"]` );
+		return GSUdomQS( this.$elements.$lists.synth, `.gsuiPatterns-synth[data-id="${ id }"]` );
 	}
 	#getPatternParent( type, synthId ) {
 		switch ( type ) {
 			case "slices":
 			case "buffer":
 			case "drums": return this.$elements.$lists[ type ];
-			case "keys": return this.$elements.$lists.synth.querySelector( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
+			case "keys": return GSUdomQS( this.$elements.$lists.synth, `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
 		}
 	}
 

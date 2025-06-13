@@ -6,7 +6,7 @@ class gsuiPianoroll extends gsui0ne {
 		const kn = gsuiKeys.$keyNotations[ id ];
 
 		gsuiPianoroll.#keyNotation = kn;
-		document.querySelectorAll( ".gsuiPianoroll-block" ).forEach( blc => {
+		GSUdomQSA( ".gsuiPianoroll-block" ).forEach( blc => {
 			blc.firstChild.textContent = kn[ blc.parentNode.parentNode.dataset.key ];
 		} );
 	}
@@ -86,13 +86,13 @@ class gsuiPianoroll extends gsui0ne {
 			gsuiBlocksManager: {
 				deletePreviewBlock: () => this.$removeKey( "preview" ),
 				startPreviewAudio: d => {
-					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
+					if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
 						this.uiKeys.$midiKeyDown( d.args[ 1 ] ); // should be called differently
 						return true;
 					}
 				},
 				stopPreviewAudio: d => {
-					if ( !document.querySelector( "gsui-daw[playing]" ) ) {
+					if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
 						this.uiKeys.$midiKeyUp( d.args[ 1 ] );
 						return true;
 					}
@@ -161,14 +161,14 @@ class gsuiPianoroll extends gsui0ne {
 		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
 	}
 	$scrollToMiddle() {
-		this.#win.firstChild.scrollTop = this.#win.querySelector( ".gsuiTimewindow-rows" ).clientHeight / 2;
+		this.#win.firstChild.scrollTop = GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).clientHeight / 2;
 	}
 	$scrollToKeys() {
-		const blc = this.#win.querySelector( ".gsuiBlocksManager-block" );
+		const blc = GSUdomQS( this.#win, ".gsuiBlocksManager-block" );
 
 		if ( blc ) {
 			const key = +blc.dataset.keyNote;
-			const maxRow = +this.#win.querySelector( ".gsui-row" ).dataset.midi;
+			const maxRow = +GSUdomQS( this.#win, ".gsui-row" ).dataset.midi;
 
 			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUgetAttributeNum( this.#win, "lineheight" );
 		}
@@ -185,8 +185,8 @@ class gsuiPianoroll extends gsui0ne {
 			el.onmousedown = this.#rowMousedown.bind( this, midi );
 			this.#rowsByMidi[ midi ] = el;
 		} );
-		this.#win.querySelector( ".gsuiTimewindow-rows" ).append( ...rows );
-		this.#win.querySelector( ".gsuiTimewindow-rows" ).style.height = `${ rows.length }em`;
+		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).append( ...rows );
+		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).style.height = `${ rows.length }em`;
 		this.$scrollToMiddle();
 		this.$reset();
 	}
@@ -200,7 +200,7 @@ class gsuiPianoroll extends gsui0ne {
 		blc.onmousedown = this.#blcMousedown.bind( this, id );
 		dragline.onchange = this.#onchangeDragline.bind( this, id );
 		blc._dragline = dragline;
-		blc._draglineDrop = blc.querySelector( ".gsuiDragline-drop" );
+		blc._draglineDrop = GSUdomQS( blc, ".gsuiDragline-drop" );
 		blc.append( dragline.rootElement );
 		dragline.getDropAreas = this.#getDropAreas.bind( this, id );
 		this.#blcManager.$getBlocks().set( id, blc );

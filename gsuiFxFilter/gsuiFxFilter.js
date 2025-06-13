@@ -99,8 +99,7 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	#toggleTypeBtn( type, b ) {
-		this.$elements.$type.querySelector( `[data-type="${ type }"]` )
-			.classList.toggle( "gsuiFxFilter-areaType-btnSelected", b );
+		GSUdomQS( this.$elements.$type, `[data-type="${ type }"]` ).classList.toggle( "gsuiFxFilter-areaType-btnSelected", b );
 	}
 
 	// .........................................................................

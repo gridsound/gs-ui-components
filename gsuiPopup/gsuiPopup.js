@@ -98,7 +98,7 @@ class gsuiPopup extends gsui0ne {
 				this.$elements.text.select();
 			} else {
 				const inp = type !== "custom" ? null
-					: this.$elements.cnt.querySelector( "input, select" );
+					: GSUdomQS( this.$elements.cnt, "input, select" );
 
 				( inp || this.$elements.ok ).focus();
 			}

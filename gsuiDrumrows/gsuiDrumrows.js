@@ -42,7 +42,7 @@ class gsuiDrumrows extends gsui0ne {
 		GSUsetAttribute( this.#getPropSelect( rowId ), "value", false );
 	}
 	#getPropSelect( rowId ) {
-		return this.#rows.get( rowId ).querySelector( "gsui-prop-select" );
+		return GSUdomQS( this.#rows.get( rowId ), "gsui-prop-select" );
 	}
 
 	// .........................................................................

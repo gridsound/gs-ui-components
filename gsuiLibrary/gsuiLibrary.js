@@ -30,12 +30,12 @@ class gsuiLibrary extends gsui0ne {
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
 			$getTargetList: () => [
-				document.querySelector( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
-				...document.querySelectorAll( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				document.querySelector( ".gsuiSynthesizer-newOsc" ),
-				...document.querySelectorAll( "gsui-drumrow" ),
-				document.querySelector( ".gsuiDrumrows-dropNew" ),
-				...document.querySelectorAll( ".gsuiTrack-row > div" ),
+				GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
+				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
+				...GSUdomQSA( "gsui-drumrow" ),
+				GSUdomQS( ".gsuiDrumrows-dropNew" ),
+				...GSUdomQSA( ".gsuiTrack-row > div" ),
 			],
 			$ondrop: drop => {
 				const tar = drop.$target;
@@ -71,7 +71,7 @@ class gsuiLibrary extends gsui0ne {
 		this.#samplesMap.forEach( el => el.remove() );
 		this.#samplesMap.clear();
 		this.#idFavs.clear();
-		this.$elements.$body.querySelectorAll( ".gsuiLibrary-sep" ).forEach( el => el.remove() );
+		GSUdomQSA( this.$elements.$body, ".gsuiLibrary-sep" ).forEach( el => el.remove() );
 	}
 	$unloadSamples() {
 		this.#samplesMap.forEach( el => {

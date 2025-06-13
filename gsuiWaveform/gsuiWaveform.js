@@ -3,7 +3,7 @@
 class gsuiWaveform {
 	constructor( el ) {
 		const svg = el || GSUcreateElementSVG( "svg" );
-		const poly = svg.querySelector( "polygon" );
+		const poly = GSUdomQS( svg, "polygon" );
 
 		this.rootElement = svg;
 		this.polygon = poly;

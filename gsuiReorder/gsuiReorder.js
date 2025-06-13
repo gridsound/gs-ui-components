@@ -286,7 +286,7 @@ class gsuiReorder {
 	static #calcParentsCoord( root, parSel ) {
 		const parents = root.matches( parSel )
 			? [ root ]
-			: Array.from( root.querySelectorAll( parSel ) );
+			: Array.from( GSUdomQSA( root, parSel ) );
 
 		return parents.map( par => ( {
 			$elem: par,
@@ -341,7 +341,7 @@ class gsuiReorder {
 		} );
 	}
 	static #createOrderMap( root, itemSel ) {
-		return Array.from( root.querySelectorAll( itemSel ) )
+		return Array.from( GSUdomQSA( root, itemSel ) )
 			.reduce( ( obj, el ) => {
 				obj[ el.dataset.id ] = {
 					order: +GSUgetStyle( el, "order" ),

@@ -108,7 +108,7 @@ class gsuiComPlaylist extends gsui0ne {
 		this.#updateCmpActions( elCmp );
 	}
 	#updateAllCmpsActions() {
-		this.querySelectorAll( "gsui-com-player" ).forEach( elCmp => this.#updateCmpActions( elCmp ) );
+		GSUdomQSA( this, "gsui-com-player" ).forEach( elCmp => this.#updateCmpActions( elCmp ) );
 	}
 	#updateCmpActions( elCmp ) {
 		const del = GSUhasAttribute( elCmp, "deleted" );

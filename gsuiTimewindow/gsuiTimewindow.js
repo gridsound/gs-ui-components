@@ -108,7 +108,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$main.onwheel = this.#onwheel.bind( this );
 		this.$elements.$mainCnt.oncontextmenu = e => e.preventDefault();
 		this.$elements.$panelCnt.onwheel = this.#onwheelPanel.bind( this );
-		this.$elements.$panel.querySelector( ".gsuiTimewindow-panelExtendY" ).onpointerdown = this.#onptrdownExtend.bind( this, "side" );
+		GSUdomQS( this.$elements.$panel, ".gsuiTimewindow-panelExtendY" ).onpointerdown = this.#onptrdownExtend.bind( this, "side" );
 		this.$elements.$minimapTrack.onpointerdown = this.#onptrdownMinimap.bind( this );
 		this.$elements.$scroll.addEventListener( "scroll", e => {
 			if ( this.#scrollXint !== e.currentTarget.scrollLeft ) {
@@ -141,8 +141,8 @@ class gsuiTimewindow extends gsui0ne {
 			scrolledElem: this.firstChild,
 			leftShadow: this.$elements.$panel,
 			topShadow: [
-				this.querySelector( ".gsuiTimewindow-panelUp" ),
-				this.querySelector( ".gsuiTimewindow-time" ),
+				GSUdomQS( this, ".gsuiTimewindow-panelUp" ),
+				GSUdomQS( this, ".gsuiTimewindow-time" ),
 			],
 		} );
 		this.#minimapUpdate();

@@ -35,8 +35,7 @@ class gsuiCurves extends gsui0ne {
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
-			GSUsetAttribute( this.$elements.$curves.querySelector( `[data-id="${ id }"]` ),
-				"d", this.#createPathD( curve ) );
+			GSUsetAttribute( GSUdomQS( this.$elements.$curves, `[data-id="${ id }"]` ), "d", this.#createPathD( curve ) );
 		} );
 	}
 	$getWidth() {
@@ -46,7 +45,7 @@ class gsuiCurves extends gsui0ne {
 		this.$elements.$analyser.$draw( data );
 	}
 	$setCurve( id, curve ) {
-		const path = this.$elements.$curves.querySelector( `[data-id="${ id }"]` );
+		const path = GSUdomQS( this.$elements.$curves, `[data-id="${ id }"]` );
 
 		if ( curve ) {
 			this.#curves.set( id, curve );

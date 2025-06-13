@@ -86,7 +86,7 @@ class gsuiDrums extends gsui0ne {
 	$firstTimeConnected() {
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#drumrows );
-		this.#elLines = this.#win.querySelector( ".gsuiTimewindow-rows" );
+		this.#elLines = GSUdomQS( this.#win, ".gsuiTimewindow-rows" );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
 	}
@@ -168,7 +168,7 @@ class gsuiDrums extends gsui0ne {
 	}
 	#createDrumrowLine( id ) {
 		const elLine = GSUgetTemplate( "gsui-drums-line" );
-		const grp = elLine.querySelector( "gsui-slidergroup" );
+		const grp = GSUdomQS( elLine, "gsui-slidergroup" );
 
 		GSUsetAttribute( grp, "pxperbeat", this.#pxPerBeat );
 		elLine.dataset.id = id;
@@ -321,7 +321,7 @@ class gsuiDrums extends gsui0ne {
 
 	// .........................................................................
 	#qS( sel ) {
-		return ( this.firstChild ? this : this.#win ).querySelector( sel );
+		return GSUdomQS( this.firstChild ? this : this.#win, sel );
 	}
 	#createPreview( itemType, rowId, when ) {
 		const elTag = `gsui-${ itemType }`;
