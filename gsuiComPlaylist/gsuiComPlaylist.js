@@ -22,7 +22,7 @@ class gsuiComPlaylist extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#updateNbCmps();
-		this.$elements.$headLinkCmps.onclick = () => GSUsetAttribute( this, "bin", false );
+		this.$elements.$headLinkCmps.onclick = () => GSUdomRmAttr( this, "bin" );
 		this.$elements.$headLinkBin.onclick = () => GSUsetAttribute( this, "bin", true );
 		GSUlistenEvents( this, {
 			gsuiComPlayer: {
@@ -43,7 +43,7 @@ class gsuiComPlaylist extends gsui0ne {
 				this.#itsMe = val === "itsme+" || val === "itsme";
 				this.#premium = val === "itsme+";
 				if ( !this.#premium ) {
-					GSUsetAttribute( this, "bin", false );
+					GSUdomRmAttr( this, "bin" );
 				}
 				this.#updateAllCmpsActions();
 				break;
@@ -136,11 +136,11 @@ class gsuiComPlaylist extends gsui0ne {
 					GSUsetAttribute( elNewCmp, "forking", true );
 					this.$elements.$listCmps.prepend( elNewCmp );
 					this.#updateNbCmps();
-					GSUsetAttribute( elCmp, "actionloading", false );
-					GSUsetTimeout( () => GSUsetAttribute( elNewCmp, "forking", false ), .35 );
+					GSUdomRmAttr( elCmp, "actionloading" );
+					GSUsetTimeout( () => GSUdomRmAttr( elNewCmp, "forking" ), .35 );
 				}
 			} )
-			.finally( () => GSUsetAttribute( elCmp, "actionloading", false ) );
+			.finally( () => GSUdomRmAttr( elCmp, "actionloading" ) );
 	}
 	#ondeleteRestoreCmp( elCmp, act ) {
 		const id = elCmp.dataset.id;
@@ -157,16 +157,13 @@ class gsuiComPlaylist extends gsui0ne {
 					del
 						? this.$elements.$listBin.prepend( elCmp )
 						: this.$elements.$listCmps.prepend( elCmp );
-					GSUsetAttribute( elCmp, attr, false );
-					GSUsetAttribute( elCmp, "actionloading", false );
+					GSUdomRmAttr( elCmp, attr, "actionloading" );
 					GSUsetAttribute( elCmp, "deleted", del );
 					this.#updateNbCmps();
 					this.#updateCmpLinks( elCmp );
 				}, .35 );
 			} )
-			.catch( () => {
-				GSUsetAttribute( elCmp, "actionloading", false );
-			} );
+			.catch( () => GSUdomRmAttr( elCmp, "actionloading" ) );
 	}
 }
 

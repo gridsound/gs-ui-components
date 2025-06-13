@@ -90,7 +90,7 @@ class gsuiOscillator extends gsui0ne {
 				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
 			},
 			gsuiWavetable: {
-				back: () => GSUsetAttribute( this, "wavetable", false ),
+				back: () => GSUdomRmAttr( this, "wavetable" ),
 				changeWavetable: redirEv,
 				changeWavetableCurve: redirEv,
 				selectWavetableCurve: redirEv,
@@ -196,7 +196,7 @@ class gsuiOscillator extends gsui0ne {
 				this.#elWavetable.$change( obj );
 			} else {
 				this.#elWavetable.$clear();
-				GSUsetAttribute( this, "wavetable", false );
+				GSUdomRmAttr( this, "wavetable" );
 			}
 		}
 		this.#updateWaveDeb();
@@ -211,7 +211,7 @@ class gsuiOscillator extends gsui0ne {
 	#changeSource( src ) {
 		this.$elements.$sourceName.textContent = src;
 		if ( src ) {
-			GSUsetAttribute( this, "wave", false );
+			GSUdomRmAttr( this, "wave" );
 		}
 	}
 	#changeWave( w ) {
@@ -219,7 +219,7 @@ class gsuiOscillator extends gsui0ne {
 
 		this.$elements.$waveSelect.value = w;
 		if ( w ) {
-			GSUsetAttribute( this, "source", false );
+			GSUdomRmAttr( this, "source" );
 		}
 	}
 	#changePropSlider( prop, val ) {

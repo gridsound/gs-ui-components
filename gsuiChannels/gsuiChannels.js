@@ -58,11 +58,8 @@ class gsuiChannels extends gsui0ne {
 		this.#chans[ id ].$analyser.$draw( ldata, rdata );
 	}
 	$selectChannel( id ) {
-		const chan = this.#chans[ id ];
-		const pchan = this.#chans[ this.#chanSelected ];
-
-		pchan && GSUsetAttribute( pchan, "selected", false );
-		GSUsetAttribute( chan, "selected", true );
+		GSUdomRmAttr( this.#chans[ this.#chanSelected ], "selected" );
+		GSUsetAttribute( this.#chans[ id ], "selected", true );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
 		this.$onselectChan?.( id );

@@ -331,7 +331,7 @@ class gsuiTimeline extends gsui0ne {
 							GSUsetAttribute( this, "loop", loop );
 							this.$dispatch( "inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
-							this.removeAttribute( "loop" );
+							GSUdomRmAttr( this, "loop" );
 							this.$dispatch( "inputLoop", false );
 						}
 					}
@@ -344,7 +344,7 @@ class gsuiTimeline extends gsui0ne {
 			case "draggingTime": {
 				const beat = GSUgetAttribute( this, "currenttime-preview" );
 
-				this.removeAttribute( "currenttime-preview" );
+				GSUdomRmAttr( this, "currenttime-preview" );
 				this.$dispatch( "inputCurrentTimeEnd" );
 				if ( beat !== GSUgetAttribute( this, "currenttime" ) ) {
 					GSUsetAttribute( this, "currenttime", beat );
@@ -359,7 +359,7 @@ class gsuiTimeline extends gsui0ne {
 					if ( this.#loopA !== this.#loopB ) {
 						this.$dispatch( "changeLoop", this.#loopA, this.#loopB );
 					} else {
-						this.removeAttribute( "loop" );
+						GSUdomRmAttr( this, "loop" );
 						this.$dispatch( "changeLoop", false );
 					}
 				}

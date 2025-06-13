@@ -21,7 +21,7 @@ class gsuiComAvatar extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "src":
-				GSUsetAttribute( this, "loaded", false );
+				GSUdomRmAttr( this, "loaded" );
 				this.$element.src = val || "";
 				break;
 		}

@@ -66,7 +66,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "just-saved":
 				if ( val === "" ) {
 					GSUclearTimeout( this.#justSavedTimeout );
-					this.#justSavedTimeout = GSUsetTimeout( () => GSUsetAttribute( this, "just-saved", false ), 2.5 );
+					this.#justSavedTimeout = GSUsetTimeout( () => GSUdomRmAttr( this, "just-saved" ), 2.5 );
 				}
 				break;
 			case "renaming":
@@ -104,7 +104,7 @@ class gsuiTitleUser extends gsui0ne {
 		GSUsetAttribute( this, "disconnecting", true );
 		return this.#logoutPromise?.()
 			.then( () => this.$setUserInfo( null ) )
-			.finally( () => GSUsetAttribute( this, "disconnecting", false ) );
+			.finally( () => GSUdomRmAttr( this, "disconnecting" ) );
 	}
 	#onclickLogin() {
 		return GSUpopup.$custom( {
@@ -114,7 +114,7 @@ class gsuiTitleUser extends gsui0ne {
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {
 			GSUdomQSA( this.#loginPopup.$root, "input" ).forEach( inp => inp.value = "" );
-			GSUsetAttribute( this, "connecting", false );
+			GSUdomRmAttr( this, "connecting" );
 			return GSUhasAttribute( this, "connected" );
 		} );
 	}
@@ -134,7 +134,7 @@ class gsuiTitleUser extends gsui0ne {
 				if ( this.$elements.$cmpEditInp.value !== GSUgetAttribute( this, "cmpname" ) ) {
 					this.$dispatch( "rename", GSUtrim2( this.$elements.$cmpEditInp.value ) );
 				}
-			case "Escape": GSUsetAttribute( this, "renaming", false );
+			case "Escape": GSUdomRmAttr( this, "renaming" );
 		}
 	}
 }

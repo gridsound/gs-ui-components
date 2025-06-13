@@ -224,8 +224,8 @@ class gsuiSlicer extends gsui0ne {
 			gsuiWaveform.drawBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
 			gsuiWaveform.drawBuffer( this.$elements.$srcWave.firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
 		} else {
-			this.#waveDef.removeAttribute( "points" );
-			this.$elements.$srcWave.firstChild.removeAttribute( "points" );
+			GSUdomRmAttr( this.#waveDef, "points" );
+			GSUdomRmAttr( this.$elements.$srcWave.firstChild, "points" );
 		}
 	}
 	#setCurrentTime( beat ) {

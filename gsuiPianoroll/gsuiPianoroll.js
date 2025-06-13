@@ -347,7 +347,7 @@ class gsuiPianoroll extends gsui0ne {
 		GSUsetAttribute( this.#propSelect, "value", val2 );
 	}
 	#ongsuiSliderGroupInputEnd() {
-		GSUsetAttribute( this.#propSelect, "value", false );
+		GSUdomRmAttr( this.#propSelect, "value" );
 	}
 	#ongsuiSliderGroupChange( d ) {
 		const prop = this.#propSelect.$getCurrentProp();

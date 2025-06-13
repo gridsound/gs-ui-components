@@ -39,7 +39,7 @@ class gsuiDrumrows extends gsui0ne {
 		GSUsetAttribute( this.#getPropSelect( rowId ), "value", val );
 	}
 	$removeDrumPropValue( rowId, prop ) {
-		GSUsetAttribute( this.#getPropSelect( rowId ), "value", false );
+		GSUdomRmAttr( this.#getPropSelect( rowId ), "value" );
 	}
 	#getPropSelect( rowId ) {
 		return GSUdomQS( this.#rows.get( rowId ), "gsui-prop-select" );

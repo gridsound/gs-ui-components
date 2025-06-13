@@ -67,7 +67,7 @@ class gsuiWindow extends gsui0ne {
 				this.$dispatch( "open" );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
-				GSUsetAttribute( this, "show", false );
+				GSUdomRmAttr( this, "show" );
 				GSUemptyElement( this.$elements.$content );
 				this.$dispatch( "close" );
 			}
@@ -191,7 +191,7 @@ class gsuiWindow extends gsui0ne {
 		const { x, y } = this.rect;
 		const m = this.#mousemovePos;
 
-		GSUsetAttribute( this, "dragging", false );
+		GSUdomRmAttr( this, "dragging" );
 		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
@@ -219,7 +219,7 @@ class gsuiWindow extends gsui0ne {
 		const { x, y, w, h } = this.rect;
 		const m = this.#mousemovePos;
 
-		GSUsetAttribute( this, "dragging", false );
+		GSUdomRmAttr( this, "dragging" );
 		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {

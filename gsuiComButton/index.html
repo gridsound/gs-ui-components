@@ -64,7 +64,7 @@ body {
 GSUdomQS( "#testWrap" ).onclick = e => {
 	if ( e.target.tagName === "BUTTON" ) {
 		// GSUsetAttribute( e.target.parentNode, "loading", true );
-		// GSUsetTimeout( () => GSUsetAttribute( e.target.parentNode, "loading", false ), .5 );
+		// GSUsetTimeout( () => GSUdomRmAttr( e.target.parentNode, "loading" ), .5 );
 	}
 };
 </script>

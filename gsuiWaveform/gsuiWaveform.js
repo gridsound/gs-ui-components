@@ -25,7 +25,7 @@ class gsuiWaveform {
 		this.rootElement.remove();
 	}
 	empty() {
-		this.polygon.removeAttribute( "points" );
+		GSUdomRmAttr( this.polygon, "points" );
 	}
 	$setResolution( w, h ) {
 		this.width = w;

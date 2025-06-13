@@ -55,12 +55,11 @@ class gsuiPropSelect extends gsui0ne {
 	}
 	#setProp( prop, prev ) {
 		const btn = this.#getBtn( prop );
-		const btnPrev = this.#getBtn( prev );
 
 		this.#prop = prop;
 		this.#setValue( prev, false );
 		btn && GSUsetAttribute( btn, "data-selected", true );
-		btnPrev && GSUsetAttribute( btnPrev, "data-selected", false );
+		GSUdomRmAttr( this.#getBtn( prev ), "data-selected" );
 		this.#setValue( prop, GSUgetAttribute( this, "value" ) );
 	}
 	#getBtn( prop ) {

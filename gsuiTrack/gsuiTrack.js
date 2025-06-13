@@ -27,7 +27,7 @@ class gsuiTrack extends gsui0ne {
 					this.$dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
-					GSUsetAttribute( this, "mute", false );
+					GSUdomRmAttr( this, "mute" );
 					this.$dispatch( "toggleSolo" );
 				},
 			},

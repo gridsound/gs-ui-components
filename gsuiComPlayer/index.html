@@ -91,7 +91,7 @@ currentTimeInp.oninput = () => GSUsetAttribute( elCmp, "currenttime", currentTim
 GSUlistenEvents( document.body, {
 	gsuiComPlayer: {
 		play: () => GSUsetAttribute( elCmp, "playing", true ),
-		stop: () => GSUsetAttribute( elCmp, "playing", false ),
+		stop: () => GSUdomRmAttr( elCmp, "playing" ),
 		delete: () => GSUsetAttribute( elCmp, "deleting", true ),
 		restore: () => GSUsetAttribute( elCmp, "restoring", true ),
 		currentTime: d => GSUsetAttribute( elCmp, "currenttime", d.args[ 0 ] ),

@@ -45,7 +45,7 @@ class gsuiChannel extends gsui0ne {
 					this.$dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
-					GSUsetAttribute( this, "muted", false );
+					GSUdomRmAttr( this, "muted" );
 					this.$dispatch( "toggleSolo" );
 				},
 			},

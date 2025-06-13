@@ -37,7 +37,7 @@ class gsuiComProfile extends gsui0ne {
 		this.$elements.$edit.onclick = this.#onclickEdit.bind( this );
 		this.$elements.$form.onsubmit = this.#onsubmit.bind( this );
 		this.$elements.$emailVerify.onclick = this.#onclickVerify.bind( this );
-		this.$elements.$cancel.onclick = () => GSUsetAttribute( this, "editing", false );
+		this.$elements.$cancel.onclick = () => GSUdomRmAttr( this, "editing" );
 	}
 
 	// .........................................................................
@@ -83,7 +83,7 @@ class gsuiComProfile extends gsui0ne {
 			this.#verifyPromise?.()
 				.then( () => this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sent )
 				.catch( err => this.$elements.$emailVerifyText.textContent = err )
-				.finally( () => GSUsetAttribute( this, "emailsending", false ) );
+				.finally( () => GSUdomRmAttr( this, "emailsending" ) );
 		}
 	}
 	#onsubmit( e ) {
@@ -99,10 +99,10 @@ class gsuiComProfile extends gsui0ne {
 		this.#savingPromise?.( obj )
 			.then( obj => {
 				GSUsetAttribute( this, obj );
-				GSUsetAttribute( this, "editing", false );
+				GSUdomRmAttr( this, "editing" );
 			} )
 			.catch( err => this.$elements.$error.textContent = err )
-			.finally( () => GSUsetAttribute( this.$elements.$submit, "loading", false ) );
+			.finally( () => GSUdomRmAttr( this.$elements.$submit, "loading" ) );
 		return false;
 	}
 }

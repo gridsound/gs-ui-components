@@ -65,7 +65,7 @@ class gsuiDropdown {
 		if ( this.#isOpen ) {
 			this.#isOpen = false;
 			GSUclearTimeout( this.#timeoutId );
-			GSUsetAttribute( this.#elem, "data-open", false );
+			GSUdomRmAttr( this.#elem, "data-open" );
 			document.body.removeEventListener( "pointerdown", this.#onptrdownBodyBind );
 			this.#timeoutId = GSUsetTimeout( () => {
 				this.#elem.remove();
