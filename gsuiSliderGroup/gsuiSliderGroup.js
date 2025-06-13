@@ -130,7 +130,7 @@ class gsuiSliderGroup extends gsui0ne {
 
 	// .........................................................................
 	#roundVal( val ) {
-		return +( Math.round( val / this.#step ) * this.#step ).toFixed( 8 );
+		return GSUmathFix( GSUmathRound( val, this.#step ), 8 );
 	}
 	#updatePxPerBeat() {
 		const ppb = GSUgetAttributeNum( this, "pxperbeat" );
@@ -199,8 +199,7 @@ class gsuiSliderGroup extends gsui0ne {
 		const xval = x / GSUgetAttributeNum( this, "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
-			: this.#roundVal( min + ( max - min ) *
-					( 1 - Math.min( Math.max( 0, y / this.#bcr.h ), 1 ) ) );
+			: this.#roundVal( min + ( max - min ) * ( 1 - GSUmathClamp( y / this.#bcr.h, 0, 1 ) ) );
 		let firstWhen = 0;
 
 		sliders.forEach( sli => {
