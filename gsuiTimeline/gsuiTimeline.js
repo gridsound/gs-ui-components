@@ -273,7 +273,7 @@ class gsuiTimeline extends gsui0ne {
 		}
 		if ( this.#status ) {
 			this.$dispatch( "inputCurrentTimeStart" );
-			this.#mousedownLoop = GSUgetAttribute( this, "loop" );
+			this.#mousedownLoop = GSUdomGetAttr( this, "loop" );
 			this.#mousedownLoopA = this.#loopA;
 			this.#mousedownLoopB = this.#loopB;
 			GSUunselectText();
@@ -299,7 +299,7 @@ class gsuiTimeline extends gsui0ne {
 					const b = this.#mousedownLoopB + rel;
 					const loop = `${ a }-${ b }`;
 
-					if ( loop !== GSUgetAttribute( this, "loop" ) ) {
+					if ( loop !== GSUdomGetAttr( this, "loop" ) ) {
 						GSUsetAttribute( this, "loop", loop );
 						this.$dispatch( "inputLoop", a, b );
 					}
@@ -326,7 +326,7 @@ class gsuiTimeline extends gsui0ne {
 						}
 						this.#mousedownBeat = this.#mousedownLoopA;
 					}
-					if ( loop !== GSUgetAttribute( this, "loop" ) ) {
+					if ( loop !== GSUdomGetAttr( this, "loop" ) ) {
 						if ( aa !== bb ) {
 							GSUsetAttribute( this, "loop", loop );
 							this.$dispatch( "inputLoop", aa, bb );
@@ -342,11 +342,11 @@ class gsuiTimeline extends gsui0ne {
 	$onptrup( e ) {
 		switch ( this.#status ) {
 			case "draggingTime": {
-				const beat = GSUgetAttribute( this, "currenttime-preview" );
+				const beat = GSUdomGetAttr( this, "currenttime-preview" );
 
 				GSUdomRmAttr( this, "currenttime-preview" );
 				this.$dispatch( "inputCurrentTimeEnd" );
-				if ( beat !== GSUgetAttribute( this, "currenttime" ) ) {
+				if ( beat !== GSUdomGetAttr( this, "currenttime" ) ) {
 					GSUsetAttribute( this, "currenttime", beat );
 					this.$dispatch( "changeCurrentTime", +beat );
 				}
@@ -355,7 +355,7 @@ class gsuiTimeline extends gsui0ne {
 			case "draggingLoopHandleA":
 			case "draggingLoopHandleB":
 				this.$dispatch( "inputLoopEnd" );
-				if ( GSUgetAttribute( this, "loop" ) !== this.#mousedownLoop ) {
+				if ( GSUdomGetAttr( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.#loopA !== this.#loopB ) {
 						this.$dispatch( "changeLoop", this.#loopA, this.#loopB );
 					} else {

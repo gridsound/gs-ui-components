@@ -88,7 +88,7 @@ saved.onclick = () => GSUtoggleAttribute( elCmp, "saved" );
 justSaved.onclick = () => GSUtoggleAttribute( elCmp, "just-saved" );
 cmpName.onclick = () => GSUtoggleAttribute( elCmp, "cmpname", "Angry and evil nasty potato" );
 longUser.onclick = () => {
-	const isShort = GSUgetAttribute( elCmp, "name" ) === "John";
+	const isShort = GSUdomGetAttr( elCmp, "name" ) === "John";
 
 	GSUsetAttribute( elCmp, "name", isShort ? "John Wick (the hitman)" : "John" );
 	GSUsetAttribute( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );

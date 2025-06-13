@@ -27,7 +27,7 @@ class gsuiPanels extends gsui0ne {
 
 	// .........................................................................
 	#init() {
-		const dirX = GSUgetAttribute( this, "dir" ) === "x";
+		const dirX = GSUdomGetAttr( this, "dir" ) === "x";
 		const size = dirX ? this.clientWidth : this.clientHeight;
 
 		this.#pans = Array.from( this.children );

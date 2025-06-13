@@ -78,7 +78,7 @@ class gsuiDrumrow extends gsui0ne {
 	// .........................................................................
 	$associateDrumLine( el ) {
 		this.#elDrumLine = el;
-		el.style.order = GSUgetAttribute( this, "order" );
+		el.style.order = GSUdomGetAttr( this, "order" );
 		el.classList.toggle( "gsuiDrumrow-mute", !GSUdomHasAttr( this, "toggle" ) );
 	}
 	$changePattern( svg ) {
@@ -112,7 +112,7 @@ class gsuiDrumrow extends gsui0ne {
 	#oninputendSlider( id ) {
 		const el = this.$elements.$name;
 
-		el.textContent = GSUgetAttribute( this, "name" );
+		el.textContent = GSUdomGetAttr( this, "name" );
 		el.classList.remove( "gsuiDrumrow-nameInfo" );
 	}
 	#onanimationend( e ) {

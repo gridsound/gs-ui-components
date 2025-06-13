@@ -235,7 +235,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$minimapThumb.style.width = `${ mapPx / durPx * 100 }%`;
 	}
 	#minimapUpdateCurrentTimeLoop() {
-		const loopStr = GSUgetAttribute( this, "loop" );
+		const loopStr = GSUdomGetAttr( this, "loop" );
 		const durBeat = this.#minimapGetMaxView() / this.#pxPerBeat;
 
 		this.$elements.$minimapCurrentTime.style.left = `${ this.#currentTime / durBeat * 100 }%`;
@@ -258,7 +258,7 @@ class gsuiTimewindow extends gsui0ne {
 	#minimapGetDuration() {
 		const dur = GSUgetAttributeNum( this, "duration" );
 		const time = GSUgetAttributeNum( this, "currenttime" );
-		const loopStr = GSUgetAttribute( this, "loop" );
+		const loopStr = GSUdomGetAttr( this, "loop" );
 		const loop = loopStr ? GSUsplitNums( loopStr, "-" )[ 1 ] : 0;
 
 		return Math.max( time, loop, dur, 0 );

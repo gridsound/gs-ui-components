@@ -64,7 +64,7 @@ class gsuiLFO extends gsui0ne {
 				case "lfo":
 					this.#lfo = val;
 					GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "max", val === "gain" ? 1 : 12 );
-					this.#changeProp( "amp", Math.abs( GSUgetAttribute( this, "amp" ) ) );
+					this.#changeProp( "amp", Math.abs( GSUdomGetAttr( this, "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
 					break;

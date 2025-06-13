@@ -93,7 +93,7 @@ class gsuiChannels extends gsui0ne {
 		GSUdomQS( chan, ".gsuiChannel-delete" ).onclick = () => this.$onchange( "removeChannel", id );
 		GSUdomQS( chan, ".gsuiChannel-connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
 		GSUdomQS( chan, ".gsuiChannel-rename" ).onclick = () => {
-			GSUpopup.$prompt( "Rename channel", "", GSUgetAttribute( this.#chans[ id ], "name" ) )
+			GSUpopup.$prompt( "Rename channel", "", GSUdomGetAttr( this.#chans[ id ], "name" ) )
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
 		chan.$analyser.$updateResolution();

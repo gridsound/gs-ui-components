@@ -65,7 +65,7 @@ class gsuiTrack extends gsui0ne {
 		if ( e.target === this.$elements.$inpName ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": this.$elements.$inpName.value = GSUgetAttribute( this, "name" );
+				case "Escape": this.$elements.$inpName.value = GSUdomGetAttr( this, "name" );
 				case "Enter": this.$elements.$inpName.blur();
 			}
 		}

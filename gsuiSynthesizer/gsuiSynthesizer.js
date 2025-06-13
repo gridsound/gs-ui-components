@@ -72,7 +72,7 @@ class gsuiSynthesizer extends gsui0ne {
 						const [ lfoEnv, prop ] = btn.parentNode.dataset.tab.split( " " );
 						const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-						if ( GSUgetAttribute( elCmp, lfoEnv ) === prop ) {
+						if ( GSUdomGetAttr( elCmp, lfoEnv ) === prop ) {
 							GSUsetAttribute( elCmp, "toggle", d.args[ 0 ] );
 						}
 						this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
@@ -159,7 +159,7 @@ class gsuiSynthesizer extends gsui0ne {
 	$updateGraph( envLFO, prop ) {
 		const elCmp = envLFO === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-		if ( prop === GSUgetAttribute( elCmp, envLFO ) ) {
+		if ( prop === GSUdomGetAttr( elCmp, envLFO ) ) {
 			elCmp.$updateWave();
 		}
 	}
@@ -172,7 +172,7 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$changeEnvProp( env, prop, val ) {
 		this.#data.env[ env ][ prop ] = val;
-		if ( env === GSUgetAttribute( this.$elements.$env, "env" ) ) {
+		if ( env === GSUdomGetAttr( this.$elements.$env, "env" ) ) {
 			GSUsetAttribute( this.$elements.$env, prop, val );
 		}
 		if ( prop === "toggle" ) {
@@ -181,7 +181,7 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$changeLFOProp( lfo, prop, val ) {
 		this.#data.lfo[ lfo ][ prop ] = val;
-		if ( lfo === GSUgetAttribute( this.$elements.$lfo, "lfo" ) ) {
+		if ( lfo === GSUdomGetAttr( this.$elements.$lfo, "lfo" ) ) {
 			GSUsetAttribute( this.$elements.$lfo, prop, val );
 		}
 		if ( prop === "toggle" ) {

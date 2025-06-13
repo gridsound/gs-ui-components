@@ -52,7 +52,7 @@ class gsuiTempo extends gsui0ne {
 	// .........................................................................
 	#createPopup() {
 		const f = this.#popup.$form;
-		const time = GSUsplitNums( GSUgetAttribute( this, "timedivision" ), "/" );
+		const time = GSUsplitNums( GSUdomGetAttr( this, "timedivision" ), "/" );
 
 		f[ 0 ].value = time[ 0 ];
 		f[ 1 ].value = time[ 1 ];
@@ -64,7 +64,7 @@ class gsuiTempo extends gsui0ne {
 		const time = `${ f[ 0 ].value }/${ f[ 1 ].value }`;
 		const bpm = f[ 2 ].value;
 
-		if ( time !== GSUgetAttribute( this, "timedivision" ) || bpm !== GSUgetAttribute( this, "bpm" ) ) {
+		if ( time !== GSUdomGetAttr( this, "timedivision" ) || bpm !== GSUdomGetAttr( this, "bpm" ) ) {
 			this.$dispatch( "change", {
 				bpm: +bpm,
 				timedivision: time,

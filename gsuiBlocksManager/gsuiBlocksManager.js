@@ -101,7 +101,7 @@ class gsuiBlocksManager {
 		return this.#blcsEditing;
 	}
 	#getBeatSnap() {
-		const stepsPerBeat = GSUsplitNums( GSUgetAttribute( this.timeline, "timedivision" ), "/" )[ 1 ];
+		const stepsPerBeat = GSUsplitNums( GSUdomGetAttr( this.timeline, "timedivision" ), "/" )[ 1 ];
 
 		return 1 / stepsPerBeat * GSUgetAttributeNum( this.timeline, "step" );
 	}

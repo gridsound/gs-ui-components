@@ -79,7 +79,7 @@ class gsuiFxDelay extends gsui0ne {
 		this.#updatePxPerBeat();
 	}
 	#updatePxPerBeat() {
-		const bPM = GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+		const bPM = GSUdomGetAttr( this, "timedivision" ).split( "/" )[ 0 ];
 
 		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.#graphWidth / bPM );
 	}

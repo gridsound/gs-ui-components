@@ -99,7 +99,7 @@ class gsuiFxReverb extends gsui0ne {
 
 	// .........................................................................
 	#updatePxPerBeat() {
-		const bPM = GSUgetAttribute( this, "timedivision" ).split( "/" )[ 0 ];
+		const bPM = GSUdomGetAttr( this, "timedivision" ).split( "/" )[ 0 ];
 
 		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.$elements.$beatlines.clientWidth / bPM );
 	}

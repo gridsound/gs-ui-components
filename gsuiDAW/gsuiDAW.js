@@ -87,7 +87,7 @@ class gsuiDAW extends gsui0ne {
 				.then( res => res.text(), GSUnoop )
 				.then( res => {
 					dt.spin = "";
-					dt.icon = res === GSUgetAttribute( this, "version" ) ? "check" : "warning";
+					dt.icon = res === GSUdomGetAttr( this, "version" ) ? "check" : "warning";
 				} );
 		};
 		this.#popups.settings.uiRateManualRange.onmousedown = () => this.#popups.settings.uiRateRadio.manual.checked = true;
@@ -281,13 +281,13 @@ class gsuiDAW extends gsui0ne {
 				break;
 			case "settings":
 				this.#popups.settings.sampleRate.value = GSUgetAttributeNum( this, "samplerate" );
-				this.#popups.settings.keyNotation.value = GSUgetAttribute( this, "keynotation" );
+				this.#popups.settings.keyNotation.value = GSUdomGetAttr( this, "keynotation" );
 				this.#popups.settings.timelineNumbering.value = GSUgetAttributeNum( this, "timelinenumbering" );
-				this.#popups.settings.windowsLowGraphics.checked = GSUgetAttribute( this, "windowslowgraphics" ) === "";
-				this.#popups.settings.uiRateRadio[ GSUgetAttribute( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
-				if ( GSUgetAttribute( this, "uirate" ) !== "auto" ) {
-					this.#popups.settings.uiRateManualFPS.textContent = GSUgetAttribute( this, "uirate" ).padStart( 2, "0" );
-					this.#popups.settings.uiRateManualRange.value = GSUgetAttribute( this, "uirate" );
+				this.#popups.settings.windowsLowGraphics.checked = GSUdomGetAttr( this, "windowslowgraphics" ) === "";
+				this.#popups.settings.uiRateRadio[ GSUdomGetAttr( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
+				if ( GSUdomGetAttr( this, "uirate" ) !== "auto" ) {
+					this.#popups.settings.uiRateManualFPS.textContent = GSUdomGetAttr( this, "uirate" ).padStart( 2, "0" );
+					this.#popups.settings.uiRateManualRange.value = GSUdomGetAttr( this, "uirate" );
 				}
 				GSUpopup.$custom( { title: "Settings", element: this.#popups.settings.root } )
 					.then( data => {
@@ -298,13 +298,13 @@ class gsuiDAW extends gsui0ne {
 							delete data.uiRateFPS;
 							if (
 								(
-									data.uiRate !== GSUgetAttribute( this, "uirate" ) &&
+									data.uiRate !== GSUdomGetAttr( this, "uirate" ) &&
 									data.uiRate !== GSUgetAttributeNum( this, "uirate" )
 								) ||
-								data.keyNotation !== GSUgetAttribute( this, "keynotation" ) ||
+								data.keyNotation !== GSUdomGetAttr( this, "keynotation" ) ||
 								data.sampleRate !== GSUgetAttributeNum( this, "samplerate" ) ||
 								data.timelineNumbering !== GSUgetAttributeNum( this, "timelinenumbering" ) ||
-								data.windowsLowGraphics !== ( GSUgetAttribute( this, "windowslowgraphics" ) === "" )
+								data.windowsLowGraphics !== ( GSUdomGetAttr( this, "windowslowgraphics" ) === "" )
 							) {
 								this.$dispatch( "settings", data );
 							}

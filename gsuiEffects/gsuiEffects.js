@@ -90,7 +90,7 @@ class gsuiEffects extends gsui0ne {
 		if ( "$askData" in uiFx ) {
 			uiFx.$askData = this.$askData.bind( null, id, fx.type );
 		}
-		GSUsetAttribute( uiFx, "timedivision", GSUgetAttribute( this, "timedivision" ) );
+		GSUsetAttribute( uiFx, "timedivision", GSUdomGetAttr( this, "timedivision" ) );
 		root.$setFxElement( uiFx );
 		this.#fxsHtml.set( id, root );
 		this.append( root );

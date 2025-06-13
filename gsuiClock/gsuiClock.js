@@ -84,7 +84,7 @@ class gsuiClock extends gsui0ne {
 
 	// .........................................................................
 	$setTime( beats ) {
-		const [ a, b, c ] = GSUgetAttribute( this, "mode" ) === "second"
+		const [ a, b, c ] = GSUdomGetAttr( this, "mode" ) === "second"
 			? gsuiClock.$parseBeatsToSeconds( beats, GSUgetAttributeNum( this, "bpm" ) || 60 )
 			: gsuiClock.$parseBeatsToBeats( beats, this.#bPM, this.#sPB );
 
@@ -117,7 +117,7 @@ class gsuiClock extends gsui0ne {
 
 	// .........................................................................
 	#onclickModes() {
-		const dpl = GSUgetAttribute( this, "mode" ) === "second" ? "beat" : "second";
+		const dpl = GSUdomGetAttr( this, "mode" ) === "second" ? "beat" : "second";
 
 		GSUsetAttribute( this, "mode", dpl );
 		this.$onchangeDisplay( dpl );

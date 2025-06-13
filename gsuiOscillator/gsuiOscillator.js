@@ -181,7 +181,7 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#updateWave( prop, val ) {
 		const [ w0, w1 ] = this.$elements.$waves;
-		const wave = prop === "wave" ? val : GSUgetAttribute( this, "wave" );
+		const wave = prop === "wave" ? val : GSUdomGetAttr( this, "wave" );
 		const gain = prop === "gain" ? val : GSUgetAttributeNum( this, "gain" );
 		const pan = prop === "pan" ? val : GSUgetAttributeNum( this, "pan" );
 		const det = prop === "detune" ? val : GSUgetAttributeNum( this, "detune" ) + GSUgetAttributeNum( this, "detunefine" );

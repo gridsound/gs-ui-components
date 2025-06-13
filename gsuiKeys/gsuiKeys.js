@@ -134,7 +134,7 @@ class gsuiKeys extends gsui0ne {
 		this.#setRootOctave( this.#rootOctave );
 	}
 	#isVertical() {
-		return GSUgetAttribute( this, "orient" ) === "vertical";
+		return GSUdomGetAttr( this, "orient" ) === "vertical";
 	}
 	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;

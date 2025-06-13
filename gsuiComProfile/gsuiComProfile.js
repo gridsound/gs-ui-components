@@ -68,9 +68,9 @@ class gsuiComProfile extends gsui0ne {
 	// .........................................................................
 	#onclickEdit() {
 		if ( !GSUdomHasAttr( this, "editing" ) ) {
-			this.$elements.$inputs[ 0 ].value = GSUgetAttribute( this, "firstname" );
-			this.$elements.$inputs[ 1 ].value = GSUgetAttribute( this, "lastname" );
-			this.$elements.$inputs[ 2 ].value = GSUgetAttribute( this, "email" );
+			this.$elements.$inputs[ 0 ].value = GSUdomGetAttr( this, "firstname" );
+			this.$elements.$inputs[ 1 ].value = GSUdomGetAttr( this, "lastname" );
+			this.$elements.$inputs[ 2 ].value = GSUdomGetAttr( this, "email" );
 			this.$elements.$inputs[ 3 ].checked = GSUdomHasAttr( this, "emailpublic" );
 		}
 		this.$elements.$error.textContent = "";

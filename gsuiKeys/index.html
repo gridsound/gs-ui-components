@@ -52,7 +52,7 @@ const testContent = GSUdomQS( "#testContent" );
 const testWrap = GSUdomQS( "#testWrap" );
 
 togOrient.onclick = () => {
-	const isHori = GSUgetAttribute( uiKeys, "orient" ) === "horizontal";
+	const isHori = GSUdomGetAttr( uiKeys, "orient" ) === "horizontal";
 	const width = testContent.offsetWidth;
 	const height = testContent.offsetHeight;
 
