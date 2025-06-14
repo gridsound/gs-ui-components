@@ -79,19 +79,21 @@ const justSaved = GSUdomQS( "#just-saved" );
 const cmpName = GSUdomQS( "#cmpName" );
 const longUser = GSUdomQS( "#longUser" );
 
-readonly.onclick = () => GSUtoggleAttribute( elCmp, "readonly" );
-connected.onclick = () => GSUtoggleAttribute( elCmp, "connected" );
-connecting.onclick = () => GSUtoggleAttribute( elCmp, "connecting" );
-disconnecting.onclick = () => GSUtoggleAttribute( elCmp, "disconnecting" );
-saving.onclick = () => GSUtoggleAttribute( elCmp, "saving" );
-saved.onclick = () => GSUtoggleAttribute( elCmp, "saved" );
-justSaved.onclick = () => GSUtoggleAttribute( elCmp, "just-saved" );
-cmpName.onclick = () => GSUtoggleAttribute( elCmp, "cmpname", "Angry and evil nasty potato" );
+readonly.onclick = () => GSUdomTogAttr( elCmp, "readonly" );
+connected.onclick = () => GSUdomTogAttr( elCmp, "connected" );
+connecting.onclick = () => GSUdomTogAttr( elCmp, "connecting" );
+disconnecting.onclick = () => GSUdomTogAttr( elCmp, "disconnecting" );
+saving.onclick = () => GSUdomTogAttr( elCmp, "saving" );
+saved.onclick = () => GSUdomTogAttr( elCmp, "saved" );
+justSaved.onclick = () => GSUdomTogAttr( elCmp, "just-saved" );
+cmpName.onclick = () => GSUdomTogAttr( elCmp, "cmpname", "Angry and evil nasty potato" );
 longUser.onclick = () => {
 	const isShort = GSUdomGetAttr( elCmp, "name" ) === "John";
 
-	GSUdomSetAttr( elCmp, "name", isShort ? "John Wick (the hitman)" : "John" );
-	GSUdomSetAttr( elCmp, "username", isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga" );
+	GSUdomSetAttr( elCmp, {
+		name: isShort ? "John Wick (the hitman)" : "John",
+		username: isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga",
+	} );
 };
 
 const logout0 = () => new Promise( ( res, rej ) => GSUsetTimeout( rej, 1 ) );

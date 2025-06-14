@@ -74,10 +74,10 @@ const bpmInp = GSUdomQS( "#bpm" );
 const durationInp = GSUdomQS( "#duration" );
 const currentTimeInp = GSUdomQS( "#currentTime" );
 
-titledInp.onchange = () => GSUtoggleAttribute( elCmp, "name", "Dopest song ever created" );
-itsmineInp.onchange = () => GSUtoggleAttribute( elCmp, "itsmine" );
-privateInp.onchange = () => GSUtoggleAttribute( elCmp, "private" );
-opensourceInp.onchange = () => GSUtoggleAttribute( elCmp, "opensource" );
+titledInp.onchange = () => GSUdomTogAttr( elCmp, "name", "Dopest song ever created" );
+itsmineInp.onchange = () => GSUdomTogAttr( elCmp, "itsmine" );
+privateInp.onchange = () => GSUdomTogAttr( elCmp, "private" );
+opensourceInp.onchange = () => GSUdomTogAttr( elCmp, "opensource" );
 editableInp.onchange = () => GSUdomSetAttr( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
 itsmineInp.click();

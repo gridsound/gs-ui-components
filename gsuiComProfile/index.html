@@ -80,13 +80,13 @@ const emailsending = GSUdomQS( "#emailsending" );
 const emailsent = GSUdomQS( "#emailsent" );
 const savefail = GSUdomQS( "#savefail" );
 
-itsme.onchange = () => GSUtoggleAttribute( elCmp, "itsme" );
-email.onchange = () => GSUtoggleAttribute( elCmp, "email", "john.wick@hitman.com" );
-emailpublic.onchange = () => GSUtoggleAttribute( elCmp, "emailpublic" );
-emailtoverify.onchange = () => GSUtoggleAttribute( elCmp, "emailtoverify" );
-emailsending.onchange = () => GSUtoggleAttribute( elCmp, "emailsending" );
-emailsent.onchange = () => GSUtoggleAttribute( elCmp, "emailsent" );
-avatar.onchange = () => GSUtoggleAttribute( elCmp, "avatar", "../test-assets/avatar.jpg" );
+itsme.onchange = () => GSUdomTogAttr( elCmp, "itsme" );
+email.onchange = () => GSUdomTogAttr( elCmp, "email", "john.wick@hitman.com" );
+emailpublic.onchange = () => GSUdomTogAttr( elCmp, "emailpublic" );
+emailtoverify.onchange = () => GSUdomTogAttr( elCmp, "emailtoverify" );
+emailsending.onchange = () => GSUdomTogAttr( elCmp, "emailsending" );
+emailsent.onchange = () => GSUdomTogAttr( elCmp, "emailsent" );
+avatar.onchange = () => GSUdomTogAttr( elCmp, "avatar", "../test-assets/avatar.jpg" );
 
 itsme.click();
 email.click();

@@ -46,7 +46,7 @@ class gsuiComProfile extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "itsme": val !== "" && GSUtoggleAttribute( this, "editing", false ); break;
+			case "itsme": val !== "" && GSUdomRmAttr( this, "editing" ); break;
 			case "email": this.$elements.$email.textContent = val; break;
 			case "emailpublic": this.$elements.$emailpub.dataset.icon = val === "" ? "public" : "private"; break;
 			case "username": this.$elements.$username.textContent = val; break;
@@ -74,7 +74,7 @@ class gsuiComProfile extends gsui0ne {
 			this.$elements.$inputs[ 3 ].checked = GSUdomHasAttr( this, "emailpublic" );
 		}
 		this.$elements.$error.textContent = "";
-		GSUtoggleAttribute( this, "editing" );
+		GSUdomTogAttr( this, "editing" );
 	}
 	#onclickVerify() {
 		if ( !GSUdomHasAttr( this, "emailsending" ) ) {

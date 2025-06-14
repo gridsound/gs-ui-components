@@ -74,7 +74,7 @@ class gsuiEffects extends gsui0ne {
 		return this.#fxsHtml.get( id );
 	}
 	$expandToggleEffect( id ) {
-		GSUtoggleAttribute( this.#fxsHtml.get( id ), "expanded" );
+		GSUdomTogAttr( this.#fxsHtml.get( id ), "expanded" );
 	}
 
 	// .........................................................................

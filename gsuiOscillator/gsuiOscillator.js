@@ -68,7 +68,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveSelect.onkeydown = this.#onkeydownSelect.bind( this );
 		this.$elements.$wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
-		this.$elements.$wavetableBtn.onclick = () => GSUtoggleAttribute( this, "wavetable" );
+		this.$elements.$wavetableBtn.onclick = () => GSUdomTogAttr( this, "wavetable" );
 		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
 		this.addEventListener( "transitionend", e => {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {

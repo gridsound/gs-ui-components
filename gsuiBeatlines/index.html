@@ -73,8 +73,8 @@ const inputPPB = GSUdomQS( "#pxPerBeat" );
 const inputBPM = GSUdomQS( "#beatsPerMeasure" );
 const inputSPB = GSUdomQS( "#stepsPerBeat" );
 
-btnColor.onclick = () => GSUtoggleAttribute( uiBeatlines, "coloredbeats" );
-btnVerti.onclick = () => GSUtoggleAttribute( uiBeatlines, "vertical" );
+btnColor.onclick = () => GSUdomTogAttr( uiBeatlines, "coloredbeats" );
+btnVerti.onclick = () => GSUdomTogAttr( uiBeatlines, "vertical" );
 
 inputPPB.oninput =
 inputBPM.oninput =
