@@ -129,11 +129,11 @@ class gsuiPianoroll extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "disabled":
-				GSUsetAttribute( this.#win, "disabled", val );
+				GSUdomSetAttr( this.#win, "disabled", val );
 				break;
 			case "currenttime":
-				GSUsetAttribute( this.#win, "currenttime", val );
-				GSUsetAttribute( this.#uiSliderGroup, "currenttime", val );
+				GSUdomSetAttr( this.#win, "currenttime", val );
+				GSUdomSetAttr( this.#uiSliderGroup, "currenttime", val );
 				break;
 		}
 	}
@@ -143,7 +143,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#currKeyDuration = 1;
 	}
 	$changeDuration( dur ) {
-		GSUsetAttribute( this.#win, "duration", dur );
+		GSUdomSetAttr( this.#win, "duration", dur );
 	}
 	$setData( data ) {
 		this.#blcManager.$setData( data );
@@ -152,13 +152,12 @@ class gsuiPianoroll extends gsui0ne {
 		this.$onchange = cb.$onchange;
 	}
 	$timedivision( timediv ) {
-		GSUsetAttribute( this.#win, "timedivision", timediv );
-		GSUsetAttribute( this.#uiSliderGroup, "timedivision", timediv );
+		GSUdomSetAttr( this.#win, "timedivision", timediv );
+		GSUdomSetAttr( this.#uiSliderGroup, "timedivision", timediv );
 	}
 	$loop( a, b ) {
-		GSUsetAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
-		GSUsetAttribute( this.#uiSliderGroup, "loopa", a );
-		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
+		GSUdomSetAttr( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		GSUdomSetAttr( this.#uiSliderGroup, { loopa: a, loopb: b } );
 	}
 	$scrollToMiddle() {
 		this.#win.firstChild.scrollTop = GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).clientHeight / 2;
@@ -174,7 +173,7 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	$octaves( from, nb ) {
-		GSUsetAttribute( this.uiKeys, "octaves", `${ from } ${ nb }` );
+		GSUdomSetAttr( this.uiKeys, "octaves", `${ from } ${ nb }` );
 
 		const rows = this.uiKeys.$getRows();
 
@@ -322,7 +321,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ongsuiTimewindowPxperbeat( ppb ) {
 		this.#blcManager.$setPxPerBeat( ppb );
 		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
-		GSUsetAttribute( this.#uiSliderGroup, "pxperbeat", ppb );
+		GSUdomSetAttr( this.#uiSliderGroup, "pxperbeat", ppb );
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
@@ -330,12 +329,11 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
-		GSUsetAttribute( this.#uiSliderGroup, "currenttime", t );
+		GSUdomSetAttr( this.#uiSliderGroup, "currenttime", t );
 		return true;
 	}
 	#ongsuiTimelineChangeLoop( ret, a, b ) {
-		GSUsetAttribute( this.#uiSliderGroup, "loopa", a );
-		GSUsetAttribute( this.#uiSliderGroup, "loopb", b );
+		GSUdomSetAttr( this.#uiSliderGroup, { loopa: a, loopb: b } );
 		return ret;
 	}
 	#ongsuiSliderGroupInput( val ) {
@@ -344,7 +342,7 @@ class gsuiPianoroll extends gsui0ne {
 			? `x ${ gsuiPianoroll.#xToMul( val ).toFixed( 2 ) }`
 			: val.toFixed( 2 );
 
-		GSUsetAttribute( this.#propSelect, "value", val2 );
+		GSUdomSetAttr( this.#propSelect, "value", val2 );
 	}
 	#ongsuiSliderGroupInputEnd() {
 		GSUdomRmAttr( this.#propSelect, "value" );

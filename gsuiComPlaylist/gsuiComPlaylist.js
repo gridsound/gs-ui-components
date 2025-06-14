@@ -23,7 +23,7 @@ class gsuiComPlaylist extends gsui0ne {
 		Object.seal( this );
 		this.#updateNbCmps();
 		this.$elements.$headLinkCmps.onclick = () => GSUdomRmAttr( this, "bin" );
-		this.$elements.$headLinkBin.onclick = () => GSUsetAttribute( this, "bin", true );
+		this.$elements.$headLinkBin.onclick = () => GSUdomSetAttr( this, "bin" );
 		GSUlistenEvents( this, {
 			gsuiComPlayer: {
 				fork: ( d, t ) => this.#onforkComposition( t ),
@@ -62,7 +62,7 @@ class gsuiComPlaylist extends gsui0ne {
 		this.#cmps.clear();
 	}
 	$changeCompositionProp( id, prop, val ) {
-		GSUsetAttribute( this.#cmps.get( id ), prop, val );
+		GSUdomSetAttr( this.#cmps.get( id ), prop, val );
 	}
 	$addCompositions( arr ) {
 		arr.forEach( cmp => {
@@ -101,7 +101,7 @@ class gsuiComPlaylist extends gsui0ne {
 		const del = GSUdomHasAttr( elCmp, "deleted" );
 		const open = GSUdomHasAttr( elCmp, "opensource" );
 
-		GSUsetAttribute( elCmp, {
+		GSUdomSetAttr( elCmp, {
 			link: del ? false : `#/cmp/${ elCmp.dataset.id }`,
 			dawlink: del || !( this.#itsMe || open ) ? false : `${ this.#dawURL }#${ elCmp.dataset.id }`,
 		} );
@@ -116,8 +116,8 @@ class gsuiComPlaylist extends gsui0ne {
 		const isPrivate = GSUdomHasAttr( elCmp, "private" );
 		const isVisible = !isPrivate && !isOpen;
 
-		GSUsetAttribute( elCmp, "itsmine", this.#itsMe );
-		GSUsetAttribute( elCmp, "actions",
+		GSUdomSetAttr( elCmp, "itsmine", this.#itsMe );
+		GSUdomSetAttr( elCmp, "actions",
 			del ? "restore" :
 			this.#premium ? `fork delete${ isPrivate ? "" : " private" }${ isOpen ? "" : " open" }${ isVisible ? "" : " visible" }` :
 			this.#itsMe ? "fork delete" : "fork" );
@@ -127,13 +127,13 @@ class gsuiComPlaylist extends gsui0ne {
 	#onforkComposition( elCmp ) {
 		const id = elCmp.dataset.id;
 
-		GSUsetAttribute( elCmp, "actionloading", true );
+		GSUdomSetAttr( elCmp, "actionloading" );
 		this.#forkPromise?.( id )
 			.then( obj => {
 				const elNewCmp = this.#itsMe && this.#createCmp( obj );
 
 				if ( elNewCmp ) {
-					GSUsetAttribute( elNewCmp, "forking", true );
+					GSUdomSetAttr( elNewCmp, "forking" );
 					this.$elements.$listCmps.prepend( elNewCmp );
 					this.#updateNbCmps();
 					GSUdomRmAttr( elCmp, "actionloading" );
@@ -147,18 +147,18 @@ class gsuiComPlaylist extends gsui0ne {
 		const del = act === "delete";
 		const prom = del ? this.#deletePromise : this.#restorePromise;
 
-		GSUsetAttribute( elCmp, "actionloading", true );
+		GSUdomSetAttr( elCmp, "actionloading" );
 		prom?.( id )
 			.then( () => {
 				const attr = del ? "deleting" : "restoring";
 
-				GSUsetAttribute( elCmp, attr, true );
+				GSUdomSetAttr( elCmp, attr );
 				GSUsetTimeout( () => {
 					del
 						? this.$elements.$listBin.prepend( elCmp )
 						: this.$elements.$listCmps.prepend( elCmp );
 					GSUdomRmAttr( elCmp, attr, "actionloading" );
-					GSUsetAttribute( elCmp, "deleted", del );
+					GSUdomSetAttr( elCmp, "deleted", del );
 					this.#updateNbCmps();
 					this.#updateCmpLinks( elCmp );
 				}, .35 );

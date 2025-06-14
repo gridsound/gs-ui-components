@@ -73,7 +73,7 @@ class gsuiSynthesizer extends gsui0ne {
 						const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
 						if ( GSUdomGetAttr( elCmp, lfoEnv ) === prop ) {
-							GSUsetAttribute( elCmp, "toggle", d.args[ 0 ] );
+							GSUdomSetAttr( elCmp, "toggle", d.args[ 0 ] );
 						}
 						this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
 					}
@@ -110,8 +110,8 @@ class gsuiSynthesizer extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUsetAttribute( this.$elements.$env, "timedivision", val );
-				GSUsetAttribute( this.$elements.$lfo, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$env, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$lfo, "timedivision", val );
 				break;
 		}
 	}
@@ -165,27 +165,27 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$changeNoiseProp( prop, val ) {
 		this.#data.noise[ prop ] = val;
-		GSUsetAttribute( this.$elements.$noise, prop, val );
+		GSUdomSetAttr( this.$elements.$noise, prop, val );
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.$noiseToggle, "off", !val );
+			GSUdomSetAttr( this.$elements.$noiseToggle, "off", !val );
 		}
 	}
 	$changeEnvProp( env, prop, val ) {
 		this.#data.env[ env ][ prop ] = val;
 		if ( env === GSUdomGetAttr( this.$elements.$env, "env" ) ) {
-			GSUsetAttribute( this.$elements.$env, prop, val );
+			GSUdomSetAttr( this.$elements.$env, prop, val );
 		}
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.$tabs.env[ env ].firstChild, "off", !val );
+			GSUdomSetAttr( this.$elements.$tabs.env[ env ].firstChild, "off", !val );
 		}
 	}
 	$changeLFOProp( lfo, prop, val ) {
 		this.#data.lfo[ lfo ][ prop ] = val;
 		if ( lfo === GSUdomGetAttr( this.$elements.$lfo, "lfo" ) ) {
-			GSUsetAttribute( this.$elements.$lfo, prop, val );
+			GSUdomSetAttr( this.$elements.$lfo, prop, val );
 		}
 		if ( prop === "toggle" ) {
-			GSUsetAttribute( this.$elements.$tabs.lfo[ lfo ].firstChild, "off", !val );
+			GSUdomSetAttr( this.$elements.$tabs.lfo[ lfo ].firstChild, "off", !val );
 		}
 	}
 
@@ -215,9 +215,9 @@ class gsuiSynthesizer extends gsui0ne {
 		if ( !GSUdomHasAttr( tabs[ prop ], "data-selected" ) ) {
 			const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-			GSUforEach( tabs, el => GSUsetAttribute( el, "data-selected", el.dataset.tab.endsWith( prop ) ) );
-			GSUsetAttribute( elCmp, this.#data[ lfoEnv ][ prop ] );
-			GSUsetAttribute( elCmp, lfoEnv, prop );
+			GSUforEach( tabs, el => GSUdomSetAttr( el, "data-selected", el.dataset.tab.endsWith( prop ) ) );
+			GSUdomSetAttr( elCmp, this.#data[ lfoEnv ][ prop ] );
+			GSUdomSetAttr( elCmp, lfoEnv, prop );
 		}
 	}
 

@@ -149,7 +149,7 @@ class gsuiTimeline extends gsui0ne {
 			const rnd = this.$beatRound( t );
 
 			if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
-				GSUsetAttribute( this, "currenttime-preview", rnd );
+				GSUdomSetAttr( this, "currenttime-preview", rnd );
 			} else {
 				this.$elements.$cursorPreview.style.left = `${ t }em`;
 				if ( !this.$elements.$cursorPreview.parentNode ) {
@@ -162,7 +162,7 @@ class gsuiTimeline extends gsui0ne {
 	// .........................................................................
 	#setStatus( st ) {
 		this.#status = st;
-		GSUsetAttribute( this, "status", st );
+		GSUdomSetAttr( this, "status", st );
 	}
 	#getBeatByPageX( pageX ) {
 		return GSUmathClamp( this.$beatRound( ( pageX - GSUdomBCRxy( this )[ 0 ] ) / this.#pxPerBeat ), 0, this.#maxDuration );
@@ -290,7 +290,7 @@ class gsuiTimeline extends gsui0ne {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
 				case "draggingTime":
-					GSUsetAttribute( this, "currenttime-preview", beat );
+					GSUdomSetAttr( this, "currenttime-preview", beat );
 					this.$dispatch( "inputCurrentTime", beat );
 					break;
 				case "draggingLoopBody": {
@@ -300,7 +300,7 @@ class gsuiTimeline extends gsui0ne {
 					const loop = `${ a }-${ b }`;
 
 					if ( loop !== GSUdomGetAttr( this, "loop" ) ) {
-						GSUsetAttribute( this, "loop", loop );
+						GSUdomSetAttr( this, "loop", loop );
 						this.$dispatch( "inputLoop", a, b );
 					}
 				} break;
@@ -328,7 +328,7 @@ class gsuiTimeline extends gsui0ne {
 					}
 					if ( loop !== GSUdomGetAttr( this, "loop" ) ) {
 						if ( aa !== bb ) {
-							GSUsetAttribute( this, "loop", loop );
+							GSUdomSetAttr( this, "loop", loop );
 							this.$dispatch( "inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							GSUdomRmAttr( this, "loop" );
@@ -347,7 +347,7 @@ class gsuiTimeline extends gsui0ne {
 				GSUdomRmAttr( this, "currenttime-preview" );
 				this.$dispatch( "inputCurrentTimeEnd" );
 				if ( beat !== GSUdomGetAttr( this, "currenttime" ) ) {
-					GSUsetAttribute( this, "currenttime", beat );
+					GSUdomSetAttr( this, "currenttime", beat );
 					this.$dispatch( "changeCurrentTime", +beat );
 				}
 			} break;

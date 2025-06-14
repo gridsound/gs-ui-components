@@ -64,7 +64,7 @@ class gsuiDrums extends gsui0ne {
 					return true;
 				},
 				input: ( d, t ) => {
-					GSUsetAttribute( this.#drumsMap.get( d.args[ 0 ] )[ 2 ], t.dataset.currentProp, d.args[ 1 ] );
+					GSUdomSetAttr( this.#drumsMap.get( d.args[ 0 ] )[ 2 ], t.dataset.currentProp, d.args[ 1 ] );
 					this.#drumrows.$setDrumPropValue( t.dataset.id, t.dataset.currentProp, d.args[ 1 ] );
 				},
 				inputEnd: ( d, t ) => {
@@ -72,7 +72,7 @@ class gsuiDrums extends gsui0ne {
 				},
 			},
 		} );
-		GSUsetAttribute( this.#win, "step", 1 );
+		GSUdomSetAttr( this.#win, "step", 1 );
 		this.#win.onscroll = this.#onmousemoveLines2.bind( this );
 		this.#elDrumHover.remove();
 		this.#elDrumcutHover.remove();
@@ -95,10 +95,10 @@ class gsuiDrums extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "disabled": return GSUsetAttribute( this.#win, "disabled", val );
-			case "currenttime": return GSUsetAttribute( this.#win, "currenttime", val );
+			case "disabled": return GSUdomSetAttr( this.#win, "disabled", val );
+			case "currenttime": return GSUdomSetAttr( this.#win, "currenttime", val );
 			case "timedivision": return this.#timedivision( val );
-			case "loop": return GSUsetAttribute( this.#win, "loop", val );
+			case "loop": return GSUdomSetAttr( this.#win, "loop", val );
 		}
 	}
 
@@ -107,21 +107,23 @@ class gsuiDrums extends gsui0ne {
 		const sPB = +timediv.split( "/" )[ 1 ];
 
 		this.#stepsPerBeat = sPB;
-		GSUsetAttribute( this.#win, "timedivision", timediv );
-		GSUsetAttribute( this.#win, "currenttimestep", 1 / sPB );
+		GSUdomSetAttr( this.#win, {
+			timedivision: timediv,
+			currenttimestep: 1 / sPB,
+		} );
 		this.#setPxPerBeat( this.#pxPerBeat );
 		GSUsetStyle( this, "--gsuiDrums-pxperstep", `${ 1 / sPB }em` );
 	}
 	#setPxPerBeat( ppb ) {
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
-		GSUsetAttribute( this.#win, "pxperbeat", ppb );
-		this.#sliderGroups.forEach( grp => GSUsetAttribute( grp, "pxperbeat", ppb ) );
+		GSUdomSetAttr( this.#win, "pxperbeat", ppb );
+		this.#sliderGroups.forEach( grp => GSUdomSetAttr( grp, "pxperbeat", ppb ) );
 	}
 
 	// .........................................................................
 	$changeDuration( dur ) {
-		GSUsetAttribute( this.#win, "duration", dur );
+		GSUdomSetAttr( this.#win, "duration", dur );
 	}
 	$addDrumrow( rowId ) {
 		const elLine = this.#drumrows.$add( rowId );
@@ -170,7 +172,7 @@ class gsuiDrums extends gsui0ne {
 		const elLine = GSUgetTemplate( "gsui-drums-line" );
 		const grp = GSUdomQS( elLine, "gsui-slidergroup" );
 
-		GSUsetAttribute( grp, "pxperbeat", this.#pxPerBeat );
+		GSUdomSetAttr( grp, "pxperbeat", this.#pxPerBeat );
 		elLine.dataset.id = id;
 		grp.dataset.id = id;
 		this.#sliderGroups.set( id, grp );
@@ -180,7 +182,7 @@ class gsuiDrums extends gsui0ne {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
 		const grp = this.#sliderGroups.get( rowId );
 
-		GSUsetAttribute( this.#drumsMap.get( id )[ 2 ], prop, val );
+		GSUdomSetAttr( this.#drumsMap.get( id )[ 2 ], prop, val );
 		if ( prop === grp.dataset.currentProp ) {
 			grp.$setProp( id, "value", val );
 		}
@@ -201,7 +203,7 @@ class gsuiDrums extends gsui0ne {
 			if ( closestW + closestD > when ) {
 				for ( let d = 1; d < 16; d *= 2 ) {
 					if ( closestW + closestD / d <= when ) {
-						GSUsetAttribute( closest, "duration", closestD / d );
+						GSUdomSetAttr( closest, "duration", closestD / d );
 						this.#sliderGroups.get( rowId ).$setProp( closest.dataset.id, "duration", closestD / d );
 						break;
 					}
@@ -224,7 +226,7 @@ class gsuiDrums extends gsui0ne {
 			const dur = this.#calcItemWidth( itemType, rowId, closestW );
 
 			if ( dur !== closestD ) {
-				GSUsetAttribute( closest, "duration", dur );
+				GSUdomSetAttr( closest, "duration", dur );
 				this.#sliderGroups.get( rowId ).$setProp( closest.dataset.id, "duration", dur );
 			}
 		}

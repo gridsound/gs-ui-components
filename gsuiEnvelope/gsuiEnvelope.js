@@ -99,27 +99,27 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	#changeToggle( b ) {
-		GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.q[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.hold[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.decay[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.sustain[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.release[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.q[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.hold[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.decay[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.sustain[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.release[ 0 ], "disabled", !b );
 	}
 	#changeTimedivision( val ) {
-		GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
+		GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
 		this.$updateWave();
 	}
 	#changeProp( prop, val ) {
 		const [ sli, span ] = this.$elements.$sliders[ prop ];
 
-		GSUsetAttribute( sli, "value", val );
+		GSUdomSetAttr( sli, "value", val );
 		span.textContent = gsuiEnvelope.#formatValue( prop, val );
 	}
 	#updatePxPerBeat() {
 		this.#ppb = this.#waveWidth / this.#dur;
-		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.#ppb );
+		GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", this.#ppb );
 	}
 	static #formatValue( prop, val ) {
 		return prop !== "amp"
@@ -142,7 +142,7 @@ class gsuiEnvelope extends gsui0ne {
 		this.$dispatch( "liveChange", this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		GSUsetAttribute( this, prop, val );
+		GSUdomSetAttr( this, prop, val );
 		this.$dispatch( "change", this.#env, prop, val );
 	}
 

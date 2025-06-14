@@ -232,12 +232,12 @@ class gsuiPatterns extends gsui0ne {
 		const elPat = this.$getPattern( id );
 
 		switch ( prop ) {
-			case "data-missing": GSUsetAttribute( elPat, "data-missing", val ); break;
+			case "data-missing": GSUdomSetAttr( elPat, "data-missing", val ); break;
 			case "order":
 				elPat.dataset.order = val; // to delete
 				elPat.style.order = val;
 				break;
-			case "reverse": GSUsetAttribute( elPat, "data-reverse", val ); break;
+			case "reverse": GSUdomSetAttr( elPat, "data-reverse", val ); break;
 			case "name":
 				elPat.dataset.name = val;
 				GSUdomQS( elPat, ".gsuiPatterns-pattern-name" ).title = val;
@@ -247,11 +247,11 @@ class gsuiPatterns extends gsui0ne {
 			case "destName": GSUdomQS( elPat, ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).textContent = val; break;
 			case "synth": this.#getPatternParent( "keys", val ).append( elPat ); break;
 			case "bufferType":
-				GSUsetAttribute( elPat, "data-buffer-type", val );
+				GSUdomSetAttr( elPat, "data-buffer-type", val );
 				GSUdomQS( elPat, ".gsuiPatterns-pattern-btnInfo" ).dataset.icon = `buf-${ val || "undefined" }`;
 				break;
 			case "bufferBpm":
-				GSUsetAttribute( elPat, "data-buffer-bpm", val );
+				GSUdomSetAttr( elPat, "data-buffer-bpm", val );
 				break;
 		}
 	}

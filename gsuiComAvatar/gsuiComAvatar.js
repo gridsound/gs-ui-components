@@ -11,7 +11,7 @@ class gsuiComAvatar extends gsui0ne {
 			],
 		} );
 		Object.seal( this );
-		this.$element.onload = () => GSUsetAttribute( this, "loaded", true );
+		this.$element.onload = () => GSUdomSetAttr( this, "loaded" );
 	}
 
 	// .........................................................................

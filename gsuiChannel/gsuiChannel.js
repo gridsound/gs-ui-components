@@ -41,7 +41,7 @@ class gsuiChannel extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: d => {
-					GSUsetAttribute( this, "muted", !d.args[ 0 ] );
+					GSUdomSetAttr( this, "muted", !d.args[ 0 ] );
 					this.$dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
@@ -75,11 +75,11 @@ class gsuiChannel extends gsui0ne {
 				this.$elements.$name.textContent = val;
 				break;
 			case "muted":
-				GSUsetAttribute( this.$elements.$toggle, "off", val !== null );
+				GSUdomSetAttr( this.$elements.$toggle, "off", val !== null );
 				break;
 			case "pan":
 			case "gain":
-				GSUsetAttribute( this.$elements[ prop ], "value", val );
+				GSUdomSetAttr( this.$elements[ prop ], "value", val );
 				break;
 			case "connecta":
 			case "connectb":

@@ -56,33 +56,33 @@ class gsuiFxReverb extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
 				this.#updatePxPerBeat();
 				this.#updateWetPos();
 				break;
 			case "dry":
 				this.$elements.$dryValue.textContent = GSUmathFix( val * 100 );
-				GSUsetAttribute( this.$elements.$drySli, "value", val );
+				GSUdomSetAttr( this.$elements.$drySli, "value", val );
 				this.$elements.$graphDry.style.opacity = val;
 				break;
 			case "wet":
 				this.$elements.$wetValue.textContent = GSUmathFix( val * 100 );
-				GSUsetAttribute( this.$elements.$wetSli, "value", val );
+				GSUdomSetAttr( this.$elements.$wetSli, "value", val );
 				this.$elements.$graphWet.style.opacity = GSUmathEaseOutCirc( val / 10 );
 				break;
 			case "delay":
 				this.$elements.$delValue.textContent = ( +val ).toFixed( 2 );
-				GSUsetAttribute( this.$elements.$delSli, "value", val );
+				GSUdomSetAttr( this.$elements.$delSli, "value", val );
 				this.#updateWetPos();
 				break;
 			case "decay":
 				this.$elements.$decValue.textContent = ( +val ).toFixed( 2 );
-				GSUsetAttribute( this.$elements.$decSli, "value", val );
+				GSUdomSetAttr( this.$elements.$decSli, "value", val );
 				this.#updateWetPos();
 				break;
 			case "fadein":
 				this.$elements.$fadeinValue.textContent = ( +val ).toFixed( 2 );
-				GSUsetAttribute( this.$elements.$fadeinSli, "value", val );
+				GSUdomSetAttr( this.$elements.$fadeinSli, "value", val );
 				this.#updateWetPos();
 				break;
 		}
@@ -93,7 +93,7 @@ class gsuiFxReverb extends gsui0ne {
 		this.#updatePxPerBeat();
 	}
 	#oninputProp( prop, val ) {
-		GSUsetAttribute( this, prop, val );
+		GSUdomSetAttr( this, prop, val );
 		this.$dispatch( "liveChange", prop, val );
 	}
 
@@ -101,7 +101,7 @@ class gsuiFxReverb extends gsui0ne {
 	#updatePxPerBeat() {
 		const bPM = GSUdomGetAttr( this, "timedivision" ).split( "/" )[ 0 ];
 
-		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.$elements.$beatlines.clientWidth / bPM );
+		GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", this.$elements.$beatlines.clientWidth / bPM );
 	}
 	#updateWetPos() {
 		const delay = GSUdomGetAttrNum( this, "delay" );

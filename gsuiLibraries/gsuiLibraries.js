@@ -28,7 +28,7 @@ class gsuiLibraries extends gsui0ne {
 	// .........................................................................
 	static #onclickBtns( root, e ) {
 		if ( e.target.dataset.lib ) {
-			GSUsetAttribute( root, "lib", e.target.dataset.lib );
+			GSUdomSetAttr( root, "lib", e.target.dataset.lib );
 		}
 	}
 }

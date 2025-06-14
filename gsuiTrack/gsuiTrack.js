@@ -23,7 +23,7 @@ class gsuiTrack extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: d => {
-					GSUsetAttribute( this, "mute", !d.args[ 0 ] );
+					GSUdomSetAttr( this, "mute", !d.args[ 0 ] );
 					this.$dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: () => {
@@ -42,7 +42,7 @@ class gsuiTrack extends gsui0ne {
 		switch ( prop ) {
 			case "mute":
 				this.rowElement.classList.toggle( "gsui-mute", val !== null );
-				GSUsetAttribute( this.firstElementChild, "off", val !== null );
+				GSUdomSetAttr( this.firstElementChild, "off", val !== null );
 				break;
 			case "name":
 				this.$elements.$inpName.value = val;
@@ -74,7 +74,7 @@ class gsuiTrack extends gsui0ne {
 		const n = this.$elements.$inpName.value.trim();
 
 		this.$elements.$inpName.disabled = true;
-		GSUsetAttribute( this, "name", n );
+		GSUdomSetAttr( this, "name", n );
 		this.$dispatch( "rename", n );
 	}
 	#onblur() {

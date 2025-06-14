@@ -82,8 +82,8 @@ class gsuiPopup extends gsui0ne {
 	#setOkCancelBtns( ok, cancel, noOverlayCancel ) {
 		this.#clWindow.toggle( "gsuiPopup-noCancel", cancel === false );
 		this.#clWindow.toggle( "gsuiPopup-noCancelOverlay", noOverlayCancel === true );
-		GSUsetAttribute( this.$elements.cancel, "text", cancel || "Cancel" );
-		GSUsetAttribute( this.$elements.ok, "text", ok || "Ok" );
+		GSUdomSetAttr( this.$elements.cancel, "text", cancel || "Cancel" );
+		GSUdomSetAttr( this.$elements.ok, "text", ok || "Ok" );
 	}
 	#open( type, title, msg, value ) {
 		this.#type = type;

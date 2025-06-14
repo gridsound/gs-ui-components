@@ -86,12 +86,12 @@ class gsuiSlicer extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiTimeline: {
 				changeCurrentTime: d => {
-					GSUsetAttribute( this, "currenttime", d.args[ 0 ] );
+					GSUdomSetAttr( this, "currenttime", d.args[ 0 ] );
 					return true;
 				},
 			},
 			gsuiStepSelect: {
-				onchange: d => GSUsetAttribute( this, "step", d.args[ 0 ] ),
+				onchange: d => GSUdomSetAttr( this, "step", d.args[ 0 ] ),
 			},
 		} );
 	}
@@ -111,20 +111,20 @@ class gsuiSlicer extends gsui0ne {
 		switch ( prop ) {
 			case "timedivision":
 				this.#stepsPerBeat = +val.split( "/" )[ 1 ];
-				GSUsetAttribute( this.$elements.$timeline, "timedivision", val );
-				GSUsetAttribute( this.$elements.$beatlines[ 0 ], "timedivision", val );
-				GSUsetAttribute( this.$elements.$beatlines[ 1 ], "timedivision", val );
+				GSUdomSetAttr( this.$elements.$timeline, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$beatlines[ 0 ], "timedivision", val );
+				GSUdomSetAttr( this.$elements.$beatlines[ 1 ], "timedivision", val );
 				break;
 			case "currenttime":
 				this.#setCurrentTime( +val );
 				break;
 			case "duration":
 				this.#dur = +val;
-				GSUsetAttribute( this.$elements.$timeline, "maxduration", val );
+				GSUdomSetAttr( this.$elements.$timeline, "maxduration", val );
 				this.#updatePxPerBeat();
 				break;
 			case "step":
-				GSUsetAttribute( this.$elements.$step, "step", val );
+				GSUdomSetAttr( this.$elements.$step, "step", val );
 				break;
 		}
 	}
@@ -134,8 +134,7 @@ class gsuiSlicer extends gsui0ne {
 		const h = svg.clientHeight;
 
 		GSUsetViewBoxWH( svg, w, h );
-		GSUsetAttribute( svg.firstChild, "x2", w );
-		GSUsetAttribute( svg.firstChild, "y2", h );
+		GSUdomSetAttr( svg.firstChild, { x2: w, y2: h } );
 		this.#updatePxPerBeat();
 	}
 
@@ -231,10 +230,10 @@ class gsuiSlicer extends gsui0ne {
 	#setCurrentTime( beat ) {
 		const t = this.#getTimeNorm();
 
-		GSUsetAttribute( this.$elements.$timeline, "currenttime", beat );
+		GSUdomSetAttr( this.$elements.$timeline, "currenttime", beat );
 		this.$elements.$slicesCurrentTime.style.left = `${ t * 100 }%`;
 		this.$elements.$previewCurrentTime.style.left = `${ t * 100 }%`;
-		GSUsetAttribute( this, "hidetimes", t <= 0 || t >= .995 );
+		GSUdomSetAttr( this, "hidetimes", t <= 0 || t >= .995 );
 		this.#updateCurrentTime( t );
 	}
 	#updateCurrentTime( t ) {
@@ -267,9 +266,9 @@ class gsuiSlicer extends gsui0ne {
 		this.$elements.$tools.$split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
 	}
 	#updatePxPerBeat( dur ) {
-		GSUsetAttribute( this.$elements.$timeline, "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );
-		GSUsetAttribute( this.$elements.$beatlines[ 0 ], "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );
-		GSUsetAttribute( this.$elements.$beatlines[ 1 ], "pxperbeat", this.$elements.$slices.clientHeight / ( dur || this.#dur ) );
+		GSUdomSetAttr( this.$elements.$timeline, "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );
+		GSUdomSetAttr( this.$elements.$beatlines[ 0 ], "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );
+		GSUdomSetAttr( this.$elements.$beatlines[ 1 ], "pxperbeat", this.$elements.$slices.clientHeight / ( dur || this.#dur ) );
 	}
 	#getSliceByPageX( offsetX ) {
 		const x = GSUmathClamp( offsetX / this.$elements.$slices.clientWidth, 0, .9999 );

@@ -41,12 +41,12 @@ class gsuiEffect extends gsui0ne {
 				this.style.order = val;
 				break;
 			case "enable":
-				GSUsetAttribute( this.$elements.$toggle, "off", val !== "" );
-				GSUsetAttribute( this.$elements.$content.firstChild, "off", val !== "" );
+				GSUdomSetAttr( this.$elements.$toggle, "off", val !== "" );
+				GSUdomSetAttr( this.$elements.$content.firstChild, "off", val !== "" );
 				break;
 			case "name":
 				this.$elements.$name.textContent = val;
-				GSUsetAttribute( this.$elements.$help, "page", `mixer-effects-${ val }` );
+				GSUdomSetAttr( this.$elements.$help, "page", `mixer-effects-${ val }` );
 				break;
 		}
 	}

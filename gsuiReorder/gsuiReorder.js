@@ -383,7 +383,7 @@ class gsuiReorder {
 	static #setElemOrder( el, n ) {
 		el.style.order = n;
 		if ( GSUdomIsCustomElement( el ) ) {
-			GSUsetAttribute( el, "order", n );
+			GSUdomSetAttr( el, "order", n );
 		}
 	}
 	static #createGhostElement( elItem, elGrip, e ) {

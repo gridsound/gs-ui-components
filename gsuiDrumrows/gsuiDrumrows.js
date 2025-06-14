@@ -33,10 +33,10 @@ class gsuiDrumrows extends gsui0ne {
 		this.#rows.get( id ).$stop();
 	}
 	$setPropFilter( rowId, prop ) {
-		GSUsetAttribute( this.#getPropSelect( rowId ), "prop", prop );
+		GSUdomSetAttr( this.#getPropSelect( rowId ), "prop", prop );
 	}
 	$setDrumPropValue( rowId, prop, val ) {
-		GSUsetAttribute( this.#getPropSelect( rowId ), "value", val );
+		GSUdomSetAttr( this.#getPropSelect( rowId ), "value", val );
 	}
 	$removeDrumPropValue( rowId, prop ) {
 		GSUdomRmAttr( this.#getPropSelect( rowId ), "value" );
@@ -66,7 +66,7 @@ class gsuiDrumrows extends gsui0ne {
 			case "detune":
 			case "toggle":
 			case "duration":
-				GSUsetAttribute( this.#rows.get( id ), prop, val );
+				GSUdomSetAttr( this.#rows.get( id ), prop, val );
 				break;
 			case "pattern":
 				this.#rows.get( id ).$changePattern( val );

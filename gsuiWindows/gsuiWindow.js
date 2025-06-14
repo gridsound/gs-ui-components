@@ -63,7 +63,7 @@ class gsuiWindow extends gsui0ne {
 		if ( b !== this.#show ) {
 			if ( b ) {
 				this.#show = true;
-				GSUsetAttribute( this, "show", true );
+				GSUdomSetAttr( this, "show" );
 				this.$dispatch( "open" );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
@@ -93,7 +93,7 @@ class gsuiWindow extends gsui0ne {
 		if ( !this.#maximized ) {
 			const wasMinimized = this.#minimized;
 
-			GSUsetAttribute( this, { minimized: false, maximized: true } );
+			GSUdomSetAttr( this, { minimized: false, maximized: true } );
 			this.#minimized = false;
 			this.#maximized = true;
 			if ( wasMinimized ) {
@@ -104,7 +104,7 @@ class gsuiWindow extends gsui0ne {
 	}
 	$minimize() {
 		if ( !this.#minimized ) {
-			GSUsetAttribute( this, { minimized: true, maximized: false } );
+			GSUdomSetAttr( this, { minimized: true, maximized: false } );
 			this.#minimized = true;
 			this.#maximized = false;
 			GSUemptyElement( this.$elements.$content );
@@ -116,7 +116,7 @@ class gsuiWindow extends gsui0ne {
 			const wasMinimized = this.#minimized;
 
 			this.focus( { preventScroll: true } );
-			GSUsetAttribute( this, { minimized: false, maximized: false } );
+			GSUdomSetAttr( this, { minimized: false, maximized: false } );
 			this.#minimized =
 			this.#maximized = false;
 			if ( wasMinimized ) {
@@ -154,7 +154,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			GSUsetAttribute( this, "dragging", true );
+			GSUdomSetAttr( this, "dragging" );
 			this.$dispatch( "startMousemoving", "move", e.pointerId,
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
@@ -168,7 +168,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			GSUsetAttribute( this, "dragging", true );
+			GSUdomSetAttr( this, "dragging" );
 			this.$dispatch( "startMousemoving", `${ dir }-resize`, e.pointerId,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
@@ -195,7 +195,7 @@ class gsuiWindow extends gsui0ne {
 		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
-			GSUsetAttribute( this, {
+			GSUdomSetAttr( this, {
 				x: x + m.x,
 				y: y + m.y,
 			} );
@@ -224,14 +224,14 @@ class gsuiWindow extends gsui0ne {
 		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
-				case "e":  GSUsetAttribute( this, { w: w + m.x, h          } ); break;
-				case "se": GSUsetAttribute( this, { w: w + m.x, h: h + m.y } ); break;
-				case "s":  GSUsetAttribute( this, { w,          h: h + m.y } ); break;
-				case "sw": GSUsetAttribute( this, { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
-				case "w":  GSUsetAttribute( this, { w: w - m.x, h         , x: x + m.x, y          } ); break;
-				case "nw": GSUsetAttribute( this, { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
-				case "n":  GSUsetAttribute( this, { w,          h: h - m.y, x,          y: y + m.y } ); break;
-				case "ne": GSUsetAttribute( this, { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;
+				case "e":  GSUdomSetAttr( this, { w: w + m.x, h          } ); break;
+				case "se": GSUdomSetAttr( this, { w: w + m.x, h: h + m.y } ); break;
+				case "s":  GSUdomSetAttr( this, { w,          h: h + m.y } ); break;
+				case "sw": GSUdomSetAttr( this, { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
+				case "w":  GSUdomSetAttr( this, { w: w - m.x, h         , x: x + m.x, y          } ); break;
+				case "nw": GSUdomSetAttr( this, { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
+				case "n":  GSUdomSetAttr( this, { w,          h: h - m.y, x,          y: y + m.y } ); break;
+				case "ne": GSUdomSetAttr( this, { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;
 			}
 		}
 	}

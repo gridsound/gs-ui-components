@@ -108,7 +108,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		gsuiWavetableGraph.#drawLine( l[ 11 ], this.#getCoord( 0, 1, 1 ), this.#getCoord( 1, 1, 1 ) );
 	}
 	static #drawLine( line, a, b ) {
-		GSUsetAttribute( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
+		GSUdomSetAttr( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
 	#drawMorph() {
 		const z = this.#morphingWaveAt;
@@ -147,15 +147,19 @@ class gsuiWavetableGraph extends gsui0ne {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
 		const isSel = this.#selectedWave === wId;
 
-		GSUsetAttribute( g.children[ i ], "data-selected", isSel );
-		GSUsetAttribute( g.children[ i ], "points", curveDots.join( " " ) );
+		GSUdomSetAttr( g.children[ i ], {
+			"data-selected": isSel,
+			points: curveDots.join( " " ),
+		} );
 		curveDots.shift();
 		curveDots.pop();
-		GSUsetAttribute( g.children[ i + 1 ], "data-selected", isSel );
-		GSUsetAttribute( g.children[ i + 1 ], "points", curveDots.join( " " ) );
+		GSUdomSetAttr( g.children[ i + 1 ], {
+			"data-selected": isSel,
+			points: curveDots.join( " " ),
+		} );
 	}
 	#drawInter( el, x ) {
-		GSUsetAttribute( el, "points", this.#waves.map( ( wave, i ) => {
+		GSUdomSetAttr( el, "points", this.#waves.map( ( wave, i ) => {
 			const dotsI = x * ( wave.dots.length - 1 ) | 0;
 			const dot = wave.dots[ dotsI ];
 

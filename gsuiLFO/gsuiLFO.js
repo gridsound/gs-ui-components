@@ -63,12 +63,12 @@ class gsuiLFO extends gsui0ne {
 			switch ( prop ) {
 				case "lfo":
 					this.#lfo = val;
-					GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "max", val === "gain" ? 1 : 12 );
+					GSUdomSetAttr( this.$elements.$sliders.amp[ 0 ], "max", val === "gain" ? 1 : 12 );
 					this.#changeProp( "amp", Math.abs( GSUdomGetAttr( this, "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
 					break;
-				case "timedivision": GSUsetAttribute( this.$elements.$beatlines, "timedivision", val ); break;
+				case "timedivision": GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val ); break;
 				case "toggle": this.#changeToggle( val !== null ); break;
 				case "type": this.#changeType( val ); break;
 				case "delay":
@@ -112,11 +112,11 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	#changeToggle( b ) {
-		GSUdomQSA( this, "input[type=radio]" ).forEach( el => GSUsetAttribute( el, "disabled", !b ) );
-		GSUsetAttribute( this.$elements.$sliders.delay[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.speed[ 0 ], "disabled", !b );
-		GSUsetAttribute( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
+		GSUdomQSA( this, "input[type=radio]" ).forEach( el => GSUdomSetAttr( el, "disabled", !b ) );
+		GSUdomSetAttr( this.$elements.$sliders.delay[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.speed[ 0 ], "disabled", !b );
+		GSUdomSetAttr( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
 	}
 	#changeType( type ) {
 		this.$elements.$wave.$options( 0, { type } );
@@ -129,12 +129,12 @@ class gsuiLFO extends gsui0ne {
 		const sli = this.$elements.$sliders[ prop ];
 
 		if ( sli ) {
-			GSUsetAttribute( sli[ 0 ], "value", val );
+			GSUdomSetAttr( sli[ 0 ], "value", val );
 			sli[ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		}
 	}
 	#updatePxPerBeat() {
-		GSUsetAttribute( this.$elements.$beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
+		GSUdomSetAttr( this.$elements.$beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
 	}
 	static #formatVal( prop, val ) {
 		return val.toFixed( 2 );
@@ -149,12 +149,12 @@ class gsuiLFO extends gsui0ne {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-type":
-				GSUsetAttribute( this, "type", e.target.value );
+				GSUdomSetAttr( this, "type", e.target.value );
 				this.$updateWave();
 				this.$dispatch( "change", this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				GSUsetAttribute( this, "amp", -this.$getAttrNum( "amp" ) );
+				GSUdomSetAttr( this, "amp", -this.$getAttrNum( "amp" ) );
 				this.$updateWave();
 				this.$dispatch( "change", this.#lfo, "amp", this.$getAttrNum( "amp" ) );
 				break;
@@ -174,7 +174,7 @@ class gsuiLFO extends gsui0ne {
 			? val * Math.sign( this.$getAttrNum( "amp" ) )
 			: val;
 
-		GSUsetAttribute( this, prop, nval );
+		GSUdomSetAttr( this, prop, nval );
 		this.$dispatch( "change", this.#lfo, prop, nval );
 	}
 

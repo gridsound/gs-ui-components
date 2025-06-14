@@ -111,8 +111,8 @@ class gsuiDotline extends gsui0ne {
 		this.$elements.$svg.$setSVGSize( w, h );
 		this.#drawPolyline();
 		if ( this.#beatlines ) {
-			GSUsetAttribute( this.#beatlines[ 0 ], "pxperbeat", this.$elements.$svg.firstChild.clientWidth / 10 );
-			GSUsetAttribute( this.#beatlines[ 1 ], "pxperbeat", this.$elements.$svg.firstChild.clientHeight / 10 );
+			GSUdomSetAttr( this.#beatlines[ 0 ], "pxperbeat", this.$elements.$svg.firstChild.clientWidth / 10 );
+			GSUdomSetAttr( this.#beatlines[ 1 ], "pxperbeat", this.$elements.$svg.firstChild.clientHeight / 10 );
 		}
 	}
 
@@ -200,7 +200,7 @@ class gsuiDotline extends gsui0ne {
 					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
 					this.$elements.$root.append( cdot );
 				}
-				GSUsetAttribute( cdot, "data-type", dot.type );
+				GSUdomSetAttr( cdot, "data-type", dot.type );
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) * .5 + prevXp }%`;
 				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) * cdotY + prevYp }%`;
 				delete cdots[ id ];
@@ -384,7 +384,7 @@ class gsuiDotline extends gsui0ne {
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
-			GSUsetAttribute( this.$elements.$slider, "value", dot.val );
+			GSUdomSetAttr( this.$elements.$slider, "value", dot.val );
 			this.#drawPolyline();
 			this.#onchange( { [ id ]: { val: dot.val } } );
 		}
@@ -452,7 +452,7 @@ class gsuiDotline extends gsui0ne {
 			const dotBY = this.#dataSorted[ ind ][ 1 ].y;
 
 			this.#activeDotId = id;
-			GSUsetAttribute( this.$elements.$slider, {
+			GSUdomSetAttr( this.$elements.$slider, {
 				revert: dotAY > dotBY,
 				value: this.#data[ id ].val,
 			} );

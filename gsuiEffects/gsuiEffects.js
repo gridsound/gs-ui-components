@@ -64,7 +64,7 @@ class gsuiEffects extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				this.#fxsHtml.forEach( el => GSUsetAttribute( el.$getFxElement(), "timedivision", val ) );
+				this.#fxsHtml.forEach( el => GSUdomSetAttr( el.$getFxElement(), "timedivision", val ) );
 				break;
 		}
 	}
@@ -90,7 +90,7 @@ class gsuiEffects extends gsui0ne {
 		if ( "$askData" in uiFx ) {
 			uiFx.$askData = this.$askData.bind( null, id, fx.type );
 		}
-		GSUsetAttribute( uiFx, "timedivision", GSUdomGetAttr( this, "timedivision" ) );
+		GSUdomSetAttr( uiFx, "timedivision", GSUdomGetAttr( this, "timedivision" ) );
 		root.$setFxElement( uiFx );
 		this.#fxsHtml.set( id, root );
 		this.append( root );
@@ -101,8 +101,8 @@ class gsuiEffects extends gsui0ne {
 	}
 	$changeEffect( id, prop, val ) {
 		switch ( prop ) {
-			case "toggle": GSUsetAttribute( this.#fxsHtml.get( id ), "enable", val ); break;
-			case "order": GSUsetAttribute( this.#fxsHtml.get( id ), "order", val ); break;
+			case "toggle": GSUdomSetAttr( this.#fxsHtml.get( id ), "enable", val ); break;
+			case "order": GSUdomSetAttr( this.#fxsHtml.get( id ), "order", val ); break;
 		}
 	}
 

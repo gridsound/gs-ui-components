@@ -65,7 +65,7 @@ class gsui0ne extends HTMLElement {
 	}
 
 	// .........................................................................
-	$setAttr( a, val ) { GSUsetAttribute( this, a, val ); }
+	$setAttr( a, val ) { GSUdomSetAttr( this, a, val ); }
 	$getAttr( a ) { return this.#attributes[ a ]; }
 	$getAttrNum( a ) {
 		const val = this.#attributes[ a ];

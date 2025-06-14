@@ -48,7 +48,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		const opt = this.#options[ lineN ];
 
 		if ( opt && opt.type in gsuiPeriodicWave.#cache ) {
-			GSUsetAttribute( this.$element.children[ lineN ], {
+			GSUdomSetAttr( this.$element.children[ lineN ], {
 				points: gsuiPeriodicWave.#draw( this.#getDrawData( lineN ) ),
 				"stroke-opacity": opt.opacity,
 			} );

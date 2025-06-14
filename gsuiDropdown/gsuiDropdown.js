@@ -49,14 +49,14 @@ class gsuiDropdown {
 			this.#isOpen = true;
 			GSUclearTimeout( this.#timeoutId );
 			if ( this.#elem ) {
-				GSUsetAttribute( this.#elem, "data-open", true );
+				GSUdomSetAttr( this.#elem, "data-open" );
 			} else {
 				this.#elem = this.#createElement();
 				this.#elParent.prepend( this.#elem );
 				document.body.addEventListener( "pointerdown", this.#onptrdownBodyBind );
 				this.#timeoutId = GSUsetTimeout( () => {
 					this.#positionElement();
-					GSUsetAttribute( this.#elem, "data-open", true );
+					GSUdomSetAttr( this.#elem, "data-open" );
 				}, .01 );
 			}
 		}

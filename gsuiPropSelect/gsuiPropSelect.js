@@ -58,7 +58,7 @@ class gsuiPropSelect extends gsui0ne {
 
 		this.#prop = prop;
 		this.#setValue( prev, false );
-		btn && GSUsetAttribute( btn, "data-selected", true );
+		GSUdomSetAttr( btn, "data-selected" );
 		GSUdomRmAttr( this.#getBtn( prev ), "data-selected" );
 		this.#setValue( prop, GSUdomGetAttr( this, "value" ) );
 	}
@@ -66,11 +66,7 @@ class gsuiPropSelect extends gsui0ne {
 		return GSUdomQS( this, `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
 	}
 	#setValue( prop, val ) {
-		const btn = this.#getBtn( prop );
-
-		if ( btn ) {
-			GSUsetAttribute( btn, "data-value", gsuiPropSelect.#formatValue( prop, val ) );
-		}
+		GSUdomSetAttr( this.#getBtn( prop ), "data-value", gsuiPropSelect.#formatValue( prop, val ) );
 	}
 	static #formatValue( prop, val ) {
 		if ( !val ) {
@@ -89,14 +85,14 @@ class gsuiPropSelect extends gsui0ne {
 		const prop = e.target.dataset.prop;
 
 		if ( prop && prop !== this.#prop ) {
-			GSUsetAttribute( this, "prop", prop );
+			GSUdomSetAttr( this, "prop", prop );
 			this.$dispatch( "select", prop );
 		}
 	}
 	#oncontextmenu( e ) {
 		e.preventDefault();
 		if ( e.target.classList.contains( "gsuiPropSelect-btn" ) ) {
-			GSUsetAttribute( this, "prop", e.target.dataset.prop );
+			GSUdomSetAttr( this, "prop", e.target.dataset.prop );
 			this.$dispatch( "selectAll", e.target.dataset.prop );
 		}
 	}

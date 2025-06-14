@@ -35,7 +35,7 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$login.onclick = this.#onclickLogin.bind( this );
 		this.$elements.$logout.onclick = this.#onclickLogout.bind( this );
 		this.$elements.$save.onclick = () => this.$dispatch( "save" );
-		this.$elements.$cmpEditBtn.onclick = () => !GSUdomHasAttr( this, "readonly" ) && GSUsetAttribute( this, "renaming", true );
+		this.$elements.$cmpEditBtn.onclick = () => !GSUdomHasAttr( this, "readonly" ) && GSUdomSetAttr( this, "renaming" );
 		this.$elements.$cmpEditInp.onblur = e => GSUdomHasAttr( this, "renaming" ) && this.#onkeydownRename( "Enter" );
 		this.$elements.$cmpEditInp.onkeydown = e => { e.stopPropagation(); this.#onkeydownRename( e.key ); };
 	}
@@ -51,7 +51,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "avatar": this.$elements.$avatar.style.backgroundImage = `url(${ val })`; break;
 			case "username": {
 				this.$elements.$username.textContent = val;
-				GSUsetAttribute( this.$elements.$userLink, "href", `//gridsound.com/#/u/${ val }` );
+				GSUdomSetAttr( this.$elements.$userLink, "href", `//gridsound.com/#/u/${ val }` );
 			} break;
 			case "cmpdur": {
 				const dur = GSUsplitSeconds( +val );
@@ -60,9 +60,9 @@ class gsuiTitleUser extends gsui0ne {
 			} break;
 			case "saved":
 			case "cmpname": this.#updateCmpName(); break;
-			case "saving": GSUsetAttribute( this.$elements.$save, "data-spin", val === "" ? "on" : false ); break;
-			case "connecting": GSUsetAttribute( this.$elements.$login, "data-spin", val === "" ? "on" : false ); break;
-			case "disconnecting": GSUsetAttribute( this.$elements.$logout, "data-spin", val === "" ? "on" : false ); break;
+			case "saving": GSUdomSetAttr( this.$elements.$save, "data-spin", val === "" ? "on" : false ); break;
+			case "connecting": GSUdomSetAttr( this.$elements.$login, "data-spin", val === "" ? "on" : false ); break;
+			case "disconnecting": GSUdomSetAttr( this.$elements.$logout, "data-spin", val === "" ? "on" : false ); break;
 			case "just-saved":
 				if ( val === "" ) {
 					GSUclearTimeout( this.#justSavedTimeout );
@@ -83,7 +83,7 @@ class gsuiTitleUser extends gsui0ne {
 	$setLoginCallbackPromise( fn ) { this.#loginPromise = fn; }
 	$setLogoutCallbackPromise( fn ) { this.#logoutPromise = fn; }
 	$setUserInfo( me ) {
-		GSUsetAttribute( this, {
+		GSUdomSetAttr( this, {
 			name: !me ? "" : `${ me.firstname } ${ me.lastname }`,
 			avatar: !me ? "" : me.avatar,
 			username: !me ? "" : me.username,
@@ -101,7 +101,7 @@ class gsuiTitleUser extends gsui0ne {
 		document.title = GSUdomHasAttr( this, "saved" ) ? title : `*${ title }`;
 	}
 	#onclickLogout() {
-		GSUsetAttribute( this, "disconnecting", true );
+		GSUdomSetAttr( this, "disconnecting" );
 		return this.#logoutPromise?.()
 			.then( () => this.$setUserInfo( null ) )
 			.finally( () => GSUdomRmAttr( this, "disconnecting" ) );
@@ -119,7 +119,7 @@ class gsuiTitleUser extends gsui0ne {
 		} );
 	}
 	#onsubmitLogin( obj ) {
-		GSUsetAttribute( this, "connecting", true );
+		GSUdomSetAttr( this, "connecting" );
 		this.#loginPopup.$error.textContent = "";
 		return this.#loginPromise?.( obj.email, obj.password )
 			.then( me => this.$setUserInfo( me ) )

@@ -25,11 +25,11 @@ class gsuiDrumrow extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiToggle: {
 				toggle: ( d, btn ) => {
-					GSUsetAttribute( this, "toggle", d.args[ 0 ] );
+					GSUdomSetAttr( this, "toggle", d.args[ 0 ] );
 					this.$dispatch( "toggle", d.args[ 0 ] );
 				},
 				toggleSolo: ( d, btn ) => {
-					GSUsetAttribute( this, "toggle", true );
+					GSUdomSetAttr( this, "toggle" );
 					this.$dispatch( "toggleSolo" );
 				},
 			},
@@ -57,7 +57,7 @@ class gsuiDrumrow extends gsui0ne {
 		switch ( prop ) {
 			case "pan":
 			case "gain":
-			case "detune": GSUsetAttribute( this.$elements[ prop ], "value", val ); break;
+			case "detune": GSUdomSetAttr( this.$elements[ prop ], "value", val ); break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "duration": this.$elements.waveWrap.style.animationDuration = `${ val * 2 }s`; break;
 			case "order":
@@ -67,7 +67,7 @@ class gsuiDrumrow extends gsui0ne {
 				}
 				break;
 			case "toggle":
-				GSUsetAttribute( this.$elements.toggle, "off", val !== "" );
+				GSUdomSetAttr( this.$elements.toggle, "off", val !== "" );
 				if ( this.#elDrumLine ) {
 					this.#elDrumLine.classList.toggle( "gsuiDrumrow-mute", val !== "" );
 				}

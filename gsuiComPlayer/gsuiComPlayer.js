@@ -48,16 +48,16 @@ class gsuiComPlayer extends gsui0ne {
 		switch ( prop ) {
 			case "bpm": this.$elements.$bpm.textContent = val; break;
 			case "name": this.$elements.$name.textContent = val; break;
-			case "link": GSUsetAttribute( this.$elements.$name, "href", val ); break;
-			case "dawlink": GSUsetAttribute( this.$elements.$dawlink, "href", val ); break;
-			case "playing": GSUsetAttribute( this.$elements.$play, "data-icon", val === "" ? "pause" : "play" ); break;
+			case "link": GSUdomSetAttr( this.$elements.$name, "href", val ); break;
+			case "dawlink": GSUdomSetAttr( this.$elements.$dawlink, "href", val ); break;
+			case "playing": GSUdomSetAttr( this.$elements.$play, "data-icon", val === "" ? "pause" : "play" ); break;
 			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
 				this.#actionMenuDir = val;
 				this.#actionMenu?.$setDirection( val );
 				break;
 			case "actionloading":
-				GSUsetAttribute( this.$elements.$actionsBtn, "data-spin", val === "" ? "on" : false );
+				GSUdomSetAttr( this.$elements.$actionsBtn, "data-spin", val === "" ? "on" : false );
 				this.$elements.$actionsBtn.disabled = val === "";
 				break;
 			case "duration":

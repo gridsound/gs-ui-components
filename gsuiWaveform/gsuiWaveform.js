@@ -11,7 +11,7 @@ class gsuiWaveform {
 		this.height = 0;
 		Object.seal( this );
 
-		GSUsetAttribute( svg, "preserveAspectRatio", "none" );
+		GSUdomSetAttr( svg, "preserveAspectRatio", "none" );
 		svg.classList.add( "gsuiWaveform" );
 		if ( !poly ) {
 			this.polygon = GSUcreateElementSVG( "polygon" );
@@ -46,7 +46,7 @@ class gsuiWaveform {
 		gsuiWaveform.$draw( polygon, w, h, d0, d1, buf.duration, off, dur );
 	}
 	static $draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
-		GSUsetAttribute( polygon, "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
+		GSUdomSetAttr( polygon, "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
 	}
 	static getPointsFromBuffer( w, h, buf, offset, duration ) {
 		const d0 = buf.getChannelData( 0 );

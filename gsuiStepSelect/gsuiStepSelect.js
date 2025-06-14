@@ -39,7 +39,7 @@ class gsuiStepSelect extends gsui0ne {
 	#onclick() {
 		const step = gsuiStepSelect.#nextStep( this.#step );
 
-		GSUsetAttribute( this, "step", step );
+		GSUdomSetAttr( this, "step", step );
 		this.$dispatch( "onchange", step );
 	}
 	static #nextStep( v ) {

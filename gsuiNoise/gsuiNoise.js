@@ -29,7 +29,7 @@ class gsuiNoise extends gsui0ne {
 		this.$elements.$colorSelect.onchange = () => {
 			const col = this.$elements.$colorSelect.value;
 
-			GSUsetAttribute( this, "color", col );
+			GSUdomSetAttr( this, "color", col );
 			this.$dispatch( "change", "color", col );
 		};
 		GSUlistenEvents( this, {
@@ -54,9 +54,9 @@ class gsuiNoise extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "toggle":
-				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", val === null );
-				GSUsetAttribute( this.$elements.$sliders.pan, "disabled", val === null );
-				GSUsetAttribute( this.$elements.$colorSelect, "disabled", val === null );
+				GSUdomSetAttr( this.$elements.$sliders.gain, "disabled", val === null );
+				GSUdomSetAttr( this.$elements.$sliders.pan, "disabled", val === null );
+				GSUdomSetAttr( this.$elements.$colorSelect, "disabled", val === null );
 				break;
 			case "color":
 				this.$elements.$colorTxt.textContent = val;
@@ -65,7 +65,7 @@ class gsuiNoise extends gsui0ne {
 			case "gain":
 			case "pan":
 				this.#setValue( prop, val );
-				GSUsetAttribute( this.$elements.$sliders[ prop ], "value", val );
+				GSUdomSetAttr( this.$elements.$sliders[ prop ], "value", val );
 				break;
 		}
 	}

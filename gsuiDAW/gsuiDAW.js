@@ -170,10 +170,10 @@ class gsuiDAW extends gsui0ne {
 				this.#popups.export.progress.value = val;
 				break;
 			case "name":
-				GSUsetAttribute( this.$elements.$titleUser, "cmpname", val );
+				GSUdomSetAttr( this.$elements.$titleUser, "cmpname", val );
 				break;
 			case "saved":
-				GSUsetAttribute( this.$elements.$titleUser, "saved", val );
+				GSUdomSetAttr( this.$elements.$titleUser, "saved", val );
 				break;
 			case "playing":
 				this.$elements.$play.dataset.icon = val !== null ? "pause" : "play";
@@ -187,26 +187,26 @@ class gsuiDAW extends gsui0ne {
 				gsuiPianoroll.$keyNotation( val );
 				break;
 			case "bpm":
-				GSUsetAttribute( this.$elements.$clock, "bpm", val );
-				GSUsetAttribute( this.$elements.$tempo, "bpm", val );
+				GSUdomSetAttr( this.$elements.$clock, "bpm", val );
+				GSUdomSetAttr( this.$elements.$tempo, "bpm", val );
 			case "duration":
 				this.#updateDuration();
 				break;
 			case "timedivision":
-				GSUsetAttribute( this.$elements.$clock, "timedivision", val );
-				GSUsetAttribute( this.$elements.$tempo, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$clock, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$tempo, "timedivision", val );
 				break;
 			case "volume":
-				GSUsetAttribute( this.$elements.$volume, "value", val );
+				GSUdomSetAttr( this.$elements.$volume, "value", val );
 				break;
 			case "currenttime":
 				if ( !this.#timeSelecting ) {
 					this.$elements.$clock.$setTime( val );
-					GSUsetAttribute( this.$elements.$currentTime, "value", val );
+					GSUdomSetAttr( this.$elements.$currentTime, "value", val );
 				}
 				break;
 			case "maxtime":
-				GSUsetAttribute( this.$elements.$currentTime, "max", val );
+				GSUdomSetAttr( this.$elements.$currentTime, "max", val );
 				break;
 			case "version":
 				this.$elements.$vers.textContent = val;
@@ -223,14 +223,16 @@ class gsuiDAW extends gsui0ne {
 		this.$elements.$analyserHz.$draw( data );
 	}
 	$readyToDownload( url, name ) {
-		GSUsetAttribute( this.#popups.export.button, "href", url );
-		GSUsetAttribute( this.#popups.export.button, "download", name );
-		GSUsetAttribute( this.#popups.export.button, "data-status", 2 );
+		GSUdomSetAttr( this.#popups.export.button, {
+			href: url,
+			download: name,
+			"data-status": 2,
+		} );
 	}
 	$toggleWindow( win, b ) {
-		GSUsetAttribute( this.$elements.$winBtns[ win ], "data-open", b );
+		GSUdomSetAttr( this.$elements.$winBtns[ win ], "data-open", b );
 		if ( win === "patterns" ) {
-			GSUsetAttribute( this.$elements.$body, "resources-hidden", !b );
+			GSUdomSetAttr( this.$elements.$body, "resources-hidden", !b );
 		}
 	}
 
@@ -238,8 +240,8 @@ class gsuiDAW extends gsui0ne {
 	#updateDuration() {
 		const dur = GSUdomGetAttrNum( this, "duration" );
 
-		GSUsetAttribute( this.$elements.$titleUser, "cmpdur", dur / ( GSUdomGetAttrNum( this, "bpm" ) / 60 ) );
-		GSUsetAttribute( this.$elements.$currentTime, "max", dur );
+		GSUdomSetAttr( this.$elements.$titleUser, "cmpdur", dur / ( GSUdomGetAttrNum( this, "bpm" ) / 60 ) );
+		GSUdomSetAttr( this.$elements.$currentTime, "max", dur );
 	}
 
 	// .........................................................................
@@ -258,7 +260,7 @@ class gsuiDAW extends gsui0ne {
 			case "help": {
 				const hide = GSUdomHasAttr( this, "gsuihelplink-hide" );
 
-				GSUsetAttribute( this, "gsuihelplink-hide", !hide );
+				GSUdomSetAttr( this, "gsuihelplink-hide", !hide );
 				this.$dispatch( "toggleHelpLinks", hide );
 			} break;
 			case "window":
@@ -272,10 +274,12 @@ class gsuiDAW extends gsui0ne {
 				GSUpopup.$custom( { title: "About", element: this.#popups.about.root } );
 				break;
 			case "export":
-				GSUsetAttribute( this, "exporting", 0 );
-				GSUsetAttribute( this.#popups.export.button, "href", "" );
-				GSUsetAttribute( this.#popups.export.button, "download", "" );
-				GSUsetAttribute( this.#popups.export.button, "data-status", 0 );
+				GSUdomSetAttr( this, "exporting", 0 );
+				GSUdomSetAttr( this.#popups.export.button, {
+					href: "",
+					download: "",
+					"data-status": 0,
+				} );
 				GSUpopup.$custom( { title: "Export", element: this.#popups.export.root } )
 					.then( () => this.$dispatch( "abortExport" ) );
 				break;

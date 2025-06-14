@@ -68,16 +68,16 @@ class gsuiFxFilter extends gsui0ne {
 				this.#toggleTypeBtn( this.#currType, false );
 				this.#toggleTypeBtn( val, true );
 				this.#currType = val;
-				GSUsetAttribute( this.$elements.$sliders.q, "disabled", !gsuiFxFilter.typeGainQ[ val ].q );
-				GSUsetAttribute( this.$elements.$sliders.gain, "disabled", !gsuiFxFilter.typeGainQ[ val ].gain );
+				GSUdomSetAttr( this.$elements.$sliders.q, "disabled", !gsuiFxFilter.typeGainQ[ val ].q );
+				GSUdomSetAttr( this.$elements.$sliders.gain, "disabled", !gsuiFxFilter.typeGainQ[ val ].gain );
 				break;
 			case "q":
 			case "gain":
 			case "detune":
-				GSUsetAttribute( this.$elements.$sliders[ prop ], "value", val );
+				GSUdomSetAttr( this.$elements.$sliders[ prop ], "value", val );
 				break;
 			case "frequency":
-				GSUsetAttribute( this.$elements.$sliders.frequency, "value", GSUHztoX( val / this.#nyquist ) );
+				GSUdomSetAttr( this.$elements.$sliders.frequency, "value", GSUHztoX( val / this.#nyquist ) );
 				break;
 		}
 		GSUsetTimeout( () => this.#updateWave(), .02 );

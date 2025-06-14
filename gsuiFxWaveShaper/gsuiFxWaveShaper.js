@@ -71,12 +71,12 @@ class gsuiFxWaveShaper extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "symmetry":
-				GSUsetAttribute( this.$elements.$symmetryToggle, "off", val !== "" );
-				GSUsetAttribute( this.$elements.$dotline, "viewbox", val !== "" ? "-1 -1 1 1" : "0 0 1 1" );
+				GSUdomSetAttr( this.$elements.$symmetryToggle, "off", val !== "" );
+				GSUdomSetAttr( this.$elements.$dotline, "viewbox", val !== "" ? "-1 -1 1 1" : "0 0 1 1" );
 				this.#updateWaveB();
 				break;
 			case "oversample":
-				GSUsetAttribute( this.$elements.$oversampleToggle, "off", val === "none" );
+				GSUdomSetAttr( this.$elements.$oversampleToggle, "off", val === "none" );
 				if ( val !== "none" ) {
 					this.$elements.$oversampleSelect.value = val;
 				}
@@ -91,8 +91,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		this.#wavesW = this.$elements.$waves.clientWidth;
 		this.#wavesH = this.$elements.$waves.clientHeight;
 		GSUsetViewBoxWH( svg, w, h );
-		GSUsetAttribute( svg.firstChild, "y1", h );
-		GSUsetAttribute( svg.firstChild, "x2", w );
+		GSUdomSetAttr( svg.firstChild, { y1: h, x2: w } );
 		this.#updateWaveA();
 		this.#updateWaveB();
 	}
@@ -151,7 +150,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( y ) }` );
 
 		GSUsetViewBoxWH( svg, w, h );
-		GSUsetAttribute( this.$elements.$waveA, "points", pts.join( " " ) );
+		GSUdomSetAttr( this.$elements.$waveA, "points", pts.join( " " ) );
 	}
 	#updateWaveB() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
@@ -163,7 +162,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		const h = this.$elements.$waves.clientHeight;
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( graphData2[ Math.round( ( ( y + 1 ) / 2 ) * ( len - 1 ) ) ] || 0 ) }` );
 
-		GSUsetAttribute( this.$elements.$waveB, "points", pts.join( " " ) );
+		GSUdomSetAttr( this.$elements.$waveB, "points", pts.join( " " ) );
 	}
 	#addGraphSymmetry( curve ) {
 		const cpy = [ ...curve ].reverse();

@@ -52,7 +52,7 @@ class gsuiComProfile extends gsui0ne {
 			case "username": this.$elements.$username.textContent = val; break;
 			case "lastname": this.$elements.$lastname.textContent = val; break;
 			case "firstname": this.$elements.$firstname.textContent = val; break;
-			case "avatar": GSUsetAttribute( this.$elements.$avatar, "src", val || false ); break;
+			case "avatar": GSUdomSetAttr( this.$elements.$avatar, "src", val || false ); break;
 			case "emailtoverify": this.$elements.$emailVerifyText.textContent = val !== "" ? "" : gsuiComProfile.#emailTexts.$verify; break;
 		}
 	}
@@ -78,7 +78,7 @@ class gsuiComProfile extends gsui0ne {
 	}
 	#onclickVerify() {
 		if ( !GSUdomHasAttr( this, "emailsending" ) ) {
-			GSUsetAttribute( this, "emailsending", true );
+			GSUdomSetAttr( this, "emailsending" );
 			this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sending;
 			this.#verifyPromise?.()
 				.then( () => this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sent )
@@ -95,10 +95,10 @@ class gsuiComProfile extends gsui0ne {
 			emailpublic: tar[ 3 ].checked,
 		};
 
-		GSUsetAttribute( this.$elements.$submit, "loading", true );
+		GSUdomSetAttr( this.$elements.$submit, "loading" );
 		this.#savingPromise?.( obj )
 			.then( obj => {
-				GSUsetAttribute( this, obj );
+				GSUdomSetAttr( this, obj );
 				GSUdomRmAttr( this, "editing" );
 			} )
 			.catch( err => this.$elements.$error.textContent = err )

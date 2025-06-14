@@ -4,7 +4,7 @@ class gsuiSVGPatternsAutomation {
 	static $render( data, dur ) {
 		const poly = GSUcreateElementSVG( "polyline" );
 
-		GSUsetAttribute( poly, "points", gsuiDotlineSVG.$draw( data, dur * 1, 1, dur, 1, 0, 0 ) );
+		GSUdomSetAttr( poly, "points", gsuiDotlineSVG.$draw( data, dur * 1, 1, dur, 1, 0, 0 ) );
 		return [ poly ];
 	}
 }

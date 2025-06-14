@@ -65,14 +65,14 @@ class gsuiPatternroll extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "currenttime":
-				GSUsetAttribute( this.#win, "currenttime", val );
+				GSUdomSetAttr( this.#win, "currenttime", val );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$changeDuration( dur ) {
-		GSUsetAttribute( this.#win, "duration", dur );
+		GSUdomSetAttr( this.#win, "duration", dur );
 	}
 	$addTrack( id ) {
 		const elTrack = this.#tracklist.$addTrack( id );
@@ -84,9 +84,9 @@ class gsuiPatternroll extends gsui0ne {
 		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).append( row );
 	}
 	$removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
-	$toggleTrack( id, b ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "mute", !b ); }
-	$renameTrack( id, s ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "name", s ); }
-	$reorderTrack( id, n ) { GSUsetAttribute( this.#tracklist.$getTrack( id ), "order", n ); }
+	$toggleTrack( id, b ) { GSUdomSetAttr( this.#tracklist.$getTrack( id ), "mute", !b ); }
+	$renameTrack( id, s ) { GSUdomSetAttr( this.#tracklist.$getTrack( id ), "name", s ); }
+	$reorderTrack( id, n ) { GSUdomSetAttr( this.#tracklist.$getTrack( id ), "order", n ); }
 
 	// .........................................................................
 	$addBlock( id, obj, { dataReady } ) {
@@ -95,7 +95,7 @@ class gsuiPatternroll extends gsui0ne {
 		elBlc.dataset.id = id;
 		elBlc.dataset.pattern = obj.pattern;
 		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
-		GSUsetAttribute( elBlc, "data-missing", !dataReady );
+		GSUdomSetAttr( elBlc, "data-missing", !dataReady );
 		this.#blcManager.$getBlocks().set( id, elBlc );
 		this.$onaddBlock( id, obj, elBlc );
 	}
@@ -136,10 +136,10 @@ class gsuiPatternroll extends gsui0ne {
 		return this.#blcManager.$getBlocks();
 	}
 	$timedivision( timediv ) {
-		GSUsetAttribute( this.#win, "timedivision", timediv );
+		GSUdomSetAttr( this.#win, "timedivision", timediv );
 	}
 	$loop( a, b ) {
-		GSUsetAttribute( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		GSUdomSetAttr( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 	}
 
 	// .........................................................................

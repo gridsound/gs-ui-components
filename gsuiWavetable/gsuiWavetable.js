@@ -351,13 +351,13 @@ class gsuiWavetable extends gsui0ne {
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;
 		this.$elements.$wtposCurveDur.textContent = `${ dur }`.padStart( 2, "0" );
-		GSUsetAttribute( this.$elements.$wtposCurveDurSli, "value", dur );
+		GSUdomSetAttr( this.$elements.$wtposCurveDurSli, "value", dur );
 		this.#wtposCurve_updateBeatline();
 	}
 	#wtposCurve_updateBeatline() {
 		const bl = this.$elements.$wtposBeatlines;
 
-		GSUsetAttribute( bl, "pxperbeat", bl.clientWidth / this.#wtposCurveDuration );
+		GSUdomSetAttr( bl, "pxperbeat", bl.clientWidth / this.#wtposCurveDuration );
 	}
 
 	// .........................................................................

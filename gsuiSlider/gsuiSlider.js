@@ -103,8 +103,8 @@ class gsuiSlider extends gsui0ne {
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
 			GSUsetViewBoxWH( this.$elements.$svg, size, size );
-			GSUsetAttribute( this.$elements.$svgLine, { r, cx, cy: cx, } );
-			GSUsetAttribute( this.$elements.$svgLineColor, { r, cx, cy: cx, } );
+			GSUdomSetAttr( this.$elements.$svgLine, { r, cx, cy: cx, } );
+			GSUdomSetAttr( this.$elements.$svgLineColor, { r, cx, cy: cx, } );
 			this.$elements.$svgLine.style.strokeWidth =
 			this.$elements.$svgLineColor.style.strokeWidth = this.#strokeWidth;
 			this.#svgLineLen = r * 2 * Math.PI;
@@ -150,7 +150,7 @@ class gsuiSlider extends gsui0ne {
 	}
 	#onchange() {
 		this.#valueSave = this.#value;
-		GSUsetAttribute( this, "value", this.#value );
+		GSUdomSetAttr( this, "value", this.#value );
 		this.$dispatch( "change", this.#value );
 	}
 	#oninput( val ) {

@@ -49,7 +49,7 @@ class gsuiChannels extends gsui0ne {
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
-		GSUdomQSA( this, "gsui-channel gsui-analyser-hist" ).forEach( el => GSUsetAttribute( el, "type", t ) );
+		GSUdomQSA( this, "gsui-channel gsui-analyser-hist" ).forEach( el => GSUdomSetAttr( el, "type", t ) );
 	}
 	$updateVu( ldata, rdata ) {
 		this.$elements.$vu.$draw( ldata, rdata );
@@ -59,7 +59,7 @@ class gsuiChannels extends gsui0ne {
 	}
 	$selectChannel( id ) {
 		GSUdomRmAttr( this.#chans[ this.#chanSelected ], "selected" );
-		GSUsetAttribute( this.#chans[ id ], "selected", true );
+		GSUdomSetAttr( this.#chans[ id ], "selected" );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
 		this.$onselectChan?.( id );
@@ -97,7 +97,7 @@ class gsuiChannels extends gsui0ne {
 				.then( name => this.$onchange( "renameChannel", id, name ) );
 		};
 		chan.$analyser.$updateResolution();
-		GSUsetAttribute( chan.$analyser, "type", this.#analyserType );
+		GSUdomSetAttr( chan.$analyser, "type", this.#analyserType );
 		this.$dispatch( "nbChannelsChange" );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
@@ -130,8 +130,8 @@ class gsuiChannels extends gsui0ne {
 			case "order":
 			case "pan":
 			case "gain":
-			case "name": GSUsetAttribute( chan, prop, val ); break;
-			case "toggle": GSUsetAttribute( chan, "muted", !val ); break;
+			case "name": GSUdomSetAttr( chan, prop, val ); break;
+			case "toggle": GSUdomSetAttr( chan, "muted", !val ); break;
 			case "dest": chan.dataset.dest = val; this.#updateChanConnections(); break;
 		}
 	}
@@ -154,12 +154,12 @@ class gsuiChannels extends gsui0ne {
 				const a = id === chanDest;
 				const b = chan.dataset.dest === selId;
 
-				GSUsetAttribute( chan, "connecta", a ? "up" : "" );
-				GSUsetAttribute( chan, "connectb", b ? "down" : "" );
+				GSUdomSetAttr( chan, "connecta", a ? "up" : false );
+				GSUdomSetAttr( chan, "connectb", b ? "down" : false );
 				bOnce = bOnce || b;
 			} );
-			GSUsetAttribute( chan, "connecta", selId !== "main" ? "down" : "" );
-			GSUsetAttribute( chan, "connectb", bOnce ? "up" : "" );
+			GSUdomSetAttr( chan, "connecta", selId !== "main" ? "down" : false );
+			GSUdomSetAttr( chan, "connectb", bOnce ? "up" : false );
 		}
 	}
 }

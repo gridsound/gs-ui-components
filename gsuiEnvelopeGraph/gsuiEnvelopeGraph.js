@@ -39,9 +39,9 @@ class gsuiEnvelopeGraph extends gsui0ne {
 				this.clientWidth, this.clientHeight, this.$duration,
 				Math.abs( this.$amp ), this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
 
-			GSUsetAttribute( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
-			GSUsetAttribute( this.$elements.$relLine, "points", pts.slice( -4 ).join( " " ) );
-			GSUsetAttribute( this.$elements.$mainLine, "points", pts.join( " " ) );
+			GSUdomSetAttr( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
+			GSUdomSetAttr( this.$elements.$relLine, "points", pts.slice( -4 ).join( " " ) );
+			GSUdomSetAttr( this.$elements.$mainLine, "points", pts.join( " " ) );
 		}
 	}
 	static #getPoints( w, h, dur, amp, att, hold, dec, sus, rel ) {

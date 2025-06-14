@@ -55,7 +55,7 @@ class gsuiFxDelay extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUsetAttribute( this.$elements.$beatlines, "timedivision", val );
+				GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
 				this.#updatePxPerBeat();
 				break;
 			case "time":
@@ -67,7 +67,7 @@ class gsuiFxDelay extends gsui0ne {
 					( +val ).toFixed( 2 );
 
 				this.$elements.$values[ prop ].textContent = str;
-				GSUsetAttribute( this.$elements.$sliders[ prop ], "value", val );
+				GSUdomSetAttr( this.$elements.$sliders[ prop ], "value", val );
 				this.#updateGraph();
 			} break;
 		}
@@ -81,10 +81,10 @@ class gsuiFxDelay extends gsui0ne {
 	#updatePxPerBeat() {
 		const bPM = GSUdomGetAttr( this, "timedivision" ).split( "/" )[ 0 ];
 
-		GSUsetAttribute( this.$elements.$beatlines, "pxperbeat", this.#graphWidth / bPM );
+		GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", this.#graphWidth / bPM );
 	}
 	#oninputProp( prop, val ) {
-		GSUsetAttribute( this, prop, val );
+		GSUdomSetAttr( this, prop, val );
 		this.$dispatch( "liveChange", prop, val );
 	}
 	#updateGraph() {
