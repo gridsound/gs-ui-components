@@ -120,7 +120,7 @@ playSampleBtn.onclick = () => {
 };
 rmSampleBtn.onclick = () => slicer.$removeBuffer();
 loadSampleBtn.onclick = () => {
-	ctx = ctx || new AudioContext();
+	ctx ||= GSUaudioContext();
 	slicer.$removeBuffer();
 	// fetch( "/gs-ui-components/test-assets/i-just-dont-know-why_F_minor.wav" )
 	// fetch( "/gs-ui-components/test-assets/the_purge_siren_3.wav" )

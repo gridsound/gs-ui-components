@@ -58,7 +58,7 @@ body {
 <script>
 const play = GSUdomQS( "#play" );
 const analyserVu = GSUdomQS( "gsui-analyser-vu" );
-const ctx = new AudioContext();
+const ctx = GSUaudioContext();
 const anL = GSUaudioAnalyser( ctx );
 const anR = GSUaudioAnalyser( ctx );
 const split = GSUaudioChannelSplitter( ctx, 2 );

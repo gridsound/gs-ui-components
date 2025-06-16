@@ -64,7 +64,7 @@ gsui-drumrows {
 <!-- ....................................................................... -->
 <script>
 const drumrows = GSUdomQS( "gsui-drumrows" );
-const ctx = new AudioContext();
+const ctx = GSUaudioContext();
 
 initRow( "dr0", "kick 017", 0, 0, 1, "kick-017" );
 initRow( "dr1", "clap 013", 0, .2, .7, "clap-013" );
