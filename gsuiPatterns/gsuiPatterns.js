@@ -113,6 +113,7 @@ class gsuiPatterns extends gsui0ne {
 			$root: this.$elements.$lists.buffer,
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => [
+				GSUdomQS( "gsui-slicer" ),
 				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
 				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
 				...GSUdomQSA( "gsui-drumrow" ),
@@ -128,7 +129,9 @@ class gsuiPatterns extends gsui0ne {
 			$patternId: drop.$item,
 		};
 
-		if ( tar.tagName === "GSUI-DRUMROW" ) {
+		if ( tar.tagName === "GSUI-SLICER" ) {
+			this.$dispatch( "dropBufferOnSlicer", obj );
+		} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 			obj.$drumrowId = tar.dataset.id;
 			this.$dispatch( "dropBufferOnDrumrow", obj );
 		} else if ( tar.classList.contains( "gsuiDrumrows-dropNew" ) ) {

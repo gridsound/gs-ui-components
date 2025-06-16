@@ -31,6 +31,7 @@ class gsuiLibrary extends gsui0ne {
 			$itemSelector: ".gsuiLibrary-sample",
 			$getTargetList: () => [
 				GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				GSUdomQS( "gsui-slicer" ),
 				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
 				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
 				...GSUdomQSA( "gsui-drumrow" ),
@@ -43,7 +44,9 @@ class gsuiLibrary extends gsui0ne {
 				const $name = `${ dt.id }:${ dt.name }`;
 				const obj = { $name };
 
-				if ( tar.classList.contains( "gsuiPatterns-panel-list-wrap" ) ) {
+				if ( tar.tagName === "GSUI-SLICER" ) {
+					this.$dispatch( "dropOnSlicer", obj );
+				} else if ( tar.classList.contains( "gsuiPatterns-panel-list-wrap" ) ) {
 					this.$dispatch( "dropOnPatterns", obj );
 				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 					obj.$drumrowId = tar.dataset.id;
