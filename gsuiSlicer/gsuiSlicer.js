@@ -72,17 +72,6 @@ class gsuiSlicer extends gsui0ne {
 		this.$elements.$tools.$reset.onclick =
 		this.$elements.$tools.$split.onclick =
 		this.$elements.$tools.$merge.onclick = this.#onclickTools.bind( this );
-		this.ondrop = e => {
-			const [ patType, patId ] = GSUgetDataTransfer( e, [
-				"pattern-buffer",
-				"library-buffer:default",
-				"library-buffer:local",
-			] );
-
-			if ( patId && !GSUdomHasAttr( this, "disabled" ) ) {
-				this.$dispatch( "dropBuffer", patType, patId );
-			}
-		};
 		GSUlistenEvents( this, {
 			gsuiTimeline: {
 				changeCurrentTime: d => {
