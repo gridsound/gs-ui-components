@@ -9,7 +9,6 @@ class gsuiSlicer extends gsui0ne {
 	#buffer = null;
 	#ptrmoveFn = null;
 	#stepsPerBeat = 4;
-	#slicesMaxId = 0;
 	#slicesSaved = null;
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
@@ -154,7 +153,6 @@ class gsuiSlicer extends gsui0ne {
 			);
 			const sli = GSUcreateDiv( { class: "gsuiSlicer-slices-slice", "data-id": id } );
 
-			this.#slicesMaxId = Math.max( this.#slicesMaxId, id );
 			svg.firstChild.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.id }` );
 			this.#slices[ id ] = Object.seal( { id, svg, sli, x: 0, y: 0, w: 0 } );
 			this.$changeSlice( id, obj );
@@ -193,10 +191,6 @@ class gsuiSlicer extends gsui0ne {
 			delete this.#slices[ id ];
 			sli.svg.remove();
 			sli.sli.remove();
-			if ( id === this.#slicesMaxId ) {
-				this.#slicesMaxId = Object.keys( this.#slices )
-					.reduce( ( max, k ) => Math.max( max, k ), 0 );
-			}
 			if ( sli === this.#sliceCurrentTime ) {
 				this.#highlightSlice( null );
 			}
@@ -351,7 +345,7 @@ class gsuiSlicer extends gsui0ne {
 		list.forEach( sli => {
 			if ( !( sli.id in this.#slicesSplitted ) && sli.w > 1 / 128 ) {
 				const w2 = sli.w / 2;
-				const newId = this.#slicesMaxId + 1;
+				const newId = GSUgetNewId( this.#slices );
 				const newSli = {
 					x: sli.x + w2,
 					y: sli.y,
