@@ -299,7 +299,7 @@ class gsuiTimeline extends gsui0ne {
 					this.$dispatch( "inputCurrentTime", beat );
 					break;
 				case DRAGGING_LOOP: {
-					const rel = Math.max( -this.#mousedownLoopA, beatRel );
+					const rel = GSUmathClamp( beatRel, -this.#mousedownLoopA, this.#maxDuration - this.#mousedownLoopB );
 					const a = this.#mousedownLoopA + rel;
 					const b = this.#mousedownLoopB + rel;
 					const loop = `${ a }-${ b }`;
