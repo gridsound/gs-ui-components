@@ -1,5 +1,10 @@
 "use strict";
 
+const DRAGGING_TIME = "dragTime";
+const DRAGGING_LOOP = "dragLoop";
+const DRAGGING_LOOP_A = "dragLoopA";
+const DRAGGING_LOOP_B = "dragLoopB";
+
 class gsuiTimeline extends gsui0ne {
 	#status = "";
 	#step = 1;
@@ -252,24 +257,24 @@ class gsuiTimeline extends gsui0ne {
 				this.#loopA =
 				this.#loopB = this.#mousedownBeat;
 				this.$dispatch( "inputLoopStart" );
-				this.#setStatus( "draggingLoopHandleB" );
+				this.#setStatus( DRAGGING_LOOP_B );
 			} else if ( e.button === 2 && this.#looping ) {
 				if ( this.#mousedownBeat < ( this.#loopB + this.#loopA ) / 2 ) {
 					this.#loopA = this.#mousedownBeat;
-					this.#setStatus( "draggingLoopHandleA" );
+					this.#setStatus( DRAGGING_LOOP_A );
 				} else {
 					this.#loopB = this.#mousedownBeat;
-					this.#setStatus( "draggingLoopHandleB" );
+					this.#setStatus( DRAGGING_LOOP_B );
 				}
 			}
 		} else {
 			this.#mousedownPrevX = e.pageX;
 			this.#mousedownPrevDate = Date.now();
 			this.#setStatus(
-				e.target === this.$elements.$cursor.parentNode ? "draggingTime" :
-				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? "draggingLoopBody" :
-				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? "draggingLoopHandleA" :
-				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) ? "draggingLoopHandleB" : "" );
+				e.target === this.$elements.$cursor.parentNode ? DRAGGING_TIME :
+				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? DRAGGING_LOOP :
+				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? DRAGGING_LOOP_A :
+				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) ? DRAGGING_LOOP_B : "" );
 		}
 		if ( this.#status ) {
 			this.$dispatch( "inputCurrentTimeStart" );
@@ -289,11 +294,11 @@ class gsuiTimeline extends gsui0ne {
 		if ( beatRel !== this.#mousemoveBeat ) {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
-				case "draggingTime":
+				case DRAGGING_TIME:
 					GSUdomSetAttr( this, "currenttime-preview", beat );
 					this.$dispatch( "inputCurrentTime", beat );
 					break;
-				case "draggingLoopBody": {
+				case DRAGGING_LOOP: {
 					const rel = Math.max( -this.#mousedownLoopA, beatRel );
 					const a = this.#mousedownLoopA + rel;
 					const b = this.#mousedownLoopB + rel;
@@ -304,9 +309,9 @@ class gsuiTimeline extends gsui0ne {
 						this.$dispatch( "inputLoop", a, b );
 					}
 				} break;
-				case "draggingLoopHandleA":
-				case "draggingLoopHandleB": {
-					const handA = this.#status === "draggingLoopHandleA";
+				case DRAGGING_LOOP_A:
+				case DRAGGING_LOOP_B: {
+					const handA = this.#status === DRAGGING_LOOP_A;
 					const rel = handA
 						? Math.max( -this.#mousedownLoopA, beatRel )
 						: beatRel;
@@ -318,10 +323,10 @@ class gsuiTimeline extends gsui0ne {
 
 					if ( a > b ) {
 						if ( handA ) {
-							this.#setStatus( "draggingLoopHandleB" );
+							this.#setStatus( DRAGGING_LOOP_B );
 							this.#mousedownLoopA = this.#mousedownLoopB;
 						} else {
-							this.#setStatus( "draggingLoopHandleA" );
+							this.#setStatus( DRAGGING_LOOP_A );
 							this.#mousedownLoopB = this.#mousedownLoopA;
 						}
 						this.#mousedownBeat = this.#mousedownLoopA;
@@ -341,7 +346,7 @@ class gsuiTimeline extends gsui0ne {
 	}
 	$onptrup( e ) {
 		switch ( this.#status ) {
-			case "draggingTime": {
+			case DRAGGING_TIME: {
 				const beat = GSUdomGetAttr( this, "currenttime-preview" );
 
 				GSUdomRmAttr( this, "currenttime-preview" );
@@ -351,9 +356,9 @@ class gsuiTimeline extends gsui0ne {
 					this.$dispatch( "changeCurrentTime", +beat );
 				}
 			} break;
-			case "draggingLoopBody":
-			case "draggingLoopHandleA":
-			case "draggingLoopHandleB":
+			case DRAGGING_LOOP:
+			case DRAGGING_LOOP_A:
+			case DRAGGING_LOOP_B:
 				this.$dispatch( "inputLoopEnd" );
 				if ( GSUdomGetAttr( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.#loopA !== this.#loopB ) {
