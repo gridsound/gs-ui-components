@@ -245,19 +245,9 @@ class gsuiDotline extends gsui0ne {
 	// .........................................................................
 	#getW() { return this.$elements.$root.clientWidth; }
 	#getH() { return this.$elements.$root.clientHeight; }
-	#getPtrX( e ) {
-		const step = GSUdomGetAttrNum( this, "xstep" );
-		const x = e.offsetX / this.#getW() * this.#w + this.#xmin;
-
-		return Math.round( x / step ) * step;
-	}
-	#getPtrY( e ) {
-		const step = GSUdomGetAttrNum( this, "ystep" );
-		const y = this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin;
-
-		return Math.round( y / step ) * step;
-	}
-	#getPercX( x ) { return ( x - this.#xmin ) / this.#w * 100; }
+	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, GSUdomGetAttrNum( this, "xstep" ) ); }
+	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, GSUdomGetAttrNum( this, "ystep" ) ); }
+	#getPercX( x ) { return         ( x - this.#xmin ) / this.#w * 100  ; }
 	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
 
 	// .........................................................................
@@ -449,7 +439,7 @@ class gsuiDotline extends gsui0ne {
 			const id = e.target.dataset.id;
 			const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
 			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
-			const dotBY = this.#dataSorted[ ind ][ 1 ].y;
+			const dotBY = this.#dataSorted[ ind     ][ 1 ].y;
 
 			this.#activeDotId = id;
 			GSUdomSetAttr( this.$elements.$slider, {
@@ -468,17 +458,14 @@ class gsuiDotline extends gsui0ne {
 		this.#onchange();
 	}
 	$onptrmove( e ) {
-		const xstep = GSUdomGetAttrNum( this, "xstep" );
-		const ystep = GSUdomGetAttrNum( this, "ystep" );
-
 		if ( this.#mousebtn === 0 ) {
-			let incX = this.#w / this.#getW() * ( e.pageX - this.#pageX );
+			const xstep = GSUdomGetAttrNum( this, "xstep" );
+			const ystep = GSUdomGetAttrNum( this, "ystep" );
+			let incX = this.#w / this.#getW() *  ( e.pageX - this.#pageX );
 			let incY = this.#h / this.#getH() * -( e.pageY - this.#pageY );
 
-			incX = Math.max( this.#dotMinX, Math.min( incX, this.#dotMaxX ) );
-			incY = Math.max( this.#dotMinY, Math.min( incY, this.#dotMaxY ) );
-			incX = Math.round( incX / xstep ) * xstep;
-			incY = Math.round( incY / ystep ) * ystep;
+			incX = GSUmathRound( GSUmathClamp( incX, this.#dotMinX, this.#dotMaxX ), xstep );
+			incY = GSUmathRound( GSUmathClamp( incY, this.#dotMinY, this.#dotMaxY ), ystep );
 			this.#dotsMoving.forEach( d => {
 				this.#updateDotElement( {
 					...d,
