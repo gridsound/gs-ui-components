@@ -325,7 +325,7 @@ class gsuiSlicer extends gsui0ne {
 		const dur = GSUdomGetAttrNum( this, "duration" );
 		const step = this.$elements.$step.$getStep();
 		const yyy = GSUmathClamp( e.offsetY / this.$elements.$slices.clientHeight, 0, 1 );
-		const yy = Math.floor( yyy * dur * this.#stepsPerBeat / step ) * step;
+		const yy = GSUmathFloor( yyy * dur * this.#stepsPerBeat, step );
 		const y = yy / dur / this.#stepsPerBeat;
 
 		list.forEach( sli => {
