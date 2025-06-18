@@ -1,9 +1,9 @@
 "use strict";
 
-const DRAGGING_TIME = "dragTime";
-const DRAGGING_LOOP = "dragLoop";
-const DRAGGING_LOOP_A = "dragLoopA";
-const DRAGGING_LOOP_B = "dragLoopB";
+const GSUI_DRAGGING_TIME = "dragTime";
+const GSUI_DRAGGING_LOOP = "dragLoop";
+const GSUI_DRAGGING_LOOP_A = "dragLoopA";
+const GSUI_DRAGGING_LOOP_B = "dragLoopB";
 
 class gsuiTimeline extends gsui0ne {
 	#status = "";
@@ -257,24 +257,24 @@ class gsuiTimeline extends gsui0ne {
 				this.#loopA =
 				this.#loopB = this.#mousedownBeat;
 				this.$dispatch( "inputLoopStart" );
-				this.#setStatus( DRAGGING_LOOP_B );
+				this.#setStatus( GSUI_DRAGGING_LOOP_B );
 			} else if ( e.button === 2 && this.#looping ) {
 				if ( this.#mousedownBeat < ( this.#loopB + this.#loopA ) / 2 ) {
 					this.#loopA = this.#mousedownBeat;
-					this.#setStatus( DRAGGING_LOOP_A );
+					this.#setStatus( GSUI_DRAGGING_LOOP_A );
 				} else {
 					this.#loopB = this.#mousedownBeat;
-					this.#setStatus( DRAGGING_LOOP_B );
+					this.#setStatus( GSUI_DRAGGING_LOOP_B );
 				}
 			}
 		} else {
 			this.#mousedownPrevX = e.pageX;
 			this.#mousedownPrevDate = Date.now();
 			this.#setStatus(
-				e.target === this.$elements.$cursor.parentNode ? DRAGGING_TIME :
-				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? DRAGGING_LOOP :
-				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? DRAGGING_LOOP_A :
-				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) ? DRAGGING_LOOP_B : "" );
+				e.target === this.$elements.$cursor.parentNode ? GSUI_DRAGGING_TIME :
+				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? GSUI_DRAGGING_LOOP :
+				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? GSUI_DRAGGING_LOOP_A :
+				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );
 		}
 		if ( this.#status ) {
 			this.$dispatch( "inputCurrentTimeStart" );
@@ -294,11 +294,11 @@ class gsuiTimeline extends gsui0ne {
 		if ( beatRel !== this.#mousemoveBeat ) {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
-				case DRAGGING_TIME:
+				case GSUI_DRAGGING_TIME:
 					GSUdomSetAttr( this, "currenttime-preview", beat );
 					this.$dispatch( "inputCurrentTime", beat );
 					break;
-				case DRAGGING_LOOP: {
+				case GSUI_DRAGGING_LOOP: {
 					const rel = GSUmathClamp( beatRel, -this.#mousedownLoopA, this.#maxDuration - this.#mousedownLoopB );
 					const a = this.#mousedownLoopA + rel;
 					const b = this.#mousedownLoopB + rel;
@@ -309,9 +309,9 @@ class gsuiTimeline extends gsui0ne {
 						this.$dispatch( "inputLoop", a, b );
 					}
 				} break;
-				case DRAGGING_LOOP_A:
-				case DRAGGING_LOOP_B: {
-					const handA = this.#status === DRAGGING_LOOP_A;
+				case GSUI_DRAGGING_LOOP_A:
+				case GSUI_DRAGGING_LOOP_B: {
+					const handA = this.#status === GSUI_DRAGGING_LOOP_A;
 					const rel = handA
 						? Math.max( -this.#mousedownLoopA, beatRel )
 						: beatRel;
@@ -323,10 +323,10 @@ class gsuiTimeline extends gsui0ne {
 
 					if ( a > b ) {
 						if ( handA ) {
-							this.#setStatus( DRAGGING_LOOP_B );
+							this.#setStatus( GSUI_DRAGGING_LOOP_B );
 							this.#mousedownLoopA = this.#mousedownLoopB;
 						} else {
-							this.#setStatus( DRAGGING_LOOP_A );
+							this.#setStatus( GSUI_DRAGGING_LOOP_A );
 							this.#mousedownLoopB = this.#mousedownLoopA;
 						}
 						this.#mousedownBeat = this.#mousedownLoopA;
@@ -346,7 +346,7 @@ class gsuiTimeline extends gsui0ne {
 	}
 	$onptrup( e ) {
 		switch ( this.#status ) {
-			case DRAGGING_TIME: {
+			case GSUI_DRAGGING_TIME: {
 				const beat = GSUdomGetAttr( this, "currenttime-preview" );
 
 				GSUdomRmAttr( this, "currenttime-preview" );
@@ -356,9 +356,9 @@ class gsuiTimeline extends gsui0ne {
 					this.$dispatch( "changeCurrentTime", +beat );
 				}
 			} break;
-			case DRAGGING_LOOP:
-			case DRAGGING_LOOP_A:
-			case DRAGGING_LOOP_B:
+			case GSUI_DRAGGING_LOOP:
+			case GSUI_DRAGGING_LOOP_A:
+			case GSUI_DRAGGING_LOOP_B:
 				this.$dispatch( "inputLoopEnd" );
 				if ( GSUdomGetAttr( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.#loopA !== this.#loopB ) {
