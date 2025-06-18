@@ -341,9 +341,6 @@ class gsuiDrums extends gsui0ne {
 		const stepDur = this.#hoverDurSaved;
 		const when1A = Math.min( whenFrom, whenTo );
 		const when1B = Math.max( whenFrom, whenTo );
-		const whenA = Math.round( Math.min( whenFrom, whenTo ) / stepDur );
-		const whenB = Math.round( Math.max( whenFrom, whenTo ) / stepDur );
-		const added = new Map();
 		const newPreviewMap = new Map();
 		const adding = this.#currAction.startsWith( "add" );
 		const itemType = this.#currAction.endsWith( "Drums" ) ? "drum" : "drumcut";
@@ -438,7 +435,7 @@ class gsuiDrums extends gsui0ne {
 				this.#hoverDur = prevD;
 			} else {
 				if ( this.#currAction ) {
-					this.#hoverBeat = Math.floor( when / this.#hoverDurSaved ) * this.#hoverDurSaved;
+					this.#hoverBeat = GSUmathFloor( when, this.#hoverDurSaved );
 					this.#hoverDur = this.#hoverDurSaved;
 				} else {
 					const whenCut = Math.floor( ( this.#hoverPageX - left ) / this.#pxPerStep ) / this.#stepsPerBeat;
