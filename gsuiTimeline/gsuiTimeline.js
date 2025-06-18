@@ -194,7 +194,7 @@ class gsuiTimeline extends gsui0ne {
 		const scrollX = this.#scrollingAncestor?.scrollLeft || 0;
 		const offBeats = Math.floor( scrollX / this.#pxPerMeasure );
 		const off = this.#onlyBigMeasures
-			? Math.floor( offBeats / this.#beatsPerMeasure ) * this.#beatsPerMeasure
+			? GSUmathFloor( offBeats, this.#beatsPerMeasure )
 			: offBeats;
 		const diff = off !== this.#offset;
 
