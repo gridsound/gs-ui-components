@@ -58,7 +58,6 @@ class gsuiWavetable extends gsui0ne {
 
 			if ( dt.id && dt.id !== this.#wtposCurveSelected ) {
 				this.#wtposCurve_selectCurve( dt.id );
-				this.$dispatch( "selectWavetableCurve", dt.id );
 			}
 		};
 		new gsuiReorder( {
@@ -347,6 +346,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		this.$elements.$wtDotline.$change( wtposCurve.curve );
 		this.#keyPreviews.forEach( p => p.$elemA.style.display = p.$wtposCurveId === id ? "block" : "none" );
+		this.$dispatch( "selectWavetableCurve", id );
 	}
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;
