@@ -39,8 +39,8 @@ class gsuiPropSelect extends gsui0ne {
 
 		GSUemptyElement( this );
 		this.append( ...elBtns );
-		if ( this.#prop ) {
-			this.#setProp( this.#prop );
+		if ( !this.#setProp( this.#prop ) ) {
+			GSUdomQS( this, ".gsuiPropSelect-btn" )?.click();
 		}
 	}
 	#createProp( p ) {
@@ -61,6 +61,7 @@ class gsuiPropSelect extends gsui0ne {
 		GSUdomSetAttr( btn, "data-selected" );
 		GSUdomRmAttr( this.#getBtn( prev ), "data-selected" );
 		this.#setValue( prop, GSUdomGetAttr( this, "value" ) );
+		return !!btn;
 	}
 	#getBtn( prop ) {
 		return GSUdomQS( this, `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
