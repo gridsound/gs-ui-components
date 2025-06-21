@@ -46,11 +46,11 @@ class gsuiRipple {
 		}
 		obj.$elCirc = circ;
 		el.prepend( circ );
-		el.classList.remove( "gsuiRipple-active" );
+		GSUdomRmAttr( el, "data-ripple-active" );
 		obj.$timeoutId = GSUsetTimeout( () => {
-			el.classList.add( "gsuiRipple-active" );
+			GSUdomSetAttr( el, "data-ripple-active" );
 			obj.$timeoutId = GSUsetTimeout( () => {
-				el.classList.remove( "gsuiRipple-active" );
+				GSUdomRmAttr( el, "data-ripple-active" );
 				circ.remove();
 			}, .7 );
 		}, .1 );
