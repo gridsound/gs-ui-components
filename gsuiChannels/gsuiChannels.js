@@ -45,7 +45,7 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		Object.values( this.#chans ).forEach( chan => chan.$analyser.$updateResolution() );
+		GSUforEach( this.#chans, ch => ch.$analyser.$updateResolution() );
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
@@ -150,16 +150,20 @@ class gsuiChannels extends gsui0ne {
 			const chanDest = chan.dataset.dest;
 			let bOnce = false;
 
-			Object.entries( this.#chans ).forEach( ( [ id, chan ] ) => {
+			GSUforEach( this.#chans, ( chan, id ) => {
 				const a = id === chanDest;
 				const b = chan.dataset.dest === selId;
 
-				GSUdomSetAttr( chan, "connecta", a ? "up" : false );
-				GSUdomSetAttr( chan, "connectb", b ? "down" : false );
+				GSUdomSetAttr( chan, {
+					connecta: a ? "up" : false,
+					connectb: b ? "down" : false,
+				} );
 				bOnce = bOnce || b;
 			} );
-			GSUdomSetAttr( chan, "connecta", selId !== "main" ? "down" : false );
-			GSUdomSetAttr( chan, "connectb", bOnce ? "up" : false );
+			GSUdomSetAttr( chan, {
+				connecta: selId !== "main" ? "down" : false,
+				connectb: bOnce ? "up" : false,
+			} );
 		}
 	}
 }
