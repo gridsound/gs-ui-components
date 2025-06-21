@@ -136,13 +136,13 @@ class gsuiSlicer extends gsui0ne {
 	}
 	$setBuffer( buf ) {
 		this.#buffer = buf || null;
-		this.classList.toggle( "gsuiSlicer-loaded", this.#buffer );
-		this.classList.toggle( "gsuiSlicer-missingBufferData", !this.#buffer );
+		GSUdomSetAttr( this, "loaded", this.#buffer );
+		GSUdomSetAttr( this, "missing-data", !this.#buffer );
 		this.#setWaveform( buf );
 	}
 	$removeBuffer() {
 		this.#buffer = null;
-		this.classList.remove( "gsuiSlicer-loaded" );
+		GSUdomRmAttr( this, "loaded" );
 		this.$setBufferName( "" );
 		this.#setWaveform( null );
 	}
@@ -229,12 +229,12 @@ class gsuiSlicer extends gsui0ne {
 	#highlightSlice( sli ) {
 		if ( sli !== this.#sliceCurrentTime ) {
 			if ( this.#sliceCurrentTime ) {
-				this.#sliceCurrentTime.sli.classList.remove( "gsuiSlicer-slices-slice-hl" );
-				this.#sliceCurrentTime.svg.classList.remove( "gsuiSlicer-preview-wave-hl" );
+				GSUdomRmAttr( this.#sliceCurrentTime.sli, "data-hl" );
+				GSUdomRmAttr( this.#sliceCurrentTime.svg, "data-hl" );
 			}
 			if ( sli ) {
-				sli.sli.classList.add( "gsuiSlicer-slices-slice-hl" );
-				sli.svg.classList.add( "gsuiSlicer-preview-wave-hl" );
+				GSUdomSetAttr( sli.sli, "data-hl" );
+				GSUdomSetAttr( sli.svg, "data-hl" );
 			}
 			this.#sliceCurrentTime = sli;
 		}
@@ -243,10 +243,10 @@ class gsuiSlicer extends gsui0ne {
 		if ( change !== false ) {
 			this.#tool = t;
 		}
-		this.$elements.$tools.$moveY.classList.toggle( "gsuiSlicer-btn-toggle", t === "moveY" );
-		this.$elements.$tools.$reset.classList.toggle( "gsuiSlicer-btn-toggle", t === "reset" );
-		this.$elements.$tools.$merge.classList.toggle( "gsuiSlicer-btn-toggle", t === "merge" );
-		this.$elements.$tools.$split.classList.toggle( "gsuiSlicer-btn-toggle", t === "split" );
+		GSUdomSetAttr( this.$elements.$tools.$moveY, "data-toggle", t === "moveY" );
+		GSUdomSetAttr( this.$elements.$tools.$reset, "data-toggle", t === "reset" );
+		GSUdomSetAttr( this.$elements.$tools.$merge, "data-toggle", t === "merge" );
+		GSUdomSetAttr( this.$elements.$tools.$split, "data-toggle", t === "split" );
 	}
 	#updatePxPerBeat( dur ) {
 		GSUdomSetAttr( this.$elements.$timeline, "pxperbeat", this.$elements.$slices.clientWidth / ( dur || this.#dur ) );

@@ -83,7 +83,7 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	font-style: italic;
 	opacity: .5;
 }
-.gsuiSlicer-missingBufferData .gsuiSlicer-source-name::after {
+gsui-slicer[ missing-data ] .gsuiSlicer-source-name::after {
 	content: " (buffer not ready)";
 	font-style: italic;
 	opacity: .5;
@@ -130,7 +130,7 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	border-right: 1px dashed var( --gsuiSlicer-preview-wave-border );
 	transition: background-color .5s;
 }
-.gsuiSlicer-preview-wave-hl {
+.gsuiSlicer-preview-wave[ data-hl ] {
 	background-color: var( --gsuiSlicer-preview-wave-hl-bg );
 	transition: none;
 }
@@ -190,10 +190,10 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 		filter .2s,
 		background-color .5s;
 }
-.gsuiSlicer-loaded .gsuiSlicer-slices-slice {
+gsui-slicer[ loaded ] .gsuiSlicer-slices-slice {
 	filter: none;
 }
-.gsuiSlicer-slices-slice-hl {
+.gsuiSlicer-slices-slice[ data-hl ] {
 	background-color: var( --gsuiSlicer-slice-hl-bg );
 	transition: filter .2s;
 }
@@ -233,10 +233,10 @@ gsui-slicer gsui-step-select {
 	opacity: .6;
 	transition: .2s opacity;
 }
-.gsuiSlicer-btn-toggle {
+.gsuiSlicer-btn[ data-toggle ] {
 	border: 2px solid #fff8;
 }
-.gsuiSlicer-btn-toggle,
+.gsuiSlicer-btn[ data-toggle ],
 .gsuiSlicer-btn:focus,
 .gsuiSlicer-btn:hover {
 	opacity: 1;
