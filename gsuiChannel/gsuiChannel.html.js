@@ -25,7 +25,7 @@ GSUsetTemplate( "gsui-channel", () => [
 ] );
 
 GSUsetTemplate( "gsui-channel-effect", ( id, name ) =>
-	GSUcreateButton( { class: "gsuiChannel-effect gsuiChannel-effect-enable", "data-id": id },
+	GSUcreateButton( { class: "gsuiChannel-effect", "data-id": id, "data-enable": true },
 		GSUcreateSpan( { class: "gsuiChannel-effect-name" }, name ),
 	),
 );

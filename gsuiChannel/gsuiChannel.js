@@ -100,7 +100,7 @@ class gsuiChannel extends gsui0ne {
 			this.#getEffect( id ).style.order = obj.order;
 		}
 		if ( "toggle" in obj ) {
-			this.#getEffect( id ).classList.toggle( "gsuiChannel-effect-enable", obj.toggle );
+			GSUdomSetAttr( this.#getEffect( id ), "data-enable", obj.toggle );
 		}
 	}
 	#getEffect( id ) {

@@ -132,7 +132,7 @@ gsui-channel gsui-analyser-hist {
 	pointer-events: none;
 	opacity: .3;
 }
-.gsuiChannel-effect-enable .gsuiChannel-effect-name {
+.gsuiChannel-effect[ data-enable ] .gsuiChannel-effect-name {
 	opacity: 1;
 }
 
