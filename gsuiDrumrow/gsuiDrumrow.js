@@ -68,9 +68,7 @@ class gsuiDrumrow extends gsui0ne {
 				break;
 			case "toggle":
 				GSUdomSetAttr( this.$elements.toggle, "off", val !== "" );
-				if ( this.#elDrumLine ) {
-					this.#elDrumLine.classList.toggle( "gsuiDrumrow-mute", val !== "" );
-				}
+				GSUdomSetAttr( this.#elDrumLine, "data-mute", val !== "" );
 				break;
 		}
 	}
@@ -79,12 +77,11 @@ class gsuiDrumrow extends gsui0ne {
 	$associateDrumLine( el ) {
 		this.#elDrumLine = el;
 		el.style.order = GSUdomGetAttr( this, "order" );
-		el.classList.toggle( "gsuiDrumrow-mute", !GSUdomHasAttr( this, "toggle" ) );
+		GSUdomSetAttr( el, "data-mute", !GSUdomHasAttr( this, "toggle" ) );
 	}
 	$changePattern( svg ) {
 		GSUemptyElement( this.$elements.waveWrap );
 		if ( svg ) {
-			svg.classList.add( "gsuiDrumrow-wave" );
 			this.$elements.waveWrap.append( svg );
 		}
 	}
@@ -98,7 +95,7 @@ class gsuiDrumrow extends gsui0ne {
 	// .........................................................................
 	#namePrint( prop, val ) {
 		this.$elements.$name.textContent = gsuiDrumrow.#namePrint2( prop, val );
-		this.$elements.$name.classList.add( "gsuiDrumrow-nameInfo" );
+		GSUdomSetAttr( this, "info" );
 	}
 	static #namePrint2( prop, val ) {
 		switch ( prop ) {
@@ -110,13 +107,11 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	#oninputendSlider( id ) {
-		const el = this.$elements.$name;
-
-		el.textContent = GSUdomGetAttr( this, "name" );
-		el.classList.remove( "gsuiDrumrow-nameInfo" );
+		this.$elements.$name.textContent = GSUdomGetAttr( this, "name" );
+		GSUdomRmAttr( this, "info" );
 	}
 	#onanimationend( e ) {
-		if ( e.target.classList.contains( "gsuiDrumrow-startCursor" ) ) {
+		if ( GSUdomHasClass( e.target, "gsuiDrumrow-startCursor" ) ) {
 			e.target.remove();
 		}
 	}
@@ -125,7 +120,7 @@ class gsuiDrumrow extends gsui0ne {
 			switch ( e.target.dataset.action ) {
 				case "delete": this.$dispatch( "remove" ); break;
 				case "props":
-					this.classList.toggle( "gsuiDrumrow-open" );
+					GSUdomTogAttr( this, "open" );
 					this.$dispatch( "expand" );
 					break;
 			}

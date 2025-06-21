@@ -34,7 +34,7 @@ gsui-drums .gsuiTimewindow-rows {
 .gsuiDrums-lineOpen {
 	height: calc( 1em + 1.5em );
 }
-.gsuiDrums-line.gsuiDrumrow-mute {
+.gsuiDrums-line[ data-mute ] {
 	filter: brightness( .8 ) contrast( .8 );
 	background-color: var( --gsuiDrums-line-mute-bg );
 }

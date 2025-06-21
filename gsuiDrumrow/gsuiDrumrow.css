@@ -21,7 +21,7 @@ gsui-drumrow:not( [ toggle ] ) {
 	border-color: transparent;
 	background-color: var( --gsui-item-bg-disabled );
 }
-.gsuiDrumrow-open {
+gsui-drumrow[ open ] {
 	height: calc( 1em + var( --props-h ) );
 	min-height: calc( 1em + var( --props-h ) );
 }
@@ -75,7 +75,7 @@ gsui-drumrow gsui-toggle {
 	font-weight: bold;
 	pointer-events: none;
 }
-.gsuiDrumrow-nameInfo {
+gsui-drumrow[ info ] .gsuiDrumrow-name {
 	font-style: italic;
 	font-weight: normal;
 	opacity: .7;
@@ -88,7 +88,7 @@ gsui-drumrow gsui-toggle {
 	inset: var( --name-h ) calc( var( --slider-w ) * 3 + 8px ) 4px 0;
 	pointer-events: none;
 }
-.gsuiDrumrow-wave {
+.gsuiDrumrow-waveWrap svg {
 	position: absolute;
 	inset: 0 auto auto 0;
 	width: 100%;
@@ -163,7 +163,7 @@ gsui-drumrow .gsuiSlider-eventCatcher {
 	width: var( --propsExpand-w );
 	opacity: .5;
 }
-.gsuiDrumrow-open .gsuiDrumrow-btnProps {
+gsui-drumrow[ open ] .gsuiDrumrow-btnProps {
 	text-shadow: 0 0 6px;
 	opacity: .8;
 }
