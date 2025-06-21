@@ -71,7 +71,7 @@ gsui-timeline {
 	font-family: var( --gsui-font-number );
 	opacity: var( --gsuiTimeline-measures-opacity, 0 );
 }
-.gsuiTimeline-measureBig::after {
+.gsuiTimeline-measure[ data-hl ]::after {
 	font-weight: bold;
 	opacity: 1;
 }
@@ -102,7 +102,7 @@ gsui-timeline {
 	opacity: 0;
 	visibility: hidden;
 }
-.gsuiTimeline-looping .gsuiTimeline-loop {
+gsui-timeline[ loop ] .gsuiTimeline-loop {
 	opacity: 1;
 	visibility: visible;
 }

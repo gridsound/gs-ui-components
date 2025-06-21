@@ -224,12 +224,10 @@ class gsuiTimeline extends gsui0ne {
 	}
 	#updateMeasures() {
 		Array.prototype.forEach.call( this.$elements.$measures.children, ( el, i ) => {
-			el.classList.toggle( "gsuiTimeline-measureBig",
-				this.#onlyBigMeasures || ( this.#offset + i ) % this.#beatsPerMeasure === 0 );
+			GSUdomSetAttr( el, "data-hl", this.#onlyBigMeasures || ( this.#offset + i ) % this.#beatsPerMeasure === 0 );
 		} );
 	}
 	#updateLoop() {
-		this.classList.toggle( "gsuiTimeline-looping", this.#looping );
 		if ( this.#looping ) {
 			this.$elements.$loop.style.left = `${ this.#loopA }em`;
 			this.$elements.$loop.style.width = `${ this.#loopB - this.#loopA }em`;
