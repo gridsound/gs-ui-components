@@ -20,7 +20,7 @@ gsui-patternroll gsui-track {
 	box-shadow: 0 0 0px 1px #00000047;
 	--gsuiPatterns-pattern-color: #223;
 }
-.gsui-mute .gsuiPatternroll-block {
+[ data-mute ] .gsuiPatternroll-block {
 	opacity: .6;
 }
 .gsuiPatternroll-block-header {

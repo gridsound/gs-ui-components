@@ -8,6 +8,7 @@ class gsuiTrack extends gsui0ne {
 			$cmpName: "gsuiTrack",
 			$tagName: "gsui-track",
 			$elements: {
+				$inpNameWrap: ".gsuiTrack-nameWrap",
 				$inpName: ".gsuiTrack-name",
 			},
 			$attributes: {
@@ -18,7 +19,7 @@ class gsuiTrack extends gsui0ne {
 		Object.seal( this );
 		this.onchange = this.#onchange.bind( this );
 		this.onkeydown = this.#onkeydown.bind( this );
-		this.ondblclick = this.#ondblclick.bind( this );
+		this.$elements.$inpNameWrap.ondblclick = this.#ondblclickName.bind( this );
 		this.$elements.$inpName.onblur = this.#onblur.bind( this );
 		GSUlistenEvents( this, {
 			gsuiToggle: {
@@ -41,7 +42,7 @@ class gsuiTrack extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "mute":
-				this.rowElement.classList.toggle( "gsui-mute", val !== null );
+				GSUdomSetAttr( this.rowElement, "data-mute", val !== null );
 				GSUdomSetAttr( this.firstElementChild, "off", val !== null );
 				break;
 			case "name":
@@ -54,12 +55,10 @@ class gsuiTrack extends gsui0ne {
 	}
 
 	// .........................................................................
-	#ondblclick( e ) {
-		if ( e.target.classList.contains( "gsuiTrack-nameWrap" ) ) {
-			this.$elements.$inpName.disabled = false;
-			this.$elements.$inpName.select();
-			this.$elements.$inpName.focus();
-		}
+	#ondblclickName( e ) {
+		this.$elements.$inpName.disabled = false;
+		this.$elements.$inpName.select();
+		this.$elements.$inpName.focus();
 	}
 	#onkeydown( e ) {
 		if ( e.target === this.$elements.$inpName ) {
