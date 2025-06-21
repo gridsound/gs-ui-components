@@ -85,8 +85,6 @@ class gsuiSlider extends gsui0ne {
 
 		this.#circ = circ;
 		this.#axeX = axeX;
-		this.classList.toggle( "gsuiSlider-circular", circ );
-		this.classList.toggle( "gsuiSlider-linear", !circ );
 		if ( !circ ) {
 			GSUsetStyle( this.$elements.$lineColor, {
 				top: axeX ? "0" : "",

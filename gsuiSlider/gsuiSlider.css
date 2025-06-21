@@ -18,8 +18,8 @@ gsui-slider[ disabled ] {
 	inset: 0;
 }
 
-.gsuiSlider-linear .gsuiSlider-svg,
-.gsuiSlider-circular .gsuiSlider-line {
+gsui-slider[ type^="linear" ] .gsuiSlider-svg,
+gsui-slider[ type="circular" ] .gsuiSlider-line {
 	display: none;
 }
 
