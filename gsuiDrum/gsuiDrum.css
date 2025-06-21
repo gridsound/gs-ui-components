@@ -43,9 +43,9 @@ gsui-drumcut {
 	background-color: var( --gsuiDrums-drumprop-bg );
 	transition: .1s height;
 }
-.gsuiDrums-lineOpen[ data-prop="pan" ] .gsuiDrum-prop[ data-value="pan" ],
-.gsuiDrums-lineOpen[ data-prop="gain" ] .gsuiDrum-prop[ data-value="gain" ],
-.gsuiDrums-lineOpen[ data-prop="detune" ] .gsuiDrum-prop[ data-value="detune" ] {
+.gsuiDrums-line[ data-open ][ data-prop="pan" ] .gsuiDrum-prop[ data-value="pan" ],
+.gsuiDrums-line[ data-open ][ data-prop="gain" ] .gsuiDrum-prop[ data-value="gain" ],
+.gsuiDrums-line[ data-open ][ data-prop="detune" ] .gsuiDrum-prop[ data-value="detune" ] {
 	height: 6px;
 }
 .gsuiDrum-prop + .gsuiDrum-prop {

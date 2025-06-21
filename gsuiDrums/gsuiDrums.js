@@ -56,7 +56,7 @@ class gsuiDrums extends gsui0ne {
 			gsuiDrumrows: {
 				propFilter: d => this.#setPropFilter( ...d.args ),
 				propFilters: d => this.#setPropFilterAll( ...d.args ),
-				expand: d => void this.#linesMap.get( d.args[ 0 ] ).classList.toggle( "gsuiDrums-lineOpen" ),
+				expand: d => GSUdomTogAttr( this.#linesMap.get( d.args[ 0 ] ), "data-open" ),
 			},
 			gsuiSliderGroup: {
 				change: ( d, t ) => {
@@ -188,9 +188,8 @@ class gsuiDrums extends gsui0ne {
 		}
 	}
 	#addItem( id, itemType, item ) {
-		const elTag = `gsui-${ itemType }`;
 		const { when, row: rowId } = item;
-		const elItem = GSUcreateElement( elTag, {
+		const elItem = GSUcreateElement( `gsui-${ itemType }`, {
 			"data-id": id,
 			when,
 			duration: this.#calcItemWidth( itemType, rowId, when ),
@@ -326,13 +325,12 @@ class gsuiDrums extends gsui0ne {
 		return GSUdomQS( this.firstChild ? this : this.#win, sel );
 	}
 	#createPreview( itemType, rowId, when ) {
-		const elTag = `gsui-${ itemType }`;
-		const el = GSUcreateElement( elTag, {
+		const el = GSUcreateElement( `gsui-${ itemType }`, {
 			when,
+			class: "gsuiDrums-preview",
 			duration: this.#hoverDurSaved,
 		} );
 
-		el.classList.add( "gsuiDrums-preview" );
 		this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
 		return el;
 	}
@@ -349,14 +347,14 @@ class gsuiDrums extends gsui0ne {
 		this.#previewsMap.forEach( el => {
 			adding
 				? el.remove()
-				: el.classList.remove( "gsuiDrums-previewDeleted" );
+				: GSUdomRmClass( el, "gsuiDrums-previewDeleted" );
 		} );
 		if ( !adding ) {
 			drumsArr.forEach( d => {
 				const dw = GSUdomGetAttrNum( d, "when" );
 
 				if ( when1A <= dw && dw <= when1B ) {
-					d.classList.add( "gsuiDrums-previewDeleted" );
+					GSUdomAddClass( d, "gsuiDrums-previewDeleted" );
 					newPreviewMap.set( d.dataset.id, d );
 				}
 			} );
@@ -380,7 +378,7 @@ class gsuiDrums extends gsui0ne {
 	#removePreviews( adding ) {
 		this.#previewsMap.forEach( adding
 			? el => el.remove()
-			: el => el.classList.remove( "gsuiDrums-previewDeleted" ) );
+			: el => GSUdomRmClass( el, "gsuiDrums-previewDeleted" ) );
 		this.#previewsMap.clear();
 	}
 
@@ -392,7 +390,7 @@ class gsuiDrums extends gsui0ne {
 				this.#onmousemoveLines2();
 			} else {
 				const tar = e.target;
-				const elLine = tar.classList.contains( "gsuiDrums-lineIn" )
+				const elLine = GSUdomHasClass( tar, "gsuiDrums-lineIn" )
 					? tar
 					: tar.tagName === "GSUI-DRUM" || tar.tagName === "GSUI-DRUMCUT"
 						? tar.parentNode

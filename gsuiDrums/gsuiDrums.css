@@ -31,7 +31,7 @@ gsui-drums .gsuiTimewindow-rows {
 	border-bottom: 1px solid var( --gsuiDrums-line-border );
 	transition: .2s height, .1s filter, .1s background-color;
 }
-.gsuiDrums-lineOpen {
+.gsuiDrums-line[ data-open ] {
 	height: calc( 1em + 1.5em );
 }
 .gsuiDrums-line[ data-mute ] {
