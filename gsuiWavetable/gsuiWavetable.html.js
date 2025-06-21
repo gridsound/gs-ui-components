@@ -4,7 +4,7 @@ GSUsetTemplate( "gsui-wavetable", () => [
 	GSUcreateSpan( { class: "gsuiWavetable-head" },
 		GSUcreateButton( { class: "gsuiWavetable-back", "data-action": "back", icon: "arrow-left", title: "Save and close the wavetable edition" } ),
 		GSUcreateSpan( { class: "gsuiWavetable-title", inert: true }, "wavetable editor" ),
-		GSUcreateElement( "gsui-help-link", { page: "synth-wave-edition" } ),
+		GSUcreateElement( "gsui-help-link", { page: "synth-wavetable" } ),
 	),
 	GSUcreateDiv( { class: "gsuiWavetable-waves" },
 		GSUcreateDiv( { class: "gsuiWavetable-waves-graph" },
