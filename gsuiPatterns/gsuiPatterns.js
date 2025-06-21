@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiPatterns extends gsui0ne {
-	$getChannels = () => [];
 	#fnsPattern = Object.freeze( {
 		clone: id => this.onchange( "clonePattern", id ),
 		remove: id => this.onchange( "removePattern", id ),
@@ -166,7 +165,8 @@ class gsuiPatterns extends gsui0ne {
 		GSUdomQS( elSyn, ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
-		gsuiChannels.$openSelectChannelPopup( this.$getChannels(), currChanId )
+		GSUdomQS( "gsui-channels" )
+			.$openSelectChannelPopup( currChanId )
 			.then( chanId => chanId && this.onchange( action, objId, chanId ) );
 	}
 	#openInfoPopup( id, el ) {
@@ -190,7 +190,7 @@ class gsuiPatterns extends gsui0ne {
 			submit: data => {
 				data.bpm = data.bpm || null;
 				this.onchange( "changePatternBufferInfo", id, data );
-			}
+			},
 		} );
 	}
 

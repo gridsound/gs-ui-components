@@ -64,18 +64,24 @@ class gsuiChannels extends gsui0ne {
 		this.#updateChanConnections();
 		this.$onselectChan?.( id );
 	}
-	static $openSelectChannelPopup( chans, currChanId ) {
+	$openSelectChannelPopup( currChanId ) {
+		___( currChanId, "string" );
 		return new Promise( res => {
-			gsuiChannels.#selectChanInput.append(
-				...Object.entries( chans ).map(
-					kv => GSUcreateOption( { value: kv[ 0 ] }, kv[ 1 ].name ) )
-			);
+			gsuiChannels.#selectChanInput.append( ...[
+				GSUcreateOption( { value: "main" } ),
+				...Object.entries( this.#chans )
+					.filter( kv => kv[ 0 ] !== "main" )
+					.sort( ( a, b ) => GSUdomGetAttrNum( a[ 1 ], "order" ) - GSUdomGetAttrNum( b[ 1 ], "order" ) )
+					.map( kv => GSUcreateOption( { value: kv[ 0 ] }, GSUdomGetAttr( kv[ 1 ], "name" ) ) )
+			] );
 			gsuiChannels.#selectChanInput.value = currChanId;
 			GSUpopup.$custom( {
 				title: "Channels",
 				element: gsuiChannels.#selectChanPopup,
 				submit( data ) {
-					res( data.channel !== currChanId ? data.channel : null );
+					const chan = `${ data.channel }`;
+
+					res( chan !== currChanId ? chan : null );
 				}
 			} ).then(() => GSUemptyElement( gsuiChannels.#selectChanInput ) );
 		} );
