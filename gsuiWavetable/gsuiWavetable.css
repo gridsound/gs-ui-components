@@ -13,9 +13,6 @@ gsui-wavetable {
 
 /* .......................................................................... */
 .gsuiWavetable-head {
-	display: flex;
-	align-items: center;
-	gap: 6px;
 	height: 20px;
 	padding: 0 6px;
 	background-color: var( --gsui-item-bg );
@@ -38,44 +35,21 @@ gsui-wavetable {
 }
 
 /* .......................................................................... */
-.gsuiWavetable-waves {
-	position: relative;
-	display: flex;
-	flex: 3;
-}
-.gsuiWavetable-waves-graph {
-	flex: 1;
-	height: 100%;
-	box-shadow: inset 0 0 110px 0 #0008;
-}
-.gsuiWavetable-waves-editor {
-	flex: 2;
-	display: flex;
-	flex-direction: column;
-}
 gsui-wavetable gsui-wavetable-graph {
 	width: 100%;
 	height: 100%;
+	box-shadow: inset 0 0 110px 0 #0008;
 }
-
-/* .......................................................................... */
-.gsuiWavetable-wave-editor {
-	position: sticky;
-	left: 0;
-	top: 0;
-	flex: 1;
-}
-.gsuiWavetable-wave-editor gsui-dotline {
-	height: 100%;
+.gsuiWavetable-waves gsui-dotline {
 	color: var( --gsuiWavetable-wave );
 }
 
 /* .......................................................................... */
-.gsuiWavetable-waves-list-wrap {
+.gsuiWavetable-waves-list {
 	position: relative;
 	min-height: 42px;
 }
-.gsuiWavetable-waves-list {
+.gsuiWavetable-waves-list > div {
 	position: absolute;
 	overflow: scroll;
 	inset: 0;
@@ -86,7 +60,6 @@ gsui-wavetable gsui-wavetable-graph {
 
 /* .......................................................................... */
 .gsuiWavetable-wave {
-	display: flex;
 	min-width: 70px;
 	height: 100%;
 	margin-left: 2px;
@@ -121,9 +94,6 @@ gsui-wavetable gsui-wavetable-graph {
 
 /* .......................................................................... */
 .gsuiWavetable-wave-head {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 	padding: 0 2px;
 	font-size: 12px;
 	line-height: 1.3;
@@ -149,17 +119,11 @@ gsui-wavetable gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWavetable-posCurves {
 	position: relative;
-	flex: 2;
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
 	padding: 6px;
 }
 
 /* .......................................................................... */
 .gsuiWavetable-posCurves-head {
-	display: flex;
-	gap: 10px;
 	min-height: 32px;
 }
 .gsuiWavetable-keyPreview {
@@ -171,14 +135,8 @@ gsui-wavetable gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWavetable-posCurves-list {
-	flex: 1;
-	display: flex;
-	gap: 8px;
-}
 .gsuiWavetable-posCurve {
 	position: relative;
-	flex: 1;
 	border-radius: 4px;
 	cursor: pointer;
 	background-color: #0005;
@@ -224,28 +182,19 @@ gsui-wavetable gsui-wavetable-graph {
 }
 
 /* .......................................................................... */
-.gsuiWavetable-posCurve-dur {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
-.gsuiWavetable-posCurve-dur-body {
-	display: flex;
-	flex-direction: column;
-}
-.gsuiWavetable-posCurve-dur-body > span {
+.gsuiWavetable-posCurve-dur span {
 	font-size: 12px;
 	font-weight: bold;
 	opacity: .5;
 }
-.gsuiWavetable-posCurve-dur-body gsui-slider {
+.gsuiWavetable-posCurve-dur gsui-slider {
 	height: 8px;
 }
-.gsuiWavetable-posCurve-dur-body .gsuiSlider-eventCatcher {
+.gsuiWavetable-posCurve-dur .gsuiSlider-eventCatcher {
 	top: -15px;
 	right: -60px;
 }
-.gsuiWavetable-posCurve-dur > b {
+.gsuiWavetable-posCurve-dur b {
 	display: flex;
 	align-items: baseline;
 	height: 20px;
@@ -255,7 +204,7 @@ gsui-wavetable gsui-wavetable-graph {
 	font-family: var( --gsui-font-number );
 	background-color: #0005;
 }
-.gsuiWavetable-posCurve-dur > b::after {
+.gsuiWavetable-posCurve-dur b::after {
 	content: " Beat";
 	font-size: .8em;
 	font-weight: normal;
@@ -266,7 +215,6 @@ gsui-wavetable gsui-wavetable-graph {
 /* .......................................................................... */
 .gsuiWavetable-posCurves-graph {
 	--gsui-pad: 4px;
-	flex: 1;
 	position: relative;
 	border-radius: 4px;
 	padding: var( --gsui-pad );
