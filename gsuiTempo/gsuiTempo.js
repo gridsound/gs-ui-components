@@ -22,7 +22,7 @@ class gsuiTempo extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#dropdown.$setDirection( "bottom" );
+		this.#dropdown.$setDirection( "B" );
 		this.#dropdown.$bindTargetElement( this.$elements.$btn );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
 		this.#popup.$form.onsubmit = this.$onsubmitPopup.bind( this );

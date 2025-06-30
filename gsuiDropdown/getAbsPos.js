@@ -1,24 +1,25 @@
 "use strict";
 
+// _T_op   _B_ottom   _L_eft   _R_ight
 const getAbsPos_list = {
-    "right top":    [ "right top",    "top right",    "right bottom", "bottom right", "left top",     "top left",     "bottom left",  "left bottom",  "right",       "top",          "left",   "bottom" ],
-    "top right":    [ "top right",    "right top",    "top left",     "left top",     "bottom right", "right bottom", "bottom left",  "left bottom",  "top",         "right",        "bottom", "left"   ],
-    "top left":     [ "top left",     "left top",     "top right",    "right top",    "bottom left",  "left bottom",  "bottom right", "right bottom", "top",         "left",         "bottom", "right"  ],
-    "left top":     [ "left top",     "top left",     "right top",    "top right",    "left bottom",  "bottom left",  "right bottom", "bottom right", "left",        "top",          "right",  "bottom" ],
-    "left bottom":  [ "left bottom",  "bottom left",  "right bottom", "bottom right", "left top",     "top left",     "right top",    "top right",    "left",        "bottom",       "right",  "top"    ],
-    "bottom left":  [ "bottom left",  "left bottom",  "bottom right", "right bottom", "top left",     "left top",     "top right",    "right top",    "bottom",      "left",         "top",    "right"  ],
-    "bottom right": [ "bottom right", "right bottom", "bottom left",  "left bottom",  "top right",    "right top",    "top left",     "left top",     "bottom",      "right",        "top",    "left"   ],
-    "right bottom": [ "right bottom", "bottom right", "left bottom",  "bottom left",  "right top",    "top right",    "left top",     "top left",     "right",       "bottom",       "left",   "top"    ],
-    "top":          [ "top",          "top left",     "top right",    "left top",     "right top",    "bottom",       "bottom left",  "bottom right", "left bottom", "right bottom", "left",   "right"  ],
-    "bottom":       [ "bottom",       "bottom left",  "bottom right", "left bottom",  "right bottom", "top",          "top left",     "top right",    "left top",    "right top",    "left",   "right"  ],
-    "left":         [ "left",         "left top",     "left bottom",  "top left",     "bottom left",  "right",        "right top",    "right bottom", "top right",   "bottom right", "top",    "bottom" ],
-    "right":        [ "right",        "right top",    "right bottom", "top right",    "bottom right", "left",         "left top",     "left bottom",  "top left",    "bottom left",  "top",    "bottom" ],
+    "T":  "T TL TR LT RT B BL BR LB RB L R".split( " " ),
+    "B":  "B BL BR LB RB T TL TR LT RT L R".split( " " ),
+    "L":  "L LT LB TL BL R RT RB TR BR T B".split( " " ),
+    "R":  "R RT RB TR BR L LT LB TL BL T B".split( " " ),
+    "RT": "RT TR RB BR LT TL BL LB R T L B".split( " " ),
+    "TR": "TR RT TL LT BR RB BL LB T R B L".split( " " ),
+    "TL": "TL LT TR RT BL LB BR RB T L B R".split( " " ),
+    "LT": "LT TL RT TR LB BL RB BR L T R B".split( " " ),
+    "LB": "LB BL RB BR LT TL RT TR L B R T".split( " " ),
+    "BL": "BL LB BR RB TL LT TR RT B L T R".split( " " ),
+    "BR": "BR RB BL LB TR RT TL LT B R T L".split( " " ),
+    "RB": "RB BR LB BL RT TR LT TL R B L T".split( " " ),
 };
 
 const getAbsPos_outMargin = 10;
 
 function getAbsPos( pos, tBCR, w, h, opts = {} ) {
-    ___( pos, "oneOf", getAbsPos_list.top );
+    ___( pos, "oneOf", getAbsPos_list.T );
     ___( w, "number-positive" );
     ___( h, "number-positive" );
     const posList = getAbsPos_list[ pos ];
@@ -69,17 +70,17 @@ function getAbsPos_isCollide( x, y, w, h, marg ) {
 }
 
 function getAbsPos_getArrowPos( pos, tBCR, x, y, w, h ) {
-    const [ p0, p1 ] = pos.split( " " );
+    const [ p0, p1 ] = pos.split( "" );
     let ax;
     let ay;
 
     switch ( p0 ) {
-        case "top":    ax = w / 2; ay = h; break;
-        case "bottom": ax = w / 2; ay = 0; break;
+        case "T": ax = w / 2; ay = h; break;
+        case "B": ax = w / 2; ay = 0; break;
     }
     switch ( p1 ) {
-        case "left":  ax = w - tBCR.width / 2; break;
-        case "right": ax =     tBCR.width / 2; break;
+        case "L": ax = w - tBCR.width / 2; break;
+        case "R": ax =     tBCR.width / 2; break;
     }
     return [
         ax ? `${ ax }px` : "auto",
@@ -91,20 +92,20 @@ function getAbsPos_getPos( pos, tBCR, w, h, margin ) {
     const xy = [ null, null ];
 
     switch ( pos ) {
-        case 'top':    xy[ 1 ] = tBCR.top    - margin - h; break;
-        case 'bottom': xy[ 1 ] = tBCR.bottom + margin;     break;
-        case 'left':   xy[ 0 ] = tBCR.left   - margin - w; break;
-        case 'right':  xy[ 0 ] = tBCR.right  + margin;     break;
+        case "T": xy[ 1 ] = tBCR.top    - margin - h; break;
+        case "B": xy[ 1 ] = tBCR.bottom + margin;     break;
+        case "L": xy[ 0 ] = tBCR.left   - margin - w; break;
+        case "R": xy[ 0 ] = tBCR.right  + margin;     break;
 
-        case 'top left':     return [ tBCR.right - w, tBCR.top    - margin - h ];
-        case 'top right':    return [ tBCR.left,      tBCR.top    - margin - h ];
-        case 'bottom left':  return [ tBCR.right - w, tBCR.bottom + margin ];
-        case 'bottom right': return [ tBCR.left,      tBCR.bottom + margin ];
+        case "TL": return [ tBCR.right - w, tBCR.top    - margin - h ];
+        case "TR": return [ tBCR.left,      tBCR.top    - margin - h ];
+        case "BL": return [ tBCR.right - w, tBCR.bottom + margin ];
+        case "BR": return [ tBCR.left,      tBCR.bottom + margin ];
 
-        case 'left top':     return [ tBCR.left  - margin - w, tBCR.bottom - h ];
-        case 'left bottom':  return [ tBCR.left  - margin - w, tBCR.top ];
-        case 'right top':    return [ tBCR.right + margin,     tBCR.bottom - h ];
-        case 'right bottom': return [ tBCR.right + margin,     tBCR.top ];
+        case "LT": return [ tBCR.left  - margin - w, tBCR.bottom - h ];
+        case "LB": return [ tBCR.left  - margin - w, tBCR.top ];
+        case "RT": return [ tBCR.right + margin,     tBCR.bottom - h ];
+        case "RB": return [ tBCR.right + margin,     tBCR.top ];
     }
 
     const bw = document.body.clientWidth;

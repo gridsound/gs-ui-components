@@ -4,7 +4,7 @@ class gsuiComPlayer extends gsui0ne {
 	#settingTime = null;
 	#actionMenu = null;
 	#actions = null;
-	#actionMenuDir = "top left";
+	#actionMenuDir = "TL";
 
 	constructor() {
 		super( {

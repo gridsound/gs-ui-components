@@ -61,25 +61,22 @@ body {
 	pointer-events: auto;
 }
 
-[ title="left top"     ] { transform: scaleX( -1 ) }
-[ title="left bottom"  ] { transform: scaleX( -1 ) }
-[ title="top left"     ] { transform: rotate( -90deg ) }
-[ title="top right"    ] { transform: rotate( -90deg ) }
-[ title="bottom left"  ] { transform: rotate(  90deg ) }
-[ title="bottom right" ] { transform: rotate(  90deg ) }
+[ title="LT" ], [ title="LB" ] { transform: scaleX( -1 ) }
+[ title="TL" ], [ title="TR" ] { transform: rotate( -90deg ) }
+[ title="BL" ], [ title="BR" ] { transform: rotate(  90deg ) }
 
-#ddTarget[ data-pos="top" ]          [ title="top" ],
-#ddTarget[ data-pos="top left" ]     [ title="top left" ],
-#ddTarget[ data-pos="top right" ]    [ title="top right" ],
-#ddTarget[ data-pos="bottom" ]       [ title="bottom" ],
-#ddTarget[ data-pos="bottom left" ]  [ title="bottom left" ],
-#ddTarget[ data-pos="bottom right" ] [ title="bottom right" ],
-#ddTarget[ data-pos="left top" ]     [ title="left top" ],
-#ddTarget[ data-pos="left" ]         [ title="left" ],
-#ddTarget[ data-pos="left bottom" ]  [ title="left bottom" ],
-#ddTarget[ data-pos="right top" ]    [ title="right top" ],
-#ddTarget[ data-pos="right" ]        [ title="right" ],
-#ddTarget[ data-pos="right bottom" ] [ title="right bottom" ] {
+#ddTarget[ data-pos="T"  ] [ title="T"  ],
+#ddTarget[ data-pos="TL" ] [ title="TL" ],
+#ddTarget[ data-pos="TR" ] [ title="TR" ],
+#ddTarget[ data-pos="B"  ] [ title="B"  ],
+#ddTarget[ data-pos="BL" ] [ title="BL" ],
+#ddTarget[ data-pos="BR" ] [ title="BR" ],
+#ddTarget[ data-pos="LT" ] [ title="LT" ],
+#ddTarget[ data-pos="L"  ] [ title="L"  ],
+#ddTarget[ data-pos="LB" ] [ title="LB" ],
+#ddTarget[ data-pos="RT" ] [ title="RT" ],
+#ddTarget[ data-pos="R"  ] [ title="R"  ],
+#ddTarget[ data-pos="RB" ] [ title="RB" ] {
 	filter: none;
 }
 </style>
@@ -88,28 +85,28 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<div id="ddTarget" data-pos="left bottom">
+	<div id="ddTarget" data-pos="LB">
 		<div>
-			<span title="left top">⤴️</span>
-			<span title="left">⬅️</span>
-			<span title="left bottom">⤵️</span>
+			<span title="LT">⤴️</span>
+			<span title="L">⬅️</span>
+			<span title="LB">⤵️</span>
 		</div>
 		<div>
-			<span title="top left">⤴️</span>
-			<span title="bottom left">⤵️</span>
+			<span title="TL">⤴️</span>
+			<span title="BL">⤵️</span>
 		</div>
 		<div>
-			<span title="top">⬆️</span>
-			<span title="bottom">⬇️</span>
+			<span title="T">⬆️</span>
+			<span title="B">⬇️</span>
 		</div>
 		<div>
-			<span title="top right">⤵️</span>
-			<span title="bottom right">⤴️</span>
+			<span title="TR">⤵️</span>
+			<span title="BR">⤴️</span>
 		</div>
 		<div>
-			<span title="right top">⤴️</span>
-			<span title="right">➡️</span>
-			<span title="right bottom">⤵️</span>
+			<span title="RT">⤴️</span>
+			<span title="R">➡️</span>
+			<span title="RB">⤵️</span>
 		</div>
 	</div>
 	<div id="dd"></div>

@@ -47,7 +47,7 @@ class gsuiDotline extends gsui0ne {
 		this.#menu.$setMinSize( "130px", "192px" );
 		this.#menu.$setMaxSize( "130px", "192px" );
 		this.#menu.$closeAfterClick( false );
-		this.#menu.$setDirection( "bottom" );
+		this.#menu.$setDirection( "B" );
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
 		this.#menu.$setActions( [
 			{ id: "delete",       icon: "close",     name: "delete" },
