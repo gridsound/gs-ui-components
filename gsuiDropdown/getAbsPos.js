@@ -1,21 +1,38 @@
-// pos:
-//     'top'
-//     'left'
-//     'right'
-//     'bottom'
-//     'top left'
-//     'top right'
-//     'left top'
-//     'left bottom'
-//     'bottom left'
-//     'bottom right'
-//     'right top'
-//     'right bottom'
+"use strict";
+
+const getAbsPos_list = {
+    "right top":    [ "right top",    "top right",    "right bottom", "bottom right", "left top",     "top left",     "bottom left",  "left bottom",  "right",       "top",          "left",   "bottom" ],
+    "top right":    [ "top right",    "right top",    "top left",     "left top",     "bottom right", "right bottom", "bottom left",  "left bottom",  "top",         "right",        "bottom", "left"   ],
+    "top left":     [ "top left",     "left top",     "top right",    "right top",    "bottom left",  "left bottom",  "bottom right", "right bottom", "top",         "left",         "bottom", "right"  ],
+    "left top":     [ "left top",     "top left",     "right top",    "top right",    "left bottom",  "bottom left",  "right bottom", "bottom right", "left",        "top",          "right",  "bottom" ],
+    "left bottom":  [ "left bottom",  "bottom left",  "right bottom", "bottom right", "left top",     "top left",     "right top",    "top right",    "left",        "bottom",       "right",  "top"    ],
+    "bottom left":  [ "bottom left",  "left bottom",  "bottom right", "right bottom", "top left",     "left top",     "top right",    "right top",    "bottom",      "left",         "top",    "right"  ],
+    "bottom right": [ "bottom right", "right bottom", "bottom left",  "left bottom",  "top right",    "right top",    "top left",     "left top",     "bottom",      "right",        "top",    "left"   ],
+    "right bottom": [ "right bottom", "bottom right", "left bottom",  "bottom left",  "right top",    "top right",    "left top",     "top left",     "right",       "bottom",       "left",   "top"    ],
+    "top":          [ "top",          "top left",     "top right",    "left top",     "right top",    "bottom",       "bottom left",  "bottom right", "left bottom", "right bottom", "left",   "right"  ],
+    "bottom":       [ "bottom",       "bottom left",  "bottom right", "left bottom",  "right bottom", "top",          "top left",     "top right",    "left top",    "right top",    "left",   "right"  ],
+    "left":         [ "left",         "left top",     "left bottom",  "top left",     "bottom left",  "right",        "right top",    "right bottom", "top right",   "bottom right", "top",    "bottom" ],
+    "right":        [ "right",        "right top",    "right bottom", "top right",    "bottom right", "left",         "left top",     "left bottom",  "top left",    "bottom left",  "top",    "bottom" ],
+};
+
+const getAbsPos_outMargin = 10;
 
 function getAbsPos( pos, tBCR, w, h, opts = {} ) {
+    ___( pos, "oneOf", getAbsPos_list.top );
+    ___( w, "number-positive" );
+    ___( h, "number-positive" );
+    const posList = getAbsPos_list[ pos ];
+    const nbPos = posList.length;
     const marg = opts.margin || 0;
-    const newPos = _getNewPos( pos, tBCR, w, h, marg );
-    let [ x, y ] = _getPos( newPos, tBCR, w, h, marg );
+    let newPos = pos;
+    let x = 0;
+    let y = 0;
+
+    posList.find( pos2 => {
+        newPos = pos2;
+        [ x, y ] = getAbsPos_getPos( pos2, tBCR, w, h, marg );
+        return !getAbsPos_isCollide( x, y, w, h, marg );
+    } );
 
     x += document.documentElement.scrollLeft;
     y += document.documentElement.scrollTop;
@@ -34,16 +51,24 @@ function getAbsPos( pos, tBCR, w, h, opts = {} ) {
         return obj;
     }
 
-    const [ arrX, arrY ] = _getArrowPos( newPos, tBCR, x, y, w, h );
+    const [ arrX, arrY ] = getAbsPos_getArrowPos( newPos, tBCR, x, y, w, h );
 
     obj.arrowLeft = arrX;
     obj.arrowTop = arrY;
     return obj;
 }
 
-getAbsPos.outMargin = 10;
+function getAbsPos_isCollide( x, y, w, h, marg ) {
+    const bw = document.body.clientWidth;
+    const bh = document.body.clientHeight;
 
-function _getArrowPos( pos, tBCR, x, y, w, h ) {
+    return (
+        !GSUmathInRange( x, marg, bw - w - marg ) ||
+        !GSUmathInRange( y, marg, bh - h - marg )
+    );
+}
+
+function getAbsPos_getArrowPos( pos, tBCR, x, y, w, h ) {
     const [ p0, p1 ] = pos.split( " " );
     let ax;
     let ay;
@@ -62,7 +87,7 @@ function _getArrowPos( pos, tBCR, x, y, w, h ) {
     ];
 }
 
-function _getPos( pos, tBCR, w, h, margin ) {
+function getAbsPos_getPos( pos, tBCR, w, h, margin ) {
     const xy = [ null, null ];
 
     switch ( pos ) {
@@ -86,97 +111,10 @@ function _getPos( pos, tBCR, w, h, margin ) {
     const bh = document.body.clientHeight;
 
     if ( xy[ 0 ] === null ) {
-        xy[ 0 ] = Math.max( getAbsPos.outMargin, Math.min( bw - getAbsPos.outMargin - w, tBCR.left + tBCR.width / 2 - w / 2 ) );
+        xy[ 0 ] = Math.max( getAbsPos_outMargin, Math.min( bw - getAbsPos_outMargin - w, tBCR.left + tBCR.width / 2 - w / 2 ) );
     }
     if ( xy[ 1 ] === null ) {
-        xy[ 1 ] = Math.max( getAbsPos.outMargin, Math.min( bh - getAbsPos.outMargin - h, tBCR.top + tBCR.height / 2 - h / 2 ) );
+        xy[ 1 ] = Math.max( getAbsPos_outMargin, Math.min( bh - getAbsPos_outMargin - h, tBCR.top + tBCR.height / 2 - h / 2 ) );
     }
     return xy;
-}
-
-function _getNewPos( pos, tBCR, w, h, margin ) {
-    const bw = document.body.clientWidth;
-    const bh = document.body.clientHeight;
-
-    if ( pos === "left" || pos === "right" ) {
-        if ( tBCR.top < getAbsPos.outMargin ) {
-            return "bottom";
-        }
-        if ( tBCR.bottom > bh - getAbsPos.outMargin ) {
-            return "top";
-        }
-    }
-    if ( pos === "top" || pos === "bottom" ) {
-        if ( tBCR.left < getAbsPos.outMargin ) {
-            return "right";
-        }
-        if ( tBCR.right > bw - getAbsPos.outMargin ) {
-            return "left";
-        }
-    }
-
-    const [ pos1, pos2 ] = pos.split( " " );
-    let newPos1 = pos1;
-    let newPos2 = pos2;
-
-    switch ( pos1 ) {
-        case "top":
-            if ( tBCR.top - margin - h < getAbsPos.outMargin ) {
-                newPos1 = "bottom";
-            }
-            break;
-        case "bottom":
-            if ( tBCR.bottom + margin + h > bh - getAbsPos.outMargin ) {
-                newPos1 = "top";
-            }
-            break;
-        case "left":
-            if ( tBCR.left - margin - w < getAbsPos.outMargin ) {
-                newPos1 = "right";
-            }
-            break;
-        case "right":
-            if ( tBCR.right + margin + w > bw - getAbsPos.outMargin ) {
-                newPos1 = "left";
-            }
-            break;
-    }
-    if ( !pos2 ) {
-        return newPos1;
-    }
-    switch ( pos2 ) {
-        case "top":
-            if ( tBCR.bottom - h < getAbsPos.outMargin ) {
-                if ( tBCR.top < getAbsPos.outMargin ) {
-                    return "bottom";
-                }
-                newPos2 = "bottom";
-            }
-            break;
-        case "bottom":
-            if ( tBCR.top + h > bh - getAbsPos.outMargin ) {
-                if ( tBCR.bottom > bh - getAbsPos.outMargin ) {
-                    return "top";
-                }
-                newPos2 = "top";
-            }
-            break;
-        case "left":
-            if ( tBCR.right - w < getAbsPos.outMargin ) {
-                if ( tBCR.left < getAbsPos.outMargin ) {
-                    return "right";
-                }
-                newPos2 = "right";
-            }
-            break;
-        case "right":
-            if ( tBCR.left + w > bw - getAbsPos.outMargin ) {
-                if ( tBCR.right > bw - getAbsPos.outMargin ) {
-                    return "left";
-                }
-                newPos2 = "left";
-            }
-            break;
-    }
-    return `${ newPos1 } ${ newPos2 }`;
 }

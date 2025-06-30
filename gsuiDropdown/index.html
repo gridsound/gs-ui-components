@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiDropdown.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 200px;
+	--test-content-h: 200px;
+}
+#ddTarget,
+#dd {
+	position: absolute;
+	z-index: 1;
+	box-sizing: border-box;
+	border-radius: 4px;
+}
+#ddTarget {
+	inset: 340px 0 0 300px;
+	display: flex;
+	justify-content: space-between;
+	width: 120px;
+	height: 120px;
+	background-color: #0008;
+	cursor: pointer;
+}
+#ddTarget > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	pointer-events: none;
+}
+#dd {
+	display: none;
+	width: 200px;
+	height: 200px;
+	border: 2px solid dodgerblue;
+	pointer-events: none;
+}
+#ddTarget span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	user-select: none;
+	filter: grayscale( 1 );
+	pointer-events: auto;
+}
+
+[ title="left top"     ] { transform: scaleX( -1 ) }
+[ title="left bottom"  ] { transform: scaleX( -1 ) }
+[ title="top left"     ] { transform: rotate( -90deg ) }
+[ title="top right"    ] { transform: rotate( -90deg ) }
+[ title="bottom left"  ] { transform: rotate(  90deg ) }
+[ title="bottom right" ] { transform: rotate(  90deg ) }
+
+#ddTarget[ data-pos="top" ]          [ title="top" ],
+#ddTarget[ data-pos="top left" ]     [ title="top left" ],
+#ddTarget[ data-pos="top right" ]    [ title="top right" ],
+#ddTarget[ data-pos="bottom" ]       [ title="bottom" ],
+#ddTarget[ data-pos="bottom left" ]  [ title="bottom left" ],
+#ddTarget[ data-pos="bottom right" ] [ title="bottom right" ],
+#ddTarget[ data-pos="left top" ]     [ title="left top" ],
+#ddTarget[ data-pos="left" ]         [ title="left" ],
+#ddTarget[ data-pos="left bottom" ]  [ title="left bottom" ],
+#ddTarget[ data-pos="right top" ]    [ title="right top" ],
+#ddTarget[ data-pos="right" ]        [ title="right" ],
+#ddTarget[ data-pos="right bottom" ] [ title="right bottom" ] {
+	filter: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<div id="ddTarget" data-pos="left bottom">
+		<div>
+			<span title="left top">⤴️</span>
+			<span title="left">⬅️</span>
+			<span title="left bottom">⤵️</span>
+		</div>
+		<div>
+			<span title="top left">⤴️</span>
+			<span title="bottom left">⤵️</span>
+		</div>
+		<div>
+			<span title="top">⬆️</span>
+			<span title="bottom">⬇️</span>
+		</div>
+		<div>
+			<span title="top right">⤵️</span>
+			<span title="bottom right">⤴️</span>
+		</div>
+		<div>
+			<span title="right top">⤴️</span>
+			<span title="right">➡️</span>
+			<span title="right bottom">⤵️</span>
+		</div>
+	</div>
+	<div id="dd"></div>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../gs-utils/gs-utils-json.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+<script src="../test-assets/test.js"></script>
+
+<!-- ....................................................................... -->
+<script src="getAbsPos.js"></script>
+<script src="gsuiDropdown.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const dd = GSUdomQS( "#dd" );
+const ddTar = GSUdomQS( "#ddTarget" );
+let moving = false;
+let movingOffset = [ 0, 0 ];
+
+document.body.append( ddTar );
+document.body.append( dd );
+
+ddTar.onpointerdown = e => {
+	GSUunselectText();
+	if ( e.target.tagName === "SPAN" ) {
+		ddTar.dataset.pos = e.target.title;
+	} else {
+		ddTar.setPointerCapture( e.pointerId );
+		dd.style.display = "block";
+		movingOffset[ 0 ] = e.offsetX;
+		movingOffset[ 1 ] = e.offsetY;
+		moving = true;
+		ddTar.onpointermove( e );
+	}
+};
+ddTar.onpointerup = e => {
+	moving = false;
+	ddTar.releasePointerCapture( e.pointerId );
+	dd.style.display = "none";
+};
+ddTar.onpointermove = e => {
+	if ( moving ) {
+		const par = ddTar.parentNode;
+		const [ px, py, pw, ph ] = GSUdomBCRxywh( par );
+		const [ ddw, ddh ] = GSUdomBCRwh( dd );
+		const x = e.clientX - px - movingOffset[ 0 ];
+		const y = e.clientY - py - movingOffset[ 1 ];
+
+		ddTar.style.left = `${ x }px`;
+		ddTar.style.top  = `${ y }px`;
+
+		const pos = getAbsPos( ddTar.dataset.pos, GSUdomBCR( ddTar ), ddw, ddh, { margin: 10 } );
+
+		dd.style.left = pos.left;
+		dd.style.top  = pos.top;
+	}
+};
+</script>
+</body>
+</html>
