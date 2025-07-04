@@ -59,3 +59,15 @@ gsui-wave-editor {
 .gsuiWaveEditor-wave:hover .gsuiWaveEditor-wave-hover-square {
 	opacity: 1;
 }
+.gsuiWaveEditor-wave svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.gsuiWaveEditor-wave polyline {
+	stroke: #fff;
+	stroke-width: 2px;
+	fill: #3b83fb29;
+}

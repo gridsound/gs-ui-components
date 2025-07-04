@@ -2,6 +2,9 @@
 
 class gsuiWaveEditor extends gsui0ne {
 	#gridSize = [ 1, 1 ];
+	#waveW = 0;
+	#waveH = 0;
+	#waveArray = null;
 
 	constructor() {
 		super( {
@@ -13,6 +16,8 @@ class gsuiWaveEditor extends gsui0ne {
 				$gridSli: "[].gsuiWaveEditor-tool-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
+				$waveSVG: ".gsuiWaveEditor-wave svg",
+				$wavePolyline: ".gsuiWaveEditor-wave polyline",
 			},
 			$attributes: {
 				"grid-x": 1,
@@ -32,8 +37,14 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
+		const [ w, h ] = GSUdomBCRwh( this.$elements.$wave );
+
+		this.#waveW = w;
+		this.#waveH = h;
 		this.#updateBeatlines( 0, this.#gridSize[ 0 ] );
 		this.#updateBeatlines( 1, this.#gridSize[ 1 ] );
+		GSUsetViewBoxWH( this.$elements.$waveSVG, w, h );
+		this.#drawWave();
 	}
 	$firstTimeConnected() {
 		GSUdomRmAttr( this.$elements.$beatlines[ 0 ], "coloredbeats" );
@@ -50,6 +61,34 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	$setWaveArray( arr ) {
+		this.#waveArray = new Float32Array( arr );
+		this.#drawWave();
+	}
+
+	// .........................................................................
+	#drawWave() {
+		if ( !this.#waveArray || !this.#waveW || !this.#waveH ) {
+			return;
+		}
+
+		const arr = this.#waveArray;
+		const len = this.#waveArray.length - 1;
+		const pts = GSUnewArray( len + 1, i => [
+			i / len * this.#waveW,
+			( .5 - arr[ i ] / 2 ) * this.#waveH,
+		] );
+
+		pts.unshift(
+			[ -10, this.#waveH / 2 ],
+			[ -10, pts[ 0 ][ 1 ] ],
+		);
+		pts.push(
+			[ this.#waveW + 10, pts.at( -1 )[ 1 ] ],
+			[ this.#waveW + 10, this.#waveH / 2 ],
+		);
+		GSUdomSetAttr( this.$elements.$wavePolyline, "points", pts.join( " " ) );
+	}
 	#updateHoverSquare( px, py ) {
 		const [ w, h ] = GSUdomBCRwh( this.$elements.$wave );
 		const ix = px / ( w / this.#gridSize[ 0 ] ) | 0;
