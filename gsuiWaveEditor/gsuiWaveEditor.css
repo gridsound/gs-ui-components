@@ -48,3 +48,14 @@ gsui-wave-editor {
 .gsuiWaveEditor-wave .gsuiBeatlines-steps {
 	opacity: 1;
 }
+.gsuiWaveEditor-wave-hover-square {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background-color: #ffffff09;
+	opacity: 0;
+	transition: opacity .2s;
+}
+.gsuiWaveEditor-wave:hover .gsuiWaveEditor-wave-hover-square {
+	opacity: 1;
+}

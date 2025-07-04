@@ -8,9 +8,11 @@ class gsuiWaveEditor extends gsui0ne {
 			$cmpName: "gsuiWaveEditor",
 			$tagName: "gsui-wave-editor",
 			$elements: {
+				$wave: ".gsuiWaveEditor-wave",
 				$gridVal: "[].gsuiWaveEditor-tool-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-tool-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
+				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 			},
 			$attributes: {
 				"grid-x": 1,
@@ -18,6 +20,9 @@ class gsuiWaveEditor extends gsui0ne {
 			}
 		} );
 		Object.seal( this );
+		this.$elements.$wave.onpointermove = e => {
+			this.#updateHoverSquare( e.offsetX, e.offsetY );
+		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				input: ( d, t ) => GSUdomSetAttr( this, GSUdomGetAttr( t.parentNode, "dir" ) === "x" ? "grid-x" : "grid-y", d.args[ 0 ] ),
@@ -27,8 +32,8 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#updateBeatlines( 0, GSUdomGetAttrNum( this, "grid-x" ) );
-		this.#updateBeatlines( 1, GSUdomGetAttrNum( this, "grid-y" ) );
+		this.#updateBeatlines( 0, this.#gridSize[ 0 ] );
+		this.#updateBeatlines( 1, this.#gridSize[ 1 ] );
 	}
 	$firstTimeConnected() {
 		GSUdomRmAttr( this.$elements.$beatlines[ 0 ], "coloredbeats" );
@@ -45,6 +50,16 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	#updateHoverSquare( px, py ) {
+		const [ w, h ] = GSUdomBCRwh( this.$elements.$wave );
+		const ix = px / ( w / this.#gridSize[ 0 ] ) | 0;
+		const iy = py / ( h / this.#gridSize[ 1 ] ) | 0;
+
+		GSUsetStyle( this.$elements.$hoverSquare, {
+			top: `${ iy / this.#gridSize[ 1 ] * 100 }%`,
+			left: `${ ix / this.#gridSize[ 0 ] * 100 }%`,
+		} );
+	}
 	#updateBeatlines( dir, sz ) {
 		const bl = this.$elements.$beatlines[ dir ];
 		const blSize = dir ? bl.clientHeight : bl.clientWidth;
@@ -55,6 +70,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#updateGridSize( dir, val ) {
 		this.#gridSize[ dir ] = +val;
 		this.$elements.$gridVal[ dir ].textContent = val;
+		this.$elements.$hoverSquare.style[ dir ? "height" : "width" ] = `${ 1 / val * 100 }%`;
 		this.#updateBeatlines( dir, val );
 		GSUdomSetAttr( this.$elements.$gridSli[ dir ], "value", val );
 	}
