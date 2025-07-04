@@ -90,9 +90,8 @@ class gsuiWaveEditor extends gsui0ne {
 		GSUdomSetAttr( this.$elements.$wavePolyline, "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {
-		const [ w, h ] = GSUdomBCRwh( this.$elements.$wave );
-		const ix = px / ( w / this.#gridSize[ 0 ] ) | 0;
-		const iy = py / ( h / this.#gridSize[ 1 ] ) | 0;
+		const ix = px / ( this.#waveW / this.#gridSize[ 0 ] ) | 0;
+		const iy = py / ( this.#waveH / this.#gridSize[ 1 ] ) | 0;
 
 		GSUsetStyle( this.$elements.$hoverSquare, {
 			top: `${ iy / this.#gridSize[ 1 ] * 100 }%`,
