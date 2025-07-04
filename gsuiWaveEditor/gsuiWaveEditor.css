@@ -1,0 +1,50 @@
+gsui-wave-editor {
+	display: flex;
+	height: 100%;
+	min-width: 180px;
+	min-height: 100px;
+}
+
+/* .......................................................................... */
+.gsuiWaveEditor-tools {
+	min-width: 56px;
+	padding-bottom: 6px;
+	background-color: #33333b;
+}
+.gsuiWaveEditor-tool-gridSize[ dir=x ] {
+	margin-top: auto;
+}
+.gsuiWaveEditor-tool-gridSize .gsuiIcon {
+	min-width: 20px;
+	opacity: .5;
+}
+.gsuiWaveEditor-tool-gridSize span {
+	min-width: 20px;
+	padding: 0px 2px;
+	text-align: end;
+	font-weight: bold;
+	font-family: var( --gsui-font-number );
+	border-radius: 4px;
+	background-color: #0005;
+}
+.gsuiWaveEditor-tool-gridSize gsui-slider {
+	width: calc( 100% - 2 * 6px );
+	height: 10px;
+}
+.gsuiWaveEditor-tool-gridSize .gsuiSlider-eventCatcher {
+	inset: -21px -6px -6px;
+}
+
+/* .......................................................................... */
+.gsuiWaveEditor-wave {
+	position: relative;
+	overflow: hidden;
+	background-color: #0001;
+	--gsuiBeatlines-lines: #fff2;
+}
+.gsuiWaveEditor-wave gsui-beatlines {
+	inset: -1px;
+}
+.gsuiWaveEditor-wave .gsuiBeatlines-steps {
+	opacity: 1;
+}

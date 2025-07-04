@@ -1,0 +1,26 @@
+"use strict";
+
+GSUsetTemplate( "gsui-wave-editor", () =>
+	GSUcreateFlex( { class: "gsuiWaveEditor-in", x: true, f1: true, g6: true },
+		GSUcreateFlex( { class: "gsuiWaveEditor-tools", y: true, g6: true },
+			GSUcreateFlex( { class: "gsuiWaveEditor-tool-gridSize", dir: "x", y: true, xcenter: true, g2: true },
+				GSUcreateFlex( { x: true, ycenter: true, g2: true },
+					GSUcreateSpan(),
+					GSUcreateIcon( { icon: "arrows-h" } ),
+				),
+				GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 64, step: 1, "mousemove-size": 400 } ),
+			),
+			GSUcreateFlex( { class: "gsuiWaveEditor-tool-gridSize", dir: "y", y: true, xcenter: true, g2: true },
+				GSUcreateFlex( { x: true, ycenter: true, g2: true },
+					GSUcreateSpan(),
+					GSUcreateIcon( { icon: "arrows-v" } ),
+				),
+				GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 64, step: 1, "mousemove-size": 400 } ),
+			),
+		),
+		GSUcreateFlex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
+			GSUcreateElement( "gsui-beatlines", { dir: "x", timedivision: "1/1" } ),
+			GSUcreateElement( "gsui-beatlines", { dir: "y", timedivision: "1/1", vertical: true } ),
+		),
+	),
+);

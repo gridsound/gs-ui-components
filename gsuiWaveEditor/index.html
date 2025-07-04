@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/favicon.png"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiWaveEditor.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 900px;
+	--test-content-h: 500px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-wave-editor
+		grid-x="8"
+		grid-y="8"
+	></gsui-wave-editor>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../gs-utils/gs-utils-json.js"></script>
+<script src="../gs-utils/gs-utils-models.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="../gsuiBeatlines/gsuiBeatlines.html.js"></script>
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiWaveEditor.html.js"></script>
+<script src="gsuiWaveEditor.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elWE = GSUdomQS( "gsui-wave-editor" );
+
+</script>
+</body>
+</html>
