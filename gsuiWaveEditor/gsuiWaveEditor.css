@@ -15,15 +15,21 @@ gsui-wave-editor {
 }
 
 /* .......................................................................... */
-.gsuiWaveEditor-reset {
-	padding: 4px 4px;
-	border: 0;
+.gsuiWaveEditor-reset,
+.gsuiWaveEditor-symmetry {
+	box-sizing: border-box;
+	padding: 0 4px;
+	border: 2px solid transparent;
 	border-radius: 4px;
 	cursor: pointer;
 	background-color: #0005;
 }
+.gsuiWaveEditor-symmetry:hover,
 .gsuiWaveEditor-reset:hover {
 	background-color: #111;
+}
+gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
+	border-color: currentColor;
 }
 
 /* .......................................................................... */

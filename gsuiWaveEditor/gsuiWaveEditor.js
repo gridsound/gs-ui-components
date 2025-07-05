@@ -8,7 +8,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray = null;
 	#waveArray2 = null;
 	#currentSquare = null;
-	#toolSelected = "hillDown";
+	#toolSelected = "goUp";
 	#actionMenu = new gsuiActionMenu();
 	static #clickSquareFns = {
 		goUp:     n =>     n,
@@ -22,6 +22,18 @@ class gsuiWaveEditor extends gsui0ne {
 		easeUp:   n =>    -( Math.cos( n * Math.PI ) - 1 ) / 2,
 		easeDown: n => 1 + ( Math.cos( n * Math.PI ) - 1 ) / 2,
 	}
+	static #clickSquareFnsSymm = {
+		goUp:     "goUp",
+		goDown:   "goDown",
+		stayUp:   "stayDown",
+		stayDown: "stayUp",
+		hillUp:   "hillDown",
+		hillDown: "hillUp",
+		sineUp:   "sineUp",
+		sineDown: "sineDown",
+		easeUp:   "easeUp",
+		easeDown: "easeDown",
+	}
 
 	constructor() {
 		super( {
@@ -31,6 +43,7 @@ class gsuiWaveEditor extends gsui0ne {
 				$wave: ".gsuiWaveEditor-wave",
 				$tools: ".gsuiWaveEditor-tools",
 				$resetBtn: ".gsuiWaveEditor-reset",
+				$symmetryBtn: ".gsuiWaveEditor-symmetry",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
@@ -45,6 +58,7 @@ class gsuiWaveEditor extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
+		this.$elements.$symmetryBtn.onclick = e => GSUdomTogAttr( this, "symmetry" );
 		this.$elements.$tools.onclick = e => {
 			const tool = e.target.dataset.tool;
 
@@ -146,12 +160,26 @@ class gsuiWaveEditor extends gsui0ne {
 
 		if ( this.#currentSquare !== coordStr ) {
 			this.#currentSquare = coordStr;
-			this.#clickSquare2( this.#waveArray, ...coord, ...this.#gridSize );
+			gsuiWaveEditor.#clickSquare2(
+				this.#waveArray,
+				this.#toolSelected,
+				...coord,
+				...this.#gridSize
+			);
+			if ( GSUdomHasAttr( this, "symmetry" ) ) {
+				gsuiWaveEditor.#clickSquare2(
+					this.#waveArray,
+					gsuiWaveEditor.#clickSquareFnsSymm[ this.#toolSelected ],
+					this.#gridSize[ 0 ] - 1 - coord[ 0 ],
+					this.#gridSize[ 1 ] - 1 - coord[ 1 ],
+					...this.#gridSize
+				);
+			}
 			this.#drawWave();
 		}
 	}
-	#clickSquare2( wave, x, y, w, h ) {
-		const fn = gsuiWaveEditor.#clickSquareFns[ this.#toolSelected ];
+	static #clickSquare2( wave, tool, x, y, w, h ) {
+		const fn = gsuiWaveEditor.#clickSquareFns[ tool ];
 		const waveLen = wave.length;
 		const sqX = waveLen / w * x | 0;
 		const sqH = 1 / h * 2;
