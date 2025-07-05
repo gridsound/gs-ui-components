@@ -15,6 +15,18 @@ gsui-wave-editor {
 }
 
 /* .......................................................................... */
+.gsuiWaveEditor-reset {
+	padding: 4px 4px;
+	border: 0;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #0005;
+}
+.gsuiWaveEditor-reset:hover {
+	background-color: #111;
+}
+
+/* .......................................................................... */
 .gsuiWaveEditor-tools {
 	overflow: hidden;
 	flex-wrap: wrap;
@@ -31,7 +43,7 @@ gsui-wave-editor {
 	background: none;
 }
 .gsuiWaveEditor-tools button:hover {
-	background-color: #0006;
+	background-color: #111;
 }
 .gsuiWaveEditor-tools button[ data-selected ] {
 	background-color: #0008;

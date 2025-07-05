@@ -9,6 +9,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray2 = null;
 	#currentSquare = null;
 	#toolSelected = "hillDown";
+	#actionMenu = new gsuiActionMenu();
 	static #clickSquareFns = {
 		goUp:     n =>     n,
 		goDown:   n => 1 - n,
@@ -29,6 +30,7 @@ class gsuiWaveEditor extends gsui0ne {
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
 				$tools: ".gsuiWaveEditor-tools",
+				$resetBtn: ".gsuiWaveEditor-reset",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
@@ -42,6 +44,7 @@ class gsuiWaveEditor extends gsui0ne {
 			}
 		} );
 		Object.seal( this );
+		this.#initActionMenu();
 		this.$elements.$tools.onclick = e => {
 			const tool = e.target.dataset.tool;
 
@@ -110,6 +113,18 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	#initActionMenu() {
+		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn );
+		this.#actionMenu.$setDirection( "RB" );
+		this.#actionMenu.$setMaxSize( "260px", "180px" );
+		this.#actionMenu.$setCallback( w => this.$setWaveArray( GSUmathWaveFns[ w ]( 2048 ) ) );
+		this.#actionMenu.$setActions( [
+			{ id: "sine",     name: "Sine" },
+			{ id: "triangle", name: "Triangle" },
+			{ id: "sawtooth", name: "Sawtooth" },
+			{ id: "square",   name: "Square" },
+		] );
+	}
 	#getCoord( px, py ) {
 		const [ w, h ] = this.#gridSize;
 
