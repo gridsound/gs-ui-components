@@ -52,8 +52,8 @@ class gsuiWaveEditor extends gsui0ne {
 				$wavePolyline: ".gsuiWaveEditor-wave polyline",
 			},
 			$attributes: {
-				"grid-x": 1,
-				"grid-y": 1,
+				"grid-x": 16,
+				"grid-y": 16,
 				tool: "goUp",
 			}
 		} );
