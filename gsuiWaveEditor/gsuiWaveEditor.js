@@ -64,7 +64,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.$elements.$wave.onpointerdown = e => {
 			this.#ptrDown = true;
 			this.$elements.$wave.setPointerCapture( e.pointerId );
-			this.#waveArray2 = new Float32Array( this.#waveArray );
+			this.#waveArray2 ||= new Float32Array( this.#waveArray );
 			this.#clickSquare( e );
 		};
 		this.$elements.$wave.onpointermove = e => {
@@ -76,7 +76,10 @@ class gsuiWaveEditor extends gsui0ne {
 		this.$elements.$wave.onpointerup = e => {
 			this.#ptrDown = false;
 			this.$elements.$wave.releasePointerCapture( e.pointerId );
-			this.#waveArray2 = null;
+			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
+				this.#waveArray2 = null;
+				this.$dispatch( "change", this.#waveArray );
+			}
 			this.#currentSquare = null;
 		};
 		GSUlistenEvents( this, {
@@ -126,6 +129,7 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 	$setWaveArray( arr ) {
 		this.#waveArray = new Float32Array( arr );
+		this.#waveArray2 = null;
 		this.#drawWave();
 	}
 
