@@ -16,8 +16,9 @@ class gsuiWaveEditor extends gsui0ne {
 			$tagName: "gsui-wave-editor",
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
-				$gridVal: "[].gsuiWaveEditor-tool-gridSize span",
-				$gridSli: "[].gsuiWaveEditor-tool-gridSize gsui-slider",
+				$tools: ".gsuiWaveEditor-tools",
+				$gridVal: "[].gsuiWaveEditor-gridSize span",
+				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 				$waveSVG: ".gsuiWaveEditor-wave svg",
@@ -29,6 +30,16 @@ class gsuiWaveEditor extends gsui0ne {
 			}
 		} );
 		Object.seal( this );
+		this.$elements.$tools.onclick = e => {
+			const tool = e.target.dataset.tool;
+
+			if ( tool ) {
+				this.#toolSelected
+				GSUdomRmAttr( GSUdomQS( this, `button[data-tool="${ this.#toolSelected }"]` ), "data-selected" );
+				GSUdomSetAttr( e.target, "data-selected" );
+				this.#toolSelected = tool;
+			}
+		};
 		this.$elements.$wave.onpointerdown = e => {
 			this.#ptrDown = true;
 			this.$elements.$wave.setPointerCapture( e.pointerId );

@@ -6,19 +6,55 @@ gsui-wave-editor {
 }
 
 /* .......................................................................... */
-.gsuiWaveEditor-tools {
+.gsuiWaveEditor-menu {
 	min-width: 56px;
 	padding-bottom: 6px;
 	background-color: #33333b;
 }
-.gsuiWaveEditor-tool-gridSize[ dir=x ] {
+
+/* .......................................................................... */
+.gsuiWaveEditor-tools {
+	padding: 6px;
+}
+.gsuiWaveEditor-tools button {
+	position: relative;
+	width: 100%;
+	height: 28px;
+	border: 0;
+	border-radius: 4px;
+	color: dodgerblue;
+	cursor: pointer;
+	background-color: #0004;
+}
+.gsuiWaveEditor-tools button:hover {
+	background-color: #0006;
+}
+.gsuiWaveEditor-tools button[ data-selected ] {
+	background-color: #0008;
+}
+.gsuiWaveEditor-tools button[ data-selected ] polyline {
+	stroke: #fff;
+	filter: drop-shadow( 0 0 1px currentColor );
+}
+.gsuiWaveEditor-tools svg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	stroke: currentColor;
+	stroke-linecap: round;
+}
+
+/* .......................................................................... */
+.gsuiWaveEditor-gridSize[ dir=x ] {
 	margin-top: auto;
 }
-.gsuiWaveEditor-tool-gridSize .gsuiIcon {
+.gsuiWaveEditor-gridSize .gsuiIcon {
 	min-width: 20px;
 	opacity: .5;
 }
-.gsuiWaveEditor-tool-gridSize span {
+.gsuiWaveEditor-gridSize span {
 	min-width: 20px;
 	padding: 0px 2px;
 	text-align: end;
@@ -27,12 +63,13 @@ gsui-wave-editor {
 	border-radius: 4px;
 	background-color: #0005;
 }
-.gsuiWaveEditor-tool-gridSize gsui-slider {
+.gsuiWaveEditor-gridSize gsui-slider {
 	width: calc( 100% - 2 * 6px );
 	height: 10px;
 }
-.gsuiWaveEditor-tool-gridSize .gsuiSlider-eventCatcher {
+.gsuiWaveEditor-gridSize .gsuiSlider-eventCatcher {
 	inset: -21px -6px -6px;
+	cursor: ew-resize;
 }
 
 /* .......................................................................... */
