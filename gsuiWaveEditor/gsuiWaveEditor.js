@@ -8,7 +8,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray = null;
 	#waveArray2 = null;
 	#currentSquare = null;
-	#toolSelected = "goUp";
+	#toolSelected = null;
 	#actionMenu = new gsuiActionMenu();
 	static #clickSquareFns = {
 		goUp:     n =>     n,
@@ -54,21 +54,13 @@ class gsuiWaveEditor extends gsui0ne {
 			$attributes: {
 				"grid-x": 1,
 				"grid-y": 1,
+				tool: "goUp",
 			}
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
 		this.$elements.$symmetryBtn.onclick = e => GSUdomTogAttr( this, "symmetry" );
-		this.$elements.$tools.onclick = e => {
-			const tool = e.target.dataset.tool;
-
-			if ( tool ) {
-				this.#toolSelected
-				GSUdomRmAttr( GSUdomQS( this, `button[data-tool="${ this.#toolSelected }"]` ), "data-selected" );
-				GSUdomSetAttr( e.target, "data-selected" );
-				this.#toolSelected = tool;
-			}
-		};
+		this.$elements.$tools.onclick = e => e.target.dataset.tool && GSUdomSetAttr( this, "tool", e.target.dataset.tool );
 		this.$elements.$wave.onpointerdown = e => {
 			this.#ptrDown = true;
 			this.$elements.$wave.setPointerCapture( e.pointerId );
@@ -92,7 +84,6 @@ class gsuiWaveEditor extends gsui0ne {
 				input: ( d, t ) => GSUdomSetAttr( this, GSUdomGetAttr( t.parentNode, "dir" ) === "x" ? "grid-x" : "grid-y", d.args[ 0 ] ),
 			},
 		} );
-		GSUdomQS( this.$elements.$tools, `button[data-tool="${ this.#toolSelected }"]` ).click();
 	}
 
 	// .........................................................................
@@ -111,12 +102,17 @@ class gsuiWaveEditor extends gsui0ne {
 		GSUdomRmAttr( this.$elements.$beatlines[ 1 ], "coloredbeats" );
 	}
 	static get observedAttributes() {
-		return [ "grid-x", "grid-y" ];
+		return [ "grid-x", "grid-y", "tool" ];
 	}
-	$attributeChanged( prop, val ) {
+	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
 			case "grid-x": this.#updateGridSize( 0, val ); break;
 			case "grid-y": this.#updateGridSize( 1, val ); break;
+			case "tool":
+				GSUdomRmAttr( GSUdomQS( this, `button[data-tool="${ prev }"]` ), "data-selected" );
+				GSUdomSetAttr( GSUdomQS( this, `button[data-tool="${ val }"]` ), "data-selected" );
+				this.#toolSelected = val;
+				break;
 		}
 	}
 
