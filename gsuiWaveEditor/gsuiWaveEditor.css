@@ -7,24 +7,28 @@ gsui-wave-editor {
 
 /* .......................................................................... */
 .gsuiWaveEditor-menu {
-	min-width: 56px;
-	padding-bottom: 6px;
+	box-sizing: border-box;
+	border-right: 1px solid #000;
+	width: calc( 2 * ( 26px + 6px ) + 1px );
+	padding: 6px;
 	background-color: #33333b;
 }
 
 /* .......................................................................... */
 .gsuiWaveEditor-tools {
-	padding: 6px;
+	overflow: hidden;
+	flex-wrap: wrap;
+	border-radius: 4px;
+	background-color: #0004;
 }
 .gsuiWaveEditor-tools button {
 	position: relative;
-	width: 100%;
-	height: 28px;
+	width: 26px;
+	height: 26px;
 	border: 0;
-	border-radius: 4px;
 	color: dodgerblue;
 	cursor: pointer;
-	background-color: #0004;
+	background: none;
 }
 .gsuiWaveEditor-tools button:hover {
 	background-color: #0006;
@@ -65,7 +69,6 @@ gsui-wave-editor {
 	background-color: #0005;
 }
 .gsuiWaveEditor-gridSize gsui-slider {
-	width: calc( 100% - 2 * 6px );
 	height: 10px;
 }
 .gsuiWaveEditor-gridSize .gsuiSlider-eventCatcher {
