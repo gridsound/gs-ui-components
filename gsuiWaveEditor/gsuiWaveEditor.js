@@ -4,7 +4,11 @@ class gsuiWaveEditor extends gsui0ne {
 	#gridSize = [ 1, 1 ];
 	#waveW = 0;
 	#waveH = 0;
+	#ptrDown = false;
 	#waveArray = null;
+	#waveArray2 = null;
+	#currentSquare = null;
+	#toolSelected = "goUp";
 
 	constructor() {
 		super( {
@@ -25,8 +29,23 @@ class gsuiWaveEditor extends gsui0ne {
 			}
 		} );
 		Object.seal( this );
+		this.$elements.$wave.onpointerdown = e => {
+			this.#ptrDown = true;
+			this.$elements.$wave.setPointerCapture( e.pointerId );
+			this.#waveArray2 = new Float32Array( this.#waveArray );
+			this.#clickSquare( e );
+		};
 		this.$elements.$wave.onpointermove = e => {
 			this.#updateHoverSquare( e.offsetX, e.offsetY );
+			if ( this.#ptrDown ) {
+				this.#clickSquare( e );
+			}
+		};
+		this.$elements.$wave.onpointerup = e => {
+			this.#ptrDown = false;
+			this.$elements.$wave.releasePointerCapture( e.pointerId );
+			this.#waveArray2 = null;
+			this.#currentSquare = null;
 		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
@@ -67,6 +86,42 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	#getCoord( px, py ) {
+		const [ w, h ] = this.#gridSize;
+
+		return [
+			GSUmathClamp( px / ( this.#waveW / w ) | 0, 0, w - 1 ),
+			GSUmathClamp( py / ( this.#waveH / h ) | 0, 0, h - 1 ),
+		];
+	}
+	#clickSquare( e ) {
+		const coord = this.#getCoord( e.offsetX, e.offsetY );
+		const coordStr = coord + "";
+
+		if ( this.#currentSquare !== coordStr ) {
+			this.#currentSquare = coordStr;
+			this.#clickSquare2( this.#waveArray, ...coord, ...this.#gridSize );
+			this.#drawWave();
+		}
+	}
+	#clickSquare2( wave, x, y, w, h ) {
+		const fn = gsuiWaveEditor.#clickSquareFns[ this.#toolSelected ];
+		const waveLen = wave.length;
+		const sqX = waveLen / w * x | 0;
+		const sqH = 1 / h * 2;
+		const sqY = 1 - ( ( y + 1 ) / h ) * 2;
+		const sqW = waveLen / w;
+
+		for ( let i = 0; i < sqW; ++i ) {
+			wave[ sqX + i ] = sqY + sqH * fn( i / sqW );
+		}
+	}
+	static #clickSquareFns = {
+		goUp: n => n,
+		goDown: n => 1 - n,
+		stayUp: () => 1,
+		stayDown: () => 0,
+	}
 	#drawWave() {
 		if ( !this.#waveArray || !this.#waveW || !this.#waveH ) {
 			return;
@@ -90,12 +145,11 @@ class gsuiWaveEditor extends gsui0ne {
 		GSUdomSetAttr( this.$elements.$wavePolyline, "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {
-		const ix = px / ( this.#waveW / this.#gridSize[ 0 ] ) | 0;
-		const iy = py / ( this.#waveH / this.#gridSize[ 1 ] ) | 0;
+		const [ ix, iy ] = this.#getCoord( px, py );
 
 		GSUsetStyle( this.$elements.$hoverSquare, {
-			top: `${ iy / this.#gridSize[ 1 ] * 100 }%`,
 			left: `${ ix / this.#gridSize[ 0 ] * 100 }%`,
+			top: `${ iy / this.#gridSize[ 1 ] * 100 }%`,
 		} );
 	}
 	#updateBeatlines( dir, sz ) {
