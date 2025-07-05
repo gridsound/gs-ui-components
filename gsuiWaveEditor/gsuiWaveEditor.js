@@ -8,7 +8,16 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray = null;
 	#waveArray2 = null;
 	#currentSquare = null;
-	#toolSelected = "goUp";
+	#toolSelected = "hillDown";
+	static #clickSquareFns = {
+		goUp: n => n,
+		goDown: n => 1 - n,
+		stayUp: () => 1,
+		stayDown: () => 0,
+		sine: n => .5 + Math.sin( n * Math.PI * 2 ) / 2,
+		hillUp: n => Math.sin( n * Math.PI ),
+		hillDown: n => 1 - Math.sin( n * Math.PI ),
+	}
 
 	constructor() {
 		super( {
@@ -127,12 +136,6 @@ class gsuiWaveEditor extends gsui0ne {
 		for ( let i = 0; i < sqW; ++i ) {
 			wave[ sqX + i ] = sqY + sqH * fn( i / sqW );
 		}
-	}
-	static #clickSquareFns = {
-		goUp: n => n,
-		goDown: n => 1 - n,
-		stayUp: () => 1,
-		stayDown: () => 0,
 	}
 	#drawWave() {
 		if ( !this.#waveArray || !this.#waveW || !this.#waveH ) {
