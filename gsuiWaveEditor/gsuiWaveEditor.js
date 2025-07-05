@@ -117,8 +117,15 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn );
 		this.#actionMenu.$setDirection( "RB" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( w => this.$setWaveArray( GSUmathWaveFns[ w ]( 2048 ) ) );
+		this.#actionMenu.$setCallback( w => {
+			const arr = w === "silence"
+				? GSUnewArray( 2048, 0 )
+				: GSUmathWaveFns[ w ]( 2048 );
+
+			this.$setWaveArray( arr );
+		} );
 		this.#actionMenu.$setActions( [
+			{ id: "silence",  name: "Silence" },
 			{ id: "sine",     name: "Sine" },
 			{ id: "triangle", name: "Triangle" },
 			{ id: "sawtooth", name: "Sawtooth" },
