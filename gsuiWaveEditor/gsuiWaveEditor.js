@@ -14,9 +14,10 @@ class gsuiWaveEditor extends gsui0ne {
 		goDown: n => 1 - n,
 		stayUp: () => 1,
 		stayDown: () => 0,
-		sine: n => .5 + Math.sin( n * Math.PI * 2 ) / 2,
 		hillUp: n => Math.sin( n * Math.PI ),
 		hillDown: n => 1 - Math.sin( n * Math.PI ),
+		sineUp: n => .5 + Math.sin( n * Math.PI * 2 ) / 2,
+		sineDown: n => .5 - Math.sin( n * Math.PI * 2 ) / 2,
 	}
 
 	constructor() {
