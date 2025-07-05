@@ -63,6 +63,7 @@ class gsuiWaveEditor extends gsui0ne {
 				input: ( d, t ) => GSUdomSetAttr( this, GSUdomGetAttr( t.parentNode, "dir" ) === "x" ? "grid-x" : "grid-y", d.args[ 0 ] ),
 			},
 		} );
+		GSUdomQS( this.$elements.$tools, `button[data-tool="${ this.#toolSelected }"]` ).click();
 	}
 
 	// .........................................................................
