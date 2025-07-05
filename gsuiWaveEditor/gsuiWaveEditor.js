@@ -10,14 +10,16 @@ class gsuiWaveEditor extends gsui0ne {
 	#currentSquare = null;
 	#toolSelected = "hillDown";
 	static #clickSquareFns = {
-		goUp: n => n,
-		goDown: n => 1 - n,
-		stayUp: () => 1,
+		goUp:     n =>     n,
+		goDown:   n => 1 - n,
+		stayUp:   () => 1,
 		stayDown: () => 0,
-		hillUp: n => Math.sin( n * Math.PI ),
+		hillUp:   n =>     Math.sin( n * Math.PI ),
 		hillDown: n => 1 - Math.sin( n * Math.PI ),
-		sineUp: n => .5 + Math.sin( n * Math.PI * 2 ) / 2,
+		sineUp:   n => .5 + Math.sin( n * Math.PI * 2 ) / 2,
 		sineDown: n => .5 - Math.sin( n * Math.PI * 2 ) / 2,
+		easeUp:   n =>    -( Math.cos( n * Math.PI ) - 1 ) / 2,
+		easeDown: n => 1 + ( Math.cos( n * Math.PI ) - 1 ) / 2,
 	}
 
 	constructor() {
