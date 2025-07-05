@@ -158,7 +158,7 @@ class gsuiWaveEditor extends gsui0ne {
 		const coord = this.#getCoord( e.offsetX, e.offsetY );
 		const coordStr = coord + "";
 
-		if ( this.#currentSquare !== coordStr ) {
+		if ( this.#waveArray && this.#currentSquare !== coordStr ) {
 			this.#currentSquare = coordStr;
 			gsuiWaveEditor.#clickSquare2(
 				this.#waveArray,

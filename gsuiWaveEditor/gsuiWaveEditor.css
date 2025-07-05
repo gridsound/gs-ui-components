@@ -3,6 +3,7 @@ gsui-wave-editor {
 	height: 100%;
 	min-width: 180px;
 	min-height: 100px;
+	touch-action: none;
 }
 
 /* .......................................................................... */
