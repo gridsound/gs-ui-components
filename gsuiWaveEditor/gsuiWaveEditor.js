@@ -156,7 +156,7 @@ class gsuiWaveEditor extends gsui0ne {
 			: GSUmathWaveFns[ w ]( 2048 );
 
 		this.$setWaveArray( arr );
-		this.$dispatch( "change", arr );
+		return arr;
 	}
 	$setWaveArray( arr ) {
 		this.#waveArray = new Float32Array( arr );
@@ -169,7 +169,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn );
 		this.#actionMenu.$setDirection( "RB" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( w => this.$reset( w ) );
+		this.#actionMenu.$setCallback( w => this.$dispatch( "change", this.$reset( w ) ) );
 		this.#actionMenu.$setActions( [
 			{ id: "silence",  name: "Silence" },
 			{ id: "sine",     name: "Sine" },
