@@ -16,7 +16,7 @@ class gsuiWavetable extends gsui0ne {
 			$tagName: "gsui-wavetable",
 			$elements: {
 				$head: ".gsuiWavetable-head",
-				$dotline: ".gsuiWavetable-waves gsui-dotline",
+				$editor: ".gsuiWavetable-waves gsui-wave-editor",
 				$wtGraph: "gsui-wavetable-graph",
 				$waves: ".gsuiWavetable-waves-list > div",
 				$wtDotline: ".gsuiWavetable-posCurves gsui-dotline",
@@ -45,7 +45,7 @@ class gsuiWavetable extends gsui0ne {
 				this.#execWaveAction( w.dataset.id, act );
 			}
 		};
-		this.$elements.$dotline.onwheel = e => {
+		this.$elements.$editor.onwheel = e => {
 			const delta = e.shiftKey ? e.deltaY : e.deltaX;
 
 			if ( delta ) {
@@ -62,20 +62,15 @@ class gsuiWavetable extends gsui0ne {
 		};
 		new gsuiReorder( {
 			$root: this.$elements.$waves,
-			$parentSelector: ".gsuiWavetable-waves-list",
+			$parentSelector: ".gsuiWavetable-waves-list > div",
 			$itemSelector: ".gsuiWavetable-wave",
-			$itemGripSelector: ".gsuiWavetable-wave gsui-dotlinesvg",
+			$itemGripSelector: ".gsuiWavetable-wave-svg",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
-		GSUlistenEvents( this.$elements.$dotline, {
-			gsuiDotline: {
-				input: GSUnoop,
-				inputend: GSUnoop,
-				inputstart: GSUnoop,
+		GSUlistenEvents( this, {
+			gsuiWaveEditor: {
 				change: d => this.#onchange( { waves: { [ this.#waveSelected ]: { curve: d.args[ 0 ] } } } ),
 			},
-		} );
-		GSUlistenEvents( this.$elements.$wtDotline, {
 			gsuiDotline: {
 				inputstart: ( { args: [ d ] } ) => this.$elements.$wtGraph.$setMorphingWaveAt( d.$data[ d.$dotId ].y ),
 				inputend: () => this.$elements.$wtGraph.$setMorphingWaveAt( -1 ),
@@ -86,8 +81,6 @@ class gsuiWavetable extends gsui0ne {
 				},
 				change: d => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { curve: d.args[ 0 ] } } } ),
 			},
-		} );
-		GSUlistenEvents( this.$elements.$wtposCurveDurSli, {
 			gsuiSlider: {
 				inputStart: GSUnoop,
 				inputEnd: GSUnoop,
@@ -103,11 +96,11 @@ class gsuiWavetable extends gsui0ne {
 	}
 	$firstTimeConnected() {
 		this.#wtwaves_addWave( "0", this.#data.waves[ 0 ] );
-		this.#wtwaves_getSVG( "0" ).$setCurve( this.#data.waves[ 0 ].curve );
+		this.#wtwaves_updatePreview( "0" );
 		this.#wtwaves_selectWave( "0" );
 		this.#wtposCurve_selectCurve( "0" );
 		GSUforEach( this.#data.wtposCurves, ( c, id ) => this.#wtposCurve_updatePreview( id ) );
-		this.$elements.$dotline.$change( this.#data.waves[ 0 ].curve );
+		this.$elements.$editor.$setWaveArray( this.#data.waves[ 0 ].curve );
 		this.$elements.$wtGraph.$setWavetable( this.#data.waves );
 		this.$elements.$wtGraph.$draw();
 		this.$elements.$wtDotline.$change( this.#data.wtCurve );
@@ -117,7 +110,7 @@ class gsuiWavetable extends gsui0ne {
 	$clear() {
 		this.#waveNull = true;
 		this.#waveSelected = "0";
-		this.$elements.$dotline.$clear();
+		this.$elements.$editor.$reset( "silence" );
 		GSUemptyElement( this.$elements.$waves );
 		GSUemptyElement( this.$elements.$wtposWavelines );
 		this.#data = {};
@@ -144,7 +137,7 @@ class gsuiWavetable extends gsui0ne {
 				if ( w.curve ) {
 					wavesToUpdate.push( wId );
 					if ( wId === this.#waveSelected ) {
-						this.$elements.$dotline.$change( w.curve );
+						this.$elements.$editor.$setWaveArray( w.curve );
 					}
 				}
 				if ( "index" in w ) {
@@ -264,7 +257,9 @@ class gsuiWavetable extends gsui0ne {
 		return GSUdomQS( this, `.gsuiWavetable-wave[data-id='${ id }'] gsui-dotlinesvg` );
 	}
 	#wtwaves_updatePreview( id ) {
-		this.#wtwaves_getSVG( id ).$setCurve( this.#data.waves[ id ].curve );
+		const polyline = GSUdomQS( this, `.gsuiWavetable-wave[data-id='${ id }'] polyline` );
+
+		gsuiWaveEditor.$drawWave( polyline, this.#data.waves[ id ].curve, 60, 40 );
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = GSUgetTemplate( "gsui-wavetable-wave", wId, w.index );
@@ -277,8 +272,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$waves.append( elW );
 		this.$elements.$wtposWavelines.append( elWLine );
 		this.#wtwaves_updateWavesOrder();
-		GSUdomQS( elW, "gsui-dotlinesvg" ).$setSVGSize( 60, 40 );
-		GSUdomQS( elW, "gsui-dotlinesvg" ).$setDataBox( "0 -1 1 1" );
+		GSUsetViewBoxWH( GSUdomQS( elW, "svg" ), 60, 40 );
 	}
 	#wtwaves_removeWave( wId ) {
 		const w = this.#wtwaves_getElem( wId );
@@ -312,10 +306,7 @@ class gsuiWavetable extends gsui0ne {
 			this.#waveSelected = wId;
 			this.$elements.$wtGraph.$selectCurrentWave( wId );
 			this.$elements.$wtGraph.$draw();
-			this.$elements.$dotline.$clear();
-			this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
-			this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
-			this.$elements.$dotline.$change( this.#data.waves[ wId ].curve );
+			this.$elements.$editor.$setWaveArray( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
 			GSUdomQS( this, `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` ).dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$waves );

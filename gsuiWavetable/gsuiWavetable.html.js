@@ -12,7 +12,7 @@ GSUsetTemplate( "gsui-wavetable", () => [
 		),
 		GSUcreateFlex( { y: true, f2: true },
 			GSUcreateFlex( { f1: true },
-				GSUcreateElement( "gsui-dotline", { beatlines: true, viewbox: "0 -1 1 1", xstep: 1 / 100, ystep: 1 / 50 } ),
+				GSUcreateElement( "gsui-wave-editor" ),
 			),
 			GSUcreateDiv( { class: "gsuiWavetable-waves-list" },
 				GSUcreateDiv(),
@@ -46,9 +46,13 @@ GSUsetTemplate( "gsui-wavetable", () => [
 ] );
 
 GSUsetTemplate( "gsui-wavetable-wave", ( id, ind ) =>
-	GSUcreateFlex( { x: true, class: "gsuiWavetable-wave", "data-id": id, "data-index": ind },
-		GSUcreateElement( "gsui-dotlinesvg", { "data-action": "select" } ),
-		GSUcreateFlex( { y: true, ycenter: true, class: "gsuiWavetable-wave-head", "data-action": "select" },
+	GSUcreateFlex( { class: "gsuiWavetable-wave", "data-id": id, "data-index": ind, x: true },
+		GSUcreateFlex( { class: "gsuiWavetable-wave-svg", "data-action": "select", f1: true },
+			GSUcreateElementSVG( "svg", { inert: true },
+				GSUcreateElementSVG( "polyline" ),
+			),
+		),
+		GSUcreateFlex( { class: "gsuiWavetable-wave-head", "data-action": "select", y: true, xcenter: true, ycenter: true },
 			GSUcreateSpan( { class: "gsuiWavetable-wave-num", inert: true } ),
 			GSUcreateDiv( { class: "gsuiWavetable-wave-btn gsuiIcon", "data-action": "clone", "data-icon": "clone", title: "Clone this wave" } ),
 			GSUcreateDiv( { class: "gsuiWavetable-wave-btn gsuiIcon", "data-action": "remove", "data-icon": "close", title: "Remove this wave" } ),

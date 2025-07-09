@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
 <link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
 <link rel="stylesheet" href="../gsuiWavetableGraph/gsuiWavetableGraph.css"/>
+<link rel="stylesheet" href="../gsuiWaveEditor/gsuiWaveEditor.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="gsuiWavetable.css"/>
@@ -95,6 +96,8 @@ body {
 <script src="../gsuiSlider/gsuiSlider.js"></script>
 <script src="../gsuiReorder/gsuiReorder.js"></script>
 <script src="../gsuiWavetableGraph/gsuiWavetableGraph.js"></script>
+<script src="../gsuiWaveEditor/gsuiWaveEditor.html.js"></script>
+<script src="../gsuiWaveEditor/gsuiWaveEditor.js"></script>
 
 <!-- ....................................................................... -->
 <script src="gsuiWavetable.html.js"></script>
@@ -119,21 +122,11 @@ elWT.$change( {
 	waves: {
 		0: {
 			index: 0,
-			curve: {
-				0: { x: 0,   y:  0, type: null,          val:  null },
-				2: { x: .25, y:  1, type: "curve",       val:  1 },
-				3: { x: .75, y: -1, type: "doubleCurve", val:  1 },
-				1: { x: 1,   y:  0, type: "curve",       val: -1 },
-			},
+			curve: GSUmathWaveSine( 1024, 0 ),
 		},
 		1: {
 			index: 1,
-			curve: {
-				0: { x: 0,   y:  0, type: null,    val: null },
-				2: { x: .50, y:  1, type: "curve", val: 0 },
-				3: { x: .51, y: -1, type: "curve", val: 0 },
-				1: { x: 1,   y:  0, type: "curve", val: 0 },
-			},
+			curve: GSUmathWaveSquare( 1024, 0 ),
 		},
 	},
 	// wtposCurves: {
