@@ -12,7 +12,7 @@ gsui-oscillator {
 	transition-property: min-height;
 }
 gsui-oscillator[ wavetable ] {
-	min-height: 340px;
+	min-height: 500px;
 }
 .gsuiOscillator-in {
 	display: grid;

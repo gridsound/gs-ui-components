@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
 <link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
 <link rel="stylesheet" href="../gsuiWavetable/gsuiWavetable.css"/>
+<link rel="stylesheet" href="../gsuiWaveEditor/gsuiWaveEditor.css"/>
 <link rel="stylesheet" href="../gsuiWavetableGraph/gsuiWavetableGraph.css"/>
 
 <!-- ....................................................................... -->
@@ -75,6 +76,8 @@ body {
 <script src="../gsuiDotline/gsuiDotline.js"></script>
 <script src="../gsuiWavetable/gsuiWavetable.html.js"></script>
 <script src="../gsuiWavetable/gsuiWavetable.js"></script>
+<script src="../gsuiWaveEditor/gsuiWaveEditor.html.js"></script>
+<script src="../gsuiWaveEditor/gsuiWaveEditor.js"></script>
 <script src="../gsuiWavetableGraph/gsuiWavetableGraph.js"></script>
 
 <!-- ....................................................................... -->
@@ -97,17 +100,14 @@ GSUdomSetAttr( elOsc, "gain", .5 );
 GSUdomSetAttr( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
 GSUdomSetAttr( elOsc, "wave", "sawtooth" );
 
-elOsc.$askWaveCustomData = () => ( {
-	waves: {
-		0: {
-			index: 0,
-			curve: {
-				0: { x: 0, y: 0, type: null, val: null },
-				1: { x: 1, y: 0, type: "curve", val: 0 },
-			},
-		},
-	},
-} );
+// elOsc.$askWaveCustomData = () => ( {
+// 	waves: {
+// 		0: {
+// 			index: 0,
+// 			curve: GSUmathWaveSawtooth( 1024 ),
+// 		},
+// 	},
+// } );
 
 // GSUsetTimeout( () => GSUdomSetAttr( elOsc, "wavetable" ), .2 );
 </script>
