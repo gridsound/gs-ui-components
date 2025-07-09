@@ -87,6 +87,31 @@ class gsuiWaveEditor extends gsui0ne {
 				this.#currentSquare = null;
 			}
 		};
+		this.ondragover = GSUnoopFalse;
+		this.ondrop = e => {
+			let ctx;
+
+			e.preventDefault();
+			e.stopPropagation();
+			GSUgetFilesDataTransfert( e.dataTransfer.items )
+				.then( files => GSUgetFileContent( files[ 0 ], "array" ) )
+				.then( arr => {
+					ctx = GSUaudioContext();
+					return ctx.decodeAudioData( arr );
+				} )
+				.then( buf => {
+					ctx.close();
+					return buf.numberOfChannels >= 1
+						? buf.getChannelData( 0 )
+						: null;
+				} )
+				.then( bufData => {
+					const bufData2 = GSUarrayResize( bufData, 2048 );
+					
+					this.$setWaveArray( bufData2 );
+					this.$dispatch( "change", bufData2 );
+				} );
+		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				input: ( d, t ) => GSUdomSetAttr( this, GSUdomGetAttr( t.parentNode, "dir" ) === "x" ? "grid-x" : "grid-y", d.args[ 0 ] ),
