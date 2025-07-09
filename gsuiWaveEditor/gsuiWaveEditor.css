@@ -1,4 +1,5 @@
 gsui-wave-editor {
+	--gsuiWaveEditor-btn-color: #a0a9ff;
 	display: flex;
 	height: 100%;
 	min-width: 180px;
@@ -20,6 +21,7 @@ gsui-wave-editor {
 	padding: 0 4px;
 	border: 2px solid transparent;
 	border-radius: 4px;
+	color: currentColor;
 	cursor: pointer;
 	background-color: #0005;
 }
@@ -43,7 +45,7 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	width: 26px;
 	height: 26px;
 	border: 0;
-	color: dodgerblue;
+	color: currentColor;
 	cursor: pointer;
 	background: none;
 }
@@ -54,8 +56,8 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	background-color: #0008;
 }
 .gsuiWaveEditor-tools button[ data-selected ] polyline {
-	stroke: #fff;
-	filter: drop-shadow( 0 0 1px currentColor );
+	stroke: currentColor;
+	filter: drop-shadow( 0 0 1px var( --gsuiWaveEditor-btn-color ) );
 }
 .gsuiWaveEditor-tools svg {
 	position: absolute;
@@ -64,7 +66,7 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	width: 100%;
 	height: 100%;
 	fill: none;
-	stroke: currentColor;
+	stroke: var( --gsuiWaveEditor-btn-color );
 	stroke-linecap: round;
 }
 
@@ -127,5 +129,6 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 .gsuiWaveEditor-wave polyline {
 	stroke: #fff;
 	stroke-width: 2px;
-	fill: #3b83fb29;
+	fill: var( --gsuiWaveEditor-btn-color );
+	fill-opacity: .1;
 }
