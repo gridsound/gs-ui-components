@@ -57,7 +57,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	$setWavetable( wt ) {
 		this.#waves.length = 0;
 		GSUforEach( wt, ( wave, wId ) => {
-			const dots = this.#getDots( wave );
+			const dots = this.#getDots( wave.curve );
 
 			this.#waves.push( {
 				id: wId,
@@ -75,7 +75,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#drawMorph();
 	}
 	#getDots( w ) {
-		const dots = GSUmathSampleDotLine( w.curve, 80 );
+		const dots = GSUarrayResize( w, 80 ).map( ( d, i ) => [ i / ( 80 - 1 ), d ] );
 
 		dots.forEach( d => d[ 1 ] = d[ 1 ] / 2 + .5 );
 		return [ [ 0, .5 ], ...dots, [ 1, .5 ] ];
