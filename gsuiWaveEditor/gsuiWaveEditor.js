@@ -10,6 +10,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#currentSquare = null;
 	#toolSelected = null;
 	#actionMenu = new gsuiActionMenu();
+	#drawWaveThr = GSUthrottle( this.#drawWave.bind( this ), .2 );
 	static #clickSquareFns = {
 		goUp:     n =>     n,
 		goDown:   n => 1 - n,
@@ -62,10 +63,12 @@ class gsuiWaveEditor extends gsui0ne {
 		this.$elements.$symmetryBtn.onclick = e => GSUdomTogAttr( this, "symmetry" );
 		this.$elements.$tools.onclick = e => e.target.dataset.tool && GSUdomSetAttr( this, "tool", e.target.dataset.tool );
 		this.$elements.$wave.onpointerdown = e => {
-			this.#ptrDown = true;
-			this.$elements.$wave.setPointerCapture( e.pointerId );
-			this.#waveArray2 ||= new Float32Array( this.#waveArray );
-			this.#clickSquare( e );
+			if ( this.#waveArray ) {
+				this.#ptrDown = true;
+				this.$elements.$wave.setPointerCapture( e.pointerId );
+				this.#waveArray2 ||= new Float32Array( this.#waveArray );
+				this.#clickSquare( e );
+			}
 		};
 		this.$elements.$wave.onpointermove = e => {
 			this.#updateHoverSquare( e.offsetX, e.offsetY );
@@ -74,31 +77,33 @@ class gsuiWaveEditor extends gsui0ne {
 			}
 		};
 		this.$elements.$wave.onpointerup = e => {
-			this.#ptrDown = false;
-			this.$elements.$wave.releasePointerCapture( e.pointerId );
-			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
-				this.#waveArray2 = null;
-				this.$dispatch( "change", this.#waveArray );
+			if ( this.#ptrDown ) {
+				this.#ptrDown = false;
+				this.$elements.$wave.releasePointerCapture( e.pointerId );
+				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
+					this.#waveArray2 = null;
+					this.$dispatch( "change", [ ...this.#waveArray ] );
+				}
+				this.#currentSquare = null;
 			}
-			this.#currentSquare = null;
 		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
 				input: ( d, t ) => GSUdomSetAttr( this, GSUdomGetAttr( t.parentNode, "dir" ) === "x" ? "grid-x" : "grid-y", d.args[ 0 ] ),
+				change: GSUnoop,
 			},
 		} );
 	}
 
 	// .........................................................................
 	$onresize() {
-		const [ w, h ] = GSUdomBCRwh( this.$elements.$wave );
+		const [ w, h ] = GSUdomGetSize( this.$elements.$wave );
 
-		this.#waveW = w;
-		this.#waveH = h;
+		this.#waveW = w | 0;
+		this.#waveH = h | 0;
 		this.#updateBeatlines( 0, this.#gridSize[ 0 ] );
 		this.#updateBeatlines( 1, this.#gridSize[ 1 ] );
-		GSUsetViewBoxWH( this.$elements.$waveSVG, w, h );
-		this.#drawWave();
+		this.#drawWaveThr();
 	}
 	$firstTimeConnected() {
 		GSUdomRmAttr( this.$elements.$beatlines[ 0 ], "coloredbeats" );
@@ -126,6 +131,7 @@ class gsuiWaveEditor extends gsui0ne {
 			: GSUmathWaveFns[ w ]( 2048 );
 
 		this.$setWaveArray( arr );
+		this.$dispatch( "change", arr );
 	}
 	$setWaveArray( arr ) {
 		this.#waveArray = new Float32Array( arr );
@@ -159,7 +165,7 @@ class gsuiWaveEditor extends gsui0ne {
 		const coord = this.#getCoord( e.offsetX, e.offsetY );
 		const coordStr = coord + "";
 
-		if ( this.#waveArray && this.#currentSquare !== coordStr ) {
+		if ( this.#currentSquare !== coordStr ) {
 			this.#currentSquare = coordStr;
 			gsuiWaveEditor.#clickSquare2(
 				this.#waveArray,
@@ -192,26 +198,30 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#drawWave() {
-		if ( !this.#waveArray || !this.#waveW || !this.#waveH ) {
+		GSUsetViewBoxWH( this.$elements.$waveSVG, this.#waveW, this.#waveH );
+		gsuiWaveEditor.$drawWave( this.$elements.$wavePolyline, this.#waveArray, this.#waveW, this.#waveH );
+	}
+	static $drawWave( polyline, waveArray, w, h ) {
+		if ( !waveArray || !w || !h ) {
 			return;
 		}
 
-		const arr = this.#waveArray;
-		const len = this.#waveArray.length - 1;
+		const arr = GSUarrayResize( waveArray, w );
+		const len = arr.length - 1;
 		const pts = GSUnewArray( len + 1, i => [
-			i / len * this.#waveW,
-			( .5 - arr[ i ] / 2 ) * this.#waveH,
+			i / len * w,
+			( .5 - arr[ i ] / 2 ) * h,
 		] );
 
 		pts.unshift(
-			[ -10, this.#waveH / 2 ],
+			[ -10, h / 2 ],
 			[ -10, pts[ 0 ][ 1 ] ],
 		);
 		pts.push(
-			[ this.#waveW + 10, pts.at( -1 )[ 1 ] ],
-			[ this.#waveW + 10, this.#waveH / 2 ],
+			[ w + 10, pts.at( -1 )[ 1 ] ],
+			[ w + 10, h / 2 ],
 		);
-		GSUdomSetAttr( this.$elements.$wavePolyline, "points", pts.join( " " ) );
+		GSUdomSetAttr( polyline, "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {
 		const [ ix, iy ] = this.#getCoord( px, py );
