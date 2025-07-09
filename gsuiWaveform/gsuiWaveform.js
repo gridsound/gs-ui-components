@@ -80,8 +80,8 @@ class gsuiWaveform {
 				rmax += 1 / h;
 				lmin -= 1 / h;
 			}
-			dots0 += ` ${ p },${ gsuiWaveform.#formatNb( h2 + lmin * h2 ) }`;
-			dots1  =  `${ p },${ gsuiWaveform.#formatNb( h2 + rmax * h2 ) } ${ dots1 }`;
+			dots0 += ` ${ p },${ gsuiWaveform.#formatNb( h2 - lmin * h2 ) }`;
+			dots1  =  `${ p },${ gsuiWaveform.#formatNb( h2 - rmax * h2 ) } ${ dots1 }`;
 		}
 		return `${ dots0 } ${ dots1 }`;
 	}
