@@ -16,7 +16,7 @@ GSUsetTemplate( "gsui-channels-selectPopup", () =>
 	GSUcreateDiv( null,
 		GSUcreateElement( "fieldset", null,
 			GSUcreateElement( "legend", null, "Select a channel" ),
-			GSUcreateSelect( { name: "channel", size: 8 } ),
+			GSUcreateSelect( { name: "channel", size: 8, style: { height: "146px" } } ),
 		),
 	)
 );
