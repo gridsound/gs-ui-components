@@ -333,20 +333,6 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-dragging,
-.gsuiOscillator-wave-dragging {
-	position: absolute;
-	opacity: 0;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 22px;
-	transition: opacity .2s;
-	pointer-events: none;
-}
-
-/* .......................................................................... */
 @container gsuiOscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
 	.gsuiOscillator-in {
 		grid-template:

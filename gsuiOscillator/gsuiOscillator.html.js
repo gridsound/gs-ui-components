@@ -32,9 +32,6 @@ GSUsetTemplate( "gsui-oscillator", waves =>
 						),
 					),
 				),
-				GSUcreateDiv( { class: "gsuiOscillator-wave-dragging" },
-					GSUcreateIcon( { icon: "arrow-dropdown", animate: true } ),
-				),
 			),
 			GSUcreateElement( "gsui-slider", { type: "linear-x", min: 0, max: 1, step: .001, "mousemove-size": "400", "data-prop": "phaze", defaultValue: 0 } ),
 		),
@@ -60,9 +57,6 @@ GSUsetTemplate( "gsui-oscillator", waves =>
 			)
 		),
 		GSUcreateButton( { class: "gsuiOscillator-remove", icon: "close", title: "Remove the oscillator" } ),
-		GSUcreateDiv( { class: "gsuiOscillator-dragging" },
-			GSUcreateIcon( { icon: "arrow-dropdown", animate: true } ),
-		),
 		GSUcreateDiv( { class: "gsuiOscillator-wavetable" } ),
 	)
 );
