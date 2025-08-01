@@ -96,7 +96,7 @@ gsui-com-button:not( [ loading ] ) .gsuiComButton-btn:disabled {
 	opacity: 1;
 	animation: linear infinite .5s gsuiComButton-loading-anim;
 	transition: var( --btn-colorDuration );
-	transition-property; visibility, opacity;
+	transition-property: visibility, opacity;
 	visibility: hidden;
 	opacity: 0;
 }
