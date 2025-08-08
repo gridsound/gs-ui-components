@@ -12,7 +12,7 @@ class gsuiWaveform {
 		Object.seal( this );
 
 		GSUdomSetAttr( svg, "preserveAspectRatio", "none" );
-		svg.classList.add( "gsuiWaveform" );
+		GSUdomAddClass( svg, "gsuiWaveform" );
 		if ( !poly ) {
 			this.polygon = GSUcreateElementSVG( "polygon" );
 			svg.append( this.polygon );

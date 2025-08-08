@@ -5,7 +5,7 @@ class gsuiRipple {
 	static #spaceDown = false;
 
 	static $init( el ) {
-		el.classList.add( "gsuiRipple" );
+		GSUdomAddClass( el, "gsuiRipple" );
 		el.addEventListener( "pointerdown", gsuiRipple.#ptrdown, false );
 		el.addEventListener( "keydown", gsuiRipple.#keydown, false );
 		el.addEventListener( "keyup", gsuiRipple.#keyup, false );

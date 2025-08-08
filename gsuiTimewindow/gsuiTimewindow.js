@@ -208,13 +208,13 @@ class gsuiTimewindow extends gsui0ne {
 				if ( val ) {
 					const [ a, b ] = val.split( "-" );
 
-					this.classList.add( "gsuiTimewindow-looping" );
+					GSUdomAddClass( this, "gsuiTimewindow-looping" );
 					GSUdomSetAttr( this.$elements.$timeline, "loop", val );
 					this.$elements.$loopA.style.width = `${ a }em`;
 					this.$elements.$loopB.style.left = `${ b }em`;
 					this.#minimapUpdateCurrentTimeLoop();
 				} else {
-					this.classList.remove( "gsuiTimewindow-looping" );
+					GSUdomRmClass( this, "gsuiTimewindow-looping" );
 					GSUdomRmAttr( this.$elements.$timeline, "loop" );
 				}
 				this.#minimapUpdate();

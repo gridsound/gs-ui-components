@@ -70,7 +70,7 @@ class gsuiGlitchText extends gsui0ne {
 		this.$elements.$clips[ 1 ].style.clipPath = `inset(${ .4 - clip1 }em 0 ${ .3 - clip2 }em 0)`;
 		this.$elements.$clips[ 2 ].style.clipPath = `inset(${ .7 + clip2 }em 0 -1em 0)`;
 		this.#textContent( this.#randText() );
-		this.classList.add( "gsuiGlitchText-blended" );
+		GSUdomAddClass( this, "gsuiGlitchText-blended" );
 	}
 	#unglitch() {
 		this.$elements.$clips.forEach( el => {
@@ -78,7 +78,7 @@ class gsuiGlitchText extends gsui0ne {
 			el.style.transform = "";
 		} );
 		this.#textContent( this.#text );
-		this.classList.remove( "gsuiGlitchText-blended" );
+		GSUdomRmClass( this, "gsuiGlitchText-blended" );
 	}
 
 	// .........................................................................

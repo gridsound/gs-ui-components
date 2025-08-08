@@ -270,9 +270,9 @@ class gsuiTimeline extends gsui0ne {
 			this.#mousedownPrevDate = Date.now();
 			this.#setStatus(
 				e.target === this.$elements.$cursor.parentNode ? GSUI_DRAGGING_TIME :
-				e.target.classList.contains( "gsuiTimeline-loopBody" ) ? GSUI_DRAGGING_LOOP :
-				e.target.classList.contains( "gsuiTimeline-loopHandleA" ) ? GSUI_DRAGGING_LOOP_A :
-				e.target.classList.contains( "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );
+				GSUdomHasClass( e.target, "gsuiTimeline-loopBody" ) ? GSUI_DRAGGING_LOOP :
+				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleA" ) ? GSUI_DRAGGING_LOOP_A :
+				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );
 		}
 		if ( this.#status ) {
 			this.$dispatch( "inputCurrentTimeStart" );

@@ -142,12 +142,11 @@ class gsuiWindow extends gsui0ne {
 		}
 	}
 	#onptrdownHead( e ) {
-		const clTar = e.target.classList;
 		const clicked =
-			clTar.contains( "gsuiWindow-head" ) ||
-			clTar.contains( "gsuiWindow-icon" ) ||
-			clTar.contains( "gsuiWindow-name" ) ||
-			clTar.contains( "gsuiWindow-headContent" );
+			GSUdomHasClass( e.target, "gsuiWindow-head" ) ||
+			GSUdomHasClass( e.target, "gsuiWindow-icon" ) ||
+			GSUdomHasClass( e.target, "gsuiWindow-name" ) ||
+			GSUdomHasClass( e.target, "gsuiWindow-headContent" );
 
 		if ( clicked && !this.#maximized ) {
 			this.#mousedownPos.x = e.clientX;

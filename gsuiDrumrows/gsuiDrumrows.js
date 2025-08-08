@@ -76,7 +76,7 @@ class gsuiDrumrows extends gsui0ne {
 
 	// .........................................................................
 	#onmousedownRows( e ) {
-		if ( ( e.button === 0 || e.button === 2 ) && e.target.classList.contains( "gsuiDrumrow-main" ) ) {
+		if ( ( e.button === 0 || e.button === 2 ) && GSUdomHasClass( e.target, "gsuiDrumrow-main" ) ) {
 			this.$dispatch(
 				e.button === 0 ? "liveStartDrum" : "liveStopDrum",
 				e.target.parentNode.dataset.id );

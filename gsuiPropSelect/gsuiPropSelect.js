@@ -92,7 +92,7 @@ class gsuiPropSelect extends gsui0ne {
 	}
 	#oncontextmenu( e ) {
 		e.preventDefault();
-		if ( e.target.classList.contains( "gsuiPropSelect-btn" ) ) {
+		if ( GSUdomHasClass( e.target, "gsuiPropSelect-btn" ) ) {
 			GSUdomSetAttr( this, "prop", e.target.dataset.prop );
 			this.$dispatch( "selectAll", e.target.dataset.prop );
 		}

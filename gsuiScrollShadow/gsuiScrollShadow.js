@@ -34,7 +34,7 @@ class gsuiScrollShadow {
 	}
 	static #initShadow( elems, dir ) {
 		elems.forEach( el => {
-			el.classList.add( "gsuiScrollShadow" );
+			GSUdomAddClass( el, "gsuiScrollShadow" );
 			el.dataset.dir = dir;
 		} );
 	}
@@ -49,7 +49,7 @@ class gsuiScrollShadow {
 	static #onscroll2( elems, scroll ) {
 		elems.forEach( el => {
 			GSUsetStyle( el, "--gsuiScrollShadow-dist", `${ Math.min( scroll / 5, 5 ) }px` );
-			el.classList.toggle( "gsuiScrollShadow-shadowed", scroll > 0 );
+			GSUdomTogClass( el, "gsuiScrollShadow-shadowed", scroll > 0 );
 		} );
 	}
 }
