@@ -9,6 +9,10 @@ gsui-glitchtext {
 	color: #fff;
 }
 
+gsui-glitchtext:not( [ enable ] )::before {
+	content: attr( initial );
+}
+
 /* .......................................................................... */
 .gsuiGlitchText-clip {
 	position: relative;

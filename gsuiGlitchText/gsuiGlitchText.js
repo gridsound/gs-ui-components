@@ -3,7 +3,8 @@
 class gsuiGlitchText extends gsui0ne {
 	#text = "";
 	#textAlt = [];
-	#frameId = null;
+	#frameIdOn = null;
+	#frameIdOff = null;
 	#frameBind = this.#frame.bind( this );
 	#unglitchBind = this.#unglitch.bind( this );
 
@@ -39,22 +40,22 @@ class gsuiGlitchText extends gsui0ne {
 
 	// .........................................................................
 	#on() {
-		if ( !this.firstChild.classList?.contains( "gsuiGlitchText-clip" ) ) {
-			this.firstChild.remove();
-		}
-		if ( !this.#frameId ) {
+		if ( !this.#frameIdOn ) {
 			this.#frameBind();
 		}
 	}
 	#off() {
-		GSUclearTimeout( this.#frameId );
-		this.#frameId = null;
+		GSUclearTimeout( this.#frameIdOn );
+		GSUclearTimeout( this.#frameIdOff );
+		this.#frameIdOff =
+		this.#frameIdOn = null;
 		this.#unglitchBind();
+		this.#textContent( "" );
 	}
 	#frame() {
 		this.#glitch();
-		GSUsetTimeout( this.#unglitchBind, .05 + Math.random() * .2 );
-		this.#frameId = GSUsetTimeout( this.#frameBind, .25 + Math.random() * .4 );
+		this.#frameIdOff = GSUsetTimeout( this.#unglitchBind, .05 + Math.random() * .2 );
+		this.#frameIdOn = GSUsetTimeout( this.#frameBind, .25 + Math.random() * .4 );
 	}
 	#glitch() {
 		const clip1 = this.#randDouble( .2 );
