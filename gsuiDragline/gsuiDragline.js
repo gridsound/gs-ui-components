@@ -28,7 +28,7 @@ class gsuiDragline {
 
 		if ( elem !== this.#linkedTo ) {
 			this.#linkedTo = elem;
-			this.rootElement.classList.toggle( "gsuiDragline-linked", !!elem );
+			GSUdomTogClass( this.rootElement, "gsuiDragline-linked", !!elem );
 			elem ? this.redraw() : this.#unlink();
 		}
 	}
@@ -42,7 +42,6 @@ class gsuiDragline {
 
 	// .........................................................................
 	#render( x, y ) {
-		const clMain = this.#elements.main.classList;
 		const bcr = GSUdomBCR( this.rootElement );
 		const w = x - bcr.x;
 		const h = y - bcr.y;
@@ -51,8 +50,8 @@ class gsuiDragline {
 		const whmax = Math.max( wabs, habs );
 		const whmax2 = whmax * 2;
 
-		clMain.toggle( "gsuiDragline-down", h > 0 );
-		clMain.toggle( "gsuiDragline-right", w > 0 );
+		GSUdomTogClass( this.#elements.main, "gsuiDragline-down", h > 0 );
+		GSUdomTogClass( this.#elements.main, "gsuiDragline-right", w > 0 );
 		GSUsetStyle( this.#elements.main, {
 			top: `${ Math.min( h, 0 ) }px`,
 			left: `${ Math.min( w, 0 ) }px`,
@@ -89,9 +88,9 @@ class gsuiDragline {
 		}
 	}
 	#resetDrag() {
-		this.rootElement.classList.remove( "gsuiDragline-dragging" );
+		GSUdomRmClass( this.rootElement, "gsuiDragline-dragging" );
 		this.#dropAreas.forEach( el => {
-			el.classList.remove( "gsuiDragline-dropActive" );
+			GSUdomRmClass( el, "gsuiDragline-dropActive" );
 			delete el.onmouseup;
 		} );
 		document.removeEventListener( "mousemove", this.#evMousemove );
@@ -105,9 +104,9 @@ class gsuiDragline {
 			this.#dropAreas = this.getDropAreas();
 			this.#dropAreas.forEach( el => {
 				el.onmouseup = this.#onmouseupDrop.bind( this );
-				el.classList.add( "gsuiDragline-dropActive" );
+				GSUdomAddClass( el, "gsuiDragline-dropActive" );
 			} );
-			this.rootElement.classList.add( "gsuiDragline-dragging" );
+			GSUdomAddClass( this.rootElement, "gsuiDragline-dragging" );
 			this.#evMousemove = this.#onmousemove.bind( this );
 			this.#evMouseup = this.#onmouseup.bind( this );
 			this.#evKeydown = this.#onkeydown.bind( this );

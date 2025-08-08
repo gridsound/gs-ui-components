@@ -46,18 +46,18 @@ class gsuiLibrary extends gsui0ne {
 
 				if ( tar.tagName === "GSUI-SLICER" ) {
 					this.$dispatch( "dropOnSlicer", obj );
-				} else if ( tar.classList.contains( "gsuiPatterns-panel-list-wrap" ) ) {
+				} else if ( GSUdomHasClass( tar, "gsuiPatterns-panel-list-wrap" ) ) {
 					this.$dispatch( "dropOnPatterns", obj );
 				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 					obj.$drumrowId = tar.dataset.id;
 					this.$dispatch( "dropOnDrumrow", obj );
-				} else if ( tar.classList.contains( "gsuiDrumrows-dropNew" ) ) {
+				} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
 					this.$dispatch( "dropOnDrumrowNew", obj );
-				} else if ( tar.classList.contains( "gsuiOscillator-waveWrap" ) ) {
+				} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 					obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
 					this.$dispatch( "dropOnOsc", obj );
-				} else if ( tar.classList.contains( "gsuiSynthesizer-newOsc" ) ) {
+				} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 					this.$dispatch( "dropOnOscNew", obj );
 				} else {
@@ -78,7 +78,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$unloadSamples() {
 		this.#samplesMap.forEach( el => {
-			el.classList.remove( "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
+			GSUdomRmClass( el, "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
 			el.title = el.dataset.name;
 		} );
 	}
@@ -88,7 +88,7 @@ class gsuiLibrary extends gsui0ne {
 	$setLibrary( lib ) {
 		let lastSep;
 		const prevLastSep = Array.from( this.$elements.$body.children )
-			.findLast( el => el.classList.contains( "gsuiLibrary-sep" ) );
+			.findLast( el => GSUdomHasClass( el, "gsuiLibrary-sep" ) );
 		const el = lib.map( smp => {
 			if ( !GSUisStr( smp ) ) {
 				const el = GSUgetTemplate( "gsui-library-sample", {
@@ -98,7 +98,7 @@ class gsuiLibrary extends gsui0ne {
 				} );
 
 				if ( this.#idFavs.has( smp[ 0 ] ) ) {
-					el.classList.add( "gsuiLibrary-sample-fav" );
+					GSUdomAddClass( el, "gsuiLibrary-sample-fav" );
 				}
 				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
@@ -117,19 +117,19 @@ class gsuiLibrary extends gsui0ne {
 		b
 			? this.#idFavs.set( id )
 			: this.#idFavs.delete( id );
-		this.#samplesMap.get( id )?.classList.toggle( "gsuiLibrary-sample-fav", b );
+		GSUdomTogClass( this.#samplesMap.get( id ), "gsuiLibrary-sample-fav", b );
 	}
 	$loadSample( id ) {
 		const el = this.#samplesMap.get( id );
 
-		el.classList.add( "gsuiLibrary-sample-loading" );
+		GSUdomAddClass( el, "gsuiLibrary-sample-loading" );
 		el.title = "loading...";
 	}
 	$readySample( id ) {
 		const el = this.#samplesMap.get( id );
 
-		el.classList.remove( "gsuiLibrary-sample-loading" );
-		el.classList.add( "gsuiLibrary-sample-ready" );
+		GSUdomRmClass( el, "gsuiLibrary-sample-loading" );
+		GSUdomAddClass( el, "gsuiLibrary-sample-ready" );
 		el.title = el.dataset.name;
 	}
 	$playSample( id, dur ) {
@@ -140,7 +140,7 @@ class gsuiLibrary extends gsui0ne {
 		this.#elCursor = GSUcreateDiv( { class: "gsuiLibrary-sample-cursor" } );
 		this.#elCursor.style.left = "0%";
 		this.#elCursor.style.transitionDuration = `${ dur }s`;
-		el.classList.add( "gsuiLibrary-sample-playing" );
+		GSUdomAddClass( el, "gsuiLibrary-sample-playing" );
 		el.append( this.#elCursor );
 		GSUsetTimeout( () => this.#elCursor.style.left = "100%", .01 );
 		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
@@ -151,7 +151,7 @@ class gsuiLibrary extends gsui0ne {
 
 			GSUclearTimeout( this.#stopTimeout );
 			this.#elCursor.remove();
-			el.classList.remove( "gsuiLibrary-sample-playing" );
+			GSUdomRmClass( el, "gsuiLibrary-sample-playing" );
 			this.#elCursor = null;
 			this.#idPlaying = null;
 			this.#stopTimeout = null;
@@ -160,27 +160,26 @@ class gsuiLibrary extends gsui0ne {
 
 	// .........................................................................
 	#expandGroup( elSep ) {
-		const exp = !elSep.classList.contains( "gsuiLibrary-sep-expanded" );
+		const exp = !GSUdomHasClass( elSep, "gsuiLibrary-sep-expanded" );
 
 		for ( let el = elSep.nextElementSibling; el; el = el.nextElementSibling ) {
-			if ( el.classList.contains( "gsuiLibrary-sample" ) ) {
-				el.classList.toggle( "gsuiLibrary-sample-expanded", exp );
+			if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) ) {
+				GSUdomTogClass( el, "gsuiLibrary-sample-expanded", exp );
 			} else {
 				break;
 			}
 		}
-		elSep.classList.toggle( "gsuiLibrary-sep-expanded", exp );
+		GSUdomTogClass( elSep, "gsuiLibrary-sep-expanded", exp );
 	}
 
 	// .........................................................................
 	#onclick( e ) {
 		const el = e.target;
-		const cl = el.classList;
 
-		if ( cl.contains( "gsuiLibrary-sep-btn" ) ) {
+		if ( GSUdomHasClass( el, "gsuiLibrary-sep-btn" ) ) {
 			this.#expandGroup( el.parentNode );
-		} else if ( cl.contains( "gsuiLibrary-sample" ) && !cl.contains( "gsuiLibrary-sample-loading" ) ) {
-			const act = cl.contains( "gsuiLibrary-sample-ready" )
+		} else if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) && !GSUdomHasClass( el, "gsuiLibrary-sample-loading" ) ) {
+			const act = GSUdomHasClass( el, "gsuiLibrary-sample-ready" )
 				? "playSample"
 				: "loadSample";
 
@@ -188,7 +187,7 @@ class gsuiLibrary extends gsui0ne {
 		}
 	}
 	#oncontextmenu( e ) {
-		if ( e.target.classList.contains( "gsuiLibrary-sample" ) ) {
+		if ( GSUdomHasClass( e.target, "gsuiLibrary-sample" ) ) {
 			this.$dispatch( "stopSample" );
 		}
 		return false;

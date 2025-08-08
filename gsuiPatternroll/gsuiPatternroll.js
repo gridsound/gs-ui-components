@@ -53,7 +53,7 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.classList.add( "gsuiBlocksManager" );
+		GSUdomAddClass( this, "gsuiBlocksManager" );
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#tracklist );
 		this.#win.$appendMain( this.#selectionElement );
@@ -78,7 +78,7 @@ class gsuiPatternroll extends gsui0ne {
 		const elTrack = this.#tracklist.$addTrack( id );
 		const row = elTrack.rowElement;
 
-		row.classList.toggle( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 );
+		GSUdomTogClass( row, "gsui-row-small", this.#blcManager.$getFontSize() <= 44 );
 		row.onmousedown = this.#rowMousedown.bind( this );
 		this.#rowsByTrackId.set( row.dataset.id, row );
 		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).append( row );
@@ -147,8 +147,8 @@ class gsuiPatternroll extends gsui0ne {
 		switch ( prop ) {
 			case "when": el.style.left = `${ val }em`; break;
 			case "duration": el.style.width = `${ val }em`; break;
-			case "deleted": el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val ); break;
-			case "selected": el.classList.toggle( "gsuiBlocksManager-block-selected", !!val ); break;
+			case "deleted": GSUdomTogClass( el, "gsuiBlocksManager-block-hidden", !!val ); break;
+			case "selected": GSUdomTogClass( el, "gsuiBlocksManager-block-selected", !!val ); break;
 			case "row": this.#blockDOMChange( el, "track", this.#incrTrackId( el.dataset.track, val ) ); break;
 			case "track": {
 				const row = this.#getRowByTrackId( val );
@@ -173,7 +173,7 @@ class gsuiPatternroll extends gsui0ne {
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
-		Array.from( this.#blcManager.$getRows() ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
+		Array.from( this.#blcManager.$getRows() ).forEach( el => GSUdomTogClass( el, "gsui-row-small", px <= 44 ) );
 	}
 
 	// .........................................................................

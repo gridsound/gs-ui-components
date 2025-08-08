@@ -73,13 +73,13 @@ class gsuiSliderGroup extends gsui0ne {
 				this.$elements.$currentTime.style.left = `${ val }em`;
 				break;
 			case "loopa":
-				this.$elements.$loopA.classList.toggle( "gsuiSliderGroup-loopOn", val );
+				GSUdomTogClass( this.$elements.$loopA, "gsuiSliderGroup-loopOn", val );
 				if ( val ) {
 					this.$elements.$loopA.style.width = `${ val }em`;
 				}
 				break;
 			case "loopb":
-				this.$elements.$loopB.classList.toggle( "gsuiSliderGroup-loopOn", val );
+				GSUdomTogClass( this.$elements.$loopB, "gsuiSliderGroup-loopOn", val );
 				if ( val ) {
 					this.$elements.$loopB.style.left = `${ val }em`;
 				}
@@ -154,7 +154,7 @@ class gsuiSliderGroup extends gsui0ne {
 			b
 				? this.#selected.set( sli.element.dataset.id, sli )
 				: this.#selected.delete( sli.element.dataset.id );
-			sli.element.classList.toggle( "gsuiSliderGroup-sliderSelected", !!b );
+			GSUdomTogClass( sli.element, "gsuiSliderGroup-sliderSelected", !!b );
 			sli.element.style.zIndex = zind + ( b ? 1000 : -1000 );
 		}
 	}
@@ -166,7 +166,7 @@ class gsuiSliderGroup extends gsui0ne {
 		const percX = Math.abs( valNum - ( sameDir ? min : 0 ) ) / ( max - min ) * 100;
 		const perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
 		const el = sli.element.firstElementChild;
-		const innerDown = el.classList.toggle( "gsuiSliderGroup-sliderInnerDown", valNum < 0 );
+		const innerDown = GSUdomTogClass( el, "gsuiSliderGroup-sliderInnerDown", valNum < 0 );
 
 		GSUsetStyle( el, {
 			height: `${ percX }%`,

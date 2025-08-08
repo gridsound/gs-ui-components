@@ -39,7 +39,7 @@ class gsuiPanels extends gsui0ne {
 			.reduce( ( x, [ p, perc ] ) => {
 				const perc2 = GSUmathFix( perc, 1 );
 
-				p.classList.add( "gsuiPanels-panel" );
+				GSUdomAddClass( p, "gsuiPanels-panel" );
 				p.style[ this.#dir ] = `${ perc2 }%`;
 				p.style[ this.#pos ] = `${ x }%`;
 				if ( x > 0 ) {
@@ -111,7 +111,7 @@ class gsuiPanels extends gsui0ne {
 		const tar = e.target;
 		const pan = tar.parentNode;
 
-		if ( e.button === 0 && pan.parentNode === this && tar.classList.contains( "gsuiPanels-extend" ) ) {
+		if ( e.button === 0 && pan.parentNode === this && GSUdomHasClass( tar, "gsuiPanels-extend" ) ) {
 			const pInd = this.#pans.indexOf( pan );
 
 			this.#extend = tar;
@@ -122,7 +122,7 @@ class gsuiPanels extends gsui0ne {
 				return n + parseFloat( GSUgetStyle( p )[ `min-${ this.#dir }` ] ) || 10;
 			}, 0 );
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
-			tar.classList.add( "gsui-hover" );
+			GSUdomAddClass( tar, "gsui-hover" );
 			GSUunselectText();
 			this.setPointerCapture( e.pointerId );
 			this.onpointerup = this.#onpointerup.bind( this );
@@ -131,7 +131,7 @@ class gsuiPanels extends gsui0ne {
 	}
 	#onpointerup( e ) {
 		this.style.cursor = "";
-		this.#extend.classList.remove( "gsui-hover" );
+		GSUdomRmClass( this.#extend, "gsui-hover" );
 		this.releasePointerCapture( e.pointerId );
 		this.onpointermove =
 		this.onpointerup = null;

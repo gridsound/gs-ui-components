@@ -304,7 +304,7 @@ class gsuiDotline extends gsui0ne {
 		const dot = this.#dots[ id ];
 
 		this.#activeDotId = b ? id : null;
-		dot.classList.toggle( "gsuiDotline-dotSelected", b );
+		GSUdomTogClass( dot, "gsuiDotline-dotSelected", b );
 	}
 	#updateMenu( type ) {
 		this.#menu.$changeAction( "hold",         "icon", type === "hold"         ? "radio-btn-checked" : "radio-btn" );
@@ -318,8 +318,8 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	$onptrdown( e ) {
-		const isSVG = e.target.classList.contains( "gsuiDotline-padding" );
-		let isDot = e.target.classList.contains( "gsuiDotline-dot" );
+		const isSVG = GSUdomHasClass( e.target, "gsuiDotline-padding" );
+		let isDot = GSUdomHasClass( e.target, "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
 		GSUunselectText();
@@ -369,7 +369,7 @@ class gsuiDotline extends gsui0ne {
 		return false;
 	}
 	#onrightclickSlider( e ) {
-		if ( e.button === 2 && e.target.classList.contains( "gsuiDotline-cdot" ) ) {
+		if ( e.button === 2 && GSUdomHasClass( e.target, "gsuiDotline-cdot" ) ) {
 			const id = e.target.dataset.id;
 			const dot = this.#data[ id ];
 
@@ -380,7 +380,7 @@ class gsuiDotline extends gsui0ne {
 		}
 	}
 	#onrightclickDot( e ) {
-		if ( e.button === 2 && e.target.classList.contains( "gsuiDotline-dot" ) ) {
+		if ( e.button === 2 && GSUdomHasClass( e.target, "gsuiDotline-dot" ) ) {
 			this.#menuDotId = e.target.dataset.id;
 			this.#updateMenu( this.#data[ this.#menuDotId ].type );
 			this.#menu.$setTarget( e.target );
@@ -435,7 +435,7 @@ class gsuiDotline extends gsui0ne {
 		}
 	}
 	#onptrdownCurveDot( e ) {
-		if ( e.target.classList.contains( "gsuiDotline-cdot" ) ) {
+		if ( GSUdomHasClass( e.target, "gsuiDotline-cdot" ) ) {
 			const id = e.target.dataset.id;
 			const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
 			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;

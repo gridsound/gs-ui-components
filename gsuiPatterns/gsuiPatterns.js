@@ -47,7 +47,7 @@ class gsuiPatterns extends gsui0ne {
 		this.#initReorderDrums();
 		this.#initReorderKeys();
 		this.$elements.$lists.synth.ondblclick = e => {
-			if ( e.target.classList.contains( "gsuiPatterns-synth-info" ) ) {
+			if ( GSUdomHasClass( e.target, "gsuiPatterns-synth-info" ) ) {
 				this.$expandSynth( e.target.closest( ".gsuiPatterns-synth" ).dataset.id );
 			}
 		};
@@ -133,13 +133,13 @@ class gsuiPatterns extends gsui0ne {
 		} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 			obj.$drumrowId = tar.dataset.id;
 			this.$dispatch( "dropBufferOnDrumrow", obj );
-		} else if ( tar.classList.contains( "gsuiDrumrows-dropNew" ) ) {
+		} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
 			this.$dispatch( "dropBufferOnDrumrowNew", obj );
-		} else if ( tar.classList.contains( "gsuiOscillator-waveWrap" ) ) {
+		} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 			obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
 			this.$dispatch( "dropBufferOnOsc", obj );
-		} else if ( tar.classList.contains( "gsuiSynthesizer-newOsc" ) ) {
+		} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 			this.$dispatch( "dropBufferOnOscNew", obj );
 		} else {
@@ -160,7 +160,7 @@ class gsuiPatterns extends gsui0ne {
 	// .........................................................................
 	$expandSynth( id, b ) {
 		const elSyn = this.#getSynth( id );
-		const show = elSyn.classList.toggle( "gsuiPatterns-synth-expanded", b );
+		const show = GSUdomTogClass( elSyn, "gsuiPatterns-synth-expanded", b );
 
 		GSUdomQS( elSyn, ".gsuiPatterns-synth-expand" ).dataset.icon = `caret-${ show ? "down" : "right" }`;
 	}
@@ -259,7 +259,7 @@ class gsuiPatterns extends gsui0ne {
 		}
 	}
 	$appendPatternSVG( id, svg ) {
-		svg.classList.add( "gsuiPatterns-pattern-svg" );
+		GSUdomAddClass( svg, "gsuiPatterns-pattern-svg" );
 		GSUdomQS( this.$getPattern( id ), ".gsuiPatterns-pattern-content" ).append( svg );
 	}
 	$deletePattern( id ) {
@@ -270,12 +270,12 @@ class gsuiPatterns extends gsui0ne {
 	$selectPattern( type, id ) {
 		const elList = this.$elements.$lists[ type === "keys" ? "synth" : type ];
 
-		GSUdomQS( elList, ".gsuiPatterns-pattern-selected" )?.classList?.remove( "gsuiPatterns-pattern-selected" );
-		this.$getPattern( id )?.classList?.add( "gsuiPatterns-pattern-selected" );
+		GSUdomRmClass( GSUdomQS( elList, ".gsuiPatterns-pattern-selected" ), "gsuiPatterns-pattern-selected" );
+		GSUdomAddClass( this.$getPattern( id ), "gsuiPatterns-pattern-selected" );
 	}
 	$selectSynth( id ) {
-		GSUdomQS( this.$elements.$lists.synth, ".gsuiPatterns-synth-selected" )?.classList?.remove( "gsuiPatterns-synth-selected" );
-		this.#getSynth( id ).classList.add( "gsuiPatterns-synth-selected" );
+		GSUdomRmClass( GSUdomQS( this.$elements.$lists.synth, ".gsuiPatterns-synth-selected" ), "gsuiPatterns-synth-selected" );
+		GSUdomAddClass( this.#getSynth( id ), "gsuiPatterns-synth-selected" );
 	}
 
 	// .........................................................................

@@ -96,8 +96,8 @@ class gsuiKeys extends gsui0ne {
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;
-		GSUdomQS( this, `.gsuiKeys-rootKey` )?.classList.remove( "gsuiKeys-rootKey" );
-		GSUdomQS( this, `.gsuiKeys-key[data-midi="${ oct * 12 }"]` )?.classList.add( "gsuiKeys-rootKey" );
+		GSUdomRmClass( GSUdomQS( this, ".gsuiKeys-rootKey" ), "gsuiKeys-rootKey" );
+		GSUdomAddClass( GSUdomQS( this, `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ), "gsuiKeys-rootKey" );
 	}
 	#setOctaves( start, nbOct ) {
 		GSUsetStyle( this, {
@@ -143,7 +143,7 @@ class gsuiKeys extends gsui0ne {
 		if ( elKey ) {
 			const midi = +elKey.dataset.midi;
 
-			elKey.classList.toggle( "gsui-active", status );
+			GSUdomTogClass( elKey, "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
 				this.$dispatch( "keyDown", midi, vel );

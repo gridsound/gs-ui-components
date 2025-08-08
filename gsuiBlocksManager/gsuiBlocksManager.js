@@ -80,20 +80,11 @@ class gsuiBlocksManager {
 	#dispatch( ...args ) {
 		GSUdispatchEvent( this.rootElement.firstChild, "gsuiBlocksManager", ...args );
 	}
-	#isBlc( el ) {
-		return el?.classList?.contains( "gsuiBlocksManager-block" ); // 1.
-	}
 	#getBlc( el ) {
-		if ( this.#isBlc( el ) ) {
-			return el;
-		} else if ( this.#isBlc( el.parentNode ) ) {
-			return el.parentNode;
-		} else if ( this.#isBlc( el.parentNode.parentNode ) ) {
-			return el.parentNode.parentNode;
-		}
+		return el.closest( ".gsuiBlocksManager-block" );
 	}
 	#fillBlcsMap( blc ) {
-		if ( blc.classList.contains( "gsuiBlocksManager-block-selected" ) ) {
+		if ( GSUdomHasClass( blc, "gsuiBlocksManager-block-selected" ) ) {
 			this.#blcsSelected.forEach( ( blc, id ) => this.#blcsEditing.set( id, blc ) );
 		} else {
 			this.#blcsEditing.set( blc.dataset.id, blc );
@@ -253,8 +244,8 @@ class gsuiBlocksManager {
 						const blcsEditing = this.#fillBlcsMap( blc2 );
 
 						this.#startPreview();
-						blc2.classList.add( "gsui-hover" );
-						e.target.classList.add( "gsui-hover" );
+						GSUdomAddClass( blc2, "gsui-hover" );
+						GSUdomAddClass( e.target, "gsui-hover" );
 						fnAct.call( this, this.#data, blcsEditing, blc2, e );
 					}
 				}
@@ -365,7 +356,7 @@ class gsuiBlocksManager {
 			Math.abs( this.#mmPageY - this.#mdPageY ) > 6
 		) {
 			this.#status = "select2";
-			this.#elSelection.classList.remove( "gsuiBlocksManager-selection-hidden" );
+			GSUdomRmClass( this.#elSelection, "gsuiBlocksManager-selection-hidden" );
 			this.#mmFn = this.#getPtrMoveFn();
 			this.#mmFn();
 		}
@@ -415,10 +406,8 @@ class gsuiBlocksManager {
 		if ( this.#status ) {
 			this.#getPtrUpFn().call( this, this.#blcsEditing, this.#mdBlc );
 		}
-		if ( this.#mdBlc ) {
-			this.#mdBlc.classList.remove( "gsui-hover" );
-			this.#mdTarget.classList.remove( "gsui-hover" );
-		}
+		GSUdomRmClass( this.#mdBlc, "gsui-hover" );
+		GSUdomRmClass( this.#mdTarget, "gsui-hover" );
 		this.#status = "";
 		this.#mmFn =
 		this.#mdBlc =
@@ -475,13 +464,13 @@ class gsuiBlocksManager {
 	}
 	#onmouseupSelect1( blcsEditing, mdBlc ) {
 		if ( mdBlc ) {
-			mdBlc.classList.contains( "gsuiBlocksManager-block-selected" )
+			GSUdomHasClass( mdBlc, "gsuiBlocksManager-block-selected" )
 				? this.#opts.managercallUnselectingOne( mdBlc.dataset.id )
 				: this.#opts.managercallSelecting( [ mdBlc.dataset.id ] );
 		}
 	}
 	#onmouseupSelect2( blcsEditing ) {
-		this.#elSelection.classList.add( "gsuiBlocksManager-selection-hidden" );
+		GSUdomAddClass( this.#elSelection, "gsuiBlocksManager-selection-hidden" );
 		if ( blcsEditing.size ) {
 			this.#opts.managercallSelecting( Array.from( blcsEditing.keys() ) );
 		}
@@ -489,7 +478,3 @@ class gsuiBlocksManager {
 }
 
 Object.freeze( gsuiBlocksManager );
-
-/*
-1. Need two check because sometimes `el` can be <html> or document.
-*/

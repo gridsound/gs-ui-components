@@ -73,9 +73,9 @@ class gsuiReorder {
 		this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 		this.#opt.$root.style.cursor = "grabbing";
 		this.#elPtrDown.style.cursor = "";
-		this.#movingItem.classList.add( "gsuiReorder-dragging" );
+		GSUdomAddClass( this.#movingItem, "gsuiReorder-dragging" );
 		if ( this.#opt.$onchange ) {
-			this.#movingItem.classList.add( "gsuiReorder-reordering" );
+			GSUdomAddClass( this.#movingItem, "gsuiReorder-reordering" );
 		}
 		this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, this.#opt.$itemGripSelector === "*" ? null : e.target, e );
 		this.#showTargetList();
@@ -162,16 +162,9 @@ class gsuiReorder {
 			this.#elDragovering = elem;
 			this.#opt.$ondragoverenter?.( elem );
 			if ( this.#dropAreaList ) {
-				if ( this.#elAreaDragovering ) {
-					this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
-				}
-
-				const area = this.#dropAreaList.find( el => el.contains( elem ) ) || null;
-
-				this.#elAreaDragovering = area;
-				if ( area ) {
-					area.classList.add( "gsuiReorder-dropArea-hover" );
-				}
+				GSUdomRmClass( this.#elAreaDragovering, "gsuiReorder-dropArea-hover" );
+				this.#elAreaDragovering = this.#dropAreaList.find( el => el.contains( elem ) ) || null;
+				GSUdomAddClass( this.#elAreaDragovering, "gsuiReorder-dropArea-hover" );
 			}
 		}
 	}
@@ -180,39 +173,35 @@ class gsuiReorder {
 
 		if ( !GSUisEmpty( list ) ) {
 			this.#dropAreaList = GSUforEach( list, ( el, i ) => {
-				el.classList.add( "gsuiReorder-dropArea" );
+				GSUdomAddClass( el, "gsuiReorder-dropArea" );
 				el.style.animationDelay = `${ i * .0125 }s`;
 			} );
 		}
 	}
 	#reset() {
 		this.#dragging = false;
-		this.#elDragovering = null;
 		if ( this.#elPtrDown ) {
 			this.#elPtrDown.style.cursor = "";
-			this.#elPtrDown = null;
 		}
-		this.#currentPtr = null;
 		if ( this.#movingFake ) {
 			this.#movingFake.remove();
-			this.#movingFake = null;
 		}
-		if ( this.#elAreaDragovering ) {
-			this.#elAreaDragovering.classList.remove( "gsuiReorder-dropArea-hover" );
-			this.#elAreaDragovering = null;
-		}
+		GSUdomRmClass( this.#movingItem, "gsuiReorder-dragging", "gsuiReorder-reordering" );
+		GSUdomRmClass( this.#elAreaDragovering, "gsuiReorder-dropArea-hover" );
 		GSUforEach( this.#dropAreaList, el => {
-			el.classList.remove( "gsuiReorder-dropArea" );
+			GSUdomRmClass( el, "gsuiReorder-dropArea" );
 			el.style.animationDelay = "";
 		} );
-		this.#dropAreaList = null;
-		this.#itemsData = null;
-		this.#dataSave = null;
-		if ( this.#movingItem ) {
-			this.#movingItem.classList.remove( "gsuiReorder-dragging", "gsuiReorder-reordering" );
-			this.#movingItem = null;
-		}
-		this.#movingItemParent = null;
+		this.#dataSave =
+		this.#itemsData =
+		this.#elPtrDown =
+		this.#currentPtr =
+		this.#movingItem =
+		this.#movingFake =
+		this.#dropAreaList =
+		this.#elDragovering =
+		this.#movingItemParent =
+		this.#elAreaDragovering =
 		this.#movingItemParentLast = null;
 		this.#movingIndex = -1;
 		if ( this.#opt.$root ) {

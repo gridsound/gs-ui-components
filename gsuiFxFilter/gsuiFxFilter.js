@@ -99,7 +99,7 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	#toggleTypeBtn( type, b ) {
-		GSUdomQS( this.$elements.$type, `[data-type="${ type }"]` ).classList.toggle( "gsuiFxFilter-areaType-btnSelected", b );
+		GSUdomTogClass( GSUdomQS( this.$elements.$type, `[data-type="${ type }"]` ), "gsuiFxFilter-areaType-btnSelected", b );
 	}
 
 	// .........................................................................
@@ -110,7 +110,7 @@ class gsuiFxFilter extends gsui0ne {
 	#onclickType( e ) {
 		const type = e.target.dataset.type;
 
-		if ( type && !e.target.classList.contains( "gsuiFxFilter-areaType-btnSelected" ) ) {
+		if ( type && !GSUdomHasClass( e.target, "gsuiFxFilter-areaType-btnSelected" ) ) {
 			this.$dispatch( "changeProp", "type", type );
 		}
 	}
