@@ -115,7 +115,7 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.classList.add( "gsuiBlocksManager" );
+		GSUdomAddClass( this, "gsuiBlocksManager" );
 		this.append( this.#win );
 		this.#win.$appendPanel( this.uiKeys );
 		this.#win.$appendPanelDown( this.#propSelect );
@@ -279,10 +279,10 @@ class gsuiPianoroll extends gsui0ne {
 				this.#blockRedrawDragline( el );
 				break;
 			case "deleted":
-				el.classList.toggle( "gsuiBlocksManager-block-hidden", !!val );
+				GSUdomTogClass( el, "gsuiBlocksManager-block-hidden", !!val );
 				break;
 			case "selected":
-				el.classList.toggle( "gsuiBlocksManager-block-selected", !!val );
+				GSUdomTogClass( el, "gsuiBlocksManager-block-selected", !!val );
 				this.#uiSliderGroup.$setProp( el.dataset.id, "selected", !!val );
 				break;
 			case "row":
@@ -298,13 +298,13 @@ class gsuiPianoroll extends gsui0ne {
 			case "prev": {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
-				el.classList.toggle( "gsuiPianoroll-block-prevLinked", !!val );
+				GSUdomTogClass( el, "gsuiPianoroll-block-prevLinked", !!val );
 				blc && blc._dragline.linkTo( el._draglineDrop );
 			} break;
 			case "next": {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
-				el.classList.toggle( "gsuiPianoroll-block-nextLinked", !!val );
+				GSUdomTogClass( el, "gsuiPianoroll-block-nextLinked", !!val );
 				el._dragline.linkTo( blc && blc._draglineDrop );
 			} break;
 			case "pan":
@@ -347,7 +347,7 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
-		Array.from( this.#blcManager.$getRows() ).forEach( el => el.classList.toggle( "gsui-row-small", px <= 44 ) );
+		Array.from( this.#blcManager.$getRows() ).forEach( el => GSUdomTogClass( el, "gsui-row-small", px <= 44 ) );
 		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
