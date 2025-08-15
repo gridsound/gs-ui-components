@@ -57,6 +57,7 @@
 .gsuiIcon[ data-icon="br-firefox" ]::before { content: "\e007"; }
 .gsuiIcon[ data-icon="br-patreon" ]::before { content: "\f3d9"; }
 .gsuiIcon[ data-icon="br-twitter" ]::before { content: "\f099"; }
+.gsuiIcon[ data-icon="br-bluesky" ]::before { content: "\f15b"; }
 .gsuiIcon[ data-icon="br-youtube" ]::before { content: "\f167"; }
 .gsuiIcon[ data-icon="br-facebook" ]::before { content: "\f09a"; }
 .gsuiIcon[ data-icon="br-wordpress" ]::before { content: "\f411"; }
