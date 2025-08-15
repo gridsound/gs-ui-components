@@ -5,17 +5,18 @@
 /* .......................................................................... */
 .gsuiReorder-dropArea {
 	position: relative;
-}
-.gsuiReorder-dropArea::after {
-	content: "";
-	position: absolute;
-	z-index: 1;
-	inset: 0;
-	border-radius: inherit;
-	background-color: transparent;
-	opacity: .3;
-	animation: gsuiReorder-dropArea-anim .5s forwards ease;
-	animation-delay: inherit;
+
+	&::after {
+		content: "";
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		border-radius: inherit;
+		background-color: transparent;
+		opacity: .3;
+		animation: gsuiReorder-dropArea-anim .5s forwards ease;
+		animation-delay: inherit;
+	}
 }
 .gsuiReorder-dropArea-hover::after {
 	opacity: 1;
@@ -51,7 +52,8 @@
 	box-sizing: border-box;
 	border: inherit;
 	margin: -2px;
-}
-#gsuiReorder-fake-grip::before {
-	opacity: .4;
+
+	&::before {
+		opacity: .4;
+	}
 }
