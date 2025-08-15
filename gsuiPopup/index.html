@@ -64,20 +64,11 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-GSUdomQS( "gsui-com-button[text='alert']" ).onclick = () => {
-	GSUpopup.$alert( "Error 2025", "Should reboot everything!" )
-		.then( ( ...args ) => lg( "GSUpopup.$alert", args ) );
-};
-GSUdomQS( "gsui-com-button[text='confirm']" ).onclick = () => {
-	GSUpopup.$confirm( "Error 2025", "Should we reboot the system?" )
-		.then( ( ...args ) => lg( "GSUpopup.$confirm", args ) );
-};
-GSUdomQS( "gsui-com-button[text='prompt']" ).onclick = () => {
-	GSUpopup.$prompt( "Error 2025", "Name the new report:", "Lorem ipsum" )
-		.then( ( ...args ) => lg( "GSUpopup.$prompt", args ) );
-};
+GSUdomQS( "gsui-com-button[text='alert']"   ).onclick = () => GSUpopup.$alert(   "Error 2025", "Should reboot everything!"           ).then( lg.bind( null, "GSUpopup.$alert"   ) );
+GSUdomQS( "gsui-com-button[text='confirm']" ).onclick = () => GSUpopup.$confirm( "Error 2025", "Should we reboot the system?"        ).then( lg.bind( null, "GSUpopup.$confirm" ) );
+GSUdomQS( "gsui-com-button[text='prompt']"  ).onclick = () => GSUpopup.$prompt(  "Error 2025", "Name the new report:", "Lorem ipsum" ).then( lg.bind( null, "GSUpopup.$prompt"  ) );
 
-const customContent = (
+const customContent =
 	GSUcreateElement( "fieldset", { style: "display:flex; flex-direction:column; gap:6px" },
 		GSUcreateElement( "legend", null, "custom content" ),
 		GSUcreateLabel( { style: "display:flex; align-items:center" },
@@ -88,8 +79,7 @@ const customContent = (
 			GSUcreateSpan( { style: "width:100px" }, "password" ),
 			GSUcreateInput( { type: "password", name: "password", required: true, placeholder: "1234", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
 		),
-	)
-);
+	);
 
 GSUdomQS( "gsui-com-button[text='custom']" ).onclick = () => {
 	GSUpopup.$custom( {
@@ -98,7 +88,7 @@ GSUdomQS( "gsui-com-button[text='custom']" ).onclick = () => {
 		noOverlayCancel: true,
 		element: customContent,
 		submit: obj => obj.username.toLowerCase() === "neo" && obj.password === "1234",
-	} ).then( ( ...args ) => lg( "GSUpopup.$custom", args ) );
+	} ).then( lg.bind( null, "GSUpopup.$custom" ) );
 };
 
 // GSUdomQS( "gsui-com-button[text='custom']" ).click();

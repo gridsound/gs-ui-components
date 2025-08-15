@@ -1,14 +1,13 @@
 "use strict";
 
 GSUsetTemplate( "gsui-popup", () => [
-	GSUcreateDiv( { class: "gsuiPopup-overlay" } ),
-	GSUcreateDiv( { class: "gsuiPopup-window", tabindex: 0 },
+	GSUcreateElement( "dialog", { class: "gsuiPopup-window" },
 		GSUcreateDiv( { class: "gsuiPopup-head" } ),
 		GSUcreateElement( "form", { class: "gsuiPopup-body" },
 			GSUcreateDiv( { class: "gsuiPopup-content" } ),
 			GSUcreateDiv( { class: "gsuiPopup-message" } ),
 			GSUcreateInput( { class: "gsuiPopup-inputText", type: "text" } ),
-			GSUcreateDiv( { class: "gsuiPopup-btns" },
+			GSUcreateFlex( { x: true, xcenter: true, g10: true },
 				GSUcreateElement( "gsui-com-button", { class: "gsuiPopup-cancel", text: "Cancel" } ),
 				GSUcreateElement( "gsui-com-button", { class: "gsuiPopup-ok", text: "Ok", type: "submit" } ),
 			),

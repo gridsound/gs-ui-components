@@ -2,7 +2,6 @@
 
 class gsuiPopup extends gsui0ne {
 	#type = "";
-	#isOpen = false;
 	#resolve = null;
 	#fnSubmit = null;
 
@@ -19,25 +18,14 @@ class gsuiPopup extends gsui0ne {
 				$form: ".gsuiPopup-body",
 				$header: ".gsuiPopup-head",
 				$cancel: ".gsuiPopup-cancel",
-				$overlay: ".gsuiPopup-overlay",
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$overlay.onclick = () => {
-			if ( !GSUdomHasClass( this.$elements.$win, "gsuiPopup-noCancelOverlay" ) ) {
-				this.#cancelClick();
-			}
-		};
+		this.$elements.$win.onclose =
 		this.$elements.$cancel.onclick = this.#cancelClick.bind( this );
 		this.$elements.$form.onsubmit = this.#submit.bind( this );
-		this.$elements.$win.onkeyup =
-		this.$elements.$win.onclick = e => e.stopPropagation();
-		this.$elements.$win.onkeydown = e => {
-			e.stopPropagation();
-			if ( e.key === "Escape" ) {
-				this.#cancelClick();
-			}
-		};
+		this.onkeyup =
+		this.onkeydown = e => e.stopPropagation();
 	}
 
 	// .........................................................................
@@ -71,7 +59,7 @@ class gsuiPopup extends gsui0ne {
 		return this.#open( "custom", obj.title );
 	}
 	$close() {
-		if ( this.#isOpen ) {
+		if ( this.$elements.$win.open ) {
 			this.#cancelClick();
 		}
 	}
@@ -79,32 +67,30 @@ class gsuiPopup extends gsui0ne {
 	// .........................................................................
 	#setOkCancelBtns( ok, cancel, noOverlayCancel ) {
 		GSUdomTogClass( this.$elements.$win, "gsuiPopup-noCancel", cancel === false );
-		GSUdomTogClass( this.$elements.$win, "gsuiPopup-noCancelOverlay", noOverlayCancel === true );
+		GSUdomSetAttr( this.$elements.$win, "closedby", noOverlayCancel === true ? "none" : "any" );
 		GSUdomSetAttr( this.$elements.$cancel, "text", cancel || "Cancel" );
 		GSUdomSetAttr( this.$elements.$ok, "text", ok || "Ok" );
 	}
 	#open( type, title, msg, value ) {
 		this.#type = type;
-		this.#isOpen = true;
 		this.$elements.$header.textContent = title;
 		this.$elements.$msg.textContent = msg || "";
 		this.$elements.$text.value = arguments.length > 3 ? value : "";
 		this.$elements.$win.dataset.type = type;
-		GSUdomAddClass( this, "gsuiPopup-show" );
-		GSUsetTimeout( () => {
-			if ( type === "prompt" ) {
-				this.$elements.$text.select();
-			} else {
-				const inp = type !== "custom" ? null
-					: GSUdomQS( this.$elements.$cnt, "input, select" );
+		if ( type === "prompt" ) {
+			GSUdomSetAttr( this.$elements.$text, "autofocus" );
+			this.$elements.$text.select();
+		} else {
+			const inp = type !== "custom"
+				? null
+				: GSUdomQS( this.$elements.$cnt, "input,select" );
 
-				( inp || this.$elements.$ok ).focus();
-			}
-		}, .25 );
+			GSUdomSetAttr( inp || this.$elements.$ok.firstChild, "autofocus" );
+		}
+		this.$elements.$win.showModal();
 		return new Promise( res => this.#resolve = res )
 			.then( val => {
-				this.#isOpen = false;
-				GSUdomRmClass( this, "gsuiPopup-show" );
+				this.$elements.$win.close();
 				return val;
 			} );
 	}

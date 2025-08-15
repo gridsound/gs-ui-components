@@ -1,23 +1,6 @@
 gsui-popup {
 	--gsuiPopup-bg: #555;
 	--gsuiPopup-header-bg: #333;
-	display: flex;
-	position: fixed;
-	align-items: center;
-	justify-content: center;
-	inset: 0;
-	z-index: 2147483647;
-	color: #fff;
-}
-gsui-popup:not( .gsuiPopup-show ) {
-	visibility: hidden;
-}
-
-/* .......................................................................... */
-.gsuiPopup-overlay {
-	position: absolute;
-	inset: 0;
-	backdrop-filter: brightness( .5 ) grayscale( 1 ) blur( 2px );
 }
 
 /* .......................................................................... */
@@ -25,29 +8,32 @@ gsui-popup:not( .gsuiPopup-show ) {
 	position: relative;
 	overflow: hidden;
 	min-width: 250px;
+	border: 0;
+	outline: 0;
+	padding: 0;
 	border-radius: 4px;
 	background-color: var( --gsuiPopup-bg );
-	outline: 0;
 	box-shadow: 0 0 50px #000;
-	transition:
-		margin-top .2s,
-		opacity .5s;
-}
-gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
-	margin-top: -50px;
-	opacity: 0;
-}
-.gsuiPopup-window:focus-within {
-	box-shadow:
-		0 0 1px 2px #69b,
-		0 0 50px #000;
+
+	&:focus-within {
+		box-shadow:
+			0 0 1px 2px #69b,
+			0 0 50px #000;
+	}
+	&::backdrop {
+		backdrop-filter: none;
+		transition: backdrop-filter .2s;
+	}
+	&:open::backdrop {
+		backdrop-filter: brightness( .5 ) grayscale( 1 ) blur( 2px );
+
+		@starting-style {
+			backdrop-filter: none;
+		}
+	}
 }
 
-.gsuiPopup-noCancel .gsuiPopup-cancel,
-.gsuiPopup-noText .gsuiPopup-inputText {
-	display: none;
-}
-
+/* .......................................................................... */
 .gsuiPopup-head {
 	padding: 10px;
 	font-size: 16px;
@@ -57,40 +43,33 @@ gsui-popup:not( .gsuiPopup-show ) .gsuiPopup-window {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	font-size: 14px;
 	padding: 10px;
+	font-size: 14px;
 }
+.gsuiPopup-noCancel .gsuiPopup-cancel,
+.gsuiPopup-noText .gsuiPopup-inputText,
 .gsuiPopup-content:not( :empty ) + .gsuiPopup-message,
 .gsuiPopup-content:not( :empty ) ~ input,
 .gsuiPopup-content:empty,
 .gsuiPopup-message:empty {
 	display: none;
 }
-
-.gsuiPopup-inputText {
-	padding: .6em 1.25em;
-	border: 0;
-	border-radius: 4px;
-}
 .gsuiPopup-window input,
 .gsuiPopup-window select {
 	outline: 0;
-}
-.gsuiPopup-window input:focus,
-.gsuiPopup-window select:focus {
-	box-shadow: 0 0 1px 2px #69b;
+
+	&:focus {
+		box-shadow: 0 0 1px 2px #69b;
+	}
 }
 .gsuiPopup-inputText {
 	box-sizing: border-box;
+	border: 0;
+	border-radius: 4px;
 	padding: 8px;
 	width: 100%;
 	font-size: 14px;
 	height: 32px;
-}
-.gsuiPopup-btns {
-	display: flex;
-	justify-content: center;
-	gap: 10px;
 }
 
 /* .......................................................................... */

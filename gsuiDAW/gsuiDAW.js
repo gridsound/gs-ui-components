@@ -103,7 +103,7 @@ class gsuiDAW extends gsui0ne {
 			}
 			if ( d.status === "0" ) {
 				d.status = "1";
-				GSUdomAddClass( GSUdomQS( ".gsuiPopup-window" ), "gsuiPopup-noCancelOverlay" );
+				GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
 				this.$dispatch( "export" );
 			}
 		};
