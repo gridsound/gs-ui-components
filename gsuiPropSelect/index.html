@@ -54,6 +54,19 @@ GSUdomSetAttr( uiProp, "props", [
 	"wtpos1:1",
 	"wtpos2:2",
 ].join( " " ) );
+
+GSUsetTimeout( () => {
+	GSUdomSetAttr( uiProp, "props", [
+		"gain",
+		"pan",
+		"detune:pitch",
+		"lowpass:lp",
+		"highpass:hp",
+		"---osc-wavetables---",
+		"wtpos0:0",
+		"wtpos1:1",
+	].join( " " ) );
+}, 2 );
 </script>
 </body>
 </html>
