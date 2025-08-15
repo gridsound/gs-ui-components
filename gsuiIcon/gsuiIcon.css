@@ -14,13 +14,13 @@
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
-.gsuiIcon[ data-icon^="br-" ] {
+.gsuiIcon[ data-icon|="br" ] {
 	font-family: "FontAwesomeBrands";
 }
 .gsuiIcon::before {
 	pointer-events: none;
 }
-.gsuiIcon:not( [ data-icon^="br-" ] )::before {
+.gsuiIcon:not( [ data-icon|="br" ] )::before {
 	position: absolute;
 }
 .gsuiIcon::after {
