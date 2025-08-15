@@ -21,7 +21,7 @@ GSUsetTemplate( "gsui-daw-popup-about", () =>
 		),
 		GSUcreateDiv( { class: "gsuiDAW-popup-about-links" },
 			GSUcreateAExt( { title: "GitHub",   class: "gsuiIcon", "data-icon": "br-github",   href: "https://github.com/gridsound" } ),
-			GSUcreateAExt( { title: "Twitter",  class: "gsuiIcon", "data-icon": "br-twitter",  href: "https://twitter.com/gridsound" } ),
+			GSUcreateAExt( { title: "Bluesky",  class: "gsuiIcon", "data-icon": "br-bluesky",  href: "https://bsky.app/profile/gridsound.com" } ),
 			GSUcreateAExt( { title: "YouTube",  class: "gsuiIcon", "data-icon": "br-youtube",  href: "https://youtube.com/@gridsound" } ),
 			GSUcreateAExt( { title: "Facebook", class: "gsuiIcon", "data-icon": "br-facebook", href: "https://facebook.com/gridsound" } ),
 			GSUcreateAExt( { title: "CodePen",  class: "gsuiIcon", "data-icon": "br-codepen",  href: "https://codepen.io/gridsound" } ),
