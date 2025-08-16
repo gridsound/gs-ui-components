@@ -7,11 +7,12 @@ gsui-wavetable-graph {
 	color: var( --gsuiWavetableGraph-waves );
 	cursor: grab;
 	touch-action: none;
-}
-gsui-wavetable-graph svg {
-	position: absolute;
-	inset: 0;
-	stroke: currentColor;
+
+	svg {
+		position: absolute;
+		inset: 0;
+		stroke: currentColor;
+	}
 }
 
 /* .......................................................................... */
@@ -21,36 +22,39 @@ gsui-wavetable-graph svg {
 }
 
 /* .......................................................................... */
-.gsuiWavetableGraph-morph polyline:nth-child( even ) {
-	fill: none;
-	stroke-width: 3px;
-	stroke: var( --gsuiWavetableGraph-morph );
-}
-.gsuiWavetableGraph-morph polyline:nth-child( odd ) {
-	stroke: none;
-	fill: var( --gsuiWavetableGraph-morph );
-	fill-opacity: .4;
+.gsuiWavetableGraph-morph polyline {
+	&:nth-child( even ) {
+		fill: none;
+		stroke-width: 3px;
+		stroke: var( --gsuiWavetableGraph-morph );
+	}
+	&:nth-child( odd ) {
+		stroke: none;
+		fill: var( --gsuiWavetableGraph-morph );
+		fill-opacity: .4;
+	}
 }
 
 /* .......................................................................... */
-gsui-wavetable-graph:has( .gsuiWavetableGraph-morph polyline[ points ] ) .gsuiWavetableGraph-waves {
-	opacity: .5;
-}
-.gsuiWavetableGraph-waves polyline:nth-child( even ) {
-	fill: none;
-	stroke-width: 2px;
-	stroke: currentColor;
-}
-.gsuiWavetableGraph-waves polyline:nth-child( odd ) {
-	stroke: none;
-	fill: currentColor;
-	fill-opacity: .2;
-}
-.gsuiWavetableGraph-waves polyline:nth-child( even )[ data-selected ] {
-	color: var( --gsuiWavetableGraph-waves-selected );
-}
-.gsuiWavetableGraph-waves polyline:nth-child( odd )[ data-selected ] {
-	color: var( --gsuiWavetableGraph-waves-selected );
+.gsuiWavetableGraph-waves {
+	gsui-wavetable-graph:has( .gsuiWavetableGraph-morph polyline[ points ] ) & {
+		opacity: .5;
+	}
+	polyline {
+		&:nth-child( even ) {
+			fill: none;
+			stroke-width: 2px;
+			stroke: currentColor;
+		}
+		&:nth-child( odd ) {
+			stroke: none;
+			fill: currentColor;
+			fill-opacity: .2;
+		}
+		&[ data-selected ] {
+			color: var( --gsuiWavetableGraph-waves-selected );
+		}
+	}
 }
 
 /* .......................................................................... */
