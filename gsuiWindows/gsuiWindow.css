@@ -11,25 +11,26 @@ gsui-window {
 	border-radius: var( --gsuiWindow-radius );
 	transition: .2s;
 	transition-property: opacity, visibility;
-}
-gsui-window:not( [ show ] ) {
-	opacity: 0;
-	visibility: hidden;
-	pointer-events: none;
-}
-gsui-window:focus-within {
-	--gsuiWindow-title-opacity: 1;
-	--gsuiWindow-border: var( --gsui-win-brd-foc );
-}
-gsui-window[ maximized ] {
-	--gsuiWindow-radius: 0;
-	inset: 0 !important;
-	width: auto !important;
-	height: auto !important;
-	overflow: hidden;
-}
-gsui-window[ minimized ] {
-	height: 24px !important;
+
+	&:not( [ show ] ) {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+	&:focus-within {
+		--gsuiWindow-title-opacity: 1;
+		--gsuiWindow-border: var( --gsui-win-brd-foc );
+	}
+	&[ maximized ] {
+		--gsuiWindow-radius: 0;
+		inset: 0 !important;
+		width: auto !important;
+		height: auto !important;
+		overflow: hidden;
+	}
+	&[ minimized ] {
+		height: 24px !important;
+	}
 }
 .gsuiWindow-handlers::before,
 gsui-window:not( [ dragging ] ) {
@@ -44,17 +45,18 @@ gsui-window:not( [ dragging ] ) {
 	opacity: 0;
 	inset: 0;
 	margin: calc( var( --gsuiWindow-handler-width ) * -1 );
-}
-.gsuiWindow-handlers::before {
-	content: "";
-	z-index: 1;
-	position: absolute;
-	pointer-events: none;
-	border-radius: var( --gsuiWindow-radius );
-	inset: var( --gsuiWindow-handler-width );
-}
-gsui-window[ dragging ] .gsuiWindow-handlers {
-	opacity: 1;
+
+	&::before {
+		content: "";
+		z-index: 1;
+		position: absolute;
+		pointer-events: none;
+		border-radius: var( --gsuiWindow-radius );
+		inset: var( --gsuiWindow-handler-width );
+	}
+	gsui-window[ dragging ] & {
+		opacity: 1;
+	}
 }
 gsui-window[ maximized ] .gsuiWindow-handlers,
 gsui-window[ minimized ] .gsuiWindow-handler {
@@ -64,15 +66,16 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	position: absolute;
 	width: calc( var( --gsuiWindow-handler-width ) * 2 );
 	height: calc( var( --gsuiWindow-handler-width ) * 2 );
+
+	&[ data-dir="nw" ] { cursor: nw-resize; top: 0; left: 0; }
+	&[ data-dir="ne" ] { cursor: ne-resize; top: 0; right: 0; }
+	&[ data-dir="sw" ] { cursor: sw-resize; bottom: 0; left: 0; }
+	&[ data-dir="se" ] { cursor: se-resize; bottom: 0; right: 0; }
+	&[ data-dir="n" ] { cursor: n-resize; top: 0; width: 100%; }
+	&[ data-dir="w" ] { cursor: w-resize; left: 0; height: 100%; }
+	&[ data-dir="e" ] { cursor: e-resize; right: 0; height: 100%; }
+	&[ data-dir="s" ] { cursor: s-resize; bottom: 0; width: 100%; }
 }
-.gsuiWindow-handler[ data-dir="nw" ] { cursor: nw-resize; top: 0; left: 0; }
-.gsuiWindow-handler[ data-dir="ne" ] { cursor: ne-resize; top: 0; right: 0; }
-.gsuiWindow-handler[ data-dir="sw" ] { cursor: sw-resize; bottom: 0; left: 0; }
-.gsuiWindow-handler[ data-dir="se" ] { cursor: se-resize; bottom: 0; right: 0; }
-.gsuiWindow-handler[ data-dir="n" ] { cursor: n-resize; top: 0; width: 100%; }
-.gsuiWindow-handler[ data-dir="w" ] { cursor: w-resize; left: 0; height: 100%; }
-.gsuiWindow-handler[ data-dir="e" ] { cursor: e-resize; right: 0; height: 100%; }
-.gsuiWindow-handler[ data-dir="s" ] { cursor: s-resize; bottom: 0; width: 100%; }
 
 /* .......................................................................... */
 .gsuiWindow-wrap {
@@ -87,21 +90,23 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
 	background-color: var( --gsui-head2-bg );
-}
-gsui-window[ dragging ] .gsuiWindow-head {
-	cursor: move;
-}
-.gsuiWindow-minimized .gsuiWindow-head {
-	border-radius: inherit;
+
+	gsui-window[ dragging ] & {
+		cursor: move;
+	}
+	.gsuiWindow-minimized & {
+		border-radius: inherit;
+	}
 }
 .gsuiWindow-content {
 	position: absolute;
 	overflow: auto;
 	inset: var( --gsuiWindow-head-height ) 0 0;
 	background-color: var( --gsui-app-bg );
-}
-.gsuiWindow-minimized .gsuiWindow-content {
-	display: none;
+
+	.gsuiWindow-minimized & {
+		display: none;
+	}
 }
 
 /* .......................................................................... */
@@ -157,29 +162,29 @@ gsui-window[ dragging ] .gsuiWindow-head {
 	transition: .2s;
 	transition-property: opacity, background-color;
 	background: none;
-}
-.gsuiWindow-headBtn:focus-visible,
-.gsuiWindow-headBtn:hover {
-	opacity: 1;
-	background-color: rgba( 0, 0, 0, .1 );
-}
-.gsuiWindow-headBtn .gsuiIcon[ data-icon="compress" ],
-.gsuiWindow-headBtn .gsuiIcon[ data-icon="expand" ],
-.gsuiWindow-headBtn[ data-action="close" ] {
-	font-size: 12px;
-}
-.gsuiWindow-headBtn[ data-action="close" ]:focus-visible,
-.gsuiWindow-headBtn[ data-action="close" ]:hover {
-	background-color: var( --gsui-win-close );
-}
 
-gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="minimize" ],
-gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
-gsui-windows[ nominimize ] .gsuiWindow-headBtn[ data-action="maximize" ] .gsuiIcon[ data-icon="maximize" ],
-gsui-windows:not( [ nominimize ] ) .gsuiWindow-headBtn[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
-gsui-windows:not( [ nominimize ] ) .gsuiWindow-headBtn[ data-action="maximize" ] .gsuiIcon[ data-icon="expand" ],
-gsui-window[ minimized ] .gsuiWindow-headBtn[ data-action="minimize" ],
-gsui-window[ maximized ] .gsuiWindow-headBtn[ data-action="maximize" ],
-gsui-window:not( [ minimized ] ):not( [ maximized ] ) .gsuiWindow-headBtn[ data-action="restore" ] {
-	display: none;
+	&:focus-visible,
+	&:hover {
+		opacity: 1;
+		background-color: rgba( 0, 0, 0, .1 );
+	}
+	.gsuiIcon[ data-icon="compress" ],
+	.gsuiIcon[ data-icon="expand" ],
+	&[ data-action="close" ] {
+		font-size: 12px;
+	}
+	&[ data-action="close" ]:focus-visible,
+	&[ data-action="close" ]:hover {
+		background-color: var( --gsui-win-close );
+	}
+	gsui-windows[ nominimize ] &[ data-action="minimize" ],
+	gsui-windows[ nominimize ] &[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
+	gsui-windows[ nominimize ] &[ data-action="maximize" ] .gsuiIcon[ data-icon="maximize" ],
+	gsui-windows:not( [ nominimize ] ) &[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
+	gsui-windows:not( [ nominimize ] ) &[ data-action="maximize" ] .gsuiIcon[ data-icon="expand" ],
+	gsui-window[ minimized ] &[ data-action="minimize" ],
+	gsui-window[ maximized ] &[ data-action="maximize" ],
+	gsui-window:not( [ minimized ] ):not( [ maximized ] ) &[ data-action="restore" ] {
+		display: none;
+	}
 }
