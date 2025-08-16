@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiWaveEditor extends gsui0ne {
-	#gridSize = [ 1, 1 ];
+	#div = [ 1, 1 ];
 	#waveW = 0;
 	#waveH = 0;
 	#ptrDown = false;
@@ -53,8 +53,7 @@ class gsuiWaveEditor extends gsui0ne {
 				$wavePolyline: ".gsuiWaveEditor-wave polyline",
 			},
 			$attributes: {
-				"grid-x": 16,
-				"grid-y": 16,
+				div: "16 16",
 				tool: "goUp",
 			}
 		} );
@@ -114,8 +113,12 @@ class gsuiWaveEditor extends gsui0ne {
 		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
-				input: ( d, t ) => GSUdomSetAttr( this, GSUdomGetAttr( t.parentNode, "dir" ) === "x" ? "grid-x" : "grid-y", d.args[ 0 ] ),
 				change: GSUnoop,
+				input: ( d, t ) => {
+					GSUdomSetAttr( this, "div", GSUdomGetAttr( t.parentNode, "dir" ) === "x"
+						? `${ d.args[ 0 ] } ${ this.#div[ 1 ] }`
+						: `${ this.#div[ 0 ] } ${ d.args[ 0 ] }` );
+				},
 			},
 		} );
 	}
@@ -126,8 +129,8 @@ class gsuiWaveEditor extends gsui0ne {
 
 		this.#waveW = w | 0;
 		this.#waveH = h | 0;
-		this.#updateBeatlines( 0, this.#gridSize[ 0 ] );
-		this.#updateBeatlines( 1, this.#gridSize[ 1 ] );
+		this.#updateBeatlines( 0, this.#div[ 0 ] );
+		this.#updateBeatlines( 1, this.#div[ 1 ] );
 		this.#drawWaveThr();
 	}
 	$firstTimeConnected() {
@@ -135,17 +138,21 @@ class gsuiWaveEditor extends gsui0ne {
 		GSUdomRmAttr( this.$elements.$beatlines[ 1 ], "coloredbeats" );
 	}
 	static get observedAttributes() {
-		return [ "grid-x", "grid-y", "tool" ];
+		return [ "div", "tool" ];
 	}
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
-			case "grid-x": this.#updateGridSize( 0, val ); break;
-			case "grid-y": this.#updateGridSize( 1, val ); break;
 			case "tool":
 				GSUdomRmAttr( GSUdomQS( this, `button[data-tool="${ prev }"]` ), "data-selected" );
 				GSUdomSetAttr( GSUdomQS( this, `button[data-tool="${ val }"]` ), "data-selected" );
 				this.#toolSelected = val;
 				break;
+			case "div": {
+				const [ x, y ] = GSUsplitInts( val );
+
+				this.#updateGridSize( 0, x );
+				this.#updateGridSize( 1, y );
+			} break;
 		}
 	}
 
@@ -179,7 +186,7 @@ class gsuiWaveEditor extends gsui0ne {
 		] );
 	}
 	#getCoord( px, py ) {
-		const [ w, h ] = this.#gridSize;
+		const [ w, h ] = this.#div;
 
 		return [
 			GSUmathClamp( px / ( this.#waveW / w ) | 0, 0, w - 1 ),
@@ -196,15 +203,15 @@ class gsuiWaveEditor extends gsui0ne {
 				this.#waveArray,
 				this.#toolSelected,
 				...coord,
-				...this.#gridSize
+				...this.#div
 			);
 			if ( GSUdomHasAttr( this, "symmetry" ) ) {
 				gsuiWaveEditor.#clickSquare2(
 					this.#waveArray,
 					gsuiWaveEditor.#clickSquareFnsSymm[ this.#toolSelected ],
-					this.#gridSize[ 0 ] - 1 - coord[ 0 ],
-					this.#gridSize[ 1 ] - 1 - coord[ 1 ],
-					...this.#gridSize
+					this.#div[ 0 ] - 1 - coord[ 0 ],
+					this.#div[ 1 ] - 1 - coord[ 1 ],
+					...this.#div
 				);
 			}
 			this.#drawWave();
@@ -252,8 +259,8 @@ class gsuiWaveEditor extends gsui0ne {
 		const [ ix, iy ] = this.#getCoord( px, py );
 
 		GSUsetStyle( this.$elements.$hoverSquare, {
-			left: `${ ix / this.#gridSize[ 0 ] * 100 }%`,
-			top: `${ iy / this.#gridSize[ 1 ] * 100 }%`,
+			left: `${ ix / this.#div[ 0 ] * 100 }%`,
+			top: `${ iy / this.#div[ 1 ] * 100 }%`,
 		} );
 	}
 	#updateBeatlines( dir, sz ) {
@@ -264,7 +271,7 @@ class gsuiWaveEditor extends gsui0ne {
 		GSUdomSetAttr( bl, "timedivision", `1/${ sz }` );
 	}
 	#updateGridSize( dir, val ) {
-		this.#gridSize[ dir ] = +val;
+		this.#div[ dir ] = +val;
 		this.$elements.$gridVal[ dir ].textContent = val;
 		this.$elements.$hoverSquare.style[ dir ? "height" : "width" ] = `${ 1 / val * 100 }%`;
 		this.#updateBeatlines( dir, val );
