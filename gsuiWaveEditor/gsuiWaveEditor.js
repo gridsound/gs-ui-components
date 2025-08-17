@@ -59,8 +59,18 @@ class gsuiWaveEditor extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
-		this.$elements.$symmetryBtn.onclick = e => GSUdomTogAttr( this, "symmetry" );
-		this.$elements.$tools.onclick = e => e.target.dataset.tool && GSUdomSetAttr( this, "tool", e.target.dataset.tool );
+		this.$elements.$symmetryBtn.onclick = () => {
+			GSUdomTogAttr( this, "symmetry" );
+			this.$dispatch( "param", { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
+		};
+		this.$elements.$tools.onclick = e => {
+			const t = e.target.dataset.tool;
+
+			if ( t && GSUdomGetAttr( this, "tool" ) !== t ) {
+				GSUdomSetAttr( this, "tool", t );
+				this.$dispatch( "param", { tool: t } );
+			}
+		};
 		this.$elements.$wave.onpointerdown = e => {
 			if ( this.#waveArray ) {
 				this.#ptrDown = true;
@@ -113,7 +123,9 @@ class gsuiWaveEditor extends gsui0ne {
 		};
 		GSUlistenEvents( this, {
 			gsuiSlider: {
-				change: GSUnoop,
+				inputEnd: GSUnoop,
+				inputStart: GSUnoop,
+				change: () => this.$dispatch( "param", { div: GSUdomGetAttr( this, "div" ) } ),
 				input: ( d, t ) => {
 					GSUdomSetAttr( this, "div", GSUdomGetAttr( t.parentNode, "dir" ) === "x"
 						? `${ d.args[ 0 ] } ${ this.#div[ 1 ] }`
@@ -138,7 +150,7 @@ class gsuiWaveEditor extends gsui0ne {
 		GSUdomRmAttr( this.$elements.$beatlines[ 1 ], "coloredbeats" );
 	}
 	static get observedAttributes() {
-		return [ "div", "tool" ];
+		return [ "div", "tool" ]; // + symmetry
 	}
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
