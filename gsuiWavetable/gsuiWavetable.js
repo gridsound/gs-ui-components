@@ -70,6 +70,14 @@ class gsuiWavetable extends gsui0ne {
 		GSUlistenEvents( this, {
 			gsuiWaveEditor: {
 				change: d => this.#onchange( { waves: { [ this.#waveSelected ]: { curve: d.args[ 0 ] } } } ),
+				param: d => {
+					if ( !this.#waveNull ) {
+						d.target = this;
+						d.component = "gsuiWavetable";
+						d.eventName = "changeWavetableParams";
+						return true;
+					}
+				},
 			},
 			gsuiDotline: {
 				inputstart: ( { args: [ d ] } ) => this.$elements.$wtGraph.$setMorphingWaveAt( d.$data[ d.$dotId ].y ),
@@ -124,6 +132,9 @@ class gsuiWavetable extends gsui0ne {
 		if ( !obj ) {
 			return obj;
 		}
+		if ( obj.div ) { GSUdomSetAttr( this.$elements.$editor, "div", obj.div ); }
+		if ( obj.tool ) { GSUdomSetAttr( this.$elements.$editor, "tool", obj.tool ); }
+		if ( obj.symmetry ) { GSUdomSetAttr( this.$elements.$editor, "symmetry", obj.symmetry ); }
 		GSUforEach( obj.waves, ( w, wId ) => {
 			if ( !w ) {
 				toSort = true;
