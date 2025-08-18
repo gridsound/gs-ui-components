@@ -8,7 +8,7 @@ const gsuiOscillator_defaultWaves = {
 };
 
 class gsuiOscillator extends gsui0ne {
-	$askWaveCustomData = GSUnoop;
+	$askWavetableData = GSUnoop;
 	#timeidType = null;
 	#typeSaved = "";
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), .1 );
@@ -273,9 +273,12 @@ class gsuiOscillator extends gsui0ne {
 	// .........................................................................
 	#openWavetable( b ) {
 		if ( b ) {
+			const wtData = this.$askWavetableData();
+
 			this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
 			this.$elements.$wavetableWrap.append( this.#elWavetable );
-			this.#elWavetable.$change( this.$askWaveCustomData() );
+			this.#elWavetable.$change( wtData[ 0 ] );
+			this.#elWavetable.$isRealData( wtData[ 1 ] );
 		} else {
 			GSUsetStyle( this, "transition", "" );
 			this.#elWavetable.remove();
