@@ -94,6 +94,7 @@ class gsuiOscillator extends gsui0ne {
 				changeWavetable: redirEv,
 				changeWavetableCurve: redirEv,
 				selectWavetableCurve: redirEv,
+				changeWavetableParams: redirEv,
 			},
 		} );
 	}
