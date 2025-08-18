@@ -123,11 +123,13 @@ class gsuiWavetable extends gsui0ne {
 		GSUemptyElement( this.$elements.$wtposWavelines );
 		this.#data = {};
 	}
+	$isRealData( b ) {
+		this.#waveNull = !b;
+	}
 	$change( obj ) {
 		const wavesToUpdate = [];
 		const curvesToUpdate = [];
 		let toSort = false;
-		let toSelect = null;
 
 		if ( !obj ) {
 			return obj;
@@ -141,7 +143,6 @@ class gsuiWavetable extends gsui0ne {
 				this.#wtwaves_removeWave( wId );
 			} else if ( !( wId in this.#data.waves ) ) {
 				wavesToUpdate.push( wId );
-				toSelect = wId;
 				toSort = true;
 				this.#wtwaves_addWave( wId, w );
 			} else {
@@ -175,8 +176,8 @@ class gsuiWavetable extends gsui0ne {
 			this.#wtwaves_updateWavesOrder();
 		}
 		GSUdiffAssign( this.#data, obj );
-		if ( toSelect ) {
-			this.#wtwaves_selectWave( toSelect );
+		if ( obj.wave ) {
+			this.#wtwaves_selectWave( obj.wave );
 		}
 		wavesToUpdate.forEach( id => this.#wtwaves_updatePreview( id ) );
 		curvesToUpdate.forEach( id => this.#wtposCurve_updatePreview( id ) );
@@ -189,8 +190,18 @@ class gsuiWavetable extends gsui0ne {
 	#onchange( obj ) {
 		const obj2 = !this.#waveNull ? obj : GSUdeepAssign( GSUdeepCopy( this.#data ), obj );
 
+		if ( this.#waveNull ) {
+			const editor = this.$elements.$editor;
+
+			obj2.div = GSUdomGetAttr( editor, "div" );
+			obj2.tool = GSUdomGetAttr( editor, "tool" );
+			obj2.symmetry = GSUdomHasAttr( editor, "symmetry" );
+		}
 		this.$dispatch( "changeWavetable", this.$change( obj2 ) );
 		this.#waveNull = false;
+		if ( obj2.wave ) {
+			this.#wtwaves_selectWave( obj2.wave );
+		}
 	}
 	#onreorderWaves( obj ) {
 		const elWavesSorted = Array.from( this.$elements.$waves.children ).sort( ( a, b ) => a.style.order - b.style.order );
@@ -211,26 +222,47 @@ class gsuiWavetable extends gsui0ne {
 	// .........................................................................
 	#execWaveAction( wId, act ) {
 		switch ( act ) {
-			case "select": this.#wtwaves_selectWave( wId ); break;
+			case "select":
+				if ( Object.keys( this.#data.waves ).length > 1 ) {
+					this.#waveNull = false;
+				}
+				this.#wtwaves_selectWave( wId );
+				break;
 			case "clone":
 				this.#onchange( gsuiWavetable.#createCloneObj( this.#data.waves, wId ) );
 				break;
 			case "remove":
 				if ( Object.keys( this.#data.waves ).length > 1 ) {
-					this.#onchange( gsuiWavetable.#createRemoveObj( this.#data.waves, wId ) );
+					this.#onchange( gsuiWavetable.#createRemoveObj( this.#data.waves, this.#waveSelected, wId ) );
 				}
 				break;
 		}
 	}
 	static #createCloneObj( wavesData, wId ) {
 		const wNew = GSUdeepCopy( wavesData[ wId ] );
-		const waves = { [ GSUgetNewId( wavesData ) ]: wNew };
+		const wIdNew = GSUgetNewId( wavesData );
+		const waves = { [ wIdNew ]: wNew };
 
 		wNew.index += .000000001;
-		return { waves: gsuiWavetable.#createReorderingIndex( waves, wavesData ) };
+		return {
+			wave: wIdNew,
+			waves: gsuiWavetable.#createReorderingIndex( waves, wavesData ),
+		};
 	}
-	static #createRemoveObj( wavesData, wId ) {
-		return { waves: gsuiWavetable.#createReorderingIndex( { [ wId ]: undefined }, wavesData ) };
+	static #createRemoveObj( wavesData, waveSelected, wId ) {
+		const obj = {};
+
+		if ( wId === waveSelected ) {
+			const list = Object.entries( wavesData ).sort( ( a, b ) => a[ 1 ].index - b[ 1 ].index );
+			const order = list.findIndex( kv => kv[ 0 ] === wId );
+			const wNew = list[ order + 1 ] || list[ order - 1 ];
+
+			if ( wNew ) {
+				obj.wave = wNew[ 0 ];
+			}
+		}
+		obj.waves = gsuiWavetable.#createReorderingIndex( { [ wId ]: undefined }, wavesData );
+		return obj;
 	}
 	static #createReorderingIndex( wavesObj, wavesData ) {
 		const wavesCpy = GSUdiffAssign( GSUdeepCopy( wavesData ), wavesObj );
@@ -291,15 +323,6 @@ class gsuiWavetable extends gsui0ne {
 
 		w?.remove();
 		elWLine?.remove();
-		if ( wId === this.#waveSelected ) {
-			const list = Object.entries( this.#data.waves ).sort( ( a, b ) => a[ 1 ].index - b[ 1 ].index );
-			const order = list.findIndex( kv => kv[ 0 ] === wId );
-			const wNew = list[ order + 1 ] || list[ order - 1 ];
-
-			if ( wNew ) {
-				this.#wtwaves_selectWave( wNew[ 0 ] );
-			}
-		}
 		this.#wtwaves_updateWavesOrder();
 	}
 	#wtwaves_selectWave( wId ) {
@@ -321,6 +344,9 @@ class gsuiWavetable extends gsui0ne {
 			elW.dataset.selected = "";
 			GSUdomQS( this, `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` ).dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$waves );
+			if ( !this.#waveNull ) {
+				this.$dispatch( "changeWavetableParams", { wave: wId } );
+			}
 		}
 	}
 
