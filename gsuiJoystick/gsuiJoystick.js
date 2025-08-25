@@ -17,10 +17,12 @@ class gsuiJoystick extends gsui0ne {
 		gsuiRipple.$init( this );
 	}
 	$onptrdown( e ) {
+		GSUdomSetAttr( this, "moving" );
 		this.#moveJoystick( e );
 		this.$dispatch( "start", ...this.#coord );
 	}
 	$onptrup( e ) {
+		GSUdomRmAttr( this, "moving" );
 		this.$dispatch( "end", ...this.#coord );
 	}
 	$onptrmove( e ) {
