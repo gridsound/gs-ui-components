@@ -8,7 +8,7 @@
 	width: 120%;
 	padding-top: 120%;
 	border-radius: 50%;
-	background-color: #fff;
+	background-color: var( --gsuiRipple-bg, #fff );
 	opacity: .6;
 	transform: scale( 0 );
 	transition-duration: 0s;
