@@ -46,8 +46,8 @@
 }
 
 @keyframes gsuiIcon-spin {
-	from { transform: rotate( 0deg ); }
-	to { transform: rotate( 360deg ); }
+	from { rotate: 0deg; }
+	to { rotate: 360deg; }
 }
 
 /* .......................................................................... */
@@ -218,8 +218,8 @@
 .gsuiIcon[ data-icon="drums" ]::after { content: "\10f2a1"; }
 .gsuiIcon[ data-icon="mixer" ]::before { content: "\f3f1"; }
 .gsuiIcon[ data-icon="mixer" ]::after { content: "\10f3f1"; }
-.gsuiIcon[ data-icon="channels" ]::before { content: "\f828"; transform: rotate( -90deg ); }
-.gsuiIcon[ data-icon="channels" ]::after { content: "\10f828"; transform: rotate( -90deg ); }
+.gsuiIcon[ data-icon="channels" ]::before { content: "\f828"; rotate: -90deg; }
+.gsuiIcon[ data-icon="channels" ]::after { content: "\10f828"; rotate: -90deg; }
 .gsuiIcon[ data-icon="music" ]::before { content: "\f001"; }
 .gsuiIcon[ data-icon="music" ]::after { content: "\10f001"; }
 .gsuiIcon[ data-icon="musics" ]::before { content: "\f8c9"; }
@@ -298,15 +298,13 @@
 .gsuiIcon[ data-icon="cut" ]::after { content: "\10f0c4"; }
 .gsuiIcon[ data-icon="clone" ]::before { content: "\f24d"; }
 .gsuiIcon[ data-icon="clone" ]::after { content: "\10f24d"; }
-.gsuiIcon[ data-icon="slices" ]::before { content: "\f160"; transform: rotate( -90deg ); }
-.gsuiIcon[ data-icon="slices" ]::after { content: "\10f160"; transform: rotate( -90deg ); }
+.gsuiIcon[ data-icon="slices" ]::before { content: "\f160"; rotate: -90deg; }
+.gsuiIcon[ data-icon="slices" ]::after { content: "\10f160"; rotate: -90deg; }
 
-.gsuiIcon[ data-icon="drumcut" ] { transform: rotate( 90deg ); }
-.gsuiIcon[ data-icon="drumcut" ]::before { content: "\f052"; }
-.gsuiIcon[ data-icon="drumcut" ]::after { content: "\10f052"; }
-.gsuiIcon[ data-icon="drumprops" ] { transform: rotate( -90deg ); }
-.gsuiIcon[ data-icon="drumprops" ]::before { content: "\f884"; }
-.gsuiIcon[ data-icon="drumprops" ]::after { content: "\10f884"; }
+.gsuiIcon[ data-icon="drumcut" ]::before { content: "\f052"; rotate: 90deg; }
+.gsuiIcon[ data-icon="drumcut" ]::after { content: "\10f052"; rotate: 90deg; }
+.gsuiIcon[ data-icon="drumprops" ]::before { content: "\f884"; rotate: -90deg; }
+.gsuiIcon[ data-icon="drumprops" ]::after { content: "\10f884"; rotate: -90deg; }
 
 .gsuiIcon[ data-icon="smiley" ]::before { content: "\f581"; opacity: 0; }
 .gsuiIcon[ data-icon="smiley" ]::after { content: "\10f581"; opacity: 1; }
