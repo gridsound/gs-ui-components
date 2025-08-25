@@ -53,6 +53,6 @@ class gsuiRipple {
 				GSUdomRmAttr( el, "data-ripple-active" );
 				circ.remove();
 			}, .7 );
-		}, .1 );
+		}, .01 );
 	}
 }
