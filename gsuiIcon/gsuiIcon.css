@@ -81,14 +81,6 @@
 .gsuiIcon[ data-icon="arrows-h2" ]::after { content: "\10f362"; }
 .gsuiIcon[ data-icon="arrow-levelleftdown" ]::before { content: "\f3be"; transform: scale( -1, 1 ); }
 .gsuiIcon[ data-icon="arrow-levelleftdown" ]::after { content: "\10f3be"; transform: scale( -1, 1 ); }
-.gsuiIcon[ data-icon="arrow-dropdown" ]::before { content: "\f34a"; }
-.gsuiIcon[ data-icon="arrow-dropdown" ]::after { content: "\10f34a"; }
-.gsuiIcon[ data-icon="arrow-dropdown" ][ animate ]::before { animation: gsuiIcon-arrow-dropdown-anim .2s infinite alternate; }
-
-@keyframes gsuiIcon-arrow-dropdown-anim {
-	from { transform: translateY( 0 ); }
-	to { transform: translateY( -2px ); }
-}
 
 .gsuiIcon[ data-icon="sort" ]::before { content: "\f0dc"; }
 .gsuiIcon[ data-icon="sort" ]::after { content: "\10f0dc"; }
