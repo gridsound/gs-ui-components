@@ -42,7 +42,7 @@ gsui-effect[ enable ] {
 }
 gsui-effect[ expanded ] .gsuiEffect-expand::before,
 gsui-effect[ expanded ] .gsuiEffect-expand::after {
-	transform: rotate( 90deg );
+	rotate: 90deg;
 }
 .gsuiEffect-remove {
 	margin-left: auto;

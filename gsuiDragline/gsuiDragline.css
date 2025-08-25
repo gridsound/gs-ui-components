@@ -84,5 +84,5 @@
 	border-radius: var( --gsuiDragline-dotRad );
 }
 .gsuiDragline-dropActive:hover::before {
-	transform: scale( 2 );
+	scale: 2;
 }

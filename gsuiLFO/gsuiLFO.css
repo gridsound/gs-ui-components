@@ -174,7 +174,7 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	background-color: var( --gsuiLFO-input-col );
 }
 .gsuiLFO-typeSVG path {
-	transform: scale( .6 );
+	scale: .6;
 	transform-origin: center;
 }
 

@@ -41,11 +41,11 @@
 }
 .gsuiPianoroll-block:hover      .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
 .gsuiPianoroll-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
-	transform: translateX( 2px );
+	translate: 2px 0;
 }
 .gsuiPianoroll-block:hover      .gsuiDragline-linked .gsuiDragline-to,
 .gsuiPianoroll-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
-	transform: translateX( -2px );
+	translate: -2px 0;
 }
 
 /* .......................................................................... */

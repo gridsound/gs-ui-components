@@ -37,16 +37,15 @@
 	left: 50%;
 	width: 8px;
 	height: 8px;
+	rotate: 45deg;
 	margin-top: -4px;
 	margin-left: -4px;
 	border: var( --brd );
 	border-right: 0;
 	border-bottom: 0;
 	border-radius: 2px 0 0 0;
-	background-color: var( --bg-color );
 	background-color: var( --brd-color );
-	transform: rotate( 45deg );
 }
 .gsuiDropdown[ data-dir^="top" ] .gsuiDropdown-arrow {
-	transform: rotate( 225deg );
+	rotate: 225deg;
 }

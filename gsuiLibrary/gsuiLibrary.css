@@ -73,7 +73,7 @@ gsui-library {
 	opacity: .5;
 }
 .gsuiLibrary-sep-expanded .gsuiIcon {
-	transform: rotate( 90deg );
+	rotate: 90deg;
 }
 
 /* .......................................................................... */

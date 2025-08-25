@@ -131,7 +131,7 @@ class gsuiSlider extends gsui0ne {
 
 			if ( this.#circ ) {
 				GSUsetStyle( this.$elements.$svgLineColor, {
-					transform: `rotate(${ 90 + prcmin * 360 }deg)`,
+					rotate: `${ 90 + prcmin * 360 }deg`,
 					strokeDasharray: `${ prclen * this.#svgLineLen }, 999999`,
 				} );
 			} else {

@@ -6,16 +6,16 @@
 	position: absolute;
 	margin: -60%;
 	width: 120%;
+	scale: 0;
 	padding-top: 120%;
 	border-radius: 50%;
 	background-color: var( --gsuiRipple-bg, #fff );
 	opacity: .6;
-	transform: scale( 0 );
 	transition-duration: 0s;
 }
 .gsuiRipple[ data-ripple-active ] .gsuiRipple-circle {
-	transform: scale( 2 );
+	scale: 2;
 	opacity: 0;
 	transition-duration: .7s;
-	transition-property: opacity, transform;
+	transition-property: opacity, scale;
 }

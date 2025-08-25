@@ -242,17 +242,17 @@ gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom
 .gsuiOscillator-wavetable {
 	position: absolute;
 	inset: 0 0 0 20px;
+	scale: .8;
 	background-color: var( --gsui-item-bg );
 	opacity: 0;
 	visibility: hidden;
-	transform: scale( .8 );
 	transition: .2s;
-	transition-property: opacity, visibility, transform;
+	transition-property: opacity, visibility, scale;
 }
 gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
+	scale: 1;
 	opacity: 1;
 	visibility: visible;
-	transform: scale( 1 );
 }
 
 /* .......................................................................... */
