@@ -10,10 +10,12 @@ class gsuiJoystick extends gsui0ne {
 			$template: GSUcreateElement( "div", { inert: true } ),
 		} );
 		Object.seal( this );
-		gsuiRipple.$init( this );
 	}
 
 	// .........................................................................
+	$firstTimeConnected() {
+		gsuiRipple.$init( this );
+	}
 	$onptrdown( e ) {
 		this.#moveJoystick( e );
 		this.$dispatch( "start", ...this.#coord );
