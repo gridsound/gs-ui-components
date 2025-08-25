@@ -12,7 +12,6 @@
 	opacity: .6;
 	transform: scale( 0 );
 	transition-duration: 0s;
-	pointer-events: none;
 }
 .gsuiRipple[ data-ripple-active ] .gsuiRipple-circle {
 	transform: scale( 2 );

@@ -35,7 +35,7 @@ class gsuiRipple {
 	static #exec( e, x, y ) {
 		const el = e.currentTarget;
 		const obj = gsuiRipple.#map.get( el );
-		const circ = GSUcreateSpan( { class: "gsuiRipple-circle", style: {
+		const circ = GSUcreateSpan( { class: "gsuiRipple-circle", inert: true, style: {
 			left: `${ x * 100 }%`,
 			top: `${ y * 100 }%`,
 		} } );
