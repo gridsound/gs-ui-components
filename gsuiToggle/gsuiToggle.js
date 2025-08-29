@@ -10,19 +10,18 @@ class gsuiToggle extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.oncontextmenu = GSUnoopFalse;
-		this.onmousedown = e => {
-			if ( e.button === 2 ) {
-				this.$dispatch( "toggleSolo" );
-			} else if ( e.button === 0 ) {
-				const off = GSUdomHasAttr( this, "off" );
-
-				GSUdomSetAttr( this, "off", !off );
-				this.$dispatch( "toggle", off );
-			}
-		};
+		this.onmousedown = this.#onmousedown.bind( this );
 	}
 	$isOn() {
 		return !GSUdomHasAttr( this, "off" );
+	}
+	#onmousedown( e ) {
+		if ( e.button === 2 ) {
+			this.$dispatch( "toggleSolo" );
+		} else if ( e.button === 0 ) {
+			GSUdomTogAttr( this, "off" );
+			this.$dispatch( "toggle", this.$isOn() );
+		}
 	}
 }
 
