@@ -27,26 +27,14 @@ class gsuiEffects extends gsui0ne {
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
 			$itemGripSelector: ".gsuiEffect-grip",
-			$onchange: ( obj, fxId ) => GSUdomDispatch( this, "gsuiEffects-reorderEffect", fxId, obj ),
+			$onchange: ( obj, fxId ) => GSUdomDispatch( this, GSEV_EFFECTS_REORDEREFFECT, fxId, obj ),
 		} );
 		GSUdomListen( this, {
-			"gsuiEffect-remove": d => GSUdomDispatch( this, "gsuiEffects-removeEffect", d.$target.dataset.id ),
-			"gsuiEffect-toggle": d => GSUdomDispatch( this, "gsuiEffects-toggleEffect", d.$target.dataset.id ),
-			"gsuiEffect-fx-liveChange": d => {
-				d.$args.unshift( d.$target.dataset.id );
-				d.$event = "gsuiEffects-liveChangeEffect";
-				return true;
-			},
-			"gsuiEffect-fx-changeProp": d => {
-				d.$args.unshift( d.$target.dataset.id );
-				d.$event = "gsuiEffects-changeEffectProp";
-				return true;
-			},
-			"gsuiEffect-fx-changeProps": d => {
-				d.$args.unshift( d.$target.dataset.id );
-				d.$event = "gsuiEffects-changeEffect";
-				return true;
-			},
+			[ GSEV_EFFECT_REMOVE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_REMOVEEFFECT, d.$target.dataset.id ),
+			[ GSEV_EFFECT_TOGGLE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_TOGGLEEFFECT, d.$target.dataset.id ),
+			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_LIVECHANGEEFFECT, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECTPROP, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECT, d.$target.dataset.id, ...d.$args ),
 		} );
 	}
 
@@ -104,7 +92,7 @@ class gsuiEffects extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn );
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( act => GSUdomDispatch( this, "gsuiEffects-addEffect", act ) );
+		this.#actionMenu.$setCallback( act => GSUdomDispatch( this, GSEV_EFFECTS_ADDEFFECT, act ) );
 		this.#actionMenu.$setActions( [
 			{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
 			{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },

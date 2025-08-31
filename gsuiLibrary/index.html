@@ -63,11 +63,11 @@ elLib.$bookmarkSample( "clap-013", true );
 elLib.$bookmarkSample( "hat-003", true );
 elLib.$bookmarkSample( "crash-001", true );
 GSUdomListen( elLib, {
-	"gsuiLibrary-loadSample": ( _, smp ) => {
+	[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
 		elLib.$loadSample( smp );
 		GSUsetTimeout( () => elLib.$readySample( smp ), 1 );
 	},
-	"gsuiLibrary-playSample": ( _, smp ) => {
+	[ GSEV_LIBRARY_PLAYSAMPLE ]: ( _, smp ) => {
 		elLib.$playSample( smp, 1 );
 	},
 } );

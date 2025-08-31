@@ -40,7 +40,7 @@ class gsuiStepSelect extends gsui0ne {
 		const step = gsuiStepSelect.#nextStep( this.#step );
 
 		GSUdomSetAttr( this, "step", step );
-		GSUdomDispatch( this, "gsuiStepSelect-onchange", step );
+		GSUdomDispatch( this, GSEV_STEPSELECT_ONCHANGE, step );
 	}
 	static #nextStep( v ) {
 		return (

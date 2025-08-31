@@ -30,27 +30,27 @@ class gsuiChannel extends gsui0ne {
 		this.$analyser = this.$elements.$analyser;
 		this.$analyser.onclick =
 		this.$elements.$nameWrap.onclick = () => {
-			GSUdomDispatch( this, "gsuiChannel-selectChannel" );
+			GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL );
 		};
 		this.$elements.$effects.onclick = e => {
 			if ( e.target.dataset.id ) {
-				GSUdomDispatch( this, "gsuiChannel-selectChannel" );
-				GSUdomDispatch( this, "gsuiChannel-selectEffect", e.target.dataset.id );
+				GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL );
+				GSUdomDispatch( this, GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
 			}
 		};
 		GSUdomListen( this, {
-			"gsuiToggle-toggle": ( d, b ) => {
+			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				GSUdomSetAttr( this, "muted", !b );
-				GSUdomDispatch( this, "gsuiChannel-toggle", b );
+				GSUdomDispatch( this, GSEV_CHANNEL_TOGGLE, b );
 			},
-			"gsuiToggle-toggleSolo": () => {
+			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
 				GSUdomRmAttr( this, "muted" );
-				GSUdomDispatch( this, "gsuiChannel-toggleSolo" );
+				GSUdomDispatch( this, GSEV_CHANNEL_TOGGLESOLO );
 			},
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-input": ( d, val ) => GSUdomDispatch( this, "gsuiChannel-liveChange", d.$target.dataset.prop, val ),
-			"gsuiSlider-change": ( d, val ) => GSUdomDispatch( this, "gsuiChannel-change", d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => GSUdomDispatch( this, GSEV_CHANNEL_LIVECHANGE, d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_CHANNEL_CHANGE, d.$target.dataset.prop, val ),
 		} );
 	}
 

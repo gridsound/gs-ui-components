@@ -60,14 +60,14 @@ class gsuiDotline extends gsui0ne {
 			{ id: "squareWave",   icon: "radio-btn", name: "square-wave" },
 		] );
 		GSUdomListen( this, {
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-input": ( _, val ) => {
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
 				this.#data[ this.#activeDotId ].val = val;
 				this.#drawPolyline();
 				this.#oninput( "curve" );
 			},
-			"gsuiSlider-change": ( _, val ) => {
+			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => {
 				this.#data[ this.#activeDotId ].val = val;
 				this.#drawPolyline();
 				this.#onchange( { [ this.#activeDotId ]: { val } } );
@@ -213,29 +213,29 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#oninput( tar ) {
-		GSUdomDispatch( this, "gsuiDotline-input", {
+		GSUdomDispatch( this, GSEV_DOTLINE_INPUT, {
 			$target: tar,
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputstart() {
-		GSUdomDispatch( this, "gsuiDotline-inputstart", {
+		GSUdomDispatch( this, GSEV_DOTLINE_INPUTSTART, {
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputend() {
-		GSUdomDispatch( this, "gsuiDotline-inputend" );
+		GSUdomDispatch( this, GSEV_DOTLINE_INPUTEND );
 	}
 	#onchange( obj ) {
 		if ( obj ) {
-			GSUdomDispatch( this, "gsuiDotline-change", obj );
+			GSUdomDispatch( this, GSEV_DOTLINE_CHANGE, obj );
 		} else {
 			const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
 			if ( diff ) {
-				GSUdomDispatch( this, "gsuiDotline-change", diff );
+				GSUdomDispatch( this, GSEV_DOTLINE_CHANGE, diff );
 			}
 		}
 	}

@@ -94,7 +94,7 @@ slicer.$addSlice(  6, { x: .750, y: .750, w: .125 } );
 slicer.$addSlice(  7, { x: .875, y: .875, w: .125 } );
 
 GSUdomListen( slicer, {
-	"gsuiSlicer-changeProp": ( _, prop, val ) => {
+	[ GSEV_SLICER_CHANGEPROP ]: ( _, prop, val ) => {
 		playSampleBtn.onclick();
 		playSampleBtn.onclick();
 		if ( prop === "duration" ) {

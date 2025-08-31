@@ -42,10 +42,11 @@ class gsuiPatternroll extends gsui0ne {
 		this.timeline = this.#win.timeline;
 		Object.seal( this );
 		GSUdomListen( this, {
-			"gsuiTimewindow-pxperbeat": ( d, px ) => this.#ongsuiTimewindowPxperbeat( px ),
-			"gsuiTimewindow-lineheight": ( d, px ) => this.#ongsuiTimewindowLineheight( px ),
-			"gsuiBlocksManager-startPreviewAudio": GSUnoop,
-			"gsuiBlocksManager-stopPreviewAudio": GSUnoop,
+			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( d, px ) => this.#ongsuiTimewindowPxperbeat( px ),
+			[ GSEV_TIMEWINDOW_LINEHEIGHT ]: ( d, px ) => this.#ongsuiTimewindowLineheight( px ),
+			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: GSUnoop,
+			[ GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO ]: GSUnoop,
+			[ GSEV_TIMELINE_INPUTLOOP ]: GSUnoop,
 		} );
 		this.#ongsuiTimewindowPxperbeat( 32 );
 		this.#ongsuiTimewindowLineheight( 40 );

@@ -46,12 +46,14 @@ class gsuiFxWaveShaper extends gsui0ne {
 			}
 		};
 		GSUdomListen( this, {
-			"gsuiDotline-change": ( _, obj ) => GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "curve", obj ),
-			"gsuiDotline-input": ( _, obj ) => {
+			[ GSEV_DOTLINE_INPUTEND ]: GSUnoop,
+			[ GSEV_DOTLINE_INPUTSTART ]: GSUnoop,
+			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "curve", obj ),
+			[ GSEV_DOTLINE_INPUT ]: ( _, obj ) => {
 				this.#updateWaveB();
-				GSUdomDispatch( this, "gsuiEffect-fx-liveChange", "curve", obj.$data );
+				GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
 			},
-			"gsuiToggle-toggle": ( d, b ) => {
+			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				lg("waveshaper.gsuiToggle-toggle", d.$target.dataset.prop);
 				switch ( d.$target.dataset.prop ) {
 					case "oversample": this.#onchangeOversample(); break;
@@ -109,7 +111,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		);
 
 		if ( diff ) {
-			GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "curve", diff );
+			GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "curve", diff );
 		}
 	}
 	#onchangeOversample() {
@@ -117,7 +119,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			? this.$elements.$oversampleSelect.value
 			: "none";
 
-		GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "oversample", val );
+		GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "oversample", val );
 	}
 	#onchangeSymmetry( symmetry ) {
 		const curve = {};
@@ -137,7 +139,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			curve[ GSUgetNewId( srcData ) ] = { ...srcData[ 0 ] };
 			curve[ 0 ] = { x: -1, y: -1 };
 		}
-		GSUdomDispatch( this, "gsuiEffect-fx-changeProps", "symmetry", obj );
+		GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROPS, "symmetry", obj );
 	}
 	#updateWaveA() {
 		const len = gsuiFxWaveShaper.#sinePts.length;

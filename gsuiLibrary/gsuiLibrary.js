@@ -45,25 +45,25 @@ class gsuiLibrary extends gsui0ne {
 				const obj = { $name };
 
 				if ( tar.tagName === "GSUI-SLICER" ) {
-					GSUdomDispatch( this, "gsuiLibrary-dropOnSlicer", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONSLICER, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiPatterns-panel-list-wrap" ) ) {
-					GSUdomDispatch( this, "gsuiLibrary-dropOnPatterns", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONPATTERNS, obj );
 				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 					obj.$drumrowId = tar.dataset.id;
-					GSUdomDispatch( this, "gsuiLibrary-dropOnDrumrow", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONDRUMROW, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
-					GSUdomDispatch( this, "gsuiLibrary-dropOnDrumrowNew", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 					obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
-					GSUdomDispatch( this, "gsuiLibrary-dropOnOsc", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONOSC, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-					GSUdomDispatch( this, "gsuiLibrary-dropOnOscNew", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONOSCNEW, obj );
 				} else {
 					obj.$when = Math.floor( drop.$offsetX / GSUdomGetAttrNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
 					obj.$track = tar.parentNode.dataset.id;
-					GSUdomDispatch( this, "gsuiLibrary-dropOnTracks", obj );
+					GSUdomDispatch( this, GSEV_LIBRARY_DROPONTRACKS, obj );
 				}
 			},
 		} );
@@ -180,15 +180,15 @@ class gsuiLibrary extends gsui0ne {
 			this.#expandGroup( el.parentNode );
 		} else if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) && !GSUdomHasClass( el, "gsuiLibrary-sample-loading" ) ) {
 			const act = GSUdomHasClass( el, "gsuiLibrary-sample-ready" )
-				? "gsuiLibrary-playSample"
-				: "gsuiLibrary-loadSample";
+				? GSEV_LIBRARY_PLAYSAMPLE
+				: GSEV_LIBRARY_LOADSAMPLE;
 
 			GSUdomDispatch( this, act, el.dataset.id );
 		}
 	}
 	#oncontextmenu( e ) {
 		if ( GSUdomHasClass( e.target, "gsuiLibrary-sample" ) ) {
-			GSUdomDispatch( this, "gsuiLibrary-stopSample" );
+			GSUdomDispatch( this, GSEV_LIBRARY_STOPSAMPLE );
 		}
 		return false;
 	}

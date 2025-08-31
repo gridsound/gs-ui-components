@@ -62,11 +62,11 @@ const elLibDef = elLibs.$getLibrary( "default" );
 
 elLibDef.$setLibrary( gsuiLibrarySamples );
 GSUdomListen( elLibs, {
-	"gsuiLibrary-loadSample": ( _, smp ) => {
+	[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
 		elLibDef.$loadSample( smp );
 		GSUsetTimeout( () => elLibDef.$readySample( smp ), 1 );
 	},
-	"gsuiLibrary-playSample": ( _, smp ) => {
+	[ GSEV_LIBRARY_PLAYSAMPLE ]: ( _, smp ) => {
 		elLibDef.$playSample( smp, 1 );
 	},
 } );

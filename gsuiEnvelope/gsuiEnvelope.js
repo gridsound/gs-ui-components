@@ -41,10 +41,10 @@ class gsuiEnvelope extends gsui0ne {
 		} );
 		Object.seal( this );
 		GSUdomListen( this, {
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-input": ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
-			"gsuiSlider-change": ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
 		} );
 	}
 
@@ -136,11 +136,11 @@ class gsuiEnvelope extends gsui0ne {
 	#oninputSlider( prop, val ) {
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiEnvelope.#formatValue( prop, val );
 		this.$updateWave( prop, val );
-		GSUdomDispatch( this, "gsuiEnvelope-liveChange", this.#env, prop, val );
+		GSUdomDispatch( this, GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
 		GSUdomSetAttr( this, prop, val );
-		GSUdomDispatch( this, "gsuiEnvelope-change", this.#env, prop, val );
+		GSUdomDispatch( this, GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
 	}
 
 	// .........................................................................

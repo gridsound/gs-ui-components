@@ -12,14 +12,14 @@ class gsuiDrumrows extends gsui0ne {
 		Object.seal( this );
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		GSUdomListen( this, {
-			"gsuiDrumrow-remove": d => GSUdomDispatch( this, "gsuiDrumrows-remove", d.$target.dataset.id ),
-			"gsuiDrumrow-expand": d => GSUdomDispatch( this, "gsuiDrumrows-expand", d.$target.dataset.id ),
-			"gsuiDrumrow-toggle": d => GSUdomDispatch( this, "gsuiDrumrows-toggle", d.$target.dataset.id, ...d.$args ),
-			"gsuiDrumrow-toggleSolo": d => GSUdomDispatch( this, "gsuiDrumrows-toggleSolo", d.$target.dataset.id ),
-			"gsuiDrumrow-changeProp": d => GSUdomDispatch( this, "gsuiDrumrows-change", d.$target.dataset.id, ...d.$args ),
-			"gsuiDrumrow-liveChangeProp": d => GSUdomDispatch( this, "gsuiDrumrows-liveChangeDrumrow", d.$target.dataset.id, ...d.$args ),
-			"gsuiDrumrow-propFilter": d => GSUdomDispatch( this, "gsuiDrumrows-propFilter", d.$target.dataset.id, ...d.$args ),
-			"gsuiDrumrow-propFilters": d => GSUdomDispatch( this, "gsuiDrumrows-propFilters", ...d.$args ),
+			[ GSEV_DRUMROW_REMOVE ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_REMOVE, d.$target.dataset.id ),
+			[ GSEV_DRUMROW_EXPAND ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_EXPAND, d.$target.dataset.id ),
+			[ GSEV_DRUMROW_TOGGLE ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_TOGGLE, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_DRUMROW_TOGGLESOLO ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_TOGGLESOLO, d.$target.dataset.id ),
+			[ GSEV_DRUMROW_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_CHANGE, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_DRUMROW_LIVECHANGEPROP ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_LIVECHANGEDRUMROW, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_DRUMROW_PROPFILTER ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_PROPFILTER, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_DRUMROW_PROPFILTERS ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_PROPFILTERS, ...d.$args ),
 		} );
 	}
 
@@ -76,7 +76,7 @@ class gsuiDrumrows extends gsui0ne {
 	#onmousedownRows( e ) {
 		if ( ( e.button === 0 || e.button === 2 ) && GSUdomHasClass( e.target, "gsuiDrumrow-main" ) ) {
 			GSUdomDispatch( this,
-				e.button === 0 ? "gsuiDrumrows-liveStartDrum" : "gsuiDrumrows-liveStopDrum",
+				e.button === 0 ? GSEV_DRUMROWS_LIVESTARTDRUM : GSEV_DRUMROWS_LIVESTOPDRUM,
 				e.target.parentNode.dataset.id );
 		}
 	}

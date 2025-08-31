@@ -38,10 +38,10 @@ class gsuiLFO extends gsui0ne {
 		Object.seal( this );
 		this.onchange = this.#onchangeForm.bind( this );
 		GSUdomListen( this, {
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-input": ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
-			"gsuiSlider-change": ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
 		} );
 	}
 
@@ -148,12 +148,12 @@ class gsuiLFO extends gsui0ne {
 			case "gsuiLFO-type":
 				GSUdomSetAttr( this, "type", e.target.value );
 				this.$updateWave();
-				GSUdomDispatch( this, "gsuiLFO-change", this.#lfo, "type", e.target.value );
+				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
 				GSUdomSetAttr( this, "amp", -this.$getAttrNum( "amp" ) );
 				this.$updateWave();
-				GSUdomDispatch( this, "gsuiLFO-change", this.#lfo, "amp", this.$getAttrNum( "amp" ) );
+				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "amp", this.$getAttrNum( "amp" ) );
 				break;
 		}
 	}
@@ -164,7 +164,7 @@ class gsuiLFO extends gsui0ne {
 
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		this.$updateWave( prop, realval );
-		GSUdomDispatch( this, "gsuiLFO-liveChange", this.#lfo, prop, realval );
+		GSUdomDispatch( this, GSEV_LFO_LIVECHANGE, this.#lfo, prop, realval );
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
@@ -172,7 +172,7 @@ class gsuiLFO extends gsui0ne {
 			: val;
 
 		GSUdomSetAttr( this, prop, nval );
-		GSUdomDispatch( this, "gsuiLFO-change", this.#lfo, prop, nval );
+		GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, prop, nval );
 	}
 
 	// .........................................................................

@@ -32,7 +32,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$head.onclick = e => {
 			switch ( e.target.dataset.action ) {
 				case "back":
-					GSUdomDispatch( this, "gsuiWavetable-back" );
+					GSUdomDispatch( this, GSEV_WAVETABLE_BACK );
 					break;
 			}
 		};
@@ -68,26 +68,26 @@ class gsuiWavetable extends gsui0ne {
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
 		GSUdomListen( this, {
-			"gsuiWaveEditor-change": ( _, curve ) => this.#onchange( { waves: { [ this.#waveSelected ]: { curve } } } ),
-			"gsuiWaveEditor-param": d => {
+			[ GSEV_WAVEEDITOR_CHANGE ]: ( _, curve ) => this.#onchange( { waves: { [ this.#waveSelected ]: { curve } } } ),
+			[ GSEV_WAVEEDITOR_PARAM ]: d => {
 				if ( !this.#waveNull ) {
 					d.target = this;
 					d.event = "gsuiWavetable-param";
 					return true;
 				}
 			},
-			"gsuiDotline-change": ( _, curve ) => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { curve } } } ),
-			"gsuiDotline-inputStart": ( _, a ) => this.$elements.$wtGraph.$setMorphingWaveAt( a.$data[ a.$dotId ].y ),
-			"gsuiDotline-inputEnd": () => this.$elements.$wtGraph.$setMorphingWaveAt( -1 ),
-			"gsuiDotline-input": ( _, a ) => {
+			[ GSEV_DOTLINE_CHANGE ]: ( _, curve ) => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { curve } } } ),
+			[ GSEV_DOTLINE_INPUTSTART ]: ( _, a ) => this.$elements.$wtGraph.$setMorphingWaveAt( a.$data[ a.$dotId ].y ),
+			[ GSEV_DOTLINE_INPUTEND ]: () => this.$elements.$wtGraph.$setMorphingWaveAt( -1 ),
+			[ GSEV_DOTLINE_INPUT ]: ( _, a ) => {
 				if ( a.$target === "dot" ) {
 					this.$elements.$wtGraph.$setMorphingWaveAt( a.$data[ a.$dotId ].y );
 				}
 			},
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-input": ( _, dur ) => this.#wtposCurve_setDuration( dur ),
-			"gsuiSlider-change": ( _, dur ) => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { duration: dur } } } ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( _, dur ) => this.#wtposCurve_setDuration( dur ),
+			[ GSEV_SLIDER_CHANGE ]: ( _, dur ) => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { duration: dur } } } ),
 		} );
 	}
 
@@ -190,7 +190,7 @@ class gsuiWavetable extends gsui0ne {
 			obj2.tool = GSUdomGetAttr( editor, "tool" );
 			obj2.symmetry = GSUdomHasAttr( editor, "symmetry" );
 		}
-		GSUdomDispatch( this, "gsuiWavetable-change", this.$change( obj2 ) );
+		GSUdomDispatch( this, GSEV_WAVETABLE_CHANGE, this.$change( obj2 ) );
 		this.#waveNull = false;
 		if ( obj2.wave ) {
 			this.#wtwaves_selectWave( obj2.wave );
@@ -338,7 +338,7 @@ class gsuiWavetable extends gsui0ne {
 			GSUdomQS( this, `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` ).dataset.selected = "";
 			GSUscrollIntoViewX( elW, this.$elements.$waves );
 			if ( !this.#waveNull ) {
-				GSUdomDispatch( this, "gsuiWavetable-param", { wave: wId } );
+				GSUdomDispatch( this, GSEV_WAVETABLE_PARAM, { wave: wId } );
 			}
 		}
 	}
@@ -367,7 +367,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		this.$elements.$wtDotline.$change( wtposCurve.curve );
 		this.#keyPreviews.forEach( p => p.$elemA.style.display = p.$wtposCurveId === id ? "block" : "none" );
-		GSUdomDispatch( this, "gsuiWavetable-selectCurve", id );
+		GSUdomDispatch( this, GSEV_WAVETABLE_SELECTCURVE, id );
 	}
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;

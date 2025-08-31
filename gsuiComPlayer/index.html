@@ -91,10 +91,10 @@ durationInp.oninput = () => GSUdomSetAttr( elCmp, "duration", durationInp.value 
 currentTimeInp.oninput = () => GSUdomSetAttr( elCmp, "currenttime", currentTimeInp.value );
 
 GSUdomListen( document.body, {
-	"gsuiComPlayer-play": () => GSUdomSetAttr( elCmp, "playing" ),
-	"gsuiComPlayer-stop": () => GSUdomRmAttr( elCmp, "playing" ),
-	"gsuiComPlayer-currentTime": ( _, time ) => GSUdomSetAttr( elCmp, "currenttime", time ),
-	"gsuiComPlayer-action": ( _, act ) => GSUdomRmAttr( elCmp, `action:[${ act }]` ),
+	[ GSEV_COMPLAYER_PLAY ]: () => GSUdomSetAttr( elCmp, "playing" ),
+	[ GSEV_COMPLAYER_STOP ]: () => GSUdomRmAttr( elCmp, "playing" ),
+	[ GSEV_COMPLAYER_CURRENTTIME ]: ( _, time ) => GSUdomSetAttr( elCmp, "currenttime", time ),
+	[ GSEV_COMPLAYER_ACTION ]: ( _, act ) => GSUdomRmAttr( elCmp, `action:[${ act }]` ),
 } );
 </script>
 </body>

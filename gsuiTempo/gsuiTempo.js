@@ -65,7 +65,7 @@ class gsuiTempo extends gsui0ne {
 		const bpm = f[ 2 ].value;
 
 		if ( time !== GSUdomGetAttr( this, "timedivision" ) || bpm !== GSUdomGetAttr( this, "bpm" ) ) {
-			GSUdomDispatch( this, "gsuiTempo-change", {
+			GSUdomDispatch( this, GSEV_TEMPO_CHANGE, {
 				bpm: +bpm,
 				timedivision: time,
 			} );

@@ -31,10 +31,10 @@ class gsuiFxReverb extends gsui0ne {
 		} );
 		Object.seal( this );
 		GSUdomListen( this, {
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-input": ( d, val ) => this.#oninputProp( d.$target.parentNode.dataset.prop, val ),
-			"gsuiSlider-change": ( d, val ) => GSUdomDispatch( this, "gsuiEffect-fx-changeProp", d.$target.parentNode.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.parentNode.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, d.$target.parentNode.dataset.prop, val ),
 		} );
 	}
 
@@ -87,7 +87,7 @@ class gsuiFxReverb extends gsui0ne {
 	}
 	#oninputProp( prop, val ) {
 		GSUdomSetAttr( this, prop, val );
-		GSUdomDispatch( this, "gsuiEffect-fx-liveChange", prop, val );
+		GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, prop, val );
 	}
 
 	// .........................................................................

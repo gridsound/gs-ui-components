@@ -87,14 +87,14 @@ class gsuiPropSelect extends gsui0ne {
 
 		if ( prop && prop !== this.#prop ) {
 			GSUdomSetAttr( this, "prop", prop );
-			GSUdomDispatch( this, "gsuiPropSelect-select", prop );
+			GSUdomDispatch( this, GSEV_PROPSELECT_SELECT, prop );
 		}
 	}
 	#oncontextmenu( e ) {
 		e.preventDefault();
 		if ( GSUdomHasClass( e.target, "gsuiPropSelect-btn" ) ) {
 			GSUdomSetAttr( this, "prop", e.target.dataset.prop );
-			GSUdomDispatch( this, "gsuiPropSelect-selectAll", e.target.dataset.prop );
+			GSUdomDispatch( this, GSEV_PROPSELECT_SELECTALL, e.target.dataset.prop );
 		}
 	}
 }

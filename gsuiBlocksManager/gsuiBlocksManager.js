@@ -191,7 +191,7 @@ class gsuiBlocksManager {
 	// .........................................................................
 	#stopPreview() {
 		if ( this.#prevPreview ) {
-			this.#dispatch( "gsuiBlocksManager-stopPreviewAudio", ...this.#prevPreview );
+			this.#dispatch( GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO, ...this.#prevPreview );
 			this.#prevPreview = null;
 		}
 	}
@@ -202,7 +202,7 @@ class gsuiBlocksManager {
 
 				this.#stopPreview();
 				this.#prevPreview = [ id, key ];
-				this.#dispatch( "gsuiBlocksManager-startPreviewAudio", id, key );
+				this.#dispatch( GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO, id, key );
 			} );
 		}
 	}
@@ -434,7 +434,7 @@ class gsuiBlocksManager {
 				const blc = blcsEditing.get( "preview" );
 				const midi = blc.parentNode.parentNode.dataset.midi;
 
-				this.#dispatch( "gsuiBlocksManager-deletePreviewBlock" );
+				this.#dispatch( GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK );
 				this.#opts.managercallCreate( {
 					midi: +midi,
 					when: +blc.dataset.when + this.#valueA,
@@ -446,7 +446,7 @@ class gsuiBlocksManager {
 	#onmouseupDelete( blcsEditing ) {
 		if ( blcsEditing.size || this.#blcsSelected.size ) {
 			if ( blcsEditing.has( "preview" ) ) {
-				this.#dispatch( "gsuiBlocksManager-deletePreviewBlock" );
+				this.#dispatch( GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK );
 			} else {
 				this.#opts.managercallDeleting( blcsEditing );
 			}

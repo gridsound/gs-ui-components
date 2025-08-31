@@ -17,10 +17,10 @@ class gsuiToggle extends gsui0ne {
 	}
 	#onmousedown( e ) {
 		if ( e.button === 2 ) {
-			GSUdomDispatch( this, "gsuiToggle-toggleSolo" );
+			GSUdomDispatch( this, GSEV_TOGGLE_TOGGLESOLO );
 		} else if ( e.button === 0 ) {
 			GSUdomTogAttr( this, "off" );
-			GSUdomDispatch( this, "gsuiToggle-toggle", this.$isOn() );
+			GSUdomDispatch( this, GSEV_TOGGLE_TOGGLE, this.$isOn() );
 		}
 	}
 }

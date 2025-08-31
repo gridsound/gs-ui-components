@@ -22,13 +22,13 @@ class gsuiTrack extends gsui0ne {
 		this.$elements.$inpNameWrap.ondblclick = this.#ondblclickName.bind( this );
 		this.$elements.$inpName.onblur = this.#onblur.bind( this );
 		GSUdomListen( this, {
-			"gsuiToggle-toggle": ( _, b ) => {
+			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
 				GSUdomSetAttr( this, "mute", !b );
-				GSUdomDispatch( this, "gsuiTrack-toggle", b );
+				GSUdomDispatch( this, GSEV_TRACK_TOGGLE, b );
 			},
-			"gsuiToggle-toggleSolo": () => {
+			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
 				GSUdomRmAttr( this, "mute" );
-				GSUdomDispatch( this, "gsuiTrack-toggleSolo" );
+				GSUdomDispatch( this, GSEV_TRACK_TOGGLESOLO );
 			},
 		} );
 	}
@@ -72,7 +72,7 @@ class gsuiTrack extends gsui0ne {
 
 		this.$elements.$inpName.disabled = true;
 		GSUdomSetAttr( this, "name", n );
-		GSUdomDispatch( this, "gsuiTrack-rename", n );
+		GSUdomDispatch( this, GSEV_TRACK_RENAME, n );
 	}
 	#onblur() {
 		this.$elements.$inpName.disabled = true;

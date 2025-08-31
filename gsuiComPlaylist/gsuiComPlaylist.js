@@ -25,7 +25,7 @@ class gsuiComPlaylist extends gsui0ne {
 		this.$elements.$headLinkCmps.onclick = () => GSUdomRmAttr( this, "bin" );
 		this.$elements.$headLinkBin.onclick = () => GSUdomSetAttr( this, "bin" );
 		GSUdomListen( this, {
-			"gsuiComPlayer-action": ( d, act ) => this.#onactionComposition( d.$target, act ),
+			[ GSEV_COMPLAYER_ACTION ]: ( d, act ) => this.#onactionComposition( d.$target, act ),
 		} );
 	}
 

@@ -129,19 +129,19 @@ class gsuiPatterns extends gsui0ne {
 		};
 
 		if ( tar.tagName === "GSUI-SLICER" ) {
-			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnSlicer", obj );
+			GSUdomDispatch( this, GSEV_PATTERNS_DROPBUFFERONSLICER, obj );
 		} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 			obj.$drumrowId = tar.dataset.id;
-			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnDrumrow", obj );
+			GSUdomDispatch( this, GSEV_PATTERNS_DROPBUFFERONDRUMROW, obj );
 		} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
-			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnDrumrowNew", obj );
+			GSUdomDispatch( this, GSEV_PATTERNS_DROPBUFFERONDRUMROWNEW, obj );
 		} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 			obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
-			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnOsc", obj );
+			GSUdomDispatch( this, GSEV_PATTERNS_DROPBUFFERONOSC, obj );
 		} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnOscNew", obj );
+			GSUdomDispatch( this, GSEV_PATTERNS_DROPBUFFERONOSCNEW, obj );
 		} else {
 			this.#ondropPatternInTrack( "pattern-buffer", drop );
 		}
@@ -149,7 +149,7 @@ class gsuiPatterns extends gsui0ne {
 	#ondropPatternInTrack( patType, drop ) {
 		const ppb = GSUdomGetAttrNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
 
-		GSUdomDispatch( this, "gsuiPatterns-dropPattern", {
+		GSUdomDispatch( this, GSEV_PATTERNS_DROPPATTERN, {
 			$type: patType,
 			$pattern: drop.$item,
 			$when: Math.floor( drop.$offsetX / ppb ),

@@ -40,10 +40,10 @@ class gsuiFxFilter extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$type.onclick = this.#onclickType.bind( this );
 		GSUdomListen( this, {
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-input": ( d, val ) => this.#oninputProp( d.$target.dataset.prop, this.#fnValue[ d.$target.dataset.prop ]( val ) ),
-			"gsuiSlider-change": ( d, val ) => GSUdomDispatch( this, "gsuiEffect-fx-changeProp", d.$target.dataset.prop, this.#fnValue[ d.$target.dataset.prop ]( val ) ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.dataset.prop, this.#fnValue[ d.$target.dataset.prop ]( val ) ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, d.$target.dataset.prop, this.#fnValue[ d.$target.dataset.prop ]( val ) ),
 		} );
 		this.$elements.$graph.append( this.$elements.$curves );
 	}
@@ -97,14 +97,14 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	#oninputProp( prop, val ) {
-		GSUdomDispatch( this, "gsuiEffect-fx-liveChange", prop, val );
+		GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, prop, val );
 		this.#updateWave();
 	}
 	#onclickType( e ) {
 		const type = e.target.dataset.type;
 
 		if ( type && !GSUdomHasClass( e.target, "gsuiFxFilter-areaType-btnSelected" ) ) {
-			GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "type", type );
+			GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "type", type );
 		}
 	}
 }

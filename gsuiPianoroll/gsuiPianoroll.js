@@ -65,22 +65,22 @@ class gsuiPianoroll extends gsui0ne {
 		this.uiKeys = GSUcreateElement( "gsui-keys" );
 		Object.seal( this );
 		GSUdomListen( this, {
-			"gsuiTimewindow-pxperbeat": ( _, px ) => this.#ongsuiTimewindowPxperbeat( px ),
-			"gsuiTimewindow-lineheight": ( _, px ) => this.#ongsuiTimewindowLineheight( px ),
-			"gsuiTimeline-inputLoop": d => this.#ongsuiTimelineChangeLoop( false, ...d.$args ),
-			"gsuiTimeline-changeLoop": d => this.#ongsuiTimelineChangeLoop( true, ...d.$args ),
-			"gsuiTimeline-changeCurrentTime": ( _, time ) => this.#ongsuiTimelineChangeCurrentTime( time ),
-			"gsuiPropSelect-select": () => this.#onchangePropSelect(),
-			"gsuiSliderGroup-input": ( _, __, a ) => this.#ongsuiSliderGroupInput( a ),
-			"gsuiSliderGroup-inputEnd": () => this.#ongsuiSliderGroupInputEnd(),
-			"gsuiSliderGroup-change": d => this.#ongsuiSliderGroupChange( d ),
-			"gsuiBlocksManager-deletePreviewBlock": () => this.$removeKey( "preview" ),
-			"gsuiBlocksManager-startPreviewAudio": ( _, __, a ) => {
+			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, px ) => this.#ongsuiTimewindowPxperbeat( px ),
+			[ GSEV_TIMEWINDOW_LINEHEIGHT ]: ( _, px ) => this.#ongsuiTimewindowLineheight( px ),
+			[ GSEV_TIMELINE_INPUTLOOP ]: d => this.#ongsuiTimelineChangeLoop( false, ...d.$args ),
+			[ GSEV_TIMELINE_CHANGELOOP ]: d => this.#ongsuiTimelineChangeLoop( true, ...d.$args ),
+			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, time ) => this.#ongsuiTimelineChangeCurrentTime( time ),
+			[ GSEV_PROPSELECT_SELECT ]: () => this.#onchangePropSelect(),
+			[ GSEV_SLIDERGROUP_INPUT ]: ( _, __, a ) => this.#ongsuiSliderGroupInput( a ),
+			[ GSEV_SLIDERGROUP_INPUTEND ]: () => this.#ongsuiSliderGroupInputEnd(),
+			[ GSEV_SLIDERGROUP_CHANGE ]: d => this.#ongsuiSliderGroupChange( d ),
+			[ GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK ]: () => this.$removeKey( "preview" ),
+			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
 					this.uiKeys.$midiKeyDown( a ); // should be called differently
 				}
 			},
-			"gsuiBlocksManager-stopPreviewAudio": ( _, __, a ) => {
+			[ GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
 					this.uiKeys.$midiKeyUp( a );
 				}
@@ -359,8 +359,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ongsuiSliderGroupChange( d ) {
 		const prop = this.#propSelect.$getCurrentProp();
 
-		d.component = "gsuiPianoroll";
-		d.eventName = "changeKeysProps";
+		d.$event = GSEV_PIANOROLL_CHANGEKEYSPROPS;
 		if ( prop.startsWith( "gainLFO" ) ) {
 			d.$args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
 		}
@@ -453,7 +452,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ondropMIDI( mid ) {
 		const rd = new FileReader();
 
-		rd.onload = e => GSUdomDispatch( this, "gsuiPianoroll-midiDropped", new Uint8Array( e.target.result ) );
+		rd.onload = e => GSUdomDispatch( this, GSEV_PIANOROLL_MIDIDROPPED, new Uint8Array( e.target.result ) );
 		rd.readAsArrayBuffer( mid );
 	}
 

@@ -72,11 +72,11 @@ class gsuiSlicer extends gsui0ne {
 		this.$elements.$tools.$split.onclick =
 		this.$elements.$tools.$merge.onclick = this.#onclickTools.bind( this );
 		GSUdomListen( this, {
-			"gsuiTimeline-changeCurrentTime": ( _, time ) => {
+			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, time ) => {
 				GSUdomSetAttr( this, "currenttime", time );
 				return true;
 			},
-			"gsuiStepSelect-onchange": ( _, step ) => GSUdomSetAttr( this, "step", step ),
+			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, step ) => GSUdomSetAttr( this, "step", step ),
 		} );
 	}
 
@@ -304,7 +304,7 @@ class gsuiSlicer extends gsui0ne {
 		this.#slicesSaved = null;
 		this.#selectTool( this.#tool );
 		if ( diff ) {
-			GSUdomDispatch( this, "gsuiSlicer-changeProp", "slices", diff );
+			GSUdomDispatch( this, GSEV_SLICER_CHANGEPROP, "slices", diff );
 		}
 	}
 	#onpointermoveSlices( e ) {

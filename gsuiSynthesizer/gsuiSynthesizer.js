@@ -59,17 +59,18 @@ class gsuiSynthesizer extends gsui0ne {
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: ".gsuiOscillator-grip",
-			$onchange: obj => GSUdomDispatch( this, "gsuiSynthesizer-reorderOscillator", obj ),
+			$onchange: obj => GSUdomDispatch( this, GSEV_SYNTHESIZER_REORDEROSCILLATOR, obj ),
 		} );
 		GSUdomListen( this, {
-			"gsuiOscillator-resize": () => this.#shadow.$update(),
-			"gsuiNoise-input": d => GSUdomDispatch( this, "gsuiSynthesizer-inputNoise", ...d.$args ),
-			"gsuiNoise-change": d => GSUdomDispatch( this, "gsuiSynthesizer-changeNoise", ...d.$args ),
-			"gsuiToggle-toggle": ( d, b ) => {
+			[ GSEV_ENVELOPE_LIVECHANGE ]: () => GSUnoop,
+			[ GSEV_OSCILLATOR_RESIZE ]: () => this.#shadow.$update(),
+			[ GSEV_NOISE_INPUT ]: d => GSUdomDispatch( this, GSEV_SYNTHESIZER_INPUTNOISE, ...d.$args ),
+			[ GSEV_NOISE_CHANGE ]: d => GSUdomDispatch( this, GSEV_SYNTHESIZER_CHANGENOISE, ...d.$args ),
+			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				const tab = d.$target.parentNode.dataset.tab;
 
 				if ( !tab ) {
-					GSUdomDispatch( this, "gsuiSynthesizer-toggleNoise", b );
+					GSUdomDispatch( this, GSEV_SYNTHESIZER_TOGGLENOISE, b );
 				} else {
 					const [ lfoEnv, prop ] = d.$target.parentNode.dataset.tab.split( " " );
 					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
@@ -77,7 +78,7 @@ class gsuiSynthesizer extends gsui0ne {
 					if ( GSUdomGetAttr( elCmp, lfoEnv ) === prop ) {
 						GSUdomSetAttr( elCmp, "toggle", b );
 					}
-					GSUdomDispatch( this, lfoEnv === "env" ? "gsuiSynthesizer-toggleEnv" : "gsuiSynthesizer-toggleLFO", prop, b );
+					GSUdomDispatch( this, lfoEnv === "env" ? GSEV_SYNTHESIZER_TOGGLEENV : GSEV_SYNTHESIZER_TOGGLELFO, prop, b );
 				}
 			},
 		} );
@@ -226,7 +227,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 	}
 	#onclickNewOsc() {
-		GSUdomDispatch( this, "gsuiSynthesizer-addOscillator" );
+		GSUdomDispatch( this, GSEV_SYNTHESIZER_ADDOSCILLATOR );
 	}
 }
 

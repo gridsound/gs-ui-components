@@ -63,39 +63,42 @@ class gsuiTimewindow extends gsui0ne {
 		this.timeline = this.$elements.$timeline;
 		Object.seal( this );
 		GSUdomListen( this, {
-			"gsuiSlider-input": ( d, val ) => {
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				if ( d.$target.dataset.zoom === "x" ) {
-					const val = GSUmathEaseInCirc( val );
-					const newVal = this.#getPPBmin() + val * ( this.#getPPBmax() - this.#getPPBmin() );
+					const val2 = GSUmathEaseInCirc( val );
+					const newVal = this.#getPPBmin() + val2 * ( this.#getPPBmax() - this.#getPPBmin() );
 					const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
 
 					this.#setScrollX( scrollBack );
 					GSUdomSetAttr( this, "pxperbeat", newVal );
-					GSUdomDispatch( this, "gsuiTimewindow-pxperbeat", newVal );
+					GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, newVal );
 				} else if ( d.$target.dataset.zoom === "y" ) {
-					const val = GSUmathEaseInCirc( val );
-					const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
+					const val2 = GSUmathEaseInCirc( val );
+					const newVal = this.#getLHmin() + val2 * ( this.#getLHmax() - this.#getLHmin() );
 					const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, newVal, 0 );
 
 					this.#setScrollY( scrollBack );
 					GSUdomSetAttr( this, "lineheight", newVal );
-					GSUdomDispatch( this, "gsuiTimewindow-lineheight", newVal );
+					GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, newVal );
 				}
 			},
-			"gsuiStepSelect-onchange": ( _, val ) => GSUdomSetAttr( this, "step", val ),
-			"gsuiTimeline-inputCurrentTime": GSUnoop,
-			"gsuiTimeline-changeCurrentTime": ( _, val ) => {
+			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, val ) => GSUdomSetAttr( this, "step", val ),
+			[ GSEV_TIMELINE_INPUTCURRENTTIME ]: GSUnoop,
+			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, val ) => {
 				GSUdomSetAttr( this, "currenttime", val );
 				return true;
 			},
-			"gsuiTimeline-inputLoop": ( _, a, b ) => {
+			[ GSEV_TIMELINE_INPUTLOOP ]: ( _, a, b ) => {
 				GSUdomSetAttr( this, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 				return true;
 			},
-			"gsuiTimeline-inputLoopEnd": () => this.style.overflowY = "",
-			"gsuiTimeline-inputLoopStart": () => this.style.overflowY = "hidden",
-			"gsuiTimeline-inputCurrentTimeEnd": () => this.style.overflowY = "",
-			"gsuiTimeline-inputCurrentTimeStart": () => this.style.overflowY = "hidden",
+			[ GSEV_TIMELINE_INPUTLOOPEND ]: () => this.style.overflowY = "",
+			[ GSEV_TIMELINE_INPUTLOOPSTART ]: () => this.style.overflowY = "hidden",
+			[ GSEV_TIMELINE_INPUTCURRENTTIMEEND ]: () => this.style.overflowY = "",
+			[ GSEV_TIMELINE_INPUTCURRENTTIMESTART ]: () => this.style.overflowY = "hidden",
 		} );
 		this.ondragstart = GSUnoopFalse;
 		this.$elements.$main.onwheel = this.#onwheel.bind( this );
@@ -385,7 +388,7 @@ class gsuiTimewindow extends gsui0ne {
 
 			this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppbNew, px ) );
 			GSUdomSetAttr( this, "pxperbeat", ppbNew );
-			GSUdomDispatch( this, "gsuiTimewindow-pxperbeat", ppbNew );
+			GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, ppbNew );
 		}
 	}
 	#onwheelPanel( e ) {
@@ -399,7 +402,7 @@ class gsuiTimewindow extends gsui0ne {
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
 				GSUdomSetAttr( this, "lineheight", lhNew );
-				GSUdomDispatch( this, "gsuiTimewindow-lineheight", lhNew );
+				GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
 			}
 		}
 	}

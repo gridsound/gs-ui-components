@@ -29,7 +29,7 @@ class gsuiComPlayer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$play.onclick = () => GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? "gsuiComPlayer-stop" : "gsuiComPlayer-play" );
+		this.$elements.$play.onclick = () => GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_STOP : GSEV_COMPLAYER_PLAY );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
 	}
 
@@ -95,7 +95,7 @@ class gsuiComPlayer extends gsui0ne {
 			this.#actionMenu.$setActions( this.#actions );
 			this.#actionMenu.$setDirection( this.#actionMenuDir );
 			this.#actionMenu.$setMaxSize( "260px", "180px" );
-			this.#actionMenu.$setCallback( act => GSUdomDispatch( this, "gsuiComPlayer-action", act ) );
+			this.#actionMenu.$setCallback( act => GSUdomDispatch( this, GSEV_COMPLAYER_ACTION, act ) );
 		}
 		if ( actionsStr ) {
 			this.#actions.forEach( act => this.#actionMenu.$changeAction( act.id, "hidden", !actionsStr.includes( act.id ) ) );
@@ -121,7 +121,7 @@ class gsuiComPlayer extends gsui0ne {
 		e.target.onpointerup =
 		e.target.onpointermove =
 		this.#settingTime = null;
-		GSUdomDispatch( this, "gsuiComPlayer-currentTime", t * GSUdomGetAttrNum( this, "duration" ) );
+		GSUdomDispatch( this, GSEV_COMPLAYER_CURRENTTIME, t * GSUdomGetAttrNum( this, "duration" ) );
 	}
 }
 

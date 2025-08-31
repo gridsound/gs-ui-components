@@ -63,12 +63,12 @@ class gsuiWindow extends gsui0ne {
 			if ( b ) {
 				this.#show = true;
 				GSUdomSetAttr( this, "show" );
-				GSUdomDispatch( this, "gsuiWindow-open" );
+				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				GSUdomRmAttr( this, "show" );
 				GSUemptyElement( this.$elements.$content );
-				GSUdomDispatch( this, "gsuiWindow-close" );
+				GSUdomDispatch( this, GSEV_WINDOW_CLOSE );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -96,7 +96,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized = false;
 			this.#maximized = true;
 			if ( wasMinimized ) {
-				GSUdomDispatch( this, "gsuiWindow-open" );
+				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
 			}
 			this.focus( { preventScroll: true } );
 		}
@@ -107,7 +107,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized = true;
 			this.#maximized = false;
 			GSUemptyElement( this.$elements.$content );
-			GSUdomDispatch( this, "gsuiWindow-close" );
+			GSUdomDispatch( this, GSEV_WINDOW_CLOSE );
 		}
 	}
 	$restore() {
@@ -119,7 +119,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized =
 			this.#maximized = false;
 			if ( wasMinimized ) {
-				GSUdomDispatch( this, "gsuiWindow-open" );
+				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
 			}
 		}
 	}
@@ -153,7 +153,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			GSUdomSetAttr( this, "dragging" );
-			GSUdomDispatch( this, "gsuiWindow-startMousemoving", "move", e.pointerId,
+			GSUdomDispatch( this, GSEV_WINDOW_STARTMOUSEMOVING, "move", e.pointerId,
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
@@ -167,7 +167,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			GSUdomSetAttr( this, "dragging" );
-			GSUdomDispatch( this, "gsuiWindow-startMousemoving", `${ dir }-resize`, e.pointerId,
+			GSUdomDispatch( this, GSEV_WINDOW_STARTMOUSEMOVING, `${ dir }-resize`, e.pointerId,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}

@@ -97,7 +97,7 @@ gsui-dotline {
 const line = GSUdomQS( "gsui-dotline" );
 
 GSUdomListen( line, {
-	"gsuiDotline-change": ( _, obj ) => console.log( obj ),
+	[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => console.log( obj ),
 } );
 GSUdomQS( "#xstep" ).onchange = e => GSUdomSetAttr( line, "xstep", e.target.value );
 GSUdomQS( "#ystep" ).onchange = e => GSUdomSetAttr( line, "ystep", e.target.value );

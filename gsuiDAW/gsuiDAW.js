@@ -76,7 +76,7 @@ class gsuiDAW extends gsui0ne {
 		this.$clock = this.$elements.$clock; // do it by attribute
 		Object.seal( this );
 
-		this.$elements.$clock.$onchangeDisplay = display => GSUdomDispatch( this, "gsuiDAW-changeDisplayClock", display );
+		this.$elements.$clock.$onchangeDisplay = display => GSUdomDispatch( this, GSEV_DAW_CHANGEDISPLAYCLOCK, display );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
 		this.#popups.about.versionCheck.onclick = () => {
 			const dt = this.#popups.about.versionIcon.dataset;
@@ -101,7 +101,7 @@ class gsuiDAW extends gsui0ne {
 			if ( d.status === "0" ) {
 				d.status = "1";
 				GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
-				GSUdomDispatch( this, "gsuiDAW-export" );
+				GSUdomDispatch( this, GSEV_DAW_EXPORT );
 			}
 		};
 		this.$elements.$windows.onkeydown = e => {
@@ -110,25 +110,25 @@ class gsuiDAW extends gsui0ne {
 			}
 		};
 		GSUdomListen( this, {
-			"gsuiTitleUser-save": () => GSUdomDispatch( this, "gsuiDAW-save" ),
-			"gsuiTitleUser-rename": ( _, name ) => GSUdomDispatch( this, "gsuiDAW-rename", name ),
+			[ GSEV_TITLEUSER_SAVE ]: () => GSUdomDispatch( this, GSEV_DAW_SAVE ),
+			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => GSUdomDispatch( this, GSEV_DAW_RENAME, name ),
 		} );
 		GSUdomListen( this.$elements.$volume, {
-			"gsuiSlider-inputStart": GSUnoop,
-			"gsuiSlider-inputEnd": GSUnoop,
-			"gsuiSlider-change": GSUnoop,
-			"gsuiSlider-input": ( _, gain ) => GSUdomDispatch( this, "gsuiDAW-volume", gain ),
+			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
+			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => GSUdomDispatch( this, GSEV_DAW_VOLUME, gain ),
 		} );
 		GSUdomListen( this.$elements.$currentTime, {
-			"gsuiSlider-inputEnd": () => this.#timeSelecting = false,
-			"gsuiSlider-inputStart": ( _, val ) => {
+			[ GSEV_SLIDER_INPUTEND ]: () => this.#timeSelecting = false,
+			[ GSEV_SLIDER_INPUTSTART ]: ( _, val ) => {
 				this.#timeSelecting = true;
 				this.$elements.$clock.$setTime( val );
 			},
-			"gsuiSlider-change": ( _, val ) => GSUdomDispatch( this, "gsuiDAW-currentTime", val ),
-			"gsuiSlider-input": ( _, val ) => {
+			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => GSUdomDispatch( this, GSEV_DAW_CURRENTTIME, val ),
+			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
 				this.$elements.$clock.$setTime( val );
-				GSUdomDispatch( this, "gsuiDAW-currentTimeLive", val );
+				GSUdomDispatch( this, GSEV_DAW_CURRENTTIMELIVE, val );
 			},
 		} );
 	}
@@ -236,21 +236,21 @@ class gsuiDAW extends gsui0ne {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
-			case "focusSwitch": GSUdomDispatch( this, "gsuiDAW-focusSwitch" ); break;
-			case "play": GSUdomDispatch( this, "gsuiDAW-play" ); break;
-			case "stop": GSUdomDispatch( this, "gsuiDAW-stop" ); break;
-			case "reset": GSUdomDispatch( this, "gsuiDAW-reset" ); break;
-			case "undo": GSUdomDispatch( this, "gsuiDAW-undo" ); break;
-			case "redo": GSUdomDispatch( this, "gsuiDAW-redo" ); break;
+			case "focusSwitch": GSUdomDispatch( this, GSEV_DAW_FOCUSSWITCH ); break;
+			case "play": GSUdomDispatch( this, GSEV_DAW_PLAY ); break;
+			case "stop": GSUdomDispatch( this, GSEV_DAW_STOP ); break;
+			case "reset": GSUdomDispatch( this, GSEV_DAW_RESET ); break;
+			case "undo": GSUdomDispatch( this, GSEV_DAW_UNDO ); break;
+			case "redo": GSUdomDispatch( this, GSEV_DAW_REDO ); break;
 			case "help": {
 				const hide = GSUdomHasAttr( this, "gsuihelplink-hide" );
 
 				GSUdomSetAttr( this, "gsuihelplink-hide", !hide );
-				GSUdomDispatch( this, "gsuiDAW-toggleHelpLinks", hide );
+				GSUdomDispatch( this, GSEV_DAW_TOGGLEHELPLINKS, hide );
 			} break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
-					GSUdomDispatch( this, dt.open === undefined ? "gsuiDAW-openWindow" : "gsuiDAW-closeWindow", dt.win );
+					GSUdomDispatch( this, dt.open === undefined ? GSEV_DAW_OPENWINDOW : GSEV_DAW_CLOSEWINDOW, dt.win );
 				} else {
 					this.$toggleWindow( "patterns", dt.open !== "" );
 				}
@@ -266,7 +266,7 @@ class gsuiDAW extends gsui0ne {
 					"data-status": 0,
 				} );
 				GSUpopup.$custom( { title: "Export", element: this.#popups.export.root } )
-					.then( () => GSUdomDispatch( this, "gsuiDAW-abortExport" ) );
+					.then( () => GSUdomDispatch( this, GSEV_DAW_ABORTEXPORT ) );
 				break;
 			case "settings":
 				this.#popups.settings.sampleRate.value = GSUdomGetAttrNum( this, "samplerate" );
@@ -295,7 +295,7 @@ class gsuiDAW extends gsui0ne {
 								data.timelineNumbering !== GSUdomGetAttrNum( this, "timelinenumbering" ) ||
 								data.windowsLowGraphics !== ( GSUdomGetAttr( this, "windowslowgraphics" ) === "" )
 							) {
-								GSUdomDispatch( this, "gsuiDAW-settings", data );
+								GSUdomDispatch( this, GSEV_DAW_SETTINGS, data );
 							}
 						}
 					} );
