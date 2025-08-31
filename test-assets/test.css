@@ -21,9 +21,10 @@ body {
 	padding-top: 2em;
 	font-size: 26px;
 	gap: 1ch;
-}
-#title span {
-	text-shadow: 0 0 20px #fff5;
+
+	span {
+		text-shadow: 0 0 20px #fff5;
+	}
 }
 
 /* .......................................................................... */
@@ -45,9 +46,10 @@ body {
 	font-size: min( 4vw, 4vh, 24px );
 	font-weight: bold;
 	border-radius: .5ch;
-}
-.testLink:hover {
-	animation: alternate infinite testLinkAnim .25s;
+
+	&:hover {
+		animation: alternate infinite testLinkAnim .25s;
+	}
 }
 @keyframes testLinkAnim {
 	100% { background-color: #ffffff08; }
@@ -85,9 +87,10 @@ body {
 	font: inherit;
 	color: inherit;
 	background-color: #0005;
-}
-#testSelect option {
-	background-color: #000;
+
+	option {
+		background-color: #000;
+	}
 }
 #testSkin {
 	border: 0;
@@ -95,10 +98,11 @@ body {
 	color: inherit;
 	cursor: pointer;
 	background: none;
-	transition: transform .2s;
-}
-body[ data-skin="white" ] #testSkin {
-	transform: rotate( 180deg );
+	transition: rotate .2s;
+
+	body[ data-skin="white" ] & {
+		rotate: 180deg;
+	}
 }
 
 /* .......................................................................... */
@@ -119,22 +123,19 @@ body[ data-skin="white" ] #testSkin {
 	border-bottom-width: 6px;
 	background-color: #22222a;
 	box-shadow: 0 0 20px 20px #22222a;
-}
-#testContent:not( [ data-min-auto ] ):not( [ data-min-x-auto ] ) {
-	min-width: fit-content;
-}
-#testContent:not( [ data-min-auto ] ):not( [ data-min-y-auto ] ) {
-	min-height: fit-content;
-}
-#testContent::after {
-	content: "";
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	border: 10px solid transparent;
-	border-right-color: #0003;
-	border-bottom-color: #0003;
-	pointer-events: none;
+
+	&:not( [ data-min-auto ] ):not( [ data-min-x-auto ] ) { min-width: fit-content }
+	&:not( [ data-min-auto ] ):not( [ data-min-y-auto ] ) { min-height: fit-content }
+	&::after {
+		content: "";
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		border: 10px solid transparent;
+		border-right-color: #0003;
+		border-bottom-color: #0003;
+		pointer-events: none;
+	}
 }
 #testWrap {
 	position: relative;
@@ -146,15 +147,16 @@ body[ data-skin="white" ] #testSkin {
 #testCtrls {
 	overflow: auto;
 	scrollbar-width: thin;
-}
-#testCtrls:empty {
-	display: none;
-}
-#testCtrls input[ type="range" ] {
-	width: 100%;
-	max-width: min( 200px, 100% );
-	margin: 0;
-	padding: 0;
+
+	&:empty {
+		display: none;
+	}
+	input[ type="range" ] {
+		width: 100%;
+		max-width: min( 200px, 100% );
+		margin: 0;
+		padding: 0;
+	}
 }
 
 /* .......................................................................... */
@@ -172,9 +174,10 @@ body[ data-skin="white" ] #testSkin {
 	font-weight: bold;
 	color: inherit;
 	opacity: .5;
-}
-#testCopyright a {
-	color: inherit;
+
+	a {
+		color: inherit;
+	}
 }
 
 /* .......................................................................... */
