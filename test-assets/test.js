@@ -62,6 +62,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 					GSUcreateOption( { value: "gsuiDotline" } ),
 					GSUcreateOption( { value: "gsuiScrollShadow" } ),
 					GSUcreateOption( { value: "gsuiSlider" } ),
+					GSUcreateOption( { value: "gsuiJoystick" } ),
 					GSUcreateOption( { value: "gsuiSVGPatterns" } ),
 					GSUcreateOption( { value: "gsuiToggle" } ),
 					GSUcreateOption( { value: "gsuiActionMenu" } ),
