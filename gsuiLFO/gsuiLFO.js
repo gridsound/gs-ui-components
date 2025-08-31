@@ -36,15 +36,12 @@ class gsuiLFO extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
 		this.onchange = this.#onchangeForm.bind( this );
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputStart: GSUnoop,
-				inputEnd: GSUnoop,
-				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
-				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
-			},
+		GSUdomListen( this, {
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-input": ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
+			"gsuiSlider-change": ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
 		} );
 	}
 
@@ -151,12 +148,12 @@ class gsuiLFO extends gsui0ne {
 			case "gsuiLFO-type":
 				GSUdomSetAttr( this, "type", e.target.value );
 				this.$updateWave();
-				this.$dispatch( "change", this.#lfo, "type", e.target.value );
+				GSUdomDispatch( this, "gsuiLFO-change", this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
 				GSUdomSetAttr( this, "amp", -this.$getAttrNum( "amp" ) );
 				this.$updateWave();
-				this.$dispatch( "change", this.#lfo, "amp", this.$getAttrNum( "amp" ) );
+				GSUdomDispatch( this, "gsuiLFO-change", this.#lfo, "amp", this.$getAttrNum( "amp" ) );
 				break;
 		}
 	}
@@ -167,7 +164,7 @@ class gsuiLFO extends gsui0ne {
 
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
 		this.$updateWave( prop, realval );
-		this.$dispatch( "liveChange", this.#lfo, prop, realval );
+		GSUdomDispatch( this, "gsuiLFO-liveChange", this.#lfo, prop, realval );
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
@@ -175,7 +172,7 @@ class gsuiLFO extends gsui0ne {
 			: val;
 
 		GSUdomSetAttr( this, prop, nval );
-		this.$dispatch( "change", this.#lfo, prop, nval );
+		GSUdomDispatch( this, "gsuiLFO-change", this.#lfo, prop, nval );
 	}
 
 	// .........................................................................

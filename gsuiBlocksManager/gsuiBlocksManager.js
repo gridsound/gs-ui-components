@@ -78,7 +78,7 @@ class gsuiBlocksManager {
 
 	// .........................................................................
 	#dispatch( ...args ) {
-		GSUdispatchEvent( this.rootElement.firstChild, "gsuiBlocksManager", ...args );
+		GSUdomDispatch( this.rootElement.firstChild, ...args );
 	}
 	#getBlc( el ) {
 		return el.closest( ".gsuiBlocksManager-block" );
@@ -191,7 +191,7 @@ class gsuiBlocksManager {
 	// .........................................................................
 	#stopPreview() {
 		if ( this.#prevPreview ) {
-			this.#dispatch( "stopPreviewAudio", ...this.#prevPreview );
+			this.#dispatch( "gsuiBlocksManager-stopPreviewAudio", ...this.#prevPreview );
 			this.#prevPreview = null;
 		}
 	}
@@ -202,7 +202,7 @@ class gsuiBlocksManager {
 
 				this.#stopPreview();
 				this.#prevPreview = [ id, key ];
-				this.#dispatch( "startPreviewAudio", id, key );
+				this.#dispatch( "gsuiBlocksManager-startPreviewAudio", id, key );
 			} );
 		}
 	}
@@ -434,7 +434,7 @@ class gsuiBlocksManager {
 				const blc = blcsEditing.get( "preview" );
 				const midi = blc.parentNode.parentNode.dataset.midi;
 
-				this.#dispatch( "deletePreviewBlock" );
+				this.#dispatch( "gsuiBlocksManager-deletePreviewBlock" );
 				this.#opts.managercallCreate( {
 					midi: +midi,
 					when: +blc.dataset.when + this.#valueA,
@@ -446,7 +446,7 @@ class gsuiBlocksManager {
 	#onmouseupDelete( blcsEditing ) {
 		if ( blcsEditing.size || this.#blcsSelected.size ) {
 			if ( blcsEditing.has( "preview" ) ) {
-				this.#dispatch( "deletePreviewBlock" );
+				this.#dispatch( "gsuiBlocksManager-deletePreviewBlock" );
 			} else {
 				this.#opts.managercallDeleting( blcsEditing );
 			}

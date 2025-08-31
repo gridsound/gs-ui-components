@@ -10,12 +10,10 @@ class gsuiWindows extends gsui0ne {
 			$tagName: "gsui-windows",
 		} );
 		Object.seal( this );
-		GSUlistenEvents( this, {
-			gsuiWindow: {
-				open: ( d, win ) => this.#onopen( win ),
-				close: ( d, win ) => this.#onclose( win ),
-				startMousemoving: d => this.#startMousemoving( ...d.args ),
-			},
+		GSUdomListen( this, {
+			"gsuiWindow-open": d => this.#onopen( d.$target ),
+			"gsuiWindow-close": d => this.#onclose( d.$target ),
+			"gsuiWindow-startMousemoving": d => this.#startMousemoving( ...d.$args ),
 		} );
 		this.onpointerleave = e => this.onpointerup?.( e );
 	}
@@ -50,13 +48,13 @@ class gsuiWindows extends gsui0ne {
 	}
 	#onopen( win ) {
 		this.#onfocusinWin( win );
-		this.$dispatch( "open", win );
+		GSUdomDispatch( this, "gsuiWindows-open", win );
 	}
 	#onclose( win ) {
 		if ( win === this.#focusedWindow ) {
 			this.#focusedWindow = null;
 		}
-		this.$dispatch( "close", win );
+		GSUdomDispatch( this, "gsuiWindows-close", win );
 	}
 	#onfocusinWin( win, e ) {
 		if ( win !== this.#focusedWindow ) {
@@ -71,7 +69,7 @@ class gsuiWindows extends gsui0ne {
 			} );
 			win.style.zIndex = this.childElementCount - 1;
 			this.#focusedWindow = win;
-			this.$dispatch( "focus", win.dataset.id );
+			GSUdomDispatch( this, "gsuiWindows-focus", win.dataset.id );
 		}
 	}
 }

@@ -34,7 +34,7 @@ class gsuiTitleUser extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$login.onclick = this.#onclickLogin.bind( this );
 		this.$elements.$logout.onclick = this.#onclickLogout.bind( this );
-		this.$elements.$save.onclick = () => this.$dispatch( "save" );
+		this.$elements.$save.onclick = () => GSUdomDispatch( this, "gsuiTitleUser-save" );
 		this.$elements.$cmpEditBtn.onclick = () => !GSUdomHasAttr( this, "readonly" ) && GSUdomSetAttr( this, "renaming" );
 		this.$elements.$cmpEditInp.onblur = e => GSUdomHasAttr( this, "renaming" ) && this.#onkeydownRename( "Enter" );
 		this.$elements.$cmpEditInp.onkeydown = e => { e.stopPropagation(); this.#onkeydownRename( e.key ); };
@@ -132,7 +132,7 @@ class gsuiTitleUser extends gsui0ne {
 		switch ( key ) {
 			case "Enter":
 				if ( this.$elements.$cmpEditInp.value !== GSUdomGetAttr( this, "cmpname" ) ) {
-					this.$dispatch( "rename", GSUtrim2( this.$elements.$cmpEditInp.value ) );
+					GSUdomDispatch( this, "gsuiTitleUser-rename", GSUtrim2( this.$elements.$cmpEditInp.value ) );
 				}
 			case "Escape": GSUdomRmAttr( this, "renaming" );
 		}

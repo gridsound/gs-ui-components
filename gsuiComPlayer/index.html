@@ -89,14 +89,11 @@ bpmInp.oninput = () => GSUdomSetAttr( elCmp, "bpm", bpmInp.value );
 durationInp.oninput = () => GSUdomSetAttr( elCmp, "duration", durationInp.value );
 currentTimeInp.oninput = () => GSUdomSetAttr( elCmp, "currenttime", currentTimeInp.value );
 
-GSUlistenEvents( document.body, {
-	gsuiComPlayer: {
-		play: () => GSUdomSetAttr( elCmp, "playing" ),
-		stop: () => GSUdomRmAttr( elCmp, "playing" ),
-		delete: () => GSUdomSetAttr( elCmp, "deleting" ),
-		restore: () => GSUdomSetAttr( elCmp, "restoring" ),
-		currentTime: d => GSUdomSetAttr( elCmp, "currenttime", d.args[ 0 ] ),
-	},
+GSUdomListen( document.body, {
+	"gsuiComPlayer-play": () => GSUdomSetAttr( elCmp, "playing" ),
+	"gsuiComPlayer-stop": () => GSUdomRmAttr( elCmp, "playing" ),
+	"gsuiComPlayer-currentTime": ( _, time ) => GSUdomSetAttr( elCmp, "currenttime", time ),
+	"gsuiComPlayer-action": ( _, act ) => GSUdomRmAttr( elCmp, `action:[${ act }]` ),
 } );
 </script>
 </body>

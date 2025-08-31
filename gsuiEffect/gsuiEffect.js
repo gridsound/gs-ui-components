@@ -15,18 +15,15 @@ class gsuiEffect extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
+		this.$elements.$remove.onclick = () => GSUdomDispatch( this, "gsuiEffect-remove" );
 		this.$elements.$expand.onclick = () => {
 			GSUdomTogAttr( this, "expanded" );
-			this.$dispatch( "expand" );
+			GSUdomDispatch( this, "gsuiEffect-expand" );
 		};
-		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
-		GSUlistenEvents( this, {
-			gsuiToggle: {
-				toggle: ( d, t ) => {
-					GSUdomTogAttr( this, "enable" );
-					this.$dispatch( "toggle" );
-				},
+		GSUdomListen( this, {
+			"gsuiToggle-toggle": () => {
+				GSUdomTogAttr( this, "enable" );
+				GSUdomDispatch( this, "gsuiEffect-toggle" );
 			},
 		} );
 	}

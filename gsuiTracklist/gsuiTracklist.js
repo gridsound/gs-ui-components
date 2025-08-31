@@ -9,12 +9,10 @@ class gsuiTracklist extends gsui0ne {
 			$tagName: "gsui-tracklist",
 		} );
 		Object.seal( this );
-		GSUlistenEvents( this, {
-			gsuiTrack: {
-				rename: ( d, tr ) => this.$dispatch( "renameTrack", tr.dataset.id, d.args[ 0 ] ),
-				toggle: ( d, tr ) => this.$dispatch( "toggleTrack", tr.dataset.id ),
-				toggleSolo: ( d, tr ) => this.$dispatch( "toggleSoloTrack", tr.dataset.id ),
-			},
+		GSUdomListen( this, {
+			"gsuiTrack-rename": ( d, name ) => GSUdomDispatch( this, "gsuiTracklist-renameTrack", d.$target.dataset.id, name ),
+			"gsuiTrack-toggle": d => GSUdomDispatch( this, "gsuiTracklist-toggleTrack", d.$target.dataset.id ),
+			"gsuiTrack-toggleSolo": d => GSUdomDispatch( this, "gsuiTracklist-toggleSoloTrack", d.$target.dataset.id ),
 		} );
 	}
 

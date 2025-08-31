@@ -29,15 +29,8 @@ class gsuiComPlayer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$play.onclick = () => this.$dispatch( GSUdomHasAttr( this, "playing" ) ? "stop" : "play" );
+		this.$elements.$play.onclick = () => GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? "gsuiComPlayer-stop" : "gsuiComPlayer-play" );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
-		this.onclick = e => {
-			const act = e.target.dataset.action;
-
-			if ( act ) {
-				this.$dispatch( act );
-			}
-		};
 	}
 
 	// .........................................................................
@@ -102,7 +95,7 @@ class gsuiComPlayer extends gsui0ne {
 			this.#actionMenu.$setActions( this.#actions );
 			this.#actionMenu.$setDirection( this.#actionMenuDir );
 			this.#actionMenu.$setMaxSize( "260px", "180px" );
-			this.#actionMenu.$setCallback( act => this.$dispatch( act ) );
+			this.#actionMenu.$setCallback( act => GSUdomDispatch( this, "gsuiComPlayer-action", act ) );
 		}
 		if ( actionsStr ) {
 			this.#actions.forEach( act => this.#actionMenu.$changeAction( act.id, "hidden", !actionsStr.includes( act.id ) ) );
@@ -128,7 +121,7 @@ class gsuiComPlayer extends gsui0ne {
 		e.target.onpointerup =
 		e.target.onpointermove =
 		this.#settingTime = null;
-		this.$dispatch( "currentTime", t * GSUdomGetAttrNum( this, "duration" ) );
+		GSUdomDispatch( this, "gsuiComPlayer-currentTime", t * GSUdomGetAttrNum( this, "duration" ) );
 	}
 }
 

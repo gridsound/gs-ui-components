@@ -41,11 +41,11 @@ class gsuiPatternroll extends gsui0ne {
 		} );
 		this.timeline = this.#win.timeline;
 		Object.seal( this );
-		GSUlistenEvents( this, {
-			gsuiTimewindow: {
-				pxperbeat: d => this.#ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
-				lineheight: d => this.#ongsuiTimewindowLineheight( d.args[ 0 ] ),
-			},
+		GSUdomListen( this, {
+			"gsuiTimewindow-pxperbeat": ( d, px ) => this.#ongsuiTimewindowPxperbeat( px ),
+			"gsuiTimewindow-lineheight": ( d, px ) => this.#ongsuiTimewindowLineheight( px ),
+			"gsuiBlocksManager-startPreviewAudio": GSUnoop,
+			"gsuiBlocksManager-stopPreviewAudio": GSUnoop,
 		} );
 		this.#ongsuiTimewindowPxperbeat( 32 );
 		this.#ongsuiTimewindowLineheight( 40 );

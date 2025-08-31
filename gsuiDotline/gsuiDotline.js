@@ -59,21 +59,19 @@ class gsuiDotline extends gsui0ne {
 			{ id: "triangleWave", icon: "radio-btn", name: "triangle-wave" },
 			{ id: "squareWave",   icon: "radio-btn", name: "square-wave" },
 		] );
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputEnd: GSUnoop,
-				inputStart: GSUnoop,
-				input: d => {
-					this.#data[ this.#activeDotId ].val = d.args[ 0 ];
-					this.#drawPolyline();
-					this.#oninput( "curve" );
-				},
-				change: d => {
-					this.#data[ this.#activeDotId ].val = d.args[ 0 ];
-					this.#drawPolyline();
-					this.#onchange( { [ this.#activeDotId ]: { val: d.args[ 0 ] } } );
-				},
-			}
+		GSUdomListen( this, {
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-input": ( _, val ) => {
+				this.#data[ this.#activeDotId ].val = val;
+				this.#drawPolyline();
+				this.#oninput( "curve" );
+			},
+			"gsuiSlider-change": ( _, val ) => {
+				this.#data[ this.#activeDotId ].val = val;
+				this.#drawPolyline();
+				this.#onchange( { [ this.#activeDotId ]: { val } } );
+			},
 		} );
 	}
 
@@ -215,29 +213,29 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#oninput( tar ) {
-		this.$dispatch( "input", {
+		GSUdomDispatch( this, "gsuiDotline-input", {
 			$target: tar,
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputstart() {
-		this.$dispatch( "inputstart", {
+		GSUdomDispatch( this, "gsuiDotline-inputstart", {
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputend() {
-		this.$dispatch( "inputend" );
+		GSUdomDispatch( this, "gsuiDotline-inputend" );
 	}
 	#onchange( obj ) {
 		if ( obj ) {
-			this.$dispatch( "change", obj );
+			GSUdomDispatch( this, "gsuiDotline-change", obj );
 		} else {
 			const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
 			if ( diff ) {
-				this.$dispatch( "change", diff );
+				GSUdomDispatch( this, "gsuiDotline-change", diff );
 			}
 		}
 	}

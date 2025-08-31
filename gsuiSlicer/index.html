@@ -92,17 +92,13 @@ slicer.$addSlice(  5, { x: .625, y: .625, w: .125 } );
 slicer.$addSlice(  6, { x: .750, y: .750, w: .125 } );
 slicer.$addSlice(  7, { x: .875, y: .875, w: .125 } );
 
-GSUlistenEvents( slicer, {
-	gsuiSlicer: {
-		changeProp: d => {
-			const [ prop, val ] = d.args;
-
-			playSampleBtn.onclick();
-			playSampleBtn.onclick();
-			if ( prop === "duration" ) {
-				GSUdomSetAttr( currentTimeInp, "max", val );
-			}
-		},
+GSUdomListen( slicer, {
+	"gsuiSlicer-changeProp": ( _, prop, val ) => {
+		playSampleBtn.onclick();
+		playSampleBtn.onclick();
+		if ( prop === "duration" ) {
+			GSUdomSetAttr( currentTimeInp, "max", val );
+		}
 	},
 } );
 

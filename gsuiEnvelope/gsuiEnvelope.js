@@ -40,14 +40,11 @@ class gsuiEnvelope extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputStart: GSUnoop,
-				inputEnd: GSUnoop,
-				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
-				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
-			},
+		GSUdomListen( this, {
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-input": ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
+			"gsuiSlider-change": ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
 		} );
 	}
 
@@ -139,11 +136,11 @@ class gsuiEnvelope extends gsui0ne {
 	#oninputSlider( prop, val ) {
 		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiEnvelope.#formatValue( prop, val );
 		this.$updateWave( prop, val );
-		this.$dispatch( "liveChange", this.#env, prop, val );
+		GSUdomDispatch( this, "gsuiEnvelope-liveChange", this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
 		GSUdomSetAttr( this, prop, val );
-		this.$dispatch( "change", this.#env, prop, val );
+		GSUdomDispatch( this, "gsuiEnvelope-change", this.#env, prop, val );
 	}
 
 	// .........................................................................

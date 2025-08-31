@@ -69,33 +69,21 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$wavePrev.onclick = this.#onclickPrevNext.bind( this, -1 );
 		this.$elements.$waveNext.onclick = this.#onclickPrevNext.bind( this, 1 );
 		this.$elements.$wavetableBtn.onclick = () => GSUdomTogAttr( this, "wavetable" );
-		this.$elements.$remove.onclick = () => this.$dispatch( "remove" );
+		this.$elements.$remove.onclick = () => GSUdomDispatch( this, "gsuiOscillator-remove" );
 		this.addEventListener( "transitionend", e => {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {
 				GSUsetStyle( this, "transition", "none" );
 			}
 		} );
-
-		const redirEv = d => {
-			d.component = "gsuiOscillator";
-			d.target = this;
-			return true;
-		};
-
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputStart: GSUnoop,
-				inputEnd: GSUnoop,
-				input: ( d, sli ) => this.#oninputSlider( sli.dataset.prop, d.args[ 0 ] ),
-				change: ( d, sli ) => this.#onchangeSlider( sli.dataset.prop, d.args[ 0 ] ),
-			},
-			gsuiWavetable: {
-				back: () => GSUdomRmAttr( this, "wavetable" ),
-				changeWavetable: redirEv,
-				changeWavetableCurve: redirEv,
-				selectWavetableCurve: redirEv,
-				changeWavetableParams: redirEv,
-			},
+		GSUdomListen( this, {
+			"gsuiWavetable-back": () => GSUdomRmAttr( this, "wavetable" ),
+			"gsuiWavetable-param": d => ( d.$target = this, d.$event = "gsuiOscillator-changeWavetableParam", true ),
+			"gsuiWavetable-change": d => ( d.$target = this, d.$event = "gsuiOscillator-changeWavetable", true ),
+			"gsuiWavetable-selectCurve": d => ( d.$target = this, d.$event = "gsuiOscillator-selectWavetableCurve", true ),
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-input": ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
+			"gsuiSlider-change": ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
 		} );
 	}
 
@@ -110,7 +98,7 @@ class gsuiOscillator extends gsui0ne {
 		this.style.minHeight = `${ h }px`;
 		this.$elements.$waves[ 0 ].$resized();
 		this.$elements.$waves[ 1 ].$resized();
-		this.$dispatch( "resize" );
+		GSUdomDispatch( this, "gsuiOscillator-resize" );
 	}
 	$firstTimeConnected() {
 		this.$elements.$waves[ 0 ].$nbLines( 1 );
@@ -304,11 +292,11 @@ class gsuiOscillator extends gsui0ne {
 
 		GSUclearTimeout( this.#timeidType );
 		GSUdomSetAttr( this, "wave", w );
-		this.$dispatch( "liveChange", "wave", w );
+		GSUdomDispatch( this, "gsuiOscillator-liveChange", "wave", w );
 		this.#timeidType = GSUsetTimeout( () => {
 			if ( w !== this.#typeSaved ) {
 				this.#typeSaved = w;
-				this.$dispatch( "change", "wave", w );
+				GSUdomDispatch( this, "gsuiOscillator-change", "wave", w );
 			}
 		}, .7 );
 	}
@@ -319,7 +307,7 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#onchangeSlider( prop, val ) {
 		GSUdomSetAttr( this, prop, val );
-		this.$dispatch( "change", prop, val );
+		GSUdomDispatch( this, "gsuiOscillator-change", prop, val );
 	}
 	#oninputSlider( prop, val ) {
 		let val2 = val;
@@ -354,7 +342,7 @@ class gsuiOscillator extends gsui0ne {
 				break;
 		}
 		gsuiOscillator.#setTextValue( span, prop, val2 );
-		this.$dispatch( "liveChange", prop, val );
+		GSUdomDispatch( this, "gsuiOscillator-liveChange", prop, val );
 	}
 }
 

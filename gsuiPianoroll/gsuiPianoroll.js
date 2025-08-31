@@ -64,39 +64,26 @@ class gsuiPianoroll extends gsui0ne {
 		this.timeline = this.#win.timeline;
 		this.uiKeys = GSUcreateElement( "gsui-keys" );
 		Object.seal( this );
-
-		GSUlistenEvents( this, {
-			gsuiTimewindow: {
-				pxperbeat: d => this.#ongsuiTimewindowPxperbeat( d.args[ 0 ] ),
-				lineheight: d => this.#ongsuiTimewindowLineheight( d.args[ 0 ] ),
+		GSUdomListen( this, {
+			"gsuiTimewindow-pxperbeat": ( _, px ) => this.#ongsuiTimewindowPxperbeat( px ),
+			"gsuiTimewindow-lineheight": ( _, px ) => this.#ongsuiTimewindowLineheight( px ),
+			"gsuiTimeline-inputLoop": d => this.#ongsuiTimelineChangeLoop( false, ...d.$args ),
+			"gsuiTimeline-changeLoop": d => this.#ongsuiTimelineChangeLoop( true, ...d.$args ),
+			"gsuiTimeline-changeCurrentTime": ( _, time ) => this.#ongsuiTimelineChangeCurrentTime( time ),
+			"gsuiPropSelect-select": () => this.#onchangePropSelect(),
+			"gsuiSliderGroup-input": ( _, __, a ) => this.#ongsuiSliderGroupInput( a ),
+			"gsuiSliderGroup-inputEnd": () => this.#ongsuiSliderGroupInputEnd(),
+			"gsuiSliderGroup-change": d => this.#ongsuiSliderGroupChange( d ),
+			"gsuiBlocksManager-deletePreviewBlock": () => this.$removeKey( "preview" ),
+			"gsuiBlocksManager-startPreviewAudio": ( _, __, a ) => {
+				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
+					this.uiKeys.$midiKeyDown( a ); // should be called differently
+				}
 			},
-			gsuiTimeline: {
-				inputLoop: d => this.#ongsuiTimelineChangeLoop( false, ...d.args ),
-				changeLoop: d => this.#ongsuiTimelineChangeLoop( true, ...d.args ),
-				changeCurrentTime: d => this.#ongsuiTimelineChangeCurrentTime( d.args[ 0 ] ),
-			},
-			gsuiPropSelect: {
-				select: d => this.#onchangePropSelect(),
-			},
-			gsuiSliderGroup: {
-				input: d => this.#ongsuiSliderGroupInput( d.args[ 1 ] ),
-				inputEnd: () => this.#ongsuiSliderGroupInputEnd(),
-				change: d => this.#ongsuiSliderGroupChange( d ),
-			},
-			gsuiBlocksManager: {
-				deletePreviewBlock: () => this.$removeKey( "preview" ),
-				startPreviewAudio: d => {
-					if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
-						this.uiKeys.$midiKeyDown( d.args[ 1 ] ); // should be called differently
-						return true;
-					}
-				},
-				stopPreviewAudio: d => {
-					if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
-						this.uiKeys.$midiKeyUp( d.args[ 1 ] );
-						return true;
-					}
-				},
+			"gsuiBlocksManager-stopPreviewAudio": ( _, __, a ) => {
+				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
+					this.uiKeys.$midiKeyUp( a );
+				}
 			},
 		} );
 		this.ondragover = GSUnoopFalse;
@@ -375,9 +362,9 @@ class gsuiPianoroll extends gsui0ne {
 		d.component = "gsuiPianoroll";
 		d.eventName = "changeKeysProps";
 		if ( prop.startsWith( "gainLFO" ) ) {
-			d.args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
+			d.$args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
 		}
-		d.args.unshift( prop );
+		d.$args.unshift( prop );
 		return true;
 	}
 	static #xToMul( x ) {
@@ -466,9 +453,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ondropMIDI( mid ) {
 		const rd = new FileReader();
 
-		rd.onload = e => {
-			this.$dispatch( "midiDropped", new Uint8Array( e.target.result ) );
-		};
+		rd.onload = e => GSUdomDispatch( this, "gsuiPianoroll-midiDropped", new Uint8Array( e.target.result ) );
 		rd.readAsArrayBuffer( mid );
 	}
 

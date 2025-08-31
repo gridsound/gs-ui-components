@@ -1,7 +1,6 @@
 "use strict";
 
 class gsui0ne extends HTMLElement {
-	$dispatch = null;
 	$element = null;
 	$elements = null;
 	$isActive = false;
@@ -16,7 +15,6 @@ class gsui0ne extends HTMLElement {
 	constructor( o = {} ) {
 		super();
 		this.#attributes = o.$attributes || {};
-		this.$dispatch = GSUdispatchEvent.bind( null, this, o.$cmpName );
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
 			? GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) )
 			: null );

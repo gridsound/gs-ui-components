@@ -62,47 +62,40 @@ class gsuiTimewindow extends gsui0ne {
 		} );
 		this.timeline = this.$elements.$timeline;
 		Object.seal( this );
+		GSUdomListen( this, {
+			"gsuiSlider-input": ( d, val ) => {
+				if ( d.$target.dataset.zoom === "x" ) {
+					const val = GSUmathEaseInCirc( val );
+					const newVal = this.#getPPBmin() + val * ( this.#getPPBmax() - this.#getPPBmin() );
+					const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
 
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				input: ( d, sli ) => {
-					if ( sli.dataset.zoom === "x" ) {
-						const val = GSUmathEaseInCirc( d.args[ 0 ] );
-						const newVal = this.#getPPBmin() + val * ( this.#getPPBmax() - this.#getPPBmin() );
-						const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
+					this.#setScrollX( scrollBack );
+					GSUdomSetAttr( this, "pxperbeat", newVal );
+					GSUdomDispatch( this, "gsuiTimewindow-pxperbeat", newVal );
+				} else if ( d.$target.dataset.zoom === "y" ) {
+					const val = GSUmathEaseInCirc( val );
+					const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
+					const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, newVal, 0 );
 
-						this.#setScrollX( scrollBack );
-						GSUdomSetAttr( this, "pxperbeat", newVal );
-						this.$dispatch( "pxperbeat", newVal );
-					} else if ( sli.dataset.zoom === "y" ) {
-						const val = GSUmathEaseInCirc( d.args[ 0 ] );
-						const newVal = this.#getLHmin() + val * ( this.#getLHmax() - this.#getLHmin() );
-						const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, newVal, 0 );
-
-						this.#setScrollY( scrollBack );
-						GSUdomSetAttr( this, "lineheight", newVal );
-						this.$dispatch( "lineheight", newVal );
-					}
-				},
+					this.#setScrollY( scrollBack );
+					GSUdomSetAttr( this, "lineheight", newVal );
+					GSUdomDispatch( this, "gsuiTimewindow-lineheight", newVal );
+				}
 			},
-			gsuiStepSelect: {
-				onchange: d => GSUdomSetAttr( this, "step", d.args[ 0 ] ),
+			"gsuiStepSelect-onchange": ( _, val ) => GSUdomSetAttr( this, "step", val ),
+			"gsuiTimeline-inputCurrentTime": GSUnoop,
+			"gsuiTimeline-changeCurrentTime": ( _, val ) => {
+				GSUdomSetAttr( this, "currenttime", val );
+				return true;
 			},
-			gsuiTimeline: {
-				inputCurrentTime: GSUnoop,
-				changeCurrentTime: d => {
-					GSUdomSetAttr( this, "currenttime", d.args[ 0 ] );
-					return true;
-				},
-				inputLoop: d => {
-					GSUdomSetAttr( this, "loop", Number.isFinite( d.args[ 0 ] ) && `${ d.args[ 0 ] }-${ d.args[ 1 ] }` );
-					return true;
-				},
-				inputLoopEnd: () => this.style.overflowY = "",
-				inputLoopStart: () => this.style.overflowY = "hidden",
-				inputCurrentTimeEnd: () => this.style.overflowY = "",
-				inputCurrentTimeStart: () => this.style.overflowY = "hidden",
+			"gsuiTimeline-inputLoop": ( _, a, b ) => {
+				GSUdomSetAttr( this, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+				return true;
 			},
+			"gsuiTimeline-inputLoopEnd": () => this.style.overflowY = "",
+			"gsuiTimeline-inputLoopStart": () => this.style.overflowY = "hidden",
+			"gsuiTimeline-inputCurrentTimeEnd": () => this.style.overflowY = "",
+			"gsuiTimeline-inputCurrentTimeStart": () => this.style.overflowY = "hidden",
 		} );
 		this.ondragstart = GSUnoopFalse;
 		this.$elements.$main.onwheel = this.#onwheel.bind( this );
@@ -392,7 +385,7 @@ class gsuiTimewindow extends gsui0ne {
 
 			this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppbNew, px ) );
 			GSUdomSetAttr( this, "pxperbeat", ppbNew );
-			this.$dispatch( "pxperbeat", ppbNew );
+			GSUdomDispatch( this, "gsuiTimewindow-pxperbeat", ppbNew );
 		}
 	}
 	#onwheelPanel( e ) {
@@ -406,7 +399,7 @@ class gsuiTimewindow extends gsui0ne {
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
 				GSUdomSetAttr( this, "lineheight", lhNew );
-				this.$dispatch( "lineheight", lhNew );
+				GSUdomDispatch( this, "gsuiTimewindow-lineheight", lhNew );
 			}
 		}
 	}

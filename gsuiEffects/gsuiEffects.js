@@ -27,32 +27,25 @@ class gsuiEffects extends gsui0ne {
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
 			$itemGripSelector: ".gsuiEffect-grip",
-			$onchange: ( obj, fxId ) => this.$dispatch( "reorderEffect", fxId, obj ),
+			$onchange: ( obj, fxId ) => GSUdomDispatch( this, "gsuiEffects-reorderEffect", fxId, obj ),
 		} );
-		GSUlistenEvents( this, {
-			gsuiEffect: {
-				remove: ( d, t ) => this.$dispatch( "removeEffect", t.dataset.id ),
-				toggle: ( d, t ) => this.$dispatch( "toggleEffect", t.dataset.id ),
+		GSUdomListen( this, {
+			"gsuiEffect-remove": d => GSUdomDispatch( this, "gsuiEffects-removeEffect", d.$target.dataset.id ),
+			"gsuiEffect-toggle": d => GSUdomDispatch( this, "gsuiEffects-toggleEffect", d.$target.dataset.id ),
+			"gsuiEffect-fx-liveChange": d => {
+				d.$args.unshift( d.$target.dataset.id );
+				d.$event = "gsuiEffects-liveChangeEffect";
+				return true;
 			},
-			default: {
-				liveChange: ( d, t ) => {
-					d.args.unshift( t.dataset.id );
-					d.component = "gsuiEffects";
-					d.eventName = "liveChangeEffect";
-					return true;
-				},
-				changeProp: ( d, t ) => {
-					d.args.unshift( t.dataset.id );
-					d.component = "gsuiEffects";
-					d.eventName = "changeEffectProp";
-					return true;
-				},
-				changeProps: ( d, t ) => {
-					d.args.unshift( t.dataset.id );
-					d.component = "gsuiEffects";
-					d.eventName = "changeEffect";
-					return true;
-				},
+			"gsuiEffect-fx-changeProp": d => {
+				d.$args.unshift( d.$target.dataset.id );
+				d.$event = "gsuiEffects-changeEffectProp";
+				return true;
+			},
+			"gsuiEffect-fx-changeProps": d => {
+				d.$args.unshift( d.$target.dataset.id );
+				d.$event = "gsuiEffects-changeEffect";
+				return true;
 			},
 		} );
 	}
@@ -111,7 +104,7 @@ class gsuiEffects extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn );
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( act => this.$dispatch( "addEffect", act ) );
+		this.#actionMenu.$setCallback( act => GSUdomDispatch( this, "gsuiEffects-addEffect", act ) );
 		this.#actionMenu.$setActions( [
 			{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
 			{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },

@@ -30,12 +30,12 @@ class gsuiLibrary extends gsui0ne {
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
 			$getTargetList: () => [
-				GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
-				GSUdomQS( "gsui-slicer" ),
+				   GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				   GSUdomQS( "gsui-slicer" ),
 				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
+				   GSUdomQS( ".gsuiSynthesizer-newOsc" ),
 				...GSUdomQSA( "gsui-drumrow" ),
-				GSUdomQS( ".gsuiDrumrows-dropNew" ),
+				   GSUdomQS( ".gsuiDrumrows-dropNew" ),
 				...GSUdomQSA( ".gsuiTrack-row > div" ),
 			],
 			$ondrop: drop => {
@@ -45,25 +45,25 @@ class gsuiLibrary extends gsui0ne {
 				const obj = { $name };
 
 				if ( tar.tagName === "GSUI-SLICER" ) {
-					this.$dispatch( "dropOnSlicer", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnSlicer", obj );
 				} else if ( GSUdomHasClass( tar, "gsuiPatterns-panel-list-wrap" ) ) {
-					this.$dispatch( "dropOnPatterns", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnPatterns", obj );
 				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 					obj.$drumrowId = tar.dataset.id;
-					this.$dispatch( "dropOnDrumrow", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnDrumrow", obj );
 				} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
-					this.$dispatch( "dropOnDrumrowNew", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnDrumrowNew", obj );
 				} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 					obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
-					this.$dispatch( "dropOnOsc", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnOsc", obj );
 				} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-					this.$dispatch( "dropOnOscNew", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnOscNew", obj );
 				} else {
 					obj.$when = Math.floor( drop.$offsetX / GSUdomGetAttrNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
 					obj.$track = tar.parentNode.dataset.id;
-					this.$dispatch( "dropOnTracks", obj );
+					GSUdomDispatch( this, "gsuiLibrary-dropOnTracks", obj );
 				}
 			},
 		} );
@@ -152,8 +152,8 @@ class gsuiLibrary extends gsui0ne {
 			GSUclearTimeout( this.#stopTimeout );
 			this.#elCursor.remove();
 			GSUdomRmClass( el, "gsuiLibrary-sample-playing" );
-			this.#elCursor = null;
-			this.#idPlaying = null;
+			this.#elCursor =
+			this.#idPlaying =
 			this.#stopTimeout = null;
 		}
 	}
@@ -180,15 +180,15 @@ class gsuiLibrary extends gsui0ne {
 			this.#expandGroup( el.parentNode );
 		} else if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) && !GSUdomHasClass( el, "gsuiLibrary-sample-loading" ) ) {
 			const act = GSUdomHasClass( el, "gsuiLibrary-sample-ready" )
-				? "playSample"
-				: "loadSample";
+				? "gsuiLibrary-playSample"
+				: "gsuiLibrary-loadSample";
 
-			this.$dispatch( act, el.dataset.id );
+			GSUdomDispatch( this, act, el.dataset.id );
 		}
 	}
 	#oncontextmenu( e ) {
 		if ( GSUdomHasClass( e.target, "gsuiLibrary-sample" ) ) {
-			this.$dispatch( "stopSample" );
+			GSUdomDispatch( this, "gsuiLibrary-stopSample" );
 		}
 		return false;
 	}

@@ -112,11 +112,11 @@ class gsuiPatterns extends gsui0ne {
 			$root: this.$elements.$lists.buffer,
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => [
-				GSUdomQS( "gsui-slicer" ),
+				   GSUdomQS( "gsui-slicer" ),
 				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
+				   GSUdomQS( ".gsuiSynthesizer-newOsc" ),
 				...GSUdomQSA( "gsui-drumrow" ),
-				GSUdomQS( ".gsuiDrumrows-dropNew" ),
+				   GSUdomQS( ".gsuiDrumrows-dropNew" ),
 				...GSUdomQSA( ".gsuiTrack-row > div" ),
 			],
 		} );
@@ -129,19 +129,19 @@ class gsuiPatterns extends gsui0ne {
 		};
 
 		if ( tar.tagName === "GSUI-SLICER" ) {
-			this.$dispatch( "dropBufferOnSlicer", obj );
+			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnSlicer", obj );
 		} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 			obj.$drumrowId = tar.dataset.id;
-			this.$dispatch( "dropBufferOnDrumrow", obj );
+			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnDrumrow", obj );
 		} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
-			this.$dispatch( "dropBufferOnDrumrowNew", obj );
+			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnDrumrowNew", obj );
 		} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 			obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
-			this.$dispatch( "dropBufferOnOsc", obj );
+			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnOsc", obj );
 		} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-			this.$dispatch( "dropBufferOnOscNew", obj );
+			GSUdomDispatch( this, "gsuiPatterns-dropBufferOnOscNew", obj );
 		} else {
 			this.#ondropPatternInTrack( "pattern-buffer", drop );
 		}
@@ -149,7 +149,7 @@ class gsuiPatterns extends gsui0ne {
 	#ondropPatternInTrack( patType, drop ) {
 		const ppb = GSUdomGetAttrNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
 
-		this.$dispatch( "dropPattern", {
+		GSUdomDispatch( this, "gsuiPatterns-dropPattern", {
 			$type: patType,
 			$pattern: drop.$item,
 			$when: Math.floor( drop.$offsetX / ppb ),

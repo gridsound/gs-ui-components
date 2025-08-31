@@ -45,21 +45,18 @@ class gsuiFxWaveShaper extends gsui0ne {
 				this.#onchangeOversample();
 			}
 		};
-		GSUlistenEvents( this, {
-			gsuiDotline: {
-				change: d => this.$dispatch( "changeProp", "curve", d.args[ 0 ] ),
-				input: ( { args: [ d ] } ) => {
-					this.#updateWaveB();
-					this.$dispatch( "liveChange", "curve", d.$data );
-				},
+		GSUdomListen( this, {
+			"gsuiDotline-change": ( _, obj ) => GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "curve", obj ),
+			"gsuiDotline-input": ( _, obj ) => {
+				this.#updateWaveB();
+				GSUdomDispatch( this, "gsuiEffect-fx-liveChange", "curve", obj.$data );
 			},
-			gsuiToggle: {
-				toggle: ( d, t, e ) => {
-					switch ( e.target.dataset.prop ) {
-						case "oversample": this.#onchangeOversample(); break;
-						case "symmetry": this.#onchangeSymmetry( d.args[ 0 ] ); break;
-					}
-				},
+			"gsuiToggle-toggle": ( d, b ) => {
+				lg("waveshaper.gsuiToggle-toggle", d.$target.dataset.prop);
+				switch ( d.$target.dataset.prop ) {
+					case "oversample": this.#onchangeOversample(); break;
+					case "symmetry": this.#onchangeSymmetry( b ); break;
+				}
 			},
 		} );
 	}
@@ -112,7 +109,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		);
 
 		if ( diff ) {
-			this.$dispatch( "changeProp", "curve", diff );
+			GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "curve", diff );
 		}
 	}
 	#onchangeOversample() {
@@ -120,7 +117,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			? this.$elements.$oversampleSelect.value
 			: "none";
 
-		this.$dispatch( "changeProp", "oversample", val );
+		GSUdomDispatch( this, "gsuiEffect-fx-changeProp", "oversample", val );
 	}
 	#onchangeSymmetry( symmetry ) {
 		const curve = {};
@@ -140,7 +137,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			curve[ GSUgetNewId( srcData ) ] = { ...srcData[ 0 ] };
 			curve[ 0 ] = { x: -1, y: -1 };
 		}
-		this.$dispatch( "changeProps", "symmetry", obj );
+		GSUdomDispatch( this, "gsuiEffect-fx-changeProps", "symmetry", obj );
 	}
 	#updateWaveA() {
 		const len = gsuiFxWaveShaper.#sinePts.length;

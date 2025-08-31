@@ -22,19 +22,11 @@ class gsuiMixer extends gsui0ne {
 			const type = GSUdomGetAttr( this, "analyser" ) === "hz" ? "td" : "hz";
 
 			GSUdomSetAttr( this, "analyser", type );
-			this.$dispatch( "changeAnalyser", type );
+			GSUdomDispatch( this, "gsuiMixer-changeAnalyser", type );
 		};
-		GSUlistenEvents( this, {
-			gsuiChannels: {
-				nbChannelsChange: () => {
-					this.#shadowChans.$update();
-				},
-			},
-			gsuiEffect: {
-				expand: () => {
-					GSUsetTimeout( () => this.#shadowEffects.$update(), .1 );
-				},
-			},
+		GSUdomListen( this, {
+			"gsuiChannels-nbChannelsChange": () => this.#shadowChans.$update(),
+			"gsuiEffect-expand": () => GSUsetTimeout( () => this.#shadowEffects.$update(), .1 ),
 		} );
 	}
 

@@ -61,14 +61,14 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#initActionMenu();
 		this.$elements.$symmetryBtn.onclick = () => {
 			GSUdomTogAttr( this, "symmetry" );
-			this.$dispatch( "param", { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
+			GSUdomDispatch( this, "gsuiWaveEditor-param", { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
 		};
 		this.$elements.$tools.onclick = e => {
 			const t = e.target.dataset.tool;
 
 			if ( t && GSUdomGetAttr( this, "tool" ) !== t ) {
 				GSUdomSetAttr( this, "tool", t );
-				this.$dispatch( "param", { tool: t } );
+				GSUdomDispatch( this, "gsuiWaveEditor-param", { tool: t } );
 			}
 		};
 		this.$elements.$wave.onpointerdown = e => {
@@ -91,7 +91,7 @@ class gsuiWaveEditor extends gsui0ne {
 				this.$elements.$wave.releasePointerCapture( e.pointerId );
 				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
 					this.#waveArray2 = null;
-					this.$dispatch( "change", [ ...this.#waveArray ] );
+					GSUdomDispatch( this, "gsuiWaveEditor-change", [ ...this.#waveArray ] );
 				}
 				this.#currentSquare = null;
 			}
@@ -118,19 +118,17 @@ class gsuiWaveEditor extends gsui0ne {
 					const bufData2 = GSUarrayResize( bufData, 2048 );
 					
 					this.$setWaveArray( bufData2 );
-					this.$dispatch( "change", bufData2 );
+					GSUdomDispatch( this, "gsuiWaveEditor-change", bufData2 );
 				} );
 		};
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputEnd: GSUnoop,
-				inputStart: GSUnoop,
-				change: () => this.$dispatch( "param", { div: GSUdomGetAttr( this, "div" ) } ),
-				input: ( d, t ) => {
-					GSUdomSetAttr( this, "div", GSUdomGetAttr( t.parentNode, "dir" ) === "x"
-						? `${ d.args[ 0 ] } ${ this.#div[ 1 ] }`
-						: `${ this.#div[ 0 ] } ${ d.args[ 0 ] }` );
-				},
+		GSUdomListen( this, {
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-change": d => GSUdomDispatch( this, "gsuiWaveEditor-param", { div: GSUdomGetAttr( this, "div" ) } ),
+			"gsuiSlider-input": ( d, val ) => {
+				GSUdomSetAttr( this, "div", GSUdomGetAttr( d.$target.parentNode, "dir" ) === "x"
+					? `${ val } ${ this.#div[ 1 ] }`
+					: `${ this.#div[ 0 ] } ${ val }` );
 			},
 		} );
 	}
@@ -188,7 +186,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn );
 		this.#actionMenu.$setDirection( "RB" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( w => this.$dispatch( "change", this.$reset( w ) ) );
+		this.#actionMenu.$setCallback( w => GSUdomDispatch( this, "gsuiWaveEditor-change", this.$reset( w ) ) );
 		this.#actionMenu.$setActions( [
 			{ id: "silence",  name: "Silence" },
 			{ id: "sine",     name: "Sine" },

@@ -103,12 +103,10 @@ const logout1 = () => new Promise( ( res, rej ) => GSUsetTimeout( res, 1 ) );
 elCmp.$setLogoutCallbackPromise( logout0 );
 // elCmp.$setLogoutCallbackPromise( logout1 );
 
-GSUlistenEvents( elCmp, {
-	gsuiTitleUser: {
-		rename: d => {
-			lg( `rename: [${ d.args[ 0 ] }]` );
-			GSUdomSetAttr( elCmp, "cmpname", d.args[ 0 ] );
-		},
+GSUdomListen( elCmp, {
+	"gsuiTitleUser-rename": ( _, name ) => {
+		lg( `rename: [${ name }]` );
+		GSUdomSetAttr( elCmp, "cmpname", name );
 	},
 } );
 

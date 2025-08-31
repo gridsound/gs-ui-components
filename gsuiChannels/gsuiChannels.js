@@ -23,16 +23,13 @@ class gsuiChannels extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
 		this.$elements.$addBtn.onclick = () => this.$onchange( "addChannel" );
-		GSUlistenEvents( this, {
-			gsuiChannel: {
-				selectChannel: ( d, chan ) => this.$selectChannel( chan.dataset.id ),
-				selectEffect: ( d, chan ) => this.$onselectEffect( chan.dataset.id, d.args[ 0 ] ),
-				liveChange: ( d, chan ) => this.$oninput( chan.dataset.id, ...d.args ),
-				change: ( d, chan ) => this.$onchange( "changeChannel", chan.dataset.id, ...d.args ),
-				toggle: ( d, chan ) => this.$onchange( "toggleChannel", chan.dataset.id ),
-			},
+		GSUdomListen( this, {
+			"gsuiChannel-selectChannel": d => this.$selectChannel( d.$target.dataset.id ),
+			"gsuiChannel-selectEffect": ( d, id ) => this.$onselectEffect( d.$target.dataset.id, id ),
+			"gsuiChannel-liveChange": ( d ) => this.$oninput( d.$target.dataset.id, ...d.$args ),
+			"gsuiChannel-change": ( d ) => this.$onchange( "changeChannel", d.$target.dataset.id, ...d.$args ),
+			"gsuiChannel-toggle": d => this.$onchange( "toggleChannel", d.$target.dataset.id ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$pchans,
@@ -104,7 +101,7 @@ class gsuiChannels extends gsui0ne {
 		};
 		chan.$analyser.$updateResolution();
 		GSUdomSetAttr( chan.$analyser, "type", this.#analyserType );
-		this.$dispatch( "nbChannelsChange" );
+		GSUdomDispatch( this, "gsuiChannels-nbChannelsChange" );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
@@ -127,7 +124,7 @@ class gsuiChannels extends gsui0ne {
 		}
 		delete this.#chans[ id ];
 		chan.remove();
-		this.$dispatch( "nbChannelsChange" );
+		GSUdomDispatch( this, "gsuiChannels-nbChannelsChange" );
 	}
 	$changeChannelProp( id, prop, val ) {
 		const chan = this.#chans[ id ];

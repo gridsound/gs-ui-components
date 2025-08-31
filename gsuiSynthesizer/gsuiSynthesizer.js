@@ -59,32 +59,26 @@ class gsuiSynthesizer extends gsui0ne {
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: ".gsuiOscillator-grip",
-			$onchange: obj => this.$dispatch( "reorderOscillator", obj ),
+			$onchange: obj => GSUdomDispatch( this, "gsuiSynthesizer-reorderOscillator", obj ),
 		} );
-		GSUlistenEvents( this, {
-			gsuiToggle: {
-				toggle: ( d, btn ) => {
-					const tab = btn.parentNode.dataset.tab;
+		GSUdomListen( this, {
+			"gsuiOscillator-resize": () => this.#shadow.$update(),
+			"gsuiNoise-input": d => GSUdomDispatch( this, "gsuiSynthesizer-inputNoise", ...d.$args ),
+			"gsuiNoise-change": d => GSUdomDispatch( this, "gsuiSynthesizer-changeNoise", ...d.$args ),
+			"gsuiToggle-toggle": ( d, b ) => {
+				const tab = d.$target.parentNode.dataset.tab;
 
-					if ( !tab ) {
-						this.$dispatch( "toggleNoise", d.args[ 0 ] )
-					} else {
-						const [ lfoEnv, prop ] = btn.parentNode.dataset.tab.split( " " );
-						const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
+				if ( !tab ) {
+					GSUdomDispatch( this, "gsuiSynthesizer-toggleNoise", b );
+				} else {
+					const [ lfoEnv, prop ] = d.$target.parentNode.dataset.tab.split( " " );
+					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-						if ( GSUdomGetAttr( elCmp, lfoEnv ) === prop ) {
-							GSUdomSetAttr( elCmp, "toggle", d.args[ 0 ] );
-						}
-						this.$dispatch( lfoEnv === "env" ? "toggleEnv" : "toggleLFO", prop, d.args[ 0 ] );
+					if ( GSUdomGetAttr( elCmp, lfoEnv ) === prop ) {
+						GSUdomSetAttr( elCmp, "toggle", b );
 					}
-				},
-			},
-			gsuiNoise: {
-				input: d => this.$dispatch( "inputNoise", ...d.args ),
-				change: d => this.$dispatch( "changeNoise", ...d.args ),
-			},
-			gsuiOscillator: {
-				resize: () => this.#shadow.$update(),
+					GSUdomDispatch( this, lfoEnv === "env" ? "gsuiSynthesizer-toggleEnv" : "gsuiSynthesizer-toggleLFO", prop, b );
+				}
 			},
 		} );
 		this.#selectTab( "env", "gain" );
@@ -232,7 +226,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 	}
 	#onclickNewOsc() {
-		this.$dispatch( "addOscillator" );
+		GSUdomDispatch( this, "gsuiSynthesizer-addOscillator" );
 	}
 }
 

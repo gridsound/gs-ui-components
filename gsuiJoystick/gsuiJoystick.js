@@ -20,18 +20,18 @@ class gsuiJoystick extends gsui0ne {
 		e.preventDefault();
 		GSUdomSetAttr( this, "moving" );
 		this.#moveJoystick( e );
-		this.$dispatch( "start", ...this.#coord );
+		GSUdomDispatch( this, "gsuiJoystick-start", ...this.#coord );
 	}
-	$onptrup( e ) {
+	$onptrup() {
 		GSUdomRmAttr( this, "moving" );
-		this.$dispatch( "end", ...this.#coord );
+		GSUdomDispatch( this, "gsuiJoystick-end", ...this.#coord );
 	}
 	$onptrmove( e ) {
 		const old = [ ...this.#coord ];
 
 		this.#moveJoystick( e );
 		if ( !GSUarrayEq( old, this.#coord ) ) {
-			this.$dispatch( "move", ...this.#coord );
+			GSUdomDispatch( this, "gsuiJoystick-move", ...this.#coord );
 		}
 	}
 

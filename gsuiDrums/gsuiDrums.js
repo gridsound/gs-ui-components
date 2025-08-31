@@ -38,7 +38,7 @@ class gsuiDrums extends gsui0ne {
 		$parentSelector: "gsui-drumrows",
 		$itemSelector: "gsui-drumrow",
 		$itemGripSelector: ".gsuiDrumrow-grip",
-		$onchange: ( obj, rowId ) => this.$dispatch( "reorderDrumrow", rowId, obj ),
+		$onchange: ( obj, rowId ) => GSUdomDispatch( this, "gsuiDrums-reorderDrumrow", rowId, obj ),
 	} );
 	timeline = this.#win.timeline;
 
@@ -46,30 +46,24 @@ class gsuiDrums extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrums",
 			$tagName: "gsui-drums",
-			$attributes: { "tabindex": -1 },
+			$attributes: { tabindex: -1 },
 		} );
 		Object.seal( this );
-		GSUlistenEvents( this, {
-			gsuiTimewindow: {
-				pxperbeat: d => this.#setPxPerBeat( d.args[ 0 ] ),
+		GSUdomListen( this, {
+			"gsuiTimewindow-pxperbeat": ( _, ppb ) => this.#setPxPerBeat( ppb ),
+			"gsuiDrumrows-propFilter": d => this.#setPropFilter( ...d.$args ),
+			"gsuiDrumrows-propFilters": d => this.#setPropFilterAll( ...d.$args ),
+			"gsuiDrumrows-expand": ( _, id ) => GSUdomTogAttr( this.#linesMap.get( id ), "data-open" ),
+			"gsuiSliderGroup-change": d => {
+				d.$args.unshift( d.$target.dataset.currentProp );
+				return true;
 			},
-			gsuiDrumrows: {
-				propFilter: d => this.#setPropFilter( ...d.args ),
-				propFilters: d => this.#setPropFilterAll( ...d.args ),
-				expand: d => GSUdomTogAttr( this.#linesMap.get( d.args[ 0 ] ), "data-open" ),
+			"gsuiSliderGroup-input": ( d, k, v ) => {
+				GSUdomSetAttr( this.#drumsMap.get( k )[ 2 ], d.$target.dataset.currentProp, v );
+				this.#drumrows.$setDrumPropValue( d.$target.dataset.id, d.$target.dataset.currentProp, v );
 			},
-			gsuiSliderGroup: {
-				change: ( d, t ) => {
-					d.args.unshift( t.dataset.currentProp );
-					return true;
-				},
-				input: ( d, t ) => {
-					GSUdomSetAttr( this.#drumsMap.get( d.args[ 0 ] )[ 2 ], t.dataset.currentProp, d.args[ 1 ] );
-					this.#drumrows.$setDrumPropValue( t.dataset.id, t.dataset.currentProp, d.args[ 1 ] );
-				},
-				inputEnd: ( d, t ) => {
-					this.#drumrows.$removeDrumPropValue( t.dataset.id, t.dataset.currentProp );
-				},
+			"gsuiSliderGroup-inputEnd": d => {
+				this.#drumrows.$removeDrumPropValue( d.$target.dataset.id, d.$target.dataset.currentProp );
 			},
 		} );
 		GSUdomSetAttr( this.#win, "step", 1 );
@@ -484,7 +478,7 @@ class gsuiDrums extends gsui0ne {
 		document.removeEventListener( "mouseup", this.#onmouseupNewBind );
 		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
 		if ( arr.length > 0 ) {
-			this.$dispatch( "change", this.#currAction, this.#draggingRowId, arr );
+			GSUdomDispatch( this, "gsuiDrums-change", this.#currAction, this.#draggingRowId, arr );
 		}
 		this.#currAction = "";
 	}
@@ -508,7 +502,7 @@ class gsuiDrums extends gsui0ne {
 				obj.gain = GSUdomGetAttrNum( d, "gain" );
 				obj.detune = GSUdomGetAttrNum( d, "detune" );
 			}
-			this.$dispatch( "change", `add${ itemType }`, this.#draggingRowId, [ obj ] );
+			GSUdomDispatch( this, "gsuiDrums-change", `add${ itemType }`, this.#draggingRowId, [ obj ] );
 		}
 	}
 }

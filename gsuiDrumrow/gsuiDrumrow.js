@@ -22,30 +22,24 @@ class gsuiDrumrow extends gsui0ne {
 		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
 		this.onanimationend = this.#onanimationend.bind( this );
-		GSUlistenEvents( this, {
-			gsuiToggle: {
-				toggle: ( d, btn ) => {
-					GSUdomSetAttr( this, "toggle", d.args[ 0 ] );
-					this.$dispatch( "toggle", d.args[ 0 ] );
-				},
-				toggleSolo: ( d, btn ) => {
-					GSUdomSetAttr( this, "toggle" );
-					this.$dispatch( "toggleSolo" );
-				},
+		GSUdomListen( this, {
+			"gsuiToggle-toggle": ( _, b ) => {
+				GSUdomSetAttr( this, "toggle", b );
+				GSUdomDispatch( this, "gsuiDrumrow-toggle", b );
 			},
-			gsuiSlider: {
-				change: ( d, sli ) => this.$dispatch( "changeProp", sli.dataset.prop, d.args[ 0 ] ),
-				input: ( d, sli ) => {
-					this.#namePrint( sli.dataset.prop, d.args[ 0 ] );
-					this.$dispatch( "liveChangeProp", sli.dataset.prop, d.args[ 0 ] );
-				},
-				inputStart: GSUnoop,
-				inputEnd: () => this.#oninputendSlider(),
+			"gsuiToggle-toggleSolo": () => {
+				GSUdomSetAttr( this, "toggle" );
+				GSUdomDispatch( this, "gsuiDrumrow-toggleSolo" );
 			},
-			gsuiPropSelect: {
-				select: d => this.$dispatch( "propFilter", d.args[ 0 ] ),
-				selectAll: d => this.$dispatch( "propFilters", d.args[ 0 ] ),
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": () => this.#oninputendSlider(),
+			"gsuiSlider-change": ( d, val ) => GSUdomDispatch( this, "gsuiDrumrow-changeProp", d.$target.dataset.prop, val ),
+			"gsuiSlider-input": ( d, val ) => {
+				this.#namePrint( d.$target.dataset.prop, val );
+				GSUdomDispatch( this, "gsuiDrumrow-liveChangeProp", d.$target.dataset.prop, val );
 			},
+			"gsuiPropSelect-select": ( _, val ) => GSUdomDispatch( this, "gsuiDrumrow-propFilter", val ),
+			"gsuiPropSelect-selectAll": ( _, val ) => GSUdomDispatch( this, "gsuiDrumrow-propFilters", val ),
 		} );
 	}
 
@@ -118,10 +112,10 @@ class gsuiDrumrow extends gsui0ne {
 	#onclick( e ) {
 		if ( e.target !== this ) {
 			switch ( e.target.dataset.action ) {
-				case "delete": this.$dispatch( "remove" ); break;
+				case "delete": GSUdomDispatch( this, "gsuiDrumrow-remove" ); break;
 				case "props":
 					GSUdomTogAttr( this, "open" );
-					this.$dispatch( "expand" );
+					GSUdomDispatch( this, "gsuiDrumrow-expand" );
 					break;
 			}
 		}

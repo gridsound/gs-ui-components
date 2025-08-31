@@ -30,35 +30,27 @@ class gsuiChannel extends gsui0ne {
 		this.$analyser = this.$elements.$analyser;
 		this.$analyser.onclick =
 		this.$elements.$nameWrap.onclick = () => {
-			this.$dispatch( "selectChannel" );
+			GSUdomDispatch( this, "gsuiChannel-selectChannel" );
 		};
 		this.$elements.$effects.onclick = e => {
 			if ( e.target.dataset.id ) {
-				this.$dispatch( "selectChannel" );
-				this.$dispatch( "selectEffect", e.target.dataset.id );
+				GSUdomDispatch( this, "gsuiChannel-selectChannel" );
+				GSUdomDispatch( this, "gsuiChannel-selectEffect", e.target.dataset.id );
 			}
 		};
-		GSUlistenEvents( this, {
-			gsuiToggle: {
-				toggle: d => {
-					GSUdomSetAttr( this, "muted", !d.args[ 0 ] );
-					this.$dispatch( "toggle", d.args[ 0 ] );
-				},
-				toggleSolo: () => {
-					GSUdomRmAttr( this, "muted" );
-					this.$dispatch( "toggleSolo" );
-				},
+		GSUdomListen( this, {
+			"gsuiToggle-toggle": ( d, b ) => {
+				GSUdomSetAttr( this, "muted", !b );
+				GSUdomDispatch( this, "gsuiChannel-toggle", b );
 			},
-			gsuiSlider: {
-				inputStart: GSUnoop,
-				inputEnd: GSUnoop,
-				input: ( d, sli ) => {
-					this.$dispatch( "liveChange", sli.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, sli ) => {
-					this.$dispatch( "change", sli.dataset.prop, d.args[ 0 ] );
-				},
+			"gsuiToggle-toggleSolo": () => {
+				GSUdomRmAttr( this, "muted" );
+				GSUdomDispatch( this, "gsuiChannel-toggleSolo" );
 			},
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-input": ( d, val ) => GSUdomDispatch( this, "gsuiChannel-liveChange", d.$target.dataset.prop, val ),
+			"gsuiSlider-change": ( d, val ) => GSUdomDispatch( this, "gsuiChannel-change", d.$target.dataset.prop, val ),
 		} );
 	}
 

@@ -60,15 +60,13 @@ const elLibs = GSUdomQS( "gsui-libraries" );
 const elLibDef = elLibs.$getLibrary( "default" );
 
 elLibDef.$setLibrary( gsuiLibrarySamples );
-GSUlistenEvents( elLibs, {
-	gsuiLibrary: {
-		loadSample: d => {
-			elLibDef.$loadSample( d.args[ 0 ] );
-			GSUsetTimeout( () => elLibDef.$readySample( d.args[ 0 ] ), 1 );
-		},
-		playSample: d => {
-			elLibDef.$playSample( d.args[ 0 ], 1 );
-		},
+GSUdomListen( elLibs, {
+	"gsuiLibrary-loadSample": ( _, smp ) => {
+		elLibDef.$loadSample( smp );
+		GSUsetTimeout( () => elLibDef.$readySample( smp ), 1 );
+	},
+	"gsuiLibrary-playSample": ( _, smp ) => {
+		elLibDef.$playSample( smp, 1 );
 	},
 } );
 </script>

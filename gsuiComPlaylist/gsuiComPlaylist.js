@@ -24,12 +24,8 @@ class gsuiComPlaylist extends gsui0ne {
 		this.#updateNbCmps();
 		this.$elements.$headLinkCmps.onclick = () => GSUdomRmAttr( this, "bin" );
 		this.$elements.$headLinkBin.onclick = () => GSUdomSetAttr( this, "bin" );
-		GSUlistenEvents( this, {
-			gsuiComPlayer: {
-				fork: ( d, t ) => this.#onforkComposition( t ),
-				delete: ( d, t ) => this.#ondeleteRestoreCmp( t, "delete" ),
-				restore: ( d, t ) => this.#ondeleteRestoreCmp( t, "restore" ),
-			},
+		GSUdomListen( this, {
+			"gsuiComPlayer-action": ( d, act ) => this.#onactionComposition( d.$target, act ),
 		} );
 	}
 
@@ -124,6 +120,13 @@ class gsuiComPlaylist extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onactionComposition( elCmp, act ) {
+		switch ( act ) {
+			case "delete":
+			case "restore": return this.#ondeleteRestoreCmp( elCmp, act );
+			case "fork": return this.#onforkComposition( elCmp );
+		}
+	}
 	#onforkComposition( elCmp ) {
 		const id = elCmp.dataset.id;
 

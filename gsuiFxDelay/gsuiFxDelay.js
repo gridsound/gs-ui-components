@@ -29,18 +29,11 @@ class gsuiFxDelay extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputStart: GSUnoop,
-				inputEnd: GSUnoop,
-				input: ( d, sli ) => {
-					this.#oninputProp( sli.parentNode.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, sli ) => {
-					this.$dispatch( "changeProp", sli.parentNode.dataset.prop, d.args[ 0 ] );
-				},
-			},
+		GSUdomListen( this, {
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-input": ( d, val ) => this.#oninputProp( d.$target.parentNode.dataset.prop, val ),
+			"gsuiSlider-change": ( d, val ) => GSUdomDispatch( this, "gsuiEffect-fx-changeProp", d.$target.parentNode.dataset.prop, val ),
 		} );
 	}
 
@@ -85,7 +78,7 @@ class gsuiFxDelay extends gsui0ne {
 	}
 	#oninputProp( prop, val ) {
 		GSUdomSetAttr( this, prop, val );
-		this.$dispatch( "liveChange", prop, val );
+		GSUdomDispatch( this, "gsuiEffect-fx-liveChange", prop, val );
 	}
 	#updateGraph() {
 		const time = GSUdomGetAttrNum( this, "time" ) / 4;

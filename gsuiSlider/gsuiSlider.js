@@ -149,12 +149,12 @@ class gsuiSlider extends gsui0ne {
 	#onchange() {
 		this.#valueSave = this.#value;
 		GSUdomSetAttr( this, "value", this.#value );
-		this.$dispatch( "change", this.#value );
+		GSUdomDispatch( this, "gsuiSlider-change", this.#value );
 	}
 	#oninput( val ) {
 		if ( val !== this.#value ) {
 			this.#value = val;
-			this.$dispatch( "input", +val );
+			GSUdomDispatch( this, "gsuiSlider-input", +val );
 		}
 	}
 
@@ -194,7 +194,7 @@ class gsuiSlider extends gsui0ne {
 				this.#pxmoved = 0;
 				this.#scrollIncr = 0;
 				document.body.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-				this.$dispatch( "inputStart", this.#value );
+				GSUdomDispatch( this, "gsuiSlider-inputStart", this.#value );
 				break;
 		}
 	}
@@ -212,7 +212,7 @@ class gsuiSlider extends gsui0ne {
 	}
 	$onptrup( e ) {
 		document.body.removeEventListener( "wheel", this.#onwheelBinded );
-		this.$dispatch( "inputEnd", this.#value );
+		GSUdomDispatch( this, "gsuiSlider-inputEnd", this.#value );
 		if ( this.#value !== this.#valueSave ) {
 			this.#onchange();
 		}

@@ -30,19 +30,17 @@ class gsuiNoise extends gsui0ne {
 			const col = this.$elements.$colorSelect.value;
 
 			GSUdomSetAttr( this, "color", col );
-			this.$dispatch( "change", "color", col );
+			GSUdomDispatch( this, "gsuiNoise-change", "color", col );
 		};
-		GSUlistenEvents( this, {
-			gsuiSlider: {
-				inputStart: GSUnoop,
-				inputEnd: GSUnoop,
-				input: ( d, t ) => {
-					this.#setValue( t.dataset.prop, d.args[ 0 ] );
-					this.$dispatch( "input", t.dataset.prop, d.args[ 0 ] );
-				},
-				change: ( d, t ) => {
-					this.$dispatch( "change", t.dataset.prop, d.args[ 0 ] );
-				},
+		GSUdomListen( this, {
+			"gsuiSlider-inputStart": GSUnoop,
+			"gsuiSlider-inputEnd": GSUnoop,
+			"gsuiSlider-input": ( d, val ) => {
+				this.#setValue( d.$target.dataset.prop, val );
+				GSUdomDispatch( this, "gsuiNoise-input", d.$target.dataset.prop, val );
+			},
+			"gsuiSlider-change": ( d, val ) => {
+				GSUdomDispatch( this, "gsuiNoise-change", d.$target.dataset.prop, val );
 			},
 		} );
 	}

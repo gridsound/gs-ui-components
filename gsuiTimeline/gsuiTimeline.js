@@ -254,7 +254,7 @@ class gsuiTimeline extends gsui0ne {
 			if ( e.button !== 2 || !this.#looping ) {
 				this.#loopA =
 				this.#loopB = this.#mousedownBeat;
-				this.$dispatch( "inputLoopStart" );
+				GSUdomDispatch( this, "gsuiTimeline-inputLoopStart" );
 				this.#setStatus( GSUI_DRAGGING_LOOP_B );
 			} else if ( e.button === 2 && this.#looping ) {
 				if ( this.#mousedownBeat < ( this.#loopB + this.#loopA ) / 2 ) {
@@ -275,7 +275,7 @@ class gsuiTimeline extends gsui0ne {
 				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );
 		}
 		if ( this.#status ) {
-			this.$dispatch( "inputCurrentTimeStart" );
+			GSUdomDispatch( this, "gsuiTimeline-inputCurrentTimeStart" );
 			this.#mousedownLoop = GSUdomGetAttr( this, "loop" );
 			this.#mousedownLoopA = this.#loopA;
 			this.#mousedownLoopB = this.#loopB;
@@ -294,7 +294,7 @@ class gsuiTimeline extends gsui0ne {
 			switch ( this.#status ) {
 				case GSUI_DRAGGING_TIME:
 					GSUdomSetAttr( this, "currenttime-preview", beat );
-					this.$dispatch( "inputCurrentTime", beat );
+					GSUdomDispatch( this, "gsuiTimeline-inputCurrentTime", beat );
 					break;
 				case GSUI_DRAGGING_LOOP: {
 					const rel = GSUmathClamp( beatRel, -this.#mousedownLoopA, this.#maxDuration - this.#mousedownLoopB );
@@ -304,7 +304,7 @@ class gsuiTimeline extends gsui0ne {
 
 					if ( loop !== GSUdomGetAttr( this, "loop" ) ) {
 						GSUdomSetAttr( this, "loop", loop );
-						this.$dispatch( "inputLoop", a, b );
+						GSUdomDispatch( this, "gsuiTimeline-inputLoop", a, b );
 					}
 				} break;
 				case GSUI_DRAGGING_LOOP_A:
@@ -332,10 +332,10 @@ class gsuiTimeline extends gsui0ne {
 					if ( loop !== GSUdomGetAttr( this, "loop" ) ) {
 						if ( aa !== bb ) {
 							GSUdomSetAttr( this, "loop", loop );
-							this.$dispatch( "inputLoop", aa, bb );
+							GSUdomDispatch( this, "gsuiTimeline-inputLoop", aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							GSUdomRmAttr( this, "loop" );
-							this.$dispatch( "inputLoop", false );
+							GSUdomDispatch( this, "gsuiTimeline-inputLoop", false );
 						}
 					}
 				} break;
@@ -348,22 +348,22 @@ class gsuiTimeline extends gsui0ne {
 				const beat = GSUdomGetAttr( this, "currenttime-preview" );
 
 				GSUdomRmAttr( this, "currenttime-preview" );
-				this.$dispatch( "inputCurrentTimeEnd" );
+				GSUdomDispatch( this, "gsuiTimeline-inputCurrentTimeEnd" );
 				if ( beat !== GSUdomGetAttr( this, "currenttime" ) ) {
 					GSUdomSetAttr( this, "currenttime", beat );
-					this.$dispatch( "changeCurrentTime", +beat );
+					GSUdomDispatch( this, "gsuiTimeline-changeCurrentTime", +beat );
 				}
 			} break;
 			case GSUI_DRAGGING_LOOP:
 			case GSUI_DRAGGING_LOOP_A:
 			case GSUI_DRAGGING_LOOP_B:
-				this.$dispatch( "inputLoopEnd" );
+				GSUdomDispatch( this, "gsuiTimeline-inputLoopEnd" );
 				if ( GSUdomGetAttr( this, "loop" ) !== this.#mousedownLoop ) {
 					if ( this.#loopA !== this.#loopB ) {
-						this.$dispatch( "changeLoop", this.#loopA, this.#loopB );
+						GSUdomDispatch( this, "gsuiTimeline-changeLoop", this.#loopA, this.#loopB );
 					} else {
 						GSUdomRmAttr( this, "loop" );
-						this.$dispatch( "changeLoop", false );
+						GSUdomDispatch( this, "gsuiTimeline-changeLoop", false );
 					}
 				}
 				break;

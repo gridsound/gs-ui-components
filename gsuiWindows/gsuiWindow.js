@@ -29,7 +29,6 @@ class gsuiWindow extends gsui0ne {
 		} );
 		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 		Object.seal( this );
-
 		this.$elements.$icon.ondblclick = this.$close.bind( this );
 		this.$elements.$headBtns.onclick = this.#onclickBtns.bind( this );
 		this.$elements.$head.onpointerdown = this.#onptrdownHead.bind( this );
@@ -64,12 +63,12 @@ class gsuiWindow extends gsui0ne {
 			if ( b ) {
 				this.#show = true;
 				GSUdomSetAttr( this, "show" );
-				this.$dispatch( "open" );
+				GSUdomDispatch( this, "gsuiWindow-open" );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				GSUdomRmAttr( this, "show" );
 				GSUemptyElement( this.$elements.$content );
-				this.$dispatch( "close" );
+				GSUdomDispatch( this, "gsuiWindow-close" );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -97,7 +96,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized = false;
 			this.#maximized = true;
 			if ( wasMinimized ) {
-				this.$dispatch( "open" );
+				GSUdomDispatch( this, "gsuiWindow-open" );
 			}
 			this.focus( { preventScroll: true } );
 		}
@@ -108,7 +107,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized = true;
 			this.#maximized = false;
 			GSUemptyElement( this.$elements.$content );
-			this.$dispatch( "close" );
+			GSUdomDispatch( this, "gsuiWindow-close" );
 		}
 	}
 	$restore() {
@@ -120,7 +119,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized =
 			this.#maximized = false;
 			if ( wasMinimized ) {
-				this.$dispatch( "open" );
+				GSUdomDispatch( this, "gsuiWindow-open" );
 			}
 		}
 	}
@@ -154,7 +153,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			GSUdomSetAttr( this, "dragging" );
-			this.$dispatch( "startMousemoving", "move", e.pointerId,
+			GSUdomDispatch( this, "gsuiWindow-startMousemoving", "move", e.pointerId,
 				this.#onmousemoveHead.bind( this ),
 				this.#onmouseupHead.bind( this ) );
 		}
@@ -168,7 +167,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
 			GSUdomSetAttr( this, "dragging" );
-			this.$dispatch( "startMousemoving", `${ dir }-resize`, e.pointerId,
+			GSUdomDispatch( this, "gsuiWindow-startMousemoving", `${ dir }-resize`, e.pointerId,
 				this.#onmousemoveHandler.bind( this, dir ),
 				this.#onmouseupHandler.bind( this, dir ) );
 		}

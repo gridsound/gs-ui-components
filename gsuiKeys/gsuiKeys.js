@@ -146,10 +146,10 @@ class gsuiKeys extends gsui0ne {
 			GSUdomTogClass( elKey, "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
-				this.$dispatch( "keyDown", midi, vel );
+				GSUdomDispatch( this, "gsuiKeys-keyDown", midi, vel );
 			} else {
 				this.#keysDown.delete( midi );
-				this.$dispatch( "keyUp", midi );
+				GSUdomDispatch( this, "gsuiKeys-keyUp", midi );
 			}
 		}
 	}

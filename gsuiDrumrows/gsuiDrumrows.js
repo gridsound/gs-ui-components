@@ -11,17 +11,15 @@ class gsuiDrumrows extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.onmousedown = this.#onmousedownRows.bind( this );
-		GSUlistenEvents( this, {
-			gsuiDrumrow: {
-				remove: ( d, el ) => this.$dispatch( "remove", el.dataset.id ),
-				expand: ( d, el ) => this.$dispatch( "expand", el.dataset.id ),
-				toggle: ( d, el ) => this.$dispatch( "toggle", el.dataset.id, ...d.args ),
-				toggleSolo: ( d, el ) => this.$dispatch( "toggleSolo", el.dataset.id ),
-				changeProp: ( d, el ) => this.$dispatch( "change", el.dataset.id, ...d.args ),
-				liveChangeProp: ( d, el ) => this.$dispatch( "liveChangeDrumrow", el.dataset.id, ...d.args ),
-				propFilter: ( d, el ) => this.$dispatch( "propFilter", el.dataset.id, ...d.args ),
-				propFilters: ( d, el ) => this.$dispatch( "propFilters", ...d.args ),
-			},
+		GSUdomListen( this, {
+			"gsuiDrumrow-remove": d => GSUdomDispatch( this, "gsuiDrumrows-remove", d.$target.dataset.id ),
+			"gsuiDrumrow-expand": d => GSUdomDispatch( this, "gsuiDrumrows-expand", d.$target.dataset.id ),
+			"gsuiDrumrow-toggle": d => GSUdomDispatch( this, "gsuiDrumrows-toggle", d.$target.dataset.id, ...d.$args ),
+			"gsuiDrumrow-toggleSolo": d => GSUdomDispatch( this, "gsuiDrumrows-toggleSolo", d.$target.dataset.id ),
+			"gsuiDrumrow-changeProp": d => GSUdomDispatch( this, "gsuiDrumrows-change", d.$target.dataset.id, ...d.$args ),
+			"gsuiDrumrow-liveChangeProp": d => GSUdomDispatch( this, "gsuiDrumrows-liveChangeDrumrow", d.$target.dataset.id, ...d.$args ),
+			"gsuiDrumrow-propFilter": d => GSUdomDispatch( this, "gsuiDrumrows-propFilter", d.$target.dataset.id, ...d.$args ),
+			"gsuiDrumrow-propFilters": d => GSUdomDispatch( this, "gsuiDrumrows-propFilters", ...d.$args ),
 		} );
 	}
 
@@ -77,8 +75,8 @@ class gsuiDrumrows extends gsui0ne {
 	// .........................................................................
 	#onmousedownRows( e ) {
 		if ( ( e.button === 0 || e.button === 2 ) && GSUdomHasClass( e.target, "gsuiDrumrow-main" ) ) {
-			this.$dispatch(
-				e.button === 0 ? "liveStartDrum" : "liveStopDrum",
+			GSUdomDispatch( this,
+				e.button === 0 ? "gsuiDrumrows-liveStartDrum" : "gsuiDrumrows-liveStopDrum",
 				e.target.parentNode.dataset.id );
 		}
 	}

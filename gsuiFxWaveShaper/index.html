@@ -66,30 +66,27 @@ body {
 <script>
 const fx = GSUdomQS( "gsui-fx-waveshaper" );
 
-GSUlistenEvents( fx, {
-	gsuiFxWaveShaper: {
-		liveChange: d => {
-		},
-		changeProp: d => {
-			switch ( d.args[ 0 ] ) {
-				case "curve":
-					fx.$changeCurveData( d.args[ 1 ] );
-					break;
-				case "symmetry":
-				case "oversample":
-					GSUdomSetAttr( fx, d.args[ 0 ], d.args[ 1 ] );
-					break;
-			}
-		},
-		changeProps: d => {
-			switch ( d.args[ 0 ] ) {
-				case "symmetry":
-					fx.$changeCurveData( d.args[ 1 ].curve );
-					GSUdomSetAttr( fx, "symmetry", d.args[ 1 ].symmetry );
-					break;
-			}
-		},
-	}
+GSUdomListen( fx, {
+	"gsuiFxWaveShaper-liveChange": d => {},
+	"gsuiFxWaveShaper-changeProp": ( _, k, v ) => {
+		switch ( k ) {
+			case "curve":
+				fx.$changeCurveData( v );
+				break;
+			case "symmetry":
+			case "oversample":
+				GSUdomSetAttr( fx, k, v );
+				break;
+		}
+	},
+	"gsuiFxWaveShaper-changeProps": ( _, p, obj ) => {
+		switch ( p ) {
+			case "symmetry":
+				fx.$changeCurveData( obj.curve );
+				GSUdomSetAttr( fx, "symmetry", obj.symmetry );
+				break;
+		}
+	},
 } );
 </script>
 </body>
