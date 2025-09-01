@@ -40,7 +40,6 @@ class gsuiDrums extends gsui0ne {
 		$itemGripSelector: ".gsuiDrumrow-grip",
 		$onchange: ( obj, rowId ) => GSUdomDispatch( this, GSEV_DRUMS_REORDERDRUMROW, rowId, obj ),
 	} );
-	timeline = this.#win.timeline;
 
 	constructor() {
 		super( {

@@ -14,7 +14,6 @@ class gsuiSlicer extends gsui0ne {
 	#sliceIdBefore = null;
 	#sliceCurrentTime = null;
 	#waveDef = GSUcreateElementSVG( "polyline" );
-	timeline = null;
 
 	constructor() {
 		const defs = GSUdomQS( "#gsuiSlicer-waveDefs defs" );
@@ -54,7 +53,6 @@ class gsuiSlicer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.timeline = this.$elements.$timeline;
 		if ( !defs ) {
 			document.body.prepend( GSUcreateElementSVG( "svg", { id: "gsuiSlicer-waveDefs" },
 				GSUcreateElementSVG( "defs" ),

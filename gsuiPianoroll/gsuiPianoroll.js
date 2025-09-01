@@ -43,7 +43,7 @@ class gsuiPianoroll extends gsui0ne {
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		selectionElement: this.#selectionElement,
-		timeline: this.#win.timeline,
+		timeline: this.#win.$getTimeline(),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallDuplicating: ( keysMap, wIncr ) => this.$onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
 		managercallSelecting: ids => this.$onchange( "selection", ids ),
@@ -61,7 +61,6 @@ class gsuiPianoroll extends gsui0ne {
 			$tagName: "gsui-pianoroll",
 			$attributes: { tabindex: -1 },
 		} );
-		this.timeline = this.#win.timeline;
 		this.uiKeys = GSUcreateElement( "gsui-keys" );
 		Object.seal( this );
 		GSUdomListen( this, {

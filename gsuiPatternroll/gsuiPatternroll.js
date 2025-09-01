@@ -21,7 +21,7 @@ class gsuiPatternroll extends gsui0ne {
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		selectionElement: this.#selectionElement,
-		timeline: this.#win.timeline,
+		timeline: this.#win.$getTimeline(),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.$onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
 		managercallDeleting: blcsMap => this.$onchange( "deletion", Array.from( blcsMap.keys() ) ),
@@ -39,7 +39,6 @@ class gsuiPatternroll extends gsui0ne {
 			$tagName: "gsui-patternroll",
 			$attributes: { tabindex: -1 },
 		} );
-		this.timeline = this.#win.timeline;
 		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( d, px ) => this.#ongsuiTimewindowPxperbeat( px ),

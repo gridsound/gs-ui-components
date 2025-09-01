@@ -60,7 +60,6 @@ class gsuiTimewindow extends gsui0ne {
 				currenttime: 0,
 			},
 		} );
-		this.timeline = this.$elements.$timeline;
 		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
@@ -223,6 +222,9 @@ class gsuiTimewindow extends gsui0ne {
 	}
 
 	// .........................................................................
+	$getTimeline() {
+		return this.$elements.$timeline;
+	}
 	#minimapUpdate() {
 		const mapPx = this.$elements.$minimapTrack.clientWidth;
 		const durPx = this.#minimapGetMaxView();
