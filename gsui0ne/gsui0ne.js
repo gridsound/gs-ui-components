@@ -20,7 +20,7 @@ class gsui0ne extends HTMLElement {
 			: null );
 		if ( this.#children ) {
 			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
-			this.$elements = GSUfindElements( this.#children, o.$elements );
+			this.$elements = GSUdomFind( this.#children, o.$elements );
 		}
 		if ( this.$onresize ) {
 			this.#onresizeBind = this.$onresize.bind( this );

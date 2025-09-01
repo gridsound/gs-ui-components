@@ -52,8 +52,8 @@ class gsuiComPlaylist extends gsui0ne {
 	$setDeleteCallbackPromise( fn ) { this.#deletePromise = fn; }
 	$setRestoreCallbackPromise( fn ) { this.#restorePromise = fn; }
 	$clearCompositions() {
-		GSUemptyElement( this.$elements.$listCmps );
-		GSUemptyElement( this.$elements.$listBin );
+		GSUdomEmpty( this.$elements.$listCmps );
+		GSUdomEmpty( this.$elements.$listBin );
 		this.#updateNbCmps();
 		this.#cmps.clear();
 	}

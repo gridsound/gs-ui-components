@@ -76,7 +76,7 @@ class gsuiCurves extends gsui0ne {
 		const nb = this.#size[ 0 ] / 36 | 0;
 
 		if ( nb !== el.children.length ) {
-			GSUemptyElement( el );
+			GSUdomEmpty( el );
 			el.append( ...GSUnewArray( nb, i => {
 				const Hz = Math.round( GSUXtoHz( i / nb ) * this.#nyquist );
 

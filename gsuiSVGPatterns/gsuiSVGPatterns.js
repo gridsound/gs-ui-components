@@ -108,7 +108,7 @@ class gsuiSVGPatterns {
 	static #update2( def, id, w, h, ...elems ) {
 		def.w = w;
 		def.h = h;
-		GSUemptyElement( def.g );
+		GSUdomEmpty( def.g );
 		def.g.append( ...elems );
 	}
 

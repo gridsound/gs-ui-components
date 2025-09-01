@@ -3,18 +3,18 @@
 class gsuiDAW extends gsui0ne {
 	#timeSelecting = false;
 	#popups = {
-		about: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-about" ), {
+		about: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-about" ), {
 			root: ".gsuiDAW-popup-about",
 			version: ".gsuiDAW-popup-about-versionNum",
 			versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
 			versionCheck: ".gsuiDAW-popup-about-versionCheck",
 		} ),
-		export: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-export" ), {
+		export: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-export" ), {
 			root: ".gsuiDAW-popup-export",
 			button: ".gsuiDAW-popup-export-btn",
 			progress: ".gsuiDAW-popup-export-progress",
 		} ),
-		settings: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-settings" ), {
+		settings: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-settings" ), {
 			root: ".gsuiDAW-popup-settings",
 			sampleRate: "[name='sampleRate']",
 			uiRateRadio: {

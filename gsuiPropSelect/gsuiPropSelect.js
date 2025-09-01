@@ -37,7 +37,7 @@ class gsuiPropSelect extends gsui0ne {
 	#createProps( s ) {
 		const elBtns = s.split( " " ).map( p => this.#createProp( p ) );
 
-		GSUemptyElement( this );
+		GSUdomEmpty( this );
 		this.append( ...elBtns );
 		if ( !this.#setProp( this.#prop ) ) {
 			GSUdomQS( this, ".gsuiPropSelect-btn" )?.click();

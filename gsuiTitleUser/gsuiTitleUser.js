@@ -4,7 +4,7 @@ class gsuiTitleUser extends gsui0ne {
 	#justSavedTimeout = null;
 	#loginPromise = null;
 	#logoutPromise = null;
-	#loginPopup = GSUfindElements( GSUgetTemplate( "gsui-titleuser-popup" ), {
+	#loginPopup = GSUdomFind( GSUgetTemplate( "gsui-titleuser-popup" ), {
 		$root: ".gsuiTitleUser-popup",
 		$error: ".gsuiTitleUser-popup-error",
 	} );

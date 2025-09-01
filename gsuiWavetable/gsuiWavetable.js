@@ -112,8 +112,8 @@ class gsuiWavetable extends gsui0ne {
 		this.#waveNull = true;
 		this.#waveSelected = "0";
 		this.$elements.$editor.$reset( "silence" );
-		GSUemptyElement( this.$elements.$waves );
-		GSUemptyElement( this.$elements.$wtposWavelines );
+		GSUdomEmpty( this.$elements.$waves );
+		GSUdomEmpty( this.$elements.$wtposWavelines );
 		this.#data = {};
 	}
 	$isRealData( b ) {

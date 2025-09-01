@@ -2,7 +2,7 @@
 
 class gsuiTempo extends gsui0ne {
 	#dropdown = new gsuiDropdown();
-	#popup = GSUfindElements( GSUgetTemplate( "gsui-tempo-dropdown" ), {
+	#popup = GSUdomFind( GSUgetTemplate( "gsui-tempo-dropdown" ), {
 		$form: ".gsuiTempo-popup",
 		$bpmTap: ".gsuiTempo-tap",
 	} );

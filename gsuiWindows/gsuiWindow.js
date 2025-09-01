@@ -68,7 +68,7 @@ class gsuiWindow extends gsui0ne {
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				GSUdomRmAttr( this, "show" );
-				GSUemptyElement( this.$elements.$content );
+				GSUdomEmpty( this.$elements.$content );
 				GSUdomDispatch( this, GSEV_WINDOW_CLOSE );
 			}
 		} else if ( this.#minimized ) {
@@ -78,8 +78,8 @@ class gsuiWindow extends gsui0ne {
 
 	// .........................................................................
 	$empty() {
-		GSUemptyElement( this.$elements.$content );
-		GSUemptyElement( this.$elements.$headContent );
+		GSUdomEmpty( this.$elements.$content );
+		GSUdomEmpty( this.$elements.$headContent );
 	}
 	$contentAppend( ...args ) {
 		this.$elements.$content.append( ...args );
@@ -107,7 +107,7 @@ class gsuiWindow extends gsui0ne {
 			GSUdomSetAttr( this, { minimized: true, maximized: false } );
 			this.#minimized = true;
 			this.#maximized = false;
-			GSUemptyElement( this.$elements.$content );
+			GSUdomEmpty( this.$elements.$content );
 			GSUdomDispatch( this, GSEV_WINDOW_CLOSE );
 		}
 	}

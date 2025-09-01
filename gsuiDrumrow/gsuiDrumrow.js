@@ -74,7 +74,7 @@ class gsuiDrumrow extends gsui0ne {
 		GSUdomSetAttr( el, "data-mute", !GSUdomHasAttr( this, "toggle" ) );
 	}
 	$changePattern( svg ) {
-		GSUemptyElement( this.$elements.waveWrap );
+		GSUdomEmpty( this.$elements.waveWrap );
 		if ( svg ) {
 			this.$elements.waveWrap.append( svg );
 		}

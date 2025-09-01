@@ -9,7 +9,7 @@ class gsuiDragline {
 	#evKeydown = null;
 	#evMouseup = null;
 	#evMousemove = null;
-	#elements = GSUfindElements( this.rootElement, {
+	#elements = GSUdomFind( this.rootElement, {
 		main: ".gsuiDragline-main",
 		svg: ".gsuiDragline-line",
 		polyline: ".gsuiDragline-line polyline",

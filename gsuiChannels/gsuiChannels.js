@@ -74,7 +74,7 @@ class gsuiChannels extends gsui0ne {
 
 					res( chan !== currChanId ? chan : null );
 				}
-			} ).then(() => GSUemptyElement( gsuiChannels.#selectChanInput ) );
+			} ).then(() => GSUdomEmpty( gsuiChannels.#selectChanInput ) );
 		} );
 	}
 

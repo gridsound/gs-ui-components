@@ -30,26 +30,26 @@ class gsuiPopup extends gsui0ne {
 
 	// .........................................................................
 	$alert( title, msg, ok ) {
-		GSUemptyElement( this.$elements.$cnt );
+		GSUdomEmpty( this.$elements.$cnt );
 		GSUdomAddClass( this.$elements.$win, "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, false );
 		return this.#open( "alert", title, msg );
 	}
 	$confirm( title, msg, ok, cancel ) {
-		GSUemptyElement( this.$elements.$cnt );
+		GSUdomEmpty( this.$elements.$cnt );
 		GSUdomRmClass( this.$elements.$win, "gsuiPopup-noCancel" );
 		GSUdomAddClass( this.$elements.$win, "gsuiPopup-noText" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "confirm", title, msg );
 	}
 	$prompt( title, msg, val, ok, cancel ) {
-		GSUemptyElement( this.$elements.$cnt );
+		GSUdomEmpty( this.$elements.$cnt );
 		GSUdomRmClass( this.$elements.$win, "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "prompt", title, msg, val );
 	}
 	$custom( obj ) {
-		GSUemptyElement( this.$elements.$cnt );
+		GSUdomEmpty( this.$elements.$cnt );
 		GSUdomRmClass( this.$elements.$win, "gsuiPopup-noText" );
 		this.#fnSubmit = obj.submit || null;
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false, obj.noOverlayCancel );
