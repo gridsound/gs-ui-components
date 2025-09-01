@@ -265,15 +265,11 @@ class gsuiSlicer extends gsui0ne {
 	}
 	#onpointerdownSlices( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
-			this.#ptrmoveFn = this.#tool === "reset" || e.button === 2
-				? this.#onpointermoveSlicesReset.bind( this )
-				: this.#tool === "moveY" && e.button === 0
-					? this.#onpointermoveSlicesY.bind( this )
-					: this.#tool === "split" && e.button === 0
-						? this.#onpointermoveSlicesSplit.bind( this )
-						: this.#tool === "merge" && e.button === 0
-							? this.#onpointermoveSlicesMerge.bind( this )
-							: null;
+			this.#ptrmoveFn =
+				this.#tool === "reset" || e.button === 2 ? this.#onpointermoveSlicesReset.bind( this ) :
+				this.#tool === "moveY" && e.button === 0 ? this.#onpointermoveSlicesY.bind( this ) :
+				this.#tool === "split" && e.button === 0 ? this.#onpointermoveSlicesSplit.bind( this ) :
+				this.#tool === "merge" && e.button === 0 ? this.#onpointermoveSlicesMerge.bind( this ) : null;
 			if ( this.#ptrmoveFn ) {
 				const sli = this.#getSliceByPageX( e.offsetX );
 
