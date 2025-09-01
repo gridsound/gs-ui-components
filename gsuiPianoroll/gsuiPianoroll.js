@@ -73,7 +73,7 @@ class gsuiPianoroll extends gsui0ne {
 			[ GSEV_PROPSELECT_SELECT ]: () => this.#onchangePropSelect(),
 			[ GSEV_SLIDERGROUP_INPUT ]: ( _, __, a ) => this.#ongsuiSliderGroupInput( a ),
 			[ GSEV_SLIDERGROUP_INPUTEND ]: () => this.#ongsuiSliderGroupInputEnd(),
-			[ GSEV_SLIDERGROUP_CHANGE ]: d => this.#ongsuiSliderGroupChange( d ),
+			[ GSEV_SLIDERGROUP_CHANGE ]: ( _, arr ) => this.#ongsuiSliderGroupChange( arr ),
 			[ GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK ]: () => this.$removeKey( "preview" ),
 			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
@@ -356,15 +356,13 @@ class gsuiPianoroll extends gsui0ne {
 	#ongsuiSliderGroupInputEnd() {
 		GSUdomRmAttr( this.#propSelect, "value" );
 	}
-	#ongsuiSliderGroupChange( d ) {
+	#ongsuiSliderGroupChange( kvArr ) {
 		const prop = this.#propSelect.$getCurrentProp();
 
-		d.$event = GSEV_PIANOROLL_CHANGEKEYSPROPS;
 		if ( prop.startsWith( "gainLFO" ) ) {
-			d.$args[ 0 ].forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
+			kvArr.forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
 		}
-		d.$args.unshift( prop );
-		return true;
+		GSUdomDispatch( this, GSEV_PIANOROLL_CHANGEKEYSPROPS, prop, kvArr );
 	}
 	static #xToMul( x ) {
 		switch ( x ) {
