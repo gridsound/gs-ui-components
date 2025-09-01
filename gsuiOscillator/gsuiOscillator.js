@@ -77,9 +77,9 @@ class gsuiOscillator extends gsui0ne {
 		} );
 		GSUdomListen( this, {
 			[ GSEV_WAVETABLE_BACK ]: () => GSUdomRmAttr( this, "wavetable" ),
-			[ GSEV_WAVETABLE_PARAM ]: d => ( d.$target = this, d.$event = "gsuiOscillator-changeWavetableParam", true ),
-			[ GSEV_WAVETABLE_CHANGE ]: d => ( d.$target = this, d.$event = "gsuiOscillator-changeWavetable", true ),
-			[ GSEV_WAVETABLE_SELECTCURVE ]: d => ( d.$target = this, d.$event = "gsuiOscillator-selectWavetableCurve", true ),
+			[ GSEV_WAVETABLE_PARAM ]: d => GSUdomDispatch( this, GSEV_OSCILLATOR_CHANGEWAVETABLEPARAM, ...d.$args ),
+			[ GSEV_WAVETABLE_CHANGE ]: d => GSUdomDispatch( this, GSEV_OSCILLATOR_CHANGEWAVETABLE, ...d.$args ),
+			[ GSEV_WAVETABLE_SELECTCURVE ]: d => GSUdomDispatch( this, GSEV_OSCILLATOR_SELECTWAVETABLECURVE, ...d.$args ),
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
