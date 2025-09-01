@@ -46,4 +46,4 @@ class gsuiJoystick extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-joystick", gsuiJoystick );
+GSUdomDefine( "gsui-joystick", gsuiJoystick );

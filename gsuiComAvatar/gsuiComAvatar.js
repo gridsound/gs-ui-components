@@ -28,4 +28,4 @@ class gsuiComAvatar extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-com-avatar", gsuiComAvatar );
+GSUdomDefine( "gsui-com-avatar", gsuiComAvatar );

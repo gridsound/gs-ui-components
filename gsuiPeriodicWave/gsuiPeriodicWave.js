@@ -94,4 +94,4 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-periodicwave", gsuiPeriodicWave );
+GSUdomDefine( "gsui-periodicwave", gsuiPeriodicWave );

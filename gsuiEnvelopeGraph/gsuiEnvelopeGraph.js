@@ -66,4 +66,4 @@ class gsuiEnvelopeGraph extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-envelope-graph", gsuiEnvelopeGraph );
+GSUdomDefine( "gsui-envelope-graph", gsuiEnvelopeGraph );

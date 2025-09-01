@@ -346,4 +346,4 @@ class gsuiOscillator extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-oscillator", gsuiOscillator );
+GSUdomDefine( "gsui-oscillator", gsuiOscillator );

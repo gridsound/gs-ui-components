@@ -107,4 +107,4 @@ class gsuiComProfile extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-com-profile", gsuiComProfile );
+GSUdomDefine( "gsui-com-profile", gsuiComProfile );

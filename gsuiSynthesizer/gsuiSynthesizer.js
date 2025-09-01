@@ -231,4 +231,4 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-synthesizer", gsuiSynthesizer );
+GSUdomDefine( "gsui-synthesizer", gsuiSynthesizer );

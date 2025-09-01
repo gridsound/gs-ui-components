@@ -62,4 +62,4 @@ class gsuiDotlineSVG extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-dotlinesvg", gsuiDotlineSVG );
+GSUdomDefine( "gsui-dotlinesvg", gsuiDotlineSVG );

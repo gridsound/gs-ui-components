@@ -74,4 +74,4 @@ class gsuiWindows extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-windows", gsuiWindows );
+GSUdomDefine( "gsui-windows", gsuiWindows );

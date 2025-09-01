@@ -473,4 +473,4 @@ class gsuiPianoroll extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-pianoroll", gsuiPianoroll );
+GSUdomDefine( "gsui-pianoroll", gsuiPianoroll );

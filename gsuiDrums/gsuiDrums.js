@@ -507,4 +507,4 @@ class gsuiDrums extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-drums", gsuiDrums );
+GSUdomDefine( "gsui-drums", gsuiDrums );

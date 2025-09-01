@@ -231,4 +231,4 @@ class gsuiEnvelope extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-envelope", gsuiEnvelope );
+GSUdomDefine( "gsui-envelope", gsuiEnvelope );

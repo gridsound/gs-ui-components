@@ -139,4 +139,4 @@ class gsuiTitleUser extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-titleuser", gsuiTitleUser );
+GSUdomDefine( "gsui-titleuser", gsuiTitleUser );

@@ -87,4 +87,4 @@ class gsuiAnalyserTd extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-analyser-td", gsuiAnalyserTd );
+GSUdomDefine( "gsui-analyser-td", gsuiAnalyserTd );

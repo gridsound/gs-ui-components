@@ -40,4 +40,4 @@ class gsuiComButton extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-com-button", gsuiComButton );
+GSUdomDefine( "gsui-com-button", gsuiComButton );

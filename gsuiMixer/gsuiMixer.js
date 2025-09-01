@@ -63,4 +63,4 @@ class gsuiMixer extends gsui0ne {
 	$getEffects() { return this.$elements.$effects; }
 }
 
-GSUdefineElement( "gsui-mixer", gsuiMixer );
+GSUdomDefine( "gsui-mixer", gsuiMixer );

@@ -75,4 +75,4 @@ class gsuiTempo extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-tempo", gsuiTempo );
+GSUdomDefine( "gsui-tempo", gsuiTempo );

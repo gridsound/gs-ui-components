@@ -33,4 +33,4 @@ class gsuiBeatlines extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-beatlines", gsuiBeatlines );
+GSUdomDefine( "gsui-beatlines", gsuiBeatlines );

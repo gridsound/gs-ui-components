@@ -154,4 +154,4 @@ class gsuiPanels extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-panels", gsuiPanels );
+GSUdomDefine( "gsui-panels", gsuiPanels );

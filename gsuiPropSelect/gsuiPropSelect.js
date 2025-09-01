@@ -99,4 +99,4 @@ class gsuiPropSelect extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-prop-select", gsuiPropSelect );
+GSUdomDefine( "gsui-prop-select", gsuiPropSelect );

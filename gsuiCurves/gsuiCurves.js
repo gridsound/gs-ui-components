@@ -109,4 +109,4 @@ class gsuiCurves extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-curves", gsuiCurves );
+GSUdomDefine( "gsui-curves", gsuiCurves );

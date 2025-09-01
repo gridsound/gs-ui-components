@@ -79,4 +79,4 @@ class gsuiTrack extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-track", gsuiTrack );
+GSUdomDefine( "gsui-track", gsuiTrack );

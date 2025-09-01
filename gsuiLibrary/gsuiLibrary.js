@@ -194,4 +194,4 @@ class gsuiLibrary extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-library", gsuiLibrary );
+GSUdomDefine( "gsui-library", gsuiLibrary );

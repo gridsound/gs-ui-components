@@ -104,4 +104,4 @@ class gsuiGlitchText extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-glitchtext", gsuiGlitchText );
+GSUdomDefine( "gsui-glitchtext", gsuiGlitchText );

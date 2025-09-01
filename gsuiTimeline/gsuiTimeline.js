@@ -372,4 +372,4 @@ class gsuiTimeline extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-timeline", gsuiTimeline );
+GSUdomDefine( "gsui-timeline", gsuiTimeline );

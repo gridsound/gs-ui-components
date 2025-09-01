@@ -289,4 +289,4 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-wave-editor", gsuiWaveEditor );
+GSUdomDefine( "gsui-wave-editor", gsuiWaveEditor );

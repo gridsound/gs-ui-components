@@ -170,4 +170,4 @@ class gsuiComPlaylist extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-com-playlist", gsuiComPlaylist );
+GSUdomDefine( "gsui-com-playlist", gsuiComPlaylist );

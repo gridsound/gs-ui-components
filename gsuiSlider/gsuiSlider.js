@@ -219,4 +219,4 @@ class gsuiSlider extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-slider", gsuiSlider );
+GSUdomDefine( "gsui-slider", gsuiSlider );

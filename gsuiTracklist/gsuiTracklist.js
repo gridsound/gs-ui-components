@@ -37,4 +37,4 @@ class gsuiTracklist extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-tracklist", gsuiTracklist );
+GSUdomDefine( "gsui-tracklist", gsuiTracklist );

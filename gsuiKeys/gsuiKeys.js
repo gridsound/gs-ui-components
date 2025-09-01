@@ -212,4 +212,4 @@ class gsuiKeys extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-keys", gsuiKeys );
+GSUdomDefine( "gsui-keys", gsuiKeys );

@@ -306,4 +306,4 @@ class gsuiDAW extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-daw", gsuiDAW );
+GSUdomDefine( "gsui-daw", gsuiDAW );

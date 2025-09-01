@@ -57,4 +57,4 @@ class gsuiEffect extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-effect", gsuiEffect );
+GSUdomDefine( "gsui-effect", gsuiEffect );

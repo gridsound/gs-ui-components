@@ -24,4 +24,4 @@ class gsuiHelpLink extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-help-link", gsuiHelpLink );
+GSUdomDefine( "gsui-help-link", gsuiHelpLink );

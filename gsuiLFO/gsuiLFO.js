@@ -232,4 +232,4 @@ class gsuiLFO extends gsui0ne {
 
 }
 
-GSUdefineElement( "gsui-lfo", gsuiLFO );
+GSUdomDefine( "gsui-lfo", gsuiLFO );

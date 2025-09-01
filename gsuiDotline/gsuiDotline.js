@@ -478,4 +478,4 @@ class gsuiDotline extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-dotline", gsuiDotline );
+GSUdomDefine( "gsui-dotline", gsuiDotline );

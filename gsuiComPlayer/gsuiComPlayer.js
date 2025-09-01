@@ -125,4 +125,4 @@ class gsuiComPlayer extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-com-player", gsuiComPlayer );
+GSUdomDefine( "gsui-com-player", gsuiComPlayer );

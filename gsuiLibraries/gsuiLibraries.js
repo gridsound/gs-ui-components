@@ -33,4 +33,4 @@ class gsuiLibraries extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-libraries", gsuiLibraries );
+GSUdomDefine( "gsui-libraries", gsuiLibraries );

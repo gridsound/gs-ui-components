@@ -58,4 +58,4 @@ class gsuiStepSelect extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-step-select", gsuiStepSelect );
+GSUdomDefine( "gsui-step-select", gsuiStepSelect );

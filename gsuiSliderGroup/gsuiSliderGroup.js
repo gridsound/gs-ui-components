@@ -230,4 +230,4 @@ class gsuiSliderGroup extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-slidergroup", gsuiSliderGroup );
+GSUdomDefine( "gsui-slidergroup", gsuiSliderGroup );

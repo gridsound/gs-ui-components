@@ -159,4 +159,4 @@ class gsuiChannels extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-channels", gsuiChannels );
+GSUdomDefine( "gsui-channels", gsuiChannels );

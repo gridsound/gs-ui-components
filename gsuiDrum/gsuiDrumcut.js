@@ -24,4 +24,4 @@ class gsuiDrumcut extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-drumcut", gsuiDrumcut );
+GSUdomDefine( "gsui-drumcut", gsuiDrumcut );

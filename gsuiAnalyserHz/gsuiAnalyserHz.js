@@ -75,4 +75,4 @@ class gsuiAnalyserHz extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-analyser-hz", gsuiAnalyserHz );
+GSUdomDefine( "gsui-analyser-hz", gsuiAnalyserHz );

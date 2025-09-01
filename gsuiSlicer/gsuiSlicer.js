@@ -368,4 +368,4 @@ class gsuiSlicer extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-slicer", gsuiSlicer );
+GSUdomDefine( "gsui-slicer", gsuiSlicer );

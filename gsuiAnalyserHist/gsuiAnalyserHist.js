@@ -92,4 +92,4 @@ class gsuiAnalyserHist extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-analyser-hist", gsuiAnalyserHist );
+GSUdomDefine( "gsui-analyser-hist", gsuiAnalyserHist );

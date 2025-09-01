@@ -353,4 +353,4 @@ class gsuiWindow extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-window", gsuiWindow );
+GSUdomDefine( "gsui-window", gsuiWindow );

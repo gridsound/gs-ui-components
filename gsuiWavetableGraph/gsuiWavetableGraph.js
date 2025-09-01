@@ -219,4 +219,4 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-wavetable-graph", gsuiWavetableGraph );
+GSUdomDefine( "gsui-wavetable-graph", gsuiWavetableGraph );

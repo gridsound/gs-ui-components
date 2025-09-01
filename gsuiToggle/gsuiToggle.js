@@ -25,4 +25,4 @@ class gsuiToggle extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-toggle", gsuiToggle );
+GSUdomDefine( "gsui-toggle", gsuiToggle );

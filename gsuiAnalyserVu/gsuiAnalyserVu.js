@@ -94,4 +94,4 @@ class gsuiAnalyserVu extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-analyser-vu", gsuiAnalyserVu );
+GSUdomDefine( "gsui-analyser-vu", gsuiAnalyserVu );

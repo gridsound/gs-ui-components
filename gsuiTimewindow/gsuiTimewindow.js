@@ -448,4 +448,4 @@ class gsuiTimewindow extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-timewindow", gsuiTimewindow );
+GSUdomDefine( "gsui-timewindow", gsuiTimewindow );

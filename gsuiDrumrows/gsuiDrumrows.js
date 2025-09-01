@@ -82,4 +82,4 @@ class gsuiDrumrows extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-drumrows", gsuiDrumrows );
+GSUdomDefine( "gsui-drumrows", gsuiDrumrows );

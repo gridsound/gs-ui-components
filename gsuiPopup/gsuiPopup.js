@@ -151,4 +151,4 @@ class gsuiPopup extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-popup", gsuiPopup );
+GSUdomDefine( "gsui-popup", gsuiPopup );

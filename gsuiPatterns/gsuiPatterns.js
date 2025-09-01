@@ -314,7 +314,7 @@ class gsuiPatterns extends gsui0ne {
 	}
 }
 
-GSUdefineElement( "gsui-patterns", gsuiPatterns );
+GSUdomDefine( "gsui-patterns", gsuiPatterns );
 
 /*
 1. We are checking if the pattern exists because the entire synth could have been removed before.
