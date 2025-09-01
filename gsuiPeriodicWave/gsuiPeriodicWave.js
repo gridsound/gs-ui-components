@@ -32,7 +32,7 @@ class gsuiPeriodicWave extends gsui0ne {
 			duration: 1,
 			opacity: 1,
 		} ) );
-		GSUsetChildrenNumber( this.$element, n, "polyline" );
+		GSUdomSetChildrenLength( this.$element, n, "polyline" );
 	}
 	$options( lineN, opt ) {
 		if ( this.#options[ lineN ] ) {

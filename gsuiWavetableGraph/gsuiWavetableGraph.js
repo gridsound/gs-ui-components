@@ -86,7 +86,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
 		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 		this.#drawBox();
-		GSUsetChildrenNumber( this.$elements.$gWaves, this.#waves.length * 2, "polyline" );
+		GSUdomSetChildrenLength( this.$elements.$gWaves, this.#waves.length * 2, "polyline" );
 		this.#waves.forEach( this.#drawWave.bind( this ) );
 		// this.$elements.$inters.forEach( ( inter, i, arr ) => this.#drawInter( inter, i / ( arr.length - 1 ) ) );
 		this.#drawMorph();
