@@ -54,7 +54,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 				GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
 			},
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				lg("waveshaper.gsuiToggle-toggle", d.$target.dataset.prop);
 				switch ( d.$target.dataset.prop ) {
 					case "oversample": this.#onchangeOversample(); break;
 					case "symmetry": this.#onchangeSymmetry( b ); break;
