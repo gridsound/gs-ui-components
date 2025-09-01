@@ -10,6 +10,7 @@ class gsuiWindow extends gsui0ne {
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 24;
 	#resetCSS = { top: 0, left: 0, right: 0, bottom: 0 };
+	#rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 
 	constructor() {
 		super( {
@@ -27,7 +28,6 @@ class gsuiWindow extends gsui0ne {
 			},
 			$attributes: { tabindex: 0 },
 		} );
-		this.rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 		Object.seal( this );
 		this.$elements.$icon.ondblclick = this.$close.bind( this );
 		this.$elements.$headBtns.onclick = this.#onclickBtns.bind( this );
@@ -43,10 +43,10 @@ class gsuiWindow extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "y": this.style.top = `${ this.rect.y = +val }px`; break;
-			case "x": this.style.left = `${ this.rect.x = +val }px`; break;
-			case "w": this.style.width = `${ this.rect.w = +val }px`; break;
-			case "h": this.style.height = `${ this.rect.h = +val }px`; break;
+			case "y": this.style.top = `${ this.#rect.y = +val }px`; break;
+			case "x": this.style.left = `${ this.#rect.x = +val }px`; break;
+			case "w": this.style.width = `${ this.#rect.w = +val }px`; break;
+			case "h": this.style.height = `${ this.#rect.h = +val }px`; break;
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
 			case "icon": this.$elements.$icon.dataset.icon = val; break;
@@ -55,6 +55,7 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
+	$getRect() { return this.#rect; }
 	$isOpen() { return this.#show; }
 	$open() { return this.$openToggle( true ); }
 	$close() { return this.$openToggle( false ); }
@@ -186,7 +187,7 @@ class gsuiWindow extends gsui0ne {
 		}
 	}
 	#onmouseupHead() {
-		const { x, y } = this.rect;
+		const { x, y } = this.#rect;
 		const m = this.#mousemovePos;
 
 		GSUdomRmAttr( this, "dragging" );
@@ -214,7 +215,7 @@ class gsuiWindow extends gsui0ne {
 		}
 	}
 	#onmouseupHandler( dir ) {
-		const { x, y, w, h } = this.rect;
+		const { x, y, w, h } = this.#rect;
 		const m = this.#mousemovePos;
 
 		GSUdomRmAttr( this, "dragging" );
@@ -236,7 +237,7 @@ class gsuiWindow extends gsui0ne {
 
 	// .........................................................................
 	#calcCSSmagnet( dir, x, y ) {
-		const rc = this.rect;
+		const rc = this.#rect;
 		const dirW = dir.includes( "w" );
 		const dirN = dir.includes( "n" );
 		const dirE = dir.includes( "e" );
@@ -248,7 +249,7 @@ class gsuiWindow extends gsui0ne {
 			...this.parentNode.childNodes,
 			{
 				dataset: {},
-				rect: { x: 0, y: 0, w, h },
+				$getRect: () => ( { x: 0, y: 0, w, h } ),
 			}
 		];
 		let mgX = 0;
@@ -285,7 +286,7 @@ class gsuiWindow extends gsui0ne {
 
 		return wins.reduce( ( vMin, win ) => {
 			if ( win.dataset.id !== this.dataset.id && ( !win.$isOpen || win.$isOpen() ) ) {
-				const wrc = win.rect;
+				const wrc = win.$getRect();
 				const wrcDir = wrc[ dir ];
 				const v1 = wrcDir - brdL - value;
 				const v2 = wrcDir + ( dir === "x" ? wrc.w : wrc.h ) + brdR - value;
@@ -317,7 +318,7 @@ class gsuiWindow extends gsui0ne {
 		st.bottom = `${ -p.y }px`;
 	}
 	#calcCSSrelativeResize( dir, mm ) {
-		const rc = this.rect;
+		const rc = this.#rect;
 		const w = rc.w - this.#wMin;
 		const h = rc.h - this.#hMin - this.#mousedownHeadHeight;
 
