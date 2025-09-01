@@ -61,10 +61,10 @@ class gsuiDrums extends gsui0ne {
 			},
 			[ GSEV_SLIDERGROUP_INPUT ]: ( d, k, v ) => {
 				GSUdomSetAttr( this.#drumsMap.get( k )[ 2 ], d.$target.dataset.currentProp, v );
-				this.#drumrows.$setDrumPropValue( d.$target.dataset.id, d.$target.dataset.currentProp, v );
+				this.#drumrows.$setDrumPropValue( d.$targetId, d.$target.dataset.currentProp, v );
 			},
 			[ GSEV_SLIDERGROUP_INPUTEND ]: d => {
-				this.#drumrows.$removeDrumPropValue( d.$target.dataset.id, d.$target.dataset.currentProp );
+				this.#drumrows.$removeDrumPropValue( d.$targetId, d.$target.dataset.currentProp );
 			},
 		} );
 		GSUdomSetAttr( this.#win, "step", 1 );

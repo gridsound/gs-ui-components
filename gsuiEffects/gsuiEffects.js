@@ -30,11 +30,11 @@ class gsuiEffects extends gsui0ne {
 			$onchange: ( obj, fxId ) => GSUdomDispatch( this, GSEV_EFFECTS_REORDEREFFECT, fxId, obj ),
 		} );
 		GSUdomListen( this, {
-			[ GSEV_EFFECT_REMOVE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_REMOVEEFFECT, d.$target.dataset.id ),
-			[ GSEV_EFFECT_TOGGLE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_TOGGLEEFFECT, d.$target.dataset.id ),
-			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_LIVECHANGEEFFECT, d.$target.dataset.id, ...d.$args ),
-			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECTPROP, d.$target.dataset.id, ...d.$args ),
-			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECT, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_EFFECT_REMOVE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_REMOVEEFFECT, d.$targetId ),
+			[ GSEV_EFFECT_TOGGLE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_TOGGLEEFFECT, d.$targetId ),
+			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
 		} );
 	}
 

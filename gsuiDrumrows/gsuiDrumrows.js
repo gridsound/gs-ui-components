@@ -12,13 +12,13 @@ class gsuiDrumrows extends gsui0ne {
 		Object.seal( this );
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		GSUdomListen( this, {
-			[ GSEV_DRUMROW_REMOVE ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_REMOVE, d.$target.dataset.id ),
-			[ GSEV_DRUMROW_EXPAND ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_EXPAND, d.$target.dataset.id ),
-			[ GSEV_DRUMROW_TOGGLE ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_TOGGLE, d.$target.dataset.id, ...d.$args ),
-			[ GSEV_DRUMROW_TOGGLESOLO ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_TOGGLESOLO, d.$target.dataset.id ),
-			[ GSEV_DRUMROW_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_CHANGE, d.$target.dataset.id, ...d.$args ),
-			[ GSEV_DRUMROW_LIVECHANGEPROP ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_LIVECHANGEDRUMROW, d.$target.dataset.id, ...d.$args ),
-			[ GSEV_DRUMROW_PROPFILTER ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_PROPFILTER, d.$target.dataset.id, ...d.$args ),
+			[ GSEV_DRUMROW_REMOVE ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_REMOVE, d.$targetId ),
+			[ GSEV_DRUMROW_EXPAND ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_EXPAND, d.$targetId ),
+			[ GSEV_DRUMROW_TOGGLE ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_TOGGLE, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_TOGGLESOLO ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_TOGGLESOLO, d.$targetId ),
+			[ GSEV_DRUMROW_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_CHANGE, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_LIVECHANGEPROP ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_LIVECHANGEDRUMROW, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_PROPFILTER ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_PROPFILTER, d.$targetId, ...d.$args ),
 			[ GSEV_DRUMROW_PROPFILTERS ]: d => GSUdomDispatch( this, GSEV_DRUMROWS_PROPFILTERS, ...d.$args ),
 		} );
 	}
