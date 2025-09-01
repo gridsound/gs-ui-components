@@ -140,7 +140,7 @@ document.body.append( ddTar );
 document.body.append( dd );
 
 ddTar.onpointerdown = e => {
-	GSUunselectText();
+	e.preventDefault();
 	if ( e.target.tagName === "SPAN" ) {
 		ddTar.dataset.pos = e.target.title;
 	} else {

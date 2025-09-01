@@ -39,7 +39,6 @@ class gsuiReorder {
 	// .........................................................................
 	#onptrdown( e ) {
 		if ( e.target.matches( this.#opt.$itemGripSelector ) ) {
-			GSUunselectText();
 			this.#movingItem = e.target.closest( this.#opt.$itemSelector );
 			if ( this.#movingItem ) {
 				e.preventDefault();

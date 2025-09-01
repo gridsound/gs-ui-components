@@ -211,7 +211,7 @@ class gsuiBlocksManager {
 	$onmousedown( e ) {
 		const blc = this.#getBlc( e.currentTarget );
 
-		GSUunselectText();
+		e.preventDefault();
 		this.#mdBlc = blc;
 		this.#mdTarget = e.target;
 		if ( e.button === 2 ) {

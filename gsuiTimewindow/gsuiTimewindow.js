@@ -409,7 +409,7 @@ class gsuiTimewindow extends gsui0ne {
 		}
 	}
 	#onptrdownExtend( panel, e ) {
-		GSUunselectText();
+		e.preventDefault();
 		e.target.setPointerCapture( e.pointerId );
 		if ( panel === "side" ) {
 			this.#panelSize = this.$elements.$panel.clientWidth;

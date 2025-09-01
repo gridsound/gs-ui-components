@@ -182,7 +182,6 @@ class gsuiSliderGroup extends gsui0ne {
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
-			GSUunselectText();
 			this.$onptrmove( e );
 			return;
 		}

@@ -83,6 +83,7 @@ class gsui0ne extends HTMLElement {
 		if ( this.$onptrdown( e ) === false ) {
 			this.$isActive = false;
 		} else {
+			e.preventDefault();
 			this.$isActive = true;
 			if ( this.#ptrlock ) {
 				this.requestPointerLock().then( () => this.#onptrdown2( e ) );
