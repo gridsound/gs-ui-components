@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiDAW extends gsui0ne {
-	$clock = null;
 	#timeSelecting = false;
 	#popups = {
 		about: GSUfindElements( GSUgetTemplate( "gsui-daw-popup-about" ), {
@@ -73,10 +72,7 @@ class gsuiDAW extends gsui0ne {
 				version: "0.0.0",
 			},
 		} );
-		this.$clock = this.$elements.$clock; // do it by attribute
 		Object.seal( this );
-
-		this.$elements.$clock.$onchangeDisplay = display => GSUdomDispatch( this, GSEV_DAW_CHANGEDISPLAYCLOCK, display );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
 		this.#popups.about.versionCheck.onclick = () => {
 			const dt = this.#popups.about.versionIcon.dataset;
@@ -112,6 +108,7 @@ class gsuiDAW extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_TITLEUSER_SAVE ]: () => GSUdomDispatch( this, GSEV_DAW_SAVE ),
 			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => GSUdomDispatch( this, GSEV_DAW_RENAME, name ),
+			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => GSUdomDispatch( this, GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
 		} );
 		GSUdomListen( this.$elements.$volume, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,

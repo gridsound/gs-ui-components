@@ -6,7 +6,6 @@ class gsuiClock extends gsui0ne {
 	#timeSave = 0;
 	#firstValueLen = -1;
 	#values = [ -1, -1, -1 ];
-	$onchangeDisplay = GSUnoop;
 
 	constructor() {
 		super( {
@@ -120,7 +119,7 @@ class gsuiClock extends gsui0ne {
 		const dpl = GSUdomGetAttr( this, "mode" ) === "second" ? "beat" : "second";
 
 		GSUdomSetAttr( this, "mode", dpl );
-		this.$onchangeDisplay( dpl );
+		GSUdomDispatch( this, GSEV_CLOCK_CHANGEDISPLAY, dpl );
 	}
 }
 
