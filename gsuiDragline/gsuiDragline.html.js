@@ -3,8 +3,8 @@
 GSUsetTemplate( "gsui-dragline", () =>
 	GSUcreateDiv( { class: "gsuiDragline" },
 		GSUcreateDiv( { class: "gsuiDragline-main" },
-			GSUcreateElementSVG( "svg", { class: "gsuiDragline-line" },
-				GSUcreateElementSVG( "polyline" ),
+			GSUcreateElement( "svg", { class: "gsuiDragline-line" },
+				GSUcreateElement( "polyline" ),
 			),
 			GSUcreateDiv( { class: "gsuiDragline-to" } ),
 		),

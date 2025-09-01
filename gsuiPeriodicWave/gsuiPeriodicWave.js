@@ -8,7 +8,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPeriodicWave",
 			$tagName: "gsui-periodicwave",
-			$template: GSUcreateElementSVG( "svg", { preserveAspectRatio: "none", inert: true } ),
+			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true } ),
 		} );
 		Object.seal( this );
 	}
@@ -32,7 +32,7 @@ class gsuiPeriodicWave extends gsui0ne {
 			duration: 1,
 			opacity: 1,
 		} ) );
-		GSUsetSVGChildrenNumber( this.$element, n, "polyline" );
+		GSUsetChildrenNumber( this.$element, n, "polyline" );
 	}
 	$options( lineN, opt ) {
 		if ( this.#options[ lineN ] ) {

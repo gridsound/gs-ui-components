@@ -1,9 +1,9 @@
 "use strict";
 
 GSUsetTemplate( "gsui-envelope-graph", () =>
-	GSUcreateElementSVG( "svg", { preserveAspectRatio: "none" },
-		GSUcreateElementSVG( "polyline", { class: "gsuiEnvelopeGraph-mainLine" } ),
-		GSUcreateElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } ),
-		GSUcreateElementSVG( "polyline", { class: "gsuiEnvelopeGraph-line" } ),
+	GSUcreateElement( "svg", { preserveAspectRatio: "none" },
+		GSUcreateElement( "polyline", { class: "gsuiEnvelopeGraph-mainLine" } ),
+		GSUcreateElement( "polyline", { class: "gsuiEnvelopeGraph-line" } ),
+		GSUcreateElement( "polyline", { class: "gsuiEnvelopeGraph-line" } ),
 	)
 );

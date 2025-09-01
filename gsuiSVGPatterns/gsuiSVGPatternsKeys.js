@@ -6,7 +6,7 @@ class gsuiSVGPatternsKeys {
 		const { min, size } = gsuiSVGPatternsKeys.#calcMinMax( arrKeys );
 		const rowH = GSUmathFix( 1 / ( size + 1 ), 3 );
 
-		return arrKeys.map( k => GSUcreateElementSVG( "rect", {
+		return arrKeys.map( k => GSUcreateElement( "rect", {
 			x: GSUmathFix( k.when, 3 ),
 			y: GSUmathFix( ( size - k.key + min ) * rowH, 3 ),
 			width: GSUmathFix( k.duration, 3 ),

@@ -13,7 +13,7 @@ class gsuiSlicer extends gsui0ne {
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
 	#sliceCurrentTime = null;
-	#waveDef = GSUcreateElementSVG( "polyline" );
+	#waveDef = GSUcreateElement( "polyline" );
 
 	constructor() {
 		const defs = GSUdomQS( "#gsuiSlicer-waveDefs defs" );
@@ -54,8 +54,8 @@ class gsuiSlicer extends gsui0ne {
 		} );
 		Object.seal( this );
 		if ( !defs ) {
-			document.body.prepend( GSUcreateElementSVG( "svg", { id: "gsuiSlicer-waveDefs" },
-				GSUcreateElementSVG( "defs" ),
+			document.body.prepend( GSUcreateElement( "svg", { id: "gsuiSlicer-waveDefs" },
+				GSUcreateElement( "defs" ),
 			) );
 			this.#waveDef.dataset.id = 1;
 		} else {
@@ -142,8 +142,8 @@ class gsuiSlicer extends gsui0ne {
 	}
 	$addSlice( id, obj ) {
 		if ( !( id in this.#slices ) ) {
-			const svg = GSUcreateElementSVG( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
-				GSUcreateElementSVG( "use" ),
+			const svg = GSUcreateElement( "svg", { class: "gsuiSlicer-preview-wave", "data-id": id, preserveAspectRatio: "none" },
+				GSUcreateElement( "use" ),
 			);
 			const sli = GSUcreateDiv( { class: "gsuiSlicer-slices-slice", "data-id": id } );
 

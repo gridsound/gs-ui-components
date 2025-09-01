@@ -48,8 +48,8 @@ GSUsetTemplate( "gsui-wavetable", () => [
 GSUsetTemplate( "gsui-wavetable-wave", ( id, ind ) =>
 	GSUcreateFlex( { class: "gsuiWavetable-wave", "data-id": id, "data-index": ind, x: true },
 		GSUcreateFlex( { class: "gsuiWavetable-wave-svg", "data-action": "select", f1: true },
-			GSUcreateElementSVG( "svg", { inert: true },
-				GSUcreateElementSVG( "polyline" ),
+			GSUcreateElement( "svg", { inert: true },
+				GSUcreateElement( "polyline" ),
 			),
 		),
 		GSUcreateFlex( { class: "gsuiWavetable-wave-head", "data-action": "select", y: true, xcenter: true, ycenter: true },

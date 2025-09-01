@@ -85,7 +85,7 @@ class gsuiCurves extends gsui0ne {
 		}
 	}
 	#createPath( id, curve ) {
-		this.$elements.$curves.append( GSUcreateElementSVG( "path", {
+		this.$elements.$curves.append( GSUcreateElement( "path", {
 			class: "gsuiCurves-curve",
 			"data-id": id,
 			d: this.#createPathD( curve ),

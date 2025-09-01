@@ -19,8 +19,8 @@ GSUsetTemplate( "gsui-library-sep", id =>
 GSUsetTemplate( "gsui-library-sample", obj =>
 	GSUcreateDiv( { class: "gsuiLibrary-sample gsuiLibrary-sample-expanded", "data-id": obj.id, "data-name": obj.name, title: obj.name },
 		GSUcreateDiv( { class: "gsuiLibrary-sample-wave", inert: true },
-			GSUcreateElementSVG( "svg", { class: "gsuiLibrary-sample-svg", viewBox: "0 0 40 10", preserveAspectRatio: "none" },
-				GSUcreateElementSVG( "polygon", { class: "gsuiLibrary-sample-poly", points: obj.points } ),
+			GSUcreateElement( "svg", { class: "gsuiLibrary-sample-svg", viewBox: "0 0 40 10", preserveAspectRatio: "none" },
+				GSUcreateElement( "polygon", { class: "gsuiLibrary-sample-poly", points: obj.points } ),
 			),
 		),
 	)

@@ -23,8 +23,8 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 		GSUcreateFlex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
 			GSUcreateElement( "gsui-beatlines", { dir: "x", timedivision: "1/1" } ),
 			GSUcreateElement( "gsui-beatlines", { dir: "y", timedivision: "1/1", vertical: true } ),
-			GSUcreateElementSVG( "svg", { viewBox: "0 0 5 5", preserveAspectRatio: "none", inert: true },
-				GSUcreateElementSVG( "polyline" ),
+			GSUcreateElement( "svg", { viewBox: "0 0 5 5", preserveAspectRatio: "none", inert: true },
+				GSUcreateElement( "polyline" ),
 			),
 			GSUcreateDiv( { class: "gsuiWaveEditor-wave-hover-square", inert: true } ),
 		),
@@ -33,8 +33,8 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 
 GSUsetTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
 	GSUcreateButton( { "data-tool": tool },
-		GSUcreateElementSVG( "svg", { viewBox: "0 0 10 10", preserveAspectRatio: "none", inert: true },
-			GSUcreateElementSVG( "polyline", { points: pts.join( " " ) } ),
+		GSUcreateElement( "svg", { viewBox: "0 0 10 10", preserveAspectRatio: "none", inert: true },
+			GSUcreateElement( "polyline", { points: pts.join( " " ) } ),
 		),
 	),
 );

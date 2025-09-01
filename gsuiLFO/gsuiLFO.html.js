@@ -25,7 +25,7 @@ GSUsetTemplate( "gsui-lfo", () =>
 			].map( ( [ w, dots ] ) =>
 				GSUcreateLabel( { class: "gsuiLFO-btn gsuiLFO-typeBtn", title: w },
 					GSUcreateInput( { class: "gsuiLFO-btnInput gsuiLFO-typeRadio", name: "gsuiLFO-type", type: "radio", value: w } ),
-					GSUcreateElementSVG( "svg", { class: "gsuiLFO-btnIcon gsuiLFO-typeSVG", viewBox: "0 0 14 10" }, GSUcreateElementSVG( "path", { d: dots } ) ),
+					GSUcreateElement( "svg", { class: "gsuiLFO-btnIcon gsuiLFO-typeSVG", viewBox: "0 0 14 10" }, GSUcreateElement( "path", { d: dots } ) ),
 				)
 			),
 		),

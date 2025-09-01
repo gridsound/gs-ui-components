@@ -11,8 +11,8 @@ class gsuiSVGPatterns {
 	} );
 
 	static #initSVG( pref ) {
-		const defs = GSUcreateElementSVG( "defs" );
-		const svg = GSUcreateElementSVG( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
+		const defs = GSUcreateElement( "defs" );
+		const svg = GSUcreateElement( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
 
 		document.body.prepend( svg );
 		return Object.freeze( {
@@ -50,8 +50,8 @@ class gsuiSVGPatterns {
 	static $createSVG( type, id ) {
 		const SVG = gsuiSVGPatterns.#getList( type );
 		const def = SVG.$map.get( id ) || {};
-		const use = GSUcreateElementSVG( "use" );
-		const svg = GSUcreateElementSVG( "svg", {
+		const use = GSUcreateElement( "use" );
+		const svg = GSUcreateElement( "svg", {
 			preserveAspectRatio: "none",
 			viewBox: `0 0 ${ def.w || 260 } ${ def.h || 48 }`,
 			"data-id": id,
@@ -66,7 +66,7 @@ class gsuiSVGPatterns {
 		if ( SVG.$map.has( id ) ) {
 			console.error( `gsuiSVGPatterns: ID "${ id }" already used` );
 		} else {
-			const g = GSUcreateElementSVG( "g", { id: `${ SVG.$prefix }${ id }` } );
+			const g = GSUcreateElement( "g", { id: `${ SVG.$prefix }${ id }` } );
 
 			SVG.$map.set( id, { g, w: 0, h: 0 } );
 			SVG.$defs.append( g );
@@ -97,7 +97,7 @@ class gsuiSVGPatterns {
 			case "automation": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
 			case "buffer":
 			case "bufferHD": {
-				const polygon = GSUcreateElementSVG( "polygon" );
+				const polygon = GSUcreateElement( "polygon" );
 				const w = type === "buffer" ? data.duration * 48 | 0 : 260;
 
 				gsuiWaveform.drawBuffer( polygon, w, 48, data );

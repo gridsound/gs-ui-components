@@ -2,7 +2,7 @@
 
 class gsuiWaveform {
 	constructor( el ) {
-		const svg = el || GSUcreateElementSVG( "svg" );
+		const svg = el || GSUcreateElement( "svg" );
 		const poly = GSUdomQS( svg, "polygon" );
 
 		this.rootElement = svg;
@@ -14,7 +14,7 @@ class gsuiWaveform {
 		GSUdomSetAttr( svg, "preserveAspectRatio", "none" );
 		GSUdomAddClass( svg, "gsuiWaveform" );
 		if ( !poly ) {
-			this.polygon = GSUcreateElementSVG( "polygon" );
+			this.polygon = GSUcreateElement( "polygon" );
 			svg.append( this.polygon );
 		}
 	}

@@ -15,17 +15,17 @@ class gsuiWavetableGraph extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWavetableGraph",
 			$tagName: "gsui-wavetable-graph",
-			$template: GSUcreateElementSVG( "svg", { preserveAspectRatio: "none", inert: true },
-				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-box" },
-					GSUnewArray( 12, () => GSUcreateElementSVG( "line" ) ),
+			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
+				GSUcreateElement( "g", { class: "gsuiWavetableGraph-box" },
+					GSUnewArray( 12, () => GSUcreateElement( "line" ) ),
 				),
-				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-interp" },
-					GSUnewArray( 32, () => GSUcreateElementSVG( "polyline" ) ),
+				GSUcreateElement( "g", { class: "gsuiWavetableGraph-interp" },
+					GSUnewArray( 32, () => GSUcreateElement( "polyline" ) ),
 				),
-				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-waves" } ),
-				GSUcreateElementSVG( "g", { class: "gsuiWavetableGraph-morph" },
-					GSUcreateElementSVG( "polyline" ),
-					GSUcreateElementSVG( "polyline" ),
+				GSUcreateElement( "g", { class: "gsuiWavetableGraph-waves" } ),
+				GSUcreateElement( "g", { class: "gsuiWavetableGraph-morph" },
+					GSUcreateElement( "polyline" ),
+					GSUcreateElement( "polyline" ),
 				),
 			),
 			$elements: {
@@ -86,7 +86,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
 		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 		this.#drawBox();
-		GSUsetSVGChildrenNumber( this.$elements.$gWaves, this.#waves.length * 2, "polyline" );
+		GSUsetChildrenNumber( this.$elements.$gWaves, this.#waves.length * 2, "polyline" );
 		this.#waves.forEach( this.#drawWave.bind( this ) );
 		// this.$elements.$inters.forEach( ( inter, i, arr ) => this.#drawInter( inter, i / ( arr.length - 1 ) ) );
 		this.#drawMorph();
