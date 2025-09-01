@@ -1,10 +1,6 @@
 "use strict";
 
 class gsuiChannels extends gsui0ne {
-	$oninput = null;
-	$onchange = null;
-	$onselectChan = null;
-	$onselectEffect = null;
 	#chans = {};
 	#chanSelected = null;
 	#analyserType = "hz";
@@ -23,20 +19,18 @@ class gsuiChannels extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$addBtn.onclick = () => this.$onchange( "addChannel" );
+		this.$elements.$addBtn.onclick = () => GSUdomDispatch( this, GSEV_CHANNELS_ADDCHAN );
 		GSUdomListen( this, {
-			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.$selectChannel( d.$target.dataset.id ),
-			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => this.$onselectEffect( d.$target.dataset.id, id ),
-			[ GSEV_CHANNEL_LIVECHANGE ]: d => this.$oninput( d.$target.dataset.id, ...d.$args ),
-			[ GSEV_CHANNEL_CHANGE ]: d => this.$onchange( "changeChannel", d.$target.dataset.id, ...d.$args ),
-			[ GSEV_CHANNEL_TOGGLE ]: d => this.$onchange( "toggleChannel", d.$target.dataset.id ),
+			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.#selectChannel( d.$targetId ),
+			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => GSUdomDispatch( this, GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
+			[ GSEV_CHANNEL_CONNECT ]: d => GSUdomDispatch( this, GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$pchans,
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",
-			$onchange: ( obj, chanId ) => this.$onchange( "reorderChannel", chanId, obj ),
+			$onchange: ( obj, chanId ) => GSUdomDispatch( this, GSEV_CHANNELS_REORDER, chanId, obj ),
 		} );
 	}
 
@@ -54,12 +48,12 @@ class gsuiChannels extends gsui0ne {
 	$updateAudioData( id, ldata, rdata ) {
 		this.#chans[ id ].$analyser.$draw( ldata, rdata );
 	}
-	$selectChannel( id ) {
+	#selectChannel( id ) {
 		GSUdomRmAttr( this.#chans[ this.#chanSelected ], "selected" );
 		GSUdomSetAttr( this.#chans[ id ], "selected" );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
-		this.$onselectChan?.( id );
+		GSUdomDispatch( this, GSEV_CHANNELS_SELECTCHAN, id );
 	}
 	$openSelectChannelPopup( currChanId ) {
 		___( currChanId, "string" );
@@ -93,19 +87,13 @@ class gsuiChannels extends gsui0ne {
 
 		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).append( chan );
 		this.#chans[ id ] = chan;
-		GSUdomQS( chan, ".gsuiChannel-delete" ).onclick = () => this.$onchange( "removeChannel", id );
-		GSUdomQS( chan, ".gsuiChannel-connect" ).onclick = () => this.$onchange( "redirectChannel", this.#chanSelected, id );
-		GSUdomQS( chan, ".gsuiChannel-rename" ).onclick = () => {
-			GSUpopup.$prompt( "Rename channel", "", GSUdomGetAttr( this.#chans[ id ], "name" ) )
-				.then( name => this.$onchange( "renameChannel", id, name ) );
-		};
 		chan.$analyser.$updateResolution();
 		GSUdomSetAttr( chan.$analyser, "type", this.#analyserType );
 		GSUdomDispatch( this, GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
-			this.$selectChannel( id );
+			this.#selectChannel( id );
 		}
 	}
 	$removeChannel( id ) {
@@ -115,11 +103,11 @@ class gsuiChannels extends gsui0ne {
 			const next = this.#getNextChan( chan, "nextElementSibling" );
 
 			if ( next ) {
-				this.$selectChannel( next.dataset.id );
+				this.#selectChannel( next.dataset.id );
 			} else {
 				const prev = this.#getNextChan( chan, "previousElementSibling" );
 
-				this.$selectChannel( prev ? prev.dataset.id : "main" );
+				this.#selectChannel( prev ? prev.dataset.id : "main" );
 			}
 		}
 		delete this.#chans[ id ];
