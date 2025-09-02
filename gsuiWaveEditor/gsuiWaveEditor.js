@@ -73,6 +73,7 @@ class gsuiWaveEditor extends gsui0ne {
 		};
 		this.$elements.$wave.onpointerdown = e => {
 			if ( this.#waveArray ) {
+				e.preventDefault();
 				this.#ptrDown = true;
 				this.$elements.$wave.setPointerCapture( e.pointerId );
 				this.#waveArray2 ||= new Float32Array( this.#waveArray );
