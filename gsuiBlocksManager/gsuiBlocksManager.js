@@ -212,6 +212,7 @@ class gsuiBlocksManager {
 		const blc = this.#getBlc( e.currentTarget );
 
 		e.preventDefault();
+		this.rootElement.focus();
 		this.#mdBlc = blc;
 		this.#mdTarget = e.target;
 		if ( e.button === 2 ) {

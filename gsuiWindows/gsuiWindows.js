@@ -13,7 +13,7 @@ class gsuiWindows extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_WINDOW_OPEN ]: d => this.#onopen( d.$target ),
 			[ GSEV_WINDOW_CLOSE ]: d => this.#onclose( d.$target ),
-			[ GSEV_WINDOW_STARTMOUSEMOVING ]: d => this.#startMousemoving( ...d.$args ),
+			[ GSEV_WINDOW_STARTMOUSEMOVING ]: d => this.#startMousemoving( d.$target, ...d.$args ),
 		} );
 		this.onpointerleave = e => this.onpointerup?.( e );
 	}
@@ -32,11 +32,12 @@ class gsuiWindows extends gsui0ne {
 	}
 
 	// .........................................................................
-	#startMousemoving( cursor, ptrId, fnMove, fnUp ) {
+	#startMousemoving( win, cursor, ptrId, fnMove, fnUp ) {
 		this.setPointerCapture( ptrId );
 		this.onpointerup = this.#stopMousemoving.bind( this, fnUp );
 		this.onpointermove = fnMove;
 		this.style.cursor = cursor;
+		this.#onfocusinWin( win );
 	}
 	#stopMousemoving( fnUp, e ) {
 		this.releasePointerCapture( e.pointerId );
@@ -55,7 +56,7 @@ class gsuiWindows extends gsui0ne {
 		}
 		GSUdomDispatch( this, GSEV_WINDOWS_CLOSE, win );
 	}
-	#onfocusinWin( win, e ) {
+	#onfocusinWin( win ) {
 		if ( win !== this.#focusedWindow ) {
 			const z = +win.style.zIndex || 0;
 
