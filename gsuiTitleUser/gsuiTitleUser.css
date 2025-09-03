@@ -59,10 +59,11 @@ gsui-titleuser {
 	margin-top: -5px;
 	font-size: 10px;
 	opacity: .8;
-}
-.gsuiTitleUser-username::before {
-	content: "@";
-	opacity: .6;
+
+	&::before {
+		content: "@";
+		opacity: .6;
+	}
 }
 
 /* .......................................................................... */
@@ -81,9 +82,10 @@ gsui-titleuser {
 	opacity: .7;
 	transition: .2s;
 	transition-property: opacity;
-}
-.gsuiTitleUser-logout:hover {
-	opacity: 1;
+
+	&:hover {
+		opacity: 1;
+	}
 }
 gsui-titleuser[ connected ] .gsuiTitleUser-login,
 gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-logout,
@@ -98,9 +100,10 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 	height: 20px;
 	border-radius: 4px;
 	background-color: var( --gsui-btn-cmp-bg );
-}
-gsui-titleuser[ readonly ] .gsuiTitleUser-cmp {
-	background-color: var( --gsui-btn-cmp-readonly-bg );
+
+	gsui-titleuser[ readonly ] & {
+		background-color: var( --gsui-btn-cmp-readonly-bg );
+	}
 }
 
 /* .......................................................................... */
@@ -112,12 +115,9 @@ gsui-titleuser[ readonly ] .gsuiTitleUser-cmp {
 	width: 32px;
 	background-color: #ba5d5d;
 	transition: width .2s;
-}
-gsui-titleuser[ readonly ] .gsuiTitleUser-save {
-	display: none;
-}
-gsui-titleuser[ saved ] .gsuiTitleUser-save {
-	width: 0;
+
+	gsui-titleuser[ saved ] & { width: 0 }
+	gsui-titleuser[ readonly ] & { display: none }
 }
 .gsuiTitleUser-justSaved {
 	overflow: hidden;
@@ -130,10 +130,11 @@ gsui-titleuser[ saved ] .gsuiTitleUser-save {
 	font-weight: bold;
 	background-color: #333;
 	transition: width .2s;
-}
-gsui-titleuser[ just-saved ] .gsuiTitleUser-justSaved {
-	width: 48px;
-	animation: .5s gsui-saved-fade 2s ease-out forwards;
+
+	gsui-titleuser[ just-saved ] & {
+		width: 48px;
+		animation: .5s gsui-saved-fade 2s ease-out forwards;
+	}
 }
 @keyframes gsui-saved-fade {
 	  0% { width: 48px }
@@ -151,11 +152,12 @@ gsui-titleuser[ just-saved ] .gsuiTitleUser-justSaved {
 	font-style: italic;
 	padding: 0 6px;
 	background: none;
-}
-.gsuiTitleUser-rename-inp::placeholder {
-	color: inherit;
-	font-style: italic;
-	opacity: .5;
+
+	&::placeholder {
+		color: inherit;
+		font-style: italic;
+		opacity: .5;
+	}
 }
 gsui-titleuser[ renaming ] .gsuiTitleUser-rename,
 gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
@@ -179,17 +181,18 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	padding-right: 2px;
-}
-gsui-titleuser[ readonly ] .gsuiTitleUser-cmpName {
-	font-style: italic;
-}
-.gsuiTitleUser-cmpName:empty::after {
-	content: "Untitled";
-	font-style: italic;
-	opacity: .7;
-}
-gsui-titleuser:not( [ saved ] ):not( [ readonly ] ) .gsuiTitleUser-cmpName::before {
-	content: "*";
+
+	gsui-titleuser[ readonly ] & {
+		font-style: italic;
+	}
+	&:empty::after {
+		content: "Untitled";
+		font-style: italic;
+		opacity: .7;
+	}
+	gsui-titleuser:not( [ saved ] ):not( [ readonly ] ) &::before {
+		content: "*";
+	}
 }
 .gsuiTitleUser-cmpEditIcon {
 	width: 0;
@@ -198,11 +201,12 @@ gsui-titleuser:not( [ saved ] ):not( [ readonly ] ) .gsuiTitleUser-cmpName::befo
 	opacity: 0;	
 	transition: .1s;
 	transition-property: width, margin-left, opacity;
-}
-gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover .gsuiTitleUser-cmpEditIcon {
-	width: 1.4ch;
-	margin-left: 4px;
-	opacity: 1;	
+
+	gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover & {
+		width: 1.4ch;
+		margin-left: 4px;
+		opacity: 1;	
+	}
 }
 .gsuiTitleUser-cmpDur::before {
 	content: "·";
@@ -212,15 +216,17 @@ gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover .gsuiTitleUser-cm
 /* .......................................................................... */
 .gsuiTitleUser-popup {
 	width: 340px;
-}
-.gsuiTitleUser-popup a {
-	font-size: 11px;
+
+	a {
+		font-size: 11px;
+	}
 }
 .gsuiTitleUser-popup-error {
 	margin-top: 12px;
 	font-size: 12px;
 	color: #ed9a8b;
-}
-.gsuiTitleUser-popup-error:empty {
-	display: none;
+
+	&:empty {
+		display: none;
+	}
 }
