@@ -2,7 +2,7 @@
 
 GSUsetTemplate( "gsui-titleuser", () => [
 	GSUcreateDiv( { class: "gsuiTitleUser-top" },
-		GSUcreateSpan( { class: "gsuiTitleUser-gs", inert: true }, "GridSound" ),
+		GSUcreateSpan( { class: "gsuiTitleUser-gs", inert: true } ),
 		GSUcreateButton( { class: "gsuiTitleUser-login", icon: "profile", title: "Login / connection" } ),
 		GSUcreateAExt( { class: "gsuiTitleUser-user", title: "Go to your profile" },
 			GSUcreateDiv( { class: "gsuiTitleUser-avatar", inert: true } ),
