@@ -123,7 +123,7 @@ class gsuiPanels extends gsui0ne {
 			}, 0 );
 			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
 			GSUdomAddClass( tar, "gsui-hover" );
-			GSUunselectText();
+			GSUdomUnselect();
 			this.setPointerCapture( e.pointerId );
 			this.onpointerup = this.#onpointerup.bind( this );
 			this.onpointermove = this.#onpointermove.bind( this );

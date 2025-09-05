@@ -460,7 +460,7 @@ class gsuiDrums extends gsui0ne {
 			this.#draggingWhenStart = this.#hoverBeat;
 			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
-			GSUunselectText();
+			GSUdomUnselect();
 			this.#elLines.onmousemove = null;
 			document.addEventListener( "mousemove", this.#onmousemoveLinesBind );
 			document.addEventListener( "mouseup", this.#onmouseupNewBind );

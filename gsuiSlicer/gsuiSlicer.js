@@ -273,7 +273,7 @@ class gsuiSlicer extends gsui0ne {
 			if ( this.#ptrmoveFn ) {
 				const sli = this.#getSliceByPageX( e.offsetX );
 
-				GSUunselectText();
+				GSUdomUnselect();
 				this.#slicesSaved = this.#copySlicesData();
 				this.$elements.$slices.setPointerCapture( e.pointerId );
 				this.$elements.$slices.onpointerup = this.#onpointerupSlices.bind( this );

@@ -33,7 +33,7 @@ class gsuiWindows extends gsui0ne {
 
 	// .........................................................................
 	#startMousemoving( cursor, ptrId, fnMove, fnUp ) {
-		GSUunselectText();
+		GSUdomUnselect();
 		this.setPointerCapture( ptrId );
 		this.onpointerup = this.#stopMousemoving.bind( this, fnUp );
 		this.onpointermove = fnMove;

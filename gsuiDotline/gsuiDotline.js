@@ -320,7 +320,7 @@ class gsuiDotline extends gsui0ne {
 		let isDot = GSUdomHasClass( e.target, "gsuiDotline-dot" );
 		let id = e.target.dataset.id;
 
-		GSUunselectText();
+		GSUdomUnselect();
 		this.#onrightclickSlider( e );
 		this.#onrightclickDot( e );
 		this.#onptrdownCurveDot( e );
