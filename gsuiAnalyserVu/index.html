@@ -20,6 +20,9 @@ body {
 	--test-content-w: 110px;
 	--test-content-h: 500px;
 }
+#testCtrls input[ type="range" ] {
+	width: 50px;
+}
 .prop {
 	display: flex;
 	align-items: center;
@@ -37,7 +40,7 @@ body {
 	<gsui-analyser-vu max="120"></gsui-analyser-vu>
 </div>
 <div id="TEST-CTRLS">
-	<button id="play" disabled>kick</button>
+	<button id="play" disabled>kick</button><br/>
 	<input type="range" id="hardValue" min="0" max="2" step=".01" value="0"/>
 </div>
 

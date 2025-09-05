@@ -1,4 +1,5 @@
 gsui-analyser-vu {
+	--gsuiAnalyserVu-max-col: #e04c4c;
 	display: flex;
 	gap: min( max( 5%, 1px ), 8px );
 	height: 100%;
@@ -20,7 +21,7 @@ gsui-analyser-vu {
 .gsuiAnalyserVu-meter-val-max {
 	position: absolute;
 	inset: 0 0 auto 0;
-	background-color: #e04c4c;
+	background-color: var( --gsuiAnalyserVu-max-col );
 }
 
 .gsuiAnalyserVu-meter-tick,

@@ -68,9 +68,12 @@ class gsuiAnalyserVu extends gsui0ne {
 		this.$elements.$metersValMax[ c ].style.height = `${ hmax }%`;
 		if ( max > this.#maxs[ c ] ) {
 			GSUclearInterval( this.#intervalIDs[ c ] );
+			GSUsetStyle( this.$elements.$metersTick[ c ], {
+				opacity: 1,
+				bottom: h,
+				backgroundColor: max <= 100 ? "" : "var(--gsuiAnalyserVu-max-col)",
+			} );
 			this.#maxs[ c ] = max;
-			this.$elements.$metersTick[ c ].style.opacity = 1;
-			this.$elements.$metersTick[ c ].style.bottom = h;
 			this.#maxFallDeb[ c ]();
 		}
 	}
