@@ -173,7 +173,6 @@ class gsuiSlider extends gsui0ne {
 		}
 	}
 	$onptrdown( e ) {
-		e.preventDefault();
 		if ( GSUdomHasAttr( this, "disabled" ) ) {
 			return false;
 		}
@@ -186,6 +185,7 @@ class gsuiSlider extends gsui0ne {
 					this.#value = def;
 					this.#onchange();
 				}
+				e.preventDefault();
 				return false;
 			}
 			case 0:
