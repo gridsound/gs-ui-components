@@ -3,7 +3,7 @@
 GSUsetTemplate( "gsui-daw-popup-about", () =>
 	GSUcreateDiv( { class: "gsuiDAW-popup-about" },
 		GSUcreateDiv( { class: "gsuiDAW-popup-about-head" },
-			GSUcreateSpan( { class: "gsuiDAW-popup-about-title" }, "GridSound" ),
+			GSUcreateSpan( { class: "gsuiDAW-popup-about-title" } ),
 			GSUcreateSpan( { class: "gsuiDAW-popup-about-versionNum" } ),
 			GSUcreateIcon( null ),
 			GSUcreateButton( { class: "gsuiDAW-popup-about-versionCheck" }, "check the version" ),

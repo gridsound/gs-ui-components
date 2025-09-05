@@ -15,13 +15,16 @@
 /* .......................................................................... */
 .gsuiDAW-popup-about-head {
 	display: flex;
-	align-items: baseline;
+	align-items: center;
 	justify-content: center;
 	font-size: 18px;
 	gap: 4px;
 }
 .gsuiDAW-popup-about-title {
-	font: 32px var( --gsui-font-title );
+	width: 104px;
+	height: 26px;
+	background: center no-repeat url( "../assets/logo/gs-gridsound-logo.svg" );
+	filter: invert( 1 );
 }
 .gsuiDAW-popup-about-versionNum {
 	opacity: .8;
