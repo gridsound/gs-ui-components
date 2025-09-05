@@ -453,7 +453,6 @@ class gsuiDrums extends gsui0ne {
 	}
 	#onmousedownNew( itemType, e ) {
 		if ( !this.#currAction ) {
-			e.preventDefault();
 			this.#currAction = e.button === 0
 				? `add${ itemType }`
 				: `remove${ itemType }`;
@@ -461,6 +460,7 @@ class gsuiDrums extends gsui0ne {
 			this.#draggingWhenStart = this.#hoverBeat;
 			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
+			GSUunselectText();
 			this.#elLines.onmousemove = null;
 			document.addEventListener( "mousemove", this.#onmousemoveLinesBind );
 			document.addEventListener( "mouseup", this.#onmouseupNewBind );

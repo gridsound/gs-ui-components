@@ -149,8 +149,6 @@ class gsuiWindow extends gsui0ne {
 			GSUdomHasClass( e.target, "gsuiWindow-headContent" );
 
 		if ( clicked && !this.#maximized ) {
-			e.preventDefault();
-			this.focus();
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
@@ -165,8 +163,6 @@ class gsuiWindow extends gsui0ne {
 		const dir = e.target.dataset.dir;
 
 		if ( dir ) {
-			e.preventDefault();
-			this.focus();
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
