@@ -3,7 +3,7 @@ gsui-glitchtext {
 	color: #ccc;
 	line-height: 1em;
 	font-size: 68px;
-	font-family: "oswald", monospace;
+	font-family: monospace;
 }
 .gsuiGlitchText-blended {
 	color: #fff;
