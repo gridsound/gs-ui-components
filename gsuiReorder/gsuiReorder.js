@@ -247,7 +247,7 @@ class gsuiReorder {
 		};
 	}
 	static #isDirX( el ) {
-		return !!el && GSUgetStyle( el, "flexDirection" ) === "row";
+		return !!el && GSUdomStyle( el, "flexDirection" ) === "row";
 	}
 	static #overWhichParent( elRoot, parSel, e ) {
 		const pX = e.offsetX;
@@ -333,7 +333,7 @@ class gsuiReorder {
 		return Array.from( GSUdomQSA( root, itemSel ) )
 			.reduce( ( obj, el ) => {
 				obj[ el.dataset.id ] = {
-					order: +GSUgetStyle( el, "order" ),
+					order: +GSUdomStyle( el, "order" ),
 					parent: el.parentNode.closest( "[data-id]" )?.dataset.id || null,
 					$elemParent: el.parentNode,
 					$elem: el,
@@ -356,7 +356,7 @@ class gsuiReorder {
 					$elem: el,
 					$pos: dirX ? x : y,
 					$size: dirX ? el.clientWidth : el.clientHeight,
-					$order: +GSUgetStyle( el, "order" ),
+					$order: +GSUdomStyle( el, "order" ),
 				};
 			} )
 			.sort( ( a, b ) => a.$pos - b.$pos );
@@ -391,7 +391,7 @@ class gsuiReorder {
 			marginLeft: `-${ e.clientX - x }px`,
 			width: `${ w }px`,
 			height: `${ h }px`,
-			borderRadius: GSUgetStyle( elItem, "borderRadius" ),
+			borderRadius: GSUdomStyle( elItem, "borderRadius" ),
 		} }, fakeGrip );
 
 		document.body.append( movingFake );

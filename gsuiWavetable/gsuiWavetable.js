@@ -308,7 +308,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$waves.append( elW );
 		this.$elements.$wtposWavelines.append( elWLine );
 		this.#wtwaves_updateWavesOrder();
-		GSUsetViewBoxWH( GSUdomQS( elW, "svg" ), 60, 40 );
+		GSUdomViewBox( GSUdomQS( elW, "svg" ), 60, 40 );
 	}
 	#wtwaves_removeWave( wId ) {
 		const w = this.#wtwaves_getElem( wId );
@@ -336,7 +336,7 @@ class gsuiWavetable extends gsui0ne {
 			this.$elements.$editor.$setWaveArray( this.#data.waves[ wId ].curve );
 			elW.dataset.selected = "";
 			GSUdomQS( this, `.gsuiWavetable-posCurve-wave[data-id='${ wId }']` ).dataset.selected = "";
-			GSUscrollIntoViewX( elW, this.$elements.$waves );
+			GSUdomScrollIntoViewX( elW, this.$elements.$waves );
 			if ( !this.#waveNull ) {
 				GSUdomDispatch( this, GSEV_WAVETABLE_PARAM, { wave: wId } );
 			}
@@ -438,8 +438,8 @@ class gsuiWavetable extends gsui0ne {
 			const x = Math.min( since / wtposCurve.duration, 1 );
 			const y = GSUmathDotLineGetYFromX( wtposCurve.curve, x );
 
-			GSUsetStyle( p.$elemB, "left", `${ x * 100 }%` );
-			GSUsetStyle( p.$elemA, {
+			GSUdomStyle( p.$elemB, "left", `${ x * 100 }%` );
+			GSUdomStyle( p.$elemA, {
 				top: `${ ( 1 - y ) * 100 }%`,
 				left: `${ x * 100 }%`,
 			} );

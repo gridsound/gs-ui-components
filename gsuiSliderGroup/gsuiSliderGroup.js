@@ -52,7 +52,7 @@ class gsuiSliderGroup extends gsui0ne {
 		}
 		this.#updatePxPerBeat();
 		if ( beatlines ) {
-			GSUrecallAttributes( this, {
+			GSUdomRecallAttributes( this, {
 				currenttime: 0,
 				timedivision: "4/4",
 			} );
@@ -168,7 +168,7 @@ class gsuiSliderGroup extends gsui0ne {
 		const el = sli.element.firstElementChild;
 		const innerDown = GSUdomTogClass( el, "gsuiSliderGroup-sliderInnerDown", valNum < 0 );
 
-		GSUsetStyle( el, {
+		GSUdomStyle( el, {
 			height: `${ percX }%`,
 			top: innerDown ? `${ 100 - perc0 }%` : "auto",
 			bottom: innerDown ? "auto" : `${ perc0 }%`,

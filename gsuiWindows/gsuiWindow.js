@@ -191,8 +191,8 @@ class gsuiWindow extends gsui0ne {
 		const m = this.#mousemovePos;
 
 		GSUdomRmAttr( this, "dragging" );
-		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
-		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
+		GSUdomStyle( this.$elements.$wrap, this.#resetCSS );
+		GSUdomStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
 			GSUdomSetAttr( this, {
 				x: x + m.x,
@@ -219,8 +219,8 @@ class gsuiWindow extends gsui0ne {
 		const m = this.#mousemovePos;
 
 		GSUdomRmAttr( this, "dragging" );
-		GSUsetStyle( this.$elements.$wrap, this.#resetCSS );
-		GSUsetStyle( this.$elements.$handlers, this.#resetCSS );
+		GSUdomStyle( this.$elements.$wrap, this.#resetCSS );
+		GSUdomStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
 				case "e":  GSUdomSetAttr( this, { w: w + m.x, h          } ); break;

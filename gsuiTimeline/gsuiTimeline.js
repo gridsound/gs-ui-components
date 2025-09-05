@@ -50,7 +50,7 @@ class gsuiTimeline extends gsui0ne {
 	}
 
 	static $numbering( from ) {
-		GSUsetStyle( document.body, "--gsuiTimeline-numbering", +from );
+		GSUdomStyle( document.body, "--gsuiTimeline-numbering", +from );
 	}
 
 	// .........................................................................
@@ -87,13 +87,13 @@ class gsuiTimeline extends gsui0ne {
 		if ( el ) {
 			this.#scrollingAncestor = el;
 			el.addEventListener( "scroll", this.#onscrollBind );
-			GSUobserveSizeOf( el, this.#onresizeBind );
+			GSUdomObserveSize( el, this.#onresizeBind );
 		}
 	}
 	#unscrollEvent( el ) {
 		if ( el ) {
 			el.removeEventListener( "scroll", this.#onscrollBind );
-			GSUunobserveSizeOf( el, this.#onresizeBind );
+			GSUdomUnobserveSize( el, this.#onresizeBind );
 		}
 		this.#scrollingAncestor = null;
 	}
@@ -112,7 +112,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#pxPerBeat = ppb;
 		this.#pxPerMeasure = this.#beatsPerMeasure * ppb;
 		this.#onlyBigMeasures = ppb < 6;
-		GSUsetStyle( this, {
+		GSUdomStyle( this, {
 			fontSize: `${ ppb }px`,
 			"--gsuiTimeline-beats-incr": this.#onlyBigMeasures ? this.#beatsPerMeasure : 1,
 			"--gsuiTimeline-measures-opacity": measuOpa,
@@ -129,7 +129,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#beatsPerMeasure = +bPM;
 		this.#stepsPerBeat = +sPB;
 		this.#pxPerMeasure = this.#beatsPerMeasure * this.#pxPerBeat;
-		GSUsetStyle( this, "--gsuiTimeline-beats-per-measure", this.#beatsPerMeasure );
+		GSUdomStyle( this, "--gsuiTimeline-beats-per-measure", this.#beatsPerMeasure );
 		this.#updateStepsBg();
 		if ( this.#scrollingAncestor ) {
 			this.#updateNumberMeasures();
@@ -200,7 +200,7 @@ class gsuiTimeline extends gsui0ne {
 
 		if ( diff ) {
 			this.#offset = off;
-			GSUsetStyle( this, "--gsuiTimeline-beats-offset", off );
+			GSUdomStyle( this, "--gsuiTimeline-beats-offset", off );
 		}
 		return diff;
 	}

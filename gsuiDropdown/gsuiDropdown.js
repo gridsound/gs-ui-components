@@ -91,11 +91,11 @@ class gsuiDropdown {
 			absolute: this.#elParent === document.body,
 		} );
 
-		GSUsetStyle( this.#elem, {
+		GSUdomStyle( this.#elem, {
 			left: posObj.left,
 			top: posObj.top,
 		} );
-		GSUsetStyle( elArrow, {
+		GSUdomStyle( elArrow, {
 			left: posObj.arrowLeft,
 			top: posObj.arrowTop,
 		} );

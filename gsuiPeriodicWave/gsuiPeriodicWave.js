@@ -41,7 +41,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		}
 	}
 	$resized() {
-		GSUsetViewBoxWH( this.$element, this.clientWidth, this.clientHeight );
+		GSUdomViewBox( this.$element, this.clientWidth, this.clientHeight );
 		this.#options.forEach( ( _, i ) => this.#drawLine( i ) );
 	}
 	#drawLine( lineN ) {

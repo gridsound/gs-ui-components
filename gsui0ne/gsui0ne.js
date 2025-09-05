@@ -42,16 +42,16 @@ class gsui0ne extends HTMLElement {
 					: this.append( this.#children );
 				this.#children = null;
 			}
-			GSUrecallAttributes( this, this.#attributes );
+			GSUdomRecallAttributes( this, this.#attributes );
 			this.$firstTimeConnected?.();
 		}
 		this.$connected?.();
 		if ( this.#onresizeBind ) {
-			GSUobserveSizeOf( this, this.#onresizeBind );
+			GSUdomObserveSize( this, this.#onresizeBind );
 		}
 	}
 	disconnectedCallback() {
-		GSUunobserveSizeOf( this, this.#onresizeBind );
+		GSUdomUnobserveSize( this, this.#onresizeBind );
 		this.$isConnected = false;
 		this.$disconnected?.();
 	}

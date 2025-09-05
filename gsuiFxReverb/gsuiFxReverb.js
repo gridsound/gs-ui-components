@@ -105,7 +105,7 @@ class gsuiFxReverb extends gsui0ne {
 
 		this.$elements.$graphWet.style.left = `${ ( delay * ppb ) / graphW * 100 }%`;
 		this.$elements.$graphWet.style.width = `${ ( ( fadein + decay ) * ppb ) / graphW * 100 }%`;
-		GSUsetStyle( this, "--gsui-fadein-p", `${ fadein / ( fadein + decay ) * 100 | 0 }%` );
+		GSUdomStyle( this, "--gsui-fadein-p", `${ fadein / ( fadein + decay ) * 100 | 0 }%` );
 	}
 }
 

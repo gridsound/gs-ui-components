@@ -28,7 +28,7 @@ class gsuiDotlineSVG extends gsui0ne {
 		this.#svgW = w;
 		this.#svgH = h;
 		this.#resW = w * 2;
-		GSUsetViewBoxWH( this.$elements.$svg, w, h );
+		GSUdomViewBox( this.$elements.$svg, w, h );
 	}
 	$setDataBox( box ) {
 		const n = box.split( " " );

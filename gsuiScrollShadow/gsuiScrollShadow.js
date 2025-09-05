@@ -20,12 +20,12 @@ class gsuiScrollShadow {
 		gsuiScrollShadow.#initShadow( this.#rightShadow, "right" );
 		gsuiScrollShadow.#initShadow( this.#bottomShadow, "bottom" );
 		this.#scrolledElem.addEventListener( "scroll", this.#onscrollBind );
-		GSUobserveSizeOf( this.#scrolledElem, this.#onscrollBind );
+		GSUdomObserveSize( this.#scrolledElem, this.#onscrollBind );
 	}
 
 	// .........................................................................
 	$disconnected() {
-		GSUunobserveSizeOf( this.#scrolledElem, this.#onscrollBind );
+		GSUdomUnobserveSize( this.#scrolledElem, this.#onscrollBind );
 	}
 
 	// .........................................................................
@@ -48,7 +48,7 @@ class gsuiScrollShadow {
 	}
 	static #onscroll2( elems, scroll ) {
 		elems.forEach( el => {
-			GSUsetStyle( el, "--gsuiScrollShadow-dist", `${ Math.min( scroll / 5, 5 ) }px` );
+			GSUdomStyle( el, "--gsuiScrollShadow-dist", `${ Math.min( scroll / 5, 5 ) }px` );
 			GSUdomTogClass( el, "gsuiScrollShadow-shadowed", scroll > 0 );
 		} );
 	}

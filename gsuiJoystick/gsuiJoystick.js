@@ -39,7 +39,7 @@ class gsuiJoystick extends gsui0ne {
 	#moveJoystick( e ) {
 		this.#coord[ 0 ] = GSUmathClamp( e.offsetX / this.offsetWidth, 0, 1 );
 		this.#coord[ 1 ] = GSUmathClamp( e.offsetY / this.offsetHeight, 0, 1 );
-		GSUsetStyle( this.$element, {
+		GSUdomStyle( this.$element, {
 			left: `${ this.#coord[ 0 ] * 100 }%`,
 			top: `${ this.#coord[ 1 ] * 100 }%`,
 		} );

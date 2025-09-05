@@ -192,7 +192,7 @@ class gsuiEnvelope extends gsui0ne {
 			const y = gsuiEnvelope.#keyPreviewCalcY( since, p.$dur, g );
 			const y2 = 1 - y * Math.abs( g.$amp );
 
-			GSUsetStyle( p.$elem, {
+			GSUdomStyle( p.$elem, {
 				top: `${ y2 * 100 }%`,
 				left: `${ x * 100 }%`,
 			} );

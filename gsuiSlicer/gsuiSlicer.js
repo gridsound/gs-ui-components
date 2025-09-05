@@ -115,7 +115,7 @@ class gsuiSlicer extends gsui0ne {
 		const w = svg.clientWidth;
 		const h = svg.clientHeight;
 
-		GSUsetViewBoxWH( svg, w, h );
+		GSUdomViewBox( svg, w, h );
 		GSUdomSetAttr( svg.firstChild, { x2: w, y2: h } );
 		this.#updatePxPerBeat();
 	}
@@ -173,7 +173,7 @@ class gsuiSlicer extends gsui0ne {
 			sli.y = y;
 			sli.sli.style.height = `${ ( 1 - y ) * 100 }%`;
 		}
-		GSUsetViewBox( sli.svg, ( x - ( x - y ) ) * gsuiSlicer.#resW, 0, w * gsuiSlicer.#resW, gsuiSlicer.#resH );
+		GSUdomViewBox( sli.svg, ( x - ( x - y ) ) * gsuiSlicer.#resW, 0, w * gsuiSlicer.#resW, gsuiSlicer.#resH );
 		if ( sli.x <= t && t < sli.x + sli.w ) {
 			this.#highlightSlice( sli );
 		}

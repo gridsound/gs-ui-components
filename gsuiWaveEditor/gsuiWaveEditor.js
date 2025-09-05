@@ -241,7 +241,7 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#drawWave() {
-		GSUsetViewBoxWH( this.$elements.$waveSVG, this.#waveW, this.#waveH );
+		GSUdomViewBox( this.$elements.$waveSVG, this.#waveW, this.#waveH );
 		gsuiWaveEditor.$drawWave( this.$elements.$wavePolyline, this.#waveArray, this.#waveW, this.#waveH );
 	}
 	static $drawWave( polyline, waveArray, w, h ) {
@@ -269,7 +269,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#updateHoverSquare( px, py ) {
 		const [ ix, iy ] = this.#getCoord( px, py );
 
-		GSUsetStyle( this.$elements.$hoverSquare, {
+		GSUdomStyle( this.$elements.$hoverSquare, {
 			left: `${ ix / this.#div[ 0 ] * 100 }%`,
 			top: `${ iy / this.#div[ 1 ] * 100 }%`,
 		} );

@@ -391,7 +391,7 @@ class gsuiBlocksManager {
 			return map;
 		}, new Map() );
 
-		GSUsetStyle( this.#elSelection, {
+		GSUdomStyle( this.#elSelection, {
 			top: `${ topRow * rowH }px`,
 			left: `${ when * this.#pxPerBeat }px`,
 			width: `${ duration * this.#pxPerBeat }px`,

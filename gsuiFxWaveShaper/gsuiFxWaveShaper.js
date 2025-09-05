@@ -88,7 +88,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 
 		this.#wavesW = this.$elements.$waves.clientWidth;
 		this.#wavesH = this.$elements.$waves.clientHeight;
-		GSUsetViewBoxWH( svg, w, h );
+		GSUdomViewBox( svg, w, h );
 		GSUdomSetAttr( svg.firstChild, { y1: h, x2: w } );
 		this.#updateWaveA();
 		this.#updateWaveB();
@@ -147,7 +147,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		const h = svg.clientHeight;
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( y ) }` );
 
-		GSUsetViewBoxWH( svg, w, h );
+		GSUdomViewBox( svg, w, h );
 		GSUdomSetAttr( this.$elements.$waveA, "points", pts.join( " " ) );
 	}
 	#updateWaveB() {

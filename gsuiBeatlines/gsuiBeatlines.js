@@ -18,13 +18,13 @@ class gsuiBeatlines extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUsetStyle( this, {
+				GSUdomStyle( this, {
 					"--gsui-bPM": `${ val.split( "/" )[ 0 ] }em`,
 					"--gsui-sPB": `${ 1 / val.split( "/" )[ 1 ] }em`,
 				} );
 				break;
 			case "pxperbeat":
-				GSUsetStyle( this, {
+				GSUdomStyle( this, {
 					fontSize: `${ val }px`,
 					opacity: Math.min( val / 48, 1 ),
 				} );

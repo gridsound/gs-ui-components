@@ -223,7 +223,7 @@ class gsuiLFO extends gsui0ne {
 			const x = since / this.#dur;
 			const y = this.$elements.$wave.$getY( 0, x * this.#waveWidth );
 
-			GSUsetStyle( p.$elem, {
+			GSUdomStyle( p.$elem, {
 				top: `${ 50 + y * 50 }%`,
 				left: `${ x * 100 }%`,
 			} );

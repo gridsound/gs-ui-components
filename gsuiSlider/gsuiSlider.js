@@ -86,7 +86,7 @@ class gsuiSlider extends gsui0ne {
 		this.#circ = circ;
 		this.#axeX = axeX;
 		if ( !circ ) {
-			GSUsetStyle( this.$elements.$lineColor, {
+			GSUdomStyle( this.$elements.$lineColor, {
 				top: axeX ? "0" : "",
 				left: axeX ? "" : "0",
 				width: axeX ? "" : "100%",
@@ -100,7 +100,7 @@ class gsuiSlider extends gsui0ne {
 			const cx = size / 2;
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			GSUsetViewBoxWH( this.$elements.$svg, size, size );
+			GSUdomViewBox( this.$elements.$svg, size, size );
 			GSUdomSetAttr( this.$elements.$svgLine, { r, cx, cy: cx, } );
 			GSUdomSetAttr( this.$elements.$svgLineColor, { r, cx, cy: cx, } );
 			this.$elements.$svgLine.style.strokeWidth =
@@ -130,12 +130,12 @@ class gsuiSlider extends gsui0ne {
 			const prcmin = Math.min( prcval, prcstart );
 
 			if ( this.#circ ) {
-				GSUsetStyle( this.$elements.$svgLineColor, {
+				GSUdomStyle( this.$elements.$svgLineColor, {
 					rotate: `${ 90 + prcmin * 360 }deg`,
 					strokeDasharray: `${ prclen * this.#svgLineLen }, 999999`,
 				} );
 			} else {
-				GSUsetStyle( this.$elements.$lineColor, this.#axeX
+				GSUdomStyle( this.$elements.$lineColor, this.#axeX
 					? {
 						left:  `${ prcmin * 100 }%`,
 						width: `${ prclen * 100 }%`,

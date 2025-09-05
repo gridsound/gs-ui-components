@@ -72,7 +72,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$remove.onclick = () => GSUdomDispatch( this, GSEV_OSCILLATOR_REMOVE );
 		this.addEventListener( "transitionend", e => {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {
-				GSUsetStyle( this, "transition", "none" );
+				GSUdomStyle( this, "transition", "none" );
 			}
 		} );
 		GSUdomListen( this, {
@@ -268,7 +268,7 @@ class gsuiOscillator extends gsui0ne {
 			this.#elWavetable.$change( wtData[ 0 ] );
 			this.#elWavetable.$isRealData( wtData[ 1 ] );
 		} else {
-			GSUsetStyle( this, "transition", "" );
+			GSUdomStyle( this, "transition", "" );
 			this.#elWavetable.remove();
 			this.#elWavetable = null;
 		}

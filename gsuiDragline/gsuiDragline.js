@@ -52,28 +52,28 @@ class gsuiDragline {
 
 		GSUdomTogClass( this.#elements.main, "gsuiDragline-down", h > 0 );
 		GSUdomTogClass( this.#elements.main, "gsuiDragline-right", w > 0 );
-		GSUsetStyle( this.#elements.main, {
+		GSUdomStyle( this.#elements.main, {
 			top: `${ Math.min( h, 0 ) }px`,
 			left: `${ Math.min( w, 0 ) }px`,
 			width: `${ wabs }px`,
 			height: `${ habs }px`,
 		} );
-		GSUsetStyle( this.#elements.svg, {
+		GSUdomStyle( this.#elements.svg, {
 			width: `${ whmax2 }px`,
 			height: `${ whmax2 }px`,
 			margin: `${ -whmax }px`,
 		} );
-		GSUsetViewBoxWH( this.#elements.svg, whmax2, whmax2 );
+		GSUdomViewBox( this.#elements.svg, whmax2, whmax2 );
 		GSUdomSetAttr( this.#elements.polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	#unlink() {
-		GSUsetStyle( this.#elements.main, {
+		GSUdomStyle( this.#elements.main, {
 			top: 0,
 			left: 0,
 			width: 0,
 			height: 0,
 		} );
-		GSUsetStyle( this.#elements.svg, {
+		GSUdomStyle( this.#elements.svg, {
 			width: 0,
 			height: 0,
 			margin: 0,

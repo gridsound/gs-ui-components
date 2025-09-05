@@ -90,7 +90,7 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	} );
 
 gain.oninput = () => gainNode.gain.setValueAtTime( gain.value, 0 );
-bgcolor.onchange = () => GSUsetStyle( spectrum, "backgroundColor", bgcolor.value );
+bgcolor.onchange = () => GSUdomStyle( spectrum, "backgroundColor", bgcolor.value );
 stop.onclick = () => absn?.stop();
 play.onclick = () => {
 	stop.onclick();

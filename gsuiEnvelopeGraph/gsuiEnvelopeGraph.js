@@ -30,7 +30,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	$resized() {
-		GSUsetViewBoxWH( this.$elements.$svg, this.clientWidth, this.clientHeight );
+		GSUdomViewBox( this.$elements.$svg, this.clientWidth, this.clientHeight );
 		this.$draw();
 	}
 	$draw() {
