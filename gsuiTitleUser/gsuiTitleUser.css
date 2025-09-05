@@ -17,7 +17,6 @@ gsui-titleuser {
 	width: 104px;
 	height: 100%;
 	font-size: 28px;
-	font-family: var( --gsui-font-title );
 	background: center no-repeat url( "../assets/logo/gs-gridsound-logo.svg" );
 	filter: invert( 1 );
 }
