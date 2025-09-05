@@ -28,7 +28,9 @@
 	pointer-events: none;
 }
 .gsuiIcon:not( [ data-spin="on" ] )[ data-icon="" ],
-.gsuiIcon:not( [ data-spin="on" ] ):not( [ data-icon ] ),
+.gsuiIcon:not( [ data-spin="on" ] ):not( [ data-icon ] ) {
+	display: none;
+}
 
 /* .......................................................................... */
 .gsuiIcon.gsuiIcon.gsuiIcon[ data-spin="on" ] {
