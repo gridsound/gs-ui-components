@@ -150,6 +150,7 @@ class gsuiWindow extends gsui0ne {
 
 		if ( clicked && !this.#maximized ) {
 			e.preventDefault();
+			this.focus();
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
@@ -165,6 +166,7 @@ class gsuiWindow extends gsui0ne {
 
 		if ( dir ) {
 			e.preventDefault();
+			this.focus();
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
