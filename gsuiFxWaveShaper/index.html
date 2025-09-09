@@ -68,8 +68,8 @@ body {
 const fx = GSUdomQS( "gsui-fx-waveshaper" );
 
 GSUdomListen( fx, {
-	[ GSEV_FXWAVESHAPER_LIVECHANGE ]: d => {},
-	[ GSEV_FXWAVESHAPER_CHANGEPROP ]: ( _, k, v ) => {
+	[ GSEV_EFFECT_FX_LIVECHANGE ]: GSUnoop,
+	[ GSEV_EFFECT_FX_CHANGEPROP ]: ( _, k, v ) => {
 		switch ( k ) {
 			case "curve":
 				fx.$changeCurveData( v );
@@ -80,7 +80,7 @@ GSUdomListen( fx, {
 				break;
 		}
 	},
-	[ GSEV_FXWAVESHAPER_CHANGEPROPS ]: ( _, p, obj ) => {
+	[ GSEV_EFFECT_FX_CHANGEPROPS ]: ( _, p, obj ) => {
 		switch ( p ) {
 			case "symmetry":
 				fx.$changeCurveData( obj.curve );
