@@ -113,6 +113,10 @@ let play = false;
 let intervalId = 0;
 let currenttime = 0;
 
+GSUdomListen( win, {
+	[ GSEV_TIMEWINDOW_PXPERBEAT ]: GSUnoop,
+} );
+
 inpDisabled.onchange = e => GSUdomSetAttr( win, "disabled", e.target.checked );
 inpAutoscroll.onchange = e => GSUdomSetAttr( win, "autoscroll", e.target.checked );
 
@@ -140,7 +144,7 @@ win.$appendPanel( ...tracks );
 GSUdomQS( ".gsuiTimewindow-rows" ).append( ...rows );
 
 inpAutoscroll.click();
-inpPlayStop.click();
+// inpPlayStop.click();
 </script>
 </body>
 </html>

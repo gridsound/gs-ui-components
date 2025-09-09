@@ -5,8 +5,10 @@ class gsuiTimewindow extends gsui0ne {
 	#autoscroll = false;
 	#currentTime = 0;
 	#pxPerBeat = 0;
+	#pxPerBeatFloat = 0;
 	#panelSize = 0;
 	#lineHeight = 0;
+	#lineHeightFloat = 0;
 	#scrollShadow = null;
 	#ptrdownPageX = 0;
 	#ptrdownPageY = 0;
@@ -68,7 +70,7 @@ class gsuiTimewindow extends gsui0ne {
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				if ( d.$target.dataset.zoom === "x" ) {
 					const val2 = GSUmathEaseInCirc( val );
-					const newVal = this.#getPPBmin() + val2 * ( this.#getPPBmax() - this.#getPPBmin() );
+					const newVal = GSUmathRound( this.#getPPBmin() + val2 * ( this.#getPPBmax() - this.#getPPBmin() ) );
 					const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
 
 					this.#setScrollX( scrollBack );
@@ -169,7 +171,8 @@ class gsuiTimewindow extends gsui0ne {
 				this.#centerOnCurrentTime();
 				break;
 			case "pxperbeat":
-				this.#pxPerBeat = +val;
+				this.#pxPerBeatFloat = +val;
+				this.#pxPerBeat = GSUmathRound( val );
 				GSUdomSetAttr( this.$elements.$timeline, "pxperbeat", val );
 				GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", val );
 				GSUdomSetAttr( this.$elements.$sliderZoomX, "value", GSUmathEaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
@@ -181,7 +184,8 @@ class gsuiTimewindow extends gsui0ne {
 				this.#minimapUpdateCurrentTimeLoop();
 				break;
 			case "lineheight":
-				this.#lineHeight = +val;
+				this.#lineHeightFloat = +val;
+				this.#lineHeight = GSUmathRound( val );
 				GSUdomSetAttr( this.$elements.$sliderZoomY, "value", GSUmathEaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
 				GSUdomStyle( this, "--gsuiTimewindow-lineH", `${ val }px` );
 				break;
@@ -379,11 +383,12 @@ class gsuiTimewindow extends gsui0ne {
 			e.preventDefault();
 		}
 		if ( e.ctrlKey ) {
-			this.#onwheel2( this.#pxPerBeat * this.#getWheelDelta( e.deltaY ), e.pageX );
+			this.#onwheel2( this.#pxPerBeatFloat * this.#getWheelDelta( e.deltaY ), e.pageX );
 		}
 	}
 	#onwheel2( ppb, pageX ) {
-		const ppbNew = this.#rangePPB( ppb );
+		const ppbNewf = this.#rangePPB( ppb );
+		const ppbNew = GSUmathRound( ppbNewf );
 
 		if ( ppbNew !== this.#pxPerBeat ) {
 			const px = pageX - GSUdomBCRxy( this )[ 0 ] - this.$elements.$panel.clientWidth;
@@ -392,11 +397,13 @@ class gsuiTimewindow extends gsui0ne {
 			GSUdomSetAttr( this, "pxperbeat", ppbNew );
 			GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, ppbNew );
 		}
+		this.#pxPerBeatFloat = ppbNewf;
 	}
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
 			const mul = this.#getWheelDelta( e.deltaY );
-			const lhNew = GSUmathRound( GSUmathClamp( this.#lineHeight * mul, this.#getLHmin(), this.#getLHmax() ) );
+			const lhNewf = GSUmathClamp( this.#lineHeightFloat * mul, this.#getLHmin(), this.#getLHmax() );
+			const lhNew = GSUmathRound( lhNewf );
 
 			e.preventDefault();
 			if ( lhNew !== this.#lineHeight ) {
@@ -406,6 +413,7 @@ class gsuiTimewindow extends gsui0ne {
 				GSUdomSetAttr( this, "lineheight", lhNew );
 				GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
 			}
+			this.#lineHeightFloat = lhNewf;
 		}
 	}
 	#onptrdownExtend( panel, e ) {
