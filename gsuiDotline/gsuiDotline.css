@@ -28,9 +28,6 @@ gsui-dotline svg {
 gsui-dotline path {
 	fill: none;
 }
-gsui-dotline gsui-beatlines + gsui-beatlines {
-	--gsui-deg: 0deg;
-}
 
 /* .......................................................................... */
 gsui-dotline gsui-slider {

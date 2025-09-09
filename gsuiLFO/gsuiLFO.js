@@ -64,9 +64,13 @@ class gsuiLFO extends gsui0ne {
 					this.#changeProp( "amp", Math.abs( GSUdomGetAttr( this, "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
+					this.#updateBeatlinesColor();
 					break;
 				case "timedivision": GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val ); break;
-				case "toggle": this.#changeToggle( val !== null ); break;
+				case "toggle":
+					this.#changeToggle( val !== null );
+					this.#updateBeatlinesColor();
+					break;
 				case "type": this.#changeType( val ); break;
 				case "delay":
 				case "attack":
@@ -173,6 +177,9 @@ class gsuiLFO extends gsui0ne {
 
 		GSUdomSetAttr( this, prop, nval );
 		GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, prop, nval );
+	}
+	#updateBeatlinesColor() {
+		GSUdomSetAttr( this.$elements.$beatlines, "color", GSUdomStyle( this, "--gsuiLFO-input-col" ) );
 	}
 
 	// .........................................................................

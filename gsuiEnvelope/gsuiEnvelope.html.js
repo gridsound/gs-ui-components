@@ -20,7 +20,7 @@ GSUsetTemplate( "gsui-envelope", () =>
 			),
 		),
 		GSUcreateDiv( { class: "gsuiEnvelope-graph", inert: true },
-			GSUcreateElement( "gsui-beatlines", { coloredbeats: "" } ),
+			GSUcreateElement( "gsui-beatlines" ),
 			GSUcreateElement( "gsui-envelope-graph" ),
 			GSUcreateDiv( { class: "gsuiEnvelope-keyPreviews" } ),
 		),

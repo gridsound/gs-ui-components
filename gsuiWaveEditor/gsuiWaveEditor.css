@@ -100,13 +100,9 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	position: relative;
 	overflow: hidden;
 	background-color: #0001;
-	--gsuiBeatlines-lines: #fff2;
 }
 .gsuiWaveEditor-wave gsui-beatlines {
-	inset: -1px;
-}
-.gsuiWaveEditor-wave .gsuiBeatlines-steps {
-	opacity: 1;
+	inset: -2px;
 }
 .gsuiWaveEditor-wave-hover-square {
 	position: absolute;

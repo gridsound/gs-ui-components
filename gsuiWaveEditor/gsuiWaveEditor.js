@@ -144,10 +144,6 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#updateBeatlines( 1, this.#div[ 1 ] );
 		this.#drawWaveThr();
 	}
-	$firstTimeConnected() {
-		GSUdomRmAttr( this.$elements.$beatlines[ 0 ], "coloredbeats" );
-		GSUdomRmAttr( this.$elements.$beatlines[ 1 ], "coloredbeats" );
-	}
 	static get observedAttributes() {
 		return [ "div", "tool" ]; // + symmetry
 	}

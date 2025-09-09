@@ -31,7 +31,7 @@ GSUsetTemplate( "gsui-lfo", () =>
 		),
 		GSUcreateDiv( { class: "gsuiLFO-graph" },
 			GSUcreateDiv( { class: "gsuiLFO-wave" },
-				GSUcreateElement( "gsui-beatlines", { coloredbeats: "" } ),
+				GSUcreateElement( "gsui-beatlines" ),
 				GSUcreateElement( "gsui-periodicwave" ),
 				GSUcreateDiv( { class: "gsuiLFO-keyPreviews" } ),
 			),

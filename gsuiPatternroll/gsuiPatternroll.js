@@ -57,7 +57,6 @@ class gsuiPatternroll extends gsui0ne {
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#tracklist );
 		this.#win.$appendMain( this.#selectionElement );
-		GSUdomRmAttr( GSUdomQS( this.#win, "gsui-beatlines" ), "coloredbeats" );
 	}
 	static get observedAttributes() {
 		return [ "currenttime" ];

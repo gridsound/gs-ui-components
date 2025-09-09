@@ -20,7 +20,7 @@ GSUsetTemplate( "gsui-timewindow", () => [
 			),
 			GSUcreateDiv( { class: "gsuiTimewindow-mainBody" },
 				GSUcreateDiv( { class: "gsuiTimewindow-mainContent" },
-					GSUcreateElement( "gsui-beatlines", { coloredbeats: "" } ),
+					GSUcreateElement( "gsui-beatlines", { coloredodds: true } ),
 					GSUcreateDiv( { class: "gsuiTimewindow-currentTime" } ),
 					GSUcreateDiv( { class: "gsuiTimewindow-loop gsuiTimewindow-loopA" } ),
 					GSUcreateDiv( { class: "gsuiTimewindow-loop gsuiTimewindow-loopB" } ),

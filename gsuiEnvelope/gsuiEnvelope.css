@@ -12,7 +12,6 @@ gsui-envelope {
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
-	--gsuiBeatlines-lines: var( --gsuiEnvelope-wave-col );
 }
 gsui-envelope[ toggle ] {
 	--gsuiEnvelope-previews: block;
@@ -42,7 +41,6 @@ gsui-envelope[ env="lowpass" ] {
 	background-color: var( --gsui-screen-graph );
 }
 gsui-envelope gsui-beatlines {
-	overflow: hidden;
 	border-radius: inherit;
 }
 gsui-envelope gsui-envelope-graph {

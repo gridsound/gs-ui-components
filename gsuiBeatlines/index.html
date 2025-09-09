@@ -26,14 +26,14 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-beatlines timedivision="4/4" pxperbeat="28" coloredbeats></gsui-beatlines>
+	<gsui-beatlines timedivision="4/4" pxperbeat="28" color="#fff" coloredodds></gsui-beatlines>
 </div>
 <div id="TEST-CTRLS">
 	<div>
 		<button id="vertical">toggle vertical</button>
 	</div>
 	<div>
-		<button id="coloredbeats">toggle coloredBeats</button>
+		<button id="coloredodds">toggle colored odds</button>
 	</div>
 	<div>
 		<input id="pxPerBeat" type="range" value="28" min="1" max="200" step="1"/>
@@ -63,20 +63,21 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
-<script src="gsuiBeatlines.html.js"></script>
 <script src="gsuiBeatlines.js"></script>
 
 <!-- ....................................................................... -->
 <script>
 const uiBeatlines = GSUdomQS( "gsui-beatlines" );
 const btnVerti = GSUdomQS( "#vertical" );
-const btnColor = GSUdomQS( "#coloredbeats" );
+const btnColor = GSUdomQS( "#coloredodds" );
 const inputPPB = GSUdomQS( "#pxPerBeat" );
 const inputBPM = GSUdomQS( "#beatsPerMeasure" );
 const inputSPB = GSUdomQS( "#stepsPerBeat" );
 
-btnColor.onclick = () => GSUdomTogAttr( uiBeatlines, "coloredbeats" );
+btnColor.onclick = () => GSUdomTogAttr( uiBeatlines, "coloredodds" );
 btnVerti.onclick = () => GSUdomTogAttr( uiBeatlines, "vertical" );
+
+// GSUdomSetAttr( uiBeatlines, "color", "dodgerblue" );
 
 inputPPB.oninput =
 inputBPM.oninput =

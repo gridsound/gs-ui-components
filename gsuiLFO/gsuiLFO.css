@@ -13,7 +13,6 @@ gsui-lfo {
 	--gsuiLFO-cursor: not-allowed;
 	--gsuiLFO-input-theme: var( --gsui-col-gain );
 	--gsuiLFO-input-col: var( --gsui-slider-col-disabled );
-	--gsuiBeatlines-lines: var( --gsuiLFO-input-col );
 	--gsuiSlider-lineColor: var( --gsuiLFO-input-theme );
 }
 gsui-lfo[ lfo="detune" ] {

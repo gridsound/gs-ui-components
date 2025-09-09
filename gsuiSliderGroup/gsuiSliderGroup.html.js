@@ -3,7 +3,7 @@
 GSUsetTemplate( "gsui-slidergroup", () =>
 	GSUcreateDiv( { class: "gsuiSliderGroup-slidersWrap" },
 		GSUcreateDiv( { class: "gsuiSliderGroup-sliders" },
-			GSUcreateElement( "gsui-beatlines", { coloredbeats: "" } ),
+			GSUcreateElement( "gsui-beatlines", { coloredodds: true } ),
 			GSUcreateDiv( { class: "gsuiSliderGroup-currentTime" } ),
 			GSUcreateDiv( { class: "gsuiSliderGroup-defaultValue" } ),
 			GSUcreateDiv( { class: "gsuiSliderGroup-loop gsuiSliderGroup-loopA" } ),

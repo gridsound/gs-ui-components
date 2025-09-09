@@ -98,7 +98,7 @@ class gsuiDotline extends gsui0ne {
 				if ( val === "" && !this.#beatlines ) {
 					this.#beatlines = [
 						GSUcreateElement( "gsui-beatlines", { timedivision: "5/10" } ),
-						GSUcreateElement( "gsui-beatlines", { timedivision: "5/10" } ),
+						GSUcreateElement( "gsui-beatlines", { timedivision: "5/10", vertical: true } ),
 					];
 					this.$elements.$root.prepend( ...this.#beatlines );
 				}

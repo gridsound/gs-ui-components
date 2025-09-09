@@ -61,8 +61,12 @@ class gsuiEnvelope extends gsui0ne {
 				this.#env = val;
 				this.$onresize();
 				this.$updateWave();
+				this.#updateBeatlinesColor();
 				break;
-			case "toggle": this.#changeToggle( val !== null ); break;
+			case "toggle":
+				this.#changeToggle( val !== null );
+				this.#updateBeatlinesColor();
+				break;
 			case "timedivision": this.#changeTimedivision( val ); break;
 			case "amp":
 			case "q":
@@ -141,6 +145,9 @@ class gsuiEnvelope extends gsui0ne {
 	#onchangeSlider( prop, val ) {
 		GSUdomSetAttr( this, prop, val );
 		GSUdomDispatch( this, GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
+	}
+	#updateBeatlinesColor() {
+		GSUdomSetAttr( this.$elements.$beatlines, "color", GSUdomStyle( this, "--gsuiEnvelope-wave-col" ) );
 	}
 
 	// .........................................................................
