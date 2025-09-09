@@ -29,11 +29,8 @@ class gsuiWindow extends gsui0ne {
 			$attributes: { tabindex: 0 },
 		} );
 		Object.seal( this );
-		this.$elements.$icon.ondblclick = this.$close.bind( this );
 		this.$elements.$headBtns.onclick = this.#onclickBtns.bind( this );
 		this.$elements.$head.onpointerdown = this.#onptrdownHead.bind( this );
-		this.$elements.$name.ondblclick =
-		this.$elements.$headContent.ondblclick = this.#ondblclickTitle.bind( this );
 		this.$elements.$handlers.onpointerdown = this.#onptrdownHandlers.bind( this );
 	}
 
@@ -134,13 +131,6 @@ class gsuiWindow extends gsui0ne {
 			case "close": return this.$close();
 		}
 	}
-	#ondblclickTitle( e ) {
-		if ( e.target === e.currentTarget ) {
-			this.#maximized
-				? this.$restore()
-				: this.$maximize();
-		}
-	}
 	#onptrdownHead( e ) {
 		const clicked =
 			GSUdomHasClass( e.target, "gsuiWindow-head" ) ||
@@ -148,32 +138,40 @@ class gsuiWindow extends gsui0ne {
 			GSUdomHasClass( e.target, "gsuiWindow-name" ) ||
 			GSUdomHasClass( e.target, "gsuiWindow-headContent" );
 
-		if ( clicked && !this.#maximized ) {
+		if ( GSUdomIsDblClick( e ) ) {
+			this.#maximized
+				? this.$restore()
+				: this.$maximize();
+		} else if ( e.button === 0 && clicked && !this.#maximized ) {
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
+			this.setPointerCapture( e.pointerId );
+			GSUdomUnselect();
+			GSUdomStyle( this, "cursor", "move" );
 			GSUdomSetAttr( this, "dragging" );
-			GSUdomDispatch( this, GSEV_WINDOW_STARTMOUSEMOVING, "move", e.pointerId,
-				this.#onmousemoveHead.bind( this ),
-				this.#onmouseupHead.bind( this ) );
+			this.onpointermove = this.#onptrmoveHead.bind( this );
+			this.onpointerup = this.#onptrupHead.bind( this );
 		}
 	}
 	#onptrdownHandlers( e ) {
 		const dir = e.target.dataset.dir;
 
-		if ( dir ) {
+		if ( e.button === 0 && dir ) {
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
+			this.setPointerCapture( e.pointerId );
+			GSUdomUnselect();
+			GSUdomStyle( this, "cursor", `${ dir }-resize` );
 			GSUdomSetAttr( this, "dragging" );
-			GSUdomDispatch( this, GSEV_WINDOW_STARTMOUSEMOVING, `${ dir }-resize`, e.pointerId,
-				this.#onmousemoveHandler.bind( this, dir ),
-				this.#onmouseupHandler.bind( this, dir ) );
+			this.onpointermove = this.#onptrmoveHandler.bind( this, dir );
+			this.onpointerup = this.#onptrupHandler.bind( this, dir );
 		}
 	}
-	#onmousemoveHead( e ) {
+	#onptrmoveHead( e ) {
 		const x = e.clientX - this.#mousedownPos.x;
 		const y = e.clientY - this.#mousedownPos.y;
 		const mmPos = this.#mousemovePos;
@@ -186,11 +184,15 @@ class gsuiWindow extends gsui0ne {
 			this.#setCSSrelativeMove( this.$elements.$wrap.style, mmPos );
 		}
 	}
-	#onmouseupHead() {
+	#onptrupHead( e ) {
 		const { x, y } = this.#rect;
 		const m = this.#mousemovePos;
 
+		this.onpointermove =
+		this.onpointerup = null;
+		this.releasePointerCapture( e.pointerId );
 		GSUdomRmAttr( this, "dragging" );
+		GSUdomStyle( this, "cursor", "" );
 		GSUdomStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUdomStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
@@ -200,7 +202,7 @@ class gsuiWindow extends gsui0ne {
 			} );
 		}
 	}
-	#onmousemoveHandler( dir, e ) {
+	#onptrmoveHandler( dir, e ) {
 		const mmPos = this.#mousemovePos;
 		const x = e.clientX - this.#mousedownPos.x;
 		const y = e.clientY - this.#mousedownPos.y;
@@ -214,11 +216,15 @@ class gsuiWindow extends gsui0ne {
 			this.#setCSSrelativeResize( this.$elements.$wrap.style, dir, mmPos );
 		}
 	}
-	#onmouseupHandler( dir ) {
+	#onptrupHandler( dir, e ) {
 		const { x, y, w, h } = this.#rect;
 		const m = this.#mousemovePos;
 
+		this.onpointermove =
+		this.onpointerup = null;
+		this.releasePointerCapture( e.pointerId );
 		GSUdomRmAttr( this, "dragging" );
+		GSUdomStyle( this, "cursor", "" );
 		GSUdomStyle( this.$elements.$wrap, this.#resetCSS );
 		GSUdomStyle( this.$elements.$handlers, this.#resetCSS );
 		if ( m.x || m.y ) {
