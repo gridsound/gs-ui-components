@@ -17,6 +17,8 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 				GSUgetTemplate( "gsui-wave-editor-tool-btn", "easeUp",   [ [ 2, 8 ], [ 3.5, 7.75 ], [ 4.5, 7.25 ], [ 5.5, 2.75 ], [ 6.5, 2.25 ], [ 8, 2 ] ] ),
 				GSUgetTemplate( "gsui-wave-editor-tool-btn", "easeDown", [ [ 2, 2 ], [ 3.5, 2.25 ], [ 4.5, 2.75 ], [ 5.5, 7.25 ], [ 6.5, 7.75 ], [ 8, 8 ] ] ),
 			),
+			GSUcreateButton( { class: "gsuiWaveEditor-mirror-btn", "data-dir": "x", icon: "arrows-h" } ),
+			GSUcreateButton( { class: "gsuiWaveEditor-mirror-btn", "data-dir": "y", icon: "arrows-v" } ),
 			GSUgetTemplate( "gsui-wave-editor-gridSize", "x" ),
 			GSUgetTemplate( "gsui-wave-editor-gridSize", "y" ),
 		),

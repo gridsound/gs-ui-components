@@ -45,6 +45,8 @@ class gsuiWaveEditor extends gsui0ne {
 				$tools: ".gsuiWaveEditor-tools",
 				$resetBtn: ".gsuiWaveEditor-reset",
 				$symmetryBtn: ".gsuiWaveEditor-symmetry",
+				$mirrorXBtn: ".gsuiWaveEditor-mirror-btn[data-dir='x']",
+				$mirrorYBtn: ".gsuiWaveEditor-mirror-btn[data-dir='y']",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
@@ -59,6 +61,8 @@ class gsuiWaveEditor extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
+		this.$elements.$mirrorXBtn.onclick =
+		this.$elements.$mirrorYBtn.onclick = this.#mirror.bind( this );
 		this.$elements.$symmetryBtn.onclick = () => {
 			GSUdomTogAttr( this, "symmetry" );
 			GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
@@ -176,6 +180,25 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#waveArray = new Float32Array( arr );
 		this.#waveArray2 = null;
 		this.#drawWave();
+	}
+
+	// .........................................................................
+	#mirror( e ) {
+		const w = this.#waveArray;
+
+		if ( w ) {
+			const save = new Float32Array( w );
+
+			if ( e.target.dataset.dir === "x" ) {
+				w.reverse();
+			} else {
+				w.forEach( ( n, i, arr ) => arr[ i ] = -n );
+			}
+			this.#drawWave();
+			if ( !GSUarrayEq( w, save, .005 ) ) {
+				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
+			}
+		}
 	}
 
 	// .........................................................................
