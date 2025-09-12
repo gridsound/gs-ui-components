@@ -3,8 +3,7 @@
 function lg( a ) { return console.log.apply( console, arguments ), a; }
 
 (() => {
-	document.addEventListener( "gsui",       ( { detail: d } ) => console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target ) );
-	document.addEventListener( "gsuiEvents", ( { detail: d } ) => console.warn( `gsuiEvent: [${ d.component }][${ d.eventName }]`, d.args ) );
+	document.addEventListener( "gsui", ( { detail: d } ) => console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target ) );
 
 	document.body.append(
 		GSUcreateDiv( { id: "testBody" },
