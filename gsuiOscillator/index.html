@@ -102,14 +102,14 @@ GSUdomSetAttr( elOsc, "gain", .5 );
 GSUdomSetAttr( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
 GSUdomSetAttr( elOsc, "wave", "sawtooth" );
 
-// elOsc.$askWavetableData = () => ( {
-// 	waves: {
-// 		0: {
-// 			index: 0,
-// 			curve: GSUmathWaveSawtooth( 1024 ),
-// 		},
-// 	},
-// } );
+elOsc.$askWavetableData = () => [ {
+	waves: {
+		0: {
+			index: 0,
+			curve: GSUmathWaveSawtooth( 1024 ),
+		},
+	},
+}, true ];
 
 // GSUsetTimeout( () => GSUdomSetAttr( elOsc, "wavetable" ), .2 );
 </script>
