@@ -1,6 +1,6 @@
 body[ data-skin="white" ] {
 	color-scheme: light;
-	color: #222;
+	--gsui-txt: #222;
 	--gsui-ovl-1: #0000000b;
 	/* ................................ */
 	--gsui-col-pan: #f69;

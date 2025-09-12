@@ -3,14 +3,16 @@ body {
 	height: 100%;
 }
 body {
+	--test-bg: #22222a;
+	--test-skin-dur: .5s;
 	display: flex;
 	flex-direction: column;
 	margin: 0;
-	color: #fff;
 	font-size: 16px;
 	font-family: "Montserrat", sans-serif;
-	background-color: #22222a;
+	background-color: var( --test-bg );
 	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E" );
+	transition: background-color var( --test-skin-dur );
 }
 
 /* .......................................................................... */
@@ -67,9 +69,6 @@ body {
 }
 
 /* .......................................................................... */
-#testHead {
-	color: #fff;
-}
 #testSelect {
 	border: 0;
 	border-radius: 4px;
@@ -80,6 +79,8 @@ body {
 
 	option {
 		background-color: #000;
+
+		&[ data-hl ] { background-color: #222 }
 	}
 }
 #testSkin {
@@ -111,8 +112,10 @@ body {
 	border-radius: 8px;
 	border: 2px solid #0003;
 	border-bottom-width: 6px;
-	background-color: #22222a;
-	box-shadow: 0 0 20px 20px #22222a;
+	background-color: var( --test-bg );
+	box-shadow: 0 0 20px 20px var( --test-bg );
+	transition: var( --test-skin-dur );
+	transition-property: background-color, box-shadow;
 
 	&:not( [ data-min-auto ] ):not( [ data-min-x-auto ] ) { min-width: fit-content }
 	&:not( [ data-min-auto ] ):not( [ data-min-y-auto ] ) { min-height: fit-content }
@@ -176,5 +179,20 @@ body {
 		align-items: center;
 		flex-direction: column;
 		font-size: 22px;
+	}
+}
+
+/* .......................................................................... */
+body[ data-skin="white" ] {
+	--test-bg: #fff;
+
+	#testSelect {
+		background-color: #fffa;
+
+		option {
+			background-color: #fff;
+
+			&[ data-hl ] { background-color: #ddd }
+		}
 	}
 }
