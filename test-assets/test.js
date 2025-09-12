@@ -7,67 +7,68 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 
 	document.body.append(
 		GSUcreateDiv( { id: "testBody" },
-			GSUcreateDiv( { id: "testHead" },
-				GSUcreateSpan( { id: "testTitle" }, "GSUI components testing" ),
-				GSUcreateSelect( { id: "testSelect" },
-					GSUcreateOption( { value: "" }, "--" ),
-					GSUcreateOption( { value: "gsuiComAvatar" } ),
-					GSUcreateOption( { value: "gsuiComButton" } ),
-					GSUcreateOption( { value: "gsuiComProfile" } ),
-					GSUcreateOption( { value: "gsuiComPlayer" } ),
-					GSUcreateOption( { value: "gsuiComPlaylist" } ),
-					GSUcreateOption( { value: "gsuiDropdown" } ),
-					GSUcreateOption( { value: "" }, "--" ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiGlitchText" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWindows" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPopup" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPanels" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiClock" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiTempo" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiTitleUser" } ),
-					GSUcreateOption( { value: "gsuiLibraries" } ),
-					GSUcreateOption( { value: "gsuiLibrary" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiMixer" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiChannel" } ),
-					GSUcreateOption( { value: "gsuiFxDelay" } ),
-					GSUcreateOption( { value: "gsuiFxFilter" } ),
-					GSUcreateOption( { value: "gsuiFxReverb" } ),
-					GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHz" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserTd" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserVu" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHist" } ),
-					GSUcreateOption( { value: "gsuiTimewindow" } ),
-					GSUcreateOption( { value: "gsuiTimeline" } ),
-					GSUcreateOption( { value: "gsuiBeatlines" } ),
-					GSUcreateOption( { value: "gsuiStepSelect" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPianoroll" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiKeys" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSliderGroup" } ),
-					GSUcreateOption( { value: "gsuiDrums" } ),
-					GSUcreateOption( { value: "gsuiDrumrows" } ),
-					GSUcreateOption( { value: "gsuiPropSelect" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSynthesizer" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiNoise" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiOscillator" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiEnvelope" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiLFO" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWavetable" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWavetableGraph" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWaveEditor" } ),
-					GSUcreateOption( { value: "gsuiTrack" } ),
-					GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSlicer" } ),
-					GSUcreateOption( { value: "gsuiDotline" } ),
-					GSUcreateOption( { value: "gsuiScrollShadow" } ),
-					GSUcreateOption( { value: "gsuiSlider" } ),
-					GSUcreateOption( { value: "gsuiJoystick" } ),
-					GSUcreateOption( { value: "gsuiSVGPatterns" } ),
-					GSUcreateOption( { value: "gsuiToggle" } ),
-					GSUcreateOption( { value: "gsuiActionMenu" } ),
-					GSUcreateOption( { value: "gsuiReorder" } ),
+			GSUcreateFlex( { id: "testHead", y: true, xcenter: true, g6: true },
+				GSUcreateFlex( { x: true, xcenter: true, g10: true },
+					GSUcreateSelect( { id: "testSelect" },
+						GSUcreateOption( { value: "" }, "--" ),
+						GSUcreateOption( { value: "gsuiComAvatar" } ),
+						GSUcreateOption( { value: "gsuiComButton" } ),
+						GSUcreateOption( { value: "gsuiComProfile" } ),
+						GSUcreateOption( { value: "gsuiComPlayer" } ),
+						GSUcreateOption( { value: "gsuiComPlaylist" } ),
+						GSUcreateOption( { value: "gsuiDropdown" } ),
+						GSUcreateOption( { value: "" }, "--" ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiGlitchText" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiDAW" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWindows" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPopup" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPanels" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiClock" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiTempo" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiTitleUser" } ),
+						GSUcreateOption( { value: "gsuiLibraries" } ),
+						GSUcreateOption( { value: "gsuiLibrary" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiMixer" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiChannel" } ),
+						GSUcreateOption( { value: "gsuiFxDelay" } ),
+						GSUcreateOption( { value: "gsuiFxFilter" } ),
+						GSUcreateOption( { value: "gsuiFxReverb" } ),
+						GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHz" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserTd" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserVu" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiAnalyserHist" } ),
+						GSUcreateOption( { value: "gsuiTimewindow" } ),
+						GSUcreateOption( { value: "gsuiTimeline" } ),
+						GSUcreateOption( { value: "gsuiBeatlines" } ),
+						GSUcreateOption( { value: "gsuiStepSelect" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiPianoroll" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiKeys" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSliderGroup" } ),
+						GSUcreateOption( { value: "gsuiDrums" } ),
+						GSUcreateOption( { value: "gsuiDrumrows" } ),
+						GSUcreateOption( { value: "gsuiPropSelect" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSynthesizer" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiNoise" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiOscillator" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiEnvelope" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiLFO" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWavetable" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWavetableGraph" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiWaveEditor" } ),
+						GSUcreateOption( { value: "gsuiTrack" } ),
+						GSUcreateOption( { style: { backgroundColor: "#222" }, value: "gsuiSlicer" } ),
+						GSUcreateOption( { value: "gsuiDotline" } ),
+						GSUcreateOption( { value: "gsuiScrollShadow" } ),
+						GSUcreateOption( { value: "gsuiSlider" } ),
+						GSUcreateOption( { value: "gsuiJoystick" } ),
+						GSUcreateOption( { value: "gsuiSVGPatterns" } ),
+						GSUcreateOption( { value: "gsuiToggle" } ),
+						GSUcreateOption( { value: "gsuiActionMenu" } ),
+						GSUcreateOption( { value: "gsuiReorder" } ),
+					),
+					GSUcreateButton( { id: "testSkin", icon: "adjust" } ),
 				),
-				GSUcreateButton( { id: "testSkin", icon: "adjust" } ),
 			),
 			GSUcreateDiv( { id: "testContent" },
 				GSUcreateDiv( { id: "testWrap" } ),
@@ -103,21 +104,15 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 	const path = getPath();
 	const curr = path.pop();
 
-	const hasLightSkin = Array.from( GSUdomQSA( document.head, "link" ) ).some( ln => ln.href.endsWith( "gsuiSkins-light.css" ) );
+	document.body.dataset.skin = localStorage.getItem( "skin" ) || "gray";
+	elSkin.onclick = () => {
+		const skin = document.body.dataset.skin === "white"
+			? "gray"
+			: "white";
 
-	if ( !hasLightSkin ) {
-		elSkin.remove();
-	} else {
-		document.body.dataset.skin = localStorage.getItem( "skin" ) || "";
-		elSkin.onclick = () => {
-			const skin = document.body.dataset.skin === "white"
-				? ""
-				: "white";
-
-			localStorage.setItem( "skin", skin );
-			document.body.dataset.skin = skin;
-		};
-	}
+		localStorage.setItem( "skin", skin );
+		document.body.dataset.skin = skin;
+	};
 
 	document.title = `${ curr } (dev)`;
 	select.value = curr;
