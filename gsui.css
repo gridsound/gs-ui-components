@@ -4,11 +4,7 @@ body {
 
 * {
 	scrollbar-width: none;
-/*	scrollbar-width: thin;*/
 }
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background-color: #222; }
-::-webkit-scrollbar-thumb { background-color: #aaa; }
 
 html:has( gsui-daw ) {
 	user-select: none;
