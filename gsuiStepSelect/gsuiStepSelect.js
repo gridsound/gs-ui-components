@@ -8,25 +8,36 @@ class gsuiStepSelect extends gsui0ne {
 			$cmpName: "gsuiStepSelect",
 			$tagName: "gsui-step-select",
 			$elements: {
-				$frac: ".gsuiStepSelect-frac",
+				$auto: "gsui-toggle",
+				$frac: "span",
 			},
 			$attributes: {
 				step: 1,
+				auto: true,
 				title: "Grid snap",
 			},
 		} );
 		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
+		GSUdomListen( this, {
+			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
+				GSUdomSetAttr( this, "auto", b );
+				GSUdomDispatch( this, GSEV_STEPSELECT_AUTO, b );
+			},
+		} );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "step" ];
+		return [ "auto", "step" ];
 	}
 	$attributeChanged( prop, val ) {
-		if ( prop === "step" ) {
-			this.#step = +val;
-			this.$elements.$frac.textContent = gsuiStepSelect.#stepToFraction( this.#step );
+		switch ( prop ) {
+			case "auto": GSUdomSetAttr( this.$elements.$auto, "off", val === null ); break;
+			case "step":
+				this.#step = +val;
+				this.$elements.$frac.textContent = gsuiStepSelect.#stepToFraction( this.#step );
+				break;
 		}
 	}
 
@@ -34,13 +45,24 @@ class gsuiStepSelect extends gsui0ne {
 	$getStep() {
 		return this.#step;
 	}
+	$getStepFromPxPerBeat( ppb ) {
+		return !GSUdomHasAttr( this, "auto" )
+			? GSUdomGetAttrNum( this, "step" )
+			: (
+				ppb < 80 ? 1 :
+				ppb < 100 ? .5 :
+				ppb < 150 ? .25 : .125
+			);
+	}
 
 	// .........................................................................
-	#onclick() {
-		const step = gsuiStepSelect.#nextStep( this.#step );
+	#onclick( e ) {
+		if ( e.target.tagName !== "GSUI-TOGGLE" ) {
+			const step = gsuiStepSelect.#nextStep( this.#step );
 
-		GSUdomSetAttr( this, "step", step );
-		GSUdomDispatch( this, GSEV_STEPSELECT_ONCHANGE, step );
+			GSUdomSetAttr( this, "step", step );
+			GSUdomDispatch( this, GSEV_STEPSELECT_ONCHANGE, step );
+		}
 	}
 	static #nextStep( v ) {
 		return (

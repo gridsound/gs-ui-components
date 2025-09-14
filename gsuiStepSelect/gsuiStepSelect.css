@@ -11,21 +11,24 @@ gsui-step-select {
 	background-color: #fff3;
 	opacity: .8;
 
-	.gsuiIcon {
+	&:hover {
+		opacity: 1;
+
+		> .gsuiIcon {
+			opacity: .6;
+		}
+	}
+	gsui-toggle {
+		line-height: 20px;
+		padding-left: 6px;
+		margin-left: -6px;
+	}
+	> .gsuiIcon {
 		font-size: 11px;
 		line-height: 20px;
 		opacity: .5;
 	}
-	&:hover {
-		opacity: 1;
-
-		.gsuiIcon {
-			opacity: .6;
-		}
+	span {
+		font-family: var( --gsui-font-number );
 	}
 }
-
-.gsuiStepSelect-frac {
-	font-family: var( --gsui-font-number );
-}
-

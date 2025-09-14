@@ -1,6 +1,7 @@
 "use strict";
 
 GSUsetTemplate( "gsui-step-select", () => [
-	GSUcreateSpan( { class: "gsuiStepSelect-frac", inert: true } ),
+	GSUcreateElement( "gsui-toggle", { off: true } ),
+	GSUcreateSpan( { inert: true } ),
 	GSUcreateIcon( { icon: "magnet" } ),
 ] );
