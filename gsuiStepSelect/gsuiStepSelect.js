@@ -51,7 +51,7 @@ class gsuiStepSelect extends gsui0ne {
 	}
 	static #stepToFraction( v ) {
 		return (
-			v >= 1 ? "1" :
+			v >= 1 ? "1/1" :
 			v >= .5 ? "1/2" :
 			v >= .25 ? "1/4" : "1/8"
 		);
