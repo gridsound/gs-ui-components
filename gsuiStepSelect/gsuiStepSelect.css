@@ -2,7 +2,7 @@ gsui-step-select {
 	display: inline-flex;
 	align-items: center;
 	justify-content: end;
-	gap: 6px;
+	gap: 4px;
 	height: 20px;
 	padding: 0 6px;
 	border-radius: 4px;
@@ -12,6 +12,7 @@ gsui-step-select {
 	opacity: .8;
 
 	.gsuiIcon {
+		font-size: 11px;
 		line-height: 20px;
 		opacity: .5;
 	}
