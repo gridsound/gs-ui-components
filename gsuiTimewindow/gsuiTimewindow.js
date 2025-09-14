@@ -69,13 +69,10 @@ class gsuiTimewindow extends gsui0ne {
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				if ( d.$target.dataset.zoom === "x" ) {
-					const val2 = GSUmathEaseInCirc( val );
-					const newVal = GSUmathRound( this.#getPPBmin() + val2 * ( this.#getPPBmax() - this.#getPPBmin() ) );
-					const scrollBack = this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, newVal, 0 );
+					const ppb = GSUmathEaseInCirc( val );
+					const ppbNew = GSUmathRound( this.#getPPBmin() + ppb * ( this.#getPPBmax() - this.#getPPBmin() ) );
 
-					this.#setScrollX( scrollBack );
-					GSUdomSetAttr( this, "pxperbeat", newVal );
-					GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, newVal );
+					this.#setNewPPB( ppbNew, 0 );
 				} else if ( d.$target.dataset.zoom === "y" ) {
 					const val2 = GSUmathEaseInCirc( val );
 					const newVal = this.#getLHmin() + val2 * ( this.#getLHmax() - this.#getLHmin() );
@@ -87,6 +84,11 @@ class gsuiTimewindow extends gsui0ne {
 				}
 			},
 			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, val ) => GSUdomSetAttr( this, "step", val ),
+			[ GSEV_STEPSELECT_AUTO ]: ( _, b ) => {
+				if ( b ) {
+					GSUdomSetAttr( this, "step", this.$elements.$stepBtn.$getStepFromPxPerBeat( this.#pxPerBeat ) );
+				}
+			},
 			[ GSEV_TIMELINE_INPUTCURRENTTIME ]: GSUnoop,
 			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, val ) => {
 				GSUdomSetAttr( this, "currenttime", val );
@@ -391,13 +393,15 @@ class gsuiTimewindow extends gsui0ne {
 		const ppbNew = GSUmathRound( ppbNewf );
 
 		if ( ppbNew !== this.#pxPerBeat ) {
-			const px = pageX - GSUdomBCRxy( this )[ 0 ] - this.$elements.$panel.clientWidth;
-
-			this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppbNew, px ) );
-			GSUdomSetAttr( this, "pxperbeat", ppbNew );
-			GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, ppbNew );
+			this.#setNewPPB( ppbNew, pageX - GSUdomBCRxy( this )[ 0 ] - this.$elements.$panel.clientWidth );
 		}
 		this.#pxPerBeatFloat = ppbNewf;
+	}
+	#setNewPPB( ppb, ptrPx ) {
+		this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppb, ptrPx ) );
+		GSUdomSetAttr( this, "step", this.$elements.$stepBtn.$getStepFromPxPerBeat( ppb ) );
+		GSUdomSetAttr( this, "pxperbeat", ppb );
+		GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, ppb );
 	}
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
