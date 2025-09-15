@@ -1,7 +1,10 @@
 "use strict";
 
 class gsuiStepSelect extends gsui0ne {
+	static #stepValues = [ 4, 2, 1, .5, .25, .125 ];
+	static #stepFractions = "4/1 2/1 1/1 1/2 1/4 1/8".split( " " );
 	#step = 1;
+	#stepInd = gsuiStepSelect.#stepToIndex( 1 );
 
 	constructor() {
 		super( {
@@ -10,6 +13,7 @@ class gsuiStepSelect extends gsui0ne {
 			$elements: {
 				$auto: "gsui-toggle",
 				$frac: "span",
+				$preview: "div div",
 			},
 			$attributes: {
 				step: 1,
@@ -25,6 +29,7 @@ class gsuiStepSelect extends gsui0ne {
 				GSUdomDispatch( this, GSEV_STEPSELECT_AUTO, b );
 			},
 		} );
+		this.#updateStep();
 	}
 
 	// .........................................................................
@@ -36,7 +41,8 @@ class gsuiStepSelect extends gsui0ne {
 			case "auto": GSUdomSetAttr( this.$elements.$auto, "off", val === null ); break;
 			case "step":
 				this.#step = +val;
-				this.$elements.$frac.textContent = gsuiStepSelect.#stepToFraction( this.#step );
+				this.#stepInd = gsuiStepSelect.#stepToIndex( this.#step );
+				this.#updateStep();
 				break;
 		}
 	}
@@ -49,33 +55,40 @@ class gsuiStepSelect extends gsui0ne {
 		return !GSUdomHasAttr( this, "auto" )
 			? GSUdomGetAttrNum( this, "step" )
 			: (
-				ppb < 80 ? 1 :
-				ppb < 100 ? .5 :
-				ppb < 150 ? .25 : .125
+				ppb < 16 ? 4 :
+				ppb < 32 ? 2 :
+				ppb < 64 ? 1 :
+				ppb < 128 ? .5 :
+				ppb < 160 ? .25 : .125
 			);
 	}
 
 	// .........................................................................
+	#updateStep() {
+		const ind = this.#stepInd;
+		const len = gsuiStepSelect.#stepValues.length;
+
+		this.$elements.$frac.textContent = gsuiStepSelect.#stepFractions[ ind ];
+		GSUdomStyle( this.$elements.$preview, {
+			left: `${ ind / len * 100 }%`,
+			width: `${ 100 / len }%`,
+		} );
+	}
 	#onclick( e ) {
 		if ( e.target.tagName !== "GSUI-TOGGLE" ) {
-			const step = gsuiStepSelect.#nextStep( this.#step );
+			const step = gsuiStepSelect.#stepValues[ ( this.#stepInd + 1 ) % gsuiStepSelect.#stepValues.length ];
 
 			GSUdomSetAttr( this, "step", step );
 			GSUdomDispatch( this, GSEV_STEPSELECT_ONCHANGE, step );
 		}
 	}
-	static #nextStep( v ) {
+	static #stepToIndex( v ) {
 		return (
-			v >= 1 ? .5 :
-			v >= .5 ? .25 :
-			v >= .25 ? .125 : 1
-		);
-	}
-	static #stepToFraction( v ) {
-		return (
-			v >= 1 ? "1/1" :
-			v >= .5 ? "1/2" :
-			v >= .25 ? "1/4" : "1/8"
+			v >= 4 ? 0 :
+			v >= 2 ? 1 :
+			v >= 1 ? 2 :
+			v >= .5 ? 3 :
+			v >= .25 ? 4 : 5
 		);
 	}
 }

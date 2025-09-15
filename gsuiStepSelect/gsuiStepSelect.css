@@ -1,4 +1,6 @@
 gsui-step-select {
+	position: relative;
+	overflow: hidden;
 	display: inline-flex;
 	align-items: center;
 	justify-content: end;
@@ -30,5 +32,17 @@ gsui-step-select {
 	}
 	span {
 		font-family: var( --gsui-font-number );
+	}
+	> div {
+		position: absolute;
+		inset: auto 0 0;
+		height: 1px;
+		background-color: #fff4;
+
+		div {
+			position: absolute;
+			inset: 0 auto;
+			background-color: currentColor;
+		}
 	}
 }
