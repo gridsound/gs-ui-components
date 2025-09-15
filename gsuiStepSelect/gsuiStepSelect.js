@@ -22,8 +22,10 @@ class gsuiStepSelect extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.onclick = this.#onclick.bind( this );
+		this.onmousedown = this.#onclick.bind( this );
+		this.oncontextmenu = GSUnoopFalse;
 		GSUdomListen( this, {
+			[ GSEV_TOGGLE_TOGGLESOLO ]: GSUnoop,
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
 				GSUdomSetAttr( this, "auto", b );
 				GSUdomDispatch( this, GSEV_STEPSELECT_AUTO, b );
@@ -76,7 +78,9 @@ class gsuiStepSelect extends gsui0ne {
 	}
 	#onclick( e ) {
 		if ( e.target.tagName !== "GSUI-TOGGLE" ) {
-			const step = gsuiStepSelect.#stepValues[ ( this.#stepInd + 1 ) % gsuiStepSelect.#stepValues.length ];
+			const inc = e.button === 0 ? 1 : -1;
+			const ind = GSUmathMod( this.#stepInd + inc, gsuiStepSelect.#stepValues.length );
+			const step = gsuiStepSelect.#stepValues[ ind ];
 
 			GSUdomSetAttr( this, "step", step );
 			GSUdomDispatch( this, GSEV_STEPSELECT_ONCHANGE, step );
