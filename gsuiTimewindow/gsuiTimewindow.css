@@ -188,6 +188,7 @@ gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
 /* .......................................................................... */
 gsui-timewindow gsui-step-select {
 	margin-right: 4px;
+	min-width: 60px;
 	height: 18px;
 }
 

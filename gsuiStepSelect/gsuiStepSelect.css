@@ -1,4 +1,5 @@
 gsui-step-select {
+	box-sizing: border-box;
 	position: relative;
 	overflow: hidden;
 	display: inline-flex;
