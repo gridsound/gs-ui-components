@@ -33,7 +33,7 @@ class gsuiPianoroll extends gsui0ne {
 		lineheightmin: 12,
 		lineheightmax: 32,
 		pxperbeat: 64,
-		pxperbeatmin: 20,
+		pxperbeatmin: 16,
 		pxperbeatmax: 200,
 		downpanel: "",
 		downpanelsize: 120,
