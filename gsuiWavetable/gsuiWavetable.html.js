@@ -38,7 +38,7 @@ GSUsetTemplate( "gsui-wavetable", () => [
 		),
 		GSUcreateFlex( { f1: true, class: "gsuiWavetable-posCurves-graph" },
 			GSUcreateDiv( { class: "gsuiWavetable-posCurves-graph-waves", inert: true } ),
-			GSUcreateElement( "gsui-beatlines", { inert: true } ),
+			GSUcreateElement( "gsui-beatlines", { color: "#fff" } ),
 			GSUcreateElement( "gsui-dotline", { viewbox: "0 0 1 1", xstep: 1 / 100, ystep: 1 / 100 } ),
 			GSUcreateDiv( { class: "gsuiWavetable-keyPreviews", inert: true } ),
 		),
