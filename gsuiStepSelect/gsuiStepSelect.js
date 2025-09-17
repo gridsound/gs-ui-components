@@ -57,7 +57,7 @@ class gsuiStepSelect extends gsui0ne {
 		return !GSUdomHasAttr( this, "auto" )
 			? GSUdomGetAttrNum( this, "step" )
 			: (
-				ppb < 16 ? 4 :
+				ppb <= 16 ? 4 :
 				ppb < 32 ? 2 :
 				ppb < 64 ? 1 :
 				ppb < 128 ? .5 :
