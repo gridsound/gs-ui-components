@@ -18,7 +18,7 @@ GSUsetTemplate( "gsui-fx-delay", () => [
 	),
 	GSUcreateDiv( { class: "gsuiFxDelay-graph" },
 		GSUcreateDiv( { class: "gsuiFxDelay-graph-lines" },
-			GSUcreateElement( "gsui-beatlines", { timedivision: "4/4" } ),
+			GSUcreateElement( "gsui-beatlines", { timedivision: "4/4", color: "#fff" } ),
 			GSUcreateDiv( { class: "gsuiFxDelay-graph-line" } ),
 			GSUcreateDiv( { class: "gsuiFxDelay-graph-source" } ),
 		),
