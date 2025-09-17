@@ -194,5 +194,6 @@ gsui-timewindow gsui-step-select {
 .gsuiTimewindow-panelUp gsui-slider {
 	width: 6px;
 	height: 80%;
+	min-width: 6px;
 	--gsuiSlider-lineColor: var( --gsui-timewin-bg );
 }
