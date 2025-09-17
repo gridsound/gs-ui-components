@@ -13,6 +13,10 @@ gsui-wave-editor {
 	width: calc( 2 * ( 26px + 6px ) + 1px );
 	padding: 6px;
 }
+.gsuiWaveEditor-menu + .gsuiWaveEditor-menu {
+	display: none; /* WIP */
+	border-left: 2px solid #0005;
+}
 
 /* .......................................................................... */
 .gsuiWaveEditor-reset,
