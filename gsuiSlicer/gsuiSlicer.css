@@ -211,6 +211,10 @@ gsui-slicer[ loaded ] .gsuiSlicer-slices-slice {
 /* .......................................................................... */
 gsui-slicer gsui-step-select {
 	margin-right: auto;
+
+	gsui-toggle {
+		display: none;
+	}
 }
 
 /* .......................................................................... */
