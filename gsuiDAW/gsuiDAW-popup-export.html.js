@@ -15,7 +15,7 @@ GSUsetTemplate( "gsui-daw-popup-export", () =>
 						GSUcreateIcon( { spin: true } ),
 					),
 					GSUcreateSpan( { class: "gsuiDAW-popup-export-btn2" },
-						GSUcreateSpan( null, "Download WAV file" ),
+						GSUcreateSpan( null, "Download OPUS/OGG file" ),
 						GSUcreateIcon( { icon: "export" } ),
 					),
 				),
