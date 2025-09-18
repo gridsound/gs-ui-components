@@ -17,6 +17,8 @@
 
 gsui-com-button {
 	height: 28px;
+	user-select: none;
+	-webkit-user-select: none;
 }
 gsui-com-button[ loading ] {
 	pointer-events: none;
@@ -31,7 +33,7 @@ gsui-com-button[ type="danger" ] {
 }
 
 /* .......................................................................... */
-.gsuiComButton-btn {
+gsui-com-button button {
 	display: inline-block;
 	position: relative;
 	box-sizing: border-box;
@@ -93,12 +95,4 @@ gsui-com-button[ type="danger" ] {
 @keyframes gsuiComButton-loading-anim {
 	  0% { background-position: 0 }
 	100% { background-position: 28px }
-}
-
-/* .......................................................................... */
-.gsuiComButton-text {
-	position: relative;
-	pointer-events: none;
-	user-select: none;
-	-webkit-user-select: none;
 }

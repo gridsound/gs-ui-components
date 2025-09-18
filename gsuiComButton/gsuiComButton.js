@@ -7,8 +7,8 @@ class gsuiComButton extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComButton",
 			$tagName: "gsui-com-button",
-			$template: GSUcreateButton( { class: "gsuiComButton-btn" },
-				GSUcreateSpan( { class: "gsuiComButton-text" } ),
+			$template: GSUcreateButton( null,
+				GSUcreateSpan( { inert: true } ),
 			),
 		} );
 		Object.seal( this );
