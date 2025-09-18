@@ -56,7 +56,7 @@ gsui-com-button[ type="danger" ] {
 	transition:
 		var( --btn-colorDuration ) border-color,
 		var( --btn-pressDuration ) box-shadow,
-		var( --btn-pressDuration ) transform;
+		var( --btn-pressDuration ) translate;
 }
 .gsuiComButton-btn:hover {
 	text-decoration: none;
@@ -75,7 +75,7 @@ gsui-com-button:not( [ loading ] ) .gsuiComButton-btn:disabled {
 }
 .gsuiComButton-btn:active {
 	border-color: transparent;
-	transform: translate( 0, var( --btn-borderBottomWidth ) );
+	translate: 0 var( --btn-borderBottomWidth );
 	box-shadow: 0 0 0 var( --btn-colorB );
 }
 .gsuiComButton-btn::before {
@@ -104,6 +104,7 @@ gsui-com-button[ loading ] .gsuiComButton-btn::before {
 	opacity: 1;
 }
 
+/* .......................................................................... */
 .gsuiComButton-text {
 	position: relative;
 	pointer-events: none;
