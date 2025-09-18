@@ -1,4 +1,5 @@
 gsui-timewindow {
+	--gsuiTimewindow-head-h: 26px;
 	position: relative;
 	z-index: 0;
 	display: flex;
@@ -106,7 +107,7 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	position: sticky;
 	z-index: 2;
 	top: 0;
-	height: 26px;
+	height: var( --gsuiTimewindow-head-h );
 	border-bottom: 2px solid #272727;
 }
 .gsuiTimewindow-panelUp {
@@ -153,7 +154,7 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	cursor: ns-resize;
 }
 .gsuiTimewindow-panelExtendY {
-	inset: 0 -2px 0 auto;
+	inset: var( --gsuiTimewindow-head-h ) -2px 0 auto;
 	width: 6px;
 	cursor: ew-resize;
 }
