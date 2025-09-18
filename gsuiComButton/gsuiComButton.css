@@ -1,12 +1,6 @@
 :root {
-	--btn-borderBottomWidth: 3px;
-	--btn-pressDuration: .07s;
-	--btn-colorDuration: .2s;
-	--btn-rippleDuration: .7s;
 	--btn-outline: 2px solid;
 	--btn-outlineColor: rgba( 255, 255, 255, .2 );
-	--btn-text: #fff;
-	--btn-font: sans-serif;
 	--btn-colorA: hsl( 0, 0%, 61% );
 	--btn-colorB: hsl( 0, 0%, 42% );
 	--btn-submit-colorA: hsl( 210, 100%, 56% );
@@ -16,20 +10,22 @@
 }
 
 gsui-com-button {
+	--gsuiComButton-brdBottom-w: 3px;
 	height: 28px;
 	user-select: none;
 	-webkit-user-select: none;
-}
-gsui-com-button[ loading ] {
-	pointer-events: none;
-}
-gsui-com-button[ type="submit" ] {
-	--btn-colorA: var( --btn-submit-colorA );
-	--btn-colorB: var( --btn-submit-colorB );
-}
-gsui-com-button[ type="danger" ] {
-	--btn-colorA: var( --btn-danger-colorA );
-	--btn-colorB: var( --btn-danger-colorB );
+
+	&[ loading ] {
+		pointer-events: none;
+	}
+	&[ type="submit" ] {
+		--btn-colorA: var( --btn-submit-colorA );
+		--btn-colorB: var( --btn-submit-colorB );
+	}
+	&[ type="danger" ] {
+		--btn-colorA: var( --btn-danger-colorA );
+		--btn-colorB: var( --btn-danger-colorB );
+	}
 }
 
 /* .......................................................................... */
@@ -39,30 +35,30 @@ gsui-com-button button {
 	box-sizing: border-box;
 	align-items: center;
 	gap: .6ch;
-	height: calc( 100% - var( --btn-borderBottomWidth ) );
+	height: calc( 100% - var( --gsuiComButton-brdBottom-w ) );
 	border: var( --btn-outline ) transparent;
 	outline: 0;
 	border-radius: 2px;
 	padding: 0 10px;
-	color: var( --btn-text );
+	color: #fff;
 	font-size: 14px;
 	font-weight: bold;
-	font-family: var( --btn-font );
+	font-family: inherit;
 	text-align: center;
 	text-decoration: none;
 	background-color: var( --btn-colorA );
-	box-shadow: 0 var( --btn-borderBottomWidth ) 0 var( --btn-colorB );
+	box-shadow: 0 var( --gsuiComButton-brdBottom-w ) 0 var( --btn-colorB );
 	cursor: pointer;
 	transition:
-		var( --btn-colorDuration ) border-color,
-		var( --btn-pressDuration ) box-shadow,
-		var( --btn-pressDuration ) translate;
+		.2s border-color,
+		.07s box-shadow,
+		.07s translate;
 
 	&:disabled {
 		pointer-events: none;
 	}
 	&.rippleEffect-active .rippleEffect-circle {
-		transition-duration: var( --btn-rippleDuration );
+		transition-duration: .7s;
 	}
 	gsui-com-button:not( [ loading ] ) &:disabled {
 		color: #fff9;
@@ -72,7 +68,7 @@ gsui-com-button button {
 	}
 	&:active {
 		border-color: transparent;
-		translate: 0 var( --btn-borderBottomWidth );
+		translate: 0 var( --gsuiComButton-brdBottom-w );
 		box-shadow: 0 0 0 var( --btn-colorB );
 	}
 	gsui-com-button[ loading ] &::before {
