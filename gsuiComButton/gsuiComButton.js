@@ -19,11 +19,7 @@ class gsuiComButton extends gsui0ne {
 		} );
 		Object.seal( this );
 		gsuiRipple.$init( this.$element );
-		this.$element.addEventListener( "click", () => {
-			if ( GSUdomHasAttr( this, "href" ) ) {
-				window.location = this.#href;
-			}
-		} );
+		this.$elements.$btn.addEventListener( "click", this.#onclick.bind( this ) );
 	}
 
 	// .........................................................................
@@ -44,6 +40,17 @@ class gsuiComButton extends gsui0ne {
 	// .........................................................................
 	#updateDisabled() {
 		this.$element.disabled = GSUdomHasAttr( this, "disabled" ) || GSUdomHasAttr( this, "loading" );
+	}
+	#onclick( e ) {
+		const dl = GSUdomGetAttr( this, "download" );
+		const hr = GSUdomGetAttr( this, "href" );
+
+		if ( dl ) {
+			e.preventDefault();
+			GSUdownloadURL( dl, hr );
+		} else if ( hr ) {
+			window.location = this.#href;
+		}
 	}
 }
 
