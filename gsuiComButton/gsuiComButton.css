@@ -35,6 +35,7 @@ gsui-com-button[ type="danger" ] {
 	--btn-colorB: var( --btn-danger-colorB );
 }
 
+/* .......................................................................... */
 .gsuiComButton-btn {
 	display: inline-block;
 	position: relative;
@@ -57,51 +58,49 @@ gsui-com-button[ type="danger" ] {
 		var( --btn-colorDuration ) border-color,
 		var( --btn-pressDuration ) box-shadow,
 		var( --btn-pressDuration ) translate;
-}
-.gsuiComButton-btn:hover {
-	text-decoration: none;
-}
-.gsuiComButton-btn.rippleEffect-active .rippleEffect-circle {
-	transition-duration: var( --btn-rippleDuration );
-}
-.gsuiComButton-btn:disabled {
-	pointer-events: none;
-}
-gsui-com-button:not( [ loading ] ) .gsuiComButton-btn:disabled {
-	color: #fff9;
-}
-.gsuiComButton-btn:focus {
-	border-color: var( --btn-outlineColor );
-}
-.gsuiComButton-btn:active {
-	border-color: transparent;
-	translate: 0 var( --btn-borderBottomWidth );
-	box-shadow: 0 0 0 var( --btn-colorB );
-}
-.gsuiComButton-btn::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: repeating-linear-gradient(
-		45deg,
-		transparent,
-		transparent 10px,
-		#0002 10px,
-		#0002 20px
-	);
-	background-size: 28px;
-	animation: linear infinite .5s gsuiComButton-loading-anim;
-	transition: var( --btn-colorDuration );
-	transition-property: visibility, opacity;
-	visibility: hidden;
-	opacity: 0;
-}
-gsui-com-button[ loading ] .gsuiComButton-btn::before {
-	visibility: visible;
-	opacity: 1;
+
+	&:disabled {
+		pointer-events: none;
+	}
+	&.rippleEffect-active .rippleEffect-circle {
+		transition-duration: var( --btn-rippleDuration );
+	}
+	gsui-com-button:not( [ loading ] ) &:disabled {
+		color: #fff9;
+	}
+	&:focus {
+		border-color: var( --btn-outlineColor );
+	}
+	&:active {
+		border-color: transparent;
+		translate: 0 var( --btn-borderBottomWidth );
+		box-shadow: 0 0 0 var( --btn-colorB );
+	}
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: repeating-linear-gradient(
+			45deg,
+			transparent,
+			transparent 10px,
+			#0002 10px,
+			#0002 20px
+		);
+		background-size: 28px;
+		animation: linear infinite .5s gsuiComButton-loading-anim;
+		transition: var( --btn-colorDuration );
+		transition-property: visibility, opacity;
+		visibility: hidden;
+		opacity: 0;
+	}
+	gsui-com-button[ loading ] &::before {
+		visibility: visible;
+		opacity: 1;
+	}
 }
 
 /* .......................................................................... */
