@@ -15,11 +15,6 @@
 	--btn-danger-colorB: hsl( 0, 68%, 42% );
 }
 
-@keyframes gsuiComButton-loading-anim {
-	  0% { background-position: 0 }
-	100% { background-position: 28px }
-}
-
 gsui-com-button {
 	height: 28px;
 }
@@ -76,7 +71,7 @@ gsui-com-button[ type="danger" ] {
 		translate: 0 var( --btn-borderBottomWidth );
 		box-shadow: 0 0 0 var( --btn-colorB );
 	}
-	&::before {
+	gsui-com-button[ loading ] &::before {
 		content: "";
 		position: absolute;
 		top: 0;
@@ -92,15 +87,12 @@ gsui-com-button[ type="danger" ] {
 		);
 		background-size: 28px;
 		animation: linear infinite .5s gsuiComButton-loading-anim;
-		transition: var( --btn-colorDuration );
-		transition-property: visibility, opacity;
-		visibility: hidden;
-		opacity: 0;
 	}
-	gsui-com-button[ loading ] &::before {
-		visibility: visible;
-		opacity: 1;
-	}
+}
+
+@keyframes gsuiComButton-loading-anim {
+	  0% { background-position: 0 }
+	100% { background-position: 28px }
 }
 
 /* .......................................................................... */
