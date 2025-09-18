@@ -34,9 +34,11 @@ gsui-com-button[ type="danger" ] {
 
 /* .......................................................................... */
 gsui-com-button button {
-	display: inline-block;
+	display: inline-flex;
 	position: relative;
 	box-sizing: border-box;
+	align-items: center;
+	gap: .6ch;
 	height: calc( 100% - var( --btn-borderBottomWidth ) );
 	border: var( --btn-outline ) transparent;
 	outline: 0;
