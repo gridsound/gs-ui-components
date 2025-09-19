@@ -283,6 +283,7 @@ class gsuiDAW extends gsui0ne {
 							if ( data.uiRate === "manual" ) {
 								data.uiRate = data.uiRateFPS;
 							}
+							data.skin = "gray";
 							delete data.uiRateFPS;
 							if (
 								(
