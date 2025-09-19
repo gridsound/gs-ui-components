@@ -15,7 +15,8 @@ gsui-com-button {
 	user-select: none;
 	-webkit-user-select: none;
 
-	&[ loading ] {
+	&[ loading ],
+	&[ disabled ] {
 		pointer-events: none;
 	}
 	&[ type="submit" ] {
@@ -54,9 +55,6 @@ gsui-com-button button {
 		.07s box-shadow,
 		.07s translate;
 
-	&:disabled {
-		pointer-events: none;
-	}
 	&.rippleEffect-active .rippleEffect-circle {
 		transition-duration: .7s;
 	}

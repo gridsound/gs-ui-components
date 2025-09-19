@@ -12,14 +12,13 @@ class gsuiComButton extends gsui0ne {
 				GSUcreateIcon( { inert: true } ),
 			),
 			$elements: {
-				$btn: "button",
 				$text: "span",
 				$icon: ".gsuiIcon",
 			},
 		} );
 		Object.seal( this );
 		gsuiRipple.$init( this.$element );
-		this.$elements.$btn.addEventListener( "click", this.#onclick.bind( this ) );
+		this.$element.addEventListener( "click", this.#onclick.bind( this ) );
 	}
 
 	// .........................................................................
