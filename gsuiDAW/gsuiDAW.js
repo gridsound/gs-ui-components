@@ -74,30 +74,10 @@ class gsuiDAW extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
-		this.#popups.$about.$versionCheck.onclick = () => {
-			const dt = this.#popups.$about.$versionIcon.dataset;
-
-			dt.icon = "none";
-			dt.spin = "on";
-			fetch( `version?${ Math.random() }` )
-				.then( res => res.text(), GSUnoop )
-				.then( res => {
-					dt.spin = "";
-					dt.icon = res === GSUdomGetAttr( this, "version" ) ? "check" : "warning";
-				} );
-		};
+		this.#popups.$export.$btnRender.onclick = this.#onclickRenderBtn.bind( this );
+		this.#popups.$about.$versionCheck.onclick = this.#onclickVersionCheck.bind( this );
 		this.#popups.$settings.$uiRateManualRange.onmousedown = () => this.#popups.$settings.$uiRateRadio.manual.checked = true;
 		this.#popups.$settings.$uiRateManualRange.oninput = e => this.#popups.$settings.$uiRateManualFPS.textContent = e.target.value.padStart( 2, "0" );
-		this.#popups.$export.$button.onclick = e => {
-			if ( !GSUdomHasAttr( this.#popups.$export.$button, "download" ) ) {
-				GSUdomSetAttr( this.#popups.$export.$button, {
-					text: "Rendering...",
-					loading: true,
-				} );
-				GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
-				GSUdomDispatch( this, GSEV_DAW_EXPORT );
-			}
-		};
 		this.$elements.$windows.onkeydown = e => {
 			if ( e.key === "Tab" ) {
 				e.preventDefault();
@@ -229,6 +209,28 @@ class gsuiDAW extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onclickRenderBtn() {
+		if ( !GSUdomHasAttr( this.#popups.$export.$btnRender, "download" ) ) {
+			GSUdomSetAttr( this.#popups.$export.$btnRender, {
+				text: "Rendering...",
+				loading: true,
+			} );
+			GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
+			GSUdomDispatch( this, GSEV_DAW_EXPORT );
+		}
+	}
+	#onclickVersionCheck() {
+		const dt = this.#popups.$about.$versionIcon.dataset;
+
+		dt.icon = "none";
+		dt.spin = "on";
+		fetch( `version?${ Math.random() }` )
+			.then( res => res.text(), GSUnoop )
+			.then( res => {
+				dt.spin = "";
+				dt.icon = res === GSUdomGetAttr( this, "version" ) ? "check" : "warning";
+			} );
+	}
 	#onclickHead( e ) {
 		const dt = e.target.dataset;
 
