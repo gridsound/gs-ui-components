@@ -11,7 +11,8 @@ class gsuiDAW extends gsui0ne {
 		} ),
 		$export: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-export" ), {
 			$root: ".gsuiDAW-popup-export",
-			$button: ".gsuiDAW-popup-export-btn",
+			$btnRender: ".gsuiDAW-popup-export-btn",
+			$btnUpload: ".gsuiDAW-popup-upload-btn",
 			$progress: ".gsuiDAW-popup-export-progress",
 		} ),
 		$settings: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-settings" ), {
@@ -185,7 +186,9 @@ class gsuiDAW extends gsui0ne {
 		this.$elements.$analyserHz.$draw( data );
 	}
 	$readyToDownload( url, name ) {
-		GSUdomSetAttr( this.#popups.$export.$button, {
+		GSUdomStyle( this.#popups.$export.$progress, "display", "none" );
+		GSUdomStyle( this.#popups.$export.$btnUpload, "display", "" );
+		GSUdomSetAttr( this.#popups.$export.$btnRender, {
 			text: "Download OPUS/OGG file",
 			icon: "export",
 			href: url,
@@ -259,15 +262,20 @@ class gsuiDAW extends gsui0ne {
 				break;
 			case "export":
 				GSUdomSetAttr( this, "exporting", 0 );
-				GSUdomSetAttr( this.#popups.$export.$button, {
+				GSUdomStyle( this.#popups.$export.$progress, "display", "" );
+				GSUdomStyle( this.#popups.$export.$btnUpload, "display", "none" );
+				GSUdomSetAttr( this.#popups.$export.$btnRender, {
 					text: "Render",
 					icon: "render",
 					href: false,
 					loading: false,
 					download: false,
 				} );
-				GSUpopup.$custom( { title: "Export", element: this.#popups.$export.$root, ok: "close" } )
-					.then( () => GSUdomDispatch( this, GSEV_DAW_ABORTEXPORT ) );
+				GSUpopup.$custom( {
+					title: "Export",
+					element: this.#popups.$export.$root,
+					ok: "close",
+				} ).then( () => GSUdomDispatch( this, GSEV_DAW_ABORTEXPORT ) );
 				break;
 			case "settings":
 				this.#popups.$settings.$sampleRate.value = GSUdomGetAttrNum( this, "samplerate" );
