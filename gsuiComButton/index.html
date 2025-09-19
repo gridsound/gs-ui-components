@@ -40,7 +40,7 @@ body {
 <div id="TEST">
 	<gsui-com-button text="Cancel"></gsui-com-button>
 	<gsui-com-button text="Save" type="submit"></gsui-com-button>
-	<gsui-com-button text="Danger" type="danger"></gsui-com-button>
+	<gsui-com-button text="Danger" type="danger" icon="render"></gsui-com-button>
 	<gsui-com-button text="Loading..." loading></gsui-com-button>
 	<gsui-com-button text="Disabled" disabled></gsui-com-button>
 </div>
@@ -65,12 +65,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-GSUdomQS( "#testWrap" ).onclick = e => {
-	if ( e.target.tagName === "BUTTON" ) {
-		// GSUdomSetAttr( e.target.parentNode, "loading" );
-		// GSUsetTimeout( () => GSUdomRmAttr( e.target.parentNode, "loading" ), .5 );
-	}
-};
+// ...
 </script>
 </body>
 </html>
