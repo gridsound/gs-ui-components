@@ -11,9 +11,11 @@ class gsuiDAW extends gsui0ne {
 		} ),
 		$export: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-export" ), {
 			$root: ".gsuiDAW-popup-export",
-			$btnRender: ".gsuiDAW-popup-export-btn",
-			$btnUpload: ".gsuiDAW-popup-upload-btn",
+			$btnRender: ".gsuiDAW-popup-export-render-btn",
+			$btnUpload: ".gsuiDAW-popup-export-upload-btn",
+			$btnClear: ".gsuiDAW-popup-export-clear-btn",
 			$progress: ".gsuiDAW-popup-export-progress",
+			$msg: ".gsuiDAW-popup-export-msg",
 		} ),
 		$settings: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-settings" ), {
 			$root: ".gsuiDAW-popup-settings",
@@ -76,6 +78,8 @@ class gsuiDAW extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$head.onclick = this.#onclickHead.bind( this );
 		this.#popups.$export.$btnRender.onclick = this.#onclickRenderBtn.bind( this );
+		this.#popups.$export.$btnUpload.onclick = this.#onclickUploadBtn.bind( this );
+		this.#popups.$export.$btnClear.onclick = this.#initRenderBtn.bind( this );
 		this.#popups.$about.$versionCheck.onclick = this.#onclickVersionCheck.bind( this );
 		this.#popups.$settings.$uiRateManualRange.onmousedown = () => this.#popups.$settings.$uiRateRadio.manual.checked = true;
 		this.#popups.$settings.$uiRateManualRange.oninput = e => this.#popups.$settings.$uiRateManualFPS.textContent = e.target.value.padStart( 2, "0" );
@@ -84,6 +88,7 @@ class gsuiDAW extends gsui0ne {
 				e.preventDefault();
 			}
 		};
+		this.#initRenderBtn();
 		GSUdomListen( this, {
 			[ GSEV_TITLEUSER_SAVE ]: () => GSUdomDispatch( this, GSEV_DAW_SAVE ),
 			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => GSUdomDispatch( this, GSEV_DAW_RENAME, name ),
@@ -130,7 +135,7 @@ class gsuiDAW extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "exporting":
-				this.#popups.$export.$progress.value = val;
+				this.#popups.$export.$progress.value = +val || 0;
 				break;
 			case "name":
 				GSUdomSetAttr( this.$elements.$titleUser, "cmpname", val );
@@ -188,6 +193,7 @@ class gsuiDAW extends gsui0ne {
 	$readyToDownload( url, name ) {
 		GSUdomStyle( this.#popups.$export.$progress, "display", "none" );
 		GSUdomStyle( this.#popups.$export.$btnUpload, "display", "" );
+		GSUdomStyle( this.#popups.$export.$btnClear, "display", "" );
 		GSUdomSetAttr( this.#popups.$export.$btnRender, {
 			text: "Download OPUS/OGG file",
 			icon: "export",
@@ -195,6 +201,7 @@ class gsuiDAW extends gsui0ne {
 			loading: false,
 			download: name,
 		} );
+		this.$setExportMsg( "Rendering complete" );
 	}
 	$toggleWindow( win, b ) {
 		GSUdomSetAttr( this.$elements.$winBtns[ win ], "data-open", b );
@@ -204,18 +211,19 @@ class gsuiDAW extends gsui0ne {
 	}
 
 	// .........................................................................
+	$setExportMsg( msg ) {
+		this.#popups.$export.$msg.textContent = msg;
+	}
 	#updateDuration() {
 		const dur = GSUdomGetAttrNum( this, "duration" );
 
 		GSUdomSetAttr( this.$elements.$titleUser, "cmpdur", dur / ( GSUdomGetAttrNum( this, "bpm" ) / 60 ) );
 		GSUdomSetAttr( this.$elements.$currentTime, "max", dur );
 	}
-
-	// .........................................................................
-	#onopenRenderPopup() {
-		GSUdomSetAttr( this, "exporting", 0 );
-		GSUdomStyle( this.#popups.$export.$progress, "display", "" );
-		GSUdomStyle( this.#popups.$export.$btnUpload, "display", "none" );
+	#initRenderBtn() {
+		this.$setExportMsg( "" );
+		GSUdomSetAttr( this, "exporting", false );
+		GSUdomSetAttr( this.#popups.$export.$btnUpload, "disabled", false );
 		GSUdomSetAttr( this.#popups.$export.$btnRender, {
 			text: "Render",
 			icon: "render",
@@ -223,20 +231,45 @@ class gsuiDAW extends gsui0ne {
 			loading: false,
 			download: false,
 		} );
+		GSUdomStyle( this.#popups.$export.$progress, "display", "" );
+		GSUdomStyle( this.#popups.$export.$btnUpload, "display", "none" );
+		GSUdomStyle( this.#popups.$export.$btnClear, "display", "none" );
+	}
+
+	// .........................................................................
+	#onopenRenderPopup() {
+		if ( GSUdomGetAttr( this, "exporting" ) === "1" ) {
+			this.$setExportMsg( "Rendering complete" );
+		}
 		GSUpopup.$custom( {
 			title: "Export",
 			element: this.#popups.$export.$root,
 			ok: "close",
-		} ).then( () => GSUdomDispatch( this, GSEV_DAW_ABORTEXPORT ) );
+		} ).then( () => {
+			if ( GSUdomGetAttr( this, "exporting" ) !== "1" ) {
+				this.#initRenderBtn();
+			}
+			GSUdomDispatch( this, GSEV_DAW_ABORTEXPORT );
+		} );
 	}
 	#onclickRenderBtn() {
 		if ( !GSUdomHasAttr( this.#popups.$export.$btnRender, "download" ) ) {
 			GSUdomSetAttr( this.#popups.$export.$btnRender, {
 				text: "Rendering...",
 				loading: true,
+				icon: false,
+				href: false,
 			} );
 			GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
 			GSUdomDispatch( this, GSEV_DAW_EXPORT );
+		}
+	}
+	#onclickUploadBtn() {
+		if ( !GSUdomHasAttr( this.$elements.$titleUser, "connected" ) ) {
+			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
+		} else {
+			GSUdomSetAttr( this.#popups.$export.$btnUpload, "disabled", true );
+			GSUdomDispatch( this, GSEV_DAW_UPLOAD_CMP );
 		}
 	}
 	#onclickVersionCheck() {
