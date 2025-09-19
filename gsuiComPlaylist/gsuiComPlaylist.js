@@ -8,6 +8,7 @@ class gsuiComPlaylist extends gsui0ne {
 	#forkPromise = null;
 	#deletePromise = null;
 	#restorePromise = null;
+	#currentPlaying = null;
 
 	constructor() {
 		super( {
@@ -26,6 +27,14 @@ class gsuiComPlaylist extends gsui0ne {
 		this.$elements.$headLinkBin.onclick = () => GSUdomSetAttr( this, "bin" );
 		GSUdomListen( this, {
 			[ GSEV_COMPLAYER_ACTION ]: ( d, act ) => this.#onactionComposition( d.$target, act ),
+			[ GSEV_COMPLAYER_PLAY ]: d => {
+				if ( this.#currentPlaying !== d.$targetId ) {
+					const elCmp = GSUdomQS( this, `gsui-com-player[data-id="${ this.#currentPlaying }"]` );
+
+					GSUdomSetAttr( elCmp, "playing", false );
+					this.#currentPlaying = d.$targetId;
+				}
+			},
 		} );
 	}
 
@@ -79,15 +88,15 @@ class gsuiComPlaylist extends gsui0ne {
 		this.$elements.$headLinkBin.firstChild.textContent = this.$elements.$listBin.childElementCount;
 	}
 	#createCmp( cmp ) {
-		const id = cmp.id;
 		const elCmp = GSUcreateElement( "gsui-com-player", {
-			"data-id": id,
+			"data-id": cmp.id,
 			private: !cmp.public,
 			opensource: cmp.opensource,
 			name: cmp.name,
 			bpm: cmp.bpm,
 			duration: cmp.durationSec,
 			deleted: !!cmp.deleted,
+			url: `https://compositions.gridsound.com/${ cmp.id }.opus`,
 		} );
 
 		this.#updateCmpLinks( elCmp );
