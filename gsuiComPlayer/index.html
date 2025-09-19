@@ -95,7 +95,6 @@ currentTimeInp.oninput = () => GSUdomSetAttr( elCmp, "currenttime", currentTimeI
 GSUdomListen( document.body, {
 	[ GSEV_COMPLAYER_PLAY ]: () => GSUdomSetAttr( elCmp, "playing" ),
 	[ GSEV_COMPLAYER_STOP ]: () => GSUdomRmAttr( elCmp, "playing" ),
-	[ GSEV_COMPLAYER_CURRENTTIME ]: ( _, time ) => GSUdomSetAttr( elCmp, "currenttime", time ),
 	[ GSEV_COMPLAYER_ACTION ]: ( _, act ) => GSUdomRmAttr( elCmp, `action:[${ act }]` ),
 } );
 </script>

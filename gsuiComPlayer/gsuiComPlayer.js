@@ -5,12 +5,14 @@ class gsuiComPlayer extends gsui0ne {
 	#actionMenu = null;
 	#actions = null;
 	#actionMenuDir = "TL";
+	#intervalId = null;
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiComPlayer",
 			$tagName: "gsui-com-player",
 			$elements: {
+				$audio: "audio",
 				$play: ".gsuiComPlayer-play",
 				$name: ".gsuiComPlayer-nameLink",
 				$bpm: ".gsuiComPlayer-bpm",
@@ -29,21 +31,22 @@ class gsuiComPlayer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$play.onclick = () => GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_STOP : GSEV_COMPLAYER_PLAY );
+		this.$elements.$play.onclick = this.#onclickPlay.bind( this );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir", "actionloading" ];
+		return [ "url", "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir", "actionloading" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "url": this.$elements.$audio.src = val; break;
 			case "bpm": this.$elements.$bpm.textContent = val; break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "link": GSUdomSetAttr( this.$elements.$name, "href", val ); break;
 			case "dawlink": GSUdomSetAttr( this.$elements.$dawlink, "href", val ); break;
-			case "playing": GSUdomSetAttr( this.$elements.$play, "data-icon", val === "" ? "pause" : "play" ); break;
+			case "playing": this.#updatePlaying( val === "" ); break;
 			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
 				this.#actionMenuDir = val;
@@ -80,6 +83,23 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
+	#updatePlaying( b ) {
+		if ( b ) {
+			this.$elements.$audio.play();
+			this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
+		} else {
+			this.$elements.$audio.pause();
+			GSUclearInterval( this.#intervalId );
+		}
+		GSUdomSetAttr( this.$elements.$play, "data-icon", b ? "pause" : "play" );
+	}
+	#onclickPlay() {
+		GSUdomTogAttr( this, "playing" );
+		GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_PLAY : GSEV_COMPLAYER_STOP );
+	}
+	#onframePlaying() {
+		GSUdomSetAttr( this, "currenttime", this.$elements.$audio.currentTime );
+	}
 	#updateActionMenu( actionsStr ) {
 		if ( !this.#actionMenu ) {
 			this.#actions = [
@@ -121,7 +141,7 @@ class gsuiComPlayer extends gsui0ne {
 		e.target.onpointerup =
 		e.target.onpointermove =
 		this.#settingTime = null;
-		GSUdomDispatch( this, GSEV_COMPLAYER_CURRENTTIME, t * GSUdomGetAttrNum( this, "duration" ) );
+		this.$elements.$audio.currentTime = t * GSUdomGetAttrNum( this, "duration" );
 	}
 }
 
