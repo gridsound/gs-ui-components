@@ -47,6 +47,7 @@ class gsuiWaveEditor extends gsui0ne {
 				$symmetryBtn: ".gsuiWaveEditor-symmetry",
 				$mirrorXBtn: ".gsuiWaveEditor-mirror-btn[data-dir='x']",
 				$mirrorYBtn: ".gsuiWaveEditor-mirror-btn[data-dir='y']",
+				$normalizeBtn: ".gsuiWaveEditor-normalize-btn",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
@@ -63,6 +64,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#initActionMenu();
 		this.$elements.$mirrorXBtn.onclick =
 		this.$elements.$mirrorYBtn.onclick = this.#mirror.bind( this );
+		this.$elements.$normalizeBtn.onclick = this.#normalize.bind( this );
 		this.$elements.$symmetryBtn.onclick = () => {
 			GSUdomTogAttr( this, "symmetry" );
 			GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
@@ -183,6 +185,24 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	#normalize( e ) {
+		const w = this.#waveArray;
+
+		if ( w ) {
+			const save = new Float32Array( w );
+			const max = w.reduce( ( max, n ) => Math.max( max, Math.abs( n ) ), 0 );
+
+			if ( max > 0 ) {
+				const norm = 1 / max;
+
+				w.forEach( ( n, i, arr ) => arr[ i ] = n * norm );
+				this.#drawWave();
+				if ( !GSUarrayEq( w, save, .005 ) ) {
+					GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
+				}
+			}
+		}
+	}
 	#mirror( e ) {
 		const w = this.#waveArray;
 
