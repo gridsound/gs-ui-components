@@ -1,6 +1,8 @@
 "use strict";
 
 class gsuiComPlayer extends gsui0ne {
+	#url = null;
+	#urlOK = false;
 	#settingTime = null;
 	#actionMenu = null;
 	#actions = null;
@@ -41,12 +43,12 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "url": this.$elements.$audio.src = val; break;
+			case "url": this.#setURL( val ); break;
 			case "bpm": this.$elements.$bpm.textContent = val; break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "link": GSUdomSetAttr( this.$elements.$name, "href", val ); break;
 			case "dawlink": GSUdomSetAttr( this.$elements.$dawlink, "href", val ); break;
-			case "playing": this.#updatePlaying( val === "" ); break;
+			case "playing": val === "" ? this.#play() : this.#pause(); break;
 			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
 				this.#actionMenuDir = val;
@@ -83,15 +85,51 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
-	#updatePlaying( b ) {
-		if ( b ) {
-			this.$elements.$audio.play();
-			this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
+	static #checkURL( url ) {
+		return new Promise( resolve => {
+			fetch( url, { method: "HEAD" } )
+				.then( obj => {
+					if ( obj.ok ) {
+						resolve( true );
+					}
+					GSUwait( 1 ).then( () => resolve( false ) );
+				} );
+		} );
+	}
+	#setURL( url ) {
+		this.#url = url;
+		this.#urlOK = false;
+		this.$elements.$audio.src = null;
+		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
+	}
+	#play() {
+		if ( this.#urlOK ) {
+			this.#play2();
 		} else {
-			this.$elements.$audio.pause();
-			GSUclearInterval( this.#intervalId );
+			GSUdomSetAttr( this.$elements.$play, "data-spin", "on" );
+			gsuiComPlayer.#checkURL( this.#url )
+				.then( ok => {
+					if ( ok ) {
+						this.#urlOK = true;
+						this.$elements.$audio.src = this.#url;
+						this.#play2();
+					} else {
+						GSUdomRmAttr( this, "playing" );
+						GSUdomSetAttr( this.$elements.$play, "data-icon", "file-corrupt" );
+					}
+					GSUdomSetAttr( this.$elements.$play, "data-spin", "off" );
+				} );
 		}
-		GSUdomSetAttr( this.$elements.$play, "data-icon", b ? "pause" : "play" );
+	}
+	#play2() {
+		this.$elements.$audio.play();
+		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
+		GSUdomSetAttr( this.$elements.$play, "data-icon", "pause" );
+	}
+	#pause() {
+		this.$elements.$audio.pause();
+		GSUclearInterval( this.#intervalId );
+		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
 	}
 	#onclickPlay() {
 		GSUdomTogAttr( this, "playing" );
