@@ -2,7 +2,6 @@
 
 class gsuiComPlayer extends gsui0ne {
 	#url = null;
-	#urlOK = false;
 	#settingTime = null;
 	#actionMenu = null;
 	#actions = null;
@@ -35,6 +34,14 @@ class gsuiComPlayer extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$play.onclick = this.#onclickPlay.bind( this );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
+		this.$elements.$audio.addEventListener( "error", () => {
+			GSUdomRmAttr( this, "playing" );
+			GSUdomRmAttr( this.$elements.$audio, "src" );
+			GSUdomSetAttr( this.$elements.$play, {
+				"data-icon": "file-corrupt",
+				title: "This composition hasn't yet been rendered by its author",
+			} );
+		} );
 	}
 
 	// .........................................................................
@@ -85,57 +92,36 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
-	static #checkURL( url ) {
-		return new Promise( resolve => {
-			fetch( url, { method: "HEAD" } )
-				.then( obj => {
-					if ( obj.ok ) {
-						resolve( true );
-					}
-					GSUwait( 1 ).then( () => resolve( false ) );
-				} );
-		} );
-	}
 	#setURL( url ) {
-		this.#url = url;
-		this.#urlOK = false;
-		this.$elements.$audio.src = null;
 		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
 		GSUdomRmAttr( this.$elements.$play, "title" );
+		this.#url = url ?? null;
+		this.$elements.$audio.src = url;
+	}
+	#isReady() {
+		return this.$elements.$audio.readyState > 0;
 	}
 	#play() {
-		if ( this.#urlOK ) {
-			this.#play2();
-		} else {
-			GSUdomSetAttr( this.$elements.$play, "data-spin", "on" );
-			gsuiComPlayer.#checkURL( this.#url )
-				.then( ok => {
-					if ( ok ) {
-						this.#urlOK = true;
-						this.$elements.$audio.src = this.#url;
-						this.#play2();
-					} else {
-						GSUdomRmAttr( this, "playing" );
-						GSUdomSetAttr( this.$elements.$play, "data-icon", "file-corrupt" );
-						GSUdomSetAttr( this.$elements.$play, "title", "This composition hasn't yet been rendered by its author" );
-					}
-					GSUdomSetAttr( this.$elements.$play, "data-spin", "off" );
-				} );
+		if ( this.#isReady() ) {
+			this.$elements.$audio.play();
+			this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
+			GSUdomSetAttr( this.$elements.$play, "data-icon", "pause" );
 		}
 	}
-	#play2() {
-		this.$elements.$audio.play();
-		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
-		GSUdomSetAttr( this.$elements.$play, "data-icon", "pause" );
-	}
 	#pause() {
-		this.$elements.$audio.pause();
-		GSUclearInterval( this.#intervalId );
-		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
+		if ( this.#isReady() ) {
+			this.$elements.$audio.pause();
+			GSUclearInterval( this.#intervalId );
+			GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
+		}
 	}
 	#onclickPlay() {
-		GSUdomTogAttr( this, "playing" );
-		GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_PLAY : GSEV_COMPLAYER_STOP );
+		if ( this.#isReady() ) {
+			GSUdomTogAttr( this, "playing" );
+			GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_PLAY : GSEV_COMPLAYER_STOP );
+		} else {
+			this.#setURL( this.#url );
+		}
 	}
 	#onframePlaying() {
 		GSUdomSetAttr( this, "currenttime", this.$elements.$audio.currentTime );

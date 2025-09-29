@@ -1,7 +1,7 @@
 "use strict";
 
 GSUsetTemplate( "gsui-com-player", () => [
-	GSUcreateElement( "audio", { loop: true, preload: "none" } ),
+	GSUcreateElement( "audio", { loop: true } ),
 	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-play", icon: "play" } ),
 	GSUcreateDiv( { class: "gsuiComPlayer-body" },
 		GSUcreateDiv( { class: "gsuiComPlayer-text" },
