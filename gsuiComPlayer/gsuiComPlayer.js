@@ -101,6 +101,7 @@ class gsuiComPlayer extends gsui0ne {
 		this.#urlOK = false;
 		this.$elements.$audio.src = null;
 		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
+		GSUdomRmAttr( this.$elements.$play, "title" );
 	}
 	#play() {
 		if ( this.#urlOK ) {
@@ -116,6 +117,7 @@ class gsuiComPlayer extends gsui0ne {
 					} else {
 						GSUdomRmAttr( this, "playing" );
 						GSUdomSetAttr( this.$elements.$play, "data-icon", "file-corrupt" );
+						GSUdomSetAttr( this.$elements.$play, "title", "This composition hasn't yet been rendered by its author" );
 					}
 					GSUdomSetAttr( this.$elements.$play, "data-spin", "off" );
 				} );
