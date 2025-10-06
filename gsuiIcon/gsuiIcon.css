@@ -69,6 +69,8 @@
 .gsuiIcon[ data-icon="mirror-x" ]::after { content: "\e664\e664"; }
 .gsuiIcon[ data-icon="mirror-y" ]::before { content: "\e665"; }
 .gsuiIcon[ data-icon="mirror-y" ]::after { content: "\e665\e665"; }
+.gsuiIcon[ data-icon="normalize-y" ]::before { content: "\e4ba"; rotate: 90deg; }
+.gsuiIcon[ data-icon="normalize-y" ]::after { content: "\e4ba\e4ba"; rotate: 90deg; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="arrow-up" ]::before { content: "\f062"; }
