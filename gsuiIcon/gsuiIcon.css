@@ -65,10 +65,10 @@
 .gsuiIcon[ data-icon="br-wordpress" ]::before { content: "\f411"; }
 
 /* .......................................................................... */
-.gsuiIcon[ data-icon="mirror-x" ]::before { content: "\10f338"; scale: 1 2; translate: 0 .4px; }
-.gsuiIcon[ data-icon="mirror-x" ]::after { content: "\f337"; }
-.gsuiIcon[ data-icon="mirror-y" ]::before { content: "\f338"; opacity: .6; }
-.gsuiIcon[ data-icon="mirror-y" ]::after { content: "\10f337"; opacity: 1; scale: 2 1; }
+.gsuiIcon[ data-icon="mirror-x" ]::before { content: "\e664"; }
+.gsuiIcon[ data-icon="mirror-x" ]::after { content: "\e664\e664"; }
+.gsuiIcon[ data-icon="mirror-y" ]::before { content: "\e665"; }
+.gsuiIcon[ data-icon="mirror-y" ]::after { content: "\e665\e665"; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="arrow-up" ]::before { content: "\f062"; }
