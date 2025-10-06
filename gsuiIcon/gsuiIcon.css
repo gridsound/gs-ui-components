@@ -14,13 +14,12 @@
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
-.gsuiIcon[ data-icon|="br" ] {
-	font-family: "FontAwesomeBrands";
-}
+.gsuiIcon[ data-icon|="br" ] { font-family: "FontAwesomeBrands"; }
+.gsuiIcon[ data-icon|="cu" ] { font-family: "FontAwesomeCustom"; }
 .gsuiIcon::before {
 	pointer-events: none;
 }
-.gsuiIcon:not( [ data-icon|="br" ] )::before {
+.gsuiIcon:not( [ data-icon|="br" ] ):not( [ data-icon|="cu" ] )::before {
 	position: absolute;
 }
 .gsuiIcon::after {
@@ -51,6 +50,10 @@
 	from { rotate: 0deg; }
 	to { rotate: 360deg; }
 }
+
+/* .......................................................................... */
+.gsuiIcon[ data-icon="cu-drums" ]::before { content: "\e001"; }
+.gsuiIcon[ data-icon="cu-waveform" ]::before { content: "\e000"; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="br-github" ]::before { content: "\f09b"; }
@@ -102,9 +105,6 @@
 .gsuiIcon[ data-icon="caret-right" ]::after { content: "\10f0da"; }
 .gsuiIcon[ data-icon="chevron-double-right" ]::before { content: "\f324"; }
 .gsuiIcon[ data-icon="chevron-double-right" ]::after { content: "\10f324"; }
-
-.gsuiIcon[ data-icon="osc-sine" ]::before { content: "\f899"; }
-.gsuiIcon[ data-icon="osc-sine" ]::after { content: "\10f899"; }
 
 .gsuiIcon[ data-icon="undo" ]::before { content: "\f2ea"; }
 .gsuiIcon[ data-icon="undo" ]::after { content: "\10f2ea"; }
@@ -234,10 +234,8 @@
 .gsuiIcon[ data-icon="effects" ]::after { content: "\10f5fd"; }
 .gsuiIcon[ data-icon="add-effect" ]::before { content: "\f5ff"; }
 .gsuiIcon[ data-icon="add-effect" ]::after { content: "\10f5ff"; }
-.gsuiIcon[ data-icon="waveform" ]::before { content: "\f8f2"; }
-.gsuiIcon[ data-icon="waveform" ]::after { content: "\10f8f2"; }
-.gsuiIcon[ data-icon="oscillator" ]::before { content: "\f83e"; }
-.gsuiIcon[ data-icon="oscillator" ]::after { content: "\10f83e"; opacity: 1; }
+.gsuiIcon[ data-icon="oscillator" ]::after { content: "\f89a\f89a"; opacity: 1; }
+.gsuiIcon[ data-icon="osc-sine" ]::after { content: "\10f899"; opacity: 1; }
 .gsuiIcon[ data-icon="glissando" ]::before { content: "\f667"; }
 .gsuiIcon[ data-icon="glissando" ]::after { content: "\10f667"; }
 
