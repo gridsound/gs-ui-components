@@ -103,10 +103,6 @@
 
 .gsuiIcon[ data-icon="osc-sine" ]::before { content: "\f899"; }
 .gsuiIcon[ data-icon="osc-sine" ]::after { content: "\10f899"; }
-.gsuiIcon[ data-icon="osc-triangle" ]::before { content: "\f89a"; }
-.gsuiIcon[ data-icon="osc-triangle" ]::after { content: "\10f89a"; }
-.gsuiIcon[ data-icon="osc-square" ]::before { content: "\f83e"; }
-.gsuiIcon[ data-icon="osc-square" ]::after { content: "\10f83e"; }
 
 .gsuiIcon[ data-icon="undo" ]::before { content: "\f2ea"; }
 .gsuiIcon[ data-icon="undo" ]::after { content: "\10f2ea"; }
