@@ -258,8 +258,6 @@
 .gsuiIcon[ data-icon="plus" ]::after { content: "\10f067"; opacity: .7; }
 .gsuiIcon[ data-icon="minus" ]::before { content: "\f068"; }
 .gsuiIcon[ data-icon="minus" ]::after { content: "\10f068"; opacity: 1; }
-.gsuiIcon[ data-icon="minus-oct" ]::before { content: "\f308"; }
-.gsuiIcon[ data-icon="minus-oct" ]::after { content: "\10f308"; }
 
 .gsuiIcon[ data-icon="check" ]::before { content: "\f00c"; }
 .gsuiIcon[ data-icon="check" ]::after { content: "\10f00c"; }
