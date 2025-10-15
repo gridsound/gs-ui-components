@@ -6,6 +6,7 @@ gsui-com-avatar {
 	justify-content: center;
 	min-width: 24px;
 	min-height: 24px;
+	color: #2e355b;
 	background-color: #0001;
 }
 
@@ -17,7 +18,7 @@ gsui-com-avatar img {
 gsui-com-avatar .gsuiIcon {
 	position: absolute;
 	font-size: 60cqw;
-	color: #2e355b;
+	color: inherit;
 }
 
 gsui-com-avatar:not( [ loaded ] ) img,
