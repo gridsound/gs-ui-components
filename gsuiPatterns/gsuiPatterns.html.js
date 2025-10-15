@@ -5,7 +5,7 @@ GSUsetTemplate( "gsui-patterns", () =>
 		GSUgetTemplate( "gsui-patterns-panel", {
 			type: "buffers",
 			title: "buffers",
-			icon: "waveform",
+			icon: "cu-waveform",
 			placeholder: "drag 'n drop raw files here (mp3, ogg, wav)",
 		} ),
 		GSUgetTemplate( "gsui-patterns-panel", {
@@ -18,7 +18,7 @@ GSUsetTemplate( "gsui-patterns", () =>
 		GSUgetTemplate( "gsui-patterns-panel", {
 			type: "drums",
 			title: "drums",
-			icon: "drums",
+			icon: "cu-drums",
 			placeholder: "no drums yet",
 			button: { action: "newDrums", title: "Create a new drums pattern" },
 		} ),

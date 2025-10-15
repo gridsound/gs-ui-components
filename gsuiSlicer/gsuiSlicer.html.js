@@ -3,7 +3,7 @@
 GSUsetTemplate( "gsui-slicer", () => [
 	GSUcreateDiv( { class: "gsuiSlicer-source" },
 		GSUcreateDiv( { class: "gsuiSlicer-source-head" },
-			GSUcreateIcon( { class: "gsuiSlicer-source-icon", icon: "waveform" } ),
+			GSUcreateIcon( { class: "gsuiSlicer-source-icon", icon: "cu-waveform" } ),
 			GSUcreateSpan( { class: "gsuiSlicer-source-name" } ),
 		),
 		GSUcreateDiv( { class: "gsuiSlicer-source-sample-wrap" },

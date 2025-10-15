@@ -2,7 +2,7 @@
 
 GSUsetTemplate( "gsui-libraries", () => [
 	GSUcreateDiv( { class: "gsuiLibraries-head" },
-		GSUcreateIcon( { class: "gsuiLibraries-head-icon", icon: "waveform" } ),
+		GSUcreateIcon( { class: "gsuiLibraries-head-icon", icon: "cu-waveform" } ),
 		GSUcreateSpan( { class: "gsuiLibraries-head-title" }, "library" ),
 		GSUcreateDiv( { class: "gsuiLibraries-libBtns" },
 			GSUcreateButton( { class: "gsuiLibraries-libBtn", "data-lib": "default" }, "default" ),

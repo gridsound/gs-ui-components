@@ -38,7 +38,7 @@ GSUsetTemplate( "gsui-daw", () => [
 			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "mixer",       "data-win": "mixer",       title: "Open/close the mixer window" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "music",       "data-win": "composition", title: "Open/close the composition window" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "oscillator",  "data-win": "synth",       title: "Open/close the synthesizer window" } ),
-			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "drums",       "data-win": "drums",       title: "Open/close the drums window" } ),
+			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "cu-drums",    "data-win": "drums",       title: "Open/close the drums window" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "keys",        "data-win": "keys",        title: "Open/close the piano window" } ),
 			GSUcreateButton( { class: "gsuiDAW-btn", "data-action": "window", icon: "slices",      "data-win": "slices",      title: "Open/close the slicer window" } ),
 		),

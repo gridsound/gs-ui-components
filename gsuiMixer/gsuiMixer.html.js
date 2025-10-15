@@ -8,7 +8,7 @@ GSUsetTemplate( "gsui-mixer", () =>
 				GSUcreateSpan( { class: "gsuiMixer-head-title", inert: true }, "channels" ),
 				GSUcreateElement( "gsui-help-link", { page: "mixer-channels" } ),
 				GSUcreateDiv( { class: "gsuiMixer-analyserTypes" },
-					GSUcreateIcon( { icon: "waveform" } ),
+					GSUcreateIcon( { icon: "cu-waveform" } ),
 					GSUcreateDiv( { class: "gsuiMixer-analyserTypes-labels" },
 						GSUgetTemplate( "gsui-mixer-analyser-label", "timeDomain" ),
 						GSUgetTemplate( "gsui-mixer-analyser-label", "frequency" ),

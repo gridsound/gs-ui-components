@@ -21,7 +21,7 @@ GSUsetTemplate( "gsui-oscillator", waves =>
 							GSUcreateIcon( { icon: "oscillator" } ),
 							GSUcreateIcon( { icon: "pen" } ),
 						),
-						GSUcreateIcon( { class: "gsuiOscillator-sourceIcon", icon: "waveform" } ),
+						GSUcreateIcon( { class: "gsuiOscillator-sourceIcon", icon: "cu-waveform" } ),
 						GSUcreateSpan( { class: "gsuiOscillator-sourceName" } ),
 					),
 					GSUcreateDiv( { class: "gsuiOscillator-waveWrap-bottom", inert: true },
