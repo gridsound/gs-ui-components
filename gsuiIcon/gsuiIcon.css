@@ -54,6 +54,8 @@
 /* .......................................................................... */
 .gsuiIcon[ data-icon="cu-drums" ]::before { content: "\e001"; }
 .gsuiIcon[ data-icon="cu-waveform" ]::before { content: "\e000"; }
+.gsuiIcon[ data-icon="cu-search-user" ]::before { content: "\e003"; }
+.gsuiIcon[ data-icon="cu-search-music" ]::before { content: "\e004"; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="br-github" ]::before { content: "\f09b"; }
@@ -146,6 +148,8 @@
 .gsuiIcon[ data-icon="unmute" ]::before { content: "\f028"; }
 .gsuiIcon[ data-icon="unmute" ]::after { content: "\10f028"; }
 
+.gsuiIcon[ data-icon="search" ]::before { content: "\f002"; }
+.gsuiIcon[ data-icon="search" ]::after { content: "\10f002"; }
 .gsuiIcon[ data-icon="close" ]::before { content: "\f00d"; }
 .gsuiIcon[ data-icon="close" ]::after { content: "\10f00d"; }
 .gsuiIcon[ data-icon="restore" ]::before { content: "\f2d2"; }
