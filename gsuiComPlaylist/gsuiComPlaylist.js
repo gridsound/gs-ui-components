@@ -8,6 +8,7 @@ class gsuiComPlaylist extends gsui0ne {
 	#forkPromise = null;
 	#deletePromise = null;
 	#restorePromise = null;
+	#visibilityPromise = null;
 	#currentPlaying = null;
 
 	constructor() {
@@ -60,6 +61,7 @@ class gsuiComPlaylist extends gsui0ne {
 	$setForkCallbackPromise( fn ) { this.#forkPromise = fn; }
 	$setDeleteCallbackPromise( fn ) { this.#deletePromise = fn; }
 	$setRestoreCallbackPromise( fn ) { this.#restorePromise = fn; }
+	$setVisibilityCallbackPromise( fn ) { this.#visibilityPromise = fn; }
 	$clearCompositions() {
 		GSUdomEmpty( this.$elements.$listCmps );
 		GSUdomEmpty( this.$elements.$listBin );
@@ -134,7 +136,24 @@ class gsuiComPlaylist extends gsui0ne {
 			case "delete":
 			case "restore": return this.#ondeleteRestoreCmp( elCmp, act );
 			case "fork": return this.#onforkComposition( elCmp );
+			case "open":
+			case "visible":
+			case "private": return this.#onchangeVisibility( elCmp, act );
 		}
+	}
+	#onchangeVisibility( elCmp, act ) {
+		const id = elCmp.dataset.id;
+
+		GSUdomSetAttr( elCmp, "actionloading" );
+		this.#visibilityPromise?.( id, act )
+			.then( () => {
+				GSUdomSetAttr( elCmp, {
+					private: act === "private",
+					opensource: act === "open",
+				} );
+				this.#updateCmpActions( elCmp );
+			} )
+			.finally( () => GSUdomRmAttr( elCmp, "actionloading" ) );
 	}
 	#onforkComposition( elCmp ) {
 		const id = elCmp.dataset.id;
