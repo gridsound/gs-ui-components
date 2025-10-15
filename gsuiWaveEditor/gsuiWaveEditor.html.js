@@ -23,7 +23,7 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 		GSUcreateFlex( { class: "gsuiWaveEditor-menu", y: true, g6: true },
 			GSUcreateButton( { class: "gsuiWaveEditor-mirror-btn", "data-dir": "x", icon: "mirror-x" } ),
 			GSUcreateButton( { class: "gsuiWaveEditor-mirror-btn", "data-dir": "y", icon: "mirror-y" } ),
-			GSUcreateButton( { class: "gsuiWaveEditor-normalize-btn", icon: "mirror-y" } ),
+			GSUcreateButton( { class: "gsuiWaveEditor-normalize-btn", icon: "normalize-y" } ),
 		),
 		GSUcreateFlex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
 			GSUcreateElement( "gsui-beatlines", { dir: "x", timedivision: "1/1", color: "#fff" } ),
