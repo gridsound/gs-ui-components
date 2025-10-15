@@ -254,9 +254,7 @@
 .gsuiIcon[ data-icon="buf-undefined" ]::before { content: "\f2fd"; }
 .gsuiIcon[ data-icon="buf-undefined" ]::after { content: "\10f2fd"; opacity: .2; }
 
-.gsuiIcon[ data-icon="plus" ]::before { content: "\f067"; }
-.gsuiIcon[ data-icon="plus" ]::after { content: "\10f067"; opacity: .7; }
-.gsuiIcon[ data-icon="minus" ]::before { content: "\f068"; }
+.gsuiIcon[ data-icon="plus" ]::after { content: "\10f067"; opacity: 1; }
 .gsuiIcon[ data-icon="minus" ]::after { content: "\10f068"; opacity: 1; }
 
 .gsuiIcon[ data-icon="check" ]::before { content: "\f00c"; }
