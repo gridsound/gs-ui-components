@@ -1,16 +1,6 @@
 "use strict";
 
 GSUsetTemplate( "gsui-com-playlist", () => [
-	GSUcreateDiv( { class: "gsuiComPlaylist-head" },
-		GSUcreateButton( { class: "gsuiComPlaylist-head-btn" },
-			GSUcreateSpan(),
-			GSUcreateSpan( null, "composition·s" ),
-		),
-		GSUcreateButton( { class: "gsuiComPlaylist-head-btn" },
-			GSUcreateSpan(),
-			GSUcreateSpan( null, "in the bin" ),
-		),
-	),
 	GSUcreateDiv( { class: "gsuiComPlaylist-list", "data-list": "cmps" } ),
 	GSUcreateDiv( { class: "gsuiComPlaylist-list", "data-list": "bin" } ),
 	GSUcreateDiv( { class: "gsuiComPlaylist-placeh", "data-list": "cmps" },

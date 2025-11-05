@@ -16,16 +16,12 @@ class gsuiComPlaylist extends gsui0ne {
 			$cmpName: "gsuiComPlaylist",
 			$tagName: "gsui-com-playlist",
 			$elements: {
-				$headLinkCmps: ".gsuiComPlaylist-head-btn:first-child",
-				$headLinkBin: ".gsuiComPlaylist-head-btn:last-child",
 				$listCmps: ".gsuiComPlaylist-list[data-list=cmps]",
 				$listBin: ".gsuiComPlaylist-list[data-list=bin]",
 			},
 		} );
 		Object.seal( this );
 		this.#updateNbCmps();
-		this.$elements.$headLinkCmps.onclick = () => GSUdomRmAttr( this, "bin" );
-		this.$elements.$headLinkBin.onclick = () => GSUdomSetAttr( this, "bin" );
 		GSUdomListen( this, {
 			[ GSEV_COMPLAYER_ACTION ]: ( d, act ) => this.#onactionComposition( d.$target, act ),
 			[ GSEV_COMPLAYER_PLAY ]: d => {
@@ -86,8 +82,9 @@ class gsuiComPlaylist extends gsui0ne {
 
 	// .........................................................................
 	#updateNbCmps() {
-		this.$elements.$headLinkCmps.firstChild.textContent = this.$elements.$listCmps.childElementCount;
-		this.$elements.$headLinkBin.firstChild.textContent = this.$elements.$listBin.childElementCount;
+		GSUdomDispatch( this, GSEV_COMPLAYLIST_UPDATE_NB,
+			this.$elements.$listCmps.childElementCount,
+			this.$elements.$listBin.childElementCount );
 	}
 	#createCmp( cmp ) {
 		const elCmp = GSUcreateElement( "gsui-com-player", {

@@ -5,40 +5,6 @@ gsui-com-playlist {
 }
 
 /* .......................................................................... */
-.gsuiComPlaylist-head {
-	display: flex;
-	gap: 20px;
-}
-.gsuiComPlaylist-head-btn {
-	display: flex;
-	gap: 6px;
-	border: 0;
-	padding: 0;
-	color: inherit;
-	font: inherit;
-	font-size: 14px;
-	text-decoration: none;
-	opacity: .3;
-	cursor: pointer;
-	background: none;
-}
-gsui-com-playlist:not( [ bin ] ) .gsuiComPlaylist-head-btn:first-child,
-gsui-com-playlist[ bin ] .gsuiComPlaylist-head-btn:last-child {
-	opacity: 1;
-}
-.gsuiComPlaylist-head-btn span:first-child {
-	font-weight: bold;
-}
-.gsuiComPlaylist-head-btn span:last-child {
-	opacity: .7;
-}
-
-/* .......................................................................... */
-gsui-com-playlist:not( [ whoami="itsme+" ] ) .gsuiComPlaylist-head-btn:last-child {
-	display: none;
-}
-
-/* .......................................................................... */
 .gsuiComPlaylist-list {
 	display: flex;
 	flex-direction: column;
