@@ -6,6 +6,7 @@ class gsuiComPlaylist extends gsui0ne {
 	#itsMe = false;
 	#premium = false;
 	#forkPromise = null;
+	#renderPromise = null;
 	#deletePromise = null;
 	#restorePromise = null;
 	#visibilityPromise = null;
@@ -55,6 +56,7 @@ class gsuiComPlaylist extends gsui0ne {
 	// .........................................................................
 	$setDAWURL( url ) { this.#dawURL = url; }
 	$setForkCallbackPromise( fn ) { this.#forkPromise = fn; }
+	$setRenderCallbackPromise( fn ) { this.#renderPromise = fn; }
 	$setDeleteCallbackPromise( fn ) { this.#deletePromise = fn; }
 	$setRestoreCallbackPromise( fn ) { this.#restorePromise = fn; }
 	$setVisibilityCallbackPromise( fn ) { this.#visibilityPromise = fn; }
@@ -95,11 +97,15 @@ class gsuiComPlaylist extends gsui0ne {
 			bpm: cmp.bpm,
 			duration: cmp.durationSec,
 			deleted: !!cmp.deleted,
-			url: `https://compositions.gridsound.com/${ cmp.id }.opus`,
+			rendered: !!cmp.rendered,
 		} );
 
+		elCmp.$setRendersCallbackPromise( this.#cmpRenderCallback.bind( this ) );
 		this.#updateCmpLinks( elCmp );
 		return elCmp;
+	}
+	#cmpRenderCallback( elCmp ) {
+		return this.#renderPromise?.( elCmp.dataset.id ).then( arr => arr[ 0 ]?.url );
 	}
 	#updateCmpLinks( elCmp ) {
 		const del = GSUdomHasAttr( elCmp, "deleted" );
