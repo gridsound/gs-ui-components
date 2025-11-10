@@ -6,8 +6,8 @@ class gsuiComPlaylist extends gsui0ne {
 	#itsMe = false;
 	#premium = false;
 	#forkPromise = null;
-	#renderPromise = null;
 	#deletePromise = null;
+	#rendersPromise = null;
 	#restorePromise = null;
 	#visibilityPromise = null;
 	#currentPlaying = null;
@@ -56,8 +56,8 @@ class gsuiComPlaylist extends gsui0ne {
 	// .........................................................................
 	$setDAWURL( url ) { this.#dawURL = url; }
 	$setForkCallbackPromise( fn ) { this.#forkPromise = fn; }
-	$setRenderCallbackPromise( fn ) { this.#renderPromise = fn; }
 	$setDeleteCallbackPromise( fn ) { this.#deletePromise = fn; }
+	$setRendersCallbackPromise( fn ) { this.#rendersPromise = fn; }
 	$setRestoreCallbackPromise( fn ) { this.#restorePromise = fn; }
 	$setVisibilityCallbackPromise( fn ) { this.#visibilityPromise = fn; }
 	$clearCompositions() {
@@ -105,7 +105,7 @@ class gsuiComPlaylist extends gsui0ne {
 		return elCmp;
 	}
 	#cmpRenderCallback( elCmp ) {
-		return this.#renderPromise?.( elCmp.dataset.id ).then( arr => arr[ 0 ]?.url );
+		return this.#rendersPromise?.( elCmp.dataset.id ).then( arr => arr[ 0 ]?.url );
 	}
 	#updateCmpLinks( elCmp ) {
 		const del = GSUdomHasAttr( elCmp, "deleted" );
