@@ -35,10 +35,10 @@ body {
 <!-- ....................................................................... -->
 <div id="TEST">
 	<gsui-com-player
+		__rendered
 		duration="3600"
 		bpm="120"
 		actions="open visible fork delete"
-		url=""
 	></gsui-com-player>
 </div>
 <div id="TEST-CTRLS">
@@ -82,6 +82,13 @@ const editableInp = GSUdomQS( "#editable" );
 const bpmInp = GSUdomQS( "#bpm" );
 const durationInp = GSUdomQS( "#duration" );
 const currentTimeInp = GSUdomQS( "#currentTime" );
+
+elCmp.$setRendersCallbackPromise( elCmp => {
+	return GSUwait( .5 ).then( () => {
+		// Throw( "a fail" );
+		return "../test-assets/Too Long - Steam Machine.wav";
+	} );
+} );
 
 titledInp.onchange = () => GSUdomTogAttr( elCmp, "name", "Dopest song ever created" );
 itsmineInp.onchange = () => GSUdomTogAttr( elCmp, "itsmine" );

@@ -1,12 +1,12 @@
 "use strict";
 
 class gsuiComPlayer extends gsui0ne {
-	#url = null;
 	#settingTime = null;
 	#actionMenu = null;
 	#actions = null;
 	#actionMenuDir = "TL";
 	#intervalId = null;
+	#rendersCallbackPromise = null;
 
 	constructor() {
 		super( {
@@ -34,31 +34,31 @@ class gsuiComPlayer extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$play.onclick = this.#onclickPlay.bind( this );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
-		this.$elements.$audio.addEventListener( "error", () => {
-			GSUdomRmAttr( this, "playing" );
+		this.$elements.$audio.addEventListener( "error", e => {
+			GSUdomRmAttr( this, "playing", "rendered" );
+			GSUdomRmAttr( this.$elements.$play, "data-spin" );
 			GSUdomRmAttr( this.$elements.$audio, "src" );
-			GSUdomSetAttr( this.$elements.$play, {
-				"data-icon": "file-corrupt",
-				title: "This composition hasn't yet been rendered by its author",
-			} );
 		} );
 	}
 
 	// .........................................................................
+	$firstTimeConnected() {
+		this.#updateRendered( GSUdomHasAttr( this, "rendered" ) );
+	}
 	static get observedAttributes() {
 		return [
-			"url", "name", "link", "dawlink", "duration", "bpm", "playing",
+			"rendered", "name", "link", "dawlink", "duration", "bpm", "playing",
 			"currenttime", "actions", "actionsdir", "actionloading", // "itsmine"
 		];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "url": this.#setURL( val ); break;
 			case "bpm": this.$elements.$bpm.textContent = val; break;
 			case "name": this.$elements.$name.textContent = val; break;
 			case "link": GSUdomSetAttr( this.$elements.$name, "href", val ); break;
 			case "dawlink": GSUdomSetAttr( this.$elements.$dawlink, "href", val ); break;
 			case "playing": val === "" ? this.#play() : this.#pause(); break;
+			case "rendered": this.#updateRendered( val === "" ); break;
 			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
 				this.#actionMenuDir = val;
@@ -93,41 +93,50 @@ class gsuiComPlayer extends gsui0ne {
 
 		this.$elements.$timeInpVal.style.width = `${ time / dur * 100 }%`;
 	}
+	$setRendersCallbackPromise( fn ) {
+		this.#rendersCallbackPromise = fn;
+	}
 
 	// .........................................................................
-	#setURL( url ) {
-		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
-		GSUdomRmAttr( this.$elements.$play, "title" );
-		this.#url = url ?? null;
-		this.$elements.$audio.src = url;
-	}
-	#isReady() {
-		return this.$elements.$audio.readyState > 0;
-	}
 	#play() {
-		if ( this.#isReady() ) {
-			this.$elements.$audio.play();
-			this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
-			GSUdomSetAttr( this.$elements.$play, "data-icon", "pause" );
-		}
+		this.$elements.$audio.play();
+		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
+		GSUdomSetAttr( this.$elements.$play, "data-icon", "pause" );
 	}
 	#pause() {
-		if ( this.#isReady() ) {
-			this.$elements.$audio.pause();
-			GSUclearInterval( this.#intervalId );
-			GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
-		}
+		this.$elements.$audio.pause();
+		GSUclearInterval( this.#intervalId );
+		GSUdomSetAttr( this.$elements.$play, "data-icon", "play" );
 	}
 	#onclickPlay() {
-		if ( this.#isReady() ) {
+		if ( this.$elements.$audio.src ) {
 			GSUdomTogAttr( this, "playing" );
 			GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_PLAY : GSEV_COMPLAYER_STOP );
 		} else {
-			this.#setURL( this.#url );
+			const hasRender = GSUdomHasAttr( this, "rendered" );
+
+			GSUdomSetAttr( this.$elements.$play, "data-spin", "on" );
+			this.#rendersCallbackPromise( this )
+				.then( url => {
+					GSUdomSetAttr( this, "rendered", true );
+					this.$elements.$audio.src = url;
+				} )
+				.finally( () => {
+					GSUdomRmAttr( this.$elements.$play, "data-spin" );
+					if ( hasRender ) {
+						GSUdomSetAttr( this, "playing", true );
+						GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
+					}
+				} );
 		}
 	}
 	#onframePlaying() {
 		GSUdomSetAttr( this, "currenttime", this.$elements.$audio.currentTime );
+	}
+	#updateRendered( b ) {
+		GSUdomSetAttr( this.$elements.$play, b
+			? { "data-spin": false, "data-icon": "play", title: false }
+			: { "data-spin": false, "data-icon": "file-corrupt", title: "This composition hasn't yet been rendered by its author" } );
 	}
 	#updateActionMenu( actionsStr ) {
 		if ( !this.#actionMenu ) {
