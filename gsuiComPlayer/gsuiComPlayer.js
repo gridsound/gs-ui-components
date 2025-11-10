@@ -113,13 +113,16 @@ class gsuiComPlayer extends gsui0ne {
 			GSUdomTogAttr( this, "playing" );
 			GSUdomDispatch( this, GSUdomHasAttr( this, "playing" ) ? GSEV_COMPLAYER_PLAY : GSEV_COMPLAYER_STOP );
 		} else {
-			const hasRender = GSUdomHasAttr( this, "rendered" );
+			let hasRender;
 
 			GSUdomSetAttr( this.$elements.$play, "data-spin", "on" );
 			this.#rendersCallbackPromise( this )
 				.then( url => {
-					GSUdomSetAttr( this, "rendered", true );
-					this.$elements.$audio.src = url;
+					if ( url ) {
+						hasRender = GSUdomHasAttr( this, "rendered" );
+						GSUdomSetAttr( this, "rendered", true );
+						this.$elements.$audio.src = url;
+					}
 				} )
 				.finally( () => {
 					GSUdomRmAttr( this.$elements.$play, "data-spin" );
