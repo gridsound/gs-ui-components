@@ -14,6 +14,11 @@ html:has( gsui-daw ) {
 }
 
 /* .......................................................................... */
+button:not( [ disabled ] ) {
+	cursor: pointer;
+}
+
+/* .......................................................................... */
 .gsui-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
