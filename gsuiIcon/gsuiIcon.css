@@ -207,6 +207,13 @@
 .gsuiIcon[ data-icon="musician" ]::before { content: "\f8eb"; }
 .gsuiIcon[ data-icon="musician" ]::after { content: "\10f8eb"; }
 
+.gsuiIcon[ data-icon="follow" ]::before { content: "\f234"; }
+.gsuiIcon[ data-icon="follow" ]::after { content: "\f234\f234"; }
+.gsuiIcon[ data-icon="followed" ]::before { content: "\f4fc"; }
+.gsuiIcon[ data-icon="followed" ]::after { content: "\f4fc\f4fc"; }
+.gsuiIcon[ data-icon-hover="unfollow" ]:hover::before { content: "\f503"; }
+.gsuiIcon[ data-icon-hover="unfollow" ]:hover::after { content: "\f503\f503"; }
+
 .gsuiIcon[ data-icon="speed" ]::before { content: "\f625"; opacity: 0; }
 .gsuiIcon[ data-icon="speed" ]::after { content: "\10f625"; opacity: 1; }
 .gsuiIcon[ data-icon="clock" ]::before { content: "\f017"; }
