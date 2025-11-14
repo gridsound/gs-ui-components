@@ -2,10 +2,18 @@ gsui-com-profile {
 	display: flex;
 	flex-direction: column;
 	container: gsuiComProfile-query / inline-size;
-	--gsuiComProfile-height: 120px;
-	--gsuiComProfile-padding: 16px;
+	--gsuiComProfile-pad: 0;
+	--gsuiComProfile-gap: 16px;
+	--gsuiComProfile-height: 142px;
+	--gsuiComProfile-radius: 6px;
+	--gsuiComProfile-followBtn-bg: #6b94de;
+	--gsuiComProfile-followBtn-hover-bg: #4a54e3;
 	gap: 0;
 	transition: gap .2s;
+}
+gsui-com-profile[ followed ] {
+	--gsuiComProfile-followBtn-bg: #9c7;
+	--gsuiComProfile-followBtn-hover-bg: #e55;
 }
 gsui-com-profile[ editing ] {
 	gap: 20px;
@@ -14,19 +22,18 @@ gsui-com-profile[ editing ] {
 .gsuiComProfile-main {
 	display: grid;
 	overflow: hidden;
-	grid-column-gap: var( --gsuiComProfile-padding );
+	padding: var( --gsuiComProfile-pad );
+	grid-row-gap: var( --gsuiComProfile-gap );
+	grid-column-gap: var( --gsuiComProfile-gap );
 	grid-template:
 		"avatar info edit" 1.5fr
-		/ var( --gsuiComProfile-height ) 1fr 0;
+		/ var( --gsuiComProfile-height ) 1fr 42px;
 	position: relative;
 	height: var( --gsuiComProfile-height );
-	border-radius: 6px;
+	border-radius: var( --gsuiComProfile-radius );
 	font-size: 14px;
 	color: #333;
 	background-color: #fff;
-}
-gsui-com-profile[ itsme ] .gsuiComProfile-main {
-	grid-template-columns: var( --gsuiComProfile-height ) 1fr 42px;
 }
 
 /* .......................................................................... */
@@ -35,6 +42,7 @@ gsui-com-profile gsui-com-avatar {
 }
 
 /* .......................................................................... */
+.gsuiComProfile-main-follow-btn,
 .gsuiComProfile-main-edit {
 	grid-area: edit;
 	display: flex;
@@ -42,12 +50,39 @@ gsui-com-profile gsui-com-avatar {
 	justify-content: center;
 	border: 0;
 	color: #0006;
-	cursor: pointer;
 	font-size: 20px;
 	background-color: #0001;
 }
+gsui-com-profile[ itsme ] .gsuiComProfile-main-follow-btn,
 gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	display: none;
+}
+.gsuiComProfile-main-follow-btn {
+	flex-direction: column;
+	color: #fff;
+	background-color: var( --gsuiComProfile-followBtn-bg );
+	transition: .2s background-color;
+
+	gsui-com-profile[ followedjustnow ] & {
+		pointer-events: none;
+	}
+	&[ disabled ],
+	gsui-com-profile:not( [ followedjustnow ] ) &:not( [ disabled ] ):hover {
+		--gsuiComProfile-followBtn-bg: var( --gsuiComProfile-followBtn-hover-bg );
+	}
+
+	.gsuiIcon {
+		display: none;
+	}
+	&[ disabled ] .gsuiIcon {
+		display: none !important;
+	}
+
+	gsui-com-profile:not( [ followed ] ) & .gsuiIcon[ data-icon="follow" ],
+	gsui-com-profile[ followed ] &:not( :hover ) .gsuiIcon[ data-icon="followed" ],
+	gsui-com-profile[ followed ] &:hover .gsuiIcon[ data-icon="unfollow" ] {
+		display: flex;
+	}
 }
 
 /* .......................................................................... */
@@ -102,19 +137,25 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	color: #da6035;
 	font: inherit;
 	font-size: 12px;
-	cursor: pointer;
 	border: 0;
 	padding: 0;
 	background: none;
-}
-gsui-com-profile[ emailsending ] .gsuiComProfile-main-email-not {
-	cursor: default;
 }
 gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-email-not,
 gsui-com-profile:not( [ emailtoverify ] ) .gsuiComProfile-main-email-not,
 gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIcon {
 	display: none;
 }
+
+/* .......................................................................... */
+.gsuiComProfile-main-follow {
+	display: flex;
+	gap: 10px;
+	margin-top: 4px;
+	font-weight: bold;
+}
+.gsuiComProfile-main-following::after { content: " following"; font-weight: normal }
+.gsuiComProfile-main-followers::after { content: " followers"; font-weight: normal }
 
 /* .......................................................................... */
 .gsuiComProfile-edit-title {
@@ -141,7 +182,7 @@ gsui-com-profile[ editing ] .gsuiComProfile-form {
 	grid-gap: 20px;
 	font-size: 12px;
 	padding: 20px;
-	border-radius: 6px;
+	border-radius: var( --gsuiComProfile-radius );
 	background-color: #fff2;
 }
 gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
@@ -187,23 +228,19 @@ gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
 /* .......................................................................... */
 @container gsuiComProfile-query ( max-width: 450px ) {
 	.gsuiComProfile-main {
-		--gsuiComProfile-padding: 10px;
+		--gsuiComProfile-gap: 10px;
+		--gsuiComProfile-pad: var( --gsuiComProfile-gap );
 		height: auto;
-		padding: var( --gsuiComProfile-padding );
-		grid-row-gap: var( --gsuiComProfile-padding );
 		grid-template:
 			"avatar info" var( --gsuiComProfile-height )
 			"edit   edit" 1fr
 			/ var( --gsuiComProfile-height ) 1fr;
-	}
-	gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main {
-		padding-bottom: 0;
-	}
-	gsui-com-profile[ itsme ] .gsuiComProfile-main {
 		grid-template-columns: var( --gsuiComProfile-height ) 1fr;
 		grid-template-rows: var( --gsuiComProfile-height ) 34px;
 	}
+	.gsuiComProfile-main-follow-btn,
+	.gsuiComProfile-main-edit,
 	gsui-com-profile gsui-com-avatar {
-		border-radius: 6px;
+		border-radius: 4px;
 	}
 }

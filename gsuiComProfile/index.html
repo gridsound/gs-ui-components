@@ -51,6 +51,7 @@ body {
 	<div><label><input id="emailsending" type="checkbox" /> email sending</label></div>
 	<div><label><input id="emailsent" type="checkbox" /> email sent</label></div>
 	<div><label><input id="savefail" type="checkbox" /> saving will fail</label></div>
+	<div><label><input id="followed" type="checkbox" /> followed</label></div>
 </div>
 
 <!-- ....................................................................... -->
@@ -83,6 +84,7 @@ const emailtoverify = GSUdomQS( "#emailtoverify" );
 const emailsending = GSUdomQS( "#emailsending" );
 const emailsent = GSUdomQS( "#emailsent" );
 const savefail = GSUdomQS( "#savefail" );
+const followed = GSUdomQS( "#followed" );
 
 itsme.onchange = () => GSUdomTogAttr( elCmp, "itsme" );
 email.onchange = () => GSUdomTogAttr( elCmp, "email", "john.wick@hitman.com" );
@@ -91,13 +93,19 @@ emailtoverify.onchange = () => GSUdomTogAttr( elCmp, "emailtoverify" );
 emailsending.onchange = () => GSUdomTogAttr( elCmp, "emailsending" );
 emailsent.onchange = () => GSUdomTogAttr( elCmp, "emailsent" );
 avatar.onchange = () => GSUdomTogAttr( elCmp, "avatar", "../test-assets/avatar.jpg" );
+followed.onchange = () => GSUdomTogAttr( elCmp, "followed" );
 
-itsme.click();
+// itsme.click();
 email.click();
 // emailpublic.click();
 emailtoverify.click();
 avatar.click();
+// followed.click();
 // GSUdomQS( ".gsuiComProfile-main-edit" ).click();
+
+elCmp.$setFollowCallbackPromise( () => {
+	return GSUwait( 1 ).then( GSUnoop );
+} );
 
 function promRes( obj ) {
 	return new Promise( ( res, rej ) => {
