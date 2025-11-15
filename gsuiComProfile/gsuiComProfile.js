@@ -149,7 +149,7 @@ class gsuiComProfile extends gsui0ne {
 		GSUdomSetAttr( elCnt, "data-loading", true );
 		GSUdomEmpty( elCnt.firstChild );
 		prom?.()
-			.then( arr => elCnt.firstChild.append( ...arr.map( u => GSUcreateElement( "gscom-userlink", u ) ) ) )
+			.then( arr => elCnt.firstChild.append( ...arr.map( u => GSUcreateElement( "gsui-com-userlink", u ) ) ) )
 			.finally( () => GSUdomRmAttr( elCnt, "data-loading" ) );
 	}
 	#onclickFollow() {
