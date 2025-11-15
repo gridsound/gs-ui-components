@@ -15,7 +15,7 @@ gsui-com-profile[ followed ] {
 	--gsuiComProfile-followBtn-bg: #9c7;
 	--gsuiComProfile-followBtn-hover-bg: #e55;
 }
-gsui-com-profile[ editing ] {
+gsui-com-profile[ panel ] {
 	gap: 20px;
 }
 
@@ -154,39 +154,107 @@ gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIco
 	margin-top: 4px;
 	font-weight: bold;
 }
+.gsuiComProfile-main-following,
+.gsuiComProfile-main-followers {
+	border: 0;
+	padding: 0;
+	font: inherit;
+	color: currentColor;
+	pointer: cursor;
+	background: none;
+}
 .gsuiComProfile-main-following::after { content: " following"; font-weight: normal }
 .gsuiComProfile-main-followers::after { content: " followers"; font-weight: normal }
 
 /* .......................................................................... */
-.gsuiComProfile-edit-title {
+.gsuiComProfile-panel-title {
+	display: flex;
 	font-size: 14px;
 }
-.gsuiComProfile-edit-title,
-.gsuiComProfile-form {
+.gsuiComProfile-panel-title,
+.gsuiComProfile-panel-content {
 	max-height: 0;
 	opacity: 0;
 	overflow: hidden;
 	transition: .2s;
-	transition-property: max-height, opacity;
+	transition-property: max-height, padding, opacity;
 }
-gsui-com-profile[ editing ] .gsuiComProfile-edit-title {
+.gsuiComProfile-panel-content {
+	overflow: auto;
+	position: relative;
+	border-radius: var( --gsuiComProfile-radius );
+	background-color: #fff2;
+}
+gsui-com-profile[ panel ] {
+	.gsuiComProfile-panel-title {
+		opacity: 1;
+		max-height: 24px;
+		max-height: 60px;
+	}
+	.gsuiComProfile-panel-content {
+		opacity: 1;
+		padding: 20px;
+		max-height: 300px;
+	}
+	&[ panel="edit" ] .gsuiComProfile-panel-content {
+		max-height: 600px;
+	}
+}
+.gsuiComProfile-panel-title span {
 	opacity: .7;
-	max-height: 24px;
 }
-gsui-com-profile[ editing ] .gsuiComProfile-form {
-	opacity: 1;
-	max-height: 600px;
+.gsuiComProfile-panel-title button {
+	margin-left: auto;
+	border: 0;
+	padding: 0;
+	color: inherit;
+	background: none;
 }
+
+/* .......................................................................... */
+.gsuiComProfile-panel-content div {
+	height: 100%;
+}
+.gsuiComProfile-panel-content div[ data-what^="follow" ] {
+	display: flex;
+
+	& > div {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	& > span {
+		width: 100%;
+		text-align: center;
+		font-style: italic;
+		opacity: .5;
+	}
+	&[ data-loading ] > div ~ span,
+	& > div:not( :empty ) ~ span {
+		display: none;
+	}
+
+	&[ data-loading ] {
+		height: 64px;
+	}
+	&:not( [ data-loading ] ) .gsuiIcon {
+		display: none;
+	}
+	.gsuiIcon {
+		position: absolute;
+		left: calc( 50% - 20px );
+		top: calc( 50% - 20px );
+		width: 40px;
+		height: 40px;
+		font-size: 40px;
+	}
+}
+
+/* .......................................................................... */
 .gsuiComProfile-form {
 	display: grid;
 	grid-gap: 20px;
 	font-size: 12px;
-	padding: 20px;
-	border-radius: var( --gsuiComProfile-radius );
-	background-color: #fff2;
-}
-gsui-com-profile:not( [ editing ] ) .gsuiComProfile-form {
-	padding: 0;
 }
 .gsuiComProfile-form-label {
 	display: inline-block;

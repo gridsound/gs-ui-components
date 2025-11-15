@@ -95,16 +95,31 @@ emailsent.onchange = () => GSUdomTogAttr( elCmp, "emailsent" );
 avatar.onchange = () => GSUdomTogAttr( elCmp, "avatar", "../test-assets/avatar.jpg" );
 followed.onchange = () => GSUdomTogAttr( elCmp, "followed" );
 
-// itsme.click();
+itsme.click();
 email.click();
 // emailpublic.click();
 emailtoverify.click();
 avatar.click();
 // followed.click();
-// GSUdomQS( ".gsuiComProfile-main-edit" ).click();
 
 elCmp.$setFollowCallbackPromise( () => {
 	return GSUwait( 1 ).then( GSUnoop );
+} );
+
+elCmp.$setFollowingCallbackPromise( () => {
+	return GSUwait( .5 ).then( () => {
+		return [
+			{ username: "baba_yaga", avatar: "../test-assets/avatar.jpg" },
+			{ username: "mr21", avatar: "http://gravatar.com/avatar/3b9e1ea0e57a3e027e455259d9e911b9?s=142" },
+		];
+	} );
+} );
+
+elCmp.$setFollowersCallbackPromise( () => {
+	return GSUwait( .5 ).then( () => {
+		return [
+		];
+	} );
 } );
 
 function promRes( obj ) {
@@ -117,6 +132,10 @@ function promRes( obj ) {
 
 elCmp.$setSavingCallbackPromise( promRes );
 elCmp.$setVerifyEmailCallbackPromise( promRes );
+
+// GSUdomQS( ".gsuiComProfile-main-edit" ).click();
+// GSUdomQS( ".gsuiComProfile-main-followers" ).click();
+// GSUdomQS( ".gsuiComProfile-main-following" ).click();
 </script>
 </body>
 </html>
