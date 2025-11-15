@@ -20,9 +20,9 @@ body {
 	display: flex;
 	align-items: baseline;
 	justify-content: center;
-	padding-top: 2em;
+	padding: 2em 0 1em;
 	font-size: 26px;
-	gap: 1ch;
+	column-gap: 1ch;
 
 	span {
 		text-shadow: 0 0 20px #fff5;
@@ -44,7 +44,7 @@ body {
 }
 .testLink {
 	margin: .5ch;
-	padding: .5ch 1ch;
+	padding: .4ch 1ch;
 	font-size: min( 4vw, 4vh, 24px );
 	font-weight: bold;
 	border-radius: .5ch;
