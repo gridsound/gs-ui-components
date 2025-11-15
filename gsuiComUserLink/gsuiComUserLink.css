@@ -1,0 +1,30 @@
+gsui-com-userlink {
+	display: inline-flex;
+}
+
+.gsuiComUserLink-a {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: currentColor;
+	font-size: 16px;
+	text-decoration: none;
+}
+
+.gsuiComUserLink-avatar {
+	width: 22px;
+	height: 22px;
+	border-radius: 2px;
+	background: #fff6 no-repeat center;
+	background-size: cover;
+}
+.gsuiComUserLink-username {
+	font-weight: bold;
+}
+.gsuiComUserLink-a:hover .gsuiComUserLink-username {
+	text-decoration: underline;
+}
+.gsuiComUserLink-name:not( :empty )::before {
+	content: "-";
+	margin-right: 10px;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiComUserLink.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 300px;
+	--test-content-resize: horizontal;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-com-userlink
+		username="baba_yaga"
+		lastname="Wick"
+		firstname="John"
+		avatar="../test-assets/avatar.jpg"
+	></gsui-com-userlink>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiComUserLink.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const elCmp = GSUdomQS( "gsui-com-userlink" );
+</script>
+</body>
+</html>
