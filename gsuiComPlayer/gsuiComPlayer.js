@@ -48,7 +48,8 @@ class gsuiComPlayer extends gsui0ne {
 	static get observedAttributes() {
 		return [
 			"rendered", "name", "link", "dawlink", "duration", "bpm", "playing",
-			"currenttime", "actions", "actionsdir", "actionloading", // "itsmine"
+			"currenttime", "actions", "actionsdir", "actionloading",
+			// "itsmine", "opensource", "private"
 		];
 	}
 	$attributeChanged( prop, val ) {

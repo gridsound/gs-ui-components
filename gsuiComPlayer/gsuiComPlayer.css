@@ -98,37 +98,35 @@ gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 	position: relative;
 	height: 1.4em;
 	line-height: 1.4em;
-	font-size: 20px;
+	font-size: 18px;
 	transition: height .2s;
+
+	.gsuiIcon {
+		width: 18px;
+		font-size: 16px;
+		opacity: .5;
+
+		gsui-com-player:not( [ private ] ) &[ data-icon="private" ],
+		gsui-com-player:not( [ opensource ] ) &[ data-icon="public" ] {
+			display: none;
+		}
+	}
 }
 gsui-com-player[ playing ] .gsuiComPlayer-name {
 	height: 1.3em;
 }
 .gsuiComPlayer-nameLink {
 	position: absolute;
-	max-width: 100%;
+	inset: 0 0 0 22px;
 	overflow: hidden;
 	white-space: nowrap;
 	color: inherit;
 	text-overflow: ellipsis;
 	text-decoration: none;
-}
-gsui-com-player[ opensource ] .gsuiComPlayer-nameLink::before,
-gsui-com-player[ private ] .gsuiComPlayer-nameLink::before {
-	content: "private";
-	box-sizing: border-box;
-	margin-right: 6px;
-	line-height: 12px;
-	padding: 4px 8px;
-	border: 2px solid #fff3;
-	border-radius: 999px;
-	vertical-align: middle;
-	font-size: 10px;
-	font-weight: bold;
-	background-color: #0004;
-}
-gsui-com-player[ opensource ] .gsuiComPlayer-nameLink::before {
-	content: "open-source";
+
+	gsui-com-player:not( [ private ] ):not( [ opensource ] ) & {
+		inset: 0;
+	}
 }
 .gsuiComPlayer-nameLink:empty::after {
 	content: "Untitled";
@@ -146,7 +144,7 @@ gsui-com-player[ opensource ] .gsuiComPlayer-nameLink::before {
 }
 .gsuiComPlayer-info {
 	position: absolute;
-	inset: 0;
+	inset: 0 0 0 1px;
 	display: flex;
 	font-size: 16px;
 	font-family: var( --gsui-font-number );

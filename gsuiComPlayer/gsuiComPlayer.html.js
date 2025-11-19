@@ -6,6 +6,8 @@ GSUsetTemplate( "gsui-com-player", () => [
 	GSUcreateDiv( { class: "gsuiComPlayer-body" },
 		GSUcreateDiv( { class: "gsuiComPlayer-text" },
 			GSUcreateDiv( { class: "gsuiComPlayer-name" },
+				GSUcreateIcon( { icon: "private", inert: false, title: "Private" } ),
+				GSUcreateIcon( { icon: "public", inert: false, title: "Public" } ),
 				GSUcreateA( { class: "gsuiComPlayer-nameLink", href: false } ),
 			),
 			GSUcreateDiv( { class: "gsuiComPlayer-info-wrap" },
