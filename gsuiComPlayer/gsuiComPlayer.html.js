@@ -34,5 +34,10 @@ GSUsetTemplate( "gsui-com-player", () => [
 		GSUcreateIcon( { icon: "pen" } ),
 		GSUcreateIcon( { icon: "eye" } ),
 	),
+	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-like" },
+		GSUcreateIcon( { icon: "cu-heart-stroke" } ),
+		GSUcreateIcon( { icon: "heart" } ),
+		GSUcreateSpan(),
+	),
 	GSUcreateButton( { class: "gsuiComPlayer-btn gsuiComPlayer-actions", icon: "ellipsis-v" } ),
 ] );

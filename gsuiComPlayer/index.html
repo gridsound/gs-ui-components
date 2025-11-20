@@ -47,6 +47,7 @@ body {
 	<div><label><input id="opensource" type="checkbox" /> open source</label></div>
 	<div><label><input id="editable" type="checkbox" /> editable</label></div>
 	<div><label><input id="titled" type="checkbox" /> titled</label></div>
+	<div><label><input id="liked" type="checkbox" /> liked</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -74,6 +75,7 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elCmp = GSUdomQS( "gsui-com-player" );
+const likedInp = GSUdomQS( "#liked" );
 const titledInp = GSUdomQS( "#titled" );
 const itsmineInp = GSUdomQS( "#itsmine" );
 const privateInp = GSUdomQS( "#private" );
@@ -83,20 +85,27 @@ const bpmInp = GSUdomQS( "#bpm" );
 const durationInp = GSUdomQS( "#duration" );
 const currentTimeInp = GSUdomQS( "#currentTime" );
 
-elCmp.$setRendersCallbackPromise( elCmp => {
+elCmp.$setLikeCallbackPromise( ( elCmp, action ) => {
 	return GSUwait( .5 ).then( () => {
-		// Throw( "a fail" );
+		lg( action );
+		// throw( "a fail" );
+	} );
+} );
+elCmp.$setRendersCallbackPromise( elCmp => {
+	return GSUwait( 1 ).then( () => {
+		// throw( "a fail" );
 		return "../test-assets/Too Long - Steam Machine.wav";
 	} );
 } );
 
+likedInp.onchange = () => GSUdomTogAttr( elCmp, "liked" );
 titledInp.onchange = () => GSUdomTogAttr( elCmp, "name", "Dopest song ever created" );
 itsmineInp.onchange = () => GSUdomTogAttr( elCmp, "itsmine" );
 privateInp.onchange = () => GSUdomTogAttr( elCmp, "private" );
 opensourceInp.onchange = () => GSUdomTogAttr( elCmp, "opensource" );
 editableInp.onchange = () => GSUdomSetAttr( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
-itsmineInp.click();
+// itsmineInp.click();
 privateInp.click();
 editableInp.click();
 

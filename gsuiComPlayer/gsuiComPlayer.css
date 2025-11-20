@@ -35,15 +35,17 @@ gsui-com-player[ forking ] { animation: .25s gsuiComPlayer-forking-anim forwards
 	text-decoration: none;
 	color: #fff4;
 	font-size: 20px;
-	cursor: pointer;
 	background-color: #0001;
 	transition: color, background-color;
 	transition-duration: .2s;
-}
-.gsuiComPlayer-btn:focus-visible,
-.gsuiComPlayer-btn:hover {
-	color: #fff;
-	background-color: #0002;
+
+	&:not( [ disabled ] ) {
+		&:focus-visible,
+		&:hover {
+			color: #fff;
+			background-color: #0002;
+		}
+	}
 }
 .gsuiComPlayer-play {
 	width: 64px;
@@ -127,12 +129,43 @@ gsui-com-player[ playing ] .gsuiComPlayer-name {
 	gsui-com-player:not( [ private ] ):not( [ opensource ] ) & {
 		inset: 0;
 	}
+	&:empty::after {
+		content: "Untitled";
+		font-style: italic;
+		padding-right: 2px;
+		opacity: .7;
+	}
 }
-.gsuiComPlayer-nameLink:empty::after {
-	content: "Untitled";
-	font-style: italic;
-	padding-right: 2px;
-	opacity: .7;
+
+/* .......................................................................... */
+.gsuiComPlayer-like {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	.gsuiIcon {
+		gsui-com-player[ itsmine ] &:first-child,
+		gsui-com-player[ liked ] &:first-child,
+		gsui-com-player:not( [ liked ] ):not( [ itsmine ] ) &:nth-child( 2 ) {
+			display: none;
+		}
+		gsui-com-player[ liked ] &:not( [ data-spin ] ):nth-child( 2 ) {
+			color: #ee5f5f;
+		}
+	}
+	span {
+		margin-bottom: -6px;
+		line-height: 14px;
+		font-size: 14px;
+		font-weight: bold;
+
+		gsui-com-player[ liked ] & {
+			color: #fff;
+		}
+		gsui-com-player[ likes="0" ] & {
+			display: none;
+		}
+	}
 }
 
 /* .......................................................................... */
