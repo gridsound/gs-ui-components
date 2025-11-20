@@ -56,6 +56,7 @@
 .gsuiIcon[ data-icon="cu-waveform" ]::before { content: "\e000"; }
 .gsuiIcon[ data-icon="cu-search-user" ]::before { content: "\e003"; }
 .gsuiIcon[ data-icon="cu-search-music" ]::before { content: "\e004"; }
+.gsuiIcon[ data-icon="cu-heart-stroke" ]::before { content: "\e005"; scale: 1.27; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="br-github" ]::before { content: "\f09b"; }
