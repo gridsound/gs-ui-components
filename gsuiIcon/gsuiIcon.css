@@ -18,14 +18,13 @@
 .gsuiIcon[ data-icon|="cu" ] { font-family: "FontAwesomeCustom"; }
 .gsuiIcon::before {
 	pointer-events: none;
-}
-.gsuiIcon:not( [ data-icon|="br" ] )::before {
 	position: absolute;
 }
 .gsuiIcon::after {
 	opacity: .6;
 	pointer-events: none;
 }
+.gsuiIcon[ data-icon|="br" ]::after,
 .gsuiIcon[ data-icon|="cu" ]::after {
 	opacity: 1;
 }
@@ -65,16 +64,16 @@
 .gsuiIcon[ data-icon="cu-heart-stroke" ]::after { content: "\e005"; scale: 1.27; }
 
 /* .......................................................................... */
-.gsuiIcon[ data-icon="br-github" ]::before { content: "\f09b"; }
-.gsuiIcon[ data-icon="br-codepen" ]::before { content: "\f1cb"; }
-.gsuiIcon[ data-icon="br-discord" ]::before { content: "\f392"; }
-.gsuiIcon[ data-icon="br-firefox" ]::before { content: "\e007"; }
-.gsuiIcon[ data-icon="br-patreon" ]::before { content: "\f3d9"; }
-.gsuiIcon[ data-icon="br-twitter" ]::before { content: "\f099"; }
-.gsuiIcon[ data-icon="br-bluesky" ]::before { content: "\f15b"; }
-.gsuiIcon[ data-icon="br-youtube" ]::before { content: "\f167"; }
-.gsuiIcon[ data-icon="br-facebook" ]::before { content: "\f09a"; }
-.gsuiIcon[ data-icon="br-wordpress" ]::before { content: "\f411"; }
+.gsuiIcon[ data-icon="br-github" ]::after { content: "\f09b"; }
+.gsuiIcon[ data-icon="br-codepen" ]::after { content: "\f1cb"; }
+.gsuiIcon[ data-icon="br-discord" ]::after { content: "\f392"; }
+.gsuiIcon[ data-icon="br-firefox" ]::after { content: "\e007"; }
+.gsuiIcon[ data-icon="br-patreon" ]::after { content: "\f3d9"; }
+.gsuiIcon[ data-icon="br-twitter" ]::after { content: "\f099"; }
+.gsuiIcon[ data-icon="br-bluesky" ]::after { content: "\f15b"; }
+.gsuiIcon[ data-icon="br-youtube" ]::after { content: "\f167"; }
+.gsuiIcon[ data-icon="br-facebook" ]::after { content: "\f09a"; }
+.gsuiIcon[ data-icon="br-wordpress" ]::after { content: "\f411"; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="mirror-x" ]::before { content: "\e664"; }
