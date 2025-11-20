@@ -19,12 +19,15 @@
 .gsuiIcon::before {
 	pointer-events: none;
 }
-.gsuiIcon:not( [ data-icon|="br" ] ):not( [ data-icon|="cu" ] )::before {
+.gsuiIcon:not( [ data-icon|="br" ] )::before {
 	position: absolute;
 }
 .gsuiIcon::after {
 	opacity: .6;
 	pointer-events: none;
+}
+.gsuiIcon[ data-icon|="cu" ]::after {
+	opacity: 1;
 }
 .gsuiIcon:not( [ data-spin="on" ] )[ data-icon="" ],
 .gsuiIcon:not( [ data-spin="on" ] ):not( [ data-icon ] ) {
@@ -34,16 +37,19 @@
 /* .......................................................................... */
 .gsuiIcon.gsuiIcon.gsuiIcon[ data-spin="on" ] {
 	line-height: 1;
+	font-family: "FontAwesome";
 }
 .gsuiIcon.gsuiIcon.gsuiIcon[ data-spin="on" ]::before {
 	content: "\f3f4";
 	animation: .7s infinite linear gsuiIcon-spin;
 	opacity: 1;
+	scale: 1;
 }
 .gsuiIcon.gsuiIcon.gsuiIcon[ data-spin="on" ]::after {
 	display: inline-block;
 	content: "\10f111";
 	opacity: .4;
+	scale: 1;
 }
 
 @keyframes gsuiIcon-spin {
@@ -52,11 +58,11 @@
 }
 
 /* .......................................................................... */
-.gsuiIcon[ data-icon="cu-drums" ]::before { content: "\e001"; }
-.gsuiIcon[ data-icon="cu-waveform" ]::before { content: "\e000"; }
-.gsuiIcon[ data-icon="cu-search-user" ]::before { content: "\e003"; }
-.gsuiIcon[ data-icon="cu-search-music" ]::before { content: "\e004"; }
-.gsuiIcon[ data-icon="cu-heart-stroke" ]::before { content: "\e005"; scale: 1.27; }
+.gsuiIcon[ data-icon="cu-drums" ]::after { content: "\e001"; }
+.gsuiIcon[ data-icon="cu-waveform" ]::after { content: "\e000"; }
+.gsuiIcon[ data-icon="cu-search-user" ]::after { content: "\e003"; }
+.gsuiIcon[ data-icon="cu-search-music" ]::after { content: "\e004"; }
+.gsuiIcon[ data-icon="cu-heart-stroke" ]::after { content: "\e005"; scale: 1.27; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="br-github" ]::before { content: "\f09b"; }
