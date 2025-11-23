@@ -5,6 +5,7 @@ class gsuiComPlaylist extends gsui0ne {
 	#cmps = new Map();
 	#itsMe = false;
 	#premium = false;
+	#likePromise = null;
 	#forkPromise = null;
 	#deletePromise = null;
 	#rendersPromise = null;
@@ -55,6 +56,7 @@ class gsuiComPlaylist extends gsui0ne {
 
 	// .........................................................................
 	$setDAWURL( url ) { this.#dawURL = url; }
+	$setLikeCallbackPromise( fn ) { this.#likePromise = fn; }
 	$setForkCallbackPromise( fn ) { this.#forkPromise = fn; }
 	$setDeleteCallbackPromise( fn ) { this.#deletePromise = fn; }
 	$setRendersCallbackPromise( fn ) { this.#rendersPromise = fn; }
@@ -98,11 +100,17 @@ class gsuiComPlaylist extends gsui0ne {
 			duration: cmp.durationSec,
 			deleted: !!cmp.deleted,
 			rendered: !!cmp.rendered,
+			likes: cmp.likes,
+			liked: cmp.liked,
 		} );
 
+		elCmp.$setLikeCallbackPromise( this.#cmpLikeCallback.bind( this ) );
 		elCmp.$setRendersCallbackPromise( this.#cmpRenderCallback.bind( this ) );
 		this.#updateCmpLinks( elCmp );
 		return elCmp;
+	}
+	#cmpLikeCallback( elCmp, action ) {
+		return this.#likePromise?.( elCmp.dataset.id, action );
 	}
 	#cmpRenderCallback( elCmp ) {
 		return this.#rendersPromise?.( elCmp.dataset.id ).then( arr => arr[ 0 ]?.url );
