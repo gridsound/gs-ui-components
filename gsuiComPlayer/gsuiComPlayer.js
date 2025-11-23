@@ -129,6 +129,7 @@ class gsuiComPlayer extends gsui0ne {
 					likes: GSUdomGetAttrNum( this, "likes" ) + ( !liked * 2 - 1 ),
 				} );
 			} )
+			.catch( err => GSUpopup.$alert( `Error ${ err.code }`, err.msg ) )
 			.finally( () => {
 				GSUdomRmAttr( this.$elements.$likeBtn, "disabled" );
 				GSUdomRmAttr( this.$elements.$likeIco[ 0 ], "data-spin" );
