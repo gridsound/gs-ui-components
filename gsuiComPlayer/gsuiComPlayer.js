@@ -119,6 +119,7 @@ class gsuiComPlayer extends gsui0ne {
 	#onclickLike() {
 		const liked = GSUdomHasAttr( this, "liked" );
 
+		GSUdomSetAttr( this.$elements.$likeBtn, "disabled", true );
 		GSUdomSetAttr( this.$elements.$likeIco[ 0 ], { "data-spin": "on" } );
 		GSUdomSetAttr( this.$elements.$likeIco[ 1 ], { "data-spin": "on" } );
 		this.#likeCallbackPromise( this, liked ? "unlike" : "like" )
@@ -129,6 +130,7 @@ class gsuiComPlayer extends gsui0ne {
 				} );
 			} )
 			.finally( () => {
+				GSUdomRmAttr( this.$elements.$likeBtn, "disabled" );
 				GSUdomRmAttr( this.$elements.$likeIco[ 0 ], "data-spin" );
 				GSUdomRmAttr( this.$elements.$likeIco[ 1 ], "data-spin" );
 			} );
