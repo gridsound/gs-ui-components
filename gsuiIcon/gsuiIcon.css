@@ -149,6 +149,7 @@
 .gsuiIcon[ data-icon="unmute" ]::before { content: "\f028"; }
 .gsuiIcon[ data-icon="unmute" ]::after { content: "\10f028"; }
 
+.gsuiIcon[ data-icon="at" ]::after { content: "\40\40"; opacity: 1 }
 .gsuiIcon[ data-icon="search" ]::before { content: "\f002"; }
 .gsuiIcon[ data-icon="search" ]::after { content: "\10f002"; }
 .gsuiIcon[ data-icon="close" ]::before { content: "\f00d"; }
