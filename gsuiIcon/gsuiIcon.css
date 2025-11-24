@@ -181,8 +181,7 @@
 
 .gsuiIcon[ data-icon="save" ]::before { content: "\f0c7"; }
 .gsuiIcon[ data-icon="save" ]::after { content: "\10f0c7"; opacity: .4; }
-.gsuiIcon[ data-icon="render" ]::before { content: "\f0e7"; }
-.gsuiIcon[ data-icon="render" ]::after { content: "\10f0e7"; }
+.gsuiIcon[ data-icon="render" ]::after { content: "\10f0e7"; opacity: 1; }
 .gsuiIcon[ data-icon="upload" ]::before { content: "\f382"; opacity: 0; }
 .gsuiIcon[ data-icon="upload" ]::after { content: "\10f382"; opacity: 1; }
 .gsuiIcon[ data-icon="export" ]::before { content: "\f019"; }
