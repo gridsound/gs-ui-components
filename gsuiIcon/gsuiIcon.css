@@ -141,6 +141,8 @@
 .gsuiIcon[ data-icon="heart" ]::after { content: "\10f004"; opacity: 1; }
 .gsuiIcon[ data-icon="hexagon" ]::after { content: "\10f312"; opacity: 1; }
 .gsuiIcon[ data-icon="octagon" ]::after { content: "\10f306"; opacity: 1; }
+.gsuiIcon[ data-icon="heart-slash" ]::before { content: "\e78e"; }
+.gsuiIcon[ data-icon="heart-slash" ]::after { content: "\e78e\e78e"; }
 
 .gsuiIcon[ data-icon="mute" ]::before { content: "\f2e2"; }
 .gsuiIcon[ data-icon="mute" ]::after { content: "\10f2e2"; }
