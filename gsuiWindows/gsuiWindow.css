@@ -45,6 +45,7 @@ gsui-window:not( [ dragging ] ) {
 	opacity: 0;
 	inset: 0;
 	margin: calc( var( --gsuiWindow-handler-width ) * -1 );
+	touch-action: none;
 
 	&::before {
 		content: "";
@@ -90,6 +91,7 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	inset: 0;
 	height: var( --gsuiWindow-head-height );
 	background-color: var( --gsui-head2-bg );
+	touch-action: none;
 
 	gsui-window[ dragging ] & {
 		cursor: move;
