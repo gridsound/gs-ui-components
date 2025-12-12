@@ -24,6 +24,7 @@ gsui-effect[ enable ] {
 	cursor: grab;
 	opacity: .6;
 	background-color: #0002;
+	touch-action: none;
 }
 .gsuiEffect-expand,
 .gsuiEffect-remove {
