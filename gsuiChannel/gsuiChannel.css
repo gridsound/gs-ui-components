@@ -192,6 +192,7 @@ gsui-channel gsui-toggle {
 	cursor: grab;
 	opacity: .6;
 	background-color: #0002;
+	touch-action: none;
 }
 gsui-channel[ data-id="main" ] .gsuiChannel-grip {
 	pointer-events: none;
