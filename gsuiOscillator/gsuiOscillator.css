@@ -265,7 +265,6 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 .gsuiOscillator-waveSelect {
 	flex: 1;
 	min-width: 0;
-	cursor: pointer;
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }

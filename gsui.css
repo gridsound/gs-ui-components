@@ -14,7 +14,10 @@ html:has( gsui-daw ) {
 }
 
 /* .......................................................................... */
-button:not( [ disabled ] ) {
+button, select {
+	user-select: none;
+}
+:where( button, select ):not( :disabled ) {
 	cursor: pointer;
 }
 
