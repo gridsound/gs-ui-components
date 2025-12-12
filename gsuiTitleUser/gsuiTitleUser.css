@@ -202,7 +202,7 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 	transition-property: width, margin-left, opacity;
 
 	gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover & {
-		width: 1.4ch;
+		width: 2ch;
 		margin-left: 4px;
 		opacity: 1;	
 	}
