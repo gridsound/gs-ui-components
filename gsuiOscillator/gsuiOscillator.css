@@ -37,6 +37,7 @@ gsui-oscillator[ wavetable ] {
 	cursor: grab;
 	opacity: .6;
 	background-color: #0002;
+	touch-action: none;
 }
 .gsuiOscillator-id {
 	position: absolute;
