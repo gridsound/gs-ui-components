@@ -23,7 +23,6 @@ gsui-effects {
 	min-height: 52px;
 	color: inherit;
 	font-size: 18px;
-	cursor: pointer;
 	background: none;
 	opacity: .4;
 	transition: .2s opacity;

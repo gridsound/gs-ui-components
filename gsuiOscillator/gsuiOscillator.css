@@ -174,7 +174,6 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 	border: 0;
 	padding: 0;
 	outline: 0;
-	cursor: pointer;
 	color: inherit;
 	background: none;
 	opacity: .5;
@@ -265,6 +264,7 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 .gsuiOscillator-waveSelect {
 	flex: 1;
 	min-width: 0;
+	cursor: pointer;
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }

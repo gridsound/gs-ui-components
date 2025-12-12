@@ -108,7 +108,6 @@ gsui-synthesizer gsui-envelope {
 	height: 52px;
 	color: inherit;
 	font-size: 18px;
-	cursor: pointer;
 	border-radius: 2px;
 	background: none;
 	opacity: .4;

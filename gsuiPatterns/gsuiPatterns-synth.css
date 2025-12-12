@@ -37,7 +37,6 @@
 	padding: 0;
 	opacity: .7;
 	color: inherit;
-	cursor: pointer;
 	background: none;
 	transition: .1s;
 	transition-property: background-color, opacity;

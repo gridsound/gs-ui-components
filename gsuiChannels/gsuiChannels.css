@@ -50,7 +50,6 @@ gsui-channels gsui-analyser-vu {
 	outline: 0;
 	font-size: 18px;
 	color: inherit;
-	cursor: pointer;
 	border-radius: 2px;
 	background: none;
 	opacity: .4;

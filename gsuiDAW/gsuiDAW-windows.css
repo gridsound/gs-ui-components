@@ -4,7 +4,6 @@
 	max-width: 110px;
 	border: 0;
 	outline: 0;
-	cursor: pointer;
 	overflow: hidden;
 	border-radius: 3px;
 	line-height: 1;
@@ -65,7 +64,6 @@
 	outline: 0;
 	color: #fff;
 	font-size: 8px;
-	cursor: pointer;
 	background-color: var( --gsui-btn-playPause-bg );
 }
 .gsuiDAW-window-playPause button:hover {

@@ -157,7 +157,6 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	outline: 0;
 	width: var( --gsuiWindow-head-height );
 	height: 100%;
-	cursor: pointer;
 	color: inherit;
 	font-size: 10px;
 	opacity: .6;

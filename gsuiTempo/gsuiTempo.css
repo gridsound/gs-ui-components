@@ -12,7 +12,6 @@ gsui-tempo {
 	border-radius: 4px;
 	padding: 0 6px;
 	white-space: nowrap;
-	cursor: pointer;
 	font-family: var( --gsui-font-number );
 	background-color: var( --gsui-clock-bg );
 }
@@ -108,7 +107,6 @@ gsui-tempo {
 	border: 0;
 	border-radius: 4px;
 	font-size: 12px;
-	cursor: pointer;
 	background-color: #0004;
 }
 
@@ -124,6 +122,5 @@ gsui-tempo {
 	font: inherit;
 	font-size: 12px;
 	font-weight: 600;
-	cursor: pointer;
 	background-color: var( --gsui-btn-playPause-bg );
 }

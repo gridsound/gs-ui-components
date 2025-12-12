@@ -33,7 +33,6 @@ gsui-effect[ enable ] {
 	padding: 0;
 	outline: 0;
 	color: inherit;
-	cursor: pointer;
 	font-size: inherit;
 	background-color: transparent;
 }

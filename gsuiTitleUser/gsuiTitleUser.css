@@ -76,7 +76,6 @@ gsui-titleuser {
 	outline: 0;
 	color: inherit;
 	font-size: 20px;
-	cursor: pointer;
 	background: none;
 	opacity: .7;
 	transition: .2s;
@@ -108,7 +107,6 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 /* .......................................................................... */
 .gsuiTitleUser-save {
 	overflow: hidden;
-	cursor: pointer;
 	border: 0;
 	padding: 0;
 	width: 32px;
@@ -172,7 +170,6 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 	border: 0;
 	outline: 0;
 	font-family: inherit;
-	cursor: pointer;
 	background: none;
 }
 .gsuiTitleUser-cmpName {

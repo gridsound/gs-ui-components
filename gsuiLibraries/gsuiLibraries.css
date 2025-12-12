@@ -40,7 +40,6 @@ gsui-libraries {
 	font: inherit;
 	font-size: 9px;
 	font-weight: bold;
-	cursor: pointer;
 	background-color: transparent;
 }
 .gsuiLibraries-libBtn + .gsuiLibraries-libBtn {

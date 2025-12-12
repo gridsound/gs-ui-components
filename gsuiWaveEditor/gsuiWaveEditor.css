@@ -26,7 +26,6 @@ gsui-wave-editor {
 	border: 2px solid transparent;
 	border-radius: 4px;
 	color: currentColor;
-	cursor: pointer;
 	background-color: #0005;
 }
 .gsuiWaveEditor-symmetry:hover,
@@ -50,7 +49,6 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	height: 26px;
 	border: 0;
 	color: currentColor;
-	cursor: pointer;
 	background: none;
 }
 .gsuiWaveEditor-tools button:hover {
