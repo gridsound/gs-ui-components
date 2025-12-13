@@ -29,6 +29,7 @@ gsui-slidergroup {
 	top: 0;
 	bottom: 0;
 	cursor: pointer;
+	touch-action: none;
 }
 .gsuiSliderGroup-slider::before {
 	content: "";
