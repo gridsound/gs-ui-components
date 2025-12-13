@@ -42,6 +42,7 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
+		GSUdomSetAttr( this, "tabindex", "0" );
 		this.#setSVGcirc();
 		this.#updateVal( this.#value );
 	}
@@ -186,6 +187,7 @@ class gsuiSlider extends gsui0ne {
 					this.#onchange();
 				}
 				e.preventDefault();
+				GSUdomFocus( this );
 				return false;
 			}
 			case 0:
