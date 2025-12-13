@@ -78,7 +78,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$unloadSamples() {
 		this.#samplesMap.forEach( el => {
-			GSUdomRmClass( el, "gsuiLibrary-sample-loading", "gsuiLibrary-sample-ready" );
+			GSUdomRmAttr( el, "data-loading", "data-ready" );
 			el.title = el.dataset.name;
 		} );
 	}
@@ -98,7 +98,7 @@ class gsuiLibrary extends gsui0ne {
 				} );
 
 				if ( this.#idFavs.has( smp[ 0 ] ) ) {
-					GSUdomAddClass( el, "gsuiLibrary-sample-fav" );
+					GSUdomSetAttr( el, "data-fav", true );
 				}
 				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
@@ -117,20 +117,22 @@ class gsuiLibrary extends gsui0ne {
 		b
 			? this.#idFavs.set( id )
 			: this.#idFavs.delete( id );
-		GSUdomTogClass( this.#samplesMap.get( id ), "gsuiLibrary-sample-fav", b );
+		GSUdomSetAttr( this.#samplesMap.get( id ), "data-fav", b );
 	}
 	$loadSample( id ) {
-		const el = this.#samplesMap.get( id );
-
-		GSUdomAddClass( el, "gsuiLibrary-sample-loading" );
-		el.title = "loading...";
+		GSUdomSetAttr( this.#samplesMap.get( id ), {
+			"data-loading": true,
+			title: "loading...",
+		} );
 	}
 	$readySample( id ) {
 		const el = this.#samplesMap.get( id );
 
-		GSUdomRmClass( el, "gsuiLibrary-sample-loading" );
-		GSUdomAddClass( el, "gsuiLibrary-sample-ready" );
-		el.title = el.dataset.name;
+		GSUdomSetAttr( el, {
+			"data-loading": false,
+			"data-ready": true,
+			title: el.dataset.name,
+		} );
 	}
 	$playSample( id, dur ) {
 		const el = this.#samplesMap.get( id );
@@ -160,26 +162,26 @@ class gsuiLibrary extends gsui0ne {
 
 	// .........................................................................
 	#expandGroup( elSep ) {
-		const exp = !GSUdomHasClass( elSep, "gsuiLibrary-sep-expanded" );
+		const exp = !GSUdomHasAttr( elSep, "data-expanded" );
 
 		for ( let el = elSep.nextElementSibling; el; el = el.nextElementSibling ) {
 			if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) ) {
-				GSUdomTogClass( el, "gsuiLibrary-sample-expanded", exp );
+				GSUdomSetAttr( el, "data-expanded", exp );
 			} else {
 				break;
 			}
 		}
-		GSUdomTogClass( elSep, "gsuiLibrary-sep-expanded", exp );
+		GSUdomSetAttr( elSep, "data-expanded", exp );
 	}
 
 	// .........................................................................
 	#onclick( e ) {
 		const el = e.target;
 
-		if ( GSUdomHasClass( el, "gsuiLibrary-sep-btn" ) ) {
+		if ( el.tagName === "BUTTON" ) {
 			this.#expandGroup( el.parentNode );
-		} else if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) && !GSUdomHasClass( el, "gsuiLibrary-sample-loading" ) ) {
-			const act = GSUdomHasClass( el, "gsuiLibrary-sample-ready" )
+		} else if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) && !GSUdomHasAttr( el, "data-loading" ) ) {
+			const act = GSUdomHasAttr( el, "data-ready" )
 				? GSEV_LIBRARY_PLAYSAMPLE
 				: GSEV_LIBRARY_LOADSAMPLE;
 

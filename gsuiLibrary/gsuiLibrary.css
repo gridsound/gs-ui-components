@@ -30,9 +30,10 @@ gsui-library {
 	font-size: 12px;
 	font-style: italic;
 	opacity: .4;
-}
-.gsuiLibrary-placeholder:only-child {
-	display: flex;
+
+	&:only-child {
+		display: flex;
+	}
 }
 
 /* .......................................................................... */
@@ -43,37 +44,39 @@ gsui-library {
 	height: 28px;
 	padding: 10px 8px 0 0;
 	counter-reset: smpNum 0;
-}
-.gsuiLibrary-sep-btn {
-	display: flex;
-	max-width: 100%;
-	gap: 1ch;
-	cursor: pointer;
-	border: 0;
-	padding: 4px;
-	color: inherit;
-	font-size: 9px;
-	font-weight: bold;
-	background: none;
-}
-.gsuiLibrary-sep .gsuiIcon {
-	opacity: .3;
-	pointer-events: none;
-}
-.gsuiLibrary-sep span {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	padding-right: .1ch;
-	pointer-events: none;
-}
-.gsuiLibrary-sep span:empty::before {
-	content: "no name";
-	font-style: italic;
-	opacity: .5;
-}
-.gsuiLibrary-sep-expanded .gsuiIcon {
-	rotate: 90deg;
+
+	button {
+		display: flex;
+		max-width: 100%;
+		gap: 1ch;
+		cursor: pointer;
+		border: 0;
+		padding: 4px;
+		color: inherit;
+		font-size: 9px;
+		font-weight: bold;
+		background: none;
+	}
+	.gsuiIcon {
+		opacity: .3;
+		pointer-events: none;
+	}
+	&[ data-expanded ] .gsuiIcon {
+		rotate: 90deg;
+	}
+	span {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		padding-right: .1ch;
+		pointer-events: none;
+
+		&:empty::before {
+			content: "no name";
+			font-style: italic;
+			opacity: .5;
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -87,45 +90,46 @@ gsui-library {
 	margin-top: -14px;
 	cursor: pointer;
 	opacity: 0;
-	pointer-events: none;
 	counter-increment: smpNum +1;
+	pointer-events: none;
 	touch-action: none;
 	transition:
 		margin-top .3s,
 		opacity .3s,
 		background-color .2s;
-}
-.gsuiLibrary-sample-expanded {
-	margin-top: 0;
-	opacity: 1;
-	pointer-events: auto;
-}
-.gsuiLibrary-sample-loading {
-	animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
-}
-.gsuiLibrary-sample::after {
-	position: relative;
-	content: counter( smpNum );
-	display: inline-flex;
-	align-items: center;
-	margin-left: auto;
-	margin-right: 5px;
-	padding: 1px 3px;
-	border-radius: 3px;
-	font-size: 9px;
-	font-family: var( --gsui-font-monospace );
-	background-color: var( --gsuiLibrary-bg );
-	pointer-events: none;
-	opacity: 0;
-}
-.gsuiLibrary-sample:hover::after,
-.gsuiLibrary-sample-fav::after {
-	opacity: 1;
-}
-.gsuiLibrary-sample-fav::after {
-	color: var( --gsuiLibrary-bg );
-	font-weight: bold;
-	background-color: var( --gsuiLibrary-sample-fav );
+
+	&[ data-expanded ] {
+		margin-top: 0;
+		opacity: 1;
+		pointer-events: auto;
+	}
+	&[ data-loading ] {
+		animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
+	}
+	&::after {
+		position: relative;
+		content: counter( smpNum );
+		display: inline-flex;
+		align-items: center;
+		margin-left: auto;
+		margin-right: 5px;
+		padding: 1px 3px;
+		border-radius: 3px;
+		font-size: 9px;
+		font-family: var( --gsui-font-monospace );
+		background-color: var( --gsuiLibrary-bg );
+		pointer-events: none;
+		opacity: 0;
+	}
+	&:hover::after {
+		opacity: 1;
+	}
+	&[ data-fav ]::after {
+		color: var( --gsuiLibrary-bg );
+		font-weight: bold;
+		background-color: var( --gsuiLibrary-sample-fav );
+		opacity: 1;
+	}
 }
 @keyframes gsuiLibrary-sample-loading-anim {
 	0% { background-color: none; }
@@ -144,16 +148,17 @@ gsui-library {
 	width: 100%;
 	height: 100%;
 	opacity: .2;
-}
-.gsuiLibrary-sample-fav .gsuiLibrary-sample-svg {
-	opacity: .4;
-	fill: var( --gsuiLibrary-sample-fav );
-}
-.gsuiLibrary-sample:hover .gsuiLibrary-sample-svg {
-	opacity: .4;
-}
-.gsuiLibrary-sample-fav:hover .gsuiLibrary-sample-svg {
-	opacity: .6;
+
+	.gsuiLibrary-sample[ data-fav ] & {
+		fill: var( --gsuiLibrary-sample-fav );
+		opacity: .4;
+	}
+	.gsuiLibrary-sample:hover & {
+		opacity: .4;
+	}
+	.gsuiLibrary-sample[ data-fav ]:hover & {
+		opacity: .6;
+	}
 }
 
 /* .......................................................................... */
@@ -167,17 +172,18 @@ gsui-library {
 	background-color: currentColor;
 	transition: 0s linear left;
 	pointer-events: none;
-}
-.gsuiLibrary-sample-cursor::before {
-	position: absolute;
-	content: "";
-	top: 0;
-	bottom: 0;
-	right: 100%;
-	width: 10px;
-	background-image: linear-gradient( 90deg, transparent, currentColor );
-	opacity: .2;
-}
-.gsuiLibrary-sample-playing .gsuiLibrary-sample-cursor {
-	display: block;
+
+	.gsuiLibrary-sample-playing & {
+		display: block;
+	}
+	&::before {
+		position: absolute;
+		content: "";
+		top: 0;
+		bottom: 0;
+		right: 100%;
+		width: 10px;
+		background-image: linear-gradient( 90deg, transparent, currentColor );
+		opacity: .2;
+	}
 }
