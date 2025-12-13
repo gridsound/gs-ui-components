@@ -56,7 +56,7 @@ class gsuiTrack extends gsui0ne {
 	#ondblclickName( e ) {
 		this.$elements.$inpName.disabled = false;
 		this.$elements.$inpName.select();
-		this.$elements.$inpName.focus();
+		GSUdomFocus( this.$elements.$inpName );
 	}
 	#onkeydown( e ) {
 		if ( e.target === this.$elements.$inpName ) {

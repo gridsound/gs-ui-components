@@ -96,7 +96,7 @@ class gsuiWindow extends gsui0ne {
 			if ( wasMinimized ) {
 				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
 			}
-			this.focus( { preventScroll: true } );
+			GSUdomFocus( this );
 		}
 	}
 	$minimize() {
@@ -112,7 +112,7 @@ class gsuiWindow extends gsui0ne {
 		if ( this.#minimized || this.#maximized ) {
 			const wasMinimized = this.#minimized;
 
-			this.focus( { preventScroll: true } );
+			GSUdomFocus( this );
 			GSUdomSetAttr( this, { minimized: false, maximized: false } );
 			this.#minimized =
 			this.#maximized = false;
