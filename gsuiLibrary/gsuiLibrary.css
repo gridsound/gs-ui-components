@@ -89,6 +89,7 @@ gsui-library {
 	opacity: 0;
 	pointer-events: none;
 	counter-increment: smpNum +1;
+	touch-action: none;
 	transition:
 		margin-top .3s,
 		opacity .3s,
