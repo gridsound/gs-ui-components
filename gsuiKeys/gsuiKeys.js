@@ -11,7 +11,7 @@ class gsuiKeys extends gsui0ne {
 	static $keyNotation( id ) {
 		GSUdomStyle( document.body, "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
 	}
-	static $keyboardToKey = {
+	static #keyboardToKey = {
 		KeyZ:   [ -1,  0 ], KeyS:      [ -1,  1 ],
 		KeyX:   [ -1,  2 ], KeyD:      [ -1,  3 ],
 		KeyC:   [ -1,  4 ],
@@ -74,7 +74,7 @@ class gsuiKeys extends gsui0ne {
 		return [ ...this.getElementsByClassName( "gsui-row" ) ];
 	}
 	$getMidiKeyFromKeyboard( e ) {
-		const k = gsuiKeys.$keyboardToKey[ e.code ];
+		const k = gsuiKeys.#keyboardToKey[ e.code ];
 
 		return k
 			? ( this.#rootOctave + k[ 0 ] ) * 12 + k[ 1 ]
