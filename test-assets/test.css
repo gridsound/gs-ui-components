@@ -41,16 +41,17 @@ body {
 	background-image: linear-gradient( 180deg, #f55, #c4a );
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-}
-.testLink {
-	margin: .5ch;
-	padding: .4ch 1ch;
-	font-size: min( 4vw, 4vh, 24px );
-	font-weight: bold;
-	border-radius: .5ch;
 
-	&:hover {
-		animation: alternate infinite testLinkAnim .25s;
+	a {
+		margin: .5ch;
+		padding: .4ch 1ch;
+		font-size: min( 4vw, 4vh, 24px );
+		font-weight: bold;
+		border-radius: .5ch;
+
+		&:hover {
+			animation: alternate infinite testLinkAnim .25s;
+		}
 	}
 }
 @keyframes testLinkAnim {

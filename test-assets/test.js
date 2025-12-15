@@ -2,7 +2,65 @@
 
 function lg( a ) { return console.log.apply( console, arguments ), a; }
 
-(() => {
+const TESTcmpList = Object.freeze( [
+	"gsuiActionMenu",
+	"gsuiAnalyserHist",
+	"gsuiAnalyserHz",
+	"gsuiAnalyserTd",
+	"gsuiAnalyserVu",
+	"gsuiBeatlines",
+	"gsuiChannel",
+	"gsuiClock",
+	"gsuiComAvatar",
+	"gsuiComButton",
+	"gsuiComPlayer",
+	"gsuiComPlaylist",
+	"gsuiComProfile",
+	"gsuiComUserLink",
+	"gsuiDAW",
+	"gsuiDotline",
+	"gsuiDropdown",
+	"gsuiDrumrows",
+	"gsuiDrums",
+	"gsuiEnvelope",
+	"gsuiFxDelay",
+	"gsuiFxFilter",
+	"gsuiFxReverb",
+	"gsuiFxWaveShaper",
+	"gsuiGlitchText",
+	"gsuiJoystick",
+	"gsuiKeys",
+	"gsuiLFO",
+	"gsuiLibraries",
+	"gsuiLibrary",
+	"gsuiMixer",
+	"gsuiNoise",
+	"gsuiOscillator",
+	"gsuiPanels",
+	"gsuiPianoroll",
+	"gsuiPopup",
+	"gsuiPropSelect",
+	"gsuiReorder",
+	"gsuiScrollShadow",
+	"gsuiSlicer",
+	"gsuiSlider",
+	"gsuiSliderGroup",
+	"gsuiStepSelect",
+	"gsuiSVGPatterns",
+	"gsuiSynthesizer",
+	"gsuiTempo",
+	"gsuiTimeline",
+	"gsuiTimewindow",
+	"gsuiTitleUser",
+	"gsuiToggle",
+	"gsuiTrack",
+	"gsuiWaveEditor",
+	"gsuiWavetable",
+	"gsuiWavetableGraph",
+	"gsuiWindows",
+] );
+
+function TESTinit() {
 	document.addEventListener( "gsui", ( { detail: d } ) => console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target ) );
 
 	document.body.append(
@@ -11,61 +69,6 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 				GSUcreateFlex( { x: true, xcenter: true, g10: true },
 					GSUcreateSelect( { id: "testSelect" },
 						GSUcreateOption( { value: "" }, "--" ),
-						GSUcreateOption( { value: "gsuiActionMenu" } ),
-						GSUcreateOption( { value: "gsuiAnalyserHist" } ),
-						GSUcreateOption( { value: "gsuiAnalyserHz" } ),
-						GSUcreateOption( { value: "gsuiAnalyserTd" } ),
-						GSUcreateOption( { value: "gsuiAnalyserVu" } ),
-						GSUcreateOption( { value: "gsuiBeatlines" } ),
-						GSUcreateOption( { value: "gsuiChannel" } ),
-						GSUcreateOption( { value: "gsuiClock" } ),
-						GSUcreateOption( { value: "gsuiComAvatar" } ),
-						GSUcreateOption( { value: "gsuiComButton" } ),
-						GSUcreateOption( { value: "gsuiComPlayer" } ),
-						GSUcreateOption( { value: "gsuiComPlaylist" } ),
-						GSUcreateOption( { value: "gsuiComProfile" } ),
-						GSUcreateOption( { value: "gsuiComUserLink" } ),
-						GSUcreateOption( { value: "gsuiDAW" } ),
-						GSUcreateOption( { value: "gsuiDotline" } ),
-						GSUcreateOption( { value: "gsuiDropdown" } ),
-						GSUcreateOption( { value: "gsuiDrumrows" } ),
-						GSUcreateOption( { value: "gsuiDrums" } ),
-						GSUcreateOption( { value: "gsuiEnvelope" } ),
-						GSUcreateOption( { value: "gsuiFxDelay" } ),
-						GSUcreateOption( { value: "gsuiFxFilter" } ),
-						GSUcreateOption( { value: "gsuiFxReverb" } ),
-						GSUcreateOption( { value: "gsuiFxWaveShaper" } ),
-						GSUcreateOption( { value: "gsuiGlitchText" } ),
-						GSUcreateOption( { value: "gsuiJoystick" } ),
-						GSUcreateOption( { value: "gsuiKeys" } ),
-						GSUcreateOption( { value: "gsuiLFO" } ),
-						GSUcreateOption( { value: "gsuiLibraries" } ),
-						GSUcreateOption( { value: "gsuiLibrary" } ),
-						GSUcreateOption( { value: "gsuiMixer" } ),
-						GSUcreateOption( { value: "gsuiNoise" } ),
-						GSUcreateOption( { value: "gsuiOscillator" } ),
-						GSUcreateOption( { value: "gsuiPanels" } ),
-						GSUcreateOption( { value: "gsuiPianoroll" } ),
-						GSUcreateOption( { value: "gsuiPopup" } ),
-						GSUcreateOption( { value: "gsuiPropSelect" } ),
-						GSUcreateOption( { value: "gsuiReorder" } ),
-						GSUcreateOption( { value: "gsuiScrollShadow" } ),
-						GSUcreateOption( { value: "gsuiSlicer" } ),
-						GSUcreateOption( { value: "gsuiSlider" } ),
-						GSUcreateOption( { value: "gsuiSliderGroup" } ),
-						GSUcreateOption( { value: "gsuiStepSelect" } ),
-						GSUcreateOption( { value: "gsuiSVGPatterns" } ),
-						GSUcreateOption( { value: "gsuiSynthesizer" } ),
-						GSUcreateOption( { value: "gsuiTempo" } ),
-						GSUcreateOption( { value: "gsuiTimeline" } ),
-						GSUcreateOption( { value: "gsuiTimewindow" } ),
-						GSUcreateOption( { value: "gsuiTitleUser" } ),
-						GSUcreateOption( { value: "gsuiToggle" } ),
-						GSUcreateOption( { value: "gsuiTrack" } ),
-						GSUcreateOption( { value: "gsuiWaveEditor" } ),
-						GSUcreateOption( { value: "gsuiWavetable" } ),
-						GSUcreateOption( { value: "gsuiWavetableGraph" } ),
-						GSUcreateOption( { value: "gsuiWindows" } ),
 					),
 					GSUcreateButton( { id: "testSkin", icon: "adjust" } ),
 				),
@@ -115,7 +118,7 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 	};
 
 	document.title = `${ curr } (dev)`;
-	select.value = curr;
+	select.append( ...TESTcmpList.map( s => GSUcreateOption( { value: s } ) ) );
 	select.onchange = e => {
 		const path = getPath();
 
@@ -123,4 +126,9 @@ function lg( a ) { return console.log.apply( console, arguments ), a; }
 		path.push( e.target.value );
 		location.href = `${ location.origin }/${ path.join( "/" ) }`;
 	};
-} )();
+	select.value = curr;
+}
+
+if ( !GSUdomQS( "#testLinks" ) ) {
+	TESTinit();
+}
