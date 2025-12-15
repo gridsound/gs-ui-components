@@ -4,6 +4,10 @@ gsui-synthesizer {
 	overflow: hidden;
 	position: relative;
 	height: 100%;
+
+	gsui-envelope {
+		height: min-content;
+	}
 }
 
 /* .......................................................................... */
@@ -81,9 +85,10 @@ gsui-synthesizer {
 	gap: 6px;
 	margin: 0 10px;
 	font-weight: bold;
-}
-.gsuiSynthesizer-headTitle gsui-help-link {
-	font-size: 14px;
+
+	gsui-help-link {
+		font-size: 14px;
+	}
 }
 .gsuiSynthesizer-headTab {
 	display: flex;
@@ -92,39 +97,38 @@ gsui-synthesizer {
 	padding-right: 10px;
 	cursor: pointer;
 	background-color: #ffffff0b;
-}
-.gsuiSynthesizer-headTab[ data-selected ] {
-	cursor: default;
-	background-color: #ffffff1b;
-}
-.gsuiSynthesizer-headTab:not( [ data-selected ] ):hover {
-	background-color: #ffffff11;
-}
-.gsuiSynthesizer-headTab gsui-toggle {
-	align-self: normal;
-	justify-content: end;
-	width: 18px;
-	margin-right: 8px;
-}
-.gsuiSynthesizer-headTab span {
-	opacity: .7;
-}
-.gsuiSynthesizer-headTab:hover span,
-.gsuiSynthesizer-headTab[ data-selected ] span {
-	opacity: 1;
+
+	&[ data-selected ] {
+		cursor: default;
+		background-color: #ffffff1b;
+	}
+	&:not( [ data-selected ] ):hover {
+		background-color: #ffffff11;
+	}
+
+	gsui-toggle {
+		align-self: normal;
+		justify-content: end;
+		width: 18px;
+		margin-right: 8px;
+	}
+	span {
+		opacity: .7;
+	}
+	&:hover span,
+	&[ data-selected ] span {
+		opacity: 1;
+	}
 }
 
 /* .......................................................................... */
-gsui-synthesizer gsui-envelope {
-	height: min-content;
-}
-
-/* .......................................................................... */
-.gsuiSynthesizer-headNoise .gsuiSynthesizer-headTitle {
-	margin-right: 4px;
-}
-.gsuiSynthesizer-headNoise gsui-toggle {
-	width: 24px;
+.gsuiSynthesizer-headNoise {
+	.gsuiSynthesizer-headTitle {
+		margin-right: 4px;
+	}
+	gsui-toggle {
+		width: 24px;
+	}
 }
 
 /* .......................................................................... */
@@ -153,16 +157,17 @@ gsui-synthesizer gsui-envelope {
 	background: none;
 	opacity: .4;
 	transition: .2s opacity;
-}
-.gsuiSynthesizer-newOsc:focus-visible,
-.gsuiSynthesizer-newOsc:hover,
-.gsuiSynthesizer-newOsc[ data-hover ] {
-	opacity: 1;
-}
-.gsuiSynthesizer-newOsc::before {
-	position: absolute;
-	content: "";
-	inset: 6px;
-	opacity: .4;
-	border: 2px dashed;
+
+	&:focus-visible,
+	&:hover,
+	&[ data-hover ] {
+		opacity: 1;
+	}
+	&::before {
+		position: absolute;
+		content: "";
+		inset: 6px;
+		opacity: .4;
+		border: 2px dashed;
+	}
 }
