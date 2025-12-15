@@ -1,6 +1,7 @@
 "use strict";
 
 class gsuiSynthesizer extends gsui0ne {
+	static #presetList = [];
 	#waveList = [];
 	#uiOscs = new Map();
 	#shadow = null;
@@ -17,6 +18,7 @@ class gsuiSynthesizer extends gsui0ne {
 			detune: {},
 		},
 	};
+	#dispatchPresetDeb = GSUdebounce( this.#dispatchPreset.bind( this ), .25 );
 
 	constructor() {
 		super( {
@@ -24,6 +26,8 @@ class gsuiSynthesizer extends gsui0ne {
 			$tagName: "gsui-synthesizer",
 			$elements: {
 				$heads: "[].gsuiSynthesizer-head",
+				$presetBtns: "[].gsuiSynthesizer-preset button",
+				$presetName: ".gsuiSynthesizer-preset > span:last-child",
 				$tabs: {
 					env: {
 						gain: "[data-tab='env gain']",
@@ -52,6 +56,8 @@ class gsuiSynthesizer extends gsui0ne {
 
 		const onclickHeadsBind = this.#onclickHeads.bind( this );
 
+		this.$elements.$presetBtns[ 0 ].onclick =
+		this.$elements.$presetBtns[ 1 ].onclick = this.#onclickPreset.bind( this );
 		this.$elements.$newOsc.onclick = this.#onclickNewOsc.bind( this );
 		this.$elements.$heads.forEach( el => el.onclick = onclickHeadsBind );
 		new gsuiReorder( {
@@ -100,10 +106,13 @@ class gsuiSynthesizer extends gsui0ne {
 		this.#shadow.$disconnected();
 	}
 	static get observedAttributes() {
-		return [ "timedivision" ];
+		return [ "preset", "timedivision" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "preset":
+				this.$elements.$presetName.textContent = val;
+				break;
 			case "timedivision":
 				GSUdomSetAttr( this.$elements.$env, "timedivision", val );
 				GSUdomSetAttr( this.$elements.$lfo, "timedivision", val );
@@ -139,6 +148,9 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
+	static $setPresetList( arr ) {
+		gsuiSynthesizer.#presetList = [ ...arr ];
+	}
 	$setWaveList( arr ) {
 		this.#waveList = arr;
 		this.#uiOscs.forEach( ( o, id ) => {
@@ -217,6 +229,23 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
+	#dispatchPreset( p ) {
+		if ( p !== GSUdomGetAttr( this, "preset" ) ) {
+			GSUdomSetAttr( this, "preset", p );
+			GSUdomDispatch( this, GSEV_SYNTHESIZER_PRESET, p );
+		}
+	}
+	#onclickPreset( e ) {
+		const list = gsuiSynthesizer.#presetList;
+		const dir = +e.target.dataset.action;
+		const ind = list.indexOf( this.$elements.$presetName.textContent );
+		const p = list[ GSUmathClamp( ind + dir, 0, list.length - 1 ) ];
+
+		if ( p ) {
+			this.$elements.$presetName.textContent = p;
+			this.#dispatchPresetDeb( p );
+		}
+	}
 	#onclickHeads( e ) {
 		const tab = ( e.target.tagName === "GSUI-TOGGLE"
 			? e.target.parentNode

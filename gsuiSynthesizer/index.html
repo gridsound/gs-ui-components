@@ -43,7 +43,10 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-synthesizer timedivision="4/4"></gsui-synthesizer>
+	<gsui-synthesizer
+		preset="electric"
+		timedivision="4/4"
+	></gsui-synthesizer>
 </div>
 
 <!-- ....................................................................... -->
@@ -88,6 +91,8 @@ body {
 <script>
 const elSyn = GSUdomQS( "gsui-synthesizer" );
 const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
+
+gsuiSynthesizer.$setPresetList( [ "bass", "electric", "organ", "tv", "ha" ] );
 
 waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elSyn.$setWaveList( waves );

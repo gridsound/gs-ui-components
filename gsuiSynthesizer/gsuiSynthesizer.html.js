@@ -4,6 +4,13 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 	GSUcreateDiv( { class: "gsuiSynthesizer-shadowTop" } ),
 	GSUcreateDiv( { class: "gsuiSynthesizer-scrollArea" },
 		// .....................................................................
+		GSUcreateDiv( { class: "gsuiSynthesizer-preset" },
+			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "preset", help: "synth-presets" } ),
+			GSUcreateButton( { "data-action": "-1", icon: "caret-left", title: "Use previous preset" } ),
+			GSUcreateButton( { "data-action": "+1", icon: "caret-right", title: "Use next preset" } ),
+			GSUcreateSpan( { inert: true } ),
+		),
+		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head" },
 			GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "envelopes", help: "synth-envelopes" } ),
 			GSUgetTemplate( "gsui-synthesizer-headTab", { id: "env gain", name: "gain" } ),
@@ -39,7 +46,7 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 
 GSUsetTemplate( "gsui-synthesizer-headTitle", p =>
 	GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" },
-		GSUcreateSpan( null, p.name ),
+		GSUcreateSpan( { inert: true }, p.name ),
 		GSUcreateElement( "gsui-help-link", { page: p.help } ),
 	)
 );
