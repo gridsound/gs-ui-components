@@ -159,7 +159,10 @@ class gsuiKeys extends gsui0ne {
 		if ( this.#nbOct ) {
 			GSUdomUnselect();
 			if ( e.button === 2 ) {
-				GSUdomSetAttr( this, "rootoctave", e.target.dataset.midi / 12 | 0 );
+				const oct = e.target.dataset.midi / 12 | 0;
+
+				GSUdomSetAttr( this, "rootoctave", oct );
+				GSUdomDispatch( this, GSEV_KEYS_OCTAVE, oct );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();
 				const [ x, y ] = GSUdomBCRxy( this );
