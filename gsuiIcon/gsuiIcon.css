@@ -103,14 +103,10 @@
 
 .gsuiIcon[ data-icon="sort" ]::before { content: "\f0dc"; }
 .gsuiIcon[ data-icon="sort" ]::after { content: "\10f0dc"; }
-.gsuiIcon[ data-icon="caret-up" ]::before { content: "\f0d8"; }
-.gsuiIcon[ data-icon="caret-up" ]::after { content: "\10f0d8"; }
-.gsuiIcon[ data-icon="caret-down" ]::before { content: "\f0d7"; }
-.gsuiIcon[ data-icon="caret-down" ]::after { content: "\10f0d7"; }
-.gsuiIcon[ data-icon="caret-left" ]::before { content: "\f0d9"; }
-.gsuiIcon[ data-icon="caret-left" ]::after { content: "\10f0d9"; }
-.gsuiIcon[ data-icon="caret-right" ]::before { content: "\f0da"; }
-.gsuiIcon[ data-icon="caret-right" ]::after { content: "\10f0da"; }
+.gsuiIcon[ data-icon="caret-up" ]::after { content: "\10f0d8"; opacity: 1; }
+.gsuiIcon[ data-icon="caret-down" ]::after { content: "\10f0d7"; opacity: 1; }
+.gsuiIcon[ data-icon="caret-left" ]::after { content: "\10f0d9"; opacity: 1; }
+.gsuiIcon[ data-icon="caret-right" ]::after { content: "\10f0da"; opacity: 1; }
 .gsuiIcon[ data-icon="chevron-double-right" ]::before { content: "\f324"; }
 .gsuiIcon[ data-icon="chevron-double-right" ]::after { content: "\10f324"; }
 
