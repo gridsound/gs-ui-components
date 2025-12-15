@@ -79,8 +79,6 @@ body {
 
 	option {
 		background-color: #000;
-
-		&[ data-hl ] { background-color: #222 }
 	}
 }
 #testSkin {
