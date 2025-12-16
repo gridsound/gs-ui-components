@@ -212,7 +212,7 @@ gsui-com-profile[ panel ] {
 }
 
 /* .......................................................................... */
-.gsuiComProfile-panel-content div {
+.gsuiComProfile-panel-content > div {
 	height: 100%;
 }
 .gsuiComProfile-panel-content div[ data-what^="follow" ] {
