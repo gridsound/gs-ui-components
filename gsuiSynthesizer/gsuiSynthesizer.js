@@ -247,12 +247,15 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 	}
 	#onclickHeads( e ) {
-		const tab = ( e.target.tagName === "GSUI-TOGGLE"
-			? e.target.parentNode
-			: e.target ).dataset.tab;
+		if ( GSUdomHasClass( e.target, "gsuiSynthesizer-headExpand" ) ) {
+			GSUdomTogAttr( e.currentTarget, "data-hidden" );
+		} else {
+			const tab = e.target.closest( ".gsuiSynthesizer-headTab" );
 
-		if ( tab ) {
-			this.#selectTab( ...tab.split( " " ) );
+			if ( tab ) {
+				GSUdomRmAttr( e.currentTarget, "data-hidden" );
+				this.#selectTab( ...tab.dataset.tab.split( " " ) );
+			}
 		}
 	}
 	#onclickNewOsc() {

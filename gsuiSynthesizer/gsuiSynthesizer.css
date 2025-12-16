@@ -43,6 +43,7 @@ gsui-synthesizer {
 	button {
 		height: 100%;
 		border: 0;
+		outline: 0;
 		padding: 0 0 0 10px;
 		color: inherit;
 		font-size: 12px;
@@ -78,16 +79,32 @@ gsui-synthesizer {
 	padding-top: 2px;
 	border-bottom: 2px solid #0002;
 	background-color: var( --gsui-head3-bg );
+
+	&[ data-hidden ] + * + & {
+		padding-top: 0;
+	}
+	&[ data-hidden ] + * {
+		display: none;
+	}
 }
 .gsuiSynthesizer-headTitle {
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	margin: 0 10px;
+	margin-right: 10px;
 	font-weight: bold;
 
 	gsui-help-link {
 		font-size: 14px;
+	}
+}
+.gsuiSynthesizer-headExpand {
+	padding-left: 10px;
+	cursor: pointer;
+	user-select: none;
+
+	.gsuiSynthesizer-head[ data-hidden ] & {
+		opacity: .5;
 	}
 }
 .gsuiSynthesizer-headTab {
@@ -98,14 +115,6 @@ gsui-synthesizer {
 	cursor: pointer;
 	background-color: #ffffff0b;
 
-	&[ data-selected ] {
-		cursor: default;
-		background-color: #ffffff1b;
-	}
-	&:not( [ data-selected ] ):hover {
-		background-color: #ffffff11;
-	}
-
 	gsui-toggle {
 		align-self: normal;
 		justify-content: end;
@@ -115,9 +124,21 @@ gsui-synthesizer {
 	span {
 		opacity: .7;
 	}
-	&:hover span,
-	&[ data-selected ] span {
+	&:hover span {
 		opacity: 1;
+	}
+	.gsuiSynthesizer-head:not( [ data-hidden ] ) & {
+		&[ data-selected ] {
+			cursor: default;
+			background-color: #ffffff1b;
+
+			span {
+				opacity: 1;
+			}
+		}
+		&:not( [ data-selected ] ):hover {
+			background-color: #ffffff11;
+		}
 	}
 }
 

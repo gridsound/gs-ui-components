@@ -46,7 +46,7 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 
 GSUsetTemplate( "gsui-synthesizer-headTitle", p =>
 	GSUcreateSpan( { class: "gsuiSynthesizer-headTitle" },
-		GSUcreateSpan( { inert: true }, p.name ),
+		GSUcreateSpan( { class: "gsuiSynthesizer-headExpand" }, p.name ),
 		GSUcreateElement( "gsui-help-link", { page: p.help } ),
 	)
 );
