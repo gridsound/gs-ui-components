@@ -125,9 +125,10 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	align-items: baseline;
 	gap: .5ch;
 	max-width: 100%;
-}
-.gsuiComProfile-main-email-addr span:empty::before {
-	content: "private email";
+
+	span:empty::before {
+		content: "private email";
+	}
 }
 .gsuiComProfile-main-email-not {
 	display: flex;
@@ -140,11 +141,12 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	border: 0;
 	padding: 0;
 	background: none;
-}
-gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-email-not,
-gsui-com-profile:not( [ emailtoverify ] ) .gsuiComProfile-main-email-not,
-gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIcon {
-	display: none;
+
+	gsui-com-profile:not( [ itsme ] ) &,
+	gsui-com-profile:not( [ emailtoverify ] ) &,
+	gsui-com-profile:not( [ emailsending ] ) & .gsuiIcon {
+		display: none;
+	}
 }
 
 /* .......................................................................... */
@@ -167,17 +169,28 @@ gsui-com-profile:not( [ emailsending ] ) .gsuiComProfile-main-email-not .gsuiIco
 .gsuiComProfile-main-followers::after { content: " followers"; font-weight: normal }
 
 /* .......................................................................... */
+.gsuiComProfile-panel-title,
+.gsuiComProfile-panel-content {
+	overflow: hidden;
+	max-height: 0;
+	opacity: 0;
+	transition: .2s;
+	transition-property: max-height, padding, opacity;
+}
 .gsuiComProfile-panel-title {
 	display: flex;
 	font-size: 14px;
-}
-.gsuiComProfile-panel-title,
-.gsuiComProfile-panel-content {
-	max-height: 0;
-	opacity: 0;
-	overflow: hidden;
-	transition: .2s;
-	transition-property: max-height, padding, opacity;
+
+	span {
+		opacity: .7;
+	}
+	button {
+		margin-left: auto;
+		border: 0;
+		padding: 0;
+		color: inherit;
+		background: none;
+	}
 }
 .gsuiComProfile-panel-content {
 	overflow: auto;
@@ -200,53 +213,44 @@ gsui-com-profile[ panel ] {
 		max-height: 600px;
 	}
 }
-.gsuiComProfile-panel-title span {
-	opacity: .7;
-}
-.gsuiComProfile-panel-title button {
-	margin-left: auto;
-	border: 0;
-	padding: 0;
-	color: inherit;
-	background: none;
-}
 
 /* .......................................................................... */
 .gsuiComProfile-panel-content > div {
 	height: 100%;
-}
-.gsuiComProfile-panel-content div[ data-what^="follow" ] {
-	display: flex;
 
-	& > div {
+	&[ data-what^="follow" ] {
 		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-	& > span {
-		width: 100%;
-		text-align: center;
-		font-style: italic;
-		opacity: .5;
-	}
-	&[ data-loading ] > div ~ span,
-	& > div:not( :empty ) ~ span {
-		display: none;
-	}
 
-	&[ data-loading ] {
-		height: 64px;
-	}
-	&:not( [ data-loading ] ) .gsuiIcon {
-		display: none;
-	}
-	.gsuiIcon {
-		position: absolute;
-		left: calc( 50% - 20px );
-		top: calc( 50% - 20px );
-		width: 40px;
-		height: 40px;
-		font-size: 40px;
+		& > div {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+		& > span {
+			width: 100%;
+			text-align: center;
+			font-style: italic;
+			opacity: .5;
+		}
+		&[ data-loading ] > div ~ span,
+		& > div:not( :empty ) ~ span {
+			display: none;
+		}
+
+		&[ data-loading ] {
+			height: 64px;
+		}
+		&:not( [ data-loading ] ) .gsuiIcon {
+			display: none;
+		}
+		.gsuiIcon {
+			position: absolute;
+			left: calc( 50% - 20px );
+			top: calc( 50% - 20px );
+			width: 40px;
+			height: 40px;
+			font-size: 40px;
+		}
 	}
 }
 
