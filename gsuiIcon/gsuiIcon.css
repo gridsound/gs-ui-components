@@ -203,6 +203,8 @@
 .gsuiIcon[ data-icon="profile" ]::after { content: "\10f2bd"; }
 .gsuiIcon[ data-icon="musician" ]::before { content: "\f8eb"; }
 .gsuiIcon[ data-icon="musician" ]::after { content: "\10f8eb"; }
+.gsuiIcon[ data-icon="users" ]::before { content: "\f0c0"; }
+.gsuiIcon[ data-icon="users" ]::after { content: "\f0c0\f0c0"; }
 
 .gsuiIcon[ data-icon="follow" ]::before { content: "\f234"; }
 .gsuiIcon[ data-icon="follow" ]::after { content: "\f234\f234"; }
