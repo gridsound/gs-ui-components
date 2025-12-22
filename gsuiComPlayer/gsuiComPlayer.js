@@ -6,8 +6,7 @@ class gsuiComPlayer extends gsui0ne {
 	#actions = null;
 	#actionMenuDir = "TL";
 	#intervalId = null;
-	#likeCallbackPromise = null;
-	#rendersCallbackPromise = null;
+	#promises = {};
 
 	constructor() {
 		super( {
@@ -54,8 +53,8 @@ class gsuiComPlayer extends gsui0ne {
 	static get observedAttributes() {
 		return [
 			"rendered", "name", "link", "dawlink", "duration", "bpm", "playing",
-			"currenttime", "actions", "actionsdir", "actionloading", "likes",
-			"itsmine", // "opensource", "private", "liked"
+			"currenttime", "actions", "actionsdir", "likes", "itsmine",
+			// "opensource", "private", "liked"
 		];
 	}
 	$attributeChanged( prop, val ) {
@@ -73,10 +72,6 @@ class gsuiComPlayer extends gsui0ne {
 				this.#actionMenuDir = val;
 				this.#actionMenu?.$setDirection( val );
 				break;
-			case "actionloading":
-				GSUdomSetAttr( this.$elements.$actionsBtn, "data-spin", val === "" ? "on" : false );
-				this.$elements.$actionsBtn.disabled = val === "";
-				break;
 			case "duration":
 				this.$elements.$dur.textContent = gsuiComPlayer.$calcDuration( val );
 				this.$updateTimeSlider();
@@ -91,8 +86,11 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
-	$setLikeCallbackPromise( fn ) { this.#likeCallbackPromise = fn; }
-	$setRendersCallbackPromise( fn ) { this.#rendersCallbackPromise = fn; }
+	$setLikeCallbackPromise( fn ) { this.#promises.like = fn; }
+	$setRendersCallbackPromise( fn ) { this.#promises.renders = fn; }
+	$setDeleteCallbackPromise( fn ) { this.#promises.delete = fn; }
+	$setRestoreCallbackPromise( fn ) { this.#promises.restore = fn; }
+	$setVisibilityCallbackPromise( fn ) { this.#promises.visibility = fn; }
 	static $calcDuration( sec ) {
 		const t = GSUsplitSeconds( sec );
 
@@ -122,7 +120,7 @@ class gsuiComPlayer extends gsui0ne {
 		GSUdomSetAttr( this.$elements.$likeBtn, "disabled", true );
 		GSUdomSetAttr( this.$elements.$likeIco[ 0 ], { "data-spin": "on" } );
 		GSUdomSetAttr( this.$elements.$likeIco[ 1 ], { "data-spin": "on" } );
-		this.#likeCallbackPromise( this, liked ? "unlike" : "like" )
+		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
 				GSUdomSetAttr( this, {
 					liked: !liked,
@@ -144,7 +142,7 @@ class gsuiComPlayer extends gsui0ne {
 			let hasRender;
 
 			GSUdomSetAttr( this.$elements.$play, "data-spin", "on" );
-			this.#rendersCallbackPromise( this )
+			this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
 						hasRender = GSUdomHasAttr( this, "rendered" );
@@ -184,11 +182,42 @@ class gsuiComPlayer extends gsui0ne {
 			this.#actionMenu.$setActions( this.#actions );
 			this.#actionMenu.$setDirection( this.#actionMenuDir );
 			this.#actionMenu.$setMaxSize( "260px", "180px" );
-			this.#actionMenu.$setCallback( act => GSUdomDispatch( this, GSEV_COMPLAYER_ACTION, act ) );
+			this.#actionMenu.$setCallback( this.#cbActionMenu.bind( this ) );
 		}
 		if ( actionsStr ) {
 			this.#actions.forEach( act => this.#actionMenu.$changeAction( act.id, "hidden", !actionsStr.includes( act.id ) ) );
 		}
+	}
+	static #actioning = {
+		fork: "forking",
+		delete: "deleting",
+		restore: "restoring",
+	};
+	#cbActionMenu( act ) {
+		const prom = act === "open" || act === "visible" || act === "private"
+			? this.#promises.visibility
+			: this.#promises[ act ];
+		let clazz = gsuiComPlayer.#actioning[ act ];
+
+		GSUdomSetAttr( this.$elements.$actionsBtn, {
+			"data-spin": "on",
+			disabled: true,
+		} );
+		prom( this, act )
+			.then( () => {
+				GSUdomDispatch( this, GSEV_COMPLAYER_ACTION, act );
+				GSUdomSetAttr( this, {
+					[ clazz ]: true,
+					deleted: act === "delete",
+				} );
+				GSUsetTimeout( () => GSUdomRmAttr( this, clazz ), .35 );
+			} )
+			.finally( () => {
+				GSUdomSetAttr( this.$elements.$actionsBtn, {
+					"data-spin": false,
+					disabled: false,
+				} );
+			} );
 	}
 	#ptrDown( e ) {
 		e.target.setPointerCapture( e.pointerId );

@@ -97,6 +97,9 @@ elCmp.$setRendersCallbackPromise( elCmp => {
 		return "../test-assets/Too Long - Steam Machine.wav";
 	} );
 } );
+elCmp.$setDeleteCallbackPromise( elCmp => GSUwait( 1 ) );
+elCmp.$setRestoreCallbackPromise( elCmp => GSUwait( 1 ) );
+elCmp.$setVisibilityCallbackPromise( ( elCmp, vis ) => GSUwait( 1 ) );
 
 likedInp.onchange = () => GSUdomTogAttr( elCmp, "liked" );
 titledInp.onchange = () => GSUdomTogAttr( elCmp, "name", "Dopest song ever created" );
