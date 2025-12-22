@@ -12,10 +12,11 @@ gsui-com-player {
 	audio {
 		display: none;
 	}
+	&[ deleted ] { --gsui-bg: #fff4 }
+	&[ deleting ] { translate: 100% 0 }
+	&[ restoring ] { translate: -100% 0 }
+	&[ forking ] { animation: .25s gsuiComPlayer-forking-anim forwards }
 }
-gsui-com-player[ deleting ] { translate: 100% 0 }
-gsui-com-player[ restoring ] { translate: -100% 0 }
-gsui-com-player[ forking ] { animation: .25s gsuiComPlayer-forking-anim forwards; }
 
 @keyframes gsuiComPlayer-forking-anim {
 	  0% { height:  0   }

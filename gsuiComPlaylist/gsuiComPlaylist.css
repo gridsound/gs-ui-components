@@ -15,10 +15,6 @@ gsui-com-playlist[ bin ] .gsuiComPlaylist-list[ data-list="cmps" ],
 gsui-com-playlist:not( [ bin ] ) .gsuiComPlaylist-list[ data-list="bin" ] {
 	display: none;
 }
-.gsuiComPlaylist-list[ data-list="bin" ] gsui-com-player {
-	opacity: .6;
-	--gsui-bg: #fff4;
-}
 
 /* .......................................................................... */
 .gsuiComPlaylist-placeh {
