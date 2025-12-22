@@ -14,7 +14,6 @@ const TESTcmpList = Object.freeze( [
 	"gsuiComAvatar",
 	"gsuiComButton",
 	"gsuiComPlayer",
-	"gsuiComPlaylist",
 	"gsuiComProfile",
 	"gsuiComUserLink",
 	"gsuiDAW",
