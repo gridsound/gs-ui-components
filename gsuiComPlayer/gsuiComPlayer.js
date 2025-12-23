@@ -205,11 +205,11 @@ class gsuiComPlayer extends gsui0ne {
 		} );
 		prom( this, act )
 			.then( () => {
-				GSUdomDispatch( this, GSEV_COMPLAYER_ACTION, act );
 				GSUdomSetAttr( this, {
 					[ clazz ]: true,
 					deleted: act === "delete",
 				} );
+				GSUdomDispatch( this, GSEV_COMPLAYER_ACTION, act );
 				GSUsetTimeout( () => GSUdomRmAttr( this, clazz ), .35 );
 			} )
 			.finally( () => {
