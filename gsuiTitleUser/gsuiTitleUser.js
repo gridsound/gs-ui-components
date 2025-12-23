@@ -84,7 +84,7 @@ class gsuiTitleUser extends gsui0ne {
 	$setLogoutCallbackPromise( fn ) { this.#logoutPromise = fn; }
 	$setUserInfo( me ) {
 		GSUdomSetAttr( this, {
-			name: !me ? "" : `${ me.firstname } ${ me.lastname }`,
+			name: !me ? "" : `${ me.firstname } ${ me.lastname }`.trim(),
 			avatar: !me ? "" : me.avatar,
 			username: !me ? "" : me.username,
 			connected: !!me,
