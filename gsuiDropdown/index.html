@@ -140,8 +140,8 @@ const ddTar = GSUdomQS( "#ddTarget" );
 let moving = false;
 let movingOffset = [ 0, 0 ];
 
-document.body.append( ddTar );
-document.body.append( dd );
+GSUdomBody.append( ddTar );
+GSUdomBody.append( dd );
 
 ddTar.onpointerdown = e => {
 	GSUdomUnselect();

@@ -30,7 +30,7 @@
 <script>
 "use strict";
 
-GSUdomSetAttr( document.body, "data-skin", localStorage.getItem( "skin" ) || "gray" );
+GSUdomSetAttr( GSUdomBody, "data-skin", localStorage.getItem( "skin" ) || "gray" );
 GSUdomQS( "#testLinks" ).append( ...TESTcmpList.map( s => GSUcreateA( { href: s }, s ) ) );
 </script>
 </body>

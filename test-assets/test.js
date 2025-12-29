@@ -62,7 +62,7 @@ const TESTcmpList = Object.freeze( [
 function TESTinit() {
 	document.addEventListener( "gsui", ( { detail: d } ) => console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target ) );
 
-	document.body.append(
+	GSUdomBody.append(
 		GSUcreateDiv( { id: "testBody" },
 			GSUcreateFlex( { y: true, xcenter: true, g6: true },
 				GSUcreateFlex( { x: true, xcenter: true, g10: true },
@@ -106,14 +106,14 @@ function TESTinit() {
 	const path = getPath();
 	const curr = path.pop();
 
-	document.body.dataset.skin = localStorage.getItem( "skin" ) || "gray";
+	GSUdomBody.dataset.skin = localStorage.getItem( "skin" ) || "gray";
 	elSkin.onclick = () => {
-		const skin = document.body.dataset.skin === "white"
+		const skin = GSUdomBody.dataset.skin === "white"
 			? "gray"
 			: "white";
 
 		localStorage.setItem( "skin", skin );
-		document.body.dataset.skin = skin;
+		GSUdomBody.dataset.skin = skin;
 	};
 
 	document.title = `${ curr } (dev)`;

@@ -116,7 +116,7 @@ bpmInp.oninput = () => GSUdomSetAttr( elCmp, "bpm", bpmInp.value );
 durationInp.oninput = () => GSUdomSetAttr( elCmp, "duration", durationInp.value );
 currentTimeInp.oninput = () => GSUdomSetAttr( elCmp, "currenttime", currentTimeInp.value );
 
-GSUdomListen( document.body, {
+GSUdomListen( GSUdomBody, {
 	[ GSEV_COMPLAYER_PLAY ]: () => GSUdomSetAttr( elCmp, "playing" ),
 	[ GSEV_COMPLAYER_STOP ]: () => GSUdomRmAttr( elCmp, "playing" ),
 	[ GSEV_COMPLAYER_ACTION ]: ( _, act ) => GSUdomRmAttr( elCmp, `action:[${ act }]` ),
