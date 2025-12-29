@@ -35,8 +35,8 @@ function getAbsPos( pos, tBCR, w, h, opts = {} ) {
         return !getAbsPos_isCollide( x, y, w, h, marg );
     } );
 
-    x += document.documentElement.scrollLeft;
-    y += document.documentElement.scrollTop;
+    x += GSUdomHtml.scrollLeft;
+    y += GSUdomHtml.scrollTop;
     if ( opts.absolute === false ) {
         x -= tBCR.left;
         y -= tBCR.top;
@@ -60,8 +60,8 @@ function getAbsPos( pos, tBCR, w, h, opts = {} ) {
 }
 
 function getAbsPos_isCollide( x, y, w, h, marg ) {
-    const bw = document.body.clientWidth;
-    const bh = document.body.clientHeight;
+    const bw = GSUdomBody.clientWidth;
+    const bh = GSUdomBody.clientHeight;
 
     return (
         !GSUmathInRange( x, marg, bw - w - marg ) ||
@@ -108,8 +108,8 @@ function getAbsPos_getPos( pos, tBCR, w, h, margin ) {
         case "RB": return [ tBCR.right + margin,     tBCR.top ];
     }
 
-    const bw = document.body.clientWidth;
-    const bh = document.body.clientHeight;
+    const bw = GSUdomBody.clientWidth;
+    const bh = GSUdomBody.clientHeight;
 
     if ( xy[ 0 ] === null ) {
         xy[ 0 ] = Math.max( getAbsPos_outMargin, Math.min( bw - getAbsPos_outMargin - w, tBCR.left + tBCR.width / 2 - w / 2 ) );

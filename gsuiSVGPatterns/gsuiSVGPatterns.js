@@ -14,7 +14,7 @@ class gsuiSVGPatterns {
 		const defs = GSUcreateElement( "defs" );
 		const svg = GSUcreateElement( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
 
-		document.body.prepend( svg );
+		GSUdomBody.prepend( svg );
 		return Object.freeze( {
 			$defs: defs,
 			$prefix: pref,

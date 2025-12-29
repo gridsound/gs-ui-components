@@ -49,7 +49,7 @@ class gsuiReorder {
 				this.#ptrId = e.pointerId;
 				this.#opt.$root.addEventListener( "pointermove", this.#onptrmoveBind );
 				this.#opt.$root.addEventListener( "pointerup", this.#onptrupBind );
-				document.body.addEventListener( "keydown", this.#onkeydownBind );
+				GSUdomBody.addEventListener( "keydown", this.#onkeydownBind );
 				this.#elPtrDown = e.target;
 				this.#elPtrDown.style.cursor = "grabbing";
 			}
@@ -209,7 +209,7 @@ class gsuiReorder {
 			this.#opt.$root.removeEventListener( "pointermove", this.#onptrmoveBind );
 			this.#opt.$root.removeEventListener( "pointerup", this.#onptrupBind );
 			this.#opt.$root.releasePointerCapture( this.#ptrId );
-			document.body.removeEventListener( "keydown", this.#onkeydownBind );
+			GSUdomBody.removeEventListener( "keydown", this.#onkeydownBind );
 			this.#ptrId = null;
 		}
 	}
@@ -394,7 +394,7 @@ class gsuiReorder {
 			borderRadius: GSUdomStyle( elItem, "borderRadius" ),
 		} }, fakeGrip );
 
-		document.body.append( movingFake );
+		GSUdomBody.append( movingFake );
 		return movingFake;
 	}
 }

@@ -54,7 +54,7 @@ class gsuiSlicer extends gsui0ne {
 		} );
 		Object.seal( this );
 		if ( !defs ) {
-			document.body.prepend( GSUcreateElement( "svg", { id: "gsuiSlicer-waveDefs" },
+			GSUdomBody.prepend( GSUcreateElement( "svg", { id: "gsuiSlicer-waveDefs" },
 				GSUcreateElement( "defs" ),
 			) );
 			this.#waveDef.dataset.id = 1;
