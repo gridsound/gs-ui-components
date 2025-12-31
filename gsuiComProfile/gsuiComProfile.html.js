@@ -2,10 +2,12 @@
 
 GSUsetTemplate( "gsui-com-profile", () => [
 	GSUcreateDiv( { class: "gsuiComProfile-main" },
-		GSUcreateElement( "gsui-com-avatar" ),
+		GSUcreateDiv( { class: "gsuiComProfile-avatar" },
+			GSUcreateElement( "gsui-com-avatar" ),
+		),
 		GSUcreateDiv( { class: "gsuiComProfile-main-info" },
-			GSUcreateDiv( { class: "gsuiComProfile-main-username gsui-ellipsis" } ),
-			GSUcreateDiv( { class: "gsuiComProfile-main-fullname gsui-ellipsis" },
+			GSUcreateDiv( { class: "gsuiComProfile-main-name gsui-ellipsis" },
+				GSUcreateSpan( { class: "gsuiComProfile-main-username gsui-ellipsis" } ),
 				GSUcreateSpan( { class: "gsuiComProfile-main-firstname gsui-ellipsis" } ),
 				GSUcreateSpan( { class: "gsuiComProfile-main-lastname gsui-ellipsis" } ),
 			),

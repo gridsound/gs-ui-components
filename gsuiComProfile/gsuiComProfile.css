@@ -4,41 +4,49 @@ gsui-com-profile {
 	container: gsuiComProfile-query / inline-size;
 	--gsuiComProfile-pad: 0;
 	--gsuiComProfile-gap: 16px;
+	--gsuiComProfile-height-mul: 1;
 	--gsuiComProfile-height: 142px;
 	--gsuiComProfile-radius: 6px;
 	--gsuiComProfile-followBtn-bg: #6b94de;
 	--gsuiComProfile-followBtn-hover-bg: #4a54e3;
+	--hx: var( --gsuiComProfile-height-mul );
 	gap: 0;
 	transition: gap .2s;
-}
-gsui-com-profile[ followed ] {
-	--gsuiComProfile-followBtn-bg: #9c7;
-	--gsuiComProfile-followBtn-hover-bg: #e55;
-}
-gsui-com-profile[ panel ] {
-	gap: 20px;
+
+	&[ followed ] {
+		--gsuiComProfile-followBtn-bg: #9c7;
+		--gsuiComProfile-followBtn-hover-bg: #e55;
+	}
+	&[ panel ] {
+		gap: 20px;
+	}
 }
 
 .gsuiComProfile-main {
-	display: grid;
+	--h: calc( var( --gsuiComProfile-height ) - 74px * ( 1 - var( --hx ) ) );
 	overflow: hidden;
+	display: flex;
+	gap: var( --gsuiComProfile-gap );
 	padding: var( --gsuiComProfile-pad );
-	grid-row-gap: var( --gsuiComProfile-gap );
-	grid-column-gap: var( --gsuiComProfile-gap );
-	grid-template:
-		"avatar info edit" 1.5fr
-		/ var( --gsuiComProfile-height ) 1fr 42px;
 	position: relative;
-	height: var( --gsuiComProfile-height );
+	height: var( --h );
 	border-radius: var( --gsuiComProfile-radius );
 	font-size: 14px;
-	color: #333;
-	background-color: #fff;
+	color: #fff;
+	background-color: #32374c;
 }
 
 /* .......................................................................... */
-gsui-com-profile gsui-com-avatar {
-	grid-area: avatar;
+.gsuiComProfile-avatar {
+	box-sizing: border-box;
+	min-width: var( --h );
+	padding: calc( 2px + 6px * ( 1 - var( --hx ) ) );
+	margin-right: calc( -16px * ( 1 - var( --hx ) ) );
+
+	gsui-com-avatar {
+		height: 100%;
+		border-radius: 3px;
+	}
 }
 
 /* .......................................................................... */
@@ -49,9 +57,10 @@ gsui-com-profile gsui-com-avatar {
 	align-items: center;
 	justify-content: center;
 	border: 0;
-	color: #0006;
+	min-width: 42px;
+	color: #fff6;
 	font-size: 20px;
-	background-color: #0001;
+	background-color: #0002;
 }
 gsui-com-profile[ itsme ] .gsuiComProfile-main-follow-btn,
 gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
@@ -96,18 +105,27 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	align-self: center;
 	row-gap: 0;
 	column-gap: 12px;
+	font-size: 16px;
+}
+.gsuiComProfile-main-name {
+	display: flex;
+	align-items: baseline;
+	gap: .7ch;
 }
 .gsuiComProfile-main-username,
 .gsuiComProfile-main-fullname {
 	line-height: 1;
 	padding-bottom: 2px;
-	font-size: 42px;
+}
+.gsuiComProfile-main-username {
+	font-weight: bold;
+	font-size: calc( 1em + 1em * var( --hx ) );
 }
 .gsuiComProfile-main-fullname {
 	display: flex;
 	row-gap: 0;
 	column-gap: 8px;
-	font-size: 24px;
+	font-size: calc( 1em + .4em * var( --hx ) );
 }
 
 /* .......................................................................... */
@@ -117,7 +135,6 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	align-items: flex-start;
 	flex-direction: column;
 	flex-basis: 100%;
-	font-size: 16px;
 	margin-top: 4px;
 }
 .gsuiComProfile-main-email-addr {
@@ -125,6 +142,7 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	align-items: baseline;
 	gap: .5ch;
 	max-width: 100%;
+	font-size: calc( 1em - 4px * ( 1 - var( --hx ) ) );
 
 	span:empty::before {
 		content: "private email";
@@ -155,6 +173,7 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-main-edit {
 	gap: 10px;
 	margin-top: 4px;
 	font-weight: bold;
+	font-size: calc( 1em - 4px * ( 1 - var( --hx ) ) );
 }
 .gsuiComProfile-main-following,
 .gsuiComProfile-main-followers {
@@ -295,24 +314,4 @@ gsui-com-profile[ panel ] {
 	color: #f66;
 	font-size: 14px;
 	font-weight: bold;
-}
-
-/* .......................................................................... */
-@container gsuiComProfile-query ( max-width: 450px ) {
-	.gsuiComProfile-main {
-		--gsuiComProfile-gap: 10px;
-		--gsuiComProfile-pad: var( --gsuiComProfile-gap );
-		height: auto;
-		grid-template:
-			"avatar info" var( --gsuiComProfile-height )
-			"edit   edit" 1fr
-			/ var( --gsuiComProfile-height ) 1fr;
-		grid-template-columns: var( --gsuiComProfile-height ) 1fr;
-		grid-template-rows: var( --gsuiComProfile-height ) 34px;
-	}
-	.gsuiComProfile-main-follow-btn,
-	.gsuiComProfile-main-edit,
-	gsui-com-profile gsui-com-avatar {
-		border-radius: 4px;
-	}
 }
