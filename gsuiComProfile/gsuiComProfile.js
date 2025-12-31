@@ -1,11 +1,8 @@
 "use strict";
 
 class gsuiComProfile extends gsui0ne {
-	#savingPromise = null;
 	#verifyPromise = null;
 	#followPromise = null;
-	#followersPromise = null;
-	#followingPromise = null;
 	static #emailTexts = {
 		$verify: "Email not verify, send a confirmation email again",
 		$sending: "Email sending...",
@@ -17,36 +14,17 @@ class gsuiComProfile extends gsui0ne {
 			$cmpName: "gsuiComProfile",
 			$tagName: "gsui-com-profile",
 			$elements: {
-				$main: ".gsuiComProfile-main",
 				$avatar: "gsui-com-avatar",
-				$email: ".gsuiComProfile-main-email-addr span",
-				$emailpub: ".gsuiComProfile-main-email-addr .gsuiIcon",
-				$name: ".gsuiComProfile-main-name",
-				$username: ".gsuiComProfile-main-username",
-				$lastname: ".gsuiComProfile-main-lastname",
-				$firstname: ".gsuiComProfile-main-firstname",
-				$emailVerify: ".gsuiComProfile-main-email-not",
-				$emailVerifyText: ".gsuiComProfile-main-email-not span",
-				$followersBtn: ".gsuiComProfile-main-followers",
-				$followingBtn: ".gsuiComProfile-main-following",
-				$followBtn: ".gsuiComProfile-main-follow-btn",
-				$edit: ".gsuiComProfile-main-edit",
-				$panelClose: ".gsuiComProfile-panel-title button",
-				$panelTitles: {
-					edit: ".gsuiComProfile-panel-title [data-what='edit']",
-					following: ".gsuiComProfile-panel-title [data-what='following']",
-					followers: ".gsuiComProfile-panel-title [data-what='followers']",
-				},
-				$panelContents: {
-					edit: ".gsuiComProfile-panel-content [data-what='edit']",
-					following: ".gsuiComProfile-panel-content [data-what='following']",
-					followers: ".gsuiComProfile-panel-content [data-what='followers']",
-				},
-				$form: ".gsuiComProfile-form",
-				$cancel: "gsui-com-button:not([type='submit'])",
-				$submit: "gsui-com-button[type='submit']",
-				$error: ".gsuiComProfile-form-error",
-				$inputs: "[].gsuiComProfile-form input",
+				$email: ".gsuiComProfile-email-addr span",
+				$emailpub: ".gsuiComProfile-email-addr .gsuiIcon",
+				$name: ".gsuiComProfile-name",
+				$username: ".gsuiComProfile-username",
+				$lastname: ".gsuiComProfile-lastname",
+				$firstname: ".gsuiComProfile-firstname",
+				$emailVerifyText: ".gsuiComProfile-email-not span",
+				$followersBtn: ".gsuiComProfile-followers",
+				$followingBtn: ".gsuiComProfile-following",
+				$followBtn: ".gsuiComProfile-follow-btn",
 			},
 			$attributes: {
 				email: "",
@@ -55,35 +33,23 @@ class gsuiComProfile extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$edit.onclick = this.#onclickEdit.bind( this );
-		this.$elements.$followBtn.onclick = this.#onclickFollow.bind( this );
-		this.$elements.$form.onsubmit = this.#onsubmit.bind( this );
-		this.$elements.$emailVerify.onclick = this.#onclickVerify.bind( this );
-		this.$elements.$cancel.onclick = () => GSUdomRmAttr( this, "panel" );
-		this.$elements.$main.onmouseenter =
-		this.$elements.$main.onmouseleave = () => GSUdomRmAttr( this, "followedjustnow" );
-		this.$elements.$followersBtn.onclick = () => GSUdomSetAttr( this, "panel", "followers" );
-		this.$elements.$followingBtn.onclick = () => GSUdomSetAttr( this, "panel", "following" );
-		this.$elements.$panelClose.onclick = () => GSUdomRmAttr( this, "panel" );
+		this.onclick = this.#onclick.bind( this );
+		this.onmouseenter =
+		this.onmouseleave = () => GSUdomRmAttr( this, "followedjustnow" );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
 		return [
-			"panel", "itsme", "avatar",
-			"email", "emailpublic", "emailtoverify",
+			// "itsme",
+			"avatar", "email", "emailpublic", "emailtoverify",
 			"username", "lastname", "firstname",
 			"followed", "followers", "following",
 		];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "panel": this.#showPanel( val ); break;
-			case "itsme": val !== "" && GSUdomRmAttr( this, "panel" ); break;
-			case "username":
-				GSUdomRmAttr( this, "panel" );
-				this.$elements.$username.textContent = val;
-				break;
+			case "username": this.$elements.$username.textContent = val; break;
 			case "email": this.$elements.$email.textContent = val; break;
 			case "emailpublic": this.$elements.$emailpub.dataset.icon = val === "" ? "public" : "private"; break;
 			case "lastname": this.$elements.$lastname.textContent = val; break;
@@ -91,14 +57,8 @@ class gsuiComProfile extends gsui0ne {
 			case "avatar": GSUdomSetAttr( this.$elements.$avatar, "src", val || false ); break;
 			case "emailtoverify": this.$elements.$emailVerifyText.textContent = val !== "" ? "" : gsuiComProfile.#emailTexts.$verify; break;
 			case "followed": this.#updateFollowed( val === "" ); break;
-			case "followers":
-				this.$elements.$followersBtn.textContent =
-				this.$elements.$panelTitles.followers.firstChild.textContent = val;
-				break;
-			case "following":
-				this.$elements.$followingBtn.textContent =
-				this.$elements.$panelTitles.following.firstChild.textContent = val;
-				break;
+			case "followers": this.$elements.$followersBtn.textContent = val; break;
+			case "following": this.$elements.$followingBtn.textContent = val; break;
 		}
 		switch ( prop ) {
 			case "username":
@@ -113,28 +73,10 @@ class gsuiComProfile extends gsui0ne {
 	}
 
 	// .........................................................................
-	$setSavingCallbackPromise( fn ) { this.#savingPromise = fn; }
 	$setFollowCallbackPromise( fn ) { this.#followPromise = fn; }
-	$setFollowersCallbackPromise( fn ) { this.#followersPromise = fn; }
-	$setFollowingCallbackPromise( fn ) { this.#followingPromise = fn; }
 	$setVerifyEmailCallbackPromise( fn ) { this.#verifyPromise = fn; }
 
 	// .........................................................................
-	#showPanel( what ) {
-		if ( what ) {
-			const cnts = this.$elements.$panelContents;
-
-			this.#showPanel2( this.$elements.$panelTitles, what );
-			this.#showPanel2( cnts, what );
-			switch ( what ) {
-				case "followers": gsuiComProfile.#showFollowList( cnts.followers, this.#followersPromise ); break;
-				case "following": gsuiComProfile.#showFollowList( cnts.following, this.#followingPromise ); break;
-			}
-		}
-	}
-	#showPanel2( elems, what ) {
-		GSUforEach( elems, el => el.style.display = el.dataset.what === what ? '' : 'none' );
-	}
 	#updateFollowed( b ) {
 		GSUdomSetAttr( this.$elements.$followBtn, b
 			? { "data-icon": "follow", title: "Follow" }
@@ -146,22 +88,14 @@ class gsuiComProfile extends gsui0ne {
 			? { "data-spin": "on", disabled: true }
 			: { "data-spin": false, disabled: false } );
 	}
-	#onclickEdit() {
-		if ( GSUdomGetAttr( this, "panel" ) !== "edit" ) {
-			this.$elements.$inputs[ 0 ].value = GSUdomGetAttr( this, "firstname" );
-			this.$elements.$inputs[ 1 ].value = GSUdomGetAttr( this, "lastname" );
-			this.$elements.$inputs[ 2 ].value = GSUdomGetAttr( this, "email" );
-			this.$elements.$inputs[ 3 ].checked = GSUdomHasAttr( this, "emailpublic" );
+	#onclick( e ) {
+		switch ( e.target.dataset.what ) {
+			case "edit": GSUdomDispatch( this, GSEV_COMPROFILE_EDIT ); break;
+			case "followers": GSUdomDispatch( this, GSEV_COMPROFILE_FOLLOWERS ); break;
+			case "following": GSUdomDispatch( this, GSEV_COMPROFILE_FOLLOWING ); break;
+			case "follow": this.#onclickFollow(); break;
+			case "verify": this.#onclickVerify(); break;
 		}
-		this.$elements.$error.textContent = "";
-		GSUdomTogAttr( this, "panel", "edit" );
-	}
-	static #showFollowList( elCnt, prom ) {
-		GSUdomSetAttr( elCnt, "data-loading", true );
-		GSUdomEmpty( elCnt.firstChild );
-		prom?.()
-			.then( arr => elCnt.firstChild.append( ...arr.map( u => GSUcreateElement( "gsui-com-userlink", u ) ) ) )
-			.finally( () => GSUdomRmAttr( elCnt, "data-loading" ) );
 	}
 	#onclickFollow() {
 		const willFollow = !GSUdomHasAttr( this, "followed" );
@@ -187,25 +121,6 @@ class gsuiComProfile extends gsui0ne {
 				.catch( err => this.$elements.$emailVerifyText.textContent = err )
 				.finally( () => GSUdomRmAttr( this, "emailsending" ) );
 		}
-	}
-	#onsubmit( e ) {
-		const tar = e.target;
-		const obj = {
-			firstname: tar[ 0 ].value,
-			lastname: tar[ 1 ].value,
-			email: tar[ 2 ].value,
-			emailpublic: tar[ 3 ].checked,
-		};
-
-		GSUdomSetAttr( this.$elements.$submit, "loading" );
-		this.#savingPromise?.( obj )
-			.then( obj => {
-				GSUdomSetAttr( this, obj );
-				GSUdomRmAttr( this, "panel" );
-			} )
-			.catch( err => this.$elements.$error.textContent = err )
-			.finally( () => GSUdomRmAttr( this.$elements.$submit, "loading" ) );
-		return false;
 	}
 }
 
