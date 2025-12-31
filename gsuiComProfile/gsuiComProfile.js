@@ -21,6 +21,7 @@ class gsuiComProfile extends gsui0ne {
 				$avatar: "gsui-com-avatar",
 				$email: ".gsuiComProfile-main-email-addr span",
 				$emailpub: ".gsuiComProfile-main-email-addr .gsuiIcon",
+				$name: ".gsuiComProfile-main-name",
 				$username: ".gsuiComProfile-main-username",
 				$lastname: ".gsuiComProfile-main-lastname",
 				$firstname: ".gsuiComProfile-main-firstname",
@@ -97,6 +98,16 @@ class gsuiComProfile extends gsui0ne {
 			case "following":
 				this.$elements.$followingBtn.textContent =
 				this.$elements.$panelTitles.following.firstChild.textContent = val;
+				break;
+		}
+		switch ( prop ) {
+			case "username":
+			case "lastname":
+			case "firstname":
+				GSUdomSetAttr( this.$elements.$name, "title",
+						`/u/${ this.$elements.$username.textContent
+						} : ${ this.$elements.$firstname.textContent || '--'
+						} ${ this.$elements.$lastname.textContent || '--' }` );
 				break;
 		}
 	}
