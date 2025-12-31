@@ -45,6 +45,7 @@ body {
 	></gsui-com-profile>
 </div>
 <div id="TEST-CTRLS">
+	<div><label><input id="height" type="range" min="0" max="1" value="1" step=".01" style="width:80px" /> height-mul <b>1</b></label></div>
 	<div><label><input id="itsme" type="checkbox" /> itsme</label></div>
 	<div><label><input id="avatar" type="checkbox" /> avatar</label></div>
 	<div><label><input id="email" type="checkbox" /> email</label></div>
@@ -88,6 +89,8 @@ const emailsending = GSUdomQS( "#emailsending" );
 const emailsent = GSUdomQS( "#emailsent" );
 const savefail = GSUdomQS( "#savefail" );
 const followed = GSUdomQS( "#followed" );
+const height = GSUdomQS( "#height" );
+const heightValue = height.nextElementSibling;
 
 itsme.onchange = () => GSUdomTogAttr( elCmp, "itsme" );
 email.onchange = () => GSUdomTogAttr( elCmp, "email", "john.wick@hitman.com" );
@@ -97,6 +100,11 @@ emailsending.onchange = () => GSUdomTogAttr( elCmp, "emailsending" );
 emailsent.onchange = () => GSUdomTogAttr( elCmp, "emailsent" );
 avatar.onchange = () => GSUdomTogAttr( elCmp, "avatar", "../test-assets/avatar.jpg" );
 followed.onchange = () => GSUdomTogAttr( elCmp, "followed" );
+
+height.oninput = () => {
+	GSUdomStyle( elCmp, "--gsuiComProfile-height-mul", height.value );
+	heightValue.textContent = height.value;
+};
 
 elCmp.$setSavingCallbackPromise( promRes );
 elCmp.$setVerifyEmailCallbackPromise( promRes );
