@@ -5,8 +5,6 @@ gsui-popup {
 
 /* .......................................................................... */
 .gsuiPopup-window {
-	position: relative;
-	overflow: hidden;
 	min-width: 250px;
 	border: 0;
 	outline: 0;
