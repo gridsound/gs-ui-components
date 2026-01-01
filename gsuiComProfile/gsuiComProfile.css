@@ -42,7 +42,6 @@ gsui-com-profile {
 /* .......................................................................... */
 .gsuiComProfile-follow-btn,
 .gsuiComProfile-edit {
-	grid-area: edit;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -86,8 +85,8 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 
 /* .......................................................................... */
 .gsuiComProfile-info {
-	grid-area: info;
 	display: flex;
+	flex: 1;
 	gap: .5ch;
 	align-items: baseline;
 	min-width: 0;
