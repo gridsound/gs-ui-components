@@ -72,7 +72,7 @@ gsui-popup {
 
 /* .......................................................................... */
 .gsuiPopup-content a {
-	color: inherit;
+	color: #9df;
 	text-decoration: none;
 }
 .gsuiPopup-content a:not( [ class*="gsui" ] ):hover {
