@@ -29,6 +29,14 @@ gsui-popup {
 			backdrop-filter: none;
 		}
 	}
+	input,
+	select {
+		outline: 0;
+
+		&:focus {
+			box-shadow: 0 0 1px 2px #69b;
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -52,14 +60,6 @@ gsui-popup {
 .gsuiPopup-message:empty {
 	display: none;
 }
-.gsuiPopup-window input,
-.gsuiPopup-window select {
-	outline: 0;
-
-	&:focus {
-		box-shadow: 0 0 1px 2px #69b;
-	}
-}
 .gsuiPopup-inputText {
 	box-sizing: border-box;
 	border: 0;
@@ -71,30 +71,33 @@ gsui-popup {
 }
 
 /* .......................................................................... */
-.gsuiPopup-content a {
-	color: #9df;
-	text-decoration: none;
-}
-.gsuiPopup-content a:not( [ class*="gsui" ] ):hover {
-	text-decoration: underline;
-}
-.gsuiPopup-content fieldset {
-	display: flex;
-	flex-direction: column;
-	border: 2px solid #444;
-	border-radius: 4px;
-	margin: 0;
-}
-.gsuiPopup-content legend {
-	font-size: 12px;
-	opacity: .5;
-}
-.gsuiPopup-content input[ type="checkbox" ],
-.gsuiPopup-content input[ type="radio" ] {
-	margin: 0 8px 0 0;
-}
-.gsuiPopup-content input[ type="range" ] {
-	min-width: 0;
+.gsuiPopup-content {
+	a {
+		color: #9df;
+		text-decoration: none;
+
+		&:not( [ class*="gsui" ] ):hover {
+			text-decoration: underline;
+		}
+	}
+	fieldset {
+		display: flex;
+		flex-direction: column;
+		border: 2px solid #444;
+		border-radius: 4px;
+		margin: 0;
+	}
+	legend {
+		font-size: 12px;
+		opacity: .5;
+	}
+	input[ type="checkbox" ],
+	input[ type="radio" ] {
+		margin: 0 8px 0 0;
+	}
+	input[ type="range" ] {
+		min-width: 0;
+	}
 }
 
 /* .......................................................................... */
@@ -104,9 +107,10 @@ gsui-popup {
 	font-size: 14px;
 	padding: 4px;
 	gap: 6px;
-}
-.gsuiPopup-row + .gsuiPopup-row {
-	margin-top: 6px;
+
+	& + & {
+		margin-top: 6px;
+	}
 }
 .gsuiPopup-row-title {
 	flex: 1;
