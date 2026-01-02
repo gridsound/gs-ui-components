@@ -12,10 +12,10 @@ gsui-wave-editor {
 	box-sizing: border-box;
 	width: calc( 2 * ( 26px + 6px ) + 1px );
 	padding: 6px;
-}
-.gsuiWaveEditor-menu + .gsuiWaveEditor-menu {
-	display: none; /* WIP */
-	border-left: 2px solid #0005;
+
+	& + & {
+		border-left: 2px solid #0005;
+	}
 }
 
 /* .......................................................................... */
@@ -27,10 +27,10 @@ gsui-wave-editor {
 	border-radius: 4px;
 	color: currentColor;
 	background-color: #0005;
-}
-.gsuiWaveEditor-symmetry:hover,
-.gsuiWaveEditor-reset:hover {
-	background-color: #111;
+
+	&:hover {
+		background-color: #111;
+	}
 }
 gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	border-color: currentColor;
@@ -42,59 +42,76 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	flex-wrap: wrap;
 	border-radius: 4px;
 	background-color: #0004;
-}
-.gsuiWaveEditor-tools button {
-	position: relative;
-	width: 26px;
-	height: 26px;
-	border: 0;
-	color: currentColor;
-	background: none;
-}
-.gsuiWaveEditor-tools button:hover {
-	background-color: #111;
-}
-.gsuiWaveEditor-tools button[ data-selected ] {
-	background-color: #0008;
-}
-.gsuiWaveEditor-tools button[ data-selected ] polyline {
-	stroke: currentColor;
-	filter: drop-shadow( 0 0 1px var( --gsuiWaveEditor-btn-color ) );
-}
-.gsuiWaveEditor-tools svg {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	fill: none;
-	stroke: var( --gsuiWaveEditor-btn-color );
-	stroke-linecap: round;
+
+	button {
+		position: relative;
+		width: 26px;
+		height: 26px;
+		border: 0;
+		color: currentColor;
+		background: none;
+
+		&:hover {
+			background-color: #111;
+		}
+		&[ data-selected ] {
+			background-color: #0008;
+
+			polyline {
+				stroke: currentColor;
+				filter: drop-shadow( 0 0 1px var( --gsuiWaveEditor-btn-color ) );
+			}
+		}
+	}
+	svg {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		fill: none;
+		stroke: var( --gsuiWaveEditor-btn-color );
+		stroke-linecap: round;
+	}
 }
 
 /* .......................................................................... */
-.gsuiWaveEditor-gridSize[ dir=x ] {
-	margin-top: auto;
+.gsuiWaveEditor-gridSize {
+	&[ dir=x ] {
+		margin-top: auto;
+	}
+	.gsuiIcon {
+		min-width: 20px;
+		opacity: .5;
+	}
+	span {
+		min-width: 20px;
+		padding: 0px 2px;
+		text-align: end;
+		font-weight: bold;
+		font-family: var( --gsui-font-number );
+		border-radius: 4px;
+		background-color: #0005;
+	}
+	gsui-slider {
+		height: 10px;
+	}
+	.gsuiSlider-eventCatcher {
+		inset: -21px -6px -6px;
+		cursor: ew-resize;
+	}
 }
-.gsuiWaveEditor-gridSize .gsuiIcon {
-	min-width: 20px;
-	opacity: .5;
-}
-.gsuiWaveEditor-gridSize span {
-	min-width: 20px;
-	padding: 0px 2px;
-	text-align: end;
-	font-weight: bold;
-	font-family: var( --gsui-font-number );
-	border-radius: 4px;
-	background-color: #0005;
-}
-.gsuiWaveEditor-gridSize gsui-slider {
-	height: 10px;
-}
-.gsuiWaveEditor-gridSize .gsuiSlider-eventCatcher {
-	inset: -21px -6px -6px;
-	cursor: ew-resize;
+
+/* .......................................................................... */
+.gsuiWaveEditor-phase {
+	> span:first-child {
+		font-size: 9px;
+		font-weight: bold;
+		opacity: .5;
+	}
+	gsui-slider {
+		height: 10px;
+	}
 }
 
 /* .......................................................................... */
@@ -102,9 +119,23 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	position: relative;
 	overflow: hidden;
 	background-color: #0001;
-}
-.gsuiWaveEditor-wave gsui-beatlines {
-	inset: -2px;
+
+	gsui-beatlines {
+		inset: -2px;
+	}
+	svg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	polyline {
+		stroke: #fff;
+		stroke-width: 2px;
+		fill: var( --gsuiWaveEditor-btn-color );
+		fill-opacity: .1;
+	}
 }
 .gsuiWaveEditor-wave-hover-square {
 	position: absolute;
@@ -113,20 +144,8 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	background-color: #ffffff09;
 	opacity: 0;
 	transition: opacity .2s;
-}
-.gsuiWaveEditor-wave:hover .gsuiWaveEditor-wave-hover-square {
-	opacity: 1;
-}
-.gsuiWaveEditor-wave svg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-.gsuiWaveEditor-wave polyline {
-	stroke: #fff;
-	stroke-width: 2px;
-	fill: var( --gsuiWaveEditor-btn-color );
-	fill-opacity: .1;
+
+	.gsuiWaveEditor-wave:hover & {
+		opacity: 1;
+	}
 }
