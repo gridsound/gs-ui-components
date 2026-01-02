@@ -24,6 +24,10 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 			GSUcreateButton( { class: "gsuiWaveEditor-mirror-btn", "data-dir": "x", icon: "mirror-x" } ),
 			GSUcreateButton( { class: "gsuiWaveEditor-mirror-btn", "data-dir": "y", icon: "mirror-y" } ),
 			GSUcreateButton( { class: "gsuiWaveEditor-normalize-btn", icon: "normalize-y" } ),
+			GSUcreateFlex( { class: "gsuiWaveEditor-phase", y: true, g6: true },
+				GSUcreateSpan( null, "phase" ),
+				GSUcreateElement( "gsui-slider", { action: "phase", type: "linear-x", min: -1, max: 1, step: .0001, "mousemove-size": 800 } ),
+			),
 		),
 		GSUcreateFlex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
 			GSUcreateElement( "gsui-beatlines", { dir: "x", timedivision: "1/1", color: "#fff" } ),
@@ -50,6 +54,6 @@ GSUsetTemplate( "gsui-wave-editor-gridSize", dir =>
 			GSUcreateSpan(),
 			GSUcreateIcon( { icon: dir === "x" ? "arrows-h" : "arrows-v" } ),
 		),
-		GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 64, step: 1, "mousemove-size": 2000 } ),
+		GSUcreateElement( "gsui-slider", { action: `div-${ dir }`, type: "linear-x", min: 1, max: 64, step: 1, "mousemove-size": 2000 } ),
 	),
 );

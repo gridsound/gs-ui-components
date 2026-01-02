@@ -50,6 +50,7 @@ class gsuiWaveEditor extends gsui0ne {
 				$normalizeBtn: ".gsuiWaveEditor-normalize-btn",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
+				$phaseSli: ".gsuiWaveEditor-phase gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 				$waveSVG: ".gsuiWaveEditor-wave svg",
@@ -130,12 +131,46 @@ class gsuiWaveEditor extends gsui0ne {
 		};
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
-			[ GSEV_SLIDER_CHANGE ]: d => GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: GSUdomGetAttr( this, "div" ) } ),
+			[ GSEV_SLIDER_INPUTSTART ]: d => {
+				const act = GSUdomGetAttr( d.$target, "action" );
+
+				switch ( act ) {
+					case "phase":
+						this.#waveArray2 = new Float32Array( this.#waveArray );
+						break;
+				}
+			},
+			[ GSEV_SLIDER_CHANGE ]: d => {
+				const act = GSUdomGetAttr( d.$target, "action" );
+
+				switch ( act ) {
+					case "div-x":
+					case "div-y":
+						GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: GSUdomGetAttr( this, "div" ) } );
+						break;
+					case "phase":
+						GSUdomSetAttr( d.$target, "value", 0 );
+						if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
+							GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
+						}
+						this.#waveArray2 = null;
+						break;
+				}
+			},
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
-				GSUdomSetAttr( this, "div", GSUdomGetAttr( d.$target.parentNode, "dir" ) === "x"
-					? `${ val } ${ this.#div[ 1 ] }`
-					: `${ this.#div[ 0 ] } ${ val }` );
+				const act = GSUdomGetAttr( d.$target, "action" );
+
+				switch ( act ) {
+					case "div-x":
+					case "div-y":
+						GSUdomSetAttr( this, "div", act === "div-x"
+							? `${ val } ${ this.#div[ 1 ] }`
+							: `${ this.#div[ 0 ] } ${ val }` );
+						break;
+					case "phase":
+						this.#shiftPhase( GSUmathRound( val, 1 / this.#div[ 0 ] ) );
+						break;
+				}
 			},
 		} );
 	}
@@ -185,6 +220,14 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	#shiftPhase( n ) {
+		const w = this.#waveArray2;
+		const len = w.length * Math.abs( n ) | 0;
+		const x = n < 0 ? len : w.length - len;
+
+		this.#waveArray = new Float32Array( [ ...w.slice( x ), ...w.slice( 0, x ) ] );
+		this.#drawWave();
+	}
 	#normalize( e ) {
 		const w = this.#waveArray;
 
