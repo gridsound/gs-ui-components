@@ -43,11 +43,8 @@ class gsuiWaveEditor extends gsui0ne {
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
 				$resetBtn: ".gsuiWaveEditor-reset",
-				$mirrorXSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-x']",
-				$mirrorYSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-y']",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
-				$phaseSli: ".gsuiWaveEditor-phase gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 				$waveSVG: ".gsuiWaveEditor-wave svg",
@@ -131,11 +128,10 @@ class gsuiWaveEditor extends gsui0ne {
 
 		return new Float32Array( w.map( n => n * norm ) );
 	}
-	static #mirrorX( w ) {
-		return [ ...w ].reverse();
-	}
-	static #mirrorY( w ) {
-		return w.map( n => -n );
+	static #mirror( w, dir ) {
+		return dir === "x"
+			? [ ...w ].reverse()
+			: w.map( n => -n );
 	}
 
 	// .........................................................................
@@ -159,11 +155,8 @@ class gsuiWaveEditor extends gsui0ne {
 						GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { tool: t } );
 					}
 				} break;
-				case "mirror-x":
-				case "mirror-y":
-					w = ( act === "mirror-x"
-						? gsuiWaveEditor.#mirrorX
-						: gsuiWaveEditor.#mirrorY )( this.#waveArray );
+				case "mirror":
+					w = gsuiWaveEditor.#mirror( this.#waveArray, GSUdomGetAttr( btn, "data-dir" ) );
 					break;
 				case "normalize-y":
 					w = gsuiWaveEditor.#normalize( this.#waveArray );
