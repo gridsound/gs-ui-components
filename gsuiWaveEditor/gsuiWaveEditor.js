@@ -45,11 +45,8 @@ class gsuiWaveEditor extends gsui0ne {
 				$tools: ".gsuiWaveEditor-tools",
 				$resetBtn: ".gsuiWaveEditor-reset",
 				$symmetryBtn: ".gsuiWaveEditor-symmetry",
-				$mirrorXBtn: ".gsuiWaveEditor-mirror button[data-dir='x']",
-				$mirrorYBtn: ".gsuiWaveEditor-mirror button[data-dir='y']",
 				$mirrorXSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-x']",
 				$mirrorYSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-y']",
-				$normalizeBtn: ".gsuiWaveEditor-normalize-btn",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
 				$phaseSli: ".gsuiWaveEditor-phase gsui-slider",
@@ -65,9 +62,7 @@ class gsuiWaveEditor extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initActionMenu();
-		this.$elements.$mirrorXBtn.onclick =
-		this.$elements.$mirrorYBtn.onclick = this.#mirror.bind( this );
-		this.$elements.$normalizeBtn.onclick = this.#onclickNormalize.bind( this );
+		this.onclick = this.#onclick.bind( this );
 		this.$elements.$symmetryBtn.onclick = () => {
 			GSUdomTogAttr( this, "symmetry" );
 			GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
@@ -196,35 +191,41 @@ class gsuiWaveEditor extends gsui0ne {
 
 		return new Float32Array( w.map( n => n * norm ) );
 	}
+	static #mirrorX( w ) {
+		return [ ...w ].reverse();
+	}
+	static #mirrorY( w ) {
+		return w.map( n => -n );
+	}
 
 	// .........................................................................
-	#onclickNormalize( e ) {
-		const w = gsuiWaveEditor.#normalize( this.#waveArray );
+	#onclick( e ) {
+		if ( e.target.tagName === "BUTTON" ) {
+			const act = GSUdomGetAttr( e.target, "data-action" );
+			let w;
 
-		if ( !GSUarrayEq( w, this.#waveArray, .005 ) ) {
-			this.#waveArray = w;
-			this.#drawWave();
-			GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
-		}
-	}
-	#mirror( e ) {
-		const w = this.#waveArray;
-		const save = new Float32Array( w );
-
-		if ( e.target.dataset.dir === "x" ) {
-			w.reverse();
-		} else {
-			w.forEach( ( n, i, arr ) => arr[ i ] = -n );
-		}
-		this.#drawWave();
-		if ( !GSUarrayEq( w, save, .005 ) ) {
-			GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
+			switch ( act ) {
+				case "mirror-x":
+				case "mirror-y":
+					w = ( act === "mirror-x"
+						? gsuiWaveEditor.#mirrorX
+						: gsuiWaveEditor.#mirrorY )( this.#waveArray );
+					break;
+				case "normalize-y":
+					w = gsuiWaveEditor.#normalize( this.#waveArray );
+					break;
+			}
+			if ( w && !GSUarrayEq( w, this.#waveArray, .005 ) ) {
+				this.#waveArray = w;
+				this.#drawWave();
+				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
+			}
 		}
 	}
 
 	// .........................................................................
 	#oninputstartSlider( d ) {
-		const act = GSUdomGetAttr( d.$target, "action" );
+		const act = GSUdomGetAttr( d.$target, "data-action" );
 
 		switch ( act ) {
 			case "phase":
@@ -233,7 +234,7 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#oninputSlider( d, val ) {
-		const act = GSUdomGetAttr( d.$target, "action" );
+		const act = GSUdomGetAttr( d.$target, "data-action" );
 
 		switch ( act ) {
 			case "div-x":
@@ -249,7 +250,7 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#onchangeSlider( d ) {
-		const act = GSUdomGetAttr( d.$target, "action" );
+		const act = GSUdomGetAttr( d.$target, "data-action" );
 
 		switch ( act ) {
 			case "div-x":
