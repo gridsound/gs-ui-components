@@ -45,8 +45,10 @@ class gsuiWaveEditor extends gsui0ne {
 				$tools: ".gsuiWaveEditor-tools",
 				$resetBtn: ".gsuiWaveEditor-reset",
 				$symmetryBtn: ".gsuiWaveEditor-symmetry",
-				$mirrorXBtn: ".gsuiWaveEditor-mirror-btn[data-dir='x']",
-				$mirrorYBtn: ".gsuiWaveEditor-mirror-btn[data-dir='y']",
+				$mirrorXBtn: ".gsuiWaveEditor-mirror button[data-dir='x']",
+				$mirrorYBtn: ".gsuiWaveEditor-mirror button[data-dir='y']",
+				$mirrorXSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-x']",
+				$mirrorYSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-y']",
 				$normalizeBtn: ".gsuiWaveEditor-normalize-btn",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
 				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
@@ -131,47 +133,9 @@ class gsuiWaveEditor extends gsui0ne {
 		};
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUTSTART ]: d => {
-				const act = GSUdomGetAttr( d.$target, "action" );
-
-				switch ( act ) {
-					case "phase":
-						this.#waveArray2 = new Float32Array( this.#waveArray );
-						break;
-				}
-			},
-			[ GSEV_SLIDER_CHANGE ]: d => {
-				const act = GSUdomGetAttr( d.$target, "action" );
-
-				switch ( act ) {
-					case "div-x":
-					case "div-y":
-						GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: GSUdomGetAttr( this, "div" ) } );
-						break;
-					case "phase":
-						GSUdomSetAttr( d.$target, "value", 0 );
-						if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
-							GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
-						}
-						this.#waveArray2 = null;
-						break;
-				}
-			},
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
-				const act = GSUdomGetAttr( d.$target, "action" );
-
-				switch ( act ) {
-					case "div-x":
-					case "div-y":
-						GSUdomSetAttr( this, "div", act === "div-x"
-							? `${ val } ${ this.#div[ 1 ] }`
-							: `${ this.#div[ 0 ] } ${ val }` );
-						break;
-					case "phase":
-						this.#shiftPhase( GSUmathRound( val, 1 / this.#div[ 0 ] ) );
-						break;
-				}
-			},
+			[ GSEV_SLIDER_INPUTSTART ]: this.#oninputstartSlider.bind( this ),
+			[ GSEV_SLIDER_INPUT ]: this.#oninputSlider.bind( this ),
+			[ GSEV_SLIDER_CHANGE ]: this.#onchangeSlider.bind( this ),
 		} );
 	}
 
@@ -261,6 +225,49 @@ class gsuiWaveEditor extends gsui0ne {
 			if ( !GSUarrayEq( w, save, .005 ) ) {
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
 			}
+		}
+	}
+
+	// .........................................................................
+	#oninputstartSlider( d ) {
+		const act = GSUdomGetAttr( d.$target, "action" );
+
+		switch ( act ) {
+			case "phase":
+				this.#waveArray2 = new Float32Array( this.#waveArray );
+				break;
+		}
+	}
+	#oninputSlider( d, val ) {
+		const act = GSUdomGetAttr( d.$target, "action" );
+
+		switch ( act ) {
+			case "div-x":
+			case "div-y":
+				GSUdomSetAttr( this, "div", act === "div-x"
+					? `${ val } ${ this.#div[ 1 ] }`
+					: `${ this.#div[ 0 ] } ${ val }` );
+				break;
+			case "phase":
+				this.#shiftPhase( GSUmathRound( val, 1 / this.#div[ 0 ] ) );
+				break;
+		}
+	}
+	#onchangeSlider( d ) {
+		const act = GSUdomGetAttr( d.$target, "action" );
+
+		switch ( act ) {
+			case "div-x":
+			case "div-y":
+				GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: GSUdomGetAttr( this, "div" ) } );
+				break;
+			case "phase":
+				GSUdomSetAttr( d.$target, "value", 0 );
+				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
+					GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
+				}
+				this.#waveArray2 = null;
+				break;
 		}
 	}
 

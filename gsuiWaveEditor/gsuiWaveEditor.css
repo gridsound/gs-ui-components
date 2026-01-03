@@ -16,6 +16,14 @@ gsui-wave-editor {
 	& + & {
 		border-left: 2px solid #0005;
 	}
+	gsui-slider {
+		height: 10px;
+	}
+}
+.gsuiWaveEditor-label {
+	font-size: 9px;
+	font-weight: bold;
+	opacity: .5;
 }
 
 /* .......................................................................... */
@@ -93,9 +101,6 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 		border-radius: 4px;
 		background-color: #0005;
 	}
-	gsui-slider {
-		height: 10px;
-	}
 	.gsuiSlider-eventCatcher {
 		inset: -21px -6px -6px;
 		cursor: ew-resize;
@@ -103,14 +108,16 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 }
 
 /* .......................................................................... */
-.gsuiWaveEditor-phase {
-	> span:first-child {
-		font-size: 9px;
-		font-weight: bold;
-		opacity: .5;
-	}
-	gsui-slider {
-		height: 10px;
+.gsuiWaveEditor-mirror {
+	button {
+		width: 16px;
+		font-size: 10px;
+		border: 0;
+		background: none;
+
+		&:hover {
+			background-color: #fff2;
+		}
 	}
 }
 
