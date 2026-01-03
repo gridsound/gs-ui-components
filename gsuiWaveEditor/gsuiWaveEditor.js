@@ -44,7 +44,6 @@ class gsuiWaveEditor extends gsui0ne {
 				$wave: ".gsuiWaveEditor-wave",
 				$tools: ".gsuiWaveEditor-tools",
 				$resetBtn: ".gsuiWaveEditor-reset",
-				$symmetryBtn: ".gsuiWaveEditor-symmetry",
 				$mirrorXSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-x']",
 				$mirrorYSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-y']",
 				$gridVal: "[].gsuiWaveEditor-gridSize span",
@@ -63,10 +62,8 @@ class gsuiWaveEditor extends gsui0ne {
 		Object.seal( this );
 		this.#initActionMenu();
 		this.onclick = this.#onclick.bind( this );
-		this.$elements.$symmetryBtn.onclick = () => {
-			GSUdomTogAttr( this, "symmetry" );
-			GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
-		};
+		this.ondrop = this.#ondrop.bind( this );
+		this.ondragover = GSUnoopFalse;
 		this.$elements.$tools.onclick = e => {
 			const t = e.target.dataset.tool;
 
@@ -101,31 +98,6 @@ class gsuiWaveEditor extends gsui0ne {
 				this.#currentSquare = null;
 			}
 		};
-		this.ondragover = GSUnoopFalse;
-		this.ondrop = e => {
-			let ctx;
-
-			e.preventDefault();
-			e.stopPropagation();
-			GSUgetFilesDataTransfert( e.dataTransfer.items )
-				.then( files => GSUgetFileContent( files[ 0 ], "array" ) )
-				.then( arr => {
-					ctx = GSUaudioContext();
-					return ctx.decodeAudioData( arr );
-				} )
-				.then( buf => {
-					ctx.close();
-					return buf.numberOfChannels >= 1
-						? buf.getChannelData( 0 )
-						: null;
-				} )
-				.then( bufData => {
-					const bufData2 = GSUarrayResize( bufData, 2048 );
-					
-					this.$setWaveArray( bufData2 );
-					GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, bufData2 );
-				} );
-		};
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTSTART ]: this.#oninputstartSlider.bind( this ),
@@ -145,7 +117,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#drawWaveThr();
 	}
 	static get observedAttributes() {
-		return [ "div", "tool" ]; // + symmetry
+		return [ "div", "tool" ]; // "symmetry"
 	}
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
@@ -205,6 +177,10 @@ class gsuiWaveEditor extends gsui0ne {
 			let w;
 
 			switch ( act ) {
+				case "symmetry":
+					GSUdomTogAttr( this, "symmetry" );
+					GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
+					break;
 				case "mirror-x":
 				case "mirror-y":
 					w = ( act === "mirror-x"
@@ -221,6 +197,32 @@ class gsuiWaveEditor extends gsui0ne {
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
 			}
 		}
+	}
+
+	// .........................................................................
+	#ondrop( e ) {
+		let ctx;
+
+		e.preventDefault();
+		e.stopPropagation();
+		GSUgetFilesDataTransfert( e.dataTransfer.items )
+			.then( files => GSUgetFileContent( files[ 0 ], "array" ) )
+			.then( arr => {
+				ctx = GSUaudioContext();
+				return ctx.decodeAudioData( arr );
+			} )
+			.then( buf => {
+				ctx.close();
+				return buf.numberOfChannels >= 1
+					? buf.getChannelData( 0 )
+					: null;
+			} )
+			.then( bufData => {
+				const bufData2 = GSUarrayResize( bufData, 2048 );
+				
+				this.$setWaveArray( bufData2 );
+				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, bufData2 );
+			} );
 	}
 
 	// .........................................................................
