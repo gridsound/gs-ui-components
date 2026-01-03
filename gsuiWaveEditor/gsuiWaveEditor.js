@@ -184,14 +184,14 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
-	#shiftPhase( n ) {
-		const w = this.#waveArray2;
+	static #shiftPhase( w, n ) {
 		const len = w.length * Math.abs( n ) | 0;
 		const x = n < 0 ? len : w.length - len;
 
-		this.#waveArray = new Float32Array( [ ...w.slice( x ), ...w.slice( 0, x ) ] );
-		this.#drawWave();
+		return new Float32Array( [ ...w.slice( x ), ...w.slice( 0, x ) ] );
 	}
+
+	// .........................................................................
 	#normalize( e ) {
 		const w = this.#waveArray;
 
@@ -249,7 +249,8 @@ class gsuiWaveEditor extends gsui0ne {
 					: `${ this.#div[ 0 ] } ${ val }` );
 				break;
 			case "phase":
-				this.#shiftPhase( GSUmathRound( val, 1 / this.#div[ 0 ] ) );
+				this.#waveArray = gsuiWaveEditor.#shiftPhase( this.#waveArray2, GSUmathRound( val, 1 / this.#div[ 0 ] ) );
+				this.#drawWave();
 				break;
 		}
 	}
