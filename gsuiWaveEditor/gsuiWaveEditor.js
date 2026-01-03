@@ -5,7 +5,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveW = 0;
 	#waveH = 0;
 	#ptrDown = false;
-	#waveArray = null;
+	#waveArray = [];
 	#waveArray2 = null;
 	#currentSquare = null;
 	#toolSelected = null;
@@ -67,7 +67,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#initActionMenu();
 		this.$elements.$mirrorXBtn.onclick =
 		this.$elements.$mirrorYBtn.onclick = this.#mirror.bind( this );
-		this.$elements.$normalizeBtn.onclick = this.#normalize.bind( this );
+		this.$elements.$normalizeBtn.onclick = this.#onclickNormalize.bind( this );
 		this.$elements.$symmetryBtn.onclick = () => {
 			GSUdomTogAttr( this, "symmetry" );
 			GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
@@ -190,41 +190,35 @@ class gsuiWaveEditor extends gsui0ne {
 
 		return new Float32Array( [ ...w.slice( x ), ...w.slice( 0, x ) ] );
 	}
+	static #normalize( w ) {
+		const max = w.reduce( ( max, n ) => Math.max( max, Math.abs( n ) ), 0 );
+		const norm = max === 0 ? 1 : 1 / max;
+
+		return new Float32Array( w.map( n => n * norm ) );
+	}
 
 	// .........................................................................
-	#normalize( e ) {
-		const w = this.#waveArray;
+	#onclickNormalize( e ) {
+		const w = gsuiWaveEditor.#normalize( this.#waveArray );
 
-		if ( w ) {
-			const save = new Float32Array( w );
-			const max = w.reduce( ( max, n ) => Math.max( max, Math.abs( n ) ), 0 );
-
-			if ( max > 0 ) {
-				const norm = 1 / max;
-
-				w.forEach( ( n, i, arr ) => arr[ i ] = n * norm );
-				this.#drawWave();
-				if ( !GSUarrayEq( w, save, .005 ) ) {
-					GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
-				}
-			}
+		if ( !GSUarrayEq( w, this.#waveArray, .005 ) ) {
+			this.#waveArray = w;
+			this.#drawWave();
+			GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
 		}
 	}
 	#mirror( e ) {
 		const w = this.#waveArray;
+		const save = new Float32Array( w );
 
-		if ( w ) {
-			const save = new Float32Array( w );
-
-			if ( e.target.dataset.dir === "x" ) {
-				w.reverse();
-			} else {
-				w.forEach( ( n, i, arr ) => arr[ i ] = -n );
-			}
-			this.#drawWave();
-			if ( !GSUarrayEq( w, save, .005 ) ) {
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
-			}
+		if ( e.target.dataset.dir === "x" ) {
+			w.reverse();
+		} else {
+			w.forEach( ( n, i, arr ) => arr[ i ] = -n );
+		}
+		this.#drawWave();
+		if ( !GSUarrayEq( w, save, .005 ) ) {
+			GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
 		}
 	}
 
