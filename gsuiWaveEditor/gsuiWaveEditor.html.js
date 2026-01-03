@@ -49,7 +49,7 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 );
 
 GSUsetTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
-	GSUcreateButton( { "data-tool": tool },
+	GSUcreateButton( { "data-action": "tool", "data-tool": tool },
 		GSUcreateElement( "svg", { viewBox: "0 0 10 10", preserveAspectRatio: "none", inert: true },
 			GSUcreateElement( "polyline", { points: pts.join( " " ) } ),
 		),

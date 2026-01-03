@@ -42,7 +42,6 @@ class gsuiWaveEditor extends gsui0ne {
 			$tagName: "gsui-wave-editor",
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
-				$tools: ".gsuiWaveEditor-tools",
 				$resetBtn: ".gsuiWaveEditor-reset",
 				$mirrorXSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-x']",
 				$mirrorYSli: ".gsuiWaveEditor-mirror gsui-slider[action='mirror-y']",
@@ -64,40 +63,9 @@ class gsuiWaveEditor extends gsui0ne {
 		this.onclick = this.#onclick.bind( this );
 		this.ondrop = this.#ondrop.bind( this );
 		this.ondragover = GSUnoopFalse;
-		this.$elements.$tools.onclick = e => {
-			const t = e.target.dataset.tool;
-
-			if ( t && GSUdomGetAttr( this, "tool" ) !== t ) {
-				GSUdomSetAttr( this, "tool", t );
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { tool: t } );
-			}
-		};
-		this.$elements.$wave.onpointerdown = e => {
-			if ( this.#waveArray ) {
-				e.preventDefault();
-				this.#ptrDown = true;
-				this.$elements.$wave.setPointerCapture( e.pointerId );
-				this.#waveArray2 ||= new Float32Array( this.#waveArray );
-				this.#clickSquare( e );
-			}
-		};
-		this.$elements.$wave.onpointermove = e => {
-			this.#updateHoverSquare( e.offsetX, e.offsetY );
-			if ( this.#ptrDown ) {
-				this.#clickSquare( e );
-			}
-		};
-		this.$elements.$wave.onpointerup = e => {
-			if ( this.#ptrDown ) {
-				this.#ptrDown = false;
-				this.$elements.$wave.releasePointerCapture( e.pointerId );
-				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
-					this.#waveArray2 = null;
-					GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
-				}
-				this.#currentSquare = null;
-			}
-		};
+		this.$elements.$wave.onpointerdown = this.#onptrdownWave.bind( this );
+		this.$elements.$wave.onpointermove = this.#onptrmoveWave.bind( this );
+		this.$elements.$wave.onpointerup = this.#onptrupWave.bind( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTSTART ]: this.#oninputstartSlider.bind( this ),
@@ -172,8 +140,10 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	#onclick( e ) {
-		if ( e.target.tagName === "BUTTON" ) {
-			const act = GSUdomGetAttr( e.target, "data-action" );
+		const btn = e.target;
+
+		if ( btn.tagName === "BUTTON" ) {
+			const act = GSUdomGetAttr( btn, "data-action" );
 			let w;
 
 			switch ( act ) {
@@ -181,6 +151,14 @@ class gsuiWaveEditor extends gsui0ne {
 					GSUdomTogAttr( this, "symmetry" );
 					GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
 					break;
+				case "tool": {
+					const t = btn.dataset.tool;
+
+					if ( t && GSUdomGetAttr( this, "tool" ) !== t ) {
+						GSUdomSetAttr( this, "tool", t );
+						GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { tool: t } );
+					}
+				} break;
 				case "mirror-x":
 				case "mirror-y":
 					w = ( act === "mirror-x"
@@ -223,6 +201,34 @@ class gsuiWaveEditor extends gsui0ne {
 				this.$setWaveArray( bufData2 );
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, bufData2 );
 			} );
+	}
+
+	// .........................................................................
+	#onptrdownWave( e ) {
+		if ( this.#waveArray ) {
+			e.preventDefault();
+			this.#ptrDown = true;
+			this.$elements.$wave.setPointerCapture( e.pointerId );
+			this.#waveArray2 ||= new Float32Array( this.#waveArray );
+			this.#clickSquare( e );
+		}
+	}
+	#onptrmoveWave( e ) {
+		this.#updateHoverSquare( e.offsetX, e.offsetY );
+		if ( this.#ptrDown ) {
+			this.#clickSquare( e );
+		}
+	}
+	#onptrupWave( e ) {
+		if ( this.#ptrDown ) {
+			this.#ptrDown = false;
+			this.$elements.$wave.releasePointerCapture( e.pointerId );
+			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
+				this.#waveArray2 = null;
+				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
+			}
+			this.#currentSquare = null;
+		}
 	}
 
 	// .........................................................................
