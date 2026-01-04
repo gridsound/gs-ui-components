@@ -133,6 +133,27 @@ class gsuiWaveEditor extends gsui0ne {
 			? [ ...w ].reverse()
 			: w.map( n => -n );
 	}
+	static #mirrorX( w, n ) {
+		const nAbs = Math.abs( n );
+		const wLen = w.length;
+		const wInLen = wLen * nAbs | 0;
+
+		if ( nAbs < 1 ) {
+			const wIn = GSUarrayResize( w, wInLen );
+			const arr0 = GSUnewArray( ( wLen - wInLen ) / 2, 0 );
+			const w2 = [ ...arr0, ...wIn, ...arr0 ];
+
+			return n > 0 ? w2 : w2.reverse();
+		}
+
+		const w2 = GSUarrayResize( w, wInLen ).splice( ( wInLen - wLen ) / 2 | 0 );
+
+		w2.length = wLen;
+		return n > 0 ? w2 : w2.reverse();
+	}
+	static #mirrorY( w, n ) {
+		return w.map( x => GSUmathClamp( x * n, -1, 1 ) );
+	}
 
 	// .........................................................................
 	#onclick( e ) {
@@ -230,6 +251,8 @@ class gsuiWaveEditor extends gsui0ne {
 
 		switch ( act ) {
 			case "phase":
+			case "mirror-x":
+			case "mirror-y":
 				this.#waveArray2 = new Float32Array( this.#waveArray );
 				break;
 		}
@@ -238,6 +261,14 @@ class gsuiWaveEditor extends gsui0ne {
 		const act = GSUdomGetAttr( d.$target, "data-action" );
 
 		switch ( act ) {
+			case "mirror-x":
+				this.#waveArray = gsuiWaveEditor.#mirrorX( this.#waveArray2, 1 + GSUmathRound( val, 1 / this.#div[ 0 ] * 2 ) );
+				this.#drawWave();
+				break;
+			case "mirror-y":
+				this.#waveArray = gsuiWaveEditor.#mirrorY( this.#waveArray2, 1 + GSUmathRound( val, 1 / this.#div[ 1 ] * 2 ) );
+				this.#drawWave();
+				break;
 			case "div-x":
 			case "div-y":
 				GSUdomSetAttr( this, "div", act === "div-x"
@@ -258,6 +289,8 @@ class gsuiWaveEditor extends gsui0ne {
 			case "div-y":
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: GSUdomGetAttr( this, "div" ) } );
 				break;
+			case "mirror-x":
+			case "mirror-y":
 			case "phase":
 				GSUdomSetAttr( d.$target, "value", 0 );
 				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
