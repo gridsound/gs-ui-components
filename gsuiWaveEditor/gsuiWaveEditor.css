@@ -14,16 +14,17 @@ gsui-wave-editor {
 	padding: 6px;
 
 	& + & {
-		border-left: 2px solid #0005;
+		margin-left: -6px;
 	}
 	gsui-slider {
 		height: 10px;
 	}
-}
-.gsuiWaveEditor-label {
-	font-size: 9px;
-	font-weight: bold;
-	opacity: .5;
+	label {
+		margin-bottom: -2px;
+		font-size: 9px;
+		font-weight: bold;
+		opacity: .5;
+	}
 }
 
 /* .......................................................................... */
@@ -48,6 +49,7 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 .gsuiWaveEditor-tools {
 	overflow: hidden;
 	flex-wrap: wrap;
+	margin-bottom: auto;
 	border-radius: 4px;
 	background-color: #0004;
 
@@ -85,9 +87,6 @@ gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 
 /* .......................................................................... */
 .gsuiWaveEditor-gridSize {
-	&[ dir=x ] {
-		margin-top: auto;
-	}
 	.gsuiIcon {
 		min-width: 20px;
 		opacity: .5;
