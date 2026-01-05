@@ -263,8 +263,7 @@
 .gsuiIcon[ data-icon="plus" ]::after { content: "\10f067"; opacity: 1; }
 .gsuiIcon[ data-icon="minus" ]::after { content: "\10f068"; opacity: 1; }
 
-.gsuiIcon[ data-icon="check" ]::before { content: "\f00c"; }
-.gsuiIcon[ data-icon="check" ]::after { content: "\10f00c"; }
+.gsuiIcon[ data-icon="check" ]::after { content: "\10f00c"; opacity: 1; }
 .gsuiIcon[ data-icon="warning" ]::before { content: "\f071"; }
 .gsuiIcon[ data-icon="warning" ]::after { content: "\10f071"; }
 .gsuiIcon[ data-icon="redirect" ]::before { content: "\f5eb"; }
