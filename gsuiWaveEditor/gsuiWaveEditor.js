@@ -82,7 +82,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#drawWaveThr();
 	}
 	static get observedAttributes() {
-		return [ "div", "tool" ]; // "symmetry"
+		return [ "div", "tool" ]; // "symmetry", "normalized"
 	}
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
@@ -121,6 +121,11 @@ class gsuiWaveEditor extends gsui0ne {
 		const x = n < 0 ? len : w.length - len;
 
 		return new Float32Array( [ ...w.slice( x ), ...w.slice( 0, x ) ] );
+	}
+	static #isNormalized( w ) {
+		const max = w.reduce( ( max, n ) => Math.max( max, Math.abs( n ) ), 0 );
+
+		return max >= .999;
 	}
 	static #normalize( w ) {
 		const max = w.reduce( ( max, n ) => Math.max( max, Math.abs( n ) ), 0 );
@@ -181,6 +186,7 @@ class gsuiWaveEditor extends gsui0ne {
 					break;
 				case "normalize-y":
 					w = gsuiWaveEditor.#normalize( this.#waveArray );
+					GSUdomSetAttr( this, "normalized", true );
 					break;
 			}
 			if ( w && !GSUarrayEq( w, this.#waveArray, .005 ) ) {
@@ -362,6 +368,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#drawWave() {
 		GSUdomViewBox( this.$elements.$waveSVG, this.#waveW, this.#waveH );
 		gsuiWaveEditor.$drawWave( this.$elements.$wavePolyline, this.#waveArray, this.#waveW, this.#waveH );
+		this.#updateNormalized();
 	}
 	static $drawWave( polyline, waveArray, w, h ) {
 		if ( !waveArray || !w || !h ) {
@@ -406,6 +413,9 @@ class gsuiWaveEditor extends gsui0ne {
 		this.$elements.$hoverSquare.style[ dir ? "height" : "width" ] = `${ 1 / val * 100 }%`;
 		this.#updateBeatlines( dir, val );
 		GSUdomSetAttr( this.$elements.$gridSli[ dir ], "value", val );
+	}
+	#updateNormalized() {
+		GSUdomSetAttr( this, "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );
 	}
 }
 

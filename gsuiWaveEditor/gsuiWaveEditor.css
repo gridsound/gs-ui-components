@@ -29,7 +29,8 @@ gsui-wave-editor {
 
 /* .......................................................................... */
 .gsuiWaveEditor-reset,
-.gsuiWaveEditor-symmetry {
+.gsuiWaveEditor-symmetry,
+.gsuiWaveEditor-normalize {
 	box-sizing: border-box;
 	padding: 0 4px;
 	border: 2px solid transparent;
@@ -43,6 +44,9 @@ gsui-wave-editor {
 }
 gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
 	border-color: currentColor;
+}
+gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-child {
+	opacity: .2;
 }
 
 /* .......................................................................... */
