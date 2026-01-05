@@ -32,9 +32,10 @@ gsui-wave-editor {
 .gsuiWaveEditor-symmetry,
 .gsuiWaveEditor-normalize {
 	box-sizing: border-box;
-	padding: 0 4px;
 	border: 2px solid transparent;
 	border-radius: 4px;
+	padding: 0;
+	height: 20px;
 	color: currentColor;
 	background-color: #0005;
 
@@ -42,8 +43,19 @@ gsui-wave-editor {
 		background-color: #111;
 	}
 }
-gsui-wave-editor[ symmetry ] .gsuiWaveEditor-symmetry {
-	border-color: currentColor;
+.gsuiWaveEditor-symmetry {
+	display: flex;
+	place-content: center;
+	gap: 4px;
+
+	.gsuiIcon:last-child {
+		&::after {
+			opacity: .2;
+		}
+		gsui-wave-editor:not( [ symmetry ] ) &::before {
+			display: none;
+		}
+	}
 }
 gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-child {
 	opacity: .2;
