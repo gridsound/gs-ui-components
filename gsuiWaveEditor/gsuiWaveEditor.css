@@ -3,19 +3,17 @@ gsui-wave-editor {
 	display: flex;
 	height: 100%;
 	min-width: 180px;
-	min-height: 100px;
+	min-height: 226px;
 	touch-action: none;
 }
 
 /* .......................................................................... */
 .gsuiWaveEditor-menu {
 	box-sizing: border-box;
-	width: calc( 2 * ( 26px + 6px ) + 1px );
+	flex-wrap: wrap;
+	width: fit-content;
 	padding: 6px;
 
-	& + & {
-		margin-left: -6px;
-	}
 	gsui-slider {
 		height: 10px;
 	}
@@ -64,8 +62,8 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 /* .......................................................................... */
 .gsuiWaveEditor-tools {
 	overflow: hidden;
+	width: calc( 2 * 26px );
 	flex-wrap: wrap;
-	margin-bottom: auto;
 	border-radius: 4px;
 	background-color: #0004;
 
@@ -102,6 +100,9 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 }
 
 /* .......................................................................... */
+label:has( + .gsuiWaveEditor-gridSize[ dir="x" ] ) {
+	margin-top: auto;
+}
 .gsuiWaveEditor-gridSize {
 	.gsuiIcon {
 		min-width: 20px;
