@@ -371,7 +371,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#updateNormalized();
 	}
 	static $drawWave( polyline, waveArray, w, h ) {
-		if ( !waveArray || !w || !h ) {
+		if ( !waveArray?.length || !w || !h ) {
 			return;
 		}
 
