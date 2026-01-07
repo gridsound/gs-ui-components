@@ -12,7 +12,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 		0: { x:  0, y:  0, type: null,    val: null },
 		1: { x:  1, y:  1, type: "curve", val: 0 },
 	};
-	#wavesW = 0;
 	#wavesH = 0;
 
 	constructor() {
@@ -86,7 +85,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 		const w = svg.clientWidth;
 		const h = svg.clientHeight;
 
-		this.#wavesW = this.$elements.$waves.clientWidth;
 		this.#wavesH = this.$elements.$waves.clientHeight;
 		GSUdomViewBox( svg, w, h );
 		GSUdomSetAttr( svg.firstChild, { y1: h, x2: w } );

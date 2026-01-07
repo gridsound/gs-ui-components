@@ -2,7 +2,6 @@
 
 class gsuiLFO extends gsui0ne {
 	#lfo = "gain";
-	#amp = 1;
 	#dur = 4;
 	#waveWidth = 300;
 	#keyPreviews = [];
@@ -79,7 +78,6 @@ class gsuiLFO extends gsui0ne {
 					this.#changeProp( prop, num );
 					break;
 				case "amp":
-					this.#amp = num;
 					if ( num > 0 !== prev > 0 ) {
 						this.#changeAmpSign( num );
 					}

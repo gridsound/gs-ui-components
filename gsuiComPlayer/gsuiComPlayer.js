@@ -197,7 +197,7 @@ class gsuiComPlayer extends gsui0ne {
 		const prom = act === "open" || act === "visible" || act === "private"
 			? this.#promises.visibility
 			: this.#promises[ act ];
-		let clazz = gsuiComPlayer.#actioning[ act ];
+		const clazz = gsuiComPlayer.#actioning[ act ];
 
 		GSUdomSetAttr( this.$elements.$actionsBtn, {
 			"data-spin": "on",

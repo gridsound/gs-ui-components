@@ -289,9 +289,6 @@ class gsuiWavetable extends gsui0ne {
 	#wtwaves_getElem( id ) {
 		return GSUdomQS( this, `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
-	#wtwaves_getSVG( id ) {
-		return GSUdomQS( this, `.gsuiWavetable-wave[data-id='${ id }'] gsui-dotlinesvg` );
-	}
 	#wtwaves_updatePreview( id ) {
 		const polyline = GSUdomQS( this, `.gsuiWavetable-wave[data-id='${ id }'] polyline` );
 

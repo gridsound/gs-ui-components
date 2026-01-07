@@ -31,8 +31,8 @@ GSUsetTemplate( "gsui-daw-windowHeads", () => [
 ] );
 
 GSUsetTemplate( "gsui-daw-window-playPause", () => [
-	GSUcreateDiv( { "class": "gsuiDAW-window-ctrl" },
-		GSUcreateDiv( { "class": "gsuiDAW-window-playPause" },
+	GSUcreateDiv( { class: "gsuiDAW-window-ctrl" },
+		GSUcreateDiv( { class: "gsuiDAW-window-playPause" },
 			GSUcreateButton( { "data-action": "play", icon: "play" } ),
 			GSUcreateButton( { "data-action": "stop", icon: "stop" } ),
 		),

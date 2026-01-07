@@ -62,13 +62,14 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	#initReorder( opt ) {
-		new gsuiReorder( Object.assign( {
+		new gsuiReorder( {
 			$parentSelector: ".gsuiPatterns-panel-list",
 			$itemSelector: ".gsuiPatterns-pattern",
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
 			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
 			$getTargetList: () => [ ...GSUdomQSA( ".gsuiTrack-row > div" ) ],
-		}, opt ) );
+			...opt,
+		} );
 	}
 	#initReorderSlices() {
 		this.#initReorder( {

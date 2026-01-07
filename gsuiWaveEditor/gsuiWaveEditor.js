@@ -22,7 +22,7 @@ class gsuiWaveEditor extends gsui0ne {
 		sineDown: n => .5 - Math.sin( n * Math.PI * 2 ) / 2,
 		easeUp:   n =>    -( Math.cos( n * Math.PI ) - 1 ) / 2,
 		easeDown: n => 1 + ( Math.cos( n * Math.PI ) - 1 ) / 2,
-	}
+	};
 	static #clickSquareFnsSymm = {
 		goUp:     "goUp",
 		goDown:   "goDown",
@@ -34,7 +34,7 @@ class gsuiWaveEditor extends gsui0ne {
 		sineDown: "sineDown",
 		easeUp:   "easeUp",
 		easeDown: "easeDown",
-	}
+	};
 
 	constructor() {
 		super( {
@@ -331,7 +331,7 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 	#clickSquare( e ) {
 		const coord = this.#getCoord( e.offsetX, e.offsetY );
-		const coordStr = coord + "";
+		const coordStr = `${ coord }`;
 
 		if ( this.#currentSquare !== coordStr ) {
 			this.#currentSquare = coordStr;

@@ -233,7 +233,7 @@ class gsuiBlocksManager {
 				this.#status = "select1";
 				this.#mmFn = this.#getPtrMoveFn();
 			} else {
-				let blc2 = blc || this.$oncreatePreviewBlock?.( this.#mdRowInd, this.#mdWhen );
+				const blc2 = blc || this.$oncreatePreviewBlock?.( this.#mdRowInd, this.#mdWhen );
 
 				if ( blc2 ) {
 					this.#status = e.target.dataset.action || "create";

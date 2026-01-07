@@ -51,7 +51,7 @@ class gsuiPropSelect extends gsui0ne {
 
 		return isSep
 			? GSUcreateDiv( { class: "gsuiPropSelect-sep", inert: true }, p2 )
-			: GSUcreateDiv( { class: "gsuiPropSelect-btn", "data-prop": p2[ 0 ], "data-label": p2[ 1 ] || p2[ 0 ] } )
+			: GSUcreateDiv( { class: "gsuiPropSelect-btn", "data-prop": p2[ 0 ], "data-label": p2[ 1 ] || p2[ 0 ] } );
 	}
 	#setProp( prop, prev ) {
 		const btn = this.#getBtn( prop );

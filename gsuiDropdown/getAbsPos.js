@@ -2,18 +2,18 @@
 
 // _T_op   _B_ottom   _L_eft   _R_ight
 const getAbsPos_list = {
-    "T":  "T TL TR LT RT B BL BR LB RB L R".split( " " ),
-    "B":  "B BL BR LB RB T TL TR LT RT L R".split( " " ),
-    "L":  "L LT LB TL BL R RT RB TR BR T B".split( " " ),
-    "R":  "R RT RB TR BR L LT LB TL BL T B".split( " " ),
-    "RT": "RT TR RB BR LT TL BL LB R T L B".split( " " ),
-    "TR": "TR RT TL LT BR RB BL LB T R B L".split( " " ),
-    "TL": "TL LT TR RT BL LB BR RB T L B R".split( " " ),
-    "LT": "LT TL RT TR LB BL RB BR L T R B".split( " " ),
-    "LB": "LB BL RB BR LT TL RT TR L B R T".split( " " ),
-    "BL": "BL LB BR RB TL LT TR RT B L T R".split( " " ),
-    "BR": "BR RB BL LB TR RT TL LT B R T L".split( " " ),
-    "RB": "RB BR LB BL RT TR LT TL R B L T".split( " " ),
+    T:  "T TL TR LT RT B BL BR LB RB L R".split( " " ),
+    B:  "B BL BR LB RB T TL TR LT RT L R".split( " " ),
+    L:  "L LT LB TL BL R RT RB TR BR T B".split( " " ),
+    R:  "R RT RB TR BR L LT LB TL BL T B".split( " " ),
+    RT: "RT TR RB BR LT TL BL LB R T L B".split( " " ),
+    TR: "TR RT TL LT BR RB BL LB T R B L".split( " " ),
+    TL: "TL LT TR RT BL LB BR RB T L B R".split( " " ),
+    LT: "LT TL RT TR LB BL RB BR L T R B".split( " " ),
+    LB: "LB BL RB BR LT TL RT TR L B R T".split( " " ),
+    BL: "BL LB BR RB TL LT TR RT B L T R".split( " " ),
+    BR: "BR RB BL LB TR RT TL LT B R T L".split( " " ),
+    RB: "RB BR LB BL RT TR LT TL R B L T".split( " " ),
 };
 
 const getAbsPos_outMargin = 10;

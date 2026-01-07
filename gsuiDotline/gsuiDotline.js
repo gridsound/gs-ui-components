@@ -8,8 +8,6 @@ class gsuiDotline extends gsui0ne {
 	#cdots = {};
 	#dotsOpt = {};
 	#dotsMoving = [];
-	#svgW = 0;
-	#svgH = 0;
 	#w = 1;
 	#h = 1;
 	#xmin = 0;

@@ -64,16 +64,16 @@ class gsuiBeatlines extends gsui0ne {
 				}
 			}
 		}
-		return "url('data:image/svg+xml," +
-			`<svg ${ svgSize } fill="${ color }" xmlns="http://www.w3.org/2000/svg">` +
-				( !measuOp ? "" : `<g opacity="${ measuOp }">` +
+		return `url('data:image/svg+xml,${
+			`<svg ${ svgSize } fill="${ color }" xmlns="http://www.w3.org/2000/svg">${
+				( !measuOp ? "" : `<g opacity="${ measuOp }">${
 					gsuiBeatlines.#rect( axeX, 1, 0 ) +
-					gsuiBeatlines.#rect( axeX, 1, w ) +
-				"</g>" ) +
+					gsuiBeatlines.#rect( axeX, 1, w )
+				}</g>` ) +
 				( beats ? `<g opacity="${ beatsOp * .4 }">${ beats.join( "" ) }</g>` : "" ) +
-				( steps ? `<g opacity="${ stepsOp * .2 }">${ steps.join( "" ) }</g>` : "" ) +
-			"</svg>" +
-		"')";
+				( steps ? `<g opacity="${ stepsOp * .2 }">${ steps.join( "" ) }</g>` : "" )
+			}</svg>`
+		}')`;
 	}
 }
 

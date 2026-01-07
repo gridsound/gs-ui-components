@@ -66,8 +66,8 @@ class gsuiComProfile extends gsui0ne {
 			case "firstname":
 				GSUdomSetAttr( this.$elements.$name, "title",
 						`/u/${ this.$elements.$username.textContent
-						} : ${ this.$elements.$firstname.textContent || '--'
-						} ${ this.$elements.$lastname.textContent || '--' }` );
+						} : ${ this.$elements.$firstname.textContent || "--"
+						} ${ this.$elements.$lastname.textContent || "--" }` );
 				break;
 		}
 	}

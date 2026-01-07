@@ -425,18 +425,16 @@ class gsuiDrums extends gsui0ne {
 			if ( prevItem && prevW < when && when < prevW + prevD ) {
 				this.#hoverBeat = prevW;
 				this.#hoverDur = prevD;
+			} else if ( this.#currAction ) {
+				this.#hoverBeat = GSUmathFloor( when, this.#hoverDurSaved );
+				this.#hoverDur = this.#hoverDurSaved;
 			} else {
-				if ( this.#currAction ) {
-					this.#hoverBeat = GSUmathFloor( when, this.#hoverDurSaved );
-					this.#hoverDur = this.#hoverDurSaved;
-				} else {
-					const whenCut = Math.floor( ( this.#hoverPageX - left ) / this.#pxPerStep ) / this.#stepsPerBeat;
+				const whenCut = Math.floor( ( this.#hoverPageX - left ) / this.#pxPerStep ) / this.#stepsPerBeat;
 
-					this.#hoverBeat = prevItem && prevW + prevD > whenCut
-						? prevW + prevD
-						: whenCut;
-					this.#hoverDur = this.#calcItemWidth( this.#hoverItemType, this.#draggingRowId, this.#hoverBeat );
-				}
+				this.#hoverBeat = prevItem && prevW + prevD > whenCut
+					? prevW + prevD
+					: whenCut;
+				this.#hoverDur = this.#calcItemWidth( this.#hoverItemType, this.#draggingRowId, this.#hoverBeat );
 			}
 			this.#elHover.style.left = `${ this.#hoverBeat }em`;
 			this.#elHover.style.width = `${ this.#hoverDur }em`;
@@ -491,7 +489,7 @@ class gsuiDrums extends gsui0ne {
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUdomGetAttrNum( d, "when" );
 			const dd = GSUdomGetAttrNum( d, "duration" ) / 2;
-			const obj = { when: dw + dd }
+			const obj = { when: dw + dd };
 
 			this.#hoverBeat = when < dw + dd ? dw : dw + dd;
 			this.#hoverDur = dd;
