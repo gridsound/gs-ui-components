@@ -39,7 +39,7 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$play.onclick = this.#onclickPlay.bind( this );
 		this.$elements.$likeBtn.onclick = this.#onclickLike.bind( this );
 		this.$elements.$timeInpTrk.onpointerdown = this.#ptrDown.bind( this );
-		this.$elements.$audio.addEventListener( "error", e => {
+		this.$elements.$audio.addEventListener( "error", () => {
 			GSUdomRmAttr( this, "playing", "rendered" );
 			GSUdomRmAttr( this.$elements.$play, "data-spin" );
 			GSUdomRmAttr( this.$elements.$audio, "src" );

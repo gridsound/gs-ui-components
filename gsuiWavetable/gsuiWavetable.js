@@ -92,7 +92,7 @@ class gsuiWavetable extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize( w ) {
+	$onresize() {
 		this.#wtposCurve_updateBeatline();
 	}
 	$firstTimeConnected() {
@@ -196,7 +196,7 @@ class gsuiWavetable extends gsui0ne {
 			this.#wtwaves_selectWave( obj2.wave );
 		}
 	}
-	#onreorderWaves( obj ) {
+	#onreorderWaves() {
 		const elWavesSorted = Array.from( this.$elements.$waves.children ).sort( ( a, b ) => a.style.order - b.style.order );
 		const nbWaves = elWavesSorted.length;
 		const wavesObj = {};

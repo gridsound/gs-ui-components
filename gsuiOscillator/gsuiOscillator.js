@@ -204,8 +204,6 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#changeWave( w ) {
-		const slid = this.$elements.$sliders;
-
 		this.$elements.$waveSelect.value = w;
 		if ( w ) {
 			GSUdomRmAttr( this, "source" );

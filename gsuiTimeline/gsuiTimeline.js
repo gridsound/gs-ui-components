@@ -342,7 +342,7 @@ class gsuiTimeline extends gsui0ne {
 			}
 		}
 	}
-	$onptrup( e ) {
+	$onptrup() {
 		switch ( this.#status ) {
 			case GSUI_DRAGGING_TIME: {
 				const beat = GSUdomGetAttr( this, "currenttime-preview" );

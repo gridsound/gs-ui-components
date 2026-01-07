@@ -21,7 +21,7 @@ class gsuiTimewindow extends gsui0ne {
 	#minimapThumbSaved = 0;
 	#minimapScrollSaved = 0;
 	#minimapIntervalId = null;
-	#minimapViewMax = 0;
+	// #minimapViewMax = 0;
 	#scrollX = 0;
 	#scrollY = 0;
 	#scrollXint = 0;
@@ -271,7 +271,7 @@ class gsuiTimewindow extends gsui0ne {
 		const act = e.target.dataset.action;
 
 		this.#minimapAction = act;
-		this.#minimapViewMax = 0;
+		// this.#minimapViewMax = 0;
 		this.#minimapPtrPageX = e.pageX;
 		this.#minimapPPBSaved = this.#pxPerBeat;
 		this.#minimapThumbSaved = this.$elements.$minimapThumb.clientWidth;
@@ -325,7 +325,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.#minimapAction = null;
 		this.onpointermove = null;
 		this.onpointerup = null;
-		this.#minimapViewMax = 0;
+		// this.#minimapViewMax = 0;
 		e.target.releasePointerCapture( e.pointerId );
 		this.#minimapUpdate();
 	}

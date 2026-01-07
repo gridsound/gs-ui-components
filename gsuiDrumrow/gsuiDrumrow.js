@@ -100,7 +100,7 @@ class gsuiDrumrow extends gsui0ne {
 	}
 
 	// .........................................................................
-	#oninputendSlider( id ) {
+	#oninputendSlider() {
 		this.$elements.$name.textContent = GSUdomGetAttr( this, "name" );
 		GSUdomRmAttr( this, "info" );
 	}

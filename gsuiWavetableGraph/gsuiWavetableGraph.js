@@ -158,14 +158,14 @@ class gsuiWavetableGraph extends gsui0ne {
 			points: curveDots.join( " " ),
 		} );
 	}
-	#drawInter( el, x ) {
-		GSUdomSetAttr( el, "points", this.#waves.map( ( wave, i ) => {
-			const dotsI = x * ( wave.dots.length - 1 ) | 0;
-			const dot = wave.dots[ dotsI ];
+	// #drawInter( el, x ) {
+	// 	GSUdomSetAttr( el, "points", this.#waves.map( ( wave, i ) => {
+	// 		const dotsI = x * ( wave.dots.length - 1 ) | 0;
+	// 		const dot = wave.dots[ dotsI ];
 
-			return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
-		} ).join( " " ) );
-	}
+	// 		return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
+	// 	} ).join( " " ) );
+	// }
 
 	// .........................................................................
 	#getCoord( x, y, z ) {
@@ -204,10 +204,10 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onptrdown( e ) {
+	$onptrdown() {
 		this.style.cursor = "grabbing";
 	}
-	$onptrup( e ) {
+	$onptrup() {
 		this.style.cursor = "grab";
 	}
 	$onptrmove( e ) {

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-window", id => [
+GSUsetTemplate( "gsui-window", () => [
 	GSUcreateDiv( { class: "gsuiWindow-handlers" },
 		GSUcreateDiv( { class: "gsuiWindow-handler", "data-dir": "n" } ),
 		GSUcreateDiv( { class: "gsuiWindow-handler", "data-dir": "e" } ),

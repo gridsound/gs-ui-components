@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-noise", txt => [
+GSUsetTemplate( "gsui-noise", () => [
 	GSUcreateDiv( { class: "gsuiNoise-type" },
 		GSUcreateDiv( { class: "gsuiNoise-type-color" } ),
 		GSUcreateSpan( { class: "gsuiNoise-type-txt" }, "white" ),

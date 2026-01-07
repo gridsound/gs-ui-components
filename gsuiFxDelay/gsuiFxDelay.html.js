@@ -22,6 +22,6 @@ GSUsetTemplate( "gsui-fx-delay", () => [
 			GSUcreateDiv( { class: "gsuiFxDelay-graph-line" } ),
 			GSUcreateDiv( { class: "gsuiFxDelay-graph-source" } ),
 		),
-		Array.from( { length: 20 }, ( _, n ) => GSUcreateDiv( { class: "gsuiFxDelay-graph-echo" } ) )
+		Array.from( { length: 20 }, () => GSUcreateDiv( { class: "gsuiFxDelay-graph-echo" } ) )
 	),
 ] );

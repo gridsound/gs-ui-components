@@ -257,7 +257,7 @@ class gsuiBlocksManager {
 	#onmousedownMove( data, blcsEditing, _blc, e ) {
 		this.#mmFn = this.#getPtrMoveFn();
 		this.#mdRowInd = this.$getRowIndexByPageY( e.pageY );
-		blcsEditing.forEach( ( blc, id ) => {
+		blcsEditing.forEach( blc => {
 			const valB = this.$getRowIndexByRow( blc.parentNode.parentNode );
 
 			this.#valueAMin = Math.min( this.#valueAMin, +blc.dataset.when );
@@ -335,7 +335,7 @@ class gsuiBlocksManager {
 
 		if ( when !== this.#valueA ) {
 			this.#valueA = when;
-			this.#blcsEditing.forEach( ( blc, id ) => this.#blockDOMChange( blc, "when", +blc.dataset.when + when ) );
+			this.#blcsEditing.forEach( blc => this.#blockDOMChange( blc, "when", +blc.dataset.when + when ) );
 		}
 		if ( rows !== this.#valueB ) {
 			this.#valueB = rows;

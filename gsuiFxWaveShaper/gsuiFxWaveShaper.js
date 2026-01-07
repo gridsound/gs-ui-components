@@ -39,7 +39,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		this.$changeCurveData( gsuiFxWaveShaper.#defPtsSym );
 		this.$elements.$reset.onclick = this.#onreset.bind( this );
-		this.$elements.$oversampleSelect.onchange = e => {
+		this.$elements.$oversampleSelect.onchange = () => {
 			if ( this.$elements.$oversampleToggle.$isOn() ) {
 				this.#onchangeOversample();
 			}
@@ -155,7 +155,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 			? this.#addGraphSymmetry( graphData )
 			: graphData;
 		const w = this.$elements.$waves.clientWidth;
-		const h = this.$elements.$waves.clientHeight;
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( graphData2[ Math.round( ( ( y + 1 ) / 2 ) * ( len - 1 ) ) ] || 0 ) }` );
 
 		GSUdomSetAttr( this.$elements.$waveB, "points", pts.join( " " ) );

@@ -219,7 +219,6 @@ class gsuiLFO extends gsui0ne {
 	}
 	#keyAnimFramePreview( toRm, now, p ) {
 		const since = ( now - p.$when ) * p.$bps;
-		const g = this.$elements.$graph;
 
 		if ( since > p.$dur ) {
 			p.$elem.remove();

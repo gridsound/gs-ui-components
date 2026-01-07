@@ -212,7 +212,7 @@ class gsuiSlider extends gsui0ne {
 		this.#updateVal( val2 );
 		this.#oninput( val2 );
 	}
-	$onptrup( e ) {
+	$onptrup() {
 		GSUdomBody.removeEventListener( "wheel", this.#onwheelBinded );
 		GSUdomDispatch( this, GSEV_SLIDER_INPUTEND, this.#value );
 		if ( this.#value !== this.#valueSave ) {

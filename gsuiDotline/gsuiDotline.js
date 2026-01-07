@@ -389,7 +389,7 @@ class gsuiDotline extends gsui0ne {
 			const dat = this.#data[ id ];
 
 			this.#dotsMoving = [ { id, ...dat } ];
-			this.#dataSorted.find( ( [ dId, d ], i, arr ) => {
+			this.#dataSorted.find( ( [ dId ], i, arr ) => {
 				if ( dId === id ) {
 					const dotA = arr[ i - 1 ]?.[ 1 ];
 					const dotB = arr[ i + 1 ]?.[ 1 ];
@@ -445,7 +445,7 @@ class gsuiDotline extends gsui0ne {
 			this.$elements.$slider.$ptrDown( e );
 		}
 	}
-	$onptrup( e ) {
+	$onptrup() {
 		if ( this.#activeDotId ) {
 			this.#selectDotElement( this.#activeDotId, false );
 		}
