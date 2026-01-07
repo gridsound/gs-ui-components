@@ -33,13 +33,6 @@ class gsuiDrums extends gsui0ne {
 	#onmouseupNewBind = this.#onmouseupNew.bind( this );
 	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
 	#drumrows = GSUcreateElement( "gsui-drumrows" );
-	#reorder = new gsuiReorder( {
-		$root: this.#drumrows,
-		$parentSelector: "gsui-drumrows",
-		$itemSelector: "gsui-drumrow",
-		$itemGripSelector: ".gsuiDrumrow-grip",
-		$onchange: ( obj, rowId ) => GSUdomDispatch( this, GSEV_DRUMS_REORDERDRUMROW, rowId, obj ),
-	} );
 
 	constructor() {
 		super( {
@@ -74,6 +67,13 @@ class gsuiDrums extends gsui0ne {
 		this.#elDrumcutHover.ondblclick = this.#ondblclickSplit.bind( this, "Drumcuts" );
 		this.#elDrumHover.onmousedown = this.#onmousedownNew.bind( this, "Drums" );
 		this.#elDrumcutHover.onmousedown = this.#onmousedownNew.bind( this, "Drumcuts" );
+		new gsuiReorder( {
+			$root: this.#drumrows,
+			$parentSelector: "gsui-drumrows",
+			$itemSelector: "gsui-drumrow",
+			$itemGripSelector: ".gsuiDrumrow-grip",
+			$onchange: ( obj, rowId ) => GSUdomDispatch( this, GSEV_DRUMS_REORDERDRUMROW, rowId, obj ),
+		} );
 	}
 
 	// .........................................................................
