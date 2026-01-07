@@ -42,10 +42,10 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 					GSUcreateIcon( { icon: "check" } ),
 				),
 			),
-			GSUcreateFlex( { y: true, g6: true },
+			GSUcreateFlex( { class: "gsuiWaveEditor-div", y: true, g6: true },
 				GSUcreateLabel( null, "grid-div" ),
-				GSUgetTemplate( "gsui-wave-editor-gridSize", "x" ),
-				GSUgetTemplate( "gsui-wave-editor-gridSize", "y" ),
+				GSUgetTemplate( "gsui-wave-editor-div", "x" ),
+				GSUgetTemplate( "gsui-wave-editor-div", "y" ),
 			),
 		),
 		GSUcreateFlex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
@@ -67,8 +67,8 @@ GSUsetTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
 	),
 );
 
-GSUsetTemplate( "gsui-wave-editor-gridSize", dir =>
-	GSUcreateFlex( { class: "gsuiWaveEditor-gridSize", dir, y: true, xcenter: true, g2: true },
+GSUsetTemplate( "gsui-wave-editor-div", dir =>
+	GSUcreateFlex( { dir, y: true, xcenter: true, g2: true },
 		GSUcreateFlex( { x: true, ycenter: true, g6: true },
 			GSUcreateSpan(),
 			GSUcreateIcon( { icon: dir === "x" ? "arrows-h" : "arrows-v" } ),

@@ -43,8 +43,8 @@ class gsuiWaveEditor extends gsui0ne {
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
 				$resetBtn: ".gsuiWaveEditor-reset",
-				$gridVal: "[].gsuiWaveEditor-gridSize span",
-				$gridSli: "[].gsuiWaveEditor-gridSize gsui-slider",
+				$gridVal: "[].gsuiWaveEditor-div span",
+				$gridSli: "[].gsuiWaveEditor-div gsui-slider",
 				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 				$waveSVG: ".gsuiWaveEditor-wave svg",

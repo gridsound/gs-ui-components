@@ -100,26 +100,27 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 }
 
 /* .......................................................................... */
-label:has( + .gsuiWaveEditor-gridSize[ dir="x" ] ) {
+.gsuiWaveEditor-div {
 	margin-top: auto;
-}
-.gsuiWaveEditor-gridSize {
-	.gsuiIcon {
-		min-width: 20px;
-		opacity: .5;
-	}
-	span {
-		min-width: 20px;
-		padding: 0px 2px;
-		text-align: end;
-		font-weight: bold;
-		font-family: var( --gsui-font-number );
-		border-radius: 4px;
-		background-color: #0005;
-	}
-	.gsuiSlider-eventCatcher {
-		inset: -21px -6px -6px;
-		cursor: ew-resize;
+
+	> gs-flex {
+		.gsuiIcon {
+			min-width: 20px;
+			opacity: .5;
+		}
+		span {
+			min-width: 20px;
+			padding: 0px 2px;
+			text-align: end;
+			font-weight: bold;
+			font-family: var( --gsui-font-number );
+			border-radius: 4px;
+			background-color: #0005;
+		}
+		.gsuiSlider-eventCatcher {
+			inset: -21px -6px -6px;
+			cursor: ew-resize;
+		}
 	}
 }
 
