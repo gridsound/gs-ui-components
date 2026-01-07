@@ -85,7 +85,7 @@ class gsuiDropdown {
 	#positionElement() {
 		const tarBCR = GSUdomBCR( this.#elBtn );
 		const elArrow = GSUdomQS( this.#elem, ".gsuiDropdown-arrow" );
-		const posObj = getAbsPos( this.#direction, tarBCR, this.#elem.clientWidth, this.#elem.clientHeight, {
+		const posObj = gsuiCalcAbsPos.$calc( this.#direction, tarBCR, this.#elem.clientWidth, this.#elem.clientHeight, {
 			margin: 8,
 			withArrow: true,
 			absolute: this.#elParent === GSUdomBody,

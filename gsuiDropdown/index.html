@@ -172,7 +172,7 @@ ddTar.onpointermove = e => {
 		ddTar.style.left = `${ x }px`;
 		ddTar.style.top  = `${ y }px`;
 
-		const pos = getAbsPos( ddTar.dataset.pos, GSUdomBCR( ddTar ), ddw, ddh, { margin: 10 } );
+		const pos = gsuiCalcAbsPos.$calc( ddTar.dataset.pos, GSUdomBCR( ddTar ), ddw, ddh, { margin: 10 } );
 
 		dd.style.left = pos.left;
 		dd.style.top  = pos.top;
