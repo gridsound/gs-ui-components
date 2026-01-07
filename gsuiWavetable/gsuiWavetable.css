@@ -23,9 +23,10 @@ gsui-wavetable {
 	font-size: 12px;
 	background: none;
 	opacity: .6;
-}
-.gsuiWavetable-back:hover {
-	opacity: 1;
+
+	&:hover {
+		opacity: 1;
+	}
 }
 .gsuiWavetable-title {
 	margin-bottom: 1px;
@@ -51,14 +52,15 @@ gsui-wavetable gsui-wavetable-graph {
 .gsuiWavetable-waves-list {
 	position: relative;
 	min-height: 46px;
-}
-.gsuiWavetable-waves-list > div {
-	position: absolute;
-	overflow: scroll;
-	inset: 0;
-	display: flex;
-	background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%230001'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E" );
-	background-color: #0003;
+
+	> div {
+		position: absolute;
+		overflow: scroll;
+		inset: 0;
+		display: flex;
+		background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%230001'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E" );
+		background-color: #0003;
+	}
 }
 
 /* .......................................................................... */
@@ -72,23 +74,25 @@ gsui-wavetable gsui-wavetable-graph {
 	cursor: pointer;
 	--gsui-num-opacity: .3;
 	--gsui-svg-cursor: pointer;
-}
-.gsuiWavetable-wave[ data-selected ] {
-	background-color: #493d7b;
-	--gsui-num-opacity: .9;
-	--gsui-svg-cursor: grab;
+
+	&[ data-selected ] {
+		background-color: #493d7b;
+		--gsui-num-opacity: .9;
+		--gsui-svg-cursor: grab;
+	}
 }
 .gsuiWavetable-wave-svg {
 	position: relative;
-}
-.gsuiWavetable-wave svg {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	stroke: currentColor;
-	fill: #fff1;
+
+	svg {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		stroke: currentColor;
+		fill: #fff1;
+	}
 }
 
 /* .......................................................................... */
@@ -106,13 +110,14 @@ gsui-wavetable gsui-wavetable-graph {
 .gsuiWavetable-wave-btn {
 	cursor: pointer;
 	opacity: .2;
-}
-.gsuiWavetable-wave-btn[ data-action="clone" ] {
-	font-size: .72em;
-	margin-right: auto;
-}
-.gsuiWavetable-wave-btn:hover {
-	opacity: .5;
+
+	&[ data-action="clone" ] {
+		font-size: .72em;
+		margin-right: auto;
+	}
+	&:hover {
+		opacity: .5;
+	}
 }
 
 /* .......................................................................... */
@@ -140,75 +145,80 @@ gsui-wavetable gsui-wavetable-graph {
 	cursor: pointer;
 	background-color: #0005;
 	opacity: .6;
-}
-.gsuiWavetable-posCurve[ data-selected ] {
-	cursor: default;
-	opacity: 1;
-}
-.gsuiWavetable-posCurve[ data-selected ]::before {
-	content: "";
-	position: absolute;
-	top: calc( 100% + 1px );
-	width: 50%;
-	left: 25%;
-	height: 3px;
-	border-radius: 99px;
-	background-color: var( --gsuiWavetable-wave );
-}
-.gsuiWavetable-posCurve .gsuiWavetable-keyPreviews {
-	position: absolute;
-	inset: auto 5px 100%;
-	height: 2px;
-}
-.gsuiWavetable-posCurve .gsuiWavetable-keyPreview {
-	top: 0;
-	width: 2px;
-	height: 100%;
-	margin-left: -1px;
-}
-.gsuiWavetable-posCurve gsui-dotlinesvg {
-	position: absolute;
-	overflow: hidden;
-	inset: 4px;
-	border-radius: inherit;
-}
-.gsuiWavetable-posCurve svg {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	fill: none;
-	stroke: currentColor;
+
+	&[ data-selected ] {
+		cursor: default;
+		opacity: 1;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: calc( 100% + 1px );
+			width: 50%;
+			left: 25%;
+			height: 3px;
+			border-radius: 99px;
+			background-color: var( --gsuiWavetable-wave );
+		}
+	}
+	.gsuiWavetable-keyPreviews {
+		position: absolute;
+		inset: auto 5px 100%;
+		height: 2px;
+	}
+	.gsuiWavetable-keyPreview {
+		top: 0;
+		width: 2px;
+		height: 100%;
+		margin-left: -1px;
+	}
+	gsui-dotlinesvg {
+		position: absolute;
+		overflow: hidden;
+		inset: 4px;
+		border-radius: inherit;
+	}
+	svg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		fill: none;
+		stroke: currentColor;
+	}
 }
 
 /* .......................................................................... */
-.gsuiWavetable-posCurve-dur span {
-	font-size: 12px;
-	font-weight: bold;
-	opacity: .5;
-}
-.gsuiWavetable-posCurve-dur gsui-slider {
-	height: 8px;
-}
-.gsuiWavetable-posCurve-dur .gsuiSlider-eventCatcher {
-	top: -15px;
-	right: -60px;
-}
-.gsuiWavetable-posCurve-dur b {
-	display: flex;
-	align-items: baseline;
-	height: 20px;
-	gap: .5ch;
-	border-radius: 4px;
-	padding: 2px 6px;
-	font-family: var( --gsui-font-number );
-	background-color: #0005;
-}
-.gsuiWavetable-posCurve-dur b::after {
-	content: " Beat";
-	font-size: .8em;
-	font-weight: normal;
-	font-family: var( --gsui-font );
-	opacity: .5;
+.gsuiWavetable-posCurve-dur {
+	span {
+		font-size: 12px;
+		font-weight: bold;
+		opacity: .5;
+	}
+	gsui-slider {
+		height: 8px;
+	}
+	.gsuiSlider-eventCatcher {
+		top: -15px;
+		right: -60px;
+	}
+	b {
+		display: flex;
+		align-items: baseline;
+		height: 20px;
+		gap: .5ch;
+		border-radius: 4px;
+		padding: 2px 6px;
+		font-family: var( --gsui-font-number );
+		background-color: #0005;
+
+		&::after {
+			content: " Beat";
+			font-size: .8em;
+			font-weight: normal;
+			font-family: var( --gsui-font );
+			opacity: .5;
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -219,6 +229,16 @@ gsui-wavetable gsui-wavetable-graph {
 	border-radius: 4px;
 	padding: var( --gsui-pad );
 	background-color: #0005;
+
+	.gsuiWavetable-keyPreviews {
+		position: absolute;
+		inset: var( --gsui-pad );
+	}
+	.gsuiWavetable-keyPreview {
+		width: 10px;
+		height: 10px;
+		margin: -5px 0 0 -5px;
+	}
 }
 .gsuiWavetable-posCurves-graph-waves {
 	position: absolute;
@@ -230,23 +250,13 @@ gsui-wavetable gsui-wavetable-graph {
 	inset: auto 0;
 	border-top: 1px solid currentColor;
 	opacity: .25;
-}
-.gsuiWavetable-posCurve-wave[ data-selected ] {
-	color: var( --gsuiWavetable-wave-selected );
-	opacity: 1;
+
+	&[ data-selected ] {
+		color: var( --gsuiWavetable-wave-selected );
+		opacity: 1;
+	}
 }
 .gsuiWavetable-posCurves gsui-beatlines {
 	inset: var( --gsui-pad );
 	color: currentColor;
-}
-
-/* .......................................................................... */
-.gsuiWavetable-posCurves-graph .gsuiWavetable-keyPreviews {
-	position: absolute;
-	inset: var( --gsui-pad );
-}
-.gsuiWavetable-posCurves-graph .gsuiWavetable-keyPreview {
-	width: 10px;
-	height: 10px;
-	margin: -5px 0 0 -5px;
 }
