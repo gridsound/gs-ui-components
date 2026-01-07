@@ -10,8 +10,8 @@ GSUsetTemplate( "gsui-lfo", () =>
 				[ "amp", "amplitude", "amp", .001, 1, .001 ],
 			].map( ( [ prop, title, text, min, max, step ] ) =>
 				GSUcreateDiv( { class: "gsuiLFO-prop", title, "data-prop": prop },
-					GSUcreateSpan( { class: "gsuiLFO-propLabel" }, text ),
-					GSUcreateSpan( { class: "gsuiLFO-propValue" } ),
+					GSUcreateSpan( { class: "gsuiLFO-propLabel", inert: true }, text ),
+					GSUcreateSpan( { class: "gsuiLFO-propValue", inert: true } ),
 					GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
 				)
 			),
