@@ -55,14 +55,12 @@ class gsuiStepSelect extends gsui0ne {
 	}
 	$getStepFromPxPerBeat( ppb ) {
 		return !GSUdomHasAttr( this, "auto" )
-			? GSUdomGetAttrNum( this, "step" )
-			: (
-				ppb <= 16 ? 4 :
-				ppb < 32 ? 2 :
-				ppb < 64 ? 1 :
-				ppb < 128 ? .5 :
-				ppb < 160 ? .25 : .125
-			);
+			? GSUdomGetAttrNum( this, "step" ) :
+			ppb <= 16 ? 4 :
+			ppb < 32 ? 2 :
+			ppb < 64 ? 1 :
+			ppb < 128 ? .5 :
+			ppb < 160 ? .25 : .125;
 	}
 
 	// .........................................................................

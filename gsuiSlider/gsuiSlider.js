@@ -72,6 +72,8 @@ class gsuiSlider extends gsui0ne {
 			case "value":
 				this.#updateVal( this.#value );
 				break;
+		}
+		switch ( prop ) {
 			case "type":
 			case "stroke-width":
 				this.#setSVGcirc();

@@ -30,12 +30,12 @@ class gsuiLibrary extends gsui0ne {
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
 			$getTargetList: () => [
-				   GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
-				   GSUdomQS( "gsui-slicer" ),
+				GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				GSUdomQS( "gsui-slicer" ),
 				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				   GSUdomQS( ".gsuiSynthesizer-newOsc" ),
+				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
 				...GSUdomQSA( "gsui-drumrow" ),
-				   GSUdomQS( ".gsuiDrumrows-dropNew" ),
+				GSUdomQS( ".gsuiDrumrows-dropNew" ),
 				...GSUdomQSA( ".gsuiTrack-row > div" ),
 			],
 			$ondrop: drop => {

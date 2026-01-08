@@ -113,11 +113,11 @@ class gsuiPatterns extends gsui0ne {
 			$root: this.$elements.$lists.buffer,
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => [
-				   GSUdomQS( "gsui-slicer" ),
+				GSUdomQS( "gsui-slicer" ),
 				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				   GSUdomQS( ".gsuiSynthesizer-newOsc" ),
+				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
 				...GSUdomQSA( "gsui-drumrow" ),
-				   GSUdomQS( ".gsuiDrumrows-dropNew" ),
+				GSUdomQS( ".gsuiDrumrows-dropNew" ),
 				...GSUdomQSA( ".gsuiTrack-row > div" ),
 			],
 		} );

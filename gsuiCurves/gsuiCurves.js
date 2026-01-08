@@ -97,7 +97,7 @@ class gsuiCurves extends gsui0ne {
 		const d = [ `M 0 ${ this.#dbToY( curve[ 0 ] ) } ` ];
 
 		for ( let i = 1; i < len; ++i ) {
-		    d.push( `L ${ i / len * w | 0 } ${ this.#dbToY( curve[ i ] ) } ` );
+			d.push( `L ${ i / len * w | 0 } ${ this.#dbToY( curve[ i ] ) } ` );
 		}
 		return d.join( "" );
 	}

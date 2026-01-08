@@ -233,7 +233,6 @@ class gsuiLFO extends gsui0ne {
 			} );
 		}
 	}
-
 }
 
 GSUdomDefine( "gsui-lfo", gsuiLFO );

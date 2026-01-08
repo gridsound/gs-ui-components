@@ -16,7 +16,7 @@ class gsui0ne extends HTMLElement {
 		super();
 		this.#attributes = o.$attributes || {};
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
-			? GSUgetTemplate( o.$tagName, ...( o.$tmpArgs || [] ) )
+			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )
 			: null );
 		if ( this.#children ) {
 			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;

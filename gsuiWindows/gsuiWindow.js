@@ -233,7 +233,7 @@ class gsuiWindow extends gsui0ne {
 				case "se": GSUdomSetAttr( this, { w: w + m.x, h: h + m.y } ); break;
 				case "s":  GSUdomSetAttr( this, { w,          h: h + m.y } ); break;
 				case "sw": GSUdomSetAttr( this, { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
-				case "w":  GSUdomSetAttr( this, { w: w - m.x, h         , x: x + m.x, y          } ); break;
+				case "w":  GSUdomSetAttr( this, { w: w - m.x, h,          x: x + m.x, y          } ); break;
 				case "nw": GSUdomSetAttr( this, { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
 				case "n":  GSUdomSetAttr( this, { w,          h: h - m.y, x,          y: y + m.y } ); break;
 				case "ne": GSUdomSetAttr( this, { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;

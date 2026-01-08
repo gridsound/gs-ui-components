@@ -5,7 +5,7 @@ class gsuiComUserLink extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComUserLink",
 			$tagName: "gsui-com-userlink",
-			$template: 	GSUcreateA( { class: "gsuiComUserLink-a" },
+			$template: GSUcreateA( { class: "gsuiComUserLink-a" },
 				GSUcreateIcon( { icon: "musician" } ),
 				GSUcreateDiv( { class: "gsuiComUserLink-avatar" } ),
 				GSUcreateSpan( { class: "gsuiComUserLink-username" } ),

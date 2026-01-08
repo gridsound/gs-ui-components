@@ -49,10 +49,10 @@ class gsuiTitleUser extends gsui0ne {
 		switch ( prop ) {
 			case "name": this.$elements.$name.textContent = val; break;
 			case "avatar": this.$elements.$avatar.style.backgroundImage = `url(${ val })`; break;
-			case "username": {
+			case "username":
 				this.$elements.$username.textContent = val;
 				GSUdomSetAttr( this.$elements.$userLink, "href", `//gridsound.com/#/u/${ val }` );
-			} break;
+				break;
 			case "cmpdur": {
 				const dur = GSUsplitSeconds( +val );
 

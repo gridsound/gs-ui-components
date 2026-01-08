@@ -62,7 +62,7 @@ class gsuiWavetableGraph extends gsui0ne {
 			this.#waves.push( {
 				id: wId,
 				index: wave.index,
-				dots: dots,
+				dots,
 			} );
 		} );
 		this.#waves.sort( ( a, b ) => a.index - b.index );
@@ -159,12 +159,12 @@ class gsuiWavetableGraph extends gsui0ne {
 		} );
 	}
 	// #drawInter( el, x ) {
-	// 	GSUdomSetAttr( el, "points", this.#waves.map( ( wave, i ) => {
-	// 		const dotsI = x * ( wave.dots.length - 1 ) | 0;
-	// 		const dot = wave.dots[ dotsI ];
+	//  GSUdomSetAttr( el, "points", this.#waves.map( ( wave, i ) => {
+	//      const dotsI = x * ( wave.dots.length - 1 ) | 0;
+	//      const dot = wave.dots[ dotsI ];
 
-	// 		return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
-	// 	} ).join( " " ) );
+	//      return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
+	//  } ).join( " " ) );
 	// }
 
 	// .........................................................................
@@ -195,7 +195,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		const yAmp = -( this.#drawSz * .7 )  * ( 1 - camY );
 		const zAmp = camX <= .5
 			? camY2
-			: ( camY2 * ( 1 - 2 * ( camX - .5 ) ) );
+			: camY2 * ( 1 - 2 * ( camX - .5 ) );
 
 		return this.#h / 2 - this.#boxH / 2
 			+ x * xAmp

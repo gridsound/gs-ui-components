@@ -217,7 +217,7 @@ class gsuiWaveEditor extends gsui0ne {
 			} )
 			.then( bufData => {
 				const bufData2 = GSUarrayResize( bufData, 2048 );
-				
+
 				this.$setWaveArray( bufData2 );
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, bufData2 );
 			} );
