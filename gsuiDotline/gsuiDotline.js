@@ -243,7 +243,7 @@ class gsuiDotline extends gsui0ne {
 	#getH() { return this.$elements.$root.clientHeight; }
 	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, GSUdomGetAttrNum( this, "xstep" ) ); }
 	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, GSUdomGetAttrNum( this, "ystep" ) ); }
-	#getPercX( x ) { return         ( x - this.#xmin ) / this.#w * 100  ; }
+	#getPercX( x ) { return         ( x - this.#xmin ) / this.#w * 100; }
 	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
 
 	// .........................................................................

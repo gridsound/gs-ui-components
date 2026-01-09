@@ -185,9 +185,9 @@ class gsuiWavetableGraph extends gsui0ne {
 		const zAmp = camX <= .5 ? amp2 : amp1;
 
 		return (
-			this.#w / 2 - this.#boxW / 2
-			+ x * xAmp
-			+ z * zAmp
+			this.#w / 2 - this.#boxW / 2 +
+			x * xAmp +
+			z * zAmp
 		);
 	}
 	#calcY( x, y, z ) {
@@ -200,10 +200,10 @@ class gsuiWavetableGraph extends gsui0ne {
 			: camY2 * ( 1 - 2 * ( camX - .5 ) );
 
 		return (
-			this.#h / 2 - this.#boxH / 2
-			+ x * xAmp
-			+ y * yAmp
-			+ z * zAmp
+			this.#h / 2 - this.#boxH / 2 +
+			x * xAmp +
+			y * yAmp +
+			z * zAmp
 		);
 	}
 

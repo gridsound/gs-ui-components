@@ -331,18 +331,36 @@ class gsuiWindow extends gsui0ne {
 		switch ( dir ) {
 			case "n":
 			case "nw":
-			case "ne": if ( h - mm.y < 0 ) { mm.y =  h; } else if ( rc.y + mm.y < 0 ) { mm.y = -rc.y; } break;
+			case "ne":
+				if ( h - mm.y < 0 ) {
+					mm.y =  h;
+				} else if ( rc.y + mm.y < 0 ) {
+					mm.y = -rc.y;
+				}
+				break;
 			case "s":
 			case "sw":
-			case "se": if ( h + mm.y < 0 ) { mm.y = -h; } break;
+			case "se":
+				if ( h + mm.y < 0 ) {
+					mm.y = -h;
+				}
+				break;
 		}
 		switch ( dir ) {
 			case "w":
 			case "nw":
-			case "sw": if ( w - mm.x < 0 ) { mm.x =  w; } break;
+			case "sw":
+				if ( w - mm.x < 0 ) {
+					mm.x =  w;
+				}
+				break;
 			case "e":
 			case "ne":
-			case "se": if ( w + mm.x < 0 ) { mm.x = -w; } break;
+			case "se":
+				if ( w + mm.x < 0 ) {
+					mm.x = -w;
+				}
+				break;
 		}
 	}
 	#setCSSrelativeResize( st, dir, mm ) {

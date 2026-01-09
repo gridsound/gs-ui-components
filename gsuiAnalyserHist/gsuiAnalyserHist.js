@@ -84,8 +84,14 @@ class gsuiAnalyserHist extends gsui0ne {
 		const a = w / 2 - l * w / 2;
 		const b = l * w / 2 + r * w / 2;
 
-		ctx.beginPath(); ctx.fillStyle = "#000"; ctx.rect( 0, 0, w, 1 ); ctx.fill();
-		ctx.beginPath(); ctx.fillStyle = "#ff9"; ctx.rect( a, 0, b, 1 ); ctx.fill();
+		gsuiAnalyserHist.#drawTdLine( ctx, 0, w, "#000" );
+		gsuiAnalyserHist.#drawTdLine( ctx, a, b, "#ff9" );
+	}
+	static #drawTdLine( ctx, a, b, col ) {
+		ctx.beginPath();
+		ctx.fillStyle = col;
+		ctx.rect( a, 0, b, 1 );
+		ctx.fill();
 	}
 	static #drawTdMax( arr ) {
 		return Array.prototype.reduce.call( arr, ( res, n ) => Math.max( res, Math.abs( n ) ), 0 );

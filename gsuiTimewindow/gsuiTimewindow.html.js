@@ -44,4 +44,3 @@ GSUsetTemplate( "gsui-timewindow", () => [
 		),
 	),
 ] );
-

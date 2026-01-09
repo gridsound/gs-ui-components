@@ -123,7 +123,10 @@ class gsuiChannels extends gsui0ne {
 			case "gain":
 			case "name": GSUdomSetAttr( chan, prop, val ); break;
 			case "toggle": GSUdomSetAttr( chan, "muted", !val ); break;
-			case "dest": chan.dataset.dest = val; this.#updateChanConnections(); break;
+			case "dest":
+				chan.dataset.dest = val;
+				this.#updateChanConnections();
+				break;
 		}
 	}
 
