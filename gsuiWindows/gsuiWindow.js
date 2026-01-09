@@ -256,7 +256,7 @@ class gsuiWindow extends gsui0ne {
 			{
 				dataset: {},
 				$getRect: () => ( { x: 0, y: 0, w, h } ),
-			}
+			},
 		];
 		let mgX = 0;
 		let mgY = 0;

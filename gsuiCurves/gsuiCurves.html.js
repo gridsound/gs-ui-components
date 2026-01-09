@@ -7,6 +7,6 @@ GSUsetTemplate( "gsui-curves", () => [
 		GSUcreateElement( "svg", { class: "gsuiCurves-svg", preserveAspectRatio: "none" },
 			GSUcreateElement( "line", { class: "gsuiCurves-line", "shape-rendering": "crispEdges" } ),
 			GSUcreateElement( "g", { class: "gsuiCurves-curves" } ),
-		)
-	)
+		),
+	),
 ] );

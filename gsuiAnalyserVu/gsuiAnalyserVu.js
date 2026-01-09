@@ -21,7 +21,7 @@ class gsuiAnalyserVu extends gsui0ne {
 			},
 			$attributes: {
 				max: 100,
-			}
+			},
 		} );
 		Object.seal( this );
 	}

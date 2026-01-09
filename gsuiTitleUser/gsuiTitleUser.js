@@ -37,7 +37,10 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$save.onclick = () => GSUdomDispatch( this, GSEV_TITLEUSER_SAVE );
 		this.$elements.$cmpEditBtn.onclick = () => !GSUdomHasAttr( this, "readonly" ) && GSUdomSetAttr( this, "renaming" );
 		this.$elements.$cmpEditInp.onblur = () => GSUdomHasAttr( this, "renaming" ) && this.#onkeydownRename( "Enter" );
-		this.$elements.$cmpEditInp.onkeydown = e => { e.stopPropagation(); this.#onkeydownRename( e.key ); };
+		this.$elements.$cmpEditInp.onkeydown = e => {
+			e.stopPropagation();
+			this.#onkeydownRename( e.key );
+		};
 	}
 
 	// .........................................................................

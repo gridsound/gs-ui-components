@@ -12,5 +12,5 @@ GSUsetTemplate( "gsui-clock", () => [
 	GSUcreateButton( { class: "gsuiClock-modes" },
 		GSUcreateDiv( { class: "gsuiClock-mode gsuiClock-beat" } ),
 		GSUcreateDiv( { class: "gsuiClock-mode gsuiClock-second" } ),
-	)
+	),
 ] );

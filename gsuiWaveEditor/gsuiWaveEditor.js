@@ -53,7 +53,7 @@ class gsuiWaveEditor extends gsui0ne {
 			$attributes: {
 				div: "16 16",
 				tool: "goUp",
-			}
+			},
 		} );
 		Object.seal( this );
 		this.#initActionMenu();

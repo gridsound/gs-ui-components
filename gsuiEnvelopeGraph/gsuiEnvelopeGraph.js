@@ -55,14 +55,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		const holY = h - ( h * amp );
 		const susY = h - ( h * amp * sus );
 
-		return [
-			0,    h,
-			attX, holY,
-			holX, holY,
-			decX, susY,
-			susX, susY,
-			relX, h,
-		];
+		return [ 0, h, attX, holY, holX, holY, decX, susY, susX, susY, relX, h ];
 	}
 }
 

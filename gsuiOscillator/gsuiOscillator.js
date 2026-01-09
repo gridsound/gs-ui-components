@@ -61,7 +61,7 @@ class gsuiOscillator extends gsui0ne {
 				unisonvoices: 5,
 				unisondetune: .2,
 				unisonblend: .3,
-			}
+			},
 		} );
 		Object.seal( this );
 		this.$elements.$waveSelect.onchange = this.#onchangeSelect.bind( this );

@@ -352,7 +352,8 @@ class gsuiBlocksManager {
 		}
 	}
 	#onmousemoveSelect1() {
-		if ( Math.abs( this.#mmPageX - this.#mdPageX ) > 6 ||
+		if (
+			Math.abs( this.#mmPageX - this.#mdPageX ) > 6 ||
 			Math.abs( this.#mmPageY - this.#mdPageY ) > 6
 		) {
 			this.#status = "select2";
@@ -371,18 +372,21 @@ class gsuiBlocksManager {
 		const rowA = this.$getRowByIndex( topRow );
 		const rowB = this.$getRowByIndex( bottomRow );
 		const blcs = Object.entries( this.#data ).reduce( ( map, [ id, blc ] ) => {
-			if ( !this.#blcsSelected.has( id ) &&
-					blc.when < when + duration &&
-					blc.when + blc.duration > when
+			if (
+				!this.#blcsSelected.has( id ) &&
+				blc.when < when + duration &&
+				blc.when + blc.duration > when
 			) {
 				const elBlc = this.#blcs.get( id );
 				const pA = rowA.compareDocumentPosition( elBlc );
 				const pB = rowB.compareDocumentPosition( elBlc );
 
-				if ( pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
-						pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
-					pA & Node.DOCUMENT_POSITION_FOLLOWING &&
-						pB & Node.DOCUMENT_POSITION_PRECEDING )
+				if (
+					pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
+					pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
+						pA & Node.DOCUMENT_POSITION_FOLLOWING &&
+						pB & Node.DOCUMENT_POSITION_PRECEDING
+					)
 				) {
 					this.#blockDOMChange( elBlc, "selected", true );
 					map.set( id, elBlc );

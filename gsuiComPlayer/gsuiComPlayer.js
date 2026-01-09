@@ -51,11 +51,8 @@ class gsuiComPlayer extends gsui0ne {
 		this.#updateRendered( GSUdomHasAttr( this, "rendered" ) );
 	}
 	static get observedAttributes() {
-		return [
-			"rendered", "name", "link", "dawlink", "duration", "bpm", "playing",
-			"currenttime", "actions", "actionsdir", "likes", "itsmine",
-			// "opensource", "private", "liked"
-		];
+		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir", "likes", "itsmine" ];
+		// + "opensource" + "private" + "liked"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {

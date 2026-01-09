@@ -12,5 +12,5 @@ GSUsetTemplate( "gsui-popup", () => [
 				GSUcreateElement( "gsui-com-button", { class: "gsuiPopup-ok", text: "Ok", type: "submit" } ),
 			),
 		),
-	)
+	),
 ] );

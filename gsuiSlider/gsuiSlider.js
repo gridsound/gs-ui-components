@@ -104,8 +104,8 @@ class gsuiSlider extends gsui0ne {
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
 			GSUdomViewBox( this.$elements.$svg, size, size );
-			GSUdomSetAttr( this.$elements.$svgLine, { r, cx, cy: cx, } );
-			GSUdomSetAttr( this.$elements.$svgLineColor, { r, cx, cy: cx, } );
+			GSUdomSetAttr( this.$elements.$svgLine, { r, cx, cy: cx } );
+			GSUdomSetAttr( this.$elements.$svgLineColor, { r, cx, cy: cx } );
 			this.$elements.$svgLine.style.strokeWidth =
 			this.$elements.$svgLineColor.style.strokeWidth = this.#strokeWidth;
 			this.#svgLineLen = r * 2 * Math.PI;

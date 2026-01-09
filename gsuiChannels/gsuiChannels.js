@@ -63,7 +63,7 @@ class gsuiChannels extends gsui0ne {
 				...Object.entries( this.#chans )
 					.filter( kv => kv[ 0 ] !== "main" )
 					.sort( ( a, b ) => GSUdomGetAttrNum( a[ 1 ], "order" ) - GSUdomGetAttrNum( b[ 1 ], "order" ) )
-					.map( kv => GSUcreateOption( { value: kv[ 0 ] }, GSUdomGetAttr( kv[ 1 ], "name" ) ) )
+					.map( kv => GSUcreateOption( { value: kv[ 0 ] }, GSUdomGetAttr( kv[ 1 ], "name" ) ) ),
 			] );
 			gsuiChannels.#selectChanInput.value = currChanId;
 			GSUpopup.$custom( {
@@ -73,7 +73,7 @@ class gsuiChannels extends gsui0ne {
 					const chan = `${ data.channel }`;
 
 					res( chan !== currChanId ? chan : null );
-				}
+				},
 			} ).then( () => GSUdomEmpty( gsuiChannels.#selectChanInput ) );
 		} );
 	}

@@ -40,12 +40,8 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [
-			// "itsme",
-			"avatar", "email", "emailpublic", "emailtoverify",
-			"username", "lastname", "firstname",
-			"followed", "followers", "following",
-		];
+		return [ "avatar", "email", "emailpublic", "emailtoverify", "username", "lastname", "firstname", "followed", "followers", "following" ];
+		// + "itsme"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
