@@ -3,3 +3,8 @@ gs-label {
 	font-weight: bold;
 	opacity: .7;
 }
+gs-label-s {
+	font-size: 9px;
+	font-weight: bold;
+	opacity: .5;
+}
