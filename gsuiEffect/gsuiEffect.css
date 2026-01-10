@@ -96,11 +96,6 @@ gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content {
 	align-items: center;
 	gap: 8px;
 
-	label {
-		font-size: 12px;
-		font-weight: bold;
-		opacity: .7;
-	}
 	output {
 		box-sizing: border-box;
 		min-width: 52px;

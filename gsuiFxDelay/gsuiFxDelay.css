@@ -7,6 +7,10 @@ gsui-fx-delay {
 	min-width: 160px;
 	min-height: 110px;
 	padding: 8px;
+
+	gs-label {
+		width: 29px;
+	}
 }
 
 /* .......................................................................... */
@@ -15,9 +19,6 @@ gsui-fx-delay {
 .gsuiEffect-param-row[ data-prop="pan" ] { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
 
 /* .......................................................................... */
-gsui-fx-delay label {
-	width: 29px;
-}
 .gsuiEffect-param-row[ data-prop="time" ] output::after {
 	content: " b";
 }

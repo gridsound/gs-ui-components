@@ -8,21 +8,21 @@ gsui-fx-reverb {
 	gap: 8px;
 	padding: 8px;
 	--gsui-fadein-p: 0%;
+	--gsuiSlider-lineColor: var( --gsui-col-gain );
+
+	gs-label {
+		min-width: 40px;
+	}
+	output {
+		align-self: stretch;
+
+		&::after {
+			content: " %";
+		}
+	}
 }
 
 /* .......................................................................... */
-gsui-fx-reverb label {
-	min-width: 40px;
-}
-gsui-fx-reverb {
-	--gsuiSlider-lineColor: var( --gsui-col-gain );
-}
-gsui-fx-reverb output {
-	align-self: stretch;
-}
-gsui-fx-reverb output::after {
-	content: " %";
-}
 gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ],
 gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ],
 gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] {

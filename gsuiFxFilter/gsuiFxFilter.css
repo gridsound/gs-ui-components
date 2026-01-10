@@ -11,19 +11,17 @@ gsui-fx-filter {
 		"type graph     gain detune" 1fr
 		"type frequency gain detune" 8px
 		/32px 1fr       8px  50px;
+
+	gs-label {
+		align-self: center;
+		height: 20px;
+	}
 }
 
 /* .......................................................................... */
 .gsuiFxFilter-area {
 	display: flex;
 	flex-direction: column;
-}
-gsui-fx-filter label {
-	align-self: center;
-	height: 20px;
-	font-size: 12px;
-	font-weight: bold;
-	opacity: .7;
 }
 .gsuiFxFilter-area-content {
 	flex: 1;
@@ -61,7 +59,7 @@ gsui-fx-filter label {
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaGraph label {
+.gsuiFxFilter-areaGraph gs-label {
 	align-self: flex-start;
 }
 gsui-fx-filter .gsuiCurves-curve {
