@@ -95,24 +95,34 @@ gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content {
 	display: flex;
 	align-items: center;
 	gap: 8px;
-}
-.gsuiEffect-param-label {
-	font-size: 12px;
-	font-weight: bold;
-	opacity: .7;
-}
-.gsuiEffect-param-value {
-	box-sizing: border-box;
-	height: 18px;
-	border: 2px solid #0003;
-	border-radius: 3px;
-	padding: 0 6px;
-	text-align: end;
-	font-size: 12px;
-	font-family: var( --gsui-font-number );
-	white-space: nowrap;
-	background-color: #0003;
-}
-.gsuiEffect-param-value::after {
-	opacity: .6;
+
+	label {
+		font-size: 12px;
+		font-weight: bold;
+		opacity: .7;
+	}
+	output {
+		box-sizing: border-box;
+		min-width: 52px;
+		height: 18px;
+		border: 2px solid #0003;
+		border-radius: 3px;
+		padding: 0 6px;
+		text-align: end;
+		font-size: 12px;
+		font-family: var( --gsui-font-number );
+		white-space: nowrap;
+		background-color: #0003;
+
+		&::after {
+			opacity: .6;
+		}
+	}
+	gsui-slider {
+		flex: 1;
+		height: 10px;
+	}
+	.gsuiSlider-eventCatcher {
+		inset: -4px 0 -4px calc( -52px - 8px );
+	}
 }

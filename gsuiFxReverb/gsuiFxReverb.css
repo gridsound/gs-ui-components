@@ -11,28 +11,26 @@ gsui-fx-reverb {
 }
 
 /* .......................................................................... */
-gsui-fx-reverb .gsuiEffect-param-label {
+gsui-fx-reverb label {
 	min-width: 40px;
 }
-gsui-fx-reverb gsui-slider {
-	height: 10px;
+gsui-fx-reverb {
 	--gsuiSlider-lineColor: var( --gsui-col-gain );
 }
-gsui-fx-reverb .gsuiEffect-param-value {
-	min-width: 52px;
+gsui-fx-reverb output {
 	align-self: stretch;
 }
-gsui-fx-reverb .gsuiEffect-param-value::after {
+gsui-fx-reverb output::after {
 	content: " %";
 }
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] gsui-slider,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] gsui-slider,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] gsui-slider {
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ],
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ],
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] {
 	--gsuiSlider-lineColor: var( --gsui-col-time );
 }
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] .gsuiEffect-param-value::after,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] .gsuiEffect-param-value::after,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] .gsuiEffect-param-value::after {
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] output::after,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] output::after,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] output::after {
 	content: " b";
 }
 

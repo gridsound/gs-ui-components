@@ -10,29 +10,19 @@ gsui-fx-delay {
 }
 
 /* .......................................................................... */
-.gsuiEffect-param-row gsui-slider {
-	flex: 1;
-	height: 10px;
-}
-.gsuiEffect-param-row[ data-prop="time" ] gsui-slider { --gsuiSlider-lineColor: var( --gsui-col-time ) }
-.gsuiEffect-param-row[ data-prop="gain" ] gsui-slider { --gsuiSlider-lineColor: var( --gsui-col-gain ) }
-.gsuiEffect-param-row[ data-prop="pan" ] gsui-slider { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
-.gsuiEffect-param-row .gsuiSlider-eventCatcher {
-	inset: -4px 0;
-}
+.gsuiEffect-param-row[ data-prop="time" ] { --gsuiSlider-lineColor: var( --gsui-col-time ) }
+.gsuiEffect-param-row[ data-prop="gain" ] { --gsuiSlider-lineColor: var( --gsui-col-gain ) }
+.gsuiEffect-param-row[ data-prop="pan" ] { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
 
 /* .......................................................................... */
-gsui-fx-delay .gsuiEffect-param-label {
-	width: 30px;
+gsui-fx-delay label {
+	width: 29px;
 }
-gsui-fx-delay .gsuiEffect-param-value {
-	width: 52px;
-}
-.gsuiEffect-param-row[ data-prop="time" ] .gsuiEffect-param-value::after {
+.gsuiEffect-param-row[ data-prop="time" ] output::after {
 	content: " b";
 }
-.gsuiEffect-param-row[ data-prop="pan" ] .gsuiEffect-param-value::after,
-.gsuiEffect-param-row[ data-prop="gain" ] .gsuiEffect-param-value::after {
+.gsuiEffect-param-row[ data-prop="pan" ] output::after,
+.gsuiEffect-param-row[ data-prop="gain" ] output::after {
 	content: " %";
 }
 

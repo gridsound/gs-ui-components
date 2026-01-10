@@ -19,6 +19,12 @@ gsui-fx-waveshaper[ off ] {
 	align-items: center;
 	gap: 8px;
 	font-size: 10px;
+
+	label {
+		font-size: 12px;
+		font-weight: bold;
+		opacity: .7;
+	}
 }
 .gsuiFxWaveShaper-symmetry,
 .gsuiFxWaveShaper-oversample {

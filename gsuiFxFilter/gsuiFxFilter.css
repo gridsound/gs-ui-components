@@ -18,9 +18,12 @@ gsui-fx-filter {
 	display: flex;
 	flex-direction: column;
 }
-gsui-fx-filter .gsuiEffect-param-label {
+gsui-fx-filter label {
 	align-self: center;
 	height: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	opacity: .7;
 }
 .gsuiFxFilter-area-content {
 	flex: 1;
@@ -58,7 +61,7 @@ gsui-fx-filter .gsuiEffect-param-label {
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaGraph .gsuiEffect-param-label {
+.gsuiFxFilter-areaGraph label {
 	align-self: flex-start;
 }
 gsui-fx-filter .gsuiCurves-curve {
