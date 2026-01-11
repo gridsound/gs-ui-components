@@ -85,10 +85,8 @@ gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 }
 
 /* .......................................................................... */
-.gsuiEnvelope-propLabel {
+gsui-envelope gs-label {
 	min-width: 32px;
-	font-weight: bold;
-	opacity: .5;
 }
 .gsuiEnvelope-propValue {
 	box-sizing: border-box;

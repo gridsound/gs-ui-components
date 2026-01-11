@@ -47,10 +47,8 @@ gsui-lfo[ toggle ] {
 	gap: 6px;
 	font-size: 12px;
 }
-.gsuiLFO-propLabel {
+gsui-lfo gs-label {
 	min-width: 30px;
-	font-weight: bold;
-	opacity: .5;
 }
 .gsuiLFO-propValue {
 	font-family: var( --gsui-font-number );
