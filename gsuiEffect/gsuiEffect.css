@@ -96,23 +96,6 @@ gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content {
 	align-items: center;
 	gap: 8px;
 
-	output {
-		box-sizing: border-box;
-		min-width: 52px;
-		height: 18px;
-		border: 2px solid #0003;
-		border-radius: 3px;
-		padding: 0 6px;
-		text-align: end;
-		font-size: 12px;
-		font-family: var( --gsui-font-number );
-		white-space: nowrap;
-		background-color: #0003;
-
-		&::after {
-			opacity: .6;
-		}
-	}
 	gsui-slider {
 		flex: 1;
 		height: 10px;
