@@ -16,9 +16,9 @@ class gsuiFxDelay extends gsui0ne {
 					pan: "[data-prop='pan'] gsui-slider",
 				},
 				$values: {
-					time: "[data-prop='time'] output",
-					gain: "[data-prop='gain'] output",
-					pan: "[data-prop='pan'] output",
+					time: "[data-prop='time'] gs-output",
+					gain: "[data-prop='gain'] gs-output",
+					pan: "[data-prop='pan'] gs-output",
 				},
 			},
 			$attributes: {

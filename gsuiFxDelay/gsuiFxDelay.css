@@ -19,11 +19,11 @@ gsui-fx-delay {
 .gsuiEffect-param-row[ data-prop="pan" ] { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
 
 /* .......................................................................... */
-.gsuiEffect-param-row[ data-prop="time" ] output::after {
+.gsuiEffect-param-row[ data-prop="time" ] gs-output::after {
 	content: " b";
 }
-.gsuiEffect-param-row[ data-prop="pan" ] output::after,
-.gsuiEffect-param-row[ data-prop="gain" ] output::after {
+.gsuiEffect-param-row[ data-prop="pan" ] gs-output::after,
+.gsuiEffect-param-row[ data-prop="gain" ] gs-output::after {
 	content: " %";
 }
 
