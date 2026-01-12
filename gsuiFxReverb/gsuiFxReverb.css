@@ -13,7 +13,7 @@ gsui-fx-reverb {
 	gs-label {
 		min-width: 40px;
 	}
-	output {
+	gs-output {
 		align-self: stretch;
 
 		&::after {
@@ -28,9 +28,9 @@ gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ],
 gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] {
 	--gsuiSlider-lineColor: var( --gsui-col-time );
 }
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] output::after,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] output::after,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] output::after {
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] gs-output::after,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] gs-output::after,
+gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] gs-output::after {
 	content: " b";
 }
 
