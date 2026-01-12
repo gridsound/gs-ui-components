@@ -1,10 +1,29 @@
-gs-label {
+gs-label,
+gs-label-s {
+	opacity: .7;
 	font-size: 12px;
 	font-weight: bold;
-	opacity: .7;
+	pointer-events: none;
 }
 gs-label-s {
-	font-size: 9px;
-	font-weight: bold;
 	opacity: .5;
+	font-size: 9px;
+}
+
+gs-output {
+	box-sizing: border-box;
+	min-width: 52px;
+	height: 18px;
+	border: 2px solid #0003;
+	border-radius: 3px;
+	padding: 0 6px;
+	text-align: end;
+	font-size: 12px;
+	font-family: var( --gsui-font-number );
+	white-space: nowrap;
+	background-color: #0003;
+
+	&::after {
+		opacity: .6;
+	}
 }
