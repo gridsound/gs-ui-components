@@ -48,7 +48,10 @@ gsui-lfo[ toggle ] {
 	font-size: 12px;
 }
 gsui-lfo gs-label {
-	min-width: 30px;
+	min-width: 32px;
+}
+gsui-lfo gs-output {
+	min-width: 44px;
 }
 gsui-lfo gsui-slider {
 	flex: 1;

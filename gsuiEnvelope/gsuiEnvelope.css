@@ -88,6 +88,9 @@ gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
 gsui-envelope gs-label {
 	min-width: 32px;
 }
+gsui-envelope gs-output {
+	min-width: 44px;
+}
 gsui-envelope gsui-slider {
 	flex: 1;
 	height: 8px;
