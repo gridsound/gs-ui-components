@@ -11,7 +11,7 @@ GSUsetTemplate( "gsui-lfo", () =>
 			].map( ( [ prop, title, text, min, max, step ] ) =>
 				GSUcreateDiv( { class: "gsuiLFO-prop", title, "data-prop": prop },
 					GSUcreateElement( "gs-label", null, text ),
-					GSUcreateSpan( { class: "gsuiLFO-propValue", inert: true } ),
+					GSUcreateElement( "gs-output" ),
 					GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
 				)
 			),

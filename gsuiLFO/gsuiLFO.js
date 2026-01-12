@@ -16,11 +16,11 @@ class gsuiLFO extends gsui0ne {
 				$wave: "gsui-periodicwave",
 				$keyPreviews: ".gsuiLFO-keyPreviews",
 				$sliders: {
-					delay:  [ ".gsuiLFO-prop[data-prop='delay']  gsui-slider", ".gsuiLFO-prop[data-prop='delay']  .gsuiLFO-propValue" ],
-					attack: [ ".gsuiLFO-prop[data-prop='attack'] gsui-slider", ".gsuiLFO-prop[data-prop='attack'] .gsuiLFO-propValue" ],
-					speed:  [ ".gsuiLFO-prop[data-prop='speed']  gsui-slider", ".gsuiLFO-prop[data-prop='speed']  .gsuiLFO-propValue" ],
-					amp:    [ ".gsuiLFO-prop[data-prop='amp']    gsui-slider", ".gsuiLFO-prop[data-prop='amp']    .gsuiLFO-propValue" ],
-					lowpassfreq: [ ".gsuiLFO-lowpassfreq gsui-slider", ".gsuiLFO-lowpassfreq .gsuiLFO-propValue" ],
+					delay:  [ "[data-prop='delay']  gsui-slider", "[data-prop='delay']  gs-output" ],
+					attack: [ "[data-prop='attack'] gsui-slider", "[data-prop='attack'] gs-output" ],
+					speed:  [ "[data-prop='speed']  gsui-slider", "[data-prop='speed']  gs-output" ],
+					amp:    [ "[data-prop='amp']    gsui-slider", "[data-prop='amp']    gs-output" ],
+					lowpassfreq: [ ".gsuiLFO-lowpassfreq gsui-slider", ".gsuiLFO-lowpassfreq gs-output" ],
 				},
 			},
 			$attributes: {

@@ -50,16 +50,6 @@ gsui-lfo[ toggle ] {
 gsui-lfo gs-label {
 	min-width: 30px;
 }
-.gsuiLFO-propValue {
-	font-family: var( --gsui-font-number );
-	padding: 0 4px;
-	width: 28px;
-	text-align: end;
-	border: 2px solid #0005;
-	border-radius: 4px;
-	background-color: #0004;
-	opacity: .5;
-}
 gsui-lfo gsui-slider {
 	flex: 1;
 	height: 8px;
