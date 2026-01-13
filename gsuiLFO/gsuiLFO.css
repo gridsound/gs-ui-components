@@ -14,14 +14,19 @@ gsui-lfo {
 	--gsuiLFO-input-theme: var( --gsui-col-gain );
 	--gsuiLFO-input-col: var( --gsui-slider-col-disabled );
 	--gsuiSlider-lineColor: var( --gsuiLFO-input-theme );
-}
-gsui-lfo[ lfo="detune" ] {
-	--gsuiLFO-input-theme: var( --gsui-col-detune );
-}
-gsui-lfo[ toggle ] {
-	--gsuiLFO-previews: block;
-	--gsuiLFO-input-col: var( --gsuiLFO-input-theme );
-	--gsuiLFO-cursor: pointer;
+
+	&[ lfo="detune" ] {
+		--gsuiLFO-input-theme: var( --gsui-col-detune );
+	}
+	&[ toggle ] {
+		--gsuiLFO-previews: block;
+		--gsuiLFO-input-col: var( --gsuiLFO-input-theme );
+		--gsuiLFO-cursor: pointer;
+	}
+	input {
+		position: absolute;
+		visibility: hidden;
+	}
 }
 
 /* .......................................................................... */
@@ -39,48 +44,30 @@ gsui-lfo[ toggle ] {
 	flex-direction: column;
 	flex: 1;
 	gap: 2px;
-}
-.gsuiLFO-prop {
-	display: flex;
-	align-items: center;
-	flex: 1;
-	gap: 6px;
-	font-size: 12px;
-}
-gsui-lfo gs-label {
-	min-width: 32px;
-}
-gsui-lfo gs-output {
-	min-width: 44px;
-}
-gsui-lfo gsui-slider {
-	flex: 1;
-	height: 8px;
-	min-width: 40px;
-}
-gsui-lfo .gsuiSlider-eventCatcher {
-	top: -6px;
-	bottom: -6px;
-	left: -52px;
-}
 
-/* .......................................................................... */
-.gsuiLFO-btn {
-	position: relative;
-	cursor: pointer;
-}
-.gsuiLFO-btnInput {
-	position: absolute;
-	visibility: hidden;
-}
-.gsuiLFO-btnIcon {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	> * {
+		display: flex;
+		align-items: center;
+		flex: 1;
+		gap: 6px;
+		font-size: 12px;
+	}
+	gs-label {
+		min-width: 32px;
+	}
+	gs-output {
+		min-width: 44px;
+	}
+	gsui-slider {
+		flex: 1;
+		height: 8px;
+		min-width: 40px;
+	}
+	.gsuiSlider-eventCatcher {
+		top: -6px;
+		bottom: -6px;
+		left: -52px;
+	}
 }
 
 /* .......................................................................... */
@@ -97,45 +84,51 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	width: 10px;
 	display: flex;
 	flex-direction: column;
-}
-.gsuiLFO-ampSign {
-	flex: 1;
-	background-color: var( --gsui-slider-bg );
-	cursor: var( --gsuiLFO-cursor );
-}
-.gsuiLFO-ampSignIcon {
-	color: var( --gsuiLFO-input-col );
-	font-size: 11px;
-}
-.gsuiLFO-ampSignRadio:checked + .gsuiLFO-ampSignIcon {
-	color: var( --gsui-slider-bg );
-	background-color: var( --gsuiLFO-input-col );
+
+	> * {
+		flex: 1;
+		background-color: var( --gsui-slider-bg );
+		cursor: var( --gsuiLFO-cursor );
+
+		.gsuiIcon {
+			width: 100%;
+			height: 100%;
+			color: var( --gsuiLFO-input-col );
+			font-size: 11px;
+
+			*:checked + & {
+				color: var( --gsui-slider-bg );
+				background-color: var( --gsuiLFO-input-col );
+			}
+		}
+	}
 }
 .gsuiLFO-wave {
 	position: absolute;
 	inset: 0 -2px 0 8px;
-	pointer-events: none;
-}
-.gsuiLFO-wave gsui-periodicwave {
-	position: absolute;
-	top: 6px;
-	height: calc( 100% - 12px );
-	color: var( --gsuiLFO-input-col );
-	stroke-width: 2px;
-	transition: color .2s;
+
+	gsui-periodicwave {
+		position: absolute;
+		top: 6px;
+		height: calc( 100% - 12px );
+		color: var( --gsuiLFO-input-col );
+		stroke-width: 2px;
+		transition: color .2s;
+	}
 }
 .gsuiLFO-keyPreviews {
 	display: var( --gsuiLFO-previews );
 	position: absolute;
 	inset: 2px 0 0;
-}
-.gsuiLFO-keyPreview {
-	position: absolute;
-	width: 10px;
-	height: 10px;
-	margin: -5px 0 0 -5px;
-	border-radius: 50%;
-	background-color: var( --gsuiLFO-input-col );
+
+	* {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		margin: -5px 0 0 -5px;
+		border-radius: 50%;
+		background-color: var( --gsuiLFO-input-col );
+	}
 }
 
 /* .......................................................................... */
@@ -146,26 +139,32 @@ gsui-lfo .gsuiSlider-eventCatcher {
 	flex-direction: column;
 	height: 100%;
 	min-width: 20px;
-}
-.gsuiLFO-typeBtn {
-	flex: 1;
-	cursor: var( --gsuiLFO-cursor );
-}
-.gsuiLFO-typeSVG {
-	fill: none;
-	stroke: var( --gsuiLFO-input-col );
-	stroke-width: 2px;
-	background-color: var( --gsui-slider-bg );
-	transition: .2s;
-	transition-property: stroke, background-color;
-}
-.gsuiLFO-typeRadio:checked + .gsuiLFO-typeSVG {
-	stroke: var( --gsui-slider-bg );
-	background-color: var( --gsuiLFO-input-col );
-}
-.gsuiLFO-typeSVG path {
-	scale: .6;
-	transform-origin: center;
+
+	label {
+		position: relative;
+		flex: 1;
+		cursor: var( --gsuiLFO-cursor );
+	}
+	svg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		fill: none;
+		stroke: var( --gsuiLFO-input-col );
+		stroke-width: 2px;
+		background-color: var( --gsui-slider-bg );
+		transition: .2s;
+		transition-property: stroke, background-color;
+
+		*:checked + & {
+			stroke: var( --gsui-slider-bg );
+			background-color: var( --gsuiLFO-input-col );
+		}
+		path {
+			scale: .6;
+			transform-origin: center;
+		}
+	}
 }
 
 /* .......................................................................... */
