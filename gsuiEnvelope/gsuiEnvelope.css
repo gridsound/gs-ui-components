@@ -12,16 +12,17 @@ gsui-envelope {
 	--gsuiEnvelope-wave-col: var( --gsui-slider-col-disabled );
 	--gsuiEnvelope-ctrls-color: var( --gsui-col-gain );
 	--gsuiSlider-lineColor: var( --gsuiEnvelope-ctrls-color );
-}
-gsui-envelope[ toggle ] {
-	--gsuiEnvelope-previews: block;
-	--gsuiEnvelope-wave-col: var( --gsuiEnvelope-ctrls-color );
-}
-gsui-envelope[ env="detune" ] {
-	--gsuiEnvelope-ctrls-color: var( --gsui-col-detune );
-}
-gsui-envelope[ env="lowpass" ] {
-	--gsuiEnvelope-ctrls-color: var( --gsui-col-lowpass );
+
+	&[ toggle ] {
+		--gsuiEnvelope-previews: block;
+		--gsuiEnvelope-wave-col: var( --gsuiEnvelope-ctrls-color );
+	}
+	&[ env="detune" ] {
+		--gsuiEnvelope-ctrls-color: var( --gsui-col-detune );
+	}
+	&[ env="lowpass" ] {
+		--gsuiEnvelope-ctrls-color: var( --gsui-col-lowpass );
+	}
 }
 
 /* .......................................................................... */
@@ -34,72 +35,74 @@ gsui-envelope[ env="lowpass" ] {
 }
 
 /* .......................................................................... */
-.gsuiEnvelope-graph {
-	flex: 2;
-	position: relative;
-	border-radius: 4px;
-	background-color: var( --gsui-screen-graph );
-}
-gsui-envelope gsui-beatlines {
-	border-radius: inherit;
-}
-gsui-envelope gsui-envelope-graph {
-	position: absolute;
-	overflow: hidden;
-	inset: 2px 0 0;
-	border-radius: inherit;
-	color: var( --gsuiEnvelope-wave-col );
-}
-.gsuiEnvelope-keyPreviews {
-	display: var( --gsuiEnvelope-previews );
-	position: absolute;
-	inset: 2px 0 0;
-}
-.gsuiEnvelope-keyPreview {
-	position: absolute;
-	width: 10px;
-	height: 10px;
-	margin: -5px 0 0 -5px;
-	border-radius: 50%;
-	background-color: var( --gsuiEnvelope-ctrls-color );
-}
-
-/* .......................................................................... */
 .gsuiEnvelope-props {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	gap: 2px;
 	flex: 1;
-}
-.gsuiEnvelope-prop {
-	display: flex;
-	align-items: center;
-	height: 18px;
-	gap: 6px;
-	font-size: 12px;
-}
-gsui-envelope:not( [ env="detune" ] ) .gsuiEnvelope-prop[ data-prop="amp" ],
-gsui-envelope:not( [ env="lowpass" ] ) .gsuiEnvelope-prop[ data-prop="q" ] {
-	display: none;
+
+	> * {
+		display: flex;
+		align-items: center;
+		height: 18px;
+		gap: 6px;
+		font-size: 12px;
+
+		gsui-envelope:not( [ env="detune" ] ) &[ data-prop="amp" ],
+		gsui-envelope:not( [ env="lowpass" ] ) &[ data-prop="q" ] {
+			display: none;
+		}
+	}
+	gs-label {
+		min-width: 32px;
+	}
+	gs-output {
+		min-width: 44px;
+	}
+	gsui-slider {
+		flex: 1;
+		height: 8px;
+		min-width: 40px;
+	}
+	.gsuiSlider-eventCatcher {
+		top: -6px;
+		bottom: -6px;
+		left: -52px;
+	}
 }
 
 /* .......................................................................... */
-gsui-envelope gs-label {
-	min-width: 32px;
+.gsuiEnvelope-graph {
+	flex: 2;
+	position: relative;
+	border-radius: 4px;
+	background-color: var( --gsui-screen-graph );
+
+	gsui-beatlines {
+		border-radius: inherit;
+	}
+	gsui-envelope-graph {
+		position: absolute;
+		overflow: hidden;
+		inset: 2px 0 0;
+		border-radius: inherit;
+		color: var( --gsuiEnvelope-wave-col );
+	}
 }
-gsui-envelope gs-output {
-	min-width: 44px;
-}
-gsui-envelope gsui-slider {
-	flex: 1;
-	height: 8px;
-	min-width: 40px;
-}
-gsui-envelope .gsuiSlider-eventCatcher {
-	top: -6px;
-	bottom: -6px;
-	left: -52px;
+.gsuiEnvelope-keyPreviews {
+	display: var( --gsuiEnvelope-previews );
+	position: absolute;
+	inset: 2px 0 0;
+
+	* {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		margin: -5px 0 0 -5px;
+		border-radius: 50%;
+		background-color: var( --gsuiEnvelope-ctrls-color );
+	}
 }
 
 /* .......................................................................... */

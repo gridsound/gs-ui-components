@@ -12,7 +12,7 @@ GSUsetTemplate( "gsui-envelope", () =>
 				[ "amp", "amplification", "pitch", -24, 24, 1 ],
 				[ "q", "Q", "Q", 0, 25, .01 ],
 			].map( ( [ prop, title, text, min, max, step ] ) =>
-				GSUcreateDiv( { class: "gsuiEnvelope-prop", title, "data-prop": prop },
+				GSUcreateDiv( { "data-prop": prop, title },
 					GSUcreateElement( "gs-label", null, text ),
 					GSUcreateElement( "gs-output" ),
 					GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
