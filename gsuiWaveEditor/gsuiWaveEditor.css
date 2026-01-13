@@ -17,7 +17,7 @@ gsui-wave-editor {
 	gsui-slider {
 		height: 10px;
 	}
-	label {
+	gs-label-s {
 		margin-bottom: -2px;
 	}
 }
