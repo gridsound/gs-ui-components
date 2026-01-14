@@ -1,6 +1,6 @@
 "use strict";
 
-function lg( a ) { return console.log.apply( console, arguments ), a; }
+function lg( a, ...rest ) { return console.log( a, ...rest ), a; }
 
 const TESTcmpList = Object.freeze( [
 	"gsuiActionMenu",
@@ -79,7 +79,7 @@ function TESTinit() {
 		),
 		GSUcreateDiv( { id: "testFoot" },
 			GSUcreateDiv( { id: "testCopyright" },
-				GSUcreateSpan( null, `© ${ ( new Date() ).getFullYear() } ` ),
+				GSUcreateSpan( null, `© ${ new Date().getFullYear() } ` ),
 				GSUcreateA( { href: "https://gridsound.com" }, "gridsound.com" ),
 				GSUcreateSpan( null, " all rights reserved" ),
 			),
@@ -91,6 +91,7 @@ function TESTinit() {
 	const elSkin = GSUdomQS( "#testSkin" );
 	const elWrap = GSUdomQS( "#testWrap" );
 	const elCtrls = GSUdomQS( "#testCtrls" );
+
 	elTEST && Array.from( elTEST.children ).forEach( el => elWrap.append( el ) );
 	elCTRLS && Array.from( elCTRLS.children ).forEach( el => elCtrls.append( el ) );
 	if ( elTEST.dataset.minAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minAuto = ""; }
