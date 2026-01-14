@@ -30,8 +30,8 @@ class gsuiDrums extends gsui0ne {
 	#elDrumHover = GSUcreateDiv( { class: "gsuiDrums-drumHover" }, GSUcreateDiv( { class: "gsuiDrums-drumHoverIn" } ) );
 	#elDrumcutHover = GSUcreateDiv( { class: "gsuiDrums-drumcutHover" }, GSUcreateDiv( { class: "gsuiDrums-drumcutHoverIn" } ) );
 	#elHover = this.#elDrumHover;
-	#onmouseupNewBind = this.#onmouseupNew.bind( this );
-	#onmousemoveLinesBind = this.#onmousemoveLines.bind( this );
+	#onptrupNewBind = this.#onptrupNew.bind( this );
+	#onptrmoveLinesBind = this.#onptrmoveLines.bind( this );
 	#drumrows = GSUcreateElement( "gsui-drumrows" );
 
 	constructor() {
@@ -57,13 +57,13 @@ class gsuiDrums extends gsui0ne {
 			},
 		} );
 		GSUdomSetAttr( this.#win, "step", 1 );
-		this.#win.onscroll = this.#onmousemoveLines2.bind( this );
+		this.#win.onscroll = this.#onptrmoveLines2.bind( this );
 		this.#elDrumHover.remove();
 		this.#elDrumcutHover.remove();
 		this.#elDrumHover.ondblclick = this.#ondblclickSplit.bind( this, "Drums" );
 		this.#elDrumcutHover.ondblclick = this.#ondblclickSplit.bind( this, "Drumcuts" );
-		this.#elDrumHover.onmousedown = this.#onmousedownNew.bind( this, "Drums" );
-		this.#elDrumcutHover.onmousedown = this.#onmousedownNew.bind( this, "Drumcuts" );
+		this.#elDrumHover.onpointerdown = this.#onptrdownNew.bind( this, "Drums" );
+		this.#elDrumcutHover.onpointerdown = this.#onptrdownNew.bind( this, "Drumcuts" );
 		new gsuiReorder( {
 			$root: this.#drumrows,
 			$parentSelector: "gsui-drumrows",
@@ -78,7 +78,7 @@ class gsuiDrums extends gsui0ne {
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#drumrows );
 		this.#elLines = GSUdomQS( this.#win, ".gsuiTimewindow-rows" );
-		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
+		this.#elLines.onpointermove = this.#onptrmoveLinesBind;
 		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
 	}
 	static get observedAttributes() {
@@ -374,11 +374,11 @@ class gsuiDrums extends gsui0ne {
 	}
 
 	// .........................................................................
-	#onmousemoveLines( e ) {
+	#onptrmoveLines( e ) {
 		if ( e.target !== this.#elHover ) {
 			if ( this.#currAction ) {
 				this.#hoverPageX = e.pageX;
-				this.#onmousemoveLines2();
+				this.#onptrmoveLines2();
 			} else {
 				const tar = e.target;
 				const elLine = GSUdomHasClass( tar, "gsuiDrums-lineIn" )
@@ -402,7 +402,7 @@ class gsuiDrums extends gsui0ne {
 						}
 						this.#elHover = elHover;
 					}
-					this.#onmousemoveLines2();
+					this.#onptrmoveLines2();
 					if ( this.#elHover.parentNode !== elLine ) {
 						elLine.append( this.#elHover );
 					}
@@ -412,7 +412,7 @@ class gsuiDrums extends gsui0ne {
 			}
 		}
 	}
-	#onmousemoveLines2() {
+	#onptrmoveLines2() {
 		if ( this.#hoverItemType ) {
 			const left = GSUdomBCRxy( this.#elLines )[ 0 ];
 			const when = ( this.#hoverPageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
@@ -446,7 +446,7 @@ class gsuiDrums extends gsui0ne {
 			this.#elHover.remove();
 		}
 	}
-	#onmousedownNew( itemType, e ) {
+	#onptrdownNew( itemType, e ) {
 		if ( !this.#currAction ) {
 			this.#currAction = e.button === 0
 				? `add${ itemType }`
@@ -456,12 +456,12 @@ class gsuiDrums extends gsui0ne {
 			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
 			GSUdomUnselect();
-			this.#elLines.onmousemove = null;
-			document.addEventListener( "mousemove", this.#onmousemoveLinesBind );
-			document.addEventListener( "mouseup", this.#onmouseupNewBind );
+			this.#elLines.onpointermove = null;
+			document.addEventListener( "pointermove", this.#onptrmoveLinesBind );
+			document.addEventListener( "pointerup", this.#onptrupNewBind );
 		}
 	}
-	#onmouseupNew() {
+	#onptrupNew() {
 		const adding = this.#currAction.startsWith( "add" );
 		const arr = [];
 
@@ -469,9 +469,9 @@ class gsuiDrums extends gsui0ne {
 			? ( p, w ) => arr.push( { when: w } )
 			: p => arr.push( p.dataset.id ) );
 		this.#removePreviews( adding );
-		document.removeEventListener( "mousemove", this.#onmousemoveLinesBind );
-		document.removeEventListener( "mouseup", this.#onmouseupNewBind );
-		this.#elLines.onmousemove = this.#onmousemoveLinesBind;
+		document.removeEventListener( "pointermove", this.#onptrmoveLinesBind );
+		document.removeEventListener( "pointerup", this.#onptrupNewBind );
+		this.#elLines.onpointermove = this.#onptrmoveLinesBind;
 		if ( arr.length > 0 ) {
 			GSUdomDispatch( this, GSEV_DRUMS_CHANGE, this.#currAction, this.#draggingRowId, arr );
 		}
