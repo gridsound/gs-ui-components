@@ -107,7 +107,7 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 		}
 		span {
 			min-width: 20px;
-			padding: 0px 2px;
+			padding: 0 2px;
 			text-align: end;
 			font-weight: bold;
 			font-family: var( --gsui-font-number );

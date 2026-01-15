@@ -1,5 +1,5 @@
 gs-flex[ x ] { display: flex }
-gs-flex[ y ] { display: flex; flex-direction: column }
+gs-flex[ y ] { display: flex; flex-direction: column; }
 
 gs-flex[ inline ] { display: inline-flex }
 gs-flex[ wrap ] { flex-wrap: wrap }

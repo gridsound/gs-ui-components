@@ -1,5 +1,5 @@
 gsui-lfo {
-	container: gsuiLFO-query / size;
+	container: gsui-lfo-query / size;
 	display: block;
 	position: relative;
 	height: 94px;
@@ -168,7 +168,7 @@ gsui-lfo {
 }
 
 /* .......................................................................... */
-@container gsuiLFO-query ( orientation: portrait ) {
+@container gsui-lfo-query ( orientation: portrait ) {
 	.gsuiLFO-in {
 		flex-direction: column;
 	}

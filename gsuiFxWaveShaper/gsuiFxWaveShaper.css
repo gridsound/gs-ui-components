@@ -1,5 +1,5 @@
 gsui-fx-waveshaper {
-	container: gsuiFxWaveShaper-query / size;
+	container: gsui-fx-waveshaper-query / size;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -31,8 +31,6 @@ gsui-fx-waveshaper[ off ] {
 .gsuiFxWaveShaper-oversample select {
 	outline: 0;
 	cursor: pointer;
-}
-.gsuiFxWaveShaper-oversample select {
 	-webkit-appearance: none;
 }
 .gsuiFxWaveShaper-oversample option {
@@ -109,11 +107,11 @@ gsui-fx-waveshaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
 	background-color: #fff1;
 }
 .gsuiFxWaveShaper-graph-x {
-	inset: 50% 2px 50% 2px;
+	inset: 50% 2px;
 	height: 1px;
 }
 .gsuiFxWaveShaper-graph-y {
-	inset: 2px 50% 2px 50%;
+	inset: 2px 50%;
 	width: 1px;
 }
 .gsuiFxWaveShaper-graph-unit {
@@ -122,16 +120,16 @@ gsui-fx-waveshaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
 	font-size: 12px;
 	text-align: center;
 	white-space: nowrap;
-	font-weight: 700;
+	font-weight: bold;
 	background-color: var( --gsui-screen-graph );
 }
 .gsuiFxWaveShaper-graph-unit::before {
 	opacity: .2;
 }
-.gsuiFxWaveShaper-graph-x-plus  { right:  2px; bottom: calc( 50% -  8px ) }
-.gsuiFxWaveShaper-graph-x-minus { left:   2px; bottom: calc( 50% -  8px ) }
-.gsuiFxWaveShaper-graph-y-plus  { top:    0;   left:   calc( 50% - 20px ); width: 40px }
-.gsuiFxWaveShaper-graph-y-minus { bottom: 0;   left:   calc( 50% - 20px ); width: 40px }
+.gsuiFxWaveShaper-graph-x-plus  { right:  2px; bottom: calc( 50% - 8px ); }
+.gsuiFxWaveShaper-graph-x-minus { left:   2px; bottom: calc( 50% - 8px ); }
+.gsuiFxWaveShaper-graph-y-plus  { top:    0;   left:   calc( 50% - 20px ); width: 40px; }
+.gsuiFxWaveShaper-graph-y-minus { bottom: 0;   left:   calc( 50% - 20px ); width: 40px; }
 .gsuiFxWaveShaper-graph-x-plus::before  { content: "in +" }
 .gsuiFxWaveShaper-graph-x-minus::before { content: "in -" }
 .gsuiFxWaveShaper-graph-y-plus::before  { content: "out +" }
@@ -143,7 +141,7 @@ gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-minus {
 	display: none;
 }
 gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-x-plus { bottom: 0 }
-gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus { left: 2px; width: auto }
+gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus { left: 2px; width: auto; }
 gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-x-plus::before { content: "in" }
 gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus::before { content: "out" }
 
@@ -165,7 +163,7 @@ gsui-fx-waveshaper[ symmetry ] .gsuiFxWaveShaper-graph-y-plus::before { content:
 }
 
 /* .......................................................................... */
-@container gsuiFxWaveShaper-query ( aspect-ratio < 1 ) {
+@container gsui-fx-waveshaper-query ( aspect-ratio < 1 ) {
 	.gsuiFxWaveShaper-in {
 		flex-direction: column;
 	}

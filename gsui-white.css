@@ -2,6 +2,7 @@ body[ data-skin="white" ] {
 	color-scheme: light;
 	--gsui-txt: #222;
 	--gsui-ovl-1: #0000000b;
+
 	/* ................................ */
 	--gsui-col-pan: #f69;
 	--gsui-col-gain: #77d;
@@ -10,14 +11,17 @@ body[ data-skin="white" ] {
 	--gsui-col-unison: #f95;
 	--gsui-col-lowpass: #d96;
 	--gsui-col-highpass: #d96;
+
 	/* ................................ */
 	--gsui-col-currentTimeCursor: #000;
+
 	/* ................................ */
 	--gsui-col-pattern: #5ac;
 	--gsui-col-pattern8: #77dc;
 	--gsui-col-pattern2: #77d4;
 	--gsui-col-patternSelected: #f88;
 	--gsui-col-patternSelected8: #0009;
+
 	/* ................................ */
 	--gsui-app-bg: #fff;
 	--gsui-head1-bg: #e4e4e4;
@@ -27,10 +31,12 @@ body[ data-skin="white" ] {
 	--gsui-win-brd: #999;
 	--gsui-win-brd-foc: #77d;
 	--gsui-win-close: #ba5d5d;
+
 	/* ................................ */
 	--gsui-screen-spectrum: #000;
 	--gsui-screen-spectrum-filter: invert( 1 ) hue-rotate( 320deg );
 	--gsui-screen-graph: #d8d8d8;
+
 	/* ................................ */
 	--gsui-btn-openWin-bg: #0002;
 	--gsui-btn-openWin-open-bg: #a7357e;
@@ -58,16 +64,19 @@ body[ data-skin="white" ] {
 	--gsui-item-bg-selected: #fff;
 	--gsui-toggle-on: #77d;
 	--gsui-toggle-off: #222;
+
 	/* ................................ */
 	--gsui-slider-bg: #aaa;
 	--gsui-slider-col-disabled: #555;
 	--gsuiSlider-lineColor: #000;
 	--gsuiSlider-lineColor-disabled: var( --gsui-slider-col-disabled );
 	--gsuiSlider-lineBgColor: var( --gsui-slider-bg );
+
 	/* ................................ */
 	--gsuiLibrary-bg: #bef;
 	--gsuiLibrary-sample-fav: #03f;
 	--gsuiLibrary-sample-hover-bg: #0001;
+
 	/* ................................ */
 	--gsuiKeys-blackRow-bg: #0000001a;
 	--gsuiKeys-blackRow-hover-bg: #00000026;
@@ -79,6 +88,7 @@ body[ data-skin="white" ] {
 	--gsuiKeys-activeKey-gradA: #353b52;
 	--gsuiKeys-activeKey-gradB: #7886bd;
 	--gsuiKeys-rootKey: #c143a4;
+
 	/* ................................ */
 	--gsuiPatterns-panel-btnSolid-bg: #444;
 	--gsuiPatterns-newSlicesBtn-color: #e29d8a;
@@ -101,6 +111,7 @@ body[ data-skin="white" ] {
 	--gsuiPatterns-pattern-head-bg: #0003;
 	--gsuiPatterns-pattern-head-selected-bg: #fff3;
 	--gsuiPatterns-pattern-dest-bg: #fff1;
+
 	/* ................................ */
 	--gsuiSlicer-bg: #666;
 	--gsuiSlicer-color: #fff;
@@ -112,10 +123,12 @@ body[ data-skin="white" ] {
 	--gsuiSlicer-slice-bg: #44c4;
 	--gsuiSlicer-slice-hl-bg: #77f4;
 	--gsuiSlicer-slice-border: #32325a;
+
 	/* ................................ */
 	--gsuiDrumrow-border: #0002;
 	--gsuiDrumrow-color: #fff;
 	--gsuiDrumrow-grip-bg: #0001;
+
 	/* ................................ */
 	--gsuiDrums-drum-bg: var( --gsui-col-pattern8 );
 	--gsuiDrums-drumprop-bg: #0002;

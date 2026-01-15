@@ -1,5 +1,5 @@
 .gsuiPianoroll-block {
-	container: gsuiPianoroll-block-query / size;
+	container: gsui-pianoroll-block-query / size;
 	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
 }
 
@@ -49,12 +49,12 @@
 }
 
 /* .......................................................................... */
-@container gsuiPianoroll-block-query ( max-width: 24px ) {
+@container gsui-pianoroll-block-query ( max-width: 24px ) {
 	.gsuiPianoroll-block-key {
 		display: none;
 	}
 }
-@container gsuiPianoroll-block-query ( max-height: 14px ) {
+@container gsui-pianoroll-block-query ( max-height: 14px ) {
 	.gsuiPianoroll-block-key {
 		font-size: 10px;
 	}

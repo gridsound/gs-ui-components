@@ -1,5 +1,5 @@
 gsui-envelope {
-	container: gsuiEnvelope-query / size;
+	container: gsui-envelope-query / size;
 	box-sizing: border-box;
 	display: block;
 	height: 100%;
@@ -106,7 +106,7 @@ gsui-envelope {
 }
 
 /* .......................................................................... */
-@container gsuiEnvelope-query ( orientation: portrait ) OR ( ( max-width: 340px ) AND ( min-height: 160px ) ) {
+@container gsui-envelope-query ( orientation: portrait ) OR ( ( max-width: 340px ) AND ( min-height: 160px ) ) {
 	.gsuiEnvelope-in {
 		flex-direction: column;
 	}

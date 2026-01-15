@@ -11,8 +11,7 @@ gsui-library {
 	position: relative;
 	display: flex;
 	align-content: flex-start;
-	flex-wrap: wrap;
-	flex-direction: column;
+	flex-flow: column wrap;
 	overflow: auto hidden;
 	background-color: var( --gsuiLibrary-bg );
 }

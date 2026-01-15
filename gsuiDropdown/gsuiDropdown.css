@@ -43,7 +43,7 @@
 	border: var( --brd );
 	border-right: 0;
 	border-bottom: 0;
-	border-radius: 2px 0 0 0;
+	border-radius: 2px 0 0;
 	background-color: var( --brd-color );
 }
 .gsuiDropdown[ data-dir^="top" ] .gsuiDropdown-arrow {

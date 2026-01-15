@@ -18,7 +18,6 @@
 	transition-property: color, background-color;
 }
 .gsuiActionMenu-action:hover {
-/*	color: #111;*/
 	background-color: #fff2;
 }
 .gsuiActionMenu-action-body {

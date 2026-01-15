@@ -1,5 +1,5 @@
 .gsuiReorder-dragging.gsuiReorder-reordering {
-	opacity: .2 !important;
+	opacity: .2 !important; /* stylelint-disable-line declaration-no-important */
 }
 
 /* .......................................................................... */
@@ -22,8 +22,8 @@
 	opacity: 1;
 }
 @keyframes gsuiReorder-dropArea-anim {
-	  0% { background-color: transparent }
-	 20% { background-color: #1e90ff }
+	0% { background-color: transparent }
+	20% { background-color: #1e90ff }
 	100% { background-color: #1e90ff50 }
 }
 

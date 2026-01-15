@@ -138,7 +138,7 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 	}
 }
 @keyframes gsui-saved-fade {
-	  0% { width: 48px }
+	0% { width: 48px }
 	100% { width: 0 }
 }
 
@@ -198,14 +198,14 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 	width: 0;
 	display: inline-block;
 	overflow: hidden;
-	opacity: 0;	
+	opacity: 0;
 	transition: .1s;
 	transition-property: width, margin-left, opacity;
 
 	gsui-titleuser:not( [ readonly ] ) .gsuiTitleUser-rename:hover & {
 		width: 2ch;
 		margin-left: 4px;
-		opacity: 1;	
+		opacity: 1;
 	}
 }
 .gsuiTitleUser-cmpDur::before {

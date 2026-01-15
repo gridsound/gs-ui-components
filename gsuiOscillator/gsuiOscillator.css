@@ -1,5 +1,5 @@
 gsui-oscillator {
-	container: gsuiOscillator-query / size;
+	container: gsui-oscillator-query / size;
 	display: flex;
 	position: relative;
 	box-sizing: border-box;
@@ -232,7 +232,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	font-size: .7em;
 }
 .gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:last-child::before {
-	text-shadow: -2px 0px #373742;
+	text-shadow: -2px 0 #373742;
 }
 gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom" ] {
 	display: none;
@@ -333,7 +333,7 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 }
 
 /* .......................................................................... */
-@container gsuiOscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
+@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
 	.gsuiOscillator-in {
 		grid-template:
 			"grip .   .    .    .         .     .       ."  6px

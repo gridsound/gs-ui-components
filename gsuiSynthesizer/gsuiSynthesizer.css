@@ -137,7 +137,7 @@ gsui-synthesizer {
 			}
 		}
 		&:not( [ data-selected ] ):hover {
-			background-color: #ffffff11;
+			background-color: #fff1;
 		}
 	}
 }

@@ -8,16 +8,14 @@ gsui-com-profile {
 	--gsuiComProfile-followBtn-hover-bg: #4a54e3;
 	--hx: var( --gsuiComProfile-height-mul );
 	--h: calc( var( --gsuiComProfile-height ) - 74px * ( 1 - var( --hx ) ) );
-	container: gsuiComProfile-query / inline-size;
 	overflow: hidden;
 	display: flex;
 	gap: var( --gsuiComProfile-gap );
-	padding: var( --gsuiComProfile-pad );
-	position: relative;
 	height: var( --h );
+	padding: var( --gsuiComProfile-pad );
 	border-radius: var( --gsuiComProfile-radius );
-	font-size: 14px;
 	color: #fff;
+	font-size: 14px;
 	background-color: #32374c;
 
 	&[ followed ] {
@@ -72,14 +70,12 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	.gsuiIcon {
 		display: none;
 	}
-	&[ disabled ] .gsuiIcon {
-		display: none !important;
-	}
-
-	gsui-com-profile:not( [ followed ] ) & .gsuiIcon[ data-icon="follow" ],
-	gsui-com-profile[ followed ] &:not( :hover ) .gsuiIcon[ data-icon="followed" ],
-	gsui-com-profile[ followed ] &:hover .gsuiIcon[ data-icon="unfollow" ] {
-		display: flex;
+	&:not( [ disabled ] ) {
+		gsui-com-profile:not( [ followed ] ) & .gsuiIcon[ data-icon="follow" ],
+		gsui-com-profile[ followed ] &:not( :hover ) .gsuiIcon[ data-icon="followed" ],
+		gsui-com-profile[ followed ] &:hover .gsuiIcon[ data-icon="unfollow" ] {
+			display: flex;
+		}
 	}
 }
 
@@ -87,13 +83,10 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 .gsuiComProfile-info {
 	display: flex;
 	flex: 1;
-	gap: .5ch;
 	align-items: baseline;
 	min-width: 0;
 	flex-wrap: wrap;
 	align-self: center;
-	row-gap: 0;
-	column-gap: 12px;
 	font-size: 16px;
 }
 .gsuiComProfile-name {
@@ -101,20 +94,11 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	align-items: baseline;
 	gap: .7ch;
 }
-.gsuiComProfile-username,
-.gsuiComProfile-fullname {
+.gsuiComProfile-username {
 	line-height: 1;
 	padding-bottom: 2px;
-}
-.gsuiComProfile-username {
 	font-weight: bold;
 	font-size: calc( 1em + 1em * var( --hx ) );
-}
-.gsuiComProfile-fullname {
-	display: flex;
-	row-gap: 0;
-	column-gap: 8px;
-	font-size: calc( 1em + .4em * var( --hx ) );
 }
 
 /* .......................................................................... */
@@ -173,5 +157,5 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	pointer: cursor;
 	background: none;
 }
-.gsuiComProfile-following::after { content: " following"; font-weight: normal }
-.gsuiComProfile-followers::after { content: " followers"; font-weight: normal }
+.gsuiComProfile-following::after { content: " following"; font-weight: normal; }
+.gsuiComProfile-followers::after { content: " followers"; font-weight: normal; }

@@ -48,8 +48,8 @@ gsui-keys,
 	position: absolute;
 	inset: 0;
 }
-gsui-pianoroll:has(.gsuiBlocksManager-selection-hidden) .gsuiKeys-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
-gsui-pianoroll:has(.gsuiBlocksManager-selection-hidden) .gsuiKeys-rowBlack:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
+gsui-pianoroll:has( .gsuiBlocksManager-selection-hidden ) .gsuiKeys-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
+gsui-pianoroll:has( .gsuiBlocksManager-selection-hidden ) .gsuiKeys-rowBlack:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
 
 /* .......................................................................... */
 .gsuiKeys-row[ data-key="0" ],

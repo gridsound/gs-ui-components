@@ -145,7 +145,7 @@
 .gsuiIcon[ data-icon="unmute" ]::before { content: "\f028"; }
 .gsuiIcon[ data-icon="unmute" ]::after { content: "\10f028"; }
 
-.gsuiIcon[ data-icon="at" ]::after { content: "\40\40"; opacity: 1 }
+.gsuiIcon[ data-icon="at" ]::after { content: "\40\40"; opacity: 1; }
 .gsuiIcon[ data-icon="search" ]::before { content: "\f002"; }
 .gsuiIcon[ data-icon="search" ]::after { content: "\10f002"; }
 .gsuiIcon[ data-icon="close" ]::before { content: "\f00d"; }
@@ -167,13 +167,13 @@
 .gsuiIcon[ data-icon="trash-restore" ]::before { content: "\f895"; }
 .gsuiIcon[ data-icon="trash-restore" ]::after { content: "\10f895"; }
 .gsuiIcon[ data-icon="ellipsis-v" ]::before { content: "\f142"; }
-.gsuiIcon[ data-icon="ellipsis-v" ]::after { content: "\10f142"; opacity: 1 }
-.gsuiIcon[ data-icon="radio-btn" ]::before { content: "\f111"; opacity: 0 }
+.gsuiIcon[ data-icon="ellipsis-v" ]::after { content: "\10f142"; opacity: 1; }
+.gsuiIcon[ data-icon="radio-btn" ]::before { content: "\f111"; opacity: 0; }
 .gsuiIcon[ data-icon="radio-btn" ]::after { content: "\10f111"; }
 .gsuiIcon[ data-icon="radio-btn-checked" ]::before { content: "\f192"; }
 .gsuiIcon[ data-icon="radio-btn-checked" ]::after { content: "\10f192"; }
 .gsuiIcon[ data-icon="info" ]::before { content: "\f2fd"; }
-.gsuiIcon[ data-icon="info" ]::after { content: "\10f2fd"; opacity: .3 }
+.gsuiIcon[ data-icon="info" ]::after { content: "\10f2fd"; opacity: .3; }
 
 .gsuiIcon[ data-icon="save" ]::before { content: "\f0c7"; }
 .gsuiIcon[ data-icon="save" ]::after { content: "\10f0c7"; opacity: .4; }

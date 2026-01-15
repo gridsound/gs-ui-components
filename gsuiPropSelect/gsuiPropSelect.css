@@ -1,10 +1,9 @@
 gsui-prop-select {
+	box-sizing: border-box;
 	overflow: auto;
 	display: flex;
 	flex-wrap: wrap;
-	align-content: safe center;
-	justify-content: center;
-	box-sizing: border-box;
+	place-content: center;
 	gap: 3px;
 	line-height: 18px;
 }

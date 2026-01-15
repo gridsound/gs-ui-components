@@ -76,7 +76,7 @@ gsui-popup {
 		color: #9df;
 		text-decoration: none;
 
-		&:not( [ class*="gsui" ] ):hover {
+		&:not( [ class*="gsui" ] ):hover { /* CSS classes should not be split */
 			text-decoration: underline;
 		}
 	}
