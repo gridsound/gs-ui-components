@@ -39,13 +39,9 @@
 .gsuiPianoroll-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
 	background-color: transparent;
 }
-.gsuiPianoroll-block:hover      .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to,
-.gsuiPianoroll-block.gsui-hover .gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to {
-	translate: 2px 0;
-}
-.gsuiPianoroll-block:hover      .gsuiDragline-linked .gsuiDragline-to,
-.gsuiPianoroll-block.gsui-hover .gsuiDragline-linked .gsuiDragline-to {
-	translate: -2px 0;
+.gsuiPianoroll-block:where( :hover, .gsui-hover ) {
+	.gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to { translate: 2px 0 }
+	.gsuiDragline-linked .gsuiDragline-to { translate: -2px 0 }
 }
 
 /* .......................................................................... */
