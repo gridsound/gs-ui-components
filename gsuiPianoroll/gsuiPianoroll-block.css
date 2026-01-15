@@ -1,57 +1,56 @@
 .gsuiPianoroll-block {
 	container: gsui-pianoroll-block-query / size;
 	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
-}
 
-/* .......................................................................... */
-.gsuiPianoroll-block-key {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	left: 4px;
-	height: 100%;
-	color: #000;
-	font-size: 11px;
-	font-weight: bold;
-	opacity: .4;
-	pointer-events: none;
-}
+	/* ...................................................................... */
+	.gsuiDragline {
+		top: 50%;
+		right: 0;
+	}
+	.gsuiDragline-drop {
+		top: 50%;
+		left: 0;
 
-/* .......................................................................... */
-.gsuiPianoroll-block .gsuiDragline {
-	top: 50%;
-	right: 0;
-}
+		&::before {
+			left: 0;
+		}
+	}
+	.gsuiDragline-dropActive::before {
+		left: -4px;
+	}
 
-/* .......................................................................... */
-.gsuiPianoroll-block .gsuiDragline-drop {
-	top: 50%;
-	left: 0;
-}
-.gsuiPianoroll-block .gsuiDragline-drop::before {
-	left: 0;
-}
-.gsuiPianoroll-block .gsuiDragline-dropActive::before {
-	left: -4px;
-}
+	/* ...................................................................... */
+	&:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+		background-color: transparent;
+	}
+	&:where( :hover, .gsui-hover ) {
+		.gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to { translate: 2px 0 }
+		.gsuiDragline-linked .gsuiDragline-to { translate: -2px 0 }
+	}
 
-/* .......................................................................... */
-.gsuiPianoroll-block:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
-	background-color: transparent;
-}
-.gsuiPianoroll-block:where( :hover, .gsui-hover ) {
-	.gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to { translate: 2px 0 }
-	.gsuiDragline-linked .gsuiDragline-to { translate: -2px 0 }
+	/* ...................................................................... */
+	span {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		left: 4px;
+		height: 100%;
+		color: #000;
+		font-size: var( --gsui-fs, 11px );
+		font-weight: bold;
+		opacity: .4;
+		pointer-events: none;
+	}
 }
 
 /* .......................................................................... */
 @container gsui-pianoroll-block-query ( max-width: 24px ) {
-	.gsuiPianoroll-block-key {
-		display: none;
+	span {
+		--gsui-fs: 0;
 	}
 }
 @container gsui-pianoroll-block-query ( max-height: 14px ) {
-	.gsuiPianoroll-block-key {
-		font-size: 10px;
+	span {
+		--gsui-fs: 10px;
 	}
 }
