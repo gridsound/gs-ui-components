@@ -7,13 +7,11 @@ gsui-timewindow {
 	width: 100%;
 	height: 100%;
 	background-color: var( --gsui-items-bg );
-}
-gsui-timewindow::-webkit-scrollbar {
-	display: none;
-}
-gsui-timewindow[ disabled ] {
-	pointer-events: none;
-	filter: grayscale( 1 ) brightness( .4 );
+
+	&[ disabled ] {
+		pointer-events: none;
+		filter: grayscale( 1 ) brightness( .4 );
+	}
 }
 
 /* .......................................................................... */
@@ -61,12 +59,13 @@ gsui-timewindow[ disabled ] {
 	width: min( 8px, 25% );
 	height: 100%;
 	cursor: ew-resize;
-}
-.gsuiTimewindow-minimapThumb-crop[ data-action="cropB" ] {
-	right: 0;
-}
-.gsuiTimewindow-minimapThumb-crop:hover {
-	background-color: #fff2;
+
+	&[ data-action="cropB" ] {
+		right: 0;
+	}
+	&:hover {
+		background-color: #fff2;
+	}
 }
 .gsuiTimewindow-minimapLoop {
 	height: 30%;
@@ -171,20 +170,22 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	width: 2px;
 	margin-left: -1px;
 	background-color: var( --gsui-col-currentTimeCursor );
-}
-gsui-timewindow[ currenttime="0" ] .gsuiTimewindow-currentTime {
-	display: none;
+
+	gsui-timewindow[ currenttime="0" ] & {
+		display: none;
+	}
 }
 .gsuiTimewindow-loop {
 	opacity: 0;
 	transition: .2s opacity;
 	background-color: #0003;
+
+	.gsuiTimewindow-looping & {
+		opacity: 1;
+	}
 }
-.gsuiTimewindow-looping .gsuiTimewindow-loop {
-	opacity: 1;
-}
-.gsuiTimewindow-loopA { left: 0; }
-.gsuiTimewindow-loopB { right: 0; }
+.gsuiTimewindow-loopA { left: 0 }
+.gsuiTimewindow-loopB { right: 0 }
 
 /* .......................................................................... */
 gsui-timewindow gsui-step-select {
