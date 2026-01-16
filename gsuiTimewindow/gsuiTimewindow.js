@@ -353,7 +353,10 @@ class gsuiTimewindow extends gsui0ne {
 	#setScrollY( px ) {
 		this.#scrollY = Math.max( 0, px );
 		this.#scrollYint = parseInt( this.#scrollY );
-		this.$elements.$scroll.scrollTop = this.#scrollY;
+		this.$elements.$scroll.scrollTo( {
+			top: this.#scrollY,
+			behavior: "instant",
+		} );
 	}
 	#centerOnCurrentTime() {
 		if ( this.#autoscroll && this.#playing && !this.#scrolling ) {
