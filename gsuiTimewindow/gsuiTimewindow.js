@@ -388,6 +388,7 @@ class gsuiTimewindow extends gsui0ne {
 			this.#scrollYint = scrollY;
 		}
 		this.#minimapUpdate();
+		this.#minimapUpdateCurrentTimeLoop();
 		this.#onscrollStopDebounce();
 	}
 	#onscrollStop() {
