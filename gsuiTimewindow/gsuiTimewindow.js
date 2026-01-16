@@ -77,12 +77,14 @@ class gsuiTimewindow extends gsui0ne {
 					this.#setNewPPB( ppbNew, 0 );
 				} else if ( d.$target.dataset.zoom === "y" ) {
 					const val2 = GSUmathEaseInCirc( val );
-					const newVal = this.#getLHmin() + val2 * ( this.#getLHmax() - this.#getLHmin() );
-					const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, newVal, 0 );
+					const lhNewf = this.#getLHmin() + val2 * ( this.#getLHmax() - this.#getLHmin() );
+					const lhNew = GSUmathRound( lhNewf );
+					const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, 0 );
 
 					this.#setScrollY( scrollBack );
-					GSUdomSetAttr( this, "lineheight", newVal );
-					GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, newVal );
+					GSUdomSetAttr( this, "lineheight", lhNew );
+					GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
+					this.#lineHeightFloat = lhNewf;
 				}
 			},
 			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, val ) => GSUdomSetAttr( this, "step", val ),
