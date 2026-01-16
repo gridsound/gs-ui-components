@@ -26,6 +26,8 @@ class gsuiTimewindow extends gsui0ne {
 	#scrollY = 0;
 	#scrollXint = 0;
 	#scrollYint = 0;
+	#scrolling = false;
+	#onscrollStopDebounce = GSUdebounce( this.#onscrollStop.bind( this ), .5 );
 
 	constructor() {
 		super( {
@@ -109,18 +111,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$panelCnt.onwheel = this.#onwheelPanel.bind( this );
 		GSUdomQS( this.$elements.$panel, ".gsuiTimewindow-panelExtendY" ).onpointerdown = this.#onptrdownExtend.bind( this, "side" );
 		this.$elements.$minimapTrack.onpointerdown = this.#onptrdownMinimap.bind( this );
-		this.$elements.$scroll.addEventListener( "scroll", e => {
-			if ( this.#scrollXint !== e.currentTarget.scrollLeft ) {
-				this.#scrollX =
-				this.#scrollXint = e.currentTarget.scrollLeft;
-			}
-			if ( this.#scrollYint !== e.currentTarget.scrollTop ) {
-				this.#scrollY =
-				this.#scrollYint = e.currentTarget.scrollTop;
-			}
-			this.#minimapUpdate();
-			this.#minimapUpdateCurrentTimeLoop();
-		} );
+		this.$elements.$scroll.addEventListener( "scroll", this.#onscroll.bind( this ) );
 	}
 
 	// .........................................................................
@@ -170,6 +161,7 @@ class gsuiTimewindow extends gsui0ne {
 				break;
 			case "autoscroll":
 				this.#autoscroll = val === "";
+				this.#scrolling = false;
 				this.#centerOnCurrentTime();
 				break;
 			case "pxperbeat":
@@ -353,7 +345,10 @@ class gsuiTimewindow extends gsui0ne {
 	#setScrollX( px ) {
 		this.#scrollX = Math.max( 0, px );
 		this.#scrollXint = parseInt( this.#scrollX );
-		this.$elements.$scroll.scrollLeft = this.#scrollX;
+		this.$elements.$scroll.scrollTo( {
+			left: this.#scrollX,
+			behavior: "instant",
+		} );
 	}
 	#setScrollY( px ) {
 		this.#scrollY = Math.max( 0, px );
@@ -361,17 +356,39 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$scroll.scrollTop = this.#scrollY;
 	}
 	#centerOnCurrentTime() {
-		if ( this.#autoscroll && this.#playing ) {
-			const winSize = this.$elements.$minimapTrack.clientWidth * .75;
+		if ( this.#autoscroll && this.#playing && !this.#scrolling ) {
+			const winSize = this.$elements.$minimapTrack.clientWidth;
 			const currPx = this.#currentTime * this.#pxPerBeat;
 
-			this.$elements.$scroll.scrollLeft =
-			this.#scrollX = Math.max( 0, currPx - winSize );
-			this.#scrollXint = parseInt( this.#scrollX );
+			if ( !GSUmathInRange( currPx, this.#scrollX, this.#scrollX + winSize ) ) {
+				this.$elements.$scroll.scrollLeft =
+				this.#scrollX = currPx;
+				this.#scrollXint = parseInt( currPx );
+			}
 		}
 	}
 
 	// .........................................................................
+	#onscroll( e ) {
+		const scrollX = e.currentTarget.scrollLeft;
+		const scrollY = e.currentTarget.scrollTop;
+
+		this.#scrolling = true;
+		if ( this.#scrollXint !== scrollX ) {
+			this.#scrollX =
+			this.#scrollXint = scrollX;
+		}
+		if ( this.#scrollYint !== scrollY ) {
+			this.#scrollY =
+			this.#scrollYint = scrollY;
+		}
+		this.#minimapUpdate();
+		this.#onscrollStopDebounce();
+	}
+	#onscrollStop() {
+		this.#scrolling = false;
+		this.#centerOnCurrentTime();
+	}
 	#getWheelDelta( d ) {
 		let inc = 1.1;
 
@@ -381,10 +398,8 @@ class gsuiTimewindow extends gsui0ne {
 		return d > 0 ? 1 / inc : inc;
 	}
 	#onwheel( e ) {
-		if ( e.ctrlKey || ( this.#autoscroll && this.#playing && !e.deltaY ) ) {
-			e.preventDefault();
-		}
 		if ( e.ctrlKey ) {
+			e.preventDefault();
 			this.#onwheel2( this.#pxPerBeatFloat * this.#getWheelDelta( e.deltaY ), e.pageX );
 		}
 	}

@@ -23,6 +23,7 @@ gsui-timewindow {
 	overflow: auto;
 	overscroll-behavior: none;
 	scrollbar-width: none;
+	scroll-behavior: smooth;
 }
 
 /* .......................................................................... */

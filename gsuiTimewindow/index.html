@@ -127,9 +127,9 @@ inpAutoscroll.onchange = e => GSUdomSetAttr( win, "autoscroll", e.target.checked
 inpPlayStop.onclick = e => {
 	play = !play;
 	e.target.textContent = play ? "Stop" : "Play!" ;
-	if (play) {
+	if ( play ) {
 		intervalId = GSUsetInterval( () => {
-			currenttime = ( currenttime + .05 ) % 8;
+			currenttime = ( currenttime + .05 ) % 16;
 			GSUdomSetAttr( win, "currenttime", currenttime );
 		}, .05 );
 	} else {
