@@ -44,13 +44,13 @@
 }
 
 /* .......................................................................... */
-@container gsui-pianoroll-block-query ( max-width: 24px ) {
-	span {
-		--gsui-fs: 0;
-	}
-}
 @container gsui-pianoroll-block-query ( max-height: 14px ) {
 	span {
 		--gsui-fs: 10px;
+	}
+}
+@container gsui-pianoroll-block-query ( max-width: 24px ) {
+	span {
+		--gsui-fs: 0;
 	}
 }
