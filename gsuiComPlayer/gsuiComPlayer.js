@@ -40,10 +40,14 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$play.$on( "click", this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$on( "click", this.#onclickLike.bind( this ) );
 		this.$elements.$timeInpTrk.$on( "pointerdown", this.#ptrDown.bind( this ) );
-		this.$elements.$audio.$on( "error", () => {
-			this.$this.$attr( { playing: false, rendered: false } );
-			this.$elements.$play.$attr( "data-spin", false );
-			this.$elements.$audio.$attr( "src", false );
+		this.$elements.$audio.$on( {
+			play: this.#onplay.bind( this ),
+			pause: this.#onpause.bind( this ),
+			error: () => {
+				this.$this.$attr( { playing: false, rendered: false } );
+				this.$elements.$play.$attr( "data-spin", false );
+				this.$elements.$audio.$attr( "src", false );
+			},
 		} );
 	}
 
@@ -52,8 +56,8 @@ class gsuiComPlayer extends gsui0ne {
 		this.#updateRendered( this.$this.$hasAttr( "rendered" ) );
 	}
 	static get observedAttributes() {
-		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "playing", "currenttime", "actions", "actionsdir", "likes", "itsmine" ];
-		// + "opensource" + "private" + "liked"
+		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "actions", "actionsdir", "likes", "itsmine" ];
+		// + "opensource" + "private" + "liked" + "playing"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -63,7 +67,6 @@ class gsuiComPlayer extends gsui0ne {
 			case "likes": this.$elements.$likes.$text( val ); break;
 			case "link": this.$elements.$name.$attr( "href", val ); break;
 			case "dawlink": this.$elements.$dawlink.$attr( "href", val ); break;
-			case "playing": val === "" ? this.#play() : this.#pause(); break;
 			case "rendered": this.#updateRendered( val === "" ); break;
 			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
@@ -84,6 +87,10 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
+	$play() { this.$elements.$audio.$play(); }
+	$pause() { this.$elements.$audio.$pause(); }
+
+	// .........................................................................
 	$setLikeCallbackPromise( fn ) { this.#promises.like = fn; }
 	$setRendersCallbackPromise( fn ) { this.#promises.renders = fn; }
 	$setDeleteCallbackPromise( fn ) { this.#promises.delete = fn; }
@@ -102,15 +109,15 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
-	#play() {
-		this.$elements.$audio.$play();
+	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
 		this.$elements.$play.$attr( "data-icon", "pause" );
+		this.$this.$attr( "playing", true );
 	}
-	#pause() {
-		this.$elements.$audio.$pause();
+	#onpause() {
 		GSUclearInterval( this.#intervalId );
 		this.$elements.$play.$attr( "data-icon", "play" );
+		this.$this.$attr( "playing", false );
 	}
 	#onclickLike() {
 		const liked = this.$this.$hasAttr( "liked" );
@@ -132,8 +139,13 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	#onclickPlay() {
 		if ( this.$elements.$audio[ 0 ].src ) {
-			this.$this.$togAttr( "playing" );
-			GSUdomDispatch( this, this.$this.$hasAttr( "playing" ) ? GSEV_COMPLAYER_PLAY : GSEV_COMPLAYER_STOP );
+			if ( this.$elements.$audio[ 0 ].paused ) {
+				this.$play();
+				GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
+			} else {
+				this.$pause();
+				GSUdomDispatch( this, GSEV_COMPLAYER_STOP );
+			}
 		} else {
 			let hasRender;
 
@@ -149,7 +161,7 @@ class gsuiComPlayer extends gsui0ne {
 				.finally( () => {
 					this.$elements.$play.$attr( "data-spin", false );
 					if ( hasRender ) {
-						this.$this.$attr( "playing", true );
+						this.$play();
 						GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
 					}
 				} );

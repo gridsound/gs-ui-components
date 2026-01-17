@@ -48,6 +48,7 @@ body {
 	<div><label><input id="editable" type="checkbox" /> editable</label></div>
 	<div><label><input id="titled" type="checkbox" /> titled</label></div>
 	<div><label><input id="liked" type="checkbox" /> liked</label></div>
+	<div><label><input id="rendered" type="checkbox" /> rendered</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -80,6 +81,7 @@ const likedInp = GSUdomQS( "#liked" );
 const titledInp = GSUdomQS( "#titled" );
 const itsmineInp = GSUdomQS( "#itsmine" );
 const privateInp = GSUdomQS( "#private" );
+const renderedInp = GSUdomQS( "#rendered" );
 const opensourceInp = GSUdomQS( "#opensource" );
 const editableInp = GSUdomQS( "#editable" );
 const bpmInp = GSUdomQS( "#bpm" );
@@ -106,6 +108,7 @@ likedInp.onchange = () => GSUdomTogAttr( elCmp, "liked" );
 titledInp.onchange = () => GSUdomTogAttr( elCmp, "name", "Dopest song ever created" );
 itsmineInp.onchange = () => GSUdomTogAttr( elCmp, "itsmine" );
 privateInp.onchange = () => GSUdomTogAttr( elCmp, "private" );
+renderedInp.onchange = () => GSUdomTogAttr( elCmp, "rendered" );
 opensourceInp.onchange = () => GSUdomTogAttr( elCmp, "opensource" );
 editableInp.onchange = () => GSUdomSetAttr( elCmp, "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
 
