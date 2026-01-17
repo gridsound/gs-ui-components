@@ -55,20 +55,23 @@ gsui-com-player {
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-dawlink i:first-child {
-	margin-left: 3px;
-}
-.gsuiComPlayer-dawlink i + i {
-	margin-top: 12px;
-	margin-left: -4px;
-	font-size: 12px;
-	text-shadow: -1px -1px 0 var( --gsui-bg );
-}
-.gsuiComPlayer-dawlink i[ data-icon="eye" ]::before { opacity: .6 }
-.gsuiComPlayer-dawlink i[ data-icon="eye" ]::after { opacity: 1 }
-.gsuiComPlayer-dawlink i[ data-icon="eye" ] {
-	margin-top: 22px;
-	margin-left: -5px;
+.gsuiComPlayer-dawlink {
+	i:first-child {
+		margin-left: 3px;
+	}
+	i + i {
+		margin-top: 12px;
+		margin-left: -4px;
+		font-size: 12px;
+		text-shadow: -1px -1px 0 var( --gsui-bg );
+	}
+	i[ data-icon="eye" ] {
+		margin-top: 22px;
+		margin-left: -5px;
+
+		&::before { opacity: .6 }
+		&::after { opacity: 1 }
+	}
 }
 .gsuiComPlayer-actions {
 	background-color: transparent;
@@ -104,6 +107,9 @@ gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 	font-size: 18px;
 	transition: height .2s;
 
+	gsui-com-player[ playing ] & {
+		height: 1.3em;
+	}
 	.gsuiIcon {
 		width: 18px;
 		font-size: 16px;
@@ -114,9 +120,6 @@ gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 			display: none;
 		}
 	}
-}
-gsui-com-player[ playing ] .gsuiComPlayer-name {
-	height: 1.3em;
 }
 .gsuiComPlayer-nameLink {
 	position: absolute;
@@ -189,30 +192,33 @@ gsui-com-player[ playing ] .gsuiComPlayer-name {
 .gsuiComPlayer-tempo {
 	display: flex;
 	align-items: baseline;
+
+	.gsuiIcon {
+		margin-right: 6px;
+		opacity: .5;
+	}
 }
-gsui-com-player:not( [ playing ] ) .gsuiComPlayer-currentTime {
-	display: none;
-}
-.gsuiComPlayer-currentTime::after {
-	content: "\A0-\A0";
+.gsuiComPlayer-currentTime {
+	gsui-com-player:not( [ playing ] ) & {
+		display: none;
+	}
+	&::after {
+		content: "\A0-\A0";
+	}
 }
 .gsuiComPlayer-tempo {
 	margin-left: 16px;
 }
-.gsuiComPlayer-time .gsuiIcon,
-.gsuiComPlayer-tempo .gsuiIcon {
-	margin-right: 6px;
-	opacity: .5;
-}
 .gsuiComPlayer-bpm {
 	display: inline-flex;
 	align-items: baseline;
-}
-.gsuiComPlayer-bpm::after {
-	content: "bpm";
-	margin-left: 4px;
-	font-size: 11px;
-	font-family: var( --gsui-font );
+
+	&::after {
+		content: "bpm";
+		margin-left: 4px;
+		font-size: 11px;
+		font-family: var( --gsui-font );
+	}
 }
 
 /* .......................................................................... */
@@ -225,22 +231,14 @@ gsui-com-player:not( [ playing ] ) .gsuiComPlayer-currentTime {
 	transition-property: height;
 	background-color: #0003;
 	-webkit-tap-highlight-color: transparent;
-}
-gsui-com-player[ playing ] .gsuiComPlayer-slider {
-	height: 10px;
-}
-.gsuiComPlayer-sliderValue {
-	width: 0;
-	height: 100%;
-	pointer-events: none;
-	background-color: #65b;
-}
-.gsuiComPlayer-sliderInput {
-	position: absolute;
-	cursor: inherit;
-	top: 0;
-	margin: 0;
-	opacity: 0;
-	width: 100%;
-	height: 100%;
+
+	gsui-com-player[ playing ] & {
+		height: 10px;
+	}
+	* {
+		width: 0;
+		height: 100%;
+		pointer-events: none;
+		background-color: #65b;
+	}
 }

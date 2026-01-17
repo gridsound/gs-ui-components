@@ -23,8 +23,8 @@ class gsuiComPlayer extends gsui0ne {
 				$bpm: ".gsuiComPlayer-bpm",
 				$dur: ".gsuiComPlayer-duration",
 				$time: ".gsuiComPlayer-currentTime",
-				$timeInpVal: ".gsuiComPlayer-sliderValue",
-				$timeInpTrk: ".gsuiComPlayer-sliderInput",
+				$timeInp: ".gsuiComPlayer-slider",
+				$timeInpVal: ".gsuiComPlayer-slider *",
 				$dawlink: ".gsuiComPlayer-dawlink",
 				$actionsBtn: ".gsuiComPlayer-actions",
 			},
@@ -39,7 +39,7 @@ class gsuiComPlayer extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$play.$on( "click", this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$on( "click", this.#onclickLike.bind( this ) );
-		this.$elements.$timeInpTrk.$on( "pointerdown", this.#ptrDown.bind( this ) );
+		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
 		this.$elements.$audio.$on( {
 			play: this.#onplay.bind( this ),
 			pause: this.#onpause.bind( this ),
