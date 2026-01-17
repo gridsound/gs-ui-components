@@ -20,7 +20,16 @@ class gsui0ne extends HTMLElement {
 			: null );
 		if ( this.#children ) {
 			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
-			this.$elements = GSUdomFind( this.#children, o.$elements );
+			if ( o.$jqueryfy ) {
+				this.$this = GSUjq( this );
+				this.$element = GSUjq( this.$element );
+			}
+			this.$elements = !o.$jqueryfy
+				? GSUdomFind( this.#children, o.$elements )
+				: GSUreduce( o.$elements, ( map, sel, key ) => {
+					map[ key ] = GSUjq( this.#children, sel );
+					return map;
+				}, {} );
 		}
 		if ( this.$onresize ) {
 			this.#onresizeBind = this.$onresize.bind( this );
