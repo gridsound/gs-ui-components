@@ -88,8 +88,14 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
-	$play() { this.$elements.$audio.$play(); }
-	$pause() { this.$elements.$audio.$pause(); }
+	$play() {
+		this.$elements.$audio.$play();
+		GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
+	}
+	$pause() {
+		this.$elements.$audio.$pause();
+		GSUdomDispatch( this, GSEV_COMPLAYER_STOP );
+	}
 
 	// .........................................................................
 	$setLikeCallbackPromise( fn ) { this.#promises.like = fn; }
@@ -140,13 +146,9 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	#onclickPlay() {
 		if ( this.$elements.$audio[ 0 ].src ) {
-			if ( this.$elements.$audio[ 0 ].paused ) {
-				this.$play();
-				GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
-			} else {
-				this.$pause();
-				GSUdomDispatch( this, GSEV_COMPLAYER_STOP );
-			}
+			this.$elements.$audio[ 0 ].paused
+				? this.$play()
+				: this.$pause();
 		} else {
 			let hasRender;
 
@@ -163,7 +165,6 @@ class gsuiComPlayer extends gsui0ne {
 					this.$elements.$play.$attr( "data-spin", false );
 					if ( hasRender ) {
 						this.$play();
-						GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
 					}
 				} );
 		}
