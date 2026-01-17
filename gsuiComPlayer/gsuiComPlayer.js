@@ -43,6 +43,7 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$audio.$on( {
 			play: this.#onplay.bind( this ),
 			pause: this.#onpause.bind( this ),
+			loadedmetadata: e => this.$this.$attr( "duration", e.target.duration ),
 			error: () => {
 				this.$this.$attr( { playing: false, rendered: false } );
 				this.$elements.$play.$attr( "data-spin", false );
