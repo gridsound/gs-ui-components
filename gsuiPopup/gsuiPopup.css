@@ -75,10 +75,9 @@ gsui-popup {
 	a {
 		color: #9df;
 		text-decoration: none;
-
-		&:not( [ class*="gsui" ] ):hover { /* CSS classes should not be split */
-			text-decoration: underline;
-		}
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 	fieldset {
 		display: flex;

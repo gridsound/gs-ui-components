@@ -5,17 +5,17 @@ class gsuiComUserLink extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComUserLink",
 			$tagName: "gsui-com-userlink",
-			$template: GSUcreateA( { class: "gsuiComUserLink-a" },
+			$template: GSUcreateA( null,
 				GSUcreateIcon( { icon: "musician" } ),
-				GSUcreateDiv( { class: "gsuiComUserLink-avatar" } ),
-				GSUcreateSpan( { class: "gsuiComUserLink-username" } ),
-				GSUcreateSpan( { class: "gsuiComUserLink-name" } ),
+				GSUcreateDiv(),
+				GSUcreateElement( "b" ),
+				GSUcreateSpan(),
 			),
 			$elements: {
-				$a: ".gsuiComUserLink-a",
-				$name: ".gsuiComUserLink-name",
-				$avatar: ".gsuiComUserLink-avatar",
-				$username: ".gsuiComUserLink-username",
+				$a: "a",
+				$name: "span",
+				$avatar: "div",
+				$username: "b",
 			},
 		} );
 		Object.seal( this );
