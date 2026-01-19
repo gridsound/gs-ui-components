@@ -171,7 +171,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 		if ( prop === "toggle" ) {
 			this.$elements.$tabs
-				.$filter( el => el.dataset.tab === `env ${ prop }` )
+				.$filter( `[data-tab="env ${ prop }"]` )
 				.$child( 0 ).$attr( "off", !val );
 		}
 	}
@@ -182,7 +182,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 		if ( prop === "toggle" ) {
 			this.$elements.$tabs
-				.$filter( el => el.dataset.tab === `lfo ${ prop }` )
+				.$filter( `[data-tab="lfo ${ prop }"]` )
 				.$child( 0 ).$attr( "off", !val );
 		}
 	}
@@ -208,10 +208,11 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	#selectTab( lfoEnv, prop ) {
-		const tabs = this.$elements.$tabs.$filter( el => el.dataset.tab.startsWith( lfoEnv ) );
+		const tabs = this.$elements.$tabs.$filter( `[data-tab^="${ lfoEnv }"]` );
+		const tab = tabs.$filter( `[data-tab$="${ prop }"]` );
 
-		if ( !tabs.$filter( el => el.dataset.tab.endsWith( prop ) ).$hasAttr( "data-selected" ) ) {
-			tabs.$attr( "data-selected", el => el.dataset.tab.endsWith( prop ) );
+		if ( !tab.$hasAttr( "data-selected" ) ) {
+			tabs.$attr( "data-selected", el => el === tab.$at( 0 ) );
 			( lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo )
 				.$attr( this.#data[ lfoEnv ][ prop ] )
 				.$attr( lfoEnv, prop );
