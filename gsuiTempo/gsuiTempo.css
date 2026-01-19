@@ -1,20 +1,21 @@
 gsui-tempo {
 	position: relative;
+
+	/* .......................................................................... */
+	> button {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		height: 28px;
+		border: 0;
+		border-radius: 4px;
+		padding: 0 6px;
+		white-space: nowrap;
+		font-family: var( --gsui-font-number );
+		background-color: var( --gsui-clock-bg );
+	}
 }
 
-/* .......................................................................... */
-.gsuiTempo-btn {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	height: 28px;
-	border: 0;
-	border-radius: 4px;
-	padding: 0 6px;
-	white-space: nowrap;
-	font-family: var( --gsui-font-number );
-	background-color: var( --gsui-clock-bg );
-}
 
 /* .......................................................................... */
 .gsuiTempo-timeDivision {
@@ -33,11 +34,12 @@ gsui-tempo {
 	gap: 2px;
 	font-size: 18px;
 	pointer-events: none;
-}
-.gsuiTempo-bpm::after {
-	content: "bpm";
-	font-size: 12px;
-	opacity: .5;
+
+	&::after {
+		content: "bpm";
+		font-size: 12px;
+		opacity: .5;
+	}
 }
 
 /* .......................................................................... */
@@ -45,82 +47,89 @@ gsui-tempo {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-}
-.gsuiTempo-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 6px;
-	height: 24px;
-}
-.gsuiTempo-popup label {
-	font-size: 12px;
-}
-.gsuiTempo-popup input {
-	align-self: end;
-	width: 100px;
-	height: 100%;
-	outline: 0;
-	border: 0;
-	border-radius: 4px;
-	padding: 0 6px;
-	font-family: var( --gsui-font-number );
-	font-size: 18px;
-	background-color: #0004;
-}
-.gsuiTempo-popup input::-webkit-outer-spin-button,
-.gsuiTempo-popup input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
+
+	> * {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 6px;
+		height: 24px;
+
+		&:last-child {
+			margin-top: 4px;
+
+			button {
+				width: 100%;
+				height: 100%;
+				border: 0;
+				border-radius: 4px;
+				padding: 0 10px;
+				font: inherit;
+				font-size: 12px;
+				font-weight: 600;
+				background-color: var( --gsui-btn-playPause-bg );
+			}
+		}
+	}
+	label {
+		font-size: 12px;
+	}
+	input {
+		align-self: end;
+		width: 100px;
+		height: 100%;
+		outline: 0;
+		border: 0;
+		border-radius: 4px;
+		padding: 0 6px;
+		font-size: 18px;
+		font-family: var( --gsui-font-number );
+		background-color: #0004;
+
+		&:hover {
+			background-color: #0005;
+		}
+		&:focus {
+			background-color: #0007;
+		}
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	}
 }
 
-.gsuiTempo-popup input:hover,
-.gsuiTempo-tap:focus-visible,
-.gsuiTempo-tap:hover {
-	background-color: #0005;
-}
+.gsuiTempo-popup-bpm {
+	label::after {
+		content: "(Beats Per Minute)";
+		font-size: .8em;
+		opacity: .5;
+	}
+	div {
+		display: flex;
+		gap: 8px;
+		height: 100%;
+	}
+	input {
+		width: calc( 100px - 24px - 8px );
+	}
+	button {
+		display: flex;
+		height: 100%;
+		width: 24px;
+		outline: 0;
+		border: 0;
+		border-radius: 4px;
+		font-size: 12px;
+		background-color: #0004;
 
-.gsuiTempo-popup input:focus,
-.gsuiTempo-tap:active {
-	background-color: #0007;
-}
-
-.gsuiTempo-row-bpm label::after {
-	content: "(Beats Per Minute)";
-	font-size: .8em;
-	opacity: .5;
-}
-.gsuiTempo-row-bpm div {
-	display: flex;
-	gap: 8px;
-	height: 100%;
-}
-.gsuiTempo-row-bpm input {
-	width: calc( 100px - 24px - 8px );
-}
-
-.gsuiTempo-tap {
-	display: flex;
-	height: 100%;
-	width: 24px;
-	outline: 0;
-	border: 0;
-	border-radius: 4px;
-	font-size: 12px;
-	background-color: #0004;
-}
-
-.gsuiTempo-row:last-child {
-	margin-top: 4px;
-}
-.gsuiTempo-row:last-child button {
-	width: 100%;
-	height: 100%;
-	border: 0;
-	border-radius: 4px;
-	padding: 0 10px;
-	font: inherit;
-	font-size: 12px;
-	font-weight: 600;
-	background-color: var( --gsui-btn-playPause-bg );
+		&:focus-visible,
+		&:hover {
+			background-color: #0005;
+		}
+		&:active {
+			background-color: #0007;
+		}
+	}
 }

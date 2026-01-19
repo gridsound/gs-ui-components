@@ -4,7 +4,7 @@ class gsuiTempo extends gsui0ne {
 	#dropdown = new gsuiDropdown();
 	#popup = GSUdomFind( GSUgetTemplate( "gsui-tempo-dropdown" ), {
 		$form: ".gsuiTempo-popup",
-		$bpmTap: ".gsuiTempo-tap",
+		$bpmTap: ".gsuiTempo-popup-bpm button",
 	} );
 
 	constructor() {
@@ -12,7 +12,6 @@ class gsuiTempo extends gsui0ne {
 			$cmpName: "gsuiTempo",
 			$tagName: "gsui-tempo",
 			$elements: {
-				$btn: ".gsuiTempo-btn",
 				$bpm: ".gsuiTempo-bpm",
 				$timediv: ".gsuiTempo-timeDivision",
 			},
@@ -23,7 +22,7 @@ class gsuiTempo extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#dropdown.$setDirection( "B" );
-		this.#dropdown.$bindTargetElement( this.$elements.$btn );
+		this.#dropdown.$bindTargetElement( this.$element );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
 		this.#popup.$form.onsubmit = this.$onsubmitPopup.bind( this );
 		this.#popup.$form.onkeydown = e => e.stopPropagation();
