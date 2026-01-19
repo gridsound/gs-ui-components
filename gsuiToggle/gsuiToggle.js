@@ -5,21 +5,24 @@ class gsuiToggle extends gsui0ne {
 		super( {
 			$cmpName: "gsuiToggle",
 			$tagName: "gsui-toggle",
+			$jqueryfy: true,
 			$template: GSUcreateIcon( { icon: "hexagon" } ),
 			$attributes: { tabindex: 0 },
 		} );
 		Object.seal( this );
-		this.oncontextmenu = GSUnoopFalse;
-		this.onmousedown = this.#onmousedown.bind( this );
+		this.$this.$on( {
+			contextmenu: e => e.preventDefault(),
+			mousedown: this.#onmousedown.bind( this ),
+		} );
 	}
 	$isOn() {
-		return !GSUdomHasAttr( this, "off" );
+		return !this.$this.$hasAttr( "off" );
 	}
 	#onmousedown( e ) {
 		if ( e.button === 2 ) {
 			GSUdomDispatch( this, GSEV_TOGGLE_TOGGLESOLO );
 		} else if ( e.button === 0 ) {
-			GSUdomTogAttr( this, "off" );
+			this.$this.$togAttr( "off" );
 			GSUdomDispatch( this, GSEV_TOGGLE_TOGGLE, this.$isOn() );
 		}
 	}
