@@ -1,29 +1,42 @@
 "use strict";
 
 class gsuiAnalyserVu extends gsui0ne {
-	#maxs = [ 0, 0 ];
 	#dBmax = 1;
-	#intervalIDs = {};
-	#maxFallDeb = [
-		GSUdebounce( this.#maxFall.bind( this, 0 ), 1 ),
-		GSUdebounce( this.#maxFall.bind( this, 1 ), 1 ),
-	];
+	#chans = [];
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiAnalyserVu",
 			$tagName: "gsui-analyser-vu",
+			$jqueryfy: true,
 			$elements: {
-				$metersVal: "[].gsuiAnalyserVu-meter-val",
-				$metersValMax: "[].gsuiAnalyserVu-meter-val-max",
-				$metersTick: "[].gsuiAnalyserVu-meter-tick",
-				$meters0dB: "[].gsuiAnalyserVu-meter-0dB",
+				$L: "[data-chan=L]",
+				$R: "[data-chan=R]",
+				$0dB: ".gsuiAnalyserVu-meter-0dB",
 			},
 			$attributes: {
 				max: 100,
 			},
 		} );
 		Object.seal( this );
+
+		const els = this.$elements;
+		const L = {
+			$max: 0,
+			$elVal: els.$L.$child( 0 ),
+			$elMax: els.$L.$child( 0 ).$child( 0 ),
+			$elTick: els.$L.$child( 1 ),
+		};
+		const R = {
+			$max: 0,
+			$elVal: els.$R.$child( 0 ),
+			$elMax: els.$R.$child( 0 ).$child( 0 ),
+			$elTick: els.$R.$child( 1 ),
+		};
+
+		L.$fall = GSUdebounce( this.#maxFall.bind( this, L ), 1 );
+		R.$fall = GSUdebounce( this.#maxFall.bind( this, R ), 1 );
+		this.#chans.push( L, R );
 	}
 	static get observedAttributes() {
 		return [ "max" ];
@@ -39,13 +52,11 @@ class gsuiAnalyserVu extends gsui0ne {
 
 	// .........................................................................
 	$draw( dataL, dataR ) {
-		const maxs = [
-			gsuiAnalyserVu.#getMax( dataL ) * 100,
-			gsuiAnalyserVu.#getMax( dataR ) * 100,
-		];
+		const L = gsuiAnalyserVu.#getMax( dataL ) * 100;
+		const R = gsuiAnalyserVu.#getMax( dataR ) * 100;
 
-		this.#drawChan( 0, maxs );
-		this.#drawChan( 1, maxs );
+		this.#drawChan( this.#chans[ 0 ], L );
+		this.#drawChan( this.#chans[ 1 ], R );
 	}
 
 	// .........................................................................
@@ -56,41 +67,40 @@ class gsuiAnalyserVu extends gsui0ne {
 		const bot = this.#cssVal( 100 );
 		const bot2 = bot === "100%" ? "200%" : bot;
 
-		this.$elements.$meters0dB[ 0 ].style.bottom =
-		this.$elements.$meters0dB[ 1 ].style.bottom = bot2;
+		this.$elements.$0dB.$css( "bottom", bot2 );
 	}
-	#drawChan( c, maxs ) {
-		const max = maxs[ c ];
+	#drawChan( chan, max ) {
 		const h = this.#cssVal( max );
 		const hmax = Math.max( 0, ( 1 - 100 / Math.min( this.#dBmax, max ) ) * 100 );
 
-		this.$elements.$metersVal[ c ].style.height = h;
-		this.$elements.$metersValMax[ c ].style.height = `${ hmax }%`;
-		if ( max > this.#maxs[ c ] ) {
-			GSUclearInterval( this.#intervalIDs[ c ] );
-			GSUdomStyle( this.$elements.$metersTick[ c ], {
+		chan.$elVal.$css( "height", h );
+		chan.$elMax.$height( hmax, "%" );
+		if ( max > chan.$max ) {
+			GSUclearInterval( chan.$intervalID );
+			chan.$elTick.$css( {
 				opacity: 1,
 				bottom: h,
 				backgroundColor: max <= 100 ? "" : "var(--gsuiAnalyserVu-max-col)",
 			} );
-			this.#maxs[ c ] = max;
-			this.#maxFallDeb[ c ]();
+			chan.$max = max;
+			chan.$fall();
 		}
 	}
-	#maxFall( c ) {
-		this.#intervalIDs[ c ] = GSUsetInterval( () => {
-			const maxSt = this.$elements.$metersTick[ c ].style;
-
-			this.#maxs[ c ] -= 1;
-			if ( this.#maxs[ c ] <= 0 ) {
-				GSUclearInterval( this.#intervalIDs[ c ] );
-				this.#maxs[ c ] = 0;
-				maxSt.opacity = 0;
-				maxSt.bottom = "calc(0% + 2px)";
-			} else {
-				maxSt.bottom = this.#cssVal( this.#maxs[ c ] );
-			}
-		}, 1 / 60 );
+	#maxFall( chan ) {
+		chan.$intervalID = GSUsetInterval( this.#maxFallFrame.bind( this, chan ), 1 / 60 );
+	}
+	#maxFallFrame( chan ) {
+		chan.$max -= 1;
+		if ( chan.$max > 0 ) {
+			chan.$elTick.$css( "bottom", this.#cssVal( chan.$max ) );
+		} else {
+			GSUclearInterval( chan.$intervalID );
+			chan.$max = 0;
+			chan.$elTick.$css( {
+				opacity: 0,
+				bottom: "calc(0% + 2px)",
+			} );
+		}
 	}
 	static #getMax( arr ) {
 		return Array.prototype.reduce.call( arr, ( res, n ) => Math.max( res, Math.abs( n ) ), 0 );
