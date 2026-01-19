@@ -12,19 +12,13 @@ class gsuiEnvelope extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEnvelope",
 			$tagName: "gsui-envelope",
+			$jqueryfy: true,
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$graph: "gsui-envelope-graph",
 				$keyPreviews: ".gsuiEnvelope-keyPreviews",
-				$sliders: {
-					amp:     [ "[data-prop='amp']     gsui-slider", "[data-prop='amp']     gs-output" ],
-					q:       [ "[data-prop='q']       gsui-slider", "[data-prop='q']       gs-output" ],
-					attack:  [ "[data-prop='attack']  gsui-slider", "[data-prop='attack']  gs-output" ],
-					hold:    [ "[data-prop='hold']    gsui-slider", "[data-prop='hold']    gs-output" ],
-					decay:   [ "[data-prop='decay']   gsui-slider", "[data-prop='decay']   gs-output" ],
-					sustain: [ "[data-prop='sustain'] gsui-slider", "[data-prop='sustain'] gs-output" ],
-					release: [ "[data-prop='release'] gsui-slider", "[data-prop='release'] gs-output" ],
-				},
+				$propSli: "gsui-slider",
+				$propVal: "gs-output",
 			},
 			$attributes: {
 				env: "gain",
@@ -64,10 +58,12 @@ class gsuiEnvelope extends gsui0ne {
 				this.#updateBeatlinesColor();
 				break;
 			case "toggle":
-				this.#changeToggle( val !== null );
+				this.$elements.$propSli.$attr( "disabled", val === null );
 				this.#updateBeatlinesColor();
 				break;
-			case "timedivision": this.#changeTimedivision( val ); break;
+			case "timedivision":
+				this.#changeTimedivision( val );
+				break;
 			case "amp":
 			case "q":
 			case "attack":
@@ -75,14 +71,15 @@ class gsuiEnvelope extends gsui0ne {
 			case "decay":
 			case "sustain":
 			case "release":
-				this.#changeProp( prop, +val );
+				this.#getPropSlider( prop ).$attr( "value", +val );
+				this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, +val ) );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$updateWave( prop, val ) {
-		const g = this.$elements.$graph;
+		const g = this.$elements.$graph.$at( 0 );
 		const amp = prop === "amp" ? val : GSUdomGetAttrNum( this, "amp" );
 		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
@@ -99,28 +96,15 @@ class gsuiEnvelope extends gsui0ne {
 	}
 
 	// .........................................................................
-	#changeToggle( b ) {
-		GSUdomSetAttr( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.q[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.hold[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.decay[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.sustain[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.release[ 0 ], "disabled", !b );
-	}
+	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"]` ); }
+	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"]` ); }
 	#changeTimedivision( val ) {
-		GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
+		this.$elements.$beatlines.$attr( "timedivision", val );
 		this.$updateWave();
-	}
-	#changeProp( prop, val ) {
-		const [ sli, span ] = this.$elements.$sliders[ prop ];
-
-		GSUdomSetAttr( sli, "value", val );
-		span.textContent = gsuiEnvelope.#formatValue( prop, val );
 	}
 	#updatePxPerBeat() {
 		this.#ppb = this.#waveWidth / this.#dur;
-		GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", this.#ppb );
+		this.$elements.$beatlines.$attr( "pxperbeat", this.#ppb );
 	}
 	static #formatValue( prop, val ) {
 		return prop !== "amp"
@@ -133,21 +117,21 @@ class gsuiEnvelope extends gsui0ne {
 		const nbProps = this.#env === "gain" ? 5 : 6;
 
 		this.style.minHeight = `${ nbProps * 20 - 2 + 2 * 8 }px`;
-		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines )[ 0 ];
+		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$at( 0 ) )[ 0 ];
 		this.#updatePxPerBeat();
-		this.$elements.$graph.$resized();
+		this.$elements.$graph.$at( 0 ).$resized();
 	}
 	#oninputSlider( prop, val ) {
-		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiEnvelope.#formatValue( prop, val );
+		this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, val ) );
 		this.$updateWave( prop, val );
 		GSUdomDispatch( this, GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		GSUdomSetAttr( this, prop, val );
+		this.$this.$attr( prop, val );
 		GSUdomDispatch( this, GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
 	}
 	#updateBeatlinesColor() {
-		GSUdomSetAttr( this.$elements.$beatlines, "color", GSUdomStyle( this, "--gsuiEnvelope-wave-col" ) );
+		this.$elements.$beatlines.$attr( "color", this.$this.$css( "--gsuiEnvelope-wave-col" ) );
 	}
 
 	// .........................................................................
@@ -162,7 +146,7 @@ class gsuiEnvelope extends gsui0ne {
 				$elem: el,
 				$when: Date.now() / 1000,
 			} );
-			this.$elements.$keyPreviews.append( el );
+			this.$elements.$keyPreviews.$append( el );
 			if ( !this.#keyAnimId ) {
 				this.#keyAnimId = GSUsetInterval( this.#keyAnimFrame.bind( this ), 1 / 60 );
 			}
@@ -189,7 +173,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 	#keyAnimFramePreview( toRm, now, p ) {
 		const since = ( now - p.$when ) * p.$bps;
-		const g = this.$elements.$graph;
+		const g = this.$elements.$graph.$at( 0 );
 		const x = gsuiEnvelope.#keyPreviewCalcX( since, p.$dur, g, this.#dur );
 
 		if ( x > 1 ) {
