@@ -13,6 +13,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEnvelopeGraph",
 			$tagName: "gsui-envelope-graph",
+			$jqueryfy: true,
 			$elements: {
 				$svg: "svg",
 				$mainLine: ".gsuiEnvelopeGraph-mainLine",
@@ -30,7 +31,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	$resized() {
-		GSUdomViewBox( this.$elements.$svg, this.clientWidth, this.clientHeight );
+		this.$elements.$svg.$viewbox( this.clientWidth, this.clientHeight );
 		this.$draw();
 	}
 	$draw() {
@@ -39,9 +40,9 @@ class gsuiEnvelopeGraph extends gsui0ne {
 				this.clientWidth, this.clientHeight, this.$duration,
 				Math.abs( this.$amp ), this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
 
-			GSUdomSetAttr( this.$elements.$attLine, "points", pts.slice( 0, 8 ).join( " " ) );
-			GSUdomSetAttr( this.$elements.$relLine, "points", pts.slice( -4 ).join( " " ) );
-			GSUdomSetAttr( this.$elements.$mainLine, "points", pts.join( " " ) );
+			this.$elements.$attLine.$attr( "points", pts.slice( 0, 8 ).join( " " ) );
+			this.$elements.$relLine.$attr( "points", pts.slice( -4 ).join( " " ) );
+			this.$elements.$mainLine.$attr( "points", pts.join( " " ) );
 		}
 	}
 	static #getPoints( w, h, dur, amp, att, hold, dec, sus, rel ) {
