@@ -8,7 +8,8 @@ gsui-toggle {
 	cursor: pointer;
 	color: var( --gsui-toggle-on );
 	transition: color .25s;
-}
-gsui-toggle[ off ] {
-	color: var( --gsui-toggle-off );
+
+	&[ off ] {
+		color: var( --gsui-toggle-off );
+	}
 }
