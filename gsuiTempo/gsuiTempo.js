@@ -11,6 +11,7 @@ class gsuiTempo extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTempo",
 			$tagName: "gsui-tempo",
+			$jqueryfy: true,
 			$elements: {
 				$bpm: ".gsuiTempo-bpm",
 				$timediv: ".gsuiTempo-timeDivision",
@@ -22,7 +23,7 @@ class gsuiTempo extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#dropdown.$setDirection( "B" );
-		this.#dropdown.$bindTargetElement( this.$element );
+		this.#dropdown.$bindTargetElement( this.$element.$at( 0 ) );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
 		this.#popup.$form.onsubmit = this.$onsubmitPopup.bind( this );
 		this.#popup.$form.onkeydown = e => e.stopPropagation();
@@ -36,14 +37,16 @@ class gsuiTempo extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "bpm":
-				this.#popup.$form[ 2 ].value =
-				this.$elements.$bpm.textContent = val;
+				this.#popup.$form[ 2 ].value = val;
+				this.$elements.$bpm.$text( val );
 				break;
 			case "timedivision": {
 				const div = GSUsplitNums( val, "/" );
 
-				this.#popup.$form[ 0 ].value = this.$elements.$timediv.firstChild.textContent = div[ 0 ];
-				this.#popup.$form[ 1 ].value = this.$elements.$timediv.lastChild.textContent = div[ 1 ];
+				this.#popup.$form[ 0 ].value = div[ 0 ];
+				this.#popup.$form[ 1 ].value = div[ 1 ];
+				this.$elements.$timediv.$child( 0 ).$text( div[ 0 ] );
+				this.$elements.$timediv.$child( -1 ).$text( div[ 1 ] );
 			} break;
 		}
 	}
@@ -51,11 +54,11 @@ class gsuiTempo extends gsui0ne {
 	// .........................................................................
 	#createPopup() {
 		const f = this.#popup.$form;
-		const time = GSUsplitNums( GSUdomGetAttr( this, "timedivision" ), "/" );
+		const time = GSUsplitNums( this.$this.$attr( "timedivision" ), "/" );
 
 		f[ 0 ].value = time[ 0 ];
 		f[ 1 ].value = time[ 1 ];
-		f[ 2 ].value = GSUdomGetAttrNum( this, "bpm" );
+		f[ 2 ].value = +this.$this.$attr( "bpm" );
 		return f;
 	}
 	$onsubmitPopup( e ) {
@@ -63,7 +66,7 @@ class gsuiTempo extends gsui0ne {
 		const time = `${ f[ 0 ].value }/${ f[ 1 ].value }`;
 		const bpm = f[ 2 ].value;
 
-		if ( time !== GSUdomGetAttr( this, "timedivision" ) || bpm !== GSUdomGetAttr( this, "bpm" ) ) {
+		if ( time !== this.$this.$attr( "timedivision" ) || bpm !== this.$this.$attr( "bpm" ) ) {
 			GSUdomDispatch( this, GSEV_TEMPO_CHANGE, {
 				bpm: +bpm,
 				timedivision: time,
