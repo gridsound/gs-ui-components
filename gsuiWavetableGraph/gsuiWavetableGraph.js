@@ -48,7 +48,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#w = w;
 		this.#h = h;
 		this.#drawSz = Math.min( this.#w, this.#h ) / 2.1;
-		GSUdomViewBox( this.$element.$at( 0 ), w, h );
+		this.$element.$viewbox( w, h );
 	}
 	#setPerspective( obj ) {
 		this.#perspective.camX = obj.camX ?? this.#perspective.camX;
