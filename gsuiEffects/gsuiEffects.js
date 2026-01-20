@@ -5,10 +5,10 @@ class gsuiEffects extends gsui0ne {
 	#fxsHtml = new Map();
 	#actionMenu = new gsuiActionMenu();
 	static #fxsMap = Object.freeze( {
-		delay: { cmp: "gsui-fx-delay", name: "Delay" },
-		filter: { cmp: "gsui-fx-filter", name: "Filter" },
-		reverb: { cmp: "gsui-fx-reverb", name: "Reverb" },
-		waveshaper: { cmp: "gsui-fx-waveshaper", name: "WaveShaper" },
+		delay: { cmp: "<gsui-fx-delay>", name: "Delay" },
+		filter: { cmp: "<gsui-fx-filter>", name: "Filter" },
+		reverb: { cmp: "<gsui-fx-reverb>", name: "Reverb" },
+		waveshaper: { cmp: "<gsui-fx-waveshaper>", name: "WaveShaper" },
 	} );
 
 	constructor() {
@@ -45,45 +45,47 @@ class gsuiEffects extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				this.#fxsHtml.forEach( el => el.$getFxElement().$attr( "timedivision", val ) );
+				this.#fxsHtml.forEach( el => el.$at( 0 ).$getFxElement().$attr( "timedivision", val ) );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$getFxHTML( id ) {
-		return this.#fxsHtml.get( id );
+		return this.#fxsHtml.get( id ).$at( 0 );
 	}
 	$expandToggleEffect( id ) {
-		GSUdomTogAttr( this.#fxsHtml.get( id ), "expanded" );
+		this.#fxsHtml.get( id ).$togAttr( "expanded" );
 	}
 
 	// .........................................................................
 	$addEffect( id, fx ) {
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
-		const uiFx = GSUcreateElement( fxAsset.cmp, { "data-id": id } );
-		const root = GSUcreateElement( "gsui-effect", {
+		const uiFx = GSUjq( fxAsset.cmp ).$attr( {
+			"data-id": id,
+			timedivision: this.$this.$attr( "timedivision" ),
+		} );
+		const root = GSUjq( "<gsui-effect>" ).$attr( {
 			name: fxAsset.name,
 			"data-id": id,
 			"data-type": fx.type,
 		} );
 
-		if ( "$askData" in uiFx ) {
-			uiFx.$askData = this.$askData.bind( null, id, fx.type );
+		if ( "$askData" in uiFx.$at( 0 ) ) {
+			uiFx.$at( 0 ).$askData = this.$askData.bind( null, id, fx.type );
 		}
-		GSUdomSetAttr( uiFx, "timedivision", this.$this.$attr( "timedivision" ) );
-		root.$setFxElement( uiFx );
+		root.$at( 0 ).$setFxElement( uiFx );
 		this.#fxsHtml.set( id, root );
-		this.append( root );
+		this.$this.$append( root );
 	}
 	$removeEffect( id ) {
-		this.#fxsHtml.get( id ).remove();
+		this.#fxsHtml.get( id ).$remove();
 		this.#fxsHtml.delete( id );
 	}
 	$changeEffect( id, prop, val ) {
 		switch ( prop ) {
-			case "toggle": GSUdomSetAttr( this.#fxsHtml.get( id ), "enable", val ); break;
-			case "order": GSUdomSetAttr( this.#fxsHtml.get( id ), "order", val ); break;
+			case "toggle": this.#fxsHtml.get( id ).$attr( "enable", val ); break;
+			case "order": this.#fxsHtml.get( id ).$attr( "order", val ); break;
 		}
 	}
 
