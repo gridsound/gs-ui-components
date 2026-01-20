@@ -45,7 +45,7 @@ class gsuiEffects extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				this.#fxsHtml.forEach( el => GSUdomSetAttr( el.$getFxElement(), "timedivision", val ) );
+				this.#fxsHtml.forEach( el => el.$getFxElement().$attr( "timedivision", val ) );
 				break;
 		}
 	}

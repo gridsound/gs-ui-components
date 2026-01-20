@@ -54,7 +54,7 @@ class gsuiEffect extends gsui0ne {
 		this.$elements.$content.$append( elFx );
 	}
 	$getFxElement() {
-		return this.$elements.$content.$at( 0 ).firstChild;
+		return this.$elements.$content.$child( 0 );
 	}
 }
 
