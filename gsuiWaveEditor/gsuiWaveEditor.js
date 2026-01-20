@@ -390,7 +390,6 @@ class gsuiWaveEditor extends gsui0ne {
 			[ w + 10, pts.at( -1 )[ 1 ] ],
 			[ w + 10, h / 2 ],
 		);
-		lg(polyline)
 		polyline.$attr( "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {

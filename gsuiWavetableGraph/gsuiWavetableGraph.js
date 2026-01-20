@@ -92,21 +92,26 @@ class gsuiWavetableGraph extends gsui0ne {
 		// this.$elements.$inters.$each( ( inter, i ) => this.#drawInter( inter, i / ( nb - 1 ) ) );
 		this.#drawMorph();
 	}
+	static #boxEdges = [
+		[ 0, 0, 0,     1, 0, 0 ],
+		[ 1, 0, 0,     1, 1, 0 ],
+		[ 1, 0, 0,     1, 0, 1 ],
+		[ 0, 0, 0,     0, 0, 1 ],
+		[ 0, 0, 1,     1, 0, 1 ],
+		[ 0, 0, 0,     0, 1, 0 ],
+		[ 0, 0, 1,     0, 1, 1 ],
+		[ 1, 0, 1,     1, 1, 1 ],
+		[ 0, 1, 0,     0, 1, 1 ],
+		[ 1, 1, 0,     1, 1, 1 ],
+		[ 0, 1, 0,     1, 1, 0 ],
+		[ 0, 1, 1,     1, 1, 1 ],
+	];
 	#drawBox() {
-		const l = this.$elements.$lines;
+		this.$elements.$lines.$each( ( el, i ) => {
+			const [ x, y, z, a, b, c ] = gsuiWavetableGraph.#boxEdges[ i ];
 
-		gsuiWavetableGraph.#drawLine( l.$get(  0 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 1, 0, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  1 ), this.#getCoord( 1, 0, 0 ), this.#getCoord( 1, 1, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  2 ), this.#getCoord( 1, 0, 0 ), this.#getCoord( 1, 0, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  3 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 0, 0, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  4 ), this.#getCoord( 0, 0, 1 ), this.#getCoord( 1, 0, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  5 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 0, 1, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  6 ), this.#getCoord( 0, 0, 1 ), this.#getCoord( 0, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  7 ), this.#getCoord( 1, 0, 1 ), this.#getCoord( 1, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  8 ), this.#getCoord( 0, 1, 0 ), this.#getCoord( 0, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get(  9 ), this.#getCoord( 1, 1, 0 ), this.#getCoord( 1, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$get( 10 ), this.#getCoord( 0, 1, 0 ), this.#getCoord( 1, 1, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$get( 11 ), this.#getCoord( 0, 1, 1 ), this.#getCoord( 1, 1, 1 ) );
+			gsuiWavetableGraph.#drawLine( el, this.#getCoord( x, y, z ), this.#getCoord( a, b, c ) );
+		} );
 	}
 	static #drawLine( line, a, b ) {
 		GSUdomSetAttr( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
