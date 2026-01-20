@@ -25,13 +25,14 @@ class gsuiAnalyserHz extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserHz",
 			$tagName: "gsui-analyser-hz",
+			$jqueryfy: true,
 			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {
 				resolution: 256,
 			},
 		} );
 		Object.seal( this );
-		this.#ctx = this.$element.getContext( "2d" );
+		this.#ctx = this.$element.$at( 0 ).getContext( "2d" );
 	}
 
 	// .........................................................................
@@ -41,18 +42,18 @@ class gsuiAnalyserHz extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "resolution":
-				this.$element.width = +val;
-				this.$element.height = 1;
+				this.#ctx.canvas.width = +val;
+				this.#ctx.canvas.height = 1;
 				break;
 		}
 	}
 
 	// .........................................................................
 	$clear() {
-		this.#ctx.clearRect( 0, 0, this.$element.width, 1 );
+		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, 1 );
 	}
 	$draw( data ) {
-		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.$element.width ), 0, 0 );
+		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.#ctx.canvas.width ), 0, 0 );
 	}
 
 	// .........................................................................
