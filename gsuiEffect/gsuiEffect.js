@@ -5,6 +5,7 @@ class gsuiEffect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEffect",
 			$tagName: "gsui-effect",
+			$jqueryfy: true,
 			$elements: {
 				$toggle: "gsui-toggle",
 				$name: ".gsuiEffect-name",
@@ -15,14 +16,14 @@ class gsuiEffect extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$remove.onclick = () => GSUdomDispatch( this, GSEV_EFFECT_REMOVE );
-		this.$elements.$expand.onclick = () => {
-			GSUdomTogAttr( this, "expanded" );
+		this.$elements.$remove.$on( "click", () => GSUdomDispatch( this, GSEV_EFFECT_REMOVE ) );
+		this.$elements.$expand.$on( "click", () => {
+			this.$this.$togAttr( "expanded" );
 			GSUdomDispatch( this, GSEV_EFFECT_EXPAND );
-		};
+		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: () => {
-				GSUdomTogAttr( this, "enable" );
+				this.$this.$togAttr( "enable" );
 				GSUdomDispatch( this, GSEV_EFFECT_TOGGLE );
 			},
 		} );
@@ -35,25 +36,25 @@ class gsuiEffect extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "order":
-				this.style.order = val;
+				this.$this.$css( "order", val );
 				break;
 			case "enable":
-				GSUdomSetAttr( this.$elements.$toggle, "off", val !== "" );
-				GSUdomSetAttr( this.$elements.$content.firstChild, "off", val !== "" );
+				this.$elements.$toggle.$attr( "off", val !== "" );
+				this.$elements.$content.$child( 0 ).$attr( "off", val !== "" );
 				break;
 			case "name":
-				this.$elements.$name.textContent = val;
-				GSUdomSetAttr( this.$elements.$help, "page", `mixer-effects-${ val }` );
+				this.$elements.$name.$text( val );
+				this.$elements.$help.$attr( "page", `mixer-effects-${ val }` );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$setFxElement( elFx ) {
-		this.$elements.$content.append( elFx );
+		this.$elements.$content.$append( elFx );
 	}
 	$getFxElement() {
-		return this.$elements.$content?.firstChild;
+		return this.$elements.$content.$at( 0 ).firstChild;
 	}
 }
 
