@@ -5,15 +5,10 @@ class gsuiNoise extends gsui0ne {
 		super( {
 			$cmpName: "gsuiNoise",
 			$tagName: "gsui-noise",
+			$jqueryfy: true,
 			$elements: {
-				$values: {
-					gain: ".gsuiNoise-value[data-prop=gain]",
-					pan: ".gsuiNoise-value[data-prop=pan]",
-				},
-				$sliders: {
-					gain: "gsui-slider[data-prop=gain]",
-					pan: "gsui-slider[data-prop=pan]",
-				},
+				$values: ".gsuiNoise-value",
+				$sliders: "gsui-slider",
 				$colorTxt: ".gsuiNoise-type-txt",
 				$colorSelect: ".gsuiNoise-type select",
 			},
@@ -25,13 +20,15 @@ class gsuiNoise extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$colorSelect.onkeydown = GSUnoopFalse;
-		this.$elements.$colorSelect.onchange = () => {
-			const col = this.$elements.$colorSelect.value;
+		this.$elements.$colorSelect.$on( {
+			keydown: GSUnoopFalse,
+			change: () => {
+				const col = this.$elements.$colorSelect.$at( 0 ).value;
 
-			GSUdomSetAttr( this, "color", col );
-			GSUdomDispatch( this, GSEV_NOISE_CHANGE, "color", col );
-		};
+				this.$this.$attr( "color", col );
+				GSUdomDispatch( this, GSEV_NOISE_CHANGE, "color", col );
+			},
+		} );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
@@ -52,18 +49,17 @@ class gsuiNoise extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "toggle":
-				GSUdomSetAttr( this.$elements.$sliders.gain, "disabled", val === null );
-				GSUdomSetAttr( this.$elements.$sliders.pan, "disabled", val === null );
-				GSUdomSetAttr( this.$elements.$colorSelect, "disabled", val === null );
+				this.$elements.$sliders.$attr( "disabled", val === null );
+				this.$elements.$colorSelect.$attr( "disabled", val === null );
 				break;
 			case "color":
-				this.$elements.$colorTxt.textContent = val;
-				this.$elements.$colorSelect.value = val;
+				this.$elements.$colorTxt.$text( val );
+				this.$elements.$colorSelect.$at( 0 ).value = val;
 				break;
 			case "gain":
 			case "pan":
 				this.#setValue( prop, val );
-				GSUdomSetAttr( this.$elements.$sliders[ prop ], "value", val );
+				this.$elements.$sliders.$filter( `[data-prop="${ prop }"]` ).$attr( "value", val );
 				break;
 		}
 	}
@@ -75,7 +71,7 @@ class gsuiNoise extends gsui0ne {
 			? GSUmathSign( val2 )
 			: val2;
 
-		this.$elements.$values[ prop ].textContent = `${ val3 }%`;
+		this.$elements.$values.$filter( `[data-prop="${ prop }"]` ).$text( `${ val3 }%` );
 	}
 }
 
