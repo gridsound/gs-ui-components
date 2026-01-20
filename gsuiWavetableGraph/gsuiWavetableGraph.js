@@ -118,7 +118,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 	#drawMorph() {
 		const z = this.#morphingWaveAt;
-		const g = this.$elements.$gMorph.$get( 0 );
+		const g = this.$elements.$gMorph;
 
 		if ( z >= 0 ) {
 			const waveA = this.#waves.findLast( w => w.index <= z );
@@ -143,23 +143,22 @@ class gsuiWavetableGraph extends gsui0ne {
 				return;
 			}
 		}
-		GSUdomRmAttr( g.children[ 0 ], "points" );
-		GSUdomRmAttr( g.children[ 1 ], "points" );
+		g.$children().$attr( "points", false );
 	}
 	#drawWave( wave, i ) {
-		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves.$get( 0 ), ( this.#waves.length - 1 - i ) * 2, wave.index );
+		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, ( this.#waves.length - 1 - i ) * 2, wave.index );
 	}
 	#drawWave2( wId, dots, g, i, z ) {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
 		const isSel = this.#selectedWave === wId;
 
-		GSUdomSetAttr( g.children[ i ], {
+		g.$child( i ).$attr( {
 			"data-selected": isSel,
 			points: curveDots.join( " " ),
 		} );
 		curveDots.shift();
 		curveDots.pop();
-		GSUdomSetAttr( g.children[ i + 1 ], {
+		g.$child( i + 1 ).$attr( {
 			"data-selected": isSel,
 			points: curveDots.join( " " ),
 		} );
