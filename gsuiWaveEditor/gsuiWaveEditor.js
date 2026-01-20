@@ -40,12 +40,12 @@ class gsuiWaveEditor extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWaveEditor",
 			$tagName: "gsui-wave-editor",
+			$jqueryfy: true,
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
 				$resetBtn: ".gsuiWaveEditor-reset",
-				$gridVal: "[].gsuiWaveEditor-div span",
-				$gridSli: "[].gsuiWaveEditor-div gsui-slider",
-				$beatlines: "[].gsuiWaveEditor-wave gsui-beatlines",
+				$gridVal: ".gsuiWaveEditor-div span",
+				$gridSli: ".gsuiWaveEditor-div gsui-slider",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 				$waveSVG: ".gsuiWaveEditor-wave svg",
 				$wavePolyline: ".gsuiWaveEditor-wave polyline",
@@ -60,9 +60,11 @@ class gsuiWaveEditor extends gsui0ne {
 		this.onclick = this.#onclick.bind( this );
 		this.ondrop = this.#ondrop.bind( this );
 		this.ondragover = GSUnoopFalse;
-		this.$elements.$wave.onpointerdown = this.#onptrdownWave.bind( this );
-		this.$elements.$wave.onpointermove = this.#onptrmoveWave.bind( this );
-		this.$elements.$wave.onpointerup = this.#onptrupWave.bind( this );
+		this.$elements.$wave.$on( {
+			pointerdown: this.#onptrdownWave.bind( this ),
+			pointermove: this.#onptrmoveWave.bind( this ),
+			pointerup: this.#onptrupWave.bind( this ),
+		} );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTSTART ]: this.#oninputstartSlider.bind( this ),
@@ -73,10 +75,8 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const [ w, h ] = GSUdomGetSize( this.$elements.$wave );
-
-		this.#waveW = w | 0;
-		this.#waveH = h | 0;
+		this.#waveW = this.$elements.$wave.$width() | 0;
+		this.#waveH = this.$elements.$wave.$height() | 0;
 		this.#updateBeatlines( 0, this.#div[ 0 ] );
 		this.#updateBeatlines( 1, this.#div[ 1 ] );
 		this.#drawWaveThr();
@@ -87,8 +87,8 @@ class gsuiWaveEditor extends gsui0ne {
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
 			case "tool":
-				GSUdomRmAttr( GSUdomQS( this, `button[data-tool="${ prev }"]` ), "data-selected" );
-				GSUdomSetAttr( GSUdomQS( this, `button[data-tool="${ val }"]` ), "data-selected" );
+				this.$this.$find( `button[data-tool="${ prev }"]` ).$attr( "data-selected", false );
+				this.$this.$find( `button[data-tool="${ val }"]` ).$attr( "data-selected", true );
 				this.#toolSelected = val;
 				break;
 			case "div": {
@@ -170,14 +170,14 @@ class gsuiWaveEditor extends gsui0ne {
 
 			switch ( act ) {
 				case "symmetry":
-					GSUdomTogAttr( this, "symmetry" );
-					GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: GSUdomHasAttr( this, "symmetry" ) } );
+					this.$this.$togAttr( "symmetry" );
+					GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: this.$this.$hasAttr( "symmetry" ) } );
 					break;
 				case "tool": {
 					const t = btn.dataset.tool;
 
-					if ( t && GSUdomGetAttr( this, "tool" ) !== t ) {
-						GSUdomSetAttr( this, "tool", t );
+					if ( t && this.$this.$attr( "tool" ) !== t ) {
+						this.$this.$attr( "tool", t );
 						GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { tool: t } );
 					}
 				} break;
@@ -186,7 +186,7 @@ class gsuiWaveEditor extends gsui0ne {
 					break;
 				case "normalize-y":
 					w = gsuiWaveEditor.#normalize( this.#waveArray );
-					GSUdomSetAttr( this, "normalized", true );
+					this.$this.$attr( "normalized", true );
 					break;
 			}
 			if ( w && !GSUarrayEq( w, this.#waveArray, .005 ) ) {
@@ -228,7 +228,7 @@ class gsuiWaveEditor extends gsui0ne {
 		if ( this.#waveArray ) {
 			e.preventDefault();
 			this.#ptrDown = true;
-			this.$elements.$wave.setPointerCapture( e.pointerId );
+			this.$elements.$wave.$at( 0 ).setPointerCapture( e.pointerId );
 			this.#waveArray2 ||= new Float32Array( this.#waveArray );
 			this.#clickSquare( e );
 		}
@@ -242,7 +242,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#onptrupWave( e ) {
 		if ( this.#ptrDown ) {
 			this.#ptrDown = false;
-			this.$elements.$wave.releasePointerCapture( e.pointerId );
+			this.$elements.$wave.$at( 0 ).releasePointerCapture( e.pointerId );
 			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
 				this.#waveArray2 = null;
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
@@ -277,7 +277,7 @@ class gsuiWaveEditor extends gsui0ne {
 				break;
 			case "div-x":
 			case "div-y":
-				GSUdomSetAttr( this, "div", act === "div-x"
+				this.$this.$attr( "div", act === "div-x"
 					? `${ val } ${ this.#div[ 1 ] }`
 					: `${ this.#div[ 0 ] } ${ val }` );
 				break;
@@ -293,7 +293,7 @@ class gsuiWaveEditor extends gsui0ne {
 		switch ( act ) {
 			case "div-x":
 			case "div-y":
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: GSUdomGetAttr( this, "div" ) } );
+				GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: this.$this.$attr( "div" ) } );
 				break;
 			case "mirror-x":
 			case "mirror-y":
@@ -309,7 +309,7 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn );
+		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn.$at( 0 ) );
 		this.#actionMenu.$setDirection( "RB" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
 		this.#actionMenu.$setCallback( w => GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, this.$reset( w ) ) );
@@ -341,7 +341,7 @@ class gsuiWaveEditor extends gsui0ne {
 				...coord,
 				...this.#div
 			);
-			if ( GSUdomHasAttr( this, "symmetry" ) ) {
+			if ( this.$this.$hasAttr( "symmetry" ) ) {
 				gsuiWaveEditor.#clickSquare2(
 					this.#waveArray,
 					gsuiWaveEditor.#clickSquareFnsSymm[ this.#toolSelected ],
@@ -366,7 +366,7 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#drawWave() {
-		GSUdomViewBox( this.$elements.$waveSVG, this.#waveW, this.#waveH );
+		this.$elements.$waveSVG.$viewbox( this.#waveW, this.#waveH );
 		gsuiWaveEditor.$drawWave( this.$elements.$wavePolyline, this.#waveArray, this.#waveW, this.#waveH );
 		this.#updateNormalized();
 	}
@@ -390,32 +390,33 @@ class gsuiWaveEditor extends gsui0ne {
 			[ w + 10, pts.at( -1 )[ 1 ] ],
 			[ w + 10, h / 2 ],
 		);
-		GSUdomSetAttr( polyline, "points", pts.join( " " ) );
+		lg(polyline)
+		polyline.$attr( "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {
 		const [ ix, iy ] = this.#getCoord( px, py );
 
-		GSUdomStyle( this.$elements.$hoverSquare, {
-			left: `${ ix / this.#div[ 0 ] * 100 }%`,
-			top: `${ iy / this.#div[ 1 ] * 100 }%`,
-		} );
+		this.$elements.$hoverSquare
+			.$left( ix / this.#div[ 0 ] * 100, "%" )
+			.$top( iy / this.#div[ 1 ] * 100, "%" );
 	}
 	#updateBeatlines( dir, sz ) {
-		const bl = this.$elements.$beatlines[ dir ];
-		const blSize = dir ? bl.clientHeight : bl.clientWidth;
+		const bl = this.$elements.$wave.$find( `gsui-beatlines:nth-child(${ dir + 1 })` );
 
-		GSUdomSetAttr( bl, "pxperbeat", blSize );
-		GSUdomSetAttr( bl, "timedivision", `1/${ sz }` );
+		bl.$attr( {
+			pxperbeat: dir ? bl.$height() : bl.$width(),
+			timedivision: `1/${ sz }`,
+		} );
 	}
 	#updateGridSize( dir, val ) {
 		this.#div[ dir ] = +val;
-		this.$elements.$gridVal[ dir ].textContent = val;
-		this.$elements.$hoverSquare.style[ dir ? "height" : "width" ] = `${ 1 / val * 100 }%`;
+		this.$elements.$hoverSquare.$css( dir ? "height" : "width", `${ 1 / val * 100 }%` );
 		this.#updateBeatlines( dir, val );
-		GSUdomSetAttr( this.$elements.$gridSli[ dir ], "value", val );
+		GSUjq( this.$elements.$gridVal.$at( dir ) ).$text( val );
+		GSUjq( this.$elements.$gridSli.$at( dir ) ).$attr( "value", val );
 	}
 	#updateNormalized() {
-		GSUdomSetAttr( this, "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );
+		this.$this.$attr( "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );
 	}
 }
 

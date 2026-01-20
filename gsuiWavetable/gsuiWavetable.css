@@ -53,7 +53,7 @@ gsui-wavetable gsui-wavetable-graph {
 	position: relative;
 	min-height: 46px;
 
-	> div {
+	> * {
 		position: absolute;
 		overflow: scroll;
 		inset: 0;

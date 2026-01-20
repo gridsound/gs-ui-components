@@ -289,7 +289,7 @@ class gsuiWavetable extends gsui0ne {
 		return this.$this.$find( `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
 	#wtwaves_updatePreview( id ) {
-		const polyline = GSUdomQS( this, `.gsuiWavetable-wave[data-id='${ id }'] polyline` );
+		const polyline = this.#wtwaves_getElem( id ).$find( "polyline" );
 
 		gsuiWaveEditor.$drawWave( polyline, this.#data.waves[ id ].curve, 60, 40 );
 	}
