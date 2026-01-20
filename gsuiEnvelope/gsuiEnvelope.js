@@ -37,8 +37,8 @@ class gsuiEnvelope extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.parentNode.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.parentNode.dataset.prop, val ),
 		} );
 	}
 
@@ -96,8 +96,8 @@ class gsuiEnvelope extends gsui0ne {
 	}
 
 	// .........................................................................
-	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"]` ); }
-	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"]` ); }
+	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"] gsui-slider` ); }
+	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#changeTimedivision( val ) {
 		this.$elements.$beatlines.$attr( "timedivision", val );
 		this.$updateWave();
