@@ -12,7 +12,7 @@ GSUsetTemplate( "gsui-lfo", () =>
 				GSUcreateDiv( { "data-prop": prop, title },
 					GSUcreateElement( "gs-label", null, text ),
 					GSUcreateElement( "gs-output" ),
-					GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800", "data-prop": prop } ),
+					GSUcreateElement( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800" } ),
 				)
 			),
 		),

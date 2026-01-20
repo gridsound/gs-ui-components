@@ -11,22 +11,18 @@ class gsuiLFO extends gsui0ne {
 		super( {
 			$cmpName: "gsuiLFO",
 			$tagName: "gsui-lfo",
+			$jqueryfy: true,
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$wave: "gsui-periodicwave",
 				$keyPreviews: ".gsuiLFO-keyPreviews",
-				$sliders: {
-					delay:  [ "[data-prop='delay']  gsui-slider", "[data-prop='delay']  gs-output" ],
-					attack: [ "[data-prop='attack'] gsui-slider", "[data-prop='attack'] gs-output" ],
-					speed:  [ "[data-prop='speed']  gsui-slider", "[data-prop='speed']  gs-output" ],
-					amp:    [ "[data-prop='amp']    gsui-slider", "[data-prop='amp']    gs-output" ],
-					lowpassfreq: [ ".gsuiLFO-lowpassfreq gsui-slider", ".gsuiLFO-lowpassfreq gs-output" ],
-				},
+				$propSli: "gsui-slider",
+				$propVal: "gs-output",
 			},
 			$attributes: {
 				lfo: "gain",
 				toggle: false,
-				timedivision: "4/4",
+				timedivision: "5/5",
 				type: "sine",
 				delay: 0,
 				attack: 1,
@@ -39,14 +35,14 @@ class gsuiLFO extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.parentNode.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.parentNode.dataset.prop, val ),
 		} );
 	}
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$elements.$wave.$nbLines( 1 );
+		this.$elements.$wave.$at( 0 ).$nbLines( 1 );
 		this.$updateWave();
 	}
 	static get observedAttributes() {
@@ -59,13 +55,15 @@ class gsuiLFO extends gsui0ne {
 			switch ( prop ) {
 				case "lfo":
 					this.#lfo = val;
-					GSUdomSetAttr( this.$elements.$sliders.amp[ 0 ], "max", val === "gain" ? 1 : 12 );
-					this.#changeProp( "amp", Math.abs( GSUdomGetAttr( this, "amp" ) ) );
+					this.#getPropSlider( "amp" ).$attr( "max", val === "gain" ? 1 : 12 );
+					this.#changeProp( "amp", Math.abs( this.$this.$attr( "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
 					this.#updateBeatlinesColor();
 					break;
-				case "timedivision": GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val ); break;
+				case "timedivision":
+					this.$elements.$beatlines.$attr( "timedivision", val );
+					break;
 				case "toggle":
 					this.#changeToggle( val !== null );
 					this.#updateBeatlinesColor();
@@ -89,14 +87,13 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$updateWave( prop, val ) {
-		const w = this.$elements.$wave;
-		const bPM = +this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
+		const bPM = +( this.$this.$attr( "timedivision" ) || "4/4" ).split( "/" )[ 0 ];
 		const opt = {
-			type: this.$getAttr( "type" ),
-			delay: prop === "delay" ? val : this.$getAttrNum( "delay" ),
-			attack: prop === "attack" ? val : this.$getAttrNum( "attack" ),
-			frequency: prop === "speed" ? val : this.$getAttrNum( "speed" ),
-			amplitude: prop === "amp" ? val : this.$getAttrNum( "amp" ),
+			type: this.$this.$attr( "type" ),
+			delay: prop === "delay" ? val : +this.$this.$attr( "delay" ),
+			attack: prop === "attack" ? val : +this.$this.$attr( "attack" ),
+			frequency: prop === "speed" ? val : +this.$this.$attr( "speed" ),
+			amplitude: prop === "amp" ? val : +this.$this.$attr( "amp" ),
 		};
 
 		if ( this.#lfo === "detune" ) {
@@ -104,36 +101,32 @@ class gsuiLFO extends gsui0ne {
 		}
 		opt.duration =
 		this.#dur = Math.max( opt.delay + opt.attack + 2, bPM );
-		w.$options( 0, opt );
-		w.style.opacity = Math.min( 6 / opt.frequency, 1 );
+		this.$elements.$wave
+			.$css( "opacity", Math.min( 6 / opt.frequency, 1 ) )
+			.$at( 0 ).$options( 0, opt );
 		this.#updatePxPerBeat();
 	}
 
 	// .........................................................................
+	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"] gsui-slider` ); }
+	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#changeToggle( b ) {
-		GSUdomQSA( this, "[type=radio]" ).forEach( el => GSUdomSetAttr( el, "disabled", !b ) );
-		GSUdomSetAttr( this.$elements.$sliders.delay[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.attack[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.speed[ 0 ], "disabled", !b );
-		GSUdomSetAttr( this.$elements.$sliders.amp[ 0 ], "disabled", !b );
+		this.$this.$find( "[type=radio]" ).$attr( "disabled", !b );
+		this.$elements.$propSli.$attr( "disabled", !b );
 	}
 	#changeType( type ) {
-		this.$elements.$wave.$options( 0, { type } );
+		this.$elements.$wave.$at( 0 ).$options( 0, { type } );
 		GSUdomQS( this, `[type="radio"][value="${ type }"]` ).checked = true;
 	}
 	#changeAmpSign( amp ) {
 		GSUdomQS( this, `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
 	}
 	#changeProp( prop, val ) {
-		const sli = this.$elements.$sliders[ prop ];
-
-		if ( sli ) {
-			GSUdomSetAttr( sli[ 0 ], "value", val );
-			sli[ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
-		}
+		this.#getPropSlider( prop ).$attr( "value", val );
+		this.#getPropOutput( prop ).$text( gsuiLFO.#formatVal( prop, val ) );
 	}
 	#updatePxPerBeat() {
-		GSUdomSetAttr( this.$elements.$beatlines, "pxPerBeat", this.#waveWidth / this.#dur );
+		this.$elements.$beatlines.$attr( "pxPerBeat", this.#waveWidth / this.#dur );
 	}
 	static #formatVal( prop, val ) {
 		return val.toFixed( 2 );
@@ -141,48 +134,48 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines )[ 0 ];
+		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$at( 0 ) )[ 0 ];
 		this.#updatePxPerBeat();
-		this.$elements.$wave.$resized();
+		this.$elements.$wave.$at( 0 ).$resized();
 	}
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-type":
-				GSUdomSetAttr( this, "type", e.target.value );
+				this.$this.$attr( "type", e.target.value );
 				this.$updateWave();
 				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				GSUdomSetAttr( this, "amp", -this.$getAttrNum( "amp" ) );
+				this.$this.$attr( "amp", -this.$this.$attr( "amp" ) );
 				this.$updateWave();
-				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "amp", this.$getAttrNum( "amp" ) );
+				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "amp", +this.$this.$attr( "amp" ) );
 				break;
 		}
 	}
 	#oninputSlider( prop, val ) {
-		const realval = prop !== "amp"
-			? val
-			: val * Math.sign( this.$getAttrNum( "amp" ) );
+		const realval = prop === "amp"
+			? val * Math.sign( this.$this.$attr( "amp" ) )
+			: val;
 
-		this.$elements.$sliders[ prop ][ 1 ].textContent = gsuiLFO.#formatVal( prop, val );
+		this.#getPropOutput( prop ).$text( gsuiLFO.#formatVal( prop, val ) );
 		this.$updateWave( prop, realval );
 		GSUdomDispatch( this, GSEV_LFO_LIVECHANGE, this.#lfo, prop, realval );
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
-			? val * Math.sign( this.$getAttrNum( "amp" ) )
+			? val * Math.sign( this.$this.$attr( "amp" ) )
 			: val;
 
-		GSUdomSetAttr( this, prop, nval );
+		this.$this.$attr( prop, nval );
 		GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, prop, nval );
 	}
 	#updateBeatlinesColor() {
-		GSUdomSetAttr( this.$elements.$beatlines, "color", GSUdomStyle( this, "--gsuiLFO-input-col" ) );
+		this.$elements.$beatlines.$attr( "color", this.$this.$css( "--gsuiLFO-input-col" ) );
 	}
 
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
-		if ( GSUdomHasAttr( this, "toggle" ) ) {
+		if ( this.$this.$hasAttr( "toggle" ) ) {
 			const el = GSUcreateDiv( { class: "gsuiLFO-keyPreview", style: { left: 0, top: "50%" } } );
 
 			this.#keyPreviews.push( {
@@ -192,7 +185,7 @@ class gsuiLFO extends gsui0ne {
 				$elem: el,
 				$when: Date.now() / 1000,
 			} );
-			this.$elements.$keyPreviews.append( el );
+			this.$elements.$keyPreviews.$append( el );
 			if ( !this.#keyAnimId ) {
 				this.#keyAnimId = GSUsetInterval( this.#keyAnimFrame.bind( this ), 1 / 60 );
 			}
@@ -225,7 +218,7 @@ class gsuiLFO extends gsui0ne {
 			toRm.push( p );
 		} else {
 			const x = since / this.#dur;
-			const y = this.$elements.$wave.$getY( 0, x * this.#waveWidth );
+			const y = this.$elements.$wave.$at( 0 ).$getY( 0, x * this.#waveWidth );
 
 			GSUdomStyle( p.$elem, {
 				top: `${ 50 + y * 50 }%`,
