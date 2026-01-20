@@ -8,13 +8,14 @@ class gsuiAnalyserHist extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserHist",
 			$tagName: "gsui-analyser-hist",
+			$jqueryfy: true,
 			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {
 				type: "hz", // hz | td
 				resolution: "100 200",
 			},
 		} );
-		this.#ctx = this.$element.getContext( "2d", { willReadFrequently: true } );
+		this.#ctx = this.$element.$at( 0 ).getContext( "2d", { willReadFrequently: true } );
 		Object.seal( this );
 	}
 
@@ -28,27 +29,28 @@ class gsuiAnalyserHist extends gsui0ne {
 				this.#type = val;
 				break;
 			case "resolution": {
-				const img = this.#ctx.getImageData( 0, 0, this.$element.width, this.$element.height );
+				const ctx = this.#ctx;
+				const img = ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height );
 				const [ w, h ] = GSUsplitNums( val );
 
-				this.$element.width = w;
-				this.$element.height = h;
-				this.#ctx.putImageData( img, 0, 0 );
+				ctx.canvas.width = w;
+				ctx.canvas.height = h;
+				ctx.putImageData( img, 0, 0 );
 			} break;
 		}
 	}
 
 	// .........................................................................
 	$clear() {
-		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
+		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, this.#ctx.canvas.height );
 	}
 	$updateResolution() {
-		GSUdomSetAttr( this, "resolution", `${ this.$element.clientWidth } ${ this.$element.clientHeight }` );
+		GSUdomSetAttr( this, "resolution", `${ this.$element.$width() } ${ this.$element.$height() }` );
 	}
 	$draw( ldata, rdata ) {
 		const ctx = this.#ctx;
 
-		ctx.putImageData( ctx.getImageData( 0, 0, this.$element.width, this.$element.height - 1 ), 0, 1 );
+		ctx.putImageData( ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );
 		switch ( this.#type ) {
 			case "hz": gsuiAnalyserHist.#drawHz( ctx, ldata, rdata ); break;
 			case "td": gsuiAnalyserHist.#drawTd( ctx, ldata, rdata ); break;
