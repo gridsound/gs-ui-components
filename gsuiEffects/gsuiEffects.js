@@ -15,9 +15,9 @@ class gsuiEffects extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEffects",
 			$tagName: "gsui-effects",
+			$jqueryfy: true,
 			$elements: {
 				$addBtn: ".gsuiEffects-addBtn",
-				$addSelect: ".gsuiEffects-addSelect",
 			},
 		} );
 		Object.seal( this );
@@ -71,7 +71,7 @@ class gsuiEffects extends gsui0ne {
 		if ( "$askData" in uiFx ) {
 			uiFx.$askData = this.$askData.bind( null, id, fx.type );
 		}
-		GSUdomSetAttr( uiFx, "timedivision", GSUdomGetAttr( this, "timedivision" ) );
+		GSUdomSetAttr( uiFx, "timedivision", this.$this.$attr( "timedivision" ) );
 		root.$setFxElement( uiFx );
 		this.#fxsHtml.set( id, root );
 		this.append( root );
@@ -89,7 +89,7 @@ class gsuiEffects extends gsui0ne {
 
 	// .........................................................................
 	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn );
+		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn.$at( 0 ) );
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
 		this.#actionMenu.$setCallback( act => GSUdomDispatch( this, GSEV_EFFECTS_ADDEFFECT, act ) );
