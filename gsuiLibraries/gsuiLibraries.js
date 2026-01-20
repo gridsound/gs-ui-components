@@ -5,6 +5,7 @@ class gsuiLibraries extends gsui0ne {
 		super( {
 			$cmpName: "gsuiLibraries",
 			$tagName: "gsui-libraries",
+			$jqueryfy: true,
 			$elements: {
 				$libBtns: ".gsuiLibraries-libBtns",
 				$libDef: ".gsuiLibrary-default",
@@ -15,20 +16,20 @@ class gsuiLibraries extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$libBtns.onclick = gsuiLibraries.#onclickBtns.bind( null, this );
-		this.$elements.$libDef.$setPlaceholder( "loading..." );
-		this.$elements.$libLoc.$setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
+		this.$elements.$libBtns.$on( "click", this.#onclickBtns.bind( this ) );
+		this.$elements.$libDef.$at( 0 ).$setPlaceholder( "loading..." );
+		this.$elements.$libLoc.$at( 0 ).$setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
 	}
 
 	// .........................................................................
 	$getLibrary( lib ) {
-		return lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef;
+		return ( lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef ).$at( 0 );
 	}
 
 	// .........................................................................
-	static #onclickBtns( root, e ) {
+	#onclickBtns( e ) {
 		if ( e.target.dataset.lib ) {
-			GSUdomSetAttr( root, "lib", e.target.dataset.lib );
+			this.$this.$attr( "lib", e.target.dataset.lib );
 		}
 	}
 }

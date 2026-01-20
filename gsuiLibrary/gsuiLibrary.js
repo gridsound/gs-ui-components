@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiLibrary extends gsui0ne {
-	#samplesMap = new Map();
 	#idPlaying = null;
 	#elCursor = null;
 	#stopTimeout = null;
@@ -11,6 +10,7 @@ class gsuiLibrary extends gsui0ne {
 		super( {
 			$cmpName: "gsuiLibrary",
 			$tagName: "gsui-library",
+			$jqueryfy: true,
 			$elements: {
 				$body: ".gsuiLibrary-body",
 				$placeholder: ".gsuiLibrary-placeholder",
@@ -18,14 +18,16 @@ class gsuiLibrary extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#initReorder();
-		this.$elements.$body.onclick = this.#onclick.bind( this );
-		this.$elements.$body.oncontextmenu = this.#oncontextmenu.bind( this );
+		this.$elements.$body.$on( {
+			click: this.#onclick.bind( this ),
+			contextmenu: this.#oncontextmenu.bind( this ),
+		} );
 	}
 
 	// .........................................................................
 	#initReorder() {
 		new gsuiReorder( {
-			$root: this.$elements.$body,
+			$root: this.$elements.$body.$at( 0 ),
 			$pxDelay: 6,
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
@@ -71,24 +73,21 @@ class gsuiLibrary extends gsui0ne {
 
 	// .........................................................................
 	$clear() {
-		this.#samplesMap.forEach( el => el.remove() );
-		this.#samplesMap.clear();
 		this.#idFavs.clear();
-		GSUdomQSA( this.$elements.$body, ".gsuiLibrary-sep" ).forEach( el => el.remove() );
+		this.$elements.$body.$empty();
 	}
 	$unloadSamples() {
-		this.#samplesMap.forEach( el => {
-			GSUdomRmAttr( el, "data-loading", "data-ready" );
-			el.title = el.dataset.name;
-		} );
+		this.$elements.$body.$find( ".gsuiLibrary-sample" )
+			.$attr( "data-loading", false )
+			.$attr( "data-ready", false )
+			.$attr( title, el => el.dataset.name );
 	}
 	$setPlaceholder( str ) {
-		this.$elements.$placeholder.textContent = str;
+		this.$elements.$placeholder.$text( str );
 	}
 	$setLibrary( lib ) {
 		let lastSep;
-		const prevLastSep = Array.from( this.$elements.$body.children )
-			.findLast( el => GSUdomHasClass( el, "gsuiLibrary-sep" ) );
+		const prevLastSep = this.$elements.$body.$find( ".gsuiLibrary-sep" ).$at( -1 );
 		const el = lib.map( smp => {
 			if ( !GSUisStr( smp ) ) {
 				const el = GSUgetTemplate( "gsui-library-sample", {
@@ -100,60 +99,59 @@ class gsuiLibrary extends gsui0ne {
 				if ( this.#idFavs.has( smp[ 0 ] ) ) {
 					GSUdomSetAttr( el, "data-fav", true );
 				}
-				this.#samplesMap.set( smp[ 0 ], el );
 				return el;
 			}
 			return lastSep = GSUgetTemplate( "gsui-library-sep", smp );
 		} );
 
-		this.$elements.$body.append( ...el );
+		this.$elements.$body.$append( ...el );
 		if ( lastSep && lastSep.dataset.id === prevLastSep?.dataset.id ) {
 			lastSep.remove();
 		}
 	}
 
 	// .........................................................................
+	#getSample( id ) {
+		return this.$elements.$body.$find( `[data-id="${ id }"]` );
+	}
 	$bookmarkSample( id, b ) {
 		b
 			? this.#idFavs.set( id )
 			: this.#idFavs.delete( id );
-		GSUdomSetAttr( this.#samplesMap.get( id ), "data-fav", b );
+		this.#getSample( id ).$attr( "data-fav", b );
 	}
 	$loadSample( id ) {
-		GSUdomSetAttr( this.#samplesMap.get( id ), {
+		this.#getSample( id ).$attr( {
 			"data-loading": true,
 			title: "loading...",
 		} );
 	}
 	$readySample( id ) {
-		const el = this.#samplesMap.get( id );
-
-		GSUdomSetAttr( el, {
-			"data-loading": false,
-			"data-ready": true,
-			title: el.dataset.name,
-		} );
+		this.#getSample( id )
+			.$attr( "data-loading", false )
+			.$attr( "data-ready", true )
+			.$attr( "title", el => el.dataset.name );
 	}
 	$playSample( id, dur ) {
-		const el = this.#samplesMap.get( id );
+		const el = this.#getSample( id );
 
 		this.$stopSample();
 		this.#idPlaying = id;
 		this.#elCursor = GSUcreateDiv( { class: "gsuiLibrary-sample-cursor" } );
 		this.#elCursor.style.left = "0%";
 		this.#elCursor.style.transitionDuration = `${ dur }s`;
-		GSUdomAddClass( el, "gsuiLibrary-sample-playing" );
-		el.append( this.#elCursor );
+		GSUdomAddClass( el.$at( 0 ), "gsuiLibrary-sample-playing" );
+		el.$append( this.#elCursor );
 		GSUsetTimeout( () => this.#elCursor.style.left = "100%", .01 );
 		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
 	}
 	$stopSample() {
 		if ( this.#idPlaying ) {
-			const el = this.#samplesMap.get( this.#idPlaying );
+			const el = this.#getSample( this.#idPlaying );
 
 			GSUclearTimeout( this.#stopTimeout );
 			this.#elCursor.remove();
-			GSUdomRmClass( el, "gsuiLibrary-sample-playing" );
+			GSUdomRmClass( el.$at( 0 ), "gsuiLibrary-sample-playing" );
 			this.#elCursor =
 			this.#idPlaying =
 			this.#stopTimeout = null;
