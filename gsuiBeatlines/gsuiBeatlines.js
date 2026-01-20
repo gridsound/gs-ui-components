@@ -10,6 +10,7 @@ class gsuiBeatlines extends gsui0ne {
 		super( {
 			$cmpName: "gsuiBeatlines",
 			$tagName: "gsui-beatlines",
+			$jqueryfy: true,
 			$attributes: {
 				inert: true,
 				color: "#000",
