@@ -27,7 +27,7 @@ class gsuiChannels extends gsui0ne {
 			[ GSEV_CHANNEL_CONNECT ]: d => GSUdomDispatch( this, GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
 		} );
 		new gsuiReorder( {
-			$root: this.$elements.$pchans.$at( 0 ),
+			$root: this.$elements.$pchans.$get( 0 ),
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",
@@ -44,7 +44,7 @@ class gsuiChannels extends gsui0ne {
 		this.$this.$find( "gsui-channel gsui-analyser-hist" ).$attr( "type", t );
 	}
 	$updateVu( ldata, rdata ) {
-		this.$elements.$vu.$at( 0 ).$draw( ldata, rdata );
+		this.$elements.$vu.$get( 0 ).$draw( ldata, rdata );
 	}
 	$updateAudioData( id, ldata, rdata ) {
 		this.#chans[ id ].$analyser.$draw( ldata, rdata );

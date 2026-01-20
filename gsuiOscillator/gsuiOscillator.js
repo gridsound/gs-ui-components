@@ -165,8 +165,8 @@ class gsuiOscillator extends gsui0ne {
 		const det = prop === "detune" ? val : +this.$this.$attr( "detune" ) + +this.$this.$attr( "detunefine" );
 		const hz = 2 ** ( ( det - -24 ) / 12 );
 
-		w.$at( 0 ).$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
-		w.$at( 1 ).$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
+		w.$get( 0 ).$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
+		w.$get( 1 ).$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
 	}
 	$changeCustomWave( obj ) {
 		if ( this.#elWavetable ) {
@@ -229,7 +229,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveWrapBottom.$css( "marginLeft", `${ n * 10 }%` );
 	}
 	#updateUnisonGraphVoices( n ) {
-		GSUdomSetChildrenLength( this.$elements.$unisonGraph.$at( 0 ), n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
+		GSUdomSetChildrenLength( this.$elements.$unisonGraph.$get( 0 ), n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
 		this.#updateUnisonGraphBlend( +this.$this.$attr( "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {
@@ -263,7 +263,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$onresize();
 	}
 	#onclickPrevNext( dir ) {
-		const sel = this.$elements.$waveSelect.$at( 0 );
+		const sel = this.$elements.$waveSelect.$get( 0 );
 		const currOpt = GSUdomQS( sel, `option[value="${ sel.value }"]` );
 		const opt = dir < 0
 			? currOpt.previousElementSibling

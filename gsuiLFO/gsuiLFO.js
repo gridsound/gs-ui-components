@@ -42,7 +42,7 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$elements.$wave.$at( 0 ).$nbLines( 1 );
+		this.$elements.$wave.$get( 0 ).$nbLines( 1 );
 		this.$updateWave();
 	}
 	static get observedAttributes() {
@@ -103,7 +103,7 @@ class gsuiLFO extends gsui0ne {
 		this.#dur = Math.max( opt.delay + opt.attack + 2, bPM );
 		this.$elements.$wave
 			.$css( "opacity", Math.min( 6 / opt.frequency, 1 ) )
-			.$at( 0 ).$options( 0, opt );
+			.$get( 0 ).$options( 0, opt );
 		this.#updatePxPerBeat();
 	}
 
@@ -115,7 +115,7 @@ class gsuiLFO extends gsui0ne {
 		this.$elements.$propSli.$attr( "disabled", !b );
 	}
 	#changeType( type ) {
-		this.$elements.$wave.$at( 0 ).$options( 0, { type } );
+		this.$elements.$wave.$get( 0 ).$options( 0, { type } );
 		GSUdomQS( this, `[type="radio"][value="${ type }"]` ).checked = true;
 	}
 	#changeAmpSign( amp ) {
@@ -134,9 +134,9 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$at( 0 ) )[ 0 ];
+		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$get( 0 ) )[ 0 ];
 		this.#updatePxPerBeat();
-		this.$elements.$wave.$at( 0 ).$resized();
+		this.$elements.$wave.$get( 0 ).$resized();
 	}
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
@@ -218,7 +218,7 @@ class gsuiLFO extends gsui0ne {
 			toRm.push( p );
 		} else {
 			const x = since / this.#dur;
-			const y = this.$elements.$wave.$at( 0 ).$getY( 0, x * this.#waveWidth );
+			const y = this.$elements.$wave.$get( 0 ).$getY( 0, x * this.#waveWidth );
 
 			GSUdomStyle( p.$elem, {
 				top: `${ 50 + y * 50 }%`,

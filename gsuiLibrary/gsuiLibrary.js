@@ -27,7 +27,7 @@ class gsuiLibrary extends gsui0ne {
 	// .........................................................................
 	#initReorder() {
 		new gsuiReorder( {
-			$root: this.$elements.$body.$at( 0 ),
+			$root: this.$elements.$body.$get( 0 ),
 			$pxDelay: 6,
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
@@ -87,7 +87,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$setLibrary( lib ) {
 		let lastSep;
-		const prevLastSep = this.$elements.$body.$find( ".gsuiLibrary-sep" ).$at( -1 );
+		const prevLastSep = this.$elements.$body.$find( ".gsuiLibrary-sep" ).$get( -1 );
 		const el = lib.map( smp => {
 			if ( !GSUisStr( smp ) ) {
 				const el = GSUgetTemplate( "gsui-library-sample", {
@@ -140,7 +140,7 @@ class gsuiLibrary extends gsui0ne {
 		this.#elCursor = GSUcreateDiv( { class: "gsuiLibrary-sample-cursor" } );
 		this.#elCursor.style.left = "0%";
 		this.#elCursor.style.transitionDuration = `${ dur }s`;
-		GSUdomAddClass( el.$at( 0 ), "gsuiLibrary-sample-playing" );
+		GSUdomAddClass( el.$get( 0 ), "gsuiLibrary-sample-playing" );
 		el.$append( this.#elCursor );
 		GSUsetTimeout( () => this.#elCursor.style.left = "100%", .01 );
 		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
@@ -151,7 +151,7 @@ class gsuiLibrary extends gsui0ne {
 
 			GSUclearTimeout( this.#stopTimeout );
 			this.#elCursor.remove();
-			GSUdomRmClass( el.$at( 0 ), "gsuiLibrary-sample-playing" );
+			GSUdomRmClass( el.$get( 0 ), "gsuiLibrary-sample-playing" );
 			this.#elCursor =
 			this.#idPlaying =
 			this.#stopTimeout = null;

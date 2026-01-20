@@ -145,8 +145,8 @@ class gsuiComPlayer extends gsui0ne {
 			} );
 	}
 	#onclickPlay() {
-		if ( this.$elements.$audio.$at( 0 ).src ) {
-			this.$elements.$audio.$at( 0 ).paused
+		if ( this.$elements.$audio.$get( 0 ).src ) {
+			this.$elements.$audio.$get( 0 ).paused
 				? this.$play()
 				: this.$pause();
 		} else {
@@ -170,7 +170,7 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#onframePlaying() {
-		this.$this.$attr( "currenttime", this.$elements.$audio.$at( 0 ).currentTime );
+		this.$this.$attr( "currenttime", this.$elements.$audio.$get( 0 ).currentTime );
 	}
 	#updateRendered( b ) {
 		this.$elements.$play.$attr( b
@@ -188,7 +188,7 @@ class gsuiComPlayer extends gsui0ne {
 				{ hidden: true, id: "restore", icon: "trash-restore", name: "Restore it", desc: "Get the composition out of the bin." },
 			];
 			this.#actionMenu = new gsuiActionMenu();
-			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn.$at( 0 ) );
+			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn.$get( 0 ) );
 			this.#actionMenu.$setActions( this.#actions );
 			this.#actionMenu.$setDirection( this.#actionMenuDir );
 			this.#actionMenu.$setMaxSize( "260px", "180px" );
@@ -249,7 +249,7 @@ class gsuiComPlayer extends gsui0ne {
 		e.target.onpointerup =
 		e.target.onpointermove =
 		this.#settingTime = null;
-		this.$elements.$audio.$at( 0 ).currentTime = t * this.$this.$attr( "duration" );
+		this.$elements.$audio.$get( 0 ).currentTime = t * this.$this.$attr( "duration" );
 	}
 }
 

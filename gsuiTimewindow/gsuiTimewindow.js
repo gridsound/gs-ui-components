@@ -91,7 +91,7 @@ class gsuiTimewindow extends gsui0ne {
 			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, val ) => this.$this.$attr( "step", val ),
 			[ GSEV_STEPSELECT_AUTO ]: ( _, b ) => {
 				if ( b ) {
-					this.$this.$attr( "step", this.$elements.$stepBtn.$at( 0 ).$getStepFromPxPerBeat( this.#pxPerBeat ) );
+					this.$this.$attr( "step", this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( this.#pxPerBeat ) );
 				}
 			},
 			[ GSEV_TIMELINE_INPUTCURRENTTIME ]: GSUnoop,
@@ -136,7 +136,7 @@ class gsuiTimewindow extends gsui0ne {
 		}
 		this.#scrollShadow = new gsuiScrollShadow( {
 			scrolledElem: this.firstChild,
-			leftShadow: this.$elements.$panel.$at( 0 ),
+			leftShadow: this.$elements.$panel.$get( 0 ),
 			topShadow: [
 				GSUdomQS( this, ".gsuiTimewindow-panelUp" ),
 				GSUdomQS( this, ".gsuiTimewindow-time" ),
@@ -228,7 +228,7 @@ class gsuiTimewindow extends gsui0ne {
 
 	// .........................................................................
 	$getTimeline() {
-		return this.$elements.$timeline.$at( 0 );
+		return this.$elements.$timeline.$get( 0 );
 	}
 	#minimapUpdate() {
 		const mapPx = this.$elements.$minimapTrack.$width();
@@ -286,7 +286,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.onpointerup = this.#onptrupMinimap.bind( this );
 				break;
 			case "track": {
-				const side = e.pageX > GSUdomBCRxy( this.$elements.$minimapThumb.$at( 0 ) )[ 0 ] ? 1 : -1;
+				const side = e.pageX > GSUdomBCRxy( this.$elements.$minimapThumb.$get( 0 ) )[ 0 ] ? 1 : -1;
 
 				this.onpointerup = this.#onptrupMinimap.bind( this );
 				this.#minimapIntervalId = GSUsetInterval( () => {
@@ -297,7 +297,7 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveMinimap( e ) {
 		const act = this.#minimapAction;
-		const bcr = GSUdomBCR( this.$elements.$minimapTrack.$at( 0 ) );
+		const bcr = GSUdomBCR( this.$elements.$minimapTrack.$get( 0 ) );
 
 		switch ( act ) {
 			case "thumb": {
@@ -422,7 +422,7 @@ class gsuiTimewindow extends gsui0ne {
 	#setNewPPB( ppb, ptrPx ) {
 		this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppb, ptrPx ) );
 		this.$this.$attr( {
-			step: this.$elements.$stepBtn.$at( 0 ).$getStepFromPxPerBeat( ppb ),
+			step: this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( ppb ),
 			pxperbeat: ppb,
 		} );
 		GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, ppb );

@@ -45,14 +45,14 @@ class gsuiEffects extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				this.#fxsHtml.forEach( el => el.$at( 0 ).$getFxElement().$attr( "timedivision", val ) );
+				this.#fxsHtml.forEach( el => el.$get( 0 ).$getFxElement().$attr( "timedivision", val ) );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$getFxHTML( id ) {
-		return this.#fxsHtml.get( id ).$at( 0 );
+		return this.#fxsHtml.get( id ).$get( 0 );
 	}
 	$expandToggleEffect( id ) {
 		this.#fxsHtml.get( id ).$togAttr( "expanded" );
@@ -71,10 +71,10 @@ class gsuiEffects extends gsui0ne {
 			"data-type": fx.type,
 		} );
 
-		if ( "$askData" in uiFx.$at( 0 ) ) {
-			uiFx.$at( 0 ).$askData = this.$askData.bind( null, id, fx.type );
+		if ( "$askData" in uiFx.$get( 0 ) ) {
+			uiFx.$get( 0 ).$askData = this.$askData.bind( null, id, fx.type );
 		}
-		root.$at( 0 ).$setFxElement( uiFx );
+		root.$get( 0 ).$setFxElement( uiFx );
 		this.#fxsHtml.set( id, root );
 		this.$this.$append( root );
 	}
@@ -91,7 +91,7 @@ class gsuiEffects extends gsui0ne {
 
 	// .........................................................................
 	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn.$at( 0 ) );
+		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn.$get( 0 ) );
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
 		this.#actionMenu.$setCallback( act => GSUdomDispatch( this, GSEV_EFFECTS_ADDEFFECT, act ) );

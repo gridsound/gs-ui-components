@@ -79,7 +79,7 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$updateWave( prop, val ) {
-		const g = this.$elements.$graph.$at( 0 );
+		const g = this.$elements.$graph.$get( 0 );
 		const amp = prop === "amp" ? val : GSUdomGetAttrNum( this, "amp" );
 		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
@@ -117,9 +117,9 @@ class gsuiEnvelope extends gsui0ne {
 		const nbProps = this.#env === "gain" ? 5 : 6;
 
 		this.style.minHeight = `${ nbProps * 20 - 2 + 2 * 8 }px`;
-		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$at( 0 ) )[ 0 ];
+		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$get( 0 ) )[ 0 ];
 		this.#updatePxPerBeat();
-		this.$elements.$graph.$at( 0 ).$resized();
+		this.$elements.$graph.$get( 0 ).$resized();
 	}
 	#oninputSlider( prop, val ) {
 		this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, val ) );
@@ -173,7 +173,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 	#keyAnimFramePreview( toRm, now, p ) {
 		const since = ( now - p.$when ) * p.$bps;
-		const g = this.$elements.$graph.$at( 0 );
+		const g = this.$elements.$graph.$get( 0 );
 		const x = gsuiEnvelope.#keyPreviewCalcX( since, p.$dur, g, this.#dur );
 
 		if ( x > 1 ) {

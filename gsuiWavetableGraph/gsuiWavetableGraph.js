@@ -86,7 +86,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
 		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 		this.#drawBox();
-		GSUdomSetChildrenLength( this.$elements.$gWaves.$at( 0 ), this.#waves.length * 2, "polyline" );
+		GSUdomSetChildrenLength( this.$elements.$gWaves.$get( 0 ), this.#waves.length * 2, "polyline" );
 		this.#waves.forEach( this.#drawWave.bind( this ) );
 		// const nb = this.$elements.$inters.$size();
 		// this.$elements.$inters.$each( ( inter, i ) => this.#drawInter( inter, i / ( nb - 1 ) ) );
@@ -95,25 +95,25 @@ class gsuiWavetableGraph extends gsui0ne {
 	#drawBox() {
 		const l = this.$elements.$lines;
 
-		gsuiWavetableGraph.#drawLine( l.$at(  0 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 1, 0, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  1 ), this.#getCoord( 1, 0, 0 ), this.#getCoord( 1, 1, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  2 ), this.#getCoord( 1, 0, 0 ), this.#getCoord( 1, 0, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  3 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 0, 0, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  4 ), this.#getCoord( 0, 0, 1 ), this.#getCoord( 1, 0, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  5 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 0, 1, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  6 ), this.#getCoord( 0, 0, 1 ), this.#getCoord( 0, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  7 ), this.#getCoord( 1, 0, 1 ), this.#getCoord( 1, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  8 ), this.#getCoord( 0, 1, 0 ), this.#getCoord( 0, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at(  9 ), this.#getCoord( 1, 1, 0 ), this.#getCoord( 1, 1, 1 ) );
-		gsuiWavetableGraph.#drawLine( l.$at( 10 ), this.#getCoord( 0, 1, 0 ), this.#getCoord( 1, 1, 0 ) );
-		gsuiWavetableGraph.#drawLine( l.$at( 11 ), this.#getCoord( 0, 1, 1 ), this.#getCoord( 1, 1, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  0 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 1, 0, 0 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  1 ), this.#getCoord( 1, 0, 0 ), this.#getCoord( 1, 1, 0 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  2 ), this.#getCoord( 1, 0, 0 ), this.#getCoord( 1, 0, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  3 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 0, 0, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  4 ), this.#getCoord( 0, 0, 1 ), this.#getCoord( 1, 0, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  5 ), this.#getCoord( 0, 0, 0 ), this.#getCoord( 0, 1, 0 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  6 ), this.#getCoord( 0, 0, 1 ), this.#getCoord( 0, 1, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  7 ), this.#getCoord( 1, 0, 1 ), this.#getCoord( 1, 1, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  8 ), this.#getCoord( 0, 1, 0 ), this.#getCoord( 0, 1, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get(  9 ), this.#getCoord( 1, 1, 0 ), this.#getCoord( 1, 1, 1 ) );
+		gsuiWavetableGraph.#drawLine( l.$get( 10 ), this.#getCoord( 0, 1, 0 ), this.#getCoord( 1, 1, 0 ) );
+		gsuiWavetableGraph.#drawLine( l.$get( 11 ), this.#getCoord( 0, 1, 1 ), this.#getCoord( 1, 1, 1 ) );
 	}
 	static #drawLine( line, a, b ) {
 		GSUdomSetAttr( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
 	#drawMorph() {
 		const z = this.#morphingWaveAt;
-		const g = this.$elements.$gMorph.$at( 0 );
+		const g = this.$elements.$gMorph.$get( 0 );
 
 		if ( z >= 0 ) {
 			const waveA = this.#waves.findLast( w => w.index <= z );
@@ -142,7 +142,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		GSUdomRmAttr( g.children[ 1 ], "points" );
 	}
 	#drawWave( wave, i ) {
-		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves.$at( 0 ), ( this.#waves.length - 1 - i ) * 2, wave.index );
+		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves.$get( 0 ), ( this.#waves.length - 1 - i ) * 2, wave.index );
 	}
 	#drawWave2( wId, dots, g, i, z ) {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );

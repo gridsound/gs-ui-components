@@ -32,7 +32,7 @@ class gsuiAnalyserHz extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#ctx = this.$element.$at( 0 ).getContext( "2d" );
+		this.#ctx = this.$element.$get( 0 ).getContext( "2d" );
 	}
 
 	// .........................................................................

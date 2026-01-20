@@ -228,7 +228,7 @@ class gsuiWaveEditor extends gsui0ne {
 		if ( this.#waveArray ) {
 			e.preventDefault();
 			this.#ptrDown = true;
-			this.$elements.$wave.$at( 0 ).setPointerCapture( e.pointerId );
+			this.$elements.$wave.$get( 0 ).setPointerCapture( e.pointerId );
 			this.#waveArray2 ||= new Float32Array( this.#waveArray );
 			this.#clickSquare( e );
 		}
@@ -242,7 +242,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#onptrupWave( e ) {
 		if ( this.#ptrDown ) {
 			this.#ptrDown = false;
-			this.$elements.$wave.$at( 0 ).releasePointerCapture( e.pointerId );
+			this.$elements.$wave.$get( 0 ).releasePointerCapture( e.pointerId );
 			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
 				this.#waveArray2 = null;
 				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
@@ -309,7 +309,7 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn.$at( 0 ) );
+		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn.$get( 0 ) );
 		this.#actionMenu.$setDirection( "RB" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
 		this.#actionMenu.$setCallback( w => GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, this.$reset( w ) ) );
@@ -412,8 +412,8 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#div[ dir ] = +val;
 		this.$elements.$hoverSquare.$css( dir ? "height" : "width", `${ 1 / val * 100 }%` );
 		this.#updateBeatlines( dir, val );
-		GSUjq( this.$elements.$gridVal.$at( dir ) ).$text( val );
-		GSUjq( this.$elements.$gridSli.$at( dir ) ).$attr( "value", val );
+		GSUjq( this.$elements.$gridVal.$get( dir ) ).$text( val );
+		GSUjq( this.$elements.$gridSli.$get( dir ) ).$attr( "value", val );
 	}
 	#updateNormalized() {
 		this.$this.$attr( "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );

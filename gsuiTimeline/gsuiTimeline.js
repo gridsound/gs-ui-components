@@ -206,7 +206,7 @@ class gsuiTimeline extends gsui0ne {
 		return diff;
 	}
 	#updateNumberMeasures() {
-		const elMeasures = this.$elements.$measures.$at( 0 );
+		const elMeasures = this.$elements.$measures.$get( 0 );
 		const px = this.#pxPerMeasure * ( this.#onlyBigMeasures ? this.#beatsPerMeasure : 1 );
 		const w = this.#scrollingAncestor?.clientWidth || this.clientWidth;
 		const nb = Math.ceil( w / px ) + 1 || 0;
@@ -271,7 +271,7 @@ class gsuiTimeline extends gsui0ne {
 			this.#mousedownPrevX = e.pageX;
 			this.#mousedownPrevDate = Date.now();
 			this.#setStatus(
-				e.target === this.$elements.$cursor.$at( 0 ).parentNode ? GSUI_DRAGGING_TIME :
+				e.target === this.$elements.$cursor.$get( 0 ).parentNode ? GSUI_DRAGGING_TIME :
 				GSUdomHasClass( e.target, "gsuiTimeline-loopBody" ) ? GSUI_DRAGGING_LOOP :
 				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleA" ) ? GSUI_DRAGGING_LOOP_A :
 				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );

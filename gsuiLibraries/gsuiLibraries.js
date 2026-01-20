@@ -17,13 +17,13 @@ class gsuiLibraries extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.$elements.$libBtns.$on( "click", this.#onclickBtns.bind( this ) );
-		this.$elements.$libDef.$at( 0 ).$setPlaceholder( "loading..." );
-		this.$elements.$libLoc.$at( 0 ).$setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
+		this.$elements.$libDef.$get( 0 ).$setPlaceholder( "loading..." );
+		this.$elements.$libLoc.$get( 0 ).$setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
 	}
 
 	// .........................................................................
 	$getLibrary( lib ) {
-		return ( lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef ).$at( 0 );
+		return ( lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef ).$get( 0 );
 	}
 
 	// .........................................................................

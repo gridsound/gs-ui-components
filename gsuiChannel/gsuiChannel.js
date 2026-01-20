@@ -30,7 +30,7 @@ class gsuiChannel extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$analyser = this.$elements.$analyser.$at( 0 );
+		this.$analyser = this.$elements.$analyser.$get( 0 );
 		GSUjq( [
 			this.$analyser,
 			this.$elements.$nameWrap,

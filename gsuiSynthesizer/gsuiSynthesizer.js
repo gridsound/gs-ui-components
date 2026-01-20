@@ -48,7 +48,7 @@ class gsuiSynthesizer extends gsui0ne {
 		this.$elements.$newOsc.$on( "click", this.#onclickNewOsc.bind( this ) );
 		this.$elements.$heads.$on( "click", this.#onclickHeads.bind( this ) );
 		new gsuiReorder( {
-			$root: this.$elements.$oscList.$at( 0 ),
+			$root: this.$elements.$oscList.$get( 0 ),
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: ".gsuiOscillator-grip",
@@ -113,8 +113,8 @@ class gsuiSynthesizer extends gsui0ne {
 			const wtposCurves = key.wtposCurves;
 
 			this.#previews[ keyId ] = null;
-			this.$elements.$env.$at( 0 ).$startKey( keyId, bpm, dur );
-			this.$elements.$lfo.$at( 0 ).$startKey( keyId, bpm, dur );
+			this.$elements.$env.$get( 0 ).$startKey( keyId, bpm, dur );
+			this.$elements.$lfo.$get( 0 ).$startKey( keyId, bpm, dur );
 			this.#uiOscs.forEach( ( osc, oscId ) => osc.$startKey( keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
 		}, when );
 	}
@@ -126,9 +126,9 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 		delete this.#previews[ keyId ];
 		if ( pId === null ) {
-			this.$elements.$env.$at( 0 ).$stopKey( keyId );
+			this.$elements.$env.$get( 0 ).$stopKey( keyId );
 			GSUsetTimeout( () => {
-				this.$elements.$lfo.$at( 0 ).$stopKey( keyId );
+				this.$elements.$lfo.$get( 0 ).$stopKey( keyId );
 				this.#uiOscs.forEach( osc => osc.$stopKey( keyId ) );
 			}, rel / ( bpm / 60 ) );
 		}
@@ -154,7 +154,7 @@ class gsuiSynthesizer extends gsui0ne {
 		const elCmp = envLFO === "env" ? this.$elements.$env : this.$elements.$lfo;
 
 		if ( prop === elCmp.$attr( envLFO ) ) {
-			elCmp.$at( 0 ).$updateWave();
+			elCmp.$get( 0 ).$updateWave();
 		}
 	}
 	$changeNoiseProp( prop, val ) {
@@ -212,7 +212,7 @@ class gsuiSynthesizer extends gsui0ne {
 		const tab = tabs.$filter( `[data-tab$="${ prop }"]` );
 
 		if ( !tab.$hasAttr( "data-selected" ) ) {
-			tabs.$attr( "data-selected", el => el === tab.$at( 0 ) );
+			tabs.$attr( "data-selected", el => el === tab.$get( 0 ) );
 			( lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo )
 				.$attr( this.#data[ lfoEnv ][ prop ] )
 				.$attr( lfoEnv, prop );

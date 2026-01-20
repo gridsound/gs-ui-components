@@ -23,7 +23,7 @@ class gsuiTempo extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#dropdown.$setDirection( "B" );
-		this.#dropdown.$bindTargetElement( this.$element.$at( 0 ) );
+		this.#dropdown.$bindTargetElement( this.$element.$get( 0 ) );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
 		this.#popup.$form.onsubmit = this.$onsubmitPopup.bind( this );
 		this.#popup.$form.onkeydown = e => e.stopPropagation();

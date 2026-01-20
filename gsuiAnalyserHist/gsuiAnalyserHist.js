@@ -15,7 +15,7 @@ class gsuiAnalyserHist extends gsui0ne {
 				resolution: "100 200",
 			},
 		} );
-		this.#ctx = this.$element.$at( 0 ).getContext( "2d", { willReadFrequently: true } );
+		this.#ctx = this.$element.$get( 0 ).getContext( "2d", { willReadFrequently: true } );
 		Object.seal( this );
 	}
 
