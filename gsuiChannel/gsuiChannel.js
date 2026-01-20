@@ -7,6 +7,7 @@ class gsuiChannel extends gsui0ne {
 		super( {
 			$cmpName: "gsuiChannel",
 			$tagName: "gsui-channel",
+			$jqueryfy: true,
 			$elements: {
 				$toggle: "gsui-toggle",
 				$nameWrap: ".gsuiChannel-nameWrap",
@@ -29,28 +30,30 @@ class gsuiChannel extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$analyser = this.$elements.$analyser;
-		this.$analyser.onclick =
-		this.$elements.$nameWrap.onclick = () => GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL );
-		this.$elements.$remove.onclick = () => GSUdomDispatch( this, GSEV_CHANNEL_REMOVE );
-		this.$elements.$connect.onclick = () => GSUdomDispatch( this, GSEV_CHANNEL_CONNECT );
-		this.$elements.$effects.onclick = e => {
+		this.$analyser = this.$elements.$analyser.$at( 0 );
+		GSUjq( [
+			this.$analyser,
+			this.$elements.$nameWrap,
+		] ).$on( "click", () => GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL ) );
+		this.$elements.$remove.$on( "click", () => GSUdomDispatch( this, GSEV_CHANNEL_REMOVE ) );
+		this.$elements.$connect.$on( "click", () => GSUdomDispatch( this, GSEV_CHANNEL_CONNECT ) );
+		this.$elements.$effects.$on( "click", e => {
 			if ( e.target.dataset.id ) {
 				GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL );
 				GSUdomDispatch( this, GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
 			}
-		};
-		this.$elements.$rename.onclick = () => {
-			GSUpopup.$prompt( "Rename channel", "", GSUdomGetAttr( this, "name" ) )
+		} );
+		this.$elements.$rename.$on( "click", () => {
+			GSUpopup.$prompt( "Rename channel", "", this.$this.$attr( "name" ) )
 				.then( name => GSUdomDispatch( this, GSEV_CHANNEL_RENAME, name ) );
-		};
+		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				GSUdomSetAttr( this, "muted", !b );
+				this.$this.$attr( "muted", !b );
 				GSUdomDispatch( this, GSEV_CHANNEL_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				GSUdomRmAttr( this, "muted" );
+				this.$this.$attr( "muted", false );
 				GSUdomDispatch( this, GSEV_CHANNEL_TOGGLESOLO );
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
@@ -67,42 +70,42 @@ class gsuiChannel extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "order":
-				this.style.order = val;
+				this.$this.$css( "order", val );
 				break;
 			case "name":
-				this.$elements.$name.textContent = val;
+				this.$elements.$name.$text( val );
 				break;
 			case "muted":
-				GSUdomSetAttr( this.$elements.$toggle, "off", val !== null );
+				this.$elements.$toggle.$attr( "off", val !== null );
 				break;
 			case "pan":
 			case "gain":
-				GSUdomSetAttr( this.$elements[ prop ], "value", val );
+				this.$elements[ prop ].$attr( "value", val );
 				break;
 			case "connecta":
 			case "connectb":
-				this.$elements[ prop ].dataset.icon = val ? `caret-${ val }` : "";
+				this.$elements[ prop ].$attr( "data-icon", val ? `caret-${ val }` : "" );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.$elements.$effects.append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
+		this.$elements.$effects.$append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
 	}
 	$removeEffect( id ) {
-		this.#getEffect( id ).remove();
+		this.#getEffect( id ).$remove();
 	}
 	$updateEffect( id, obj ) {
 		if ( "order" in obj ) {
-			this.#getEffect( id ).style.order = obj.order;
+			this.#getEffect( id ).$css( "order", obj.order );
 		}
 		if ( "toggle" in obj ) {
-			GSUdomSetAttr( this.#getEffect( id ), "data-enable", obj.toggle );
+			this.#getEffect( id ).$attr( "data-enable", obj.toggle );
 		}
 	}
 	#getEffect( id ) {
-		return GSUdomQS( this.$elements.$effects, `[data-id="${ id }"]` );
+		return this.$elements.$effects.$find( `[data-id="${ id }"]` );
 	}
 }
 
