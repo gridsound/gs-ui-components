@@ -194,7 +194,7 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#changeWave( w ) {
-		this.$elements.$waveSelect.$at( 0 ).value = w;
+		this.$elements.$waveSelect.$value( w );
 		if ( w ) {
 			this.$this.$attr( "source", false );
 		}
@@ -275,7 +275,7 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#onchangeSelect() {
-		const w = this.$elements.$waveSelect.$at( 0 ).value;
+		const w = this.$elements.$waveSelect.$value();
 
 		GSUclearTimeout( this.#timeidType );
 		this.$this.$attr( "wave", w );

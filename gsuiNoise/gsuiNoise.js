@@ -23,7 +23,7 @@ class gsuiNoise extends gsui0ne {
 		this.$elements.$colorSelect.$on( {
 			keydown: GSUnoopFalse,
 			change: () => {
-				const col = this.$elements.$colorSelect.$at( 0 ).value;
+				const col = this.$elements.$colorSelect.$value();
 
 				this.$this.$attr( "color", col );
 				GSUdomDispatch( this, GSEV_NOISE_CHANGE, "color", col );
@@ -54,7 +54,7 @@ class gsuiNoise extends gsui0ne {
 				break;
 			case "color":
 				this.$elements.$colorTxt.$text( val );
-				this.$elements.$colorSelect.$at( 0 ).value = val;
+				this.$elements.$colorSelect.$value( val );
 				break;
 			case "gain":
 			case "pan":
