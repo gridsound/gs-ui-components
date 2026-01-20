@@ -11,6 +11,7 @@ class gsuiChannels extends gsui0ne {
 		super( {
 			$cmpName: "gsuiChannels",
 			$tagName: "gsui-channels",
+			$jqueryfy: true,
 			$elements: {
 				$vu: "gsui-analyser-vu",
 				$pmain: ".gsuiChannels-panMain",
@@ -19,14 +20,14 @@ class gsuiChannels extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$addBtn.onclick = () => GSUdomDispatch( this, GSEV_CHANNELS_ADDCHAN );
+		this.$elements.$addBtn.$on( "click", () => GSUdomDispatch( this, GSEV_CHANNELS_ADDCHAN ) );
 		GSUdomListen( this, {
 			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.#selectChannel( d.$targetId ),
 			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => GSUdomDispatch( this, GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
 			[ GSEV_CHANNEL_CONNECT ]: d => GSUdomDispatch( this, GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
 		} );
 		new gsuiReorder( {
-			$root: this.$elements.$pchans,
+			$root: this.$elements.$pchans.$at( 0 ),
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",
@@ -40,10 +41,10 @@ class gsuiChannels extends gsui0ne {
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
-		GSUdomQSA( this, "gsui-channel gsui-analyser-hist" ).forEach( el => GSUdomSetAttr( el, "type", t ) );
+		this.$this.$find( "gsui-channel gsui-analyser-hist" ).$attr( "type", t );
 	}
 	$updateVu( ldata, rdata ) {
-		this.$elements.$vu.$draw( ldata, rdata );
+		this.$elements.$vu.$at( 0 ).$draw( ldata, rdata );
 	}
 	$updateAudioData( id, ldata, rdata ) {
 		this.#chans[ id ].$analyser.$draw( ldata, rdata );
@@ -85,7 +86,7 @@ class gsuiChannels extends gsui0ne {
 	$addChannel( id ) {
 		const chan = GSUcreateElement( "gsui-channel", { "data-id": id } );
 
-		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).append( chan );
+		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).$append( chan );
 		this.#chans[ id ] = chan;
 		chan.$analyser.$updateResolution();
 		GSUdomSetAttr( chan.$analyser, "type", this.#analyserType );
