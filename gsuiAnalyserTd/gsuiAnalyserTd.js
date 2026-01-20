@@ -13,6 +13,7 @@ class gsuiAnalyserTd extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserTd",
 			$tagName: "gsui-analyser-td",
+			$jqueryfy: true,
 			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {
 				amp: 1,
@@ -22,7 +23,7 @@ class gsuiAnalyserTd extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#ctx = this.$element.getContext( "2d" );
+		this.#ctx = this.$element.$at( 0 ).getContext( "2d" );
 	}
 
 	// .........................................................................
@@ -41,18 +42,18 @@ class gsuiAnalyserTd extends gsui0ne {
 		this.#setResDeb( w, h );
 	}
 	#setResolution( w, h ) {
-		this.$element.width = w;
-		this.$element.height = h;
+		this.#ctx.canvas.width = w;
+		this.#ctx.canvas.height = h;
 	}
 
 	// .........................................................................
 	$clear() {
-		this.#ctx.clearRect( 0, 0, this.$element.width, this.$element.height );
+		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, this.#ctx.canvas.height );
 	}
 	$draw( data ) {
 		const ctx = this.#ctx;
-		const w = this.$element.width;
-		const h = this.$element.height;
+		const w = this.#ctx.canvas.width;
+		const h = this.#ctx.canvas.height;
 		const xInc = w / data.length;
 		const calcY = gsuiAnalyserTd.#calcY.bind( null, data, this.#amp, h / 2, this.#pinch / 2 );
 		const r = Math.round( 255 - this.#drawMax * 255 );
