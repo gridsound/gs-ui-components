@@ -171,7 +171,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 		if ( prop === "toggle" ) {
 			this.$elements.$tabs
-				.$filter( `[data-tab="env ${ prop }"]` )
+				.$filter( `[data-tab="env ${ env }"]` )
 				.$child( 0 ).$attr( "off", !val );
 		}
 	}
@@ -182,7 +182,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 		if ( prop === "toggle" ) {
 			this.$elements.$tabs
-				.$filter( `[data-tab="lfo ${ prop }"]` )
+				.$filter( `[data-tab="lfo ${ lfo }"]` )
 				.$child( 0 ).$attr( "off", !val );
 		}
 	}
