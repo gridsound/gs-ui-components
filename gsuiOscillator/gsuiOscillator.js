@@ -19,8 +19,8 @@ class gsuiOscillator extends gsui0ne {
 		super( {
 			$cmpName: "gsuiOscillator",
 			$tagName: "gsui-oscillator",
-			$tmpArgs: [ Object.keys( gsuiOscillator_defaultWaves ) ],
 			$jqueryfy: true,
+			$tmpArgs: [ Object.keys( gsuiOscillator_defaultWaves ) ],
 			$elements: {
 				$id: ".gsuiOscillator-id",
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
