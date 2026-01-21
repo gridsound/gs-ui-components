@@ -20,18 +20,18 @@ class gsuiChannels extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$addBtn.$on( "click", () => GSUdomDispatch( this, GSEV_CHANNELS_ADDCHAN ) );
+		this.$elements.$addBtn.$on( "click", () => this.$this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );
 		GSUdomListen( this, {
 			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.#selectChannel( d.$targetId ),
-			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => GSUdomDispatch( this, GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
-			[ GSEV_CHANNEL_CONNECT ]: d => GSUdomDispatch( this, GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
+			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => this.$this.$dispatch( GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
+			[ GSEV_CHANNEL_CONNECT ]: d => this.$this.$dispatch( GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$pchans.$get( 0 ),
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",
-			$onchange: ( obj, chanId ) => GSUdomDispatch( this, GSEV_CHANNELS_REORDER, chanId, obj ),
+			$onchange: ( obj, chanId ) => this.$this.$dispatch( GSEV_CHANNELS_REORDER, chanId, obj ),
 		} );
 	}
 
@@ -54,7 +54,7 @@ class gsuiChannels extends gsui0ne {
 		GSUdomSetAttr( this.#chans[ id ], "selected" );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
-		GSUdomDispatch( this, GSEV_CHANNELS_SELECTCHAN, id );
+		this.$this.$dispatch( GSEV_CHANNELS_SELECTCHAN, id );
 	}
 	$openSelectChannelPopup( currChanId ) {
 		___( currChanId, "string" );
@@ -90,7 +90,7 @@ class gsuiChannels extends gsui0ne {
 		this.#chans[ id ] = chan;
 		chan.$analyser.$updateResolution();
 		GSUdomSetAttr( chan.$analyser, "type", this.#analyserType );
-		GSUdomDispatch( this, GSEV_CHANNELS_NBCHANNELSCHANGE );
+		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "main" ) {
@@ -113,7 +113,7 @@ class gsuiChannels extends gsui0ne {
 		}
 		delete this.#chans[ id ];
 		chan.remove();
-		GSUdomDispatch( this, GSEV_CHANNELS_NBCHANNELSCHANGE );
+		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 	}
 	$changeChannelProp( id, prop, val ) {
 		const chan = this.#chans[ id ];

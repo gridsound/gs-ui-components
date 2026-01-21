@@ -170,15 +170,17 @@ class gsuiWaveEditor extends gsui0ne {
 
 			switch ( act ) {
 				case "symmetry":
-					this.$this.$togAttr( "symmetry" );
-					GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { symmetry: this.$this.$hasAttr( "symmetry" ) } );
+					this.$this
+						.$togAttr( "symmetry" )
+						.$dispatch( GSEV_WAVEEDITOR_PARAM, { symmetry: this.$this.$hasAttr( "symmetry" ) } );
 					break;
 				case "tool": {
 					const t = btn.dataset.tool;
 
 					if ( t && this.$this.$attr( "tool" ) !== t ) {
-						this.$this.$attr( "tool", t );
-						GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { tool: t } );
+						this.$this
+							.$attr( "tool", t )
+							.$dispatch( GSEV_WAVEEDITOR_PARAM, { tool: t } );
 					}
 				} break;
 				case "mirror":
@@ -192,7 +194,7 @@ class gsuiWaveEditor extends gsui0ne {
 			if ( w && !GSUarrayEq( w, this.#waveArray, .005 ) ) {
 				this.#waveArray = w;
 				this.#drawWave();
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
+				this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, [ ...w ] );
 			}
 		}
 	}
@@ -219,7 +221,7 @@ class gsuiWaveEditor extends gsui0ne {
 				const bufData2 = GSUarrayResize( bufData, 2048 );
 
 				this.$setWaveArray( bufData2 );
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, bufData2 );
+				this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, bufData2 );
 			} );
 	}
 
@@ -245,7 +247,7 @@ class gsuiWaveEditor extends gsui0ne {
 			this.$elements.$wave.$get( 0 ).releasePointerCapture( e.pointerId );
 			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
 				this.#waveArray2 = null;
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
+				this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
 			}
 			this.#currentSquare = null;
 		}
@@ -293,14 +295,14 @@ class gsuiWaveEditor extends gsui0ne {
 		switch ( act ) {
 			case "div-x":
 			case "div-y":
-				GSUdomDispatch( this, GSEV_WAVEEDITOR_PARAM, { div: this.$this.$attr( "div" ) } );
+				this.$this.$dispatch( GSEV_WAVEEDITOR_PARAM, { div: this.$this.$attr( "div" ) } );
 				break;
 			case "mirror-x":
 			case "mirror-y":
 			case "phase":
 				GSUdomSetAttr( d.$target, "value", 0 );
 				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
-					GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
+					this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
 				}
 				this.#waveArray2 = null;
 				break;
@@ -312,7 +314,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn.$get( 0 ) );
 		this.#actionMenu.$setDirection( "RB" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( w => GSUdomDispatch( this, GSEV_WAVEEDITOR_CHANGE, this.$reset( w ) ) );
+		this.#actionMenu.$setCallback( w => this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, this.$reset( w ) ) );
 		this.#actionMenu.$setActions( [
 			{ id: "silence",  name: "Silence" },
 			{ id: "sine",     name: "Sine" },

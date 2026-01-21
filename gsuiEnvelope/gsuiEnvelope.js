@@ -124,11 +124,11 @@ class gsuiEnvelope extends gsui0ne {
 	#oninputSlider( prop, val ) {
 		this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, val ) );
 		this.$updateWave( prop, val );
-		GSUdomDispatch( this, GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
+		this.$this.$dispatch( GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
 		this.$this.$attr( prop, val );
-		GSUdomDispatch( this, GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
+		this.$this.$dispatch( GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
 	}
 	#updateBeatlinesColor() {
 		this.$elements.$beatlines.$attr( "color", this.$this.$css( "--gsuiEnvelope-wave-col" ) );

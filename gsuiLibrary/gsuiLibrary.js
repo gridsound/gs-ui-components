@@ -47,25 +47,25 @@ class gsuiLibrary extends gsui0ne {
 				const obj = { $name };
 
 				if ( tar.tagName === "GSUI-SLICER" ) {
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONSLICER, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONSLICER, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiPatterns-panel-list-wrap" ) ) {
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONPATTERNS, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
 				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
 					obj.$drumrowId = tar.dataset.id;
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONDRUMROW, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROW, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
 					obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONOSC, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSC, obj );
 				} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
 					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONOSCNEW, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSCNEW, obj );
 				} else {
 					obj.$when = Math.floor( drop.$offsetX / GSUdomGetAttrNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
 					obj.$track = tar.parentNode.dataset.id;
-					GSUdomDispatch( this, GSEV_LIBRARY_DROPONTRACKS, obj );
+					this.$this.$dispatch( GSEV_LIBRARY_DROPONTRACKS, obj );
 				}
 			},
 		} );
@@ -183,12 +183,12 @@ class gsuiLibrary extends gsui0ne {
 				? GSEV_LIBRARY_PLAYSAMPLE
 				: GSEV_LIBRARY_LOADSAMPLE;
 
-			GSUdomDispatch( this, act, el.dataset.id );
+			this.$this.$dispatch( act, el.dataset.id );
 		}
 	}
 	#oncontextmenu( e ) {
 		if ( GSUdomHasClass( e.target, "gsuiLibrary-sample" ) ) {
-			GSUdomDispatch( this, GSEV_LIBRARY_STOPSAMPLE );
+			this.$this.$dispatch( GSEV_LIBRARY_STOPSAMPLE );
 		}
 		return false;
 	}

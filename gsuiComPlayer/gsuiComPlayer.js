@@ -90,11 +90,11 @@ class gsuiComPlayer extends gsui0ne {
 	// .........................................................................
 	$play() {
 		this.$elements.$audio.$play();
-		GSUdomDispatch( this, GSEV_COMPLAYER_PLAY );
+		this.$this.$dispatch( GSEV_COMPLAYER_PLAY );
 	}
 	$pause() {
 		this.$elements.$audio.$pause();
-		GSUdomDispatch( this, GSEV_COMPLAYER_STOP );
+		this.$this.$dispatch( GSEV_COMPLAYER_STOP );
 	}
 
 	// .........................................................................
@@ -219,7 +219,7 @@ class gsuiComPlayer extends gsui0ne {
 					[ clazz ]: true,
 					deleted: act === "delete",
 				} );
-				GSUdomDispatch( this, GSEV_COMPLAYER_ACTION, act );
+				this.$this.$dispatch( GSEV_COMPLAYER_ACTION, act );
 				GSUsetTimeout( () => this.$this.$attr( clazz, false ), .35 );
 			} )
 			.finally( () => {

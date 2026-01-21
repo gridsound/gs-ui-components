@@ -83,8 +83,8 @@ class gsuiTimewindow extends gsui0ne {
 					const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, 0 );
 
 					this.#setScrollY( scrollBack );
-					this.$this.$attr( "lineheight", lhNew );
-					GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
+					this.$this.$attr( "lineheight", lhNew )
+						.$dispatch( GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
 					this.#lineHeightFloat = lhNewf;
 				}
 			},
@@ -421,11 +421,12 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#setNewPPB( ppb, ptrPx ) {
 		this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppb, ptrPx ) );
-		this.$this.$attr( {
-			step: this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( ppb ),
-			pxperbeat: ppb,
-		} );
-		GSUdomDispatch( this, GSEV_TIMEWINDOW_PXPERBEAT, ppb );
+		this.$this
+			.$attr( {
+				step: this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( ppb ),
+				pxperbeat: ppb,
+			} )
+			.$dispatch( GSEV_TIMEWINDOW_PXPERBEAT, ppb );
 	}
 	#onwheelPanel( e ) {
 		if ( e.ctrlKey ) {
@@ -438,8 +439,8 @@ class gsuiTimewindow extends gsui0ne {
 				const px = e.pageY - GSUdomBCRxy( this )[ 1 ] - this.$elements.$timeline.$height();
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
-				this.$this.$attr( "lineheight", lhNew );
-				GSUdomDispatch( this, GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
+				this.$this.$attr( "lineheight", lhNew )
+					.$dispatch( GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
 			}
 			this.#lineHeightFloat = lhNewf;
 		}

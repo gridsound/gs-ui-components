@@ -143,12 +143,12 @@ class gsuiLFO extends gsui0ne {
 			case "gsuiLFO-type":
 				this.$this.$attr( "type", e.target.value );
 				this.$updateWave();
-				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "type", e.target.value );
+				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
 				this.$this.$attr( "amp", -this.$this.$attr( "amp" ) );
 				this.$updateWave();
-				GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, "amp", +this.$this.$attr( "amp" ) );
+				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "amp", +this.$this.$attr( "amp" ) );
 				break;
 		}
 	}
@@ -159,15 +159,15 @@ class gsuiLFO extends gsui0ne {
 
 		this.#getPropOutput( prop ).$text( gsuiLFO.#formatVal( prop, val ) );
 		this.$updateWave( prop, realval );
-		GSUdomDispatch( this, GSEV_LFO_LIVECHANGE, this.#lfo, prop, realval );
+		this.$this.$dispatch( GSEV_LFO_LIVECHANGE, this.#lfo, prop, realval );
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
 			? val * Math.sign( this.$this.$attr( "amp" ) )
 			: val;
 
-		this.$this.$attr( prop, nval );
-		GSUdomDispatch( this, GSEV_LFO_CHANGE, this.#lfo, prop, nval );
+		this.$this.$attr( prop, nval )
+			.$dispatch( GSEV_LFO_CHANGE, this.#lfo, prop, nval );
 	}
 	#updateBeatlinesColor() {
 		this.$elements.$beatlines.$attr( "color", this.$this.$css( "--gsuiLFO-input-col" ) );

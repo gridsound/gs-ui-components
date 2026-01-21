@@ -34,32 +34,31 @@ class gsuiChannel extends gsui0ne {
 		GSUjq( [
 			this.$analyser,
 			this.$elements.$nameWrap,
-		] ).$on( "click", () => GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL ) );
-		this.$elements.$remove.$on( "click", () => GSUdomDispatch( this, GSEV_CHANNEL_REMOVE ) );
-		this.$elements.$connect.$on( "click", () => GSUdomDispatch( this, GSEV_CHANNEL_CONNECT ) );
+		] ).$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ) );
+		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_REMOVE ) );
+		this.$elements.$connect.$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_CONNECT ) );
 		this.$elements.$effects.$on( "click", e => {
 			if ( e.target.dataset.id ) {
-				GSUdomDispatch( this, GSEV_CHANNEL_SELECTCHANNEL );
-				GSUdomDispatch( this, GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
+				this.$this
+					.$dispatch( GSEV_CHANNEL_SELECTCHANNEL )
+					.$dispatch( GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
 			}
 		} );
 		this.$elements.$rename.$on( "click", () => {
 			GSUpopup.$prompt( "Rename channel", "", this.$this.$attr( "name" ) )
-				.then( name => GSUdomDispatch( this, GSEV_CHANNEL_RENAME, name ) );
+				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				this.$this.$attr( "muted", !b );
-				GSUdomDispatch( this, GSEV_CHANNEL_TOGGLE, b );
+				this.$this.$attr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				this.$this.$attr( "muted", false );
-				GSUdomDispatch( this, GSEV_CHANNEL_TOGGLESOLO );
+				this.$this.$attr( "muted", false ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => GSUdomDispatch( this, GSEV_CHANNEL_LIVECHANGE, d.$target.dataset.prop, val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_CHANNEL_CHANGE, d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_LIVECHANGE, d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_CHANGE, d.$target.dataset.prop, val ),
 		} );
 	}
 

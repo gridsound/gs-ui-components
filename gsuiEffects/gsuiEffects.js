@@ -27,14 +27,14 @@ class gsuiEffects extends gsui0ne {
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
 			$itemGripSelector: ".gsuiEffect-grip",
-			$onchange: ( obj, fxId ) => GSUdomDispatch( this, GSEV_EFFECTS_REORDEREFFECT, fxId, obj ),
+			$onchange: ( obj, fxId ) => this.$this.$dispatch( GSEV_EFFECTS_REORDEREFFECT, fxId, obj ),
 		} );
 		GSUdomListen( this, {
-			[ GSEV_EFFECT_REMOVE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_REMOVEEFFECT, d.$targetId ),
-			[ GSEV_EFFECT_TOGGLE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_TOGGLEEFFECT, d.$targetId ),
-			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => GSUdomDispatch( this, GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
-			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
-			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => GSUdomDispatch( this, GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_REMOVE ]: d => this.$this.$dispatch( GSEV_EFFECTS_REMOVEEFFECT, d.$targetId ),
+			[ GSEV_EFFECT_TOGGLE ]: d => this.$this.$dispatch( GSEV_EFFECTS_TOGGLEEFFECT, d.$targetId ),
+			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => this.$this.$dispatch( GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
 		} );
 	}
 
@@ -94,7 +94,7 @@ class gsuiEffects extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn.$get( 0 ) );
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( act => GSUdomDispatch( this, GSEV_EFFECTS_ADDEFFECT, act ) );
+		this.#actionMenu.$setCallback( act => this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, act ) );
 		this.#actionMenu.$setActions( [
 			{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
 			{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },

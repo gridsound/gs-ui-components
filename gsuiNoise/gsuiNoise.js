@@ -25,8 +25,7 @@ class gsuiNoise extends gsui0ne {
 			change: () => {
 				const col = this.$elements.$colorSelect.$value();
 
-				this.$this.$attr( "color", col );
-				GSUdomDispatch( this, GSEV_NOISE_CHANGE, "color", col );
+				this.$this.$attr( "color", col ).$dispatch( GSEV_NOISE_CHANGE, "color", col );
 			},
 		} );
 		GSUdomListen( this, {
@@ -34,10 +33,10 @@ class gsuiNoise extends gsui0ne {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				this.#setValue( d.$target.dataset.prop, val );
-				GSUdomDispatch( this, GSEV_NOISE_INPUT, d.$target.dataset.prop, val );
+				this.$this.$dispatch( GSEV_NOISE_INPUT, d.$target.dataset.prop, val );
 			},
 			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => {
-				GSUdomDispatch( this, GSEV_NOISE_CHANGE, d.$target.dataset.prop, val );
+				this.$this.$dispatch( GSEV_NOISE_CHANGE, d.$target.dataset.prop, val );
 			},
 		} );
 	}

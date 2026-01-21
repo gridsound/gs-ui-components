@@ -16,15 +16,15 @@ class gsuiEffect extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$remove.$on( "click", () => GSUdomDispatch( this, GSEV_EFFECT_REMOVE ) );
+		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_EFFECT_REMOVE ) );
 		this.$elements.$expand.$on( "click", () => {
 			this.$this.$togAttr( "expanded" );
-			GSUdomDispatch( this, GSEV_EFFECT_EXPAND );
+			this.$this.$dispatch( GSEV_EFFECT_EXPAND );
 		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: () => {
 				this.$this.$togAttr( "enable" );
-				GSUdomDispatch( this, GSEV_EFFECT_TOGGLE );
+				this.$this.$dispatch( GSEV_EFFECT_TOGGLE );
 			},
 		} );
 	}

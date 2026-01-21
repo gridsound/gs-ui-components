@@ -33,7 +33,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$head.$on( "click", e => {
 			switch ( e.target.dataset.action ) {
 				case "back":
-					GSUdomDispatch( this, GSEV_WAVETABLE_BACK );
+					this.$this.$dispatch( GSEV_WAVETABLE_BACK );
 					break;
 			}
 		} );
@@ -189,7 +189,7 @@ class gsuiWavetable extends gsui0ne {
 			obj2.tool = editor.$attr( "tool" );
 			obj2.symmetry = editor.$hasAttr( "symmetry" );
 		}
-		GSUdomDispatch( this, GSEV_WAVETABLE_CHANGE, this.$change( obj2 ) );
+		this.$this.$dispatch( GSEV_WAVETABLE_CHANGE, this.$change( obj2 ) );
 		this.#waveNull = false;
 		if ( obj2.wave ) {
 			this.#wtwaves_selectWave( obj2.wave );
@@ -323,7 +323,7 @@ class gsuiWavetable extends gsui0ne {
 			this.#wtwaves_getElem( wId ).$attr( "data-selected", true );
 			GSUdomScrollIntoViewX( this.#wtwaves_getElem( wId ).$get( 0 ), this.$elements.$waves.$get( 0 ) );
 			if ( !this.#waveNull ) {
-				GSUdomDispatch( this, GSEV_WAVETABLE_PARAM, { wave: wId } );
+				this.$this.$dispatch( GSEV_WAVETABLE_PARAM, { wave: wId } );
 			}
 		}
 	}
@@ -355,7 +355,7 @@ class gsuiWavetable extends gsui0ne {
 		wtDotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		wtDotline.$change( wtposCurve.curve );
 		this.#keyPreviews.forEach( p => p.$elemA.$css( "display", p.$wtposCurveId === id ? "block" : "none" ) );
-		GSUdomDispatch( this, GSEV_WAVETABLE_SELECTCURVE, id );
+		this.$this.$dispatch( GSEV_WAVETABLE_SELECTCURVE, id );
 	}
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;
