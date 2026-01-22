@@ -21,6 +21,7 @@ class gsuiSliderGroup extends gsui0ne {
 		super( {
 			$cmpName: "gsuiSliderGroup",
 			$tagName: "gsui-slidergroup",
+			$jqueryfy: true,
 			$elements: {
 				$slidersParent: ".gsuiSliderGroup-sliders",
 				$defValue: ".gsuiSliderGroup-defaultValue",
@@ -41,10 +42,10 @@ class gsuiSliderGroup extends gsui0ne {
 		const beatlines = this.hasAttribute( "beatlines" );
 
 		if ( !beatlines ) {
-			this.$elements.$beatlines.remove();
-			this.$elements.$currentTime.remove();
-			this.$elements.$loopA.remove();
-			this.$elements.$loopB.remove();
+			this.$elements.$beatlines.$remove();
+			this.$elements.$currentTime.$remove();
+			this.$elements.$loopA.$remove();
+			this.$elements.$loopB.$remove();
 			this.$elements.$beatlines =
 			this.$elements.$currentTime =
 			this.$elements.$loopA =
@@ -64,24 +65,24 @@ class gsuiSliderGroup extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
+				this.$elements.$beatlines.$attr( "timedivision", val );
 				break;
 			case "pxperbeat":
 				this.#updatePxPerBeat();
 				break;
 			case "currenttime":
-				this.$elements.$currentTime.style.left = `${ val }em`;
+				this.$elements.$currentTime.$left( val, "em" );
 				break;
 			case "loopa":
-				GSUdomTogClass( this.$elements.$loopA, "gsuiSliderGroup-loopOn", val );
+				this.$elements.$loopA.$togClass( "gsuiSliderGroup-loopOn", val );
 				if ( val ) {
-					this.$elements.$loopA.style.width = `${ val }em`;
+					this.$elements.$loopA.$width( val, "em" );
 				}
 				break;
 			case "loopb":
-				GSUdomTogClass( this.$elements.$loopB, "gsuiSliderGroup-loopOn", val );
+				this.$elements.$loopB.$togClass( "gsuiSliderGroup-loopOn", val );
 				if ( val ) {
-					this.$elements.$loopB.style.left = `${ val }em`;
+					this.$elements.$loopB.$left( val, "em" );
 				}
 				break;
 		}
@@ -99,7 +100,7 @@ class gsuiSliderGroup extends gsui0ne {
 		this.#max = max;
 		this.#step = step;
 		this.#def = def ?? max;
-		this.$elements.$defValue.style.top = `${ 100 - ( this.#def - min ) / ( max - min ) * 100 }%`;
+		this.$elements.$defValue.$top( 100 - ( this.#def - min ) / ( max - min ) * 100, "%" );
 	}
 
 	// .........................................................................
@@ -117,7 +118,7 @@ class gsuiSliderGroup extends gsui0ne {
 		this.#sliderWhen( sli, when );
 		this.#sliderValue( sli, value );
 		this.#sliderDuration( sli, duration );
-		this.$elements.$slidersParent.append( element );
+		this.$elements.$slidersParent.$append( element );
 	}
 	$setProp( id, prop, value ) {
 		const sli = this.#sliders.get( id );
@@ -133,11 +134,11 @@ class gsuiSliderGroup extends gsui0ne {
 		return GSUmathFix( GSUmathRound( val, this.#step ), 8 );
 	}
 	#updatePxPerBeat() {
-		const ppb = GSUdomGetAttrNum( this, "pxperbeat" );
+		const ppb = +this.$this.$attr( "pxperbeat" );
 
-		this.$elements.$slidersParent.style.fontSize = `${ ppb }px`;
+		this.$elements.$slidersParent.$css( "fontSize", `${ ppb }px` );
 		if ( this.$elements.$beatlines ) {
-			GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", ppb );
+			this.$elements.$beatlines.$attr( "pxperbeat", ppb );
 		}
 	}
 	#sliderWhen( sli, when ) {
@@ -178,7 +179,7 @@ class gsuiSliderGroup extends gsui0ne {
 	// .........................................................................
 	$onptrdown( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
-			this.#bcr = GSUdomBCR( this.$elements.$slidersParent );
+			this.#bcr = GSUdomBCR( this.$elements.$slidersParent.$get( 0 ) );
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
