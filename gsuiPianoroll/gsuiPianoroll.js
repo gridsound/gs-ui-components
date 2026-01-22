@@ -59,6 +59,7 @@ class gsuiPianoroll extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPianoroll",
 			$tagName: "gsui-pianoroll",
+			$jqueryfy: true,
 			$attributes: { tabindex: -1 },
 		} );
 		this.uiKeys = GSUcreateElement( "gsui-keys" );
@@ -101,8 +102,9 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		GSUdomAddClass( this, "gsuiBlocksManager" );
-		this.append( this.#win );
+		this.$this
+			.$addClass( "gsuiBlocksManager" )
+			.$append( this.#win );
 		this.#win.$appendPanel( this.uiKeys );
 		this.#win.$appendPanelDown( this.#propSelect );
 		this.#win.$appendDown( this.#uiSliderGroup );
@@ -361,7 +363,7 @@ class gsuiPianoroll extends gsui0ne {
 		if ( prop.startsWith( "gainLFO" ) ) {
 			kvArr.forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
 		}
-		GSUdomDispatch( this, GSEV_PIANOROLL_CHANGEKEYSPROPS, prop, kvArr );
+		this.$this.$dispatch( GSEV_PIANOROLL_CHANGEKEYSPROPS, prop, kvArr );
 	}
 	static #xToMul( x ) {
 		switch ( x ) {
@@ -449,7 +451,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ondropMIDI( mid ) {
 		const rd = new FileReader();
 
-		rd.onload = e => GSUdomDispatch( this, GSEV_PIANOROLL_MIDIDROPPED, new Uint8Array( e.target.result ) );
+		rd.onload = e => this.$this.$dispatch( GSEV_PIANOROLL_MIDIDROPPED, new Uint8Array( e.target.result ) );
 		rd.readAsArrayBuffer( mid );
 	}
 

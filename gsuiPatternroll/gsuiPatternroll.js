@@ -37,6 +37,7 @@ class gsuiPatternroll extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPatternroll",
 			$tagName: "gsui-patternroll",
+			$jqueryfy: true,
 			$attributes: { tabindex: -1 },
 		} );
 		Object.seal( this );
@@ -53,8 +54,9 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		GSUdomAddClass( this, "gsuiBlocksManager" );
-		this.append( this.#win );
+		this.$this
+			.$addClass( "gsuiBlocksManager" )
+			.$append( this.#win );
 		this.#win.$appendPanel( this.#tracklist );
 		this.#win.$appendMain( this.#selectionElement );
 	}
