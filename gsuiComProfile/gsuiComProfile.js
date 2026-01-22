@@ -13,6 +13,7 @@ class gsuiComProfile extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComProfile",
 			$tagName: "gsui-com-profile",
+			$jqueryfy: true,
 			$elements: {
 				$avatar: "gsui-com-avatar",
 				$email: ".gsuiComProfile-email-addr span",
@@ -35,7 +36,7 @@ class gsuiComProfile extends gsui0ne {
 		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
 		this.onmouseenter =
-		this.onmouseleave = () => GSUdomRmAttr( this, "followedjustnow" );
+		this.onmouseleave = () => this.$this.$attr( "followedjustnow", false );
 	}
 
 	// .........................................................................
@@ -45,25 +46,25 @@ class gsuiComProfile extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "username": this.$elements.$username.textContent = val; break;
-			case "email": this.$elements.$email.textContent = val; break;
-			case "emailpublic": this.$elements.$emailpub.dataset.icon = val === "" ? "public" : "private"; break;
-			case "lastname": this.$elements.$lastname.textContent = val; break;
-			case "firstname": this.$elements.$firstname.textContent = val; break;
-			case "avatar": GSUdomSetAttr( this.$elements.$avatar, "src", val || false ); break;
-			case "emailtoverify": this.$elements.$emailVerifyText.textContent = val !== "" ? "" : gsuiComProfile.#emailTexts.$verify; break;
+			case "username": this.$elements.$username.$text( val ); break;
+			case "email": this.$elements.$email.$text( val ); break;
+			case "emailpublic": this.$elements.$emailpub.$attr( "data-icon", val === "" ? "public" : "private" ); break;
+			case "lastname": this.$elements.$lastname.$text( val ); break;
+			case "firstname": this.$elements.$firstname.$text( val ); break;
+			case "avatar": this.$elements.$avatar.$attr( "src", val || false ); break;
+			case "emailtoverify": this.$elements.$emailVerifyText.$text( val !== "" ? "" : gsuiComProfile.#emailTexts.$verify ); break;
 			case "followed": this.#updateFollowed( val === "" ); break;
-			case "followers": this.$elements.$followersBtn.textContent = val; break;
-			case "following": this.$elements.$followingBtn.textContent = val; break;
+			case "followers": this.$elements.$followersBtn.$text( val ); break;
+			case "following": this.$elements.$followingBtn.$text( val ); break;
 		}
 		switch ( prop ) {
 			case "username":
 			case "lastname":
 			case "firstname":
-				GSUdomSetAttr( this.$elements.$name, "title",
-					`/u/${ this.$elements.$username.textContent
-					} : ${ this.$elements.$firstname.textContent || "--"
-					} ${ this.$elements.$lastname.textContent || "--" }` );
+				this.$elements.$name.$attr( "title",
+					`/u/${ this.$elements.$username.$text()
+					} : ${ this.$elements.$firstname.$text() || "--"
+					} ${ this.$elements.$lastname.$text() || "--" }` );
 				break;
 		}
 	}
@@ -74,34 +75,35 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	#updateFollowed( b ) {
-		GSUdomSetAttr( this.$elements.$followBtn, b
+		this.$elements.$followBtn.$attr( b
 			? { "data-icon": "follow", title: "Follow" }
 			: { "data-icon": "followed", title: "Unfollow" } );
 	}
 	#updateFollowLoading( b ) {
-		GSUdomTogClass( this.$elements.$followBtn, "gsuiIcon", b );
-		GSUdomSetAttr( this.$elements.$followBtn, b
-			? { "data-spin": "on", disabled: true }
-			: { "data-spin": false, disabled: false } );
+		this.$elements.$followBtn
+			.$togClass( "gsuiIcon", b )
+			.$attr( b
+				? { "data-spin": "on", disabled: true }
+				: { "data-spin": false, disabled: false } );
 	}
 	#onclick( e ) {
 		switch ( e.target.dataset.what ) {
-			case "edit": GSUdomDispatch( this, GSEV_COMPROFILE_EDIT ); break;
-			case "followers": GSUdomDispatch( this, GSEV_COMPROFILE_FOLLOWERS ); break;
-			case "following": GSUdomDispatch( this, GSEV_COMPROFILE_FOLLOWING ); break;
+			case "edit": this.$this.$dispatch( GSEV_COMPROFILE_EDIT ); break;
+			case "followers": this.$this.$dispatch( GSEV_COMPROFILE_FOLLOWERS ); break;
+			case "following": this.$this.$dispatch( GSEV_COMPROFILE_FOLLOWING ); break;
 			case "follow": this.#onclickFollow(); break;
 			case "verify": this.#onclickVerify(); break;
 		}
 	}
 	#onclickFollow() {
-		const willFollow = !GSUdomHasAttr( this, "followed" );
+		const willFollow = !this.$this.$hasAttr( "followed" );
 
 		this.#updateFollowLoading( true );
 		this.#followPromise?.( willFollow )
 			.then( () => {
-				GSUdomSetAttr( this, {
+				this.$this.$attr( {
 					followed: willFollow,
-					followers: GSUdomGetAttrNum( this, "followers" ) + willFollow * 2 - 1,
+					followers: +this.$this.$attr( "followers" ) + willFollow * 2 - 1,
 					followedjustnow: willFollow,
 				} );
 			} )
@@ -109,13 +111,13 @@ class gsuiComProfile extends gsui0ne {
 			.finally( () => this.#updateFollowLoading( false ) );
 	}
 	#onclickVerify() {
-		if ( !GSUdomHasAttr( this, "emailsending" ) ) {
-			GSUdomSetAttr( this, "emailsending" );
-			this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sending;
+		if ( !this.$this.$hasAttr( "emailsending" ) ) {
+			this.$this.$attr( "emailsending" );
+			this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sending );
 			this.#verifyPromise?.()
-				.then( () => this.$elements.$emailVerifyText.textContent = gsuiComProfile.#emailTexts.$sent )
-				.catch( err => this.$elements.$emailVerifyText.textContent = err )
-				.finally( () => GSUdomRmAttr( this, "emailsending" ) );
+				.then( () => this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sent ) )
+				.catch( err => this.$elements.$emailVerifyText.$text( err ) )
+				.finally( () => this.$this.$attr( "emailsending", false ) );
 		}
 	}
 }
