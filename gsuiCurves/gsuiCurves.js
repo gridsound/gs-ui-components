@@ -4,12 +4,13 @@ class gsuiCurves extends gsui0ne {
 	#size = Object.seal( [ 0, 0 ] );
 	#curves = new Map();
 	#nyquist = 24000;
-	#analyserResolutionDeb = GSUdebounce( w => GSUdomSetAttr( this.$elements.$analyser, "resolution", w ), .2 );
+	#analyserResolutionDeb = GSUdebounce( w => this.$elements.$analyser.$attr( "resolution", w ), .2 );
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiCurves",
 			$tagName: "gsui-curves",
+			$jqueryfy: true,
 			$elements: {
 				$analyser: "gsui-analyser-hz",
 				$svg: "svg",
@@ -26,37 +27,37 @@ class gsuiCurves extends gsui0ne {
 		this.$onresize();
 	}
 	$onresize() {
-		const [ w, h ] = GSUdomBCRwh( this.$elements.$svg );
+		const [ w, h ] = GSUdomBCRwh( this.$elements.$svg.$get( 0 ) );
 
 		this.#size[ 0 ] = w;
 		this.#size[ 1 ] = h;
-		GSUdomViewBox( this.$elements.$svg, w, h );
+		this.$elements.$svg.$viewbox( w, h );
 		this.#analyserResolutionDeb( w );
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
-			GSUdomSetAttr( GSUdomQS( this.$elements.$curves, `[data-id="${ id }"]` ), "d", this.#createPathD( curve ) );
+			this.$elements.$curves.$find( `[data-id="${ id }"]` ).$attr( "d", this.#createPathD( curve ) );
 		} );
 	}
 	$getWidth() {
 		return this.#size[ 0 ];
 	}
 	$drawAnalyser( data ) {
-		this.$elements.$analyser.$draw( data );
+		this.$elements.$analyser.$get( 0 ).$draw( data );
 	}
 	$setCurve( id, curve ) {
-		const path = GSUdomQS( this.$elements.$curves, `[data-id="${ id }"]` );
+		const path = this.$elements.$curves.$find( `[data-id="${ id }"]` );
 
 		if ( curve ) {
 			this.#curves.set( id, curve );
-			if ( path ) {
-				GSUdomSetAttr( path, "d", this.#createPathD( curve ) );
+			if ( path.$size() ) {
+				path.$attr( "d", this.#createPathD( curve ) );
 			} else {
 				this.#createPath( id, curve );
 			}
 		} else {
 			this.#curves.delete( id );
-			path.remove();
+			path.$remove();
 		}
 	}
 
@@ -64,7 +65,7 @@ class gsuiCurves extends gsui0ne {
 	#updateLinePos() {
 		const [ w, h ] = this.#size;
 
-		GSUdomSetAttr( this.$elements.$line, {
+		this.$elements.$line.$attr( {
 			x1: 0,
 			x2: w,
 			y1: h / 2,
@@ -75,9 +76,8 @@ class gsuiCurves extends gsui0ne {
 		const el = this.$elements.$marks;
 		const nb = this.#size[ 0 ] / 36 | 0;
 
-		if ( nb !== el.children.length ) {
-			GSUdomEmpty( el );
-			el.append( ...GSUnewArray( nb, i => {
+		if ( nb !== el.$children().$size() ) {
+			el.$empty().$append( ...GSUnewArray( nb, i => {
 				const Hz = Math.round( GSUXtoHz( i / nb ) * this.#nyquist );
 
 				return GSUcreateDiv( { "data-hz": Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` } );
@@ -85,7 +85,7 @@ class gsuiCurves extends gsui0ne {
 		}
 	}
 	#createPath( id, curve ) {
-		this.$elements.$curves.append( GSUcreateElement( "path", {
+		this.$elements.$curves.$append( GSUcreateElement( "path", {
 			class: "gsuiCurves-curve",
 			"data-id": id,
 			d: this.#createPathD( curve ),
