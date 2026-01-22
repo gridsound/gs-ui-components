@@ -7,6 +7,7 @@ class gsuiJoystick extends gsui0ne {
 		super( {
 			$cmpName: "gsuiJoystick",
 			$tagName: "gsui-joystick",
+			$jqueryfy: true,
 			$template: GSUcreateElement( "div", { inert: true } ),
 		} );
 		Object.seal( this );
@@ -18,20 +19,20 @@ class gsuiJoystick extends gsui0ne {
 	}
 	$onptrdown( e ) {
 		e.preventDefault();
-		GSUdomSetAttr( this, "moving" );
 		this.#moveJoystick( e );
-		GSUdomDispatch( this, GSEV_JOYSTICK_START, ...this.#coord );
+		this.$this.$attr( "moving", true )
+			.$dispatch( GSEV_JOYSTICK_START, ...this.#coord );
 	}
 	$onptrup() {
-		GSUdomRmAttr( this, "moving" );
-		GSUdomDispatch( this, GSEV_JOYSTICK_END, ...this.#coord );
+		this.$this.$attr( "moving", false )
+			.$dispatch( GSEV_JOYSTICK_END, ...this.#coord );
 	}
 	$onptrmove( e ) {
 		const old = [ ...this.#coord ];
 
 		this.#moveJoystick( e );
 		if ( !GSUarrayEq( old, this.#coord ) ) {
-			GSUdomDispatch( this, GSEV_JOYSTICK_MOVE, ...this.#coord );
+			this.$this.$dispatch( GSEV_JOYSTICK_MOVE, ...this.#coord );
 		}
 	}
 
@@ -39,10 +40,9 @@ class gsuiJoystick extends gsui0ne {
 	#moveJoystick( e ) {
 		this.#coord[ 0 ] = GSUmathClamp( e.offsetX / this.offsetWidth, 0, 1 );
 		this.#coord[ 1 ] = GSUmathClamp( e.offsetY / this.offsetHeight, 0, 1 );
-		GSUdomStyle( this.$element, {
-			left: `${ this.#coord[ 0 ] * 100 }%`,
-			top: `${ this.#coord[ 1 ] * 100 }%`,
-		} );
+		this.$element
+			.$left( this.#coord[ 0 ] * 100, "%" )
+			.$top( this.#coord[ 1 ] * 100, "%" );
 	}
 }
 
