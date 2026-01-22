@@ -8,6 +8,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPeriodicWave",
 			$tagName: "gsui-periodicwave",
+			$jqueryfy: true,
 			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true } ),
 		} );
 		Object.seal( this );
@@ -32,7 +33,7 @@ class gsuiPeriodicWave extends gsui0ne {
 			duration: 1,
 			opacity: 1,
 		} ) );
-		GSUdomSetChildrenLength( this.$element, n, "polyline" );
+		GSUdomSetChildrenLength( this.$element.$get( 0 ), n, "polyline" );
 	}
 	$options( lineN, opt ) {
 		if ( this.#options[ lineN ] ) {
@@ -41,14 +42,14 @@ class gsuiPeriodicWave extends gsui0ne {
 		}
 	}
 	$resized() {
-		GSUdomViewBox( this.$element, this.clientWidth, this.clientHeight );
+		this.$element.$viewbox( this.clientWidth, this.clientHeight );
 		this.#options.forEach( ( _, i ) => this.#drawLine( i ) );
 	}
 	#drawLine( lineN ) {
 		const opt = this.#options[ lineN ];
 
 		if ( opt && opt.type in gsuiPeriodicWave.#cache ) {
-			GSUdomSetAttr( this.$element.children[ lineN ], {
+			this.$element.$child( lineN ).$attr( {
 				points: gsuiPeriodicWave.#draw( this.#getDrawData( lineN ) ),
 				"stroke-opacity": opt.opacity,
 			} );
