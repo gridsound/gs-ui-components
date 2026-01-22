@@ -8,6 +8,7 @@ class gsuiMixer extends gsui0ne {
 		super( {
 			$cmpName: "gsuiMixer",
 			$tagName: "gsui-mixer",
+			$jqueryfy: true,
 			$elements: {
 				$channels: "gsui-channels",
 				$effects: "gsui-effects",
@@ -18,12 +19,12 @@ class gsuiMixer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$analyserType.onclick = () => {
+		this.$elements.$analyserType.$on( "click", () => {
 			const type = GSUdomGetAttr( this, "analyser" ) === "hz" ? "td" : "hz";
 
 			GSUdomSetAttr( this, "analyser", type );
 			GSUdomDispatch( this, GSEV_MIXER_CHANGEANALYSER, type );
-		};
+		} );
 		GSUdomListen( this, {
 			[ GSEV_CHANNELS_NBCHANNELSCHANGE ]: () => this.#shadowChans.$update(),
 			[ GSEV_EFFECT_EXPAND ]: () => GSUsetTimeout( () => this.#shadowEffects.$update(), .1 ),
@@ -38,7 +39,7 @@ class gsuiMixer extends gsui0ne {
 			rightShadow: GSUdomQS( this, ".gsuiMixer-effects" ),
 		} );
 		this.#shadowEffects = new gsuiScrollShadow( {
-			scrolledElem: this.$elements.$effects,
+			scrolledElem: this.$elements.$effects.$get( 0 ),
 			topShadow: GSUdomQS( this, ".gsuiMixer-effects .gsuiMixer-head" ),
 			bottomShadow: GSUdomQS( this, ".gsuiMixer-effects .gsuiMixer-bottomShadow" ),
 		} );
@@ -53,14 +54,14 @@ class gsuiMixer extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "analyser":
-				this.$elements.$channels.$setAnalyserType( val );
+				this.$elements.$channels.$get( 0 ).$setAnalyserType( val );
 				break;
 		}
 	}
 
 	// .........................................................................
-	$getChannels() { return this.$elements.$channels; }
-	$getEffects() { return this.$elements.$effects; }
+	$getChannels() { return this.$elements.$channels.$get( 0 ); }
+	$getEffects() { return this.$elements.$effects.$get( 0 ); }
 }
 
 GSUdomDefine( "gsui-mixer", gsuiMixer );
