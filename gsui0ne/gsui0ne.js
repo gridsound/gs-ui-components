@@ -18,10 +18,12 @@ class gsui0ne extends HTMLElement {
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
 			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )
 			: null );
+		if ( o.$jqueryfy ) {
+			this.$this = GSUjq( this );
+		}
 		if ( this.#children ) {
 			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
 			if ( o.$jqueryfy ) {
-				this.$this = GSUjq( this );
 				this.$element = GSUjq( this.$element );
 			}
 			this.$elements = !o.$jqueryfy
