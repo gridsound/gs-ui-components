@@ -30,8 +30,8 @@ class gsuiDotline extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDotline",
 			$tagName: "gsui-dotline",
+			$jqueryfy: true,
 			$elements: {
-				$root: ".gsuiDotline-padding",
 				$svg: "gsui-dotlinesvg",
 				$slider: "gsui-slider",
 			},
@@ -88,27 +88,27 @@ class gsuiDotline extends gsui0ne {
 				this.#ymax = +v[ 3 ];
 				this.#w = this.#xmax - this.#xmin;
 				this.#h = this.#ymax - this.#ymin;
-				this.$elements.$svg.$setDataBox( val );
+				this.$elements.$svg.$get( 0 ).$setDataBox( val );
 				GSUforEach( this.#data, ( d, id ) => this.#updateDotElement( { id, ...d } ) );
 				this.#drawPolyline();
 			} break;
 			case "beatlines":
 				if ( val === "" && !this.#beatlines ) {
 					this.#beatlines = [
-						GSUcreateElement( "gsui-beatlines", { timedivision: "5/10" } ),
-						GSUcreateElement( "gsui-beatlines", { timedivision: "5/10", vertical: true } ),
+						GSUjq( "<gsui-beatlines>" ).$attr( { timedivision: "5/10" } ),
+						GSUjq( "<gsui-beatlines>" ).$attr( { timedivision: "5/10", vertical: true } ),
 					];
-					this.$elements.$root.prepend( ...this.#beatlines );
+					this.$element.$prepend( ...this.#beatlines );
 				}
 				break;
 		}
 	}
 	$onresize( w, h ) {
-		this.$elements.$svg.$setSVGSize( w, h );
+		this.$elements.$svg.$get( 0 ).$setSVGSize( w, h );
 		this.#drawPolyline();
 		if ( this.#beatlines ) {
-			GSUdomSetAttr( this.#beatlines[ 0 ], "pxperbeat", this.$elements.$svg.firstChild.clientWidth / 10 );
-			GSUdomSetAttr( this.#beatlines[ 1 ], "pxperbeat", this.$elements.$svg.firstChild.clientHeight / 10 );
+			this.#beatlines[ 0 ].$attr( "pxperbeat", this.$elements.$svg.$child( 0 ).$width() / 10 );
+			this.#beatlines[ 1 ].$attr( "pxperbeat", this.$elements.$svg.$child( 0 ).$height() / 10 );
 		}
 	}
 
@@ -181,7 +181,7 @@ class gsuiDotline extends gsui0ne {
 	#drawPolyline() {
 		const cdots = { ...this.#cdots };
 
-		this.$elements.$svg.$setCurve( this.#data );
+		this.$elements.$svg.$get( 0 ).$setCurve( this.#data );
 		this.#dataSorted.reduce( ( prev, [ id, dot ] ) => {
 			if ( prev ) {
 				const prevXp = this.#getPercX( prev.x );
@@ -194,7 +194,7 @@ class gsuiDotline extends gsui0ne {
 				if ( !cdot ) {
 					cdot =
 					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
-					this.$elements.$root.append( cdot );
+					this.$element.$append( cdot );
 				}
 				GSUdomSetAttr( cdot, "data-type", dot.type );
 				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) * .5 + prevXp }%`;
@@ -239,8 +239,8 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
-	#getW() { return this.$elements.$root.clientWidth; }
-	#getH() { return this.$elements.$root.clientHeight; }
+	#getW() { return this.$element.$width(); }
+	#getH() { return this.$element.$height(); }
 	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, GSUdomGetAttrNum( this, "xstep" ) ); }
 	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, GSUdomGetAttrNum( this, "ystep" ) ); }
 	#getPercX( x ) { return         ( x - this.#xmin ) / this.#w * 100; }
@@ -257,7 +257,7 @@ class gsuiDotline extends gsui0ne {
 			this.#data[ id ] = Object.seal( { x: 0, y: 0, type: null, val: null } );
 			this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
 			this.#updateDotElement( args );
-			this.$elements.$root.append( this.#dots[ id ] );
+			this.$element.$append( this.#dots[ id ] );
 			this.#sortDots();
 			return id;
 		}
@@ -370,7 +370,7 @@ class gsuiDotline extends gsui0ne {
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
-			GSUdomSetAttr( this.$elements.$slider, "value", dot.val );
+			this.$elements.$slider.$attr( "value", dot.val );
 			this.#drawPolyline();
 			this.#onchange( { [ id ]: { val: dot.val } } );
 		}
@@ -438,11 +438,12 @@ class gsuiDotline extends gsui0ne {
 			const dotBY = this.#dataSorted[ ind     ][ 1 ].y;
 
 			this.#activeDotId = id;
-			GSUdomSetAttr( this.$elements.$slider, {
+			this.$elements.$slider.$attr( {
 				revert: dotAY > dotBY,
 				value: this.#data[ id ].val,
 			} );
-			this.$elements.$slider.$ptrDown( e );
+			this.$elements.$slider.$get( 0 ).$ptrDown( e ); // ? $trigger
+			// this.$elements.$slider.$trigger( "pointerdown", e );
 		}
 	}
 	$onptrup() {

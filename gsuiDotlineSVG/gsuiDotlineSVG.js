@@ -15,8 +15,8 @@ class gsuiDotlineSVG extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDotlineSVG",
 			$tagName: "gsui-dotlinesvg",
+			$jqueryfy: true,
 			$elements: {
-				$svg: "svg",
 				$path: "path",
 			},
 		} );
@@ -28,7 +28,7 @@ class gsuiDotlineSVG extends gsui0ne {
 		this.#svgW = w;
 		this.#svgH = h;
 		this.#resW = w * 2;
-		GSUdomViewBox( this.$elements.$svg, w, h );
+		this.$element.$viewbox( w, h );
 	}
 	$setDataBox( box ) {
 		const n = box.split( " " );
@@ -50,7 +50,7 @@ class gsuiDotlineSVG extends gsui0ne {
 			curveDots.push( "M", this.#calcX( xy0[ 0 ] ), this.#calcY( xy0[ 1 ] ) );
 			xy.forEach( dot => curveDots.push( "L", this.#calcX( dot[ 0 ] ), this.#calcY( dot[ 1 ] ) ) );
 		}
-		GSUdomSetAttr( this.$elements.$path, "d", curveDots.join( " " ) );
+		this.$elements.$path.$attr( "d", curveDots.join( " " ) );
 	}
 
 	// .........................................................................
