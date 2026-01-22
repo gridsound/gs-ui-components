@@ -22,6 +22,7 @@ class gsuiSlider extends gsui0ne {
 		super( {
 			$cmpName: "gsuiSlider",
 			$tagName: "gsui-slider",
+			$jqueryfy: true,
 			$elements: {
 				$line: ".gsuiSlider-line",
 				$lineColor: ".gsuiSlider-lineColor",
@@ -42,7 +43,7 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		GSUdomSetAttr( this, "tabindex", "0" );
+		this.$this.$attr( "tabindex", 0 );
 		this.#setSVGcirc();
 		this.#updateVal( this.#value );
 	}
@@ -89,7 +90,7 @@ class gsuiSlider extends gsui0ne {
 		this.#circ = circ;
 		this.#axeX = axeX;
 		if ( !circ ) {
-			GSUdomStyle( this.$elements.$lineColor, {
+			this.$elements.$lineColor.$css( {
 				top: axeX ? "0" : "",
 				left: axeX ? "" : "0",
 				width: axeX ? "" : "100%",
@@ -103,11 +104,9 @@ class gsuiSlider extends gsui0ne {
 			const cx = size / 2;
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
-			GSUdomViewBox( this.$elements.$svg, size, size );
-			GSUdomSetAttr( this.$elements.$svgLine, { r, cx, cy: cx } );
-			GSUdomSetAttr( this.$elements.$svgLineColor, { r, cx, cy: cx } );
-			this.$elements.$svgLine.style.strokeWidth =
-			this.$elements.$svgLineColor.style.strokeWidth = this.#strokeWidth;
+			this.$elements.$svg.$viewbox( size, size );
+			this.$elements.$svgLine.$attr( { r, cx, cy: cx } ).$css( "strokeWidth", this.#strokeWidth );
+			this.$elements.$svgLineColor.$attr( { r, cx, cy: cx } ).$css( "strokeWidth", this.#strokeWidth );
 			this.#svgLineLen = r * 2 * Math.PI;
 		}
 	}
@@ -121,7 +120,7 @@ class gsuiSlider extends gsui0ne {
 		return this.#mousemoveSize || (
 			this.#circ
 				? this.#svgLineLen
-				: GSUdomBCRwh( this.$elements.$line )[ +!this.#axeX ]
+				: GSUdomBCRwh( this.$elements.$line.$get( 0 ) )[ +!this.#axeX ]
 		);
 	}
 	#updateVal( val ) {
@@ -133,12 +132,12 @@ class gsuiSlider extends gsui0ne {
 			const prcmin = Math.min( prcval, prcstart );
 
 			if ( this.#circ ) {
-				GSUdomStyle( this.$elements.$svgLineColor, {
+				this.$elements.$svgLineColor.$css( {
 					rotate: `${ 90 + prcmin * 360 }deg`,
 					strokeDasharray: `${ prclen * this.#svgLineLen }, 999999`,
 				} );
 			} else {
-				GSUdomStyle( this.$elements.$lineColor, this.#axeX
+				this.$elements.$lineColor.$css( this.#axeX
 					? {
 						left:  `${ prcmin * 100 }%`,
 						width: `${ prclen * 100 }%`,
@@ -151,13 +150,13 @@ class gsuiSlider extends gsui0ne {
 	}
 	#onchange() {
 		this.#valueSave = this.#value;
-		GSUdomSetAttr( this, "value", this.#value );
-		GSUdomDispatch( this, GSEV_SLIDER_CHANGE, this.#value );
+		this.$this.$attr( "value", this.#value )
+			.$dispatch( GSEV_SLIDER_CHANGE, this.#value );
 	}
 	#oninput( val ) {
 		if ( val !== this.#value ) {
 			this.#value = val;
-			GSUdomDispatch( this, GSEV_SLIDER_INPUT, +val );
+			this.$this.$dispatch( GSEV_SLIDER_INPUT, +val );
 		}
 	}
 
@@ -176,13 +175,13 @@ class gsuiSlider extends gsui0ne {
 		}
 	}
 	$onptrdown( e ) {
-		if ( GSUdomHasAttr( this, "disabled" ) ) {
+		if ( this.$this.$hasAttr( "disabled" ) ) {
 			return false;
 		}
 		switch ( e.button ) {
 			default: return false;
 			case 1: {
-				const def = GSUdomHasAttr( this, "defaultValue" ) && GSUdomGetAttrNum( this, "defaultValue" );
+				const def = this.$this.$hasAttr( "defaultValue" ) && +this.$this.$attr( "defaultValue" );
 
 				if ( def !== false && this.#value !== def ) {
 					this.#value = def;
@@ -198,7 +197,7 @@ class gsuiSlider extends gsui0ne {
 				this.#pxmoved = 0;
 				this.#scrollIncr = 0;
 				GSUdomBody.addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-				GSUdomDispatch( this, GSEV_SLIDER_INPUTSTART, this.#value );
+				this.$this.$dispatch( GSEV_SLIDER_INPUTSTART, this.#value );
 				break;
 		}
 	}
@@ -216,7 +215,7 @@ class gsuiSlider extends gsui0ne {
 	}
 	$onptrup() {
 		GSUdomBody.removeEventListener( "wheel", this.#onwheelBinded );
-		GSUdomDispatch( this, GSEV_SLIDER_INPUTEND, this.#value );
+		this.$this.$dispatch( GSEV_SLIDER_INPUTEND, this.#value );
 		if ( this.#value !== this.#valueSave ) {
 			this.#onchange();
 		}
