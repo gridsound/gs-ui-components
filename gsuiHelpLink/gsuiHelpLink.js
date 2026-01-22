@@ -5,6 +5,7 @@ class gsuiHelpLink extends gsui0ne {
 		super( {
 			$cmpName: "gsuiHelpLink",
 			$tagName: "gsui-help-link",
+			$jqueryfy: true,
 			$template: GSUcreateAExt( { class: "gsuiIcon", "data-icon": "info" } ),
 		} );
 		Object.seal( this );
@@ -16,7 +17,7 @@ class gsuiHelpLink extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		if ( prop === "page" ) {
-			GSUdomSetAttr( this.$element, {
+			this.$element.$attr( {
 				href: `https://github.com/gridsound/daw/wiki/help-${ val }`,
 				title: `Open the ${ val } help page`,
 			} );

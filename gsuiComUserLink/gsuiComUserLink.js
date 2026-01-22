@@ -5,6 +5,7 @@ class gsuiComUserLink extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComUserLink",
 			$tagName: "gsui-com-userlink",
+			$jqueryfy: true,
 			$template: GSUcreateA( null,
 				GSUcreateIcon( { icon: "musician" } ),
 				GSUcreateDiv(),
@@ -28,22 +29,22 @@ class gsuiComUserLink extends gsui0ne {
 		switch ( prop ) {
 			case "firstname":
 			case "lastname": this.#updateName(); break;
-			case "avatar": GSUdomStyle( this.$elements.$avatar, "backgroundImage", `url(${ val })` ); break;
+			case "avatar": this.$elements.$avatar.$css( "backgroundImage", `url(${ val })` ); break;
 			case "username": this.#updateUsername( val ); break;
 		}
 	}
 
 	#updateUsername( n ) {
-		this.$elements.$a.href = `#/u/${ n }`;
-		this.$elements.$username.textContent = n;
+		this.$elements.$a.$attr( "href", `#/u/${ n }` );
+		this.$elements.$username.$text( n );
 	}
 	#updateName() {
-		const a = GSUdomGetAttr( this, "firstname" );
-		const b = GSUdomGetAttr( this, "lastname" );
+		const a = this.$this.$attr( "firstname" );
+		const b = this.$this.$attr( "lastname" );
 
-		this.$elements.$name.textContent = a && b
+		this.$elements.$name.$text( a && b
 			? `${ a } ${ b }`
-			: a || b || "";
+			: a || b || "" );
 	}
 }
 
