@@ -11,14 +11,11 @@ class gsuiClock extends gsui0ne {
 		super( {
 			$cmpName: "gsuiClock",
 			$tagName: "gsui-clock",
+			$jqueryfy: true,
 			$elements: {
 				$wrapRel: ".gsuiClock-relative",
 				$modes: ".gsuiClock-modes",
-				$nodes: [
-					".gsuiClock-a",
-					".gsuiClock-b",
-					".gsuiClock-c",
-				],
+				$nodes: ".gsuiClock-absolute div",
 			},
 			$attributes: {
 				mode: "second",
@@ -27,8 +24,7 @@ class gsuiClock extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-
-		this.$elements.$modes.onclick = this.#onclickModes.bind( this );
+		this.$elements.$modes.$on( "click", this.#onclickModes.bind( this ) );
 	}
 
 	// .........................................................................
@@ -58,7 +54,7 @@ class gsuiClock extends gsui0ne {
 	static #numberingOff = 1;
 	static $numbering( from ) {
 		gsuiClock.#numberingOff = +from;
-		GSUdomQSA( "gsui-clock" ).forEach( el => el.#resetTime() );
+		GSUjq( "gsui-clock" ).$each( el => el.#resetTime() );
 	}
 	static $parseBeatsToSeconds( beats, bpm ) {
 		const seconds = beats / ( bpm / 60 );
@@ -103,23 +99,23 @@ class gsuiClock extends gsui0ne {
 	// .........................................................................
 	#setValue( ind, val ) {
 		if ( val !== this.#values[ ind ] ) {
-			this.$elements.$nodes[ ind ].textContent =
 			this.#values[ ind ] = val;
+			this.$elements.$nodes.$at( ind ).$text( val );
 		}
 	}
 	#updateWidth() {
-		const len = this.$elements.$nodes[ 0 ].textContent.length;
+		const len = this.$elements.$nodes.$at( 0 ).$text().length;
+		const w = `${ 4.5 + len * .7 }ch`;
 
-		this.$elements.$wrapRel.style.width =
-		this.$elements.$wrapRel.style.minWidth = `${ 4.5 + len * .7 }ch`;
+		this.$elements.$wrapRel.$css( { width: w, minWidth: w } );
 	}
 
 	// .........................................................................
 	#onclickModes() {
-		const dpl = GSUdomGetAttr( this, "mode" ) === "second" ? "beat" : "second";
+		const dpl = this.$this.$attr( "mode" ) === "second" ? "beat" : "second";
 
-		GSUdomSetAttr( this, "mode", dpl );
-		GSUdomDispatch( this, GSEV_CLOCK_CHANGEDISPLAY, dpl );
+		this.$this.$attr( "mode", dpl )
+			.$dispatch( GSEV_CLOCK_CHANGEDISPLAY, dpl );
 	}
 }
 
