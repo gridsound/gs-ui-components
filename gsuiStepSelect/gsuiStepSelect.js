@@ -10,6 +10,7 @@ class gsuiStepSelect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiStepSelect",
 			$tagName: "gsui-step-select",
+			$jqueryfy: true,
 			$elements: {
 				$auto: "gsui-toggle",
 				$frac: "span",
@@ -22,8 +23,10 @@ class gsuiStepSelect extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.onmousedown = this.#onclick.bind( this );
-		this.oncontextmenu = GSUnoopFalse;
+		this.$this.$on( {
+			mousedown: this.#onclick.bind( this ),
+			contextmenu: e => e.preventDefault(),
+		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLESOLO ]: GSUnoop,
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
@@ -40,7 +43,7 @@ class gsuiStepSelect extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "auto": GSUdomSetAttr( this.$elements.$auto, "off", val === null ); break;
+			case "auto": this.$elements.$auto.$attr( "off", val === null ); break;
 			case "step":
 				this.#step = +val;
 				this.#stepInd = gsuiStepSelect.#stepToIndex( this.#step );
@@ -68,11 +71,10 @@ class gsuiStepSelect extends gsui0ne {
 		const ind = this.#stepInd;
 		const len = gsuiStepSelect.#stepValues.length;
 
-		this.$elements.$frac.textContent = gsuiStepSelect.#stepFractions[ ind ];
-		GSUdomStyle( this.$elements.$preview, {
-			left: `${ ind / len * 100 }%`,
-			width: `${ 100 / len }%`,
-		} );
+		this.$elements.$frac.$text( gsuiStepSelect.#stepFractions[ ind ] );
+		this.$elements.$preview
+			.$left( ind / len * 100, "%" )
+			.$width( 100 / len, "%" );
 	}
 	#onclick( e ) {
 		if ( e.target.tagName !== "GSUI-TOGGLE" ) {
@@ -80,8 +82,7 @@ class gsuiStepSelect extends gsui0ne {
 			const ind = GSUmathMod( this.#stepInd + inc, gsuiStepSelect.#stepValues.length );
 			const step = gsuiStepSelect.#stepValues[ ind ];
 
-			GSUdomSetAttr( this, "step", step );
-			GSUdomDispatch( this, GSEV_STEPSELECT_ONCHANGE, step );
+			this.$this.$attr( "step", step ).$dispatch( GSEV_STEPSELECT_ONCHANGE, step );
 		}
 	}
 	static #stepToIndex( v ) {
