@@ -50,6 +50,7 @@ class gsuiKeys extends gsui0ne {
 		super( {
 			$cmpName: "gsuiKeys",
 			$tagName: "gsui-keys",
+			$jqueryfy: true,
 			$attributes: {
 				orient: "vertical",
 				rootoctave: "4",
@@ -96,11 +97,11 @@ class gsuiKeys extends gsui0ne {
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;
-		GSUdomRmClass( GSUdomQS( this, ".gsuiKeys-rootKey" ), "gsuiKeys-rootKey" );
-		GSUdomAddClass( GSUdomQS( this, `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ), "gsuiKeys-rootKey" );
+		this.$this.$find( ".gsuiKeys-rootKey" ).$rmClass( "gsuiKeys-rootKey" );
+		this.$this.$find( `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ).$addClass( "gsuiKeys-rootKey" );
 	}
 	#setOctaves( start, nbOct ) {
-		GSUdomStyle( this, {
+		this.$this.$css( {
 			"--gsuiKeys-firstOctave": start,
 			"--gsuiKeys-nbOctaves": nbOct,
 		} );
@@ -109,7 +110,7 @@ class gsuiKeys extends gsui0ne {
 				this.append( ...GSUgetTemplate( "gsui-keys-octave" ) );
 			}
 		} else if ( nbOct < this.#nbOct ) {
-			Array.from( this.children ).forEach( ( el, i ) => {
+			this.$this.$children().$each( ( el, i ) => {
 				if ( i >= nbOct * 12 ) {
 					el.remove();
 					el._rowElement.remove();
@@ -134,7 +135,7 @@ class gsuiKeys extends gsui0ne {
 		this.#setRootOctave( this.#rootOctave );
 	}
 	#isVertical() {
-		return GSUdomGetAttr( this, "orient" ) === "vertical";
+		return this.$this.$attr( "orient" ) === "vertical";
 	}
 	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
@@ -146,10 +147,10 @@ class gsuiKeys extends gsui0ne {
 			GSUdomTogClass( elKey, "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
-				GSUdomDispatch( this, GSEV_KEYS_KEYDOWN, midi, vel );
+				this.$this.$dispatch( GSEV_KEYS_KEYDOWN, midi, vel );
 			} else {
 				this.#keysDown.delete( midi );
-				GSUdomDispatch( this, GSEV_KEYS_KEYUP, midi );
+				this.$this.$dispatch( GSEV_KEYS_KEYUP, midi );
 			}
 		}
 	}
@@ -161,8 +162,8 @@ class gsuiKeys extends gsui0ne {
 			if ( e.button === 2 ) {
 				const oct = e.target.dataset.midi / 12 | 0;
 
-				GSUdomSetAttr( this, "rootoctave", oct );
-				GSUdomDispatch( this, GSEV_KEYS_OCTAVE, oct );
+				this.$this.$attr( "rootoctave", oct )
+					.$dispatch( GSEV_KEYS_OCTAVE, oct );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();
 				const [ x, y ] = GSUdomBCRxy( this );
