@@ -9,6 +9,7 @@ class gsuiPopup extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPopup",
 			$tagName: "gsui-popup",
+			$jqueryfy: true,
 			$elements: {
 				$ok: ".gsuiPopup-ok",
 				$win: ".gsuiPopup-window",
@@ -21,76 +22,71 @@ class gsuiPopup extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$win.onclose =
-		this.$elements.$cancel.onclick = this.#cancelClick.bind( this );
-		this.$elements.$form.onsubmit = this.#submit.bind( this );
-		this.onkeyup =
-		this.onkeydown = e => e.stopPropagation();
+		this.$elements.$win.$on( "close", this.#cancelClick.bind( this ) );
+		this.$elements.$cancel.$on( "click", this.#cancelClick.bind( this ) );
+		this.$elements.$form.$on( "submit", this.#submit.bind( this ) );
+		this.$this.$on( {
+			keyup: e => e.stopPropagation(),
+			keydown: e => e.stopPropagation(),
+		} );
 	}
 
 	// .........................................................................
 	$alert( title, msg, ok ) {
-		GSUdomEmpty( this.$elements.$cnt );
-		GSUdomAddClass( this.$elements.$win, "gsuiPopup-noText", "gsuiPopup-noCancel" );
+		this.$elements.$cnt.$empty();
+		this.$elements.$win.$addClass( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, false );
 		return this.#open( "alert", title, msg );
 	}
 	$confirm( title, msg, ok, cancel ) {
-		GSUdomEmpty( this.$elements.$cnt );
-		GSUdomRmClass( this.$elements.$win, "gsuiPopup-noCancel" );
-		GSUdomAddClass( this.$elements.$win, "gsuiPopup-noText" );
+		this.$elements.$cnt.$empty();
+		this.$elements.$win.$rmClass( "gsuiPopup-noCancel" ).$addClass( "gsuiPopup-noText" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "confirm", title, msg );
 	}
 	$prompt( title, msg, val, ok, cancel ) {
-		GSUdomEmpty( this.$elements.$cnt );
-		GSUdomRmClass( this.$elements.$win, "gsuiPopup-noText", "gsuiPopup-noCancel" );
+		this.$elements.$cnt.$empty();
+		this.$elements.$win.$rmClass( "gsuiPopup-noText", "gsuiPopup-noCancel" );
 		this.#setOkCancelBtns( ok, cancel );
 		return this.#open( "prompt", title, msg, val );
 	}
 	$custom( obj ) {
-		GSUdomEmpty( this.$elements.$cnt );
-		GSUdomRmClass( this.$elements.$win, "gsuiPopup-noText" );
+		this.$elements.$cnt.$empty();
+		this.$elements.$win.$rmClass( "gsuiPopup-noText" );
 		this.#fnSubmit = obj.submit || null;
 		this.#setOkCancelBtns( obj.ok, obj.cancel || false, obj.noOverlayCancel );
 		obj.element
-			? this.$elements.$cnt.append( obj.element )
-			: this.$elements.$cnt.append( ...obj.elements );
+			? this.$elements.$cnt.$append( obj.element )
+			: this.$elements.$cnt.$append( ...obj.elements );
 		return this.#open( "custom", obj.title );
 	}
 	$close() {
-		if ( this.$elements.$win.open ) {
+		if ( this.$elements.$win.$prop( "open" ) ) {
 			this.#cancelClick();
 		}
 	}
 
 	// .........................................................................
 	#setOkCancelBtns( ok, cancel, noOverlayCancel ) {
-		GSUdomTogClass( this.$elements.$win, "gsuiPopup-noCancel", cancel === false );
-		GSUdomSetAttr( this.$elements.$win, "closedby", noOverlayCancel === true ? "none" : "any" );
-		GSUdomSetAttr( this.$elements.$cancel, "text", cancel || "Cancel" );
-		GSUdomSetAttr( this.$elements.$ok, "text", ok || "Ok" );
+		this.$elements.$win.$togClass( "gsuiPopup-noCancel", cancel === false )
+			.$attr( "closedby", noOverlayCancel === true ? "none" : "any" );
+		this.$elements.$cancel.$attr( "text", cancel || "Cancel" );
+		this.$elements.$ok.$attr( "text", ok || "Ok" );
 	}
 	#open( type, title, msg, value ) {
 		this.#type = type;
-		this.$elements.$header.textContent = title;
-		this.$elements.$msg.textContent = msg || "";
-		this.$elements.$text.value = arguments.length > 3 ? value : "";
-		this.$elements.$win.dataset.type = type;
+		this.$elements.$header.$text( title );
+		this.$elements.$msg.$text( msg || "" );
+		this.$elements.$text.$value( arguments.length > 3 ? value : "" );
+		this.$elements.$win.$attr( "data-type", type );
+		this.$elements.$cnt.$find( "input,select,.gsuiPopup-ok *:first-child" ).$attr( "autofocus", true );
 		if ( type === "prompt" ) {
-			GSUdomSetAttr( this.$elements.$text, "autofocus" );
-			this.$elements.$text.select();
-		} else {
-			const inp = type !== "custom"
-				? null
-				: GSUdomQS( this.$elements.$cnt, "input,select" );
-
-			GSUdomSetAttr( inp || this.$elements.$ok.firstChild, "autofocus" );
+			this.$elements.$text.$trigger( "select" );
 		}
-		this.$elements.$win.showModal();
+		this.$elements.$win.$trigger( "showModal" );
 		return new Promise( res => this.#resolve = res )
 			.then( val => {
-				this.$elements.$win.close();
+				this.$elements.$win.$trigger( "close" );
 				return val;
 			} );
 	}
@@ -99,14 +95,14 @@ class gsuiPopup extends gsui0ne {
 			this.#type === "confirm" ? false :
 			this.#type === "prompt" ? null : undefined );
 	}
-	#submit() {
+	#submit( e ) {
+		e.preventDefault();
 		switch ( this.#type ) {
 			case "alert": this.#resolve( undefined ); break;
-			case "prompt": this.#resolve( this.$elements.$text.value ); break;
+			case "prompt": this.#resolve( this.$elements.$text.$value() ); break;
 			case "confirm": this.#resolve( true ); break;
 			case "custom": this.#submitCustom(); break;
 		}
-		return false;
 	}
 	#getInputValue( inp ) {
 		switch ( inp.type ) {
@@ -121,8 +117,8 @@ class gsuiPopup extends gsui0ne {
 	}
 	#submitCustom() {
 		const fn = this.#fnSubmit;
-		const inps = Array.from( this.$elements.$form );
-		const obj = inps.reduce( ( obj, inp ) => {
+		const inps = Array.from( this.$elements.$form.$get( 0 ) );
+		const obj = GSUreduce( inps, ( obj, inp ) => {
 			if ( inp.name ) {
 				const val = this.#getInputValue( inp );
 
