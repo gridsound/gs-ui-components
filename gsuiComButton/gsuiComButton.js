@@ -7,6 +7,7 @@ class gsuiComButton extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComButton",
 			$tagName: "gsui-com-button",
+			$jqueryfy: true,
 			$template: GSUcreateButton( null,
 				GSUcreateSpan( { inert: true } ),
 				GSUcreateIcon( { inert: true } ),
@@ -17,8 +18,8 @@ class gsuiComButton extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		gsuiRipple.$init( this.$element );
-		this.$element.addEventListener( "click", this.#onclick.bind( this ) );
+		gsuiRipple.$init( this.$element.$get( 0 ) );
+		this.$element.$on( "click", this.#onclick.bind( this ) );
 	}
 
 	// .........................................................................
@@ -29,20 +30,22 @@ class gsuiComButton extends gsui0ne {
 		switch ( prop ) {
 			case "disabled":
 			case "loading": this.#updateDisabled(); break;
-			case "text": this.$elements.$text.textContent = val; break;
-			case "type": this.$element.type = val === "submit" ? val : "button"; break;
+			case "text": this.$elements.$text.$text( val ); break;
+			case "type": this.$element.$prop( "type", val === "submit" ? val : "button" ); break;
 			case "href": this.#href = val; break;
-			case "icon": GSUdomSetAttr( this.$elements.$icon, "data-icon", val ); break;
+			case "icon": this.$elements.$icon.$attr( "data-icon", val ); break;
 		}
 	}
 
 	// .........................................................................
 	#updateDisabled() {
-		this.$element.disabled = GSUdomHasAttr( this, "disabled" ) || GSUdomHasAttr( this, "loading" );
+		this.$element.$attr( "disabled",
+			this.$this.$hasAttr( "disabled" ) ||
+			this.$this.$hasAttr( "loading" ) );
 	}
 	#onclick( e ) {
-		const dl = GSUdomGetAttr( this, "download" );
-		const hr = GSUdomGetAttr( this, "href" );
+		const dl = this.$this.$attr( "download" );
+		const hr = this.$this.$attr( "href" );
 
 		if ( dl ) {
 			e.preventDefault();
