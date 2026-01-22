@@ -7,6 +7,7 @@ class gsuiPropSelect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPropSelect",
 			$tagName: "gsui-prop-select",
+			$jqueryfy: true,
 			$attributes: {
 				prop: "gain",
 			},
@@ -35,10 +36,7 @@ class gsuiPropSelect extends gsui0ne {
 
 	// .........................................................................
 	#createProps( s ) {
-		const elBtns = s.split( " " ).map( p => this.#createProp( p ) );
-
-		GSUdomEmpty( this );
-		this.append( ...elBtns );
+		this.$this.$empty().$append( ...s.split( " " ).map( p => this.#createProp( p ) ) );
 		if ( !this.#setProp( this.#prop ) ) {
 			GSUdomQS( this, ".gsuiPropSelect-btn" )?.click();
 		}
@@ -58,16 +56,16 @@ class gsuiPropSelect extends gsui0ne {
 
 		this.#prop = prop;
 		this.#setValue( prev, false );
-		GSUdomSetAttr( btn, "data-selected" );
-		GSUdomRmAttr( this.#getBtn( prev ), "data-selected" );
-		this.#setValue( prop, GSUdomGetAttr( this, "value" ) );
-		return !!btn;
+		btn.$attr( "data-selected", true );
+		this.#getBtn( prev ).$attr( "data-selected", false );
+		this.#setValue( prop, this.$this.$attr( "value" ) );
+		return !!btn.$size();
 	}
 	#getBtn( prop ) {
-		return GSUdomQS( this, `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
+		return this.$this.$find( `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
 	}
 	#setValue( prop, val ) {
-		GSUdomSetAttr( this.#getBtn( prop ), "data-value", gsuiPropSelect.#formatValue( prop, val ) );
+		this.#getBtn( prop ).$attr( "data-value", gsuiPropSelect.#formatValue( prop, val ) );
 	}
 	static #formatValue( prop, val ) {
 		if ( !val ) {
@@ -86,15 +84,15 @@ class gsuiPropSelect extends gsui0ne {
 		const prop = e.target.dataset.prop;
 
 		if ( prop && prop !== this.#prop ) {
-			GSUdomSetAttr( this, "prop", prop );
-			GSUdomDispatch( this, GSEV_PROPSELECT_SELECT, prop );
+			this.$this.$attr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECT, prop );
 		}
 	}
 	#oncontextmenu( e ) {
 		e.preventDefault();
 		if ( GSUdomHasClass( e.target, "gsuiPropSelect-btn" ) ) {
-			GSUdomSetAttr( this, "prop", e.target.dataset.prop );
-			GSUdomDispatch( this, GSEV_PROPSELECT_SELECTALL, e.target.dataset.prop );
+			const prop = e.target.dataset.prop;
+
+			this.$this.$attr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECTALL, prop );
 		}
 	}
 }
