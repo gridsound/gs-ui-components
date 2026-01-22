@@ -143,7 +143,7 @@ class gsuiWavetableGraph extends gsui0ne {
 				return;
 			}
 		}
-		g.$children().$attr( "points", false );
+		g.$children().$rmAttr( "points" );
 	}
 	#drawWave( wave, i ) {
 		this.#drawWave2( wave.id, wave.dots, this.$elements.$gWaves, ( this.#waves.length - 1 - i ) * 2, wave.index );

@@ -313,8 +313,8 @@ class gsuiWavetable extends gsui0ne {
 	}
 	#wtwaves_selectWave( wId ) {
 		if ( this.#waveSelected !== wId ) {
-			this.#wtposCurve_getWave( this.#waveSelected ).$attr( "data-selected", false );
-			this.#wtwaves_getElem( this.#waveSelected ).$attr( "data-selected", false );
+			this.#wtposCurve_getWave( this.#waveSelected ).$rmAttr( "data-selected" );
+			this.#wtwaves_getElem( this.#waveSelected ).$rmAttr( "data-selected" );
 			this.#waveSelected = wId;
 			this.$elements.$wtGraph.$get( 0 ).$selectCurrentWave( wId );
 			this.$elements.$wtGraph.$get( 0 ).$draw();
@@ -346,7 +346,7 @@ class gsuiWavetable extends gsui0ne {
 		const wtposCurve = this.#data.wtposCurves[ id ];
 		const wtDotline = this.$elements.$wtDotline.$get( 0 );
 
-		this.#wtposCurve_get( this.#wtposCurveSelected ).$attr( "data-selected", false );
+		this.#wtposCurve_get( this.#wtposCurveSelected ).$rmAttr( "data-selected" );
 		this.#wtposCurveSelected = id;
 		this.#wtposCurve_get( id ).$attr( "data-selected", true );
 		this.#wtposCurve_setDuration( wtposCurve.duration );

@@ -53,7 +53,7 @@ class gsuiChannel extends gsui0ne {
 				this.$this.$attr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				this.$this.$attr( "muted", false ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
+				this.$this.$rmAttr( "muted" ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,

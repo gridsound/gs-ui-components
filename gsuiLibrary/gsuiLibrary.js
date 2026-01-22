@@ -78,8 +78,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$unloadSamples() {
 		this.$elements.$body.$find( ".gsuiLibrary-sample" )
-			.$attr( "data-loading", false )
-			.$attr( "data-ready", false )
+			.$rmAttr( "data-loading", "data-ready" )
 			.$attr( title, el => el.dataset.name );
 	}
 	$setPlaceholder( str ) {
@@ -128,7 +127,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$readySample( id ) {
 		this.#getSample( id )
-			.$attr( "data-loading", false )
+			.$rmAttr( "data-loading" )
 			.$attr( "data-ready", true )
 			.$attr( "title", el => el.dataset.name );
 	}

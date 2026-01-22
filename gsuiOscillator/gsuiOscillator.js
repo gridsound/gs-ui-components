@@ -67,7 +67,7 @@ class gsuiOscillator extends gsui0ne {
 			}
 		} );
 		GSUdomListen( this, {
-			[ GSEV_WAVETABLE_BACK ]: () => this.$this.$attr( "wavetable", false ),
+			[ GSEV_WAVETABLE_BACK ]: () => this.$this.$rmAttr( "wavetable" ),
 			[ GSEV_WAVETABLE_PARAM ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLEPARAM, ...d.$args ),
 			[ GSEV_WAVETABLE_CHANGE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLE, ...d.$args ),
 			[ GSEV_WAVETABLE_SELECTCURVE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_SELECTWAVETABLECURVE, ...d.$args ),
@@ -174,7 +174,7 @@ class gsuiOscillator extends gsui0ne {
 				this.#elWavetable.$change( obj );
 			} else {
 				this.#elWavetable.$clear();
-				this.$this.$attr( "wavetable", false );
+				this.$this.$rmAttr( "wavetable" );
 			}
 		}
 		this.#updateWaveDeb();
@@ -190,13 +190,13 @@ class gsuiOscillator extends gsui0ne {
 	#changeSource( src ) {
 		this.$elements.$sourceName.$text( src );
 		if ( src ) {
-			this.$this.$attr( "wave", false );
+			this.$this.$rmAttr( "wave" );
 		}
 	}
 	#changeWave( w ) {
 		this.$elements.$waveSelect.$value( w );
 		if ( w ) {
-			this.$this.$attr( "source", false );
+			this.$this.$rmAttr( "source" );
 		}
 	}
 	#changePropSlider( prop, val ) {

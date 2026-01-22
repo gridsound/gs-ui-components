@@ -335,7 +335,7 @@ class gsuiTimeline extends gsui0ne {
 						if ( aa !== bb ) {
 							this.$this.$attr( "loop", loop ).$dispatch( GSEV_TIMELINE_INPUTLOOP, aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
-							this.$this.$attr( "loop", false ).$dispatch( GSEV_TIMELINE_INPUTLOOP, false );
+							this.$this.$rmAttr( "loop" ).$dispatch( GSEV_TIMELINE_INPUTLOOP, false );
 						}
 					}
 				} break;
@@ -347,7 +347,7 @@ class gsuiTimeline extends gsui0ne {
 			case GSUI_DRAGGING_TIME: {
 				const beat = this.$this.$attr( "currenttime-preview" );
 
-				this.$this.$attr( "currenttime-preview", false )
+				this.$this.$rmAttr( "currenttime-preview" )
 					.$dispatch( GSEV_TIMELINE_INPUTCURRENTTIMEEND );
 				if ( beat !== this.$this.$attr( "currenttime" ) ) {
 					this.$this.$attr( "currenttime", beat )
@@ -362,7 +362,7 @@ class gsuiTimeline extends gsui0ne {
 					if ( this.#loopA !== this.#loopB ) {
 						this.$this.$dispatch( GSEV_TIMELINE_CHANGELOOP, this.#loopA, this.#loopB );
 					} else {
-						this.$this.$attr( "loop", false )
+						this.$this.$rmAttr( "loop" )
 							.$dispatch( GSEV_TIMELINE_CHANGELOOP, false );
 					}
 				}

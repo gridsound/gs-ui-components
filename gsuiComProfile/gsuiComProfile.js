@@ -36,7 +36,7 @@ class gsuiComProfile extends gsui0ne {
 		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
 		this.onmouseenter =
-		this.onmouseleave = () => this.$this.$attr( "followedjustnow", false );
+		this.onmouseleave = () => this.$this.$rmAttr( "followedjustnow" );
 	}
 
 	// .........................................................................
@@ -117,7 +117,7 @@ class gsuiComProfile extends gsui0ne {
 			this.#verifyPromise?.()
 				.then( () => this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sent ) )
 				.catch( err => this.$elements.$emailVerifyText.$text( err ) )
-				.finally( () => this.$this.$attr( "emailsending", false ) );
+				.finally( () => this.$this.$rmAttr( "emailsending" ) );
 		}
 	}
 }

@@ -215,7 +215,7 @@ class gsuiTimewindow extends gsui0ne {
 					this.#minimapUpdateCurrentTimeLoop();
 				} else {
 					GSUdomRmClass( this, "gsuiTimewindow-looping" );
-					this.$elements.$timeline.$attr( "loop", false );
+					this.$elements.$timeline.$rmAttr( "loop" );
 				}
 				this.#minimapUpdate();
 				break;

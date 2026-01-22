@@ -87,7 +87,7 @@ class gsuiWaveEditor extends gsui0ne {
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
 			case "tool":
-				this.$this.$find( `button[data-tool="${ prev }"]` ).$attr( "data-selected", false );
+				this.$this.$find( `button[data-tool="${ prev }"]` ).$rmAttr( "data-selected" );
 				this.$this.$find( `button[data-tool="${ val }"]` ).$attr( "data-selected", true );
 				this.#toolSelected = val;
 				break;

@@ -46,8 +46,8 @@ class gsuiComPlayer extends gsui0ne {
 			loadedmetadata: e => this.$this.$attr( "duration", e.target.duration ),
 			error: () => {
 				this.$this.$attr( { playing: false, rendered: false } );
-				this.$elements.$play.$attr( "data-spin", false );
-				this.$elements.$audio.$attr( "src", false );
+				this.$elements.$play.$rmAttr( "data-spin" );
+				this.$elements.$audio.$rmAttr( "src" );
 			},
 		} );
 	}
@@ -124,7 +124,7 @@ class gsuiComPlayer extends gsui0ne {
 	#onpause() {
 		GSUclearInterval( this.#intervalId );
 		this.$elements.$play.$attr( "data-icon", "play" );
-		this.$this.$attr( "playing", false );
+		this.$this.$rmAttr( "playing" );
 	}
 	#onclickLike() {
 		const liked = this.$this.$hasAttr( "liked" );
@@ -140,8 +140,8 @@ class gsuiComPlayer extends gsui0ne {
 			} )
 			.catch( err => GSUpopup.$alert( `Error ${ err.code }`, err.msg ) )
 			.finally( () => {
-				this.$elements.$likeBtn.$attr( "disabled", false );
-				this.$elements.$likeIco.$attr( "data-spin", false );
+				this.$elements.$likeBtn.$rmAttr( "disabled" );
+				this.$elements.$likeIco.$rmAttr( "data-spin" );
 			} );
 	}
 	#onclickPlay() {
@@ -162,7 +162,7 @@ class gsuiComPlayer extends gsui0ne {
 					}
 				} )
 				.finally( () => {
-					this.$elements.$play.$attr( "data-spin", false );
+					this.$elements.$play.$rmAttr( "data-spin" );
 					if ( hasRender ) {
 						this.$play();
 					}
@@ -220,7 +220,7 @@ class gsuiComPlayer extends gsui0ne {
 					deleted: act === "delete",
 				} );
 				this.$this.$dispatch( GSEV_COMPLAYER_ACTION, act );
-				GSUsetTimeout( () => this.$this.$attr( clazz, false ), .35 );
+				GSUsetTimeout( () => this.$this.$rmAttr( clazz ), .35 );
 			} )
 			.finally( () => {
 				this.$elements.$actionsBtn.$attr( {

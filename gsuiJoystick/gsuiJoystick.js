@@ -24,7 +24,7 @@ class gsuiJoystick extends gsui0ne {
 			.$dispatch( GSEV_JOYSTICK_START, ...this.#coord );
 	}
 	$onptrup() {
-		this.$this.$attr( "moving", false )
+		this.$this.$rmAttr( "moving" )
 			.$dispatch( GSEV_JOYSTICK_END, ...this.#coord );
 	}
 	$onptrmove( e ) {
