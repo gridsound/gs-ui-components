@@ -13,6 +13,7 @@ class gsuiTitleUser extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTitleUser",
 			$tagName: "gsui-titleuser",
+			$jqueryfy: true,
 			$elements: {
 				$name: ".gsuiTitleUser-name",
 				$userLink: ".gsuiTitleUser-user",
@@ -32,15 +33,17 @@ class gsuiTitleUser extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$login.onclick = this.#onclickLogin.bind( this );
-		this.$elements.$logout.onclick = this.#onclickLogout.bind( this );
-		this.$elements.$save.onclick = () => GSUdomDispatch( this, GSEV_TITLEUSER_SAVE );
-		this.$elements.$cmpEditBtn.onclick = () => !GSUdomHasAttr( this, "readonly" ) && GSUdomSetAttr( this, "renaming" );
-		this.$elements.$cmpEditInp.onblur = () => GSUdomHasAttr( this, "renaming" ) && this.#onkeydownRename( "Enter" );
-		this.$elements.$cmpEditInp.onkeydown = e => {
-			e.stopPropagation();
-			this.#onkeydownRename( e.key );
-		};
+		this.$elements.$login.$on( "click", this.#onclickLogin.bind( this ) );
+		this.$elements.$logout.$on( "click", this.#onclickLogout.bind( this ) );
+		this.$elements.$save.$on( "click", () => GSUdomDispatch( this, GSEV_TITLEUSER_SAVE ) );
+		this.$elements.$cmpEditBtn.$on( "click", () => !this.$this.$hasAttr( "readonly" ) && this.$this.$attr( "renaming", true ) );
+		this.$elements.$cmpEditInp.$on( {
+			blur: () => this.$this.$hasAttr( "renaming" ) && this.#onkeydownRename( "Enter" ),
+			keydown: e => {
+				e.stopPropagation();
+				this.#onkeydownRename( e.key );
+			},
+		} );
 	}
 
 	// .........................................................................
@@ -50,31 +53,31 @@ class gsuiTitleUser extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "name": this.$elements.$name.textContent = val; break;
-			case "avatar": this.$elements.$avatar.style.backgroundImage = `url(${ val })`; break;
+			case "name": this.$elements.$name.$text( val ); break;
+			case "avatar": this.$elements.$avatar.$css( "backgroundImage", `url(${ val })` ); break;
 			case "username":
-				this.$elements.$username.textContent = val;
-				GSUdomSetAttr( this.$elements.$userLink, "href", `//gridsound.com/#/u/${ val }` );
+				this.$elements.$username.$text( val );
+				this.$elements.$userLink.$attr( "href", `//gridsound.com/#/u/${ val }` );
 				break;
 			case "cmpdur": {
 				const dur = GSUsplitSeconds( +val );
 
-				this.$elements.$cmpDur.textContent = `${ dur.m }:${ dur.s }`;
+				this.$elements.$cmpDur.$text( `${ dur.m }:${ dur.s }` );
 			} break;
 			case "saved":
 			case "cmpname": this.#updateCmpName(); break;
-			case "saving": GSUdomSetAttr( this.$elements.$save, "data-spin", val === "" ? "on" : false ); break;
-			case "connecting": GSUdomSetAttr( this.$elements.$login, "data-spin", val === "" ? "on" : false ); break;
-			case "disconnecting": GSUdomSetAttr( this.$elements.$logout, "data-spin", val === "" ? "on" : false ); break;
+			case "saving": this.$elements.$save.$attr( "data-spin", val === "" ? "on" : false ); break;
+			case "connecting": this.$elements.$login.$attr( "data-spin", val === "" ? "on" : false ); break;
+			case "disconnecting": this.$elements.$logout.$attr( "data-spin", val === "" ? "on" : false ); break;
 			case "just-saved":
 				if ( val === "" ) {
 					GSUclearTimeout( this.#justSavedTimeout );
-					this.#justSavedTimeout = GSUsetTimeout( () => GSUdomRmAttr( this, "just-saved" ), 2.5 );
+					this.#justSavedTimeout = GSUsetTimeout( () => this.$this.$attr( "just-saved", false ), 2.5 );
 				}
 				break;
 			case "renaming":
 				if ( val === "" ) {
-					this.$elements.$cmpEditInp.value = GSUdomGetAttr( this, "cmpname" );
+					this.$elements.$cmpEditInp.$value( this.$this.$attr( "cmpname" ) );
 					GSUdomFocus( this.$elements.$cmpEditInp );
 				}
 				break;
@@ -86,7 +89,7 @@ class gsuiTitleUser extends gsui0ne {
 	$setLoginCallbackPromise( fn ) { this.#loginPromise = fn; }
 	$setLogoutCallbackPromise( fn ) { this.#logoutPromise = fn; }
 	$setUserInfo( me ) {
-		GSUdomSetAttr( this, {
+		this.$this.$attr( {
 			name: !me ? "" : `${ me.firstname } ${ me.lastname }`.trim(),
 			avatar: !me ? "" : me.avatar,
 			username: !me ? "" : me.username,
@@ -97,17 +100,17 @@ class gsuiTitleUser extends gsui0ne {
 
 	// .........................................................................
 	#updateCmpName() {
-		const name = GSUdomGetAttr( this, "cmpname" );
+		const name = this.$this.$attr( "cmpname" );
 		const title = name || "GridSound";
 
-		this.$elements.$cmpName.textContent = name;
-		document.title = GSUdomHasAttr( this, "saved" ) ? title : `*${ title }`;
+		this.$elements.$cmpName.$text( name );
+		document.title = this.$this.$hasAttr( "saved" ) ? title : `*${ title }`;
 	}
 	#onclickLogout() {
-		GSUdomSetAttr( this, "disconnecting" );
+		this.$this.$attr( "disconnecting", true );
 		return this.#logoutPromise?.()
 			.then( () => this.$setUserInfo( null ) )
-			.finally( () => GSUdomRmAttr( this, "disconnecting" ) );
+			.finally( () => this.$this.$attr( "disconnecting", false ) );
 	}
 	#onclickLogin() {
 		return GSUpopup.$custom( {
@@ -117,12 +120,12 @@ class gsuiTitleUser extends gsui0ne {
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {
 			GSUdomQSA( this.#loginPopup.$root, "input" ).forEach( inp => inp.value = "" );
-			GSUdomRmAttr( this, "connecting" );
-			return GSUdomHasAttr( this, "connected" );
+			this.$this.$attr( "connecting", false );
+			return this.$this.$hasAttr( "connected" );
 		} );
 	}
 	#onsubmitLogin( obj ) {
-		GSUdomSetAttr( this, "connecting" );
+		this.$this.$attr( "connecting", true );
 		this.#loginPopup.$error.textContent = "";
 		return this.#loginPromise?.( obj.email, obj.password )
 			.then( me => this.$setUserInfo( me ) )
@@ -134,10 +137,10 @@ class gsuiTitleUser extends gsui0ne {
 	#onkeydownRename( key ) {
 		switch ( key ) {
 			case "Enter":
-				if ( this.$elements.$cmpEditInp.value !== GSUdomGetAttr( this, "cmpname" ) ) {
+				if ( this.$elements.$cmpEditInp.value !== this.$this.$attr( "cmpname" ) ) {
 					GSUdomDispatch( this, GSEV_TITLEUSER_RENAME, GSUtrim2( this.$elements.$cmpEditInp.value ) );
 				}
-			case "Escape": GSUdomRmAttr( this, "renaming" );
+			case "Escape": this.$this.$attr( "renaming", false );
 		}
 	}
 }
