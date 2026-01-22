@@ -128,7 +128,7 @@ class gsuiLibrary extends gsui0ne {
 	$readySample( id ) {
 		this.#getSample( id )
 			.$rmAttr( "data-loading" )
-			.$attr( "data-ready", true )
+			.$addAttr( "data-ready" )
 			.$attr( "title", el => el.dataset.name );
 	}
 	$playSample( id, dur ) {

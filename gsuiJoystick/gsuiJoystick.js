@@ -20,7 +20,7 @@ class gsuiJoystick extends gsui0ne {
 	$onptrdown( e ) {
 		e.preventDefault();
 		this.#moveJoystick( e );
-		this.$this.$attr( "moving", true )
+		this.$this.$addAttr( "moving" )
 			.$dispatch( GSEV_JOYSTICK_START, ...this.#coord );
 	}
 	$onptrup() {

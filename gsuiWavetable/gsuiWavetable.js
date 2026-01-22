@@ -319,8 +319,8 @@ class gsuiWavetable extends gsui0ne {
 			this.$elements.$wtGraph.$get( 0 ).$selectCurrentWave( wId );
 			this.$elements.$wtGraph.$get( 0 ).$draw();
 			this.$elements.$editor.$get( 0 ).$setWaveArray( this.#data.waves[ wId ].curve );
-			this.#wtposCurve_getWave( wId ).$attr( "data-selected", true );
-			this.#wtwaves_getElem( wId ).$attr( "data-selected", true );
+			this.#wtposCurve_getWave( wId ).$addAttr( "data-selected" );
+			this.#wtwaves_getElem( wId ).$addAttr( "data-selected" );
 			GSUdomScrollIntoViewX( this.#wtwaves_getElem( wId ).$get( 0 ), this.$elements.$waves.$get( 0 ) );
 			if ( !this.#waveNull ) {
 				this.$this.$dispatch( GSEV_WAVETABLE_PARAM, { wave: wId } );
@@ -348,7 +348,7 @@ class gsuiWavetable extends gsui0ne {
 
 		this.#wtposCurve_get( this.#wtposCurveSelected ).$rmAttr( "data-selected" );
 		this.#wtposCurveSelected = id;
-		this.#wtposCurve_get( id ).$attr( "data-selected", true );
+		this.#wtposCurve_get( id ).$addAttr( "data-selected" );
 		this.#wtposCurve_setDuration( wtposCurve.duration );
 		wtDotline.$clear();
 		wtDotline.$setDotOptions( 0, { freezeX: true, deletable: false } );

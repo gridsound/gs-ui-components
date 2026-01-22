@@ -36,7 +36,7 @@ class gsuiTitleUser extends gsui0ne {
 		this.$elements.$login.$on( "click", this.#onclickLogin.bind( this ) );
 		this.$elements.$logout.$on( "click", this.#onclickLogout.bind( this ) );
 		this.$elements.$save.$on( "click", () => GSUdomDispatch( this, GSEV_TITLEUSER_SAVE ) );
-		this.$elements.$cmpEditBtn.$on( "click", () => !this.$this.$hasAttr( "readonly" ) && this.$this.$attr( "renaming", true ) );
+		this.$elements.$cmpEditBtn.$on( "click", () => !this.$this.$hasAttr( "readonly" ) && this.$this.$addAttr( "renaming" ) );
 		this.$elements.$cmpEditInp.$on( {
 			blur: () => this.$this.$hasAttr( "renaming" ) && this.#onkeydownRename( "Enter" ),
 			keydown: e => {
@@ -107,7 +107,7 @@ class gsuiTitleUser extends gsui0ne {
 		document.title = this.$this.$hasAttr( "saved" ) ? title : `*${ title }`;
 	}
 	#onclickLogout() {
-		this.$this.$attr( "disconnecting", true );
+		this.$this.$addAttr( "disconnecting" );
 		return this.#logoutPromise?.()
 			.then( () => this.$setUserInfo( null ) )
 			.finally( () => this.$this.$rmAttr( "disconnecting" ) );
@@ -124,7 +124,7 @@ class gsuiTitleUser extends gsui0ne {
 		} );
 	}
 	#onsubmitLogin( obj ) {
-		this.$this.$attr( "connecting", true );
+		this.$this.$addAttr( "connecting" );
 		this.#loginPopup.$error.textContent = "";
 		return this.#loginPromise?.( obj.email, obj.password )
 			.then( me => this.$setUserInfo( me ) )

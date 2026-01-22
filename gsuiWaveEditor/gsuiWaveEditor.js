@@ -88,7 +88,7 @@ class gsuiWaveEditor extends gsui0ne {
 		switch ( prop ) {
 			case "tool":
 				this.$this.$find( `button[data-tool="${ prev }"]` ).$rmAttr( "data-selected" );
-				this.$this.$find( `button[data-tool="${ val }"]` ).$attr( "data-selected", true );
+				this.$this.$find( `button[data-tool="${ val }"]` ).$addAttr( "data-selected" );
 				this.#toolSelected = val;
 				break;
 			case "div": {
@@ -188,7 +188,7 @@ class gsuiWaveEditor extends gsui0ne {
 					break;
 				case "normalize-y":
 					w = gsuiWaveEditor.#normalize( this.#waveArray );
-					this.$this.$attr( "normalized", true );
+					this.$this.$addAttr( "normalized" );
 					break;
 			}
 			if ( w && !GSUarrayEq( w, this.#waveArray, .005 ) ) {

@@ -119,7 +119,7 @@ class gsuiComPlayer extends gsui0ne {
 	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
 		this.$elements.$play.$attr( "data-icon", "pause" );
-		this.$this.$attr( "playing", true );
+		this.$this.$addAttr( "playing" );
 	}
 	#onpause() {
 		GSUclearInterval( this.#intervalId );
@@ -129,8 +129,8 @@ class gsuiComPlayer extends gsui0ne {
 	#onclickLike() {
 		const liked = this.$this.$hasAttr( "liked" );
 
-		this.$elements.$likeBtn.$attr( "disabled", true );
-		this.$elements.$likeIco.$attr( { "data-spin": "on" } );
+		this.$elements.$likeBtn.$addAttr( "disabled" );
+		this.$elements.$likeIco.$attr( "data-spin", "on" );
 		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
 				this.$this.$attr( {
@@ -157,7 +157,7 @@ class gsuiComPlayer extends gsui0ne {
 				.then( url => {
 					if ( url ) {
 						hasRender = this.$this.$hasAttr( "rendered" );
-						this.$this.$attr( "rendered", true );
+						this.$this.$addAttr( "rendered" );
 						this.$elements.$audio.$attr( "src", url );
 					}
 				} )

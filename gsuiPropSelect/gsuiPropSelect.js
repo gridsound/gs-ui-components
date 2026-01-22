@@ -56,7 +56,7 @@ class gsuiPropSelect extends gsui0ne {
 
 		this.#prop = prop;
 		this.#setValue( prev, false );
-		btn.$attr( "data-selected", true );
+		btn.$addAttr( "data-selected" );
 		this.#getBtn( prev ).$rmAttr( "data-selected" );
 		this.#setValue( prop, this.$this.$attr( "value" ) );
 		return !!btn.$size();
