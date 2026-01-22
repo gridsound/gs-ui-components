@@ -15,7 +15,6 @@ class gsuiEnvelopeGraph extends gsui0ne {
 			$tagName: "gsui-envelope-graph",
 			$jqueryfy: true,
 			$elements: {
-				$svg: "svg",
 				$mainLine: ".gsuiEnvelopeGraph-mainLine",
 				$attLine: ".gsuiEnvelopeGraph-line",
 				$relLine: ".gsuiEnvelopeGraph-line + .gsuiEnvelopeGraph-line",
@@ -31,7 +30,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	$resized() {
-		this.$elements.$svg.$viewbox( this.clientWidth, this.clientHeight );
+		this.$element.$viewbox( this.clientWidth, this.clientHeight );
 		this.$draw();
 	}
 	$draw() {
