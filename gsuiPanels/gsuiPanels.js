@@ -15,6 +15,7 @@ class gsuiPanels extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPanels",
 			$tagName: "gsui-panels",
+			$jqueryfy: true,
 		} );
 		Object.seal( this );
 		this.onpointerdown = this.#onpointerdown.bind( this );
@@ -27,14 +28,14 @@ class gsuiPanels extends gsui0ne {
 
 	// .........................................................................
 	#init() {
-		const dirX = GSUdomGetAttr( this, "dir" ) === "x";
-		const size = dirX ? this.clientWidth : this.clientHeight;
+		const dirX = this.$this.$attr( "dir" ) === "x";
+		const size = dirX ? this.$this.$width() : this.$this.$height();
 
 		this.#pans = Array.from( this.children );
 		this.#dirX = dirX;
 		this.#dir = dirX ? "width" : "height";
 		this.#pos = dirX ? "left" : "top";
-		GSUdomQSA( this, ".gsuiPanels-extend" ).forEach( el => el.remove() );
+		this.$this.$find( ".gsuiPanels-extend" ).$remove();
 		this.#pans.map( p => [ p, GSUdomBCR( p )[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
 				const perc2 = GSUmathFix( perc, 1 );
