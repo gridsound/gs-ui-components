@@ -441,9 +441,7 @@ class gsuiDotline extends gsui0ne {
 			this.$elements.$slider.$attr( {
 				revert: dotAY > dotBY,
 				value: this.#data[ id ].val,
-			} );
-			this.$elements.$slider.$get( 0 ).$ptrDown( e ); // ? $trigger
-			// this.$elements.$slider.$trigger( "pointerdown", e );
+			} ).$get( 0 ).$ptrDown( e );
 		}
 	}
 	$onptrup() {
