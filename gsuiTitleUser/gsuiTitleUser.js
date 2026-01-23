@@ -35,7 +35,7 @@ class gsuiTitleUser extends gsui0ne {
 		Object.seal( this );
 		this.$elements.$login.$on( "click", this.#onclickLogin.bind( this ) );
 		this.$elements.$logout.$on( "click", this.#onclickLogout.bind( this ) );
-		this.$elements.$save.$on( "click", () => GSUdomDispatch( this, GSEV_TITLEUSER_SAVE ) );
+		this.$elements.$save.$on( "click", () => this.$this.$dispatch( GSEV_TITLEUSER_SAVE ) );
 		this.$elements.$cmpEditBtn.$on( "click", () => !this.$this.$hasAttr( "readonly" ) && this.$this.$addAttr( "renaming" ) );
 		this.$elements.$cmpEditInp.$on( {
 			blur: () => this.$this.$hasAttr( "renaming" ) && this.#onkeydownRename( "Enter" ),
@@ -78,7 +78,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "renaming":
 				if ( val === "" ) {
 					this.$elements.$cmpEditInp.$value( this.$this.$getAttr( "cmpname" ) );
-					GSUdomFocus( this.$elements.$cmpEditInp );
+					GSUdomFocus( this.$elements.$cmpEditInp.$get( 0 ) );
 				}
 				break;
 		}
@@ -119,7 +119,7 @@ class gsuiTitleUser extends gsui0ne {
 			element: this.#loginPopup.$root,
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {
-			GSUdomQSA( this.#loginPopup.$root, "input" ).forEach( inp => inp.value = "" );
+			$( this.#loginPopup.$root, "input" ).$value( "" );
 			return this.$this.$rmAttr( "connecting" ).$hasAttr( "connected" );
 		} );
 	}
@@ -136,8 +136,8 @@ class gsuiTitleUser extends gsui0ne {
 	#onkeydownRename( key ) {
 		switch ( key ) {
 			case "Enter":
-				if ( this.$elements.$cmpEditInp.value !== this.$this.$getAttr( "cmpname" ) ) {
-					GSUdomDispatch( this, GSEV_TITLEUSER_RENAME, GSUtrim2( this.$elements.$cmpEditInp.value ) );
+				if ( this.$elements.$cmpEditInp.$value() !== this.$this.$getAttr( "cmpname" ) ) {
+					this.$this.$dispatch( GSEV_TITLEUSER_RENAME, GSUtrim2( this.$elements.$cmpEditInp.$value() ) );
 				}
 			case "Escape": this.$this.$rmAttr( "renaming" );
 		}
