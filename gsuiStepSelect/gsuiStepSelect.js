@@ -30,8 +30,7 @@ class gsuiStepSelect extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLESOLO ]: GSUnoop,
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
-				GSUdomSetAttr( this, "auto", b );
-				GSUdomDispatch( this, GSEV_STEPSELECT_AUTO, b );
+				this.$setAttr( "auto", b ).$dispatch( GSEV_STEPSELECT_AUTO, b );
 			},
 		} );
 		this.#updateStep();
@@ -57,8 +56,8 @@ class gsuiStepSelect extends gsui0ne {
 		return this.#step;
 	}
 	$getStepFromPxPerBeat( ppb ) {
-		return !GSUdomHasAttr( this, "auto" )
-			? GSUdomGetAttrNum( this, "step" ) :
+		return !this.$this.$hasAttr( "auto" )
+			? +this.$this.$getAttr( "step" ) :
 			ppb <= 16 ? 4 :
 			ppb < 32 ? 2 :
 			ppb < 64 ? 1 :
