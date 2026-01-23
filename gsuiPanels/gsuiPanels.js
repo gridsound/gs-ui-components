@@ -122,7 +122,7 @@ class gsuiPanels extends gsui0ne {
 			this.#panAfterMinSize = this.#panAfter.reduce( ( n, p ) => {
 				return n + parseFloat( GSUdomStyle( p )[ `min-${ this.#dir }` ] ) || 10;
 			}, 0 );
-			this.style.cursor = this.#dirX ? "col-resize" : "row-resize";
+			this.$this.$css( "cursor", this.#dirX ? "col-resize" : "row-resize" );
 			GSUdomAddClass( tar, "gsui-hover" );
 			GSUdomUnselect();
 			this.setPointerCapture( e.pointerId );
@@ -131,7 +131,7 @@ class gsuiPanels extends gsui0ne {
 		}
 	}
 	#onpointerup( e ) {
-		this.style.cursor = "";
+		this.$this.$css( "cursor", "" );
 		GSUdomRmClass( this.#extend, "gsui-hover" );
 		this.releasePointerCapture( e.pointerId );
 		this.onpointermove =
