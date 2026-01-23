@@ -2,24 +2,17 @@
 
 class gsuiFxDelay extends gsui0ne {
 	#graphWidth = 0;
-	#nlDots = this.getElementsByClassName( "gsuiFxDelay-graph-echo" );
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiFxDelay",
 			$tagName: "gsui-fx-delay",
+			$jqueryfy: true,
 			$elements: {
 				$beatlines: "gsui-beatlines",
-				$sliders: {
-					time: "[data-prop='time'] gsui-slider",
-					gain: "[data-prop='gain'] gsui-slider",
-					pan: "[data-prop='pan'] gsui-slider",
-				},
-				$values: {
-					time: "[data-prop='time'] gs-output",
-					gain: "[data-prop='gain'] gs-output",
-					pan: "[data-prop='pan'] gs-output",
-				},
+				$sliders: "gsui-slider",
+				$outputs: "gs-output",
+				$dots: ".gsuiFxDelay-graph-echo",
 			},
 			$attributes: {
 				timedivision: "4/4",
@@ -33,7 +26,7 @@ class gsuiFxDelay extends gsui0ne {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.parentNode.dataset.prop, val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, d.$target.parentNode.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.parentNode.dataset.prop, val ),
 		} );
 	}
 
@@ -48,7 +41,7 @@ class gsuiFxDelay extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
+				this.$elements.$beatlines.$setAttr( "timedivision", val );
 				this.#updatePxPerBeat();
 				break;
 			case "time":
@@ -59,8 +52,8 @@ class gsuiFxDelay extends gsui0ne {
 					prop === "gain" ? Math.round( val * 100 ) :
 					( +val ).toFixed( 2 );
 
-				this.$elements.$values[ prop ].textContent = str;
-				GSUdomSetAttr( this.$elements.$sliders[ prop ], "value", val );
+				this.$elements.$outputs.$filter( `[data-prop="${ prop }"] *` ).$text( str );
+				this.$elements.$sliders.$filter( `[data-prop="${ prop }"] *` ).$setAttr( "value", val );
 				this.#updateGraph();
 			} break;
 		}
@@ -68,31 +61,31 @@ class gsuiFxDelay extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#graphWidth = GSUdomBCRwh( this.$elements.$beatlines )[ 0 ];
+		this.#graphWidth = GSUdomBCRwh( this.$elements.$beatlines.$get( 0 ) )[ 0 ];
 		this.#updatePxPerBeat();
 	}
-	#updatePxPerBeat() {
-		const bPM = GSUdomGetAttr( this, "timedivision" ).split( "/" )[ 0 ];
 
-		GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", this.#graphWidth / bPM );
+	// .........................................................................
+	#updatePxPerBeat() {
+		const bPM = this.$this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
+
+		this.$elements.$beatlines.$setAttr( "pxperbeat", this.#graphWidth / bPM );
 	}
 	#oninputProp( prop, val ) {
-		GSUdomSetAttr( this, prop, val );
-		GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, prop, val );
+		this.$this.$setAttr( prop, val )
+			.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, prop, val );
 	}
 	#updateGraph() {
-		const time = GSUdomGetAttrNum( this, "time" ) / 4;
-		const gain = GSUdomGetAttrNum( this, "gain" );
-		const pan = GSUdomGetAttrNum( this, "pan" );
+		const [ time, gain, pan ] = this.$this.$getAttr( "time", "gain", "pan" );
 
-		Array.from( this.#nlDots ).forEach( ( dot, i ) => {
+		this.$elements.$dots.$each( ( dot, i ) => {
 			const j = i + 1;
 			const opa = gain ** j;
-			const top = i % 2 === 0 ? -pan : pan;
+			const top = i % 2 === 0 ? -pan : +pan;
 
 			dot.style.display = opa > .01 ? "block" : "none";
 			dot.style.opacity = opa;
-			dot.style.left = `${ j * time * 100 }%`;
+			dot.style.left = `${ j * time / 4 * 100 }%`;
 			dot.style.top = `${ ( top / 2 + .5 ) * 100 }%`;
 		} );
 	}
