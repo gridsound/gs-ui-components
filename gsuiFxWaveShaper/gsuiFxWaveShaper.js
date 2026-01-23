@@ -18,6 +18,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 		super( {
 			$cmpName: "gsuiFxWaveShaper",
 			$tagName: "gsui-fx-waveshaper",
+			$jqueryfy: true,
 			$elements: {
 				$symmetryToggle: ".gsuiFxWaveShaper-symmetry gsui-toggle",
 				$oversampleSelect: ".gsuiFxWaveShaper-oversample select",
@@ -35,22 +36,22 @@ class gsuiFxWaveShaper extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
-		this.$elements.$dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
+		this.$elements.$dotline.$get( 0 ).$setDotOptions( 0, { freezeX: true, deletable: false } );
+		this.$elements.$dotline.$get( 0 ).$setDotOptions( 1, { freezeX: true, deletable: false } );
 		this.$changeCurveData( gsuiFxWaveShaper.#defPtsSym );
-		this.$elements.$reset.onclick = this.#onreset.bind( this );
-		this.$elements.$oversampleSelect.onchange = () => {
-			if ( this.$elements.$oversampleToggle.$isOn() ) {
+		this.$elements.$reset.$on( "click", this.#onreset.bind( this ) );
+		this.$elements.$oversampleSelect.$on( "change", () => {
+			if ( this.$elements.$oversampleToggle.$get( 0 ).$isOn() ) {
 				this.#onchangeOversample();
 			}
-		};
+		} );
 		GSUdomListen( this, {
 			[ GSEV_DOTLINE_INPUTEND ]: GSUnoop,
 			[ GSEV_DOTLINE_INPUTSTART ]: GSUnoop,
-			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "curve", obj ),
+			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", obj ),
 			[ GSEV_DOTLINE_INPUT ]: ( _, obj ) => {
 				this.#updateWaveB();
-				GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
+				this.$this.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
 			},
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				switch ( d.$target.dataset.prop ) {
@@ -68,60 +69,58 @@ class gsuiFxWaveShaper extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "symmetry":
-				GSUdomSetAttr( this.$elements.$symmetryToggle, "off", val !== "" );
-				GSUdomSetAttr( this.$elements.$dotline, "viewbox", val !== "" ? "-1 -1 1 1" : "0 0 1 1" );
+				this.$elements.$symmetryToggle.$setAttr( "off", val !== "" );
+				this.$elements.$dotline.$setAttr( "viewbox", val !== "" ? "-1 -1 1 1" : "0 0 1 1" );
 				this.#updateWaveB();
 				break;
 			case "oversample":
-				GSUdomSetAttr( this.$elements.$oversampleToggle, "off", val === "none" );
+				this.$elements.$oversampleToggle.$setAttr( "off", val === "none" );
 				if ( val !== "none" ) {
-					this.$elements.$oversampleSelect.value = val;
+					this.$elements.$oversampleSelect.$value( val );
 				}
 				break;
 		}
 	}
 	$onresize() {
-		const svg = this.$elements.$svgDiag;
-		const w = svg.clientWidth;
-		const h = svg.clientHeight;
+		const w = this.$elements.$svgDiag.$width();
+		const h = this.$elements.$svgDiag.$height();
 
-		this.#wavesH = this.$elements.$waves.clientHeight;
-		GSUdomViewBox( svg, w, h );
-		GSUdomSetAttr( svg.firstChild, { y1: h, x2: w } );
+		this.#wavesH = this.$elements.$waves.$height();
+		this.$elements.$svgDiag.$viewbox( w, h ).$child( 0 ).$setAttr( { y1: h, x2: w } );
 		this.#updateWaveA();
 		this.#updateWaveB();
 	}
 
 	// .........................................................................
 	$changeCurveData( diff ) {
-		this.$elements.$dotline.$change( diff );
+		this.$elements.$dotline.$get( 0 ).$change( diff );
 		this.#updateWaveB();
 	}
 
 	// .........................................................................
 	#onreset() {
 		const diff = GSUdiffObjects(
-			this.$elements.$dotline.$getData(),
-			GSUdomHasAttr( this, "symmetry" )
+			this.$elements.$dotline.$get( 0 ).$getData(),
+			this.$this.$hasAttr( "symmetry" )
 				? gsuiFxWaveShaper.#defPtsSym
 				: gsuiFxWaveShaper.#defPtsAsym
 		);
 
 		if ( diff ) {
-			GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "curve", diff );
+			this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", diff );
 		}
 	}
 	#onchangeOversample() {
-		const val = this.$elements.$oversampleToggle.$isOn()
-			? this.$elements.$oversampleSelect.value
+		const val = this.$elements.$oversampleToggle.$get( 0 ).$isOn()
+			? this.$elements.$oversampleSelect.$value()
 			: "none";
 
-		GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, "oversample", val );
+		this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "oversample", val );
 	}
 	#onchangeSymmetry( symmetry ) {
 		const curve = {};
 		const obj = { symmetry, curve };
-		const srcData = this.$elements.$dotline.$getData();
+		const srcData = this.$elements.$dotline.$get( 0 ).$getData();
 
 		if ( symmetry ) {
 			GSUforEach( srcData, ( d, id ) => {
@@ -136,28 +135,27 @@ class gsuiFxWaveShaper extends gsui0ne {
 			curve[ GSUgetNewId( srcData ) ] = { ...srcData[ 0 ] };
 			curve[ 0 ] = { x: -1, y: -1 };
 		}
-		GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROPS, "symmetry", obj );
+		this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROPS, "symmetry", obj );
 	}
 	#updateWaveA() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
-		const svg = this.$elements.$waves;
-		const w = svg.clientWidth;
-		const h = svg.clientHeight;
+		const w = this.$elements.$waves.$width();
+		const h = this.$elements.$waves.$height();
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( y ) }` );
 
-		GSUdomViewBox( svg, w, h );
-		GSUdomSetAttr( this.$elements.$waveA, "points", pts.join( " " ) );
+		this.$elements.$waves.$viewbox( w, h );
+		this.$elements.$waveA.$setAttr( "points", pts.join( " " ) );
 	}
 	#updateWaveB() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
-		const graphData = GSUmathSampleDotLine( this.$elements.$dotline.$getData(), len ).map( d => d[ 1 ] );
-		const graphData2 = GSUdomHasAttr( this, "symmetry" )
+		const graphData = GSUmathSampleDotLine( this.$elements.$dotline.$get( 0 ).$getData(), len ).map( d => d[ 1 ] );
+		const graphData2 = this.$this.$hasAttr( "symmetry" )
 			? this.#addGraphSymmetry( graphData )
 			: graphData;
-		const w = this.$elements.$waves.clientWidth;
+		const w = this.$elements.$waves.$width();
 		const pts = gsuiFxWaveShaper.#sinePts.map( ( y, i ) => `${ i / len * w },${ this.#calcY( graphData2[ Math.round( ( ( y + 1 ) / 2 ) * ( len - 1 ) ) ] || 0 ) }` );
 
-		GSUdomSetAttr( this.$elements.$waveB, "points", pts.join( " " ) );
+		this.$elements.$waveB.$setAttr( "points", pts.join( " " ) );
 	}
 	#addGraphSymmetry( curve ) {
 		const cpy = [ ...curve ].reverse();
