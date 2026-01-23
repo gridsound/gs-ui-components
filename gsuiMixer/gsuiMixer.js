@@ -20,10 +20,10 @@ class gsuiMixer extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.$elements.$analyserType.$on( "click", () => {
-			const type = GSUdomGetAttr( this, "analyser" ) === "hz" ? "td" : "hz";
+			const type = this.$this.$getAttr( "analyser" ) === "hz" ? "td" : "hz";
 
-			GSUdomSetAttr( this, "analyser", type );
-			GSUdomDispatch( this, GSEV_MIXER_CHANGEANALYSER, type );
+			this.$this.$setAttr( "analyser", type )
+				.$dispatch( GSEV_MIXER_CHANGEANALYSER, type );
 		} );
 		GSUdomListen( this, {
 			[ GSEV_CHANNELS_NBCHANNELSCHANGE ]: () => this.#shadowChans.$update(),
@@ -34,14 +34,14 @@ class gsuiMixer extends gsui0ne {
 	// .........................................................................
 	$connected() {
 		this.#shadowChans = new gsuiScrollShadow( {
-			scrolledElem: GSUdomQS( this, ".gsuiChannels-panChannels" ),
-			leftShadow: GSUdomQS( this, ".gsuiChannels-panMain" ),
-			rightShadow: GSUdomQS( this, ".gsuiMixer-effects" ),
+			scrolledElem: $( this, ".gsuiChannels-panChannels" ).$get( 0 ),
+			leftShadow: $( this, ".gsuiChannels-panMain" ).$get( 0 ),
+			rightShadow: $( this, ".gsuiMixer-effects" ).$get( 0 ),
 		} );
 		this.#shadowEffects = new gsuiScrollShadow( {
 			scrolledElem: this.$elements.$effects.$get( 0 ),
-			topShadow: GSUdomQS( this, ".gsuiMixer-effects .gsuiMixer-head" ),
-			bottomShadow: GSUdomQS( this, ".gsuiMixer-effects .gsuiMixer-bottomShadow" ),
+			topShadow: $( this, ".gsuiMixer-effects .gsuiMixer-head" ).$get( 0 ),
+			bottomShadow: $( this, ".gsuiMixer-effects .gsuiMixer-bottomShadow" ).$get( 0 ),
 		} );
 	}
 	$disconnected() {
