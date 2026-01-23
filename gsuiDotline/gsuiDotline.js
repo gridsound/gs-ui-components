@@ -314,9 +314,10 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	$onptrdown( e ) {
-		const isSVG = GSUdomHasClass( e.target, "gsuiDotline-padding" );
-		let isDot = GSUdomHasClass( e.target, "gsuiDotline-dot" );
-		let id = e.target.dataset.id;
+		const tar = $( e.target );
+		const isSVG = tar.$hasClass( "gsuiDotline-padding" );
+		let isDot = tar.$hasClass( "gsuiDotline-dot" );
+		let id = tar.$getAttr( "data-id" );
 
 		GSUdomUnselect();
 		this.#onrightclickSlider( e );
@@ -365,8 +366,10 @@ class gsuiDotline extends gsui0ne {
 		return false;
 	}
 	#onrightclickSlider( e ) {
-		if ( e.button === 2 && GSUdomHasClass( e.target, "gsuiDotline-cdot" ) ) {
-			const id = e.target.dataset.id;
+		const tar = $( e.target );
+
+		if ( e.button === 2 && tar.$hasClass( "gsuiDotline-cdot" ) ) {
+			const id = tar.$getAttr( "data-id" );
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
@@ -376,16 +379,18 @@ class gsuiDotline extends gsui0ne {
 		}
 	}
 	#onrightclickDot( e ) {
-		if ( e.button === 2 && GSUdomHasClass( e.target, "gsuiDotline-dot" ) ) {
-			this.#menuDotId = e.target.dataset.id;
+		const tar = $( e.target );
+
+		if ( e.button === 2 && tar.$hasClass( "gsuiDotline-dot" ) ) {
+			this.#menuDotId = tar.$getAttr( "data-id" );
 			this.#updateMenu( this.#data[ this.#menuDotId ].type );
-			this.#menu.$setTarget( e.target );
+			this.#menu.$setTarget( tar.$get( 0 ) );
 			this.#menu.$open();
 		}
 	}
 	#onptrdownDot( id, xstep ) {
 		this.#selectDotElement( id, true );
-		if ( !GSUdomHasAttr( this, "movelinked" ) ) {
+		if ( !this.$this.$hasAttr( "movelinked" ) ) {
 			const dat = this.#data[ id ];
 
 			this.#dotsMoving = [ { id, ...dat } ];
@@ -431,8 +436,10 @@ class gsuiDotline extends gsui0ne {
 		}
 	}
 	#onptrdownCurveDot( e ) {
-		if ( GSUdomHasClass( e.target, "gsuiDotline-cdot" ) ) {
-			const id = e.target.dataset.id;
+		const tar = $( e.target );
+
+		if ( tar.$hasClass( "gsuiDotline-cdot" ) ) {
+			const id = tar.$getAttr( "data-id" );
 			const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
 			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
 			const dotBY = this.#dataSorted[ ind     ][ 1 ].y;
