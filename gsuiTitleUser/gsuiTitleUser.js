@@ -77,7 +77,7 @@ class gsuiTitleUser extends gsui0ne {
 				break;
 			case "renaming":
 				if ( val === "" ) {
-					this.$elements.$cmpEditInp.$value( this.$this.$attr( "cmpname" ) );
+					this.$elements.$cmpEditInp.$value( this.$this.$getAttr( "cmpname" ) );
 					GSUdomFocus( this.$elements.$cmpEditInp );
 				}
 				break;
@@ -100,7 +100,7 @@ class gsuiTitleUser extends gsui0ne {
 
 	// .........................................................................
 	#updateCmpName() {
-		const name = this.$this.$attr( "cmpname" );
+		const name = this.$this.$getAttr( "cmpname" );
 		const title = name || "GridSound";
 
 		this.$elements.$cmpName.$text( name );
@@ -136,7 +136,7 @@ class gsuiTitleUser extends gsui0ne {
 	#onkeydownRename( key ) {
 		switch ( key ) {
 			case "Enter":
-				if ( this.$elements.$cmpEditInp.value !== this.$this.$attr( "cmpname" ) ) {
+				if ( this.$elements.$cmpEditInp.value !== this.$this.$getAttr( "cmpname" ) ) {
 					GSUdomDispatch( this, GSEV_TITLEUSER_RENAME, GSUtrim2( this.$elements.$cmpEditInp.value ) );
 				}
 			case "Escape": this.$this.$rmAttr( "renaming" );

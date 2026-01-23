@@ -103,7 +103,7 @@ class gsuiComProfile extends gsui0ne {
 			.then( () => {
 				this.$this.$attr( {
 					followed: willFollow,
-					followers: +this.$this.$attr( "followers" ) + willFollow * 2 - 1,
+					followers: +this.$this.$getAttr( "followers" ) + willFollow * 2 - 1,
 					followedjustnow: willFollow,
 				} );
 			} )
@@ -112,7 +112,7 @@ class gsuiComProfile extends gsui0ne {
 	}
 	#onclickVerify() {
 		if ( !this.$this.$hasAttr( "emailsending" ) ) {
-			this.$this.$attr( "emailsending" );
+			this.$this.$addAttr( "emailsending" );
 			this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sending );
 			this.#verifyPromise?.()
 				.then( () => this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sent ) )

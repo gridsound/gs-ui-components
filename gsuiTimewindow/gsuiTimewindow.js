@@ -119,7 +119,7 @@ class gsuiTimewindow extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		const w = this.$this.$attr( "panelsize" ) || 100;
+		const w = this.$this.$getAttr( "panelsize" ) || 100;
 		const panDowns = GSUjq( [
 			this.$elements.$panelDown,
 			this.$elements.$down,
@@ -129,7 +129,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$panel.$css( "minWidth", `${ w }px` );
 		if ( this.$this.$hasAttr( "downpanel" ) ) {
 			panDowns
-				.$height( this.$this.$attr( "downpanelsize" ) || 50 )
+				.$height( this.$this.$getAttr( "downpanelsize" ) || 50 )
 				.$child( 0 ).$on( "pointerdown", this.#onptrdownExtend.bind( this, "down" ) );
 		} else {
 			panDowns.$remove();
@@ -193,7 +193,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.$this.$css( "--gsuiTimewindow-lineH", `${ val }px` );
 				break;
 			case "currenttime": {
-				const step = +this.$this.$attr( "currenttimestep" );
+				const step = +this.$this.$getAttr( "currenttimestep" );
 
 				this.#currentTime = +val;
 				this.$elements.$timeline.$attr( "currenttime", val );
@@ -239,7 +239,7 @@ class gsuiTimewindow extends gsui0ne {
 			.$width( mapPx / durPx * 100, "%" );
 	}
 	#minimapUpdateCurrentTimeLoop() {
-		const loopStr = this.$this.$attr( "loop" );
+		const loopStr = this.$this.$getAttr( "loop" );
 		const durBeat = this.#minimapGetMaxView() / this.#pxPerBeat;
 
 		this.$elements.$minimapCurrentTime.$left( this.#currentTime / durBeat * 100, "%" );
@@ -261,9 +261,7 @@ class gsuiTimewindow extends gsui0ne {
 		// return this.#minimapAction === "thumb" ? this.#minimapViewMax : viewSize;
 	}
 	#minimapGetDuration() {
-		const dur = +this.$this.$attr( "duration" );
-		const time = +this.$this.$attr( "currenttime" );
-		const loopStr = this.$this.$attr( "loop" );
+		const [ dur, time, loopStr ] = this.$this.$getAttr( "duration", "currenttime", "loop" );
 		const loop = loopStr ? GSUsplitNums( loopStr, "-" )[ 1 ] : 0;
 
 		return Math.max( time, loop, dur, 0 );
@@ -338,10 +336,10 @@ class gsuiTimewindow extends gsui0ne {
 	$appendPanelDown( ...el ) { this.$elements.$panelDown.$append( ...el ); }
 
 	// .........................................................................
-	#getPPBmin() { return +this.$this.$attr( "pxperbeatmin" ) || 8; }
-	#getPPBmax() { return +this.$this.$attr( "pxperbeatmax" ) || 512; }
-	#getLHmin() { return +this.$this.$attr( "lineheightmin" ) || 24; }
-	#getLHmax() { return +this.$this.$attr( "lineheightmax" ) || 256; }
+	#getPPBmin() { return +this.$this.$getAttr( "pxperbeatmin" ) || 8; }
+	#getPPBmax() { return +this.$this.$getAttr( "pxperbeatmax" ) || 512; }
+	#getLHmin() { return +this.$this.$getAttr( "lineheightmin" ) || 24; }
+	#getLHmax() { return +this.$this.$getAttr( "lineheightmax" ) || 256; }
 	#calcScrollBack( scroll, ppb, ppbNew, ptrPx ) {
 		const scrollVal = scroll / ppb;
 		const scrollIncr = ptrPx / ppb * ( ppbNew - ppb );
@@ -462,8 +460,8 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveExtendPanel( e ) {
 		const w = this.#panelSize + ( e.pageX - this.#ptrdownPageX );
-		const min = +this.$this.$attr( "panelsizemin" ) || 50;
-		const max = +this.$this.$attr( "panelsizemax" ) || 260;
+		const min = +this.$this.$getAttr( "panelsizemin" ) || 50;
+		const max = +this.$this.$getAttr( "panelsizemax" ) || 260;
 		const w2 = GSUmathClamp( w, min, max );
 
 		this.$elements.$minimapPanel.$width( w2 );
@@ -472,8 +470,8 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveExtendDownPanel( e ) {
 		const h = this.#panelSize + ( this.#ptrdownPageY - e.pageY );
-		const min = +this.$this.$attr( "downpanelsizemin" ) || 50;
-		const max = +this.$this.$attr( "downpanelsizemax" ) || 260;
+		const min = +this.$this.$getAttr( "downpanelsizemin" ) || 50;
+		const max = +this.$this.$getAttr( "downpanelsizemax" ) || 260;
 		const h2 = GSUmathClamp( h, min, max );
 
 		this.$elements.$panelDown.$height( h2 );

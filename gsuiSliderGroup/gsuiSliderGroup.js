@@ -134,7 +134,7 @@ class gsuiSliderGroup extends gsui0ne {
 		return GSUmathFix( GSUmathRound( val, this.#step ), 8 );
 	}
 	#updatePxPerBeat() {
-		const ppb = +this.$this.$attr( "pxperbeat" );
+		const ppb = +this.$this.$getAttr( "pxperbeat" );
 
 		this.$elements.$slidersParent.$css( "fontSize", `${ ppb }px` );
 		if ( this.$elements.$beatlines ) {

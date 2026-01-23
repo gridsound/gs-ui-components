@@ -44,8 +44,7 @@ class gsuiComButton extends gsui0ne {
 			this.$this.$hasAttr( "loading" ) );
 	}
 	#onclick( e ) {
-		const dl = this.$this.$attr( "download" );
-		const hr = this.$this.$attr( "href" );
+		const [ dl, hr ] = this.$this.$getAttr( "download", "href" );
 
 		if ( dl ) {
 			e.preventDefault();

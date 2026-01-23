@@ -39,8 +39,7 @@ class gsuiComUserLink extends gsui0ne {
 		this.$elements.$username.$text( n );
 	}
 	#updateName() {
-		const a = this.$this.$attr( "firstname" );
-		const b = this.$this.$attr( "lastname" );
+		const [ a, b ] = this.$this.$getAttr( "firstname", "lastname" );
 
 		this.$elements.$name.$text( a && b
 			? `${ a } ${ b }`

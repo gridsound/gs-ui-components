@@ -109,8 +109,7 @@ class gsuiComPlayer extends gsui0ne {
 		return `${ t.m }:${ t.s }`;
 	}
 	$updateTimeSlider() {
-		const dur = +this.$this.$attr( "duration" );
-		const time = +this.$this.$attr( "currenttime" );
+		const [ dur, time ] = this.$this.$getAttr( "duration", "currenttime" );
 
 		this.$elements.$timeInpVal.$width( time / dur * 100, "%" );
 	}
@@ -135,7 +134,7 @@ class gsuiComPlayer extends gsui0ne {
 			.then( () => {
 				this.$this.$attr( {
 					liked: !liked,
-					likes: +this.$this.$attr( "likes" ) + ( !liked * 2 - 1 ),
+					likes: +this.$this.$getAttr( "likes" ) + ( !liked * 2 - 1 ),
 				} );
 			} )
 			.catch( err => GSUpopup.$alert( `Error ${ err.code }`, err.msg ) )
@@ -249,7 +248,7 @@ class gsuiComPlayer extends gsui0ne {
 		e.target.onpointerup =
 		e.target.onpointermove =
 		this.#settingTime = null;
-		this.$elements.$audio.$get( 0 ).currentTime = t * this.$this.$attr( "duration" );
+		this.$elements.$audio.$get( 0 ).currentTime = t * this.$this.$getAttr( "duration" );
 	}
 }
 

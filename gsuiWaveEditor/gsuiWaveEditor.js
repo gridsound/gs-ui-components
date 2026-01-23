@@ -177,7 +177,7 @@ class gsuiWaveEditor extends gsui0ne {
 				case "tool": {
 					const t = btn.dataset.tool;
 
-					if ( t && this.$this.$attr( "tool" ) !== t ) {
+					if ( t && this.$this.$getAttr( "tool" ) !== t ) {
 						this.$this
 							.$attr( "tool", t )
 							.$dispatch( GSEV_WAVEEDITOR_PARAM, { tool: t } );
@@ -295,7 +295,7 @@ class gsuiWaveEditor extends gsui0ne {
 		switch ( act ) {
 			case "div-x":
 			case "div-y":
-				this.$this.$dispatch( GSEV_WAVEEDITOR_PARAM, { div: this.$this.$attr( "div" ) } );
+				this.$this.$dispatch( GSEV_WAVEEDITOR_PARAM, { div: this.$this.$getAttr( "div" ) } );
 				break;
 			case "mirror-x":
 			case "mirror-y":

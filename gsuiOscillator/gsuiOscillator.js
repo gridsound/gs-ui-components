@@ -159,10 +159,10 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#updateWave( prop, val ) {
 		const w = this.$elements.$waves;
-		const wave = prop === "wave" ? val : this.$this.$attr( "wave" );
-		const gain = prop === "gain" ? val : +this.$this.$attr( "gain" );
-		const pan = prop === "pan" ? val : +this.$this.$attr( "pan" );
-		const det = prop === "detune" ? val : +this.$this.$attr( "detune" ) + +this.$this.$attr( "detunefine" );
+		const wave = prop === "wave" ? val : this.$this.$getAttr( "wave" );
+		const gain = prop === "gain" ? val : +this.$this.$getAttr( "gain" );
+		const pan = prop === "pan" ? val : +this.$this.$getAttr( "pan" );
+		const det = prop === "detune" ? val : +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
 		const hz = 2 ** ( ( det - -24 ) / 12 );
 
 		w.$get( 0 ).$options( 0, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
@@ -203,7 +203,7 @@ class gsuiOscillator extends gsui0ne {
 		let val2 = val;
 
 		if ( prop.startsWith( "detune" ) ) {
-			val2 = +this.$this.$attr( "detune" ) + +this.$this.$attr( "detunefine" );
+			val2 = +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
 		}
 		this.#getPropSlider( prop ).$attr( {
 			value: val,
@@ -230,10 +230,10 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#updateUnisonGraphVoices( n ) {
 		GSUdomSetChildrenLength( this.$elements.$unisonGraph.$get( 0 ), n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
-		this.#updateUnisonGraphBlend( +this.$this.$attr( "unisonblend" ) );
+		this.#updateUnisonGraphBlend( +this.$this.$getAttr( "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {
-		const maxDetune = +this.#getPropSlider( "unisondetune" ).$attr( "max" );
+		const maxDetune = +this.#getPropSlider( "unisondetune" ).$getAttr( "max" );
 
 		this.$elements.$unisonGraph.$height( GSUmathEaseOutCirc( detune / maxDetune ) * 100, "%" );
 	}
@@ -318,11 +318,11 @@ class gsuiOscillator extends gsui0ne {
 				this.#updateUnisonGraphBlend( val );
 				break;
 			case "detune":
-				val2 += +this.$this.$attr( "detunefine" );
+				val2 += +this.$this.$getAttr( "detunefine" );
 				this.#updateWave( "detune", val2 );
 				break;
 			case "detunefine":
-				val2 += +this.$this.$attr( "detune" );
+				val2 += +this.$this.$getAttr( "detune" );
 				this.#updateWave( "detune", val2 );
 				break;
 		}

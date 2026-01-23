@@ -185,8 +185,8 @@ class gsuiWavetable extends gsui0ne {
 		if ( this.#waveNull ) {
 			const editor = this.$elements.$editor;
 
-			obj2.div = editor.$attr( "div" );
-			obj2.tool = editor.$attr( "tool" );
+			obj2.div = editor.$getAttr( "div" );
+			obj2.tool = editor.$getAttr( "tool" );
 			obj2.symmetry = editor.$hasAttr( "symmetry" );
 		}
 		this.$this.$dispatch( GSEV_WAVETABLE_CHANGE, this.$change( obj2 ) );

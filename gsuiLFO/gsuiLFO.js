@@ -56,7 +56,7 @@ class gsuiLFO extends gsui0ne {
 				case "lfo":
 					this.#lfo = val;
 					this.#getPropSlider( "amp" ).$attr( "max", val === "gain" ? 1 : 12 );
-					this.#changeProp( "amp", Math.abs( this.$this.$attr( "amp" ) ) );
+					this.#changeProp( "amp", Math.abs( this.$this.$getAttr( "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
 					this.#updateBeatlinesColor();
@@ -87,13 +87,13 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$updateWave( prop, val ) {
-		const bPM = +( this.$this.$attr( "timedivision" ) || "4/4" ).split( "/" )[ 0 ];
+		const bPM = +( this.$this.$getAttr( "timedivision" ) || "4/4" ).split( "/" )[ 0 ];
 		const opt = {
-			type: this.$this.$attr( "type" ),
-			delay: prop === "delay" ? val : +this.$this.$attr( "delay" ),
-			attack: prop === "attack" ? val : +this.$this.$attr( "attack" ),
-			frequency: prop === "speed" ? val : +this.$this.$attr( "speed" ),
-			amplitude: prop === "amp" ? val : +this.$this.$attr( "amp" ),
+			type: this.$this.$getAttr( "type" ),
+			delay: prop === "delay" ? val : +this.$this.$getAttr( "delay" ),
+			attack: prop === "attack" ? val : +this.$this.$getAttr( "attack" ),
+			frequency: prop === "speed" ? val : +this.$this.$getAttr( "speed" ),
+			amplitude: prop === "amp" ? val : +this.$this.$getAttr( "amp" ),
 		};
 
 		if ( this.#lfo === "detune" ) {
@@ -146,15 +146,15 @@ class gsuiLFO extends gsui0ne {
 				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				this.$this.$attr( "amp", -this.$this.$attr( "amp" ) );
+				this.$this.$attr( "amp", -this.$this.$getAttr( "amp" ) );
 				this.$updateWave();
-				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "amp", +this.$this.$attr( "amp" ) );
+				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "amp", +this.$this.$getAttr( "amp" ) );
 				break;
 		}
 	}
 	#oninputSlider( prop, val ) {
 		const realval = prop === "amp"
-			? val * Math.sign( this.$this.$attr( "amp" ) )
+			? val * Math.sign( this.$this.$getAttr( "amp" ) )
 			: val;
 
 		this.#getPropOutput( prop ).$text( gsuiLFO.#formatVal( prop, val ) );
@@ -163,7 +163,7 @@ class gsuiLFO extends gsui0ne {
 	}
 	#onchangeSlider( prop, val ) {
 		const nval = prop === "amp"
-			? val * Math.sign( this.$this.$attr( "amp" ) )
+			? val * Math.sign( this.$this.$getAttr( "amp" ) )
 			: val;
 
 		this.$this.$attr( prop, nval )

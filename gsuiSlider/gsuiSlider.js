@@ -181,7 +181,7 @@ class gsuiSlider extends gsui0ne {
 		switch ( e.button ) {
 			default: return false;
 			case 1: {
-				const def = this.$this.$hasAttr( "defaultValue" ) && +this.$this.$attr( "defaultValue" );
+				const def = this.$this.$hasAttr( "defaultValue" ) && +this.$this.$getAttr( "defaultValue" );
 
 				if ( def !== false && this.#value !== def ) {
 					this.#value = def;

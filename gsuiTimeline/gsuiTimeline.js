@@ -278,7 +278,7 @@ class gsuiTimeline extends gsui0ne {
 		}
 		if ( this.#status ) {
 			this.$this.$dispatch( GSEV_TIMELINE_INPUTCURRENTTIMESTART );
-			this.#mousedownLoop = this.$this.$attr( "loop" );
+			this.#mousedownLoop = this.$this.$getAttr( "loop" );
 			this.#mousedownLoopA = this.#loopA;
 			this.#mousedownLoopB = this.#loopB;
 			GSUdomUnselect();
@@ -304,7 +304,7 @@ class gsuiTimeline extends gsui0ne {
 					const b = this.#mousedownLoopB + rel;
 					const loop = `${ a }-${ b }`;
 
-					if ( loop !== this.$this.$attr( "loop" ) ) {
+					if ( loop !== this.$this.$getAttr( "loop" ) ) {
 						this.$this.$attr( "loop", loop )
 							.$dispatch( GSEV_TIMELINE_INPUTLOOP, a, b );
 					}
@@ -331,7 +331,7 @@ class gsuiTimeline extends gsui0ne {
 						}
 						this.#mousedownBeat = this.#mousedownLoopA;
 					}
-					if ( loop !== this.$this.$attr( "loop" ) ) {
+					if ( loop !== this.$this.$getAttr( "loop" ) ) {
 						if ( aa !== bb ) {
 							this.$this.$attr( "loop", loop ).$dispatch( GSEV_TIMELINE_INPUTLOOP, aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
@@ -345,11 +345,11 @@ class gsuiTimeline extends gsui0ne {
 	$onptrup() {
 		switch ( this.#status ) {
 			case GSUI_DRAGGING_TIME: {
-				const beat = this.$this.$attr( "currenttime-preview" );
+				const beat = this.$this.$getAttr( "currenttime-preview" );
 
 				this.$this.$rmAttr( "currenttime-preview" )
 					.$dispatch( GSEV_TIMELINE_INPUTCURRENTTIMEEND );
-				if ( beat !== this.$this.$attr( "currenttime" ) ) {
+				if ( beat !== this.$this.$getAttr( "currenttime" ) ) {
 					this.$this.$attr( "currenttime", beat )
 						.$dispatch( GSEV_TIMELINE_CHANGECURRENTTIME, +beat );
 				}
@@ -358,7 +358,7 @@ class gsuiTimeline extends gsui0ne {
 			case GSUI_DRAGGING_LOOP_A:
 			case GSUI_DRAGGING_LOOP_B:
 				this.$this.$dispatch( GSEV_TIMELINE_INPUTLOOPEND );
-				if ( this.$this.$attr( "loop" ) !== this.#mousedownLoop ) {
+				if ( this.$this.$getAttr( "loop" ) !== this.#mousedownLoop ) {
 					if ( this.#loopA !== this.#loopB ) {
 						this.$this.$dispatch( GSEV_TIMELINE_CHANGELOOP, this.#loopA, this.#loopB );
 					} else {

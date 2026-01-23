@@ -68,7 +68,7 @@ class gsuiSynthesizer extends gsui0ne {
 					const [ lfoEnv, prop ] = d.$target.parentNode.dataset.tab.split( " " );
 					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-					if ( elCmp.$attr( lfoEnv ) === prop ) {
+					if ( elCmp.$getAttr( lfoEnv ) === prop ) {
 						elCmp.$attr( "toggle", b );
 					}
 					this.$this.$dispatch( lfoEnv === "env" ? GSEV_SYNTHESIZER_TOGGLEENV : GSEV_SYNTHESIZER_TOGGLELFO, prop, b );
@@ -153,7 +153,7 @@ class gsuiSynthesizer extends gsui0ne {
 	$updateGraph( envLFO, prop ) {
 		const elCmp = envLFO === "env" ? this.$elements.$env : this.$elements.$lfo;
 
-		if ( prop === elCmp.$attr( envLFO ) ) {
+		if ( prop === elCmp.$getAttr( envLFO ) ) {
 			elCmp.$get( 0 ).$updateWave();
 		}
 	}
@@ -166,7 +166,7 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$changeEnvProp( env, prop, val ) {
 		this.#data.env[ env ][ prop ] = val;
-		if ( env === this.$elements.$env.$attr( "env" ) ) {
+		if ( env === this.$elements.$env.$getAttr( "env" ) ) {
 			this.$elements.$env.$attr( prop, val );
 		}
 		if ( prop === "toggle" ) {
@@ -177,7 +177,7 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$changeLFOProp( lfo, prop, val ) {
 		this.#data.lfo[ lfo ][ prop ] = val;
-		if ( lfo === this.$elements.$lfo.$attr( "lfo" ) ) {
+		if ( lfo === this.$elements.$lfo.$getAttr( "lfo" ) ) {
 			this.$elements.$lfo.$attr( prop, val );
 		}
 		if ( prop === "toggle" ) {
@@ -221,7 +221,7 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	#dispatchPreset( p ) {
-		if ( p !== this.$this.$attr( "preset" ) ) {
+		if ( p !== this.$this.$getAttr( "preset" ) ) {
 			this.$this
 				.$attr( "preset", p )
 				.$dispatch( GSEV_SYNTHESIZER_PRESET, p );
