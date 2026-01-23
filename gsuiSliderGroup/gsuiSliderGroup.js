@@ -90,7 +90,7 @@ class gsuiSliderGroup extends gsui0ne {
 
 	// .........................................................................
 	$empty() {
-		this.#sliders.forEach( s => s.element.remove() );
+		this.#sliders.forEach( s => s.element.$remove() );
 		this.#sliders.clear();
 		this.#selected.clear();
 		this.#valueSaved.clear();
@@ -105,15 +105,14 @@ class gsuiSliderGroup extends gsui0ne {
 
 	// .........................................................................
 	$delete( id ) {
-		this.#sliders.get( id ).element.remove();
+		this.#sliders.get( id ).element.$remove();
 		this.#sliders.delete( id );
 		this.#selected.delete( id );
 	}
 	$set( id, when, duration, value ) {
-		const element = GSUgetTemplate( "gsui-slidergroup-slider" );
+		const element = $( GSUgetTemplate( "gsui-slidergroup-slider" ) ).$setAttr( "data-id", id );
 		const sli = Object.seal( { element, when, duration, value, selected: false } );
 
-		element.dataset.id = id;
 		this.#sliders.set( id, sli );
 		this.#sliderWhen( sli, when );
 		this.#sliderValue( sli, value );
@@ -142,21 +141,22 @@ class gsuiSliderGroup extends gsui0ne {
 		}
 	}
 	#sliderWhen( sli, when ) {
-		sli.element.style.left = `${ when }em`;
-		sli.element.style.zIndex = Math.floor( when * 100 );
+		sli.element.$left( when, "em" ).$css( "zIndex", Math.floor( when * 100 ) );
 	}
 	#sliderDuration( sli, dur ) {
-		sli.element.style.width = `${ dur }em`;
+		sli.element.$width( dur, "em" );
 	}
 	#sliderSelected( sli, b ) {
-		if ( b !== this.#selected.has( sli.element.dataset.id ) ) {
-			const zind = +sli.element.style.zIndex;
+		const id = sli.element.$getAttr( "data-id" );
+
+		if ( b !== this.#selected.has( id ) ) {
+			const zind = +sli.element.$css( "zIndex" );
 
 			b
-				? this.#selected.set( sli.element.dataset.id, sli )
-				: this.#selected.delete( sli.element.dataset.id );
-			GSUdomTogClass( sli.element, "gsuiSliderGroup-sliderSelected", !!b );
-			sli.element.style.zIndex = zind + ( b ? 1000 : -1000 );
+				? this.#selected.set( id, sli )
+				: this.#selected.delete( id );
+			sli.element.$togClass( "gsuiSliderGroup-sliderSelected", !!b )
+				.$css( "zIndex", zind + ( b ? 1000 : -1000 ) );
 		}
 	}
 	#sliderValue( sli, val ) {
@@ -166,14 +166,14 @@ class gsuiSliderGroup extends gsui0ne {
 		const sameDir = min >= 0 === max >= 0;
 		const percX = Math.abs( valNum - ( sameDir ? min : 0 ) ) / ( max - min ) * 100;
 		const perc0 = sameDir ? 0 : Math.abs( min ) / ( max - min ) * 100;
-		const el = sli.element.firstElementChild;
-		const innerDown = GSUdomTogClass( el, "gsuiSliderGroup-sliderInnerDown", valNum < 0 );
 
-		GSUdomStyle( el, {
-			height: `${ percX }%`,
-			top: innerDown ? `${ 100 - perc0 }%` : "auto",
-			bottom: innerDown ? "auto" : `${ perc0 }%`,
-		} );
+		sli.element.$child( 0 )
+			.$togClass( "gsuiSliderGroup-sliderInnerDown", valNum < 0 )
+			.$css( {
+				height: `${ percX }%`,
+				top: valNum < 0 ? `${ 100 - perc0 }%` : "auto",
+				bottom: valNum < 0 ? "auto" : `${ perc0 }%`,
+			} );
 	}
 
 	// .........................................................................
@@ -197,7 +197,7 @@ class gsuiSliderGroup extends gsui0ne {
 		const y = e.pageY - this.#bcr.y;
 		const min = this.#min;
 		const max = this.#max;
-		const xval = x / GSUdomGetAttrNum( this, "pxperbeat" );
+		const xval = x / +this.$this.$getAttr( "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
 			: this.#roundVal( min + ( max - min ) * ( 1 - GSUmathClamp( y / this.#bcr.h, 0, 1 ) ) );
@@ -212,7 +212,7 @@ class gsuiSliderGroup extends gsui0ne {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
 				sli.value = rval;
 				this.#sliderValue( sli, rval );
-				this.$this.$dispatch( GSEV_SLIDERGROUP_INPUT, sli.element.dataset.id, rval );
+				this.$this.$dispatch( GSEV_SLIDERGROUP_INPUT, sli.element.$getAttr( "data-id" ), rval );
 			}
 		} );
 	}
