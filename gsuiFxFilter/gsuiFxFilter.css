@@ -28,38 +28,38 @@ gsui-fx-filter {
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaType {
+.gsuiFxFilter-area[ data-area="type" ] {
 	grid-area: type;
 }
-.gsuiFxFilter-areaGraph {
+.gsuiFxFilter-area[ data-area="graph" ] {
 	grid-area: graph;
 }
-.gsuiFxFilter-areaGain {
+.gsuiFxFilter-area[ data-area="gain" ] {
 	grid-area: gain;
 	--gsuiSlider-lineColor: var( --gsui-col-gain );
 }
-.gsuiFxFilter-areaQ {
+.gsuiFxFilter-area[ data-area="q" ] {
 	grid-area: Q;
 	--gsuiSlider-lineColor: var( --gsui-col-Q );
 }
-.gsuiFxFilter-areaDetune {
+.gsuiFxFilter-area[ data-area="detune" ] {
 	grid-area: detune;
 	margin-top: 16px;
 	--gsuiSlider-lineColor: var( --gsui-col-detune );
 }
-.gsuiFxFilter-areaFrequency {
+.gsuiFxFilter-area[ data-area="frequency" ] {
 	grid-area: frequency;
 	--gsuiSlider-lineColor: var( --gsui-col-frequency );
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaGain .gsuiSlider-eventCatcher,
-.gsuiFxFilter-areaFrequency .gsuiSlider-eventCatcher {
+.gsuiFxFilter-area[ data-area="gain" ] .gsuiSlider-eventCatcher,
+.gsuiFxFilter-area[ data-area="frequency" ] .gsuiSlider-eventCatcher {
 	inset: -8px;
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaGraph gs-label {
+.gsuiFxFilter-area[ data-area="graph" ] gs-label {
 	align-self: flex-start;
 }
 gsui-fx-filter .gsuiCurves-curve {
@@ -72,7 +72,7 @@ gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-areaType .gsuiFxFilter-area-content {
+.gsuiFxFilter-area[ data-area="type" ] .gsuiFxFilter-area-content {
 	display: flex;
 	overflow: hidden;
 	border-radius: 4px;
