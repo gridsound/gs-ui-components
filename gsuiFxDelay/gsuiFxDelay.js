@@ -78,15 +78,17 @@ class gsuiFxDelay extends gsui0ne {
 	#updateGraph() {
 		const [ time, gain, pan ] = this.$this.$getAttr( "time", "gain", "pan" );
 
-		this.$elements.$dots.$each( ( dot, i ) => {
+		this.$elements.$dots.$css( ( dot, i ) => {
 			const j = i + 1;
 			const opa = gain ** j;
 			const top = i % 2 === 0 ? -pan : +pan;
 
-			dot.style.display = opa > .01 ? "block" : "none";
-			dot.style.opacity = opa;
-			dot.style.left = `${ j * time / 4 * 100 }%`;
-			dot.style.top = `${ ( top / 2 + .5 ) * 100 }%`;
+			return {
+				display: opa > .01 ? "block" : "none",
+				opacity: opa,
+				left: `${ j * time / 4 * 100 }%`,
+				top: `${ ( top / 2 + .5 ) * 100 }%`,
+			};
 		} );
 	}
 }
