@@ -101,9 +101,10 @@ class gsuiFxFilter extends gsui0ne {
 		this.#updateWave();
 	}
 	#onclickType( e ) {
-		const type = e.target.dataset.type;
+		const tar = $( e.target );
+		const type = tar.$getAttr( "data-type" );
 
-		if ( type && !GSUdomHasAttr( e.target, "data-selected" ) ) {
+		if ( type && !tar.$hasAttr( "data-selected" ) ) {
 			this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "type", type );
 		}
 	}
