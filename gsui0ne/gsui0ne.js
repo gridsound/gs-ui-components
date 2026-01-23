@@ -13,23 +13,29 @@ class gsui0ne extends HTMLElement {
 	#connectionCount = 0;
 
 	constructor( o = {} ) {
+		const jqueryfy = o.$jqueryfy;
+		// const jqueryfy = true;
+
 		super();
 		this.#attributes = o.$attributes || {};
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
 			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )
 			: null );
-		if ( o.$jqueryfy ) {
-			this.$this = GSUjq( this );
+		if ( jqueryfy ) {
+			this.$this = $( this );
 		}
 		if ( this.#children ) {
 			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
-			if ( o.$jqueryfy ) {
-				this.$element = GSUjq( this.$element );
+			if ( jqueryfy ) {
+				this.$element = $( this.$element );
 			}
-			this.$elements = !o.$jqueryfy
+			this.$elements = !jqueryfy
 				? GSUdomFind( this.#children, o.$elements )
 				: GSUreduce( o.$elements, ( map, sel, key ) => {
-					map[ key ] = GSUjq( this.#children, sel );
+					map[ key ] = $( this.#children, sel );
+					if ( !map[ key ].$size( 0 ) ) {
+						console.warn( "gsui0ne: empty query", [ o.$tagName, key, sel ] );
+					}
 					return map;
 				}, {} );
 		}
