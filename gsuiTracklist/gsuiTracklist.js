@@ -10,9 +10,9 @@ class gsuiTracklist extends gsui0ne {
 		} );
 		Object.seal( this );
 		GSUdomListen( this, {
-			[ GSEV_TRACK_RENAME ]: ( d, name ) => GSUdomDispatch( this, GSEV_TRACKLIST_RENAMETRACK, d.$targetId, name ),
-			[ GSEV_TRACK_TOGGLE ]: d => GSUdomDispatch( this, GSEV_TRACKLIST_TOGGLETRACK, d.$targetId ),
-			[ GSEV_TRACK_TOGGLESOLO ]: d => GSUdomDispatch( this, GSEV_TRACKLIST_TOGGLESOLOTRACK, d.$targetId ),
+			[ GSEV_TRACK_RENAME ]: ( d, name ) => this.$this.$dispatch( GSEV_TRACKLIST_RENAMETRACK, d.$targetId, name ),
+			[ GSEV_TRACK_TOGGLE ]: d => this.$this.$dispatch( GSEV_TRACKLIST_TOGGLETRACK, d.$targetId ),
+			[ GSEV_TRACK_TOGGLESOLO ]: d => this.$this.$dispatch( GSEV_TRACKLIST_TOGGLESOLOTRACK, d.$targetId ),
 		} );
 	}
 

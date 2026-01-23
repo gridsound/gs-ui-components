@@ -298,7 +298,7 @@ class gsuiSlicer extends gsui0ne {
 		this.#slicesSaved = null;
 		this.#selectTool( this.#tool );
 		if ( diff ) {
-			GSUdomDispatch( this, GSEV_SLICER_CHANGEPROP, "slices", diff );
+			this.$this.$dispatch( GSEV_SLICER_CHANGEPROP, "slices", diff );
 		}
 	}
 	#onpointermoveSlices( e ) {

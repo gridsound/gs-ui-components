@@ -61,12 +61,12 @@ class gsuiWindow extends gsui0ne {
 			if ( b ) {
 				this.#show = true;
 				GSUdomSetAttr( this, "show" );
-				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
+				this.$this.$dispatch( GSEV_WINDOW_OPEN );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
 				GSUdomRmAttr( this, "show" );
 				GSUdomEmpty( this.$elements.$content );
-				GSUdomDispatch( this, GSEV_WINDOW_CLOSE );
+				this.$this.$dispatch( GSEV_WINDOW_CLOSE );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -94,7 +94,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized = false;
 			this.#maximized = true;
 			if ( wasMinimized ) {
-				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
+				this.$this.$dispatch( GSEV_WINDOW_OPEN );
 			}
 			GSUdomFocus( this );
 		}
@@ -105,7 +105,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized = true;
 			this.#maximized = false;
 			GSUdomEmpty( this.$elements.$content );
-			GSUdomDispatch( this, GSEV_WINDOW_CLOSE );
+			this.$this.$dispatch( GSEV_WINDOW_CLOSE );
 		}
 	}
 	$restore() {
@@ -117,7 +117,7 @@ class gsuiWindow extends gsui0ne {
 			this.#minimized =
 			this.#maximized = false;
 			if ( wasMinimized ) {
-				GSUdomDispatch( this, GSEV_WINDOW_OPEN );
+				this.$this.$dispatch( GSEV_WINDOW_OPEN );
 			}
 		}
 	}

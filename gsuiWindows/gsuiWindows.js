@@ -33,13 +33,13 @@ class gsuiWindows extends gsui0ne {
 	// .........................................................................
 	#onopen( win ) {
 		this.#onfocusinWin( win );
-		GSUdomDispatch( this, GSEV_WINDOWS_OPEN, win );
+		this.$this.$dispatch( GSEV_WINDOWS_OPEN, win );
 	}
 	#onclose( win ) {
 		if ( win === this.#focusedWindow ) {
 			this.#focusedWindow = null;
 		}
-		GSUdomDispatch( this, GSEV_WINDOWS_CLOSE, win );
+		this.$this.$dispatch( GSEV_WINDOWS_CLOSE, win );
 	}
 	#onfocusinWin( win ) {
 		if ( win !== this.#focusedWindow ) {
@@ -54,7 +54,7 @@ class gsuiWindows extends gsui0ne {
 			} );
 			win.style.zIndex = this.childElementCount - 1;
 			this.#focusedWindow = win;
-			GSUdomDispatch( this, GSEV_WINDOWS_FOCUS, win.dataset.id );
+			this.$this.$dispatch( GSEV_WINDOWS_FOCUS, win.dataset.id );
 		}
 	}
 }

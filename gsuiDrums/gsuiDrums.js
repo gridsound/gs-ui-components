@@ -69,7 +69,7 @@ class gsuiDrums extends gsui0ne {
 			$parentSelector: "gsui-drumrows",
 			$itemSelector: "gsui-drumrow",
 			$itemGripSelector: ".gsuiDrumrow-grip",
-			$onchange: ( obj, rowId ) => GSUdomDispatch( this, GSEV_DRUMS_REORDERDRUMROW, rowId, obj ),
+			$onchange: ( obj, rowId ) => this.$this.$dispatch( GSEV_DRUMS_REORDERDRUMROW, rowId, obj ),
 		} );
 	}
 
@@ -473,7 +473,7 @@ class gsuiDrums extends gsui0ne {
 		document.removeEventListener( "pointerup", this.#onptrupNewBind );
 		this.#elLines.onpointermove = this.#onptrmoveLinesBind;
 		if ( arr.length > 0 ) {
-			GSUdomDispatch( this, GSEV_DRUMS_CHANGE, this.#currAction, this.#draggingRowId, arr );
+			this.$this.$dispatch( GSEV_DRUMS_CHANGE, this.#currAction, this.#draggingRowId, arr );
 		}
 		this.#currAction = "";
 	}
@@ -497,7 +497,7 @@ class gsuiDrums extends gsui0ne {
 				obj.gain = GSUdomGetAttrNum( d, "gain" );
 				obj.detune = GSUdomGetAttrNum( d, "detune" );
 			}
-			GSUdomDispatch( this, GSEV_DRUMS_CHANGE, `add${ itemType }`, this.#draggingRowId, [ obj ] );
+			this.$this.$dispatch( GSEV_DRUMS_CHANGE, `add${ itemType }`, this.#draggingRowId, [ obj ] );
 		}
 	}
 }

@@ -25,21 +25,21 @@ class gsuiDrumrow extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
 				GSUdomSetAttr( this, "toggle", b );
-				GSUdomDispatch( this, GSEV_DRUMROW_TOGGLE, b );
+				this.$this.$dispatch( GSEV_DRUMROW_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
 				GSUdomSetAttr( this, "toggle" );
-				GSUdomDispatch( this, GSEV_DRUMROW_TOGGLESOLO );
+				this.$this.$dispatch( GSEV_DRUMROW_TOGGLESOLO );
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#oninputendSlider(),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_DRUMROW_CHANGEPROP, d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_DRUMROW_CHANGEPROP, d.$target.dataset.prop, val ),
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				this.#namePrint( d.$target.dataset.prop, val );
-				GSUdomDispatch( this, GSEV_DRUMROW_LIVECHANGEPROP, d.$target.dataset.prop, val );
+				this.$this.$dispatch( GSEV_DRUMROW_LIVECHANGEPROP, d.$target.dataset.prop, val );
 			},
-			[ GSEV_PROPSELECT_SELECT ]: ( _, val ) => GSUdomDispatch( this, GSEV_DRUMROW_PROPFILTER, val ),
-			[ GSEV_PROPSELECT_SELECTALL ]: ( _, val ) => GSUdomDispatch( this, GSEV_DRUMROW_PROPFILTERS, val ),
+			[ GSEV_PROPSELECT_SELECT ]: ( _, val ) => this.$this.$dispatch( GSEV_DRUMROW_PROPFILTER, val ),
+			[ GSEV_PROPSELECT_SELECTALL ]: ( _, val ) => this.$this.$dispatch( GSEV_DRUMROW_PROPFILTERS, val ),
 		} );
 	}
 
@@ -112,10 +112,10 @@ class gsuiDrumrow extends gsui0ne {
 	#onclick( e ) {
 		if ( e.target !== this ) {
 			switch ( e.target.dataset.action ) {
-				case "delete": GSUdomDispatch( this, GSEV_DRUMROW_REMOVE ); break;
+				case "delete": this.$this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
 				case "props":
 					GSUdomTogAttr( this, "open" );
-					GSUdomDispatch( this, GSEV_DRUMROW_EXPAND );
+					this.$this.$dispatch( GSEV_DRUMROW_EXPAND );
 					break;
 			}
 		}

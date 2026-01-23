@@ -211,29 +211,29 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#oninput( tar ) {
-		GSUdomDispatch( this, GSEV_DOTLINE_INPUT, {
+		this.$this.$dispatch( GSEV_DOTLINE_INPUT, {
 			$target: tar,
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputstart() {
-		GSUdomDispatch( this, GSEV_DOTLINE_INPUTSTART, {
+		this.$this.$dispatch( GSEV_DOTLINE_INPUTSTART, {
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputend() {
-		GSUdomDispatch( this, GSEV_DOTLINE_INPUTEND );
+		this.$this.$dispatch( GSEV_DOTLINE_INPUTEND );
 	}
 	#onchange( obj ) {
 		if ( obj ) {
-			GSUdomDispatch( this, GSEV_DOTLINE_CHANGE, obj );
+			this.$this.$dispatch( GSEV_DOTLINE_CHANGE, obj );
 		} else {
 			const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
 			if ( diff ) {
-				GSUdomDispatch( this, GSEV_DOTLINE_CHANGE, diff );
+				this.$this.$dispatch( GSEV_DOTLINE_CHANGE, diff );
 			}
 		}
 	}

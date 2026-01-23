@@ -212,7 +212,7 @@ class gsuiSliderGroup extends gsui0ne {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
 				sli.value = rval;
 				this.#sliderValue( sli, rval );
-				GSUdomDispatch( this, GSEV_SLIDERGROUP_INPUT, sli.element.dataset.id, rval );
+				this.$this.$dispatch( GSEV_SLIDERGROUP_INPUT, sli.element.dataset.id, rval );
 			}
 		} );
 	}
@@ -225,9 +225,9 @@ class gsuiSliderGroup extends gsui0ne {
 			}
 		} );
 		if ( arr.length ) {
-			GSUdomDispatch( this, GSEV_SLIDERGROUP_CHANGE, arr );
+			this.$this.$dispatch( GSEV_SLIDERGROUP_CHANGE, arr );
 		}
-		GSUdomDispatch( this, GSEV_SLIDERGROUP_INPUTEND );
+		this.$this.$dispatch( GSEV_SLIDERGROUP_INPUTEND );
 	}
 }
 

@@ -90,15 +90,15 @@ class gsuiDAW extends gsui0ne {
 		};
 		this.#initRenderBtn();
 		GSUdomListen( this, {
-			[ GSEV_TITLEUSER_SAVE ]: () => GSUdomDispatch( this, GSEV_DAW_SAVE ),
-			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => GSUdomDispatch( this, GSEV_DAW_RENAME, name ),
-			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => GSUdomDispatch( this, GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
+			[ GSEV_TITLEUSER_SAVE ]: () => this.$this.$dispatch( GSEV_DAW_SAVE ),
+			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => this.$this.$dispatch( GSEV_DAW_RENAME, name ),
+			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => this.$this.$dispatch( GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
 		} );
 		GSUdomListen( this.$elements.$volume, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => GSUdomDispatch( this, GSEV_DAW_VOLUME, gain ),
+			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => this.$this.$dispatch( GSEV_DAW_VOLUME, gain ),
 		} );
 		GSUdomListen( this.$elements.$currentTime, {
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#timeSelecting = false,
@@ -106,10 +106,10 @@ class gsuiDAW extends gsui0ne {
 				this.#timeSelecting = true;
 				this.$elements.$clock.$setTime( val );
 			},
-			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => GSUdomDispatch( this, GSEV_DAW_CURRENTTIME, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => this.$this.$dispatch( GSEV_DAW_CURRENTTIME, val ),
 			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
 				this.$elements.$clock.$setTime( val );
-				GSUdomDispatch( this, GSEV_DAW_CURRENTTIMELIVE, val );
+				this.$this.$dispatch( GSEV_DAW_CURRENTTIMELIVE, val );
 			},
 		} );
 	}
@@ -249,7 +249,7 @@ class gsuiDAW extends gsui0ne {
 			if ( GSUdomGetAttr( this, "exporting" ) !== "1" ) {
 				this.#initRenderBtn();
 			}
-			GSUdomDispatch( this, GSEV_DAW_ABORTEXPORT );
+			this.$this.$dispatch( GSEV_DAW_ABORTEXPORT );
 		} );
 	}
 	#onclickRenderBtn() {
@@ -261,7 +261,7 @@ class gsuiDAW extends gsui0ne {
 				href: false,
 			} );
 			GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
-			GSUdomDispatch( this, GSEV_DAW_EXPORT );
+			this.$this.$dispatch( GSEV_DAW_EXPORT );
 		}
 	}
 	#onclickUploadBtn() {
@@ -269,7 +269,7 @@ class gsuiDAW extends gsui0ne {
 			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
 		} else {
 			GSUdomSetAttr( this.#popups.$export.$btnUpload, "disabled", true );
-			GSUdomDispatch( this, GSEV_DAW_UPLOAD_CMP );
+			this.$this.$dispatch( GSEV_DAW_UPLOAD_CMP );
 		}
 	}
 	#onclickVersionCheck() {
@@ -314,7 +314,7 @@ class gsuiDAW extends gsui0ne {
 				data.timelineNumbering !== GSUdomGetAttrNum( this, "timelinenumbering" ) ||
 				data.windowsLowGraphics !== ( GSUdomGetAttr( this, "windowslowgraphics" ) === "" )
 			) {
-				GSUdomDispatch( this, GSEV_DAW_SETTINGS, data );
+				this.$this.$dispatch( GSEV_DAW_SETTINGS, data );
 			}
 		}
 	}
@@ -322,12 +322,12 @@ class gsuiDAW extends gsui0ne {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
-			case "focusSwitch": GSUdomDispatch( this, GSEV_DAW_FOCUSSWITCH ); break;
-			case "play": GSUdomDispatch( this, GSEV_DAW_PLAY ); break;
-			case "stop": GSUdomDispatch( this, GSEV_DAW_STOP ); break;
-			case "reset": GSUdomDispatch( this, GSEV_DAW_RESET ); break;
-			case "undo": GSUdomDispatch( this, GSEV_DAW_UNDO ); break;
-			case "redo": GSUdomDispatch( this, GSEV_DAW_REDO ); break;
+			case "focusSwitch": this.$this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
+			case "play": this.$this.$dispatch( GSEV_DAW_PLAY ); break;
+			case "stop": this.$this.$dispatch( GSEV_DAW_STOP ); break;
+			case "reset": this.$this.$dispatch( GSEV_DAW_RESET ); break;
+			case "undo": this.$this.$dispatch( GSEV_DAW_UNDO ); break;
+			case "redo": this.$this.$dispatch( GSEV_DAW_REDO ); break;
 			case "export": this.#onopenRenderPopup(); break;
 			case "settings": this.#onopenSettingsPopup(); break;
 			case "about": GSUpopup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
@@ -335,11 +335,11 @@ class gsuiDAW extends gsui0ne {
 				const hide = GSUdomHasAttr( this, "gsuihelplink-hide" );
 
 				GSUdomSetAttr( this, "gsuihelplink-hide", !hide );
-				GSUdomDispatch( this, GSEV_DAW_TOGGLEHELPLINKS, hide );
+				this.$this.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, hide );
 			} break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
-					GSUdomDispatch( this, dt.open === undefined ? GSEV_DAW_OPENWINDOW : GSEV_DAW_CLOSEWINDOW, dt.win );
+					this.$this.$dispatch( dt.open === undefined ? GSEV_DAW_OPENWINDOW : GSEV_DAW_CLOSEWINDOW, dt.win );
 				} else {
 					this.$toggleWindow( "patterns", dt.open !== "" );
 				}
