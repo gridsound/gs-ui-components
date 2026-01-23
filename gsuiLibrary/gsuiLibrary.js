@@ -136,12 +136,14 @@ class gsuiLibrary extends gsui0ne {
 
 		this.$stopSample();
 		this.#idPlaying = id;
-		this.#elCursor = GSUcreateDiv( { class: "gsuiLibrary-sample-cursor" } );
-		this.#elCursor.style.left = "0%";
-		this.#elCursor.style.transitionDuration = `${ dur }s`;
-		GSUdomAddClass( el.$get( 0 ), "gsuiLibrary-sample-playing" );
-		el.$append( this.#elCursor );
-		GSUsetTimeout( () => this.#elCursor.style.left = "100%", .01 );
+		this.#elCursor = $( "<div>" )
+			.$addClass( "gsuiLibrary-sample-cursor" )
+			.$css( {
+				left: "0%",
+				transitionDuration: `${ dur }s`,
+			} );
+		el.$addClass( "gsuiLibrary-sample-playing" ).$append( this.#elCursor );
+		GSUsetTimeout( () => this.#elCursor.$left( "100%" ), .01 );
 		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
 	}
 	$stopSample() {
@@ -149,8 +151,8 @@ class gsuiLibrary extends gsui0ne {
 			const el = this.#getSample( this.#idPlaying );
 
 			GSUclearTimeout( this.#stopTimeout );
-			this.#elCursor.remove();
-			GSUdomRmClass( el.$get( 0 ), "gsuiLibrary-sample-playing" );
+			this.#elCursor.$remove();
+			el.$rmClass( "gsuiLibrary-sample-playing" );
 			this.#elCursor =
 			this.#idPlaying =
 			this.#stopTimeout = null;
@@ -158,38 +160,25 @@ class gsuiLibrary extends gsui0ne {
 	}
 
 	// .........................................................................
-	#expandGroup( elSep ) {
-		const exp = !GSUdomHasAttr( elSep, "data-expanded" );
-
-		for ( let el = elSep.nextElementSibling; el; el = el.nextElementSibling ) {
-			if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) ) {
-				GSUdomSetAttr( el, "data-expanded", exp );
-			} else {
-				break;
-			}
-		}
-		GSUdomSetAttr( elSep, "data-expanded", exp );
-	}
-
-	// .........................................................................
 	#onclick( e ) {
-		const el = e.target;
+		const el = $( e.target );
 
-		if ( el.tagName === "BUTTON" ) {
-			this.#expandGroup( el.parentNode );
-		} else if ( GSUdomHasClass( el, "gsuiLibrary-sample" ) && !GSUdomHasAttr( el, "data-loading" ) ) {
-			const act = GSUdomHasAttr( el, "data-ready" )
+		if ( el.$tag() === "button" ) {
+			el.$parent().$togAttr( "data-expanded" )
+				.$nextUntil( ":not(.gsuiLibrary-sample)" ).$togAttr( "data-expanded" );
+		} else if ( el.$hasClass( "gsuiLibrary-sample" ) && !el.$hasAttr( "data-loading" ) ) {
+			const act = el.$hasAttr( "data-ready" )
 				? GSEV_LIBRARY_PLAYSAMPLE
 				: GSEV_LIBRARY_LOADSAMPLE;
 
-			this.$this.$dispatch( act, el.dataset.id );
+			this.$this.$dispatch( act, el.$getAttr( "data-id" ) );
 		}
 	}
 	#oncontextmenu( e ) {
-		if ( GSUdomHasClass( e.target, "gsuiLibrary-sample" ) ) {
+		e.preventDefault();
+		if ( $( e.target ).$hasClass( "gsuiLibrary-sample" ) ) {
 			this.$this.$dispatch( GSEV_LIBRARY_STOPSAMPLE );
 		}
-		return false;
 	}
 }
 
