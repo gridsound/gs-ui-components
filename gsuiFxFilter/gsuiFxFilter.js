@@ -27,8 +27,8 @@ class gsuiFxFilter extends gsui0ne {
 			$tagName: "gsui-fx-filter",
 			$jqueryfy: true,
 			$elements: {
-				$type: "[data-area='type'] .gsuiFxFilter-area-content",
-				$graph: "[data-area='graph'] .gsuiFxFilter-area-content",
+				$type: "[data-area='type'] > div",
+				$graph: "[data-area='graph'] > div",
 				$curves: "gsui-curves",
 				$sliders: "gsui-slider",
 			},
@@ -49,7 +49,7 @@ class gsuiFxFilter extends gsui0ne {
 		this.#updateWave();
 	}
 	static get observedAttributes() {
-		return [ "type", "frequency", "q", "gain", "detune", "off" ];
+		return [ "type", "frequency", "q", "gain", "detune" ]; // "off"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -89,7 +89,7 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	#toggleTypeBtn( type, b ) {
-		this.$elements.$type.$find( `[data-type="${ type }"]` ).$togClass( "gsuiFxFilter-areaType-btnSelected", b );
+		this.$elements.$type.$find( `[data-type="${ type }"]` ).$setAttr( "data-selected", b );
 	}
 
 	// .........................................................................
@@ -103,7 +103,7 @@ class gsuiFxFilter extends gsui0ne {
 	#onclickType( e ) {
 		const type = e.target.dataset.type;
 
-		if ( type && !GSUdomHasClass( e.target, "gsuiFxFilter-areaType-btnSelected" ) ) {
+		if ( type && !GSUdomHasAttr( e.target, "data-selected" ) ) {
 			this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "type", type );
 		}
 	}

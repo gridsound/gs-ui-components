@@ -16,69 +16,69 @@ gsui-fx-filter {
 		align-self: center;
 		height: 20px;
 	}
+	.gsuiCurves-curve {
+		color: var( --gsui-col-frequency );
+		opacity: 1;
+
+		gsui-fx-filter[ off ] & {
+			color: currentColor;
+			opacity: .25;
+		}
+	}
 }
 
 /* .......................................................................... */
 .gsuiFxFilter-area {
 	display: flex;
 	flex-direction: column;
-}
-.gsuiFxFilter-area-content {
-	flex: 1;
+
+	> div {
+		flex: 1;
+	}
+	&[ data-area="type" ] {
+		grid-area: type;
+
+		> div {
+			display: flex;
+			overflow: hidden;
+			border-radius: 4px;
+			flex-direction: column;
+		}
+	}
+	&[ data-area="graph" ] {
+		grid-area: graph;
+
+		gs-label {
+			align-self: flex-start;
+		}
+	}
+	&[ data-area="gain" ] {
+		grid-area: gain;
+		--gsuiSlider-lineColor: var( --gsui-col-gain );
+	}
+	&[ data-area="q" ] {
+		grid-area: Q;
+		--gsuiSlider-lineColor: var( --gsui-col-Q );
+	}
+	&[ data-area="detune" ] {
+		grid-area: detune;
+		margin-top: 16px;
+		--gsuiSlider-lineColor: var( --gsui-col-detune );
+	}
+	&[ data-area="frequency" ] {
+		grid-area: frequency;
+		--gsuiSlider-lineColor: var( --gsui-col-frequency );
+	}
+	&[ data-area="gain" ],
+	&[ data-area="frequency" ] {
+		.gsuiSlider-eventCatcher {
+			inset: -8px;
+		}
+	}
 }
 
 /* .......................................................................... */
-.gsuiFxFilter-area[ data-area="type" ] {
-	grid-area: type;
-}
-.gsuiFxFilter-area[ data-area="graph" ] {
-	grid-area: graph;
-}
-.gsuiFxFilter-area[ data-area="gain" ] {
-	grid-area: gain;
-	--gsuiSlider-lineColor: var( --gsui-col-gain );
-}
-.gsuiFxFilter-area[ data-area="q" ] {
-	grid-area: Q;
-	--gsuiSlider-lineColor: var( --gsui-col-Q );
-}
-.gsuiFxFilter-area[ data-area="detune" ] {
-	grid-area: detune;
-	margin-top: 16px;
-	--gsuiSlider-lineColor: var( --gsui-col-detune );
-}
-.gsuiFxFilter-area[ data-area="frequency" ] {
-	grid-area: frequency;
-	--gsuiSlider-lineColor: var( --gsui-col-frequency );
-}
-
-/* .......................................................................... */
-.gsuiFxFilter-area[ data-area="gain" ] .gsuiSlider-eventCatcher,
-.gsuiFxFilter-area[ data-area="frequency" ] .gsuiSlider-eventCatcher {
-	inset: -8px;
-}
-
-/* .......................................................................... */
-.gsuiFxFilter-area[ data-area="graph" ] gs-label {
-	align-self: flex-start;
-}
-gsui-fx-filter .gsuiCurves-curve {
-	color: currentColor;
-	opacity: .25;
-}
-gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
-	color: var( --gsui-col-frequency );
-	opacity: 1;
-}
-
-/* .......................................................................... */
-.gsuiFxFilter-area[ data-area="type" ] .gsuiFxFilter-area-content {
-	display: flex;
-	overflow: hidden;
-	border-radius: 4px;
-	flex-direction: column;
-}
-.gsuiFxFilter-areaType-btn {
+.gsuiFxFilter-type {
 	position: relative;
 	flex: 1;
 	border: 0;
@@ -88,22 +88,23 @@ gsui-fx-filter:not( [ off ] ) .gsuiCurves-curve {
 	stroke: var( --gsui-col-gain );
 	stroke-width: 1.5px;
 	background-color: var( --gsui-slider-bg );
-}
-.gsuiFxFilter-areaType-btn:hover,
-.gsuiFxFilter-areaType-btn:focus {
-	stroke-width: 2px;
-}
-.gsuiFxFilter-areaType-btnSelected {
-	stroke: #222;
-	background-color: var( --gsui-col-gain );
-}
-.gsuiFxFilter-areaType-btn svg {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	fill: transparent;
-	stroke: inherit;
-	stroke-width: inherit;
-	pointer-events: none;
+
+	&:hover,
+	&:focus {
+		stroke-width: 2px;
+	}
+	&[ data-selected ] {
+		stroke: #222;
+		background-color: var( --gsui-col-gain );
+	}
+	svg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		fill: transparent;
+		stroke: inherit;
+		stroke-width: inherit;
+		pointer-events: none;
+	}
 }
