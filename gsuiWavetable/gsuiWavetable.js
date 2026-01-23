@@ -295,7 +295,7 @@ class gsuiWavetable extends gsui0ne {
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = GSUgetTemplate( "gsui-wavetable-wave", wId, w.index );
-		const elWLine = GSUjq( "<div>" ).$setAttr( {
+		const elWLine = $( "<div>" ).$setAttr( {
 			class: "gsuiWavetable-posCurve-wave",
 			"data-id": wId,
 			style: { top: `${ ( 1 - w.index ) * 100 }%` },
@@ -371,8 +371,8 @@ class gsuiWavetable extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, wtposCurveId, bpm, dur = null ) {
-		const elB = GSUjq( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" );
-		const elA = GSUjq( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" )
+		const elB = $( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" );
+		const elA = $( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" )
 			.$css( "display", wtposCurveId === this.#wtposCurveSelected ? "block" : "none" );
 
 		this.#keyPreviews.push( {

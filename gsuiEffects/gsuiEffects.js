@@ -61,11 +61,11 @@ class gsuiEffects extends gsui0ne {
 	// .........................................................................
 	$addEffect( id, fx ) {
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
-		const uiFx = GSUjq( fxAsset.cmp ).$setAttr( {
+		const uiFx = $( fxAsset.cmp ).$setAttr( {
 			"data-id": id,
 			timedivision: this.$this.$getAttr( "timedivision" ),
 		} );
-		const root = GSUjq( "<gsui-effect>" ).$setAttr( {
+		const root = $( "<gsui-effect>" ).$setAttr( {
 			name: fxAsset.name,
 			"data-id": id,
 			"data-type": fx.type,

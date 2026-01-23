@@ -171,14 +171,14 @@ class gsuiPatterns extends gsui0ne {
 	}
 	#openInfoPopup( id, el ) {
 		const cnt = gsuiPatterns.infoPopupContent;
-		const radio = GSUjq( cnt, `[value="${ el.dataset.bufferType }"]` ).$prop( "checked", true );
+		const radio = $( cnt, `[value="${ el.dataset.bufferType }"]` ).$prop( "checked", true );
 
 		if ( !radio.$size() ) {
-			GSUjq( cnt, "input:checked" ).$prop( "checked", false );
+			$( cnt, "input:checked" ).$prop( "checked", false );
 		}
-		GSUjq( cnt, "[name='bpm']" ).$value( el.dataset.bufferBpm );
-		GSUjq( cnt, "[name='name']" ).$value( el.dataset.name );
-		GSUjq( cnt, "[name='reverse']" ).$prop( "checked", el.dataset.reverse === "" );
+		$( cnt, "[name='bpm']" ).$value( el.dataset.bufferBpm );
+		$( cnt, "[name='name']" ).$value( el.dataset.name );
+		$( cnt, "[name='reverse']" ).$prop( "checked", el.dataset.reverse === "" );
 		GSUpopup.$custom( {
 			title: "Buffer's info",
 			element: cnt,

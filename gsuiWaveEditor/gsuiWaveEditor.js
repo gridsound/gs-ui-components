@@ -413,8 +413,8 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#div[ dir ] = +val;
 		this.$elements.$hoverSquare.$css( dir ? "height" : "width", `${ 1 / val * 100 }%` );
 		this.#updateBeatlines( dir, val );
-		GSUjq( this.$elements.$gridVal.$get( dir ) ).$text( val );
-		GSUjq( this.$elements.$gridSli.$get( dir ) ).$setAttr( "value", val );
+		this.$elements.$gridVal.$at( dir ).$text( val );
+		this.$elements.$gridSli.$at( dir ).$setAttr( "value", val );
 	}
 	#updateNormalized() {
 		this.$this.$setAttr( "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );

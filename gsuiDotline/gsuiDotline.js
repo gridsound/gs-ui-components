@@ -95,8 +95,8 @@ class gsuiDotline extends gsui0ne {
 			case "beatlines":
 				if ( val === "" && !this.#beatlines ) {
 					this.#beatlines = [
-						GSUjq( "<gsui-beatlines>" ).$setAttr( { timedivision: "5/10" } ),
-						GSUjq( "<gsui-beatlines>" ).$setAttr( { timedivision: "5/10", vertical: true } ),
+						$( "<gsui-beatlines>" ).$setAttr( { timedivision: "5/10" } ),
+						$( "<gsui-beatlines>" ).$setAttr( { timedivision: "5/10", vertical: true } ),
 					];
 					this.$element.$prepend( ...this.#beatlines );
 				}

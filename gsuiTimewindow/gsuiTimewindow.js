@@ -120,7 +120,7 @@ class gsuiTimewindow extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		const w = this.$this.$getAttr( "panelsize" ) || 100;
-		const panDowns = GSUjq( [
+		const panDowns = $( [
 			this.$elements.$panelDown,
 			this.$elements.$down,
 		] );
@@ -178,7 +178,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.$elements.$beatlines.$setAttr( "pxperbeat", val );
 				this.$elements.$sliderZoomX.$setAttr( "value", GSUmathEaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
 				this.$this.$css( "--gsuiTimewindow-pxperbeat", `${ val }px` );
-				GSUjq( [
+				$( [
 					this.$elements.$currentTime,
 					this.$elements.$loopA,
 					this.$elements.$loopB,
