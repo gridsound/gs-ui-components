@@ -39,12 +39,12 @@ class gsuiEffect extends gsui0ne {
 				this.$this.$css( "order", val );
 				break;
 			case "enable":
-				this.$elements.$toggle.$attr( "off", val !== "" );
-				this.$elements.$content.$child( 0 ).$attr( "off", val !== "" );
+				this.$elements.$toggle.$setAttr( "off", val !== "" );
+				this.$elements.$content.$child( 0 ).$setAttr( "off", val !== "" );
 				break;
 			case "name":
 				this.$elements.$name.$text( val );
-				this.$elements.$help.$attr( "page", `mixer-effects-${ val }` );
+				this.$elements.$help.$setAttr( "page", `mixer-effects-${ val }` );
 				break;
 		}
 	}

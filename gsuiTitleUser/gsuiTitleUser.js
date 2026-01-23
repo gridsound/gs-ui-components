@@ -57,7 +57,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "avatar": this.$elements.$avatar.$css( "backgroundImage", `url(${ val })` ); break;
 			case "username":
 				this.$elements.$username.$text( val );
-				this.$elements.$userLink.$attr( "href", `//gridsound.com/#/u/${ val }` );
+				this.$elements.$userLink.$setAttr( "href", `//gridsound.com/#/u/${ val }` );
 				break;
 			case "cmpdur": {
 				const dur = GSUsplitSeconds( +val );
@@ -66,9 +66,9 @@ class gsuiTitleUser extends gsui0ne {
 			} break;
 			case "saved":
 			case "cmpname": this.#updateCmpName(); break;
-			case "saving": this.$elements.$save.$attr( "data-spin", val === "" ? "on" : false ); break;
-			case "connecting": this.$elements.$login.$attr( "data-spin", val === "" ? "on" : false ); break;
-			case "disconnecting": this.$elements.$logout.$attr( "data-spin", val === "" ? "on" : false ); break;
+			case "saving": this.$elements.$save.$setAttr( "data-spin", val === "" ? "on" : false ); break;
+			case "connecting": this.$elements.$login.$setAttr( "data-spin", val === "" ? "on" : false ); break;
+			case "disconnecting": this.$elements.$logout.$setAttr( "data-spin", val === "" ? "on" : false ); break;
 			case "just-saved":
 				if ( val === "" ) {
 					GSUclearTimeout( this.#justSavedTimeout );
@@ -89,7 +89,7 @@ class gsuiTitleUser extends gsui0ne {
 	$setLoginCallbackPromise( fn ) { this.#loginPromise = fn; }
 	$setLogoutCallbackPromise( fn ) { this.#logoutPromise = fn; }
 	$setUserInfo( me ) {
-		this.$this.$attr( {
+		this.$this.$setAttr( {
 			name: !me ? "" : `${ me.firstname } ${ me.lastname }`.trim(),
 			avatar: !me ? "" : me.avatar,
 			username: !me ? "" : me.username,

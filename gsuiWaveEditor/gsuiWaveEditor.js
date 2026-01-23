@@ -179,7 +179,7 @@ class gsuiWaveEditor extends gsui0ne {
 
 					if ( t && this.$this.$getAttr( "tool" ) !== t ) {
 						this.$this
-							.$attr( "tool", t )
+							.$setAttr( "tool", t )
 							.$dispatch( GSEV_WAVEEDITOR_PARAM, { tool: t } );
 					}
 				} break;
@@ -279,7 +279,7 @@ class gsuiWaveEditor extends gsui0ne {
 				break;
 			case "div-x":
 			case "div-y":
-				this.$this.$attr( "div", act === "div-x"
+				this.$this.$setAttr( "div", act === "div-x"
 					? `${ val } ${ this.#div[ 1 ] }`
 					: `${ this.#div[ 0 ] } ${ val }` );
 				break;
@@ -392,7 +392,7 @@ class gsuiWaveEditor extends gsui0ne {
 			[ w + 10, pts.at( -1 )[ 1 ] ],
 			[ w + 10, h / 2 ],
 		);
-		polyline.$attr( "points", pts.join( " " ) );
+		polyline.$setAttr( "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {
 		const [ ix, iy ] = this.#getCoord( px, py );
@@ -404,7 +404,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#updateBeatlines( dir, sz ) {
 		const bl = this.$elements.$wave.$find( `gsui-beatlines:nth-child(${ dir + 1 })` );
 
-		bl.$attr( {
+		bl.$setAttr( {
 			pxperbeat: dir ? bl.$height() : bl.$width(),
 			timedivision: `1/${ sz }`,
 		} );
@@ -414,10 +414,10 @@ class gsuiWaveEditor extends gsui0ne {
 		this.$elements.$hoverSquare.$css( dir ? "height" : "width", `${ 1 / val * 100 }%` );
 		this.#updateBeatlines( dir, val );
 		GSUjq( this.$elements.$gridVal.$get( dir ) ).$text( val );
-		GSUjq( this.$elements.$gridSli.$get( dir ) ).$attr( "value", val );
+		GSUjq( this.$elements.$gridSli.$get( dir ) ).$setAttr( "value", val );
 	}
 	#updateNormalized() {
-		this.$this.$attr( "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );
+		this.$this.$setAttr( "normalized", gsuiWaveEditor.#isNormalized( this.#waveArray ) );
 	}
 }
 

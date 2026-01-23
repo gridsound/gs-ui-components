@@ -41,7 +41,7 @@ class gsuiChannels extends gsui0ne {
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
-		this.$this.$find( "gsui-channel gsui-analyser-hist" ).$attr( "type", t );
+		this.$this.$find( "gsui-channel gsui-analyser-hist" ).$setAttr( "type", t );
 	}
 	$updateVu( ldata, rdata ) {
 		this.$elements.$vu.$get( 0 ).$draw( ldata, rdata );

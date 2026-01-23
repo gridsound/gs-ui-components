@@ -33,13 +33,13 @@ class gsuiComButton extends gsui0ne {
 			case "text": this.$elements.$text.$text( val ); break;
 			case "type": this.$element.$prop( "type", val === "submit" ? val : "button" ); break;
 			case "href": this.#href = val; break;
-			case "icon": this.$elements.$icon.$attr( "data-icon", val ); break;
+			case "icon": this.$elements.$icon.$setAttr( "data-icon", val ); break;
 		}
 	}
 
 	// .........................................................................
 	#updateDisabled() {
-		this.$element.$attr( "disabled",
+		this.$element.$setAttr( "disabled",
 			this.$this.$hasAttr( "disabled" ) ||
 			this.$this.$hasAttr( "loading" ) );
 	}

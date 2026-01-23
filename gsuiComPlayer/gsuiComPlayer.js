@@ -43,9 +43,9 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$audio.$on( {
 			play: this.#onplay.bind( this ),
 			pause: this.#onpause.bind( this ),
-			loadedmetadata: e => this.$this.$attr( "duration", e.target.duration ),
+			loadedmetadata: e => this.$this.$setAttr( "duration", e.target.duration ),
 			error: () => {
-				this.$this.$attr( { playing: false, rendered: false } );
+				this.$this.$setAttr( { playing: false, rendered: false } );
 				this.$elements.$play.$rmAttr( "data-spin" );
 				this.$elements.$audio.$rmAttr( "src" );
 			},
@@ -62,12 +62,12 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "itsmine": this.$elements.$likeBtn.$attr( "disabled", val === "" ); break;
+			case "itsmine": this.$elements.$likeBtn.$setAttr( "disabled", val === "" ); break;
 			case "bpm": this.$elements.$bpm.$text( val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "likes": this.$elements.$likes.$text( val ); break;
-			case "link": this.$elements.$name.$attr( "href", val ); break;
-			case "dawlink": this.$elements.$dawlink.$attr( "href", val ); break;
+			case "link": this.$elements.$name.$setAttr( "href", val ); break;
+			case "dawlink": this.$elements.$dawlink.$setAttr( "href", val ); break;
 			case "rendered": this.#updateRendered( val === "" ); break;
 			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
@@ -117,22 +117,22 @@ class gsuiComPlayer extends gsui0ne {
 	// .........................................................................
 	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
-		this.$elements.$play.$attr( "data-icon", "pause" );
+		this.$elements.$play.$setAttr( "data-icon", "pause" );
 		this.$this.$addAttr( "playing" );
 	}
 	#onpause() {
 		GSUclearInterval( this.#intervalId );
-		this.$elements.$play.$attr( "data-icon", "play" );
+		this.$elements.$play.$setAttr( "data-icon", "play" );
 		this.$this.$rmAttr( "playing" );
 	}
 	#onclickLike() {
 		const liked = this.$this.$hasAttr( "liked" );
 
 		this.$elements.$likeBtn.$addAttr( "disabled" );
-		this.$elements.$likeIco.$attr( "data-spin", "on" );
+		this.$elements.$likeIco.$setAttr( "data-spin", "on" );
 		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
-				this.$this.$attr( {
+				this.$this.$setAttr( {
 					liked: !liked,
 					likes: +this.$this.$getAttr( "likes" ) + ( !liked * 2 - 1 ),
 				} );
@@ -151,13 +151,13 @@ class gsuiComPlayer extends gsui0ne {
 		} else {
 			let hasRender;
 
-			this.$elements.$play.$attr( "data-spin", "on" );
+			this.$elements.$play.$setAttr( "data-spin", "on" );
 			this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
 						hasRender = this.$this.$hasAttr( "rendered" );
 						this.$this.$addAttr( "rendered" );
-						this.$elements.$audio.$attr( "src", url );
+						this.$elements.$audio.$setAttr( "src", url );
 					}
 				} )
 				.finally( () => {
@@ -169,10 +169,10 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#onframePlaying() {
-		this.$this.$attr( "currenttime", this.$elements.$audio.$get( 0 ).currentTime );
+		this.$this.$setAttr( "currenttime", this.$elements.$audio.$get( 0 ).currentTime );
 	}
 	#updateRendered( b ) {
-		this.$elements.$play.$attr( b
+		this.$elements.$play.$setAttr( b
 			? { "data-spin": false, "data-icon": "play", title: false }
 			: { "data-spin": false, "data-icon": "file-corrupt", title: "This composition hasn't yet been rendered by its author" } );
 	}
@@ -208,13 +208,13 @@ class gsuiComPlayer extends gsui0ne {
 			: this.#promises[ act ];
 		const clazz = gsuiComPlayer.#actioning[ act ];
 
-		this.$elements.$actionsBtn.$attr( {
+		this.$elements.$actionsBtn.$setAttr( {
 			"data-spin": "on",
 			disabled: true,
 		} );
 		prom( this, act )
 			.then( () => {
-				this.$this.$attr( {
+				this.$this.$setAttr( {
 					[ clazz ]: true,
 					deleted: act === "delete",
 				} );
@@ -222,7 +222,7 @@ class gsuiComPlayer extends gsui0ne {
 				GSUsetTimeout( () => this.$this.$rmAttr( clazz ), .35 );
 			} )
 			.finally( () => {
-				this.$elements.$actionsBtn.$attr( {
+				this.$elements.$actionsBtn.$setAttr( {
 					"data-spin": false,
 					disabled: false,
 				} );

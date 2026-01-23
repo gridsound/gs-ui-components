@@ -48,10 +48,10 @@ class gsuiComProfile extends gsui0ne {
 		switch ( prop ) {
 			case "username": this.$elements.$username.$text( val ); break;
 			case "email": this.$elements.$email.$text( val ); break;
-			case "emailpublic": this.$elements.$emailpub.$attr( "data-icon", val === "" ? "public" : "private" ); break;
+			case "emailpublic": this.$elements.$emailpub.$setAttr( "data-icon", val === "" ? "public" : "private" ); break;
 			case "lastname": this.$elements.$lastname.$text( val ); break;
 			case "firstname": this.$elements.$firstname.$text( val ); break;
-			case "avatar": this.$elements.$avatar.$attr( "src", val || false ); break;
+			case "avatar": this.$elements.$avatar.$setAttr( "src", val || false ); break;
 			case "emailtoverify": this.$elements.$emailVerifyText.$text( val !== "" ? "" : gsuiComProfile.#emailTexts.$verify ); break;
 			case "followed": this.#updateFollowed( val === "" ); break;
 			case "followers": this.$elements.$followersBtn.$text( val ); break;
@@ -61,7 +61,7 @@ class gsuiComProfile extends gsui0ne {
 			case "username":
 			case "lastname":
 			case "firstname":
-				this.$elements.$name.$attr( "title",
+				this.$elements.$name.$setAttr( "title",
 					`/u/${ this.$elements.$username.$text()
 					} : ${ this.$elements.$firstname.$text() || "--"
 					} ${ this.$elements.$lastname.$text() || "--" }` );
@@ -75,14 +75,14 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	#updateFollowed( b ) {
-		this.$elements.$followBtn.$attr( b
+		this.$elements.$followBtn.$setAttr( b
 			? { "data-icon": "follow", title: "Follow" }
 			: { "data-icon": "followed", title: "Unfollow" } );
 	}
 	#updateFollowLoading( b ) {
 		this.$elements.$followBtn
 			.$togClass( "gsuiIcon", b )
-			.$attr( b
+			.$setAttr( b
 				? { "data-spin": "on", disabled: true }
 				: { "data-spin": false, disabled: false } );
 	}
@@ -101,7 +101,7 @@ class gsuiComProfile extends gsui0ne {
 		this.#updateFollowLoading( true );
 		this.#followPromise?.( willFollow )
 			.then( () => {
-				this.$this.$attr( {
+				this.$this.$setAttr( {
 					followed: willFollow,
 					followers: +this.$this.$getAttr( "followers" ) + willFollow * 2 - 1,
 					followedjustnow: willFollow,

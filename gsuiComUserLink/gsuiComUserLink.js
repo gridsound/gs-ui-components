@@ -35,7 +35,7 @@ class gsuiComUserLink extends gsui0ne {
 	}
 
 	#updateUsername( n ) {
-		this.$elements.$a.$attr( "href", `#/u/${ n }` );
+		this.$elements.$a.$setAttr( "href", `#/u/${ n }` );
 		this.$elements.$username.$text( n );
 	}
 	#updateName() {

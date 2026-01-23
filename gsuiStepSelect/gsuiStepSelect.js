@@ -43,7 +43,7 @@ class gsuiStepSelect extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "auto": this.$elements.$auto.$attr( "off", val === null ); break;
+			case "auto": this.$elements.$auto.$setAttr( "off", val === null ); break;
 			case "step":
 				this.#step = +val;
 				this.#stepInd = gsuiStepSelect.#stepToIndex( this.#step );
@@ -82,7 +82,7 @@ class gsuiStepSelect extends gsui0ne {
 			const ind = GSUmathMod( this.#stepInd + inc, gsuiStepSelect.#stepValues.length );
 			const step = gsuiStepSelect.#stepValues[ ind ];
 
-			this.$this.$attr( "step", step ).$dispatch( GSEV_STEPSELECT_ONCHANGE, step );
+			this.$this.$setAttr( "step", step ).$dispatch( GSEV_STEPSELECT_ONCHANGE, step );
 		}
 	}
 	static #stepToIndex( v ) {

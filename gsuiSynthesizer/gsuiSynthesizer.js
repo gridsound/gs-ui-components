@@ -69,7 +69,7 @@ class gsuiSynthesizer extends gsui0ne {
 					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
 					if ( elCmp.$getAttr( lfoEnv ) === prop ) {
-						elCmp.$attr( "toggle", b );
+						elCmp.$setAttr( "toggle", b );
 					}
 					this.$this.$dispatch( lfoEnv === "env" ? GSEV_SYNTHESIZER_TOGGLEENV : GSEV_SYNTHESIZER_TOGGLELFO, prop, b );
 				}
@@ -101,8 +101,8 @@ class gsuiSynthesizer extends gsui0ne {
 				this.$elements.$presetName.$text( val );
 				break;
 			case "timedivision":
-				this.$elements.$env.$attr( "timedivision", val );
-				this.$elements.$lfo.$attr( "timedivision", val );
+				this.$elements.$env.$setAttr( "timedivision", val );
+				this.$elements.$lfo.$setAttr( "timedivision", val );
 				break;
 		}
 	}
@@ -159,31 +159,31 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$changeNoiseProp( prop, val ) {
 		this.#data.noise[ prop ] = val;
-		this.$elements.$noise.$attr( prop, val );
+		this.$elements.$noise.$setAttr( prop, val );
 		if ( prop === "toggle" ) {
-			this.$elements.$noiseToggle.$attr( "off", !val );
+			this.$elements.$noiseToggle.$setAttr( "off", !val );
 		}
 	}
 	$changeEnvProp( env, prop, val ) {
 		this.#data.env[ env ][ prop ] = val;
 		if ( env === this.$elements.$env.$getAttr( "env" ) ) {
-			this.$elements.$env.$attr( prop, val );
+			this.$elements.$env.$setAttr( prop, val );
 		}
 		if ( prop === "toggle" ) {
 			this.$elements.$tabs
 				.$filter( `[data-tab="env ${ env }"]` )
-				.$child( 0 ).$attr( "off", !val );
+				.$child( 0 ).$setAttr( "off", !val );
 		}
 	}
 	$changeLFOProp( lfo, prop, val ) {
 		this.#data.lfo[ lfo ][ prop ] = val;
 		if ( lfo === this.$elements.$lfo.$getAttr( "lfo" ) ) {
-			this.$elements.$lfo.$attr( prop, val );
+			this.$elements.$lfo.$setAttr( prop, val );
 		}
 		if ( prop === "toggle" ) {
 			this.$elements.$tabs
 				.$filter( `[data-tab="lfo ${ lfo }"]` )
-				.$child( 0 ).$attr( "off", !val );
+				.$child( 0 ).$setAttr( "off", !val );
 		}
 	}
 
@@ -212,10 +212,10 @@ class gsuiSynthesizer extends gsui0ne {
 		const tab = tabs.$filter( `[data-tab$="${ prop }"]` );
 
 		if ( !tab.$hasAttr( "data-selected" ) ) {
-			tabs.$attr( "data-selected", el => el === tab.$get( 0 ) );
+			tabs.$setAttr( "data-selected", el => el === tab.$get( 0 ) );
 			( lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo )
-				.$attr( this.#data[ lfoEnv ][ prop ] )
-				.$attr( lfoEnv, prop );
+				.$setAttr( this.#data[ lfoEnv ][ prop ] )
+				.$setAttr( lfoEnv, prop );
 		}
 	}
 
@@ -223,7 +223,7 @@ class gsuiSynthesizer extends gsui0ne {
 	#dispatchPreset( p ) {
 		if ( p !== this.$this.$getAttr( "preset" ) ) {
 			this.$this
-				.$attr( "preset", p )
+				.$setAttr( "preset", p )
 				.$dispatch( GSEV_SYNTHESIZER_PRESET, p );
 		}
 	}

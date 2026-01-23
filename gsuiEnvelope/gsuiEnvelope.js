@@ -58,7 +58,7 @@ class gsuiEnvelope extends gsui0ne {
 				this.#updateBeatlinesColor();
 				break;
 			case "toggle":
-				this.$elements.$propSli.$attr( "disabled", val === null );
+				this.$elements.$propSli.$setAttr( "disabled", val === null );
 				this.#updateBeatlinesColor();
 				break;
 			case "timedivision":
@@ -71,7 +71,7 @@ class gsuiEnvelope extends gsui0ne {
 			case "decay":
 			case "sustain":
 			case "release":
-				this.#getPropSlider( prop ).$attr( "value", +val );
+				this.#getPropSlider( prop ).$setAttr( "value", +val );
 				this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, +val ) );
 				break;
 		}
@@ -99,12 +99,12 @@ class gsuiEnvelope extends gsui0ne {
 	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"] gsui-slider` ); }
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#changeTimedivision( val ) {
-		this.$elements.$beatlines.$attr( "timedivision", val );
+		this.$elements.$beatlines.$setAttr( "timedivision", val );
 		this.$updateWave();
 	}
 	#updatePxPerBeat() {
 		this.#ppb = this.#waveWidth / this.#dur;
-		this.$elements.$beatlines.$attr( "pxperbeat", this.#ppb );
+		this.$elements.$beatlines.$setAttr( "pxperbeat", this.#ppb );
 	}
 	static #formatValue( prop, val ) {
 		return prop !== "amp"
@@ -127,11 +127,11 @@ class gsuiEnvelope extends gsui0ne {
 		this.$this.$dispatch( GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		this.$this.$attr( prop, val );
+		this.$this.$setAttr( prop, val );
 		this.$this.$dispatch( GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
 	}
 	#updateBeatlinesColor() {
-		this.$elements.$beatlines.$attr( "color", this.$this.$css( "--gsuiEnvelope-wave-col" ) );
+		this.$elements.$beatlines.$setAttr( "color", this.$this.$css( "--gsuiEnvelope-wave-col" ) );
 	}
 
 	// .........................................................................

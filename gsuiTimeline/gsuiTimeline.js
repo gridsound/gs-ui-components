@@ -155,7 +155,7 @@ class gsuiTimeline extends gsui0ne {
 			const rnd = this.$beatRound( t );
 
 			if ( t.toFixed( 3 ) !== rnd.toFixed( 3 ) ) {
-				this.$this.$attr( "currenttime-preview", rnd );
+				this.$this.$setAttr( "currenttime-preview", rnd );
 			} else {
 				this.$elements.$cursorPreview.$left( t, "em" );
 				if ( !tprev ) {
@@ -168,7 +168,7 @@ class gsuiTimeline extends gsui0ne {
 	// .........................................................................
 	#setStatus( st ) {
 		this.#status = st;
-		this.$this.$attr( "status", st );
+		this.$this.$setAttr( "status", st );
 	}
 	#getBeatByPageX( pageX ) {
 		return GSUmathClamp( this.$beatRound( ( pageX - GSUdomBCRxy( this )[ 0 ] ) / this.#pxPerBeat ), 0, this.#maxDuration );
@@ -226,7 +226,7 @@ class gsuiTimeline extends gsui0ne {
 	#updateMeasures() {
 		this.$elements.$measures
 			.$children()
-			.$attr( "data-hl", ( _, i ) => this.#onlyBigMeasures || ( this.#offset + i ) % this.#beatsPerMeasure === 0 );
+			.$setAttr( "data-hl", ( _, i ) => this.#onlyBigMeasures || ( this.#offset + i ) % this.#beatsPerMeasure === 0 );
 	}
 	#updateLoop() {
 		if ( this.#looping ) {
@@ -295,7 +295,7 @@ class gsuiTimeline extends gsui0ne {
 			this.#mousemoveBeat = beatRel;
 			switch ( this.#status ) {
 				case GSUI_DRAGGING_TIME:
-					this.$this.$attr( "currenttime-preview", beat )
+					this.$this.$setAttr( "currenttime-preview", beat )
 						.$dispatch( GSEV_TIMELINE_INPUTCURRENTTIME, beat );
 					break;
 				case GSUI_DRAGGING_LOOP: {
@@ -305,7 +305,7 @@ class gsuiTimeline extends gsui0ne {
 					const loop = `${ a }-${ b }`;
 
 					if ( loop !== this.$this.$getAttr( "loop" ) ) {
-						this.$this.$attr( "loop", loop )
+						this.$this.$setAttr( "loop", loop )
 							.$dispatch( GSEV_TIMELINE_INPUTLOOP, a, b );
 					}
 				} break;
@@ -333,7 +333,7 @@ class gsuiTimeline extends gsui0ne {
 					}
 					if ( loop !== this.$this.$getAttr( "loop" ) ) {
 						if ( aa !== bb ) {
-							this.$this.$attr( "loop", loop ).$dispatch( GSEV_TIMELINE_INPUTLOOP, aa, bb );
+							this.$this.$setAttr( "loop", loop ).$dispatch( GSEV_TIMELINE_INPUTLOOP, aa, bb );
 						} else if ( this.hasAttribute( "loop" ) ) {
 							this.$this.$rmAttr( "loop" ).$dispatch( GSEV_TIMELINE_INPUTLOOP, false );
 						}
@@ -350,7 +350,7 @@ class gsuiTimeline extends gsui0ne {
 				this.$this.$rmAttr( "currenttime-preview" )
 					.$dispatch( GSEV_TIMELINE_INPUTCURRENTTIMEEND );
 				if ( beat !== this.$this.$getAttr( "currenttime" ) ) {
-					this.$this.$attr( "currenttime", beat )
+					this.$this.$setAttr( "currenttime", beat )
 						.$dispatch( GSEV_TIMELINE_CHANGECURRENTTIME, +beat );
 				}
 			} break;

@@ -65,7 +65,7 @@ class gsuiSliderGroup extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				this.$elements.$beatlines.$attr( "timedivision", val );
+				this.$elements.$beatlines.$setAttr( "timedivision", val );
 				break;
 			case "pxperbeat":
 				this.#updatePxPerBeat();
@@ -138,7 +138,7 @@ class gsuiSliderGroup extends gsui0ne {
 
 		this.$elements.$slidersParent.$css( "fontSize", `${ ppb }px` );
 		if ( this.$elements.$beatlines ) {
-			this.$elements.$beatlines.$attr( "pxperbeat", ppb );
+			this.$elements.$beatlines.$setAttr( "pxperbeat", ppb );
 		}
 	}
 	#sliderWhen( sli, when ) {

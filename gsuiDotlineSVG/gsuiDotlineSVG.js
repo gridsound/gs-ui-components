@@ -50,7 +50,7 @@ class gsuiDotlineSVG extends gsui0ne {
 			curveDots.push( "M", this.#calcX( xy0[ 0 ] ), this.#calcY( xy0[ 1 ] ) );
 			xy.forEach( dot => curveDots.push( "L", this.#calcX( dot[ 0 ] ), this.#calcY( dot[ 1 ] ) ) );
 		}
-		this.$elements.$path.$attr( "d", curveDots.join( " " ) );
+		this.$elements.$path.$setAttr( "d", curveDots.join( " " ) );
 	}
 
 	// .........................................................................

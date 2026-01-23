@@ -152,13 +152,13 @@ class gsuiWavetableGraph extends gsui0ne {
 		const curveDots = dots.map( dot => this.#getCoord( dot[ 0 ], dot[ 1 ], z ) );
 		const isSel = this.#selectedWave === wId;
 
-		g.$child( i ).$attr( {
+		g.$child( i ).$setAttr( {
 			"data-selected": isSel,
 			points: curveDots.join( " " ),
 		} );
 		curveDots.shift();
 		curveDots.pop();
-		g.$child( i + 1 ).$attr( {
+		g.$child( i + 1 ).$setAttr( {
 			"data-selected": isSel,
 			points: curveDots.join( " " ),
 		} );

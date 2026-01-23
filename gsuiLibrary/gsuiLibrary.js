@@ -79,7 +79,7 @@ class gsuiLibrary extends gsui0ne {
 	$unloadSamples() {
 		this.$elements.$body.$find( ".gsuiLibrary-sample" )
 			.$rmAttr( "data-loading", "data-ready" )
-			.$attr( title, el => el.dataset.name );
+			.$setAttr( title, el => el.dataset.name );
 	}
 	$setPlaceholder( str ) {
 		this.$elements.$placeholder.$text( str );
@@ -117,10 +117,10 @@ class gsuiLibrary extends gsui0ne {
 		b
 			? this.#idFavs.set( id )
 			: this.#idFavs.delete( id );
-		this.#getSample( id ).$attr( "data-fav", b );
+		this.#getSample( id ).$setAttr( "data-fav", b );
 	}
 	$loadSample( id ) {
-		this.#getSample( id ).$attr( {
+		this.#getSample( id ).$setAttr( {
 			"data-loading": true,
 			title: "loading...",
 		} );
@@ -129,7 +129,7 @@ class gsuiLibrary extends gsui0ne {
 		this.#getSample( id )
 			.$rmAttr( "data-loading" )
 			.$addAttr( "data-ready" )
-			.$attr( "title", el => el.dataset.name );
+			.$setAttr( "title", el => el.dataset.name );
 	}
 	$playSample( id, dur ) {
 		const el = this.#getSample( id );

@@ -50,7 +50,7 @@ class gsuiChannel extends gsui0ne {
 		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				this.$this.$attr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
+				this.$this.$setAttr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
 				this.$this.$rmAttr( "muted" ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
@@ -75,15 +75,15 @@ class gsuiChannel extends gsui0ne {
 				this.$elements.$name.$text( val );
 				break;
 			case "muted":
-				this.$elements.$toggle.$attr( "off", val !== null );
+				this.$elements.$toggle.$setAttr( "off", val !== null );
 				break;
 			case "pan":
 			case "gain":
-				this.$elements[ prop ].$attr( "value", val );
+				this.$elements[ prop ].$setAttr( "value", val );
 				break;
 			case "connecta":
 			case "connectb":
-				this.$elements[ prop ].$attr( "data-icon", val ? `caret-${ val }` : "" );
+				this.$elements[ prop ].$setAttr( "data-icon", val ? `caret-${ val }` : "" );
 				break;
 		}
 	}
@@ -100,7 +100,7 @@ class gsuiChannel extends gsui0ne {
 			this.#getEffect( id ).$css( "order", obj.order );
 		}
 		if ( "toggle" in obj ) {
-			this.#getEffect( id ).$attr( "data-enable", obj.toggle );
+			this.#getEffect( id ).$setAttr( "data-enable", obj.toggle );
 		}
 	}
 	#getEffect( id ) {

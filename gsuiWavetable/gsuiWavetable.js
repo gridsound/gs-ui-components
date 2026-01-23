@@ -126,9 +126,9 @@ class gsuiWavetable extends gsui0ne {
 		if ( !obj ) {
 			return obj;
 		}
-		if ( obj.div ) { this.$elements.$editor.$attr( "div", obj.div ); }
-		if ( obj.tool ) { this.$elements.$editor.$attr( "tool", obj.tool ); }
-		if ( obj.symmetry ) { this.$elements.$editor.$attr( "symmetry", obj.symmetry ); }
+		if ( obj.div ) { this.$elements.$editor.$setAttr( "div", obj.div ); }
+		if ( obj.tool ) { this.$elements.$editor.$setAttr( "tool", obj.tool ); }
+		if ( obj.symmetry ) { this.$elements.$editor.$setAttr( "symmetry", obj.symmetry ); }
 		GSUforEach( obj.waves, ( w, wId ) => {
 			if ( !w ) {
 				toSort = true;
@@ -146,7 +146,7 @@ class gsuiWavetable extends gsui0ne {
 				}
 				if ( "index" in w ) {
 					toSort = true;
-					this.#wtwaves_getElem( wId ).$attr( "data-index", w.index );
+					this.#wtwaves_getElem( wId ).$setAttr( "data-index", w.index );
 					this.#wtposCurve_getWave( wId ).$top( ( 1 - w.index ) * 100, "%" );
 				}
 			}
@@ -295,7 +295,7 @@ class gsuiWavetable extends gsui0ne {
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = GSUgetTemplate( "gsui-wavetable-wave", wId, w.index );
-		const elWLine = GSUjq( "<div>" ).$attr( {
+		const elWLine = GSUjq( "<div>" ).$setAttr( {
 			class: "gsuiWavetable-posCurve-wave",
 			"data-id": wId,
 			style: { top: `${ ( 1 - w.index ) * 100 }%` },
@@ -360,19 +360,19 @@ class gsuiWavetable extends gsui0ne {
 	#wtposCurve_setDuration( dur ) {
 		this.#wtposCurveDuration = dur;
 		this.$elements.$wtposCurveDur.$text( `${ dur }`.padStart( 2, "0" ) );
-		this.$elements.$wtposCurveDurSli.$attr( "value", dur );
+		this.$elements.$wtposCurveDurSli.$setAttr( "value", dur );
 		this.#wtposCurve_updateBeatline();
 	}
 	#wtposCurve_updateBeatline() {
 		const bl = this.$elements.$wtposBeatlines;
 
-		bl.$attr( "pxperbeat", bl.$width() / this.#wtposCurveDuration );
+		bl.$setAttr( "pxperbeat", bl.$width() / this.#wtposCurveDuration );
 	}
 
 	// .........................................................................
 	$startKey( id, wtposCurveId, bpm, dur = null ) {
-		const elB = GSUjq( "<div>" ).$attr( "class", "gsuiWavetable-keyPreview" );
-		const elA = GSUjq( "<div>" ).$attr( "class", "gsuiWavetable-keyPreview" )
+		const elB = GSUjq( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" );
+		const elA = GSUjq( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" )
 			.$css( "display", wtposCurveId === this.#wtposCurveSelected ? "block" : "none" );
 
 		this.#keyPreviews.push( {

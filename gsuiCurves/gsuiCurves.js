@@ -4,7 +4,7 @@ class gsuiCurves extends gsui0ne {
 	#size = Object.seal( [ 0, 0 ] );
 	#curves = new Map();
 	#nyquist = 24000;
-	#analyserResolutionDeb = GSUdebounce( w => this.$elements.$analyser.$attr( "resolution", w ), .2 );
+	#analyserResolutionDeb = GSUdebounce( w => this.$elements.$analyser.$setAttr( "resolution", w ), .2 );
 
 	constructor() {
 		super( {
@@ -36,7 +36,7 @@ class gsuiCurves extends gsui0ne {
 		this.#updateHzTexts();
 		this.#updateLinePos();
 		this.#curves.forEach( ( curve, id ) => {
-			this.$elements.$curves.$find( `[data-id="${ id }"]` ).$attr( "d", this.#createPathD( curve ) );
+			this.$elements.$curves.$find( `[data-id="${ id }"]` ).$setAttr( "d", this.#createPathD( curve ) );
 		} );
 	}
 	$getWidth() {
@@ -51,7 +51,7 @@ class gsuiCurves extends gsui0ne {
 		if ( curve ) {
 			this.#curves.set( id, curve );
 			if ( path.$size() ) {
-				path.$attr( "d", this.#createPathD( curve ) );
+				path.$setAttr( "d", this.#createPathD( curve ) );
 			} else {
 				this.#createPath( id, curve );
 			}
@@ -65,7 +65,7 @@ class gsuiCurves extends gsui0ne {
 	#updateLinePos() {
 		const [ w, h ] = this.#size;
 
-		this.$elements.$line.$attr( {
+		this.$elements.$line.$setAttr( {
 			x1: 0,
 			x2: w,
 			y1: h / 2,

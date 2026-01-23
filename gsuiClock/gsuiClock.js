@@ -114,7 +114,7 @@ class gsuiClock extends gsui0ne {
 	#onclickModes() {
 		const dpl = this.$this.$getAttr( "mode" ) === "second" ? "beat" : "second";
 
-		this.$this.$attr( "mode", dpl )
+		this.$this.$setAttr( "mode", dpl )
 			.$dispatch( GSEV_CLOCK_CHANGEDISPLAY, dpl );
 	}
 }

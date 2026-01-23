@@ -43,7 +43,7 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$this.$attr( "tabindex", 0 );
+		this.$this.$setAttr( "tabindex", 0 );
 		this.#setSVGcirc();
 		this.#updateVal( this.#value );
 	}
@@ -105,8 +105,8 @@ class gsuiSlider extends gsui0ne {
 			const r = ~~( ( size - this.#strokeWidth ) / 2 );
 
 			this.$elements.$svg.$viewbox( size, size );
-			this.$elements.$svgLine.$attr( { r, cx, cy: cx } ).$css( "strokeWidth", this.#strokeWidth );
-			this.$elements.$svgLineColor.$attr( { r, cx, cy: cx } ).$css( "strokeWidth", this.#strokeWidth );
+			this.$elements.$svgLine.$setAttr( { r, cx, cy: cx } ).$css( "strokeWidth", this.#strokeWidth );
+			this.$elements.$svgLineColor.$setAttr( { r, cx, cy: cx } ).$css( "strokeWidth", this.#strokeWidth );
 			this.#svgLineLen = r * 2 * Math.PI;
 		}
 	}
@@ -150,7 +150,7 @@ class gsuiSlider extends gsui0ne {
 	}
 	#onchange() {
 		this.#valueSave = this.#value;
-		this.$this.$attr( "value", this.#value )
+		this.$this.$setAttr( "value", this.#value )
 			.$dispatch( GSEV_SLIDER_CHANGE, this.#value );
 	}
 	#oninput( val ) {

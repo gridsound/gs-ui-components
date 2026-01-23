@@ -29,7 +29,7 @@ class gsuiLibraries extends gsui0ne {
 	// .........................................................................
 	#onclickBtns( e ) {
 		if ( e.target.dataset.lib ) {
-			this.$this.$attr( "lib", e.target.dataset.lib );
+			this.$this.$setAttr( "lib", e.target.dataset.lib );
 		}
 	}
 }

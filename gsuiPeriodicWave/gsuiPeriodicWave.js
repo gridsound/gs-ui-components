@@ -49,7 +49,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		const opt = this.#options[ lineN ];
 
 		if ( opt && opt.type in gsuiPeriodicWave.#cache ) {
-			this.$element.$child( lineN ).$attr( {
+			this.$element.$child( lineN ).$setAttr( {
 				points: gsuiPeriodicWave.#draw( this.#getDrawData( lineN ) ),
 				"stroke-opacity": opt.opacity,
 			} );

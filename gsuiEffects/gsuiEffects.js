@@ -45,7 +45,7 @@ class gsuiEffects extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				this.#fxsHtml.forEach( el => el.$get( 0 ).$getFxElement().$attr( "timedivision", val ) );
+				this.#fxsHtml.forEach( el => el.$get( 0 ).$getFxElement().$setAttr( "timedivision", val ) );
 				break;
 		}
 	}
@@ -61,11 +61,11 @@ class gsuiEffects extends gsui0ne {
 	// .........................................................................
 	$addEffect( id, fx ) {
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
-		const uiFx = GSUjq( fxAsset.cmp ).$attr( {
+		const uiFx = GSUjq( fxAsset.cmp ).$setAttr( {
 			"data-id": id,
 			timedivision: this.$this.$getAttr( "timedivision" ),
 		} );
-		const root = GSUjq( "<gsui-effect>" ).$attr( {
+		const root = GSUjq( "<gsui-effect>" ).$setAttr( {
 			name: fxAsset.name,
 			"data-id": id,
 			"data-type": fx.type,
@@ -84,8 +84,8 @@ class gsuiEffects extends gsui0ne {
 	}
 	$changeEffect( id, prop, val ) {
 		switch ( prop ) {
-			case "toggle": this.#fxsHtml.get( id ).$attr( "enable", val ); break;
-			case "order": this.#fxsHtml.get( id ).$attr( "order", val ); break;
+			case "toggle": this.#fxsHtml.get( id ).$setAttr( "enable", val ); break;
+			case "order": this.#fxsHtml.get( id ).$setAttr( "order", val ); break;
 		}
 	}
 

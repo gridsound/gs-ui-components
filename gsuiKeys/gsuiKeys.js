@@ -162,7 +162,7 @@ class gsuiKeys extends gsui0ne {
 			if ( e.button === 2 ) {
 				const oct = e.target.dataset.midi / 12 | 0;
 
-				this.$this.$attr( "rootoctave", oct )
+				this.$this.$setAttr( "rootoctave", oct )
 					.$dispatch( GSEV_KEYS_OCTAVE, oct );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();

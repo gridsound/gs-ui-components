@@ -55,14 +55,14 @@ class gsuiLFO extends gsui0ne {
 			switch ( prop ) {
 				case "lfo":
 					this.#lfo = val;
-					this.#getPropSlider( "amp" ).$attr( "max", val === "gain" ? 1 : 12 );
+					this.#getPropSlider( "amp" ).$setAttr( "max", val === "gain" ? 1 : 12 );
 					this.#changeProp( "amp", Math.abs( this.$this.$getAttr( "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
 					this.#updateBeatlinesColor();
 					break;
 				case "timedivision":
-					this.$elements.$beatlines.$attr( "timedivision", val );
+					this.$elements.$beatlines.$setAttr( "timedivision", val );
 					break;
 				case "toggle":
 					this.#changeToggle( val !== null );
@@ -111,8 +111,8 @@ class gsuiLFO extends gsui0ne {
 	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"] gsui-slider` ); }
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#changeToggle( b ) {
-		this.$this.$find( "[type=radio]" ).$attr( "disabled", !b );
-		this.$elements.$propSli.$attr( "disabled", !b );
+		this.$this.$find( "[type=radio]" ).$setAttr( "disabled", !b );
+		this.$elements.$propSli.$setAttr( "disabled", !b );
 	}
 	#changeType( type ) {
 		this.$elements.$wave.$get( 0 ).$options( 0, { type } );
@@ -122,11 +122,11 @@ class gsuiLFO extends gsui0ne {
 		GSUdomQS( this, `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
 	}
 	#changeProp( prop, val ) {
-		this.#getPropSlider( prop ).$attr( "value", val );
+		this.#getPropSlider( prop ).$setAttr( "value", val );
 		this.#getPropOutput( prop ).$text( gsuiLFO.#formatVal( prop, val ) );
 	}
 	#updatePxPerBeat() {
-		this.$elements.$beatlines.$attr( "pxPerBeat", this.#waveWidth / this.#dur );
+		this.$elements.$beatlines.$setAttr( "pxPerBeat", this.#waveWidth / this.#dur );
 	}
 	static #formatVal( prop, val ) {
 		return val.toFixed( 2 );
@@ -141,12 +141,12 @@ class gsuiLFO extends gsui0ne {
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
 			case "gsuiLFO-type":
-				this.$this.$attr( "type", e.target.value );
+				this.$this.$setAttr( "type", e.target.value );
 				this.$updateWave();
 				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "type", e.target.value );
 				break;
 			case "gsuiLFO-ampSign":
-				this.$this.$attr( "amp", -this.$this.$getAttr( "amp" ) );
+				this.$this.$setAttr( "amp", -this.$this.$getAttr( "amp" ) );
 				this.$updateWave();
 				this.$this.$dispatch( GSEV_LFO_CHANGE, this.#lfo, "amp", +this.$this.$getAttr( "amp" ) );
 				break;
@@ -166,11 +166,11 @@ class gsuiLFO extends gsui0ne {
 			? val * Math.sign( this.$this.$getAttr( "amp" ) )
 			: val;
 
-		this.$this.$attr( prop, nval )
+		this.$this.$setAttr( prop, nval )
 			.$dispatch( GSEV_LFO_CHANGE, this.#lfo, prop, nval );
 	}
 	#updateBeatlinesColor() {
-		this.$elements.$beatlines.$attr( "color", this.$this.$css( "--gsuiLFO-input-col" ) );
+		this.$elements.$beatlines.$setAttr( "color", this.$this.$css( "--gsuiLFO-input-col" ) );
 	}
 
 	// .........................................................................

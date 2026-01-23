@@ -69,16 +69,16 @@ class gsuiPopup extends gsui0ne {
 	// .........................................................................
 	#setOkCancelBtns( ok, cancel, noOverlayCancel ) {
 		this.$elements.$win.$togClass( "gsuiPopup-noCancel", cancel === false )
-			.$attr( "closedby", noOverlayCancel === true ? "none" : "any" );
-		this.$elements.$cancel.$attr( "text", cancel || "Cancel" );
-		this.$elements.$ok.$attr( "text", ok || "Ok" );
+			.$setAttr( "closedby", noOverlayCancel === true ? "none" : "any" );
+		this.$elements.$cancel.$setAttr( "text", cancel || "Cancel" );
+		this.$elements.$ok.$setAttr( "text", ok || "Ok" );
 	}
 	#open( type, title, msg, value ) {
 		this.#type = type;
 		this.$elements.$header.$text( title );
 		this.$elements.$msg.$text( msg || "" );
 		this.$elements.$text.$value( arguments.length > 3 ? value : "" );
-		this.$elements.$win.$attr( "data-type", type );
+		this.$elements.$win.$setAttr( "data-type", type );
 		this.$elements.$cnt.$find( "input,select,.gsuiPopup-ok *:first-child" ).$addAttr( "autofocus" );
 		if ( type === "prompt" ) {
 			this.$elements.$text.$trigger( "select" );

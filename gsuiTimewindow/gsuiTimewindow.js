@@ -83,24 +83,24 @@ class gsuiTimewindow extends gsui0ne {
 					const scrollBack = this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, 0 );
 
 					this.#setScrollY( scrollBack );
-					this.$this.$attr( "lineheight", lhNew )
+					this.$this.$setAttr( "lineheight", lhNew )
 						.$dispatch( GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
 					this.#lineHeightFloat = lhNewf;
 				}
 			},
-			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, val ) => this.$this.$attr( "step", val ),
+			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, val ) => this.$this.$setAttr( "step", val ),
 			[ GSEV_STEPSELECT_AUTO ]: ( _, b ) => {
 				if ( b ) {
-					this.$this.$attr( "step", this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( this.#pxPerBeat ) );
+					this.$this.$setAttr( "step", this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( this.#pxPerBeat ) );
 				}
 			},
 			[ GSEV_TIMELINE_INPUTCURRENTTIME ]: GSUnoop,
 			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, val ) => {
-				this.$this.$attr( "currenttime", val );
+				this.$this.$setAttr( "currenttime", val );
 				return true;
 			},
 			[ GSEV_TIMELINE_INPUTLOOP ]: ( _, a, b ) => {
-				this.$this.$attr( "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+				this.$this.$setAttr( "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 				return true;
 			},
 			[ GSEV_TIMELINE_INPUTLOOPEND ]: () => this.style.overflowY = "",
@@ -159,12 +159,12 @@ class gsuiTimewindow extends gsui0ne {
 				this.#minimapUpdate();
 				break;
 			case "step":
-				this.$elements.$stepBtn.$attr( "step", val );
-				this.$elements.$timeline.$attr( "step", val );
+				this.$elements.$stepBtn.$setAttr( "step", val );
+				this.$elements.$timeline.$setAttr( "step", val );
 				break;
 			case "timedivision":
-				this.$elements.$timeline.$attr( "timedivision", val );
-				this.$elements.$beatlines.$attr( "timedivision", val );
+				this.$elements.$timeline.$setAttr( "timedivision", val );
+				this.$elements.$beatlines.$setAttr( "timedivision", val );
 				break;
 			case "autoscroll":
 				this.#autoscroll = val === "";
@@ -174,9 +174,9 @@ class gsuiTimewindow extends gsui0ne {
 			case "pxperbeat":
 				this.#pxPerBeatFloat = +val;
 				this.#pxPerBeat = GSUmathRound( val );
-				this.$elements.$timeline.$attr( "pxperbeat", val );
-				this.$elements.$beatlines.$attr( "pxperbeat", val );
-				this.$elements.$sliderZoomX.$attr( "value", GSUmathEaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
+				this.$elements.$timeline.$setAttr( "pxperbeat", val );
+				this.$elements.$beatlines.$setAttr( "pxperbeat", val );
+				this.$elements.$sliderZoomX.$setAttr( "value", GSUmathEaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
 				this.$this.$css( "--gsuiTimewindow-pxperbeat", `${ val }px` );
 				GSUjq( [
 					this.$elements.$currentTime,
@@ -189,14 +189,14 @@ class gsuiTimewindow extends gsui0ne {
 			case "lineheight":
 				this.#lineHeightFloat = +val;
 				this.#lineHeight = GSUmathRound( val );
-				this.$elements.$sliderZoomY.$attr( "value", GSUmathEaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
+				this.$elements.$sliderZoomY.$setAttr( "value", GSUmathEaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
 				this.$this.$css( "--gsuiTimewindow-lineH", `${ val }px` );
 				break;
 			case "currenttime": {
 				const step = +this.$this.$getAttr( "currenttimestep" );
 
 				this.#currentTime = +val;
-				this.$elements.$timeline.$attr( "currenttime", val );
+				this.$elements.$timeline.$setAttr( "currenttime", val );
 				this.$elements.$currentTime.$left( step
 					? ( val / step | 0 ) * step
 					: val, "em" );
@@ -209,7 +209,7 @@ class gsuiTimewindow extends gsui0ne {
 					const [ a, b ] = val.split( "-" );
 
 					GSUdomAddClass( this, "gsuiTimewindow-looping" );
-					this.$elements.$timeline.$attr( "loop", val );
+					this.$elements.$timeline.$setAttr( "loop", val );
 					this.$elements.$loopA.$width( a, "em" );
 					this.$elements.$loopB.$left( b, "em" );
 					this.#minimapUpdateCurrentTimeLoop();
@@ -420,7 +420,7 @@ class gsuiTimewindow extends gsui0ne {
 	#setNewPPB( ppb, ptrPx ) {
 		this.#setScrollX( this.#calcScrollBack( this.#scrollX, this.#pxPerBeat, ppb, ptrPx ) );
 		this.$this
-			.$attr( {
+			.$setAttr( {
 				step: this.$elements.$stepBtn.$get( 0 ).$getStepFromPxPerBeat( ppb ),
 				pxperbeat: ppb,
 			} )
@@ -437,7 +437,7 @@ class gsuiTimewindow extends gsui0ne {
 				const px = e.pageY - GSUdomBCRxy( this )[ 1 ] - this.$elements.$timeline.$height();
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
-				this.$this.$attr( "lineheight", lhNew )
+				this.$this.$setAttr( "lineheight", lhNew )
 					.$dispatch( GSEV_TIMEWINDOW_LINEHEIGHT, lhNew );
 			}
 			this.#lineHeightFloat = lhNewf;

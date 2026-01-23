@@ -162,7 +162,7 @@ class gsuiPatterns extends gsui0ne {
 		this.#getSynth( id )
 			.$togClass( "gsuiPatterns-synth-expanded", b )
 			.$find( ".gsuiPatterns-synth-expand" )
-			.$attr( "data-icon", b ? "caret-down" : "caret-right" );
+			.$setAttr( "data-icon", b ? "caret-down" : "caret-right" );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
 		GSUdomQS( "gsui-channels" )
@@ -206,7 +206,7 @@ class gsuiPatterns extends gsui0ne {
 
 		switch ( prop ) {
 			case "name": elSyn.$find( ".gsuiPatterns-synth-name" ).$text( val ); break;
-			case "dest": elSyn.$find( ".gsuiPatterns-synth-dest" ).$attr( "data-id", val ); break;
+			case "dest": elSyn.$find( ".gsuiPatterns-synth-dest" ).$setAttr( "data-id", val ); break;
 			case "destName": elSyn.$find( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).$text( val ); break;
 		}
 	}
@@ -229,25 +229,25 @@ class gsuiPatterns extends gsui0ne {
 		const elPat = this.$getPattern( id );
 
 		switch ( prop ) {
-			case "data-missing": elPat.$attr( "data-missing", val ); break;
+			case "data-missing": elPat.$setAttr( "data-missing", val ); break;
 			case "order":
 				elPat.$css( "order", val )
-					.$attr( "data-order", val ); // to delete
+					.$setAttr( "data-order", val ); // to delete
 				break;
-			case "reverse": elPat.$attr( "data-reverse", val ); break;
+			case "reverse": elPat.$setAttr( "data-reverse", val ); break;
 			case "name":
-				elPat.$attr( "data-name", val );
+				elPat.$setAttr( "data-name", val );
 				elPat.$find( ".gsuiPatterns-pattern-name" ).$prop( "title", val ).$text( val );
 				break;
-			case "dest": elPat.$find( ".gsuiPatterns-pattern-dest" ).$attr( "data-id", val ); break;
+			case "dest": elPat.$find( ".gsuiPatterns-pattern-dest" ).$setAttr( "data-id", val ); break;
 			case "destName": elPat.$find( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).$text( val ); break;
 			case "synth": this.#getPatternParent( "keys", val ).$append( elPat ); break;
 			case "bufferType":
-				elPat.$attr( "data-buffer-type", val );
-				elPat.$find( ".gsuiPatterns-pattern-btnInfo" ).$attr( "data-icon", `buf-${ val || "undefined" }` );
+				elPat.$setAttr( "data-buffer-type", val );
+				elPat.$find( ".gsuiPatterns-pattern-btnInfo" ).$setAttr( "data-icon", `buf-${ val || "undefined" }` );
 				break;
 			case "bufferBpm":
-				elPat.$attr( "data-buffer-bpm", val );
+				elPat.$setAttr( "data-buffer-bpm", val );
 				break;
 		}
 	}

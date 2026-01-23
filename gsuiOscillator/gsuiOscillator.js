@@ -178,7 +178,7 @@ class gsuiOscillator extends gsui0ne {
 			}
 		}
 		this.#updateWaveDeb();
-		this.$this.$attr( "hascustomwave", !!obj );
+		this.$this.$setAttr( "hascustomwave", !!obj );
 	}
 	$updateSourceWaveform( svg ) {
 		this.$elements.$source.$empty().$append( svg );
@@ -205,7 +205,7 @@ class gsuiOscillator extends gsui0ne {
 		if ( prop.startsWith( "detune" ) ) {
 			val2 = +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
 		}
-		this.#getPropSlider( prop ).$attr( {
+		this.#getPropSlider( prop ).$setAttr( {
 			value: val,
 			title: `${ prop } ${ val2 }`,
 		} );
@@ -259,7 +259,7 @@ class gsuiOscillator extends gsui0ne {
 			this.#elWavetable.remove();
 			this.#elWavetable = null;
 		}
-		this.$this.$attr( "wavetable", b );
+		this.$this.$setAttr( "wavetable", b );
 		this.$onresize();
 	}
 	#onclickPrevNext( dir ) {
@@ -278,7 +278,7 @@ class gsuiOscillator extends gsui0ne {
 		const w = this.$elements.$waveSelect.$value();
 
 		GSUclearTimeout( this.#timeidType );
-		this.$this.$attr( "wave", w )
+		this.$this.$setAttr( "wave", w )
 			.$dispatch( GSEV_OSCILLATOR_LIVECHANGE, "wave", w );
 		this.#timeidType = GSUsetTimeout( () => {
 			if ( w !== this.#typeSaved ) {
@@ -293,7 +293,7 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#onchangeSlider( prop, val ) {
-		this.$this.$attr( prop, val ).$dispatch( GSEV_OSCILLATOR_CHANGE, prop, val );
+		this.$this.$setAttr( prop, val ).$dispatch( GSEV_OSCILLATOR_CHANGE, prop, val );
 	}
 	#oninputSlider( prop, val ) {
 		let val2 = val;

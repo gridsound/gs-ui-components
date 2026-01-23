@@ -95,8 +95,8 @@ class gsuiDotline extends gsui0ne {
 			case "beatlines":
 				if ( val === "" && !this.#beatlines ) {
 					this.#beatlines = [
-						GSUjq( "<gsui-beatlines>" ).$attr( { timedivision: "5/10" } ),
-						GSUjq( "<gsui-beatlines>" ).$attr( { timedivision: "5/10", vertical: true } ),
+						GSUjq( "<gsui-beatlines>" ).$setAttr( { timedivision: "5/10" } ),
+						GSUjq( "<gsui-beatlines>" ).$setAttr( { timedivision: "5/10", vertical: true } ),
 					];
 					this.$element.$prepend( ...this.#beatlines );
 				}
@@ -107,8 +107,8 @@ class gsuiDotline extends gsui0ne {
 		this.$elements.$svg.$get( 0 ).$setSVGSize( w, h );
 		this.#drawPolyline();
 		if ( this.#beatlines ) {
-			this.#beatlines[ 0 ].$attr( "pxperbeat", this.$elements.$svg.$child( 0 ).$width() / 10 );
-			this.#beatlines[ 1 ].$attr( "pxperbeat", this.$elements.$svg.$child( 0 ).$height() / 10 );
+			this.#beatlines[ 0 ].$setAttr( "pxperbeat", this.$elements.$svg.$child( 0 ).$width() / 10 );
+			this.#beatlines[ 1 ].$setAttr( "pxperbeat", this.$elements.$svg.$child( 0 ).$height() / 10 );
 		}
 	}
 
@@ -370,7 +370,7 @@ class gsuiDotline extends gsui0ne {
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
-			this.$elements.$slider.$attr( "value", dot.val );
+			this.$elements.$slider.$setAttr( "value", dot.val );
 			this.#drawPolyline();
 			this.#onchange( { [ id ]: { val: dot.val } } );
 		}
@@ -438,7 +438,7 @@ class gsuiDotline extends gsui0ne {
 			const dotBY = this.#dataSorted[ ind     ][ 1 ].y;
 
 			this.#activeDotId = id;
-			this.$elements.$slider.$attr( {
+			this.$elements.$slider.$setAttr( {
 				revert: dotAY > dotBY,
 				value: this.#data[ id ].val,
 			} ).$get( 0 ).$ptrDown( e );
