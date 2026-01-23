@@ -114,7 +114,7 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	$clear() {
-		GSUforEach( this.#dots, ( d, id ) => this.#deleteDotElement2( id ) );
+		GSUforEach( this.#dots, ( _, id ) => this.#deleteDotElement2( id ) );
 		this.#dataSorted = [];
 		this.#drawPolyline();
 	}
@@ -193,18 +193,18 @@ class gsuiDotline extends gsui0ne {
 
 				if ( !cdot ) {
 					cdot =
-					this.#cdots[ id ] = GSUcreateDiv( { class: "gsuiDotline-cdot", "data-id": id } );
+					this.#cdots[ id ] = $( "<div>" ).$setAttr( { class: "gsuiDotline-cdot", "data-id": id } );
 					this.$element.$append( cdot );
 				}
-				GSUdomSetAttr( cdot, "data-type", dot.type );
-				cdot.style.left = `${ ( this.#getPercX( dot.x ) - prevXp ) * .5 + prevXp }%`;
-				cdot.style.top  = `${ ( this.#getPercY( dot.y ) - prevYp ) * cdotY + prevYp }%`;
+				cdot.$setAttr( "data-type", dot.type )
+					.$left( ( this.#getPercX( dot.x ) - prevXp ) * .5 + prevXp, "%" )
+					.$top(  ( this.#getPercY( dot.y ) - prevYp ) * cdotY + prevYp, "%" );
 				delete cdots[ id ];
 			}
 			return dot;
 		}, null );
 		GSUforEach( cdots, ( d, id ) => {
-			d.remove();
+			d.$remove();
 			delete this.#cdots[ id ];
 		} );
 	}
@@ -241,8 +241,8 @@ class gsuiDotline extends gsui0ne {
 	// .........................................................................
 	#getW() { return this.$element.$width(); }
 	#getH() { return this.$element.$height(); }
-	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, GSUdomGetAttrNum( this, "xstep" ) ); }
-	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, GSUdomGetAttrNum( this, "ystep" ) ); }
+	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, +this.$this.$getAttr( "xstep" ) ); }
+	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, +this.$this.$getAttr( "ystep" ) ); }
 	#getPercX( x ) { return         ( x - this.#xmin ) / this.#w * 100; }
 	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
 
@@ -255,7 +255,7 @@ class gsuiDotline extends gsui0ne {
 			this.#ymin <= y && y <= this.#ymax
 		) ) {
 			this.#data[ id ] = Object.seal( { x: 0, y: 0, type: null, val: null } );
-			this.#dots[ id ] = GSUcreateDiv( { class: "gsuiDotline-dot", "data-id": id } );
+			this.#dots[ id ] = $( "<div>" ).$setAttr( { class: "gsuiDotline-dot", "data-id": id } );
 			this.#updateDotElement( args );
 			this.$element.$append( this.#dots[ id ] );
 			this.#sortDots();
@@ -270,11 +270,11 @@ class gsuiDotline extends gsui0ne {
 		this.#data[ id ].val = val;
 		if ( !byMouse || !opt?.freezeX ) {
 			this.#data[ id ].x = +x.toFixed( 7 );
-			this.#dots[ id ].style.left = `${ this.#getPercX( x ) }%`;
+			this.#dots[ id ].$left( this.#getPercX( x ), "%" );
 		}
 		if ( !byMouse || !opt?.freezeY ) {
 			this.#data[ id ].y = +y.toFixed( 7 );
-			this.#dots[ id ].style.top = `${ this.#getPercY( y ) }%`;
+			this.#dots[ id ].$top( this.#getPercY( y ), "%" );
 		}
 	}
 	#deleteDotElement( id ) {
@@ -288,7 +288,7 @@ class gsuiDotline extends gsui0ne {
 		return false;
 	}
 	#deleteDotElement2( id ) {
-		this.#dots[ id ].remove();
+		this.#dots[ id ].$remove();
 		delete this.#data[ id ];
 		delete this.#dots[ id ];
 		delete this.#dotsOpt[ id ];
@@ -300,7 +300,7 @@ class gsuiDotline extends gsui0ne {
 		const dot = this.#dots[ id ];
 
 		this.#activeDotId = b ? id : null;
-		GSUdomTogClass( dot, "gsuiDotline-dotSelected", b );
+		dot.$togClass( "gsuiDotline-dotSelected", b );
 	}
 	#updateMenu( type ) {
 		this.#menu.$changeAction( "hold",         "icon", type === "hold"         ? "radio-btn-checked" : "radio-btn" );
@@ -330,7 +330,7 @@ class gsuiDotline extends gsui0ne {
 		this.#pageX = e.pageX;
 		this.#pageY = e.pageY;
 		if ( e.button === 0 ) {
-			const xstep = GSUdomGetAttrNum( this, "xstep" );
+			const xstep = +this.$this.$getAttr( "xstep" );
 			let isNewDot = false;
 
 			if ( !id ) {
@@ -454,13 +454,12 @@ class gsuiDotline extends gsui0ne {
 	}
 	$onptrmove( e ) {
 		if ( this.#mousebtn === 0 ) {
-			const xstep = GSUdomGetAttrNum( this, "xstep" );
-			const ystep = GSUdomGetAttrNum( this, "ystep" );
+			const [ xstep, ystep ] = this.$this.$getAttr( "xstep", "ystep" );
 			let incX = this.#w / this.#getW() *  ( e.pageX - this.#pageX );
 			let incY = this.#h / this.#getH() * -( e.pageY - this.#pageY );
 
-			incX = GSUmathRound( GSUmathClamp( incX, this.#dotMinX, this.#dotMaxX ), xstep );
-			incY = GSUmathRound( GSUmathClamp( incY, this.#dotMinY, this.#dotMaxY ), ystep );
+			incX = GSUmathRound( GSUmathClamp( incX, this.#dotMinX, this.#dotMaxX ), +xstep );
+			incY = GSUmathRound( GSUmathClamp( incY, this.#dotMinY, this.#dotMaxY ), +ystep );
 			this.#dotsMoving.forEach( d => {
 				this.#updateDotElement( {
 					...d,
