@@ -17,13 +17,11 @@ class gsui0ne extends HTMLElement {
 		// const jqueryfy = true;
 
 		super();
+		this.$this = $( this );
 		this.#attributes = o.$attributes || {};
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
 			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )
 			: null );
-		if ( jqueryfy ) {
-			this.$this = $( this );
-		}
 		if ( this.#children ) {
 			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
 			if ( jqueryfy ) {
