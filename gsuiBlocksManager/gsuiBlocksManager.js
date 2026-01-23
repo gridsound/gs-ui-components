@@ -78,7 +78,7 @@ class gsuiBlocksManager {
 
 	// .........................................................................
 	#dispatch( ...args ) {
-		GSUdomDispatch( this.rootElement.firstChild, ...args );
+		$( this.rootElement.firstChild ).$dispatch( ...args );
 	}
 	#getBlc( el ) {
 		return el.closest( ".gsuiBlocksManager-block" );
