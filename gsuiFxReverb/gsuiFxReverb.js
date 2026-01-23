@@ -5,6 +5,7 @@ class gsuiFxReverb extends gsui0ne {
 		super( {
 			$cmpName: "gsuiFxReverb",
 			$tagName: "gsui-fx-reverb",
+			$jqueryfy: true,
 			$elements: {
 				$drySli: "[data-prop='dry'] gsui-slider",
 				$wetSli: "[data-prop='wet'] gsui-slider",
@@ -34,7 +35,7 @@ class gsuiFxReverb extends gsui0ne {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.parentNode.dataset.prop, val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => GSUdomDispatch( this, GSEV_EFFECT_FX_CHANGEPROP, d.$target.parentNode.dataset.prop, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.parentNode.dataset.prop, val ),
 		} );
 	}
 
@@ -49,33 +50,33 @@ class gsuiFxReverb extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "timedivision":
-				GSUdomSetAttr( this.$elements.$beatlines, "timedivision", val );
+				this.$elements.$beatlines.$setAttr( "timedivision", val );
 				this.#updatePxPerBeat();
 				this.#updateWetPos();
 				break;
 			case "dry":
-				this.$elements.$dryValue.textContent = GSUmathFix( val * 100 );
-				GSUdomSetAttr( this.$elements.$drySli, "value", val );
-				this.$elements.$graphDry.style.opacity = val;
+				this.$elements.$dryValue.$text( GSUmathFix( val * 100 ) );
+				this.$elements.$drySli.$setAttr( "value", val );
+				this.$elements.$graphDry.$css( "opacity", val );
 				break;
 			case "wet":
-				this.$elements.$wetValue.textContent = GSUmathFix( val * 100 );
-				GSUdomSetAttr( this.$elements.$wetSli, "value", val );
-				this.$elements.$graphWet.style.opacity = GSUmathEaseOutCirc( val / 10 );
+				this.$elements.$wetValue.$text( GSUmathFix( val * 100 ) );
+				this.$elements.$wetSli.$setAttr( "value", val );
+				this.$elements.$graphWet.$css( "opacity", GSUmathEaseOutCirc( val / 10 ) );
 				break;
 			case "delay":
-				this.$elements.$delValue.textContent = ( +val ).toFixed( 2 );
-				GSUdomSetAttr( this.$elements.$delSli, "value", val );
+				this.$elements.$delValue.$text( ( +val ).toFixed( 2 ) );
+				this.$elements.$delSli.$setAttr( "value", val );
 				this.#updateWetPos();
 				break;
 			case "decay":
-				this.$elements.$decValue.textContent = ( +val ).toFixed( 2 );
-				GSUdomSetAttr( this.$elements.$decSli, "value", val );
+				this.$elements.$decValue.$text( ( +val ).toFixed( 2 ) );
+				this.$elements.$decSli.$setAttr( "value", val );
 				this.#updateWetPos();
 				break;
 			case "fadein":
-				this.$elements.$fadeinValue.textContent = ( +val ).toFixed( 2 );
-				GSUdomSetAttr( this.$elements.$fadeinSli, "value", val );
+				this.$elements.$fadeinValue.$text( ( +val ).toFixed( 2 ) );
+				this.$elements.$fadeinSli.$setAttr( "value", val );
 				this.#updateWetPos();
 				break;
 		}
@@ -86,26 +87,24 @@ class gsuiFxReverb extends gsui0ne {
 		this.#updatePxPerBeat();
 	}
 	#oninputProp( prop, val ) {
-		GSUdomSetAttr( this, prop, val );
-		GSUdomDispatch( this, GSEV_EFFECT_FX_LIVECHANGE, prop, val );
+		this.$this.$setAttr( prop, val ).$dispatch( GSEV_EFFECT_FX_LIVECHANGE, prop, val );
 	}
 
 	// .........................................................................
 	#updatePxPerBeat() {
-		const bPM = GSUdomGetAttr( this, "timedivision" ).split( "/" )[ 0 ];
+		const bPM = this.$this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
 
-		GSUdomSetAttr( this.$elements.$beatlines, "pxperbeat", this.$elements.$beatlines.clientWidth / bPM );
+		this.$elements.$beatlines.$setAttr( "pxperbeat", this.$elements.$beatlines.$width() / bPM );
 	}
 	#updateWetPos() {
-		const delay = GSUdomGetAttrNum( this, "delay" );
-		const decay = GSUdomGetAttrNum( this, "decay" );
-		const fadein = GSUdomGetAttrNum( this, "fadein" );
-		const ppb = GSUdomGetAttrNum( this.$elements.$beatlines, "pxperbeat" );
-		const graphW = this.$elements.$beatlines.clientWidth;
+		const [ delay, decay, fadein ] = this.$this.$getAttr( "delay", "decay", "fadein" );
+		const ppb = +this.$elements.$beatlines.$getAttr( "pxperbeat" );
+		const graphW = this.$elements.$beatlines.$width();
 
-		this.$elements.$graphWet.style.left = `${ ( delay * ppb ) / graphW * 100 }%`;
-		this.$elements.$graphWet.style.width = `${ ( ( fadein + decay ) * ppb ) / graphW * 100 }%`;
-		GSUdomStyle( this, "--gsui-fadein-p", `${ fadein / ( fadein + decay ) * 100 | 0 }%` );
+		this.$elements.$graphWet
+			.$left( ( delay * ppb ) / graphW * 100, "%" )
+			.$width( ( ( +fadein + +decay ) * ppb ) / graphW * 100, "%" );
+		this.$this.$css( "--gsui-fadein-p", fadein / ( +fadein + +decay ) * 100 | 0, "%" );
 	}
 }
 
