@@ -5,6 +5,7 @@ class gsuiDrum extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrum",
 			$tagName: "gsui-drum",
+			$jqueryfy: true,
 		} );
 		Object.seal( this );
 	}
@@ -15,10 +16,10 @@ class gsuiDrum extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "when":
-				this.style.left = `${ val }em`;
+				this.$this.$left( val, "em" );
 				break;
 			case "duration":
-				this.style.width = `${ val }em`;
+				this.$this.$width( val, "em" );
 				break;
 			case "pan":
 			case "gain":
@@ -46,7 +47,7 @@ class gsuiDrum extends gsui0ne {
 				st.width = `${ val * 100 }%`;
 				break;
 		}
-		GSUdomStyle( GSUdomQS( this, `.gsuiDrum-prop[data-value="${ prop }"]` ).firstChild, st );
+		this.$this.$find( `.gsuiDrum-prop[data-value="${ prop }"]` ).$child( 0 ).$css( st );
 	}
 }
 
