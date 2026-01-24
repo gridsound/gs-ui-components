@@ -16,109 +16,22 @@ gsui-drumrow {
 	transition:
 		.2s height,
 		.2s min-height;
-}
-gsui-drumrow:not( [ toggle ] ) {
-	border-color: transparent;
-	background-color: var( --gsui-item-bg-disabled );
-}
-gsui-drumrow[ open ] {
-	height: calc( 1em + var( --props-h ) );
-	min-height: calc( 1em + var( --props-h ) );
-}
 
-/* .......................................................................... */
-.gsuiDrumrow-main {
-	position: absolute;
-	box-sizing: border-box;
-	inset: 0 1px auto var( --grip-w );
-	height: calc( 1em - 4px );
-	min-height: calc( 1em - 4px );
-}
-gsui-drumrow gsui-prop-select {
-	position: absolute;
-	overflow: hidden;
-	inset: calc( 1em - 3px ) 1px 0 var( --grip-w );
-	background-color: var( --gsui-item-more-bg );
-}
+	&:not( [ toggle ] ) {
+		border-color: transparent;
+		background-color: var( --gsui-item-bg-disabled );
+	}
+	&[ open ] {
+		height: calc( 1em + var( --props-h ) );
+		min-height: calc( 1em + var( --props-h ) );
+	}
 
-/* .......................................................................... */
-.gsuiDrumrow-grip {
-	position: absolute;
-	width: var( --grip-w );
-	inset: 0 auto 0 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 12px;
-	cursor: grab;
-	background-color: var( --gsuiDrumrow-grip-bg );
-}
-.gsuiDrumrow-grip .gsuiIcon {
-	pointer-events: none;
-	opacity: .4;
-}
-gsui-drumrow gsui-toggle {
-	position: absolute;
-	inset: 0 auto auto 0;
-	width: var( --toggle-w );
-	height: var( --name-h );
-}
-.gsuiDrumrow-name {
-	position: absolute;
-	inset: 0 calc( var( --delete-w ) + var( --propsExpand-w ) + 6px ) auto var( --toggle-w );
-	height: var( --name-h );
-	line-height: var( --name-h );
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	font-size: 12px;
-	font-weight: bold;
-	pointer-events: none;
-}
-gsui-drumrow[ info ] .gsuiDrumrow-name {
-	font-style: italic;
-	font-weight: normal;
-	opacity: .7;
-}
-
-/* .......................................................................... */
-.gsuiDrumrow-waveWrap {
-	position: absolute;
-	overflow: hidden;
-	inset: var( --name-h ) calc( var( --slider-w ) * 3 + 8px ) 4px 0;
-	pointer-events: none;
-}
-.gsuiDrumrow-waveWrap svg {
-	position: absolute;
-	inset: 0 auto auto 0;
-	width: 100%;
-	height: 100%;
-	fill: currentColor;
-	opacity: .5;
-}
-.gsuiDrumrow-startCursor {
-	position: absolute;
-	inset: 0 auto auto 0;
-	width: 100%;
-	height: 100%;
-	border-right: 2px solid;
-	background-image: linear-gradient( 90deg, transparent 0%, currentColor 300% );
-	animation-name: gsuiDrumrow-startCursor-anim;
-	animation-duration: inherit;
-	animation-fill-mode: forwards;
-	animation-timing-function: linear;
-}
-gsui-drumrow:not( [ toggle ] ) .gsuiDrumrow-startCursor {
-	visibility: hidden;
-}
-
-@keyframes gsuiDrumrow-startCursor-anim {
-	from { left: -100%; }
-	to { left: 100%; }
-}
-
-/* .......................................................................... */
-gsui-drumrow {
+	gsui-toggle {
+		position: absolute;
+		inset: 0 auto auto 0;
+		width: var( --toggle-w );
+		height: var( --name-h );
+	}
 	gsui-slider {
 		position: absolute;
 		inset: var( --name-h ) auto 2px;
@@ -140,6 +53,95 @@ gsui-drumrow {
 		--gsuiSlider-lineColor: var( --gsui-col-gain );
 		right: 2px;
 	}
+	gsui-prop-select {
+		position: absolute;
+		overflow: hidden;
+		inset: calc( 1em - 3px ) 1px 0 var( --grip-w );
+		background-color: var( --gsui-item-more-bg );
+	}
+}
+
+/* .......................................................................... */
+.gsuiDrumrow-main {
+	position: absolute;
+	box-sizing: border-box;
+	inset: 0 1px auto var( --grip-w );
+	height: calc( 1em - 4px );
+	min-height: calc( 1em - 4px );
+}
+
+/* .......................................................................... */
+.gsuiDrumrow-grip {
+	position: absolute;
+	width: var( --grip-w );
+	inset: 0 auto 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	cursor: grab;
+	background-color: var( --gsuiDrumrow-grip-bg );
+
+	.gsuiIcon {
+		pointer-events: none;
+		opacity: .4;
+	}
+}
+.gsuiDrumrow-name {
+	position: absolute;
+	inset: 0 calc( var( --delete-w ) + var( --propsExpand-w ) + 6px ) auto var( --toggle-w );
+	height: var( --name-h );
+	line-height: var( --name-h );
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	font-weight: bold;
+	pointer-events: none;
+
+	gsui-drumrow[ info ] & {
+		font-style: italic;
+		font-weight: normal;
+		opacity: .7;
+	}
+}
+
+/* .......................................................................... */
+.gsuiDrumrow-waveWrap {
+	position: absolute;
+	overflow: hidden;
+	inset: var( --name-h ) calc( var( --slider-w ) * 3 + 8px ) 4px 0;
+	pointer-events: none;
+
+	svg {
+		position: absolute;
+		inset: 0 auto auto 0;
+		width: 100%;
+		height: 100%;
+		fill: currentColor;
+		opacity: .5;
+	}
+}
+.gsuiDrumrow-startCursor {
+	position: absolute;
+	inset: 0 auto auto 0;
+	width: 100%;
+	height: 100%;
+	border-right: 2px solid;
+	background-image: linear-gradient( 90deg, transparent 0%, currentColor 300% );
+	animation-name: gsuiDrumrow-startCursor-anim;
+	animation-duration: inherit;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+
+	gsui-drumrow:not( [ toggle ] ) & {
+		visibility: hidden;
+	}
+}
+
+@keyframes gsuiDrumrow-startCursor-anim {
+	from { left: -100%; }
+	to { left: 100%; }
 }
 
 /* .......................................................................... */
@@ -158,17 +160,18 @@ gsui-drumrow {
 	background: none;
 	opacity: .3;
 	transition: .1s opacity;
+
+	&:hover {
+		opacity: 1;
+	}
 }
 .gsuiDrumrow-btnProps {
 	right: calc( var( --delete-w ) + 2px );
 	width: var( --propsExpand-w );
 	opacity: .5;
-}
-gsui-drumrow[ open ] .gsuiDrumrow-btnProps {
-	text-shadow: 0 0 6px;
-	opacity: .8;
-}
-gsui-drumrow .gsuiDrumrow-btnProps:hover,
-gsui-drumrow .gsuiDrumrow-btnDelete:hover {
-	opacity: 1;
+
+	gsui-drumrow[ open ] & {
+		text-shadow: 0 0 6px;
+		opacity: 1;
+	}
 }
