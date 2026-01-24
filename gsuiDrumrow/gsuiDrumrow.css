@@ -118,27 +118,28 @@ gsui-drumrow:not( [ toggle ] ) .gsuiDrumrow-startCursor {
 }
 
 /* .......................................................................... */
-.gsuiDrumrow-detune,
-.gsuiDrumrow-pan,
-.gsuiDrumrow-gain {
-	position: absolute;
-	inset: var( --name-h ) auto 2px;
-	width: var( --slider-w );
-}
-gsui-drumrow .gsuiSlider-eventCatcher {
-	inset: -2px;
-}
-.gsuiDrumrow-detune {
-	--gsuiSlider-lineColor: var( --gsui-col-detune );
-	right: calc( 2 * var( --slider-w ) + 6px );
-}
-.gsuiDrumrow-pan {
-	--gsuiSlider-lineColor: var( --gsui-col-pan );
-	right: calc( var( --slider-w ) + 4px );
-}
-.gsuiDrumrow-gain {
-	--gsuiSlider-lineColor: var( --gsui-col-gain );
-	right: 2px;
+gsui-drumrow {
+	gsui-slider {
+		position: absolute;
+		inset: var( --name-h ) auto 2px;
+		width: var( --slider-w );
+		height: auto;
+	}
+	.gsuiSlider-eventCatcher {
+		inset: -2px;
+	}
+	gsui-slider[ data-prop="detune" ] {
+		--gsuiSlider-lineColor: var( --gsui-col-detune );
+		right: calc( 2 * var( --slider-w ) + 6px );
+	}
+	gsui-slider[ data-prop="pan" ] {
+		--gsuiSlider-lineColor: var( --gsui-col-pan );
+		right: calc( var( --slider-w ) + 4px );
+	}
+	gsui-slider[ data-prop="gain" ] {
+		--gsuiSlider-lineColor: var( --gsui-col-gain );
+		right: 2px;
+	}
 }
 
 /* .......................................................................... */

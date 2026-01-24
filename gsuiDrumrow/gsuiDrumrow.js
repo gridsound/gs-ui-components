@@ -80,7 +80,7 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	#getSlider( prop ) {
-		return this.$elements.$sliders.$filter( `.gsuiDrumrow-${ prop } *` );
+		return this.$elements.$sliders.$filter( `[data-prop="${ prop }"]` );
 	}
 	#namePrint( prop, val ) {
 		this.$elements.$name.$text( gsuiDrumrow.#namePrint2( prop, val ) );
@@ -96,7 +96,7 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	#oninputendSlider() {
-		this.$elements.$name.textContent = this.$this.$getAttr( "name" );
+		this.$elements.$name.$text( this.$this.$getAttr( "name" ) );
 		this.$this.$rmAttr( "info" );
 	}
 	#onanimationend( e ) {
