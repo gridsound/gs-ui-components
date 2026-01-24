@@ -12,7 +12,6 @@ class gsuiComPlayer extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComPlayer",
 			$tagName: "gsui-com-player",
-			$jqueryfy: true,
 			$elements: {
 				$audio: "audio",
 				$play: ".gsuiComPlayer-play",

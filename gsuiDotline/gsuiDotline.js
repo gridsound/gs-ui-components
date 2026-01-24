@@ -30,7 +30,6 @@ class gsuiDotline extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDotline",
 			$tagName: "gsui-dotline",
-			$jqueryfy: true,
 			$elements: {
 				$svg: "gsui-dotlinesvg",
 				$slider: "gsui-slider",

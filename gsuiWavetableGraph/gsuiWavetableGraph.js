@@ -15,7 +15,6 @@ class gsuiWavetableGraph extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWavetableGraph",
 			$tagName: "gsui-wavetable-graph",
-			$jqueryfy: true,
 			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
 				GSUcreateElement( "g", { class: "gsuiWavetableGraph-box" },
 					GSUnewArray( 12, () => GSUcreateElement( "line" ) ),

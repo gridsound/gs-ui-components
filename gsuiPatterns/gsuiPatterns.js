@@ -28,7 +28,6 @@ class gsuiPatterns extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPatterns",
 			$tagName: "gsui-patterns",
-			$jqueryfy: true,
 			$elements: {
 				$lists: ".gsuiPatterns-panel-list",
 				$newSlices: "[data-action='newSlices']",

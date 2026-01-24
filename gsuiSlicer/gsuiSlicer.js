@@ -22,7 +22,6 @@ class gsuiSlicer extends gsui0ne {
 		super( {
 			$cmpName: "gsuiSlicer",
 			$tagName: "gsui-slicer",
-			$jqueryfy: true,
 			$elements: {
 				$sourceCurrentTime: ".gsuiSlicer-source-currentTime",
 				$slicesCurrentTime: ".gsuiSlicer-slices-currentTime",

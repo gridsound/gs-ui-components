@@ -38,7 +38,6 @@ class gsuiDrums extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrums",
 			$tagName: "gsui-drums",
-			$jqueryfy: true,
 			$attributes: { tabindex: -1 },
 		} );
 		Object.seal( this );

@@ -10,7 +10,6 @@ class gsuiStepSelect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiStepSelect",
 			$tagName: "gsui-step-select",
-			$jqueryfy: true,
 			$elements: {
 				$auto: "gsui-toggle",
 				$frac: "span",

@@ -36,7 +36,6 @@ class gsuiDAW extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDAW",
 			$tagName: "gsui-daw",
-			$jqueryfy: true,
 			$elements: {
 				$head: ".gsuiDAW-head",
 				$titleUser: "gsui-titleuser",

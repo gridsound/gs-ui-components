@@ -14,7 +14,6 @@ class gsuiWavetable extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWavetable",
 			$tagName: "gsui-wavetable",
-			$jqueryfy: true,
 			$elements: {
 				$head: ".gsuiWavetable-head",
 				$editor: ".gsuiWavetable-waves gsui-wave-editor",

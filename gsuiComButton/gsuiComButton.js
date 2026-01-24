@@ -7,7 +7,6 @@ class gsuiComButton extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComButton",
 			$tagName: "gsui-com-button",
-			$jqueryfy: true,
 			$template: GSUcreateButton( null,
 				GSUcreateSpan( { inert: true } ),
 				GSUcreateIcon( { inert: true } ),

@@ -22,7 +22,6 @@ class gsuiSlider extends gsui0ne {
 		super( {
 			$cmpName: "gsuiSlider",
 			$tagName: "gsui-slider",
-			$jqueryfy: true,
 			$elements: {
 				$line: ".gsuiSlider-line",
 				$lineColor: ".gsuiSlider-lineColor",

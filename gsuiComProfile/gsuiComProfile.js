@@ -13,7 +13,6 @@ class gsuiComProfile extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComProfile",
 			$tagName: "gsui-com-profile",
-			$jqueryfy: true,
 			$elements: {
 				$avatar: "gsui-com-avatar",
 				$email: ".gsuiComProfile-email-addr span",

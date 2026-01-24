@@ -24,7 +24,6 @@ class gsuiSynthesizer extends gsui0ne {
 		super( {
 			$cmpName: "gsuiSynthesizer",
 			$tagName: "gsui-synthesizer",
-			$jqueryfy: true,
 			$elements: {
 				$heads: ".gsuiSynthesizer-head",
 				$presetBtns: ".gsuiSynthesizer-preset button",

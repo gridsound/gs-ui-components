@@ -13,7 +13,6 @@ class gsuiTitleUser extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTitleUser",
 			$tagName: "gsui-titleuser",
-			$jqueryfy: true,
 			$elements: {
 				$name: ".gsuiTitleUser-name",
 				$userLink: ".gsuiTitleUser-user",

@@ -5,7 +5,6 @@ class gsuiHelpLink extends gsui0ne {
 		super( {
 			$cmpName: "gsuiHelpLink",
 			$tagName: "gsui-help-link",
-			$jqueryfy: true,
 			$template: GSUcreateAExt( { class: "gsuiIcon", "data-icon": "info" } ),
 		} );
 		Object.seal( this );

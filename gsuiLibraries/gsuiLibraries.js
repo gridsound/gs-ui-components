@@ -5,7 +5,6 @@ class gsuiLibraries extends gsui0ne {
 		super( {
 			$cmpName: "gsuiLibraries",
 			$tagName: "gsui-libraries",
-			$jqueryfy: true,
 			$elements: {
 				$libBtns: ".gsuiLibraries-libBtns",
 				$libDef: ".gsuiLibrary-default",

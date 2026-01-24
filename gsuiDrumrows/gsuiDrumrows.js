@@ -7,7 +7,6 @@ class gsuiDrumrows extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrumrows",
 			$tagName: "gsui-drumrows",
-			$jqueryfy: true,
 			$template: GSUcreateDiv( { class: "gsuiDrumrows-dropNew" } ),
 		} );
 		Object.seal( this );

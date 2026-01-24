@@ -5,7 +5,6 @@ class gsuiNoise extends gsui0ne {
 		super( {
 			$cmpName: "gsuiNoise",
 			$tagName: "gsui-noise",
-			$jqueryfy: true,
 			$elements: {
 				$values: ".gsuiNoise-value",
 				$sliders: "gsui-slider",

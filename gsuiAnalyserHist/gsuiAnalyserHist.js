@@ -8,7 +8,6 @@ class gsuiAnalyserHist extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserHist",
 			$tagName: "gsui-analyser-hist",
-			$jqueryfy: true,
 			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {
 				type: "hz", // hz | td

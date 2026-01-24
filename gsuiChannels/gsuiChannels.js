@@ -11,7 +11,6 @@ class gsuiChannels extends gsui0ne {
 		super( {
 			$cmpName: "gsuiChannels",
 			$tagName: "gsui-channels",
-			$jqueryfy: true,
 			$elements: {
 				$vu: "gsui-analyser-vu",
 				$pmain: ".gsuiChannels-panMain",

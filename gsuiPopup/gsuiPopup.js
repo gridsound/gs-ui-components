@@ -9,7 +9,6 @@ class gsuiPopup extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPopup",
 			$tagName: "gsui-popup",
-			$jqueryfy: true,
 			$elements: {
 				$ok: ".gsuiPopup-ok",
 				$win: ".gsuiPopup-window",

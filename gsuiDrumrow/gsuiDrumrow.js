@@ -7,7 +7,6 @@ class gsuiDrumrow extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrumrow",
 			$tagName: "gsui-drumrow",
-			$jqueryfy: true,
 			$elements: {
 				$name: ".gsuiDrumrow-name",
 				$toggle: "gsui-toggle",

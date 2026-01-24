@@ -7,7 +7,6 @@ class gsuiFxDelay extends gsui0ne {
 		super( {
 			$cmpName: "gsuiFxDelay",
 			$tagName: "gsui-fx-delay",
-			$jqueryfy: true,
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$sliders: "gsui-slider",

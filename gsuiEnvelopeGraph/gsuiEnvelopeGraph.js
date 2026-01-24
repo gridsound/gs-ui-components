@@ -13,7 +13,6 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEnvelopeGraph",
 			$tagName: "gsui-envelope-graph",
-			$jqueryfy: true,
 			$elements: {
 				$mainLine: ".gsuiEnvelopeGraph-mainLine",
 				$attLine: ".gsuiEnvelopeGraph-line",

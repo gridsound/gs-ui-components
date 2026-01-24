@@ -33,7 +33,6 @@ class gsuiTimewindow extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTimewindow",
 			$tagName: "gsui-timewindow",
-			$jqueryfy: true,
 			$elements: {
 				$scroll: ".gsuiTimewindow-scrollArea",
 				$main: ".gsuiTimewindow-main",

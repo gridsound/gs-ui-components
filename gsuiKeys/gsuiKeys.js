@@ -50,7 +50,6 @@ class gsuiKeys extends gsui0ne {
 		super( {
 			$cmpName: "gsuiKeys",
 			$tagName: "gsui-keys",
-			$jqueryfy: true,
 			$attributes: {
 				orient: "vertical",
 				rootoctave: "4",

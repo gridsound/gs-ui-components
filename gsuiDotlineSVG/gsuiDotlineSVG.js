@@ -15,7 +15,6 @@ class gsuiDotlineSVG extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDotlineSVG",
 			$tagName: "gsui-dotlinesvg",
-			$jqueryfy: true,
 			$elements: {
 				$path: "path",
 			},

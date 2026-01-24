@@ -7,7 +7,6 @@ class gsuiTrack extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTrack",
 			$tagName: "gsui-track",
-			$jqueryfy: true,
 			$elements: {
 				$inpNameWrap: ".gsuiTrack-nameWrap",
 				$inpName: ".gsuiTrack-name",

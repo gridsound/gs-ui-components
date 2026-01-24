@@ -8,7 +8,6 @@ class gsuiAnalyserVu extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserVu",
 			$tagName: "gsui-analyser-vu",
-			$jqueryfy: true,
 			$elements: {
 				$L: "[data-chan=L]",
 				$R: "[data-chan=R]",

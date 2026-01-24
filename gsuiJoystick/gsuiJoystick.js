@@ -7,7 +7,6 @@ class gsuiJoystick extends gsui0ne {
 		super( {
 			$cmpName: "gsuiJoystick",
 			$tagName: "gsui-joystick",
-			$jqueryfy: true,
 			$template: GSUcreateElement( "div", { inert: true } ),
 		} );
 		Object.seal( this );

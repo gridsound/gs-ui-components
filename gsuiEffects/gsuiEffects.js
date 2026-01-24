@@ -15,7 +15,6 @@ class gsuiEffects extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEffects",
 			$tagName: "gsui-effects",
-			$jqueryfy: true,
 			$elements: {
 				$addBtn: ".gsuiEffects-addBtn",
 			},

@@ -33,7 +33,6 @@ class gsuiTimeline extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTimeline",
 			$tagName: "gsui-timeline",
-			$jqueryfy: true,
 			$elements: {
 				$steps: ".gsuiTimeline-steps",
 				$beats: ".gsuiTimeline-beats",

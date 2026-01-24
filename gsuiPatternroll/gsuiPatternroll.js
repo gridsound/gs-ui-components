@@ -37,7 +37,6 @@ class gsuiPatternroll extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPatternroll",
 			$tagName: "gsui-patternroll",
-			$jqueryfy: true,
 			$attributes: { tabindex: -1 },
 		} );
 		Object.seal( this );

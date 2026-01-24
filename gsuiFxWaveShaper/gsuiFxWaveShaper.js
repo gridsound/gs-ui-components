@@ -18,7 +18,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 		super( {
 			$cmpName: "gsuiFxWaveShaper",
 			$tagName: "gsui-fx-waveshaper",
-			$jqueryfy: true,
 			$elements: {
 				$symmetryToggle: ".gsuiFxWaveShaper-symmetry gsui-toggle",
 				$oversampleSelect: ".gsuiFxWaveShaper-oversample select",

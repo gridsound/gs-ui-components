@@ -40,7 +40,6 @@ class gsuiWaveEditor extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWaveEditor",
 			$tagName: "gsui-wave-editor",
-			$jqueryfy: true,
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
 				$resetBtn: ".gsuiWaveEditor-reset",

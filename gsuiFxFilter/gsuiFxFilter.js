@@ -25,7 +25,6 @@ class gsuiFxFilter extends gsui0ne {
 		super( {
 			$cmpName: "gsuiFxFilter",
 			$tagName: "gsui-fx-filter",
-			$jqueryfy: true,
 			$elements: {
 				$type: "[data-area='type'] > div",
 				$graph: "[data-area='graph'] > div",

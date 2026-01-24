@@ -16,7 +16,6 @@ class gsuiWindow extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWindow",
 			$tagName: "gsui-window",
-			$jqueryfy: true,
 			$elements: {
 				$icon: ".gsuiWindow-icon",
 				$wrap: ".gsuiWindow-wrap",

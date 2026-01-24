@@ -11,7 +11,6 @@ class gsuiLFO extends gsui0ne {
 		super( {
 			$cmpName: "gsuiLFO",
 			$tagName: "gsui-lfo",
-			$jqueryfy: true,
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$wave: "gsui-periodicwave",

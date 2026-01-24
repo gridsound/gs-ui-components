@@ -7,7 +7,6 @@ class gsuiChannel extends gsui0ne {
 		super( {
 			$cmpName: "gsuiChannel",
 			$tagName: "gsui-channel",
-			$jqueryfy: true,
 			$elements: {
 				$toggle: "gsui-toggle",
 				$nameWrap: ".gsuiChannel-nameWrap",

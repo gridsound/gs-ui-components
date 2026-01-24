@@ -8,7 +8,6 @@ class gsuiWindows extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWindows",
 			$tagName: "gsui-windows",
-			$jqueryfy: true,
 		} );
 		Object.seal( this );
 		GSUdomListen( this, {

@@ -5,7 +5,6 @@ class gsuiDrum extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrum",
 			$tagName: "gsui-drum",
-			$jqueryfy: true,
 		} );
 		Object.seal( this );
 	}

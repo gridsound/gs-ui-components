@@ -11,7 +11,6 @@ class gsuiTempo extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTempo",
 			$tagName: "gsui-tempo",
-			$jqueryfy: true,
 			$elements: {
 				$bpm: ".gsuiTempo-bpm",
 				$timediv: ".gsuiTempo-timeDivision",

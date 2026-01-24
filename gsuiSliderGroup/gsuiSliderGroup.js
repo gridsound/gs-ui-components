@@ -21,7 +21,6 @@ class gsuiSliderGroup extends gsui0ne {
 		super( {
 			$cmpName: "gsuiSliderGroup",
 			$tagName: "gsui-slidergroup",
-			$jqueryfy: true,
 			$elements: {
 				$slidersParent: ".gsuiSliderGroup-sliders",
 				$defValue: ".gsuiSliderGroup-defaultValue",

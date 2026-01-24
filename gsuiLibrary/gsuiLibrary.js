@@ -10,7 +10,6 @@ class gsuiLibrary extends gsui0ne {
 		super( {
 			$cmpName: "gsuiLibrary",
 			$tagName: "gsui-library",
-			$jqueryfy: true,
 			$elements: {
 				$body: ".gsuiLibrary-body",
 				$placeholder: ".gsuiLibrary-placeholder",

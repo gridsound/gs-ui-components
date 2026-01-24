@@ -10,7 +10,6 @@ class gsuiCurves extends gsui0ne {
 		super( {
 			$cmpName: "gsuiCurves",
 			$tagName: "gsui-curves",
-			$jqueryfy: true,
 			$elements: {
 				$analyser: "gsui-analyser-hz",
 				$svg: "svg",

@@ -7,7 +7,6 @@ class gsuiPropSelect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPropSelect",
 			$tagName: "gsui-prop-select",
-			$jqueryfy: true,
 			$attributes: {
 				prop: "gain",
 			},

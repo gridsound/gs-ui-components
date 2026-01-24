@@ -59,7 +59,6 @@ class gsuiPianoroll extends gsui0ne {
 		super( {
 			$cmpName: "gsuiPianoroll",
 			$tagName: "gsui-pianoroll",
-			$jqueryfy: true,
 			$attributes: { tabindex: -1 },
 		} );
 		this.uiKeys = GSUcreateElement( "gsui-keys" );

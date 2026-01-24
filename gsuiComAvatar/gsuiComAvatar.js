@@ -5,7 +5,6 @@ class gsuiComAvatar extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComAvatar",
 			$tagName: "gsui-com-avatar",
-			$jqueryfy: true,
 			$template: [
 				GSUcreateElement( "img", { src: "" } ),
 				GSUcreateIcon( { icon: "musician" } ),

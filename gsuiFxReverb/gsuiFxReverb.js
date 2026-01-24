@@ -5,7 +5,6 @@ class gsuiFxReverb extends gsui0ne {
 		super( {
 			$cmpName: "gsuiFxReverb",
 			$tagName: "gsui-fx-reverb",
-			$jqueryfy: true,
 			$elements: {
 				$drySli: "[data-prop='dry'] gsui-slider",
 				$wetSli: "[data-prop='wet'] gsui-slider",

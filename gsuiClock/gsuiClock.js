@@ -11,7 +11,6 @@ class gsuiClock extends gsui0ne {
 		super( {
 			$cmpName: "gsuiClock",
 			$tagName: "gsui-clock",
-			$jqueryfy: true,
 			$elements: {
 				$wrapRel: ".gsuiClock-relative",
 				$modes: ".gsuiClock-modes",

@@ -8,7 +8,6 @@ class gsuiMixer extends gsui0ne {
 		super( {
 			$cmpName: "gsuiMixer",
 			$tagName: "gsui-mixer",
-			$jqueryfy: true,
 			$elements: {
 				$channels: "gsui-channels",
 				$effects: "gsui-effects",

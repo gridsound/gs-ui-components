@@ -13,7 +13,6 @@ class gsuiAnalyserTd extends gsui0ne {
 		super( {
 			$cmpName: "gsuiAnalyserTd",
 			$tagName: "gsui-analyser-td",
-			$jqueryfy: true,
 			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {
 				amp: 1,

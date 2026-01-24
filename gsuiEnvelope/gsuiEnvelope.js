@@ -12,7 +12,6 @@ class gsuiEnvelope extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEnvelope",
 			$tagName: "gsui-envelope",
-			$jqueryfy: true,
 			$elements: {
 				$beatlines: "gsui-beatlines",
 				$graph: "gsui-envelope-graph",

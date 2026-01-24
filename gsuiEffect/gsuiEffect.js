@@ -5,7 +5,6 @@ class gsuiEffect extends gsui0ne {
 		super( {
 			$cmpName: "gsuiEffect",
 			$tagName: "gsui-effect",
-			$jqueryfy: true,
 			$elements: {
 				$toggle: "gsui-toggle",
 				$name: ".gsuiEffect-name",
