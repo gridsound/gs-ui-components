@@ -294,7 +294,7 @@ class gsuiWavetable extends gsui0ne {
 		gsuiWaveEditor.$drawWave( polyline, this.#data.waves[ id ].curve, 60, 40 );
 	}
 	#wtwaves_addWave( wId, w ) {
-		const elW = GSUgetTemplate( "gsui-wavetable-wave", wId, w.index );
+		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );
 		const elWLine = $( "<div>" ).$setAttr( {
 			class: "gsuiWavetable-posCurve-wave",
 			"data-id": wId,
@@ -304,7 +304,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$waves.$append( elW );
 		this.$elements.$wtposWavelines.$append( elWLine );
 		this.#wtwaves_updateWavesOrder();
-		GSUdomViewBox( GSUdomQS( elW, "svg" ), 60, 40 );
+		elW.$find( "svg" ).$viewbox( 60, 40 );
 	}
 	#wtwaves_removeWave( wId ) {
 		this.#wtwaves_getElem( wId ).$remove();
@@ -371,8 +371,8 @@ class gsuiWavetable extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, wtposCurveId, bpm, dur = null ) {
-		const elB = $( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" );
-		const elA = $( "<div>" ).$setAttr( "class", "gsuiWavetable-keyPreview" )
+		const elB = $( "<div>" ).$addClass( "gsuiWavetable-keyPreview" );
+		const elA = $( "<div>" ).$addClass( "gsuiWavetable-keyPreview" )
 			.$css( "display", wtposCurveId === this.#wtposCurveSelected ? "block" : "none" );
 
 		this.#keyPreviews.push( {
