@@ -80,15 +80,15 @@ class gsuiEnvelope extends gsui0ne {
 	// .........................................................................
 	$updateWave( prop, val ) {
 		const g = this.$elements.$graph.$get( 0 );
-		const amp = prop === "amp" ? val : GSUdomGetAttrNum( this, "amp" );
+		const amp = prop === "amp" ? val : +this.$this.$getAttr( "amp" );
 		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
 		g.$amp = amp2;
-		g.$attack = prop === "attack" ? val : GSUdomGetAttrNum( this, "attack" );
-		g.$hold = prop === "hold" ? val : GSUdomGetAttrNum( this, "hold" );
-		g.$decay = prop === "decay" ? val : GSUdomGetAttrNum( this, "decay" );
-		g.$sustain = prop === "sustain" ? val : GSUdomGetAttrNum( this, "sustain" );
-		g.$release = prop === "release" ? val : GSUdomGetAttrNum( this, "release" );
+		g.$attack = prop === "attack" ? val : +this.$this.$getAttr( "attack" );
+		g.$hold = prop === "hold" ? val : +this.$this.$getAttr( "hold" );
+		g.$decay = prop === "decay" ? val : +this.$this.$getAttr( "decay" );
+		g.$sustain = prop === "sustain" ? val : +this.$this.$getAttr( "sustain" );
+		g.$release = prop === "release" ? val : +this.$this.$getAttr( "release" );
 		g.$duration =
 		this.#dur = Math.max( g.$attack + g.$hold + g.$decay + .5 + g.$release, 2 );
 		g.$draw();
@@ -136,8 +136,8 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
-		if ( GSUdomHasAttr( this, "toggle" ) ) {
-			const el = GSUcreateDiv( { style: { left: 0, top: "100%" } } );
+		if ( this.$this.$hasAttr( "toggle" ) ) {
+			const el = $( "<div>" ).$css( { left: 0, top: "100%" } );
 
 			this.#keyPreviews.push( {
 				$id: id,
@@ -177,13 +177,13 @@ class gsuiEnvelope extends gsui0ne {
 		const x = gsuiEnvelope.#keyPreviewCalcX( since, p.$dur, g, this.#dur );
 
 		if ( x > 1 ) {
-			p.$elem.remove();
+			p.$elem.$remove();
 			toRm.push( p );
 		} else {
 			const y = gsuiEnvelope.#keyPreviewCalcY( since, p.$dur, g );
 			const y2 = 1 - y * Math.abs( g.$amp );
 
-			GSUdomStyle( p.$elem, {
+			p.$elem.$css( {
 				top: `${ y2 * 100 }%`,
 				left: `${ x * 100 }%`,
 			} );
