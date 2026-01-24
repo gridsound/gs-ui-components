@@ -16,6 +16,7 @@ class gsuiWindow extends gsui0ne {
 		super( {
 			$cmpName: "gsuiWindow",
 			$tagName: "gsui-window",
+			$jqueryfy: true,
 			$elements: {
 				$icon: ".gsuiWindow-icon",
 				$wrap: ".gsuiWindow-wrap",
@@ -29,9 +30,9 @@ class gsuiWindow extends gsui0ne {
 			$attributes: { tabindex: 0 },
 		} );
 		Object.seal( this );
-		this.$elements.$headBtns.onclick = this.#onclickBtns.bind( this );
-		this.$elements.$head.onpointerdown = this.#onptrdownHead.bind( this );
-		this.$elements.$handlers.onpointerdown = this.#onptrdownHandlers.bind( this );
+		this.$elements.$headBtns.$on( "click", this.#onclickBtns.bind( this ) );
+		this.$elements.$head.$on( "pointerdown", this.#onptrdownHead.bind( this ) );
+		this.$elements.$handlers.$on( "pointerdown", this.#onptrdownHandlers.bind( this ) );
 	}
 
 	// .........................................................................
@@ -46,8 +47,8 @@ class gsuiWindow extends gsui0ne {
 			case "h": this.style.height = `${ this.#rect.h = +val }px`; break;
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
-			case "icon": this.$elements.$icon.dataset.icon = val; break;
-			case "name": this.$elements.$name.textContent = val; break;
+			case "icon": this.$elements.$icon.$setAttr( "data-icon", val ); break;
+			case "name": this.$elements.$name.$text( val ); break;
 		}
 	}
 
@@ -60,13 +61,11 @@ class gsuiWindow extends gsui0ne {
 		if ( b !== this.#show ) {
 			if ( b ) {
 				this.#show = true;
-				GSUdomSetAttr( this, "show" );
-				this.$this.$dispatch( GSEV_WINDOW_OPEN );
+				this.$this.$addAttr( "show" ).$dispatch( GSEV_WINDOW_OPEN );
 			} else if ( !this.onclose || this.onclose() !== false ) {
 				this.#show = false;
-				GSUdomRmAttr( this, "show" );
-				GSUdomEmpty( this.$elements.$content );
-				this.$this.$dispatch( GSEV_WINDOW_CLOSE );
+				this.$elements.$content.$empty();
+				this.$this.$rmAttr( "show" ).$dispatch( GSEV_WINDOW_CLOSE );
 			}
 		} else if ( this.#minimized ) {
 			this.$restore();
@@ -75,14 +74,14 @@ class gsuiWindow extends gsui0ne {
 
 	// .........................................................................
 	$empty() {
-		GSUdomEmpty( this.$elements.$content );
-		GSUdomEmpty( this.$elements.$headContent );
+		this.$elements.$content.$empty();
+		this.$elements.$headContent.$empty();
 	}
 	$contentAppend( ...args ) {
-		this.$elements.$content.append( ...args );
+		this.$elements.$content.$append( ...args );
 	}
 	$headAppend( ...args ) {
-		this.$elements.$headContent.append( ...args );
+		this.$elements.$headContent.$append( ...args );
 	}
 
 	// .........................................................................
@@ -90,7 +89,7 @@ class gsuiWindow extends gsui0ne {
 		if ( !this.#maximized ) {
 			const wasMinimized = this.#minimized;
 
-			GSUdomSetAttr( this, { minimized: false, maximized: true } );
+			this.$this.$setAttr( { minimized: false, maximized: true } );
 			this.#minimized = false;
 			this.#maximized = true;
 			if ( wasMinimized ) {
@@ -101,10 +100,10 @@ class gsuiWindow extends gsui0ne {
 	}
 	$minimize() {
 		if ( !this.#minimized ) {
-			GSUdomSetAttr( this, { minimized: true, maximized: false } );
+			this.$this.$setAttr( { minimized: true, maximized: false } );
 			this.#minimized = true;
 			this.#maximized = false;
-			GSUdomEmpty( this.$elements.$content );
+			this.$elements.$content.$empty();
 			this.$this.$dispatch( GSEV_WINDOW_CLOSE );
 		}
 	}
@@ -113,7 +112,7 @@ class gsuiWindow extends gsui0ne {
 			const wasMinimized = this.#minimized;
 
 			GSUdomFocus( this );
-			GSUdomSetAttr( this, { minimized: false, maximized: false } );
+			this.$this.$setAttr( { minimized: false, maximized: false } );
 			this.#minimized =
 			this.#maximized = false;
 			if ( wasMinimized ) {
@@ -132,11 +131,12 @@ class gsuiWindow extends gsui0ne {
 		}
 	}
 	#onptrdownHead( e ) {
+		const tar = $( e.target );
 		const clicked =
-			GSUdomHasClass( e.target, "gsuiWindow-head" ) ||
-			GSUdomHasClass( e.target, "gsuiWindow-icon" ) ||
-			GSUdomHasClass( e.target, "gsuiWindow-name" ) ||
-			GSUdomHasClass( e.target, "gsuiWindow-headContent" );
+			tar.$hasClass( "gsuiWindow-head" ) ||
+			tar.$hasClass( "gsuiWindow-icon" ) ||
+			tar.$hasClass( "gsuiWindow-name" ) ||
+			tar.$hasClass( "gsuiWindow-headContent" );
 
 		if ( GSUdomIsDblClick( e ) ) {
 			this.#maximized
@@ -149,8 +149,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.y = 0;
 			this.setPointerCapture( e.pointerId );
 			GSUdomUnselect();
-			GSUdomStyle( this, "cursor", "move" );
-			GSUdomSetAttr( this, "dragging" );
+			this.$this.$addAttr( "dragging" ).$css( "cursor", "move" );
 			this.onpointermove = this.#onptrmoveHead.bind( this );
 			this.onpointerup = this.#onptrupHead.bind( this );
 		}
@@ -165,8 +164,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousemovePos.y = 0;
 			this.setPointerCapture( e.pointerId );
 			GSUdomUnselect();
-			GSUdomStyle( this, "cursor", `${ dir }-resize` );
-			GSUdomSetAttr( this, "dragging" );
+			this.$this.$addAttr( "dragging" ).$css( "cursor", `${ dir }-resize` );
 			this.onpointermove = this.#onptrmoveHandler.bind( this, dir );
 			this.onpointerup = this.#onptrupHandler.bind( this, dir );
 		}
@@ -179,9 +177,9 @@ class gsuiWindow extends gsui0ne {
 
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
-		this.#setCSSrelativeMove( this.$elements.$handlers.style, mmPos );
+		this.#setCSSrelativeMove( this.$elements.$handlers, mmPos );
 		if ( !GSUdomHasAttr( this.parentNode, "lowgraphics" ) ) {
-			this.#setCSSrelativeMove( this.$elements.$wrap.style, mmPos );
+			this.#setCSSrelativeMove( this.$elements.$wrap, mmPos );
 		}
 	}
 	#onptrupHead( e ) {
@@ -191,12 +189,11 @@ class gsuiWindow extends gsui0ne {
 		this.onpointermove =
 		this.onpointerup = null;
 		this.releasePointerCapture( e.pointerId );
-		GSUdomRmAttr( this, "dragging" );
-		GSUdomStyle( this, "cursor", "" );
-		GSUdomStyle( this.$elements.$wrap, this.#resetCSS );
-		GSUdomStyle( this.$elements.$handlers, this.#resetCSS );
+		this.$this.$rmAttr( "dragging" ).$css( "cursor", "" );
+		this.$elements.$wrap.$css( this.#resetCSS );
+		this.$elements.$handlers.$css( this.#resetCSS );
 		if ( m.x || m.y ) {
-			GSUdomSetAttr( this, {
+			this.$this.$setAttr( {
 				x: x + m.x,
 				y: y + m.y,
 			} );
@@ -211,9 +208,9 @@ class gsuiWindow extends gsui0ne {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
-		this.#setCSSrelativeResize( this.$elements.$handlers.style, dir, mmPos );
+		this.#setCSSrelativeResize( this.$elements.$handlers, dir, mmPos );
 		if ( !GSUdomHasAttr( this.parentNode, "lowgraphics" ) ) {
-			this.#setCSSrelativeResize( this.$elements.$wrap.style, dir, mmPos );
+			this.#setCSSrelativeResize( this.$elements.$wrap, dir, mmPos );
 		}
 	}
 	#onptrupHandler( dir, e ) {
@@ -223,20 +220,19 @@ class gsuiWindow extends gsui0ne {
 		this.onpointermove =
 		this.onpointerup = null;
 		this.releasePointerCapture( e.pointerId );
-		GSUdomRmAttr( this, "dragging" );
-		GSUdomStyle( this, "cursor", "" );
-		GSUdomStyle( this.$elements.$wrap, this.#resetCSS );
-		GSUdomStyle( this.$elements.$handlers, this.#resetCSS );
+		this.$this.$rmAttr( "dragging" ).$css( "cursor", "" );
+		this.$elements.$wrap.$css( this.#resetCSS );
+		this.$elements.$handlers.$css( this.#resetCSS );
 		if ( m.x || m.y ) {
 			switch ( dir ) {
-				case "e":  GSUdomSetAttr( this, { w: w + m.x, h          } ); break;
-				case "se": GSUdomSetAttr( this, { w: w + m.x, h: h + m.y } ); break;
-				case "s":  GSUdomSetAttr( this, { w,          h: h + m.y } ); break;
-				case "sw": GSUdomSetAttr( this, { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
-				case "w":  GSUdomSetAttr( this, { w: w - m.x, h,          x: x + m.x, y          } ); break;
-				case "nw": GSUdomSetAttr( this, { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
-				case "n":  GSUdomSetAttr( this, { w,          h: h - m.y, x,          y: y + m.y } ); break;
-				case "ne": GSUdomSetAttr( this, { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;
+				case "e":  this.$this.$setAttr( { w: w + m.x, h          } ); break;
+				case "se": this.$this.$setAttr( { w: w + m.x, h: h + m.y } ); break;
+				case "s":  this.$this.$setAttr( { w,          h: h + m.y } ); break;
+				case "sw": this.$this.$setAttr( { w: w - m.x, h: h + m.y, x: x + m.x, y          } ); break;
+				case "w":  this.$this.$setAttr( { w: w - m.x, h,          x: x + m.x, y          } ); break;
+				case "nw": this.$this.$setAttr( { w: w - m.x, h: h - m.y, x: x + m.x, y: y + m.y } ); break;
+				case "n":  this.$this.$setAttr( { w,          h: h - m.y, x,          y: y + m.y } ); break;
+				case "ne": this.$this.$setAttr( { w: w + m.x, h: h - m.y, x,          y: y + m.y } ); break;
 			}
 		}
 	}
@@ -308,7 +304,7 @@ class gsuiWindow extends gsui0ne {
 			return vMin;
 		}, 0 );
 	}
-	#setCSSrelativeMove( st, p ) {
+	#setCSSrelativeMove( el, p ) {
 		const top = parseFloat( this.style.top );
 		const left = parseFloat( this.style.left );
 		const minX = -left - this.clientWidth + ( 3 * 24 + 10 );
@@ -318,10 +314,12 @@ class gsuiWindow extends gsui0ne {
 
 		p.y = Math.max( minY, Math.min( p.y, maxY ) );
 		p.x = Math.max( minX, Math.min( p.x, maxX ) );
-		st.top    = `${  p.y }px`;
-		st.left   = `${  p.x }px`;
-		st.right  = `${ -p.x }px`;
-		st.bottom = `${ -p.y }px`;
+		el.$css( {
+			top:    `${  p.y }px`,
+			left:   `${  p.x }px`,
+			right:  `${ -p.x }px`,
+			bottom: `${ -p.y }px`,
+		} );
 	}
 	#calcCSSrelativeResize( dir, mm ) {
 		const rc = this.#rect;
@@ -363,16 +361,16 @@ class gsuiWindow extends gsui0ne {
 				break;
 		}
 	}
-	#setCSSrelativeResize( st, dir, mm ) {
+	#setCSSrelativeResize( el, dir, mm ) {
 		switch ( dir ) {
-			case "n":  st.top    = `${  mm.y }px`; break;
-			case "s":  st.bottom = `${ -mm.y }px`; break;
-			case "w":  st.left   = `${  mm.x }px`; break;
-			case "e":  st.right  = `${ -mm.x }px`; break;
-			case "nw": st.left   = `${  mm.x }px`; st.top    = `${  mm.y }px`; break;
-			case "ne": st.right  = `${ -mm.x }px`; st.top    = `${  mm.y }px`; break;
-			case "sw": st.left   = `${  mm.x }px`; st.bottom = `${ -mm.y }px`; break;
-			case "se": st.right  = `${ -mm.x }px`; st.bottom = `${ -mm.y }px`; break;
+			case "n":  el.$css( "top",     mm.y, "px" ); break;
+			case "s":  el.$css( "bottom", -mm.y, "px" ); break;
+			case "w":  el.$css( "left",    mm.x, "px" ); break;
+			case "e":  el.$css( "right",  -mm.x, "px" ); break;
+			case "nw": el.$css( "left",    mm.x, "px" ); el.$css( "top",     mm.y, "px" ); break;
+			case "ne": el.$css( "right",  -mm.x, "px" ); el.$css( "top",     mm.y, "px" ); break;
+			case "sw": el.$css( "left",    mm.x, "px" ); el.$css( "bottom", -mm.y, "px" ); break;
+			case "se": el.$css( "right",  -mm.x, "px" ); el.$css( "bottom", -mm.y, "px" ); break;
 		}
 	}
 }
