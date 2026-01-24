@@ -391,7 +391,7 @@ class gsuiDrums extends gsui0ne {
 					? tar
 					: tar.$tag() === "gsui-drum" || tar.$tag() === "gsui-drumcut"
 						? tar.$parent()
-						: $();
+						: $noop;
 
 				if ( !elLine.$size() ) {
 					this.#elHover.$remove();

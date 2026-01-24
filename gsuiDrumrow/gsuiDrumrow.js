@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiDrumrow extends gsui0ne {
-	#elDrumLine = $();
+	#elDrumLine = $noop;
 
 	constructor() {
 		super( {
