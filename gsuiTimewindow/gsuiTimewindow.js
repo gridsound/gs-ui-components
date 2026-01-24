@@ -126,7 +126,7 @@ class gsuiTimewindow extends gsui0ne {
 		] );
 
 		this.$elements.$minimapPanel.$width( w );
-		this.$elements.$panel.$css( "minWidth", `${ w }px` );
+		this.$elements.$panel.$css( "minWidth", w, "px" );
 		if ( this.$this.$hasAttr( "downpanel" ) ) {
 			panDowns
 				.$height( this.$this.$getAttr( "downpanelsize" ) || 50 )
@@ -177,12 +177,12 @@ class gsuiTimewindow extends gsui0ne {
 				this.$elements.$timeline.$setAttr( "pxperbeat", val );
 				this.$elements.$beatlines.$setAttr( "pxperbeat", val );
 				this.$elements.$sliderZoomX.$setAttr( "value", GSUmathEaseOutCirc( ( val - this.#getPPBmin() ) / ( this.#getPPBmax() - this.#getPPBmin() ) ) );
-				this.$this.$css( "--gsuiTimewindow-pxperbeat", `${ val }px` );
+				this.$this.$css( "--gsuiTimewindow-pxperbeat", val, "px" );
 				$( [
 					this.$elements.$currentTime,
 					this.$elements.$loopA,
 					this.$elements.$loopB,
-				] ).$css( "fontSize", `${ val }px` );
+				] ).$css( "fontSize", val, "px" );
 				this.#minimapUpdate();
 				this.#minimapUpdateCurrentTimeLoop();
 				break;
@@ -190,7 +190,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.#lineHeightFloat = +val;
 				this.#lineHeight = GSUmathRound( val );
 				this.$elements.$sliderZoomY.$setAttr( "value", GSUmathEaseOutCirc( ( val - this.#getLHmin() ) / ( this.#getLHmax() - this.#getLHmin() ) ) );
-				this.$this.$css( "--gsuiTimewindow-lineH", `${ val }px` );
+				this.$this.$css( "--gsuiTimewindow-lineH", val, "px" );
 				break;
 			case "currenttime": {
 				const step = +this.$this.$getAttr( "currenttimestep" );
@@ -465,7 +465,7 @@ class gsuiTimewindow extends gsui0ne {
 		const w2 = GSUmathClamp( w, min, max );
 
 		this.$elements.$minimapPanel.$width( w2 );
-		this.$elements.$panel.$css( "minWidth", `${ w2 }px` );
+		this.$elements.$panel.$css( "minWidth", w2, "px" );
 		this.#minimapUpdate();
 	}
 	#onptrmoveExtendDownPanel( e ) {

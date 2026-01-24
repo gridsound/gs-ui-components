@@ -135,7 +135,7 @@ class gsuiSliderGroup extends gsui0ne {
 	#updatePxPerBeat() {
 		const ppb = +this.$this.$getAttr( "pxperbeat" );
 
-		this.$elements.$slidersParent.$css( "fontSize", `${ ppb }px` );
+		this.$elements.$slidersParent.$css( "fontSize", ppb, "px" );
 		if ( this.$elements.$beatlines ) {
 			this.$elements.$beatlines.$setAttr( "pxperbeat", ppb );
 		}

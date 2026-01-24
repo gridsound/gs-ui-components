@@ -50,7 +50,7 @@ class gsuiDrumrow extends gsui0ne {
 			case "gain":
 			case "detune": this.#getSlider( prop ).$setAttr( "value", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
-			case "duration": this.$elements.$waveWrap.$css( "animationDuration", `${ val * 2 }s` ); break;
+			case "duration": this.$elements.$waveWrap.$css( "animationDuration", val * 2, "s" ); break;
 			case "order":
 				this.$this.$css( "order", val );
 				this.#elDrumLine.$css( "order", val );

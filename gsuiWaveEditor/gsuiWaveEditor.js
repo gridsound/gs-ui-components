@@ -411,7 +411,7 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 	#updateGridSize( dir, val ) {
 		this.#div[ dir ] = +val;
-		this.$elements.$hoverSquare.$css( dir ? "height" : "width", `${ 1 / val * 100 }%` );
+		this.$elements.$hoverSquare.$css( dir ? "height" : "width", 1 / val * 100, "%" );
 		this.#updateBeatlines( dir, val );
 		this.$elements.$gridVal.$at( dir ).$text( val );
 		this.$elements.$gridSli.$at( dir ).$setAttr( "value", val );
