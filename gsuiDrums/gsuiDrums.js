@@ -27,8 +27,8 @@ class gsuiDrums extends gsui0ne {
 	#sliderGroups = new Map();
 	#linesMap = new Map();
 	#elLines = null;
-	#elDrumHover = GSUcreateDiv( { class: "gsuiDrums-drumHover" }, GSUcreateDiv( { class: "gsuiDrums-drumHoverIn" } ) );
-	#elDrumcutHover = GSUcreateDiv( { class: "gsuiDrums-drumcutHover" }, GSUcreateDiv( { class: "gsuiDrums-drumcutHoverIn" } ) );
+	#elDrumHover = $( "<div>" ).$addClass( "gsuiDrums-drumHover" ).$append( $( "<div>" ).$addClass( "gsuiDrums-drumHoverIn" ) );
+	#elDrumcutHover = $( "<div>" ).$addClass( "gsuiDrums-drumcutHover" ).$append( $( "<div>" ).$addClass( "gsuiDrums-drumcutHoverIn" ) );
 	#elHover = this.#elDrumHover;
 	#onptrupNewBind = this.#onptrupNew.bind( this );
 	#onptrmoveLinesBind = this.#onptrmoveLines.bind( this );
@@ -59,12 +59,16 @@ class gsuiDrums extends gsui0ne {
 		} );
 		GSUdomSetAttr( this.#win, "step", 1 );
 		this.#win.onscroll = this.#onptrmoveLines2.bind( this );
-		this.#elDrumHover.remove();
-		this.#elDrumcutHover.remove();
-		this.#elDrumHover.ondblclick = this.#ondblclickSplit.bind( this, "Drums" );
-		this.#elDrumcutHover.ondblclick = this.#ondblclickSplit.bind( this, "Drumcuts" );
-		this.#elDrumHover.onpointerdown = this.#onptrdownNew.bind( this, "Drums" );
-		this.#elDrumcutHover.onpointerdown = this.#onptrdownNew.bind( this, "Drumcuts" );
+		this.#elDrumHover.$remove();
+		this.#elDrumcutHover.$remove();
+		this.#elDrumHover.$on( {
+			dblclick: this.#ondblclickSplit.bind( this, "Drums" ),
+			pointerdown: this.#onptrdownNew.bind( this, "Drums" ),
+		} );
+		this.#elDrumcutHover.$on( {
+			dblclick: this.#ondblclickSplit.bind( this, "Drumcuts" ),
+			pointerdown: this.#onptrdownNew.bind( this, "Drumcuts" ),
+		} );
 		new gsuiReorder( {
 			$root: this.#drumrows,
 			$parentSelector: "gsui-drumrows",
@@ -376,39 +380,38 @@ class gsuiDrums extends gsui0ne {
 
 	// .........................................................................
 	#onptrmoveLines( e ) {
-		if ( e.target !== this.#elHover ) {
+		const tar = $( e.target );
+
+		if ( !tar.$is( this.#elHover ) ) {
 			if ( this.#currAction ) {
 				this.#hoverPageX = e.pageX;
 				this.#onptrmoveLines2();
 			} else {
-				const tar = e.target;
-				const elLine = GSUdomHasClass( tar, "gsuiDrums-lineIn" )
+				const elLine = tar.$hasClass( "gsuiDrums-lineIn" )
 					? tar
-					: tar.tagName === "GSUI-DRUM" || tar.tagName === "GSUI-DRUMCUT"
-						? tar.parentNode
-						: null;
+					: tar.$tag() === "gsui-drum" || tar.$tag() === "gsui-drumcut"
+						? tar.$parent()
+						: $();
 
-				if ( elLine ) {
-					const rowId = elLine.parentNode.parentNode.dataset.id;
-					const bcr = GSUdomBCR( elLine );
+				if ( !elLine.$size() ) {
+					this.#elHover.$remove();
+				} else {
+					const rowId = elLine.$parent().$parent().$getAttr( "data-id" );
+					const bcr = GSUdomBCR( elLine.$get( 0 ) );
 					const y = ( e.pageY - bcr.y ) / bcr.h;
 					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
 
 					this.#draggingRowId = rowId;
 					this.#hoverPageX = e.pageX;
 					this.#hoverItemType = elHover === this.#elDrumHover ? "drum" : "drumcut";
-					if ( elHover !== this.#elHover ) {
-						if ( this.#elHover ) {
-							this.#elHover.remove();
-						}
+					if ( !elHover.$is( this.#elHover ) ) {
+						this.#elHover.$remove();
 						this.#elHover = elHover;
 					}
 					this.#onptrmoveLines2();
-					if ( this.#elHover.parentNode !== elLine ) {
-						elLine.append( this.#elHover );
+					if ( !this.#elHover.$parent().$is( elLine ) ) {
+						elLine.$append( this.#elHover );
 					}
-				} else if ( this.#elHover ) {
-					this.#elHover.remove();
 				}
 			}
 		}
@@ -434,8 +437,9 @@ class gsuiDrums extends gsui0ne {
 					: whenCut;
 				this.#hoverDur = this.#calcItemWidth( this.#hoverItemType, this.#draggingRowId, this.#hoverBeat );
 			}
-			this.#elHover.style.left = `${ this.#hoverBeat }em`;
-			this.#elHover.style.width = `${ this.#hoverDur }em`;
+			this.#elHover
+				.$left( this.#hoverBeat, "em" )
+				.$width( this.#hoverDur, "em" );
 			if ( this.#currAction ) {
 				this.#createPreviews( this.#draggingWhenStart, this.#hoverBeat );
 			}
@@ -444,7 +448,7 @@ class gsuiDrums extends gsui0ne {
 	#onmouseleaveLines() {
 		if ( !this.#currAction ) {
 			this.#hoverItemType = "";
-			this.#elHover.remove();
+			this.#elHover.$remove();
 		}
 	}
 	#onptrdownNew( itemType, e ) {
@@ -452,7 +456,7 @@ class gsuiDrums extends gsui0ne {
 			this.#currAction = e.button === 0
 				? `add${ itemType }`
 				: `remove${ itemType }`;
-			this.#draggingRowId = this.#elHover.closest( ".gsuiDrums-line" ).dataset.id;
+			this.#draggingRowId = this.#elHover.$get( 0 ).closest( ".gsuiDrums-line" ).dataset.id;
 			this.#draggingWhenStart = this.#hoverBeat;
 			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
@@ -491,8 +495,9 @@ class gsuiDrums extends gsui0ne {
 
 			this.#hoverBeat = when < dw + dd ? dw : dw + dd;
 			this.#hoverDur = dd;
-			this.#elHover.style.left = `${ this.#hoverBeat }em`;
-			this.#elHover.style.width = `${ this.#hoverDur }em`;
+			this.#elHover
+				.$left( this.#hoverBeat, "em" )
+				.$width( this.#hoverDur, "em" );
 			if ( itemType === "Drums" ) {
 				obj.pan = GSUdomGetAttrNum( d, "pan" );
 				obj.gain = GSUdomGetAttrNum( d, "gain" );
