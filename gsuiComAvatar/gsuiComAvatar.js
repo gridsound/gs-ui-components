@@ -5,13 +5,14 @@ class gsuiComAvatar extends gsui0ne {
 		super( {
 			$cmpName: "gsuiComAvatar",
 			$tagName: "gsui-com-avatar",
+			$jqueryfy: true,
 			$template: [
 				GSUcreateElement( "img", { src: "" } ),
 				GSUcreateIcon( { icon: "musician" } ),
 			],
 		} );
 		Object.seal( this );
-		this.$element.onload = () => GSUdomSetAttr( this, "loaded" );
+		this.$element.$on( "load", () => this.$this.$addAttr( "loaded" ) );
 	}
 
 	// .........................................................................
@@ -21,8 +22,8 @@ class gsuiComAvatar extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "src":
-				GSUdomRmAttr( this, "loaded" );
-				this.$element.src = val || "";
+				this.$this.$rmAttr( "loaded" );
+				this.$element.$prop( "src", val || "" );
 				break;
 		}
 	}
