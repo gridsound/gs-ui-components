@@ -7,6 +7,7 @@ class gsuiDrumrows extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDrumrows",
 			$tagName: "gsui-drumrows",
+			$jqueryfy: true,
 			$template: GSUcreateDiv( { class: "gsuiDrumrows-dropNew" } ),
 		} );
 		Object.seal( this );
@@ -25,34 +26,34 @@ class gsuiDrumrows extends gsui0ne {
 
 	// .........................................................................
 	$playRow( id ) {
-		this.#rows.get( id ).$play();
+		this.#rows.get( id ).$get( 0 ).$play();
 	}
 	$stopRow( id ) {
-		this.#rows.get( id ).$stop();
+		this.#rows.get( id ).$get( 0 ).$stop();
 	}
 	$setPropFilter( rowId, prop ) {
-		GSUdomSetAttr( this.#getPropSelect( rowId ), "prop", prop );
+		this.#getPropSelect( rowId ).$setAttr( "prop", prop );
 	}
 	$setDrumPropValue( rowId, prop, val ) {
-		GSUdomSetAttr( this.#getPropSelect( rowId ), "value", val );
+		this.#getPropSelect( rowId ).$setAttr( "value", val );
 	}
 	$removeDrumPropValue( rowId, _prop ) {
-		GSUdomRmAttr( this.#getPropSelect( rowId ), "value" );
+		this.#getPropSelect( rowId ).$rmAttr( "value" );
 	}
 	#getPropSelect( rowId ) {
-		return GSUdomQS( this.#rows.get( rowId ), "gsui-prop-select" );
+		return this.#rows.get( rowId ).$find( "gsui-prop-select" );
 	}
 
 	// .........................................................................
 	$add( id ) {
-		const elDrumrow = GSUcreateElement( "gsui-drumrow", { "data-id": id } );
+		const elDrumrow = $( "<gsui-drumrow>" ).$setAttr( "data-id", id );
 
 		this.#rows.set( id, elDrumrow );
-		this.append( elDrumrow );
+		this.$this.$append( elDrumrow );
 		return elDrumrow;
 	}
 	$remove( id ) {
-		this.#rows.get( id ).remove();
+		this.#rows.get( id ).$remove();
 		this.#rows.delete( id );
 	}
 	$change( id, prop, val ) {
@@ -64,20 +65,23 @@ class gsuiDrumrows extends gsui0ne {
 			case "detune":
 			case "toggle":
 			case "duration":
-				GSUdomSetAttr( this.#rows.get( id ), prop, val );
+				this.#rows.get( id ).$setAttr( prop, val );
 				break;
 			case "pattern":
-				this.#rows.get( id ).$changePattern( val );
+				this.#rows.get( id ).$get( 0 ).$changePattern( val );
 				break;
 		}
 	}
 
 	// .........................................................................
 	#onmousedownRows( e ) {
-		if ( ( e.button === 0 || e.button === 2 ) && GSUdomHasClass( e.target, "gsuiDrumrow-main" ) ) {
+		const tar = $( e.target );
+		const btn = e.button;
+
+		if ( ( btn === 0 || btn === 2 ) && tar.$hasClass( "gsuiDrumrow-main" ) ) {
 			this.$this.$dispatch(
-				e.button === 0 ? GSEV_DRUMROWS_LIVESTARTDRUM : GSEV_DRUMROWS_LIVESTOPDRUM,
-				e.target.parentNode.dataset.id );
+				btn === 0 ? GSEV_DRUMROWS_LIVESTARTDRUM : GSEV_DRUMROWS_LIVESTOPDRUM,
+				tar.$parent().$getAttr( "data-id" ) );
 		}
 	}
 }
