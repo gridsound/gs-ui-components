@@ -5,7 +5,7 @@ class gsuiChannels extends gsui0ne {
 	#chanSelected = null;
 	#analyserType = "hz";
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
-	static #selectChanInput = GSUdomQS( gsuiChannels.#selectChanPopup, "select" );
+	static #selectChanInput = $( gsuiChannels.#selectChanPopup, "select" );
 
 	constructor() {
 		super( {
@@ -58,14 +58,14 @@ class gsuiChannels extends gsui0ne {
 	$openSelectChannelPopup( currChanId ) {
 		___( currChanId, "string" );
 		return new Promise( res => {
-			gsuiChannels.#selectChanInput.append( ...[
+			gsuiChannels.#selectChanInput.$append( ...[
 				GSUcreateOption( { value: "main" } ),
 				...Object.entries( this.#chans )
 					.filter( kv => kv[ 0 ] !== "main" )
 					.sort( ( a, b ) => GSUdomGetAttrNum( a[ 1 ], "order" ) - GSUdomGetAttrNum( b[ 1 ], "order" ) )
 					.map( kv => GSUcreateOption( { value: kv[ 0 ] }, GSUdomGetAttr( kv[ 1 ], "name" ) ) ),
 			] );
-			gsuiChannels.#selectChanInput.value = currChanId;
+			gsuiChannels.#selectChanInput.$value( currChanId );
 			GSUpopup.$custom( {
 				title: "Channels",
 				element: gsuiChannels.#selectChanPopup,
@@ -74,7 +74,7 @@ class gsuiChannels extends gsui0ne {
 
 					res( chan !== currChanId ? chan : null );
 				},
-			} ).then( () => GSUdomEmpty( gsuiChannels.#selectChanInput ) );
+			} ).then( () => gsuiChannels.#selectChanInput.$empty() );
 		} );
 	}
 
