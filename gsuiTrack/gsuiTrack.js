@@ -49,7 +49,7 @@ class gsuiTrack extends gsui0ne {
 
 	// .........................................................................
 	#ondblclickName() {
-		this.$elements.$inpName.$rmAttr( "disabled" ).select();
+		this.$elements.$inpName.$rmAttr( "disabled" ).$trigger( "select" );
 		GSUdomFocus( this.$elements.$inpName.$get( 0 ) );
 	}
 	#onkeydown( e ) {
