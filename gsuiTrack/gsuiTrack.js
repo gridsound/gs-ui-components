@@ -7,6 +7,7 @@ class gsuiTrack extends gsui0ne {
 		super( {
 			$cmpName: "gsuiTrack",
 			$tagName: "gsui-track",
+			$jqueryfy: true,
 			$elements: {
 				$inpNameWrap: ".gsuiTrack-nameWrap",
 				$inpName: ".gsuiTrack-name",
@@ -19,17 +20,11 @@ class gsuiTrack extends gsui0ne {
 		Object.seal( this );
 		this.onchange = this.#onchange.bind( this );
 		this.onkeydown = this.#onkeydown.bind( this );
-		this.$elements.$inpNameWrap.ondblclick = this.#ondblclickName.bind( this );
-		this.$elements.$inpName.onblur = this.#onblur.bind( this );
+		this.$elements.$inpNameWrap.$on( "dblclick", this.#ondblclickName.bind( this ) );
+		this.$elements.$inpName.$on( "blur", this.#onblur.bind( this ) );
 		GSUdomListen( this, {
-			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
-				GSUdomSetAttr( this, "mute", !b );
-				this.$this.$dispatch( GSEV_TRACK_TOGGLE, b );
-			},
-			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				GSUdomRmAttr( this, "mute" );
-				this.$this.$dispatch( GSEV_TRACK_TOGGLESOLO );
-			},
+			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => { this.$this.$setAttr( "mute", !b ).$dispatch( GSEV_TRACK_TOGGLE, b ); },
+			[ GSEV_TOGGLE_TOGGLESOLO ]: () => { this.$this.$rmAttr( "mute" ).$dispatch( GSEV_TRACK_TOGGLESOLO ); },
 		} );
 	}
 
@@ -44,38 +39,36 @@ class gsuiTrack extends gsui0ne {
 				GSUdomSetAttr( this.firstElementChild, "off", val !== null );
 				break;
 			case "name":
-				this.$elements.$inpName.value = val;
+				this.$elements.$inpName.$value( val );
 				break;
 			case "order":
-				this.$elements.$inpName.placeholder = `track ${ +val + 1 }`;
+				this.$elements.$inpName.$setAttr( "placeholder", `track ${ +val + 1 }` );
 				break;
 		}
 	}
 
 	// .........................................................................
 	#ondblclickName() {
-		this.$elements.$inpName.disabled = false;
-		this.$elements.$inpName.select();
-		GSUdomFocus( this.$elements.$inpName );
+		this.$elements.$inpName.$rmAttr( "disabled" ).select();
+		GSUdomFocus( this.$elements.$inpName.$get( 0 ) );
 	}
 	#onkeydown( e ) {
-		if ( e.target === this.$elements.$inpName ) {
+		if ( e.target === this.$elements.$inpName.$get( 0 ) ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": this.$elements.$inpName.value = GSUdomGetAttr( this, "name" );
-				case "Enter": this.$elements.$inpName.blur();
+				case "Escape": this.$elements.$inpName.$value( this.$this.$getAttr( "name" ) );
+				case "Enter": this.$elements.$inpName.$trigger( "blur" );
 			}
 		}
 	}
 	#onchange() {
-		const n = this.$elements.$inpName.value.trim();
+		const n = this.$elements.$inpName.$value().trim();
 
-		this.$elements.$inpName.disabled = true;
-		GSUdomSetAttr( this, "name", n );
-		this.$this.$dispatch( GSEV_TRACK_RENAME, n );
+		this.$elements.$inpName.$addAttr( "disabled" );
+		this.$this.$setAttr( "name", n ).$dispatch( GSEV_TRACK_RENAME, n );
 	}
 	#onblur() {
-		this.$elements.$inpName.disabled = true;
+		this.$elements.$inpName.$addAttr( "disabled" );
 	}
 }
 
