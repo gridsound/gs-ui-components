@@ -13,9 +13,6 @@ class gsui0ne extends HTMLElement {
 	#connectionCount = 0;
 
 	constructor( o = {} ) {
-		const jqueryfy = o.$jqueryfy;
-		// const jqueryfy = true;
-
 		super();
 		this.$this = $( this );
 		this.#attributes = o.$attributes || {};
@@ -23,19 +20,14 @@ class gsui0ne extends HTMLElement {
 			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )
 			: null );
 		if ( this.#children ) {
-			this.$element = GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children;
-			if ( jqueryfy ) {
-				this.$element = $( this.$element );
-			}
-			this.$elements = !jqueryfy
-				? GSUdomFind( this.#children, o.$elements )
-				: GSUreduce( o.$elements, ( map, sel, key ) => {
-					map[ key ] = $( this.#children, sel );
-					if ( !map[ key ].$size( 0 ) ) {
-						console.warn( "gsui0ne: empty query", [ o.$tagName, key, sel ] );
-					}
-					return map;
-				}, {} );
+			this.$element = $( GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children );
+			this.$elements = GSUreduce( o.$elements, ( map, sel, key ) => {
+				map[ key ] = $( this.#children, sel );
+				if ( !map[ key ].$size( 0 ) ) {
+					console.warn( "gsui0ne: empty query", [ o.$tagName, key, sel ] );
+				}
+				return map;
+			}, {} );
 		}
 		if ( this.$onresize ) {
 			this.#onresizeBind = this.$onresize.bind( this );
