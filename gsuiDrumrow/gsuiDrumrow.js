@@ -106,13 +106,9 @@ class gsuiDrumrow extends gsui0ne {
 		}
 	}
 	#onclick( e ) {
-		const tar = $( e.target );
-
-		if ( tar.$get( 0 ) !== this ) {
-			switch ( tar.$getAttr( "data-action" ) ) {
-				case "delete": this.$this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
-				case "props": this.$this.$togAttr( "open" ).$dispatch( GSEV_DRUMROW_EXPAND ); break;
-			}
+		switch ( $( e.target ).$getAttr( "data-action" ) ) {
+			case "delete": this.$this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
+			case "props": this.$this.$togAttr( "open" ).$dispatch( GSEV_DRUMROW_EXPAND ); break;
 		}
 	}
 }
