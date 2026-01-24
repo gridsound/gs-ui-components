@@ -36,6 +36,7 @@ class gsuiDAW extends gsui0ne {
 		super( {
 			$cmpName: "gsuiDAW",
 			$tagName: "gsui-daw",
+			$jqueryfy: true,
 			$elements: {
 				$head: ".gsuiDAW-head",
 				$titleUser: "gsui-titleuser",
@@ -49,16 +50,7 @@ class gsuiDAW extends gsui0ne {
 				$body: ".gsuiDAW-body",
 				$patternsPanel: ".gsuiDAW-resources",
 				$windows: "gsui-windows",
-				$winBtns: {
-					patterns: "[data-win='patterns']",
-					mixer: "[data-win='mixer']",
-					composition: "[data-win='composition']",
-					synth: "[data-win='synth']",
-					drums: "[data-win='drums']",
-					keys: "[data-win='keys']",
-					slices: "[data-win='slices']",
-					effects: "[data-win='effects']",
-				},
+				$winBtns: "[data-win]",
 			},
 			$attributes: {
 				saved: true,
@@ -76,39 +68,39 @@ class gsuiDAW extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$head.onclick = this.#onclickHead.bind( this );
+		this.$elements.$head.$on( "click", this.#onclickHead.bind( this ) );
 		this.#popups.$export.$btnRender.onclick = this.#onclickRenderBtn.bind( this );
 		this.#popups.$export.$btnUpload.onclick = this.#onclickUploadBtn.bind( this );
 		this.#popups.$export.$btnClear.onclick = this.#initRenderBtn.bind( this );
 		this.#popups.$about.$versionCheck.onclick = this.#onclickVersionCheck.bind( this );
 		this.#popups.$settings.$uiRateManualRange.onmousedown = () => this.#popups.$settings.$uiRateRadio.manual.checked = true;
 		this.#popups.$settings.$uiRateManualRange.oninput = e => this.#popups.$settings.$uiRateManualFPS.textContent = e.target.value.padStart( 2, "0" );
-		this.$elements.$windows.onkeydown = e => {
+		this.$elements.$windows.$on( "keydown", e => {
 			if ( e.key === "Tab" ) {
 				e.preventDefault();
 			}
-		};
+		} );
 		this.#initRenderBtn();
 		GSUdomListen( this, {
 			[ GSEV_TITLEUSER_SAVE ]: () => this.$this.$dispatch( GSEV_DAW_SAVE ),
 			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => this.$this.$dispatch( GSEV_DAW_RENAME, name ),
 			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => this.$this.$dispatch( GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
 		} );
-		GSUdomListen( this.$elements.$volume, {
+		GSUdomListen( this.$elements.$volume.$get( 0 ), {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => this.$this.$dispatch( GSEV_DAW_VOLUME, gain ),
 		} );
-		GSUdomListen( this.$elements.$currentTime, {
+		GSUdomListen( this.$elements.$currentTime.$get( 0 ), {
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#timeSelecting = false,
 			[ GSEV_SLIDER_INPUTSTART ]: ( _, val ) => {
 				this.#timeSelecting = true;
-				this.$elements.$clock.$setTime( val );
+				this.$elements.$clock.$get( 0 ).$setTime( val );
 			},
 			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => this.$this.$dispatch( GSEV_DAW_CURRENTTIME, val ),
 			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
-				this.$elements.$clock.$setTime( val );
+				this.$elements.$clock.$get( 0 ).$setTime( val );
 				this.$this.$dispatch( GSEV_DAW_CURRENTTIMELIVE, val );
 			},
 		} );
@@ -138,13 +130,13 @@ class gsuiDAW extends gsui0ne {
 				this.#popups.$export.$progress.value = +val || 0;
 				break;
 			case "name":
-				GSUdomSetAttr( this.$elements.$titleUser, "cmpname", val );
+				this.$elements.$titleUser.$setAttr( "cmpname", val );
 				break;
 			case "saved":
-				GSUdomSetAttr( this.$elements.$titleUser, "saved", val );
+				this.$elements.$titleUser.$setAttr( "saved", val );
 				break;
 			case "playing":
-				this.$elements.$play.dataset.icon = val !== null ? "pause" : "play";
+				this.$elements.$play.$setAttr( "data-icon", val !== null ? "pause" : "play" );
 				break;
 			case "timelinenumbering":
 				gsuiClock.$numbering( val );
@@ -155,29 +147,29 @@ class gsuiDAW extends gsui0ne {
 				gsuiPianoroll.$keyNotation( val );
 				break;
 			case "bpm":
-				GSUdomSetAttr( this.$elements.$clock, "bpm", val );
-				GSUdomSetAttr( this.$elements.$tempo, "bpm", val );
+				this.$elements.$clock.$setAttr( "bpm", val );
+				this.$elements.$tempo.$setAttr( "bpm", val );
 			case "duration":
 				this.#updateDuration();
 				break;
 			case "timedivision":
-				GSUdomSetAttr( this.$elements.$clock, "timedivision", val );
-				GSUdomSetAttr( this.$elements.$tempo, "timedivision", val );
+				this.$elements.$clock.$setAttr( "timedivision", val );
+				this.$elements.$tempo.$setAttr( "timedivision", val );
 				break;
 			case "volume":
-				GSUdomSetAttr( this.$elements.$volume, "value", val );
+				this.$elements.$volume.$setAttr( "value", val );
 				break;
 			case "currenttime":
 				if ( !this.#timeSelecting ) {
-					this.$elements.$clock.$setTime( val );
-					GSUdomSetAttr( this.$elements.$currentTime, "value", val );
+					this.$elements.$clock.$get( 0 ).$setTime( val );
+					this.$elements.$currentTime.$setAttr( "value", val );
 				}
 				break;
 			case "maxtime":
-				GSUdomSetAttr( this.$elements.$currentTime, "max", val );
+				this.$elements.$currentTime.$setAttr( "max", val );
 				break;
 			case "version":
-				this.$elements.$vers.textContent = val;
+				this.$elements.$vers.$text( val );
 				this.#popups.$about.$version.textContent = val;
 				break;
 		}
@@ -185,10 +177,10 @@ class gsuiDAW extends gsui0ne {
 
 	// .........................................................................
 	$getTitleUser() {
-		return this.$elements.$titleUser;
+		return this.$elements.$titleUser.$get( 0 );
 	}
 	$updateSpectrum( data ) {
-		this.$elements.$analyserHz.$draw( data );
+		this.$elements.$analyserHz.$get( 0 ).$draw( data );
 	}
 	$readyToDownload( url, name ) {
 		GSUdomStyle( this.#popups.$export.$progress, "display", "none" );
@@ -204,9 +196,9 @@ class gsuiDAW extends gsui0ne {
 		this.$setExportMsg( "Rendering complete" );
 	}
 	$toggleWindow( win, b ) {
-		GSUdomSetAttr( this.$elements.$winBtns[ win ], "data-open", b );
+		this.#getWinBtn( win ).$setAttr( "data-open", b );
 		if ( win === "patterns" ) {
-			GSUdomSetAttr( this.$elements.$body, "resources-hidden", !b );
+			this.$elements.$body.$setAttr( "resources-hidden", !b );
 		}
 	}
 
@@ -215,15 +207,15 @@ class gsuiDAW extends gsui0ne {
 		this.#popups.$export.$msg.textContent = msg;
 	}
 	#updateDuration() {
-		const dur = GSUdomGetAttrNum( this, "duration" );
+		const dur = this.$this.$getAttr( "duration" );
 
-		GSUdomSetAttr( this.$elements.$titleUser, "cmpdur", dur / ( GSUdomGetAttrNum( this, "bpm" ) / 60 ) );
-		GSUdomSetAttr( this.$elements.$currentTime, "max", dur );
+		this.$elements.$titleUser.$setAttr( "cmpdur", dur / ( this.$this.$getAttr( "bpm" ) / 60 ) );
+		this.$elements.$currentTime.$setAttr( "max", dur );
 	}
 	#initRenderBtn() {
 		this.$setExportMsg( "" );
-		GSUdomSetAttr( this, "exporting", false );
-		GSUdomSetAttr( this.#popups.$export.$btnUpload, "disabled", false );
+		this.$this.$rmAttr( "exporting" );
+		GSUdomRmAttr( this.#popups.$export.$btnUpload, "disabled" );
 		GSUdomSetAttr( this.#popups.$export.$btnRender, {
 			text: "Render",
 			icon: "render",
@@ -237,8 +229,11 @@ class gsuiDAW extends gsui0ne {
 	}
 
 	// .........................................................................
+	#getWinBtn( win ) {
+		return this.$elements.$winBtns.$filter( `[data-win="${ win }"]` );
+	}
 	#onopenRenderPopup() {
-		if ( GSUdomGetAttr( this, "exporting" ) === "1" ) {
+		if ( this.$this.$getAttr( "exporting" ) === "1" ) {
 			this.$setExportMsg( "Rendering complete" );
 		}
 		GSUpopup.$custom( {
@@ -246,7 +241,7 @@ class gsuiDAW extends gsui0ne {
 			element: this.#popups.$export.$root,
 			ok: "close",
 		} ).then( () => {
-			if ( GSUdomGetAttr( this, "exporting" ) !== "1" ) {
+			if ( this.$this.$getAttr( "exporting" ) !== "1" ) {
 				this.#initRenderBtn();
 			}
 			this.$this.$dispatch( GSEV_DAW_ABORTEXPORT );
@@ -265,7 +260,7 @@ class gsuiDAW extends gsui0ne {
 		}
 	}
 	#onclickUploadBtn() {
-		if ( !GSUdomHasAttr( this.$elements.$titleUser, "connected" ) ) {
+		if ( !this.$elements.$titleUser.$hasAttr( "connected" ) ) {
 			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
 		} else {
 			GSUdomSetAttr( this.#popups.$export.$btnUpload, "disabled", true );
@@ -281,18 +276,18 @@ class gsuiDAW extends gsui0ne {
 			.then( res => res.text(), GSUnoop )
 			.then( res => {
 				dt.spin = "";
-				dt.icon = res === GSUdomGetAttr( this, "version" ) ? "check" : "warning";
+				dt.icon = res === this.$this.$getAttr( "version" ) ? "check" : "warning";
 			} );
 	}
 	#onopenSettingsPopup() {
-		this.#popups.$settings.$sampleRate.value = GSUdomGetAttrNum( this, "samplerate" );
-		this.#popups.$settings.$keyNotation.value = GSUdomGetAttr( this, "keynotation" );
-		this.#popups.$settings.$timelineNumbering.value = GSUdomGetAttrNum( this, "timelinenumbering" );
-		this.#popups.$settings.$windowsLowGraphics.checked = GSUdomGetAttr( this, "windowslowgraphics" ) === "";
-		this.#popups.$settings.$uiRateRadio[ GSUdomGetAttr( this, "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
-		if ( GSUdomGetAttr( this, "uirate" ) !== "auto" ) {
-			this.#popups.$settings.$uiRateManualFPS.textContent = GSUdomGetAttr( this, "uirate" ).padStart( 2, "0" );
-			this.#popups.$settings.$uiRateManualRange.value = GSUdomGetAttr( this, "uirate" );
+		this.#popups.$settings.$sampleRate.value = +this.$this.$getAttr( "samplerate" );
+		this.#popups.$settings.$keyNotation.value = this.$this.$getAttr( "keynotation" );
+		this.#popups.$settings.$timelineNumbering.value = +this.$this.$getAttr( "timelinenumbering" );
+		this.#popups.$settings.$windowsLowGraphics.checked = this.$this.$getAttr( "windowslowgraphics" ) === "";
+		this.#popups.$settings.$uiRateRadio[ this.$this.$getAttr( "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
+		if ( this.$this.$getAttr( "uirate" ) !== "auto" ) {
+			this.#popups.$settings.$uiRateManualFPS.textContent = this.$this.$getAttr( "uirate" ).padStart( 2, "0" );
+			this.#popups.$settings.$uiRateManualRange.value = this.$this.$getAttr( "uirate" );
 		}
 		GSUpopup.$custom( { title: "Settings", element: this.#popups.$settings.$root } )
 			.then( this.#onsubmitSettingsPopup.bind( this ) );
@@ -306,13 +301,13 @@ class gsuiDAW extends gsui0ne {
 			delete data.uiRateFPS;
 			if (
 				(
-					data.uiRate !== GSUdomGetAttr( this, "uirate" ) &&
-					data.uiRate !== GSUdomGetAttrNum( this, "uirate" )
+					data.uiRate !== this.$this.$getAttr( "uirate" ) &&
+					data.uiRate !== +this.$this.$getAttr( "uirate" )
 				) ||
-				data.keyNotation !== GSUdomGetAttr( this, "keynotation" ) ||
-				data.sampleRate !== GSUdomGetAttrNum( this, "samplerate" ) ||
-				data.timelineNumbering !== GSUdomGetAttrNum( this, "timelinenumbering" ) ||
-				data.windowsLowGraphics !== ( GSUdomGetAttr( this, "windowslowgraphics" ) === "" )
+				data.keyNotation !== this.$this.$getAttr( "keynotation" ) ||
+				data.sampleRate !== +this.$this.$getAttr( "samplerate" ) ||
+				data.timelineNumbering !== +this.$this.$getAttr( "timelinenumbering" ) ||
+				data.windowsLowGraphics !== ( this.$this.$getAttr( "windowslowgraphics" ) === "" )
 			) {
 				this.$this.$dispatch( GSEV_DAW_SETTINGS, data );
 			}
@@ -332,7 +327,7 @@ class gsuiDAW extends gsui0ne {
 			case "settings": this.#onopenSettingsPopup(); break;
 			case "about": GSUpopup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
 			case "help": {
-				const hide = GSUdomHasAttr( this, "gsuihelplink-hide" );
+				const hide = this.$this.$hasAttr( "gsuihelplink-hide" );
 
 				GSUdomSetAttr( this, "gsuihelplink-hide", !hide );
 				this.$this.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, hide );
