@@ -1,19 +1,18 @@
 "use strict";
 
 class gsuiDrumrow extends gsui0ne {
-	#elDrumLine = null;
+	#elDrumLine = $();
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiDrumrow",
 			$tagName: "gsui-drumrow",
+			$jqueryfy: true,
 			$elements: {
 				$name: ".gsuiDrumrow-name",
-				toggle: "gsui-toggle",
-				pan: ".gsuiDrumrow-pan gsui-slider",
-				gain: ".gsuiDrumrow-gain gsui-slider",
-				detune: ".gsuiDrumrow-detune gsui-slider",
-				waveWrap: ".gsuiDrumrow-waveWrap",
+				$toggle: "gsui-toggle",
+				$sliders: "gsui-slider",
+				$waveWrap: ".gsuiDrumrow-waveWrap",
 			},
 			$attributes: {
 				toggle: true,
@@ -24,12 +23,10 @@ class gsuiDrumrow extends gsui0ne {
 		this.onanimationend = this.#onanimationend.bind( this );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
-				GSUdomSetAttr( this, "toggle", b );
-				this.$this.$dispatch( GSEV_DRUMROW_TOGGLE, b );
+				this.$this.$setAttr( "toggle", b ).$dispatch( GSEV_DRUMROW_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				GSUdomSetAttr( this, "toggle" );
-				this.$this.$dispatch( GSEV_DRUMROW_TOGGLESOLO );
+				this.$this.$addAttr( "toggle" ).$dispatch( GSEV_DRUMROW_TOGGLESOLO );
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#oninputendSlider(),
@@ -51,45 +48,43 @@ class gsuiDrumrow extends gsui0ne {
 		switch ( prop ) {
 			case "pan":
 			case "gain":
-			case "detune": GSUdomSetAttr( this.$elements[ prop ], "value", val ); break;
-			case "name": this.$elements.$name.textContent = val; break;
-			case "duration": this.$elements.waveWrap.style.animationDuration = `${ val * 2 }s`; break;
+			case "detune": this.#getSlider( prop ).$setAttr( "value", val ); break;
+			case "name": this.$elements.$name.$text( val ); break;
+			case "duration": this.$elements.$waveWrap.$css( "animationDuration", `${ val * 2 }s` ); break;
 			case "order":
-				this.style.order = val;
-				if ( this.#elDrumLine ) {
-					this.#elDrumLine.style.order = val;
-				}
+				this.$this.$css( "order", val );
+				this.#elDrumLine.$css( "order", val );
 				break;
 			case "toggle":
-				GSUdomSetAttr( this.$elements.toggle, "off", val !== "" );
-				GSUdomSetAttr( this.#elDrumLine, "data-mute", val !== "" );
+				this.$elements.$toggle.$setAttr( "off", val !== "" );
+				this.#elDrumLine.$setAttr( "data-mute", val !== "" );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$associateDrumLine( el ) {
-		this.#elDrumLine = el;
-		el.style.order = GSUdomGetAttr( this, "order" );
-		GSUdomSetAttr( el, "data-mute", !GSUdomHasAttr( this, "toggle" ) );
+		this.#elDrumLine = $( el )
+			.$css( "order", this.$this.$getAttr( "order" ) )
+			.$setAttr( "data-mute", !this.$this.$hasAttr( "toggle" ) );
 	}
 	$changePattern( svg ) {
-		GSUdomEmpty( this.$elements.waveWrap );
-		if ( svg ) {
-			this.$elements.waveWrap.append( svg );
-		}
+		this.$elements.$waveWrap.$empty().$append( svg );
 	}
 	$play() {
-		this.$elements.waveWrap.append( GSUcreateDiv( { class: "gsuiDrumrow-startCursor" } ) );
+		this.$elements.$waveWrap.$append( $( "<div>" ).$addClass( "gsuiDrumrow-startCursor" ) );
 	}
 	$stop() {
-		GSUdomQSA( this, ".gsuiDrumrow-startCursor" ).forEach( el => el.remove() );
+		this.$this.$find( ".gsuiDrumrow-startCursor" ).$remove();
 	}
 
 	// .........................................................................
+	#getSlider( prop ) {
+		return this.$elements.$sliders.$filter( `.gsuiDrumrow-${ prop } *` );
+	}
 	#namePrint( prop, val ) {
-		this.$elements.$name.textContent = gsuiDrumrow.#namePrint2( prop, val );
-		GSUdomSetAttr( this, "info" );
+		this.$elements.$name.$text( gsuiDrumrow.#namePrint2( prop, val ) );
+		this.$this.$setAttr( "info" );
 	}
 	static #namePrint2( prop, val ) {
 		switch ( prop ) {
@@ -101,22 +96,23 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	#oninputendSlider() {
-		this.$elements.$name.textContent = GSUdomGetAttr( this, "name" );
-		GSUdomRmAttr( this, "info" );
+		this.$elements.$name.textContent = this.$this.$getAttr( "name" );
+		this.$this.$rmAttr( "info" );
 	}
 	#onanimationend( e ) {
-		if ( GSUdomHasClass( e.target, "gsuiDrumrow-startCursor" ) ) {
-			e.target.remove();
+		const tar = $( e.target );
+
+		if ( tar.$hasClass( "gsuiDrumrow-startCursor" ) ) {
+			tar.$remove();
 		}
 	}
 	#onclick( e ) {
-		if ( e.target !== this ) {
-			switch ( e.target.dataset.action ) {
+		const tar = $( e.target );
+
+		if ( tar.$get( 0 ) !== this ) {
+			switch ( tar.$getAttr( "data-action" ) ) {
 				case "delete": this.$this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
-				case "props":
-					GSUdomTogAttr( this, "open" );
-					this.$this.$dispatch( GSEV_DRUMROW_EXPAND );
-					break;
+				case "props": this.$this.$togAttr( "open" ).$dispatch( GSEV_DRUMROW_EXPAND ); break;
 			}
 		}
 	}
