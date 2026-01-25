@@ -1,0 +1,15 @@
+gsui-wavelet-svg {
+	--gsui-pad: 0;
+	position: relative;
+
+	svg {
+		position: absolute;
+		top: var( --gsui-pad );
+		left: var( --gsui-pad );
+		width: calc( 100% - 2 * var( --gsui-pad ) );
+		height: calc( 100% - 2 * var( --gsui-pad ) );
+		fill: none;
+		stroke: #fff;
+		stroke-width: 2px;
+	}
+}
