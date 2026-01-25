@@ -1,0 +1,71 @@
+gsui-wavelet-browser {
+	--gsui-h: 100px;
+	--gsui-item-h: 12px;
+	display: flex;
+	height: 100%;
+	min-width: 100px;
+	min-height: 24px;
+	background-color: #5a555f;
+
+	gsui-wavelet-svg {
+		--gsui-pad: 8px;
+		flex: 1;
+		border-radius: 0 4px 4px 0;
+		background-color: #0025;
+		background-image: url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23fff5' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E" );
+		box-shadow:
+			inset 0 0 68px #0005,
+			inset 0 0 8px #000a;
+	}
+}
+
+.gsuiWaveletBrowser-in {
+	display: flex;
+	flex: 1;
+	padding: 6px;
+}
+
+.gsuiWaveletBrowser-list {
+	overflow: hidden;
+	position: relative;
+	border-right: 3px solid #0018;
+	border-radius: 4px 0 0 4px;
+	background-color: #0003;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: linear-gradient( 180deg, #0008, #0004 10%, transparent 25%, transparent 75%, #0004 90%, #0008 );
+		pointer-events: none;
+	}
+
+	> * {
+		--pad: 4px;
+		box-sizing: border-box;
+		overflow: auto;
+		width: 84px;
+		height: 100%;
+		padding: calc( var( --gsui-h ) / 2 - var( --gsui-item-h ) / 2 ) 4px;
+
+		> * {
+			border-radius: 2px;
+			text-align: center;
+			height: var( --gsui-item-h );
+			line-height: var( --gsui-item-h );
+			font-size: 11px;
+			font-family: var( --gsui-font-monospace );
+			cursor: pointer;
+
+			&::before {
+				content: attr( data-id );
+				pointer-events: none;
+			}
+			&[ data-selected ] {
+				color: #5a555f;
+				font-weight: bold;
+				background-color: #fffd;
+			}
+		}
+	}
+}

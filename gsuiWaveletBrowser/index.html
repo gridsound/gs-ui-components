@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../gsui-form.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiWaveletSVG/gsuiWaveletSVG.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiWaveletBrowser.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 400px;
+	--test-content-h: 200px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-wavelet-browser></gsui-wavelet-browser>
+</div>
+<div id="TEST-CTRLS">
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-jquery.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../gs-utils/gs-utils-json.js"></script>
+<script src="../gs-utils/gs-utils-files.js"></script>
+<script src="../gs-utils/gs-utils-models.js"></script>
+<script src="../gs-utils/gs-utils-audio-nodes.dev.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="../assets/gsuiWaveletList-v1.js"></script>
+<script src="../gsuiWaveletSVG/gsuiWaveletSVG.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiWaveletBrowser.html.js"></script>
+<script src="gsuiWaveletBrowser.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const el = $( "gsui-wavelet-browser" );
+
+el.$get( 0 ).$setList( gsuiWaveletList );
+</script>
+</body>
+</html>
