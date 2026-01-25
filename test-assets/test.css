@@ -46,6 +46,7 @@ body {
 		font-size: min( 4vw, 4vh, 24px );
 		font-weight: bold;
 		border-radius: .5ch;
+		text-decoration: none;
 
 		&:hover {
 			animation: alternate infinite testLinkAnim .25s;
