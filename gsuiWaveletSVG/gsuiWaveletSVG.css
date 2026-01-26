@@ -11,5 +11,11 @@ gsui-wavelet-svg {
 		fill: none;
 		stroke: #fff;
 		stroke-width: 2px;
+		border-radius: 3px;
+		background-color: #ffffff0a;
+	}
+	line {
+		stroke-width: 1px;
+		stroke-opacity: .5;
 	}
 }

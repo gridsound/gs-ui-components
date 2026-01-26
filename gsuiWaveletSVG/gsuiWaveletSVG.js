@@ -10,6 +10,8 @@ class gsuiWaveletSVG extends gsui0ne {
 			$tagName: "gsui-wavelet-svg",
 			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
 				GSUcreateElement( "polyline" ),
+				GSUcreateElement( "line" ),
+				GSUcreateElement( "line" ),
 			),
 		} );
 		Object.seal( this );
@@ -43,6 +45,8 @@ class gsuiWaveletSVG extends gsui0ne {
 				[ w + 10, h / 2 ],
 			);
 			this.$element.$child( 0 ).$setAttr( "points", pts.join( " " ) );
+			this.$element.$child( 1 ).$setAttr( { x1: 0, y1: h / 2, x2: w, y2: h / 2 } );
+			this.$element.$child( 2 ).$setAttr( { x1: w / 2, y1: 0, x2: w / 2, y2: h } );
 		}
 	}
 }
