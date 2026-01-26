@@ -38,9 +38,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	// .........................................................................
 	$setList( list ) {
 		this.#waves.length = 0;
-		GSUforEach( list, w => {
-			this.#waves.push( [ w[ 0 ], [ ...w[ 1 ] ] ] );
-		} );
+		GSUforEach( list, w => this.#waves.push( [ w[ 0 ], [ ...w[ 1 ] ] ] ) );
 		this.$elements.$list.$empty().$append( ...this.#waves.map( w => GSUcreateDiv( { "data-id": w[ 0 ] } ) ) );
 		this.#onscroll();
 	}
@@ -56,13 +54,11 @@ class gsuiWaveletBrowser extends gsui0ne {
 		}
 	}
 	#onscroll() {
-		const list = this.$elements.$list;
-		const pad = parseFloat( list.$css( "paddingTop" ) );
-		const scrY = list.$scrollY();
+		const scrY = this.$elements.$list.$scrollY();
 		let ind = -1;
 
-		list.$children().$setAttr( "data-selected", ( _, i ) => {
-			const ret = GSUmathApprox( pad + i * 12, scrY + pad, 6 );
+		this.$elements.$list.$children().$setAttr( "data-selected", ( _, i ) => {
+			const ret = GSUmathApprox( i * 12, scrY, 6 );
 
 			if ( ret ) {
 				ind = i;
