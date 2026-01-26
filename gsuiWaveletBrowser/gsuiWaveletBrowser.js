@@ -16,7 +16,10 @@ class gsuiWaveletBrowser extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$list.$on( "scroll", this.#onscroll.bind( this ) );
+		this.$elements.$list.$on( {
+			click: this.#onclick.bind( this ),
+			scroll: this.#onscroll.bind( this ),
+		} );
 	}
 
 	// .........................................................................
@@ -52,6 +55,9 @@ class gsuiWaveletBrowser extends gsui0ne {
 			this.#selectedWaveInd = ind;
 			this.#drawWave();
 		}
+	}
+	#onclick( e ) {
+		this.$elements.$list.$scrollY( $( e.target ).$index() * 12 );
 	}
 	#onscroll() {
 		const scrY = this.$elements.$list.$scrollY();
