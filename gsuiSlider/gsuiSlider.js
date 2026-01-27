@@ -35,7 +35,7 @@ class gsuiSlider extends gsui0ne {
 				step: 1,
 				value: 0,
 			},
-			$ptrlock: true,
+			$ptrlock: !GSUonMobile,
 		} );
 		Object.seal( this );
 	}
