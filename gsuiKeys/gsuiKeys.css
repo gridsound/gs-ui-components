@@ -118,49 +118,48 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 			right: auto;
 		}
 	}
-}
-.gsuiKeys-key[ data-root ] {
-	&[ data-key="0" ]::after {
-		color: var( --gsuiKeys-whiteKey-gradB );
-		padding: 0 2px;
-		border-radius: 3px;
-		background-color: var( --gsuiKeys-rootKey );
+	&[ data-root ] {
+		&[ data-key="0" ]::after {
+			color: var( --gsuiKeys-whiteKey-gradB );
+			padding: 0 2px;
+			border-radius: 3px;
+			background-color: var( --gsuiKeys-rootKey );
+		}
+		&.gsui-active::after {
+			color: var( --gsuiKeys-rootKey );
+			background-color: var( --gsuiKeys-whiteKey-gradB );
+		}
 	}
-	&.gsui-active::after {
-		color: var( --gsuiKeys-rootKey );
-		background-color: var( --gsuiKeys-whiteKey-gradB );
+	&.gsui-active {
+		background-image: linear-gradient(
+			var( --gsuiKeys-gradientDeg ),
+			var( --gsuiKeys-activeKey-gradA ),
+			var( --gsuiKeys-activeKey-gradB )
+		);
 	}
-}
-.gsuiKeys-key.gsui-active {
-	background-image: linear-gradient(
-		var( --gsuiKeys-gradientDeg ),
-		var( --gsuiKeys-activeKey-gradA ),
-		var( --gsuiKeys-activeKey-gradB )
-	);
-}
-
-gsui-keys[ orient="vertical" ] .gsuiKeys-key[ data-key="9" ],
-gsui-keys[ orient="vertical" ] .gsuiKeys-key[ data-key="7" ],
-gsui-keys[ orient="vertical" ] .gsuiKeys-key[ data-key="2" ] {
-	height: 2em;
-}
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="9" ],
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="7" ],
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="2" ] {
-	width: 2em;
-}
-.gsuiKeys-key[ data-key="9" ],
-.gsuiKeys-key[ data-key="7" ],
-.gsuiKeys-key[ data-key="5" ],
-.gsuiKeys-key[ data-key="2" ],
-.gsuiKeys-key[ data-key="0" ] {
-	margin-top: -.5em;
-}
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="9" ],
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="7" ],
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ],
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="2" ],
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="0" ] {
-	margin-top: 0;
-	margin-right: -.5em;
+	gsui-keys[ orient="vertical" ] &[ data-key="9" ],
+	gsui-keys[ orient="vertical" ] &[ data-key="7" ],
+	gsui-keys[ orient="vertical" ] &[ data-key="2" ] {
+		height: 2em;
+	}
+	gsui-keys[ orient="horizontal" ] &[ data-key="9" ],
+	gsui-keys[ orient="horizontal" ] &[ data-key="7" ],
+	gsui-keys[ orient="horizontal" ] &[ data-key="2" ] {
+		width: 2em;
+	}
+	&[ data-key="9" ],
+	&[ data-key="7" ],
+	&[ data-key="5" ],
+	&[ data-key="2" ],
+	&[ data-key="0" ] {
+		margin-top: -.5em;
+	}
+	gsui-keys[ orient="horizontal" ] &[ data-key="9" ],
+	gsui-keys[ orient="horizontal" ] &[ data-key="7" ],
+	gsui-keys[ orient="horizontal" ] &[ data-key="5" ],
+	gsui-keys[ orient="horizontal" ] &[ data-key="2" ],
+	gsui-keys[ orient="horizontal" ] &[ data-key="0" ] {
+		margin-top: 0;
+		margin-right: -.5em;
+	}
 }
