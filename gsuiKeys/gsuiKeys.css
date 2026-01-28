@@ -42,7 +42,7 @@ gsui-keys,
 	width: 100%;
 	height: 1em;
 }
-.gsuiKeys-rowBlack {
+.gsuiKeys-row[ data-col="b" ] {
 	background-color: var( --gsuiKeys-blackRow-bg );
 }
 .gsuiKeys-row > div {
@@ -50,7 +50,7 @@ gsui-keys,
 	inset: 0;
 }
 gsui-pianoroll:has( .gsuiBlocksManager-selection-hidden ) .gsuiKeys-row:hover { background-color: var( --gsuiKeys-whiteRow-hover-bg ); }
-gsui-pianoroll:has( .gsuiBlocksManager-selection-hidden ) .gsuiKeys-rowBlack:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
+gsui-pianoroll:has( .gsuiBlocksManager-selection-hidden ) .gsuiKeys-row[ data-col="b" ]:hover { background-color: var( --gsuiKeys-blackRow-hover-bg ); }
 
 /* .......................................................................... */
 .gsuiKeys-row[ data-key="0" ],
@@ -80,7 +80,7 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 		width: 1.5em;
 	}
 }
-.gsuiKeys-keyBlack {
+.gsuiKeys-key[ data-col="b" ] {
 	position: absolute;
 	z-index: 1;
 	background-image: linear-gradient(
