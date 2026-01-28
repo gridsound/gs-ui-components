@@ -61,6 +61,7 @@ class gsuiKeys extends gsui0ne {
 	// .........................................................................
 	static get observedAttributes() {
 		return [ "octaves", "rootoctave" ];
+		// + "orient"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {

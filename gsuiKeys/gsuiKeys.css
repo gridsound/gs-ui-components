@@ -11,14 +11,15 @@ gsui-keys {
 	height: 100%;
 	z-index: 0;
 	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );
-}
-gsui-keys[ orient="vertical" ] {
-	--gsuiKeys-gradientDeg: 90deg;
-	height: calc( var( --gsuiKeys-nbOctaves ) * 12em );
-}
-gsui-keys[ orient="horizontal" ] {
-	--gsuiKeys-gradientDeg: 180deg;
-	width: calc( var( --gsuiKeys-nbOctaves ) * 12em );
+
+	&[ orient="vertical" ] {
+		--gsuiKeys-gradientDeg: 90deg;
+		height: calc( var( --gsuiKeys-nbOctaves ) * 12em );
+	}
+	&[ orient="horizontal" ] {
+		--gsuiKeys-gradientDeg: 180deg;
+		width: calc( var( --gsuiKeys-nbOctaves ) * 12em );
+	}
 }
 
 /* .......................................................................... */
@@ -67,16 +68,17 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 .gsuiKeys-key {
 	box-sizing: border-box;
 	position: absolute;
-}
-gsui-keys[ orient="vertical" ] .gsuiKeys-key {
-	inset: auto 0;
-	top: calc( var( --gsuiKeys-key-id ) * 1em );
-	height: 1.5em;
-}
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key {
-	inset: 0 auto;
-	right: calc( var( --gsuiKeys-key-id ) * 1em );
-	width: 1.5em;
+
+	gsui-keys[ orient="vertical" ] & {
+		inset: auto 0;
+		top: calc( var( --gsuiKeys-key-id ) * 1em );
+		height: 1.5em;
+	}
+	gsui-keys[ orient="horizontal" ] & {
+		inset: 0 auto;
+		right: calc( var( --gsuiKeys-key-id ) * 1em );
+		width: 1.5em;
+	}
 }
 .gsuiKeys-keyBlack {
 	position: absolute;
@@ -86,29 +88,36 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key {
 		var( --gsuiKeys-blackKey-gradA ),
 		var( --gsuiKeys-blackKey-gradB )
 	);
-}
-gsui-keys[ orient="vertical" ] .gsuiKeys-keyBlack {
-	width: 65%;
-	height: 1em;
-	border-radius: 0 .1em .1em 0;
-}
-gsui-keys[ orient="horizontal" ] .gsuiKeys-keyBlack {
-	width: 1em;
-	height: 65%;
-	border-radius: 0 0 .1em .1em;
+
+	gsui-keys[ orient="vertical" ] & {
+		width: 65%;
+		height: 1em;
+		border-radius: 0 .1em .1em 0;
+	}
+	gsui-keys[ orient="horizontal" ] & {
+		width: 1em;
+		height: 65%;
+		border-radius: 0 0 .1em .1em;
+	}
 }
 .gsuiKeys-key[ data-key="0" ] {
 	filter: brightness( .9 );
-}
-.gsuiKeys-key[ data-key="0" ]::after {
-	counter-increment: octave -1;
-	content: var( --gsuiKeys-keyNotation ) "·" counter( octave );
-	position: absolute;
-	right: .25em;
-	bottom: 2px;
-	color: #000;
-	font-size: calc( 6px + .25em );
-	font-family: monospace;
+
+	&::after {
+		counter-increment: octave -1;
+		content: var( --gsuiKeys-keyNotation ) "·" counter( octave );
+		position: absolute;
+		right: .25em;
+		bottom: 2px;
+		color: #000;
+		font-size: calc( 6px + .25em );
+		font-family: monospace;
+
+		gsui-keys[ orient="horizontal" ] & {
+			left: .35em;
+			right: auto;
+		}
+	}
 }
 .gsuiKeys-rootKey[ data-key="0" ]::after {
 	color: var( --gsuiKeys-whiteKey-gradB );
@@ -119,10 +128,6 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-keyBlack {
 .gsuiKeys-rootKey.gsui-active::after {
 	color: var( --gsuiKeys-rootKey );
 	background-color: var( --gsuiKeys-whiteKey-gradB );
-}
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="0" ]::after {
-	left: .35em;
-	right: auto;
 }
 .gsuiKeys-key.gsui-active {
 	background-image: linear-gradient(
