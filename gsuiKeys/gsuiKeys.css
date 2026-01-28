@@ -120,7 +120,7 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 		}
 	}
 }
-.gsuiKeys-rootKey {
+.gsuiKeys-key[ data-root ] {
 	&[ data-key="0" ]::after {
 		color: var( --gsuiKeys-whiteKey-gradB );
 		padding: 0 2px;
