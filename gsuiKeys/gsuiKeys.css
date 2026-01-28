@@ -112,11 +112,10 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 			color: #000;
 			font-size: calc( 6px + .25em );
 			font-family: monospace;
-
-			gsui-keys[ orient="horizontal" ] & {
-				left: .35em;
-				right: auto;
-			}
+		}
+		gsui-keys[ orient="horizontal" ] &::after {
+			left: .35em;
+			right: auto;
 		}
 	}
 }
