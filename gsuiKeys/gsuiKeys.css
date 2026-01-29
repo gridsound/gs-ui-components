@@ -8,7 +8,6 @@ gsui-keys {
 	display: block;
 	position: relative;
 	z-index: 0;
-	height: 100%;
 	touch-action: none;
 	counter-reset: octave calc( var( --gsuiKeys-firstOctave ) + var( --gsuiKeys-nbOctaves ) );
 	background-image: linear-gradient(
@@ -19,11 +18,13 @@ gsui-keys {
 
 	&[ orient="vertical" ] {
 		--gsuiKeys-gradientDeg: 90deg;
+		width: 100%;
 		height: calc( var( --gsuiKeys-nbOctaves ) * 12em );
 	}
 	&[ orient="horizontal" ] {
 		--gsuiKeys-gradientDeg: 180deg;
 		width: calc( var( --gsuiKeys-nbOctaves ) * 12em );
+		height: 100%;
 	}
 }
 
