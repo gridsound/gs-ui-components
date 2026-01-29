@@ -53,6 +53,6 @@
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
-.gsuiDAW-btns .gsuiDAW-btn:not( :first-child ):not( :last-child ) {
+.gsuiDAW-btns .gsuiDAW-btn:not( :first-child, :last-child ) {
 	border-radius: 0;
 }

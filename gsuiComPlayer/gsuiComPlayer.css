@@ -130,7 +130,7 @@ gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 	text-overflow: ellipsis;
 	text-decoration: none;
 
-	gsui-com-player:not( [ private ] ):not( [ opensource ] ) & {
+	gsui-com-player:not( [ private ], [ opensource ] ) & {
 		inset: 0;
 	}
 	&:empty::after {
@@ -150,7 +150,7 @@ gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 	.gsuiIcon {
 		gsui-com-player[ itsmine ] &:first-child,
 		gsui-com-player[ liked ] &:first-child,
-		gsui-com-player:not( [ liked ] ):not( [ itsmine ] ) &:nth-child( 2 ) {
+		gsui-com-player:not( [ liked ], [ itsmine ] ) &:nth-child( 2 ) {
 			display: none;
 		}
 		gsui-com-player[ liked ] &:not( [ data-spin ] ):nth-child( 2 ) {

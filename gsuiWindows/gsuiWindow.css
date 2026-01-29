@@ -185,7 +185,7 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	gsui-windows:not( [ nominimize ] ) &[ data-action="maximize" ] .gsuiIcon[ data-icon="expand" ],
 	gsui-window[ minimized ] &[ data-action="minimize" ],
 	gsui-window[ maximized ] &[ data-action="maximize" ],
-	gsui-window:not( [ minimized ] ):not( [ maximized ] ) &[ data-action="restore" ] {
+	gsui-window:not( [ minimized ], [ maximized ] ) &[ data-action="restore" ] {
 		display: none;
 	}
 }

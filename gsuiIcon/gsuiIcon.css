@@ -29,7 +29,7 @@
 	opacity: 1;
 }
 .gsuiIcon:not( [ data-spin="on" ] )[ data-icon="" ],
-.gsuiIcon:not( [ data-spin="on" ] ):not( [ data-icon ] ) {
+.gsuiIcon:not( [ data-spin="on" ], [ data-icon ] ) {
 	display: none;
 }
 

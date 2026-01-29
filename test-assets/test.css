@@ -114,8 +114,8 @@ body {
 	transition: var( --test-skin-dur );
 	transition-property: background-color, box-shadow;
 
-	&:not( [ data-min-auto ] ):not( [ data-min-x-auto ] ) { min-width: fit-content }
-	&:not( [ data-min-auto ] ):not( [ data-min-y-auto ] ) { min-height: fit-content }
+	&:not( [ data-min-auto ], [ data-min-x-auto ] ) { min-width: fit-content }
+	&:not( [ data-min-auto ], [ data-min-y-auto ] ) { min-height: fit-content }
 	&::after {
 		content: "";
 		position: absolute;

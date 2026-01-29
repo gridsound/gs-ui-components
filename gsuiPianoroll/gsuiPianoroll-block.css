@@ -20,7 +20,7 @@
 	}
 
 	/* ...................................................................... */
-	&:not( :hover ):not( .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+	&:not( :hover, .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
 		background-color: transparent;
 	}
 	&:where( :hover, .gsui-hover ) {
