@@ -49,15 +49,15 @@ gsui-keys {
 }
 
 /* .......................................................................... */
-.gsuiKeys-row[ data-key="0" ],
-.gsuiKeys-row[ data-key="5" ],
-gsui-keys[ orient="vertical" ] .gsuiKeys-key[ data-key="0" ]:not( :last-child ),
-gsui-keys[ orient="vertical" ] .gsuiKeys-key[ data-key="5" ] {
-	border-bottom: 1px solid #0003;
-}
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="0" ]:not( :last-child ),
-gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
-	border-left: 1px solid #0003;
+*[ data-key="0" ]:not( :last-child ),
+*[ data-key="5" ] {
+	.gsuiKeys-row&,
+	gsui-keys[ orient="vertical" ] .gsuiKeys-key& {
+		border-bottom: 1px solid #0003;
+	}
+	gsui-keys[ orient="horizontal" ] .gsuiKeys-key& {
+		border-left: 1px solid #0003;
+	}
 }
 
 /* .......................................................................... */
