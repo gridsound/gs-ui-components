@@ -74,11 +74,25 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 		inset: auto 0;
 		top: calc( var( --gsuiKeys-key-id ) * 1em );
 		height: 1.5em;
+
+		&:where( [ data-key="2" ], [ data-key="7" ], [ data-key="9" ] ) {
+			height: 2em;
+		}
+		&:where( [ data-key="0" ], [ data-key="2" ], [ data-key="5" ], [ data-key="7" ], [ data-key="9" ] ) {
+			margin-top: -.5em;
+		}
 	}
 	gsui-keys[ orient="horizontal" ] & {
 		inset: 0 auto;
 		right: calc( var( --gsuiKeys-key-id ) * 1em );
 		width: 1.5em;
+
+		&:where( [ data-key="2" ], [ data-key="7" ], [ data-key="9" ] ) {
+			width: 2em;
+		}
+		&:where( [ data-key="0" ], [ data-key="2" ], [ data-key="5" ], [ data-key="7" ], [ data-key="9" ] ) {
+			margin-right: -.5em;
+		}
 	}
 	&[ data-col="b" ] {
 		position: absolute;
@@ -107,16 +121,13 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 			counter-increment: octave -1;
 			content: var( --gsuiKeys-keyNotation ) "·" counter( octave );
 			position: absolute;
-			right: .25em;
 			bottom: 2px;
 			color: #000;
 			font-size: calc( 6px + .25em );
 			font-family: monospace;
 		}
-		gsui-keys[ orient="horizontal" ] &::after {
-			left: .35em;
-			right: auto;
-		}
+		gsui-keys[ orient="vertical" ] &::after { right: .25em }
+		gsui-keys[ orient="horizontal" ] &::after { left: .35em }
 	}
 	&[ data-root ] {
 		&[ data-key="0" ]::after {
@@ -136,30 +147,5 @@ gsui-keys[ orient="horizontal" ] .gsuiKeys-key[ data-key="5" ] {
 			var( --gsuiKeys-activeKey-gradA ),
 			var( --gsuiKeys-activeKey-gradB )
 		);
-	}
-	gsui-keys[ orient="vertical" ] &[ data-key="9" ],
-	gsui-keys[ orient="vertical" ] &[ data-key="7" ],
-	gsui-keys[ orient="vertical" ] &[ data-key="2" ] {
-		height: 2em;
-	}
-	gsui-keys[ orient="horizontal" ] &[ data-key="9" ],
-	gsui-keys[ orient="horizontal" ] &[ data-key="7" ],
-	gsui-keys[ orient="horizontal" ] &[ data-key="2" ] {
-		width: 2em;
-	}
-	&[ data-key="9" ],
-	&[ data-key="7" ],
-	&[ data-key="5" ],
-	&[ data-key="2" ],
-	&[ data-key="0" ] {
-		margin-top: -.5em;
-	}
-	gsui-keys[ orient="horizontal" ] &[ data-key="9" ],
-	gsui-keys[ orient="horizontal" ] &[ data-key="7" ],
-	gsui-keys[ orient="horizontal" ] &[ data-key="5" ],
-	gsui-keys[ orient="horizontal" ] &[ data-key="2" ],
-	gsui-keys[ orient="horizontal" ] &[ data-key="0" ] {
-		margin-top: 0;
-		margin-right: -.5em;
 	}
 }
