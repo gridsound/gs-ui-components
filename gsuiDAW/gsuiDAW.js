@@ -67,6 +67,7 @@ class gsuiDAW extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		gsuiTexture.$set( this.$elements.$windows.$get( 0 ), "diag" );
 		this.$elements.$head.$on( "click", this.#onclickHead.bind( this ) );
 		this.#popups.$export.$btnRender.onclick = this.#onclickRenderBtn.bind( this );
 		this.#popups.$export.$btnUpload.onclick = this.#onclickUploadBtn.bind( this );

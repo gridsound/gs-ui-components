@@ -29,6 +29,7 @@ class gsuiWavetable extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		gsuiTexture.$set( this.$elements.$waves.$get( 0 ), "damier" );
 		this.$elements.$head.$on( "click", e => {
 			switch ( e.target.dataset.action ) {
 				case "back":

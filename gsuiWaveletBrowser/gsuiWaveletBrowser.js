@@ -16,6 +16,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
+		gsuiTexture.$set( this.$elements.$wave.$get( 0 ), "dots" );
 		this.$elements.$list.$on( {
 			click: this.#onclick.bind( this ),
 			scroll: this.#onscroll.bind( this ),
