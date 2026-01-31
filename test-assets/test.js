@@ -27,6 +27,7 @@ const TESTcmpList = Object.freeze( [
 	"gsuiFxReverb",
 	"gsuiFxWaveShaper",
 	"gsuiGlitchText",
+	"gsuiIcon",
 	"gsuiJoystick",
 	"gsuiKeys",
 	"gsuiLFO",

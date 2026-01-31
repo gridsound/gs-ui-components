@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../gsui-form.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiIcon.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 600px;
+	--test-content-h: 220px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST" data-min-x-auto>
+	<gs-label>brands</gs-label>
+	<div>
+		<i data-icon="br-github"></i>
+		<i data-icon="br-codepen"></i>
+		<i data-icon="br-discord"></i>
+		<i data-icon="br-firefox"></i>
+		<i data-icon="br-patreon"></i>
+		<i data-icon="br-twitter"></i>
+		<i data-icon="br-bluesky"></i>
+		<i data-icon="br-youtube"></i>
+		<i data-icon="br-facebook"></i>
+		<i data-icon="br-wordpress"></i>
+	</div>
+	<gs-label>custom</gs-label>
+	<div>
+		<i data-icon="cu-waveform"></i>
+		<i data-icon="cu-drums"></i>
+		<i data-icon="cu-search-user"></i>
+		<i data-icon="cu-search-music"></i>
+		<i data-icon="cu-heart-stroke"></i>
+	</div>
+	<gs-label>arrows</gs-label>
+	<div>
+		<i data-icon="arrow-down"></i>
+		<i data-icon="arrow-left"></i>
+		<i data-icon="arrow-right"></i>
+		<i data-icon="arrow-up"></i>
+		<i data-icon="arrows"></i>
+		<i data-icon="arrows-h"></i>
+		<i data-icon="arrows-h2"></i>
+		<i data-icon="arrows-v"></i>
+		<i data-icon="undo"></i>
+		<i data-icon="redo"></i>
+		<i data-icon="history"></i>
+		<i data-icon="login"></i>
+		<i data-icon="logout"></i>
+		<i data-icon="sort"></i>
+		<i data-icon="normalize-y"></i>
+		<i data-icon="mirror-x"></i>
+		<i data-icon="mirror-y"></i>
+		<i data-icon="loop"></i>
+		<i data-icon="sync"></i>
+	</div>
+	<gs-label>carets</gs-label>
+	<div>
+		<i data-icon="caret-down"></i>
+		<i data-icon="caret-left"></i>
+		<i data-icon="caret-right"></i>
+		<i data-icon="caret-up"></i>
+	</div>
+	<gs-label>users</gs-label>
+	<div>
+		<i data-icon="users"></i>
+		<i data-icon="musician"></i>
+		<i data-icon="follow"></i>
+		<i data-icon="followed"></i>
+		<i data-icon="unfollow"></i>
+		<i data-icon="profile"></i>
+	</div>
+	<gs-label>window</gs-label>
+	<div>
+		<i data-icon="maximize"></i>
+		<i data-icon="restore"></i>
+		<i data-icon="minimize"></i>
+		<i data-icon="compress"></i>
+		<i data-icon="expand"></i>
+	</div>
+	<gs-label>volume</gs-label>
+	<div>
+		<i data-icon="unmute"></i>
+		<i data-icon="mute"></i>
+	</div>
+	<gs-label>instruments</gs-label>
+	<div>
+		<i data-icon="piano"></i>
+		<i data-icon="sax-hot"></i>
+		<i data-icon="drum"></i>
+		<i data-icon="keys"></i>
+		<i data-icon="keyboard"></i>
+	</div>
+	<gs-label>files</gs-label>
+	<div>
+		<i data-icon="file-buffer"></i>
+		<i data-icon="file-corrupt"></i>
+		<i data-icon="file-export"></i>
+		<i data-icon="file-music"></i>
+		<i data-icon="folder-open"></i>
+		<i data-icon="folder-tree"></i>
+	</div>
+	<gs-label>shapes</gs-label>
+	<div>
+		<i data-icon="circle"></i>
+		<i data-icon="triangle"></i>
+		<i data-icon="square"></i>
+		<i data-icon="diamond"></i>
+		<i data-icon="hexagon"></i>
+		<i data-icon="octagon"></i>
+	</div>
+	<gs-label>player</gs-label>
+	<div>
+		<i data-icon="play"></i>
+		<i data-icon="pause"></i>
+		<i data-icon="eject"></i>
+	</div>
+	<gs-label>rest</gs-label>
+	<div>
+		<i data-icon="about"></i>
+		<i data-icon="add-effect"></i>
+		<i data-icon="adjust"></i>
+		<i data-icon="amp-guitar"></i>
+		<i data-icon="at"></i>
+		<i data-icon="buf-drum"></i>
+		<i data-icon="buf-fx"></i>
+		<i data-icon="buf-loop"></i>
+		<i data-icon="buf-undefined"></i>
+		<i data-icon="buf-vocal"></i>
+		<i data-icon="bug"></i>
+		<i data-icon="changelog"></i>
+		<i data-icon="channels"></i>
+		<i data-icon="check"></i>
+		<i data-icon="chevron-double-right"></i>
+		<i data-icon="clock"></i>
+		<i data-icon="clone"></i>
+		<i data-icon="close"></i>
+		<i data-icon="cloud"></i>
+		<i data-icon="cookie"></i>
+		<i data-icon="crop"></i>
+		<i data-icon="cut"></i>
+		<i data-icon="drumcut"></i>
+		<i data-icon="drumprops"></i>
+		<i data-icon="drums"></i>
+		<i data-icon="effects"></i>
+		<i data-icon="ellipsis-v"></i>
+		<i data-icon="erase"></i>
+		<i data-icon="export"></i>
+		<i data-icon="eye"></i>
+		<i data-icon="fork"></i>
+		<i data-icon="glissando"></i>
+		<i data-icon="grip-h"></i>
+		<i data-icon="grip-v"></i>
+		<i data-icon="hand-pointer"></i>
+		<i data-icon="heart"></i>
+		<i data-icon="heart-slash"></i>
+		<i data-icon="help"></i>
+		<i data-icon="info"></i>
+		<i data-icon="link"></i>
+		<i data-icon="list"></i>
+		<i data-icon="local"></i>
+		<i data-icon="magnet"></i>
+		<i data-icon="minus"></i>
+		<i data-icon="plus"></i>
+		<i data-icon="mixer"></i>
+		<i data-icon="mouse"></i>
+		<i data-icon="music"></i>
+		<i data-icon="musics"></i>
+		<i data-icon="osc-sine"></i>
+		<i data-icon="oscillator"></i>
+		<i data-icon="pen"></i>
+		<i data-icon="private"></i>
+		<i data-icon="public"></i>
+		<i data-icon="radio-btn"></i>
+		<i data-icon="radio-btn-checked"></i>
+		<i data-icon="redirect"></i>
+		<i data-icon="render"></i>
+		<i data-icon="reverse"></i>
+		<i data-icon="save"></i>
+		<i data-icon="search"></i>
+		<i data-icon="settings"></i>
+		<i data-icon="slices"></i>
+		<i data-icon="smiley"></i>
+		<i data-icon="speed"></i>
+		<i data-icon="stop"></i>
+		<i data-icon="tint"></i>
+		<i data-icon="trash"></i>
+		<i data-icon="trash-restore"></i>
+		<i data-icon="unlink"></i>
+		<i data-icon="upload"></i>
+		<i data-icon="warning"></i>
+	</div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-jquery.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+$( "i" )
+	.$addClass( "gsuiIcon" )
+	.$setAttr( "title", el => el.dataset.icon );
+</script>
+</body>
+</html>
