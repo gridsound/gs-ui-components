@@ -24,8 +24,7 @@
 	opacity: .6;
 	pointer-events: none;
 }
-.gsuiIcon[ data-icon|="br" ]::after,
-.gsuiIcon[ data-icon|="cu" ]::after {
+.gsuiIcon[ data-icon|="br" ]::after {
 	opacity: 1;
 }
 .gsuiIcon:not( [ data-spin="on" ] )[ data-icon="" ],
@@ -57,11 +56,16 @@
 }
 
 /* .......................................................................... */
-.gsuiIcon[ data-icon="cu-drums" ]::after { content: "\e001"; }
-.gsuiIcon[ data-icon="cu-waveform" ]::after { content: "\e000"; }
-.gsuiIcon[ data-icon="cu-search-user" ]::after { content: "\e003"; }
-.gsuiIcon[ data-icon="cu-search-music" ]::after { content: "\e004"; }
-.gsuiIcon[ data-icon="cu-heart-stroke" ]::after { content: "\e005"; scale: 1.27; }
+.gsuiIcon[ data-icon="cu-drums" ]::before { content: "\e007"; }
+.gsuiIcon[ data-icon="cu-drums" ]::after { content: "\e007\e007"; }
+.gsuiIcon[ data-icon="cu-waveform" ]::before { content: "\e008"; }
+.gsuiIcon[ data-icon="cu-waveform" ]::after { content: "\e008\e008"; }
+.gsuiIcon[ data-icon="cu-search-user" ]::before { content: "\e002"; }
+.gsuiIcon[ data-icon="cu-search-user" ]::after { content: "\e002\e002"; }
+.gsuiIcon[ data-icon="cu-search-music" ]::before { content: "\e009"; }
+.gsuiIcon[ data-icon="cu-search-music" ]::after { content: "\e009\e009"; }
+.gsuiIcon[ data-icon="cu-heart-stroke" ]::before { content: "\e00a"; scale: 1.27; }
+.gsuiIcon[ data-icon="cu-heart-stroke" ]::after { content: "\e00a\e00a"; scale: 1.27; opacity: .2; }
 
 /* .......................................................................... */
 .gsuiIcon[ data-icon="br-github" ]::after { content: "\f09b"; }
