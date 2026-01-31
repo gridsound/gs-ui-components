@@ -12,7 +12,6 @@ class gsuiComUserLink extends gsui0ne {
 				GSUcreateSpan(),
 			),
 			$elements: {
-				$a: "a",
 				$name: "span",
 				$avatar: "div",
 				$username: "b",
@@ -34,7 +33,7 @@ class gsuiComUserLink extends gsui0ne {
 	}
 
 	#updateUsername( n ) {
-		this.$elements.$a.$setAttr( "href", `#/u/${ n }` );
+		this.$element.$setAttr( "href", `#/u/${ n }` );
 		this.$elements.$username.$text( n );
 	}
 	#updateName() {
