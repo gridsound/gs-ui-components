@@ -24,7 +24,11 @@
 	&[ data-icon|="br" ] {
 		font-family: "FontAwesomeBrands";
 
+		&::before {
+			display: none;
+		}
 		&::after {
+			content: var( --i );
 			opacity: 1;
 		}
 	}
@@ -49,16 +53,16 @@
 	}
 
 	/* ...................................................................... */
-	&[ data-icon="br-github"    ]::after { content: "\f09b" }
-	&[ data-icon="br-codepen"   ]::after { content: "\f1cb" }
-	&[ data-icon="br-discord"   ]::after { content: "\f392" }
-	&[ data-icon="br-firefox"   ]::after { content: "\e007" }
-	&[ data-icon="br-patreon"   ]::after { content: "\f3d9" }
-	&[ data-icon="br-twitter"   ]::after { content: "\f099" }
-	&[ data-icon="br-bluesky"   ]::after { content: "\f15b" }
-	&[ data-icon="br-youtube"   ]::after { content: "\f167" }
-	&[ data-icon="br-facebook"  ]::after { content: "\f09a" }
-	&[ data-icon="br-wordpress" ]::after { content: "\f411" }
+	&[ data-icon="br-github"    ] { --i: "\f09b" }
+	&[ data-icon="br-codepen"   ] { --i: "\f1cb" }
+	&[ data-icon="br-discord"   ] { --i: "\f392" }
+	&[ data-icon="br-firefox"   ] { --i: "\e007" }
+	&[ data-icon="br-patreon"   ] { --i: "\f3d9" }
+	&[ data-icon="br-twitter"   ] { --i: "\f099" }
+	&[ data-icon="br-bluesky"   ] { --i: "\f15b" }
+	&[ data-icon="br-youtube"   ] { --i: "\f167" }
+	&[ data-icon="br-facebook"  ] { --i: "\f09a" }
+	&[ data-icon="br-wordpress" ] { --i: "\f411" }
 
 	/* ...................................................................... */
 	&[ data-icon="cu-drums"        ] { --i: "\e007" }
