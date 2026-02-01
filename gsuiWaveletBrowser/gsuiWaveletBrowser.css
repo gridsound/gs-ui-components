@@ -56,10 +56,6 @@ gsui-wavelet-browser {
 			font-family: var( --gsui-font-monospace );
 			cursor: pointer;
 
-			&::before {
-				content: attr( data-id );
-				pointer-events: none;
-			}
 			&[ data-selected ] {
 				color: #5a555f;
 				font-weight: bold;

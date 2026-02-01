@@ -43,7 +43,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	$setList( list ) {
 		this.#waves.length = 0;
 		GSUforEach( list, w => this.#waves.push( [ w[ 0 ], [ ...w[ 1 ] ] ] ) );
-		this.$elements.$list.$empty().$append( ...this.#waves.map( w => GSUcreateDiv( { "data-id": gsuiWaveletBrowser.#formatName( w[ 0 ] ) } ) ) );
+		this.$elements.$list.$empty().$append( ...this.#waves.map( w => GSUcreateDiv( null, gsuiWaveletBrowser.#formatName( w[ 0 ] ) ) ) );
 		this.#onscroll();
 	}
 	static #formatName( s ) {
