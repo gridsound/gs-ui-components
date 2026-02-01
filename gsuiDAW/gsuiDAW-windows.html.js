@@ -36,6 +36,6 @@ GSUsetTemplate( "gsui-daw-window-playPause", () => [
 			GSUcreateButton( { "data-action": "play", icon: "play" } ),
 			GSUcreateButton( { "data-action": "stop", icon: "stop" } ),
 		),
-		GSUcreateButton( { "data-action": "autoscroll", icon: "chevron-double-right", title: "Auto scrolling" } ),
+		GSUcreateButton( { "data-action": "autoscroll", icon: "chevrons-right", title: "Auto scrolling" } ),
 	),
 ] );

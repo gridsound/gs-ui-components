@@ -96,11 +96,11 @@
 	&[ data-icon="history"     ] { --i: "\f1da" }
 
 	/* ...................................................................... */
-	&[ data-icon="caret-up"    ] { --i: "\f0d8"; --oa: 1; }
-	&[ data-icon="caret-down"  ] { --i: "\f0d7"; --oa: 1; }
-	&[ data-icon="caret-left"  ] { --i: "\f0d9"; --oa: 1; }
-	&[ data-icon="caret-right" ] { --i: "\f0da"; --oa: 1; }
-	&[ data-icon="chevron-double-right" ] { --i: "\f324" }
+	&[ data-icon="caret-up"       ] { --i: "\f0d8"; --oa: 1; }
+	&[ data-icon="caret-down"     ] { --i: "\f0d7"; --oa: 1; }
+	&[ data-icon="caret-left"     ] { --i: "\f0d9"; --oa: 1; }
+	&[ data-icon="caret-right"    ] { --i: "\f0da"; --oa: 1; }
+	&[ data-icon="chevrons-right" ] { --i: "\f324" }
 
 	/* ...................................................................... */
 	&[ data-icon="mirror-x"    ] { --i: "\e664" }
