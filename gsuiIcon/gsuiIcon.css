@@ -225,7 +225,6 @@
 	&[ data-icon="info"      ] { --i: "\f2fd"; --oa: .3; }
 	&[ data-icon="redirect"  ] { --i: "\f5eb"; --oa: .4; }
 
-	&[ data-icon="drums"      ] { --i: "\f2a1" }
 	&[ data-icon="mixer"      ] { --i: "\f3f1" }
 	&[ data-icon="channels"   ] { --i: "\f828"; --r: -90deg; }
 	&[ data-icon="music"      ] { --i: "\f001" }
