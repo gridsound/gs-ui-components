@@ -143,21 +143,21 @@
 	&[ data-icon="ellipsis-v" ] { --i: "\f142"; --oa: 1; }
 
 	/* ...................................................................... */
-	&[ data-icon="link"   ] { --i: "\f0c1" }
-	&[ data-icon="unlink" ] { --i: "\f127" }
-	&[ data-icon="cut"    ] { --i: "\f0c4" }
-	&[ data-icon="clone"  ] { --i: "\f24d" }
-	&[ data-icon="crop"   ] { --i: "\f125" }
-	&[ data-icon="erase"  ] { --i: "\f12d" }
-	&[ data-icon="search" ] { --i: "\f002" }
-	&[ data-icon="save"   ] { --i: "\f0c7"; --ob: .4; --oa: 1; }
-	&[ data-icon="render" ] { --i: "\f0e7"; --oa: 1; }
-	&[ data-icon="upload" ] { --i: "\f382"; --ob: 0; --oa: 1; }
-	&[ data-icon="export" ] { --i: "\f019" }
-	&[ data-icon="fork"   ] { --i: "\f126" }
-	&[ data-icon="sort"   ] { --i: "\f0dc" }
-	&[ data-icon="trash"  ] { --i: "\f1f8" }
-	&[ data-icon="trash-restore" ] { --i: "\f895" }
+	&[ data-icon="link"    ] { --i: "\f0c1" }
+	&[ data-icon="unlink"  ] { --i: "\f127" }
+	&[ data-icon="cut"     ] { --i: "\f0c4" }
+	&[ data-icon="clone"   ] { --i: "\f24d" }
+	&[ data-icon="crop"    ] { --i: "\f125" }
+	&[ data-icon="erase"   ] { --i: "\f12d" }
+	&[ data-icon="search"  ] { --i: "\f002" }
+	&[ data-icon="save"    ] { --i: "\f0c7"; --ob: .4; --oa: 1; }
+	&[ data-icon="render"  ] { --i: "\f0e7"; --oa: 1; }
+	&[ data-icon="upload"  ] { --i: "\f382"; --ob: 0; --oa: 1; }
+	&[ data-icon="export"  ] { --i: "\f019" }
+	&[ data-icon="fork"    ] { --i: "\f126" }
+	&[ data-icon="sort"    ] { --i: "\f0dc" }
+	&[ data-icon="trash"   ] { --i: "\f1f8" }
+	&[ data-icon="untrash" ] { --i: "\f895" }
 
 	/* ...................................................................... */
 	&[ data-icon="login"    ] { --i: "\f090" }

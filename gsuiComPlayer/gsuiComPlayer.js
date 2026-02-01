@@ -178,12 +178,12 @@ class gsuiComPlayer extends gsui0ne {
 	#updateActionMenu( actionsStr ) {
 		if ( !this.#actionMenu ) {
 			this.#actions = [
-				{ hidden: true, id: "open",    icon: "heart",         name: "Make it open-source", desc: "The world will be able to listen to your music and will have access to the source and be able to fork/copy it." },
-				{ hidden: true, id: "visible", icon: "public",        name: "Make it public", desc: "The world will be able to listen to your music, without the source (only the rendered file)." },
-				{ hidden: true, id: "private", icon: "private",       name: "Make it private", desc: "Only you will see the composition, no one will be able to listen it online." },
-				{ hidden: true, id: "fork",    icon: "fork",          name: "Fork it", desc: "Copy the composition to your profile to apply the changes you want." },
-				{ hidden: true, id: "delete",  icon: "trash",         name: "Delete it", desc: "The composition will stay in your private bin for 30 days (only premium users have access to the bin)." },
-				{ hidden: true, id: "restore", icon: "trash-restore", name: "Restore it", desc: "Get the composition out of the bin." },
+				{ hidden: true, id: "open",    icon: "heart",   name: "Make it open-source", desc: "The world will be able to listen to your music and will have access to the source and be able to fork/copy it." },
+				{ hidden: true, id: "visible", icon: "public",  name: "Make it public", desc: "The world will be able to listen to your music, without the source (only the rendered file)." },
+				{ hidden: true, id: "private", icon: "private", name: "Make it private", desc: "Only you will see the composition, no one will be able to listen it online." },
+				{ hidden: true, id: "fork",    icon: "fork",    name: "Fork it", desc: "Copy the composition to your profile to apply the changes you want." },
+				{ hidden: true, id: "delete",  icon: "trash",   name: "Delete it", desc: "The composition will stay in your private bin for 30 days (only premium users have access to the bin)." },
+				{ hidden: true, id: "restore", icon: "untrash", name: "Restore it", desc: "Get the composition out of the bin." },
 			];
 			this.#actionMenu = new gsuiActionMenu();
 			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn.$get( 0 ) );
