@@ -28,14 +28,6 @@
 			opacity: 1;
 		}
 	}
-	&::before {
-		position: absolute;
-		pointer-events: none;
-	}
-	&::after {
-		opacity: .6;
-		pointer-events: none;
-	}
 
 	/* ...................................................................... */
 	&.gsuiIcon.gsuiIcon[ data-spin="on" ] {
@@ -55,15 +47,8 @@
 			scale: 1;
 		}
 	}
-}
 
-@keyframes gsuiIcon-spin {
-	from { rotate: 0deg }
-	to { rotate: 360deg }
-}
-
-/* .......................................................................... */
-.gsuiIcon {
+	/* ...................................................................... */
 	&[ data-icon="br-github"    ]::after { content: "\f09b" }
 	&[ data-icon="br-codepen"   ]::after { content: "\f1cb" }
 	&[ data-icon="br-discord"   ]::after { content: "\f392" }
@@ -88,9 +73,9 @@
 	}
 
 	/* ...................................................................... */
-	&[ data-icon="plus"  ] { --i: "\f067"; --oa: 1 }
-	&[ data-icon="minus" ] { --i: "\f068"; --oa: 1 }
-	&[ data-icon="close" ] { --i: "\f00d"; --oa: 1 }
+	&[ data-icon="plus"  ] { --i: "\f067"; --oa: 1; }
+	&[ data-icon="minus" ] { --i: "\f068"; --oa: 1; }
+	&[ data-icon="close" ] { --i: "\f00d"; --oa: 1; }
 
 	/* ...................................................................... */
 	&[ data-icon="arrow-up"    ] { --i: "\f062" }
@@ -107,16 +92,16 @@
 	&[ data-icon="history"     ] { --i: "\f1da" }
 
 	/* ...................................................................... */
-	&[ data-icon="caret-up"    ] { --i: "\f0d8"; --oa: 1 }
-	&[ data-icon="caret-down"  ] { --i: "\f0d7"; --oa: 1 }
-	&[ data-icon="caret-left"  ] { --i: "\f0d9"; --oa: 1 }
-	&[ data-icon="caret-right" ] { --i: "\f0da"; --oa: 1 }
+	&[ data-icon="caret-up"    ] { --i: "\f0d8"; --oa: 1; }
+	&[ data-icon="caret-down"  ] { --i: "\f0d7"; --oa: 1; }
+	&[ data-icon="caret-left"  ] { --i: "\f0d9"; --oa: 1; }
+	&[ data-icon="caret-right" ] { --i: "\f0da"; --oa: 1; }
 	&[ data-icon="chevron-double-right" ] { --i: "\f324" }
 
 	/* ...................................................................... */
 	&[ data-icon="mirror-x"    ] { --i: "\e664" }
 	&[ data-icon="mirror-y"    ] { --i: "\e665" }
-	&[ data-icon="normalize-y" ] { --i: "\e4ba"; --r: 90deg }
+	&[ data-icon="normalize-y" ] { --i: "\e4ba"; --r: 90deg; }
 
 	/* ...................................................................... */
 	&[ data-icon="play"    ] { --i: "\f04b"; --oa: 1; }
@@ -127,17 +112,17 @@
 	&[ data-icon="loop"    ] { --i: "\f364" }
 	&[ data-icon="eject"   ] { --i: "\f052" }
 	&[ data-icon="reverse" ] { --i: "\f3e5" }
-	&[ data-icon="speed"   ] { --i: "\f625"; --ob: 0; --oa: 1 }
-	&[ data-icon="clock"   ] { --i: "\f017"; --oa: .3 }
+	&[ data-icon="speed"   ] { --i: "\f625"; --ob: 0; --oa: 1; }
+	&[ data-icon="clock"   ] { --i: "\f017"; --oa: .3; }
 
 	/* ...................................................................... */
-	&[ data-icon="circle"      ] { --i: "\f111"; --oa: 1 }
-	&[ data-icon="square"      ] { --i: "\f0c8"; --oa: 1 }
-	&[ data-icon="triangle"    ] { --i: "\f2ec"; --oa: 1 }
-	&[ data-icon="diamond"     ] { --i: "\f219"; --oa: 1 }
-	&[ data-icon="hexagon"     ] { --i: "\f312"; --oa: 1 }
-	&[ data-icon="octagon"     ] { --i: "\f306"; --oa: 1 }
-	&[ data-icon="heart"       ] { --i: "\f004"; --oa: 1 }
+	&[ data-icon="circle"      ] { --i: "\f111"; --oa: 1; }
+	&[ data-icon="square"      ] { --i: "\f0c8"; --oa: 1; }
+	&[ data-icon="triangle"    ] { --i: "\f2ec"; --oa: 1; }
+	&[ data-icon="diamond"     ] { --i: "\f219"; --oa: 1; }
+	&[ data-icon="hexagon"     ] { --i: "\f312"; --oa: 1; }
+	&[ data-icon="octagon"     ] { --i: "\f306"; --oa: 1; }
+	&[ data-icon="heart"       ] { --i: "\f004"; --oa: 1; }
 	&[ data-icon="heart-slash" ] { --i: "\e78e" }
 
 	/* ...................................................................... */
@@ -151,7 +136,7 @@
 	/* ...................................................................... */
 	&[ data-icon="grip-h"     ] { --i: "\f58d" }
 	&[ data-icon="grip-v"     ] { --i: "\f58e" }
-	&[ data-icon="ellipsis-v" ] { --i: "\f142"; --oa: 1 }
+	&[ data-icon="ellipsis-v" ] { --i: "\f142"; --oa: 1; }
 
 	/* ...................................................................... */
 	&[ data-icon="link"   ] { --i: "\f0c1" }
@@ -161,7 +146,7 @@
 	&[ data-icon="crop"   ] { --i: "\f125" }
 	&[ data-icon="erase"  ] { --i: "\f12d" }
 	&[ data-icon="search" ] { --i: "\f002" }
-	&[ data-icon="save"   ] { --i: "\f0c7"; --ob: .4; --oa: 1 }
+	&[ data-icon="save"   ] { --i: "\f0c7"; --ob: .4; --oa: 1; }
 	&[ data-icon="render" ] { --i: "\f0e7"; --oa: 1; }
 	&[ data-icon="upload" ] { --i: "\f382"; --ob: 0; --oa: 1; }
 	&[ data-icon="export" ] { --i: "\f019" }
@@ -192,28 +177,28 @@
 	&[ data-icon="expand"   ] { --i: "\f065" }
 	&[ data-icon="compress" ] { --i: "\f326" }
 	&[ data-icon="restore"  ] { --i: "\f2d2" }
-	&[ data-icon="minimize" ] { --i: "\f2d1"; --oa: 1 }
-	&[ data-icon="maximize" ] { --i: "\f2d0"; --oa: 0 }
+	&[ data-icon="minimize" ] { --i: "\f2d1"; --oa: 1; }
+	&[ data-icon="maximize" ] { --i: "\f2d0"; --oa: 0; }
 
 	/* ...................................................................... */
 	&[ data-icon="buf-fx"        ] { --i: "\e047" }
 	&[ data-icon="buf-drum"      ] { --i: "\f569" }
 	&[ data-icon="buf-loop"      ] { --i: "\f534" }
 	&[ data-icon="buf-vocal"     ] { --i: "\f8cb" }
-	&[ data-icon="buf-undefined" ] { --i: "\f2fd"; --oa: .2 }
+	&[ data-icon="buf-undefined" ] { --i: "\f2fd"; --oa: .2; }
 
 	/* ...................................................................... */
 	&[ data-icon="mouse"        ] { --i: "\f245"; }
 	&[ data-icon="hand-pointer" ] { --i: "\f25a"; --ob: 0; --oa: 1; }
 
 	/* ...................................................................... */
-	&[ data-icon="local"   ] { --i: "\f8e6"; --oa: .2 }
-	&[ data-icon="cloud"   ] { --i: "\f8ae"; --ob: .2; --oa: 1 }
+	&[ data-icon="local"   ] { --i: "\f8e6"; --oa: .2; }
+	&[ data-icon="cloud"   ] { --i: "\f8ae"; --ob: .2; --oa: 1; }
 	&[ data-icon="public"  ] { --i: "\f7a2" }
 	&[ data-icon="private" ] { --i: "\f30d" }
 
 	/* ...................................................................... */
-	&[ data-icon="radio-btn"         ] { --i: "\f111"; --ob: 0 }
+	&[ data-icon="radio-btn"         ] { --i: "\f111"; --ob: 0; }
 	&[ data-icon="radio-btn-checked" ] { --i: "\f192" }
 
 	/* ...................................................................... */
@@ -229,36 +214,44 @@
 	&[ data-icon="pen"       ] { --i: "\f304" }
 	&[ data-icon="eye"       ] { --i: "\f06e" }
 	&[ data-icon="list"      ] { --i: "\f0ca" }
-	&[ data-icon="smiley"    ] { --i: "\f581"; --ob: 0; --oa: 1 }
+	&[ data-icon="smiley"    ] { --i: "\f581"; --ob: 0; --oa: 1; }
 	&[ data-icon="at"        ] { --i: "\40";   --oa: 1; }
 	&[ data-icon="check"     ] { --i: "\f00c"; --oa: 1; }
 	&[ data-icon="warning"   ] { --i: "\f071" }
-	&[ data-icon="info"      ] { --i: "\f2fd"; --oa: .3 }
-	&[ data-icon="redirect"  ] { --i: "\f5eb"; --oa: .4 }
+	&[ data-icon="info"      ] { --i: "\f2fd"; --oa: .3; }
+	&[ data-icon="redirect"  ] { --i: "\f5eb"; --oa: .4; }
 
 	&[ data-icon="drums"      ] { --i: "\f2a1" }
 	&[ data-icon="mixer"      ] { --i: "\f3f1" }
-	&[ data-icon="channels"   ] { --i: "\f828"; --r: -90deg }
+	&[ data-icon="channels"   ] { --i: "\f828"; --r: -90deg; }
 	&[ data-icon="music"      ] { --i: "\f001" }
 	&[ data-icon="musics"     ] { --i: "\f8c9" }
 	&[ data-icon="effects"    ] { --i: "\f5fd" }
 	&[ data-icon="add-effect" ] { --i: "\f5ff" }
-	&[ data-icon="oscillator" ] { --i: "\f89a"; --oa: 1 }
-	&[ data-icon="osc-sine"   ] { --i: "\f899"; --oa: 1 }
+	&[ data-icon="oscillator" ] { --i: "\f89a"; --oa: 1; }
+	&[ data-icon="osc-sine"   ] { --i: "\f899"; --oa: 1; }
 	&[ data-icon="glissando"  ] { --i: "\f667" }
-	&[ data-icon="slices"     ] { --i: "\f160"; --r: -90deg }
-	&[ data-icon="drumcut"    ] { --i: "\f052"; --r:  90deg }
-	&[ data-icon="drumprops"  ] { --i: "\f884"; --r: -90deg }
+	&[ data-icon="slices"     ] { --i: "\f160"; --r: -90deg; }
+	&[ data-icon="drumcut"    ] { --i: "\f052"; --r:  90deg; }
+	&[ data-icon="drumprops"  ] { --i: "\f884"; --r: -90deg; }
 
 	/* ...................................................................... */
 	&::before {
+		position: absolute;
 		content: var( --i );
 		opacity: var( --ob, 1 );
 		rotate: var( --r, none );
+		pointer-events: none;
 	}
 	&::after {
-		content: var( --i )var( --i );
+		content: var( --i ) var( --i );
 		opacity: var( --oa, .6 );
 		rotate: var( --r, none );
+		pointer-events: none;
 	}
+}
+
+@keyframes gsuiIcon-spin {
+	from { rotate: 0deg; }
+	to { rotate: 360deg; }
 }
