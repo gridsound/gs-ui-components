@@ -8,7 +8,6 @@ gsui-com-player {
 	background-color: var( --gsui-bg );
 	background-image: linear-gradient( 45deg, #0003, transparent );
 	transition: translate .3s;
-	touch-action: none;
 
 	audio {
 		display: none;
@@ -230,6 +229,7 @@ gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
 	transition: .2s;
 	transition-property: height;
 	background-color: #0003;
+	touch-action: none;
 	-webkit-tap-highlight-color: transparent;
 
 	gsui-com-player[ playing ] & {
