@@ -28,7 +28,7 @@
 			display: none;
 		}
 		&::after {
-			content: var( --i );
+			content: var( --i1 );
 			opacity: 1;
 		}
 	}
@@ -53,202 +53,203 @@
 	}
 
 	/* ...................................................................... */
-	&[ data-icon="br-github"    ] { --i: "\f09b" }
-	&[ data-icon="br-codepen"   ] { --i: "\f1cb" }
-	&[ data-icon="br-discord"   ] { --i: "\f392" }
-	&[ data-icon="br-firefox"   ] { --i: "\e007" }
-	&[ data-icon="br-patreon"   ] { --i: "\f3d9" }
-	&[ data-icon="br-twitter"   ] { --i: "\f099" }
-	&[ data-icon="br-bluesky"   ] { --i: "\f15b" }
-	&[ data-icon="br-youtube"   ] { --i: "\f167" }
-	&[ data-icon="br-facebook"  ] { --i: "\f09a" }
-	&[ data-icon="br-wordpress" ] { --i: "\f411" }
+	&[ data-icon="br-github"    ] { --i1: "\f09b"; }
+	&[ data-icon="br-codepen"   ] { --i1: "\f1cb"; }
+	&[ data-icon="br-discord"   ] { --i1: "\f392"; }
+	&[ data-icon="br-firefox"   ] { --i1: "\e007"; }
+	&[ data-icon="br-patreon"   ] { --i1: "\f3d9"; }
+	&[ data-icon="br-twitter"   ] { --i1: "\f099"; }
+	&[ data-icon="br-bluesky"   ] { --i1: "\f15b"; }
+	&[ data-icon="br-youtube"   ] { --i1: "\f167"; }
+	&[ data-icon="br-facebook"  ] { --i1: "\f09a"; }
+	&[ data-icon="br-wordpress" ] { --i1: "\f411"; }
 
 	/* ...................................................................... */
-	&[ data-icon="cu-drums"        ] { --i: "\e007" }
-	&[ data-icon="cu-waveform"     ] { --i: "\e008" }
-	&[ data-icon="cu-search-user"  ] { --i: "\e002" }
-	&[ data-icon="cu-search-music" ] { --i: "\e009" }
+	&[ data-icon="cu-drums"        ] { --i0: "\e007"; --i1: "\e007\e007"; }
+	&[ data-icon="cu-waveform"     ] { --i0: "\e008"; --i1: "\e008\e008"; }
+	&[ data-icon="cu-search-user"  ] { --i0: "\e002"; --i1: "\e002\e002"; }
+	&[ data-icon="cu-search-music" ] { --i0: "\e009"; --i1: "\e009\e009"; }
 	&[ data-icon="cu-heart-stroke" ] {
-		--i: "\e00a";
-		--oa: .2;
+		--i0: "\e00a";
+		--i1: "\e00a\e00a";
+		--o1: .2;
 		&::before { scale: 1.27 }
 		&::after { scale: 1.27 }
 	}
 
 	/* ...................................................................... */
-	&[ data-icon="plus"  ] { --i: "\f067"; --oa: 1; }
-	&[ data-icon="minus" ] { --i: "\f068"; --oa: 1; }
-	&[ data-icon="close" ] { --i: "\f00d"; --oa: 1; }
+	&[ data-icon="plus"  ] { --i0: "\f067"; --i1: "\f067\f067"; --o1: 1; }
+	&[ data-icon="minus" ] { --i0: "\f068"; --i1: "\f068\f068"; --o1: 1; }
+	&[ data-icon="close" ] { --i0: "\f00d"; --i1: "\f00d\f00d"; --o1: 1; }
 
 	/* ...................................................................... */
-	&[ data-icon="arrow-up"    ] { --i: "\f062" }
-	&[ data-icon="arrow-down"  ] { --i: "\f063" }
-	&[ data-icon="arrow-left"  ] { --i: "\f355" }
-	&[ data-icon="arrow-right" ] { --i: "\f356" }
-	&[ data-icon="arrows"      ] { --i: "\f0b2" }
-	&[ data-icon="arrows-v"    ] { --i: "\f338" }
-	&[ data-icon="arrows-h"    ] { --i: "\f337" }
-	&[ data-icon="arrows-h2"   ] { --i: "\f362" }
-	&[ data-icon="sync"        ] { --i: "\f2f1" }
-	&[ data-icon="undo"        ] { --i: "\f2ea" }
-	&[ data-icon="redo"        ] { --i: "\f2f9" }
-	&[ data-icon="history"     ] { --i: "\f1da" }
+	&[ data-icon="arrow-up"    ] { --i0: "\f062"; --i1: "\f062\f062"; }
+	&[ data-icon="arrow-down"  ] { --i0: "\f063"; --i1: "\f063\f063"; }
+	&[ data-icon="arrow-left"  ] { --i0: "\f355"; --i1: "\f355\f355"; }
+	&[ data-icon="arrow-right" ] { --i0: "\f356"; --i1: "\f356\f356"; }
+	&[ data-icon="arrows"      ] { --i0: "\f0b2"; --i1: "\f0b2\f0b2"; }
+	&[ data-icon="arrows-v"    ] { --i0: "\f338"; --i1: "\f338\f338"; }
+	&[ data-icon="arrows-h"    ] { --i0: "\f337"; --i1: "\f337\f337"; }
+	&[ data-icon="arrows-h2"   ] { --i0: "\f362"; --i1: "\f362\f362"; }
+	&[ data-icon="sync"        ] { --i0: "\f2f1"; --i1: "\f2f1\f2f1"; }
+	&[ data-icon="undo"        ] { --i0: "\f2ea"; --i1: "\f2ea\f2ea"; }
+	&[ data-icon="redo"        ] { --i0: "\f2f9"; --i1: "\f2f9\f2f9"; }
+	&[ data-icon="history"     ] { --i0: "\f1da"; --i1: "\f1da\f1da"; }
 
 	/* ...................................................................... */
-	&[ data-icon="caret-up"       ] { --i: "\f0d8"; --oa: 1; }
-	&[ data-icon="caret-down"     ] { --i: "\f0d7"; --oa: 1; }
-	&[ data-icon="caret-left"     ] { --i: "\f0d9"; --oa: 1; }
-	&[ data-icon="caret-right"    ] { --i: "\f0da"; --oa: 1; }
-	&[ data-icon="chevrons-right" ] { --i: "\f324" }
+	&[ data-icon="caret-up"       ] { --i0: "\f0d8"; --i1: "\f0d8\f0d8"; --o1: 1; }
+	&[ data-icon="caret-down"     ] { --i0: "\f0d7"; --i1: "\f0d7\f0d7"; --o1: 1; }
+	&[ data-icon="caret-left"     ] { --i0: "\f0d9"; --i1: "\f0d9\f0d9"; --o1: 1; }
+	&[ data-icon="caret-right"    ] { --i0: "\f0da"; --i1: "\f0da\f0da"; --o1: 1; }
+	&[ data-icon="chevrons-right" ] { --i0: "\f324"; --i1: "\f324\f324"; }
 
 	/* ...................................................................... */
-	&[ data-icon="mirror-x"    ] { --i: "\e664" }
-	&[ data-icon="mirror-y"    ] { --i: "\e665" }
-	&[ data-icon="normalize-y" ] { --i: "\e4ba"; --r: 90deg; }
+	&[ data-icon="mirror-x"    ] { --i0: "\e664"; --i1: "\e664\e664"; }
+	&[ data-icon="mirror-y"    ] { --i0: "\e665"; --i1: "\e665\e665"; }
+	&[ data-icon="normalize-y" ] { --i0: "\e4ba"; --i1: "\e4ba\e4ba"; --r: 90deg; }
 
 	/* ...................................................................... */
-	&[ data-icon="play"    ] { --i: "\f04b"; --oa: 1; }
-	&[ data-icon="stop"    ] { --i: "\f04d"; --oa: 1; }
-	&[ data-icon="pause"   ] { --i: "\f04c"; --oa: 1; }
-	&[ data-icon="mute"    ] { --i: "\f2e2" }
-	&[ data-icon="unmute"  ] { --i: "\f028" }
-	&[ data-icon="loop"    ] { --i: "\f364" }
-	&[ data-icon="eject"   ] { --i: "\f052" }
-	&[ data-icon="reverse" ] { --i: "\f3e5" }
-	&[ data-icon="speed"   ] { --i: "\f625"; --ob: 0; --oa: 1; }
-	&[ data-icon="clock"   ] { --i: "\f017"; --oa: .3; }
+	&[ data-icon="play"    ] { --i0: "\f04b"; --i1: "\f04b\f04b"; --o1: 1; }
+	&[ data-icon="stop"    ] { --i0: "\f04d"; --i1: "\f04d\f04d"; --o1: 1; }
+	&[ data-icon="pause"   ] { --i0: "\f04c"; --i1: "\f04c\f04c"; --o1: 1; }
+	&[ data-icon="mute"    ] { --i0: "\f2e2"; --i1: "\f2e2\f2e2"; }
+	&[ data-icon="unmute"  ] { --i0: "\f028"; --i1: "\f028\f028"; }
+	&[ data-icon="loop"    ] { --i0: "\f364"; --i1: "\f364\f364"; }
+	&[ data-icon="eject"   ] { --i0: "\f052"; --i1: "\f052\f052"; }
+	&[ data-icon="reverse" ] { --i0: "\f3e5"; --i1: "\f3e5\f3e5"; }
+	&[ data-icon="speed"   ] { --i0: "\f625"; --i1: "\f625\f625"; --o0: 0; --o1: 1; }
+	&[ data-icon="clock"   ] { --i0: "\f017"; --i1: "\f017\f017"; --o1: .3; }
 
 	/* ...................................................................... */
-	&[ data-icon="circle"      ] { --i: "\f111"; --oa: 1; }
-	&[ data-icon="square"      ] { --i: "\f0c8"; --oa: 1; }
-	&[ data-icon="triangle"    ] { --i: "\f2ec"; --oa: 1; }
-	&[ data-icon="diamond"     ] { --i: "\f219"; --oa: 1; }
-	&[ data-icon="hexagon"     ] { --i: "\f312"; --oa: 1; }
-	&[ data-icon="octagon"     ] { --i: "\f306"; --oa: 1; }
-	&[ data-icon="heart"       ] { --i: "\f004"; --oa: 1; }
-	&[ data-icon="heart-slash" ] { --i: "\e78e" }
+	&[ data-icon="circle"      ] { --i0: "\f111"; --i1: "\f111\f111"; --o1: 1; }
+	&[ data-icon="square"      ] { --i0: "\f0c8"; --i1: "\f0c8\f0c8"; --o1: 1; }
+	&[ data-icon="triangle"    ] { --i0: "\f2ec"; --i1: "\f2ec\f2ec"; --o1: 1; }
+	&[ data-icon="diamond"     ] { --i0: "\f219"; --i1: "\f219\f219"; --o1: 1; }
+	&[ data-icon="hexagon"     ] { --i0: "\f312"; --i1: "\f312\f312"; --o1: 1; }
+	&[ data-icon="octagon"     ] { --i0: "\f306"; --i1: "\f306\f306"; --o1: 1; }
+	&[ data-icon="heart"       ] { --i0: "\f004"; --i1: "\f004\f004"; --o1: 1; }
+	&[ data-icon="heart-slash" ] { --i0: "\e78e"; --i1: "\e78e\e78e"; }
 
 	/* ...................................................................... */
-	&[ data-icon="amp-guitar" ] { --i: "\f8a1" }
-	&[ data-icon="sax-hot"    ] { --i: "\f8db" }
-	&[ data-icon="piano"      ] { --i: "\f8d4" }
-	&[ data-icon="drum"       ] { --i: "\f569" }
-	&[ data-icon="keys"       ] { --i: "\f8d5" }
-	&[ data-icon="keyboard"   ] { --i: "\f11c" }
+	&[ data-icon="amp-guitar" ] { --i0: "\f8a1"; --i1: "\f8a1\f8a1"; }
+	&[ data-icon="sax-hot"    ] { --i0: "\f8db"; --i1: "\f8db\f8db"; }
+	&[ data-icon="piano"      ] { --i0: "\f8d4"; --i1: "\f8d4\f8d4"; }
+	&[ data-icon="drum"       ] { --i0: "\f569"; --i1: "\f569\f569"; }
+	&[ data-icon="keys"       ] { --i0: "\f8d5"; --i1: "\f8d5\f8d5"; }
+	&[ data-icon="keyboard"   ] { --i0: "\f11c"; --i1: "\f11c\f11c"; }
 
 	/* ...................................................................... */
-	&[ data-icon="grip-h"     ] { --i: "\f58d" }
-	&[ data-icon="grip-v"     ] { --i: "\f58e" }
-	&[ data-icon="ellipsis-v" ] { --i: "\f142"; --oa: 1; }
+	&[ data-icon="grip-h"     ] { --i0: "\f58d"; --i1: "\f58d\f58d"; }
+	&[ data-icon="grip-v"     ] { --i0: "\f58e"; --i1: "\f58e\f58e"; }
+	&[ data-icon="ellipsis-v" ] { --i0: "\f142"; --i1: "\f142\f142"; --o1: 1; }
 
 	/* ...................................................................... */
-	&[ data-icon="link"    ] { --i: "\f0c1" }
-	&[ data-icon="unlink"  ] { --i: "\f127" }
-	&[ data-icon="cut"     ] { --i: "\f0c4" }
-	&[ data-icon="clone"   ] { --i: "\f24d" }
-	&[ data-icon="crop"    ] { --i: "\f125" }
-	&[ data-icon="erase"   ] { --i: "\f12d" }
-	&[ data-icon="search"  ] { --i: "\f002" }
-	&[ data-icon="save"    ] { --i: "\f0c7"; --ob: .4; --oa: 1; }
-	&[ data-icon="render"  ] { --i: "\f0e7"; --oa: 1; }
-	&[ data-icon="upload"  ] { --i: "\f382"; --ob: 0; --oa: 1; }
-	&[ data-icon="export"  ] { --i: "\f019" }
-	&[ data-icon="fork"    ] { --i: "\f126" }
-	&[ data-icon="sort"    ] { --i: "\f0dc" }
-	&[ data-icon="trash"   ] { --i: "\f1f8" }
-	&[ data-icon="untrash" ] { --i: "\f895" }
+	&[ data-icon="link"    ] { --i0: "\f0c1"; --i1: "\f0c1\f0c1"; }
+	&[ data-icon="unlink"  ] { --i0: "\f127"; --i1: "\f127\f127"; }
+	&[ data-icon="cut"     ] { --i0: "\f0c4"; --i1: "\f0c4\f0c4"; }
+	&[ data-icon="clone"   ] { --i0: "\f24d"; --i1: "\f24d\f24d"; }
+	&[ data-icon="crop"    ] { --i0: "\f125"; --i1: "\f125\f125"; }
+	&[ data-icon="erase"   ] { --i0: "\f12d"; --i1: "\f12d\f12d"; }
+	&[ data-icon="search"  ] { --i0: "\f002"; --i1: "\f002\f002"; }
+	&[ data-icon="save"    ] { --i0: "\f0c7"; --i1: "\f0c7\f0c7"; --o0: .4; --o1: 1; }
+	&[ data-icon="render"  ] { --i0: "\f0e7"; --i1: "\f0e7\f0e7"; --o1: 1; }
+	&[ data-icon="upload"  ] { --i0: "\f382"; --i1: "\f382\f382"; --o0: 0; --o1: 1; }
+	&[ data-icon="export"  ] { --i0: "\f019"; --i1: "\f019\f019"; }
+	&[ data-icon="fork"    ] { --i0: "\f126"; --i1: "\f126\f126"; }
+	&[ data-icon="sort"    ] { --i0: "\f0dc"; --i1: "\f0dc\f0dc"; }
+	&[ data-icon="trash"   ] { --i0: "\f1f8"; --i1: "\f1f8\f1f8"; }
+	&[ data-icon="untrash" ] { --i0: "\f895"; --i1: "\f895\f895"; }
 
 	/* ...................................................................... */
-	&[ data-icon="login"    ] { --i: "\f090" }
-	&[ data-icon="logout"   ] { --i: "\f08b" }
-	&[ data-icon="profile"  ] { --i: "\f2bd" }
-	&[ data-icon="musician" ] { --i: "\f8eb" }
-	&[ data-icon="users"    ] { --i: "\f0c0" }
-	&[ data-icon="follow"   ] { --i: "\f234" }
-	&[ data-icon="followed" ] { --i: "\f4fc" }
-	&[ data-icon="unfollow" ] { --i: "\f503" }
+	&[ data-icon="login"    ] { --i0: "\f090"; --i1: "\f090\f090"; }
+	&[ data-icon="logout"   ] { --i0: "\f08b"; --i1: "\f08b\f08b"; }
+	&[ data-icon="profile"  ] { --i0: "\f2bd"; --i1: "\f2bd\f2bd"; }
+	&[ data-icon="musician" ] { --i0: "\f8eb"; --i1: "\f8eb\f8eb"; }
+	&[ data-icon="users"    ] { --i0: "\f0c0"; --i1: "\f0c0\f0c0"; }
+	&[ data-icon="follow"   ] { --i0: "\f234"; --i1: "\f234\f234"; }
+	&[ data-icon="followed" ] { --i0: "\f4fc"; --i1: "\f4fc\f4fc"; }
+	&[ data-icon="unfollow" ] { --i0: "\f503"; --i1: "\f503\f503"; }
 
 	/* ...................................................................... */
-	&[ data-icon="folder-open"  ] { --i: "\f07c" }
-	&[ data-icon="folder-tree"  ] { --i: "\f802" }
-	&[ data-icon="file-buffer"  ] { --i: "\f1c7" }
-	&[ data-icon="file-export"  ] { --i: "\f56e" }
-	&[ data-icon="file-corrupt" ] { --i: "\f877" }
-	&[ data-icon="file-music"   ] { --i: "\f8b6" }
+	&[ data-icon="folder-open"  ] { --i0: "\f07c"; --i1: "\f07c\f07c"; }
+	&[ data-icon="folder-tree"  ] { --i0: "\f802"; --i1: "\f802\f802"; }
+	&[ data-icon="file-buffer"  ] { --i0: "\f1c7"; --i1: "\f1c7\f1c7"; }
+	&[ data-icon="file-export"  ] { --i0: "\f56e"; --i1: "\f56e\f56e"; }
+	&[ data-icon="file-corrupt" ] { --i0: "\f877"; --i1: "\f877\f877"; }
+	&[ data-icon="file-music"   ] { --i0: "\f8b6"; --i1: "\f8b6\f8b6"; }
 
 	/* ...................................................................... */
-	&[ data-icon="expand"   ] { --i: "\f065" }
-	&[ data-icon="compress" ] { --i: "\f326" }
-	&[ data-icon="restore"  ] { --i: "\f2d2" }
-	&[ data-icon="minimize" ] { --i: "\f2d1"; --oa: 1; }
-	&[ data-icon="maximize" ] { --i: "\f2d0"; --oa: 0; }
+	&[ data-icon="expand"   ] { --i0: "\f065"; --i1: "\f065\f065"; }
+	&[ data-icon="compress" ] { --i0: "\f326"; --i1: "\f326\f326"; }
+	&[ data-icon="restore"  ] { --i0: "\f2d2"; --i1: "\f2d2\f2d2"; }
+	&[ data-icon="minimize" ] { --i0: "\f2d1"; --i1: "\f2d1\f2d1"; --o1: 1; }
+	&[ data-icon="maximize" ] { --i0: "\f2d0"; --i1: "\f2d0\f2d0"; --o1: 0; }
 
 	/* ...................................................................... */
-	&[ data-icon="buf-fx"        ] { --i: "\e047" }
-	&[ data-icon="buf-drum"      ] { --i: "\f569" }
-	&[ data-icon="buf-loop"      ] { --i: "\f534" }
-	&[ data-icon="buf-vocal"     ] { --i: "\f8cb" }
-	&[ data-icon="buf-undefined" ] { --i: "\f2fd"; --oa: .2; }
+	&[ data-icon="buf-fx"        ] { --i0: "\e047"; --i1: "\e047\e047"; }
+	&[ data-icon="buf-drum"      ] { --i0: "\f569"; --i1: "\f569\f569"; }
+	&[ data-icon="buf-loop"      ] { --i0: "\f534"; --i1: "\f534\f534"; }
+	&[ data-icon="buf-vocal"     ] { --i0: "\f8cb"; --i1: "\f8cb\f8cb"; }
+	&[ data-icon="buf-undefined" ] { --i0: "\f2fd"; --i1: "\f2fd\f2fd"; --o1: .2; }
 
 	/* ...................................................................... */
-	&[ data-icon="mouse"        ] { --i: "\f245"; }
-	&[ data-icon="hand-pointer" ] { --i: "\f25a"; --ob: 0; --oa: 1; }
+	&[ data-icon="mouse"        ] { --i0: "\f245"; --i1: "\f245\f245"; }
+	&[ data-icon="hand-pointer" ] { --i0: "\f25a"; --i1: "\f25a\f25a"; --o0: 0; --o1: 1; }
 
 	/* ...................................................................... */
-	&[ data-icon="local"   ] { --i: "\f8e6"; --oa: .2; }
-	&[ data-icon="cloud"   ] { --i: "\f8ae"; --ob: .2; --oa: 1; }
-	&[ data-icon="public"  ] { --i: "\f7a2" }
-	&[ data-icon="private" ] { --i: "\f30d" }
+	&[ data-icon="local"   ] { --i0: "\f8e6"; --i1: "\f8e6\f8e6"; --o1: .2; }
+	&[ data-icon="cloud"   ] { --i0: "\f8ae"; --i1: "\f8ae\f8ae"; --o0: .2; --o1: 1; }
+	&[ data-icon="public"  ] { --i0: "\f7a2"; --i1: "\f7a2\f7a2"; }
+	&[ data-icon="private" ] { --i0: "\f30d"; --i1: "\f30d\f30d"; }
 
 	/* ...................................................................... */
-	&[ data-icon="radio-btn"         ] { --i: "\f111"; --ob: 0; }
-	&[ data-icon="radio-btn-checked" ] { --i: "\f192" }
+	&[ data-icon="radio-btn"         ] { --i0: "\f111"; --i1: "\f111\f111"; --o0: 0; }
+	&[ data-icon="radio-btn-checked" ] { --i0: "\f192"; --i1: "\f192\f192"; }
 
 	/* ...................................................................... */
-	&[ data-icon="help"      ] { --i: "\f0fa" }
-	&[ data-icon="about"     ] { --i: "\e02f" }
-	&[ data-icon="cookie"    ] { --i: "\f563" }
-	&[ data-icon="settings"  ] { --i: "\f013" }
-	&[ data-icon="changelog" ] { --i: "\f70e" }
-	&[ data-icon="magnet"    ] { --i: "\f076" }
-	&[ data-icon="bug"       ] { --i: "\f188" }
-	&[ data-icon="tint"      ] { --i: "\f043" }
-	&[ data-icon="adjust"    ] { --i: "\f042" }
-	&[ data-icon="pen"       ] { --i: "\f304" }
-	&[ data-icon="eye"       ] { --i: "\f06e" }
-	&[ data-icon="list"      ] { --i: "\f0ca" }
-	&[ data-icon="smiley"    ] { --i: "\f581"; --ob: 0; --oa: 1; }
-	&[ data-icon="at"        ] { --i: "\40";   --oa: 1; }
-	&[ data-icon="check"     ] { --i: "\f00c"; --oa: 1; }
-	&[ data-icon="warning"   ] { --i: "\f071" }
-	&[ data-icon="info"      ] { --i: "\f2fd"; --oa: .3; }
-	&[ data-icon="redirect"  ] { --i: "\f5eb"; --oa: .4; }
+	&[ data-icon="help"      ] { --i0: "\f0fa"; --i1: "\f0fa\f0fa"; }
+	&[ data-icon="about"     ] { --i0: "\e02f"; --i1: "\e02f\e02f"; }
+	&[ data-icon="cookie"    ] { --i0: "\f563"; --i1: "\f563\f563"; }
+	&[ data-icon="settings"  ] { --i0: "\f013"; --i1: "\f013\f013"; }
+	&[ data-icon="changelog" ] { --i0: "\f70e"; --i1: "\f70e\f70e"; }
+	&[ data-icon="magnet"    ] { --i0: "\f076"; --i1: "\f076\f076"; }
+	&[ data-icon="bug"       ] { --i0: "\f188"; --i1: "\f188\f188"; }
+	&[ data-icon="tint"      ] { --i0: "\f043"; --i1: "\f043\f043"; }
+	&[ data-icon="adjust"    ] { --i0: "\f042"; --i1: "\f042\f042"; }
+	&[ data-icon="pen"       ] { --i0: "\f304"; --i1: "\f304\f304"; }
+	&[ data-icon="eye"       ] { --i0: "\f06e"; --i1: "\f06e\f06e"; }
+	&[ data-icon="list"      ] { --i0: "\f0ca"; --i1: "\f0ca\f0ca"; }
+	&[ data-icon="smiley"    ] { --i0: "\f581"; --i1: "\f581\f581"; --o0: 0; --o1: 1; }
+	&[ data-icon="at"        ] { --i0: "\40";   --i1: "\40\40";     --o1: 1; }
+	&[ data-icon="check"     ] { --i0: "\f00c"; --i1: "\f00c\f00c"; --o1: 1; }
+	&[ data-icon="warning"   ] { --i0: "\f071"; --i1: "\f071\f071"; }
+	&[ data-icon="info"      ] { --i0: "\f2fd"; --i1: "\f2fd\f2fd"; --o1: .3; }
+	&[ data-icon="redirect"  ] { --i0: "\f5eb"; --i1: "\f5eb\f5eb"; --o1: .4; }
 
-	&[ data-icon="mixer"      ] { --i: "\f3f1" }
-	&[ data-icon="channels"   ] { --i: "\f828"; --r: -90deg; }
-	&[ data-icon="music"      ] { --i: "\f001" }
-	&[ data-icon="musics"     ] { --i: "\f8c9" }
-	&[ data-icon="effects"    ] { --i: "\f5fd" }
-	&[ data-icon="add-effect" ] { --i: "\f5ff" }
-	&[ data-icon="oscillator" ] { --i: "\f89a"; --oa: 1; }
-	&[ data-icon="osc-sine"   ] { --i: "\f899"; --oa: 1; }
-	&[ data-icon="glissando"  ] { --i: "\f667" }
-	&[ data-icon="slices"     ] { --i: "\f160"; --r: -90deg; }
-	&[ data-icon="drumcut"    ] { --i: "\f052"; --r:  90deg; }
-	&[ data-icon="drumprops"  ] { --i: "\f884"; --r: -90deg; }
+	&[ data-icon="mixer"      ] { --i0: "\f3f1"; --i1: "\f3f1\f3f1"; }
+	&[ data-icon="channels"   ] { --i0: "\f828"; --i1: "\f828\f828"; --r: -90deg; }
+	&[ data-icon="music"      ] { --i0: "\f001"; --i1: "\f001\f001"; }
+	&[ data-icon="musics"     ] { --i0: "\f8c9"; --i1: "\f8c9\f8c9"; }
+	&[ data-icon="effects"    ] { --i0: "\f5fd"; --i1: "\f5fd\f5fd"; }
+	&[ data-icon="add-effect" ] { --i0: "\f5ff"; --i1: "\f5ff\f5ff"; }
+	&[ data-icon="oscillator" ] { --i0: "\f89a"; --i1: "\f89a\f89a"; --o1: 1; }
+	&[ data-icon="osc-sine"   ] { --i0: "\f899"; --i1: "\f899\f899"; --o1: 1; }
+	&[ data-icon="glissando"  ] { --i0: "\f667"; --i1: "\f667\f667"; }
+	&[ data-icon="slices"     ] { --i0: "\f160"; --i1: "\f160\f160"; --r: -90deg; }
+	&[ data-icon="drumcut"    ] { --i0: "\f052"; --i1: "\f052\f052"; --r:  90deg; }
+	&[ data-icon="drumprops"  ] { --i0: "\f884"; --i1: "\f884\f884"; --r: -90deg; }
 
 	/* ...................................................................... */
 	&::before {
 		position: absolute;
-		content: var( --i );
-		opacity: var( --ob, 1 );
+		content: var( --i0 );
+		opacity: var( --o0, 1 );
 		rotate: var( --r, none );
 		pointer-events: none;
 	}
 	&::after {
-		content: var( --i )var( --i );
-		opacity: var( --oa, .6 );
+		content: var( --i1 );
+		opacity: var( --o1, .6 );
 		rotate: var( --r, none );
 		pointer-events: none;
 	}
