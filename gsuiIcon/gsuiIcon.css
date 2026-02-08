@@ -34,7 +34,7 @@
 	}
 
 	/* ...................................................................... */
-	&.gsuiIcon.gsuiIcon[ data-spin="on" ] {
+	&[ data-spin="on" ] {
 		line-height: 1;
 		font-family: "FontAwesome";
 
