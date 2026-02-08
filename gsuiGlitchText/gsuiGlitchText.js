@@ -13,8 +13,8 @@ class gsuiGlitchText extends gsui0ne {
 			$cmpName: "gsuiGlitchText",
 			$tagName: "gsui-glitchtext",
 			$elements: {
-				$clips: "[].gsuiGlitchText-clip",
-				$words: "[].gsuiGlitchText-word",
+				$clips: ".gsuiGlitchText-clip",
+				$words: ".gsuiGlitchText-word",
 			},
 		} );
 		Object.seal( this );
@@ -61,22 +61,17 @@ class gsuiGlitchText extends gsui0ne {
 		const clip1 = this.#randDouble( .2 );
 		const clip2 = this.#randDouble( .2 );
 
-		this.$elements.$clips.forEach( el => {
-			const x = this.#randDouble( .06 );
-			const y = this.#randDouble( .0 );
-
-			el.style.transform = `translate(${ x }em, ${ y }em)`;
-		} );
-		this.$elements.$clips[ 0 ].style.clipPath = `inset(0 0 ${ .6 + clip1 }em 0)`;
-		this.$elements.$clips[ 1 ].style.clipPath = `inset(${ .4 - clip1 }em 0 ${ .3 - clip2 }em 0)`;
-		this.$elements.$clips[ 2 ].style.clipPath = `inset(${ .7 + clip2 }em 0 -1em 0)`;
+		this.$elements.$clips.$css( "transform", () => `translate(${ this.#randDouble( .06 ) }em, 0em)` );
+		this.$elements.$clips.$at( 0 ).$css( "clipPath", `inset(0 0 ${ .6 + clip1 }em 0)` );
+		this.$elements.$clips.$at( 1 ).$css( "clipPath", `inset(${ .4 - clip1 }em 0 ${ .3 - clip2 }em 0)` );
+		this.$elements.$clips.$at( 2 ).$css( "clipPath", `inset(${ .7 + clip2 }em 0 -1em 0)` );
 		this.#textContent( this.#randText() );
 		GSUdomAddClass( this, "gsuiGlitchText-blended" );
 	}
 	#unglitch() {
-		this.$elements.$clips.forEach( el => {
-			el.style.clipPath =
-			el.style.transform = "";
+		this.$elements.$clips.$css( {
+			clipPath: "",
+			transform: "",
 		} );
 		this.#textContent( this.#text );
 		GSUdomRmClass( this, "gsuiGlitchText-blended" );
@@ -100,7 +95,7 @@ class gsuiGlitchText extends gsui0ne {
 		return Math.random() * n | 0;
 	}
 	#textContent( txt ) {
-		this.$elements.$words.forEach( el => el.textContent = txt );
+		this.$elements.$words.$text( txt );
 	}
 }
 
