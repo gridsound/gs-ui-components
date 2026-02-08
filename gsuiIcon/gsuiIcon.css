@@ -247,7 +247,7 @@
 		pointer-events: none;
 	}
 	&::after {
-		content: var( --i ) var( --i );
+		content: var( --i )var( --i );
 		opacity: var( --oa, .6 );
 		rotate: var( --r, none );
 		pointer-events: none;
