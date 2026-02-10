@@ -19,8 +19,7 @@ class gsuiComProfile extends gsui0ne {
 				$emailpub: ".gsuiComProfile-email-addr .gsuiIcon",
 				$name: ".gsuiComProfile-name",
 				$username: ".gsuiComProfile-username",
-				$lastname: ".gsuiComProfile-lastname",
-				$firstname: ".gsuiComProfile-firstname",
+				$fullname: ".gsuiComProfile-fullname",
 				$emailVerifyText: ".gsuiComProfile-email-not span",
 				$followersBtn: ".gsuiComProfile-followers",
 				$followingBtn: ".gsuiComProfile-following",
@@ -48,23 +47,17 @@ class gsuiComProfile extends gsui0ne {
 			case "username": this.$elements.$username.$text( val ); break;
 			case "email": this.$elements.$email.$text( val ); break;
 			case "emailpublic": this.$elements.$emailpub.$setAttr( "data-icon", val === "" ? "public" : "private" ); break;
-			case "lastname": this.$elements.$lastname.$text( val ); break;
-			case "firstname": this.$elements.$firstname.$text( val ); break;
 			case "avatar": this.$elements.$avatar.$setAttr( "src", val || false ); break;
 			case "emailtoverify": this.$elements.$emailVerifyText.$text( val !== "" ? "" : gsuiComProfile.#emailTexts.$verify ); break;
 			case "followed": this.#updateFollowed( val === "" ); break;
 			case "followers": this.$elements.$followersBtn.$text( val ); break;
 			case "following": this.$elements.$followingBtn.$text( val ); break;
 		}
-		switch ( prop ) {
-			case "username":
-			case "lastname":
-			case "firstname":
-				this.$elements.$name.$setAttr( "title",
-					`/u/${ this.$elements.$username.$text()
-					} : ${ this.$elements.$firstname.$text() || "--"
-					} ${ this.$elements.$lastname.$text() || "--" }` );
-				break;
+		if ( prop === "username" || prop === "firstname" || prop === "lastname" ) {
+			const fullname = this.$this.$getAttr( "firstname", "lastname" ).join( " " ).trim();
+
+			this.$elements.$fullname.$text( fullname );
+			this.$elements.$name.$setAttr( "title", `/u/${ this.$this.$getAttr( "username" ) } : ${ fullname || "--" }` );
 		}
 	}
 
