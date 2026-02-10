@@ -62,6 +62,7 @@ class gsuiComProfile extends gsui0ne {
 	}
 
 	// .........................................................................
+	$isSmall() { return this.$elements.$avatar.$css( "--xs" ) === "1"; }
 	$setFollowCallbackPromise( fn ) { this.#followPromise = fn; }
 	$setVerifyEmailCallbackPromise( fn ) { this.#verifyPromise = fn; }
 
