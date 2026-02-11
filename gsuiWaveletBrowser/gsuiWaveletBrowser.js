@@ -64,13 +64,14 @@ class gsuiWaveletBrowser extends gsui0ne {
 		this.$elements.$list.$scrollY( $( e.target ).$index() * 12 );
 	}
 	#onscroll() {
-		const scrY = this.$elements.$list.$scrollY();
-		const ind = this.$elements.$list.$children().$findIndex( ( _, i ) => GSUmathApprox( i * 12, scrY, 6 ) );
+		const list = this.$elements.$list;
+		const scrY = list.$scrollY();
+		const ind = list.$children().$findIndex( ( _, i ) => GSUmathApprox( i * 12, scrY, 6 ) );
 
 		if ( ind >= 0 && ind !== this.#selectedWaveInd ) {
+			list.$child( this.#selectedWaveInd ).$rmAttr( "data-selected" );
+			list.$child( ind ).$addAttr( "data-selected" );
 			this.#selectedWaveInd = ind;
-			this.$elements.$list.$query( "[data-selected]" ).$rmAttr( "data-selected" );
-			this.$elements.$list.$child( ind ).$addAttr( "data-selected" );
 			this.#drawWave();
 		}
 	}
