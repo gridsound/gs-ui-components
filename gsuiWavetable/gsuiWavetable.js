@@ -282,14 +282,14 @@ class gsuiWavetable extends gsui0ne {
 			.$children()
 			.$sort( ( a, b ) => a.dataset.index - b.dataset.index )
 			.$css( "order", ( _, i ) => i )
-			.$find( ".gsuiWavetable-wave-num" )
+			.$query( ".gsuiWavetable-wave-num" )
 			.$text( ( _, i ) => i + 1 );
 	}
 	#wtwaves_getElem( id ) {
-		return this.$this.$find( `.gsuiWavetable-wave[data-id='${ id }']` );
+		return this.$this.$query( `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
 	#wtwaves_updatePreview( id ) {
-		const polyline = this.#wtwaves_getElem( id ).$find( "polyline" );
+		const polyline = this.#wtwaves_getElem( id ).$query( "polyline" );
 
 		gsuiWaveEditor.$drawWave( polyline, this.#data.waves[ id ].curve, 60, 40 );
 	}
@@ -304,7 +304,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$waves.$append( elW );
 		this.$elements.$wtposWavelines.$append( elWLine );
 		this.#wtwaves_updateWavesOrder();
-		elW.$find( "svg" ).$viewbox( 60, 40 );
+		elW.$query( "svg" ).$viewbox( 60, 40 );
 	}
 	#wtwaves_removeWave( wId ) {
 		this.#wtwaves_getElem( wId ).$remove();
@@ -330,13 +330,13 @@ class gsuiWavetable extends gsui0ne {
 
 	// .........................................................................
 	#wtposCurve_get( id ) {
-		return this.$this.$find( `.gsuiWavetable-posCurve[data-id='${ id }']` );
+		return this.$this.$query( `.gsuiWavetable-posCurve[data-id='${ id }']` );
 	}
 	#wtposCurve_getWave( id ) {
-		return this.$this.$find( `.gsuiWavetable-posCurve-wave[data-id='${ id }']` );
+		return this.$this.$query( `.gsuiWavetable-posCurve-wave[data-id='${ id }']` );
 	}
 	#wtposCurve_updatePreview( id ) {
-		const dlSVG = this.#wtposCurve_get( id ).$find( "gsui-dotlinesvg" ).$get( 0 );
+		const dlSVG = this.#wtposCurve_get( id ).$query( "gsui-dotlinesvg" ).$get( 0 );
 
 		dlSVG.$setSVGSize( 60, 30 );
 		dlSVG.$setDataBox( "0 0 1 1" );
@@ -385,7 +385,7 @@ class gsuiWavetable extends gsui0ne {
 			$when: Date.now() / 1000,
 		} );
 		this.$elements.$keyPreviews.$append( elA );
-		this.$elements.$wtposCurves.$child( +wtposCurveId ).$find( ".gsuiWavetable-keyPreviews" ).$append( elB );
+		this.$elements.$wtposCurves.$child( +wtposCurveId ).$query( ".gsuiWavetable-keyPreviews" ).$append( elB );
 		this.#lastKeyPreview = id;
 		if ( !this.#keyAnimId ) {
 			this.#keyAnimId = GSUsetInterval( this.#keyAnimFrame.bind( this ), 1 / 60 );

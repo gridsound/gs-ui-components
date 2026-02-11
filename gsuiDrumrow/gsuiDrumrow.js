@@ -74,7 +74,7 @@ class gsuiDrumrow extends gsui0ne {
 		this.$elements.$waveWrap.$append( $( "<div>" ).$addClass( "gsuiDrumrow-startCursor" ) );
 	}
 	$stop() {
-		this.$this.$find( ".gsuiDrumrow-startCursor" ).$remove();
+		this.$this.$query( ".gsuiDrumrow-startCursor" ).$remove();
 	}
 
 	// .........................................................................

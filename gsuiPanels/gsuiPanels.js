@@ -34,7 +34,7 @@ class gsuiPanels extends gsui0ne {
 		this.#dirX = dirX;
 		this.#dir = dirX ? "width" : "height";
 		this.#pos = dirX ? "left" : "top";
-		this.$this.$find( ".gsuiPanels-extend" ).$remove();
+		this.$this.$query( ".gsuiPanels-extend" ).$remove();
 		this.#pans.map( p => [ p, GSUdomBCR( p )[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ p, perc ] ) => {
 				const perc2 = GSUmathFix( perc, 1 );

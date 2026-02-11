@@ -76,7 +76,7 @@ class gsuiLibrary extends gsui0ne {
 		this.$elements.$body.$empty();
 	}
 	$unloadSamples() {
-		this.$elements.$body.$find( ".gsuiLibrary-sample" )
+		this.$elements.$body.$query( ".gsuiLibrary-sample" )
 			.$rmAttr( "data-loading", "data-ready" )
 			.$setAttr( title, el => el.dataset.name );
 	}
@@ -85,7 +85,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$setLibrary( lib ) {
 		let lastSep;
-		const prevLastSep = this.$elements.$body.$find( ".gsuiLibrary-sep" ).$get( -1 );
+		const prevLastSep = this.$elements.$body.$query( ".gsuiLibrary-sep" ).$get( -1 );
 		const el = lib.map( smp => {
 			if ( !GSUisStr( smp ) ) {
 				const el = GSUgetTemplate( "gsui-library-sample", {
@@ -110,7 +110,7 @@ class gsuiLibrary extends gsui0ne {
 
 	// .........................................................................
 	#getSample( id ) {
-		return this.$elements.$body.$find( `[data-id="${ id }"]` );
+		return this.$elements.$body.$query( `[data-id="${ id }"]` );
 	}
 	$bookmarkSample( id, b ) {
 		b

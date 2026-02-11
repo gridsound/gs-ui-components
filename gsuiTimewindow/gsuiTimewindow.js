@@ -111,7 +111,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$main.$on( "wheel", this.#onwheel.bind( this ) );
 		this.$elements.$mainCnt.$on( "contextmenu", e => e.preventDefault() );
 		this.$elements.$panelCnt.$on( "wheel", this.#onwheelPanel.bind( this ) );
-		this.$elements.$panel.$find( ".gsuiTimewindow-panelExtendY" ).$on( "pointerdown", this.#onptrdownExtend.bind( this, "side" ) );
+		this.$elements.$panel.$query( ".gsuiTimewindow-panelExtendY" ).$on( "pointerdown", this.#onptrdownExtend.bind( this, "side" ) );
 		this.$elements.$minimapTrack.$on( "pointerdown", this.#onptrdownMinimap.bind( this ) );
 		this.$elements.$scroll.$on( "scroll", this.#onscroll.bind( this ) );
 	}

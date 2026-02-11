@@ -46,7 +46,7 @@ class gsuiDrum extends gsui0ne {
 				st.width = `${ val * 100 }%`;
 				break;
 		}
-		this.$this.$find( `.gsuiDrum-prop[data-value="${ prop }"]` ).$child( 0 ).$css( st );
+		this.$this.$query( `.gsuiDrum-prop[data-value="${ prop }"]` ).$child( 0 ).$css( st );
 	}
 }
 

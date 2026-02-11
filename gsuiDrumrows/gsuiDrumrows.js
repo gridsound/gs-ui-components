@@ -40,7 +40,7 @@ class gsuiDrumrows extends gsui0ne {
 		this.#getPropSelect( rowId ).$rmAttr( "value" );
 	}
 	#getPropSelect( rowId ) {
-		return this.#rows.get( rowId ).$find( "gsui-prop-select" );
+		return this.#rows.get( rowId ).$query( "gsui-prop-select" );
 	}
 
 	// .........................................................................

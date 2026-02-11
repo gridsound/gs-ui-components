@@ -97,8 +97,8 @@ class gsuiKeys extends gsui0ne {
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;
-		this.$this.$find( ".gsuiKeys-key[data-root]" ).$rmAttr( "data-root" );
-		this.$this.$find( `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ).$addAttr( "data-root" );
+		this.$this.$query( ".gsuiKeys-key[data-root]" ).$rmAttr( "data-root" );
+		this.$this.$query( `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ).$addAttr( "data-root" );
 	}
 	#setOctaves( start, nbOct ) {
 		this.$this.$css( {

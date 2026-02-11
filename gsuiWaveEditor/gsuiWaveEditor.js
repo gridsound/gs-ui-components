@@ -86,8 +86,8 @@ class gsuiWaveEditor extends gsui0ne {
 	$attributeChanged( prop, val, prev ) {
 		switch ( prop ) {
 			case "tool":
-				this.$this.$find( `button[data-tool="${ prev }"]` ).$rmAttr( "data-selected" );
-				this.$this.$find( `button[data-tool="${ val }"]` ).$addAttr( "data-selected" );
+				this.$this.$query( `button[data-tool="${ prev }"]` ).$rmAttr( "data-selected" );
+				this.$this.$query( `button[data-tool="${ val }"]` ).$addAttr( "data-selected" );
 				this.#toolSelected = val;
 				break;
 			case "div": {
@@ -401,7 +401,7 @@ class gsuiWaveEditor extends gsui0ne {
 			.$top( iy / this.#div[ 1 ] * 100, "%" );
 	}
 	#updateBeatlines( dir, sz ) {
-		const bl = this.$elements.$wave.$find( `gsui-beatlines:nth-child(${ dir + 1 })` );
+		const bl = this.$elements.$wave.$query( `gsui-beatlines:nth-child(${ dir + 1 })` );
 
 		bl.$setAttr( {
 			pxperbeat: dir ? bl.$height() : bl.$width(),

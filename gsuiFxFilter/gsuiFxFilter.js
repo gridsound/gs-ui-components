@@ -88,7 +88,7 @@ class gsuiFxFilter extends gsui0ne {
 
 	// .........................................................................
 	#toggleTypeBtn( type, b ) {
-		this.$elements.$type.$find( `[data-type="${ type }"]` ).$setAttr( "data-selected", b );
+		this.$elements.$type.$query( `[data-type="${ type }"]` ).$setAttr( "data-selected", b );
 	}
 
 	// .........................................................................

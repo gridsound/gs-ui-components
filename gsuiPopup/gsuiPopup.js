@@ -78,7 +78,7 @@ class gsuiPopup extends gsui0ne {
 		this.$elements.$msg.$text( msg || "" );
 		this.$elements.$text.$value( arguments.length > 3 ? value : "" );
 		this.$elements.$win.$setAttr( "data-type", type );
-		this.$elements.$cnt.$find( "input,select,.gsuiPopup-ok *:first-child" ).$addAttr( "autofocus" );
+		this.$elements.$cnt.$query( "input,select,.gsuiPopup-ok *:first-child" ).$addAttr( "autofocus" );
 		if ( type === "prompt" ) {
 			this.$elements.$text.$trigger( "select" );
 		}

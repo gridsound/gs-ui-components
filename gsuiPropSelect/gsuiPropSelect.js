@@ -61,7 +61,7 @@ class gsuiPropSelect extends gsui0ne {
 		return !!btn.$size();
 	}
 	#getBtn( prop ) {
-		return this.$this.$find( `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
+		return this.$this.$query( `.gsuiPropSelect-btn[data-prop="${ prop }"]` );
 	}
 	#setValue( prop, val ) {
 		this.#getBtn( prop ).$setAttr( "data-value", gsuiPropSelect.#formatValue( prop, val ) );

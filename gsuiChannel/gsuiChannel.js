@@ -103,7 +103,7 @@ class gsuiChannel extends gsui0ne {
 		}
 	}
 	#getEffect( id ) {
-		return this.$elements.$effects.$find( `[data-id="${ id }"]` );
+		return this.$elements.$effects.$query( `[data-id="${ id }"]` );
 	}
 }
 

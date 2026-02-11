@@ -110,7 +110,7 @@ class gsuiLFO extends gsui0ne {
 	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"] gsui-slider` ); }
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#changeToggle( b ) {
-		this.$this.$find( "[type=radio]" ).$setAttr( "disabled", !b );
+		this.$this.$query( "[type=radio]" ).$setAttr( "disabled", !b );
 		this.$elements.$propSli.$setAttr( "disabled", !b );
 	}
 	#changeType( type ) {
