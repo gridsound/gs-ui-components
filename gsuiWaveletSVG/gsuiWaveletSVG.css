@@ -1,6 +1,7 @@
 gsui-wavelet-svg {
 	--gsui-pad: 0;
 	position: relative;
+	display: flex;
 
 	svg {
 		position: absolute;
