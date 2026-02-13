@@ -1,10 +1,14 @@
 "use strict";
 
-GSUsetTemplate( "gsui-wavelet-browser", () =>
-	GSUcreateDiv( { class: "gsuiWaveletBrowser-in" },
+GSUsetTemplate( "gsui-wavelet-browser", () => [
+	GSUcreateDiv( { class: "gsuiWaveletBrowser-top" },
 		GSUcreateDiv( { class: "gsuiWaveletBrowser-list" },
 			GSUcreateDiv(),
 		),
-		GSUcreateElement( "gsui-wavelet-svg" ),
+		GSUcreateDiv( { class: "gsuiWaveletBrowser-svgs" },
+			GSUcreateElement( "gsui-wavelet-svg" ),
+			GSUcreateElement( "gsui-wavelet-svg", { axes: true } ),
+		),
 	),
-);
+	GSUcreateButton( null, "Ok" ),
+] );
