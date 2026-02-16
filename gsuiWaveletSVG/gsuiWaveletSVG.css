@@ -2,6 +2,9 @@ gsui-wavelet-svg {
 	--gsui-pad: 0;
 	position: relative;
 	display: flex;
+	fill: #fff2;
+	stroke: #fff;
+	stroke-width: 2px;
 
 	svg {
 		position: absolute;
@@ -9,9 +12,6 @@ gsui-wavelet-svg {
 		left: var( --gsui-pad );
 		width: calc( 100% - 2 * var( --gsui-pad ) );
 		height: calc( 100% - 2 * var( --gsui-pad ) );
-		fill: none;
-		stroke: #fff;
-		stroke-width: 2px;
 		border-radius: 3px;
 		background-color: #ffffff0a;
 	}
