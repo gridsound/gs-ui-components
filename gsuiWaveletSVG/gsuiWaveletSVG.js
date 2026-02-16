@@ -36,12 +36,15 @@ class gsuiWaveletSVG extends gsui0ne {
 			this.#h = this.$element.$height(),
 		);
 	}
-	$draw( arr ) {
-		const w = this.#w;
-		const h = this.#h;
+	$draw( arr, withResize ) {
+		gsuiWaveletSVG.#draw( this.$element.$children(), this.#w, this.#h, arr, withResize );
+	}
 
+	// .........................................................................
+	static #draw( elems, w, h, arr, withResize ) {
 		if ( w && h && arr?.length >= 1 ) {
-			// const arr2 = GSUarrayResize( arr, w );
+			const attrs = [];
+			const arr2 = withResize ? GSUarrayResize( arr, w ) : arr;
 			const len = arr.length - 1;
 			const pts = GSUnewArray( len + 1, i => [
 				i / len * w,
@@ -56,11 +59,14 @@ class gsuiWaveletSVG extends gsui0ne {
 				[ w + 10, pts.at( -1 )[ 1 ] ],
 				[ w + 10, h / 2 ],
 			);
-			this.$element.$child( 0 ).$setAttr( "points", pts.join( " " ) );
-			if ( this.$this.$hasAttr( "axes" ) ) {
-				this.$element.$child( 1 ).$setAttr( { x1: 0, y1: h / 2, x2: w, y2: h / 2 } );
-				this.$element.$child( 2 ).$setAttr( { x1: w / 2, y1: 0, x2: w / 2, y2: h } );
+			attrs.push( { points: pts.join( " " ) } );
+			if ( elems.$size() > 1 ) {
+				attrs.push(
+					{ x1: 0, y1: h / 2, x2: w, y2: h / 2 },
+					{ x1: w / 2, y1: 0, x2: w / 2, y2: h }
+				);
 			}
+			elems.$setAttr( ( _, i ) => attrs[ i ] );
 		}
 	}
 }
