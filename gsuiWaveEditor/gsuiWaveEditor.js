@@ -46,8 +46,7 @@ class gsuiWaveEditor extends gsui0ne {
 				$gridVal: ".gsuiWaveEditor-div span",
 				$gridSli: ".gsuiWaveEditor-div gsui-slider",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
-				$waveSVG: ".gsuiWaveEditor-wave svg",
-				$wavePolyline: ".gsuiWaveEditor-wave polyline",
+				$waveSVG: ".gsuiWaveEditor-wave gsui-wavelet-svg",
 			},
 			$attributes: {
 				div: "16 16",
@@ -78,7 +77,8 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#waveH = this.$elements.$wave.$height() | 0;
 		this.#updateBeatlines( 0, this.#div[ 0 ] );
 		this.#updateBeatlines( 1, this.#div[ 1 ] );
-		this.#drawWaveThr();
+		this.$elements.$waveSVG.$get( 0 ).$resolution();
+		this.#drawWave();
 	}
 	static get observedAttributes() {
 		return [ "div", "tool" ]; // "symmetry", "normalized"
@@ -367,31 +367,8 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#drawWave() {
-		this.$elements.$waveSVG.$viewbox( this.#waveW, this.#waveH );
-		gsuiWaveEditor.$drawWave( this.$elements.$wavePolyline, this.#waveArray, this.#waveW, this.#waveH );
+		this.$elements.$waveSVG.$get( 0 ).$draw( this.#waveArray, true );
 		this.#updateNormalized();
-	}
-	static $drawWave( polyline, waveArray, w, h ) {
-		if ( !waveArray?.length || !w || !h ) {
-			return;
-		}
-
-		const arr = GSUarrayResize( waveArray, w );
-		const len = arr.length - 1;
-		const pts = GSUnewArray( len + 1, i => [
-			i / len * w,
-			( .5 - arr[ i ] / 2 ) * h,
-		] );
-
-		pts.unshift(
-			[ -10, h / 2 ],
-			[ -10, pts[ 0 ][ 1 ] ],
-		);
-		pts.push(
-			[ w + 10, pts.at( -1 )[ 1 ] ],
-			[ w + 10, h / 2 ],
-		);
-		polyline.$setAttr( "points", pts.join( " " ) );
 	}
 	#updateHoverSquare( px, py ) {
 		const [ ix, iy ] = this.#getCoord( px, py );
