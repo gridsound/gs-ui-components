@@ -46,6 +46,7 @@ gsui-wavelet-browser {
 		height: 100%;
 
 		&:first-child {
+			fill: none;
 			opacity: .3;
 
 			&[ data-ind="0" ] {
