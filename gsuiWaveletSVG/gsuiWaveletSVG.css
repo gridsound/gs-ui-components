@@ -1,5 +1,5 @@
 gsui-wavelet-svg {
-	--gsuiWaveletSVG-pad: 0;
+	--gsuiWaveletSVG-pad: 0px;
 	position: relative;
 	display: flex;
 	fill: #fff2;
