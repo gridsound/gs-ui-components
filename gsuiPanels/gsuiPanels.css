@@ -4,9 +4,10 @@ gsui-panels {
 	display: flex;
 	width: 100%;
 	height: 100%;
-}
-gsui-panels[ dir="y" ] {
-	flex-direction: column;
+
+	&[ dir="y" ] {
+		flex-direction: column;
+	}
 }
 
 /* .......................................................................... */
@@ -23,16 +24,17 @@ gsui-panels[ dir="y" ] {
 	width: 100%;
 	height: 100%;
 	transition: background-color .2s;
-}
-gsui-panels[ dir="x" ] > .gsuiPanels-panel > .gsuiPanels-extend {
-	top: 0;
-	left: -2px;
-	width: 4px;
-	cursor: col-resize;
-}
-gsui-panels[ dir="y" ] > .gsuiPanels-panel > .gsuiPanels-extend {
-	left: 0;
-	top: -2px;
-	height: 4px;
-	cursor: row-resize;
+
+	gsui-panels[ dir="x" ] > * > & {
+		top: 0;
+		left: -2px;
+		width: 4px;
+		cursor: col-resize;
+	}
+	gsui-panels[ dir="y" ] > * > & {
+		left: 0;
+		top: -2px;
+		height: 4px;
+		cursor: row-resize;
+	}
 }
