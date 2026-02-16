@@ -72,13 +72,15 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	$connected() {
+		this.#drawWave( true );
+	}
 	$onresize() {
 		this.#waveW = this.$elements.$wave.$width() | 0;
 		this.#waveH = this.$elements.$wave.$height() | 0;
 		this.#updateBeatlines( 0, this.#div[ 0 ] );
 		this.#updateBeatlines( 1, this.#div[ 1 ] );
-		this.$elements.$waveSVG.$get( 0 ).$resolution();
-		this.#drawWave();
+		this.#drawWaveThr( true );
 	}
 	static get observedAttributes() {
 		return [ "div", "tool" ]; // "symmetry", "normalized"
@@ -366,7 +368,10 @@ class gsuiWaveEditor extends gsui0ne {
 			wave[ sqX + i ] = sqY + sqH * fn( i / sqW );
 		}
 	}
-	#drawWave() {
+	#drawWave( res ) {
+		if ( res ) {
+			this.$elements.$waveSVG.$get( 0 ).$resolution();
+		}
 		this.$elements.$waveSVG.$get( 0 ).$draw( this.#waveArray, true );
 		this.#updateNormalized();
 	}
