@@ -19,12 +19,13 @@ class gsuiWaveletSVG extends gsui0ne {
 	static get observedAttributes() {
 		return [ "axes" ];
 	}
-	$attributeChanged( prop, val, prev ) {
+	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "axes":
-				val === ""
-					? this.$element.$append( GSUcreateElement( "line" ), GSUcreateElement( "line" ) )
-					: this.$element.$query( "line" ).$remove();
+				val !== ""
+					? this.$element.$query( "line" ).$remove()
+					: this.$element.$children().$size() === 1 && // because of GSUdomRecallAttributes
+						this.$element.$append( GSUcreateElement( "line" ), GSUcreateElement( "line" ) )
 				break;
 		}
 	}
