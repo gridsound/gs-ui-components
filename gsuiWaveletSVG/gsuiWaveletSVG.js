@@ -32,8 +32,8 @@ class gsuiWaveletSVG extends gsui0ne {
 	// .........................................................................
 	$resolution() {
 		this.$element.$viewbox(
-			this.#w = this.$element.$width(),
-			this.#h = this.$element.$height(),
+			this.#w = this.$this.$width(),
+			this.#h = this.$this.$height(),
 		);
 	}
 	$draw( arr, withResize ) {
