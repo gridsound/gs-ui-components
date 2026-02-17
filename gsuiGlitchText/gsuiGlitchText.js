@@ -66,7 +66,7 @@ class gsuiGlitchText extends gsui0ne {
 		this.$elements.$clips.$at( 1 ).$css( "clipPath", `inset(${ .4 - clip1 }em 0 ${ .3 - clip2 }em 0)` );
 		this.$elements.$clips.$at( 2 ).$css( "clipPath", `inset(${ .7 + clip2 }em 0 -1em 0)` );
 		this.#textContent( this.#randText() );
-		GSUdomAddClass( this, "gsuiGlitchText-blended" );
+		this.$this.$addClass( "gsuiGlitchText-blended" );
 	}
 	#unglitch() {
 		this.$elements.$clips.$css( {
@@ -74,7 +74,7 @@ class gsuiGlitchText extends gsui0ne {
 			transform: "",
 		} );
 		this.#textContent( this.#text );
-		GSUdomRmClass( this, "gsuiGlitchText-blended" );
+		this.$this.$rmClass( "gsuiGlitchText-blended" );
 	}
 
 	// .........................................................................
