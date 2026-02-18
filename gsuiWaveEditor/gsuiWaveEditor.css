@@ -148,7 +148,6 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 		position: absolute;
 		inset: 0;
 		fill: var( --gsuiWaveEditor-btn-color );
-		fill-opacity: .1;
 	}
 }
 .gsuiWaveEditor-wave-hover-square {

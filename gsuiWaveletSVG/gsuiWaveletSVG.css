@@ -2,9 +2,10 @@ gsui-wavelet-svg {
 	--gsuiWaveletSVG-pad: 0px;
 	position: relative;
 	display: flex;
-	fill: #fff2;
-	stroke: #fff;
+	fill: currentColor;
+	stroke: currentColor;
 	stroke-width: 2px;
+	fill-opacity: .15;
 
 	svg {
 		position: absolute;
