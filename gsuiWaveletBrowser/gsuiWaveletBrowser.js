@@ -30,8 +30,11 @@ class gsuiWaveletBrowser extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
+		const bcr = this.$elements.$svgs.$bcr();
+		const wh = `${ bcr.w | 0 } ${ bcr.h | 0 }`;
+
 		this.$elements.$list.$css( "--gsui-h", this.$elements.$svgs.$height(), "px" );
-		this.$elements.$svgs.$children().$each( el => el.$resolution() );
+		this.$elements.$svgs.$children().$setAttr( "resolution", wh );
 		this.#drawWave( 0, this.#selectedWaveInd );
 		this.#drawWave( 1, this.#currentWaveInd );
 	}

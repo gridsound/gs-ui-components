@@ -370,7 +370,10 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 	#drawWave( res ) {
 		if ( res ) {
-			this.$elements.$waveSVG.$get( 0 ).$resolution();
+			const bcr = this.$elements.$waveSVG.$bcr();
+			const wh = `${ bcr.w | 0 } ${ bcr.h | 0 }`;
+
+			this.$elements.$waveSVG.$setAttr( "resolution", wh );
 		}
 		this.$elements.$waveSVG.$get( 0 ).$draw( this.#waveArray, true );
 		this.#updateNormalized();

@@ -17,10 +17,11 @@ class gsuiWaveletSVG extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "axes" ];
+		return [ "resolution", "axes" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "resolution": this.#res( val ); break;
 			case "axes":
 				val !== ""
 					? this.$element.$query( "line" ).$remove()
@@ -31,17 +32,19 @@ class gsuiWaveletSVG extends gsui0ne {
 	}
 
 	// .........................................................................
-	$resolution() {
-		this.$element.$viewbox(
-			this.#w = this.$this.$width(),
-			this.#h = this.$this.$height(),
-		);
-	}
 	$draw( arr, withResize ) {
 		gsuiWaveletSVG.#draw( this.$element.$children(), this.#w, this.#h, arr, withResize );
 	}
 
 	// .........................................................................
+	#res( wh ) {
+		const [ w, h ] = GSUsplitInts( wh );
+		const pad = parseFloat( this.$this.$css( "--gsuiWaveletSVG-pad" ) || 0 );
+
+		this.#w = w - pad;
+		this.#h = h - pad;
+		this.$element.$viewbox( this.#w, this.#h );
+	}
 	static #draw( elems, w, h, arr, withResize ) {
 		if ( w && h && arr?.length >= 1 ) {
 			const attrs = [];
