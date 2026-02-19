@@ -56,11 +56,11 @@ class gsuiWaveletSVG extends gsui0ne {
 	static #draw2( elems, w, h, arr, amp, withResize ) {
 		if ( w && h && arr?.length >= 1 ) {
 			const attrs = [];
-			const arr2 = withResize ? GSUarrayResize( arr, w ) : arr;
-			const len = arr.length - 1;
+			const arr2 = withResize && arr.length > w ? GSUarrayResize( arr, w ) : arr;
+			const len = arr2.length - 1;
 			const pts = GSUnewArray( len + 1, i => [
 				i / len * w,
-				( .5 - arr[ i ] / 2 * amp ) * h,
+				( .5 - arr2[ i ] / 2 * amp ) * h,
 			] );
 
 			pts.unshift(
