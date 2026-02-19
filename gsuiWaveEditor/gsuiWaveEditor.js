@@ -5,7 +5,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveW = 0;
 	#waveH = 0;
 	#ptrDown = false;
-	#waveArray = [];
+	#waveArray = [ 0, 0 ];
 	#waveArray2 = null;
 	#currentSquare = null;
 	#toolSelected = null;
@@ -46,7 +46,7 @@ class gsuiWaveEditor extends gsui0ne {
 				$gridVal: ".gsuiWaveEditor-div span",
 				$gridSli: ".gsuiWaveEditor-div gsui-slider",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
-				$waveSVG: ".gsuiWaveEditor-wave gsui-wavelet-svg",
+				$waveSVG: "gsui-periodicwave",
 			},
 			$attributes: {
 				div: "16 16",
@@ -370,12 +370,11 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 	#drawWave( res ) {
 		if ( res ) {
-			const bcr = this.$elements.$waveSVG.$bcr();
-			const wh = `${ bcr.w | 0 } ${ bcr.h | 0 }`;
-
-			this.$elements.$waveSVG.$setAttr( "resolution", wh );
+			this.$elements.$waveSVG.$message( GSEV_PERIODICWAVE_RESIZE );
 		}
-		this.$elements.$waveSVG.$message( GSEV_WAVELETSVG_DRAW, this.#waveArray );
+		this.$elements.$waveSVG
+			.$message( GSEV_PERIODICWAVE_DATA, this.#waveArray )
+			.$message( GSEV_PERIODICWAVE_OPTS, {} );
 		this.#updateNormalized();
 	}
 	#updateHoverSquare( px, py ) {

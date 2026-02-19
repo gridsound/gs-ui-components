@@ -144,7 +144,7 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 	gsui-beatlines {
 		inset: -2px;
 	}
-	gsui-wavelet-svg {
+	gsui-periodicwave {
 		position: absolute;
 		inset: 0;
 		fill: var( --gsuiWaveEditor-btn-color );

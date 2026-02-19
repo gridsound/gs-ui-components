@@ -51,7 +51,7 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 		GSUcreateFlex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
 			GSUcreateElement( "gsui-beatlines", { dir: "x", timedivision: "1/1", color: "#fff" } ),
 			GSUcreateElement( "gsui-beatlines", { dir: "y", timedivision: "1/1", color: "#fff", vertical: true } ),
-			GSUcreateElement( "gsui-wavelet-svg" ),
+			GSUcreateElement( "gsui-periodicwave" ),
 			GSUcreateDiv( { class: "gsuiWaveEditor-wave-hover-square", inert: true } ),
 		),
 	),
