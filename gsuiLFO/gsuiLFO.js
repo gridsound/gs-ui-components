@@ -115,10 +115,10 @@ class gsuiLFO extends gsui0ne {
 	}
 	#changeType( type ) {
 		this.$elements.$wave.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() );
-		GSUdomQS( this, `[type="radio"][value="${ type }"]` ).checked = true;
+		this.$this.$query( `[type="radio"][value="${ type }"]` ).$prop( "checked", true );
 	}
 	#changeAmpSign( amp ) {
-		GSUdomQS( this, `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).checked = true;
+		this.$this.$query( `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).$prop( "checked", true );
 	}
 	#changeProp( prop, val ) {
 		this.#getPropSlider( prop ).$setAttr( "value", val );
@@ -175,7 +175,7 @@ class gsuiLFO extends gsui0ne {
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
 		if ( this.$this.$hasAttr( "toggle" ) ) {
-			const el = GSUcreateDiv( { class: "gsuiLFO-keyPreview", style: { left: 0, top: "50%" } } );
+			const el = $( "<div>" ).$addClass( "gsuiLFO-keyPreview" ).$css( { left: 0, top: "50%" } );
 
 			this.#keyPreviews.push( {
 				$id: id,
@@ -213,13 +213,13 @@ class gsuiLFO extends gsui0ne {
 		const since = ( now - p.$when ) * p.$bps;
 
 		if ( since > p.$dur ) {
-			p.$elem.remove();
+			p.$elem.$remove();
 			toRm.push( p );
 		} else {
 			const x = since / this.#dur;
 			const y = this.$elements.$wave.$message( GSEV_PERIODICWAVE_GETY, x * this.#waveWidth );
 
-			GSUdomStyle( p.$elem, {
+			p.$elem.$css( {
 				top: `${ 50 + y * 50 }%`,
 				left: `${ x * 100 }%`,
 			} );
