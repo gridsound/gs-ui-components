@@ -2,6 +2,7 @@
 
 class gsuiPeriodicWave extends gsui0ne {
 	static #cache = {};
+	#waveArray = null;
 	#opts = Object.seal( {
 		type: "",
 		delay: 0,
@@ -27,6 +28,13 @@ class gsuiPeriodicWave extends gsui0ne {
 	$firstTimeConnected() {
 		this.$resized();
 	}
+	$onmessage( ev, val ) {
+		switch ( ev ) {
+			case GSEV_PERIODICWAVE_DATA:
+				this.#waveArray = GSUarrayResize( val, 256 );
+				break;
+		}
+	}
 
 	// .........................................................................
 	$getY( xBeat ) {
@@ -41,7 +49,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		this.#drawLine();
 	}
 	#drawLine() {
-		if ( this.#opts.type in gsuiPeriodicWave.#cache ) {
+		if ( this.#waveArray || this.#opts.type in gsuiPeriodicWave.#cache ) {
 			this.$element.$child( 0 ).$setAttr( {
 				points: gsuiPeriodicWave.#draw( this.#getDrawData() ),
 				"stroke-opacity": this.#opts.opacity,
@@ -56,7 +64,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		return {
 			w,
 			h,
-			wave: gsuiPeriodicWave.#cache[ opt.type ],
+			wave: this.#waveArray || gsuiPeriodicWave.#cache[ opt.type ],
 			delX: w / opt.duration * opt.delay,
 			attX: w / opt.duration * opt.attack,
 			amp: -opt.amplitude * .95,
