@@ -23,15 +23,21 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 320px;
-	--test-content-h: 220px;
+	--test-content-w: 420px;
+	--test-content-h: 500px;
 }
 gsui-wavelet-svg {
 	position: absolute;
 	inset: 0;
 }
-#testCtrls input[ type=range ] {
-	width: 80px;
+#testCtrls {
+	b {
+		display: inline-flex;
+		width: 48px;
+	}
+	input[ type=range ] {
+		width: 80px;
+	}
 }
 </style>
 </head>
@@ -42,13 +48,27 @@ gsui-wavelet-svg {
 	<gsui-wavelet-svg></gsui-wavelet-svg>
 </div>
 <div id="TEST-CTRLS">
-	<button class="gsuiIcon" data-icon="wave-sin" data-w="sine"></button>
-	<button class="gsuiIcon" data-icon="wave-tri" data-w="triangle"></button>
-	<button class="gsuiIcon" data-icon="wave-saw" data-w="sawtooth"></button>
-	<button class="gsuiIcon" data-icon="wave-squ" data-w="square"></button>
-	<br/>
-	<b>amp</b><input data-what="amp" type="range" min="-1" max="1" step=".01" value="1"/><br/>
-	<b>hz</b><input data-what="hz" type="range" min="0" max="4" step=".01" value="1"/>
+	<gs-flex x>
+		<button class="gsuiIcon" data-icon="wave-sin" data-w="sine"></button>
+		<button class="gsuiIcon" data-icon="wave-tri" data-w="triangle"></button>
+		<button class="gsuiIcon" data-icon="wave-saw" data-w="sawtooth"></button>
+		<button class="gsuiIcon" data-icon="wave-squ" data-w="square"></button>
+	</gs-flex>
+	<gs-flex x g12>
+		<b>amp</b>
+		<input data-what="amp" type="range" min="-1" max="1" step=".01" value="1"/>
+		<code>1</code>
+	</gs-flex>
+	<gs-flex x g12>
+		<b>hz</b>
+		<input data-what="hz" type="range" min="0" max="4" step=".01" value="1"/>
+		<code>1</code>
+	</gs-flex>
+	<gs-flex x g12>
+		<b>nbPts</b>
+		<input data-what="nbPts" type="range" min="2" max="512" step="1" value="200"/>
+		<code>200</code>
+	</gs-flex>
 </div>
 
 <!-- ....................................................................... -->
@@ -75,10 +95,12 @@ gsui-wavelet-svg {
 <!-- ....................................................................... -->
 <script>
 const el = $( "gsui-wavelet-svg" );
-let wave = GSUmathWaveFns.sine( 200 );
+let size = 200;
+let waveName = "triangle";
+let wave = GSUmathWaveFns[ waveName ]( size );
 
 function draw() {
-	el.$message( GSEV_WAVELETSVG_DRAW, wave, false );
+	el.$message( GSEV_WAVELETSVG_DRAW, wave );
 }
 
 GSUdomObserveSize( el.$get( 0 ), ( w, h ) => {
@@ -91,16 +113,25 @@ $( "#testCtrls" ).$on( "click", e => {
 	const w = tar.$getAttr( "data-w" );
 
 	if ( w ) {
-		wave = GSUmathWaveFns[ w ]( 200 );
+		waveName = w;
+		wave = GSUmathWaveFns[ w ]( size );
 		draw();
 	}
 } );
 $( "input[data-what=amp]" ).$on( "input", e => {
 	el.$setAttr( "amp", +e.target.value );
+	$( e.target ).$next().$text( e.target.value );
 	draw();
 } );
 $( "input[data-what=hz]" ).$on( "input", e => {
 	el.$setAttr( "hz", +e.target.value );
+	$( e.target ).$next().$text( e.target.value );
+	draw();
+} );
+$( "input[data-what=nbPts]" ).$on( "input", e => {
+	size = +e.target.value;
+	wave = GSUmathWaveFns[ waveName ]( size );
+	$( e.target ).$next().$text( size );
 	draw();
 } );
 </script>

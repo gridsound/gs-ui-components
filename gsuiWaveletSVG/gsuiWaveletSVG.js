@@ -34,9 +34,9 @@ class gsuiWaveletSVG extends gsui0ne {
 				break;
 		}
 	}
-	$onmessage( ev, arr, withResize ) {
+	$onmessage( ev, arr ) {
 		if ( ev === GSEV_WAVELETSVG_DRAW ) {
-			this.#draw( arr, withResize );
+			this.#draw( arr );
 		}
 	}
 
@@ -47,21 +47,25 @@ class gsuiWaveletSVG extends gsui0ne {
 
 		this.#w = w - pad;
 		this.#h = h - pad;
-		this.$element.$viewbox( this.#w, this.#h );
+		if ( this.#w > 0 && this.#h > 0 ) {
+			this.$element.$viewbox( this.#w, this.#h );
+		}
 	}
-	#draw( arr, withResize ) {
+	#draw( arr ) {
 		const [ hz, amp ] = this.$this.$getAttr( "hz", "amp" );
 
-		gsuiWaveletSVG.#draw2( this.$element.$children(), this.#w, this.#h, arr, +hz, +amp, withResize );
+		gsuiWaveletSVG.#draw2( this.$element.$children(), this.#w, this.#h, arr, +hz, +amp );
 	}
-	static #draw2( elems, w, h, arr, hz, amp, withResize ) {
-		if ( w && h && arr?.length >= 1 ) {
+	static #draw2( elems, w, h, arr, hz, amp ) {
+		if ( w > 0 && h > 0 && arr?.length >= 1 ) {
 			const attrs = [];
-			const arr2 = withResize && arr.length > w ? GSUarrayResize( arr, w ) : arr;
-			const len = arr2.length - 1;
-			const pts = GSUnewArray( w, i => [
-				i,
-				( .5 - arr2[ i / w * hz % 1 * len | 0 ] / 2 * amp ) * h,
+			const len = arr.length;
+			const len1 = len - 1;
+			const nbPts = GSUmathClamp( len * hz, 2, w );
+			const nbPts1 = nbPts - 1;
+			const pts = GSUnewArray( nbPts, i => [
+				i / nbPts1 * w,
+				( .5 - arr[ Math.min( len1, Math.round( i / nbPts1 * len1 * hz % len ) ) ] / 2 * amp ) * h,
 			] );
 
 			pts.unshift(

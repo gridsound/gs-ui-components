@@ -292,7 +292,7 @@ class gsuiWavetable extends gsui0ne {
 	}
 	#wtwaves_updatePreview( id ) {
 		this.#wtwaves_getElem( id ).$query( "gsui-wavelet-svg" )
-			.$message( GSEV_WAVELETSVG_DRAW, this.#data.waves[ id ].curve, true );
+			.$message( GSEV_WAVELETSVG_DRAW, this.#data.waves[ id ].curve );
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );
