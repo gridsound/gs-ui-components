@@ -67,10 +67,6 @@ body {
 </div>
 
 <!-- ....................................................................... -->
-<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
-<script src="../assets/gswaPeriodicWavesList-v1.js"></script>
-
-<!-- ....................................................................... -->
 <script src="../gs-utils/gs-utils.js"></script>
 <script src="../gs-utils/gs-utils-dom.js"></script>
 <script src="../gs-utils/gs-utils-math.js"></script>
@@ -96,12 +92,10 @@ body {
 const elLFO = GSUdomQS( "gsui-lfo" );
 const inpToggle = GSUdomQS( "#toggle" );
 const inpTarget = GSUdomQS( "#lfoTarget" );
-const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
 inpToggle.onchange = e => GSUdomSetAttr( elLFO, "toggle", e.target.checked );
 inpTarget.onchange = e => GSUdomSetAttr( elLFO, "lfo", e.target.value );
 
-waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
 elLFO.$updateWave();
 
 const btnsPlay = GSUdomQSA( ".btnPlay" );

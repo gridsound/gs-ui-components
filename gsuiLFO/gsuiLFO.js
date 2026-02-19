@@ -87,7 +87,6 @@ class gsuiLFO extends gsui0ne {
 	$updateWave( prop, val ) {
 		const bPM = +( this.$this.$getAttr( "timedivision" ) || "4/4" ).split( "/" )[ 0 ];
 		const opt = {
-			type: this.$this.$getAttr( "type" ),
 			delay: prop === "delay" ? val : +this.$this.$getAttr( "delay" ),
 			attack: prop === "attack" ? val : +this.$this.$getAttr( "attack" ),
 			frequency: prop === "speed" ? val : +this.$this.$getAttr( "speed" ),
@@ -101,6 +100,7 @@ class gsuiLFO extends gsui0ne {
 		this.#dur = Math.max( opt.delay + opt.attack + 2, bPM );
 		this.$elements.$wave
 			.$css( "opacity", Math.min( 6 / opt.frequency, 1 ) )
+			.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() )
 			.$get( 0 ).$options( opt );
 		this.#updatePxPerBeat();
 	}
@@ -108,12 +108,13 @@ class gsuiLFO extends gsui0ne {
 	// .........................................................................
 	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"] gsui-slider` ); }
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
+	#createWaveArray() { return GSUmathWaveFns[ this.$this.$getAttr( "type" ) || "sine" ]( 256 ); }
 	#changeToggle( b ) {
 		this.$this.$query( "[type=radio]" ).$setAttr( "disabled", !b );
 		this.$elements.$propSli.$setAttr( "disabled", !b );
 	}
 	#changeType( type ) {
-		this.$elements.$wave.$get( 0 ).$options( { type } );
+		this.$elements.$wave.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() );
 		GSUdomQS( this, `[type="radio"][value="${ type }"]` ).checked = true;
 	}
 	#changeAmpSign( amp ) {
