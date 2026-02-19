@@ -35,7 +35,7 @@ gsui-wavetable-graph {
 
 <!-- ....................................................................... -->
 <div id="TEST" data-min-auto>
-	<gsui-wavetable-graph></gsui-wavetable-graph>
+	<gsui-wavetable-graph resolution="300 300"></gsui-wavetable-graph>
 </div>
 <div id="TEST-CTRLS">
 	<div>
@@ -66,11 +66,10 @@ gsui-wavetable-graph {
 
 <!-- ....................................................................... -->
 <script>
-const el = GSUdomQS( "gsui-wavetable-graph" );
+const el = $( "gsui-wavetable-graph" );
 const inpMorph = GSUdomQS( "#morph" );
 const inpWaveSelected = GSUdomQS( "#waveSelected" );
 const inpRmMorph = GSUdomQS( "#rmMorph" );
-
 const wt = {
 	0: {
 		index: 0,
@@ -91,19 +90,13 @@ const wt = {
 };
 
 inpWaveSelected.max = Object.keys( wt ).length - 1;
+inpWaveSelected.oninput = () => el.$setAttr( "waveselected", `${ inpWaveSelected.value }` ).$message( GSEV_WAVETABLEGRAPH_DRAW );
+inpRmMorph.onclick = () => el.$setAttr( "morphing", -1 );
+inpMorph.oninput = () => el.$setAttr( "morphing", inpMorph.value );
 
-inpWaveSelected.oninput = () => {
-	el.$selectCurrentWave( `${ inpWaveSelected.value }` );
-	el.$draw();
-};
-
-inpRmMorph.onclick = () => el.$setMorphingWaveAt( -1 );
-inpMorph.oninput = () => el.$setMorphingWaveAt( inpMorph.value );
-
-el.$setWavetable( wt );
-el.$selectCurrentWave( "0" );
-el.$setResolution( 300, 300 );
-el.$draw();
+el.$setAttr( "waveselected", "0" )
+	.$message( GSEV_WAVETABLEGRAPH_DATA, wt )
+	.$message( GSEV_WAVETABLEGRAPH_DRAW );
 </script>
 </body>
 </html>

@@ -76,11 +76,11 @@ class gsuiWavetable extends gsui0ne {
 				}
 			},
 			[ GSEV_DOTLINE_CHANGE ]: ( _, curve ) => this.#onchange( { wtposCurves: { [ this.#wtposCurveSelected ]: { curve } } } ),
-			[ GSEV_DOTLINE_INPUTSTART ]: ( _, a ) => this.$elements.$wtGraph.$get( 0 ).$setMorphingWaveAt( a.$data[ a.$dotId ].y ),
-			[ GSEV_DOTLINE_INPUTEND ]: () => this.$elements.$wtGraph.$get( 0 ).$setMorphingWaveAt( -1 ),
+			[ GSEV_DOTLINE_INPUTSTART ]: ( _, a ) => this.$elements.$wtGraph.$setAttr( "morphing", a.$data[ a.$dotId ].y ),
+			[ GSEV_DOTLINE_INPUTEND ]: () => this.$elements.$wtGraph.$setAttr( "morphing", -1 ),
 			[ GSEV_DOTLINE_INPUT ]: ( _, a ) => {
 				if ( a.$target === "dot" ) {
-					this.$elements.$wtGraph.$get( 0 ).$setMorphingWaveAt( a.$data[ a.$dotId ].y );
+					this.$elements.$wtGraph.$setAttr( "morphing", a.$data[ a.$dotId ].y );
 				}
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
@@ -101,8 +101,9 @@ class gsuiWavetable extends gsui0ne {
 		this.#wtposCurve_selectCurve( "0" );
 		GSUforEach( this.#data.wtposCurves, ( c, id ) => this.#wtposCurve_updatePreview( id ) );
 		this.$elements.$editor.$get( 0 ).$setWaveArray( this.#data.waves[ 0 ].curve );
-		this.$elements.$wtGraph.$get( 0 ).$setWavetable( this.#data.waves );
-		this.$elements.$wtGraph.$get( 0 ).$draw();
+		this.$elements.$wtGraph
+			.$message( GSEV_WAVETABLEGRAPH_DATA, this.#data.waves )
+			.$message( GSEV_WAVETABLEGRAPH_DRAW );
 		this.$elements.$wtDotline.$get( 0 ).$change( this.#data.wtCurve );
 	}
 
@@ -173,8 +174,9 @@ class gsuiWavetable extends gsui0ne {
 		}
 		wavesToUpdate.forEach( id => this.#wtwaves_updatePreview( id ) );
 		curvesToUpdate.forEach( id => this.#wtposCurve_updatePreview( id ) );
-		this.$elements.$wtGraph.$get( 0 ).$setWavetable( this.#data.waves );
-		this.$elements.$wtGraph.$get( 0 ).$draw();
+		this.$elements.$wtGraph
+			.$message( GSEV_WAVETABLEGRAPH_DATA, this.#data.waves )
+			.$message( GSEV_WAVETABLEGRAPH_DRAW );
 		return obj;
 	}
 
@@ -316,8 +318,9 @@ class gsuiWavetable extends gsui0ne {
 			this.#wtposCurve_getWave( this.#waveSelected ).$rmAttr( "data-selected" );
 			this.#wtwaves_getElem( this.#waveSelected ).$rmAttr( "data-selected" );
 			this.#waveSelected = wId;
-			this.$elements.$wtGraph.$get( 0 ).$selectCurrentWave( wId );
-			this.$elements.$wtGraph.$get( 0 ).$draw();
+			this.$elements.$wtGraph
+				.$setAttr( "waveselected", wId )
+				.$message( GSEV_WAVETABLEGRAPH_DRAW );
 			this.$elements.$editor.$get( 0 ).$setWaveArray( this.#data.waves[ wId ].curve );
 			this.#wtposCurve_getWave( wId ).$addAttr( "data-selected" );
 			this.#wtwaves_getElem( wId ).$addAttr( "data-selected" );
@@ -418,7 +421,7 @@ class gsuiWavetable extends gsui0ne {
 			p.$elemB.$remove();
 			toRm.push( p );
 			if ( p.$id === this.#lastKeyPreview ) {
-				this.$elements.$wtGraph.$get( 0 ).$setMorphingWaveAt( -1 );
+				this.$elements.$wtGraph.$setAttr( "morphing", -1 );
 			}
 		} else {
 			const wtposCurve = this.#data.wtposCurves[ p.$wtposCurveId ];
@@ -428,7 +431,7 @@ class gsuiWavetable extends gsui0ne {
 			p.$elemB.$left( x * 100, "%" );
 			p.$elemA.$left( x * 100, "%" ).$top( ( 1 - y ) * 100, "%" );
 			if ( p.$id === this.#lastKeyPreview ) {
-				this.$elements.$wtGraph.$get( 0 ).$setMorphingWaveAt( y );
+				this.$elements.$wtGraph.$setAttr( "morphing", y );
 			}
 		}
 	}

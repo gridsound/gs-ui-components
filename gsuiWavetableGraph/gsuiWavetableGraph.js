@@ -39,11 +39,32 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize( w, h ) {
-		this.$setResolution( w, h );
-		this.$draw();
+	$onmessage( key, val ) {
+		switch ( key ) {
+			case GSEV_WAVETABLEGRAPH_DRAW: this.#draw(); break;
+			case GSEV_WAVETABLEGRAPH_DATA: this.#setWavetable( val ); break;
+		}
 	}
-	$setResolution( w, h ) {
+	$onresize( w, h ) {
+		this.#setResolution( `${ w } ${ h }` );
+		this.#draw();
+	}
+	static get observedAttributes() {
+		return [ "resolution", "morphing", "waveselected" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "waveselected": this.#selectedWave = val; break;
+			case "resolution": this.#setResolution( val ); break;
+			case "morphing":
+				this.#morphingWaveAt = +val;
+				this.#drawMorph();
+				break;
+		}
+	}
+	#setResolution( wh ) {
+		const [ w, h ] = GSUsplitInts( wh );
+
 		this.#w = w;
 		this.#h = h;
 		this.#drawSz = Math.min( this.#w, this.#h ) / 2.1;
@@ -53,7 +74,7 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#perspective.camX = obj.camX ?? this.#perspective.camX;
 		this.#perspective.camY = obj.camY ?? this.#perspective.camY;
 	}
-	$setWavetable( wt ) {
+	#setWavetable( wt ) {
 		this.#waves.length = 0;
 		GSUforEach( wt, ( wave, wId ) => {
 			const dots = this.#getDots( wave.curve );
@@ -66,13 +87,6 @@ class gsuiWavetableGraph extends gsui0ne {
 		} );
 		this.#waves.sort( ( a, b ) => a.index - b.index );
 	}
-	$selectCurrentWave( wId ) {
-		this.#selectedWave = wId;
-	}
-	$setMorphingWaveAt( index ) {
-		this.#morphingWaveAt = index;
-		this.#drawMorph();
-	}
 	#getDots( w ) {
 		const dots = GSUarrayResize( w, 80 ).map( ( d, i ) => [ i / ( 80 - 1 ), d ] );
 
@@ -81,7 +95,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 
 	// .........................................................................
-	$draw() {
+	#draw() {
 		this.#boxW = this.#calcX( 1, 1, 1 ) - this.#calcX( 0, 0, 0 );
 		this.#boxH = this.#calcY( 1, 1, 1 ) - this.#calcY( 0, 0, 0 );
 		this.#drawBox();
@@ -223,7 +237,7 @@ class gsuiWavetableGraph extends gsui0ne {
 			camX: GSUmathClamp( 0, 1, this.#perspective.camX - e.movementX / this.#drawSz / 2 ),
 			camY: GSUmathClamp( 0, 1, this.#perspective.camY + e.movementY / this.#drawSz / 2 ),
 		} );
-		this.$draw();
+		this.#draw();
 	}
 }
 
