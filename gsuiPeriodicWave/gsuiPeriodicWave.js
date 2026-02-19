@@ -28,10 +28,10 @@ class gsuiPeriodicWave extends gsui0ne {
 	$firstTimeConnected() {
 		this.$onmessage( GSEV_PERIODICWAVE_RESIZE );
 	}
-	$onmessage( ev, val ) {
+	$onmessage( ev, val, w ) {
 		switch ( ev ) {
 			case GSEV_PERIODICWAVE_DATA:
-				this.#waveArray = GSUarrayResize( val, 256 );
+				this.#waveArray = val && GSUarrayResize( val, w ?? this.clientWidth );
 				break;
 			case GSEV_PERIODICWAVE_OPTS:
 				Object.assign( this.#opts, val );
@@ -76,20 +76,29 @@ class gsuiPeriodicWave extends gsui0ne {
 		gsuiPeriodicWave.#cache[ name ] = GSUmathRealImagToXY( real, imag, 256 );
 	}
 	static #draw( drawInfo ) {
-		const pts = new Float32Array( drawInfo.w * 2 );
+		const w = drawInfo.w;
+		const h2 = drawInfo.h / 2;
+		const pts = GSUnewArray( w, i => [
+			i,
+			h2 + h2 * gsuiPeriodicWave.#getY( drawInfo, i ),
+		] );
 
-		for ( let x = 0; x < drawInfo.w; ++x ) {
-			pts[ x * 2 ] = x;
-			pts[ x * 2 + 1 ] = drawInfo.h / 2 + gsuiPeriodicWave.#getY( drawInfo, x ) * drawInfo.h / 2;
-		}
+		pts.unshift(
+			[ -10, h2 ],
+			[ -10, pts[ 0 ][ 1 ] ],
+		);
+		pts.push(
+			[ w + 10, pts.at( -1 )[ 1 ] ],
+			[ w + 10, h2 ],
+		);
 		return pts.join( " " );
 	}
 	static #getY( { w, wave, delX, attX, amp, hz }, x ) {
-		if ( x > delX ) {
+		if ( x >= delX ) {
 			const xd = x - delX;
 			const att = xd < attX ? xd / attX : 1;
 
-			return wave[ xd / w * 256 * hz % 256 | 0 ] * amp * att;
+			return wave[ xd / w * wave.length * hz % wave.length | 0 ] * amp * att;
 		}
 		return 0;
 	}

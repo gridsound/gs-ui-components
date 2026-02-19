@@ -1,9 +1,20 @@
-gsui-periodicwave,
-gsui-periodicwave svg {
+gsui-periodicwave {
+	--gsuiPeriodicWave-pad: 0px;
+	position: relative;
 	width: 100%;
 	height: 100%;
-}
-gsui-periodicwave polyline {
+	fill: currentColor;
 	stroke: currentColor;
-	fill: none;
+	stroke-width: 2px;
+	fill-opacity: .15;
+
+	svg {
+		position: absolute;
+		top: var( --gsuiPeriodicWave-pad );
+		left: var( --gsuiPeriodicWave-pad );
+		width: calc( 100% - 2 * var( --gsuiPeriodicWave-pad ) );
+		height: calc( 100% - 2 * var( --gsuiPeriodicWave-pad ) );
+		border-radius: 3px;
+		background-color: var( --gsuiPeriodicWave-bg );
+	}
 }
