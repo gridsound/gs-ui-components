@@ -12,6 +12,7 @@ class gsuiWaveletSVG extends gsui0ne {
 				GSUcreateElement( "polyline" ),
 			),
 			$attributes: {
+				hz: 1,
 				amp: 1,
 			},
 		} );
@@ -20,7 +21,7 @@ class gsuiWaveletSVG extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "resolution", "axes" ]; // + "amp"
+		return [ "resolution", "axes" ]; // + "amp", "hz"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -49,18 +50,18 @@ class gsuiWaveletSVG extends gsui0ne {
 		this.$element.$viewbox( this.#w, this.#h );
 	}
 	#draw( arr, withResize ) {
-		const amp = this.$this.$getAttr( "amp" );
+		const [ hz, amp ] = this.$this.$getAttr( "hz", "amp" );
 
-		gsuiWaveletSVG.#draw2( this.$element.$children(), this.#w, this.#h, arr, +amp, withResize );
+		gsuiWaveletSVG.#draw2( this.$element.$children(), this.#w, this.#h, arr, +hz, +amp, withResize );
 	}
-	static #draw2( elems, w, h, arr, amp, withResize ) {
+	static #draw2( elems, w, h, arr, hz, amp, withResize ) {
 		if ( w && h && arr?.length >= 1 ) {
 			const attrs = [];
 			const arr2 = withResize && arr.length > w ? GSUarrayResize( arr, w ) : arr;
 			const len = arr2.length - 1;
-			const pts = GSUnewArray( len + 1, i => [
-				i / len * w,
-				( .5 - arr2[ i ] / 2 * amp ) * h,
+			const pts = GSUnewArray( w, i => [
+				i,
+				( .5 - arr2[ i / w * hz % 1 * len | 0 ] / 2 * amp ) * h,
 			] );
 
 			pts.unshift(

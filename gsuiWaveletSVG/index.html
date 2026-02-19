@@ -47,7 +47,8 @@ gsui-wavelet-svg {
 	<button class="gsuiIcon" data-icon="wave-saw" data-w="sawtooth"></button>
 	<button class="gsuiIcon" data-icon="wave-squ" data-w="square"></button>
 	<br/>
-	<b>amp</b><input data-what="amp" type="range" min="-1" max="1" step=".01" value="1"/>
+	<b>amp</b><input data-what="amp" type="range" min="-1" max="1" step=".01" value="1"/><br/>
+	<b>hz</b><input data-what="hz" type="range" min="0" max="4" step=".01" value="1"/>
 </div>
 
 <!-- ....................................................................... -->
@@ -76,9 +77,13 @@ gsui-wavelet-svg {
 const el = $( "gsui-wavelet-svg" );
 let wave = GSUmathWaveFns.sine( 200 );
 
+function draw() {
+	el.$message( GSEV_WAVELETSVG_DRAW, wave, false );
+}
+
 GSUdomObserveSize( el.$get( 0 ), ( w, h ) => {
-	el.$setAttr( "resolution", `${ w } ${ h }` )
-		.$message( GSEV_WAVELETSVG_DRAW, wave, false );
+	el.$setAttr( "resolution", `${ w } ${ h }` );
+	draw();
 } );
 
 $( "#testCtrls" ).$on( "click", e => {
@@ -87,13 +92,17 @@ $( "#testCtrls" ).$on( "click", e => {
 
 	if ( w ) {
 		wave = GSUmathWaveFns[ w ]( 200 );
-		el.$message( GSEV_WAVELETSVG_DRAW, wave, false );
+		draw();
 	}
 } );
-
-$( "input[data-what=amp]" ).$on( {
-	input: e => el.$setAttr( "amp", +e.target.value ).$message( GSEV_WAVELETSVG_DRAW, wave, false ),
-} )
+$( "input[data-what=amp]" ).$on( "input", e => {
+	el.$setAttr( "amp", +e.target.value );
+	draw();
+} );
+$( "input[data-what=hz]" ).$on( "input", e => {
+	el.$setAttr( "hz", +e.target.value );
+	draw();
+} );
 </script>
 </body>
 </html>
