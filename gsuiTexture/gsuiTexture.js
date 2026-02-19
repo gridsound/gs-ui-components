@@ -1,5 +1,10 @@
 "use strict";
 
+/*
+	Thanks to: https://heropatterns.com
+	GridSound credit page: https://github.com/gridsound/daw/wiki/about
+*/
+
 class gsuiTexture {
 	static #bg = {
 		dots:   [ 4, 4, "<path fill='#fff5' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'></path>" ],
