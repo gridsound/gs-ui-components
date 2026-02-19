@@ -2,13 +2,23 @@
 
 class gsuiPeriodicWave extends gsui0ne {
 	static #cache = {};
-	#options = [];
+	#opts = Object.seal( {
+		type: "",
+		delay: 0,
+		attack: 0,
+		frequency: 1,
+		amplitude: 1,
+		duration: 1,
+		opacity: 1,
+	} );
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiPeriodicWave",
 			$tagName: "gsui-periodicwave",
-			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true } ),
+			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
+				GSUcreateElement( "polyline" ),
+			),
 		} );
 		Object.seal( this );
 	}
@@ -19,45 +29,29 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 
 	// .........................................................................
-	$getY( lineN, xBeat ) {
-		return gsuiPeriodicWave.#getY( this.#getDrawData( lineN ), xBeat );
+	$getY( xBeat ) {
+		return gsuiPeriodicWave.#getY( this.#getDrawData(), xBeat );
 	}
-	$nbLines( n ) {
-		GSUarrayLength( this.#options, n, () => Object.seal( {
-			type: "",
-			delay: 0,
-			attack: 0,
-			frequency: 1,
-			amplitude: 1,
-			duration: 1,
-			opacity: 1,
-		} ) );
-		GSUdomSetChildrenLength( this.$element.$get( 0 ), n, "polyline" );
-	}
-	$options( lineN, opt ) {
-		if ( this.#options[ lineN ] ) {
-			Object.assign( this.#options[ lineN ], opt );
-			this.#drawLine( lineN );
-		}
+	$options( opt ) {
+		Object.assign( this.#opts, opt );
+		this.#drawLine();
 	}
 	$resized() {
 		this.$element.$viewbox( this.clientWidth, this.clientHeight );
-		this.#options.forEach( ( _, i ) => this.#drawLine( i ) );
+		this.#drawLine();
 	}
-	#drawLine( lineN ) {
-		const opt = this.#options[ lineN ];
-
-		if ( opt && opt.type in gsuiPeriodicWave.#cache ) {
-			this.$element.$child( lineN ).$setAttr( {
-				points: gsuiPeriodicWave.#draw( this.#getDrawData( lineN ) ),
-				"stroke-opacity": opt.opacity,
+	#drawLine() {
+		if ( this.#opts.type in gsuiPeriodicWave.#cache ) {
+			this.$element.$child( 0 ).$setAttr( {
+				points: gsuiPeriodicWave.#draw( this.#getDrawData() ),
+				"stroke-opacity": this.#opts.opacity,
 			} );
 		}
 	}
-	#getDrawData( lineN ) {
+	#getDrawData() {
 		const w = this.clientWidth;
 		const h = this.clientHeight;
-		const opt = this.#options[ lineN ];
+		const opt = this.#opts;
 
 		return {
 			w,
