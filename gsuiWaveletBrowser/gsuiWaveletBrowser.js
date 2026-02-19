@@ -46,9 +46,14 @@ class gsuiWaveletBrowser extends gsui0ne {
 			case "wave": this.#selectWave( val ); break;
 		}
 	}
+	$onmessage( ev, val ) {
+		if ( ev === GSEV_WAVELETBROWSER_DATA ) {
+			this.#setList( val );
+		}
+	}
 
 	// .........................................................................
-	$setList( list ) {
+	#setList( list ) {
 		this.#waves.length = 0;
 		GSUforEach( list, w => this.#waves.push( [ w[ 0 ], [ ...w[ 1 ] ] ] ) );
 		this.$elements.$list.$empty().$append( ...this.#waves.map( w => GSUcreateDiv( null, gsuiWaveletBrowser.#formatName( w[ 0 ] ) ) ) );
