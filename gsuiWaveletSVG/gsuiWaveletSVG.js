@@ -11,13 +11,16 @@ class gsuiWaveletSVG extends gsui0ne {
 			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
 				GSUcreateElement( "polyline" ),
 			),
+			$attributes: {
+				amp: 1,
+			},
 		} );
 		Object.seal( this );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "resolution", "axes" ];
+		return [ "resolution", "axes" ]; // + "amp"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -31,10 +34,8 @@ class gsuiWaveletSVG extends gsui0ne {
 		}
 	}
 	$onmessage( ev, arr, withResize ) {
-		switch ( ev ) {
-			case GSEV_WAVELETSVG_DRAW:
-				gsuiWaveletSVG.#draw( this.$element.$children(), this.#w, this.#h, arr, withResize );
-				break;
+		if ( ev === GSEV_WAVELETSVG_DRAW ) {
+			this.#draw( arr, withResize );
 		}
 	}
 
@@ -47,14 +48,19 @@ class gsuiWaveletSVG extends gsui0ne {
 		this.#h = h - pad;
 		this.$element.$viewbox( this.#w, this.#h );
 	}
-	static #draw( elems, w, h, arr, withResize ) {
+	#draw( arr, withResize ) {
+		const amp = this.$this.$getAttr( "amp" );
+
+		gsuiWaveletSVG.#draw2( this.$element.$children(), this.#w, this.#h, arr, +amp, withResize );
+	}
+	static #draw2( elems, w, h, arr, amp, withResize ) {
 		if ( w && h && arr?.length >= 1 ) {
 			const attrs = [];
 			const arr2 = withResize ? GSUarrayResize( arr, w ) : arr;
 			const len = arr.length - 1;
 			const pts = GSUnewArray( len + 1, i => [
 				i / len * w,
-				( .5 - arr[ i ] / 2 ) * h,
+				( .5 - arr[ i ] / 2 * amp ) * h,
 			] );
 
 			pts.unshift(

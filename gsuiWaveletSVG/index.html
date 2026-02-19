@@ -23,12 +23,15 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 400px;
-	--test-content-h: 260px;
+	--test-content-w: 320px;
+	--test-content-h: 220px;
 }
 gsui-wavelet-svg {
 	position: absolute;
 	inset: 0;
+}
+#testCtrls input[ type=range ] {
+	width: 80px;
 }
 </style>
 </head>
@@ -43,6 +46,8 @@ gsui-wavelet-svg {
 	<button class="gsuiIcon" data-icon="wave-tri" data-w="triangle"></button>
 	<button class="gsuiIcon" data-icon="wave-saw" data-w="sawtooth"></button>
 	<button class="gsuiIcon" data-icon="wave-squ" data-w="square"></button>
+	<br/>
+	<b>amp</b><input data-what="amp" type="range" min="-1" max="1" step=".01" value="1"/>
 </div>
 
 <!-- ....................................................................... -->
@@ -85,6 +90,10 @@ $( "#testCtrls" ).$on( "click", e => {
 		el.$message( GSEV_WAVELETSVG_DRAW, wave, false );
 	}
 } );
+
+$( "input[data-what=amp]" ).$on( {
+	input: e => el.$setAttr( "amp", +e.target.value ).$message( GSEV_WAVELETSVG_DRAW, wave, false ),
+} )
 </script>
 </body>
 </html>
