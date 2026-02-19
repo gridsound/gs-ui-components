@@ -79,43 +79,30 @@ gsui-wavetable gsui-wavetable-graph {
 		--gsui-num-opacity: .9;
 		--gsui-svg-cursor: grab;
 	}
-}
-.gsuiWavetable-wave-svg {
-	position: relative;
-
-	svg {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		stroke: currentColor;
-		fill: #fff1;
+	gsui-wavelet-svg {
+		flex: 1;
 	}
-}
-
-/* .......................................................................... */
-.gsuiWavetable-wave-head {
-	padding: 0 2px;
-	font-size: 12px;
-	line-height: 1.3;
-	background-color: #0001;
-}
-.gsuiWavetable-wave-num {
-	font-weight: bold;
-	margin-bottom: auto;
-	opacity: var( --gsui-num-opacity );
-}
-.gsuiWavetable-wave-btn {
-	cursor: pointer;
-	opacity: .2;
-
-	&[ data-action="clone" ] {
-		font-size: .72em;
-		margin-right: auto;
+	gs-flex {
+		padding: 0 2px;
+		font-size: 12px;
+		line-height: 1.3;
+		background-color: #0001;
 	}
-	&:hover {
-		opacity: .5;
+	span {
+		font-weight: bold;
+		margin-bottom: auto;
+		opacity: var( --gsui-num-opacity );
+	}
+	button {
+		border: 0;
+		padding: 0;
+		color: inherit;
+		background: none;
+		opacity: .2;
+
+		&:hover {
+			opacity: .5;
+		}
 	}
 }
 

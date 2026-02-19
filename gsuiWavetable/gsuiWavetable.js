@@ -63,7 +63,7 @@ class gsuiWavetable extends gsui0ne {
 			$root: this.$elements.$waves.$get( 0 ),
 			$parentSelector: ".gsuiWavetable-waves-list > div",
 			$itemSelector: ".gsuiWavetable-wave",
-			$itemGripSelector: ".gsuiWavetable-wave-svg",
+			$itemGripSelector: "gsui-wavelet-svg",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
 		GSUdomListen( this, {
@@ -284,16 +284,15 @@ class gsuiWavetable extends gsui0ne {
 			.$children()
 			.$sort( ( a, b ) => a.dataset.index - b.dataset.index )
 			.$css( "order", ( _, i ) => i )
-			.$query( ".gsuiWavetable-wave-num" )
+			.$query( "span" )
 			.$text( ( _, i ) => i + 1 );
 	}
 	#wtwaves_getElem( id ) {
 		return this.$this.$query( `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
 	#wtwaves_updatePreview( id ) {
-		const polyline = this.#wtwaves_getElem( id ).$query( "polyline" );
-
-		gsuiWaveEditor.$drawWave( polyline, this.#data.waves[ id ].curve, 60, 40 );
+		this.#wtwaves_getElem( id ).$query( "gsui-wavelet-svg" )
+			.$message( GSEV_WAVELETSVG_DRAW, this.#data.waves[ id ].curve, true );
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );
@@ -306,7 +305,6 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$waves.$append( elW );
 		this.$elements.$wtposWavelines.$append( elWLine );
 		this.#wtwaves_updateWavesOrder();
-		elW.$query( "svg" ).$viewbox( 60, 40 );
 	}
 	#wtwaves_removeWave( wId ) {
 		this.#wtwaves_getElem( wId ).$remove();
