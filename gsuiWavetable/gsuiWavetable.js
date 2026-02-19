@@ -63,7 +63,7 @@ class gsuiWavetable extends gsui0ne {
 			$root: this.$elements.$waves.$get( 0 ),
 			$parentSelector: ".gsuiWavetable-waves-list > div",
 			$itemSelector: ".gsuiWavetable-wave",
-			$itemGripSelector: "gsui-wavelet-svg",
+			$itemGripSelector: "gsui-periodicwave",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
 		GSUdomListen( this, {
@@ -291,8 +291,9 @@ class gsuiWavetable extends gsui0ne {
 		return this.$this.$query( `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
 	#wtwaves_updatePreview( id ) {
-		this.#wtwaves_getElem( id ).$query( "gsui-wavelet-svg" )
-			.$message( GSEV_WAVELETSVG_DRAW, this.#data.waves[ id ].curve );
+		this.#wtwaves_getElem( id ).$query( "gsui-periodicwave" )
+			.$message( GSEV_PERIODICWAVE_DATA, this.#data.waves[ id ].curve )
+			.$message( GSEV_PERIODICWAVE_OPTS, {} );
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );

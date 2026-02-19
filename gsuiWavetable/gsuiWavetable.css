@@ -42,10 +42,6 @@ gsui-wavetable gsui-wavetable-graph {
 }
 .gsuiWavetable-waves {
 	min-height: calc( 226px + 46px );
-
-	gsui-dotline {
-		color: var( --gsuiWavetable-wave );
-	}
 }
 
 /* .......................................................................... */
@@ -64,7 +60,8 @@ gsui-wavetable gsui-wavetable-graph {
 
 /* .......................................................................... */
 .gsuiWavetable-wave {
-	min-width: 70px;
+	box-sizing: border-box;
+	min-width: 80px;
 	height: calc( 100% - 2px * 2 );
 	margin: 2px 0 0 2px;
 	border-right: 3px solid #0003;
@@ -79,8 +76,9 @@ gsui-wavetable gsui-wavetable-graph {
 		--gsui-num-opacity: .9;
 		--gsui-svg-cursor: grab;
 	}
-	gsui-wavelet-svg {
-		flex: 1;
+	gsui-periodicwave {
+		min-width: 60px;
+		max-width: 60px;
 	}
 	gs-flex {
 		padding: 0 2px;

@@ -45,8 +45,8 @@ GSUsetTemplate( "gsui-wavetable", () => [
 
 GSUsetTemplate( "gsui-wavetable-wave", ( id, ind ) =>
 	GSUcreateFlex( { class: "gsuiWavetable-wave", "data-id": id, "data-index": ind, x: true },
-		GSUcreateElement( "gsui-wavelet-svg", { "data-action": "select", resolution: "60 40" } ),
-		GSUcreateFlex( { "data-action": "select", y: true, xcenter: true, ycenter: true },
+		GSUcreateElement( "gsui-periodicwave", { "data-action": "select" } ),
+		GSUcreateFlex( { "data-action": "select", y: true, xcenter: true, ycenter: true, f1: true },
 			GSUcreateSpan( { inert: true } ),
 			GSUcreateButton( { "data-action": "clone", "icon": "clone", title: "Clone this wave" } ),
 			GSUcreateButton( { "data-action": "remove", "icon": "close", title: "Remove this wave" } ),
