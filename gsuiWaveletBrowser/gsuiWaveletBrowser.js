@@ -30,11 +30,8 @@ class gsuiWaveletBrowser extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const bcr = this.$elements.$svgs.$bcr();
-		const wh = `${ bcr.w | 0 } ${ bcr.h | 0 }`;
-
 		this.$elements.$list.$css( "--gsui-h", this.$elements.$svgs.$height(), "px" );
-		this.$elements.$svgs.$children().$setAttr( "resolution", wh );
+		this.$elements.$svgs.$children().$message( GSEV_PERIODICWAVE_RESIZE );
 		this.#drawWave( 0, this.#selectedWaveInd );
 		this.#drawWave( 1, this.#currentWaveInd );
 	}
@@ -81,7 +78,8 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#drawWave( ch, ind ) {
 		this.$elements.$svgs.$child( ch )
 			.$setAttr( "data-ind", ind )
-			.$message( GSEV_WAVELETSVG_DRAW, this.#waves[ ind ]?.[ 1 ] );
+			.$message( GSEV_PERIODICWAVE_DATA, this.#waves[ ind ]?.[ 1 ] )
+			.$message( GSEV_PERIODICWAVE_OPTS, {} );
 	}
 	#scrollY( ind ) {
 		this.$elements.$list.$scrollY( ind * 12 );
