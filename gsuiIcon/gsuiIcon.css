@@ -131,6 +131,13 @@
 	&[ data-icon="heart-slash" ] { --i0: "\e78e"; --i1: "\e78e\e78e"; }
 
 	/* ...................................................................... */
+	&[ data-icon="oscillator" ],
+	&[ data-icon="wave-tri" ] { --i1: "\f89a\f89a"; --o1: 1; }
+	&[ data-icon="wave-sin" ] { --i1: "\f899\f899"; --o1: 1; }
+	&[ data-icon="wave-saw" ] { --i1: "\f5f8\f5f8"; --o1: 1; }
+	&[ data-icon="wave-squ" ] { --i1: "\f83e\f83e"; --o1: 1; }
+
+	/* ...................................................................... */
 	&[ data-icon="amp-guitar" ] { --i0: "\f8a1"; --i1: "\f8a1\f8a1"; }
 	&[ data-icon="sax-hot"    ] { --i0: "\f8db"; --i1: "\f8db\f8db"; }
 	&[ data-icon="piano"      ] { --i0: "\f8d4"; --i1: "\f8d4\f8d4"; }
@@ -232,8 +239,6 @@
 	&[ data-icon="musics"     ] { --i0: "\f8c9"; --i1: "\f8c9\f8c9"; }
 	&[ data-icon="effects"    ] { --i0: "\f5fd"; --i1: "\f5fd\f5fd"; }
 	&[ data-icon="add-effect" ] { --i0: "\f5ff"; --i1: "\f5ff\f5ff"; }
-	&[ data-icon="oscillator" ] { --i0: "\f89a"; --i1: "\f89a\f89a"; --o1: 1; }
-	&[ data-icon="osc-sine"   ] { --i0: "\f899"; --i1: "\f899\f899"; --o1: 1; }
 	&[ data-icon="glissando"  ] { --i0: "\f667"; --i1: "\f667\f667"; }
 	&[ data-icon="slices"     ] { --i0: "\f160"; --i1: "\f160\f160"; --r: -90deg; }
 	&[ data-icon="drumcut"    ] { --i0: "\f052"; --i1: "\f052\f052"; --r:  90deg; }
