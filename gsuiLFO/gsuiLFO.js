@@ -101,7 +101,7 @@ class gsuiLFO extends gsui0ne {
 		this.$elements.$wave
 			.$css( "opacity", Math.min( 6 / opt.frequency, 1 ) )
 			.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() )
-			.$get( 0 ).$options( opt );
+			.$message( GSEV_PERIODICWAVE_OPTS, opt );
 		this.#updatePxPerBeat();
 	}
 
@@ -133,9 +133,9 @@ class gsuiLFO extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$get( 0 ) )[ 0 ];
+		this.#waveWidth = this.$elements.$beatlines.$bcr().w;
 		this.#updatePxPerBeat();
-		this.$elements.$wave.$get( 0 ).$resized();
+		this.$elements.$wave.$message( GSEV_PERIODICWAVE_RESIZE );
 	}
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {
@@ -217,7 +217,7 @@ class gsuiLFO extends gsui0ne {
 			toRm.push( p );
 		} else {
 			const x = since / this.#dur;
-			const y = this.$elements.$wave.$get( 0 ).$getY( x * this.#waveWidth );
+			const y = this.$elements.$wave.$message( GSEV_PERIODICWAVE_GETY, x * this.#waveWidth );
 
 			GSUdomStyle( p.$elem, {
 				top: `${ 50 + y * 50 }%`,

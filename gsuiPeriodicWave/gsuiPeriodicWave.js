@@ -26,28 +26,27 @@ class gsuiPeriodicWave extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$resized();
+		this.$onmessage( GSEV_PERIODICWAVE_RESIZE );
 	}
 	$onmessage( ev, val ) {
 		switch ( ev ) {
 			case GSEV_PERIODICWAVE_DATA:
 				this.#waveArray = GSUarrayResize( val, 256 );
 				break;
+			case GSEV_PERIODICWAVE_OPTS:
+				Object.assign( this.#opts, val );
+				this.#drawLine();
+				break;
+			case GSEV_PERIODICWAVE_RESIZE:
+				this.$element.$viewbox( this.clientWidth, this.clientHeight );
+				this.#drawLine();
+				break;
+			case GSEV_PERIODICWAVE_GETY:
+				return gsuiPeriodicWave.#getY( this.#getDrawData(), val );
 		}
 	}
 
 	// .........................................................................
-	$getY( xBeat ) {
-		return gsuiPeriodicWave.#getY( this.#getDrawData(), xBeat );
-	}
-	$options( opt ) {
-		Object.assign( this.#opts, opt );
-		this.#drawLine();
-	}
-	$resized() {
-		this.$element.$viewbox( this.clientWidth, this.clientHeight );
-		this.#drawLine();
-	}
 	#drawLine() {
 		if ( this.#waveArray || this.#opts.type in gsuiPeriodicWave.#cache ) {
 			this.$element.$child( 0 ).$setAttr( {
