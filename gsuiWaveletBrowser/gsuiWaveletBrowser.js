@@ -76,7 +76,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#drawWave( ch, ind ) {
 		this.$elements.$svgs.$child( ch )
 			.$setAttr( "data-ind", ind )
-			.$get( 0 ).$draw( this.#waves[ ind ]?.[ 1 ] );
+			.$message( GSEV_WAVELETSVG_DRAW, this.#waves[ ind ]?.[ 1 ] );
 	}
 	#scrollY( ind ) {
 		this.$elements.$list.$scrollY( ind * 12 );

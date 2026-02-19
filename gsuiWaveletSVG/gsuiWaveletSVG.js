@@ -30,10 +30,12 @@ class gsuiWaveletSVG extends gsui0ne {
 				break;
 		}
 	}
-
-	// .........................................................................
-	$draw( arr, withResize ) {
-		gsuiWaveletSVG.#draw( this.$element.$children(), this.#w, this.#h, arr, withResize );
+	$onmessage( ev, arr, withResize ) {
+		switch ( ev ) {
+			case GSEV_WAVELETSVG_DRAW:
+				gsuiWaveletSVG.#draw( this.$element.$children(), this.#w, this.#h, arr, withResize );
+				break;
+		}
 	}
 
 	// .........................................................................

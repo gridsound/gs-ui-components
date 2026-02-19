@@ -375,7 +375,7 @@ class gsuiWaveEditor extends gsui0ne {
 
 			this.$elements.$waveSVG.$setAttr( "resolution", wh );
 		}
-		this.$elements.$waveSVG.$get( 0 ).$draw( this.#waveArray, true );
+		this.$elements.$waveSVG.$message( GSEV_WAVELETSVG_DRAW, this.#waveArray, true );
 		this.#updateNormalized();
 	}
 	#updateHoverSquare( px, py ) {
