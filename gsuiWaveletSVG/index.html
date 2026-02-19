@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../gsui-form.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiWaveletSVG.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 400px;
+	--test-content-h: 260px;
+}
+gsui-wavelet-svg {
+	position: absolute;
+	inset: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST" data-min-auto>
+	<gsui-wavelet-svg></gsui-wavelet-svg>
+</div>
+<div id="TEST-CTRLS">
+	<button class="gsuiIcon" data-icon="wave-sin" data-w="sine"></button>
+	<button class="gsuiIcon" data-icon="wave-tri" data-w="triangle"></button>
+	<button class="gsuiIcon" data-icon="wave-saw" data-w="sawtooth"></button>
+	<button class="gsuiIcon" data-icon="wave-squ" data-w="square"></button>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-jquery.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../gs-utils/gs-utils-json.js"></script>
+<script src="../gs-utils/gs-utils-files.js"></script>
+<script src="../gs-utils/gs-utils-models.js"></script>
+<script src="../gs-utils/gs-utils-audio-nodes.dev.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="../assets/gsuiWaveletList-v1.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiWaveletSVG.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const el = $( "gsui-wavelet-svg" );
+let wave = GSUmathWaveFns.sine( 200 );
+
+GSUdomObserveSize( el.$get( 0 ), ( w, h ) => {
+	el.$setAttr( "resolution", `${ w } ${ h }` )
+		.$message( GSEV_WAVELETSVG_DRAW, wave, false );
+} );
+
+$( "#testCtrls" ).$on( "click", e => {
+	const tar = $( e.target );
+	const w = tar.$getAttr( "data-w" );
+
+	if ( w ) {
+		wave = GSUmathWaveFns[ w ]( 200 );
+		el.$message( GSEV_WAVELETSVG_DRAW, wave, false );
+	}
+} );
+</script>
+</body>
+</html>

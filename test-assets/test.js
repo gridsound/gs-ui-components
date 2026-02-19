@@ -56,6 +56,7 @@ const TESTcmpList = Object.freeze( [
 	"gsuiTrack",
 	"gsuiWaveEditor",
 	"gsuiWaveletBrowser",
+	"gsuiWaveletSVG",
 	"gsuiWavetable",
 	"gsuiWavetableGraph",
 	"gsuiWindows",
