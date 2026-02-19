@@ -8,6 +8,6 @@ class gsuiTexture {
 	};
 
 	static $set( el, t ) {
-		GSUdomStyle( el, "backgroundImage", `url("data:image/svg+xml,${ gsuiTexture.#bg[ t ] }")` );
+		el.$css( "backgroundImage", `url("data:image/svg+xml,${ gsuiTexture.#bg[ t ] }")` );
 	}
 }
