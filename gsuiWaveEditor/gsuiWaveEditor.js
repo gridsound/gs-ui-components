@@ -374,7 +374,7 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 		this.$elements.$waveSVG
 			.$message( GSEV_PERIODICWAVE_DATA, this.#waveArray )
-			.$message( GSEV_PERIODICWAVE_OPTS, {} );
+			.$message( GSEV_PERIODICWAVE_DRAW );
 		this.#updateNormalized();
 	}
 	#updateHoverSquare( px, py ) {

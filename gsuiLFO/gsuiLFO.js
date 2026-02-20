@@ -101,7 +101,8 @@ class gsuiLFO extends gsui0ne {
 		this.$elements.$wave
 			.$css( "opacity", Math.min( 6 / opt.frequency, 1 ) )
 			.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() )
-			.$message( GSEV_PERIODICWAVE_OPTS, opt );
+			.$message( GSEV_PERIODICWAVE_OPTS, opt )
+			.$message( GSEV_PERIODICWAVE_DRAW );
 		this.#updatePxPerBeat();
 	}
 
@@ -135,7 +136,9 @@ class gsuiLFO extends gsui0ne {
 	$onresize() {
 		this.#waveWidth = this.$elements.$beatlines.$bcr().w;
 		this.#updatePxPerBeat();
-		this.$elements.$wave.$message( GSEV_PERIODICWAVE_RESIZE );
+		this.$elements.$wave
+			.$message( GSEV_PERIODICWAVE_RESIZE )
+			.$message( GSEV_PERIODICWAVE_DRAW );
 	}
 	#onchangeForm( e ) {
 		switch ( e.target.name ) {

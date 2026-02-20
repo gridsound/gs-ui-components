@@ -30,19 +30,11 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 	$onmessage( ev, val, w ) {
 		switch ( ev ) {
-			case GSEV_PERIODICWAVE_DATA:
-				this.#waveArray = val && GSUarrayResize( val, w ?? this.clientWidth );
-				break;
-			case GSEV_PERIODICWAVE_OPTS:
-				Object.assign( this.#opts, val );
-				this.#drawLine();
-				break;
-			case GSEV_PERIODICWAVE_RESIZE:
-				this.$element.$viewbox( this.clientWidth, this.clientHeight );
-				this.#drawLine();
-				break;
-			case GSEV_PERIODICWAVE_GETY:
-				return gsuiPeriodicWave.#getY( this.#getDrawData(), val );
+			case GSEV_PERIODICWAVE_GETY: return gsuiPeriodicWave.#getY( this.#getDrawData(), val );
+			case GSEV_PERIODICWAVE_OPTS: Object.assign( this.#opts, val ); break;
+			case GSEV_PERIODICWAVE_DRAW: this.#drawLine(); break;
+			case GSEV_PERIODICWAVE_DATA: this.#waveArray = val && GSUarrayResize( val, w ?? this.clientWidth ); break;
+			case GSEV_PERIODICWAVE_RESIZE: this.$element.$viewbox( this.clientWidth, this.clientHeight ); break;
 		}
 	}
 
@@ -72,8 +64,8 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 
 	// .........................................................................
-	static $addWave( name, real, imag ) {
-		gsuiPeriodicWave.#cache[ name ] = GSUmathRealImagToXY( real, imag, 256 );
+	static $addWave( name, real, imag ) { // to delete
+		gsuiPeriodicWave.#cache[ name ] = GSUmathRealImagToXY( real, imag, 256 ); // to delete
 	}
 	static #draw( drawInfo ) {
 		const w = drawInfo.w;
