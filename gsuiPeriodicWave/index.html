@@ -113,12 +113,14 @@ let waveName = "triangle";
 let wave = GSUmathWaveFns[ waveName ]( size );
 
 function draw() {
-	el.$message( GSEV_PERIODICWAVE_DATA, wave )
-		.$message( GSEV_PERIODICWAVE_OPTS, opts );
+	el.$setAttr( opts )
+		.$message( GSEV_PERIODICWAVE_DATA, wave )
+		.$message( GSEV_PERIODICWAVE_DRAW );
 }
 
 GSUdomObserveSize( el.$get( 0 ), ( w, h ) => {
-	el.$message( GSEV_PERIODICWAVE_RESIZE, `${ w } ${ h }` );
+	el.$message( GSEV_PERIODICWAVE_RESIZE, `${ w } ${ h }` )
+		.$message( GSEV_PERIODICWAVE_DRAW );
 	draw();
 } );
 

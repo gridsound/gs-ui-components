@@ -86,7 +86,9 @@ class gsuiOscillator extends gsui0ne {
 			: w < 700 ? 82 : 174;
 
 		this.$this.$css( "minHeight", h, "px" );
-		this.$elements.$waves.$message( GSEV_PERIODICWAVE_RESIZE );
+		this.$elements.$waves
+			.$message( GSEV_PERIODICWAVE_RESIZE )
+			.$message( GSEV_PERIODICWAVE_DRAW );
 		this.$this.$dispatch( GSEV_OSCILLATOR_RESIZE );
 	}
 	$firstTimeConnected() {
@@ -163,8 +165,8 @@ class gsuiOscillator extends gsui0ne {
 		const det = prop === "detune" ? val : +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
 		const hz = 2 ** ( ( det - -24 ) / 12 );
 
-		w.$at( 0 ).$message( GSEV_PERIODICWAVE_OPTS, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } );
-		w.$at( 1 ).$message( GSEV_PERIODICWAVE_OPTS, { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } );
+		w.$at( 0 ).$setAttr( { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
+		w.$at( 1 ).$setAttr( { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
 	}
 	$changeCustomWave( obj ) {
 		if ( this.#elWavetable ) {

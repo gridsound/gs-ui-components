@@ -96,12 +96,12 @@ class gsuiLFO extends gsui0ne {
 		if ( this.#lfo === "detune" ) {
 			opt.amplitude /= 12;
 		}
+		opt.opacity = Math.min( 6 / opt.frequency, 1 );
 		opt.duration =
 		this.#dur = Math.max( opt.delay + opt.attack + 2, bPM );
 		this.$elements.$wave
-			.$css( "opacity", Math.min( 6 / opt.frequency, 1 ) )
+			.$setAttr( opt )
 			.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() )
-			.$message( GSEV_PERIODICWAVE_OPTS, opt )
 			.$message( GSEV_PERIODICWAVE_DRAW );
 		this.#updatePxPerBeat();
 	}

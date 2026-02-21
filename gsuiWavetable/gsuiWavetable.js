@@ -293,7 +293,7 @@ class gsuiWavetable extends gsui0ne {
 	#wtwaves_updatePreview( id ) {
 		this.#wtwaves_getElem( id ).$query( "gsui-periodicwave" )
 			.$message( GSEV_PERIODICWAVE_DATA, this.#data.waves[ id ].curve )
-			.$message( GSEV_PERIODICWAVE_OPTS, {} );
+			.$message( GSEV_PERIODICWAVE_DRAW );
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );
