@@ -62,10 +62,6 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
-<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
-<script src="../assets/gswaPeriodicWavesList-v1.js"></script>
-
-<!-- ....................................................................... -->
 <script src="../gsuiHelpLink/gsuiHelpLink.js"></script>
 <script src="../gsuiScrollShadow/gsuiScrollShadow.js"></script>
 <script src="../gsuiToggle/gsuiToggle.js"></script>
@@ -91,13 +87,10 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elSyn = GSUdomQS( "gsui-synthesizer" );
-const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
+const elSyn = $( "gsui-synthesizer" );
 
 gsuiSynthesizer.$setPresetList( [ "bass", "electric", "organ", "tv", "ha" ] );
-
-waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
-elSyn.$setWaveList( waves );
+elSyn.$get( 0 ).$setWaveList( [] );
 </script>
 </body>
 </html>
