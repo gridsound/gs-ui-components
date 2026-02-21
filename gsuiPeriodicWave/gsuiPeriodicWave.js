@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiPeriodicWave extends gsui0ne {
-	static #cache = {};
 	#waveArray = null;
 
 	constructor() {
@@ -37,7 +36,7 @@ class gsuiPeriodicWave extends gsui0ne {
 
 	// .........................................................................
 	#drawLine() {
-		if ( this.#waveArray || this.$this.$getAttr( "type" ) in gsuiPeriodicWave.#cache ) {
+		if ( this.#waveArray && this.clientWidth > 0 ) {
 			this.$element.$child( 0 ).$setAttr( {
 				points: gsuiPeriodicWave.#draw( this.#getDrawData() ),
 				"stroke-opacity": this.$this.$getAttr( "opacity" ) || 1,
@@ -52,7 +51,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		return {
 			w,
 			h,
-			wave: this.#waveArray || gsuiPeriodicWave.#cache[ type ],
+			wave: this.#waveArray,
 			delX: w / dur * delay,
 			attX: w / dur * attack,
 			amp: -amp * .95,
@@ -61,9 +60,6 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 
 	// .........................................................................
-	static $addWave( name, real, imag ) { // to delete
-		gsuiPeriodicWave.#cache[ name ] = GSUmathRealImagToXY( real, imag, 256 ); // to delete
-	}
 	static #draw( drawInfo ) {
 		const w = drawInfo.w;
 		const h2 = drawInfo.h / 2;
