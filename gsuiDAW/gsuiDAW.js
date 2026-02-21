@@ -272,12 +272,10 @@ class gsuiDAW extends gsui0ne {
 
 		dt.icon = "none";
 		dt.spin = "on";
-		fetch( `version?${ Math.random() }` )
-			.then( res => res.text(), GSUnoop )
-			.then( res => {
-				dt.spin = "";
-				dt.icon = res === this.$this.$getAttr( "version" ) ? "check" : "warning";
-			} );
+		gsapiClient.$getDAWversion().then( res => {
+			dt.spin = "";
+			dt.icon = res === this.$this.$getAttr( "version" ) ? "check" : "warning";
+		} );
 	}
 	#onopenSettingsPopup() {
 		this.#popups.$settings.$sampleRate.value = +this.$this.$getAttr( "samplerate" );
