@@ -124,7 +124,6 @@ class gsuiOscillator extends gsui0ne {
 		switch ( prop ) {
 			case "pan":
 			case "gain":
-			case "wave":
 			case "detune":
 			case "detunefine":
 				this.#updateWaveDeb();
@@ -147,7 +146,6 @@ class gsuiOscillator extends gsui0ne {
 	$addWaves( arr ) {
 		const opts = [];
 
-		arr.sort();
 		arr.forEach( w => {
 			if ( !this.#selectWaves[ w ] ) {
 				this.#selectWaves[ w ] = true;
@@ -159,14 +157,13 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#updateWave( prop, val ) {
 		const w = this.$elements.$waves;
-		const wave = prop === "wave" ? val : this.$this.$getAttr( "wave" );
 		const gain = prop === "gain" ? val : +this.$this.$getAttr( "gain" );
 		const pan = prop === "pan" ? val : +this.$this.$getAttr( "pan" );
 		const det = prop === "detune" ? val : +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
 		const hz = 2 ** ( ( det - -24 ) / 12 );
 
-		w.$at( 0 ).$setAttr( { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
-		w.$at( 1 ).$setAttr( { type: wave, frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
+		w.$at( 0 ).$setAttr( { frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
+		w.$at( 1 ).$setAttr( { frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
 	}
 	$changeCustomWave( obj ) {
 		if ( this.#elWavetable ) {
@@ -194,7 +191,12 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#changeWave( w ) {
+		const w2 = gsuiWaveletList.find( a => a[ 0 ] === w )?.[ 1 ];
+
 		this.$elements.$waveSelect.$value( w );
+		this.$elements.$waves
+			.$message( GSEV_PERIODICWAVE_DATA, w2, 96 )
+			.$message( GSEV_PERIODICWAVE_DRAW );
 		if ( w ) {
 			this.$this.$rmAttr( "source" );
 		}

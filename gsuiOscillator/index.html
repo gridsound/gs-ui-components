@@ -42,12 +42,11 @@ body {
 
 <!-- ....................................................................... -->
 <div id="TEST">
-	<gsui-oscillator wave="sine" detune="-12" detunefine="-.75" gain=".75" pan=".25"></gsui-oscillator>
+	<gsui-oscillator wave="sine" detune="-12" detunefine="-.75" gain="1" pan=".25"></gsui-oscillator>
 </div>
 
 <!-- ....................................................................... -->
-<script src="../../gs-wa-components/gswaPeriodicWaves/gswaPeriodicWaves.js"></script>
-<script src="../assets/gswaPeriodicWavesList-v1.js"></script>
+<script src="../assets/gsuiWaveletList-v1.js"></script>
 
 <!-- ....................................................................... -->
 <script src="../gs-utils/gs-utils.js"></script>
@@ -94,27 +93,25 @@ body {
 <!-- ....................................................................... -->
 <script>
 const elOsc = GSUdomQS( "gsui-oscillator" );
-const waves = gswaPeriodicWaves.$loadWaves( gswaPeriodicWavesList );
 
-waves.forEach( ( w, name ) => gsuiPeriodicWave.$addWave( name, w.real, w.imag ) );
+elOsc.$addWaves( gsuiWaveletList.map( a => a[ 0 ] ) );
 elOsc.$addWaveCustom( GSUformatWavetableName( 0, 0 ) );
-elOsc.$addWaves( Array.from( waves.keys() ) );
-GSUdomSetAttr( elOsc, "wave", "noise" );
+
 GSUdomSetAttr( elOsc, "wave", "sine" );
 GSUdomSetAttr( elOsc, "wave", "triangle" );
 GSUdomSetAttr( elOsc, "wave", "square" );
-GSUdomSetAttr( elOsc, "gain", .5 );
-GSUdomSetAttr( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
+// GSUdomSetAttr( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
 GSUdomSetAttr( elOsc, "wave", "sawtooth" );
+GSUdomSetAttr( elOsc, "wave", "AKWF_aguitar_1" );
 
-elOsc.$askWavetableData = () => [ {
+elOsc.$askWavetableData = () => lg([ {
 	waves: {
 		0: {
 			index: 0,
 			curve: GSUmathWaveSawtooth( 1024 ),
 		},
 	},
-}, true ];
+}, true ], "askWavetableData");
 
 // GSUsetTimeout( () => GSUdomSetAttr( elOsc, "wavetable" ), .2 );
 </script>
