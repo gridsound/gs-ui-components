@@ -124,11 +124,11 @@ class gsuiTimewindow extends gsui0ne {
 			this.$elements.$down,
 		] );
 
-		this.$elements.$minimapPanel.$width( w );
+		this.$elements.$minimapPanel.$width( w, "px" );
 		this.$elements.$panel.$css( "minWidth", w, "px" );
 		if ( this.$this.$hasAttr( "downpanel" ) ) {
 			panDowns
-				.$height( this.$this.$getAttr( "downpanelsize" ) || 50 )
+				.$height( this.$this.$getAttr( "downpanelsize" ) || 50, "px" )
 				.$child( 0 ).$on( "pointerdown", this.#onptrdownExtend.bind( this, "down" ) );
 		} else {
 			panDowns.$remove();
@@ -447,7 +447,7 @@ class gsuiTimewindow extends gsui0ne {
 		e.target.setPointerCapture( e.pointerId );
 		if ( panel === "side" ) {
 			this.#panelSize = this.$elements.$panel.$width();
-			this.$elements.$minimapPanel.$width( this.#panelSize );
+			this.$elements.$minimapPanel.$width( this.#panelSize, "px" );
 			this.#ptrdownPageX = e.pageX;
 			document.addEventListener( "pointermove", this.#onptrmoveExtendPanelBind );
 		} else {
@@ -463,7 +463,7 @@ class gsuiTimewindow extends gsui0ne {
 		const max = +this.$this.$getAttr( "panelsizemax" ) || 260;
 		const w2 = GSUmathClamp( w, min, max );
 
-		this.$elements.$minimapPanel.$width( w2 );
+		this.$elements.$minimapPanel.$width( w2, "px" );
 		this.$elements.$panel.$css( "minWidth", w2, "px" );
 		this.#minimapUpdate();
 	}
@@ -473,8 +473,8 @@ class gsuiTimewindow extends gsui0ne {
 		const max = +this.$this.$getAttr( "downpanelsizemax" ) || 260;
 		const h2 = GSUmathClamp( h, min, max );
 
-		this.$elements.$panelDown.$height( h2 );
-		this.$elements.$down.$height( h2 );
+		this.$elements.$panelDown.$height( h2, "px" );
+		this.$elements.$down.$height( h2, "px" );
 	}
 	#onptrupExtend( e ) {
 		e.target.releasePointerCapture( e.pointerId );
