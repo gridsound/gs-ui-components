@@ -204,9 +204,11 @@ class gsuiOscillator extends gsui0ne {
 		const w2 = gsuiWaveletList.find( a => a[ 0 ] === w )?.[ 1 ];
 
 		this.$elements.$waveSelect.$value( w );
-		this.$elements.$waves
-			.$message( GSEV_PERIODICWAVE_DATA, w2, 96 )
-			.$message( GSEV_PERIODICWAVE_DRAW );
+		if ( w2 ) {
+			this.$elements.$waves
+				.$message( GSEV_PERIODICWAVE_DATA, w2, 96 )
+				.$message( GSEV_PERIODICWAVE_DRAW );
+		}
 		if ( w ) {
 			this.$this.$rmAttr( "source" );
 		}
