@@ -53,10 +53,13 @@ class gsuiPeriodicWave extends gsui0ne {
 		switch ( ev ) {
 			case GSEV_PERIODICWAVE_GETY: return gsuiPeriodicWave.#getY( this.#getDrawData(), val );
 			case GSEV_PERIODICWAVE_DRAW: this.#draw(); break;
-			case GSEV_PERIODICWAVE_DATA: this.#waveArray = !w ? [ ...val ] : GSUarrayResize( val, w ); break;
-			case GSEV_PERIODICWAVE_RESIZE:
+			case GSEV_PERIODICWAVE_DATA:
+				this.#waveArray = !w ? [ ...val ] : GSUarrayResize( val, w );
 				this.#needRedraw = true;
+				break;
+			case GSEV_PERIODICWAVE_RESIZE:
 				this.$element.$viewbox( this.clientWidth, this.clientHeight );
+				this.#needRedraw = true;
 				break;
 		}
 	}
