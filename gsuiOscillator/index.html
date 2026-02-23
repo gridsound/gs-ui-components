@@ -92,28 +92,29 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elOsc = GSUdomQS( "gsui-oscillator" );
+const elOsc = $( "gsui-oscillator" );
+const wtName = GSUformatWavetableName( 0, 0 );
 
-elOsc.$addWaves( gsuiWaveletList.map( a => a[ 0 ] ) );
-elOsc.$addWaveCustom( GSUformatWavetableName( 0, 0 ) );
-
-GSUdomSetAttr( elOsc, "wave", "sine" );
-GSUdomSetAttr( elOsc, "wave", "triangle" );
-GSUdomSetAttr( elOsc, "wave", "square" );
-// GSUdomSetAttr( elOsc, "source", "A buffer instead of a wave A buffer instead of a wave" );
-GSUdomSetAttr( elOsc, "wave", "sawtooth" );
-GSUdomSetAttr( elOsc, "wave", "AKWF_aguitar_1" );
-
-elOsc.$askWavetableData = () => lg([ {
-	waves: {
-		0: {
-			index: 0,
-			curve: GSUmathWaveSawtooth( 1024 ),
+elOsc
+	.$message( GSEV_OSCILLATOR_ADDWAVES, gsuiWaveletList.map( a => a[ 0 ] ) )
+	.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, wtName )
+	.$setAttr( "wave", "sine" )
+	.$setAttr( "wave", "triangle" )
+	.$setAttr( "wave", "square" )
+	// .$setAttr( "source", "A buffer instead of a wave A buffer instead of a wave" )
+	// .$setAttr( "wave", "sawtooth" )
+	.$setAttr( "wave", "AKWF_aguitar_1" )
+	// .$setAttr( "wave", wtName )
+	.$get( 0 ).$askWavetableData = () => [ {
+		waves: {
+			0: {
+				index: 0,
+				curve: GSUmathWaveSawtooth( 1024 ),
+			},
 		},
-	},
-}, true ], "askWavetableData");
+	}, true ];
 
-// GSUsetTimeout( () => GSUdomSetAttr( elOsc, "wavetable" ), .2 );
+// GSUsetTimeout( () => elOsc.$addAttr( "wavetable" ), .2 );
 </script>
 </body>
 </html>

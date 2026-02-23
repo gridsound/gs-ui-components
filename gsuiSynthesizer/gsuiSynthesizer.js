@@ -114,7 +114,7 @@ class gsuiSynthesizer extends gsui0ne {
 			this.#previews[ keyId ] = null;
 			this.$elements.$env.$get( 0 ).$startKey( keyId, bpm, dur );
 			this.$elements.$lfo.$get( 0 ).$startKey( keyId, bpm, dur );
-			this.#uiOscs.forEach( ( osc, oscId ) => osc.$startKey( keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
+			this.#uiOscs.forEach( ( osc, oscId ) => osc.$message( GSEV_OSCILLATOR_STARTKEY, keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
 		}, when );
 	}
 	$stopKeyPreview( keyId, bpm, rel ) {
@@ -128,7 +128,7 @@ class gsuiSynthesizer extends gsui0ne {
 			this.$elements.$env.$get( 0 ).$stopKey( keyId );
 			GSUsetTimeout( () => {
 				this.$elements.$lfo.$get( 0 ).$stopKey( keyId );
-				this.#uiOscs.forEach( osc => osc.$stopKey( keyId ) );
+				this.#uiOscs.forEach( osc => osc.$message( GSEV_OSCILLATOR_STOPKEY, keyId ) );
 			}, rel / ( bpm / 60 ) );
 		}
 	}
@@ -139,9 +139,9 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 	$setWaveList( arr ) {
 		this.#waveList = arr;
-		this.#uiOscs.forEach( ( o, id ) => {
-			o.$addWaveCustom( GSUformatWavetableName( this.dataset.id, id ) );
-			o.$addWaves( arr );
+		this.#uiOscs.forEach( ( osc, id ) => {
+			osc.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, GSUformatWavetableName( this.dataset.id, id ) )
+				.$message( GSEV_OSCILLATOR_ADDWAVES, arr );
 		} );
 	}
 	$getOscillator( id ) {
@@ -188,11 +188,11 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	$addOscillator( id, props ) {
-		const uiOsc = GSUcreateElement( "gsui-oscillator", { ...props, "data-id": id } );
+		const uiOsc = $( "<gsui-oscillator>" ).$setAttr( { ...props, "data-id": id } );
 
 		this.#uiOscs.set( id, uiOsc );
-		uiOsc.$addWaveCustom( GSUformatWavetableName( this.dataset.id, id ) );
-		uiOsc.$addWaves( this.#waveList );
+		uiOsc.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, GSUformatWavetableName( this.dataset.id, id ) )
+			.$message( GSEV_OSCILLATOR_ADDWAVES, this.#waveList );
 		this.$elements.$oscList.$append( uiOsc );
 		return uiOsc;
 	}
@@ -200,7 +200,7 @@ class gsuiSynthesizer extends gsui0ne {
 		const osc = this.#uiOscs.get( id );
 
 		if ( osc ) {
-			osc.remove();
+			osc.$remove();
 			this.#uiOscs.delete( id );
 		}
 	}

@@ -130,20 +130,30 @@ class gsuiOscillator extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( ev, ...args ) {
+		switch ( ev ) {
+			case GSEV_OSCILLATOR_STARTKEY: this.#startKey( ...args ); break;
+			case GSEV_OSCILLATOR_STOPKEY: this.#stopKey( ...args ); break;
+			case GSEV_OSCILLATOR_ADDCUSTOMWAVE: this.#addWaveCustom( ...args ); break;
+			case GSEV_OSCILLATOR_ADDWAVES: this.#addWaves( ...args ); break;
+			case GSEV_OSCILLATOR_CHANGECUSTOMWAVE: this.#changeCustomWave( ...args ); break;
+			case GSEV_OSCILLATOR_UPDATESOURCEWAVEFORM: this.#updateSourceWaveform( ...args ); break;
+		}
+	}
 
 	// .........................................................................
-	$startKey( startedKeyId, wtposCurveId, bpm, dur ) {
+	#startKey( startedKeyId, wtposCurveId, bpm, dur ) {
 		this.#elWavetable?.$startKey( startedKeyId, wtposCurveId, bpm, dur );
 	}
-	$stopKey( startedKeyId ) {
+	#stopKey( startedKeyId ) {
 		this.#elWavetable?.$stopKey( startedKeyId );
 	}
 
 	// .........................................................................
-	$addWaveCustom( name ) {
+	#addWaveCustom( name ) {
 		this.$elements.$waveSelect.$prepend( GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: name } ) );
 	}
-	$addWaves( arr ) {
+	#addWaves( arr ) {
 		const opts = [];
 
 		arr.forEach( w => {
@@ -165,7 +175,7 @@ class gsuiOscillator extends gsui0ne {
 		w.$at( 0 ).$setAttr( { frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
 		w.$at( 1 ).$setAttr( { frequency: hz, amplitude: Math.min( gain * ( pan > 0 ? 1 : 1 + pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
 	}
-	$changeCustomWave( obj ) {
+	#changeCustomWave( obj ) {
 		if ( this.#elWavetable ) {
 			if ( obj ) {
 				this.#elWavetable.$change( obj );
@@ -177,7 +187,7 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 		this.$this.$setAttr( "hascustomwave", !!obj );
 	}
-	$updateSourceWaveform( svg ) {
+	#updateSourceWaveform( svg ) {
 		this.$elements.$source.$empty().$append( svg );
 	}
 
