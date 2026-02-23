@@ -2,6 +2,16 @@
 
 class gsuiPeriodicWave extends gsui0ne {
 	#waveArray = null;
+	#needRedraw = true;
+	#drawInfo = Object.seal( {
+		w: 100,
+		h: 100,
+		wave: [ 0, 0 ],
+		delX: 0,
+		attX: 0,
+		amp: .95,
+		hz: 1,
+	} );
 
 	constructor() {
 		super( {
@@ -25,42 +35,63 @@ class gsuiPeriodicWave extends gsui0ne {
 	$firstTimeConnected() {
 		this.$onmessage( GSEV_PERIODICWAVE_RESIZE );
 	}
+	static get observedAttributes() {
+		return [ "frequency", "amplitude", "duration", "delay", "attack" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "delay":
+			case "attack":
+			case "amplitude":
+			case "frequency":
+			case "duration":
+				this.#needRedraw = true;
+				break;
+		}
+	}
 	$onmessage( ev, val, w ) {
 		switch ( ev ) {
 			case GSEV_PERIODICWAVE_GETY: return gsuiPeriodicWave.#getY( this.#getDrawData(), val );
-			case GSEV_PERIODICWAVE_DRAW: this.#drawLine(); break;
-			case GSEV_PERIODICWAVE_DATA: this.#waveArray = val && GSUarrayResize( val, w ?? this.clientWidth ); break;
-			case GSEV_PERIODICWAVE_RESIZE: this.$element.$viewbox( this.clientWidth, this.clientHeight ); break;
+			case GSEV_PERIODICWAVE_DRAW: this.#draw(); break;
+			case GSEV_PERIODICWAVE_DATA: this.#waveArray = [ ...val ]; break;
+			case GSEV_PERIODICWAVE_RESIZE:
+				this.#needRedraw = true;
+				this.$element.$viewbox( this.clientWidth, this.clientHeight );
+				break;
 		}
 	}
 
 	// .........................................................................
-	#drawLine() {
+	#draw() {
 		if ( this.#waveArray && this.clientWidth > 0 ) {
 			this.$element.$child( 0 ).$setAttr( {
-				points: gsuiPeriodicWave.#draw( this.#getDrawData() ),
+				points: gsuiPeriodicWave.#getPoints( this.#getDrawData() ),
 				"stroke-opacity": this.$this.$getAttr( "opacity" ) || 1,
 			} );
 		}
 	}
 	#getDrawData() {
-		const w = this.clientWidth;
-		const h = this.clientHeight;
-		const [ type, hz, amp, dur, delay, attack ] = this.$this.$getAttr( "type", "frequency", "amplitude", "duration", "delay", "attack" );
+		if ( this.#needRedraw ) {
+			this.#updateDrawInfo();
+		}
+		return this.#drawInfo;
+	}
+	#updateDrawInfo() {
+		const [ freq, amp, dur, delay, attack ] = this.$this.$getAttr( "frequency", "amplitude", "duration", "delay", "attack" );
+		const o = this.#drawInfo;
 
-		return {
-			w,
-			h,
-			wave: this.#waveArray,
-			delX: w / dur * delay,
-			attX: w / dur * attack,
-			amp: -amp * .95,
-			hz: hz * dur,
-		};
+		o.w = this.clientWidth;
+		o.h = this.clientHeight;
+		o.hz = freq * dur;
+		o.wave = GSUarrayResize( this.#waveArray, Math.max( o.w / o.hz | 0, 2 ) );
+		o.delX = o.w / dur * delay;
+		o.attX = o.w / dur * attack;
+		o.amp = -amp * .95;
+		this.#needRedraw = false;
 	}
 
 	// .........................................................................
-	static #draw( drawInfo ) {
+	static #getPoints( drawInfo ) {
 		const w = drawInfo.w;
 		const h2 = drawInfo.h / 2;
 		const pts = GSUnewArray( w, i => [
@@ -80,10 +111,12 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 	static #getY( { w, wave, delX, attX, amp, hz }, x ) {
 		if ( x >= delX ) {
-			const xd = x - delX;
-			const att = xd < attX ? xd / attX : 1;
+			const wlen = wave.length - 1;
+			const x2 = x - delX;
+			const x3 = x2 / w * wlen * hz % wlen;
+			const att = x2 < attX ? x2 / attX : 1;
 
-			return wave[ xd / w * wave.length * hz % wave.length | 0 ] * amp * att;
+			return wave[ x3 | 0 ] * amp * att;
 		}
 		return 0;
 	}
