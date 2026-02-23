@@ -3,7 +3,7 @@
 class gsuiPeriodicWave extends gsui0ne {
 	#waveArray = null;
 	#needRedraw = true;
-	#drawInfo = Object.seal( {
+	#drawData = Object.seal( {
 		w: 100,
 		h: 100,
 		wave: [ 0, 0 ],
@@ -53,7 +53,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		switch ( ev ) {
 			case GSEV_PERIODICWAVE_GETY: return gsuiPeriodicWave.#getY( this.#getDrawData(), val );
 			case GSEV_PERIODICWAVE_DRAW: this.#draw(); break;
-			case GSEV_PERIODICWAVE_DATA: this.#waveArray = [ ...val ]; break;
+			case GSEV_PERIODICWAVE_DATA: this.#waveArray = !w ? [ ...val ] : GSUarrayResize( val, w ); break;
 			case GSEV_PERIODICWAVE_RESIZE:
 				this.#needRedraw = true;
 				this.$element.$viewbox( this.clientWidth, this.clientHeight );
@@ -72,13 +72,13 @@ class gsuiPeriodicWave extends gsui0ne {
 	}
 	#getDrawData() {
 		if ( this.#needRedraw ) {
-			this.#updateDrawInfo();
+			this.#updateDrawData();
 		}
-		return this.#drawInfo;
+		return this.#drawData;
 	}
-	#updateDrawInfo() {
+	#updateDrawData() {
 		const [ freq, amp, dur, delay, attack ] = this.$this.$getAttr( "frequency", "amplitude", "duration", "delay", "attack" );
-		const o = this.#drawInfo;
+		const o = this.#drawData;
 
 		o.w = this.clientWidth;
 		o.h = this.clientHeight;
