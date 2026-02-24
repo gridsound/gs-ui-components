@@ -138,6 +138,11 @@ class gsuiOscillator extends gsui0ne {
 			case GSEV_OSCILLATOR_ADDWAVES: this.#addWaves( ...args ); break;
 			case GSEV_OSCILLATOR_CHANGECUSTOMWAVE: this.#changeCustomWave( ...args ); break;
 			case GSEV_OSCILLATOR_UPDATESOURCEWAVEFORM: this.#updateSourceWaveform( ...args ); break;
+			case GSEV_OSCILLATOR_UPDATECUSTOMWAVE:
+				this.$elements.$waves
+					.$message( GSEV_PERIODICWAVE_DATA, args[ 0 ], 96 )
+					.$message( GSEV_PERIODICWAVE_DRAW );
+				break;
 		}
 	}
 
