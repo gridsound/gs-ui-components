@@ -267,12 +267,12 @@ class gsuiOscillator extends gsui0ne {
 	// .........................................................................
 	#openWavetable( b ) {
 		if ( b ) {
-			const wtData = this.$askWavetableData();
-
-			this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
-			this.$elements.$wavetableWrap.$append( this.#elWavetable );
-			this.#elWavetable.$change( wtData[ 0 ] );
-			this.#elWavetable.$isRealData( wtData[ 1 ] );
+			this.$askWavetableData().then( wtData => {
+				this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
+				this.$elements.$wavetableWrap.$append( this.#elWavetable );
+				this.#elWavetable.$change( wtData[ 0 ] );
+				this.#elWavetable.$isRealData( wtData[ 1 ] );
+			} );
 		} else {
 			this.$this.$css( "transition", "" );
 			this.#elWavetable.remove();
