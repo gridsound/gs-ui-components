@@ -187,7 +187,7 @@ class gsuiSlider extends gsui0ne {
 					this.#onchange();
 				}
 				e.preventDefault();
-				GSUdomFocus( this );
+				this.$this.$focus();
 				return false;
 			}
 			case 0:

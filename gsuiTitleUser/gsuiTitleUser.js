@@ -76,8 +76,7 @@ class gsuiTitleUser extends gsui0ne {
 				break;
 			case "renaming":
 				if ( val === "" ) {
-					this.$elements.$cmpEditInp.$value( this.$this.$getAttr( "cmpname" ) );
-					GSUdomFocus( this.$elements.$cmpEditInp.$get( 0 ) );
+					this.$elements.$cmpEditInp.$value( this.$this.$getAttr( "cmpname" ) ).$focus();
 				}
 				break;
 		}
