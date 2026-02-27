@@ -83,7 +83,7 @@ class gsuiDropdown {
 		);
 	}
 	#positionElement() {
-		const tarBCR = GSUdomBCR( this.#elBtn );
+		const tarBCR = $( this.#elBtn ).$bcr();
 		const elArrow = GSUdomQS( this.#elem, ".gsuiDropdown-arrow" );
 		const posObj = gsuiCalcAbsPos.$calc( this.#direction, tarBCR, this.#elem.clientWidth, this.#elem.clientHeight, {
 			margin: 8,

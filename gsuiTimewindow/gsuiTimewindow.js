@@ -283,7 +283,7 @@ class gsuiTimewindow extends gsui0ne {
 				this.onpointerup = this.#onptrupMinimap.bind( this );
 				break;
 			case "track": {
-				const side = e.pageX > GSUdomBCRxy( this.$elements.$minimapThumb.$get( 0 ) )[ 0 ] ? 1 : -1;
+				const side = e.pageX > this.$elements.$minimapThumb.$bcr().x ? 1 : -1;
 
 				this.onpointerup = this.#onptrupMinimap.bind( this );
 				this.#minimapIntervalId = GSUsetInterval( () => {
@@ -294,7 +294,7 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrmoveMinimap( e ) {
 		const act = this.#minimapAction;
-		const bcr = GSUdomBCR( this.$elements.$minimapTrack.$get( 0 ) );
+		const bcr = this.$elements.$minimapTrack.$bcr();
 
 		switch ( act ) {
 			case "thumb": {
@@ -412,7 +412,7 @@ class gsuiTimewindow extends gsui0ne {
 		const ppbNew = GSUmathRound( ppbNewf );
 
 		if ( ppbNew !== this.#pxPerBeat ) {
-			this.#setNewPPB( ppbNew, pageX - GSUdomBCRxy( this )[ 0 ] - this.$elements.$panel.$width() );
+			this.#setNewPPB( ppbNew, pageX - this.$this.$bcr().x - this.$elements.$panel.$width() );
 		}
 		this.#pxPerBeatFloat = ppbNewf;
 	}
@@ -433,7 +433,7 @@ class gsuiTimewindow extends gsui0ne {
 
 			e.preventDefault();
 			if ( lhNew !== this.#lineHeight ) {
-				const px = e.pageY - GSUdomBCRxy( this )[ 1 ] - this.$elements.$timeline.$height();
+				const px = e.pageY - this.$this.$bcr().y - this.$elements.$timeline.$height();
 
 				this.#setScrollY( this.#calcScrollBack( this.#scrollY, this.#lineHeight, lhNew, px ) );
 				this.$this.$setAttr( "lineheight", lhNew )

@@ -234,11 +234,11 @@ class gsuiComPlayer extends gsui0ne {
 		this.#ptrMove( e );
 	}
 	#ptrMove( e ) {
-		const bcr = GSUdomBCR( e.target );
-		const x = GSUmathClamp( ( e.clientX - bcr.x ) / bcr.width, 0, 1 );
+		const { x, w } = $( e.target ).$bcr();
+		const x2 = GSUmathClamp( ( e.clientX - x ) / w, 0, 1 );
 
-		this.#settingTime = x;
-		this.$elements.$timeInpVal.$width( x * 100, "%" );
+		this.#settingTime = x2;
+		this.$elements.$timeInpVal.$width( x2 * 100, "%" );
 	}
 	#ptrUp( e ) {
 		const t = this.#settingTime;

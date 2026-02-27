@@ -170,7 +170,7 @@ class gsuiTimeline extends gsui0ne {
 		this.$this.$setAttr( "status", st );
 	}
 	#getBeatByPageX( pageX ) {
-		return GSUmathClamp( this.$beatRound( ( pageX - GSUdomBCRxy( this )[ 0 ] ) / this.#pxPerBeat ), 0, this.#maxDuration );
+		return GSUmathClamp( this.$beatRound( ( pageX - this.$this.$bcr().x ) / this.#pxPerBeat ), 0, this.#maxDuration );
 	}
 	#updateStepsBg() {
 		const sPB = this.#stepsPerBeat;

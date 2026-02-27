@@ -178,7 +178,7 @@ class gsuiSliderGroup extends gsui0ne {
 	// .........................................................................
 	$onptrdown( e ) {
 		if ( e.button === 0 || e.button === 2 ) {
-			this.#bcr = GSUdomBCR( this.$elements.$slidersParent.$get( 0 ) );
+			this.#bcr = this.$elements.$slidersParent.$bcr();
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );

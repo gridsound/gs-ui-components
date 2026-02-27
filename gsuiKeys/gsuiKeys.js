@@ -166,8 +166,8 @@ class gsuiKeys extends gsui0ne {
 					.$dispatch( GSEV_KEYS_OCTAVE, oct );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();
-				const [ x, y ] = GSUdomBCRxy( this );
-				const blackKeyBCR = GSUdomBCR( this.children[ 1 ] );
+				const { x, y } = this.$this.$bcr();
+				const blackKeyBCR = this.$this.$child( 1 ).$bcr();
 
 				this.#rootStartPx = isVert ? y : x;
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;

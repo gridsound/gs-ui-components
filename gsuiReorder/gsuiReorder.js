@@ -217,7 +217,7 @@ class gsuiReorder {
 	// .........................................................................
 	static #getDropTargetInfo( elArea, elItem, e ) {
 		if ( elArea ) {
-			const [ x, y ] = GSUdomBCRxy( elArea );
+			const { x, y } = $( elArea ).$bcr();
 
 			return {
 				$item: elItem.dataset.id, // to delete (should be the element)
@@ -252,17 +252,17 @@ class gsuiReorder {
 	static #overWhichParent( elRoot, parSel, e ) {
 		const pX = e.offsetX;
 		const pY = e.offsetY;
-		const [ x, y, w, h ] = GSUdomBCRxywh( elRoot );
+		const { x, y, w, h } = $( elRoot ).$bcr();
 
 		if ( GSUmathInRange( pX, 0, w ) && GSUmathInRange( pY, 0, h ) ) {
 			const parents = gsuiReorder.#calcParentsCoord( elRoot, parSel );
 			const par = parents.find( par => {
-				const parX = par.$bcr[ 0 ] - x;
-				const parY = par.$bcr[ 1 ] - y;
+				const parX = par.$bcr.x - x;
+				const parY = par.$bcr.y - y;
 
 				return (
-					GSUmathInRange( pX, parX, parX + par.$bcr[ 2 ] ) &&
-					GSUmathInRange( pY, parY, parY + par.$bcr[ 3 ] )
+					GSUmathInRange( pX, parX, parX + par.$bcr.w ) &&
+					GSUmathInRange( pY, parY, parY + par.$bcr.h )
 				);
 			} );
 
@@ -279,7 +279,7 @@ class gsuiReorder {
 
 		return parents.map( par => ( {
 			$elem: par,
-			$bcr: GSUdomBCRxywh( par ),
+			$bcr: $( par ).$bcr(),
 		} ) );
 	}
 	static #getIndexHovering( items, ptr ) {
@@ -350,7 +350,7 @@ class gsuiReorder {
 		return Array.from( par.children )
 			.filter( el => el.matches( itemSel ) )
 			.map( el => {
-				const [ x, y ] = GSUdomBCRxy( el );
+				const { x, y } = $( el ).$bcr();
 
 				return {
 					$elem: el,
@@ -376,13 +376,13 @@ class gsuiReorder {
 		}
 	}
 	static #createGhostElement( elItem, elGrip, e ) {
-		const [ x, y, w, h ] = GSUdomBCRxywh( elItem );
-		const [ gx, gy, gw, gh ] = GSUdomBCRxywh( elGrip );
+		const { x, y, w, h } = $( elItem ).$bcr();
+		const grBCR = $( elGrip ).$bcr();
 		const fakeGrip = elGrip && GSUcreateDiv( { id: "gsuiReorder-fake-grip", style: {
-			top: `${ gy - y }px`,
-			left: `${ gx - x }px`,
-			width: `${ gw }px`,
-			height: `${ gh }px`,
+			top: `${ grBCR.y - y }px`,
+			left: `${ grBCR.x - x }px`,
+			width: `${ grBCR.w }px`,
+			height: `${ grBCR.h }px`,
 		} } );
 		const movingFake = GSUcreateDiv( { id: "gsuiReorder-fake", style: {
 			top: `${ e.clientY }px`,

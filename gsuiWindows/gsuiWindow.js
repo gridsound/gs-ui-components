@@ -245,7 +245,7 @@ class gsuiWindow extends gsui0ne {
 		const dirS = dir.includes( "s" );
 		const tx = dirW ? rc.x + x : rc.x;
 		const ty = dirN ? rc.y + y : rc.y;
-		const [ w, h ] = GSUdomBCRwh( this.parentNode );
+		const { w, h } = this.$this.$parent().$bcr();
 		const wins = [
 			...this.parentNode.childNodes,
 			{

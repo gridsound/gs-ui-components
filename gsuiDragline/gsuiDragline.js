@@ -34,7 +34,7 @@ class gsuiDragline {
 	}
 	redraw() {
 		if ( this.#linkedTo ) {
-			const bcr = GSUdomBCR( this.#linkedTo );
+			const bcr = $( this.#linkedTo ).$bcr();
 
 			this.#render( bcr.x, bcr.y );
 		}
@@ -42,7 +42,7 @@ class gsuiDragline {
 
 	// .........................................................................
 	#render( x, y ) {
-		const bcr = GSUdomBCR( this.rootElement );
+		const bcr = $( this.rootElement ).$bcr();
 		const w = x - bcr.x;
 		const h = y - bcr.y;
 		const wabs = Math.abs( w );

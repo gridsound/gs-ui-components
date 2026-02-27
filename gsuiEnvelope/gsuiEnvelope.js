@@ -116,7 +116,7 @@ class gsuiEnvelope extends gsui0ne {
 		const nbProps = this.#env === "gain" ? 5 : 6;
 
 		this.style.minHeight = `${ nbProps * 20 - 2 + 2 * 8 }px`;
-		this.#waveWidth = GSUdomBCRwh( this.$elements.$beatlines.$get( 0 ) )[ 0 ];
+		this.#waveWidth = this.$elements.$beatlines.$bcr().w;
 		this.#updatePxPerBeat();
 		this.$elements.$graph.$get( 0 ).$resized();
 	}
@@ -126,8 +126,8 @@ class gsuiEnvelope extends gsui0ne {
 		this.$this.$dispatch( GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		this.$this.$setAttr( prop, val );
-		this.$this.$dispatch( GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
+		this.$this.$setAttr( prop, val )
+			.$dispatch( GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
 	}
 	#updateBeatlinesColor() {
 		this.$elements.$beatlines.$setAttr( "color", this.$this.$css( "--gsuiEnvelope-wave-col" ) );

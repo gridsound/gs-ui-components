@@ -396,7 +396,7 @@ class gsuiDrums extends gsui0ne {
 					this.#elHover.$remove();
 				} else {
 					const rowId = elLine.$parent().$parent().$getAttr( "data-id" );
-					const bcr = GSUdomBCR( elLine.$get( 0 ) );
+					const bcr = elLine.$bcr();
 					const y = ( e.pageY - bcr.y ) / bcr.h;
 					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
 
@@ -417,7 +417,7 @@ class gsuiDrums extends gsui0ne {
 	}
 	#onptrmoveLines2() {
 		if ( this.#hoverItemType ) {
-			const left = GSUdomBCRxy( this.#elLines )[ 0 ];
+			const left = $( this.#elLines ).$bcr().x;
 			const when = ( this.#hoverPageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const [ prevItem, prevW ] = this.#getPrevItem( this.#draggingRowId, this.#hoverItemType, when );
 			const prevD = prevItem && GSUdomGetAttrNum( prevItem, "duration" );
@@ -486,7 +486,7 @@ class gsuiDrums extends gsui0ne {
 		const dd = d && GSUdomGetAttrNum( d, "duration" ) / 2;
 
 		if ( d && dd > 1 / this.#stepsPerBeat / ( 8 + 1 ) ) {
-			const left = GSUdomBCRxy( this.#elLines )[ 0 ];
+			const left = $( this.#elLines ).$bcr().x;
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUdomGetAttrNum( d, "when" );
 			const dd = GSUdomGetAttrNum( d, "duration" ) / 2;

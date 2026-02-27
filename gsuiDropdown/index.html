@@ -136,49 +136,55 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const dd = GSUdomQS( "#dd" );
-const ddTar = GSUdomQS( "#ddTarget" );
+const dd = $( "#dd" );
+const ddTar = $( "#ddTarget" );
 let moving = false;
 let movingOffset = [ 0, 0 ];
 
-GSUdomBody.append( ddTar );
-GSUdomBody.append( dd );
+GSUdomBody.append( ddTar.$get( 0 ), dd.$get( 0 ) );
 
-ddTar.onpointerdown = e => {
-	GSUdomUnselect();
-	if ( e.target.tagName === "SPAN" ) {
-		ddTar.dataset.pos = e.target.title;
-	} else {
-		ddTar.setPointerCapture( e.pointerId );
-		dd.style.display = "block";
-		movingOffset[ 0 ] = e.offsetX;
-		movingOffset[ 1 ] = e.offsetY;
-		moving = true;
-		ddTar.onpointermove( e );
-	}
-};
-ddTar.onpointerup = e => {
-	moving = false;
-	ddTar.releasePointerCapture( e.pointerId );
-	dd.style.display = "none";
-};
-ddTar.onpointermove = e => {
-	if ( moving ) {
-		const par = ddTar.parentNode;
-		const [ px, py, pw, ph ] = GSUdomBCRxywh( par );
-		const [ ddw, ddh ] = GSUdomBCRwh( dd );
-		const x = e.clientX - px - movingOffset[ 0 ];
-		const y = e.clientY - py - movingOffset[ 1 ];
+ddTar.$on( {
+	pointerdown: e => {
+		const tar = $( e.target );
 
-		ddTar.style.left = `${ x }px`;
-		ddTar.style.top  = `${ y }px`;
+		GSUdomUnselect();
+		if ( tar.$tag() === "span" ) {
+			ddTar.$setAttr( "data-pos", tar.$prop( "title" ) );
+		} else {
+			ddTar.$get( 0 ).setPointerCapture( e.pointerId );
+			dd.$css( "display", "block" );
+			movingOffset[ 0 ] = e.offsetX;
+			movingOffset[ 1 ] = e.offsetY;
+			moving = true;
+			ddTar.$get( 0 ).onpointermove( e );
+		}
+	},
+	pointerup: e => {
+		moving = false;
+		ddTar.$get( 0 ).releasePointerCapture( e.pointerId );
+		dd.$css( "display", "" );
+	},
+	pointermove: e => {
+		if ( moving ) {
+			const parbcr = ddTar.$parent().$bcr();
+			const ddbcr = dd.$bcr();
+			const x = e.clientX - parbcr.x - movingOffset[ 0 ];
+			const y = e.clientY - parbcr.y - movingOffset[ 1 ];
 
-		const pos = gsuiCalcAbsPos.$calc( ddTar.dataset.pos, GSUdomBCR( ddTar ), ddw, ddh, { margin: 10 } );
+			ddTar.$css( {
+				left: `${ x }px`,
+				top: `${ y }px`,
+			} );
 
-		dd.style.left = pos.left;
-		dd.style.top  = pos.top;
-	}
-};
+			const pos = gsuiCalcAbsPos.$calc( ddTar.$getAttr( "data-pos" ), ddTar.$bcr(), ddbcr.w, ddbcr.h, { margin: 10 } );
+
+			dd.$css( {
+				left: pos.left,
+				top: pos.top,
+			} );
+		}
+	},
+} );
 </script>
 </body>
 </html>
