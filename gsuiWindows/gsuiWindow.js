@@ -33,10 +33,11 @@ class gsuiWindow extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "name", "minimized", "maximized" ];
+		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "name", "show", "minimized", "maximized" ];
 	}
 	$attributeChanged( prop, val ) {
 		const t = this.$this;
+		const b = val === "";
 
 		switch ( prop ) {
 			case "y": t.$top( this.#rect.y = +val, "px" ); break;
@@ -47,14 +48,20 @@ class gsuiWindow extends gsui0ne {
 			case "hmin": this.#hMin = +val; break;
 			case "icon": this.$elements.$icon.$setAttr( "data-icon", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
+			case "show":
+				if ( !b ) {
+					this.$elements.$content.$empty();
+				}
+				this.$this.$dispatch( b ? GSEV_WINDOW_OPEN : GSEV_WINDOW_CLOSE );
+				break;
 			case "minimized":
-				if ( val === "" ) {
+				if ( b ) {
 					this.$elements.$content.$empty();
 					t.$rmAttr( "maximized" ).$dispatch( GSEV_WINDOW_CLOSE );
 				}
 				break;
 			case "maximized":
-				if ( val === "" ) {
+				if ( b ) {
 					if ( t.$hasAttr( "minimized" ) ) {
 						t.$rmAttr( "minimized" ).$dispatch( GSEV_WINDOW_OPEN );
 					}
@@ -76,18 +83,6 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	$open() { return this.#openToggle( true ); }
-	$close() { return this.#openToggle( false ); }
-	#openToggle( b ) {
-		if ( b !== this.$this.$hasAttr( "show" ) ) {
-			if ( !b ) {
-				this.$elements.$content.$empty();
-			}
-			this.$this.$togAttr( "show" ).$dispatch( b ? GSEV_WINDOW_OPEN : GSEV_WINDOW_CLOSE );
-		}
-	}
-
-	// .........................................................................
 	$empty() {
 		this.$elements.$content.$empty();
 		this.$elements.$headContent.$empty();
@@ -105,7 +100,7 @@ class gsuiWindow extends gsui0ne {
 			case "minimize": this.$this.$addAttr( "minimized" ); break;
 			case "maximize": this.$this.$addAttr( "maximized" ); break;
 			case "restore": this.$this.$rmAttr( "minimized", "maximized" ); break;
-			case "close": this.$close(); break;
+			case "close": this.$this.$rmAttr( "show" ); break;
 		}
 	}
 	#onptrdownHead( e ) {
