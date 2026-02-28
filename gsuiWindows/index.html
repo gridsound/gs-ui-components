@@ -74,22 +74,22 @@ gsui-windows {
 
 <!-- ....................................................................... -->
 <script>
-const wins = GSUdomQS( "gsui-windows" );
-const addBtn = GSUdomQS( "#addContent" );
-const winA = wins.$createWindow( "winA" );
-const winB = wins.$createWindow( "winB" );
-const winC = wins.$createWindow( "winC" );
+const wins = $( "gsui-windows" );
+const addBtn = $( "#addContent" );
+const winA = wins.$message( GSEV_WINDOWS_CREATE, "winA" );
+const winB = wins.$message( GSEV_WINDOWS_CREATE, "winB" );
+const winC = wins.$message( GSEV_WINDOWS_CREATE, "winC" );
 
-GSUdomQS( "#lowGraphics" ).onchange = e => GSUdomSetAttr( wins, "lowgraphics", e.target.checked );
-GSUdomQS( "#noMinimize" ).onchange = e => GSUdomSetAttr( wins, "nominimize", e.target.checked );
+GSUdomQS( "#lowGraphics" ).onchange = e => wins.$setAttr( "lowgraphics", e.target.checked );
+GSUdomQS( "#noMinimize" ).onchange = e => wins.$setAttr( "nominimize", e.target.checked );
 GSUdomQS( "#winA" ).onclick = () => winA.$open();
 GSUdomQS( "#winB" ).onclick = () => winB.$open();
 GSUdomQS( "#winC" ).onclick = () => winC.$open();
-addBtn.onclick = () => {
+addBtn.$on( "click", () => {
 	winA.$contentAppend( GSUcreateSpan( { class: "myContent" }, "A" ) );
 	winB.$contentAppend( GSUcreateSpan( { class: "myContent" }, "B" ) );
 	winC.$contentAppend( GSUcreateSpan( { class: "myContent" }, "C" ) );
-};
+} );
 
 GSUdomSetAttr( winA, { x:  10, y: 10, w: 140, h: 100, icon: "buf-vocal", name: "Aaa" } );
 GSUdomSetAttr( winB, { x: 160, y: 10, w: 140, h: 100, icon: "buf-drum", name: "Bbb" } );
@@ -98,7 +98,7 @@ GSUdomSetAttr( winC, { x: 310, y: 10, w: 140, h: 100, icon: "buf-fx", name: "Ccc
 winA.$open();
 winB.$open();
 winC.$open();
-addBtn.onclick();
+addBtn.$click();
 </script>
 </body>
 </html>

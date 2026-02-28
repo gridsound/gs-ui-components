@@ -18,16 +18,18 @@ class gsuiWindows extends gsui0ne {
 	}
 
 	// .........................................................................
-	$createWindow( id ) {
-		const win = GSUcreateElement( "gsui-window", { "data-id": id } );
+	$onmessage( ev, val ) {
+		switch ( ev ) {
+			case GSEV_WINDOWS_GET: return this.#elWindows[ val ];
+			case GSEV_WINDOWS_CREATE: {
+				const win = GSUcreateElement( "gsui-window", { "data-id": val } );
 
-		win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
-		this.#elWindows[ id ] = win;
-		this.append( win );
-		return win;
-	}
-	$window( winId ) {
-		return this.#elWindows[ winId ];
+				win.addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
+				this.#elWindows[ val ] = win;
+				this.append( win );
+				return win;
+			}
+		}
 	}
 
 	// .........................................................................
