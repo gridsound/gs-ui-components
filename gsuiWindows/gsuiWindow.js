@@ -3,7 +3,6 @@
 class gsuiWindow extends gsui0ne {
 	#wMin = 32;
 	#hMin = 32;
-	#show = false;
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 24;
@@ -77,15 +76,13 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	$open() { return this.$openToggle( true ); }
-	$close() { return this.$openToggle( false ); }
-	$openToggle( b ) {
-		if ( b !== this.#show ) {
+	$open() { return this.#openToggle( true ); }
+	$close() { return this.#openToggle( false ); }
+	#openToggle( b ) {
+		if ( b !== this.$this.$hasAttr( "show" ) ) {
 			if ( b ) {
-				this.#show = true;
 				this.$this.$addAttr( "show" ).$dispatch( GSEV_WINDOW_OPEN );
 			} else {
-				this.#show = false;
 				this.$elements.$content.$empty();
 				this.$this.$rmAttr( "show" ).$dispatch( GSEV_WINDOW_CLOSE );
 			}
@@ -234,7 +231,7 @@ class gsuiWindow extends gsui0ne {
 			...[ ...this.parentNode.childNodes ].map( w => ( {
 				$id: w.dataset.id,
 				$bcr: w.#rect,
-				$open: w.#show,
+				$open: $( w ).$hasAttr( "show" ),
 			} ) ),
 			{
 				$bcr: { x: 0, y: 0, w, h },
