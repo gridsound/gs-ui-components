@@ -52,7 +52,6 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	$getRect() { return this.#rect; }
 	$isOpen() { return this.#show; }
 	$open() { return this.$openToggle( true ); }
 	$close() { return this.$openToggle( false ); }
@@ -247,10 +246,14 @@ class gsuiWindow extends gsui0ne {
 		const ty = dirN ? rc.y + y : rc.y;
 		const { w, h } = this.$this.$parent().$bcr();
 		const wins = [
-			...this.parentNode.childNodes,
+			...[ ...this.parentNode.childNodes ].map( w => ( {
+				$id: w.dataset.id,
+				$bcr: w.#rect,
+				$open: w.$isOpen(),
+			} ) ),
 			{
-				dataset: {},
-				$getRect: () => ( { x: 0, y: 0, w, h } ),
+				$bcr: { x: 0, y: 0, w, h },
+				$open: true,
 			},
 		];
 		let mgX = 0;
@@ -286,11 +289,10 @@ class gsuiWindow extends gsui0ne {
 		let vAbsMin = Infinity;
 
 		return wins.reduce( ( vMin, win ) => {
-			if ( win.dataset.id !== this.dataset.id && ( !win.$isOpen || win.$isOpen() ) ) {
-				const wrc = win.$getRect();
-				const wrcDir = wrc[ dir ];
+			if ( win.$open && this.dataset.id !== win.$id ) {
+				const wrcDir = win.$bcr[ dir ];
 				const v1 = wrcDir - brdL - value;
-				const v2 = wrcDir + ( dir === "x" ? wrc.w : wrc.h ) + brdR - value;
+				const v2 = wrcDir + ( dir === "x" ? win.$bcr.w : win.$bcr.h ) + brdR - value;
 				const v1Abs = Math.abs( v1 );
 				const v2Abs = Math.abs( v2 );
 				const abs = Math.min( v1Abs, v2Abs );
