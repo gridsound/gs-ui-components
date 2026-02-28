@@ -77,7 +77,6 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	$isOpen() { return this.#show; }
 	$open() { return this.$openToggle( true ); }
 	$close() { return this.$openToggle( false ); }
 	$openToggle( b ) {
@@ -235,7 +234,7 @@ class gsuiWindow extends gsui0ne {
 			...[ ...this.parentNode.childNodes ].map( w => ( {
 				$id: w.dataset.id,
 				$bcr: w.#rect,
-				$open: w.$isOpen(),
+				$open: w.#show,
 			} ) ),
 			{
 				$bcr: { x: 0, y: 0, w, h },
