@@ -80,12 +80,10 @@ class gsuiWindow extends gsui0ne {
 	$close() { return this.#openToggle( false ); }
 	#openToggle( b ) {
 		if ( b !== this.$this.$hasAttr( "show" ) ) {
-			if ( b ) {
-				this.$this.$addAttr( "show" ).$dispatch( GSEV_WINDOW_OPEN );
-			} else {
+			if ( !b ) {
 				this.$elements.$content.$empty();
-				this.$this.$rmAttr( "show" ).$dispatch( GSEV_WINDOW_CLOSE );
 			}
+			this.$this.$togAttr( "show" ).$dispatch( b ? GSEV_WINDOW_OPEN : GSEV_WINDOW_CLOSE );
 		} else {
 			this.$this.$rmAttr( "minimized" );
 		}
