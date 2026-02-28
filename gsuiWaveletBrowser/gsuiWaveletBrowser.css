@@ -6,14 +6,14 @@ gsui-wavelet-browser {
 	flex-direction: column;
 	height: 100%;
 	gap: 6px;
-	min-width: 100px;
-	min-height: 24px;
-	background-color: #5a555f;
+	min-width: 220px;
+	min-height: 100px;
 	user-select: none;
 
 	> button {
 		height: 20px;
 		border: 0;
+		outline: 0;
 		border-radius: 4px;
 		padding: 0 10px;
 		font: inherit;
@@ -33,7 +33,7 @@ gsui-wavelet-browser {
 	position: relative;
 	flex: 1;
 	border-radius: 0 4px 4px 0;
-	background-color: #0025;
+	background-color: #484863;
 	box-shadow:
 		inset 0 0 68px #0005,
 		inset 0 0 8px #000a;
@@ -70,7 +70,7 @@ gsui-wavelet-browser {
 	position: relative;
 	border-right: 3px solid #0018;
 	border-radius: 4px 0 0 4px;
-	background-color: #0003;
+	background-color: #0002;
 
 	&::before {
 		content: "";
