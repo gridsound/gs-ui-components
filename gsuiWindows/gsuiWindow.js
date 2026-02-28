@@ -4,8 +4,6 @@ class gsuiWindow extends gsui0ne {
 	#wMin = 32;
 	#hMin = 32;
 	#show = false;
-	#minimized = false;
-	#maximized = false;
 	#mousemovePos = Object.seal( { x: 0, y: 0 } );
 	#mousedownPos = Object.seal( { x: 0, y: 0 } );
 	#mousedownHeadHeight = 24;
@@ -36,18 +34,45 @@ class gsuiWindow extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "name" ];
+		return [ "x", "y", "w", "h", "wmin", "hmin", "icon", "name", "minimized", "maximized" ];
 	}
 	$attributeChanged( prop, val ) {
+		const t = this.$this;
+
 		switch ( prop ) {
-			case "y": this.style.top = `${ this.#rect.y = +val }px`; break;
-			case "x": this.style.left = `${ this.#rect.x = +val }px`; break;
-			case "w": this.style.width = `${ this.#rect.w = +val }px`; break;
-			case "h": this.style.height = `${ this.#rect.h = +val }px`; break;
+			case "y": t.$top( this.#rect.y = +val, "px" ); break;
+			case "x": t.$left( this.#rect.x = +val, "px" ); break;
+			case "w": t.$width( this.#rect.w = +val, "px" ); break;
+			case "h": t.$height( this.#rect.h = +val, "px" ); break;
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
 			case "icon": this.$elements.$icon.$setAttr( "data-icon", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
+			case "minimized":
+				if ( val === "" ) {
+					this.$elements.$content.$empty();
+					t.$rmAttr( "maximized" ).$dispatch( GSEV_WINDOW_CLOSE );
+				}
+				break;
+			case "maximized":
+				if ( val === "" ) {
+					if ( t.$hasAttr( "minimized" ) ) {
+						t.$rmAttr( "minimized" ).$dispatch( GSEV_WINDOW_OPEN );
+					}
+					t.$focus();
+				}
+				break;
+		}
+		switch ( prop ) {
+			case "minimized":
+			case "maximized":
+				if ( !t.$hasAttr( "minimized" ) && !t.$hasAttr( "maximized" ) ) {
+					if ( prop === "minimized" ) {
+						t.$dispatch( GSEV_WINDOW_OPEN );
+					}
+					t.$focus();
+				}
+				break;
 		}
 	}
 
@@ -65,8 +90,8 @@ class gsuiWindow extends gsui0ne {
 				this.$elements.$content.$empty();
 				this.$this.$rmAttr( "show" ).$dispatch( GSEV_WINDOW_CLOSE );
 			}
-		} else if ( this.#minimized ) {
-			this.$restore();
+		} else {
+			this.$this.$rmAttr( "minimized" );
 		}
 	}
 
@@ -83,49 +108,12 @@ class gsuiWindow extends gsui0ne {
 	}
 
 	// .........................................................................
-	$maximize() {
-		if ( !this.#maximized ) {
-			const wasMinimized = this.#minimized;
-
-			this.$this.$setAttr( { minimized: false, maximized: true } );
-			this.#minimized = false;
-			this.#maximized = true;
-			if ( wasMinimized ) {
-				this.$this.$dispatch( GSEV_WINDOW_OPEN );
-			}
-			this.$this.$focus();
-		}
-	}
-	$minimize() {
-		if ( !this.#minimized ) {
-			this.$this.$setAttr( { minimized: true, maximized: false } );
-			this.#minimized = true;
-			this.#maximized = false;
-			this.$elements.$content.$empty();
-			this.$this.$dispatch( GSEV_WINDOW_CLOSE );
-		}
-	}
-	$restore() {
-		if ( this.#minimized || this.#maximized ) {
-			const wasMinimized = this.#minimized;
-
-			this.$this.$focus();
-			this.$this.$setAttr( { minimized: false, maximized: false } );
-			this.#minimized =
-			this.#maximized = false;
-			if ( wasMinimized ) {
-				this.$this.$dispatch( GSEV_WINDOW_OPEN );
-			}
-		}
-	}
-
-	// .........................................................................
 	#onclickBtns( e ) {
 		switch ( e.target.dataset.action ) {
-			case "minimize": return this.$minimize();
-			case "restore": return this.$restore();
-			case "maximize": return this.$maximize();
-			case "close": return this.$close();
+			case "minimize": this.$this.$addAttr( "minimized" ); break;
+			case "maximize": this.$this.$addAttr( "maximized" ); break;
+			case "restore": this.$this.$rmAttr( "minimized", "maximized" ); break;
+			case "close": this.$close(); break;
 		}
 	}
 	#onptrdownHead( e ) {
@@ -137,10 +125,8 @@ class gsuiWindow extends gsui0ne {
 			tar.$hasClass( "gsuiWindow-headContent" );
 
 		if ( GSUdomIsDblClick( e ) ) {
-			this.#maximized
-				? this.$restore()
-				: this.$maximize();
-		} else if ( e.button === 0 && clicked && !this.#maximized ) {
+			this.$this.$togAttr( "maximized" );
+		} else if ( e.button === 0 && clicked && !this.$this.$hasAttr( "maximized" ) ) {
 			this.#mousedownPos.x = e.clientX;
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
