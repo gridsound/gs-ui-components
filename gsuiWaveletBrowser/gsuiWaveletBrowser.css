@@ -89,7 +89,7 @@ gsui-wavelet-browser {
 		--pad: 4px;
 		box-sizing: border-box;
 		overflow: auto;
-		width: 118px;
+		width: 128px;
 		height: 100%;
 		padding: calc( var( --gsui-h ) / 2 - var( --gsui-item-h ) / 2 ) 4px;
 
