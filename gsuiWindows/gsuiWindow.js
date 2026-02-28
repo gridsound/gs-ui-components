@@ -84,8 +84,6 @@ class gsuiWindow extends gsui0ne {
 				this.$elements.$content.$empty();
 			}
 			this.$this.$togAttr( "show" ).$dispatch( b ? GSEV_WINDOW_OPEN : GSEV_WINDOW_CLOSE );
-		} else {
-			this.$this.$rmAttr( "minimized" );
 		}
 	}
 
