@@ -84,7 +84,7 @@ class gsuiWindow extends gsui0ne {
 			if ( b ) {
 				this.#show = true;
 				this.$this.$addAttr( "show" ).$dispatch( GSEV_WINDOW_OPEN );
-			} else if ( !this.onclose || this.onclose() !== false ) {
+			} else {
 				this.#show = false;
 				this.$elements.$content.$empty();
 				this.$this.$rmAttr( "show" ).$dispatch( GSEV_WINDOW_CLOSE );
