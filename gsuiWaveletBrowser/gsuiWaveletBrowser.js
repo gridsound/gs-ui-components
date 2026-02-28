@@ -16,7 +16,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 				$btn: "button",
 			},
 			$attributes: {
-				wave: "silence",
+				wave: "sine",
 			},
 		} );
 		Object.seal( this );
