@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiWindows extends gsui0ne {
-	#elWindows = {};
 	#focusedWindow = $noop;
 
 	constructor() {
@@ -20,12 +19,11 @@ class gsuiWindows extends gsui0ne {
 	// .........................................................................
 	$onmessage( ev, val ) {
 		switch ( ev ) {
-			case GSEV_WINDOWS_GET: return $( this.#elWindows[ val ] );
+			case GSEV_WINDOWS_GET: return this.$this.$query( `gsui-window[data-id="${ val }"]` );
 			case GSEV_WINDOWS_CREATE: {
 				const win = $( "<gsui-window>" ).$setAttr( { "data-id": val } );
 
 				win.$get( 0 ).addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
-				this.#elWindows[ val ] = win;
 				this.$this.$append( win );
 				return win;
 			}
