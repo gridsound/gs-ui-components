@@ -20,19 +20,16 @@ class gsuiWindows extends gsui0ne {
 	$onmessage( ev, val ) {
 		switch ( ev ) {
 			case GSEV_WINDOWS_GET: return this.$this.$query( `gsui-window[data-id="${ val }"]` );
-			case GSEV_WINDOWS_CREATE: {
-				const win = $( "<gsui-window>" ).$setAttr( { "data-id": val } );
-
-				win.$get( 0 ).addEventListener( "focusin", this.#onfocusinWin.bind( this, win ) );
-				this.$this.$append( win );
-				return win;
-			}
+			case GSEV_WINDOWS_CREATE: return $( "<gsui-window>" )
+				.$setAttr( { "data-id": val } )
+				.$on( "focusin", this.#onfocusinWin.bind( this ) )
+				.$appendTo( this );
 		}
 	}
 
 	// .........................................................................
 	#onopen( win ) {
-		this.#onfocusinWin( win );
+		this.#recalcZIndexes( win );
 		this.$this.$dispatch( GSEV_WINDOWS_OPEN, win );
 	}
 	#onclose( win ) {
@@ -41,7 +38,10 @@ class gsuiWindows extends gsui0ne {
 		}
 		this.$this.$dispatch( GSEV_WINDOWS_CLOSE, win );
 	}
-	#onfocusinWin( win ) {
+	#onfocusinWin( e ) {
+		this.#recalcZIndexes( $( e.currentTarget ) );
+	}
+	#recalcZIndexes( win ) {
 		if ( !win.$is( this.#focusedWindow ) ) {
 			const z = +win.$css( "zIndex" ) || 0;
 
