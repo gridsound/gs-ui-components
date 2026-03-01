@@ -46,10 +46,10 @@ gsui-windows {
 		<input id="noMinimize" type="checkbox"/>
 		<span>no minimize</span>
 	</label>
-	<div>
-		<button id="winA">winA</button>
-		<button id="winB">winB</button>
-		<button id="winC">winC</button>
+	<div id="winBtns">
+		<button data-ind="0">winA</button>
+		<button data-ind="1">winB</button>
+		<button data-ind="2">winC</button>
 	</div>
 	<div>
 		<button id="addContent">addContent</button>
@@ -74,31 +74,31 @@ gsui-windows {
 
 <!-- ....................................................................... -->
 <script>
-const wins = $( "gsui-windows" );
-const addBtn = $( "#addContent" );
-const winA = wins.$message( GSEV_WINDOWS_CREATE, "winA" );
-const winB = wins.$message( GSEV_WINDOWS_CREATE, "winB" );
-const winC = wins.$message( GSEV_WINDOWS_CREATE, "winC" );
+const uiWins = $( "gsui-windows" );
+const wins = $( [
+	uiWins.$message( GSEV_WINDOWS_CREATE, "winA" ),
+	uiWins.$message( GSEV_WINDOWS_CREATE, "winB" ),
+	uiWins.$message( GSEV_WINDOWS_CREATE, "winC" ),
+] );
+const attrs = [
+	{ x:  10, y: 10, w: 140, h: 100, icon: "buf-vocal", name: "Aaa" },
+	{ x: 160, y: 10, w: 140, h: 100, icon: "buf-drum", name: "Bbb" },
+	{ x: 310, y: 10, w: 140, h: 100, icon: "buf-fx", name: "Ccc" },
+];
 
-GSUdomQS( "#lowGraphics" ).onchange = e => wins.$setAttr( "lowgraphics", e.target.checked );
-GSUdomQS( "#noMinimize" ).onchange = e => wins.$setAttr( "nominimize", e.target.checked );
-GSUdomQS( "#winA" ).onclick = () => winA.$open();
-GSUdomQS( "#winB" ).onclick = () => winB.$open();
-GSUdomQS( "#winC" ).onclick = () => winC.$open();
-addBtn.$on( "click", () => {
-	winA.$contentAppend( GSUcreateSpan( { class: "myContent" }, "A" ) );
-	winB.$contentAppend( GSUcreateSpan( { class: "myContent" }, "B" ) );
-	winC.$contentAppend( GSUcreateSpan( { class: "myContent" }, "C" ) );
+$( "#lowGraphics" ).$on( "change", e => uiWins.$setAttr( "lowgraphics", e.target.checked ) );
+$( "#noMinimize" ).$on( "change", e => uiWins.$setAttr( "nominimize", e.target.checked ) );
+$( "#winBtns button" ).$on( "click", e => wins.$at( e.target.dataset.ind ).$addAttr( "show" ) );
+$( "#addContent" ).$on( "click", () => {
+	wins.$get( 0 ).$contentAppend( GSUcreateSpan( { class: "myContent" }, "A" ) );
+	wins.$get( 1 ).$contentAppend( GSUcreateSpan( { class: "myContent" }, "B" ) );
+	wins.$get( 2 ).$contentAppend( GSUcreateSpan( { class: "myContent" }, "C" ) );
 } );
 
-GSUdomSetAttr( winA, { x:  10, y: 10, w: 140, h: 100, icon: "buf-vocal", name: "Aaa" } );
-GSUdomSetAttr( winB, { x: 160, y: 10, w: 140, h: 100, icon: "buf-drum", name: "Bbb" } );
-GSUdomSetAttr( winC, { x: 310, y: 10, w: 140, h: 100, icon: "buf-fx", name: "Ccc" } );
+wins.$setAttr( ( _, i ) => attrs[ i ] )
+	.$setAttr( "show" );
 
-winA.$open();
-winB.$open();
-winC.$open();
-addBtn.$click();
+$( "#addContent" ).$click();
 </script>
 </body>
 </html>
