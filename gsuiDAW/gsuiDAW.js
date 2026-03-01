@@ -176,9 +176,6 @@ class gsuiDAW extends gsui0ne {
 	}
 
 	// .........................................................................
-	$getTitleUser() {
-		return this.$elements.$titleUser.$get( 0 );
-	}
 	$updateSpectrum( data ) {
 		this.$elements.$analyserHz.$get( 0 ).$draw( data );
 	}
