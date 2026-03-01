@@ -90,9 +90,9 @@ $( "#lowGraphics" ).$on( "change", e => uiWins.$setAttr( "lowgraphics", e.target
 $( "#noMinimize" ).$on( "change", e => uiWins.$setAttr( "nominimize", e.target.checked ) );
 $( "#winBtns button" ).$on( "click", e => wins.$at( e.target.dataset.ind ).$addAttr( "show" ) );
 $( "#addContent" ).$on( "click", () => {
-	wins.$get( 0 ).$contentAppend( GSUcreateSpan( { class: "myContent" }, "A" ) );
-	wins.$get( 1 ).$contentAppend( GSUcreateSpan( { class: "myContent" }, "B" ) );
-	wins.$get( 2 ).$contentAppend( GSUcreateSpan( { class: "myContent" }, "C" ) );
+	wins.$at( 0 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "A" ) );
+	wins.$at( 1 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "B" ) );
+	wins.$at( 2 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "C" ) );
 } );
 
 wins.$setAttr( ( _, i ) => attrs[ i ] )

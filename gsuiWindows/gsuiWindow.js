@@ -81,17 +81,11 @@ class gsuiWindow extends gsui0ne {
 				break;
 		}
 	}
-
-	// .........................................................................
-	$empty() {
-		this.$elements.$content.$empty();
-		this.$elements.$headContent.$empty();
-	}
-	$contentAppend( ...args ) {
-		this.$elements.$content.$append( ...args );
-	}
-	$headAppend( ...args ) {
-		this.$elements.$headContent.$append( ...args );
+	$onmessage( ev, ...args ) {
+		switch ( ev ) {
+			case GSEV_WINDOW_APPENDHEAD: this.$elements.$headContent.$append( ...args ); break;
+			case GSEV_WINDOW_APPENDCONTENT: this.$elements.$content.$append( ...args ); break;
+		}
 	}
 
 	// .........................................................................
