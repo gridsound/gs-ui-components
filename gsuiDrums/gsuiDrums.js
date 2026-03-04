@@ -124,7 +124,7 @@ class gsuiDrums extends gsui0ne {
 		const elLine = this.#drumrows.$add( rowId );
 		const elDrumLine = this.#createDrumrowLine( rowId );
 
-		elLine.$get( 0 ).$associateDrumLine( elDrumLine );
+		elLine.$message( GSEV_DRUMROW_SETDRUMLINE, elDrumLine );
 		this.#linesMap.set( rowId, elDrumLine );
 		this.#elLines.append( elDrumLine );
 		this.#setPropFilter( rowId, "gain" );

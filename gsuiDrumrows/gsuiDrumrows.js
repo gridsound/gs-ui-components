@@ -25,10 +25,10 @@ class gsuiDrumrows extends gsui0ne {
 
 	// .........................................................................
 	$playRow( id ) {
-		this.#rows.get( id ).$get( 0 ).$play();
+		this.#rows.get( id ).$message( GSEV_DRUMROW_PLAY );
 	}
 	$stopRow( id ) {
-		this.#rows.get( id ).$get( 0 ).$stop();
+		this.#rows.get( id ).$message( GSEV_DRUMROW_STOP );
 	}
 	$setPropFilter( rowId, prop ) {
 		this.#getPropSelect( rowId ).$setAttr( "prop", prop );
@@ -67,7 +67,7 @@ class gsuiDrumrows extends gsui0ne {
 				this.#rows.get( id ).$setAttr( prop, val );
 				break;
 			case "pattern":
-				this.#rows.get( id ).$get( 0 ).$changePattern( val );
+				this.#rows.get( id ).$message( GSEV_DRUMROW_CHANGEPATTERN, val );
 				break;
 		}
 	}

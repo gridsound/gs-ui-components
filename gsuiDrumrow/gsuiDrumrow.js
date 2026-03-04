@@ -62,22 +62,20 @@ class gsuiDrumrow extends gsui0ne {
 				break;
 		}
 	}
-
-	// .........................................................................
-	$associateDrumLine( el ) {
-		this.#elDrumLine = $( el )
-			.$css( "order", this.$this.$getAttr( "order" ) )
-			.$setAttr( "data-mute", !this.$this.$hasAttr( "toggle" ) );
-	}
-	$changePattern( svg ) {
-		this.$elements.$waveWrap.$query( "svg" ).$remove();
-		this.$elements.$waveWrap.$prepend( svg );
-	}
-	$play() {
-		this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_PLAY, +this.$this.$getAttr( "duration" ) );
-	}
-	$stop() {
-		this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_STOP );
+	$onmessage( ev, val ) {
+		switch ( ev ) {
+			case GSEV_DRUMROW_PLAY: this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_PLAY, +this.$this.$getAttr( "duration" ) ); break;
+			case GSEV_DRUMROW_STOP: this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_STOP ); break;
+			case GSEV_DRUMROW_SETDRUMLINE:
+				this.#elDrumLine = $( val )
+					.$css( "order", this.$this.$getAttr( "order" ) )
+					.$setAttr( "data-mute", !this.$this.$hasAttr( "toggle" ) );
+				break;
+			case GSEV_DRUMROW_CHANGEPATTERN:
+				this.$elements.$waveWrap.$query( "svg" ).$remove();
+				this.$elements.$waveWrap.$prepend( val );
+				break;
+		}
 	}
 
 	// .........................................................................
