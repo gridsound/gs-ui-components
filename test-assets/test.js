@@ -50,6 +50,7 @@ const TESTcmpList = Object.freeze( [
 	"gsuiSVGPatterns",
 	"gsuiSynthesizer",
 	"gsuiTempo",
+	"gsuiTimeCursors",
 	"gsuiTimeline",
 	"gsuiTimewindow",
 	"gsuiTitleUser",

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiTimeCursors.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 220px;
+	--test-content-h: 200px;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gsui-time-cursors resolution="300"></gsui-time-cursors>
+</div>
+<div id="TEST-CTRLS">
+	<button class="playBtn" data-sec=".25">play 0.25 sec</button><br/>
+	<button class="playBtn" data-sec="1">play 1 sec</button><br/>
+	<button class="playBtn" data-sec="10">play 10 sec</button>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-jquery.js"></script>
+<script src="../gs-utils/gs-utils-checkType.dev.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiTimeCursors.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const uiTimeCursors = $( "gsui-time-cursors" );
+
+$( ".playBtn" ).$on( "click", e => uiTimeCursors.$message( GSEV_TIMECURSORS_PLAY, +e.target.dataset.sec ) );
+
+GSUsetInterval( () => {
+	uiTimeCursors.$message( GSEV_TIMECURSORS_DRAW );
+}, 1 / 60 );
+</script>
+</body>
+</html>
