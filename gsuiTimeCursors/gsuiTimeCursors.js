@@ -29,6 +29,7 @@ class gsuiTimeCursors extends gsui0ne {
 		switch ( ev ) {
 			case GSEV_TIMECURSORS_DRAW: this.#draw(); break;
 			case GSEV_TIMECURSORS_PLAY: this.#play( val * 1000 ); break;
+			case GSEV_TIMECURSORS_STOP: this.#stop(); break;
 		}
 	}
 
@@ -36,6 +37,10 @@ class gsuiTimeCursors extends gsui0ne {
 	#resolution( w ) {
 		this.$element.$get( 0 ).width =
 		this.#w = w;
+	}
+	#stop() {
+		this.#plays.length = 0;
+		this.#ctx.clearRect( 0, 0, this.#w, 1 );
 	}
 	#play( dur ) {
 		this.#plays.push( {
