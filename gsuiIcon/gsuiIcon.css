@@ -69,6 +69,12 @@
 	&[ data-icon="cu-waveform"     ] { --i0: "\e008"; --i1: "\e008\e008"; }
 	&[ data-icon="cu-search-user"  ] { --i0: "\e002"; --i1: "\e002\e002"; }
 	&[ data-icon="cu-search-music" ] { --i0: "\e009"; --i1: "\e009\e009"; }
+	&[ data-icon="cu-wave-edit"    ] {
+		--i0: "\e00d";
+		--i1: "\e00d\e00d";
+		&::before { translate: 0 -.15em }
+		&::after { translate: 0 -.15em }
+	}
 	&[ data-icon="cu-heart-stroke" ] {
 		--i0: "\e00a";
 		--i1: "\e00a\e00a";
