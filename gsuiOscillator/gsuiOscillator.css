@@ -10,9 +10,10 @@ gsui-oscillator {
 	background-color: var( --gsui-item-bg );
 	transition: .2s;
 	transition-property: min-height;
-}
-gsui-oscillator[ wavetable ] {
-	min-height: 500px;
+
+	&[ wavetable ] {
+		min-height: 500px;
+	}
 }
 .gsuiOscillator-in {
 	display: grid;
@@ -61,15 +62,16 @@ gsui-oscillator[ wavetable ] {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-head-label:nth-of-type( 1 ) { grid-area: unisonLbl }
-.gsuiOscillator-head-label:nth-of-type( 2 ) { grid-area: pitchLbl }
-.gsuiOscillator-head-label:nth-of-type( 3 ) { grid-area: panLbl }
-.gsuiOscillator-head-label:nth-of-type( 4 ) { grid-area: gainLbl }
 .gsuiOscillator-head-label {
 	display: flex;
 	justify-content: center;
 	font-size: 12px;
 	opacity: .5;
+
+	&:nth-of-type( 1 ) { grid-area: unisonLbl }
+	&:nth-of-type( 2 ) { grid-area: pitchLbl }
+	&:nth-of-type( 3 ) { grid-area: panLbl }
+	&:nth-of-type( 4 ) { grid-area: gainLbl }
 }
 
 /* .......................................................................... */
@@ -79,10 +81,11 @@ gsui-oscillator[ wavetable ] {
 	justify-content: center;
 	gap: 2px;
 	--gsuiSlider-lineColor: currentColor;
+
+	&[ data-prop="pan" ] { grid-area: pan; color: var( --gsui-col-pan ); }
+	&[ data-prop="gain" ] { grid-area: gain; color: var( --gsui-col-gain ); }
+	&[ data-prop="detune" ] { grid-area: detune; color: var( --gsui-col-detune ); }
 }
-.gsuiOscillator-prop[ data-prop="pan" ] { grid-area: pan; color: var( --gsui-col-pan ); }
-.gsuiOscillator-prop[ data-prop="gain" ] { grid-area: gain; color: var( --gsui-col-gain ); }
-.gsuiOscillator-prop[ data-prop="detune" ] { grid-area: detune; color: var( --gsui-col-detune ); }
 .gsuiOscillator-sliderWrap {
 	position: relative;
 	box-sizing: border-box;
@@ -99,9 +102,10 @@ gsui-oscillator[ wavetable ] {
 	left: calc( 50% - 8px );
 	width: 16px;
 	height: 16px;
-}
-.gsuiOscillator-prop gsui-slider + gsui-slider .gsuiSlider-eventCatcher {
-	border-radius: 50%;
+
+	.gsuiSlider-eventCatcher {
+		border-radius: 50%;
+	}
 }
 .gsuiOscillator-sliderValue {
 	display: flex;
@@ -151,14 +155,17 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-source,
 gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 	visibility: hidden;
 }
-.gsuiOscillator-wave gsui-periodicwave {
-	position: absolute;
-}
-.gsuiOscillator-wave gsui-periodicwave:first-child { color: var( --gsui-col-pan-l ); }
-.gsuiOscillator-wave gsui-periodicwave:last-child { color: var( --gsui-col-pan-r ); }
-.gsuiOscillator-wave polyline {
-	stroke-width: 2px;
-	stroke-opacity: .8;
+.gsuiOscillator-wave {
+	gsui-periodicwave {
+		position: absolute;
+
+		&:first-child { color: var( --gsui-col-pan-l ); }
+		&:last-child { color: var( --gsui-col-pan-r ); }
+	}
+	polyline {
+		stroke-width: 2px;
+		stroke-opacity: .8;
+	}
 }
 .gsuiOscillator-source svg {
 	position: absolute;
@@ -169,9 +176,10 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 .gsuiOscillator-waveColumn gsui-slider {
 	height: 4px;
 	--gsuiSlider-lineColor: #b8b;
-}
-.gsuiOscillator-waveColumn gsui-slider .gsuiSlider-eventCatcher {
-	inset: -4px 0;
+
+	.gsuiSlider-eventCatcher {
+		inset: -4px 0;
+	}
 }
 
 /* .......................................................................... */
@@ -224,20 +232,22 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	width: 29px;
 	min-width: 29px;
 	margin-right: 2px;
-}
-.gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:first-child {
-	position: absolute;
-	inset: 0 auto 0 0;
-	opacity: .8;
-}
-.gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:last-child {
-	position: absolute;
-	inset: 0 0 0 auto;
-	margin-top: -2px;
-	font-size: .7em;
-}
-.gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:last-child::before {
-	text-shadow: -2px 0 #373742;
+
+	.gsuiIcon:first-child {
+		position: absolute;
+		inset: 0 auto 0 0;
+		opacity: .8;
+	}
+	.gsuiIcon:last-child {
+		position: absolute;
+		inset: 0 0 0 auto;
+		margin-top: -2px;
+		font-size: .7em;
+
+		&::before {
+			text-shadow: -2px 0 #373742;
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -250,11 +260,12 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	visibility: hidden;
 	transition: .2s;
 	transition-property: opacity, visibility, scale;
-}
-gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
-	scale: 1;
-	opacity: 1;
-	visibility: visible;
+
+	gsui-oscillator[ wavetable ] & {
+		scale: 1;
+		opacity: 1;
+		visibility: visible;
+	}
 }
 
 /* .......................................................................... */
@@ -304,9 +315,10 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 	border-radius: 3px;
 	background-color: var( --gsui-col-unison );
 	opacity: .75;
-}
-.gsuiOscillator-unisonGraph-voice:only-child {
-	margin: auto 0;
+
+	&:only-child {
+		margin: auto 0;
+	}
 }
 
 /* .......................................................................... */
@@ -315,16 +327,17 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 	display: flex;
 	gap: 5px;
 	--gsuiSlider-lineColor: var( --gsui-col-unison );
-}
-.gsuiOscillator-unison gsui-slider + gsui-slider {
-	width: 6px;
-	min-width: 6px;
-}
-.gsuiOscillator-unison gsui-slider .gsuiSlider-eventCatcher {
-	inset: -3px;
-}
-.gsuiOscillator-unison gsui-slider[ data-prop="unisonvoices" ] .gsuiSlider-eventCatcher {
-	left: -16px;
+
+	gsui-slider + gsui-slider {
+		width: 6px;
+		min-width: 6px;
+	}
+	gsui-slider .gsuiSlider-eventCatcher {
+		inset: -3px;
+	}
+	gsui-slider[ data-prop="unisonvoices" ] .gsuiSlider-eventCatcher {
+		left: -16px;
+	}
 }
 
 /* .......................................................................... */
