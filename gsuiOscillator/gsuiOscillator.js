@@ -9,6 +9,7 @@ const gsuiOscillator_defaultWaves = {
 
 class gsuiOscillator extends gsui0ne {
 	$askWavetableData = GSUnoop;
+	#waveletBrowserDropdown = new gsuiDropdown();
 	#timeidType = null;
 	#typeSaved = "";
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), .1 );
@@ -23,9 +24,10 @@ class gsuiOscillator extends gsui0ne {
 			$elements: {
 				$id: ".gsuiOscillator-id",
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
-				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavePrev: ".gsuiOscillator-wavePrev",
 				$waveNext: ".gsuiOscillator-waveNext",
+				$waveName: ".gsuiOscillator-waveName",
+				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavetableWrap: ".gsuiOscillator-wavetable",
 				$wavetableBtn: ".gsuiOscillator-waveBtn[data-action=wavetable]",
 				$sourceName: ".gsuiOscillator-sourceName",
@@ -52,10 +54,10 @@ class gsuiOscillator extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$waveSelect.$on( {
-			change: this.#onchangeSelect.bind( this ),
-			keydown: this.#onkeydownSelect.bind( this ),
-		} );
+		this.#waveletBrowserDropdown.$setDirection( "T" );
+		this.#waveletBrowserDropdown.$bindTargetElement( this.$elements.$waveName.$get( 0 ) );
+		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
+		this.$elements.$waveName.$on( "click", this.#onclickWaveName.bind( this ) );
 		this.$elements.$wavePrev.$on( "click", this.#onclickPrevNext.bind( this, -1 ) );
 		this.$elements.$waveNext.$on( "click", this.#onclickPrevNext.bind( this, 1 ) );
 		this.$elements.$wavetableBtn.$on( "click", () => this.$this.$togAttr( "wavetable" ) );
@@ -134,8 +136,8 @@ class gsuiOscillator extends gsui0ne {
 		switch ( ev ) {
 			case GSEV_OSCILLATOR_STARTKEY: this.#startKey( ...args ); break;
 			case GSEV_OSCILLATOR_STOPKEY: this.#stopKey( ...args ); break;
-			case GSEV_OSCILLATOR_ADDCUSTOMWAVE: this.#addWaveCustom( ...args ); break;
-			case GSEV_OSCILLATOR_ADDWAVES: this.#addWaves( ...args ); break;
+			case GSEV_OSCILLATOR_ADDCUSTOMWAVE: this.$elements.$waveName.$text( args[ 0 ] ); break;
+			// case GSEV_OSCILLATOR_ADDWAVES: this.#addWaves( ...args ); break;
 			case GSEV_OSCILLATOR_CHANGECUSTOMWAVE: this.#changeCustomWave( ...args ); break;
 			case GSEV_OSCILLATOR_UPDATESOURCEWAVEFORM: this.#updateSourceWaveform( ...args ); break;
 			case GSEV_OSCILLATOR_UPDATECUSTOMWAVE:
@@ -155,21 +157,6 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
-	#addWaveCustom( name ) {
-		this.$elements.$waveSelect.$prepend( GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: name } ) );
-	}
-	#addWaves( arr ) {
-		const opts = [];
-
-		arr.forEach( w => {
-			if ( !this.#selectWaves[ w ] ) {
-				this.#selectWaves[ w ] = true;
-				opts.push( GSUcreateOption( { class: "gsuiOscillator-waveOpt", value: w } ) );
-			}
-		} );
-		this.$elements.$waveSelect.$append( ...opts );
-		this.#updateWaveDeb();
-	}
 	#updateWave( prop, val ) {
 		const w = this.$elements.$waves;
 		const gain = prop === "gain" ? val : +this.$this.$getAttr( "gain" );
@@ -199,6 +186,9 @@ class gsuiOscillator extends gsui0ne {
 	// .........................................................................
 	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"]` ); }
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] *` ); }
+	#getWaveIndex( w ) {
+		return gsuiWaveletList.findIndex( a => a[ 0 ] === w );
+	}
 	#changeSource( src ) {
 		this.$elements.$sourceName.$text( src );
 		if ( src ) {
@@ -206,16 +196,19 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#changeWave( w ) {
+		this.#changeWave2( w );
+		if ( w ) {
+			this.$this.$rmAttr( "source" );
+		}
+	}
+	#changeWave2( w ) {
 		const w2 = gsuiWaveletList.find( a => a[ 0 ] === w )?.[ 1 ];
 
-		this.$elements.$waveSelect.$value( w );
+		this.$elements.$waveName.$text( w );
 		if ( w2 ) {
 			this.$elements.$waves
 				.$message( GSEV_PERIODICWAVE_DATA, w2, 96 )
 				.$message( GSEV_PERIODICWAVE_DRAW );
-		}
-		if ( w ) {
-			this.$this.$rmAttr( "source" );
 		}
 	}
 	#changePropSlider( prop, val ) {
@@ -282,29 +275,39 @@ class gsuiOscillator extends gsui0ne {
 		this.$onresize();
 	}
 	#onclickPrevNext( dir ) {
-		const sel = this.$elements.$waveSelect.$get( 0 );
-		const currOpt = GSUdomQS( sel, `option[value="${ sel.value }"]` );
-		const opt = dir < 0
-			? currOpt.previousElementSibling
-			: currOpt.nextElementSibling;
+		const ind = this.#getWaveIndex( this.$elements.$waveName.$text() );
+		const wave = gsuiWaveletList[ ind + dir ]?.[ 0 ];
 
-		if ( opt && ( dir > 0 || currOpt.value !== "sine" || this.$this.$hasAttr( "hascustomwave" ) ) ) {
-			sel.value = opt.value;
-			this.#onchangeSelect();
+		if ( wave ) {
+			this.#changeWave2( wave );
+			GSUclearTimeout( this.#timeidType );
+			this.#timeidType = GSUsetTimeout( () => {
+				const w = this.$elements.$waveName.$text();
+
+				if ( w !== this.$this.$getAttr( "wave" ) ) {
+					this.#onchangeWaveBrowser( w );
+				}
+			}, .25 );
 		}
 	}
-	#onchangeSelect() {
-		const w = this.$elements.$waveSelect.$value();
+	#onclickWaveName() {
+		lg('onclickWaveName')
+	}
+	#onopenWaveBrowser() {
+		const wbrow = $( "<gsui-wavelet-browser>" )
+			.$addClass( "gsuiOscillator-waveletBrowser" )
+			.$setAttr( "wave", this.$this.$getAttr( "wave" ) );
 
-		GSUclearTimeout( this.#timeidType );
-		this.$this.$setAttr( "wave", w )
-			.$dispatch( GSEV_OSCILLATOR_LIVECHANGE, "wave", w );
-		this.#timeidType = GSUsetTimeout( () => {
-			if ( w !== this.#typeSaved ) {
-				this.#typeSaved = w;
-				this.$this.$dispatch( GSEV_OSCILLATOR_CHANGE, "wave", w );
-			}
-		}, .7 );
+		GSUdomListen( wbrow.$get( 0 ), {
+			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => this.#onchangeWaveBrowser( val ),
+		} );
+		wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
+		return wbrow.$get( 0 );
+	}
+	#onchangeWaveBrowser( waveName ) {
+		this.#waveletBrowserDropdown.$close();
+		this.$this.$setAttr( "wave", waveName )
+			.$dispatch( GSEV_OSCILLATOR_CHANGE, "wave", waveName );
 	}
 	#onkeydownSelect( e ) {
 		if ( e.key.length === 1 ) {

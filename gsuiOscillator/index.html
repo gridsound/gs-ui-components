@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
 <link rel="stylesheet" href="../gsuiWavetable/gsuiWavetable.css"/>
 <link rel="stylesheet" href="../gsuiWaveEditor/gsuiWaveEditor.css"/>
+<link rel="stylesheet" href="../gsuiWaveletBrowser/gsuiWaveletBrowser.css"/>
 <link rel="stylesheet" href="../gsuiWavetableGraph/gsuiWavetableGraph.css"/>
 
 <!-- ....................................................................... -->
@@ -80,6 +81,8 @@ body {
 <script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
 <script src="../gsuiDotline/gsuiDotline.html.js"></script>
 <script src="../gsuiDotline/gsuiDotline.js"></script>
+<script src="../gsuiWaveletBrowser/gsuiWaveletBrowser.html.js"></script>
+<script src="../gsuiWaveletBrowser/gsuiWaveletBrowser.js"></script>
 <script src="../gsuiWavetable/gsuiWavetable.html.js"></script>
 <script src="../gsuiWavetable/gsuiWavetable.js"></script>
 <script src="../gsuiWaveEditor/gsuiWaveEditor.html.js"></script>
@@ -105,14 +108,14 @@ elOsc
 	// .$setAttr( "wave", "sawtooth" )
 	.$setAttr( "wave", "AKWF_aguitar_1" )
 	// .$setAttr( "wave", wtName )
-	.$get( 0 ).$askWavetableData = () => [ {
+	.$get( 0 ).$askWavetableData = () => Promise.resolve( [ {
 		waves: {
 			0: {
 				index: 0,
 				curve: GSUmathWaveSawtooth( 1024 ),
 			},
 		},
-	}, true ];
+	}, true ] );
 
 // GSUsetTimeout( () => elOsc.$addAttr( "wavetable" ), .2 );
 </script>

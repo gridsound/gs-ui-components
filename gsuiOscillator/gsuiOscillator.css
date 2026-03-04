@@ -28,6 +28,12 @@ gsui-oscillator[ wavetable ] {
 }
 
 /* .......................................................................... */
+.gsuiOscillator-waveletBrowser {
+	width: 400px;
+	height: 200px;
+}
+
+/* .......................................................................... */
 .gsuiOscillator-grip {
 	grid-area: grip;
 	display: flex;
@@ -171,7 +177,7 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 /* .......................................................................... */
 .gsuiOscillator-remove,
 .gsuiOscillator-waveBtn,
-.gsuiOscillator-waveSelect {
+.gsuiOscillator-waveName {
 	border: 0;
 	padding: 0;
 	outline: 0;
@@ -181,7 +187,7 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 	transition: .1s opacity;
 }
 gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveBtn,
-gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveSelect,
+gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveName,
 gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceIcon,
 gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	display: none;
@@ -206,8 +212,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	background: none;
 }
 .gsuiOscillator-waveBtn:hover,
-.gsuiOscillator-waveSelect:focus-visible,
-.gsuiOscillator-waveSelect:hover,
+.gsuiOscillator-waveName:hover,
 .gsuiOscillator-remove:hover {
 	opacity: 1;
 }
@@ -234,9 +239,6 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-waveBtn[ data-action="wavetable" ] .gsuiIcon:last-child::before {
 	text-shadow: -2px 0 #373742;
 }
-gsui-oscillator:not( [ hascustomwave ] ) .gsuiOscillator-waveOpt[ value^="custom" ] {
-	display: none;
-}
 
 /* .......................................................................... */
 .gsuiOscillator-wavetable {
@@ -257,22 +259,15 @@ gsui-oscillator[ wavetable ] .gsuiOscillator-wavetable {
 
 /* .......................................................................... */
 .gsuiOscillator-sourceName,
-.gsuiOscillator-waveSelect {
+.gsuiOscillator-waveName {
 	margin: 0 6px;
 	font-size: 12px;
 	font-family: inherit;
 }
-.gsuiOscillator-waveSelect {
+.gsuiOscillator-waveName {
 	flex: 1;
 	min-width: 0;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-}
-.gsuiOscillator-waveOpt {
-	background-color: #444;
-}
-.gsuiOscillator-waveOptNative {
-	background-color: #333;
+	text-align: start;
 }
 .gsuiOscillator-sourceName {
 	margin-left: 8px;
