@@ -2,6 +2,7 @@
 
 class gsuiWaveEditor extends gsui0ne {
 	#div = [ 1, 1 ];
+	#waveName = null;
 	#waveW = 0;
 	#waveH = 0;
 	#ptrDown = false;
@@ -9,7 +10,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray2 = null;
 	#currentSquare = null;
 	#toolSelected = null;
-	#actionMenu = new gsuiActionMenu();
+	#waveletBrowserDropdown = new gsuiDropdown();
 	#drawWaveThr = GSUthrottle( this.#drawWave.bind( this ), .2 );
 	static #clickSquareFns = {
 		goUp:     n =>     n,
@@ -42,7 +43,7 @@ class gsuiWaveEditor extends gsui0ne {
 			$tagName: "gsui-wave-editor",
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",
-				$resetBtn: ".gsuiWaveEditor-reset",
+				$waveBtn: ".gsuiWaveEditor-waveBtn",
 				$gridVal: ".gsuiWaveEditor-div span",
 				$gridSli: ".gsuiWaveEditor-div gsui-slider",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
@@ -54,7 +55,7 @@ class gsuiWaveEditor extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.#initActionMenu();
+		this.#initWaveletBrowserDropdown();
 		this.onclick = this.#onclick.bind( this );
 		this.ondrop = this.#ondrop.bind( this );
 		this.ondragover = GSUnoopFalse;
@@ -311,18 +312,30 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
-	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$resetBtn.$get( 0 ) );
-		this.#actionMenu.$setDirection( "RB" );
-		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( w => this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, this.$reset( w ) ) );
-		this.#actionMenu.$setActions( [
-			{ id: "silence",  name: "Silence" },
-			{ id: "sine",     name: "Sine" },
-			{ id: "triangle", name: "Triangle" },
-			{ id: "sawtooth", name: "Sawtooth" },
-			{ id: "square",   name: "Square" },
-		] );
+	#initWaveletBrowserDropdown() {
+		this.#waveletBrowserDropdown.$setDirection( "TR" );
+		this.#waveletBrowserDropdown.$bindTargetElement( this.$elements.$waveBtn.$get( 0 ) );
+		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
+	}
+	#onopenWaveBrowser() {
+		const wbrow = $( "<gsui-wavelet-browser>" )
+			.$addClass( "gsuiWaveEditor-waveletBrowser" )
+			.$setAttr( "wave", this.#waveName );
+
+		GSUdomListen( wbrow.$get( 0 ), {
+			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => {
+				gsapiClient.$getWaveletSample( val ).then( arr => {
+					const arr2 = GSUarrayResize( arr, 2048 );
+
+					this.#waveName = val;
+					this.$setWaveArray( arr2 );
+					this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr2 );
+					this.#waveletBrowserDropdown.$close();
+				} );
+			},
+		} );
+		wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
+		return wbrow.$get( 0 );
 	}
 	#getCoord( px, py ) {
 		const [ w, h ] = this.#div;

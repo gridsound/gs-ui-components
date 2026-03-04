@@ -8,6 +8,12 @@ gsui-wave-editor {
 }
 
 /* .......................................................................... */
+.gsuiWaveEditor-waveletBrowser {
+	width: 400px;
+	height: 200px;
+}
+
+/* .......................................................................... */
 .gsuiWaveEditor-menu {
 	box-sizing: border-box;
 	flex-wrap: wrap;
@@ -23,7 +29,7 @@ gsui-wave-editor {
 }
 
 /* .......................................................................... */
-.gsuiWaveEditor-reset,
+.gsuiWaveEditor-waveBtn,
 .gsuiWaveEditor-symmetry,
 .gsuiWaveEditor-normalize {
 	box-sizing: border-box;
@@ -37,6 +43,11 @@ gsui-wave-editor {
 	&:hover {
 		background-color: #111;
 	}
+}
+.gsuiWaveEditor-waveBtn {
+	display: flex;
+	justify-content: center;
+	gap: 4px;
 }
 .gsuiWaveEditor-symmetry {
 	display: flex;

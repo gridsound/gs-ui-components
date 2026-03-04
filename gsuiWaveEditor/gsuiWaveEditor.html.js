@@ -3,7 +3,10 @@
 GSUsetTemplate( "gsui-wave-editor", () =>
 	GSUcreateFlex( { class: "gsuiWaveEditor-in", x: true, f1: true },
 		GSUcreateFlex( { class: "gsuiWaveEditor-menu", y: true, g6: true },
-			GSUcreateButton( { class: "gsuiWaveEditor-reset" }, "reset" ),
+			GSUcreateButton( { class: "gsuiWaveEditor-waveBtn" },
+				GSUcreateIcon( { icon: "wave-tri" } ),
+				GSUcreateIcon( { icon: "list" } ),
+			),
 			GSUcreateElement( "gs-label-s", null, "symmetry" ),
 			GSUcreateButton( { class: "gsuiWaveEditor-symmetry", "data-action": "symmetry", title: "Toggle symmetry" },
 				GSUcreateIcon( { icon: "arrows-h2" } ),

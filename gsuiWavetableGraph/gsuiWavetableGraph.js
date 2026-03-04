@@ -62,6 +62,8 @@ class gsuiWavetableGraph extends gsui0ne {
 				break;
 		}
 	}
+
+	// .........................................................................
 	#setResolution( wh ) {
 		const [ w, h ] = GSUsplitInts( wh );
 
