@@ -13,6 +13,7 @@ GSUsetTemplate( "gsui-daw-popup-settings", () =>
 						GSUcreateOption( { value: 12000 }, "12 kHz" ),
 						GSUcreateOption( { value: 22050 }, "22.05 kHz" ),
 						GSUcreateOption( { value: 24000 }, "24 kHz" ),
+						GSUcreateOption( { value: 36000 }, "36 kHz" ),
 						GSUcreateOption( { value: 44100 }, "44.1 kHz" ),
 						GSUcreateOption( { value: 48000, style: "font-weight:bold" }, "48 kHz" ),
 						GSUcreateOption( { value: 88200 }, "88.2 kHz" ),
