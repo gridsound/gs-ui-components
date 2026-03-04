@@ -70,17 +70,24 @@ class gsuiTimeCursors extends gsui0ne {
 			imgData[ x + 2 ] = rgb[ 2 ];
 			imgData[ x + 3 ] = 255 * gsuiTimeCursors.#getPixelValue( plays, now, i / w );
 		}
+		plays.forEach( o => {
+			const ox = ( now - o.$startTime ) / o.$duration * w | 0;
+
+			if ( GSUmathInRange( ox, 1, w - 2 ) ) {
+				imgData[ ( ox - 1 ) * 4 + 3 ] = 200;
+				imgData[   ox       * 4 + 3 ] = 255;
+				imgData[ ( ox + 1 ) * 4 + 3 ] = 200;
+			}
+		} );
 		ctx.putImageData( img, 0, 0 );
 	}
-	static #getPixelValue( arr, now, x ) {
-		return Math.min( arr.reduce( ( val, o ) => {
+	static #getPixelValue( plays, now, x ) {
+		return Math.min( plays.reduce( ( val, o ) => {
 			const ox = ( now - o.$startTime ) / o.$duration;
 
-			return GSUmathApprox( ox, x, .005 )
-				? 1
-				: ox < x
-					? val
-					: val + Math.max( 0, ( 1 - ( ox - x ) ) ) / 4;
+			return ox < x
+				? val
+				: val + Math.max( 0, ( 1 - ( ox - x ) ) ) / 4;
 		}, 0 ), 1 );
 	}
 }
