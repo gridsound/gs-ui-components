@@ -12,14 +12,17 @@ class gsuiDrumrow extends gsui0ne {
 				$toggle: "gsui-toggle",
 				$sliders: "gsui-slider",
 				$waveWrap: ".gsuiDrumrow-waveWrap",
+				$timeCursors: "gsui-time-cursors",
 			},
 			$attributes: {
 				toggle: true,
 			},
 		} );
 		Object.seal( this );
-		this.onclick = this.#onclick.bind( this );
-		this.onanimationend = this.#onanimationend.bind( this );
+		this.$this.$on( {
+			click: this.#onclick.bind( this ),
+			contextmenu: GSUnoopFalse,
+		} );
 		GSUdomListen( this, {
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
 				this.$this.$setAttr( "toggle", b ).$dispatch( GSEV_DRUMROW_TOGGLE, b );
@@ -41,7 +44,7 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "order", "toggle", "name", "pan", "gain", "detune", "duration" ];
+		return [ "order", "toggle", "name", "pan", "gain", "detune" ]; // + "duration"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -49,7 +52,6 @@ class gsuiDrumrow extends gsui0ne {
 			case "gain":
 			case "detune": this.#getSlider( prop ).$setAttr( "value", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
-			case "duration": this.$elements.$waveWrap.$css( "animationDuration", val * 2, "s" ); break;
 			case "order":
 				this.$this.$css( "order", val );
 				this.#elDrumLine.$css( "order", val );
@@ -68,13 +70,14 @@ class gsuiDrumrow extends gsui0ne {
 			.$setAttr( "data-mute", !this.$this.$hasAttr( "toggle" ) );
 	}
 	$changePattern( svg ) {
-		this.$elements.$waveWrap.$empty().$append( svg );
+		this.$elements.$waveWrap.$query( "svg" ).$remove();
+		this.$elements.$waveWrap.$prepend( svg );
 	}
 	$play() {
-		this.$elements.$waveWrap.$append( $( "<div>" ).$addClass( "gsuiDrumrow-startCursor" ) );
+		this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_PLAY, +this.$this.$getAttr( "duration" ) );
 	}
 	$stop() {
-		this.$this.$query( ".gsuiDrumrow-startCursor" ).$remove();
+		this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_STOP );
 	}
 
 	// .........................................................................
@@ -97,13 +100,6 @@ class gsuiDrumrow extends gsui0ne {
 	#oninputendSlider() {
 		this.$elements.$name.$text( this.$this.$getAttr( "name" ) );
 		this.$this.$rmAttr( "info" );
-	}
-	#onanimationend( e ) {
-		const tar = $( e.target );
-
-		if ( tar.$hasClass( "gsuiDrumrow-startCursor" ) ) {
-			tar.$remove();
-		}
 	}
 	#onclick( e ) {
 		switch ( $( e.target ).$getAttr( "data-action" ) ) {
