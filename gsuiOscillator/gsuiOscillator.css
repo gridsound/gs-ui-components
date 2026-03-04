@@ -224,30 +224,9 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-remove:hover {
 	opacity: 1;
 }
-
-/* .......................................................................... */
 .gsuiOscillator-waveBtn[ data-action="wavetable" ] {
-	position: relative;
+	min-width: 22px;
 	color: #94bfff;
-	width: 29px;
-	min-width: 29px;
-	margin-right: 2px;
-
-	.gsuiIcon:first-child {
-		position: absolute;
-		inset: 0 auto 0 0;
-		opacity: .8;
-	}
-	.gsuiIcon:last-child {
-		position: absolute;
-		inset: 0 0 0 auto;
-		margin-top: -2px;
-		font-size: .7em;
-
-		&::before {
-			text-shadow: -2px 0 #373742;
-		}
-	}
 }
 
 /* .......................................................................... */
