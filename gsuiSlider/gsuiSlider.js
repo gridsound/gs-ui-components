@@ -119,7 +119,7 @@ class gsuiSlider extends gsui0ne {
 		return this.#mousemoveSize || (
 			this.#circ
 				? this.#svgLineLen
-				: this.$elements.$line.$bcr()[ this.#axeX ? "h" : "w" ]
+				: this.$elements.$line.$bcr()[ this.#axeX ? "w" : "h" ]
 		);
 	}
 	#updateVal( val ) {
