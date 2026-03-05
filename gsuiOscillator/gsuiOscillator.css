@@ -183,9 +183,8 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-remove,
-.gsuiOscillator-waveBtn,
-.gsuiOscillator-waveName {
+.gsuiOscillator-waveWrap-top button,
+.gsuiOscillator-remove {
 	border: 0;
 	padding: 0;
 	outline: 0;
@@ -193,19 +192,36 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 	background: none;
 	opacity: .5;
 	transition: .1s opacity;
-}
-gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveBtn,
-gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveName,
-gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceIcon,
-gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
-	display: none;
+
+	&:hover {
+		opacity: 1;
+	}
 }
 .gsuiOscillator-sourceIcon,
-.gsuiOscillator-waveBtn {
+.gsuiOscillator-waveWrap-top button:not( .gsuiOscillator-waveName ) {
 	width: 14px;
 	min-width: 14px;
 	font-size: 16px;
 	text-align: center;
+}
+.gsuiOscillator-waveWrap-top button {
+	&:disabled {
+		pointer-events: none;
+		opacity: .2;
+	}
+	&[ data-action="wavetable" ] {
+		min-width: 22px;
+		color: #94bfff;
+
+		gsui-oscillator[ hascustomwave ] .gsuiOscillator-waveName:hover + & {
+			opacity: 1;
+		}
+	}
+}
+gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveWrap-top button,
+gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceIcon,
+gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
+	display: none;
 }
 .gsuiOscillator-sourceIcon {
 	margin-left: 8px;
@@ -218,15 +234,6 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	outline: 0;
 	font-size: 12px;
 	background: none;
-}
-.gsuiOscillator-waveBtn:hover,
-.gsuiOscillator-waveName:hover,
-.gsuiOscillator-remove:hover {
-	opacity: 1;
-}
-.gsuiOscillator-waveBtn[ data-action="wavetable" ] {
-	min-width: 22px;
-	color: #94bfff;
 }
 
 /* .......................................................................... */

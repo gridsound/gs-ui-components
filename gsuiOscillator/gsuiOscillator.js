@@ -24,8 +24,7 @@ class gsuiOscillator extends gsui0ne {
 			$elements: {
 				$id: ".gsuiOscillator-id",
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
-				$wavePrev: ".gsuiOscillator-wavePrev",
-				$waveNext: ".gsuiOscillator-waveNext",
+				$wavePrevNext: ".gsuiOscillator-wavePrevNext",
 				$waveName: ".gsuiOscillator-waveName",
 				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavetableWrap: ".gsuiOscillator-wavetable",
@@ -55,11 +54,10 @@ class gsuiOscillator extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.#waveletBrowserDropdown.$setDirection( "T" );
-		this.#waveletBrowserDropdown.$bindTargetElement( this.$elements.$waveName.$get( 0 ) );
+		this.#waveletBrowserDropdown.$setTarget( this.$elements.$waveName.$get( 0 ) );
 		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
 		this.$elements.$waveName.$on( "click", this.#onclickWaveName.bind( this ) );
-		this.$elements.$wavePrev.$on( "click", this.#onclickPrevNext.bind( this, -1 ) );
-		this.$elements.$waveNext.$on( "click", this.#onclickPrevNext.bind( this, 1 ) );
+		this.$elements.$wavePrevNext.$on( "click", this.#onclickPrevNext.bind( this ) );
 		this.$elements.$wavetableBtn.$on( "click", () => this.$this.$togAttr( "wavetable" ) );
 		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_OSCILLATOR_REMOVE ) );
 		this.$this.$on( "transitionend", e => {
@@ -97,7 +95,7 @@ class gsuiOscillator extends gsui0ne {
 		this.#updateWaveDeb();
 	}
 	static get observedAttributes() {
-		return [ "data-id", "order", "wave", "wavetable", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend" ];
+		return [ "data-id", "order", "wave", "wavetable", "source", "detune", "detunefine", "phaze", "gain", "pan", "unisonvoices", "unisondetune", "unisonblend", "hascustomwave" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -110,6 +108,7 @@ class gsuiOscillator extends gsui0ne {
 			case "unisonvoices": this.#updateUnisonGraphVoices( +val ); break;
 			case "unisondetune": this.#updateUnisonGraphDetune( +val ); break;
 			case "unisonblend": this.#updateUnisonGraphBlend( +val ); break;
+			case "hascustomwave": this.$elements.$wavePrevNext.$setAttr( "disabled", val === "" ); break;
 		}
 		switch ( prop ) {
 			case "pan":
@@ -177,7 +176,6 @@ class gsuiOscillator extends gsui0ne {
 			}
 		}
 		this.#updateWaveDeb();
-		this.$this.$setAttr( "hascustomwave", !!obj );
 	}
 	#updateSourceWaveform( svg ) {
 		this.$elements.$source.$empty().$append( svg );
@@ -197,6 +195,7 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#changeWave( w ) {
 		this.#changeWave2( w );
+		this.$this.$setAttr( "hascustomwave", GSUisWavetableName( w ) );
 		if ( w ) {
 			this.$this.$rmAttr( "source" );
 		}
@@ -274,7 +273,8 @@ class gsuiOscillator extends gsui0ne {
 		this.$this.$setAttr( "wavetable", b );
 		this.$onresize();
 	}
-	#onclickPrevNext( dir ) {
+	#onclickPrevNext( e ) {
+		const dir = +e.target.dataset.dir;
 		const ind = this.#getWaveIndex( this.$elements.$waveName.$text() );
 		const wave = gsuiWaveletList[ ind + dir ]?.[ 0 ];
 
@@ -291,7 +291,11 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#onclickWaveName() {
-		lg('onclickWaveName')
+		if ( this.$this.$hasAttr( "hascustomwave" ) ) {
+			this.$elements.$wavetableBtn.$click();
+		} else {
+			this.#waveletBrowserDropdown.$open();
+		}
 	}
 	#onopenWaveBrowser() {
 		const wbrow = $( "<gsui-wavelet-browser>" )
