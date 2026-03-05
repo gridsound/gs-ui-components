@@ -209,7 +209,7 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 		pointer-events: none;
 		opacity: .2;
 	}
-	&[ data-action="wavetable" ] {
+	&.gsuiOscillator-waveEdit {
 		min-width: 22px;
 		color: #94bfff;
 

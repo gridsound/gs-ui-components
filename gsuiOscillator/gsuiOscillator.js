@@ -24,11 +24,11 @@ class gsuiOscillator extends gsui0ne {
 			$elements: {
 				$id: ".gsuiOscillator-id",
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
-				$wavePrevNext: ".gsuiOscillator-wavePrevNext",
+				$wavePrevNext: ".gsuiOscillator-waveWrap-top [data-dir]",
 				$waveName: ".gsuiOscillator-waveName",
 				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavetableWrap: ".gsuiOscillator-wavetable",
-				$wavetableBtn: ".gsuiOscillator-waveBtn[data-action=wavetable]",
+				$wavetableBtn: ".gsuiOscillator-waveEdit",
 				$sourceName: ".gsuiOscillator-sourceName",
 				$source: ".gsuiOscillator-source",
 				$waves: "gsui-periodicwave",
