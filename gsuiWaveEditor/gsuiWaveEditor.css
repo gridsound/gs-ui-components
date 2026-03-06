@@ -11,6 +11,7 @@ gsui-wave-editor {
 .gsuiWaveEditor-waveletBrowser {
 	width: 400px;
 	height: 200px;
+	max-width: 81vw;
 }
 
 /* .......................................................................... */
