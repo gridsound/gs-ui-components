@@ -61,7 +61,10 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "itsmine": this.$elements.$likeBtn.$setAttr( "disabled", val === "" ); break;
+			case "itsmine":
+				this.$elements.$likeBtn.$setAttr( "disabled", val === "" );
+				this.$elements.$dawlink.$setAttr( "data-icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
+				break;
 			case "bpm": this.$elements.$bpm.$text( val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "likes": this.$elements.$likes.$text( val ); break;

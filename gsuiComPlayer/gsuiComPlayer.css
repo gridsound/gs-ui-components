@@ -54,32 +54,15 @@ gsui-com-player {
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-dawlink {
-	i:first-child {
-		margin-left: 3px;
-	}
-	i + i {
-		margin-top: 12px;
-		margin-left: -4px;
-		font-size: 12px;
-		text-shadow: -1px -1px 0 var( --gsui-bg );
-	}
-	i[ data-icon="eye" ] {
-		margin-top: 22px;
-		margin-left: -5px;
-
-		&::before { opacity: .6 }
-		&::after { opacity: 1 }
-	}
+.gsuiComPlayer-dawlink:not( [ href ] ) {
+	display: none;
 }
 .gsuiComPlayer-actions {
 	background-color: transparent;
-}
-.gsuiComPlayer-dawlink:not( [ href ] ),
-gsui-com-player[ itsmine ] .gsuiComPlayer-dawlink i[ data-icon="eye" ],
-gsui-com-player:not( [ itsmine ] ) .gsuiComPlayer-dawlink i[ data-icon="pen" ],
-gsui-com-player:not( [ actions ] ) .gsuiComPlayer-actions {
-	display: none;
+
+	gsui-com-player:not( [ actions ] ) & {
+		display: none;
+	}
 }
 
 /* .......................................................................... */
