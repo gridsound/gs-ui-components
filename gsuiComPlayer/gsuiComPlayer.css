@@ -98,7 +98,7 @@ gsui-com-player {
 		opacity: .5;
 
 		gsui-com-player:not( [ private ] ) &[ data-icon="private" ],
-		gsui-com-player:not( [ opensource ] ) &[ data-icon="public" ] {
+		gsui-com-player:not( [ opensource ] ) &[ data-icon="opensource" ] {
 			display: none;
 		}
 	}
