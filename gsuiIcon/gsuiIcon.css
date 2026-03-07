@@ -163,7 +163,7 @@
 	&[ data-icon="clone"   ] { --i0: "\f24d"; --i1: "\f24d\f24d"; }
 	&[ data-icon="crop"    ] { --i0: "\f125"; --i1: "\f125\f125"; }
 	&[ data-icon="erase"   ] { --i0: "\f12d"; --i1: "\f12d\f12d"; }
-	&[ data-icon="search"  ] { --i0: "\f002"; --i1: "\f002\f002"; }
+	&[ data-icon="search"  ] { --i0: "\f002"; --i1: "\f002\f002"; --o1: .2; }
 	&[ data-icon="save"    ] { --i0: "\f0c7"; --i1: "\f0c7\f0c7"; --o0: .4; --o1: 1; }
 	&[ data-icon="render"  ] { --i0: "\f0e7"; --i1: "\f0e7\f0e7"; --o1: 1; }
 	&[ data-icon="upload"  ] { --i0: "\f382"; --i1: "\f382\f382"; --o0: 0; --o1: 1; }
