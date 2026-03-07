@@ -71,6 +71,7 @@
 	&[ data-icon="cu-search-music" ] { --i0: "\e009"; --i1: "\e009\e009"; }
 	&[ data-icon="cu-music-plus"   ] { --i0: "\e006"; --i1: "\e006\e006"; }
 	&[ data-icon="cu-music-edit"   ] { --i0: "\e00b"; --i1: "\e00b\e00b"; }
+	&[ data-icon="cu-music-spark"  ] { --i0: "\e00c"; --i1: "\e00c\e00c"; }
 	&[ data-icon="cu-wave-edit"    ] {
 		--i0: "\e00d";
 		--i1: "\e00d\e00d";
