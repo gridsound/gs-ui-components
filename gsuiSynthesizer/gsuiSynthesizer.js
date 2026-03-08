@@ -2,7 +2,6 @@
 
 class gsuiSynthesizer extends gsui0ne {
 	static #presetList = [];
-	#waveList = [];
 	#uiOscs = new Map();
 	#shadow = null;
 	#previews = {};
@@ -137,13 +136,6 @@ class gsuiSynthesizer extends gsui0ne {
 	static $setPresetList( arr ) {
 		gsuiSynthesizer.#presetList = [ ...arr ];
 	}
-	$setWaveList( arr ) {
-		this.#waveList = arr;
-		this.#uiOscs.forEach( ( osc, id ) => {
-			osc.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, GSUformatWavetableName( this.dataset.id, id ) )
-				.$message( GSEV_OSCILLATOR_ADDWAVES, arr );
-		} );
-	}
 	$getOscillator( id ) {
 		return this.#uiOscs.get( id );
 	}
@@ -188,12 +180,12 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	$addOscillator( id, props ) {
-		const uiOsc = $( "<gsui-oscillator>" ).$setAttr( { ...props, "data-id": id } );
+		const uiOsc = $( "<gsui-oscillator>" )
+			.$setAttr( { ...props, "data-id": id } )
+			.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, GSUformatWavetableName( this.dataset.id, id ) )
+			.$appendTo( this.$elements.$oscList );
 
 		this.#uiOscs.set( id, uiOsc );
-		uiOsc.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, GSUformatWavetableName( this.dataset.id, id ) )
-			.$message( GSEV_OSCILLATOR_ADDWAVES, this.#waveList );
-		this.$elements.$oscList.$append( uiOsc );
 		return uiOsc;
 	}
 	$removeOscillator( id ) {
