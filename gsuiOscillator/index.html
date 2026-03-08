@@ -99,7 +99,6 @@ const elOsc = $( "gsui-oscillator" );
 const wtName = GSUformatWavetableName( 0, 0 );
 
 elOsc
-	.$message( GSEV_OSCILLATOR_ADDWAVES, gsuiWaveletList.map( a => a[ 0 ] ) )
 	.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, wtName )
 	.$setAttr( "wave", "sine" )
 	.$setAttr( "wave", "triangle" )
