@@ -182,8 +182,14 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
-	#getPropSlider( prop ) { return this.$elements.$propSli.$filter( `[data-prop="${ prop }"]` ); }
-	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] *` ); }
+	#getPropSlider( prop ) {
+		return this.$elements.$propSli.$filter( `[data-prop="${ prop }"]` );
+	}
+	#getPropOutput( prop ) {
+		const prop2 = prop === "detunefine" ? "detune" : prop;
+
+		return this.$elements.$propVal.$filter( `[data-prop="${ prop2 }"] *` );
+	}
 	#getWaveIndex( w ) {
 		return gsuiWaveletList.findIndex( a => a[ 0 ] === w );
 	}
