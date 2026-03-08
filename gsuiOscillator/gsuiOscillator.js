@@ -26,7 +26,6 @@ class gsuiOscillator extends gsui0ne {
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
 				$wavePrevNext: ".gsuiOscillator-waveWrap-top [data-dir]",
 				$waveName: ".gsuiOscillator-waveName",
-				$waveSelect: ".gsuiOscillator-waveSelect",
 				$wavetableWrap: ".gsuiOscillator-wavetable",
 				$wavetableBtn: ".gsuiOscillator-waveEdit",
 				$sourceName: ".gsuiOscillator-sourceName",
