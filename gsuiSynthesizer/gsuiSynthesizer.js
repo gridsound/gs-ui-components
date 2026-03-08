@@ -25,8 +25,8 @@ class gsuiSynthesizer extends gsui0ne {
 			$tagName: "gsui-synthesizer",
 			$elements: {
 				$heads: ".gsuiSynthesizer-head",
-				$presetBtns: ".gsuiSynthesizer-preset button",
-				$presetName: ".gsuiSynthesizer-preset > span:last-child",
+				// $presetBtns: ".gsuiSynthesizer-preset button",
+				// $presetName: ".gsuiSynthesizer-preset > span:last-child",
 				$tabs: ".gsuiSynthesizer-headTab",
 				$noise: "gsui-noise",
 				$noiseToggle: ".gsuiSynthesizer-headNoise gsui-toggle",
@@ -42,7 +42,7 @@ class gsuiSynthesizer extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$elements.$presetBtns.$on( "click", this.#onclickPreset.bind( this ) );
+		// this.$elements.$presetBtns.$on( "click", this.#onclickPreset.bind( this ) );
 		this.$elements.$newOsc.$on( "click", this.#onclickNewOsc.bind( this ) );
 		this.$elements.$heads.$on( "click", this.#onclickHeads.bind( this ) );
 		new gsuiReorder( {
