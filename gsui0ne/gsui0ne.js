@@ -23,7 +23,7 @@ class gsui0ne extends HTMLElement {
 			this.$element = $( GSUisArr( this.#children ) ? this.#children[ 0 ] : this.#children );
 			this.$elements = GSUreduce( o.$elements, ( map, sel, key ) => {
 				map[ key ] = $( this.#children, sel );
-				if ( !map[ key ].$size( 0 ) ) {
+				if ( !map[ key ].$size() ) {
 					console.warn( "gsui0ne: empty query", [ o.$tagName, key, sel ] );
 				}
 				return map;
