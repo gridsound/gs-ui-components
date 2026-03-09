@@ -9,17 +9,16 @@ class gsuiDragline {
 	#evKeydown = null;
 	#evMouseup = null;
 	#evMousemove = null;
-	#elements = GSUdomFind( this.rootElement, {
-		main: ".gsuiDragline-main",
-		svg: ".gsuiDragline-line",
-		polyline: ".gsuiDragline-line polyline",
-		to: ".gsuiDragline-to",
+	#elements = $( this.rootElement ).$queryMap( {
+		$main: ".gsuiDragline-main",
+		$svg: ".gsuiDragline-line",
+		$polyline: ".gsuiDragline-line polyline",
+		$to: ".gsuiDragline-to",
 	} );
 
 	constructor() {
 		Object.seal( this );
-
-		this.#elements.to.onmousedown = this.#onmousedownTo.bind( this );
+		this.#elements.$to.$on( "mousedown", this.#onmousedownTo.bind( this ) );
 	}
 
 	// .........................................................................
@@ -50,30 +49,30 @@ class gsuiDragline {
 		const whmax = Math.max( wabs, habs );
 		const whmax2 = whmax * 2;
 
-		GSUdomTogClass( this.#elements.main, "gsuiDragline-down", h > 0 );
-		GSUdomTogClass( this.#elements.main, "gsuiDragline-right", w > 0 );
-		GSUdomStyle( this.#elements.main, {
-			top: `${ Math.min( h, 0 ) }px`,
-			left: `${ Math.min( w, 0 ) }px`,
-			width: `${ wabs }px`,
-			height: `${ habs }px`,
-		} );
-		GSUdomStyle( this.#elements.svg, {
+		this.#elements.$main
+			.$togClass( "gsuiDragline-down", h > 0 )
+			.$togClass( "gsuiDragline-right", w > 0 )
+			.$css( {
+				top: `${ Math.min( h, 0 ) }px`,
+				left: `${ Math.min( w, 0 ) }px`,
+				width: `${ wabs }px`,
+				height: `${ habs }px`,
+			} );
+		this.#elements.$svg.$viewbox( whmax2, whmax2 ).$css( {
 			width: `${ whmax2 }px`,
 			height: `${ whmax2 }px`,
 			margin: `${ -whmax }px`,
 		} );
-		GSUdomViewBox( this.#elements.svg, whmax2, whmax2 );
-		GSUdomSetAttr( this.#elements.polyline, "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
+		this.#elements.$polyline.$setAttr( "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	#unlink() {
-		GSUdomStyle( this.#elements.main, {
+		this.#elements.$main.$css( {
 			top: 0,
 			left: 0,
 			width: 0,
 			height: 0,
 		} );
-		GSUdomStyle( this.#elements.svg, {
+		this.#elements.$svg.$css( {
 			width: 0,
 			height: 0,
 			margin: 0,
