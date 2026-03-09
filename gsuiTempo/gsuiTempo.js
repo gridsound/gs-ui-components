@@ -2,8 +2,9 @@
 
 class gsuiTempo extends gsui0ne {
 	#dropdown = new gsuiDropdown();
-	#popup = GSUdomFind( GSUgetTemplate( "gsui-tempo-dropdown" ), {
+	#popup = $( GSUgetTemplate( "gsui-tempo-dropdown" ) ).$queryMap( {
 		$form: ".gsuiTempo-popup",
+		$inputs: "input",
 		$bpmTap: ".gsuiTempo-popup-bpm button",
 	} );
 
@@ -24,9 +25,11 @@ class gsuiTempo extends gsui0ne {
 		this.#dropdown.$setDirection( "B" );
 		this.#dropdown.$bindTargetElement( this.$element.$get( 0 ) );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
-		this.#popup.$form.onsubmit = this.$onsubmitPopup.bind( this );
-		this.#popup.$form.onkeydown = e => e.stopPropagation();
-		this.#popup.$bpmTap.onclick = () => this.#popup.$form[ 2 ].value = gswaBPMTap.$tap();
+		this.#popup.$form.$on( {
+			submit: this.$onsubmitPopup.bind( this ),
+			keydown: e => e.stopPropagation(),
+		} );
+		this.#popup.$bpmTap.$on( "click", () => this.#popup.$inputs.$at( 2 ).$value( gswaBPMTap.$tap() ) );
 	}
 
 	// .........................................................................
@@ -36,14 +39,14 @@ class gsuiTempo extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "bpm":
-				this.#popup.$form[ 2 ].value = val;
+				this.#popup.$inputs.$at( 2 ).$value( val );
 				this.$elements.$bpm.$text( val );
 				break;
 			case "timedivision": {
 				const div = GSUsplitNums( val, "/" );
 
-				this.#popup.$form[ 0 ].value = div[ 0 ];
-				this.#popup.$form[ 1 ].value = div[ 1 ];
+				this.#popup.$inputs.$at( 0 ).$value( div[ 0 ] );
+				this.#popup.$inputs.$at( 1 ).$value( div[ 1 ] );
 				this.$elements.$timediv.$child( 0 ).$text( div[ 0 ] );
 				this.$elements.$timediv.$child( -1 ).$text( div[ 1 ] );
 			} break;
@@ -52,18 +55,18 @@ class gsuiTempo extends gsui0ne {
 
 	// .........................................................................
 	#createPopup() {
-		const f = this.#popup.$form;
-		const time = GSUsplitNums( this.$this.$getAttr( "timedivision" ), "/" );
+		const [ bpm, time ] = this.$this.$getAttr( "bpm", "timedivision" );
+		const time2 = GSUsplitNums( time, "/" );
 
-		f[ 0 ].value = time[ 0 ];
-		f[ 1 ].value = time[ 1 ];
-		f[ 2 ].value = +this.$this.$getAttr( "bpm" );
-		return f;
+		this.#popup.$inputs.$at( 0 ).$value( time2[ 0 ] );
+		this.#popup.$inputs.$at( 1 ).$value( time2[ 1 ] );
+		this.#popup.$inputs.$at( 2 ).$value( +bpm );
+		return this.#popup.$form.$get( 0 );
 	}
-	$onsubmitPopup( e ) {
-		const f = e.target;
-		const time = `${ f[ 0 ].value }/${ f[ 1 ].value }`;
-		const bpm = f[ 2 ].value;
+	$onsubmitPopup() {
+		const inp = this.#popup.$inputs;
+		const time = `${ inp.$at( 0 ).$value() }/${ inp.$at( 1 ).$value() }`;
+		const bpm = inp.$at( 2 ).$value();
 
 		if ( time !== this.$this.$getAttr( "timedivision" ) || bpm !== this.$this.$getAttr( "bpm" ) ) {
 			this.$this.$dispatch( GSEV_TEMPO_CHANGE, {
