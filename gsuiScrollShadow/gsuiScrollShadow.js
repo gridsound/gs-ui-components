@@ -10,17 +10,17 @@ class gsuiScrollShadow {
 
 	constructor( o ) {
 		Object.seal( this );
-		this.#scrolledElem = $( o.scrolledElem );
-		this.#topShadow = $( o.topShadow );
-		this.#leftShadow = $( o.leftShadow );
-		this.#rightShadow = $( o.rightShadow );
-		this.#bottomShadow = $( o.bottomShadow );
+		this.#scrolledElem = o.scrolledElem;
+		this.#topShadow = o.topShadow || $noop;
+		this.#leftShadow = o.leftShadow || $noop;
+		this.#rightShadow = o.rightShadow || $noop;
+		this.#bottomShadow = o.bottomShadow || $noop;
 		gsuiScrollShadow.#initShadow( this.#topShadow, "top" );
 		gsuiScrollShadow.#initShadow( this.#leftShadow, "left" );
 		gsuiScrollShadow.#initShadow( this.#rightShadow, "right" );
 		gsuiScrollShadow.#initShadow( this.#bottomShadow, "bottom" );
-		o.scrolledElem.addEventListener( "scroll", this.#onscrollBind );
-		GSUdomObserveSize( o.scrolledElem, this.#onscrollBind );
+		this.#scrolledElem.$get( 0 ).addEventListener( "scroll", this.#onscrollBind );
+		GSUdomObserveSize( this.#scrolledElem.$get( 0 ), this.#onscrollBind );
 	}
 
 	// .........................................................................
