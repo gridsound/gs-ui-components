@@ -4,7 +4,7 @@ class gsuiTitleUser extends gsui0ne {
 	#justSavedTimeout = null;
 	#loginPromise = null;
 	#logoutPromise = null;
-	#loginPopup = GSUdomFind( GSUgetTemplate( "gsui-titleuser-popup" ), {
+	#loginPopup = $( GSUgetTemplate( "gsui-titleuser-popup" ) ).$queryMap( {
 		$root: ".gsuiTitleUser-popup",
 		$error: ".gsuiTitleUser-popup-error",
 	} );
@@ -114,20 +114,20 @@ class gsuiTitleUser extends gsui0ne {
 		return GSUpopup.$custom( {
 			ok: "Sign in",
 			title: "Authentication",
-			element: this.#loginPopup.$root,
+			element: this.#loginPopup.$root.$get( 0 ),
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {
-			$( this.#loginPopup.$root, "input" ).$value( "" );
+			this.#loginPopup.$root.$query( "input" ).$value( "" );
 			return this.$this.$rmAttr( "connecting" ).$hasAttr( "connected" );
 		} );
 	}
 	#onsubmitLogin( obj ) {
 		this.$this.$addAttr( "connecting" );
-		this.#loginPopup.$error.textContent = "";
+		this.#loginPopup.$error.$text( "" );
 		return this.#loginPromise?.( obj.email, obj.password )
 			.then( me => this.$setUserInfo( me ) )
 			.catch( res => {
-				this.#loginPopup.$error.textContent = res.msg;
+				this.#loginPopup.$error.$text( res.msg );
 				return false;
 			} );
 	}
