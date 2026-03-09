@@ -143,7 +143,7 @@ class gsuiWindow extends gsui0ne {
 		mmPos.x = x + magnet.x;
 		mmPos.y = y + magnet.y;
 		this.#setCSSrelativeMove( this.$elements.$handlers, mmPos );
-		if ( !GSUdomHasAttr( this.parentNode, "lowgraphics" ) ) {
+		if ( !this.$this.$parent().$hasAttr( "lowgraphics" ) ) {
 			this.#setCSSrelativeMove( this.$elements.$wrap, mmPos );
 		}
 	}
@@ -174,7 +174,7 @@ class gsuiWindow extends gsui0ne {
 		mmPos.y = y + magnet.y;
 		this.#calcCSSrelativeResize( dir, mmPos );
 		this.#setCSSrelativeResize( this.$elements.$handlers, dir, mmPos );
-		if ( !GSUdomHasAttr( this.parentNode, "lowgraphics" ) ) {
+		if ( !this.$this.$parent().$hasAttr( "lowgraphics" ) ) {
 			this.#setCSSrelativeResize( this.$elements.$wrap, dir, mmPos );
 		}
 	}
