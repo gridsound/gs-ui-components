@@ -44,7 +44,7 @@ class gsuiScrollShadow {
 		gsuiScrollShadow.#onscroll2( this.#bottomShadow, el.$scrollH() - el.$height() - el.$scrollY() );
 	}
 	static #onscroll2( elems, scroll ) {
-		elems.$togClass( "gsuiScrollShadow-shadowed", scroll > 0 )
-			.$css( "--gsuiScrollShadow-dist", `${ Math.min( scroll / 5, 5 ) }px` );
+		elems.$css( "--gsuiScrollShadow-dist", Math.min( scroll / 5, 5 ), "px" )
+			.$setAttr( "data-shadowed", scroll > 0 );
 	}
 }
