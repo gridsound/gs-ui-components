@@ -3,13 +3,13 @@
 class gsuiDAW extends gsui0ne {
 	#timeSelecting = false;
 	#popups = {
-		$about: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-about" ), {
+		$about: GSUdomFind2( GSUgetTemplate( "gsui-daw-popup-about" ), {
 			$root: ".gsuiDAW-popup-about",
 			$version: ".gsuiDAW-popup-about-versionNum",
 			$versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
 			$versionCheck: ".gsuiDAW-popup-about-versionCheck",
 		} ),
-		$export: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-export" ), {
+		$export: GSUdomFind2( GSUgetTemplate( "gsui-daw-popup-export" ), {
 			$root: ".gsuiDAW-popup-export",
 			$btnRender: ".gsuiDAW-popup-export-render-btn",
 			$btnUpload: ".gsuiDAW-popup-export-upload-btn",
@@ -17,13 +17,11 @@ class gsuiDAW extends gsui0ne {
 			$progress: ".gsuiDAW-popup-export-progress",
 			$msg: ".gsuiDAW-popup-export-msg",
 		} ),
-		$settings: GSUdomFind( GSUgetTemplate( "gsui-daw-popup-settings" ), {
+		$settings: GSUdomFind2( GSUgetTemplate( "gsui-daw-popup-settings" ), {
 			$root: ".gsuiDAW-popup-settings",
 			$sampleRate: "[name='sampleRate']",
-			$uiRateRadio: {
-				auto: "[name='uiRate'][value='auto']",
-				manual: "[name='uiRate'][value='manual']",
-			},
+			$uiRateAuto: "[name='uiRate'][value='auto']",
+			$uiRateManual: "[name='uiRate'][value='manual']",
 			$uiRateManualFPS: "[name='uiRate'][value='manual'] + .gsuiDAW-uiRateFps",
 			$uiRateManualRange: "[name='uiRateFPS']",
 			$windowsLowGraphics: "[name='windowsLowGraphics']",
@@ -69,12 +67,14 @@ class gsuiDAW extends gsui0ne {
 		Object.seal( this );
 		gsuiTexture.$set( this.$elements.$windows, "diag" );
 		this.$elements.$head.$on( "click", this.#onclickHead.bind( this ) );
-		this.#popups.$export.$btnRender.onclick = this.#onclickRenderBtn.bind( this );
-		this.#popups.$export.$btnUpload.onclick = this.#onclickUploadBtn.bind( this );
-		this.#popups.$export.$btnClear.onclick = this.#initRenderBtn.bind( this );
-		this.#popups.$about.$versionCheck.onclick = this.#onclickVersionCheck.bind( this );
-		this.#popups.$settings.$uiRateManualRange.onmousedown = () => this.#popups.$settings.$uiRateRadio.manual.checked = true;
-		this.#popups.$settings.$uiRateManualRange.oninput = e => this.#popups.$settings.$uiRateManualFPS.textContent = e.target.value.padStart( 2, "0" );
+		this.#popups.$export.$btnRender.$on( "click", this.#onclickRenderBtn.bind( this ) );
+		this.#popups.$export.$btnUpload.$on( "click", this.#onclickUploadBtn.bind( this ) );
+		this.#popups.$export.$btnClear.$on( "click", this.#initRenderBtn.bind( this ) );
+		this.#popups.$about.$versionCheck.$on( "click", this.#onclickVersionCheck.bind( this ) );
+		this.#popups.$settings.$uiRateManualRange.$on( {
+			mousedown: () => this.#popups.$settings.$uiRateManual.$prop( "checked", true ),
+			input: e => this.#popups.$settings.$uiRateManualFPS.$text( e.target.value.padStart( 2, "0" ) ),
+		} );
 		this.$elements.$windows.$on( "keydown", e => {
 			if ( e.key === "Tab" ) {
 				e.preventDefault();
@@ -127,7 +127,7 @@ class gsuiDAW extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "exporting":
-				this.#popups.$export.$progress.value = +val || 0;
+				this.#popups.$export.$progress.$value( +val || 0 );
 				break;
 			case "name":
 				this.$elements.$titleUser.$setAttr( "cmpname", val );
@@ -170,7 +170,7 @@ class gsuiDAW extends gsui0ne {
 				break;
 			case "version":
 				this.$elements.$vers.$text( val );
-				this.#popups.$about.$version.textContent = val;
+				this.#popups.$about.$version.$text( val );
 				break;
 		}
 	}
@@ -180,10 +180,10 @@ class gsuiDAW extends gsui0ne {
 		this.$elements.$analyserHz.$get( 0 ).$draw( data );
 	}
 	$readyToDownload( url, name ) {
-		GSUdomStyle( this.#popups.$export.$progress, "display", "none" );
-		GSUdomStyle( this.#popups.$export.$btnUpload, "display", "" );
-		GSUdomStyle( this.#popups.$export.$btnClear, "display", "" );
-		GSUdomSetAttr( this.#popups.$export.$btnRender, {
+		this.#popups.$export.$progress.$css( "display", "none" );
+		this.#popups.$export.$btnUpload.$css( "display", "" );
+		this.#popups.$export.$btnClear.$css( "display", "" );
+		this.#popups.$export.$btnRender.$setAttr( {
 			text: "Download OPUS/OGG file",
 			icon: "export",
 			href: url,
@@ -201,7 +201,7 @@ class gsuiDAW extends gsui0ne {
 
 	// .........................................................................
 	$setExportMsg( msg ) {
-		this.#popups.$export.$msg.textContent = msg;
+		this.#popups.$export.$msg.$text( msg );
 	}
 	#updateDuration() {
 		const dur = this.$this.$getAttr( "duration" );
@@ -212,17 +212,17 @@ class gsuiDAW extends gsui0ne {
 	#initRenderBtn() {
 		this.$setExportMsg( "" );
 		this.$this.$rmAttr( "exporting" );
-		GSUdomRmAttr( this.#popups.$export.$btnUpload, "disabled" );
-		GSUdomSetAttr( this.#popups.$export.$btnRender, {
+		this.#popups.$export.$btnUpload.$rmAttr( "disabled" );
+		this.#popups.$export.$btnRender.$setAttr( {
 			text: "Render",
 			icon: "render",
 			href: false,
 			loading: false,
 			download: false,
 		} );
-		GSUdomStyle( this.#popups.$export.$progress, "display", "" );
-		GSUdomStyle( this.#popups.$export.$btnUpload, "display", "none" );
-		GSUdomStyle( this.#popups.$export.$btnClear, "display", "none" );
+		this.#popups.$export.$progress.$css( "display", "" );
+		this.#popups.$export.$btnUpload.$css( "display", "none" );
+		this.#popups.$export.$btnClear.$css( "display", "none" );
 	}
 
 	// .........................................................................
@@ -235,7 +235,7 @@ class gsuiDAW extends gsui0ne {
 		}
 		GSUpopup.$custom( {
 			title: "Export",
-			element: this.#popups.$export.$root,
+			element: this.#popups.$export.$root.$get( 0 ),
 			ok: "close",
 		} ).then( () => {
 			if ( this.$this.$getAttr( "exporting" ) !== "1" ) {
@@ -245,14 +245,14 @@ class gsuiDAW extends gsui0ne {
 		} );
 	}
 	#onclickRenderBtn() {
-		if ( !GSUdomHasAttr( this.#popups.$export.$btnRender, "download" ) ) {
-			GSUdomSetAttr( this.#popups.$export.$btnRender, {
+		if ( !this.#popups.$export.$btnRender.$hasAttr( "download" ) ) {
+			this.#popups.$export.$btnRender.$setAttr( {
 				text: "Rendering...",
 				loading: true,
 				icon: false,
 				href: false,
 			} );
-			GSUdomSetAttr( GSUdomQS( ".gsuiPopup-window" ), "closedby", "none" );
+			$( ".gsuiPopup-window" ).$setAttr( "closedby", "none" );
 			this.$this.$dispatch( GSEV_DAW_EXPORT );
 		}
 	}
@@ -260,31 +260,39 @@ class gsuiDAW extends gsui0ne {
 		if ( !this.$elements.$titleUser.$hasAttr( "connected" ) ) {
 			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
 		} else {
-			GSUdomSetAttr( this.#popups.$export.$btnUpload, "disabled", true );
+			this.#popups.$export.$btnUpload.$setAttr( "disabled", true );
 			this.$this.$dispatch( GSEV_DAW_UPLOAD_CMP );
 		}
 	}
 	#onclickVersionCheck() {
-		const dt = this.#popups.$about.$versionIcon.dataset;
-
-		dt.icon = "none";
-		dt.spin = "on";
+		this.#popups.$about.$versionIcon.$setAttr( {
+			"data-icon": "none",
+			"data-spin": "on",
+		} );
 		gsapiClient.$getDAWversion().then( res => {
-			dt.spin = "";
-			dt.icon = res === this.$this.$getAttr( "version" ) ? "check" : "warning";
+			this.#popups.$about.$versionIcon.$setAttr( {
+				"data-icon": res === this.$this.$getAttr( "version" ) ? "check" : "warning",
+				"data-spin": "",
+			} );
 		} );
 	}
 	#onopenSettingsPopup() {
-		this.#popups.$settings.$sampleRate.value = +this.$this.$getAttr( "samplerate" );
-		this.#popups.$settings.$keyNotation.value = this.$this.$getAttr( "keynotation" );
-		this.#popups.$settings.$timelineNumbering.value = +this.$this.$getAttr( "timelinenumbering" );
-		this.#popups.$settings.$windowsLowGraphics.checked = this.$this.$getAttr( "windowslowgraphics" ) === "";
-		this.#popups.$settings.$uiRateRadio[ this.$this.$getAttr( "uirate" ) === "auto" ? "auto" : "manual" ].checked = true;
-		if ( this.$this.$getAttr( "uirate" ) !== "auto" ) {
-			this.#popups.$settings.$uiRateManualFPS.textContent = this.$this.$getAttr( "uirate" ).padStart( 2, "0" );
-			this.#popups.$settings.$uiRateManualRange.value = this.$this.$getAttr( "uirate" );
+		const p = this.#popups.$settings;
+		const uiRate = this.$this.$getAttr( "uirate" );
+		const uiRateAuto = uiRate === "auto";
+
+		p.$sampleRate.$value( +this.$this.$getAttr( "samplerate" ) );
+		p.$keyNotation.$value( this.$this.$getAttr( "keynotation" ) );
+		p.$timelineNumbering.$value( +this.$this.$getAttr( "timelinenumbering" ) );
+		p.$windowsLowGraphics.$prop( "checked", this.$this.$getAttr( "windowslowgraphics" ) === "" );
+		if ( uiRateAuto ) {
+			p.$uiRateAuto.$prop( "checked", true );
+		} else {
+			p.$uiRateManual.$prop( "checked", true );
+			p.$uiRateManualFPS.$text( uiRate.padStart( 2, "0" ) );
+			p.$uiRateManualRange.$value( uiRate );
 		}
-		GSUpopup.$custom( { title: "Settings", element: this.#popups.$settings.$root } )
+		GSUpopup.$custom( { title: "Settings", element: p.$root.$get( 0 ) } )
 			.then( this.#onsubmitSettingsPopup.bind( this ) );
 	}
 	#onsubmitSettingsPopup( data ) {
@@ -320,12 +328,12 @@ class gsuiDAW extends gsui0ne {
 			case "redo": this.$this.$dispatch( GSEV_DAW_REDO ); break;
 			case "export": this.#onopenRenderPopup(); break;
 			case "settings": this.#onopenSettingsPopup(); break;
-			case "about": GSUpopup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
+			case "about": GSUpopup.$custom( { title: "About", element: this.#popups.$about.$root.$get( 0 ) } ); break;
 			case "help": {
 				const hide = this.$this.$hasAttr( "gsuihelplink-hide" );
 
-				GSUdomSetAttr( this, "gsuihelplink-hide", !hide );
-				this.$this.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, hide );
+				this.$this.$setAttr( "gsuihelplink-hide", !hide )
+					.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, hide );
 			} break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
