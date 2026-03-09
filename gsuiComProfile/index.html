@@ -78,7 +78,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = GSUdomQS( "gsui-com-profile" );
+const el = $( "gsui-com-profile" );
 const itsme = GSUdomQS( "#itsme" );
 const email = GSUdomQS( "#email" );
 const avatar = GSUdomQS( "#avatar" );
@@ -91,22 +91,22 @@ const followed = GSUdomQS( "#followed" );
 const height = GSUdomQS( "#height" );
 const heightValue = height.nextElementSibling;
 
-itsme.onchange = () => GSUdomTogAttr( elCmp, "itsme" );
-email.onchange = () => GSUdomTogAttr( elCmp, "email", "john.wick@hitman.com" );
-emailpublic.onchange = () => GSUdomTogAttr( elCmp, "emailpublic" );
-emailtoverify.onchange = () => GSUdomTogAttr( elCmp, "emailtoverify" );
-emailsending.onchange = () => GSUdomTogAttr( elCmp, "emailsending" );
-emailsent.onchange = () => GSUdomTogAttr( elCmp, "emailsent" );
-avatar.onchange = () => GSUdomTogAttr( elCmp, "avatar", "../test-assets/avatar.jpg" );
-followed.onchange = () => GSUdomTogAttr( elCmp, "followed" );
+itsme.onchange = () => el.$togAttr( "itsme" );
+email.onchange = () => el.$setAttr( "email", el.$getAttr( "email" ) ? false : "john.wick@hitman.com" );
+emailpublic.onchange = () => el.$togAttr( "emailpublic" );
+emailtoverify.onchange = () => el.$togAttr( "emailtoverify" );
+emailsending.onchange = () => el.$togAttr( "emailsending" );
+emailsent.onchange = () => el.$togAttr( "emailsent" );
+avatar.onchange = () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "../test-assets/avatar.jpg" );
+followed.onchange = () => el.$togAttr( "followed" );
 
 height.oninput = () => {
-	GSUdomStyle( elCmp, "--gsuiComProfile-height-mul", height.value );
+	el.$css( "--gsuiComProfile-height-mul", height.value );
 	heightValue.textContent = height.value;
 };
 
-elCmp.$setVerifyEmailCallbackPromise( promRes );
-elCmp.$setFollowCallbackPromise( promFollow );
+el.$get( 0 ).$setVerifyEmailCallbackPromise( promRes );
+el.$get( 0 ).$setFollowCallbackPromise( promFollow );
 
 itsme.click();
 email.click();

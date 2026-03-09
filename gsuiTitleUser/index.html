@@ -73,7 +73,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = GSUdomQS( "gsui-titleuser" );
+const el = $( "gsui-titleuser" );
 const readonly = GSUdomQS( "#readonly" );
 const connected = GSUdomQS( "#connected" );
 const connecting = GSUdomQS( "#connecting" );
@@ -84,18 +84,18 @@ const justSaved = GSUdomQS( "#just-saved" );
 const cmpName = GSUdomQS( "#cmpName" );
 const longUser = GSUdomQS( "#longUser" );
 
-readonly.onclick = () => GSUdomTogAttr( elCmp, "readonly" );
-connected.onclick = () => GSUdomTogAttr( elCmp, "connected" );
-connecting.onclick = () => GSUdomTogAttr( elCmp, "connecting" );
-disconnecting.onclick = () => GSUdomTogAttr( elCmp, "disconnecting" );
-saving.onclick = () => GSUdomTogAttr( elCmp, "saving" );
-saved.onclick = () => GSUdomTogAttr( elCmp, "saved" );
-justSaved.onclick = () => GSUdomTogAttr( elCmp, "just-saved" );
-cmpName.onclick = () => GSUdomTogAttr( elCmp, "cmpname", "Angry and evil nasty potato" );
+readonly.onclick = () => el.$togAttr( "readonly" );
+connected.onclick = () => el.$togAttr( "connected" );
+connecting.onclick = () => el.$togAttr( "connecting" );
+disconnecting.onclick = () => el.$togAttr( "disconnecting" );
+saving.onclick = () => el.$togAttr( "saving" );
+saved.onclick = () => el.$togAttr( "saved" );
+justSaved.onclick = () => el.$togAttr( "just-saved" );
+cmpName.onclick = () => el.$setAttr( "cmpname", el.$getAttr( "cmpname" ) ? false : "Angry and evil nasty potato" );
 longUser.onclick = () => {
-	const isShort = GSUdomGetAttr( elCmp, "name" ) === "John";
+	const isShort = el.$getAttr( "name" ) === "John";
 
-	GSUdomSetAttr( elCmp, {
+	el.$setAttr( {
 		name: isShort ? "John Wick (the hitman)" : "John",
 		username: isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga",
 	} );
@@ -104,13 +104,13 @@ longUser.onclick = () => {
 const logout0 = () => new Promise( ( res, rej ) => GSUsetTimeout( rej, 1 ) );
 const logout1 = () => new Promise( ( res, rej ) => GSUsetTimeout( res, 1 ) );
 
-elCmp.$setLogoutCallbackPromise( logout0 );
-// elCmp.$setLogoutCallbackPromise( logout1 );
+el.$get( 0 ).$setLogoutCallbackPromise( logout0 );
+// el.$get( 0 ).$setLogoutCallbackPromise( logout1 );
 
-GSUdomListen( elCmp, {
+GSUdomListen( el.$get( 0 ), {
 	[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => {
 		lg( `rename: [${ name }]` );
-		GSUdomSetAttr( elCmp, "cmpname", name );
+		el.$setAttr( "cmpname", name );
 	},
 } );
 
