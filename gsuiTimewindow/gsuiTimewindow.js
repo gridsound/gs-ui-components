@@ -134,12 +134,9 @@ class gsuiTimewindow extends gsui0ne {
 			panDowns.$remove();
 		}
 		this.#scrollShadow = new gsuiScrollShadow( {
-			scrolledElem: this.firstChild,
-			leftShadow: this.$elements.$panel.$get( 0 ),
-			topShadow: [
-				GSUdomQS( this, ".gsuiTimewindow-panelUp" ),
-				GSUdomQS( this, ".gsuiTimewindow-time" ),
-			],
+			scrolledElem: this.$this.$child( 0 ),
+			leftShadow: this.$elements.$panel,
+			topShadow: $( this, ".gsuiTimewindow-panelUp, .gsuiTimewindow-time" ),
 		} );
 		this.#minimapUpdate();
 	}

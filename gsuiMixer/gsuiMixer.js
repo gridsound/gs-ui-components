@@ -33,14 +33,14 @@ class gsuiMixer extends gsui0ne {
 	// .........................................................................
 	$connected() {
 		this.#shadowChans = new gsuiScrollShadow( {
-			scrolledElem: $( this, ".gsuiChannels-panChannels" ).$get( 0 ),
-			leftShadow: $( this, ".gsuiChannels-panMain" ).$get( 0 ),
-			rightShadow: $( this, ".gsuiMixer-effects" ).$get( 0 ),
+			scrolledElem: $( this, ".gsuiChannels-panChannels" ),
+			leftShadow: $( this, ".gsuiChannels-panMain" ),
+			rightShadow: $( this, ".gsuiMixer-effects" ),
 		} );
 		this.#shadowEffects = new gsuiScrollShadow( {
-			scrolledElem: this.$elements.$effects.$get( 0 ),
-			topShadow: $( this, ".gsuiMixer-effects .gsuiMixer-head" ).$get( 0 ),
-			bottomShadow: $( this, ".gsuiMixer-effects .gsuiMixer-bottomShadow" ).$get( 0 ),
+			scrolledElem: this.$elements.$effects,
+			topShadow: $( this, ".gsuiMixer-effects .gsuiMixer-head" ),
+			bottomShadow: $( this, ".gsuiMixer-effects .gsuiMixer-bottomShadow" ),
 		} );
 	}
 	$disconnected() {

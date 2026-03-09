@@ -80,9 +80,9 @@ class gsuiSynthesizer extends gsui0ne {
 	// .........................................................................
 	$connected() {
 		this.#shadow = new gsuiScrollShadow( {
-			scrolledElem: GSUdomQS( this, ".gsuiSynthesizer-scrollArea" ),
-			topShadow: GSUdomQS( this, ".gsuiSynthesizer-shadowTop" ),
-			bottomShadow: GSUdomQS( this, ".gsuiSynthesizer-shadowBottom" ),
+			scrolledElem: $( this, ".gsuiSynthesizer-scrollArea" ),
+			topShadow: $( this, ".gsuiSynthesizer-shadowTop" ),
+			bottomShadow: $( this, ".gsuiSynthesizer-shadowBottom" ),
 		} );
 	}
 	$disconnected() {
