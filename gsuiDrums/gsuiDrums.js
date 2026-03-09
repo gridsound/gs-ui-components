@@ -46,7 +46,7 @@ class gsuiDrums extends gsui0ne {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, ppb ) => this.#setPxPerBeat( ppb ),
 			[ GSEV_DRUMROWS_PROPFILTER ]: d => this.#setPropFilter( ...d.$args ),
 			[ GSEV_DRUMROWS_PROPFILTERS ]: d => this.#setPropFilterAll( ...d.$args ),
-			[ GSEV_DRUMROWS_EXPAND ]: ( _, id ) => GSUdomTogAttr( this.#linesMap.get( id ), "data-open" ),
+			[ GSEV_DRUMROWS_EXPAND ]: ( _, id ) => $( this.#linesMap.get( id ) ).$togAttr( "data-open" ),
 			[ GSEV_SLIDERGROUP_CHANGE ]: d => ( d.$args.unshift( d.$target.dataset.currentProp ), true ),
 			[ GSEV_SLIDERGROUP_INPUT ]: ( d, k, v ) => {
 				GSUdomSetAttr( this.#drumsMap.get( k )[ 2 ], d.$target.dataset.currentProp, v );
