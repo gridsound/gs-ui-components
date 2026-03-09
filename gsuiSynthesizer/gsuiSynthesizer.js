@@ -230,13 +230,13 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 	}
 	#onclickHeads( e ) {
-		if ( GSUdomHasClass( e.target, "gsuiSynthesizer-headExpand" ) ) {
-			GSUdomTogAttr( e.currentTarget, "data-hidden" );
+		if ( $( e.target ).$hasClass( "gsuiSynthesizer-headExpand" ) ) {
+			$( e.currentTarget ).$togAttr( "data-hidden" );
 		} else {
 			const tab = e.target.closest( ".gsuiSynthesizer-headTab" );
 
 			if ( tab ) {
-				GSUdomRmAttr( e.currentTarget, "data-hidden" );
+				$( e.currentTarget ).$rmAttr( "data-hidden" );
 				this.#selectTab( ...tab.dataset.tab.split( " " ) );
 			}
 		}
