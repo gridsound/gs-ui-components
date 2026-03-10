@@ -6,8 +6,9 @@
 }
 
 /* ................................................................ */
-.gsuiDragline {
+gsui-dragline {
 	position: absolute;
+	display: block;
 	max-width: 0;
 	max-height: 0;
 	color: var( --gsuiDragline-color );

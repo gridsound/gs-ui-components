@@ -3,7 +3,7 @@
 	--gsuiDragline-color: var( --gsuiBlocksManager-blockColor );
 
 	/* ...................................................................... */
-	.gsuiDragline {
+	gsui-dragline {
 		top: 50%;
 		right: 0;
 	}
@@ -20,11 +20,11 @@
 	}
 
 	/* ...................................................................... */
-	&:not( :hover, .gsui-hover ) .gsuiDragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
+	&:not( :hover, .gsui-hover ) gsui-dragline:not( .gsuiDragline-dragging ) .gsuiDragline-to {
 		background-color: transparent;
 	}
 	&:where( :hover, .gsui-hover ) {
-		.gsuiDragline:not( .gsuiDragline-linked ) .gsuiDragline-to { translate: 2px 0 }
+		gsui-dragline:not( .gsuiDragline-linked ) .gsuiDragline-to { translate: 2px 0 }
 		.gsuiDragline-linked .gsuiDragline-to { translate: -2px 0 }
 	}
 

@@ -194,14 +194,14 @@ class gsuiPianoroll extends gsui0ne {
 	// .........................................................................
 	$addKey( id, obj ) {
 		const blc = GSUgetTemplate( "gsui-pianoroll-block" );
-		const dragline = new gsuiDragline();
+		const dragline = GSUcreateElement( "gsui-dragline" );
 
 		blc.dataset.id = id;
 		blc.onmousedown = this.#blcMousedown.bind( this, id );
 		dragline.onchange = this.#onchangeDragline.bind( this, id );
 		blc._dragline = dragline;
 		blc._draglineDrop = GSUdomQS( blc, ".gsuiDragline-drop" );
-		blc.append( dragline.rootElement );
+		blc.append( dragline );
 		dragline.getDropAreas = this.#getDropAreas.bind( this, id );
 		this.#blcManager.$getBlocks().set( id, blc );
 		obj.selected
@@ -399,7 +399,7 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	#blcMousedown( id, e ) {
-		const dline = e.currentTarget._dragline.rootElement;
+		const dline = e.currentTarget._dragline;
 
 		e.stopPropagation();
 		if ( !dline.contains( e.target ) ) {

@@ -1,24 +1,30 @@
 "use strict";
 
-class gsuiDragline {
+class gsuiDragline extends gsui0ne {
 	onchange = GSUnoop;
-	rootElement = GSUgetTemplate( "gsui-dragline" );
 	getDropAreas = null;
 	#linkedTo = null;
 	#dropAreas = null;
 	#evKeydown = null;
 	#evMouseup = null;
 	#evMousemove = null;
-	#elements = $( this.rootElement ).$queryMap( {
-		$main: ".gsuiDragline-main",
-		$svg: ".gsuiDragline-line",
-		$polyline: ".gsuiDragline-line polyline",
-		$to: ".gsuiDragline-to",
-	} );
 
 	constructor() {
+		super( {
+			$cmpName: "gsuiDragline",
+			$tagName: "gsui-dragline",
+			$elements: {
+				$main: ".gsuiDragline-main",
+				$svg: ".gsuiDragline-line",
+				$polyline: ".gsuiDragline-line polyline",
+				$to: ".gsuiDragline-to",
+			},
+			$attributes: {
+				tabindex: -1,
+			},
+		} );
 		Object.seal( this );
-		this.#elements.$to.$on( "mousedown", this.#onmousedownTo.bind( this ) );
+		this.$elements.$to.$on( "mousedown", this.#onmousedownTo.bind( this ) );
 	}
 
 	// .........................................................................
@@ -27,7 +33,7 @@ class gsuiDragline {
 
 		if ( elem !== this.#linkedTo ) {
 			this.#linkedTo = elem;
-			GSUdomTogClass( this.rootElement, "gsuiDragline-linked", !!elem );
+			this.$this.$togClass( "gsuiDragline-linked", !!elem );
 			elem ? this.redraw() : this.#unlink();
 		}
 	}
@@ -41,7 +47,7 @@ class gsuiDragline {
 
 	// .........................................................................
 	#render( x, y ) {
-		const bcr = $( this.rootElement ).$bcr();
+		const bcr = this.$this.$bcr();
 		const w = x - bcr.x;
 		const h = y - bcr.y;
 		const wabs = Math.abs( w );
@@ -49,7 +55,7 @@ class gsuiDragline {
 		const whmax = Math.max( wabs, habs );
 		const whmax2 = whmax * 2;
 
-		this.#elements.$main
+		this.$element
 			.$togClass( "gsuiDragline-down", h > 0 )
 			.$togClass( "gsuiDragline-right", w > 0 )
 			.$css( {
@@ -58,21 +64,21 @@ class gsuiDragline {
 				width: `${ wabs }px`,
 				height: `${ habs }px`,
 			} );
-		this.#elements.$svg.$viewbox( whmax2, whmax2 ).$css( {
+		this.$elements.$svg.$viewbox( whmax2, whmax2 ).$css( {
 			width: `${ whmax2 }px`,
 			height: `${ whmax2 }px`,
 			margin: `${ -whmax }px`,
 		} );
-		this.#elements.$polyline.$setAttr( "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
+		this.$elements.$polyline.$setAttr( "points", `${ whmax },${ whmax } ${ whmax + w },${ whmax + h }` );
 	}
 	#unlink() {
-		this.#elements.$main.$css( {
+		this.$element.$css( {
 			top: 0,
 			left: 0,
 			width: 0,
 			height: 0,
 		} );
-		this.#elements.$svg.$css( {
+		this.$elements.$svg.$css( {
 			width: 0,
 			height: 0,
 			margin: 0,
@@ -87,7 +93,7 @@ class gsuiDragline {
 		}
 	}
 	#resetDrag() {
-		GSUdomRmClass( this.rootElement, "gsuiDragline-dragging" );
+		this.$this.$rmClass( "gsuiDragline-dragging" );
 		this.#dropAreas.forEach( el => {
 			GSUdomRmClass( el, "gsuiDragline-dropActive" );
 			delete el.onmouseup;
@@ -105,7 +111,7 @@ class gsuiDragline {
 				el.onmouseup = this.#onmouseupDrop.bind( this );
 				GSUdomAddClass( el, "gsuiDragline-dropActive" );
 			} );
-			GSUdomAddClass( this.rootElement, "gsuiDragline-dragging" );
+			this.$this.$addClass( "gsuiDragline-dragging" );
 			this.#evMousemove = this.#onmousemove.bind( this );
 			this.#evMouseup = this.#onmouseup.bind( this );
 			this.#evKeydown = this.#onkeydown.bind( this );
@@ -142,3 +148,5 @@ class gsuiDragline {
 		this.#render( e.pageX, e.pageY );
 	}
 }
+
+GSUdomDefine( "gsui-dragline", gsuiDragline );
