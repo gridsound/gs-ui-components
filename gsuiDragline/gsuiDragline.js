@@ -3,7 +3,7 @@
 class gsuiDragline extends gsui0ne {
 	onchange = GSUnoop;
 	#getDropAreas = GSUnoop;
-	#linkedTo = null;
+	#linkedTo = $noop;
 	#dropAreas = null;
 	#evKeydown = null;
 	#evMouseup = null;
@@ -38,17 +38,16 @@ class gsuiDragline extends gsui0ne {
 
 	// .........................................................................
 	#linkTo( el ) {
-		const elem = el || null;
+		const el2 = $( el );
+		const ok = el2.$size() > 0;
 
-		if ( elem !== this.#linkedTo ) {
-			this.#linkedTo = elem;
-			this.$this.$togClass( "gsuiDragline-linked", !!elem );
-			elem ? this.#redraw() : this.#unlink();
-		}
+		this.#linkedTo = el2;
+		this.$this.$togClass( "gsuiDragline-linked", ok );
+		ok ? this.#redraw() : this.#unlink();
 	}
 	#redraw() {
-		if ( this.#linkedTo ) {
-			const bcr = $( this.#linkedTo ).$bcr();
+		if ( this.#linkedTo.$size() ) {
+			const bcr = this.#linkedTo.$bcr();
 
 			this.#render( bcr.x, bcr.y );
 		}
@@ -93,11 +92,9 @@ class gsuiDragline extends gsui0ne {
 	}
 	#cancelDrag() {
 		this.#resetDrag();
-		if ( this.#linkedTo ) {
-			this.#redraw();
-		} else {
-			this.#unlink();
-		}
+		this.#linkedTo.$size()
+			? this.#redraw()
+			: this.#unlink();
 	}
 	#resetDrag() {
 		this.$this.$rmClass( "gsuiDragline-dragging" );
@@ -134,20 +131,20 @@ class gsuiDragline extends gsui0ne {
 		}
 	}
 	#onmouseupDrop( e ) {
-		const tar = e.currentTarget;
+		const tar = $( e.currentTarget );
 
-		if ( tar !== this.#linkedTo ) {
-			this.onchange( tar, this.#linkedTo );
+		if ( !this.#linkedTo.$is( tar ) ) {
 			this.#linkedTo = tar;
+			this.onchange( tar );
 		}
 		this.#resetDrag();
 		this.#redraw();
 		return false;
 	}
 	#onmouseup() {
-		if ( this.#linkedTo ) {
-			this.onchange( null, this.#linkedTo );
-			this.#linkedTo = null;
+		if ( this.#linkedTo.$size() ) {
+			this.#linkedTo = $noop;
+			this.onchange( $noop );
 		}
 		this.#cancelDrag();
 	}

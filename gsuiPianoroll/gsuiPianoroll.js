@@ -230,9 +230,7 @@ class gsuiPianoroll extends gsui0ne {
 		const blcPrev = this.#blcManager.$getBlocks().get( blc.dataset.prev );
 
 		blc.remove();
-		if ( blcPrev ) {
-			blcPrev._dragline.$message( GSEV_DRAGLINE_LINKTO, null );
-		}
+		blcPrev?._dragline.$message( GSEV_DRAGLINE_LINKTO, null );
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
 		this.#uiSliderGroup.$delete( id );
@@ -470,7 +468,7 @@ class gsuiPianoroll extends gsui0ne {
 		return arr;
 	}
 	#onchangeDragline( id, el ) {
-		this.$onchange( "redirect", id, el ? el.parentNode.dataset.id : null );
+		this.$onchange( "redirect", id, el.$parent().$getAttr( "data-id" ) || null );
 	}
 }
 
