@@ -32,7 +32,7 @@ class gsuiSVGPatterns {
 		gsuiSVGPatterns.#clearDefs( gsuiSVGPatterns.#SVGs.$bufferHD.$map );
 	}
 	static #clearDefs( map ) {
-		map.forEach( def => def.g.remove() );
+		map.forEach( def => def.g.$remove() );
 		map.clear();
 	}
 
@@ -66,16 +66,19 @@ class gsuiSVGPatterns {
 		if ( SVG.$map.has( id ) ) {
 			console.error( `gsuiSVGPatterns: ID "${ id }" already used` );
 		} else {
-			const g = GSUcreateElement( "g", { id: `${ SVG.$prefix }${ id }` } );
-
-			SVG.$map.set( id, { g, w: 0, h: 0 } );
-			SVG.$defs.append( g );
+			SVG.$map.set( id, {
+				w: 0,
+				h: 0,
+				g: $( "<g>" )
+					.$setAttr( { id: `${ SVG.$prefix }${ id }` } )
+					.$appendTo( SVG.$defs ),
+			} );
 		}
 	}
 	static $delete( type, id ) {
 		const map = gsuiSVGPatterns.#getList( type ).$map;
 
-		map.get( id ).g.remove();
+		map.get( id ).g.$remove();
 		map.delete( id );
 	}
 	static $update( type, id, data, dur, svg ) {
@@ -108,8 +111,7 @@ class gsuiSVGPatterns {
 	static #update2( def, id, w, h, ...elems ) {
 		def.w = w;
 		def.h = h;
-		GSUdomEmpty( def.g );
-		def.g.append( ...elems );
+		def.g.$empty().$append( ...elems );
 	}
 
 	// .........................................................................
