@@ -120,7 +120,7 @@ bpmInp.oninput = () => el.$setAttr( "bpm", bpmInp.value );
 durationInp.oninput = () => el.$setAttr( "duration", durationInp.value );
 currentTimeInp.oninput = () => el.$setAttr( "currenttime", currentTimeInp.value );
 
-GSUdomListen( GSUdomBody, {
+GSUdomListen( $body.$get( 0 ), {
 	[ GSEV_COMPLAYER_PLAY ]: () => el.$getAttr( "playing" ), // ?
 	[ GSEV_COMPLAYER_STOP ]: () => el.$rmAttr( "playing" ), // ?
 	[ GSEV_COMPLAYER_ACTION ]: ( _, act ) => el.$rmAttr( `action:[${ act }]` ), // ?

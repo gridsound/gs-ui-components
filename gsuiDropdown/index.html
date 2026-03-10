@@ -141,7 +141,7 @@ const ddTar = $( "#ddTarget" );
 let moving = false;
 let movingOffset = [ 0, 0 ];
 
-GSUdomBody.append( ddTar.$get( 0 ), dd.$get( 0 ) );
+$body.$append( ddTar.$get( 0 ), dd.$get( 0 ) );
 
 ddTar.$on( {
 	pointerdown: e => {
