@@ -17,7 +17,7 @@ class gsuiTimeline extends gsui0ne {
 	#looping = false;
 	#offset = null;
 	#maxDuration = Infinity;
-	#scrollingAncestor = GSUdomBody;
+	#scrollingAncestor = $body.$get( 0 );
 	#mousedownLoop = "";
 	#onlyBigMeasures = false;
 	#mousedownPrevX = 0;
@@ -50,7 +50,7 @@ class gsuiTimeline extends gsui0ne {
 	}
 
 	static $numbering( from ) {
-		GSUdomStyle( GSUdomBody, "--gsuiTimeline-numbering", +from );
+		$body.$css( "--gsuiTimeline-numbering", +from );
 	}
 
 	// .........................................................................

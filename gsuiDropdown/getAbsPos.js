@@ -34,8 +34,8 @@ class gsuiCalcAbsPos {
 			return !gsuiCalcAbsPos.#isCollide( x, y, w, h, marg );
 		} );
 
-		x += GSUdomHtml.scrollLeft;
-		y += GSUdomHtml.scrollTop;
+		x += $html.$scrollX();
+		y += $html.$scrollY();
 		if ( opts.absolute === false ) {
 			x -= tBCR.left;
 			y -= tBCR.top;
@@ -59,12 +59,9 @@ class gsuiCalcAbsPos {
 	}
 
 	static #isCollide( x, y, w, h, marg ) {
-		const bw = GSUdomBody.clientWidth;
-		const bh = GSUdomBody.clientHeight;
-
 		return (
-			!GSUmathInRange( x, marg, bw - w - marg ) ||
-			!GSUmathInRange( y, marg, bh - h - marg )
+			!GSUmathInRange( x, marg, $body.$width() - w - marg ) ||
+			!GSUmathInRange( y, marg, $body.$height() - h - marg )
 		);
 	}
 	static #getArrowPos( pos, tBCR, x, y, w, h ) {
@@ -104,15 +101,11 @@ class gsuiCalcAbsPos {
 			case "RT": return [ tBCR.right + margin,     tBCR.bottom - h ];
 			case "RB": return [ tBCR.right + margin,     tBCR.top ];
 		}
-
-		const bw = GSUdomBody.clientWidth;
-		const bh = GSUdomBody.clientHeight;
-
 		if ( xy[ 0 ] === null ) {
-			xy[ 0 ] = Math.max( gsuiCalcAbsPos.$outMargin, Math.min( bw - gsuiCalcAbsPos.$outMargin - w, tBCR.left + tBCR.width / 2 - w / 2 ) );
+			xy[ 0 ] = Math.max( gsuiCalcAbsPos.$outMargin, Math.min( $body.$width() - gsuiCalcAbsPos.$outMargin - w, tBCR.left + tBCR.width / 2 - w / 2 ) );
 		}
 		if ( xy[ 1 ] === null ) {
-			xy[ 1 ] = Math.max( gsuiCalcAbsPos.$outMargin, Math.min( bh - gsuiCalcAbsPos.$outMargin - h, tBCR.top + tBCR.height / 2 - h / 2 ) );
+			xy[ 1 ] = Math.max( gsuiCalcAbsPos.$outMargin, Math.min( $body.$height() - gsuiCalcAbsPos.$outMargin - h, tBCR.top + tBCR.height / 2 - h / 2 ) );
 		}
 		return xy;
 	}

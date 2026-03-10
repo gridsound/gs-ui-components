@@ -9,7 +9,7 @@ class gsuiKeys extends gsui0ne {
 		CDEFGAH: [ "C",  "C#",  "D",  "D#",  "E",  "F",  "F#",  "G",   "G#",   "A",  "A#",  "H" ],
 	};
 	static $keyNotation( id ) {
-		GSUdomStyle( GSUdomBody, "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
+		$body.$css( "--gsuiKeys-keyNotation", `"${ gsuiKeys.$keyNotations[ id ][ 0 ] }"` );
 	}
 	static #keyboardToKey = {
 		KeyZ:   [ -1,  0 ], KeyS:      [ -1,  1 ],

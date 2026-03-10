@@ -5,7 +5,7 @@ class gsuiDropdown {
 	#elem = null;
 	#isOpen = false;
 	#direction = "bottom";
-	#elParent = GSUdomBody;
+	#elParent = $body.$get( 0 );
 	#elContent = null;
 	#timeoutId = null;
 	#onptrdownBodyBind = this.#onptrdownBody.bind( this );
@@ -53,7 +53,7 @@ class gsuiDropdown {
 			} else {
 				this.#elem = this.#createElement();
 				this.#elParent.prepend( this.#elem );
-				GSUdomBody.addEventListener( "pointerdown", this.#onptrdownBodyBind );
+				$body.$addEventListener( "pointerdown", this.#onptrdownBodyBind );
 				this.#timeoutId = GSUsetTimeout( () => {
 					this.#positionElement();
 					GSUdomSetAttr( this.#elem, "data-open" );
@@ -66,7 +66,7 @@ class gsuiDropdown {
 			this.#isOpen = false;
 			GSUclearTimeout( this.#timeoutId );
 			GSUdomRmAttr( this.#elem, "data-open" );
-			GSUdomBody.removeEventListener( "pointerdown", this.#onptrdownBodyBind );
+			$body.$rmEventListener( "pointerdown", this.#onptrdownBodyBind );
 			this.#timeoutId = GSUsetTimeout( () => {
 				this.#elem.remove();
 				this.#elem = null;
@@ -88,7 +88,7 @@ class gsuiDropdown {
 		const posObj = gsuiCalcAbsPos.$calc( this.#direction, tarBCR, this.#elem.clientWidth, this.#elem.clientHeight, {
 			margin: 8,
 			withArrow: true,
-			absolute: this.#elParent === GSUdomBody,
+			absolute: this.#elParent === $body.$get( 0 ),
 		} );
 
 		GSUdomStyle( this.#elem, {
