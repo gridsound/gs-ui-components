@@ -84,6 +84,7 @@ class gsuiPianoroll extends gsui0ne {
 					this.uiKeys.$midiKeyUp( a );
 				}
 			},
+			[ GSEV_DRAGLINE_CHANGE ]: ( d, el ) => this.#onchangeDragline( d.$target, el ),
 		} );
 		this.ondragover = GSUnoopFalse;
 		this.ondrop = this.#ondrop.bind( this );
@@ -198,7 +199,6 @@ class gsuiPianoroll extends gsui0ne {
 
 		blc.dataset.id = id;
 		blc.onmousedown = this.#blcMousedown.bind( this, id );
-		dragline.$get( 0 ).onchange = this.#onchangeDragline.bind( this, id );
 		blc._dragline = dragline;
 		blc._draglineDrop = GSUdomQS( blc, ".gsuiDragline-drop" );
 		blc.append( dragline.$get( 0 ) );
@@ -467,8 +467,11 @@ class gsuiPianoroll extends gsui0ne {
 		} );
 		return arr;
 	}
-	#onchangeDragline( id, el ) {
-		this.$onchange( "redirect", id, el.$parent().$getAttr( "data-id" ) || null );
+	#onchangeDragline( el, tar ) {
+		const idA = el.closest( ".gsuiPianoroll-block" ).dataset.id;
+		const idB = tar.$parent().$getAttr( "data-id" );
+
+		this.$onchange( "redirect", idA, idB || null );
 	}
 }
 

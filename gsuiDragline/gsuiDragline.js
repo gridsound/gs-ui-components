@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiDragline extends gsui0ne {
-	onchange = GSUnoop;
 	#getDropAreas = GSUnoop;
 	#linkedTo = $noop;
 	#dropAreas = null;
@@ -135,7 +134,7 @@ class gsuiDragline extends gsui0ne {
 
 		if ( !this.#linkedTo.$is( tar ) ) {
 			this.#linkedTo = tar;
-			this.onchange( tar );
+			this.$this.$dispatch( GSEV_DRAGLINE_CHANGE, tar );
 		}
 		this.#resetDrag();
 		this.#redraw();
@@ -144,7 +143,7 @@ class gsuiDragline extends gsui0ne {
 	#onmouseup() {
 		if ( this.#linkedTo.$size() ) {
 			this.#linkedTo = $noop;
-			this.onchange( $noop );
+			this.$this.$dispatch( GSEV_DRAGLINE_CHANGE, $noop );
 		}
 		this.#cancelDrag();
 	}
