@@ -5,5 +5,6 @@ GSUsetTemplate( "gsui-pianoroll-block", () =>
 		GSUcreateSpan(),
 		GSUcreateDiv( { class: "gsuiDragline-drop" } ),
 		GSUcreateDiv( { class: "gsuiBlocksManager-block-crop gsuiBlocksManager-block-cropB", "data-action": "cropB" } ),
+		GSUcreateElement( "gsui-dragline" ),
 	)
 );
