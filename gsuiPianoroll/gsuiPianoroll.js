@@ -319,8 +319,8 @@ class gsuiPianoroll extends gsui0ne {
 	#blockRedrawDragline( el ) {
 		const blcPrev = this.#blcManager.$getBlocks().get( el.dataset.prev );
 
-		el._dragline.$get( 0 ).redraw();
-		blcPrev && blcPrev._dragline.$get( 0 ).redraw();
+		el._dragline.$message( GSEV_DRAGLINE_DRAW );
+		blcPrev?._dragline.$message( GSEV_DRAGLINE_DRAW );
 	}
 
 	// .........................................................................
@@ -329,13 +329,13 @@ class gsuiPianoroll extends gsui0ne {
 	// .........................................................................
 	#ongsuiTimewindowPxperbeat( ppb ) {
 		this.#blcManager.$setPxPerBeat( ppb );
-		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.$get( 0 ).redraw() );
+		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.$message( GSEV_DRAGLINE_DRAW ) );
 		GSUdomSetAttr( this.#uiSliderGroup, "pxperbeat", ppb );
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
 		Array.from( this.#blcManager.$getRows() ).forEach( el => GSUdomTogClass( el, "gsui-row-small", px <= 44 ) );
-		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.$get( 0 ).redraw() );
+		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.$message( GSEV_DRAGLINE_DRAW ) );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
 		GSUdomSetAttr( this.#uiSliderGroup, "currenttime", t );
