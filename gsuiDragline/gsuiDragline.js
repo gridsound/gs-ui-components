@@ -2,7 +2,7 @@
 
 class gsuiDragline extends gsui0ne {
 	onchange = GSUnoop;
-	getDropAreas = null;
+	#getDropAreas = GSUnoop;
 	#linkedTo = null;
 	#dropAreas = null;
 	#evKeydown = null;
@@ -25,6 +25,13 @@ class gsuiDragline extends gsui0ne {
 		} );
 		Object.seal( this );
 		this.$elements.$to.$on( "mousedown", this.#onmousedownTo.bind( this ) );
+	}
+
+	// .........................................................................
+	$onmessage( ev, val ) {
+		switch ( ev ) {
+			case GSEV_DRAGLINE_DROPAREAS: this.#getDropAreas = val; break;
+		}
 	}
 
 	// .........................................................................
@@ -106,7 +113,7 @@ class gsuiDragline extends gsui0ne {
 	// .........................................................................
 	#onmousedownTo( e ) {
 		if ( e.button === 0 ) {
-			this.#dropAreas = this.getDropAreas();
+			this.#dropAreas = this.#getDropAreas();
 			this.#dropAreas.forEach( el => {
 				el.onmouseup = this.#onmouseupDrop.bind( this );
 				GSUdomAddClass( el, "gsuiDragline-dropActive" );

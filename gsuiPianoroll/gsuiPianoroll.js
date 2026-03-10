@@ -194,15 +194,15 @@ class gsuiPianoroll extends gsui0ne {
 	// .........................................................................
 	$addKey( id, obj ) {
 		const blc = GSUgetTemplate( "gsui-pianoroll-block" );
-		const dragline = GSUcreateElement( "gsui-dragline" );
+		const dragline = $( "<gsui-dragline>" );
 
 		blc.dataset.id = id;
 		blc.onmousedown = this.#blcMousedown.bind( this, id );
-		dragline.onchange = this.#onchangeDragline.bind( this, id );
+		dragline.$get( 0 ).onchange = this.#onchangeDragline.bind( this, id );
 		blc._dragline = dragline;
 		blc._draglineDrop = GSUdomQS( blc, ".gsuiDragline-drop" );
-		blc.append( dragline );
-		dragline.getDropAreas = this.#getDropAreas.bind( this, id );
+		blc.append( dragline.$get( 0 ) );
+		dragline.$message( GSEV_DRAGLINE_DROPAREAS, this.#getDropAreas.bind( this, id ) );
 		this.#blcManager.$getBlocks().set( id, blc );
 		obj.selected
 			? this.#blcManager.$getSelectedBlocks().set( id, blc )
@@ -231,7 +231,7 @@ class gsuiPianoroll extends gsui0ne {
 
 		blc.remove();
 		if ( blcPrev ) {
-			blcPrev._dragline.linkTo( null );
+			blcPrev._dragline.$get( 0 ).linkTo( null );
 		}
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
@@ -286,13 +286,13 @@ class gsuiPianoroll extends gsui0ne {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
 				GSUdomTogClass( el, "gsuiPianoroll-block-prevLinked", !!val );
-				blc && blc._dragline.linkTo( el._draglineDrop );
+				blc && blc._dragline.$get( 0 ).linkTo( el._draglineDrop );
 			} break;
 			case "next": {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
 				GSUdomTogClass( el, "gsuiPianoroll-block-nextLinked", !!val );
-				el._dragline.linkTo( blc && blc._draglineDrop );
+				el._dragline.$get( 0 ).linkTo( blc && blc._draglineDrop );
 			} break;
 			case "pan":
 			case "gain":
@@ -319,8 +319,8 @@ class gsuiPianoroll extends gsui0ne {
 	#blockRedrawDragline( el ) {
 		const blcPrev = this.#blcManager.$getBlocks().get( el.dataset.prev );
 
-		el._dragline.redraw();
-		blcPrev && blcPrev._dragline.redraw();
+		el._dragline.$get( 0 ).redraw();
+		blcPrev && blcPrev._dragline.$get( 0 ).redraw();
 	}
 
 	// .........................................................................
@@ -329,13 +329,13 @@ class gsuiPianoroll extends gsui0ne {
 	// .........................................................................
 	#ongsuiTimewindowPxperbeat( ppb ) {
 		this.#blcManager.$setPxPerBeat( ppb );
-		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
+		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.$get( 0 ).redraw() );
 		GSUdomSetAttr( this.#uiSliderGroup, "pxperbeat", ppb );
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
 		Array.from( this.#blcManager.$getRows() ).forEach( el => GSUdomTogClass( el, "gsui-row-small", px <= 44 ) );
-		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.redraw() );
+		this.#blcManager.$getBlocks().forEach( blc => blc._dragline.$get( 0 ).redraw() );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
 		GSUdomSetAttr( this.#uiSliderGroup, "currenttime", t );
@@ -402,7 +402,7 @@ class gsuiPianoroll extends gsui0ne {
 		const dline = e.currentTarget._dragline;
 
 		e.stopPropagation();
-		if ( !dline.contains( e.target ) ) {
+		if ( !dline.$get( 0 ).contains( e.target ) ) {
 			this.#blcManager.$onmousedown( e );
 		}
 	}
