@@ -4,28 +4,29 @@ gsui-pianoroll {
 	--gsuiDragline-dotSize: 10px;
 	--gsuiDragline-dotRad: 2px;
 	--gsuiDragline-lineSize: 3px;
-}
-gsui-pianoroll:focus {
-	outline: 1px solid var( --gsuiBlocksManager-blockColor );
-}
 
-/* .......................................................................... */
-gsui-pianoroll gsui-keys {
-	font-size: var( --gsuiTimewindow-lineH );
-}
-gsui-pianoroll .gsuiTimewindow-rows {
-	font-size: var( --gsuiTimewindow-lineH );
-}
-gsui-pianoroll .gsuiKeys-row > div {
-	font-size: var( --gsuiTimewindow-pxperbeat );
-}
-gsui-pianoroll gsui-prop-select {
-	position: absolute;
-	inset: 0;
-	padding: 6px 0;
-}
+	&:focus {
+		outline: 1px solid var( --gsuiBlocksManager-blockColor );
+	}
 
-/* .......................................................................... */
-gsui-pianoroll .gsuiBlocksManager-block {
-	border-radius: 2px;
+	/* ...................................................................... */
+	gsui-keys {
+		font-size: var( --gsuiTimewindow-lineH );
+	}
+	.gsuiTimewindow-rows {
+		font-size: var( --gsuiTimewindow-lineH );
+	}
+	.gsuiKeys-row > div {
+		font-size: var( --gsuiTimewindow-pxperbeat );
+	}
+	gsui-prop-select {
+		position: absolute;
+		inset: 0;
+		padding: 6px 0;
+	}
+
+	/* ...................................................................... */
+	.gsuiBlocksManager-block {
+		border-radius: 2px;
+	}
 }
