@@ -35,14 +35,9 @@ gsui-dragline {
 	stroke: currentColor;
 	stroke-width: var( --gsuiDragline-lineSize );
 	stroke-linecap: round;
-}
-.gsuiDragline-down .gsuiDragline-line {
-	top: 0;
-	bottom: auto;
-}
-.gsuiDragline-right .gsuiDragline-line {
-	left: 0;
-	right: auto;
+
+	.gsuiDragline-down & { top: 0; bottom: auto; }
+	.gsuiDragline-right & { left: 0; right: auto; }
 }
 
 /* ................................................................ */
@@ -56,34 +51,38 @@ gsui-dragline {
 	pointer-events: all;
 	background-color: var( --gsuiDragline-color );
 	transition: .2s background-color;
+
+	.gsuiDragline-down & { bottom: 0; }
+	.gsuiDragline-right & { right: 0; }
+	.gsuiDragline-main:not( .gsuiDragline-down ) & { top: 0; }
+	.gsuiDragline-main:not( .gsuiDragline-right ) & { left: 0; }
 }
-.gsuiDragline-down .gsuiDragline-to { bottom: 0; }
-.gsuiDragline-right .gsuiDragline-to { right: 0; }
-.gsuiDragline-main:not( .gsuiDragline-down ) .gsuiDragline-to { top: 0; }
-.gsuiDragline-main:not( .gsuiDragline-right ) .gsuiDragline-to { left: 0; }
 
 /* ................................................................ */
 .gsuiDragline-drop {
 	position: relative;
 	max-width: 0;
 	max-height: 0;
+
+	&::before {
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 0;
+		margin: 0;
+		background-color: var( --gsuiDragline-color );
+		transition: .2s all;
+	}
 }
-.gsuiDragline-drop::before {
-	content: "";
-	position: absolute;
-	width: 0;
-	height: 0;
-	margin: 0;
-	background-color: var( --gsuiDragline-color );
-	transition: .2s all;
-}
-.gsuiDragline-dropActive::before {
-	width: var( --gsuiDragline-dotSize );
-	height: var( --gsuiDragline-dotSize );
-	margin: calc( var( --gsuiDragline-dotSize ) / -2 );
-	cursor: pointer;
-	border-radius: var( --gsuiDragline-dotRad );
-}
-.gsuiDragline-dropActive:hover::before {
-	scale: 2;
+.gsuiDragline-dropActive {
+	&::before {
+		width: var( --gsuiDragline-dotSize );
+		height: var( --gsuiDragline-dotSize );
+		margin: calc( var( --gsuiDragline-dotSize ) / -2 );
+		cursor: pointer;
+		border-radius: var( --gsuiDragline-dotRad );
+	}
+	&:hover::before {
+		scale: 2;
+	}
 }
