@@ -31,12 +31,13 @@ class gsuiDragline extends gsui0ne {
 	$onmessage( ev, val ) {
 		switch ( ev ) {
 			case GSEV_DRAGLINE_DRAW: this.#redraw(); break;
+			case GSEV_DRAGLINE_LINKTO: this.#linkTo( val ); break;
 			case GSEV_DRAGLINE_DROPAREAS: this.#getDropAreas = val; break;
 		}
 	}
 
 	// .........................................................................
-	linkTo( el ) {
+	#linkTo( el ) {
 		const elem = el || null;
 
 		if ( elem !== this.#linkedTo ) {
@@ -45,8 +46,6 @@ class gsuiDragline extends gsui0ne {
 			elem ? this.#redraw() : this.#unlink();
 		}
 	}
-
-	// .........................................................................
 	#redraw() {
 		if ( this.#linkedTo ) {
 			const bcr = $( this.#linkedTo ).$bcr();

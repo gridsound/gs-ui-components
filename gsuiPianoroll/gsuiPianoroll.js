@@ -231,7 +231,7 @@ class gsuiPianoroll extends gsui0ne {
 
 		blc.remove();
 		if ( blcPrev ) {
-			blcPrev._dragline.$get( 0 ).linkTo( null );
+			blcPrev._dragline.$message( GSEV_DRAGLINE_LINKTO, null );
 		}
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
@@ -286,13 +286,13 @@ class gsuiPianoroll extends gsui0ne {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
 				GSUdomTogClass( el, "gsuiPianoroll-block-prevLinked", !!val );
-				blc && blc._dragline.$get( 0 ).linkTo( el._draglineDrop );
+				blc && blc._dragline.$message( GSEV_DRAGLINE_LINKTO, el._draglineDrop );
 			} break;
 			case "next": {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
 				GSUdomTogClass( el, "gsuiPianoroll-block-nextLinked", !!val );
-				el._dragline.$get( 0 ).linkTo( blc && blc._draglineDrop );
+				el._dragline.$message( GSEV_DRAGLINE_LINKTO, blc?._draglineDrop );
 			} break;
 			case "pan":
 			case "gain":
