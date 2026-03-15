@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiEffects extends gsui0ne {
-	$askData = GSUnoop;
+	#dataCallback = GSUnoop;
 	#fxsHtml = new Map();
 	#actionMenu = new gsuiActionMenu();
 	static #fxsMap = Object.freeze( {
@@ -48,6 +48,11 @@ class gsuiEffects extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( ev, val ) {
+		switch ( ev ) {
+			case GSEV_EFFECTS_DATACALLBACK: this.#dataCallback = val; break;
+		}
+	}
 
 	// .........................................................................
 	$getFxHTML( id ) {
@@ -60,18 +65,16 @@ class gsuiEffects extends gsui0ne {
 	// .........................................................................
 	$addEffect( id, fx ) {
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
-		const uiFx = $( fxAsset.cmp ).$setAttr( {
-			"data-id": id,
-			timedivision: this.$this.$getAttr( "timedivision" ),
-		} );
 		const root = $( "<gsui-effect>" ).$setAttr( {
 			name: fxAsset.name,
 			"data-id": id,
 			"data-type": fx.type,
 		} );
 
-		uiFx.$message( GSEV_EFFECT_DATACALLBACK, this.$askData.bind( null, id, fx.type ) );
-		root.$get( 0 ).$setFxElement( uiFx );
+		root.$get( 0 ).$setFxElement( $( fxAsset.cmp ).$setAttr( {
+			"data-id": id,
+			timedivision: this.$this.$getAttr( "timedivision" ),
+		} ).$message( GSEV_EFFECT_DATACALLBACK, this.#dataCallback.bind( null, id, fx.type ) ) );
 		this.#fxsHtml.set( id, root );
 		this.$this.$append( root );
 	}
