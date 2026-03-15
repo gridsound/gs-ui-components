@@ -1,13 +1,14 @@
 "use strict";
 
 class gsuiTrack extends gsui0ne {
-	rowElement = GSUgetTemplate( "gsui-track-row" );
+	#rowElement = $( GSUgetTemplate( "gsui-track-row" ) );
 
 	constructor() {
 		super( {
 			$cmpName: "gsuiTrack",
 			$tagName: "gsui-track",
 			$elements: {
+				$toggle: "gsui-toggle",
 				$inpNameWrap: ".gsuiTrack-nameWrap",
 				$inpName: ".gsuiTrack-name",
 			},
@@ -34,8 +35,8 @@ class gsuiTrack extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "mute":
-				GSUdomSetAttr( this.rowElement, "data-mute", val !== null );
-				GSUdomSetAttr( this.firstElementChild, "off", val !== null );
+				this.$elements.$toggle.$setAttr( "off", val !== null );
+				this.#rowElement.$setAttr( "data-mute", val !== null );
 				break;
 			case "name":
 				this.$elements.$inpName.$value( val );
@@ -43,6 +44,11 @@ class gsuiTrack extends gsui0ne {
 			case "order":
 				this.$elements.$inpName.$setAttr( "placeholder", `track ${ +val + 1 }` );
 				break;
+		}
+	}
+	$onmessage( ev ) {
+		switch ( ev ) {
+			case GSEV_TRACK_ROWELEMENT: return this.#rowElement;
 		}
 	}
 
