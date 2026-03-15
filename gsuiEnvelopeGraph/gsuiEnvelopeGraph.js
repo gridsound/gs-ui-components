@@ -13,9 +13,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		super( {
 			$tagName: "gsui-envelope-graph",
 			$elements: {
-				$mainLine: ".gsuiEnvelopeGraph-mainLine",
-				$attLine: ".gsuiEnvelopeGraph-line",
-				$relLine: ".gsuiEnvelopeGraph-line + .gsuiEnvelopeGraph-line",
+				$lines: "polyline",
 			},
 		} );
 		Object.seal( this );
@@ -28,7 +26,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	$resized() {
-		this.$element.$viewbox( this.clientWidth, this.clientHeight );
+		this.$element.$viewbox( this.$this.$width(), this.$this.$height() );
 		this.$draw();
 	}
 	$draw() {
@@ -36,10 +34,13 @@ class gsuiEnvelopeGraph extends gsui0ne {
 			const pts = gsuiEnvelopeGraph.#getPoints(
 				this.clientWidth, this.clientHeight, this.$duration,
 				Math.abs( this.$amp ), this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
+			const ptsArr = [
+				pts.join( " " ),
+				pts.slice( 0, 8 ).join( " " ),
+				pts.slice( -4 ).join( " " ),
+			];
 
-			this.$elements.$attLine.$setAttr( "points", pts.slice( 0, 8 ).join( " " ) );
-			this.$elements.$relLine.$setAttr( "points", pts.slice( -4 ).join( " " ) );
-			this.$elements.$mainLine.$setAttr( "points", pts.join( " " ) );
+			this.$elements.$lines.$setAttr( "points", ( _, i ) => ptsArr[ i ] );
 		}
 	}
 	static #getPoints( w, h, dur, amp, att, hold, dec, sus, rel ) {
