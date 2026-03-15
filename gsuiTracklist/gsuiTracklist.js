@@ -1,8 +1,6 @@
 "use strict";
 
 class gsuiTracklist extends gsui0ne {
-	#tracks = new Map();
-
 	constructor() {
 		super( {
 			$cmpName: "gsuiTracklist",
@@ -18,22 +16,18 @@ class gsuiTracklist extends gsui0ne {
 
 	// .........................................................................
 	$getTrack( id ) {
-		return this.#tracks.get( id );
+		return this.$this.$query( `gsui-track[data-id="${ id }"]` );
 	}
 	$addTrack( id ) {
-		const tr = GSUcreateElement( "gsui-track", { "data-id": id } );
+		const tr = $( "<gsui-track>" )
+			.$setAttr( "data-id", id )
+			.$appendTo( this );
 
-		tr.rowElement.dataset.id = id;
-		this.#tracks.set( id, tr );
-		this.append( tr );
+		tr.$message( GSEV_TRACK_ROWELEMENT ).$setAttr( "data-id", id );
 		return tr;
 	}
 	$removeTrack( id ) {
-		const tr = this.#tracks.get( id );
-
-		tr.remove();
-		tr.rowElement.remove();
-		this.#tracks.delete( id );
+		this.$getTrack( id ).$remove().$message( GSEV_TRACK_ROWELEMENT ).$remove();
 	}
 }
 
