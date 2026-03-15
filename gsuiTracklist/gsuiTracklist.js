@@ -3,7 +3,6 @@
 class gsuiTracklist extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiTracklist",
 			$tagName: "gsui-tracklist",
 		} );
 		Object.seal( this );

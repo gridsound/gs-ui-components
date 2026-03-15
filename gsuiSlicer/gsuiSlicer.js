@@ -20,7 +20,6 @@ class gsuiSlicer extends gsui0ne {
 		let defId = 1;
 
 		super( {
-			$cmpName: "gsuiSlicer",
 			$tagName: "gsui-slicer",
 			$elements: {
 				$sourceCurrentTime: ".gsuiSlicer-source-currentTime",

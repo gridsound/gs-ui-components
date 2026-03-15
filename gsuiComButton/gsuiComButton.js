@@ -5,7 +5,6 @@ class gsuiComButton extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiComButton",
 			$tagName: "gsui-com-button",
 			$template: GSUcreateButton( null,
 				GSUcreateSpan( { inert: true } ),

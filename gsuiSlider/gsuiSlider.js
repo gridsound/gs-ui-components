@@ -20,7 +20,6 @@ class gsuiSlider extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiSlider",
 			$tagName: "gsui-slider",
 			$elements: {
 				$line: ".gsuiSlider-line",

@@ -10,7 +10,6 @@ class gsuiEnvelope extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiEnvelope",
 			$tagName: "gsui-envelope",
 			$elements: {
 				$beatlines: "gsui-beatlines",

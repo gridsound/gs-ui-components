@@ -5,7 +5,6 @@ class gsuiWindows extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWindows",
 			$tagName: "gsui-windows",
 		} );
 		Object.seal( this );

@@ -35,7 +35,6 @@ class gsuiPatternroll extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPatternroll",
 			$tagName: "gsui-patternroll",
 			$attributes: { tabindex: -1 },
 		} );

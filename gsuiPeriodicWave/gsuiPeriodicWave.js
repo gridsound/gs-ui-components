@@ -15,7 +15,6 @@ class gsuiPeriodicWave extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPeriodicWave",
 			$tagName: "gsui-periodicwave",
 			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
 				GSUcreateElement( "polyline" ),

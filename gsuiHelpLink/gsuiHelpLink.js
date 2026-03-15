@@ -3,7 +3,6 @@
 class gsuiHelpLink extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiHelpLink",
 			$tagName: "gsui-help-link",
 			$template: GSUcreateAExt( { class: "gsuiIcon", "data-icon": "info" } ),
 		} );

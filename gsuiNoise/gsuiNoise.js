@@ -3,7 +3,6 @@
 class gsuiNoise extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiNoise",
 			$tagName: "gsui-noise",
 			$elements: {
 				$values: ".gsuiNoise-value",

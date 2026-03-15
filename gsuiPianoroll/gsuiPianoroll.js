@@ -56,7 +56,6 @@ class gsuiPianoroll extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPianoroll",
 			$tagName: "gsui-pianoroll",
 			$attributes: { tabindex: -1 },
 		} );

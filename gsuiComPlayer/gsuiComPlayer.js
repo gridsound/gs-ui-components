@@ -10,7 +10,6 @@ class gsuiComPlayer extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiComPlayer",
 			$tagName: "gsui-com-player",
 			$elements: {
 				$audio: "audio",

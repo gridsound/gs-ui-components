@@ -5,7 +5,6 @@ class gsuiDrumrow extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiDrumrow",
 			$tagName: "gsui-drumrow",
 			$elements: {
 				$name: ".gsuiDrumrow-name",

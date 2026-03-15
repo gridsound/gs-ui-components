@@ -8,7 +8,6 @@ class gsuiStepSelect extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiStepSelect",
 			$tagName: "gsui-step-select",
 			$elements: {
 				$auto: "gsui-toggle",

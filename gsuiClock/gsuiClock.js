@@ -9,7 +9,6 @@ class gsuiClock extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiClock",
 			$tagName: "gsui-clock",
 			$elements: {
 				$wrapRel: ".gsuiClock-relative",

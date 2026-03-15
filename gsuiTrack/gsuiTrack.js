@@ -5,7 +5,6 @@ class gsuiTrack extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiTrack",
 			$tagName: "gsui-track",
 			$elements: {
 				$toggle: "gsui-toggle",

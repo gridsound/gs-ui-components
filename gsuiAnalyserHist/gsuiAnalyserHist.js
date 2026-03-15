@@ -6,7 +6,6 @@ class gsuiAnalyserHist extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiAnalyserHist",
 			$tagName: "gsui-analyser-hist",
 			$template: GSUcreateElement( "canvas", { inert: true } ),
 			$attributes: {

@@ -18,7 +18,6 @@ class gsuiOscillator extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiOscillator",
 			$tagName: "gsui-oscillator",
 			$tmpArgs: [ Object.keys( gsuiOscillator_defaultWaves ) ],
 			$elements: {

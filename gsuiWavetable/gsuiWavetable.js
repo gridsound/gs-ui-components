@@ -12,7 +12,6 @@ class gsuiWavetable extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWavetable",
 			$tagName: "gsui-wavetable",
 			$elements: {
 				$head: ".gsuiWavetable-head",

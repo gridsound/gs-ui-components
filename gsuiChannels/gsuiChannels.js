@@ -9,7 +9,6 @@ class gsuiChannels extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiChannels",
 			$tagName: "gsui-channels",
 			$elements: {
 				$vu: "gsui-analyser-vu",

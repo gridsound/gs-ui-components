@@ -5,7 +5,6 @@ class gsuiFxDelay extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiFxDelay",
 			$tagName: "gsui-fx-delay",
 			$elements: {
 				$beatlines: "gsui-beatlines",

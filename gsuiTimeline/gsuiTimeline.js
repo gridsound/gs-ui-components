@@ -31,7 +31,6 @@ class gsuiTimeline extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiTimeline",
 			$tagName: "gsui-timeline",
 			$elements: {
 				$steps: ".gsuiTimeline-steps",

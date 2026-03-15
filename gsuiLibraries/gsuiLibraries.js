@@ -3,7 +3,6 @@
 class gsuiLibraries extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiLibraries",
 			$tagName: "gsui-libraries",
 			$elements: {
 				$libBtns: ".gsuiLibraries-libBtns",

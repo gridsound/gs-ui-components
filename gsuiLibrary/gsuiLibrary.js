@@ -8,7 +8,6 @@ class gsuiLibrary extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiLibrary",
 			$tagName: "gsui-library",
 			$elements: {
 				$body: ".gsuiLibrary-body",

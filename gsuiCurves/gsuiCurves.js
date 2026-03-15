@@ -8,7 +8,6 @@ class gsuiCurves extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiCurves",
 			$tagName: "gsui-curves",
 			$elements: {
 				$analyser: "gsui-analyser-hz",

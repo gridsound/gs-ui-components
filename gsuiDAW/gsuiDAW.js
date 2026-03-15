@@ -32,7 +32,6 @@ class gsuiDAW extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiDAW",
 			$tagName: "gsui-daw",
 			$elements: {
 				$head: ".gsuiDAW-head",

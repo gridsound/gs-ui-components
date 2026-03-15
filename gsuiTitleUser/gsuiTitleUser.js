@@ -11,7 +11,6 @@ class gsuiTitleUser extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiTitleUser",
 			$tagName: "gsui-titleuser",
 			$elements: {
 				$name: ".gsuiTitleUser-name",

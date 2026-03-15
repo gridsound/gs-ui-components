@@ -19,7 +19,6 @@ class gsuiSliderGroup extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiSliderGroup",
 			$tagName: "gsui-slidergroup",
 			$elements: {
 				$slidersParent: ".gsuiSliderGroup-sliders",

@@ -21,7 +21,6 @@ class gsuiSynthesizer extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiSynthesizer",
 			$tagName: "gsui-synthesizer",
 			$elements: {
 				$heads: ".gsuiSynthesizer-head",

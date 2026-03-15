@@ -3,7 +3,6 @@
 class gsuiDrum extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiDrum",
 			$tagName: "gsui-drum",
 		} );
 		Object.seal( this );

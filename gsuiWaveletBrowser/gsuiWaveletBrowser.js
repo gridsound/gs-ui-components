@@ -8,7 +8,6 @@ class gsuiWaveletBrowser extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWaveletBrowser",
 			$tagName: "gsui-wavelet-browser",
 			$elements: {
 				$list: ".gsuiWaveletBrowser-list > *",

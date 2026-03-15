@@ -13,7 +13,6 @@ class gsuiEffects extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiEffects",
 			$tagName: "gsui-effects",
 			$elements: {
 				$addBtn: ".gsuiEffects-addBtn",

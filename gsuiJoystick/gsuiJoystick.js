@@ -5,7 +5,6 @@ class gsuiJoystick extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiJoystick",
 			$tagName: "gsui-joystick",
 			$template: GSUcreateElement( "div", { inert: true } ),
 		} );

@@ -23,7 +23,6 @@ class gsuiFxFilter extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiFxFilter",
 			$tagName: "gsui-fx-filter",
 			$elements: {
 				$type: "[data-area='type'] > div",

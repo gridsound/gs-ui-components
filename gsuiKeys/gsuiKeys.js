@@ -48,7 +48,6 @@ class gsuiKeys extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiKeys",
 			$tagName: "gsui-keys",
 			$attributes: {
 				orient: "vertical",

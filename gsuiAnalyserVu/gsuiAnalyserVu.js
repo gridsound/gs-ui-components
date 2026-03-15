@@ -6,7 +6,6 @@ class gsuiAnalyserVu extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiAnalyserVu",
 			$tagName: "gsui-analyser-vu",
 			$elements: {
 				$L: "[data-chan=L]",

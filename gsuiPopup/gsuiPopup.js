@@ -7,7 +7,6 @@ class gsuiPopup extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPopup",
 			$tagName: "gsui-popup",
 			$elements: {
 				$ok: ".gsuiPopup-ok",

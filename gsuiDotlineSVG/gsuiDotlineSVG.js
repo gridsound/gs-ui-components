@@ -13,7 +13,6 @@ class gsuiDotlineSVG extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiDotlineSVG",
 			$tagName: "gsui-dotlinesvg",
 			$elements: {
 				$path: "path",

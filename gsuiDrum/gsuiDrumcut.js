@@ -3,7 +3,6 @@
 class gsuiDrumcut extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiDrumcut",
 			$tagName: "gsui-drumcut",
 		} );
 		Object.seal( this );

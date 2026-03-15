@@ -36,7 +36,6 @@ class gsuiDrums extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiDrums",
 			$tagName: "gsui-drums",
 			$attributes: { tabindex: -1 },
 		} );

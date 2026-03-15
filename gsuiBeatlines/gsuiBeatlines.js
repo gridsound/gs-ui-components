@@ -8,7 +8,6 @@ class gsuiBeatlines extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiBeatlines",
 			$tagName: "gsui-beatlines",
 			$attributes: {
 				inert: true,

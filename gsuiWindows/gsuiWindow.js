@@ -11,7 +11,6 @@ class gsuiWindow extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWindow",
 			$tagName: "gsui-window",
 			$elements: {
 				$icon: ".gsuiWindow-icon",

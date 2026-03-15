@@ -5,7 +5,6 @@ class gsuiPropSelect extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPropSelect",
 			$tagName: "gsui-prop-select",
 			$attributes: {
 				prop: "gain",

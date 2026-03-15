@@ -11,7 +11,6 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiEnvelopeGraph",
 			$tagName: "gsui-envelope-graph",
 			$elements: {
 				$mainLine: ".gsuiEnvelopeGraph-mainLine",

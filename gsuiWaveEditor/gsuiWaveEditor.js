@@ -39,7 +39,6 @@ class gsuiWaveEditor extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWaveEditor",
 			$tagName: "gsui-wave-editor",
 			$elements: {
 				$wave: ".gsuiWaveEditor-wave",

@@ -10,7 +10,6 @@ class gsuiDragline extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiDragline",
 			$tagName: "gsui-dragline",
 			$elements: {
 				$main: ".gsuiDragline-main",

@@ -3,7 +3,6 @@
 class gsuiComUserLink extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiComUserLink",
 			$tagName: "gsui-com-userlink",
 			$template: GSUcreateA( null,
 				GSUcreateIcon( { icon: "musician" } ),

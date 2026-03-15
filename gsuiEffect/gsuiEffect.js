@@ -3,7 +3,6 @@
 class gsuiEffect extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiEffect",
 			$tagName: "gsui-effect",
 			$elements: {
 				$toggle: "gsui-toggle",

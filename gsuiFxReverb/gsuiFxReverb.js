@@ -3,7 +3,6 @@
 class gsuiFxReverb extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiFxReverb",
 			$tagName: "gsui-fx-reverb",
 			$elements: {
 				$drySli: "[data-prop='dry'] gsui-slider",

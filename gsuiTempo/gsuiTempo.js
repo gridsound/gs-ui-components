@@ -10,7 +10,6 @@ class gsuiTempo extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiTempo",
 			$tagName: "gsui-tempo",
 			$elements: {
 				$bpm: ".gsuiTempo-bpm",

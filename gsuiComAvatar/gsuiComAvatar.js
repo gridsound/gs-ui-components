@@ -3,7 +3,6 @@
 class gsuiComAvatar extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiComAvatar",
 			$tagName: "gsui-com-avatar",
 			$template: [
 				GSUcreateElement( "img", { src: "" } ),

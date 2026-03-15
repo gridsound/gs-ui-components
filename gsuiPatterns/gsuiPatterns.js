@@ -26,7 +26,6 @@ class gsuiPatterns extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPatterns",
 			$tagName: "gsui-patterns",
 			$elements: {
 				$lists: ".gsuiPatterns-panel-list",

@@ -15,7 +15,6 @@ class gsuiPanels extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiPanels",
 			$tagName: "gsui-panels",
 		} );
 		Object.seal( this );

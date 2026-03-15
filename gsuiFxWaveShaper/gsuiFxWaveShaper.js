@@ -16,7 +16,6 @@ class gsuiFxWaveShaper extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiFxWaveShaper",
 			$tagName: "gsui-fx-waveshaper",
 			$elements: {
 				$symmetryToggle: ".gsuiFxWaveShaper-symmetry gsui-toggle",

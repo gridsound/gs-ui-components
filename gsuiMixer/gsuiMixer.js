@@ -6,7 +6,6 @@ class gsuiMixer extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiMixer",
 			$tagName: "gsui-mixer",
 			$elements: {
 				$channels: "gsui-channels",

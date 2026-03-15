@@ -13,7 +13,6 @@ class gsuiWavetableGraph extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiWavetableGraph",
 			$tagName: "gsui-wavetable-graph",
 			$template: GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
 				GSUcreateElement( "g", { class: "gsuiWavetableGraph-box" },

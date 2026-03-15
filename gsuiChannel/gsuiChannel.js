@@ -3,7 +3,6 @@
 class gsuiChannel extends gsui0ne {
 	constructor() {
 		super( {
-			$cmpName: "gsuiChannel",
 			$tagName: "gsui-channel",
 			$elements: {
 				$toggle: "gsui-toggle",

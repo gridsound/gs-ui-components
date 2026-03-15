@@ -11,7 +11,6 @@ class gsuiComProfile extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiComProfile",
 			$tagName: "gsui-com-profile",
 			$elements: {
 				$avatar: "gsui-com-avatar",

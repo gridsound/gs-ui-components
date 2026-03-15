@@ -9,7 +9,6 @@ class gsuiLFO extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiLFO",
 			$tagName: "gsui-lfo",
 			$elements: {
 				$beatlines: "gsui-beatlines",

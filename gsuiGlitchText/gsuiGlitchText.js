@@ -10,7 +10,6 @@ class gsuiGlitchText extends gsui0ne {
 
 	constructor() {
 		super( {
-			$cmpName: "gsuiGlitchText",
 			$tagName: "gsui-glitchtext",
 			$elements: {
 				$clips: ".gsuiGlitchText-clip",
