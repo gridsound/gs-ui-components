@@ -73,10 +73,17 @@ class gsuiFxFilter extends gsui0ne {
 	$onmessage( ev, val ) {
 		switch ( ev ) {
 			case GSEV_EFFECT_DATACALLBACK: this.#dataCallback = val; break;
+			case GSEV_EFFECT_DATAANALYSER: this.$elements.$curves.$get( 0 ).$drawAnalyser( val ); break;
 		}
 	}
 
 	// .........................................................................
+	#getSlider( prop ) {
+		return this.$elements.$sliders.$filter( `[data-area="${ prop }"] *` );
+	}
+	#toggleTypeBtn( type, b ) {
+		this.$elements.$type.$query( `[data-type="${ type }"]` ).$setAttr( "data-selected", b );
+	}
 	#updateWave() {
 		if ( this.$isConnected ) {
 			const elCurve = this.$elements.$curves.$get( 0 );
@@ -86,19 +93,6 @@ class gsuiFxFilter extends gsui0ne {
 				elCurve.$setCurve( "0", curve );
 			}
 		}
-	}
-	$updateAnalyser( data ) {
-		this.$elements.$curves.$get( 0 ).$drawAnalyser( data );
-	}
-
-	// .........................................................................
-	#toggleTypeBtn( type, b ) {
-		this.$elements.$type.$query( `[data-type="${ type }"]` ).$setAttr( "data-selected", b );
-	}
-
-	// .........................................................................
-	#getSlider( prop ) {
-		return this.$elements.$sliders.$filter( `[data-area="${ prop }"] *` );
 	}
 	#oninputProp( prop, val ) {
 		this.$this.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, prop, val );
