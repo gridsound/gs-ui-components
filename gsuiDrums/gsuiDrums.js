@@ -395,7 +395,7 @@ class gsuiDrums extends gsui0ne {
 				if ( !elLine.$size() ) {
 					this.#elHover.$remove();
 				} else {
-					const rowId = elLine.$parent().$parent().$getAttr( "data-id" );
+					const rowId = elLine.$parent( 2 ).$getAttr( "data-id" );
 					const bcr = elLine.$bcr();
 					const y = ( e.pageY - bcr.y ) / bcr.h;
 					const elHover =  y > .66 ? this.#elDrumcutHover : this.#elDrumHover;
