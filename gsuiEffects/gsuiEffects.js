@@ -70,9 +70,7 @@ class gsuiEffects extends gsui0ne {
 			"data-type": fx.type,
 		} );
 
-		if ( "$askData" in uiFx.$get( 0 ) ) {
-			uiFx.$get( 0 ).$askData = this.$askData.bind( null, id, fx.type );
-		}
+		uiFx.$message( GSEV_EFFECT_DATACALLBACK, this.$askData.bind( null, id, fx.type ) );
 		root.$get( 0 ).$setFxElement( uiFx );
 		this.#fxsHtml.set( id, root );
 		this.$this.$append( root );

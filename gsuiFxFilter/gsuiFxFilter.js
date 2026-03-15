@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiFxFilter extends gsui0ne {
-	$askData = GSUnoop;
+	#dataCallback = GSUnoop;
 	#nyquist = 24000;
 	#currType = "lowpass";
 	#fnValue = {
@@ -70,12 +70,17 @@ class gsuiFxFilter extends gsui0ne {
 		}
 		GSUsetTimeout( () => this.#updateWave(), .02 );
 	}
+	$onmessage( ev, val ) {
+		switch ( ev ) {
+			case GSEV_EFFECT_DATACALLBACK: this.#dataCallback = val; break;
+		}
+	}
 
 	// .........................................................................
 	#updateWave() {
 		if ( this.$isConnected ) {
 			const elCurve = this.$elements.$curves.$get( 0 );
-			const curve = this.$askData( "curve", elCurve.$getWidth() );
+			const curve = this.#dataCallback( "curve", elCurve.$getWidth() );
 
 			if ( curve ) {
 				elCurve.$setCurve( "0", curve );
