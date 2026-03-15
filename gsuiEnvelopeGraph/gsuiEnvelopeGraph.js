@@ -21,15 +21,21 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$resized();
+		this.#resized();
+	}
+	$onmessage( ev ) {
+		switch ( ev ) {
+			case GSEV_ENVELOPEGRAPH_DRAW: this.#draw(); break;
+			case GSEV_ENVELOPEGRAPH_RESIZE: this.#resized(); break;
+		}
 	}
 
 	// .........................................................................
-	$resized() {
+	#resized() {
 		this.$element.$viewbox( this.$this.$width(), this.$this.$height() );
-		this.$draw();
+		this.#draw();
 	}
-	$draw() {
+	#draw() {
 		if ( this.firstChild ) {
 			const pts = gsuiEnvelopeGraph.#getPoints(
 				this.clientWidth, this.clientHeight, this.$duration,

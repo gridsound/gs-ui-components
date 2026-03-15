@@ -89,7 +89,7 @@ class gsuiEnvelope extends gsui0ne {
 		g.$release = prop === "release" ? val : +this.$this.$getAttr( "release" );
 		g.$duration =
 		this.#dur = Math.max( g.$attack + g.$hold + g.$decay + .5 + g.$release, 2 );
-		g.$draw();
+		this.$elements.$graph.$message( GSEV_ENVELOPEGRAPH_DRAW );
 		this.#updatePxPerBeat();
 	}
 
@@ -117,7 +117,7 @@ class gsuiEnvelope extends gsui0ne {
 		this.style.minHeight = `${ nbProps * 20 - 2 + 2 * 8 }px`;
 		this.#waveWidth = this.$elements.$beatlines.$bcr().w;
 		this.#updatePxPerBeat();
-		this.$elements.$graph.$get( 0 ).$resized();
+		this.$elements.$graph.$message( GSEV_ENVELOPEGRAPH_RESIZE );
 	}
 	#oninputSlider( prop, val ) {
 		this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, val ) );
