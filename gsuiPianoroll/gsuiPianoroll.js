@@ -6,9 +6,8 @@ class gsuiPianoroll extends gsui0ne {
 		const kn = gsuiKeys.$keyNotations[ id ];
 
 		gsuiPianoroll.#keyNotation = kn;
-		GSUdomQSA( ".gsuiPianoroll-block" ).forEach( blc => {
-			blc.firstChild.textContent = kn[ blc.parentNode.parentNode.dataset.key ];
-		} );
+		$( ".gsuiPianoroll-block" ).$child( 0 )
+			.$text( el => kn[ $( el ).$parent( 3 ).$getAttr( "data-key" ) ] );
 	}
 	$onchange = null;
 	#rowsByMidi = {};
