@@ -1,8 +1,6 @@
 "use strict";
 
 class gsuiChannel extends gsui0ne {
-	$analyser = null;
-
 	constructor() {
 		super( {
 			$cmpName: "gsuiChannel",
@@ -29,9 +27,8 @@ class gsuiChannel extends gsui0ne {
 			},
 		} );
 		Object.seal( this );
-		this.$analyser = this.$elements.$analyser.$get( 0 );
 		$( [
-			this.$analyser,
+			this.$elements.$analyser,
 			this.$elements.$nameWrap,
 		] ).$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ) );
 		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_REMOVE ) );

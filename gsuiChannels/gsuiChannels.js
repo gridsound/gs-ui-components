@@ -36,17 +36,17 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		GSUforEach( this.#chans, ch => ch.$analyser.$updateResolution() );
+		this.#getAnalyser().$each( el => el.$updateResolution() );
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
-		this.$this.$query( "gsui-channel gsui-analyser-hist" ).$setAttr( "type", t );
+		this.#getAnalyser().$setAttr( "type", t );
 	}
 	$updateVu( ldata, rdata ) {
 		this.$elements.$vu.$get( 0 ).$draw( ldata, rdata );
 	}
 	$updateAudioData( id, ldata, rdata ) {
-		this.#chans[ id ].$analyser.$draw( ldata, rdata );
+		this.#getAnalyser( id ).$get( 0 ).$draw( ldata, rdata );
 	}
 	#selectChannel( id ) {
 		GSUdomRmAttr( this.#chans[ this.#chanSelected ], "selected" );
@@ -83,12 +83,14 @@ class gsuiChannels extends gsui0ne {
 		return this.#chans[ id ];
 	}
 	$addChannel( id ) {
-		const chan = GSUcreateElement( "gsui-channel", { "data-id": id } );
+		const chan = $( "<gsui-channel>" )
+			.$setAttr( "data-id", id )
+			.$appendTo( id === "main" ? this.$elements.$pmain : this.$elements.$pchans );
 
-		( id === "main" ? this.$elements.$pmain : this.$elements.$pchans ).$append( chan );
-		this.#chans[ id ] = chan;
-		chan.$analyser.$updateResolution();
-		GSUdomSetAttr( chan.$analyser, "type", this.#analyserType );
+		chan.$query( "gsui-analyser-hist" )
+			.$setAttr( "type", this.#analyserType )
+			.$get( 0 ).$updateResolution();
+		this.#chans[ id ] = chan.$get( 0 );
 		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
@@ -131,6 +133,9 @@ class gsuiChannels extends gsui0ne {
 	}
 
 	// .........................................................................
+	#getAnalyser( id ) {
+		return this.$this.$query( `gsui-channel${ id ? `[data-id="${ id }"]` : "" } gsui-analyser-hist` );
+	}
 	#getNextChan( el, dir ) {
 		const sibling = el[ dir ];
 
