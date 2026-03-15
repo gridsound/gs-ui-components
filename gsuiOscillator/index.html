@@ -107,14 +107,14 @@ elOsc
 	// .$setAttr( "wave", "sawtooth" )
 	.$setAttr( "wave", "AKWF_aguitar_1" )
 	// .$setAttr( "wave", wtName )
-	.$get( 0 ).$askWavetableData = () => Promise.resolve( [ {
+	.$message( GSEV_OSCILLATOR_DATACALLBACK, () => Promise.resolve( [ {
 		waves: {
 			0: {
 				index: 0,
 				curve: GSUmathWaveSawtooth( 1024 ),
 			},
 		},
-	}, true ] );
+	}, true ] ) );
 
 // GSUsetTimeout( () => elOsc.$addAttr( "wavetable" ), .2 );
 </script>

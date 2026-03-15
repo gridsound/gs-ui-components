@@ -8,7 +8,7 @@ const gsuiOscillator_defaultWaves = {
 };
 
 class gsuiOscillator extends gsui0ne {
-	$askWavetableData = GSUnoop;
+	#askWavetableData = GSUnoop;
 	#waveletBrowserDropdown = new gsuiDropdown();
 	#timeidType = null;
 	#typeSaved = "";
@@ -136,6 +136,7 @@ class gsuiOscillator extends gsui0ne {
 			case GSEV_OSCILLATOR_ADDCUSTOMWAVE: this.$elements.$waveName.$text( args[ 0 ] ); break;
 			case GSEV_OSCILLATOR_CHANGECUSTOMWAVE: this.#changeCustomWave( ...args ); break;
 			case GSEV_OSCILLATOR_UPDATESOURCEWAVEFORM: this.#updateSourceWaveform( ...args ); break;
+			case GSEV_OSCILLATOR_DATACALLBACK: this.#askWavetableData = args[ 0 ]; break;
 			case GSEV_OSCILLATOR_UPDATECUSTOMWAVE:
 				this.$elements.$waves
 					.$message( GSEV_PERIODICWAVE_DATA, args[ 0 ], 96 )
@@ -262,7 +263,7 @@ class gsuiOscillator extends gsui0ne {
 	// .........................................................................
 	#openWavetable( b ) {
 		if ( b ) {
-			this.$askWavetableData().then( wtData => {
+			this.#askWavetableData().then( wtData => {
 				this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
 				this.$elements.$wavetableWrap.$append( this.#elWavetable );
 				this.#elWavetable.$change( wtData[ 0 ] );
