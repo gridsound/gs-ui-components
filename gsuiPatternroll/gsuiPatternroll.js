@@ -75,18 +75,17 @@ class gsuiPatternroll extends gsui0ne {
 		GSUdomSetAttr( this.#win, "duration", dur );
 	}
 	$addTrack( id ) {
-		const elTrack = this.#tracklist.$addTrack( id );
-		const row = elTrack.rowElement;
+		const row = this.#tracklist.$addTrack( id ).$message( GSEV_TRACK_ROWELEMENT );
 
-		GSUdomTogClass( row, "gsui-row-small", this.#blcManager.$getFontSize() <= 44 );
-		row.onmousedown = this.#rowMousedown.bind( this );
-		this.#rowsByTrackId.set( row.dataset.id, row );
-		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).append( row );
+		row.$togClass( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 )
+			.$on( "mousedown", this.#rowMousedown.bind( this ) )
+			.$appendTo( GSUdomQS( this.#win, ".gsuiTimewindow-rows" ) );
+		this.#rowsByTrackId.set( id, row );
 	}
 	$removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
-	$toggleTrack( id, b ) { GSUdomSetAttr( this.#tracklist.$getTrack( id ), "mute", !b ); }
-	$renameTrack( id, s ) { GSUdomSetAttr( this.#tracklist.$getTrack( id ), "name", s ); }
-	$reorderTrack( id, n ) { GSUdomSetAttr( this.#tracklist.$getTrack( id ), "order", n ); }
+	$toggleTrack( id, b ) { this.#tracklist.$getTrack( id ).$setAttr( "mute", !b ); }
+	$renameTrack( id, s ) { this.#tracklist.$getTrack( id ).$setAttr( "name", s ); }
+	$reorderTrack( id, n ) { this.#tracklist.$getTrack( id ).$setAttr( "order", n ); }
 
 	// .........................................................................
 	$addBlock( id, obj, { dataReady } ) {
@@ -150,18 +149,14 @@ class gsuiPatternroll extends gsui0ne {
 			case "deleted": GSUdomTogClass( el, "gsuiBlocksManager-block-hidden", !!val ); break;
 			case "selected": GSUdomTogClass( el, "gsuiBlocksManager-block-selected", !!val ); break;
 			case "row": this.#blockDOMChange( el, "track", this.#incrTrackId( el.dataset.track, val ) ); break;
-			case "track": {
-				const row = this.#getRowByTrackId( val );
-
-				row && row.firstElementChild.append( el );
-			} break;
+			case "track": this.#getRowByTrackId( val )?.$child( 0 ).$append( el ); break;
 		}
 	}
 
 	// .........................................................................
 	#getRowByTrackId( id ) { return this.#rowsByTrackId.get( id ); }
 	#incrTrackId( id, incr ) {
-		const row = this.#getRowByTrackId( id );
+		const row = this.#getRowByTrackId( id ).$get( 0 );
 		const rowInd = this.#blcManager.$getRowIndexByRow( row ) + incr;
 
 		return this.#blcManager.$getRowByIndex( rowInd ).dataset.id;
