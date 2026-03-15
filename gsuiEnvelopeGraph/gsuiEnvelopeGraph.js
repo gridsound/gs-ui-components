@@ -1,13 +1,15 @@
 "use strict";
 
 class gsuiEnvelopeGraph extends gsui0ne {
-	$amp = 1;
-	$attack = .25;
-	$hold = .25;
-	$decay = .25;
-	$sustain = .8;
-	$release = 1;
-	$duration = 4;
+	#data = Object.seal( {
+		$amp: 1,
+		$attack: .25,
+		$hold: .25,
+		$decay: .25,
+		$sustain: .8,
+		$release: 1,
+		$duration: 4,
+	} );
 
 	constructor() {
 		super( {
@@ -25,6 +27,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 	}
 	$onmessage( ev ) {
 		switch ( ev ) {
+			case GSEV_ENVELOPEGRAPH_DATA: return this.#data;
 			case GSEV_ENVELOPEGRAPH_DRAW: this.#draw(); break;
 			case GSEV_ENVELOPEGRAPH_RESIZE: this.#resized(); break;
 		}
@@ -37,9 +40,10 @@ class gsuiEnvelopeGraph extends gsui0ne {
 	}
 	#draw() {
 		if ( this.firstChild ) {
+			const d = this.#data;
 			const pts = gsuiEnvelopeGraph.#getPoints(
-				this.clientWidth, this.clientHeight, this.$duration,
-				Math.abs( this.$amp ), this.$attack, this.$hold, this.$decay, this.$sustain, this.$release );
+				this.$this.$width(), this.$this.$height(), d.$duration,
+				Math.abs( d.$amp ), d.$attack, d.$hold, d.$decay, d.$sustain, d.$release );
 			const ptsArr = [
 				pts.join( " " ),
 				pts.slice( 0, 8 ).join( " " ),

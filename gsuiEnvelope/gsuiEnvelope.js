@@ -77,7 +77,7 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$updateWave( prop, val ) {
-		const g = this.$elements.$graph.$get( 0 );
+		const g = this.$elements.$graph.$message( GSEV_ENVELOPEGRAPH_DATA );
 		const amp = prop === "amp" ? val : +this.$this.$getAttr( "amp" );
 		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
@@ -171,7 +171,7 @@ class gsuiEnvelope extends gsui0ne {
 	}
 	#keyAnimFramePreview( toRm, now, p ) {
 		const since = ( now - p.$when ) * p.$bps;
-		const g = this.$elements.$graph.$get( 0 );
+		const g = this.$elements.$graph.$message( GSEV_ENVELOPEGRAPH_DATA );
 		const x = gsuiEnvelope.#keyPreviewCalcX( since, p.$dur, g, this.#dur );
 
 		if ( x > 1 ) {
