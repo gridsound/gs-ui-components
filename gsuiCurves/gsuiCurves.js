@@ -17,7 +17,6 @@ class gsuiCurves extends gsui0ne {
 				$curves: ".gsuiCurves-curves",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

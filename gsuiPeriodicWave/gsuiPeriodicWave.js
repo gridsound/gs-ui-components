@@ -27,7 +27,6 @@ class gsuiPeriodicWave extends gsui0ne {
 				attack: 0,
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

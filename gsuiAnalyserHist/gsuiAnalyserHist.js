@@ -14,7 +14,6 @@ class gsuiAnalyserHist extends gsui0ne {
 			},
 		} );
 		this.#ctx = this.$element.$get( 0 ).getContext( "2d", { willReadFrequently: true } );
-		Object.seal( this );
 	}
 
 	// .........................................................................

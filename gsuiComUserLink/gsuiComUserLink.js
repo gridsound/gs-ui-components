@@ -16,7 +16,6 @@ class gsuiComUserLink extends gsui0ne {
 				$username: "b",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	static get observedAttributes() {

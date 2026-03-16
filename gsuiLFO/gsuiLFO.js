@@ -28,7 +28,6 @@ class gsuiLFO extends gsui0ne {
 				amp: 1,
 			},
 		} );
-		Object.seal( this );
 		this.onchange = this.#onchangeForm.bind( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,

@@ -8,7 +8,6 @@ class gsuiDrumrows extends gsui0ne {
 			$tagName: "gsui-drumrows",
 			$template: GSUcreateDiv( { class: "gsuiDrumrows-dropNew" } ),
 		} );
-		Object.seal( this );
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		GSUdomListen( this, {
 			[ GSEV_DRUMROW_REMOVE ]: d => this.$this.$dispatch( GSEV_DRUMROWS_REMOVE, d.$targetId ),

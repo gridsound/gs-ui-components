@@ -54,7 +54,6 @@ class gsuiKeys extends gsui0ne {
 				rootoctave: "4",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

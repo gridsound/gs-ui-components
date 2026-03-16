@@ -31,7 +31,6 @@ class gsuiEnvelope extends gsui0ne {
 				release: 1,
 			},
 		} );
-		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,

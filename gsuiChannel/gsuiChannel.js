@@ -25,7 +25,6 @@ class gsuiChannel extends gsui0ne {
 				connecta: "down",
 			},
 		} );
-		Object.seal( this );
 		$( [
 			this.$elements.$analyser,
 			this.$elements.$nameWrap,

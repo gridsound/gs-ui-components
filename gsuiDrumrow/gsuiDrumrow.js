@@ -17,7 +17,6 @@ class gsuiDrumrow extends gsui0ne {
 				toggle: true,
 			},
 		} );
-		Object.seal( this );
 		this.$this.$on( {
 			click: this.#onclick.bind( this ),
 			contextmenu: GSUnoopFalse,

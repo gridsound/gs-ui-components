@@ -34,7 +34,6 @@ class gsuiWavetableGraph extends gsui0ne {
 				$gMorph: ".gsuiWavetableGraph-morph",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

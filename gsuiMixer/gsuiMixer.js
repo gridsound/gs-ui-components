@@ -16,7 +16,6 @@ class gsuiMixer extends gsui0ne {
 				analyser: "hz",
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$analyserType.$on( "click", () => {
 			const type = this.$this.$getAttr( "analyser" ) === "hz" ? "td" : "hz";
 

@@ -20,7 +20,6 @@ class gsuiTempo extends gsui0ne {
 				bpm: 60,
 			},
 		} );
-		Object.seal( this );
 		this.#dropdown.$setDirection( "B" );
 		this.#dropdown.$bindTargetElement( this.$element.$get( 0 ) );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );

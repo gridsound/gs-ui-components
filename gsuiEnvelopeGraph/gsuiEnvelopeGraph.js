@@ -18,7 +18,6 @@ class gsuiEnvelopeGraph extends gsui0ne {
 				$lines: "polyline",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

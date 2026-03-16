@@ -39,7 +39,6 @@ class gsuiDotline extends gsui0ne {
 				ystep: 1,
 			},
 		} );
-		Object.seal( this );
 		this.#menu.$setMinSize( "130px", "192px" );
 		this.#menu.$setMaxSize( "130px", "192px" );
 		this.#menu.$closeAfterClick( false );

@@ -19,7 +19,6 @@ class gsuiPopup extends gsui0ne {
 				$cancel: ".gsuiPopup-cancel",
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$win.$on( "close", this.#cancelClick.bind( this ) );
 		this.$elements.$cancel.$on( "click", this.#cancelClick.bind( this ) );
 		this.$elements.$form.$on( "submit", this.#submit.bind( this ) );

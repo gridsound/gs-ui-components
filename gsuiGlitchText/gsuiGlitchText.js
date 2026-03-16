@@ -16,7 +16,6 @@ class gsuiGlitchText extends gsui0ne {
 				$words: ".gsuiGlitchText-word",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

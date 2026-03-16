@@ -6,7 +6,6 @@ class gsuiHelpLink extends gsui0ne {
 			$tagName: "gsui-help-link",
 			$template: GSUcreateAExt( { class: "gsuiIcon", "data-icon": "info" } ),
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

@@ -34,7 +34,6 @@ class gsuiComPlayer extends gsui0ne {
 				likes: 0,
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$play.$on( "click", this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$on( "click", this.#onclickLike.bind( this ) );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );

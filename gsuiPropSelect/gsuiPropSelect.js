@@ -10,7 +10,6 @@ class gsuiPropSelect extends gsui0ne {
 				prop: "gain",
 			},
 		} );
-		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
 		this.oncontextmenu = this.#oncontextmenu.bind( this );
 	}

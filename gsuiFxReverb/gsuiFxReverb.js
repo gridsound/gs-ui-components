@@ -28,7 +28,6 @@ class gsuiFxReverb extends gsui0ne {
 				timedivision: "4/4",
 			},
 		} );
-		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,

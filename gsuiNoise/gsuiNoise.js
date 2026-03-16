@@ -17,7 +17,6 @@ class gsuiNoise extends gsui0ne {
 				pan: 0,
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$colorSelect.$on( {
 			keydown: GSUnoopFalse,
 			change: () => {

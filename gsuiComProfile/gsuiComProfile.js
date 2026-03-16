@@ -30,7 +30,6 @@ class gsuiComProfile extends gsui0ne {
 				following: 0,
 			},
 		} );
-		Object.seal( this );
 		this.onclick = this.#onclick.bind( this );
 		this.onmouseenter =
 		this.onmouseleave = () => this.$this.$rmAttr( "followedjustnow" );

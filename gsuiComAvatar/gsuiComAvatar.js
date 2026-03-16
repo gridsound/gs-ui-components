@@ -9,7 +9,6 @@ class gsuiComAvatar extends gsui0ne {
 				GSUcreateIcon( { icon: "musician" } ),
 			],
 		} );
-		Object.seal( this );
 		this.$element.$on( "load", () => this.$this.$addAttr( "loaded" ) );
 	}
 

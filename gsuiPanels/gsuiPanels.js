@@ -17,7 +17,6 @@ class gsuiPanels extends gsui0ne {
 		super( {
 			$tagName: "gsui-panels",
 		} );
-		Object.seal( this );
 		this.onpointerdown = this.#onpointerdown.bind( this );
 	}
 

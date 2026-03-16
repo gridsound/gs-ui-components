@@ -16,7 +16,6 @@ class gsuiTrack extends gsui0ne {
 				order: 0,
 			},
 		} );
-		Object.seal( this );
 		this.onchange = this.#onchange.bind( this );
 		this.onkeydown = this.#onkeydown.bind( this );
 		this.$elements.$inpNameWrap.$on( "dblclick", this.#ondblclickName.bind( this ) );

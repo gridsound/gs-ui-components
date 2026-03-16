@@ -20,7 +20,6 @@ class gsuiAnalyserTd extends gsui0ne {
 				smooth: 0,
 			},
 		} );
-		Object.seal( this );
 		this.#ctx = this.$element.$get( 0 ).getContext( "2d" );
 	}
 

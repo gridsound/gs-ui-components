@@ -45,7 +45,6 @@ class gsuiTimeline extends gsui0ne {
 				currenttime: 0,
 			},
 		} );
-		Object.seal( this );
 	}
 
 	static $numbering( from ) {

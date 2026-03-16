@@ -18,7 +18,6 @@ class gsuiDotlineSVG extends gsui0ne {
 				$path: "path",
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

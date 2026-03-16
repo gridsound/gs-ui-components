@@ -20,7 +20,6 @@ class gsuiStepSelect extends gsui0ne {
 				title: "Grid snap",
 			},
 		} );
-		Object.seal( this );
 		this.$this.$on( {
 			mousedown: this.#onclick.bind( this ),
 			contextmenu: e => e.preventDefault(),

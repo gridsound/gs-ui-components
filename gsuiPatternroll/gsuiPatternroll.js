@@ -38,7 +38,6 @@ class gsuiPatternroll extends gsui0ne {
 			$tagName: "gsui-patternroll",
 			$attributes: { tabindex: -1 },
 		} );
-		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( d, px ) => this.#ongsuiTimewindowPxperbeat( px ),
 			[ GSEV_TIMEWINDOW_LINEHEIGHT ]: ( d, px ) => this.#ongsuiTimewindowLineheight( px ),

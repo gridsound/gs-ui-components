@@ -35,7 +35,6 @@ class gsuiPatterns extends gsui0ne {
 			},
 		} );
 		this.onchange = null;
-		Object.seal( this );
 		this.#initReorderBuffers();
 		this.#initReorderSlices();
 		this.#initReorderDrums();

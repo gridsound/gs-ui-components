@@ -39,7 +39,6 @@ class gsuiDrums extends gsui0ne {
 			$tagName: "gsui-drums",
 			$attributes: { tabindex: -1 },
 		} );
-		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_TIMELINE_INPUTLOOP ]: GSUnoop,
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, ppb ) => this.#setPxPerBeat( ppb ),

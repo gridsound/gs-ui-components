@@ -18,7 +18,6 @@ class gsuiWaveletBrowser extends gsui0ne {
 				wave: "sine",
 			},
 		} );
-		Object.seal( this );
 		gsuiTexture.$set( this.$elements.$svgs, "dots" );
 		this.$elements.$btn.$on( "click", this.#onsubmit.bind( this ) );
 		this.$elements.$list.$on( {

@@ -19,7 +19,6 @@ class gsuiFxDelay extends gsui0ne {
 				pan: -.2,
 			},
 		} );
-		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,

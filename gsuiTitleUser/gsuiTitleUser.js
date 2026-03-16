@@ -30,7 +30,6 @@ class gsuiTitleUser extends gsui0ne {
 				cmpdur: 0,
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$login.$on( "click", this.#onclickLogin.bind( this ) );
 		this.$elements.$logout.$on( "click", this.#onclickLogout.bind( this ) );
 		this.$elements.$save.$on( "click", () => this.$this.$dispatch( GSEV_TITLEUSER_SAVE ) );

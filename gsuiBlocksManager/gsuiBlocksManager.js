@@ -38,7 +38,6 @@ class gsuiBlocksManager {
 
 	constructor( opts ) {
 		Object.seal( this );
-
 		this.rootElement = opts.rootElement;
 		this.timeline = opts.timeline;
 		this.#opts = opts;

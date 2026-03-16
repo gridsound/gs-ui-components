@@ -21,7 +21,6 @@ class gsuiDragline extends gsui0ne {
 				tabindex: -1,
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$to.$on( "mousedown", this.#onmousedownTo.bind( this ) );
 	}
 

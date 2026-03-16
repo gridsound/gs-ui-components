@@ -8,7 +8,6 @@ class gsuiJoystick extends gsui0ne {
 			$tagName: "gsui-joystick",
 			$template: GSUcreateElement( "div", { inert: true } ),
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

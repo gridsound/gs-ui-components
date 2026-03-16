@@ -53,7 +53,6 @@ class gsuiWaveEditor extends gsui0ne {
 				tool: "goUp",
 			},
 		} );
-		Object.seal( this );
 		this.#initWaveletBrowserDropdown();
 		this.onclick = this.#onclick.bind( this );
 		this.ondrop = this.#ondrop.bind( this );

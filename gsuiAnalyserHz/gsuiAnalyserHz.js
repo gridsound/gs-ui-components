@@ -29,7 +29,6 @@ class gsuiAnalyserHz extends gsui0ne {
 				resolution: 256,
 			},
 		} );
-		Object.seal( this );
 		this.#ctx = this.$element.$get( 0 ).getContext( "2d" );
 	}
 

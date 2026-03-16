@@ -7,7 +7,6 @@ class gsuiToggle extends gsui0ne {
 			$template: GSUcreateIcon( { icon: "hexagon" } ),
 			$attributes: { tabindex: 0 },
 		} );
-		Object.seal( this );
 		this.$this.$on( {
 			contextmenu: e => e.preventDefault(),
 			mousedown: this.#onmousedown.bind( this ),

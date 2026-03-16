@@ -40,7 +40,6 @@ class gsuiSynthesizer extends gsui0ne {
 				// lfo: "gain",
 			},
 		} );
-		Object.seal( this );
 		// this.$elements.$presetBtns.$on( "click", this.#onclickPreset.bind( this ) );
 		this.$elements.$newOsc.$on( "click", this.#onclickNewOsc.bind( this ) );
 		this.$elements.$heads.$on( "click", this.#onclickHeads.bind( this ) );

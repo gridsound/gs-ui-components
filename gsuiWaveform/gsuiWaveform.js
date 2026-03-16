@@ -9,8 +9,6 @@ class gsuiWaveform {
 		this.polygon = poly;
 		this.width =
 		this.height = 0;
-		Object.seal( this );
-
 		GSUdomSetAttr( svg, "preserveAspectRatio", "none" );
 		GSUdomAddClass( svg, "gsuiWaveform" );
 		if ( !poly ) {

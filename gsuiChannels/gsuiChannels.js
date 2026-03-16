@@ -17,7 +17,6 @@ class gsuiChannels extends gsui0ne {
 				$addBtn: ".gsuiChannels-addChan",
 			},
 		} );
-		Object.seal( this );
 		this.$elements.$addBtn.$on( "click", () => this.$this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );
 		GSUdomListen( this, {
 			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.#selectChannel( d.$targetId ),

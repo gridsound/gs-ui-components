@@ -14,7 +14,6 @@ class gsuiLibrary extends gsui0ne {
 				$placeholder: ".gsuiLibrary-placeholder",
 			},
 		} );
-		Object.seal( this );
 		this.#initReorder();
 		this.$elements.$body.$on( {
 			click: this.#onclick.bind( this ),

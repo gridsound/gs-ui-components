@@ -15,6 +15,7 @@ class gsui0ne extends HTMLElement {
 
 	constructor( o = {} ) {
 		super();
+		Object.seal( this );
 		this.#attributes = o.$attributes || {};
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
 			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )

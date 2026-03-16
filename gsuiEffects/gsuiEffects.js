@@ -18,7 +18,6 @@ class gsuiEffects extends gsui0ne {
 				$addBtn: ".gsuiEffects-addBtn",
 			},
 		} );
-		Object.seal( this );
 		this.#initActionMenu();
 		new gsuiReorder( {
 			$root: this,

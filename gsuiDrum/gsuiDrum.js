@@ -5,7 +5,6 @@ class gsuiDrum extends gsui0ne {
 		super( {
 			$tagName: "gsui-drum",
 		} );
-		Object.seal( this );
 	}
 
 	static get observedAttributes() {

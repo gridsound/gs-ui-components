@@ -32,7 +32,6 @@ class gsuiSliderGroup extends gsui0ne {
 				pxperbeat: 64,
 			},
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

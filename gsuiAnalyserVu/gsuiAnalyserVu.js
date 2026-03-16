@@ -16,7 +16,6 @@ class gsuiAnalyserVu extends gsui0ne {
 				max: 100,
 			},
 		} );
-		Object.seal( this );
 
 		const els = this.$elements;
 		const L = {

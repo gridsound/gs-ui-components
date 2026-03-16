@@ -63,7 +63,6 @@ class gsuiTimewindow extends gsui0ne {
 				currenttime: 0,
 			},
 		} );
-		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,

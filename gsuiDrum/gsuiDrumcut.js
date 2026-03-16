@@ -5,7 +5,6 @@ class gsuiDrumcut extends gsui0ne {
 		super( {
 			$tagName: "gsui-drumcut",
 		} );
-		Object.seal( this );
 	}
 
 	static get observedAttributes() {

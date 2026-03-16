@@ -36,7 +36,6 @@ class gsuiSlider extends gsui0ne {
 			},
 			$ptrlock: !GSUonMobile,
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

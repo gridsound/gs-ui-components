@@ -12,7 +12,6 @@ class gsuiTimeCursors extends gsui0ne {
 			$tagName: "gsui-time-cursors",
 			$template: GSUcreateElement( "canvas", { height: 1 } ),
 		} );
-		Object.seal( this );
 	}
 
 	// .........................................................................

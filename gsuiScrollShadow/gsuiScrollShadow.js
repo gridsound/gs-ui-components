@@ -9,7 +9,6 @@ class gsuiScrollShadow {
 	#onscrollBind = this.#onscroll.bind( this );
 
 	constructor( o ) {
-		Object.seal( this );
 		this.#scrolledElem = o.scrolledElem;
 		this.#topShadow = o.topShadow || $noop;
 		this.#leftShadow = o.leftShadow || $noop;

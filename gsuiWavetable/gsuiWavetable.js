@@ -27,7 +27,6 @@ class gsuiWavetable extends gsui0ne {
 				$keyPreviews: ".gsuiWavetable-posCurves-graph .gsuiWavetable-keyPreviews",
 			},
 		} );
-		Object.seal( this );
 		gsuiTexture.$set( this.$elements.$waves, "damier" );
 		this.$elements.$head.$on( "click", e => {
 			switch ( e.target.dataset.action ) {

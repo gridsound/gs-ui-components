@@ -50,7 +50,6 @@ class gsuiOscillator extends gsui0ne {
 				unisonblend: .3,
 			},
 		} );
-		Object.seal( this );
 		this.#waveletBrowserDropdown.$setDirection( "T" );
 		this.#waveletBrowserDropdown.$setTarget( this.$elements.$waveName.$get( 0 ) );
 		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
