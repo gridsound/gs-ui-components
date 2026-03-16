@@ -147,7 +147,6 @@ class gsuiDotline extends gsui0ne {
 	// .........................................................................
 	#onclickActions( act ) {
 		if ( act === "delete" ) {
-			this.#menu.$close();
 			if ( this.#deleteDotElement( this.#menuDotId ) ) {
 				this.#drawPolyline();
 				this.#onchange( { [ this.#menuDotId ]: undefined } );
@@ -170,8 +169,8 @@ class gsuiDotline extends gsui0ne {
 				this.#drawPolyline();
 				this.#onchange( { [ this.#menuDotId ]: dotDiff } );
 			}
-			this.#menu.$close();
 		}
+		this.#menu.$close();
 	}
 
 	// .........................................................................
@@ -378,11 +377,15 @@ class gsuiDotline extends gsui0ne {
 	#onrightclickDot( e ) {
 		const tar = $( e.target );
 
-		if ( e.button === 2 && tar.$hasClass( "gsuiDotline-dot" ) ) {
-			this.#menuDotId = tar.$getAttr( "data-id" );
-			this.#updateMenu( this.#data[ this.#menuDotId ].type );
-			this.#menu.$setTarget( tar );
-			this.#menu.$open();
+		if ( tar.$hasClass( "gsuiDotline-dot" ) ) {
+			if ( e.button !== 2 || this.#menu.$isOpen() ) {
+				this.#menu.$close();
+			} else {
+				this.#menuDotId = tar.$getAttr( "data-id" );
+				this.#updateMenu( this.#data[ this.#menuDotId ].type );
+				this.#menu.$setTarget( tar );
+				this.#menu.$open();
+			}
 		}
 	}
 	#onptrdownDot( id, xstep ) {
