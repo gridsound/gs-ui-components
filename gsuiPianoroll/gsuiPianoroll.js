@@ -9,7 +9,7 @@ class gsuiPianoroll extends gsui0ne {
 		$( ".gsuiPianoroll-block" ).$child( 0 )
 			.$text( el => kn[ $( el ).$parent( 3 ).$getAttr( "data-key" ) ] );
 	}
-	$onchange = null;
+	#onchange = null;
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
@@ -24,6 +24,7 @@ class gsuiPianoroll extends gsui0ne {
 		"gainLFOAmp:amp",
 	];
 	#propSelect = GSUcreateElement( "gsui-prop-select", { prop: "gain", props: this.#propSelectList.join( " " ) } );
+	#uiKeys = GSUcreateElement( "gsui-keys" );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,
 		panelsizemin: 100,
@@ -44,14 +45,14 @@ class gsuiPianoroll extends gsui0ne {
 		selectionElement: this.#selectionElement,
 		timeline: this.#win.$getTimeline(),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
-		managercallDuplicating: ( keysMap, wIncr ) => this.$onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
-		managercallSelecting: ids => this.$onchange( "selection", ids ),
-		managercallUnselecting: () => this.$onchange( "unselection" ),
-		managercallUnselectingOne: keyId => this.$onchange( "unselectionOne", keyId ),
-		managercallCreate: obj => this.$onchange( "add", obj.midi, obj.when, obj.duration ),
-		managercallMoving: ( keysMap, wIncr, kIncr ) => this.$onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
-		managercallCroppingB: ( keysMap, dIncr ) => this.$onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
-		managercallDeleting: keysMap => this.$onchange( "remove", Array.from( keysMap.keys() ) ),
+		managercallDuplicating: ( keysMap, wIncr ) => this.#onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
+		managercallSelecting: ids => this.#onchange( "selection", ids ),
+		managercallUnselecting: () => this.#onchange( "unselection" ),
+		managercallUnselectingOne: keyId => this.#onchange( "unselectionOne", keyId ),
+		managercallCreate: obj => this.#onchange( "add", obj.midi, obj.when, obj.duration ),
+		managercallMoving: ( keysMap, wIncr, kIncr ) => this.#onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
+		managercallCroppingB: ( keysMap, dIncr ) => this.#onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
+		managercallDeleting: keysMap => this.#onchange( "remove", Array.from( keysMap.keys() ) ),
 	} );
 
 	constructor() {
@@ -59,7 +60,6 @@ class gsuiPianoroll extends gsui0ne {
 			$tagName: "gsui-pianoroll",
 			$attributes: { tabindex: -1 },
 		} );
-		this.uiKeys = GSUcreateElement( "gsui-keys" );
 		Object.seal( this );
 		GSUdomListen( this, {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, px ) => this.#ongsuiTimewindowPxperbeat( px ),
@@ -74,12 +74,12 @@ class gsuiPianoroll extends gsui0ne {
 			[ GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK ]: () => this.$removeKey( "preview" ),
 			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
-					this.uiKeys.$midiKeyDown( a ); // should be called differently
+					this.#uiKeys.$midiKeyDown( a ); // should be called differently
 				}
 			},
 			[ GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
-					this.uiKeys.$midiKeyUp( a );
+					this.#uiKeys.$midiKeyUp( a );
 				}
 			},
 			[ GSEV_DRAGLINE_CHANGE ]: ( d, el ) => this.#onchangeDragline( d.$target, el ),
@@ -103,7 +103,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.$this
 			.$addClass( "gsuiBlocksManager" )
 			.$append( this.#win );
-		this.#win.$appendPanel( this.uiKeys );
+		this.#win.$appendPanel( this.#uiKeys );
 		this.#win.$appendPanelDown( this.#propSelect );
 		this.#win.$appendDown( this.#uiSliderGroup );
 		this.#win.$appendMain( this.#selectionElement );
@@ -135,7 +135,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blcManager.$setData( data );
 	}
 	$setCallbacks( cb ) {
-		this.$onchange = cb.$onchange;
+		this.#onchange = cb;
 	}
 	$timedivision( timediv ) {
 		GSUdomSetAttr( this.#win, "timedivision", timediv );
@@ -159,9 +159,9 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	$octaves( from, nb ) {
-		GSUdomSetAttr( this.uiKeys, "octaves", `${ from } ${ nb }` );
+		GSUdomSetAttr( this.#uiKeys, "octaves", `${ from } ${ nb }` );
 
-		const rows = this.uiKeys.$getRows();
+		const rows = this.#uiKeys.$getRows();
 
 		Object.keys( this.#rowsByMidi ).forEach( k => delete this.#rowsByMidi[ k ] );
 		rows.forEach( el => {
@@ -467,7 +467,7 @@ class gsuiPianoroll extends gsui0ne {
 		const idA = el.closest( ".gsuiPianoroll-block" ).dataset.id;
 		const idB = tar.$parent().$getAttr( "data-id" );
 
-		this.$onchange( "redirect", idA, idB || null );
+		this.#onchange( "redirect", idA, idB || null );
 	}
 }
 
