@@ -312,7 +312,7 @@ class gsuiWaveEditor extends gsui0ne {
 	// .........................................................................
 	#initWaveletBrowserDropdown() {
 		this.#waveletBrowserDropdown.$setDirection( "TR" );
-		this.#waveletBrowserDropdown.$bindTargetElement( this.$elements.$waveBtn.$get( 0 ) );
+		this.#waveletBrowserDropdown.$bindTargetElement( this.$elements.$waveBtn );
 		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
 	}
 	#onopenWaveBrowser() {
@@ -332,8 +332,7 @@ class gsuiWaveEditor extends gsui0ne {
 				} );
 			},
 		} );
-		wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
-		return wbrow.$get( 0 );
+		return wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
 	}
 	#getCoord( px, py ) {
 		const [ w, h ] = this.#div;

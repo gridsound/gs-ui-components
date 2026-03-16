@@ -48,7 +48,7 @@ class gsuiOscillator extends gsui0ne {
 			},
 		} );
 		this.#waveletBrowserDropdown.$setDirection( "T" );
-		this.#waveletBrowserDropdown.$setTarget( this.$elements.$waveName.$get( 0 ) );
+		this.#waveletBrowserDropdown.$setTarget( this.$elements.$waveName );
 		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
 		this.$elements.$waveName.$on( "click", this.#onclickWaveName.bind( this ) );
 		this.$elements.$wavePrevNext.$on( "click", this.#onclickPrevNext.bind( this ) );
@@ -305,8 +305,7 @@ class gsuiOscillator extends gsui0ne {
 		GSUdomListen( wbrow.$get( 0 ), {
 			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => this.#onchangeWaveBrowser( val ),
 		} );
-		wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
-		return wbrow.$get( 0 );
+		return wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
 	}
 	#onchangeWaveBrowser( waveName ) {
 		this.#waveletBrowserDropdown.$close();

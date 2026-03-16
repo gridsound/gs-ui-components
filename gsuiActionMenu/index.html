@@ -88,13 +88,12 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const btnBottom = GSUdomQS( "#btn-bottom" );
-const btnBottomLeft = GSUdomQS( "#btn-bottom-left" );
-const btnBottomRight = GSUdomQS( "#btn-bottom-right" );
-const btnTop = GSUdomQS( "#btn-top" );
-const btnTopLeft = GSUdomQS( "#btn-top-left" );
-const btnTopRight = GSUdomQS( "#btn-top-right" );
-const par = GSUdomQS( "#menu-parent" );
+const btnBottom = $( "#btn-bottom" );
+const btnBottomLeft = $( "#btn-bottom-left" );
+const btnBottomRight = $( "#btn-bottom-right" );
+const btnTop = $( "#btn-top" );
+const btnTopLeft = $( "#btn-top-left" );
+const btnTopRight = $( "#btn-top-right" );
 const actionMenuBottom = new gsuiActionMenu();
 const actionMenuBottomLeft = new gsuiActionMenu();
 const actionMenuBottomRight = new gsuiActionMenu();
@@ -127,8 +126,8 @@ initActionMenu( btnTop,         actionMenuTop,         "T"  );
 initActionMenu( btnTopLeft,     actionMenuTopLeft,     "TL" );
 initActionMenu( btnTopRight,    actionMenuTopRight,    "TR" );
 
-// btnTop.click();
-// btnBottom.click();
+// btnTop.$click();
+// btnBottom.$click();
 
 function initActionMenu( btn, menu, dir ) {
 	menu.$setMinSize( "260px", "260px" );
@@ -136,7 +135,7 @@ function initActionMenu( btn, menu, dir ) {
 	menu.$closeAfterClick( false );
 	menu.$bindTargetElement( btn );
 	menu.$setDirection( dir );
-	menu.$setMenuParent( btn.parentNode );
+	menu.$setMenuParent( btn.$parent() );
 	menu.$setCallback( actionMenuClick );
 	menu.$setActions( [
 		act1, act2, act3,

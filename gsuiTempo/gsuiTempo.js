@@ -21,7 +21,7 @@ class gsuiTempo extends gsui0ne {
 			},
 		} );
 		this.#dropdown.$setDirection( "B" );
-		this.#dropdown.$bindTargetElement( this.$element.$get( 0 ) );
+		this.#dropdown.$bindTargetElement( this.$element );
 		this.#dropdown.$onopenCreateElement( this.#createPopup.bind( this ) );
 		this.#popup.$form.$on( {
 			submit: this.$onsubmitPopup.bind( this ),
@@ -59,7 +59,7 @@ class gsuiTempo extends gsui0ne {
 		this.#popup.$inputs.$at( 0 ).$value( time2[ 0 ] );
 		this.#popup.$inputs.$at( 1 ).$value( time2[ 1 ] );
 		this.#popup.$inputs.$at( 2 ).$value( +bpm );
-		return this.#popup.$form.$get( 0 );
+		return this.#popup.$form;
 	}
 	$onsubmitPopup() {
 		const inp = this.#popup.$inputs;

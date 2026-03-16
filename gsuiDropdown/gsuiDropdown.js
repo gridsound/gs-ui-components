@@ -1,16 +1,16 @@
 "use strict";
 
 class gsuiDropdown {
-	#elBtn = null;
-	#elem = null;
+	#elBtn = $noop;
+	#elem = $noop;
 	#isOpen = false;
 	#direction = "bottom";
-	#elParent = $body.$get( 0 );
-	#elContent = null;
+	#elParent = $body;
+	#elContent = $noop;
 	#timeoutId = null;
 	#onptrdownBodyBind = this.#onptrdownBody.bind( this );
 	#onbeforeOpening = GSUnoop;
-	#onopenCreateElement = null;
+	#onopenCreateElement = GSUnoop;
 
 	$isOpen() { return this.#isOpen; }
 	$open() { this.#open(); }
@@ -27,7 +27,7 @@ class gsuiDropdown {
 	}
 	$bindTargetElement( btn ) {
 		this.#elBtn = btn;
-		btn.addEventListener( "click", this.#onclickTarget.bind( this ) );
+		btn.$addEventListener( "click", this.#onclickTarget.bind( this ) );
 	}
 	$getContent() {
 		return this.#elContent;
@@ -40,7 +40,7 @@ class gsuiDropdown {
 			: this.#open();
 	}
 	#onptrdownBody( e ) {
-		if ( !this.#elBtn.contains( e.target ) && !this.#elem.contains( e.target ) ) {
+		if ( !this.#elBtn.$contains( e.target ) && !this.#elem.$contains( e.target ) ) {
 			this.#close();
 		}
 	}
@@ -48,15 +48,14 @@ class gsuiDropdown {
 		if ( !this.#isOpen && this.#onbeforeOpening() !== false ) {
 			this.#isOpen = true;
 			GSUclearTimeout( this.#timeoutId );
-			if ( this.#elem ) {
-				GSUdomSetAttr( this.#elem, "data-open" );
+			if ( this.#elem.$size() ) {
+				this.#elem.$addAttr( "data-open" );
 			} else {
-				this.#elem = this.#createElement();
-				this.#elParent.prepend( this.#elem );
+				this.#elem = this.#createElement().$prependTo( this.#elParent );
 				$body.$addEventListener( "pointerdown", this.#onptrdownBodyBind );
 				this.#timeoutId = GSUsetTimeout( () => {
 					this.#positionElement();
-					GSUdomSetAttr( this.#elem, "data-open" );
+					this.#elem.$addAttr( "data-open" );
 				}, .01 );
 			}
 		}
@@ -65,37 +64,38 @@ class gsuiDropdown {
 		if ( this.#isOpen ) {
 			this.#isOpen = false;
 			GSUclearTimeout( this.#timeoutId );
-			GSUdomRmAttr( this.#elem, "data-open" );
+			this.#elem.$rmAttr( "data-open" );
 			$body.$rmEventListener( "pointerdown", this.#onptrdownBodyBind );
 			this.#timeoutId = GSUsetTimeout( () => {
-				this.#elem.remove();
-				this.#elem = null;
-				this.#elContent = null;
+				this.#elem.$remove();
+				this.#elem =
+				this.#elContent = $noop;
 			}, .25 );
 		}
 	}
 	#createElement() {
-		this.#elContent = this.#onopenCreateElement?.();
+		this.#elContent = this.#onopenCreateElement();
 
-		return GSUcreateDiv( { class: "gsuiDropdown", "data-dir": this.#direction },
-			GSUcreateDiv( { class: "gsuiDropdown-arrow", inert: true } ),
-			GSUcreateDiv( { class: "gsuiDropdown-content" }, this.#elContent ),
+		return $( "<div>" ).$addClass( "gsuiDropdown" ).$setAttr( "data-dir", this.#direction ).$append(
+			$( "<div>" ).$addClass( "gsuiDropdown-arrow" ).$addAttr( "inert" ),
+			$( "<div>" ).$addClass( "gsuiDropdown-content" ).$append( this.#elContent ),
 		);
 	}
 	#positionElement() {
-		const tarBCR = $( this.#elBtn ).$bcr();
-		const elArrow = GSUdomQS( this.#elem, ".gsuiDropdown-arrow" );
-		const posObj = gsuiCalcAbsPos.$calc( this.#direction, tarBCR, this.#elem.clientWidth, this.#elem.clientHeight, {
-			margin: 8,
-			withArrow: true,
-			absolute: this.#elParent === $body.$get( 0 ),
-		} );
+		const posObj = gsuiCalcAbsPos.$calc(
+			this.#direction,
+			this.#elBtn.$bcr(),
+			this.#elem.$width(),
+			this.#elem.$height(), {
+				margin: 8,
+				withArrow: true,
+				absolute: this.#elParent.$is( $body ),
+			} );
 
-		GSUdomStyle( this.#elem, {
+		this.#elem.$css( {
 			left: posObj.left,
 			top: posObj.top,
-		} );
-		GSUdomStyle( elArrow, {
+		} ).$query( ".gsuiDropdown-arrow" ).$css( {
 			left: posObj.arrowLeft,
 			top: posObj.arrowTop,
 		} );

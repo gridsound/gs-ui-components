@@ -47,10 +47,10 @@ class gsuiActionMenu {
 
 		if ( act ) {
 			act[ prop ] = val;
-			if ( elActions ) {
+			if ( elActions.$size() ) {
 				switch ( prop ) {
 					case "icon":
-						GSUdomQS( elActions, `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).dataset.icon = val;
+						elActions.$query( `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).$setAttr( "data-icon", val );
 						break;
 				}
 			}
@@ -75,7 +75,8 @@ class gsuiActionMenu {
 			maxWidth: this.#maxw,
 			maxHeight: this.#maxh,
 		};
-		const elem = GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, this.#actions.map( act =>
+
+		return $( GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, this.#actions.map( act =>
 			!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
 				act.icon && GSUcreateIcon( { icon: act.icon } ),
 				GSUcreateDiv( { class: "gsuiActionMenu-action-body", inert: true },
@@ -83,9 +84,6 @@ class gsuiActionMenu {
 					act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),
 				),
 			)
-		) );
-
-		elem.onclick = this.#onclickActions.bind( this );
-		return elem;
+		) ) ).$on( "click", this.#onclickActions.bind( this ) );
 	}
 }

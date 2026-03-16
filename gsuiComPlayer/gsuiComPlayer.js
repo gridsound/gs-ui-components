@@ -187,7 +187,7 @@ class gsuiComPlayer extends gsui0ne {
 				{ hidden: true, id: "restore", icon: "untrash",    name: "Restore it", desc: "Get the composition out of the bin." },
 			];
 			this.#actionMenu = new gsuiActionMenu();
-			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn.$get( 0 ) );
+			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn );
 			this.#actionMenu.$setActions( this.#actions );
 			this.#actionMenu.$setDirection( this.#actionMenuDir );
 			this.#actionMenu.$setMaxSize( "260px", "180px" );

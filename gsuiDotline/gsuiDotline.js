@@ -381,7 +381,7 @@ class gsuiDotline extends gsui0ne {
 		if ( e.button === 2 && tar.$hasClass( "gsuiDotline-dot" ) ) {
 			this.#menuDotId = tar.$getAttr( "data-id" );
 			this.#updateMenu( this.#data[ this.#menuDotId ].type );
-			this.#menu.$setTarget( tar.$get( 0 ) );
+			this.#menu.$setTarget( tar );
 			this.#menu.$open();
 		}
 	}

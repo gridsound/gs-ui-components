@@ -89,7 +89,7 @@ class gsuiEffects extends gsui0ne {
 
 	// .........................................................................
 	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn.$get( 0 ) );
+		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn );
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
 		this.#actionMenu.$setCallback( act => this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, act ) );
