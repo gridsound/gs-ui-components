@@ -70,11 +70,8 @@ body {
 
 /* .......................................................................... */
 #testSelect {
-	border: 0;
 	border-radius: 4px;
 	padding: 6px 4px;
-	font: inherit;
-	color: inherit;
 	background-color: #0005;
 
 	option {
@@ -82,10 +79,6 @@ body {
 	}
 }
 #testSkin {
-	border: 0;
-	padding: 0;
-	color: inherit;
-	background: none;
 	transition: rotate .2s;
 
 	body[ data-skin="white" ] & {
@@ -146,6 +139,16 @@ body {
 		max-width: min( 200px, 100% );
 		margin: 0;
 		padding: 0;
+	}
+	button,
+	select {
+		padding: 2px 4px;
+		font-size: 12px;
+		border-radius: 4px;
+		background-color: #fff5;
+
+		&:hover { background-color: #fff6 }
+		&:active { background-color: #fff7 }
 	}
 }
 
