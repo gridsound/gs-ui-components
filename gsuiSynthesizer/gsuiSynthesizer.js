@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiSynthesizer extends gsui0ne {
-	static #presetList = [];
+	// static #presetList = [];
 	#uiOscs = new Map();
 	#shadow = null;
 	#previews = {};
@@ -17,7 +17,7 @@ class gsuiSynthesizer extends gsui0ne {
 			detune: {},
 		},
 	};
-	#dispatchPresetDeb = GSUdebounce( this.#dispatchPreset.bind( this ), .25 );
+	// #dispatchPresetDeb = GSUdebounce( this.#dispatchPreset.bind( this ), .25 );
 
 	constructor() {
 		super( {
@@ -131,8 +131,8 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
-	static $setPresetList( arr ) {
-		gsuiSynthesizer.#presetList = [ ...arr ];
+	static $setPresetList( _arr ) {
+		// gsuiSynthesizer.#presetList = [ ...arr ];
 	}
 	$getOscillator( id ) {
 		return this.#uiOscs.get( id );
@@ -209,24 +209,24 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 
 	// .........................................................................
-	#dispatchPreset( p ) {
-		if ( p !== this.$this.$getAttr( "preset" ) ) {
-			this.$this
-				.$setAttr( "preset", p )
-				.$dispatch( GSEV_SYNTHESIZER_PRESET, p );
-		}
-	}
-	#onclickPreset( e ) {
-		const list = gsuiSynthesizer.#presetList;
-		const dir = +e.target.dataset.action;
-		const ind = list.indexOf( this.$elements.$presetName.$text() );
-		const p = list[ GSUmathClamp( ind + dir, 0, list.length - 1 ) ];
+	// #dispatchPreset( p ) {
+	//   if ( p !== this.$this.$getAttr( "preset" ) ) {
+	//     this.$this
+	//       .$setAttr( "preset", p )
+	//       .$dispatch( GSEV_SYNTHESIZER_PRESET, p );
+	//   }
+	// }
+	// #onclickPreset( e ) {
+	//   const list = gsuiSynthesizer.#presetList;
+	//   const dir = +e.target.dataset.action;
+	//   const ind = list.indexOf( this.$elements.$presetName.$text() );
+	//   const p = list[ GSUmathClamp( ind + dir, 0, list.length - 1 ) ];
 
-		if ( p ) {
-			this.$elements.$presetName.$text( p );
-			this.#dispatchPresetDeb( p );
-		}
-	}
+	//   if ( p ) {
+	//     this.$elements.$presetName.$text( p );
+	//     this.#dispatchPresetDeb( p );
+	//   }
+	// }
 	#onclickHeads( e ) {
 		if ( $( e.target ).$hasClass( "gsuiSynthesizer-headExpand" ) ) {
 			$( e.currentTarget ).$togAttr( "data-hidden" );

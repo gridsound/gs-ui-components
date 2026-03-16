@@ -5,7 +5,6 @@ class gsuiTimeCursors extends gsui0ne {
 	#ctx = this.$element.$get( 0 ).getContext( "2d" );
 	#rgb = [ 255, 255, 255 ];
 	#plays = [];
-	#cursorImg = null;
 
 	constructor() {
 		super( {
@@ -85,7 +84,7 @@ class gsuiTimeCursors extends gsui0ne {
 
 			return ox < x
 				? val
-				: val + Math.max( 0, ( 1 - ( ox - x ) ) ) / 4;
+				: val + Math.max( 0, 1 - ( ox - x ) ) / 4;
 		}, 0 ), 1 );
 	}
 }

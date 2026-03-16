@@ -5,10 +5,10 @@ GSUsetTemplate( "gsui-synthesizer", () => [
 	GSUcreateDiv( { class: "gsuiSynthesizer-scrollArea" },
 		// .....................................................................
 		// GSUcreateDiv( { class: "gsuiSynthesizer-preset" },
-		// 	GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "preset", help: "synth-presets" } ),
-		// 	GSUcreateButton( { "data-action": "-1", icon: "caret-left", title: "Use previous preset" } ),
-		// 	GSUcreateButton( { "data-action": "+1", icon: "caret-right", title: "Use next preset" } ),
-		// 	GSUcreateSpan( { inert: true } ),
+		//    GSUgetTemplate( "gsui-synthesizer-headTitle", { name: "preset", help: "synth-presets" } ),
+		//    GSUcreateButton( { "data-action": "-1", icon: "caret-left", title: "Use previous preset" } ),
+		//    GSUcreateButton( { "data-action": "+1", icon: "caret-right", title: "Use next preset" } ),
+		//    GSUcreateSpan( { inert: true } ),
 		// ),
 		// .....................................................................
 		GSUcreateDiv( { class: "gsuiSynthesizer-head" },

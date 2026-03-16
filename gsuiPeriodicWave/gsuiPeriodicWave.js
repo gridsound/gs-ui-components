@@ -36,7 +36,7 @@ class gsuiPeriodicWave extends gsui0ne {
 	static get observedAttributes() {
 		return [ "frequency", "amplitude", "duration", "delay", "attack" ];
 	}
-	$attributeChanged( prop, val ) {
+	$attributeChanged( prop ) {
 		switch ( prop ) {
 			case "delay":
 			case "attack":

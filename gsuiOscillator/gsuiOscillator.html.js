@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-oscillator", waves =>
+GSUsetTemplate( "gsui-oscillator", () =>
 	GSUcreateDiv( { class: "gsuiOscillator-in" },
 		GSUcreateDiv( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
 		GSUcreateDiv( { class: "gsuiOscillator-id", inert: true } ),

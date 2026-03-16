@@ -11,15 +11,12 @@ class gsuiOscillator extends gsui0ne {
 	#askWavetableData = GSUnoop;
 	#waveletBrowserDropdown = new gsuiDropdown();
 	#timeidType = null;
-	#typeSaved = "";
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), .1 );
-	#selectWaves = { ...gsuiOscillator_defaultWaves };
 	#elWavetable = null;
 
 	constructor() {
 		super( {
 			$tagName: "gsui-oscillator",
-			$tmpArgs: [ Object.keys( gsuiOscillator_defaultWaves ) ],
 			$elements: {
 				$id: ".gsuiOscillator-id",
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
@@ -315,11 +312,6 @@ class gsuiOscillator extends gsui0ne {
 		this.#waveletBrowserDropdown.$close();
 		this.$this.$setAttr( "wave", waveName )
 			.$dispatch( GSEV_OSCILLATOR_CHANGE, "wave", waveName );
-	}
-	#onkeydownSelect( e ) {
-		if ( e.key.length === 1 ) {
-			e.preventDefault();
-		}
 	}
 	#onchangeSlider( prop, val ) {
 		this.$this.$setAttr( prop, val ).$dispatch( GSEV_OSCILLATOR_CHANGE, prop, val );

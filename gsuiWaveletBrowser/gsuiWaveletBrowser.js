@@ -38,7 +38,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	static get observedAttributes() {
 		return [ "wave" ];
 	}
-	$attributeChanged( prop, val, prev ) {
+	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "wave": this.#selectWave( val ); break;
 		}
