@@ -118,6 +118,7 @@ gsui-daw[ focus="down" ] .gsuiDAW-focusBtn span:last-child {
 }
 .gsuiDAW-version {
 	gap: .6ch;
+	color: currentColor;
 	font-family: var( --gsui-font-number );
 	opacity: .3;
 }
