@@ -117,16 +117,15 @@ class gsuiKeys extends gsui0ne {
 		}
 		this.#nbOct = nbOct;
 		this.#octStart = start;
-		Array.prototype.reduce.call( this.children, ( midi, elKey, i ) => {
-			const elRow = elKey.getElementsByClassName( "gsuiKeys-row" )[ 0 ];
+		this.$this.$children().$reduce( ( midi, elKey, i ) => {
+			const elKey2 = $( elKey );
+			const elRow = elKey2.$setAttr( "data-midi", midi - 1 ).$css( "--gsuiKeys-key-id", i )
+				.$query( ".gsuiKeys-row" );
 
-			elKey.dataset.midi = midi - 1;
-			GSUdomStyle( elKey, "--gsuiKeys-key-id", i );
-			if ( elRow ) {
-				elKey._rowElement = elRow;
-				elRow._keyElement = elKey;
-				elRow.dataset.midi = midi - 1;
-				elRow.style.top = `${ i }em`;
+			if ( elRow.$size() ) {
+				elKey._rowElement = elRow.$get( 0 );
+				elKey._rowElement._keyElement = elKey;
+				elRow.$setAttr( "data-midi", midi - 1 ).$top( i, "em" );
 			}
 			return midi - 1;
 		}, ( start + nbOct ) * 12 );
