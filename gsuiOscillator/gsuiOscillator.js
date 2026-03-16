@@ -294,7 +294,9 @@ class gsuiOscillator extends gsui0ne {
 		if ( this.$this.$hasAttr( "hascustomwave" ) ) {
 			this.$elements.$wavetableBtn.$click();
 		} else {
-			this.#waveletBrowserDropdown.$open();
+			this.#waveletBrowserDropdown.$isOpen()
+				? this.#waveletBrowserDropdown.$close()
+				: this.#waveletBrowserDropdown.$open();
 		}
 	}
 	#onopenWaveBrowser() {
