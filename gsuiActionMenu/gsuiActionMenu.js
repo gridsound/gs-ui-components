@@ -18,6 +18,7 @@ class gsuiActionMenu {
 	}
 
 	// .........................................................................
+	$isOpen() { return this.#dropdown.$isOpen(); }
 	$open() { this.#dropdown.$open(); }
 	$close() { this.#dropdown.$close(); }
 	$bindTargetElement( btn ) { this.#dropdown.$bindTargetElement( btn ); }
