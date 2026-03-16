@@ -49,12 +49,6 @@ class gsuiSliderGroup extends gsui0ne {
 			this.$elements.$loopB = null;
 		}
 		this.#updatePxPerBeat();
-		if ( beatlines ) {
-			GSUdomRecallAttributes( this, {
-				currenttime: 0,
-				timedivision: "4/4",
-			} );
-		}
 	}
 	static get observedAttributes() {
 		return [ "timedivision", "pxperbeat", "currenttime", "loopa", "loopb" ];
