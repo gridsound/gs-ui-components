@@ -67,11 +67,11 @@ gsui-analyser-hz {
 
 <!-- ....................................................................... -->
 <script>
-const play = GSUdomQS( "#play" );
-const stop = GSUdomQS( "#stop" );
-const gain = GSUdomQS( "#gain" );
-const bgcolor = GSUdomQS( "#bgcolor" );
-const spectrum = GSUdomQS( "gsui-analyser-hz" );
+const play = $( "#play" );
+const stop = $( "#stop" );
+const gain = $( "#gain" );
+const bgcolor = $( "#bgcolor" );
+const spectrum = $( "gsui-analyser-hz" );
 const ctx = GSUaudioContext();
 const an = GSUaudioAnalyser( ctx );
 const gainNode = GSUaudioGain( ctx );
@@ -80,7 +80,7 @@ const anData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
-GSUdomSetAttr( spectrum, "resolution", 1024 );
+spectrum.$setAttr( "resolution", 1024 );
 
 an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;
@@ -92,27 +92,27 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
-		play.disabled = false;
+		play.$rmAttr( "disabled" );
 	} );
 
-gain.oninput = () => gainNode.gain.setValueAtTime( gain.value, 0 );
-bgcolor.onchange = () => GSUdomStyle( spectrum, "backgroundColor", bgcolor.value );
-stop.onclick = () => absn?.stop();
-play.onclick = () => {
-	stop.onclick();
+gain.$on( "input", () => gainNode.gain.setValueAtTime( gain.value, 0 ) );
+bgcolor.$on( "change", () => spectrum.$css( "background-color", bgcolor.$value() ) );
+stop.$on( "click", () => absn?.stop() );
+play.$on( "click", () => {
+	stop.$click();
 	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( gainNode );
 	absn.start();
-};
+} );
 
 function frame() {
 	an.getFloatFrequencyData( anData );
-	spectrum.$draw( anData );
+	spectrum.$get( 0 ).$draw( anData );
 }
 
-bgcolor.onchange();
+bgcolor.$trigger( "onchange" );
 
 GSUsetInterval( frame, 0 );
 </script>
