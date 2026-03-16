@@ -140,8 +140,7 @@ body {
 		margin: 0;
 		padding: 0;
 	}
-	button,
-	select {
+	button {
 		padding: 2px 4px;
 		font-size: 12px;
 		border-radius: 4px;
