@@ -14,11 +14,18 @@ html:has( gsui-daw ) {
 }
 
 /* .......................................................................... */
-button, select {
+:where( button, select ) {
+	border: 0;
+	outline: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	background: none;
 	user-select: none;
-}
-:where( button, select ):not( :disabled ) {
-	cursor: pointer;
+
+	&:not( :disabled ) {
+		cursor: pointer;
+	}
 }
 
 /* .......................................................................... */

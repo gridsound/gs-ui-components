@@ -2,15 +2,11 @@
 	height: 16px;
 	padding: 0 6px;
 	max-width: 110px;
-	border: 0;
-	outline: 0;
 	overflow: hidden;
 	border-radius: 3px;
 	line-height: 1;
-	color: inherit;
 	font-size: 10px;
 	font-weight: bold;
-	font-family: inherit;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	background-color: var( --gsuiDAW-winBtn-bg );
@@ -59,9 +55,6 @@
 .gsuiDAW-window-ctrl button {
 	width: 18px;
 	height: 16px;
-	padding: 0;
-	border: 0;
-	outline: 0;
 	color: #fff;
 	font-size: 8px;
 	background-color: var( --gsui-btn-playPause-bg );

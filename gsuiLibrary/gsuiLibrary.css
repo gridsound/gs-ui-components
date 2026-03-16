@@ -48,13 +48,9 @@ gsui-library {
 		display: flex;
 		max-width: 100%;
 		gap: 1ch;
-		cursor: pointer;
-		border: 0;
 		padding: 4px;
-		color: inherit;
 		font-size: 9px;
 		font-weight: bold;
-		background: none;
 	}
 	.gsuiIcon {
 		opacity: .3;

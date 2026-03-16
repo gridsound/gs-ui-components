@@ -17,13 +17,9 @@ gsui-effects {
 .gsuiEffects-addBtn {
 	position: relative;
 	order: 2147483646;
-	border: 0;
-	outline: 0;
 	width: 100%;
 	min-height: 52px;
-	color: inherit;
 	font-size: 18px;
-	background: none;
 	opacity: .4;
 	transition: .2s opacity;
 }

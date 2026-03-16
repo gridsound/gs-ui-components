@@ -102,12 +102,7 @@ gsui-patterns {
 	overflow: hidden;
 	height: 14px;
 	padding: 0 4px;
-	border: 0;
-	outline: 0;
-	cursor: pointer;
 	border-radius: 3px;
-	color: inherit;
-	font: inherit;
 	font-weight: bold;
 	text-align: start;
 	background-color: var( --gsuiPatterns-panel-btnSolid-bg );

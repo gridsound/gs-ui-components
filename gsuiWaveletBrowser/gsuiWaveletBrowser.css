@@ -12,11 +12,8 @@ gsui-wavelet-browser {
 
 	> button {
 		height: 20px;
-		border: 0;
-		outline: 0;
 		border-radius: 4px;
 		padding: 0 10px;
-		font: inherit;
 		font-size: 12px;
 		font-weight: 600;
 		background-color: var( --gsui-btn-playPause-bg );

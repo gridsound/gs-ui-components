@@ -36,9 +36,8 @@ gsui-wave-editor {
 	box-sizing: border-box;
 	border: 2px solid transparent;
 	border-radius: 4px;
-	padding: 0;
 	height: 20px;
-	color: currentColor;
+	font-size: 12px;
 	background-color: #0005;
 
 	&:hover {
@@ -80,9 +79,6 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 		position: relative;
 		width: 26px;
 		height: 26px;
-		border: 0;
-		color: currentColor;
-		background: none;
 
 		&:hover {
 			background-color: #111;
@@ -138,8 +134,6 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 	button {
 		width: 16px;
 		font-size: 10px;
-		border: 0;
-		background: none;
 
 		&:hover {
 			background-color: #fff2;

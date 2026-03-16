@@ -132,15 +132,9 @@ gsui-drumrow {
 .gsuiDrumrow-btnDelete {
 	position: absolute;
 	right: 0;
-	border: 0;
-	outline: 0;
-	padding: 0;
 	width: var( --delete-w );
 	height: var( --name-h );
-	color: inherit;
-	cursor: pointer;
 	font-size: 12px;
-	background: none;
 	opacity: .3;
 	transition: .1s opacity;
 

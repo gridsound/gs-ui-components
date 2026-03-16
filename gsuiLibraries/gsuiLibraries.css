@@ -34,13 +34,9 @@ gsui-libraries {
 	display: flex;
 	align-items: center;
 	height: 18px;
-	border: 0;
-	outline: 0;
 	padding: 1px 3px 0 6px;
-	font: inherit;
 	font-size: 9px;
 	font-weight: bold;
-	background-color: transparent;
 }
 .gsuiLibraries-libBtn + .gsuiLibraries-libBtn {
 	padding-left: 3px;

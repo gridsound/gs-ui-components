@@ -19,14 +19,12 @@ gsui-prop-select {
 
 /* .......................................................................... */
 .gsuiPropSelect-btn {
-	outline: 0;
 	height: 18px;
 	border: 1px dashed;
 	border-radius: 3px;
 	padding: 0 6px;
 	font-size: 11px;
 	font-weight: bold;
-	cursor: pointer;
 }
 .gsuiPropSelect-btn[ data-prop="gainLFOSpeed" ],
 .gsuiPropSelect-btn[ data-prop="gainLFOAmp" ],

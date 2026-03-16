@@ -185,11 +185,6 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 /* .......................................................................... */
 .gsuiOscillator-waveWrap-top button,
 .gsuiOscillator-remove {
-	border: 0;
-	padding: 0;
-	outline: 0;
-	color: inherit;
-	background: none;
 	opacity: .5;
 	transition: .1s opacity;
 
@@ -231,9 +226,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 .gsuiOscillator-remove {
 	position: absolute;
 	inset: 0 2px auto auto;
-	outline: 0;
 	font-size: 12px;
-	background: none;
 }
 
 /* .......................................................................... */

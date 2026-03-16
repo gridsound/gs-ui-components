@@ -27,16 +27,11 @@ gsui-clock {
 .gsuiClock-modes {
 	position: relative;
 	display: flex;
-	margin: 0;
-	border: 0;
-	outline: 0;
 	padding: 7px 6px;
 	border-top-right-radius: inherit;
 	border-bottom-right-radius: inherit;
-	color: inherit;
 	flex-direction: column;
 	justify-content: space-between;
-	background: none;
 }
 .gsuiClock-modes:focus-visible {
 	box-shadow: 0 0 1px 2px #69b;

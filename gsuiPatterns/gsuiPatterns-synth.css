@@ -31,13 +31,7 @@
 .gsuiPatterns-synth-btn {
 	width: 14px;
 	min-width: 14px;
-	margin: 0;
-	border: 0;
-	outline: 0;
-	padding: 0;
 	opacity: .7;
-	color: inherit;
-	background: none;
 	transition: .1s;
 	transition-property: background-color, opacity;
 }

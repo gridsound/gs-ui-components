@@ -76,11 +76,7 @@ gsui-titleuser {
 	align-items: center;
 	justify-content: center;
 	width: 28px;
-	border: 0;
-	outline: 0;
-	color: inherit;
 	font-size: 20px;
-	background: none;
 	opacity: .7;
 	transition: .2s;
 	transition-property: opacity;
@@ -111,8 +107,6 @@ gsui-titleuser:not( [ connected ] ) .gsuiTitleUser-user {
 /* .......................................................................... */
 .gsuiTitleUser-save {
 	overflow: hidden;
-	border: 0;
-	padding: 0;
 	width: 32px;
 	background-color: #ba5d5d;
 	transition: width .2s;
@@ -171,10 +165,8 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 	display: flex;
 	align-items: center;
 	flex: 1;
-	border: 0;
-	outline: 0;
-	font-family: inherit;
-	background: none;
+	padding: 0 6px;
+	font-size: 14px;
 }
 .gsuiTitleUser-cmpName {
 	overflow: hidden;

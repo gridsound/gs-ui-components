@@ -42,7 +42,6 @@ gsui-com-profile {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 0;
 	min-width: 42px;
 	color: #fff6;
 	font-size: 20px;
@@ -128,11 +127,7 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	max-width: 100%;
 	gap: .7ch;
 	color: #da6035;
-	font: inherit;
 	font-size: 12px;
-	border: 0;
-	padding: 0;
-	background: none;
 
 	gsui-com-profile:not( [ itsme ] ) &,
 	gsui-com-profile:not( [ emailtoverify ] ) &,
@@ -148,15 +143,6 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	margin-top: 4px;
 	font-weight: bold;
 	font-size: calc( 1em - 4px * ( 1 - var( --hx ) ) );
-}
-.gsuiComProfile-following,
-.gsuiComProfile-followers {
-	border: 0;
-	padding: 0;
-	font: inherit;
-	color: currentColor;
-	pointer: cursor;
-	background: none;
 }
 .gsuiComProfile-following::after { content: " following"; font-weight: normal; }
 .gsuiComProfile-followers::after { content: " followers"; font-weight: normal; }

@@ -45,13 +45,8 @@ gsui-channels gsui-analyser-vu {
 	align-items: center;
 	justify-content: center;
 	min-width: 52px;
-	border: 0;
-	padding: 0;
-	outline: 0;
 	font-size: 18px;
-	color: inherit;
 	border-radius: 2px;
-	background: none;
 	opacity: .4;
 	transition: .2s opacity;
 }

@@ -42,12 +42,8 @@ gsui-synthesizer {
 
 	button {
 		height: 100%;
-		border: 0;
-		outline: 0;
 		padding: 0 0 0 10px;
-		color: inherit;
 		font-size: 12px;
-		background: none;
 		opacity: .6;
 
 		& + button {
@@ -169,13 +165,9 @@ gsui-synthesizer {
 .gsuiSynthesizer-newOsc {
 	position: relative;
 	order: 2147483647;
-	border: 0;
-	outline: 0;
 	height: 52px;
-	color: inherit;
 	font-size: 18px;
 	border-radius: 2px;
-	background: none;
 	opacity: .4;
 	transition: .2s opacity;
 

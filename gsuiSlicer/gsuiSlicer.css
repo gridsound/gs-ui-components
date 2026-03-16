@@ -224,14 +224,9 @@ gsui-slicer gsui-step-select {
 	justify-content: center;
 	box-sizing: border-box;
 	gap: 6px;
-	border: 0;
-	outline: 0;
 	padding: 0 6px;
 	min-width: 32px;
 	border-radius: 4px;
-	font-size: inherit;
-	color: inherit;
-	cursor: pointer;
 	white-space: nowrap;
 	background-color: #fff2;
 	opacity: .6;

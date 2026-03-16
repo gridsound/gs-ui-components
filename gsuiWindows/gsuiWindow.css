@@ -118,15 +118,10 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	transition: .2s opacity;
 }
 .gsuiWindow-icon {
-	border: 0;
-	padding: 0;
-	outline: 0;
 	width: 24px;
 	min-width: 24px;
-	color: inherit;
 	cursor: inherit;
 	font-size: 12px;
-	background: none;
 }
 .gsuiWindow-name {
 	overflow: hidden;
@@ -152,17 +147,12 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 
 /* .......................................................................... */
 .gsuiWindow-headBtn {
-	border: 0;
-	padding: 0;
-	outline: 0;
 	width: var( --gsuiWindow-head-height );
 	height: 100%;
-	color: inherit;
 	font-size: 10px;
 	opacity: .6;
 	transition: .2s;
 	transition-property: opacity, background-color;
-	background: none;
 
 	&:focus-visible,
 	&:hover {

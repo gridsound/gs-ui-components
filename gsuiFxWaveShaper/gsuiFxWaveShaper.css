@@ -29,8 +29,6 @@ gsui-fx-waveshaper[ off ] {
 
 /* .......................................................................... */
 .gsuiFxWaveShaper-oversample select {
-	outline: 0;
-	cursor: pointer;
 	-webkit-appearance: none;
 }
 .gsuiFxWaveShaper-oversample option {
@@ -50,9 +48,7 @@ gsui-fx-waveshaper[ oversample="none" ] .gsuiFxWaveShaper-oversample select {
 /* .......................................................................... */
 .gsuiFxWaveShaper-reset {
 	margin-left: auto;
-	outline: 0;
 	font-family: unset;
-	cursor: pointer;
 }
 
 /* .......................................................................... */

@@ -2,16 +2,10 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	border: 0;
-	padding: 0;
-	outline: 0;
-	color: inherit;
-	cursor: pointer;
 	font-size: 14px;
 	line-height: 28px;
 	text-decoration: none;
 	border-radius: var( --radius );
-	background: none;
 	transition: .2s;
 	transition-property: color, opacity, background-color;
 }

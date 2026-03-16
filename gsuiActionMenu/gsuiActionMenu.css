@@ -9,11 +9,9 @@
 	align-items: center;
 	text-align: start;
 	padding: 4px;
-	border: 0;
 	border-radius: 2px;
 	gap: 6px;
 	font-size: 14px;
-	background: none;
 	transition: .1s;
 	transition-property: color, background-color;
 }

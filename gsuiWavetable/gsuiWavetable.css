@@ -18,10 +18,7 @@ gsui-wavetable {
 	background-color: var( --gsui-item-bg );
 }
 .gsuiWavetable-back {
-	border: 0;
-	padding: 0;
 	font-size: 12px;
-	background: none;
 	opacity: .6;
 
 	&:hover {
@@ -92,10 +89,6 @@ gsui-wavetable gsui-wavetable-graph {
 		opacity: var( --gsui-num-opacity );
 	}
 	button {
-		border: 0;
-		padding: 0;
-		color: inherit;
-		background: none;
 		opacity: .2;
 
 		&:hover {

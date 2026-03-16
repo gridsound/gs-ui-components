@@ -33,13 +33,7 @@
 /* .......................................................................... */
 .gsuiPatterns-pattern-btn {
 	width: 14px;
-	border: 0;
-	outline: 0;
-	padding: 0;
 	opacity: .7;
-	color: inherit;
-	cursor: pointer;
-	background: none;
 	transition: .1s opacity;
 }
 .gsuiPatterns-pattern-btn:focus,
