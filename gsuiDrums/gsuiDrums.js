@@ -105,7 +105,7 @@ class gsuiDrums extends gsui0ne {
 			currenttimestep: 1 / sPB,
 		} );
 		this.#setPxPerBeat( this.#pxPerBeat );
-		GSUdomStyle( this, "--gsuiDrums-pxperstep", `${ 1 / sPB }em` );
+		this.$this.$css( "--gsuiDrums-pxperstep", 1 / sPB, "em" );
 	}
 	#setPxPerBeat( ppb ) {
 		this.#pxPerBeat = ppb;
