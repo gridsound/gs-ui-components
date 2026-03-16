@@ -1,6 +1,7 @@
 "use strict";
 
 class gsui0ne extends HTMLElement {
+	$this = $( this );
 	$element = null;
 	$elements = null;
 	$isActive = false;
@@ -14,7 +15,6 @@ class gsui0ne extends HTMLElement {
 
 	constructor( o = {} ) {
 		super();
-		this.$this = $( this );
 		this.#attributes = o.$attributes || {};
 		this.#children = o.$template || ( GSUhasTemplate( o.$tagName )
 			? GSUgetTemplate( o.$tagName, ...o.$tmpArgs || [] )
