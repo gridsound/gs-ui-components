@@ -13,7 +13,7 @@ class gsuiPianoroll extends gsui0ne {
 	#rowsByMidi = {};
 	#currKeyDuration = 1;
 	#uiSliderGroup = GSUcreateElement( "gsui-slidergroup", { beatlines: "" } );
-	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#selectionElement = $( "<div>" ).$addClass( "gsuiBlocksManager-selection", "gsuiBlocksManager-selection-hidden" );
 	#propSelectList = [
 		"gain",
 		"pan",
@@ -42,7 +42,7 @@ class gsuiPianoroll extends gsui0ne {
 	} );
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
-		selectionElement: this.#selectionElement,
+		$selectionElement: this.#selectionElement,
 		timeline: this.#win.$getTimeline(),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallDuplicating: ( keysMap, wIncr ) => this.#onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
@@ -89,7 +89,7 @@ class gsuiPianoroll extends gsui0ne {
 			const rows = this.#blcManager.$getRows();
 			const key = +rows[ rowInd ].dataset.midi;
 
-			return this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } );
+			return $( this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } ) );
 		};
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
@@ -105,7 +105,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#win.$appendPanel( this.#uiKeys );
 		this.#win.$appendPanelDown( this.#propSelect );
 		this.#win.$appendDown( this.#uiSliderGroup );
-		this.#win.$appendMain( this.#selectionElement );
+		this.#win.$appendMain( this.#selectionElement.$get( 0 ) );
 		this.$scrollToMiddle();
 	}
 	static get observedAttributes() {

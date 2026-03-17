@@ -6,7 +6,7 @@ class gsuiPatternroll extends gsui0ne {
 	#oneditBlock = null;
 	#rowsByTrackId = new Map();
 	#tracklist = GSUcreateElement( "gsui-tracklist" );
-	#selectionElement = GSUcreateDiv( { class: "gsuiBlocksManager-selection gsuiBlocksManager-selection-hidden" } );
+	#selectionElement = $( "<div>" ).$addClass( "gsuiBlocksManager-selection", "gsuiBlocksManager-selection-hidden" );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 90,
 		panelsizemin: 24,
@@ -20,7 +20,7 @@ class gsuiPatternroll extends gsui0ne {
 	} );
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
-		selectionElement: this.#selectionElement,
+		$selectionElement: this.#selectionElement,
 		timeline: this.#win.$getTimeline(),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.#onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
@@ -55,7 +55,7 @@ class gsuiPatternroll extends gsui0ne {
 			.$addClass( "gsuiBlocksManager" )
 			.$append( this.#win );
 		this.#win.$appendPanel( this.#tracklist );
-		this.#win.$appendMain( this.#selectionElement );
+		this.#win.$appendMain( this.#selectionElement.$get( 0 ) );
 	}
 	static get observedAttributes() {
 		return [ "currenttime" ];

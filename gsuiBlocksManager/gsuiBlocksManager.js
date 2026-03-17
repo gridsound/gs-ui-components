@@ -3,7 +3,7 @@
 class gsuiBlocksManager {
 	rootElement = null;
 	timeline = null;
-	$oncreatePreviewBlock = null;
+	$oncreatePreviewBlock = () => $noop;
 	#data = {};
 	#opts = null;
 	#fontSize = 10;
@@ -12,7 +12,7 @@ class gsuiBlocksManager {
 	#blcs = new Map();
 	#blcsEditing = new Map();
 	#blcsSelected = new Map();
-	#elSelection = null;
+	#elSelection = $noop;
 	#nlRows = null;
 	#status = "";
 	#mmFn = null;
@@ -43,7 +43,7 @@ class gsuiBlocksManager {
 		this.#opts = opts;
 		this.#opts.oneditBlock = opts.oneditBlock || GSUnoop;
 		this.#blockDOMChange = opts.blockDOMChange;
-		this.#elSelection = opts.selectionElement;
+		this.#elSelection = opts.$selectionElement;
 		this.#nlRows = opts.rootElement.getElementsByClassName( "gsui-row" );
 		opts.rootElement.onkeydown = this.#onkeydown.bind( this );
 	}
@@ -82,10 +82,10 @@ class gsuiBlocksManager {
 		return el.closest( ".gsuiBlocksManager-block" );
 	}
 	#fillBlcsMap( blc ) {
-		if ( GSUdomHasClass( blc, "gsuiBlocksManager-block-selected" ) ) {
+		if ( blc.$hasClass( "gsuiBlocksManager-block-selected" ) ) {
 			this.#blcsSelected.forEach( ( blc, id ) => this.#blcsEditing.set( id, blc ) );
 		} else {
-			this.#blcsEditing.set( blc.dataset.id, blc );
+			this.#blcsEditing.set( blc.$dataId(), blc.$get( 0 ) );
 		}
 		return this.#blcsEditing;
 	}
@@ -208,10 +208,11 @@ class gsuiBlocksManager {
 	// .........................................................................
 	$onmousedown( e ) {
 		const blc = this.#getBlc( e.currentTarget );
+		const tar = $( e.target );
 
 		GSUdomUnselect();
 		this.#mdBlc = blc;
-		this.#mdTarget = e.target;
+		this.#mdTarget = tar.$get( 0 );
 		if ( e.button === 2 ) {
 			this.#status = "delete";
 			this.#mmFn = this.#getPtrMoveFn();
@@ -231,10 +232,10 @@ class gsuiBlocksManager {
 				this.#status = "select1";
 				this.#mmFn = this.#getPtrMoveFn();
 			} else {
-				const blc2 = blc || this.$oncreatePreviewBlock?.( this.#mdRowInd, this.#mdWhen );
+				const blc2 = $( blc || this.$oncreatePreviewBlock( this.#mdRowInd, this.#mdWhen ) );
 
-				if ( blc2 ) {
-					this.#status = e.target.dataset.action || "create";
+				if ( blc2.$size() ) {
+					this.#status = tar.$getAttr( "data-action" ) || "create";
 
 					const fnAct = this.#getPtrDownFn();
 
@@ -242,9 +243,9 @@ class gsuiBlocksManager {
 						const blcsEditing = this.#fillBlcsMap( blc2 );
 
 						this.#startPreview();
-						GSUdomAddClass( blc2, "gsui-hover" );
-						GSUdomAddClass( e.target, "gsui-hover" );
-						fnAct.call( this, this.#data, blcsEditing, blc2, e );
+						blc2.$addClass( "gsui-hover" );
+						tar.$addClass( "gsui-hover" );
+						fnAct.call( this, this.#data, blcsEditing, e );
 					}
 				}
 			}
@@ -252,7 +253,7 @@ class gsuiBlocksManager {
 		document.addEventListener( "mousemove", this.#onmousemoveBind );
 		document.addEventListener( "mouseup", this.#onmouseupBind );
 	}
-	#onmousedownMove( data, blcsEditing, _blc, e ) {
+	#onmousedownMove( data, blcsEditing, e ) {
 		this.#mmFn = this.#getPtrMoveFn();
 		this.#mdRowInd = this.$getRowIndexByPageY( e.pageY );
 		blcsEditing.forEach( blc => {
@@ -355,7 +356,7 @@ class gsuiBlocksManager {
 			Math.abs( this.#mmPageY - this.#mdPageY ) > 6
 		) {
 			this.#status = "select2";
-			GSUdomRmClass( this.#elSelection, "gsuiBlocksManager-selection-hidden" );
+			this.#elSelection.$rmClass( "gsuiBlocksManager-selection-hidden" );
 			this.#mmFn = this.#getPtrMoveFn();
 			this.#mmFn();
 		}
@@ -393,7 +394,7 @@ class gsuiBlocksManager {
 			return map;
 		}, new Map() );
 
-		GSUdomStyle( this.#elSelection, {
+		this.#elSelection.$css( {
 			top: `${ topRow * rowH }px`,
 			left: `${ when * this.#pxPerBeat }px`,
 			width: `${ duration * this.#pxPerBeat }px`,
@@ -472,7 +473,7 @@ class gsuiBlocksManager {
 		}
 	}
 	#onmouseupSelect2( blcsEditing ) {
-		GSUdomAddClass( this.#elSelection, "gsuiBlocksManager-selection-hidden" );
+		this.#elSelection.$addClass( "gsuiBlocksManager-selection-hidden" );
 		if ( blcsEditing.size ) {
 			this.#opts.managercallSelecting( Array.from( blcsEditing.keys() ) );
 		}
