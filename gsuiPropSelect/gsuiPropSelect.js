@@ -35,7 +35,7 @@ class gsuiPropSelect extends gsui0ne {
 	#createProps( s ) {
 		this.$this.$empty().$append( ...s.split( " " ).map( p => this.#createProp( p ) ) );
 		if ( !this.#setProp( this.#prop ) ) {
-			GSUdomQS( this, ".gsuiPropSelect-btn" )?.click();
+			this.$this.$query( ".gsuiPropSelect-btn" ).$at( 0 ).$click();
 		}
 	}
 	#createProp( p ) {
@@ -85,9 +85,11 @@ class gsuiPropSelect extends gsui0ne {
 		}
 	}
 	#oncontextmenu( e ) {
+		const tar = $( e.target );
+
 		e.preventDefault();
-		if ( GSUdomHasClass( e.target, "gsuiPropSelect-btn" ) ) {
-			const prop = e.target.dataset.prop;
+		if ( tar.$hasClass( "gsuiPropSelect-btn" ) ) {
+			const prop = tar.$getAttr( "data-prop" );
 
 			this.$this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECTALL, prop );
 		}
