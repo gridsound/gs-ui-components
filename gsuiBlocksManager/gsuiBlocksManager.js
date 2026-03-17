@@ -2,7 +2,7 @@
 
 class gsuiBlocksManager {
 	rootElement = null;
-	timeline = null;
+	timeline = $noop;
 	$oncreatePreviewBlock = () => $noop;
 	#data = {};
 	#opts = null;
@@ -16,8 +16,8 @@ class gsuiBlocksManager {
 	#nlRows = null;
 	#status = "";
 	#mmFn = null;
-	#mdBlc = null;
-	#mdTarget = null;
+	#mdBlc = $noop;
+	#mdTarget = $noop;
 	#mdPageX = 0;
 	#mdPageY = 0;
 	#mdWhen = 0;
@@ -71,7 +71,7 @@ class gsuiBlocksManager {
 		return Math.max( 0, ( pageX - $( this.#nlRows[ 0 ] ).$bcr().x ) / this.#pxPerBeat );
 	}
 	$roundBeat( beat ) {
-		return Math.max( 0, this.timeline.$beatFloor( beat ) );
+		return Math.max( 0, this.timeline.$get( 0 ).$beatFloor( beat ) );
 	}
 
 	// .........................................................................
@@ -79,7 +79,7 @@ class gsuiBlocksManager {
 		$( this.rootElement.firstChild ).$dispatch( ...args );
 	}
 	#getBlc( el ) {
-		return el.closest( ".gsuiBlocksManager-block" );
+		return $( el ).$closest( ".gsuiBlocksManager-block" );
 	}
 	#fillBlcsMap( blc ) {
 		if ( blc.$hasClass( "gsuiBlocksManager-block-selected" ) ) {
@@ -90,9 +90,9 @@ class gsuiBlocksManager {
 		return this.#blcsEditing;
 	}
 	#getBeatSnap() {
-		const stepsPerBeat = GSUsplitNums( GSUdomGetAttr( this.timeline, "timedivision" ), "/" )[ 1 ];
+		const stepsPerBeat = GSUsplitNums( this.timeline.$getAttr( "timedivision" ), "/" )[ 1 ];
 
-		return 1 / stepsPerBeat * GSUdomGetAttrNum( this.timeline, "step" );
+		return 1 / stepsPerBeat * +this.timeline.$getAttr( "step" );
 	}
 
 	// .........................................................................
@@ -122,7 +122,7 @@ class gsuiBlocksManager {
 							whenMax = Math.max( whenMax, d.when + d.duration );
 							blcsEditing.set( id, blc );
 						} );
-						whenMax = this.timeline.$beatCeil( whenMax ) - whenMin;
+						whenMax = this.timeline.$get( 0 ).$beatCeil( whenMax ) - whenMin;
 						this.#opts.managercallDuplicating( blcsEditing, whenMax );
 						blcsEditing.clear();
 					}
@@ -212,13 +212,13 @@ class gsuiBlocksManager {
 
 		GSUdomUnselect();
 		this.#mdBlc = blc;
-		this.#mdTarget = tar.$get( 0 );
+		this.#mdTarget = tar;
 		if ( e.button === 2 ) {
 			this.#status = "delete";
 			this.#mmFn = this.#getPtrMoveFn();
-			if ( blc ) {
-				this.#blockDOMChange( blc, "deleted", true );
-				this.#blcsEditing.set( blc.dataset.id, blc );
+			if ( blc.$size() ) {
+				this.#blockDOMChange( blc.$get( 0 ), "deleted", true );
+				this.#blcsEditing.set( blc.$dataId(), blc.$get( 0 ) );
 			}
 		} else if ( e.button === 0 ) {
 			const mdWhenReal = this.$getWhenByPageX( e.pageX );
@@ -232,7 +232,7 @@ class gsuiBlocksManager {
 				this.#status = "select1";
 				this.#mmFn = this.#getPtrMoveFn();
 			} else {
-				const blc2 = $( blc || this.$oncreatePreviewBlock( this.#mdRowInd, this.#mdWhen ) );
+				const blc2 = blc.$size() ? blc : this.$oncreatePreviewBlock( this.#mdRowInd, this.#mdWhen );
 
 				if ( blc2.$size() ) {
 					this.#status = tar.$getAttr( "data-action" ) || "create";
@@ -345,9 +345,9 @@ class gsuiBlocksManager {
 	#onmousemoveDelete( e ) {
 		const blc = this.#getBlc( e.target );
 
-		if ( blc && !this.#blcsEditing.has( blc.dataset.id ) ) {
-			this.#blockDOMChange( blc, "deleted", true );
-			this.#blcsEditing.set( blc.dataset.id, blc );
+		if ( blc.$size() && !this.#blcsEditing.has( blc.$dataId() ) ) {
+			this.#blockDOMChange( blc.$get( 0 ), "deleted", true );
+			this.#blcsEditing.set( blc.$dataId(), blc.$get( 0 ) );
 		}
 	}
 	#onmousemoveSelect1() {
@@ -409,12 +409,12 @@ class gsuiBlocksManager {
 		if ( this.#status ) {
 			this.#getPtrUpFn().call( this, this.#blcsEditing, this.#mdBlc );
 		}
-		GSUdomRmClass( this.#mdBlc, "gsui-hover" );
-		GSUdomRmClass( this.#mdTarget, "gsui-hover" );
+		this.#mdBlc.$rmClass( "gsui-hover" );
+		this.#mdTarget.$rmClass( "gsui-hover" );
 		this.#status = "";
-		this.#mmFn =
+		this.#mmFn = null;
 		this.#mdBlc =
-		this.#mdTarget = null;
+		this.#mdTarget = $noop;
 		this.#valueA =
 		this.#valueB = 0;
 		this.#valueAMin =
@@ -466,10 +466,10 @@ class gsuiBlocksManager {
 		}
 	}
 	#onmouseupSelect1( blcsEditing, mdBlc ) {
-		if ( mdBlc ) {
-			GSUdomHasClass( mdBlc, "gsuiBlocksManager-block-selected" )
-				? this.#opts.managercallUnselectingOne( mdBlc.dataset.id )
-				: this.#opts.managercallSelecting( [ mdBlc.dataset.id ] );
+		if ( mdBlc.$size() ) {
+			mdBlc.$hasClass( "gsuiBlocksManager-block-selected" )
+				? this.#opts.managercallUnselectingOne( mdBlc.$dataId() )
+				: this.#opts.managercallSelecting( [ mdBlc.$dataId() ] );
 		}
 	}
 	#onmouseupSelect2( blcsEditing ) {

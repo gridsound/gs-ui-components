@@ -21,7 +21,7 @@ class gsuiPatternroll extends gsui0ne {
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		$selectionElement: this.#selectionElement,
-		timeline: this.#win.$getTimeline(),
+		timeline: $( this.#win.$getTimeline() ),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.#onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
 		managercallDeleting: blcsMap => this.#onchange( "deletion", Array.from( blcsMap.keys() ) ),
