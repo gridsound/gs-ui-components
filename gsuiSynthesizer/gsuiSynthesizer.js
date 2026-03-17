@@ -44,7 +44,7 @@ class gsuiSynthesizer extends gsui0ne {
 		this.$elements.$newOsc.$on( "click", this.#onclickNewOsc.bind( this ) );
 		this.$elements.$heads.$on( "click", this.#onclickHeads.bind( this ) );
 		new gsuiReorder( {
-			$root: this.$elements.$oscList.$get( 0 ),
+			$root: this.$elements.$oscList,
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: ".gsuiOscillator-grip",

@@ -67,7 +67,7 @@ class gsuiDrums extends gsui0ne {
 			pointerdown: this.#onptrdownNew.bind( this, "Drumcuts" ),
 		} );
 		new gsuiReorder( {
-			$root: this.#drumrows,
+			$root: $( this.#drumrows ),
 			$parentSelector: "gsui-drumrows",
 			$itemSelector: "gsui-drumrow",
 			$itemGripSelector: ".gsuiDrumrow-grip",

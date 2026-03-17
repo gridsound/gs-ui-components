@@ -24,44 +24,44 @@ class gsuiLibrary extends gsui0ne {
 	// .........................................................................
 	#initReorder() {
 		new gsuiReorder( {
-			$root: this.$elements.$body.$get( 0 ),
+			$root: this.$elements.$body,
 			$pxDelay: 6,
 			$parentSelector: ".gsuiLibrary-body",
 			$itemSelector: ".gsuiLibrary-sample",
-			$getTargetList: () => [
-				GSUdomQS( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
-				GSUdomQS( "gsui-slicer" ),
-				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
-				...GSUdomQSA( "gsui-drumrow" ),
-				GSUdomQS( ".gsuiDrumrows-dropNew" ),
-				...GSUdomQSA( ".gsuiTrack-row > div" ),
-			],
+			$getTargetList: () => $( [
+				$( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				$( "gsui-slicer" ),
+				$( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
+				$( ".gsuiSynthesizer-newOsc" ),
+				$( "gsui-drumrow" ),
+				$( ".gsuiDrumrows-dropNew" ),
+				$( ".gsuiTrack-row > div" ),
+			] ),
 			$ondrop: drop => {
 				const tar = drop.$target;
 				const dt = drop.$itemElement.dataset;
 				const $name = `${ dt.id }:${ dt.name }`;
 				const obj = { $name };
 
-				if ( tar.tagName === "GSUI-SLICER" ) {
+				if ( tar.$tag() === "gsui-slicer" ) {
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONSLICER, obj );
-				} else if ( GSUdomHasClass( tar, "gsuiPatterns-panel-list-wrap" ) ) {
+				} else if ( tar.$hasClass( "gsuiPatterns-panel-list-wrap" ) ) {
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
-				} else if ( tar.tagName === "GSUI-DRUMROW" ) {
-					obj.$drumrowId = tar.dataset.id;
+				} else if ( tar.$tag() === "gsui-drumrow" ) {
+					obj.$drumrowId = tar.$getAttr( "data-id" );
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROW, obj );
-				} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
+				} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
-				} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
-					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-					obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
+				} else if ( tar.$hasClass( "gsuiOscillator-waveWrap" ) ) {
+					obj.$synthId = tar.$closest( "gsui-synthesizer" ).$getAttr( "data-id" );
+					obj.$oscId = tar.$closest( "gsui-oscillator" ).$getAttr( "data-id" );
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSC, obj );
-				} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
-					obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
+				} else if ( tar.$hasClass( "gsuiSynthesizer-newOsc" ) ) {
+					obj.$synthId = tar.$closest( "gsui-synthesizer" ).$getAttr( "data-id" );
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSCNEW, obj );
 				} else {
-					obj.$when = Math.floor( drop.$offsetX / GSUdomGetAttrNum( tar.closest( "gsui-timewindow" ), "pxperbeat" ) );
-					obj.$track = tar.parentNode.dataset.id;
+					obj.$when = Math.floor( drop.$offsetX / +tar.$closest( "gsui-timewindow" ).$getAttr( "pxperbeat" ) );
+					obj.$track = tar.$parent().$getAttr( "data-id" );
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONTRACKS, obj );
 				}
 			},

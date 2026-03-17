@@ -125,17 +125,14 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const testWrap = GSUdomQS( "#testWrap" );
-const inpScenario = GSUdomQS( "#scenario" );
-const myLists = GSUdomQSA( ".my-list" );
+const testWrap = $( "#testWrap" );
+const inpScenario = $( "#scenario" );
 const reorder = new gsuiReorder( {
 	$root: testWrap,
 	$parentSelector: ".my-list",
 	$itemSelector: ".my-item",
 	$itemGripSelector: ".my-item-grip",
-	$getTargetList: () => [
-		GSUdomQS( "#dropArea" ),
-	],
+	$getTargetList: () => $( "#dropArea" ),
 	$onchange: ( obj, movingElementId ) => {
 		console.log( "$onchange", obj, movingElementId );
 	},
@@ -144,8 +141,9 @@ const reorder = new gsuiReorder( {
 	},
 } );
 
-inpScenario.onchange = () => GSUdomSetAttr( testWrap, "data-scene", inpScenario.value );
-inpScenario.onchange();
+inpScenario
+	.$on( "change", () => testWrap.$setAttr( "data-scene", inpScenario.$value() ) )
+	.$trigger( "onchange" );
 </script>
 </body>
 </html>

@@ -58,7 +58,7 @@ class gsuiWavetable extends gsui0ne {
 			}
 		} );
 		new gsuiReorder( {
-			$root: this.$elements.$waves.$get( 0 ),
+			$root: this.$elements.$waves,
 			$parentSelector: ".gsuiWavetable-waves-list > div",
 			$itemSelector: ".gsuiWavetable-wave",
 			$itemGripSelector: "gsui-periodicwave",

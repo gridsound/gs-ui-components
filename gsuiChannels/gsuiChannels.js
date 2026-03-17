@@ -24,7 +24,7 @@ class gsuiChannels extends gsui0ne {
 			[ GSEV_CHANNEL_CONNECT ]: d => this.$this.$dispatch( GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
 		} );
 		new gsuiReorder( {
-			$root: this.$elements.$pchans.$get( 0 ),
+			$root: this.$elements.$pchans,
 			$parentSelector: ".gsuiChannels-panChannels",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",

@@ -20,7 +20,7 @@ class gsuiEffects extends gsui0ne {
 		} );
 		this.#initActionMenu();
 		new gsuiReorder( {
-			$root: this,
+			$root: this.$this,
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
 			$itemGripSelector: ".gsuiEffect-grip",

@@ -63,25 +63,25 @@ class gsuiPatterns extends gsui0ne {
 			$itemSelector: ".gsuiPatterns-pattern",
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
 			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
-			$getTargetList: () => [ ...GSUdomQSA( ".gsuiTrack-row > div" ) ],
+			$getTargetList: () => $( ".gsuiTrack-row > div" ),
 			...opt,
 		} );
 	}
 	#initReorderSlices() {
 		this.#initReorder( {
-			$root: this.#getList( "slices" ).$get( 0 ),
+			$root: this.#getList( "slices" ),
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-slices" ),
 		} );
 	}
 	#initReorderDrums() {
 		this.#initReorder( {
-			$root: this.#getList( "drums" ).$get( 0 ),
+			$root: this.#getList( "drums" ),
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-drums" ),
 		} );
 	}
 	#initReorderKeys() {
 		this.#initReorder( {
-			$root: this.#getList( "keys" ).$get( 0 ),
+			$root: this.#getList( "keys" ),
 			$parentSelector: ".gsuiPatterns-synth-patterns",
 			$onchange: ( obj, patId ) => {
 				if ( "parent" in obj[ patId ] ) {
@@ -96,7 +96,7 @@ class gsuiPatterns extends gsui0ne {
 			},
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-keys" ),
 			$ondragoverenter: el => {
-				const synthId = el.closest( ".gsuiPatterns-synth-head" )?.parentNode.dataset.id;
+				const synthId = el.$closest( ".gsuiPatterns-synth-head" ).$parent().$getAttr( "data-id" );
 
 				if ( synthId ) {
 					this.$expandSynth( synthId, true );
@@ -106,16 +106,16 @@ class gsuiPatterns extends gsui0ne {
 	}
 	#initReorderBuffers() {
 		this.#initReorder( {
-			$root: this.#getList( "buffers" ).$get( 0 ),
+			$root: this.#getList( "buffers" ),
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
-			$getTargetList: () => [
-				GSUdomQS( "gsui-slicer" ),
-				...GSUdomQSA( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
-				GSUdomQS( ".gsuiSynthesizer-newOsc" ),
-				...GSUdomQSA( "gsui-drumrow" ),
-				GSUdomQS( ".gsuiDrumrows-dropNew" ),
-				...GSUdomQSA( ".gsuiTrack-row > div" ),
-			],
+			$getTargetList: () => $( [
+				$( "gsui-slicer" ),
+				$( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
+				$( ".gsuiSynthesizer-newOsc" ),
+				$( "gsui-drumrow" ),
+				$( ".gsuiDrumrows-dropNew" ),
+				$( ".gsuiTrack-row > div" ),
+			] ),
 		} );
 	}
 	#ondropPatternBuffer( drop ) {
@@ -125,32 +125,32 @@ class gsuiPatterns extends gsui0ne {
 			$patternId: drop.$item,
 		};
 
-		if ( tar.tagName === "GSUI-SLICER" ) {
+		if ( tar.$tag() === "gsui-slicer" ) {
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONSLICER, obj );
-		} else if ( tar.tagName === "GSUI-DRUMROW" ) {
-			obj.$drumrowId = tar.dataset.id;
+		} else if ( tar.$tag() === "gsui-drumrow" ) {
+			obj.$drumrowId = tar.$get( "data-id" );
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROW, obj );
-		} else if ( GSUdomHasClass( tar, "gsuiDrumrows-dropNew" ) ) {
+		} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROWNEW, obj );
-		} else if ( GSUdomHasClass( tar, "gsuiOscillator-waveWrap" ) ) {
-			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
-			obj.$oscId = tar.closest( "gsui-oscillator" ).dataset.id;
+		} else if ( tar.$hasClass( "gsuiOscillator-waveWrap" ) ) {
+			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$get( "data-id" );
+			obj.$oscId = tar.$closest( "gsui-oscillator" ).$get( "data-id" );
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSC, obj );
-		} else if ( GSUdomHasClass( tar, "gsuiSynthesizer-newOsc" ) ) {
-			obj.$synthId = tar.closest( "gsui-synthesizer" ).dataset.id;
+		} else if ( tar.$hasClass( "gsuiSynthesizer-newOsc" ) ) {
+			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$get( "data-id" );
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSCNEW, obj );
 		} else {
 			this.#ondropPatternInTrack( "pattern-buffer", drop );
 		}
 	}
 	#ondropPatternInTrack( patType, drop ) {
-		const ppb = GSUdomGetAttrNum( drop.$target.closest( "gsui-timewindow" ), "pxperbeat" );
+		const ppb = +drop.$target.$closest( "gsui-timewindow" ).$getAttr( "pxperbeat" );
 
 		this.$this.$dispatch( GSEV_PATTERNS_DROPPATTERN, {
 			$type: patType,
 			$pattern: drop.$item,
 			$when: Math.floor( drop.$offsetX / ppb ),
-			$track: drop.$target.parentNode.dataset.id,
+			$track: drop.$target.$parent().$getAttr( "data-id" ),
 		} );
 	}
 
