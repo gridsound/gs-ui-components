@@ -265,13 +265,15 @@ class gsuiTimeline extends gsui0ne {
 				}
 			}
 		} else {
+			const tar = $( e.target );
+
 			this.#mousedownPrevX = e.pageX;
 			this.#mousedownPrevDate = Date.now();
 			this.#setStatus(
-				e.target === this.$elements.$cursor.$get( 0 ).parentNode ? GSUI_DRAGGING_TIME :
-				GSUdomHasClass( e.target, "gsuiTimeline-loopBody" ) ? GSUI_DRAGGING_LOOP :
-				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleA" ) ? GSUI_DRAGGING_LOOP_A :
-				GSUdomHasClass( e.target, "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );
+				tar.$is( this.$elements.$cursor.$parent() ) ? GSUI_DRAGGING_TIME :
+				tar.$hasClass( "gsuiTimeline-loopBody" ) ? GSUI_DRAGGING_LOOP :
+				tar.$hasClass( "gsuiTimeline-loopHandleA" ) ? GSUI_DRAGGING_LOOP_A :
+				tar.$hasClass( "gsuiTimeline-loopHandleB" ) ? GSUI_DRAGGING_LOOP_B : "" );
 		}
 		if ( this.#status ) {
 			this.$this.$dispatch( GSEV_TIMELINE_INPUTCURRENTTIMESTART );
