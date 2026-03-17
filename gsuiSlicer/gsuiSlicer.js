@@ -51,10 +51,7 @@ class gsuiSlicer extends gsui0ne {
 		} else {
 			defId += Array.prototype.reduce.call( defs.children, ( max, p ) => Math.max( max, p.dataset.id ), 0 );
 		}
-		this.#waveDef.$setAttr( {
-			"data-id": defId,
-			id: `gsuiSlicer-waveDef-${ defId }`,
-		} );
+		this.#waveDef.$dataId( defId ).$setAttr( "id", `gsuiSlicer-waveDef-${ defId }` );
 		this.$elements.$tools.$on( "click", this.#onclickTools.bind( this ) );
 		this.$elements.$slices.$on( {
 			contextmenu: e => e.preventDefault(),
@@ -134,12 +131,13 @@ class gsuiSlicer extends gsui0ne {
 		if ( !( id in this.#slices ) ) {
 			const use = $( "<use>" );
 			const svg = $( "<svg>" )
+				.$dataId( id )
 				.$addClass( "gsuiSlicer-preview-wave" )
-				.$setAttr( { "data-id": id, preserveAspectRatio: "none" } )
+				.$setAttr( "preserveAspectRatio", "none" )
 				.$append( use );
 			const sli = $( "<div>" )
-				.$addClass( "gsuiSlicer-slices-slice" )
-				.$setAttr( "data-id", id );
+				.$dataId( id )
+				.$addClass( "gsuiSlicer-slices-slice" );
 
 			use.$get( 0 ).setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.$getAttr( id ) }` );
 			this.#slices[ id ] = Object.seal( { id, svg, sli, x: 0, y: 0, w: 0 } );

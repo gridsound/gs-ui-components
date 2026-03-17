@@ -82,7 +82,7 @@ class gsuiChannels extends gsui0ne {
 	}
 	$addChannel( id ) {
 		const chan = $( "<gsui-channel>" )
-			.$setAttr( "data-id", id )
+			.$dataId( id )
 			.$appendTo( id === "main" ? this.$elements.$pmain : this.$elements.$pchans );
 
 		chan.$query( "gsui-analyser-hist" )

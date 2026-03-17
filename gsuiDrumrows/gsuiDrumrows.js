@@ -43,7 +43,7 @@ class gsuiDrumrows extends gsui0ne {
 
 	// .........................................................................
 	$add( id ) {
-		const elDrumrow = $( "<gsui-drumrow>" ).$setAttr( "data-id", id );
+		const elDrumrow = $( "<gsui-drumrow>" ).$dataId( id );
 
 		this.#rows.set( id, elDrumrow );
 		this.$this.$append( elDrumrow );
@@ -78,7 +78,7 @@ class gsuiDrumrows extends gsui0ne {
 		if ( ( btn === 0 || btn === 2 ) && tar.$hasClass( "gsuiDrumrow-main" ) ) {
 			this.$this.$dispatch(
 				btn === 0 ? GSEV_DRUMROWS_LIVESTARTDRUM : GSEV_DRUMROWS_LIVESTOPDRUM,
-				tar.$parent().$getAttr( "data-id" ) );
+				tar.$parent().$dataId() );
 		}
 	}
 }

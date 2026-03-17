@@ -63,16 +63,17 @@ class gsuiEffects extends gsui0ne {
 	// .........................................................................
 	$addEffect( id, fx ) {
 		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
-		const root = $( "<gsui-effect>" ).$setAttr( {
+		const root = $( "<gsui-effect>" ).$dataId( id ).$setAttr( {
 			name: fxAsset.name,
-			"data-id": id,
 			"data-type": fx.type,
 		} );
 
-		root.$get( 0 ).$setFxElement( $( fxAsset.cmp ).$setAttr( {
-			"data-id": id,
-			timedivision: this.$this.$getAttr( "timedivision" ),
-		} ).$message( GSEV_EFFECT_DATACALLBACK, this.#dataCallback.bind( null, id, fx.type ) ) );
+		root.$get( 0 ).$setFxElement(
+			$( fxAsset.cmp )
+				.$dataId( id )
+				.$setAttr( "timedivision", this.$this.$getAttr( "timedivision" ) )
+				.$message( GSEV_EFFECT_DATACALLBACK, this.#dataCallback.bind( null, id, fx.type ) )
+		);
 		this.#fxsHtml.set( id, root );
 		this.$this.$append( root );
 	}

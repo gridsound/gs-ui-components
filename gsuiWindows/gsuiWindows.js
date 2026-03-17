@@ -19,7 +19,7 @@ class gsuiWindows extends gsui0ne {
 		switch ( ev ) {
 			case GSEV_WINDOWS_GET: return this.$this.$query( `gsui-window[data-id="${ val }"]` );
 			case GSEV_WINDOWS_CREATE: return $( "<gsui-window>" )
-				.$setAttr( { "data-id": val } )
+				.$dataId( val )
 				.$on( "focusin", this.#onfocusinWin.bind( this ) )
 				.$appendTo( this );
 		}
@@ -51,7 +51,7 @@ class gsuiWindows extends gsui0ne {
 				}
 			} );
 			this.#focusedWindow = win.$css( "zIndex", this.childElementCount - 1 );
-			this.$this.$dispatch( GSEV_WINDOWS_FOCUS, win.$getAttr( "data-id" ) );
+			this.$this.$dispatch( GSEV_WINDOWS_FOCUS, win.$dataId() );
 		}
 	}
 }

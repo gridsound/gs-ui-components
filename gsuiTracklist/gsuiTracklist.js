@@ -18,10 +18,10 @@ class gsuiTracklist extends gsui0ne {
 	}
 	$addTrack( id ) {
 		const tr = $( "<gsui-track>" )
-			.$setAttr( "data-id", id )
+			.$dataId( id )
 			.$appendTo( this );
 
-		tr.$message( GSEV_TRACK_ROWELEMENT ).$setAttr( "data-id", id );
+		tr.$message( GSEV_TRACK_ROWELEMENT ).$dataId( id );
 		return tr;
 	}
 	$removeTrack( id ) {

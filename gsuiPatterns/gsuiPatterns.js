@@ -43,7 +43,7 @@ class gsuiPatterns extends gsui0ne {
 			const tar = e.target;
 
 			if ( tar.$hasClass( "gsuiPatterns-synth-info" ) ) {
-				this.$expandSynth( tar.$closest( ".gsuiPatterns-synth" ).$getAttr( "data-id" ) );
+				this.$expandSynth( tar.$closest( ".gsuiPatterns-synth" ).$dataId() );
 			}
 		} );
 		this.#getList( "buffers" ).$on( "click", this.#onclickListPatterns.bind( this ) );
@@ -98,7 +98,7 @@ class gsuiPatterns extends gsui0ne {
 			},
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-keys" ),
 			$ondragoverenter: el => {
-				const synthId = el.$closest( ".gsuiPatterns-synth-head" ).$parent().$getAttr( "data-id" );
+				const synthId = el.$closest( ".gsuiPatterns-synth-head" ).$parent().$dataId();
 
 				if ( synthId ) {
 					this.$expandSynth( synthId, true );
@@ -130,16 +130,16 @@ class gsuiPatterns extends gsui0ne {
 		if ( tar.$tag() === "gsui-slicer" ) {
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONSLICER, obj );
 		} else if ( tar.$tag() === "gsui-drumrow" ) {
-			obj.$drumrowId = tar.$get( "data-id" );
+			obj.$drumrowId = tar.$dataId();
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROW, obj );
 		} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROWNEW, obj );
 		} else if ( tar.$hasClass( "gsuiOscillator-waveWrap" ) ) {
-			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$get( "data-id" );
-			obj.$oscId = tar.$closest( "gsui-oscillator" ).$get( "data-id" );
+			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
+			obj.$oscId = tar.$closest( "gsui-oscillator" ).$dataId();
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSC, obj );
 		} else if ( tar.$hasClass( "gsuiSynthesizer-newOsc" ) ) {
-			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$get( "data-id" );
+			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSCNEW, obj );
 		} else {
 			this.#ondropPatternInTrack( "pattern-buffer", drop );
@@ -152,7 +152,7 @@ class gsuiPatterns extends gsui0ne {
 			$type: patType,
 			$pattern: drop.$item,
 			$when: Math.floor( drop.$offsetX / ppb ),
-			$track: drop.$target.$parent().$getAttr( "data-id" ),
+			$track: drop.$target.$parent().$dataId(),
 		} );
 	}
 
@@ -205,7 +205,7 @@ class gsuiPatterns extends gsui0ne {
 
 		switch ( prop ) {
 			case "name": elSyn.$query( ".gsuiPatterns-synth-name" ).$text( val ); break;
-			case "dest": elSyn.$query( ".gsuiPatterns-synth-dest" ).$setAttr( "data-id", val ); break;
+			case "dest": elSyn.$query( ".gsuiPatterns-synth-dest" ).$dataId( val ); break;
 			case "destName": elSyn.$query( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).$text( val ); break;
 		}
 	}
@@ -238,7 +238,7 @@ class gsuiPatterns extends gsui0ne {
 				elPat.$setAttr( "data-name", val );
 				elPat.$query( ".gsuiPatterns-pattern-name" ).$prop( "title", val ).$text( val );
 				break;
-			case "dest": elPat.$query( ".gsuiPatterns-pattern-dest" ).$setAttr( "data-id", val ); break;
+			case "dest": elPat.$query( ".gsuiPatterns-pattern-dest" ).$dataId( val ); break;
 			case "destName": elPat.$query( ".gsuiPatterns-pattern-dest .gsuiPatterns-btnText" ).$text( val ); break;
 			case "synth": this.#getPatternParent( "keys", val ).$append( elPat ); break;
 			case "bufferType":

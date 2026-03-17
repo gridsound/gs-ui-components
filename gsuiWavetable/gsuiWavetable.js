@@ -295,11 +295,10 @@ class gsuiWavetable extends gsui0ne {
 	}
 	#wtwaves_addWave( wId, w ) {
 		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );
-		const elWLine = $( "<div>" ).$setAttr( {
-			class: "gsuiWavetable-posCurve-wave",
-			"data-id": wId,
-			style: { top: `${ ( 1 - w.index ) * 100 }%` },
-		} );
+		const elWLine = $( "<div>" )
+			.$dataId( wId )
+			.$addClass( "gsuiWavetable-posCurve-wave" )
+			.$top( ( 1 - w.index ) * 100, "%" );
 
 		this.$elements.$waves.$append( elW );
 		this.$elements.$wtposWavelines.$append( elWLine );

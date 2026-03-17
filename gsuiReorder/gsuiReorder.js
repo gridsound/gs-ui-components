@@ -140,7 +140,7 @@ class gsuiReorder {
 
 		const newOrderMap = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 		const orderDiff = gsuiReorder.#diffOrderMaps( this.#dataSave, newOrderMap );
-		const movingId = this.#movingItem.$getAttr( "data-id" );
+		const movingId = this.#movingItem.$dataId();
 
 		if ( orderDiff ) {
 			this.#opt.$onchange?.( orderDiff, movingId );
@@ -211,7 +211,7 @@ class gsuiReorder {
 			const { x, y } = elArea.$bcr();
 
 			return {
-				$item: elItem.$getAttr( "data-id" ), // to delete (should be the element)
+				$item: elItem.$dataId(), // to delete (should be the element)
 				$itemElement: elItem.$get( 0 ),
 				$target: elArea,
 				$offsetX: e.clientX - x,
@@ -328,9 +328,9 @@ class gsuiReorder {
 		return root.$query( itemSel ).$reduce( ( obj, el ) => {
 			const el2 = $( el );
 
-			obj[ el2.$getAttr( "data-id" ) ] = {
+			obj[ el2.$dataId() ] = {
 				order: +el2.$css( "order" ),
-				parent: el2.$parent().$closest( "[data-id]" ).$getAttr( "data-id" ),
+				parent: el2.$parent().$closest( "[data-id]" ).$dataId(),
 				$elemParent: el2.$parent(),
 				$elem: el2,
 			};

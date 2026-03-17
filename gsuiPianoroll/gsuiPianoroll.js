@@ -464,7 +464,7 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#onchangeDragline( el, tar ) {
 		const idA = el.closest( ".gsuiPianoroll-block" ).dataset.id;
-		const idB = tar.$parent().$getAttr( "data-id" );
+		const idB = tar.$parent().$dataId();
 
 		this.#onchange( "redirect", idA, idB || null );
 	}

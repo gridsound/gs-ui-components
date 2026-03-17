@@ -189,7 +189,7 @@ class gsuiDotline extends gsui0ne {
 
 				if ( !cdot ) {
 					cdot =
-					this.#cdots[ id ] = $( "<div>" ).$setAttr( { class: "gsuiDotline-cdot", "data-id": id } );
+					this.#cdots[ id ] = $( "<div>" ).$dataId( id ).$addClass( "gsuiDotline-cdot" );
 					this.$element.$append( cdot );
 				}
 				cdot.$setAttr( "data-type", dot.type )
@@ -251,7 +251,7 @@ class gsuiDotline extends gsui0ne {
 			this.#ymin <= y && y <= this.#ymax
 		) ) {
 			this.#data[ id ] = Object.seal( { x: 0, y: 0, type: null, val: null } );
-			this.#dots[ id ] = $( "<div>" ).$setAttr( { class: "gsuiDotline-dot", "data-id": id } );
+			this.#dots[ id ] = $( "<div>" ).$dataId( id ).$addClass( "gsuiDotline-dot" );
 			this.#updateDotElement( args );
 			this.$element.$append( this.#dots[ id ] );
 			this.#sortDots();
@@ -313,7 +313,7 @@ class gsuiDotline extends gsui0ne {
 		const tar = $( e.target );
 		const isSVG = tar.$hasClass( "gsuiDotline-padding" );
 		let isDot = tar.$hasClass( "gsuiDotline-dot" );
-		let id = tar.$getAttr( "data-id" );
+		let id = tar.$dataId();
 
 		GSUdomUnselect();
 		this.#onrightclickSlider( e );
@@ -365,7 +365,7 @@ class gsuiDotline extends gsui0ne {
 		const tar = $( e.target );
 
 		if ( e.button === 2 && tar.$hasClass( "gsuiDotline-cdot" ) ) {
-			const id = tar.$getAttr( "data-id" );
+			const id = tar.$dataId();
 			const dot = this.#data[ id ];
 
 			dot.val = 0;
@@ -381,7 +381,7 @@ class gsuiDotline extends gsui0ne {
 			if ( e.button !== 2 || this.#menu.$isOpen() ) {
 				this.#menu.$close();
 			} else {
-				this.#menuDotId = tar.$getAttr( "data-id" );
+				this.#menuDotId = tar.$dataId();
 				this.#updateMenu( this.#data[ this.#menuDotId ].type );
 				this.#menu.$setTarget( tar );
 				this.#menu.$open();
@@ -439,7 +439,7 @@ class gsuiDotline extends gsui0ne {
 		const tar = $( e.target );
 
 		if ( tar.$hasClass( "gsuiDotline-cdot" ) ) {
-			const id = tar.$getAttr( "data-id" );
+			const id = tar.$dataId();
 			const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
 			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
 			const dotBY = this.#dataSorted[ ind     ][ 1 ].y;
