@@ -104,7 +104,7 @@ class gsuiPatternroll extends gsui0ne {
 		this.#blcManager.$getSelectedBlocks().delete( id );
 	}
 	$changeBlockProp( id, prop, val ) {
-		const blc = $( this.#blcManager.$getBlocks().get( id ) );
+		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
 		switch ( prop ) {
@@ -143,7 +143,6 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	#blockDOMChange( el, prop, val ) {
-		el = $( el );
 		switch ( prop ) {
 			case "when": el.$left( val, "em" ); break;
 			case "duration": el.$width( val, "em" ); break;

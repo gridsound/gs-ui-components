@@ -245,7 +245,6 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	#blockDOMChange( el, prop, val ) {
-		el = $( el );
 		switch ( prop ) {
 			case "when":
 				el.$left( val, "em" );
