@@ -5,11 +5,11 @@ class gsuiRipple {
 	static #spaceDown = false;
 
 	static $init( el ) {
-		GSUdomAddClass( el, "gsuiRipple" );
-		el.addEventListener( "pointerdown", gsuiRipple.#ptrdown, false );
-		el.addEventListener( "keydown", gsuiRipple.#keydown, false );
-		el.addEventListener( "keyup", gsuiRipple.#keyup, false );
-		gsuiRipple.#map.set( el, {} );
+		el.$addClass( "gsuiRipple" )
+			.$addEventListener( "pointerdown", gsuiRipple.#ptrdown, false )
+			.$addEventListener( "keydown", gsuiRipple.#keydown, false )
+			.$addEventListener( "keyup", gsuiRipple.#keyup, false );
+		gsuiRipple.#map.set( el.$get( 0 ), {} );
 	}
 
 	static #keydown( e ) {
@@ -31,26 +31,31 @@ class gsuiRipple {
 			( e.clientY - y ) / h,
 		);
 	}
+	static #rmCirc( obj ) {
+		if ( obj.$elCirc ) {
+			obj.$elCirc.$remove();
+		}
+		delete obj.$elCirc;
+	}
 	static #exec( e, x, y ) {
-		const el = e.currentTarget;
-		const obj = gsuiRipple.#map.get( el );
-		const circ = GSUcreateSpan( { class: "gsuiRipple-circle", inert: true, style: {
-			left: `${ x * 100 }%`,
-			top: `${ y * 100 }%`,
-		} } );
+		const el = $( e.currentTarget );
+		const obj = gsuiRipple.#map.get( e.currentTarget );
+		const circ = $( "<span>" )
+			.$addClass( "gsuiRipple-circle" )
+			.$addAttr( "inert" )
+			.$left( x * 100, "%" )
+			.$top( y * 100, "%" )
+			.$prependTo( el );
 
 		GSUclearTimeout( obj.$timeoutId );
-		if ( obj.$elCirc ) {
-			obj.$elCirc.remove();
-		}
+		gsuiRipple.#rmCirc( obj );
 		obj.$elCirc = circ;
-		el.prepend( circ );
-		GSUdomRmAttr( el, "data-ripple-active" );
+		el.$rmAttr( "data-ripple-active" );
 		obj.$timeoutId = GSUsetTimeout( () => {
-			GSUdomSetAttr( el, "data-ripple-active" );
+			el.$addAttr( "data-ripple-active" );
 			obj.$timeoutId = GSUsetTimeout( () => {
-				GSUdomRmAttr( el, "data-ripple-active" );
-				circ.remove();
+				el.$rmAttr( "data-ripple-active" );
+				gsuiRipple.#rmCirc( obj );
 			}, .7 );
 		}, .01 );
 	}

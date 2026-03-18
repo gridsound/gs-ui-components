@@ -12,7 +12,7 @@ class gsuiJoystick extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		gsuiRipple.$init( this );
+		gsuiRipple.$init( this.$this );
 	}
 	$onptrdown( e ) {
 		e.preventDefault();
