@@ -318,14 +318,13 @@ class gsuiDrums extends gsui0ne {
 		return GSUdomQS( this.firstChild ? this : this.#win, sel );
 	}
 	#createPreview( itemType, rowId, when ) {
-		const el = GSUcreateElement( `gsui-${ itemType }`, {
-			when,
-			class: "gsuiDrums-preview",
-			duration: this.#hoverDurSaved,
-		} );
-
-		this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( el );
-		return el;
+		return $( `<gsui-${ itemType }>` )
+			.$setAttr( {
+				when,
+				class: "gsuiDrums-preview",
+				duration: this.#hoverDurSaved,
+			} )
+			.$appendTo( this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ) );
 	}
 	#createPreviews( whenFrom, whenTo ) {
 		const rowId = this.#draggingRowId;
@@ -339,16 +338,17 @@ class gsuiDrums extends gsui0ne {
 
 		this.#previewsMap.forEach( el => {
 			adding
-				? el.remove()
-				: GSUdomRmClass( el, "gsuiDrums-previewDeleted" );
+				? el.$remove()
+				: el.$rmClass( "gsuiDrums-previewDeleted" );
 		} );
 		if ( !adding ) {
 			drumsArr.forEach( d => {
-				const dw = GSUdomGetAttrNum( d, "when" );
+				d = $( d );
+				const dw = +d.$getAttr( "when" );
 
 				if ( when1A <= dw && dw <= when1B ) {
-					GSUdomAddClass( d, "gsuiDrums-previewDeleted" );
-					newPreviewMap.set( d.dataset.id, d );
+					d.$addClass( "gsuiDrums-previewDeleted" );
+					newPreviewMap.set( d.$dataId(), d );
 				}
 			} );
 		} else {
@@ -370,8 +370,8 @@ class gsuiDrums extends gsui0ne {
 	}
 	#removePreviews( adding ) {
 		this.#previewsMap.forEach( adding
-			? el => el.remove()
-			: el => GSUdomRmClass( el, "gsuiDrums-previewDeleted" ) );
+			? el => el.$remove()
+			: el => el.$rmClass( "gsuiDrums-previewDeleted" ) );
 		this.#previewsMap.clear();
 	}
 
@@ -468,8 +468,8 @@ class gsuiDrums extends gsui0ne {
 		const arr = [];
 
 		this.#previewsMap.forEach( adding
-			? ( p, w ) => arr.push( { when: w } )
-			: p => arr.push( p.dataset.id ) );
+			? ( _d, w ) => arr.push( { when: w } )
+			: d => arr.push( d.$dataId() ) );
 		this.#removePreviews( adding );
 		document.removeEventListener( "pointermove", this.#onptrmoveLinesBind );
 		document.removeEventListener( "pointerup", this.#onptrupNewBind );
