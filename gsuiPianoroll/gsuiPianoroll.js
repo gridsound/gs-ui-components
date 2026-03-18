@@ -191,11 +191,11 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	$addKey( id, obj ) {
-		const blc = GSUgetTemplate( "gsui-pianoroll-block" );
+		const blc = $( GSUgetTemplate( "gsui-pianoroll-block" ) )
+			.$dataId( id )
+			.$on( "mousedown", this.#blcMousedown.bind( this, id ) );
 
-		blc.dataset.id = id;
-		blc.onmousedown = this.#blcMousedown.bind( this, id );
-		blc._draglineDrop = GSUdomQS( blc, ".gsuiDragline-drop" );
+		blc.$get( 0 )._draglineDrop = blc.$query( ".gsuiDragline-drop" ).$get( 0 );
 		this.#getDragline( blc ).$message( GSEV_DRAGLINE_DROPAREAS, this.#getDropAreas.bind( this, id ) );
 		this.#blcManager.$getBlocks().set( id, blc );
 		obj.selected
@@ -221,9 +221,9 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	$removeKey( id ) {
 		const blc = this.#blcManager.$getBlocks().get( id );
-		const blcPrev = this.#blcManager.$getBlocks().get( blc.dataset.prev );
+		const blcPrev = this.#blcManager.$getBlocks().get( blc.$getAttr( "data-prev" ) );
 
-		blc.remove();
+		blc.$remove();
 		this.#getDragline( blcPrev ).$message( GSEV_DRAGLINE_LINKTO, null );
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
@@ -234,9 +234,9 @@ class gsuiPianoroll extends gsui0ne {
 
 		this.#blockDOMChange( blc, prop, val );
 		if ( val === null ) {
-			delete blc.dataset[ prop ];
+			delete blc.$get( 0 ).dataset[ prop ];
 		} else {
-			blc.dataset[ prop === "key" ? "keyNote" : prop ] = val;
+			blc.$get( 0 ).dataset[ prop === "key" ? "keyNote" : prop ] = val;
 		}
 		if ( prop === "selected" ) {
 			val
@@ -245,46 +245,47 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	#blockDOMChange( el, prop, val ) {
+		el = $( el );
 		switch ( prop ) {
 			case "when":
-				el.style.left = `${ val }em`;
-				this.#uiSliderGroup.$setProp( el.dataset.id, "when", val );
+				el.$left( val, "em" );
+				this.#uiSliderGroup.$setProp( el.$dataId(), "when", val );
 				this.#blockRedrawDragline( el );
 				break;
 			case "duration":
-				el.style.width = `${ val }em`;
-				this.#uiSliderGroup.$setProp( el.dataset.id, "duration", val );
+				el.$width( val, "em" );
+				this.#uiSliderGroup.$setProp( el.$dataId(), "duration", val );
 				this.#currKeyDuration = val;
 				this.#blockRedrawDragline( el );
 				break;
 			case "deleted":
-				GSUdomTogClass( el, "gsuiBlocksManager-block-hidden", !!val );
+				el.$togClass( "gsuiBlocksManager-block-hidden", !!val );
 				break;
 			case "selected":
-				GSUdomTogClass( el, "gsuiBlocksManager-block-selected", !!val );
-				this.#uiSliderGroup.$setProp( el.dataset.id, "selected", !!val );
+				el.$togClass( "gsuiBlocksManager-block-selected", !!val );
+				this.#uiSliderGroup.$setProp( el.$dataId(), "selected", !!val );
 				break;
 			case "row":
-				this.#blockDOMChange( el, "key", el.dataset.keyNote - val );
+				this.#blockDOMChange( el, "key", el.$getAttr( "data-key-note" ) - val );
 				break;
 			case "key": {
 				const row = this.#getRowByMidi( val );
 
-				el.firstChild.textContent = gsuiPianoroll.#keyNotation[ row.dataset.key ];
-				row.firstElementChild.append( el );
+				el.$child( 0 ).$text( gsuiPianoroll.#keyNotation[ row.dataset.key ] );
+				el.$appendTo( row.firstElementChild );
 				this.#blockRedrawDragline( el );
 			} break;
 			case "prev": {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
-				GSUdomTogClass( el, "gsuiPianoroll-block-prevLinked", !!val );
-				this.#getDragline( blc ).$message( GSEV_DRAGLINE_LINKTO, el._draglineDrop );
+				el.$togClass( "gsuiPianoroll-block-prevLinked", !!val );
+				this.#getDragline( blc ).$message( GSEV_DRAGLINE_LINKTO, el.$get( 0 )._draglineDrop );
 			} break;
 			case "next": {
 				const blc = this.#blcManager.$getBlocks().get( val );
 
-				GSUdomTogClass( el, "gsuiPianoroll-block-nextLinked", !!val );
-				this.#getDragline( el ).$message( GSEV_DRAGLINE_LINKTO, blc?._draglineDrop );
+				el.$togClass( "gsuiPianoroll-block-nextLinked", !!val );
+				this.#getDragline( el ).$message( GSEV_DRAGLINE_LINKTO, blc?.$get( 0 )._draglineDrop );
 			} break;
 			case "pan":
 			case "gain":
@@ -305,11 +306,11 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#blockSliderUpdate( prop, el, val ) {
 		if ( this.#propSelect.$getCurrentProp() === prop ) {
-			this.#uiSliderGroup.$setProp( el.dataset.id, "value", val );
+			this.#uiSliderGroup.$setProp( el.$dataId(), "value", val );
 		}
 	}
 	#blockRedrawDragline( blc ) {
-		const blcPrev = this.#blcManager.$getBlocks().get( blc.dataset.prev );
+		const blcPrev = this.#blcManager.$getBlocks().get( blc.$getAttr( "data-prev" ) );
 
 		this.#getDragline( blc ).$message( GSEV_DRAGLINE_DRAW );
 		this.#getDragline( blcPrev ).$message( GSEV_DRAGLINE_DRAW );
@@ -317,7 +318,7 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	#getRowByMidi( midi ) { return this.#rowsByMidi[ midi ]; }
-	#getDragline( blc ) { return $( blc, "gsui-dragline" ); }
+	#getDragline( blc ) { return $( blc ).$query( "gsui-dragline" ); }
 
 	// .........................................................................
 	#ongsuiTimewindowPxperbeat( ppb ) {
@@ -418,7 +419,7 @@ class gsuiPianoroll extends gsui0ne {
 			grp.$options( { min: 0, max: 9, def: 0, step: 1 } );
 		}
 		this.#blcManager.$getBlocks().forEach( ( blc, id ) => {
-			const val = +blc.dataset[ prop ] || 0;
+			const val = +blc.$get( 0 ).dataset[ prop ] || 0;
 			const val2 = prop.startsWith( "gainLFO" )
 				? gsuiPianoroll.#mulToX( val )
 				: val;
@@ -449,15 +450,15 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	#getDropAreas( id ) {
-		const d = this.#blcManager.$getBlocks().get( id ).dataset;
+		const d = this.#blcManager.$getBlocks().get( id ).$get( 0 ).dataset;
 		const when = +d.when + +d.duration;
 		const arr = [];
 
 		this.#blcManager.$getBlocks().forEach( blc => {
-			const d = blc.dataset;
+			const [ dwhen, dprev ] = blc.$getAttr( "data-when", "data-prev" );
 
-			if ( +d.when >= when && ( d.prev === undefined || d.prev === id ) ) {
-				arr.push( blc.getElementsByClassName( "gsuiDragline-drop" )[ 0 ] );
+			if ( +dwhen >= when && ( dprev === null || dprev === id ) ) {
+				arr.push( blc.$query( ".gsuiDragline-drop" ) );
 			}
 		} );
 		return arr;

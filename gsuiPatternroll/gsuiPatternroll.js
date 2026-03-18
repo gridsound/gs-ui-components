@@ -87,27 +87,29 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	$addBlock( id, obj, { dataReady } ) {
-		const elBlc = GSUgetTemplate( "gsui-patternroll-block" );
+		const elBlc = $( GSUgetTemplate( "gsui-patternroll-block" ) )
+			.$dataId( id )
+			.$on( "mousedown", this.#blcMousedown.bind( this, id ) )
+			.$setAttr( {
+				"data-pattern": obj.pattern,
+				"data-missing": !dataReady,
+			} );
 
-		elBlc.dataset.id = id;
-		elBlc.dataset.pattern = obj.pattern;
-		elBlc.onmousedown = this.#blcMousedown.bind( this, id );
-		GSUdomSetAttr( elBlc, "data-missing", !dataReady );
 		this.#blcManager.$getBlocks().set( id, elBlc );
 		this.#onaddBlock( id, obj, elBlc );
 	}
 	$removeBlock( id ) {
-		this.#blcManager.$getBlocks().get( id ).remove();
+		this.#blcManager.$getBlocks().get( id ).$remove();
 		this.#blcManager.$getBlocks().delete( id );
 		this.#blcManager.$getSelectedBlocks().delete( id );
 	}
 	$changeBlockProp( id, prop, val ) {
-		const blc = this.#blcManager.$getBlocks().get( id );
+		const blc = $( this.#blcManager.$getBlocks().get( id ) );
 
 		this.#blockDOMChange( blc, prop, val );
 		switch ( prop ) {
-			case "when":
-			case "track": blc.dataset[ prop ] = val; break;
+			case "when": blc.$setAttr( "data-when", val ); break;
+			case "track": blc.$setAttr( "data-track", val ); break;
 			case "selected":
 				val
 					? this.#blcManager.$getSelectedBlocks().set( id, blc )
@@ -141,21 +143,21 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	#blockDOMChange( el, prop, val ) {
+		el = $( el );
 		switch ( prop ) {
-			case "when": el.style.left = `${ val }em`; break;
-			case "duration": el.style.width = `${ val }em`; break;
-			case "deleted": GSUdomTogClass( el, "gsuiBlocksManager-block-hidden", !!val ); break;
-			case "selected": GSUdomTogClass( el, "gsuiBlocksManager-block-selected", !!val ); break;
-			case "row": this.#blockDOMChange( el, "track", this.#incrTrackId( el.dataset.track, val ) ); break;
-			case "track": this.#getRowByTrackId( val )?.$child( 0 ).$append( el ); break;
+			case "when": el.$left( val, "em" ); break;
+			case "duration": el.$width( val, "em" ); break;
+			case "deleted": el.$togClass( "gsuiBlocksManager-block-hidden", !!val ); break;
+			case "selected": el.$togClass( "gsuiBlocksManager-block-selected", !!val ); break;
+			case "row": this.#blockDOMChange( el, "track", this.#incrTrackId( el.$getAttr( "data-track" ), val ) ); break;
+			case "track": el.$appendTo( this.#rowsByTrackId.get( val )?.$child( 0 ) ); break;
 		}
 	}
 
 	// .........................................................................
-	#getRowByTrackId( id ) { return this.#rowsByTrackId.get( id ); }
 	#incrTrackId( id, incr ) {
-		const row = this.#getRowByTrackId( id ).$get( 0 );
-		const rowInd = this.#blcManager.$getRowIndexByRow( row ) + incr;
+		const row = this.#rowsByTrackId.get( id );
+		const rowInd = row.$index() + incr;
 
 		return this.#blcManager.$getRowByIndex( rowInd ).dataset.id;
 	}

@@ -96,8 +96,8 @@ class gsuiDragline extends gsui0ne {
 	#resetDrag() {
 		this.$this.$rmClass( "gsuiDragline-dragging" );
 		this.#dropAreas.forEach( el => {
-			GSUdomRmClass( el, "gsuiDragline-dropActive" );
-			delete el.onmouseup;
+			el.$rmClass( "gsuiDragline-dropActive" )
+				.$on( "mouseup", false );
 		} );
 		document.removeEventListener( "mousemove", this.#evMousemove );
 		document.removeEventListener( "mouseup", this.#evMouseup );
@@ -109,8 +109,8 @@ class gsuiDragline extends gsui0ne {
 		if ( e.button === 0 ) {
 			this.#dropAreas = this.#getDropAreas();
 			this.#dropAreas.forEach( el => {
-				el.onmouseup = this.#onmouseupDrop.bind( this );
-				GSUdomAddClass( el, "gsuiDragline-dropActive" );
+				el.$addClass( "gsuiDragline-dropActive" )
+					.$on( "mouseup", this.#onmouseupDrop.bind( this ) );
 			} );
 			this.$this.$addClass( "gsuiDragline-dragging" );
 			this.#evMousemove = this.#onmousemove.bind( this );

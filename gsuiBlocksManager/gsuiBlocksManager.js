@@ -8,7 +8,7 @@ class gsuiBlocksManager {
 	#opts = null;
 	#fontSize = 10;
 	#pxPerBeat = 10;
-	#blockDOMChange = null;
+	#blockDOMChange = GSUnoop;
 	#blcs = new Map();
 	#blcsEditing = new Map();
 	#blcsSelected = new Map();
@@ -61,7 +61,6 @@ class gsuiBlocksManager {
 
 	// .........................................................................
 	$getRowByIndex( ind ) { return this.#nlRows[ ind ]; }
-	$getRowIndexByRow( row ) { return Array.prototype.indexOf.call( this.#nlRows, row ); }
 	$getRowIndexByPageY( pageY ) {
 		const ind = Math.floor( ( pageY - $( this.#nlRows[ 0 ] ).$bcr().y ) / this.#fontSize );
 
@@ -85,7 +84,7 @@ class gsuiBlocksManager {
 		if ( blc.$hasClass( "gsuiBlocksManager-block-selected" ) ) {
 			this.#blcsSelected.forEach( ( blc, id ) => this.#blcsEditing.set( id, blc ) );
 		} else {
-			this.#blcsEditing.set( blc.$dataId(), blc.$get( 0 ) );
+			this.#blcsEditing.set( blc.$dataId(), blc );
 		}
 		return this.#blcsEditing;
 	}
@@ -140,7 +139,7 @@ class gsuiBlocksManager {
 					} else if ( this.#blcs.size > this.#blcsSelected.size ) {
 						const ids = [];
 
-						this.#blcs.forEach( ( blc, id ) => {
+						this.#blcs.forEach( ( _blc, id ) => {
 							if ( !this.#data[ id ].selected ) {
 								ids.push( id );
 							}
@@ -196,7 +195,7 @@ class gsuiBlocksManager {
 	#startPreview() {
 		if ( this.#blcsEditing.size === 1 && ( this.#status === "create" || this.#status === "move" ) ) {
 			this.#blcsEditing.forEach( ( blc, id ) => {
-				const key = +blc.parentNode.parentNode.dataset.midi;
+				const key = +blc.$parent( 2 ).$getAttr( "data-midi" );
 
 				this.#stopPreview();
 				this.#prevPreview = [ id, key ];
@@ -217,8 +216,8 @@ class gsuiBlocksManager {
 			this.#status = "delete";
 			this.#mmFn = this.#getPtrMoveFn();
 			if ( blc.$size() ) {
-				this.#blockDOMChange( blc.$get( 0 ), "deleted", true );
-				this.#blcsEditing.set( blc.$dataId(), blc.$get( 0 ) );
+				this.#blockDOMChange( blc, "deleted", true );
+				this.#blcsEditing.set( blc.$dataId(), blc );
 			}
 		} else if ( e.button === 0 ) {
 			const mdWhenReal = this.$getWhenByPageX( e.pageX );
@@ -257,9 +256,10 @@ class gsuiBlocksManager {
 		this.#mmFn = this.#getPtrMoveFn();
 		this.#mdRowInd = this.$getRowIndexByPageY( e.pageY );
 		blcsEditing.forEach( blc => {
-			const valB = this.$getRowIndexByRow( blc.parentNode.parentNode );
+			lg(blc)
+			const valB = blc.$parent( 2 ).$index();
 
-			this.#valueAMin = Math.min( this.#valueAMin, +blc.dataset.when );
+			this.#valueAMin = Math.min( this.#valueAMin, +blc.$getAttr( "data-when" ) );
 			this.#valueBMin = Math.min( this.#valueBMin, valB );
 			this.#valueBMax = Math.max( this.#valueBMax, valB );
 		} );
@@ -271,7 +271,7 @@ class gsuiBlocksManager {
 		this.#mmFn = this.#getPtrMoveFn();
 		this.#valueAMin =
 		this.#valueAMax = Infinity;
-		blcsEditing.forEach( ( blc, id ) => {
+		blcsEditing.forEach( ( _blc, id ) => {
 			const dat = data[ id ];
 
 			this.#valueAMin = Math.min( this.#valueAMin, dat.offset );
@@ -284,7 +284,7 @@ class gsuiBlocksManager {
 		this.#mmFn = this.#getPtrMoveFn();
 		this.#valueAMin =
 		this.#valueAMax = Infinity;
-		blcsEditing.forEach( ( blc, id ) => {
+		blcsEditing.forEach( ( _blc, id ) => {
 			this.#valueAMin = Math.min( this.#valueAMin, data[ id ].duration );
 		} );
 		this.#valueAMin = -Math.max( 0, this.#valueAMin - this.#beatSnap );
@@ -334,7 +334,7 @@ class gsuiBlocksManager {
 
 		if ( when !== this.#valueA ) {
 			this.#valueA = when;
-			this.#blcsEditing.forEach( blc => this.#blockDOMChange( blc, "when", +blc.dataset.when + when ) );
+			this.#blcsEditing.forEach( blc => this.#blockDOMChange( blc, "when", +blc.$getAttr( "data-when" ) + when ) );
 		}
 		if ( rows !== this.#valueB ) {
 			this.#valueB = rows;
@@ -346,8 +346,8 @@ class gsuiBlocksManager {
 		const blc = this.#getBlc( e.target );
 
 		if ( blc.$size() && !this.#blcsEditing.has( blc.$dataId() ) ) {
-			this.#blockDOMChange( blc.$get( 0 ), "deleted", true );
-			this.#blcsEditing.set( blc.$dataId(), blc.$get( 0 ) );
+			this.#blockDOMChange( blc, "deleted", true );
+			this.#blcsEditing.set( blc.$dataId(), blc );
 		}
 	}
 	#onmousemoveSelect1() {
@@ -377,8 +377,8 @@ class gsuiBlocksManager {
 				blc.when + blc.duration > when
 			) {
 				const elBlc = this.#blcs.get( id );
-				const pA = rowA.compareDocumentPosition( elBlc );
-				const pB = rowB.compareDocumentPosition( elBlc );
+				const pA = rowA.compareDocumentPosition( elBlc.$get( 0 ) );
+				const pB = rowB.compareDocumentPosition( elBlc.$get( 0 ) );
 
 				if (
 					pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
@@ -435,13 +435,13 @@ class gsuiBlocksManager {
 				break;
 			case "create": {
 				const blc = blcsEditing.get( "preview" );
-				const midi = blc.parentNode.parentNode.dataset.midi;
+				const midi = blc.$parent( 2 ).$getAttr( "data-midi" );
 
 				this.#dispatch( GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK );
 				this.#opts.managercallCreate( {
 					midi: +midi,
-					when: +blc.dataset.when + this.#valueA,
-					duration: +blc.dataset.duration,
+					when: +blc.$getAttr( "data-when" ) + this.#valueA,
+					duration: +blc.$getAttr( "data-duration" ),
 				} );
 			} break;
 		}
