@@ -96,8 +96,7 @@ class gsuiDragline extends gsui0ne {
 	#resetDrag() {
 		this.$this.$rmClass( "gsuiDragline-dragging" );
 		this.#dropAreas.forEach( el => {
-			el.$rmClass( "gsuiDragline-dropActive" )
-				.$on( "mouseup", false );
+			el.$rmClass( "gsuiDragline-dropActive" ).$off( "mouseup" );
 		} );
 		document.removeEventListener( "mousemove", this.#evMousemove );
 		document.removeEventListener( "mouseup", this.#evMouseup );
