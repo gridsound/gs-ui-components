@@ -25,7 +25,7 @@ class gsuiDrums extends gsui0ne {
 	#drumsMap = new Map();
 	#previewsMap = new Map();
 	#linesMap = new Map();
-	#elLines = null;
+	#elLines = $noop;
 	#elDrumHover = $( "<div>" ).$addClass( "gsuiDrums-drumHover" ).$append( $( "<div>" ).$addClass( "gsuiDrums-drumHoverIn" ) );
 	#elDrumcutHover = $( "<div>" ).$addClass( "gsuiDrums-drumcutHover" ).$append( $( "<div>" ).$addClass( "gsuiDrums-drumcutHoverIn" ) );
 	#elHover = this.#elDrumHover;
@@ -78,9 +78,11 @@ class gsuiDrums extends gsui0ne {
 	$firstTimeConnected() {
 		this.append( this.#win );
 		this.#win.$appendPanel( this.#drumrows );
-		this.#elLines = GSUdomQS( this.#win, ".gsuiTimewindow-rows" );
-		this.#elLines.onpointermove = this.#onptrmoveLinesBind;
-		this.#elLines.onmouseleave = this.#onmouseleaveLines.bind( this );
+		this.#elLines = $( this.#win ).$query( ".gsuiTimewindow-rows" )
+			.$on( {
+				pointermove: this.#onptrmoveLinesBind,
+				mouseleave: this.#onmouseleaveLines.bind( this ),
+			} );
 	}
 	static get observedAttributes() {
 		return [ "disabled", "currenttime", "timedivision", "loop" ];
@@ -123,7 +125,7 @@ class gsuiDrums extends gsui0ne {
 
 		elLine.$message( GSEV_DRUMROW_SETDRUMLINE, elDrumLine );
 		this.#linesMap.set( rowId, elDrumLine );
-		this.#elLines.append( elDrumLine );
+		this.#elLines.$append( elDrumLine );
 		this.#setPropFilter( rowId, "gain" );
 	}
 	$removeDrumrow( rowId ) {
@@ -416,7 +418,7 @@ class gsuiDrums extends gsui0ne {
 	}
 	#onptrmoveLines2() {
 		if ( this.#hoverItemType ) {
-			const left = $( this.#elLines ).$bcr().x;
+			const left = this.#elLines.$bcr().x;
 			const when = ( this.#hoverPageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const [ prevItem, prevW ] = this.#getPrevItem( this.#draggingRowId, this.#hoverItemType, when );
 			const prevD = prevItem && GSUdomGetAttrNum( prevItem, "duration" );
@@ -459,7 +461,7 @@ class gsuiDrums extends gsui0ne {
 			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
 			GSUdomUnselect();
-			this.#elLines.onpointermove = null;
+			this.#elLines.$off( "pointermove" );
 			document.addEventListener( "pointermove", this.#onptrmoveLinesBind );
 			document.addEventListener( "pointerup", this.#onptrupNewBind );
 		}
@@ -474,7 +476,7 @@ class gsuiDrums extends gsui0ne {
 		this.#removePreviews( adding );
 		document.removeEventListener( "pointermove", this.#onptrmoveLinesBind );
 		document.removeEventListener( "pointerup", this.#onptrupNewBind );
-		this.#elLines.onpointermove = this.#onptrmoveLinesBind;
+		this.#elLines.$on( "pointermove", this.#onptrmoveLinesBind );
 		if ( arr.length > 0 ) {
 			this.$this.$dispatch( GSEV_DRUMS_CHANGE, this.#currAction, this.#draggingRowId, arr );
 		}
@@ -485,7 +487,7 @@ class gsuiDrums extends gsui0ne {
 		const dd = d && GSUdomGetAttrNum( d, "duration" ) / 2;
 
 		if ( d && dd > 1 / this.#stepsPerBeat / ( 8 + 1 ) ) {
-			const left = $( this.#elLines ).$bcr().x;
+			const left = this.#elLines.$bcr().x;
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const dw = GSUdomGetAttrNum( d, "when" );
 			const dd = GSUdomGetAttrNum( d, "duration" ) / 2;
