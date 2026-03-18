@@ -1,9 +1,9 @@
 "use strict";
 
 class gsuiBlocksManager {
-	rootElement = null;
-	timeline = $noop;
 	$oncreatePreviewBlock = () => $noop;
+	#rootElement = null;
+	#timeline = $noop;
 	#data = {};
 	#opts = null;
 	#fontSize = 10;
@@ -38,8 +38,8 @@ class gsuiBlocksManager {
 
 	constructor( opts ) {
 		Object.seal( this );
-		this.rootElement = opts.rootElement;
-		this.timeline = opts.timeline;
+		this.#rootElement = opts.rootElement;
+		this.#timeline = opts.timeline;
 		this.#opts = opts;
 		this.#opts.oneditBlock = opts.oneditBlock || GSUnoop;
 		this.#blockDOMChange = opts.blockDOMChange;
@@ -70,12 +70,12 @@ class gsuiBlocksManager {
 		return Math.max( 0, ( pageX - $( this.#nlRows[ 0 ] ).$bcr().x ) / this.#pxPerBeat );
 	}
 	$roundBeat( beat ) {
-		return Math.max( 0, this.timeline.$get( 0 ).$beatFloor( beat ) );
+		return Math.max( 0, this.#timeline.$get( 0 ).$beatFloor( beat ) );
 	}
 
 	// .........................................................................
 	#dispatch( ...args ) {
-		$( this.rootElement.firstChild ).$dispatch( ...args );
+		$( this.#rootElement.firstChild ).$dispatch( ...args );
 	}
 	#getBlc( el ) {
 		return $( el ).$closest( ".gsuiBlocksManager-block" );
@@ -89,9 +89,9 @@ class gsuiBlocksManager {
 		return this.#blcsEditing;
 	}
 	#getBeatSnap() {
-		const stepsPerBeat = GSUsplitNums( this.timeline.$getAttr( "timedivision" ), "/" )[ 1 ];
+		const stepsPerBeat = GSUsplitNums( this.#timeline.$getAttr( "timedivision" ), "/" )[ 1 ];
 
-		return 1 / stepsPerBeat * +this.timeline.$getAttr( "step" );
+		return 1 / stepsPerBeat * +this.#timeline.$getAttr( "step" );
 	}
 
 	// .........................................................................
@@ -121,7 +121,7 @@ class gsuiBlocksManager {
 							whenMax = Math.max( whenMax, d.when + d.duration );
 							blcsEditing.set( id, blc );
 						} );
-						whenMax = this.timeline.$get( 0 ).$beatCeil( whenMax ) - whenMin;
+						whenMax = this.#timeline.$get( 0 ).$beatCeil( whenMax ) - whenMin;
 						this.#opts.managercallDuplicating( blcsEditing, whenMax );
 						blcsEditing.clear();
 					}
@@ -256,7 +256,6 @@ class gsuiBlocksManager {
 		this.#mmFn = this.#getPtrMoveFn();
 		this.#mdRowInd = this.$getRowIndexByPageY( e.pageY );
 		blcsEditing.forEach( blc => {
-			lg(blc)
 			const valB = blc.$parent( 2 ).$index();
 
 			this.#valueAMin = Math.min( this.#valueAMin, +blc.$getAttr( "data-when" ) );
