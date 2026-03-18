@@ -24,7 +24,6 @@ class gsuiDrums extends gsui0ne {
 	#hoverItemType = "";
 	#drumsMap = new Map();
 	#previewsMap = new Map();
-	#sliderGroups = new Map();
 	#linesMap = new Map();
 	#elLines = null;
 	#elDrumHover = $( "<div>" ).$addClass( "gsuiDrums-drumHover" ).$append( $( "<div>" ).$addClass( "gsuiDrums-drumHoverIn" ) );
@@ -111,7 +110,7 @@ class gsuiDrums extends gsui0ne {
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
 		GSUdomSetAttr( this.#win, "pxperbeat", ppb );
-		this.#sliderGroups.forEach( grp => GSUdomSetAttr( grp, "pxperbeat", ppb ) );
+		this.$this.$query( "gsui-slidergroup" ).$setAttr( "pxperbeat", ppb );
 	}
 
 	// .........................................................................
@@ -144,15 +143,15 @@ class gsuiDrums extends gsui0ne {
 
 	// .........................................................................
 	$addDrum( id, drum ) {
-		const grp = this.#sliderGroups.get( drum.row );
+		const grp = this.#getSliderGroup( drum.row );
 		const elItem = this.#addItem( id, "drum", drum );
 
-		grp.$set( id, drum.when, GSUdomGetAttrNum( elItem, "duration" ), 0 );
+		grp.$get( 0 ).$set( id, drum.when, GSUdomGetAttrNum( elItem, "duration" ), 0 );
 	}
 	$removeDrum( id ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
 
-		this.#sliderGroups.get( rowId ).$delete( id );
+		this.#getSliderGroup( rowId ).$get( 0 ).$delete( id );
 		this.#removeItem( id );
 	}
 	$addDrumcut( id, drumcut ) {
@@ -162,22 +161,21 @@ class gsuiDrums extends gsui0ne {
 		this.#removeItem( id );
 	}
 	#createDrumrowLine( id ) {
-		const elLine = GSUgetTemplate( "gsui-drums-line" );
-		const grp = GSUdomQS( elLine, "gsui-slidergroup" );
+		const elLine = $( GSUgetTemplate( "gsui-drums-line" ) )
+			.$dataId( id );
 
-		GSUdomSetAttr( grp, "pxperbeat", this.#pxPerBeat );
-		elLine.dataset.id = id;
-		grp.dataset.id = id;
-		this.#sliderGroups.set( id, grp );
-		return elLine;
+		elLine.$query( "gsui-slidergroup" )
+			.$dataId( id )
+			.$setAttr( "pxperbeat", this.#pxPerBeat );
+		return elLine.$get( 0 );
 	}
 	$changeDrum( id, prop, val ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
-		const grp = this.#sliderGroups.get( rowId );
+		const grp = this.#getSliderGroup( rowId );
 
 		GSUdomSetAttr( this.#drumsMap.get( id )[ 2 ], prop, val );
-		if ( prop === grp.dataset.currentProp ) {
-			grp.$setProp( id, "value", val );
+		if ( prop === grp.$getAttr( "data-current-prop" ) ) {
+			grp.$get( 0 ).$setProp( id, "value", val );
 		}
 	}
 	#addItem( id, itemType, item ) {
@@ -196,7 +194,7 @@ class gsuiDrums extends gsui0ne {
 				for ( let d = 1; d < 16; d *= 2 ) {
 					if ( closestW + closestD / d <= when ) {
 						GSUdomSetAttr( closest, "duration", closestD / d );
-						this.#sliderGroups.get( rowId ).$setProp( closest.dataset.id, "duration", closestD / d );
+						this.#getSliderGroup( rowId ).$get( 0 ).$setProp( closest.dataset.id, "duration", closestD / d );
 						break;
 					}
 				}
@@ -219,7 +217,7 @@ class gsuiDrums extends gsui0ne {
 
 			if ( dur !== closestD ) {
 				GSUdomSetAttr( closest, "duration", dur );
-				this.#sliderGroups.get( rowId ).$setProp( closest.dataset.id, "duration", dur );
+				this.#getSliderGroup( rowId ).$get( 0 ).$setProp( closest.dataset.id, "duration", dur );
 			}
 		}
 	}
@@ -250,6 +248,9 @@ class gsuiDrums extends gsui0ne {
 	}
 
 	// .........................................................................
+	#getSliderGroup( rowId ) {
+		return this.$this.$query( `gsui-slidergroup[data-id="${ rowId }"]` );
+	}
 	#getItems( rowId, itemType ) {
 		const arr = [];
 
@@ -297,18 +298,18 @@ class gsuiDrums extends gsui0ne {
 			.forEach( el => this.#setPropFilter( el.dataset.id, prop ) );
 	}
 	#setPropFilter( rowId, prop ) {
-		const grp = this.#sliderGroups.get( rowId );
+		const grp = this.#getSliderGroup( rowId );
 		const line = this.#linesMap.get( rowId );
 
-		line.dataset.prop =
-		grp.dataset.currentProp = prop;
+		line.dataset.prop = prop;
+		grp.$setAttr( "data-current-prop", prop );
 		switch ( prop ) {
-			case "pan": grp.$options( { min: -1, max: 1, step: .05, def: 0 } ); break;
-			case "gain": grp.$options( { min: 0, max: 1, step: .025, def: .8 } ); break;
-			case "detune": grp.$options( { min: -12, max: 12, step: 1, def: 0 } ); break;
+			case "pan": grp.$get( 0 ).$options( { min: -1, max: 1, step: .05, def: 0 } ); break;
+			case "gain": grp.$get( 0 ).$options( { min: 0, max: 1, step: .025, def: .8 } ); break;
+			case "detune": grp.$get( 0 ).$options( { min: -12, max: 12, step: 1, def: 0 } ); break;
 		}
 		this.#getItems( rowId, "drum" ).forEach( d => {
-			grp.$setProp( d.dataset.id, "value", GSUdomGetAttrNum( d, prop ) );
+			grp.$get( 0 ).$setProp( d.dataset.id, "value", GSUdomGetAttrNum( d, prop ) );
 		} );
 		this.#drumrows.$setPropFilter( rowId, prop );
 	}
