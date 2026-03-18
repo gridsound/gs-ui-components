@@ -54,21 +54,21 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const uiKeys = GSUdomQS( "gsui-keys" );
-const togOrient = GSUdomQS( "#toggleOrient" );
-const testContent = GSUdomQS( "#testContent" );
-const testWrap = GSUdomQS( "#testWrap" );
+const uiKeys = $( "gsui-keys" );
+const togOrient = $( "#toggleOrient" );
+const testContent = $( "#testContent" );
 
-togOrient.onclick = () => {
-	const isHori = GSUdomGetAttr( uiKeys, "orient" ) === "horizontal";
-	const width = testContent.offsetWidth;
-	const height = testContent.offsetHeight;
+togOrient.$on( "click", () => {
+	const isHori = uiKeys.$getAttr( "orient" ) === "horizontal";
+	const width = testContent.$get( 0 ).offsetWidth;
+	const height = testContent.$get( 0 ).offsetHeight;
 
-	testContent.style.width = `${ height }px`;
-	testContent.style.height = `${ width }px`;
-	GSUdomSetAttr( uiKeys, "orient", isHori ? "vertical" : "horizontal" );
-};
-// togOrient.onclick();
+	testContent
+		.$width( height, "px" )
+		.$height( width, "px" );
+	uiKeys.$setAttr( "orient", isHori ? "vertical" : "horizontal" );
+} );
+// togOrient.$click();
 </script>
 </body>
 </html>
