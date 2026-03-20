@@ -189,8 +189,8 @@ class gsuiSlicer extends gsui0ne {
 	}
 	#setWaveform( buf ) {
 		if ( buf ) {
-			gsuiWaveform.drawBuffer( this.#waveDef.$get( 0 ), gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
-			gsuiWaveform.drawBuffer( this.$elements.$srcWave.$get( 0 ).firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+			gsuiWaveform.$drawBuffer( this.#waveDef.$get( 0 ), gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+			gsuiWaveform.$drawBuffer( this.$elements.$srcWave.$get( 0 ).firstChild, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
 		} else {
 			this.#waveDef.$rmAttr( "points" );
 			this.$elements.$srcWave.$child( 0 ).$rmAttr( "points" );

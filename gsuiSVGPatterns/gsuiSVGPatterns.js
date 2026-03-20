@@ -103,7 +103,7 @@ class gsuiSVGPatterns {
 				const polygon = GSUcreateElement( "polygon" );
 				const w = type === "buffer" ? data.duration * 48 | 0 : 260;
 
-				gsuiWaveform.drawBuffer( polygon, w, 48, data );
+				gsuiWaveform.$drawBuffer( polygon, w, 48, data );
 				return gsuiSVGPatterns.#update2( def, id, w, 48, polygon );
 			}
 		}

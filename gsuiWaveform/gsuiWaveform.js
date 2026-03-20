@@ -1,41 +1,45 @@
 "use strict";
 
 class gsuiWaveform {
+	#rootElement = null;
+	#polygon = null;
+	#w = 0;
+	#h = 0;
+
 	constructor( el ) {
 		const svg = el || GSUcreateElement( "svg" );
 		const poly = GSUdomQS( svg, "polygon" );
 
-		this.rootElement = svg;
-		this.polygon = poly;
-		this.width =
-		this.height = 0;
+		// Object.seal( this );
+		this.#rootElement = svg;
+		this.#polygon = poly;
 		GSUdomSetAttr( svg, "preserveAspectRatio", "none" );
 		GSUdomAddClass( svg, "gsuiWaveform" );
 		if ( !poly ) {
-			this.polygon = GSUcreateElement( "polygon" );
-			svg.append( this.polygon );
+			this.#polygon = GSUcreateElement( "polygon" );
+			svg.append( this.#polygon );
 		}
 	}
 
 	// .........................................................................
-	remove() {
+	$remove() {
 		this.empty();
-		this.rootElement.remove();
+		this.#rootElement.remove();
 	}
-	empty() {
-		GSUdomRmAttr( this.polygon, "points" );
+	$empty() {
+		GSUdomRmAttr( this.#polygon, "points" );
 	}
 	$setResolution( w, h ) {
-		this.width = w;
-		this.height = h;
-		GSUdomViewBox( this.rootElement, w, h );
+		this.#w = w;
+		this.#h = h;
+		GSUdomViewBox( this.#rootElement, w, h );
 	}
-	drawBuffer( buf, offset, duration ) {
-		gsuiWaveform.drawBuffer( this.polygon, this.width, this.height, buf, offset, duration );
+	$drawBuffer( buf, offset, duration ) {
+		gsuiWaveform.$drawBuffer( this.#polygon, this.#w, this.#h, buf, offset, duration );
 	}
 
 	// .........................................................................
-	static drawBuffer( polygon, w, h, buf, offset, duration ) {
+	static $drawBuffer( polygon, w, h, buf, offset, duration ) {
 		const d0 = buf.getChannelData( 0 );
 		const d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
 		const off = offset || 0;
@@ -46,7 +50,7 @@ class gsuiWaveform {
 	static $draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
 		GSUdomSetAttr( polygon, "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
 	}
-	static getPointsFromBuffer( w, h, buf, offset, duration ) {
+	static $getPointsFromBuffer( w, h, buf, offset, duration ) {
 		const d0 = buf.getChannelData( 0 );
 		const d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
 		const off = offset || 0;
