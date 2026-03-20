@@ -139,7 +139,7 @@ class gsuiSlicer extends gsui0ne {
 				.$dataId( id )
 				.$addClass( "gsuiSlicer-slices-slice" );
 
-			use.$get( 0 ).setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.$getAttr( id ) }` );
+			use.$get( 0 ).setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ this.#waveDef.$get( 0 ).id }` );
 			this.#slices[ id ] = Object.seal( { id, svg, sli, x: 0, y: 0, w: 0 } );
 			this.$changeSlice( id, obj );
 			this.$elements.$preview.$append( svg );
