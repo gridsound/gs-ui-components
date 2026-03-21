@@ -90,7 +90,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		o.wave = GSUarrayResize( this.#waveArray, Math.max( o.w / o.hz | 0, 2 ) );
 		o.delX = o.w / dur * delay;
 		o.attX = o.w / dur * attack;
-		o.amp = -amp * .95;
+		o.amp = -amp * ( 1 - 2 / o.h );
 		this.#needRedraw = false;
 	}
 
