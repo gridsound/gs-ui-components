@@ -14,9 +14,6 @@ class gsuiWaveletBrowser extends gsui0ne {
 				$svgs: ".gsuiWaveletBrowser-svgs",
 				$btn: "button",
 			},
-			$attributes: {
-				wave: "sine",
-			},
 		} );
 		gsuiTexture.$set( this.$elements.$svgs, "dots" );
 		this.$elements.$btn.$on( "click", this.#onsubmit.bind( this ) );
@@ -88,7 +85,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#onsubmit() {
 		const name = this.#waves[ this.#currentWaveInd ]?.[ 0 ];
 
-		if ( this.#currentWaveInd !== this.#selectedWaveInd && name ) {
+		if ( name !== this.$this.$getAttr( "wave" ) ) {
 			this.$this.$setAttr( "wave", name )
 				.$dispatch( GSEV_WAVELETBROWSER_SUBMIT, name );
 		}
