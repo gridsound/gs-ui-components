@@ -322,12 +322,13 @@ class gsuiWaveEditor extends gsui0ne {
 
 		GSUdomListen( wbrow.$get( 0 ), {
 			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => {
-				gsapiClient.$getWaveletSample( val ).then( arr => {
-					const arr2 = GSUarrayResize( arr, 2048 );
-
+				( val in GSUmathWaveFns
+					? Promise.resolve( GSUmathWaveFns[ val ]( 2048 ) )
+					: gsapiClient.$getWaveletSample( val ).then( arr => GSUarrayResize( arr, 2048 ) )
+				).then( arr => {
 					this.#waveName = val;
-					this.$setWaveArray( arr2 );
-					this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr2 );
+					this.$setWaveArray( arr );
+					this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr );
 					this.#waveletBrowserDropdown.$close();
 				} );
 			},
