@@ -20,13 +20,15 @@ gsui-automation {
 }
 
 .gsuiAutomation-btnTarget {
-	display: flex;
-	gap: .5ch;
 	margin-right: auto;
 	padding: 2px 8px;
 	border-radius: 4px;
+	font-size: 14px;
 	background-color: #0005;
 
+	> * + * {
+		margin-left: .5ch;
+	}
 	&:empty::before {
 		content: "none";
 		font-style: italic;
