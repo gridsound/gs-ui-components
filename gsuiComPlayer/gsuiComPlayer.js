@@ -60,7 +60,7 @@ class gsuiComPlayer extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "itsmine":
-				this.$elements.$likeBtn.$setAttr( "disabled", val === "" );
+				this.$elements.$likeBtn.$disabled( val === "" );
 				this.$elements.$dawlink.$setAttr( "data-icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
 				break;
 			case "bpm": this.$elements.$bpm.$text( val ); break;
@@ -128,7 +128,7 @@ class gsuiComPlayer extends gsui0ne {
 	#onclickLike() {
 		const liked = this.$this.$hasAttr( "liked" );
 
-		this.$elements.$likeBtn.$addAttr( "disabled" );
+		this.$elements.$likeBtn.$disabled( true );
 		this.$elements.$likeIco.$setAttr( "data-spin", "on" );
 		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
@@ -139,7 +139,7 @@ class gsuiComPlayer extends gsui0ne {
 			} )
 			.catch( err => GSUpopup.$alert( `Error ${ err.code }`, err.msg ) )
 			.finally( () => {
-				this.$elements.$likeBtn.$rmAttr( "disabled" );
+				this.$elements.$likeBtn.$disabled( false );
 				this.$elements.$likeIco.$rmAttr( "data-spin" );
 			} );
 	}

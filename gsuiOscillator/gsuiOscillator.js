@@ -102,7 +102,7 @@ class gsuiOscillator extends gsui0ne {
 			case "unisonvoices": this.#updateUnisonGraphVoices( +val ); break;
 			case "unisondetune": this.#updateUnisonGraphDetune( +val ); break;
 			case "unisonblend": this.#updateUnisonGraphBlend( +val ); break;
-			case "hascustomwave": this.$elements.$wavePrevNext.$setAttr( "disabled", val === "" ); break;
+			case "hascustomwave": this.$elements.$wavePrevNext.$disabled( val === "" ); break;
 		}
 		switch ( prop ) {
 			case "pan":

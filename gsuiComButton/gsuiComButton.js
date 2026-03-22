@@ -36,7 +36,7 @@ class gsuiComButton extends gsui0ne {
 
 	// .........................................................................
 	#updateDisabled() {
-		this.$element.$setAttr( "disabled",
+		this.$element.$disabled(
 			this.$this.$hasAttr( "disabled" ) ||
 			this.$this.$hasAttr( "loading" ) );
 	}

@@ -52,7 +52,7 @@ class gsuiTrack extends gsui0ne {
 
 	// .........................................................................
 	#ondblclickName() {
-		this.$elements.$inpName.$rmAttr( "disabled" ).$trigger( "select" ).$focus();
+		this.$elements.$inpName.$disabled( false ).$trigger( "select" ).$focus();
 	}
 	#onkeydown( e ) {
 		if ( e.target === this.$elements.$inpName.$get( 0 ) ) {
@@ -66,11 +66,11 @@ class gsuiTrack extends gsui0ne {
 	#onchange() {
 		const n = this.$elements.$inpName.$value().trim();
 
-		this.$elements.$inpName.$addAttr( "disabled" );
+		this.$elements.$inpName.$disabled( true );
 		this.$this.$setAttr( "name", n ).$dispatch( GSEV_TRACK_RENAME, n );
 	}
 	#onblur() {
-		this.$elements.$inpName.$addAttr( "disabled" );
+		this.$elements.$inpName.$disabled( true );
 	}
 }
 

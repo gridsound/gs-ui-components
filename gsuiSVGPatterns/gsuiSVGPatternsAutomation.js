@@ -2,10 +2,10 @@
 
 class gsuiSVGPatternsAutomation {
 	static $render( _data, _dur ) {
-		const poly = GSUcreateElement( "polyline" );
+		const poly = $( "<polyline>" );
 
-		// GSUdomSetAttr( poly, "points", gsuiDotlineSVG.$draw( data, dur * 1, 1, dur, 1, 0, 0 ) );
-		return [ poly ];
+		// poly.$setAttr( "points", gsuiDotlineSVG.$draw( data, dur * 1, 1, dur, 1, 0, 0 ) );
+		return [ poly.$get( 0 ) ];
 	}
 }
 

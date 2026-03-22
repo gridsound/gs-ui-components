@@ -55,7 +55,7 @@ class gsuiEnvelope extends gsui0ne {
 				this.#updateBeatlinesColor();
 				break;
 			case "toggle":
-				this.$elements.$propSli.$setAttr( "disabled", val === null );
+				this.$elements.$propSli.$disabled( val === null );
 				this.#updateBeatlinesColor();
 				break;
 			case "timedivision":

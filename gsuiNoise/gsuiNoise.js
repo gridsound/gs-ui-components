@@ -45,8 +45,8 @@ class gsuiNoise extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "toggle":
-				this.$elements.$sliders.$setAttr( "disabled", val === null );
-				this.$elements.$colorSelect.$setAttr( "disabled", val === null );
+				this.$elements.$sliders.$disabled( val === null );
+				this.$elements.$colorSelect.$disabled( val === null );
 				break;
 			case "color":
 				this.$elements.$colorTxt.$text( val );

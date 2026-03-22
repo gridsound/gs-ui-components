@@ -70,7 +70,7 @@ class gsuiDAW extends gsui0ne {
 		this.#popups.$export.$btnClear.$on( "click", this.#initRenderBtn.bind( this ) );
 		this.#popups.$about.$versionCheck.$on( "click", this.#onclickVersionCheck.bind( this ) );
 		this.#popups.$settings.$uiRateManualRange.$on( {
-			mousedown: () => this.#popups.$settings.$uiRateManual.$prop( "checked", true ),
+			mousedown: () => this.#popups.$settings.$uiRateManual.$checked( true ),
 			input: e => this.#popups.$settings.$uiRateManualFPS.$text( e.target.value.padStart( 2, "0" ) ),
 		} );
 		this.$elements.$windows.$on( "keydown", e => {
@@ -210,7 +210,7 @@ class gsuiDAW extends gsui0ne {
 	#initRenderBtn() {
 		this.$setExportMsg( "" );
 		this.$this.$rmAttr( "exporting" );
-		this.#popups.$export.$btnUpload.$rmAttr( "disabled" );
+		this.#popups.$export.$btnUpload.$disabled( false );
 		this.#popups.$export.$btnRender.$setAttr( {
 			text: "Render",
 			icon: "render",
@@ -258,7 +258,7 @@ class gsuiDAW extends gsui0ne {
 		if ( !this.$elements.$titleUser.$hasAttr( "connected" ) ) {
 			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
 		} else {
-			this.#popups.$export.$btnUpload.$setAttr( "disabled", true );
+			this.#popups.$export.$btnUpload.$disabled( true );
 			this.$this.$dispatch( GSEV_DAW_UPLOAD_CMP );
 		}
 	}
@@ -282,11 +282,11 @@ class gsuiDAW extends gsui0ne {
 		p.$sampleRate.$value( +this.$this.$getAttr( "samplerate" ) );
 		p.$keyNotation.$value( this.$this.$getAttr( "keynotation" ) );
 		p.$timelineNumbering.$value( +this.$this.$getAttr( "timelinenumbering" ) );
-		p.$windowsLowGraphics.$prop( "checked", this.$this.$getAttr( "windowslowgraphics" ) === "" );
+		p.$windowsLowGraphics.$checked( this.$this.$getAttr( "windowslowgraphics" ) === "" );
 		if ( uiRateAuto ) {
-			p.$uiRateAuto.$prop( "checked", true );
+			p.$uiRateAuto.$checked( true );
 		} else {
-			p.$uiRateManual.$prop( "checked", true );
+			p.$uiRateManual.$checked( true );
 			p.$uiRateManualFPS.$text( uiRate.padStart( 2, "0" ) );
 			p.$uiRateManualRange.$value( uiRate );
 		}

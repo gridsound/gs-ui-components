@@ -109,15 +109,15 @@ class gsuiLFO extends gsui0ne {
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#createWaveArray() { return GSUmathWaveFns[ this.$this.$getAttr( "type" ) || "sine" ]( 256 ); }
 	#changeToggle( b ) {
-		this.$this.$query( "[type=radio]" ).$setAttr( "disabled", !b );
-		this.$elements.$propSli.$setAttr( "disabled", !b );
+		this.$this.$query( "[type=radio]" ).$disabled( !b );
+		this.$elements.$propSli.$disabled( !b );
 	}
 	#changeType( type ) {
 		this.$elements.$wave.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() );
-		this.$this.$query( `[type="radio"][value="${ type }"]` ).$prop( "checked", true );
+		this.$this.$query( `[type="radio"][value="${ type }"]` ).$checked( true );
 	}
 	#changeAmpSign( amp ) {
-		this.$this.$query( `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).$prop( "checked", true );
+		this.$this.$query( `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).$checked( true );
 	}
 	#changeProp( prop, val ) {
 		this.#getPropSlider( prop ).$setAttr( "value", val );

@@ -54,8 +54,8 @@ class gsuiFxFilter extends gsui0ne {
 				this.#toggleTypeBtn( this.#currType, false );
 				this.#toggleTypeBtn( val, true );
 				this.#currType = val;
-				this.#getSlider( "q" ).$setAttr( "disabled", !gsuiFxFilter.typeGainQ[ val ].q );
-				this.#getSlider( "gain" ).$setAttr( "disabled", !gsuiFxFilter.typeGainQ[ val ].gain );
+				this.#getSlider( "q" ).$disabled( !gsuiFxFilter.typeGainQ[ val ].q );
+				this.#getSlider( "gain" ).$disabled( !gsuiFxFilter.typeGainQ[ val ].gain );
 				break;
 			case "q":
 			case "gain":
