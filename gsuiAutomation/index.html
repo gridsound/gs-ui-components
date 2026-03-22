@@ -15,6 +15,10 @@
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="../gsuiDuration/gsuiDuration.css"/>
+<link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
+<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
 
 <!-- ....................................................................... -->
 <link rel="stylesheet" href="gsuiAutomation.css"/>
@@ -22,7 +26,7 @@
 <!-- ....................................................................... -->
 <style>
 body {
-	--test-content-w: 300px;
+	--test-content-w: 500px;
 	--test-content-h: 240px;
 }
 </style>
@@ -49,6 +53,16 @@ body {
 <script src="../gsui0ne/gsui0ne.js"></script>
 
 <!-- ....................................................................... -->
+<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="../gsuiDuration/gsuiDuration.js"></script>
+<script src="../gsuiDotlineSVG/gsuiDotlineSVG.html.js"></script>
+<script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
+<script src="../gsuiDotline/gsuiDotline.html.js"></script>
+<script src="../gsuiDotline/gsuiDotline.js"></script>
+<script src="../gsuiSlider/gsuiSlider.html.js"></script>
+<script src="../gsuiSlider/gsuiSlider.js"></script>
+
+<!-- ....................................................................... -->
 <script src="gsuiAutomation.html.js"></script>
 <script src="gsuiAutomation.js"></script>
 
@@ -56,7 +70,11 @@ body {
 <script>
 const automat = $( "gsui-automation" );
 
-// ...
+automat.$setAttr( {
+	// target: "main.gain",
+	target: "main.0_filter.q",
+	duration: 4,
+} );
 </script>
 </body>
 </html>

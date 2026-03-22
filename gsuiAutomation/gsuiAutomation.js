@@ -5,32 +5,61 @@ class gsuiAutomation extends gsui0ne {
 		super( {
 			$tagName: "gsui-automation",
 			$elements: {
-				$xxx: ".gsuiAutomation-xxx",
+				$btnTarget: ".gsuiAutomation-btnTarget",
+				$duration: "gsui-duration",
+				$beatlines: "gsui-beatlines",
 			},
-			// $attributes: {
-			// },
+			$attributes: {
+				duration: 1,
+			},
+		} );
+		GSUdomListen( this, {
+			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),
+			[ GSEV_DURATION_CHANGE ]: ( _, dur ) => this.#onchange( "duration", dur ),
 		} );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "xxx" ];
+		return [ "target", "duration" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "xxx":
-				// ...
-				break;
+			case "target": this.#updateTarget( val ); break;
+			case "duration": this.#updateDuration( val ); break;
 		}
 	}
-	$onmessage( ev, val ) {
-		switch ( ev ) {
-			// case GSEV_AUTOMATION_XXX:
-			// 	break;
-		}
+	$onresize() {
+		this.#updateBeatline( +this.$elements.$duration.$getAttr( "value" ) );
 	}
 
 	// .........................................................................
+	#onchange( prop, val ) {
+		this.$this.$dispatch( GSEV_AUTOMATION_CHANGE, { [ prop ]: val } );
+	}
+	#updateBeatline( dur ) {
+		const bl = this.$elements.$beatlines;
+
+		bl.$setAttr( "pxperbeat", bl.$width() / dur );
+	}
+	#updateDuration( dur ) {
+		this.$elements.$duration.$setAttr( "value", dur );
+		this.#updateBeatline( dur );
+	}
+	#updateTarget( t ) {
+		const [ chan, fx, prop ] = t.split( "." ); // "chanId[.fxId_fxType].prop"
+		const prop2 = prop || fx;
+		const fx2 = prop ? fx : null;
+
+		this.$elements.$btnTarget.$empty().$append(
+			GSUcreateIcon( { icon: "channels" } ),
+			GSUcreateSpan( null, chan ),
+			fx2 && GSUcreateIcon( { icon: "effects" } ),
+			fx2 && GSUcreateSpan( null, fx2 ),
+			GSUcreateIcon( { icon: "caret-right" } ),
+			GSUcreateSpan( null, prop2 ),
+		);
+	}
 }
 
 GSUdomDefine( "gsui-automation", gsuiAutomation );

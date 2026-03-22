@@ -1,5 +1,32 @@
 gsui-automation {
+	display: block;
+	height: 100%;
 }
 
-.gsui-automation-in {
+.gsuiAutomation-in {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	height: 100%;
+}
+
+.gsuiAutomation-head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.gsuiAutomation-btnTarget {
+	display: flex;
+	gap: .5ch;
+	margin-right: auto;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background-color: #0005;
+}
+
+.gsuiAutomation-body {
+	position: relative;
+	flex: 1;
+	background-color: #0005;
 }
