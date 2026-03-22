@@ -93,7 +93,7 @@
 	flex-direction: column;
 	min-height: 0;
 	background-color: var( --gsuiPatterns-synth-patterns-bg );
-	transition: .3s min-height;
+	transition: .1s min-height;
 }
 .gsuiPatterns-synth-expanded .gsuiPatterns-synth-patterns {
 	overflow-y: auto;

@@ -9,7 +9,7 @@
 	border-bottom: 2px solid transparent;
 	background-color: var( --gsuiPatterns-pattern-bg );
 	transition:
-		margin-top .3s,
+		margin-top .1s,
 		background-color .1s;
 }
 .gsuiPatterns-pattern-selected {
