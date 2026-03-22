@@ -4,12 +4,18 @@ class gsuiEffects extends gsui0ne {
 	#dataCallback = GSUnoop;
 	#fxsHtml = new Map();
 	#actionMenu = new gsuiActionMenu();
-	static #fxsMap = Object.freeze( {
+	static #fxMap = GSUdeepFreeze( {
 		delay: { cmp: "<gsui-fx-delay>", name: "Delay" },
 		filter: { cmp: "<gsui-fx-filter>", name: "Filter" },
 		reverb: { cmp: "<gsui-fx-reverb>", name: "Reverb" },
 		waveshaper: { cmp: "<gsui-fx-waveshaper>", name: "WaveShaper" },
 	} );
+	static #fxList = GSUdeepFreeze( [
+		{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
+		{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },
+		{ id: "reverb",     name: "Reverb",     desc: "Convolution reverberation" },
+		{ id: "waveshaper", name: "WaveShaper", desc: "Distortion" },
+	] );
 
 	constructor() {
 		super( {
@@ -62,7 +68,7 @@ class gsuiEffects extends gsui0ne {
 
 	// .........................................................................
 	$addEffect( id, fx ) {
-		const fxAsset = gsuiEffects.#fxsMap[ fx.type ];
+		const fxAsset = gsuiEffects.#fxMap[ fx.type ];
 		const root = $( "<gsui-effect>" ).$dataId( id ).$setAttr( {
 			name: fxAsset.name,
 			"data-type": fx.type,
@@ -94,12 +100,7 @@ class gsuiEffects extends gsui0ne {
 		this.#actionMenu.$setDirection( "B" );
 		this.#actionMenu.$setMaxSize( "260px", "180px" );
 		this.#actionMenu.$setCallback( act => this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, act ) );
-		this.#actionMenu.$setActions( [
-			{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
-			{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },
-			{ id: "reverb",     name: "Reverb",     desc: "Convolution reverberation" },
-			{ id: "waveshaper", name: "WaveShaper", desc: "Distortion" },
-		] );
+		this.#actionMenu.$setActions( () => gsuiEffects.#fxList );
 	}
 }
 
