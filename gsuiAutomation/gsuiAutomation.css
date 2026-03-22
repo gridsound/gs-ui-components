@@ -23,6 +23,12 @@ gsui-automation {
 	padding: 2px 8px;
 	border-radius: 4px;
 	background-color: #0005;
+
+	&:empty::before {
+		content: "none";
+		font-style: italic;
+		opacity: .7;
+	}
 }
 
 .gsuiAutomation-body {

@@ -47,18 +47,21 @@ class gsuiAutomation extends gsui0ne {
 		this.#updateBeatline( dur );
 	}
 	#updateTarget( t ) {
-		const [ chan, fx, prop ] = t.split( "." ); // "chanId[.fxId_fxType].prop"
-		const prop2 = prop || fx;
-		const fx2 = prop ? fx : null;
+		this.$elements.$btnTarget.$empty();
+		if ( t ) {
+			const [ chan, fx, prop ] = t.split( "." ); // "chanId[.fxId_fxType].prop"
+			const prop2 = prop || fx;
+			const fx2 = prop ? fx : null;
 
-		this.$elements.$btnTarget.$empty().$append(
-			GSUcreateIcon( { icon: "channels" } ),
-			GSUcreateSpan( null, chan ),
-			fx2 && GSUcreateIcon( { icon: "effects" } ),
-			fx2 && GSUcreateSpan( null, fx2 ),
-			GSUcreateIcon( { icon: "caret-right" } ),
-			GSUcreateSpan( null, prop2 ),
-		);
+			this.$elements.$btnTarget.$append(
+				GSUcreateIcon( { icon: "channels" } ),
+				GSUcreateSpan( null, chan ),
+				fx2 && GSUcreateIcon( { icon: "effects" } ),
+				fx2 && GSUcreateSpan( null, fx2 ),
+				GSUcreateIcon( { icon: "caret-right" } ),
+				GSUcreateSpan( null, prop2 ),
+			);
+		}
 	}
 }
 
