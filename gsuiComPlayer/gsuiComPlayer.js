@@ -2,11 +2,18 @@
 
 class gsuiComPlayer extends gsui0ne {
 	#settingTime = null;
-	#actionMenu = null;
-	#actions = null;
+	#actionMenu = new gsuiActionMenu();
 	#actionMenuDir = "TL";
 	#intervalId = null;
 	#promises = {};
+	static #actions = GSUdeepFreeze( [
+		{ id: "open",    icon: "opensource", name: "Make it open-source", desc: "The world will be able to listen to your music and will have access to the source and be able to fork/copy it." },
+		{ id: "visible", icon: "public",     name: "Make it public", desc: "The world will be able to listen to your music, without the source (only the rendered file)." },
+		{ id: "private", icon: "private",    name: "Make it private", desc: "Only you will see the composition, no one will be able to listen it online." },
+		{ id: "fork",    icon: "fork",       name: "Fork it", desc: "Copy the composition to your profile to apply the changes you want." },
+		{ id: "delete",  icon: "trash",      name: "Delete it", desc: "The composition will stay in your private bin for 30 days (only premium users have access to the bin)." },
+		{ id: "restore", icon: "untrash",    name: "Restore it", desc: "Get the composition out of the bin." },
+	] );
 
 	constructor() {
 		super( {
@@ -34,6 +41,11 @@ class gsuiComPlayer extends gsui0ne {
 				likes: 0,
 			},
 		} );
+		this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn );
+		this.#actionMenu.$setActions( this.#createMenuActions.bind( this ) );
+		this.#actionMenu.$setDirection( this.#actionMenuDir );
+		this.#actionMenu.$setMaxSize( "260px", "180px" );
+		this.#actionMenu.$setCallback( this.#cbActionMenu.bind( this ) );
 		this.$elements.$play.$on( "click", this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$on( "click", this.#onclickLike.bind( this ) );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
@@ -54,8 +66,8 @@ class gsuiComPlayer extends gsui0ne {
 		this.#updateRendered( this.$this.$hasAttr( "rendered" ) );
 	}
 	static get observedAttributes() {
-		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "actions", "actionsdir", "likes", "itsmine" ];
-		// + "opensource" + "private" + "liked" + "playing"
+		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "actionsdir", "likes", "itsmine" ];
+		// + "opensource" + "private" + "liked" + "playing" + "actions"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -69,7 +81,6 @@ class gsuiComPlayer extends gsui0ne {
 			case "link": this.$elements.$name.$setAttr( "href", val ); break;
 			case "dawlink": this.$elements.$dawlink.$setAttr( "href", val ); break;
 			case "rendered": this.#updateRendered( val === "" ); break;
-			case "actions": this.#updateActionMenu( val ); break;
 			case "actionsdir":
 				this.#actionMenuDir = val;
 				this.#actionMenu?.$setDirection( val );
@@ -176,26 +187,13 @@ class gsuiComPlayer extends gsui0ne {
 			? { "data-spin": false, "data-icon": "play", title: false }
 			: { "data-spin": false, "data-icon": "file-corrupt", title: "This composition hasn't yet been rendered by its author" } );
 	}
-	#updateActionMenu( actionsStr ) {
-		if ( !this.#actionMenu ) {
-			this.#actions = [
-				{ hidden: true, id: "open",    icon: "opensource", name: "Make it open-source", desc: "The world will be able to listen to your music and will have access to the source and be able to fork/copy it." },
-				{ hidden: true, id: "visible", icon: "public",     name: "Make it public", desc: "The world will be able to listen to your music, without the source (only the rendered file)." },
-				{ hidden: true, id: "private", icon: "private",    name: "Make it private", desc: "Only you will see the composition, no one will be able to listen it online." },
-				{ hidden: true, id: "fork",    icon: "fork",       name: "Fork it", desc: "Copy the composition to your profile to apply the changes you want." },
-				{ hidden: true, id: "delete",  icon: "trash",      name: "Delete it", desc: "The composition will stay in your private bin for 30 days (only premium users have access to the bin)." },
-				{ hidden: true, id: "restore", icon: "untrash",    name: "Restore it", desc: "Get the composition out of the bin." },
-			];
-			this.#actionMenu = new gsuiActionMenu();
-			this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn );
-			this.#actionMenu.$setActions( this.#actions );
-			this.#actionMenu.$setDirection( this.#actionMenuDir );
-			this.#actionMenu.$setMaxSize( "260px", "180px" );
-			this.#actionMenu.$setCallback( this.#cbActionMenu.bind( this ) );
-		}
-		if ( actionsStr ) {
-			this.#actions.forEach( act => this.#actionMenu.$changeAction( act.id, "hidden", !actionsStr.includes( act.id ) ) );
-		}
+	#createMenuActions() {
+		const actionsStr = this.$this.$getAttr( "actions" );
+
+		return gsuiComPlayer.#actions.map( act => ( {
+			...act,
+			hidden: !actionsStr.includes( act.id ),
+		} ) );
 	}
 	static #actioning = {
 		fork: "forking",
