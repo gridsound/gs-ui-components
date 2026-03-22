@@ -25,6 +25,9 @@ GSUsetTemplate( "gsui-daw-windowHeads", () => [
 		GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
 		GSUgetTemplate( "gsui-daw-window-playPause" ),
 	),
+	GSUcreateDiv( { "data-window": "automation" },
+		GSUcreateButton( { class: "gsuiDAW-winBtn", "data-target": "automation" } ),
+	),
 ] );
 
 GSUsetTemplate( "gsui-daw-window-playPause", () => [

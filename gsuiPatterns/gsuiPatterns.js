@@ -60,7 +60,11 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	#getList( list ) {
+	#getList( patType ) {
+		const list =
+			patType === "buffer" ? "buffers" :
+			patType === "automation" ? "automations" : patType;
+
 		return this.$elements.$lists.$filter( `.gsuiPatterns-panel[data-type='${ list }'] *` );
 	}
 	#initReorder( opt ) {
@@ -270,7 +274,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$selectPattern( type, id ) {
-		const elList = this.#getList( type === "buffer" ? "buffers" : type );
+		const elList = this.#getList( type );
 
 		elList.$query( ".gsuiPatterns-pattern-selected" ).$rmClass( "gsuiPatterns-pattern-selected" );
 		this.$getPattern( id ).$addClass( "gsuiPatterns-pattern-selected" );
@@ -290,10 +294,10 @@ class gsuiPatterns extends gsui0ne {
 	#getPatternParent( type, synthId ) {
 		switch ( type ) {
 			case "slices":
+			case "buffer":
+			case "automation":
 			case "drums": return this.#getList( type );
-			case "buffer": return this.#getList( "buffers" );
-			case "automation": return this.#getList( "automations" );
-			case "keys": return this.#getList( "keys" ).$query( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
+			case "keys": return this.#getList( type ).$query( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
 		}
 	}
 
