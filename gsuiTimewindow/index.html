@@ -108,48 +108,48 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const win = GSUdomQS( "gsui-timewindow" );
-const inpDisabled = GSUdomQS( "#disabled" );
-const inpAutoscroll = GSUdomQS( "#autoscroll" );
-const inpPlayStop = GSUdomQS( "#playStop" );
+const win = $( "gsui-timewindow" );
+const inpDisabled = $( "#disabled" );
+const inpAutoscroll = $( "#autoscroll" );
+const inpPlayStop = $( "#playStop" );
 const tracks = [];
 const rows = [];
 let play = false;
 let intervalId = 0;
 let currenttime = 0;
 
-GSUdomListen( win, {
+GSUdomListen( win.$get( 0 ), {
 	[ GSEV_TIMEWINDOW_PXPERBEAT ]: GSUnoop,
 } );
 
-inpDisabled.onchange = e => GSUdomSetAttr( win, "disabled", e.target.checked );
-inpAutoscroll.onchange = e => GSUdomSetAttr( win, "autoscroll", e.target.checked );
+inpDisabled.$on( "change", () => win.$disabled( inpDisabled.$checked() ) );
+inpAutoscroll.$on( "change", () => win.$setAttr( "autoscroll", inpAutoscroll.$checked() ) );
 
-inpPlayStop.onclick = e => {
+inpPlayStop.$on( "click", e => {
 	play = !play;
 	e.target.textContent = play ? "Stop" : "Play!" ;
 	if ( play ) {
 		intervalId = GSUsetInterval( () => {
 			currenttime = ( currenttime + .05 ) % 16;
-			GSUdomSetAttr( win, "currenttime", currenttime );
+			win.$setAttr( "currenttime", currenttime );
 		}, .05 );
 	} else {
 		GSUclearInterval( intervalId );
 		currenttime = 0;
-		GSUdomSetAttr( win, "currenttime", 0 );
+		win.$setAttr( "currenttime", 0 );
 	}
-	GSUdomSetAttr( win, "playing", play );
-};
+	win.$setAttr( "playing", play );
+} );
 
 for ( let i = 0; i < 10; ++i ) {
 	tracks.push( GSUcreateDiv( { class: "myRow" }, `track ${ i }` ) );
 	rows.push( GSUcreateDiv( { class: "myRow" }, `row ${ i }` ) );
 }
-win.$appendPanel( ...tracks );
-GSUdomQS( ".gsuiTimewindow-rows" ).append( ...rows );
+win.$get( 0 ).$appendPanel( ...tracks );
+$( ".gsuiTimewindow-rows" ).$append( ...rows );
 
-inpAutoscroll.click();
-// inpPlayStop.click();
+inpAutoscroll.$click();
+// inpPlayStop.$click();
 </script>
 </body>
 </html>

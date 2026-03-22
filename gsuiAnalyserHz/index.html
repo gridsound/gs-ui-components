@@ -92,7 +92,7 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
-		play.$rmAttr( "disabled" );
+		play.$disabled( false );
 	} );
 
 gain.$on( "input", () => gainNode.gain.setValueAtTime( gain.value, 0 ) );

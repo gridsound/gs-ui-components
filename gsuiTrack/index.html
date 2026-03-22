@@ -61,11 +61,10 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const tr = GSUdomQS( "gsui-track" );
+const tr = $( "gsui-track" );
+const mute = $( "#mute" );
 
-GSUdomQS( "#mute" ).onchange = e => {
-	GSUdomSetAttr( tr, "mute", e.target.checked );
-};
+mute.$on( "change", () => tr.$setAttr( "mute", mute.$checked() ) );
 </script>
 </body>
 </html>

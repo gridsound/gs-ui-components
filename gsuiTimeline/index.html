@@ -98,19 +98,21 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const timeline = GSUdomQS( "gsui-timeline" );
-const inpTPr = GSUdomQS( "#currentTimePreview" );
-const inpTim = GSUdomQS( "#currentTime" );
-const inpPBB = GSUdomQS( "#pxPerbeat" );
-const inpBPM = GSUdomQS( "#beatsPerMeasure" );
-const inpSPB = GSUdomQS( "#stepsPerBeat" );
+const timeline = $( "gsui-timeline" );
+const inpTPr = $( "#currentTimePreview" );
+const inpTim = $( "#currentTime" );
+const inpPBB = $( "#pxPerbeat" );
+const inpBPM = $( "#beatsPerMeasure" );
+const inpSPB = $( "#stepsPerBeat" );
 
-inpTPr.oninput = e => GSUdomSetAttr( timeline, "currenttime-preview", inpTPr.value );
-inpTim.oninput = e => GSUdomSetAttr( timeline, "currenttime", inpTim.value );
-inpPBB.oninput = e => GSUdomSetAttr( timeline, "pxperbeat", inpPBB.value );
-inpBPM.oninput =
-inpSPB.oninput = e => GSUdomSetAttr( timeline, "timedivision", `${ inpBPM.value }/${ inpSPB.value }` );
-GSUdomQS( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
+inpTPr.$on( "input", e => timeline.$setAttr( "currenttime-preview", inpTPr.$value() ) );
+inpTim.$on( "input", e => timeline.$setAttr( "currenttime", inpTim.$value() ) );
+inpPBB.$on( "input", e => timeline.$setAttr( "pxperbeat", inpPBB.$value() ) );
+$( [
+	inpBPM,
+	inpSPB,
+] ).$on( "input", e => timeline.$setAttr( "timedivision", `${ inpBPM.$value() }/${ inpSPB.$value() }` ) );
+$( "#testCtrls" ).$on( "input", e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value );
 </script>
 </body>
 </html>

@@ -145,10 +145,10 @@ gsui-slider.sc2 {
 
 <!-- ....................................................................... -->
 <script>
-const sli = GSUdomQSA( "gsui-slider" );
-const inpDisabled = GSUdomQS( "#inpDisabled" );
+const sli = $( "gsui-slider" );
+const inpDisabled = $( "#inpDisabled" );
 
-inpDisabled.onchange = e => sli.forEach( sli => GSUdomSetAttr( sli, "disabled", inpDisabled.checked ) );
+inpDisabled.$on( "change", e => sli.$disabled( inpDisabled.$checked() ) );
 </script>
 </body>
 </html>

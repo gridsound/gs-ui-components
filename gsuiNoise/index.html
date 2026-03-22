@@ -61,12 +61,12 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const noi = GSUdomQS( "gsui-noise" );
-const inpToggle = GSUdomQS( "#toggle" );
+const noi = $( "gsui-noise" );
+const inpToggle = $( "#toggle" );
 
-inpToggle.onchange = () => GSUdomSetAttr( noi, "toggle", inpToggle.checked );
-
-inpToggle.onchange();
+inpToggle
+	.$on( "change", () => noi.$setAttr( "toggle", inpToggle.$checked() ) )
+	.$trigger( "onchange" );
 </script>
 </body>
 </html>
