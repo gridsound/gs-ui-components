@@ -39,8 +39,8 @@ class gsuiDotline extends gsui0ne {
 				ystep: 1,
 			},
 		} );
-		this.#menu.$setMinSize( "130px", "192px" );
-		this.#menu.$setMaxSize( "130px", "192px" );
+		this.#menu.$setMinSize( "140px", "198px" );
+		this.#menu.$setMaxSize( "140px", "198px" );
 		this.#menu.$closeAfterClick( false );
 		this.#menu.$setDirection( "B" );
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
