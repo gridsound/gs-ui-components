@@ -48,8 +48,8 @@ class gsuiPatterns extends gsui0ne {
 				this.$expandSynth( tar.$closest( ".gsuiPatterns-synth" ).$dataId() );
 			}
 		} );
-		this.#getList( "automations" ).$on( "click", this.#onclickListPatterns.bind( this ) );
-		this.#getList( "buffers" ).$on( "click", this.#onclickListPatterns.bind( this ) );
+		this.#getList( "automation" ).$on( "click", this.#onclickListPatterns.bind( this ) );
+		this.#getList( "buffer" ).$on( "click", this.#onclickListPatterns.bind( this ) );
 		this.#getList( "slices" ).$on( "click", this.#onclickListPatterns.bind( this ) );
 		this.#getList( "drums" ).$on( "click", this.#onclickListPatterns.bind( this ) );
 		this.#getList( "keys" ).$on( "click", this.#onclickSynths.bind( this ) );
@@ -61,11 +61,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	#getList( patType ) {
-		const list =
-			patType === "buffer" ? "buffers" :
-			patType === "automation" ? "automations" : patType;
-
-		return this.$elements.$lists.$filter( `.gsuiPatterns-panel[data-type='${ list }'] *` );
+		return this.$elements.$lists.$filter( `.gsuiPatterns-panel[data-type='${ patType }'] *` );
 	}
 	#initReorder( opt ) {
 		new gsuiReorder( {
@@ -91,7 +87,7 @@ class gsuiPatterns extends gsui0ne {
 	}
 	#initReorderAutomations() {
 		this.#initReorder( {
-			$root: this.#getList( "automations" ),
+			$root: this.#getList( "automation" ),
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-automation" ),
 		} );
 	}
@@ -122,7 +118,7 @@ class gsuiPatterns extends gsui0ne {
 	}
 	#initReorderBuffers() {
 		this.#initReorder( {
-			$root: this.#getList( "buffers" ),
+			$root: this.#getList( "buffer" ),
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => $( [
 				$( "gsui-slicer" ),

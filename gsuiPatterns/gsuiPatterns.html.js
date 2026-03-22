@@ -3,7 +3,7 @@
 GSUsetTemplate( "gsui-patterns", () =>
 	GSUcreateElement( "gsui-panels", { dir: "y" },
 		GSUgetTemplate( "gsui-patterns-panel", {
-			type: "buffers",
+			type: "buffer",
 			title: "buffers",
 			icon: "cu-waveform",
 			placeholder: "drag 'n drop raw files here (mp3, ogg, wav)",
@@ -30,7 +30,7 @@ GSUsetTemplate( "gsui-patterns", () =>
 			button: { action: "newSynth", title: "Create a new synthesizer" },
 		} ),
 		GSUgetTemplate( "gsui-patterns-panel", {
-			type: "automations",
+			type: "automation",
 			title: "automations",
 			icon: "automation",
 			placeholder: "no automation yet",

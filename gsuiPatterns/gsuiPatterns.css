@@ -45,11 +45,11 @@ gsui-patterns {
 	&:first-child {
 		min-height: 24px;
 	}
-	&[ data-type="buffers" ],
+	&[ data-type="buffer" ],
 	&[ data-type="drums" ],
 	&[ data-type="slices" ] { height: 20% }
 	&[ data-type="keys" ] { height: 25% }
-	&[ data-type="automations" ] { height: 15% }
+	&[ data-type="automation" ] { height: 15% }
 }
 
 /* .......................................................................... */
