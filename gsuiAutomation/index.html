@@ -75,12 +75,20 @@ body {
 <!-- ....................................................................... -->
 <script>
 const automat = $( "gsui-automation" );
+const targets = [
+	"main.gain",
+	"main.pan",
+	"main.0_filter.q",
+	"main.0_filter.frequency",
+	"main.0_filter.gain",
+];
 
-automat.$setAttr( {
-	// target: "main.gain",
-	target: "main.0_filter.q",
-	duration: 4,
-} );
+automat
+	.$setAttr( {
+		target: targets[ 2 ],
+		duration: 4,
+	} )
+	.$message( GSEV_AUTOMATION_TARGETS, targets );
 </script>
 </body>
 </html>
