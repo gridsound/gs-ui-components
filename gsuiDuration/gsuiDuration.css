@@ -1,0 +1,36 @@
+gsui-duration {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+
+	span {
+		font-size: 12px;
+		font-weight: bold;
+		opacity: .5;
+	}
+	gsui-slider {
+		height: 8px;
+	}
+	.gsuiSlider-eventCatcher {
+		top: -15px;
+		right: -60px;
+	}
+	b {
+		display: flex;
+		align-items: baseline;
+		height: 20px;
+		gap: .5ch;
+		border-radius: 4px;
+		padding: 2px 6px;
+		font-family: var( --gsui-font-number );
+		background-color: #0005;
+
+		&::after {
+			content: " Beat";
+			font-size: .8em;
+			font-weight: normal;
+			font-family: var( --gsui-font );
+			opacity: .5;
+		}
+	}
+}
