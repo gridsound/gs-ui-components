@@ -9,6 +9,7 @@ GSUsetTemplate( "gsui-automation", () => [
 		),
 		GSUcreateDiv( { class: "gsuiAutomation-body" },
 			GSUcreateElement( "gsui-beatlines", { color: "#fff" } ),
+			GSUcreateElement( "gsui-dotline" ),
 		),
 	),
 ] );
