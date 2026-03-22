@@ -8,6 +8,7 @@ const TESTcmpList = Object.freeze( [
 	"gsuiAnalyserHz",
 	"gsuiAnalyserTd",
 	"gsuiAnalyserVu",
+	"gsuiAutomation",
 	"gsuiBeatlines",
 	"gsuiChannel",
 	"gsuiClock",
