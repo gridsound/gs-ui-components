@@ -6,14 +6,16 @@ class gsuiActionMenu {
 	#minh = "32px";
 	#maxw = "400px";
 	#maxh = "400px";
-	#actions = [];
+	#actions = null;
 	#onclickFn = GSUnoop;
 	#closeAfterClick = true;
 
 	constructor() {
 		this.#dropdown.$onopenCreateElement( this.#createOptions.bind( this ) );
 		this.#dropdown.$onbeforeOpening( () => {
-			return this.#actions.length > 0;
+			return GSUisArr( this.#actions )
+				? this.#actions.length > 0
+				: true;
 		} );
 	}
 
@@ -40,19 +42,23 @@ class gsuiActionMenu {
 		this.#closeAfterClick = b;
 	}
 	$setActions( arr ) {
-		this.#actions = arr.filter( Boolean ).map( act => ( { ...act } ) );
+		this.#actions = GSUisFun( arr )
+			? arr
+			: arr.filter( Boolean ).map( act => ( { ...act } ) );
 	}
 	$changeAction( id, prop, val ) {
-		const act = this.#actions.find( act => act.id === id );
-		const elActions = this.#dropdown.$getContent();
+		if ( GSUisArr( this.#actions ) ) {
+			const act = this.#actions.find( act => act.id === id );
+			const elActions = this.#dropdown.$getContent();
 
-		if ( act ) {
-			act[ prop ] = val;
-			if ( elActions.$size() ) {
-				switch ( prop ) {
-					case "icon":
-						elActions.$query( `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).$setAttr( "data-icon", val );
-						break;
+			if ( act ) {
+				act[ prop ] = val;
+				if ( elActions.$size() ) {
+					switch ( prop ) {
+						case "icon":
+							elActions.$query( `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).$setAttr( "data-icon", val );
+							break;
+					}
 				}
 			}
 		}
@@ -76,15 +82,18 @@ class gsuiActionMenu {
 			maxWidth: this.#maxw,
 			maxHeight: this.#maxh,
 		};
+		const actions = GSUisFun( this.#actions ) ? this.#actions() : this.#actions;
 
-		return $( GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, this.#actions.map( act =>
-			!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
-				act.icon && GSUcreateIcon( { icon: act.icon } ),
-				GSUcreateDiv( { class: "gsuiActionMenu-action-body", inert: true },
-					GSUcreateSpan( { class: "gsuiActionMenu-action-name" }, act.name ),
-					act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),
-				),
-			)
-		) ) ).$on( "click", this.#onclickActions.bind( this ) );
+		return !actions
+			? null
+			: $( GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, actions.map( act =>
+				!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
+					act.icon && GSUcreateIcon( { icon: act.icon } ),
+					GSUcreateDiv( { class: "gsuiActionMenu-action-body", inert: true },
+						GSUcreateSpan( { class: "gsuiActionMenu-action-name" }, act.name ),
+						act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),
+					),
+				)
+			) ) ).$on( "click", this.#onclickActions.bind( this ) );
 	}
 }
