@@ -32,6 +32,7 @@ class gsuiPatterns extends gsui0ne {
 				$newSlices: "[data-action='newSlices']",
 				$newDrums: "[data-action='newDrums']",
 				$newSynth: "[data-action='newSynth']",
+				$newAutomation: "[data-action='newAutomation']",
 			},
 		} );
 		this.onchange = null;
@@ -39,6 +40,7 @@ class gsuiPatterns extends gsui0ne {
 		this.#initReorderSlices();
 		this.#initReorderDrums();
 		this.#initReorderKeys();
+		this.#initReorderAutomations();
 		this.#getList( "keys" ).$on( "dblclick", e => {
 			const tar = $( e.target );
 
@@ -46,6 +48,7 @@ class gsuiPatterns extends gsui0ne {
 				this.$expandSynth( tar.$closest( ".gsuiPatterns-synth" ).$dataId() );
 			}
 		} );
+		this.#getList( "automations" ).$on( "click", this.#onclickListPatterns.bind( this ) );
 		this.#getList( "buffers" ).$on( "click", this.#onclickListPatterns.bind( this ) );
 		this.#getList( "slices" ).$on( "click", this.#onclickListPatterns.bind( this ) );
 		this.#getList( "drums" ).$on( "click", this.#onclickListPatterns.bind( this ) );
@@ -53,10 +56,11 @@ class gsuiPatterns extends gsui0ne {
 		this.$elements.$newSlices.$on( "click", () => this.onchange( "addPatternSlices" ) );
 		this.$elements.$newDrums.$on( "click", () => this.onchange( "addPatternDrums" ) );
 		this.$elements.$newSynth.$on( "click", () => this.onchange( "addSynth" ) );
+		this.$elements.$newAutomation.$on( "click", () => this.onchange( "addAutomation" ) );
 	}
 
 	// .........................................................................
-	#getList( list ) { // slices | drums | keys | buffers
+	#getList( list ) {
 		return this.$elements.$lists.$filter( `.gsuiPatterns-panel[data-type='${ list }'] *` );
 	}
 	#initReorder( opt ) {
@@ -79,6 +83,12 @@ class gsuiPatterns extends gsui0ne {
 		this.#initReorder( {
 			$root: this.#getList( "drums" ),
 			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-drums" ),
+		} );
+	}
+	#initReorderAutomations() {
+		this.#initReorder( {
+			$root: this.#getList( "automations" ),
+			$ondrop: this.#ondropPatternInTrack.bind( this, "pattern-automation" ),
 		} );
 	}
 	#initReorderKeys() {
@@ -282,6 +292,7 @@ class gsuiPatterns extends gsui0ne {
 			case "slices":
 			case "drums": return this.#getList( type );
 			case "buffer": return this.#getList( "buffers" );
+			case "automation": return this.#getList( "automations" );
 			case "keys": return this.#getList( "keys" ).$query( `.gsuiPatterns-synth[data-id="${ synthId }"] .gsuiPatterns-synth-patterns` );
 		}
 	}

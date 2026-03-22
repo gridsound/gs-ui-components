@@ -29,6 +29,13 @@ GSUsetTemplate( "gsui-patterns", () =>
 			placeholder: "no synth yet",
 			button: { action: "newSynth", title: "Create a new synthesizer" },
 		} ),
+		GSUgetTemplate( "gsui-patterns-panel", {
+			type: "automations",
+			title: "automations",
+			icon: "automation",
+			placeholder: "no automation yet",
+			button: { action: "newAutomation", title: "Create a new automation" },
+		} ),
 	)
 );
 

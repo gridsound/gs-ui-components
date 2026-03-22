@@ -48,7 +48,8 @@ gsui-patterns {
 	&[ data-type="buffers" ],
 	&[ data-type="drums" ],
 	&[ data-type="slices" ] { height: 20% }
-	&[ data-type="keys" ] { height: 40% }
+	&[ data-type="keys" ] { height: 25% }
+	&[ data-type="automations" ] { height: 15% }
 }
 
 /* .......................................................................... */
