@@ -9,7 +9,6 @@ class gsuiDropdown {
 	#elContent = $noop;
 	#timeoutId = null;
 	#onptrdownBodyBind = this.#onptrdownBody.bind( this );
-	#onbeforeOpening = GSUnoop;
 	#onopenCreateElement = GSUnoop;
 
 	$isOpen() { return this.#isOpen; }
@@ -17,7 +16,6 @@ class gsuiDropdown {
 	$close() { this.#close(); }
 	$setParent( el ) { this.#elParent = el; }
 	$setDirection( dir ) { this.#direction = dir; }
-	$onbeforeOpening( fn ) { this.#onbeforeOpening = fn; }
 	$onopenCreateElement( fn ) { this.#onopenCreateElement = fn; }
 	$setTarget( el ) {
 		this.#elBtn = el;
@@ -45,18 +43,24 @@ class gsuiDropdown {
 		}
 	}
 	#open() {
-		if ( !this.#isOpen && this.#onbeforeOpening() !== false ) {
-			this.#isOpen = true;
-			GSUclearTimeout( this.#timeoutId );
+		if ( !this.#isOpen ) {
 			if ( this.#elem.$size() ) {
+				this.#isOpen = true;
+				GSUclearTimeout( this.#timeoutId );
 				this.#elem.$addAttr( "data-open" );
 			} else {
-				this.#elem = this.#createElement().$prependTo( this.#elParent );
-				$body.$addEventListener( "pointerdown", this.#onptrdownBodyBind );
-				this.#timeoutId = GSUsetTimeout( () => {
-					this.#positionElement();
-					this.#elem.$addAttr( "data-open" );
-				}, .01 );
+				const elem = this.#createElement();
+
+				if ( elem.$size() ) {
+					this.#isOpen = true;
+					this.#elem = elem.$prependTo( this.#elParent );
+					$body.$addEventListener( "pointerdown", this.#onptrdownBodyBind );
+					GSUclearTimeout( this.#timeoutId );
+					this.#timeoutId = GSUsetTimeout( () => {
+						this.#positionElement();
+						this.#elem.$addAttr( "data-open" );
+					}, .01 );
+				}
 			}
 		}
 	}
@@ -76,10 +80,12 @@ class gsuiDropdown {
 	#createElement() {
 		this.#elContent = this.#onopenCreateElement();
 
-		return $( "<div>" ).$addClass( "gsuiDropdown" ).$setAttr( "data-dir", this.#direction ).$append(
-			$( "<div>" ).$addClass( "gsuiDropdown-arrow" ).$addAttr( "inert" ),
-			$( "<div>" ).$addClass( "gsuiDropdown-content" ).$append( this.#elContent ),
-		);
+		return !this.#elContent.$size()
+			? $noop
+			: $( "<div>" ).$addClass( "gsuiDropdown" ).$setAttr( "data-dir", this.#direction ).$append(
+				$( "<div>" ).$addClass( "gsuiDropdown-arrow" ).$addAttr( "inert" ),
+				$( "<div>" ).$addClass( "gsuiDropdown-content" ).$append( this.#elContent ),
+			);
 	}
 	#positionElement() {
 		const posObj = gsuiCalcAbsPos.$calc(
