@@ -12,11 +12,6 @@ class gsuiActionMenu {
 
 	constructor() {
 		this.#dropdown.$onopenCreateElement( this.#createOptions.bind( this ) );
-		this.#dropdown.$onbeforeOpening( () => {
-			return GSUisArr( this.#actions )
-				? this.#actions.length > 0
-				: true;
-		} );
 	}
 
 	// .........................................................................
@@ -85,7 +80,7 @@ class gsuiActionMenu {
 		const actions = GSUisFun( this.#actions ) ? this.#actions() : this.#actions;
 
 		return !actions
-			? null
+			? $noop
 			: $( GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, actions.map( act =>
 				!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
 					act.icon && GSUcreateIcon( { icon: act.icon } ),
