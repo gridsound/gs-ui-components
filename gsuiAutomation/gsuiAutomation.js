@@ -64,8 +64,6 @@ class gsuiAutomation extends gsui0ne {
 			const prop2 = prop || fx;
 			const fx2 = prop ? fx : null;
 
-			this.#targetMenu.$changeAction( this.#target, "icon", "radio-btn" );
-			this.#targetMenu.$changeAction( t, "icon", "radio-btn-checked" );
 			this.$elements.$btnTarget.$append(
 				GSUcreateIcon( { icon: "channels" } ),
 				GSUcreateSpan( null, chan ),
@@ -83,13 +81,16 @@ class gsuiAutomation extends gsui0ne {
 			this.#onchange( "target", val );
 		}
 	}
-	#updateTargetList( list ) {
-		this.#targetMenu.$setActions( list.map( t => ( {
-			id: t,
-			name: t,
-			icon: "radio-btn",
-		} ) ) );
-		this.#targetMenu.$changeAction( this.#target, "icon", "radio-btn-checked" );
+	#updateTargetList( fnlist ) {
+		this.#targetMenu.$setActions( () => {
+			const arr = fnlist();
+
+			return arr.map( t => ( {
+				id: t,
+				name: t,
+				icon: t === this.#target ? "radio-btn-checked" : "radio-btn",
+			} ) );
+		} );
 	}
 }
 
