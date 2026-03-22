@@ -40,7 +40,7 @@ class gsuiPatterns extends gsui0ne {
 		this.#initReorderDrums();
 		this.#initReorderKeys();
 		this.#getList( "keys" ).$on( "dblclick", e => {
-			const tar = e.target;
+			const tar = $( e.target );
 
 			if ( tar.$hasClass( "gsuiPatterns-synth-info" ) ) {
 				this.$expandSynth( tar.$closest( ".gsuiPatterns-synth" ).$dataId() );
