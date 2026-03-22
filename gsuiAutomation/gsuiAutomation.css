@@ -1,6 +1,9 @@
 gsui-automation {
+	box-sizing: border-box;
 	display: block;
 	height: 100%;
+	padding: 6px;
+	background-color: var( --gsui-item-bg );
 }
 
 .gsuiAutomation-in {
