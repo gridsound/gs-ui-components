@@ -3,6 +3,7 @@
 class gsuiAutomation extends gsui0ne {
 	#target = null;
 	#targetMenu = new gsuiActionMenu();
+	#askTargets = GSUnoop();
 
 	constructor() {
 		super( {
@@ -19,6 +20,7 @@ class gsuiAutomation extends gsui0ne {
 		this.#targetMenu.$setDirection( "BR" );
 		this.#targetMenu.$setCallback( this.#onchangeTarget.bind( this ) );
 		this.#targetMenu.$bindTargetElement( this.$elements.$btnTarget );
+		this.#targetMenu.$setActions( this.#createMenuActions.bind( this ) );
 		GSUdomListen( this, {
 			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),
 			[ GSEV_DURATION_CHANGE ]: ( _, dur ) => this.#onchange( "duration", dur ),
@@ -40,7 +42,7 @@ class gsuiAutomation extends gsui0ne {
 	}
 	$onmessage( ev, val ) {
 		switch ( ev ) {
-			case GSEV_AUTOMATION_TARGETS: this.#updateTargetList( val ); break;
+			case GSEV_AUTOMATION_TARGETS: this.#askTargets = val; break;
 		}
 	}
 
@@ -81,16 +83,12 @@ class gsuiAutomation extends gsui0ne {
 			this.#onchange( "target", val );
 		}
 	}
-	#updateTargetList( fnlist ) {
-		this.#targetMenu.$setActions( () => {
-			const arr = fnlist();
-
-			return arr.map( t => ( {
-				id: t,
-				name: t,
-				icon: t === this.#target ? "radio-btn-checked" : "radio-btn",
-			} ) );
-		} );
+	#createMenuActions() {
+		return this.#askTargets().map( t => ( {
+			id: t,
+			name: t,
+			icon: t === this.#target ? "radio-btn-checked" : "radio-btn",
+		} ) );
 	}
 }
 
