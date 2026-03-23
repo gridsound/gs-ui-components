@@ -60,6 +60,8 @@ class gsuiAutomation extends gsui0ne {
 	$onmessage( ev, val ) {
 		switch ( ev ) {
 			case GSEV_AUTOMATION_TARGETS: this.#askTargets = val; break;
+			case GSEV_AUTOMATION_CURVE: this.$elements.$dotline.$get( 0 ).$change( val ); break;
+			case GSEV_AUTOMATION_CURVE_RESET: this.$elements.$dotline.$get( 0 ).$clear(); break;
 		}
 	}
 
