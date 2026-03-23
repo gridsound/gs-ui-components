@@ -6,8 +6,8 @@ class gsuiActionMenu {
 	#minh = "32px";
 	#maxw = "400px";
 	#maxh = "400px";
-	#actions = null;
 	#onclickFn = GSUnoop;
+	#fnGetActions = GSUnoop;
 	#closeAfterClick = true;
 
 	constructor() {
@@ -36,27 +36,8 @@ class gsuiActionMenu {
 	$closeAfterClick( b ) {
 		this.#closeAfterClick = b;
 	}
-	$setActions( arr ) {
-		this.#actions = GSUisFun( arr )
-			? arr
-			: arr.filter( Boolean ).map( act => ( { ...act } ) );
-	}
-	$changeAction( id, prop, val ) {
-		if ( GSUisArr( this.#actions ) ) {
-			const act = this.#actions.find( act => act.id === id );
-			const elActions = this.#dropdown.$getContent();
-
-			if ( act ) {
-				act[ prop ] = val;
-				if ( elActions.$size() ) {
-					switch ( prop ) {
-						case "icon":
-							elActions.$query( `.gsuiActionMenu-action[data-id='${ act.id }'] .gsuiIcon` ).$setAttr( "data-icon", val );
-							break;
-					}
-				}
-			}
-		}
+	$setActions( fn ) {
+		this.#fnGetActions = fn;
 	}
 
 	// .........................................................................
@@ -71,13 +52,13 @@ class gsuiActionMenu {
 		}
 	}
 	#createOptions() {
+		const actions = this.#fnGetActions();
 		const style = {
 			minWidth: this.#minw,
 			minHeight: this.#minh,
 			maxWidth: this.#maxw,
 			maxHeight: this.#maxh,
 		};
-		const actions = GSUisFun( this.#actions ) ? this.#actions() : this.#actions;
 
 		return !actions
 			? $noop
