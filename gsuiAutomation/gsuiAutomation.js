@@ -12,15 +12,26 @@ class gsuiAutomation extends gsui0ne {
 				$btnTarget: ".gsuiAutomation-btnTarget",
 				$duration: "gsui-duration",
 				$beatlines: "gsui-beatlines",
+				$dotline: "gsui-dotline",
 			},
 			$attributes: {
 				duration: 1,
 			},
 		} );
-		this.#targetMenu.$setDirection( "BR" );
-		this.#targetMenu.$setCallback( this.#onchangeTarget.bind( this ) );
-		this.#targetMenu.$bindTargetElement( this.$elements.$btnTarget );
-		this.#targetMenu.$setActions( this.#createMenuActions.bind( this ) );
+
+		const menu = this.#targetMenu;
+		const dotline = this.$elements.$dotline.$get( 0 );
+
+		menu.$setDirection( "BR" );
+		menu.$setActions( this.#createMenuActions.bind( this ) );
+		menu.$setCallback( this.#onchangeTarget.bind( this ) );
+		menu.$bindTargetElement( this.$elements.$btnTarget );
+		dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
+		dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
+		dotline.$change( {
+			0: { x: 0, y: 0 },
+			1: { x: 1, y: 0 },
+		} );
 		GSUdomListen( this, {
 			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),
 			[ GSEV_DURATION_CHANGE ]: ( _, dur ) => this.#onchange( "duration", dur ),
