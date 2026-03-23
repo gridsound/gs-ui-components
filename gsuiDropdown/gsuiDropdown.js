@@ -27,9 +27,6 @@ class gsuiDropdown {
 		this.#elBtn = btn;
 		btn.$addEventListener( "click", this.#onclickTarget.bind( this ) );
 	}
-	$getContent() {
-		return this.#elContent;
-	}
 
 	// .........................................................................
 	#onclickTarget() {
