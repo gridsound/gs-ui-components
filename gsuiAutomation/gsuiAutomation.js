@@ -3,7 +3,7 @@
 class gsuiAutomation extends gsui0ne {
 	#target = null;
 	#targetMenu = new gsuiActionMenu();
-	#askTargets = GSUnoop();
+	#askTargets = GSUnoop;
 
 	constructor() {
 		super( {
