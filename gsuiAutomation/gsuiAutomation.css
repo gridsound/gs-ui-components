@@ -39,5 +39,10 @@ gsui-automation {
 .gsuiAutomation-body {
 	position: relative;
 	flex: 1;
+	border-radius: 4px;
 	background-color: #0005;
+
+	gsui-beatlines {
+		border-radius: inherit;
+	}
 }
