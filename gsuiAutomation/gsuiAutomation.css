@@ -1,9 +1,17 @@
 gsui-automation {
+	position: relative;
 	box-sizing: border-box;
 	display: block;
 	height: 100%;
 	padding: 6px;
 	background-color: var( --gsui-item-bg );
+
+	&[ disabled ]::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-color: #0008;
+	}
 }
 
 .gsuiAutomation-in {

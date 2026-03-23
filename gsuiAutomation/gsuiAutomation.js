@@ -48,6 +48,7 @@ class gsuiAutomation extends gsui0ne {
 	}
 	static get observedAttributes() {
 		return [ "target", "duration" ];
+		// + "disabled"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
