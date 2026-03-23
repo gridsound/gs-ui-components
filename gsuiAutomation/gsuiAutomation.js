@@ -47,13 +47,14 @@ class gsuiAutomation extends gsui0ne {
 		this.#updateBeatline( +this.$elements.$duration.$getAttr( "value" ) );
 	}
 	static get observedAttributes() {
-		return [ "target", "duration" ];
 		// + "disabled"
+		return [ "target", "duration", "timedivision" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "target": this.#updateTarget( val ); break;
 			case "duration": this.#updateDuration( val ); break;
+			case "timedivision": this.$elements.$beatlines.$setAttr( "timedivision", val ); break;
 		}
 	}
 	$onmessage( ev, val ) {
