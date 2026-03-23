@@ -30,7 +30,7 @@ class gsuiAutomation extends gsui0ne {
 		dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		dotline.$change( {
 			0: { x: 0, y: 0 },
-			1: { x: 1, y: 0 },
+			1: { x: 1, y: 0, type: "curve", val: 0 },
 		} );
 		GSUdomListen( this, {
 			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),

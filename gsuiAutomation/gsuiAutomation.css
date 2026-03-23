@@ -4,7 +4,7 @@ gsui-automation {
 	display: block;
 	height: 100%;
 	padding: 6px;
-	background-color: var( --gsui-item-bg );
+	background-color: #666;
 
 	&[ disabled ]::after {
 		content: "";
