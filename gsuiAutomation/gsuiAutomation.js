@@ -35,6 +35,10 @@ class gsuiAutomation extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),
 			[ GSEV_DURATION_CHANGE ]: ( _, dur ) => this.#onchange( "duration", dur ),
+			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.#onchange( "curve", obj ),
+			[ GSEV_DOTLINE_INPUT ]: GSUnoop,
+			[ GSEV_DOTLINE_INPUTEND ]: GSUnoop,
+			[ GSEV_DOTLINE_INPUTSTART ]: GSUnoop,
 		} );
 	}
 
