@@ -49,6 +49,9 @@ class gsuiDotlineSVG extends gsui0ne {
 		}
 		this.$elements.$path.$setAttr( "d", curveDots.join( " " ) );
 	}
+	$getPath() {
+		return this.$elements.$path;
+	}
 
 	// .........................................................................
 	#calcX( x ) {
