@@ -97,7 +97,7 @@ class gsuiSVGPatterns {
 			case "keys": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsKeys.$render( data ) );
 			case "drums": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsDrums.$render( ...data ) );
 			case "slices": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsSlices.$render( data, dur ) );
-			case "automation": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
+			case "automation": return gsuiSVGPatterns.#update2( def, id, dur * 10, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
 			case "buffer":
 			case "bufferHD": {
 				const polygon = GSUcreateElement( "polygon" );
