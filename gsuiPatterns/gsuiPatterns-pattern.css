@@ -35,10 +35,11 @@
 	width: 14px;
 	opacity: .7;
 	transition: .1s opacity;
-}
-.gsuiPatterns-pattern-btn:focus,
-.gsuiPatterns-pattern-btn:hover {
-	opacity: 1;
+
+	&:focus,
+	&:hover {
+		opacity: 1;
+	}
 }
 
 /* .......................................................................... */
@@ -69,19 +70,21 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	font-weight: bold;
-}
-.gsuiPatterns-pattern-name:empty::after {
-	content: "Untitled";
-	font-style: italic;
-	opacity: .5;
+
+	&:empty::after {
+		content: "Untitled";
+		font-style: italic;
+		opacity: .5;
+	}
 }
 .gsuiPatterns-pattern-dest {
 	background-color: var( --gsuiPatterns-pattern-dest-bg );
-}
-.gsuiPatterns-pattern-dest:hover,
-.gsuiPatterns-pattern-dest:focus {
-	color: var( --gsuiPatterns-pattern-bg );
-	background-color: var( --gsuiPatterns-pattern-color );
+
+	&:hover,
+	&:focus {
+		color: var( --gsuiPatterns-pattern-bg );
+		background-color: var( --gsuiPatterns-pattern-color );
+	}
 }
 
 /* .......................................................................... */
@@ -112,9 +115,10 @@
 	align-items: center;
 	font-size: 14px;
 	opacity: .5;
-}
-.gsuiPatterns-pattern[ data-missing ] .gsuiPatterns-pattern-placeholder {
-	display: flex;
+
+	.gsuiPatterns-pattern[ data-missing ] & {
+		display: flex;
+	}
 }
 .gsuiPatterns-pattern-placeholderIcon {
 	margin: 0 8px;
