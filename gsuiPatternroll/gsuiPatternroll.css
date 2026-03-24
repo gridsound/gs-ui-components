@@ -59,6 +59,11 @@ gsui-patternroll gsui-track {
 	opacity: .8;
 	fill: currentColor;
 }
+.gsuiPatternroll-block[ data-type="automation" ] .gsuiPatternroll-block-content svg {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: .1px;
+}
 
 .gsui-row-small .gsuiPatternroll-block-header {
 	background-color: inherit;

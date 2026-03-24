@@ -93,6 +93,7 @@ class gsuiPatternroll extends gsui0ne {
 			.$setAttr( {
 				"data-pattern": obj.pattern,
 				"data-missing": !dataReady,
+				"data-type": obj.type,
 			} );
 
 		this.#blcManager.$getBlocks().set( id, elBlc );

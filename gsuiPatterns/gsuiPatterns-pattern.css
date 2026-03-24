@@ -98,6 +98,12 @@
 	height: 100%;
 	opacity: .8;
 	fill: currentColor;
+
+	[ data-type="automation" ] & {
+		fill: none;
+		stroke: currentColor;
+		stroke-width: .1px;
+	}
 }
 
 /* .......................................................................... */
