@@ -153,7 +153,7 @@ class gsuiDrums extends gsui0ne {
 	$removeDrum( id ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
 
-		this.#getSliderGroup( rowId ).$get( 0 ).$delete( id );
+		this.#getSliderGroup( rowId ).$get( 0 )?.$delete( id );
 		this.#removeItem( id );
 	}
 	$addDrumcut( id, drumcut ) {
