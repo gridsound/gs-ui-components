@@ -81,17 +81,15 @@ class gsuiAutomation extends gsui0ne {
 	#updateTarget( t ) {
 		this.$elements.$btnTarget.$empty();
 		if ( t ) {
-			const [ chan, fx, prop ] = t.split( "." ); // "chanId[.fxId_fxType].prop"
-			const prop2 = prop || fx;
-			const fx2 = prop ? fx : null;
+			const tar = GSUaudioParseTarget( t );
 
 			this.$elements.$btnTarget.$append(
 				GSUcreateIcon( { icon: "channels" } ),
-				GSUcreateSpan( null, chan ),
-				fx2 && GSUcreateIcon( { icon: "effects" } ),
-				fx2 && GSUcreateSpan( null, fx2 ),
+				GSUcreateSpan( null, tar.$channelId ),
+				tar.$effectId && GSUcreateIcon( { icon: "effects" } ),
+				tar.$effectId && GSUcreateSpan( null, `${ tar.$effectId } ${ tar.$effectType }` ),
 				GSUcreateIcon( { icon: "caret-right" } ),
-				GSUcreateSpan( null, prop2 ),
+				GSUcreateSpan( null, tar.$prop ),
 			);
 		}
 		this.#target = t || null;
