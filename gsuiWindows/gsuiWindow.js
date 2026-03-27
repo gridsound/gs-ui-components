@@ -97,13 +97,14 @@ class gsuiWindow extends gsui0ne {
 	}
 	#onptrdownHead( e ) {
 		const tar = $( e.target );
-		const clicked =
+		const clickHead = 
 			tar.$hasClass( "gsuiWindow-head" ) ||
-			tar.$hasClass( "gsuiWindow-icon" ) ||
-			tar.$hasClass( "gsuiWindow-name" ) ||
 			tar.$hasClass( "gsuiWindow-headContent" );
+		const clicked = clickHead ||
+			tar.$hasClass( "gsuiWindow-icon" ) ||
+			tar.$hasClass( "gsuiWindow-name" );
 
-		if ( GSUdomIsDblClick( e ) ) {
+		if ( clickHead && GSUdomIsDblClick( e ) ) {
 			this.$this.$togAttr( "maximized" );
 		} else if ( e.button === 0 && clicked && !this.$this.$hasAttr( "maximized" ) ) {
 			this.#mousedownPos.x = e.clientX;
