@@ -23,7 +23,7 @@ class gsuiPianoroll extends gsui0ne {
 		"gainLFOSpeed:speed",
 		"gainLFOAmp:amp",
 	];
-	#propSelect = GSUcreateElement( "gsui-prop-select", { prop: "gain", props: this.#propSelectList.join( " " ) } );
+	#propSelect = $( "<gsui-prop-select>" ).$setAttr( { prop: "gain", props: this.#propSelectList.join( " " ) } );
 	#uiKeys = GSUcreateElement( "gsui-keys" );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,
@@ -103,7 +103,7 @@ class gsuiPianoroll extends gsui0ne {
 			.$addClass( "gsuiBlocksManager" )
 			.$append( this.#win );
 		this.#win.$appendPanel( this.#uiKeys );
-		this.#win.$appendPanelDown( this.#propSelect );
+		this.#win.$appendPanelDown( this.#propSelect.$get( 0 ) );
 		this.#win.$appendDown( this.#uiSliderGroup );
 		this.#win.$appendMain( this.#selectionElement.$get( 0 ) );
 		this.$scrollToMiddle();
@@ -186,7 +186,7 @@ class gsuiPianoroll extends gsui0ne {
 		if ( propsWT.length ) {
 			props.push( "---osc-wavetables---", ...propsWT );
 		}
-		GSUdomSetAttr( this.#propSelect, "props", props.join( " " ) );
+		this.#propSelect.$setAttr( "props", props.join( " " ) );
 	}
 
 	// .........................................................................
@@ -304,7 +304,7 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	#blockSliderUpdate( prop, el, val ) {
-		if ( this.#propSelect.$getCurrentProp() === prop ) {
+		if ( this.#propSelect.$getAttr( "prop" ) === prop ) {
 			this.#uiSliderGroup.$setProp( el.$dataId(), "value", val );
 		}
 	}
@@ -339,18 +339,18 @@ class gsuiPianoroll extends gsui0ne {
 		return ret;
 	}
 	#ongsuiSliderGroupInput( val ) {
-		const prop = this.#propSelect.$getCurrentProp();
+		const prop = this.#propSelect.$getAttr( "prop" );
 		const val2 = prop.startsWith( "gainLFO" )
 			? `x ${ gsuiPianoroll.#xToMul( val ).toFixed( 2 ) }`
 			: val;
 
-		GSUdomSetAttr( this.#propSelect, "value", val2 );
+		this.#propSelect.$setAttr( "value", val2 );
 	}
 	#ongsuiSliderGroupInputEnd() {
-		GSUdomRmAttr( this.#propSelect, "value" );
+		this.#propSelect.$rmAttr( "value" );
 	}
 	#ongsuiSliderGroupChange( kvArr ) {
-		const prop = this.#propSelect.$getCurrentProp();
+		const prop = this.#propSelect.$getAttr( "prop" );
 
 		if ( prop.startsWith( "gainLFO" ) ) {
 			kvArr.forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
@@ -403,7 +403,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blcManager.$onmousedown( e );
 	}
 	#onchangePropSelect() {
-		const prop = this.#propSelect.$getCurrentProp();
+		const prop = this.#propSelect.$getAttr( "prop" );
 		const grp = this.#uiSliderGroup;
 
 		switch ( prop ) {
