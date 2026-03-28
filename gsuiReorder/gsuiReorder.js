@@ -265,10 +265,10 @@ class gsuiReorder {
 	}
 	static #calcParentsCoord( root, parSel ) {
 		const parents = root.matches( parSel )
-			? [ root ]
-			: [ ...GSUdomQSA( root, parSel ) ];
+			? $( root )
+			: $( root ).$query( parSel );
 
-		return parents.map( par => {
+		return parents.$map( par => {
 			const par2 = $( par );
 
 			return {
