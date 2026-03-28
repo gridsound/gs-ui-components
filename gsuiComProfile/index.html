@@ -79,41 +79,31 @@ body {
 <!-- ....................................................................... -->
 <script>
 const el = $( "gsui-com-profile" );
-const itsme = GSUdomQS( "#itsme" );
-const email = GSUdomQS( "#email" );
-const avatar = GSUdomQS( "#avatar" );
-const emailpublic = GSUdomQS( "#emailpublic" );
-const emailtoverify = GSUdomQS( "#emailtoverify" );
-const emailsending = GSUdomQS( "#emailsending" );
-const emailsent = GSUdomQS( "#emailsent" );
-const savefail = GSUdomQS( "#savefail" );
-const followed = GSUdomQS( "#followed" );
-const height = GSUdomQS( "#height" );
-const heightValue = height.nextElementSibling;
+const height = $( "#height" );
 
-itsme.onchange = () => el.$togAttr( "itsme" );
-email.onchange = () => el.$setAttr( "email", el.$getAttr( "email" ) ? false : "john.wick@hitman.com" );
-emailpublic.onchange = () => el.$togAttr( "emailpublic" );
-emailtoverify.onchange = () => el.$togAttr( "emailtoverify" );
-emailsending.onchange = () => el.$togAttr( "emailsending" );
-emailsent.onchange = () => el.$togAttr( "emailsent" );
-avatar.onchange = () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "../test-assets/avatar.jpg" );
-followed.onchange = () => el.$togAttr( "followed" );
+$( "#itsme"         ).$on( "change", () => el.$togAttr( "itsme" ) );
+$( "#email"         ).$on( "change", () => el.$setAttr( "email", el.$getAttr( "email" ) ? false : "john.wick@hitman.com" ) );
+$( "#emailpublic"   ).$on( "change", () => el.$togAttr( "emailpublic" ) );
+$( "#emailtoverify" ).$on( "change", () => el.$togAttr( "emailtoverify" ) );
+$( "#emailsending"  ).$on( "change", () => el.$togAttr( "emailsending" ) );
+$( "#emailsent"     ).$on( "change", () => el.$togAttr( "emailsent" ) );
+$( "#avatar"        ).$on( "change", () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "../test-assets/avatar.jpg" ) );
+$( "#followed"      ).$on( "change", () => el.$togAttr( "followed" ) );
 
-height.oninput = () => {
-	el.$css( "--gsuiComProfile-height-mul", height.value );
-	heightValue.textContent = height.value;
-};
+height.$on( "input", () => {
+	el.$css( "--gsuiComProfile-height-mul", height.$value() );
+	height.$next().$text( height.$value() );
+} );
 
 el.$get( 0 ).$setVerifyEmailCallbackPromise( promRes );
 el.$get( 0 ).$setFollowCallbackPromise( promFollow );
 
-itsme.click();
-email.click();
-// emailpublic.click();
-emailtoverify.click();
-avatar.click();
-// followed.click();
+$( "#itsme" ).$click();
+$( "#email" ).$click();
+// $( "#emailpublic" ).$click();
+$( "#emailtoverify" ).$click();
+$( "#avatar" ).$click();
+// $( "#followed" ).$click();
 
 function promFollow() {
 	return GSUwait( 1 ).then( GSUnoop );
@@ -121,7 +111,7 @@ function promFollow() {
 function promRes( obj ) {
 	return new Promise( ( res, rej ) => {
 		GSUsetTimeout( () => {
-			savefail.checked ? rej( "Error in the server or somewhere else.. who knows?" ) : res();
+			$( "#savefail" ).$checked() ? rej( "Error in the server or somewhere else.. who knows?" ) : res();
 		}, 1 );
 	} );
 }

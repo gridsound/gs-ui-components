@@ -112,7 +112,7 @@ $( [
 	inpBPM,
 	inpSPB,
 ] ).$on( "input", e => timeline.$setAttr( "timedivision", `${ inpBPM.$value() }/${ inpSPB.$value() }` ) );
-$( "#testCtrls" ).$on( "input", e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value );
+$( "#testCtrls" ).$on( "input", e => $( e.target ).$next().$next().$text( e.target.value ) );
 </script>
 </body>
 </html>

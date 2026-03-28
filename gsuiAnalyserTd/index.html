@@ -79,13 +79,13 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const play = GSUdomQS( "#play" );
-const stop = GSUdomQS( "#stop" );
-const freeze = GSUdomQS( "#freeze" );
-const analyserTd = GSUdomQS( "gsui-analyser-td" );
-const ampInput = GSUdomQS( "#ampInput" );
-const pinchInput = GSUdomQS( "#pinchInput" );
-const smoothInput = GSUdomQS( "#smoothInput" );
+const play = $( "#play" );
+const stop = $( "#stop" );
+const freeze = $( "#freeze" );
+const analyserTd = $( "gsui-analyser-td" );
+const ampInput = $( "#ampInput" );
+const pinchInput = $( "#pinchInput" );
+const smoothInput = $( "#smoothInput" );
 const ctx = GSUaudioContext();
 const an = GSUaudioAnalyser( ctx );
 const fftSize = 1024;
@@ -102,31 +102,31 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
-		play.disabled = false;
+		play.$disabled( false );
 	} );
 
-freeze.onpointerdown = () => { frozen = !frozen };
-freeze.onpointerup = () => { frozen = false };
-stop.onclick = () => { absn?.stop(); };
-play.onclick = () => {
-	stop.onclick();
+freeze.$on( "pointerdown", () => { frozen = !frozen; } );
+freeze.$on( "pointerup", () => { frozen = false; } );
+stop.$on( "click", () => { absn?.stop(); } );
+play.$on( "click", () => {
+	stop.$click();
 	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
 	absn.connect( ctx.destination );
 	absn.start();
-};
+} );
 
-ampInput.oninput = e => GSUdomSetAttr( analyserTd, "amp", e.target.value );
-pinchInput.oninput = e => GSUdomSetAttr( analyserTd, "pinch", e.target.value );
-smoothInput.oninput = e => GSUdomSetAttr( analyserTd, "smooth", e.target.value );
-GSUdomQS( "#testCtrls" ).oninput = e => e.target.nextElementSibling.nextElementSibling.textContent = e.target.value;
+ampInput.$on( "input", e => analyserTd.$setAttr( "amp", e.target.value ) );
+pinchInput.$on( "input", e => analyserTd.$setAttr( "pinch", e.target.value ) );
+smoothInput.$on( "input", e => analyserTd.$setAttr( "smooth", e.target.value ) );
+$( "#testCtrls" ).$on( "input", e => $( e.target ).$next().$next().$text( e.target.value ) );
 
 function frame() {
 	an.getFloatTimeDomainData( anData );
 	if ( !frozen ) {
-		analyserTd.$draw( anData );
+		analyserTd.$get( 0 ).$draw( anData );
 	}
 }
 

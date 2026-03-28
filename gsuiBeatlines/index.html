@@ -74,26 +74,26 @@ body {
 <!-- ....................................................................... -->
 <script>
 const uiBeatlines = $( "gsui-beatlines" );
-const btnVerti = GSUdomQS( "#vertical" );
-const btnColor = GSUdomQS( "#coloredodds" );
-const inputPPB = GSUdomQS( "#pxPerBeat" );
-const inputBPM = GSUdomQS( "#beatsPerMeasure" );
-const inputSPB = GSUdomQS( "#stepsPerBeat" );
+const inputPPB = $( "#pxPerBeat" );
+const inputBPM = $( "#beatsPerMeasure" );
+const inputSPB = $( "#stepsPerBeat" );
 
-btnColor.onclick = () => uiBeatlines.$togAttr( "coloredodds" );
-btnVerti.onclick = () => uiBeatlines.$togAttr( "vertical" );
+$( "#coloredodds" ).$on( "click", () => uiBeatlines.$togAttr( "coloredodds" ) );
+$( "#vertical" ).$on( "click", () => uiBeatlines.$togAttr( "vertical" ) );
 
 // uiBeatlines.$setAttr( "color", "dodgerblue" );
 
-inputPPB.oninput =
-inputBPM.oninput =
-inputSPB.oninput = e => {
-	e.target.nextElementSibling.textContent = e.target.value;
+$( [
+	inputPPB,
+	inputBPM,
+	inputSPB,
+] ).$on( "input", e => {
+	$( e.target ).$next().$text( e.target.value );
 	uiBeatlines.$setAttr( {
-		pxperbeat: inputPPB.value,
-		timedivision: `${ inputBPM.value }/${ inputSPB.value }`,
+		pxperbeat: inputPPB.$value(),
+		timedivision: `${ inputBPM.$value() }/${ inputSPB.$value() }`,
 	} );
-};
+} );
 </script>
 </body>
 </html>
