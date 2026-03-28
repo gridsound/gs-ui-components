@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiChannels extends gsui0ne {
-	#chans = {};
 	#chanSelected = null;
 	#analyserType = "hz";
 	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
@@ -47,8 +46,7 @@ class gsuiChannels extends gsui0ne {
 		this.#getAnalyser( id ).$get( 0 ).$draw( ldata, rdata );
 	}
 	#selectChannel( id ) {
-		GSUdomRmAttr( this.#chans[ this.#chanSelected ], "selected" );
-		GSUdomSetAttr( this.#chans[ id ], "selected" );
+		this.$getChannel().$setAttr( "selected", el => el.dataset.id === id );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
 		this.$this.$dispatch( GSEV_CHANNELS_SELECTCHAN, id );
@@ -58,10 +56,13 @@ class gsuiChannels extends gsui0ne {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.$append( ...[
 				GSUcreateOption( { value: "main" } ),
-				...Object.entries( this.#chans )
-					.filter( kv => kv[ 0 ] !== "main" )
-					.sort( ( a, b ) => GSUdomGetAttrNum( a[ 1 ], "order" ) - GSUdomGetAttrNum( b[ 1 ], "order" ) )
-					.map( kv => GSUcreateOption( { value: kv[ 0 ] }, GSUdomGetAttr( kv[ 1 ], "name" ) ) ),
+				...this.$this.$query( ".gsuiChannels-panChannels gsui-channel" )
+					.$sort( ( a, b ) => a.dataset.order - b.dataset.order )
+					.$map( el => {
+						const ch = $( el );
+
+						return GSUcreateOption( { value: ch.$dataId() }, ch.$getAttr( "name" ) );
+					} ),
 			] );
 			gsuiChannels.#selectChanInput.$value( currChanId );
 			GSUpopup.$custom( {
@@ -78,7 +79,7 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	$getChannel( id ) {
-		return this.#chans[ id ];
+		return this.$this.$query( `gsui-channel${ id ? `[data-id="${ id }"]` : "" }` );
 	}
 	$addChannel( id ) {
 		const chan = $( "<gsui-channel>" )
@@ -88,7 +89,6 @@ class gsuiChannels extends gsui0ne {
 		chan.$query( "gsui-analyser-hist" )
 			.$setAttr( "type", this.#analyserType )
 			.$get( 0 ).$updateResolution();
-		this.#chans[ id ] = chan.$get( 0 );
 		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
@@ -97,34 +97,29 @@ class gsuiChannels extends gsui0ne {
 		}
 	}
 	$removeChannel( id ) {
-		const chan = this.#chans[ id ];
+		const chan = this.$getChannel( id );
 
 		if ( id === this.#chanSelected ) {
-			const next = this.#getNextChan( chan, "nextElementSibling" );
+			const next = this.#getNextChan( chan, 1 );
 
-			if ( next ) {
-				this.#selectChannel( next.dataset.id );
-			} else {
-				const prev = this.#getNextChan( chan, "previousElementSibling" );
-
-				this.#selectChannel( prev ? prev.dataset.id : "main" );
-			}
+			next.$size()
+				? this.#selectChannel( next.$dataId() )
+				: this.#selectChannel( this.#getNextChan( chan, -1 ).$dataId() || "main" );
 		}
-		delete this.#chans[ id ];
-		chan.remove();
+		chan.$remove();
 		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 	}
 	$changeChannelProp( id, prop, val ) {
-		const chan = this.#chans[ id ];
+		const chan = this.$getChannel( id );
 
 		switch ( prop ) {
 			case "order":
 			case "pan":
 			case "gain":
-			case "name": GSUdomSetAttr( chan, prop, val ); break;
-			case "toggle": GSUdomSetAttr( chan, "muted", !val ); break;
+			case "name": chan.$setAttr( prop, val ); break;
+			case "toggle": chan.$setAttr( "muted", !val ); break;
 			case "dest":
-				chan.dataset.dest = val;
+				chan.$setAttr( "data-dest", val );
 				this.#updateChanConnections();
 				break;
 		}
@@ -132,32 +127,32 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	#getAnalyser( id ) {
-		return this.$this.$query( `gsui-channel${ id ? `[data-id="${ id }"]` : "" } gsui-analyser-hist` );
+		return this.$getChannel( id ).$query( "gsui-analyser-hist" );
 	}
 	#getNextChan( el, dir ) {
-		const sibling = el[ dir ];
+		const sibling = dir < 0 ? el.$prev() : el.$next();
 
-		return sibling && "id" in sibling.dataset ? sibling : null;
+		return sibling.$dataId() ? sibling : $noop;
 	}
 	#updateChanConnections() {
 		const selId = this.#chanSelected;
 
 		if ( selId ) {
-			const chan = this.#chans[ selId ];
-			const chanDest = chan.dataset.dest;
+			const chan = this.$getChannel( selId );
+			const chanDest = chan.$getAttr( "data-dest" );
 			let bOnce = false;
 
-			GSUforEach( this.#chans, ( chan, id ) => {
+			this.$getChannel().$setAttr( ( chan, id ) => {
 				const a = id === chanDest;
 				const b = chan.dataset.dest === selId;
 
-				GSUdomSetAttr( chan, {
+				bOnce = bOnce || b;
+				return {
 					connecta: a ? "up" : false,
 					connectb: b ? "down" : false,
-				} );
-				bOnce = bOnce || b;
+				};
 			} );
-			GSUdomSetAttr( chan, {
+			chan.$setAttr( {
 				connecta: selId !== "main" ? "down" : false,
 				connectb: bOnce ? "up" : false,
 			} );
