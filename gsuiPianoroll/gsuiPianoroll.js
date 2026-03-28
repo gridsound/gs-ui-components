@@ -24,7 +24,7 @@ class gsuiPianoroll extends gsui0ne {
 		"gainLFOAmp:amp",
 	];
 	#propSelect = $( "<gsui-prop-select>" ).$setAttr( { prop: "gain", props: this.#propSelectList.join( " " ) } );
-	#uiKeys = GSUcreateElement( "gsui-keys" );
+	#uiKeys = $( "<gsui-keys>" );
 	#win = GSUcreateElement( "gsui-timewindow", {
 		panelsize: 100,
 		panelsizemin: 100,
@@ -73,12 +73,12 @@ class gsuiPianoroll extends gsui0ne {
 			[ GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK ]: () => this.$removeKey( "preview" ),
 			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
-					this.#uiKeys.$midiKeyDown( a ); // should be called differently
+					this.#uiKeys.$get( 0 ).$midiKeyDown( a ); // should be called differently
 				}
 			},
 			[ GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO ]: ( _, __, a ) => {
 				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
-					this.#uiKeys.$midiKeyUp( a );
+					this.#uiKeys.$get( 0 ).$midiKeyUp( a );
 				}
 			},
 			[ GSEV_DRAGLINE_CHANGE ]: ( d, el ) => this.#onchangeDragline( d.$target, el ),
@@ -102,7 +102,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.$this
 			.$addClass( "gsuiBlocksManager" )
 			.$append( this.#win );
-		this.#win.$appendPanel( this.#uiKeys );
+		this.#win.$appendPanel( this.#uiKeys.$get( 0 ) );
 		this.#win.$appendPanelDown( this.#propSelect.$get( 0 ) );
 		this.#win.$appendDown( this.#uiSliderGroup );
 		this.#win.$appendMain( this.#selectionElement.$get( 0 ) );
@@ -158,9 +158,9 @@ class gsuiPianoroll extends gsui0ne {
 		}
 	}
 	$octaves( from, nb ) {
-		GSUdomSetAttr( this.#uiKeys, "octaves", `${ from } ${ nb }` );
+		this.#uiKeys.$setAttr( "octaves", `${ from } ${ nb }` );
 
-		const rows = this.#uiKeys.$getRows();
+		const rows = this.#uiKeys.$get( 0 ).$getRows();
 
 		Object.keys( this.#rowsByMidi ).forEach( k => delete this.#rowsByMidi[ k ] );
 		rows.forEach( el => {
