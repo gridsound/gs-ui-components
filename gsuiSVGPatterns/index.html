@@ -81,7 +81,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const divs = GSUdomQSA( "#testWrap div" );
+const divs = $( "#testWrap div" );
 const ctx = GSUaudioContext();
 
 const dur = 4;
@@ -100,12 +100,12 @@ const svgC = gsuiSVGPatterns.$createSVG( "slices", "pC" );
 const svgD = gsuiSVGPatterns.$createSVG( "automation", "pD" );
 const svgE = gsuiSVGPatterns.$createSVG( "buffer", "pE" );
 const svgF = gsuiSVGPatterns.$createSVG( "bufferHD", "pE" );
-divs[ 0 ].append( svgA );
-divs[ 1 ].append( svgB );
-divs[ 2 ].append( svgC );
-divs[ 3 ].append( svgD );
-divs[ 4 ].append( svgE );
-divs[ 5 ].append( svgF );
+divs.$at( 0 ).$append( svgA );
+divs.$at( 1 ).$append( svgB );
+divs.$at( 2 ).$append( svgC );
+divs.$at( 3 ).$append( svgD );
+divs.$at( 4 ).$append( svgE );
+divs.$at( 5 ).$append( svgF );
 
 gsuiSVGPatterns.$setSVGViewbox( "keys", svgA, 0, dur, bps );
 gsuiSVGPatterns.$setSVGViewbox( "drums", svgB, 0, dur, bps );
@@ -152,13 +152,13 @@ gsuiSVGPatterns.$update( "slices", "pC", {
 	s4: { x: 1 / 16 * 11, y: .00, w: 1 / 16 },
 	s5: { x: 1 / 16 * 12, y: .75, w: 1 /  4 },
 }, dur, svgC );
-gsuiSVGPatterns.$update( "automation", "pD", {
-	d0: { x: 0, y: 0 },
-	d1: { x: 1, y: 1 },
-	d2: { x: 2, y: 0 },
-	d3: { x: 3, y: 1 },
-	d4: { x: 4, y: 0 },
-}, dur, svgD );
+// gsuiSVGPatterns.$update( "automation", "pD", {
+// 	d0: { x: 0, y: 0 },
+// 	d1: { x: 1, y: 1 },
+// 	d2: { x: 2, y: 0 },
+// 	d3: { x: 3, y: 1 },
+// 	d4: { x: 4, y: 0 },
+// }, dur, svgD );
 
 fetch( "../test-assets/okay.wav" )
 	.then( res => res.arrayBuffer() )

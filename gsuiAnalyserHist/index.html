@@ -66,10 +66,10 @@ gsui-analyser-hist {
 
 <!-- ....................................................................... -->
 <script>
-const play = GSUdomQS( "#play" );
-const stop = GSUdomQS( "#stop" );
-const type = GSUdomQS( "#type" );
-const analyser = GSUdomQS( "gsui-analyser-hist" );
+const play = $( "#play" );
+const stop = $( "#stop" );
+const type = $( "#type" );
+const analyser = $( "gsui-analyser-hist" );
 const ctx = GSUaudioContext();
 const anL = GSUaudioAnalyser( ctx );
 const anR = GSUaudioAnalyser( ctx );
@@ -80,7 +80,7 @@ const anRData = new Float32Array( fftSize / 2 );
 let buffer;
 let absn;
 
-GSUdomSetAttr( analyser, "resolution", "400 500" );
+analyser.$setAttr( "resolution", "400 500" );
 
 anL.fftSize = fftSize;
 anR.fftSize = fftSize;
@@ -95,27 +95,27 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
-		play.disabled = false;
+		play.$disabled( false );
 	} );
 
-type.onchange = () => {
-	GSUdomSetAttr( analyser, "type", type.value );
-};
-stop.onclick = () => {
+type.$on( "change", () => {
+	analyser.$setAttr( "type", type.$value() );
+} );
+stop.$on( "click", () => {
 	absn?.stop();
-};
-play.onclick = () => {
-	stop.onclick();
+} );
+play.$on( "click", () => {
+	stop.$click();
 	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( split );
 	absn.connect( ctx.destination );
 	absn.start();
-};
+} );
 
 function frame() {
-	switch ( type.value ) {
+	switch ( type.$value() ) {
 		case "hz":
 			anL.getFloatFrequencyData( anLData );
 			anR.getFloatFrequencyData( anRData );
@@ -125,7 +125,7 @@ function frame() {
 			anR.getFloatTimeDomainData( anRData );
 			break;
 	}
-	analyser.$draw( anLData, anRData );
+	analyser.$get( 0 ).$draw( anLData, anRData );
 }
 
 GSUsetInterval( frame, 0 );

@@ -71,26 +71,26 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const fx = GSUdomQS( "gsui-fx-waveshaper" );
+const fx = $( "gsui-fx-waveshaper" );
 
-GSUdomListen( fx, {
+GSUdomListen( fx.$get( 0 ), {
 	[ GSEV_EFFECT_FX_LIVECHANGE ]: GSUnoop,
 	[ GSEV_EFFECT_FX_CHANGEPROP ]: ( _, k, v ) => {
 		switch ( k ) {
 			case "curve":
-				fx.$changeCurveData( v );
+				fx.$get( 0 ).$changeCurveData( v );
 				break;
 			case "symmetry":
 			case "oversample":
-				GSUdomSetAttr( fx, k, v );
+				fx.$setAttr( k, v );
 				break;
 		}
 	},
 	[ GSEV_EFFECT_FX_CHANGEPROPS ]: ( _, p, obj ) => {
 		switch ( p ) {
 			case "symmetry":
-				fx.$changeCurveData( obj.curve );
-				GSUdomSetAttr( fx, "symmetry", obj.symmetry );
+				fx.$get( 0 ).$changeCurveData( obj.curve );
+				fx.$setAttr( "symmetry", obj.symmetry );
 				break;
 		}
 	},

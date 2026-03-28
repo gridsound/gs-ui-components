@@ -66,14 +66,16 @@ gsui-fx-reverb {
 
 <!-- ....................................................................... -->
 <script>
-const uiFx = GSUdomQS( "gsui-fx-reverb" );
+const uiFx = $( "gsui-fx-reverb" );
 
-GSUdomSetAttr( uiFx, "dry", .9 );
-GSUdomSetAttr( uiFx, "wet", .7 );
-GSUdomSetAttr( uiFx, "delay", .25 );
-GSUdomSetAttr( uiFx, "delay", 0 );
-GSUdomSetAttr( uiFx, "decay", 2 );
-GSUdomSetAttr( uiFx, "fadein", 1 );
+uiFx.$setAttr( {
+	dry: .9,
+	wet: .7,
+	delay: .25,
+	delay: 0,
+	decay: 2,
+	fadein: 1,
+} );
 </script>
 </body>
 </html>

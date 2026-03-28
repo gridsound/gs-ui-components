@@ -104,22 +104,21 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const el = GSUdomQS( "gsui-daw" );
+const el = $( "gsui-daw" )
+	.$setAttr( {
+		version: "3.14.15",
+		// focus: "down",
+		saved: false,
+		samplerate: 48000,
+		uirate: 5,
+		duration: 8,
+		bpm: 240,
+		composition: "id-composition-864f16we1sv",
+		// windowslowgraphics: true,
+	} );
 
-GSUdomSetAttr( el, {
-	version: "3.14.15",
-	// focus: "down",
-	saved: false,
-	samplerate: 48000,
-	uirate: 5,
-	duration: 8,
-	bpm: 240,
-	composition: "id-composition-864f16we1sv",
-	// windowslowgraphics: true,
-} );
-
-el.$toggleWindow( "composition", true );
-el.$toggleWindow( "mixer", false );
+el.$get( 0 ).$toggleWindow( "composition", true );
+el.$get( 0 ).$toggleWindow( "mixer", false );
 </script>
 </body>
 </html>

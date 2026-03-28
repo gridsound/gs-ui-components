@@ -62,19 +62,17 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const glitch = GSUdomQS( "gsui-glitchtext" );
-const inpEnable = GSUdomQS( "#glitch-enable" );
-
-GSUdomSetAttr( glitch, "texts", [
-	"GridSound",
-	"gRIDsOUND",
-	"&<:]$+\\#)",
-	"6/1)20^?}",
-	"9-!>5θnu]",
-].join( " " ) );
-
-inpEnable.onchange = () => GSUdomSetAttr( glitch, "enable", inpEnable.checked );
-inpEnable.click();
+$( "gsui-glitchtext" )
+	.$setAttr( "texts", [
+		"GridSound",
+		"gRIDsOUND",
+		"&<:]$+\\#)",
+		"6/1)20^?}",
+		"9-!>5θnu]",
+	].join( " " ) );
+$( "#glitch-enable" )
+	.$on( "change", () => $( "gsui-glitchtext" ).$togAttr( "enable" ) )
+	.$click();
 </script>
 </body>
 </html>

@@ -64,12 +64,12 @@ gsui-com-avatar {
 
 <!-- ....................................................................... -->
 <script>
-const elCmp = GSUdomQS( "gsui-com-avatar" );
-const avatar = GSUdomQS( "#avatar" );
-const ava404 = GSUdomQS( "#ava404" );
+const elCmp = $( "gsui-com-avatar" );
+const avatar = $( "#avatar" );
+const ava404 = $( "#ava404" );
 
-avatar.onchange = () => GSUdomSetAttr( elCmp, "src", !avatar.checked ? false : "../test-assets/avatar.jpg" );
-ava404.onchange = () => GSUdomSetAttr( elCmp, "src", !ava404.checked ? false : "../test-assets/ava404.jpg" );
+avatar.$on( "change", () => elCmp.$setAttr( "src", !avatar.$checked() ? false : "../test-assets/avatar.jpg" ) );
+ava404.$on( "change", () => elCmp.$setAttr( "src", !ava404.$checked() ? false : "../test-assets/ava404.jpg" ) );
 </script>
 </body>
 </html>

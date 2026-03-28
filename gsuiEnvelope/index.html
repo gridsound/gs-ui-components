@@ -91,27 +91,24 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elEnv = GSUdomQS( "gsui-envelope" );
-const inpToggle = GSUdomQS( "#inpToggle" );
-const inpTarget = GSUdomQS( "#inpTarget" );
-const btnsPlay = GSUdomQSA( ".btnPlay" );
-const btnPlayLive = GSUdomQS( "#btnPlayLive" );
-const inpBPM = GSUdomQS( "#inpBPM" );
-const spanBPM = GSUdomQS( "#bpm" );
+const elEnv = $( "gsui-envelope" );
+const inpToggle = $( "#inpToggle" );
+const inpTarget = $( "#inpTarget" );
+const btnsPlay = $( ".btnPlay" );
+const btnPlayLive = $( "#btnPlayLive" );
+const inpBPM = $( "#inpBPM" );
+const spanBPM = $( "#bpm" );
 let bpm = 0;
 
-inpToggle.onchange = e => GSUdomSetAttr( elEnv, "toggle", inpToggle.checked );
-inpTarget.onchange = e => GSUdomSetAttr( elEnv, "env", inpTarget.value );
-inpTarget.onchange();
+inpToggle.$on( "change", e => elEnv.$setAttr( "toggle", inpToggle.$checked() ) );
+inpTarget.$on( "change", e => elEnv.$setAttr( "env", inpTarget.$value() ) );
+inpTarget.$trigger( "onchange" );
 
-btnsPlay.forEach( btn => btn.onclick = () => elEnv.$startKey( "key-0", bpm, +btn.dataset.dur ) );
-btnPlayLive.onpointerdown = () => elEnv.$startKey( "keylive-0", bpm );
-btnPlayLive.onclick = () => elEnv.$stopKey( "keylive-0" );
-inpBPM.oninput = () => {
-	bpm = +inpBPM.value;
-	spanBPM.textContent = bpm;
-};
-inpBPM.oninput();
+btnsPlay.$on( "click", e => elEnv.$get( 0 ).$startKey( "key-0", bpm, +e.target.dataset.dur ) );
+btnPlayLive.$on( "pointerdown", () => elEnv.$get( 0 ).$startKey( "keylive-0", bpm ) );
+btnPlayLive.$on( "click", () => elEnv.$get( 0 ).$stopKey( "keylive-0" ) );
+inpBPM.$on( "input", () => spanBPM.$text( bpm = +inpBPM.$value() ) );
+inpBPM.$trigger( "oninput" );
 </script>
 </body>
 </html>

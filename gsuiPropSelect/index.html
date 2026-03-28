@@ -49,10 +49,10 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const uiProp = GSUdomQS( "gsui-prop-select" );
+const uiProp = $( "gsui-prop-select" );
 
-GSUdomSetAttr( uiProp, "prop", "pan" );
-GSUdomSetAttr( uiProp, "props", [
+uiProp.$setAttr( "prop", "pan" );
+uiProp.$setAttr( "props", [
 	"gain",
 	"pan",
 	"detune:pitch",
@@ -65,7 +65,7 @@ GSUdomSetAttr( uiProp, "props", [
 ].join( " " ) );
 
 GSUsetTimeout( () => {
-	GSUdomSetAttr( uiProp, "props", [
+	uiProp.$setAttr( "props", [
 		"gain",
 		"pan",
 		"detune:pitch",
