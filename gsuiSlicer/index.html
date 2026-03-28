@@ -102,8 +102,8 @@ GSUdomListen( slicer.$get( 0 ), {
 	},
 } );
 
-currentTimeInp.$on( "input", () => slicer.$setAttr( "currenttime", currentTimeInp.$value() ) );
-playSampleBtn.$on( "click", () => {
+currentTimeInp.$oninput( () => slicer.$setAttr( "currenttime", currentTimeInp.$value() ) );
+playSampleBtn.$onclick( () => {
 	if ( absn ) {
 		absn.stop();
 		absn = null;
@@ -115,8 +115,8 @@ playSampleBtn.$on( "click", () => {
 		absn.start();
 	}
 } );
-$( "#rmSample" ).$on( "click", () => slicer.$get( 0 ).$removeBuffer() );
-$( "#loadSample" ).$on( "click", () => {
+$( "#rmSample" ).$onclick( () => slicer.$get( 0 ).$removeBuffer() );
+$( "#loadSample" ).$onclick( () => {
 	ctx ||= GSUaudioContext();
 	slicer.$get( 0 ).$removeBuffer();
 	// fetch( "/gs-ui-components/test-assets/i-just-dont-know-why_F_minor.wav" )

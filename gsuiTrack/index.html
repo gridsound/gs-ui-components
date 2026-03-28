@@ -64,7 +64,7 @@ body {
 const tr = $( "gsui-track" );
 const mute = $( "#mute" );
 
-mute.$on( "change", () => tr.$setAttr( "mute", mute.$checked() ) );
+mute.$onchange( () => tr.$setAttr( "mute", mute.$checked() ) );
 </script>
 </body>
 </html>

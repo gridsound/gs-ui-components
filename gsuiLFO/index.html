@@ -93,8 +93,8 @@ const elLFO = $( "gsui-lfo" );
 const inpToggle = $( "#toggle" );
 const inpTarget = $( "#lfoTarget" );
 
-inpToggle.$on( "change", e => elLFO.$setAttr( "toggle", e.target.checked ) );
-inpTarget.$on( "change", e => elLFO.$setAttr( "lfo", e.target.value ) );
+inpToggle.$onchange( e => elLFO.$setAttr( "toggle", e.target.checked ) );
+inpTarget.$onchange( e => elLFO.$setAttr( "lfo", e.target.value ) );
 
 elLFO.$get( 0 ).$updateWave();
 
@@ -104,10 +104,10 @@ const inpBPM = $( "#inpBPM" );
 const spanBPM = $( "#bpm" );
 let bpm = 0;
 
-btnsPlay.$on( "click", e => elLFO.$get( 0 ).$startKey( "key-0", bpm, +e.target.dataset.dur ) );
+btnsPlay.$onclick( e => elLFO.$get( 0 ).$startKey( "key-0", bpm, +e.target.dataset.dur ) );
 btnPlayLive.$on( "pointerdown", () => elLFO.$get( 0 ).$startKey( "keylive-0", bpm ) );
-btnPlayLive.$on( "click", () => elLFO.$get( 0 ).$stopKey( "keylive-0" ) );
-inpBPM.$on( "input", () => spanBPM.$text( bpm = +inpBPM.$value() ) );
+btnPlayLive.$onclick( () => elLFO.$get( 0 ).$stopKey( "keylive-0" ) );
+inpBPM.$oninput( () => spanBPM.$text( bpm = +inpBPM.$value() ) );
 inpBPM.$trigger( "oninput" );
 </script>
 </body>

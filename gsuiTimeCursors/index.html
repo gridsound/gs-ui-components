@@ -54,7 +54,7 @@ body {
 <script>
 const uiTimeCursors = $( "gsui-time-cursors" );
 
-$( ".playBtn" ).$on( "click", e => uiTimeCursors.$message( GSEV_TIMECURSORS_PLAY, +e.target.dataset.sec ) );
+$( ".playBtn" ).$onclick( e => uiTimeCursors.$message( GSEV_TIMECURSORS_PLAY, +e.target.dataset.sec ) );
 
 GSUsetInterval( () => {
 	uiTimeCursors.$message( GSEV_TIMECURSORS_DRAW );

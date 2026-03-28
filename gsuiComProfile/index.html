@@ -81,16 +81,16 @@ body {
 const el = $( "gsui-com-profile" );
 const height = $( "#height" );
 
-$( "#itsme"         ).$on( "change", () => el.$togAttr( "itsme" ) );
-$( "#email"         ).$on( "change", () => el.$setAttr( "email", el.$getAttr( "email" ) ? false : "john.wick@hitman.com" ) );
-$( "#emailpublic"   ).$on( "change", () => el.$togAttr( "emailpublic" ) );
-$( "#emailtoverify" ).$on( "change", () => el.$togAttr( "emailtoverify" ) );
-$( "#emailsending"  ).$on( "change", () => el.$togAttr( "emailsending" ) );
-$( "#emailsent"     ).$on( "change", () => el.$togAttr( "emailsent" ) );
-$( "#avatar"        ).$on( "change", () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "../test-assets/avatar.jpg" ) );
-$( "#followed"      ).$on( "change", () => el.$togAttr( "followed" ) );
+$( "#itsme"         ).$onchange( () => el.$togAttr( "itsme" ) );
+$( "#email"         ).$onchange( () => el.$setAttr( "email", el.$getAttr( "email" ) ? false : "john.wick@hitman.com" ) );
+$( "#emailpublic"   ).$onchange( () => el.$togAttr( "emailpublic" ) );
+$( "#emailtoverify" ).$onchange( () => el.$togAttr( "emailtoverify" ) );
+$( "#emailsending"  ).$onchange( () => el.$togAttr( "emailsending" ) );
+$( "#emailsent"     ).$onchange( () => el.$togAttr( "emailsent" ) );
+$( "#avatar"        ).$onchange( () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "../test-assets/avatar.jpg" ) );
+$( "#followed"      ).$onchange( () => el.$togAttr( "followed" ) );
 
-height.$on( "input", () => {
+height.$oninput( () => {
 	el.$css( "--gsuiComProfile-height-mul", height.$value() );
 	height.$next().$text( height.$value() );
 } );

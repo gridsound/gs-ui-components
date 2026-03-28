@@ -65,7 +65,7 @@ const noi = $( "gsui-noise" );
 const inpToggle = $( "#toggle" );
 
 inpToggle
-	.$on( "change", () => noi.$setAttr( "toggle", inpToggle.$checked() ) )
+	.$onchange( () => noi.$setAttr( "toggle", inpToggle.$checked() ) )
 	.$trigger( "onchange" );
 </script>
 </body>

@@ -58,7 +58,7 @@ const uiKeys = $( "gsui-keys" );
 const togOrient = $( "#toggleOrient" );
 const testContent = $( "#testContent" );
 
-togOrient.$on( "click", () => {
+togOrient.$onclick( () => {
 	const isHori = uiKeys.$getAttr( "orient" ) === "horizontal";
 	const width = testContent.$get( 0 ).offsetWidth;
 	const height = testContent.$get( 0 ).offsetHeight;

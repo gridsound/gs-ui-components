@@ -105,14 +105,14 @@ const inpPBB = $( "#pxPerbeat" );
 const inpBPM = $( "#beatsPerMeasure" );
 const inpSPB = $( "#stepsPerBeat" );
 
-inpTPr.$on( "input", e => timeline.$setAttr( "currenttime-preview", inpTPr.$value() ) );
-inpTim.$on( "input", e => timeline.$setAttr( "currenttime", inpTim.$value() ) );
-inpPBB.$on( "input", e => timeline.$setAttr( "pxperbeat", inpPBB.$value() ) );
+inpTPr.$oninput( e => timeline.$setAttr( "currenttime-preview", inpTPr.$value() ) );
+inpTim.$oninput( e => timeline.$setAttr( "currenttime", inpTim.$value() ) );
+inpPBB.$oninput( e => timeline.$setAttr( "pxperbeat", inpPBB.$value() ) );
 $( [
 	inpBPM,
 	inpSPB,
-] ).$on( "input", e => timeline.$setAttr( "timedivision", `${ inpBPM.$value() }/${ inpSPB.$value() }` ) );
-$( "#testCtrls" ).$on( "input", e => $( e.target ).$next().$next().$text( e.target.value ) );
+] ).$oninput( e => timeline.$setAttr( "timedivision", `${ inpBPM.$value() }/${ inpSPB.$value() }` ) );
+$( "#testCtrls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target.value ) );
 </script>
 </body>
 </html>

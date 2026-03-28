@@ -100,14 +100,14 @@ const inpBPM = $( "#inpBPM" );
 const spanBPM = $( "#bpm" );
 let bpm = 0;
 
-inpToggle.$on( "change", e => elEnv.$setAttr( "toggle", inpToggle.$checked() ) );
-inpTarget.$on( "change", e => elEnv.$setAttr( "env", inpTarget.$value() ) );
+inpToggle.$onchange( e => elEnv.$setAttr( "toggle", inpToggle.$checked() ) );
+inpTarget.$onchange( e => elEnv.$setAttr( "env", inpTarget.$value() ) );
 inpTarget.$trigger( "onchange" );
 
-btnsPlay.$on( "click", e => elEnv.$get( 0 ).$startKey( "key-0", bpm, +e.target.dataset.dur ) );
+btnsPlay.$onclick( e => elEnv.$get( 0 ).$startKey( "key-0", bpm, +e.target.dataset.dur ) );
 btnPlayLive.$on( "pointerdown", () => elEnv.$get( 0 ).$startKey( "keylive-0", bpm ) );
-btnPlayLive.$on( "click", () => elEnv.$get( 0 ).$stopKey( "keylive-0" ) );
-inpBPM.$on( "input", () => spanBPM.$text( bpm = +inpBPM.$value() ) );
+btnPlayLive.$onclick( () => elEnv.$get( 0 ).$stopKey( "keylive-0" ) );
+inpBPM.$oninput( () => spanBPM.$text( bpm = +inpBPM.$value() ) );
 inpBPM.$trigger( "oninput" );
 </script>
 </body>

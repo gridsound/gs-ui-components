@@ -102,9 +102,9 @@ GSUdomListen( line, {
 	[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => console.log( obj ),
 } );
 
-$( "#xstep" ).$on( "change", e => line.$setAttr( "xstep", e.target.value ) );
-$( "#ystep" ).$on( "change", e => line.$setAttr( "ystep", e.target.value ) );
-$( "#movelinked" ).$on( "change", e => line.$setAttr( "movelinked", e.target.checked ) );
+$( "#xstep" ).$onchange( e => line.$setAttr( "xstep", e.target.value ) );
+$( "#ystep" ).$onchange( e => line.$setAttr( "ystep", e.target.value ) );
+$( "#movelinked" ).$onchange( e => line.$setAttr( "movelinked", e.target.checked ) );
 
 line.$get( 0 ).$setDotOptions( "1", { freezeX: true, deletable: false } );
 line.$get( 0 ).$setDotOptions( "6", { freezeX: true, deletable: false } );

@@ -107,8 +107,8 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 
 freeze.$on( "pointerdown", () => { frozen = !frozen; } );
 freeze.$on( "pointerup", () => { frozen = false; } );
-stop.$on( "click", () => { absn?.stop(); } );
-play.$on( "click", () => {
+stop.$onclick( () => { absn?.stop(); } );
+play.$onclick( () => {
 	stop.$click();
 	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
@@ -118,10 +118,10 @@ play.$on( "click", () => {
 	absn.start();
 } );
 
-ampInput.$on( "input", e => analyserTd.$setAttr( "amp", e.target.value ) );
-pinchInput.$on( "input", e => analyserTd.$setAttr( "pinch", e.target.value ) );
-smoothInput.$on( "input", e => analyserTd.$setAttr( "smooth", e.target.value ) );
-$( "#testCtrls" ).$on( "input", e => $( e.target ).$next().$next().$text( e.target.value ) );
+ampInput.$oninput( e => analyserTd.$setAttr( "amp", e.target.value ) );
+pinchInput.$oninput( e => analyserTd.$setAttr( "pinch", e.target.value ) );
+smoothInput.$oninput( e => analyserTd.$setAttr( "smooth", e.target.value ) );
+$( "#testCtrls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target.value ) );
 
 function frame() {
 	an.getFloatTimeDomainData( anData );

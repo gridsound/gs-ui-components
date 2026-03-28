@@ -124,7 +124,7 @@ GSUdomObserveSize( el.$get( 0 ), ( w, h ) => {
 	draw();
 } );
 
-$( "#testCtrls" ).$on( "click", e => {
+$( "#testCtrls" ).$onclick( e => {
 	const tar = $( e.target );
 	const w = tar.$getAttr( "data-w" );
 
@@ -134,7 +134,7 @@ $( "#testCtrls" ).$on( "click", e => {
 		draw();
 	}
 } );
-$( "input[type=range]" ).$on( "input", e => {
+$( "input[type=range]" ).$oninput( e => {
 	const tar = $( e.target );
 	const val = +tar.$value();
 	const what = tar.$getAttr( "data-what" );

@@ -78,8 +78,8 @@ const inputPPB = $( "#pxPerBeat" );
 const inputBPM = $( "#beatsPerMeasure" );
 const inputSPB = $( "#stepsPerBeat" );
 
-$( "#coloredodds" ).$on( "click", () => uiBeatlines.$togAttr( "coloredodds" ) );
-$( "#vertical" ).$on( "click", () => uiBeatlines.$togAttr( "vertical" ) );
+$( "#coloredodds" ).$onclick( () => uiBeatlines.$togAttr( "coloredodds" ) );
+$( "#vertical" ).$onclick( () => uiBeatlines.$togAttr( "vertical" ) );
 
 // uiBeatlines.$setAttr( "color", "dodgerblue" );
 
@@ -87,7 +87,7 @@ $( [
 	inputPPB,
 	inputBPM,
 	inputSPB,
-] ).$on( "input", e => {
+] ).$oninput( e => {
 	$( e.target ).$next().$text( e.target.value );
 	uiBeatlines.$setAttr( {
 		pxperbeat: inputPPB.$value(),

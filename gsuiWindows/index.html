@@ -86,10 +86,10 @@ const attrs = [
 	{ x: 310, y: 10, w: 140, h: 100, icon: "buf-fx", name: "Ccc" },
 ];
 
-$( "#lowGraphics" ).$on( "change", e => uiWins.$setAttr( "lowgraphics", e.target.checked ) );
-$( "#noMinimize" ).$on( "change", e => uiWins.$setAttr( "nominimize", e.target.checked ) );
-$( "#winBtns button" ).$on( "click", e => wins.$at( e.target.dataset.ind ).$addAttr( "show" ) );
-$( "#addContent" ).$on( "click", () => {
+$( "#lowGraphics" ).$onchange( e => uiWins.$setAttr( "lowgraphics", e.target.checked ) );
+$( "#noMinimize" ).$onchange( e => uiWins.$setAttr( "nominimize", e.target.checked ) );
+$( "#winBtns button" ).$onclick( e => wins.$at( e.target.dataset.ind ).$addAttr( "show" ) );
+$( "#addContent" ).$onclick( () => {
 	wins.$at( 0 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "A" ) );
 	wins.$at( 1 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "B" ) );
 	wins.$at( 2 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "C" ) );

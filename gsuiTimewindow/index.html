@@ -122,10 +122,10 @@ GSUdomListen( win.$get( 0 ), {
 	[ GSEV_TIMEWINDOW_PXPERBEAT ]: GSUnoop,
 } );
 
-inpDisabled.$on( "change", () => win.$disabled( inpDisabled.$checked() ) );
-inpAutoscroll.$on( "change", () => win.$setAttr( "autoscroll", inpAutoscroll.$checked() ) );
+inpDisabled.$onchange( () => win.$disabled( inpDisabled.$checked() ) );
+inpAutoscroll.$onchange( () => win.$setAttr( "autoscroll", inpAutoscroll.$checked() ) );
 
-inpPlayStop.$on( "click", e => {
+inpPlayStop.$onclick( e => {
 	play = !play;
 	e.target.textContent = play ? "Stop" : "Play!" ;
 	if ( play ) {

@@ -148,7 +148,7 @@ gsui-slider.sc2 {
 const sli = $( "gsui-slider" );
 const inpDisabled = $( "#inpDisabled" );
 
-inpDisabled.$on( "change", e => sli.$disabled( inpDisabled.$checked() ) );
+inpDisabled.$onchange( e => sli.$disabled( inpDisabled.$checked() ) );
 </script>
 </body>
 </html>

@@ -142,7 +142,7 @@ const reorder = new gsuiReorder( {
 } );
 
 inpScenario
-	.$on( "change", () => testWrap.$setAttr( "data-scene", inpScenario.$value() ) )
+	.$onchange( () => testWrap.$setAttr( "data-scene", inpScenario.$value() ) )
 	.$trigger( "onchange" );
 </script>
 </body>

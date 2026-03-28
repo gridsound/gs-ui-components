@@ -98,13 +98,13 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 		play.$disabled( false );
 	} );
 
-type.$on( "change", () => {
+type.$onchange( () => {
 	analyser.$setAttr( "type", type.$value() );
 } );
-stop.$on( "click", () => {
+stop.$onclick( () => {
 	absn?.stop();
 } );
-play.$on( "click", () => {
+play.$onclick( () => {
 	stop.$click();
 	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
