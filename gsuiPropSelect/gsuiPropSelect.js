@@ -27,11 +27,6 @@ class gsuiPropSelect extends gsui0ne {
 	}
 
 	// .........................................................................
-	$getCurrentProp() {
-		return this.#prop;
-	}
-
-	// .........................................................................
 	#createProps( s ) {
 		this.$this.$empty().$append( ...s.split( " " ).map( p => this.#createProp( p ) ) );
 		if ( !this.#setProp( this.#prop ) ) {
