@@ -25,7 +25,7 @@ class gsuiPianoroll extends gsui0ne {
 	];
 	#propSelect = $( "<gsui-prop-select>" ).$setAttr( { prop: "gain", props: this.#propSelectList.join( " " ) } );
 	#uiKeys = $( "<gsui-keys>" );
-	#win = GSUcreateElement( "gsui-timewindow", {
+	#win = $( "<gsui-timewindow>" ).$setAttr( {
 		panelsize: 100,
 		panelsizemin: 100,
 		panelsizemax: 160,
@@ -43,7 +43,7 @@ class gsuiPianoroll extends gsui0ne {
 	#blcManager = new gsuiBlocksManager( {
 		rootElement: this,
 		$selectionElement: this.#selectionElement,
-		timeline: $( this.#win.$getTimeline() ),
+		timeline: $( this.#win.$get( 0 ).$getTimeline() ),
 		blockDOMChange: this.#blockDOMChange.bind( this ),
 		managercallDuplicating: ( keysMap, wIncr ) => this.#onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
 		managercallSelecting: ids => this.#onchange( "selection", ids ),
@@ -102,10 +102,10 @@ class gsuiPianoroll extends gsui0ne {
 		this.$this
 			.$addClass( "gsuiBlocksManager" )
 			.$append( this.#win );
-		this.#win.$appendPanel( this.#uiKeys.$get( 0 ) );
-		this.#win.$appendPanelDown( this.#propSelect.$get( 0 ) );
-		this.#win.$appendDown( this.#uiSliderGroup.$get( 0 ) );
-		this.#win.$appendMain( this.#selectionElement.$get( 0 ) );
+		this.#win.$get( 0 ).$appendPanel( this.#uiKeys.$get( 0 ) );
+		this.#win.$get( 0 ).$appendPanelDown( this.#propSelect.$get( 0 ) );
+		this.#win.$get( 0 ).$appendDown( this.#uiSliderGroup.$get( 0 ) );
+		this.#win.$get( 0 ).$appendMain( this.#selectionElement.$get( 0 ) );
 		this.$scrollToMiddle();
 	}
 	static get observedAttributes() {
@@ -114,10 +114,10 @@ class gsuiPianoroll extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "disabled":
-				GSUdomSetAttr( this.#win, "disabled", val );
+				this.#win.$setAttr( "disabled", val );
 				break;
 			case "currenttime":
-				GSUdomSetAttr( this.#win, "currenttime", val );
+				this.#win.$setAttr( "currenttime", val );
 				this.#uiSliderGroup.$setAttr( "currenttime", val );
 				break;
 		}
@@ -128,7 +128,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.#currKeyDuration = 1;
 	}
 	$changeDuration( dur ) {
-		GSUdomSetAttr( this.#win, "duration", dur );
+		this.#win.$setAttr( "duration", dur );
 	}
 	$setData( data ) {
 		this.#blcManager.$setData( data );
@@ -137,24 +137,23 @@ class gsuiPianoroll extends gsui0ne {
 		this.#onchange = cb;
 	}
 	$timedivision( timediv ) {
-		GSUdomSetAttr( this.#win, "timedivision", timediv );
+		this.#win.$setAttr( "timedivision", timediv );
 		this.#uiSliderGroup.$setAttr( "timedivision", timediv );
 	}
 	$loop( a, b ) {
-		GSUdomSetAttr( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		this.#win.$setAttr( "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 		this.#uiSliderGroup.$setAttr( { loopa: a, loopb: b } );
 	}
 	$scrollToMiddle() {
-		this.#win.firstChild.scrollTop = GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).clientHeight / 2;
+		this.#win.$child( 0 ).$scrollY( this.#win.$query( ".gsuiTimewindow-rows" ).$height() / 2 );
 	}
 	$scrollToKeys() {
-		const blc = GSUdomQS( this.#win, ".gsuiBlocksManager-block" );
+		const key = this.#win.$query( ".gsuiBlocksManager-block" ).$getAttr( "data-key-note" );
 
-		if ( blc ) {
-			const key = +blc.dataset.keyNote;
-			const maxRow = +GSUdomQS( this.#win, ".gsui-row" ).dataset.midi;
+		if ( key ) {
+			const maxRow = +this.#win.$query( ".gsui-row" ).$getAttr( "data-midi" );
 
-			this.#win.scrollTop = ( maxRow - key - 3.5 ) * GSUdomGetAttrNum( this.#win, "lineheight" );
+			this.#win.$scrollY( ( maxRow - key - 3.5 ) * this.#win.$getAttr( "lineheight" ) );
 		}
 	}
 	$octaves( from, nb ) {
@@ -169,8 +168,7 @@ class gsuiPianoroll extends gsui0ne {
 			el.onmousedown = this.#rowMousedown.bind( this, midi );
 			this.#rowsByMidi[ midi ] = el;
 		} );
-		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).append( ...rows );
-		GSUdomQS( this.#win, ".gsuiTimewindow-rows" ).style.height = `${ rows.length }em`;
+		this.#win.$query( ".gsuiTimewindow-rows" ).$append( ...rows ).$height( rows.length, "em" );
 		this.$scrollToMiddle();
 		this.$reset();
 	}
