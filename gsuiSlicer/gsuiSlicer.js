@@ -52,7 +52,7 @@ class gsuiSlicer extends gsui0ne {
 			defId += Array.prototype.reduce.call( defs.children, ( max, p ) => Math.max( max, p.dataset.id ), 0 );
 		}
 		this.#waveDef.$dataId( defId ).$setAttr( "id", `gsuiSlicer-waveDef-${ defId }` );
-		this.$elements.$tools.$on( "click", this.#onclickTools.bind( this ) );
+		this.$elements.$tools.$onclick( this.#onclickTools.bind( this ) );
 		this.$elements.$slices.$on( {
 			contextmenu: e => e.preventDefault(),
 			pointerdown: this.#onpointerdownSlices.bind( this ),

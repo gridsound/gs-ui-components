@@ -20,7 +20,7 @@ class gsuiPopup extends gsui0ne {
 			},
 		} );
 		this.$elements.$win.$on( "close", this.#cancelClick.bind( this ) );
-		this.$elements.$cancel.$on( "click", this.#cancelClick.bind( this ) );
+		this.$elements.$cancel.$onclick( this.#cancelClick.bind( this ) );
 		this.$elements.$form.$on( "submit", this.#submit.bind( this ) );
 		this.$this.$on( {
 			keyup: e => e.stopPropagation(),

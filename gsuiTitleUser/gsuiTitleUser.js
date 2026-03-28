@@ -30,10 +30,10 @@ class gsuiTitleUser extends gsui0ne {
 				cmpdur: 0,
 			},
 		} );
-		this.$elements.$login.$on( "click", this.#onclickLogin.bind( this ) );
-		this.$elements.$logout.$on( "click", this.#onclickLogout.bind( this ) );
-		this.$elements.$save.$on( "click", () => this.$this.$dispatch( GSEV_TITLEUSER_SAVE ) );
-		this.$elements.$cmpEditBtn.$on( "click", () => !this.$this.$hasAttr( "readonly" ) && this.$this.$addAttr( "renaming" ) );
+		this.$elements.$login.$onclick( this.#onclickLogin.bind( this ) );
+		this.$elements.$logout.$onclick( this.#onclickLogout.bind( this ) );
+		this.$elements.$save.$onclick( () => this.$this.$dispatch( GSEV_TITLEUSER_SAVE ) );
+		this.$elements.$cmpEditBtn.$onclick( () => !this.$this.$hasAttr( "readonly" ) && this.$this.$addAttr( "renaming" ) );
 		this.$elements.$cmpEditInp.$on( {
 			blur: () => this.$this.$hasAttr( "renaming" ) && this.#onkeydownRename( "Enter" ),
 			keydown: e => {

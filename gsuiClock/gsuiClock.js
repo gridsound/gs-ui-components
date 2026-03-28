@@ -21,7 +21,7 @@ class gsuiClock extends gsui0ne {
 				timedivision: "4/4",
 			},
 		} );
-		this.$elements.$modes.$on( "click", this.#onclickModes.bind( this ) );
+		this.$elements.$modes.$onclick( this.#onclickModes.bind( this ) );
 	}
 
 	// .........................................................................

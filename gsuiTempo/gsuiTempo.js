@@ -27,7 +27,7 @@ class gsuiTempo extends gsui0ne {
 			submit: this.$onsubmitPopup.bind( this ),
 			keydown: e => e.stopPropagation(),
 		} );
-		this.#popup.$bpmTap.$on( "click", () => this.#popup.$inputs.$at( 2 ).$value( gswaBPMTap.$tap() ) );
+		this.#popup.$bpmTap.$onclick( () => this.#popup.$inputs.$at( 2 ).$value( gswaBPMTap.$tap() ) );
 	}
 
 	// .........................................................................

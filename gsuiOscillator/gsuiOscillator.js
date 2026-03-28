@@ -50,10 +50,10 @@ class gsuiOscillator extends gsui0ne {
 		this.#waveletBrowserDropdown.$setDirection( "T" );
 		this.#waveletBrowserDropdown.$setTarget( this.$elements.$waveName );
 		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
-		this.$elements.$waveName.$on( "click", this.#onclickWaveName.bind( this ) );
-		this.$elements.$wavePrevNext.$on( "click", this.#onclickPrevNext.bind( this ) );
-		this.$elements.$wavetableBtn.$on( "click", () => this.$this.$togAttr( "wavetable" ) );
-		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_OSCILLATOR_REMOVE ) );
+		this.$elements.$waveName.$onclick( this.#onclickWaveName.bind( this ) );
+		this.$elements.$wavePrevNext.$onclick( this.#onclickPrevNext.bind( this ) );
+		this.$elements.$wavetableBtn.$onclick( () => this.$this.$togAttr( "wavetable" ) );
+		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_OSCILLATOR_REMOVE ) );
 		this.$this.$on( "transitionend", e => {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {
 				this.$this.$css( "transition", "none" );

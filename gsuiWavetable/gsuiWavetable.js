@@ -26,14 +26,14 @@ class gsuiWavetable extends gsui0ne {
 			},
 		} );
 		gsuiTexture.$set( this.$elements.$waves, "damier" );
-		this.$elements.$head.$on( "click", e => {
+		this.$elements.$head.$onclick( e => {
 			switch ( e.target.dataset.action ) {
 				case "back":
 					this.$this.$dispatch( GSEV_WAVETABLE_BACK );
 					break;
 			}
 		} );
-		this.$elements.$waves.$on( "click", e => {
+		this.$elements.$waves.$onclick( e => {
 			const act = e.target.dataset.action;
 
 			if ( act ) {
@@ -48,7 +48,7 @@ class gsuiWavetable extends gsui0ne {
 				this.$elements.$waves.$scrollX( el => el.scrollLeft + delta );
 			}
 		} );
-		this.$elements.$wtposCurves.$on( "click", e => {
+		this.$elements.$wtposCurves.$onclick( e => {
 			const dt = e.target.dataset;
 
 			if ( dt.id && dt.id !== this.#wtposCurveSelected ) {

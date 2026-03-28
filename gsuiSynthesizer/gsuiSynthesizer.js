@@ -40,9 +40,9 @@ class gsuiSynthesizer extends gsui0ne {
 				// lfo: "gain",
 			},
 		} );
-		// this.$elements.$presetBtns.$on( "click", this.#onclickPreset.bind( this ) );
-		this.$elements.$newOsc.$on( "click", this.#onclickNewOsc.bind( this ) );
-		this.$elements.$heads.$on( "click", this.#onclickHeads.bind( this ) );
+		// this.$elements.$presetBtns.$onclick( this.#onclickPreset.bind( this ) );
+		this.$elements.$newOsc.$onclick( this.#onclickNewOsc.bind( this ) );
+		this.$elements.$heads.$onclick( this.#onclickHeads.bind( this ) );
 		new gsuiReorder( {
 			$root: this.$elements.$oscList,
 			$parentSelector: ".gsuiSynthesizer-oscList",

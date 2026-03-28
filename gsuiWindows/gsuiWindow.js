@@ -24,7 +24,7 @@ class gsuiWindow extends gsui0ne {
 			},
 			$attributes: { tabindex: 0 },
 		} );
-		this.$elements.$headBtns.$on( "click", this.#onclickBtns.bind( this ) );
+		this.$elements.$headBtns.$onclick( this.#onclickBtns.bind( this ) );
 		this.$elements.$head.$on( "pointerdown", this.#onptrdownHead.bind( this ) );
 		this.$elements.$handlers.$on( "pointerdown", this.#onptrdownHandlers.bind( this ) );
 	}

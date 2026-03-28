@@ -64,11 +64,11 @@ class gsuiDAW extends gsui0ne {
 			},
 		} );
 		gsuiTexture.$set( this.$elements.$windows, "diag" );
-		this.$elements.$head.$on( "click", this.#onclickHead.bind( this ) );
-		this.#popups.$export.$btnRender.$on( "click", this.#onclickRenderBtn.bind( this ) );
-		this.#popups.$export.$btnUpload.$on( "click", this.#onclickUploadBtn.bind( this ) );
-		this.#popups.$export.$btnClear.$on( "click", this.#initRenderBtn.bind( this ) );
-		this.#popups.$about.$versionCheck.$on( "click", this.#onclickVersionCheck.bind( this ) );
+		this.$elements.$head.$onclick( this.#onclickHead.bind( this ) );
+		this.#popups.$export.$btnRender.$onclick( this.#onclickRenderBtn.bind( this ) );
+		this.#popups.$export.$btnUpload.$onclick( this.#onclickUploadBtn.bind( this ) );
+		this.#popups.$export.$btnClear.$onclick( this.#initRenderBtn.bind( this ) );
+		this.#popups.$about.$versionCheck.$onclick( this.#onclickVersionCheck.bind( this ) );
 		this.#popups.$settings.$uiRateManualRange.$on( {
 			mousedown: () => this.#popups.$settings.$uiRateManual.$checked( true ),
 			input: e => this.#popups.$settings.$uiRateManualFPS.$text( e.target.value.padStart( 2, "0" ) ),

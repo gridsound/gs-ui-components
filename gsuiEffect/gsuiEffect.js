@@ -13,8 +13,8 @@ class gsuiEffect extends gsui0ne {
 				$content: ".gsuiEffect-content",
 			},
 		} );
-		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_EFFECT_REMOVE ) );
-		this.$elements.$expand.$on( "click", () => {
+		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_EFFECT_REMOVE ) );
+		this.$elements.$expand.$onclick( () => {
 			this.$this.$togAttr( "expanded" );
 			this.$this.$dispatch( GSEV_EFFECT_EXPAND );
 		} );

@@ -16,7 +16,7 @@ class gsuiComButton extends gsui0ne {
 			},
 		} );
 		gsuiRipple.$init( this.$element );
-		this.$element.$on( "click", this.#onclick.bind( this ) );
+		this.$element.$onclick( this.#onclick.bind( this ) );
 	}
 
 	// .........................................................................

@@ -31,7 +31,7 @@ class gsuiFxFilter extends gsui0ne {
 				$sliders: "gsui-slider",
 			},
 		} );
-		this.$elements.$type.$on( "click", this.#onclickType.bind( this ) );
+		this.$elements.$type.$onclick( this.#onclickType.bind( this ) );
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,

@@ -70,6 +70,6 @@ class gsuiActionMenu {
 						act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),
 					),
 				)
-			) ) ).$on( "click", this.#onclickActions.bind( this ) );
+			) ) ).$onclick( this.#onclickActions.bind( this ) );
 	}
 }

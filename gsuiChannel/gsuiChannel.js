@@ -28,17 +28,17 @@ class gsuiChannel extends gsui0ne {
 		$( [
 			this.$elements.$analyser,
 			this.$elements.$nameWrap,
-		] ).$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ) );
-		this.$elements.$remove.$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_REMOVE ) );
-		this.$elements.$connect.$on( "click", () => this.$this.$dispatch( GSEV_CHANNEL_CONNECT ) );
-		this.$elements.$effects.$on( "click", e => {
+		] ).$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ) );
+		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_REMOVE ) );
+		this.$elements.$connect.$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_CONNECT ) );
+		this.$elements.$effects.$onclick( e => {
 			if ( e.target.dataset.id ) {
 				this.$this
 					.$dispatch( GSEV_CHANNEL_SELECTCHANNEL )
 					.$dispatch( GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
 			}
 		} );
-		this.$elements.$rename.$on( "click", () => {
+		this.$elements.$rename.$onclick( () => {
 			GSUpopup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
 				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 		} );

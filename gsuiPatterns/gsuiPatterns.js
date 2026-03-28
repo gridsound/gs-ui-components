@@ -48,15 +48,15 @@ class gsuiPatterns extends gsui0ne {
 				this.$expandSynth( tar.$closest( ".gsuiPatterns-synth" ).$dataId() );
 			}
 		} );
-		this.#getList( "automation" ).$on( "click", this.#onclickListPatterns.bind( this ) );
-		this.#getList( "buffer" ).$on( "click", this.#onclickListPatterns.bind( this ) );
-		this.#getList( "slices" ).$on( "click", this.#onclickListPatterns.bind( this ) );
-		this.#getList( "drums" ).$on( "click", this.#onclickListPatterns.bind( this ) );
-		this.#getList( "keys" ).$on( "click", this.#onclickSynths.bind( this ) );
-		this.$elements.$newSlices.$on( "click", () => this.onchange( "addPatternSlices" ) );
-		this.$elements.$newDrums.$on( "click", () => this.onchange( "addPatternDrums" ) );
-		this.$elements.$newSynth.$on( "click", () => this.onchange( "addSynth" ) );
-		this.$elements.$newAutomation.$on( "click", () => this.onchange( "addAutomation" ) );
+		this.#getList( "automation" ).$onclick( this.#onclickListPatterns.bind( this ) );
+		this.#getList( "buffer" ).$onclick( this.#onclickListPatterns.bind( this ) );
+		this.#getList( "slices" ).$onclick( this.#onclickListPatterns.bind( this ) );
+		this.#getList( "drums" ).$onclick( this.#onclickListPatterns.bind( this ) );
+		this.#getList( "keys" ).$onclick( this.#onclickSynths.bind( this ) );
+		this.$elements.$newSlices.$onclick( () => this.onchange( "addPatternSlices" ) );
+		this.$elements.$newDrums.$onclick( () => this.onchange( "addPatternDrums" ) );
+		this.$elements.$newSynth.$onclick( () => this.onchange( "addSynth" ) );
+		this.$elements.$newAutomation.$onclick( () => this.onchange( "addAutomation" ) );
 	}
 
 	// .........................................................................

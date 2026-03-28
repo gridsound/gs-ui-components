@@ -13,7 +13,7 @@ class gsuiLibraries extends gsui0ne {
 				lib: "default",
 			},
 		} );
-		this.$elements.$libBtns.$on( "click", this.#onclickBtns.bind( this ) );
+		this.$elements.$libBtns.$onclick( this.#onclickBtns.bind( this ) );
 		this.$elements.$libDef.$get( 0 ).$setPlaceholder( "loading..." );
 		this.$elements.$libLoc.$get( 0 ).$setPlaceholder( "drag'n drop your own samples in the app, they will appear here" );
 	}
