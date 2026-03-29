@@ -49,8 +49,8 @@ class gsuiAnalyserVu extends gsui0ne {
 
 	// .........................................................................
 	$draw( dataL, dataR ) {
-		const L = gsuiAnalyserVu.#getMax( dataL ) * 100;
-		const R = gsuiAnalyserVu.#getMax( dataR ) * 100;
+		const L = gsuiAnalyserVu.#getMax( dataL, this.#dBmax );
+		const R = gsuiAnalyserVu.#getMax( dataR, this.#dBmax );
 
 		this.#drawChan( this.#chans[ 0 ], L );
 		this.#drawChan( this.#chans[ 1 ], R );
@@ -99,8 +99,10 @@ class gsuiAnalyserVu extends gsui0ne {
 			} );
 		}
 	}
-	static #getMax( arr ) {
-		return Array.prototype.reduce.call( arr, ( res, n ) => Math.max( res, Math.abs( n ) ), 0 );
+	static #getMax( arr, limit ) {
+		const n = Array.prototype.reduce.call( arr, ( res, n ) => Math.max( res, Math.abs( n ) ), 0 );
+
+		return Math.min( n * 100, limit );
 	}
 }
 
