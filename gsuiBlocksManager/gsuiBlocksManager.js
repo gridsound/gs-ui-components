@@ -379,13 +379,7 @@ class gsuiBlocksManager {
 				const pA = rowA.compareDocumentPosition( elBlc.$get( 0 ) );
 				const pB = rowB.compareDocumentPosition( elBlc.$get( 0 ) );
 
-				if (
-					pA & Node.DOCUMENT_POSITION_CONTAINED_BY ||
-					pB & Node.DOCUMENT_POSITION_CONTAINED_BY || (
-						pA & Node.DOCUMENT_POSITION_FOLLOWING &&
-						pB & Node.DOCUMENT_POSITION_PRECEDING
-					)
-				) {
+				if ( pA & 16 || pB & 16 || ( pA & 4 && pB & 2 ) ) { // 1.
 					this.#blockDOMChange( elBlc, "selected", true );
 					map.set( id, elBlc );
 				}
@@ -480,3 +474,10 @@ class gsuiBlocksManager {
 }
 
 Object.freeze( gsuiBlocksManager );
+
+/*
+1. constants:
+   16 = Node.DOCUMENT_POSITION_CONTAINED_BY
+    4 = Node.DOCUMENT_POSITION_FOLLOWING
+    2 = Node.DOCUMENT_POSITION_PRECEDING
+*/
