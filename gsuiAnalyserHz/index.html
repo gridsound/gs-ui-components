@@ -95,7 +95,7 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 		play.$disabled( false );
 	} );
 
-gain.$oninput( () => gainNode.gain.setValueAtTime( gain.value, 0 ) );
+gain.$oninput( () => GSUaudioParamSet( gainNode.gain, gain.value ) );
 bgcolor.$onchange( () => spectrum.$css( "background-color", bgcolor.$value() ) );
 stop.$onclick( () => absn?.stop() );
 play.$onclick( () => {
