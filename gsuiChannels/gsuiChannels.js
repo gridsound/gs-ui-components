@@ -52,7 +52,6 @@ class gsuiChannels extends gsui0ne {
 		this.$this.$dispatch( GSEV_CHANNELS_SELECTCHAN, id );
 	}
 	$openSelectChannelPopup( currChanId ) {
-		___( currChanId, "string" );
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.$append( ...[
 				GSUcreateOption( { value: "main" } ),

@@ -19,9 +19,6 @@ class gsuiCalcAbsPos {
 	};
 
 	static $calc( pos, tBCR, w, h, opts = {} ) {
-		___( pos, "oneOf", gsuiCalcAbsPos.#list.T );
-		___( w, "number-positive" );
-		___( h, "number-positive" );
 		const posList = gsuiCalcAbsPos.#list[ pos ];
 		const marg = opts.margin || 0;
 		let newPos = pos;
