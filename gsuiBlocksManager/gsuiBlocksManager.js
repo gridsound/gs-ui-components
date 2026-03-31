@@ -32,8 +32,8 @@ class gsuiBlocksManager {
 	#valueBMin = Infinity;
 	#valueAMax = -Infinity;
 	#valueBMax = -Infinity;
-	#onmousemoveBind = this.#onmousemove.bind( this );
-	#onmouseupBind = this.#onmouseup.bind( this );
+	#onptrmvBind = this.#onptrmv.bind( this );
+	#onptrupBind = this.#onptrup.bind( this );
 	#prevPreview = null;
 
 	constructor( opts ) {
@@ -104,7 +104,7 @@ class gsuiBlocksManager {
 				if ( this.#blcsSelected.size ) {
 					this.#blcsSelected.forEach( ( blc, id ) => blcsEditing.set( id, blc ) );
 					this.#status = "delete";
-					this.#onmouseup();
+					this.#onptrup();
 				}
 				break;
 			case "b": // copy paste
@@ -249,8 +249,9 @@ class gsuiBlocksManager {
 				}
 			}
 		}
-		document.addEventListener( "mousemove", this.#onmousemoveBind );
-		document.addEventListener( "mouseup", this.#onmouseupBind );
+		tar.$get( 0 ).setPointerCapture( e.pointerId );
+		$body.$addEventListener( "pointermove", this.#onptrmvBind )
+			.$addEventListener( "pointerup", this.#onptrupBind );
 	}
 	#onmousedownMove( data, blcsEditing, e ) {
 		this.#mmFn = this.#getPtrMoveFn();
@@ -290,9 +291,9 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	#onmousemove( e ) {
+	#onptrmv( e ) {
 		if ( this.#mmFn ) {
-			if ( e.type === "mousemove" ) {
+			if ( e.type === "pointermove" ) {
 				this.#mmPageX = e.pageX;
 				this.#mmPageY = e.pageY;
 			}
@@ -398,7 +399,12 @@ class gsuiBlocksManager {
 	}
 
 	// .........................................................................
-	#onmouseup() {
+	#onptrup( e ) {
+		if ( e ) {
+			e.target.releasePointerCapture( e.pointerId );
+			$body.$rmEventListener( "pointermove", this.#onptrmvBind )
+				.$rmEventListener( "pointerup", this.#onptrupBind );
+		}
 		if ( this.#status ) {
 			this.#getPtrUpFn().call( this, this.#blcsEditing, this.#mdBlc );
 		}
@@ -416,8 +422,6 @@ class gsuiBlocksManager {
 		this.#valueBMax = -Infinity;
 		this.#blcsEditing.clear();
 		this.#stopPreview();
-		document.removeEventListener( "mousemove", this.#onmousemoveBind );
-		document.removeEventListener( "mouseup", this.#onmouseupBind );
 	}
 	#onmouseupMove( blcsEditing ) {
 		switch ( this.#status ) {

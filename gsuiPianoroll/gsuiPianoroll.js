@@ -165,7 +165,7 @@ class gsuiPianoroll extends gsui0ne {
 		rows.forEach( el => {
 			const midi = +el.dataset.midi;
 
-			el.onmousedown = this.#rowMousedown.bind( this, midi );
+			el.onpointerdown = this.#rowMousedown.bind( this, midi );
 			this.#rowsByMidi[ midi ] = el;
 		} );
 		this.#win.$query( ".gsuiTimewindow-rows" ).$append( ...rows ).$height( rows.length, "em" );
@@ -191,7 +191,7 @@ class gsuiPianoroll extends gsui0ne {
 	$addKey( id, obj ) {
 		const blc = $( GSUgetTemplate( "gsui-pianoroll-block" ) )
 			.$dataId( id )
-			.$on( "mousedown", this.#blcMousedown.bind( this, id ) );
+			.$on( "pointerdown", this.#blcMousedown.bind( this, id ) );
 
 		blc.$get( 0 )._draglineDrop = blc.$query( ".gsuiDragline-drop" ).$get( 0 );
 		this.#getDragline( blc ).$message( GSEV_DRAGLINE_DROPAREAS, this.#getDropAreas.bind( this, id ) );

@@ -76,7 +76,7 @@ class gsuiPatternroll extends gsui0ne {
 		const row = this.#tracklist.$addTrack( id ).$message( GSEV_TRACK_ROWELEMENT );
 
 		row.$togClass( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 )
-			.$on( "mousedown", this.#rowMousedown.bind( this ) )
+			.$on( "pointerdown", this.#rowMousedown.bind( this ) )
 			.$appendTo( GSUdomQS( this.#win, ".gsuiTimewindow-rows" ) );
 		this.#rowsByTrackId.set( id, row );
 	}
@@ -89,7 +89,7 @@ class gsuiPatternroll extends gsui0ne {
 	$addBlock( id, obj, { dataReady } ) {
 		const elBlc = $( GSUgetTemplate( "gsui-patternroll-block" ) )
 			.$dataId( id )
-			.$on( "mousedown", this.#blcMousedown.bind( this, id ) )
+			.$on( "pointerdown", this.#blcMousedown.bind( this, id ) )
 			.$setAttr( {
 				"data-pattern": obj.pattern,
 				"data-missing": !dataReady,
