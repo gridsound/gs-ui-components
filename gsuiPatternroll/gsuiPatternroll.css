@@ -90,13 +90,13 @@ gsui-patternroll {
 	.gsuiPatternroll-block[ data-missing ] & {
 		display: flex;
 	}
-}
-.gsuiPatternroll-block-placeholderIcon {
-	margin: 0 8px;
-}
-.gsuiPatternroll-block-placeholderText {
-	overflow: hidden;
-	text-overflow: ellipsis;
+	.gsuiIcon {
+		margin: 0 8px;
+	}
+	span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
 
 /* .......................................................................... */

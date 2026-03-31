@@ -32,6 +32,22 @@
 	background-color: var( --gsuiBlocksManager-blockColor );
 	transition: .1s;
 	transition-property: opacity, background-color;
+
+	[ data-action^="crop" ] {
+		position: absolute;
+		z-index: 2;
+		inset: -2px;
+		width: 25%;
+		max-width: 8px;
+	}
+	[ data-action="cropA" ] {
+		right: auto;
+		cursor: w-resize;
+	}
+	[ data-action="cropB" ] {
+		left: auto;
+		cursor: e-resize;
+	}
 }
 .gsuiBlocksManager-block-selected {
 	--gsuiBlocksManager-blockColor: var( --gsuiBlocksManager-blockSelectedColor );
@@ -39,33 +55,4 @@
 .gsuiBlocksManager-block-hidden.gsuiBlocksManager-block-hidden.gsuiBlocksManager-block-hidden {
 	z-index: 0;
 	opacity: .3;
-}
-.gsuiBlocksManager-block-crop {
-	position: absolute;
-	z-index: 2;
-	width: 50%;
-	height: 100%;
-	max-width: 8px;
-	border-radius: inherit;
-	background-color: #000;
-	opacity: 0;
-	transition: .1s opacity;
-}
-.gsuiBlocksManager-block-cropA {
-	left: 0;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-.gsuiBlocksManager-block-cropB {
-	right: 0;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.gsuiBlocksManager-block:hover .gsuiBlocksManager-block-crop,
-.gsuiBlocksManager-block.gsui-hover .gsuiBlocksManager-block-crop {
-	opacity: .12;
-}
-.gsuiBlocksManager-block .gsuiBlocksManager-block-crop:hover,
-.gsuiBlocksManager-block .gsuiBlocksManager-block-crop.gsui-hover {
-	opacity: .25;
 }
