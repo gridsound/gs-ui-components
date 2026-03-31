@@ -1,7 +1,5 @@
 "use strict";
 
-function lg( a, ...rest ) { return console.log( a, ...rest ), a; }
-
 const TESTcmpList = Object.freeze( [
 	"gsuiActionMenu",
 	"gsuiAnalyserHist",
