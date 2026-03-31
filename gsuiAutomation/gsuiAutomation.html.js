@@ -4,7 +4,7 @@ GSUsetTemplate( "gsui-automation", () => [
 	GSUcreateDiv( { class: "gsuiAutomation-in" },
 		GSUcreateDiv( { class: "gsuiAutomation-head" },
 			GSUcreateIcon( { icon: "target" } ),
-			GSUcreateButton( { class: "gsuiAutomation-btnTarget gsui-ellipsis" } ),
+			GSUcreateButton( { class: "gsuiAutomation-btnTarget gsui-ellipsis", title: "Select automation's target" } ),
 			GSUcreateElement( "gsui-duration" ),
 		),
 		GSUcreateDiv( { class: "gsuiAutomation-body" },
