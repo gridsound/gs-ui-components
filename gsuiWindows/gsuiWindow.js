@@ -111,11 +111,15 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			this.setPointerCapture( e.pointerId );
 			GSUdomUnselect();
-			this.$this.$addAttr( "dragging" ).$css( "cursor", "move" );
-			this.onpointermove = this.#onptrmoveHead.bind( this );
-			this.onpointerup = this.#onptrupHead.bind( this );
+			this.$this
+				.$setPtrCapture( e.pointerId )
+				.$addAttr( "dragging" )
+				.$css( "cursor", "move" )
+				.$on( {
+					pointermove: this.#onptrmoveHead.bind( this ),
+					pointerup: this.#onptrupHead.bind( this ),
+				} );
 		}
 	}
 	#onptrdownHandlers( e ) {
@@ -126,11 +130,15 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			this.setPointerCapture( e.pointerId );
 			GSUdomUnselect();
-			this.$this.$addAttr( "dragging" ).$css( "cursor", `${ dir }-resize` );
-			this.onpointermove = this.#onptrmoveHandler.bind( this, dir );
-			this.onpointerup = this.#onptrupHandler.bind( this, dir );
+			this.$this
+				.$setPtrCapture( e.pointerId )
+				.$addAttr( "dragging" )
+				.$css( "cursor", `${ dir }-resize` )
+				.$on( {
+					pointermove: this.#onptrmoveHandler.bind( this, dir ),
+					pointerup: this.#onptrupHandler.bind( this, dir ),
+				} );
 		}
 	}
 	#onptrmoveHead( e ) {
@@ -150,10 +158,11 @@ class gsuiWindow extends gsui0ne {
 		const { x, y } = this.#rect;
 		const m = this.#mousemovePos;
 
-		this.onpointermove =
-		this.onpointerup = null;
-		this.releasePointerCapture( e.pointerId );
-		this.$this.$rmAttr( "dragging" ).$css( "cursor", "" );
+		this.$this
+			.$relPtrCapture( e.pointerId )
+			.$off( "pointermove", "pointerup" )
+			.$rmAttr( "dragging" )
+			.$css( "cursor", "" );
 		this.$elements.$wrap.$css( this.#resetCSS );
 		this.$elements.$handlers.$css( this.#resetCSS );
 		if ( m.x || m.y ) {
@@ -181,10 +190,11 @@ class gsuiWindow extends gsui0ne {
 		const { x, y, w, h } = this.#rect;
 		const m = this.#mousemovePos;
 
-		this.onpointermove =
-		this.onpointerup = null;
-		this.releasePointerCapture( e.pointerId );
-		this.$this.$rmAttr( "dragging" ).$css( "cursor", "" );
+		this.$this
+			.$relPtrCapture( e.pointerId )
+			.$off( "pointermove", "pointerup" )
+			.$rmAttr( "dragging" )
+			.$css( "cursor", "" );
 		this.$elements.$wrap.$css( this.#resetCSS );
 		this.$elements.$handlers.$css( this.#resetCSS );
 		if ( m.x || m.y ) {

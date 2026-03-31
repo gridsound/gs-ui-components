@@ -140,7 +140,7 @@ const ddTar = $( "#ddTarget" );
 let moving = false;
 let movingOffset = [ 0, 0 ];
 
-$body.$append( ddTar.$get( 0 ), dd.$get( 0 ) );
+$body.$append( ddTar, dd );
 
 ddTar.$on( {
 	pointerdown: e => {
@@ -150,17 +150,17 @@ ddTar.$on( {
 		if ( tar.$tag() === "span" ) {
 			ddTar.$setAttr( "data-pos", tar.$prop( "title" ) );
 		} else {
-			ddTar.$get( 0 ).setPointerCapture( e.pointerId );
 			dd.$css( "display", "block" );
 			movingOffset[ 0 ] = e.offsetX;
 			movingOffset[ 1 ] = e.offsetY;
 			moving = true;
-			ddTar.$get( 0 ).onpointermove( e );
+			ddTar.$setPtrCapture( e.pointerId )
+				.$get( 0 ).onpointermove( e );
 		}
 	},
 	pointerup: e => {
 		moving = false;
-		ddTar.$get( 0 ).releasePointerCapture( e.pointerId );
+		ddTar.$relPtrCapture( e.pointerId );
 		dd.$css( "display", "" );
 	},
 	pointermove: e => {

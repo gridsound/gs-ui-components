@@ -230,7 +230,7 @@ class gsuiWaveEditor extends gsui0ne {
 		if ( this.#waveArray ) {
 			e.preventDefault();
 			this.#ptrDown = true;
-			this.$elements.$wave.$get( 0 ).setPointerCapture( e.pointerId );
+			this.$elements.$wave.$setPtrCapture( e.pointerId );
 			this.#waveArray2 ||= new Float32Array( this.#waveArray );
 			this.#clickSquare( e );
 		}
@@ -244,7 +244,7 @@ class gsuiWaveEditor extends gsui0ne {
 	#onptrupWave( e ) {
 		if ( this.#ptrDown ) {
 			this.#ptrDown = false;
-			this.$elements.$wave.$get( 0 ).releasePointerCapture( e.pointerId );
+			this.$elements.$wave.$relPtrCapture( e.pointerId );
 			if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
 				this.#waveArray2 = null;
 				this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );

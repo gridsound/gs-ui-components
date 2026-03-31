@@ -249,7 +249,7 @@ class gsuiBlocksManager {
 				}
 			}
 		}
-		tar.$get( 0 ).setPointerCapture( e.pointerId );
+		tar.$setPtrCapture( e.pointerId );
 		$body.$addEventListener( "pointermove", this.#onptrmvBind )
 			.$addEventListener( "pointerup", this.#onptrupBind );
 	}
@@ -401,7 +401,7 @@ class gsuiBlocksManager {
 	// .........................................................................
 	#onptrup( e ) {
 		if ( e ) {
-			e.target.releasePointerCapture( e.pointerId );
+			this.#mdTarget.$relPtrCapture( e.pointerId );
 			$body.$rmEventListener( "pointermove", this.#onptrmvBind )
 				.$rmEventListener( "pointerup", this.#onptrupBind );
 		}

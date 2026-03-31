@@ -261,7 +261,8 @@ class gsuiTimewindow extends gsui0ne {
 		return Math.max( time, loop, dur, 0 );
 	}
 	#onptrdownMinimap( e ) {
-		const act = e.target.dataset.action;
+		const tar = $( e.target );
+		const act = tar.$getAttr( "data-action" );
 
 		this.#minimapAction = act;
 		// this.#minimapViewMax = 0;
@@ -269,7 +270,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.#minimapPPBSaved = this.#pxPerBeat;
 		this.#minimapThumbSaved = this.$elements.$minimapThumb.$width();
 		this.#minimapScrollSaved = this.#scrollX;
-		e.target.setPointerCapture( e.pointerId );
+		tar.$setPtrCapture( e.pointerId );
 		switch ( act ) {
 			case "thumb":
 			case "cropA":
@@ -319,7 +320,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.onpointermove = null;
 		this.onpointerup = null;
 		// this.#minimapViewMax = 0;
-		e.target.releasePointerCapture( e.pointerId );
+		$( e.target ).$relPtrCapture( e.pointerId );
 		this.#minimapUpdate();
 	}
 
@@ -439,7 +440,7 @@ class gsuiTimewindow extends gsui0ne {
 	}
 	#onptrdownExtend( panel, e ) {
 		GSUdomUnselect();
-		e.target.setPointerCapture( e.pointerId );
+		$( e.target ).$setPtrCapture( e.pointerId );
 		if ( panel === "side" ) {
 			this.#panelSize = this.$elements.$panel.$width();
 			this.$elements.$minimapPanel.$width( this.#panelSize, "px" );
@@ -472,7 +473,7 @@ class gsuiTimewindow extends gsui0ne {
 		this.$elements.$down.$height( h2, "px" );
 	}
 	#onptrupExtend( e ) {
-		e.target.releasePointerCapture( e.pointerId );
+		$( e.target ).$relPtrCapture( e.pointerId );
 		document.removeEventListener( "pointermove", this.#onptrmoveExtendDownPanelBind );
 		document.removeEventListener( "pointermove", this.#onptrmoveExtendPanelBind );
 		document.removeEventListener( "pointerup", this.#onptrupExtendBind );

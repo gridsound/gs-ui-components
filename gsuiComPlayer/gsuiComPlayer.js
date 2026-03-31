@@ -155,8 +155,8 @@ class gsuiComPlayer extends gsui0ne {
 			} );
 	}
 	#onclickPlay() {
-		if ( this.$elements.$audio.$get( 0 ).src ) {
-			this.$elements.$audio.$get( 0 ).paused
+		if ( this.$elements.$audio.$prop( "src" ) ) {
+			this.$elements.$audio.$prop( "paused" )
 				? this.$play()
 				: this.$pause();
 		} else {
@@ -180,7 +180,7 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#onframePlaying() {
-		this.$this.$setAttr( "currenttime", this.$elements.$audio.$get( 0 ).currentTime );
+		this.$this.$setAttr( "currenttime", this.$elements.$audio.$prop( "currentTime" ) );
 	}
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( b
@@ -227,9 +227,12 @@ class gsuiComPlayer extends gsui0ne {
 			} );
 	}
 	#ptrDown( e ) {
-		e.target.setPointerCapture( e.pointerId );
-		e.target.onpointerup = this.#ptrUp.bind( this );
-		e.target.onpointermove = this.#ptrMove.bind( this );
+		$( e.target )
+			.$setPtrCapture( e.pointerId )
+			.$on( {
+				pointerup: this.#ptrUp.bind( this ),
+				pointermove: this.#ptrMove.bind( this ),
+			} );
 		this.#ptrMove( e );
 	}
 	#ptrMove( e ) {
@@ -242,11 +245,11 @@ class gsuiComPlayer extends gsui0ne {
 	#ptrUp( e ) {
 		const t = this.#settingTime;
 
-		e.target.releasePointerCapture( e.pointerId );
-		e.target.onpointerup =
-		e.target.onpointermove =
+		$( e.target )
+			.$relPtrCapture( e.pointerId )
+			.$off( "pointerup", "pointermove" );
 		this.#settingTime = null;
-		this.$elements.$audio.$get( 0 ).currentTime = t * this.$this.$getAttr( "duration" );
+		this.$elements.$audio.$prop( "currentTime", t * this.$this.$getAttr( "duration" ) );
 	}
 }
 

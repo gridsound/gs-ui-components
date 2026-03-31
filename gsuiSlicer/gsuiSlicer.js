@@ -267,7 +267,7 @@ class gsuiSlicer extends gsui0ne {
 				this.$elements.$slices.$on( {
 					pointerup: this.#onpointerupSlices.bind( this ),
 					pointermove: this.#onpointermoveSlices.bind( this ),
-				} ).$get( 0 ).setPointerCapture( e.pointerId );
+				} ).$setPtrCapture( e.pointerId );
 				this.#slicesSplitted = {};
 				this.#sliceIdBefore = sli.id;
 				this.#onpointermoveSlices( e );
@@ -280,8 +280,7 @@ class gsuiSlicer extends gsui0ne {
 	#onpointerupSlices( e ) {
 		const diff = GSUdiffObjects( this.#slicesSaved, this.#copySlicesData() );
 
-		this.$elements.$slices.$off( "pointermove", "pointerup" )
-			.$get( 0 ).releasePointerCapture( e.pointerId );
+		this.$elements.$slices.$off( "pointermove", "pointerup" ).$relPtrCapture( e.pointerId );
 		this.#slicesSplitted =
 		this.#sliceIdBefore =
 		this.#slicesSaved = null;

@@ -85,7 +85,7 @@ class gsui0ne extends HTMLElement {
 			if ( this.#ptrlock ) {
 				this.requestPointerLock().then( () => this.#onptrdown2( e ) );
 			} else {
-				this.setPointerCapture( e.pointerId );
+				this.$this.$setPtrCapture( e.pointerId );
 				this.#onptrdown2( e );
 			}
 		}
@@ -104,7 +104,7 @@ class gsui0ne extends HTMLElement {
 		if ( this.$isActive ) {
 			this.#ptrlock
 				? document.exitPointerLock()
-				: this.releasePointerCapture( e.pointerId );
+				: this.$this.$relPtrCapture( e.pointerId );
 			this.#ptrMap.delete( e.pointerId );
 			if ( this.#ptrMap.size < 1 ) {
 				this.$isActive = false;

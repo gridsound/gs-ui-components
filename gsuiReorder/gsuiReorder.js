@@ -49,8 +49,9 @@ class gsuiReorder {
 				this.#movingItemParentLast = this.#movingItem.$parent();
 				this.#currentPtr = gsuiReorder.#getGlobalPtr( this.#movingItemParent, e );
 				this.#ptrId = e.pointerId;
-				this.#opt.$root.$addEventListener( "pointermove", this.#onptrmoveBind );
-				this.#opt.$root.$addEventListener( "pointerup", this.#onptrupBind );
+				this.#opt.$root
+					.$addEventListener( "pointermove", this.#onptrmoveBind )
+					.$addEventListener( "pointerup", this.#onptrupBind );
 				$body.$addEventListener( "keydown", this.#onkeydownBind );
 				this.#elPtrDown = tar.$css( "cursor", "grabbing" );
 			}
@@ -72,7 +73,6 @@ class gsuiReorder {
 		this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 		this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
 		this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
-		this.#opt.$root.$css( "cursor", "grabbing" );
 		this.#elPtrDown.$css( "cursor", "" );
 		this.#movingItem.$addClass( "gsuiReorder-dragging" );
 		if ( this.#opt.$onchange ) {
@@ -80,7 +80,9 @@ class gsuiReorder {
 		}
 		this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, this.#opt.$itemGripSelector === "*" ? null : e.target, e );
 		this.#showTargetList();
-		this.#opt.$root.$get( 0 ).setPointerCapture( this.#ptrId );
+		this.#opt.$root
+			.$css( "cursor", "grabbing" )
+			.$setPtrCapture( this.#ptrId );
 		this.#dragging = true;
 	}
 	#onptrmovePreDrag( e ) {
@@ -199,7 +201,7 @@ class gsuiReorder {
 				.$css( "cursor", "" )
 				.$rmEventListener( "pointermove", this.#onptrmoveBind )
 				.$rmEventListener( "pointerup", this.#onptrupBind )
-				.$get( 0 ).releasePointerCapture( this.#ptrId );
+				.$relPtrCapture( this.#ptrId );
 			$body.$rmEventListener( "keydown", this.#onkeydownBind );
 			this.#ptrId = null;
 		}
