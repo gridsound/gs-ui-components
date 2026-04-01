@@ -256,7 +256,7 @@ class gsuiPianoroll extends gsui0ne {
 				this.#blockRedrawDragline( el );
 				break;
 			case "deleted":
-				el.$togClass( "gsuiBlocksManager-block-hidden", !!val );
+				el.$setAttr( "data-hidden", !!val );
 				break;
 			case "selected":
 				el.$setAttr( "data-selected", !!val );
