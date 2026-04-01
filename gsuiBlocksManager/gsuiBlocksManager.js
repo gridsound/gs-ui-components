@@ -81,7 +81,7 @@ class gsuiBlocksManager {
 		return $( el ).$closest( ".gsuiBlocksManager-block" );
 	}
 	#fillBlcsMap( blc ) {
-		if ( blc.$hasClass( "gsuiBlocksManager-block-selected" ) ) {
+		if ( blc.$hasAttr( "data-selected" ) ) {
 			this.#blcsSelected.forEach( ( blc, id ) => this.#blcsEditing.set( id, blc ) );
 		} else {
 			this.#blcsEditing.set( blc.$dataId(), blc );
@@ -464,7 +464,7 @@ class gsuiBlocksManager {
 	}
 	#onmouseupSelect1( blcsEditing, mdBlc ) {
 		if ( mdBlc.$size() ) {
-			mdBlc.$hasClass( "gsuiBlocksManager-block-selected" )
+			mdBlc.$hasAttr( "data-selected" )
 				? this.#opts.managercallUnselectingOne( mdBlc.$dataId() )
 				: this.#opts.managercallSelecting( [ mdBlc.$dataId() ] );
 		}

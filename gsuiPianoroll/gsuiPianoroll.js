@@ -259,7 +259,7 @@ class gsuiPianoroll extends gsui0ne {
 				el.$togClass( "gsuiBlocksManager-block-hidden", !!val );
 				break;
 			case "selected":
-				el.$togClass( "gsuiBlocksManager-block-selected", !!val );
+				el.$setAttr( "data-selected", !!val );
 				this.#uiSliderGroup.$get( 0 ).$setProp( el.$dataId(), "selected", !!val );
 				break;
 			case "row":

@@ -148,7 +148,7 @@ class gsuiPatternroll extends gsui0ne {
 			case "when": el.$left( val, "em" ); break;
 			case "duration": el.$width( val, "em" ); break;
 			case "deleted": el.$togClass( "gsuiBlocksManager-block-hidden", !!val ); break;
-			case "selected": el.$togClass( "gsuiBlocksManager-block-selected", !!val ); break;
+			case "selected": el.$setAttr( "data-selected", !!val ); break;
 			case "row": this.#blockDOMChange( el, "track", this.#incrTrackId( el.$getAttr( "data-track" ), val ) ); break;
 			case "track": el.$appendTo( this.#rowsByTrackId.get( val )?.$child( 0 ) ); break;
 		}

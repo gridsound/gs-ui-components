@@ -33,6 +33,9 @@
 	transition: .1s;
 	transition-property: opacity, background-color;
 
+	&[ data-selected ] {
+		--gsuiBlocksManager-blockColor: var( --gsuiBlocksManager-blockSelectedColor );
+	}
 	[ data-action^="crop" ] {
 		position: absolute;
 		z-index: 2;
@@ -48,9 +51,6 @@
 		left: auto;
 		cursor: e-resize;
 	}
-}
-.gsuiBlocksManager-block-selected {
-	--gsuiBlocksManager-blockColor: var( --gsuiBlocksManager-blockSelectedColor );
 }
 .gsuiBlocksManager-block-hidden.gsuiBlocksManager-block-hidden.gsuiBlocksManager-block-hidden {
 	z-index: 0;
