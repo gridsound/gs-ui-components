@@ -3,8 +3,8 @@
 class gsuiChannels extends gsui0ne {
 	#chanSelected = null;
 	#analyserType = "hz";
-	static #selectChanPopup = GSUgetTemplate( "gsui-channels-selectPopup" );
-	static #selectChanInput = $( gsuiChannels.#selectChanPopup, "select" );
+	static #selectChanPopup = $( GSUgetTemplate( "gsui-channels-selectPopup" ) );
+	static #selectChanInput = gsuiChannels.#selectChanPopup.$query( "select" );
 
 	constructor() {
 		super( {
@@ -66,7 +66,7 @@ class gsuiChannels extends gsui0ne {
 			gsuiChannels.#selectChanInput.$value( currChanId );
 			GSUpopup.$custom( {
 				title: "Channels",
-				element: gsuiChannels.#selectChanPopup,
+				element: gsuiChannels.#selectChanPopup.$get( 0 ),
 				submit( data ) {
 					const chan = `${ data.channel }`;
 
