@@ -233,7 +233,7 @@ class gsuiDAW extends gsui0ne {
 		}
 		GSUpopup.$custom( {
 			title: "Export",
-			element: this.#popups.$export.$root.$get( 0 ),
+			element: this.#popups.$export.$root,
 			ok: "close",
 		} ).then( () => {
 			if ( this.$this.$getAttr( "exporting" ) !== "1" ) {
@@ -290,7 +290,7 @@ class gsuiDAW extends gsui0ne {
 			p.$uiRateManualFPS.$text( uiRate.padStart( 2, "0" ) );
 			p.$uiRateManualRange.$value( uiRate );
 		}
-		GSUpopup.$custom( { title: "Settings", element: p.$root.$get( 0 ) } )
+		GSUpopup.$custom( { title: "Settings", element: p.$root } )
 			.then( this.#onsubmitSettingsPopup.bind( this ) );
 	}
 	#onsubmitSettingsPopup( data ) {
@@ -326,7 +326,7 @@ class gsuiDAW extends gsui0ne {
 			case "redo": this.$this.$dispatch( GSEV_DAW_REDO ); break;
 			case "export": this.#onopenRenderPopup(); break;
 			case "settings": this.#onopenSettingsPopup(); break;
-			case "about": GSUpopup.$custom( { title: "About", element: this.#popups.$about.$root.$get( 0 ) } ); break;
+			case "about": GSUpopup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
 			case "help": {
 				const hide = this.$this.$hasAttr( "gsuihelplink-hide" );
 

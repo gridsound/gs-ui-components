@@ -66,7 +66,7 @@ class gsuiChannels extends gsui0ne {
 			gsuiChannels.#selectChanInput.$value( currChanId );
 			GSUpopup.$custom( {
 				title: "Channels",
-				element: gsuiChannels.#selectChanPopup.$get( 0 ),
+				element: gsuiChannels.#selectChanPopup,
 				submit( data ) {
 					const chan = `${ data.channel }`;
 
