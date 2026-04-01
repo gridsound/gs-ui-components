@@ -22,7 +22,7 @@ class gsuiPatterns extends gsui0ne {
 				: GSUpopup.$alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
-	static infoPopupContent = GSUgetTemplate( "gsui-patterns-infoPopup" );
+	static infoPopupContent = $( GSUgetTemplate( "gsui-patterns-infoPopup" ) );
 
 	constructor() {
 		super( {
@@ -180,14 +180,14 @@ class gsuiPatterns extends gsui0ne {
 	}
 	#openInfoPopup( id, el ) {
 		const cnt = gsuiPatterns.infoPopupContent;
-		const radio = $( cnt, `[value="${ el.dataset.bufferType }"]` ).$checked( true );
+		const radio = cnt.$query( `[value="${ el.dataset.bufferType }"]` ).$checked( true );
 
 		if ( !radio.$size() ) {
-			$( cnt, "input:checked" ).$checked( false );
+			cnt.$query( "input:checked" ).$checked( false );
 		}
-		$( cnt, "[name='bpm']" ).$value( el.dataset.bufferBpm );
-		$( cnt, "[name='name']" ).$value( el.dataset.name );
-		$( cnt, "[name='reverse']" ).$checked( el.dataset.reverse === "" );
+		cnt.$query( "[name='bpm']" ).$value( el.dataset.bufferBpm );
+		cnt.$query( "[name='name']" ).$value( el.dataset.name );
+		cnt.$query( "[name='reverse']" ).$checked( el.dataset.reverse === "" );
 		GSUpopup.$custom( {
 			title: "Buffer's info",
 			element: cnt,
