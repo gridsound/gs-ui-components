@@ -41,18 +41,18 @@ class gsuiPianoroll extends gsui0ne {
 		downpanelsizemax: 160,
 	} );
 	#blcManager = new gsuiBlocksManager( {
-		rootElement: this,
+		$rootElement: this.$this,
 		$selectionElement: this.#selectionElement,
-		timeline: $( this.#win.$get( 0 ).$getTimeline() ),
-		blockDOMChange: this.#blockDOMChange.bind( this ),
-		managercallDuplicating: ( keysMap, wIncr ) => this.#onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
-		managercallSelecting: ids => this.#onchange( "selection", ids ),
-		managercallUnselecting: () => this.#onchange( "unselection" ),
-		managercallUnselectingOne: keyId => this.#onchange( "unselectionOne", keyId ),
-		managercallCreate: obj => this.#onchange( "add", obj.midi, obj.when, obj.duration ),
-		managercallMoving: ( keysMap, wIncr, kIncr ) => this.#onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
-		managercallCroppingB: ( keysMap, dIncr ) => this.#onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
-		managercallDeleting: keysMap => this.#onchange( "remove", Array.from( keysMap.keys() ) ),
+		$timeline: $( this.#win.$get( 0 ).$getTimeline() ),
+		$blockDOMChange: this.#blockDOMChange.bind( this ),
+		$managercallDuplicating: ( keysMap, wIncr ) => this.#onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
+		$managercallSelecting: ids => this.#onchange( "selection", ids ),
+		$managercallUnselecting: () => this.#onchange( "unselection" ),
+		$managercallUnselectingOne: keyId => this.#onchange( "unselectionOne", keyId ),
+		$managercallCreate: obj => this.#onchange( "add", obj.midi, obj.when, obj.duration ),
+		$managercallMoving: ( keysMap, wIncr, kIncr ) => this.#onchange( "move", Array.from( keysMap.keys() ), wIncr, kIncr ),
+		$managercallCroppingB: ( keysMap, dIncr ) => this.#onchange( "cropEnd", Array.from( keysMap.keys() ), dIncr ),
+		$managercallDeleting: keysMap => this.#onchange( "remove", Array.from( keysMap.keys() ) ),
 	} );
 
 	constructor() {

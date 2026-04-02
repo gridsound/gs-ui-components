@@ -19,18 +19,18 @@ class gsuiPatternroll extends gsui0ne {
 		pxperbeatmax: 160,
 	} );
 	#blcManager = new gsuiBlocksManager( {
-		rootElement: this,
+		$rootElement: this.$this,
 		$selectionElement: this.#selectionElement,
-		timeline: $( this.#win.$getTimeline() ),
-		blockDOMChange: this.#blockDOMChange.bind( this ),
-		managercallMoving: ( blcsMap, wIncr, trIncr ) => this.#onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
-		managercallDeleting: blcsMap => this.#onchange( "deletion", Array.from( blcsMap.keys() ) ),
-		managercallSelecting: ids => this.#onchange( "selection", ids ),
-		managercallUnselecting: () => this.#onchange( "unselection" ),
-		managercallUnselectingOne: blcId => this.#onchange( "unselectionOne", blcId ),
-		managercallDuplicating: ( blcsMap, wIncr ) => this.#onchange( "duplicate", wIncr ),
-		managercallCroppingA: ( blcsMap, wIncr ) => this.#onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
-		managercallCroppingB: ( blcsMap, wIncr ) => this.#onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
+		$timeline: $( this.#win.$getTimeline() ),
+		$blockDOMChange: this.#blockDOMChange.bind( this ),
+		$managercallMoving: ( blcsMap, wIncr, trIncr ) => this.#onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
+		$managercallDeleting: blcsMap => this.#onchange( "deletion", Array.from( blcsMap.keys() ) ),
+		$managercallSelecting: ids => this.#onchange( "selection", ids ),
+		$managercallUnselecting: () => this.#onchange( "unselection" ),
+		$managercallUnselectingOne: blcId => this.#onchange( "unselectionOne", blcId ),
+		$managercallDuplicating: ( blcsMap, wIncr ) => this.#onchange( "duplicate", wIncr ),
+		$managercallCroppingA: ( blcsMap, wIncr ) => this.#onchange( "cropStart", Array.from( blcsMap.keys() ), wIncr ),
+		$managercallCroppingB: ( blcsMap, wIncr ) => this.#onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
 	} );
 
 	constructor() {
