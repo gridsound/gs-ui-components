@@ -174,10 +174,10 @@ gsui-channel gsui-toggle {
 	background-color: #0002;
 	touch-action: none;
 }
-gsui-channel[ data-id="main" ] .gsuiChannel-grip {
+gsui-channel[ data-id="0" ] .gsuiChannel-grip {
 	pointer-events: none;
 }
-gsui-channel[ data-id="main" ] .gsuiChannel-grip::after,
-gsui-channel[ data-id="main" ] .gsuiChannel-grip::before {
+gsui-channel[ data-id="0" ] .gsuiChannel-grip::after,
+gsui-channel[ data-id="0" ] .gsuiChannel-grip::before {
 	display: none;
 }

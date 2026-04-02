@@ -96,8 +96,8 @@ const mix = $( "gsui-mixer" );
 const chans = mix.$get( 0 ).$getChannels();
 const fxs = mix.$get( 0 ).$getEffects();
 
-chans.$addChannel( "main" );
-chans.$changeChannelProp( "main", "name", "main" );
+chans.$addChannel( "0" );
+chans.$changeChannelProp( "0", "name", "main" );
 chans.$addChannel( "1" );
 chans.$addChannel( "2" );
 chans.$addChannel( "3" );

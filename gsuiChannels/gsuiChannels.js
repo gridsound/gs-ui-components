@@ -54,7 +54,7 @@ class gsuiChannels extends gsui0ne {
 	$openSelectChannelPopup( currChanId ) {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.$append( ...[
-				GSUcreateOption( { value: "main" } ),
+				GSUcreateOption( { value: "0" }, "0 (main)" ),
 				...this.$this.$query( ".gsuiChannels-panChannels gsui-channel" )
 					.$sort( ( a, b ) => a.dataset.order - b.dataset.order )
 					.$map( el => {
@@ -83,7 +83,7 @@ class gsuiChannels extends gsui0ne {
 	$addChannel( id ) {
 		const chan = $( "<gsui-channel>" )
 			.$dataId( id )
-			.$appendTo( id === "main" ? this.$elements.$pmain : this.$elements.$pchans );
+			.$appendTo( id === "0" ? this.$elements.$pmain : this.$elements.$pchans );
 
 		chan.$query( "gsui-analyser-hist" )
 			.$setAttr( "type", this.#analyserType )
@@ -91,7 +91,7 @@ class gsuiChannels extends gsui0ne {
 		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
-		} else if ( id === "main" ) {
+		} else if ( id === "0" ) {
 			this.#selectChannel( id );
 		}
 	}
@@ -103,7 +103,7 @@ class gsuiChannels extends gsui0ne {
 
 			next.$size()
 				? this.#selectChannel( next.$dataId() )
-				: this.#selectChannel( this.#getNextChan( chan, -1 ).$dataId() || "main" );
+				: this.#selectChannel( this.#getNextChan( chan, -1 ).$dataId() || "0" );
 		}
 		chan.$remove();
 		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
@@ -152,7 +152,7 @@ class gsuiChannels extends gsui0ne {
 				};
 			} );
 			chan.$setAttr( {
-				connecta: selId !== "main" ? "down" : false,
+				connecta: selId !== "0" ? "down" : false,
 				connectb: bOnce ? "up" : false,
 			} );
 		}
