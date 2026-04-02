@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiDrums extends gsui0ne {
-	#win = GSUcreateElement( "gsui-timewindow", {
+	#win = $( "<gsui-timewindow>" ).$setAttr( {
 		panelsize: 140,
 		panelsizemin: 70,
 		panelsizemax: 240,
@@ -53,8 +53,8 @@ class gsuiDrums extends gsui0ne {
 				this.#drumrows.$removeDrumPropValue( d.$targetId, d.$target.dataset.currentProp );
 			},
 		} );
-		GSUdomSetAttr( this.#win, "step", 1 );
-		this.#win.onscroll = this.#onptrmoveLines2.bind( this );
+		this.#win.$setAttr( "step", 1 )
+			.$on( "scroll", this.#onptrmoveLines2.bind( this ) );
 		this.#elDrumHover.$remove();
 		this.#elDrumcutHover.$remove();
 		this.#elDrumHover.$on( {
@@ -76,23 +76,22 @@ class gsuiDrums extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.append( this.#win );
-		this.#win.$appendPanel( this.#drumrows );
-		this.#elLines = $( this.#win ).$query( ".gsuiTimewindow-rows" )
-			.$on( {
-				pointermove: this.#onptrmoveLinesBind,
-				mouseleave: this.#onmouseleaveLines.bind( this ),
-			} );
+		this.#win.$appendTo( this )
+			.$get( 0 ).$appendPanel( this.#drumrows );
+		this.#elLines = this.#win.$query( ".gsuiTimewindow-rows" ).$on( {
+			pointermove: this.#onptrmoveLinesBind,
+			mouseleave: this.#onmouseleaveLines.bind( this ),
+		} );
 	}
 	static get observedAttributes() {
 		return [ "disabled", "currenttime", "timedivision", "loop" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "disabled": return GSUdomSetAttr( this.#win, "disabled", val );
-			case "currenttime": return GSUdomSetAttr( this.#win, "currenttime", val );
+			case "disabled": return this.#win.$setAttr( "disabled", val );
+			case "currenttime": return this.#win.$setAttr( "currenttime", val );
 			case "timedivision": return this.#timedivision( val );
-			case "loop": return GSUdomSetAttr( this.#win, "loop", val );
+			case "loop": return this.#win.$setAttr( "loop", val );
 		}
 	}
 
@@ -101,7 +100,7 @@ class gsuiDrums extends gsui0ne {
 		const sPB = +timediv.split( "/" )[ 1 ];
 
 		this.#stepsPerBeat = sPB;
-		GSUdomSetAttr( this.#win, {
+		this.#win.$setAttr( {
 			timedivision: timediv,
 			currenttimestep: 1 / sPB,
 		} );
@@ -111,13 +110,13 @@ class gsuiDrums extends gsui0ne {
 	#setPxPerBeat( ppb ) {
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
-		GSUdomSetAttr( this.#win, "pxperbeat", ppb );
+		this.#win.$setAttr( "pxperbeat", ppb );
 		this.$this.$query( "gsui-slidergroup" ).$setAttr( "pxperbeat", ppb );
 	}
 
 	// .........................................................................
 	$changeDuration( dur ) {
-		GSUdomSetAttr( this.#win, "duration", dur );
+		this.#win.$setAttr( "duration", dur );
 	}
 	$addDrumrow( rowId ) {
 		const elLine = this.#drumrows.$add( rowId );
@@ -202,7 +201,7 @@ class gsuiDrums extends gsui0ne {
 				}
 			}
 		}
-		this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).append( elItem );
+		this.#win.$query( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ).$append( elItem );
 		this.#drumsMap.set( id, [ rowId, itemType, elItem ] );
 		return elItem;
 	}
@@ -317,9 +316,6 @@ class gsuiDrums extends gsui0ne {
 	}
 
 	// .........................................................................
-	#qS( sel ) {
-		return GSUdomQS( this.firstChild ? this : this.#win, sel );
-	}
 	#createPreview( itemType, rowId, when ) {
 		return $( `<gsui-${ itemType }>` )
 			.$setAttr( {
@@ -327,7 +323,7 @@ class gsuiDrums extends gsui0ne {
 				class: "gsuiDrums-preview",
 				duration: this.#hoverDurSaved,
 			} )
-			.$appendTo( this.#qS( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ) );
+			.$appendTo( this.#win.$query( `.gsuiDrums-line[data-id='${ rowId }'] .gsuiDrums-lineIn` ) );
 	}
 	#createPreviews( whenFrom, whenTo ) {
 		const rowId = this.#draggingRowId;
