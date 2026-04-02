@@ -30,6 +30,7 @@
 	top: 0;
 	bottom: 1px;
 	background-color: var( --gsuiBlocksManager-blockColor );
+	cursor: move;
 	transition: .1s;
 	transition-property: opacity, background-color;
 
@@ -42,6 +43,7 @@
 	}
 	[ data-action^="crop" ] {
 		position: absolute;
+		opacity: 0;
 		z-index: 2;
 		inset: -2px;
 		width: 25%;

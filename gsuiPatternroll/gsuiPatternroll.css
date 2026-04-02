@@ -101,6 +101,9 @@ gsui-patternroll {
 
 /* .......................................................................... */
 @container gsui-patternroll-block-query ( max-width: 32px ) {
+	.gsuiPatternroll-block-header {
+		padding: 0;
+	}
 	.gsuiPatternroll-block-name {
 		display: none;
 	}
