@@ -231,7 +231,7 @@ class gsuiPianoroll extends gsui0ne {
 		const blc = this.#blcManager.$getBlocks().get( id );
 
 		this.#blockDOMChange( blc, prop, val );
-		if ( val === null ) {
+		if ( val === null || val === false ) {
 			delete blc.$get( 0 ).dataset[ prop ];
 		} else {
 			blc.$get( 0 ).dataset[ prop === "key" ? "keyNote" : prop ] = val;

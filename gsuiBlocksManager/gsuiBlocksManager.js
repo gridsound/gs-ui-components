@@ -248,9 +248,11 @@ class gsuiBlocksManager {
 					}
 				}
 			}
+			$( this.#rootElement ).$setPtrCapture( e.pointerId );
 		}
-		tar.$setPtrCapture( e.pointerId );
-		$body.$addEventListener( "pointermove", this.#onptrmvBind )
+		$body
+			.$css( "cursor", tar.$css( "cursor" ) )
+			.$addEventListener( "pointermove", this.#onptrmvBind )
 			.$addEventListener( "pointerup", this.#onptrupBind );
 	}
 	#onmousedownMove( data, blcsEditing, e ) {
@@ -401,8 +403,10 @@ class gsuiBlocksManager {
 	// .........................................................................
 	#onptrup( e ) {
 		if ( e ) {
-			this.#mdTarget.$relPtrCapture( e.pointerId );
-			$body.$rmEventListener( "pointermove", this.#onptrmvBind )
+			$( this.#rootElement ).$relPtrCapture( e.pointerId );
+			$body
+				.$css( "cursor", "" )
+				.$rmEventListener( "pointermove", this.#onptrmvBind )
 				.$rmEventListener( "pointerup", this.#onptrupBind );
 		}
 		if ( this.#status ) {
