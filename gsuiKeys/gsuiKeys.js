@@ -69,9 +69,6 @@ class gsuiKeys extends gsui0ne {
 	}
 
 	// .........................................................................
-	$getRows() {
-		return [ ...this.getElementsByClassName( "gsui-row" ) ];
-	}
 	$getMidiKeyFromKeyboard( e ) {
 		const k = gsuiKeys.#keyboardToKey[ e.code ];
 

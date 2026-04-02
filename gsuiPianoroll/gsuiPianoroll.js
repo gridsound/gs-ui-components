@@ -43,7 +43,7 @@ class gsuiPianoroll extends gsui0ne {
 	#blcManager = new gsuiBlocksManager( {
 		$rootElement: this.$this,
 		$selectionElement: this.#selectionElement,
-		$timeline: $( this.#win.$get( 0 ).$getTimeline() ),
+		$timeline: this.#win.$get( 0 ).$getTimeline(),
 		$blockDOMChange: this.#blockDOMChange.bind( this ),
 		$managercallDuplicating: ( keysMap, wIncr ) => this.#onchange( "clone", Array.from( keysMap.keys() ), wIncr ),
 		$managercallSelecting: ids => this.#onchange( "selection", ids ),
@@ -86,10 +86,9 @@ class gsuiPianoroll extends gsui0ne {
 		this.ondragover = GSUnoopFalse;
 		this.ondrop = this.#ondrop.bind( this );
 		this.#blcManager.$oncreatePreviewBlock = ( rowInd, when ) => {
-			const rows = this.#blcManager.$getRows();
-			const key = +rows[ rowInd ].dataset.midi;
+			const key = +this.$this.$query( ".gsui-row" ).$at( rowInd ).$getAttr( "data-midi" );
 
-			return $( this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } ) );
+			return this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } );
 		};
 		this.#ongsuiTimewindowPxperbeat( 64 );
 		this.#ongsuiTimewindowLineheight( 20 );
@@ -159,16 +158,16 @@ class gsuiPianoroll extends gsui0ne {
 	$octaves( from, nb ) {
 		this.#uiKeys.$setAttr( "octaves", `${ from } ${ nb }` );
 
-		const rows = this.#uiKeys.$get( 0 ).$getRows();
+		const rows = this.#uiKeys.$query( ".gsui-row" );
 
 		Object.keys( this.#rowsByMidi ).forEach( k => delete this.#rowsByMidi[ k ] );
-		rows.forEach( el => {
+		rows.$each( el => {
 			const midi = +el.dataset.midi;
 
 			el.onpointerdown = this.#rowMousedown.bind( this, midi );
 			this.#rowsByMidi[ midi ] = el;
 		} );
-		this.#win.$query( ".gsuiTimewindow-rows" ).$append( ...rows ).$height( rows.length, "em" );
+		this.#win.$query( ".gsuiTimewindow-rows" ).$append( rows ).$height( rows.$size(), "em" );
 		this.$scrollToMiddle();
 		this.$reset();
 	}
@@ -325,7 +324,7 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
-		Array.from( this.#blcManager.$getRows() ).forEach( el => GSUdomTogClass( el, "gsui-row-small", px <= 44 ) );
+		this.$this.$query( ".gsui-row" ).$setAttr( "data-small", px <= 44 );
 		this.#blcManager.$getBlocks().forEach( blc => this.#getDragline( blc ).$message( GSEV_DRAGLINE_DRAW ) );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {

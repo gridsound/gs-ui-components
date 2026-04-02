@@ -55,7 +55,6 @@ class gsuiBlocksManager {
 	$setPxPerBeat( px ) { this.#pxPerBeat = px; }
 	$getFontSize() { return this.#fontSize; }
 	$getPxPerBeat() { return this.#pxPerBeat; }
-	$getRows() { return this.#nlRows; }
 	$getBlocks() { return this.#blcs; }
 	$getSelectedBlocks() { return this.#blcsSelected; }
 

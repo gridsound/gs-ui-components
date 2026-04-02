@@ -222,7 +222,7 @@ class gsuiTimewindow extends gsui0ne {
 
 	// .........................................................................
 	$getTimeline() {
-		return this.$elements.$timeline.$get( 0 );
+		return this.$elements.$timeline;
 	}
 	#minimapUpdate() {
 		const mapPx = this.$elements.$minimapTrack.$width();

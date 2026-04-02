@@ -68,7 +68,7 @@ gsui-patternroll {
 	}
 }
 
-.gsui-row-small {
+.gsuiTrack-row[ data-small ] {
 	.gsuiPatternroll-block-header {
 		background-color: inherit;
 	}

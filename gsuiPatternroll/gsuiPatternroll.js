@@ -5,9 +5,9 @@ class gsuiPatternroll extends gsui0ne {
 	#onaddBlock = null;
 	#oneditBlock = null;
 	#rowsByTrackId = new Map();
-	#tracklist = GSUcreateElement( "gsui-tracklist" );
+	#tracklist = $( "<gsui-tracklist>" );
 	#selectionElement = $( "<div>" ).$addClass( "gsuiBlocksManager-selection", "gsuiBlocksManager-selection-hidden" );
-	#win = GSUcreateElement( "gsui-timewindow", {
+	#win = $( "<gsui-timewindow>" ).$setAttr( {
 		panelsize: 90,
 		panelsizemin: 24,
 		panelsizemax: 160,
@@ -21,7 +21,7 @@ class gsuiPatternroll extends gsui0ne {
 	#blcManager = new gsuiBlocksManager( {
 		$rootElement: this.$this,
 		$selectionElement: this.#selectionElement,
-		$timeline: $( this.#win.$getTimeline() ),
+		$timeline: this.#win.$get( 0 ).$getTimeline(),
 		$blockDOMChange: this.#blockDOMChange.bind( this ),
 		$managercallMoving: ( blcsMap, wIncr, trIncr ) => this.#onchange( "move", Array.from( blcsMap.keys() ), wIncr, trIncr ),
 		$managercallDeleting: blcsMap => this.#onchange( "deletion", Array.from( blcsMap.keys() ) ),
@@ -54,8 +54,8 @@ class gsuiPatternroll extends gsui0ne {
 		this.$this
 			.$addClass( "gsuiBlocksManager" )
 			.$append( this.#win );
-		this.#win.$appendPanel( this.#tracklist );
-		this.#win.$appendMain( this.#selectionElement.$get( 0 ) );
+		this.#win.$get( 0 ).$appendPanel( this.#tracklist.$get( 0 ) );
+		this.#win.$get( 0 ).$appendMain( this.#selectionElement.$get( 0 ) );
 	}
 	static get observedAttributes() {
 		return [ "currenttime" ];
@@ -63,27 +63,27 @@ class gsuiPatternroll extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "currenttime":
-				GSUdomSetAttr( this.#win, "currenttime", val );
+				this.#win.$setAttr( "currenttime", val );
 				break;
 		}
 	}
 
 	// .........................................................................
 	$changeDuration( dur ) {
-		GSUdomSetAttr( this.#win, "duration", dur );
+		this.#win.$setAttr( "duration", dur );
 	}
 	$addTrack( id ) {
-		const row = this.#tracklist.$addTrack( id ).$message( GSEV_TRACK_ROWELEMENT );
+		const row = this.#tracklist.$get( 0 ).$addTrack( id ).$message( GSEV_TRACK_ROWELEMENT );
 
-		row.$togClass( "gsui-row-small", this.#blcManager.$getFontSize() <= 44 )
+		row.$setAttr( "data-small", this.#blcManager.$getFontSize() <= 44 )
 			.$on( "pointerdown", this.#rowMousedown.bind( this ) )
-			.$appendTo( GSUdomQS( this.#win, ".gsuiTimewindow-rows" ) );
+			.$appendTo( this.#win.$query( ".gsuiTimewindow-rows" ) );
 		this.#rowsByTrackId.set( id, row );
 	}
-	$removeTrack( id ) { this.#tracklist.$removeTrack( id ); }
-	$toggleTrack( id, b ) { this.#tracklist.$getTrack( id ).$setAttr( "mute", !b ); }
-	$renameTrack( id, s ) { this.#tracklist.$getTrack( id ).$setAttr( "name", s ); }
-	$reorderTrack( id, n ) { this.#tracklist.$getTrack( id ).$setAttr( "order", n ); }
+	$removeTrack( id ) { this.#tracklist.$get( 0 ).$removeTrack( id ); }
+	$toggleTrack( id, b ) { this.#tracklist.$get( 0 ).$getTrack( id ).$setAttr( "mute", !b ); }
+	$renameTrack( id, s ) { this.#tracklist.$get( 0 ).$getTrack( id ).$setAttr( "name", s ); }
+	$reorderTrack( id, n ) { this.#tracklist.$get( 0 ).$getTrack( id ).$setAttr( "order", n ); }
 
 	// .........................................................................
 	$addBlock( id, obj, { dataReady } ) {
@@ -136,10 +136,10 @@ class gsuiPatternroll extends gsui0ne {
 		return this.#blcManager.$getBlocks();
 	}
 	$timedivision( timediv ) {
-		GSUdomSetAttr( this.#win, "timedivision", timediv );
+		this.#win.$setAttr( "timedivision", timediv );
 	}
 	$loop( a, b ) {
-		GSUdomSetAttr( this.#win, "loop", Number.isFinite( a ) && `${ a }-${ b }` );
+		this.#win.$setAttr( "loop", Number.isFinite( a ) && `${ a }-${ b }` );
 	}
 
 	// .........................................................................
@@ -168,7 +168,7 @@ class gsuiPatternroll extends gsui0ne {
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
-		Array.from( this.#blcManager.$getRows() ).forEach( el => GSUdomTogClass( el, "gsui-row-small", px <= 44 ) );
+		this.$this.$query( ".gsui-row" ).$setAttr( "data-small", px <= 44 );
 	}
 
 	// .........................................................................
