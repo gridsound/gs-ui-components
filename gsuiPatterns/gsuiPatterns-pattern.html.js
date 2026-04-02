@@ -17,8 +17,7 @@ GSUsetTemplate( "gsui-patterns-pattern", () =>
 		),
 		GSUcreateDiv( { class: "gsuiPatterns-pattern-content" } ),
 		GSUcreateDiv( { class: "gsuiPatterns-pattern-placeholder" },
-			GSUcreateIcon( { class: "gsuiPatterns-pattern-placeholderIcon", icon: "file-corrupt" } ),
-			GSUcreateSpan( { class: "gsuiPatterns-pattern-placeholderText" }, "missing data" ),
+			GSUcreateIcon( { icon: "file-corrupt" } ),
 		),
 	)
 );

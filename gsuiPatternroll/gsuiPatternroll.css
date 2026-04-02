@@ -70,32 +70,14 @@ gsui-patternroll {
 
 .gsuiTrack-row[ data-small ] {
 	.gsuiPatternroll-block-header {
-		background-color: inherit;
+		position: absolute;
+		inset: 0;
+		background: none;
 	}
-	.gsuiPatternroll-block-header,
 	.gsuiPatternroll-block-content {
 		position: absolute;
 		inset: 0;
-	}
-}
-
-.gsuiPatternroll-block-placeholder {
-	flex: 1;
-	display: none;
-	align-items: center;
-	pointer-events: none;
-	font-size: 14px;
-	opacity: .5;
-
-	.gsuiPatternroll-block[ data-missing ] & {
-		display: flex;
-	}
-	.gsuiIcon {
-		margin: 0 8px;
-	}
-	span {
-		overflow: hidden;
-		text-overflow: ellipsis;
+		opacity: .25;
 	}
 }
 

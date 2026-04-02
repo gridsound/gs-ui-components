@@ -41,6 +41,9 @@
 		z-index: 0;
 		opacity: .3;
 	}
+	&[ data-missing ] {
+		background-image: repeating-linear-gradient( 45deg, #0002 0 10px, transparent 10px 20px );
+	}
 	[ data-action^="crop" ] {
 		position: absolute;
 		opacity: 0;

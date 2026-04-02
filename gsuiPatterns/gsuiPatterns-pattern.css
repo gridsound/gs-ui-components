@@ -119,12 +119,13 @@
 	.gsuiPatterns-pattern[ data-missing ] & {
 		display: flex;
 	}
-}
-.gsuiPatterns-pattern-placeholderIcon {
-	margin: 0 8px;
-}
-.gsuiPatterns-pattern-placeholderText {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	.gsuiIcon {
+		margin: 0 8px;
+	}
+	&::after {
+		content: "missing data";
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 }
