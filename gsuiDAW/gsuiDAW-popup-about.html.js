@@ -10,7 +10,7 @@ GSUsetTemplate( "gsui-daw-popup-about", () =>
 		),
 		GSUcreateDiv( null,
 			"GridSound is a ",
-			GSUcreateElement( "b", null, "work-in-progress" ),
+			GSUcreateB( null, "work-in-progress" ),
 			" free browser-based digital audio workstation following the ",
 			GSUcreateAExt( { href: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" }, "Web Audio API" ),
 			".",

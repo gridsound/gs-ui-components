@@ -7,7 +7,7 @@ class gsuiComUserLink extends gsui0ne {
 			$template: GSUcreateA( null,
 				GSUcreateIcon( { icon: "musician" } ),
 				GSUcreateDiv(),
-				GSUcreateElement( "b" ),
+				GSUcreateB(),
 				GSUcreateSpan(),
 			),
 			$elements: {

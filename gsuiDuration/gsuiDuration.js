@@ -9,7 +9,7 @@ class gsuiDuration extends gsui0ne {
 					GSUcreateSpan( { inert: true }, "duration" ),
 					GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 8, step: 1, "mousemove-size": 300 } ),
 				),
-				GSUcreateElement( "b", { inert: true }, 1 ),
+				GSUcreateB( { inert: true }, 1 ),
 			],
 			$elements: {
 				$slider: "gsui-slider",
