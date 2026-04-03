@@ -200,7 +200,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$updateChannel( id, name ) {
-		this.$this.$query( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` ).$text( name );
+		this.$this.$query( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` ).$text( name || id );
 	}
 
 	// .........................................................................
