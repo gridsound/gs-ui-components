@@ -205,6 +205,10 @@ class gsuiBlocksManager {
 
 	// .........................................................................
 	$onmousedown( e ) {
+		if ( GSUdomIsDblClick( e ) ) {
+			return;
+		}
+
 		const blc = this.#getBlc( e.currentTarget );
 		const tar = $( e.target );
 
