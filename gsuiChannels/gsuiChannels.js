@@ -141,11 +141,11 @@ class gsuiChannels extends gsui0ne {
 			const chanDest = chan.$getAttr( "data-dest" );
 			let bOnce = false;
 
-			this.$getChannel().$setAttr( ( chan, id ) => {
-				const a = id === chanDest;
+			this.$getChannel().$setAttr( chan => {
+				const a = chan.dataset.id === chanDest;
 				const b = chan.dataset.dest === selId;
 
-				bOnce = bOnce || b;
+				bOnce ||= b;
 				return {
 					connecta: a ? "up" : false,
 					connectb: b ? "down" : false,
