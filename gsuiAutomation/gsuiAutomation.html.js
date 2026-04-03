@@ -5,7 +5,7 @@ GSUsetTemplate( "gsui-automation", () => [
 		GSUcreateDiv( { class: "gsuiAutomation-head" },
 			GSUcreateIcon( { icon: "target" } ),
 			GSUcreateButton( { class: "gsuiAutomation-btnTarget gsui-ellipsis", title: "Select automation's target" } ),
-			GSUcreateElement( "gsui-duration" ),
+			GSUcreateElement( "gsui-duration", { max: 64 } ),
 		),
 		GSUcreateDiv( { class: "gsuiAutomation-body" },
 			GSUcreateElement( "gsui-beatlines", { color: "#fff" } ),
