@@ -115,7 +115,7 @@ class gsuiChannels extends gsui0ne {
 			case "order":
 			case "pan":
 			case "gain":
-			case "name": chan.$setAttr( prop, val ); break;
+			case "name": chan.$setAttr( prop, val || false ); break;
 			case "toggle": chan.$setAttr( "muted", !val ); break;
 			case "dest":
 				chan.$setAttr( "data-dest", val );
