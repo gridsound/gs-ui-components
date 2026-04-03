@@ -1,4 +1,5 @@
 gsui-channel {
+	--id: attr( data-id );
 	box-sizing: border-box;
 	display: flex;
 	position: relative;
@@ -44,9 +45,6 @@ gsui-channel .gsuiChannel-headBtn:focus-visible,
 gsui-channel .gsuiChannel-headBtn:hover {
 	opacity: 1;
 }
-.gsuiChannel-rename {
-	right: 14px;
-}
 .gsuiChannel-delete {
 	font-size: 10px;
 }
@@ -55,29 +53,55 @@ gsui-channel .gsuiChannel-headBtn:hover {
 }
 
 /* .......................................................................... */
-.gsuiChannel-nameWrap {
+.gsuiChannel-head {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
 	overflow: hidden;
 	width: 100%;
-	padding: 0 3px;
 	height: 34px;
 	font-size: 12px;
 	box-shadow: var( --gsuiChannel-name-shadow, none );
 	transition: inherit;
 	transition-property: box-shadow;
-}
-.gsuiChannel-name {
-	display: block;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	text-align: center;
-	font-size: 9px;
-	font-weight: var( --gsuiChannel-name-weight, normal );
-	opacity: var( --gsuiChannel-name-opacity, 1 );
+
+	b {
+		width: 18px;
+		font-size: 18px;
+		font-family: var(--gsui-font-number);
+		text-shadow: 2px 2px #000;
+		border-radius: 3px;
+		background-color: #0005;
+		opacity: .4;
+
+		gsui-channel[ name ] & {
+			position: absolute;
+			inset: 0 auto auto -1px;
+			height: 18px;
+			line-height: 18px;
+			border-radius: 0 0 3px 0;
+			font-size: 16px;
+		}
+	}
+	b::before {
+		content: var( --id );
+	}
+	gsui-channel[ name ] & span {
+		display: block;
+		align-self: end;
+		width: 100%;
+		overflow: hidden;
+		margin-bottom: 2px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: center;
+		font-size: 9px;
+		font-weight: bold;
+		background-color: #0003;
+		opacity: var( --gsuiChannel-name-opacity, 1 );
+	}
 }
 
 /* .......................................................................... */

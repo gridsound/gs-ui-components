@@ -1,10 +1,10 @@
 "use strict";
 
 GSUsetTemplate( "gsui-channel", () => [
-	GSUcreateButton( { class: "gsuiChannel-nameWrap" },
-		GSUcreateSpan( { class: "gsuiChannel-name" } ),
+	GSUcreateButton( { class: "gsuiChannel-head", title: "Double-click to rename" },
+		GSUcreateB( { inert: true } ),
+		GSUcreateSpan( { inert: true } ),
 	),
-	GSUcreateButton( { class: "gsuiChannel-headBtn gsuiChannel-rename", icon: "pen", title: "Rename the channel" } ),
 	GSUcreateButton( { class: "gsuiChannel-headBtn gsuiChannel-delete", icon: "close", title: "Remove the channel" } ),
 	GSUcreateDiv( { class: "gsuiChannel-analyser" },
 		GSUcreateElement( "gsui-analyser-hist" ),

@@ -6,9 +6,9 @@ class gsuiChannel extends gsui0ne {
 			$tagName: "gsui-channel",
 			$elements: {
 				$toggle: "gsui-toggle",
-				$nameWrap: ".gsuiChannel-nameWrap",
-				$name: ".gsuiChannel-name",
-				$rename: ".gsuiChannel-rename",
+				$head: ".gsuiChannel-head",
+				$id: ".gsuiChannel-head b",
+				$name: ".gsuiChannel-head span",
 				$remove: ".gsuiChannel-delete",
 				$connect: ".gsuiChannel-connect",
 				$analyser: "gsui-analyser-hist",
@@ -19,7 +19,6 @@ class gsuiChannel extends gsui0ne {
 				connectb: ".gsuiChannel-connectB",
 			},
 			$attributes: {
-				name: "chan",
 				pan: 0,
 				gain: 1,
 				connecta: "down",
@@ -27,7 +26,7 @@ class gsuiChannel extends gsui0ne {
 		} );
 		$( [
 			this.$elements.$analyser,
-			this.$elements.$nameWrap,
+			this.$elements.$head,
 		] ).$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ) );
 		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_REMOVE ) );
 		this.$elements.$connect.$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_CONNECT ) );
@@ -38,7 +37,7 @@ class gsuiChannel extends gsui0ne {
 					.$dispatch( GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
 			}
 		} );
-		this.$elements.$rename.$onclick( () => {
+		this.$elements.$head.$on( "dblclick", () => {
 			GSUpopup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
 				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 		} );

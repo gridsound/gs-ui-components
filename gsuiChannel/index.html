@@ -65,7 +65,9 @@ body {
 <script>
 const chan = $( "gsui-channel" );
 
-chan.$setAttr( "name", "chan" );
+chan
+	.$dataId( "0" )
+	.$setAttr( "name", "chan" );
 </script>
 </body>
 </html>
