@@ -17,6 +17,7 @@ class gsuiDuration extends gsui0ne {
 			},
 			$attributes: {
 				value: 1,
+				max: 8,
 			},
 		} );
 		GSUdomListen( this, {
@@ -32,13 +33,16 @@ class gsuiDuration extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "value" ];
+		return [ "value", "max" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "value":
 				this.#updateOutput( val );
 				this.$elements.$slider.$setAttr( "value", val );
+				break;
+			case "max":
+				this.$elements.$slider.$setAttr( "max", val );
 				break;
 		}
 	}
