@@ -41,7 +41,7 @@ class gsuiBlocksManager {
 		this.#rootElement = opts.$rootElement;
 		this.#timeline = opts.$timeline;
 		this.#opts = opts;
-		this.#opts.oneditBlock = opts.oneditBlock || GSUnoop;
+		this.#opts.$oneditBlock ||= GSUnoop;
 		this.#blockDOMChange = opts.$blockDOMChange;
 		this.#elSelection = opts.$selectionElement;
 		this.#nlRows = this.#rootElement.$get( 0 ).getElementsByClassName( "gsui-row" );
@@ -327,7 +327,7 @@ class gsuiBlocksManager {
 					this.#blockDOMChange( blc, "when", blcObj.when );
 				}
 				this.#blockDOMChange( blc, "duration", blcObj.duration );
-				this.#opts.oneditBlock( id, blcObj, blc );
+				this.#opts.$oneditBlock( id, blcObj, blc );
 			} );
 		}
 	}
