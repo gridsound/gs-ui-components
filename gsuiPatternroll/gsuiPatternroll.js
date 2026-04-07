@@ -131,6 +131,7 @@ class gsuiPatternroll extends gsui0ne {
 		this.#onaddBlock = cb.$onaddBlock;
 		this.#oneditBlock = cb.$oneditBlock;
 		this.#blcManager.$getOpts().$oneditBlock = cb.$oneditBlock;
+		this.#blcManager.$getOpts().$getBlockPatternDuration = cb.$getBlockPatternDuration;
 	}
 	$getBlocks() {
 		return this.#blcManager.$getBlocks();

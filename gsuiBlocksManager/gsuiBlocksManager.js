@@ -42,6 +42,7 @@ class gsuiBlocksManager {
 		this.#timeline = opts.$timeline;
 		this.#opts = opts;
 		this.#opts.$oneditBlock ||= GSUnoop;
+		this.#opts.$getBlockPatternDuration ||= id => this.#data[ id ].duration;
 		this.#blockDOMChange = opts.$blockDOMChange;
 		this.#elSelection = opts.$selectionElement;
 		this.#nlRows = this.#rootElement.$get( 0 ).getElementsByClassName( "gsui-row" );
@@ -290,9 +291,13 @@ class gsuiBlocksManager {
 		this.#valueAMin =
 		this.#valueAMax = Infinity;
 		blcsEditing.forEach( ( _blc, id ) => {
-			this.#valueAMin = Math.min( this.#valueAMin, data[ id ].duration );
+			const dat = data[ id ];
+
+			this.#valueAMin = Math.min( this.#valueAMin, dat.duration );
+			this.#valueAMax = Math.min( this.#valueAMax, this.#opts.$getBlockPatternDuration( id ) - dat.duration - dat.offset );
 		} );
 		this.#valueAMin = -Math.max( 0, this.#valueAMin - this.#beatSnap );
+		this.#valueAMax = Math.max( 0, this.#valueAMax );
 	}
 
 	// .........................................................................
