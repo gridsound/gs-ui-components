@@ -110,6 +110,7 @@ class gsuiComPlayer extends gsui0ne {
 
 	// .........................................................................
 	$setLikeCallbackPromise( fn ) { this.#promises.like = fn; }
+	$setForkCallbackPromise( fn ) { this.#promises.fork = fn; }
 	$setRendersCallbackPromise( fn ) { this.#promises.renders = fn; }
 	$setDeleteCallbackPromise( fn ) { this.#promises.delete = fn; }
 	$setRestoreCallbackPromise( fn ) { this.#promises.restore = fn; }
@@ -196,7 +197,6 @@ class gsuiComPlayer extends gsui0ne {
 		} ) );
 	}
 	static #actioning = {
-		fork: "forking",
 		delete: "deleting",
 		restore: "restoring",
 	};
@@ -211,12 +211,12 @@ class gsuiComPlayer extends gsui0ne {
 			disabled: true,
 		} );
 		prom( this, act )
-			.then( () => {
+			.then( res => {
 				this.$this.$setAttr( {
 					[ clazz ]: true,
 					deleted: act === "delete",
 				} );
-				this.$this.$dispatch( GSEV_COMPLAYER_ACTION, act );
+				this.$this.$dispatch( GSEV_COMPLAYER_ACTION, act, res );
 				GSUsetTimeout( () => this.$this.$rmAttr( clazz ), .35 );
 			} )
 			.finally( () => {
