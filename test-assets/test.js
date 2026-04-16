@@ -15,6 +15,7 @@ const TESTcmpList = Object.freeze( [
 	"gsuiComPlayer",
 	"gsuiComProfile",
 	"gsuiComUserLink",
+	"gsuiCursor",
 	"gsuiDAW",
 	"gsuiDotline",
 	"gsuiDropdown",

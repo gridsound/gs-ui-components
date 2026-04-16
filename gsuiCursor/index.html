@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiCursor.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-w: 500px;
+	--test-content-resize: horizontal;
+}
+#testWrap {
+	display: flex;
+	flex-wrap: wrap;
+
+	div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 11px;
+		width: 80px;
+		height: 40px;
+		margin: 10px;
+		background: #fff5;
+
+		&[ data-cur="default"     ] { cursor: var( --gsuiCursor-default ) }
+		&[ data-cur="pointer"     ] { cursor: var( --gsuiCursor-pointer ) }
+		&[ data-cur="ew-resize"   ] { cursor: var( --gsuiCursor-ew-resize ) }
+		&[ data-cur="e-resize"    ] { cursor: var( --gsuiCursor-e-resize ) }
+		&[ data-cur="w-resize"    ] { cursor: var( --gsuiCursor-w-resize ) }
+		&[ data-cur="ns-resize"   ] { cursor: var( --gsuiCursor-ns-resize ) }
+		&[ data-cur="nesw-resize" ] { cursor: var( --gsuiCursor-nesw-resize ) }
+		&[ data-cur="nwse-resize" ] { cursor: var( --gsuiCursor-nwse-resize ) }
+		&[ data-cur="move"        ] { cursor: var( --gsuiCursor-move ) }
+		&[ data-cur="grab"        ] { cursor: var( --gsuiCursor-grab ) }
+		&[ data-cur="grabbing"    ] { cursor: var( --gsuiCursor-grabbing ) }
+		&::before {
+			content: attr( data-cur );
+		}
+		&[ data-cur="grab" ]:active {
+			cursor: var( --gsuiCursor-grabbing );
+		}
+	}
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<div tabindex="0" data-cur="default"></div>
+	<div tabindex="0" data-cur="pointer"></div>
+	<div tabindex="0" data-cur="ew-resize"></div>
+	<div tabindex="0" data-cur="e-resize"></div>
+	<div tabindex="0" data-cur="w-resize"></div>
+	<div tabindex="0" data-cur="ns-resize"></div>
+	<div tabindex="0" data-cur="nesw-resize"></div>
+	<div tabindex="0" data-cur="nwse-resize"></div>
+	<div tabindex="0" data-cur="move"></div>
+	<div tabindex="0" data-cur="grab"></div>
+	<div tabindex="0" data-cur="grabbing"></div>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-dom.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-jquery.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+//
+</script>
+</body>
+</html>
