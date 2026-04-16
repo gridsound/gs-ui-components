@@ -5,7 +5,7 @@ gsui-wavetable-graph {
 	position: relative;
 	display: block;
 	color: var( --gsuiWavetableGraph-waves );
-	cursor: grab;
+	cursor: var( --gsuiCursor-grab );
 	touch-action: none;
 
 	svg {

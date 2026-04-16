@@ -227,10 +227,10 @@ class gsuiWavetableGraph extends gsui0ne {
 
 	// .........................................................................
 	$onptrdown() {
-		this.$this.$css( "cursor", "grabbing" );
+		this.$this.$css( "cursor", "var(--gsuiCursor-grabbing)" );
 	}
 	$onptrup() {
-		this.$this.$css( "cursor", "grab" );
+		this.$this.$css( "cursor", "" );
 	}
 	$onptrmove( e ) {
 		this.#setPerspective( {
