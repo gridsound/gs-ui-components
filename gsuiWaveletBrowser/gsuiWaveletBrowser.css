@@ -97,7 +97,7 @@ gsui-wavelet-browser {
 			line-height: var( --gsui-item-h );
 			font-size: 11px;
 			font-family: var( --gsui-font-monospace );
-			cursor: pointer;
+			cursor: var( --gsuiCursor-pointer );
 
 			i {
 				margin-right: 1ch;
