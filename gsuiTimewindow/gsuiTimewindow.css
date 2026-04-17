@@ -52,14 +52,14 @@ gsui-timewindow {
 	inset: 0 auto;
 }
 .gsuiTimewindow-minimapThumb {
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	background-color: #fff3;
 }
 .gsuiTimewindow-minimapThumb-crop {
 	position: absolute;
 	width: min( 8px, 25% );
 	height: 100%;
-	cursor: ew-resize;
+	cursor: var( --gsuiCursor-ew-resize );
 
 	&[ data-action="cropB" ] {
 		right: 0;
@@ -151,12 +151,12 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	z-index: 1;
 	inset: -2px 0 auto;
 	height: 6px;
-	cursor: ns-resize;
+	cursor: var( --gsuiCursor-ns-resize );
 }
 .gsuiTimewindow-panelExtendY {
 	inset: var( --gsuiTimewindow-head-h ) -2px 0 auto;
 	width: 6px;
-	cursor: ew-resize;
+	cursor: var( --gsuiCursor-ew-resize );
 }
 
 /* .......................................................................... */
