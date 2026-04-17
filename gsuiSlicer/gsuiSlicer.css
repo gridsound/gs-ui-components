@@ -173,7 +173,7 @@ gsui-slicer[ missing-data ] .gsuiSlicer-source-name::after {
 .gsuiSlicer-slices-wrap {
 	position: relative;
 	height: 100%;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	touch-action: none;
 }
 .gsuiSlicer-slices-slice {

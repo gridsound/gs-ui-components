@@ -7,7 +7,7 @@ gsui-joystick {
 	height: 120px;
 	border-radius: 4px;
 	background-color: #0005;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	touch-action: none;
 
 	&:hover {

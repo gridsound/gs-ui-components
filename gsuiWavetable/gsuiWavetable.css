@@ -64,7 +64,6 @@ gsui-wavetable gsui-wavetable-graph {
 	border-right: 3px solid #0003;
 	border-radius: 6px;
 	background-color: #282830;
-	cursor: pointer;
 	--gsui-num-opacity: .3;
 	--gsui-svg-cursor: pointer;
 
@@ -76,6 +75,7 @@ gsui-wavetable gsui-wavetable-graph {
 	gsui-periodicwave {
 		min-width: 60px;
 		max-width: 60px;
+		cursor: var( --gsuiCursor-pointer );
 	}
 	gs-flex {
 		padding: 0 2px;
@@ -119,7 +119,7 @@ gsui-wavetable gsui-wavetable-graph {
 .gsuiWavetable-posCurve {
 	position: relative;
 	border-radius: 4px;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	background-color: #0005;
 	opacity: .6;
 

@@ -83,7 +83,7 @@ gsui-library {
 	width: 80px;
 	height: 14px;
 	margin-top: -14px;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	opacity: 0;
 	counter-increment: smpNum +1;
 	pointer-events: none;
