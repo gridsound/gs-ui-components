@@ -124,7 +124,7 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 		}
 		.gsuiSlider-eventCatcher {
 			inset: -21px -6px -6px;
-			cursor: ew-resize;
+			cursor: var( --gsuiCursor-ew-resize );
 		}
 	}
 }
