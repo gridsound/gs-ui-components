@@ -53,14 +53,14 @@ gsui-mixer {
 	display: flex;
 	gap: 4px;
 	opacity: .8;
+
+	button {
+		display: flex;
+		flex-direction: column;
+	}
 }
 .gsuiMixer-analyserTypes > .gsuiIcon {
 	font-size: 13px;
-}
-.gsuiMixer-analyserTypes-labels {
-	display: flex;
-	flex-direction: column;
-	cursor: pointer;
 }
 
 /* .......................................................................... */

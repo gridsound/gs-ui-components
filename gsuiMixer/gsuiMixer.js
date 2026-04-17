@@ -10,7 +10,7 @@ class gsuiMixer extends gsui0ne {
 			$elements: {
 				$channels: "gsui-channels",
 				$effects: "gsui-effects",
-				$analyserType: ".gsuiMixer-analyserTypes-labels",
+				$analyserType: ".gsuiMixer-analyserTypes button",
 			},
 			$attributes: {
 				analyser: "hz",
