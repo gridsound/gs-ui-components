@@ -68,14 +68,14 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	width: calc( var( --gsuiWindow-handler-width ) * 2 );
 	height: calc( var( --gsuiWindow-handler-width ) * 2 );
 
-	&[ data-dir="nw" ] { cursor: nw-resize; top: 0; left: 0; }
-	&[ data-dir="ne" ] { cursor: ne-resize; top: 0; right: 0; }
-	&[ data-dir="sw" ] { cursor: sw-resize; bottom: 0; left: 0; }
-	&[ data-dir="se" ] { cursor: se-resize; bottom: 0; right: 0; }
-	&[ data-dir="n" ] { cursor: n-resize; top: 0; width: 100%; }
-	&[ data-dir="w" ] { cursor: w-resize; left: 0; height: 100%; }
-	&[ data-dir="e" ] { cursor: e-resize; right: 0; height: 100%; }
-	&[ data-dir="s" ] { cursor: s-resize; bottom: 0; width: 100%; }
+	&[ data-dir="nw" ] { cursor: var( --gsuiCursor-nwse-resize ); top: 0; left: 0; }
+	&[ data-dir="ne" ] { cursor: var( --gsuiCursor-nesw-resize ); top: 0; right: 0; }
+	&[ data-dir="sw" ] { cursor: var( --gsuiCursor-nesw-resize ); bottom: 0; left: 0; }
+	&[ data-dir="se" ] { cursor: var( --gsuiCursor-nwse-resize ); bottom: 0; right: 0; }
+	&[ data-dir="n" ] { cursor: var( --gsuiCursor-ns-resize ); top: 0; width: 100%; }
+	&[ data-dir="w" ] { cursor: var( --gsuiCursor-ew-resize ); left: 0; height: 100%; }
+	&[ data-dir="e" ] { cursor: var( --gsuiCursor-ew-resize ); right: 0; height: 100%; }
+	&[ data-dir="s" ] { cursor: var( --gsuiCursor-ns-resize ); bottom: 0; width: 100%; }
 }
 
 /* .......................................................................... */
@@ -94,7 +94,7 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 	touch-action: none;
 
 	gsui-window[ dragging ] & {
-		cursor: move;
+		cursor: var( --gsuiCursor-move );
 	}
 	.gsuiWindow-minimized & {
 		border-radius: inherit;
