@@ -4,6 +4,7 @@ body {
 }
 
 * {
+	cursor: var( --gsuiCursor-default );
 	scrollbar-width: none;
 }
 
