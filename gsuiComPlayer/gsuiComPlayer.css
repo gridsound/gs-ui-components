@@ -206,7 +206,7 @@ gsui-com-player {
 	position: relative;
 	overflow: hidden;
 	height: 0;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	transition: .2s;
 	transition-property: height;
 	background-color: #0003;
