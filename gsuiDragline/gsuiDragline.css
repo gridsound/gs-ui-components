@@ -46,7 +46,7 @@ gsui-dragline {
 	width: var( --gsuiDragline-dotSize );
 	height: var( --gsuiDragline-dotSize );
 	margin: calc( var( --gsuiDragline-dotSize ) / -2 );
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	border-radius: var( --gsuiDragline-dotRad );
 	pointer-events: all;
 	background-color: var( --gsuiDragline-color );
@@ -79,7 +79,7 @@ gsui-dragline {
 		width: var( --gsuiDragline-dotSize );
 		height: var( --gsuiDragline-dotSize );
 		margin: calc( var( --gsuiDragline-dotSize ) / -2 );
-		cursor: pointer;
+		cursor: var( --gsuiCursor-pointer );
 		border-radius: var( --gsuiDragline-dotRad );
 	}
 	&:hover::before {

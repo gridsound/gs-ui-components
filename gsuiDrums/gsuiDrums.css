@@ -48,7 +48,6 @@ gsui-drums .gsuiTimewindow-rows {
 	box-sizing: border-box;
 	border-bottom: 1px dashed var( --gsuiDrums-line-border );
 	font-size: var( --gsuiTimewindow-pxperbeat );
-	cursor: pointer;
 }
 .gsuiDrums-lineProps {
 	position: absolute;
@@ -61,6 +60,7 @@ gsui-drums .gsuiTimewindow-rows {
 	position: absolute;
 	z-index: 1;
 	background-color: #0002;
+	cursor: var( --gsuiCursor-pointer );
 }
 .gsuiDrums-drumHover {
 	height: 66%;

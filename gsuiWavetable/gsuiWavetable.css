@@ -65,17 +65,17 @@ gsui-wavetable gsui-wavetable-graph {
 	border-radius: 6px;
 	background-color: #282830;
 	--gsui-num-opacity: .3;
-	--gsui-svg-cursor: pointer;
+	--gsui-svg-cursor: var( --gsuiCursor-pointer );
 
 	&[ data-selected ] {
 		background-color: #493d7b;
 		--gsui-num-opacity: .9;
-		--gsui-svg-cursor: grab;
+		--gsui-svg-cursor: var( --gsuiCursor-grab );
 	}
 	gsui-periodicwave {
 		min-width: 60px;
 		max-width: 60px;
-		cursor: var( --gsuiCursor-pointer );
+		cursor: var( --gsui-svg-cursor );
 	}
 	gs-flex {
 		padding: 0 2px;
