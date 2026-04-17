@@ -31,7 +31,8 @@ html:has( gsui-daw ) {
 button {
 	background: none;
 }
-a {
+a,
+input:not( [ type=text ] ) {
 	cursor: var( --gsuiCursor-pointer );
 }
 
