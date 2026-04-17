@@ -95,8 +95,7 @@ $( "#addContent" ).$onclick( () => {
 	wins.$at( 2 ).$message( GSEV_WINDOW_APPENDCONTENT, GSUcreateSpan( { class: "myContent" }, "C" ) );
 } );
 
-wins.$setAttr( ( _, i ) => attrs[ i ] )
-	.$setAttr( "show" );
+wins.$setAttr( ( _, i ) => attrs[ i ] ).$addAttr( "show" );
 
 $( "#addContent" ).$click();
 </script>
