@@ -1,5 +1,6 @@
 body {
 	color: var( --gsui-txt );
+	cursor: var( --gsuiCursor-default );
 }
 
 * {
