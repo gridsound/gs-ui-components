@@ -14,6 +14,6 @@ GSUsetTemplate( "gsui-slidergroup", () =>
 
 GSUsetTemplate( "gsui-slidergroup-slider", () =>
 	GSUcreateDiv( { class: "gsuiSliderGroup-slider" },
-		GSUcreateDiv( { class: "gsuiSliderGroup-sliderInner" } ),
+		GSUcreateDiv( { class: "gsuiSliderGroup-sliderInner", inert: true } ),
 	)
 );

@@ -174,6 +174,7 @@ class gsuiSliderGroup extends gsui0ne {
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
+			this.$this.$css( "cursor", "var(--gsuiCursor-pointer)" );
 			GSUdomUnselect();
 			this.$onptrmove( e );
 			return;
@@ -210,6 +211,7 @@ class gsuiSliderGroup extends gsui0ne {
 	$onptrup() {
 		const arr = [];
 
+		this.$this.$css( "cursor", "" );
 		this.#sliders.forEach( ( sli, id ) => {
 			if ( sli.value !== this.#valueSaved.get( id ) ) {
 				arr.push( [ id, sli.value ] );

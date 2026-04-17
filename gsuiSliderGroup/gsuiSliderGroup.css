@@ -28,7 +28,7 @@ gsui-slidergroup {
 	overflow: hidden;
 	top: 0;
 	bottom: 0;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	touch-action: none;
 }
 .gsuiSliderGroup-slider::before {
