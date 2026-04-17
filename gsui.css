@@ -24,7 +24,7 @@ html:has( gsui-daw ) {
 	user-select: none;
 
 	&:not( :disabled ) {
-		cursor: pointer;
+		cursor: var( --gsuiCursor-pointer );
 	}
 }
 button {
