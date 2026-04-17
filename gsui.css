@@ -30,6 +30,9 @@ html:has( gsui-daw ) {
 button {
 	background: none;
 }
+a {
+	cursor: var( --gsuiCursor-pointer );
+}
 
 /* .......................................................................... */
 .gsui-ellipsis {
