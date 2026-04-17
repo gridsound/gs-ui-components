@@ -59,7 +59,6 @@ gsui-track gsui-toggle {
 	font-family: inherit;
 	text-overflow: ellipsis;
 	color: inherit;
-	cursor: default;
 	background: none;
 }
 .gsuiTrack-name[ disabled ] {
