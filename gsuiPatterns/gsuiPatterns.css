@@ -13,7 +13,7 @@ gsui-patterns {
 		align-self: start;
 		align-items: center;
 		height: 32px;
-		cursor: pointer;
+		cursor: var( --gsuiCursor-pointer );
 	}
 	.gsuiIcon {
 		width: 20px;

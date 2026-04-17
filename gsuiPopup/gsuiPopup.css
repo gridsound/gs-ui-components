@@ -123,5 +123,5 @@ gsui-popup {
 	gap: .6ch;
 }
 .gsuiPopup-row-values label {
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 }

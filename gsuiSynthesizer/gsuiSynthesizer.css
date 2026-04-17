@@ -96,7 +96,7 @@ gsui-synthesizer {
 }
 .gsuiSynthesizer-headExpand {
 	padding-left: 10px;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	user-select: none;
 
 	.gsuiSynthesizer-head[ data-hidden ] & {
@@ -108,7 +108,7 @@ gsui-synthesizer {
 	align-items: center;
 	height: 100%;
 	padding-right: 10px;
-	cursor: pointer;
+	cursor: var( --gsuiCursor-pointer );
 	background-color: #ffffff0b;
 
 	gsui-toggle {
@@ -125,7 +125,7 @@ gsui-synthesizer {
 	}
 	.gsuiSynthesizer-head:not( [ data-hidden ] ) & {
 		&[ data-selected ] {
-			cursor: default;
+			cursor: var( --gsuiCursor-default );
 			background-color: #ffffff1b;
 
 			span {
