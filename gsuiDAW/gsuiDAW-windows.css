@@ -11,72 +11,69 @@
 	text-overflow: ellipsis;
 	background-color: var( --gsuiDAW-winBtn-bg );
 	transition: filter .2s;
-}
-.gsuiDAW-winBtn:focus,
-.gsuiDAW-winBtn:hover {
-	filter: brightness( 1.1 );
-}
-.gsuiDAW-winBtn:empty::before {
-	content: "Untitled";
-	font-style: italic;
-}
-.gsuiDAW-winBtn .gsuiIcon,
-.gsuiDAW-winBtn span {
-	pointer-events: none;
-}
-.gsuiDAW-winBtn .gsuiIcon + span {
-	margin-left: 4px;
-}
 
-/* .......................................................................... */
-.gsuiDAW-winBtn + .gsuiIcon {
-	font-size: 12px;
+	&:focus,
+	&:hover {
+		filter: brightness( 1.1 );
+	}
+	&:empty::before {
+		content: "Untitled";
+		font-style: italic;
+	}
+	.gsuiIcon,
+	span {
+		pointer-events: none;
+	}
+	.gsuiIcon + span {
+		margin-left: 4px;
+	}
+	+ .gsuiIcon {
+		font-size: 12px;
+	}
+	&[ data-target="channel" ],
+	&[ data-target="synthChannel" ] { color: var( --gsuiDAW-winBtn-chan-color ); }
+	&[ data-target="drums" ],
+	&[ data-target="pianoroll" ] { color: var( --gsuiDAW-winBtn-pattern-color ); }
+	&[ data-target="synth" ] { color: var( --gsuiDAW-winBtn-synth-color ); }
+	&[ data-target="slices" ] { color: var( --gsuiDAW-winBtn-slices-color ); }
 }
-
-/* .......................................................................... */
-.gsuiDAW-winBtn[ data-target="channel" ],
-.gsuiDAW-winBtn[ data-target="synthChannel" ] { color: var( --gsuiDAW-winBtn-chan-color ); }
-.gsuiDAW-winBtn[ data-target="drums" ],
-.gsuiDAW-winBtn[ data-target="pianoroll" ] { color: var( --gsuiDAW-winBtn-pattern-color ); }
-.gsuiDAW-winBtn[ data-target="synth" ] { color: var( --gsuiDAW-winBtn-synth-color ); }
-.gsuiDAW-winBtn[ data-target="slices" ] { color: var( --gsuiDAW-winBtn-slices-color ); }
 
 /* .......................................................................... */
 .gsuiDAW-window-ctrl {
 	display: flex;
 	align-items: center;
 	gap: inherit;
-}
-.gsuiDAW-window-playPause {
-	overflow: hidden;
-	display: flex;
-	border-radius: 4px;
-}
-.gsuiDAW-window-ctrl button {
-	width: 18px;
-	height: 16px;
-	color: #fff;
-	font-size: 8px;
-	background-color: var( --gsui-btn-playPause-bg );
-}
-.gsuiDAW-window-playPause button:hover {
-	color: #fffa;
-}
-.gsuiDAW-window-ctrl button:hover {
-	filter: brightness( 1.2 );
-}
-.gsuiDAW-window-ctrl button:active {
-	padding-top: 2px;
-}
-.gsuiDAW-window-ctrl button[ data-icon="play" ] {
-	padding-left: 2px;
-}
-.gsuiDAW-window-ctrl button[ data-action="autoscroll" ] {
-	width: 16px;
-	border: 2px solid #67a;
-	border-radius: 999px;
-	background: none;
-}
-gsui-window:has( gsui-timewindow[ autoscroll ] ) .gsuiDAW-window-ctrl button[ data-action="autoscroll" ] {
-	background-color: #67a;
+
+	div {
+		overflow: hidden;
+		display: flex;
+		border-radius: 4px;
+	}
+	button {
+		width: 18px;
+		height: 16px;
+		color: #fff;
+		font-size: 8px;
+		background-color: var( --gsui-btn-playPause-bg );
+
+		&:hover {
+			filter: brightness( 1.2 );
+		}
+		&:active {
+			padding-top: 2px;
+		}
+		&[ data-icon="play" ] {
+			padding-left: 2px;
+		}
+		&[ data-action="autoscroll" ] {
+			width: 16px;
+			border: 2px solid #67a;
+			border-radius: 999px;
+			background: none;
+
+			gsui-window:has( gsui-timewindow[ autoscroll ] ) & {
+				background-color: #67a;
+			}
+		}
+	}
 }

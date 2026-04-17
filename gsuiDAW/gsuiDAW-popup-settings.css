@@ -1,20 +1,22 @@
 .gsuiDAW-popup-settings {
 	width: 480px;
-}
-.gsuiDAW-popup-settings .gsuiPopup-row-values {
-	width: 200px;
+
+	.gsuiPopup-row-values {
+		width: 200px;
+	}
+	input[ name="uiRateFPS" ] {
+		min-width: 0;
+	}
 }
 .gsuiDAW-uiRateFps {
 	font-size: 16px;
 	font-family: var( --gsui-font-number );
 	white-space: pre;
-}
-.gsuiDAW-uiRateFps::after {
-	content: " fps";
-	font-family: var( --gsui-font );
-	font-size: 12px;
-	opacity: .6;
-}
-.gsuiDAW-popup-settings input[ name="uiRateFPS" ] {
-	min-width: 0;
+
+	&::after {
+		content: " fps";
+		font-family: var( --gsui-font );
+		font-size: 12px;
+		opacity: .6;
+	}
 }

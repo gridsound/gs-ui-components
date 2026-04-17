@@ -8,45 +8,51 @@
 	border-radius: var( --radius );
 	transition: .2s;
 	transition-property: color, opacity, background-color;
-}
-.gsuiDAW-btn.gsuiIcon {
-	width: 28px;
-}
-.gsuiDAW-btn:not( .gsuiDAW-btnColor ):hover {
-	color: #fff;
-	opacity: 1;
-}
-.gsuiDAW-btn:active {
-	padding-top: 4px;
+
+	&.gsuiIcon {
+		width: 28px;
+	}
+	&:not( .gsuiDAW-btnColor ):hover {
+		color: #fff;
+		opacity: 1;
+	}
+	&:active {
+		padding-top: 4px;
+	}
 }
 
 .gsuiDAW-btnBg {
 	background-color: var( --gsui-btn-default-bg );
-}
-.gsuiDAW-btnBg:hover {
-	background-color: #fff3;
+
+	&:hover {
+		background-color: #fff3;
+	}
 }
 
 .gsuiDAW-btnColor {
 	color: var( --gsui-color );
-}
-.gsuiDAW-btnColor:hover {
-	color: var( --gsui-head1-bg );
-	background-color: var( --gsui-color );
+
+	&:hover {
+		color: var( --gsui-head1-bg );
+		background-color: var( --gsui-color );
+	}
 }
 
 .gsuiDAW-btns {
 	display: flex;
 	border-radius: var( --radius );
-}
-.gsuiDAW-btns .gsuiDAW-btn:first-child {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-.gsuiDAW-btns .gsuiDAW-btn:last-child {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.gsuiDAW-btns .gsuiDAW-btn:not( :first-child, :last-child ) {
-	border-radius: 0;
+
+	.gsuiDAW-btn {
+		&:first-child {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		&:last-child {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+		&:not( :first-child, :last-child ) {
+			border-radius: 0;
+		}
+	}
 }

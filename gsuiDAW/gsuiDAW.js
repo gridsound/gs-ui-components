@@ -37,7 +37,7 @@ class gsuiDAW extends gsui0ne {
 				$head: ".gsuiDAW-head",
 				$titleUser: "gsui-titleuser",
 				$play: "[data-action='play']",
-				$vers: ".gsuiDAW-version-number",
+				$vers: ".gsuiDAW-version",
 				$clock: "gsui-clock",
 				$tempo: "gsui-tempo",
 				$analyserHz: "gsui-analyser-hz",
