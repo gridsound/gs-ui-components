@@ -193,7 +193,7 @@ gsui-channel gsui-toggle {
 	align-items: center;
 	justify-content: center;
 	font-size: 12px;
-	cursor: grab;
+	cursor: var( --gsuiCursor-grab );
 	opacity: .6;
 	background-color: #0002;
 	touch-action: none;
