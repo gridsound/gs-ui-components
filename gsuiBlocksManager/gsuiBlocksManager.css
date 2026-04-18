@@ -30,7 +30,7 @@
 	top: 0;
 	bottom: 1px;
 	background-color: var( --gsuiBlocksManager-blockColor );
-	cursor: move;
+	cursor: var( --gsuiCursor-move );
 	transition: .1s;
 	transition-property: opacity, background-color;
 
@@ -54,10 +54,10 @@
 	}
 	[ data-action="cropA" ] {
 		right: auto;
-		cursor: w-resize;
+		cursor: var( --gsuiCursor-w-resize );
 	}
 	[ data-action="cropB" ] {
 		left: auto;
-		cursor: e-resize;
+		cursor: var( --gsuiCursor-e-resize );
 	}
 }

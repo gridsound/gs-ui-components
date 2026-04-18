@@ -124,7 +124,7 @@ gsui-wavetable gsui-wavetable-graph {
 	opacity: .6;
 
 	&[ data-selected ] {
-		cursor: default;
+		cursor: var( --gsuiCursor-default );
 		opacity: 1;
 
 		&::before {

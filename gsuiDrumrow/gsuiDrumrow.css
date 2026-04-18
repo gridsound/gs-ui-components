@@ -83,7 +83,7 @@ gsui-drumrow {
 	align-items: center;
 	justify-content: center;
 	font-size: 12px;
-	cursor: grab;
+	cursor: var( --gsuiCursor-grab );
 	background-color: var( --gsuiDrumrow-grip-bg );
 
 	.gsuiIcon {

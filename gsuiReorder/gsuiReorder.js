@@ -53,7 +53,7 @@ class gsuiReorder {
 					.$addEventListener( "pointermove", this.#onptrmoveBind )
 					.$addEventListener( "pointerup", this.#onptrupBind );
 				$body.$addEventListener( "keydown", this.#onkeydownBind );
-				this.#elPtrDown = tar.$css( "cursor", "grabbing" );
+				this.#elPtrDown = tar.$css( "cursor", "var(--gsuiCursor-grabbing)" );
 			}
 		}
 	}
@@ -81,7 +81,7 @@ class gsuiReorder {
 		this.#movingFake = gsuiReorder.#createGhostElement( this.#movingItem, this.#opt.$itemGripSelector === "*" ? null : e.target, e );
 		this.#showTargetList();
 		this.#opt.$root
-			.$css( "cursor", "grabbing" )
+			.$css( "cursor", "var(--gsuiCursor-grabbing)" )
 			.$setPtrCapture( this.#ptrId );
 		this.#dragging = true;
 	}

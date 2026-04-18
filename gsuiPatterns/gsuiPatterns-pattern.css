@@ -23,7 +23,7 @@
 	position: absolute;
 	inset: 0;
 	width: calc( var( --gsuiPatterns-pattern-grip-w ) - 2px );
-	cursor: grab;
+	cursor: var( --gsuiCursor-grab );
 	text-align: center;
 	line-height: var( --gsuiPatterns-pattern-h );
 	background-color: var( --gsuiPatterns-pattern-head-bg );
