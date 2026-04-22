@@ -88,7 +88,7 @@ class gsuiKeys extends gsui0ne {
 
 	// .........................................................................
 	#getKeyElementFromMidi( midi ) {
-		return this.children[ this.children.length - 1 - ( midi - this.#octStart * 12 ) ];
+		return this.$this.$child( this.children.length - 1 - ( midi - this.#octStart * 12 ) );
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;
@@ -135,8 +135,6 @@ class gsuiKeys extends gsui0ne {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
 	#keyUpDown( elKey, status, vel ) {
-		elKey = $( elKey );
-
 		if ( elKey.$size() ) {
 			const midi = +elKey.$getAttr( "data-midi" );
 
@@ -182,7 +180,7 @@ class gsuiKeys extends gsui0ne {
 
 		this.#keyIndByPtr.delete( e.pointerId );
 		if ( this.children[ currKeyInd ] ) {
-			this.#keyUpDown( this.children[ currKeyInd ], false );
+			this.#keyUpDown( this.$this.$child( currKeyInd ), false );
 		}
 		this.#gain = 1;
 	}
@@ -199,12 +197,10 @@ class gsuiKeys extends gsui0ne {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
 		if ( currKeyInd !== iKeyInd ) {
-			const elKey = this.children[ iKeyInd ];
+			const elKey = this.$this.$child( iKeyInd );
 
-			if ( elKey ) {
-				if ( this.children[ currKeyInd ] ) {
-					this.#keyUpDown( this.children[ currKeyInd ], false );
-				}
+			if ( elKey.$size() ) {
+				this.#keyUpDown( this.$this.$child( currKeyInd ), false );
 				this.#keyIndByPtr.set( e.pointerId, iKeyInd );
 				this.#keyUpDown( elKey, true, this.#gain );
 			}
