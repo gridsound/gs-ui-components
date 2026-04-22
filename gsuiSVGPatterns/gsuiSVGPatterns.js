@@ -100,11 +100,11 @@ class gsuiSVGPatterns {
 			case "automation": return gsuiSVGPatterns.#update2( def, id, dur * 10, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
 			case "buffer":
 			case "bufferHD": {
-				const polygon = GSUcreateElement( "polygon" );
+				const polygon = $( "<polygon>" );
 				const w = type === "buffer" ? data.duration * 48 | 0 : 260;
 
 				gsuiWaveform.$drawBuffer( polygon, w, 48, data );
-				return gsuiSVGPatterns.#update2( def, id, w, 48, polygon );
+				return gsuiSVGPatterns.#update2( def, id, w, 48, polygon.$get( 0 ) );
 			}
 		}
 	}

@@ -1,38 +1,37 @@
 "use strict";
 
 class gsuiWaveform {
-	#rootElement = null;
-	#polygon = null;
+	#rootElement = $noop;
+	#polygon = $noop;
 	#w = 0;
 	#h = 0;
 
 	constructor( el ) {
-		const svg = el || GSUcreateElement( "svg" );
-		const poly = GSUdomQS( svg, "polygon" );
+		const svg = $( el || GSUcreateElement( "svg" ) );
+		const poly = svg.$query( "polygon" );
 
 		// Object.seal( this );
 		this.#rootElement = svg;
 		this.#polygon = poly;
-		GSUdomSetAttr( svg, "preserveAspectRatio", "none" );
-		GSUdomAddClass( svg, "gsuiWaveform" );
-		if ( !poly ) {
-			this.#polygon = GSUcreateElement( "polygon" );
-			svg.append( this.#polygon );
+		svg.$addClass( "gsuiWaveform" ).$setAttr( "preserveAspectRatio", "none" );
+		if ( !poly.$size() ) {
+			this.#polygon = $( "<polygon>" );
+			svg.$append( this.#polygon );
 		}
 	}
 
 	// .........................................................................
 	$remove() {
 		this.empty();
-		this.#rootElement.remove();
+		this.#rootElement.$remove();
 	}
 	$empty() {
-		GSUdomRmAttr( this.#polygon, "points" );
+		this.#polygon.$rmAttr( "points" );
 	}
 	$setResolution( w, h ) {
 		this.#w = w;
 		this.#h = h;
-		GSUdomViewBox( this.#rootElement, w, h );
+		this.#rootElement.$viewbox( w, h );
 	}
 	$drawBuffer( buf, offset, duration ) {
 		gsuiWaveform.$drawBuffer( this.#polygon, this.#w, this.#h, buf, offset, duration );
@@ -45,10 +44,10 @@ class gsuiWaveform {
 		const off = offset || 0;
 		const dur = duration || buf.duration - off;
 
-		gsuiWaveform.$draw( polygon, w, h, d0, d1, buf.duration, off, dur );
+		gsuiWaveform.#draw( polygon, w, h, d0, d1, buf.duration, off, dur );
 	}
-	static $draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
-		GSUdomSetAttr( polygon, "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
+	static #draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
+		polygon.$setAttr( "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
 	}
 	static $getPointsFromBuffer( w, h, buf, offset, duration ) {
 		const d0 = buf.getChannelData( 0 );
