@@ -101,8 +101,6 @@ class gsuiWavetableGraph extends gsui0ne {
 		this.#drawBox();
 		GSUdomSetChildrenLength( this.$elements.$gWaves.$get( 0 ), this.#waves.length * 2, "polyline" );
 		this.#waves.forEach( this.#drawWave.bind( this ) );
-		// const nb = this.$elements.$inters.$size();
-		// this.$elements.$inters.$each( ( inter, i ) => this.#drawInter( inter, i / ( nb - 1 ) ) );
 		this.#drawMorph();
 	}
 	static #boxEdges = [
@@ -120,14 +118,13 @@ class gsuiWavetableGraph extends gsui0ne {
 		[ 0, 1, 1,     1, 1, 1 ],
 	];
 	#drawBox() {
-		this.$elements.$lines.$each( ( el, i ) => {
+		this.$elements.$lines.$setAttr( ( el, i ) => {
 			const [ x, y, z, a, b, c ] = gsuiWavetableGraph.#boxEdges[ i ];
+			const [ x1, y1 ] = this.#getCoord( x, y, z );
+			const [ x2, y2 ] = this.#getCoord( a, b, c );
 
-			gsuiWavetableGraph.#drawLine( el, this.#getCoord( x, y, z ), this.#getCoord( a, b, c ) );
+			return { x1, y1, x2, y2 };
 		} );
-	}
-	static #drawLine( line, a, b ) {
-		GSUdomSetAttr( line, { x1: a[ 0 ], y1: a[ 1 ], x2: b[ 0 ], y2: b[ 1 ] } );
 	}
 	#drawMorph() {
 		const z = this.#morphingWaveAt;
@@ -176,14 +173,6 @@ class gsuiWavetableGraph extends gsui0ne {
 			points: curveDots.join( " " ),
 		} );
 	}
-	// #drawInter( el, x ) {
-	//  GSUdomSetAttr( el, "points", this.#waves.map( ( wave, i ) => {
-	//      const dotsI = x * ( wave.dots.length - 1 ) | 0;
-	//      const dot = wave.dots[ dotsI ];
-
-	//      return this.#getCoord( dot[ 0 ], dot[ 1 ], wave.index );
-	//  } ).join( " " ) );
-	// }
 
 	// .........................................................................
 	#getCoord( x, y, z ) {
