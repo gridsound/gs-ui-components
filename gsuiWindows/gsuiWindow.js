@@ -97,7 +97,7 @@ class gsuiWindow extends gsui0ne {
 	}
 	#onptrdownHead( e ) {
 		const tar = $( e.target );
-		const clickHead = 
+		const clickHead =
 			tar.$hasClass( "gsuiWindow-head" ) ||
 			tar.$hasClass( "gsuiWindow-headContent" );
 		const clicked = clickHead ||
