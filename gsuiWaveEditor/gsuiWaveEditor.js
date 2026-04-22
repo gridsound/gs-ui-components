@@ -54,9 +54,11 @@ class gsuiWaveEditor extends gsui0ne {
 			},
 		} );
 		this.#initWaveletBrowserDropdown();
-		this.onclick = this.#onclick.bind( this );
-		this.ondrop = this.#ondrop.bind( this );
-		this.ondragover = GSUnoopFalse;
+		this.$this.$on( {
+			click: this.#onclick.bind( this ),
+			drop: this.#ondrop.bind( this ),
+			dragover: GSUnoopFalse,
+		} );
 		this.$elements.$wave.$on( {
 			pointerdown: this.#onptrdownWave.bind( this ),
 			pointermove: this.#onptrmoveWave.bind( this ),
@@ -162,10 +164,10 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	#onclick( e ) {
-		const btn = e.target;
+		const btn = $( e.target );
 
-		if ( btn.tagName === "BUTTON" ) {
-			const act = GSUdomGetAttr( btn, "data-action" );
+		if ( btn.$tag() === "button" ) {
+			const act = btn.$getAttr( "data-action" );
 			let w;
 
 			switch ( act ) {
@@ -175,7 +177,7 @@ class gsuiWaveEditor extends gsui0ne {
 						.$dispatch( GSEV_WAVEEDITOR_PARAM, { symmetry: this.$this.$hasAttr( "symmetry" ) } );
 					break;
 				case "tool": {
-					const t = btn.dataset.tool;
+					const t = btn.$getAttr( "data-tool" );
 
 					if ( t && this.$this.$getAttr( "tool" ) !== t ) {
 						this.$this
@@ -184,7 +186,7 @@ class gsuiWaveEditor extends gsui0ne {
 					}
 				} break;
 				case "mirror":
-					w = gsuiWaveEditor.#mirror( this.#waveArray, GSUdomGetAttr( btn, "data-dir" ) );
+					w = gsuiWaveEditor.#mirror( this.#waveArray, btn.$getAttr( "data-dir" ) );
 					break;
 				case "normalize-y":
 					w = gsuiWaveEditor.#normalize( this.#waveArray );
@@ -255,7 +257,7 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	#oninputstartSlider( d ) {
-		const act = GSUdomGetAttr( d.$target, "data-action" );
+		const act = $( d.$target ).$getAttr( "data-action" );
 
 		switch ( act ) {
 			case "phase":
@@ -266,7 +268,7 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#oninputSlider( d, val ) {
-		const act = GSUdomGetAttr( d.$target, "data-action" );
+		const act = $( d.$target ).$getAttr( "data-action" );
 
 		switch ( act ) {
 			case "mirror-x":
