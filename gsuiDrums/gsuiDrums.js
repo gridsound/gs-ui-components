@@ -46,7 +46,7 @@ class gsuiDrums extends gsui0ne {
 			[ GSEV_DRUMROWS_EXPAND ]: ( _, id ) => $( this.#linesMap.get( id ) ).$togAttr( "data-open" ),
 			[ GSEV_SLIDERGROUP_CHANGE ]: d => ( d.$args.unshift( d.$target.dataset.currentProp ), true ),
 			[ GSEV_SLIDERGROUP_INPUT ]: ( d, k, v ) => {
-				GSUdomSetAttr( this.#drumsMap.get( k )[ 2 ], d.$target.dataset.currentProp, v );
+				this.#drumsMap.get( k )[ 2 ].$setAttr( d.$target.dataset.currentProp, v );
 				this.#drumrows.$setDrumPropValue( d.$targetId, d.$target.dataset.currentProp, v );
 			},
 			[ GSEV_SLIDERGROUP_INPUTEND ]: d => {
@@ -147,7 +147,7 @@ class gsuiDrums extends gsui0ne {
 		const grp = this.#getSliderGroup( drum.row );
 		const elItem = this.#addItem( id, "drum", drum );
 
-		grp.$get( 0 ).$set( id, drum.when, +GSUdomGetAttr( elItem, "duration" ), 0 );
+		grp.$get( 0 ).$set( id, drum.when, +elItem.$getAttr( "duration" ), 0 );
 	}
 	$removeDrum( id ) {
 		const rowId = this.#drumsMap.get( id )[ 0 ];
@@ -171,31 +171,32 @@ class gsuiDrums extends gsui0ne {
 		return elLine.$get( 0 );
 	}
 	$changeDrum( id, prop, val ) {
-		const rowId = this.#drumsMap.get( id )[ 0 ];
+		const [ rowId, , elItem ] = this.#drumsMap.get( id );
 		const grp = this.#getSliderGroup( rowId );
 
-		GSUdomSetAttr( this.#drumsMap.get( id )[ 2 ], prop, val );
+		elItem.$setAttr( prop, val );
 		if ( prop === grp.$getAttr( "data-current-prop" ) ) {
 			grp.$get( 0 ).$setProp( id, "value", val );
 		}
 	}
 	#addItem( id, itemType, item ) {
 		const { when, row: rowId } = item;
-		const elItem = GSUcreateElement( `gsui-${ itemType }`, {
-			"data-id": id,
-			when,
-			duration: this.#calcItemWidth( itemType, rowId, when ),
-		} );
+		const elItem = $( itemType === "drum" ? "<gsui-drum>" : "<gsui-drumcut>" )
+			.$dataId( id )
+			.$setAttr( {
+				when,
+				duration: this.#calcItemWidth( itemType, rowId, when ),
+			} );
 		const [ closest, closestW ] = this.#getPrevItem( rowId, itemType, when );
 
-		if ( closest ) {
-			const closestD = +GSUdomGetAttr( closest, "duration" );
+		if ( closest.$size() ) {
+			const closestD = +closest.$getAttr( "duration" );
 
 			if ( closestW + closestD > when ) {
 				for ( let d = 1; d < 16; d *= 2 ) {
 					if ( closestW + closestD / d <= when ) {
-						GSUdomSetAttr( closest, "duration", closestD / d );
-						this.#getSliderGroup( rowId ).$get( 0 ).$setProp( closest.dataset.id, "duration", closestD / d );
+						closest.$setAttr( "duration", closestD / d );
+						this.#getSliderGroup( rowId ).$get( 0 ).$setProp( closest.$dataId(), "duration", closestD / d );
 						break;
 					}
 				}
@@ -207,18 +208,18 @@ class gsuiDrums extends gsui0ne {
 	}
 	#removeItem( id ) {
 		const [ rowId, itemType, elItem ] = this.#drumsMap.get( id );
-		const when = +GSUdomGetAttr( elItem, "when" );
+		const when = +elItem.$getAttr( "when" );
 		const [ closest, closestW ] = this.#getPrevItem( rowId, itemType, when );
 
-		elItem.remove();
+		elItem.$remove();
 		this.#drumsMap.delete( id );
-		if ( closest ) {
-			const closestD = +GSUdomGetAttr( closest, "duration" );
+		if ( closest.$size() ) {
+			const closestD = +closest.$getAttr( "duration" );
 			const dur = this.#calcItemWidth( itemType, rowId, closestW );
 
 			if ( dur !== closestD ) {
-				GSUdomSetAttr( closest, "duration", dur );
-				this.#getSliderGroup( rowId ).$get( 0 ).$setProp( closest.dataset.id, "duration", dur );
+				closest.$setAttr( "duration", dur );
+				this.#getSliderGroup( rowId ).$get( 0 ).$setProp( closest.$dataId(), "duration", dur );
 			}
 		}
 	}
@@ -270,17 +271,17 @@ class gsuiDrums extends gsui0ne {
 	}
 	#getItemWhen( rowId, itemType, when ) {
 		return this.#getItems( rowId, itemType ).find( d => {
-			const dw = +GSUdomGetAttr( d, "when" );
-			const dd = +GSUdomGetAttr( d, "duration" );
+			const dw = +d.$getAttr( "when" );
+			const dd = +d.$getAttr( "duration" );
 
 			return dw <= when && when < dw + dd;
 		} );
 	}
 	static #getClosestItem( items, when, cmpFn, dir ) {
-		return items.reduce( gsuiDrums.#getClosestItem2.bind( null, when, cmpFn ), [ null, dir ] );
+		return items.reduce( gsuiDrums.#getClosestItem2.bind( null, when, cmpFn ), [ $noop, dir ] );
 	}
 	static #getClosestItem2( when, cmpFn, found, d ) {
-		const dw = +GSUdomGetAttr( d, "when" );
+		const dw = +d.$getAttr( "when" );
 
 		if ( cmpFn( found, when, dw ) ) {
 			found[ 0 ] = d;
@@ -310,7 +311,7 @@ class gsuiDrums extends gsui0ne {
 			case "detune": grp.$get( 0 ).$options( { min: -12, max: 12, step: 1, def: 0 } ); break;
 		}
 		this.#getItems( rowId, "drum" ).forEach( d => {
-			grp.$get( 0 ).$setProp( d.dataset.id, "value", +GSUdomGetAttr( d, prop ) );
+			grp.$get( 0 ).$setProp( d.$dataId(), "value", +d.$getAttr( prop ) );
 		} );
 		this.#drumrows.$setPropFilter( rowId, prop );
 	}
@@ -342,20 +343,18 @@ class gsuiDrums extends gsui0ne {
 		} );
 		if ( !adding ) {
 			drumsArr.forEach( d => {
-				d = $( d );
 				const dw = +d.$getAttr( "when" );
 
 				if ( when1A <= dw && dw <= when1B ) {
-					d.$addClass( "gsuiDrums-previewDeleted" );
-					newPreviewMap.set( d.$dataId(), d );
+					newPreviewMap.set( d.$dataId(), d.$addClass( "gsuiDrums-previewDeleted" ) );
 				}
 			} );
 		} else {
 			for ( let w = when1A; w <= when1B; w += stepDur ) {
 				const ww = GSUmathFix( w, 5 );
 				const found = drumsArr.find( d => {
-					const dw = +GSUdomGetAttr( d, "when" );
-					const dd = +GSUdomGetAttr( d, "duration" );
+					const dw = +d.$getAttr( "when" );
+					const dd = +d.$getAttr( "duration" );
 
 					return dw <= ww && ww < dw + dd;
 				} );
@@ -417,9 +416,9 @@ class gsuiDrums extends gsui0ne {
 			const left = this.#elLines.$bcr().x;
 			const when = ( this.#hoverPageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
 			const [ prevItem, prevW ] = this.#getPrevItem( this.#draggingRowId, this.#hoverItemType, when );
-			const prevD = prevItem && +GSUdomGetAttr( prevItem, "duration" );
+			const prevD = +prevItem.$getAttr( "duration" );
 
-			if ( prevItem && prevW < when && when < prevW + prevD ) {
+			if ( prevItem.$size() && prevW < when && when < prevW + prevD ) {
 				this.#hoverBeat = prevW;
 				this.#hoverDur = prevD;
 			} else if ( this.#currAction ) {
@@ -428,7 +427,7 @@ class gsuiDrums extends gsui0ne {
 			} else {
 				const whenCut = Math.floor( ( this.#hoverPageX - left ) / this.#pxPerStep ) / this.#stepsPerBeat;
 
-				this.#hoverBeat = prevItem && prevW + prevD > whenCut
+				this.#hoverBeat = prevItem.$size() && prevW + prevD > whenCut
 					? prevW + prevD
 					: whenCut;
 				this.#hoverDur = this.#calcItemWidth( this.#hoverItemType, this.#draggingRowId, this.#hoverBeat );
@@ -480,13 +479,13 @@ class gsuiDrums extends gsui0ne {
 	}
 	#ondblclickSplit( itemType, e ) {
 		const d = this.#getItemWhen( this.#draggingRowId, this.#hoverItemType, this.#hoverBeat );
-		const dd = d && +GSUdomGetAttr( d, "duration" ) / 2;
+		const dd = +d.$getAttr( "duration" ) / 2;
 
-		if ( d && dd > 1 / this.#stepsPerBeat / ( 8 + 1 ) ) {
+		if ( dd > 1 / this.#stepsPerBeat / ( 8 + 1 ) ) {
 			const left = this.#elLines.$bcr().x;
 			const when = ( e.pageX - left ) / this.#pxPerStep / this.#stepsPerBeat;
-			const dw = +GSUdomGetAttr( d, "when" );
-			const dd = +GSUdomGetAttr( d, "duration" ) / 2;
+			const dw = +d.$getAttr( "when" );
+			const dd = +d.$getAttr( "duration" ) / 2;
 			const obj = { when: dw + dd };
 
 			this.#hoverBeat = when < dw + dd ? dw : dw + dd;
@@ -495,9 +494,9 @@ class gsuiDrums extends gsui0ne {
 				.$left( this.#hoverBeat, "em" )
 				.$width( this.#hoverDur, "em" );
 			if ( itemType === "Drums" ) {
-				obj.pan = +GSUdomGetAttr( d, "pan" );
-				obj.gain = +GSUdomGetAttr( d, "gain" );
-				obj.detune = +GSUdomGetAttr( d, "detune" );
+				obj.pan = +d.$getAttr( "pan" );
+				obj.gain = +d.$getAttr( "gain" );
+				obj.detune = +d.$getAttr( "detune" );
 			}
 			this.$this.$dispatch( GSEV_DRUMS_CHANGE, `add${ itemType }`, this.#draggingRowId, [ obj ] );
 		}
