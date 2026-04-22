@@ -135,10 +135,12 @@ class gsuiKeys extends gsui0ne {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
 	}
 	#keyUpDown( elKey, status, vel ) {
-		if ( elKey ) {
-			const midi = +elKey.dataset.midi;
+		elKey = $( elKey );
 
-			GSUdomTogClass( elKey, "gsui-active", status );
+		if ( elKey.$size() ) {
+			const midi = +elKey.$getAttr( "data-midi" );
+
+			elKey.$togClass( "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
 				this.$this.$dispatch( GSEV_KEYS_KEYDOWN, midi, vel );

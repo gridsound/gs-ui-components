@@ -82,27 +82,21 @@ class gsuiLibrary extends gsui0ne {
 		this.$elements.$placeholder.$text( str );
 	}
 	$setLibrary( lib ) {
-		let lastSep;
-		const prevLastSep = this.$elements.$body.$query( ".gsuiLibrary-sep" ).$get( -1 );
+		let lastSep = $noop;
+		const prevLastSep = this.$elements.$body.$query( ".gsuiLibrary-sep" ).$at( -1 );
 		const el = lib.map( smp => {
-			if ( !GSUisStr( smp ) ) {
-				const el = GSUgetTemplate( "gsui-library-sample", {
+			return GSUisStr( smp )
+				? ( lastSep = $( GSUgetTemplate( "gsui-library-sep", smp ) ) )
+				: $( GSUgetTemplate( "gsui-library-sample", {
 					id: smp[ 0 ],
 					points: smp[ 1 ],
 					name: smp[ 2 ] || smp[ 0 ],
-				} );
-
-				if ( this.#idFavs.has( smp[ 0 ] ) ) {
-					GSUdomSetAttr( el, "data-fav", true );
-				}
-				return el;
-			}
-			return lastSep = GSUgetTemplate( "gsui-library-sep", smp );
+				} ) ).$setAttr( "data-fav", this.#idFavs.has( smp[ 0 ] ) );
 		} );
 
 		this.$elements.$body.$append( ...el );
-		if ( lastSep && lastSep.dataset.id === prevLastSep?.dataset.id ) {
-			lastSep.remove();
+		if ( lastSep.$size() && lastSep.$dataId() === prevLastSep.$dataId() ) {
+			lastSep.$remove();
 		}
 	}
 

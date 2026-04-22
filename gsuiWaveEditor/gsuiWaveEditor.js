@@ -290,7 +290,8 @@ class gsuiWaveEditor extends gsui0ne {
 		}
 	}
 	#onchangeSlider( d ) {
-		const act = GSUdomGetAttr( d.$target, "data-action" );
+		const tar = $( d.$target );
+		const act = tar.$getAttr( "data-action" );
 
 		switch ( act ) {
 			case "div-x":
@@ -300,7 +301,7 @@ class gsuiWaveEditor extends gsui0ne {
 			case "mirror-x":
 			case "mirror-y":
 			case "phase":
-				GSUdomSetAttr( d.$target, "value", 0 );
+				tar.$setAttr( "value", 0 );
 				if ( !GSUarrayEq( this.#waveArray, this.#waveArray2, .005 ) ) {
 					this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, [ ...this.#waveArray ] );
 				}

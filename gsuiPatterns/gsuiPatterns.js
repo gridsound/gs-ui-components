@@ -261,8 +261,8 @@ class gsuiPatterns extends gsui0ne {
 		}
 	}
 	$appendPatternSVG( id, svg ) {
-		GSUdomAddClass( svg, "gsuiPatterns-pattern-svg" );
-		this.$getPattern( id ).$query( ".gsuiPatterns-pattern-content" ).$append( svg );
+		svg.$addClass( "gsuiPatterns-pattern-svg" )
+			.$appendTo( this.$getPattern( id ).$query( ".gsuiPatterns-pattern-content" ) );
 	}
 	$deletePattern( id ) {
 		this.$getPattern( id ).$remove();

@@ -45,20 +45,19 @@ class gsuiSVGPatterns {
 		}
 	}
 	static #setSVGViewbox( type, svg, x, w ) {
-		$( svg ).$viewbox( x, 0, w, gsuiSVGPatterns.#getList( type ).$map.get( svg.dataset.id ).h );
+		svg.$viewbox( x, 0, w, gsuiSVGPatterns.#getList( type ).$map.get( svg.$dataId() ).h );
 	}
 	static $createSVG( type, id ) {
 		const SVG = gsuiSVGPatterns.#getList( type );
 		const def = SVG.$map.get( id ) || {};
 		const use = GSUcreateElement( "use" );
-		const svg = GSUcreateElement( "svg", {
-			preserveAspectRatio: "none",
-			viewBox: `0 0 ${ def.w || 260 } ${ def.h || 48 }`,
-			"data-id": id,
-		}, use );
 
 		use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ SVG.$prefix }${ id }` );
-		return svg;
+		return $( "<svg>" )
+			.$dataId( id )
+			.$setAttr( "preserveAspectRatio", "none" )
+			.$viewbox( def.w || 260, def.h || 48 )
+			.$append( use );
 	}
 	static $add( type, id ) {
 		const SVG = gsuiSVGPatterns.#getList( type );
