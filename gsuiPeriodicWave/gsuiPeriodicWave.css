@@ -1,5 +1,5 @@
 gsui-periodicwave {
-	--gsuiPeriodicWave-pad: 0px;
+	--gsuiPeriodicWave-pad: 0;
 	position: relative;
 	width: 100%;
 	height: 100%;

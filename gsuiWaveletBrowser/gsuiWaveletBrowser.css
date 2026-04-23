@@ -35,7 +35,7 @@ gsui-wavelet-browser {
 		inset 0 0 68px #0005,
 		inset 0 0 8px #000a;
 
-	[ data-axe=y ] {
+	[ data-axe="y" ] {
 		position: absolute;
 		inset: 8px 50%;
 		width: 1px;
@@ -74,13 +74,15 @@ gsui-wavelet-browser {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
-		background-image: linear-gradient( 180deg,
+		background-image: linear-gradient(
+			180deg,
 			#0008,
 			#0004 10%,
 			transparent 25%,
 			transparent 75%,
 			#0004 90%,
-			#0008 );
+			#0008
+		);
 	}
 	> * {
 		--pad: 4px;

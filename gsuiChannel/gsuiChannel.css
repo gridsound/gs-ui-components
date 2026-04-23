@@ -76,7 +76,7 @@ gsui-channel {
 	b {
 		width: 18px;
 		font-size: 18px;
-		font-family: var(--gsui-font-number);
+		font-family: var( --gsui-font-number );
 		text-shadow: 2px 2px #000;
 		border-radius: 3px;
 		background-color: #0005;
@@ -87,7 +87,7 @@ gsui-channel {
 			inset: 0 auto auto -1px;
 			height: 18px;
 			line-height: 18px;
-			border-radius: 0 0 3px 0;
+			border-radius: 0 0 3px;
 			font-size: 16px;
 		}
 	}

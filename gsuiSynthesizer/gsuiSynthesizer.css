@@ -27,7 +27,7 @@ gsui-synthesizer {
 }
 
 /* .......................................................................... */
-/*.gsuiSynthesizer-preset {
+/* .gsuiSynthesizer-preset {
 	display: flex;
 	align-items: center;
 	height: 20px;
@@ -61,7 +61,7 @@ gsui-synthesizer {
 			content: "none";
 		}
 	}
-}*/
+} */
 
 /* .......................................................................... */
 .gsuiSynthesizer-head {

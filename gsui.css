@@ -31,7 +31,7 @@ button {
 	background: none;
 }
 a,
-input:not( [ type=text ] ) {
+input:not( [ type="text" ] ) {
 	cursor: var( --gsuiCursor-pointer );
 }
 
