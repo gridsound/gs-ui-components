@@ -22,6 +22,18 @@ class gsuiLibrary extends gsui0ne {
 	}
 
 	// .........................................................................
+	static get observedAttributes() {
+		return [ "placeholder" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "placeholder":
+				this.$elements.$placeholder.$text( val );
+				break;
+		}
+	}
+
+	// .........................................................................
 	#initReorder() {
 		new gsuiReorder( {
 			$root: this.$elements.$body,
@@ -77,9 +89,6 @@ class gsuiLibrary extends gsui0ne {
 		this.$elements.$body.$query( ".gsuiLibrary-sample" )
 			.$rmAttr( "data-loading", "data-ready" )
 			.$setAttr( title, el => el.dataset.name );
-	}
-	$setPlaceholder( str ) {
-		this.$elements.$placeholder.$text( str );
 	}
 	$setLibrary( lib ) {
 		let lastSep = $noop;
