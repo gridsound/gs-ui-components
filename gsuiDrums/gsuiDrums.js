@@ -44,13 +44,13 @@ class gsuiDrums extends gsui0ne {
 			[ GSEV_DRUMROWS_PROPFILTER ]: d => this.#setPropFilter( ...d.$args ),
 			[ GSEV_DRUMROWS_PROPFILTERS ]: d => this.#setPropFilterAll( ...d.$args ),
 			[ GSEV_DRUMROWS_EXPAND ]: ( _, id ) => $( this.#linesMap.get( id ) ).$togAttr( "data-open" ),
-			[ GSEV_SLIDERGROUP_CHANGE ]: d => ( d.$args.unshift( d.$target.dataset.currentProp ), true ),
+			[ GSEV_SLIDERGROUP_CHANGE ]: d => ( d.$args.unshift( d.$target.$getAttr( "data-current-prop" ) ), true ),
 			[ GSEV_SLIDERGROUP_INPUT ]: ( d, k, v ) => {
-				this.#drumsMap.get( k )[ 2 ].$setAttr( d.$target.dataset.currentProp, v );
-				this.#drumrows.$setDrumPropValue( d.$targetId, d.$target.dataset.currentProp, v );
+				this.#drumsMap.get( k )[ 2 ].$setAttr( d.$target.$getAttr( "data-current-prop" ), v );
+				this.#drumrows.$setDrumPropValue( d.$targetId, d.$target.$getAttr( "data-current-prop" ), v );
 			},
 			[ GSEV_SLIDERGROUP_INPUTEND ]: d => {
-				this.#drumrows.$removeDrumPropValue( d.$targetId, d.$target.dataset.currentProp );
+				this.#drumrows.$removeDrumPropValue( d.$targetId, d.$target.$getAttr( "data-current-prop" ) );
 			},
 		} );
 		this.#win.$setAttr( "step", 1 )

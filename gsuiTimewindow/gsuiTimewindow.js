@@ -68,12 +68,14 @@ class gsuiTimewindow extends gsui0ne {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
-				if ( d.$target.dataset.zoom === "x" ) {
+				const zoom = d.$target.$getAttr( "data-zoom" );
+
+				if ( zoom === "x" ) {
 					const ppb = GSUmathEaseInCirc( val );
 					const ppbNew = GSUmathRound( this.#getPPBmin() + ppb * ( this.#getPPBmax() - this.#getPPBmin() ) );
 
 					this.#setNewPPB( ppbNew, 0 );
-				} else if ( d.$target.dataset.zoom === "y" ) {
+				} else if ( zoom === "y" ) {
 					const val2 = GSUmathEaseInCirc( val );
 					const lhNewf = this.#getLHmin() + val2 * ( this.#getLHmax() - this.#getLHmin() );
 					const lhNew = GSUmathRound( lhNewf );

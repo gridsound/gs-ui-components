@@ -8,8 +8,8 @@ class gsuiWindows extends gsui0ne {
 			$tagName: "gsui-windows",
 		} );
 		GSUdomListen( this, {
-			[ GSEV_WINDOW_OPEN ]: d => this.#onopen( $( d.$target ) ),
-			[ GSEV_WINDOW_CLOSE ]: d => this.#onclose( $( d.$target ) ),
+			[ GSEV_WINDOW_OPEN ]: d => this.#onopen( d.$target ),
+			[ GSEV_WINDOW_CLOSE ]: d => this.#onclose( d.$target ),
 		} );
 		this.onpointerleave = e => this.onpointerup?.( e );
 	}

@@ -56,12 +56,12 @@ class gsuiSynthesizer extends gsui0ne {
 			[ GSEV_NOISE_INPUT ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_INPUTNOISE, ...d.$args ),
 			[ GSEV_NOISE_CHANGE ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_CHANGENOISE, ...d.$args ),
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				const tab = d.$target.parentNode.dataset.tab;
+				const tab = d.$target.$parent().$getAttr( "data-tab" );
 
 				if ( !tab ) {
 					this.$this.$dispatch( GSEV_SYNTHESIZER_TOGGLENOISE, b );
 				} else {
-					const [ lfoEnv, prop ] = d.$target.parentNode.dataset.tab.split( " " );
+					const [ lfoEnv, prop ] = tab.split( " " );
 					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
 
 					if ( elCmp.$getAttr( lfoEnv ) === prop ) {

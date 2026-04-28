@@ -66,8 +66,8 @@ class gsuiOscillator extends gsui0ne {
 			[ GSEV_WAVETABLE_SELECTCURVE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_SELECTWAVETABLECURVE, ...d.$args ),
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.dataset.prop, val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.dataset.prop, val ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$getAttr( "data-prop" ), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.$getAttr( "data-prop" ), val ),
 		} );
 	}
 

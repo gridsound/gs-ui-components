@@ -51,7 +51,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 				this.$this.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
 			},
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				switch ( d.$target.dataset.prop ) {
+				switch ( d.$target.$getAttr( "data-prop" ) ) {
 					case "oversample": this.#onchangeOversample(); break;
 					case "symmetry": this.#onchangeSymmetry( b ); break;
 				}
