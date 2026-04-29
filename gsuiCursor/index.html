@@ -51,6 +51,8 @@ body {
 		&[ data-cur="move"        ] { cursor: var( --gsuiCursor-move ) }
 		&[ data-cur="grab"        ] { cursor: var( --gsuiCursor-grab ) }
 		&[ data-cur="grabbing"    ] { cursor: var( --gsuiCursor-grabbing ) }
+		&[ data-cur="col-resize"  ] { cursor: var( --gsuiCursor-col-resize ) }
+		&[ data-cur="row-resize"  ] { cursor: var( --gsuiCursor-row-resize ) }
 		&::before {
 			content: attr( data-cur );
 		}
@@ -76,6 +78,8 @@ body {
 	<div tabindex="0" data-cur="move"></div>
 	<div tabindex="0" data-cur="grab"></div>
 	<div tabindex="0" data-cur="grabbing"></div>
+	<div tabindex="0" data-cur="col-resize"></div>
+	<div tabindex="0" data-cur="row-resize"></div>
 </div>
 
 <!-- ....................................................................... -->
