@@ -67,8 +67,8 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const play = GSUdomQS( "#play" );
-const analyserVu = GSUdomQS( "gsui-analyser-vu" );
+const play = $( "#play" );
+const analyserVu = $( "gsui-analyser-vu" );
 const ctx = GSUaudioContext();
 const anL = GSUaudioAnalyser( ctx );
 const anR = GSUaudioAnalyser( ctx );
@@ -85,32 +85,32 @@ split.connect( anL, 0 );
 split.connect( anR, 1 );
 
 let hardVal = 0;
-GSUdomQS( "#hardValue" ).oninput = e => hardVal = +e.target.value;
+$( "#hardValue" ).$oninput( e => hardVal = +e.target.value );
 
 fetch( "../test-assets/808kick.wav" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
-		play.disabled = false;
+		play.$disabled( false );
 	} );
 
-play.onclick = () => {
+play.$onclick( () => {
 	hardVal = null;
 	absn = GSUaudioBufferSource( ctx );
 	absn.buffer = buffer;
 	absn.connect( split );
 	absn.connect( ctx.destination );
 	absn.start();
-};
+} );
 
 function frame() {
 	if ( GSUisNum( hardVal ) ) {
-		analyserVu.$draw( [ hardVal ], [ hardVal ] );
+		analyserVu.$get( 0 ).$draw( [ hardVal ], [ hardVal ] );
 	} else {
 		anL.getFloatTimeDomainData( anDataL );
 		anR.getFloatTimeDomainData( anDataR );
-		analyserVu.$draw( anDataL, anDataR );
+		analyserVu.$get( 0 ).$draw( anDataL, anDataR );
 	}
 }
 

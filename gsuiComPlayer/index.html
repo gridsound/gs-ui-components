@@ -78,16 +78,16 @@ body {
 <!-- ....................................................................... -->
 <script>
 const el = $( "gsui-com-player" );
-const likedInp = GSUdomQS( "#liked" );
-const titledInp = GSUdomQS( "#titled" );
-const itsmineInp = GSUdomQS( "#itsmine" );
-const privateInp = GSUdomQS( "#private" );
-const renderedInp = GSUdomQS( "#rendered" );
-const opensourceInp = GSUdomQS( "#opensource" );
-const editableInp = GSUdomQS( "#editable" );
-const bpmInp = GSUdomQS( "#bpm" );
-const durationInp = GSUdomQS( "#duration" );
-const currentTimeInp = GSUdomQS( "#currentTime" );
+const likedInp = $( "#liked" );
+const titledInp = $( "#titled" );
+const itsmineInp = $( "#itsmine" );
+const privateInp = $( "#private" );
+const renderedInp = $( "#rendered" );
+const opensourceInp = $( "#opensource" );
+const editableInp = $( "#editable" );
+const bpmInp = $( "#bpm" );
+const durationInp = $( "#duration" );
+const currentTimeInp = $( "#currentTime" );
 
 el.$get( 0 ).$setLikeCallbackPromise( ( el, action ) => {
 	return GSUwait( .5 ).then( () => {
@@ -105,21 +105,21 @@ el.$get( 0 ).$setDeleteCallbackPromise( _el => GSUwait( 1 ) );
 el.$get( 0 ).$setRestoreCallbackPromise( _el => GSUwait( 1 ) );
 el.$get( 0 ).$setVisibilityCallbackPromise( ( _el, _vis ) => GSUwait( 1 ) );
 
-likedInp.onchange = () => el.$togAttr( "liked" );
-titledInp.onchange = () => el.$setAttr( "name", el.$getAttr( "name" ) ? false : "Dopest song ever created" );
-itsmineInp.onchange = () => el.$togAttr( "itsmine" );
-privateInp.onchange = () => el.$togAttr( "private" );
-renderedInp.onchange = () => el.$togAttr( "rendered" );
-opensourceInp.onchange = () => el.$togAttr( "opensource" );
-editableInp.onchange = () => el.$setAttr( "dawlink", editableInp.checked ? "https://daw.gridsound.com/5Up3rUu1d" : false );
+likedInp.$onchange( () => el.$togAttr( "liked" ) );
+titledInp.$onchange( () => el.$setAttr( "name", el.$getAttr( "name" ) ? false : "Dopest song ever created" ) );
+itsmineInp.$onchange( () => el.$togAttr( "itsmine" ) );
+privateInp.$onchange( () => el.$togAttr( "private" ) );
+renderedInp.$onchange( () => el.$togAttr( "rendered" ) );
+opensourceInp.$onchange( () => el.$togAttr( "opensource" ) );
+editableInp.$onchange( () => el.$setAttr( "dawlink", editableInp.$checked() ? "https://daw.gridsound.com/5Up3rUu1d" : false ) );
 
-// itsmineInp.click();
-privateInp.click();
-editableInp.click();
+// itsmineInp.$click();
+privateInp.$click();
+editableInp.$click();
 
-bpmInp.oninput = () => el.$setAttr( "bpm", bpmInp.value );
-durationInp.oninput = () => el.$setAttr( "duration", durationInp.value );
-currentTimeInp.oninput = () => el.$setAttr( "currenttime", currentTimeInp.value );
+bpmInp.$oninput( () => el.$setAttr( "bpm", bpmInp.$value() ) );
+durationInp.$oninput( () => el.$setAttr( "duration", durationInp.$value() ) );
+currentTimeInp.$oninput( () => el.$setAttr( "currenttime", currentTimeInp.$value() ) );
 
 GSUdomListen( $body.$get( 0 ), {
 	[ GSEV_COMPLAYER_PLAY ]: () => el.$getAttr( "playing" ), // ?

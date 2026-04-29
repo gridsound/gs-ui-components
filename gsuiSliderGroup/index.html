@@ -56,7 +56,7 @@ gsui-slidergroup {
 
 <!-- ....................................................................... -->
 <script>
-const grp = GSUdomQS( "gsui-slidergroup" );
+const grp = $( "gsui-slidergroup" ).$get( 0 );
 
 // grp.$options( { min: -1, max: 1, step: .025, def: 0 } );
 grp.$options( { min: 0, max: 1, step: .025, def: .8 } );

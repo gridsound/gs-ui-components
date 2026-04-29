@@ -53,11 +53,12 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elClock = GSUdomQS( "gsui-clock" );
-const elInput = GSUdomQS( "#time" );
+const elClock = $( "gsui-clock" );
+const elInput = $( "#time" );
 
-elInput.oninput = () => elClock.$setTime( +elInput.value );
-elInput.oninput();
+elInput
+	.$oninput( () => elClock.$get( 0 ).$setTime( +elInput.$value() ) )
+	.$trigger( "oninput" );
 </script>
 </body>
 </html>

@@ -92,7 +92,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const drums = GSUdomQS( "gsui-drums" );
+const drums = $( "gsui-drums" ).$get( 0 );
 const ctx = GSUaudioContext();
 
 initRow( 0, "dr0", "kick 017", 0, 0, 1, "kick-017" );

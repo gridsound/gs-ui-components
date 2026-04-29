@@ -81,7 +81,7 @@ body {
 <script>
 GSUaudioCurrentContext = GSUaudioContext();
 
-const elWE = GSUdomQS( "gsui-wave-editor" );
+const elWE = $( "gsui-wave-editor" ).$get( 0 );
 
 // elWE.$setWaveArray( GSUmathWaveSine( 128 ) );
 // elWE.$reset( "sine" );

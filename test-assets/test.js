@@ -90,49 +90,47 @@ function TESTinit() {
 		),
 	);
 
-	const elTEST = GSUdomQS( "#TEST" );
-	const elCTRLS = GSUdomQS( "#TEST-CTRLS" );
-	const elSkin = GSUdomQS( "#testSkin" );
-	const elWrap = GSUdomQS( "#testWrap" );
-	const elCtrls = GSUdomQS( "#testCtrls" );
+	const elTEST = $( "#TEST" );
 
-	elTEST && Array.from( elTEST.children ).forEach( el => elWrap.append( el ) );
-	elCTRLS && Array.from( elCTRLS.children ).forEach( el => elCtrls.append( el ) );
-	if ( elTEST.dataset.minAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minAuto = ""; }
-	if ( elTEST.dataset.minXAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minXAuto = ""; }
-	if ( elTEST.dataset.minYAuto === "" ) { GSUdomQS( "#testContent" ).dataset.minYAuto = ""; }
-	elTEST.remove();
+	$( "#testWrap" ).$append( elTEST.$children() );
+	$( "#testCtrls" ).$append( $( "#TEST-CTRLS" ).$children() );
+	$( "#testContent" ).$setAttr( {
+		"data-min-auto":   elTEST.$hasAttr( "data-min-auto"   ),
+		"data-min-x-auto": elTEST.$hasAttr( "data-min-x-auto" ),
+		"data-min-y-auto": elTEST.$hasAttr( "data-min-y-auto" ),
+	} );
+	elTEST.$remove();
 
 	function getPath() {
 		return location.pathname.split( "/" ).filter( Boolean );
 	}
 
-	const select = GSUdomQS( "#testSelect" );
 	const path = getPath();
 	const curr = path.pop();
 
 	$body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" );
-	elSkin.onclick = () => {
+	$( "#testSkin" ).$onclick( () => {
 		const skin = $body.$getAttr( "data-skin" ) === "white"
 			? "gray"
 			: "white";
 
 		localStorage.setItem( "skin", skin );
 		$body.$setAttr( "data-skin", skin );
-	};
+	} );
 
 	document.title = `${ curr } (dev)`;
-	select.append( ...TESTcmpList.map( s => GSUcreateOption( { value: s } ) ) );
-	select.onchange = e => {
-		const path = getPath();
+	$( "#testSelect" )
+		.$append( ...TESTcmpList.map( s => GSUcreateOption( { value: s } ) ) )
+		.$onchange( e => {
+			const path = getPath();
 
-		path.pop();
-		path.push( e.target.value );
-		location.href = `${ location.origin }/${ path.join( "/" ) }`;
-	};
-	select.value = curr;
+			path.pop();
+			path.push( e.target.value );
+			location.href = `${ location.origin }/${ path.join( "/" ) }`;
+		} )
+		.$value( curr );
 }
 
-if ( !GSUdomQS( "#testLinks" ) ) {
+if ( !$( "#testLinks" ).$size() ) {
 	TESTinit();
 }

@@ -116,20 +116,19 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const elWT = GSUdomQS( "gsui-wavetable" );
-const elCtrls = GSUdomQS( "#testCtrls" );
+const elWT = $( "gsui-wavetable" );
 const bpm = 120;
 
-elCtrls.onclick = e => {
+$( "#testCtrls" ).$onclick( e => {
 	const dur = +e.target.dataset.keyDur;
 	const cId = e.target.parentNode.dataset.wtposcurve;
 
 	if ( dur ) {
-		elWT.$startKey( "k0", cId, bpm, dur );
+		elWT.$get( 0 ).$startKey( "k0", cId, bpm, dur );
 	}
-};
+} );
 
-elWT.$change( {
+elWT.$get( 0 ).$change( {
 	waves: {
 		0: {
 			index: 0,

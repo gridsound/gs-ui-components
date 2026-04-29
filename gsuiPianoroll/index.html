@@ -82,7 +82,7 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-const pianoroll = GSUdomQS( "gsui-pianoroll" );
+const pianoroll = $( "gsui-pianoroll" ).$get( 0 );
 
 pianoroll.$octaves( 4, 2 );
 pianoroll.$timedivision( "4/4" );

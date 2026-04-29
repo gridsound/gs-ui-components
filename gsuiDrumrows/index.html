@@ -69,7 +69,7 @@ gsui-drumrows {
 
 <!-- ....................................................................... -->
 <script>
-const drumrows = GSUdomQS( "gsui-drumrows" );
+const drumrows = $( "gsui-drumrows" ).$get( 0 );
 const ctx = GSUaudioContext();
 
 initRow( "dr0", "kick 017", 0, 0, 1, "kick-017" );

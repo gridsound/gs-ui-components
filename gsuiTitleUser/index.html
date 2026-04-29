@@ -74,32 +74,32 @@ body {
 <!-- ....................................................................... -->
 <script>
 const el = $( "gsui-titleuser" );
-const readonly = GSUdomQS( "#readonly" );
-const connected = GSUdomQS( "#connected" );
-const connecting = GSUdomQS( "#connecting" );
-const disconnecting = GSUdomQS( "#disconnecting" );
-const saving = GSUdomQS( "#saving" );
-const saved = GSUdomQS( "#saved" );
-const justSaved = GSUdomQS( "#just-saved" );
-const cmpName = GSUdomQS( "#cmpName" );
-const longUser = GSUdomQS( "#longUser" );
+const readonly = $( "#readonly" );
+const connected = $( "#connected" );
+const connecting = $( "#connecting" );
+const disconnecting = $( "#disconnecting" );
+const saving = $( "#saving" );
+const saved = $( "#saved" );
+const justSaved = $( "#just-saved" );
+const cmpName = $( "#cmpName" );
+const longUser = $( "#longUser" );
 
-readonly.onclick = () => el.$togAttr( "readonly" );
-connected.onclick = () => el.$togAttr( "connected" );
-connecting.onclick = () => el.$togAttr( "connecting" );
-disconnecting.onclick = () => el.$togAttr( "disconnecting" );
-saving.onclick = () => el.$togAttr( "saving" );
-saved.onclick = () => el.$togAttr( "saved" );
-justSaved.onclick = () => el.$togAttr( "just-saved" );
-cmpName.onclick = () => el.$setAttr( "cmpname", el.$getAttr( "cmpname" ) ? false : "Angry and evil nasty potato" );
-longUser.onclick = () => {
+readonly.$onclick( () => el.$togAttr( "readonly" ) );
+connected.$onclick( () => el.$togAttr( "connected" ) );
+connecting.$onclick( () => el.$togAttr( "connecting" ) );
+disconnecting.$onclick( () => el.$togAttr( "disconnecting" ) );
+saving.$onclick( () => el.$togAttr( "saving" ) );
+saved.$onclick( () => el.$togAttr( "saved" ) );
+justSaved.$onclick( () => el.$togAttr( "just-saved" ) );
+cmpName.$onclick( () => el.$setAttr( "cmpname", el.$getAttr( "cmpname" ) ? false : "Angry and evil nasty potato" ) );
+longUser.$onclick( () => {
 	const isShort = el.$getAttr( "name" ) === "John";
 
 	el.$setAttr( {
 		name: isShort ? "John Wick (the hitman)" : "John",
 		username: isShort ? "baba_yaga_yippie_kay_yay" : "baba_yaga",
 	} );
-};
+} );
 
 const logout0 = () => new Promise( ( res, rej ) => GSUsetTimeout( rej, 1 ) );
 const logout1 = () => new Promise( ( res, rej ) => GSUsetTimeout( res, 1 ) );
@@ -114,10 +114,10 @@ GSUdomListen( el.$get( 0 ), {
 	},
 } );
 
-longUser.click();
-longUser.click();
-connected.click();
-cmpName.click();
+longUser.$click();
+longUser.$click();
+connected.$click();
+cmpName.$click();
 </script>
 </body>
 </html>
