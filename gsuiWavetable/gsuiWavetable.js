@@ -316,8 +316,8 @@ class gsuiWavetable extends gsui0ne {
 				.$message( GSEV_WAVETABLEGRAPH_DRAW );
 			this.$elements.$editor.$get( 0 ).$setWaveArray( this.#data.waves[ wId ].curve );
 			this.#wtposCurve_getWave( wId ).$addAttr( "data-selected" );
-			this.#wtwaves_getElem( wId ).$addAttr( "data-selected" );
-			GSUdomScrollIntoViewX( this.#wtwaves_getElem( wId ).$get( 0 ), this.$elements.$waves.$get( 0 ) );
+			this.#wtwaves_getElem( wId ).$addAttr( "data-selected" )
+				.$scrollIntoViewX( this.$elements.$waves );
 			if ( !this.#waveNull ) {
 				this.$this.$dispatch( GSEV_WAVETABLE_PARAM, { wave: wId } );
 			}
