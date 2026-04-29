@@ -30,10 +30,10 @@ class gsuiDrumrow extends gsui0ne {
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#oninputendSlider(),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_DRUMROW_CHANGEPROP, d.$target.$getAttr( "data-prop" ), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_DRUMROW_CHANGEPROP, d.$target.$dataProp(), val ),
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
-				this.#namePrint( d.$target.$getAttr( "data-prop" ), val );
-				this.$this.$dispatch( GSEV_DRUMROW_LIVECHANGEPROP, d.$target.$getAttr( "data-prop" ), val );
+				this.#namePrint( d.$target.$dataProp(), val );
+				this.$this.$dispatch( GSEV_DRUMROW_LIVECHANGEPROP, d.$target.$dataProp(), val );
 			},
 			[ GSEV_PROPSELECT_SELECT ]: ( _, val ) => this.$this.$dispatch( GSEV_DRUMROW_PROPFILTER, val ),
 			[ GSEV_PROPSELECT_SELECTALL ]: ( _, val ) => this.$this.$dispatch( GSEV_DRUMROW_PROPFILTERS, val ),

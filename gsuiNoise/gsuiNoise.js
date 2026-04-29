@@ -29,11 +29,11 @@ class gsuiNoise extends gsui0ne {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
-				this.#setValue( d.$target.$getAttr( "data-prop" ), val );
-				this.$this.$dispatch( GSEV_NOISE_INPUT, d.$target.$getAttr( "data-prop" ), val );
+				this.#setValue( d.$target.$dataProp(), val );
+				this.$this.$dispatch( GSEV_NOISE_INPUT, d.$target.$dataProp(), val );
 			},
 			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => {
-				this.$this.$dispatch( GSEV_NOISE_CHANGE, d.$target.$getAttr( "data-prop" ), val );
+				this.$this.$dispatch( GSEV_NOISE_CHANGE, d.$target.$dataProp(), val );
 			},
 		} );
 	}

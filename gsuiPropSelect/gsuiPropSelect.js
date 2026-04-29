@@ -84,7 +84,7 @@ class gsuiPropSelect extends gsui0ne {
 
 		e.preventDefault();
 		if ( tar.$hasClass( "gsuiPropSelect-btn" ) ) {
-			const prop = tar.$getAttr( "data-prop" );
+			const prop = tar.$dataProp();
 
 			this.$this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECTALL, prop );
 		}

@@ -35,8 +35,8 @@ class gsuiFxFilter extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$getAttr( "data-prop" ), this.#fnValue[ d.$target.$getAttr( "data-prop" ) ]( val ) ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$getAttr( "data-prop" ), this.#fnValue[ d.$target.$getAttr( "data-prop" ) ]( val ) ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$dataProp(), this.#fnValue[ d.$target.$dataProp() ]( val ) ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$dataProp(), this.#fnValue[ d.$target.$dataProp() ]( val ) ),
 		} );
 		this.$elements.$graph.$append( this.$elements.$curves );
 	}

@@ -22,8 +22,8 @@ class gsuiFxDelay extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$parent().$getAttr( "data-prop" ), val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$parent().$getAttr( "data-prop" ), val ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$parent().$dataProp(), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$parent().$dataProp(), val ),
 		} );
 	}
 

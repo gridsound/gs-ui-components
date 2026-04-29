@@ -34,8 +34,8 @@ class gsuiEnvelope extends gsui0ne {
 		GSUdomListen( this, {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$parent().$getAttr( "data-prop" ), val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.$parent().$getAttr( "data-prop" ), val ),
+			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$parent().$dataProp(), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.$parent().$dataProp(), val ),
 		} );
 	}
 
