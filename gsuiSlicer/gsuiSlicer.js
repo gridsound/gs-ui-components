@@ -16,7 +16,7 @@ class gsuiSlicer extends gsui0ne {
 	#waveDef = $( "<polyline>" );
 
 	constructor() {
-		const defs = GSUdomQS( "#gsuiSlicer-waveDefs defs" );
+		const defs = $( "#gsuiSlicer-waveDefs defs" );
 		let defId = 1;
 
 		super( {
@@ -44,12 +44,12 @@ class gsuiSlicer extends gsui0ne {
 				hidetimes: true,
 			},
 		} );
-		if ( !defs ) {
+		if ( !defs.$size() ) {
 			$body.$prepend( GSUcreateElement( "svg", { id: "gsuiSlicer-waveDefs" },
 				GSUcreateElement( "defs" ),
 			) );
 		} else {
-			defId += Array.prototype.reduce.call( defs.children, ( max, p ) => Math.max( max, p.dataset.id ), 0 );
+			defId += defs.$children().$reduce( ( max, p ) => Math.max( max, p.dataset.id ), 0 );
 		}
 		this.#waveDef.$dataId( defId ).$setAttr( "id", `gsuiSlicer-waveDef-${ defId }` );
 		this.$elements.$tools.$onclick( this.#onclickTools.bind( this ) );

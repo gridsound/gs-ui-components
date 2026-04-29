@@ -72,12 +72,12 @@ class gsuiPianoroll extends gsui0ne {
 			[ GSEV_SLIDERGROUP_CHANGE ]: ( _, arr ) => this.#ongsuiSliderGroupChange( arr ),
 			[ GSEV_BLOCKSMANAGER_DELETEPREVIEWBLOCK ]: () => this.$removeKey( "preview" ),
 			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: ( _, __, a ) => {
-				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
+				if ( !$( "gsui-daw[playing]" ).$size() ) {
 					this.#uiKeys.$get( 0 ).$midiKeyDown( a ); // should be called differently
 				}
 			},
 			[ GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO ]: ( _, __, a ) => {
-				if ( !GSUdomQS( "gsui-daw[playing]" ) ) {
+				if ( !$( "gsui-daw[playing]" ).$size() ) {
 					this.#uiKeys.$get( 0 ).$midiKeyUp( a );
 				}
 			},

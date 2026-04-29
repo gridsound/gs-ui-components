@@ -174,7 +174,7 @@ class gsuiPatterns extends gsui0ne {
 			.$setAttr( "data-icon", b ? "caret-down" : "caret-right" );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
-		GSUdomQS( "gsui-channels" )
+		$( "gsui-channels" ).$get( 0 )
 			.$openSelectChannelPopup( currChanId )
 			.then( chanId => chanId && this.onchange( action, objId, chanId ) );
 	}
@@ -225,14 +225,12 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$addPattern( id, { type, synth } ) {
-		const elPat = GSUgetTemplate( "gsui-patterns-pattern" );
+		const elPat = $( GSUgetTemplate( "gsui-patterns-pattern" ) );
 
-		elPat.dataset.id = id;
 		if ( type !== "buffer" ) {
-			GSUdomQS( elPat, ".gsuiPatterns-pattern-btnInfo" ).remove();
-			GSUdomQS( elPat, ".gsuiPatterns-pattern-dest" ).remove();
+			elPat.$query( ".gsuiPatterns-pattern-btnInfo,.gsuiPatterns-pattern-dest" ).$remove();
 		}
-		this.#getPatternParent( type, synth ).$append( elPat );
+		elPat.$dataId( id ).$appendTo( this.#getPatternParent( type, synth ) );
 	}
 	$changePattern( id, prop, val ) {
 		const elPat = this.$getPattern( id );
