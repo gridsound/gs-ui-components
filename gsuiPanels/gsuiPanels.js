@@ -122,7 +122,7 @@ class gsuiPanels extends gsui0ne {
 			}, 0 );
 			tar.$addClass( "gsui-hover" );
 			GSUdomUnselect();
-			this.$this.$css( "cursor", this.#dirX ? "col-resize" : "row-resize" )
+			this.$this.$css( "cursor", tar.$css( "cursor" ) )
 				.$setPtrCapture( e.pointerId )
 				.$on( {
 					pointerup: this.#onpointerup.bind( this ),

@@ -29,12 +29,12 @@ gsui-panels {
 		top: 0;
 		left: -2px;
 		width: 4px;
-		cursor: col-resize;
+		cursor: var( --gsuiCursor-col-resize );
 	}
 	gsui-panels[ dir="y" ] > * > & {
 		left: 0;
 		top: -2px;
 		height: 4px;
-		cursor: row-resize;
+		cursor: var( --gsuiCursor-row-resize );
 	}
 }
