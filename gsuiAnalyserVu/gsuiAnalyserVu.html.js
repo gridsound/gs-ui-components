@@ -6,11 +6,11 @@ GSUsetTemplate( "gsui-analyser-vu", () => [
 ] );
 
 GSUsetTemplate( "gsui-analyser-vu-meter", p =>
-	GSUcreateDiv( { class: "gsuiAnalyserVu-meter", "data-chan": p.chan, inert: true },
-		GSUcreateDiv( { class: "gsuiAnalyserVu-meter-val" },
-			GSUcreateDiv(),
+	$.$div( { class: "gsuiAnalyserVu-meter", "data-chan": p.chan, inert: true },
+		$.$div( { class: "gsuiAnalyserVu-meter-val" },
+			$.$div(),
 		),
-		GSUcreateDiv( { class: "gsuiAnalyserVu-meter-tick" } ),
-		GSUcreateDiv( { class: "gsuiAnalyserVu-meter-0dB" } ),
+		$.$div( { class: "gsuiAnalyserVu-meter-tick" } ),
+		$.$div( { class: "gsuiAnalyserVu-meter-0dB" } ),
 	),
 );

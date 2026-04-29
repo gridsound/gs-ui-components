@@ -11,8 +11,8 @@ class gsuiSVGPatterns {
 	} );
 
 	static #initSVG( pref ) {
-		const defs = GSUcreateElement( "defs" );
-		const svg = GSUcreateElement( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
+		const defs = $.$elem( "defs" );
+		const svg = $.$elem( "svg", { class: "gsuiSVGPatterns", style: "display:none" }, defs );
 
 		$body.$prepend( svg );
 		return Object.freeze( {
@@ -50,7 +50,7 @@ class gsuiSVGPatterns {
 	static $createSVG( type, id ) {
 		const SVG = gsuiSVGPatterns.#getList( type );
 		const def = SVG.$map.get( id ) || {};
-		const use = GSUcreateElement( "use" );
+		const use = $.$elem( "use" );
 
 		use.setAttributeNS( "http://www.w3.org/1999/xlink", "href", `#${ SVG.$prefix }${ id }` );
 		return $( "<svg>" )

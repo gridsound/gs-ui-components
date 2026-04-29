@@ -216,7 +216,7 @@ class gsuiTimeline extends gsui0ne {
 			}
 		} else {
 			while ( elMeasures.children.length < nb ) {
-				elMeasures.append( GSUcreateSpan( { class: "gsuiTimeline-measure" } ) );
+				elMeasures.append( $.$span( { class: "gsuiTimeline-measure" } ) );
 			}
 		}
 	}

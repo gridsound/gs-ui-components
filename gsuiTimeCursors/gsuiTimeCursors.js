@@ -9,7 +9,7 @@ class gsuiTimeCursors extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-time-cursors",
-			$template: GSUcreateElement( "canvas", { height: 1 } ),
+			$template: $.$elem( "canvas", { height: 1 } ),
 		} );
 	}
 

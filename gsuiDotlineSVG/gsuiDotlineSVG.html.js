@@ -1,7 +1,7 @@
 "use strict";
 
 GSUsetTemplate( "gsui-dotlinesvg", () =>
-	GSUcreateElement( "svg", { preserveAspectRatio: "none", inert: true },
-		GSUcreateElement( "path" ),
+	$.$elem( "svg", { preserveAspectRatio: "none", inert: true },
+		$.$elem( "path" ),
 	)
 );

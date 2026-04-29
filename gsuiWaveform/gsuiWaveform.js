@@ -7,7 +7,7 @@ class gsuiWaveform {
 	#h = 0;
 
 	constructor( el ) {
-		const svg = $( el || GSUcreateElement( "svg" ) );
+		const svg = $( el || $.$elem( "svg" ) );
 		const poly = svg.$query( "polygon" );
 
 		// Object.seal( this );

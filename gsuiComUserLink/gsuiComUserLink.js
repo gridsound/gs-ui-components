@@ -4,11 +4,11 @@ class gsuiComUserLink extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-com-userlink",
-			$template: GSUcreateA( null,
-				GSUcreateIcon( { icon: "musician" } ),
-				GSUcreateDiv(),
-				GSUcreateB(),
-				GSUcreateSpan(),
+			$template: $.$link( null,
+				$.$icon( { icon: "musician" } ),
+				$.$div(),
+				$.$bold(),
+				$.$span(),
 			),
 			$elements: {
 				$name: "span",

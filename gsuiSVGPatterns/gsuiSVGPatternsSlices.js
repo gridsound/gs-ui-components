@@ -8,7 +8,7 @@ class gsuiSVGPatternsSlices {
 		] ).flat( 1 );
 	}
 	static #renderSliceRect( { x, y, w }, dur, opacity ) {
-		return GSUcreateElement( "rect", {
+		return $.$elem( "rect", {
 			x: dur * x,
 			y,
 			opacity,

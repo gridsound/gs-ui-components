@@ -67,25 +67,25 @@ function TESTinit() {
 	document.addEventListener( "gsui", ( { detail: d } ) => console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target ) );
 
 	$body.$append(
-		GSUcreateDiv( { id: "testBody" },
-			GSUcreateFlex( { y: true, xcenter: true, g6: true },
-				GSUcreateFlex( { x: true, xcenter: true, g10: true },
-					GSUcreateSelect( { id: "testSelect" },
-						GSUcreateOption( { value: "" }, "--" ),
+		$.$div( { id: "testBody" },
+			$.$flex( { y: true, xcenter: true, g6: true },
+				$.$flex( { x: true, xcenter: true, g10: true },
+					$.$select( { id: "testSelect" },
+						$.$option( { value: "" }, "--" ),
 					),
-					GSUcreateButton( { id: "testSkin", icon: "adjust" } ),
+					$.$button( { id: "testSkin", icon: "adjust" } ),
 				),
 			),
-			GSUcreateDiv( { id: "testContent" },
-				GSUcreateDiv( { id: "testWrap" } ),
-				GSUcreateDiv( { id: "testCtrls" } ),
+			$.$div( { id: "testContent" },
+				$.$div( { id: "testWrap" } ),
+				$.$div( { id: "testCtrls" } ),
 			),
 		),
-		GSUcreateDiv( { id: "testFoot" },
-			GSUcreateDiv( { id: "testCopyright" },
-				GSUcreateSpan( null, `© ${ new Date().getFullYear() } ` ),
-				GSUcreateA( { href: "https://gridsound.com" }, "gridsound.com" ),
-				GSUcreateSpan( null, " all rights reserved" ),
+		$.$div( { id: "testFoot" },
+			$.$div( { id: "testCopyright" },
+				$.$span( null, `© ${ new Date().getFullYear() } ` ),
+				$.$link( { href: "https://gridsound.com" }, "gridsound.com" ),
+				$.$span( null, " all rights reserved" ),
 			),
 		),
 	);
@@ -120,7 +120,7 @@ function TESTinit() {
 
 	document.title = `${ curr } (dev)`;
 	$( "#testSelect" )
-		.$append( ...TESTcmpList.map( s => GSUcreateOption( { value: s } ) ) )
+		.$append( ...TESTcmpList.map( s => $.$option( { value: s } ) ) )
 		.$onchange( e => {
 			const path = getPath();
 

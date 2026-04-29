@@ -18,12 +18,12 @@ class gsuiSVGPatternsDrums {
 				: gsuiSVGPatternsDrums.#createDrumcut )( d.when, orders[ d.row ] * drmH, drmW, drmH ) );
 	}
 	static #createDrum( x, y, w, h ) {
-		return GSUcreateElement( "polygon", {
+		return $.$elem( "polygon", {
 			points: GSUmathFix( [ x, y, x, y + h * .75, x + w, y + h * .75 / 2 ], 3 ).join( "," ),
 		} );
 	}
 	static #createDrumcut( x, y, w, h ) {
-		return GSUcreateElement( "rect", {
+		return $.$elem( "rect", {
 			x: GSUmathFix( x, 3 ),
 			y: GSUmathFix( y + h * .8, 3 ),
 			width: GSUmathFix( w * .9, 3 ),

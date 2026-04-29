@@ -73,15 +73,15 @@ $( "gsui-com-button[text='confirm']" ).$onclick( () => GSUpopup.$confirm( "Error
 $( "gsui-com-button[text='prompt']"  ).$onclick( () => GSUpopup.$prompt(  "Error 2025", "Name the new report:", "Lorem ipsum" ).then( lg.bind( null, "GSUpopup.$prompt"  ) ) );
 
 const customContent =
-	GSUcreateElement( "fieldset", { style: "display:flex; flex-direction:column; gap:6px" },
-		GSUcreateElement( "legend", null, "custom content" ),
-		GSUcreateLabel( { style: "display:flex; align-items:center" },
-			GSUcreateSpan( { style: "width:100px" }, "username" ),
-			GSUcreateInput( { type: "text", name: "username", required: true, placeholder: "neo", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
+	$.$elem( "fieldset", { style: "display:flex; flex-direction:column; gap:6px" },
+		$.$elem( "legend", null, "custom content" ),
+		$.$label( { style: "display:flex; align-items:center" },
+			$.$span( { style: "width:100px" }, "username" ),
+			$.$input( { type: "text", name: "username", required: true, placeholder: "neo", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
 		),
-		GSUcreateLabel( { style: "display:flex; align-items:center" },
-			GSUcreateSpan( { style: "width:100px" }, "password" ),
-			GSUcreateInput( { type: "password", name: "password", required: true, placeholder: "1234", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
+		$.$label( { style: "display:flex; align-items:center" },
+			$.$span( { style: "width:100px" }, "password" ),
+			$.$input( { type: "password", name: "password", required: true, placeholder: "1234", style: "border:0; border-radius:4px; padding:4px 6px; font:inherit" } ),
 		),
 	);
 

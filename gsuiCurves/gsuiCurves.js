@@ -77,12 +77,12 @@ class gsuiCurves extends gsui0ne {
 			el.$empty().$append( ...GSUnewArray( nb, i => {
 				const Hz = Math.round( GSUXtoHz( i / nb ) * this.#nyquist );
 
-				return GSUcreateDiv( { "data-hz": Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` } );
+				return $.$div( { "data-hz": Hz < 1000 ? Hz : `${ ( Hz / 1000 ).toFixed( 1 ) }k` } );
 			} ) );
 		}
 	}
 	#createPath( id, curve ) {
-		this.$elements.$curves.$append( GSUcreateElement( "path", {
+		this.$elements.$curves.$append( $.$elem( "path", {
 			class: "gsuiCurves-curve",
 			"data-id": id,
 			d: this.#createPathD( curve ),

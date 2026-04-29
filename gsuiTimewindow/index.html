@@ -141,8 +141,8 @@ inpPlayStop.$onclick( e => {
 } );
 
 for ( let i = 0; i < 10; ++i ) {
-	tracks.push( GSUcreateDiv( { class: "myRow" }, `track ${ i }` ) );
-	rows.push( GSUcreateDiv( { class: "myRow" }, `row ${ i }` ) );
+	tracks.push( $.$div( { class: "myRow" }, `track ${ i }` ) );
+	rows.push( $.$div( { class: "myRow" }, `row ${ i }` ) );
 }
 win.$get( 0 ).$appendPanel( ...tracks );
 $( ".gsuiTimewindow-rows" ).$append( ...rows );

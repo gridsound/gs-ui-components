@@ -260,7 +260,7 @@ class gsuiOscillator extends gsui0ne {
 	#openWavetable( b ) {
 		if ( b ) {
 			this.#askWavetableData().then( wtData => {
-				this.#elWavetable = GSUcreateElement( "gsui-wavetable" );
+				this.#elWavetable = $.$elem( "gsui-wavetable" );
 				this.$elements.$wavetableWrap.$append( this.#elWavetable );
 				this.#elWavetable.$change( wtData[ 0 ] );
 				this.#elWavetable.$isRealData( wtData[ 1 ] );

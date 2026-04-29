@@ -7,7 +7,7 @@ class gsuiAnalyserHist extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-analyser-hist",
-			$template: GSUcreateElement( "canvas", { inert: true } ),
+			$template: $.$elem( "canvas", { inert: true } ),
 			$attributes: {
 				type: "hz", // hz | td
 				resolution: "100 200",

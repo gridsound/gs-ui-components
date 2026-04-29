@@ -62,12 +62,12 @@ class gsuiActionMenu {
 
 		return !actions
 			? $noop
-			: $( GSUcreateDiv( { class: "gsuiActionMenu-actions", style }, actions.map( act =>
-				!act.hidden && GSUcreateButton( { class: "gsuiActionMenu-action", "data-id": act.id },
-					act.icon && GSUcreateIcon( { icon: act.icon } ),
-					GSUcreateDiv( { class: "gsuiActionMenu-action-body", inert: true },
-						GSUcreateSpan( { class: "gsuiActionMenu-action-name" }, act.name ),
-						act.desc && GSUcreateSpan( { class: "gsuiActionMenu-action-desc" }, act.desc ),
+			: $( $.$div( { class: "gsuiActionMenu-actions", style }, actions.map( act =>
+				!act.hidden && $.$button( { class: "gsuiActionMenu-action", "data-id": act.id },
+					act.icon && $.$icon( { icon: act.icon } ),
+					$.$div( { class: "gsuiActionMenu-action-body", inert: true },
+						$.$span( { class: "gsuiActionMenu-action-name" }, act.name ),
+						act.desc && $.$span( { class: "gsuiActionMenu-action-desc" }, act.desc ),
 					),
 				)
 			) ) ).$onclick( this.#onclickActions.bind( this ) );

@@ -1,16 +1,16 @@
 "use strict";
 
 GSUsetTemplate( "gsui-clock", () => [
-	GSUcreateDiv( { class: "gsuiClock-relative", inert: true },
-		GSUcreateDiv( { class: "gsuiClock-absolute" },
-			GSUcreateDiv( { class: "gsuiClock-a" }, "0" ),
-			GSUcreateDiv( { class: "gsuiClock-b" }, "00" ),
-			GSUcreateDiv( { class: "gsuiClock-c" }, "000" ),
-			GSUcreateSpan( { class: "gsuiClock-modeText" } ),
+	$.$div( { class: "gsuiClock-relative", inert: true },
+		$.$div( { class: "gsuiClock-absolute" },
+			$.$div( { class: "gsuiClock-a" }, "0" ),
+			$.$div( { class: "gsuiClock-b" }, "00" ),
+			$.$div( { class: "gsuiClock-c" }, "000" ),
+			$.$span( { class: "gsuiClock-modeText" } ),
 		),
 	),
-	GSUcreateButton( { class: "gsuiClock-modes" },
-		GSUcreateDiv( { class: "gsuiClock-mode gsuiClock-beat" } ),
-		GSUcreateDiv( { class: "gsuiClock-mode gsuiClock-second" } ),
+	$.$button( { class: "gsuiClock-modes" },
+		$.$div( { class: "gsuiClock-mode gsuiClock-beat" } ),
+		$.$div( { class: "gsuiClock-mode gsuiClock-second" } ),
 	),
 ] );

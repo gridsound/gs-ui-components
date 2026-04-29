@@ -7,9 +7,9 @@ GSUsetTemplate( "gsui-glitchtext", () => [
 ] );
 
 GSUsetTemplate( "gsui-glitchtext-layer", () =>
-	GSUcreateDiv( { class: "gsuiGlitchText-clip" },
-		GSUcreateDiv( { class: "gsuiGlitchText-word" } ),
-		GSUcreateDiv( { class: "gsuiGlitchText-word gsuiGlitchText-blend gsuiGlitchText-blendA" } ),
-		GSUcreateDiv( { class: "gsuiGlitchText-word gsuiGlitchText-blend gsuiGlitchText-blendB" } ),
+	$.$div( { class: "gsuiGlitchText-clip" },
+		$.$div( { class: "gsuiGlitchText-word" } ),
+		$.$div( { class: "gsuiGlitchText-word gsuiGlitchText-blend gsuiGlitchText-blendA" } ),
+		$.$div( { class: "gsuiGlitchText-word gsuiGlitchText-blend gsuiGlitchText-blendB" } ),
 	)
 );

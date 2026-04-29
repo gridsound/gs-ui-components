@@ -4,7 +4,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#waves = [];
 	#currentWaveInd = -1;
 	#selectedWaveInd = -1;
-	#selectedMark = $( GSUcreateIcon( { icon: "caret-right" } ) );
+	#selectedMark = $( $.$icon( { icon: "caret-right" } ) );
 
 	constructor() {
 		super( {
@@ -50,7 +50,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#setList( list ) {
 		this.#waves.length = 0;
 		GSUforEach( list, w => this.#waves.push( [ w[ 0 ], [ ...w[ 1 ] ] ] ) );
-		this.$elements.$list.$empty().$append( ...this.#waves.map( w => GSUcreateDiv( null, gsuiWaveletBrowser.#formatName( w[ 0 ] ) ) ) );
+		this.$elements.$list.$empty().$append( ...this.#waves.map( w => $.$div( null, gsuiWaveletBrowser.#formatName( w[ 0 ] ) ) ) );
 		this.#onscroll();
 		this.#selectWave( this.$this.$getAttr( "wave" ) );
 	}

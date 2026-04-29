@@ -1,17 +1,17 @@
 "use strict";
 
 GSUsetTemplate( "gsui-drum", () =>
-	GSUcreateDiv( { class: "gsuiDrum-in", inert: true },
+	$.$div( { class: "gsuiDrum-in", inert: true },
 		[ "detune", "pan", "gain" ].map( p =>
-			GSUcreateDiv( { class: "gsuiDrum-prop", "data-value": p },
-				GSUcreateDiv( { class: "gsuiDrum-propValue" } ),
+			$.$div( { class: "gsuiDrum-prop", "data-value": p },
+				$.$div( { class: "gsuiDrum-propValue" } ),
 			)
 		),
 	)
 );
 
 GSUsetTemplate( "gsui-drumcut", () =>
-	GSUcreateDiv( { class: "gsuiDrumcut-in", inert: true },
-		GSUcreateIcon( { icon: "drumcut" } ),
+	$.$div( { class: "gsuiDrumcut-in", inert: true },
+		$.$icon( { icon: "drumcut" } ),
 	)
 );

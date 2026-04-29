@@ -1,7 +1,7 @@
 "use strict";
 
 GSUsetTemplate( "gsui-patterns", () =>
-	GSUcreateElement( "gsui-panels", { dir: "y" },
+	$.$elem( "gsui-panels", { dir: "y" },
 		GSUgetTemplate( "gsui-patterns-panel", {
 			type: "buffer",
 			title: "buffers",
@@ -40,18 +40,18 @@ GSUsetTemplate( "gsui-patterns", () =>
 );
 
 GSUsetTemplate( "gsui-patterns-panel", obj =>
-	GSUcreateDiv( { class: "gsuiPatterns-panel", "data-type": obj.type },
-		GSUcreateDiv( { class: "gsuiPatterns-panel-menu" },
-			GSUcreateIcon( { class: "gsuiPatterns-panel-icon", icon: obj.icon } ),
-			GSUcreateSpan( { class: "gsuiPatterns-panel-title" }, obj.title ),
-			obj.button && GSUcreateButton( { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
-				GSUcreateIcon( { class: "gsuiPatterns-btnIcon", icon: "plus" } ),
+	$.$div( { class: "gsuiPatterns-panel", "data-type": obj.type },
+		$.$div( { class: "gsuiPatterns-panel-menu" },
+			$.$icon( { class: "gsuiPatterns-panel-icon", icon: obj.icon } ),
+			$.$span( { class: "gsuiPatterns-panel-title" }, obj.title ),
+			obj.button && $.$button( { class: "gsuiPatterns-btnSolid", "data-action": obj.button.action, title: obj.button.title },
+				$.$icon( { class: "gsuiPatterns-btnIcon", icon: "plus" } ),
 			),
 		),
-		GSUcreateDiv( { class: "gsuiPatterns-panel-list-wrap" },
-			GSUcreateDiv( { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-panel-list" } ),
-			GSUcreateDiv( { class: "gsuiPatterns-placeholder", inert: true },
-				GSUcreateSpan( null, obj.placeholder ),
+		$.$div( { class: "gsuiPatterns-panel-list-wrap" },
+			$.$div( { class: "gsuiPatterns-placeholderToCheck gsuiPatterns-panel-list" } ),
+			$.$div( { class: "gsuiPatterns-placeholder", inert: true },
+				$.$span( null, obj.placeholder ),
 			),
 		),
 	)

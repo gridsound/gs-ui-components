@@ -1,12 +1,12 @@
 "use strict";
 
 GSUsetTemplate( "gsui-patternroll-block", () =>
-	GSUcreateDiv( { class: "gsuiBlocksManager-block gsuiPatternroll-block", "data-action": "move" },
-		GSUcreateDiv( { "data-action": "cropA" } ),
-		GSUcreateDiv( { "data-action": "cropB" } ),
-		GSUcreateDiv( { class: "gsuiPatternroll-block-header" },
-			GSUcreateSpan( { class: "gsuiPatternroll-block-name" } ),
+	$.$div( { class: "gsuiBlocksManager-block gsuiPatternroll-block", "data-action": "move" },
+		$.$div( { "data-action": "cropA" } ),
+		$.$div( { "data-action": "cropB" } ),
+		$.$div( { class: "gsuiPatternroll-block-header" },
+			$.$span( { class: "gsuiPatternroll-block-name" } ),
 		),
-		GSUcreateDiv( { class: "gsuiPatternroll-block-content" } ),
+		$.$div( { class: "gsuiPatternroll-block-content" } ),
 	)
 );

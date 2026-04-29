@@ -40,8 +40,8 @@ class gsuiPropSelect extends gsui0ne {
 			: p.split( ":" );
 
 		return isSep
-			? GSUcreateDiv( { class: "gsuiPropSelect-sep", inert: true }, p2 )
-			: GSUcreateDiv( { class: "gsuiPropSelect-btn", "data-prop": p2[ 0 ], "data-label": p2[ 1 ] || p2[ 0 ] } );
+			? $.$div( { class: "gsuiPropSelect-sep", inert: true }, p2 )
+			: $.$div( { class: "gsuiPropSelect-btn", "data-prop": p2[ 0 ], "data-label": p2[ 1 ] || p2[ 0 ] } );
 	}
 	#setProp( prop, prev ) {
 		const btn = this.#getBtn( prop );

@@ -6,7 +6,7 @@ class gsuiDrumrows extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-drumrows",
-			$template: GSUcreateDiv( { class: "gsuiDrumrows-dropNew" } ),
+			$template: $.$div( { class: "gsuiDrumrows-dropNew" } ),
 		} );
 		this.onmousedown = this.#onmousedownRows.bind( this );
 		GSUdomListen( this, {

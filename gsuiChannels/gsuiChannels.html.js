@@ -1,22 +1,22 @@
 "use strict";
 
 GSUsetTemplate( "gsui-channels", () => [
-	GSUcreateDiv( { class: "gsuiChannels-panMain" },
-		GSUcreateElement( "gsui-analyser-vu", { max: 120, title: "current channel's VU (max 120%)" } ),
+	$.$div( { class: "gsuiChannels-panMain" },
+		$.$elem( "gsui-analyser-vu", { max: 120, title: "current channel's VU (max 120%)" } ),
 	),
-	GSUcreateDiv( { class: "gsuiChannels-panChannels" },
-		GSUcreateButton( { class: "gsuiChannels-addChan", title: "Add a channel" },
-			GSUcreateIcon( { icon: "channels" } ),
-			GSUcreateIcon( { icon: "plus" } ),
+	$.$div( { class: "gsuiChannels-panChannels" },
+		$.$button( { class: "gsuiChannels-addChan", title: "Add a channel" },
+			$.$icon( { icon: "channels" } ),
+			$.$icon( { icon: "plus" } ),
 		),
 	),
 ] );
 
 GSUsetTemplate( "gsui-channels-selectPopup", () =>
-	GSUcreateDiv( null,
-		GSUcreateElement( "fieldset", null,
-			GSUcreateElement( "legend", null, "Select a channel" ),
-			GSUcreateSelect( { name: "channel", size: 8, style: "height:146px" } ),
+	$.$div( null,
+		$.$elem( "fieldset", null,
+			$.$elem( "legend", null, "Select a channel" ),
+			$.$select( { name: "channel", size: 8, style: "height:146px" } ),
 		),
 	)
 );

@@ -2,7 +2,7 @@
 
 class gsuiSVGPatternsAutomation {
 	static $render( data, dur ) {
-		const svg = GSUcreateElement( "gsui-dotlinesvg" );
+		const svg = $.$elem( "gsui-dotlinesvg" );
 
 		svg.$setSVGSize( dur * 10, 1 );
 		svg.$setDataBox( "0 0 10 1" );

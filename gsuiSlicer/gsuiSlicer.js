@@ -45,8 +45,8 @@ class gsuiSlicer extends gsui0ne {
 			},
 		} );
 		if ( !defs.$size() ) {
-			$body.$prepend( GSUcreateElement( "svg", { id: "gsuiSlicer-waveDefs" },
-				GSUcreateElement( "defs" ),
+			$body.$prepend( $.$elem( "svg", { id: "gsuiSlicer-waveDefs" },
+				$.$elem( "defs" ),
 			) );
 		} else {
 			defId += defs.$children().$reduce( ( max, p ) => Math.max( max, p.dataset.id ), 0 );

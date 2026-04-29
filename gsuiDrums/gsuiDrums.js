@@ -31,7 +31,7 @@ class gsuiDrums extends gsui0ne {
 	#elHover = this.#elDrumHover;
 	#onptrupNewBind = this.#onptrupNew.bind( this );
 	#onptrmoveLinesBind = this.#onptrmoveLines.bind( this );
-	#drumrows = GSUcreateElement( "gsui-drumrows" );
+	#drumrows = $.$elem( "gsui-drumrows" );
 
 	constructor() {
 		super( {

@@ -24,7 +24,7 @@ class gsuiAnalyserHz extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-analyser-hz",
-			$template: GSUcreateElement( "canvas", { inert: true } ),
+			$template: $.$elem( "canvas", { inert: true } ),
 			$attributes: {
 				resolution: 256,
 			},

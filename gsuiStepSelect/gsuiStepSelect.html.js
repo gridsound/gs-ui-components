@@ -1,10 +1,10 @@
 "use strict";
 
 GSUsetTemplate( "gsui-step-select", () => [
-	GSUcreateElement( "gsui-toggle", { off: true } ),
-	GSUcreateSpan( { inert: true } ),
-	GSUcreateIcon( { icon: "magnet" } ),
-	GSUcreateDiv( null,
-		GSUcreateDiv(),
+	$.$elem( "gsui-toggle", { off: true } ),
+	$.$span( { inert: true } ),
+	$.$icon( { icon: "magnet" } ),
+	$.$div( null,
+		$.$div(),
 	),
 ] );

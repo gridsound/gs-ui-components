@@ -1,13 +1,13 @@
 "use strict";
 
 GSUsetTemplate( "gsui-effect", () => [
-	GSUcreateDiv( { class: "gsuiEffect-head" },
-		GSUcreateDiv( { class: "gsuiEffect-grip gsuiIcon", "data-icon": "grip-v" } ),
-		GSUcreateButton( { class: "gsuiEffect-expand", icon: "caret-right" } ),
-		GSUcreateElement( "gsui-toggle", { off: true, title: "Toggle this effect" } ),
-		GSUcreateSpan( { class: "gsuiEffect-name", inert: true } ),
-		GSUcreateElement( "gsui-help-link" ),
-		GSUcreateButton( { class: "gsuiEffect-remove", icon: "close", title: "Delete this effect" } ),
+	$.$div( { class: "gsuiEffect-head" },
+		$.$div( { class: "gsuiEffect-grip gsuiIcon", "data-icon": "grip-v" } ),
+		$.$button( { class: "gsuiEffect-expand", icon: "caret-right" } ),
+		$.$elem( "gsui-toggle", { off: true, title: "Toggle this effect" } ),
+		$.$span( { class: "gsuiEffect-name", inert: true } ),
+		$.$elem( "gsui-help-link" ),
+		$.$button( { class: "gsuiEffect-remove", icon: "close", title: "Delete this effect" } ),
 	),
-	GSUcreateDiv( { class: "gsuiEffect-content" } ),
+	$.$div( { class: "gsuiEffect-content" } ),
 ] );

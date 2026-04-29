@@ -1,16 +1,16 @@
 "use strict";
 
 GSUsetTemplate( "gsui-libraries", () => [
-	GSUcreateDiv( { class: "gsuiLibraries-head" },
-		GSUcreateIcon( { class: "gsuiLibraries-head-icon", icon: "cu-waveform" } ),
-		GSUcreateSpan( { class: "gsuiLibraries-head-title" }, "library" ),
-		GSUcreateDiv( { class: "gsuiLibraries-libBtns" },
-			GSUcreateButton( { class: "gsuiLibraries-libBtn", "data-lib": "default" }, "default" ),
-			GSUcreateButton( { class: "gsuiLibraries-libBtn", "data-lib": "local" }, "local" ),
+	$.$div( { class: "gsuiLibraries-head" },
+		$.$icon( { class: "gsuiLibraries-head-icon", icon: "cu-waveform" } ),
+		$.$span( { class: "gsuiLibraries-head-title" }, "library" ),
+		$.$div( { class: "gsuiLibraries-libBtns" },
+			$.$button( { class: "gsuiLibraries-libBtn", "data-lib": "default" }, "default" ),
+			$.$button( { class: "gsuiLibraries-libBtn", "data-lib": "local" }, "local" ),
 		),
 	),
-	GSUcreateDiv( { class: "gsuiLibraries-body" },
-		GSUcreateElement( "gsui-library", { class: "gsuiLibrary-default" } ),
-		GSUcreateElement( "gsui-library", { class: "gsuiLibrary-local" } ),
+	$.$div( { class: "gsuiLibraries-body" },
+		$.$elem( "gsui-library", { class: "gsuiLibrary-default" } ),
+		$.$elem( "gsui-library", { class: "gsuiLibrary-local" } ),
 	),
 ] );

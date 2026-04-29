@@ -46,7 +46,7 @@ class gsuiPanels extends gsui0ne {
 					.$css( this.#dir, perc2, "%" )
 					.$css( this.#pos, x, "%" );
 				if ( x > 0 ) {
-					pan.$append( GSUcreateDiv( { class: "gsuiPanels-extend" } ) );
+					pan.$append( $.$div( { class: "gsuiPanels-extend" } ) );
 				}
 				return x + perc2;
 			}, 0 );

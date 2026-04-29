@@ -33,7 +33,7 @@
 "use strict";
 
 $body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" );
-$( "#testLinks" ).$append( ...TESTcmpList.map( s => GSUcreateA( { href: s }, s ) ) );
+$( "#testLinks" ).$append( ...TESTcmpList.map( s => $.$link( { href: s }, s ) ) );
 </script>
 </body>
 </html>

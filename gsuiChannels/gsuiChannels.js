@@ -54,13 +54,13 @@ class gsuiChannels extends gsui0ne {
 	$openSelectChannelPopup( currChanId ) {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.$append( ...[
-				GSUcreateOption( { value: "0" }, "0 (main)" ),
+				$.$option( { value: "0" }, "0 (main)" ),
 				...this.$this.$query( ".gsuiChannels-panChannels gsui-channel" )
 					.$sort( ( a, b ) => a.dataset.order - b.dataset.order )
 					.$map( el => {
 						const ch = $( el );
 
-						return GSUcreateOption( { value: ch.$dataId() }, ch.$getAttr( "name" ) );
+						return $.$option( { value: ch.$dataId() }, ch.$getAttr( "name" ) );
 					} ),
 			] );
 			gsuiChannels.#selectChanInput.$value( currChanId );

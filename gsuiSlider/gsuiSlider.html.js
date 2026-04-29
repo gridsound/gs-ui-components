@@ -1,12 +1,12 @@
 "use strict";
 
 GSUsetTemplate( "gsui-slider", () => [
-	GSUcreateDiv( { class: "gsuiSlider-line" },
-		GSUcreateDiv( { class: "gsuiSlider-lineColor" } ),
+	$.$div( { class: "gsuiSlider-line" },
+		$.$div( { class: "gsuiSlider-lineColor" } ),
 	),
-	GSUcreateElement( "svg", { class: "gsuiSlider-svg" },
-		GSUcreateElement( "circle", { class: "gsuiSlider-svgLine" } ),
-		GSUcreateElement( "circle", { class: "gsuiSlider-svgLineColor" } ),
+	$.$elem( "svg", { class: "gsuiSlider-svg" },
+		$.$elem( "circle", { class: "gsuiSlider-svgLine" } ),
+		$.$elem( "circle", { class: "gsuiSlider-svgLineColor" } ),
 	),
-	GSUcreateDiv( { class: "gsuiSlider-eventCatcher" } ),
+	$.$div( { class: "gsuiSlider-eventCatcher" } ),
 ] );

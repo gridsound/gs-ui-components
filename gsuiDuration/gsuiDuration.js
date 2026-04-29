@@ -5,11 +5,11 @@ class gsuiDuration extends gsui0ne {
 		super( {
 			$tagName: "gsui-duration",
 			$template: [
-				GSUcreateFlex( { y: true },
-					GSUcreateSpan( { inert: true }, "duration" ),
-					GSUcreateElement( "gsui-slider", { type: "linear-x", min: 1, max: 8, step: 1, "mousemove-size": 300 } ),
+				$.$flex( { y: true },
+					$.$span( { inert: true }, "duration" ),
+					$.$elem( "gsui-slider", { type: "linear-x", min: 1, max: 8, step: 1, "mousemove-size": 300 } ),
 				),
-				GSUcreateB( { inert: true }, 1 ),
+				$.$bold( { inert: true }, 1 ),
 			],
 			$elements: {
 				$slider: "gsui-slider",

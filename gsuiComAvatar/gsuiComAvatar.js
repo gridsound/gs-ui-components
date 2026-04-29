@@ -5,8 +5,8 @@ class gsuiComAvatar extends gsui0ne {
 		super( {
 			$tagName: "gsui-com-avatar",
 			$template: [
-				GSUcreateElement( "img", { src: "" } ),
-				GSUcreateIcon( { icon: "musician" } ),
+				$.$elem( "img", { src: "" } ),
+				$.$icon( { icon: "musician" } ),
 			],
 		} );
 		this.$element.$on( "load", () => this.$this.$addAttr( "loaded" ) );

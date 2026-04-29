@@ -4,7 +4,7 @@ class gsuiToggle extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-toggle",
-			$template: GSUcreateIcon( { icon: "hexagon" } ),
+			$template: $.$icon( { icon: "hexagon" } ),
 			$attributes: { tabindex: 0 },
 		} );
 		this.$this.$on( {

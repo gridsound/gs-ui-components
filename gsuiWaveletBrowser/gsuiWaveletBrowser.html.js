@@ -1,15 +1,15 @@
 "use strict";
 
 GSUsetTemplate( "gsui-wavelet-browser", () => [
-	GSUcreateDiv( { class: "gsuiWaveletBrowser-top" },
-		GSUcreateDiv( { class: "gsuiWaveletBrowser-list" },
-			GSUcreateDiv(),
+	$.$div( { class: "gsuiWaveletBrowser-top" },
+		$.$div( { class: "gsuiWaveletBrowser-list" },
+			$.$div(),
 		),
-		GSUcreateDiv( { class: "gsuiWaveletBrowser-svgs", inert: true },
-			GSUcreateElement( "gsui-periodicwave" ),
-			GSUcreateElement( "gsui-periodicwave" ),
-			GSUcreateDiv( { "data-axe": "y" } ),
+		$.$div( { class: "gsuiWaveletBrowser-svgs", inert: true },
+			$.$elem( "gsui-periodicwave" ),
+			$.$elem( "gsui-periodicwave" ),
+			$.$div( { "data-axe": "y" } ),
 		),
 	),
-	GSUcreateButton( null, "Ok" ),
+	$.$button( null, "Ok" ),
 ] );

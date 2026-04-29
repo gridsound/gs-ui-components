@@ -84,12 +84,12 @@ class gsuiAutomation extends gsui0ne {
 			const tar = GSUaudioParseTarget( t );
 
 			this.$elements.$btnTarget.$append(
-				GSUcreateIcon( { icon: "channels" } ),
-				GSUcreateSpan( null, tar.$channelId ),
-				tar.$effectId && GSUcreateIcon( { icon: "effects" } ),
-				tar.$effectId && GSUcreateSpan( null, `${ tar.$effectId } ${ tar.$effectType }` ),
-				GSUcreateIcon( { icon: "caret-right" } ),
-				GSUcreateSpan( null, tar.$prop ),
+				$.$icon( { icon: "channels" } ),
+				$.$span( null, tar.$channelId ),
+				tar.$effectId && $.$icon( { icon: "effects" } ),
+				tar.$effectId && $.$span( null, `${ tar.$effectId } ${ tar.$effectType }` ),
+				$.$icon( { icon: "caret-right" } ),
+				$.$span( null, tar.$prop ),
 			);
 		}
 		this.#target = t || null;
