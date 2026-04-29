@@ -24,7 +24,7 @@ class gsuiRipple {
 		}
 	}
 	static #ptrdown( e ) {
-		const { x, y, w, h } = $( e.currentTarget ).$bcr();
+		const { x, y, w, h } = $.$bcr( e.currentTarget );
 
 		gsuiRipple.#exec( e,
 			( e.clientX - x ) / w,

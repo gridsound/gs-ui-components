@@ -389,7 +389,7 @@ class gsuiReorder {
 			} );
 
 		if ( elGrip ) {
-			const grBCR = $( elGrip ).$bcr();
+			const grBCR = $.$bcr( elGrip );
 
 			$( "<div>" )
 				.$setAttr( "id", "gsuiReorder-fake-grip" )

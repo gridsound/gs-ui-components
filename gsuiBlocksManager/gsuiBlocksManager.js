@@ -62,12 +62,12 @@ class gsuiBlocksManager {
 	// .........................................................................
 	$getRowByIndex( ind ) { return this.#nlRows[ ind ]; }
 	$getRowIndexByPageY( pageY ) {
-		const ind = Math.floor( ( pageY - $( this.#nlRows[ 0 ] ).$bcr().y ) / this.#fontSize );
+		const ind = Math.floor( ( pageY - $.$bcr( this.#nlRows[ 0 ] ).y ) / this.#fontSize );
 
 		return Math.max( 0, Math.min( ind, this.#nlRows.length - 1 ) );
 	}
 	$getWhenByPageX( pageX ) {
-		return Math.max( 0, ( pageX - $( this.#nlRows[ 0 ] ).$bcr().x ) / this.#pxPerBeat );
+		return Math.max( 0, ( pageX - $.$bcr( this.#nlRows[ 0 ] ).x ) / this.#pxPerBeat );
 	}
 	$roundBeat( beat ) {
 		return Math.max( 0, this.#timeline.$get( 0 ).$beatFloor( beat ) );
