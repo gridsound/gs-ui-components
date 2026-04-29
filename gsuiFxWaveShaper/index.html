@@ -73,7 +73,7 @@ body {
 <script>
 const fx = $( "gsui-fx-waveshaper" );
 
-GSUdomListen( fx.$get( 0 ), {
+GSUdomListen( fx, {
 	[ GSEV_EFFECT_FX_LIVECHANGE ]: GSUnoop,
 	[ GSEV_EFFECT_FX_CHANGEPROP ]: ( _, k, v ) => {
 		switch ( k ) {
