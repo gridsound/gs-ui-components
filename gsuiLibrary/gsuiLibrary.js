@@ -95,8 +95,8 @@ class gsuiLibrary extends gsui0ne {
 		const prevLastSep = this.$elements.$body.$query( ".gsuiLibrary-sep" ).$at( -1 );
 		const el = lib.map( smp => {
 			return GSUisStr( smp )
-				? ( lastSep = $( GSUgetTemplate( "gsui-library-sep", smp ) ) )
-				: $( GSUgetTemplate( "gsui-library-sample", {
+				? ( lastSep = $( $.$getTemplate( "gsui-library-sep", smp ) ) )
+				: $( $.$getTemplate( "gsui-library-sample", {
 					id: smp[ 0 ],
 					points: smp[ 1 ],
 					name: smp[ 2 ] || smp[ 0 ],

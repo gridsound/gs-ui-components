@@ -1,12 +1,12 @@
 "use strict";
 
-GSUsetTemplate( "gsui-glitchtext", () => [
-	GSUgetTemplate( "gsui-glitchtext-layer" ),
-	GSUgetTemplate( "gsui-glitchtext-layer" ),
-	GSUgetTemplate( "gsui-glitchtext-layer" ),
+$.$setTemplate( "gsui-glitchtext", () => [
+	$.$getTemplate( "gsui-glitchtext-layer" ),
+	$.$getTemplate( "gsui-glitchtext-layer" ),
+	$.$getTemplate( "gsui-glitchtext-layer" ),
 ] );
 
-GSUsetTemplate( "gsui-glitchtext-layer", () =>
+$.$setTemplate( "gsui-glitchtext-layer", () =>
 	$.$div( { class: "gsuiGlitchText-clip" },
 		$.$div( { class: "gsuiGlitchText-word" } ),
 		$.$div( { class: "gsuiGlitchText-word gsuiGlitchText-blend gsuiGlitchText-blendA" } ),

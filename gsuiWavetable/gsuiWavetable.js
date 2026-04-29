@@ -291,7 +291,7 @@ class gsuiWavetable extends gsui0ne {
 			.$message( GSEV_PERIODICWAVE_DRAW );
 	}
 	#wtwaves_addWave( wId, w ) {
-		const elW = $( GSUgetTemplate( "gsui-wavetable-wave", wId, w.index ) );
+		const elW = $( $.$getTemplate( "gsui-wavetable-wave", wId, w.index ) );
 		const elWLine = $( "<div>" )
 			.$dataId( wId )
 			.$addClass( "gsuiWavetable-posCurve-wave" )

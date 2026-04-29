@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-com-profile", () => [
+$.$setTemplate( "gsui-com-profile", () => [
 	$.$div( { class: "gsuiComProfile-avatar" },
 		$.$elem( "gsui-com-avatar" ),
 	),

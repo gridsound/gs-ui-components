@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-timewindow", () => [
+$.$setTemplate( "gsui-timewindow", () => [
 	$.$div( { class: "gsuiTimewindow-scrollArea" },
 		$.$div( { class: "gsuiTimewindow-panel" },
 			$.$div( { class: "gsuiTimewindow-panelUp" },

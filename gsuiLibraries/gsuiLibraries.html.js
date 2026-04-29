@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-libraries", () => [
+$.$setTemplate( "gsui-libraries", () => [
 	$.$div( { class: "gsuiLibraries-head" },
 		$.$icon( { class: "gsuiLibraries-head-icon", icon: "cu-waveform" } ),
 		$.$span( { class: "gsuiLibraries-head-title" }, "library" ),

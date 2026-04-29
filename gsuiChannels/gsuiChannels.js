@@ -3,7 +3,7 @@
 class gsuiChannels extends gsui0ne {
 	#chanSelected = null;
 	#analyserType = "hz";
-	static #selectChanPopup = $( GSUgetTemplate( "gsui-channels-selectPopup" ) );
+	static #selectChanPopup = $( $.$getTemplate( "gsui-channels-selectPopup" ) );
 	static #selectChanInput = gsuiChannels.#selectChanPopup.$query( "select" );
 
 	constructor() {

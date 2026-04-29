@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-noise", () => [
+$.$setTemplate( "gsui-noise", () => [
 	$.$div( { class: "gsuiNoise-type" },
 		$.$div( { class: "gsuiNoise-type-color" } ),
 		$.$span( { class: "gsuiNoise-type-txt" }, "white" ),

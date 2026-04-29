@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-envelope", () =>
+$.$setTemplate( "gsui-envelope", () =>
 	$.$div( { class: "gsuiEnvelope-in" },
 		$.$div( { class: "gsuiEnvelope-props" },
 			[

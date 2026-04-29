@@ -102,7 +102,7 @@ class gsuiKeys extends gsui0ne {
 		} );
 		if ( nbOct > this.#nbOct ) {
 			for ( let i = this.#nbOct; i < nbOct; ++i ) {
-				this.append( ...GSUgetTemplate( "gsui-keys-octave" ) );
+				this.append( ...$.$getTemplate( "gsui-keys-octave" ) );
 			}
 		} else if ( nbOct < this.#nbOct ) {
 			this.$this.$children().$each( ( el, i ) => {

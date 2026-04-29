@@ -4,7 +4,7 @@ class gsuiTitleUser extends gsui0ne {
 	#justSavedTimeout = null;
 	#loginPromise = null;
 	#logoutPromise = null;
-	#loginPopup = $( GSUgetTemplate( "gsui-titleuser-popup" ) ).$queryMap( {
+	#loginPopup = $( $.$getTemplate( "gsui-titleuser-popup" ) ).$queryMap( {
 		$root: ".gsuiTitleUser-popup",
 		$error: ".gsuiTitleUser-popup-error",
 	} );

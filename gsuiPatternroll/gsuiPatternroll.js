@@ -87,7 +87,7 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	$addBlock( id, obj, { dataReady } ) {
-		const elBlc = $( GSUgetTemplate( "gsui-patternroll-block" ) )
+		const elBlc = $( $.$getTemplate( "gsui-patternroll-block" ) )
 			.$dataId( id )
 			.$on( "pointerdown", this.#blcMousedown.bind( this, id ) )
 			.$setAttr( {

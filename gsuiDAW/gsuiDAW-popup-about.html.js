@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-daw-popup-about", () =>
+$.$setTemplate( "gsui-daw-popup-about", () =>
 	$.$div( { class: "gsuiDAW-popup-about" },
 		$.$div( { class: "gsuiDAW-popup-about-head" },
 			$.$span( { class: "gsuiDAW-popup-about-title" } ),

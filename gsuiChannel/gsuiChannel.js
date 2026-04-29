@@ -83,7 +83,7 @@ class gsuiChannel extends gsui0ne {
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.$elements.$effects.$append( GSUgetTemplate( "gsui-channel-effect", id, obj.type ) );
+		this.$elements.$effects.$append( $.$getTemplate( "gsui-channel-effect", id, obj.type ) );
 	}
 	$removeEffect( id ) {
 		this.#getEffect( id ).$remove();

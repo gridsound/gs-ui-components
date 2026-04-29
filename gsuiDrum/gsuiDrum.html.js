@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-drum", () =>
+$.$setTemplate( "gsui-drum", () =>
 	$.$div( { class: "gsuiDrum-in", inert: true },
 		[ "detune", "pan", "gain" ].map( p =>
 			$.$div( { class: "gsuiDrum-prop", "data-value": p },
@@ -10,7 +10,7 @@ GSUsetTemplate( "gsui-drum", () =>
 	)
 );
 
-GSUsetTemplate( "gsui-drumcut", () =>
+$.$setTemplate( "gsui-drumcut", () =>
 	$.$div( { class: "gsuiDrumcut-in", inert: true },
 		$.$icon( { icon: "drumcut" } ),
 	)

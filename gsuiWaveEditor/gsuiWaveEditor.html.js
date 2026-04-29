@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-wave-editor", () =>
+$.$setTemplate( "gsui-wave-editor", () =>
 	$.$flex( { class: "gsuiWaveEditor-in", x: true, f1: true },
 		$.$flex( { class: "gsuiWaveEditor-menu", y: true, g6: true },
 			$.$button( { class: "gsuiWaveEditor-waveBtn" },
@@ -14,16 +14,16 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 			),
 			$.$elem( "gs-label-s", null, "tools" ),
 			$.$flex( { class: "gsuiWaveEditor-tools", x: true },
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "goUp",     [ [ 2, 8 ], [ 8,   2    ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "goDown",   [ [ 2, 2 ], [ 8,   8    ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "stayUp",   [ [ 2, 3 ], [ 8,   3    ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "stayDown", [ [ 2, 7 ], [ 8,   7    ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "hillUp",   [ [ 2, 8 ], [ 3,   4    ], [ 4,   2.5  ], [ 5,   2    ], [ 6,   2.5  ], [ 7, 4 ], [ 8, 8   ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "hillDown", [ [ 2, 2 ], [ 3,   6    ], [ 4,   7.5  ], [ 5,   8    ], [ 6,   7.5  ], [ 7, 6 ], [ 8, 2   ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "sineUp",   [ [ 2, 5 ], [ 3,   2.5  ], [ 4,   2    ], [ 4.5, 2.5  ], [ 5.5, 7.5  ], [ 6, 8 ], [ 7, 7.5 ], [ 8, 5 ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "sineDown", [ [ 2, 5 ], [ 3,   7.5  ], [ 4,   8    ], [ 4.5, 7.5  ], [ 5.5, 2.5  ], [ 6, 2 ], [ 7, 2.5 ], [ 8, 5 ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "easeUp",   [ [ 2, 8 ], [ 3.5, 7.75 ], [ 4.5, 7.25 ], [ 5.5, 2.75 ], [ 6.5, 2.25 ], [ 8, 2 ] ] ),
-				GSUgetTemplate( "gsui-wave-editor-tool-btn", "easeDown", [ [ 2, 2 ], [ 3.5, 2.25 ], [ 4.5, 2.75 ], [ 5.5, 7.25 ], [ 6.5, 7.75 ], [ 8, 8 ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "goUp",     [ [ 2, 8 ], [ 8,   2    ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "goDown",   [ [ 2, 2 ], [ 8,   8    ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "stayUp",   [ [ 2, 3 ], [ 8,   3    ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "stayDown", [ [ 2, 7 ], [ 8,   7    ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "hillUp",   [ [ 2, 8 ], [ 3,   4    ], [ 4,   2.5  ], [ 5,   2    ], [ 6,   2.5  ], [ 7, 4 ], [ 8, 8   ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "hillDown", [ [ 2, 2 ], [ 3,   6    ], [ 4,   7.5  ], [ 5,   8    ], [ 6,   7.5  ], [ 7, 6 ], [ 8, 2   ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "sineUp",   [ [ 2, 5 ], [ 3,   2.5  ], [ 4,   2    ], [ 4.5, 2.5  ], [ 5.5, 7.5  ], [ 6, 8 ], [ 7, 7.5 ], [ 8, 5 ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "sineDown", [ [ 2, 5 ], [ 3,   7.5  ], [ 4,   8    ], [ 4.5, 7.5  ], [ 5.5, 2.5  ], [ 6, 2 ], [ 7, 2.5 ], [ 8, 5 ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "easeUp",   [ [ 2, 8 ], [ 3.5, 7.75 ], [ 4.5, 7.25 ], [ 5.5, 2.75 ], [ 6.5, 2.25 ], [ 8, 2 ] ] ),
+				$.$getTemplate( "gsui-wave-editor-tool-btn", "easeDown", [ [ 2, 2 ], [ 3.5, 2.25 ], [ 4.5, 2.75 ], [ 5.5, 7.25 ], [ 6.5, 7.75 ], [ 8, 8 ] ] ),
 			),
 			$.$flex( { y: true, g6: true },
 				$.$elem( "gs-label-s", null, "mirror" ),
@@ -47,8 +47,8 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 			),
 			$.$flex( { class: "gsuiWaveEditor-div", y: true, g6: true },
 				$.$elem( "gs-label-s", null, "grid-div" ),
-				GSUgetTemplate( "gsui-wave-editor-div", "x" ),
-				GSUgetTemplate( "gsui-wave-editor-div", "y" ),
+				$.$getTemplate( "gsui-wave-editor-div", "x" ),
+				$.$getTemplate( "gsui-wave-editor-div", "y" ),
 			),
 		),
 		$.$flex( { class: "gsuiWaveEditor-wave", x: true, f1: true },
@@ -60,7 +60,7 @@ GSUsetTemplate( "gsui-wave-editor", () =>
 	),
 );
 
-GSUsetTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
+$.$setTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
 	$.$button( { "data-action": "tool", "data-tool": tool },
 		$.$elem( "svg", { viewBox: "0 0 10 10", preserveAspectRatio: "none", inert: true },
 			$.$elem( "polyline", { points: pts.join( " " ) } ),
@@ -68,7 +68,7 @@ GSUsetTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
 	),
 );
 
-GSUsetTemplate( "gsui-wave-editor-div", dir =>
+$.$setTemplate( "gsui-wave-editor-div", dir =>
 	$.$flex( { dir, y: true, xcenter: true, g2: true },
 		$.$flex( { x: true, ycenter: true, g6: true },
 			$.$span(),

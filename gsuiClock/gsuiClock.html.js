@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-clock", () => [
+$.$setTemplate( "gsui-clock", () => [
 	$.$div( { class: "gsuiClock-relative", inert: true },
 		$.$div( { class: "gsuiClock-absolute" },
 			$.$div( { class: "gsuiClock-a" }, "0" ),

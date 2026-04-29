@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-channel", () => [
+$.$setTemplate( "gsui-channel", () => [
 	$.$button( { class: "gsuiChannel-head", title: "Double-click to rename" },
 		$.$bold( { inert: true } ),
 		$.$span( { inert: true } ),
@@ -24,7 +24,7 @@ GSUsetTemplate( "gsui-channel", () => [
 	$.$div( { class: "gsuiChannel-grip gsuiIcon", "data-icon": "grip-h" } ),
 ] );
 
-GSUsetTemplate( "gsui-channel-effect", ( id, name ) =>
+$.$setTemplate( "gsui-channel-effect", ( id, name ) =>
 	$.$button( { class: "gsuiChannel-effect", "data-id": id, "data-enable": true },
 		$.$span( { class: "gsuiChannel-effect-name" }, name ),
 	),

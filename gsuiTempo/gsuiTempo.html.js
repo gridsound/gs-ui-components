@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-tempo", () =>
+$.$setTemplate( "gsui-tempo", () =>
 	$.$button( { title: "Edit the time signature and BPM" },
 		$.$div( { class: "gsuiTempo-timeDivision" },
 			$.$span( { class: "gsuiTempo-beatsPerMeasure" } ),
@@ -10,7 +10,7 @@ GSUsetTemplate( "gsui-tempo", () =>
 	),
 );
 
-GSUsetTemplate( "gsui-tempo-dropdown", () =>
+$.$setTemplate( "gsui-tempo-dropdown", () =>
 	$.$elem( "form", { class: "gsuiTempo-popup", tabindex: -1 },
 		$.$div( null,
 			$.$label( null, "Beats per measure" ),

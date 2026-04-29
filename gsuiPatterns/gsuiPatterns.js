@@ -22,7 +22,7 @@ class gsuiPatterns extends gsui0ne {
 				: GSUpopup.$alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
-	static infoPopupContent = $( GSUgetTemplate( "gsui-patterns-infoPopup" ) );
+	static infoPopupContent = $( $.$getTemplate( "gsui-patterns-infoPopup" ) );
 
 	constructor() {
 		super( {
@@ -205,7 +205,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$addSynth( id ) {
-		const elSyn = GSUgetTemplate( "gsui-patterns-synth" );
+		const elSyn = $.$getTemplate( "gsui-patterns-synth" );
 
 		elSyn.dataset.id = id;
 		this.#getList( "keys" ).$prepend( elSyn );
@@ -225,7 +225,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$addPattern( id, { type, synth } ) {
-		const elPat = $( GSUgetTemplate( "gsui-patterns-pattern" ) );
+		const elPat = $( $.$getTemplate( "gsui-patterns-pattern" ) );
 
 		if ( type !== "buffer" ) {
 			elPat.$query( ".gsuiPatterns-pattern-btnInfo,.gsuiPatterns-pattern-dest" ).$remove();

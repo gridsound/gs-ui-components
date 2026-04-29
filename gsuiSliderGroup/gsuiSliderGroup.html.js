@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-slidergroup", () =>
+$.$setTemplate( "gsui-slidergroup", () =>
 	$.$div( { class: "gsuiSliderGroup-slidersWrap" },
 		$.$div( { class: "gsuiSliderGroup-sliders" },
 			$.$elem( "gsui-beatlines", { coloredodds: true } ),
@@ -12,7 +12,7 @@ GSUsetTemplate( "gsui-slidergroup", () =>
 	)
 );
 
-GSUsetTemplate( "gsui-slidergroup-slider", () =>
+$.$setTemplate( "gsui-slidergroup-slider", () =>
 	$.$div( { class: "gsuiSliderGroup-slider" },
 		$.$div( { class: "gsuiSliderGroup-sliderInner", inert: true } ),
 	)

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-slider", () => [
+$.$setTemplate( "gsui-slider", () => [
 	$.$div( { class: "gsuiSlider-line" },
 		$.$div( { class: "gsuiSlider-lineColor" } ),
 	),

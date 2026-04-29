@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-daw-popup-export", () =>
+$.$setTemplate( "gsui-daw-popup-export", () =>
 	$.$div( { class: "gsuiDAW-popup-export" },
 		$.$elem( "fieldset", null,
 			$.$elem( "legend", null, "Render the current composition" ),

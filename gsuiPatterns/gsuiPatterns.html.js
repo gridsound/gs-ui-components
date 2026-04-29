@@ -1,35 +1,35 @@
 "use strict";
 
-GSUsetTemplate( "gsui-patterns", () =>
+$.$setTemplate( "gsui-patterns", () =>
 	$.$elem( "gsui-panels", { dir: "y" },
-		GSUgetTemplate( "gsui-patterns-panel", {
+		$.$getTemplate( "gsui-patterns-panel", {
 			type: "buffer",
 			title: "buffers",
 			icon: "cu-waveform",
 			placeholder: "drag 'n drop raw files here (mp3, ogg, wav)",
 		} ),
-		GSUgetTemplate( "gsui-patterns-panel", {
+		$.$getTemplate( "gsui-patterns-panel", {
 			type: "slices",
 			title: "slices",
 			icon: "slices",
 			placeholder: "no slices yet",
 			button: { action: "newSlices", title: "Create a new slices pattern" },
 		} ),
-		GSUgetTemplate( "gsui-patterns-panel", {
+		$.$getTemplate( "gsui-patterns-panel", {
 			type: "drums",
 			title: "drums",
 			icon: "cu-drums",
 			placeholder: "no drums yet",
 			button: { action: "newDrums", title: "Create a new drums pattern" },
 		} ),
-		GSUgetTemplate( "gsui-patterns-panel", {
+		$.$getTemplate( "gsui-patterns-panel", {
 			type: "keys",
 			title: "keys",
 			icon: "oscillator",
 			placeholder: "no synth yet",
 			button: { action: "newSynth", title: "Create a new synthesizer" },
 		} ),
-		GSUgetTemplate( "gsui-patterns-panel", {
+		$.$getTemplate( "gsui-patterns-panel", {
 			type: "automation",
 			title: "automations",
 			icon: "automation",
@@ -39,7 +39,7 @@ GSUsetTemplate( "gsui-patterns", () =>
 	)
 );
 
-GSUsetTemplate( "gsui-patterns-panel", obj =>
+$.$setTemplate( "gsui-patterns-panel", obj =>
 	$.$div( { class: "gsuiPatterns-panel", "data-type": obj.type },
 		$.$div( { class: "gsuiPatterns-panel-menu" },
 			$.$icon( { class: "gsuiPatterns-panel-icon", icon: obj.icon } ),

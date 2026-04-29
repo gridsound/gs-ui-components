@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-titleuser", () => [
+$.$setTemplate( "gsui-titleuser", () => [
 	$.$div( { class: "gsuiTitleUser-top" },
 		$.$span( { class: "gsuiTitleUser-gs", inert: true } ),
 		$.$button( { class: "gsuiTitleUser-login", icon: "profile", title: "Login / connection" } ),
@@ -25,7 +25,7 @@ GSUsetTemplate( "gsui-titleuser", () => [
 	),
 ] );
 
-GSUsetTemplate( "gsui-titleuser-popup", () =>
+$.$setTemplate( "gsui-titleuser-popup", () =>
 	$.$div( { class: "gsuiTitleUser-popup" },
 		$.$elem( "fieldset", null,
 			$.$elem( "legend", null, "Sign in" ),

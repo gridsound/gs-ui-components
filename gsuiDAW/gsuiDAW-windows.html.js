@@ -1,12 +1,12 @@
 "use strict";
 
-GSUsetTemplate( "gsui-daw-windowHeads", () => [
+$.$setTemplate( "gsui-daw-windowHeads", () => [
 	$.$div( { "data-window": "composition" },
-		GSUgetTemplate( "gsui-daw-window-playPause" ),
+		$.$getTemplate( "gsui-daw-window-playPause" ),
 	),
 	$.$div( { "data-window": "keys" },
 		$.$button( { class: "gsuiDAW-winBtn", "data-target": "pianoroll" } ),
-		GSUgetTemplate( "gsui-daw-window-playPause" ),
+		$.$getTemplate( "gsui-daw-window-playPause" ),
 	),
 	$.$div( { "data-window": "synth" },
 		$.$button( { class: "gsuiDAW-winBtn", "data-target": "synth" } ),
@@ -19,18 +19,18 @@ GSUsetTemplate( "gsui-daw-windowHeads", () => [
 	$.$div( { "data-window": "mixer" } ),
 	$.$div( { "data-window": "drums" },
 		$.$button( { class: "gsuiDAW-winBtn", "data-target": "drums" } ),
-		GSUgetTemplate( "gsui-daw-window-playPause" ),
+		$.$getTemplate( "gsui-daw-window-playPause" ),
 	),
 	$.$div( { "data-window": "slices" },
 		$.$button( { class: "gsuiDAW-winBtn", "data-target": "slices" } ),
-		GSUgetTemplate( "gsui-daw-window-playPause" ),
+		$.$getTemplate( "gsui-daw-window-playPause" ),
 	),
 	$.$div( { "data-window": "automation" },
 		$.$button( { class: "gsuiDAW-winBtn", "data-target": "automation" } ),
 	),
 ] );
 
-GSUsetTemplate( "gsui-daw-window-playPause", () => [
+$.$setTemplate( "gsui-daw-window-playPause", () => [
 	$.$div( { class: "gsuiDAW-window-ctrl" },
 		$.$div( null,
 			$.$button( { "data-action": "play", icon: "play" } ),

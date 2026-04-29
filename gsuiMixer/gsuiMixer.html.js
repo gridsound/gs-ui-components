@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-mixer", () =>
+$.$setTemplate( "gsui-mixer", () =>
 	$.$elem( "gsui-panels", { dir: "x" },
 		$.$div( { class: "gsuiMixer-channels" },
 			$.$div( { class: "gsuiMixer-head" },
@@ -10,8 +10,8 @@ GSUsetTemplate( "gsui-mixer", () =>
 				$.$div( { class: "gsuiMixer-analyserTypes" },
 					$.$icon( { icon: "cu-waveform" } ),
 					$.$button( null,
-						GSUgetTemplate( "gsui-mixer-analyser-label", "timeDomain" ),
-						GSUgetTemplate( "gsui-mixer-analyser-label", "frequency" ),
+						$.$getTemplate( "gsui-mixer-analyser-label", "timeDomain" ),
+						$.$getTemplate( "gsui-mixer-analyser-label", "frequency" ),
 					),
 				),
 			),
@@ -29,7 +29,7 @@ GSUsetTemplate( "gsui-mixer", () =>
 	),
 );
 
-GSUsetTemplate( "gsui-mixer-analyser-label", txt =>
+$.$setTemplate( "gsui-mixer-analyser-label", txt =>
 	$.$div( { inert: true },
 		$.$icon( { icon: "radio-btn-checked" } ),
 		$.$span( null, txt ),

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-patterns-infoPopup", () =>
+$.$setTemplate( "gsui-patterns-infoPopup", () =>
 	$.$div( { id: "gsuiPatterns-infoPopupContent" },
 		$.$elem( "fieldset", null,
 			$.$elem( "legend", null, "Type" ),

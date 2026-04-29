@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-slicer", () => [
+$.$setTemplate( "gsui-slicer", () => [
 	$.$div( { class: "gsuiSlicer-source" },
 		$.$div( { class: "gsuiSlicer-source-head" },
 			$.$icon( { class: "gsuiSlicer-source-icon", icon: "cu-waveform" } ),

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-fx-reverb", () => [
+$.$setTemplate( "gsui-fx-reverb", () => [
 	$.$div( { class: "gsuiEffect-param-row", "data-prop": "dry" },
 		$.$elem( "gs-label", null, "dry" ),
 		$.$elem( "gs-output" ),

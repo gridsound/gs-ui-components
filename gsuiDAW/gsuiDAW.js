@@ -3,13 +3,13 @@
 class gsuiDAW extends gsui0ne {
 	#timeSelecting = false;
 	#popups = {
-		$about: $( GSUgetTemplate( "gsui-daw-popup-about" ) ).$queryMap( {
+		$about: $( $.$getTemplate( "gsui-daw-popup-about" ) ).$queryMap( {
 			$root: ".gsuiDAW-popup-about",
 			$version: ".gsuiDAW-popup-about-versionNum",
 			$versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
 			$versionCheck: ".gsuiDAW-popup-about-versionCheck",
 		} ),
-		$export: $( GSUgetTemplate( "gsui-daw-popup-export" ) ).$queryMap( {
+		$export: $( $.$getTemplate( "gsui-daw-popup-export" ) ).$queryMap( {
 			$root: ".gsuiDAW-popup-export",
 			$btnRender: ".gsuiDAW-popup-export-render-btn",
 			$btnUpload: ".gsuiDAW-popup-export-upload-btn",
@@ -17,7 +17,7 @@ class gsuiDAW extends gsui0ne {
 			$progress: ".gsuiDAW-popup-export-progress",
 			$msg: ".gsuiDAW-popup-export-msg",
 		} ),
-		$settings: $( GSUgetTemplate( "gsui-daw-popup-settings" ) ).$queryMap( {
+		$settings: $( $.$getTemplate( "gsui-daw-popup-settings" ) ).$queryMap( {
 			$root: ".gsuiDAW-popup-settings",
 			$sampleRate: "[name='sampleRate']",
 			$uiRateAuto: "[name='uiRate'][value='auto']",

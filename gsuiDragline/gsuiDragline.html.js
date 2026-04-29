@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-dragline", () =>
+$.$setTemplate( "gsui-dragline", () =>
 	$.$div( { class: "gsuiDragline-main" },
 		$.$elem( "svg", { class: "gsuiDragline-line" },
 			$.$elem( "polyline" ),

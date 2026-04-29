@@ -162,7 +162,7 @@ class gsuiDrums extends gsui0ne {
 		this.#removeItem( id );
 	}
 	#createDrumrowLine( id ) {
-		const elLine = $( GSUgetTemplate( "gsui-drums-line" ) )
+		const elLine = $( $.$getTemplate( "gsui-drums-line" ) )
 			.$dataId( id );
 
 		elLine.$query( "gsui-slidergroup" )

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-window", () => [
+$.$setTemplate( "gsui-window", () => [
 	$.$div( { class: "gsuiWindow-handlers" },
 		$.$div( { class: "gsuiWindow-handler", "data-dir": "n" } ),
 		$.$div( { class: "gsuiWindow-handler", "data-dir": "e" } ),

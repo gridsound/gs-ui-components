@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-fx-waveshaper", () => [
+$.$setTemplate( "gsui-fx-waveshaper", () => [
 	$.$div( { class: "gsuiFxWaveShaper-params" },
 		$.$div( { class: "gsuiFxWaveShaper-symmetry" },
 			$.$elem( "gsui-toggle", { off: true, "data-prop": "symmetry" } ),

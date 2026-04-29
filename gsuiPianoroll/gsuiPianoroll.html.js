@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-pianoroll-block", () =>
+$.$setTemplate( "gsui-pianoroll-block", () =>
 	$.$div( { class: "gsuiBlocksManager-block gsuiPianoroll-block", "data-action": "move" },
 		$.$span(),
 		$.$div( { class: "gsuiDragline-drop" } ),

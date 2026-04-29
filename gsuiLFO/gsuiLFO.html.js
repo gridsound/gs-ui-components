@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-lfo", () =>
+$.$setTemplate( "gsui-lfo", () =>
 	$.$div( { class: "gsuiLFO-in" },
 		$.$div( { class: "gsuiLFO-props" },
 			[

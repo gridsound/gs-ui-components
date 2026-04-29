@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-popup", () => [
+$.$setTemplate( "gsui-popup", () => [
 	$.$elem( "dialog", { class: "gsuiPopup-window" },
 		$.$div( { class: "gsuiPopup-head" } ),
 		$.$elem( "form", { class: "gsuiPopup-body" },

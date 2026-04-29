@@ -1,17 +1,17 @@
 "use strict";
 
-GSUsetTemplate( "gsui-fx-filter", () => [
+$.$setTemplate( "gsui-fx-filter", () => [
 	$.$div( { class: "gsuiFxFilter-area", "data-area": "type" },
 		$.$elem( "gs-label", null, "type" ),
 		$.$div( null,
-			GSUgetTemplate( "gsui-fx-filter-type", "lowpass",   "M 1 4 L 12 4 L 15 8" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "highpass",  "M 1 8 L 4 4 L 15 4" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "bandpass",  "M 1 8 L 8 4 L 15 8" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "lowshelf",  "M 1 8 L 4 8 L 6 4 L 15 4" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "highshelf", "M 1 4 L 10 4 L 12 8 L 15 8" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "peaking",   "M 1 8 L 7 8 L 8 4 L 9 8 L 15 8" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "notch",     "M 1 4 L 7 4 L 8 8 L 9 4 L 15 4" ),
-			GSUgetTemplate( "gsui-fx-filter-type", "allpass",   "M 1 6 L 15 6" ),
+			$.$getTemplate( "gsui-fx-filter-type", "lowpass",   "M 1 4 L 12 4 L 15 8" ),
+			$.$getTemplate( "gsui-fx-filter-type", "highpass",  "M 1 8 L 4 4 L 15 4" ),
+			$.$getTemplate( "gsui-fx-filter-type", "bandpass",  "M 1 8 L 8 4 L 15 8" ),
+			$.$getTemplate( "gsui-fx-filter-type", "lowshelf",  "M 1 8 L 4 8 L 6 4 L 15 4" ),
+			$.$getTemplate( "gsui-fx-filter-type", "highshelf", "M 1 4 L 10 4 L 12 8 L 15 8" ),
+			$.$getTemplate( "gsui-fx-filter-type", "peaking",   "M 1 8 L 7 8 L 8 4 L 9 8 L 15 8" ),
+			$.$getTemplate( "gsui-fx-filter-type", "notch",     "M 1 4 L 7 4 L 8 8 L 9 4 L 15 4" ),
+			$.$getTemplate( "gsui-fx-filter-type", "allpass",   "M 1 6 L 15 6" ),
 		),
 	),
 	$.$div( { class: "gsuiFxFilter-area", "data-area": "graph" },
@@ -45,7 +45,7 @@ GSUsetTemplate( "gsui-fx-filter", () => [
 	),
 ] );
 
-GSUsetTemplate( "gsui-fx-filter-type", ( type, d ) =>
+$.$setTemplate( "gsui-fx-filter-type", ( type, d ) =>
 	$.$button( { class: "gsuiFxFilter-type", "data-type": type, title: type },
 		$.$elem( "svg", { viewBox: "0 0 16 12" },
 			$.$elem( "path", { d } ),

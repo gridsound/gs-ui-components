@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-wavelet-browser", () => [
+$.$setTemplate( "gsui-wavelet-browser", () => [
 	$.$div( { class: "gsuiWaveletBrowser-top" },
 		$.$div( { class: "gsuiWaveletBrowser-list" },
 			$.$div(),

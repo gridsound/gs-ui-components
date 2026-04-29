@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-com-player", () => [
+$.$setTemplate( "gsui-com-player", () => [
 	$.$elem( "audio", { loop: true } ),
 	$.$button( { class: "gsuiComPlayer-btn gsuiComPlayer-play", icon: "play" } ),
 	$.$div( { class: "gsuiComPlayer-body" },

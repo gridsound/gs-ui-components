@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-daw-popup-settings", () =>
+$.$setTemplate( "gsui-daw-popup-settings", () =>
 	$.$div( { class: "gsuiDAW-popup-settings" },
 		$.$elem( "fieldset", null,
 			$.$elem( "legend", null, "Audio" ),

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-patterns-pattern", () =>
+$.$setTemplate( "gsui-patterns-pattern", () =>
 	$.$div( { class: "gsuiPatterns-pattern" },
 		$.$div( { class: "gsuiPatterns-pattern-grip gsuiIcon", "data-icon": "grip-v" } ),
 		$.$div( { class: "gsuiPatterns-pattern-head" },

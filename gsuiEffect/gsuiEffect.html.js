@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-effect", () => [
+$.$setTemplate( "gsui-effect", () => [
 	$.$div( { class: "gsuiEffect-head" },
 		$.$div( { class: "gsuiEffect-grip gsuiIcon", "data-icon": "grip-v" } ),
 		$.$button( { class: "gsuiEffect-expand", icon: "caret-right" } ),

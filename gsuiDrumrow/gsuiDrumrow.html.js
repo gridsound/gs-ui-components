@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-drumrow", () => [
+$.$setTemplate( "gsui-drumrow", () => [
 	$.$div( { class: "gsuiDrumrow-grip" },
 		$.$icon( { icon: "grip-v" } ),
 	),

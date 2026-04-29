@@ -1,11 +1,11 @@
 "use strict";
 
-GSUsetTemplate( "gsui-analyser-vu", () => [
-	GSUgetTemplate( "gsui-analyser-vu-meter", { chan: "L" } ),
-	GSUgetTemplate( "gsui-analyser-vu-meter", { chan: "R" } ),
+$.$setTemplate( "gsui-analyser-vu", () => [
+	$.$getTemplate( "gsui-analyser-vu-meter", { chan: "L" } ),
+	$.$getTemplate( "gsui-analyser-vu-meter", { chan: "R" } ),
 ] );
 
-GSUsetTemplate( "gsui-analyser-vu-meter", p =>
+$.$setTemplate( "gsui-analyser-vu-meter", p =>
 	$.$div( { class: "gsuiAnalyserVu-meter", "data-chan": p.chan, inert: true },
 		$.$div( { class: "gsuiAnalyserVu-meter-val" },
 			$.$div(),

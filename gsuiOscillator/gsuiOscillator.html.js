@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-oscillator", () =>
+$.$setTemplate( "gsui-oscillator", () =>
 	$.$div( { class: "gsuiOscillator-in" },
 		$.$div( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
 		$.$div( { class: "gsuiOscillator-id", inert: true } ),

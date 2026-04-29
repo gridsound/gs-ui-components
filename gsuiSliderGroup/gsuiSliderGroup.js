@@ -101,7 +101,7 @@ class gsuiSliderGroup extends gsui0ne {
 		this.#selected.delete( id );
 	}
 	$set( id, when, duration, value ) {
-		const element = $( GSUgetTemplate( "gsui-slidergroup-slider" ) ).$dataId( id );
+		const element = $( $.$getTemplate( "gsui-slidergroup-slider" ) ).$dataId( id );
 		const sli = Object.seal( { element, when, duration, value, selected: false } );
 
 		this.#sliders.set( id, sli );

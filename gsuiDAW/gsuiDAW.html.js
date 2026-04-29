@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-daw", () => [
+$.$setTemplate( "gsui-daw", () => [
 	$.$div( { class: "gsuiDAW-head" },
 		$.$div( { class: "gsuiDAW-area gsuiDAW-areaUser" },
 			$.$elem( "gsui-titleuser" ),

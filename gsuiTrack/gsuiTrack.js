@@ -1,7 +1,7 @@
 "use strict";
 
 class gsuiTrack extends gsui0ne {
-	#rowElement = $( GSUgetTemplate( "gsui-track-row" ) );
+	#rowElement = $( $.$getTemplate( "gsui-track-row" ) );
 
 	constructor() {
 		super( {

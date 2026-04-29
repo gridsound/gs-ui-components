@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-channels", () => [
+$.$setTemplate( "gsui-channels", () => [
 	$.$div( { class: "gsuiChannels-panMain" },
 		$.$elem( "gsui-analyser-vu", { max: 120, title: "current channel's VU (max 120%)" } ),
 	),
@@ -12,7 +12,7 @@ GSUsetTemplate( "gsui-channels", () => [
 	),
 ] );
 
-GSUsetTemplate( "gsui-channels-selectPopup", () =>
+$.$setTemplate( "gsui-channels-selectPopup", () =>
 	$.$div( null,
 		$.$elem( "fieldset", null,
 			$.$elem( "legend", null, "Select a channel" ),

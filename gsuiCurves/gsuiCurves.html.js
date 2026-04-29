@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-curves", () => [
+$.$setTemplate( "gsui-curves", () => [
 	$.$div( { class: "gsuiCurves-marks" } ),
 	$.$div( { class: "gsuiCurves-graph" },
 		$.$elem( "gsui-analyser-hz" ),

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-automation", () => [
+$.$setTemplate( "gsui-automation", () => [
 	$.$div( { class: "gsuiAutomation-in" },
 		$.$div( { class: "gsuiAutomation-head" },
 			$.$icon( { icon: "target" } ),

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-fx-delay", () => [
+$.$setTemplate( "gsui-fx-delay", () => [
 	$.$div( { class: "gsuiEffect-param-row", "data-prop": "time" },
 		$.$elem( "gs-label", null, "time" ),
 		$.$elem( "gs-output" ),

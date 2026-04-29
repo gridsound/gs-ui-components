@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-envelope-graph", () =>
+$.$setTemplate( "gsui-envelope-graph", () =>
 	$.$elem( "svg", { preserveAspectRatio: "none" },
 		$.$elem( "polyline" ),
 		$.$elem( "polyline" ),

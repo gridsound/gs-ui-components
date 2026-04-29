@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-wavetable", () => [
+$.$setTemplate( "gsui-wavetable", () => [
 	$.$flex( { class: "gsuiWavetable-head", x: true, ycenter: true, g6: true },
 		$.$button( { class: "gsuiWavetable-back", "data-action": "back", icon: "arrow-left", title: "Save and close the wavetable edition" } ),
 		$.$span( { class: "gsuiWavetable-title", inert: true }, "wavetable editor" ),
@@ -37,7 +37,7 @@ GSUsetTemplate( "gsui-wavetable", () => [
 	),
 ] );
 
-GSUsetTemplate( "gsui-wavetable-wave", ( id, ind ) =>
+$.$setTemplate( "gsui-wavetable-wave", ( id, ind ) =>
 	$.$flex( { class: "gsuiWavetable-wave", "data-id": id, "data-index": ind, x: true },
 		$.$elem( "gsui-periodicwave", { "data-action": "select" } ),
 		$.$flex( { "data-action": "select", y: true, xcenter: true, ycenter: true, f1: true },

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-patternroll-block", () =>
+$.$setTemplate( "gsui-patternroll-block", () =>
 	$.$div( { class: "gsuiBlocksManager-block gsuiPatternroll-block", "data-action": "move" },
 		$.$div( { "data-action": "cropA" } ),
 		$.$div( { "data-action": "cropB" } ),

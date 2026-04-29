@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-timeline", () => [
+$.$setTemplate( "gsui-timeline", () => [
 	$.$div( { class: "gsuiTimeline-steps" } ),
 	$.$div( { class: "gsuiTimeline-beats" } ),
 	$.$div( { class: "gsuiTimeline-measures" } ),

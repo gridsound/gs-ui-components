@@ -188,7 +188,7 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	$addKey( id, obj ) {
-		const blc = $( GSUgetTemplate( "gsui-pianoroll-block" ) )
+		const blc = $( $.$getTemplate( "gsui-pianoroll-block" ) )
 			.$dataId( id )
 			.$on( "pointerdown", this.#blcMousedown.bind( this, id ) );
 

@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-keys-octave", () => [
+$.$setTemplate( "gsui-keys-octave", () => [
 	$.$div( { class: "gsuiKeys-key", "data-col": "w", "data-key": 11 }, $.$div( { class: "gsui-row gsuiKeys-row", "data-col": "w", "data-key": 11 }, $.$div() ) ),
 	$.$div( { class: "gsuiKeys-key", "data-col": "b", "data-key": 10 }, $.$div( { class: "gsui-row gsuiKeys-row", "data-col": "b", "data-key": 10 }, $.$div() ) ),
 	$.$div( { class: "gsuiKeys-key", "data-col": "w", "data-key":  9 }, $.$div( { class: "gsui-row gsuiKeys-row", "data-col": "w", "data-key":  9 }, $.$div() ) ),

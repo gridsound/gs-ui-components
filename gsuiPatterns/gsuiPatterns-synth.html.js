@@ -1,6 +1,6 @@
 "use strict";
 
-GSUsetTemplate( "gsui-patterns-synth", () =>
+$.$setTemplate( "gsui-patterns-synth", () =>
 	$.$div( { class: "gsuiPatterns-synth" },
 		$.$div( { class: "gsuiPatterns-synth-head" },
 			$.$button( { class: "gsuiPatterns-synth-btn gsuiPatterns-synth-expand", "data-action": "expand", icon: "caret-right" } ),
