@@ -318,7 +318,7 @@ class gsuiWaveEditor extends gsui0ne {
 			.$addClass( "gsuiWaveEditor-waveletBrowser" )
 			.$setAttr( "wave", this.#waveName );
 
-		GSUdomListen( wbrow.$get( 0 ), {
+		GSUdomListen( wbrow, {
 			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => {
 				( val in GSUmathWaveFns
 					? Promise.resolve( GSUmathWaveFns[ val ]( 2048 ) )

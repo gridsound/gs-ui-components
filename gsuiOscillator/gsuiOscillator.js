@@ -304,7 +304,7 @@ class gsuiOscillator extends gsui0ne {
 			.$addClass( "gsuiOscillator-waveletBrowser" )
 			.$setAttr( "wave", this.$this.$getAttr( "wave" ) );
 
-		GSUdomListen( wbrow.$get( 0 ), {
+		GSUdomListen( wbrow, {
 			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => this.#onchangeWaveBrowser( val ),
 		} );
 		return wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
