@@ -104,4 +104,4 @@ class gsuiEffects extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-effects", gsuiEffects );
+$.$define( "gsui-effects", gsuiEffects );

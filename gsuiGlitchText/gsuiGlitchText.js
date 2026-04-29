@@ -97,4 +97,4 @@ class gsuiGlitchText extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-glitchtext", gsuiGlitchText );
+$.$define( "gsui-glitchtext", gsuiGlitchText );

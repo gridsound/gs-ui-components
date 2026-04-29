@@ -117,4 +117,4 @@ class gsuiClock extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-clock", gsuiClock );
+$.$define( "gsui-clock", gsuiClock );

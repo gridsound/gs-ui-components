@@ -26,4 +26,4 @@ class gsuiComAvatar extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-com-avatar", gsuiComAvatar );
+$.$define( "gsui-com-avatar", gsuiComAvatar );

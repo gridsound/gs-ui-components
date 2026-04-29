@@ -152,7 +152,7 @@ class gsuiKeys extends gsui0ne {
 	// .........................................................................
 	$onptrdown( e ) {
 		if ( this.#nbOct ) {
-			GSUdomUnselect();
+			$.$unselect();
 			if ( e.button === 2 ) {
 				const oct = e.target.dataset.midi / 12 | 0;
 
@@ -208,4 +208,4 @@ class gsuiKeys extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-keys", gsuiKeys );
+$.$define( "gsui-keys", gsuiKeys );

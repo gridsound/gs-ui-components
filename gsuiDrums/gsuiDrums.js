@@ -455,7 +455,7 @@ class gsuiDrums extends gsui0ne {
 			this.#draggingWhenStart = this.#hoverBeat;
 			this.#hoverDurSaved = this.#hoverDur;
 			this.#createPreviews( this.#hoverBeat, this.#hoverBeat );
-			GSUdomUnselect();
+			$.$unselect();
 			this.#elLines.$off( "pointermove" );
 			document.addEventListener( "pointermove", this.#onptrmoveLinesBind );
 			document.addEventListener( "pointerup", this.#onptrupNewBind );
@@ -503,4 +503,4 @@ class gsuiDrums extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-drums", gsuiDrums );
+$.$define( "gsui-drums", gsuiDrums );

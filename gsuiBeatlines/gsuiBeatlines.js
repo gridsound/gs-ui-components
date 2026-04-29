@@ -76,4 +76,4 @@ class gsuiBeatlines extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-beatlines", gsuiBeatlines );
+$.$define( "gsui-beatlines", gsuiBeatlines );

@@ -219,4 +219,4 @@ class gsuiEnvelope extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-envelope", gsuiEnvelope );
+$.$define( "gsui-envelope", gsuiEnvelope );

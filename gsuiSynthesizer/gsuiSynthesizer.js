@@ -245,4 +245,4 @@ class gsuiSynthesizer extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-synthesizer", gsuiSynthesizer );
+$.$define( "gsui-synthesizer", gsuiSynthesizer );

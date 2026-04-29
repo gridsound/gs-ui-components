@@ -109,4 +109,4 @@ class gsuiAutomation extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-automation", gsuiAutomation );
+$.$define( "gsui-automation", gsuiAutomation );

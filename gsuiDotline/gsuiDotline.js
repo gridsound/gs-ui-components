@@ -307,7 +307,7 @@ class gsuiDotline extends gsui0ne {
 		let isDot = tar.$hasClass( "gsuiDotline-dot" );
 		let id = tar.$dataId();
 
-		GSUdomUnselect();
+		$.$unselect();
 		this.#onrightclickSlider( e );
 		this.#onrightclickDot( e );
 		this.#onptrdownCurveDot( e );
@@ -473,4 +473,4 @@ class gsuiDotline extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-dotline", gsuiDotline );
+$.$define( "gsui-dotline", gsuiDotline );

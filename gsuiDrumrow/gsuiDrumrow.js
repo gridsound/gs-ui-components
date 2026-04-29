@@ -105,4 +105,4 @@ class gsuiDrumrow extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-drumrow", gsuiDrumrow );
+$.$define( "gsui-drumrow", gsuiDrumrow );

@@ -175,7 +175,7 @@ class gsuiSliderGroup extends gsui0ne {
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
 			this.$this.$css( "cursor", "var(--gsuiCursor-pointer)" );
-			GSUdomUnselect();
+			$.$unselect();
 			this.$onptrmove( e );
 			return;
 		}
@@ -224,4 +224,4 @@ class gsuiSliderGroup extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-slidergroup", gsuiSliderGroup );
+$.$define( "gsui-slidergroup", gsuiSliderGroup );

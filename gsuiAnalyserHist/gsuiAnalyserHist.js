@@ -97,4 +97,4 @@ class gsuiAnalyserHist extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-analyser-hist", gsuiAnalyserHist );
+$.$define( "gsui-analyser-hist", gsuiAnalyserHist );

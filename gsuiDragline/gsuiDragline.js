@@ -149,4 +149,4 @@ class gsuiDragline extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-dragline", gsuiDragline );
+$.$define( "gsui-dragline", gsuiDragline );

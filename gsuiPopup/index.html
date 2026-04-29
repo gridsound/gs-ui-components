@@ -68,9 +68,9 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-$( "gsui-com-button[text='alert']"   ).$onclick( () => GSUpopup.$alert(   "Error 2025", "Should reboot everything!"           ).then( lg.bind( null, "GSUpopup.$alert"   ) ) );
-$( "gsui-com-button[text='confirm']" ).$onclick( () => GSUpopup.$confirm( "Error 2025", "Should we reboot the system?"        ).then( lg.bind( null, "GSUpopup.$confirm" ) ) );
-$( "gsui-com-button[text='prompt']"  ).$onclick( () => GSUpopup.$prompt(  "Error 2025", "Name the new report:", "Lorem ipsum" ).then( lg.bind( null, "GSUpopup.$prompt"  ) ) );
+$( "gsui-com-button[text='alert']"   ).$onclick( () => $popup.$alert(   "Error 2025", "Should reboot everything!"           ).then( lg.bind( null, "$popup.$alert"   ) ) );
+$( "gsui-com-button[text='confirm']" ).$onclick( () => $popup.$confirm( "Error 2025", "Should we reboot the system?"        ).then( lg.bind( null, "$popup.$confirm" ) ) );
+$( "gsui-com-button[text='prompt']"  ).$onclick( () => $popup.$prompt(  "Error 2025", "Name the new report:", "Lorem ipsum" ).then( lg.bind( null, "$popup.$prompt"  ) ) );
 
 const customContent =
 	$.$elem( "fieldset", { style: "display:flex; flex-direction:column; gap:6px" },
@@ -86,13 +86,13 @@ const customContent =
 	);
 
 $( "gsui-com-button[text='custom']" ).$onclick( () => {
-	GSUpopup.$custom( {
+	$popup.$custom( {
 		title: "Custom title",
 		cancel: "Cancel",
 		noOverlayCancel: true,
 		element: customContent,
 		submit: obj => obj.username.toLowerCase() === "neo" && obj.password === "1234",
-	} ).then( lg.bind( null, "GSUpopup.$custom" ) );
+	} ).then( lg.bind( null, "$popup.$custom" ) );
 } );
 
 // $( "gsui-com-button[text='custom']" ).$click();

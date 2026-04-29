@@ -213,7 +213,7 @@ class gsuiBlocksManager {
 		const blc = this.#getBlc( e.currentTarget );
 		const tar = $( e.target );
 
-		GSUdomUnselect();
+		$.$unselect();
 		this.#mdBlc = blc;
 		this.#mdTarget = tar;
 		if ( e.button === 2 ) {

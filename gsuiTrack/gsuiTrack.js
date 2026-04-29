@@ -74,4 +74,4 @@ class gsuiTrack extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-track", gsuiTrack );
+$.$define( "gsui-track", gsuiTrack );

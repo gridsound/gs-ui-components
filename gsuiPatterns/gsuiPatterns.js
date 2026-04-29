@@ -19,7 +19,7 @@ class gsuiPatterns extends gsui0ne {
 		delete: id => {
 			this.#getList( "keys" ).$children().$size() > 1
 				? this.onchange( "removeSynth", id )
-				: GSUpopup.$alert( "Error", "You have to keep at least one synthesizer" );
+				: $popup.$alert( "Error", "You have to keep at least one synthesizer" );
 		},
 	} );
 	static infoPopupContent = $( $.$getTemplate( "gsui-patterns-infoPopup" ) );
@@ -188,7 +188,7 @@ class gsuiPatterns extends gsui0ne {
 		cnt.$query( "[name='bpm']" ).$value( el.dataset.bufferBpm );
 		cnt.$query( "[name='name']" ).$value( el.dataset.name );
 		cnt.$query( "[name='reverse']" ).$checked( el.dataset.reverse === "" );
-		GSUpopup.$custom( {
+		$popup.$custom( {
 			title: "Buffer's info",
 			element: cnt,
 			submit: data => {
@@ -315,4 +315,4 @@ class gsuiPatterns extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-patterns", gsuiPatterns );
+$.$define( "gsui-patterns", gsuiPatterns );

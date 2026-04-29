@@ -83,4 +83,4 @@ class gsuiDrumrows extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-drumrows", gsuiDrumrows );
+$.$define( "gsui-drumrows", gsuiDrumrows );

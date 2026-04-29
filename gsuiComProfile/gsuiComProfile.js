@@ -98,7 +98,7 @@ class gsuiComProfile extends gsui0ne {
 					followedjustnow: willFollow,
 				} );
 			} )
-			.catch( err => GSUpopup.$alert( `Error ${ err.code }`, err.msg ) )
+			.catch( err => $popup.$alert( `Error ${ err.code }`, err.msg ) )
 			.finally( () => this.#updateFollowLoading( false ) );
 	}
 	#onclickVerify() {
@@ -113,4 +113,4 @@ class gsuiComProfile extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-com-profile", gsuiComProfile );
+$.$define( "gsui-com-profile", gsuiComProfile );

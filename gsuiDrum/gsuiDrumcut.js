@@ -22,4 +22,4 @@ class gsuiDrumcut extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-drumcut", gsuiDrumcut );
+$.$define( "gsui-drumcut", gsuiDrumcut );

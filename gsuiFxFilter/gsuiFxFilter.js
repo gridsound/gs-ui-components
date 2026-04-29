@@ -106,4 +106,4 @@ class gsuiFxFilter extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-fx-filter", gsuiFxFilter );
+$.$define( "gsui-fx-filter", gsuiFxFilter );

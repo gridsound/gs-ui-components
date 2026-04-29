@@ -106,4 +106,4 @@ class gsuiCurves extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-curves", gsuiCurves );
+$.$define( "gsui-curves", gsuiCurves );

@@ -280,7 +280,7 @@ class gsuiTimeline extends gsui0ne {
 			this.#mousedownLoop = this.$this.$getAttr( "loop" );
 			this.#mousedownLoopA = this.#loopA;
 			this.#mousedownLoopB = this.#loopB;
-			GSUdomUnselect();
+			$.$unselect();
 			this.$onptrmove( e );
 			return;
 		}
@@ -371,4 +371,4 @@ class gsuiTimeline extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-timeline", gsuiTimeline );
+$.$define( "gsui-timeline", gsuiTimeline );

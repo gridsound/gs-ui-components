@@ -52,4 +52,4 @@ class gsuiComButton extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-com-button", gsuiComButton );
+$.$define( "gsui-com-button", gsuiComButton );

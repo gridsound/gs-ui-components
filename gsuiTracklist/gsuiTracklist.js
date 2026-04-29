@@ -29,4 +29,4 @@ class gsuiTracklist extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-tracklist", gsuiTracklist );
+$.$define( "gsui-tracklist", gsuiTracklist );

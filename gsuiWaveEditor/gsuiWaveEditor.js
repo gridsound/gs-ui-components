@@ -413,4 +413,4 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-wave-editor", gsuiWaveEditor );
+$.$define( "gsui-wave-editor", gsuiWaveEditor );

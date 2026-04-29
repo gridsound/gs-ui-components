@@ -441,7 +441,7 @@ class gsuiTimewindow extends gsui0ne {
 		}
 	}
 	#onptrdownExtend( panel, e ) {
-		GSUdomUnselect();
+		$.$unselect();
 		$( e.target ).$setPtrCapture( e.pointerId );
 		if ( panel === "side" ) {
 			this.#panelSize = this.$elements.$panel.$width();
@@ -482,4 +482,4 @@ class gsuiTimewindow extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-timewindow", gsuiTimewindow );
+$.$define( "gsui-timewindow", gsuiTimewindow );

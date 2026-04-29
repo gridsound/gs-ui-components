@@ -90,4 +90,4 @@ class gsuiFxDelay extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-fx-delay", gsuiFxDelay );
+$.$define( "gsui-fx-delay", gsuiFxDelay );

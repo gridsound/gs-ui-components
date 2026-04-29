@@ -22,4 +22,4 @@ class gsuiHelpLink extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-help-link", gsuiHelpLink );
+$.$define( "gsui-help-link", gsuiHelpLink );

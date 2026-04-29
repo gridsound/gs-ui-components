@@ -24,4 +24,4 @@ class gsuiToggle extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-toggle", gsuiToggle );
+$.$define( "gsui-toggle", gsuiToggle );

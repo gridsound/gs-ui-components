@@ -228,4 +228,4 @@ class gsuiLFO extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-lfo", gsuiLFO );
+$.$define( "gsui-lfo", gsuiLFO );

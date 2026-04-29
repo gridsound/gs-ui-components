@@ -185,4 +185,4 @@ class gsuiPatternroll extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-patternroll", gsuiPatternroll );
+$.$define( "gsui-patternroll", gsuiPatternroll );

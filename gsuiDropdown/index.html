@@ -147,7 +147,7 @@ ddTar.$on( {
 	pointerdown: e => {
 		const tar = $( e.target );
 
-		GSUdomUnselect();
+		$.$unselect();
 		if ( tar.$tag() === "span" ) {
 			ddTar.$setAttr( "data-pos", tar.$prop( "title" ) );
 		} else {

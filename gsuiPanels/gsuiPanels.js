@@ -121,7 +121,7 @@ class gsuiPanels extends gsui0ne {
 				return n + parseFloat( p.$css( this.#mindir ) || 10 );
 			}, 0 );
 			tar.$addClass( "gsui-hover" );
-			GSUdomUnselect();
+			$.$unselect();
 			this.$this.$css( "cursor", tar.$css( "cursor" ) )
 				.$setPtrCapture( e.pointerId )
 				.$on( {
@@ -156,4 +156,4 @@ class gsuiPanels extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-panels", gsuiPanels );
+$.$define( "gsui-panels", gsuiPanels );

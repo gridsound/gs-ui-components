@@ -425,4 +425,4 @@ class gsuiWavetable extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-wavetable", gsuiWavetable );
+$.$define( "gsui-wavetable", gsuiWavetable );

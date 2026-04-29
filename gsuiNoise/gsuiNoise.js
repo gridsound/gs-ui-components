@@ -71,4 +71,4 @@ class gsuiNoise extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-noise", gsuiNoise );
+$.$define( "gsui-noise", gsuiNoise );

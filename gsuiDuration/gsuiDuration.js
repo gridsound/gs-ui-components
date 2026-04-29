@@ -53,4 +53,4 @@ class gsuiDuration extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-duration", gsuiDuration );
+$.$define( "gsui-duration", gsuiDuration );

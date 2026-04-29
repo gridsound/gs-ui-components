@@ -353,4 +353,4 @@ class gsuiOscillator extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-oscillator", gsuiOscillator );
+$.$define( "gsui-oscillator", gsuiOscillator );

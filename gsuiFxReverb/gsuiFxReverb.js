@@ -105,4 +105,4 @@ class gsuiFxReverb extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-fx-reverb", gsuiFxReverb );
+$.$define( "gsui-fx-reverb", gsuiFxReverb );

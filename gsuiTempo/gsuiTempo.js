@@ -77,4 +77,4 @@ class gsuiTempo extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-tempo", gsuiTempo );
+$.$define( "gsui-tempo", gsuiTempo );

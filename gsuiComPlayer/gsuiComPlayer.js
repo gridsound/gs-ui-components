@@ -149,7 +149,7 @@ class gsuiComPlayer extends gsui0ne {
 					likes: +this.$this.$getAttr( "likes" ) + ( !liked * 2 - 1 ),
 				} );
 			} )
-			.catch( err => GSUpopup.$alert( `Error ${ err.code }`, err.msg ) )
+			.catch( err => $popup.$alert( `Error ${ err.code }`, err.msg ) )
 			.finally( () => {
 				this.$elements.$likeBtn.$disabled( false );
 				this.$elements.$likeIco.$rmAttr( "data-spin" );
@@ -253,4 +253,4 @@ class gsuiComPlayer extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-com-player", gsuiComPlayer );
+$.$define( "gsui-com-player", gsuiComPlayer );

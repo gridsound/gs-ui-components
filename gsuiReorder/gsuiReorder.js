@@ -41,7 +41,7 @@ class gsuiReorder {
 		const tar = $( e.target );
 
 		if ( tar.$is( this.#opt.$itemGripSelector ) ) {
-			GSUdomUnselect();
+			$.$unselect();
 			this.#movingItem = tar.$closest( this.#opt.$itemSelector );
 			if ( this.#movingItem.$size() ) {
 				e.preventDefault();

@@ -230,4 +230,4 @@ class gsuiWavetableGraph extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-wavetable-graph", gsuiWavetableGraph );
+$.$define( "gsui-wavetable-graph", gsuiWavetableGraph );

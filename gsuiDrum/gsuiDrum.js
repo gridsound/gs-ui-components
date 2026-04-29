@@ -48,4 +48,4 @@ class gsuiDrum extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-drum", gsuiDrum );
+$.$define( "gsui-drum", gsuiDrum );

@@ -182,4 +182,4 @@ class gsuiLibrary extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-library", gsuiLibrary );
+$.$define( "gsui-library", gsuiLibrary );

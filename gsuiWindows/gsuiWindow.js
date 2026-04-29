@@ -111,7 +111,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			GSUdomUnselect();
+			$.$unselect();
 			this.$this
 				.$addAttr( "dragging" )
 				.$on( {
@@ -130,7 +130,7 @@ class gsuiWindow extends gsui0ne {
 			this.#mousedownPos.y = e.clientY;
 			this.#mousemovePos.x =
 			this.#mousemovePos.y = 0;
-			GSUdomUnselect();
+			$.$unselect();
 			this.$this.$addAttr( "dragging" ).$on( {
 				pointermove: this.#onptrmoveHandler.bind( this, dir ),
 				pointerup: this.#onptrupHandler.bind( this, dir ),
@@ -343,4 +343,4 @@ class gsuiWindow extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-window", gsuiWindow );
+$.$define( "gsui-window", gsuiWindow );

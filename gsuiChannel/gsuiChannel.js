@@ -38,7 +38,7 @@ class gsuiChannel extends gsui0ne {
 			}
 		} );
 		this.$elements.$head.$on( "dblclick", () => {
-			GSUpopup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
+			$popup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
 				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 		} );
 		GSUdomListen( this, {
@@ -101,4 +101,4 @@ class gsuiChannel extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-channel", gsuiChannel );
+$.$define( "gsui-channel", gsuiChannel );

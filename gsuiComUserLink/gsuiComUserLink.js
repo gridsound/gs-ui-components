@@ -43,4 +43,4 @@ class gsuiComUserLink extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-com-userlink", gsuiComUserLink );
+$.$define( "gsui-com-userlink", gsuiComUserLink );

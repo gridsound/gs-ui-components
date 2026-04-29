@@ -109,7 +109,7 @@ class gsuiTitleUser extends gsui0ne {
 			.finally( () => this.$this.$rmAttr( "disconnecting" ) );
 	}
 	#onclickLogin() {
-		return GSUpopup.$custom( {
+		return $popup.$custom( {
 			ok: "Sign in",
 			title: "Authentication",
 			element: this.#loginPopup.$root,
@@ -140,4 +140,4 @@ class gsuiTitleUser extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-titleuser", gsuiTitleUser );
+$.$define( "gsui-titleuser", gsuiTitleUser );

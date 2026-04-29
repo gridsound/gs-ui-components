@@ -89,4 +89,4 @@ class gsuiTimeCursors extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-time-cursors", gsuiTimeCursors );
+$.$define( "gsui-time-cursors", gsuiTimeCursors );

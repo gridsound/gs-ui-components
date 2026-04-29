@@ -56,4 +56,4 @@ class gsuiWindows extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-windows", gsuiWindows );
+$.$define( "gsui-windows", gsuiWindows );

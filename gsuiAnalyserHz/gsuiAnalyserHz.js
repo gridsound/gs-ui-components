@@ -73,4 +73,4 @@ class gsuiAnalyserHz extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-analyser-hz", gsuiAnalyserHz );
+$.$define( "gsui-analyser-hz", gsuiAnalyserHz );

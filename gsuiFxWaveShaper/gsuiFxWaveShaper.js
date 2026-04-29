@@ -165,4 +165,4 @@ class gsuiFxWaveShaper extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-fx-waveshaper", gsuiFxWaveShaper );
+$.$define( "gsui-fx-waveshaper", gsuiFxWaveShaper );

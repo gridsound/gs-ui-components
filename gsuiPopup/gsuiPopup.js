@@ -144,4 +144,4 @@ class gsuiPopup extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-popup", gsuiPopup );
+$.$define( "gsui-popup", gsuiPopup );

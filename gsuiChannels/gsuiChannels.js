@@ -64,7 +64,7 @@ class gsuiChannels extends gsui0ne {
 					} ),
 			] );
 			gsuiChannels.#selectChanInput.$value( currChanId );
-			GSUpopup.$custom( {
+			$popup.$custom( {
 				title: "Channels",
 				element: gsuiChannels.#selectChanPopup,
 				submit( data ) {
@@ -159,4 +159,4 @@ class gsuiChannels extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-channels", gsuiChannels );
+$.$define( "gsui-channels", gsuiChannels );

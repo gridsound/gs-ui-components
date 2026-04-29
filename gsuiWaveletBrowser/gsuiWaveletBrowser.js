@@ -110,4 +110,4 @@ class gsuiWaveletBrowser extends gsui0ne {
 	}
 }
 
-GSUdomDefine( "gsui-wavelet-browser", gsuiWaveletBrowser );
+$.$define( "gsui-wavelet-browser", gsuiWaveletBrowser );
