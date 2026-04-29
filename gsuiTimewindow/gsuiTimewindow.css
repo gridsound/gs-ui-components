@@ -151,12 +151,12 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	z-index: 1;
 	inset: -2px 0 auto;
 	height: 6px;
-	cursor: var( --gsuiCursor-ns-resize );
+	cursor: var( --gsuiCursor-row-resize );
 }
 .gsuiTimewindow-panelExtendY {
 	inset: var( --gsuiTimewindow-head-h ) -2px 0 auto;
 	width: 6px;
-	cursor: var( --gsuiCursor-ew-resize );
+	cursor: var( --gsuiCursor-col-resize );
 }
 
 /* .......................................................................... */
