@@ -239,7 +239,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveWrapBottom.$css( "marginLeft", n * 10, "%" );
 	}
 	#updateUnisonGraphVoices( n ) {
-		GSUdomSetChildrenLength( this.$elements.$unisonGraph.$get( 0 ), n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
+		this.$elements.$unisonGraph.$maintainChildren( n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
 		this.#updateUnisonGraphBlend( +this.$this.$getAttr( "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {
