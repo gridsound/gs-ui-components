@@ -17,7 +17,7 @@ class gsuiTimeline extends gsui0ne {
 	#looping = false;
 	#offset = null;
 	#maxDuration = Infinity;
-	#scrollingAncestor = $body.$get( 0 );
+	#scrollingAncestor = $body;
 	#mousedownLoop = "";
 	#onlyBigMeasures = false;
 	#mousedownPrevX = 0;
@@ -59,7 +59,7 @@ class gsuiTimeline extends gsui0ne {
 		this.$elements.$cursorPreview.$remove();
 	}
 	$connected() {
-		this.#setScrollingParent( this.$this.$closestScrollable().$get( 0 ) );
+		this.#setScrollingParent( this.$this.$closestScrollable() );
 	}
 	$disconnected() {
 		this.#unscrollEvent( this.#scrollingAncestor );
@@ -82,18 +82,17 @@ class gsuiTimeline extends gsui0ne {
 	// .........................................................................
 	#setScrollingParent( el ) {
 		this.#unscrollEvent( this.#scrollingAncestor );
-		if ( el ) {
-			this.#scrollingAncestor = el;
-			el.addEventListener( "scroll", this.#onscrollBind );
-			GSUdomObserveSize( el, this.#onresizeBind );
+		this.#scrollingAncestor = el.$addEventListener( "scroll", this.#onscrollBind );
+		if ( el.$size() ) {
+			GSUdomObserveSize( el.$get( 0 ), this.#onresizeBind );
 		}
 	}
 	#unscrollEvent( el ) {
-		if ( el ) {
-			el.removeEventListener( "scroll", this.#onscrollBind );
-			GSUdomUnobserveSize( el, this.#onresizeBind );
+		el.$rmEventListener( "scroll", this.#onscrollBind );
+		if ( el.$size() ) {
+			GSUdomUnobserveSize( el.$get( 0 ), this.#onresizeBind );
 		}
-		this.#scrollingAncestor = null;
+		this.#scrollingAncestor = $noop;
 	}
 
 	// .........................................................................
@@ -129,7 +128,7 @@ class gsuiTimeline extends gsui0ne {
 		this.#pxPerMeasure = this.#beatsPerMeasure * this.#pxPerBeat;
 		this.$this.$css( "--gsuiTimeline-beats-per-measure", this.#beatsPerMeasure );
 		this.#updateStepsBg();
-		if ( this.#scrollingAncestor ) {
+		if ( this.#scrollingAncestor.$size() ) {
 			this.#updateNumberMeasures();
 			this.#updateMeasures();
 		}
@@ -189,7 +188,7 @@ class gsuiTimeline extends gsui0ne {
 		` );
 	}
 	#updateOffset() {
-		const scrollX = this.#scrollingAncestor?.scrollLeft || 0;
+		const scrollX = this.#scrollingAncestor.$scrollX() || 0;
 		const offBeats = Math.floor( scrollX / this.#pxPerMeasure );
 		const off = this.#onlyBigMeasures
 			? GSUmathFloor( offBeats, this.#beatsPerMeasure )
@@ -205,7 +204,7 @@ class gsuiTimeline extends gsui0ne {
 	#updateNumberMeasures() {
 		const elMeasures = this.$elements.$measures.$get( 0 );
 		const px = this.#pxPerMeasure * ( this.#onlyBigMeasures ? this.#beatsPerMeasure : 1 );
-		const w = this.#scrollingAncestor?.clientWidth || this.clientWidth;
+		const w = this.#scrollingAncestor.$width() || this.$this.$width();
 		const nb = Math.ceil( w / px ) + 1 || 0;
 
 		if ( !GSUmathInRange( nb, 0, 500 ) ) {
