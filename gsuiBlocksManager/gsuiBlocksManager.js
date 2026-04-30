@@ -206,7 +206,7 @@ class gsuiBlocksManager {
 
 	// .........................................................................
 	$onmousedown( e ) {
-		if ( GSUdomIsDblClick( e ) ) {
+		if ( $.$isDblClick( e ) ) {
 			return;
 		}
 

@@ -104,7 +104,7 @@ class gsuiWindow extends gsui0ne {
 			tar.$hasClass( "gsuiWindow-icon" ) ||
 			tar.$hasClass( "gsuiWindow-name" );
 
-		if ( clickHead && GSUdomIsDblClick( e ) ) {
+		if ( clickHead && $.$isDblClick( e ) ) {
 			this.$this.$togAttr( "maximized" );
 		} else if ( e.button === 0 && clicked && !this.$this.$hasAttr( "maximized" ) ) {
 			this.#mousedownPos.x = e.clientX;
