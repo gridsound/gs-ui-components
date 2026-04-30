@@ -59,7 +59,7 @@ class gsuiTimeline extends gsui0ne {
 		this.$elements.$cursorPreview.$remove();
 	}
 	$connected() {
-		this.#setScrollingParent( GSUdomClosestScrollable( this ) );
+		this.#setScrollingParent( this.$this.$closestScrollable().$get( 0 ) );
 	}
 	$disconnected() {
 		this.#unscrollEvent( this.#scrollingAncestor );
