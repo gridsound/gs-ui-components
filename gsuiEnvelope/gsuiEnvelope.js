@@ -31,7 +31,7 @@ class gsuiEnvelope extends gsui0ne {
 				release: 1,
 			},
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$parent().$dataProp(), val ),

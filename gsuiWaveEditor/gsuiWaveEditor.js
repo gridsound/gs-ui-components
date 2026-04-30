@@ -58,17 +58,16 @@ class gsuiWaveEditor extends gsui0ne {
 			click: this.#onclick.bind( this ),
 			drop: this.#ondrop.bind( this ),
 			dragover: GSUnoopFalse,
+		} ).$listen( {
+			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+			[ GSEV_SLIDER_INPUTSTART ]: this.#oninputstartSlider.bind( this ),
+			[ GSEV_SLIDER_INPUT ]: this.#oninputSlider.bind( this ),
+			[ GSEV_SLIDER_CHANGE ]: this.#onchangeSlider.bind( this ),
 		} );
 		this.$elements.$wave.$on( {
 			pointerdown: this.#onptrdownWave.bind( this ),
 			pointermove: this.#onptrmoveWave.bind( this ),
 			pointerup: this.#onptrupWave.bind( this ),
-		} );
-		GSUdomListen( this, {
-			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUTSTART ]: this.#oninputstartSlider.bind( this ),
-			[ GSEV_SLIDER_INPUT ]: this.#oninputSlider.bind( this ),
-			[ GSEV_SLIDER_CHANGE ]: this.#onchangeSlider.bind( this ),
 		} );
 	}
 
@@ -314,24 +313,23 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
 	}
 	#onopenWaveBrowser() {
-		const wbrow = $( "<gsui-wavelet-browser>" )
+		return $( "<gsui-wavelet-browser>" )
 			.$addClass( "gsuiWaveEditor-waveletBrowser" )
-			.$setAttr( "wave", this.#waveName );
-
-		GSUdomListen( wbrow, {
-			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => {
-				( val in GSUmathWaveFns
-					? Promise.resolve( GSUmathWaveFns[ val ]( 2048 ) )
-					: gsapiClient.$getWaveletSample( val ).then( arr => GSUarrayResize( arr, 2048 ) )
-				).then( arr => {
-					this.#waveName = val;
-					this.$setWaveArray( arr );
-					this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr );
-					this.#waveletBrowserDropdown.$close();
-				} );
-			},
-		} );
-		return wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
+			.$setAttr( "wave", this.#waveName )
+			.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList )
+			.$listen( {
+				[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => {
+					( val in GSUmathWaveFns
+						? Promise.resolve( GSUmathWaveFns[ val ]( 2048 ) )
+						: gsapiClient.$getWaveletSample( val ).then( arr => GSUarrayResize( arr, 2048 ) )
+					).then( arr => {
+						this.#waveName = val;
+						this.$setWaveArray( arr );
+						this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr );
+						this.#waveletBrowserDropdown.$close();
+					} );
+				},
+			} );
 	}
 	#getCoord( px, py ) {
 		const [ w, h ] = this.#div;

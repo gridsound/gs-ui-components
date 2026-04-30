@@ -107,7 +107,7 @@ const logout1 = () => new Promise( ( res, rej ) => GSUsetTimeout( res, 1 ) );
 el.$get( 0 ).$setLogoutCallbackPromise( logout0 );
 // el.$get( 0 ).$setLogoutCallbackPromise( logout1 );
 
-GSUdomListen( el, {
+el.$listen( {
 	[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => {
 		lg( `rename: [${ name }]` );
 		el.$setAttr( "cmpname", name );

@@ -7,7 +7,7 @@ class gsuiWindows extends gsui0ne {
 		super( {
 			$tagName: "gsui-windows",
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_WINDOW_OPEN ]: d => this.#onopen( d.$target ),
 			[ GSEV_WINDOW_CLOSE ]: d => this.#onclose( d.$target ),
 		} );

@@ -41,7 +41,7 @@ class gsuiChannel extends gsui0ne {
 			$popup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
 				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				this.$this.$setAttr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
 			},

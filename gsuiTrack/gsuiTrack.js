@@ -20,7 +20,7 @@ class gsuiTrack extends gsui0ne {
 		this.onkeydown = this.#onkeydown.bind( this );
 		this.$elements.$inpNameWrap.$on( "dblclick", this.#ondblclickName.bind( this ) );
 		this.$elements.$inpName.$on( "blur", this.#onblur.bind( this ) );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => { this.$this.$setAttr( "mute", !b ).$dispatch( GSEV_TRACK_TOGGLE, b ); },
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => { this.$this.$rmAttr( "mute" ).$dispatch( GSEV_TRACK_TOGGLESOLO ); },
 		} );

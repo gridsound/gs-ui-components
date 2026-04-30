@@ -45,7 +45,7 @@ class gsuiDotline extends gsui0ne {
 		this.#menu.$setDirection( "B" );
 		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
 		this.#menu.$setActions( this.#createMenuActions.bind( this ) );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {

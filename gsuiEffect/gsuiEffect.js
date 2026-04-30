@@ -13,16 +13,16 @@ class gsuiEffect extends gsui0ne {
 				$content: ".gsuiEffect-content",
 			},
 		} );
-		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_EFFECT_REMOVE ) );
-		this.$elements.$expand.$onclick( () => {
-			this.$this.$togAttr( "expanded" );
-			this.$this.$dispatch( GSEV_EFFECT_EXPAND );
-		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TOGGLE_TOGGLE ]: () => {
 				this.$this.$togAttr( "enable" );
 				this.$this.$dispatch( GSEV_EFFECT_TOGGLE );
 			},
+		} );
+		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_EFFECT_REMOVE ) );
+		this.$elements.$expand.$onclick( () => {
+			this.$this.$togAttr( "expanded" );
+			this.$this.$dispatch( GSEV_EFFECT_EXPAND );
 		} );
 	}
 

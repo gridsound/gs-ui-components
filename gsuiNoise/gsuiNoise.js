@@ -25,7 +25,7 @@ class gsuiNoise extends gsui0ne {
 				this.$this.$setAttr( "color", col ).$dispatch( GSEV_NOISE_CHANGE, "color", col );
 			},
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {

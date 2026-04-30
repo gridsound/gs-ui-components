@@ -60,7 +60,7 @@ class gsuiPianoroll extends gsui0ne {
 			$tagName: "gsui-pianoroll",
 			$attributes: { tabindex: -1 },
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, px ) => this.#ongsuiTimewindowPxperbeat( px ),
 			[ GSEV_TIMEWINDOW_LINEHEIGHT ]: ( _, px ) => this.#ongsuiTimewindowLineheight( px ),
 			[ GSEV_TIMELINE_INPUTLOOP ]: d => this.#ongsuiTimelineChangeLoop( false, ...d.$args ),

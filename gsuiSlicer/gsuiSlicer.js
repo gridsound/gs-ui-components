@@ -57,7 +57,7 @@ class gsuiSlicer extends gsui0ne {
 			contextmenu: e => e.preventDefault(),
 			pointerdown: this.#onpointerdownSlices.bind( this ),
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, time ) => {
 				this.$this.$setAttr( "currenttime", time );
 				return true;

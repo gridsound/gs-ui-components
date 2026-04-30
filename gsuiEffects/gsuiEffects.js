@@ -32,7 +32,7 @@ class gsuiEffects extends gsui0ne {
 			$itemGripSelector: ".gsuiEffect-grip",
 			$onchange: ( obj, fxId ) => this.$this.$dispatch( GSEV_EFFECTS_REORDEREFFECT, fxId, obj ),
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_EFFECT_REMOVE ]: d => this.$this.$dispatch( GSEV_EFFECTS_REMOVEEFFECT, d.$targetId ),
 			[ GSEV_EFFECT_TOGGLE ]: d => this.$this.$dispatch( GSEV_EFFECTS_TOGGLEEFFECT, d.$targetId ),
 			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => this.$this.$dispatch( GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),

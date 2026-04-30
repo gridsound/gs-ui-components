@@ -29,7 +29,7 @@ class gsuiLFO extends gsui0ne {
 			},
 		} );
 		this.onchange = this.#onchangeForm.bind( this );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$parent().$dataProp(), val ),

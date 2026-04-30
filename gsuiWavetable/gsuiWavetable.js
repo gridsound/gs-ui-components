@@ -62,7 +62,7 @@ class gsuiWavetable extends gsui0ne {
 			$itemGripSelector: "gsui-periodicwave",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_WAVEEDITOR_CHANGE ]: ( _, curve ) => this.#onchange( { waves: { [ this.#waveSelected ]: { curve } } } ),
 			[ GSEV_WAVEEDITOR_PARAM ]: d => {
 				if ( !this.#waveNull ) {

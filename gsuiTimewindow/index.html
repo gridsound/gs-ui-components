@@ -117,7 +117,7 @@ let play = false;
 let intervalId = 0;
 let currenttime = 0;
 
-GSUdomListen( win, {
+win.$listen( {
 	[ GSEV_TIMEWINDOW_PXPERBEAT ]: GSUnoop,
 } );
 

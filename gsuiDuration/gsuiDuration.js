@@ -20,7 +20,7 @@ class gsuiDuration extends gsui0ne {
 				max: 8,
 			},
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: ( _, dur ) => this.$this.$dispatch( GSEV_DURATION_CHANGE, dur ),

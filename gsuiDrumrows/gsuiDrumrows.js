@@ -9,7 +9,7 @@ class gsuiDrumrows extends gsui0ne {
 			$template: $.$div( { class: "gsuiDrumrows-dropNew" } ),
 		} );
 		this.onmousedown = this.#onmousedownRows.bind( this );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_DRUMROW_REMOVE ]: d => this.$this.$dispatch( GSEV_DRUMROWS_REMOVE, d.$targetId ),
 			[ GSEV_DRUMROW_EXPAND ]: d => this.$this.$dispatch( GSEV_DRUMROWS_EXPAND, d.$targetId ),
 			[ GSEV_DRUMROW_TOGGLE ]: d => this.$this.$dispatch( GSEV_DRUMROWS_TOGGLE, d.$targetId, ...d.$args ),

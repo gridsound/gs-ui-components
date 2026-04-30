@@ -31,13 +31,13 @@ class gsuiFxFilter extends gsui0ne {
 				$sliders: "gsui-slider",
 			},
 		} );
-		this.$elements.$type.$onclick( this.#onclickType.bind( this ) );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$dataProp(), this.#fnValue[ d.$target.$dataProp() ]( val ) ),
 			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$dataProp(), this.#fnValue[ d.$target.$dataProp() ]( val ) ),
 		} );
+		this.$elements.$type.$onclick( this.#onclickType.bind( this ) );
 		this.$elements.$graph.$append( this.$elements.$curves );
 	}
 

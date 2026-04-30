@@ -23,8 +23,7 @@ class gsuiStepSelect extends gsui0ne {
 		this.$this.$on( {
 			mousedown: this.#onclick.bind( this ),
 			contextmenu: e => e.preventDefault(),
-		} );
-		GSUdomListen( this, {
+		} ).$listen( {
 			[ GSEV_TOGGLE_TOGGLESOLO ]: GSUnoop,
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
 				this.$setAttr( "auto", b ).$dispatch( GSEV_STEPSELECT_AUTO, b );

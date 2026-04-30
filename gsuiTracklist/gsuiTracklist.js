@@ -5,7 +5,7 @@ class gsuiTracklist extends gsui0ne {
 		super( {
 			$tagName: "gsui-tracklist",
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TRACK_RENAME ]: ( d, name ) => this.$this.$dispatch( GSEV_TRACKLIST_RENAMETRACK, d.$targetId, name ),
 			[ GSEV_TRACK_TOGGLE ]: d => this.$this.$dispatch( GSEV_TRACKLIST_TOGGLETRACK, d.$targetId ),
 			[ GSEV_TRACK_TOGGLESOLO ]: d => this.$this.$dispatch( GSEV_TRACKLIST_TOGGLESOLOTRACK, d.$targetId ),

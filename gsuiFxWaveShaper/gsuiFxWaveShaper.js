@@ -42,7 +42,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 				this.#onchangeOversample();
 			}
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_DOTLINE_INPUTEND ]: GSUnoop,
 			[ GSEV_DOTLINE_INPUTSTART ]: GSUnoop,
 			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", obj ),

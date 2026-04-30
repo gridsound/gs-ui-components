@@ -58,8 +58,7 @@ class gsuiOscillator extends gsui0ne {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {
 				this.$this.$css( "transition", "none" );
 			}
-		} );
-		GSUdomListen( this, {
+		} ).$listen( {
 			[ GSEV_WAVETABLE_BACK ]: () => this.$this.$rmAttr( "wavetable" ),
 			[ GSEV_WAVETABLE_PARAM ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLEPARAM, ...d.$args ),
 			[ GSEV_WAVETABLE_CHANGE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLE, ...d.$args ),
@@ -300,14 +299,13 @@ class gsuiOscillator extends gsui0ne {
 		}
 	}
 	#onopenWaveBrowser() {
-		const wbrow = $( "<gsui-wavelet-browser>" )
+		return $( "<gsui-wavelet-browser>" )
 			.$addClass( "gsuiOscillator-waveletBrowser" )
-			.$setAttr( "wave", this.$this.$getAttr( "wave" ) );
-
-		GSUdomListen( wbrow, {
-			[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => this.#onchangeWaveBrowser( val ),
-		} );
-		return wbrow.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList );
+			.$setAttr( "wave", this.$this.$getAttr( "wave" ) )
+			.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList )
+			.$listen( {
+				[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => this.#onchangeWaveBrowser( val ),
+			} );
 	}
 	#onchangeWaveBrowser( waveName ) {
 		this.#waveletBrowserDropdown.$close();

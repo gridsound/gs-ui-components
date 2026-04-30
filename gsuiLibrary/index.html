@@ -66,7 +66,7 @@ elLib0.$bookmarkSample( "clap-001", true );
 elLib0.$bookmarkSample( "clap-013", true );
 elLib0.$bookmarkSample( "hat-003", true );
 elLib0.$bookmarkSample( "crash-001", true );
-GSUdomListen( elLib, {
+elLib.$listen( {
 	[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
 		elLib0.$loadSample( smp );
 		GSUsetTimeout( () => elLib0.$readySample( smp ), 1 );

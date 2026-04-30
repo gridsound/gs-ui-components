@@ -63,7 +63,7 @@ class gsuiTimewindow extends gsui0ne {
 				currenttime: 0,
 			},
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,

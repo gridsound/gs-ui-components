@@ -32,7 +32,7 @@ class gsuiAutomation extends gsui0ne {
 			0: { x: 0, y: 0 },
 			1: { x: 1, y: 0, type: "curve", val: 0 },
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),
 			[ GSEV_DURATION_CHANGE ]: ( _, dur ) => this.#onchange( "duration", dur ),
 			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.#onchange( "curve", obj ),

@@ -22,7 +22,7 @@ class gsuiMixer extends gsui0ne {
 			this.$this.$setAttr( "analyser", type )
 				.$dispatch( GSEV_MIXER_CHANGEANALYSER, type );
 		} );
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_CHANNELS_NBCHANNELSCHANGE ]: () => this.#shadowChans.$update(),
 			[ GSEV_EFFECT_EXPAND ]: () => GSUsetTimeout( () => this.#shadowEffects.$update(), .1 ),
 		} );

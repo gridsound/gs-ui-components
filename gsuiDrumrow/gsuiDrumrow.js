@@ -20,8 +20,7 @@ class gsuiDrumrow extends gsui0ne {
 		this.$this.$on( {
 			click: this.#onclick.bind( this ),
 			contextmenu: GSUnoopFalse,
-		} );
-		GSUdomListen( this, {
+		} ).$listen( {
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
 				this.$this.$setAttr( "toggle", b ).$dispatch( GSEV_DRUMROW_TOGGLE, b );
 			},

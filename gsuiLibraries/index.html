@@ -64,7 +64,7 @@ const elLibs = $( "gsui-libraries" );
 const elLibDef = elLibs.$get( 0 ).$getLibrary( "default" );
 
 elLibDef.$setLibrary( gsuiLibrarySamples );
-GSUdomListen( elLibs, {
+elLibs.$listen( {
 	[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
 		elLibDef.$loadSample( smp );
 		GSUsetTimeout( () => elLibDef.$readySample( smp ), 1 );

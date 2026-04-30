@@ -98,7 +98,7 @@ gsui-dotline {
 <script>
 const line = $( "gsui-dotline" );
 
-GSUdomListen( line, {
+line.$listen( {
 	[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => console.log( obj ),
 } );
 

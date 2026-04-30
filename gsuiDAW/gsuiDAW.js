@@ -79,18 +79,18 @@ class gsuiDAW extends gsui0ne {
 			}
 		} );
 		this.#initRenderBtn();
-		GSUdomListen( this, {
+		this.$this.$listen( {
 			[ GSEV_TITLEUSER_SAVE ]: () => this.$this.$dispatch( GSEV_DAW_SAVE ),
 			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => this.$this.$dispatch( GSEV_DAW_RENAME, name ),
 			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => this.$this.$dispatch( GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
 		} );
-		GSUdomListen( this.$elements.$volume, {
+		this.$elements.$volume.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => this.$this.$dispatch( GSEV_DAW_VOLUME, gain ),
 		} );
-		GSUdomListen( this.$elements.$currentTime, {
+		this.$elements.$currentTime.$listen( {
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#timeSelecting = false,
 			[ GSEV_SLIDER_INPUTSTART ]: ( _, val ) => {
 				this.#timeSelecting = true;
