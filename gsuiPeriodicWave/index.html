@@ -118,7 +118,7 @@ function draw() {
 		.$message( GSEV_PERIODICWAVE_DRAW );
 }
 
-GSUdomObserveSize( el.$get( 0 ), ( w, h ) => {
+el.$observeSize( ( w, h ) => {
 	el.$message( GSEV_PERIODICWAVE_RESIZE, `${ w } ${ h }` )
 		.$message( GSEV_PERIODICWAVE_DRAW );
 	draw();

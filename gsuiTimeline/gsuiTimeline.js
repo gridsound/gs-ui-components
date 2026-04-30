@@ -82,16 +82,13 @@ class gsuiTimeline extends gsui0ne {
 	// .........................................................................
 	#setScrollingParent( el ) {
 		this.#unscrollEvent( this.#scrollingAncestor );
-		this.#scrollingAncestor = el.$addEventListener( "scroll", this.#onscrollBind );
-		if ( el.$size() ) {
-			GSUdomObserveSize( el.$get( 0 ), this.#onresizeBind );
-		}
+		this.#scrollingAncestor = el
+			.$addEventListener( "scroll", this.#onscrollBind )
+			.$observeSize( this.#onresizeBind );
 	}
 	#unscrollEvent( el ) {
-		el.$rmEventListener( "scroll", this.#onscrollBind );
-		if ( el.$size() ) {
-			GSUdomUnobserveSize( el.$get( 0 ), this.#onresizeBind );
-		}
+		el.$rmEventListener( "scroll", this.#onscrollBind )
+			.$unobserveSize( this.#onresizeBind );
 		this.#scrollingAncestor = $noop;
 	}
 

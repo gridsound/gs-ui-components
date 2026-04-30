@@ -18,13 +18,14 @@ class gsuiScrollShadow {
 		gsuiScrollShadow.#initShadow( this.#leftShadow, "left" );
 		gsuiScrollShadow.#initShadow( this.#rightShadow, "right" );
 		gsuiScrollShadow.#initShadow( this.#bottomShadow, "bottom" );
-		this.#scrolledElem.$get( 0 ).addEventListener( "scroll", this.#onscrollBind );
-		GSUdomObserveSize( this.#scrolledElem.$get( 0 ), this.#onscrollBind );
+		this.#scrolledElem
+			.$addEventListener( "scroll", this.#onscrollBind )
+			.$observeSize( this.#onscrollBind );
 	}
 
 	// .........................................................................
 	$disconnected() {
-		GSUdomUnobserveSize( this.#scrolledElem.$get( 0 ), this.#onscrollBind );
+		this.#scrolledElem.$unobserveSize( this.#onscrollBind );
 	}
 
 	// .........................................................................

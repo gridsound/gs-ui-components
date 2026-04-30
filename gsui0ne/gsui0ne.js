@@ -49,11 +49,11 @@ class gsui0ne extends HTMLElement {
 		}
 		this.$connected?.();
 		if ( this.#onresizeBind ) {
-			GSUdomObserveSize( this, this.#onresizeBind );
+			this.$this.$observeSize( this.#onresizeBind );
 		}
 	}
 	disconnectedCallback() {
-		GSUdomUnobserveSize( this, this.#onresizeBind );
+		this.$this.$unobserveSize( this.#onresizeBind );
 		this.$isConnected = false;
 		this.$disconnected?.();
 	}
