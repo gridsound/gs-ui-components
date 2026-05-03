@@ -53,23 +53,27 @@ class gsuiActionMenu {
 	}
 	#createOptions() {
 		const actions = this.#fnGetActions();
-		const style = {
-			minWidth: this.#minw,
-			minHeight: this.#minh,
-			maxWidth: this.#maxw,
-			maxHeight: this.#maxh,
-		};
 
 		return !actions
 			? $noop
-			: $( $.$div( { class: "gsuiActionMenu-actions", style }, actions.map( act =>
-				!act.hidden && $.$button( { class: "gsuiActionMenu-action", "data-id": act.id },
-					act.icon && $.$icon( { icon: act.icon } ),
-					$.$div( { class: "gsuiActionMenu-action-body", inert: true },
-						$.$span( { class: "gsuiActionMenu-action-name" }, act.name ),
-						act.desc && $.$span( { class: "gsuiActionMenu-action-desc" }, act.desc ),
-					),
-				)
-			) ) ).$onclick( this.#onclickActions.bind( this ) );
+			: $( gsuiActionMenu.#createOptions2( actions ) )
+				.$onclick( this.#onclickActions.bind( this ) )
+				.$css( {
+					minWidth: this.#minw,
+					minHeight: this.#minh,
+					maxWidth: this.#maxw,
+					maxHeight: this.#maxh,
+				} );
+	}
+	static #createOptions2( actions ) {
+		return $.$div( { class: "gsuiActionMenu-actions" }, actions.map( act =>
+			!act.hidden && $.$button( { class: "gsuiActionMenu-action", "data-id": act.id },
+				act.icon && $.$icon( { icon: act.icon } ),
+				$.$div( { class: "gsuiActionMenu-action-body", inert: true },
+					$.$span( { class: "gsuiActionMenu-action-name" }, act.name ),
+					act.desc && $.$span( { class: "gsuiActionMenu-action-desc" }, act.desc ),
+				),
+			)
+		) );
 	}
 }

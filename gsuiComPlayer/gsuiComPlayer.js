@@ -44,7 +44,7 @@ class gsuiComPlayer extends gsui0ne {
 		this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn );
 		this.#actionMenu.$setActions( this.#createMenuActions.bind( this ) );
 		this.#actionMenu.$setDirection( this.#actionMenuDir );
-		this.#actionMenu.$setMaxSize( "260px", "180px" );
+		this.#actionMenu.$setMaxSize( "280px", "180px" );
 		this.#actionMenu.$setCallback( this.#cbActionMenu.bind( this ) );
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
