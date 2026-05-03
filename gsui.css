@@ -22,9 +22,10 @@ html:has( gsui-daw ) {
 	font: inherit;
 	color: inherit;
 	user-select: none;
+	cursor: var( --gsuiCursor-pointer );
 
-	&:not( :disabled ) {
-		cursor: var( --gsuiCursor-pointer );
+	&:disabled {
+		cursor: var( --gsuiCursor-default );
 	}
 }
 button {
