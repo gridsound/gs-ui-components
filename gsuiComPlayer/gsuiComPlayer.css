@@ -108,10 +108,12 @@ gsui-com-player {
 	white-space: nowrap;
 	color: inherit;
 	text-overflow: ellipsis;
-	text-decoration: none;
 
 	gsui-com-player:not( [ private ], [ opensource ] ) & {
 		inset: 0;
+	}
+	&:hover {
+		text-decoration: underline;
 	}
 	&:empty::after {
 		content: "Untitled";
