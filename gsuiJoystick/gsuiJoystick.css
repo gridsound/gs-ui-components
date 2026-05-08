@@ -7,16 +7,18 @@ gsui-joystick {
 	height: 120px;
 	border-radius: 4px;
 	background-color: #0005;
-	cursor: var( --gsuiCursor-pointer );
+	cursor: var( --gsuiCursor-grab );
 	touch-action: none;
 
 	&:hover {
 		background-color: #000a;
 	}
+	&:active {
+		cursor: var( --gsuiCursor-grabbing );
+	}
 	&[ moving ] {
 		--gsui-op: 1;
 	}
-
 	div {
 		position: absolute;
 		width: 20px;
