@@ -51,8 +51,9 @@ gsui-com-button {
 		&.rippleEffect-active .rippleEffect-circle {
 			transition-duration: .7s;
 		}
-		gsui-com-button:not( [ loading ] ) &:disabled {
-			color: #fff9;
+		gsui-com-button[ disabled ] & {
+			color: #fff7;
+			filter: grayscale( .4 );
 		}
 		&:focus {
 			border-color: var( --btn-outlineColor );
