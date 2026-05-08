@@ -49,6 +49,8 @@ class gsuiComButton extends gsui0ne {
 		} else if ( hr ) {
 			window.location = this.#href;
 		}
+		e.stopImmediatePropagation();
+		this.$this.$click();
 	}
 }
 
