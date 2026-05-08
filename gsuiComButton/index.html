@@ -65,7 +65,11 @@ body {
 
 <!-- ....................................................................... -->
 <script>
-// ...
+const btn = $( "gsui-com-button" );
+
+btn.$onclick( e => {
+	lg( e.target );
+} );
 </script>
 </body>
 </html>

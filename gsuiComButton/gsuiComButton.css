@@ -27,61 +27,59 @@ gsui-com-button {
 		--btn-colorA: var( --btn-danger-colorA );
 		--btn-colorB: var( --btn-danger-colorB );
 	}
-}
+	button {
+		display: inline-flex;
+		position: relative;
+		box-sizing: border-box;
+		align-items: center;
+		gap: .6ch;
+		height: calc( 100% - var( --gsuiComButton-brdBottom-w ) );
+		border: var( --btn-outline ) transparent;
+		border-radius: 2px;
+		padding: 0 10px;
+		color: #fff;
+		font-size: 14px;
+		font-weight: bold;
+		text-align: center;
+		background-color: var( --btn-colorA );
+		box-shadow: 0 var( --gsuiComButton-brdBottom-w ) 0 var( --btn-colorB );
+		transition:
+			.2s border-color,
+			.07s box-shadow,
+			.07s translate;
 
-/* .......................................................................... */
-gsui-com-button button {
-	display: inline-flex;
-	position: relative;
-	box-sizing: border-box;
-	align-items: center;
-	gap: .6ch;
-	height: calc( 100% - var( --gsuiComButton-brdBottom-w ) );
-	border: var( --btn-outline ) transparent;
-	border-radius: 2px;
-	padding: 0 10px;
-	color: #fff;
-	font-size: 14px;
-	font-weight: bold;
-	text-align: center;
-	background-color: var( --btn-colorA );
-	box-shadow: 0 var( --gsuiComButton-brdBottom-w ) 0 var( --btn-colorB );
-	transition:
-		.2s border-color,
-		.07s box-shadow,
-		.07s translate;
-
-	&.rippleEffect-active .rippleEffect-circle {
-		transition-duration: .7s;
-	}
-	gsui-com-button:not( [ loading ] ) &:disabled {
-		color: #fff9;
-	}
-	&:focus {
-		border-color: var( --btn-outlineColor );
-	}
-	&:active {
-		border-color: transparent;
-		translate: 0 var( --gsuiComButton-brdBottom-w );
-		box-shadow: 0 0 0 var( --btn-colorB );
-	}
-	gsui-com-button[ loading ] &::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: repeating-linear-gradient(
-			45deg,
-			transparent,
-			transparent 10px,
-			#0002 10px,
-			#0002 20px
-		);
-		background-size: 28px;
-		animation: linear infinite .5s gsuiComButton-loading-anim;
+		&.rippleEffect-active .rippleEffect-circle {
+			transition-duration: .7s;
+		}
+		gsui-com-button:not( [ loading ] ) &:disabled {
+			color: #fff9;
+		}
+		&:focus {
+			border-color: var( --btn-outlineColor );
+		}
+		&:active {
+			border-color: transparent;
+			translate: 0 var( --gsuiComButton-brdBottom-w );
+			box-shadow: 0 0 0 var( --btn-colorB );
+		}
+		gsui-com-button[ loading ] &::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: repeating-linear-gradient(
+				45deg,
+				transparent,
+				transparent 10px,
+				#0002 10px,
+				#0002 20px
+			);
+			background-size: 28px;
+			animation: linear infinite .5s gsuiComButton-loading-anim;
+		}
 	}
 }
 
 @keyframes gsuiComButton-loading-anim {
-	0% { background-position: 0 }
+	  0% { background-position: 0 }
 	100% { background-position: 28px }
 }
