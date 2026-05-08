@@ -1,3 +1,7 @@
+:root {
+	--gsuiComProfile-bg: #32374c;
+}
+
 gsui-com-profile {
 	--gsuiComProfile-pad: 0;
 	--gsuiComProfile-gap: 16px;
@@ -13,7 +17,7 @@ gsui-com-profile {
 	border-radius: var( --gsuiComProfile-radius );
 	color: #fff;
 	font-size: 14px;
-	background-color: #32374c;
+	background-color: var( --gsuiComProfile-bg );
 
 	&[ followed ] {
 		--gsuiComProfile-followBtn-bg: #9c7;
