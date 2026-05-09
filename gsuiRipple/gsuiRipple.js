@@ -2,7 +2,6 @@
 
 class gsuiRipple {
 	static #map = new Map();
-	static #spaceDown = false;
 
 	static $init( elClick, elCirclePar ) {
 		gsuiRipple.#init2( elClick, elCirclePar || elClick );
@@ -11,20 +10,13 @@ class gsuiRipple {
 		elCirclePar.$addClass( "gsuiRipple" );
 		elClick
 			.$addEventListener( "pointerdown", gsuiRipple.#ptrdown, false )
-			.$addEventListener( "keydown", gsuiRipple.#keydown, false )
-			.$addEventListener( "keyup", gsuiRipple.#keyup, false );
+			.$addEventListener( "keydown", gsuiRipple.#keydown, false );
 		gsuiRipple.#map.set( elClick.$get( 0 ), { $elCirclePar: elCirclePar } );
 	}
 
 	static #keydown( e ) {
-		if ( e.key === " " && !gsuiRipple.#spaceDown ) {
-			gsuiRipple.#spaceDown = true;
+		if ( e.key === " " && !e.repeat ) {
 			gsuiRipple.#exec( e, .5, .5 );
-		}
-	}
-	static #keyup( e ) {
-		if ( e.key === " " ) {
-			gsuiRipple.#spaceDown = false;
 		}
 	}
 	static #ptrdown( e ) {
