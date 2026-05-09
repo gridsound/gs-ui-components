@@ -4,12 +4,16 @@ class gsuiRipple {
 	static #map = new Map();
 	static #spaceDown = false;
 
-	static $init( el ) {
-		el.$addClass( "gsuiRipple" )
+	static $init( elClick, elCirclePar ) {
+		gsuiRipple.#init2( elClick, elCirclePar || elClick );
+	}
+	static #init2( elClick, elCirclePar ) {
+		elCirclePar.$addClass( "gsuiRipple" );
+		elClick
 			.$addEventListener( "pointerdown", gsuiRipple.#ptrdown, false )
 			.$addEventListener( "keydown", gsuiRipple.#keydown, false )
 			.$addEventListener( "keyup", gsuiRipple.#keyup, false );
-		gsuiRipple.#map.set( el.$get( 0 ), {} );
+		gsuiRipple.#map.set( elClick.$get( 0 ), { $elCirclePar: elCirclePar } );
 	}
 
 	static #keydown( e ) {
@@ -32,14 +36,12 @@ class gsuiRipple {
 		);
 	}
 	static #rmCirc( obj ) {
-		if ( obj.$elCirc ) {
-			obj.$elCirc.$remove();
-		}
+		obj.$elCirc?.$remove();
 		delete obj.$elCirc;
 	}
 	static #exec( e, x, y ) {
-		const el = $( e.currentTarget );
 		const obj = gsuiRipple.#map.get( e.currentTarget );
+		const el = obj.$elCirclePar;
 		const circ = $( "<span>" )
 			.$addClass( "gsuiRipple-circle" )
 			.$addAttr( "inert" )
