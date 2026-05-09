@@ -10,6 +10,7 @@
 }
 
 gsui-com-button {
+	display: inline-flex;
 	--gsuiComButton-brdBottom-w: 3px;
 	height: 28px;
 	border-radius: 2px;
