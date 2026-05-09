@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>GSUI testing</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width"/>
+<meta name="description" content="GridSound's UI components"/>
+<link rel="shortcut icon" href="assets/ico.svg"/>
+<link rel="stylesheet" href="assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="gsui.css"/>
+<link rel="stylesheet" href="gsui-flex.css"/>
+<link rel="stylesheet" href="gsui-form.css"/>
+<link rel="stylesheet" href="gsui-gray.css"/>
+<link rel="stylesheet" href="gsui-white.css"/>
+<link rel="stylesheet" href="test-assets/test.css"/>
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="gsuiCursor/gsuiCursor.css"/>
+<link rel="stylesheet" href="gsuiRipple/gsuiRipple.css"/>
+<link rel="stylesheet" href="gsuiComButton/gsuiComButton.css"/>
+<!-- ....................................................................... -->
+</head>
+<body>
+<script src="gs-utils/gs-utils.js"></script>
+<script src="gs-utils/gs-utils-json.js"></script>
+<script src="gs-utils/gs-utils-jquery.js"></script>
+<script src="gs-utils/gs-utils-func.js"></script>
+<script src="test-assets/test.js"></script>
+<script src="gsui0ne/gsui0ne.js"></script>
+<!-- ....................................................................... -->
+<script src="gsuiRipple/gsuiRipple.js"></script>
+<script src="gsuiComButton/gsuiComButton.js"></script>
+<!-- ....................................................................... -->
+<script>
+"use strict";
+
+$body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
+	.$append(
+		$.$flex( { y: true, g10: true, style: "padding:16px" },
+			$.$elem( "gs-label", null, "gsui-com-button" ),
+			$.$flex( { x: true, g10: true },
+				$.$elem( "gsui-com-button", { text: "hello" } ),
+				$.$elem( "gsui-com-button", { text: "world", type: "submit", icon: "public" } ),
+				$.$elem( "gsui-com-button", { type: "danger", icon: "render" } ),
+			),
+			$.$elem( "gs-label", null, "input[ type=radio ]" ),
+			$.$flex( { x: true, g10: true },
+				$.$label( null, $.$flex( { x: true, ycenter: true }, $.$input( { type: "radio", name: "test", checked: true  } ), $.$span( null, "abc" ) ) ),
+				$.$label( null, $.$flex( { x: true, ycenter: true }, $.$input( { type: "radio", name: "test"                 } ), $.$span( null, "def" ) ) ),
+				$.$label( null, $.$flex( { x: true, ycenter: true }, $.$input( { type: "radio", name: "test", disabled: true } ), $.$span( null, "ghi" ) ) ),
+			),
+		),
+	);
+</script>
+</body>
+</html>
