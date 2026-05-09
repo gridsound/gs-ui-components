@@ -86,6 +86,9 @@ gsui-com-button {
 	button > div.rippleEffect-active .rippleEffect-circle {
 		transition-duration: .7s;
 	}
+	span:empty {
+		display: none;
+	}
 }
 
 @keyframes gsuiComButton-loading-anim {
