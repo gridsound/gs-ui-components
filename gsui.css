@@ -38,6 +38,25 @@ input:not( [ type="text" ] ) {
 }
 
 /* .......................................................................... */
+input[ type=radio ] {
+	width: 16px;
+	height: 16px;
+	border: 3px solid;
+	border-radius: 50%;
+	appearance: none;
+
+	&:hover:not( :disabled, :checked ) { --c: rgb( from currentColor r g b / .5 ) }
+	&:hover,
+	&:checked {
+		background-image: radial-gradient( circle, var( --c, currentColor ) 45%, transparent 50% );
+	}
+	&:disabled {
+		filter: grayscale( 1 );
+		opacity: .7;
+	}
+}
+
+/* .......................................................................... */
 .gsui-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
