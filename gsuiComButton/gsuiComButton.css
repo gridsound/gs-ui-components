@@ -87,7 +87,7 @@ gsui-com-button {
 	button > div.rippleEffect-active .rippleEffect-circle {
 		transition-duration: .7s;
 	}
-	span:empty {
+	span:not( .gsuiRipple-circle ):empty {
 		display: none;
 	}
 }
