@@ -7,16 +7,18 @@ class gsuiComButton extends gsui0ne {
 		super( {
 			$tagName: "gsui-com-button",
 			$template: $.$button( null,
-				$.$span( { inert: true } ),
-				$.$icon( { inert: true } ),
+				$.$div( { inert: true },
+					$.$span(),
+					$.$icon(),
+				),
 			),
 			$elements: {
 				$text: "span",
 				$icon: ".gsuiIcon",
 			},
 		} );
-		gsuiRipple.$init( this.$element );
-		this.$element.$onclick( this.#onclick.bind( this ) );
+		gsuiRipple.$init( this.$element, this.$elements.$text.$parent() );
+		this.$this.$addEventListener( "click", this.#onclick.bind( this ) );
 	}
 
 	// .........................................................................
@@ -41,16 +43,21 @@ class gsuiComButton extends gsui0ne {
 			this.$this.$hasAttr( "loading" ) );
 	}
 	#onclick( e ) {
-		const [ dl, hr ] = this.$this.$getAttr( "download", "href" );
+		const tar = $( e.target );
 
-		if ( dl ) {
-			e.preventDefault();
-			GSUdownloadURL( dl, hr );
-		} else if ( hr ) {
-			window.location = this.#href;
+		if ( tar.$tag() === "button" ) {
+			e.stopImmediatePropagation();
+			this.$this.$click();
+		} else {
+			const [ dl, hr ] = this.$this.$getAttr( "download", "href" );
+
+			if ( dl ) {
+				e.preventDefault();
+				GSUdownloadURL( dl, hr );
+			} else if ( hr ) {
+				window.location = this.#href;
+			}
 		}
-		e.stopImmediatePropagation();
-		this.$this.$click();
 	}
 }
 
