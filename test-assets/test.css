@@ -31,19 +31,18 @@ body {
 
 /* .......................................................................... */
 #testLinks {
-	flex: 1;
 	display: flex;
 	flex-wrap: wrap;
 	align-self: center;
 	place-content: center;
+	padding: 0 16px;
 	background-image: linear-gradient( 180deg, #f55, #c4a );
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 
 	a {
-		margin: .5ch;
-		padding: .4ch 1ch;
-		font-size: min( 4vw, 4vh, 24px );
+		padding: 6px 6px;
+		font-size: 16px;
 		font-weight: bold;
 		border-radius: .5ch;
 		text-decoration: none;
@@ -54,7 +53,7 @@ body {
 	}
 }
 @keyframes testLinkAnim {
-	100% { background-color: #ffffff08; }
+	100% { background-color: #fff1; }
 }
 
 /* .......................................................................... */

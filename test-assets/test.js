@@ -131,6 +131,8 @@ function TESTinit() {
 		.$value( curr );
 }
 
-if ( !$( "#testLinks" ).$size() ) {
+const locationLast = location.pathname.split( "/" ).filter( Boolean ).at( -1 );
+
+if ( locationLast !== "gs-ui-components" && locationLast !== "gsds.html" ) {
 	TESTinit();
 }

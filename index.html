@@ -14,16 +14,6 @@
 <link rel="stylesheet" href="test-assets/test.css"/>
 </head>
 <body>
-
-<div id="title">
-	<b>GridSound</b>
-	<span>ui-components</span>
-</div>
-<div id="testLinks"></div>
-<div id="testFoot">
-	<span id="testCopyright">© 2025 <a href="https://gridsound.com">gridsound.com</a> all rights reserved</span>
-</div>
-
 <script src="gs-utils/gs-utils.js"></script>
 <script src="gs-utils/gs-utils-json.js"></script>
 <script src="gs-utils/gs-utils-jquery.js"></script>
@@ -31,8 +21,23 @@
 <script>
 "use strict";
 
-$body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" );
-$( "#testLinks" ).$append( ...TESTcmpList.map( s => $.$link( { href: s }, s ) ) );
+$body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
+	.$append(
+		$.$div( { id: "title" },
+			$.$bold( null, "GridSound" ),
+			$.$span( null, "ui-components" ),
+		),
+		$.$div( { id: "testLinks" },
+			TESTcmpList.map( s => $.$link( { href: s }, s ) ),
+		),
+		$.$div( { id: "testFoot" },
+			$.$span( { id: "testCopyright" },
+				$.$span( null, "© 2025 " ),
+				$.$link( { href: "https://gridsound.com" }, "gridsound.com" ),
+				$.$span( null, " all rights reserved" ),
+			),
+		),
+	);
 </script>
 </body>
 </html>
