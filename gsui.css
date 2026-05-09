@@ -45,10 +45,11 @@ input[ type=radio ] {
 	border-radius: 50%;
 	appearance: none;
 
+	&:checked { --c: currentColor }
 	&:hover:not( :disabled, :checked ) { --c: rgb( from currentColor r g b / .5 ) }
 	&:hover,
 	&:checked {
-		background-image: radial-gradient( circle, var( --c, currentColor ) 45%, transparent 50% );
+		background-image: radial-gradient( circle, var( --c ) 45%, transparent 50% );
 	}
 	&:disabled {
 		filter: grayscale( 1 );
