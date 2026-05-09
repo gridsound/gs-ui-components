@@ -12,10 +12,11 @@
 	background-color: var( --gsuiRipple-bg, #fff );
 	opacity: .6;
 	transition-duration: 0s;
-}
-.gsuiRipple[ data-ripple-active ] .gsuiRipple-circle {
-	scale: 2;
-	opacity: 0;
-	transition-duration: .7s;
-	transition-property: opacity, scale;
+
+	&[ data-ripple-active ] {
+		scale: 2;
+		opacity: 0;
+		transition-duration: .7s;
+		transition-property: opacity, scale;
+	}
 }
