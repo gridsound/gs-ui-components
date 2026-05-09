@@ -59,7 +59,8 @@ gsui-com-button {
 	button:focus > div {
 		border-color: var( --btn-outlineColor );
 	}
-	button:active > div {
+	button:active > div,
+	button[ data-active ] > div {
 		border-color: transparent;
 		translate: 0 var( --gsuiComButton-brdBottom-w );
 		box-shadow: 0 0 0 var( --btn-colorB );

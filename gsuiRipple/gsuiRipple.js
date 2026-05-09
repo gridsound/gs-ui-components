@@ -10,13 +10,26 @@ class gsuiRipple {
 		elCirclePar.$addClass( "gsuiRipple" );
 		elClick
 			.$addEventListener( "pointerdown", gsuiRipple.#ptrdown, false )
-			.$addEventListener( "keydown", gsuiRipple.#keydown, false );
+			.$addEventListener( "keydown", gsuiRipple.#keydown, false )
+			.$addEventListener( "keyup", gsuiRipple.#keyup, false );
 		gsuiRipple.#map.set( elClick.$get( 0 ), { $elCirclePar: elCirclePar } );
 	}
 
 	static #keydown( e ) {
-		if ( e.key === " " && !e.repeat ) {
+		if ( e.key === "Enter" ) {
+			e.preventDefault();
+		}
+		if ( ( e.key === " " || e.key === "Enter" ) && !e.repeat ) {
 			gsuiRipple.#exec( e, .5, .5 );
+			if ( e.key === "Enter" ) {
+				$( e.currentTarget ).$addAttr( "data-active" ); // 1.
+			}
+		}
+	}
+	static #keyup( e ) {
+		if ( e.key === "Enter" ) {
+			e.preventDefault();
+			$( e.currentTarget ).$click().$rmAttr( "data-active" );
 		}
 	}
 	static #ptrdown( e ) {
@@ -54,3 +67,8 @@ class gsuiRipple {
 		}, .01 );
 	}
 }
+
+/*
+1. This trick is used because the Enter and Space keys are not handle the same
+   way on button, Space key trigger `:active` CSS selector. Enter key does not.
+*/
