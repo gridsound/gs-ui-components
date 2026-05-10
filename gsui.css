@@ -11,6 +11,15 @@ body {
 	color: var( --gsui-txt );
 	cursor: var( --gsuiCursor-default );
 }
+noscript {
+	position: absolute;
+	z-index: 2;
+	inset: 0;
+	display: flex;
+	flex-wrap: wrap;
+	place-content: center;
+	background-color: inherit;
+}
 
 * {
 	scrollbar-width: none;
