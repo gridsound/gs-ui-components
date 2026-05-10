@@ -56,6 +56,10 @@ $body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
 				$.$label( null, $.$flex( { x: true, ycenter: true, g4: true }, $.$input( { type: "checkbox", name: "chbtest", disabled: true                } ), $.$span( null, "ghi" ) ) ),
 				$.$label( null, $.$flex( { x: true, ycenter: true, g4: true }, $.$input( { type: "checkbox", name: "chbtest", disabled: true, checked: true } ), $.$span( null, "jkl" ) ) ),
 			),
+			$.$elem( "gs-label", null, "fieldset" ),
+			$.$elem( "fieldset", null,
+				$.$elem( "legend", null, "legend" ),
+				$.$div( null, "Hello" ),
 			),
 		),
 	);
