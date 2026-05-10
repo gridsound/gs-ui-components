@@ -1,4 +1,12 @@
+html,
 body {
+	height: 100%;
+	min-height: 100%;
+}
+body {
+	margin: 0;
+	font-size: 14px;
+	font-family: var( --gsui-font );
 	color: var( --gsui-txt );
 	cursor: var( --gsuiCursor-default );
 }

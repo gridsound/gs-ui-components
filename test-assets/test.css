@@ -1,13 +1,8 @@
-html,
-body {
-	height: 100%;
-}
 body {
 	--test-bg: #22222a;
 	--test-skin-dur: .5s;
 	display: flex;
 	flex-direction: column;
-	margin: 0;
 	font-size: 16px;
 	font-family: "Montserrat", sans-serif;
 	background-color: var( --test-bg );
@@ -20,7 +15,8 @@ body {
 	display: flex;
 	align-items: baseline;
 	justify-content: center;
-	padding: 2em 0 1em;
+	margin: auto 0 32px 0;
+	padding-top: 10px;
 	font-size: 26px;
 	column-gap: 1ch;
 
