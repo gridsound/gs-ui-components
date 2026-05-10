@@ -38,22 +38,44 @@ input:not( [ type="text" ] ) {
 }
 
 /* .......................................................................... */
-input[ type=radio ] {
+input[ type=radio ],
+input[ type=checkbox ] {
 	width: 16px;
 	height: 16px;
+	margin: 0;
 	border: 3px solid;
-	border-radius: 50%;
 	appearance: none;
 
-	&:checked { --c: currentColor }
-	&:hover:not( :disabled, :checked ) { --c: rgb( from currentColor r g b / .5 ) }
-	&:hover,
 	&:checked {
-		background-image: radial-gradient( circle, var( --c ) 45%, transparent 50% );
+		--c: currentColor;
+	}
+	label:hover &,
+	&:hover {
+		&:not( :disabled, :checked ) {
+			--c: rgb( from currentColor r g b / .3 )
+		}
 	}
 	&:disabled {
 		filter: grayscale( 1 );
 		opacity: .7;
+	}
+}
+input[ type=radio ] {
+	border-radius: 50%;
+
+	&:hover,
+	&:checked,
+	label:hover & {
+		background-image: radial-gradient( circle, var( --c ) 45%, transparent 50% );
+	}
+}
+input[ type=checkbox ] {
+	border-radius: 2px;
+
+	&:hover,
+	&:checked,
+	label:hover & {
+		box-shadow: inset 0 0 0 2px #000, inset 0 0 0 16px var( --c );
 	}
 }
 
