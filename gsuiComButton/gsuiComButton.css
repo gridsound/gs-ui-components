@@ -1,6 +1,5 @@
 :root {
 	--btn-outline: 2px solid;
-	--btn-outlineColor: rgba( 255, 255, 255, .2 );
 	--btn-colorA: hsl( 0, 0%, 61% );
 	--btn-colorB: hsl( 0, 0%, 42% );
 	--btn-submit-colorA: hsl( 210, 100%, 56% );
@@ -58,7 +57,7 @@ gsui-com-button {
 			.07s translate;
 	}
 	button:focus > div {
-		border-color: var( --btn-outlineColor );
+		border-color: #fff8;
 	}
 	button:active > div,
 	button[ data-active ] > div {
