@@ -66,8 +66,8 @@ a {
 }
 
 /* .......................................................................... */
-input[ type=radio ],
-input[ type=checkbox ] {
+input[ type="radio" ],
+input[ type="checkbox" ] {
 	width: 16px;
 	height: 16px;
 	margin: 0;
@@ -81,7 +81,7 @@ input[ type=checkbox ] {
 	label:hover &,
 	&:hover {
 		&:not( :disabled, :checked ) {
-			--c: rgb( from currentColor r g b / .3 )
+			--c: rgb( from currentColor r g b / .3 );
 		}
 	}
 	&:disabled {
@@ -92,7 +92,7 @@ input[ type=checkbox ] {
 		outline: 2px solid #9df;
 	}
 }
-input[ type=radio ] {
+input[ type="radio" ] {
 	border-radius: 50%;
 
 	&:hover,
@@ -101,7 +101,7 @@ input[ type=radio ] {
 		background-image: radial-gradient( circle, var( --c ) 45%, transparent 50% );
 	}
 }
-input[ type=checkbox ] {
+input[ type="checkbox" ] {
 	border-radius: 2px;
 
 	&:hover,
@@ -115,7 +115,7 @@ input[ type=checkbox ] {
 fieldset {
 	display: flex;
 	margin: 0;
-	padding: 6px 12px 10px 12px;
+	padding: 6px 12px 10px;
 	border: 2px solid rgb( from currentColor r g b / .3 );
 	border-radius: 6px;
 

@@ -15,7 +15,7 @@ body {
 	display: flex;
 	align-items: baseline;
 	justify-content: center;
-	margin: auto 0 32px 0;
+	margin: auto 0 32px;
 	padding-top: 10px;
 	font-size: 26px;
 	column-gap: 1ch;
@@ -37,7 +37,7 @@ body {
 	-webkit-text-fill-color: transparent;
 
 	a {
-		padding: 6px 6px;
+		padding: 6px;
 		font-size: 16px;
 		font-weight: bold;
 		border-radius: .5ch;
