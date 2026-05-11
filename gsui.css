@@ -52,6 +52,9 @@ noscript {
 button {
 	background: none;
 }
+select:focus-visible {
+	outline: 2px solid;
+}
 a,
 label,
 input:not( [ type="text" ] ) {
@@ -68,6 +71,7 @@ input[ type=checkbox ] {
 	width: 16px;
 	height: 16px;
 	margin: 0;
+	outline: 0;
 	border: 3px solid;
 	appearance: none;
 
@@ -83,6 +87,9 @@ input[ type=checkbox ] {
 	&:disabled {
 		filter: grayscale( 1 );
 		opacity: .7;
+	}
+	&:focus-visible {
+		outline: 2px solid #9df;
 	}
 }
 input[ type=radio ] {

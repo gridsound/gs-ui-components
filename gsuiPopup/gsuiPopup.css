@@ -29,14 +29,6 @@ gsui-popup {
 			backdrop-filter: none;
 		}
 	}
-	input,
-	select {
-		outline: 0;
-
-		&:focus {
-			box-shadow: 0 0 1px 2px #69b;
-		}
-	}
 }
 
 /* .......................................................................... */
@@ -75,7 +67,7 @@ gsui-popup {
 	a {
 		color: #9df;
 	}
-	a:hover {
+	a:not( gsui-com-userlink a ):hover {
 		text-decoration: underline;
 	}
 	fieldset {
