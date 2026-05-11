@@ -74,7 +74,6 @@ gsui-popup {
 .gsuiPopup-content {
 	a {
 		color: #9df;
-		text-decoration: none;
 	}
 	a:hover {
 		text-decoration: underline;

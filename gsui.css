@@ -5,6 +5,9 @@ body {
 	min-height: 100%;
 	background-color: var( --app-bg );
 }
+html:has( gsui-daw ) {
+	user-select: none;
+}
 body {
 	margin: 0;
 	font-size: 14px;
@@ -12,6 +15,8 @@ body {
 	color: var( --gsui-txt );
 	cursor: var( --gsuiCursor-default );
 }
+
+/* .......................................................................... */
 noscript {
 	position: absolute;
 	z-index: 2;
@@ -22,14 +27,11 @@ noscript {
 	background-color: inherit;
 }
 
+/* .......................................................................... */
 * {
 	scrollbar-width: thin;
 }
-
-html:has( gsui-daw ) {
-	user-select: none;
-}
-*[ inert ] {
+[ inert ] {
 	pointer-events: none;
 }
 
@@ -54,6 +56,10 @@ a,
 label,
 input:not( [ type="text" ] ) {
 	cursor: var( --gsuiCursor-pointer );
+}
+a {
+	color: inherit;
+	text-decoration: none;
 }
 
 /* .......................................................................... */

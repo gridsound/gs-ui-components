@@ -4,7 +4,6 @@
 	justify-content: center;
 	font-size: 14px;
 	line-height: 28px;
-	text-decoration: none;
 	border-radius: var( --radius );
 	transition: .2s;
 	transition-property: color, opacity, background-color;

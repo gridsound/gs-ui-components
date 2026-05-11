@@ -14,7 +14,6 @@ gsui-com-userlink {
 		gap: 10px;
 		font-size: 16px;
 		color: var( --gsui-txt ) !important; /* stylelint-disable-line declaration-no-important */
-		text-decoration: none !important; /* stylelint-disable-line declaration-no-important */
 
 		&:hover b {
 			text-decoration: underline;

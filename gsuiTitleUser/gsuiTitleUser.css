@@ -27,8 +27,6 @@ gsui-titleuser {
 	align-items: center;
 	gap: 4px;
 	max-width: 112px;
-	text-decoration: none;
-	color: inherit;
 }
 .gsuiTitleUser-avatar {
 	box-sizing: border-box;

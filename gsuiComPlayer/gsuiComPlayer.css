@@ -32,7 +32,6 @@ gsui-com-player {
 	min-width: 42px;
 	color: #fff4;
 	font-size: 20px;
-	text-decoration: none;
 	background-color: #0001;
 	transition: color, background-color;
 	transition-duration: .2s;
