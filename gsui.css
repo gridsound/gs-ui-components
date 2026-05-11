@@ -23,7 +23,7 @@ noscript {
 }
 
 * {
-	scrollbar-width: none;
+	scrollbar-width: thin;
 }
 
 html:has( gsui-daw ) {

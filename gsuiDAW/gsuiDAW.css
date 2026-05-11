@@ -19,6 +19,9 @@ gsui-daw {
 		z-index: 0;
 		background-attachment: local;
 	}
+	* {
+		scrollbar-width: none;
+	}
 }
 
 /* .......................................................................... */
