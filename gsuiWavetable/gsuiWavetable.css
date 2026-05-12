@@ -1,4 +1,5 @@
 gsui-wavetable {
+	--app-popover-bg: var( --gsui-screen-graph );
 	--gsuiWavetable-wave: #b3a5ea;
 	--gsuiWavetable-wave-selected: #8f8;
 	position: relative;
