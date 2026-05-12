@@ -6,6 +6,7 @@ gsui-wavelet-browser {
 	flex-direction: column;
 	height: 100%;
 	gap: 6px;
+	padding: 6px;
 	min-width: 220px;
 	min-height: 100px;
 	user-select: none;
