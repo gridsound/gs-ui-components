@@ -29,9 +29,16 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-waveletBrowser {
-	width: 400px;
-	height: 200px;
+.gsuiOscillator-waveletBrowser-pop {
+	position: absolute;
+	position-anchor: --gsuiOscillator-waveBtn;
+	position-area: top;
+	position-try-fallbacks: bottom;
+
+	gsui-wavelet-browser {
+		width: 400px;
+		height: 200px;
+	}
 }
 
 /* .......................................................................... */
@@ -255,6 +262,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	font-family: inherit;
 }
 .gsuiOscillator-waveName {
+	anchor-name: --gsuiOscillator-waveBtn;
 	flex: 1;
 	min-width: 0;
 	text-align: start;

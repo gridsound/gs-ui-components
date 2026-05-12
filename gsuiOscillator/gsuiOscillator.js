@@ -9,7 +9,6 @@ const gsuiOscillator_defaultWaves = {
 
 class gsuiOscillator extends gsui0ne {
 	#askWavetableData = GSUnoop;
-	#waveletBrowserDropdown = new gsuiDropdown();
 	#timeidType = null;
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), .1 );
 	#elWavetable = null;
@@ -22,6 +21,7 @@ class gsuiOscillator extends gsui0ne {
 				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
 				$wavePrevNext: ".gsuiOscillator-waveWrap-top [data-dir]",
 				$waveName: ".gsuiOscillator-waveName",
+				$waveletBrowserPop: ".gsuiOscillator-waveletBrowser-pop",
 				$wavetableWrap: ".gsuiOscillator-wavetable",
 				$wavetableBtn: ".gsuiOscillator-waveEdit",
 				$sourceName: ".gsuiOscillator-sourceName",
@@ -47,9 +47,6 @@ class gsuiOscillator extends gsui0ne {
 				unisonblend: .3,
 			},
 		} );
-		this.#waveletBrowserDropdown.$setDirection( "T" );
-		this.#waveletBrowserDropdown.$setTarget( this.$elements.$waveName );
-		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
 		this.$elements.$waveName.$onclick( this.#onclickWaveName.bind( this ) );
 		this.$elements.$wavePrevNext.$onclick( this.#onclickPrevNext.bind( this ) );
 		this.$elements.$wavetableBtn.$onclick( () => this.$this.$togAttr( "wavetable" ) );
@@ -67,6 +64,11 @@ class gsuiOscillator extends gsui0ne {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$dataProp(), val ),
 			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.#onchangeSlider( d.$target.$dataProp(), val ),
+		} );
+		this.$elements.$waveletBrowserPop.$on( "beforetoggle", e => {
+			e.newState === "open"
+				? this.$elements.$waveletBrowserPop.$append( this.#onopenWaveBrowser() )
+				: this.$elements.$waveletBrowserPop.$empty();
 		} );
 	}
 
@@ -289,13 +291,10 @@ class gsuiOscillator extends gsui0ne {
 			}, .25 );
 		}
 	}
-	#onclickWaveName() {
+	#onclickWaveName( e ) {
 		if ( this.$this.$hasAttr( "hascustomwave" ) ) {
+			e.preventDefault();
 			this.$elements.$wavetableBtn.$click();
-		} else {
-			this.#waveletBrowserDropdown.$isOpen()
-				? this.#waveletBrowserDropdown.$close()
-				: this.#waveletBrowserDropdown.$open();
 		}
 	}
 	#onopenWaveBrowser() {
@@ -308,7 +307,7 @@ class gsuiOscillator extends gsui0ne {
 			} );
 	}
 	#onchangeWaveBrowser( waveName ) {
-		this.#waveletBrowserDropdown.$close();
+		this.$elements.$waveletBrowserPop.$togglePopover( false );
 		this.$this.$setAttr( "wave", waveName )
 			.$dispatch( GSEV_OSCILLATOR_CHANGE, "wave", waveName );
 	}

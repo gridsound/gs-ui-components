@@ -1,20 +1,25 @@
 "use strict";
 
-$.$setTemplate( "gsui-oscillator", () =>
-	$.$div( { class: "gsuiOscillator-in" },
+let gsuiOscillator_count = 0;
+
+$.$setTemplate( "gsui-oscillator", () => {
+	const popId = `gsuiOscillator_count_${ ++gsuiOscillator_count }`;
+
+	return $.$div( { class: "gsuiOscillator-in" },
 		$.$div( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),
 		$.$div( { class: "gsuiOscillator-id", inert: true } ),
 		$.$span( { class: "gsuiOscillator-head-label" }, "unison" ),
 		$.$span( { class: "gsuiOscillator-head-label" }, "pitch" ),
 		$.$span( { class: "gsuiOscillator-head-label" }, "pan" ),
 		$.$span( { class: "gsuiOscillator-head-label" }, "gain" ),
+		$.$div( { class: "gsuiOscillator-waveletBrowser-pop", id: popId, popover: true } ),
 		$.$div( { class: "gsuiOscillator-waveColumn" },
 			$.$div( { class: "gsuiOscillator-waveWrap" },
 				$.$div( { class: "gsuiOscillator-waveWrap-left" },
 					$.$div( { class: "gsuiOscillator-waveWrap-top" },
 						$.$button( { "data-dir": "-1", icon: "caret-left", title: "Previous wave" } ),
 						$.$button( { "data-dir": "1", icon: "caret-right", title: "Next wave" } ),
-						$.$button( { class: "gsuiOscillator-waveName" } ),
+						$.$button( { class: "gsuiOscillator-waveName", popovertarget: popId } ),
 						$.$button( { class: "gsuiOscillator-waveEdit", icon: "cu-wave-edit", title: "Open wavetable editor" } ),
 						$.$icon( { class: "gsuiOscillator-sourceIcon", icon: "cu-waveform" } ),
 						$.$span( { class: "gsuiOscillator-sourceName" } ),
@@ -54,4 +59,4 @@ $.$setTemplate( "gsui-oscillator", () =>
 		$.$button( { class: "gsuiOscillator-remove", icon: "close", title: "Remove the oscillator" } ),
 		$.$div( { class: "gsuiOscillator-wavetable" } ),
 	)
-);
+} );
