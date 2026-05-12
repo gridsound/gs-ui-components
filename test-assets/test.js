@@ -63,6 +63,8 @@ const TESTcmpList = Object.freeze( [
 	"gsuiWindows",
 ] );
 
+$body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" );
+
 function TESTinit() {
 	document.addEventListener( "gsui", ( { detail: d } ) => console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target ) );
 
@@ -108,7 +110,6 @@ function TESTinit() {
 	const path = getPath();
 	const curr = path.pop();
 
-	$body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" );
 	$( "#testSkin" ).$onclick( () => {
 		const skin = $body.$getAttr( "data-skin" ) === "white"
 			? "gray"
