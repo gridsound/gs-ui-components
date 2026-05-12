@@ -1,8 +1,8 @@
 gsui-tempo {
 	position: relative;
 
-	/* .......................................................................... */
 	> button {
+		anchor-name: --gsuiTempo-btn;
 		display: flex;
 		align-items: center;
 		gap: 6px;
@@ -41,31 +41,34 @@ gsui-tempo {
 }
 
 /* .......................................................................... */
-.gsuiTempo-popup {
-	display: flex;
+.gsuiTempo-form {
+	position: absolute;
+	position-anchor: --gsuiTempo-btn;
+	position-area: bottom;
+	position-try-fallbacks: top;
 	flex-direction: column;
-	gap: 8px;
+	gap: 6px;
+	padding: 6px;
 
-	> * {
+	&:popover-open {
+		display: flex;
+	}
+	> div {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 6px;
 		height: 24px;
 
-		&:last-child {
-			margin-top: 4px;
-
-			button {
-				width: 100%;
-				height: 100%;
-				border-radius: 4px;
-				padding: 0 10px;
-				font-size: 12px;
-				font-weight: 600;
-				background-color: var( --gsui-btn-playPause-bg );
-			}
-		}
+	}
+	> button {
+		width: 100%;
+		height: 24px;
+		border-radius: 4px;
+		padding: 0 10px;
+		font-size: 12px;
+		font-weight: 600;
+		background-color: var( --gsui-btn-playPause-bg );
 	}
 	label {
 		font-size: 12px;
@@ -96,7 +99,7 @@ gsui-tempo {
 	}
 }
 
-.gsuiTempo-popup-bpm {
+.gsuiTempo-form-bpm {
 	label::after {
 		content: "(Beats Per Minute)";
 		font-size: .8em;
@@ -104,11 +107,11 @@ gsui-tempo {
 	}
 	div {
 		display: flex;
-		gap: 8px;
+		gap: inherit;
 		height: 100%;
 	}
 	input {
-		width: calc( 100px - 24px - 8px );
+		width: calc( 100px - 24px - 6px );
 	}
 	button {
 		display: flex;
