@@ -1,8 +1,24 @@
 "use strict";
 
-$.$setTemplate( "gsui-dotline", () =>
-	$.$div( { class: "gsuiDotline-padding" },
+let gsuiDotline_count = 0;
+
+$.$setTemplate( "gsui-dotline", () => {
+	const popId = `gsuiDotline_count_${ ++gsuiDotline_count }`;
+
+	return $.$div( { class: "gsuiDotline-padding" },
 		$.$elem( "gsui-slider", { type: "linear-y", min: -32, max: 32, step: .01, "mousemove-size": 2000 } ),
 		$.$elem( "gsui-dotlinesvg" ),
-	)
-);
+		$.$div( { class: "gsuiDotline-menu", id: popId, popover: "auto" },
+			$.$button( null,
+				$.$icon( { icon: "close" } ),
+				$.$span( { inert: true }, "delete" ),
+			),
+			"hold curve doubleCurve stair sineWave triangleWave squareWave".split( " " ).map( s =>
+				$.$label( null,
+					$.$input( { type: "radio", name: "gsuiDotline-curve", value: s } ),
+					$.$span( null, s ),
+				)
+			),
+		),
+	);
+} );

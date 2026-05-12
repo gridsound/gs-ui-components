@@ -20,13 +20,10 @@ class gsuiDotline extends gsui0ne {
 	#dotMinX = 0;
 	#dotMaxY = 0;
 	#dotMinY = 0;
-	#dotType = null;
 	#mousebtn = 0;
 	#activeDotId = null;
 	#beatlines = null;
-	#menu = new gsuiActionMenu();
-	#menuDotId = null;
-	static #fnCurves = Object.freeze( "hold curve doubleCurve stair sineWave triangleWave squareWave".split( " " ) );
+	#menuDot = $noop;
 
 	constructor() {
 		super( {
@@ -34,6 +31,7 @@ class gsuiDotline extends gsui0ne {
 			$elements: {
 				$svg: "gsui-dotlinesvg",
 				$slider: "gsui-slider",
+				$menu: ".gsuiDotline-menu",
 			},
 			$attributes: {
 				viewbox: "0 0 100 100",
@@ -41,10 +39,6 @@ class gsuiDotline extends gsui0ne {
 				ystep: 1,
 			},
 		} );
-		this.#menu.$closeAfterClick( false );
-		this.#menu.$setDirection( "B" );
-		this.#menu.$setCallback( this.#onclickActions.bind( this ) );
-		this.#menu.$setActions( this.#createMenuActions.bind( this ) );
 		this.$this.$listen( {
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
@@ -59,6 +53,20 @@ class gsuiDotline extends gsui0ne {
 				this.#onchange( { [ this.#activeDotId ]: { val } } );
 			},
 		} );
+		this.oncontextmenu = e => {
+			e.preventDefault();
+			this.$onptrdown( e );
+		};
+		this.$elements.$menu
+			.$onchange( e => this.#onclickActions( e.target.value ) )
+			.$onclick( e => {
+				const tar = $( e.target );
+
+				if ( tar.$tag() === "button" ) {
+					this.#onclickActions( "delete" );
+				}
+				this.$elements.$menu.$togglePopover( false );
+			} );
 	}
 
 	// .........................................................................
@@ -136,27 +144,18 @@ class gsuiDotline extends gsui0ne {
 	}
 
 	// .........................................................................
-	#createMenuActions() {
-		const t = this.#dotType;
-		const arr = gsuiDotline.#fnCurves.map( s => ( {
-			id: s,
-			name: s,
-			icon: s === t ? "radio-btn-checked" : "radio-btn",
-		} ) );
-
-		arr.unshift( { id: "delete", icon: "close", name: "delete" } );
-		return arr;
-	}
 	#onclickActions( act ) {
+		const dotId = this.#menuDot.$dataId();
+
 		if ( act === "delete" ) {
-			if ( this.#deleteDotElement( this.#menuDotId ) ) {
+			if ( this.#deleteDotElement( dotId ) ) {
 				this.#drawPolyline();
-				this.#onchange( { [ this.#menuDotId ]: undefined } );
+				this.#onchange( { [ dotId ]: undefined } );
 			}
 		} else {
-			const dot = this.#data[ this.#menuDotId ];
+			const dot = this.#data[ dotId ];
 
-			if ( dot.type !== act && this.#menuDotId !== this.#dataSorted[ 0 ][ 0 ] ) {
+			if ( dot.type !== act && dotId !== this.#dataSorted[ 0 ][ 0 ] ) {
 				const dotDiff = { type: act };
 
 				dot.type = act;
@@ -168,10 +167,9 @@ class gsuiDotline extends gsui0ne {
 					dotDiff.val = 2;
 				}
 				this.#drawPolyline();
-				this.#onchange( { [ this.#menuDotId ]: dotDiff } );
+				this.#onchange( { [ dotId ]: dotDiff } );
 			}
 		}
-		this.#menu.$close();
 	}
 
 	// .........................................................................
@@ -370,13 +368,16 @@ class gsuiDotline extends gsui0ne {
 		const tar = $( e.target );
 
 		if ( tar.$hasClass( "gsuiDotline-dot" ) ) {
-			if ( e.button !== 2 || this.#menu.$isOpen() ) {
-				this.#menu.$close();
+			if ( e.button !== 2 || this.$elements.$menu.$is( ":popover-open" ) ) {
+				this.$elements.$menu.$togglePopover( false );
 			} else {
-				this.#menuDotId = tar.$dataId();
-				this.#dotType = this.#data[ this.#menuDotId ].type;
-				this.#menu.$setTarget( tar );
-				this.#menu.$open();
+				const dotType = this.#data[ tar.$dataId() ].type;
+
+				this.#menuDot.$css( "anchor-name", "" );
+				this.#menuDot = tar;
+				tar.$css( "anchor-name", "--gsuiDotline-dotAnchor" );
+				this.$elements.$menu.$query( `input[value=${ dotType }]` ).$checked( true );
+				this.$elements.$menu.$togglePopover( true );
 			}
 		}
 	}
