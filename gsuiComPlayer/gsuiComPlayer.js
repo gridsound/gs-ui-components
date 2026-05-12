@@ -2,8 +2,6 @@
 
 class gsuiComPlayer extends gsui0ne {
 	#settingTime = null;
-	#actionMenu = new gsuiActionMenu();
-	#actionMenuDir = "TL";
 	#intervalId = null;
 	#promises = {};
 	static #actions = GSUdeepFreeze( [
@@ -32,6 +30,7 @@ class gsuiComPlayer extends gsui0ne {
 				$timeInpVal: ".gsuiComPlayer-slider *",
 				$dawlink: ".gsuiComPlayer-dawlink",
 				$actionsBtn: ".gsuiComPlayer-actions",
+				$actionPop: ".gsuiComPlayer-actions-pop",
 			},
 			$attributes: {
 				name: "",
@@ -41,11 +40,6 @@ class gsuiComPlayer extends gsui0ne {
 				likes: 0,
 			},
 		} );
-		this.#actionMenu.$bindTargetElement( this.$elements.$actionsBtn );
-		this.#actionMenu.$setActions( this.#createMenuActions.bind( this ) );
-		this.#actionMenu.$setDirection( this.#actionMenuDir );
-		this.#actionMenu.$setMaxSize( "280px", "180px" );
-		this.#actionMenu.$setCallback( this.#cbActionMenu.bind( this ) );
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
@@ -59,6 +53,20 @@ class gsuiComPlayer extends gsui0ne {
 				this.$elements.$audio.$rmAttr( "src" );
 			},
 		} );
+		this.$elements.$actionPop
+			.$on( "beforetoggle", e => {
+				e.newState === "open"
+					? this.$elements.$actionPop.$append( ...this.#createMenuActions() )
+					: this.$elements.$actionPop.$empty();
+			} )
+			.$onclick( e => {
+				const act = $( e.target ).$dataProp();
+
+				lg(act, "Asd")
+				if ( act ) {
+					this.#cbActionMenu( act );
+				}
+			} );
 	}
 
 	// .........................................................................
@@ -66,7 +74,7 @@ class gsuiComPlayer extends gsui0ne {
 		this.#updateRendered( this.$this.$hasAttr( "rendered" ) );
 	}
 	static get observedAttributes() {
-		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "actionsdir", "likes", "itsmine" ];
+		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "likes", "itsmine" ];
 		// + "opensource" + "private" + "liked" + "playing" + "actions"
 	}
 	$attributeChanged( prop, val ) {
@@ -81,10 +89,6 @@ class gsuiComPlayer extends gsui0ne {
 			case "link": this.$elements.$name.$setAttr( "href", val ); break;
 			case "dawlink": this.$elements.$dawlink.$setAttr( "href", val ); break;
 			case "rendered": this.#updateRendered( val === "" ); break;
-			case "actionsdir":
-				this.#actionMenuDir = val;
-				this.#actionMenu?.$setDirection( val );
-				break;
 			case "duration":
 				this.$elements.$dur.$text( gsuiComPlayer.$calcDuration( val ) );
 				this.$updateTimeSlider();
@@ -191,10 +195,17 @@ class gsuiComPlayer extends gsui0ne {
 	#createMenuActions() {
 		const actionsStr = this.$this.$getAttr( "actions" );
 
-		return gsuiComPlayer.#actions.map( act => ( {
-			...act,
-			hidden: !actionsStr.includes( act.id ),
-		} ) );
+		return gsuiComPlayer.#actions.map( act => {
+			return !actionsStr.includes( act.id )
+				? null
+				: $.$button( { "data-prop": act.id },
+					$.$bold( { inert: true },
+						$.$icon( { icon: act.icon } ),
+						$.$span( null, act.name ),
+					),
+					$.$span( { inert: true }, act.desc ),
+				);
+		} );
 	}
 	static #actioning = {
 		delete: "deleting",

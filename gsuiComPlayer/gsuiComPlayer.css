@@ -55,10 +55,44 @@ gsui-com-player {
 	display: none;
 }
 .gsuiComPlayer-actions {
+	anchor-name: --gsuiComPlayer-actions-pop;
 	background-color: transparent;
 
 	gsui-com-player:not( [ actions ] ) & {
 		display: none;
+	}
+}
+.gsuiComPlayer-actions-pop {
+	position: absolute;
+	position-anchor: --gsuiComPlayer-actions-pop;
+	position-area: top;
+	position-try-fallbacks: bottom;
+	width: 300px;
+	flex-direction: column;
+	font-size: 14px;
+
+	&:popover-open {
+		display: flex;
+	}
+	button {
+		display: flex;
+		flex-direction: column;
+		padding: 6px;
+		text-align: start;
+
+		&:hover {
+			background-color: #fff1;
+		}
+		b {
+			.gsuiIcon {
+				width: 20px;
+				margin-right: 6px;
+			}
+		}
+		> span {
+			font-size: 13px;
+			opacity: .7;
+		}
 	}
 }
 
