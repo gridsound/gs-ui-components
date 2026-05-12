@@ -2,7 +2,6 @@
 
 class gsuiAutomation extends gsui0ne {
 	#target = null;
-	#targetMenu = new gsuiActionMenu();
 	#askTargets = GSUnoop;
 
 	constructor() {
@@ -13,19 +12,15 @@ class gsuiAutomation extends gsui0ne {
 				$duration: "gsui-duration",
 				$beatlines: "gsui-beatlines",
 				$dotline: "gsui-dotline",
+				$targets: ".gsuiAutomation-targetList",
 			},
 			$attributes: {
 				duration: 1,
 			},
 		} );
 
-		const menu = this.#targetMenu;
 		const dotline = this.$elements.$dotline.$get( 0 );
 
-		menu.$setDirection( "BR" );
-		menu.$setActions( this.#createMenuActions.bind( this ) );
-		menu.$setCallback( this.#onchangeTarget.bind( this ) );
-		menu.$bindTargetElement( this.$elements.$btnTarget );
 		dotline.$setDotOptions( 0, { freezeX: true, deletable: false } );
 		dotline.$setDotOptions( 1, { freezeX: true, deletable: false } );
 		dotline.$change( {
@@ -39,6 +34,20 @@ class gsuiAutomation extends gsui0ne {
 			[ GSEV_DOTLINE_INPUT ]: GSUnoop,
 			[ GSEV_DOTLINE_INPUTEND ]: GSUnoop,
 			[ GSEV_DOTLINE_INPUTSTART ]: GSUnoop,
+		} );
+		this.$elements.$targets.$on( "beforetoggle", e => {
+			e.newState === "open"
+				? this.$elements.$targets.$append( ...this.#createMenuActions() )
+				: this.$elements.$targets.$empty();
+		} );
+		this.$elements.$targets.$onchange( e => {
+			const val = e.target.value;
+
+			this.$elements.$targets.$togglePopover( false );
+			if ( val !== this.#target ) {
+				this.$this.$setAttr( "target", val );
+				this.#onchange( "target", val );
+			}
 		} );
 	}
 
@@ -94,18 +103,13 @@ class gsuiAutomation extends gsui0ne {
 		}
 		this.#target = t || null;
 	}
-	#onchangeTarget( val ) {
-		if ( val !== this.#target ) {
-			this.$this.$setAttr( "target", val );
-			this.#onchange( "target", val );
-		}
-	}
 	#createMenuActions() {
-		return this.#askTargets().map( t => ( {
-			id: t,
-			name: t,
-			icon: t === this.#target ? "radio-btn-checked" : "radio-btn",
-		} ) );
+		return this.#askTargets().map( t =>
+			$.$label( null,
+				$.$input( { type: "radio", name: "gsuiAutomation-target", value: t, checked: t === this.#target } ),
+				$.$span( null, t ),
+			)
+		);
 	}
 }
 
