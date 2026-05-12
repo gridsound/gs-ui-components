@@ -3,7 +3,6 @@
 class gsuiEffects extends gsui0ne {
 	#dataCallback = GSUnoop;
 	#fxsHtml = new Map();
-	#actionMenu = new gsuiActionMenu();
 	static #fxMap = GSUdeepFreeze( {
 		delay: { cmp: "<gsui-fx-delay>", name: "Delay" },
 		filter: { cmp: "<gsui-fx-filter>", name: "Filter" },
@@ -22,9 +21,9 @@ class gsuiEffects extends gsui0ne {
 			$tagName: "gsui-effects",
 			$elements: {
 				$addBtn: ".gsuiEffects-addBtn",
+				$addList: ".gsuiEffects-addList",
 			},
 		} );
-		this.#initActionMenu();
 		new gsuiReorder( {
 			$root: this.$this,
 			$parentSelector: "gsui-effects",
@@ -38,6 +37,14 @@ class gsuiEffects extends gsui0ne {
 			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => this.$this.$dispatch( GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
 			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
 			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
+		} );
+		this.$elements.$addList.$onclick( e => {
+			const fx = $( e.target ).$dataProp();
+
+			if ( fx ) {
+				this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, fx );
+				this.$elements.$addList.$togglePopover( false );
+			}
 		} );
 	}
 
@@ -92,15 +99,6 @@ class gsuiEffects extends gsui0ne {
 			case "toggle": this.#fxsHtml.get( id ).$setAttr( "enable", val ); break;
 			case "order": this.#fxsHtml.get( id ).$setAttr( "order", val ); break;
 		}
-	}
-
-	// .........................................................................
-	#initActionMenu() {
-		this.#actionMenu.$bindTargetElement( this.$elements.$addBtn );
-		this.#actionMenu.$setDirection( "B" );
-		this.#actionMenu.$setMaxSize( "260px", "180px" );
-		this.#actionMenu.$setCallback( act => this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, act ) );
-		this.#actionMenu.$setActions( () => gsuiEffects.#fxList );
 	}
 }
 
