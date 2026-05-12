@@ -32,7 +32,7 @@ noscript {
 
 /* .......................................................................... */
 * {
-	scrollbar-width: thin;
+	scrollbar-width: none;
 }
 [ inert ] {
 	pointer-events: none;
