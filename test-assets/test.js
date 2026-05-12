@@ -1,7 +1,6 @@
 "use strict";
 
 const TESTcmpList = Object.freeze( [
-	"gsuiActionMenu",
 	"gsuiAnalyserHist",
 	"gsuiAnalyserHz",
 	"gsuiAnalyserTd",
