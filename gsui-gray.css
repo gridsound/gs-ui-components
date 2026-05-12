@@ -1,6 +1,7 @@
 body[ data-skin="gray" ] {
 	color-scheme: dark;
 	--app-bg: #1b1b31;
+	--app-popover-bg: #555;
 	--gsui-txt: #fff;
 	--gsui-ovl-1: #ffffff08;
 

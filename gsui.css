@@ -37,6 +37,14 @@ noscript {
 [ inert ] {
 	pointer-events: none;
 }
+[ popover ] {
+	margin: 6px;
+	border: 2px solid #0008;
+	border-radius: 6px;
+	padding: 0;
+	background-color: var( --app-popover-bg );
+	box-shadow: 0 20px 40px #0008;
+}
 
 /* .......................................................................... */
 :where( button, select ) {
