@@ -1,9 +1,14 @@
 "use strict";
 
-$.$setTemplate( "gsui-wave-editor", () =>
-	$.$flex( { class: "gsuiWaveEditor-in", x: true, f1: true },
+let gsuiWaveEditor_count = 0;
+
+$.$setTemplate( "gsui-wave-editor", () => {
+	const popId = `gsuiWaveEditor_count_${ ++gsuiWaveEditor_count }`;
+
+	return $.$flex( { class: "gsuiWaveEditor-in", x: true, f1: true },
 		$.$flex( { class: "gsuiWaveEditor-menu", y: true, g6: true },
-			$.$button( { class: "gsuiWaveEditor-waveBtn" },
+			$.$div( { class: "gsuiWaveEditor-waveletBrowser-pop", id: popId, popover: true } ),
+			$.$button( { class: "gsuiWaveEditor-waveBtn", popovertarget: popId },
 				$.$icon( { icon: "wave-tri" } ),
 				$.$icon( { icon: "list" } ),
 			),
@@ -57,8 +62,8 @@ $.$setTemplate( "gsui-wave-editor", () =>
 			$.$elem( "gsui-periodicwave" ),
 			$.$div( { class: "gsuiWaveEditor-wave-hover-square", inert: true } ),
 		),
-	),
-);
+	);
+} );
 
 $.$setTemplate( "gsui-wave-editor-tool-btn", ( tool, pts ) =>
 	$.$button( { "data-action": "tool", "data-tool": tool },

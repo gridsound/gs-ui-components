@@ -10,7 +10,6 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray2 = null;
 	#currentSquare = null;
 	#toolSelected = null;
-	#waveletBrowserDropdown = new gsuiDropdown();
 	#drawWaveThr = GSUthrottle( this.#drawWave.bind( this ), .2 );
 	static #clickSquareFns = {
 		goUp:     n =>     n,
@@ -47,13 +46,13 @@ class gsuiWaveEditor extends gsui0ne {
 				$gridSli: ".gsuiWaveEditor-div gsui-slider",
 				$hoverSquare: ".gsuiWaveEditor-wave-hover-square",
 				$waveSVG: "gsui-periodicwave",
+				$waveletBrowserPop: ".gsuiWaveEditor-waveletBrowser-pop",
 			},
 			$attributes: {
 				div: "16 16",
 				tool: "goUp",
 			},
 		} );
-		this.#initWaveletBrowserDropdown();
 		this.$this.$on( {
 			click: this.#onclick.bind( this ),
 			drop: this.#ondrop.bind( this ),
@@ -69,6 +68,11 @@ class gsuiWaveEditor extends gsui0ne {
 			pointermove: this.#onptrmoveWave.bind( this ),
 			pointerup: this.#onptrupWave.bind( this ),
 		} );
+		this.$elements.$waveletBrowserPop.$on( "beforetoggle", e => {
+			e.newState === "open"
+				? this.$elements.$waveletBrowserPop.$append( this.#onopenWaveBrowser() )
+				: this.$elements.$waveletBrowserPop.$empty();
+		} );
 	}
 
 	// .........................................................................
@@ -80,7 +84,7 @@ class gsuiWaveEditor extends gsui0ne {
 		this.#waveH = this.$elements.$wave.$height() | 0;
 		this.#updateBeatlines( 0, this.#div[ 0 ] );
 		this.#updateBeatlines( 1, this.#div[ 1 ] );
-		this.#drawWaveThr( true );
+		this.#drawWave( true );
 	}
 	static get observedAttributes() {
 		return [ "div", "tool" ]; // "symmetry", "normalized"
@@ -307,14 +311,8 @@ class gsuiWaveEditor extends gsui0ne {
 	}
 
 	// .........................................................................
-	#initWaveletBrowserDropdown() {
-		this.#waveletBrowserDropdown.$setDirection( "TR" );
-		this.#waveletBrowserDropdown.$bindTargetElement( this.$elements.$waveBtn );
-		this.#waveletBrowserDropdown.$onopenCreateElement( this.#onopenWaveBrowser.bind( this ) );
-	}
 	#onopenWaveBrowser() {
 		return $( "<gsui-wavelet-browser>" )
-			.$addClass( "gsuiWaveEditor-waveletBrowser" )
 			.$setAttr( "wave", this.#waveName )
 			.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList )
 			.$listen( {
@@ -326,7 +324,7 @@ class gsuiWaveEditor extends gsui0ne {
 						this.#waveName = val;
 						this.$setWaveArray( arr );
 						this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr );
-						this.#waveletBrowserDropdown.$close();
+						this.$elements.$waveletBrowserPop.$togglePopover( false );
 					} );
 				},
 			} );

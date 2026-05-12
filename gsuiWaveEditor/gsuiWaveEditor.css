@@ -8,10 +8,17 @@ gsui-wave-editor {
 }
 
 /* .......................................................................... */
-.gsuiWaveEditor-waveletBrowser {
-	width: 400px;
-	height: 200px;
-	max-width: 81vw;
+.gsuiWaveEditor-waveletBrowser-pop {
+	position: absolute;
+	position-anchor: --gsuiWaveEditor-waveBtn;
+	position-area: top;
+	position-try-fallbacks: bottom;
+
+	gsui-wavelet-browser {
+		width: 400px;
+		height: 200px;
+		max-width: 81vw;
+	}
 }
 
 /* .......................................................................... */
@@ -45,6 +52,7 @@ gsui-wave-editor {
 	}
 }
 .gsuiWaveEditor-waveBtn {
+	anchor-name: --gsuiWaveEditor-waveBtn;
 	display: flex;
 	justify-content: center;
 	gap: 4px;
