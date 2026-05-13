@@ -53,6 +53,7 @@ const TESTcmpList = Object.freeze( [
 	"gsuiTimewindow",
 	"gsuiTitleUser",
 	"gsuiToggle",
+	"gsuiTooltip",
 	"gsuiTrack",
 	"gsuiWaveEditor",
 	"gsuiWaveletBrowser",

@@ -1,0 +1,28 @@
+:root {
+	--gsuiTooltip-pos: top;
+	--gsuiTooltip-delayIn: .1s;
+	--gsuiTooltip-delayOut: .1s;
+}
+
+.gsuiTooltip {
+	position: absolute;
+	position-anchor: --gsuiTooltip-pop;
+	position-area: bottom;
+	position-try-fallbacks: top;
+	color: #fff;
+	border: 2px solid #0004;
+	border-radius: 4px;
+	padding: 8px 10px;
+	font-size: 13px;
+	white-space: pre;
+	background-color: #223d;
+	box-shadow: 0 8px 10px #0005;
+	pointer-events: none;
+
+	&:has( a ) {
+		pointer-events: auto;
+	}
+	a {
+		color: dodgerblue;
+	} 
+}

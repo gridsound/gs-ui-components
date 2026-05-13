@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsui.css"/>
+<link rel="stylesheet" href="../gsui-gray.css"/>
+<link rel="stylesheet" href="../gsui-white.css"/>
+<link rel="stylesheet" href="../gsui-flex.css"/>
+<link rel="stylesheet" href="../gsui-form.css"/>
+<link rel="stylesheet" href="../test-assets/test.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
+
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiTooltip.css"/>
+
+<!-- ....................................................................... -->
+<style>
+body {
+	--test-content-resize: none;
+}
+#testWrap div {
+	display: flex;
+	flex-wrap: wrap;
+	place-content: center;
+	padding: 2px 4px;
+	border-radius: 4px;
+	background-color: indianred;
+}
+</style>
+</head>
+<body>
+
+<!-- ....................................................................... -->
+<div id="TEST">
+	<gs-flex y g8>
+		<gs-label>bold + italic</gs-label>
+		<gs-flex x g8>
+			<div data-tooltip="string">string</div>
+			<div data-tooltip="<b>bold</b>">b</div>
+			<div data-tooltip="<i>italic</i><b>bold</b>">ib</div>
+			<div data-tooltip="asd <i>italic</i> zxc <b>bold</b> asd">_i_b_</div>
+		</gs-flex>
+		<gs-label>multilines</gs-label>
+		<gs-flex x g8>
+			<div data-tooltip="string<br/>plop">2 lines</div>
+			<div data-tooltip="string          plop">spaces</div>
+			<div data-tooltip="here a list:<br/>   * one<br/>   * two<br/>   * three">list</div>
+		</gs-flex>
+		<gs-label>link (then hoverable)</gs-label>
+		<gs-flex x g8>
+			<div data-tooltip="<a https://google.com>link</a>">a</div>
+			<div data-tooltip="<a https://google.com></a>">a</div>
+			<div data-tooltip="a link without words <a https://google.com></a>">_a</div>
+			<div data-tooltip="a <a http://google.com>link</a> to google">_a_</div>
+			<div data-tooltip="a <a https://google.com>link</a> to <i>google</i>">_a_i</div>
+		</gs-flex>
+		<gs-label>a message that keep changing</gs-label>
+		<gs-flex x g8  style="--gsuiTooltip-delayOut: 1s">
+			<div data-tooltip="zzz" id="random">random</div>
+		</gs-flex>
+		<gs-label>data-tooltip-pos (default: top)</gs-label>
+		<gs-flex x g8>
+			<div data-tooltip="default">default</div>
+			<div data-tooltip="top"    style="--gsuiTooltip-pos: top">👆</div>
+			<div data-tooltip="right"  style="--gsuiTooltip-pos: right">👉</div>
+			<div data-tooltip="bottom" style="--gsuiTooltip-pos: bottom">👇</div>
+			<div data-tooltip="left"   style="--gsuiTooltip-pos: left">👈</div>
+		</gs-flex>
+		<gs-label>--gsuiTooltip-delayOut (default: .1s)</gs-label>
+		<gs-flex x g8>
+			<div data-tooltip="half a second" style="--gsuiTooltip-delayOut: .5s">.5s</div>
+			<div data-tooltip="one second"    style="--gsuiTooltip-delayOut: 1s">1s</div>
+			<div data-tooltip="five seconds"  style="--gsuiTooltip-delayOut: 5s">5s</div>
+		</gs-flex>
+		<gs-label>--gsuiTooltip-delayIn (default: .1s)</gs-label>
+		<gs-flex x g8 style="--gsuiTooltip-delayIn: .1s">
+			<div data-tooltip="delay-in">.1s</div>
+			<div data-tooltip="delay-in">.1s</div>
+			<div data-tooltip="delay-in">.1s</div>
+		</gs-flex>
+		<gs-flex x g8 style="--gsuiTooltip-delayIn: .3s">
+			<div data-tooltip="delay-in">.3s</div>
+			<div data-tooltip="delay-in">.3s</div>
+			<div data-tooltip="delay-in">.3s</div>
+		</gs-flex>
+		<gs-flex x g8 style="--gsuiTooltip-delayIn: 1s">
+			<div data-tooltip="delay-in">1s</div>
+			<div data-tooltip="delay-in">1s</div>
+			<div data-tooltip="delay-in">1s</div>
+		</gs-flex>
+	</gs-flex>
+</div>
+
+<!-- ....................................................................... -->
+<script src="../gs-utils/gs-utils.js"></script>
+<script src="../gs-utils/gs-utils-math.js"></script>
+<script src="../gs-utils/gs-utils-func.js"></script>
+<script src="../gs-utils/gs-utils-jquery.js"></script>
+<script src="../test-assets/test.js"></script>
+<script src="../gsui-constantes.js"></script>
+<script src="../gsui0ne/gsui0ne.js"></script>
+
+<!-- ....................................................................... -->
+<script src="gsuiTooltip.js"></script>
+
+<!-- ....................................................................... -->
+<script>
+const crazyTooltip = $( "#random" )
+
+gsuiTooltip.$init();
+
+GSUsetInterval( () => {
+	crazyTooltip.$dataset( "tooltip", Math.random().toString( 36 ).substring( 7 ) );
+}, .2 );
+</script>
+</body>
+</html>
