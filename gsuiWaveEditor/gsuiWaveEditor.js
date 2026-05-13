@@ -10,7 +10,6 @@ class gsuiWaveEditor extends gsui0ne {
 	#waveArray2 = null;
 	#currentSquare = null;
 	#toolSelected = null;
-	#drawWaveThr = GSUthrottle( this.#drawWave.bind( this ), .2 );
 	static #clickSquareFns = {
 		goUp:     n =>     n,
 		goDown:   n => 1 - n,

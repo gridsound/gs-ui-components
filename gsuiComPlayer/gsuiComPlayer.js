@@ -62,7 +62,6 @@ class gsuiComPlayer extends gsui0ne {
 			.$onclick( e => {
 				const act = $( e.target ).$dataProp();
 
-				lg(act, "Asd")
 				if ( act ) {
 					this.#cbActionMenu( act );
 				}

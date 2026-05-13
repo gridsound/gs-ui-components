@@ -58,5 +58,5 @@ $.$setTemplate( "gsui-oscillator", () => {
 		),
 		$.$button( { class: "gsuiOscillator-remove", icon: "close", title: "Remove the oscillator" } ),
 		$.$div( { class: "gsuiOscillator-wavetable" } ),
-	)
+	);
 } );

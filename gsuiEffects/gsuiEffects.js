@@ -9,12 +9,6 @@ class gsuiEffects extends gsui0ne {
 		reverb: { cmp: "<gsui-fx-reverb>", name: "Reverb" },
 		waveshaper: { cmp: "<gsui-fx-waveshaper>", name: "WaveShaper" },
 	} );
-	static #fxList = GSUdeepFreeze( [
-		{ id: "filter",     name: "Filter",     desc: "LowPass, HighPass, BandPass, LowShelf, etc." },
-		{ id: "delay",      name: "Delay",      desc: "Echo, left/right ping-pong" },
-		{ id: "reverb",     name: "Reverb",     desc: "Convolution reverberation" },
-		{ id: "waveshaper", name: "WaveShaper", desc: "Distortion" },
-	] );
 
 	constructor() {
 		super( {

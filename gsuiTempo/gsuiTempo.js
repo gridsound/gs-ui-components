@@ -45,15 +45,6 @@ class gsuiTempo extends gsui0ne {
 	}
 
 	// .........................................................................
-	#createPopup() {
-		const [ bpm, time ] = this.$this.$getAttr( "bpm", "timedivision" );
-		const time2 = GSUsplitNums( time, "/" );
-
-		this.$elements.$inputs.$at( 0 ).$value( time2[ 0 ] );
-		this.$elements.$inputs.$at( 1 ).$value( time2[ 1 ] );
-		this.$elements.$inputs.$at( 2 ).$value( +bpm );
-		return this.$elements.$form;
-	}
 	$onsubmitPopup() {
 		const inp = this.$elements.$inputs;
 		const time = `${ inp.$at( 0 ).$value() }/${ inp.$at( 1 ).$value() }`;
