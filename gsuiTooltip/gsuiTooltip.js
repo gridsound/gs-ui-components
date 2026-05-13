@@ -10,7 +10,7 @@ class gsuiTooltip {
 	static #timeoutShow = null;
 	static #intervalWatch = null;
 
-	static $init() {
+	static $start() {
 		gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
 		$body.$append( gsuiTooltip.#popover )
 			.$addEventListener( "mouseover", gsuiTooltip.#mouseover );
@@ -90,3 +90,5 @@ class gsuiTooltip {
 		return arr;
 	}
 }
+
+gsuiTooltip.$start();

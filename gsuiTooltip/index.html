@@ -115,8 +115,6 @@ body {
 <script>
 const crazyTooltip = $( "#random" )
 
-gsuiTooltip.$init();
-
 GSUsetInterval( () => {
 	crazyTooltip.$dataset( "tooltip", Math.random().toString( 36 ).substring( 7 ) );
 }, .2 );
