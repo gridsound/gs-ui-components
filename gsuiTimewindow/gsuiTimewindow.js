@@ -190,12 +190,13 @@ class gsuiTimewindow extends gsui0ne {
 				break;
 			case "currenttime": {
 				const step = +this.$this.$getAttr( "currenttimestep" );
+				const em = step
+					? ( val / step | 0 ) * step
+					: val;
 
 				this.#currentTime = +val;
 				this.$elements.$timeline.$setAttr( "currenttime", val );
-				this.$elements.$currentTime.$left( step
-					? ( val / step | 0 ) * step
-					: val, "em" );
+				this.$elements.$currentTime.$css( "translate", `${ em }em 0` );
 				this.#minimapUpdate();
 				this.#minimapUpdateCurrentTimeLoop();
 				this.#centerOnCurrentTime();
