@@ -27,6 +27,7 @@ class gsuiSlider extends gsui0ne {
 				$svg: ".gsuiSlider-svg",
 				$svgLine: ".gsuiSlider-svgLine",
 				$svgLineColor: ".gsuiSlider-svgLineColor",
+				$catcher: ".gsuiSlider-eventCatcher",
 			},
 			$attributes: {
 				min: 0,
@@ -48,7 +49,7 @@ class gsuiSlider extends gsui0ne {
 		this.#updateVal( this.#value );
 	}
 	static get observedAttributes() {
-		return [ "value", "revert", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width" ];
+		return [ "value", "revert", "type", "min", "max", "step", "scroll-step", "mousemove-size", "stroke-width", "data-tooltip" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -61,6 +62,12 @@ class gsuiSlider extends gsui0ne {
 			case "scroll-step": this.#scrollStep = +val; break;
 			case "stroke-width": this.#strokeWidth = +val; break;
 			case "mousemove-size": this.#mousemoveSize = +val; break;
+			case "data-tooltip":
+				if ( val !== " " ) {
+					this.$this.$setAttr( prop, " " );
+					this.$elements.$catcher.$setAttr( prop, val );
+				}
+				break;
 		}
 		switch ( prop ) {
 			case "type":
