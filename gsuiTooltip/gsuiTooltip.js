@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiTooltip {
-	static #tar = $noop;
-	static #prevtar = $noop;
+	static #elOver = $noop;
+	static #elAnchor = $noop;
 	static #popover = $noop;
 	static #delayOut = 0;
 	static #currText = null;
@@ -20,10 +20,10 @@ class gsuiTooltip {
 
 		GSUclearTimeout( gsuiTooltip.#timeoutShow );
 		GSUclearInterval( gsuiTooltip.#intervalWatch );
-		gsuiTooltip.#tar = tar;
+		gsuiTooltip.#elOver = tar;
 		gsuiTooltip.#timeoutShow = null;
 		gsuiTooltip.#timeoutHide ||= GSUsetTimeout( gsuiTooltip.#hide, gsuiTooltip.#delayOut );
-		if ( tar.$dataset( "tooltip" ) ) {
+		if ( tar.$dataset( "tooltip" )?.trim() ) {
 			const delA = parseFloat( tar.$css( "--gsuiTooltip-delayIn" ) ) || 0;
 			const delB = parseFloat( tar.$css( "--gsuiTooltip-delayOut" ) ) || 0;
 
@@ -35,18 +35,19 @@ class gsuiTooltip {
 	}
 	static #hide() {
 		gsuiTooltip.#timeoutHide = null;
-		if ( !gsuiTooltip.#popover.$contains( gsuiTooltip.#tar ) ) {
+		if ( !gsuiTooltip.#popover.$contains( gsuiTooltip.#elOver ) ) {
 			gsuiTooltip.#popover.$togglePopover( false ).$empty();
-			gsuiTooltip.#prevtar.$css( "anchor-name", "" );
-			gsuiTooltip.#prevtar =
-			gsuiTooltip.#tar = $noop;
+			gsuiTooltip.#setAnchor( $noop );
+			gsuiTooltip.#elOver = $noop;
 			gsuiTooltip.#currText = null;
 		}
 	}
+	static #setAnchor( tar ) {
+		gsuiTooltip.#elAnchor.$css( "anchor-name", "" );
+		gsuiTooltip.#elAnchor = tar.$css( "anchor-name", "--gsuiTooltip-pop" );
+	}
 	static #show( tar ) {
-		gsuiTooltip.#prevtar.$css( "anchor-name", "" );
-		gsuiTooltip.#prevtar = tar;
-		tar.$css( "anchor-name", "--gsuiTooltip-pop" );
+		gsuiTooltip.#setAnchor( tar );
 		gsuiTooltip.#updateContent();
 		gsuiTooltip.#popover
 			.$css( "position-area", tar.$css( "--gsuiTooltip-pos" ) )
@@ -54,7 +55,7 @@ class gsuiTooltip {
 		gsuiTooltip.#intervalWatch = GSUsetInterval( gsuiTooltip.#updateContent, .25 );
 	}
 	static #updateContent() {
-		const txt = gsuiTooltip.#prevtar.$dataset( "tooltip" );
+		const txt = gsuiTooltip.#elAnchor.$dataset( "tooltip" );
 
 		if ( txt !== gsuiTooltip.#currText ) {
 			gsuiTooltip.#currText = txt;
