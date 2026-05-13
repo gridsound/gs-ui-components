@@ -14,6 +14,9 @@ gsui-oscillator {
 	&[ wavetable ] {
 		min-height: 500px;
 	}
+	gsui-slider {
+		--gsuiTooltip-pos: bottom;
+	}
 }
 .gsuiOscillator-in {
 	display: grid;
@@ -128,8 +131,8 @@ gsui-oscillator {
 	display: flex;
 	flex-direction: column;
 	grid-area: wave;
+	min-width: 0;
 	gap: 4px;
-	overflow: hidden;
 }
 .gsuiOscillator-waveWrap {
 	position: relative;

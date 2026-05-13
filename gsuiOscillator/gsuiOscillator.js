@@ -219,7 +219,7 @@ class gsuiOscillator extends gsui0ne {
 		}
 		this.#getPropSlider( prop ).$setAttr( {
 			value: val,
-			title: `${ prop } ${ val2 }`,
+			"data-tooltip": `${ prop } ${ val2 }`,
 		} );
 		gsuiOscillator.#setTextValue( this.#getPropOutput( prop ), prop, val2 );
 	}

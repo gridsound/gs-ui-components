@@ -17,10 +17,10 @@ $.$setTemplate( "gsui-oscillator", () => {
 			$.$div( { class: "gsuiOscillator-waveWrap" },
 				$.$div( { class: "gsuiOscillator-waveWrap-left" },
 					$.$div( { class: "gsuiOscillator-waveWrap-top" },
-						$.$button( { "data-dir": "-1", icon: "caret-left", title: "Previous wave" } ),
-						$.$button( { "data-dir": "1", icon: "caret-right", title: "Next wave" } ),
+						$.$button( { "data-dir": "-1", icon: "caret-left", "data-tooltip": "Previous wave" } ),
+						$.$button( { "data-dir": "1", icon: "caret-right", "data-tooltip": "Next wave" } ),
 						$.$button( { class: "gsuiOscillator-waveName", popovertarget: popId } ),
-						$.$button( { class: "gsuiOscillator-waveEdit", icon: "cu-wave-edit", title: "Open wavetable editor" } ),
+						$.$button( { class: "gsuiOscillator-waveEdit", icon: "cu-wave-edit", "data-tooltip": "Wavetable editor" } ),
 						$.$icon( { class: "gsuiOscillator-sourceIcon", icon: "cu-waveform" } ),
 						$.$span( { class: "gsuiOscillator-sourceName" } ),
 					),
@@ -44,11 +44,11 @@ $.$setTemplate( "gsui-oscillator", () => {
 			$.$elem( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .001, "mousemove-size": "800", "data-prop": "unisonblend" } ),
 		),
 		[
-			[ "detune", "pitch", -24, 24, 1, 0 ],
-			[ "pan", "pan", -1, 1, .02, 0 ],
-			[ "gain", "gain", 0, 1, .01, 1 ],
-		].map( ( [ prop, title, min, max, step, def ] ) =>
-			$.$div( { class: "gsuiOscillator-prop", "data-prop": prop, title },
+			[ "detune", -24, 24, 1, 0 ],
+			[ "pan", -1, 1, .02, 0 ],
+			[ "gain", 0, 1, .01, 1 ],
+		].map( ( [ prop, min, max, step, def ] ) =>
+			$.$div( { class: "gsuiOscillator-prop", "data-prop": prop },
 				$.$div( { class: "gsuiOscillator-sliderWrap" },
 					$.$elem( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop, defaultValue: def } ),
 					prop !== "detune" ? null : $.$elem( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3, defaultValue: 0 } )
@@ -56,7 +56,7 @@ $.$setTemplate( "gsui-oscillator", () => {
 				$.$div( { class: "gsuiOscillator-sliderValue" } ),
 			)
 		),
-		$.$button( { class: "gsuiOscillator-remove", icon: "close", title: "Remove the oscillator" } ),
+		$.$button( { class: "gsuiOscillator-remove", icon: "close", "data-tooltip": "Remove the oscillator" } ),
 		$.$div( { class: "gsuiOscillator-wavetable" } ),
 	);
 } );
