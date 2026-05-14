@@ -10,6 +10,12 @@ class gsuiTooltip {
 	static #timeoutShow = null;
 	static #intervalWatch = null;
 	static #anchorName = "--gsuiTooltip-pop";
+	static #fallbacks = Object.freeze( {
+		top: "bottom",
+		bottom: "top",
+		left: "right",
+		right: "left",
+	} );
 
 	static $start() {
 		gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
@@ -57,10 +63,13 @@ class gsuiTooltip {
 		gsuiTooltip.#elAnchor = tar.$css( "anchor-name", gsuiTooltip.#addElemAnchor );
 	}
 	static #show( tar ) {
+		const pos = tar.$css( "--gsuiTooltip-pos" );
+
 		gsuiTooltip.#setAnchor( tar );
 		gsuiTooltip.#updateContent();
 		gsuiTooltip.#popover
-			.$css( "position-area", tar.$css( "--gsuiTooltip-pos" ) )
+			.$css( "position-area", pos )
+			.$css( "position-try-fallbacks", gsuiTooltip.#fallbacks[ pos ] || "none" )
 			.$togglePopover( true );
 		gsuiTooltip.#intervalWatch = GSUsetInterval( gsuiTooltip.#updateContent, .25 );
 	}
