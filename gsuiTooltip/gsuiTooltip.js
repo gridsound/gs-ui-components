@@ -9,6 +9,7 @@ class gsuiTooltip {
 	static #timeoutHide = null;
 	static #timeoutShow = null;
 	static #intervalWatch = null;
+	static #anchorName = "--gsuiTooltip-pop";
 
 	static $start() {
 		gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
@@ -42,9 +43,18 @@ class gsuiTooltip {
 			gsuiTooltip.#currText = null;
 		}
 	}
+	static #getElemAnchor( el ) {
+		return ( $.$css( el, "anchor-name" ) || "" ).split( ", " ).filter( a => a !== "none" );
+	}
+	static #addElemAnchor( el ) {
+		return `${ GSUarrayPushBack( gsuiTooltip.#getElemAnchor( el ), gsuiTooltip.#anchorName ) }`;
+	}
+	static #rmElemAnchor( el ) {
+		return `${ gsuiTooltip.#getElemAnchor( el ).filter( a => a !== gsuiTooltip.#anchorName ) }`;
+	}
 	static #setAnchor( tar ) {
-		gsuiTooltip.#elAnchor.$css( "anchor-name", "" );
-		gsuiTooltip.#elAnchor = tar.$css( "anchor-name", "--gsuiTooltip-pop" );
+		gsuiTooltip.#elAnchor.$css( "anchor-name", gsuiTooltip.#rmElemAnchor );
+		gsuiTooltip.#elAnchor = tar.$css( "anchor-name", gsuiTooltip.#addElemAnchor );
 	}
 	static #show( tar ) {
 		gsuiTooltip.#setAnchor( tar );
