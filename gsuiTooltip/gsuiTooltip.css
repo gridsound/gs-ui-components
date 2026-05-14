@@ -14,7 +14,7 @@
 	font-size: 13px;
 	white-space: pre;
 	background-color: #223d;
-	box-shadow: 0 8px 10px #0005;
+	box-shadow: 0 0px 10px #0005;
 	pointer-events: none;
 
 	&:has( a ) {
