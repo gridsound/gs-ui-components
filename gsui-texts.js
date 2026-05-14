@@ -1,6 +1,6 @@
 "use strict";
 
-const GSTXall = {
+const GSTXall = GSUdeepFreeze( {
 	en: {
 		$daw_gain:          "Main app <b>volume</b> (this will not affect the rendering)",
 		$daw_focus:         "Switch <b>focus</b> between the composition and piano windows",
@@ -68,6 +68,6 @@ const GSTXall = {
 		$oscillator_wavetable: "<b>Wavetable</b> editor",
 		$oscillator_remove:    "<b>Remove</b> the oscillator",
 	},
-};
+} );
 
 const GSTX = GSTXall.en;
