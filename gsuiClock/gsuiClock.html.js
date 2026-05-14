@@ -9,8 +9,8 @@ $.$setTemplate( "gsui-clock", () => [
 			$.$span( { class: "gsuiClock-modeText" } ),
 		),
 	),
-	$.$button( { class: "gsuiClock-modes" },
-		$.$div( { class: "gsuiClock-mode gsuiClock-beat" } ),
-		$.$div( { class: "gsuiClock-mode gsuiClock-second" } ),
+	$.$button( { class: "gsuiClock-modes", "data-tooltip": "Toggle <b>beat</b> or <b>second</b> unit" },
+		$.$div( { class: "gsuiClock-mode gsuiClock-beat", inert: true } ),
+		$.$div( { class: "gsuiClock-mode gsuiClock-second", inert: true } ),
 	),
 ] );
