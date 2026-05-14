@@ -9,7 +9,7 @@ $.$setTemplate( "gsui-clock", () => [
 			$.$span( { class: "gsuiClock-modeText" } ),
 		),
 	),
-	$.$button( { class: "gsuiClock-modes", "data-tooltip": "Toggle <b>beat</b> or <b>second</b> unit" },
+	$.$button( { class: "gsuiClock-modes", "data-tooltip": GSTX.$clock_switch },
 		$.$div( { class: "gsuiClock-mode gsuiClock-beat", inert: true } ),
 		$.$div( { class: "gsuiClock-mode gsuiClock-second", inert: true } ),
 	),

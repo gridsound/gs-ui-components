@@ -6,7 +6,7 @@ $.$setTemplate( "gsui-effects", () => {
 	const popId = `gsuiEffects_count_${ ++gsuiEffects_count }`;
 
 	return [
-		$.$button( { class: "gsuiEffects-addBtn", popovertarget: popId, title: "Add an effect" },
+		$.$button( { class: "gsuiEffects-addBtn", popovertarget: popId, "data-tooltip": GSTX.$effects_add },
 			$.$icon( { icon: "add-effect" } ),
 		),
 		$.$div( { class: "gsuiEffects-addList", id: popId, popover: true },

@@ -28,6 +28,9 @@ gsui-channel {
 		width: 100%;
 		height: 18px;
 	}
+	gsui-slider {
+		--gsuiTooltip-pos: right;
+	}
 }
 
 /* .......................................................................... */

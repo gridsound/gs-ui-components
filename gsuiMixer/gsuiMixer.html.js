@@ -9,7 +9,7 @@ $.$setTemplate( "gsui-mixer", () =>
 				$.$elem( "gsui-help-link", { page: "mixer-channels" } ),
 				$.$div( { class: "gsuiMixer-analyserTypes" },
 					$.$icon( { icon: "cu-waveform" } ),
-					$.$button( null,
+					$.$button( { "data-tooltip": GSTX.$mixer_visu },
 						$.$getTemplate( "gsui-mixer-analyser-label", "timeDomain" ),
 						$.$getTemplate( "gsui-mixer-analyser-label", "frequency" ),
 					),

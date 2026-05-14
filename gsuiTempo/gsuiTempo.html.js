@@ -6,7 +6,7 @@ $.$setTemplate( "gsui-tempo", () => {
 	const popId = `gsuiTempo_count_${ ++gsuiTempo_count }`;
 
 	return [
-		$.$button( { popovertarget: popId, "data-tooltip": "Edit BPM + time signature" },
+		$.$button( { popovertarget: popId, "data-tooltip": GSTX.$tempo_edit },
 			$.$div( { class: "gsuiTempo-timeDivision" },
 				$.$span( { class: "gsuiTempo-beatsPerMeasure" } ),
 				$.$span( { class: "gsuiTempo-stepsPerBeat" } ),
@@ -26,7 +26,7 @@ $.$setTemplate( "gsui-tempo", () => {
 				$.$label( null, "BPM " ),
 				$.$div( null,
 					$.$input( { type: "number", step: .01, min: 1, max: 999.99, required: true } ),
-					$.$button( { icon: "tint", "data-tooltip": "Hit that button in rhythm<br/>it will calculate the BPM" } ),
+					$.$button( { icon: "tint", "data-tooltip": GSTX.$tempo_tap } ),
 				),
 			),
 			$.$button( { type: "submit" }, "Ok" ),

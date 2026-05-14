@@ -17,10 +17,10 @@ $.$setTemplate( "gsui-oscillator", () => {
 			$.$div( { class: "gsuiOscillator-waveWrap" },
 				$.$div( { class: "gsuiOscillator-waveWrap-left" },
 					$.$div( { class: "gsuiOscillator-waveWrap-top" },
-						$.$button( { "data-dir": "-1", icon: "caret-left", "data-tooltip": "Previous wave" } ),
-						$.$button( { "data-dir": "1", icon: "caret-right", "data-tooltip": "Next wave" } ),
+						$.$button( { "data-dir": "-1", icon: "caret-left", "data-tooltip": GSTX.$oscillator_prevWave } ),
+						$.$button( { "data-dir": "1", icon: "caret-right", "data-tooltip": GSTX.$oscillator_nextWave } ),
 						$.$button( { class: "gsuiOscillator-waveName", popovertarget: popId } ),
-						$.$button( { class: "gsuiOscillator-waveEdit", icon: "cu-wave-edit", "data-tooltip": "Wavetable editor" } ),
+						$.$button( { class: "gsuiOscillator-waveEdit", icon: "cu-wave-edit", "data-tooltip": GSTX.$oscillator_wavetable } ),
 						$.$icon( { class: "gsuiOscillator-sourceIcon", icon: "cu-waveform" } ),
 						$.$span( { class: "gsuiOscillator-sourceName" } ),
 					),
@@ -56,7 +56,7 @@ $.$setTemplate( "gsui-oscillator", () => {
 				$.$div( { class: "gsuiOscillator-sliderValue" } ),
 			)
 		),
-		$.$button( { class: "gsuiOscillator-remove", icon: "close", "data-tooltip": "Remove the oscillator" } ),
+		$.$button( { class: "gsuiOscillator-remove", icon: "close", "data-tooltip": GSTX.$oscillator_remove } ),
 		$.$div( { class: "gsuiOscillator-wavetable" } ),
 	);
 } );

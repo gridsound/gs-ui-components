@@ -68,7 +68,12 @@ class gsuiChannel extends gsui0ne {
 				this.$elements.$name.$text( val );
 				break;
 			case "muted":
-				this.$elements.$toggle.$setAttr( "off", val !== null );
+				this.$elements.$toggle.$setAttr( {
+					off: val !== null,
+					"data-tooltip": val !== null
+						? GSTX.$channel_unmute
+						: GSTX.$channel_mute,
+				} );
 				break;
 			case "pan":
 			case "gain":

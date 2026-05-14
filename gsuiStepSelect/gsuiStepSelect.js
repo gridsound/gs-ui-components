@@ -17,7 +17,7 @@ class gsuiStepSelect extends gsui0ne {
 			$attributes: {
 				step: 1,
 				auto: true,
-				title: "Grid snap",
+				"data-tooltip": GSTX.$stepSelect_snap,
 			},
 		} );
 		this.$this.$on( {

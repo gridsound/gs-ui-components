@@ -2,10 +2,10 @@
 
 $.$setTemplate( "gsui-channels", () => [
 	$.$div( { class: "gsuiChannels-panMain" },
-		$.$elem( "gsui-analyser-vu", { max: 120, title: "current channel's VU (max 120%)" } ),
+		$.$elem( "gsui-analyser-vu", { max: 120, "data-tooltip": GSTX.$channels_vu } ),
 	),
 	$.$div( { class: "gsuiChannels-panChannels" },
-		$.$button( { class: "gsuiChannels-addChan", title: "Add a channel" },
+		$.$button( { class: "gsuiChannels-addChan", "data-tooltip": GSTX.$channels_add },
 			$.$icon( { icon: "channels" } ),
 			$.$icon( { icon: "plus" } ),
 		),

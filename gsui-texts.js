@@ -25,6 +25,48 @@ const GSTXall = {
 		$win_rename_drums:  "<b>Rename</b> this drums pattern",
 		$win_rename_slices: "<b>Rename</b> this slices pattern",
 		$win_autoscroll:    "Auto scrolling",
+		// .....................................................................
+		$clock_switch: "Switch <b>beat</b> or <b>second</b> unit",
+		// .....................................................................
+		$tempo_edit: "Edit <b>BPM</b> + <b>time signature</b>",
+		$tempo_tap:  "Hit that button in rhythm<br/>it will calculate the <b>BPM</b>",
+		// .....................................................................
+		$timewindow_zoomX: "Zoom X",
+		$timewindow_zoomY: "Zoom Y",
+		// .....................................................................
+		$stepSelect_snap: "Grid snap",
+		// .....................................................................
+		$patterns_redirectSynth:   "<b>Redirect</b> this synthesizer",
+		$patterns_createKeys:      "<b>Create</b> a new <b>keys pattern</b> with this synthesizer",
+		$patterns_deleteSynth:     "<b>Delete</b> the synthesizer and its patterns",
+		$patterns_editPatternInfo: "<b>Edit</b> the buffer pattern's info",
+		$patterns_redirectPattern: "<b>Redirect</b> this pattern",
+		$patterns_clonePattern:    "<b>Clone</b> this pattern",
+		$patterns_deletePattern:   "<b>Delete</b> this pattern",
+		// .....................................................................
+		$mixer_visu: "Switch visualisation type",
+		// .....................................................................
+		$channels_vu:  "VU of the <b>selected channel</b><br/>🔴 = over 100% (the graphic goes to 120%)",
+		$channels_add: "Add a channel",
+		// .....................................................................
+		$channel_rename: "Double-click to <b>rename</b> the channel",
+		$channel_remove: "<b>Remove</b> the channel",
+		$channel_pan:    "Left/right panning",
+		$channel_gain:   "Gain, volume",
+		$channel_mute:   "<b>Mute</b> the channel",
+		$channel_unmute: "<b>Unmute</b> the channel",
+		// .....................................................................
+		$effects_add: "<b>Add</b> an effect",
+		// .....................................................................
+		$drumrow_mute:   "<b>Mute</b> the drumrow (right click for solo)",
+		$drumrow_unmute: "<b>Unmute</b> the drumrow (right click for solo)",
+		$drumrow_expand: "<b>Expand</b> props panel",
+		$drumrow_remove: "<b>Remove</b> the drumrow",
+		// .....................................................................
+		$oscillator_prevWave:  "Previous wave",
+		$oscillator_nextWave:  "Next wave",
+		$oscillator_wavetable: "<b>Wavetable</b> editor",
+		$oscillator_remove:    "<b>Remove</b> the oscillator",
 	},
 };
 
