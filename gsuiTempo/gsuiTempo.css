@@ -120,6 +120,7 @@ gsui-tempo {
 		border-radius: 4px;
 		font-size: 12px;
 		background-color: #0004;
+		--gsuiTooltip-pos: right;
 
 		&:focus-visible,
 		&:hover {
