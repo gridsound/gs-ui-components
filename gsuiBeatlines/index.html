@@ -1,40 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiBeatlines.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 460px;
-	--test-content-h: 320px;
+:root {
+	--TryMe-w: 300px;
+	--TryMe-h: 300px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
-	<gsui-beatlines timedivision="4/4" pxperbeat="28" color="#fff" coloredodds></gsui-beatlines>
+<div id="TryComponent">
+	<gsui-beatlines timedivision="4/4" pxperbeat="64" color="#fff" coloredodds></gsui-beatlines>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<div>
 		<button id="vertical">toggle vertical</button>
 	</div>
@@ -42,8 +17,8 @@ body {
 		<button id="coloredodds">toggle colored odds</button>
 	</div>
 	<div>
-		<input id="pxPerBeat" type="range" value="28" min="1" max="200" step="1"/>
-		<b>28</b>
+		<input id="pxPerBeat" type="range" value="64" min="1" max="200" step="1"/>
+		<b>64</b>
 		<span>pxPerBeat</span>
 	</div>
 	<div>
@@ -58,20 +33,6 @@ body {
 	</div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiBeatlines.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const uiBeatlines = $( "gsui-beatlines" );
 const inputPPB = $( "#pxPerBeat" );
@@ -95,5 +56,3 @@ $( [
 	} );
 } );
 </script>
-</body>
-</html>

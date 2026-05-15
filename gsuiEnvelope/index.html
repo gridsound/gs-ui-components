@@ -1,44 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../gsui-form.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-<link rel="stylesheet" href="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiEnvelope.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 460px;
-	--test-content-h: 234px;
+:root {
+	--TryMe-w: 460px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-envelope toggle timedivision="4/4" attack=".25" hold=".15" decay=".1" sustain=".7" amp="12" release="1"></gsui-envelope>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<label>
 		<input id="inpToggle" type="checkbox" checked/>
 		<span>toggle</span>
@@ -68,28 +38,6 @@ body {
 	</div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-<script src="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.html.js"></script>
-<script src="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiEnvelope.html.js"></script>
-<script src="gsuiEnvelope.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const elEnv = $( "gsui-envelope" );
 const inpToggle = $( "#inpToggle" );
@@ -110,5 +58,3 @@ btnPlayLive.$onclick( () => elEnv.$get( 0 ).$stopKey( "keylive-0" ) );
 inpBPM.$oninput( () => spanBPM.$text( bpm = +inpBPM.$value() ) );
 inpBPM.$trigger( "oninput" );
 </script>
-</body>
-</html>

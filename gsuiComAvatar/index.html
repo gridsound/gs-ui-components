@@ -1,75 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiComAvatar.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-resize: none;
-}
-#testWrap {
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-start;
-	gap: 12px;
-	max-width: 230px;
+:root {
+	--TryMe-resize: none;
 }
 gsui-com-avatar {
 	width: 140px;
 	height: 140px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-com-avatar></gsui-com-avatar>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<div><label><input id="avatar" type="checkbox" /> avatar</label></div>
 	<div><label><input id="ava404" type="checkbox" /> avatar 404</label></div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiComAvatar.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const elCmp = $( "gsui-com-avatar" );
 const avatar = $( "#avatar" );
 const ava404 = $( "#ava404" );
 
-avatar.$onchange( () => elCmp.$setAttr( "src", !avatar.$checked() ? false : "../test-assets/avatar.jpg" ) );
-ava404.$onchange( () => elCmp.$setAttr( "src", !ava404.$checked() ? false : "../test-assets/ava404.jpg" ) );
+avatar.$onchange( () => elCmp.$setAttr( "src", !avatar.$checked() ? false : "test-assets/avatar.jpg" ) );
+ava404.$onchange( () => elCmp.$setAttr( "src", !ava404.$checked() ? false : "test-assets/ava404.jpg" ) );
 </script>
-</body>
-</html>

@@ -1,65 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiNoise.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 450px;
+:root {
+	--TryMe-w: 450px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-noise gain=".5" pan="-.25"></gsui-noise>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<label>
 		<input type="checkbox" id="toggle" checked/>
 		<span>toggle</span>
 	</label>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiNoise.html.js"></script>
-<script src="gsuiNoise.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const noi = $( "gsui-noise" );
 const inpToggle = $( "#toggle" );
@@ -68,5 +23,3 @@ inpToggle
 	.$onchange( () => noi.$setAttr( "toggle", inpToggle.$checked() ) )
 	.$trigger( "onchange" );
 </script>
-</body>
-</html>

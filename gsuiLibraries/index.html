@@ -1,64 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiLibrary/gsuiLibrary.css"/>
-<link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiLibraries.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 340px;
-	--test-content-h: 480px;
+:root {
+	--TryMe-w: 340px;
+	--TryMe-h: 480px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-libraries/>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-<script src="../assets/gsuiLibrarySamples-v1.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiLibrary/gsuiLibrary.html.js"></script>
-<script src="../gsuiLibrary/gsuiLibrary.js"></script>
-<script src="../gsuiReorder/gsuiReorder.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiLibraries.html.js"></script>
-<script src="gsuiLibraries.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const elLibs = $( "gsui-libraries" );
 const elLibDef = elLibs.$get( 0 ).$getLibrary( "default" );
@@ -74,5 +24,3 @@ elLibs.$listen( {
 	},
 } );
 </script>
-</body>
-</html>

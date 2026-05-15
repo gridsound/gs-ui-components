@@ -1,72 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
-<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiPopup.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-resize: none;
-}
-#testWrap {
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-start;
-	gap: 12px;
-	max-width: 230px;
+:root {
+	--TryMe-resize: none;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-com-button text="alert"></gsui-com-button>
 	<gsui-com-button text="confirm"></gsui-com-button>
 	<gsui-com-button text="prompt"></gsui-com-button>
 	<gsui-com-button text="custom" type="submit"></gsui-com-button>
 </div>
-<div id="TEST-CTRLS">
-</div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiRipple/gsuiRipple.js"></script>
-<script src="../gsuiComButton/gsuiComButton.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiPopup.html.js"></script>
-<script src="gsuiPopup.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 $( "gsui-com-button[text='alert']"   ).$onclick( () => $popup.$alert(   "Error 2025", "Should reboot everything!"           ).then( lg.bind( null, "$popup.$alert"   ) ) );
 $( "gsui-com-button[text='confirm']" ).$onclick( () => $popup.$confirm( "Error 2025", "Should we reboot the system?"        ).then( lg.bind( null, "$popup.$confirm" ) ) );
@@ -97,5 +41,3 @@ $( "gsui-com-button[text='custom']" ).$onclick( () => {
 
 // $( "gsui-com-button[text='custom']" ).$click();
 </script>
-</body>
-</html>

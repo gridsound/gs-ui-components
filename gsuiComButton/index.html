@@ -1,78 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiComButton.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-resize: none;
-}
-#testWrap {
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-start;
-	gap: 12px;
-	max-width: 230px;
+:root {
+	--TryMe-w: 220px;
+	--TryMe-resize: none;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
-	<gsui-com-button text="Cancel"></gsui-com-button>
-	<gsui-com-button text="Save" type="submit"></gsui-com-button>
-	<gsui-com-button text="Danger" type="danger" icon="render"></gsui-com-button>
-	<gsui-com-button text="Loading..." loading></gsui-com-button>
-	<gsui-com-button text="plop" disabled></gsui-com-button>
-	<gsui-com-button text="plop" disabled type="submit"></gsui-com-button>
-	<gsui-com-button text="plop" disabled type="danger"></gsui-com-button>
-</div>
-<div id="TEST-CTRLS">
+<div id="TryComponent">
+	<gs-flex x g8 wrap>
+		<gsui-com-button text="Cancel"></gsui-com-button>
+		<gsui-com-button text="Save" type="submit"></gsui-com-button>
+		<gsui-com-button text="Danger" type="danger" icon="render"></gsui-com-button>
+		<gsui-com-button text="Loading..." loading></gsui-com-button>
+		<gsui-com-button text="plop" disabled></gsui-com-button>
+		<gsui-com-button text="plop" disabled type="submit"></gsui-com-button>
+		<gsui-com-button text="plop" disabled type="danger"></gsui-com-button>
+	</gs-flex>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
+<div id="TryControls"></div>
 
-<!-- ....................................................................... -->
-<script src="../gsuiRipple/gsuiRipple.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiComButton.js"></script>
-
-<!-- ....................................................................... -->
 <script>
-const btn = $( "gsui-com-button" );
-
-btn.$onclick( e => {
-	lg( e.target );
-} );
+$( "gsui-com-button" ).$onclick( e => lg( e.target ) );
 </script>
-</body>
-</html>

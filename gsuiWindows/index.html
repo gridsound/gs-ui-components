@@ -1,44 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiWindow.css"/>
-<link rel="stylesheet" href="gsuiWindows.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 560px;
-	--test-content-h: 400px;
+:root {
+	--TryMe-w: 500px;
+	--TryMe-h: 280px;
 }
 gsui-windows {
 	background-color: #111;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-windows></gsui-windows>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<label>
 		<input id="lowGraphics" type="checkbox"/>
 		<span>low graphics</span>
@@ -57,22 +31,6 @@ gsui-windows {
 	</div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiWindow.html.js"></script>
-<script src="gsuiWindow.js"></script>
-<script src="gsuiWindows.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const uiWins = $( "gsui-windows" );
 const wins = $( [
@@ -99,5 +57,3 @@ wins.$setAttr( ( _, i ) => attrs[ i ] ).$addAttr( "show" );
 
 $( "#addContent" ).$click();
 </script>
-</body>
-</html>

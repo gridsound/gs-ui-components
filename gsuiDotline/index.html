@@ -1,52 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiDotline.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 500px;
-	--test-content-h: 560px;
-	--test-content-resize: both;
-}
-#testWrap {
-	display: flex;
+:root {
+	--TryMe-w: 300px;
+	--TryMe-h: 300px;
 }
 gsui-dotline {
 	background-color: #fff4;
 }
-#testCtrls input[ type="number" ] {
+#TryControls input[ type="number" ] {
 	width: 42px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-dotline beatlines viewbox="-50 -50 50 50"></gsui-dotline>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<div>
 		<label>
 			<input id="movelinked" type="checkbox"/>
@@ -67,29 +36,6 @@ gsui-dotline {
 	</div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.html.js"></script>
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiDotline.html.js"></script>
-<script src="gsuiDotline.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const line = $( "gsui-dotline" );
 
@@ -112,5 +58,3 @@ line.$get( 0 ).$change( {
 	6: { x:  50, y:  50, type: "stair",        val: 3 },
 } );
 </script>
-</body>
-</html>

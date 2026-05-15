@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiAnalyserVu.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 110px;
-	--test-content-h: 500px;
+:root {
+	--TryMe-w: 32px;
+	--TryMe-h: 160px;
 }
 #testCtrls input[ type="range" ] {
 	width: 50px;
@@ -38,34 +15,16 @@ body {
 	margin-left: 1ch;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-analyser-vu max="120"></gsui-analyser-vu>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<button id="play" disabled>kick</button><br/>
 	<input type="range" id="hardValue" min="0" max="2" step=".01" value="0"/>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiAnalyserVu.html.js"></script>
-<script src="gsuiAnalyserVu.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const play = $( "#play" );
 const analyserVu = $( "gsui-analyser-vu" );
@@ -87,7 +46,7 @@ split.connect( anR, 1 );
 let hardVal = 0;
 $( "#hardValue" ).$oninput( e => hardVal = +e.target.value );
 
-fetch( "../test-assets/808kick.wav" )
+fetch( "test-assets/808kick.wav" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
@@ -116,5 +75,3 @@ function frame() {
 
 GSUsetInterval( frame, 0 );
 </script>
-</body>
-</html>

@@ -1,73 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-<link rel="stylesheet" href="../gsuiToggle/gsuiToggle.css"/>
-<link rel="stylesheet" href="../gsuiDrumrow/gsuiDrumrow.css"/>
-<link rel="stylesheet" href="../gsuiPropSelect/gsuiPropSelect.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiDrumrows.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 300px;
-	--test-content-h: 380px;
-	--test-content-resize: both;
+:root {
+	--TryMe-w: 300px;
 }
 gsui-drumrows {
 	--gsuiTimewindow-lineH: 48px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-drumrows></gsui-drumrows>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-<script src="../gsuiToggle/gsuiToggle.js"></script>
-<script src="../gsuiSVGPatterns/gsuiSVGPatterns.js"></script>
-<script src="../gsuiWaveform/gsuiWaveform.js"></script>
-<script src="../gsuiDrumrow/gsuiDrumrow.html.js"></script>
-<script src="../gsuiDrumrow/gsuiDrumrow.js"></script>
-<script src="../gsuiPropSelect/gsuiPropSelect.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiDrumrows.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const drumrows = $( "gsui-drumrows" ).$get( 0 );
 const ctx = GSUaudioContext();
@@ -84,7 +27,7 @@ function initRow( drumId, name, detune, pan, gain, bufName ) {
 	drumrows.$change( drumId, "detune", detune );
 	drumrows.$change( drumId, "pan", pan );
 	drumrows.$change( drumId, "gain", gain );
-	fetch( `../test-assets/${ bufName }.wav` )
+	fetch( `test-assets/${ bufName }.wav` )
 		.then( res => res.arrayBuffer() )
 		.then( arr => ctx.decodeAudioData( arr ) )
 		.then( buf => {
@@ -95,5 +38,3 @@ function initRow( drumId, name, detune, pan, gain, bufName ) {
 		} );
 }
 </script>
-</body>
-</html>

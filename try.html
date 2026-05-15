@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>gs-ui-components</title>
+<!-- ....................................................................... -->
+<link rel="shortcut icon" href="../assets/ico.svg"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsui.css"/>
+<link rel="stylesheet" href="gsui-gray.css"/>
+<link rel="stylesheet" href="gsui-white.css"/>
+<link rel="stylesheet" href="gsui-flex.css"/>
+<link rel="stylesheet" href="gsui-form.css"/>
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiIcon/gsuiIcon.css"/>
+<link rel="stylesheet" href="gsuiCursor/gsuiCursor.css"/>
+<link rel="stylesheet" href="gsuiTooltip/gsuiTooltip.css"/>
+<link rel="stylesheet" href="gsuiRipple/gsuiRipple.css"/>
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="gsuiAnalyserHist/gsuiAnalyserHist.css"/>
+<link rel="stylesheet" href="gsuiAnalyserVu/gsuiAnalyserVu.css"/>
+<link rel="stylesheet" href="gsuiAutomation/gsuiAutomation.css"/>
+<link rel="stylesheet" href="gsuiBeatlines/gsuiBeatlines.css"/>
+<link rel="stylesheet" href="gsuiChannel/gsuiChannel.css"/>
+<link rel="stylesheet" href="gsuiChannels/gsuiChannels.css"/>
+<link rel="stylesheet" href="gsuiClock/gsuiClock.css"/>
+<link rel="stylesheet" href="gsuiComAvatar/gsuiComAvatar.css"/>
+<link rel="stylesheet" href="gsuiComButton/gsuiComButton.css"/>
+<link rel="stylesheet" href="gsuiComPlayer/gsuiComPlayer.css"/>
+<link rel="stylesheet" href="gsuiComProfile/gsuiComProfile.css"/>
+<link rel="stylesheet" href="gsuiComUserLink/gsuiComUserLink.css"/>
+<link rel="stylesheet" href="gsuiCursor/gsuiCursor.css"/>
+<link rel="stylesheet" href="gsuiDAW/gsuiDAW-btn.css"/>
+<link rel="stylesheet" href="gsuiDAW/gsuiDAW-head.css"/>
+<link rel="stylesheet" href="gsuiDAW/gsuiDAW-popup-about.css"/>
+<link rel="stylesheet" href="gsuiDAW/gsuiDAW-popup-export.css"/>
+<link rel="stylesheet" href="gsuiDAW/gsuiDAW-popup-settings.css"/>
+<link rel="stylesheet" href="gsuiDAW/gsuiDAW.css"/>
+<link rel="stylesheet" href="gsuiDotline/gsuiDotline.css"/>
+<link rel="stylesheet" href="gsuiDrum/gsuiDrum.css"/>
+<link rel="stylesheet" href="gsuiDrumrow/gsuiDrumrow.css"/>
+<link rel="stylesheet" href="gsuiDrumrows/gsuiDrumrows.css"/>
+<link rel="stylesheet" href="gsuiDrums/gsuiDrums.css"/>
+<link rel="stylesheet" href="gsuiDuration/gsuiDuration.css"/>
+<link rel="stylesheet" href="gsuiHelpLink/gsuiHelpLink.css"/>
+<link rel="stylesheet" href="gsuiPanels/gsuiPanels.css"/>
+<link rel="stylesheet" href="gsuiPopup/gsuiPopup.css"/>
+<link rel="stylesheet" href="gsuiPropSelect/gsuiPropSelect.css"/>
+<link rel="stylesheet" href="gsuiReorder/gsuiReorder.css"/>
+<link rel="stylesheet" href="gsuiScrollShadow/gsuiScrollShadow.css"/>
+<link rel="stylesheet" href="gsuiSlider/gsuiSlider.css"/>
+<link rel="stylesheet" href="gsuiSliderGroup/gsuiSliderGroup.css"/>
+<link rel="stylesheet" href="gsuiStepSelect/gsuiStepSelect.css"/>
+<link rel="stylesheet" href="gsuiTempo/gsuiTempo.css"/>
+<link rel="stylesheet" href="gsuiTimeline/gsuiTimeline.css"/>
+<link rel="stylesheet" href="gsuiTimewindow/gsuiTimewindow.css"/>
+<link rel="stylesheet" href="gsuiTitleUser/gsuiTitleUser.css"/>
+<link rel="stylesheet" href="gsuiToggle/gsuiToggle.css"/>
+<link rel="stylesheet" href="gsuiWindows/gsuiWindow.css"/>
+<link rel="stylesheet" href="gsuiWindows/gsuiWindows.css"/>
+<link rel="stylesheet" href="gsuiEnvelopeGraph/gsuiEnvelopeGraph.css"/>
+<link rel="stylesheet" href="gsuiEnvelope/gsuiEnvelope.css"/>
+<link rel="stylesheet" href="gsuiEffect/gsuiEffect.css"/>
+<link rel="stylesheet" href="gsuiEffects/gsuiEffects.css"/>
+<link rel="stylesheet" href="gsuiCurves/gsuiCurves.css"/>
+<link rel="stylesheet" href="gsuiFxFilter/gsuiFxFilter.css"/>
+<link rel="stylesheet" href="gsuiFxDelay/gsuiFxDelay.css"/>
+<link rel="stylesheet" href="gsuiFxReverb/gsuiFxReverb.css"/>
+<link rel="stylesheet" href="gsuiFxWaveShaper/gsuiFxWaveShaper.css"/>
+<link rel="stylesheet" href="gsuiGlitchText/gsuiGlitchText.css"/>
+<link rel="stylesheet" href="gsuiJoystick/gsuiJoystick.css"/>
+<link rel="stylesheet" href="gsuiKeys/gsuiKeys.css"/>
+<link rel="stylesheet" href="gsuiPeriodicWave/gsuiPeriodicWave.css"/>
+<link rel="stylesheet" href="gsuiLFO/gsuiLFO.css"/>
+<link rel="stylesheet" href="gsuiLibrary/gsuiLibrary.css"/>
+<link rel="stylesheet" href="gsuiLibraries/gsuiLibraries.css"/>
+<link rel="stylesheet" href="gsuiMixer/gsuiMixer.css"/>
+<link rel="stylesheet" href="gsuiNoise/gsuiNoise.css"/>
+<link rel="stylesheet" href="gsuiOscillator/gsuiOscillator.css"/>
+<link rel="stylesheet" href="gsuiWavetable/gsuiWavetable.css"/>
+<link rel="stylesheet" href="gsuiWaveEditor/gsuiWaveEditor.css"/>
+<link rel="stylesheet" href="gsuiWaveletBrowser/gsuiWaveletBrowser.css"/>
+<link rel="stylesheet" href="gsuiWavetableGraph/gsuiWavetableGraph.css"/>
+<link rel="stylesheet" href="gsuiBlocksManager/gsuiBlocksManager.css"/>
+<link rel="stylesheet" href="gsuiPropSelect/gsuiPropSelect.css"/>
+<link rel="stylesheet" href="gsuiStepSelect/gsuiStepSelect.css"/>
+<link rel="stylesheet" href="gsuiPianoroll/gsuiPianoroll.css"/>
+<link rel="stylesheet" href="gsuiPianoroll/gsuiPianoroll-block.css"/>
+<link rel="stylesheet" href="gsuiSlicer/gsuiSlicer.css"/>
+<link rel="stylesheet" href="gsuiSynthesizer/gsuiSynthesizer.css"/>
+<link rel="stylesheet" href="gsuiTimeCursors/gsuiTimeCursors.css"/>
+<link rel="stylesheet" href="gsuiTrack/gsuiTrack.css"/>
+<!-- ....................................................................... -->
+<link rel="stylesheet" href="test-assets/try.css"/>
+</head>
+<body>
+
+<main id="TryMain">
+	<div id="TryHead">
+		<select id="TrySelect"></select>
+	</div>
+	<div id="TryFoot">
+		<span>©</span>
+		<span id="TryYear"></span>
+		<a href="https://gridsound.com">gridsound.com</a>
+		<span>all rights reserved</span>
+	</div>
+</main>
+
+<!-- ....................................................................... -->
+<script src="gs-utils/gs-utils.js"></script>
+<script src="gs-utils/gs-utils-func.js"></script>
+<script src="gs-utils/gs-utils-json.js"></script>
+<script src="gs-utils/gs-utils-math.js"></script>
+<script src="gs-utils/gs-utils-files.js"></script>
+<script src="gs-utils/gs-utils-jquery.js"></script>
+<script src="gs-utils/gs-utils-audio.js"></script>
+<script src="gs-utils/gs-utils-audio-nodes.js"></script>
+<script src="gs-utils/gs-utils-models.js"></script>
+<!-- ....................................................................... -->
+<script src="gsui-texts.js"></script>
+<script src="gsui-constantes.js"></script>
+<script src="gsui0ne/gsui0ne.js"></script>
+<!-- ....................................................................... -->
+<script src="../gs-api-client/gsapiClient.js"></script>
+<script src="../gs-wa-components/gswaBPMTap/gswaBPMTap.js"></script>
+<script src="../gs-wa-components/gswaSlicer/gswaSlicer.js"></script>
+<script src="assets/gsuiLibrarySamples-v1.js"></script>
+<script src="assets/gsuiWaveletList-v1.js"></script>
+<!-- ....................................................................... -->
+<script src="gsuiRipple/gsuiRipple.js"></script>
+<script src="gsuiTooltip/gsuiTooltip.js"></script>
+<!-- ....................................................................... -->
+<script src="gsuiAnalyserHist/gsuiAnalyserHist.js"></script>
+<script src="gsuiAnalyserHz/gsuiAnalyserHz.js"></script>
+<script src="gsuiAnalyserTd/gsuiAnalyserTd.js"></script>
+<script src="gsuiAnalyserVu/gsuiAnalyserVu.html.js"></script>
+<script src="gsuiAnalyserVu/gsuiAnalyserVu.js"></script>
+<script src="gsuiAutomation/gsuiAutomation.html.js"></script>
+<script src="gsuiAutomation/gsuiAutomation.js"></script>
+<script src="gsuiBeatlines/gsuiBeatlines.js"></script>
+<script src="gsuiBlocksManager/gsuiBlocksManager.js"></script>
+<script src="gsuiChannel/gsuiChannel.html.js"></script>
+<script src="gsuiChannel/gsuiChannel.js"></script>
+<script src="gsuiChannels/gsuiChannels.html.js"></script>
+<script src="gsuiChannels/gsuiChannels.js"></script>
+<script src="gsuiClock/gsuiClock.html.js"></script>
+<script src="gsuiClock/gsuiClock.js"></script>
+<script src="gsuiComAvatar/gsuiComAvatar.js"></script>
+<script src="gsuiComButton/gsuiComButton.js"></script>
+<script src="gsuiComPlayer/gsuiComPlayer.html.js"></script>
+<script src="gsuiComPlayer/gsuiComPlayer.js"></script>
+<script src="gsuiComProfile/gsuiComProfile.html.js"></script>
+<script src="gsuiComProfile/gsuiComProfile.js"></script>
+<script src="gsuiComUserLink/gsuiComUserLink.js"></script>
+<script src="gsuiCurves/gsuiCurves.html.js"></script>
+<script src="gsuiCurves/gsuiCurves.js"></script>
+<script src="gsuiDAW/gsuiDAW-popup-about.html.js"></script>
+<script src="gsuiDAW/gsuiDAW-popup-export.html.js"></script>
+<script src="gsuiDAW/gsuiDAW-popup-settings.html.js"></script>
+<script src="gsuiDAW/gsuiDAW.html.js"></script>
+<script src="gsuiDAW/gsuiDAW.js"></script>
+<script src="gsuiDotline/gsuiDotline.html.js"></script>
+<script src="gsuiDotline/gsuiDotline.js"></script>
+<script src="gsuiDotlineSVG/gsuiDotlineSVG.html.js"></script>
+<script src="gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
+<script src="gsuiDrum/gsuiDrum.html.js"></script>
+<script src="gsuiDrum/gsuiDrum.js"></script>
+<script src="gsuiDrum/gsuiDrumcut.js"></script>
+<script src="gsuiDrumrow/gsuiDrumrow.html.js"></script>
+<script src="gsuiDrumrow/gsuiDrumrow.js"></script>
+<script src="gsuiDrumrows/gsuiDrumrows.js"></script>
+<script src="gsuiDrums/gsuiDrums.html.js"></script>
+<script src="gsuiDrums/gsuiDrums.js"></script>
+<script src="gsuiDuration/gsuiDuration.js"></script>
+<script src="gsuiEffect/gsuiEffect.html.js"></script>
+<script src="gsuiEffect/gsuiEffect.js"></script>
+<script src="gsuiEffects/gsuiEffects.html.js"></script>
+<script src="gsuiEffects/gsuiEffects.js"></script>
+<script src="gsuiEnvelope/gsuiEnvelope.html.js"></script>
+<script src="gsuiEnvelope/gsuiEnvelope.js"></script>
+<script src="gsuiEnvelopeGraph/gsuiEnvelopeGraph.html.js"></script>
+<script src="gsuiEnvelopeGraph/gsuiEnvelopeGraph.js"></script>
+<script src="gsuiFxDelay/gsuiFxDelay.html.js"></script>
+<script src="gsuiFxDelay/gsuiFxDelay.js"></script>
+<script src="gsuiFxFilter/gsuiFxFilter.html.js"></script>
+<script src="gsuiFxFilter/gsuiFxFilter.js"></script>
+<script src="gsuiFxReverb/gsuiFxReverb.html.js"></script>
+<script src="gsuiFxReverb/gsuiFxReverb.js"></script>
+<script src="gsuiFxWaveShaper/gsuiFxWaveShaper.html.js"></script>
+<script src="gsuiFxWaveShaper/gsuiFxWaveShaper.js"></script>
+<script src="gsuiGlitchText/gsuiGlitchText.html.js"></script>
+<script src="gsuiGlitchText/gsuiGlitchText.js"></script>
+<script src="gsuiHelpLink/gsuiHelpLink.js"></script>
+<script src="gsuiJoystick/gsuiJoystick.js"></script>
+<script src="gsuiKeys/gsuiKeys.html.js"></script>
+<script src="gsuiKeys/gsuiKeys.js"></script>
+<script src="gsuiLFO/gsuiLFO.html.js"></script>
+<script src="gsuiLFO/gsuiLFO.js"></script>
+<script src="gsuiLibraries/gsuiLibraries.html.js"></script>
+<script src="gsuiLibraries/gsuiLibraries.js"></script>
+<script src="gsuiLibrary/gsuiLibrary.html.js"></script>
+<script src="gsuiLibrary/gsuiLibrary.js"></script>
+<script src="gsuiMixer/gsuiMixer.html.js"></script>
+<script src="gsuiMixer/gsuiMixer.js"></script>
+<script src="gsuiNoise/gsuiNoise.html.js"></script>
+<script src="gsuiNoise/gsuiNoise.js"></script>
+<script src="gsuiOscillator/gsuiOscillator.html.js"></script>
+<script src="gsuiOscillator/gsuiOscillator.js"></script>
+<script src="gsuiPanels/gsuiPanels.js"></script>
+<script src="gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
+<script src="gsuiPianoroll/gsuiPianoroll.html.js"></script>
+<script src="gsuiPianoroll/gsuiPianoroll.js"></script>
+<script src="gsuiPopup/gsuiPopup.html.js"></script>
+<script src="gsuiPopup/gsuiPopup.js"></script>
+<script src="gsuiPropSelect/gsuiPropSelect.js"></script>
+<script src="gsuiReorder/gsuiReorder.js"></script>
+<script src="gsuiScrollShadow/gsuiScrollShadow.js"></script>
+<script src="gsuiSlicer/gsuiSlicer.html.js"></script>
+<script src="gsuiSlicer/gsuiSlicer.js"></script>
+<script src="gsuiSlider/gsuiSlider.html.js"></script>
+<script src="gsuiSlider/gsuiSlider.js"></script>
+<script src="gsuiSliderGroup/gsuiSliderGroup.html.js"></script>
+<script src="gsuiSliderGroup/gsuiSliderGroup.js"></script>
+<script src="gsuiStepSelect/gsuiStepSelect.html.js"></script>
+<script src="gsuiStepSelect/gsuiStepSelect.js"></script>
+<script src="gsuiSVGPatterns/gsuiSVGPatterns.js"></script>
+<script src="gsuiSVGPatterns/gsuiSVGPatternsAutomation.js"></script>
+<script src="gsuiSVGPatterns/gsuiSVGPatternsDrums.js"></script>
+<script src="gsuiSVGPatterns/gsuiSVGPatternsKeys.js"></script>
+<script src="gsuiSVGPatterns/gsuiSVGPatternsSlices.js"></script>
+<script src="gsuiTempo/gsuiTempo.html.js"></script>
+<script src="gsuiTempo/gsuiTempo.js"></script>
+<script src="gsuiTexture/gsuiTexture.js"></script>
+<script src="gsuiTimeline/gsuiTimeline.html.js"></script>
+<script src="gsuiTimeline/gsuiTimeline.js"></script>
+<script src="gsuiTimewindow/gsuiTimewindow.html.js"></script>
+<script src="gsuiTimewindow/gsuiTimewindow.js"></script>
+<script src="gsuiTitleUser/gsuiTitleUser.html.js"></script>
+<script src="gsuiTitleUser/gsuiTitleUser.js"></script>
+<script src="gsuiToggle/gsuiToggle.js"></script>
+<script src="gsuiWaveEditor/gsuiWaveEditor.html.js"></script>
+<script src="gsuiWaveEditor/gsuiWaveEditor.js"></script>
+<script src="gsuiWaveform/gsuiWaveform.js"></script>
+<script src="gsuiWaveletBrowser/gsuiWaveletBrowser.html.js"></script>
+<script src="gsuiWaveletBrowser/gsuiWaveletBrowser.js"></script>
+<script src="gsuiWavetable/gsuiWavetable.html.js"></script>
+<script src="gsuiWavetable/gsuiWavetable.js"></script>
+<script src="gsuiWavetableGraph/gsuiWavetableGraph.js"></script>
+<script src="gsuiWindows/gsuiWindow.html.js"></script>
+<script src="gsuiWindows/gsuiWindow.js"></script>
+<script src="gsuiWindows/gsuiWindows.js"></script>
+<script src="gsuiSynthesizer/gsuiSynthesizer.html.js"></script>
+<script src="gsuiSynthesizer/gsuiSynthesizer.js"></script>
+<script src="gsuiTimeCursors/gsuiTimeCursors.js"></script>
+<script src="gsuiTrack/gsuiTrack.html.js"></script>
+<script src="gsuiTrack/gsuiTrack.js"></script>
+<!-- ....................................................................... -->
+<script>
+"use strict";
+
+class TryMe {
+	static $init() {
+		$body
+			.$setAttr( "data-skin", "gray" )
+			.$addEventListener( "gsui", ( { detail: d } ) => {
+				console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target );
+			} );
+		$( "#TryYear" ).$text( new Date().getFullYear() );
+		$( "#TrySelect" )
+			.$append( ...TryMe.#list.map( c => $.$option( { value: c } ) ) )
+			.$onchange( e => location.hash = e.target.value );
+		window.onhashchange = () => location.reload();
+		TryMe.#loadComponent( location.hash.slice( 1 ) );
+	}
+	static #clear() {
+		$( ".TryAsset, #TryComponent, #TryControls" ).$remove();
+	}
+	static #loadComponent( cmp ) {
+		TryMe.#clear();
+		$( "#TrySelect" ).$value( cmp );
+		fetch( `${ cmp }/index.html` )
+			.then( res => res.text() )
+			.then( TryMe.#appendElements );
+	}
+	static #appendElements( txt ) {
+		const wrap = $.$div();
+		let txt2 = txt;
+		let css;
+		let js;
+
+		if ( txt2.includes( "<style>" ) ) {
+			css = txt2.split( "<style>" )[ 1 ].split( "</style>" )[ 0 ].trim();
+			txt2 = txt2.replace( /<style>(.|\n)*<\/style>/, "" );
+		}
+		if ( txt2.includes( "<script>" ) ) {
+			js = txt2.split( "<script>" )[ 1 ].split( "</scr" + "ipt>" )[ 0 ].trim();
+			txt2 = txt2.replace( /<script>(.|\n)*<\/script>/, "" );
+		}
+		if ( css ) {
+			$( "<style>" ).$text( css ).$appendTo( $head );
+		}
+		wrap.innerHTML = txt2;
+		$( wrap ).$children().$afterTo( $( "#TryHead" ) );
+		if ( js ) {
+			$( "<script>" ).$text( js ).$appendTo( $body );
+		}
+	}
+	static #list = Object.freeze( [
+		"gsuiAnalyserHist",
+		"gsuiAnalyserHz",
+		"gsuiAnalyserTd",
+		"gsuiAnalyserVu",
+		"gsuiAutomation",
+		"gsuiBeatlines",
+		"gsuiChannel",
+		"gsuiClock",
+		"gsuiComAvatar",
+		"gsuiComButton",
+		"gsuiComPlayer",
+		"gsuiComProfile",
+		"gsuiComUserLink",
+		"gsuiCursor",
+		"gsuiDAW",
+		"gsuiDotline",
+		"gsuiDrumrows",
+		"gsuiDrums",
+		"gsuiEnvelope",
+		"gsuiFxDelay",
+		"gsuiFxFilter",
+		"gsuiFxReverb",
+		"gsuiFxWaveShaper",
+		"gsuiGlitchText",
+		"gsuiIcon",
+		"gsuiJoystick",
+		"gsuiKeys",
+		"gsuiLFO",
+		"gsuiLibraries",
+		"gsuiLibrary",
+		"gsuiMixer",
+		"gsuiNoise",
+		"gsuiOscillator",
+		"gsuiPanels",
+		"gsuiPeriodicWave",
+		"gsuiPianoroll",
+		"gsuiPopup",
+		"gsuiPropSelect",
+		"gsuiReorder",
+		"gsuiScrollShadow",
+		"gsuiSlicer",
+		"gsuiSlider",
+		"gsuiSliderGroup",
+		"gsuiStepSelect",
+		"gsuiSVGPatterns",
+		"gsuiSynthesizer",
+		"gsuiTempo",
+		"gsuiTimeCursors",
+		"gsuiTimeline",
+		"gsuiTimewindow",
+		"gsuiTitleUser",
+		"gsuiToggle",
+		"gsuiTooltip",
+		"gsuiTrack",
+		"gsuiWaveEditor",
+		"gsuiWaveletBrowser",
+		"gsuiWavetable",
+		"gsuiWavetableGraph",
+		"gsuiWindows",
+	] );
+}
+
+TryMe.$init();
+</script>
+</body>
+</html>

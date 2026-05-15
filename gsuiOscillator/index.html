@@ -1,96 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../gsui-form.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiTooltip/gsuiTooltip.css"/>
-<link rel="stylesheet" href="../gsuiHelpLink/gsuiHelpLink.css"/>
-<link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-<link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-<link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
-<link rel="stylesheet" href="../gsuiWavetable/gsuiWavetable.css"/>
-<link rel="stylesheet" href="../gsuiWaveEditor/gsuiWaveEditor.css"/>
-<link rel="stylesheet" href="../gsuiWaveletBrowser/gsuiWaveletBrowser.css"/>
-<link rel="stylesheet" href="../gsuiWavetableGraph/gsuiWavetableGraph.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiOscillator.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 468px;
+:root {
+	--TryMe-w: 468px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
-	<gsui-oscillator wave="sine" detune="-12" detunefine="-.75" gain="1" pan=".25"></gsui-oscillator>
+<div id="TryComponent">
+	<gsui-oscillator
+		wave="sine"
+		detune="-12"
+		detunefine="-.75"
+		gain="1"
+		pan=".25"
+	></gsui-oscillator>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../assets/gsuiWaveletList-v1.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-data.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../gs-utils/gs-utils-files.js"></script>
-<script src="../gs-utils/gs-utils-audio.js"></script>
-<script src="../gs-utils/gs-utils-models.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiTooltip/gsuiTooltip.js"></script>
-<script src="../gsuiHelpLink/gsuiHelpLink.js"></script>
-<script src="../gsuiTexture/gsuiTexture.js"></script>
-<script src="../gsuiReorder/gsuiReorder.js"></script>
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-<script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.html.js"></script>
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
-<script src="../gsuiDotline/gsuiDotline.html.js"></script>
-<script src="../gsuiDotline/gsuiDotline.js"></script>
-<script src="../gsuiWaveletBrowser/gsuiWaveletBrowser.html.js"></script>
-<script src="../gsuiWaveletBrowser/gsuiWaveletBrowser.js"></script>
-<script src="../gsuiWavetable/gsuiWavetable.html.js"></script>
-<script src="../gsuiWavetable/gsuiWavetable.js"></script>
-<script src="../gsuiWaveEditor/gsuiWaveEditor.html.js"></script>
-<script src="../gsuiWaveEditor/gsuiWaveEditor.js"></script>
-<script src="../gsuiWavetableGraph/gsuiWavetableGraph.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiOscillator.html.js"></script>
-<script src="gsuiOscillator.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const elOsc = $( "gsui-oscillator" );
 const wtName = GSUformatWavetableName( 0, 0 );
@@ -107,7 +30,7 @@ elOsc
 	.$message( GSEV_OSCILLATOR_DATACALLBACK, () => Promise.resolve( [ {
 		waves: {
 			0: {
-				index: 0,
+				index: lg(0, "<<<<<<<<<"),
 				curve: GSUmathWaveSawtooth( 1024 ),
 			},
 		},
@@ -115,5 +38,3 @@ elOsc
 
 // GSUsetTimeout( () => elOsc.$addAttr( "wavetable" ), .2 );
 </script>
-</body>
-</html>

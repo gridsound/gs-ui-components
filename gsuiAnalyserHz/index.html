@@ -1,43 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiAnalyserHist/gsuiAnalyserHist.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 400px;
-	--test-content-h: 300px;
+:root {
+	--TryMe-w: 400px;
+	--TryMe-h: 300px;
 }
 gsui-analyser-hz {
 	height: 100%;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-analyser-hz></gsui-analyser-hz>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<button id="play" disabled>play</button>
 	<button id="stop">stop</button>
 	<select id="bgcolor">
@@ -50,22 +25,6 @@ gsui-analyser-hz {
 	<input id="gain" type="range" min="0" max="1" step=".001" value="1"/>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-audio.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiAnalyserHz.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const play = $( "#play" );
 const stop = $( "#stop" );
@@ -87,7 +46,7 @@ an.smoothingTimeConstant = 0;
 gainNode.connect( an );
 gainNode.connect( ctx.destination );
 
-fetch( "../test-assets/Cymatics-IcedOut.wav" )
+fetch( "test-assets/Cymatics-IcedOut.wav" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
@@ -95,7 +54,7 @@ fetch( "../test-assets/Cymatics-IcedOut.wav" )
 		play.$disabled( false );
 	} );
 
-gain.$oninput( () => GSUaudioParamSet( gainNode.gain, gain.value ) );
+gain.$oninput( () => GSUaudioParamSet( gainNode.gain, gain.$value() ) );
 bgcolor.$onchange( () => spectrum.$css( "background-color", bgcolor.$value() ) );
 stop.$onclick( () => absn?.stop() );
 play.$onclick( () => {
@@ -116,5 +75,3 @@ bgcolor.$trigger( "onchange" );
 
 GSUsetInterval( frame, 0 );
 </script>
-</body>
-</html>

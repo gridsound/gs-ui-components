@@ -1,42 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiComAvatar/gsuiComAvatar.css"/>
-<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
-<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiComProfile.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 320px;
-	--test-content-w: 530px;
-/*	--test-content-w: 700px;*/
-	--test-content-resize: horizontal;
+:root {
+	--TryMe-w: 320px;
+	--TryMe-w: 530px;
+	--TryMe-resize: horizontal;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST" data-min-x-auto>
+<div id="TryComponent">
 	<gsui-com-profile
 		lastname="Wick"
 		firstname="John"
@@ -44,7 +14,8 @@ body {
 		followers="2"
 	></gsui-com-profile>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<div><label><input id="height" type="range" min="0" max="1" value="1" step=".01" style="width:80px" /> height-mul <b>1</b></label></div>
 	<div><label><input id="itsme" type="checkbox" /> itsme</label></div>
 	<div><label><input id="avatar" type="checkbox" /> avatar</label></div>
@@ -57,26 +28,6 @@ body {
 	<div><label><input id="followed" type="checkbox" /> followed</label></div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiComAvatar/gsuiComAvatar.js"></script>
-<script src="../gsuiComButton/gsuiComButton.js"></script>
-<script src="../gsuiRipple/gsuiRipple.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiComProfile.html.js"></script>
-<script src="gsuiComProfile.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const el = $( "gsui-com-profile" );
 const height = $( "#height" );
@@ -87,7 +38,7 @@ $( "#emailpublic"   ).$onchange( () => el.$togAttr( "emailpublic" ) );
 $( "#emailtoverify" ).$onchange( () => el.$togAttr( "emailtoverify" ) );
 $( "#emailsending"  ).$onchange( () => el.$togAttr( "emailsending" ) );
 $( "#emailsent"     ).$onchange( () => el.$togAttr( "emailsent" ) );
-$( "#avatar"        ).$onchange( () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "../test-assets/avatar.jpg" ) );
+$( "#avatar"        ).$onchange( () => el.$setAttr( "avatar", el.$getAttr( "avatar" ) ? false : "test-assets/avatar.jpg" ) );
 $( "#followed"      ).$onchange( () => el.$togAttr( "followed" ) );
 
 height.$oninput( () => {
@@ -116,5 +67,3 @@ function promRes( obj ) {
 	} );
 }
 </script>
-</body>
-</html>

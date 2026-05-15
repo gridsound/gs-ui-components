@@ -1,54 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 400px;
-	--test-content-h: 480px;
+:root {
+	--TryMe-w: 400px;
 }
-#testWrap {
+#TryComponent {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-}
-#testWrap .patternSVG {
-	height: 60px;
-	font-size: 0;
-}
-#testWrap svg {
-	width: 100%;
-	height: 100%;
-	fill: #fffd;
-	background-color: #0004;
-}
-#testWrap  .patternSVG:nth-child( 4 ) svg {
-	fill: none;
-	stroke: #fffd;
-	stroke-width: .05px;
+
+	.patternSVG {
+		height: 60px;
+		font-size: 0;
+	}
+	svg {
+		width: 100%;
+		height: 100%;
+		fill: #fffd;
+		background-color: #0004;
+	}
+	.patternSVG:nth-child( 4 ) svg {
+		fill: none;
+		stroke: #fffd;
+		stroke-width: .05px;
+	}
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<div class="patternSVG"></div>
 	<div class="patternSVG"></div>
 	<div class="patternSVG"></div>
@@ -57,31 +34,8 @@ body {
 	<div class="patternSVG"></div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
-<script src="../gsuiWaveform/gsuiWaveform.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiSVGPatterns.js"></script>
-<script src="gsuiSVGPatternsKeys.js"></script>
-<script src="gsuiSVGPatternsDrums.js"></script>
-<script src="gsuiSVGPatternsSlices.js"></script>
-<script src="gsuiSVGPatternsAutomation.js"></script>
-
-<!-- ....................................................................... -->
 <script>
-const divs = $( "#testWrap div" );
+const divs = $( "#TryComponent div" );
 const ctx = GSUaudioContext();
 
 const dur = 4;
@@ -160,7 +114,7 @@ gsuiSVGPatterns.$update( "slices", "pC", {
 // 	d4: { x: 4, y: 0 },
 // }, dur, svgD );
 
-fetch( "../test-assets/okay.wav" )
+fetch( "test-assets/okay.wav" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
@@ -168,5 +122,3 @@ fetch( "../test-assets/okay.wav" )
 		gsuiSVGPatterns.$setSVGViewbox( "buffer", svgE, 0, dur, bps );
 	} );
 </script>
-</body>
-</html>

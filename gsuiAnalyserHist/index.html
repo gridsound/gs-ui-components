@@ -1,43 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiAnalyserHist.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 200px;
-	--test-content-h: 300px;
+:root {
+	--TryMe-w: 200px;
+	--TryMe-h: 300px;
 }
 gsui-analyser-hist {
 	height: 100%;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-analyser-hist></gsui-analyser-hist>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<button id="play" disabled>play</button>
 	<button id="stop">stop</button>
 	<select id="type">
@@ -46,25 +21,6 @@ gsui-analyser-hist {
 	</select>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-audio.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiAnalyserHz/gsuiAnalyserHz.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiAnalyserHist.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const play = $( "#play" );
 const stop = $( "#stop" );
@@ -90,7 +46,7 @@ anR.smoothingTimeConstant = 0;
 split.connect( anL, 0 );
 split.connect( anR, 1 );
 
-fetch( "../test-assets/Cymatics-IcedOut.wav" )
+fetch( "test-assets/Cymatics-IcedOut.wav" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
 	.then( buf => {
@@ -130,5 +86,3 @@ function frame() {
 
 GSUsetInterval( frame, 0 );
 </script>
-</body>
-</html>

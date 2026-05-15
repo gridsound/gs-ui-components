@@ -1,92 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiHelpLink/gsuiHelpLink.css"/>
-<link rel="stylesheet" href="../gsuiScrollShadow/gsuiScrollShadow.css"/>
-<link rel="stylesheet" href="../gsuiToggle/gsuiToggle.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-<link rel="stylesheet" href="../gsuiAnalyserHist/gsuiAnalyserHist.css"/>
-<link rel="stylesheet" href="../gsuiAnalyserVu/gsuiAnalyserVu.css"/>
-<link rel="stylesheet" href="../gsuiChannel/gsuiChannel.css"/>
-<link rel="stylesheet" href="../gsuiChannels/gsuiChannels.css"/>
-<link rel="stylesheet" href="../gsuiEffect/gsuiEffect.css"/>
-<link rel="stylesheet" href="../gsuiEffects/gsuiEffects.css"/>
-<link rel="stylesheet" href="../gsuiPanels/gsuiPanels.css"/>
-<link rel="stylesheet" href="../gsuiPopup/gsuiPopup.css"/>
-<link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiMixer.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 600px;
-	--test-content-h: 400px;
+:root {
+	--TryMe-w: 600px;
+	--TryMe-h: 300px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-mixer></gsui-mixer>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiHelpLink/gsuiHelpLink.js"></script>
-<script src="../gsuiAnalyserHz/gsuiAnalyserHz.js"></script>
-<script src="../gsuiAnalyserVu/gsuiAnalyserVu.html.js"></script>
-<script src="../gsuiAnalyserVu/gsuiAnalyserVu.js"></script>
-<script src="../gsuiAnalyserHist/gsuiAnalyserHist.js"></script>
-<script src="../gsuiScrollShadow/gsuiScrollShadow.js"></script>
-<script src="../gsuiToggle/gsuiToggle.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-<script src="../gsuiChannel/gsuiChannel.html.js"></script>
-<script src="../gsuiChannel/gsuiChannel.js"></script>
-<script src="../gsuiChannels/gsuiChannels.html.js"></script>
-<script src="../gsuiChannels/gsuiChannels.js"></script>
-<script src="../gsuiEffect/gsuiEffect.html.js"></script>
-<script src="../gsuiEffect/gsuiEffect.js"></script>
-<script src="../gsuiEffects/gsuiEffects.html.js"></script>
-<script src="../gsuiEffects/gsuiEffects.js"></script>
-<script src="../gsuiPanels/gsuiPanels.js"></script>
-<script src="../gsuiPopup/gsuiPopup.html.js"></script>
-<script src="../gsuiPopup/gsuiPopup.js"></script>
-<script src="../gsuiReorder/gsuiReorder.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiMixer.html.js"></script>
-<script src="gsuiMixer.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const mix = $( "gsui-mixer" );
 const chans = mix.$get( 0 ).$getChannels();
@@ -111,5 +33,3 @@ chans.$getChannel( "1" ).$get( 0 ).$updateEffect( "2", { order: -1, toggle: fals
 fxs.$addEffect( "1", { type: "filter" } );
 fxs.$changeEffect( "1", "toggle", true );
 </script>
-</body>
-</html>

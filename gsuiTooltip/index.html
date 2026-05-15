@@ -1,32 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../gsui-form.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiTooltip.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-resize: none;
+:root {
+	--TryMe-resize: none;
 }
-#testWrap div {
+#TryComponent div {
 	display: flex;
 	flex-wrap: wrap;
 	place-content: center;
@@ -35,11 +11,8 @@ body {
 	background-color: indianred;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gs-flex y g8>
 		<gs-label>bold + italic</gs-label>
 		<gs-flex x g8>
@@ -99,20 +72,6 @@ body {
 	</gs-flex>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiTooltip.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const crazyTooltip = $( "#random" )
 
@@ -120,5 +79,3 @@ GSUsetInterval( () => {
 	crazyTooltip.$dataset( "tooltip", Math.random().toString( 36 ).substring( 7 ) );
 }, .2 );
 </script>
-</body>
-</html>

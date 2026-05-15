@@ -1,32 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiScrollShadow.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 400px;
-	--test-content-h: 400px;
+:root {
+	--TryMe-w: 400px;
 }
-#testWrap {
+#TryComponent {
 	display: flex;
 	flex-direction: column;
 }
@@ -39,9 +15,6 @@ body {
 	flex: 1;
 	overflow: auto;
 	background-color: indianred;
-}
-#scroll::-webkit-scrollbar {
-/*	display: none;*/
 }
 #topShadow,
 #bottomShadow {
@@ -61,11 +34,8 @@ body {
 	height: 500px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST" data-min-auto>
+<div id="TryComponent">
 	<div id="topShadow"></div>
 	<div id="middle">
 		<div id="leftShadow"></div>
@@ -76,22 +46,7 @@ body {
 	</div>
 	<div id="bottomShadow"></div>
 </div>
-<div id="TEST-CTRLS">
-</div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiScrollShadow.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 new gsuiScrollShadow( {
 	scrolledElem: $( "#scroll" ),
@@ -101,5 +56,3 @@ new gsuiScrollShadow( {
 	bottomShadow: $( "#bottomShadow" ),
 } );
 </script>
-</body>
-</html>

@@ -1,37 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../gsui-form.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiPeriodicWave.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 420px;
-	--test-content-h: 500px;
+:root {
+	--TryMe-w: 340px;
+	--TryMe-h: 240px;
 }
 gsui-periodicwave {
 	position: absolute;
 	inset: 0;
 }
-#testCtrls {
+#TryControls {
 	b {
 		display: inline-flex;
 		width: 48px;
@@ -41,14 +17,12 @@ gsui-periodicwave {
 	}
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST" data-min-auto>
+<div id="TryComponent">
 	<gsui-periodicwave></gsui-periodicwave>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<gs-flex x>
 		<button class="gsuiIcon" data-icon="wave-sin" data-w="sine"></button>
 		<button class="gsuiIcon" data-icon="wave-tri" data-w="triangle"></button>
@@ -87,24 +61,6 @@ gsui-periodicwave {
 	</gs-flex>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../gs-utils/gs-utils-files.js"></script>
-<script src="../gs-utils/gs-utils-models.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiPeriodicWave.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const el = $( "gsui-periodicwave" );
 const opts = {};
@@ -148,5 +104,3 @@ $( "input[type=range]" ).$oninput( e => {
 	draw();
 } );
 </script>
-</body>
-</html>

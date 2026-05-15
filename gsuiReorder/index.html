@@ -1,38 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiReorder.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 420px;
-	--test-content-h: 200px;
+:root {
+	--TryMe-w: 320px;
 }
-#testWrap {
+#TryComponent {
 	display: flex;
 	flex-direction: column;
 	gap: 10px
 }
 
-/* .......................................................................... */
 .my-list {
 	display: flex;
 	flex-direction: column;
@@ -48,7 +23,7 @@ body {
 .my-item {
 	display: flex;
 	align-items: center;
-	height: 50px;
+	height: 32px;
 	gap: 8px;
 	border-radius: 8px;
 	background-color: #555;
@@ -76,16 +51,15 @@ body {
 }
 
 /* .......................................................................... */
-#testWrap[ data-scene="1" ] [ data-id="i1" ] { height: 26px }
-#testWrap[ data-scene="1" ] [ data-id="i2" ] { height: 160px }
-#testWrap[ data-scene="1" ] [ data-id="i4" ] { height: 100px }
-#testWrap[ data-scene="2" ] .my-list:first-child { display: flex }
+#TryComponent[ data-scene="1" ] [ data-id="i1" ] { height: 26px }
+#TryComponent[ data-scene="1" ] [ data-id="i2" ] { height: 160px }
+#TryComponent[ data-scene="1" ] [ data-id="i4" ] { height: 100px }
+#TryComponent[ data-scene="2" ] .my-list:first-child { display: flex }
 </style>
 </head>
 <body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<div class="my-list" data-id="L0">
 		<div data-id="ia" class="my-item" style="order: 0"><div class="my-item-grip"></div>item #a</div>
 		<div data-id="ib" class="my-item" style="order: 1"><div class="my-item-grip"></div>item #b</div>
@@ -101,7 +75,8 @@ body {
 	</div>
 	<div id="dropArea"></div>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<select id="scenario">
 		<option value="0">classic</option>
 		<option value="1">items with different sizes</option>
@@ -109,23 +84,8 @@ body {
 	</select>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiReorder.js"></script>
-
-<!-- ....................................................................... -->
 <script>
-const testWrap = $( "#testWrap" );
+const testWrap = $( "#TryComponent" );
 const inpScenario = $( "#scenario" );
 const reorder = new gsuiReorder( {
 	$root: testWrap,
@@ -145,5 +105,3 @@ inpScenario
 	.$onchange( () => testWrap.$setAttr( "data-scene", inpScenario.$value() ) )
 	.$trigger( "onchange" );
 </script>
-</body>
-</html>

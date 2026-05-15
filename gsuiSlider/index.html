@@ -1,106 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiSlider.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 420px;
-	--test-content-h: 200px;
-}
-#testWrap {
-	overflow: initial;
+:root {
+	--TryMe-w: 340px;
+	--TryMe-h: 120px;
 }
 #slider-wrap {
 	display: flex;
 	height: 100%;
 	gap: 8px;
 	--gsuiSlider-lineBgColor: #444;
+
+	> div {
+		flex: 1;
+		display: flex;
+		gap: inherit;
+
+		&:first-child {
+			flex-direction: column;
+		}
+		&:first-child + div {
+			flex: .6;
+			flex-direction: column;
+		}
+	}
 }
-#slider-wrap > div {
-	flex: 1;
-	display: flex;
-	gap: inherit;
-}
-#slider-wrap > div:first-child {
-	flex-direction: column;
-}
-#slider-wrap > div:first-child + div {
-	flex: .6;
-	flex-direction: column;
-}
-gsui-slider .gsuiSlider-eventCatcher {
-	inset: -4px;
-}
-gsui-slider.s0,
-gsui-slider.s1,
-gsui-slider.s2,
-gsui-slider.s3,
-gsui-slider.s4 {
-	width: 100%;
-	height: 8px;
-	min-width: 32px;
-	--gsuiSlider-lineColor: #ff9;
-}
-gsui-slider.s3 {
-	--gsuiSlider-lineColor: #ddf;
-	height: 16px;
-}
-gsui-slider.s4 {
-	--gsuiSlider-lineColor: #a8b;
-	min-height: 8px;
-	flex: 1;
-}
-gsui-slider.s5,
-gsui-slider.s6,
-gsui-slider.s7,
-gsui-slider.s8,
-gsui-slider.s9 {
-	width: 8px;
-	height: 100%;
-	--gsuiSlider-lineColor: #c5426e;
-}
-gsui-slider.s8 {
-	--gsuiSlider-lineColor: #fff;
-	width: 16px;
-}
-gsui-slider.s9 {
-	--gsuiSlider-lineColor: #7b8;
-	min-width: 8px;
-	flex: 1;
-}
-gsui-slider.sc1,
-gsui-slider.sc2 {
-	--gsuiSlider-lineColor: #cbf;
-	min-width: 16px;
-}
-gsui-slider.sc2 {
-	--gsuiSlider-lineColor: #db7;
+gsui-slider {
+	.gsuiSlider-eventCatcher {
+		inset: -4px;
+	}
+	&.s0,
+	&.s1,
+	&.s2,
+	&.s3,
+	&.s4 {
+		width: 100%;
+		height: 8px;
+		min-width: 32px;
+		--gsuiSlider-lineColor: #ff9;
+	}
+	&.s3 {
+		--gsuiSlider-lineColor: #ddf;
+		height: 16px;
+	}
+	&.s4 {
+		--gsuiSlider-lineColor: #a8b;
+		min-height: 8px;
+		flex: 1;
+	}
+	&.s5,
+	&.s6,
+	&.s7,
+	&.s8,
+	&.s9 {
+		width: 8px;
+		height: 100%;
+		--gsuiSlider-lineColor: #c5426e;
+	}
+	&.s8 {
+		--gsuiSlider-lineColor: #fff;
+		width: 16px;
+	}
+	&.s9 {
+		--gsuiSlider-lineColor: #7b8;
+		min-width: 8px;
+		flex: 1;
+	}
+	&.sc1,
+	&.sc2 {
+		--gsuiSlider-lineColor: #cbf;
+		min-width: 16px;
+	}
+	&.sc2 {
+		--gsuiSlider-lineColor: #db7;
+	}
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<div id="slider-wrap">
 		<div>
 			<gsui-slider class="s0" type="linear-x" min="0"   max="100" step="1"  value="25" mousemove-size="200" defaultValue="0"></gsui-slider>
@@ -122,33 +97,17 @@ gsui-slider.sc2 {
 		</div>
 	</div>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<label>
 		<input type="checkbox" id="inpDisabled"/>
-		disabled
+		<span>disabled</span>
 	</label>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiSlider.html.js"></script>
-<script src="gsuiSlider.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const sli = $( "gsui-slider" );
 const inpDisabled = $( "#inpDisabled" );
 
 inpDisabled.$onchange( e => sli.$disabled( inpDisabled.$checked() ) );
 </script>
-</body>
-</html>

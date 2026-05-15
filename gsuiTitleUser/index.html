@@ -1,77 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiRipple/gsuiRipple.css"/>
-<link rel="stylesheet" href="../gsuiComButton/gsuiComButton.css"/>
-<link rel="stylesheet" href="../gsuiPopup/gsuiPopup.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiTitleUser.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-resize: horizontal;
+:root {
+	--TryMe-resize: horizontal;
 }
-#testWrap {
+#TryComponent {
 	background: #444;
 }
+#TryControls label {
+	display: flex;
+	align-content: center;
+	gap: 8px;
+}
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
-	<gsui-titleuser avatar="../test-assets/avatar.jpg"></gsui-titleuser>
-</div>
-<div id="TEST-CTRLS">
-	<div><button id="readonly">toggle readonly</button></div>
-	<div><button id="connected">toggle connected</button></div>
-	<div><button id="connecting">toggle connecting</button></div>
-	<div><button id="disconnecting">toggle disconnecting</button></div>
-	<div><button id="saving">toggle saving</button></div>
-	<div><button id="saved">toggle saved</button></div>
-	<div><button id="just-saved">toggle just-saved</button></div>
-	<div><button id="longUser">toggle long username</button></div>
-	<div><button id="cmpName">toggle cmpname</button></div>
+<div id="TryComponent">
+	<gsui-titleuser avatar="test-assets/avatar.jpg"></gsui-titleuser>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
+<div id="TryControls">
+	<label><input type="checkbox" id="readonly">toggle readonly</button></label>
+	<label><input type="checkbox" id="connected">toggle connected</button></label>
+	<label><input type="checkbox" id="connecting">toggle connecting</button></label>
+	<label><input type="checkbox" id="disconnecting">toggle disconnecting</button></label>
+	<label><input type="checkbox" id="saving">toggle saving</button></label>
+	<label><input type="checkbox" id="saved">toggle saved</button></label>
+	<label><input type="checkbox" id="just-saved">toggle just-saved</button></label>
+	<label><input type="checkbox" id="longUser">toggle long username</button></label>
+	<label><input type="checkbox" id="cmpName">toggle cmpname</button></label>
+</div>
 
-<!-- ....................................................................... -->
-<script src="../gsuiRipple/gsuiRipple.js"></script>
-<script src="../gsuiComButton/gsuiComButton.js"></script>
-<script src="../gsuiPopup/gsuiPopup.html.js"></script>
-<script src="../gsuiPopup/gsuiPopup.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiTitleUser.html.js"></script>
-<script src="gsuiTitleUser.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const el = $( "gsui-titleuser" );
 const readonly = $( "#readonly" );
@@ -119,5 +75,3 @@ longUser.$click();
 connected.$click();
 cmpName.$click();
 </script>
-</body>
-</html>

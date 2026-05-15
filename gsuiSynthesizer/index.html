@@ -1,95 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../gsui-form.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiHelpLink/gsuiHelpLink.css"/>
-<link rel="stylesheet" href="../gsuiScrollShadow/gsuiScrollShadow.css"/>
-<link rel="stylesheet" href="../gsuiToggle/gsuiToggle.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-<link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-<link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
-<link rel="stylesheet" href="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.css"/>
-<link rel="stylesheet" href="../gsuiEnvelope/gsuiEnvelope.css"/>
-<link rel="stylesheet" href="../gsuiLFO/gsuiLFO.css"/>
-<link rel="stylesheet" href="../gsuiNoise/gsuiNoise.css"/>
-<link rel="stylesheet" href="../gsuiOscillator/gsuiOscillator.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiSynthesizer.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 460px;
-	--test-content-h: 520px;
+:root {
+	--TryMe-w: 460px;
+	--TryMe-h: 400px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-synthesizer
-		preset="electric"
+		_preset="electric"
 		timedivision="4/4"
 	></gsui-synthesizer>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiHelpLink/gsuiHelpLink.js"></script>
-<script src="../gsuiScrollShadow/gsuiScrollShadow.js"></script>
-<script src="../gsuiToggle/gsuiToggle.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-<script src="../gsuiReorder/gsuiReorder.js"></script>
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-<script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
-<script src="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.html.js"></script>
-<script src="../gsuiEnvelopeGraph/gsuiEnvelopeGraph.js"></script>
-<script src="../gsuiEnvelope/gsuiEnvelope.html.js"></script>
-<script src="../gsuiEnvelope/gsuiEnvelope.js"></script>
-<script src="../gsuiLFO/gsuiLFO.html.js"></script>
-<script src="../gsuiLFO/gsuiLFO.js"></script>
-<script src="../gsuiNoise/gsuiNoise.html.js"></script>
-<script src="../gsuiNoise/gsuiNoise.js"></script>
-<script src="../gsuiOscillator/gsuiOscillator.html.js"></script>
-<script src="../gsuiOscillator/gsuiOscillator.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiSynthesizer.html.js"></script>
-<script src="gsuiSynthesizer.js"></script>
-
-<!-- ....................................................................... -->
 <script>
-const elSyn = $( "gsui-synthesizer" );
-
-gsuiSynthesizer.$setPresetList( [ "bass", "electric", "organ", "tv", "ha" ] );
+// gsuiSynthesizer.$setPresetList( [ "bass", "electric", "organ", "tv", "ha" ] );
 </script>
-</body>
-</html>

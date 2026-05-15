@@ -1,50 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../gsui-form.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiDuration/gsuiDuration.css"/>
-<link rel="stylesheet" href="../gsuiHelpLink/gsuiHelpLink.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-<link rel="stylesheet" href="../gsuiDotline/gsuiDotline.css"/>
-<link rel="stylesheet" href="../gsuiSlider/gsuiSlider.css"/>
-<link rel="stylesheet" href="../gsuiReorder/gsuiReorder.css"/>
-<link rel="stylesheet" href="../gsuiPeriodicWave/gsuiPeriodicWave.css"/>
-<link rel="stylesheet" href="../gsuiWavetableGraph/gsuiWavetableGraph.css"/>
-<link rel="stylesheet" href="../gsuiWaveEditor/gsuiWaveEditor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiWavetable.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 900px;
-	--test-content-h: calc( 450px + 150px );
+:root {
+	--TryMe-w: 640px;
+	--TryMe-h: 460px;
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-wavetable></gsui-wavetable>
 </div>
-<div id="TEST-CTRLS">
+
+<div id="TryControls">
 	<div data-wtposcurve="0">
 		<code>wtposCurve[0]</code>
 		<button data-key-dur=".25">.25</button>
@@ -74,42 +39,6 @@ body {
 	</div>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../gs-utils/gs-utils-json.js"></script>
-<script src="../gs-utils/gs-utils-files.js"></script>
-<script src="../gs-utils/gs-utils-models.js"></script>
-<script src="../gs-utils/gs-utils-audio-nodes.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiTexture/gsuiTexture.js"></script>
-<script src="../gsuiDuration/gsuiDuration.js"></script>
-<script src="../gsuiHelpLink/gsuiHelpLink.js"></script>
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.html.js"></script>
-<script src="../gsuiDotlineSVG/gsuiDotlineSVG.js"></script>
-<script src="../gsuiDotline/gsuiDotline.html.js"></script>
-<script src="../gsuiDotline/gsuiDotline.js"></script>
-<script src="../gsuiSlider/gsuiSlider.html.js"></script>
-<script src="../gsuiSlider/gsuiSlider.js"></script>
-<script src="../gsuiReorder/gsuiReorder.js"></script>
-<script src="../gsuiPeriodicWave/gsuiPeriodicWave.js"></script>
-<script src="../gsuiWavetableGraph/gsuiWavetableGraph.js"></script>
-<script src="../gsuiWaveEditor/gsuiWaveEditor.html.js"></script>
-<script src="../gsuiWaveEditor/gsuiWaveEditor.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiWavetable.html.js"></script>
-<script src="gsuiWavetable.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const elWT = $( "gsui-wavetable" );
 const bpm = 120;
@@ -145,5 +74,3 @@ elWT.$get( 0 ).$change( {
 	// },
 } );
 </script>
-</body>
-</html>

@@ -1,32 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiPanels.css"/>
-
-<!-- ....................................................................... -->
 <style>
-body {
-	--test-content-w: 200px;
-	--test-content-h: 400px;
+:root {
+	--TryMe-w: 180px;
+	--TryMe-h: 300px;
 }
-#testWrap gsui-panels {
+gsui-panels {
 	width: 100%;
 	background-color: dodgerblue;
 }
@@ -34,19 +11,17 @@ body {
 	height: calc( 100% / 4 );
 	min-height: 32px;
 	background-color: #0009;
-}
-.testPanel:nth-child( odd ) {
-	background-color: #000d;
-}
-.testPanel:nth-child( 2 ) {
-	min-height: 64px;
+
+	&:nth-child( odd ) {
+		background-color: #000d;
+	}
+	&:nth-child( 2 ) {
+		min-height: 64px;
+	}
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-panels dir="y">
 		<div class="testPanel"></div>
 		<div class="testPanel"></div>
@@ -54,18 +29,3 @@ body {
 		<div class="testPanel"></div>
 	</gsui-panels>
 </div>
-
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiPanels.js"></script>
-</body>
-</html>

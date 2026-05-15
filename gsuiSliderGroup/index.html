@@ -1,60 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="shortcut icon" href="../assets/ico.svg"/>
-<link rel="stylesheet" href="../assets/fonts/fonts.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsui.css"/>
-<link rel="stylesheet" href="../gsui-gray.css"/>
-<link rel="stylesheet" href="../gsui-white.css"/>
-<link rel="stylesheet" href="../gsui-flex.css"/>
-<link rel="stylesheet" href="../test-assets/test.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="../gsuiIcon/gsuiIcon.css"/>
-<link rel="stylesheet" href="../gsuiCursor/gsuiCursor.css"/>
-<link rel="stylesheet" href="../gsuiBeatlines/gsuiBeatlines.css"/>
-
-<!-- ....................................................................... -->
-<link rel="stylesheet" href="gsuiSliderGroup.css"/>
 <style>
-body {
-	--test-content-w: 440px;
-	--test-content-h: 200px;
+:root {
+	--TryMe-w: 440px;
+	--TryMe-h: 160px;
 }
 gsui-slidergroup {
 	background-color: var( --gsui-timewin-bg );
 }
 </style>
-</head>
-<body>
 
-<!-- ....................................................................... -->
-<div id="TEST">
+<div id="TryComponent">
 	<gsui-slidergroup beatlines=""></gsui-slidergroup>
 </div>
 
-<!-- ....................................................................... -->
-<script src="../gs-utils/gs-utils.js"></script>
-<script src="../gs-utils/gs-utils-math.js"></script>
-<script src="../gs-utils/gs-utils-func.js"></script>
-<script src="../gs-utils/gs-utils-jquery.js"></script>
-<script src="../test-assets/test.js"></script>
-<script src="../gsui-constantes.js"></script>
-<script src="../gsui-texts.js"></script>
-<script src="../gsui0ne/gsui0ne.js"></script>
-
-<!-- ....................................................................... -->
-<script src="../gsuiBeatlines/gsuiBeatlines.js"></script>
-
-<!-- ....................................................................... -->
-<script src="gsuiSliderGroup.html.js"></script>
-<script src="gsuiSliderGroup.js"></script>
-
-<!-- ....................................................................... -->
 <script>
 const grp = $( "gsui-slidergroup" ).$get( 0 );
 
@@ -74,5 +31,3 @@ grp.$set( "i", 4.75, .25, .8 );
 
 // grp.$setProp( "a", "selected", true );
 </script>
-</body>
-</html>
