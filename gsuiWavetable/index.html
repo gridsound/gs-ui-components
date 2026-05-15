@@ -12,30 +12,30 @@
 <div id="TryControls">
 	<div data-wtposcurve="0">
 		<code>wtposCurve[0]</code>
-		<button data-key-dur=".25">.25</button>
-		<button data-key-dur=".5">.5</button>
-		<button data-key-dur="1">1</button>
-		<button data-key-dur="2">2</button>
-		<button data-key-dur="4">4</button>
-		<button data-key-dur="8">8</button>
+		<gsui-com-button data-key-dur=".25" text=".25"></gsui-com-button>
+		<gsui-com-button data-key-dur=".5" text=".5"></gsui-com-button>
+		<gsui-com-button data-key-dur="1" text="1"></gsui-com-button>
+		<gsui-com-button data-key-dur="2" text="2"></gsui-com-button>
+		<gsui-com-button data-key-dur="4" text="4"></gsui-com-button>
+		<gsui-com-button data-key-dur="8" text="8"></gsui-com-button>
 	</div>
 	<div data-wtposcurve="1">
 		<code>wtposCurve[1]</code>
-		<button data-key-dur=".25">.25</button>
-		<button data-key-dur=".5">.5</button>
-		<button data-key-dur="1">1</button>
-		<button data-key-dur="2">2</button>
-		<button data-key-dur="4">4</button>
-		<button data-key-dur="8">8</button>
+		<gsui-com-button data-key-dur=".25" text=".25"></gsui-com-button>
+		<gsui-com-button data-key-dur=".5" text=".5"></gsui-com-button>
+		<gsui-com-button data-key-dur="1" text="1"></gsui-com-button>
+		<gsui-com-button data-key-dur="2" text="2"></gsui-com-button>
+		<gsui-com-button data-key-dur="4" text="4"></gsui-com-button>
+		<gsui-com-button data-key-dur="8" text="8"></gsui-com-button>
 	</div>
 	<div data-wtposcurve="2">
 		<code>wtposCurve[2]</code>
-		<button data-key-dur=".25">.25</button>
-		<button data-key-dur=".5">.5</button>
-		<button data-key-dur="1">1</button>
-		<button data-key-dur="2">2</button>
-		<button data-key-dur="4">4</button>
-		<button data-key-dur="8">8</button>
+		<gsui-com-button data-key-dur=".25" text=".25"></gsui-com-button>
+		<gsui-com-button data-key-dur=".5" text=".5"></gsui-com-button>
+		<gsui-com-button data-key-dur="1" text="1"></gsui-com-button>
+		<gsui-com-button data-key-dur="2" text="2"></gsui-com-button>
+		<gsui-com-button data-key-dur="4" text="4"></gsui-com-button>
+		<gsui-com-button data-key-dur="8" text="8"></gsui-com-button>
 	</div>
 </div>
 
@@ -43,7 +43,7 @@
 const elWT = $( "gsui-wavetable" );
 const bpm = 120;
 
-$( "#testCtrls" ).$onclick( e => {
+$( "#TryControls" ).$onclick( e => {
 	const dur = +e.target.dataset.keyDur;
 	const cId = e.target.parentNode.dataset.wtposcurve;
 

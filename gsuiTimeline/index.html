@@ -71,5 +71,5 @@ $( [
 	inpBPM,
 	inpSPB,
 ] ).$oninput( e => timeline.$setAttr( "timedivision", `${ inpBPM.$value() }/${ inpSPB.$value() }` ) );
-$( "#testCtrls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target.value ) );
+$( "#TryControls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target.value ) );
 </script>

@@ -22,12 +22,12 @@ gsui-windows {
 		<span>no minimize</span>
 	</label>
 	<div id="winBtns">
-		<button data-ind="0">winA</button>
-		<button data-ind="1">winB</button>
-		<button data-ind="2">winC</button>
+		<gsui-com-button data-ind="0" text="winA"></gsui-com-button>
+		<gsui-com-button data-ind="1" text="winB"></gsui-com-button>
+		<gsui-com-button data-ind="2" text="winC"></gsui-com-button>
 	</div>
 	<div>
-		<button id="addContent">addContent</button>
+		<gsui-com-button id="addContent" text="addContent"></gsui-com-button>
 	</div>
 </div>
 
@@ -46,7 +46,7 @@ const attrs = [
 
 $( "#lowGraphics" ).$onchange( e => uiWins.$setAttr( "lowgraphics", e.target.checked ) );
 $( "#noMinimize" ).$onchange( e => uiWins.$setAttr( "nominimize", e.target.checked ) );
-$( "#winBtns button" ).$onclick( e => wins.$at( e.target.dataset.ind ).$addAttr( "show" ) );
+$( "#winBtns gsui-com-button" ).$onclick( e => wins.$at( e.target.dataset.ind ).$addAttr( "show" ) );
 $( "#addContent" ).$onclick( () => {
 	wins.$at( 0 ).$message( GSEV_WINDOW_APPENDCONTENT, $.$span( { class: "myContent" }, "A" ) );
 	wins.$at( 1 ).$message( GSEV_WINDOW_APPENDCONTENT, $.$span( { class: "myContent" }, "B" ) );

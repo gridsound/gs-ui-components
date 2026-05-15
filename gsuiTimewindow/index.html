@@ -46,7 +46,7 @@
 		<input id="autoscroll" type="checkbox" name="autoscroll"/>
 		<span>auto-scrolling</span>
 	</label>
-	<button id="playStop" type="button" name="playStop">Play!</button>
+	<gsui-com-button id="playStop" icon="play"></gsui-com-button>
 </div>
 
 <script>
@@ -69,7 +69,7 @@ inpAutoscroll.$onchange( () => win.$setAttr( "autoscroll", inpAutoscroll.$checke
 
 inpPlayStop.$onclick( e => {
 	play = !play;
-	e.target.textContent = play ? "Stop" : "Play!" ;
+	inpPlayStop.$setAttr( "icon", play ? "stop" : "play" );
 	if ( play ) {
 		intervalId = GSUsetInterval( () => {
 			currenttime = ( currenttime + .05 ) % 16;

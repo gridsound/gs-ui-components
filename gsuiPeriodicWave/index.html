@@ -24,10 +24,10 @@ gsui-periodicwave {
 
 <div id="TryControls">
 	<gs-flex x>
-		<button class="gsuiIcon" data-icon="wave-sin" data-w="sine"></button>
-		<button class="gsuiIcon" data-icon="wave-tri" data-w="triangle"></button>
-		<button class="gsuiIcon" data-icon="wave-saw" data-w="sawtooth"></button>
-		<button class="gsuiIcon" data-icon="wave-squ" data-w="square"></button>
+		<gsui-com-button icon="wave-sin" data-w="sine"></gsui-com-button>
+		<gsui-com-button icon="wave-tri" data-w="triangle"></gsui-com-button>
+		<gsui-com-button icon="wave-saw" data-w="sawtooth"></gsui-com-button>
+		<gsui-com-button icon="wave-squ" data-w="square"></gsui-com-button>
 	</gs-flex>
 	<gs-flex x g12>
 		<b>nbPts</b>
@@ -80,7 +80,7 @@ el.$observeSize( ( w, h ) => {
 	draw();
 } );
 
-$( "#testCtrls" ).$onclick( e => {
+$( "#TryControls" ).$onclick( e => {
 	const tar = $( e.target );
 	const w = tar.$getAttr( "data-w" );
 

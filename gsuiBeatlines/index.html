@@ -3,19 +3,31 @@
 	--TryMe-w: 300px;
 	--TryMe-h: 300px;
 }
+#TryControls label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
 </style>
 
 <div id="TryComponent">
-	<gsui-beatlines timedivision="4/4" pxperbeat="64" color="#fff" coloredodds></gsui-beatlines>
+	<gsui-beatlines
+		timedivision="4/4"
+		pxperbeat="64"
+		color="#fff"
+		coloredodds
+	></gsui-beatlines>
 </div>
 
 <div id="TryControls">
-	<div>
-		<button id="vertical">toggle vertical</button>
-	</div>
-	<div>
-		<button id="coloredodds">toggle colored odds</button>
-	</div>
+	<label>
+		<input type="checkbox" id="vertical"/>
+		<span>toggle vertical</span>
+	</label>
+	<label>
+		<input type="checkbox" id="coloredodds" checked/>
+		<span>toggle colored odds</span>
+	</label>
 	<div>
 		<input id="pxPerBeat" type="range" value="64" min="1" max="200" step="1"/>
 		<b>64</b>

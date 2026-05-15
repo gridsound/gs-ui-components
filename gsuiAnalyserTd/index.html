@@ -18,9 +18,9 @@
 </div>
 
 <div id="TryControls">
-	<button id="play" disabled>play</button>
-	<button id="stop">stop</button>
-	<button id="freeze">freeze</button>
+	<gsui-com-button id="play" icon="play" disabled></gsui-com-button>
+	<gsui-com-button id="stop" icon="stop"></gsui-com-button>
+	<gsui-com-button id="freeze" icon="freeze"></gsui-com-button>
 	<div class="prop">
 		<input id="ampInput" type="range" value="1" min="0.1" max="16" step=".01" />
 		<span>amp</span>
@@ -81,7 +81,7 @@ play.$onclick( () => {
 ampInput.$oninput( e => analyserTd.$setAttr( "amp", e.target.value ) );
 pinchInput.$oninput( e => analyserTd.$setAttr( "pinch", e.target.value ) );
 smoothInput.$oninput( e => analyserTd.$setAttr( "smooth", e.target.value ) );
-$( "#testCtrls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target.value ) );
+$( "#TryControls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target.value ) );
 
 function frame() {
 	an.getFloatTimeDomainData( anData );
