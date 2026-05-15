@@ -19,6 +19,7 @@ class gsuiComButton extends gsui0ne {
 		} );
 		gsuiRipple.$init( this.$element, this.$elements.$text.$parent() );
 		this.$this.$addEventListener( "click", this.#onclick.bind( this ) );
+		this.$element.$on( "contextmenu", e => e.preventDefault() );
 	}
 
 	// .........................................................................
