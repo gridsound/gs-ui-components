@@ -29,7 +29,7 @@ $body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
 		),
 		$.$div( { id: "testLinks" },
 			$.$link( { href: "gsds.html" }, "classic-design-system" ),
-			TESTcmpList.map( s => $.$link( { href: s }, s ) ),
+			TESTcmpList.map( s => $.$link( { href: `try#${ s }` }, s ) ),
 		),
 		$.$div( { id: "testFoot" },
 			$.$span( { id: "testCopyright" },
