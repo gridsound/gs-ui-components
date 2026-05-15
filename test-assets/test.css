@@ -1,5 +1,6 @@
 body {
 	--test-skin-dur: .25s;
+	overflow: auto;
 	display: flex;
 	flex-direction: column;
 	font-size: 16px;
@@ -47,7 +48,7 @@ body {
 
 	a {
 		padding: 6px;
-		font-size: 16px;
+		font-size: 18px;
 		font-weight: bold;
 		border-radius: .5ch;
 
@@ -63,6 +64,7 @@ body {
 /* .......................................................................... */
 #footer {
 	margin: auto 0 10px;
+	padding-top: 32px;
 	font-size: 12px;
 	font-weight: bold;
 	text-align: center;
