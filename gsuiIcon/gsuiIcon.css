@@ -122,6 +122,7 @@
 	&[ data-icon="pause"   ] { --i0: "\f04c"; --i1: "\f04c\f04c"; --o1: 1; }
 	&[ data-icon="mute"    ] { --i0: "\f2e2"; --i1: "\f2e2\f2e2"; }
 	&[ data-icon="unmute"  ] { --i0: "\f028"; --i1: "\f028\f028"; }
+	&[ data-icon="freeze"  ] { --i0: "\f2dc"; --i1: "\f2dc\f2dc"; }
 	&[ data-icon="loop"    ] { --i0: "\f364"; --i1: "\f364\f364"; }
 	&[ data-icon="eject"   ] { --i0: "\f052"; --i1: "\f052\f052"; }
 	&[ data-icon="reverse" ] { --i0: "\f3e5"; --i1: "\f3e5\f3e5"; }
