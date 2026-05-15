@@ -33,7 +33,7 @@ $body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
 		),
 		$.$div( { id: "testFoot" },
 			$.$span( { id: "testCopyright" },
-				$.$span( null, "© 2025 " ),
+				$.$span( null, `© ${ new Date().getFullYear() } ` ),
 				$.$link( { href: "https://gridsound.com" }, "gridsound.com" ),
 				$.$span( null, " all rights reserved" ),
 			),
