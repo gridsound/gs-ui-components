@@ -21,11 +21,15 @@ body {
 }
 
 #TryHead {
+	display: flex;
+	align-items: center;
 	margin-top: auto;
+	gap: 8px;
 
 	select {
-		padding: 6px 8px;
-		border-radius: 8px;
+		height: 28px;
+		padding: 0 8px;
+		border-radius: 4px;
 		background-color: #0005;
 
 		option {

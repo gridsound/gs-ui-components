@@ -152,20 +152,12 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: auto;
-	height: 48px;
-	min-height: 48px;
-	color: #fff;
+	margin: auto 0 10px;
 }
 #testCopyright {
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: bold;
-	color: inherit;
 	opacity: .5;
-
-	a {
-		color: inherit;
-	}
 }
 
 /* .......................................................................... */

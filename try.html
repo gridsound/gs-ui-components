@@ -99,6 +99,7 @@
 
 <main id="TryMain">
 	<div id="TryHead">
+		<gsui-com-button id="TryBack" icon="arrow-left" data-tooltip="Back"></gsui-com-button>
 		<select id="TrySelect"></select>
 	</div>
 	<div id="TryFoot">
@@ -269,6 +270,7 @@ class TryMe {
 				console.warn( `gsui event: "${ d.$event }"`, d.$args, d.$target );
 			} );
 		$( "#TryYear" ).$text( new Date().getFullYear() );
+		$( "#TryBack" ).$onclick( () => top.location = `${ location.origin }${ location.pathname }`.split( "/try" )[ 0 ] );
 		$( "#TrySelect" )
 			.$append( ...TryMe.#list.map( c => $.$option( { value: c } ) ) )
 			.$onchange( e => location.hash = e.target.value );
