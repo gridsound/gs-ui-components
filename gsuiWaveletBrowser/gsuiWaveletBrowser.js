@@ -32,6 +32,9 @@ class gsuiWaveletBrowser extends gsui0ne {
 		this.#drawWave( 0, this.#selectedWaveInd );
 		this.#drawWave( 1, this.#currentWaveInd );
 	}
+	$connected() {
+		requestAnimationFrame( () => this.#selectWave( this.$this.$getAttr( "wave" ) ) );
+	}
 	static get observedAttributes() {
 		return [ "wave" ];
 	}
