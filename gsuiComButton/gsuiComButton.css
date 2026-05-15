@@ -15,6 +15,7 @@ gsui-com-button {
 	border-radius: 2px;
 	user-select: none;
 	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
 
 	&[ loading ],
 	&[ disabled ] {
