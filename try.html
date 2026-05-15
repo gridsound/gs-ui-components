@@ -259,6 +259,7 @@
 <script src="gsuiTrack/gsuiTrack.html.js"></script>
 <script src="gsuiTrack/gsuiTrack.js"></script>
 <!-- ....................................................................... -->
+<script src="test-assets/componentList.js"></script>
 <script>
 "use strict";
 
@@ -272,7 +273,7 @@ class TryMe {
 		$( "#TryYear" ).$text( new Date().getFullYear() );
 		$( "#TryBack" ).$onclick( () => top.location = `${ location.origin }${ location.pathname }`.split( "/try" )[ 0 ] );
 		$( "#TrySelect" )
-			.$append( ...TryMe.#list.map( c => $.$option( { value: c } ) ) )
+			.$append( ...componentList.map( c => $.$option( { value: c } ) ) )
 			.$onchange( e => location.hash = e.target.value );
 		window.onhashchange = () => location.reload();
 		TryMe.#loadComponent( location.hash.slice( 1 ) );
@@ -310,67 +311,6 @@ class TryMe {
 			$( "<script>" ).$text( js ).$appendTo( $body );
 		}
 	}
-	static #list = Object.freeze( [
-		"gsuiAnalyserHist",
-		"gsuiAnalyserHz",
-		"gsuiAnalyserTd",
-		"gsuiAnalyserVu",
-		"gsuiAutomation",
-		"gsuiBeatlines",
-		"gsuiChannel",
-		"gsuiClock",
-		"gsuiComAvatar",
-		"gsuiComButton",
-		"gsuiComPlayer",
-		"gsuiComProfile",
-		"gsuiComUserLink",
-		"gsuiCursor",
-		"gsuiDAW",
-		"gsuiDotline",
-		"gsuiDrumrows",
-		"gsuiDrums",
-		"gsuiEnvelope",
-		"gsuiFxDelay",
-		"gsuiFxFilter",
-		"gsuiFxReverb",
-		"gsuiFxWaveShaper",
-		"gsuiGlitchText",
-		"gsuiIcon",
-		"gsuiJoystick",
-		"gsuiKeys",
-		"gsuiLFO",
-		"gsuiLibraries",
-		"gsuiLibrary",
-		"gsuiMixer",
-		"gsuiNoise",
-		"gsuiOscillator",
-		"gsuiPanels",
-		"gsuiPeriodicWave",
-		"gsuiPianoroll",
-		"gsuiPopup",
-		"gsuiPropSelect",
-		"gsuiReorder",
-		"gsuiScrollShadow",
-		"gsuiSlicer",
-		"gsuiSlider",
-		"gsuiSliderGroup",
-		"gsuiStepSelect",
-		"gsuiSVGPatterns",
-		"gsuiSynthesizer",
-		"gsuiTempo",
-		"gsuiTimeCursors",
-		"gsuiTimeline",
-		"gsuiTimewindow",
-		"gsuiTitleUser",
-		"gsuiToggle",
-		"gsuiTooltip",
-		"gsuiTrack",
-		"gsuiWaveEditor",
-		"gsuiWaveletBrowser",
-		"gsuiWavetable",
-		"gsuiWavetableGraph",
-		"gsuiWindows",
-	] );
 }
 
 TryMe.$init();

@@ -17,7 +17,7 @@
 <script src="gs-utils/gs-utils.js"></script>
 <script src="gs-utils/gs-utils-json.js"></script>
 <script src="gs-utils/gs-utils-jquery.js"></script>
-<script src="test-assets/test.js"></script>
+<script src="test-assets/componentList.js"></script>
 <script>
 "use strict";
 
@@ -29,7 +29,7 @@ $body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
 		),
 		$.$div( { id: "testLinks" },
 			$.$link( { href: "gsds.html" }, "classic-design-system" ),
-			TESTcmpList.map( s => $.$link( { href: `try#${ s }` }, s ) ),
+			componentList.map( s => $.$link( { href: `try#${ s }` }, s ) ),
 		),
 		$.$div( { id: "testFoot" },
 			$.$span( { id: "testCopyright" },

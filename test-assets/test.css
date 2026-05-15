@@ -54,100 +54,6 @@ body {
 }
 
 /* .......................................................................... */
-#testBody {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	gap: 32px;
-	max-width: 100%;
-}
-
-/* .......................................................................... */
-#testSelect {
-	border-radius: 4px;
-	padding: 6px 4px;
-	background-color: #0005;
-
-	option {
-		background-color: #000;
-	}
-}
-#testSkin {
-	transition: rotate .2s;
-
-	body[ data-skin="white" ] & {
-		rotate: 180deg;
-	}
-}
-
-/* .......................................................................... */
-#testContent {
-	box-sizing: border-box;
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	resize: var( --test-content-resize, both );
-	gap: 10px;
-	padding: 32px;
-	max-width: 100%;
-	width: var( --test-content-w, auto );
-	height: var( --test-content-h, auto );
-	border-radius: 8px;
-	border: 2px solid #0003;
-	border-bottom-width: 6px;
-	background-color: var( --app-bg );
-	box-shadow: 0 0 20px 20px var( --app-bg );
-	transition: var( --test-skin-dur );
-	transition-property: background-color, box-shadow;
-
-	&:not( [ data-min-auto ], [ data-min-x-auto ] ) { min-width: fit-content }
-	&:not( [ data-min-auto ], [ data-min-y-auto ] ) { min-height: fit-content }
-	&::after {
-		content: "";
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		border: 10px solid transparent;
-		border-right-color: #0003;
-		border-bottom-color: #0003;
-		pointer-events: none;
-	}
-}
-#testWrap {
-	position: relative;
-	overflow: hidden;
-	flex: 1;
-}
-
-/* .......................................................................... */
-#testCtrls {
-	overflow: auto;
-	scrollbar-width: thin;
-
-	&:empty {
-		display: none;
-	}
-	input[ type="range" ] {
-		width: 100%;
-		max-width: min( 200px, 100% );
-		margin: 0;
-		padding: 0;
-	}
-	button {
-		padding: 2px 4px;
-		font-size: 12px;
-		border-radius: 4px;
-		background-color: #fff5;
-
-		&:hover { background-color: #fff6 }
-		&:active { background-color: #fff7 }
-	}
-}
-
-/* .......................................................................... */
 #testFoot {
 	display: flex;
 	justify-content: center;
@@ -166,18 +72,5 @@ body {
 		align-items: center;
 		flex-direction: column;
 		font-size: 22px;
-	}
-}
-
-/* .......................................................................... */
-body[ data-skin="white" ] {
-	#testSelect {
-		background-color: #fffa;
-
-		option {
-			background-color: #fff;
-
-			&[ data-hl ] { background-color: #ddd }
-		}
 	}
 }
