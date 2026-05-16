@@ -96,6 +96,8 @@ const GSTXall = GSUdeepFreeze( {
 		$wavetable_removeWave: "<b>Remove</b> this wave",
 		// .....................................................................
 		$waveEditor_toggleSymm: "Toggle <b>symmetry</b>",
+		// .....................................................................
+		$automation_selectTarget: "Select automation's target",
 	},
 } );
 

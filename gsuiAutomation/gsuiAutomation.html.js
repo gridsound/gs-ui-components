@@ -9,7 +9,7 @@ $.$setTemplate( "gsui-automation", () => {
 		$.$div( { class: "gsuiAutomation-in" },
 			$.$div( { class: "gsuiAutomation-head" },
 				$.$icon( { icon: "target" } ),
-				$.$button( { class: "gsuiAutomation-btnTarget gsui-ellipsis", popovertarget: popId, title: "Select automation's target" } ),
+				$.$button( { class: "gsuiAutomation-btnTarget gsui-ellipsis", popovertarget: popId, "data-tooltip": GSTX.$automation_selectTarget } ),
 				$.$elem( "gsui-duration", { max: 64 } ),
 			),
 			$.$div( { class: "gsuiAutomation-body" },
