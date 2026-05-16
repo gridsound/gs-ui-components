@@ -2,6 +2,12 @@
 
 const GSTXall = GSUdeepFreeze( {
 	en: {
+		$user_login: "Login / connection",
+		$user_logout: "Logout / disconnect",
+		$user_saveCmp: "<b>Save</b> composition",
+		$user_renameCmp: "Edit composition's title",
+		$user_goProfile: "Go to your <b>profile</b>",
+		// .....................................................................
 		$daw_gain:          "Main app <b>volume</b> (this will not affect the rendering)",
 		$daw_focus:         "Switch <b>focus</b> between the composition and piano windows",
 		$daw_reboot:        "<b>Reboot</b> the audio engine",
