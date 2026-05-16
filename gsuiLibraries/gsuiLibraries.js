@@ -14,8 +14,8 @@ class gsuiLibraries extends gsui0ne {
 			},
 		} );
 		this.$elements.$libBtns.$onclick( this.#onclickBtns.bind( this ) );
-		this.$elements.$libDef.$setAttr( "placeholder", "loading..." );
-		this.$elements.$libLoc.$setAttr( "placeholder", "drag'n drop your own samples in the app, they will appear here" );
+		this.$elements.$libDef.$setAttr( "placeholder", GSTX.$loading );
+		this.$elements.$libLoc.$setAttr( "placeholder", GSTX.$library_placehUser );
 	}
 
 	// .........................................................................

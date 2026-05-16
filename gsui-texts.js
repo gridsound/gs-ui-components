@@ -2,6 +2,8 @@
 
 const GSTXall = GSUdeepFreeze( {
 	en: {
+		$loading: "loading…",
+		// .....................................................................
 		$user_login:     "Login / connection",
 		$user_logout:    "Logout / disconnect",
 		$user_saveCmp:   "<b>Save</b> composition",
@@ -35,6 +37,8 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_placehDrums:   "no drums yet",
 		$patterns_placehSynths:  "no synth yet",
 		$patterns_placehAutomat: "no automation yet",
+		// .....................................................................
+		$library_placehUser: "drag'n drop your own samples in the app, they will appear here",
 		// .....................................................................
 		$win_rename_keys:   "<b>Rename</b> this keys pattern",
 		$win_rename_synth:  "<b>Rename</b> this synthesizer",
