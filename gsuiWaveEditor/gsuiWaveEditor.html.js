@@ -13,7 +13,7 @@ $.$setTemplate( "gsui-wave-editor", () => {
 				$.$icon( { icon: "list" } ),
 			),
 			$.$elem( "gs-label-s", null, "symmetry" ),
-			$.$button( { class: "gsuiWaveEditor-symmetry", "data-action": "symmetry", title: "Toggle symmetry" },
+			$.$button( { class: "gsuiWaveEditor-symmetry", "data-action": "symmetry", "data-tooltip": GSTX.$waveEditor_toggleSymm },
 				$.$icon( { icon: "arrows-h2" } ),
 				$.$icon( { icon: "radio-btn-checked" } ),
 			),

@@ -24,8 +24,8 @@ const GSTXall = GSUdeepFreeze( {
 		$daw_open_drums:    "Toggle the <b>drums</b> window",
 		$daw_open_piano:    "Toggle the <b>piano</b> window",
 		$daw_open_slicer:   "Toggle the <b>slicer</b> window",
-		$daw_toggle_help:   "Toggle <b>help</b> links ❓",
-		$daw_about:         "About <i>GridSound</i> 🎵",
+		$daw_toggle_help:   "Toggle <b>help</b> links [❓] and tooltips",
+		$daw_about:         "About <i>GridSound</i> 🎵🎶",
 		$daw_changelog:     "Read the <b>changelog</b>",
 		// .....................................................................
 		$patterns_createSlices:  "<b>Create</b> a new <b>slices</b> pattern",
@@ -91,6 +91,11 @@ const GSTXall = GSUdeepFreeze( {
 		$oscillator_nextWave:  "Next wave",
 		$oscillator_wavetable: "<b>Wavetable</b> editor",
 		$oscillator_remove:    "<b>Remove</b> the oscillator",
+		// .....................................................................
+		$wavetable_cloneWave:  "<b>Clone</b> this wave",
+		$wavetable_removeWave: "<b>Remove</b> this wave",
+		// .....................................................................
+		$waveEditor_toggleSymm: "Toggle <b>symmetry</b>",
 	},
 } );
 

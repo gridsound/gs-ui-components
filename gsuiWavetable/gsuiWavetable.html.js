@@ -42,8 +42,8 @@ $.$setTemplate( "gsui-wavetable-wave", ( id, ind ) =>
 		$.$elem( "gsui-periodicwave", { "data-action": "select" } ),
 		$.$flex( { "data-action": "select", y: true, xcenter: true, ycenter: true, f1: true },
 			$.$span( { inert: true } ),
-			$.$button( { "data-action": "clone", icon: "clone", title: "Clone this wave" } ),
-			$.$button( { "data-action": "remove", icon: "close", title: "Remove this wave" } ),
+			$.$button( { "data-action": "clone", icon: "clone", "data-tooltip": GSTX.$wavetable_cloneWave } ),
+			$.$button( { "data-action": "remove", icon: "close", "data-tooltip": GSTX.$wavetable_removeWave } ),
 		),
 	),
 );
