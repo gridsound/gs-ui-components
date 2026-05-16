@@ -16,7 +16,7 @@ class gsuiHelpLink extends gsui0ne {
 		if ( prop === "page" ) {
 			this.$element.$setAttr( {
 				href: `https://github.com/gridsound/daw/wiki/help-${ val }`,
-				title: `Open the ${ val } help page`,
+				"data-tooltip": `Open the <b>${ val }</b> help page`,
 			} );
 		}
 	}
