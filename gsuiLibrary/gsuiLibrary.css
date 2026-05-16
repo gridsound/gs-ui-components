@@ -76,6 +76,7 @@ gsui-library {
 
 /* .......................................................................... */
 .gsuiLibrary-sample {
+	--gsuiTooltip-pos: right;
 	position: relative;
 	display: flex;
 	align-items: center;

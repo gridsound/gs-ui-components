@@ -88,7 +88,7 @@ class gsuiLibrary extends gsui0ne {
 	$unloadSamples() {
 		this.$elements.$body.$query( ".gsuiLibrary-sample" )
 			.$rmAttr( "data-loading", "data-ready" )
-			.$setAttr( title, el => el.dataset.name );
+			.$setAttr( "data-tooltip", el => el.dataset.name );
 	}
 	$setLibrary( lib ) {
 		let lastSep = $noop;
@@ -122,14 +122,14 @@ class gsuiLibrary extends gsui0ne {
 	$loadSample( id ) {
 		this.#getSample( id ).$setAttr( {
 			"data-loading": true,
-			title: "loading...",
+			"data-tooltip": GSTX.$loading,
 		} );
 	}
 	$readySample( id ) {
 		this.#getSample( id )
 			.$rmAttr( "data-loading" )
 			.$addAttr( "data-ready" )
-			.$setAttr( "title", el => el.dataset.name );
+			.$setAttr( "data-tooltip", el => el.dataset.name );
 	}
 	$playSample( id, dur ) {
 		const el = this.#getSample( id );
