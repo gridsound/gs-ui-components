@@ -18,9 +18,25 @@ class gsuiTooltip {
 	} );
 
 	static $start() {
-		gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
-		$body.$append( gsuiTooltip.#popover )
-			.$addEventListener( "mouseover", gsuiTooltip.#mouseover );
+		if ( !gsuiTooltip.#popover.$size() ) {
+			gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
+			$body.$append( gsuiTooltip.#popover )
+				.$addEventListener( "mouseover", gsuiTooltip.#mouseover );
+		}
+	}
+	static $stop() {
+		gsuiTooltip.#popover.$remove();
+		gsuiTooltip.#popover =
+		gsuiTooltip.#elOver =
+		gsuiTooltip.#elAnchor = $noop;
+		$body.$rmEventListener( "mouseover", gsuiTooltip.#mouseover );
+		GSUclearTimeout( gsuiTooltip.#timeoutShow );
+		GSUclearTimeout( gsuiTooltip.#timeoutHide );
+		GSUclearInterval( gsuiTooltip.#intervalWatch );
+		gsuiTooltip.#currText =
+		gsuiTooltip.#timeoutShow =
+		gsuiTooltip.#timeoutHide =
+		gsuiTooltip.#intervalWatch = null;
 	}
 	static #mouseover( e ) {
 		const tar = $( e.target );
@@ -109,5 +125,3 @@ class gsuiTooltip {
 		return arr;
 	}
 }
-
-gsuiTooltip.$start();

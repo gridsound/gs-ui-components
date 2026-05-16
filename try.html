@@ -277,6 +277,7 @@ class TryMe {
 			.$onchange( e => location.hash = e.target.value );
 		window.onhashchange = () => location.reload();
 		TryMe.#loadComponent( location.hash.slice( 1 ) );
+		gsuiTooltip.$start();
 	}
 	static #clear() {
 		$( ".TryAsset, #TryComponent, #TryControls" ).$remove();
