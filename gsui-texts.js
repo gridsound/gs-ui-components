@@ -78,6 +78,10 @@ const GSTXall = GSUdeepFreeze( {
 		// .....................................................................
 		$effects_add: "<b>Add</b> an effect",
 		// .....................................................................
+		$effect_mute:   "<b>Mute</b> this effect",
+		$effect_unmute: "<b>Unmute</b> this effect",
+		$effect_remove: "<b>Delete</b> this effect",
+		// .....................................................................
 		$drumrow_mute:   "<b>Mute</b> the drumrow (right click for solo)",
 		$drumrow_unmute: "<b>Unmute</b> the drumrow (right click for solo)",
 		$drumrow_expand: "<b>Expand</b> props panel",
