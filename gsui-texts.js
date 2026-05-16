@@ -2,9 +2,9 @@
 
 const GSTXall = GSUdeepFreeze( {
 	en: {
-		$user_login: "Login / connection",
-		$user_logout: "Logout / disconnect",
-		$user_saveCmp: "<b>Save</b> composition",
+		$user_login:     "Login / connection",
+		$user_logout:    "Logout / disconnect",
+		$user_saveCmp:   "<b>Save</b> composition",
 		$user_renameCmp: "Edit composition's title",
 		$user_goProfile: "Go to your <b>profile</b>",
 		// .....................................................................
@@ -26,6 +26,16 @@ const GSTXall = GSUdeepFreeze( {
 		$daw_about:         "About <i>GridSound</i> 🎵",
 		$daw_changelog:     "Read the <b>changelog</b>",
 		// .....................................................................
+		$patterns_createSlices:  "<b>Create</b> a new <b>slices</b> pattern",
+		$patterns_createDrums:   "<b>Create</b> a new <b>drums</b> pattern",
+		$patterns_createSynth:   "<b>Create</b> a new <b>synthesizer</b>",
+		$patterns_createAutomat: "<b>Create</b> a new <b>automation</b> pattern",
+		$patterns_placehBuffer:  "No buffer pattern in use yet",
+		$patterns_placehSlices:  "no slices yet",
+		$patterns_placehDrums:   "no drums yet",
+		$patterns_placehSynths:  "no synth yet",
+		$patterns_placehAutomat: "no automation yet",
+		// .....................................................................
 		$win_rename_keys:   "<b>Rename</b> this keys pattern",
 		$win_rename_synth:  "<b>Rename</b> this synthesizer",
 		$win_rename_drums:  "<b>Rename</b> this drums pattern",
@@ -43,9 +53,9 @@ const GSTXall = GSUdeepFreeze( {
 		$stepSelect_snap: "Grid snap",
 		// .....................................................................
 		$patterns_redirectSynth:   "<b>Redirect</b> this synthesizer",
-		$patterns_createKeys:      "<b>Create</b> a new <b>keys pattern</b> with this synthesizer",
-		$patterns_deleteSynth:     "<b>Delete</b> the synthesizer and its patterns",
-		$patterns_editPatternInfo: "<b>Edit</b> the buffer pattern's info",
+		$patterns_createKeys:      "<b>Create</b> a new <b>keys</b> pattern with this synthesizer",
+		$patterns_deleteSynth:     "<b>Delete</b> this synthesizer and its patterns",
+		$patterns_editPatternInfo: "<b>Edit</b> this buffer pattern's info",
 		$patterns_redirectPattern: "<b>Redirect</b> this pattern",
 		$patterns_clonePattern:    "<b>Clone</b> this pattern",
 		$patterns_deletePattern:   "<b>Delete</b> this pattern",
