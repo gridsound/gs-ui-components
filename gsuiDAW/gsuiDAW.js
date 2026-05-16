@@ -120,9 +120,12 @@ class gsuiDAW extends gsui0ne {
 			"keynotation",
 			"version",
 			"volume",
+			"helping",
 		];
 	}
 	$attributeChanged( prop, val ) {
+		const b = val === "";
+
 		switch ( prop ) {
 			case "exporting":
 				this.#popups.$export.$progress.$value( +val || 0 );
@@ -134,7 +137,7 @@ class gsuiDAW extends gsui0ne {
 				this.$elements.$titleUser.$setAttr( "saved", val );
 				break;
 			case "playing":
-				this.$elements.$play.$setAttr( "data-icon", val !== null ? "pause" : "play" );
+				this.$elements.$play.$setAttr( "data-icon", b ? "pause" : "play" );
 				break;
 			case "timelinenumbering":
 				gsuiClock.$numbering( val );
@@ -169,6 +172,15 @@ class gsuiDAW extends gsui0ne {
 			case "version":
 				this.$elements.$vers.$text( val );
 				this.#popups.$about.$version.$text( val );
+				break;
+			case "helping":
+				b
+					? gsuiTooltip.$start()
+					: gsuiTooltip.$stop();
+				this.$this
+					.$setAttr( "helping", b )
+					.$setAttr( "gsuihelplink-show", b )
+					.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, b );
 				break;
 		}
 	}
@@ -324,15 +336,10 @@ class gsuiDAW extends gsui0ne {
 			case "reset": this.$this.$dispatch( GSEV_DAW_RESET ); break;
 			case "undo": this.$this.$dispatch( GSEV_DAW_UNDO ); break;
 			case "redo": this.$this.$dispatch( GSEV_DAW_REDO ); break;
+			case "help": this.$this.$togAttr( "helping" ); break;
 			case "export": this.#onopenRenderPopup(); break;
 			case "settings": this.#onopenSettingsPopup(); break;
 			case "about": $popup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
-			case "help": {
-				const hide = this.$this.$hasAttr( "gsuihelplink-hide" );
-
-				this.$this.$setAttr( "gsuihelplink-hide", !hide )
-					.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, hide );
-			} break;
 			case "window":
 				if ( dt.win !== "patterns" ) {
 					this.$this.$dispatch( dt.open === undefined ? GSEV_DAW_OPENWINDOW : GSEV_DAW_CLOSEWINDOW, dt.win );

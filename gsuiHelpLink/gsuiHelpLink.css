@@ -1,8 +1,9 @@
-[ gsuihelplink-hide ] gsui-help-link {
-	display: none;
-}
 gsui-help-link {
+	display: none;
 	font-size: 14px;
+}
+[ gsuihelplink-show ] gsui-help-link {
+	display: block;
 }
 gsui-help-link a {
 	color: inherit;
