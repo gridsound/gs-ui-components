@@ -71,6 +71,8 @@
 	&[ data-icon="cu-music-plus"   ] { --i0: "\e006"; --i1: "\e006\e006"; }
 	&[ data-icon="cu-music-edit"   ] { --i0: "\e00b"; --i1: "\e00b\e00b"; }
 	&[ data-icon="cu-music-spark"  ] { --i0: "\e00c"; --i1: "\e00c\e00c"; }
+	&[ data-icon="cu-no-help"      ] { --i0: "\e018"; --i1: "\e018\e018"; }
+	&[ data-icon="cu-no-question"  ] { --i0: "\e019"; --i1: "\e019\e019"; }
 	&[ data-icon="cu-wave-edit"    ] {
 		--i0: "\e00d";
 		--i1: "\e00d\e00d";
@@ -206,7 +208,6 @@
 	&[ data-icon="buf-drum"      ] { --i0: "\f569"; --i1: "\f569\f569"; }
 	&[ data-icon="buf-loop"      ] { --i0: "\f534"; --i1: "\f534\f534"; --o1: 1; }
 	&[ data-icon="buf-vocal"     ] { --i0: "\f8cb"; --i1: "\f8cb\f8cb"; }
-	&[ data-icon="buf-undefined" ] { --i0: "\f2fd"; --i1: "\f2fd\f2fd"; --o1: .2; }
 
 	/* ...................................................................... */
 	&[ data-icon="mouse"        ] { --i0: "\f245"; --i1: "\f245\f245"; }
@@ -224,8 +225,11 @@
 	&[ data-icon="radio-btn-checked" ] { --i0: "\f192"; --i1: "\f192\f192"; --o1: .3; }
 
 	/* ...................................................................... */
-	&[ data-icon="help"      ] { --i0: "\f1cd"; --i1: "\f1cd\f1cd"; }
-	&[ data-icon="about"     ] { --i0: "\e3dd"; --i1: "\e3dd\e3dd"; }
+	&[ data-icon="question"    ] { --i0: "\3f";   --i1: "\3f\3f";     }
+	&[ data-icon="help"        ] { --i0: "\e3dd"; --i1: "\e3dd\e3dd"; --o1: .3; }
+	&[ data-icon="info"        ] { --i0: "\f2fd"; --i1: "\f2fd\f2fd"; --o1: .3; }
+
+	/* ...................................................................... */
 	&[ data-icon="cookie"    ] { --i0: "\f563"; --i1: "\f563\f563"; }
 	&[ data-icon="settings"  ] { --i0: "\f013"; --i1: "\f013\f013"; }
 	&[ data-icon="changelog" ] { --i0: "\f70e"; --i1: "\f70e\f70e"; }
@@ -240,7 +244,6 @@
 	&[ data-icon="at"        ] { --i0: "\40";   --i1: "\40\40";     --o1: 1; }
 	&[ data-icon="check"     ] { --i0: "\f00c"; --i1: "\f00c\f00c"; --o1: 1; }
 	&[ data-icon="warning"   ] { --i0: "\f071"; --i1: "\f071\f071"; }
-	&[ data-icon="info"      ] { --i0: "\f2fd"; --i1: "\f2fd\f2fd"; --o1: .3; }
 	&[ data-icon="redirect"  ] { --i0: "\f5eb"; --i1: "\f5eb\f5eb"; --o1: .4; }
 
 	&[ data-icon="mixer"      ] { --i0: "\f3f1"; --i1: "\f3f1\f3f1"; }
