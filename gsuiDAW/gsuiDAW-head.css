@@ -46,7 +46,7 @@
 	&[ data-action="stop"   ] { margin-left: -3px; }
 	&[ data-action="reset"  ] { margin-left: -2px; }
 	&[ data-action="export" ] { --gsui-color: var( --gsui-btn-export-txt ); }
-	&[ data-action="about"  ] { --gsui-color: var( --gsui-btn-about-txt ); font-size: 18px; }
+	&[ data-action="about"  ] { --gsui-color: var( --gsui-btn-about-txt ); }
 	&[ data-action="help"   ] { color: var( --gsui-btn-help-txt ); }
 }
 

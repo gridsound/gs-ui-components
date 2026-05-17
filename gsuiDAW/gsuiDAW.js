@@ -38,6 +38,7 @@ class gsuiDAW extends gsui0ne {
 				$titleUser: "gsui-titleuser",
 				$play: "[data-action='play']",
 				$vers: ".gsuiDAW-version",
+				$helpBtn: ".gsuiDAW-head [data-action=help]",
 				$clock: "gsui-clock",
 				$tempo: "gsui-tempo",
 				$analyserHz: "gsui-analyser-hz",
@@ -177,6 +178,10 @@ class gsuiDAW extends gsui0ne {
 				b
 					? gsuiTooltip.$start()
 					: gsuiTooltip.$stop();
+
+				this.$elements.$helpBtn
+					.$setAttr( "data-icon", b ? "question" : "cu-no-question" )
+					.$setAttr( "data-tooltip", !b ? GSTX.$daw_showHelp : GSTX.$daw_hideHelp );
 				this.$this
 					.$setAttr( "helping", b )
 					.$setAttr( "gsuihelplink-show", b )

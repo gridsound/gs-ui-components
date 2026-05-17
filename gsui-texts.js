@@ -11,7 +11,7 @@ const GSTXall = GSUdeepFreeze( {
 		$user_renameCmp: "Edit composition's title",
 		$user_goProfile: "Go to your <b>profile</b>",
 		// .....................................................................
-		$about_gridsound: "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
+		$about_gridsound:  "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
 		$about_gridsound2: "You can create an account (by clicking the profile icon on the top-left corner) and start uploading your compositions online.",
 		// .....................................................................
 		$daw_gain:          "Main app <b>volume</b> (this will not affect the rendering)",
@@ -28,7 +28,8 @@ const GSTXall = GSUdeepFreeze( {
 		$daw_open_drums:    "Toggle the <b>drums</b> window",
 		$daw_open_piano:    "Toggle the <b>piano</b> window",
 		$daw_open_slicer:   "Toggle the <b>slicer</b> window",
-		$daw_toggle_help:   "Toggle <b>help</b> links [❓] and tooltips",
+		$daw_showHelp:      "Show <b>help</b> links [❓] and tooltips",
+		$daw_hideHelp:      "Hide <b>help</b> links [❓] and tooltips",
 		$daw_about:         "About <i>GridSound</i> 🎵🎶",
 		$daw_changelog:     "Read the <b>changelog</b>",
 		// .....................................................................
