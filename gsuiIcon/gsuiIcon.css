@@ -224,8 +224,8 @@
 	&[ data-icon="radio-btn-checked" ] { --i0: "\f192"; --i1: "\f192\f192"; --o1: .3; }
 
 	/* ...................................................................... */
-	&[ data-icon="help"      ] { --i0: "\f0fa"; --i1: "\f0fa\f0fa"; }
-	&[ data-icon="about"     ] { --i0: "\e02f"; --i1: "\e02f\e02f"; }
+	&[ data-icon="help"      ] { --i0: "\f1cd"; --i1: "\f1cd\f1cd"; }
+	&[ data-icon="about"     ] { --i0: "\e3dd"; --i1: "\e3dd\e3dd"; }
 	&[ data-icon="cookie"    ] { --i0: "\f563"; --i1: "\f563\f563"; }
 	&[ data-icon="settings"  ] { --i0: "\f013"; --i1: "\f013\f013"; }
 	&[ data-icon="changelog" ] { --i0: "\f70e"; --i1: "\f70e\f70e"; }

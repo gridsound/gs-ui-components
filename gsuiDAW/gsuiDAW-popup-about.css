@@ -43,6 +43,7 @@
 /* .......................................................................... */
 .gsuiDAW-popup-about-links {
 	display: flex;
+	color: currentColor;
 
 	a {
 		flex: 1;
@@ -51,10 +52,9 @@
 		font-size: 36px;
 		font-weight: normal;
 		opacity: .5;
-		transition: .4s;
-		transition-property: opacity;
+		transition: opacity .2s;
 
-		&::before {
+		&::after {
 			position: relative;
 			top: 0;
 			left: 0;
@@ -62,9 +62,10 @@
 			transition-property: top, left, text-shadow;
 		}
 		&:hover {
+			text-decoration: none !important;
 			opacity: 1;
 
-			&::before {
+			&::after {
 				top: -4px;
 				left: 4px;
 				text-shadow: -4px 4px 2px rgba( 0, 0, 0, .2 );
@@ -72,6 +73,6 @@
 		}
 	}
 	&:hover a:not( :hover ) {
-		opacity: .3;
+		opacity: .2;
 	}
 }

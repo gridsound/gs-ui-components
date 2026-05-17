@@ -2,13 +2,17 @@
 
 const GSTXall = GSUdeepFreeze( {
 	en: {
-		$loading: "loading…",
+		$loading:      "loading…",
+		$checkVersion: "check the version",
 		// .....................................................................
 		$user_login:     "Login / connection",
 		$user_logout:    "Logout / disconnect",
 		$user_saveCmp:   "<b>Save</b> composition",
 		$user_renameCmp: "Edit composition's title",
 		$user_goProfile: "Go to your <b>profile</b>",
+		// .....................................................................
+		$about_gridsound: "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
+		$about_gridsound2: "You can create an account (by clicking the profile icon on the top-left corner) and start uploading your compositions online.",
 		// .....................................................................
 		$daw_gain:          "Main app <b>volume</b> (this will not affect the rendering)",
 		$daw_focus:         "Switch <b>focus</b> between the composition and piano windows",
