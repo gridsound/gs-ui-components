@@ -5,7 +5,7 @@ $.$setTemplate( "gsui-patterns-pattern", () =>
 		$.$div( { class: "gsuiPatterns-pattern-grip gsuiIcon", "data-icon": "grip-v" } ),
 		$.$div( { class: "gsuiPatterns-pattern-head" },
 			$.$div( { class: "gsuiPatterns-pattern-info" },
-				$.$button( { class: "gsuiPatterns-pattern-btn gsuiPatterns-pattern-btnInfo", "data-action": "editInfo", icon: "buf-undefined", "data-tooltip": GSTX.$patterns_editPatternInfo } ),
+				$.$button( { class: "gsuiPatterns-pattern-btn gsuiPatterns-pattern-btnInfo", "data-action": "editInfo", icon: "question", "data-tooltip": GSTX.$patterns_editPatternInfo } ),
 				$.$div( { class: "gsuiPatterns-pattern-name" } ),
 				$.$button( { class: "gsuiPatterns-btnSolid gsuiPatterns-pattern-dest", "data-action": "redirect", "data-tooltip": GSTX.$patterns_redirectPattern },
 					$.$icon( { class: "gsuiPatterns-btnIcon", icon: "mixer" } ),
