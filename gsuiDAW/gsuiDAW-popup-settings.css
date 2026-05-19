@@ -1,4 +1,7 @@
 .gsuiDAW-popup-settings {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 	width: 480px;
 
 	.gsuiPopup-row-values {
