@@ -63,7 +63,7 @@ const GSTXall = GSUdeepFreeze( {
 		$track_unmute: "<b>Unmute</b> track (right click for solo)",
 		$track_rename: "Double-click to <b>rename</b> track",
 		// .....................................................................
-		$stepSelect_snap: "Grid snap",
+		$stepSelect_snap: "Grid snap<br/> * click = <b>reduce</b> the precision<br/> * right-click = <b>increase</b> the precision",
 		// .....................................................................
 		$patterns_redirectSynth:   "<b>Redirect</b> this synthesizer",
 		$patterns_createKeys:      "<b>Create</b> a new <b>keys</b> pattern with this synthesizer",
