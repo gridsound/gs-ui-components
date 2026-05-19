@@ -200,6 +200,7 @@ gsui-slicer[ loaded ] .gsuiSlicer-slices-slice {
 
 /* .......................................................................... */
 .gsuiSlicer-menu {
+	--gsuiTooltip-pos: bottom;
 	display: flex;
 	gap: 6px;
 	height: 20px;

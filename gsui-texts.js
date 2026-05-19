@@ -107,6 +107,11 @@ const GSTXall = GSUdeepFreeze( {
 		$waveEditor_toggleSymm: "Toggle <b>symmetry</b>",
 		// .....................................................................
 		$automation_selectTarget: "Select automation's target",
+		// .....................................................................
+		$slicer_move: "<b>Move</b> slices vertically",
+		$slicer_reset: "<b>Reset</b> slices vertically",
+		$slicer_cut: "<b>Cut</b> slices in half",
+		$slicer_merge: "<b>Merge</b> slices together",
 	},
 } );
 
