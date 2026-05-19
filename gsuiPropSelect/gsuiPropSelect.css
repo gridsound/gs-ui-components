@@ -6,49 +6,46 @@ gsui-prop-select {
 	place-content: center;
 	gap: 3px;
 	line-height: 18px;
-}
 
-/* .......................................................................... */
-.gsuiPropSelect-sep {
-	flex-basis: 100%;
-	height: 18px;
-	font-size: 11px;
-	text-align: center;
-	opacity: .5;
-}
+	> div {
+		flex-basis: 100%;
+		height: 18px;
+		font-size: 11px;
+		text-align: center;
+		opacity: .5;
+	}
+	button {
+		height: 18px;
+		border: 1px dashed;
+		border-radius: 3px;
+		padding: 0 6px;
+		font-size: 11px;
+		font-weight: bold;
 
-/* .......................................................................... */
-.gsuiPropSelect-btn {
-	height: 18px;
-	border: 1px dashed;
-	border-radius: 3px;
-	padding: 0 6px;
-	font-size: 11px;
-	font-weight: bold;
-
-	&[ data-prop="gainLFOSpeed" ],
-	&[ data-prop="gainLFOAmp" ],
-	&[ data-prop="gain" ]     { color: var( --gsui-col-gain ) }
-	&[ data-prop="pan" ]      { color: var( --gsui-col-pan ) }
-	&[ data-prop="detune" ]   { color: var( --gsui-col-detune ) }
-	&[ data-prop="lowpass" ]  { color: var( --gsui-col-lowpass ) }
-	&[ data-prop="highpass" ] { color: var( --gsui-col-highpass ) }
-	&:hover {
-		background-color: #fff1;
-	}
-	&[ data-selected ] {
-		background-color: currentColor;
-	}
-	&[ data-value ]::before {
-		content: attr( data-value );
-		color: #333;
-		font-size: 14px;
-		font-family: var( --gsui-font-number );
-	}
-	&:not( [ data-value ] )::before {
-		content: attr( data-label );
-	}
-	&[ data-selected ]:not( [ data-value ] )::before {
-		color: #333;
+		&[ data-prop="gainLFOSpeed" ],
+		&[ data-prop="gainLFOAmp" ],
+		&[ data-prop="gain" ]     { color: var( --gsui-col-gain ) }
+		&[ data-prop="pan" ]      { color: var( --gsui-col-pan ) }
+		&[ data-prop="detune" ]   { color: var( --gsui-col-detune ) }
+		&[ data-prop="lowpass" ]  { color: var( --gsui-col-lowpass ) }
+		&[ data-prop="highpass" ] { color: var( --gsui-col-highpass ) }
+		&:hover {
+			background-color: #fff1;
+		}
+		&[ data-selected ] {
+			background-color: currentColor;
+		}
+		&[ data-value ]::before {
+			content: attr( data-value );
+			color: #333;
+			font-size: 14px;
+			font-family: var( --gsui-font-number );
+		}
+		&:not( [ data-value ] )::before {
+			content: attr( data-label );
+		}
+		&[ data-selected ]:not( [ data-value ] )::before {
+			color: #333;
+		}
 	}
 }
