@@ -11,11 +11,19 @@ gsui-slicer {
 	outline: 0;
 	background-color: var( --gsuiSlicer-bg );
 	-webkit-tap-highlight-color: transparent;
-}
-gsui-slicer[ disabled ] {
-	overflow: hidden;
-	pointer-events: none;
-	filter: grayscale( 1 ) brightness( .4 );
+
+	&[ disabled ] {
+		overflow: hidden;
+		pointer-events: none;
+		filter: grayscale( 1 ) brightness( .4 );
+	}
+	gsui-step-select {
+		margin-right: auto;
+
+		gsui-toggle {
+			display: none;
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -43,10 +51,11 @@ gsui-slicer[ disabled ] {
 	margin-left: -1px;
 	background-color: var( --gsui-col-currentTimeCursor );
 	pointer-events: none;
-}
-gsui-slicer[ hidetimes ] .gsuiSlicer-currentTime,
-gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
-	display: none;
+
+	gsui-slicer[ hidetimes ] &,
+	gsui-slicer[ disabled ] & {
+		display: none;
+	}
 }
 
 /* .......................................................................... */
@@ -77,16 +86,17 @@ gsui-slicer[ disabled ] .gsuiSlicer-currentTime {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	opacity: .4;
-}
-.gsuiSlicer-source-name:empty::after {
-	content: "no sample loaded...";
-	font-style: italic;
-	opacity: .5;
-}
-gsui-slicer[ missing-data ] .gsuiSlicer-source-name::after {
-	content: " (buffer not ready)";
-	font-style: italic;
-	opacity: .5;
+
+	&:empty::after {
+		content: "no sample loaded...";
+		font-style: italic;
+		opacity: .5;
+	}
+	gsui-slicer[ missing-data ] &::after {
+		content: " (buffer not ready)";
+		font-style: italic;
+		opacity: .5;
+	}
 }
 .gsuiSlicer-source-sample-wrap {
 	flex: 1;
@@ -129,10 +139,11 @@ gsui-slicer[ missing-data ] .gsuiSlicer-source-name::after {
 	fill: var( --gsuiSlicer-source-wave );
 	border-right: 1px dashed var( --gsuiSlicer-preview-wave-border );
 	transition: background-color .5s;
-}
-.gsuiSlicer-preview-wave[ data-hl ] {
-	background-color: var( --gsuiSlicer-preview-wave-hl-bg );
-	transition: none;
+
+	&[ data-hl ] {
+		background-color: var( --gsuiSlicer-preview-wave-hl-bg );
+		transition: none;
+	}
 }
 
 /* .......................................................................... */
@@ -164,11 +175,12 @@ gsui-slicer[ missing-data ] .gsuiSlicer-source-name::after {
 	height: 100%;
 	opacity: .2;
 	pointer-events: none;
-}
-.gsuiSlicer-slices-line line {
-	stroke: currentColor;
-	stroke-width: 2px;
-	stroke-dasharray: 10 5;
+
+	line {
+		stroke: currentColor;
+		stroke-width: 2px;
+		stroke-dasharray: 10 5;
+	}
 }
 .gsuiSlicer-slices-wrap {
 	position: relative;
@@ -189,13 +201,14 @@ gsui-slicer[ missing-data ] .gsuiSlicer-source-name::after {
 	transition:
 		filter .2s,
 		background-color .5s;
-}
-gsui-slicer[ loaded ] .gsuiSlicer-slices-slice {
-	filter: none;
-}
-.gsuiSlicer-slices-slice[ data-hl ] {
-	background-color: var( --gsuiSlicer-slice-hl-bg );
-	transition: filter .2s;
+
+	gsui-slicer[ loaded ] & {
+		filter: none;
+	}
+	&[ data-hl ] {
+		background-color: var( --gsuiSlicer-slice-hl-bg );
+		transition: filter .2s;
+	}
 }
 
 /* .......................................................................... */
@@ -207,15 +220,6 @@ gsui-slicer[ loaded ] .gsuiSlicer-slices-slice {
 	justify-content: space-between;
 	padding: 0 8px 8px;
 	font-size: 14px;
-}
-
-/* .......................................................................... */
-gsui-slicer gsui-step-select {
-	margin-right: auto;
-
-	gsui-toggle {
-		display: none;
-	}
 }
 
 /* .......................................................................... */
@@ -232,12 +236,12 @@ gsui-slicer gsui-step-select {
 	background-color: #fff2;
 	opacity: .6;
 	transition: .2s opacity;
-}
-.gsuiSlicer-btn[ data-toggle ] {
-	border: 2px solid #fff8;
-}
-.gsuiSlicer-btn[ data-toggle ],
-.gsuiSlicer-btn:focus,
-.gsuiSlicer-btn:hover {
-	opacity: 1;
+
+	&[ data-toggle ] {
+		border: 2px solid #fff8;
+	}
+	&[ data-toggle ],
+	&:hover {
+		opacity: 1;
+	}
 }
