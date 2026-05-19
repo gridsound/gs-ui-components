@@ -11,6 +11,7 @@ class gsuiDrumrow extends gsui0ne {
 				$toggle: "gsui-toggle",
 				$sliders: "gsui-slider",
 				$waveWrap: ".gsuiDrumrow-waveWrap",
+				$expandBtn: ".gsuiDrumrow-btnProps",
 				$timeCursors: "gsui-time-cursors",
 			},
 			$attributes: {
@@ -41,7 +42,7 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "order", "toggle", "name", "pan", "gain", "detune" ]; // + "duration"
+		return [ "order", "open", "toggle", "name", "pan", "gain", "detune" ]; // + "duration"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -49,12 +50,15 @@ class gsuiDrumrow extends gsui0ne {
 			case "gain":
 			case "detune": this.#getSlider( prop ).$setAttr( "value", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
+			case "open": this.$elements.$expandBtn.$setAttr( "data-tooltip", val === "" ? GSTX.$drumrow_close : GSTX.$drumrow_expand ); break;
 			case "order":
 				this.$this.$css( "order", val );
 				this.#elDrumLine.$css( "order", val );
 				break;
 			case "toggle":
-				this.$elements.$toggle.$setAttr( "off", val !== "" );
+				this.$elements.$toggle
+					.$setAttr( "off", val !== "" )
+					.$setAttr( "data-tooltip", val !== "" ? GSTX.$drumrow_unmute : GSTX.$drumrow_mute )
 				this.#elDrumLine.$setAttr( "data-mute", val !== "" );
 				break;
 		}

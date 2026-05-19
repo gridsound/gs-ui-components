@@ -93,7 +93,8 @@ const GSTXall = GSUdeepFreeze( {
 		// .....................................................................
 		$drumrow_mute:   "<b>Mute</b> the drumrow (right click for solo)",
 		$drumrow_unmute: "<b>Unmute</b> the drumrow (right click for solo)",
-		$drumrow_expand: "<b>Expand</b> props panel",
+		$drumrow_expand: "<b>Expand</b> the props panel",
+		$drumrow_close: "<b>Close</b> the props panel",
 		$drumrow_remove: "<b>Remove</b> the drumrow",
 		// .....................................................................
 		$oscillator_prevWave:  "Previous wave",
