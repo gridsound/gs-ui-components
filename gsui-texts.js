@@ -101,6 +101,7 @@ const GSTXall = GSUdeepFreeze( {
 		$oscillator_wavetable: "<b>Wavetable</b> editor",
 		$oscillator_remove:    "<b>Remove</b> the oscillator",
 		// .....................................................................
+		$wavetable_back:       "<b>Save and close</b> the wavetable",
 		$wavetable_cloneWave:  "<b>Clone</b> this wave",
 		$wavetable_removeWave: "<b>Remove</b> this wave",
 		// .....................................................................
@@ -108,9 +109,9 @@ const GSTXall = GSUdeepFreeze( {
 		// .....................................................................
 		$automation_selectTarget: "Select automation's target",
 		// .....................................................................
-		$slicer_move: "<b>Move</b> slices vertically",
+		$slicer_move:  "<b>Move</b> slices vertically",
 		$slicer_reset: "<b>Reset</b> slices vertically",
-		$slicer_cut: "<b>Cut</b> slices in half",
+		$slicer_cut:   "<b>Cut</b> slices in half",
 		$slicer_merge: "<b>Merge</b> slices together",
 	},
 } );

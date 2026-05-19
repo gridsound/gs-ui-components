@@ -2,7 +2,7 @@
 
 $.$setTemplate( "gsui-wavetable", () => [
 	$.$flex( { class: "gsuiWavetable-head", x: true, ycenter: true, g6: true },
-		$.$button( { class: "gsuiWavetable-back", "data-action": "back", icon: "arrow-left", title: "Save and close the wavetable edition" } ),
+		$.$button( { class: "gsuiWavetable-back", "data-action": "back", icon: "arrow-left", "data-tooltip": GSTX.$wavetable_back } ),
 		$.$span( { class: "gsuiWavetable-title", inert: true }, "wavetable editor" ),
 		$.$elem( "gsui-help-link", { page: "synth-wavetable" } ),
 	),

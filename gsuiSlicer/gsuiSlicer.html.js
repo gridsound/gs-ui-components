@@ -38,9 +38,9 @@ $.$setTemplate( "gsui-slicer", () => [
 	),
 	$.$div( { class: "gsuiSlicer-menu" },
 		$.$elem( "gsui-step-select" ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "moveY", icon: "hand-pointer", 'data-tooltip': GSTX.$slicer_move  } ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "reset", icon: "slices",       'data-tooltip': GSTX.$slicer_reset } ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "split", icon: "cut",          'data-tooltip': GSTX.$slicer_cut   } ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "merge", icon: "erase",        'data-tooltip': GSTX.$slicer_merge } ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "moveY", icon: "hand-pointer", "data-tooltip": GSTX.$slicer_move  } ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "reset", icon: "slices",       "data-tooltip": GSTX.$slicer_reset } ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "split", icon: "cut",          "data-tooltip": GSTX.$slicer_cut   } ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "merge", icon: "erase",        "data-tooltip": GSTX.$slicer_merge } ),
 	),
 ] );
