@@ -1,14 +1,9 @@
 .gsuiDAW-popup-about {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 	width: 450px;
 	text-align: center;
-
-	> div {
-		margin-bottom: 16px;
-	}
-	a {
-		color: #ccf;
-		font-weight: bold;
-	}
 }
 
 /* .......................................................................... */
@@ -18,6 +13,7 @@
 	justify-content: center;
 	font-size: 18px;
 	gap: 4px;
+	margin-bottom: 16px;
 }
 .gsuiDAW-popup-about-title {
 	width: 104px;
@@ -47,7 +43,7 @@
 
 	a {
 		flex: 1;
-		padding: 20px 0;
+		padding: 8px 0 20px 0;
 		color: #fff;
 		font-size: 36px;
 		font-weight: normal;
