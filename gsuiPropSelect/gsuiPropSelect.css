@@ -25,29 +25,30 @@ gsui-prop-select {
 	padding: 0 6px;
 	font-size: 11px;
 	font-weight: bold;
-}
-.gsuiPropSelect-btn[ data-prop="gainLFOSpeed" ],
-.gsuiPropSelect-btn[ data-prop="gainLFOAmp" ],
-.gsuiPropSelect-btn[ data-prop="gain" ]     { color: var( --gsui-col-gain ) }
-.gsuiPropSelect-btn[ data-prop="pan" ]      { color: var( --gsui-col-pan ) }
-.gsuiPropSelect-btn[ data-prop="detune" ]   { color: var( --gsui-col-detune ) }
-.gsuiPropSelect-btn[ data-prop="lowpass" ]  { color: var( --gsui-col-lowpass ) }
-.gsuiPropSelect-btn[ data-prop="highpass" ] { color: var( --gsui-col-highpass ) }
-.gsuiPropSelect-btn:hover {
-	background-color: #fff1;
-}
-.gsuiPropSelect-btn[ data-selected ] {
-	background-color: currentColor;
-}
-.gsuiPropSelect-btn[ data-value ]::before {
-	content: attr( data-value );
-	color: #333;
-	font-size: 14px;
-	font-family: var( --gsui-font-number );
-}
-.gsuiPropSelect-btn:not( [ data-value ] )::before {
-	content: attr( data-label );
-}
-.gsuiPropSelect-btn[ data-selected ]:not( [ data-value ] )::before {
-	color: #333;
+
+	&[ data-prop="gainLFOSpeed" ],
+	&[ data-prop="gainLFOAmp" ],
+	&[ data-prop="gain" ]     { color: var( --gsui-col-gain ) }
+	&[ data-prop="pan" ]      { color: var( --gsui-col-pan ) }
+	&[ data-prop="detune" ]   { color: var( --gsui-col-detune ) }
+	&[ data-prop="lowpass" ]  { color: var( --gsui-col-lowpass ) }
+	&[ data-prop="highpass" ] { color: var( --gsui-col-highpass ) }
+	&:hover {
+		background-color: #fff1;
+	}
+	&[ data-selected ] {
+		background-color: currentColor;
+	}
+	&[ data-value ]::before {
+		content: attr( data-value );
+		color: #333;
+		font-size: 14px;
+		font-family: var( --gsui-font-number );
+	}
+	&:not( [ data-value ] )::before {
+		content: attr( data-label );
+	}
+	&[ data-selected ]:not( [ data-value ] )::before {
+		color: #333;
+	}
 }
