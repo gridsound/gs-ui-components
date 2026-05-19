@@ -13,8 +13,8 @@
 	padding: 8px 10px;
 	font-size: 13px;
 	white-space: pre;
-	background-color: #223d;
-	box-shadow: 0 0px 10px #0005;
+	background-color: #223e;
+	box-shadow: 0 0 10px #0005;
 	pointer-events: none;
 
 	&:has( a ) {
