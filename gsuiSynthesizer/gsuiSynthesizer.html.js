@@ -6,8 +6,8 @@ $.$setTemplate( "gsui-synthesizer", () => [
 		// .....................................................................
 		// $.$div( { class: "gsuiSynthesizer-preset" },
 		//    $.$getTemplate( "gsui-synthesizer-headTitle", { name: "preset", help: "synth-presets" } ),
-		//    $.$button( { "data-action": "-1", icon: "caret-left", title: "Use previous preset" } ),
-		//    $.$button( { "data-action": "+1", icon: "caret-right", title: "Use next preset" } ),
+		//    $.$button( { "data-action": "-1", icon: "caret-left", "data-tooltip": "Use <b>previous</b> preset" } ),
+		//    $.$button( { "data-action": "+1", icon: "caret-right", "data-tooltip": "Use <b>next</b> preset" } ),
 		//    $.$span( { inert: true } ),
 		// ),
 		// .....................................................................

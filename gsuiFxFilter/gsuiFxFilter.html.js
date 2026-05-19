@@ -46,7 +46,7 @@ $.$setTemplate( "gsui-fx-filter", () => [
 ] );
 
 $.$setTemplate( "gsui-fx-filter-type", ( type, d ) =>
-	$.$button( { class: "gsuiFxFilter-type", "data-type": type, title: type },
+	$.$button( { class: "gsuiFxFilter-type", "data-type": type, "data-tooltip": type },
 		$.$elem( "svg", { viewBox: "0 0 16 12" },
 			$.$elem( "path", { d } ),
 		),

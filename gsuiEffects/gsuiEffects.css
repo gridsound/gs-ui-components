@@ -15,6 +15,7 @@ gsui-effects {
 
 /* .......................................................................... */
 .gsuiEffects-addBtn {
+	--gsuiTooltip-pos: bottom;
 	anchor-name: --gsuiEffects-addBtn;
 	position: relative;
 	order: 2147483646;

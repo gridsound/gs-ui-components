@@ -84,6 +84,7 @@ gsui-fx-filter {
 	stroke: var( --gsui-col-gain );
 	stroke-width: 1.5px;
 	background-color: var( --gsui-slider-bg );
+	--gsuiTooltip-pos: left;
 
 	&:hover,
 	&:focus {
