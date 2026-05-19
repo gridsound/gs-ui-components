@@ -33,8 +33,10 @@ class gsuiTrack extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "mute":
-				this.$elements.$toggle.$setAttr( "off", val !== null );
-				this.#rowElement.$setAttr( "data-mute", val !== null );
+				this.$elements.$toggle
+					.$setAttr( "off", val === "" )
+					.$setAttr( "data-tooltip", val === "" ? GSTX.$track_unmute : GSTX.$track_mute )
+				this.#rowElement.$setAttr( "data-mute", val === "" );
 				break;
 			case "name":
 				this.$elements.$inpName.$value( val );

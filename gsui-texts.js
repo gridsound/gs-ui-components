@@ -59,6 +59,10 @@ const GSTXall = GSUdeepFreeze( {
 		$timewindow_zoomX: "Zoom X",
 		$timewindow_zoomY: "Zoom Y",
 		// .....................................................................
+		$track_mute:   "<b>Mute</b> track (right click for solo)",
+		$track_unmute: "<b>Unmute</b> track (right click for solo)",
+		$track_rename: "Double-click to <b>rename</b> track",
+		// .....................................................................
 		$stepSelect_snap: "Grid snap",
 		// .....................................................................
 		$patterns_redirectSynth:   "<b>Redirect</b> this synthesizer",

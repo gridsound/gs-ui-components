@@ -1,8 +1,8 @@
 "use strict";
 
 $.$setTemplate( "gsui-track", () => [
-	$.$elem( "gsui-toggle", { title: "toggle track (right click for solo)" } ),
-	$.$div( { class: "gsuiTrack-nameWrap" },
+	$.$elem( "gsui-toggle", { 'data-tooltip': GSTX.$track_mute } ),
+	$.$div( { class: "gsuiTrack-nameWrap", 'data-tooltip': GSTX.$track_rename },
 		$.$input( { class: "gsuiTrack-name", type: "text", disabled: true, spellcheck: "false" } ),
 	),
 ] );
