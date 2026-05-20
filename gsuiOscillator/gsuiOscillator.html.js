@@ -39,9 +39,9 @@ $.$setTemplate( "gsui-oscillator", () => {
 			$.$div( { class: "gsuiOscillator-unisonGraph" },
 				$.$div( { class: "gsuiOscillator-unisonGraph-voices" } ),
 			),
-			$.$elem( "gsui-slider", { type: "linear-y", min: 1, max: 9, step: 1, "mousemove-size": "400", "data-prop": "unisonvoices", defaultValue: 1 } ),
-			$.$elem( "gsui-slider", { type: "linear-y", min: 0, max: 2, step: .01, "mousemove-size": "800", "data-prop": "unisondetune" } ),
-			$.$elem( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .001, "mousemove-size": "800", "data-prop": "unisonblend" } ),
+			$.$elem( "gsui-slider", { type: "linear-y", min: 1, max: 9, step: 1, "mousemove-size": "400", "data-prop": "unisonvoices", "data-tooltip": "Unison <b>voices</b>", defaultValue: 1 } ),
+			$.$elem( "gsui-slider", { type: "linear-y", min: 0, max: 2, step: .01, "mousemove-size": "800", "data-prop": "unisondetune", "data-tooltip": "Unison <b>detune</b>" } ),
+			$.$elem( "gsui-slider", { type: "linear-y", min: 0, max: 1, step: .001, "mousemove-size": "800", "data-prop": "unisonblend", "data-tooltip": "Unison <b>blend</b>" } ),
 		),
 		[
 			[ "detune", -24, 24, 1, 0 ],

@@ -217,10 +217,7 @@ class gsuiOscillator extends gsui0ne {
 		if ( prop.startsWith( "detune" ) ) {
 			val2 = +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
 		}
-		this.#getPropSlider( prop ).$setAttr( {
-			value: val,
-			"data-tooltip": `${ prop } ${ val2 }`,
-		} );
+		this.#getPropSlider( prop ).$setAttr( "value", val );
 		gsuiOscillator.#setTextValue( this.#getPropOutput( prop ), prop, val2 );
 	}
 	static #setTextValue( span, prop, val ) {
