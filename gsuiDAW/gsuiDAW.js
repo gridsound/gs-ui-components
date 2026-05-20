@@ -199,7 +199,7 @@ class gsuiDAW extends gsui0ne {
 		this.#popups.$export.$btnUpload.$css( "display", "" );
 		this.#popups.$export.$btnClear.$css( "display", "" );
 		this.#popups.$export.$btnRender.$setAttr( {
-			text: "Download OPUS/OGG file",
+			text: "Download MP3",
 			icon: "export",
 			href: url,
 			loading: false,
