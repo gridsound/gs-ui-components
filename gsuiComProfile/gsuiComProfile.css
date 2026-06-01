@@ -145,11 +145,14 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	display: flex;
 	gap: 10px;
 	margin-top: 4px;
-	font-weight: bold;
 	font-size: calc( 1em - 4px * ( 1 - var( --hx ) ) );
+
+	button {
+		overflow: hidden;
+		display: flex;
+		gap: .4ch;
+	}
 }
-.gsuiComProfile-following::after { content: " following"; font-weight: normal; }
-.gsuiComProfile-followers::after { content: " followers"; font-weight: normal; }
 
 /* .......................................................................... */
 @media ( max-width: 600px ) {

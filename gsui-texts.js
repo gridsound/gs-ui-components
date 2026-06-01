@@ -3,6 +3,8 @@
 const GSTXall = GSUdeepFreeze( {
 	en: {
 		$loading:      "loading…",
+		$followers:    "followers",
+		$following:    "following",
 		$checkVersion: "check the version",
 		// .....................................................................
 		$user_login:     "Login / connection",

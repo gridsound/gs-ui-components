@@ -20,8 +20,8 @@ class gsuiComProfile extends gsui0ne {
 				$username: ".gsuiComProfile-username",
 				$fullname: ".gsuiComProfile-fullname",
 				$emailVerifyText: ".gsuiComProfile-email-not span",
-				$followersBtn: ".gsuiComProfile-followers",
-				$followingBtn: ".gsuiComProfile-following",
+				$followers: "[data-what=followers] b",
+				$following: "[data-what=following] b",
 				$followBtn: ".gsuiComProfile-follow-btn",
 			},
 			$attributes: {
@@ -48,8 +48,8 @@ class gsuiComProfile extends gsui0ne {
 			case "avatar": this.$elements.$avatar.$setAttr( "src", val || false ); break;
 			case "emailtoverify": this.$elements.$emailVerifyText.$text( val !== "" ? "" : gsuiComProfile.#emailTexts.$verify ); break;
 			case "followed": this.#updateFollowed( val === "" ); break;
-			case "followers": this.$elements.$followersBtn.$text( val ); break;
-			case "following": this.$elements.$followingBtn.$text( val ); break;
+			case "followers": this.$elements.$followers.$text( val ); break;
+			case "following": this.$elements.$following.$text( val ); break;
 		}
 		if ( prop === "username" || prop === "firstname" || prop === "lastname" ) {
 			const fullname = this.$this.$getAttr( "firstname", "lastname" ).join( " " ).trim();
