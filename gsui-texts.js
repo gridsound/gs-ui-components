@@ -2,10 +2,28 @@
 
 const GSTXall = GSUdeepFreeze( {
 	en: {
+		$bio:          "bio",
+		$like:         "like",
+		$email:        "email",
+		$music:        "music",
+		$avatar:       "avatar",
+		$cancel:       "cancel",
 		$loading:      "loading…",
+		$editBio:      "edit bio",
+		$saveBio:      "save bio",
+		$lastName:     "last name",
+		$firstName:    "first name",
 		$followers:    "followers",
 		$following:    "following",
+		$emailPublic:  "email public",
 		$checkVersion: "check the version",
+		$writeYourBio: "Write your bio",
+		$readTheirBio: "Read <i>$0</i>'s bio",
+		$noBioWritten: "No bio written yet...",
+		$cmpsDeleted:  "Compositions <b>deleted</b>",
+		// .....................................................................
+		$emailPublicWarn: "if checked, your email will be public on your profile",
+		$emailChangeWarn: "if the email is changed, a confirmation email has to be sent again",
 		// .....................................................................
 		$user_login:     "Login / connection",
 		$user_logout:    "Logout / disconnect",
