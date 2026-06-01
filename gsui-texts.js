@@ -120,3 +120,4 @@ const GSTXall = GSUdeepFreeze( {
 } );
 
 const GSTX = GSTXall.en;
+const GSTXplural = ( w, nb ) => nb < 2 || w.endsWith( "s" ) ? w : `${ w }s`;
