@@ -137,7 +137,16 @@ const GSTXall = GSUdeepFreeze( {
 	},
 } );
 
-const GSTX = GSTXall.en;
+const GSTX = GSTXall[ $.$lang() ] || GSTXall.en;
 
 const GSTXplural = ( w, nb ) => nb < 2 || w.endsWith( "s" ) ? w : `${ w }s`;
 const GSTXreplace = ( s, ...arr ) => GSUreduce( arr, ( s, a, i ) => s.replaceAll( `$${ i }`, a ), s );
+
+if ( __LOCALHOST__ ) {
+	const keys = GSUmap( GSTXall, obj => Object.keys( obj ).toString() );
+	const err = GSUfindIndex( keys, str => str !== keys.en );
+
+	if ( err !== -1 ) {
+		console.warn( `GSTX: something wrong with "${ err }"` );
+	}
+}
