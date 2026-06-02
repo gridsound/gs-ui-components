@@ -110,8 +110,8 @@ class gsuiTitleUser extends gsui0ne {
 	}
 	#onclickLogin() {
 		return $popup.$custom( {
-			ok: "Sign in",
-			title: "Authentication",
+			ok: GSTX.$signIn,
+			title: GSTX.$connection,
 			element: this.#loginPopup.$root,
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {

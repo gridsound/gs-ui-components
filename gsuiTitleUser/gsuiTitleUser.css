@@ -176,7 +176,7 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 		font-style: italic;
 	}
 	&:empty::after {
-		content: "Untitled";
+		content: attr( data-content );
 		font-style: italic;
 		opacity: .7;
 	}
@@ -205,7 +205,7 @@ gsui-titleuser:not( [ renaming ] ) .gsuiTitleUser-rename-inp {
 
 /* .......................................................................... */
 .gsuiTitleUser-popup {
-	width: 340px;
+	width: 320px;
 
 	a {
 		font-size: 11px;
