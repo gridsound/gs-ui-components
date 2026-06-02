@@ -68,7 +68,9 @@ select:focus-visible {
 }
 a,
 label,
-input:not( [ type="text" ] ) {
+input[ type="range" ],
+input[ type="button" ],
+input[ type="submit" ] {
 	cursor: var( --gsuiCursor-pointer );
 }
 a {
