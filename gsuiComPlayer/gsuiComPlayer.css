@@ -1,6 +1,6 @@
 gsui-com-player {
 	--gsui-bg: #2e355b;
-	anchor-scope: all;
+	anchor-scope: --gsuiComPlayer-actions-pop;
 	display: flex;
 	position: relative;
 	overflow: hidden;
