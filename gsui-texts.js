@@ -161,6 +161,8 @@ const GSTXall = GSUdeepFreeze( {
 		$slicer_reset: "<b>Reset</b> slices vertically",
 		$slicer_cut:   "<b>Cut</b> slices in half",
 		$slicer_merge: "<b>Merge</b> slices together",
+		// .....................................................................
+		$helpLink_open: "Open the <b>$0</b> help page",
 	},
 } );
 
