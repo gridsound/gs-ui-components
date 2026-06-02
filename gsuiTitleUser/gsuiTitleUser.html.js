@@ -47,8 +47,8 @@ $.$setTemplate( "gsui-titleuser-popup", () =>
 			),
 			$.$div( { class: "gsuiTitleUser-popup-error" } ),
 		),
-		$.$linkExt( { href: "https://gridsound.com/#/forgotPassword" }, "Forgot password ?" ),
+		$.$linkExt( { href: "https://gridsound.com/#/forgotPassword" }, GSTX.$user_passForgot ),
 		$.$elem( "br" ),
-		$.$linkExt( { href: "https://gridsound.com/#/auth" }, "Create a new account" ),
+		$.$linkExt( { href: "https://gridsound.com/#/auth" }, GSTX.$user_newAccount ),
 	)
 );

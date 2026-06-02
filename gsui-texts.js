@@ -31,11 +31,13 @@ const GSTXall = GSUdeepFreeze( {
 		$exploreNewThings: "<b>Explore</b> new creations",
 		$searchUsersCmps:  "<b>Search</b> for users and compositions",
 		// .....................................................................
-		$user_login:     "Login / connection",
-		$user_logout:    "Logout / disconnect",
-		$user_saveCmp:   "<b>Save</b> composition",
-		$user_renameCmp: "Edit composition's title",
-		$user_goProfile: "Go to your <b>profile</b>",
+		$user_login:      "Login / connection",
+		$user_logout:     "Logout / disconnect",
+		$user_saveCmp:    "<b>Save</b> composition",
+		$user_renameCmp:  "Edit composition's title",
+		$user_goProfile:  "Go to your <b>profile</b>",
+		$user_passForgot: "Forgot password ?",
+		$user_newAccount: "Create a new account",
 		// .....................................................................
 		$player_openInDAW:    "<b>Open</b> in the DAW",
 		$player_isPrivate:    "This composition is <b>private</b>",
