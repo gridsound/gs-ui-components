@@ -31,6 +31,10 @@ const GSTXall = GSUdeepFreeze( {
 		$user_renameCmp: "Edit composition's title",
 		$user_goProfile: "Go to your <b>profile</b>",
 		// .....................................................................
+		$player_openInDAW:    "<b>Open</b> in the DAW",
+		$player_isPrivate:    "This composition is <b>private</b>",
+		$player_isOpensource: "This composition is <b>open-source</b>",
+		// .....................................................................
 		$about_gridsound:  "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
 		$about_gridsound2: "You can create an account (by clicking the profile icon on the top-left corner) and start uploading your compositions online.",
 		// .....................................................................
