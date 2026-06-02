@@ -19,6 +19,7 @@ const GSTXall = GSUdeepFreeze( {
 		$connection:   "Connection",
 		$recycleBin:   "Recycle bin",
 		$searchDots:   "search…",
+		$startingDots: "starting…",
 		// .....................................................................
 		$composition: "composition",
 		$synthesizer: "synthesizer",
@@ -35,6 +36,7 @@ const GSTXall = GSUdeepFreeze( {
 		$searchOnGS:   "Search a user or a composition on GridSound",
 		$forkedFrom:   "based on",
 		$emailPublic:  "email public",
+		$clickToStart: "[ click to start ]",
 		$checkVersion: "check the version",
 		$writeYourBio: "Write your bio",
 		$readTheirBio: "Read <i>$0</i>'s bio",
