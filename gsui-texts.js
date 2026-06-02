@@ -17,12 +17,12 @@ const GSTXall = GSUdeepFreeze( {
 		$followers:    "followers",
 		$following:    "following",
 		$forkedFrom:   "based on",
+		$recycleBin:   "Recycle bin",
 		$emailPublic:  "email public",
 		$checkVersion: "check the version",
 		$writeYourBio: "Write your bio",
 		$readTheirBio: "Read <i>$0</i>'s bio",
 		$noBioWritten: "No bio written yet…",
-		$cmpsDeleted:  "Compositions <b>deleted</b>",
 		// .....................................................................
 		$gravatarWarn:     "GridSound accepts, for the moment, only <a https://gravatar.com>WordPress - Gravatar</a> as avatar.",
 		$emailPublicWarn:  "if checked, your email will be public on your profile",
