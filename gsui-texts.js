@@ -40,6 +40,15 @@ const GSTXall = GSUdeepFreeze( {
 		$readTheirBio: "Read <i>$0</i>'s bio",
 		$noBioWritten: "No bio written yet…",
 		// .....................................................................
+		$search_user_0:   "There is no user matching <bi>\"$0\"</bi>",
+		$search_cmps_0:   "There is no composition matching <bi>\"$0\"</bi>",
+		$search_user_1:   "There is only one user matching <bi>\"$0\"</bi>",
+		$search_cmps_1:   "There is only one composition matching <bi>\"$0\"</bi>",
+		$search_user_n:   "There are $1 users matching <bi>\"$0\"</bi>",
+		$search_cmps_n:   "There are $1 compositions matching <bi>\"$0\"</bi>",
+		$search_user_max: "There are at least $1 users matching <bi>\"$0\"</bi>",
+		$search_cmps_max: "There are at least $1 compositions matching <bi>\"$0\"</bi>",
+		// .....................................................................
 		$gravatarWarn:     "GridSound accepts, for the moment, only <a https://gravatar.com>WordPress - Gravatar</a> as avatar.",
 		$emailPublicWarn:  "if checked, your email will be public on your profile",
 		$emailChangeWarn:  "if the email is changed, a confirmation email has to be sent again",
