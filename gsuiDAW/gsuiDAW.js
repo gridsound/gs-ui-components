@@ -66,6 +66,7 @@ class gsuiDAW extends gsui0ne {
 		} );
 		gsuiTexture.$set( this.$elements.$windows, "diag" );
 		this.$elements.$head.$onclick( this.#onclickHead.bind( this ) );
+		this.$elements.$winBtns.$each( btn => this.#updateWinBtnTooltip( $( btn ) ) );
 		this.#popups.$export.$btnRender.$onclick( this.#onclickRenderBtn.bind( this ) );
 		this.#popups.$export.$btnUpload.$onclick( this.#onclickUploadBtn.bind( this ) );
 		this.#popups.$export.$btnClear.$onclick( this.#initRenderBtn.bind( this ) );
@@ -208,10 +209,17 @@ class gsuiDAW extends gsui0ne {
 		this.$setExportMsg( "Rendering complete" );
 	}
 	$toggleWindow( win, b ) {
-		this.#getWinBtn( win ).$setAttr( "data-open", b );
+		this.#updateWinBtnTooltip( this.#getWinBtn( win ).$setAttr( "data-open", b ) );
 		if ( win === "patterns" ) {
 			this.$elements.$body.$setAttr( "resources-hidden", !b );
 		}
+	}
+	#updateWinBtnTooltip( btn ) {
+		const tooltip = GSTXreplace( btn.$hasAttr( "data-open" )
+			? GSTX.$daw_closeWindow
+			: GSTX.$daw_openWindow, btn.$getAttr( "data-name" ) );
+
+		btn.$setAttr( "data-tooltip", tooltip );
 	}
 
 	// .........................................................................
