@@ -5,12 +5,12 @@ class gsuiComPlayer extends gsui0ne {
 	#intervalId = null;
 	#promises = {};
 	static #actions = GSUdeepFreeze( [
-		{ id: "open",    icon: "opensource", name: "Make it open-source", desc: "The world will be able to listen to your music and will have access to the source and be able to fork/copy it." },
-		{ id: "visible", icon: "public",     name: "Make it public", desc: "The world will be able to listen to your music, without the source (only the rendered file)." },
-		{ id: "private", icon: "private",    name: "Make it private", desc: "Only you will see the composition, no one will be able to listen it online." },
-		{ id: "fork",    icon: "fork",       name: "Fork it", desc: "Copy the composition to your profile to apply the changes you want." },
-		{ id: "delete",  icon: "trash",      name: "Delete it", desc: "The composition will stay in your private bin for 30 days (only premium users have access to the bin)." },
-		{ id: "restore", icon: "untrash",    name: "Restore it", desc: "Get the composition out of the bin." },
+		{ id: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
+		{ id: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
+		{ id: "private", icon: "private",    name: GSTX.$player_privateIt,    desc: GSTX.$player_privateDesc },
+		{ id: "fork",    icon: "fork",       name: GSTX.$player_forkIt,       desc: GSTX.$player_forkDesc },
+		{ id: "delete",  icon: "trash",      name: GSTX.$player_deleteIt,     desc: GSTX.$player_deleteDesc },
+		{ id: "restore", icon: "untrash",    name: GSTX.$player_restoreIt,    desc: GSTX.$player_restoreDesc },
 	] );
 
 	constructor() {
@@ -188,8 +188,8 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( b
-			? { "data-spin": false, "data-icon": "play", title: false }
-			: { "data-spin": false, "data-icon": "file-corrupt", title: "This composition hasn't yet been rendered by its author" } );
+			? { "data-spin": false, "data-icon": "play", "data-tooltip": false }
+			: { "data-spin": false, "data-icon": "file-corrupt", "data-tooltip": GSTX.$player_notRendered } );
 	}
 	#createMenuActions() {
 		const actionsStr = this.$this.$getAttr( "actions" );

@@ -40,6 +40,21 @@ const GSTXall = GSUdeepFreeze( {
 		$player_openInDAW:    "<b>Open</b> in the DAW",
 		$player_isPrivate:    "This composition is <b>private</b>",
 		$player_isOpensource: "This composition is <b>open-source</b>",
+		$player_notRendered:  "This composition hasn't yet been rendered by its author",
+		// .....................................................................
+		$player_opensourceIt: "Make it open-source",
+		$player_publicIt:     "Make it public",
+		$player_privateIt:    "Make it private",
+		$player_forkIt:       "Fork it",
+		$player_deleteIt:     "Delete it",
+		$player_restoreIt:    "Restore it",
+		// .....................................................................
+		$player_opensourceDesc: "The world will be able to listen to your music and will have access to the source and be able to fork/copy it.",
+		$player_publicDesc:     "The world will be able to listen to your music, without the source (only the rendered file).",
+		$player_privateDesc:    "Only you will see the composition, no one will be able to listen it online.",
+		$player_forkDesc:       "Copy the composition to your profile to apply the changes you want.",
+		$player_deleteDesc:     "The composition will stay in your private bin for 30 days (only premium users have access to the bin).",
+		$player_restoreDesc:    "Get the composition out of the bin.",
 		// .....................................................................
 		$about_gridsound:  "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
 		$about_gridsound2: "You can create an account (by clicking the profile icon on the top-left corner) and start uploading your compositions online.",
