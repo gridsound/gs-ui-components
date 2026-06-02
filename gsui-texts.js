@@ -4,9 +4,11 @@ const GSTXall = GSUdeepFreeze( {
 	en: {
 		$bio:          "bio",
 		$like:         "like",
+		$user:         "user",
 		$email:        "email",
 		$music:        "music",
 		$signIn:       "Sign in",
+		$signUp:       "Sign up",
 		$avatar:       "avatar",
 		$cancel:       "cancel",
 		$loading:      "loading…",
@@ -16,6 +18,7 @@ const GSTXall = GSUdeepFreeze( {
 		$following:    "following",
 		$connection:   "Connection",
 		$recycleBin:   "Recycle bin",
+		$searchDots:   "search…",
 		// .....................................................................
 		$composition: "composition",
 		$synthesizer: "synthesizer",
@@ -28,6 +31,8 @@ const GSTXall = GSUdeepFreeze( {
 		$likedBy:      "liked by",
 		$editBio:      "edit bio",
 		$saveBio:      "save bio",
+		$logInToGS:    "Log in to GridSound",
+		$searchOnGS:   "Search a user or a composition on GridSound",
 		$forkedFrom:   "based on",
 		$emailPublic:  "email public",
 		$checkVersion: "check the version",
