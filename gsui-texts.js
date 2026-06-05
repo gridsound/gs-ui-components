@@ -135,7 +135,7 @@ const GSTXall = GSUdeepFreeze( {
 		$track_unmute: "<b>Unmute</b> track (right click for solo)",
 		$track_rename: "Double-click to <b>rename</b> track",
 		// .....................................................................
-		$stepSelect_snap: "Grid snap<br/> * click = <b>reduce</b> the precision<br/> * right-click = <b>increase</b> the precision",
+		$stepSelect_snap: "Grid snap<br/> * click = <b>increase</b> the precision<br/> * right-click = <b>reduce</b> the precision",
 		// .....................................................................
 		$patterns_redirectSynth:   "<b>Redirect</b> this synthesizer",
 		$patterns_createKeys:      "<b>Create</b> a new <b>keys</b> pattern with this synthesizer",
@@ -166,7 +166,7 @@ const GSTXall = GSUdeepFreeze( {
 		$drumrow_mute:   "<b>Mute</b> the drumrow (right click for solo)",
 		$drumrow_unmute: "<b>Unmute</b> the drumrow (right click for solo)",
 		$drumrow_expand: "<b>Expand</b> the props panel",
-		$drumrow_close: "<b>Close</b> the props panel",
+		$drumrow_close:  "<b>Close</b> the props panel",
 		$drumrow_remove: "<b>Remove</b> the drumrow",
 		// .....................................................................
 		$oscillator_prevWave:  "Previous wave",
