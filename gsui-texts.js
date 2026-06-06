@@ -2,7 +2,9 @@
 
 const GSTXall = GSUdeepFreeze( {
 	en: {
+		$all:          "all",
 		$bio:          "bio",
+		$you:          "you",
 		$like:         "like",
 		$user:         "user",
 		$with:         "with",
@@ -194,7 +196,9 @@ const GSTXall = GSUdeepFreeze( {
 		$helpLink_open: "Open the <b>$0</b> help page",
 	},
 	fr: {
+		$all:          "tout",
 		$bio:          "bio",
+		$you:          "vous",
 		$like:         "j'aime",
 		$user:         "utilisateur",
 		$with:         "avec",
