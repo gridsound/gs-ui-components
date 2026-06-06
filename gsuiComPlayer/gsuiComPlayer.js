@@ -55,9 +55,10 @@ class gsuiComPlayer extends gsui0ne {
 		} );
 		this.$elements.$actionPop
 			.$on( "beforetoggle", e => {
-				e.newState === "open"
-					? this.$elements.$actionPop.$append( ...this.#createMenuActions() )
-					: this.$elements.$actionPop.$empty();
+				this.$elements.$actionPop.$empty();
+				if ( e.newState === "open" ) {
+					this.$elements.$actionPop.$append( ...this.#createMenuActions() );
+				}
 			} )
 			.$onclick( e => {
 				const act = $( e.target ).$dataProp();
