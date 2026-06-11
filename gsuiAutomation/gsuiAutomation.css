@@ -12,42 +12,41 @@ gsui-automation {
 		inset: 0;
 		background-color: #0008;
 	}
+	button[ popovertarget ] {
+		anchor-name: --gsui-automation-anchor;
+		display: flex;
+		gap: .5ch;
+		margin-right: auto;
+		padding: 2px 8px;
+		border-radius: 4px;
+		font-size: 14px;
+		background-color: #0005;
+
+		&:empty::before {
+			content: "none";
+			font-style: italic;
+			opacity: .7;
+		}
+		* {
+			pointer-events: none;
+		}
+	}
 }
 
-.gsuiAutomation-in {
+gsui-automation-in {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
 	height: 100%;
 }
 
-.gsuiAutomation-head {
+gsui-automation-head {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 }
 
-.gsuiAutomation-btnTarget {
-	anchor-name: --gsuiAutomation-btnTarget;
-	display: flex;
-	gap: .5ch;
-	margin-right: auto;
-	padding: 2px 8px;
-	border-radius: 4px;
-	font-size: 14px;
-	background-color: #0005;
-
-	&:empty::before {
-		content: "none";
-		font-style: italic;
-		opacity: .7;
-	}
-	* {
-		pointer-events: none;
-	}
-}
-
-.gsuiAutomation-body {
+gsui-automation-body {
 	position: relative;
 	flex: 1;
 	border: 2px solid #0005;
@@ -59,9 +58,9 @@ gsui-automation {
 	}
 }
 
-.gsuiAutomation-targetList {
+gsui-automation-targets {
 	position: absolute;
-	position-anchor: --gsuiAutomation-btnTarget;
+	position-anchor: --gsui-automation-anchor;
 	position-area: bottom;
 	position-try-fallbacks: top;
 	flex-direction: column;

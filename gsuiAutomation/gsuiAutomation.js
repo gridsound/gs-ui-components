@@ -8,11 +8,11 @@ class gsuiAutomation extends gsui0ne {
 		super( {
 			$tagName: "gsui-automation",
 			$elements: {
-				$btnTarget: ".gsuiAutomation-btnTarget",
+				$btnTarget: "[popovertarget]",
 				$duration: "gsui-duration",
 				$beatlines: "gsui-beatlines",
 				$dotline: "gsui-dotline",
-				$targets: ".gsuiAutomation-targetList",
+				$targets: "gsui-automation-targets",
 			},
 			$attributes: {
 				duration: 1,

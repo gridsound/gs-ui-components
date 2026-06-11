@@ -4,17 +4,17 @@ $.$setTemplate( "gsui-automation", () => {
 	const popId = GSUuuid();
 
 	return [
-		$.$div( { class: "gsuiAutomation-in" },
-			$.$div( { class: "gsuiAutomation-head" },
+		$.$elem( "gsui-automation-in", null,
+			$.$elem( "gsui-automation-head", null,
 				$.$icon( { icon: "target" } ),
-				$.$button( { class: "gsuiAutomation-btnTarget gsui-ellipsis", popovertarget: popId, "data-tooltip": GSTX.$automation_selectTarget } ),
+				$.$button( { class: "gsui-ellipsis", popovertarget: popId, "data-tooltip": GSTX.$automation_selectTarget } ),
 				$.$elem( "gsui-duration", { max: 64 } ),
 			),
-			$.$div( { class: "gsuiAutomation-body" },
+			$.$elem( "gsui-automation-body", null,
 				$.$elem( "gsui-beatlines", { color: "#fff" } ),
 				$.$elem( "gsui-dotline", { viewbox: "0 0 1 1", xstep: .001, ystep: .001 } ),
 			),
-			$.$div( { class: "gsuiAutomation-targetList", id: popId, popover: true } ),
+			$.$elem( "gsui-automation-targets", { id: popId, popover: true } ),
 		),
 	];
 } );
