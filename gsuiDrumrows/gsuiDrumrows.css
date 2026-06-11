@@ -3,9 +3,6 @@ gsui-drumrows {
 	flex-direction: column;
 	font-size: var( --gsuiTimewindow-lineH );
 }
-gsui-drumrows::-webkit-scrollbar {
-	display: none;
-}
 
 .gsuiDrumrows-dropNew {
 	display: flex;
