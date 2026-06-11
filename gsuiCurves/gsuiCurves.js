@@ -12,9 +12,9 @@ class gsuiCurves extends gsui0ne {
 			$elements: {
 				$analyser: "gsui-analyser-hz",
 				$svg: "svg",
-				$line: ".gsuiCurves-line",
-				$marks: ".gsuiCurves-marks",
-				$curves: ".gsuiCurves-curves",
+				$line: "svg line",
+				$marks: "gsui-curves-marks",
+				$curves: "svg g",
 			},
 		} );
 	}
@@ -83,7 +83,6 @@ class gsuiCurves extends gsui0ne {
 	}
 	#createPath( id, curve ) {
 		this.$elements.$curves.$append( $.$elem( "path", {
-			class: "gsuiCurves-curve",
 			"data-id": id,
 			d: this.#createPathD( curve ),
 		} ) );

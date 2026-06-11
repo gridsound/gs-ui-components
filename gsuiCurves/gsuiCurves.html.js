@@ -1,12 +1,12 @@
 "use strict";
 
 $.$setTemplate( "gsui-curves", () => [
-	$.$div( { class: "gsuiCurves-marks" } ),
-	$.$div( { class: "gsuiCurves-graph" },
+	$.$elem( "gsui-curves-marks" ),
+	$.$elem( "gsui-curves-graph", null,
 		$.$elem( "gsui-analyser-hz" ),
-		$.$elem( "svg", { class: "gsuiCurves-svg", preserveAspectRatio: "none" },
-			$.$elem( "line", { class: "gsuiCurves-line", "shape-rendering": "crispEdges" } ),
-			$.$elem( "g", { class: "gsuiCurves-curves" } ),
+		$.$elem( "svg", { preserveAspectRatio: "none" },
+			$.$elem( "line", { "shape-rendering": "crispEdges" } ),
+			$.$elem( "g" ),
 		),
 	),
 ] );

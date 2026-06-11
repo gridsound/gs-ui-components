@@ -16,7 +16,7 @@ gsui-fx-filter {
 		align-self: center;
 		height: 20px;
 	}
-	.gsuiCurves-curve {
+	gsui-curves-graph path {
 		color: var( --gsui-col-frequency );
 		opacity: 1;
 

@@ -3,60 +3,59 @@ gsui-curves {
 	flex-direction: column;
 	gap: 4px;
 	height: 100%;
+
+	gsui-analyser-hz {
+		position: absolute;
+		inset: 0;
+		background-color: var( --gsui-screen-graph );
+	}
 }
 
-/* .......................................................................... */
-.gsuiCurves-marks {
+gsui-curves-marks {
 	display: flex;
 	align-items: center;
 	height: 10px;
-}
-.gsuiCurves-marks div {
-	flex: 1;
-	font-size: 10px;
-}
-.gsuiCurves-marks div::before {
-	content: attr( data-hz );
-	display: flex;
-	padding-left: 3px;
-	margin-right: 3px;
-	opacity: .2;
-	background-color: #000;
-}
-.gsuiCurves-marks div:last-child::before {
-	margin-right: 0;
+
+	div {
+		flex: 1;
+		font-size: 10px;
+
+		&::before {
+			content: attr( data-hz );
+			display: flex;
+			padding-left: 3px;
+			margin-right: 3px;
+			opacity: .2;
+			background-color: #000;
+		}
+		&:last-child::before {
+			margin-right: 0;
+		}
+	}
 }
 
-/* .......................................................................... */
-.gsuiCurves-graph {
+gsui-curves-graph {
 	flex: 1;
 	position: relative;
 	overflow: hidden;
 	border-radius: 4px;
-}
 
-/* .......................................................................... */
-gsui-curves gsui-analyser-hz {
-	position: absolute;
-	inset: 0;
-	background-color: var( --gsui-screen-graph );
-}
+	svg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
 
-/* .......................................................................... */
-.gsuiCurves-svg {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-.gsuiCurves-line {
-	stroke: currentColor;
-	stroke-width: 2;
-	stroke-dasharray: 4;
-	opacity: .5;
-}
-.gsuiCurves-curve {
-	fill: none;
-	stroke: currentColor;
-	stroke-width: 3;
-	filter: drop-shadow( 0 -1px 0 #000a ) drop-shadow( 0 1px 0 #000a );
+		line {
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-dasharray: 4;
+			opacity: .5;
+		}
+		path {
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 3;
+			filter: drop-shadow( 0 -1px 0 #000a ) drop-shadow( 0 1px 0 #000a );
+		}
+	}
 }
