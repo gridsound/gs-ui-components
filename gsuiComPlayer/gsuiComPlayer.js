@@ -19,6 +19,7 @@ class gsuiComPlayer extends gsui0ne {
 			$elements: {
 				$audio: "audio",
 				$play: "[data-action=play]",
+				$playIco: "[data-action=play] .gsuiIcon",
 				$name: "gsui-com-player-name a",
 				$likeBtn: "[data-action=like]",
 				$likeIco: "[data-action=like] .gsuiIcon",
@@ -49,7 +50,7 @@ class gsuiComPlayer extends gsui0ne {
 			loadedmetadata: e => this.$this.$setAttr( "duration", e.target.duration ),
 			error: () => {
 				this.$this.$setAttr( { playing: false, rendered: false } );
-				this.$elements.$play.$rmAttr( "data-spin" );
+				this.$elements.$playIco.$rmAttr( "data-spin" );
 				this.$elements.$audio.$rmAttr( "src" );
 			},
 		} );
@@ -133,12 +134,12 @@ class gsuiComPlayer extends gsui0ne {
 	// .........................................................................
 	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
-		this.$elements.$play.$setAttr( "data-icon", "pause" );
+		this.$elements.$playIco.$setAttr( "data-icon", "pause" );
 		this.$this.$addAttr( "playing" );
 	}
 	#onpause() {
 		GSUclearInterval( this.#intervalId );
-		this.$elements.$play.$setAttr( "data-icon", "play" );
+		this.$elements.$playIco.$setAttr( "data-icon", "play" );
 		this.$this.$rmAttr( "playing" );
 	}
 	#onclickLike() {
@@ -167,7 +168,7 @@ class gsuiComPlayer extends gsui0ne {
 		} else {
 			let hasRender;
 
-			this.$elements.$play.$setAttr( "data-spin", "on" );
+			this.$elements.$playIco.$setAttr( "data-spin", "on" );
 			this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
@@ -177,7 +178,7 @@ class gsuiComPlayer extends gsui0ne {
 					}
 				} )
 				.finally( () => {
-					this.$elements.$play.$rmAttr( "data-spin" );
+					this.$elements.$playIco.$rmAttr( "data-spin" );
 					if ( hasRender ) {
 						this.$play();
 					}
@@ -188,9 +189,10 @@ class gsuiComPlayer extends gsui0ne {
 		this.$this.$setAttr( "currenttime", this.$elements.$audio.$prop( "currentTime" ) );
 	}
 	#updateRendered( b ) {
-		this.$elements.$play.$setAttr( b
-			? { "data-spin": false, "data-icon": "play", "data-tooltip": false }
-			: { "data-spin": false, "data-icon": "file-corrupt", "data-tooltip": GSTX.$player_notRendered } );
+		this.$elements.$play.$setAttr( "data-tooltip", b ? false : GSTX.$player_notRendered );
+		this.$elements.$playIco.$setAttr( b
+			? { "data-spin": false, "data-icon": "play" }
+			: { "data-spin": false, "data-icon": "file-corrupt" } );
 	}
 	#createMenuActions() {
 		const actionsStr = this.$this.$getAttr( "actions" );

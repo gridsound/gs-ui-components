@@ -5,7 +5,9 @@ $.$setTemplate( "gsui-com-player", () => {
 
 	return [
 		$.$elem( "audio", { loop: true } ),
-		$.$button( { "data-action": "play", icon: "play" } ),
+		$.$button( { "data-action": "play" },
+			$.$icon( { icon: "play" } ),
+		),
 		$.$elem( "gsui-com-player-body", null,
 			$.$div( null,
 				$.$elem( "gsui-com-player-name", null,
@@ -39,7 +41,9 @@ $.$setTemplate( "gsui-com-player", () => {
 			$.$icon( { icon: "heart" } ),
 			$.$span(),
 		),
-		$.$button( { popovertarget: popId, icon: "ellipsis-v" } ),
+		$.$button( { popovertarget: popId },
+			$.$icon( { icon: "ellipsis-v" } ),
+		),
 		$.$elem( "gsui-com-player-actions-pop", { id: popId, popover: true } ),
 	];
 } );
