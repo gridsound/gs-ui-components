@@ -5,7 +5,7 @@ gsui-analyser-vu {
 	height: 100%;
 }
 
-.gsuiAnalyserVu-meter {
+gsui-analyser-vu-meter {
 	position: relative;
 	flex: 1;
 	height: 100%;
@@ -13,7 +13,7 @@ gsui-analyser-vu {
 	filter: var( --gsui-screen-spectrum-filter );
 }
 
-.gsuiAnalyserVu-meter-val {
+gsui-analyser-vu-val {
 	position: absolute;
 	inset: auto 0 0;
 	background-color: #ff9;
@@ -25,19 +25,19 @@ gsui-analyser-vu {
 	}
 }
 
-.gsuiAnalyserVu-meter-tick,
-.gsuiAnalyserVu-meter-0dB {
+gsui-analyser-vu-tick,
+gsui-analyser-vu-0dB {
 	position: absolute;
 	width: 100%;
 	height: 2px;
 	margin-bottom: -2px;
 	background-color: #fff;
 }
-.gsuiAnalyserVu-meter-tick {
+gsui-analyser-vu-tick {
 	bottom: 0;
 	opacity: 0;
 	transition: opacity .4s;
 }
-.gsuiAnalyserVu-meter-0dB {
+gsui-analyser-vu-0dB {
 	opacity: .1;
 }

@@ -6,11 +6,11 @@ $.$setTemplate( "gsui-analyser-vu", () => [
 ] );
 
 $.$setTemplate( "gsui-analyser-vu-meter", p =>
-	$.$div( { class: "gsuiAnalyserVu-meter", "data-chan": p.chan, inert: true },
-		$.$div( { class: "gsuiAnalyserVu-meter-val" },
+	$.$elem( "gsui-analyser-vu-meter", { "data-chan": p.chan, inert: true },
+		$.$elem( "gsui-analyser-vu-val", null,
 			$.$div(),
 		),
-		$.$div( { class: "gsuiAnalyserVu-meter-tick" } ),
-		$.$div( { class: "gsuiAnalyserVu-meter-0dB" } ),
+		$.$elem( "gsui-analyser-vu-tick" ),
+		$.$elem( "gsui-analyser-vu-0dB" ),
 	),
 );
