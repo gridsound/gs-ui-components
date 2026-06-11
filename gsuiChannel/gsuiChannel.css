@@ -125,6 +125,9 @@ gsui-channel-analyser {
 	width: inherit;
 	margin-left: 0;
 
+	gsui-channel:not( [ selected ] ) & {
+		cursor: var( --gsuiCursor-pointer );
+	}
 	gsui-analyser-hist {
 		height: 100%;
 		opacity: .8;
