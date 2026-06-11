@@ -7,14 +7,12 @@ gsui-analyser-hist {
 	height: 100%;
 	background-color: var( --gsui-screen-spectrum );
 	filter: var( --gsui-screen-spectrum-filter );
-}
 
-gsui-analyser-hz canvas,
-gsui-analyser-td canvas,
-gsui-analyser-hist canvas {
-	position: absolute;
-	width: 100%;
-	height: 100%;
+	canvas {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
 }
 
 gsui-analyser-hist[ type="td" ]::after {
