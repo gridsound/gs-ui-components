@@ -13,11 +13,13 @@ gsui-channel {
 	border-right: var( --gsui-item-brdbottom );
 	background-color: var( --gsuiChannel-bg, var( --gsui-item-bg ) );
 	transition: .2s background-color;
+	--gsuiChannel-btnCursor: var( --gsuiCursor-pointer );
 
 	&[ selected ] {
 		background-color: var( --gsui-item-bg-selected );
 		--gsuiChannel-name-weight: bold;
 		--gsuiChannel-name-shadow: inset 0 -2px var( --gsui-col-gain );
+		--gsuiChannel-btnCursor: var( --gsuiCursor-default );
 	}
 	&[ muted ] {
 		--gsuiChannel-bg: var( --gsui-item-bg-disabled );
@@ -45,6 +47,9 @@ gsui-channel {
 		transition: inherit;
 		transition-property: box-shadow;
 
+		gsui-channel[ data-id="0" ] & {
+			cursor: var( --gsuiChannel-btnCursor );
+		}
 		b {
 			width: 18px;
 			font-size: 18px;
@@ -124,10 +129,8 @@ gsui-channel-analyser {
 	flex: 2;
 	width: inherit;
 	margin-left: 0;
+	cursor: var( --gsuiChannel-btnCursor );
 
-	gsui-channel:not( [ selected ] ) & {
-		cursor: var( --gsuiCursor-pointer );
-	}
 	gsui-analyser-hist {
 		height: 100%;
 		opacity: .8;
