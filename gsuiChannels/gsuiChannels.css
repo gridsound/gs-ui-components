@@ -20,13 +20,9 @@ gsui-channels gsui-analyser-vu {
 }
 .gsuiChannels-panChannels {
 	position: absolute;
-	overflow: scroll;
+	overflow-x: scroll;
 	inset: 0 0 0 calc( var( --vuW ) + 3px + 50px );
 	display: flex;
-	scrollbar-width: none;
-}
-.gsuiChannels-panChannels::-webkit-scrollbar {
-	display: none;
 }
 .gsuiChannels-panChannels::after {
 	order: 2147483647;
