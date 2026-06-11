@@ -10,7 +10,7 @@ class gsuiAnalyserVu extends gsui0ne {
 			$elements: {
 				$L: "[data-chan=L]",
 				$R: "[data-chan=R]",
-				$0dB: "gsui-analyser-vu-0dB",
+				$0dB: "gsui-analyser-vu-0db",
 			},
 			$attributes: {
 				max: 100,

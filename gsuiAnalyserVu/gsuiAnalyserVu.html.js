@@ -11,6 +11,6 @@ $.$setTemplate( "gsui-analyser-vu-meter", p =>
 			$.$div(),
 		),
 		$.$elem( "gsui-analyser-vu-tick" ),
-		$.$elem( "gsui-analyser-vu-0dB" ),
+		$.$elem( "gsui-analyser-vu-0db" ),
 	),
 );
