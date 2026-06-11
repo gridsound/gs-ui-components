@@ -12,7 +12,7 @@ class gsuiChannel extends gsui0ne {
 				$remove: ".gsuiChannel-delete",
 				$connect: ".gsuiChannel-connect",
 				$analyser: "gsui-analyser-hist",
-				$effects: ".gsuiChannel-effects",
+				$effects: "gsui-channel-effects",
 				pan: ".gsuiChannel-pan gsui-slider",
 				gain: ".gsuiChannel-gain gsui-slider",
 				connecta: ".gsuiChannel-connectA",
@@ -88,7 +88,7 @@ class gsuiChannel extends gsui0ne {
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.$elements.$effects.$append( $.$getTemplate( "gsui-channel-effect", id, obj.type ) );
+		this.$elements.$effects.$append( $.$button( { "data-id": id, "data-enable": true, "data-content": obj.type } ) );
 	}
 	$removeEffect( id ) {
 		this.#getEffect( id ).$remove();

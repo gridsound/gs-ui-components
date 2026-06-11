@@ -123,34 +123,33 @@ gsui-channel {
 		opacity: .8;
 	}
 }
-.gsuiChannel-effects {
+gsui-channel-effects {
 	display: grid;
 	position: absolute;
 	inset: auto 0 0;
-}
-.gsuiChannel-effect {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 12px;
-	font-size: 6px;
-	border-top: 1px solid #222;
-	border-left: 2px solid #ffffff08;
-	border-right: 2px solid #0002;
-	background-color: #333;
 
-	&:focus-visible,
-	&:hover {
-		background-color: #3a3a3a;
-	}
-}
-.gsuiChannel-effect-name {
-	pointer-events: none;
-	opacity: .3;
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 12px;
+		font-size: 6px;
+		border-top: 1px solid #222;
+		border-left: 2px solid #ffffff08;
+		border-right: 2px solid #0002;
+		background-color: #333;
 
-	.gsuiChannel-effect[ data-enable ] & {
-		opacity: 1;
+		&:hover {
+			background-color: #3a3a3a;
+		}
+		&::before {
+			content: attr( data-content );
+			opacity: .3;
+		}
+		&[ data-enable ]::before {
+			opacity: 1;
+		}
 	}
 }
 

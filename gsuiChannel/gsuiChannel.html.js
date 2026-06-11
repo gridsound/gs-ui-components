@@ -8,7 +8,7 @@ $.$setTemplate( "gsui-channel", () => [
 	$.$button( { class: "gsuiChannel-delete", icon: "close", "data-tooltip": GSTX.$channel_remove } ),
 	$.$div( { class: "gsuiChannel-analyser" },
 		$.$elem( "gsui-analyser-hist" ),
-		$.$div( { class: "gsuiChannel-effects" } ),
+		$.$elem( "gsui-channel-effects" ),
 	),
 	$.$elem( "gsui-toggle", { "data-tooltip": GSTX.$channel_mute } ),
 	$.$div( { class: "gsuiChannel-pan" },
@@ -25,9 +25,3 @@ $.$setTemplate( "gsui-channel", () => [
 		$.$icon( { icon: "grip-h" } ),
 	),
 ] );
-
-$.$setTemplate( "gsui-channel-effect", ( id, name ) =>
-	$.$button( { class: "gsuiChannel-effect", "data-id": id, "data-enable": true },
-		$.$span( { class: "gsuiChannel-effect-name" }, name ),
-	),
-);
