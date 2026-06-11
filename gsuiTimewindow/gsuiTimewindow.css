@@ -16,13 +16,12 @@ gsui-timewindow {
 
 /* .......................................................................... */
 .gsuiTimewindow-scrollArea {
+	overflow: auto;
 	position: relative;
 	flex: 1;
 	display: flex;
 	align-items: start;
-	overflow: auto;
 	overscroll-behavior: none;
-	scrollbar-width: none;
 	scroll-behavior: smooth;
 }
 
