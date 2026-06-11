@@ -11,9 +11,9 @@ class gsuiClock extends gsui0ne {
 		super( {
 			$tagName: "gsui-clock",
 			$elements: {
-				$wrapRel: ".gsuiClock-relative",
-				$modes: ".gsuiClock-modes",
-				$nodes: ".gsuiClock-absolute div",
+				$wrap: "div:has(div)",
+				$nodes: "span",
+				$btn: "button",
 			},
 			$attributes: {
 				mode: "second",
@@ -21,7 +21,7 @@ class gsuiClock extends gsui0ne {
 				timedivision: "4/4",
 			},
 		} );
-		this.$elements.$modes.$onclick( this.#onclickModes.bind( this ) );
+		this.$elements.$btn.$onclick( this.#onclickModes.bind( this ) );
 	}
 
 	// .........................................................................
@@ -34,6 +34,9 @@ class gsuiClock extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "mode":
+				this.$elements.$nodes.$at( -1 ).$setAttr( "data-content", val === "second" ? GSTX.$sec : GSTX.$beat );
+				this.#resetTime();
+				break;
 			case "bpm":
 				this.#resetTime();
 				break;
@@ -105,7 +108,7 @@ class gsuiClock extends gsui0ne {
 		const len = this.$elements.$nodes.$at( 0 ).$text().length;
 		const w = `${ 4.5 + len * .7 }ch`;
 
-		this.$elements.$wrapRel.$css( { width: w, minWidth: w } );
+		this.$elements.$wrap.$css( { width: w, minWidth: w } );
 	}
 
 	// .........................................................................

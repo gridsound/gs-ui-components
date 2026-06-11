@@ -5,6 +5,8 @@ const GSTXall = GSUdeepFreeze( {
 		$all:          "all",
 		$bio:          "bio",
 		$you:          "you",
+		$sec:          "sec",
+		$beat:         "beat",
 		$like:         "like",
 		$user:         "user",
 		$with:         "with",
@@ -199,6 +201,8 @@ const GSTXall = GSUdeepFreeze( {
 		$all:          "tout",
 		$bio:          "bio",
 		$you:          "vous",
+		$sec:          "sec",
+		$beat:         "temps",
 		$like:         "j'aime",
 		$user:         "utilisateur",
 		$with:         "avec",
@@ -323,7 +327,7 @@ const GSTXall = GSUdeepFreeze( {
 		$win_rename_slices: "<b>Renommer</b> ce pattern de slices",
 		$win_autoscroll:    "Défilement automatique",
 		// .....................................................................
-		$clock_switch: "Basculer entre l'unité <b>beats</b> et <b>secondes</b>",
+		$clock_switch: "Basculer entre l'unité <b>temps</b> et <b>seconde</b>",
 		// .....................................................................
 		$tempo_edit: "Modifier le <b>BPM</b> et la <b>signature rythmique</b>",
 		$tempo_tap:  "Tapez ce bouton en rythme<br/>il calculera le <b>BPM</b>",

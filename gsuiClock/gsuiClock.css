@@ -6,68 +6,72 @@ gsui-clock {
 	border-radius: 4px;
 	font-size: 18px;
 	background-color: var( --gsui-clock-bg );
-}
 
-.gsuiClock-relative {
-	position: relative;
-	height: 100%;
-	padding-left: 8px;
-	border-top-left-radius: inherit;
-	border-bottom-left-radius: inherit;
-}
-.gsuiClock-absolute {
-	display: flex;
-	position: absolute;
-	white-space: nowrap;
-	align-items: baseline;
-	padding-top: 4px;
-	font-family: var( --gsui-font-number );
-}
+	> div {
+		position: relative;
+		height: 100%;
+		padding-left: 8px;
+		border-top-left-radius: inherit;
+		border-bottom-left-radius: inherit;
 
-.gsuiClock-modes {
-	position: relative;
-	display: flex;
-	padding: 7px 6px;
-	border-top-right-radius: inherit;
-	border-bottom-right-radius: inherit;
-	flex-direction: column;
-	justify-content: space-between;
-}
-.gsuiClock-modes:focus-visible {
-	box-shadow: 0 0 1px 2px #69b;
-}
-.gsuiClock-mode {
-	width: 5px;
-	height: 5px;
-	border-radius: 1px;
-	background-color: currentColor;
-	opacity: .2;
-}
-gsui-clock[ mode="beat" ] .gsuiClock-beat,
-gsui-clock[ mode="second" ] .gsuiClock-second {
-	opacity: .8;
-}
+		> * {
+			display: flex;
+			position: absolute;
+			white-space: nowrap;
+			align-items: baseline;
+			padding-top: 4px;
+			font-family: var( --gsui-font-number );
 
-.gsuiClock-b::before {
-	content: ":";
-	margin: 0 .2ch;
-}
-.gsuiClock-c {
-	font-size: 12px;
-	opacity: .5;
-}
-.gsuiClock-c::before {
-	content: ".";
-	margin: 0 .4ch;
-}
+			:nth-child( 2 )::before {
+				content: ":";
+				margin: 0 .2ch;
+			}
+			:nth-child( 3 ) {
+				font-size: 12px;
+				opacity: .5;
 
-.gsuiClock-modeText {
-	position: absolute;
-	top: 3px;
-	right: 0;
-	font-size: 8px;
-	font-family: var( --gsui-font );
-	opacity: .25;
+				&::before {
+					content: ".";
+					margin: 0 .4ch;
+				}
+			}
+			:last-child {
+				position: absolute;
+				top: 3px;
+				right: 0;
+				font-size: 8px;
+				font-family: var( --gsui-font );
+				opacity: .25;
+
+				&::before {
+					content: attr( data-content );
+				}
+			}
+		}
+	}
+	button {
+		position: relative;
+		display: flex;
+		padding: 7px 6px;
+		border-top-right-radius: inherit;
+		border-bottom-right-radius: inherit;
+		flex-direction: column;
+		justify-content: space-between;
+
+		&:focus-visible {
+			box-shadow: 0 0 1px 2px #69b;
+		}
+		* {
+			width: 5px;
+			height: 5px;
+			border-radius: 1px;
+			background-color: currentColor;
+			opacity: .2;
+
+			[ mode="beat" ] &:first-child,
+			[ mode="second" ] &:last-child {
+				opacity: .8;
+			}
+		}
+	}
 }
-gsui-clock[ mode="beat" ] .gsuiClock-modeText::before { content: "beat"; }
-gsui-clock[ mode="second" ] .gsuiClock-modeText::before { content: "sec"; }
