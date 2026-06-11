@@ -6,15 +6,11 @@ gsui-slidergroup {
 	z-index: 0;
 }
 .gsuiSliderGroup-slidersWrap {
+	overflow-x: auto;
 	position: absolute;
 	width: 100%;
 	top: 0;
 	bottom: 0;
-	overflow: auto;
-	scrollbar-width: none;
-}
-.gsuiSliderGroup-slidersWrap::-webkit-scrollbar {
-	display: none;
 }
 .gsuiSliderGroup-sliders {
 	position: absolute;
