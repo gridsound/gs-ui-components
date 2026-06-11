@@ -2,18 +2,19 @@ gsui-beatlines {
 	--gsui-deg: 90deg;
 	position: absolute;
 	inset: 0;
-}
-gsui-beatlines[ vertical ] {
-	--gsui-deg: 180deg;
-}
-gsui-beatlines[ coloredodds ]::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background-image: repeating-linear-gradient(
-		var( --gsui-deg ),
-		transparent,
-		transparent 4em,
-		#0001 4em,
-		#0001 8em );
+
+	&[ vertical ] {
+		--gsui-deg: 180deg;
+	}
+	&[ coloredodds ]::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: repeating-linear-gradient(
+			var( --gsui-deg ),
+			transparent,
+			transparent 4em,
+			#0001 4em,
+			#0001 8em );
+	}
 }
