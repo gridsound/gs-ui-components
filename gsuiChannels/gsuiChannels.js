@@ -26,7 +26,7 @@ class gsuiChannels extends gsui0ne {
 			$root: this.$elements.$pchans,
 			$parentSelector: "gsui-channels-others",
 			$itemSelector: "gsui-channel",
-			$itemGripSelector: ".gsuiChannel-grip",
+			$itemGripSelector: "gsui-channel-grip",
 			$onchange: ( obj, chanId ) => this.$this.$dispatch( GSEV_CHANNELS_REORDER, chanId, obj ),
 		} );
 	}
