@@ -23,10 +23,64 @@ gsui-com-profile {
 		--gsuiComProfile-followBtn-bg: #9c7;
 		--gsuiComProfile-followBtn-hover-bg: #e55;
 	}
+	/* ...................................................................... */
+	button[ data-what="verify" ] {
+		display: flex;
+		align-items: center;
+		max-width: 100%;
+		gap: .7ch;
+		color: #da6035;
+		font-size: 12px;
+
+		gsui-com-profile:not( [ itsme ] ) &,
+		gsui-com-profile:not( [ emailtoverify ] ) &,
+		gsui-com-profile:not( [ emailsending ] ) & .gsuiIcon {
+			display: none;
+		}
+	}
+	/* ...................................................................... */
+	button[ data-what="follow" ],
+	button[ data-what="edit" ] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 42px;
+		color: #fff6;
+		font-size: 20px;
+		background-color: #0002;
+	}
+	&[ itsme ] button[ data-what="follow" ],
+	&:not( [ itsme ] ) button[ data-what="edit" ] {
+		display: none;
+	}
+	button[ data-what="follow" ] {
+		flex-direction: column;
+		color: #fff;
+		background-color: var( --gsuiComProfile-followBtn-bg );
+		transition: .2s background-color;
+
+		gsui-com-profile[ followedjustnow ] & {
+			pointer-events: none;
+		}
+		&[ disabled ],
+		gsui-com-profile:not( [ followedjustnow ] ) &:not( [ disabled ] ):hover {
+			--gsuiComProfile-followBtn-bg: var( --gsuiComProfile-followBtn-hover-bg );
+		}
+		.gsuiIcon {
+			display: none;
+		}
+		&:not( [ disabled ] ) {
+			gsui-com-profile:not( [ followed ] ) & .gsuiIcon[ data-icon="follow" ],
+			gsui-com-profile[ followed ] &:not( :hover ) .gsuiIcon[ data-icon="followed" ],
+			gsui-com-profile[ followed ] &:hover .gsuiIcon[ data-icon="unfollow" ] {
+				display: flex;
+			}
+		}
+	}
 }
 
 /* .......................................................................... */
-.gsuiComProfile-avatar {
+gsui-com-profile-avatar {
 	--h: calc( 142px - 74px * ( 1 - var( --hx ) ) );
 	box-sizing: border-box;
 	min-width: var( --h );
@@ -41,48 +95,7 @@ gsui-com-profile {
 }
 
 /* .......................................................................... */
-.gsuiComProfile-follow-btn,
-.gsuiComProfile-edit {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 42px;
-	color: #fff6;
-	font-size: 20px;
-	background-color: #0002;
-}
-gsui-com-profile[ itsme ] .gsuiComProfile-follow-btn,
-gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
-	display: none;
-}
-.gsuiComProfile-follow-btn {
-	flex-direction: column;
-	color: #fff;
-	background-color: var( --gsuiComProfile-followBtn-bg );
-	transition: .2s background-color;
-
-	gsui-com-profile[ followedjustnow ] & {
-		pointer-events: none;
-	}
-	&[ disabled ],
-	gsui-com-profile:not( [ followedjustnow ] ) &:not( [ disabled ] ):hover {
-		--gsuiComProfile-followBtn-bg: var( --gsuiComProfile-followBtn-hover-bg );
-	}
-
-	.gsuiIcon {
-		display: none;
-	}
-	&:not( [ disabled ] ) {
-		gsui-com-profile:not( [ followed ] ) & .gsuiIcon[ data-icon="follow" ],
-		gsui-com-profile[ followed ] &:not( :hover ) .gsuiIcon[ data-icon="followed" ],
-		gsui-com-profile[ followed ] &:hover .gsuiIcon[ data-icon="unfollow" ] {
-			display: flex;
-		}
-	}
-}
-
-/* .......................................................................... */
-.gsuiComProfile-info {
+gsui-com-profile-info {
 	display: flex;
 	flex: 1;
 	align-items: baseline;
@@ -91,57 +104,45 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 	align-self: center;
 	font-size: 16px;
 }
-.gsuiComProfile-name {
+gsui-com-profile-name {
 	display: flex;
 	align-items: baseline;
 	gap: .7ch;
-}
-.gsuiComProfile-username {
 	--fs: 1em;
-	line-height: 1;
-	min-width: fit-content;
-	padding-bottom: 2px;
-	font-weight: bold;
-	font-size: calc( 1em + var( --fs ) * var( --hx ) );
+
+	:first-child {
+		line-height: 1;
+		min-width: fit-content;
+		padding-bottom: 2px;
+		font-weight: bold;
+		font-size: calc( 1em + var( --fs ) * var( --hx ) );
+	}
 }
 
 /* .......................................................................... */
-.gsuiComProfile-email {
+gsui-com-profile-email {
 	overflow: hidden;
 	display: flex;
 	align-items: flex-start;
 	flex-direction: column;
 	flex-basis: 100%;
 	margin-top: 4px;
-}
-.gsuiComProfile-email-addr {
-	display: flex;
-	align-items: baseline;
-	gap: .5ch;
-	max-width: 100%;
-	font-size: calc( 1em - 4px * ( 1 - var( --hx ) ) );
 
-	span:empty::before {
-		content: "private email";
-	}
-}
-.gsuiComProfile-email-not {
-	display: flex;
-	align-items: center;
-	max-width: 100%;
-	gap: .7ch;
-	color: #da6035;
-	font-size: 12px;
+	gsui-com-profile-email-addr {
+		display: flex;
+		align-items: baseline;
+		gap: .5ch;
+		max-width: 100%;
+		font-size: calc( 1em - 4px * ( 1 - var( --hx ) ) );
 
-	gsui-com-profile:not( [ itsme ] ) &,
-	gsui-com-profile:not( [ emailtoverify ] ) &,
-	gsui-com-profile:not( [ emailsending ] ) & .gsuiIcon {
-		display: none;
+		span:empty::before {
+			content: "private email";
+		}
 	}
 }
 
 /* .......................................................................... */
-.gsuiComProfile-follow {
+gsui-com-profile-follow {
 	display: flex;
 	gap: 10px;
 	margin-top: 4px;
@@ -156,11 +157,11 @@ gsui-com-profile:not( [ itsme ] ) .gsuiComProfile-edit {
 
 /* .......................................................................... */
 @media ( max-width: 600px ) {
-	.gsuiComProfile-avatar {
+	gsui-com-profile-avatar {
 		--h: calc( 84px - 16px * ( 1 - var( --hx ) ) );
 		--xs: 1;
 	}
-	.gsuiComProfile-username {
+	gsui-com-profile-name {
 		--fs: .4em;
 	}
 }
