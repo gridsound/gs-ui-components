@@ -21,7 +21,9 @@ $.$setTemplate( "gsui-channel", () => [
 		$.$icon( { class: "gsuiChannel-connectA", icon: "caret-up" } ),
 		$.$icon( { class: "gsuiChannel-connectB", icon: "caret-up" } ),
 	),
-	$.$elem( "gsui-channel-grip", { class: "gsuiIcon", "data-icon": "grip-h" } ),
+	$.$elem( "gsui-channel-grip", null,
+		$.$icon( { icon: "grip-h" } ),
+	),
 ] );
 
 $.$setTemplate( "gsui-channel-effect", ( id, name ) =>
