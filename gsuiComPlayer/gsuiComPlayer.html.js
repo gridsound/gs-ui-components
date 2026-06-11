@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiComPlayer_count = 0;
-
 $.$setTemplate( "gsui-com-player", () => {
-	const popId = `gsuiComPlayer_count_${ ++gsuiComPlayer_count }`;
+	const popId = GSUuuid();
 
 	return [
 		$.$elem( "audio", { loop: true } ),

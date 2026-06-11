@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiTempo_count = 0;
-
 $.$setTemplate( "gsui-tempo", () => {
-	const popId = `gsuiTempo_count_${ ++gsuiTempo_count }`;
+	const popId = GSUuuid();
 
 	return [
 		$.$button( { popovertarget: popId, "data-tooltip": GSTX.$tempo_edit },

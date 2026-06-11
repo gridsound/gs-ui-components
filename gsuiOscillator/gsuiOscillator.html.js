@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiOscillator_count = 0;
-
 $.$setTemplate( "gsui-oscillator", () => {
-	const popId = `gsuiOscillator_count_${ ++gsuiOscillator_count }`;
+	const popId = GSUuuid();
 
 	return $.$div( { class: "gsuiOscillator-in" },
 		$.$div( { class: "gsuiOscillator-grip gsuiIcon", "data-icon": "grip-v" } ),

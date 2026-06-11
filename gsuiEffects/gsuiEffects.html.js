@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiEffects_count = 0;
-
 $.$setTemplate( "gsui-effects", () => {
-	const popId = `gsuiEffects_count_${ ++gsuiEffects_count }`;
+	const popId = GSUuuid();
 
 	return [
 		$.$button( { class: "gsuiEffects-addBtn", popovertarget: popId, "data-tooltip": GSTX.$effects_add },

@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiDotline_count = 0;
-
 $.$setTemplate( "gsui-dotline", () => {
-	const popId = `gsuiDotline_count_${ ++gsuiDotline_count }`;
+	const popId = GSUuuid();
 
 	return $.$div( { class: "gsuiDotline-padding" },
 		$.$elem( "gsui-slider", { type: "linear-y", min: -32, max: 32, step: .01, "mousemove-size": 2000 } ),

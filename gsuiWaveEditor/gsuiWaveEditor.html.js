@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiWaveEditor_count = 0;
-
 $.$setTemplate( "gsui-wave-editor", () => {
-	const popId = `gsuiWaveEditor_count_${ ++gsuiWaveEditor_count }`;
+	const popId = GSUuuid();
 
 	return $.$flex( { class: "gsuiWaveEditor-in", x: true, f1: true },
 		$.$flex( { class: "gsuiWaveEditor-menu", y: true, g6: true },

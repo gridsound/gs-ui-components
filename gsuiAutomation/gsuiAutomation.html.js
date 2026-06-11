@@ -1,9 +1,7 @@
 "use strict";
 
-let gsuiAutomation_count = 0;
-
 $.$setTemplate( "gsui-automation", () => {
-	const popId = `gsuiAutomation_count_${ ++gsuiAutomation_count }`;
+	const popId = GSUuuid();
 
 	return [
 		$.$div( { class: "gsuiAutomation-in" },
