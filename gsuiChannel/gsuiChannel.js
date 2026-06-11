@@ -20,10 +20,6 @@ class gsuiChannel extends gsui0ne {
 				connecta: "down",
 			},
 		} );
-		this.$elements.$head.$on( "dblclick", () => {
-			$popup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
-				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
-		} );
 		this.$this
 			.$onclick( this.#onclick.bind( this ) )
 			.$listen( {
@@ -41,6 +37,14 @@ class gsuiChannel extends gsui0ne {
 	}
 
 	// .........................................................................
+	$firstTimeConnected() {
+		this.$this.$dataId() === "0"
+			? this.$elements.$head.$rmAttr( "data-tooltip" )
+			: this.$elements.$head.$on( "dblclick", () => {
+				$popup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
+					.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
+			} );
+	}
 	static get observedAttributes() {
 		return [ "order", "name", "muted", "pan", "gain", "connecta", "connectb" ];
 	}
