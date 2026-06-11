@@ -1,6 +1,6 @@
 gsui-com-player {
 	--gsui-bg: #2e355b;
-	anchor-scope: --gsuiComPlayer-actions-pop;
+	anchor-scope: --gsui-com-player-actions-anchor;
 	display: flex;
 	position: relative;
 	overflow: hidden;
@@ -10,62 +10,90 @@ gsui-com-player {
 	background-image: linear-gradient( 45deg, #0003, transparent );
 	transition: translate .3s;
 
-	audio {
-		display: none;
-	}
 	&[ deleted ] { --gsui-bg: #fff4 }
 	&[ deleting ] { translate: 100% 0 }
 	&[ restoring ] { translate: -100% 0 }
-	&[ forking ] { animation: .25s gsuiComPlayer-forking-anim forwards }
+	&[ forking ] { animation: .25s gsui-com-player-forking-anim forwards }
+	audio {
+		display: none;
+	}
+	> button,
+	> a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 42px;
+		min-width: 42px;
+		color: #fff4;
+		font-size: 20px;
+		background-color: #0001;
+		transition: color, background-color;
+		transition-duration: .2s;
+
+		&:not( [ disabled ] ) {
+			&:focus-visible,
+			&:hover {
+				color: #fff;
+				background-color: #0002;
+			}
+		}
+	}
+	> a[ data-action="daw" ]:not( [ href ] ) {
+		display: none;
+	}
+	button[ data-action="play" ] {
+		width: 64px;
+		min-width: 64px;
+		font-size: 28px;
+	}
+	button[ popovertarget ] {
+		anchor-name: --gsui-com-player-actions-anchor;
+		background-color: transparent;
+
+		gsui-com-player:not( [ actions ] ) & {
+			display: none;
+		}
+	}
+	button[ data-action="like" ] {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+
+		.gsuiIcon {
+			gsui-com-player[ itsmine ] &:first-child,
+			gsui-com-player[ liked ] &:first-child,
+			gsui-com-player:not( [ liked ], [ itsmine ] ) &:nth-child( 2 ) {
+				display: none;
+			}
+			gsui-com-player[ liked ] &:not( [ data-spin ] ):nth-child( 2 ) {
+				color: #ee5f5f;
+			}
+		}
+		span {
+			margin-bottom: -6px;
+			line-height: 14px;
+			font-size: 14px;
+			font-weight: bold;
+
+			gsui-com-player[ liked ] & {
+				color: #fff;
+			}
+			gsui-com-player[ likes="0" ] & {
+				display: none;
+			}
+		}
+	}
 }
 
-@keyframes gsuiComPlayer-forking-anim {
-	0% { height: 0 }
+@keyframes gsui-com-player-forking-anim {
+	000% { height: 0 }
 	100% { height: 64px }
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 42px;
-	min-width: 42px;
-	color: #fff4;
-	font-size: 20px;
-	background-color: #0001;
-	transition: color, background-color;
-	transition-duration: .2s;
-
-	&:not( [ disabled ] ) {
-		&:focus-visible,
-		&:hover {
-			color: #fff;
-			background-color: #0002;
-		}
-	}
-}
-.gsuiComPlayer-play {
-	width: 64px;
-	min-width: 64px;
-	font-size: 28px;
-}
-
-/* .......................................................................... */
-.gsuiComPlayer-dawlink:not( [ href ] ) {
-	display: none;
-}
-.gsuiComPlayer-actions {
-	anchor-name: --gsuiComPlayer-actions-pop;
-	background-color: transparent;
-
-	gsui-com-player:not( [ actions ] ) & {
-		display: none;
-	}
-}
-.gsuiComPlayer-actions-pop {
+gsui-com-player-actions-pop {
 	position: absolute;
-	position-anchor: --gsuiComPlayer-actions-pop;
+	position-anchor: --gsui-com-player-actions-anchor;
 	position-area: top;
 	position-try-fallbacks: bottom;
 	width: 300px;
@@ -98,23 +126,22 @@ gsui-com-player {
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-body {
+gsui-com-player-body {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+
+	> :first-child {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 0 10px;
+	}
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-text {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	padding: 0 10px;
-}
-
-/* .......................................................................... */
-.gsuiComPlayer-name {
+gsui-com-player-name {
 	position: relative;
 	height: 1.4em;
 	line-height: 1.4em;
@@ -134,68 +161,37 @@ gsui-com-player {
 			display: none;
 		}
 	}
-}
-.gsuiComPlayer-nameLink {
-	position: absolute;
-	inset: 0 0 0 22px;
-	overflow: hidden;
-	white-space: nowrap;
-	color: inherit;
-	text-overflow: ellipsis;
+	a {
+		position: absolute;
+		inset: 0 0 0 22px;
+		overflow: hidden;
+		white-space: nowrap;
+		color: inherit;
+		text-overflow: ellipsis;
 
-	gsui-com-player:not( [ private ], [ opensource ] ) & {
-		inset: 0;
-	}
-	&:hover {
-		text-decoration: underline;
-	}
-	&:empty::after {
-		content: "Untitled";
-		font-style: italic;
-		padding-right: 2px;
-		opacity: .7;
-	}
-}
-
-/* .......................................................................... */
-.gsuiComPlayer-like {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-
-	.gsuiIcon {
-		gsui-com-player[ itsmine ] &:first-child,
-		gsui-com-player[ liked ] &:first-child,
-		gsui-com-player:not( [ liked ], [ itsmine ] ) &:nth-child( 2 ) {
-			display: none;
+		gsui-com-player:not( [ private ], [ opensource ] ) & {
+			inset: 0;
 		}
-		gsui-com-player[ liked ] &:not( [ data-spin ] ):nth-child( 2 ) {
-			color: #ee5f5f;
+		&:hover {
+			text-decoration: underline;
 		}
-	}
-	span {
-		margin-bottom: -6px;
-		line-height: 14px;
-		font-size: 14px;
-		font-weight: bold;
-
-		gsui-com-player[ liked ] & {
-			color: #fff;
-		}
-		gsui-com-player[ likes="0" ] & {
-			display: none;
+		&:empty::after {
+			content: "Untitled";
+			font-style: italic;
+			padding-right: 2px;
+			opacity: .7;
 		}
 	}
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-info-wrap {
+gsui-com-player-info-wrap {
 	position: relative;
 	width: 100%;
 	height: 20px;
 	overflow: hidden;
 }
-.gsuiComPlayer-info {
+gsui-com-player-info {
 	position: absolute;
 	inset: 0 0 0 1px;
 	display: flex;
@@ -204,8 +200,8 @@ gsui-com-player {
 	white-space: nowrap;
 	opacity: .7;
 }
-.gsuiComPlayer-time,
-.gsuiComPlayer-tempo {
+gsui-com-player-time,
+gsui-com-player-tempo {
 	display: flex;
 	align-items: baseline;
 
@@ -214,7 +210,7 @@ gsui-com-player {
 		opacity: .5;
 	}
 }
-.gsuiComPlayer-currentTime {
+gsui-com-player-currenttime {
 	gsui-com-player:not( [ playing ] ) & {
 		display: none;
 	}
@@ -222,23 +218,24 @@ gsui-com-player {
 		content: "\A0-\A0";
 	}
 }
-.gsuiComPlayer-tempo {
+gsui-com-player-tempo {
 	margin-left: 16px;
-}
-.gsuiComPlayer-bpm {
-	display: inline-flex;
-	align-items: baseline;
 
-	&::after {
-		content: "bpm";
-		margin-left: 4px;
-		font-size: 11px;
-		font-family: var( --gsui-font );
+	span {
+		display: inline-flex;
+		align-items: baseline;
+
+		&::after {
+			content: "bpm";
+			margin-left: 4px;
+			font-size: 11px;
+			font-family: var( --gsui-font );
+		}
 	}
 }
 
 /* .......................................................................... */
-.gsuiComPlayer-slider {
+gsui-com-player-slider {
 	position: relative;
 	overflow: hidden;
 	height: 0;
