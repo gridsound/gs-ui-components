@@ -6,8 +6,8 @@ class gsuiChannel extends gsui0ne {
 			$tagName: "gsui-channel",
 			$elements: {
 				$toggle: "gsui-toggle",
-				$head: ".gsuiChannel-head",
-				$name: ".gsuiChannel-head span",
+				$head: "[data-action=rename]",
+				$name: "[data-action=rename] span",
 				$effects: "gsui-channel-effects",
 				pan: "gsui-channel-pan gsui-slider",
 				gain: "gsui-channel-gain gsui-slider",

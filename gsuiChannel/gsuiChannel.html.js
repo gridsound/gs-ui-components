@@ -1,7 +1,7 @@
 "use strict";
 
 $.$setTemplate( "gsui-channel", () => [
-	$.$button( { class: "gsuiChannel-head", "data-action": "rename", "data-tooltip": GSTX.$channel_rename },
+	$.$button( { "data-action": "rename", "data-tooltip": GSTX.$channel_rename },
 		$.$bold( { inert: true } ),
 		$.$span( { inert: true } ),
 	),
