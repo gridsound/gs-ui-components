@@ -42,6 +42,9 @@ gsui-automation {
 		font-style: italic;
 		opacity: .7;
 	}
+	* {
+		pointer-events: none;
+	}
 }
 
 .gsuiAutomation-body {
