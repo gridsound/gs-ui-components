@@ -31,87 +31,94 @@ gsui-channel {
 	gsui-slider {
 		--gsuiTooltip-pos: right;
 	}
-}
+	button[ data-action="rename" ] {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		overflow: hidden;
+		width: 100%;
+		height: 34px;
+		font-size: 12px;
+		box-shadow: var( --gsuiChannel-name-shadow, none );
+		transition: inherit;
+		transition-property: box-shadow;
 
-/* .......................................................................... */
-.gsuiChannel-delete {
-	display: flex;
-	position: absolute;
-	align-items: center;
-	justify-content: center;
-	top: 2px;
-	right: 2px;
-	font-size: 10px;
-	line-height: 1em;
-	transition: opacity .2s;
-	opacity: 0;
+		b {
+			width: 18px;
+			font-size: 18px;
+			font-family: var( --gsui-font-number );
+			text-shadow: 2px 2px #000;
+			border-radius: 3px;
+			background-color: #0005;
+			opacity: .4;
 
-	gsui-channel:hover & {
-		opacity: .5;
-	}
-	gsui-channel &:focus-visible,
-	gsui-channel &:hover {
-		opacity: 1;
-	}
-	gsui-channels-main & {
-		display: none;
-	}
-}
-
-/* .......................................................................... */
-.gsuiChannel-head {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	overflow: hidden;
-	width: 100%;
-	height: 34px;
-	font-size: 12px;
-	box-shadow: var( --gsuiChannel-name-shadow, none );
-	transition: inherit;
-	transition-property: box-shadow;
-
-	b {
-		width: 18px;
-		font-size: 18px;
-		font-family: var( --gsui-font-number );
-		text-shadow: 2px 2px #000;
-		border-radius: 3px;
-		background-color: #0005;
-		opacity: .4;
-
+			&::before {
+				content: var( --id );
+			}
+		}
 		gsui-channel[ name ] & {
-			position: absolute;
-			inset: 0 auto auto -1px;
-			height: 18px;
-			line-height: 18px;
-			border-radius: 0 0 3px;
-			font-size: 16px;
+			b {
+				position: absolute;
+				inset: 0 auto auto -1px;
+				height: 18px;
+				line-height: 18px;
+				border-radius: 0 0 3px;
+				font-size: 16px;
+			}
+			span {
+				display: block;
+				align-self: end;
+				width: 100%;
+				overflow: hidden;
+				margin-bottom: 2px;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				text-align: center;
+				font-size: 9px;
+				font-weight: bold;
+				background-color: #0003;
+				opacity: var( --gsuiChannel-name-opacity, 1 );
+			}
 		}
 	}
-	b::before {
-		content: var( --id );
+	button[ data-action="delete" ] {
+		display: flex;
+		position: absolute;
+		align-items: center;
+		justify-content: center;
+		top: 2px;
+		right: 2px;
+		font-size: 10px;
+		line-height: 1em;
+		transition: opacity .2s;
+		opacity: 0;
+
+		gsui-channel:hover & {
+			opacity: .5;
+		}
+		gsui-channel &:hover {
+			opacity: 1;
+		}
+		gsui-channels-main & {
+			display: none;
+		}
 	}
-	gsui-channel[ name ] & span {
-		display: block;
-		align-self: end;
+	button[ data-action="connect" ] {
 		width: 100%;
-		overflow: hidden;
-		margin-bottom: 2px;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		text-align: center;
-		font-size: 9px;
-		font-weight: bold;
-		background-color: #0003;
-		opacity: var( --gsuiChannel-name-opacity, 1 );
+		z-index: 1;
+		height: 16px;
+		font-size: 16px;
+		color: var( --gsui-col-gain );
+
+		:last-child {
+			color: #f99;
+		}
 	}
 }
 
-/* .......................................................................... */
-.gsuiChannel-analyser {
+gsui-channel-analyser {
 	position: relative;
 	overflow: hidden;
 	flex: 2;
@@ -123,6 +130,7 @@ gsui-channel {
 		opacity: .8;
 	}
 }
+
 gsui-channel-effects {
 	display: grid;
 	position: absolute;
@@ -153,15 +161,15 @@ gsui-channel-effects {
 	}
 }
 
-/* .......................................................................... */
-.gsuiChannel-pan {
+gsui-channel-pan {
 	width: 100%;
 	height: 24px;
 	z-index: 1;
 	overflow: hidden;
 	--gsuiSlider-lineColor: var( --gsuiChannel-slider-color, var( --gsui-col-pan ) );
 }
-.gsuiChannel-gain {
+
+gsui-channel-gain {
 	flex: 1;
 	width: 6px;
 	min-height: 32px;
@@ -174,21 +182,6 @@ gsui-channel-effects {
 	}
 }
 
-/* .......................................................................... */
-.gsuiChannel-connect {
-	width: 100%;
-	z-index: 1;
-	height: 16px;
-	font-size: 16px;
-}
-.gsuiChannel-connectA {
-	color: var( --gsui-col-gain );
-}
-.gsuiChannel-connectB {
-	color: #f99;
-}
-
-/* .......................................................................... */
 gsui-channel-grip {
 	width: 100%;
 	height: 18px;

@@ -7,16 +7,12 @@ class gsuiChannel extends gsui0ne {
 			$elements: {
 				$toggle: "gsui-toggle",
 				$head: ".gsuiChannel-head",
-				$id: ".gsuiChannel-head b",
 				$name: ".gsuiChannel-head span",
-				$remove: ".gsuiChannel-delete",
-				$connect: ".gsuiChannel-connect",
-				$analyser: "gsui-analyser-hist",
 				$effects: "gsui-channel-effects",
-				pan: ".gsuiChannel-pan gsui-slider",
-				gain: ".gsuiChannel-gain gsui-slider",
-				connecta: ".gsuiChannel-connectA",
-				connectb: ".gsuiChannel-connectB",
+				pan: "gsui-channel-pan gsui-slider",
+				gain: "gsui-channel-gain gsui-slider",
+				connecta: "[data-action=connect] :nth-child(1)",
+				connectb: "[data-action=connect] :nth-child(2)",
 			},
 			$attributes: {
 				pan: 0,
@@ -24,35 +20,24 @@ class gsuiChannel extends gsui0ne {
 				connecta: "down",
 			},
 		} );
-		$( [
-			this.$elements.$analyser,
-			this.$elements.$head,
-		] ).$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ) );
-		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_REMOVE ) );
-		this.$elements.$connect.$onclick( () => this.$this.$dispatch( GSEV_CHANNEL_CONNECT ) );
-		this.$elements.$effects.$onclick( e => {
-			if ( e.target.dataset.id ) {
-				this.$this
-					.$dispatch( GSEV_CHANNEL_SELECTCHANNEL )
-					.$dispatch( GSEV_CHANNEL_SELECTEFFECT, e.target.dataset.id );
-			}
-		} );
 		this.$elements.$head.$on( "dblclick", () => {
 			$popup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
 				.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 		} );
-		this.$this.$listen( {
-			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-				this.$this.$setAttr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
-			},
-			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				this.$this.$rmAttr( "muted" ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
-			},
-			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
-			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_LIVECHANGE, d.$target.$dataProp(), val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_CHANGE, d.$target.$dataProp(), val ),
-		} );
+		this.$this
+			.$onclick( this.#onclick.bind( this ) )
+			.$listen( {
+				[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
+					this.$this.$setAttr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
+				},
+				[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
+					this.$this.$rmAttr( "muted" ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
+				},
+				[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
+				[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
+				[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_LIVECHANGE, d.$target.$dataProp(), val ),
+				[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_CHANGE, d.$target.$dataProp(), val ),
+			} );
 	}
 
 	// .........................................................................
@@ -88,7 +73,12 @@ class gsuiChannel extends gsui0ne {
 
 	// .........................................................................
 	$addEffect( id, obj ) {
-		this.$elements.$effects.$append( $.$button( { "data-id": id, "data-enable": true, "data-content": obj.type } ) );
+		this.$elements.$effects.$append( $.$button( {
+			"data-id": id,
+			"data-action": "effect",
+			"data-enable": true,
+			"data-content": obj.type,
+		} ) );
 	}
 	$removeEffect( id ) {
 		this.#getEffect( id ).$remove();
@@ -103,6 +93,23 @@ class gsuiChannel extends gsui0ne {
 	}
 	#getEffect( id ) {
 		return this.$elements.$effects.$query( `[data-id="${ id }"]` );
+	}
+
+	// .........................................................................
+	#onclick( e ) {
+		const tar = $( e.target );
+
+		switch ( tar.$getAttr( "data-action" ) ) {
+			case "rename":
+			case "select": this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ); break;
+			case "delete": this.$this.$dispatch( GSEV_CHANNEL_REMOVE ); break;
+			case "connect": this.$this.$dispatch( GSEV_CHANNEL_CONNECT ); break;
+			case "effect":
+				this.$this
+					.$dispatch( GSEV_CHANNEL_SELECTCHANNEL )
+					.$dispatch( GSEV_CHANNEL_SELECTEFFECT, tar.$dataId() );
+				break;
+		}
 	}
 }
 
