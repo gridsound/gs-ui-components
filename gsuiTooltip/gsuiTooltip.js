@@ -90,11 +90,11 @@ class gsuiTooltip {
 		gsuiTooltip.#intervalWatch = GSUsetInterval( gsuiTooltip.#updateContent, .25 );
 	}
 	static #updateContent() {
-		const txt = gsuiTooltip.#elAnchor.$dataset( "tooltip" );
+		const txt = gsuiTooltip.#elAnchor.$dataset( "tooltip" ) || null;
 
 		if ( txt !== gsuiTooltip.#currText ) {
 			gsuiTooltip.#currText = txt;
-			txt.includes( "<" )
+			txt?.includes( "<" )
 				? gsuiTooltip.#popover.$empty().$append( ...$.$simpleStringHTML( txt ) )
 				: gsuiTooltip.#popover.$text( txt );
 		}
