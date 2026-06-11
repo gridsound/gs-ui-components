@@ -5,7 +5,7 @@ $.$setTemplate( "gsui-channel", () => [
 		$.$bold( { inert: true } ),
 		$.$span( { inert: true } ),
 	),
-	$.$button( { class: "gsuiChannel-headBtn gsuiChannel-delete", icon: "close", "data-tooltip": GSTX.$channel_remove } ),
+	$.$button( { class: "gsuiChannel-delete", icon: "close", "data-tooltip": GSTX.$channel_remove } ),
 	$.$div( { class: "gsuiChannel-analyser" },
 		$.$elem( "gsui-analyser-hist" ),
 		$.$div( { class: "gsuiChannel-effects" } ),
