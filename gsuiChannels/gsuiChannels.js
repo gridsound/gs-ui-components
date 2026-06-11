@@ -13,7 +13,7 @@ class gsuiChannels extends gsui0ne {
 				$vu: "gsui-analyser-vu",
 				$pmain: ".gsuiChannels-panMain",
 				$pchans: ".gsuiChannels-panChannels",
-				$addBtn: ".gsuiChannels-addChan",
+				$addBtn: ".gsuiChannels-panChannels > button",
 			},
 		} );
 		this.$elements.$addBtn.$onclick( () => this.$this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );

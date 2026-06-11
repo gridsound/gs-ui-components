@@ -5,7 +5,7 @@ $.$setTemplate( "gsui-channels", () => [
 		$.$elem( "gsui-analyser-vu", { max: 120, "data-tooltip": GSTX.$channels_vu } ),
 	),
 	$.$div( { class: "gsuiChannels-panChannels" },
-		$.$button( { class: "gsuiChannels-addChan", "data-tooltip": GSTX.$channels_add },
+		$.$button( { "data-tooltip": GSTX.$channels_add },
 			$.$icon( { icon: "channels" } ),
 			$.$icon( { icon: "plus" } ),
 		),

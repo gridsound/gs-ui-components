@@ -5,61 +5,59 @@ gsui-channels {
 	height: 100%;
 	position: relative;
 	background-color: var( --gsui-items-bg );
+
+	gsui-analyser-vu {
+		width: var( --vuW );
+	}
 }
 
-gsui-channels gsui-analyser-vu {
-	width: var( --vuW );
-}
-
-/* .......................................................................... */
 .gsuiChannels-panMain {
 	position: absolute;
 	inset: 0 auto 0 0;
 	display: flex;
 	gap: 3px;
 }
+
 .gsuiChannels-panChannels {
 	position: absolute;
 	overflow-x: scroll;
 	inset: 0 0 0 calc( var( --vuW ) + 3px + 50px );
 	display: flex;
-}
-.gsuiChannels-panChannels::after {
-	order: 2147483647;
-	content: ".";
-	opacity: 0;
-	margin-left: 16px;
-}
 
-/* .......................................................................... */
-.gsuiChannels-addChan {
-	position: relative;
-	order: 2147483646;
-	display: flex;
-	flex-direction: column;
-	gap: 1ch;
-	align-items: center;
-	justify-content: center;
-	min-width: 52px;
-	font-size: 18px;
-	border-radius: 2px;
-	opacity: .4;
-	transition: .2s opacity;
-}
-.gsuiChannels-addChan:focus,
-.gsuiChannels-addChan:hover {
-	opacity: .6;
-}
-.gsuiChannels-addChan::before {
-	content: "";
-	inset: 6px;
-	opacity: .4;
-	border: 2px dashed;
-	position: absolute;
-}
-.gsuiChannels-addChan .gsuiIcon:first-child {
-	font-size: 24px;
-}
-.gsuiChannels-addChan .gsuiIcon:last-child {
-	font-size: 14px;
+	&::after {
+		order: 2147483647;
+		content: ".";
+		opacity: 0;
+		margin-left: 16px;
+	}
+	> button {
+		position: relative;
+		order: 2147483646;
+		display: flex;
+		flex-direction: column;
+		gap: 1ch;
+		align-items: center;
+		justify-content: center;
+		min-width: 52px;
+		font-size: 18px;
+		border-radius: 2px;
+		opacity: .4;
+		transition: .2s opacity;
+
+		&:focus,
+		&:hover {
+			opacity: .6;
+		}
+		&::before {
+			content: "";
+			inset: 6px;
+			opacity: .4;
+			border: 2px dashed;
+			position: absolute;
+		}
+		.gsuiIcon {
+			&:first-child { font-size: 24px }
+			&:last-child { font-size: 14px }
+		}
+	}
 }
