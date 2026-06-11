@@ -11,14 +11,14 @@ gsui-channels {
 	}
 }
 
-.gsuiChannels-panMain {
+gsui-channels-main {
 	position: absolute;
 	inset: 0 auto 0 0;
 	display: flex;
 	gap: 3px;
 }
 
-.gsuiChannels-panChannels {
+gsui-channels-others {
 	position: absolute;
 	overflow-x: scroll;
 	inset: 0 0 0 calc( var( --vuW ) + 3px + 50px );

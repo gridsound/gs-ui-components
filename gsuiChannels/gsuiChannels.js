@@ -11,9 +11,9 @@ class gsuiChannels extends gsui0ne {
 			$tagName: "gsui-channels",
 			$elements: {
 				$vu: "gsui-analyser-vu",
-				$pmain: ".gsuiChannels-panMain",
-				$pchans: ".gsuiChannels-panChannels",
-				$addBtn: ".gsuiChannels-panChannels > button",
+				$pmain: "gsui-channels-main",
+				$pchans: "gsui-channels-others",
+				$addBtn: "gsui-channels-others > button",
 			},
 		} );
 		this.$elements.$addBtn.$onclick( () => this.$this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );
@@ -24,7 +24,7 @@ class gsuiChannels extends gsui0ne {
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$pchans,
-			$parentSelector: ".gsuiChannels-panChannels",
+			$parentSelector: "gsui-channels-others",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: ".gsuiChannel-grip",
 			$onchange: ( obj, chanId ) => this.$this.$dispatch( GSEV_CHANNELS_REORDER, chanId, obj ),
@@ -55,7 +55,7 @@ class gsuiChannels extends gsui0ne {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.$append( ...[
 				$.$option( { value: "0" }, "0 (main)" ),
-				...this.$this.$query( ".gsuiChannels-panChannels gsui-channel" )
+				...this.$this.$query( "gsui-channels-others gsui-channel" )
 					.$sort( ( a, b ) => a.dataset.order - b.dataset.order )
 					.$map( el => {
 						const ch = $( el );

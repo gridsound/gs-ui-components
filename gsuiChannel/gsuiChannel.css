@@ -53,7 +53,7 @@ gsui-channel {
 	gsui-channel &:hover {
 		opacity: 1;
 	}
-	.gsuiChannels-panMain & {
+	gsui-channels-main & {
 		display: none;
 	}
 }

@@ -31,8 +31,8 @@ class gsuiMixer extends gsui0ne {
 	// .........................................................................
 	$connected() {
 		this.#shadowChans = new gsuiScrollShadow( {
-			scrolledElem: this.$this.$query( ".gsuiChannels-panChannels" ),
-			leftShadow: this.$this.$query( ".gsuiChannels-panMain" ),
+			scrolledElem: this.$this.$query( "gsui-channels-others" ),
+			leftShadow: this.$this.$query( "gsui-channels-main" ),
 			rightShadow: this.$this.$query( ".gsuiMixer-effects" ),
 		} );
 		this.#shadowEffects = new gsuiScrollShadow( {
