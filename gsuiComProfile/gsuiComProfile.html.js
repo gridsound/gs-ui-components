@@ -32,8 +32,8 @@ $.$setTemplate( "gsui-com-profile", () => [
 	),
 	$.$button( { class: "gsuiComProfile-edit", icon: "pen", "data-what": "edit" } ),
 	$.$button( { class: "gsuiComProfile-follow-btn", "data-what": "follow" },
-		$.$elem( "i", { class: "gsuiIcon", "data-icon": "follow", inert: true } ),
-		$.$elem( "i", { class: "gsuiIcon", "data-icon": "followed", inert: true } ),
-		$.$elem( "i", { class: "gsuiIcon", "data-icon": "unfollow", inert: true } ),
+		$.$icon( { icon: "follow" } ),
+		$.$icon( { icon: "followed" } ),
+		$.$icon( { icon: "unfollow" } ),
 	),
 ] );
