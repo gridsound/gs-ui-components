@@ -7,20 +7,19 @@ gsui-com-avatar {
 	min-width: 24px;
 	min-height: 24px;
 	background-color: #0001;
-}
 
-gsui-com-avatar img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-gsui-com-avatar .gsuiIcon {
-	position: absolute;
-	font-size: 60cqw;
-	color: inherit;
-}
-
-gsui-com-avatar:not( [ loaded ] ) img,
-gsui-com-avatar[ loaded ] .gsuiIcon {
-	display: none;
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.gsuiIcon {
+		position: absolute;
+		font-size: 60cqw;
+		color: inherit;
+	}
+	&:not( [ loaded ] ) img,
+	&[ loaded ] .gsuiIcon {
+		display: none;
+	}
 }
