@@ -1,21 +1,49 @@
 gsui-effect {
 	background-color: var( --gsuiEffect-head-bg, var( --gsui-item-bg-disabled ) );
-}
-gsui-effect[ enable ] {
-	--gsuiEffect-head-bg: var( --gsui-item-bg );
-	--gsuiEffect-head-name-opacity: 1;
+
+	&[ enable ] {
+		--gsuiEffect-head-bg: var( --gsui-item-bg );
+		--gsuiEffect-head-name-opacity: 1;
+	}
 }
 
 /* .......................................................................... */
-.gsuiEffect-head {
+gsui-effect-head {
 	display: flex;
 	height: 36px;
 	box-sizing: border-box;
 	border-top: var( --gsui-item-brdtop );
 	border-bottom: var( --gsui-item-brdbottom );
 	font-size: 12px;
+
+	gsui-toggle {
+		width: 20px;
+	}
+	gsui-help-link {
+		align-self: center;
+		margin-left: 6px;
+	}
+	[ data-action="expand" ] {
+		width: 20px;
+		font-size: 14px;
+		opacity: var( --gsuiEffect-head-name-opacity, .5 );
+
+		gsui-effect[ expanded ] & .gsuiIcon {
+			rotate: 90deg;
+		}
+	}
+	[ data-action="remove" ] {
+		margin-left: auto;
+		width: 32px;
+		opacity: .3;
+		transition: .1s opacity;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
 }
-.gsuiEffect-grip {
+gsui-effect-grip {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -26,59 +54,33 @@ gsui-effect[ enable ] {
 	background-color: #0002;
 	touch-action: none;
 }
-.gsuiEffect-expand {
-	width: 20px;
-	font-size: 14px;
-	opacity: var( --gsuiEffect-head-name-opacity, .5 );
-}
-gsui-effect[ expanded ] .gsuiEffect-expand::before,
-gsui-effect[ expanded ] .gsuiEffect-expand::after {
-	rotate: 90deg;
-}
-.gsuiEffect-remove {
-	margin-left: auto;
-	width: 32px;
-	opacity: .3;
-	transition: .1s opacity;
-}
-.gsuiEffect-remove:hover,
-.gsuiEffect-remove:focus {
-	opacity: 1;
-}
-.gsuiEffect-head gsui-toggle {
-	width: 20px;
-}
-.gsuiEffect-name {
+gsui-effect-name {
 	align-self: center;
 	padding-left: 6px;
 	opacity: var( --gsuiEffect-head-name-opacity, .5 );
 }
-.gsuiEffect-head gsui-help-link {
-	align-self: center;
-	margin-left: 6px;
-}
 
 /* .......................................................................... */
-.gsuiEffect-content {
+gsui-effect-content {
+	display: block;
 	height: 0;
 	opacity: 0;
 	overflow: hidden;
 	background-color: var( --gsui-item-more-bg );
 	transition: .1s;
 	transition-property: height, opacity;
-}
-gsui-effect[ expanded ] .gsuiEffect-content {
-	height: 160px;
-	opacity: 1;
-	border-bottom: var( --gsui-item-brdbottom );
-}
-gsui-effect[ expanded ][ data-type="reverb" ] .gsuiEffect-content {
-	height: 180px;
-}
 
-/* .......................................................................... */
-.gsuiEffect-content > * {
-	box-shadow: inset 0 0 20px #0000001c;
+	gsui-effect[ expanded ] & {
+		height: 160px;
+		opacity: 1;
+		border-bottom: var( --gsui-item-brdbottom );
+	}
+	gsui-effect[ expanded ][ data-type="reverb" ] & {
+		height: 180px;
+	}
+	> * {
+		box-shadow: inset 0 0 20px #0000001c;
+	}
 }
 
 /* .......................................................................... */

@@ -6,11 +6,11 @@ class gsuiEffect extends gsui0ne {
 			$tagName: "gsui-effect",
 			$elements: {
 				$toggle: "gsui-toggle",
-				$name: ".gsuiEffect-name",
+				$name: "gsui-effect-name",
 				$help: "gsui-help-link",
-				$expand: ".gsuiEffect-expand",
-				$remove: ".gsuiEffect-remove",
-				$content: ".gsuiEffect-content",
+				$expand: "[data-action=expand]",
+				$remove: "[data-action=remove]",
+				$content: "gsui-effect-content",
 			},
 		} );
 		this.$this.$listen( {

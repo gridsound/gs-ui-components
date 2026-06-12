@@ -22,7 +22,7 @@ class gsuiEffects extends gsui0ne {
 			$root: this.$this,
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
-			$itemGripSelector: ".gsuiEffect-grip",
+			$itemGripSelector: "gsui-effect-grip",
 			$onchange: ( obj, fxId ) => this.$this.$dispatch( GSEV_EFFECTS_REORDEREFFECT, fxId, obj ),
 		} );
 		this.$this.$listen( {
