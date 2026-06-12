@@ -4,21 +4,25 @@ gsui-scratch {
 	height: 64px;
 	margin-top: 8px;
 	border-radius: 6px;
-	background-color: #000;
+	background-color: #112;
+	box-shadow: inset 0 0 10px #000;
 	cursor: var( --gsuiCursor-grab );
 
 	svg {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		fill: #444f8e;
+		stroke: #fff;
+		stroke-width: 1px;
+		stroke-linejoin: round;
+		fill: #fff5;
 	}
 }
 
 gsui-scratch-0line {
 	position: absolute;
 	inset: 50% 0;
-	border-top: 1px solid #001a;
+	border-top: 1px solid #0015;
 }
 
 gsui-scratch-timeline {
