@@ -1,0 +1,28 @@
+gsui-scratch {
+	position: relative;
+	overflow: hidden;
+	height: 64px;
+	margin-top: 8px;
+	border-radius: 6px;
+	background-color: #000;
+	cursor: var( --gsuiCursor-grab );
+
+	svg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		fill: #444f8e;
+	}
+}
+
+gsui-scratch-0line {
+	position: absolute;
+	inset: 50% 0;
+	border-top: 1px solid #001a;
+}
+
+gsui-scratch-timeline {
+	position: absolute;
+	inset: 0 50%;
+	border-left: 2px solid #fffd;
+}
