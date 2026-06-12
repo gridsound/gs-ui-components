@@ -44,16 +44,18 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
-		this.$elements.$audio.$on( {
-			play: this.#onplay.bind( this ),
-			pause: this.#onpause.bind( this ),
-			loadedmetadata: e => this.$this.$setAttr( "duration", e.target.duration ),
-			error: () => {
-				this.$this.$setAttr( { playing: false, rendered: false } );
-				this.$elements.$playIco.$rmAttr( "data-spin" );
-				this.$elements.$audio.$rmAttr( "src" );
-			},
-		} );
+		this.$elements.$audio
+			.$prop( "preservesPitch", false )
+			.$on( {
+				play: this.#onplay.bind( this ),
+				pause: this.#onpause.bind( this ),
+				loadedmetadata: e => this.$this.$setAttr( "duration", e.target.duration ),
+				error: () => {
+					this.$this.$setAttr( { playing: false, rendered: false } );
+					this.$elements.$playIco.$rmAttr( "data-spin" );
+					this.$elements.$audio.$rmAttr( "src" );
+				},
+			} );
 		this.$elements.$actionPop
 			.$on( "beforetoggle", e => {
 				this.$elements.$actionPop.$empty();
