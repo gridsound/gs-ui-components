@@ -6,16 +6,16 @@ gsui-slider {
 	height: 100%;
 	outline: 0;
 	touch-action: none;
-}
-gsui-slider[ disabled ] {
-	--gsuiSlider-lineColor2: var( --gsuiSlider-lineColor-disabled );
-	cursor: not-allowed;
+
+	&[ disabled ] {
+		--gsuiSlider-lineColor2: var( --gsuiSlider-lineColor-disabled );
+		cursor: not-allowed;
+	}
 }
 
-.gsuiSlider-line,
 .gsuiSlider-eventCatcher {
 	position: absolute;
-	inset: 0;
+	inset: var( --gsuiSlider-event-catcher-inset, 0 );
 }
 
 gsui-slider[ type^="linear" ] .gsuiSlider-svg,
@@ -25,6 +25,8 @@ gsui-slider[ type="circular" ] .gsuiSlider-line {
 
 .gsuiSlider-line {
 	overflow: hidden;
+	position: absolute;
+	inset: 0;
 	border-radius: var( --gsuiSlider-lineRadius, 2px );
 	background-color: var( --gsuiSlider-lineBgColor );
 }
