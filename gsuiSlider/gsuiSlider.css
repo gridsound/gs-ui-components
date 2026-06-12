@@ -11,41 +11,44 @@ gsui-slider {
 		--gsuiSlider-lineColor2: var( --gsuiSlider-lineColor-disabled );
 		cursor: not-allowed;
 	}
+	svg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+
+		circle {
+			fill: none;
+			transform-origin: center;
+			stroke: var( --gsuiSlider-lineBgColor );
+
+			&:last-child {
+				stroke: var( --gsuiSlider-lineColor2 );
+			}
+		}
+	}
 }
 
-.gsuiSlider-eventCatcher {
+gsui-slider-event-catcher {
 	position: absolute;
 	inset: var( --gsuiSlider-event-catcher-inset, 0 );
 	border-radius: var( --gsuiSlider-event-catcher-radius, 0 );
 }
 
-gsui-slider[ type^="linear" ] .gsuiSlider-svg,
-gsui-slider[ type="circular" ] .gsuiSlider-line {
+gsui-slider[ type^="linear" ] svg,
+gsui-slider[ type="circular" ] gsui-slider-line {
 	display: none;
 }
 
-.gsuiSlider-line {
+gsui-slider-line {
 	overflow: hidden;
 	position: absolute;
 	inset: 0;
 	border-radius: var( --gsuiSlider-lineRadius, 2px );
 	background-color: var( --gsuiSlider-lineBgColor );
-}
-.gsuiSlider-lineColor {
-	position: absolute;
-	background-color: var( --gsuiSlider-lineColor2 );
-}
 
-.gsuiSlider-svg {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	pointer-events: none;
+	* {
+		position: absolute;
+		background-color: var( --gsuiSlider-lineColor2 );
+	}
 }
-.gsuiSlider-svgLine,
-.gsuiSlider-svgLineColor {
-	fill: none;
-	transform-origin: center;
-}
-.gsuiSlider-svgLine { stroke: var( --gsuiSlider-lineBgColor ); }
-.gsuiSlider-svgLineColor { stroke: var( --gsuiSlider-lineColor2 ); }

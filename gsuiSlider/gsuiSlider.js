@@ -22,12 +22,12 @@ class gsuiSlider extends gsui0ne {
 		super( {
 			$tagName: "gsui-slider",
 			$elements: {
-				$line: ".gsuiSlider-line",
-				$lineColor: ".gsuiSlider-lineColor",
-				$svg: ".gsuiSlider-svg",
-				$svgLine: ".gsuiSlider-svgLine",
-				$svgLineColor: ".gsuiSlider-svgLineColor",
-				$catcher: ".gsuiSlider-eventCatcher",
+				$line: "gsui-slider-line",
+				$lineColor: "gsui-slider-line *",
+				$svg: "svg",
+				$svgLine: "svg :first-child",
+				$svgLineColor: "svg :last-child",
+				$catcher: "gsui-slider-event-catcher",
 			},
 			$attributes: {
 				min: 0,
