@@ -9,12 +9,12 @@ $.$setTemplate( "gsui-dotline", () => {
 		$.$div( { class: "gsuiDotline-menu", id: popId, popover: "auto" },
 			$.$button( null,
 				$.$icon( { icon: "close" } ),
-				$.$span( { inert: true }, "delete" ),
+				$.$span( { inert: true }, GSTX.$delete ),
 			),
-			"hold curve doubleCurve stair sineWave triangleWave squareWave".split( " " ).map( s =>
+			gsuiDotline.$waveTypes.map( w =>
 				$.$label( null,
-					$.$input( { type: "radio", name: "gsuiDotline-curve", value: s } ),
-					$.$span( null, s ),
+					$.$input( { type: "radio", name: "gsuiDotline-curve", value: w[ 0 ] } ),
+					$.$span( null, w[ 1 ] ),
 				)
 			),
 		),

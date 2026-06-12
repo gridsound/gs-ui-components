@@ -11,6 +11,7 @@ const GSTXall = GSUdeepFreeze( {
 		$email:        "email",
 		$reset:        "reset",
 		$music:        "music",
+		$delete:       "delete",
 		$signIn:       "Sign in",
 		$signUp:       "Sign up",
 		$avatar:       "avatar",
@@ -131,8 +132,8 @@ const GSTXall = GSUdeepFreeze( {
 		$win_autoscroll:    "Auto scrolling",
 		// .....................................................................
 		$clock_switch: "Switch <b>beat</b> or <b>second</b> unit",
-		$clock_second: "sec",
-		$clock_beat:   "beat",
+		$clock_second: "sec",  // 4 char max
+		$clock_beat:   "beat", // 4 char max
 		// .....................................................................
 		$tempo_edit: "Edit <b>BPM</b> + <b>time signature</b>",
 		$tempo_tap:  "Hit that button in rhythm<br/>it will calculate the <b>BPM</b>",
@@ -200,6 +201,14 @@ const GSTXall = GSUdeepFreeze( {
 		$slicer_cut:   "<b>Cut</b> slices in half",
 		$slicer_merge: "<b>Merge</b> slices together",
 		// .....................................................................
+		$dotline_hold:         "hold",
+		$dotline_curve:        "curve",
+		$dotline_doubleCurve:  "double curve",
+		$dotline_stair:        "stair",
+		$dotline_sineWave:     "sine wave",
+		$dotline_triangleWave: "triangle wave",
+		$dotline_squareWave:   "square wave",
+		// .....................................................................
 		$helpLink_open: "Open the <b>$0</b> help page",
 	},
 	fr: {
@@ -212,6 +221,7 @@ const GSTXall = GSUdeepFreeze( {
 		$email:        "email",
 		$reset:        "reset",
 		$music:        "musique",
+		$delete:       "supprimer",
 		$signIn:       "Se connecter",
 		$signUp:       "Créer son compte",
 		$avatar:       "avatar",
@@ -332,8 +342,8 @@ const GSTXall = GSUdeepFreeze( {
 		$win_autoscroll:    "Défilement automatique",
 		// .....................................................................
 		$clock_switch: "Basculer entre l'unité <b>temps</b> et <b>seconde</b>",
-		$clock_second: "sec",
-		$clock_beat:   "tmps",
+		$clock_second: "sec",  // 4 char max
+		$clock_beat:   "tmps", // 4 char max
 		// .....................................................................
 		$tempo_edit: "Modifier le <b>BPM</b> et la <b>signature rythmique</b>",
 		$tempo_tap:  "Tapez ce bouton en rythme<br/>il calculera le <b>BPM</b>",
@@ -400,6 +410,14 @@ const GSTXall = GSUdeepFreeze( {
 		$slicer_reset: "<b>Réinitialiser</b> les slices verticalement",
 		$slicer_cut:   "<b>Couper</b> les slices en deux",
 		$slicer_merge: "<b>Fusionner</b> les slices",
+		// .....................................................................
+		$dotline_hold:         "constant",
+		$dotline_curve:        "courbe",
+		$dotline_doubleCurve:  "double courbe",
+		$dotline_stair:        "escalier",
+		$dotline_sineWave:     "onde sinus",
+		$dotline_triangleWave: "onde triangle",
+		$dotline_squareWave:   "onde carrée",
 		// .....................................................................
 		$helpLink_open: "Ouvrir la page d'aide pour <b>$0</b>",
 	},

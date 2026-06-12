@@ -24,6 +24,15 @@ class gsuiDotline extends gsui0ne {
 	#activeDotId = null;
 	#beatlines = null;
 	#menuDot = $noop;
+	static $waveTypes = GSUdeepFreeze( [
+		[ "hold",         GSTX.$dotline_hold         ],
+		[ "curve",        GSTX.$dotline_curve        ],
+		[ "doubleCurve",  GSTX.$dotline_doubleCurve  ],
+		[ "stair",        GSTX.$dotline_stair        ],
+		[ "sineWave",     GSTX.$dotline_sineWave     ],
+		[ "triangleWave", GSTX.$dotline_triangleWave ],
+		[ "squareWave",   GSTX.$dotline_squareWave   ],
+	] );
 
 	constructor() {
 		super( {
