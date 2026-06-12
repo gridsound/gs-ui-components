@@ -10,7 +10,7 @@ class gsuiFxDelay extends gsui0ne {
 				$beatlines: "gsui-beatlines",
 				$sliders: "gsui-slider",
 				$outputs: "gs-output",
-				$dots: ".gsuiFxDelay-graph-echo",
+				$dots: "gsui-fx-delay-graph-echo",
 			},
 			$attributes: {
 				timedivision: "4/4",

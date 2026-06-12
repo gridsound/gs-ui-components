@@ -28,18 +28,18 @@ gsui-fx-delay {
 }
 
 /* .......................................................................... */
-.gsuiFxDelay-graph {
+gsui-fx-delay-graph {
 	position: relative;
 	overflow: hidden;
 	flex: 1;
 	border-radius: 6px;
 	background-color: var( --gsui-screen-graph );
 }
-.gsuiFxDelay-graph-lines {
+gsui-fx-delay-graph-lines {
 	position: absolute;
 	inset: 0;
 }
-.gsuiFxDelay-graph-line {
+gsui-fx-delay-graph-line {
 	position: absolute;
 	top: calc( 50% - 1px );
 	width: 100%;
@@ -47,8 +47,8 @@ gsui-fx-delay {
 	background-color: currentColor;
 	opacity: .2;
 }
-.gsuiFxDelay-graph-source,
-.gsuiFxDelay-graph-echo {
+gsui-fx-delay-graph-source,
+gsui-fx-delay-graph-echo {
 	position: absolute;
 	top: 50%;
 	width: 10px;
