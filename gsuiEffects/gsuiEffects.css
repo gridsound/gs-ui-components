@@ -16,7 +16,7 @@ gsui-effects {
 /* .......................................................................... */
 .gsuiEffects-addBtn {
 	--gsuiTooltip-pos: bottom;
-	anchor-name: --gsuiEffects-addBtn;
+	anchor-name: --gsui-effects-add-anchor;
 	position: relative;
 	order: 2147483646;
 	width: 100%;
@@ -24,27 +24,27 @@ gsui-effects {
 	font-size: 18px;
 	opacity: .4;
 	transition: .2s opacity;
-}
-.gsuiEffects-addBtn:hover {
-	opacity: .7;
-}
-.gsuiEffects-addBtn::before {
-	content: "";
-	position: absolute;
-	inset: 6px;
-	border: 2px dashed;
-	border-radius: 4px;
-	opacity: .4;
-}
-.gsuiEffects-addBtn:active,
-.gsuiEffects-addBtn:active .gsuiEffects-addBtn::before {
-	margin-top: 2px;
+
+	&:hover {
+		opacity: .7;
+	}
+	&:active {
+		margin-top: 2px;
+	}
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 6px;
+		border: 2px dashed;
+		border-radius: 4px;
+		opacity: .4;
+	}
 }
 
 /* .......................................................................... */
 .gsuiEffects-addList {
 	position: absolute;
-	position-anchor: --gsuiEffects-addBtn;
+	position-anchor: --gsui-effects-add-anchor;
 	position-area: bottom;
 	position-try-fallbacks: top;
 	flex-direction: column;
