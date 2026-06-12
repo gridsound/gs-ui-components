@@ -71,30 +71,21 @@ class gsuiScratch extends gsui0ne {
 
 	// .........................................................................
 	#setPBR( pb ) {
-		if ( GSUmathApprox( pb, 0, .03 ) ) {
-			this.#audioElem.playbackRate = 0;
-			this.#audioElemRev.playbackRate = 0;
-		} else {
-			const elem = pb < 0 ? this.#audioElemRev : this.#audioElem;
+		const elem = pb < 0 ? this.#audioElemRev : this.#audioElem;
 
-			if ( this.#ptrSpeedB < 0 !== this.#ptrSpeedA < 0 ) {
-				if ( pb > 0 ) {
-					this.#audioElem.currentTime = this.#dur - this.#audioElemRev.currentTime;
-					this.#audioElemRev.playbackRate = 0;
-				} else {
-					this.#audioElemRev.currentTime = this.#dur - this.#audioElem.currentTime;
-					this.#audioElem.playbackRate = 0;
-				}
+		if ( this.#ptrSpeedB < 0 !== this.#ptrSpeedA < 0 ) {
+			if ( pb > 0 ) {
+				this.#audioElem.currentTime = this.#dur - this.#audioElemRev.currentTime;
+				this.#audioElemRev.playbackRate = 0;
+			} else {
+				this.#audioElemRev.currentTime = this.#dur - this.#audioElem.currentTime;
+				this.#audioElem.playbackRate = 0;
 			}
-			elem.playbackRate = GSUmathClamp( Math.abs( pb ), .065, 4 );
-			this.#ptrSpeedB = pb;
 		}
+		elem.playbackRate = GSUmathClamp( Math.abs( pb ), .065, 4 );
+		this.#ptrSpeedB = pb;
 	}
 	#frame() {
-		this.#currentTime = this.#ptrSpeedA < 0
-			? this.#dur - this.#audioElemRev.currentTime
-			: this.#audioElem.currentTime;
-		this.#drawWaveform();
 		if ( this.$isActive ) {
 			this.#ptrSpeedA /= 1.2;
 		} else {
@@ -106,6 +97,10 @@ class gsuiScratch extends gsui0ne {
 				: this.#audioElemRev.play();
 		}
 		this.#setPBR( this.#ptrSpeedA );
+		this.#currentTime = this.#audioElem.playbackRate > 0
+			? this.#audioElem.currentTime
+			: this.#dur - this.#audioElemRev.currentTime;
+		this.#drawWaveform();
 	}
 	#load( url ) {
 		this.#audiobuf = null;
