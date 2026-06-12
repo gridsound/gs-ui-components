@@ -17,6 +17,17 @@ gsui-com-player {
 	audio {
 		display: none;
 	}
+}
+
+@keyframes gsui-com-player-forking-anim {
+	000% { height: 0 }
+	100% { height: 64px }
+}
+
+gsui-com-player-in {
+	display: flex;		
+	width: 100%;
+
 	> button,
 	> a {
 		display: flex;
@@ -83,11 +94,6 @@ gsui-com-player {
 			}
 		}
 	}
-}
-
-@keyframes gsui-com-player-forking-anim {
-	000% { height: 0 }
-	100% { height: 64px }
 }
 
 /* .......................................................................... */
