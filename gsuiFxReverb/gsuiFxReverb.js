@@ -16,8 +16,8 @@ class gsuiFxReverb extends gsui0ne {
 				$decValue: "[data-prop='decay'] gs-output",
 				$fadeinValue: "[data-prop='fadein'] gs-output",
 				$beatlines: "gsui-beatlines",
-				$graphDry: ".gsuiFxReverb-graph-dry",
-				$graphWet: ".gsuiFxReverb-graph-wet",
+				$graphDry: "gsui-fx-reverb-graph-dry",
+				$graphWet: "gsui-fx-reverb-graph-wet",
 			},
 			$attributes: {
 				dry: 0,

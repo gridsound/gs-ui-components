@@ -26,9 +26,9 @@ $.$setTemplate( "gsui-fx-reverb", () => [
 		$.$elem( "gs-output" ),
 		$.$elem( "gsui-slider", { type: "linear-x", min: 0, max: 2, step: .01 } ),
 	),
-	$.$div( { class: "gsuiFxReverb-graph" },
+	$.$elem( "gsui-fx-reverb-graph", null,
 		$.$elem( "gsui-beatlines", { timedivision: "4/4", color: "#fff" } ),
-		$.$div( { class: "gsuiFxReverb-graph-wet" } ),
-		$.$div( { class: "gsuiFxReverb-graph-dry" } ),
+		$.$elem( "gsui-fx-reverb-graph-wet" ),
+		$.$elem( "gsui-fx-reverb-graph-dry" ),
 	),
 ] );

@@ -34,7 +34,7 @@ gsui-fx-reverb {
 }
 
 /* .......................................................................... */
-.gsuiFxReverb-graph {
+gsui-fx-reverb-graph {
 	position: relative;
 	overflow: hidden;
 	flex: 1;
@@ -42,14 +42,14 @@ gsui-fx-reverb {
 	border-radius: 6px;
 	background-color: var( --gsui-screen-graph );
 }
-.gsuiFxReverb-graph-dry {
+gsui-fx-reverb-graph-dry {
 	position: absolute;
 	inset: 20% auto 20% 0;
 	width: 8px;
 	border-radius: 2px;
 	background-color: #ff9;
 }
-.gsuiFxReverb-graph-wet {
+gsui-fx-reverb-graph-wet {
 	position: absolute;
 	inset: 15% auto 15% 0;
 	width: 50%;
