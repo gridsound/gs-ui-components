@@ -34,7 +34,7 @@ class gsuiClock extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "mode":
-				this.$elements.$nodes.$at( -1 ).$setAttr( "data-content", val === "second" ? GSTX.$sec : GSTX.$beat );
+				this.$elements.$nodes.$at( -1 ).$setAttr( "data-content", val === "second" ? GSTX.$clock_second : GSTX.$clock_beat );
 				this.#resetTime();
 				break;
 			case "bpm":
