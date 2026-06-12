@@ -84,7 +84,7 @@ gsui-effect-content {
 }
 
 /* .......................................................................... */
-.gsuiEffect-param-row {
+gsui-effect-param-row {
 	display: flex;
 	align-items: center;
 	gap: 8px;

@@ -20,18 +20,17 @@ gsui-fx-reverb {
 			content: " %";
 		}
 	}
-}
+	gsui-effect-param-row {
+		&[ data-prop="delay" ],
+		&[ data-prop="decay" ],
+		&[ data-prop="fadein" ] {
+			--gsuiSlider-lineColor: var( --gsui-col-time );
 
-/* .......................................................................... */
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ],
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ],
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] {
-	--gsuiSlider-lineColor: var( --gsui-col-time );
-}
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="delay" ] gs-output::after,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="decay" ] gs-output::after,
-gsui-fx-reverb .gsuiEffect-param-row[ data-prop="fadein" ] gs-output::after {
-	content: " b";
+			gs-output::after {
+				content: " b";
+			}
+		}
+	}
 }
 
 /* .......................................................................... */

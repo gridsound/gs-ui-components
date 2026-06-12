@@ -11,20 +11,20 @@ gsui-fx-delay {
 	gs-label {
 		width: 29px;
 	}
-}
+	gs-output::after {
+		content: " %";
+	}
+	gsui-effect-param-row {
+		&[ data-prop="pan" ] { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
+		&[ data-prop="gain" ] { --gsuiSlider-lineColor: var( --gsui-col-gain ) }
+		&[ data-prop="time" ] {
+			--gsuiSlider-lineColor: var( --gsui-col-time );
 
-/* .......................................................................... */
-.gsuiEffect-param-row[ data-prop="time" ] { --gsuiSlider-lineColor: var( --gsui-col-time ) }
-.gsuiEffect-param-row[ data-prop="gain" ] { --gsuiSlider-lineColor: var( --gsui-col-gain ) }
-.gsuiEffect-param-row[ data-prop="pan" ] { --gsuiSlider-lineColor: var( --gsui-col-pan ) }
-
-/* .......................................................................... */
-.gsuiEffect-param-row[ data-prop="time" ] gs-output::after {
-	content: " b";
-}
-.gsuiEffect-param-row[ data-prop="pan" ] gs-output::after,
-.gsuiEffect-param-row[ data-prop="gain" ] gs-output::after {
-	content: " %";
+			gs-output::after {
+				content: " b";
+			}
+		}
+	}
 }
 
 /* .......................................................................... */

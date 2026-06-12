@@ -1,17 +1,17 @@
 "use strict";
 
 $.$setTemplate( "gsui-fx-delay", () => [
-	$.$div( { class: "gsuiEffect-param-row", "data-prop": "time" },
+	$.$elem( "gsui-effect-param-row", { "data-prop": "time" },
 		$.$elem( "gs-label", null, "time" ),
 		$.$elem( "gs-output" ),
 		$.$elem( "gsui-slider", { type: "linear-x", step: .01, min: 0, max: 2, "mousemove-size": 1600 } ),
 	),
-	$.$div( { class: "gsuiEffect-param-row", "data-prop": "gain" },
+	$.$elem( "gsui-effect-param-row", { "data-prop": "gain" },
 		$.$elem( "gs-label", null, "gain" ),
 		$.$elem( "gs-output" ),
 		$.$elem( "gsui-slider", { type: "linear-x", step: .01, min: 0, max: .95, "mousemove-size": 1600 } ),
 	),
-	$.$div( { class: "gsuiEffect-param-row", "data-prop": "pan" },
+	$.$elem( "gsui-effect-param-row", { "data-prop": "pan" },
 		$.$elem( "gs-label", null, "pan" ),
 		$.$elem( "gs-output" ),
 		$.$elem( "gsui-slider", { type: "linear-x", step: .01, min: -1, max: 1, "mousemove-size": 1600 } ),
