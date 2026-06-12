@@ -97,8 +97,6 @@ gsui-fx-filter-area {
 	}
 	&[ a="gain" ],
 	&[ a="frequency" ] {
-		.gsuiSlider-eventCatcher {
-			inset: -8px;
-		}
+		--gsuiSlider-event-catcher-inset: -8px;
 	}
 }

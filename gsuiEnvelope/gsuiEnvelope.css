@@ -64,11 +64,7 @@ gsui-envelope {
 		flex: 1;
 		height: 8px;
 		min-width: 40px;
-	}
-	.gsuiSlider-eventCatcher {
-		top: -6px;
-		bottom: -6px;
-		left: -52px;
+		--gsuiSlider-event-catcher-inset: -6px 0 -6px -52px;
 	}
 }
 

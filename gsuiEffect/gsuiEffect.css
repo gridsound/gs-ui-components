@@ -92,8 +92,6 @@ gsui-effect-param-row {
 	gsui-slider {
 		flex: 1;
 		height: 10px;
-	}
-	.gsuiSlider-eventCatcher {
-		inset: -4px 0 -4px calc( -52px - 8px );
+		--gsuiSlider-event-catcher-inset: -4px 0 -4px calc( -52px - 8px );
 	}
 }

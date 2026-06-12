@@ -181,11 +181,7 @@ gsui-channel-gain {
 	min-height: 32px;
 	margin-top: 6px;
 	--gsuiSlider-lineColor: var( --gsuiChannel-slider-color, var( --gsui-col-gain ) );
-
-	.gsuiSlider-eventCatcher {
-		left: -12px;
-		right: -12px;
-	}
+	--gsuiSlider-event-catcher-inset: 0 -12px;
 }
 
 gsui-channel-grip {

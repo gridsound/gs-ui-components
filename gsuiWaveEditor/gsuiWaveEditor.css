@@ -130,8 +130,8 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 			border-radius: 4px;
 			background-color: #0005;
 		}
-		.gsuiSlider-eventCatcher {
-			inset: -21px -6px -6px;
+		gsui-slider {
+			--gsuiSlider-event-catcher-inset: -21px -6px -6px;
 			cursor: var( --gsuiCursor-ew-resize );
 		}
 	}

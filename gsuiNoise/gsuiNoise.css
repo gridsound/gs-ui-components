@@ -58,9 +58,7 @@ gsui-noise:not( [ toggle ] ) .gsuiNoise-type-select {
 /* .......................................................................... */
 gsui-noise gsui-slider {
 	height: 8px;
-}
-gsui-noise .gsuiSlider-eventCatcher {
-	inset: -10px -8px;
+	--gsuiSlider-event-catcher-inset: -10px -8px;
 }
 gsui-noise gsui-slider[ data-prop="gain" ] {
 	width: 80px;

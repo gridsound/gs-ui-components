@@ -101,8 +101,8 @@ gsui-oscillator {
 	box-sizing: border-box;
 	height: 32px;
 }
-.gsuiOscillator-prop gsui-slider:first-child .gsuiSlider-eventCatcher {
-	bottom: -18px;
+.gsuiOscillator-prop gsui-slider:first-child {
+	--gsuiSlider-event-catcher-inset: 0 0 -18px 0;
 }
 .gsuiOscillator-prop gsui-slider + gsui-slider {
 	position: absolute;
@@ -112,10 +112,7 @@ gsui-oscillator {
 	left: calc( 50% - 8px );
 	width: 16px;
 	height: 16px;
-
-	.gsuiSlider-eventCatcher {
-		border-radius: 50%;
-	}
+	--gsuiSlider-event-catcher-radius: 50%;
 }
 .gsuiOscillator-sliderValue {
 	display: flex;
@@ -186,10 +183,7 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 .gsuiOscillator-waveColumn gsui-slider {
 	height: 4px;
 	--gsuiSlider-lineColor: #b8b;
-
-	.gsuiSlider-eventCatcher {
-		inset: -4px 0;
-	}
+	--gsuiSlider-event-catcher-inset: -4px 0;
 }
 
 /* .......................................................................... */
@@ -317,16 +311,14 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 	display: flex;
 	gap: 5px;
 	--gsuiSlider-lineColor: var( --gsui-col-unison );
+	--gsuiSlider-event-catcher-inset: -3px;
 
 	gsui-slider + gsui-slider {
 		width: 6px;
 		min-width: 6px;
 	}
-	gsui-slider .gsuiSlider-eventCatcher {
-		inset: -3px;
-	}
-	gsui-slider[ data-prop="unisonvoices" ] .gsuiSlider-eventCatcher {
-		left: -16px;
+	gsui-slider[ data-prop="unisonvoices" ] {
+		--gsuiSlider-event-catcher-inset: 0 0 0 -16px;
 	}
 }
 

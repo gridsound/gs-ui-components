@@ -9,11 +9,7 @@
 	--gsuiSlider-lineRadius: 4px;
 	--gsuiSlider-lineColor: var( --gsui-btn-playPause-bg );
 	--gsuiSlider-lineBgColor: #222;
-
-	.gsuiSlider-eventCatcher {
-		left: -12px;
-		right: calc( var( --gap ) * -1 );
-	}
+	--gsuiSlider-event-catcher-inset: 0 calc( var( --gap ) * -1 ) 0 -12px;
 }
 .gsuiDAW-focusBtn {
 	display: flex;
@@ -60,9 +56,7 @@
 	gsui-slider {
 		--gsuiSlider-lineColor: var( --gsui-main-currentTime-lineColor );
 		--gsuiSlider-lineBgColor: var( --gsui-main-currentTime-lineBgColor );
-	}
-	.gsuiSlider-eventCatcher {
-		inset: -10px;
+		--gsuiSlider-event-catcher-inset: -10px;
 	}
 }
 

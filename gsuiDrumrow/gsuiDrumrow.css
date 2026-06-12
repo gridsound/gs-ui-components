@@ -41,9 +41,7 @@ gsui-drumrow {
 		inset: var( --name-h ) auto 2px;
 		width: var( --slider-w );
 		height: auto;
-	}
-	.gsuiSlider-eventCatcher {
-		inset: -2px;
+		--gsuiSlider-event-catcher-inset: -2px;
 	}
 	gsui-slider[ data-prop="detune" ] {
 		--gsuiSlider-lineColor: var( --gsui-col-detune );

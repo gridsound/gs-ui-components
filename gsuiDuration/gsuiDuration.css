@@ -10,10 +10,7 @@ gsui-duration {
 	}
 	gsui-slider {
 		height: 8px;
-	}
-	.gsuiSlider-eventCatcher {
-		top: -15px;
-		right: -60px;
+		--gsuiSlider-event-catcher-inset: -15px -68px 0 0;
 	}
 	b {
 		display: flex;
