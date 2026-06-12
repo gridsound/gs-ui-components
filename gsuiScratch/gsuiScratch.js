@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiScratch extends gsui0ne {
-	#audioElem = null;
-	#audioElemRev = null;
+	#audioElem = $noop;
+	#audioElemRev = $noop;
 	#audiobuf = null;
 	#audiobufURL = null;
 	#dur = 0;
@@ -61,18 +61,14 @@ class gsuiScratch extends gsui0ne {
 
 	// .........................................................................
 	#setPBR( pb ) {
-		const elem = pb < 0 ? this.#audioElemRev : this.#audioElem;
+		const elA = pb < 0 ? this.#audioElemRev : this.#audioElem;
+		const elB = pb < 0 ? this.#audioElem : this.#audioElemRev;
 
 		if ( this.#ptrSpeedB < 0 !== this.#ptrSpeedA < 0 ) {
-			if ( pb > 0 ) {
-				this.#audioElem.currentTime = this.#dur - this.#audioElemRev.currentTime;
-				this.#audioElemRev.playbackRate = 0;
-			} else {
-				this.#audioElemRev.currentTime = this.#dur - this.#audioElem.currentTime;
-				this.#audioElem.playbackRate = 0;
-			}
+			elA.$prop( "currentTime", this.#dur - elB.$prop( "currentTime" ) );
+			elB.$prop( "playbackRate", 0 );
 		}
-		elem.playbackRate = GSUmathClamp( Math.abs( pb ), .065, 4 );
+		elA.$prop( "playbackRate", GSUmathClamp( Math.abs( pb ), .065, 4 ) );
 		this.#ptrSpeedB = pb;
 	}
 	#frame() {
@@ -81,22 +77,22 @@ class gsuiScratch extends gsui0ne {
 		} else {
 			this.#ptrSpeedA += ( 1 - this.#ptrSpeedA ) / 40;
 		}
-		if ( this.#audioElem.paused !== this.#audioElemRev.paused ) {
-			this.#audioElem.paused
-				? this.#audioElemRev.pause()
-				: this.#audioElemRev.play();
+		if ( this.#audioElem.$prop( "paused" ) !== this.#audioElemRev.$prop( "paused" ) ) {
+			this.#audioElem.$prop( "paused" )
+				? this.#audioElemRev.$pause()
+				: this.#audioElemRev.$play();
 		}
 		this.#setPBR( this.#ptrSpeedA );
-		this.#currentTime = this.#audioElem.playbackRate > 0
-			? this.#audioElem.currentTime
-			: this.#dur - this.#audioElemRev.currentTime;
+		this.#currentTime = this.#audioElem.$prop( "playbackRate" ) > 0
+			? this.#audioElem.$prop( "currentTime" )
+			: this.#dur - this.#audioElemRev.$prop( "currentTime" );
 		this.#drawWaveform();
 	}
 	#load( elAudio ) {
 		this.#audiobuf = null;
 		this.#audioElem = elAudio;
 		this.#currentTime = 0;
-		return fetch( elAudio.src )
+		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
 			.then( arr => GSUaudioCurrentContext.decodeAudioData( arr ) )
 			.then( buf => {
@@ -115,7 +111,7 @@ class gsuiScratch extends gsui0ne {
 				this.#dur = buf.duration;
 				this.#audiobuf = buf;
 				this.#audiobufURL = urlRev;
-				this.#audioElemRev = audioRev.$get( 0 );
+				this.#audioElemRev = audioRev;
 				this.#intervalId = GSUsetInterval( this.#frameBind, 1 / 60 );
 				this.#drawWaveform();
 			} );

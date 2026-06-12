@@ -304,7 +304,7 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#activateScratch() {
-		this.#scratch.$message( GSEV_SCRATCH_LOAD, this.$elements.$audio.$get( 0 ) );
+		this.#scratch.$message( GSEV_SCRATCH_LOAD, this.$elements.$audio );
 	}
 }
 
