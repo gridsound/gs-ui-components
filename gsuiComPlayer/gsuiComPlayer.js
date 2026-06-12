@@ -145,7 +145,7 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	#setCurrentTime( t ) {
 		const elB = this.#scratch.$query( "audio" );
-		const forward = elB.$prop( "playbackRate" ) <= 0;
+		const forward = this.$elements.$audio.$prop( "playbackRate" ) > 0;
 		const elA = forward ? this.$elements.$audio : elB;
 		const t2 = forward ? t : elA.$prop( "duration" ) - t;
 
