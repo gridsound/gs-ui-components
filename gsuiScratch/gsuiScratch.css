@@ -17,6 +17,10 @@ gsui-scratch {
 		stroke-linejoin: round;
 		fill: #fff5;
 	}
+	audio {
+		position: absolute;
+		visibility: hidden;
+	}
 }
 
 gsui-scratch-0line {

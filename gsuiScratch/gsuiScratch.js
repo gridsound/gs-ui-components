@@ -114,13 +114,17 @@ class gsuiScratch extends gsui0ne {
 					$buffer: bufRev,
 					$float32: false,
 				} ) );
+				const urlRev = URL.createObjectURL( blobRev );
+				const audioRev = $( "<audio>" )
+					.$setAttr( "src", urlRev )
+					.$prop( "preservesPitch", false )
+					.$prop( "playbackRate", 0 )
+					.$appendTo( this );
 
 				this.#dur = buf.duration;
 				this.#audiobuf = buf;
-				this.#audiobufURL = URL.createObjectURL( blobRev );
-				this.#audioElemRev = $.$elem( "audio", { src: this.#audiobufURL } );
-				this.#audioElemRev.preservesPitch = false;
-				this.#audioElemRev.playbackRate = 0;
+				this.#audiobufURL = urlRev;
+				this.#audioElemRev = audioRev.$get( 0 );
 				this.#intervalId = GSUsetInterval( this.#frameBind, 1 / 60 );
 				this.#drawWaveform();
 			} );
