@@ -40,6 +40,7 @@ const componentList = Object.freeze( [
 	"gsuiPopup",
 	"gsuiPropSelect",
 	"gsuiReorder",
+	"gsuiScratch",
 	"gsuiScrollShadow",
 	"gsuiSlicer",
 	"gsuiSlider",

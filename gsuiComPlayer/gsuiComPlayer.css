@@ -1,13 +1,9 @@
 gsui-com-player {
 	--gsui-bg: #2e355b;
 	anchor-scope: --gsui-com-player-actions-anchor;
-	display: flex;
-	position: relative;
 	overflow: hidden;
-	height: 64px;
-	border-radius: 6px;
-	background-color: var( --gsui-bg );
-	background-image: linear-gradient( 45deg, #0003, transparent );
+	display: flex;
+	flex-direction: column;
 	transition: translate .3s;
 
 	&[ deleted ] { --gsui-bg: #fff4 }
@@ -25,8 +21,13 @@ gsui-com-player {
 }
 
 gsui-com-player-in {
+	position: relative;
 	display: flex;		
 	width: 100%;
+	height: 64px;
+	border-radius: 6px;
+	background-color: var( --gsui-bg );
+	background-image: linear-gradient( 45deg, #0003, transparent );
 
 	> button,
 	> a {

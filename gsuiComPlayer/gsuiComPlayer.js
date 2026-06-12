@@ -4,6 +4,7 @@ class gsuiComPlayer extends gsui0ne {
 	#settingTime = null;
 	#intervalId = null;
 	#promises = {};
+	#scratch = $noop;
 	static #actions = GSUdeepFreeze( [
 		{ id: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
 		{ id: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
@@ -77,11 +78,12 @@ class gsuiComPlayer extends gsui0ne {
 		this.#updateRendered( this.$this.$hasAttr( "rendered" ) );
 	}
 	static get observedAttributes() {
-		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "likes", "itsmine" ];
+		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "likes", "itsmine", "scratch" ];
 		// + "opensource" + "private" + "liked" + "playing" + "actions"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "scratch": this.#toggleScratch( val === "" ); break;
 			case "itsmine":
 				this.$elements.$likeBtn.$disabled( val === "" );
 				this.$elements.$dawlink.$setAttr( "data-icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
@@ -135,7 +137,7 @@ class gsuiComPlayer extends gsui0ne {
 
 	// .........................................................................
 	#onplay() {
-		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 10 );
+		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 60 );
 		this.$elements.$playIco.$setAttr( "data-icon", "pause" );
 		this.$this.$addAttr( "playing" );
 	}
@@ -177,6 +179,7 @@ class gsuiComPlayer extends gsui0ne {
 						hasRender = this.$this.$hasAttr( "rendered" );
 						this.$this.$addAttr( "rendered" );
 						this.$elements.$audio.$setAttr( "src", url );
+						this.#activateScratch( url );
 					}
 				} )
 				.finally( () => {
@@ -188,7 +191,9 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#onframePlaying() {
-		this.$this.$setAttr( "currenttime", this.$elements.$audio.$prop( "currentTime" ) );
+		const t = this.$elements.$audio.$prop( "currentTime" );
+
+		this.$this.$setAttr( "currenttime", t );
 	}
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( "data-tooltip", b ? false : GSTX.$player_notRendered );
@@ -265,6 +270,24 @@ class gsuiComPlayer extends gsui0ne {
 			.$off( "pointerup", "pointermove" );
 		this.#settingTime = null;
 		this.$elements.$audio.$prop( "currentTime", t * this.$this.$getAttr( "duration" ) );
+	}
+
+	// .........................................................................
+	#toggleScratch( b ) {
+		if ( !b ) {
+			this.#scratch.$remove();
+			this.#scratch = $noop;
+		} else {
+			this.#scratch = $( "<gsui-scratch>" ).$appendTo( this );
+			this.#activateScratch( this.$elements.$audio.$getAttr( "src" ) );
+		}
+	}
+	#activateScratch( url ) {
+		if ( url ) {
+			this.#scratch
+				.$message( GSEV_SCRATCH_LOAD, url )
+				.$message( GSEV_SCRATCH_AUDIOELEMENT, this.$elements.$audio.$get( 0 ) );
+		}
 	}
 }
 
