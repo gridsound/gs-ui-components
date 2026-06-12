@@ -8,13 +8,13 @@ gsui-mixer {
 }
 
 /* .......................................................................... */
-.gsuiMixer-channels {
+gsui-mixer-channels {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
 	min-width: 140px;
 }
-.gsuiMixer-effects {
+gsui-mixer-effects {
 	display: flex;
 	flex-direction: column;
 	width: 50%;
@@ -23,7 +23,7 @@ gsui-mixer {
 }
 
 /* .......................................................................... */
-.gsuiMixer-head {
+gsui-mixer-head {
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -37,7 +37,7 @@ gsui-mixer {
 }
 
 /* .......................................................................... */
-.gsuiMixer-bottomShadow {
+gsui-mixer-bottom-shadow {
 	position: absolute;
 	top: 100%;
 	width: 100%;
@@ -45,7 +45,7 @@ gsui-mixer {
 }
 
 /* .......................................................................... */
-.gsuiMixer-analyserTypes {
+gsui-mixer-analyser-types {
 	margin-left: 10px;
 	display: flex;
 	gap: 4px;

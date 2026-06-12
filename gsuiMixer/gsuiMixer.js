@@ -10,7 +10,7 @@ class gsuiMixer extends gsui0ne {
 			$elements: {
 				$channels: "gsui-channels",
 				$effects: "gsui-effects",
-				$analyserType: ".gsuiMixer-analyserTypes button",
+				$analyserType: "gsui-mixer-analyser-types button",
 			},
 			$attributes: {
 				analyser: "hz",
@@ -33,12 +33,12 @@ class gsuiMixer extends gsui0ne {
 		this.#shadowChans = new gsuiScrollShadow( {
 			scrolledElem: this.$this.$query( "gsui-channels-others" ),
 			leftShadow: this.$this.$query( "gsui-channels-main" ),
-			rightShadow: this.$this.$query( ".gsuiMixer-effects" ),
+			rightShadow: this.$this.$query( "gsui-mixer-effects" ),
 		} );
 		this.#shadowEffects = new gsuiScrollShadow( {
 			scrolledElem: this.$elements.$effects,
-			topShadow: this.$this.$query( ".gsuiMixer-effects .gsuiMixer-head" ),
-			bottomShadow: this.$this.$query( ".gsuiMixer-effects .gsuiMixer-bottomShadow" ),
+			topShadow: this.$this.$query( "gsui-mixer-effects gsui-mixer-head" ),
+			bottomShadow: this.$this.$query( "gsui-mixer-effects gsui-mixer-bottom-shadow" ),
 		} );
 	}
 	$disconnected() {
