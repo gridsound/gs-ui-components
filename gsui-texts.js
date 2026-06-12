@@ -171,7 +171,15 @@ const GSTXall = GSUdeepFreeze( {
 		$channel_mute:   "<b>Mute</b> the channel",
 		$channel_unmute: "<b>Unmute</b> the channel",
 		// .....................................................................
-		$effects_add: "<b>Add</b> an effect",
+		$effects_add:             "<b>Add</b> an effect",
+		$effects_filter:          "Filter",
+		$effects_delay:           "Delay",
+		$effects_reverb:          "Reverb",
+		$effects_waveshaper:      "WaveShaper",
+		$effects_filter_desc:     "LowPass, HighPass, BandPass, LowShelf, etc.",
+		$effects_delay_desc:      "Echo, left/right ping-pong",
+		$effects_reverb_desc:     "Convolution reverberation",
+		$effects_waveshaper_desc: "Distortion, reshaping the wave with another wave",
 		// .....................................................................
 		$effect_mute:   "<b>Mute</b> this effect",
 		$effect_unmute: "<b>Unmute</b> this effect",
@@ -381,7 +389,15 @@ const GSTXall = GSUdeepFreeze( {
 		$channel_mute:   "<b>Désactiver</b> le canal",
 		$channel_unmute: "<b>Réactiver</b> le canal",
 		// .....................................................................
-		$effects_add: "<b>Ajouter</b> un effet",
+		$effects_add:             "<b>Ajouter</b> un effet",
+		$effects_filter:          "Filtre",
+		$effects_delay:           "Délai",
+		$effects_reverb:          "Réverb",
+		$effects_waveshaper:      "WaveShaper",
+		$effects_filter_desc:     "Passe-bas, passe-haut, passe-bande, plateau-bas, etc.",
+		$effects_delay_desc:      "Echo, ping-pong gauche/droite",
+		$effects_reverb_desc:     "Réverbération par convolution",
+		$effects_waveshaper_desc: "Distorsion, remodeler l'onde avec une autre onde",
 		// .....................................................................
 		$effect_mute:   "<b>Désactiver</b> cet effet",
 		$effect_unmute: "<b>Activer</b> cet effet",

@@ -4,10 +4,10 @@ class gsuiEffects extends gsui0ne {
 	#dataCallback = GSUnoop;
 	#fxsHtml = new Map();
 	static #fxMap = GSUdeepFreeze( {
-		delay: { cmp: "<gsui-fx-delay>", name: "Delay" },
-		filter: { cmp: "<gsui-fx-filter>", name: "Filter" },
-		reverb: { cmp: "<gsui-fx-reverb>", name: "Reverb" },
-		waveshaper: { cmp: "<gsui-fx-waveshaper>", name: "WaveShaper" },
+		delay:      { cmp: "<gsui-fx-delay>",      name: GSTX.$effects_delay },
+		filter:     { cmp: "<gsui-fx-filter>",     name: GSTX.$effects_filter },
+		reverb:     { cmp: "<gsui-fx-reverb>",     name: GSTX.$effects_reverb },
+		waveshaper: { cmp: "<gsui-fx-waveshaper>", name: GSTX.$effects_waveshaper },
 	} );
 
 	constructor() {
