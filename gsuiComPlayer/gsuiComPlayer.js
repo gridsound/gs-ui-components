@@ -136,6 +136,23 @@ class gsuiComPlayer extends gsui0ne {
 	}
 
 	// .........................................................................
+	#getCurrentTime() {
+		const rev = this.#scratch.$query( "audio" ).$get( 0 );
+
+		return rev?.playbackRate > 0
+			? rev.duration - rev.currentTime
+			: this.$elements.$audio.$prop( "currentTime" );
+	}
+	#setCurrentTime( t ) {
+		const elB = this.#scratch.$query( "audio" );
+		const forward = elB.$prop( "playbackRate" ) <= 0;
+		const elA = forward ? this.$elements.$audio : elB;
+		const t2 = forward ? t : elA.$prop( "duration" ) - t;
+
+		elA.$prop( "currentTime", t2 );
+	}
+
+	// .........................................................................
 	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 60 );
 		this.$elements.$playIco.$setAttr( "data-icon", "pause" );
@@ -191,10 +208,7 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#onframePlaying() {
-		const rev = this.#scratch.$query( "audio" ).$get( 0 );
-		const t = rev?.playbackRate > 0
-			? rev.duration - rev.currentTime
-			: this.$elements.$audio.$prop( "currentTime" );
+		const t = this.#getCurrentTime();
 
 		if ( t !== null ) {
 			this.$this.$setAttr( "currenttime", t );
@@ -274,7 +288,7 @@ class gsuiComPlayer extends gsui0ne {
 			.$relPtrCapture( e.pointerId )
 			.$off( "pointerup", "pointermove" );
 		this.#settingTime = null;
-		this.$elements.$audio.$prop( "currentTime", t * this.$this.$getAttr( "duration" ) );
+		this.#setCurrentTime( t * this.$this.$getAttr( "duration" ) );
 	}
 
 	// .........................................................................
