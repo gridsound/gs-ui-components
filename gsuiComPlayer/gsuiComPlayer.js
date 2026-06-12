@@ -179,7 +179,7 @@ class gsuiComPlayer extends gsui0ne {
 						hasRender = this.$this.$hasAttr( "rendered" );
 						this.$this.$addAttr( "rendered" );
 						this.$elements.$audio.$setAttr( "src", url );
-						this.#activateScratch( url );
+						this.#activateScratch();
 					}
 				} )
 				.finally( () => {
@@ -284,15 +284,13 @@ class gsuiComPlayer extends gsui0ne {
 			this.#scratch = $noop;
 		} else {
 			this.#scratch = $( "<gsui-scratch>" ).$appendTo( this );
-			this.#activateScratch( this.$elements.$audio.$getAttr( "src" ) );
+			if ( this.$elements.$audio.$getAttr( "src" ) ) {
+				this.#activateScratch();
+			}
 		}
 	}
-	#activateScratch( url ) {
-		if ( url ) {
-			this.#scratch
-				.$message( GSEV_SCRATCH_LOAD, url )
-				.$message( GSEV_SCRATCH_AUDIOELEMENT, this.$elements.$audio.$get( 0 ) );
-		}
+	#activateScratch() {
+		this.#scratch.$message( GSEV_SCRATCH_LOAD, this.$elements.$audio.$get( 0 ) );
 	}
 }
 

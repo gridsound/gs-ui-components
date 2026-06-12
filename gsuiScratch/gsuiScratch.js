@@ -40,20 +40,10 @@ class gsuiScratch extends gsui0ne {
 		this.#wSec = w / 100;
 		this.#drawWaveform();
 	}
-	static get observedAttributes() {
-		return [ "xxxxxxxxxxxx" ];
-	}
-	$attributeChanged( prop, val ) {
-		switch ( prop ) {
-			case "xxxxxxxxxxxx":
-				break;
-		}
-	}
 	$onmessage( ev, val ) {
 		switch ( ev ) {
-			case GSEV_SCRATCH_LOAD: this.#load( val ); break;
-			case GSEV_SCRATCH_AUDIOELEMENT:
-				this.#audioElem = val;
+			case GSEV_SCRATCH_LOAD:
+				this.#load( val );
 				break;
 		}
 	}
@@ -102,10 +92,11 @@ class gsuiScratch extends gsui0ne {
 			: this.#dur - this.#audioElemRev.currentTime;
 		this.#drawWaveform();
 	}
-	#load( url ) {
+	#load( elAudio ) {
 		this.#audiobuf = null;
+		this.#audioElem = elAudio;
 		this.#currentTime = 0;
-		return fetch( url )
+		return fetch( elAudio.src )
 			.then( res => res.arrayBuffer() )
 			.then( arr => GSUaudioCurrentContext.decodeAudioData( arr ) )
 			.then( buf => {
