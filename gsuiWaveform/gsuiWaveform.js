@@ -1,31 +1,31 @@
 "use strict";
 
 class gsuiWaveform {
-	static $drawBuffer( polygon, w, h, buf, offset, duration ) {
+	static $drawBuffer( polygon, w, h, buf, start, duration ) {
 		const d0 = buf.getChannelData( 0 );
 		const d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
-		const off = offset || 0;
-		const dur = duration || buf.duration - off;
+		const sta = start || 0;
+		const dur = duration || buf.duration - sta;
 
-		gsuiWaveform.#draw( polygon, w, h, d0, d1, buf.duration, off, dur );
+		gsuiWaveform.#draw( polygon, w, h, d0, d1, buf.duration, sta, dur );
 	}
-	static $getPointsFromBuffer( w, h, buf, offset, duration ) {
+	static $getPointsFromBuffer( w, h, buf, start, duration ) {
 		const d0 = buf.getChannelData( 0 );
 		const d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
-		const off = offset || 0;
-		const dur = duration || buf.duration - off;
+		const sta = start || 0;
+		const dur = duration || buf.duration - sta;
 
-		return gsuiWaveform.#getPolygonPoints( w, h, d0, d1, buf.duration, off, dur );
+		return gsuiWaveform.#getPolygonPoints( w, h, d0, d1, buf.duration, sta, dur );
 	}
 
 	// .........................................................................
-	static #draw( polygon, w, h, data0, data1, bufDur, offset, dur ) {
-		polygon.$setAttr( "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) );
+	static #draw( polygon, w, h, data0, data1, bufDur, start, dur ) {
+		polygon.$setAttr( "points", gsuiWaveform.#getPolygonPoints( w, h, data0, data1, bufDur, start, dur ) );
 	}
-	static #getPolygonPoints( w, h, data0, data1, bufDur, offset, dur ) {
+	static #getPolygonPoints( w, h, data0, data1, bufDur, start, dur ) {
 		const h2 = h / 2;
 		const step = dur / bufDur * data0.length / w;
-		const ind = ~~( offset / bufDur * data0.length );
+		const ind = ~~( start / bufDur * data0.length );
 		const iinc = ~~Math.max( 1, step / 100 );
 		let dots0 = `0,${ gsuiWaveform.#formatNb( h2 + data0[ ind ] * h2 ) }`;
 		let dots1 = `0,${ gsuiWaveform.#formatNb( h2 + data1[ ind ] * h2 ) }`;
