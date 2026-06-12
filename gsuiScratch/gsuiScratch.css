@@ -7,6 +7,7 @@ gsui-scratch {
 	background-color: #112;
 	box-shadow: inset 0 0 10px #000;
 	cursor: var( --gsuiCursor-grab );
+	touch-action: none;
 
 	svg {
 		position: absolute;
