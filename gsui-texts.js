@@ -153,7 +153,11 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_clonePattern:    "<b>Clone</b> this pattern",
 		$patterns_deletePattern:   "<b>Delete</b> this pattern",
 		// .....................................................................
-		$mixer_visu: "Switch visualisation type",
+		$mixer_channels:   "channels",
+		$mixer_effects:    "effects",
+		$mixer_timeDomain: "timeDomain",
+		$mixer_frequency:  "frequency",
+		$mixer_visu:       "Switch visualisation type",
 		// .....................................................................
 		$channels_vu:  "VU of the <b>selected channel</b><br/>🔴 = over 100% (the graphic goes to 120%)",
 		$channels_add: "Add a channel",
@@ -349,7 +353,11 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_clonePattern:    "<b>Cloner</b> ce pattern",
 		$patterns_deletePattern:   "<b>Supprimer</b> ce pattern",
 		// .....................................................................
-		$mixer_visu: "Changer le type de visualisation",
+		$mixer_channels:   "canaux",
+		$mixer_effects:    "effets",
+		$mixer_timeDomain: "domaineTempo",
+		$mixer_frequency:  "fréquence",
+		$mixer_visu:       "Changer le type de visualisation",
 		// .....................................................................
 		$channels_vu:  "VU du <b>canal sélectionné</b><br/>🔴 = au dessus de 100% (l'affichage va jusqu'à 120%)",
 		$channels_add: "Ajouter un canal",

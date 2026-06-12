@@ -35,9 +35,6 @@ gsui-mixer {
 	border-bottom: 2px solid var( --gsui-head3-brd );
 	background-color: var( --gsui-head3-bg );
 }
-.gsuiMixer-head-title {
-	font-weight: bold;
-}
 
 /* .......................................................................... */
 .gsuiMixer-bottomShadow {
