@@ -191,9 +191,14 @@ class gsuiComPlayer extends gsui0ne {
 		}
 	}
 	#onframePlaying() {
-		const t = this.$elements.$audio.$prop( "currentTime" );
+		const rev = this.#scratch.$query( "audio" ).$get( 0 );
+		const t = rev?.playbackRate > 0
+			? rev.duration - rev.currentTime
+			: this.$elements.$audio.$prop( "currentTime" );
 
-		this.$this.$setAttr( "currenttime", t );
+		if ( t !== null ) {
+			this.$this.$setAttr( "currenttime", t );
+		}
 	}
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( "data-tooltip", b ? false : GSTX.$player_notRendered );
