@@ -4,6 +4,33 @@ gsui-effects {
 	overflow: auto;
 	flex-direction: column;
 	background-color: var( --gsui-items-bg );
+
+	> [ popovertarget ] {
+		--gsuiTooltip-pos: bottom;
+		anchor-name: --gsui-effects-add-anchor;
+		position: relative;
+		order: 2147483646;
+		width: 100%;
+		min-height: 52px;
+		font-size: 18px;
+		opacity: .4;
+		transition: .2s opacity;
+
+		&:hover {
+			opacity: .7;
+		}
+		&:active {
+			margin-top: 2px;
+		}
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 6px;
+			border: 2px dashed;
+			border-radius: 4px;
+			opacity: .4;
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -14,35 +41,7 @@ gsui-effects {
 }
 
 /* .......................................................................... */
-.gsuiEffects-addBtn {
-	--gsuiTooltip-pos: bottom;
-	anchor-name: --gsui-effects-add-anchor;
-	position: relative;
-	order: 2147483646;
-	width: 100%;
-	min-height: 52px;
-	font-size: 18px;
-	opacity: .4;
-	transition: .2s opacity;
-
-	&:hover {
-		opacity: .7;
-	}
-	&:active {
-		margin-top: 2px;
-	}
-	&::before {
-		content: "";
-		position: absolute;
-		inset: 6px;
-		border: 2px dashed;
-		border-radius: 4px;
-		opacity: .4;
-	}
-}
-
-/* .......................................................................... */
-.gsuiEffects-addList {
+gsui-effects-poplist {
 	position: absolute;
 	position-anchor: --gsui-effects-add-anchor;
 	position-area: bottom;

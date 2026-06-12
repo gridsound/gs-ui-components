@@ -14,8 +14,8 @@ class gsuiEffects extends gsui0ne {
 		super( {
 			$tagName: "gsui-effects",
 			$elements: {
-				$addBtn: ".gsuiEffects-addBtn",
-				$addList: ".gsuiEffects-addList",
+				$addBtn: "[popovertarget]",
+				$addList: "gsui-effects-poplist",
 			},
 		} );
 		new gsuiReorder( {

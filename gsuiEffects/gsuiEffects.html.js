@@ -4,10 +4,10 @@ $.$setTemplate( "gsui-effects", () => {
 	const popId = GSUuuid();
 
 	return [
-		$.$button( { class: "gsuiEffects-addBtn", popovertarget: popId, "data-tooltip": GSTX.$effects_add },
+		$.$button( { popovertarget: popId, "data-tooltip": GSTX.$effects_add },
 			$.$icon( { icon: "add-effect" } ),
 		),
-		$.$div( { class: "gsuiEffects-addList", id: popId, popover: true },
+		$.$elem( "gsui-effects-poplist", { id: popId, popover: true },
 			[
 				[ "filter",     "Filter",     "LowPass, HighPass, BandPass, LowShelf, etc." ],
 				[ "delay",      "Delay",      "Echo, left/right ping-pong" ],
