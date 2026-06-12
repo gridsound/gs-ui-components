@@ -16,6 +16,7 @@ gsui-slider {
 .gsuiSlider-eventCatcher {
 	position: absolute;
 	inset: var( --gsuiSlider-event-catcher-inset, 0 );
+	border-radius: var( --gsuiSlider-event-catcher-radius, 0 );
 }
 
 gsui-slider[ type^="linear" ] .gsuiSlider-svg,
