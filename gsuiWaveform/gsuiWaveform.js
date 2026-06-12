@@ -25,20 +25,20 @@ class gsuiWaveform {
 	static #getPolygonPoints( w, h, data0, data1, bufDur, start, dur ) {
 		const h2 = h / 2;
 		const step = dur / bufDur * data0.length / w;
-		const ind = ~~( start / bufDur * data0.length );
-		const iinc = ~~Math.max( 1, step / 100 );
-		let dots0 = `0,${ gsuiWaveform.#formatNb( h2 + data0[ ind ] * h2 ) }`;
-		let dots1 = `0,${ gsuiWaveform.#formatNb( h2 + data1[ ind ] * h2 ) }`;
+		const ind = start / bufDur * data0.length | 0;
+		const iinc = Math.max( 1, step / 100 ) | 0;
+		let dots0 = `0,${ gsuiWaveform.#formatNb( h2 + ( data0[ ind ] || 0 ) * h2 ) }`;
+		let dots1 = `0,${ gsuiWaveform.#formatNb( h2 + ( data1[ ind ] || 0 ) * h2 ) }`;
 
 		for ( let p = 1; p < w; ++p ) {
 			let lmin = Infinity;
 			let rmax = -Infinity;
-			let i = ~~( ind + ( p - 1 ) * step );
+			let i = ind + ( p - 1 ) * step | 0;
 			const iend = i + step;
 
 			for ( ; i < iend; i += iinc ) {
-				lmin = Math.min( lmin, data0[ i ], data1[ i ] );
-				rmax = Math.max( rmax, data0[ i ], data1[ i ] );
+				lmin = Math.min( lmin, data0[ i ] || 0 );
+				rmax = Math.max( rmax, data1[ i ] || 0 );
 			}
 			if ( Math.abs( rmax - lmin ) * h2 < 1 ) {
 				rmax += 1 / h;
