@@ -96,12 +96,12 @@ class gsuiComPlayer extends gsui0ne {
 			case "rendered": this.#updateRendered( val === "" ); break;
 			case "duration":
 				this.$elements.$dur.$text( gsuiComPlayer.$calcDuration( val ) );
-				this.$updateTimeSlider();
+				this.#updateTimeSlider();
 				break;
 			case "currenttime":
 				if ( this.#settingTime === null ) {
 					this.$elements.$time.$text( gsuiComPlayer.$calcDuration( val ) );
-					this.$updateTimeSlider();
+					this.#updateTimeSlider();
 				}
 				break;
 		}
@@ -129,7 +129,7 @@ class gsuiComPlayer extends gsui0ne {
 
 		return `${ t.m }:${ t.s }`;
 	}
-	$updateTimeSlider() {
+	#updateTimeSlider() {
 		const [ dur, time ] = this.$this.$getAttr( "duration", "currenttime" );
 
 		this.$elements.$timeInpVal.$width( time / dur * 100, "%" );
