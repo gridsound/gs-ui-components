@@ -18,15 +18,15 @@ class gsuiFxWaveShaper extends gsui0ne {
 		super( {
 			$tagName: "gsui-fx-waveshaper",
 			$elements: {
-				$symmetryToggle: ".gsuiFxWaveShaper-symmetry gsui-toggle",
-				$oversampleSelect: ".gsuiFxWaveShaper-oversample select",
-				$oversampleToggle: ".gsuiFxWaveShaper-oversample gsui-toggle",
-				$reset: ".gsuiFxWaveShaper-reset",
-				$svgDiag: ".gsuiFxWaveShaper-graph-diag",
+				$symmetryToggle: "gsui-fx-waveshaper-symmetry gsui-toggle",
+				$oversampleSelect: "gsui-fx-waveshaper-oversample select",
+				$oversampleToggle: "gsui-fx-waveshaper-oversample gsui-toggle",
+				$reset: "button[data-prop=reset]",
+				$svgDiag: "gsui-fx-waveshaper-graph svg",
 				$dotline: "gsui-dotline",
-				$waves: ".gsuiFxWaveShaper-waves",
-				$waveA: ".gsuiFxWaveShaper-waveA",
-				$waveB: ".gsuiFxWaveShaper-waveB",
+				$waves: "gsui-fx-waveshaper-side-waves svg",
+				$waveA: "polyline:first-child",
+				$waveB: "polyline:last-child",
 			},
 			$attributes: {
 				symmetry: true,
