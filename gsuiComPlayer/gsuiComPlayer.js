@@ -296,6 +296,7 @@ class gsuiComPlayer extends gsui0ne {
 		if ( !b ) {
 			this.#scratch.$remove();
 			this.#scratch = $noop;
+			this.$elements.$audio.$prop( "playbackRate", 1 );
 		} else {
 			this.#scratch = $( "<gsui-scratch>" ).$appendTo( this );
 			if ( this.$elements.$audio.$getAttr( "src" ) ) {
