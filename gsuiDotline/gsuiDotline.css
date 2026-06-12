@@ -8,11 +8,34 @@ gsui-dotline {
 	stroke: currentColor;
 	stroke-width: 2px;
 	touch-action: none;
+
+	svg {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+	}
+	path {
+		fill: none;
+	}
+	gsui-slider {
+		width: 10px;
+		height: 32px;
+		opacity: 0;
+		pointer-events: none;
+	}
 }
 
-.gsuiDotline-menu {
+gsui-dotline-in {
 	position: absolute;
-	position-anchor: --gsuiDotline-dotAnchor;
+	z-index: 0;
+	inset: calc( var( --gsuiDotline-dotSize ) / 2 );
+}
+
+gsui-dotline-menu {
+	position: absolute;
+	position-anchor: --gsui-dotline-dot-anchor;
 	position-area: bottom;
 	position-try-fallbacks: top;
 	flex-direction: column;
@@ -37,36 +60,8 @@ gsui-dotline {
 	}
 }
 
-/* .......................................................................... */
-.gsuiDotline-padding {
-	position: absolute;
-	z-index: 0;
-	inset: calc( var( --gsuiDotline-dotSize ) / 2 );
-}
-
-/* .......................................................................... */
-gsui-dotline svg {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-}
-gsui-dotline path {
-	fill: none;
-}
-
-/* .......................................................................... */
-gsui-dotline gsui-slider {
-	width: 10px;
-	height: 32px;
-	opacity: 0;
-	pointer-events: none;
-}
-
-/* .......................................................................... */
-.gsuiDotline-dot,
-.gsuiDotline-cdot {
+gsui-dotline-dot,
+gsui-dotline-cdot {
 	position: absolute;
 	box-sizing: border-box;
 	border-radius: 50%;
@@ -75,13 +70,24 @@ gsui-dotline gsui-slider {
 	margin:
 		calc( var( --w ) / -2 ) 0 0
 		calc( var( --w ) / -2 );
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -4px;
+		border-radius: 50%;
+	}
+	&:hover::before,
+	&[ selected ]::before {
+		background-color: #fff3;
+	}
 }
-.gsuiDotline-dot {
+gsui-dotline-dot {
 	--w: var( --gsuiDotline-dotSize );
 	z-index: 2;
 	background-color: currentColor;
 }
-.gsuiDotline-cdot {
+gsui-dotline-cdot {
 	--w: var( --gsuiDotline-cdotSize );
 	z-index: 1;
 	border: 1px solid;
@@ -89,20 +95,9 @@ gsui-dotline gsui-slider {
 		.2s width,
 		.2s height,
 		.2s margin;
-}
-.gsuiDotline-dot::before,
-.gsuiDotline-cdot::before {
-	content: "";
-	position: absolute;
-	inset: -4px;
-	border-radius: 50%;
-}
-.gsuiDotline-dot:hover::before,
-.gsuiDotline-cdot:hover::before,
-.gsuiDotline-dotSelected::before {
-	background-color: #fff3;
-}
-.gsuiDotline-cdot[ data-type="hold" ],
-.gsuiDotline-cdot[ data-type="line" ] {
-	display: none;
+
+	&[ data-type="hold" ],
+	&[ data-type="line" ] {
+		display: none;
+	}
 }

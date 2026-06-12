@@ -40,7 +40,7 @@ class gsuiDotline extends gsui0ne {
 			$elements: {
 				$svg: "gsui-dotlinesvg",
 				$slider: "gsui-slider",
-				$menu: ".gsuiDotline-menu",
+				$menu: "gsui-dotline-menu",
 			},
 			$attributes: {
 				viewbox: "0 0 100 100",
@@ -197,7 +197,7 @@ class gsuiDotline extends gsui0ne {
 
 				if ( !cdot ) {
 					cdot =
-					this.#cdots[ id ] = $( "<div>" ).$dataId( id ).$addClass( "gsuiDotline-cdot" );
+					this.#cdots[ id ] = $( "<gsui-dotline-cdot>" ).$dataId( id );
 					this.$element.$append( cdot );
 				}
 				cdot.$setAttr( "data-type", dot.type )
@@ -259,7 +259,7 @@ class gsuiDotline extends gsui0ne {
 			this.#ymin <= y && y <= this.#ymax
 		) ) {
 			this.#data[ id ] = Object.seal( { x: 0, y: 0, type: null, val: null } );
-			this.#dots[ id ] = $( "<div>" ).$dataId( id ).$addClass( "gsuiDotline-dot" );
+			this.#dots[ id ] = $( "<gsui-dotline-dot>" ).$dataId( id );
 			this.#updateDotElement( args );
 			this.$element.$append( this.#dots[ id ] );
 			this.#sortDots();
@@ -301,17 +301,15 @@ class gsuiDotline extends gsui0ne {
 		this.#dataSorted = Object.entries( this.#data ).sort( ( a, b ) => a[ 1 ].x - b[ 1 ].x );
 	}
 	#selectDotElement( id, b ) {
-		const dot = this.#dots[ id ];
-
 		this.#activeDotId = b ? id : null;
-		dot.$togClass( "gsuiDotline-dotSelected", b );
+		this.#dots[ id ].$setAttr( "selected", b );
 	}
 
 	// .........................................................................
 	$onptrdown( e ) {
 		const tar = $( e.target );
-		const isSVG = tar.$hasClass( "gsuiDotline-padding" );
-		let isDot = tar.$hasClass( "gsuiDotline-dot" );
+		const isSVG = tar.$tag() === "gsui-dotline-in";
+		let isDot = tar.$tag() === "gsui-dotline-dot";
 		let id = tar.$dataId();
 
 		$.$unselect();
@@ -363,7 +361,7 @@ class gsuiDotline extends gsui0ne {
 	#onrightclickSlider( e ) {
 		const tar = $( e.target );
 
-		if ( e.button === 2 && tar.$hasClass( "gsuiDotline-cdot" ) ) {
+		if ( e.button === 2 && tar.$tag() === "gsui-dotline-cdot" ) {
 			const id = tar.$dataId();
 			const dot = this.#data[ id ];
 
@@ -376,7 +374,7 @@ class gsuiDotline extends gsui0ne {
 	#onrightclickDot( e ) {
 		const tar = $( e.target );
 
-		if ( tar.$hasClass( "gsuiDotline-dot" ) ) {
+		if ( tar.$tag() === "gsui-dotline-dot" ) {
 			if ( e.button !== 2 || this.$elements.$menu.$is( ":popover-open" ) ) {
 				this.$elements.$menu.$togglePopover( false );
 			} else {
@@ -384,7 +382,7 @@ class gsuiDotline extends gsui0ne {
 
 				this.#menuDot.$css( "anchor-name", "" );
 				this.#menuDot = tar;
-				tar.$css( "anchor-name", "--gsuiDotline-dotAnchor" );
+				tar.$css( "anchor-name", "--gsui-dotline-dot-anchor" );
 				this.$elements.$menu.$query( `input[value=${ dotType }]` ).$checked( true );
 				this.$elements.$menu.$togglePopover( true );
 			}
@@ -440,7 +438,7 @@ class gsuiDotline extends gsui0ne {
 	#onptrdownCurveDot( e ) {
 		const tar = $( e.target );
 
-		if ( tar.$hasClass( "gsuiDotline-cdot" ) ) {
+		if ( tar.$tag() === "gsui-dotline-cdot" ) {
 			const id = tar.$dataId();
 			const ind = this.#dataSorted.findIndex( dot => dot[ 0 ] === id );
 			const dotAY = this.#dataSorted[ ind - 1 ][ 1 ].y;
