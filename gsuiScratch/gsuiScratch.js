@@ -25,7 +25,6 @@ class gsuiScratch extends gsui0ne {
 				$.$elem( "gsui-scratch-0line" ),
 				$.$elem( "gsui-scratch-timeline" ),
 			),
-			// $ptrlock: true,
 			$elements: {
 				$svg: "svg",
 				$polygon: "polygon",
@@ -34,6 +33,17 @@ class gsuiScratch extends gsui0ne {
 	}
 
 	// .........................................................................
+	$disconnected() {
+		GSUclearInterval( this.#intervalId );
+		URL.revokeObjectURL( this.#audiobufURL );
+		this.#audiobuf =
+		this.#intervalId =
+		this.#audiobufURL = null;
+		this.#audioElemRev.$rmAttr( "src" );
+		this.#audioElemRev.$remove();
+		this.#audioElem =
+		this.#audioElemRev = $noop;
+	}
 	$onresize( w, h ) {
 		this.#w = w;
 		this.#h = h;
