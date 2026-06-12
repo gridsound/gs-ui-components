@@ -99,6 +99,7 @@ body {
 #TryComponent {
 	overflow: hidden;
 	position: relative;
+	max-width: calc( 100% - 20px );
 	width: var( --TryMe-w, auto );
 	height: var( --TryMe-h, auto );
 	resize: var( --TryMe-resize, both );
