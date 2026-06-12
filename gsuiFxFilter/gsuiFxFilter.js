@@ -25,8 +25,8 @@ class gsuiFxFilter extends gsui0ne {
 		super( {
 			$tagName: "gsui-fx-filter",
 			$elements: {
-				$type: "[data-area='type'] > div",
-				$graph: "[data-area='graph'] > div",
+				$type: "[a=type] > div",
+				$graph: "[a=graph] > div",
 				$curves: "gsui-curves",
 				$sliders: "gsui-slider",
 			},

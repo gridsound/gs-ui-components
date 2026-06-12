@@ -27,81 +27,78 @@ gsui-fx-filter {
 	}
 }
 
-/* .......................................................................... */
-.gsuiFxFilter-area {
+gsui-fx-filter-area {
 	display: flex;
 	flex-direction: column;
 
 	> div {
 		flex: 1;
 	}
-	&[ data-area="type" ] {
+	&[ a="type" ] {
 		grid-area: type;
 
-		> div {
+		div {
 			display: flex;
 			overflow: hidden;
 			border-radius: 4px;
 			flex-direction: column;
 		}
+		button {
+			position: relative;
+			flex: 1;
+			stroke: var( --gsui-col-gain );
+			stroke-width: 1.5px;
+			background-color: var( --gsui-slider-bg );
+			--gsuiTooltip-pos: left;
+
+			&:hover,
+			&:focus {
+				stroke-width: 2px;
+			}
+			&[ data-selected ] {
+				stroke: #222;
+				background-color: var( --gsui-col-gain );
+			}
+			svg {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				fill: transparent;
+				stroke: inherit;
+				stroke-width: inherit;
+				pointer-events: none;
+			}
+		}
 	}
-	&[ data-area="graph" ] {
+	&[ a="graph" ] {
 		grid-area: graph;
 
 		gs-label {
 			align-self: flex-start;
 		}
 	}
-	&[ data-area="gain" ] {
+	&[ a="gain" ] {
 		grid-area: gain;
 		--gsuiSlider-lineColor: var( --gsui-col-gain );
 	}
-	&[ data-area="q" ] {
+	&[ a="q" ] {
 		grid-area: Q;
 		--gsuiSlider-lineColor: var( --gsui-col-Q );
 	}
-	&[ data-area="detune" ] {
+	&[ a="detune" ] {
 		grid-area: detune;
 		margin-top: 16px;
 		--gsuiSlider-lineColor: var( --gsui-col-detune );
 	}
-	&[ data-area="frequency" ] {
+	&[ a="frequency" ] {
 		grid-area: frequency;
 		--gsuiSlider-lineColor: var( --gsui-col-frequency );
 	}
-	&[ data-area="gain" ],
-	&[ data-area="frequency" ] {
+	&[ a="gain" ],
+	&[ a="frequency" ] {
 		.gsuiSlider-eventCatcher {
 			inset: -8px;
 		}
-	}
-}
-
-/* .......................................................................... */
-.gsuiFxFilter-type {
-	position: relative;
-	flex: 1;
-	stroke: var( --gsui-col-gain );
-	stroke-width: 1.5px;
-	background-color: var( --gsui-slider-bg );
-	--gsuiTooltip-pos: left;
-
-	&:hover,
-	&:focus {
-		stroke-width: 2px;
-	}
-	&[ data-selected ] {
-		stroke: #222;
-		background-color: var( --gsui-col-gain );
-	}
-	svg {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		fill: transparent;
-		stroke: inherit;
-		stroke-width: inherit;
-		pointer-events: none;
 	}
 }
