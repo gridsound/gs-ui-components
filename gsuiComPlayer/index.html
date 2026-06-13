@@ -22,7 +22,6 @@
 	<div><label><input id="titled" type="checkbox" /> titled</label></div>
 	<div><label><input id="liked" type="checkbox" /> liked</label></div>
 	<div><label><input id="rendered" type="checkbox" /> rendered</label></div>
-	<div><label><input id="scratch" type="checkbox" /> scratch</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -37,7 +36,6 @@ const privateInp = $( "#private" );
 const renderedInp = $( "#rendered" );
 const opensourceInp = $( "#opensource" );
 const editableInp = $( "#editable" );
-const scratchInp = $( "#scratch" );
 const bpmInp = $( "#bpm" );
 const durationInp = $( "#duration" );
 const currentTimeInp = $( "#currentTime" );
@@ -67,12 +65,10 @@ privateInp.$onchange( () => el.$togAttr( "private" ) );
 renderedInp.$onchange( () => el.$togAttr( "rendered" ) );
 opensourceInp.$onchange( () => el.$togAttr( "opensource" ) );
 editableInp.$onchange( () => el.$setAttr( "dawlink", editableInp.$checked() ? "https://daw.gridsound.com/5Up3rUu1d" : false ) );
-scratchInp.$onchange( () => el.$togAttr( "scratch" ) );
 
 // itsmineInp.$click();
 privateInp.$click();
 editableInp.$click();
-// scratchInp.$click();
 
 bpmInp.$oninput( () => el.$setAttr( "bpm", bpmInp.$value() ) );
 durationInp.$oninput( () => el.$setAttr( "duration", durationInp.$value() ) );
