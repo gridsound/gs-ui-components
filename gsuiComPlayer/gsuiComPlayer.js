@@ -25,6 +25,7 @@ class gsuiComPlayer extends gsui0ne {
 				$likeBtn: "[data-action=like]",
 				$likeIco: "[data-action=like] .gsuiIcon",
 				$likes: "[data-action=like] span",
+				$scratchBtn: "[data-action=scratch]",
 				$bpm: "gsui-com-player-tempo span",
 				$dur: "gsui-com-player-duration",
 				$time: "gsui-com-player-currenttime",
@@ -44,6 +45,7 @@ class gsuiComPlayer extends gsui0ne {
 		} );
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
+		this.$elements.$scratchBtn.$onclick( () => this.$this.$togAttr( "scratch" ) );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
 		this.$elements.$audio
 			.$prop( "preservesPitch", false )
@@ -303,6 +305,7 @@ class gsuiComPlayer extends gsui0ne {
 				this.#activateScratch();
 			}
 		}
+		this.$elements.$scratchBtn.$setAttr( "data-tooltip", b ? GSTX.$player_closeTurntable : GSTX.$player_openTurntable );
 	}
 	#activateScratch() {
 		this.#scratch.$message( GSEV_SCRATCH_LOAD, this.$elements.$audio );

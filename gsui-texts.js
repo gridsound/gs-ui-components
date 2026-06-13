@@ -77,10 +77,12 @@ const GSTXall = GSUdeepFreeze( {
 		$user_newAccount:      "Create a new account",
 		$user_usernameOrEmail: "Username (or email)",
 		// .....................................................................
-		$player_openInDAW:    "<b>Open</b> in the DAW",
-		$player_isPrivate:    "This composition is <b>private</b>",
-		$player_isOpensource: "This composition is <b>open-source</b>",
-		$player_notRendered:  "This composition hasn't yet been rendered by its author",
+		$player_openInDAW:      "<b>Open</b> in the DAW",
+		$player_isPrivate:      "This composition is <b>private</b>",
+		$player_isOpensource:   "This composition is <b>open-source</b>",
+		$player_notRendered:    "This composition hasn't yet been rendered by its author",
+		$player_openTurntable:  "Open the tiny <b>turntable</b>",
+		$player_closeTurntable: "Close the tiny <b>turntable</b>",
 		// .....................................................................
 		$player_opensourceIt: "Make it open-source",
 		$player_publicIt:     "Make it public",
@@ -295,10 +297,12 @@ const GSTXall = GSUdeepFreeze( {
 		$user_newAccount:      "Créer un nouveau compte",
 		$user_usernameOrEmail: "Username (ou email)",
 		// .....................................................................
-		$player_openInDAW:    "<b>Ouvrir</b> dans le DAW",
-		$player_isPrivate:    "Cette composition est <b>privée</b>",
-		$player_isOpensource: "Cette composition est <b>open-source</b>",
-		$player_notRendered:  "Cette composition n'a pas encore été exporté par son auteur",
+		$player_openInDAW:      "<b>Ouvrir</b> dans le DAW",
+		$player_isPrivate:      "Cette composition est <b>privée</b>",
+		$player_isOpensource:   "Cette composition est <b>open-source</b>",
+		$player_notRendered:    "Cette composition n'a pas encore été exporté par son auteur",
+		$player_openTurntable:  "Ouvrir la mini <b>platine</b>",
+		$player_closeTurntable: "Fermer la mini <b>platine</b>",
 		// .....................................................................
 		$player_opensourceIt: "Mettre la composition open-source",
 		$player_publicIt:     "Mettre la composition publique",

@@ -202,20 +202,29 @@ gsui-com-player-info {
 	position: absolute;
 	inset: 0 0 0 1px;
 	display: flex;
+	gap: 16px;
 	font-size: 16px;
 	font-family: var( --gsui-font-number );
 	white-space: nowrap;
 	opacity: .7;
+
+	.gsuiIcon {
+		margin-right: 6px;
+		opacity: .6;
+	}
+	[ data-action="scratch" ] {
+		:first-child {
+			opacity: 1;
+		}
+		gsui-com-player[ scratch ] & :last-child {
+			rotate: 180deg;
+		}
+	}
 }
 gsui-com-player-time,
 gsui-com-player-tempo {
 	display: flex;
 	align-items: baseline;
-
-	.gsuiIcon {
-		margin-right: 6px;
-		opacity: .5;
-	}
 }
 gsui-com-player-currenttime {
 	gsui-com-player:not( [ playing ] ) & {
@@ -225,19 +234,15 @@ gsui-com-player-currenttime {
 		content: "\A0-\A0";
 	}
 }
-gsui-com-player-tempo {
-	margin-left: 16px;
+gsui-com-player-tempo span {
+	display: inline-flex;
+	align-items: baseline;
 
-	span {
-		display: inline-flex;
-		align-items: baseline;
-
-		&::after {
-			content: "bpm";
-			margin-left: 4px;
-			font-size: 11px;
-			font-family: var( --gsui-font );
-		}
+	&::after {
+		content: "bpm";
+		margin-left: 4px;
+		font-size: 11px;
+		font-family: var( --gsui-font );
 	}
 }
 
