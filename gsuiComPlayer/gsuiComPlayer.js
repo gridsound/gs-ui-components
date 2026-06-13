@@ -5,6 +5,7 @@ class gsuiComPlayer extends gsui0ne {
 	#intervalId = null;
 	#promises = {};
 	#scratch = $noop;
+	#currentTimeStr = "";
 	static #actions = GSUdeepFreeze( [
 		{ id: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
 		{ id: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
@@ -105,7 +106,12 @@ class gsuiComPlayer extends gsui0ne {
 				break;
 			case "currenttime":
 				if ( this.#settingTime === null ) {
-					this.$elements.$time.$text( gsuiComPlayer.$calcDuration( val ) );
+					const t = gsuiComPlayer.$calcDuration( val );
+
+					if ( t !== this.#currentTimeStr ) {
+						this.#currentTimeStr = t;
+						this.$elements.$time.$text( t );
+					}
 					this.#updateTimeSlider();
 				}
 				break;
@@ -159,7 +165,7 @@ class gsuiComPlayer extends gsui0ne {
 
 	// .........................................................................
 	#onplay() {
-		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 60 );
+		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 16 );
 		this.$elements.$playIco.$setAttr( "data-icon", "pause" );
 		this.$this.$addAttr( "playing" );
 	}
