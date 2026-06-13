@@ -73,6 +73,7 @@
 	&[ data-icon="cu-music-spark"  ] { --i0: "\e00c"; --i1: "\e00c\e00c"; }
 	&[ data-icon="cu-no-help"      ] { --i0: "\e018"; --i1: "\e018\e018"; }
 	&[ data-icon="cu-no-question"  ] { --i0: "\e019"; --i1: "\e019\e019"; }
+	&[ data-icon="cu-no-turntable" ] { --i0: "\e01a"; --i1: "\e01a\e01a"; }
 	&[ data-icon="cu-wave-edit"    ] {
 		--i0: "\e00d";
 		--i1: "\e00d\e00d";
