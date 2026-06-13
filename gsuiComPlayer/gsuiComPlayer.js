@@ -90,7 +90,10 @@ class gsuiComPlayer extends gsui0ne {
 				this.$elements.$likeBtn.$disabled( val === "" );
 				this.$elements.$dawlink.$setAttr( "data-icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
 				break;
-			case "bpm": this.$elements.$bpm.$text( val ); break;
+			case "bpm":
+				this.$elements.$bpm.$text( val );
+				this.#scratch.$setAttr( "bpm", val );
+				break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "likes": this.$elements.$likes.$text( val ); break;
 			case "link": this.$elements.$name.$setAttr( "href", val ); break;
@@ -300,7 +303,9 @@ class gsuiComPlayer extends gsui0ne {
 			this.#scratch = $noop;
 			this.$elements.$audio.$prop( "playbackRate", 1 );
 		} else {
-			this.#scratch = $( "<gsui-scratch>" ).$appendTo( this );
+			this.#scratch = $( "<gsui-scratch>" )
+				.$setAttr( "bpm", this.$this.$getAttr( "bpm" ) )
+				.$appendTo( this );
 			if ( this.$elements.$audio.$getAttr( "src" ) ) {
 				this.#activateScratch();
 			}

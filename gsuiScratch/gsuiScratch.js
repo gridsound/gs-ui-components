@@ -5,6 +5,7 @@ class gsuiScratch extends gsui0ne {
 	#audioElemRev = $noop;
 	#audiobuf = null;
 	#audiobufURL = null;
+	#bpm = 60;
 	#dur = 0;
 	#clicked = false;
 	#intervalId = null;
@@ -22,7 +23,10 @@ class gsuiScratch extends gsui0ne {
 			$tagName: "gsui-scratch",
 			$template: $.$elem( "gsui-scratch-in", null,
 				$.$elem( "gsui-scratch-speed", null,
-					$.$elem( "gsui-slider", { type: "circular", min: -4, max: 4, value: 1, step: .001, "stroke-width": 8, "mousemove-size": 800 } ),
+					$.$elem( "gsui-scratch-speed-slider", null,
+						$.$elem( "gsui-slider", { type: "circular", min: -4, max: 4, value: 1, defaultValue: 1, step: .001, "stroke-width": 8, "mousemove-size": 800 } ),
+					),
+					$.$span(),
 				),
 				$.$elem( "gsui-scratch-graph", null,
 					$.$elem( "svg", { preserveAspectRatio: "none", inert: true },
@@ -35,14 +39,14 @@ class gsuiScratch extends gsui0ne {
 			$elements: {
 				$graph: "gsui-scratch-graph",
 				$bpmSlider: "gsui-scratch-speed gsui-slider",
+				$bpmValue: "gsui-scratch-speed > span",
 				$svg: "svg",
 				$polygon: "polygon",
 			},
 		} );
 		this.$elements.$bpmSlider.$listen( {
-			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
-				this.#speed = val;
-			},
+			[ GSEV_SLIDER_CHANGE ]: this.#onchangeSlider.bind( this ),
+			[ GSEV_SLIDER_INPUT ]: this.#onchangeSlider.bind( this ),
 		} );
 		this.$elements.$graph.$on( {
 			pointerdown: e => {
@@ -63,6 +67,17 @@ class gsuiScratch extends gsui0ne {
 	}
 
 	// .........................................................................
+	static get observedAttributes() {
+		return [ "bpm" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "bpm":
+				this.#bpm = +val;
+				this.#updateBPM();
+				break;
+		}
+	}
 	$disconnected() {
 		GSUclearInterval( this.#intervalId );
 		URL.revokeObjectURL( this.#audiobufURL );
@@ -92,6 +107,13 @@ class gsuiScratch extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onchangeSlider( _, val ) {
+		this.#speed = val;
+		this.#updateBPM();
+	}
+	#updateBPM() {
+		this.$elements.$bpmValue.$text( this.#bpm * this.#speed | 0 );
+	}
 	#setPBR( pb ) {
 		const elA = pb < 0 ? this.#audioElemRev : this.#audioElem;
 		const elB = pb < 0 ? this.#audioElem : this.#audioElemRev;
