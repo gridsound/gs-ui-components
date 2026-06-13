@@ -6,6 +6,7 @@ class gsuiScratch extends gsui0ne {
 	#audiobuf = null;
 	#audiobufURL = null;
 	#dur = 0;
+	#clicked = false;
 	#intervalId = null;
 	#frameBind = this.#frame.bind( this );
 	#ptrSpeedA = 1;
@@ -14,20 +15,49 @@ class gsuiScratch extends gsui0ne {
 	#w = 0;
 	#h = 0;
 	#wSec = 1;
+	#speed = 1;
 
 	constructor() {
 		super( {
 			$tagName: "gsui-scratch",
-			$template: $.$elem( "gsui-scratch-in", { inert: true },
-				$.$elem( "svg", { preserveAspectRatio: "none" },
-					$.$elem( "polygon" ),
+			$template: $.$elem( "gsui-scratch-in", null,
+				$.$elem( "gsui-scratch-speed", null,
+					$.$elem( "gsui-slider", { type: "circular", min: -4, max: 4, value: 1, step: .001, "stroke-width": 8, "mousemove-size": 800 } ),
 				),
-				$.$elem( "gsui-scratch-0line" ),
-				$.$elem( "gsui-scratch-timeline" ),
+				$.$elem( "gsui-scratch-graph", null,
+					$.$elem( "svg", { preserveAspectRatio: "none", inert: true },
+						$.$elem( "polygon" ),
+					),
+					$.$elem( "gsui-scratch-0line", { inert: true } ),
+					$.$elem( "gsui-scratch-timeline", { inert: true } ),
+				),
 			),
 			$elements: {
+				$graph: "gsui-scratch-graph",
+				$bpmSlider: "gsui-scratch-speed gsui-slider",
 				$svg: "svg",
 				$polygon: "polygon",
+			},
+		} );
+		this.$elements.$bpmSlider.$listen( {
+			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
+				this.#speed = val;
+			},
+		} );
+		this.$elements.$graph.$on( {
+			pointerdown: e => {
+				this.$elements.$graph
+					.$setPtrCapture( e.pointerId )
+					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 16 );
+				this.$this.$css( "cursor", "var(--gsuiCursor-grabbing)" );
+				this.#clicked = true;
+			},
+			pointerup: e => {
+				this.#clicked = false;
+				this.$elements.$graph
+					.$relPtrCapture( e.pointerId )
+					.$off( "pointermove" );
+				this.$this.$css( "cursor", "" );
 			},
 		} );
 	}
@@ -39,15 +69,18 @@ class gsuiScratch extends gsui0ne {
 		this.#audiobuf =
 		this.#intervalId =
 		this.#audiobufURL = null;
+		this.#clicked = false;
 		this.#audioElemRev.$rmAttr( "src" );
 		this.#audioElemRev.$remove();
 		this.#audioElem =
 		this.#audioElemRev = $noop;
 	}
-	$onresize( w, h ) {
-		this.#w = w;
-		this.#h = h;
-		this.#wSec = w / 100;
+	$onresize() {
+		const bcr = this.$elements.$graph.$bcr();
+
+		this.#w = bcr.w;
+		this.#h = bcr.h;
+		this.#wSec = bcr.w / 100;
 		this.#drawWaveform();
 	}
 	$onmessage( ev, val ) {
@@ -56,17 +89,6 @@ class gsuiScratch extends gsui0ne {
 				this.#load( val );
 				break;
 		}
-	}
-
-	// .........................................................................
-	$onptrdown( e ) {
-		this.$this.$css( "cursor", "var(--gsuiCursor-grabbing)" );
-	}
-	$onptrmove( e ) {
-		this.#ptrSpeedA -= e.movementX / 16;
-	}
-	$onptrup( e ) {
-		this.$this.$css( "cursor", "" );
 	}
 
 	// .........................................................................
@@ -82,10 +104,10 @@ class gsuiScratch extends gsui0ne {
 		this.#ptrSpeedB = pb;
 	}
 	#frame() {
-		if ( this.$isActive ) {
+		if ( this.#clicked ) {
 			this.#ptrSpeedA /= 1.2;
 		} else {
-			this.#ptrSpeedA += ( 1 - this.#ptrSpeedA ) / 40;
+			this.#ptrSpeedA += ( this.#speed - this.#ptrSpeedA ) / 40;
 		}
 		if ( this.#audioElem.$prop( "paused" ) !== this.#audioElemRev.$prop( "paused" ) ) {
 			this.#audioElem.$prop( "paused" )

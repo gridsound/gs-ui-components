@@ -24,6 +24,29 @@ gsui-scratch {
 	}
 }
 
+gsui-scratch-in {
+	display: flex;
+	height: 100%;
+}
+
+gsui-scratch-speed {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 64px;
+
+	gsui-slider {
+		width: 80%;
+	}
+}
+
+gsui-scratch-graph {
+	position: relative;
+	display: block;
+	height: 100%;
+	flex: 1;
+}
+
 gsui-scratch-0line {
 	position: absolute;
 	inset: 50% 0;
