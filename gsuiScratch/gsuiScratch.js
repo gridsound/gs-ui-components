@@ -32,6 +32,7 @@ class gsuiScratch extends gsui0ne {
 					$.$elem( "svg", { preserveAspectRatio: "none", inert: true },
 						$.$elem( "polygon" ),
 					),
+					$.$span( { inert: true }, GSTX.$loading ),
 					$.$elem( "gsui-scratch-0line", { inert: true } ),
 					$.$elem( "gsui-scratch-timeline", { inert: true } ),
 				),
@@ -146,6 +147,7 @@ class gsuiScratch extends gsui0ne {
 		this.#audiobuf = null;
 		this.#audioElem = elAudio;
 		this.#currentTime = 0;
+		this.$this.$addAttr( "loading" );
 		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
 			.then( arr => GSUaudioCurrentContext.decodeAudioData( arr ) )
@@ -168,6 +170,9 @@ class gsuiScratch extends gsui0ne {
 				this.#audioElemRev = audioRev;
 				this.#intervalId = GSUsetInterval( this.#frameBind, 1 / 60 );
 				this.#drawWaveform();
+			} )
+			.finally( () => {
+				this.$this.$rmAttr( "loading" );
 			} );
 	}
 	#drawWaveform() {

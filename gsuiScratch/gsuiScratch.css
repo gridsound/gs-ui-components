@@ -11,6 +11,21 @@ gsui-scratch {
 		position: absolute;
 		visibility: hidden;
 	}
+	&:not( [ loading ] ) {
+		gsui-scratch-0line {
+			position: absolute;
+			inset: 50% 0;
+			border-top: 1px solid #0015;
+		}
+		gsui-scratch-timeline {
+			position: absolute;
+			inset: 0 50%;
+			border-left: 2px solid #fffd;
+		}
+		gsui-scratch-graph > span {
+			display: none;
+		}
+	}
 }
 
 gsui-scratch-in {
@@ -66,16 +81,11 @@ gsui-scratch-graph {
 		stroke-linejoin: round;
 		fill: #fff5;
 	}
-}
-
-gsui-scratch-0line {
-	position: absolute;
-	inset: 50% 0;
-	border-top: 1px solid #0015;
-}
-
-gsui-scratch-timeline {
-	position: absolute;
-	inset: 0 50%;
-	border-left: 2px solid #fffd;
+	> span {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }
