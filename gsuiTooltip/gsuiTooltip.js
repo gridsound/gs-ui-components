@@ -18,7 +18,7 @@ class gsuiTooltip {
 	} );
 
 	static $start() {
-		if ( !gsuiTooltip.#popover.$size() ) {
+		if ( !GSUonMobile && !gsuiTooltip.#popover.$size() ) {
 			gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
 			$body.$append( gsuiTooltip.#popover )
 				.$addEventListener( "mouseover", gsuiTooltip.#mouseover );
