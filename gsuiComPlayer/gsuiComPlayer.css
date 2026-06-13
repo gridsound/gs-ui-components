@@ -1,5 +1,6 @@
 gsui-com-player {
 	--gsui-bg: #2e355b;
+	container: gsui-com-player-query / inline-size;
 	anchor-scope: --gsui-com-player-actions-anchor;
 	overflow: hidden;
 	display: flex;
@@ -266,5 +267,31 @@ gsui-com-player-slider {
 		height: 100%;
 		pointer-events: none;
 		background-color: #65b;
+	}
+}
+
+/* .......................................................................... */
+@container gsui-com-player-query ( max-width: 448px ) {
+	gsui-com-player[ playing ] gsui-com-player-tempo span::after {
+		display: none;
+	}
+}
+@container gsui-com-player-query ( max-width: 416px ) {
+	gsui-com-player[ playing ] gsui-com-player-duration,
+	gsui-com-player[ playing ] gsui-com-player-currenttime::after {
+		display: none;
+	}
+}
+@container gsui-com-player-query ( max-width: 412px ) {
+	gsui-com-player:not( [ playing ] ) gsui-com-player-tempo span::after {
+		display: none;
+	}
+}
+@container gsui-com-player-query ( max-width: 374px ) {
+	gsui-com-player-body > :first-child {
+		padding: 0 6px;
+	}
+	gsui-com-player-info {
+		gap: 8px;
 	}
 }
