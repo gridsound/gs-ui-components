@@ -81,8 +81,9 @@ const GSTXall = GSUdeepFreeze( {
 		$player_isPrivate:      "This composition is <b>private</b>",
 		$player_isOpensource:   "This composition is <b>open-source</b>",
 		$player_notRendered:    "This composition hasn't yet been rendered by its author",
-		$player_openTurntable:  "Open the tiny <b>turntable</b>",
-		$player_closeTurntable: "Close the tiny <b>turntable</b>",
+		$player_noTurntable:    "This composition <b>has to be rendered</b> before using the <i>turntable</i>",
+		$player_openTurntable:  "<b>Open</b> the tiny <i>turntable</i>",
+		$player_closeTurntable: "<b>Close</b> the tiny <i>turntable</i>",
 		// .....................................................................
 		$player_opensourceIt: "Make it open-source",
 		$player_publicIt:     "Make it public",
@@ -301,8 +302,9 @@ const GSTXall = GSUdeepFreeze( {
 		$player_isPrivate:      "Cette composition est <b>privée</b>",
 		$player_isOpensource:   "Cette composition est <b>open-source</b>",
 		$player_notRendered:    "Cette composition n'a pas encore été exporté par son auteur",
-		$player_openTurntable:  "Ouvrir la mini <b>platine</b>",
-		$player_closeTurntable: "Fermer la mini <b>platine</b>",
+		$player_noTurntable:    "Cette composition <b>doit être exporté</b> avant d'utiliser la <i>platine</i>",
+		$player_openTurntable:  "<b>Ouvrir</b> la mini <i>platine</i>",
+		$player_closeTurntable: "<b>Fermer</b> la mini <i>platine</i>",
 		// .....................................................................
 		$player_opensourceIt: "Mettre la composition open-source",
 		$player_publicIt:     "Mettre la composition publique",

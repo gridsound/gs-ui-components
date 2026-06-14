@@ -230,6 +230,13 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$playIco.$setAttr( b
 			? { "data-spin": false, "data-icon": "play" }
 			: { "data-spin": false, "data-icon": "file-corrupt" } );
+		this.$elements.$scratchBtn
+			.$disabled( !b )
+			.$setAttr( "data-tooltip", b ? GSTX.$player_openTurntable : GSTX.$player_noTurntable )
+			.$child( 0 ).$setAttr( "data-icon", b ? "turntable" : "cu-no-turntable" );
+		if ( !b ) {
+			this.$this.$rmAttr( "scratch" );
+		}
 	}
 	#createMenuActions() {
 		const actionsStr = this.$this.$getAttr( "actions" );

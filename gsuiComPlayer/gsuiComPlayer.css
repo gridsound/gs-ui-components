@@ -217,8 +217,13 @@ gsui-com-player-info {
 		:first-child {
 			opacity: 1;
 		}
-		gsui-com-player[ scratch ] & :last-child {
-			rotate: 180deg;
+		:last-child {
+			gsui-com-player:not( [ rendered ] ) & {
+				display: none;
+			}
+			gsui-com-player[ scratch ] & {
+				rotate: 180deg;
+			}
 		}
 	}
 }
