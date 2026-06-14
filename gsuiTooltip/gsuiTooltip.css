@@ -17,6 +17,9 @@
 	box-shadow: 0 0 10px #0005;
 	pointer-events: none;
 
+	&:empty {
+		display: none;
+	}
 	&:has( a ) {
 		pointer-events: auto;
 	}
