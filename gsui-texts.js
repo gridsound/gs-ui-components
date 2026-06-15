@@ -6,6 +6,7 @@ const GSTXall = GSUdeepFreeze( {
 		$bio:          "bio",
 		$you:          "you",
 		$like:         "like",
+		$liked:        "liked",
 		$user:         "user",
 		$with:         "with",
 		$email:        "email",
@@ -47,6 +48,9 @@ const GSTXall = GSUdeepFreeze( {
 		$writeYourBio: "Write your bio",
 		$readTheirBio: "Read <i>$0</i>'s bio",
 		$noBioWritten: "No bio written yet…",
+		// .....................................................................
+		$exploreAll:        "Browse what is happening on <i>GridSound</i>.",
+		$exploreYourFollow: "Browse the last activities of your <b>$0</b> following",
 		// .....................................................................
 		$search_user_0:   "There is no user matching <bi>\"$0\"</bi>",
 		$search_cmps_0:   "There is no composition matching <bi>\"$0\"</bi>",
@@ -231,6 +235,7 @@ const GSTXall = GSUdeepFreeze( {
 		$bio:          "bio",
 		$you:          "vous",
 		$like:         "j'aime",
+		$liked:        "à aimé",
 		$user:         "utilisateur",
 		$with:         "avec",
 		$email:        "email",
@@ -272,6 +277,9 @@ const GSTXall = GSUdeepFreeze( {
 		$writeYourBio: "Rédigez votre bio",
 		$readTheirBio: "Lire la bio de <i>$0</i>",
 		$noBioWritten: "Aucune bio rédigée pour l'instant…",
+		// .....................................................................
+		$exploreAll:        "Explorez ce qu'il se passe sur <i>GridSound</i>.",
+		$exploreYourFollow: "Explorez les dernières activités de vos <b>$0</b> abonnements",
 		// .....................................................................
 		$search_user_0:   "Il n'y a aucun utilisateur correspondant à <bi>\"$0\"</bi>",
 		$search_cmps_0:   "Il n'y a aucune composition correspondant à <bi>\"$0\"</bi>",
