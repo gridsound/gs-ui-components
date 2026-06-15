@@ -65,6 +65,10 @@ const GSTXall = GSUdeepFreeze( {
 		$createNewCmp:     "<b>Create</b> a new composition",
 		$exploreNewThings: "<b>Explore</b> new creations",
 		$searchUsersCmps:  "<b>Search</b> for users and compositions",
+		$yourMusicsPH:     "You have no composition yet, start creating one by clicking the <i>music-plus</i> button in the header.",
+		$yourLikesPH:      "You didn't find any composition to like yet, start searching some by clicking on the <i>magnify-glass</i> icon.",
+		$theirMusicsPH:    "There is, for the moment no composition to listen here.",
+		$theirLikesPH:     "This user has liked no other composition until now.",
 		// .....................................................................
 		$user_login:           "Login / connection",
 		$user_logout:          "Logout / disconnect",
@@ -286,6 +290,10 @@ const GSTXall = GSUdeepFreeze( {
 		$createNewCmp:     "<b>Commencer</b> une nouvelle composition",
 		$exploreNewThings: "<b>Explorer</b> de nouvelles choses",
 		$searchUsersCmps:  "<b>Chercher</b> des musiciens et des compositions",
+		$yourMusicsPH:     "Vous n'avez pas encore de composition, cliquez sur le button <i>music-plus</i> du haut pour en écrire une.",
+		$yourLikesPH:      "Vous n'avez pas encore trouvé de composition qui mérite un like, cherchez-en en cliquant sur l'icône <i>loupe</i> du haut.",
+		$theirMusicsPH:    "Il n'y a, pour le moment aucune composition à écouter ici.",
+		$theirLikesPH:     "Cette personne n'a aimé aucune autre composition jusqu'à maintenant.",
 		// .....................................................................
 		$user_login:           "Connexion / identification",
 		$user_logout:          "Déconnexion",
