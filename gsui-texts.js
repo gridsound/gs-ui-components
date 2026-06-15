@@ -49,8 +49,10 @@ const GSTXall = GSUdeepFreeze( {
 		$readTheirBio: "Read <i>$0</i>'s bio",
 		$noBioWritten: "No bio written yet…",
 		// .....................................................................
-		$exploreAll:        "Browse what is happening on <i>GridSound</i>.",
-		$exploreYourFollow: "Browse the last activities of your <b>$0</b> following",
+		$explore_all:  "Browse what is happening on <i>GridSound</i>.",
+		$explore_you:  "Browse the last activities of your <b>$0</b> following.",
+		$explore_you1: "Browse the last activities of your first following.",
+		$explore_you0: "You have no following yet. Click on <bi>All</bi> to see the activities of every one.",
 		// .....................................................................
 		$search_user_0:   "There is no user matching <bi>\"$0\"</bi>",
 		$search_cmps_0:   "There is no composition matching <bi>\"$0\"</bi>",
@@ -278,8 +280,10 @@ const GSTXall = GSUdeepFreeze( {
 		$readTheirBio: "Lire la bio de <i>$0</i>",
 		$noBioWritten: "Aucune bio rédigée pour l'instant…",
 		// .....................................................................
-		$exploreAll:        "Explorez ce qu'il se passe sur <i>GridSound</i>.",
-		$exploreYourFollow: "Explorez les dernières activités de vos <b>$0</b> abonnements",
+		$explore_all:  "Explorez ce qu'il se passe sur <i>GridSound</i>.",
+		$explore_you:  "Explorez les dernières activités de vos <b>$0</b> abonnements.",
+		$explore_you1: "Explorez les dernières activités de votre abonnement.",
+		$explore_you0: "Vous n'avez encore aucun abonnement. Cliquez sur <bi>Tout</bi> pour voir les activités de tout le monde",
 		// .....................................................................
 		$search_user_0:   "Il n'y a aucun utilisateur correspondant à <bi>\"$0\"</bi>",
 		$search_cmps_0:   "Il n'y a aucune composition correspondant à <bi>\"$0\"</bi>",
