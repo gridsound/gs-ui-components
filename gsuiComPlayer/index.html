@@ -40,8 +40,6 @@ const bpmInp = $( "#bpm" );
 const durationInp = $( "#duration" );
 const currentTimeInp = $( "#currentTime" );
 
-GSUaudioCurrentContext = GSUaudioContext();
-
 el.$get( 0 ).$setLikeCallbackPromise( ( el, action ) => {
 	return GSUwait( .5 ).then( () => {
 		lg( action );
