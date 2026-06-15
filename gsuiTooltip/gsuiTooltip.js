@@ -95,7 +95,7 @@ class gsuiTooltip {
 		if ( txt !== gsuiTooltip.#currText ) {
 			gsuiTooltip.#currText = txt;
 			txt?.includes( "<" )
-				? gsuiTooltip.#popover.$empty().$append( ...$.$simpleStringHTML( txt ) )
+				? gsuiTooltip.#popover.$textHTML( txt )
 				: gsuiTooltip.#popover.$text( txt );
 		}
 	}
