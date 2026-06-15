@@ -144,15 +144,17 @@ class gsuiScratch extends gsui0ne {
 		this.#drawWaveform();
 	}
 	#load( elAudio ) {
+		const ctx = GSUaudioContext();
+
 		this.#audiobuf = null;
 		this.#audioElem = elAudio;
 		this.#currentTime = 0;
 		this.$this.$addAttr( "loading" );
 		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
-			.then( arr => GSUaudioCurrentContext.decodeAudioData( arr ) )
+			.then( arr => ctx.decodeAudioData( arr ) )
 			.then( buf => {
-				const bufRev = GSUreverseBuffer( GSUcloneBuffer( GSUaudioCurrentContext, buf ) );
+				const bufRev = GSUreverseBuffer( GSUcloneBuffer( ctx, buf ) );
 				const blobRev = gswaEncodeWAV.$createBlob( gswaEncodeWAV.$encodeBuffer( {
 					$buffer: bufRev,
 					$float32: false,
@@ -172,6 +174,7 @@ class gsuiScratch extends gsui0ne {
 				this.#drawWaveform();
 			} )
 			.finally( () => {
+				ctx.close();
 				this.$this.$rmAttr( "loading" );
 			} );
 	}
