@@ -75,6 +75,7 @@ const GSTXall = GSUdeepFreeze( {
 		$searchUsersCmps:  "<b>Search</b> for users and compositions",
 		$yourMusicsPH:     "You have no composition yet, start creating one by clicking the <i>music-plus</i> button in the header.",
 		$yourLikesPH:      "You didn't find any composition to like yet, start searching some by clicking on the <i>magnify-glass</i> icon.",
+		$yourBinPH:        "This is the place where your deleted compositions will appear before being unreachable.",
 		$theirMusicsPH:    "There is, for the moment no composition to listen here.",
 		$theirLikesPH:     "This user has liked no other composition until now.",
 		// .....................................................................
@@ -308,6 +309,7 @@ const GSTXall = GSUdeepFreeze( {
 		$searchUsersCmps:  "<b>Chercher</b> des musiciens et des compositions",
 		$yourMusicsPH:     "Vous n'avez pas encore de composition, cliquez sur le button <i>music-plus</i> du haut pour en écrire une.",
 		$yourLikesPH:      "Vous n'avez pas encore trouvé de composition qui mérite un like, cherchez-en en cliquant sur l'icône <i>loupe</i> du haut.",
+		$yourBinPH:        "C'est ici où apparaîtront vos compositions supprimées avant d'être inaccessible.",
 		$theirMusicsPH:    "Il n'y a, pour le moment aucune composition à écouter ici.",
 		$theirLikesPH:     "Cette personne n'a aimé aucune autre composition jusqu'à maintenant.",
 		// .....................................................................
