@@ -4,7 +4,9 @@ class gsuiHelpLink extends gsui0ne {
 	constructor() {
 		super( {
 			$tagName: "gsui-help-link",
-			$template: $.$linkExt( { class: "gsuiIcon", "data-icon": "help" } ),
+			$template: $.$linkExt( null,
+				$.$icon( { icon: "help" } ),
+			),
 		} );
 	}
 

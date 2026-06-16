@@ -5,11 +5,10 @@ gsui-help-link {
 	[ gsuihelplink-show ] & {
 		display: block;
 	}
-	a::before,
-	a::after {
+	.gsuiIcon {
 		color: var( --gsuiHelpLink-txt );
 	}
-	a:hover::before {
+	&:hover .gsuiIcon {
 		color: currentColor;
 	}
 }
