@@ -13,8 +13,8 @@
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 
-	&:not( [ data-spin="on" ] )[ data-icon="" ],
-	&:not( [ data-spin="on" ], [ data-icon ] ) {
+	&:not( [ data-spin ] )[ data-icon="" ],
+	&:not( [ data-spin ], [ data-icon ] ) {
 		display: none;
 	}
 	&[ data-icon|="cu" ] {
@@ -33,7 +33,7 @@
 	}
 
 	/* ...................................................................... */
-	&[ data-spin="on" ] {
+	&[ data-spin ] {
 		line-height: 1;
 		font-family: "FontAwesome";
 
