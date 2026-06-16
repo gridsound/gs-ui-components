@@ -13,7 +13,7 @@ class gsuiWindow extends gsui0ne {
 		super( {
 			$tagName: "gsui-window",
 			$elements: {
-				$icon: ".gsuiWindow-icon",
+				$icon: ".gsuiWindow-head > :first-child .gsuiIcon",
 				$wrap: ".gsuiWindow-wrap",
 				$head: ".gsuiWindow-head",
 				$name: ".gsuiWindow-name",
