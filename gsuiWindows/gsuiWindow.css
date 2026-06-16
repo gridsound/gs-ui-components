@@ -159,8 +159,8 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 		opacity: 1;
 		background-color: rgba( 0, 0, 0, .1 );
 	}
-	.gsuiIcon[ data-icon="compress" ],
-	.gsuiIcon[ data-icon="expand" ],
+	gsui-icon[ data-icon="compress" ],
+	gsui-icon[ data-icon="expand" ],
 	&[ data-action="close" ] {
 		font-size: 12px;
 	}
@@ -169,10 +169,10 @@ gsui-window[ minimized ] .gsuiWindow-handler {
 		background-color: var( --gsui-win-close );
 	}
 	gsui-windows[ nominimize ] &[ data-action="minimize" ],
-	gsui-windows[ nominimize ] &[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
-	gsui-windows[ nominimize ] &[ data-action="maximize" ] .gsuiIcon[ data-icon="maximize" ],
-	gsui-windows:not( [ nominimize ] ) &[ data-action="restore" ] .gsuiIcon[ data-icon="restore" ],
-	gsui-windows:not( [ nominimize ] ) &[ data-action="maximize" ] .gsuiIcon[ data-icon="expand" ],
+	gsui-windows[ nominimize ] &[ data-action="restore" ] gsui-icon[ data-icon="restore" ],
+	gsui-windows[ nominimize ] &[ data-action="maximize" ] gsui-icon[ data-icon="maximize" ],
+	gsui-windows:not( [ nominimize ] ) &[ data-action="restore" ] gsui-icon[ data-icon="restore" ],
+	gsui-windows:not( [ nominimize ] ) &[ data-action="maximize" ] gsui-icon[ data-icon="expand" ],
 	gsui-window[ minimized ] &[ data-action="minimize" ],
 	gsui-window[ maximized ] &[ data-action="maximize" ],
 	gsui-window:not( [ minimized ], [ maximized ] ) &[ data-action="restore" ] {

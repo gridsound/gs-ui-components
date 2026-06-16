@@ -62,7 +62,7 @@ gsui-wave-editor {
 	place-content: center;
 	gap: 4px;
 
-	.gsuiIcon:last-child {
+	gsui-icon:last-child {
 		&::after {
 			opacity: .2;
 		}
@@ -71,7 +71,7 @@ gsui-wave-editor {
 		}
 	}
 }
-gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-child {
+gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize gsui-icon:last-child {
 	opacity: .2;
 }
 
@@ -117,7 +117,7 @@ gsui-wave-editor:not( [ normalized ] ) .gsuiWaveEditor-normalize .gsuiIcon:last-
 	margin-top: auto;
 
 	> gs-flex {
-		.gsuiIcon {
+		gsui-icon {
 			min-width: 20px;
 			opacity: .5;
 		}

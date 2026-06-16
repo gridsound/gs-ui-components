@@ -17,7 +17,7 @@ gsui-step-select {
 	&:hover {
 		opacity: 1;
 
-		> .gsuiIcon {
+		> gsui-icon {
 			opacity: .6;
 		}
 	}
@@ -26,7 +26,7 @@ gsui-step-select {
 		padding-left: 6px;
 		margin-left: -6px;
 	}
-	> .gsuiIcon {
+	> gsui-icon {
 		font-size: 11px;
 		line-height: 20px;
 		opacity: .5;

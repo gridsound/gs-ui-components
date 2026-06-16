@@ -119,7 +119,7 @@
 	.gsuiPatterns-pattern[ data-missing ] & {
 		display: flex;
 	}
-	.gsuiIcon {
+	gsui-icon {
 		margin: 0 8px;
 	}
 	&::after {

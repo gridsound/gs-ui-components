@@ -52,11 +52,11 @@ gsui-library {
 		font-size: 9px;
 		font-weight: bold;
 	}
-	.gsuiIcon {
+	gsui-icon {
 		opacity: .3;
 		pointer-events: none;
 	}
-	&[ data-expanded ] .gsuiIcon {
+	&[ data-expanded ] gsui-icon {
 		rotate: 90deg;
 	}
 	span {

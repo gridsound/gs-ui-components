@@ -13,13 +13,13 @@ gsui-com-avatar {
 		height: 100%;
 		object-fit: cover;
 	}
-	.gsuiIcon {
+	gsui-icon {
 		position: absolute;
 		font-size: 60cqw;
 		color: inherit;
 	}
 	&:not( [ loaded ] ) img,
-	&[ loaded ] .gsuiIcon {
+	&[ loaded ] gsui-icon {
 		display: none;
 	}
 }

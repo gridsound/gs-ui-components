@@ -28,7 +28,7 @@ gsui-effect-head {
 		font-size: 14px;
 		opacity: var( --gsuiEffect-head-name-opacity, .5 );
 
-		gsui-effect[ expanded ] & .gsuiIcon {
+		gsui-effect[ expanded ] & gsui-icon {
 			rotate: 90deg;
 		}
 	}

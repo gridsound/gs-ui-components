@@ -34,7 +34,7 @@ gsui-com-profile {
 
 		gsui-com-profile:not( [ itsme ] ) &,
 		gsui-com-profile:not( [ emailtoverify ] ) &,
-		gsui-com-profile:not( [ emailsending ] ) & .gsuiIcon {
+		gsui-com-profile:not( [ emailsending ] ) & gsui-icon {
 			display: none;
 		}
 	}
@@ -66,13 +66,13 @@ gsui-com-profile {
 		gsui-com-profile:not( [ followedjustnow ] ) &:not( [ disabled ] ):hover {
 			--gsuiComProfile-followBtn-bg: var( --gsuiComProfile-followBtn-hover-bg );
 		}
-		.gsuiIcon {
+		gsui-icon {
 			display: none;
 		}
 		&:not( [ disabled ] ) {
-			gsui-com-profile:not( [ followed ] ) & .gsuiIcon[ data-icon="follow" ],
-			gsui-com-profile[ followed ] &:not( :hover ) .gsuiIcon[ data-icon="followed" ],
-			gsui-com-profile[ followed ] &:hover .gsuiIcon[ data-icon="unfollow" ] {
+			gsui-com-profile:not( [ followed ] ) & gsui-icon[ data-icon="follow" ],
+			gsui-com-profile[ followed ] &:not( :hover ) gsui-icon[ data-icon="followed" ],
+			gsui-com-profile[ followed ] &:hover gsui-icon[ data-icon="unfollow" ] {
 				display: flex;
 			}
 		}

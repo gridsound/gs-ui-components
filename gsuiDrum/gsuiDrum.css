@@ -31,7 +31,7 @@ gsui-drumcut {
 	font-size: 10px;
 	background-color: var( --gsuiDrums-drumcut-bg );
 }
-.gsuiDrumcut-in .gsuiIcon {
+.gsuiDrumcut-in gsui-icon {
 	opacity: .6;
 }
 
@@ -59,7 +59,7 @@ gsui-drumcut {
 
 /* .......................................................................... */
 @container gsui-drumcut-query ( max-width: 14px ) {
-	.gsuiDrumcut-in .gsuiIcon {
+	.gsuiDrumcut-in gsui-icon {
 		display: none;
 	}
 }

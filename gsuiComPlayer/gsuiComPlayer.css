@@ -72,7 +72,7 @@ gsui-com-player-in {
 		flex-direction: column;
 		gap: 4px;
 
-		.gsuiIcon {
+		gsui-icon {
 			gsui-com-player[ itsmine ] &:first-child,
 			gsui-com-player[ liked ] &:first-child,
 			gsui-com-player:not( [ liked ], [ itsmine ] ) &:nth-child( 2 ) {
@@ -121,7 +121,7 @@ gsui-com-player-actions-pop {
 			background-color: #fff1;
 		}
 		b {
-			.gsuiIcon {
+			gsui-icon {
 				width: 20px;
 				margin-right: 6px;
 			}
@@ -159,7 +159,7 @@ gsui-com-player-name {
 	gsui-com-player[ playing ] & {
 		height: 1.3em;
 	}
-	.gsuiIcon {
+	gsui-icon {
 		width: 18px;
 		font-size: 16px;
 		opacity: .5;
@@ -209,7 +209,7 @@ gsui-com-player-info {
 	white-space: nowrap;
 	opacity: .7;
 
-	.gsuiIcon {
+	gsui-icon {
 		margin-right: 6px;
 		opacity: .6;
 	}

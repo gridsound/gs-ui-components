@@ -54,7 +54,7 @@ gsui-dotline-menu {
 	button {
 		text-align: start;
 
-		.gsuiIcon {
+		gsui-icon {
 			width: 16px;
 		}
 	}

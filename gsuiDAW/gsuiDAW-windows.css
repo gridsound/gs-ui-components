@@ -20,14 +20,14 @@
 		content: "Untitled";
 		font-style: italic;
 	}
-	.gsuiIcon,
+	gsui-icon,
 	span {
 		pointer-events: none;
 	}
-	.gsuiIcon + span {
+	gsui-icon + span {
 		margin-left: 4px;
 	}
-	+ .gsuiIcon {
+	+ gsui-icon {
 		font-size: 12px;
 	}
 	&[ data-target="channel" ],

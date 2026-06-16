@@ -5,10 +5,10 @@ gsui-help-link {
 	[ gsuihelplink-show ] & {
 		display: block;
 	}
-	.gsuiIcon {
+	gsui-icon {
 		color: var( --gsuiHelpLink-txt );
 	}
-	&:hover .gsuiIcon {
+	&:hover gsui-icon {
 		color: currentColor;
 	}
 }

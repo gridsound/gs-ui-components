@@ -55,7 +55,7 @@ gsui-channels-others {
 			border: 2px dashed;
 			position: absolute;
 		}
-		.gsuiIcon {
+		gsui-icon {
 			&:first-child { font-size: 24px }
 			&:last-child { font-size: 14px }
 		}

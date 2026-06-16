@@ -84,8 +84,7 @@ gsui-drumrow {
 	cursor: var( --gsuiCursor-grab );
 	background-color: var( --gsuiDrumrow-grip-bg );
 
-	.gsuiIcon {
-		pointer-events: none;
+	gsui-icon {
 		opacity: .4;
 	}
 }

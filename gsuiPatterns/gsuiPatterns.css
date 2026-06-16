@@ -15,7 +15,7 @@ gsui-patterns {
 		height: 32px;
 		cursor: var( --gsuiCursor-pointer );
 	}
-	.gsuiIcon {
+	gsui-icon {
 		width: 20px;
 		margin-left: .4ch;
 		margin-right: .8ch;

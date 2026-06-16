@@ -51,7 +51,7 @@ gsui-mixer-analyser-types {
 	gap: 4px;
 	opacity: .8;
 
-	> .gsuiIcon {
+	> gsui-icon {
 		font-size: 13px;
 	}
 	button {
@@ -66,10 +66,10 @@ gsui-mixer-analyser-types {
 		font-size: 8px;
 
 		span { opacity: .7 }
-		.gsuiIcon::before { opacity: 0 }
-		.gsuiIcon::after { opacity: .3 }
-		gsui-mixer[ analyser="td" ] &:first-child .gsuiIcon::before,
-		gsui-mixer[ analyser="hz" ] &:last-child .gsuiIcon::before,
+		gsui-icon::before { opacity: 0 }
+		gsui-icon::after { opacity: .3 }
+		gsui-mixer[ analyser="td" ] &:first-child gsui-icon::before,
+		gsui-mixer[ analyser="hz" ] &:last-child gsui-icon::before,
 		gsui-mixer[ analyser="td" ] &:first-child span,
 		gsui-mixer[ analyser="hz" ] &:last-child span {
 			opacity: 1;
