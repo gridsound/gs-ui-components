@@ -36,11 +36,15 @@ class gsuiScratch extends gsui0ne {
 					$.$elem( "gsui-scratch-0line", { inert: true } ),
 					$.$elem( "gsui-scratch-timeline", { inert: true } ),
 				),
+				$.$button( { "data-action": "close" },
+					$.$icon( { icon: "close" } ),
+				),
 			),
 			$elements: {
 				$graph: "gsui-scratch-graph",
 				$bpmSlider: "gsui-scratch-speed gsui-slider",
 				$bpmValue: "gsui-scratch-speed > span",
+				$closeBtn: "[data-action=close]",
 				$svg: "svg",
 				$polygon: "polygon",
 			},
@@ -49,6 +53,7 @@ class gsuiScratch extends gsui0ne {
 			[ GSEV_SLIDER_CHANGE ]: this.#onchangeSlider.bind( this ),
 			[ GSEV_SLIDER_INPUT ]: this.#onchangeSlider.bind( this ),
 		} );
+		this.$elements.$closeBtn.$onclick( () => this.$this.$dispatch( GSEV_SCRATCH_CLOSE ) );
 		this.$elements.$graph.$on( {
 			pointerdown: e => {
 				this.$elements.$graph
