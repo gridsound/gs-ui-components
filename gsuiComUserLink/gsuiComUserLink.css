@@ -1,9 +1,10 @@
 gsui-com-userlink {
 	display: inline-flex;
+	font-size: 16px;
 
 	div {
-		width: 22px;
-		height: 22px;
+		width: 2.062ch;
+		height: 2.062ch;
 		border-radius: 2px;
 		background: #fff6 no-repeat center;
 		background-size: cover;
@@ -11,16 +12,18 @@ gsui-com-userlink {
 	a {
 		display: inline-flex;
 		align-items: center;
-		gap: 10px;
-		font-size: 16px;
+		gap: .9ch;
 		color: var( --gsui-txt ) !important; /* stylelint-disable-line declaration-no-important */
 
 		&:hover b {
 			text-decoration: underline;
 		}
 	}
-	span:not( :empty )::before {
+	span:empty {
+		display: none;
+	}
+	span::before {
 		content: "-";
-		margin-right: 10px;
+		margin-right: .9ch;
 	}
 }
