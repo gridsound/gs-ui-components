@@ -11,12 +11,12 @@ $.$setTemplate( "gsui-daw-popup-about", () =>
 		$.$div( null, $.$simpleStringHTML( GSTX.$about_gridsound ) ),
 		$.$div( null, $.$simpleStringHTML( GSTX.$about_gridsound2 ) ),
 		$.$div( { class: "gsuiDAW-popup-about-links" },
-			$.$linkExt( { "data-tooltip": "GitHub",   class: "gsuiIcon", "data-icon": "br-github",   href: "https://github.com/gridsound" } ),
-			$.$linkExt( { "data-tooltip": "Bluesky",  class: "gsuiIcon", "data-icon": "br-bluesky",  href: "https://bsky.app/profile/gridsound.com" } ),
-			$.$linkExt( { "data-tooltip": "YouTube",  class: "gsuiIcon", "data-icon": "br-youtube",  href: "https://youtube.com/@gridsound" } ),
-			$.$linkExt( { "data-tooltip": "Facebook", class: "gsuiIcon", "data-icon": "br-facebook", href: "https://facebook.com/gridsound" } ),
-			$.$linkExt( { "data-tooltip": "CodePen",  class: "gsuiIcon", "data-icon": "br-codepen",  href: "https://codepen.io/gridsound" } ),
-			$.$linkExt( { "data-tooltip": "Discord",  class: "gsuiIcon", "data-icon": "br-discord",  href: "https://discord.gg/NUYxHAg" } ),
+			$.$linkExt( { "data-tooltip": "GitHub",   href: "https://github.com/gridsound"           }, $.$icon( { icon: "br-github"   } ) ),
+			$.$linkExt( { "data-tooltip": "Bluesky",  href: "https://bsky.app/profile/gridsound.com" }, $.$icon( { icon: "br-bluesky"  } ) ),
+			$.$linkExt( { "data-tooltip": "YouTube",  href: "https://youtube.com/@gridsound"         }, $.$icon( { icon: "br-youtube"  } ) ),
+			$.$linkExt( { "data-tooltip": "Facebook", href: "https://facebook.com/gridsound"         }, $.$icon( { icon: "br-facebook" } ) ),
+			$.$linkExt( { "data-tooltip": "CodePen",  href: "https://codepen.io/gridsound"           }, $.$icon( { icon: "br-codepen"  } ) ),
+			$.$linkExt( { "data-tooltip": "Discord",  href: "https://discord.gg/NUYxHAg"             }, $.$icon( { icon: "br-discord"  } ) ),
 		),
 	)
 );
