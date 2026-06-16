@@ -21,7 +21,8 @@ class gsuiTooltip {
 		if ( !GSUonMobile && !gsuiTooltip.#popover.$size() ) {
 			gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
 			$body.$append( gsuiTooltip.#popover )
-				.$addEventListener( "mouseover", gsuiTooltip.#mouseover );
+				.$addEventListener( "mouseover", gsuiTooltip.#mouseover )
+				.$addEventListener( "click", gsuiTooltip.#click );
 		}
 	}
 	static $stop() {
@@ -29,7 +30,9 @@ class gsuiTooltip {
 		gsuiTooltip.#popover =
 		gsuiTooltip.#elOver =
 		gsuiTooltip.#elAnchor = $noop;
-		$body.$rmEventListener( "mouseover", gsuiTooltip.#mouseover );
+		$body
+			.$rmEventListener( "mouseover", gsuiTooltip.#mouseover )
+			.$rmEventListener( "click", gsuiTooltip.#click );
 		GSUclearTimeout( gsuiTooltip.#timeoutShow );
 		GSUclearTimeout( gsuiTooltip.#timeoutHide );
 		GSUclearInterval( gsuiTooltip.#intervalWatch );
@@ -37,6 +40,12 @@ class gsuiTooltip {
 		gsuiTooltip.#timeoutShow =
 		gsuiTooltip.#timeoutHide =
 		gsuiTooltip.#intervalWatch = null;
+	}
+	static #click( e ) {
+		GSUclearTimeout( gsuiTooltip.#timeoutShow );
+		GSUclearInterval( gsuiTooltip.#intervalWatch );
+		GSUclearTimeout( gsuiTooltip.#timeoutHide );
+		gsuiTooltip.#hide2();
 	}
 	static #mouseover( e ) {
 		const tar = $( e.target );
@@ -59,11 +68,14 @@ class gsuiTooltip {
 	static #hide() {
 		gsuiTooltip.#timeoutHide = null;
 		if ( !gsuiTooltip.#popover.$contains( gsuiTooltip.#elOver ) ) {
-			gsuiTooltip.#popover.$togglePopover( false ).$empty();
-			gsuiTooltip.#setAnchor( $noop );
-			gsuiTooltip.#elOver = $noop;
-			gsuiTooltip.#currText = null;
+			gsuiTooltip.#hide2();
 		}
+	}
+	static #hide2() {
+		gsuiTooltip.#popover.$togglePopover( false ).$empty();
+		gsuiTooltip.#setAnchor( $noop );
+		gsuiTooltip.#elOver = $noop;
+		gsuiTooltip.#currText = null;
 	}
 	static #getElemAnchor( el ) {
 		return ( $.$css( el, "anchor-name" ) || "" ).split( ", " ).filter( a => a !== "none" );
