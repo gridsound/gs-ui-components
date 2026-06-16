@@ -2,7 +2,9 @@
 
 $.$setTemplate( "gsui-patterns-pattern", () =>
 	$.$div( { class: "gsuiPatterns-pattern" },
-		$.$div( { class: "gsuiPatterns-pattern-grip gsuiIcon", "data-icon": "grip-v" } ),
+		$.$div( { class: "gsuiPatterns-pattern-grip" },
+			$.$icon( { icon: "grip-v" } ),
+		),
 		$.$div( { class: "gsuiPatterns-pattern-head" },
 			$.$div( { class: "gsuiPatterns-pattern-info" },
 				$.$button( { class: "gsuiPatterns-pattern-btn gsuiPatterns-pattern-btnInfo", "data-action": "editInfo", icon: "question", "data-tooltip": GSTX.$patterns_editPatternInfo } ),
