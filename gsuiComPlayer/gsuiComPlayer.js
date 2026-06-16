@@ -46,7 +46,13 @@ class gsuiComPlayer extends gsui0ne {
 		} );
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
-		this.$elements.$scratchBtn.$onclick( () => this.$this.$togAttr( "scratch" ) );
+		this.$elements.$scratchBtn.$onclick( () => {
+			if ( this.$this.$hasAttr( "scratch" ) ) {
+				this.$this.$rmAttr( "scratch" );
+			} else {
+				this.#getRender().then( () => this.$this.$addAttr( "scratch" ) );
+			}
+		} );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
 		this.$elements.$audio
 			.$prop( "preservesPitch", false )
@@ -202,13 +208,21 @@ class gsuiComPlayer extends gsui0ne {
 				? this.$play()
 				: this.$pause();
 		} else {
-			let hasRender;
+			let hasRender = this.$this.$hasAttr( "rendered" );
 
+			this.#getRender().then( () => {
+				if ( hasRender ) {
+					this.$play();
+				}
+			} );
+		}
+	}
+	#getRender() {
+		if ( !this.$elements.$audio.$prop( "src" ) ) {
 			this.$elements.$playIco.$setAttr( "data-spin", "on" );
-			this.#promises.renders( this )
+			return this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
-						hasRender = this.$this.$hasAttr( "rendered" );
 						this.$this.$addAttr( "rendered" );
 						this.$elements.$audio.$setAttr( "src", url );
 						this.#activateScratch();
@@ -216,11 +230,9 @@ class gsuiComPlayer extends gsui0ne {
 				} )
 				.finally( () => {
 					this.$elements.$playIco.$rmAttr( "data-spin" );
-					if ( hasRender ) {
-						this.$play();
-					}
 				} );
 		}
+		return Promise.resolve();
 	}
 	#onframePlaying() {
 		const t = this.#getCurrentTime();
