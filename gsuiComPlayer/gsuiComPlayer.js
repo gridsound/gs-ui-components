@@ -74,6 +74,9 @@ class gsuiComPlayer extends gsui0ne {
 					this.#cbActionMenu( act );
 				}
 			} );
+		this.$this.$listen( {
+			[ GSEV_SCRATCH_CLOSE ]: () => this.$this.$rmAttr( "scratch" ),
+		} );
 	}
 
 	// .........................................................................
