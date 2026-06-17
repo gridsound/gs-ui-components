@@ -17,10 +17,10 @@ $.$setTemplate( "gsui-oscillator", () => {
 			$.$div( { class: "gsuiOscillator-waveWrap" },
 				$.$div( { class: "gsuiOscillator-waveWrap-left" },
 					$.$div( { class: "gsuiOscillator-waveWrap-top" },
-						$.$button( { "data-dir": "-1", icon: "caret-left", "data-tooltip": GSTX.$oscillator_prevWave } ),
-						$.$button( { "data-dir": "1", icon: "caret-right", "data-tooltip": GSTX.$oscillator_nextWave } ),
+						$.$button( { "data-dir": "-1", "data-tooltip": GSTX.$oscillator_prevWave }, $.$icon( { icon: "caret-left" } ) ),
+						$.$button( { "data-dir": "1", "data-tooltip": GSTX.$oscillator_nextWave }, $.$icon( { icon: "caret-right" } ) ),
 						$.$button( { class: "gsuiOscillator-waveName", popovertarget: popId } ),
-						$.$button( { class: "gsuiOscillator-waveEdit", icon: "cu-wave-edit", "data-tooltip": GSTX.$oscillator_wavetable } ),
+						$.$button( { class: "gsuiOscillator-waveEdit", "data-tooltip": GSTX.$oscillator_wavetable }, $.$icon( { icon: "cu-wave-edit" } ) ),
 						$.$icon( { class: "gsuiOscillator-sourceIcon", icon: "cu-waveform" } ),
 						$.$span( { class: "gsuiOscillator-sourceName" } ),
 					),
@@ -56,7 +56,9 @@ $.$setTemplate( "gsui-oscillator", () => {
 				$.$div( { class: "gsuiOscillator-sliderValue" } ),
 			)
 		),
-		$.$button( { class: "gsuiOscillator-remove", icon: "close", "data-tooltip": GSTX.$oscillator_remove } ),
+		$.$button( { class: "gsuiOscillator-remove", "data-tooltip": GSTX.$oscillator_remove },
+			$.$icon( { icon: "close" } ),
+		),
 		$.$div( { class: "gsuiOscillator-wavetable" } ),
 	);
 } );

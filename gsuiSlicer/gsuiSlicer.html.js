@@ -38,9 +38,9 @@ $.$setTemplate( "gsui-slicer", () => [
 	),
 	$.$div( { class: "gsuiSlicer-menu" },
 		$.$elem( "gsui-step-select" ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "moveY", icon: "hand-pointer", "data-tooltip": GSTX.$slicer_move  } ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "reset", icon: "slices",       "data-tooltip": GSTX.$slicer_reset } ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "split", icon: "cut",          "data-tooltip": GSTX.$slicer_cut   } ),
-		$.$button( { class: "gsuiSlicer-btn", "data-action": "merge", icon: "erase",        "data-tooltip": GSTX.$slicer_merge } ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "moveY", "data-tooltip": GSTX.$slicer_move  }, $.$icon( { icon: "hand-pointer" } ) ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "reset", "data-tooltip": GSTX.$slicer_reset }, $.$icon( { icon: "slices"       } ) ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "split", "data-tooltip": GSTX.$slicer_cut   }, $.$icon( { icon: "cut"          } ) ),
+		$.$button( { class: "gsuiSlicer-btn", "data-action": "merge", "data-tooltip": GSTX.$slicer_merge }, $.$icon( { icon: "erase"        } ) ),
 	),
 ] );

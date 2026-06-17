@@ -2,7 +2,9 @@
 
 $.$setTemplate( "gsui-wavetable", () => [
 	$.$flex( { class: "gsuiWavetable-head", x: true, ycenter: true, g6: true },
-		$.$button( { class: "gsuiWavetable-back", "data-action": "back", icon: "arrow-left", "data-tooltip": GSTX.$wavetable_back } ),
+		$.$button( { class: "gsuiWavetable-back", "data-action": "back", "data-tooltip": GSTX.$wavetable_back },
+			$.$icon( { icon: "arrow-left" } ),
+		),
 		$.$span( { class: "gsuiWavetable-title", inert: true }, "wavetable editor" ),
 		$.$elem( "gsui-help-link", { page: "synth-wavetable" } ),
 	),
@@ -42,8 +44,12 @@ $.$setTemplate( "gsui-wavetable-wave", ( id, ind ) =>
 		$.$elem( "gsui-periodicwave", { "data-action": "select" } ),
 		$.$flex( { "data-action": "select", y: true, xcenter: true, ycenter: true, f1: true },
 			$.$span( { inert: true } ),
-			$.$button( { "data-action": "clone", icon: "clone", "data-tooltip": GSTX.$wavetable_cloneWave } ),
-			$.$button( { "data-action": "remove", icon: "close", "data-tooltip": GSTX.$wavetable_removeWave } ),
+			$.$button( { "data-action": "clone", "data-tooltip": GSTX.$wavetable_cloneWave },
+				$.$icon( { icon: "clone" } ),
+			),
+			$.$button( { "data-action": "remove", "data-tooltip": GSTX.$wavetable_removeWave },
+				$.$icon( { icon: "close" } ),
+			),
 		),
 	),
 );
