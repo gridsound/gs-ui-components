@@ -62,7 +62,7 @@ itsmineInp.$onchange( () => el.$togAttr( "itsmine" ) );
 privateInp.$onchange( () => el.$togAttr( "private" ) );
 renderedInp.$onchange( () => el.$togAttr( "rendered" ) );
 opensourceInp.$onchange( () => el.$togAttr( "opensource" ) );
-editableInp.$onchange( () => el.$setAttr( "dawlink", editableInp.$checked() ? "https://daw.gridsound.com/5Up3rUu1d" : false ) );
+editableInp.$onchange( () => el.$setAttr( "dawlink", editableInp.$checked() ? `${ GSURL.$gsDAW }/#5Up3rUu1d` : false ) );
 
 // itsmineInp.$click();
 privateInp.$click();
