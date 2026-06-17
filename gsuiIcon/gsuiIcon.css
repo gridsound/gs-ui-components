@@ -13,8 +13,8 @@ gsui-icon {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 
-	&:not( [ data-spin ] )[ data-icon="" ],
-	&:not( [ data-spin ], [ data-icon ] ) {
+	&:not( [ spin ] )[ data-icon="" ],
+	&:not( [ spin ], [ data-icon ] ) {
 		display: none;
 	}
 	&[ data-icon|="cu" ] {
@@ -33,7 +33,7 @@ gsui-icon {
 	}
 
 	/* ...................................................................... */
-	&[ data-spin ] {
+	&[ spin ] {
 		line-height: 1;
 		font-family: "FontAwesome";
 

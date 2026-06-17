@@ -78,7 +78,7 @@ gsui-com-player-in {
 			gsui-com-player:not( [ liked ], [ itsmine ] ) &:nth-child( 2 ) {
 				display: none;
 			}
-			gsui-com-player[ liked ] &:not( [ data-spin ] ):nth-child( 2 ) {
+			gsui-com-player[ liked ] &:not( [ spin ] ):nth-child( 2 ) {
 				color: #ee5f5f;
 			}
 		}

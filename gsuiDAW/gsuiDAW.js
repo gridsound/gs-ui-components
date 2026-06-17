@@ -289,11 +289,11 @@ class gsuiDAW extends gsui0ne {
 		}
 	}
 	#onclickVersionCheck() {
-		this.#popups.$about.$versionIcon.$addAttr( "data-spin" );
+		this.#popups.$about.$versionIcon.$addAttr( "spin" );
 		gsapiClient.$getDAWversion().then( res => {
 			this.#popups.$about.$versionIcon.$setAttr( {
 				"data-icon": res === this.$this.$getAttr( "version" ) ? "check" : "warning",
-				"data-spin": false,
+				spin: false,
 			} );
 		} );
 	}

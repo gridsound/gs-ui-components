@@ -69,7 +69,7 @@ class gsuiComProfile extends gsui0ne {
 		this.$elements.$followBtn.$setAttr( "data-tooltip", b ? GSTX.$profile_unfollow : GSTX.$profile_follow );
 	}
 	#updateFollowLoading( b ) {
-		this.$elements.$followBtn.$disabled( b ).$child( 0 ).$setAttr( "data-spin", b );
+		this.$elements.$followBtn.$disabled( b ).$child( 0 ).$setAttr( "spin", b );
 	}
 	#onclick( e ) {
 		switch ( e.target.dataset.what ) {

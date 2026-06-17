@@ -62,7 +62,7 @@ class gsuiComPlayer extends gsui0ne {
 				loadedmetadata: e => this.$this.$setAttr( "duration", e.target.duration ),
 				error: () => {
 					this.$this.$setAttr( { playing: false, rendered: false } );
-					this.$elements.$playIco.$rmAttr( "data-spin" );
+					this.$elements.$playIco.$rmAttr( "spin" );
 					this.$elements.$audio.$rmAttr( "src" );
 				},
 			} );
@@ -188,7 +188,7 @@ class gsuiComPlayer extends gsui0ne {
 		const liked = this.$this.$hasAttr( "liked" );
 
 		this.$elements.$likeBtn.$disabled( true );
-		this.$elements.$likeIco.$addAttr( "data-spin" );
+		this.$elements.$likeIco.$addAttr( "spin" );
 		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
 				this.$this.$setAttr( {
@@ -199,7 +199,7 @@ class gsuiComPlayer extends gsui0ne {
 			.catch( err => $popup.$alert( `Error ${ err.code }`, err.msg ) )
 			.finally( () => {
 				this.$elements.$likeBtn.$disabled( false );
-				this.$elements.$likeIco.$rmAttr( "data-spin" );
+				this.$elements.$likeIco.$rmAttr( "spin" );
 			} );
 	}
 	#onclickPlay() {
@@ -219,7 +219,7 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	#getRender() {
 		if ( !this.$elements.$audio.$prop( "src" ) ) {
-			this.$elements.$playIco.$addAttr( "data-spin" );
+			this.$elements.$playIco.$addAttr( "spin" );
 			return this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
@@ -229,7 +229,7 @@ class gsuiComPlayer extends gsui0ne {
 					}
 				} )
 				.finally( () => {
-					this.$elements.$playIco.$rmAttr( "data-spin" );
+					this.$elements.$playIco.$rmAttr( "spin" );
 				} );
 		}
 		return Promise.resolve();
@@ -244,8 +244,8 @@ class gsuiComPlayer extends gsui0ne {
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( "data-tooltip", b ? false : GSTX.$player_notRendered );
 		this.$elements.$playIco.$setAttr( b
-			? { "data-spin": false, "data-icon": "play" }
-			: { "data-spin": false, "data-icon": "file-corrupt" } );
+			? { spin: false, "data-icon": "play" }
+			: { spin: false, "data-icon": "file-corrupt" } );
 		this.$elements.$scratchBtn
 			.$disabled( !b )
 			.$setAttr( "data-tooltip", b ? GSTX.$player_openTurntable : GSTX.$player_noTurntable )
@@ -280,7 +280,7 @@ class gsuiComPlayer extends gsui0ne {
 		const clazz = gsuiComPlayer.#actioning[ act ];
 
 		this.$elements.$actionsBtn.$setAttr( {
-			"data-spin": true,
+			spin: true,
 			disabled: true,
 		} );
 		prom( this, act )
@@ -294,7 +294,7 @@ class gsuiComPlayer extends gsui0ne {
 			} )
 			.finally( () => {
 				this.$elements.$actionsBtn.$setAttr( {
-					"data-spin": false,
+					spin: false,
 					disabled: false,
 				} );
 			} );

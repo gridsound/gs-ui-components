@@ -63,9 +63,9 @@ class gsuiTitleUser extends gsui0ne {
 			} break;
 			case "saved":
 			case "cmpname": this.#updateCmpName(); break;
-			case "saving": this.$elements.$save.$child( 0 ).$setAttr( "data-spin", val === "" ); break;
-			case "connecting": this.$elements.$login.$child( 0 ).$setAttr( "data-spin", val === "" ); break;
-			case "disconnecting": this.$elements.$logout.$child( 0 ).$setAttr( "data-spin", val === "" ); break;
+			case "saving": this.$elements.$save.$child( 0 ).$setAttr( "spin", val === "" ); break;
+			case "connecting": this.$elements.$login.$child( 0 ).$setAttr( "spin", val === "" ); break;
+			case "disconnecting": this.$elements.$logout.$child( 0 ).$setAttr( "spin", val === "" ); break;
 			case "just-saved":
 				if ( val === "" ) {
 					GSUclearTimeout( this.#justSavedTimeout );
