@@ -44,7 +44,7 @@ class gsuiComProfile extends gsui0ne {
 		switch ( prop ) {
 			case "username": this.$elements.$username.$text( val ); break;
 			case "email": this.$elements.$email.$text( val ); break;
-			case "emailpublic": this.$elements.$emailpub.$setAttr( "data-icon", val === "" ? "public" : "private" ); break;
+			case "emailpublic": this.$elements.$emailpub.$setAttr( "icon", val === "" ? "public" : "private" ); break;
 			case "avatar": this.$elements.$avatar.$setAttr( "src", val || false ); break;
 			case "emailtoverify": this.$elements.$emailVerifyText.$text( val !== "" ? "" : gsuiComProfile.#emailTexts.$verify ); break;
 			case "followed": this.#updateFollowed( val === "" ); break;
