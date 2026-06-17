@@ -112,6 +112,9 @@ const GSTXall = GSUdeepFreeze( {
 		$player_deleteDesc:     "The composition will stay in your private bin for 30 days (only premium users have access to the bin).",
 		$player_restoreDesc:    "Get the composition out of the bin.",
 		// .....................................................................
+		$profile_follow:   "Follow",
+		$profile_unfollow: "Unfollow",
+		// .....................................................................
 		$about_gridsound:  "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
 		$about_gridsound2: "You can create an account (by clicking the profile icon on the top-left corner) and start uploading your compositions online.",
 		// .....................................................................
@@ -345,6 +348,9 @@ const GSTXall = GSUdeepFreeze( {
 		$player_forkDesc:       "Faites une reprise de cette composition sur votre profil pour y apporter vos propres modifications.",
 		$player_deleteDesc:     "La composition restera dans votre corbeille privée pendant 30 jours (seuls les utilisateurs premium ont accès à la corbeille).",
 		$player_restoreDesc:    "Restaurer la composition depuis la corbeille.",
+		// .....................................................................
+		$profile_follow:   "S'abonner",
+		$profile_unfollow: "Se désabonner",
 		// .....................................................................
 		$about_gridsound:  "GridSound est une station audionumérique dans le navigateur, le projet est <b>en-construction</b>, gratuit et est basée sur l'<a https://developer.mozilla.org/fr/docs/Web/API/Web_Audio_API>API Web Audio</a>.",
 		$about_gridsound2: "Vous pouvez créer un compte (en cliquant sur l'icône de profil en haut à gauche) et commencer à publier vos compositions en ligne.",

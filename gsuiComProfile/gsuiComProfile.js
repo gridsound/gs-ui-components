@@ -66,16 +66,10 @@ class gsuiComProfile extends gsui0ne {
 
 	// .........................................................................
 	#updateFollowed( b ) {
-		this.$elements.$followBtn.$setAttr( b
-			? { "data-icon": "follow", title: "Follow" }
-			: { "data-icon": "followed", title: "Unfollow" } );
+		this.$elements.$followBtn.$setAttr( "data-tooltip", b ? GSTX.$profile_unfollow : GSTX.$profile_follow );
 	}
 	#updateFollowLoading( b ) {
-		this.$elements.$followBtn
-			.$togClass( "gsuiIcon", b )
-			.$setAttr( b
-				? { "data-spin": "on", disabled: true }
-				: { "data-spin": false, disabled: false } );
+		this.$elements.$followBtn.$disabled( b ).$child( 0 ).$setAttr( "data-spin", b );
 	}
 	#onclick( e ) {
 		switch ( e.target.dataset.what ) {

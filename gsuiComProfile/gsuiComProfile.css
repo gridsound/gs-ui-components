@@ -66,7 +66,7 @@ gsui-com-profile {
 		gsui-com-profile:not( [ followedjustnow ] ) &:not( [ disabled ] ):hover {
 			--gsuiComProfile-followBtn-bg: var( --gsuiComProfile-followBtn-hover-bg );
 		}
-		gsui-icon {
+		gsui-icon:not( [ data-spin ] ) {
 			display: none;
 		}
 		&:not( [ disabled ] ) {
