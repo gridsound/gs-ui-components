@@ -62,9 +62,6 @@
 		&:active {
 			padding-top: 2px;
 		}
-		&[ data-icon="play" ] {
-			padding-left: 2px;
-		}
 		&[ data-action="autoscroll" ] {
 			width: 16px;
 			border: 2px solid #67a;

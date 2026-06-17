@@ -44,7 +44,7 @@ class gsuiWindow extends gsui0ne {
 			case "h": t.$height( this.#rect.h = +val, "px" ); break;
 			case "wmin": this.#wMin = +val; break;
 			case "hmin": this.#hMin = +val; break;
-			case "icon": this.$elements.$icon.$setAttr( "data-icon", val ); break;
+			case "icon": this.$elements.$icon.$setAttr( "icon", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "show":
 				if ( !b ) {

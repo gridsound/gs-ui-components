@@ -139,7 +139,7 @@ class gsuiDAW extends gsui0ne {
 				this.$elements.$titleUser.$setAttr( "saved", val );
 				break;
 			case "playing":
-				this.$elements.$play.$child( 0 ).$setAttr( "data-icon", b ? "pause" : "play" );
+				this.$elements.$play.$child( 0 ).$setAttr( "icon", b ? "pause" : "play" );
 				break;
 			case "timelinenumbering":
 				gsuiClock.$numbering( val );
@@ -183,7 +183,7 @@ class gsuiDAW extends gsui0ne {
 				this.$elements.$helpBtn
 					.$setAttr( "data-tooltip", !b ? GSTX.$daw_showHelp : GSTX.$daw_hideHelp )
 					.$child( 0 )
-					.$setAttr( "data-icon", b ? "question" : "cu-no-question" );
+					.$setAttr( "icon", b ? "question" : "cu-no-question" );
 				this.$this
 					.$setAttr( "helping", b )
 					.$setAttr( "gsuihelplink-show", b )
@@ -292,7 +292,7 @@ class gsuiDAW extends gsui0ne {
 		this.#popups.$about.$versionIcon.$addAttr( "spin" );
 		gsapiClient.$getDAWversion().then( res => {
 			this.#popups.$about.$versionIcon.$setAttr( {
-				"data-icon": res === this.$this.$getAttr( "version" ) ? "check" : "warning",
+				icon: res === this.$this.$getAttr( "version" ) ? "check" : "warning",
 				spin: false,
 			} );
 		} );

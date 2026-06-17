@@ -168,10 +168,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$expandSynth( id, b ) {
-		this.#getSynth( id )
-			.$togClass( "gsuiPatterns-synth-expanded", b )
-			.$query( ".gsuiPatterns-synth-expand" )
-			.$setAttr( "data-icon", b ? "caret-down" : "caret-right" );
+		this.#getSynth( id ).$togClass( "gsuiPatterns-synth-expanded", b );
 	}
 	#openChannelsPopup( action, objId, currChanId ) {
 		$( "gsui-channels" ).$get( 0 )
@@ -251,7 +248,7 @@ class gsuiPatterns extends gsui0ne {
 			case "synth": this.#getPatternParent( "keys", val ).$append( elPat ); break;
 			case "bufferType":
 				elPat.$setAttr( "data-buffer-type", val );
-				elPat.$query( ".gsuiPatterns-pattern-btnInfo *" ).$setAttr( "data-icon", `buf-${ val || "undefined" }` );
+				elPat.$query( ".gsuiPatterns-pattern-btnInfo *" ).$setAttr( "icon", `buf-${ val || "undefined" }` );
 				break;
 			case "bufferBpm":
 				elPat.$setAttr( "data-buffer-bpm", val );

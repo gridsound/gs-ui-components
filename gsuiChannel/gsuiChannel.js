@@ -70,7 +70,7 @@ class gsuiChannel extends gsui0ne {
 				break;
 			case "connecta":
 			case "connectb":
-				this.$elements[ prop ].$setAttr( "data-icon", val ? `caret-${ val }` : "" );
+				this.$elements[ prop ].$setAttr( "icon", val ? `caret-${ val }` : "" );
 				break;
 		}
 	}

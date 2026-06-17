@@ -99,7 +99,7 @@ class gsuiComPlayer extends gsui0ne {
 			case "scratch": this.#toggleScratch( val === "" ); break;
 			case "itsmine":
 				this.$elements.$likeBtn.$disabled( val === "" );
-				this.$elements.$dawlink.$setAttr( "data-icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
+				this.$elements.$dawlink.$child( 0 ).$setAttr( "icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
 				break;
 			case "bpm":
 				this.$elements.$bpm.$text( val );
@@ -176,12 +176,12 @@ class gsuiComPlayer extends gsui0ne {
 	// .........................................................................
 	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 16 );
-		this.$elements.$playIco.$setAttr( "data-icon", "pause" );
+		this.$elements.$playIco.$setAttr( "icon", "pause" );
 		this.$this.$addAttr( "playing" );
 	}
 	#onpause() {
 		GSUclearInterval( this.#intervalId );
-		this.$elements.$playIco.$setAttr( "data-icon", "play" );
+		this.$elements.$playIco.$setAttr( "icon", "play" );
 		this.$this.$rmAttr( "playing" );
 	}
 	#onclickLike() {
@@ -244,12 +244,12 @@ class gsuiComPlayer extends gsui0ne {
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( "data-tooltip", b ? false : GSTX.$player_notRendered );
 		this.$elements.$playIco.$setAttr( b
-			? { spin: false, "data-icon": "play" }
-			: { spin: false, "data-icon": "file-corrupt" } );
+			? { spin: false, icon: "play" }
+			: { spin: false, icon: "file-corrupt" } );
 		this.$elements.$scratchBtn
 			.$disabled( !b )
 			.$setAttr( "data-tooltip", b ? GSTX.$player_openTurntable : GSTX.$player_noTurntable )
-			.$child( 0 ).$setAttr( "data-icon", b ? "turntable" : "cu-no-turntable" );
+			.$child( 0 ).$setAttr( "icon", b ? "turntable" : "cu-no-turntable" );
 		if ( !b ) {
 			this.$this.$rmAttr( "scratch" );
 		}

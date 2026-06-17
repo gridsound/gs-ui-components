@@ -70,9 +70,9 @@ gsui-com-profile {
 			display: none;
 		}
 		&:not( [ disabled ] ) {
-			gsui-com-profile:not( [ followed ] ) & gsui-icon[ data-icon="follow" ],
-			gsui-com-profile[ followed ] &:not( :hover ) gsui-icon[ data-icon="followed" ],
-			gsui-com-profile[ followed ] &:hover gsui-icon[ data-icon="unfollow" ] {
+			gsui-com-profile:not( [ followed ] ) & gsui-icon[ icon="follow" ],
+			gsui-com-profile[ followed ] &:not( :hover ) gsui-icon[ icon="followed" ],
+			gsui-com-profile[ followed ] &:hover gsui-icon[ icon="unfollow" ] {
 				display: flex;
 			}
 		}

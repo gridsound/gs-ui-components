@@ -164,8 +164,8 @@ gsui-com-player-name {
 		font-size: 16px;
 		opacity: .5;
 
-		gsui-com-player:not( [ private ] ) &[ data-icon="private" ],
-		gsui-com-player:not( [ opensource ] ) &[ data-icon="opensource" ] {
+		gsui-com-player:not( [ private ] ) &[ icon="private" ],
+		gsui-com-player:not( [ opensource ] ) &[ icon="opensource" ] {
 			display: none;
 		}
 	}
