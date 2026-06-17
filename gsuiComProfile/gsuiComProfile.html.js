@@ -15,7 +15,7 @@ $.$setTemplate( "gsui-com-profile", () => [
 				$.$span( { class: "gsui-ellipsis" } ),
 			),
 			$.$button( { "data-what": "verify" },
-				$.$icon( { spin: true, inert: true } ),
+				$.$icon( { spin: true } ),
 				$.$span( { class: "gsui-ellipsis", inert: true } ),
 			),
 		),

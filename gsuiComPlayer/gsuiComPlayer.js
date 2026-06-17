@@ -188,7 +188,7 @@ class gsuiComPlayer extends gsui0ne {
 		const liked = this.$this.$hasAttr( "liked" );
 
 		this.$elements.$likeBtn.$disabled( true );
-		this.$elements.$likeIco.$setAttr( "data-spin", "on" );
+		this.$elements.$likeIco.$addAttr( "data-spin" );
 		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
 				this.$this.$setAttr( {
@@ -219,7 +219,7 @@ class gsuiComPlayer extends gsui0ne {
 	}
 	#getRender() {
 		if ( !this.$elements.$audio.$prop( "src" ) ) {
-			this.$elements.$playIco.$setAttr( "data-spin", "on" );
+			this.$elements.$playIco.$addAttr( "data-spin" );
 			return this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
@@ -280,7 +280,7 @@ class gsuiComPlayer extends gsui0ne {
 		const clazz = gsuiComPlayer.#actioning[ act ];
 
 		this.$elements.$actionsBtn.$setAttr( {
-			"data-spin": "on",
+			"data-spin": true,
 			disabled: true,
 		} );
 		prom( this, act )
