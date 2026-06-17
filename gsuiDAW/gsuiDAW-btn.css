@@ -8,7 +8,7 @@
 	transition: .2s;
 	transition-property: color, opacity, background-color;
 
-	&.gsuiIcon {
+	&:has( gsui-icon:only-child ) {
 		width: 28px;
 	}
 	&:not( .gsuiDAW-btnColor ):hover {

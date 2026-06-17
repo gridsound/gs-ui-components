@@ -139,7 +139,7 @@ class gsuiDAW extends gsui0ne {
 				this.$elements.$titleUser.$setAttr( "saved", val );
 				break;
 			case "playing":
-				this.$elements.$play.$setAttr( "data-icon", b ? "pause" : "play" );
+				this.$elements.$play.$child( 0 ).$setAttr( "data-icon", b ? "pause" : "play" );
 				break;
 			case "timelinenumbering":
 				gsuiClock.$numbering( val );
@@ -181,8 +181,9 @@ class gsuiDAW extends gsui0ne {
 					: gsuiTooltip.$stop();
 
 				this.$elements.$helpBtn
-					.$setAttr( "data-icon", b ? "question" : "cu-no-question" )
-					.$setAttr( "data-tooltip", !b ? GSTX.$daw_showHelp : GSTX.$daw_hideHelp );
+					.$setAttr( "data-tooltip", !b ? GSTX.$daw_showHelp : GSTX.$daw_hideHelp )
+					.$child( 0 )
+					.$setAttr( "data-icon", b ? "question" : "cu-no-question" );
 				this.$this
 					.$setAttr( "helping", b )
 					.$setAttr( "gsuihelplink-show", b )

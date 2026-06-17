@@ -33,9 +33,11 @@ $.$setTemplate( "gsui-daw-windowHeads", () => [
 $.$setTemplate( "gsui-daw-window-playPause", () => [
 	$.$div( { class: "gsuiDAW-window-ctrl" },
 		$.$div( null,
-			$.$button( { "data-action": "play", icon: "play" } ),
-			$.$button( { "data-action": "stop", icon: "stop" } ),
+			$.$button( { "data-action": "play" }, $.$icon( { icon: "play" } ) ),
+			$.$button( { "data-action": "stop" }, $.$icon( { icon: "stop" } ) ),
 		),
-		$.$button( { "data-action": "autoscroll", icon: "chevrons-right", "data-tooltip": GSTX.$win_autoscroll } ),
+		$.$button( { "data-action": "autoscroll", "data-tooltip": GSTX.$win_autoscroll },
+			$.$icon( { icon: "chevrons-right" } ),
+		),
 	),
 ] );
