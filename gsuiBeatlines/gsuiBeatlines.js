@@ -64,7 +64,7 @@ class gsuiBeatlines extends gsui0ne {
 			}
 		}
 		return `url('data:image/svg+xml,${
-			`<svg ${ svgSize } fill="${ color }" xmlns="http://www.w3.org/2000/svg">${
+			`<svg ${ svgSize } fill="${ color }" xmlns="${ $.$svgNS }">${
 				( !measuOp ? "" : `<g opacity="${ measuOp }">${
 					gsuiBeatlines.#rect( axeX, 1, 0 ) +
 					gsuiBeatlines.#rect( axeX, 1, w )

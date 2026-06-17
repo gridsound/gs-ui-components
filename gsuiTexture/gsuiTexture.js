@@ -14,7 +14,7 @@ class gsuiTexture {
 
 	static $set( el, t ) {
 		const [ w, h, cnt ] = gsuiTexture.#bg[ t ];
-		const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${ w }' height='${ h }' viewBox='0 0 ${ w } ${ h }'>${ cnt }</svg>`;
+		const svg = `<svg xmlns='${ $.$svgNS }' width='${ w }' height='${ h }' viewBox='0 0 ${ w } ${ h }'>${ cnt }</svg>`;
 
 		el.$css( "backgroundImage", `url("data:image/svg+xml,${ encodeURIComponent( svg ) }")` );
 	}
