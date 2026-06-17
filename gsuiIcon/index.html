@@ -208,7 +208,5 @@
 </div>
 
 <script>
-$( "gsui-icon" )
-	.$addClass( "gsuiIcon" )
-	.$setAttr( "title", el => el.dataset.icon );
+$( "gsui-icon" ).$setAttr( "data-tooltip", el => el.dataset.icon );
 </script>

@@ -1,4 +1,4 @@
-.gsuiIcon {
+gsui-icon {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
@@ -39,7 +39,7 @@
 
 		&::before {
 			content: "\f3f4";
-			animation: .7s infinite linear gsuiIcon-spin;
+			animation: .7s infinite linear gsui-icon-anim-spin;
 			opacity: 1;
 			scale: 1;
 		}
@@ -278,7 +278,7 @@
 	}
 }
 
-@keyframes gsuiIcon-spin {
+@keyframes gsui-icon-anim-spin {
 	from { rotate: 0deg; }
 	to { rotate: 360deg; }
 }
