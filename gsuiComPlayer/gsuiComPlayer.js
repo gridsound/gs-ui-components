@@ -21,10 +21,10 @@ class gsuiComPlayer extends gsui0ne {
 			$elements: {
 				$audio: "audio",
 				$play: "[data-action=play]",
-				$playIco: "[data-action=play] .gsuiIcon",
+				$playIco: "[data-action=play] gsui-icon",
 				$name: "gsui-com-player-name a",
 				$likeBtn: "[data-action=like]",
-				$likeIco: "[data-action=like] .gsuiIcon",
+				$likeIco: "[data-action=like] gsui-icon",
 				$likes: "[data-action=like] span",
 				$scratchBtn: "[data-action=scratch]",
 				$bpm: "gsui-com-player-tempo span",

@@ -15,7 +15,7 @@ class gsuiComProfile extends gsui0ne {
 			$elements: {
 				$avatar: "gsui-com-avatar",
 				$email: "gsui-com-profile-email-addr span",
-				$emailpub: "gsui-com-profile-email-addr .gsuiIcon",
+				$emailpub: "gsui-com-profile-email-addr gsui-icon",
 				$name: "gsui-com-profile-name",
 				$username: "gsui-com-profile-name :first-child",
 				$fullname: "gsui-com-profile-name :last-child",

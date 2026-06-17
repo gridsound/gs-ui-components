@@ -14,7 +14,7 @@ class gsuiComButton extends gsui0ne {
 			),
 			$elements: {
 				$text: "span",
-				$icon: ".gsuiIcon",
+				$icon: "gsui-icon",
 			},
 		} );
 		gsuiRipple.$init( this.$element, this.$elements.$text.$parent() );

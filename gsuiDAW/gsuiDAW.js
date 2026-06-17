@@ -6,7 +6,7 @@ class gsuiDAW extends gsui0ne {
 		$about: $( $.$getTemplate( "gsui-daw-popup-about" ) ).$queryMap( {
 			$root: ".gsuiDAW-popup-about",
 			$version: ".gsuiDAW-popup-about-versionNum",
-			$versionIcon: ".gsuiDAW-popup-about-head .gsuiIcon",
+			$versionIcon: ".gsuiDAW-popup-about-head gsui-icon",
 			$versionCheck: ".gsuiDAW-popup-about-versionCheck",
 		} ),
 		$export: $( $.$getTemplate( "gsui-daw-popup-export" ) ).$queryMap( {
