@@ -48,9 +48,14 @@
 	width: 14px;
 	min-width: 14px;
 	background-color: var( --gsuiPatterns-synth-expand-bg );
-}
-.gsuiPatterns-synth-expanded .gsuiPatterns-synth-expand {
-	opacity: 1;
+
+	.gsuiPatterns-synth-expanded & {
+		opacity: 1;
+
+		gsui-icon {
+			rotate: 90deg;
+		}
+	}
 }
 
 /* .......................................................................... */
