@@ -47,7 +47,7 @@ $.$setTemplate( "gsui-daw", () => [
 			$.$button( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiDAW-btnColor", "data-action": "about", "data-tooltip": GSTX.$daw_about    }, $.$icon( { icon: "heart"          } ) ),
 		),
 		$.$div( { class: "gsuiDAW-area gsuiDAW-areaVers" },
-			$.$linkExt( { class: "gsuiDAW-btn", "data-action": "version", "data-tooltip": GSTX.$daw_changelog, href: "https://github.com/gridsound/daw/wiki/changelog" },
+			$.$linkExt( { class: "gsuiDAW-btn", "data-action": "version", "data-tooltip": GSTX.$daw_changelog, href: GSURL.$changelog },
 				$.$span( { class: "gsuiDAW-version", inert: true } ),
 				$.$icon( { icon: "changelog" } ),
 			),

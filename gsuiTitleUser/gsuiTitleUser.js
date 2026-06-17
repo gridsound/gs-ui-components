@@ -54,7 +54,7 @@ class gsuiTitleUser extends gsui0ne {
 			case "avatar": this.$elements.$avatar.$css( "backgroundImage", `url(${ val })` ); break;
 			case "username":
 				this.$elements.$username.$text( val );
-				this.$elements.$userLink.$setAttr( "href", `//gridsound.com/#/u/${ val }` );
+				this.$elements.$userLink.$setAttr( "href", `${ GSURL.$gsUser }/${ val }` );
 				break;
 			case "cmpdur": {
 				const dur = GSUsplitSeconds( +val );

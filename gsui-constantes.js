@@ -1,5 +1,33 @@
 "use strict";
 
+const GSURL = {
+	$gs:           "//gridsound.com",
+	$gsUser:       "//gridsound.com/#/u",
+	$gsAuth:       "//gridsound.com/#/auth",
+	$gsPassForgot: "//gridsound.com/#/forgotPassword",
+	$gsDAW:        "//daw.gridsound.com",
+	$gsAPI:        "//api.gridsound.com",
+	$gsCmps:       "//compositions.gridsound.com",
+	$github:       "//github.com/gridsound",
+	$wiki:         "//github.com/gridsound/daw/wiki",
+	$changelog:    "//github.com/gridsound/daw/wiki/changelog",
+	$bluesky:      "//bsky.app/profile/gridsound.com",
+	$codepen:      "//codepen.io/gridsound",
+	$discord:      "//discord.gg/NUYxHAg",
+	$facebook:     "//facebook.com/gridsound",
+	$youtube:      "//youtube.com/@gridsound",
+};
+
+if ( __LOCALHOST__ ) {
+	GSURL.$gsUser = "//localhost/gridsound/gridsound.com/#/u";
+	GSURL.$gsDAW  = "//localhost/gridsound/daw";
+	GSURL.$gsAPI  = "//localhost/gridsound/api.gridsound.com/api";
+	GSURL.$gsCmps = "//localhost/gridsound/api.gridsound.com/compositions";
+}
+GSUdeepFreeze( GSURL );
+
+// .............................................................................
+
 // 218
 const GSEV_AUTOMATION_CHANGE = 195;
 const GSEV_AUTOMATION_CURVE = 197;
