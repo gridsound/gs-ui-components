@@ -58,7 +58,7 @@ class gsuiScratch extends gsui0ne {
 			pointerdown: e => {
 				this.$elements.$graph
 					.$setPtrCapture( e.pointerId )
-					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 16 );
+					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 8 );
 				this.$this.$css( "cursor", "var(--gsuiCursor-grabbing)" );
 				this.#clicked = true;
 			},
@@ -135,7 +135,7 @@ class gsuiScratch extends gsui0ne {
 		if ( this.#clicked ) {
 			this.#ptrSpeedA /= 1.2;
 		} else {
-			this.#ptrSpeedA += ( this.#speed - this.#ptrSpeedA ) / 40;
+			this.#ptrSpeedA += ( this.#speed - this.#ptrSpeedA ) / 10;
 		}
 		if ( this.#audioElem.$prop( "paused" ) !== this.#audioElemRev.$prop( "paused" ) ) {
 			this.#audioElem.$prop( "paused" )
