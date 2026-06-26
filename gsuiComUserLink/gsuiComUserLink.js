@@ -6,13 +6,13 @@ class gsuiComUserLink extends gsui0ne {
 			$tagName: "gsui-com-userlink",
 			$template: $.$link( null,
 				$.$icon( { icon: "musician" } ),
-				$.$div(),
+				$.$elem( "gsui-com-avatar" ),
 				$.$bold(),
 				$.$span(),
 			),
 			$elements: {
 				$name: "span",
-				$avatar: "div",
+				$avatar: "gsui-com-avatar",
 				$username: "b",
 			},
 		} );
@@ -25,7 +25,7 @@ class gsuiComUserLink extends gsui0ne {
 		switch ( prop ) {
 			case "firstname":
 			case "lastname": this.#updateName(); break;
-			case "avatar": this.$elements.$avatar.$css( "backgroundImage", `url(${ val })` ); break;
+			case "avatar": this.$elements.$avatar.$setAttr( "src", val ); break;
 			case "username": this.#updateUsername( val ); break;
 		}
 	}

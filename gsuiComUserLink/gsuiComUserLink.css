@@ -2,7 +2,7 @@ gsui-com-userlink {
 	display: inline-flex;
 	font-size: 16px;
 
-	div {
+	gsui-com-avatar {
 		width: 2.062ch;
 		height: 2.062ch;
 		border-radius: 2px;
