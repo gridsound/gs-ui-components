@@ -5,7 +5,6 @@ class gsuiComUserLink extends gsui0ne {
 		super( {
 			$tagName: "gsui-com-userlink",
 			$template: $.$link( null,
-				$.$icon( { icon: "musician" } ),
 				$.$elem( "gsui-com-avatar" ),
 				$.$bold(),
 				$.$span(),
