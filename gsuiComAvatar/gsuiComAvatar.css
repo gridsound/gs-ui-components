@@ -4,8 +4,8 @@ gsui-com-avatar {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 24px;
-	min-height: 24px;
+	min-width: 16px;
+	min-height: 16px;
 	background-color: #0001;
 
 	img {
