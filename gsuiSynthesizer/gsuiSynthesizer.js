@@ -51,7 +51,6 @@ class gsuiSynthesizer extends gsui0ne {
 			$onchange: obj => this.$this.$dispatch( GSEV_SYNTHESIZER_REORDEROSCILLATOR, obj ),
 		} );
 		this.$this.$listen( {
-			[ GSEV_ENVELOPE_LIVECHANGE ]: () => GSUnoop,
 			[ GSEV_OSCILLATOR_RESIZE ]: () => this.#shadow.$update(),
 			[ GSEV_NOISE_INPUT ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_INPUTNOISE, ...d.$args ),
 			[ GSEV_NOISE_CHANGE ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_CHANGENOISE, ...d.$args ),
