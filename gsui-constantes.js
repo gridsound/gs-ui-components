@@ -28,7 +28,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 218
+// 152, 218
 const GSEV_AUTOMATION_CHANGE = 195;
 const GSEV_AUTOMATION_CURVE = 197;
 const GSEV_AUTOMATION_CURVE_RESET = 198;
@@ -234,7 +234,6 @@ const GSEV_WAVELETSVG_DRAW = 209;
 const GSEV_WAVETABLE_BACK = 149;
 const GSEV_WAVETABLE_CHANGE = 150;
 const GSEV_WAVETABLE_PARAM = 151;
-const GSEV_WAVETABLE_SELECTCURVE = 152;
 const GSEV_WAVETABLEGRAPH_DATA = 211;
 const GSEV_WAVETABLEGRAPH_DRAW = 210;
 const GSEV_WINDOW_APPENDCONTENT = 202;

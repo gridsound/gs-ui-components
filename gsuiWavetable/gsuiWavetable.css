@@ -1,20 +1,17 @@
 gsui-wavetable {
 	--app-popover-bg: var( --gsui-screen-graph );
-	--gsuiWavetable-wave: #b3a5ea;
-	--gsuiWavetable-wave-selected: #8f8;
 	position: relative;
 	overflow: hidden;
 	display: flex;
 	height: 100%;
 	min-width: 440px;
-	min-height: calc( 20px + 226px + 46px + 158px );
 	flex-direction: column;
 	background-color: var( --gsui-screen-graph );
 }
 
 /* .......................................................................... */
 .gsuiWavetable-head {
-	height: 20px;
+	min-height: 20px;
 	padding: 0 6px;
 	background-color: var( --gsui-item-bg );
 }
@@ -96,111 +93,4 @@ gsui-wavetable gsui-wavetable-graph {
 			opacity: .5;
 		}
 	}
-}
-
-/* .......................................................................... */
-.gsuiWavetable-posCurves {
-	position: relative;
-	padding: 6px;
-}
-
-/* .......................................................................... */
-.gsuiWavetable-posCurves-head {
-	min-height: 32px;
-}
-.gsuiWavetable-keyPreview {
-	position: absolute;
-	left: 0;
-	top: 100%;
-	border-radius: 50%;
-	background-color: currentColor;
-}
-
-/* .......................................................................... */
-.gsuiWavetable-posCurve {
-	position: relative;
-	border-radius: 4px;
-	cursor: var( --gsuiCursor-pointer );
-	background-color: #0005;
-	opacity: .6;
-
-	&[ data-selected ] {
-		cursor: var( --gsuiCursor-default );
-		opacity: 1;
-
-		&::before {
-			content: "";
-			position: absolute;
-			top: calc( 100% + 1px );
-			width: 50%;
-			left: 25%;
-			height: 3px;
-			border-radius: 99px;
-			background-color: var( --gsuiWavetable-wave );
-		}
-	}
-	.gsuiWavetable-keyPreviews {
-		position: absolute;
-		inset: auto 5px 100%;
-		height: 2px;
-	}
-	.gsuiWavetable-keyPreview {
-		top: 0;
-		width: 2px;
-		height: 100%;
-		margin-left: -1px;
-	}
-	gsui-dotlinesvg {
-		position: absolute;
-		overflow: hidden;
-		inset: 4px;
-		border-radius: inherit;
-	}
-	svg {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		fill: none;
-		stroke: currentColor;
-	}
-}
-
-/* .......................................................................... */
-.gsuiWavetable-posCurves-graph {
-	--gsui-pad: 4px;
-	position: relative;
-	min-height: 100px;
-	border-radius: 4px;
-	padding: var( --gsui-pad );
-	background-color: #0005;
-
-	.gsuiWavetable-keyPreviews {
-		position: absolute;
-		inset: var( --gsui-pad );
-	}
-	.gsuiWavetable-keyPreview {
-		width: 10px;
-		height: 10px;
-		margin: -5px 0 0 -5px;
-	}
-}
-.gsuiWavetable-posCurves-graph-waves {
-	position: absolute;
-	inset: var( --gsui-pad );
-	color: var( --gsuiWavetable-wave );
-}
-.gsuiWavetable-posCurve-wave {
-	position: absolute;
-	inset: auto 0;
-	border-top: 1px solid currentColor;
-	opacity: .25;
-
-	&[ data-selected ] {
-		color: var( --gsuiWavetable-wave-selected );
-		opacity: 1;
-	}
-}
-.gsuiWavetable-posCurves gsui-beatlines {
-	inset: var( --gsui-pad );
-	color: currentColor;
 }

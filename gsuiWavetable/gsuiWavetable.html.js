@@ -19,24 +19,6 @@ $.$setTemplate( "gsui-wavetable", () => [
 			),
 		),
 	),
-	$.$flex( { class: "gsuiWavetable-posCurves", y: true, f2: true, g6: true },
-		$.$flex( { class: "gsuiWavetable-posCurves-head", x: true, g10: true },
-			$.$flex( { class: "gsuiWavetable-posCurves-list", x: true, f1: true, g8: true },
-				GSUnewArray( 10, i =>
-					$.$flex( { class: "gsuiWavetable-posCurve", "data-id": i, f1: true },
-						$.$div( { class: "gsuiWavetable-keyPreviews", inert: true } ),
-						$.$elem( "gsui-dotlinesvg", { inert: true } ),
-					) ),
-			),
-			$.$elem( "gsui-duration" ),
-		),
-		$.$flex( { f1: true, class: "gsuiWavetable-posCurves-graph" },
-			$.$div( { class: "gsuiWavetable-posCurves-graph-waves", inert: true } ),
-			$.$elem( "gsui-beatlines", { color: "#fff" } ),
-			$.$elem( "gsui-dotline", { viewbox: "0 0 1 1", xstep: 1 / 100, ystep: 1 / 100 } ),
-			$.$div( { class: "gsuiWavetable-keyPreviews", inert: true } ),
-		),
-	),
 ] );
 
 $.$setTemplate( "gsui-wavetable-wave", ( id, ind ) =>

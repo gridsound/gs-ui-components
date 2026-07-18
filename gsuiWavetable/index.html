@@ -1,7 +1,7 @@
 <style>
 :root {
 	--TryMe-w: 640px;
-	--TryMe-h: 460px;
+	--TryMe-h: 300px;
 }
 </style>
 
@@ -9,48 +9,8 @@
 	<gsui-wavetable></gsui-wavetable>
 </div>
 
-<div id="TryControls">
-	<div data-wtposcurve="0">
-		<code>wtposCurve[0]</code>
-		<gsui-com-button data-key-dur=".25" text=".25"></gsui-com-button>
-		<gsui-com-button data-key-dur=".5" text=".5"></gsui-com-button>
-		<gsui-com-button data-key-dur="1" text="1"></gsui-com-button>
-		<gsui-com-button data-key-dur="2" text="2"></gsui-com-button>
-		<gsui-com-button data-key-dur="4" text="4"></gsui-com-button>
-		<gsui-com-button data-key-dur="8" text="8"></gsui-com-button>
-	</div>
-	<div data-wtposcurve="1">
-		<code>wtposCurve[1]</code>
-		<gsui-com-button data-key-dur=".25" text=".25"></gsui-com-button>
-		<gsui-com-button data-key-dur=".5" text=".5"></gsui-com-button>
-		<gsui-com-button data-key-dur="1" text="1"></gsui-com-button>
-		<gsui-com-button data-key-dur="2" text="2"></gsui-com-button>
-		<gsui-com-button data-key-dur="4" text="4"></gsui-com-button>
-		<gsui-com-button data-key-dur="8" text="8"></gsui-com-button>
-	</div>
-	<div data-wtposcurve="2">
-		<code>wtposCurve[2]</code>
-		<gsui-com-button data-key-dur=".25" text=".25"></gsui-com-button>
-		<gsui-com-button data-key-dur=".5" text=".5"></gsui-com-button>
-		<gsui-com-button data-key-dur="1" text="1"></gsui-com-button>
-		<gsui-com-button data-key-dur="2" text="2"></gsui-com-button>
-		<gsui-com-button data-key-dur="4" text="4"></gsui-com-button>
-		<gsui-com-button data-key-dur="8" text="8"></gsui-com-button>
-	</div>
-</div>
-
 <script>
 const elWT = $( "gsui-wavetable" );
-const bpm = 120;
-
-$( "#TryControls" ).$onclick( e => {
-	const dur = +e.target.dataset.keyDur;
-	const cId = e.target.parentNode.dataset.wtposcurve;
-
-	if ( dur ) {
-		elWT.$get( 0 ).$startKey( "k0", cId, bpm, dur );
-	}
-} );
 
 elWT.$get( 0 ).$change( {
 	waves: {
@@ -63,14 +23,5 @@ elWT.$get( 0 ).$change( {
 			curve: GSUmathWaveSquare( 1024, 0 ),
 		},
 	},
-	// wtposCurves: {
-	// 	0: {
-	// 		duration: 1,
-	// 		curve: {
-	// 			0: { x:  0, y:  0, type: null, val: null },
-	// 			1: { x:  1, y:  1, type: "curve", val: 0 },
-	// 		},
-	// 	},
-	// },
 } );
 </script>
