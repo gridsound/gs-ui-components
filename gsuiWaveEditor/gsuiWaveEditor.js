@@ -316,10 +316,7 @@ class gsuiWaveEditor extends gsui0ne {
 			.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList )
 			.$listen( {
 				[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => {
-					( val in GSUmathWaveFns
-						? Promise.resolve( GSUmathWaveFns[ val ]( 2048 ) )
-						: gsapiClient.$getWaveletSample( val ).then( arr => GSUarrayResize( arr, 2048 ) )
-					).then( arr => {
+					gsapiClient.$getWaveletSample( val ).then( arr => {
 						this.#waveName = val;
 						this.$setWaveArray( arr );
 						this.$this.$dispatch( GSEV_WAVEEDITOR_CHANGE, arr );
