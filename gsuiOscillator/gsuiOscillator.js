@@ -1,12 +1,5 @@
 "use strict";
 
-const gsuiOscillator_defaultWaves = {
-	sine: true,
-	triangle: true,
-	sawtooth: true,
-	square: true,
-};
-
 class gsuiOscillator extends gsui0ne {
 	#askWavetableData = GSUnoop;
 	#timeidType = null;
@@ -59,7 +52,6 @@ class gsuiOscillator extends gsui0ne {
 			[ GSEV_WAVETABLE_BACK ]: () => this.$this.$rmAttr( "wavetable" ),
 			[ GSEV_WAVETABLE_PARAM ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLEPARAM, ...d.$args ),
 			[ GSEV_WAVETABLE_CHANGE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLE, ...d.$args ),
-			[ GSEV_WAVETABLE_SELECTCURVE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_SELECTWAVETABLECURVE, ...d.$args ),
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$dataProp(), val ),
