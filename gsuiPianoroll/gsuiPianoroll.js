@@ -171,20 +171,6 @@ class gsuiPianoroll extends gsui0ne {
 		this.$scrollToMiddle();
 		this.$reset();
 	}
-	$setPropSelect( oscs ) {
-		const props = [ ...this.#propSelectList ];
-		const propsWT = GSUreduce( oscs, ( arr, osc, id ) => {
-			if ( osc.wavetable ) {
-				arr.push( `wtposCurves.${ id }:osc${ id }` );
-			}
-			return arr;
-		}, [] );
-
-		if ( propsWT.length ) {
-			props.push( "---osc-wavetables---", ...propsWT );
-		}
-		this.#propSelect.$setAttr( "props", props.join( " " ) );
-	}
 
 	// .........................................................................
 	$addKey( id, obj ) {
