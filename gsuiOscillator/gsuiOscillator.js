@@ -120,8 +120,6 @@ class gsuiOscillator extends gsui0ne {
 	}
 	$onmessage( ev, ...args ) {
 		switch ( ev ) {
-			case GSEV_OSCILLATOR_STARTKEY: this.#startKey( ...args ); break;
-			case GSEV_OSCILLATOR_STOPKEY: this.#stopKey( ...args ); break;
 			case GSEV_OSCILLATOR_ADDCUSTOMWAVE: this.$elements.$waveName.$text( args[ 0 ] ); break;
 			case GSEV_OSCILLATOR_CHANGECUSTOMWAVE: this.#changeCustomWave( ...args ); break;
 			case GSEV_OSCILLATOR_UPDATESOURCEWAVEFORM: this.#updateSourceWaveform( ...args ); break;
@@ -132,14 +130,6 @@ class gsuiOscillator extends gsui0ne {
 					.$message( GSEV_PERIODICWAVE_DRAW );
 				break;
 		}
-	}
-
-	// .........................................................................
-	#startKey( startedKeyId, wtposCurveId, bpm, dur ) {
-		this.#elWavetable?.$startKey( startedKeyId, wtposCurveId, bpm, dur );
-	}
-	#stopKey( startedKeyId ) {
-		this.#elWavetable?.$stopKey( startedKeyId );
 	}
 
 	// .........................................................................
