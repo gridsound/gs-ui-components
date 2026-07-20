@@ -3,7 +3,7 @@ gsui-wave-editor {
 	display: flex;
 	height: 100%;
 	min-width: 180px;
-	min-height: 226px;
+	min-height: 224px;
 	touch-action: none;
 }
 
