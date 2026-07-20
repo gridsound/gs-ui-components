@@ -69,7 +69,7 @@ class gsuiOscillator extends gsui0ne {
 		const wedit = this.$this.$hasAttr( "wavetable" );
 		const w = this.$this.$width();
 		const h = wedit
-			? Math.max( 450, w / 2 )
+			? Math.max( 300, w / 2 )
 			: w < 700 ? 82 : 174;
 
 		this.$this.$css( "minHeight", h, "px" );
