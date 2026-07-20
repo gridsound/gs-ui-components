@@ -110,7 +110,7 @@ class gsuiSynthesizer extends gsui0ne {
 			this.#previews[ keyId ] = null;
 			this.$elements.$env.$get( 0 ).$startKey( keyId, bpm, dur );
 			this.$elements.$lfo.$get( 0 ).$startKey( keyId, bpm, dur );
-			this.#uiOscs.forEach( ( osc, oscId ) => osc.$message( GSEV_OSCILLATOR_STARTKEY, keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
+			// this.#uiOscs.forEach( ( osc, oscId ) => osc.$message( GSEV_OSCILLATOR_STARTKEY, keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
 		}, when );
 	}
 	$stopKeyPreview( keyId, bpm, rel ) {
@@ -124,7 +124,7 @@ class gsuiSynthesizer extends gsui0ne {
 			this.$elements.$env.$get( 0 ).$stopKey( keyId );
 			GSUsetTimeout( () => {
 				this.$elements.$lfo.$get( 0 ).$stopKey( keyId );
-				this.#uiOscs.forEach( osc => osc.$message( GSEV_OSCILLATOR_STOPKEY, keyId ) );
+				// this.#uiOscs.forEach( osc => osc.$message( GSEV_OSCILLATOR_STOPKEY, keyId ) );
 			}, rel / ( bpm / 60 ) );
 		}
 	}
