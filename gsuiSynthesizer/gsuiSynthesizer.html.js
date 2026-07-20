@@ -16,6 +16,7 @@ $.$setTemplate( "gsui-synthesizer", () => [
 			$.$getTemplate( "gsui-synthesizer-headTab", { id: "env gain", name: "gain" } ),
 			$.$getTemplate( "gsui-synthesizer-headTab", { id: "env detune", name: "pitch" } ),
 			$.$getTemplate( "gsui-synthesizer-headTab", { id: "env lowpass", name: "lowpass" } ),
+			$.$getTemplate( "gsui-synthesizer-headTab", { id: "env wtpos", name: "wtpos" } ),
 		),
 		$.$elem( "gsui-envelope" ),
 		// .....................................................................

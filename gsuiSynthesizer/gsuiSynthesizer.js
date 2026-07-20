@@ -11,6 +11,7 @@ class gsuiSynthesizer extends gsui0ne {
 			gain: {},
 			detune: {},
 			lowpass: {},
+			wtpos: {},
 		},
 		lfo: {
 			gain: {},
