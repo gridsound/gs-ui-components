@@ -19,6 +19,7 @@ gsui-envelope {
 		--gsuiEnvelope-wave-col: var( --gsuiEnvelope-ctrls-color );
 	}
 	&[ env="gain" ] { --gsuiEnvelope-ctrls-color: var( --gsui-col-gain ); }
+	&[ env="wtpos" ] { --gsuiEnvelope-ctrls-color: var( --gsui-col-wtpos ); }
 	&[ env="detune" ] { --gsuiEnvelope-ctrls-color: var( --gsui-col-detune ); }
 	&[ env="lowpass" ] { --gsuiEnvelope-ctrls-color: var( --gsui-col-lowpass ); }
 	&[ env="detune" ],
