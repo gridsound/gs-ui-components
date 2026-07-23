@@ -23,7 +23,10 @@ $.$setTemplate( "gsui-synthesizer", () => [
 		$.$div( { class: "gsuiSynthesizer-head" },
 			$.$getTemplate( "gsui-synthesizer-headTitle", { name: "LFOs", help: "synth-LFOs" } ),
 			$.$getTemplate( "gsui-synthesizer-headTab", { id: "lfo gain", name: "gain" } ),
+			$.$getTemplate( "gsui-synthesizer-headTab", { id: "lfo pan", name: "pan" } ),
 			$.$getTemplate( "gsui-synthesizer-headTab", { id: "lfo detune", name: "pitch" } ),
+			$.$getTemplate( "gsui-synthesizer-headTab", { id: "lfo lowpass", name: "lowpass" } ),
+			$.$getTemplate( "gsui-synthesizer-headTab", { id: "lfo wtpos", name: "wtpos" } ),
 		),
 		$.$elem( "gsui-lfo" ),
 		// .....................................................................

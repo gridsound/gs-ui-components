@@ -14,8 +14,11 @@ class gsuiSynthesizer extends gsui0ne {
 			wtpos: {},
 		},
 		lfo: {
+			pan: {},
 			gain: {},
 			detune: {},
+			lowpass: {},
+			wtpos: {},
 		},
 	};
 	// #dispatchPresetDeb = GSUdebounce( this.#dispatchPreset.bind( this ), .25 );
