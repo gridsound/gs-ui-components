@@ -3,7 +3,7 @@ gsui-prop-select {
 	overflow: auto;
 	display: flex;
 	flex-wrap: wrap;
-	place-content: center;
+	place-content: safe center;
 	gap: 3px;
 	line-height: 18px;
 
