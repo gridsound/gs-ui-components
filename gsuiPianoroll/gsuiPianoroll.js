@@ -197,9 +197,6 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blockDOMChange( blc, "gainLFOAmp", obj.gainLFOAmp );
 		this.#blockDOMChange( blc, "prev", obj.prev );
 		this.#blockDOMChange( blc, "next", obj.next );
-		GSUforEach( obj.wtposCurves, ( val, id ) => {
-			this.#blockDOMChange( blc, `wtposCurves.${ id }`, obj.wtposCurves[ id ] || 0 );
-		} );
 		return blc;
 	}
 	$removeKey( id ) {
@@ -278,11 +275,6 @@ class gsuiPianoroll extends gsui0ne {
 			case "gainLFOAmp":
 			case "gainLFOSpeed":
 				this.#blockSliderUpdate( prop, el, gsuiPianoroll.#mulToX( val ) );
-				break;
-			default:
-				if ( prop.startsWith( "wtposCurves" ) ) {
-					this.#blockSliderUpdate( prop, el, +val );
-				}
 				break;
 		}
 	}

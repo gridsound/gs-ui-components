@@ -106,12 +106,9 @@ class gsuiSynthesizer extends gsui0ne {
 	// .........................................................................
 	$startKeyPreview( keyId, key, bpm, when, dur ) {
 		this.#previews[ keyId ] = GSUsetTimeout( () => {
-			const wtposCurves = key.wtposCurves;
-
 			this.#previews[ keyId ] = null;
 			this.$elements.$env.$get( 0 ).$startKey( keyId, bpm, dur );
 			this.$elements.$lfo.$get( 0 ).$startKey( keyId, bpm, dur );
-			// this.#uiOscs.forEach( ( osc, oscId ) => osc.$message( GSEV_OSCILLATOR_STARTKEY, keyId, wtposCurves[ oscId ] || "0", bpm, dur ) );
 		}, when );
 	}
 	$stopKeyPreview( keyId, bpm, rel ) {
