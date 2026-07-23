@@ -22,6 +22,9 @@ class gsuiPianoroll extends gsui0ne {
 		"---gain.LFO---",
 		"gainLFOSpeed:speed",
 		"gainLFOAmp:amp",
+		"---detune.LFO---",
+		"detuneLFOSpeed:speed",
+		"detuneLFOAmp:amp",
 	];
 	#propSelect = $( "<gsui-prop-select>" ).$setAttr( { prop: "gain", props: this.#propSelectList.join( " " ) } );
 	#uiKeys = $( "<gsui-keys>" );
@@ -195,6 +198,8 @@ class gsuiPianoroll extends gsui0ne {
 		this.#blockDOMChange( blc, "highpass", obj.highpass );
 		this.#blockDOMChange( blc, "gainLFOSpeed", obj.gainLFOSpeed );
 		this.#blockDOMChange( blc, "gainLFOAmp", obj.gainLFOAmp );
+		this.#blockDOMChange( blc, "detuneLFOSpeed", obj.detuneLFOSpeed );
+		this.#blockDOMChange( blc, "detuneLFOAmp", obj.detuneLFOAmp );
 		this.#blockDOMChange( blc, "prev", obj.prev );
 		this.#blockDOMChange( blc, "next", obj.next );
 		return blc;
@@ -274,6 +279,8 @@ class gsuiPianoroll extends gsui0ne {
 				break;
 			case "gainLFOAmp":
 			case "gainLFOSpeed":
+			case "detuneLFOAmp":
+			case "detuneLFOSpeed":
 				this.#blockSliderUpdate( prop, el, gsuiPianoroll.#mulToX( val ) );
 				break;
 		}
@@ -315,7 +322,7 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#ongsuiSliderGroupInput( val ) {
 		const prop = this.#propSelect.$getAttr( "prop" );
-		const val2 = prop.startsWith( "gainLFO" )
+		const val2 = prop.includes( "LFO" )
 			? `x ${ gsuiPianoroll.#xToMul( val ).toFixed( 2 ) }`
 			: val;
 
@@ -327,7 +334,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ongsuiSliderGroupChange( kvArr ) {
 		const prop = this.#propSelect.$getAttr( "prop" );
 
-		if ( prop.startsWith( "gainLFO" ) ) {
+		if ( prop.includes( "LFO" ) ) {
 			kvArr.forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
 		}
 		this.$this.$dispatch( GSEV_PIANOROLL_CHANGEKEYSPROPS, prop, kvArr );
@@ -382,19 +389,18 @@ class gsuiPianoroll extends gsui0ne {
 		const grp = this.#uiSliderGroup.$get( 0 );
 
 		switch ( prop ) {
-			case "pan":          grp.$options( { min: -1, max: 1, def:  0, step: .05          } ); break;
-			case "gain":         grp.$options( { min:  0, max: 1, def: .8, step: .025         } ); break;
-			case "lowpass":      grp.$options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
-			case "highpass":     grp.$options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
-			case "gainLFOAmp":   grp.$options( { min: -6, max: 6, def:  0, step: 1            } ); break;
-			case "gainLFOSpeed": grp.$options( { min: -6, max: 6, def:  0, step: 1            } ); break;
-		}
-		if ( prop.startsWith( "wtposCurves." ) ) {
-			grp.$options( { min: 0, max: 9, def: 0, step: 1 } );
+			case "pan":            grp.$options( { min: -1, max: 1, def:  0, step: .05          } ); break;
+			case "gain":           grp.$options( { min:  0, max: 1, def: .8, step: .025         } ); break;
+			case "lowpass":        grp.$options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "highpass":       grp.$options( { min:  0, max: 1, def:  1, step: .025, exp: 3 } ); break;
+			case "gainLFOAmp":     grp.$options( { min: -6, max: 6, def:  0, step: 1            } ); break;
+			case "gainLFOSpeed":   grp.$options( { min: -6, max: 6, def:  0, step: 1            } ); break;
+			case "detuneLFOAmp":   grp.$options( { min: -6, max: 6, def:  0, step: 1            } ); break;
+			case "detuneLFOSpeed": grp.$options( { min: -6, max: 6, def:  0, step: 1            } ); break;
 		}
 		this.#blcManager.$getBlocks().forEach( ( blc, id ) => {
 			const val = +blc.$get( 0 ).dataset[ prop ] || 0;
-			const val2 = prop.startsWith( "gainLFO" )
+			const val2 = prop.includes( "LFO" )
 				? gsuiPianoroll.#mulToX( val )
 				: val;
 

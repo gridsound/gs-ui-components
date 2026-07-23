@@ -26,6 +26,8 @@ gsui-prop-select {
 		&[ data-prop="gainLFOAmp" ],
 		&[ data-prop="gain" ]     { color: var( --gsui-col-gain ) }
 		&[ data-prop="pan" ]      { color: var( --gsui-col-pan ) }
+		&[ data-prop="detuneLFOSpeed" ],
+		&[ data-prop="detuneLFOAmp" ],
 		&[ data-prop="detune" ]   { color: var( --gsui-col-detune ) }
 		&[ data-prop="lowpass" ]  { color: var( --gsui-col-lowpass ) }
 		&[ data-prop="highpass" ] { color: var( --gsui-col-highpass ) }
