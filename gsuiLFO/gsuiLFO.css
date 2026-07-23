@@ -11,13 +11,14 @@ gsui-lfo {
 	background-color: var( --gsui-item-bg );
 	--gsuiLFO-previews: none;
 	--gsuiLFO-cursor: not-allowed;
-	--gsuiLFO-input-theme: var( --gsui-col-gain );
 	--gsuiLFO-input-col: var( --gsui-slider-col-disabled );
 	--gsuiSlider-lineColor: var( --gsuiLFO-input-theme );
 
-	&[ lfo="detune" ] {
-		--gsuiLFO-input-theme: var( --gsui-col-detune );
-	}
+	&[ lfo="pan" ] { --gsuiLFO-input-theme: var( --gsui-col-pan ); }
+	&[ lfo="gain" ] { --gsuiLFO-input-theme: var( --gsui-col-gain ); }
+	&[ lfo="wtpos" ] { --gsuiLFO-input-theme: var( --gsui-col-wtpos ); }
+	&[ lfo="detune" ] { --gsuiLFO-input-theme: var( --gsui-col-detune ); }
+	&[ lfo="lowpass" ] { --gsuiLFO-input-theme: var( --gsui-col-lowpass ); }
 	&[ toggle ] {
 		--gsuiLFO-previews: block;
 		--gsuiLFO-input-col: var( --gsuiLFO-input-theme );

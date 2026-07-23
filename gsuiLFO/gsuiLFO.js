@@ -51,7 +51,7 @@ class gsuiLFO extends gsui0ne {
 			switch ( prop ) {
 				case "lfo":
 					this.#lfo = val;
-					this.#getPropSlider( "amp" ).$setAttr( "max", val === "gain" ? 1 : 12 );
+					this.#getPropSlider( "amp" ).$setAttr( "max", val === "detune" ? 12 : 1 );
 					this.#changeProp( "amp", Math.abs( this.$this.$getAttr( "amp" ) ) );
 					this.$onresize();
 					this.$updateWave();
