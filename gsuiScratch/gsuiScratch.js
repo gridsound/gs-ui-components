@@ -58,16 +58,16 @@ class gsuiScratch extends gsui0ne {
 			pointerdown: e => {
 				this.$elements.$graph
 					.$setPtrCapture( e.pointerId )
-					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 8 );
-				this.$this.$css( "cursor", "var(--gsuiCursor-grabbing)" );
+					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 8 )
+					.$css( "cursor", "var(--gsuiCursor-grabbing)" );
 				this.#clicked = true;
 			},
 			pointerup: e => {
 				this.#clicked = false;
 				this.$elements.$graph
 					.$relPtrCapture( e.pointerId )
-					.$off( "pointermove" );
-				this.$this.$css( "cursor", "" );
+					.$off( "pointermove" )
+					.$css( "cursor", "" );
 			},
 		} );
 	}
