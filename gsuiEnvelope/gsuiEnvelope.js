@@ -129,6 +129,23 @@ class gsuiEnvelope extends gsui0ne {
 	}
 
 	// .........................................................................
+	static $calcY( A, H, D, S, R, since, dur ) {
+		if ( since < dur ) {
+			if ( since < A ) {
+				return since / A;
+			}
+			if ( since < A + H ) {
+				return 1;
+			}
+			if ( since < A + H + D ) {
+				return 1 - ( since - A - H ) / D * ( 1 - S );
+			}
+			return S;
+		}
+		return ( 1 - ( since - dur ) / R ) * S;
+	}
+
+	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
 		if ( this.$this.$hasAttr( "toggle" ) ) {
 			const el = $( "<div>" ).$css( { left: 0, top: "100%" } );
@@ -174,7 +191,7 @@ class gsuiEnvelope extends gsui0ne {
 			p.$elem.$remove();
 			toRm.push( p );
 		} else {
-			const y = gsuiEnvelope.#keyPreviewCalcY( since, p.$dur, g );
+			const y = gsuiEnvelope.$calcY( g.$attack, g.$hold, g.$decay, g.$sustain, g.$release, since, p.$dur );
 			const y2 = 1 - y * Math.abs( g.$amp );
 
 			p.$elem.$css( {
@@ -198,21 +215,6 @@ class gsuiEnvelope extends gsui0ne {
 			return a + Math.min( t, 1 ) * susDur;
 		}
 		return ( 1 - g.$release / graphDur ) + ( since - dur ) / graphDur;
-	}
-	static #keyPreviewCalcY( since, dur, g ) {
-		if ( since < dur ) {
-			if ( since < g.$attack ) {
-				return since / g.$attack;
-			}
-			if ( since < g.$attack + g.$hold ) {
-				return 1;
-			}
-			if ( since < g.$attack + g.$hold + g.$decay ) {
-				return 1 - ( since - g.$attack - g.$hold ) / g.$decay * ( 1 - g.$sustain );
-			}
-			return g.$sustain;
-		}
-		return ( 1 - ( since - dur ) / g.$release ) * g.$sustain;
 	}
 }
 
