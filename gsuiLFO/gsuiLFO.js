@@ -198,6 +198,24 @@ class gsuiLFO extends gsui0ne {
 			}
 		} );
 	}
+	static $calcY( wave, del, att, frq, amp, since ) {
+		const since2 = since - del;
+		const att2 = att > 0 ? GSUmathClamp( since2 / att, 0, 1 ) : 1;
+
+		return gsuiLFO.#getWaveSample( wave, since2 * frq % 1 ) * amp * att2;
+	}
+	static #getWaveSample( wave, p ) {
+		switch ( wave ) {
+			case "square": return p < .5 ? 1 : -1;
+			case "sawtooth": return p < .5 ? 2 * p : 2 * p - 2;
+			case "triangle": return (
+				p < .25 ? 4 * p :
+				p < .75 ? 2 - 4 * p :
+				4 * p - 4
+			);
+		}
+		return Math.sin( p * 2 * Math.PI );
+	}
 	#keyAnimFrame() {
 		const toRm = [];
 
