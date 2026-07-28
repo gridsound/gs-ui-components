@@ -126,12 +126,14 @@ class gsuiSynthesizer extends gsui0ne {
 		const l = this.#data.lfo.wtpos;
 		const envVal = !e.toggle ? 0 : gsuiEnvelope.$calcY( e.attack, e.hold, e.decay, e.sustain, e.release, since, dur );
 		const lfoVal = !l.toggle ? 0 : gsuiLFO.$calcY( l.type, l.delay, l.attack, l.speed, l.amp, since );
-		const wtpos = GSUmathClamp( envVal + lfoVal, 0, 1 );
 
-		this.$this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", wtpos );
+		this.#setWtMorph( GSUmathClamp( envVal + lfoVal, 0, 1 ) );
 	}
 	#rmPreview( id ) {
-		this.$this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", "-1" );
+		this.#setWtMorph( -1 );
+	}
+	#setWtMorph( m ) {
+		this.$this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", m );
 	}
 	$startKeyPreview( keyId, key, bpm, when, dur ) {
 		this.#previews[ keyId ] = GSUsetTimeout( () => {
