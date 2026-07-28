@@ -58,6 +58,14 @@ class gsuiSynthesizer extends gsui0ne {
 			[ GSEV_OSCILLATOR_RESIZE ]: () => this.#shadow.$update(),
 			[ GSEV_NOISE_INPUT ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_INPUTNOISE, ...d.$args ),
 			[ GSEV_NOISE_CHANGE ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_CHANGENOISE, ...d.$args ),
+			[ GSEV_ENVELOPE_LIVECHANGE ]: d => {
+				this.#data.env[ d.$args[ 0 ] ][ d.$args[ 1 ] ] = d.$args[ 2 ];
+				return true;
+			},
+			[ GSEV_LFO_LIVECHANGE ]: d => {
+				this.#data.lfo[ d.$args[ 0 ] ][ d.$args[ 1 ] ] = d.$args[ 2 ];
+				return true;
+			},
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				const tab = d.$target.$parent().$getAttr( "data-tab" );
 
@@ -105,8 +113,26 @@ class gsuiSynthesizer extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( type, a, b, c ) {
+		switch ( type ) {
+			case GSEV_SYNTHESIZER_PREVIEW_SET: this.#setPreview( a, b, c ); break;
+			case GSEV_SYNTHESIZER_PREVIEW_RM: this.#rmPreview( a ); break;
+		}
+	}
 
 	// .........................................................................
+	#setPreview( id, since, dur ) {
+		const e = this.#data.env.wtpos;
+		const l = this.#data.lfo.wtpos;
+		const envVal = gsuiEnvelope.$calcY( e.attack, e.hold, e.decay, e.sustain, e.release, since, dur );
+		const lfoVal = gsuiLFO.$calcY( l.type, l.delay, l.attack, l.speed, l.amp, since );
+		const wtpos = GSUmathClamp( envVal + lfoVal, 0, 1 );
+
+		this.$this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", wtpos );
+	}
+	#rmPreview( id ) {
+		this.$this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", "-1" );
+	}
 	$startKeyPreview( keyId, key, bpm, when, dur ) {
 		this.#previews[ keyId ] = GSUsetTimeout( () => {
 			this.#previews[ keyId ] = null;
@@ -125,7 +151,6 @@ class gsuiSynthesizer extends gsui0ne {
 			this.$elements.$env.$get( 0 ).$stopKey( keyId );
 			GSUsetTimeout( () => {
 				this.$elements.$lfo.$get( 0 ).$stopKey( keyId );
-				// this.#uiOscs.forEach( osc => osc.$message( GSEV_OSCILLATOR_STOPKEY, keyId ) );
 			}, rel / ( bpm / 60 ) );
 		}
 	}
