@@ -11,6 +11,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		attX: 0,
 		amp: .95,
 		hz: 1,
+		fold: 0,
 	} );
 
 	constructor() {
@@ -25,6 +26,7 @@ class gsuiPeriodicWave extends gsui0ne {
 				duration: 1,
 				delay: 0,
 				attack: 0,
+				folding: 0,
 			},
 		} );
 	}
@@ -34,7 +36,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		this.$onmessage( GSEV_PERIODICWAVE_RESIZE );
 	}
 	static get observedAttributes() {
-		return [ "frequency", "amplitude", "duration", "delay", "attack" ];
+		return [ "frequency", "amplitude", "duration", "delay", "attack", "folding" ];
 	}
 	$attributeChanged( prop ) {
 		switch ( prop ) {
@@ -43,6 +45,7 @@ class gsuiPeriodicWave extends gsui0ne {
 			case "amplitude":
 			case "frequency":
 			case "duration":
+			case "folding":
 				this.#needRedraw = true;
 				break;
 		}
@@ -81,7 +84,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		return this.#drawData;
 	}
 	#updateDrawData() {
-		const [ freq, amp, dur, delay, attack ] = this.$this.$getAttr( "frequency", "amplitude", "duration", "delay", "attack" );
+		const [ freq, amp, dur, delay, attack, fold ] = this.$this.$getAttr( "frequency", "amplitude", "duration", "delay", "attack", "folding" );
 		const o = this.#drawData;
 
 		o.w = this.clientWidth;
@@ -91,6 +94,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		o.delX = o.w / dur * delay;
 		o.attX = o.w / dur * attack;
 		o.amp = -amp * ( 1 - 2 / o.h );
+		o.fold = fold * 16;
 		this.#needRedraw = false;
 	}
 
@@ -113,16 +117,26 @@ class gsuiPeriodicWave extends gsui0ne {
 		);
 		return pts.join( " " );
 	}
-	static #getY( { w, wave, delX, attX, amp, hz }, x ) {
+	static #getY( { w, wave, delX, attX, amp, hz, fold }, x ) {
 		if ( x >= delX ) {
 			const wlen = wave.length - 1;
 			const x2 = x - delX;
 			const x3 = x2 / w * wlen * hz % wlen;
 			const att = x2 < attX ? x2 / attX : 1;
+			const y = wave[ x3 | 0 ] * att;
 
-			return wave[ x3 | 0 ] * amp * att;
+			return gsuiPeriodicWave.#getYfold( y, fold ) * amp;
 		}
 		return 0;
+	}
+	static #getYfold( y, fold ) {
+		if ( fold > 0 ) {
+			const v = y * ( 1 + fold );
+			const m = ( ( v + 1 ) % 4 + 4 ) % 4;
+
+			return m <= 2 ? m - 1 : 3 - m;
+		}
+		return y;
 	}
 }
 
