@@ -15,6 +15,9 @@ gsui-periodicwave {
 	input[ type=range ] {
 		width: 80px;
 	}
+	code {
+		width: 4ch;
+	}
 }
 </style>
 
@@ -23,50 +26,36 @@ gsui-periodicwave {
 </div>
 
 <div id="TryControls">
-	<gs-flex x>
+	<gs-flex x g4>
 		<gsui-com-button icon="wave-sin" data-w="sine"></gsui-com-button>
 		<gsui-com-button icon="wave-tri" data-w="triangle"></gsui-com-button>
 		<gsui-com-button icon="wave-saw" data-w="sawtooth"></gsui-com-button>
 		<gsui-com-button icon="wave-squ" data-w="square"></gsui-com-button>
 	</gs-flex>
-	<gs-flex x g12>
-		<b>nbPts</b>
-		<input data-what="nbPts" type="range" min="2" max="512" step="1" value="200"/>
-		<code>200</code>
-	</gs-flex>
-	<gs-flex x g12>
-		<b>dur</b>
-		<input data-what="duration" type="range" min="1" max="16" step=".01" value="1"/>
-		<code>1</code>
-	</gs-flex>
-	<gs-flex x g12>
-		<b>amp</b>
-		<input data-what="amplitude" type="range" min="-1" max="1" step=".01" value="1"/>
-		<code>1</code>
-	</gs-flex>
-	<gs-flex x g12>
-		<b>hz</b>
-		<input data-what="frequency" type="range" min="0" max="4" step=".01" value="1"/>
-		<code>1</code>
-	</gs-flex>
-	<gs-flex x g12>
-		<b>delay</b>
-		<input data-what="delay" type="range" min="0" max="4" step=".01" value="0"/>
-		<code>0</code>
-	</gs-flex>
-	<gs-flex x g12>
-		<b>attack</b>
-		<input data-what="attack" type="range" min="0" max="4" step=".01" value="0"/>
-		<code>0</code>
-	</gs-flex>
 </div>
 
 <script>
 const el = $( "gsui-periodicwave" );
+const ctrl = $( "#TryControls" );
+const btns = ctrl.$query( "gsui-com-button" );
+const inps = $( [
+	[ "nbPts",  "nbPts",      2, 512, 1.00, 200 ],
+	[ "dur",    "duration",   1,  16, 0.01,   1 ],
+	[ "amp",    "amplitude", -1,   1, 0.01,   1 ],
+	[ "hz",     "frequency",  0,   4, 0.01,   1 ],
+	[ "delay",  "delay",      0,   4, 0.01,   0 ],
+	[ "attack", "attack",     0,   4, 0.01,   0 ],
+].map( ( [ name, prop, min, max, step, value ] ) =>
+	$.$flex( { x: true, g12: true },
+		$.$bold( null, name ),
+		$.$input( { "data-what": prop, type: "range", min, max, step, value } ),
+		$.$elem( "code" ),		
+	)
+) );
 const opts = {};
 let size = 200;
-let waveName = "triangle";
-let wave = GSUmathWaveFns[ waveName ]( size );
+let waveName;
+let wave;
 
 function draw() {
 	el.$setAttr( opts )
@@ -80,27 +69,35 @@ el.$observeSize( ( w, h ) => {
 	draw();
 } );
 
-$( "#TryControls" ).$onclick( e => {
+
+ctrl.$append( inps );
+btns.$onclick( e => {
 	const tar = $( e.target );
 	const w = tar.$getAttr( "data-w" );
 
-	if ( w ) {
-		waveName = w;
-		wave = GSUmathWaveFns[ w ]( size );
-		draw();
-	}
-} );
-$( "input[type=range]" ).$oninput( e => {
-	const tar = $( e.target );
-	const val = +tar.$value();
-	const what = tar.$getAttr( "data-what" );
-
-	if ( what === "nbPts" ) {
-		wave = GSUmathWaveFns[ waveName ]( val );
-	} else {
-		opts[ what ] = val;
-	}
-	tar.$next().$text( val );
+	waveName = w;
+	wave = GSUmathWaveFns[ w ]( size );
+	btns.$rmAttr( "type" );
+	tar.$setAttr( "type", "submit" );
 	draw();
 } );
+
+$( "[data-w='sine']" ).$click();
+
+inps.$query( "input" )
+	.$oninput( e => {
+		const tar = $( e.target );
+		const val = +tar.$value();
+		const what = tar.$getAttr( "data-what" );
+
+		if ( what === "nbPts" ) {
+			wave = GSUmathWaveFns[ waveName ]( val );
+		} else {
+			opts[ what ] = val;
+		}
+		tar.$next().$text( val );
+		draw();
+	} )
+	.$each( el => el.oninput( { target: el } ) );
+
 </script>
