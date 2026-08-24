@@ -122,7 +122,7 @@ class gsuiPatterns extends gsui0ne {
 			$ondrop: this.#ondropPatternBuffer.bind( this ),
 			$getTargetList: () => $( [
 				$( "gsui-slicer" ),
-				$( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
+				$( "gsui-oscillator:not([wavetable]) gsui-osc-wavewrap" ),
 				$( ".gsuiSynthesizer-newOsc" ),
 				$( "gsui-drumrow" ),
 				$( ".gsuiDrumrows-dropNew" ),
@@ -132,19 +132,20 @@ class gsuiPatterns extends gsui0ne {
 	}
 	#ondropPatternBuffer( drop ) {
 		const tar = drop.$target;
+		const tag = tar.$tag();
 		const obj = {
 			$patternType: "pattern-buffer",
 			$patternId: drop.$item,
 		};
 
-		if ( tar.$tag() === "gsui-slicer" ) {
+		if ( tag === "gsui-slicer" ) {
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONSLICER, obj );
-		} else if ( tar.$tag() === "gsui-drumrow" ) {
+		} else if ( tag === "gsui-drumrow" ) {
 			obj.$drumrowId = tar.$dataId();
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROW, obj );
 		} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROWNEW, obj );
-		} else if ( tar.$hasClass( "gsuiOscillator-waveWrap" ) ) {
+		} else if ( tag === "gsui-osc-wavewrap" ) {
 			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
 			obj.$oscId = tar.$closest( "gsui-oscillator" ).$dataId();
 			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSC, obj );

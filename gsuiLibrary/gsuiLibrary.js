@@ -43,7 +43,7 @@ class gsuiLibrary extends gsui0ne {
 			$getTargetList: () => $( [
 				$( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
 				$( "gsui-slicer" ),
-				$( "gsui-oscillator:not([wavetable]) .gsuiOscillator-waveWrap" ),
+				$( "gsui-oscillator:not([wavetable]) gsui-osc-wavewrap" ),
 				$( ".gsuiSynthesizer-newOsc" ),
 				$( "gsui-drumrow" ),
 				$( ".gsuiDrumrows-dropNew" ),
@@ -51,20 +51,21 @@ class gsuiLibrary extends gsui0ne {
 			] ),
 			$ondrop: drop => {
 				const tar = drop.$target;
+				const tag = tar.$tag();
 				const dt = drop.$itemElement.dataset;
 				const $name = `${ dt.id }:${ dt.name }`;
 				const obj = { $name };
 
-				if ( tar.$tag() === "gsui-slicer" ) {
+				if ( tag === "gsui-slicer" ) {
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONSLICER, obj );
 				} else if ( tar.$hasClass( "gsuiPatterns-panel-list-wrap" ) ) {
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
-				} else if ( tar.$tag() === "gsui-drumrow" ) {
+				} else if ( tag === "gsui-drumrow" ) {
 					obj.$drumrowId = tar.$dataId();
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROW, obj );
 				} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
-				} else if ( tar.$hasClass( "gsuiOscillator-waveWrap" ) ) {
+				} else if ( tag === "gsui-osc-wavewrap" ) {
 					obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
 					obj.$oscId = tar.$closest( "gsui-oscillator" ).$dataId();
 					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSC, obj );

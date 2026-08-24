@@ -10,20 +10,20 @@ class gsuiOscillator extends gsui0ne {
 		super( {
 			$tagName: "gsui-oscillator",
 			$elements: {
-				$id: ".gsuiOscillator-id",
-				$waveWrapBottom: ".gsuiOscillator-waveWrap-bottom",
-				$wavePrevNext: ".gsuiOscillator-waveWrap-top [data-dir]",
-				$waveName: ".gsuiOscillator-waveName",
-				$waveletBrowserPop: ".gsuiOscillator-waveletBrowser-pop",
-				$wavetableWrap: ".gsuiOscillator-wavetable",
-				$wavetableBtn: ".gsuiOscillator-waveEdit",
-				$sourceName: ".gsuiOscillator-sourceName",
-				$source: ".gsuiOscillator-source",
+				$id: "gsui-osc-id",
+				$waveWrapBottom: "gsui-osc-wavewrap-bottom",
+				$wavePrevNext: "gsui-osc-wavewrap-top [data-dir]",
+				$waveName: "[data-action=wave-name]",
+				$waveletBrowserPop: "gsui-osc-wavelet-browser-pop",
+				$wavetableWrap: "gsui-osc-wavetable",
+				$wavetableBtn: "[data-action=wave-edit]",
+				$sourceName: "gsui-osc-srcname",
+				$source: "gsui-osc-src",
 				$waves: "gsui-periodicwave",
-				$unisonGraph: ".gsuiOscillator-unisonGraph-voices",
+				$unisonGraph: "gsui-osc-unison-voices",
 				$propSli: "gsui-slider",
-				$propVal: ".gsuiOscillator-sliderValue",
-				$remove: ".gsuiOscillator-remove",
+				$propVal: "gsui-osc-slider-val",
+				$remove: "[data-action=remove]",
 			},
 			$attributes: {
 				"data-id": "0",
@@ -220,7 +220,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waveWrapBottom.$css( "marginLeft", n * 10, "%" );
 	}
 	#updateUnisonGraphVoices( n ) {
-		this.$elements.$unisonGraph.$maintainChildren( n, "div", { class: "gsuiOscillator-unisonGraph-voice" } );
+		this.$elements.$unisonGraph.$maintainChildren( n, "div" );
 		this.#updateUnisonGraphBlend( +this.$this.$getAttr( "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {

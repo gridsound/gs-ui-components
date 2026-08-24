@@ -17,8 +17,13 @@ gsui-oscillator {
 	gsui-slider {
 		--gsuiTooltip-pos: bottom;
 	}
+	button[ data-action="remove" ] {
+		position: absolute;
+		inset: 0 2px auto auto;
+		font-size: 12px;
+	}
 }
-.gsuiOscillator-in {
+gsui-osc-in {
 	display: grid;
 	width: 100%;
 	height: 100%;
@@ -32,7 +37,7 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-waveletBrowser-pop {
+gsui-osc-wavelet-browser-pop {
 	position: absolute;
 	position-anchor: --gsuiOscillator-waveBtn;
 	position-area: top;
@@ -45,7 +50,7 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-grip {
+gsui-osc-grip {
 	grid-area: grip;
 	display: flex;
 	align-items: center;
@@ -56,7 +61,7 @@ gsui-oscillator {
 	background-color: #0002;
 	touch-action: none;
 }
-.gsuiOscillator-id {
+gsui-osc-id {
 	position: absolute;
 	width: 20px;
 	height: 22px;
@@ -72,7 +77,7 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-head-label {
+gsui-osc-head-label {
 	display: flex;
 	justify-content: center;
 	font-size: 12px;
@@ -85,7 +90,7 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-prop {
+gsui-osc-prop {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -96,15 +101,15 @@ gsui-oscillator {
 	&[ data-prop="gain" ] { grid-area: gain; color: var( --gsui-col-gain ); }
 	&[ data-prop="detune" ] { grid-area: detune; color: var( --gsui-col-detune ); }
 }
-.gsuiOscillator-sliderWrap {
+gsui-osc-slider-wrap {
 	position: relative;
 	box-sizing: border-box;
 	height: 32px;
 }
-.gsuiOscillator-prop gsui-slider:first-child {
+gsui-osc-prop gsui-slider:first-child {
 	--gsuiSlider-event-catcher-inset: 0 0 -18px 0;
 }
-.gsuiOscillator-prop gsui-slider + gsui-slider {
+gsui-osc-prop gsui-slider + gsui-slider {
 	position: absolute;
 	overflow: hidden;
 	border-radius: 50%;
@@ -114,7 +119,7 @@ gsui-oscillator {
 	height: 16px;
 	--gsuiSlider-event-catcher-radius: 50%;
 }
-.gsuiOscillator-sliderValue {
+gsui-osc-slider-val {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -124,45 +129,51 @@ gsui-oscillator {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-waveColumn {
+gsui-osc-wave-column {
 	display: flex;
 	flex-direction: column;
 	grid-area: wave;
 	min-width: 0;
 	gap: 4px;
+
+	gsui-slider {
+		height: 4px;
+		--gsuiSlider-lineColor: #b8b;
+		--gsuiSlider-event-catcher-inset: -4px 0;
+	}
 }
-.gsuiOscillator-waveWrap {
+gsui-osc-wavewrap {
 	position: relative;
 	display: flex;
 	flex: 1;
 	border-radius: 3px;
 	background-color: var( --gsui-screen-graph );
 }
-.gsuiOscillator-waveWrap-left {
+gsui-osc-wavewrap-left {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 }
-.gsuiOscillator-waveWrap-top {
+gsui-osc-wavewrap-top {
 	display: flex;
 	height: 18px;
 }
-.gsuiOscillator-waveWrap-bottom {
+gsui-osc-wavewrap-bottom {
 	position: relative;
 	flex: 1;
 	width: 100%;
 }
-.gsuiOscillator-wave,
-.gsuiOscillator-source {
+gsui-osc-wave,
+gsui-osc-src {
 	position: absolute;
 	inset: 0;
 }
-gsui-oscillator:not( [ source ] ) .gsuiOscillator-source,
-gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
+gsui-oscillator:not( [ source ] ) gsui-osc-src,
+gsui-oscillator:not( [ wave ] ) gsui-osc-wave {
 	visibility: hidden;
 }
-.gsuiOscillator-wave {
+gsui-osc-wave {
 	gsui-periodicwave {
 		position: absolute;
 
@@ -174,21 +185,16 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 		stroke-opacity: .8;
 	}
 }
-.gsuiOscillator-source svg {
+gsui-osc-src svg {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	fill: var( --gsui-col-pan );
 }
-.gsuiOscillator-waveColumn gsui-slider {
-	height: 4px;
-	--gsuiSlider-lineColor: #b8b;
-	--gsuiSlider-event-catcher-inset: -4px 0;
-}
 
 /* .......................................................................... */
-.gsuiOscillator-waveWrap-top button,
-.gsuiOscillator-remove {
+gsui-osc-wavewrap-top button,
+gsui-oscillator button[ data-action="remove" ] {
 	opacity: .5;
 	transition: .1s opacity;
 
@@ -196,45 +202,40 @@ gsui-oscillator:not( [ wave ] ) .gsuiOscillator-wave {
 		opacity: 1;
 	}
 }
-.gsuiOscillator-sourceIcon,
-.gsuiOscillator-waveWrap-top button:not( .gsuiOscillator-waveName ) {
+gsui-osc-wavewrap-top > gsui-icon,
+gsui-osc-wavewrap-top button:not( [ data-action="wave-name" ] ) {
 	width: 14px;
 	min-width: 14px;
 	font-size: 16px;
 	text-align: center;
 }
-.gsuiOscillator-waveWrap-top button {
+gsui-osc-wavewrap-top button {
 	&:disabled {
 		pointer-events: none;
 		opacity: .2;
 	}
-	&.gsuiOscillator-waveEdit {
+	&[ data-action="wave-edit" ] {
 		min-width: 22px;
 		color: #94bfff;
 
-		gsui-oscillator[ hascustomwave ] .gsuiOscillator-waveName:hover + & {
+		gsui-oscillator[ hascustomwave ] button[ data-action="wave-name" ]:hover + & {
 			opacity: 1;
 		}
 	}
 }
-gsui-oscillator:not( [ wave ] ) .gsuiOscillator-waveWrap-top button,
-gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceIcon,
-gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
+gsui-oscillator:not( [ wave ] ) gsui-osc-wavewrap-top button,
+gsui-oscillator:not( [ source ] ) gsui-osc-wavewrap-top > gsui-icon,
+gsui-oscillator:not( [ source ] ) gsui-osc-srcname {
 	display: none;
 }
-.gsuiOscillator-sourceIcon {
+gsui-osc-wavewrap-top > gsui-icon {
 	margin-left: 8px;
 	font-size: 12px;
 	opacity: .5;
 }
-.gsuiOscillator-remove {
-	position: absolute;
-	inset: 0 2px auto auto;
-	font-size: 12px;
-}
 
 /* .......................................................................... */
-.gsuiOscillator-wavetable {
+gsui-osc-wavetable {
 	position: absolute;
 	inset: 0 0 0 20px;
 	scale: .8;
@@ -252,19 +253,19 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-sourceName,
-.gsuiOscillator-waveName {
+gsui-osc-srcname,
+gsui-oscillator button[ data-action="wave-name" ] {
 	margin: 0 6px;
 	font-size: 12px;
 	font-family: inherit;
 }
-.gsuiOscillator-waveName {
+gsui-oscillator button[ data-action="wave-name" ] {
 	anchor-name: --gsuiOscillator-waveBtn;
 	flex: 1;
 	min-width: 0;
 	text-align: start;
 }
-.gsuiOscillator-sourceName {
+gsui-osc-srcname {
 	margin-left: 8px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -274,39 +275,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 }
 
 /* .......................................................................... */
-.gsuiOscillator-unisonGraph {
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	min-width: 10px;
-	border-radius: 99px;
-	background-color: #0002;
-}
-.gsuiOscillator-unisonGraph-voices {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	margin: auto 0;
-	width: 100%;
-	min-height: 3px;
-	pointer-events: none;
-}
-.gsuiOscillator-unisonGraph-voice {
-	height: 3px;
-	min-width: 1px;
-	border-radius: 3px;
-	background-color: var( --gsui-col-unison );
-	opacity: .75;
-
-	&:only-child {
-		margin: auto 0;
-	}
-}
-
-/* .......................................................................... */
-.gsuiOscillator-unison {
+gsui-osc-unison {
 	grid-area: unison;
 	display: flex;
 	gap: 5px;
@@ -321,10 +290,41 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 		--gsuiSlider-event-catcher-inset: 0 0 0 -16px;
 	}
 }
+gsui-osc-unison-graph {
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 10px;
+	border-radius: 99px;
+	background-color: #0002;
+}
+gsui-osc-unison-voices {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	margin: auto 0;
+	width: 100%;
+	min-height: 3px;
+	pointer-events: none;
+
+	div {
+		height: 3px;
+		min-width: 1px;
+		border-radius: 3px;
+		background-color: var( --gsui-col-unison );
+		opacity: .75;
+
+		&:only-child {
+			margin: auto 0;
+		}
+	}
+}
 
 /* .......................................................................... */
 @container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
-	.gsuiOscillator-in {
+	gsui-osc-in {
 		grid-template:
 			"grip .   .    .    .         .     .       ."  6px
 			"grip .   wave .    unisonLbl .     panLbl  ." 12px
@@ -336,7 +336,7 @@ gsui-oscillator:not( [ source ] ) .gsuiOscillator-sourceName {
 			"grip .   .    .    .         .     .       ."  6px
 			/20px 6px 1fr  6px  48px      6px   48px    6px;
 	}
-	.gsuiOscillator-unison {
+	gsui-osc-unison {
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
