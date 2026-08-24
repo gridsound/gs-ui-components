@@ -22,7 +22,7 @@ class gsuiOscillator extends gsui0ne {
 				$waves: "gsui-periodicwave",
 				$unisonGraph: "gsui-osc-unison-voices",
 				$propSli: "gsui-slider",
-				$propVal: "gsui-osc-slider-val",
+				$propVal: "gsui-osc-prop > span",
 				$remove: "[data-action=remove]",
 			},
 			$attributes: {

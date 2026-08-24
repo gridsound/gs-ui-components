@@ -49,11 +49,11 @@ $.$setTemplate( "gsui-oscillator", () => {
 			[ "gain", 0, 1, .01, 1 ],
 		].map( ( [ prop, min, max, step, def ] ) =>
 			$.$elem( "gsui-osc-prop", { "data-prop": prop },
-				$.$elem( "gsui-osc-slider-wrap", null,
+				$.$div( null,
 					$.$elem( "gsui-slider", { type: "circular", min, max, step, "mousemove-size": "800", "data-prop": prop, defaultValue: def } ),
-					prop !== "detune" ? null : $.$elem( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3, defaultValue: 0 } )
+					prop !== "detune" ? null : $.$elem( "gsui-slider", { type: "circular", min: -1, max: 1, step: .01, "mousemove-size": "800", "data-prop": "detunefine", "stroke-width": 3, defaultValue: 0 } ),
 				),
-				$.$elem( "gsui-osc-slider-val" ),
+				$.$span( { inert: true } ),
 			)
 		),
 		$.$button( { "data-action": "remove", "data-tooltip": GSTX.$oscillator_remove },
