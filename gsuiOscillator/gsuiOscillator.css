@@ -156,10 +156,6 @@ gsui-osc-wavewrap-left {
 	flex-direction: column;
 	overflow: hidden;
 }
-gsui-osc-wavewrap-top {
-	display: flex;
-	height: 18px;
-}
 gsui-osc-wavewrap-bottom {
 	position: relative;
 	flex: 1;
@@ -199,6 +195,37 @@ gsui-osc-wave {
 }
 
 /* .......................................................................... */
+gsui-osc-wavewrap-top {
+	display: flex;
+	height: 18px;
+
+	> gsui-icon,
+	button:not( [ data-action="wave-name" ] ) {
+		width: 14px;
+		min-width: 14px;
+		font-size: 16px;
+		text-align: center;
+	}
+	button {
+		&:disabled {
+			pointer-events: none;
+			opacity: .2;
+		}
+		&[ data-action="wave-edit" ] {
+			min-width: 22px;
+			color: #94bfff;
+
+			gsui-oscillator[ hascustomwave ] button[ data-action="wave-name" ]:hover + & {
+				opacity: 1;
+			}
+		}
+	}
+	> gsui-icon {
+		margin-left: 8px;
+		font-size: 12px;
+		opacity: .5;
+	}
+}
 gsui-osc-wavewrap-top button,
 gsui-oscillator button[ data-action="remove" ] {
 	opacity: .5;
@@ -208,36 +235,10 @@ gsui-oscillator button[ data-action="remove" ] {
 		opacity: 1;
 	}
 }
-gsui-osc-wavewrap-top > gsui-icon,
-gsui-osc-wavewrap-top button:not( [ data-action="wave-name" ] ) {
-	width: 14px;
-	min-width: 14px;
-	font-size: 16px;
-	text-align: center;
-}
-gsui-osc-wavewrap-top button {
-	&:disabled {
-		pointer-events: none;
-		opacity: .2;
-	}
-	&[ data-action="wave-edit" ] {
-		min-width: 22px;
-		color: #94bfff;
-
-		gsui-oscillator[ hascustomwave ] button[ data-action="wave-name" ]:hover + & {
-			opacity: 1;
-		}
-	}
-}
 gsui-oscillator:not( [ wave ] ) gsui-osc-wavewrap-top button,
 gsui-oscillator:not( [ source ] ) gsui-osc-wavewrap-top > gsui-icon,
 gsui-oscillator:not( [ source ] ) gsui-osc-srcname {
 	display: none;
-}
-gsui-osc-wavewrap-top > gsui-icon {
-	margin-left: 8px;
-	font-size: 12px;
-	opacity: .5;
 }
 
 /* .......................................................................... */
