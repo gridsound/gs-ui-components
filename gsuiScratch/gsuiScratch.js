@@ -61,6 +61,7 @@ class gsuiScratch extends gsui0ne {
 					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 8 )
 					.$css( "cursor", "var(--gsuiCursor-grabbing)" );
 				this.#clicked = true;
+				this.$this.$dispatch( GSEV_SCRATCH_PTRDOWN );
 			},
 			pointerup: e => {
 				this.#clicked = false;

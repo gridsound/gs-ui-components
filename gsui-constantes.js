@@ -28,7 +28,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 155, 167, 218
+// 167, 218
 const GSEV_AUTOMATION_CHANGE = 195;
 const GSEV_AUTOMATION_CURVE = 197;
 const GSEV_AUTOMATION_CURVE_RESET = 198;
@@ -180,6 +180,7 @@ const GSEV_PROPSELECT_SELECT = 108;
 const GSEV_PROPSELECT_SELECTALL = 109;
 const GSEV_SCRATCH_CLOSE = 215;
 const GSEV_SCRATCH_LOAD = 199;
+const GSEV_SCRATCH_PTRDOWN = 155;
 const GSEV_SLICER_CHANGEPROP = 110;
 const GSEV_SLIDER_CHANGE = 111;
 const GSEV_SLIDER_INPUT = 112;
