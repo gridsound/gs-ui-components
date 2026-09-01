@@ -83,6 +83,11 @@ class gsuiComPlayer extends gsui0ne {
 			} );
 		this.$this.$listen( {
 			[ GSEV_SCRATCH_CLOSE ]: () => this.$this.$rmAttr( "scratch" ),
+			[ GSEV_SCRATCH_PTRDOWN ]: () => {
+				if ( this.$elements.$audio.$prop( "paused" ) ) {
+					this.$play();
+				}
+			},
 		} );
 	}
 
