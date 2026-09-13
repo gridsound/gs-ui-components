@@ -64,16 +64,17 @@ gsui-icon {
 	&[ icon="br-wordpress" ] { --i1: "\f411"; }
 
 	/* ...................................................................... */
-	&[ icon="cu-drums"        ] { --i0: "\e007"; --i1: "\e007\e007"; }
-	&[ icon="cu-waveform"     ] { --i0: "\e008"; --i1: "\e008\e008"; }
-	&[ icon="cu-search-user"  ] { --i0: "\e002"; --i1: "\e002\e002"; }
-	&[ icon="cu-search-music" ] { --i0: "\e009"; --i1: "\e009\e009"; }
-	&[ icon="cu-music-plus"   ] { --i0: "\e006"; --i1: "\e006\e006"; }
-	&[ icon="cu-music-edit"   ] { --i0: "\e00b"; --i1: "\e00b\e00b"; }
-	&[ icon="cu-music-spark"  ] { --i0: "\e00c"; --i1: "\e00c\e00c"; }
-	&[ icon="cu-no-help"      ] { --i0: "\e018"; --i1: "\e018\e018"; }
-	&[ icon="cu-no-question"  ] { --i0: "\e019"; --i1: "\e019\e019"; }
-	&[ icon="cu-no-turntable" ] { --i0: "\e01a"; --i1: "\e01a\e01a"; }
+	&[ icon="cu-drums"             ] { --i0: "\e007"; --i1: "\e007\e007"; }
+	&[ icon="cu-waveform"          ] { --i0: "\e008"; --i1: "\e008\e008"; }
+	&[ icon="cu-search-user"       ] { --i0: "\e002"; --i1: "\e002\e002"; }
+	&[ icon="cu-search-music"      ] { --i0: "\e009"; --i1: "\e009\e009"; }
+	&[ icon="cu-music-plus"        ] { --i0: "\e006"; --i1: "\e006\e006"; }
+	&[ icon="cu-music-edit"        ] { --i0: "\e00b"; --i1: "\e00b\e00b"; }
+	&[ icon="cu-music-spark"       ] { --i0: "\e00c"; --i1: "\e00c\e00c"; }
+	&[ icon="cu-no-help"           ] { --i0: "\e018"; --i1: "\e018\e018"; }
+	&[ icon="cu-no-question"       ] { --i0: "\e019"; --i1: "\e019\e019"; }
+	&[ icon="cu-no-turntable"      ] { --i0: "\e01a"; --i1: "\e01a\e01a"; }
+	&[ icon="cu-folder-music-plus" ] { --i0: "\e01b"; --i1: "\e01b\e01b"; --o1: .4; --o0: 1 }
 	&[ icon="cu-wave-edit"    ] {
 		--i0: "\e00d";
 		--i1: "\e00d\e00d";
@@ -112,6 +113,8 @@ gsui-icon {
 	&[ icon="caret-down"     ] { --i0: "\f0d7"; --i1: "\f0d7\f0d7"; --o1: 1; }
 	&[ icon="caret-left"     ] { --i0: "\f0d9"; --i1: "\f0d9\f0d9"; --o1: 1; }
 	&[ icon="caret-right"    ] { --i0: "\f0da"; --i1: "\f0da\f0da"; --o1: 1; }
+	&[ icon="chevrons-up"    ] { --i0: "\f325"; --i1: "\f325\f325"; }
+	&[ icon="chevrons-down"  ] { --i0: "\f322"; --i1: "\f322\f322"; }
 	&[ icon="chevrons-right" ] { --i0: "\f324"; --i1: "\f324\f324"; }
 
 	/* ...................................................................... */
@@ -157,6 +160,7 @@ gsui-icon {
 	&[ icon="keys"       ] { --i0: "\f8d5"; --i1: "\f8d5\f8d5"; }
 	&[ icon="keyboard"   ] { --i0: "\f11c"; --i1: "\f11c\f11c"; }
 	&[ icon="turntable"  ] { --i0: "\f8e4"; --i1: "\f8e4\f8e4"; }
+	&[ icon="microphone" ] { --i0: "\f130"; --i1: "\f130\f130"; }
 
 	/* ...................................................................... */
 	&[ icon="grip-h"     ] { --i0: "\f58d"; --i1: "\f58d\f58d"; }
@@ -193,11 +197,13 @@ gsui-icon {
 	/* ...................................................................... */
 	&[ icon="folder-open"  ] { --i0: "\f07c"; --i1: "\f07c\f07c"; }
 	&[ icon="folder-tree"  ] { --i0: "\f802"; --i1: "\f802\f802"; }
+	&[ icon="folder-music" ] { --i0: "\e18d"; --i1: "\e18d\e18d"; --o1: .4; --o0: 1 }
 	&[ icon="file-buffer"  ] { --i0: "\f1c7"; --i1: "\f1c7\f1c7"; }
 	&[ icon="file-export"  ] { --i0: "\f56e"; --i1: "\f56e\f56e"; }
 	&[ icon="file-corrupt" ] { --i0: "\f877"; --i1: "\f877\f877"; }
 	&[ icon="file-music"   ] { --i0: "\f8b6"; --i1: "\f8b6\f8b6"; }
 	&[ icon="file-mp3"     ] { --i0: "\e648"; --i1: "\e648\e648"; }
+	&[ icon="file-plus"    ] { --i0: "\e494"; --i1: "\e494\e494"; }
 
 	/* ...................................................................... */
 	&[ icon="expand"   ] { --i0: "\f065"; --i1: "\f065\f065"; }
