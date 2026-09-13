@@ -101,8 +101,8 @@ class gsuiReorder {
 		const ptr = gsuiReorder.#getGlobalPtr( par, e );
 
 		this.#movingFake
-			.$top( e.clientY, "px" )
-			.$left( e.clientX, "px" );
+			.$top( e.clientY + $html.$scrollY(), "px" )
+			.$left( e.clientX + $html.$scrollX(), "px" );
 		this.#whatAreDraggingOver( e );
 		if ( par.$size() && this.#opt.$onchange ) {
 			if ( par.$is( this.#movingItemParentLast ) ) {
@@ -379,8 +379,8 @@ class gsuiReorder {
 		const movFake = $( "<div>" )
 			.$setAttr( "id", "gsuiReorder-fake" )
 			.$css( {
-				top: `${ e.clientY }px`,
-				left: `${ e.clientX }px`,
+				top: `${ e.clientY + $html.$scrollY() }px`,
+				left: `${ e.clientX + $html.$scrollX() }px`,
 				marginTop: `-${ e.clientY - y }px`,
 				marginLeft: `-${ e.clientX - x }px`,
 				width: `${ w }px`,
