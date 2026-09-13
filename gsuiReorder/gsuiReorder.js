@@ -27,6 +27,7 @@ class gsuiReorder {
 	#movingItemParent = $noop;
 	#movingItemParentLast = $noop;
 	#movingIndex = -1;
+	#movingItemOrder = 0;
 	#currentPtr = null;
 	#itemsData = null;
 	#dataSave = null;
@@ -72,6 +73,7 @@ class gsuiReorder {
 	#startDragging( e ) {
 		this.#itemsData = gsuiReorder.#createItemsData( this.#movingItemParent, this.#opt.$itemSelector );
 		this.#movingIndex = gsuiReorder.#findElemIndex( this.#itemsData, this.#movingItem );
+		this.#movingItemOrder = +this.#movingItem.$css( "order" );
 		this.#dataSave = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 		this.#elPtrDown.$css( "cursor", "" );
 		this.#movingItem.$addClass( "gsuiReorder-dragging" );
@@ -142,10 +144,16 @@ class gsuiReorder {
 
 		const newOrderMap = gsuiReorder.#createOrderMap( this.#opt.$root, this.#opt.$itemSelector );
 		const orderDiff = gsuiReorder.#diffOrderMaps( this.#dataSave, newOrderMap );
-		const movingId = this.#movingItem.$dataId();
 
 		if ( orderDiff ) {
-			this.#opt.$onchange?.( orderDiff, movingId );
+			const movingId = this.#movingItem.$dataId();
+
+			this.#opt.$onchange?.( {
+				$rdrDiff: orderDiff,
+				$rdrItemId: movingId,
+				$rdrItemOrderOld: this.#movingItemOrder,
+				$rdrItemOrderNow: orderDiff[ movingId ]?.order ?? null,
+			} );
 		}
 	}
 	#onkeydown( e ) {
@@ -195,6 +203,7 @@ class gsuiReorder {
 		this.#elAreaDragovering =
 		this.#movingItemParent =
 		this.#movingItemParentLast = $noop;
+		this.#movingItemOrder = 0;
 		this.#movingIndex = -1;
 		if ( this.#opt.$root.$size() ) {
 			this.#opt.$root

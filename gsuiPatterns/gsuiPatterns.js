@@ -68,7 +68,7 @@ class gsuiPatterns extends gsui0ne {
 			$parentSelector: ".gsuiPatterns-panel-list",
 			$itemSelector: ".gsuiPatterns-pattern",
 			$itemGripSelector: ".gsuiPatterns-pattern-grip",
-			$onchange: ( obj, patId ) => this.onchange( "reorderPattern", patId, obj ),
+			$onchange: o => this.onchange( "reorderPattern", o.$rdrItemId, o.$rdrDiff ),
 			$getTargetList: () => $( ".gsuiTrack-row > div" ),
 			...opt,
 		} );
@@ -95,7 +95,10 @@ class gsuiPatterns extends gsui0ne {
 		this.#initReorder( {
 			$root: this.#getList( "keys" ),
 			$parentSelector: ".gsuiPatterns-synth-patterns",
-			$onchange: ( obj, patId ) => {
+			$onchange: o => {
+				const obj = o.$rdrDiff;
+				const patId = o.$rdrItemId;
+
 				if ( "parent" in obj[ patId ] ) {
 					const synth = obj[ patId ].parent;
 

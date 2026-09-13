@@ -70,7 +70,7 @@ class gsuiDrums extends gsui0ne {
 			$parentSelector: "gsui-drumrows",
 			$itemSelector: "gsui-drumrow",
 			$itemGripSelector: ".gsuiDrumrow-grip",
-			$onchange: ( obj, rowId ) => this.$this.$dispatch( GSEV_DRUMS_REORDERDRUMROW, rowId, obj ),
+			$onchange: o => this.$this.$dispatch( GSEV_DRUMS_REORDERDRUMROW, o.$rdrItemId, o.$rdrDiff ),
 		} );
 	}
 

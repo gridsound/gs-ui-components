@@ -52,7 +52,7 @@ class gsuiSynthesizer extends gsui0ne {
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: "gsui-osc-grip",
-			$onchange: obj => this.$this.$dispatch( GSEV_SYNTHESIZER_REORDEROSCILLATOR, obj ),
+			$onchange: o => this.$this.$dispatch( GSEV_SYNTHESIZER_REORDEROSCILLATOR, o.$rdrDiff ),
 		} );
 		this.$this.$listen( {
 			[ GSEV_OSCILLATOR_RESIZE ]: () => this.#shadow.$update(),
