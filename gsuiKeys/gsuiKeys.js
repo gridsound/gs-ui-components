@@ -88,7 +88,7 @@ class gsuiKeys extends gsui0ne {
 
 	// .........................................................................
 	#getKeyElementFromMidi( midi ) {
-		return this.$this.$child( this.children.length - 1 - ( midi - this.#octStart * 12 ) );
+		return this.$this.$child( this.$this.$childrenCount() - 1 - ( midi - this.#octStart * 12 ) );
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;

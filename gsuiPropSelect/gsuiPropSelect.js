@@ -73,14 +73,14 @@ class gsuiPropSelect extends gsui0ne {
 
 	// .........................................................................
 	#onclick( e ) {
-		const prop = $( e.target ).$dataProp();
+		const prop = $.$dataProp( e.target );
 
 		if ( prop && prop !== this.#prop ) {
 			this.$this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECT, prop );
 		}
 	}
 	#oncontextmenu( e ) {
-		const prop = $( e.target ).$dataProp();
+		const prop = $.$dataProp( e.target );
 
 		e.preventDefault();
 		if ( prop ) {

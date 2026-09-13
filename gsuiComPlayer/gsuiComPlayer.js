@@ -74,7 +74,7 @@ class gsuiComPlayer extends gsui0ne {
 				}
 			} )
 			.$onclick( e => {
-				const act = $( e.target ).$dataProp();
+				const act = $.$dataProp( e.target );
 
 				if ( act ) {
 					this.$elements.$actionPop.$togglePopover( false );

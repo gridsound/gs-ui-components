@@ -101,7 +101,7 @@ class gsuiDrumrow extends gsui0ne {
 		this.$this.$rmAttr( "info" );
 	}
 	#onclick( e ) {
-		switch ( $( e.target ).$getAttr( "data-action" ) ) {
+		switch ( $.$getAttr( e.target, "data-action" ) ) {
 			case "delete": this.$this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
 			case "props": this.$this.$togAttr( "open" ).$dispatch( GSEV_DRUMROW_EXPAND ); break;
 		}

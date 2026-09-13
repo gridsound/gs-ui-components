@@ -50,7 +50,7 @@ class gsuiWindows extends gsui0ne {
 					win.style.zIndex = zz - 1;
 				}
 			} );
-			this.#focusedWindow = win.$css( "zIndex", this.childElementCount - 1 );
+			this.#focusedWindow = win.$css( "zIndex", this.$this.$childrenCount() - 1 );
 			this.$this.$dispatch( GSEV_WINDOWS_FOCUS, win.$dataId() );
 		}
 	}

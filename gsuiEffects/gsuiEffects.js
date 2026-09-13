@@ -33,7 +33,7 @@ class gsuiEffects extends gsui0ne {
 			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
 		} );
 		this.$elements.$addList.$onclick( e => {
-			const fx = $( e.target ).$dataProp();
+			const fx = $.$dataProp( e.target );
 
 			if ( fx ) {
 				this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, fx );

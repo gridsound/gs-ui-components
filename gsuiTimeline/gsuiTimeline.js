@@ -199,20 +199,20 @@ class gsuiTimeline extends gsui0ne {
 		return diff;
 	}
 	#updateNumberMeasures() {
-		const elMeasures = this.$elements.$measures.$get( 0 );
+		const elMeasures = this.$elements.$measures;
 		const px = this.#pxPerMeasure * ( this.#onlyBigMeasures ? this.#beatsPerMeasure : 1 );
 		const w = this.#scrollingAncestor.$width() || this.$this.$width();
 		const nb = Math.ceil( w / px ) + 1 || 0;
 
 		if ( !GSUmathInRange( nb, 0, 500 ) ) {
 			return console.warn( "gsuiTimeline: anormal number of nodes to create", nb );
-		} else if ( elMeasures.children.length > nb ) {
-			while ( elMeasures.children.length > nb ) {
-				elMeasures.lastChild.remove();
+		} else if ( elMeasures.$childrenCount() > nb ) {
+			while ( elMeasures.$childrenCount() > nb ) {
+				elMeasures.$child( -1 ).$remove();
 			}
 		} else {
-			while ( elMeasures.children.length < nb ) {
-				elMeasures.append( $.$span( { class: "gsuiTimeline-measure" } ) );
+			while ( elMeasures.$childrenCount() < nb ) {
+				elMeasures.$append( $.$span( { class: "gsuiTimeline-measure" } ) );
 			}
 		}
 	}
