@@ -8,6 +8,7 @@ const GSURL = {
 	$gsDAW:        "//daw.gridsound.com",
 	$gsAPI:        "//api.gridsound.com",
 	$gsCmps:       "//compositions.gridsound.com",
+	$gsSmps:       "//samples.gridsound.com",
 	$github:       "//github.com/gridsound",
 	$wiki:         "//github.com/gridsound/daw/wiki",
 	$changelog:    "//github.com/gridsound/daw/wiki/changelog",
@@ -23,6 +24,7 @@ if ( __LOCALHOST__ ) {
 	GSURL.$gsDAW  = "//localhost/gridsound/daw";
 	GSURL.$gsAPI  = "//localhost/gridsound/api.gridsound.com/api";
 	GSURL.$gsCmps = "//localhost/gridsound/api.gridsound.com/compositions";
+	GSURL.$gsSmps = "//localhost/gridsound/api.gridsound.com/usamples";
 }
 GSUdeepFreeze( GSURL );
 
