@@ -30,7 +30,7 @@ $.$setTemplate( "gsui-daw", () => [
 		),
 		$.$div( { class: "gsuiDAW-area gsuiDAW-areaVisu" },
 			$.$elem( "gsui-analyser-hz", { resolution: 140 } ),
-			$.$button( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiDAW-btnColor", "data-action": "export",   "data-tooltip": GSTX.$daw_render   }, $.$icon( { icon: "export"   } ) ),
+			$.$button( { class: "gsuiDAW-btn gsuiDAW-btnBg gsuiDAW-btnColor", "data-action": "export",   "data-tooltip": GSTX.$daw_render   }, $.$icon( { icon: "download" } ) ),
 			$.$button( { class: "gsuiDAW-btn gsuiDAW-btnBg",                  "data-action": "settings", "data-tooltip": GSTX.$daw_settings }, $.$icon( { icon: "settings" } ) ),
 		),
 		$.$div( { class: "gsuiDAW-area gsuiDAW-areaWins gsuiDAW-btns" },
