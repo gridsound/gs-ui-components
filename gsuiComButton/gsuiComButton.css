@@ -9,8 +9,10 @@
 }
 
 gsui-com-button {
-	display: inline-flex;
 	--gsuiComButton-brdBottom-w: 3px;
+	--pad: 10px;
+	--w: auto;
+	display: inline-flex;
 	height: 28px;
 	border-radius: 2px;
 	user-select: none;
@@ -29,6 +31,10 @@ gsui-com-button {
 		--btn-colorA: var( --btn-danger-colorA );
 		--btn-colorB: var( --btn-danger-colorB );
 	}
+	&:not( [ text ] ) {
+		--pad: 0;
+		--w: 28px;
+	}
 	button {
 		display: inline-flex;
 		position: relative;
@@ -40,11 +46,12 @@ gsui-com-button {
 			position: relative;
 			box-sizing: border-box;
 			display: flex;
+			width: var( --w );
 			height: calc( 100% - var( --gsuiComButton-brdBottom-w ) );
 			align-items: center;
-			text-align: center;
+			justify-content: center;
 			gap: .6ch;
-			padding: 0 10px;
+			padding: 0 var( --pad );
 			border: var( --btn-outline ) transparent;
 			border-radius: inherit;
 			color: #fff;
