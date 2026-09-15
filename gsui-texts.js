@@ -26,6 +26,9 @@ const GSTXall = GSUdeepFreeze( {
 		$searchDots:   "search…",
 		$startingDots: "starting…",
 		// .....................................................................
+		$unitByteB:     "b",
+		$unitSecondSec: "sec",
+		// .....................................................................
 		$composition: "composition",
 		$synthesizer: "synthesizer",
 		$patterns:    "patterns",
@@ -282,6 +285,9 @@ const GSTXall = GSUdeepFreeze( {
 		$recycleBin:   "Corbeille",
 		$searchDots:   "chercher…",
 		$startingDots: "Démarrage…",
+		// .....................................................................
+		$unitByteB:     "o",
+		$unitSecondSec: "sec",
 		// .....................................................................
 		$composition: "composition",
 		$synthesizer: "synthétiseur",
