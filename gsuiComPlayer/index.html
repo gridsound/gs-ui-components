@@ -7,7 +7,6 @@
 
 <div id="TryComponent">
 	<gsui-com-player
-		__rendered
 		duration="3600"
 		bpm="120"
 		actions="open visible fork delete"
@@ -67,6 +66,7 @@ editableInp.$onchange( () => el.$setAttr( "dawlink", editableInp.$checked() ? `$
 // itsmineInp.$click();
 privateInp.$click();
 editableInp.$click();
+renderedInp.$click();
 
 bpmInp.$oninput( () => el.$setAttr( "bpm", bpmInp.$value() ) );
 durationInp.$oninput( () => el.$setAttr( "duration", durationInp.$value() ) );
