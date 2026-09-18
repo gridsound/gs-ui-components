@@ -189,7 +189,7 @@ class gsuiScratch extends gsui0ne {
 			const t = this.#currentTime;
 			const sec = this.#wSec;
 
-			gsuiWaveform.$drawBuffer( this.$elements.$polygon, this.#w, this.#h, this.#audiobuf, t - sec / 2, sec );
+			gsuiWaveform.$wfSetPolygonPointsFromBuffer( this.$elements.$polygon, this.#w, this.#h, this.#audiobuf, t - sec / 2, sec );
 		}
 	}
 }
