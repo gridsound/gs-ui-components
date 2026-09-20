@@ -21,6 +21,7 @@ const GSTXall = GSUdeepFreeze( {
 		$firstName:    "first name",
 		$followers:    "followers",
 		$following:    "following",
+		$uploadErr:    "Upload error",
 		$connection:   "Connection",
 		$recycleBin:   "Recycle bin",
 		$searchDots:   "search…",
@@ -100,6 +101,8 @@ const GSTXall = GSUdeepFreeze( {
 		$samplesRefresh:     "Refresh all the samples",
 		$samplesGroupSize:   "samples: <b>$0</b><br/>size: <b>$1b</b>",
 		$samplesFormatSize:  "format: <b>$0</b><br/>size: <b>$1b</b>",
+		$samplesNoSpace:     "There is not enough space to add more sample. You are invited to sign up for a premium account.",
+		$samplesNoSpacePrem: "There is not enough space to add more sample.",
 		$samplesRmGroupPopupTitle:    "Sample group deletion",
 		$samplesRmGroupPopupQuestion: "Are you sure of deleting all the samples inside this group?",
 		// .....................................................................
@@ -282,6 +285,7 @@ const GSTXall = GSUdeepFreeze( {
 		$firstName:    "prénom",
 		$followers:    "abonnés",
 		$following:    "abonnements",
+		$uploadErr:    "Erreur de téléchargement",
 		$connection:   "Connexion",
 		$recycleBin:   "Corbeille",
 		$searchDots:   "chercher…",
@@ -361,6 +365,8 @@ const GSTXall = GSUdeepFreeze( {
 		$samplesRefresh:     "Rafraîchir toutes les données",
 		$samplesGroupSize:   "samples: <b>$0</b><br/>taille: <b>$1o</b>",
 		$samplesFormatSize:  "format: <b>$0</b><br/>taille: <b>$1o</b>",
+		$samplesNoSpace:     "Il n'y a plus de assez de place pour ajouter de nouveaux samples. Vous êtes invité à souscrire un compte premium.",
+		$samplesNoSpacePrem: "Il n'y a plus de assez de place pour ajouter de nouveaux samples.",
 		$samplesRmGroupPopupTitle:    "Suppression groupée",
 		$samplesRmGroupPopupQuestion: "Êtes-vous sûr de vouloir supprimer tous les samples de ce groupe?",
 		// .....................................................................
