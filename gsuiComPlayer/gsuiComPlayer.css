@@ -121,11 +121,9 @@ gsui-com-player-actions-pop {
 		&:hover {
 			background-color: #fff1;
 		}
-		b {
-			gsui-icon {
-				width: 20px;
-				margin-right: 6px;
-			}
+		b gsui-icon {
+			width: 20px;
+			margin-right: 6px;
 		}
 		> span {
 			font-size: 13px;
