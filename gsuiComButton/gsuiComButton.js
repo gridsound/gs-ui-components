@@ -28,12 +28,12 @@ class gsuiComButton extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "disabled":
-			case "loading": this.#updateDisabled(); break;
-			case "text": this.$elements.$text.$text( val ); break;
-			case "type": this.$element.$prop( "type", val === "submit" ? val : "button" ); break;
 			case "href": this.#href = val; break;
+			case "text": this.$elements.$text.$text( val ); break;
 			case "icon": this.$elements.$icon.$setAttr( "icon", val ); break;
+			case "type": this.$element.$prop( "type", val === "submit" ? val : "button" ); break;
+			case "loading": this.$elements.$icon.$setAttr( "spin", val === "" );
+			case "disabled": this.#updateDisabled(); break;
 			case "popovertarget":
 			case "data-tooltip": this.$element.$setAttr( prop, val ); break;
 		}
