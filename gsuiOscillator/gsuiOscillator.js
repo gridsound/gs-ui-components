@@ -28,8 +28,6 @@ class gsuiOscillator extends gsui0ne {
 			$attributes: {
 				"data-id": "0",
 				order: 0,
-				wave: undefined,
-				source: undefined,
 				detune: 0,
 				detunefine: 0,
 				gain: 1,
@@ -113,7 +111,6 @@ class gsuiOscillator extends gsui0ne {
 	}
 	$onmessage( ev, ...args ) {
 		switch ( ev ) {
-			case GSEV_OSCILLATOR_ADDCUSTOMWAVE: this.$elements.$waveName.$text( args[ 0 ] ); break;
 			case GSEV_OSCILLATOR_CHANGECUSTOMWAVE: this.#changeCustomWave( ...args ); break;
 			case GSEV_OSCILLATOR_UPDATESOURCEWAVEFORM: this.#updateSourceWaveform( ...args ); break;
 			case GSEV_OSCILLATOR_DATACALLBACK: this.#askWavetableData = args[ 0 ]; break;

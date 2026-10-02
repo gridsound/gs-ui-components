@@ -208,7 +208,6 @@ class gsuiSynthesizer extends gsui0ne {
 		const uiOsc = $( "<gsui-oscillator>" )
 			.$dataId( id )
 			.$setAttr( props )
-			.$message( GSEV_OSCILLATOR_ADDCUSTOMWAVE, GSUformatWavetableName( this.dataset.id, id ) )
 			.$appendTo( this.$elements.$oscList );
 
 		this.#uiOscs.set( id, uiOsc );
