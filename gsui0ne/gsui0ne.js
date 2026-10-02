@@ -16,7 +16,7 @@ class gsui0ne extends HTMLElement {
 	constructor( o = {} ) {
 		super();
 		Object.seal( this );
-		this.#attributes = o.$attributes || {};
+		this.#attributes = o.$attributes || null;
 		this.#children = o.$template || ( $.$hasTemplate( o.$tagName )
 			? $.$getTemplate( o.$tagName, ...o.$tmpArgs || [] )
 			: null );
@@ -42,9 +42,18 @@ class gsui0ne extends HTMLElement {
 				GSUisArr( this.#children )
 					? this.append( ...this.#children )
 					: this.append( this.#children );
-				this.#children = null;
 			}
-			gsui0ne.#recallAttributes( this.$this, this.#attributes );
+			GSUforEach( this.#attributes, ( val, p ) => {
+				if ( GSUisStr( val ) || GSUisNum( val ) || val === true ) {
+					const a = this.$this.$getAttr( p );
+
+					if ( !GSUisStr( a ) ) {
+						this.$this.$setAttr( p, val );
+					}
+				}
+			} );
+			this.#children =
+			this.#attributes = null;
 			this.$firstTimeConnected?.();
 		}
 		this.$connected?.();
@@ -59,18 +68,8 @@ class gsui0ne extends HTMLElement {
 	}
 	attributeChangedCallback( prop, prev, val ) {
 		if ( prev !== val ) {
-			this.#attributes[ prop ] = val;
 			this.$attributeChanged?.( prop, val, prev );
 		}
-	}
-	static #recallAttributes( el, attr ) {
-		GSUforEach( attr, ( val, p ) => {
-			el.$hasAttr( p )
-				? el.$get( 0 ).attributeChangedCallback?.( p, null, el.$getAttr( p ) )
-				: val !== false
-					? el.$setAttr( p, val )
-					: el.$get( 0 ).$attributeChanged?.( p, null, null );
-		} );
 	}
 
 	// .........................................................................
