@@ -19,7 +19,6 @@ class gsuiLFO extends gsui0ne {
 			},
 			$attributes: {
 				lfo: "gain",
-				toggle: false,
 				timedivision: "5/5",
 				type: "sine",
 				delay: 0,
