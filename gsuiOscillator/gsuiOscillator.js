@@ -22,7 +22,7 @@ class gsuiOscillator extends gsui0ne {
 				$waves: "gsui-periodicwave",
 				$unisonGraph: "gsui-osc-unison-voices",
 				$propSli: "gsui-slider",
-				$propVal: "gsui-osc-prop > span",
+				$propVal: "gsui-osc-prop > b",
 				$remove: "[data-action=remove]",
 			},
 			$attributes: {
@@ -66,13 +66,6 @@ class gsuiOscillator extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const wedit = this.$this.$hasAttr( "wavetable" );
-		const w = this.$this.$width();
-		const h = wedit
-			? Math.max( 300, w / 2 )
-			: w < 700 ? 82 : 174;
-
-		this.$this.$css( "minHeight", h, "px" );
 		this.$elements.$waves
 			.$message( GSEV_PERIODICWAVE_RESIZE )
 			.$message( GSEV_PERIODICWAVE_DRAW );

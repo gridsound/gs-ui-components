@@ -1,5 +1,4 @@
 gsui-oscillator {
-	container: gsui-oscillator-query / size;
 	display: flex;
 	position: relative;
 	box-sizing: border-box;
@@ -8,32 +7,35 @@ gsui-oscillator {
 	border-top: var( --gsui-item-brdtop );
 	border-bottom: var( --gsui-item-brdbottom );
 	background-color: var( --gsui-item-bg );
-	transition: .2s;
-	transition-property: min-height;
 
 	&[ wavetable ] {
-		min-height: 500px;
+		aspect-ratio: 1 / .7;
 	}
 	gsui-slider {
 		--gsuiTooltip-pos: bottom;
 	}
-	button[ data-action="remove" ] {
+}
+gsui-osc-in {
+	display: flex;
+	width: 100%;
+	gap: 4px;
+}
+gsui-osc-idgrip {
+	display: flex;
+	flex-direction: column;
+}
+gsui-osc-main {
+	display: flex;
+	padding: 4px;
+	padding-right: 10px;
+	flex: 1;
+	gap: 6px;
+
+	> button[ data-action="remove" ] {
 		position: absolute;
 		inset: 0 2px auto auto;
 		font-size: 12px;
 	}
-}
-gsui-osc-in {
-	display: grid;
-	width: 100%;
-	height: 100%;
-	grid-template:
-		"grip .   .    .    .         .    .        .    .      .    .       ." 6px
-		"grip .   wave .    unisonLbl .    pitchLbl .    panLbl .    gainLbl ." 12px
-		"grip .   wave .    .         .    .        .    .      .    .       ." 6px
-		"grip .   wave .    unison    .    detune   .    pan    .    gain    ." 1fr
-		"grip .   .    .    .         .    .        .    .      .    .       ." 6px
-		/20px 6px 1fr  6px  48px      8px  36px     6px  36px   6px  36px    10px;
 }
 
 /* .......................................................................... */
@@ -51,8 +53,9 @@ gsui-osc-wavelet-browser-pop {
 
 /* .......................................................................... */
 gsui-osc-grip {
-	grid-area: grip;
 	display: flex;
+	width: 20px;
+	flex: 1;
 	align-items: center;
 	justify-content: center;
 	font-size: 12px;
@@ -62,11 +65,8 @@ gsui-osc-grip {
 	touch-action: none;
 }
 gsui-osc-id {
-	position: absolute;
 	width: 20px;
 	height: 22px;
-	left: 0;
-	top: -2px;
 	font-size: 20px;
 	font-family: var( --gsui-font-number );
 	font-weight: bold;
@@ -77,39 +77,35 @@ gsui-osc-id {
 }
 
 /* .......................................................................... */
-gsui-osc-head-label {
-	display: flex;
-	justify-content: center;
+gsui-osc-label {
+	margin-bottom: 2px;
+	text-align: center;
 	font-size: 12px;
+	color: #fff;
 	opacity: .5;
-
-	&:nth-of-type( 1 ) { grid-area: unisonLbl }
-	&:nth-of-type( 2 ) { grid-area: pitchLbl }
-	&:nth-of-type( 3 ) { grid-area: panLbl }
-	&:nth-of-type( 4 ) { grid-area: gainLbl }
 }
-
-/* .......................................................................... */
 gsui-osc-prop {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: 2px;
+	min-width: 40px;
 	--gsuiSlider-lineColor: currentColor;
 
-	&[ data-prop="pan" ] { grid-area: pan; color: var( --gsui-col-pan ); }
-	&[ data-prop="gain" ] { grid-area: gain; color: var( --gsui-col-gain ); }
-	&[ data-prop="detune" ] { grid-area: detune; color: var( --gsui-col-detune ); }
+	&[ data-prop="pan" ] { color: var( --gsui-col-pan ); }
+	&[ data-prop="gain" ] { color: var( --gsui-col-gain ); }
+	&[ data-prop="detune" ] { color: var( --gsui-col-detune ); }
 	> div {
 		position: relative;
 		box-sizing: border-box;
 		height: 32px;
+		flex: 1;
 	}
-	> span {
+	> b {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-family: var( --gsui-font-number );
+		font-weight: normal;
 		font-size: 12px;
 	}
 	gsui-slider {
@@ -132,8 +128,8 @@ gsui-osc-prop {
 /* .......................................................................... */
 gsui-osc-wave-column {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
-	grid-area: wave;
 	min-width: 0;
 	gap: 4px;
 
@@ -283,18 +279,24 @@ gsui-osc-srcname {
 
 /* .......................................................................... */
 gsui-osc-unison {
-	grid-area: unison;
 	display: flex;
-	gap: 5px;
+	flex-direction: column;
 	--gsuiSlider-lineColor: var( --gsui-col-unison );
 	--gsuiSlider-event-catcher-inset: -3px;
 
-	gsui-slider + gsui-slider {
+	gsui-osc-unison-main {
+		display: flex;
+		flex: 1;
+		gap: 5px;
+	}
+	gsui-slider {
 		width: 6px;
 		min-width: 6px;
-	}
-	gsui-slider[ data-prop="unisonvoices" ] {
-		--gsuiSlider-event-catcher-inset: 0 0 0 -16px;
+
+		&[ data-prop="unisonvoices" ] {
+			min-width: 10px;
+			--gsuiSlider-event-catcher-inset: 0 0 0 -16px;
+		}
 	}
 }
 gsui-osc-unison-graph {
@@ -326,25 +328,5 @@ gsui-osc-unison-voices {
 		&:only-child {
 			margin: auto 0;
 		}
-	}
-}
-
-/* .......................................................................... */
-@container gsui-oscillator-query ( min-width: 700px ) OR ( min-height: 174px ) {
-	gsui-osc-in {
-		grid-template:
-			"grip .   .    .    .         .     .       ."  6px
-			"grip .   wave .    unisonLbl .     panLbl  ." 12px
-			"grip .   wave .    unison    .     pan     ." 64px
-			"grip .   wave .    .         .     .       ."  6px
-			"grip .   wave .    pitchLbl  .     gainLbl ." 12px
-			"grip .   wave .    detune    .     gain    ." 64px
-			"grip .   wave .    .         .     .       ."  1fr
-			"grip .   .    .    .         .     .       ."  6px
-			/20px 6px 1fr  6px  48px      6px   48px    6px;
-	}
-	gsui-osc-unison {
-		margin-top: 6px;
-		margin-bottom: 6px;
 	}
 }
