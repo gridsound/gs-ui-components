@@ -20,7 +20,6 @@ class gsuiEnvelope extends gsui0ne {
 			},
 			$attributes: {
 				env: "gain",
-				toggle: false,
 				timedivision: "4/4",
 				amp: 24,
 				q: 1,
