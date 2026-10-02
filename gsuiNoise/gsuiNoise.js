@@ -11,7 +11,6 @@ class gsuiNoise extends gsui0ne {
 				$colorSelect: ".gsuiNoise-type select",
 			},
 			$attributes: {
-				toggle: false,
 				color: "white",
 				gain: 0,
 				pan: 0,

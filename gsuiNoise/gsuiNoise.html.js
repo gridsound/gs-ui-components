@@ -10,9 +10,9 @@ $.$setTemplate( "gsui-noise", () => [
 			$.$option( { value: "brown" } ),
 		),
 	),
-	$.$elem( "gsui-slider", { "data-prop": "gain", type: "linear-x", min: 0, max: 1, step: .005, "mousemove-size": 400 } ),
+	$.$elem( "gsui-slider", { "data-prop": "gain", disabled: true, type: "linear-x", min: 0, max: 1, step: .005, "mousemove-size": 400 } ),
 	$.$span( { class: "gsuiNoise-value", "data-prop": "gain" } ),
 	$.$span( null, "pan" ),
-	$.$elem( "gsui-slider", { "data-prop": "pan", type: "linear-x", min: -1, max: 1, step: .01, "mousemove-size": 400, defaultValue: 0 } ),
+	$.$elem( "gsui-slider", { "data-prop": "pan", disabled: true, type: "linear-x", min: -1, max: 1, step: .01, "mousemove-size": 400, defaultValue: 0 } ),
 	$.$span( { class: "gsuiNoise-value", "data-prop": "pan" } ),
 ] );
