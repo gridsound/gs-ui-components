@@ -30,7 +30,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 167, 218
+// 218
 const GSEV_AUTOMATION_CHANGE = 195;
 const GSEV_AUTOMATION_CURVE = 197;
 const GSEV_AUTOMATION_CURVE_RESET = 198;
@@ -87,6 +87,7 @@ const GSEV_DRAGLINE_CHANGE = 184;
 const GSEV_DRAGLINE_DRAW = 182;
 const GSEV_DRAGLINE_DROPAREAS = 169;
 const GSEV_DRAGLINE_LINKTO = 183;
+const GSEV_DROPDOWN_CLICK = 167;
 const GSEV_DRUMROW_CHANGEPATTERN = 179;
 const GSEV_DRUMROW_CHANGEPROP = 38;
 const GSEV_DRUMROW_EXPAND = 39;
