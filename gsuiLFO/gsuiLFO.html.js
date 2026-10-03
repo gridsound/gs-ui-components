@@ -8,9 +8,10 @@ $.$setTemplate( "gsui-lfo", () =>
 				[ "attack", "attack", "att", 0, 4, .03125 ],
 				[ "speed", "speed", "spd", .25, 18, .125 ],
 				[ "amp", "amplitude", "amp", .001, 1, .001 ],
-			].map( ( [ prop, title, text, min, max, step ] ) =>
-				$.$div( { "data-prop": prop, title },
-					$.$elem( "gs-label", null, text ),
+				[ "phase", "phase", "pha", 0, 1, .001 ],
+			].map( ( [ prop, tooltip, text, min, max, step ] ) =>
+				$.$div( { "data-prop": prop },
+					$.$elem( "gs-label", { "data-tooltip": tooltip }, text ),
 					$.$elem( "gs-output" ),
 					$.$elem( "gsui-slider", { type: "linear-x", disabled: true, min, max, step, "mousemove-size": "800" } ),
 				)

@@ -2,8 +2,8 @@ gsui-lfo {
 	container: gsui-lfo-query / size;
 	display: block;
 	position: relative;
-	height: 94px;
-	min-height: 94px;
+	height: 114px;
+	min-height: 114px;
 	box-sizing: border-box;
 	font-family: var( --gsui-font );
 	border-top: var( --gsui-item-brdtop );
@@ -55,6 +55,7 @@ gsui-lfo {
 	}
 	gs-label {
 		min-width: 32px;
+		pointer-events: auto;
 	}
 	gs-output {
 		min-width: 44px;

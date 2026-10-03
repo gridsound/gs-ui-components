@@ -23,6 +23,7 @@ class gsuiLFO extends gsui0ne {
 				timedivision: "5/5",
 				type: "sine",
 				delay: 0,
+				phase: 0,
 				attack: 1,
 				speed: 1,
 				amp: 1,
@@ -42,7 +43,7 @@ class gsuiLFO extends gsui0ne {
 		this.$updateWave();
 	}
 	static get observedAttributes() {
-		return [ "lfo", "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
+		return [ "lfo", "toggle", "timedivision", "type", "delay", "phase", "attack", "speed", "amp", "lowpassfreq" ];
 	}
 	$attributeChanged( prop, val, prev ) {
 		const num = +val;
@@ -65,6 +66,7 @@ class gsuiLFO extends gsui0ne {
 				break;
 			case "type": this.#changeType( val ); break;
 			case "delay":
+			case "phase":
 			case "attack":
 			case "speed":
 			case "lowpassfreq":
@@ -84,6 +86,7 @@ class gsuiLFO extends gsui0ne {
 		const bPM = +( this.$this.$getAttr( "timedivision" ) || "4/4" ).split( "/" )[ 0 ];
 		const opt = {
 			delay: prop === "delay" ? val : +this.$this.$getAttr( "delay" ),
+			phase: prop === "phase" ? val : +this.$this.$getAttr( "phase" ),
 			attack: prop === "attack" ? val : +this.$this.$getAttr( "attack" ),
 			frequency: prop === "speed" ? val : +this.$this.$getAttr( "speed" ),
 			amplitude: prop === "amp" ? val : +this.$this.$getAttr( "amp" ),
