@@ -145,8 +145,7 @@ const GSTXall = GSUdeepFreeze( {
 		$profile_follow:   "Follow",
 		$profile_unfollow: "Unfollow",
 		// .....................................................................
-		$about_gridsound:  "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation following the <a https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API>Web Audio API</a>.",
-		$about_gridsound2: "You can create an account (by clicking the profile icon on the top-left corner) and start uploading your compositions online.",
+		$about_gridsound: "GridSound is a <b>work-in-progress</b> free browser-based digital audio workstation, <a https://github.com/gridsound/daw/wiki/about>credits</a>.<br/><br/>Follow us ❤️",
 		// .....................................................................
 		$daw_gain:        "Main app <b>volume</b> (this will not affect the rendering)",
 		$daw_focus:       "Switch <b>focus</b> between the composition and piano windows",
@@ -412,8 +411,7 @@ const GSTXall = GSUdeepFreeze( {
 		$profile_follow:   "S'abonner",
 		$profile_unfollow: "Se désabonner",
 		// .....................................................................
-		$about_gridsound:  "GridSound est une station audionumérique dans le navigateur, le projet est <b>en-construction</b>, gratuit et est basée sur l'<a https://developer.mozilla.org/fr/docs/Web/API/Web_Audio_API>API Web Audio</a>.",
-		$about_gridsound2: "Vous pouvez créer un compte (en cliquant sur l'icône de profil en haut à gauche) et commencer à publier vos compositions en ligne.",
+		$about_gridsound: "GridSound est une station audionumérique dans le navigateur, le projet est encore <b>en-construction</b>, <a https://github.com/gridsound/daw/wiki/about>crédits</a>.<br/><br/>Suivez-nous ❤️",
 		// .....................................................................
 		$daw_gain:        "<b>Volume</b> principal de l'application (n'affecte pas le rendu)",
 		$daw_focus:       "Basculer le <b>focus</b> entre la composition et le piano",

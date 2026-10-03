@@ -9,7 +9,6 @@ $.$setTemplate( "gsui-daw-popup-about", () =>
 			$.$button( { class: "gsuiDAW-popup-about-versionCheck" }, GSTX.$checkVersion ),
 		),
 		$.$div( null, $.$simpleStringHTML( GSTX.$about_gridsound ) ),
-		$.$div( null, $.$simpleStringHTML( GSTX.$about_gridsound2 ) ),
 		$.$div( { class: "gsuiDAW-popup-about-links" },
 			$.$linkExt( { "data-tooltip": "GitHub",   href: GSURL.$github   }, $.$icon( { icon: "br-github"   } ) ),
 			$.$linkExt( { "data-tooltip": "Bluesky",  href: GSURL.$bluesky  }, $.$icon( { icon: "br-bluesky"  } ) ),
