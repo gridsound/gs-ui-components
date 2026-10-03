@@ -7,6 +7,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		w: 100,
 		h: 100,
 		wave: [ 0, 0 ],
+		phase: 0,
 		delX: 0,
 		attX: 0,
 		amp: .95,
@@ -21,6 +22,7 @@ class gsuiPeriodicWave extends gsui0ne {
 				$.$elem( "polyline" ),
 			),
 			$attributes: {
+				phase: 0,
 				frequency: 1,
 				amplitude: 1,
 				duration: 1,
@@ -36,19 +38,10 @@ class gsuiPeriodicWave extends gsui0ne {
 		this.$onmessage( GSEV_PERIODICWAVE_RESIZE );
 	}
 	static get observedAttributes() {
-		return [ "frequency", "amplitude", "duration", "delay", "attack", "folding" ];
+		return [ "phase", "frequency", "amplitude", "duration", "delay", "attack", "folding" ];
 	}
 	$attributeChanged( prop ) {
-		switch ( prop ) {
-			case "delay":
-			case "attack":
-			case "amplitude":
-			case "frequency":
-			case "duration":
-			case "folding":
-				this.#needRedraw = true;
-				break;
-		}
+		this.#needRedraw = true;
 	}
 	$onmessage( ev, val, w ) {
 		switch ( ev ) {
@@ -84,12 +77,13 @@ class gsuiPeriodicWave extends gsui0ne {
 		return this.#drawData;
 	}
 	#updateDrawData() {
-		const [ freq, amp, dur, delay, attack, fold ] = this.$this.$getAttr( "frequency", "amplitude", "duration", "delay", "attack", "folding" );
+		const [ phase, freq, amp, dur, delay, attack, fold ] = this.$this.$getAttr( "phase", "frequency", "amplitude", "duration", "delay", "attack", "folding" );
 		const o = this.#drawData;
 
 		o.w = this.clientWidth;
 		o.h = this.clientHeight;
 		o.hz = freq * dur;
+		o.phase = +phase;
 		o.wave = GSUarrayResize( this.#waveArray, Math.max( o.w / o.hz | 0, 2 ) );
 		o.delX = o.w / dur * delay;
 		o.attX = o.w / dur * attack;
@@ -117,11 +111,11 @@ class gsuiPeriodicWave extends gsui0ne {
 		);
 		return pts.join( " " );
 	}
-	static #getY( { w, wave, delX, attX, amp, hz, fold }, x ) {
+	static #getY( { w, wave, phase, delX, attX, amp, hz, fold }, x ) {
 		if ( x >= delX ) {
 			const wlen = wave.length - 1;
 			const x2 = x - delX;
-			const x3 = x2 / w * wlen * hz % wlen;
+			const x3 = ( x2 / w * wlen * hz + phase * wlen ) % wlen;
 			const att = x2 < attX ? x2 / attX : 1;
 			const y = wave[ x3 | 0 ] * att;
 
