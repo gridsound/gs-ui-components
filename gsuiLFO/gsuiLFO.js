@@ -16,6 +16,7 @@ class gsuiLFO extends gsui0ne {
 				$keyPreviews: ".gsuiLFO-keyPreviews",
 				$propSli: "gsui-slider",
 				$propVal: "gs-output",
+				$radios: "[type=radio]",
 			},
 			$attributes: {
 				lfo: "gain",
@@ -44,39 +45,37 @@ class gsuiLFO extends gsui0ne {
 		return [ "lfo", "toggle", "timedivision", "type", "delay", "attack", "speed", "amp", "lowpassfreq" ];
 	}
 	$attributeChanged( prop, val, prev ) {
-		if ( this.firstChild ) {
-			const num = +val;
+		const num = +val;
 
-			switch ( prop ) {
-				case "lfo":
-					this.#lfo = val;
-					this.#getPropSlider( "amp" ).$setAttr( "max", val === "detune" ? 12 : 1 );
-					this.#changeProp( "amp", Math.abs( this.$this.$getAttr( "amp" ) ) );
-					this.$onresize();
-					this.$updateWave();
-					this.#updateBeatlinesColor();
-					break;
-				case "timedivision":
-					this.$elements.$beatlines.$setAttr( "timedivision", val );
-					break;
-				case "toggle":
-					this.#changeToggle( val !== null );
-					this.#updateBeatlinesColor();
-					break;
-				case "type": this.#changeType( val ); break;
-				case "delay":
-				case "attack":
-				case "speed":
-				case "lowpassfreq":
-					this.#changeProp( prop, num );
-					break;
-				case "amp":
-					if ( num > 0 !== prev > 0 ) {
-						this.#changeAmpSign( num );
-					}
-					this.#changeProp( "amp", Math.abs( num ) );
-					break;
-			}
+		switch ( prop ) {
+			case "lfo":
+				this.#lfo = val;
+				this.#getPropSlider( "amp" ).$setAttr( "max", val === "detune" ? 12 : 1 );
+				this.#changeProp( "amp", Math.abs( this.$this.$getAttr( "amp" ) ) );
+				this.$onresize();
+				this.$updateWave();
+				this.#updateBeatlinesColor();
+				break;
+			case "timedivision":
+				this.$elements.$beatlines.$setAttr( "timedivision", val );
+				break;
+			case "toggle":
+				this.#changeToggle( val !== null );
+				this.#updateBeatlinesColor();
+				break;
+			case "type": this.#changeType( val ); break;
+			case "delay":
+			case "attack":
+			case "speed":
+			case "lowpassfreq":
+				this.#changeProp( prop, num );
+				break;
+			case "amp":
+				if ( num > 0 !== prev > 0 ) {
+					this.#changeAmpSign( num );
+				}
+				this.#changeProp( "amp", Math.abs( num ) );
+				break;
 		}
 	}
 
@@ -108,15 +107,15 @@ class gsuiLFO extends gsui0ne {
 	#getPropOutput( prop ) { return this.$elements.$propVal.$filter( `[data-prop="${ prop }"] gs-output` ); }
 	#createWaveArray() { return GSUmathWaveFns[ this.$this.$getAttr( "type" ) || "sine" ]( 256 ); }
 	#changeToggle( b ) {
-		this.$this.$query( "[type=radio]" ).$disabled( !b );
+		this.$elements.$radios.$disabled( !b );
 		this.$elements.$propSli.$disabled( !b );
 	}
 	#changeType( type ) {
 		this.$elements.$wave.$message( GSEV_PERIODICWAVE_DATA, this.#createWaveArray() );
-		this.$this.$query( `[type="radio"][value="${ type }"]` ).$checked( true );
+		this.$elements.$radios.$filter( `[value="${ type }"]` ).$checked( true );
 	}
 	#changeAmpSign( amp ) {
-		this.$this.$query( `[type="radio"][value="${ Math.sign( amp ) || 1 }"]` ).$checked( true );
+		this.$elements.$radios.$filter( `[value="${ Math.sign( amp ) || 1 }"]` ).$checked( true );
 	}
 	#changeProp( prop, val ) {
 		this.#getPropSlider( prop ).$setAttr( "value", val );
