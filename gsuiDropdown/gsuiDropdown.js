@@ -25,10 +25,12 @@ $.$define( "gsui-dropdown", gsuiDropdown );
 
 // .............................................................................
 class gsuiDropdownOption extends gsui0ne {
+	#radio = $noop;
+
 	constructor() {
 		super( {
 			$tagName: "gsui-dropdown-option",
-			$template: $.$button( null,
+			$template: $.$label( null,
 				$.$elem( "gsui-icon" ),
 				$.$div( null,
 					$.$bold(),
@@ -45,14 +47,33 @@ class gsuiDropdownOption extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "value", "icon", "name", "desc" ];
+		return [ "value", "icon", "name", "desc", "radio" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "value": this.$element.$dataProp( val ); break;
+			case "value": this.#setValue( val ); break;
+			case "radio": this.#setRadio( val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "desc": this.$elements.$desc.$text( val ); break;
 			case "icon": this.$elements.$icon.$setAttr( "icon", val ); break;
+		}
+	}
+
+	// .........................................................................
+	#setValue( val ) {
+		this.$element.$dataProp( val );
+		this.#radio.$setAttr( "value", val );
+	}
+	#setRadio( name ) {
+		if ( !name ) {
+			this.#radio.$remove();
+			this.#radio = $noop;
+		} else if ( this.#radio.$size() ) {
+			this.#radio.$setAttr( "name", name );
+		} else {
+			this.#radio = $( "<input>" )
+				.$setAttr( { type: "radio", name, value: this.$this.$getAttr( "value" ) } )
+				.$prependTo( this.$element );
 		}
 	}
 }

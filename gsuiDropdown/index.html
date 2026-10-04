@@ -1,0 +1,25 @@
+<style>
+:root {
+	--TryMe-resize: none;
+}
+</style>
+
+<div id="TryComponent">
+	<gsui-com-button icon="ellipsis-v" popovertarget="foo" style="anchor-name: --gsui-dropdown"></gsui-com-button>
+	<gsui-dropdown id="foo" clicknclose>
+		<gsui-dropdown-option value="foo" name="foo" desc="a random description here"></gsui-dropdown-option>
+		<gsui-dropdown-option value="bar" name="bar" desc="another description... pure non sens"></gsui-dropdown-option>
+		<gsui-dropdown-option value="ahh" name="dangerous" desc="be careful, ok?" danger></gsui-dropdown-option>
+		<gsui-dropdown-option radio="color" value="blu" name="blue" desc="like: sky, sea, saphir, mirtille"></gsui-dropdown-option>
+		<gsui-dropdown-option radio="color" value="red" name="red" desc="like: blood, ruby, cerise"></gsui-dropdown-option>
+		<gsui-dropdown-option radio="color" value="yel" name="yellow" desc="like: sun, sand, citron"></gsui-dropdown-option>
+	</gsui-dropdown>
+</div>
+
+<script>
+const el = $( "gsui-dropdown" );
+
+el.$listen( {
+	[ GSEV_DROPDOWN_CLICK ]: d => lg( d.$args ),
+} );
+</script>

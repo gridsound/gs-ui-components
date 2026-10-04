@@ -23,7 +23,8 @@ gsui-dropdown-option {
 			background-color: var( --btn-danger-colorA );
 		}
 	}
-	button {
+	label {
+		box-sizing: border-box;
 		display: flex;
 		width: 100%;
 		align-items: center;
@@ -32,6 +33,10 @@ gsui-dropdown-option {
 		height: 40px;
 		font-size: 16px;
 		gap: .7ch;
+
+		> * {
+			pointer-events: none;
+		}
 	}
 	gsui-icon {
 		min-width: 20px;
@@ -39,7 +44,6 @@ gsui-dropdown-option {
 	div {
 		display: flex;
 		flex-direction: column;
-		pointer-events: none;
 
 		*:first-letter {
 			text-transform: uppercase;
@@ -48,5 +52,8 @@ gsui-dropdown-option {
 	span {
 		font-size: 12px;
 		opacity: .6;
+	}
+	input[ type="radio" ] {
+		margin: 0 2px;
 	}
 }
