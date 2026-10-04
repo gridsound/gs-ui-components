@@ -17,6 +17,7 @@ const componentList = Object.freeze( [
 	"gsuiCursor",
 	"gsuiDAW",
 	"gsuiDotline",
+	"gsuiDropdown",
 	"gsuiDrumrows",
 	"gsuiDrums",
 	"gsuiEnvelope",
