@@ -25,20 +25,29 @@ class gsuiDropdownOption extends gsui0ne {
 			$tagName: "gsui-dropdown-option",
 			$template: $.$button( null,
 				$.$elem( "gsui-icon" ),
-				$.$span(),
+				$.$div( null,
+					$.$bold(),
+					$.$span(),
+				),
 			),
+			$elements: {
+				$name: "b",
+				$desc: "span",
+				$icon: "gsui-icon",
+			},
 		} );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "value", "icon", "text" ];
+		return [ "value", "icon", "name", "desc" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "value": this.$element.$dataProp( val ); break;
-			case "icon": this.$this.$query( "gsui-icon" ).$setAttr( "icon", val ); break;
-			case "text": this.$this.$query( "span" ).$text( val ); break;
+			case "name": this.$elements.$name.$text( val ); break;
+			case "desc": this.$elements.$desc.$text( val ); break;
+			case "icon": this.$elements.$icon.$setAttr( "icon", val ); break;
 		}
 	}
 }

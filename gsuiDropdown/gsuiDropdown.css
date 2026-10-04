@@ -13,28 +13,8 @@ gsui-dropdown {
 }
 
 gsui-dropdown-option {
-	button {
-		display: flex;
-		width: 100%;
-		align-items: center;
-		text-align: start;
-		padding: 0 10px;
-		height: 38px;
-		font-size: 16px;
-		gap: .7ch;
-	}
 	&:hover {
 		background-color: #fff2;
-	}
-	gsui-icon {
-		min-width: 20px;
-	}
-	span {
-		pointer-events: none;
-
-		&:first-letter {
-			text-transform: uppercase;
-		}
 	}
 	&[ danger ] {
 		background-color: var( --btn-danger-colorB );
@@ -42,5 +22,31 @@ gsui-dropdown-option {
 		&:hover {
 			background-color: var( --btn-danger-colorA );
 		}
+	}
+	button {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		text-align: start;
+		padding: 0 10px;
+		height: 40px;
+		font-size: 16px;
+		gap: .7ch;
+	}
+	gsui-icon {
+		min-width: 20px;
+	}
+	div {
+		display: flex;
+		flex-direction: column;
+		pointer-events: none;
+
+		*:first-letter {
+			text-transform: uppercase;
+		}
+	}
+	span {
+		font-size: 12px;
+		opacity: .6;
 	}
 }
