@@ -1,7 +1,7 @@
 gsui-com-player {
 	--gsui-bg: #2e355b;
 	container: gsui-com-player-query / inline-size;
-	anchor-scope: --gsui-com-player-actions-anchor;
+	anchor-scope: --gsui-dropdown;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
@@ -14,6 +14,9 @@ gsui-com-player {
 	&[ forking ] { animation: .25s gsui-com-player-forking-anim forwards }
 	audio {
 		display: none;
+	}
+	gsui-dropdown {
+		max-width: 380px;
 	}
 }
 
@@ -61,7 +64,7 @@ gsui-com-player-in {
 		font-size: 28px;
 	}
 	button[ popovertarget ] {
-		anchor-name: --gsui-com-player-actions-anchor;
+		anchor-name: --gsui-dropdown;
 		background-color: transparent;
 
 		gsui-com-player:not( [ actions ] ) & {
@@ -95,39 +98,6 @@ gsui-com-player-in {
 			gsui-com-player[ likes="0" ] & {
 				display: none;
 			}
-		}
-	}
-}
-
-/* .......................................................................... */
-gsui-com-player-actions-pop {
-	position: absolute;
-	position-anchor: --gsui-com-player-actions-anchor;
-	position-area: top;
-	position-try-fallbacks: bottom;
-	width: 300px;
-	flex-direction: column;
-	font-size: 14px;
-
-	&:popover-open {
-		display: flex;
-	}
-	button {
-		display: flex;
-		flex-direction: column;
-		padding: 6px;
-		text-align: start;
-
-		&:hover {
-			background-color: #fff1;
-		}
-		b gsui-icon {
-			width: 20px;
-			margin-right: 6px;
-		}
-		> span {
-			font-size: 13px;
-			opacity: .7;
 		}
 	}
 }

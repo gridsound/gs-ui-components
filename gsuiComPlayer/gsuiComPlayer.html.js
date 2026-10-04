@@ -50,6 +50,6 @@ $.$setTemplate( "gsui-com-player", () => {
 				$.$icon( { icon: "ellipsis-v" } ),
 			),
 		),
-		$.$elem( "gsui-com-player-actions-pop", { id: popId, popover: true } ),
+		$.$elem( "gsui-dropdown", { id: popId, clicknclose: true } ),
 	];
 } );

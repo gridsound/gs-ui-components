@@ -7,12 +7,12 @@ class gsuiComPlayer extends gsui0ne {
 	#scratch = $noop;
 	#currentTimeStr = "";
 	static #actions = GSUdeepFreeze( [
-		{ id: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
-		{ id: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
-		{ id: "private", icon: "private",    name: GSTX.$player_privateIt,    desc: GSTX.$player_privateDesc },
-		{ id: "fork",    icon: "fork",       name: GSTX.$player_forkIt,       desc: GSTX.$player_forkDesc },
-		{ id: "delete",  icon: "trash",      name: GSTX.$player_deleteIt,     desc: GSTX.$player_deleteDesc },
-		{ id: "restore", icon: "untrash",    name: GSTX.$player_restoreIt,    desc: GSTX.$player_restoreDesc },
+		{ value: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
+		{ value: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
+		{ value: "private", icon: "private",    name: GSTX.$player_privateIt,    desc: GSTX.$player_privateDesc },
+		{ value: "fork",    icon: "fork",       name: GSTX.$player_forkIt,       desc: GSTX.$player_forkDesc },
+		{ value: "delete",  icon: "trash",      name: GSTX.$player_deleteIt,     desc: GSTX.$player_deleteDesc },
+		{ value: "restore", icon: "untrash",    name: GSTX.$player_restoreIt,    desc: GSTX.$player_restoreDesc },
 	] );
 
 	constructor() {
@@ -34,7 +34,7 @@ class gsuiComPlayer extends gsui0ne {
 				$timeInpVal: "gsui-com-player-slider *",
 				$dawlink: "[data-action=daw]",
 				$actionsBtn: "[popovertarget]",
-				$actionPop: "gsui-com-player-actions-pop",
+				$actionPop: "gsui-dropdown",
 			},
 			$attributes: {
 				name: "",
@@ -72,16 +72,9 @@ class gsuiComPlayer extends gsui0ne {
 				if ( e.newState === "open" ) {
 					this.$elements.$actionPop.$append( ...this.#createMenuActions() );
 				}
-			} )
-			.$onclick( e => {
-				const act = $.$dataProp( e.target );
-
-				if ( act ) {
-					this.$elements.$actionPop.$togglePopover( false );
-					this.#cbActionMenu( act );
-				}
 			} );
 		this.$this.$listen( {
+			[ GSEV_DROPDOWN_CLICK ]: d => this.#cbActionMenu( d.$args[ 0 ] ),
 			[ GSEV_SCRATCH_CLOSE ]: () => this.$this.$rmAttr( "scratch" ),
 			[ GSEV_SCRATCH_PTRDOWN ]: () => {
 				if ( this.$elements.$audio.$prop( "paused" ) ) {
@@ -263,15 +256,9 @@ class gsuiComPlayer extends gsui0ne {
 		const actionsStr = this.$this.$getAttr( "actions" );
 
 		return gsuiComPlayer.#actions.map( act => {
-			return !actionsStr.includes( act.id )
+			return !actionsStr.includes( act.value )
 				? null
-				: $.$button( { "data-prop": act.id },
-					$.$bold( { inert: true },
-						$.$icon( { icon: act.icon } ),
-						$.$span( null, act.name ),
-					),
-					$.$span( { inert: true }, act.desc ),
-				);
+				: $.$elem( "gsui-dropdown-option", act );
 		} );
 	}
 	static #actioning = {
