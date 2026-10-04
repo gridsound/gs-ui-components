@@ -15,7 +15,7 @@ class gsuiEffects extends gsui0ne {
 			$tagName: "gsui-effects",
 			$elements: {
 				$addBtn: "[popovertarget]",
-				$addList: "gsui-effects-poplist",
+				$addList: "gsui-dropdown",
 			},
 		} );
 		new gsuiReorder( {
@@ -31,14 +31,10 @@ class gsuiEffects extends gsui0ne {
 			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => this.$this.$dispatch( GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
 			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
 			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
-		} );
-		this.$elements.$addList.$onclick( e => {
-			const fx = $.$dataProp( e.target );
-
-			if ( fx ) {
-				this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, fx );
+			[ GSEV_DROPDOWN_CLICK ]: d => {
+				this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, d.$args[ 0 ] );
 				this.$elements.$addList.$togglePopover( false );
-			}
+			},
 		} );
 	}
 

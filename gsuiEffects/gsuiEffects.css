@@ -7,7 +7,7 @@ gsui-effects {
 
 	> [ popovertarget ] {
 		--gsuiTooltip-pos: bottom;
-		anchor-name: --gsui-effects-add-anchor;
+		anchor-name: --gsui-dropdown;
 		position: relative;
 		order: 2147483646;
 		width: 100%;
@@ -38,32 +38,4 @@ gsui-effects {
 	display: flex;
 	overflow: auto;
 	flex-direction: column;
-}
-
-/* .......................................................................... */
-gsui-effects-poplist {
-	position: absolute;
-	position-anchor: --gsui-effects-add-anchor;
-	position-area: bottom;
-	position-try-fallbacks: top;
-	flex-direction: column;
-
-	&:popover-open {
-		display: flex;
-	}
-	button {
-		display: flex;
-		flex-direction: column;
-		padding: 4px 6px;
-		text-align: start;
-		font-size: 14px;
-
-		&:hover {
-			background-color: #fff1;
-		}
-		span {
-			font-size: 12px;
-			opacity: .7;
-		}
-	}
 }
