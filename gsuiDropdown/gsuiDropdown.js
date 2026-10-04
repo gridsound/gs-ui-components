@@ -12,7 +12,12 @@ class gsuiDropdown extends gsui0ne {
 	#onclick( e ) {
 		const act = $.$dataProp( e.target );
 
-		act && this.$this.$dispatch( GSEV_DROPDOWN_CLICK, act );
+		if ( act ) {
+			this.$this.$dispatch( GSEV_DROPDOWN_CLICK, act );
+			if ( this.$this.$hasAttr( "clicknclose" ) ) {
+				this.$this.$togglePopover( false );
+			}
+		}
 	}
 }
 
