@@ -17,10 +17,10 @@
 	<div><label><input id="itsmine" type="checkbox" /> its mine</label></div>
 	<div><label><input id="private" type="checkbox" /> private</label></div>
 	<div><label><input id="opensource" type="checkbox" /> open source</label></div>
-	<div><label><input id="editable" type="checkbox" /> editable</label></div>
 	<div><label><input id="titled" type="checkbox" /> titled</label></div>
 	<div><label><input id="liked" type="checkbox" /> liked</label></div>
 	<div><label><input id="rendered" type="checkbox" /> rendered</label></div>
+	<div><label><input id="deleted" type="checkbox" /> deleted</label></div>
 	<div><input id="bpm" type="range" min="1" max="999" value="60" /></div>
 	<div><input id="duration" type="range" min="0" max="3600" value="0" /></div>
 	<div><input id="currentTime" type="range" min="0" max="3600" value="0" /></div>
@@ -33,8 +33,8 @@ const titledInp = $( "#titled" );
 const itsmineInp = $( "#itsmine" );
 const privateInp = $( "#private" );
 const renderedInp = $( "#rendered" );
+const deletedInp = $( "#deleted" );
 const opensourceInp = $( "#opensource" );
-const editableInp = $( "#editable" );
 const bpmInp = $( "#bpm" );
 const durationInp = $( "#duration" );
 const currentTimeInp = $( "#currentTime" );
@@ -60,13 +60,13 @@ titledInp.$onchange( () => el.$setAttr( "name", el.$getAttr( "name" ) ? false : 
 itsmineInp.$onchange( () => el.$togAttr( "itsmine" ) );
 privateInp.$onchange( () => el.$togAttr( "private" ) );
 renderedInp.$onchange( () => el.$togAttr( "rendered" ) );
+deletedInp.$onchange( () => el.$togAttr( "deleted" ) );
 opensourceInp.$onchange( () => el.$togAttr( "opensource" ) );
-editableInp.$onchange( () => el.$setAttr( "dawlink", editableInp.$checked() ? `${ GSURL.$gsDAW }/#5Up3rUu1d` : false ) );
 
-// itsmineInp.$click();
+itsmineInp.$click();
 privateInp.$click();
-editableInp.$click();
 renderedInp.$click();
+// deletedInp.$click();
 
 bpmInp.$oninput( () => el.$setAttr( "bpm", bpmInp.$value() ) );
 durationInp.$oninput( () => el.$setAttr( "duration", durationInp.$value() ) );

@@ -66,10 +66,6 @@ gsui-com-player-in {
 	button[ popovertarget ] {
 		anchor-name: --gsui-dropdown;
 		background-color: transparent;
-
-		gsui-com-player:not( [ actions ] ) & {
-			display: none;
-		}
 	}
 	button[ data-action="like" ] {
 		display: flex;

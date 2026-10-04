@@ -6,14 +6,14 @@ class gsuiComPlayer extends gsui0ne {
 	#promises = {};
 	#scratch = $noop;
 	#currentTimeStr = "";
-	static #actions = GSUdeepFreeze( [
-		{ value: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
-		{ value: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
-		{ value: "private", icon: "private",    name: GSTX.$player_privateIt,    desc: GSTX.$player_privateDesc },
-		{ value: "fork",    icon: "fork",       name: GSTX.$player_forkIt,       desc: GSTX.$player_forkDesc },
-		{ value: "delete",  icon: "trash",      name: GSTX.$player_deleteIt,     desc: GSTX.$player_deleteDesc },
-		{ value: "restore", icon: "untrash",    name: GSTX.$player_restoreIt,    desc: GSTX.$player_restoreDesc },
-	] );
+	static #options = GSUdeepFreeze( {
+		open:    { value: "open",    icon: "opensource", name: GSTX.$player_opensourceIt, desc: GSTX.$player_opensourceDesc },
+		visible: { value: "visible", icon: "public",     name: GSTX.$player_publicIt,     desc: GSTX.$player_publicDesc },
+		private: { value: "private", icon: "private",    name: GSTX.$player_privateIt,    desc: GSTX.$player_privateDesc },
+		fork:    { value: "fork",    icon: "fork",       name: GSTX.$player_forkIt,       desc: GSTX.$player_forkDesc },
+		restore: { value: "restore", icon: "untrash",    name: GSTX.$player_restoreIt,    desc: GSTX.$player_restoreDesc },
+		delete:  { value: "delete",  icon: "trash",      name: GSTX.$player_deleteIt,     desc: GSTX.$player_deleteDesc, danger: true },
+	} );
 
 	constructor() {
 		super( {
@@ -33,8 +33,8 @@ class gsuiComPlayer extends gsui0ne {
 				$timeInp: "gsui-com-player-slider",
 				$timeInpVal: "gsui-com-player-slider *",
 				$dawlink: "[data-action=daw]",
-				$actionsBtn: "[popovertarget]",
-				$actionPop: "gsui-dropdown",
+				$menuBtn: "[popovertarget]",
+				$menu: "gsui-dropdown",
 			},
 			$attributes: {
 				name: "",
@@ -44,6 +44,7 @@ class gsuiComPlayer extends gsui0ne {
 				likes: 0,
 			},
 		} );
+		this.#updateMenuBtn();
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
 		this.$elements.$scratchBtn.$onclick( () => {
@@ -66,15 +67,15 @@ class gsuiComPlayer extends gsui0ne {
 					this.$elements.$audio.$rmAttr( "src" );
 				},
 			} );
-		this.$elements.$actionPop
+		this.$elements.$menu
 			.$on( "beforetoggle", e => {
-				this.$elements.$actionPop.$empty();
+				this.$elements.$menu.$empty();
 				if ( e.newState === "open" ) {
-					this.$elements.$actionPop.$append( ...this.#createMenuActions() );
+					this.$elements.$menu.$append( ...gsuiComPlayer.#createOptions( this.$this ) );
 				}
 			} );
 		this.$this.$listen( {
-			[ GSEV_DROPDOWN_CLICK ]: d => this.#cbActionMenu( d.$args[ 0 ] ),
+			[ GSEV_DROPDOWN_CLICK ]: d => this.#menuClick( d.$args[ 0 ] ),
 			[ GSEV_SCRATCH_CLOSE ]: () => this.$this.$rmAttr( "scratch" ),
 			[ GSEV_SCRATCH_PTRDOWN ]: () => {
 				if ( this.$elements.$audio.$prop( "paused" ) ) {
@@ -89,16 +90,19 @@ class gsuiComPlayer extends gsui0ne {
 		this.#updateRendered( this.$this.$hasAttr( "rendered" ) );
 	}
 	static get observedAttributes() {
-		return [ "rendered", "name", "link", "dawlink", "duration", "bpm", "currenttime", "likes", "itsmine", "scratch" ];
-		// + "opensource" + "private" + "liked" + "playing" + "actions"
+		return [ "rendered", "name", "link", "duration", "bpm", "currenttime", "likes", "itsmine", "opensource", "scratch" ];
+		// "private" + "liked" + "deleted" + "playing"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "scratch": this.#toggleScratch( val === "" ); break;
 			case "itsmine":
 				this.$elements.$likeBtn.$disabled( val === "" );
 				this.$elements.$dawlink.$child( 0 ).$setAttr( "icon", val === "" ? "cu-music-edit" : "cu-music-spark" );
+			case "opensource":
+				this.#updateMenuBtn();
+				this.#updateDawLink();
 				break;
+			case "scratch": this.#toggleScratch( val === "" ); break;
 			case "bpm":
 				this.$elements.$bpm.$text( val );
 				this.#scratch.$setAttr( "bpm", val );
@@ -106,7 +110,6 @@ class gsuiComPlayer extends gsui0ne {
 			case "name": this.$elements.$name.$text( val ); break;
 			case "likes": this.$elements.$likes.$text( val ); break;
 			case "link": this.$elements.$name.$setAttr( "href", val ); break;
-			case "dawlink": this.$elements.$dawlink.$setAttr( "href", val ); break;
 			case "rendered": this.#updateRendered( val === "" ); break;
 			case "duration":
 				this.$elements.$dur.$text( gsuiComPlayer.$calcDuration( val ) );
@@ -239,6 +242,15 @@ class gsuiComPlayer extends gsui0ne {
 			this.$this.$setAttr( "currenttime", t );
 		}
 	}
+	#isMineOrOpen() {
+		return this.$this.$hasAttr( "itsmine" ) || this.$this.$hasAttr( "opensource" );
+	}
+	#updateDawLink() {
+		this.$elements.$dawlink.$setAttr( "href", this.#isMineOrOpen() ? `${ GSURL.$gsDAW }/#${ this.$this.$dataId() }` : false );
+	}
+	#updateMenuBtn() {
+		this.$elements.$menuBtn.$css( "display", this.#isMineOrOpen() ? "flex" : "none" );
+	}
 	#updateRendered( b ) {
 		this.$elements.$play.$setAttr( "data-tooltip", b ? false : GSTX.$player_notRendered );
 		this.$elements.$playIco.$setAttr( b
@@ -252,44 +264,57 @@ class gsuiComPlayer extends gsui0ne {
 			this.$this.$rmAttr( "scratch" );
 		}
 	}
-	#createMenuActions() {
-		const actionsStr = this.$this.$getAttr( "actions" );
+	static #createOption( obj, b ) {
+		return b && $.$elem( "gsui-dropdown-option", obj );
+	}
+	static #createOptions( el ) {
+		const acts = gsuiComPlayer.#options;
+		const isMine = el.$hasAttr( "itsmine" );
+		const isPriv = el.$hasAttr( "private" );
+		const isOpen = el.$hasAttr( "opensource" );
+		const isDel = el.$hasAttr( "deleted" );
 
-		return gsuiComPlayer.#actions.map( act => {
-			return !actionsStr.includes( act.value )
-				? null
-				: $.$elem( "gsui-dropdown-option", act );
-		} );
+		return [
+			gsuiComPlayer.#createOption( acts.open,    !isDel && isMine && !isOpen ),
+			gsuiComPlayer.#createOption( acts.private, !isDel && isMine && !isPriv ),
+			gsuiComPlayer.#createOption( acts.visible, !isDel && isMine && ( isOpen || isPriv ) ),
+			gsuiComPlayer.#createOption( acts.fork,    !isDel && ( isMine || isOpen ) ),
+			gsuiComPlayer.#createOption( acts.restore,  isDel && isMine ),
+			gsuiComPlayer.#createOption( acts.delete,  !isDel && isMine ),
+		];
 	}
 	static #actioning = {
 		delete: "deleting",
 		restore: "restoring",
 	};
-	#cbActionMenu( act ) {
-		const prom = act === "open" || act === "visible" || act === "private"
+	#menuLoading( b ) {
+		this.$elements.$menuBtn
+			.$disabled( b )
+			.$child( 0 ).$setAttr( "spin", b );
+	}
+	#menuClick( act ) {
+		const actVis = GSUisOneOf( act, "open", "visible", "private" );
+		const actDel = GSUisOneOf( act, "restore", "delete" );
+		const prom = actVis
 			? this.#promises.visibility
 			: this.#promises[ act ];
 		const clazz = gsuiComPlayer.#actioning[ act ];
 
-		this.$elements.$actionsBtn.$setAttr( {
-			spin: true,
-			disabled: true,
-		} );
+		this.#menuLoading( true );
 		prom( this, act )
 			.then( res => {
-				this.$this.$setAttr( {
-					[ clazz ]: true,
-					deleted: act === "delete",
-				} );
-				this.$this.$dispatch( GSEV_COMPLAYER_ACTION, act, res );
+				const o = { [ clazz ]: true };
+
+				if ( actDel ) {
+					o.deleted = act === "delete";
+				} else if ( actVis ) {
+					o.private = act === "private";
+					o.opensource = act === "open";
+				}
+				this.$this.$setAttr( o ).$dispatch( GSEV_COMPLAYER_ACTION, act, res );
 				GSUsetTimeout( () => this.$this.$rmAttr( clazz ), .35 );
 			} )
-			.finally( () => {
-				this.$elements.$actionsBtn.$setAttr( {
-					spin: false,
-					disabled: false,
-				} );
-			} );
+			.finally( () => this.#menuLoading( false ) );
 	}
 	#ptrDown( e ) {
 		$( e.target )

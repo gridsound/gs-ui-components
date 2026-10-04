@@ -38,7 +38,7 @@ $.$setTemplate( "gsui-com-player", () => {
 					$.$div(),
 				),
 			),
-			$.$linkExt( { "data-action": "daw", "data-tooltip": GSTX.$player_openInDAW },
+			$.$linkExt( { "data-action": "daw", "data-tooltip": GSTX.$player_openInDAW, href: false },
 				$.$icon( { "icon": "cu-music-spark" } ),
 			),
 			$.$button( { "data-action": "like" },
