@@ -29,8 +29,7 @@ gsui-dropdown-option {
 		width: 100%;
 		align-items: center;
 		text-align: start;
-		padding: 0 10px;
-		height: 40px;
+		padding: 4px 10px;
 		font-size: 16px;
 		gap: .7ch;
 
