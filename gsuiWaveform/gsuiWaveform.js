@@ -35,6 +35,51 @@ class gsuiWaveform {
 	}
 
 	// .........................................................................
+	static $getPathChans( buf, w, h ) {
+		const dur = buf.duration;
+		const chanL = buf.getChannelData( 0 );
+		const chanR = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : "";
+
+		return [
+			gsuiWaveform.$getPathChan( w, h, chanL, dur, 0, dur ).join( "," ),
+			chanR && gsuiWaveform.$getPathChan( w, h, chanR, dur, 0, dur ).join( "," ),
+		];
+	}
+	static $getPathChan( w, h, data, bufDur, start, dur ) {
+		const h2 = h / 2;
+		const sampleRate = data.length / bufDur;
+		const startSample = start * sampleRate;
+		const spp = dur * sampleRate / w;
+		const arrA = [];
+		const arrB = [];
+
+		for ( let px = 0; px < w; ++px ) {
+			const a = Math.floor( startSample + px * spp );
+			const b = Math.max( a + 1, Math.floor( startSample + ( px + 1 ) * spp ) );
+			let min = 0;
+			let max = 0;
+
+			if ( b > 0 && a < data.length ) {
+				const len = Math.min( b, data.length );
+
+				min = Infinity;
+				max = -Infinity;
+				for ( let i = Math.max( 0, a ); i < len; ++i ) {
+					const v = data[ i ];
+
+					if ( v < min ) { min = v; }
+					if ( v > max ) { max = v; }
+				}
+				min = GSUmathClamp( min, -1, 1 );
+				max = GSUmathClamp( max, -1, 1 );
+			}
+			arrA.push( `${ px } ${ Math.round( -max * h2 ) }` );
+			arrB.push( `${ px } ${ Math.round( -min * h2 ) }` );
+		}
+		return arrA.concat( arrB.reverse() );
+	}
+
+	// .........................................................................
 	static #getStrPts( w, h, data0, data1, bufDur, start, dur ) {
 		const [ l, r ] = gsuiWaveform.#getArrPts( w, h, data0, data1, bufDur, start, dur );
 
