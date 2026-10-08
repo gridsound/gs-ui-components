@@ -14,9 +14,9 @@ class gsuiDropdown extends gsui0ne {
 
 		if ( act ) {
 			this.$this.$dispatch( GSEV_DROPDOWN_CLICK, act );
-			if ( this.$this.$hasAttr( "clicknclose" ) ) {
-				this.$this.$togglePopover( false );
-			}
+		}
+		if ( this.$this.$hasAttr( "clicknclose" ) ) {
+			this.$this.$togglePopover( false );
 		}
 	}
 }
@@ -25,6 +25,7 @@ $.$define( "gsui-dropdown", gsuiDropdown );
 
 // .............................................................................
 class gsuiDropdownOption extends gsui0ne {
+	#link = $noop;
 	#radio = $noop;
 
 	constructor() {
@@ -47,12 +48,14 @@ class gsuiDropdownOption extends gsui0ne {
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "value", "icon", "name", "desc", "radio" ];
+		return [ "href", "target", "value", "icon", "name", "desc", "radio" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
+			case "href": this.#setHref( val ); break;
 			case "value": this.#setValue( val ); break;
 			case "radio": this.#setRadio( val ); break;
+			case "target": this.#setTarget( val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "desc": this.$elements.$desc.$text( val ); break;
 			case "icon": this.$elements.$icon.$setAttr( "icon", val ); break;
@@ -60,7 +63,23 @@ class gsuiDropdownOption extends gsui0ne {
 	}
 
 	// .........................................................................
+	#setHref( h ) {
+		if ( h ) {
+			this.#link = $( "<a>" )
+				.$setAttr( "href", h )
+				.$setAttr( "target", this.$this.$getAttr( "target" ) )
+				.$dataProp( this.$element.$dataProp() )
+				.$appendTo( this );
+		} else {
+			this.#link.$remove();
+			this.#link = $noop;
+		}
+	}
+	#setTarget( trg ) {
+		this.#link.$setAttr( "target", trg );
+	}
 	#setValue( val ) {
+		this.#link.$dataProp( val );
 		this.$element.$dataProp( val );
 		this.#radio.$setAttr( "value", val );
 	}

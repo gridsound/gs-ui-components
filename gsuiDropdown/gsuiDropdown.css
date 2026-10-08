@@ -13,6 +13,8 @@ gsui-dropdown {
 }
 
 gsui-dropdown-option {
+	position: relative;
+
 	&:hover {
 		background-color: #fff2;
 	}
@@ -22,6 +24,10 @@ gsui-dropdown-option {
 		&:hover {
 			background-color: var( --btn-danger-colorA );
 		}
+	}
+	a {
+		position: absolute;
+		inset: 0;
 	}
 	label {
 		box-sizing: border-box;
