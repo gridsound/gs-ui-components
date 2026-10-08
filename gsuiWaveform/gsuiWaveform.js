@@ -35,14 +35,16 @@ class gsuiWaveform {
 	}
 
 	// .........................................................................
-	static $getPathChans( buf, w, h ) {
-		const dur = buf.duration;
+	static $getPathChans( buf, w, h, start, duration ) {
+		const bufDur = buf.duration;
+		const sta = start ?? 0;
+		const dur = duration ?? bufDur;
 		const chanL = buf.getChannelData( 0 );
 		const chanR = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : "";
 
 		return [
-			gsuiWaveform.$getPathChan( w, h, chanL, dur, 0, dur ).join( "," ),
-			chanR && gsuiWaveform.$getPathChan( w, h, chanR, dur, 0, dur ).join( "," ),
+			gsuiWaveform.$getPathChan( w, h, chanL, bufDur, sta, dur ).join( "," ),
+			chanR && gsuiWaveform.$getPathChan( w, h, chanR, bufDur, sta, dur ).join( "," ),
 		];
 	}
 	static $getPathChan( w, h, data, bufDur, start, dur ) {
