@@ -28,6 +28,7 @@ gsui-buffer-view {
 	gsui-bv-body {
 		position: relative;
 		flex: 4;
+		cursor: var( --gsuiCursor-move );
 		touch-action: none;
 	}
 
@@ -80,8 +81,8 @@ gsui-buffer-view {
 			left: 100%;
 			right: -100000px;
 		}
-		[ data-prop="start" ] { left: -8px; cursor: var( --gsuiCursor-w-resize ); }
-		[ data-prop="end" ] { right: -8px; cursor: var( --gsuiCursor-e-resize ); }
+		[ data-prop="map-start" ] { left: -8px; cursor: var( --gsuiCursor-w-resize ); }
+		[ data-prop="map-end" ] { right: -8px; cursor: var( --gsuiCursor-e-resize ); }
 		[ data-prop ] {
 			position: absolute;
 			z-index: 1;

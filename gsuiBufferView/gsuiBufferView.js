@@ -4,18 +4,21 @@ class gsuiBufferView extends gsui0ne {
 	#buf = null;
 	#viewA = 0;
 	#viewB = 1;
+	#viewASave = 0;
 	#selA = 0;
 	#selB = 1;
-	#viewPtrgap = 0;
 	#ptrFn = null;
 	#mapBCR = null;
+	#mapPtrgap = 0;
 	#mapViewBCR = null;
+	#mapViewPtrgap = 0;
+	#ptrList = new Map();
 
 	constructor() {
 		super( {
 			$tagName: "gsui-buffer-view",
 			$template: $.$elem( "gsui-bv-in", null,
-				$.$elem( "gsui-bv-body", null,
+				$.$elem( "gsui-bv-body", { "data-prop": "body-move" },
 					$.$elem( "gsui-bv-selection" ),
 					$.$elem( "svg", { viewBox: "0 -128 512 256", preserveAspectRatio: "none" },
 						$.$elem( "g", null,
@@ -24,19 +27,20 @@ class gsuiBufferView extends gsui0ne {
 						),
 					),
 				),
-				$.$elem( "gsui-bv-minimap", { "data-prop": "teleport" },
+				$.$elem( "gsui-bv-minimap", { "data-prop": "map-teleport" },
 					$.$elem( "gsui-bv-selection" ),
 					$.$elem( "svg", { viewBox: "0 -128 512 256", preserveAspectRatio: "none" },
 						$.$elem( "path" ),
 						$.$elem( "path" ),
 					),
-					$.$elem( "gsui-bv-minimap-view", { "data-prop": "move" },
-						$.$div( { "data-prop": "start" } ),
-						$.$div( { "data-prop": "end" } ),
+					$.$elem( "gsui-bv-minimap-view", { "data-prop": "map-move" },
+						$.$div( { "data-prop": "map-start" } ),
+						$.$div( { "data-prop": "map-end" } ),
 					),
 				),
 			),
 			$elements: {
+				$in: "gsui-bv-in",
 				$mainSVG: "gsui-bv-body svg",
 				$mainPaths: "gsui-bv-body path",
 				$minimap: "gsui-bv-minimap",
@@ -53,26 +57,36 @@ class gsuiBufferView extends gsui0ne {
 		} );
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
 		this.$elements.$body.$onpinch( this.#onpinch.bind( this ) );
-		this.$elements.$minimap.$on( {
+		this.$elements.$in.$on( {
 			pointerdown: e => {
 				const act = $.$dataProp( e.target );
 
-				this.#ptrFn = this.#getActionFn( act );
-				this.#mapBCR = this.$elements.$minimap.$bcr();
-				this.#mapViewBCR = this.$elements.$minimapView.$bcr();
-				this.#viewPtrgap = e.pageX - this.#mapViewBCR.x;
-				e.preventDefault();
-				$.$setPtrCapture( e.target, e.pointerId );
-				this.#ptrFn?.( e.pageX );
+				this.#ptrList.set( e.pointerId );
+				if ( this.#ptrList.size === 1 ) {
+					this.#ptrFn = this.#getActionFn( act );
+					this.#mapBCR = this.$elements.$minimap.$bcr();
+					this.#mapViewBCR = this.$elements.$minimapView.$bcr();
+					this.#mapPtrgap = e.pageX - this.#mapBCR.x;
+					this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
+					this.#viewASave = this.#viewA;
+					e.preventDefault();
+					$.$setPtrCapture( e.target, e.pointerId );
+					this.#ptrFn?.( e.pageX );
+				}
 			},
 			pointermove: e => {
-				this.#ptrFn?.( e.pageX );
+				if ( this.#ptrList.size === 1 ) {
+					this.#ptrFn?.( e.pageX );
+				}
 			},
 			pointerup: e => {
-				this.#ptrFn =
-				this.#mapBCR =
-				this.#mapViewBCR = null;
+				this.#ptrList.delete( e.pointerId );
 				$.$relPtrCapture( e.target, e.pointerId );
+				if ( !this.#ptrList.size ) {
+					this.#ptrFn =
+					this.#mapBCR =
+					this.#mapViewBCR = null;
+				}
 			},
 		} );
 	}
@@ -168,30 +182,37 @@ class gsuiBufferView extends gsui0ne {
 	// .........................................................................
 	#getActionFn( act ) {
 		switch ( act ) {
-			case "teleport": return this.#minimapTeleport;
-			case "start": return this.#minimapStart;
-			case "move": return this.#minimapMove;
-			case "end": return this.#minimapEnd;
+			case "body-move": return this.#bodyMove;
+			case "map-teleport": return this.#minimapTeleport;
+			case "map-start": return this.#minimapStart;
+			case "map-move": return this.#minimapMove;
+			case "map-end": return this.#minimapEnd;
 		}
 	}
 	#setView( a, b ) {
 		this.$this.$setAttr( "view", `${ GSUmathRound( a, .001 ) } ${ GSUmathRound( b, .001 ) }` );
 	}
+	#bodyMove( px ) {
+		const a = ( px - this.#mapPtrgap - this.#mapBCR.x ) / -this.#mapBCR.w;
+		const a2 = GSUmathClamp( this.#viewASave + a, 0, 1 - this.#viewB );
+
+		this.#setView( a2, this.#viewB );
+	}
 	#minimapStart( px ) {
-		const a = ( px - this.#viewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
+		const a = ( px - this.#mapViewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
 		const a2 = GSUmathClamp( a, 0, this.#viewA + this.#viewB );
 		const b = this.#viewB - ( a2 - this.#viewA );
 
 		this.#setView( a2, b );
 	}
 	#minimapEnd( px ) {
-		const b = ( px - this.#viewPtrgap - this.#mapBCR.x + this.#mapViewBCR.w ) / this.#mapBCR.w;
+		const b = ( px - this.#mapViewPtrgap - this.#mapBCR.x + this.#mapViewBCR.w ) / this.#mapBCR.w;
 		const b2 = GSUmathClamp( b - this.#viewA, 0, 1 - this.#viewA );
 
 		this.#setView( this.#viewA, b2 );
 	}
 	#minimapMove( px ) {
-		const a = ( px - this.#viewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
+		const a = ( px - this.#mapViewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
 		const a2 = GSUmathClamp( a, 0, 1 - this.#viewB );
 
 		this.#setView( a2, this.#viewB );
