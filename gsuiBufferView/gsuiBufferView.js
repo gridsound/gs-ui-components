@@ -43,6 +43,7 @@ class gsuiBufferView extends gsui0ne {
 				view: ".2 .5",
 			},
 		} );
+		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
 		this.$elements.$minimap.$on( {
 			pointerdown: e => {
 				const act = $.$dataProp( e.target );
@@ -105,6 +106,27 @@ class gsuiBufferView extends gsui0ne {
 
 			this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		}
+	}
+
+	// .........................................................................
+	#onwheel( e ) {
+		const dlt = gsuiBufferView.#getWheelDelta( -e.deltaY );
+		const bcr = this.$this.$bcr();
+		const x = ( e.pageX - bcr.x ) / bcr.w;
+		const b = this.#viewB;
+		const b2 = b * dlt;
+		const a = this.#viewA + ( b - b2 ) * x;
+
+		e.preventDefault();
+		this.$this.$setAttr( "view", `${ a } ${ b2 }` );
+	}
+	static #getWheelDelta( d ) {
+		let inc = 1.1;
+
+		if ( -50 < d && d < 50 ) {
+			inc = 1 + Math.abs( d ) / 100;
+		}
+		return d > 0 ? 1 / inc : inc;
 	}
 
 	// .........................................................................
