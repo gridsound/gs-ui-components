@@ -58,40 +58,9 @@ class gsuiBufferView extends gsui0ne {
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
 		this.$elements.$body.$onpinch( this.#onpinch.bind( this ) );
 		this.$elements.$in.$on( {
-			pointerdown: e => {
-				const act = $.$dataProp( e.target );
-
-				this.#ptrList.set( e.pointerId );
-				if ( this.#ptrList.size === 1 ) {
-					this.#ptrFn = this.#getActionFn( act );
-					this.#mapBCR = this.$elements.$minimap.$bcr();
-					this.#mapViewBCR = this.$elements.$minimapView.$bcr();
-					this.#mapPtrgap = e.pageX - this.#mapBCR.x;
-					this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
-					this.#viewASave = this.#viewA;
-					e.preventDefault();
-					$.$setPtrCapture( e.target, e.pointerId );
-					this.#ptrFn?.( e.pageX );
-					if ( act === "map-move" || act === "body-move" ) {
-						$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
-					}
-				}
-			},
-			pointermove: e => {
-				if ( this.#ptrList.size === 1 ) {
-					this.#ptrFn?.( e.pageX );
-				}
-			},
-			pointerup: e => {
-				this.#ptrList.delete( e.pointerId );
-				$.$relPtrCapture( e.target, e.pointerId );
-				if ( !this.#ptrList.size ) {
-					this.#ptrFn =
-					this.#mapBCR =
-					this.#mapViewBCR = null;
-					$.$css( e.target, "cursor", "" );
-				}
-			},
+			pointerdown: this.#onptrdown.bind( this ),
+			pointermove: this.#onptrmove.bind( this ),
+			pointerup: this.#onptrup.bind( this ),
 		} );
 	}
 	static get observedAttributes() {
@@ -106,6 +75,42 @@ class gsuiBufferView extends gsui0ne {
 	$onmessage( key, val ) {
 		switch ( key ) {
 			case GSEV_BUFFERVIEW_BUFFER: this.#setBuffer( val ); break;
+		}
+	}
+
+	// .........................................................................
+	#onptrdown( e ) {
+		const act = $.$dataProp( e.target );
+
+		this.#ptrList.set( e.pointerId );
+		if ( this.#ptrList.size === 1 ) {
+			this.#ptrFn = this.#getActionFn( act );
+			this.#mapBCR = this.$elements.$minimap.$bcr();
+			this.#mapViewBCR = this.$elements.$minimapView.$bcr();
+			this.#mapPtrgap = e.pageX - this.#mapBCR.x;
+			this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
+			this.#viewASave = this.#viewA;
+			e.preventDefault();
+			$.$setPtrCapture( e.target, e.pointerId );
+			this.#ptrFn?.( e.pageX );
+			if ( act === "map-move" || act === "body-move" ) {
+				$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
+			}
+		}
+	}
+	#onptrmove( e ) {
+		if ( this.#ptrList.size === 1 ) {
+			this.#ptrFn?.( e.pageX );
+		}
+	}
+	#onptrup( e ) {
+		this.#ptrList.delete( e.pointerId );
+		$.$relPtrCapture( e.target, e.pointerId );
+		if ( !this.#ptrList.size ) {
+			this.#ptrFn =
+			this.#mapBCR =
+			this.#mapViewBCR = null;
+			$.$css( e.target, "cursor", "" );
 		}
 	}
 
