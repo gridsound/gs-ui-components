@@ -28,7 +28,7 @@ gsui-buffer-view {
 	gsui-bv-body {
 		position: relative;
 		flex: 4;
-		cursor: var( --gsuiCursor-move );
+		cursor: var( --gsuiCursor-grab );
 		touch-action: none;
 	}
 
@@ -66,7 +66,7 @@ gsui-buffer-view {
 		position: absolute;
 		inset: 0;
 		z-index: 0;
-		cursor: var( --gsuiCursor-move );
+		cursor: var( --gsuiCursor-grab );
 		touch-action: none;
 
 		&::before,
@@ -81,14 +81,13 @@ gsui-buffer-view {
 			left: 100%;
 			right: -100000px;
 		}
-		[ data-prop="map-start" ] { left: -8px; cursor: var( --gsuiCursor-w-resize ); }
-		[ data-prop="map-end" ] { right: -8px; cursor: var( --gsuiCursor-e-resize ); }
+		[ data-prop="map-start" ] { left: -4px; cursor: var( --gsuiCursor-w-resize ); }
+		[ data-prop="map-end" ] { right: -4px; cursor: var( --gsuiCursor-e-resize ); }
 		[ data-prop ] {
 			position: absolute;
 			z-index: 1;
-			width: 10px;
+			width: calc( min( 20px, 20% ) + 4px );
 			height: 100%;
-			/*background-color: #fff2;*/
 		}
 	}
 }

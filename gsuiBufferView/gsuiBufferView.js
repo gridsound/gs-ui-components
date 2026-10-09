@@ -72,6 +72,9 @@ class gsuiBufferView extends gsui0ne {
 					e.preventDefault();
 					$.$setPtrCapture( e.target, e.pointerId );
 					this.#ptrFn?.( e.pageX );
+					if ( act === "map-move" || act === "body-move" ) {
+						$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
+					}
 				}
 			},
 			pointermove: e => {
@@ -86,6 +89,7 @@ class gsuiBufferView extends gsui0ne {
 					this.#ptrFn =
 					this.#mapBCR =
 					this.#mapViewBCR = null;
+					$.$css( e.target, "cursor", "" );
 				}
 			},
 		} );
