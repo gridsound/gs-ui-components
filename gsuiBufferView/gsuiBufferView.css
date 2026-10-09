@@ -30,6 +30,24 @@ gsui-buffer-view {
 		flex: 4;
 	}
 
+	gsui-bv-selection {
+		overflow: hidden;
+		position: absolute;
+		box-sizing: border-box;
+		inset: 0 auto;
+		background-color: #f004;
+
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			width: 1px;
+			background-color: #f00;
+		}
+		&::before { inset: 0 auto 0 0 }
+		&::after { inset: 0 0 0 auto }
+	}
+
 	gsui-bv-minimap {
 		position: relative;
 		overflow: hidden;

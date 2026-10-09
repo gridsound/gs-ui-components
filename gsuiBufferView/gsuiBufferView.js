@@ -4,6 +4,8 @@ class gsuiBufferView extends gsui0ne {
 	#buf = null;
 	#viewA = 0;
 	#viewB = 1;
+	#selA = 0;
+	#selB = 1;
 	#viewPtrgap = 0;
 	#ptrFn = null;
 	#mapBCR = null;
@@ -14,6 +16,7 @@ class gsuiBufferView extends gsui0ne {
 			$tagName: "gsui-buffer-view",
 			$template: $.$elem( "gsui-bv-in", null,
 				$.$elem( "gsui-bv-body", null,
+					$.$elem( "gsui-bv-selection" ),
 					$.$elem( "svg", { viewBox: "0 -128 512 256", preserveAspectRatio: "none" },
 						$.$elem( "g", null,
 							$.$elem( "path" ),
@@ -38,9 +41,11 @@ class gsuiBufferView extends gsui0ne {
 				$minimap: "gsui-bv-minimap",
 				$minimapPaths: "gsui-bv-minimap path",
 				$minimapView: "gsui-bv-minimap-view",
+				$selection: "gsui-bv-selection",
 			},
 			$attributes: {
-				view: ".2 .5",
+				view: "0 .5",
+				selection: ".1 .4",
 			},
 		} );
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
@@ -68,11 +73,12 @@ class gsuiBufferView extends gsui0ne {
 		} );
 	}
 	static get observedAttributes() {
-		return [ "view" ];
+		return [ "view", "selection" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "view": this.#updateView( val ); break;
+			case "selection": this.#updateSelection( val ); break;
 		}
 	}
 	$onmessage( key, val ) {
@@ -93,7 +99,7 @@ class gsuiBufferView extends gsui0ne {
 	#updateView( view ) {
 		const [ a, b ] = GSUsplitNums( view );
 		const a2 = GSUmathClamp( a, 0, 1 );
-		const b2 = GSUmathClamp( b, 0, 1 - this.#viewA );
+		const b2 = GSUmathClamp( b, 0, 1 - a2 );
 
 		this.#viewA = a2;
 		this.#viewB = b2;
@@ -106,6 +112,24 @@ class gsuiBufferView extends gsui0ne {
 
 			this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		}
+		this.#updateSelection2();
+	}
+	#updateSelection( sel ) {
+		const [ a, b ] = GSUsplitNums( sel );
+
+		this.#selA = GSUmathClamp( a, 0, 1 );
+		this.#selB = GSUmathClamp( b, 0, 1 - this.#selA );
+		this.#updateSelection2();
+	}
+	#updateSelection2() {
+		const a = this.#selA;
+		const b = this.#selB;
+		const a2 = ( a - this.#viewA ) / this.#viewB;
+		const b2 = b / this.#viewB;
+
+		this.$elements.$selection
+			.$left( a2 * 100, "%" )
+			.$width( b2 * 100, "%" );
 	}
 
 	// .........................................................................
