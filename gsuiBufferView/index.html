@@ -1,0 +1,21 @@
+<style>
+:root {
+	--TryMe-w: 500px;
+	--TryMe-h: 300px;
+}
+</style>
+
+<div id="TryComponent">
+	<gsui-buffer-view></gsui-buffer-view>
+</div>
+
+<script>
+const uiBufView = $( "gsui-buffer-view" );
+const ctx = new AudioContext();
+
+fetch( "test-assets/808kick.wav" )
+// fetch( "test-assets/Rally House.mp3" )
+	.then( res => res.arrayBuffer() )
+	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( buf => uiBufView.$message( GSEV_BUFFERVIEW_BUFFER, buf ) );
+</script>

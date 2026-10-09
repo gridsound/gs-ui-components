@@ -7,6 +7,7 @@ const componentList = Object.freeze( [
 	"gsuiAnalyserVu",
 	"gsuiAutomation",
 	"gsuiBeatlines",
+	"gsuiBufferView",
 	"gsuiChannel",
 	"gsuiClock",
 	"gsuiComAvatar",
