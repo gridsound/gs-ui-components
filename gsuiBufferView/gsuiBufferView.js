@@ -42,6 +42,7 @@ class gsuiBufferView extends gsui0ne {
 				$minimap: "gsui-bv-minimap",
 				$minimapPaths: "gsui-bv-minimap path",
 				$minimapView: "gsui-bv-minimap-view",
+				$body: "gsui-bv-body",
 				$bodySel: "gsui-bv-body gsui-bv-selection",
 				$miniSel: "gsui-bv-minimap gsui-bv-selection",
 			},
@@ -51,6 +52,7 @@ class gsuiBufferView extends gsui0ne {
 			},
 		} );
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
+		this.$elements.$body.$onpinch( this.#onpinch.bind( this ) );
 		this.$elements.$minimap.$on( {
 			pointerdown: e => {
 				const act = $.$dataProp( e.target );
@@ -138,16 +140,12 @@ class gsuiBufferView extends gsui0ne {
 	}
 
 	// .........................................................................
+	#onpinch( o ) {
+		this.#zoom( o.$pageX, 1 / o.$scaleRelative );
+	}
 	#onwheel( e ) {
-		const dlt = gsuiBufferView.#getWheelDelta( -e.deltaY );
-		const bcr = this.$this.$bcr();
-		const x = ( e.pageX - bcr.x ) / bcr.w;
-		const b = this.#viewB;
-		const b2 = b * dlt;
-		const a = this.#viewA + ( b - b2 ) * x;
-
 		e.preventDefault();
-		this.$this.$setAttr( "view", `${ a } ${ b2 }` );
+		this.#zoom( e.pageX, gsuiBufferView.#getWheelDelta( -e.deltaY ) );
 	}
 	static #getWheelDelta( d ) {
 		let inc = 1.1;
@@ -156,6 +154,15 @@ class gsuiBufferView extends gsui0ne {
 			inc = 1 + Math.abs( d ) / 100;
 		}
 		return d > 0 ? 1 / inc : inc;
+	}
+	#zoom( pageX, scale ) {
+		const bcr = this.$this.$bcr();
+		const x = ( pageX - bcr.x ) / bcr.w;
+		const b = this.#viewB;
+		const b2 = b * scale;
+		const a = this.#viewA + ( b - b2 ) * x;
+
+		this.$this.$setAttr( "view", `${ a } ${ b2 }` );
 	}
 
 	// .........................................................................

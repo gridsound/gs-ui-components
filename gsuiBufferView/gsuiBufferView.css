@@ -28,6 +28,7 @@ gsui-buffer-view {
 	gsui-bv-body {
 		position: relative;
 		flex: 4;
+		touch-action: none;
 	}
 
 	gsui-bv-selection {
