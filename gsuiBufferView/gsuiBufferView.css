@@ -35,14 +35,15 @@ gsui-buffer-view {
 		position: absolute;
 		box-sizing: border-box;
 		inset: 0 auto;
-		background-color: #f004;
+		background-color: #f442;
+		pointer-events: none;
 
 		&::before,
 		&::after {
 			content: "";
 			position: absolute;
-			width: 1px;
-			background-color: #f00;
+			width: 2px;
+			background-color: #f446;
 		}
 		&::before { inset: 0 auto 0 0 }
 		&::after { inset: 0 0 0 auto }
@@ -53,6 +54,10 @@ gsui-buffer-view {
 		overflow: hidden;
 		flex: 1;
 		background-color: #0002;
+
+		gsui-bv-selection {
+			opacity: .8;
+		}
 	}
 
 	gsui-bv-minimap-view {
@@ -67,7 +72,7 @@ gsui-buffer-view {
 			content: "";
 			position: absolute;
 			inset: 0 100% 0 -100000px;
-			background-color: #0008;
+			background-color: #000a;
 			pointer-events: none;
 		}
 		&::after {

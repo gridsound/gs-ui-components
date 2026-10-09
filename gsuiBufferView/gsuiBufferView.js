@@ -25,6 +25,7 @@ class gsuiBufferView extends gsui0ne {
 					),
 				),
 				$.$elem( "gsui-bv-minimap", { "data-prop": "teleport" },
+					$.$elem( "gsui-bv-selection" ),
 					$.$elem( "svg", { viewBox: "0 -128 512 256", preserveAspectRatio: "none" },
 						$.$elem( "path" ),
 						$.$elem( "path" ),
@@ -41,7 +42,8 @@ class gsuiBufferView extends gsui0ne {
 				$minimap: "gsui-bv-minimap",
 				$minimapPaths: "gsui-bv-minimap path",
 				$minimapView: "gsui-bv-minimap-view",
-				$selection: "gsui-bv-selection",
+				$bodySel: "gsui-bv-body gsui-bv-selection",
+				$miniSel: "gsui-bv-minimap gsui-bv-selection",
 			},
 			$attributes: {
 				view: "0 .5",
@@ -119,6 +121,9 @@ class gsuiBufferView extends gsui0ne {
 
 		this.#selA = GSUmathClamp( a, 0, 1 );
 		this.#selB = GSUmathClamp( b, 0, 1 - this.#selA );
+		this.$elements.$miniSel
+			.$left( this.#selA * 100, "%" )
+			.$width( this.#selB * 100, "%" );
 		this.#updateSelection2();
 	}
 	#updateSelection2() {
@@ -127,7 +132,7 @@ class gsuiBufferView extends gsui0ne {
 		const a2 = ( a - this.#viewA ) / this.#viewB;
 		const b2 = b / this.#viewB;
 
-		this.$elements.$selection
+		this.$elements.$bodySel
 			.$left( a2 * 100, "%" )
 			.$width( b2 * 100, "%" );
 	}
