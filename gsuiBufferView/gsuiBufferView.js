@@ -49,8 +49,8 @@ class gsuiBufferView extends gsui0ne {
 				$miniSel: "gsui-bv-minimap gsui-bv-selection",
 			},
 			$attributes: {
-				view: "0 .5",
-				selection: ".1 .4",
+				view: "0 1",
+				selection: "0 0",
 			},
 		} );
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );

@@ -59,7 +59,7 @@ gsui-buffer-view {
 		background-color: #0002;
 
 		gsui-bv-selection {
-			opacity: .8;
+			opacity: .5;
 		}
 	}
 
