@@ -79,13 +79,22 @@ gsui-scratch-graph {
 	touch-action: none;
 
 	svg {
+		--gsui-bv-col-l: #c13333;
+		--gsui-bv-col-r: #3524ff;
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		stroke: #fff;
-		stroke-width: 1px;
-		stroke-linejoin: round;
-		fill: #fff5;
+		pointer-events: none;
+
+		path {
+			color: var( --gsui-bv-col-l );
+			fill: currentColor;
+			mix-blend-mode: exclusion;
+
+			& + path {
+				color: var( --gsui-bv-col-r );
+			}
+		}
 	}
 	> span {
 		position: absolute;

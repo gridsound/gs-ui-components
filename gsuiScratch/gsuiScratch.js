@@ -31,6 +31,8 @@ class gsuiScratch extends gsui0ne {
 				$.$elem( "gsui-scratch-graph", null,
 					$.$elem( "svg", { preserveAspectRatio: "none", inert: true },
 						$.$elem( "polygon" ),
+						$.$elem( "path" ),
+						$.$elem( "path" ),
 					),
 					$.$span( { inert: true }, GSTX.$loading ),
 					$.$elem( "gsui-scratch-timeline", { inert: true } ),
@@ -45,7 +47,7 @@ class gsuiScratch extends gsui0ne {
 				$bpmValue: "gsui-scratch-speed > span",
 				$closeBtn: "[data-action=close]",
 				$svg: "svg",
-				$polygon: "polygon",
+				$paths: "path",
 			},
 		} );
 		this.$elements.$bpmSlider.$listen( {
@@ -102,6 +104,7 @@ class gsuiScratch extends gsui0ne {
 		this.#w = bcr.w;
 		this.#h = bcr.h;
 		this.#wSec = bcr.w / 100;
+		this.$elements.$svg.$viewbox( 0, this.#h / -2, this.#w, this.#h );
 		this.#drawWaveform();
 	}
 	$onmessage( ev, val ) {
@@ -185,10 +188,9 @@ class gsuiScratch extends gsui0ne {
 	}
 	#drawWaveform() {
 		if ( this.#audiobuf ) {
-			const t = this.#currentTime;
-			const sec = this.#wSec;
+			const data = gsuiWaveform.$getPathChans( this.#audiobuf, this.#w, this.#h, this.#currentTime - this.#wSec / 2, this.#wSec );
 
-			gsuiWaveform.$wfSetPolygonPointsFromBuffer( this.$elements.$polygon, this.#w, this.#h, this.#audiobuf, t - sec / 2, sec );
+			this.$elements.$paths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		}
 	}
 }
