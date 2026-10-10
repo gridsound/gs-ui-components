@@ -5,6 +5,7 @@ class gsuiBufferView extends gsui0ne {
 	#viewA = 0;
 	#viewB = 1;
 	#viewASave = 0;
+	#viewBMin = 0;
 	#selA = 0;
 	#selB = 1;
 	#ptrFn = null;
@@ -119,6 +120,7 @@ class gsuiBufferView extends gsui0ne {
 		const data = gsuiWaveform.$getPathChans( buf, 512, 256 );
 
 		this.#buf = buf;
+		this.#viewBMin = 300 / ( buf.duration * buf.sampleRate * 10 );
 		this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		this.$elements.$minimapPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		this.#updateView( this.$this.$getAttr( "view" ) );
@@ -182,10 +184,10 @@ class gsuiBufferView extends gsui0ne {
 		const bcr = this.$this.$bcr();
 		const x = ( pageX - bcr.x ) / bcr.w;
 		const b = this.#viewB;
-		const b2 = b * scale;
+		const b2 = Math.max( b * scale, this.#viewBMin );
 		const a = this.#viewA + ( b - b2 ) * x;
 
-		this.$this.$setAttr( "view", `${ a } ${ b2 }` );
+		this.#setView( a, b2 );
 	}
 
 	// .........................................................................
