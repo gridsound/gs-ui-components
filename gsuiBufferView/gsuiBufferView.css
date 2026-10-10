@@ -1,4 +1,7 @@
 gsui-buffer-view {
+	--gsui-bv-col-l: #c13333;
+	--gsui-bv-col-r: #3524ff;
+
 	gsui-bv-in {
 		display: flex;
 		height: 100%;
@@ -10,16 +13,13 @@ gsui-buffer-view {
 			height: 100%;
 			pointer-events: none;
 
-			g {
-				mix-blend-mode: exclusion;
-			}
 			path {
-				color: #fff;
+				color: var( --gsui-bv-col-l );
 				fill: currentColor;
-				opacity: .5;
+				mix-blend-mode: exclusion;
 
 				& + path {
-					color: #0757fb;
+					color: var( --gsui-bv-col-r );
 				}
 			}
 		}
@@ -37,7 +37,8 @@ gsui-buffer-view {
 		position: absolute;
 		box-sizing: border-box;
 		inset: 0 auto;
-		background-color: #f442;
+		background-color: #f553;
+		backdrop-filter: sepia( .8 );
 		pointer-events: none;
 
 		&::before,
@@ -66,6 +67,7 @@ gsui-buffer-view {
 		position: absolute;
 		inset: 0;
 		z-index: 0;
+		min-width: 4px;
 		cursor: var( --gsuiCursor-grab );
 		touch-action: none;
 
