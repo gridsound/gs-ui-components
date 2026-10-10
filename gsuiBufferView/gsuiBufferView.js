@@ -211,14 +211,14 @@ class gsuiBufferView extends gsui0ne {
 	}
 	#minimapStart( px ) {
 		const a = ( px - this.#mapViewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
-		const a2 = GSUmathClamp( a, 0, this.#viewA + this.#viewB );
+		const a2 = GSUmathClamp( a, 0, this.#viewA + this.#viewB - this.#viewBMin );
 		const b = this.#viewB - ( a2 - this.#viewA );
 
 		this.#setView( a2, b );
 	}
 	#minimapEnd( px ) {
 		const b = ( px - this.#mapViewPtrgap - this.#mapBCR.x + this.#mapViewBCR.w ) / this.#mapBCR.w;
-		const b2 = GSUmathClamp( b - this.#viewA, 0, 1 - this.#viewA );
+		const b2 = GSUmathClamp( b - this.#viewA, this.#viewBMin, 1 - this.#viewA );
 
 		this.#setView( this.#viewA, b2 );
 	}
