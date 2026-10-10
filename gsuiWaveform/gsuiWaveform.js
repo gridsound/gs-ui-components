@@ -48,29 +48,35 @@ class gsuiWaveform {
 		];
 	}
 	static $getPathChan( w, h, data, bufDur, start, dur ) {
-		const h2 = h / 2;
 		const sampleRate = data.length / bufDur;
 		const startSample = start * sampleRate;
 		const spp = dur * sampleRate / w;
+
+		return spp < 2
+			? gsuiWaveform.$getPathPerSample( h, data, startSample, spp, w )
+			: gsuiWaveform.$getPathPerGroup( h, data, startSample, spp, w );
+	}
+	static $getPathPerGroup( h, data, startSample, spp, w ) {
+		const h2 = h / 2;
 		const grpSize = Math.max( 1, Math.round( spp ) );
 		const grpFirst = Math.floor( startSample / grpSize ) - 1;
-		const grpLast = Math.ceil( ( startSample + dur * sampleRate ) / grpSize ) + 1;
+		const grpLast = Math.ceil( ( startSample + spp * w ) / grpSize ) + 1;
 		const arrA = [];
 		const arrB = [];
 
 		for ( let k = grpFirst; k <= grpLast; ++k ) {
 			const a = k * grpSize;
 			const b = a + grpSize;
-			const x = +( ( a - startSample ) / spp ).toFixed( 2 );
+			const x = gsuiWaveform.#round( ( a - startSample ) / spp );
 			let min = 0;
 			let max = 0;
 
 			if ( b > 0 && a < data.length ) {
-				const len = Math.min( b, data.length );
+				const end = Math.min( b, data.length );
 
 				min = Infinity;
 				max = -Infinity;
-				for ( let i = Math.max( 0, a ); i < len; ++i ) {
+				for ( let i = Math.max( 0, a ); i < end; ++i ) {
 					const v = data[ i ];
 
 					if ( v < min ) { min = v; }
@@ -81,6 +87,22 @@ class gsuiWaveform {
 			}
 			arrA.push( `${ x } ${ Math.round( -max * h2 ) }` );
 			arrB.push( `${ x } ${ Math.round( -min * h2 ) }` );
+		}
+		return arrA.concat( arrB.reverse() );
+	}
+	static $getPathPerSample( h, data, startSample, spp, w ) {
+		const h2 = h / 2;
+		const iFirst = Math.max( 0, Math.floor( startSample ) - 1 );
+		const iLast = Math.min( data.length - 1, Math.ceil( startSample + spp * w ) + 1 );
+		const arrA = [];
+		const arrB = [];
+
+		for ( let i = iFirst; i <= iLast; ++i ) {
+			const x = gsuiWaveform.#round( ( i - startSample ) / spp );
+			const y = gsuiWaveform.#round( -GSUmathClamp( data[ i ], -1, 1 ) * h2 );
+
+			arrA.push( `${ x } ${ y }` );
+			arrB.push( `${ x } ${ y - h / 100 }` );
 		}
 		return arrA.concat( arrB.reverse() );
 	}
