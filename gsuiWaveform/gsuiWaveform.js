@@ -4,23 +4,8 @@ class gsuiWaveform {
 	static $wfSetPolygonPointsFromBuffer( polygon, w, h, buf, start, dur ) {
 		polygon.$setAttr( "points", gsuiWaveform.#getStrPts( w, h, ...gsuiWaveform.#getData( buf, start, dur ) ) );
 	}
-	static $wfArraysToPolygonPoints( l, r ) {
-		return gsuiWaveform.#getStrPts2( l, r );
-	}
 	static $wfGetPolygonPointsFromBuffer( w, h, buf, start, dur ) {
 		return gsuiWaveform.#getStrPts( w, h, ...gsuiWaveform.#getData( buf, start, dur ) );
-	}
-	static $wfGetArrayFromBuffer( w, buf, start, dur ) {
-		return gsuiWaveform.#getArrPts( w, 1, ...gsuiWaveform.#getData( buf, start, dur ) );
-	}
-	static $wfGetPolygonPointsFromArrays( l, r, sta, dur, bufdur ) {
-		const len = l.length;
-		const a = sta / bufdur * len | 0;
-		const b = dur / bufdur * len | 0;
-		const l2 = l.slice( a, a + b );
-		const r2 = r.slice( a, a + b );
-
-		return gsuiWaveform.#getStrPts2( l2, r2 );
 	}
 
 	// .........................................................................
