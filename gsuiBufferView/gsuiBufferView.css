@@ -57,6 +57,7 @@ gsui-buffer-view {
 		overflow: hidden;
 		flex: 1;
 		background-color: #0002;
+		touch-action: none;
 
 		gsui-bv-selection {
 			opacity: .5;
