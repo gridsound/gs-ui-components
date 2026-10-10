@@ -199,7 +199,7 @@ class gsuiBufferView extends gsui0ne {
 		}
 	}
 	#setView( a, b ) {
-		this.$this.$setAttr( "view", `${ GSUmathRound( a, .001 ) } ${ GSUmathRound( b, .001 ) }` );
+		this.$this.$setAttr( "view", `${ a } ${ b }` );
 	}
 	#bodyMove( px ) {
 		const a = ( px - this.#mapPtrgap - this.#mapBCR.x ) / -( this.#mapBCR.w / this.#viewB );
