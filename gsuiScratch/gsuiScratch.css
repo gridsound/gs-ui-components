@@ -12,11 +12,6 @@ gsui-scratch {
 		visibility: hidden;
 	}
 	&:not( [ loading ] ) {
-		gsui-scratch-0line {
-			position: absolute;
-			inset: 50% 0;
-			border-top: 1px solid #0015;
-		}
 		gsui-scratch-timeline {
 			position: absolute;
 			inset: 0 50%;

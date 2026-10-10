@@ -33,7 +33,6 @@ class gsuiScratch extends gsui0ne {
 						$.$elem( "polygon" ),
 					),
 					$.$span( { inert: true }, GSTX.$loading ),
-					$.$elem( "gsui-scratch-0line", { inert: true } ),
 					$.$elem( "gsui-scratch-timeline", { inert: true } ),
 				),
 				$.$button( { "data-action": "close" },
