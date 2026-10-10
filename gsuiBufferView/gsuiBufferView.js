@@ -103,7 +103,7 @@ class gsuiBufferView extends gsui0ne {
 				this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
 				this.#viewASave = this.#viewA;
 				this.#ptrFn?.( e.pageX );
-				if ( act === "map-move" || act === "body-move" ) {
+				if ( GSUisOneOf( act, "body-move", "map-move", "map-teleport" ) ) {
 					$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
 				}
 			}
@@ -252,10 +252,10 @@ class gsuiBufferView extends gsui0ne {
 		this.#setView( a2, this.#viewB );
 	}
 	#minimapTeleport( px ) {
-		// const a = ( px - this.#mapBCR.x ) / this.#mapBCR.w;
-		// const a2 = GSUmathClamp( a - this.#viewB / 2, 0, 1 );
+		const a = ( px - this.#mapBCR.x ) / this.#mapBCR.w;
+		const a2 = GSUmathClamp( a - this.#viewB / 2, 0, 1 - this.#viewB );
 
-		// this.#setView( a2, this.#viewB );
+		this.#setView( a2, this.#viewB );
 	}
 }
 

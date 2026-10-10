@@ -59,6 +59,7 @@ gsui-buffer-view {
 		overflow: hidden;
 		flex: 1;
 		background-color: #0002;
+		cursor: var( --gsuiCursor-grab );
 		touch-action: none;
 
 		gsui-bv-selection {
