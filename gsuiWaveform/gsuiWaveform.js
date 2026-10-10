@@ -53,10 +53,10 @@ class gsuiWaveform {
 		const spp = dur * sampleRate / w;
 
 		return spp < 1
-			? gsuiWaveform.$getPathPerSample( h, data, startSample, spp, w )
-			: gsuiWaveform.$getPathPerGroup( h, data, startSample, spp, w );
+			? gsuiWaveform.#getPathPerSample( h, data, startSample, spp, w )
+			: gsuiWaveform.#getPathPerGroup( h, data, startSample, spp, w );
 	}
-	static $getPathPerGroup( h, data, startSample, spp, w ) {
+	static #getPathPerGroup( h, data, startSample, spp, w ) {
 		const h2 = h / 2;
 		const grpSize = Math.max( 1, Math.round( spp ) );
 		const grpFirst = Math.floor( startSample / grpSize ) - 1;
@@ -92,7 +92,7 @@ class gsuiWaveform {
 		}
 		return arrA.concat( arrB.reverse() );
 	}
-	static $getPathPerSample( h, data, startSample, spp, w ) {
+	static #getPathPerSample( h, data, startSample, spp, w ) {
 		const h2 = h / 2;
 		const iFirst = Math.max( 0, Math.floor( startSample ) - 1 );
 		const iLast = Math.min( data.length - 1, Math.ceil( startSample + spp * w ) + 1 );
