@@ -13,7 +13,8 @@
 const uiBufView = $( "gsui-buffer-view" );
 const ctx = new AudioContext();
 
-fetch( "test-assets/808kick.wav" )
+// fetch( "test-assets/808kick.wav" )
+fetch( "test-assets/left-to-right.mp3" )
 // fetch( "test-assets/Rally House.mp3" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
