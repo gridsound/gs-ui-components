@@ -106,6 +106,8 @@ class gsuiBufferView extends gsui0ne {
 	#onptrup( e ) {
 		this.#ptrList.delete( e.pointerId );
 		$.$relPtrCapture( e.target, e.pointerId );
+		this.#ptrList.forEach( ( xy, pid ) => $.$relPtrCapture( e.target, pid ) );
+		this.#ptrList.clear();
 		if ( !this.#ptrList.size ) {
 			this.#ptrFn =
 			this.#mapBCR =
