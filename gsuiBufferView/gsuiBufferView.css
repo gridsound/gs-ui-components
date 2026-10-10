@@ -1,4 +1,6 @@
 gsui-buffer-view {
+	display: block;
+	height: 100%;
 	--gsui-bv-col-l: #c13333;
 	--gsui-bv-col-r: #3524ff;
 

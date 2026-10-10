@@ -1,6 +1,8 @@
 "use strict";
 
 class gsuiBufferView extends gsui0ne {
+	#w = 100;
+	#h = 100;
 	#buf = null;
 	#viewA = 0;
 	#viewB = 1;
@@ -20,14 +22,14 @@ class gsuiBufferView extends gsui0ne {
 			$tagName: "gsui-buffer-view",
 			$template: $.$elem( "gsui-bv-in", null,
 				$.$elem( "gsui-bv-body", { "data-prop": "body-move" },
-					$.$elem( "svg", { viewBox: "0 -128 512 256", preserveAspectRatio: "none" },
+					$.$elem( "svg", { preserveAspectRatio: "none" },
 						$.$elem( "path" ),
 						$.$elem( "path" ),
 					),
 					$.$elem( "gsui-bv-selection" ),
 				),
 				$.$elem( "gsui-bv-minimap", { "data-prop": "map-teleport" },
-					$.$elem( "svg", { viewBox: "0 -128 512 256", preserveAspectRatio: "none" },
+					$.$elem( "svg", { preserveAspectRatio: "none" },
 						$.$elem( "path" ),
 						$.$elem( "path" ),
 					),
@@ -40,6 +42,7 @@ class gsuiBufferView extends gsui0ne {
 			),
 			$elements: {
 				$in: "gsui-bv-in",
+				$SVGs: "svg",
 				$mainSVG: "gsui-bv-body svg",
 				$mainPaths: "gsui-bv-body path",
 				$minimap: "gsui-bv-minimap",
@@ -67,14 +70,21 @@ class gsuiBufferView extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "view": this.#updateView( val ); break;
-			case "selection": this.#updateSelection( val ); break;
+			case "view": this.#onchangeView( val ); break;
+			case "selection": this.#onchangeSelection( val ); break;
 		}
 	}
 	$onmessage( key, val ) {
 		switch ( key ) {
-			case GSEV_BUFFERVIEW_BUFFER: this.#setBuffer( val ); break;
+			case GSEV_BUFFERVIEW_BUFFER: this.#onchangeBuffer( val ); break;
 		}
+	}
+	$onresize() {
+		this.#w = this.$elements.$body.$width();
+		this.#h = this.$elements.$body.$height();
+		this.$elements.$SVGs.$viewbox( 0, this.#h / -2, this.#w, this.#h );
+		this.#updateBodyWaveform();
+		this.#updateMiniWaveform();
 	}
 
 	// .........................................................................
@@ -116,44 +126,52 @@ class gsuiBufferView extends gsui0ne {
 	}
 
 	// .........................................................................
-	#setBuffer( buf ) {
-		const data = gsuiWaveform.$getPathChans( buf, 512, 256 );
-
+	#onchangeBuffer( buf ) {
 		this.#buf = buf;
 		this.#viewBMin = 300 / ( buf.duration * buf.sampleRate * 10 );
-		this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
-		this.$elements.$minimapPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
-		this.#updateView( this.$this.$getAttr( "view" ) );
+		this.#updateBodyWaveform();
+		this.#updateMiniWaveform();
 	}
-	#updateView( view ) {
+	#onchangeView( view ) {
 		const [ a, b ] = GSUsplitNums( view );
-		const a2 = GSUmathClamp( a, 0, 1 );
-		const b2 = GSUmathClamp( b, 0, 1 - a2 );
 
-		this.#viewA = a2;
-		this.#viewB = b2;
-		this.$elements.$minimapView
-			.$left( a2 * 100, "%" )
-			.$width( b2 * 100, "%" );
-		if ( this.#buf ) {
-			const dur = this.#buf.duration;
-			const data = gsuiWaveform.$getPathChans( this.#buf, 512, 256, a2 * dur, b2 * dur );
-
-			this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
-		}
-		this.#updateSelection2();
+		this.#viewA = GSUmathClamp( a, 0, 1 );
+		this.#viewB = GSUmathClamp( b, 0, 1 - this.#viewA );
+		this.#updateMiniView();
+		this.#updateBodyWaveform();
+		this.#updateBodySelection();
 	}
-	#updateSelection( sel ) {
+	#onchangeSelection( sel ) {
 		const [ a, b ] = GSUsplitNums( sel );
 
 		this.#selA = GSUmathClamp( a, 0, 1 );
 		this.#selB = GSUmathClamp( b, 0, 1 - this.#selA );
-		this.$elements.$miniSel
-			.$left( this.#selA * 100, "%" )
-			.$width( this.#selB * 100, "%" );
-		this.#updateSelection2();
+		this.#updateBodySelection();
+		this.#updateMiniSelection();
 	}
-	#updateSelection2() {
+
+	// .........................................................................
+	#updateBodyWaveform() {
+		if ( this.#buf ) {
+			const dur = this.#buf.duration;
+			const data = gsuiWaveform.$getPathChans( this.#buf, this.#w, this.#h, this.#viewA * dur, this.#viewB * dur );
+
+			this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
+		}
+	}
+	#updateMiniWaveform() {
+		if ( this.#buf ) {
+			const data = gsuiWaveform.$getPathChans( this.#buf, this.#w, this.#h );
+
+			this.$elements.$minimapPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
+		}
+	}
+	#updateMiniView() {
+		this.$elements.$minimapView
+			.$left( this.#viewA * 100, "%" )
+			.$width( this.#viewB * 100, "%" );
+	}
+	#updateBodySelection() {
 		const a = this.#selA;
 		const b = this.#selB;
 		const a2 = ( a - this.#viewA ) / this.#viewB;
@@ -162,6 +180,11 @@ class gsuiBufferView extends gsui0ne {
 		this.$elements.$bodySel
 			.$left( a2 * 100, "%" )
 			.$width( b2 * 100, "%" );
+	}
+	#updateMiniSelection() {
+		this.$elements.$miniSel
+			.$left( this.#selA * 100, "%" )
+			.$width( this.#selB * 100, "%" );
 	}
 
 	// .........................................................................
