@@ -80,21 +80,23 @@ class gsuiBufferView extends gsui0ne {
 
 	// .........................................................................
 	#onptrdown( e ) {
-		const act = $.$dataProp( e.target );
+		if ( e.button === 0 ) {
+			const act = $.$dataProp( e.target );
 
-		this.#ptrList.set( e.pointerId );
-		if ( this.#ptrList.size === 1 ) {
-			this.#ptrFn = this.#getActionFn( act );
-			this.#mapBCR = this.$elements.$minimap.$bcr();
-			this.#mapViewBCR = this.$elements.$minimapView.$bcr();
-			this.#mapPtrgap = e.pageX - this.#mapBCR.x;
-			this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
-			this.#viewASave = this.#viewA;
-			e.preventDefault();
-			$.$setPtrCapture( e.target, e.pointerId );
-			this.#ptrFn?.( e.pageX );
-			if ( act === "map-move" || act === "body-move" ) {
-				$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
+			this.#ptrList.set( e.pointerId );
+			if ( this.#ptrList.size === 1 ) {
+				this.#ptrFn = this.#getActionFn( act );
+				this.#mapBCR = this.$elements.$minimap.$bcr();
+				this.#mapViewBCR = this.$elements.$minimapView.$bcr();
+				this.#mapPtrgap = e.pageX - this.#mapBCR.x;
+				this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
+				this.#viewASave = this.#viewA;
+				e.preventDefault();
+				$.$setPtrCapture( e.target, e.pointerId );
+				this.#ptrFn?.( e.pageX );
+				if ( act === "map-move" || act === "body-move" ) {
+					$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
+				}
 			}
 		}
 	}
