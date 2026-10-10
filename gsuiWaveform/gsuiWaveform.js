@@ -52,12 +52,16 @@ class gsuiWaveform {
 		const sampleRate = data.length / bufDur;
 		const startSample = start * sampleRate;
 		const spp = dur * sampleRate / w;
+		const grpSize = Math.max( 1, Math.round( spp ) );
+		const grpFirst = Math.floor( startSample / grpSize ) - 1;
+		const grpLast = Math.ceil( ( startSample + dur * sampleRate ) / grpSize ) + 1;
 		const arrA = [];
 		const arrB = [];
 
-		for ( let px = 0; px < w; ++px ) {
-			const a = Math.floor( startSample + px * spp );
-			const b = Math.max( a + 1, Math.floor( startSample + ( px + 1 ) * spp ) );
+		for ( let k = grpFirst; k <= grpLast; ++k ) {
+			const a = k * grpSize;
+			const b = a + grpSize;
+			const x = +( ( a - startSample ) / spp ).toFixed( 2 );
 			let min = 0;
 			let max = 0;
 
@@ -75,8 +79,8 @@ class gsuiWaveform {
 				min = GSUmathClamp( min, -1, 1 );
 				max = GSUmathClamp( max, -1, 1 );
 			}
-			arrA.push( `${ px } ${ Math.round( -max * h2 ) }` );
-			arrB.push( `${ px } ${ Math.round( -min * h2 ) }` );
+			arrA.push( `${ x } ${ Math.round( -max * h2 ) }` );
+			arrB.push( `${ x } ${ Math.round( -min * h2 ) }` );
 		}
 		return arrA.concat( arrB.reverse() );
 	}
