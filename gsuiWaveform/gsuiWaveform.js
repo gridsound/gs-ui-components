@@ -52,7 +52,7 @@ class gsuiWaveform {
 		const startSample = start * sampleRate;
 		const spp = dur * sampleRate / w;
 
-		return spp < 2
+		return spp < 1
 			? gsuiWaveform.$getPathPerSample( h, data, startSample, spp, w )
 			: gsuiWaveform.$getPathPerGroup( h, data, startSample, spp, w );
 	}
@@ -85,8 +85,10 @@ class gsuiWaveform {
 				min = GSUmathClamp( min, -1, 1 );
 				max = GSUmathClamp( max, -1, 1 );
 			}
-			arrA.push( `${ x } ${ Math.round( -max * h2 ) }` );
-			arrB.push( `${ x } ${ Math.round( -min * h2 ) }` );
+			max = Math.round( -max * h2 );
+			min = Math.round( -min * h2 );
+			arrA.push( `${ x } ${ max }` );
+			arrB.push( `${ x } ${ GSUmathApprox( min, max, h / 200 ) ? max - h / 200 : min }` );
 		}
 		return arrA.concat( arrB.reverse() );
 	}
@@ -102,7 +104,7 @@ class gsuiWaveform {
 			const y = gsuiWaveform.#round( -GSUmathClamp( data[ i ], -1, 1 ) * h2 );
 
 			arrA.push( `${ x } ${ y }` );
-			arrB.push( `${ x } ${ y - h / 100 }` );
+			arrB.push( `${ x } ${ y - h / 200 }` );
 		}
 		return arrA.concat( arrB.reverse() );
 	}
