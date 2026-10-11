@@ -82,7 +82,7 @@ class gsuiBufferView extends gsui0ne {
 	$onresize() {
 		this.#w = this.$elements.$body.$width();
 		this.#h = this.$elements.$body.$height();
-		this.$elements.$SVGs.$viewbox( 0, this.#h / -2, this.#w, this.#h );
+		this.$elements.$SVGs.$viewbox( this.#w, this.#h );
 		this.#updateBodyWaveform();
 		this.#updateMiniWaveform();
 	}
