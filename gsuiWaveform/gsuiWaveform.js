@@ -37,7 +37,6 @@ class gsuiWaveform {
 			: gsuiWaveform.#getPathPerGroup( w, h, data, startSample, spp );
 	}
 	static #getPathPerGroup( w, h, data, startSample, spp ) {
-		const h2 = h / 2;
 		const grpSize = Math.max( 1, Math.round( spp ) );
 		const grpFirst = Math.floor( startSample / grpSize ) - 1;
 		const grpLast = Math.ceil( ( startSample + spp * w ) / grpSize ) + 1;
@@ -65,28 +64,30 @@ class gsuiWaveform {
 				min = GSUmathClamp( min, -1, 1 );
 				max = GSUmathClamp( max, -1, 1 );
 			}
-			max = Math.round( -max * h2 );
-			min = Math.round( -min * h2 );
+			min = gsuiWaveform.#calcSmp( min, h );
+			max = gsuiWaveform.#calcSmp( max, h );
 			arrA.push( `${ x } ${ max }` );
 			arrB.push( `${ x } ${ GSUmathApprox( min, max, h / 200 ) ? max - h / 200 : min }` );
 		}
 		return arrA.concat( arrB.reverse() );
 	}
 	static #getPathPerSample( w, h, data, startSample, spp ) {
-		const h2 = h / 2;
-		const iFirst = Math.max( 0, Math.floor( startSample ) - 1 );
-		const iLast = Math.min( data.length - 1, Math.ceil( startSample + spp * w ) + 1 );
+		const smpFirst = Math.max( 0, Math.floor( startSample ) - 1 );
+		const smpLast = Math.min( data.length - 1, Math.ceil( startSample + spp * w ) + 1 );
 		const arrA = [];
 		const arrB = [];
 
-		for ( let i = iFirst; i <= iLast; ++i ) {
+		for ( let i = smpFirst; i <= smpLast; ++i ) {
 			const x = gsuiWaveform.#round( ( i - startSample ) / spp );
-			const y = gsuiWaveform.#round( -GSUmathClamp( data[ i ], -1, 1 ) * h2 );
+			const y = gsuiWaveform.#calcSmp( data[ i ], h );
 
 			arrA.push( `${ x } ${ y }` );
 			arrB.push( `${ x } ${ y - h / 200 }` );
 		}
 		return arrA.concat( arrB.reverse() );
+	}
+	static #calcSmp( smp, h ) {
+		return gsuiWaveform.#round( h - GSUmathClamp( ( smp + 1 ) / 2, 0, 1 ) * h );
 	}
 
 	// .........................................................................
