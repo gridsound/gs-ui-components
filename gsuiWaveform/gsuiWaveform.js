@@ -23,11 +23,11 @@ class gsuiWaveform {
 		const chanR = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : "";
 
 		return [
-			gsuiWaveform.$getPathChan( w, h, chanL, bufDur, sta, dur ).join( "," ),
-			chanR && gsuiWaveform.$getPathChan( w, h, chanR, bufDur, sta, dur ).join( "," ),
+			gsuiWaveform.#getPathChan( w, h, chanL, bufDur, sta, dur ).join( "," ),
+			chanR && gsuiWaveform.#getPathChan( w, h, chanR, bufDur, sta, dur ).join( "," ),
 		];
 	}
-	static $getPathChan( w, h, data, bufDur, start, dur ) {
+	static #getPathChan( w, h, data, bufDur, start, dur ) {
 		const sampleRate = data.length / bufDur;
 		const startSample = start * sampleRate;
 		const spp = dur * sampleRate / w;
