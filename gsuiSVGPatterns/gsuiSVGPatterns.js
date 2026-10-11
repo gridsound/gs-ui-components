@@ -93,17 +93,18 @@ class gsuiSVGPatterns {
 		const def = gsuiSVGPatterns.#getList( type ).$map.get( id );
 
 		switch ( type ) {
-			case "keys": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsKeys.$render( data ) );
-			case "drums": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsDrums.$render( ...data ) );
-			case "slices": return gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsSlices.$render( data, dur ) );
-			case "automation": return gsuiSVGPatterns.#update2( def, id, dur * 10, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) );
+			case "keys": gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsKeys.$render( data ) ); break;
+			case "drums": gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsDrums.$render( ...data ) ); break;
+			case "slices": gsuiSVGPatterns.#update2( def, id, dur, 1, ...gsuiSVGPatternsSlices.$render( data, dur ) ); break;
+			case "automation": gsuiSVGPatterns.#update2( def, id, dur * 10, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) ); break;
 			case "buffer":
 			case "bufferHD": {
 				const polygon = $( "<polygon>" );
 				const w = type === "buffer" ? data.duration * 48 | 0 : 260;
 
 				gsuiWaveform.$wfSetPolygonPointsFromBuffer( polygon, w, 48, data );
-				return gsuiSVGPatterns.#update2( def, id, w, 48, polygon.$get( 0 ) );
+				gsuiSVGPatterns.#update2( def, id, w, 48, polygon.$get( 0 ) );
+				break;
 			}
 		}
 	}
