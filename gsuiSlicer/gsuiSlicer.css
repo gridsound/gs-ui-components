@@ -24,6 +24,21 @@ gsui-slicer {
 			display: none;
 		}
 	}
+	svg {
+		--gsui-bv-col-l: #c13333;
+		--gsui-bv-col-r: #3524ff;
+		pointer-events: none;
+
+		path {
+			color: var( --gsui-bv-col-l );
+			fill: currentColor;
+			mix-blend-mode: exclusion;
+
+			& + path {
+				color: var( --gsui-bv-col-r );
+			}
+		}
+	}
 }
 
 /* .......................................................................... */
@@ -111,8 +126,6 @@ gsui-slicer {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	fill: var( --gsuiSlicer-source-wave );
-	pointer-events: none;
 }
 
 /* .......................................................................... */
@@ -136,7 +149,6 @@ gsui-slicer {
 .gsuiSlicer-preview-wave {
 	position: absolute;
 	height: 100%;
-	fill: var( --gsuiSlicer-source-wave );
 	border-right: 1px dashed var( --gsuiSlicer-preview-wave-border );
 	transition: background-color .5s;
 

@@ -1,8 +1,8 @@
 "use strict";
 
 class gsuiSlicer extends gsui0ne {
-	static #resW = 1000;
-	static #resH = 64;
+	static $resW = 1000;
+	static $resH = 64;
 	#dur = 4;
 	#tool = "";
 	#slices = {};
@@ -13,7 +13,10 @@ class gsuiSlicer extends gsui0ne {
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
 	#sliceCurrentTime = null;
-	#waveDef = $( "<polyline>" );
+	#waveDef = $( $.$elem( "g", null,
+		$.$elem( "path", { fill: "var(--gsui-bv-col-l)", style: "mix-blend-mode:exclusion" } ),
+		$.$elem( "path", { fill: "var(--gsui-bv-col-r)", style: "mix-blend-mode:exclusion" } ),
+	) );
 
 	constructor() {
 		const defs = $( "#gsuiSlicer-waveDefs defs" );
@@ -27,7 +30,7 @@ class gsuiSlicer extends gsui0ne {
 				$previewCurrentTime: ".gsuiSlicer-preview-currentTime",
 				$beatlines: "gsui-beatlines",
 				$srcName: ".gsuiSlicer-source-name",
-				$srcWave: ".gsuiSlicer-source-wave",
+				$srcWavePaths: ".gsuiSlicer-source-wave path",
 				$diagonalLine: ".gsuiSlicer-slices-line",
 				$timeline: "gsui-timeline",
 				$preview: ".gsuiSlicer-preview",
@@ -165,7 +168,12 @@ class gsuiSlicer extends gsui0ne {
 			sli.y = y;
 			sli.sli.$height( ( 1 - y ) * 100, "%" );
 		}
-		sli.svg.$viewbox( ( x - ( x - y ) ) * gsuiSlicer.#resW, 0, w * gsuiSlicer.#resW, gsuiSlicer.#resH );
+		sli.svg.$viewbox(
+			( x - ( x - y ) ) * gsuiSlicer.$resW,
+			gsuiSlicer.$resH / -2,
+			w * gsuiSlicer.$resW,
+			gsuiSlicer.$resH
+		);
 		if ( sli.x <= t && t < sli.x + sli.w ) {
 			this.#highlightSlice( sli );
 		}
@@ -189,11 +197,13 @@ class gsuiSlicer extends gsui0ne {
 	}
 	#setWaveform( buf ) {
 		if ( buf ) {
-			gsuiWaveform.$wfSetPolygonPointsFromBuffer( this.#waveDef, gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
-			gsuiWaveform.$wfSetPolygonPointsFromBuffer( this.$elements.$srcWave.$child( 0 ), gsuiSlicer.#resW, gsuiSlicer.#resH, buf );
+			const data = gsuiWaveform.$getPathChans( buf, gsuiSlicer.$resW, gsuiSlicer.$resH );
+
+			this.$elements.$srcWavePaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
+			this.#waveDef.$children().$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		} else {
-			this.#waveDef.$rmAttr( "points" );
-			this.$elements.$srcWave.$child( 0 ).$rmAttr( "points" );
+			this.$elements.$srcWavePaths.$rmAttr( "d" );
+			this.#waveDef.$children().$rmAttr( "d" );
 		}
 	}
 	#setCurrentTime( beat ) {
