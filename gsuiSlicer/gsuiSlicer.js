@@ -169,10 +169,8 @@ class gsuiSlicer extends gsui0ne {
 			sli.sli.$height( ( 1 - y ) * 100, "%" );
 		}
 		sli.svg.$viewbox(
-			( x - ( x - y ) ) * gsuiSlicer.$resW,
-			gsuiSlicer.$resH / -2,
-			w * gsuiSlicer.$resW,
-			gsuiSlicer.$resH
+			( x - ( x - y ) ) * gsuiSlicer.$resW, 0,
+			w * gsuiSlicer.$resW, gsuiSlicer.$resH
 		);
 		if ( sli.x <= t && t < sli.x + sli.w ) {
 			this.#highlightSlice( sli );

@@ -8,7 +8,7 @@ $.$setTemplate( "gsui-slicer", () => [
 		),
 		$.$div( { class: "gsuiSlicer-source-sample-wrap" },
 			$.$div( { class: "gsuiSlicer-source-sample" },
-				$.$elem( "svg", { class: "gsuiSlicer-source-wave", viewBox: `0 ${ gsuiSlicer.$resH / -2 } ${ gsuiSlicer.$resW } ${ gsuiSlicer.$resH }`, preserveAspectRatio: "none" },
+				$.$elem( "svg", { class: "gsuiSlicer-source-wave", viewBox: `0 0 ${ gsuiSlicer.$resW } ${ gsuiSlicer.$resH }`, preserveAspectRatio: "none" },
 					$.$elem( "path" ),
 					$.$elem( "path" ),
 				),
