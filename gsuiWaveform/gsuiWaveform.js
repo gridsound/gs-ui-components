@@ -1,14 +1,9 @@
 "use strict";
 
 class gsuiWaveform {
-	static $wfSetPolygonPointsFromBuffer( polygon, w, h, buf, start, dur ) {
-		polygon.$setAttr( "points", gsuiWaveform.#getStrPts( w, h, ...gsuiWaveform.#getData( buf, start, dur ) ) );
-	}
 	static $wfGetPolygonPointsFromBuffer( w, h, buf, start, dur ) {
 		return gsuiWaveform.#getStrPts( w, h, ...gsuiWaveform.#getData( buf, start, dur ) );
 	}
-
-	// .........................................................................
 	static #getData( buf, start, duration ) {
 		const d0 = buf.getChannelData( 0 );
 		const d1 = buf.numberOfChannels > 1 ? buf.getChannelData( 1 ) : d0;
