@@ -104,7 +104,7 @@ class gsuiScratch extends gsui0ne {
 		this.#w = bcr.w;
 		this.#h = bcr.h;
 		this.#wSec = bcr.w / 100;
-		this.$elements.$svg.$viewbox( 0, this.#h / -2, this.#w, this.#h );
+		this.$elements.$svg.$viewbox( this.#w, this.#h );
 		this.#drawWaveform();
 	}
 	$onmessage( ev, val ) {
