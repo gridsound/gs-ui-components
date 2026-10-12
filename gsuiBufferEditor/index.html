@@ -1,0 +1,29 @@
+<style>
+:root {
+	--TryMe-w: 500px;
+	--TryMe-h: 300px;
+}
+</style>
+
+<div id="TryComponent">
+	<gsui-buffer-editor
+		view="0 .7"
+		selection=".1 .4"
+	></gsui-buffer-editor>
+</div>
+
+<script>
+const uiBufEdit = $( "gsui-buffer-editor" );
+const ctx = new AudioContext();
+let bufSave; // because WeakRef;
+
+// fetch( "test-assets/808kick.wav" )
+fetch( "test-assets/left-to-right.mp3" )
+// fetch( "test-assets/Rally House.mp3" )
+	.then( res => res.arrayBuffer() )
+	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( buf => {
+		bufSave = buf;
+		uiBufEdit.$message( GSEV_BUFFEREDITOR_BUFFER, buf );
+	} );
+</script>

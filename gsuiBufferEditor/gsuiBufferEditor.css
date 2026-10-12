@@ -1,0 +1,10 @@
+gsui-buffer-editor {
+	display: block;
+	height: 100%;
+
+	gsui-be-in {
+		display: flex;
+		height: 100%;
+		flex-direction: column;
+	}
+}
