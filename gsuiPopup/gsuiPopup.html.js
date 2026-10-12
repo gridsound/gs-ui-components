@@ -9,7 +9,7 @@ $.$setTemplate( "gsui-popup", () => [
 			$.$input( { class: "gsuiPopup-inputText", type: "text" } ),
 			$.$flex( { x: true, xcenter: true, g10: true },
 				$.$elem( "gsui-button", { class: "gsuiPopup-cancel", text: "Cancel" } ),
-				$.$elem( "gsui-button", { class: "gsuiPopup-ok", text: "Ok", type: "submit" } ),
+				$.$elem( "gsui-button", { class: "gsuiPopup-ok", text: "Ok", type: "submit", model: "submit" } ),
 			),
 		),
 	),

@@ -7,7 +7,7 @@ $.$setTemplate( "gsui-daw-popup-export", () =>
 			$.$div( { class: "gsuiDAW-popup-export-wrap" },
 				$.$elem( "gsui-button", { class: "gsuiDAW-popup-export-render-btn" } ),
 				$.$elem( "gsui-button", { class: "gsuiDAW-popup-export-upload-btn", text: "Upload", icon: "upload" } ),
-				$.$elem( "gsui-button", { class: "gsuiDAW-popup-export-clear-btn", text: "Clear", type: "danger" } ),
+				$.$elem( "gsui-button", { class: "gsuiDAW-popup-export-clear-btn", text: "Clear", model: "danger" } ),
 				$.$elem( "progress", { class: "gsuiDAW-popup-export-progress", value: "", max: 1 } ),
 			),
 			$.$div( { class: "gsuiDAW-popup-export-msg" } ),
