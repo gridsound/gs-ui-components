@@ -25,6 +25,7 @@ class gsuiButton extends gsui0ne {
 	// .........................................................................
 	static get observedAttributes() {
 		return [ "text", "icon", "loading", "disabled", "type", "href", "data-tooltip", "popovertarget" ];
+		// + "model"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {

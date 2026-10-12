@@ -45,11 +45,11 @@ gsui-button {
 	&[ disabled ] {
 		pointer-events: none;
 	}
-	&[ type="submit" ] {
+	&[ model="submit" ] {
 		--btn-colorA: var( --btn-submit-colorA );
 		--btn-colorB: var( --btn-submit-colorB );
 	}
-	&[ type="danger" ] {
+	&[ model="danger" ] {
 		--btn-colorA: var( --btn-danger-colorA );
 		--btn-colorB: var( --btn-danger-colorB );
 	}
