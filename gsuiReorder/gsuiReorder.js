@@ -229,7 +229,7 @@ class gsuiReorder {
 
 			return {
 				$item: elItem.$dataId(), // to delete (should be the element)
-				$itemElement: elItem.$get( 0 ),
+				$itemElement: elItem,
 				$target: elArea,
 				$offsetX: e.clientX - x,
 				$offsetY: e.clientY - y,

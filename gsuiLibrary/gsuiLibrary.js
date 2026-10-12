@@ -52,8 +52,7 @@ class gsuiLibrary extends gsui0ne {
 			$ondrop: drop => {
 				const tar = drop.$target;
 				const tag = tar.$tag();
-				const dt = drop.$itemElement.dataset;
-				const $name = `${ dt.id }:${ dt.name }`;
+				const $name = `${ drop.$itemElement.$dataId() }:${ drop.$itemElement.$getAttr( "data-name" ) }`;
 				const obj = { $name };
 
 				if ( tag === "gsui-slicer" ) {
