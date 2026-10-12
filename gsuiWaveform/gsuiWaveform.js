@@ -6,6 +6,7 @@ class gsuiWaveform extends gsui0ne {
 	#a = 0;
 	#b = 0;
 	#refBuf = null;
+	#setAttrRes = GSUdebounce( this.$this.$setAttr.bind( this.$this ), .2 );
 
 	constructor() {
 		super( {
@@ -35,7 +36,7 @@ class gsuiWaveform extends gsui0ne {
 		}
 	}
 	$onresize( w, h ) {
-		this.$this.$setAttr( "res", `${ w } ${ h }` );
+		this.#setAttrRes( "res", `${ w } ${ h }` );
 	}
 	$onmessage( key, a, b ) {
 		switch ( key ) {
@@ -64,7 +65,7 @@ class gsuiWaveform extends gsui0ne {
 	#updateView() {
 		const buf = this.#refBuf?.deref();
 
-		if ( buf ) {
+		if ( buf && this.#w ) {
 			const data = gsuiWaveform.$getPathChans( buf, this.#w, this.#h, this.#a * buf.duration, this.#b * buf.duration );
 
 			this.$elements.$paths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
