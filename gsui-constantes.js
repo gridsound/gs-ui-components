@@ -30,7 +30,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 225
+// 226
 const GSEV_AUTOMATION_CHANGE = 195;
 const GSEV_AUTOMATION_CURVE = 197;
 const GSEV_AUTOMATION_CURVE_RESET = 198;
@@ -238,6 +238,7 @@ const GSEV_TRACKLIST_TOGGLETRACK = 146;
 const GSEV_WAVEEDITOR_CHANGE = 147;
 const GSEV_WAVEEDITOR_PARAM = 148;
 const GSEV_WAVEFORM_BUFFER = 224;
+const GSEV_WAVEFORM_DRAW = 225;
 const GSEV_WAVELETBROWSER_DATA = 212;
 const GSEV_WAVELETBROWSER_SUBMIT = 208;
 const GSEV_WAVELETSVG_DRAW = 209;

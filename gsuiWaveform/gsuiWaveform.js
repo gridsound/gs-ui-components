@@ -20,6 +20,7 @@ class gsuiWaveform extends gsui0ne {
 				$paths: "path",
 			},
 			$attributes: {
+				res: "100 100",
 				view: "0 1",
 			},
 		} );
@@ -36,11 +37,14 @@ class gsuiWaveform extends gsui0ne {
 		}
 	}
 	$onresize( w, h ) {
-		this.#setAttrRes( "res", `${ w } ${ h }` );
+		if ( this.#refBuf?.deref() ) {
+			this.#setAttrRes( "res", `${ w } ${ h }` );
+		}
 	}
-	$onmessage( key, a, b ) {
+	$onmessage( key, val ) {
 		switch ( key ) {
-			case GSEV_WAVEFORM_BUFFER: this.#setBuffer( a ); break;
+			case GSEV_WAVEFORM_DRAW: this.#updateView2( val ); break;
+			case GSEV_WAVEFORM_BUFFER: this.#setBuffer( val ); break;
 		}
 	}
 
@@ -48,7 +52,7 @@ class gsuiWaveform extends gsui0ne {
 	#setBuffer( buf ) {
 		if ( buf ) {
 			this.#refBuf = new WeakRef( buf );
-			this.#updateView();
+			this.#setResolution( this.$this.$getAttr( "res" ) );
 		} else {
 			this.#refBuf = null
 			this.$elements.$paths.$rmAttr( "d" );
@@ -71,10 +75,11 @@ class gsuiWaveform extends gsui0ne {
 		const buf = this.#refBuf?.deref();
 
 		if ( buf && this.#w ) {
-			const data = gsuiWaveform.$getPathChans( buf, this.#w, this.#h, this.#a * buf.duration, this.#b * buf.duration );
-
-			this.$elements.$paths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
+			this.#updateView2( gsuiWaveform.$getPathChans( buf, this.#w, this.#h, this.#a * buf.duration, this.#b * buf.duration ) );
 		}
+	}
+	#updateView2( data ) {
+		this.$elements.$paths.$setAttr( "d", ( _, i ) => data[ i ] ? `M${ data[ i ].replaceAll( ",", "L" ) }` : false );
 	}
 
 	// .........................................................................
