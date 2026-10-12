@@ -38,18 +38,10 @@ class gsui0ne extends HTMLElement {
 	connectedCallback() {
 		this.$isConnected = true;
 		if ( ++this.#connectionCount === 1 ) {
-			if ( this.#children ) {
-				GSUisArr( this.#children )
-					? this.append( ...this.#children )
-					: this.append( this.#children );
-			}
+			$( this.#children ).$appendTo( this );
 			GSUforEach( this.#attributes, ( val, p ) => {
-				if ( GSUisStr( val ) || GSUisNum( val ) || val === true ) {
-					const a = this.$this.$getAttr( p );
-
-					if ( !GSUisStr( a ) ) {
-						this.$this.$setAttr( p, val );
-					}
+				if ( ( GSUisStr( val ) || GSUisNum( val ) || val === true ) && !this.$this.$hasAttr( p ) ) {
+					this.$this.$setAttr( p, val );
 				}
 			} );
 			this.#children =
