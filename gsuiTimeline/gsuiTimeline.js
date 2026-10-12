@@ -329,7 +329,7 @@ class gsuiTimeline extends gsui0ne {
 					if ( loop !== this.$this.$getAttr( "loop" ) ) {
 						if ( aa !== bb ) {
 							this.$this.$setAttr( "loop", loop ).$dispatch( GSEV_TIMELINE_INPUTLOOP, aa, bb );
-						} else if ( this.hasAttribute( "loop" ) ) {
+						} else if ( this.$this.$hasAttr( "loop" ) ) {
 							this.$this.$rmAttr( "loop" ).$dispatch( GSEV_TIMELINE_INPUTLOOP, false );
 						}
 					}

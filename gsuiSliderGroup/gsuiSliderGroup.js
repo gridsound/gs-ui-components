@@ -36,9 +36,7 @@ class gsuiSliderGroup extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		const beatlines = this.hasAttribute( "beatlines" );
-
-		if ( !beatlines ) {
+		if ( !this.$this.$hasAttr( "beatlines" ) ) {
 			this.$elements.$beatlines.$remove();
 			this.$elements.$currentTime.$remove();
 			this.$elements.$loopA.$remove();
