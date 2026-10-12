@@ -13,9 +13,9 @@ class gsuiSlicer extends gsui0ne {
 	#slicesSplitted = null;
 	#sliceIdBefore = null;
 	#sliceCurrentTime = null;
-	#waveDef = $( $.$elem( "g", null,
-		$.$elem( "path", { fill: "var(--gsui-bv-col-l)", style: "mix-blend-mode:exclusion" } ),
-		$.$elem( "path", { fill: "var(--gsui-bv-col-r)", style: "mix-blend-mode:exclusion" } ),
+	#waveDef = $( $.$elem( "g", { class: "gsui-waveform" },
+		$.$elem( "path" ),
+		$.$elem( "path" ),
 	) );
 
 	constructor() {
@@ -30,7 +30,7 @@ class gsuiSlicer extends gsui0ne {
 				$previewCurrentTime: ".gsuiSlicer-preview-currentTime",
 				$beatlines: "gsui-beatlines",
 				$srcName: ".gsuiSlicer-source-name",
-				$srcWavePaths: ".gsuiSlicer-source-wave path",
+				$srcWave: "gsui-waveform",
 				$diagonalLine: ".gsuiSlicer-slices-line",
 				$timeline: "gsui-timeline",
 				$preview: ".gsuiSlicer-preview",
@@ -194,13 +194,12 @@ class gsuiSlicer extends gsui0ne {
 		return +this.$this.$getAttr( "currenttime" ) / +this.$this.$getAttr( "duration" );
 	}
 	#setWaveform( buf ) {
+		this.$elements.$srcWave.$message( GSEV_WAVEFORM_BUFFER, buf );
 		if ( buf ) {
 			const data = gsuiWaveform.$getPathChans( buf, gsuiSlicer.$resW, gsuiSlicer.$resH );
 
-			this.$elements.$srcWavePaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 			this.#waveDef.$children().$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		} else {
-			this.$elements.$srcWavePaths.$rmAttr( "d" );
 			this.#waveDef.$children().$rmAttr( "d" );
 		}
 	}
