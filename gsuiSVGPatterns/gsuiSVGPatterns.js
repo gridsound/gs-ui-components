@@ -52,7 +52,7 @@ class gsuiSVGPatterns {
 		const def = SVG.$map.get( id ) || {};
 		const use = $.$elem( "use" );
 
-		use.setAttributeNS( $.$linkNS, "href", `#${ SVG.$prefix }${ id }` );
+		$.$setAtXL( use, "href", `#${ SVG.$prefix }${ id }` );
 		return $( "<svg>" )
 			.$dataId( id )
 			.$setAttr( "preserveAspectRatio", "none" )
