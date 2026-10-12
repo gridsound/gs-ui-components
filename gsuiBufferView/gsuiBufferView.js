@@ -1,7 +1,6 @@
 "use strict";
 
 class gsuiBufferView extends gsui0ne {
-	#buf = null;
 	#viewA = 0;
 	#viewB = 1;
 	#viewASave = 0;
@@ -69,14 +68,6 @@ class gsuiBufferView extends gsui0ne {
 			case GSEV_BUFFERVIEW_BUFFER: this.#onchangeBuffer( val ); break;
 		}
 	}
-	$onresize() {
-		const w = this.$elements.$body.$width();
-
-		this.$elements.$waveBody.$setAttr( "res", `${ w } ${ this.$elements.$body.$height() }` );
-		this.$elements.$waveMini.$setAttr( "res", `${ w } ${ this.$elements.$minimap.$height() }` );
-		this.#updateBodyWaveform();
-		this.#updateMiniWaveform();
-	}
 
 	// .........................................................................
 	#onptrdown( e ) {
@@ -118,19 +109,18 @@ class gsuiBufferView extends gsui0ne {
 
 	// .........................................................................
 	#onchangeBuffer( buf ) {
-		this.#buf = buf;
 		this.#viewBMin = 300 / ( buf.duration * buf.sampleRate * 10 );
-		this.#updateBodyWaveform();
-		this.#updateMiniWaveform();
+		this.$elements.$waveBody.$message( GSEV_WAVEFORM_BUFFER, buf );
+		this.$elements.$waveMini.$message( GSEV_WAVEFORM_BUFFER, buf );
 	}
 	#onchangeView( view ) {
 		const [ a, b ] = GSUsplitNums( view );
 
 		this.#viewA = GSUmathClamp( a, 0, 1 );
 		this.#viewB = GSUmathClamp( b, 0, 1 - this.#viewA );
-		this.#updateMiniView();
-		this.#updateBodyWaveform();
+		this.$elements.$waveBody.$setAttr( "view", `${ this.#viewA } ${ this.#viewB }` );
 		this.#updateBodySelection();
+		this.#updateMiniView();
 	}
 	#onchangeSelection( sel ) {
 		const [ a, b ] = GSUsplitNums( sel );
@@ -142,12 +132,6 @@ class gsuiBufferView extends gsui0ne {
 	}
 
 	// .........................................................................
-	#updateBodyWaveform() {
-		this.$elements.$waveBody.$message( GSEV_WAVEFORM_DRAW, this.#buf, this.#viewA, this.#viewB );
-	}
-	#updateMiniWaveform() {
-		this.$elements.$waveMini.$message( GSEV_WAVEFORM_DRAW, this.#buf );
-	}
 	#updateMiniView() {
 		this.$elements.$minimapView
 			.$left( this.#viewA * 100, "%" )

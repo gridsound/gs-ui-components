@@ -3,6 +3,9 @@
 class gsuiWaveform extends gsui0ne {
 	#w = 0;
 	#h = 0;
+	#a = 0;
+	#b = 0;
+	#refBuf = null;
 
 	constructor() {
 		super( {
@@ -15,35 +18,54 @@ class gsuiWaveform extends gsui0ne {
 				$svg: "svg",
 				$paths: "path",
 			},
+			$attributes: {
+				view: "0 1",
+			},
 		} );
 	}
 
 	// .........................................................................
 	static get observedAttributes() {
-		return [ "res" ];
+		return [ "res", "view" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "res": this.#setResolution( val ); break;
+			case "view": this.#setView( ...GSUsplitNums( val ) ); break;
 		}
 	}
-	$onmessage( key, a, b, c ) {
+	$onresize( w, h ) {
+		this.$this.$setAttr( "res", `${ w } ${ h }` );
+	}
+	$onmessage( key, a, b ) {
 		switch ( key ) {
-			case GSEV_WAVEFORM_DRAW: this.#draw( a, b, c ); break;
+			case GSEV_WAVEFORM_BUFFER: this.#setBuffer( a ); break;
 		}
 	}
 
 	// .........................................................................
+	#setBuffer( buf ) {
+		this.#refBuf = new WeakRef( buf );
+		this.#updateView();
+	}
 	#setResolution( v ) {
 		const [ w, h ] = GSUsplitNums( v );
 
 		this.#w = w;
 		this.#h = h;
 		this.$elements.$svg.$viewbox( w, h );
+		this.#updateView();
 	}
-	#draw( buf, a = 0, b = 1 ) {
+	#setView( a = 0, b = 1 ) {
+		this.#a = a;
+		this.#b = b;
+		this.#updateView();
+	}
+	#updateView() {
+		const buf = this.#refBuf?.deref();
+
 		if ( buf ) {
-			const data = gsuiWaveform.$getPathChans( buf, this.#w, this.#h, a * buf.duration, b * buf.duration );
+			const data = gsuiWaveform.$getPathChans( buf, this.#w, this.#h, this.#a * buf.duration, this.#b * buf.duration );
 
 			this.$elements.$paths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
 		}
