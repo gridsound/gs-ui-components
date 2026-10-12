@@ -46,8 +46,13 @@ class gsuiWaveform extends gsui0ne {
 
 	// .........................................................................
 	#setBuffer( buf ) {
-		this.#refBuf = new WeakRef( buf );
-		this.#updateView();
+		if ( buf ) {
+			this.#refBuf = new WeakRef( buf );
+			this.#updateView();
+		} else {
+			this.#refBuf = null
+			this.$elements.$paths.$rmAttr( "d" );
+		}
 	}
 	#setResolution( v ) {
 		const [ w, h ] = GSUsplitNums( v );
