@@ -11,21 +11,22 @@
 
 <script>
 const elLib = $( "gsui-library" );
-const elLib0 = $( "gsui-library" ).$get( 0 );
+const elLib0 = elLib.$get( 0 );
 
-elLib0.$setLibrary( gsuiLibrarySamples );
-elLib.$setAttr( "placeholder", "hey, placeholder here" );
-elLib0.$bookmarkSample( "clap-001", true );
-elLib0.$bookmarkSample( "clap-013", true );
-elLib0.$bookmarkSample( "hat-003", true );
-elLib0.$bookmarkSample( "crash-001", true );
-elLib.$listen( {
-	[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
-		elLib0.$loadSample( smp );
-		GSUsetTimeout( () => elLib0.$readySample( smp ), 1 );
-	},
-	[ GSEV_LIBRARY_PLAYSAMPLE ]: ( _, smp ) => {
-		elLib0.$playSample( smp, 1 );
-	},
-} );
+elLib
+	.$setAttr( "placeholder", "hey, placeholder here" )
+	.$listen( {
+		[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
+			elLib.$message( GSEV_LIBRARY_LOADSAMPLE, smp );
+			GSUsetTimeout( () => elLib.$message( GSEV_LIBRARY_READYSAMPLE, smp ), 1 );
+		},
+		[ GSEV_LIBRARY_PLAYSAMPLE ]: ( _, smp ) => {
+			elLib.$message( GSEV_LIBRARY_PLAYSAMPLE, smp, 1 );
+		},
+	} )
+	.$message( GSEV_LIBRARY_LOAD, gsuiLibrarySamples )
+	.$message( GSEV_LIBRARY_FAVSAMPLE, "clap-001", true )
+	.$message( GSEV_LIBRARY_FAVSAMPLE, "clap-013", true )
+	.$message( GSEV_LIBRARY_FAVSAMPLE, "hat-003", true )
+	.$message( GSEV_LIBRARY_FAVSAMPLE, "crash-001", true );
 </script>

@@ -19,11 +19,16 @@ class gsuiLibraries extends gsui0ne {
 	}
 
 	// .........................................................................
-	$getLibrary( lib ) {
-		return ( lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef ).$get( 0 );
+	$onmessage( evt, val ) {
+		switch ( evt ) {
+			case GSEV_LIBRARIES_GET: return this.#getLibrary( val );
+		}
 	}
 
 	// .........................................................................
+	#getLibrary( lib ) {
+		return lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef;
+	}
 	#onclickBtns( e ) {
 		if ( e.target.dataset.lib ) {
 			this.$this.$setAttr( "lib", e.target.dataset.lib );

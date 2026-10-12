@@ -32,6 +32,18 @@ class gsuiLibrary extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( evt, a, b ) {
+		switch ( evt ) {
+			case GSEV_LIBRARY_LOAD: this.#setLibrary( a ); break;
+			case GSEV_LIBRARY_UNLOAD: this.#unloadSamples(); break;
+			case GSEV_LIBRARY_CLEAR: this.#clear(); break;
+			case GSEV_LIBRARY_LOADSAMPLE: this.#loadSample( a ); break;
+			case GSEV_LIBRARY_PLAYSAMPLE: this.#playSample( a, b ); break;
+			case GSEV_LIBRARY_STOPSAMPLE: this.#stopSample( a ); break;
+			case GSEV_LIBRARY_READYSAMPLE: this.#readySample( a ); break;
+			case GSEV_LIBRARY_FAVSAMPLE: this.#favSample( a, b ); break;
+		}
+	}
 
 	// .........................................................................
 	#initReorder() {
@@ -81,16 +93,16 @@ class gsuiLibrary extends gsui0ne {
 	}
 
 	// .........................................................................
-	$clear() {
+	#clear() {
 		this.#idFavs.clear();
 		this.$elements.$body.$empty();
 	}
-	$unloadSamples() {
+	#unloadSamples() {
 		this.$elements.$body.$query( "gsui-library-sample" )
 			.$rmAttr( "loading", "ready" )
 			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}
-	$setLibrary( lib ) {
+	#setLibrary( lib ) {
 		let lastSep = $noop;
 		const prevLastSep = this.$elements.$body.$query( "gsui-library-sep" ).$at( -1 );
 		const el = lib.map( smp => {
@@ -113,28 +125,28 @@ class gsuiLibrary extends gsui0ne {
 	#getSample( id ) {
 		return this.$elements.$body.$query( `[data-id="${ id }"]` );
 	}
-	$bookmarkSample( id, b ) {
+	#favSample( id, b ) {
 		b
 			? this.#idFavs.set( id )
 			: this.#idFavs.delete( id );
 		this.#getSample( id ).$setAttr( "favorite", b );
 	}
-	$loadSample( id ) {
+	#loadSample( id ) {
 		this.#getSample( id ).$setAttr( {
 			loading: true,
 			"data-tooltip": GSTX.$loading,
 		} );
 	}
-	$readySample( id ) {
+	#readySample( id ) {
 		this.#getSample( id )
 			.$rmAttr( "loading" )
 			.$addAttr( "ready" )
 			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}
-	$playSample( id, dur ) {
+	#playSample( id, dur ) {
 		const el = this.#getSample( id );
 
-		this.$stopSample();
+		this.#stopSample();
 		this.#idPlaying = id;
 		this.#elCursor = $( "<gsui-library-sample-cursor>" ).$css( {
 			left: "0%",
@@ -142,9 +154,9 @@ class gsuiLibrary extends gsui0ne {
 		} );
 		el.$addAttr( "playing" ).$append( this.#elCursor );
 		GSUsetTimeout( () => this.#elCursor.$left( "100%" ), .01 );
-		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
+		this.#stopTimeout = GSUsetTimeout( this.#stopSample.bind( this ), dur );
 	}
-	$stopSample() {
+	#stopSample() {
 		if ( this.#idPlaying ) {
 			const el = this.#getSample( this.#idPlaying );
 

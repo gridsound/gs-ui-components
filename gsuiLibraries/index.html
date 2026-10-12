@@ -11,16 +11,16 @@
 
 <script>
 const elLibs = $( "gsui-libraries" );
-const elLibDef = elLibs.$get( 0 ).$getLibrary( "default" );
+const elLibDef = elLibs.$message( GSEV_LIBRARIES_GET, "default" );
 
-elLibDef.$setLibrary( gsuiLibrarySamples );
+elLibDef.$message( GSEV_LIBRARY_LOAD, gsuiLibrarySamples );
 elLibs.$listen( {
 	[ GSEV_LIBRARY_LOADSAMPLE ]: ( _, smp ) => {
-		elLibDef.$loadSample( smp );
-		GSUsetTimeout( () => elLibDef.$readySample( smp ), 1 );
+		elLibDef.$message( GSEV_LIBRARY_LOADSAMPLE, smp );
+		GSUsetTimeout( () => elLibDef.$message( GSEV_LIBRARY_READYSAMPLE, smp ), 1 );
 	},
 	[ GSEV_LIBRARY_PLAYSAMPLE ]: ( _, smp ) => {
-		elLibDef.$playSample( smp, 1 );
+		elLibDef.$message( GSEV_LIBRARY_PLAYSAMPLE, smp, 1 );
 	},
 } );
 </script>
