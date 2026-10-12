@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="gsuiIcon/gsuiIcon.css"/>
 <link rel="stylesheet" href="gsuiCursor/gsuiCursor.css"/>
 <link rel="stylesheet" href="gsuiRipple/gsuiRipple.css"/>
-<link rel="stylesheet" href="gsuiComButton/gsuiComButton.css"/>
+<link rel="stylesheet" href="gsuiButton/gsuiButton.css"/>
 <!-- ....................................................................... -->
 </head>
 <body>
@@ -28,7 +28,7 @@
 <script src="gsui0ne/gsui0ne.js"></script>
 <!-- ....................................................................... -->
 <script src="gsuiRipple/gsuiRipple.js"></script>
-<script src="gsuiComButton/gsuiComButton.js"></script>
+<script src="gsuiButton/gsuiButton.js"></script>
 <!-- ....................................................................... -->
 <script>
 "use strict";
@@ -36,11 +36,11 @@
 $body.$setAttr( "data-skin", localStorage.getItem( "skin" ) || "gray" )
 	.$append(
 		$.$flex( { y: true, g10: true, style: "padding:16px" },
-			$.$elem( "gs-label", null, "gsui-com-button" ),
+			$.$elem( "gs-label", null, "gsui-button" ),
 			$.$flex( { x: true, g10: true },
-				$.$elem( "gsui-com-button", { text: "hello" } ),
-				$.$elem( "gsui-com-button", { text: "world", type: "submit", icon: "public" } ),
-				$.$elem( "gsui-com-button", { type: "danger", icon: "render" } ),
+				$.$elem( "gsui-button", { text: "hello" } ),
+				$.$elem( "gsui-button", { text: "world", type: "submit", icon: "public" } ),
+				$.$elem( "gsui-button", { type: "danger", icon: "render" } ),
 			),
 			$.$elem( "gs-label", null, "input[ type=radio ]" ),
 			$.$elem( "gs-label", null, "input[ type=checkbox ]" ),

@@ -27,17 +27,17 @@ gsui-periodicwave {
 
 <div id="TryControls">
 	<gs-flex x g4>
-		<gsui-com-button icon="wave-sin" data-w="sine"></gsui-com-button>
-		<gsui-com-button icon="wave-tri" data-w="triangle"></gsui-com-button>
-		<gsui-com-button icon="wave-saw" data-w="sawtooth"></gsui-com-button>
-		<gsui-com-button icon="wave-squ" data-w="square"></gsui-com-button>
+		<gsui-button icon="wave-sin" data-w="sine"></gsui-button>
+		<gsui-button icon="wave-tri" data-w="triangle"></gsui-button>
+		<gsui-button icon="wave-saw" data-w="sawtooth"></gsui-button>
+		<gsui-button icon="wave-squ" data-w="square"></gsui-button>
 	</gs-flex>
 </div>
 
 <script>
 const el = $( "gsui-periodicwave" );
 const ctrl = $( "#TryControls" );
-const btns = ctrl.$query( "gsui-com-button" );
+const btns = ctrl.$query( "gsui-button" );
 const inps = $( [
 	[ "nbPts",  "nbPts",      2, 512, 1.00, 200 ],
 	[ "dur",    "duration",   1,  16, 0.01,   1 ],
