@@ -99,11 +99,16 @@ class gsuiSVGPatterns {
 			case "automation": gsuiSVGPatterns.#update2( def, id, dur * 10, 1, ...gsuiSVGPatternsAutomation.$render( data, dur ) ); break;
 			case "buffer":
 			case "bufferHD": {
+				const grp = $( $.$elem( "g", null,
+					$.$elem( "path" ),
+					$.$elem( "path" ),
+				) );
 				const polygon = $( "<polygon>" );
 				const w = type === "buffer" ? data.duration * 48 | 0 : 260;
+				const pathData = gsuiWaveform.$getPathChans( data, w, 48 );
 
-				gsuiWaveform.$wfSetPolygonPointsFromBuffer( polygon, w, 48, data );
-				gsuiSVGPatterns.#update2( def, id, w, 48, polygon.$get( 0 ) );
+				grp.$children().$setAttr( "d", ( _, i ) => `M${ pathData[ i ].replaceAll( ",", "L" ) }` );
+				gsuiSVGPatterns.#update2( def, id, w, 48, grp );
 				break;
 			}
 		}
