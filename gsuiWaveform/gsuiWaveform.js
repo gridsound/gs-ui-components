@@ -1,6 +1,55 @@
 "use strict";
 
-class gsuiWaveform {
+class gsuiWaveform extends gsui0ne {
+	#w = 0;
+	#h = 0;
+
+	constructor() {
+		super( {
+			$tagName: "gsui-waveform",
+			$template: $.$elem( "svg", { preserveAspectRatio: "none" },
+				$.$elem( "path" ),
+				$.$elem( "path" ),
+			),
+			$elements: {
+				$svg: "svg",
+				$paths: "path",
+			},
+		} );
+	}
+
+	// .........................................................................
+	static get observedAttributes() {
+		return [ "res" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "res": this.#setResolution( val ); break;
+		}
+	}
+	$onmessage( key, a, b, c ) {
+		switch ( key ) {
+			case GSEV_WAVEFORM_DRAW: this.#draw( a, b, c ); break;
+		}
+	}
+
+	// .........................................................................
+	#setResolution( v ) {
+		const [ w, h ] = GSUsplitNums( v );
+
+		this.#w = w;
+		this.#h = h;
+		this.$elements.$svg.$viewbox( w, h );
+	}
+	#draw( buf, a = 0, b = 1 ) {
+		if ( buf ) {
+			const data = gsuiWaveform.$getPathChans( buf, this.#w, this.#h, a * buf.duration, b * buf.duration );
+
+			this.$elements.$paths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
+		}
+	}
+
+	// .........................................................................
 	static $getPathChans( buf, w, h, start, duration ) {
 		const bufDur = buf.duration;
 		const sta = start ?? 0;
@@ -79,3 +128,5 @@ class gsuiWaveform {
 		return +n.toFixed( 2 );
 	}
 }
+
+$.$define( "gsui-waveform", gsuiWaveform );
