@@ -11,7 +11,7 @@ const componentList = Object.freeze( [
 	"gsuiChannel",
 	"gsuiClock",
 	"gsuiComAvatar",
-	"gsuiComButton",
+	"gsuiButton",
 	"gsuiComPlayer",
 	"gsuiComProfile",
 	"gsuiComUserLink",

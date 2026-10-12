@@ -11,7 +11,7 @@
 gsui-buttons {
 	display: flex;
 
-	gsui-com-button {
+	gsui-button {
 		&:has( + * ) {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
@@ -30,8 +30,8 @@ gsui-buttons {
 	}
 }
 
-gsui-com-button {
-	--gsuiComButton-brdBottom-w: 3px;
+gsui-button {
+	--brd-bot-w: 3px;
 	--pad: 10px;
 	--w: auto;
 	display: inline-flex;
@@ -69,7 +69,7 @@ gsui-com-button {
 			box-sizing: border-box;
 			display: flex;
 			width: var( --w );
-			height: calc( 100% - var( --gsuiComButton-brdBottom-w ) );
+			height: calc( 100% - var( --brd-bot-w ) );
 			align-items: center;
 			justify-content: center;
 			gap: .6ch;
@@ -80,7 +80,7 @@ gsui-com-button {
 			font-size: 14px;
 			font-weight: bold;
 			background-color: var( --btn-colorA );
-			box-shadow: 0 var( --gsuiComButton-brdBottom-w ) 0 var( --btn-colorB );
+			box-shadow: 0 var( --brd-bot-w ) 0 var( --btn-colorB );
 			transition:
 				.2s border-color,
 				.07s box-shadow,
@@ -98,7 +98,7 @@ gsui-com-button {
 	button:active > div,
 	button[ data-active ] > div {
 		border-color: transparent;
-		translate: 0 var( --gsuiComButton-brdBottom-w );
+		translate: 0 var( --brd-bot-w );
 		box-shadow: 0 0 0 var( --btn-colorB );
 	}
 	&[ disabled ] button > div {
@@ -117,14 +117,14 @@ gsui-com-button {
 			#0002 20px
 		);
 		background-size: 28px;
-		animation: linear infinite .5s gsuiComButton-loading-anim;
+		animation: linear infinite .5s gsui-button-loading-anim;
 	}
 	span:not( .gsuiRipple-circle ):empty {
 		display: none;
 	}
 }
 
-@keyframes gsuiComButton-loading-anim {
+@keyframes gsui-button-loading-anim {
 	000% { background-position: 0 }
 	100% { background-position: 28px }
 }

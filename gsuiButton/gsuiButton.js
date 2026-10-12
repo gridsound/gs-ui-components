@@ -1,11 +1,11 @@
 "use strict";
 
-class gsuiComButton extends gsui0ne {
+class gsuiButton extends gsui0ne {
 	#href = null;
 
 	constructor() {
 		super( {
-			$tagName: "gsui-com-button",
+			$tagName: "gsui-button",
 			$template: $.$button( null,
 				$.$div( { inert: true },
 					$.$span(),
@@ -64,4 +64,4 @@ class gsuiComButton extends gsui0ne {
 	}
 }
 
-$.$define( "gsui-com-button", gsuiComButton );
+$.$define( "gsui-button", gsuiButton );
