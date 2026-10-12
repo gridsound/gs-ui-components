@@ -1,8 +1,6 @@
 "use strict";
 
 class gsuiBufferView extends gsui0ne {
-	#w = 100;
-	#h = 100;
 	#buf = null;
 	#viewA = 0;
 	#viewB = 1;
@@ -22,17 +20,11 @@ class gsuiBufferView extends gsui0ne {
 			$tagName: "gsui-buffer-view",
 			$template: $.$elem( "gsui-bv-in", null,
 				$.$elem( "gsui-bv-body", { "data-prop": "body-move" },
-					$.$elem( "svg", { preserveAspectRatio: "none" },
-						$.$elem( "path" ),
-						$.$elem( "path" ),
-					),
+					$.$elem( "gsui-waveform" ),
 					$.$elem( "gsui-bv-selection" ),
 				),
 				$.$elem( "gsui-bv-minimap", { "data-prop": "map-teleport" },
-					$.$elem( "svg", { preserveAspectRatio: "none" },
-						$.$elem( "path" ),
-						$.$elem( "path" ),
-					),
+					$.$elem( "gsui-waveform" ),
 					$.$elem( "gsui-bv-selection" ),
 					$.$elem( "gsui-bv-minimap-view", { "data-prop": "map-move" },
 						$.$div( { "data-prop": "map-start" } ),
@@ -42,11 +34,9 @@ class gsuiBufferView extends gsui0ne {
 			),
 			$elements: {
 				$in: "gsui-bv-in",
-				$SVGs: "svg",
-				$mainSVG: "gsui-bv-body svg",
-				$mainPaths: "gsui-bv-body path",
+				$waveBody: "gsui-bv-body gsui-waveform",
+				$waveMini: "gsui-bv-minimap gsui-waveform",
 				$minimap: "gsui-bv-minimap",
-				$minimapPaths: "gsui-bv-minimap path",
 				$minimapView: "gsui-bv-minimap-view",
 				$body: "gsui-bv-body",
 				$bodySel: "gsui-bv-body gsui-bv-selection",
@@ -80,9 +70,10 @@ class gsuiBufferView extends gsui0ne {
 		}
 	}
 	$onresize() {
-		this.#w = this.$elements.$body.$width();
-		this.#h = this.$elements.$body.$height();
-		this.$elements.$SVGs.$viewbox( this.#w, this.#h );
+		const w = this.$elements.$body.$width();
+
+		this.$elements.$waveBody.$setAttr( "res", `${ w } ${ this.$elements.$body.$height() }` );
+		this.$elements.$waveMini.$setAttr( "res", `${ w } ${ this.$elements.$minimap.$height() }` );
 		this.#updateBodyWaveform();
 		this.#updateMiniWaveform();
 	}
@@ -152,19 +143,10 @@ class gsuiBufferView extends gsui0ne {
 
 	// .........................................................................
 	#updateBodyWaveform() {
-		if ( this.#buf ) {
-			const dur = this.#buf.duration;
-			const data = gsuiWaveform.$getPathChans( this.#buf, this.#w, this.#h, this.#viewA * dur, this.#viewB * dur );
-
-			this.$elements.$mainPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
-		}
+		this.$elements.$waveBody.$message( GSEV_WAVEFORM_DRAW, this.#buf, this.#viewA, this.#viewB );
 	}
 	#updateMiniWaveform() {
-		if ( this.#buf ) {
-			const data = gsuiWaveform.$getPathChans( this.#buf, this.#w, this.#h );
-
-			this.$elements.$minimapPaths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
-		}
+		this.$elements.$waveMini.$message( GSEV_WAVEFORM_DRAW, this.#buf );
 	}
 	#updateMiniView() {
 		this.$elements.$minimapView

@@ -1,30 +1,11 @@
 gsui-buffer-view {
 	display: block;
 	height: 100%;
-	--gsui-bv-col-l: #c13333;
-	--gsui-bv-col-r: #3524ff;
 
 	gsui-bv-in {
 		display: flex;
 		height: 100%;
 		flex-direction: column;
-
-		svg {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			pointer-events: none;
-
-			path {
-				color: var( --gsui-bv-col-l );
-				fill: currentColor;
-				mix-blend-mode: exclusion;
-
-				& + path {
-					color: var( --gsui-bv-col-r );
-				}
-			}
-		}
 	}
 
 	gsui-bv-body {
