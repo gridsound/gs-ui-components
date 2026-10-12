@@ -75,7 +75,7 @@ gsui-library {
 }
 
 /* .......................................................................... */
-.gsuiLibrary-sample {
+gsui-library-sample {
 	--gsuiTooltip-pos: right;
 	position: relative;
 	display: flex;
@@ -100,7 +100,7 @@ gsui-library {
 		pointer-events: auto;
 	}
 	&[ data-loading ] {
-		animation: .2s alternate infinite gsuiLibrary-sample-loading-anim;
+		animation: .2s alternate infinite gsui-library-sample-loading-anim;
 	}
 	&::after {
 		position: relative;
@@ -126,39 +126,33 @@ gsui-library {
 		background-color: var( --gsuiLibrary-sample-fav );
 		opacity: 1;
 	}
+	svg {
+		position: absolute;
+		fill: currentColor;
+		width: 100%;
+		height: 100%;
+		opacity: .2;
+		pointer-events: none;
+
+		gsui-library-sample[ data-fav ] & {
+			fill: var( --gsuiLibrary-sample-fav );
+			opacity: .4;
+		}
+		gsui-library-sample:hover & {
+			opacity: .4;
+		}
+		gsui-library-sample[ data-fav ]:hover & {
+			opacity: .6;
+		}
+	}
 }
-@keyframes gsuiLibrary-sample-loading-anim {
+@keyframes gsui-library-sample-loading-anim {
 	0% { background-color: none; }
 	100% { background-color: var( --gsuiLibrary-sample-hover-bg ); }
 }
 
 /* .......................................................................... */
-.gsuiLibrary-sample-wave {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-.gsuiLibrary-sample-svg {
-	position: absolute;
-	fill: currentColor;
-	width: 100%;
-	height: 100%;
-	opacity: .2;
-
-	.gsuiLibrary-sample[ data-fav ] & {
-		fill: var( --gsuiLibrary-sample-fav );
-		opacity: .4;
-	}
-	.gsuiLibrary-sample:hover & {
-		opacity: .4;
-	}
-	.gsuiLibrary-sample[ data-fav ]:hover & {
-		opacity: .6;
-	}
-}
-
-/* .......................................................................... */
-.gsuiLibrary-sample-cursor {
+gsui-library-sample-cursor {
 	display: none;
 	position: absolute;
 	left: 0;
@@ -169,7 +163,7 @@ gsui-library {
 	transition: 0s linear left;
 	pointer-events: none;
 
-	.gsuiLibrary-sample-playing & {
+	gsui-library-sample[ playing ] & {
 		display: block;
 	}
 	&::before {

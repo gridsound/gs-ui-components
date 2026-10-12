@@ -17,11 +17,9 @@ $.$setTemplate( "gsui-library-sep", id =>
 );
 
 $.$setTemplate( "gsui-library-sample", o =>
-	$.$div( { class: "gsuiLibrary-sample", "data-id": o.id, "data-expanded": true, "data-name": o.name, "data-tooltip": o.name },
-		$.$div( { class: "gsuiLibrary-sample-wave", inert: true },
-			$.$elem( "svg", { class: "gsuiLibrary-sample-svg", viewBox: "0 0 40 10", preserveAspectRatio: "none" },
-				$.$elem( "polygon", { class: "gsuiLibrary-sample-poly", points: o.points } ),
-			),
+	$.$elem( "gsui-library-sample", { "data-id": o.id, "data-expanded": true, "data-name": o.name, "data-tooltip": o.name },
+		$.$elem( "svg", { viewBox: "0 0 40 10", preserveAspectRatio: "none" },
+			$.$elem( "polygon", { points: o.points } ),
 		),
 	)
 );

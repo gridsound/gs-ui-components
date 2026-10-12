@@ -39,7 +39,7 @@ class gsuiLibrary extends gsui0ne {
 			$root: this.$elements.$body,
 			$pxDelay: 6,
 			$parentSelector: ".gsuiLibrary-body",
-			$itemSelector: ".gsuiLibrary-sample",
+			$itemSelector: "gsui-library-sample",
 			$getTargetList: () => $( [
 				$( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
 				$( "gsui-slicer" ),
@@ -87,7 +87,7 @@ class gsuiLibrary extends gsui0ne {
 		this.$elements.$body.$empty();
 	}
 	$unloadSamples() {
-		this.$elements.$body.$query( ".gsuiLibrary-sample" )
+		this.$elements.$body.$query( "gsui-library-sample" )
 			.$rmAttr( "data-loading", "data-ready" )
 			.$setAttr( "data-tooltip", el => el.dataset.name );
 	}
@@ -137,13 +137,11 @@ class gsuiLibrary extends gsui0ne {
 
 		this.$stopSample();
 		this.#idPlaying = id;
-		this.#elCursor = $( "<div>" )
-			.$addClass( "gsuiLibrary-sample-cursor" )
-			.$css( {
-				left: "0%",
-				transitionDuration: `${ dur }s`,
-			} );
-		el.$addClass( "gsuiLibrary-sample-playing" ).$append( this.#elCursor );
+		this.#elCursor = $( "<gsui-library-sample-cursor>" ).$css( {
+			left: "0%",
+			transitionDuration: `${ dur }s`,
+		} );
+		el.$addAttr( "playing" ).$append( this.#elCursor );
 		GSUsetTimeout( () => this.#elCursor.$left( "100%" ), .01 );
 		this.#stopTimeout = GSUsetTimeout( this.$stopSample.bind( this ), dur );
 	}
@@ -153,7 +151,7 @@ class gsuiLibrary extends gsui0ne {
 
 			GSUclearTimeout( this.#stopTimeout );
 			this.#elCursor.$remove();
-			el.$rmClass( "gsuiLibrary-sample-playing" );
+			el.$rmAttr( "playing" );
 			this.#elCursor =
 			this.#idPlaying =
 			this.#stopTimeout = null;
@@ -166,8 +164,8 @@ class gsuiLibrary extends gsui0ne {
 
 		if ( el.$tag() === "button" ) {
 			el.$parent().$togAttr( "data-expanded" )
-				.$nextUntil( ":not(.gsuiLibrary-sample)" ).$togAttr( "data-expanded" );
-		} else if ( el.$hasClass( "gsuiLibrary-sample" ) && !el.$hasAttr( "data-loading" ) ) {
+				.$nextUntil( ":not(gsui-library-sample)" ).$togAttr( "data-expanded" );
+		} else if ( el.$tag() === "gsui-library-sample" && !el.$hasAttr( "data-loading" ) ) {
 			const act = el.$hasAttr( "data-ready" )
 				? GSEV_LIBRARY_PLAYSAMPLE
 				: GSEV_LIBRARY_LOADSAMPLE;
@@ -177,7 +175,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	#oncontextmenu( e ) {
 		e.preventDefault();
-		if ( $( e.target ).$hasClass( "gsuiLibrary-sample" ) ) {
+		if ( $.$tag( e.target ) === "gsui-library-sample" ) {
 			this.$this.$dispatch( GSEV_LIBRARY_STOPSAMPLE );
 		}
 	}
