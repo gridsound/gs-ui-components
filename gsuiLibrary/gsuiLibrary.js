@@ -34,7 +34,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$onmessage( evt, a, b ) {
 		switch ( evt ) {
-			case GSEV_LIBRARY_LOAD: this.#setLibrary( a ); break;
+			case GSEV_LIBRARY_LOAD: this.#setSamples( a ); break;
 			case GSEV_LIBRARY_UNLOAD: this.#unloadSamples(); break;
 			case GSEV_LIBRARY_CLEAR: this.#clear(); break;
 			case GSEV_LIBRARY_LOADSAMPLE: this.#loadSample( a ); break;
@@ -102,7 +102,7 @@ class gsuiLibrary extends gsui0ne {
 			.$rmAttr( "loading", "ready" )
 			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}
-	#setLibrary( lib ) {
+	#setSamples( lib ) {
 		let lastSep = $noop;
 		const prevLastSep = this.$elements.$body.$query( "gsui-library-sep" ).$at( -1 );
 		const el = lib.map( smp => {
@@ -110,7 +110,7 @@ class gsuiLibrary extends gsui0ne {
 				? ( lastSep = $( $.$getTemplate( "gsui-library-sep", smp ) ) )
 				: $( $.$getTemplate( "gsui-library-sample", {
 					$id: smp[ 0 ],
-					$points: smp[ 1 ],
+					$data: smp[ 1 ],
 					$name: smp[ 2 ] || smp[ 0 ],
 				} ) ).$setAttr( "favorite", this.#idFavs.has( smp[ 0 ] ) );
 		} );
