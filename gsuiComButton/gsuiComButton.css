@@ -8,6 +8,28 @@
 	--btn-danger-colorB: hsl( 0, 68%, 42% );
 }
 
+gsui-buttons {
+	display: flex;
+
+	gsui-com-button {
+		&:has( + * ) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		& + * {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+		& + * button::after {
+			content: "";
+			position: absolute;
+			inset: 0 auto 2px 0;
+			width: 1px;
+			background-color: var( --btn-colorB );
+		}
+	}
+}
+
 gsui-com-button {
 	--gsuiComButton-brdBottom-w: 3px;
 	--pad: 10px;
@@ -70,6 +92,7 @@ gsui-com-button {
 		}
 	}
 	button:focus > div {
+		z-index: 1;
 		border-color: #fff8;
 	}
 	button:active > div,
