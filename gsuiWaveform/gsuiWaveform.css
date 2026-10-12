@@ -13,15 +13,18 @@ gsui-waveform {
 		position: absolute;
 		width: 100%;
 		height: 100%;
+	}
+}
 
-		path {
-			color: var( --gsui-waveform-l );
-			fill: currentColor;
-			mix-blend-mode: exclusion;
+.gsui-waveform,
+gsui-waveform {
+	path {
+		color: var( --gsui-waveform-l );
+		fill: currentColor;
+		mix-blend-mode: exclusion;
 
-			& + path {
-				color: var( --gsui-waveform-r );
-			}
+		& + path {
+			color: var( --gsui-waveform-r );
 		}
 	}
 }
