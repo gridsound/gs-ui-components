@@ -32,7 +32,7 @@ class gsuiWaveform extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "res": this.#setResolution( val ); break;
+			case "res": this.#setResolution( ...GSUsplitInts( val ) ); break;
 			case "view": this.#setView( ...GSUsplitNums( val ) ); break;
 		}
 	}
@@ -52,15 +52,13 @@ class gsuiWaveform extends gsui0ne {
 	#setBuffer( buf ) {
 		if ( buf ) {
 			this.#refBuf = new WeakRef( buf );
-			this.#setResolution( this.$this.$getAttr( "res" ) );
+			this.#setResolution( this.$this.$width(), this.$this.$height() );
 		} else {
 			this.#refBuf = null
 			this.$elements.$paths.$rmAttr( "d" );
 		}
 	}
-	#setResolution( v ) {
-		const [ w, h ] = GSUsplitNums( v );
-
+	#setResolution( w, h ) {
 		this.#w = w;
 		this.#h = h;
 		this.$elements.$svg.$viewbox( w, h );
