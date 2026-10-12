@@ -15,11 +15,15 @@
 <script>
 const uiBufView = $( "gsui-buffer-view" );
 const ctx = new AudioContext();
+let bufSave; // because WeakRef;
 
 // fetch( "test-assets/808kick.wav" )
 fetch( "test-assets/left-to-right.mp3" )
 // fetch( "test-assets/Rally House.mp3" )
 	.then( res => res.arrayBuffer() )
 	.then( arr => ctx.decodeAudioData( arr ) )
-	.then( buf => uiBufView.$message( GSEV_BUFFERVIEW_BUFFER, buf ) );
+	.then( buf => {
+		bufSave = buf;
+		uiBufView.$message( GSEV_BUFFERVIEW_BUFFER, buf );
+	} );
 </script>
