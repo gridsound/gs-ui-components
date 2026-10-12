@@ -13,9 +13,7 @@ class gsuiScratch extends gsui0ne {
 	#ptrSpeedA = 1;
 	#ptrSpeedB = 1;
 	#currentTime = 0;
-	#w = 0;
-	#h = 0;
-	#wSec = 1;
+	#w = 100;
 	#speed = 1;
 
 	constructor() {
@@ -29,11 +27,7 @@ class gsuiScratch extends gsui0ne {
 					$.$span(),
 				),
 				$.$elem( "gsui-scratch-graph", null,
-					$.$elem( "svg", { preserveAspectRatio: "none", inert: true },
-						$.$elem( "polygon" ),
-						$.$elem( "path" ),
-						$.$elem( "path" ),
-					),
+					$.$elem( "gsui-waveform" ),
 					$.$span( { inert: true }, GSTX.$loading ),
 					$.$elem( "gsui-scratch-timeline", { inert: true } ),
 				),
@@ -46,8 +40,7 @@ class gsuiScratch extends gsui0ne {
 				$bpmSlider: "gsui-scratch-speed gsui-slider",
 				$bpmValue: "gsui-scratch-speed > span",
 				$closeBtn: "[data-action=close]",
-				$svg: "svg",
-				$paths: "path",
+				$wave: "gsui-waveform",
 			},
 		} );
 		this.$elements.$bpmSlider.$listen( {
@@ -99,23 +92,21 @@ class gsuiScratch extends gsui0ne {
 		this.#audioElemRev = $noop;
 	}
 	$onresize() {
-		const bcr = this.$elements.$graph.$bcr();
-
-		this.#w = bcr.w;
-		this.#h = bcr.h;
-		this.#wSec = bcr.w / 100;
-		this.$elements.$svg.$viewbox( this.#w, this.#h );
-		this.#drawWaveform();
+		this.#w = this.$elements.$graph.$bcr().w;
 	}
 	$onmessage( ev, val ) {
 		switch ( ev ) {
-			case GSEV_SCRATCH_LOAD:
-				this.#load( val );
-				break;
+			case GSEV_SCRATCH_LOAD: this.#load( val ); break;
 		}
 	}
 
 	// .........................................................................
+	#drawWaveform() {
+		const a = this.#currentTime / this.#dur;
+		const gap = this.#w / this.#dur / 100;
+
+		this.$elements.$wave.$setAttr( "view", `${ a - gap / 2 } ${ gap }` );
+	}
 	#onchangeSlider( _, val ) {
 		this.#speed = val;
 		this.#updateBPM();
@@ -179,19 +170,13 @@ class gsuiScratch extends gsui0ne {
 				this.#audiobufURL = urlRev;
 				this.#audioElemRev = audioRev;
 				this.#intervalId = GSUsetInterval( this.#frameBind, 1 / 60 );
+				this.$elements.$wave.$message( GSEV_WAVEFORM_BUFFER, buf );
 				this.#drawWaveform();
 			} )
 			.finally( () => {
 				ctx.close();
 				this.$this.$rmAttr( "loading" );
 			} );
-	}
-	#drawWaveform() {
-		if ( this.#audiobuf ) {
-			const data = gsuiWaveform.$getPathChans( this.#audiobuf, this.#w, this.#h, this.#currentTime - this.#wSec / 2, this.#wSec );
-
-			this.$elements.$paths.$setAttr( "d", ( _, i ) => `M${ data[ i ].replaceAll( ",", "L" ) }` );
-		}
 	}
 }
 
