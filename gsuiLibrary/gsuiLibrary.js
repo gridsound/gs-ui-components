@@ -10,8 +10,8 @@ class gsuiLibrary extends gsui0ne {
 		super( {
 			$tagName: "gsui-library",
 			$elements: {
-				$body: ".gsuiLibrary-body",
-				$placeholder: ".gsuiLibrary-placeholder",
+				$body: "gsui-library-body",
+				$placeholder: "gsui-library-placeholder",
 			},
 		} );
 		this.#initReorder();
@@ -38,7 +38,7 @@ class gsuiLibrary extends gsui0ne {
 		new gsuiReorder( {
 			$root: this.$elements.$body,
 			$pxDelay: 6,
-			$parentSelector: ".gsuiLibrary-body",
+			$parentSelector: "gsui-library-body",
 			$itemSelector: "gsui-library-sample",
 			$getTargetList: () => $( [
 				$( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
@@ -52,7 +52,7 @@ class gsuiLibrary extends gsui0ne {
 			$ondrop: drop => {
 				const tar = drop.$target;
 				const tag = tar.$tag();
-				const $name = `${ drop.$itemElement.$dataId() }:${ drop.$itemElement.$getAttr( "data-name" ) }`;
+				const $name = `${ drop.$itemElement.$dataId() }:${ drop.$itemElement.$getAttr( "name" ) }`;
 				const obj = { $name };
 
 				if ( tag === "gsui-slicer" ) {
@@ -87,20 +87,20 @@ class gsuiLibrary extends gsui0ne {
 	}
 	$unloadSamples() {
 		this.$elements.$body.$query( "gsui-library-sample" )
-			.$rmAttr( "data-loading", "data-ready" )
-			.$setAttr( "data-tooltip", el => el.dataset.name );
+			.$rmAttr( "loading", "ready" )
+			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}
 	$setLibrary( lib ) {
 		let lastSep = $noop;
-		const prevLastSep = this.$elements.$body.$query( ".gsuiLibrary-sep" ).$at( -1 );
+		const prevLastSep = this.$elements.$body.$query( "gsui-library-sep" ).$at( -1 );
 		const el = lib.map( smp => {
 			return GSUisStr( smp )
 				? ( lastSep = $( $.$getTemplate( "gsui-library-sep", smp ) ) )
 				: $( $.$getTemplate( "gsui-library-sample", {
-					id: smp[ 0 ],
-					points: smp[ 1 ],
-					name: smp[ 2 ] || smp[ 0 ],
-				} ) ).$setAttr( "data-fav", this.#idFavs.has( smp[ 0 ] ) );
+					$id: smp[ 0 ],
+					$points: smp[ 1 ],
+					$name: smp[ 2 ] || smp[ 0 ],
+				} ) ).$setAttr( "favorite", this.#idFavs.has( smp[ 0 ] ) );
 		} );
 
 		this.$elements.$body.$append( ...el );
@@ -117,19 +117,19 @@ class gsuiLibrary extends gsui0ne {
 		b
 			? this.#idFavs.set( id )
 			: this.#idFavs.delete( id );
-		this.#getSample( id ).$setAttr( "data-fav", b );
+		this.#getSample( id ).$setAttr( "favorite", b );
 	}
 	$loadSample( id ) {
 		this.#getSample( id ).$setAttr( {
-			"data-loading": true,
+			loading: true,
 			"data-tooltip": GSTX.$loading,
 		} );
 	}
 	$readySample( id ) {
 		this.#getSample( id )
-			.$rmAttr( "data-loading" )
-			.$addAttr( "data-ready" )
-			.$setAttr( "data-tooltip", el => el.dataset.name );
+			.$rmAttr( "loading" )
+			.$addAttr( "ready" )
+			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}
 	$playSample( id, dur ) {
 		const el = this.#getSample( id );
@@ -162,10 +162,10 @@ class gsuiLibrary extends gsui0ne {
 		const el = $( e.target );
 
 		if ( el.$tag() === "button" ) {
-			el.$parent().$togAttr( "data-expanded" )
-				.$nextUntil( ":not(gsui-library-sample)" ).$togAttr( "data-expanded" );
-		} else if ( el.$tag() === "gsui-library-sample" && !el.$hasAttr( "data-loading" ) ) {
-			const act = el.$hasAttr( "data-ready" )
+			el.$parent().$togAttr( "expanded" )
+				.$nextUntil( ":not(gsui-library-sample)" ).$togAttr( "expanded" );
+		} else if ( el.$tag() === "gsui-library-sample" && !el.$hasAttr( "loading" ) ) {
+			const act = el.$hasAttr( "ready" )
 				? GSEV_LIBRARY_PLAYSAMPLE
 				: GSEV_LIBRARY_LOADSAMPLE;
 

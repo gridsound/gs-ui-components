@@ -5,7 +5,7 @@ gsui-library {
 }
 
 /* .......................................................................... */
-.gsuiLibrary-body {
+gsui-library-body {
 	flex: 1;
 	z-index: 0;
 	position: relative;
@@ -17,7 +17,7 @@ gsui-library {
 }
 
 /* .......................................................................... */
-.gsuiLibrary-placeholder {
+gsui-library-placeholder {
 	display: none;
 	align-items: center;
 	justify-content: center;
@@ -36,7 +36,7 @@ gsui-library {
 }
 
 /* .......................................................................... */
-.gsuiLibrary-sep {
+gsui-library-sep {
 	z-index: 1;
 	box-sizing: border-box;
 	width: 80px;
@@ -56,7 +56,7 @@ gsui-library {
 		opacity: .3;
 		pointer-events: none;
 	}
-	&[ data-expanded ] gsui-icon {
+	&[ expanded ] gsui-icon {
 		rotate: 90deg;
 	}
 	span {
@@ -94,12 +94,12 @@ gsui-library-sample {
 		opacity .3s,
 		background-color .2s;
 
-	&[ data-expanded ] {
+	&[ expanded ] {
 		margin-top: 0;
 		opacity: 1;
 		pointer-events: auto;
 	}
-	&[ data-loading ] {
+	&[ loading ] {
 		animation: .2s alternate infinite gsui-library-sample-loading-anim;
 	}
 	&::after {
@@ -120,7 +120,7 @@ gsui-library-sample {
 	&:hover::after {
 		opacity: 1;
 	}
-	&[ data-fav ]::after {
+	&[ favorite ]::after {
 		color: var( --gsuiLibrary-bg );
 		font-weight: bold;
 		background-color: var( --gsuiLibrary-sample-fav );
@@ -134,14 +134,14 @@ gsui-library-sample {
 		opacity: .2;
 		pointer-events: none;
 
-		gsui-library-sample[ data-fav ] & {
+		gsui-library-sample[ favorite ] & {
 			fill: var( --gsuiLibrary-sample-fav );
 			opacity: .4;
 		}
 		gsui-library-sample:hover & {
 			opacity: .4;
 		}
-		gsui-library-sample[ data-fav ]:hover & {
+		gsui-library-sample[ favorite ]:hover & {
 			opacity: .6;
 		}
 	}
