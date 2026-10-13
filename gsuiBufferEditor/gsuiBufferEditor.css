@@ -1,10 +1,23 @@
 gsui-buffer-editor {
 	display: block;
 	height: 100%;
+	background-color: #22222a;
 
 	gsui-be-in {
 		display: flex;
 		height: 100%;
 		flex-direction: column;
+	}
+	gsui-be-head {
+		display: flex;
+		align-items: center;
+		justify-content: end;
+		min-height: 34px;
+		gap: 12px;
+	}
+	gsui-be-divider {
+		width: 1px;
+		height: 60%;
+		background-color: #fff3;
 	}
 }
