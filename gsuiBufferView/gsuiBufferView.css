@@ -22,7 +22,6 @@ gsui-buffer-view {
 		inset: 0 auto;
 		background-color: #f553;
 		backdrop-filter: sepia( .8 );
-		pointer-events: none;
 
 		&::before,
 		&::after {
@@ -45,6 +44,7 @@ gsui-buffer-view {
 
 		gsui-bv-selection {
 			opacity: .5;
+			pointer-events: none;
 		}
 	}
 
