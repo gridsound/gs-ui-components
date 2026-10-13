@@ -1,6 +1,10 @@
 "use strict";
 
 class gsuiBufferView extends gsui0ne {
+	#x_px = 0;
+	#w_px = 1;
+	#vx_px = 0;
+	#vw_px = 1;
 	#viewA = 0;
 	#viewB = 1;
 	#viewASave = 0;
@@ -8,10 +12,7 @@ class gsuiBufferView extends gsui0ne {
 	#selA = 0;
 	#selB = 1;
 	#ptrFn = null;
-	#mapBCR = null;
-	#mapPtrgap = 0;
-	#mapViewBCR = null;
-	#mapViewPtrgap = 0;
+	#ptrGap = 0;
 	#ptrList = new Map();
 
 	constructor() {
@@ -78,22 +79,34 @@ class gsuiBufferView extends gsui0ne {
 			$.$setPtrCapture( e.target, e.pointerId );
 			e.preventDefault();
 			if ( this.#ptrList.size === 1 ) {
-				this.#ptrFn = this.#getActionFn( act );
-				this.#mapBCR = this.$elements.$minimap.$bcr();
-				this.#mapViewBCR = this.$elements.$minimapView.$bcr();
-				this.#mapPtrgap = e.pageX - this.#mapBCR.x;
-				this.#mapViewPtrgap = e.pageX - this.#mapViewBCR.x;
+				const mapBCR = this.$elements.$minimap.$bcr();
+				const mapViewBCR = this.$elements.$minimapView.$bcr();
+
+				this.#x_px = mapBCR.x;
+				this.#w_px = mapBCR.w;
+				this.#vx_px = mapViewBCR.x;
+				this.#vw_px = mapViewBCR.w;
 				this.#viewASave = this.#viewA;
-				this.#ptrFn?.( e.pageX );
+				this.#ptrFn = this.#getActionFn( act );
+				this.#ptrGap = this.#calcPtrgap( e, act );
 				if ( GSUisOneOf( act, "body-move", "map-move", "map-teleport" ) ) {
 					$.$css( e.target, "cursor", "var(--gsuiCursor-grabbing)" );
 				}
+				this.#onptrmove( e );
 			}
 		}
 	}
+	#calcPtrgap( e, act ) {
+		if ( GSUisOneOf( act, "map-start", "map-end", "map-move" ) ) {
+			return e.pageX - this.#vx_px;
+		} else if ( act === "body-move" ) {
+			return e.pageX - this.#x_px;
+		}
+		return 0;
+	}
 	#onptrmove( e ) {
 		if ( this.#ptrList.size === 1 ) {
-			this.#ptrFn?.( e.pageX );
+			this.#ptrFn?.( ( e.pageX - this.#ptrGap - this.#x_px ) / this.#w_px );
 		}
 	}
 	#onptrup( e ) {
@@ -101,9 +114,7 @@ class gsuiBufferView extends gsui0ne {
 
 		this.#ptrList.forEach( ( tar, pid ) => $.$relPtrCapture( tar, pid ) );
 		this.#ptrList.clear();
-		this.#ptrFn =
-		this.#mapBCR =
-		this.#mapViewBCR = null;
+		this.#ptrFn = null;
 		$.$css( tar, "cursor", "" );
 	}
 
@@ -192,36 +203,32 @@ class gsuiBufferView extends gsui0ne {
 	#setView( a, b ) {
 		this.$this.$setAttr( "view", `${ a } ${ b }` );
 	}
-	#bodyMove( px ) {
-		const a = ( px - this.#mapPtrgap - this.#mapBCR.x ) / -( this.#mapBCR.w / this.#viewB );
-		const a2 = GSUmathClamp( this.#viewASave + a, 0, 1 - this.#viewB );
+	#bodyMove( n ) {
+		const a = GSUmathClamp( this.#viewASave + n * -this.#viewB, 0, 1 - this.#viewB );
 
-		this.#setView( a2, this.#viewB );
+		this.#setView( a, this.#viewB );
 	}
-	#minimapStart( px ) {
-		const a = ( px - this.#mapViewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
-		const a2 = GSUmathClamp( a, 0, this.#viewA + this.#viewB - this.#viewBMin );
-		const b = this.#viewB - ( a2 - this.#viewA );
+	#minimapStart( n ) {
+		const a = GSUmathClamp( n, 0, this.#viewA + this.#viewB - this.#viewBMin );
+		const b = this.#viewB - ( a - this.#viewA );
 
-		this.#setView( a2, b );
+		this.#setView( a, b );
 	}
-	#minimapEnd( px ) {
-		const b = ( px - this.#mapViewPtrgap - this.#mapBCR.x + this.#mapViewBCR.w ) / this.#mapBCR.w;
+	#minimapEnd( n ) {
+		const b = n + this.#vw_px / this.#w_px;
 		const b2 = GSUmathClamp( b - this.#viewA, this.#viewBMin, 1 - this.#viewA );
 
 		this.#setView( this.#viewA, b2 );
 	}
-	#minimapMove( px ) {
-		const a = ( px - this.#mapViewPtrgap - this.#mapBCR.x ) / this.#mapBCR.w;
-		const a2 = GSUmathClamp( a, 0, 1 - this.#viewB );
+	#minimapMove( n ) {
+		const a = GSUmathClamp( n, 0, 1 - this.#viewB );
 
-		this.#setView( a2, this.#viewB );
+		this.#setView( a, this.#viewB );
 	}
-	#minimapTeleport( px ) {
-		const a = ( px - this.#mapBCR.x ) / this.#mapBCR.w;
-		const a2 = GSUmathClamp( a - this.#viewB / 2, 0, 1 - this.#viewB );
+	#minimapTeleport( n ) {
+		const a = GSUmathClamp( n - this.#viewB / 2, 0, 1 - this.#viewB );
 
-		this.#setView( a2, this.#viewB );
+		this.#setView( a, this.#viewB );
 	}
 }
 
