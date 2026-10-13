@@ -191,10 +191,10 @@ class gsuiBufferView extends gsui0ne {
 		const bcr = this.$this.$bcr();
 		const x = ( pageX - bcr.x ) / bcr.w;
 		const b = this.#viewB;
-		const b2 = Math.max( b * scale, this.#viewBMin );
-		const a = this.#viewA + ( b - b2 ) * x;
+		const b2 = GSUmathClamp( b * scale, this.#viewBMin, 1 );
+		const a = GSUmathClamp( this.#viewA + ( b - b2 ) * x, 0, 1 );
 
-		this.#setView( a, b2 );
+		this.#setView( Math.min( a, 1 - b2 ), b2 );
 	}
 
 	// .........................................................................
