@@ -36,6 +36,7 @@ const GSTXall = GSUdeepFreeze( {
 		$convertToMP3: "convert to MP3",
 		$startingDots: "starting…",
 		$newSelection: "New selection",
+		$cancelSelection: "Cancel selection",
 		$cutSelectedAudio: "Cut the selected audio",
 		// .....................................................................
 		$unitByteB:     "b",
@@ -310,6 +311,7 @@ const GSTXall = GSUdeepFreeze( {
 		$convertToMP3: "convertir en MP3",
 		$startingDots: "Démarrage…",
 		$newSelection: "Nouvelle selection",
+		$cancelSelection: "Annuler la selection",
 		$cutSelectedAudio: "Supprimer l'audio sélectionné",
 		// .....................................................................
 		$unitByteB:     "o",

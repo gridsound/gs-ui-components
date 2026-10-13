@@ -22,6 +22,7 @@ class gsuiBufferEditor extends gsui0ne {
 				$view: "gsui-buffer-view",
 				$head: "gsui-be-head",
 				$selBtns: "[data-prop^='sel']",
+				$selAddBtn: "[data-prop='sel-add']",
 				$selCutBtn: "[data-prop='sel-cut']",
 			},
 		} );
@@ -30,6 +31,7 @@ class gsuiBufferEditor extends gsui0ne {
 
 			switch ( act ) {
 				case "sel-add": this.#clickSelToggle(); break;
+				case "sel-cut": this.#clickSelCut(); break;
 				case "fullscr": this.#clickFullscreen(); break;
 			}
 		} );
@@ -60,6 +62,12 @@ class gsuiBufferEditor extends gsui0ne {
 		this.$elements.$view.$setAttr( "selection", this.#selection || false );
 		this.$elements.$selBtns.$setAttr( "light", !this.#selection );
 		this.$elements.$selCutBtn.$disabled( !this.#selection );
+		this.$elements.$selAddBtn.$setAttr( "data-tooltip", this.#selection ? GSTX.$cancelSelection : GSTX.$newSelection );
+	}
+	#clickSelCut() {
+		if ( this.#selection ) {
+			this.$this.$dispatch( GSEV_BUFFEREDITOR_CUT, ...GSUsplitNums( this.#selection ) );
+		}
 	}
 	#calcNewSelection() {
 		const [ a, b ] = GSUsplitNums( this.$elements.$view.$getAttr( "view" ) );
