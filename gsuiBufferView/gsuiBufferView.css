@@ -51,27 +51,36 @@ gsui-buffer-view {
 		z-index: 0;
 		min-width: 4px;
 		cursor: var( --gsuiCursor-grab );
+		box-shadow: 0 0 50px 40px #fff1;
 		touch-action: none;
 
 		&::before,
 		&::after {
 			content: "";
 			position: absolute;
-			inset: 0 100% 0 -100000px;
-			background-color: #000a;
+			inset: 0 auto;
+			border: 0 solid #fff2;
+			background-color: #0005;
+			backdrop-filter: blur( 2px );
 			pointer-events: none;
+		}
+		&::before {
+			right: 100%;
+			left: -100000px;
+			border-right-width: 2px;
 		}
 		&::after {
 			left: 100%;
 			right: -100000px;
+			border-left-width: 2px;
+		}
+		[ data-prop ] {
+			z-index: 1;
+			position: absolute;
+			inset: 0 auto;
+			width: calc( min( 20px, 20% ) + 4px );
 		}
 		[ data-prop="map-start" ] { left: -4px; cursor: var( --gsuiCursor-w-resize ); }
 		[ data-prop="map-end" ] { right: -4px; cursor: var( --gsuiCursor-e-resize ); }
-		[ data-prop ] {
-			position: absolute;
-			z-index: 1;
-			width: calc( min( 20px, 20% ) + 4px );
-			height: 100%;
-		}
 	}
 }
