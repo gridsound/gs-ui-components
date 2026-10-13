@@ -20,7 +20,7 @@ gsui-buttons {
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
 		}
-		& + * button::after {
+		& + gsui-button:not( [ light ] ) button::after {
 			content: "";
 			position: absolute;
 			inset: 0 auto 2px 0;
@@ -34,6 +34,8 @@ gsui-button {
 	--brd-bot-w: 3px;
 	--pad: 10px;
 	--w: auto;
+	--bgA: var( --btn-colorA );
+	--bgB: var( --btn-colorB );
 	display: inline-flex;
 	height: 28px;
 	border-radius: 2px;
@@ -57,6 +59,16 @@ gsui-button {
 		--pad: 0;
 		--w: 28px;
 	}
+	&[ light ] {
+		--bgA: transparent;
+		--bgB: transparent;
+		--brd-bot-w: 0;
+
+		button:active > div,
+		button[ data-active ] > div {
+			translate: 0 2px;
+		}
+	}
 	button {
 		display: inline-flex;
 		position: relative;
@@ -79,8 +91,8 @@ gsui-button {
 			color: #fff;
 			font-size: 14px;
 			font-weight: bold;
-			background-color: var( --btn-colorA );
-			box-shadow: 0 var( --brd-bot-w ) 0 var( --btn-colorB );
+			background-color: var( --bgA );
+			box-shadow: 0 var( --brd-bot-w ) 0 var( --bgB );
 			transition:
 				.2s border-color,
 				.07s box-shadow,
@@ -99,7 +111,7 @@ gsui-button {
 	button[ data-active ] > div {
 		border-color: transparent;
 		translate: 0 var( --brd-bot-w );
-		box-shadow: 0 0 0 var( --btn-colorB );
+		box-shadow: 0 0 0 var( --bgB );
 	}
 	&[ disabled ] button > div {
 		color: #fff7;
