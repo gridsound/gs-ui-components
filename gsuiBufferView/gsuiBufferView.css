@@ -16,22 +16,19 @@ gsui-buffer-view {
 	}
 
 	gsui-bv-selection {
-		overflow: hidden;
 		position: absolute;
-		box-sizing: border-box;
 		inset: 0 auto;
 		background-color: #f553;
 		backdrop-filter: sepia( .8 );
 
-		&::before,
-		&::after {
-			content: "";
+		[ data-prop ] {
+			z-index: 1;
 			position: absolute;
-			width: 2px;
-			background-color: #f446;
+			inset: 0 auto;
+			width: calc( min( 20px, 20% ) + 4px );
 		}
-		&::before { inset: 0 auto 0 0 }
-		&::after { inset: 0 0 0 auto }
+		[ data-prop="sel-start" ] { left: -4px; cursor: var( --gsuiCursor-w-resize ); }
+		[ data-prop="sel-end" ] { right: -4px; cursor: var( --gsuiCursor-e-resize ); }
 	}
 
 	gsui-bv-minimap {

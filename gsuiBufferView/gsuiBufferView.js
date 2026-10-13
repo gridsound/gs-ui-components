@@ -12,6 +12,7 @@ class gsuiBufferView extends gsui0ne {
 	#selA = 0;
 	#selB = 1;
 	#selASave = 0;
+	#selBSave = 0;
 	#ptrFn = null;
 	#ptrGap = 0;
 	#ptrList = new Map();
@@ -22,7 +23,10 @@ class gsuiBufferView extends gsui0ne {
 			$template: $.$elem( "gsui-bv-in", null,
 				$.$elem( "gsui-bv-body", { "data-prop": "body-move" },
 					$.$elem( "gsui-waveform" ),
-					$.$elem( "gsui-bv-selection", { "data-prop": "sel-move" } ),
+					$.$elem( "gsui-bv-selection", { "data-prop": "sel-move" },
+						$.$div( { "data-prop": "sel-start" } ),
+						$.$div( { "data-prop": "sel-end" } ),
+					),
 				),
 				$.$elem( "gsui-bv-minimap", { "data-prop": "map-teleport" },
 					$.$elem( "gsui-waveform" ),
@@ -88,6 +92,7 @@ class gsuiBufferView extends gsui0ne {
 				this.#vx_px = mapViewBCR.x;
 				this.#vw_px = mapViewBCR.w;
 				this.#selASave = this.#selA;
+				this.#selBSave = this.#selB;
 				this.#viewASave = this.#viewA;
 				this.#ptrFn = this.#getActionFn( act );
 				this.#ptrGap = this.#calcPtrgap( e, act );
@@ -101,7 +106,7 @@ class gsuiBufferView extends gsui0ne {
 	#calcPtrgap( e, act ) {
 		if ( GSUisOneOf( act, "map-start", "map-end", "map-move" ) ) {
 			return e.pageX - this.#vx_px;
-		} else if ( GSUisOneOf( act, "sel-move", "body-move" ) ) {
+		} else if ( GSUisOneOf( act, "sel-move", "body-move", "sel-start", "sel-end" ) ) {
 			return e.pageX - this.#x_px;
 		}
 		return 0;
@@ -197,6 +202,8 @@ class gsuiBufferView extends gsui0ne {
 		switch ( act ) {
 			case "body-move": return this.#bodyMove;
 			case "sel-move": return this.#selMove;
+			case "sel-start": return this.#selStart;
+			case "sel-end": return this.#selEnd;
 			case "map-teleport": return this.#minimapTeleport;
 			case "map-start": return this.#minimapStart;
 			case "map-move": return this.#minimapMove;
@@ -218,6 +225,17 @@ class gsuiBufferView extends gsui0ne {
 		const a = GSUmathClamp( this.#selASave + n * this.#viewB, 0, 1 - this.#selB );
 
 		this.#setSel( a, this.#selB );
+	}
+	#selStart( n ) {
+		const a = GSUmathClamp( this.#selASave + n * this.#viewB, 0, this.#selA + this.#selB - this.#viewBMin );
+		const b = this.#selB - ( a - this.#selA );
+
+		this.#setSel( a, b );
+	}
+	#selEnd( n ) {
+		const b = GSUmathClamp( this.#selBSave + n * this.#viewB, this.#viewBMin, 1 - this.#selA );
+
+		this.#setSel( this.#selA, b );
 	}
 	#minimapStart( n ) {
 		const a = GSUmathClamp( n, 0, this.#viewA + this.#viewB - this.#viewBMin );
