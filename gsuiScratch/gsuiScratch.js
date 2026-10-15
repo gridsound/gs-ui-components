@@ -153,7 +153,7 @@ class gsuiScratch extends gsui0ne {
 			.then( res => res.arrayBuffer() )
 			.then( arr => ctx.decodeAudioData( arr ) )
 			.then( buf => {
-				const bufRev = GSUreverseBuffer( GSUcloneBuffer( ctx, buf ) );
+				const bufRev = GSUbufferReverse( buf );
 				const blobRev = gswaEncodeWAV.$createBlob( gswaEncodeWAV.$encodeBuffer( {
 					$buffer: bufRev,
 					$float32: false,
