@@ -38,6 +38,8 @@ const GSTXall = GSUdeepFreeze( {
 		$newSelection: "New selection",
 		$cancelSelection: "Cancel selection",
 		$cutSelectedAudio: "Cut the selected audio",
+		$silentSelectedAudio: "Silent the selected audio",
+		$reverseSelectedAudio: "Reverse the selected audio",
 		// .....................................................................
 		$unitByteB:     "b",
 		$unitSecondSec: "sec",
@@ -313,6 +315,8 @@ const GSTXall = GSUdeepFreeze( {
 		$newSelection: "Nouvelle selection",
 		$cancelSelection: "Annuler la selection",
 		$cutSelectedAudio: "Supprimer l'audio sélectionné",
+		$silentSelectedAudio: "Silencier l'audio sélectionné",
+		$reverseSelectedAudio: "Inverser l'audio sélectionné",
 		// .....................................................................
 		$unitByteB:     "o",
 		$unitSecondSec: "sec",
