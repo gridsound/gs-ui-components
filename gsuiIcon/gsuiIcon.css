@@ -189,6 +189,7 @@ gsui-icon {
 	&[ icon="render"   ] { --i0: "\f0e7"; --i1: "\f0e7\f0e7"; --o1: 1; }
 	&[ icon="upload"   ] { --i0: "\f382"; --i1: "\f382\f382"; --o0: 0; --o1: 1; }
 	&[ icon="download" ] { --i0: "\f019"; --i1: "\f019\f019"; }
+	&[ icon="share"    ] { --i0: "\f064"; --i1: "\f064\f064"; }
 	&[ icon="fork"     ] { --i0: "\f126"; --i1: "\f126\f126"; }
 	&[ icon="sort"     ] { --i0: "\f0dc"; --i1: "\f0dc\f0dc"; }
 	&[ icon="trash"    ] { --i0: "\f1f8"; --i1: "\f1f8\f1f8"; }
