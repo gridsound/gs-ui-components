@@ -54,6 +54,7 @@ class gsuiBufferView extends gsui0ne {
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
 		this.$elements.$body.$onpinch( this.#onpinch.bind( this ) );
 		this.$elements.$in.$on( {
+			dragstart: e => e.preventDefault(),
 			pointerdown: this.#onptrdown.bind( this ),
 			pointermove: this.#onptrmove.bind( this ),
 			pointerup: this.#onptrup.bind( this ),
@@ -81,7 +82,6 @@ class gsuiBufferView extends gsui0ne {
 
 			this.#ptrList.set( e.pointerId, e.target );
 			$.$setPtrCapture( e.target, e.pointerId );
-			e.preventDefault();
 			if ( this.#ptrList.size === 1 ) {
 				const mapBCR = this.$elements.$minimap.$bcr();
 				const mapViewBCR = this.$elements.$minimapView.$bcr();

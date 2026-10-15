@@ -13,9 +13,9 @@ gsui-buffer-editor {
 		align-items: center;
 		justify-content: end;
 		padding: 4px;
-		gap: 12px;
+		gap: 8px;
 
-		gsui-buttons:first-child {
+		gsui-buttons:first-of-type {
 			margin-right: auto;
 		}
 	}

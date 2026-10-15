@@ -10,6 +10,8 @@ class gsuiBufferEditor extends gsui0ne {
 			$template: $.$elem( "gsui-be-in", null,
 				$.$elem( "gsui-buffer-view" ),
 				$.$elem( "gsui-be-head", null,
+					$.$elem( "gsui-button", { "data-prop": "exit", light: true, model: "submit", icon: "run-exit-start", "data-tooltip": GSTX.$exitEditor } ),
+					$.$elem( "gsui-be-divider" ),
 					$.$elem( "gsui-buttons", null,
 						$.$elem( "gsui-button", { "data-prop": "save", light: true, model: "submit", icon: "save", "data-tooltip": GSTX.$save, disabled: true } ),
 						$.$elem( "gsui-button", { "data-prop": "sel-extract", light: true, model: "submit", icon: "extract", "data-tooltip": GSTX.$extractAudioNewSample, disabled: true } ),
@@ -40,6 +42,7 @@ class gsuiBufferEditor extends gsui0ne {
 			const sel = this.$elements.$view.$getAttr( "selection" );
 
 			switch ( act ) {
+				case "exit": this.#clickExit(); break;
 				case "save": this.#clickSave(); break;
 				case "sel-extract": this.#clickExtract( sel ); break;
 				case "sel-add": this.#toggleSelection( !sel ); break;
@@ -77,6 +80,9 @@ class gsuiBufferEditor extends gsui0ne {
 		this.#buf = buf;
 		this.#setChanged( true );
 		this.$elements.$view.$message( GSEV_BUFFERVIEW_BUFFER, buf );
+	}
+	#clickExit() {
+		this.$this.$dispatch( GSEV_BUFFEREDITOR_EXIT );
 	}
 	#clickFullscreen() {
 		this.$this.$toggleFullscreen().then( b => {
