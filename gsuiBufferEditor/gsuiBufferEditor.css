@@ -12,7 +12,7 @@ gsui-buffer-editor {
 		display: flex;
 		align-items: center;
 		justify-content: end;
-		min-height: 34px;
+		padding: 4px;
 		gap: 12px;
 	}
 	gsui-be-divider {
