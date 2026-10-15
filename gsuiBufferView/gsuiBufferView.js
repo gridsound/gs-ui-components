@@ -49,7 +49,6 @@ class gsuiBufferView extends gsui0ne {
 			},
 			$attributes: {
 				view: "0 1",
-				selection: "0 0",
 			},
 		} );
 		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
