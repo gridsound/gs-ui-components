@@ -141,12 +141,28 @@ class gsuiBufferView extends gsui0ne {
 		this.#updateMiniView();
 	}
 	#onchangeSelection( sel ) {
-		const [ a, b ] = GSUsplitNums( sel );
+		if ( !sel ) {
+			this.#selA =
+			this.#selB = 0;
+			this.#updateBodySelection();
+			this.#updateMiniSelection();
+		} else {
+			const [ a, b ] = GSUsplitNums( sel );
+			const a2 = GSUmathClamp( a, 0, 1 );
+			const b2 = GSUmathClamp( b, 0, 1 - a2 );
 
-		this.#selA = GSUmathClamp( a, 0, 1 );
-		this.#selB = GSUmathClamp( b, 0, 1 - this.#selA );
-		this.#updateBodySelection();
-		this.#updateMiniSelection();
+			if ( a !== a2 || b !== b2 ) {
+				console.warn( `gsuiBufferView: error 'selection' ${ sel }` );
+				this.#setSel( a2, b2 );
+			} else if ( b2 <= 0 ) {
+				this.$this.$rmAttr( "selection" );
+			} else {
+				this.#selA = a2;
+				this.#selB = b2;
+				this.#updateBodySelection();
+				this.#updateMiniSelection();
+			}
+		}
 	}
 
 	// .........................................................................
