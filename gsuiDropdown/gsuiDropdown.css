@@ -25,6 +25,10 @@ gsui-dropdown-option {
 			background-color: var( --btn-danger-colorA );
 		}
 	}
+	&[ disabled ] {
+		pointer-events: none;
+		opacity: .5;
+	}
 	a {
 		position: absolute;
 		inset: 0;

@@ -15,7 +15,7 @@ class gsuiDropdown extends gsui0ne {
 		if ( act ) {
 			this.$this.$dispatch( GSEV_DROPDOWN_CLICK, act );
 		}
-		if ( this.$this.$hasAttr( "clicknclose" ) ) {
+		if ( ( act || $.$href( e.target ) ) && this.$this.$hasAttr( "clicknclose" ) ) {
 			this.$this.$togglePopover( false );
 		}
 	}
