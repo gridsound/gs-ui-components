@@ -21,6 +21,9 @@ gsui-buffer-view {
 		background-color: #f553;
 		backdrop-filter: sepia( .8 );
 
+		gsui-buffer-view:not( [ selection ] ) & {
+			display: none;
+		}
 		[ data-prop ] {
 			z-index: 1;
 			position: absolute;
