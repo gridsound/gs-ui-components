@@ -26,6 +26,7 @@ class gsuiBufferEditor extends gsui0ne {
 				$selBtns: "[data-prop^='sel']",
 				$selAddBtn: "[data-prop='sel-add']",
 				$selBtnActions: "gsui-button + [data-prop^='sel']",
+				$fullscrBtn: "[data-prop='fullscr']",
 			},
 		} );
 		this.$elements.$head.$onclick( e => {
@@ -52,7 +53,11 @@ class gsuiBufferEditor extends gsui0ne {
 		this.$elements.$view.$message( GSEV_BUFFERVIEW_BUFFER, buf );
 	}
 	#clickFullscreen() {
-		this.$this.$toggleFullscreen();
+		this.$this.$toggleFullscreen().then( b => {
+			this.$elements.$fullscrBtn
+				.$setAttr( "data-tooltip", b ? GSTX.$exitFullscreen : GSTX.$fullscreen )
+				.$setAttr( "icon", b ? "compress" : "expand" );
+		} );
 	}
 	#clickSelToggle() {
 		this.#toggleSelection( !this.$elements.$view.$hasAttr( "selection" ) );
