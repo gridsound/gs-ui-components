@@ -7,6 +7,7 @@ const GSTXall = GSUdeepFreeze( {
 		$you:          "you",
 		$like:         "like",
 		$user:         "user",
+		$save:         "Save",
 		$with:         "with",
 		$email:        "email",
 		$reset:        "reset",
@@ -41,6 +42,7 @@ const GSTXall = GSUdeepFreeze( {
 		$cutSelectedAudio: "Cut the selected audio",
 		$silentSelectedAudio: "Silent the selected audio",
 		$reverseSelectedAudio: "Reverse the selected audio",
+		$extractAudioNewSample: "Extract the selected audio into a new sample",
 		// .....................................................................
 		$unitByteB:     "b",
 		$unitSecondSec: "sec",
@@ -285,6 +287,7 @@ const GSTXall = GSUdeepFreeze( {
 		$you:          "vous",
 		$like:         "j'aime",
 		$user:         "utilisateur",
+		$save:         "Sauvegarder",
 		$with:         "avec",
 		$email:        "email",
 		$reset:        "reset",
@@ -319,6 +322,7 @@ const GSTXall = GSUdeepFreeze( {
 		$cutSelectedAudio: "Supprimer l'audio sélectionné",
 		$silentSelectedAudio: "Silencier l'audio sélectionné",
 		$reverseSelectedAudio: "Inverser l'audio sélectionné",
+		$extractAudioNewSample: "Extraire l'audio sélectionné en un nouveau sample",
 		// .....................................................................
 		$unitByteB:     "o",
 		$unitSecondSec: "sec",

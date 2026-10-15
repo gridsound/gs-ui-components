@@ -14,9 +14,13 @@ gsui-buffer-editor {
 		justify-content: end;
 		padding: 4px;
 		gap: 12px;
+
+		gsui-buttons:first-child {
+			margin-right: auto;
+		}
 	}
 	gsui-be-divider {
-		width: 1px;
+		min-width: 1px;
 		height: 60%;
 		background-color: #fff3;
 	}

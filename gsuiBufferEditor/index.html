@@ -23,4 +23,15 @@ fetch( "test-assets/left-to-right.mp3" )
 		bufSave = buf;
 		uiBufEdit.$message( GSEV_BUFFEREDITOR_BUFFER, buf );
 	} );
+
+uiBufEdit.$listen( {
+	[ GSEV_BUFFEREDITOR_SAVE ]: d => {
+		lg( "saving", d.$args[ 0 ] );
+		GSUwait( 1 ).then( () => uiBufEdit.$rmAttr( "saving" ) );
+	},
+	[ GSEV_BUFFEREDITOR_EXTRACT ]: d => {
+		lg( "extracting", d.$args[ 0 ] );
+		GSUwait( 1 ).then( () => uiBufEdit.$rmAttr( "extracting" ) );
+	},
+} );
 </script>

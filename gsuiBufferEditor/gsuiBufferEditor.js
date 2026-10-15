@@ -2,6 +2,7 @@
 
 class gsuiBufferEditor extends gsui0ne {
 	#buf = null;
+	#changed = false;
 
 	constructor() {
 		super( {
@@ -9,6 +10,10 @@ class gsuiBufferEditor extends gsui0ne {
 			$template: $.$elem( "gsui-be-in", null,
 				$.$elem( "gsui-buffer-view" ),
 				$.$elem( "gsui-be-head", null,
+					$.$elem( "gsui-buttons", null,
+						$.$elem( "gsui-button", { "data-prop": "save", light: true, model: "submit", icon: "save", "data-tooltip": GSTX.$save, disabled: true } ),
+						$.$elem( "gsui-button", { "data-prop": "sel-extract", light: true, model: "submit", icon: "extract", "data-tooltip": GSTX.$extractAudioNewSample, disabled: true } ),
+					),
 					$.$elem( "gsui-buttons", null,
 						$.$elem( "gsui-button", { "data-prop": "sel-add", light: true, model: "danger", icon: "select-plus", "data-tooltip": GSTX.$newSelection } ),
 						$.$elem( "gsui-button", { "data-prop": "sel-cut", light: true, model: "danger", icon: "cut", "data-tooltip": GSTX.$cutSelectedAudio, disabled: true } ),
@@ -23,7 +28,9 @@ class gsuiBufferEditor extends gsui0ne {
 				$view: "gsui-buffer-view",
 				$head: "gsui-be-head",
 				$selBtns: "[data-prop^='sel']",
+				$saveBtn: "[data-prop='save']",
 				$selAddBtn: "[data-prop='sel-add']",
+				$selExtrBtn: "[data-prop='sel-extract']",
 				$selBtnActions: "gsui-button + [data-prop^='sel']",
 				$fullscrBtn: "[data-prop='fullscr']",
 			},
@@ -33,6 +40,8 @@ class gsuiBufferEditor extends gsui0ne {
 			const sel = this.$elements.$view.$getAttr( "selection" );
 
 			switch ( act ) {
+				case "save": this.#clickSave(); break;
+				case "sel-extract": this.#clickExtract( sel ); break;
 				case "sel-add": this.#toggleSelection( !sel ); break;
 				case "sel-cut": this.#clickSelCut( sel ); break;
 				case "sel-silent": this.#clickSelSilent( sel ); break;
@@ -41,15 +50,32 @@ class gsuiBufferEditor extends gsui0ne {
 			}
 		} );
 	}
+	static get observedAttributes() {
+		return [ "saving", "extracting" ];
+	}
+	$attributeChanged( prop, val ) {
+		switch ( prop ) {
+			case "saving": this.$elements.$saveBtn.$setAttr( "loading", val === "" ); break;
+			case "extracting": this.$elements.$selExtrBtn.$setAttr( "loading", val === "" ); break;
+		}
+	}
 	$onmessage( key, val ) {
 		switch ( key ) {
-			case GSEV_BUFFEREDITOR_BUFFER: this.#setBuffer( val ? GSUbufferClone( val ) : null ); break;
+			case GSEV_BUFFEREDITOR_BUFFER:
+				this.#setBuffer( GSUbufferClone( val ) );
+				this.#setChanged( false );
+				break;
 		}
 	}
 
 	// .........................................................................
+	#setChanged( b ) {
+		this.#changed = b;
+		this.$elements.$saveBtn.$disabled( !b ).$setAttr( "light", !b );
+	}
 	#setBuffer( buf ) {
 		this.#buf = buf;
+		this.#setChanged( true );
 		this.$elements.$view.$message( GSEV_BUFFERVIEW_BUFFER, buf );
 	}
 	#clickFullscreen() {
@@ -58,6 +84,21 @@ class gsuiBufferEditor extends gsui0ne {
 				.$setAttr( "data-tooltip", b ? GSTX.$exitFullscreen : GSTX.$fullscreen )
 				.$setAttr( "icon", b ? "compress" : "expand" );
 		} );
+	}
+	#clickSave() {
+		if ( this.#changed ) {
+			this.$this
+				.$addAttr( "saving" )
+				.$dispatch( GSEV_BUFFEREDITOR_SAVE, GSUbufferClone( this.#buf ) );
+			this.#setChanged( false );
+		}
+	}
+	#clickExtract( sel ) {
+		if ( sel ) {
+			this.$this
+				.$addAttr( "extracting" )
+				.$dispatch( GSEV_BUFFEREDITOR_EXTRACT, GSUbufferClone( this.#buf, ...GSUsplitNums( sel ) ) );
+		}
 	}
 	#clickSelSilent( sel ) {
 		if ( sel ) {
