@@ -2,7 +2,6 @@
 
 class gsuiBufferEditor extends gsui0ne {
 	#buf = null;
-	#bufOriginal = null;
 
 	constructor() {
 		super( {
@@ -44,7 +43,7 @@ class gsuiBufferEditor extends gsui0ne {
 	}
 	$onmessage( key, val ) {
 		switch ( key ) {
-			case GSEV_BUFFEREDITOR_BUFFER: this.#setBuffer( this.#bufOriginal = val || null ); break;
+			case GSEV_BUFFEREDITOR_BUFFER: this.#setBuffer( val ? GSUbufferClone( val ) : null ); break;
 		}
 	}
 
