@@ -31,12 +31,13 @@ class gsuiBufferEditor extends gsui0ne {
 		} );
 		this.$elements.$head.$onclick( e => {
 			const act = $.$dataProp( e.target );
+			const sel = this.$elements.$view.$getAttr( "selection" );
 
 			switch ( act ) {
-				case "sel-add": this.#clickSelToggle(); break;
-				case "sel-cut": this.#clickSelCut(); break;
-				case "sel-silent": this.#clickSelSilent(); break;
-				case "sel-reverse": this.#clickSelReverse(); break;
+				case "sel-add": this.#toggleSelection( !sel ); break;
+				case "sel-cut": this.#clickSelCut( sel ); break;
+				case "sel-silent": this.#clickSelSilent( sel ); break;
+				case "sel-reverse": this.#clickSelReverse( sel ); break;
 				case "fullscr": this.#clickFullscreen(); break;
 			}
 		} );
@@ -59,26 +60,17 @@ class gsuiBufferEditor extends gsui0ne {
 				.$setAttr( "icon", b ? "compress" : "expand" );
 		} );
 	}
-	#clickSelToggle() {
-		this.#toggleSelection( !this.$elements.$view.$hasAttr( "selection" ) );
-	}
-	#clickSelSilent() {
-		const sel = this.$elements.$view.$getAttr( "selection" );
-
+	#clickSelSilent( sel ) {
 		if ( sel ) {
 			this.#setBuffer( GSUbufferSilent( this.#buf, ...GSUsplitNums( sel ) ) );
 		}
 	}
-	#clickSelReverse() {
-		const sel = this.$elements.$view.$getAttr( "selection" );
-
+	#clickSelReverse( sel ) {
 		if ( sel ) {
 			this.#setBuffer( GSUbufferReverse( this.#buf, ...GSUsplitNums( sel ) ) );
 		}
 	}
-	#clickSelCut() {
-		const sel = this.$elements.$view.$getAttr( "selection" );
-
+	#clickSelCut( sel ) {
 		if ( sel ) {
 			this.#setBuffer( GSUbufferCut( this.#buf, ...GSUsplitNums( sel ) ) );
 			this.#toggleSelection( false );
