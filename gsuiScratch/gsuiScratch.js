@@ -152,25 +152,17 @@ class gsuiScratch extends gsui0ne {
 		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
 			.then( arr => ctx.decodeAudioData( arr ) )
-			.then( buf => {
-				const bufRev = GSUbufferReverse( buf );
-				const blobRev = gswaEncodeWAV.$createBlob( gswaEncodeWAV.$encodeBuffer( {
-					$buffer: bufRev,
-					$float32: false,
-				} ) );
-				const urlRev = URL.createObjectURL( blobRev );
-				const audioRev = $( "<audio>" )
-					.$setAttr( "src", urlRev )
+			.then( buf => gswaBufferToFile.$convert( GSUbufferReverse( this.#audiobuf = buf ), "wav" ) )
+			.then( blob => {
+				this.#dur = this.#audiobuf.duration;
+				this.#audiobufURL = URL.createObjectURL( blob );
+				this.#audioElemRev = $( "<audio>" )
+					.$setAttr( "src", this.#audiobufURL )
 					.$prop( "preservesPitch", false )
 					.$prop( "playbackRate", 0 )
 					.$appendTo( this );
-
-				this.#dur = buf.duration;
-				this.#audiobuf = buf;
-				this.#audiobufURL = urlRev;
-				this.#audioElemRev = audioRev;
 				this.#intervalId = GSUsetInterval( this.#frameBind, 1 / 60 );
-				this.$elements.$wave.$message( GSEV_WAVEFORM_BUFFER, buf );
+				this.$elements.$wave.$message( GSEV_WAVEFORM_BUFFER, this.#audiobuf );
 				this.#drawWaveform();
 			} )
 			.finally( () => {
