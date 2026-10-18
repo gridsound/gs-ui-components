@@ -44,8 +44,7 @@ gsui-libraries-libs {
 		&:last-child {
 			padding-right: 6px;
 		}
-		gsui-libraries:not( [ lib="default" ] ) &[ data-lib="default" ],
-		gsui-libraries:not( [ lib="local" ] ) &[ data-lib="local" ] {
+		&:not( [ data-selected ] ) {
 			opacity: .3;
 		}
 	}
@@ -60,8 +59,7 @@ gsui-libraries-body {
 		position: absolute;
 		inset: 0;
 
-		gsui-libraries:not( [ lib="default" ] ) &[ data-prop="default" ],
-		gsui-libraries:not( [ lib="local" ] ) &[ data-prop="local" ] {
+		&:not( [ data-selected ] ) {
 			display: none;
 		}
 	}
