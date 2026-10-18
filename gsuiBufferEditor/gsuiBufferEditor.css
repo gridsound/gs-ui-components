@@ -1,5 +1,6 @@
 gsui-buffer-editor {
 	display: block;
+	min-width: min-content;
 	height: 100%;
 	background-color: #22222a;
 
