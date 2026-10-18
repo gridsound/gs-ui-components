@@ -1,16 +1,16 @@
 "use strict";
 
 $.$setTemplate( "gsui-libraries", () => [
-	$.$div( { class: "gsuiLibraries-head" },
-		$.$icon( { class: "gsuiLibraries-head-icon", icon: "cu-waveform" } ),
-		$.$span( { class: "gsuiLibraries-head-title" }, "library" ),
-		$.$div( { class: "gsuiLibraries-libBtns" },
-			$.$button( { class: "gsuiLibraries-libBtn", "data-lib": "default" }, "default" ),
-			$.$button( { class: "gsuiLibraries-libBtn", "data-lib": "local" }, "local" ),
+	$.$elem( "gsui-libraries-head", null,
+		$.$icon( { icon: "cu-waveform" } ),
+		$.$bold( null, "library" ),
+		$.$elem( "gsui-libraries-libs", null,
+			$.$button( { "data-lib": "default" }, "default" ),
+			$.$button( { "data-lib": "local" }, "local" ),
 		),
 	),
-	$.$div( { class: "gsuiLibraries-body" },
-		$.$elem( "gsui-library", { class: "gsuiLibrary-default" } ),
-		$.$elem( "gsui-library", { class: "gsuiLibrary-local" } ),
+	$.$elem( "gsui-libraries-body", null,
+		$.$elem( "gsui-library", { "data-prop": "default" } ),
+		$.$elem( "gsui-library", { "data-prop": "local" } ),
 	),
 ] );

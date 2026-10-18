@@ -5,17 +5,15 @@ class gsuiLibraries extends gsui0ne {
 		super( {
 			$tagName: "gsui-libraries",
 			$elements: {
-				$libBtns: ".gsuiLibraries-libBtns",
-				$libDef: ".gsuiLibrary-default",
-				$libLoc: ".gsuiLibrary-local",
+				$libBtns: "gsui-libraries-libs",
+				$libs: "gsui-library",
 			},
 			$attributes: {
 				lib: "default",
 			},
 		} );
 		this.$elements.$libBtns.$onclick( this.#onclickBtns.bind( this ) );
-		this.$elements.$libDef.$setAttr( "placeholder", GSTX.$loading );
-		this.$elements.$libLoc.$setAttr( "placeholder", GSTX.$library_placehUser );
+		this.$elements.$libs.$setAttr( "placeholder", ( _, i ) => !i ? GSTX.$loading : GSTX.$library_placehUser );
 	}
 
 	// .........................................................................
@@ -27,7 +25,7 @@ class gsuiLibraries extends gsui0ne {
 
 	// .........................................................................
 	#getLibrary( lib ) {
-		return lib === "local" ? this.$elements.$libLoc : this.$elements.$libDef;
+		return this.$elements.$libs.$filter( `[data-prop="${ lib }"]` );
 	}
 	#onclickBtns( e ) {
 		if ( e.target.dataset.lib ) {

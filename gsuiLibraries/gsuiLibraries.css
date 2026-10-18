@@ -5,7 +5,7 @@ gsui-libraries {
 }
 
 /* .......................................................................... */
-.gsuiLibraries-head {
+gsui-libraries-head {
 	display: flex;
 	align-items: center;
 	gap: 4px;
@@ -15,50 +15,54 @@ gsui-libraries {
 	padding: 0 6px;
 	font-size: 11px;
 	background-color: var( --gsui-head2-bg );
-}
-.gsuiLibraries-head-icon,
-.gsuiLibraries-head-title {
-	font-weight: bold;
-	opacity: .7;
+
+	gsui-icon,
+	> b {
+		opacity: .7;
+	}
 }
 
 /* .......................................................................... */
-.gsuiLibraries-libBtns {
+gsui-libraries-libs {
 	display: flex;
 	margin-left: 8px;
 	border-radius: 4px;
 	background-color: #0004;
 	overflow: hidden;
-}
-.gsuiLibraries-libBtn {
-	display: flex;
-	align-items: center;
-	height: 18px;
-	padding: 1px 3px 0 6px;
-	font-size: 9px;
-	font-weight: bold;
-}
-.gsuiLibraries-libBtn + .gsuiLibraries-libBtn {
-	padding-left: 3px;
-}
-.gsuiLibraries-libBtn:last-child {
-	padding-right: 6px;
-}
-gsui-libraries:not( [ lib="default" ] ) .gsuiLibraries-libBtn[ data-lib="default" ],
-gsui-libraries:not( [ lib="local" ] ) .gsuiLibraries-libBtn[ data-lib="local" ] {
-	opacity: .3;
+
+	button {
+		display: flex;
+		align-items: center;
+		height: 18px;
+		padding: 1px 3px 0 6px;
+		font-size: 9px;
+		font-weight: bold;
+
+		* + & {
+			padding-left: 3px;
+		}
+		&:last-child {
+			padding-right: 6px;
+		}
+		gsui-libraries:not( [ lib="default" ] ) &[ data-lib="default" ],
+		gsui-libraries:not( [ lib="local" ] ) &[ data-lib="local" ] {
+			opacity: .3;
+		}
+	}
 }
 
 /* .......................................................................... */
-.gsuiLibraries-body {
+gsui-libraries-body {
 	position: relative;
 	flex: 1;
-}
-.gsuiLibraries-body gsui-library {
-	position: absolute;
-	inset: 0;
-}
-gsui-libraries:not( [ lib="default" ] ) .gsuiLibrary-default,
-gsui-libraries:not( [ lib="local" ] ) .gsuiLibrary-local {
-	display: none;
+
+	gsui-library {
+		position: absolute;
+		inset: 0;
+
+		gsui-libraries:not( [ lib="default" ] ) &[ data-prop="default" ],
+		gsui-libraries:not( [ lib="local" ] ) &[ data-prop="local" ] {
+			display: none;
+		}
+	}
 }
