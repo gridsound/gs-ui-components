@@ -30,7 +30,10 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 230
+// 235
+// ...............................
+const GSEV_API_PROMISE = 230;
+// ...............................
 const GSEV_AUTOMATION_CHANGE = 195;
 const GSEV_AUTOMATION_CURVE = 197;
 const GSEV_AUTOMATION_CURVE_RESET = 198;
@@ -191,6 +194,10 @@ const GSEV_PIANOROLL_CHANGEKEYSPROPS = 106;
 const GSEV_PIANOROLL_MIDIDROPPED = 107;
 const GSEV_PROPSELECT_SELECT = 108;
 const GSEV_PROPSELECT_SELECTALL = 109;
+const GSEV_SAMPLE_ADDED = 234;
+const GSEV_SAMPLE_DELETED = 231;
+const GSEV_SAMPLE_CLONEMP3 = 232;
+const GSEV_SAMPLE_CONVERTMP3 = 233;
 const GSEV_SCRATCH_CLOSE = 215;
 const GSEV_SCRATCH_LOAD = 199;
 const GSEV_SCRATCH_PTRDOWN = 155;
