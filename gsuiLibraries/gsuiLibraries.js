@@ -4,6 +4,7 @@ class gsuiLibraries extends gsui0ne {
 	constructor() {
 		const ph = {
 			default: GSTX.$loading,
+			cloud: GSTX.$library_placehCloud,
 			local: GSTX.$library_placehUser,
 		};
 

@@ -186,6 +186,7 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_placehSynths:  "no synth yet",
 		$patterns_placehAutomat: "no automation yet",
 		// .....................................................................
+		$library_placehCloud: "this area is mirroring the sample you upload on gridsound.com/#/samples",
 		$library_placehUser: "drag'n drop your own samples in the app, they will appear here",
 		// .....................................................................
 		$win_rename_keys:   "<b>Rename</b> this keys pattern",
@@ -467,6 +468,7 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_placehSynths:  "aucun synthé pour l'instant",
 		$patterns_placehAutomat: "aucune automation pour l'instant",
 		// .....................................................................
+		$library_placehCloud: "ici s'affiche les samples que vous téléchargez sur gridsound.com/#/samples",
 		$library_placehUser: "glissez-déposez vos propres samples dans l'application, ils apparaîtront ici",
 		// .....................................................................
 		$win_rename_keys:   "<b>Renommer</b> ce pattern de touches",

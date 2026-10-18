@@ -6,11 +6,13 @@ $.$setTemplate( "gsui-libraries", () => [
 		$.$bold( null, "library" ),
 		$.$elem( "gsui-libraries-libs", null,
 			$.$button( { "data-prop": "default" }, "default" ),
+			$.$button( { "data-prop": "cloud" }, "cloud" ),
 			$.$button( { "data-prop": "local" }, "local" ),
 		),
 	),
 	$.$elem( "gsui-libraries-body", null,
 		$.$elem( "gsui-library", { "data-prop": "default" } ),
+		$.$elem( "gsui-library", { "data-prop": "cloud" } ),
 		$.$elem( "gsui-library", { "data-prop": "local" } ),
 	),
 ] );
