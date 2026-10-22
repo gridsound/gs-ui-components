@@ -106,7 +106,7 @@ const GSTXall = GSUdeepFreeze( {
 		$yourBinPH:         "This is the place where your deleted compositions will appear before being unreachable.",
 		$theirMusicsPH:     "There is, for the moment no composition to listen here.",
 		$theirLikesPH:      "This user has liked no other composition until now.",
-		$yourSamplesPH:     "You don't have any samples yet, start by drag-and-dropping yours.",
+		$yourSamplesPH:     "You don't have any samples yet, start by creating your first folder with the button on the right.",
 		$yourSamplegroupPH: "This folder is empty.",
 		// .....................................................................
 		$samplesNewGroup:    "Create a new folder",
@@ -388,7 +388,7 @@ const GSTXall = GSUdeepFreeze( {
 		$yourBinPH:         "C'est ici où apparaîtront vos compositions supprimées avant d'être inaccessible.",
 		$theirMusicsPH:     "Il n'y a, pour le moment aucune composition à écouter ici.",
 		$theirLikesPH:      "Cette personne n'a aimé aucune autre composition jusqu'à maintenant.",
-		$yourSamplesPH:     "Vous n'avez encore aucun sample, commencez par glisser-déposer les vôtres ici.",
+		$yourSamplesPH:     "Vous n'avez encore aucun sample, commencez par créer un nouveau dossier avec le bouton à droite.",
 		$yourSamplegroupPH: "Ce dossier est vide.",
 		// .....................................................................
 		$samplesNewGroup:    "Créer un nouveau dossier",
