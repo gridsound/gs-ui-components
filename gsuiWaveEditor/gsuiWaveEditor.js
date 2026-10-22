@@ -210,7 +210,7 @@ class gsuiWaveEditor extends gsui0ne {
 		e.preventDefault();
 		e.stopPropagation();
 		GSUgetFilesDataTransfert( e.dataTransfer.items )
-			.then( files => GSUgetFileContent( files[ 0 ], "array" ) )
+			.then( files => files[ 0 ].arrayBuffer() )
 			.then( arr => {
 				ctx = GSUaudioContext();
 				return ctx.decodeAudioData( arr );
