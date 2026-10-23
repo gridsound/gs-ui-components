@@ -109,7 +109,7 @@ class gsuiSample extends gsui0ne {
 			case "editing": this.#setEditing( val === "" ); break;
 			case "order": this.$this.$css( "order", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
-			case "size": this.$elements.$infoSize.$text( `${ GSUmathFloatReadable( +val ).join( " " ) }${ GSTX.$unitByteB }` ); break;
+			case "size": this.$elements.$infoSize.$text( GSUmathFloatHuman( +val ) ); break;
 			case "duration": this.$elements.$infoDur.$text( `${ val } ${ GSTX.$unitSecondSec }` ); break;
 			case "format":
 				this.$elements.$infoFormat.$text( val );
