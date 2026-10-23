@@ -569,6 +569,8 @@ const GSTXall = GSUdeepFreeze( {
 
 const GSTX = GSTXall[ $.$lang() ] || GSTXall.en;
 
+GSUmathFloatHuman.$unit = GSTX.$unitByteB;
+
 const GSTXplural = ( w, nb ) => nb < 2 || w.endsWith( "s" ) ? w : `${ w }s`;
 const GSTXreplace = ( s, ...arr ) => GSUreduce( arr, ( s, a, i ) => s.replaceAll( `$${ i }`, a ), s );
 
