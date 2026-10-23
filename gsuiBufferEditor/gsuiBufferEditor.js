@@ -58,8 +58,8 @@ class gsuiBufferEditor extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "saving": this.$elements.$saveBtn.$setAttr( "loading", val === "" ); break;
-			case "extracting": this.$elements.$selExtrBtn.$setAttr( "loading", val === "" ); break;
+			case "saving": this.$elements.$saveBtn.$loading( val === "" ); break;
+			case "extracting": this.$elements.$selExtrBtn.$loading( val === "" ); break;
 		}
 	}
 	$onmessage( key, val ) {

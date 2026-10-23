@@ -99,7 +99,8 @@ class gsuiLibrary extends gsui0ne {
 	}
 	#unloadSamples() {
 		this.$elements.$body.$query( "gsui-library-sample" )
-			.$rmAttr( "loading", "ready" )
+			.$loading( false )
+			.$rmAttr( "ready" )
 			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}
 	#setSamples( lib ) {
@@ -139,7 +140,7 @@ class gsuiLibrary extends gsui0ne {
 	}
 	#readySample( id ) {
 		this.#getSample( id )
-			.$rmAttr( "loading" )
+			.$loading( false )
 			.$addAttr( "ready" )
 			.$setAttr( "data-tooltip", el => $.$getAttr( el, "name" ) );
 	}

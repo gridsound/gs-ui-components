@@ -139,7 +139,7 @@ class gsuiSample extends gsui0ne {
 			this.#getAudioBuffer()
 				.then( buf => GSUwait( .2 ).then( () => buf ) )
 				.then( buf => this.#bufEdit.$message( GSEV_BUFFEREDITOR_BUFFER, buf ) )
-				.finally( () => this.$elements.$menuBtn.$rmAttr( "loading" ) );
+				.finally( () => this.$elements.$menuBtn.$loading( false ) );
 		}
 	}
 	#sliderPtrDown( e ) {
@@ -186,7 +186,7 @@ class gsuiSample extends gsui0ne {
 	#initAudio() {
 		const btn = this.$elements.$playBtn;
 
-		btn.$addAttr( "loading" );
+		btn.$loading( true );
 		return GSUaudioCurrentContext.resume()
 			.then( () => gswaBufferPlayer.$bfplLoadModule( GSUaudioCurrentContext ) )
 			.then( () => this.#getAudioBuffer() )
@@ -199,7 +199,7 @@ class gsuiSample extends gsui0ne {
 				}
 				this.#bufPlayer.$bfplSource( ...gswaBuffers.$sabGetBuffer( this.$this.$dataId() ) );
 			} )
-			.finally( () => btn.$rmAttr( "loading" ) );
+			.finally( () => btn.$loading( false ) );
 	}
 	#audioPlay( b ) {
 		if ( b ) {
@@ -247,7 +247,7 @@ class gsuiSample extends gsui0ne {
 			: this.#audioPlay( !this.#intervalId );
 	}
 	#clickRename() {
-		this.$elements.$menuBtn.$addAttr( "loading" );
+		this.$elements.$menuBtn.$loading( true );
 		return $popup.$prompt( GSTX.$samplesMvSample, "", this.$this.$getAttr( "name" ) )
 			.then( name => {
 				if ( !name || name === this.$this.$getAttr( "name" ) ) {
@@ -257,7 +257,7 @@ class gsuiSample extends gsui0ne {
 			} )
 			.then( name => this.#promises.get( "rename" )( this.$this.$dataId(), name ) )
 			.then( name => this.$this.$setAttr( "name", name ) )
-			.finally( () => this.$elements.$menuBtn.$rmAttr( "loading" ) );
+			.finally( () => this.$elements.$menuBtn.$loading( false ) );
 	}
 	#clickDownload() {
 		const [ name, format ] = this.$this.$getAttr( "name", "format" );
@@ -265,10 +265,10 @@ class gsuiSample extends gsui0ne {
 		GSUdownloadURL( `${ name }.${ format }`, this.#calcURL() );
 	}
 	#clickDelete() {
-		this.$elements.$menuBtn.$addAttr( "loading" );
+		this.$elements.$menuBtn.$loading( true );
 		this.#promises.get( "delete" )( this.$this.$dataId() )
 			.then( () => this.$this.$setAttr( "size", 0 ).$dispatch( GSEV_SAMPLE_DELETED ).$remove() )
-			.finally( () => this.$elements.$menuBtn.$rmAttr( "loading" ) );
+			.finally( () => this.$elements.$menuBtn.$loading( false ) );
 	}
 	#clickCloneMP3() {
 		this.$this.$dispatch( GSEV_SAMPLE_CLONEMP3, this.$this.$dataId(), this.#calcURL() );
@@ -277,7 +277,7 @@ class gsuiSample extends gsui0ne {
 		this.$this.$dispatch( GSEV_SAMPLE_CONVERTMP3, this.$this.$dataId(), this.#calcURL() );
 	}
 	#clickEdit() {
-		this.$elements.$menuBtn.$addAttr( "loading" );
+		this.$elements.$menuBtn.$loading( true );
 		this.$this.$addAttr( "editing" );
 	}
 }

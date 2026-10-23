@@ -148,7 +148,7 @@ class gsuiScratch extends gsui0ne {
 		this.#audiobuf = null;
 		this.#audioElem = elAudio;
 		this.#currentTime = 0;
-		this.$this.$addAttr( "loading" );
+		this.$this.$loading( true );
 		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
 			.then( arr => ctx.decodeAudioData( arr ) )
@@ -167,7 +167,7 @@ class gsuiScratch extends gsui0ne {
 			} )
 			.finally( () => {
 				ctx.close();
-				this.$this.$rmAttr( "loading" );
+				this.$this.$loading( false );
 			} );
 	}
 }
