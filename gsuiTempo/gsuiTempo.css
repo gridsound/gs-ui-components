@@ -114,8 +114,6 @@ gsui-tempo {
 		width: calc( 100px - 24px - 6px );
 	}
 	button {
-		display: flex;
-		height: 100%;
 		width: 24px;
 		border-radius: 4px;
 		font-size: 12px;
