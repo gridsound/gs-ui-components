@@ -28,10 +28,9 @@
 <script>
 const play = $( "#play" );
 const analyserVu = $( "gsui-analyser-vu" );
-const ctx = GSUaudioContext();
-const anL = GSUaudioAnalyser( ctx );
-const anR = GSUaudioAnalyser( ctx );
-const split = GSUaudioChannelSplitter( ctx, 2 );
+const anL = gswaContext.$createAnalyserNode();
+const anR = gswaContext.$createAnalyserNode();
+const split = gswaContext.$createChannelSplitterNode( 2 );
 const fftSize = 1024;
 const anDataL = new Float32Array( fftSize / 2 );
 const anDataR = new Float32Array( fftSize / 2 );
@@ -48,7 +47,7 @@ $( "#hardValue" ).$oninput( e => hardVal = +e.target.value );
 
 fetch( "test-assets/808kick.wav" )
 	.then( res => res.arrayBuffer() )
-	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( arr => gswaContext.$decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
 		play.$disabled( false );
@@ -56,10 +55,10 @@ fetch( "test-assets/808kick.wav" )
 
 play.$onclick( () => {
 	hardVal = null;
-	absn = GSUaudioBufferSource( ctx );
+	absn = gswaContext.$createBufferSourceNode();
 	absn.buffer = buffer;
 	absn.connect( split );
-	absn.connect( ctx.destination );
+	absn.connect( gswaContext.$getDest() );
 	absn.start();
 } );
 

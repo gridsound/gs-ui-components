@@ -46,8 +46,7 @@ const analyserTd = $( "gsui-analyser-td" );
 const ampInput = $( "#ampInput" );
 const pinchInput = $( "#pinchInput" );
 const smoothInput = $( "#smoothInput" );
-const ctx = GSUaudioContext();
-const an = GSUaudioAnalyser( ctx );
+const an = gswaContext.$createAnalyserNode();
 const fftSize = 1024;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
@@ -59,7 +58,7 @@ an.smoothingTimeConstant = 0;
 
 fetch( "test-assets/Cymatics-IcedOut.wav" )
 	.then( res => res.arrayBuffer() )
-	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( arr => gswaContext.$decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
 		play.$disabled( false );
@@ -70,11 +69,11 @@ freeze.$on( "pointerup", () => { frozen = false; } );
 stop.$onclick( () => { absn?.stop(); } );
 play.$onclick( () => {
 	stop.$click();
-	absn = GSUaudioBufferSource( ctx );
+	absn = gswaContext.$createBufferSourceNode();
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
-	absn.connect( ctx.destination );
+	absn.connect( gswaContext.$getDest() );
 	absn.start();
 } );
 

@@ -31,9 +31,8 @@ const stop = $( "#stop" );
 const gain = $( "#gain" );
 const bgcolor = $( "#bgcolor" );
 const spectrum = $( "gsui-analyser-hz" );
-const ctx = GSUaudioContext();
-const an = GSUaudioAnalyser( ctx );
-const gainNode = GSUaudioGain( ctx );
+const an = gswaContext.$createAnalyserNode();
+const gainNode = gswaContext.$createGainNode();
 const fftSize = 4096;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
@@ -44,11 +43,11 @@ spectrum.$setAttr( "resolution", 1024 );
 an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;
 gainNode.connect( an );
-gainNode.connect( ctx.destination );
+gainNode.connect( gswaContext.$getDest() );
 
 fetch( "test-assets/Cymatics-IcedOut.wav" )
 	.then( res => res.arrayBuffer() )
-	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( arr => gswaContext.$decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
 		play.$disabled( false );
@@ -59,7 +58,7 @@ bgcolor.$onchange( () => spectrum.$css( "background-color", bgcolor.$value() ) )
 stop.$onclick( () => absn?.stop() );
 play.$onclick( () => {
 	stop.$click();
-	absn = GSUaudioBufferSource( ctx );
+	absn = gswaContext.$createBufferSourceNode();
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( gainNode );

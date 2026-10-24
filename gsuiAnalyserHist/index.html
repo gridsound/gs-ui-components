@@ -26,10 +26,9 @@ const play = $( "#play" );
 const stop = $( "#stop" );
 const type = $( "#type" );
 const analyser = $( "gsui-analyser-hist" );
-const ctx = GSUaudioContext();
-const anL = GSUaudioAnalyser( ctx );
-const anR = GSUaudioAnalyser( ctx );
-const split = GSUaudioChannelSplitter( ctx, 2 );
+const anL = gswaContext.$createAnalyserNode();
+const anR = gswaContext.$createAnalyserNode();
+const split = gswaContext.$createChannelSplitterNode( 2 );
 const fftSize = 2048;
 const anLData = new Float32Array( fftSize / 2 );
 const anRData = new Float32Array( fftSize / 2 );
@@ -48,7 +47,7 @@ split.connect( anR, 1 );
 
 fetch( "test-assets/Cymatics-IcedOut.wav" )
 	.then( res => res.arrayBuffer() )
-	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( arr => gswaContext.$decodeAudioData( arr ) )
 	.then( buf => {
 		buffer = buf;
 		play.$disabled( false );
@@ -62,11 +61,11 @@ stop.$onclick( () => {
 } );
 play.$onclick( () => {
 	stop.$click();
-	absn = GSUaudioBufferSource( ctx );
+	absn = gswaContext.$createBufferSourceNode();
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( split );
-	absn.connect( ctx.destination );
+	absn.connect( gswaContext.$getDest() );
 	absn.start();
 } );
 
