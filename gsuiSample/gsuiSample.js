@@ -181,25 +181,23 @@ class gsuiSample extends gsui0ne {
 	#getAudioBuffer() {
 		return fetch( this.#calcURL() )
 			.then( res => res.arrayBuffer() )
-			.then( arr => GSUaudioCurrentContext.decodeAudioData( arr ) );
+			.then( arr => gswaContext.$decodeAudioData( arr ) );
 	}
 	#initAudio() {
-		const btn = this.$elements.$playBtn;
-
-		btn.$loading( true );
-		return GSUaudioCurrentContext.resume()
-			.then( () => gswaBufferPlayer.$bfplLoadModule( GSUaudioCurrentContext ) )
+		this.$elements.$playBtn.$loading( true );
+		return gswaContext.$resume()
+			.then( () => gswaContext.$loadModules() )
 			.then( () => this.#getAudioBuffer() )
 			.then( buf => {
 				gswaBuffers.$sabSetBuffer( this.$this.$dataId(), buf );
 				if ( !this.#bufPlayer ) {
-					this.#bufPlayer = new gswaBufferPlayer( GSUaudioCurrentContext );
+					this.#bufPlayer = new gswaBufferPlayer();
 					this.#bufPlayer.$bfplLoop( true );
-					this.#bufPlayer.$bfplConnect( GSUaudioCurrentContext.destination );
+					this.#bufPlayer.$bfplConnect( gswaContext.$getDest() );
 				}
 				this.#bufPlayer.$bfplSource( ...gswaBuffers.$sabGetBuffer( this.$this.$dataId() ) );
 			} )
-			.finally( () => btn.$loading( false ) );
+			.finally( () => this.$elements.$playBtn.$loading( false ) );
 	}
 	#audioPlay( b ) {
 		if ( b ) {
