@@ -205,18 +205,12 @@ class gsuiWaveEditor extends gsui0ne {
 
 	// .........................................................................
 	#ondrop( e ) {
-		let ctx;
-
 		e.preventDefault();
 		e.stopPropagation();
 		GSUgetFilesDataTransfert( e.dataTransfer.items )
 			.then( files => files[ 0 ].arrayBuffer() )
-			.then( arr => {
-				ctx = GSUaudioContext();
-				return ctx.decodeAudioData( arr );
-			} )
+			.then( arr => gswaContext.$decodeAudioData( arr ) )
 			.then( buf => {
-				ctx.close();
 				return buf.numberOfChannels >= 1
 					? buf.getChannelData( 0 )
 					: null;
