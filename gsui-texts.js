@@ -164,7 +164,6 @@ const GSTXall = GSUdeepFreeze( {
 		// .....................................................................
 		$daw_gain:        "Main app <b>volume</b> (this will not affect the rendering)",
 		$daw_focus:       "Switch <b>focus</b> between the composition and piano windows",
-		$daw_reboot:      "<b>Reboot</b> the audio engine",
 		$daw_undo:        "<b>Undo</b> the previous action",
 		$daw_redo:        "<b>Redo</b> the last action",
 		$daw_render:      "<b>Render</b> the composition",
@@ -446,7 +445,6 @@ const GSTXall = GSUdeepFreeze( {
 		// .....................................................................
 		$daw_gain:        "<b>Volume</b> principal de l'application (n'affecte pas le rendu)",
 		$daw_focus:       "Basculer le <b>focus</b> entre la composition et le piano",
-		$daw_reboot:      "<b>Redémarrer</b> le moteur audio",
 		$daw_undo:        "<b>Annuler</b> l'action précédente",
 		$daw_redo:        "<b>Rétablir</b> la dernière action",
 		$daw_render:      "<b>Exporter</b> la composition",

@@ -16,7 +16,6 @@ $.$setTemplate( "gsui-daw", () => [
 				),
 				$.$button( { class: "gsuiDAW-btn", "data-action": "play" }, $.$icon( { icon: "play" } ) ),
 				$.$button( { class: "gsuiDAW-btn", "data-action": "stop" }, $.$icon( { icon: "stop" } ) ),
-				$.$button( { class: "gsuiDAW-btn", "data-action": "reset",  "data-tooltip": GSTX.$daw_reboot }, $.$icon( { icon: "sync" } ) ),
 			),
 			$.$div( { class: "gsuiDAW-btns" },
 				$.$button( { class: "gsuiDAW-btn", "data-action": "undo", "data-tooltip": GSTX.$daw_undo }, $.$icon( { icon: "undo" } ) ),

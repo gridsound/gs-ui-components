@@ -344,7 +344,6 @@ class gsuiDAW extends gsui0ne {
 			case "focusSwitch": this.$this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
 			case "play": this.$this.$dispatch( GSEV_DAW_PLAY ); break;
 			case "stop": this.$this.$dispatch( GSEV_DAW_STOP ); break;
-			case "reset": this.$this.$dispatch( GSEV_DAW_RESET ); break;
 			case "undo": this.$this.$dispatch( GSEV_DAW_UNDO ); break;
 			case "redo": this.$this.$dispatch( GSEV_DAW_REDO ); break;
 			case "help": this.$this.$togAttr( "helping" ); break;
