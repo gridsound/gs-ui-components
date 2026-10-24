@@ -143,15 +143,13 @@ class gsuiScratch extends gsui0ne {
 		this.#drawWaveform();
 	}
 	#load( elAudio ) {
-		const ctx = GSUaudioContext();
-
 		this.#audiobuf = null;
 		this.#audioElem = elAudio;
 		this.#currentTime = 0;
 		this.$this.$loading( true );
 		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
-			.then( arr => ctx.decodeAudioData( arr ) )
+			.then( arr => gswaContext.$decodeAudioData( arr ) )
 			.then( buf => gswaBufferToFile.$convert( GSUbufferReverse( this.#audiobuf = buf ), "wav" ) )
 			.then( blob => {
 				this.#dur = this.#audiobuf.duration;
@@ -165,10 +163,7 @@ class gsuiScratch extends gsui0ne {
 				this.$elements.$wave.$message( GSEV_WAVEFORM_BUFFER, this.#audiobuf );
 				this.#drawWaveform();
 			} )
-			.finally( () => {
-				ctx.close();
-				this.$this.$loading( false );
-			} );
+			.finally( () => this.$this.$loading( false ) );
 	}
 }
 
