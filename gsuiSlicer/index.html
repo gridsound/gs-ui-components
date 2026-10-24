@@ -25,7 +25,8 @@
 const slicer = $( "gsui-slicer" );
 const playSampleBtn = $( "#playSample" );
 const currentTimeInp = $( "#currentTime" );
-let ctx, buffer, absn;
+let buffer;
+let absn;
 
 slicer.$get( 0 ).$addSlice(  0, { x: .000, y: .000, w: .125 } );
 slicer.$get( 0 ).$addSlice(  1, { x: .125, y: .125, w: .125 } );
@@ -51,16 +52,15 @@ playSampleBtn.$onclick( () => {
 		absn.stop();
 		absn = null;
 	} else {
-		absn = GSUaudioBufferSource( ctx );
-		absn.buffer = gswaSlicer.$createBuffer( ctx, buffer, 0, 1, slicer.$get( 0 ).$getSlicesData() );
+		absn = gswaContext.$createBufferNode();
+		absn.buffer = gswaSlicer.$createBuffer( buffer, 0, 1, slicer.$get( 0 ).$getSlicesData() );
 		absn.loop = true;
-		absn.connect( ctx.destination );
+		absn.connect( gswaContext.$getDest() );
 		absn.start();
 	}
 } );
 $( "#rmSample" ).$onclick( () => slicer.$get( 0 ).$removeBuffer() );
 $( "#loadSample" ).$onclick( () => {
-	ctx ||= GSUaudioContext();
 	slicer.$get( 0 ).$removeBuffer();
 	// fetch( "test-assets/i-just-dont-know-why_F_minor.wav" )
 	// fetch( "test-assets/the_purge_siren_3.wav" )
@@ -72,7 +72,7 @@ $( "#loadSample" ).$onclick( () => {
 	// fetch( "test-assets/Robot Rock - Oh Yeah.wav" )
 	// fetch( "test-assets/Television Rules The Nation - Crescendolls.wav" )
 		.then( res => res.arrayBuffer() )
-		.then( arr => ctx.decodeAudioData( arr ) )
+		.then( arr => gswaContext.$decodeAudioData( arr ) )
 		.then( buf => {
 			buffer = buf;
 			slicer.$get( 0 ).$setBuffer( buf );

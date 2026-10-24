@@ -36,7 +36,6 @@
 
 <script>
 const divs = $( "#TryComponent div" );
-const ctx = GSUaudioContext();
 
 const dur = 4;
 const bps = 60 / 60;
@@ -116,7 +115,7 @@ gsuiSVGPatterns.$update( "slices", "pC", {
 
 fetch( "test-assets/okay.wav" )
 	.then( res => res.arrayBuffer() )
-	.then( arr => ctx.decodeAudioData( arr ) )
+	.then( arr => gswaContext.$decodeAudioData( arr ) )
 	.then( buf => {
 		gsuiSVGPatterns.$update( "buffer", "pE", buf );
 		gsuiSVGPatterns.$setSVGViewbox( "buffer", svgE, 0, dur, bps );

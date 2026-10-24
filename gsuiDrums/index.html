@@ -11,7 +11,6 @@
 
 <script>
 const drums = $( "gsui-drums" ).$get( 0 );
-const ctx = GSUaudioContext();
 
 initRow( 0, "dr0", "kick 017", 0, 0, 1, "kick-017" );
 initRow( 1, "dr1", "clap 013", 0, .2, .7, "clap-013" );
@@ -76,7 +75,7 @@ function initRow( order, drumId, name, detune, pan, gain, bufName ) {
 	drums.$changeDrumrow( drumId, "order", order );
 	fetch( `test-assets/${ bufName }.wav` )
 		.then( res => res.arrayBuffer() )
-		.then( arr => ctx.decodeAudioData( arr ) )
+		.then( arr => gswaContext.$decodeAudioData( arr ) )
 		.then( buf => {
 			gsuiSVGPatterns.$add( "buffer", bufName );
 			gsuiSVGPatterns.$add( "bufferHD", bufName );

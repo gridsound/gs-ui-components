@@ -58,7 +58,7 @@ bgcolor.$onchange( () => spectrum.$css( "background-color", bgcolor.$value() ) )
 stop.$onclick( () => absn?.stop() );
 play.$onclick( () => {
 	stop.$click();
-	absn = gswaContext.$createBufferSourceNode();
+	absn = gswaContext.$createBufferNode();
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( gainNode );

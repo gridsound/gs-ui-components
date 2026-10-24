@@ -69,7 +69,7 @@ freeze.$on( "pointerup", () => { frozen = false; } );
 stop.$onclick( () => { absn?.stop(); } );
 play.$onclick( () => {
 	stop.$click();
-	absn = gswaContext.$createBufferSourceNode();
+	absn = gswaContext.$createBufferNode();
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
