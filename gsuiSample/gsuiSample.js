@@ -119,9 +119,9 @@ class gsuiSample extends gsui0ne {
 	}
 	$onmessage( type, a, b ) {
 		switch ( type ) {
-			case "waves": this.$elements.$waveform.$message( GSEV_WAVEFORM_DRAW, a ); break;
-			case "pause": this.#audioStop(); break;
-			case "playToggle": this.#clickPlay(); break;
+			case GSEV_SAMPLE_DRAW: this.$elements.$waveform.$message( GSEV_WAVEFORM_DRAW, a ); break;
+			case GSEV_SAMPLE_STOP: this.#audioStop(); break;
+			case GSEV_SAMPLE_PLAYTOGGLE: this.#clickPlay(); break;
 			case GSEV_API_PROMISE: this.#promises.set( a, b ); break;
 		}
 	}
@@ -201,7 +201,7 @@ class gsuiSample extends gsui0ne {
 	}
 	#audioPlay( b ) {
 		if ( b ) {
-			$( "gsui-sample[playing]" ).$message( "pause" );
+			$( "gsui-sample[playing]" ).$message( GSEV_SAMPLE_STOP );
 			this.#intervalId = GSUsetInterval( () => {
 				if ( !this.#currentTiming ) {
 					this.#setSlider( this.#bufPlayer.$bfplTime() );
