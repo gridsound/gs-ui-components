@@ -186,7 +186,6 @@ class gsuiSample extends gsui0ne {
 	#initAudio() {
 		this.$elements.$playBtn.$loading( true );
 		return gswaContext.$resume()
-			.then( () => gswaContext.$loadModules() )
 			.then( () => this.#getAudioBuffer() )
 			.then( buf => {
 				gswaBuffers.$sabSetBuffer( this.$this.$dataId(), buf );
