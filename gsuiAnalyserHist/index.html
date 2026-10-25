@@ -26,9 +26,9 @@ const play = $( "#play" );
 const stop = $( "#stop" );
 const type = $( "#type" );
 const analyser = $( "gsui-analyser-hist" );
-const anL = gswaContext.$createAnalyserNode();
-const anR = gswaContext.$createAnalyserNode();
-const split = gswaContext.$createSplitterNode( 2 );
+const anL = gswaContext.$createNode( NODE_ANALYSER );
+const anR = gswaContext.$createNode( NODE_ANALYSER );
+const split = gswaContext.$createNode( NODE_SPLITTER, 2 );
 const fftSize = 2048;
 const anLData = new Float32Array( fftSize / 2 );
 const anRData = new Float32Array( fftSize / 2 );
@@ -61,7 +61,7 @@ stop.$onclick( () => {
 } );
 play.$onclick( () => {
 	stop.$click();
-	absn = gswaContext.$createBufferNode();
+	absn = gswaContext.$createNode( NODE_BUFFER );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( split );

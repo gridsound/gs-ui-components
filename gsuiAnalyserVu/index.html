@@ -28,9 +28,9 @@
 <script>
 const play = $( "#play" );
 const analyserVu = $( "gsui-analyser-vu" );
-const anL = gswaContext.$createAnalyserNode();
-const anR = gswaContext.$createAnalyserNode();
-const split = gswaContext.$createSplitterNode( 2 );
+const anL = gswaContext.$createNode( NODE_ANALYSER );
+const anR = gswaContext.$createNode( NODE_ANALYSER );
+const split = gswaContext.$createNode( NODE_SPLITTER, 2 );
 const fftSize = 1024;
 const anDataL = new Float32Array( fftSize / 2 );
 const anDataR = new Float32Array( fftSize / 2 );
@@ -55,7 +55,7 @@ fetch( "test-assets/808kick.wav" )
 
 play.$onclick( () => {
 	hardVal = null;
-	absn = gswaContext.$createBufferNode();
+	absn = gswaContext.$createNode( NODE_BUFFER );
 	absn.buffer = buffer;
 	absn.connect( split );
 	absn.connect( gswaContext.$getDest() );

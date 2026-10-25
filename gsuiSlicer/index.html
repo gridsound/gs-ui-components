@@ -52,7 +52,7 @@ playSampleBtn.$onclick( () => {
 		absn.stop();
 		absn = null;
 	} else {
-		absn = gswaContext.$createBufferNode();
+		absn = gswaContext.$createNode( NODE_BUFFER );
 		absn.buffer = gswaSlicer.$createBuffer( buffer, 0, 1, slicer.$get( 0 ).$getSlicesData() );
 		absn.loop = true;
 		absn.connect( gswaContext.$getDest() );

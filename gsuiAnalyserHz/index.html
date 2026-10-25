@@ -31,8 +31,8 @@ const stop = $( "#stop" );
 const gain = $( "#gain" );
 const bgcolor = $( "#bgcolor" );
 const spectrum = $( "gsui-analyser-hz" );
-const an = gswaContext.$createAnalyserNode();
-const gainNode = gswaContext.$createGainNode();
+const an = gswaContext.$createNode( NODE_ANALYSER );
+const gainNode = gswaContext.$createNode( NODE_GAIN );
 const fftSize = 4096;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
@@ -58,7 +58,7 @@ bgcolor.$onchange( () => spectrum.$css( "background-color", bgcolor.$value() ) )
 stop.$onclick( () => absn?.stop() );
 play.$onclick( () => {
 	stop.$click();
-	absn = gswaContext.$createBufferNode();
+	absn = gswaContext.$createNode( NODE_BUFFER );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( gainNode );

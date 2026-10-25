@@ -46,7 +46,7 @@ const analyserTd = $( "gsui-analyser-td" );
 const ampInput = $( "#ampInput" );
 const pinchInput = $( "#pinchInput" );
 const smoothInput = $( "#smoothInput" );
-const an = gswaContext.$createAnalyserNode();
+const an = gswaContext.$createNode( NODE_ANALYSER );
 const fftSize = 1024;
 const anData = new Float32Array( fftSize / 2 );
 let buffer;
@@ -69,7 +69,7 @@ freeze.$on( "pointerup", () => { frozen = false; } );
 stop.$onclick( () => { absn?.stop(); } );
 play.$onclick( () => {
 	stop.$click();
-	absn = gswaContext.$createBufferNode();
+	absn = gswaContext.$createNode( NODE_BUFFER );
 	absn.buffer = buffer;
 	absn.loop = true;
 	absn.connect( an );
