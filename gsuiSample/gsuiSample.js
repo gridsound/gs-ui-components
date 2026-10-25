@@ -221,7 +221,8 @@ class gsuiSample extends gsui0ne {
 	}
 	#audioStop() {
 		this.#audioPlay( false );
-		this.#bufPlayer?.$bfplTime( 0 );
+		this.#bufPlayer?.$bfplKill();
+		this.#bufPlayer = null;
 		this.#setSlider( 0 );
 		this.$elements.$stopBtn.$disabled( true );
 	}
