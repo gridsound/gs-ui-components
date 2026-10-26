@@ -229,7 +229,9 @@ class gsuiBufferView extends gsui0ne {
 		this.$this.$setAttr( "view", `${ a } ${ b }` );
 	}
 	#setSel( a, b ) {
-		this.$this.$setAttr( "selection", `${ a } ${ b }` );
+		this.$this
+			.$setAttr( "selection", `${ a } ${ b }` )
+			.$dispatch( GSEV_BUFFERVIEW_SELECTION_CHANGE, a, b );
 	}
 	#bodyMove( n ) {
 		const a = GSUmathClamp( this.#viewASave + n * -this.#viewB, 0, 1 - this.#viewB );
