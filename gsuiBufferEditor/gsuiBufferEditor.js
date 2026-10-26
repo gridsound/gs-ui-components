@@ -48,6 +48,9 @@ class gsuiBufferEditor extends gsui0ne {
 				$selBtnActions: "gsui-button + [data-prop^='sel']",
 				$fullscrBtn: "[data-prop='fullscr']",
 			},
+			$attributes: {
+				tabindex: -1,
+			},
 		} );
 		this.$this.$listen( {
 			[ GSEV_BUFFERVIEW_SELECTION_CHANGE ]: d => this.#onchangeSelection( ...d.$args ),
@@ -132,13 +135,16 @@ class gsuiBufferEditor extends gsui0ne {
 		this.$elements.$stopBtn.$disabled( false );
 	}
 	#clickStop() {
-		this.#playing = false;
+		const t = this.#playing ? this.#loopA : 0;
+
 		GSUclearInterval( this.#intervalId );
 		GSUaudioParamSet( this.#bufPlayer.$play, 0 );
-		this.#bufPlayer.$bfplTime( 0 );
-		this.$elements.$view.$setAttr( "time", 0 );
+		this.#bufPlayer.$bfplTime( t );
+		this.$elements.$view.$setAttr( "time", t );
 		this.$elements.$playBtn.$setAttr( "icon", "play" );
-		this.$elements.$stopBtn.$disabled( true );
+		this.$elements.$stopBtn.$disabled( !this.#playing || !t );
+		this.#playing = false;
+		this.$this.$focus();
 	}
 	#clickExit() {
 		this.$this.$dispatch( GSEV_BUFFEREDITOR_EXIT );
