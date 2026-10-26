@@ -23,7 +23,7 @@ gsui-buffer-view {
 		background-color: #ff9a;
 		pointer-events: none;
 
-		gsui-buffer-view:not( [ time ] ) & {
+		gsui-buffer-view[ time="0" ] & {
 			display: none;
 		}
 	}
