@@ -2,7 +2,12 @@
 
 class gsuiBufferEditor extends gsui0ne {
 	#buf = null;
+	#bufPlayer = null;
 	#changed = false;
+	#loopA = 0;
+	#loopB = 1;
+	#playing = false;
+	#intervalId = null;
 
 	constructor() {
 		super( {
@@ -15,6 +20,11 @@ class gsuiBufferEditor extends gsui0ne {
 					$.$elem( "gsui-buttons", null,
 						$.$elem( "gsui-button", { "data-prop": "save", light: true, model: "submit", icon: "save", "data-tooltip": GSTX.$save, disabled: true } ),
 						$.$elem( "gsui-button", { "data-prop": "sel-extract", light: true, model: "submit", icon: "extract", "data-tooltip": GSTX.$extractAudioNewSample, disabled: true } ),
+					),
+					$.$elem( "gsui-be-divider" ),
+					$.$elem( "gsui-buttons", null,
+						$.$elem( "gsui-button", { "data-prop": "play", light: true, icon: "play" } ),
+						$.$elem( "gsui-button", { "data-prop": "stop", light: true, icon: "stop", disabled: true } ),
 					),
 					$.$elem( "gsui-buttons", null,
 						$.$elem( "gsui-button", { "data-prop": "sel-add", light: true, model: "danger", icon: "select-plus", "data-tooltip": GSTX.$newSelection } ),
@@ -31,11 +41,16 @@ class gsuiBufferEditor extends gsui0ne {
 				$head: "gsui-be-head",
 				$selBtns: "[data-prop^='sel']",
 				$saveBtn: "[data-prop='save']",
+				$playBtn: "[data-prop='play']",
+				$stopBtn: "[data-prop='stop']",
 				$selAddBtn: "[data-prop='sel-add']",
 				$selExtrBtn: "[data-prop='sel-extract']",
 				$selBtnActions: "gsui-button + [data-prop^='sel']",
 				$fullscrBtn: "[data-prop='fullscr']",
 			},
+		} );
+		this.$this.$listen( {
+			[ GSEV_BUFFERVIEW_SELECTION_CHANGE ]: d => this.#onchangeSelection( ...d.$args ),
 		} );
 		this.$elements.$head.$onclick( e => {
 			const act = $.$dataProp( e.target );
@@ -44,6 +59,8 @@ class gsuiBufferEditor extends gsui0ne {
 			switch ( act ) {
 				case "exit": this.#clickExit(); break;
 				case "save": this.#clickSave(); break;
+				case "play": this.#clickPlay(); break;
+				case "stop": this.#clickStop(); break;
 				case "sel-extract": this.#clickExtract( sel ); break;
 				case "sel-add": this.#toggleSelection( !sel ); break;
 				case "sel-cut": this.#clickSelCut( sel ); break;
@@ -72,6 +89,15 @@ class gsuiBufferEditor extends gsui0ne {
 	}
 
 	// .........................................................................
+	#updateAudioSelection() {
+		GSUaudioParamSet( this.#bufPlayer.$loopA, this.#loopA );
+		GSUaudioParamSet( this.#bufPlayer.$loopB, this.#loopB );
+	}
+	#onchangeSelection( a, b ) {
+		this.#loopA = a;
+		this.#loopB = b;
+		this.#updateAudioSelection();
+	}
 	#setChanged( b ) {
 		this.#changed = b;
 		this.$elements.$saveBtn.$disabled( !b ).$setAttr( "light", !b );
@@ -80,6 +106,39 @@ class gsuiBufferEditor extends gsui0ne {
 		this.#buf = buf;
 		this.#setChanged( true );
 		this.$elements.$view.$message( GSEV_BUFFERVIEW_BUFFER, buf );
+		gswaBuffers.$sabSetBuffer( "bufferplayer", buf );
+		if ( !this.#bufPlayer ) {
+			this.#bufPlayer = new gswaBufferPlayer();
+			this.#bufPlayer.$bfplLoop( true );
+			this.#bufPlayer.$bfplConnect( gswaContext.$getDest() );
+		}
+		this.#bufPlayer.$bfplSource( ...gswaBuffers.$sabGetBuffer( "bufferplayer" ) );
+	}
+	#clickPlay() {
+		if ( this.#playing ) {
+			GSUclearInterval( this.#intervalId );
+			GSUaudioParamSet( this.#bufPlayer.$play, 0 );
+		} else {
+			gswaContext.$resume();
+			// GSUaudioParamSet( this.#bufPlayer.$speed, 1 );
+			GSUaudioParamSet( this.#bufPlayer.$play, 1 );
+			this.#updateAudioSelection();
+			this.#intervalId = GSUsetInterval( () => {
+				this.$elements.$view.$setAttr( "time", this.#bufPlayer.$bfplTime() );
+			}, 1 / 60 );
+		}
+		this.#playing = !this.#playing;
+		this.$elements.$playBtn.$setAttr( "icon", this.#playing ? "pause" : "play" );
+		this.$elements.$stopBtn.$disabled( false );
+	}
+	#clickStop() {
+		this.#playing = false;
+		GSUclearInterval( this.#intervalId );
+		GSUaudioParamSet( this.#bufPlayer.$play, 0 );
+		this.#bufPlayer.$bfplTime( 0 );
+		this.$elements.$view.$setAttr( "time", 0 );
+		this.$elements.$playBtn.$setAttr( "icon", "play" );
+		this.$elements.$stopBtn.$disabled( true );
 	}
 	#clickExit() {
 		this.$this.$dispatch( GSEV_BUFFEREDITOR_EXIT );
@@ -123,17 +182,25 @@ class gsuiBufferEditor extends gsui0ne {
 		}
 	}
 	#toggleSelection( b ) {
-		this.$elements.$view.$setAttr( "selection", b ? this.#calcNewSelection() : false );
+		this.$elements.$view.$setAttr( "selection", this.#calcNewSelection( b ) );
 		this.$elements.$selBtns.$setAttr( "light", !b );
 		this.$elements.$selBtnActions.$disabled( !b );
 		this.$elements.$selAddBtn
 			.$setAttr( "icon", b ? "square-dash" : "select-plus" )
 			.$setAttr( "data-tooltip", b ? GSTX.$cancelSelection : GSTX.$newSelection );
+		this.#updateAudioSelection();
 	}
-	#calcNewSelection() {
-		const [ a, b ] = GSUsplitNums( this.$elements.$view.$getAttr( "view" ) );
+	#calcNewSelection( b ) {
+		if ( b ) {
+			const [ a, b ] = GSUsplitNums( this.$elements.$view.$getAttr( "view" ) );
 
-		return `${ a + b / 4 } ${ b / 2 }`;
+			this.#loopA = a + b / 4;
+			this.#loopB = b / 2;
+			return `${ this.#loopA } ${ this.#loopB }`;
+		}
+		this.#loopA = 0;
+		this.#loopB = 1;
+		return false;
 	}
 }
 

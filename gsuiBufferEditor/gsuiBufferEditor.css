@@ -16,7 +16,7 @@ gsui-buffer-editor {
 		padding: 4px;
 		gap: 8px;
 
-		gsui-buttons:first-of-type {
+		gsui-buttons:nth-of-type( 2 ) {
 			margin-right: auto;
 		}
 	}
