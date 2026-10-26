@@ -9,6 +9,7 @@ class gsuiBufferView extends gsui0ne {
 	#viewB = 1;
 	#viewASave = 0;
 	#viewBMin = 0;
+	#time = 0;
 	#selA = 0;
 	#selB = 1;
 	#selASave = 0;
@@ -27,6 +28,7 @@ class gsuiBufferView extends gsui0ne {
 						$.$div( { "data-prop": "sel-start" } ),
 						$.$div( { "data-prop": "sel-end" } ),
 					),
+					$.$elem( "gsui-bv-cursor" ),
 				),
 				$.$elem( "gsui-bv-minimap", { "data-prop": "map-teleport" },
 					$.$elem( "gsui-waveform" ),
@@ -35,6 +37,7 @@ class gsuiBufferView extends gsui0ne {
 						$.$div( { "data-prop": "map-start" } ),
 						$.$div( { "data-prop": "map-end" } ),
 					),
+					$.$elem( "gsui-bv-cursor" ),
 				),
 			),
 			$elements: {
@@ -46,6 +49,8 @@ class gsuiBufferView extends gsui0ne {
 				$body: "gsui-bv-body",
 				$bodySel: "gsui-bv-body gsui-bv-selection",
 				$miniSel: "gsui-bv-minimap gsui-bv-selection",
+				$bodyCursor: "gsui-bv-body gsui-bv-cursor",
+				$miniCursor: "gsui-bv-minimap gsui-bv-cursor",
 			},
 			$attributes: {
 				view: "0 1",
@@ -61,11 +66,12 @@ class gsuiBufferView extends gsui0ne {
 		} );
 	}
 	static get observedAttributes() {
-		return [ "view", "selection" ];
+		return [ "view", "time", "selection" ];
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "view": this.#onchangeView( val ); break;
+			case "time": this.#onchangeTime( val ); break;
 			case "selection": this.#onchangeSelection( val ); break;
 		}
 	}
@@ -139,6 +145,11 @@ class gsuiBufferView extends gsui0ne {
 		this.#updateBodySelection();
 		this.#updateMiniView();
 	}
+	#onchangeTime( t ) {
+		this.#time = t;
+		this.#updateBodyCursor();
+		this.#updateMiniCursor();
+	}
 	#onchangeSelection( sel ) {
 		if ( !sel ) {
 			this.#selA =
@@ -184,6 +195,15 @@ class gsuiBufferView extends gsui0ne {
 		this.$elements.$miniSel
 			.$left( this.#selA * 100, "%" )
 			.$width( this.#selB * 100, "%" );
+	}
+	#updateBodyCursor() {
+		const t = this.#time;
+		const t2 = ( t - this.#viewA ) / this.#viewB;
+
+		this.$elements.$bodyCursor.$left( t2 * 100, "%" );
+	}
+	#updateMiniCursor() {
+		this.$elements.$miniCursor.$left( this.#time * 100, "%" );
 	}
 
 	// .........................................................................

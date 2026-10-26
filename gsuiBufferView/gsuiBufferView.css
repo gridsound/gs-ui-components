@@ -15,6 +15,19 @@ gsui-buffer-view {
 		touch-action: none;
 	}
 
+	gsui-bv-cursor {
+		position: absolute;
+		inset: 0 auto;
+		width: 2px;
+		margin-left: -1px;
+		background-color: #ff9a;
+		pointer-events: none;
+
+		gsui-buffer-view:not( [ time ] ) & {
+			display: none;
+		}
+	}
+
 	gsui-bv-selection {
 		position: absolute;
 		inset: 0 auto;
