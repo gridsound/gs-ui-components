@@ -205,6 +205,8 @@ class gsuiSample extends gsui0ne {
 	#audioPlay( b ) {
 		if ( b ) {
 			$( "gsui-sample[playing]" ).$message( GSEV_SAMPLE_STOP );
+		}
+		if ( b && !this.#bufEdit.$size() ) {
 			this.#intervalId = GSUsetInterval( () => {
 				if ( !this.#currentTiming ) {
 					this.#setSlider( this.#bufPlayer.$bfplTime() );
@@ -215,9 +217,9 @@ class gsuiSample extends gsui0ne {
 			GSUclearInterval( this.#intervalId );
 			this.#intervalId = null;
 		}
-		if ( this.#bufPlayer ) {
+		this.#bufEdit.$message( GSEV_BUFFEREDITOR_PLAYTOGGLE );
+		if ( this.#bufPlayer && ( !b || !this.#bufEdit.$size() ) ) {
 			GSUaudioParamSet( this.#bufPlayer.$play, +b );
-			GSUaudioParamSet( this.#bufPlayer.$speed, 1 );
 		}
 		this.$this.$setAttr( "playing", b );
 		this.$elements.$playBtn.$setAttr( "icon", b ? "pause" : "play" );
@@ -228,6 +230,7 @@ class gsuiSample extends gsui0ne {
 		this.#bufPlayer = null;
 		this.#setSlider( 0 );
 		this.$elements.$stopBtn.$disabled( true );
+		this.#bufEdit.$message( GSEV_BUFFEREDITOR_STOP );
 	}
 
 	// .........................................................................
@@ -244,9 +247,12 @@ class gsuiSample extends gsui0ne {
 		}
 	}
 	#clickPlay() {
-		!this.#bufPlayer
+		!this.#bufPlayer && !this.#bufEdit.$size()
 			? this.#initAudio().then( () => this.#audioPlay( true ) )
-			: this.#audioPlay( !this.#intervalId );
+			: this.#audioPlay( this.#bufEdit.$size()
+				? !this.#bufEdit.$hasAttr( "playing" )
+				: !this.#intervalId
+			);
 	}
 	#clickRename() {
 		this.$elements.$menuBtn.$loading( true );
