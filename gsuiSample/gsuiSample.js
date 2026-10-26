@@ -61,6 +61,7 @@ class gsuiSample extends gsui0ne {
 				$infoSize: "gsui-sample-size",
 				$slider: "gsui-sample-slider",
 				$cursor: "gsui-sample-cursor",
+				$head: "gsui-sample-head",
 				$playBtn: "[data-prop='play']",
 				$stopBtn: "[data-prop='stop']",
 				$menuBtn: "[data-prop='options']",
@@ -70,7 +71,7 @@ class gsuiSample extends gsui0ne {
 				$editOpt: "gsui-dropdown-option[value='edit']",
 			},
 		} );
-		this.$this.$on( {
+		this.$elements.$head.$on( {
 			click: this.#onclick.bind( this ),
 			dblclick: this.#dblclick.bind( this ),
 		} );
