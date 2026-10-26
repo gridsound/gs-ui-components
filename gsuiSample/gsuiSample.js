@@ -126,6 +126,9 @@ class gsuiSample extends gsui0ne {
 			case GSEV_API_PROMISE: this.#promises.set( a, b ); break;
 		}
 	}
+	$disconnected() {
+		this.#audioStop();
+	}
 
 	// .........................................................................
 	#setEditing( b ) {
