@@ -75,6 +75,7 @@ class gsuiBufferEditor extends gsui0ne {
 	}
 	static get observedAttributes() {
 		return [ "saving", "extracting" ];
+		// + "playing"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -84,6 +85,8 @@ class gsuiBufferEditor extends gsui0ne {
 	}
 	$onmessage( key, val ) {
 		switch ( key ) {
+			case GSEV_BUFFEREDITOR_STOP: this.#clickStop(); break;
+			case GSEV_BUFFEREDITOR_PLAYTOGGLE: this.#clickPlay(); break;
 			case GSEV_BUFFEREDITOR_BUFFER:
 				this.#setBuffer( GSUbufferClone( val ) );
 				this.#setChanged( false );
@@ -123,31 +126,37 @@ class gsuiBufferEditor extends gsui0ne {
 		this.#bufPlayer.$bfplSource( ...gswaBuffers.$sabGetBuffer( "bufferplayer" ) );
 	}
 	#clickPlay() {
-		if ( this.#playing ) {
-			GSUclearInterval( this.#intervalId );
-			GSUaudioParamSet( this.#bufPlayer.$play, 0 );
-		} else {
-			gswaContext.$resume();
-			GSUaudioParamSet( this.#bufPlayer.$play, 1 );
-			this.#updateAudioSelection();
-			this.#intervalId = GSUsetInterval( () => {
-				this.$elements.$view.$setAttr( "time", this.#bufPlayer.$bfplTime() );
-			}, 1 / 60 );
+		if ( this.#bufPlayer ) {
+			if ( this.#playing ) {
+				GSUclearInterval( this.#intervalId );
+				GSUaudioParamSet( this.#bufPlayer.$play, 0 );
+			} else {
+				gswaContext.$resume();
+				GSUaudioParamSet( this.#bufPlayer.$play, 1 );
+				this.#updateAudioSelection();
+				this.#intervalId = GSUsetInterval( () => {
+					this.$elements.$view.$setAttr( "time", this.#bufPlayer.$bfplTime() );
+				}, 1 / 60 );
+			}
+			this.#playing = !this.#playing;
+			this.$this.$setAttr( "playing", this.#playing );
+			this.$elements.$playBtn.$setAttr( "icon", this.#playing ? "pause" : "play" );
+			this.$elements.$stopBtn.$disabled( false );
 		}
-		this.#playing = !this.#playing;
-		this.$elements.$playBtn.$setAttr( "icon", this.#playing ? "pause" : "play" );
-		this.$elements.$stopBtn.$disabled( false );
 	}
 	#clickStop() {
 		const t = this.#playing ? this.#loopA : 0;
 
 		GSUclearInterval( this.#intervalId );
-		GSUaudioParamSet( this.#bufPlayer.$play, 0 );
-		this.#bufPlayer.$bfplTime( t );
+		if ( this.#bufPlayer ) {
+			GSUaudioParamSet( this.#bufPlayer.$play, 0 );
+			this.#bufPlayer.$bfplTime( t );
+		}
 		this.$elements.$view.$setAttr( "time", t );
 		this.$elements.$playBtn.$setAttr( "icon", "play" );
 		this.$elements.$stopBtn.$disabled( !this.#playing || !t );
 		this.#playing = false;
+		this.$this.$rmAttr( "playing" );
 		this.$this.$focus();
 	}
 	#clickExit() {
