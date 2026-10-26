@@ -3,6 +3,7 @@ gsui-buffer-editor {
 	min-width: min-content;
 	height: 100%;
 	background-color: #22222a;
+	outline: 0;
 
 	gsui-be-in {
 		display: flex;
