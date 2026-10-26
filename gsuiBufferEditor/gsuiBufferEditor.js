@@ -90,6 +90,11 @@ class gsuiBufferEditor extends gsui0ne {
 				break;
 		}
 	}
+	$disconnected() {
+		this.#clickStop();
+		this.#bufPlayer.$bfplKill();
+		this.#bufPlayer = null;
+	}
 
 	// .........................................................................
 	#updateAudioSelection() {
@@ -123,7 +128,6 @@ class gsuiBufferEditor extends gsui0ne {
 			GSUaudioParamSet( this.#bufPlayer.$play, 0 );
 		} else {
 			gswaContext.$resume();
-			// GSUaudioParamSet( this.#bufPlayer.$speed, 1 );
 			GSUaudioParamSet( this.#bufPlayer.$play, 1 );
 			this.#updateAudioSelection();
 			this.#intervalId = GSUsetInterval( () => {
