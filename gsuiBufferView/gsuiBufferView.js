@@ -42,14 +42,14 @@ class gsuiBufferView extends gsui0ne {
 			),
 			$elements: {
 				$in: "gsui-bv-in",
-				$waveBody: "gsui-bv-body gsui-waveform",
-				$waveMini: "gsui-bv-minimap gsui-waveform",
-				$minimap: "gsui-bv-minimap",
-				$minimapView: "gsui-bv-minimap-view",
 				$body: "gsui-bv-body",
+				$bodyWave: "gsui-bv-body gsui-waveform",
 				$bodySel: "gsui-bv-body gsui-bv-selection",
-				$miniSel: "gsui-bv-minimap gsui-bv-selection",
 				$bodyCursor: "gsui-bv-body gsui-bv-cursor",
+				$mini: "gsui-bv-minimap",
+				$miniView: "gsui-bv-minimap-view",
+				$miniWave: "gsui-bv-minimap gsui-waveform",
+				$miniSel: "gsui-bv-minimap gsui-bv-selection",
 				$miniCursor: "gsui-bv-minimap gsui-bv-cursor",
 			},
 			$attributes: {
@@ -90,8 +90,8 @@ class gsuiBufferView extends gsui0ne {
 			this.#ptrList.set( e.pointerId, e.target );
 			$.$setPtrCapture( e.target, e.pointerId );
 			if ( this.#ptrList.size === 1 ) {
-				const mapBCR = this.$elements.$minimap.$bcr();
-				const mapViewBCR = this.$elements.$minimapView.$bcr();
+				const mapBCR = this.$elements.$mini.$bcr();
+				const mapViewBCR = this.$elements.$miniView.$bcr();
 
 				this.#x_px = mapBCR.x;
 				this.#w_px = mapBCR.w;
@@ -134,15 +134,15 @@ class gsuiBufferView extends gsui0ne {
 	// .........................................................................
 	#onchangeBuffer( buf ) {
 		this.#viewBMin = 300 / ( buf.duration * buf.sampleRate * 10 );
-		this.$elements.$waveBody.$message( GSEV_WAVEFORM_BUFFER, buf );
-		this.$elements.$waveMini.$message( GSEV_WAVEFORM_BUFFER, buf );
+		this.$elements.$bodyWave.$message( GSEV_WAVEFORM_BUFFER, buf );
+		this.$elements.$miniWave.$message( GSEV_WAVEFORM_BUFFER, buf );
 	}
 	#onchangeView( view ) {
 		const [ a, b ] = GSUsplitNums( view );
 
 		this.#viewA = GSUmathClamp( a, 0, 1 );
 		this.#viewB = GSUmathClamp( b, 0, 1 - this.#viewA );
-		this.$elements.$waveBody.$setAttr( "view", `${ this.#viewA } ${ this.#viewB }` );
+		this.$elements.$bodyWave.$setAttr( "view", `${ this.#viewA } ${ this.#viewB }` );
 		this.#updateBodySelection();
 		this.#updateMiniView();
 	}
@@ -178,7 +178,7 @@ class gsuiBufferView extends gsui0ne {
 
 	// .........................................................................
 	#updateMiniView() {
-		this.$elements.$minimapView
+		this.$elements.$miniView
 			.$left( this.#viewA * 100, "%" )
 			.$width( this.#viewB * 100, "%" );
 	}
