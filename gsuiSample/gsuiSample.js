@@ -80,6 +80,7 @@ class gsuiSample extends gsui0ne {
 			pointerdown: this.#sliderPtrDown.bind( this ),
 			pointermove: this.#sliderPtrMove.bind( this ),
 			pointerup: this.#sliderPtrUp.bind( this ),
+			pointercancel: this.#sliderPtrUp.bind( this ),
 		} );
 		this.$this.$listen( {
 			[ GSEV_BUFFEREDITOR_EXIT ]: () => {

@@ -89,7 +89,7 @@ gsui-sample-player {
 		position: absolute;
 		inset: 0;
 		cursor: var( --gsuiCursor-pointer );
-		touch-action: none;
+		touch-action: pan-y;
 
 		gsui-sample-cursor {
 			position: absolute;
