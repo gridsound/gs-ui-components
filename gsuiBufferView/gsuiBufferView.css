@@ -29,10 +29,13 @@ gsui-buffer-view {
 	}
 
 	gsui-bv-selection {
+		box-sizing: border-box;
 		position: absolute;
 		inset: 0 auto;
-		background-color: #f553;
 		backdrop-filter: sepia( .8 );
+		border: 0 solid #f55;
+		border-width: 0 2px;
+		pointer-events: none;
 
 		gsui-buffer-view:not( [ selection ] ) & {
 			display: none;
@@ -42,7 +45,9 @@ gsui-buffer-view {
 			position: absolute;
 			inset: 0 auto;
 			width: calc( min( 20px, 20% ) + 4px );
+			pointer-events: auto;
 		}
+		[ data-prop="sel-move" ] { width: 100%; top: 80%; background-color: #f885; }
 		[ data-prop="sel-start" ] { left: -4px; cursor: var( --gsuiCursor-w-resize ); }
 		[ data-prop="sel-end" ] { right: -4px; cursor: var( --gsuiCursor-e-resize ); }
 	}
@@ -56,8 +61,7 @@ gsui-buffer-view {
 		touch-action: none;
 
 		gsui-bv-selection {
-			opacity: .5;
-			pointer-events: none;
+			border: 0;
 		}
 	}
 
