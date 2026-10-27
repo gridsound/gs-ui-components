@@ -144,6 +144,7 @@ class gsuiBufferView extends gsui0ne {
 		this.#viewB = GSUmathClamp( b, 0, 1 - this.#viewA );
 		this.$elements.$bodyWave.$setAttr( "view", `${ this.#viewA } ${ this.#viewB }` );
 		this.#updateBodySelection();
+		this.#updateBodyCursor();
 		this.#updateMiniView();
 	}
 	#onchangeTime( t ) {
