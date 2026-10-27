@@ -137,6 +137,7 @@ class gsuiSample extends gsui0ne {
 		if ( !b ) {
 			this.#bufEdit.$remove();
 			this.#bufEdit = $noop;
+			this.$this.$rmAttr( "playing" );
 		} else {
 			this.#bufEdit = $( "<gsui-buffer-editor>" ).$appendTo( this.$elements.$body );
 			this.#audioStop();
@@ -220,9 +221,9 @@ class gsuiSample extends gsui0ne {
 		this.#bufEdit.$message( GSEV_BUFFEREDITOR_PLAYTOGGLE );
 		if ( this.#bufPlayer && ( !b || !this.#bufEdit.$size() ) ) {
 			GSUaudioParamSet( this.#bufPlayer.$play, +b );
+			this.$elements.$playBtn.$setAttr( "icon", b ? "pause" : "play" );
 		}
 		this.$this.$setAttr( "playing", b );
-		this.$elements.$playBtn.$setAttr( "icon", b ? "pause" : "play" );
 	}
 	#audioStop() {
 		this.#audioPlay( false );
