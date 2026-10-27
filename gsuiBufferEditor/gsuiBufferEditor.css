@@ -1,4 +1,5 @@
 gsui-buffer-editor {
+	container: gsui-buffer-editor-query / inline-size;
 	display: block;
 	min-width: min-content;
 	height: 100%;
@@ -25,5 +26,12 @@ gsui-buffer-editor {
 		min-width: 1px;
 		height: 60%;
 		background-color: #fff3;
+	}
+}
+
+/* .......................................................................... */
+@container gsui-buffer-editor-query ( max-width: 360px ) {
+	gsui-be-in gsui-be-head {
+		gap: 0;
 	}
 }
