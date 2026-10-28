@@ -104,7 +104,7 @@ class gsuiSample extends gsui0ne {
 	// .........................................................................
 	static get observedAttributes() {
 		return [ "hash", "order", "name", "format", "size", "duration", "editing" ];
-		// "playing"
+		// + "playing", "paused"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
@@ -138,7 +138,7 @@ class gsuiSample extends gsui0ne {
 		if ( !b ) {
 			this.#bufEdit.$remove();
 			this.#bufEdit = $noop;
-			this.$this.$rmAttr( "playing" );
+			this.$this.$rmAttr( "playing", "paused" );
 		} else {
 			this.#bufEdit = $( "<gsui-buffer-editor>" ).$appendTo( this.$elements.$body );
 			this.#audioStop();
@@ -205,9 +205,9 @@ class gsuiSample extends gsui0ne {
 			.finally( () => this.$elements.$playBtn.$loading( false ) );
 	}
 	#audioPlay( b ) {
-		if ( b ) {
-			$( "gsui-sample[playing]" ).$message( GSEV_SAMPLE_STOP );
-		}
+		$( "gsui-sample:is([playing],[paused])" )
+			.$filter( el => el !== this )
+			.$message( GSEV_SAMPLE_STOP );
 		if ( b && !this.#bufEdit.$size() ) {
 			this.#intervalId = GSUsetInterval( () => {
 				if ( !this.#currentTiming ) {
@@ -224,13 +224,16 @@ class gsuiSample extends gsui0ne {
 			GSUaudioParamSet( this.#bufPlayer.$play, +b );
 			this.$elements.$playBtn.$setAttr( "icon", b ? "pause" : "play" );
 		}
-		this.$this.$setAttr( "playing", b );
+		this.$this.$setAttr( "playing", b ).$setAttr( "paused", !b );
 	}
 	#audioStop() {
-		this.#audioPlay( false );
+		GSUclearInterval( this.#intervalId );
 		this.#bufPlayer?.$bfplKill();
-		this.#bufPlayer = null;
+		this.#bufPlayer =
+		this.#intervalId = null;
 		this.#setSlider( 0 );
+		this.$this.$rmAttr( "playing", "paused" );
+		this.$elements.$playBtn.$setAttr( "icon", "play" );
 		this.$elements.$stopBtn.$disabled( true );
 		this.#bufEdit.$message( GSEV_BUFFEREDITOR_STOP );
 	}
