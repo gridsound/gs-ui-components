@@ -1,12 +1,10 @@
 "use strict";
 
 class gsuiSample extends gsui0ne {
-	#currentTiming = false;
-	#frameId = null;
 	#bufEdit = $noop;
 	#bufPlayer = null;
-	#loadedOnce = false;
 	#intervalId = null;
+	#currentTiming = false;
 	#promises = new Map( [
 		[ "rename", ( _id, name ) => Promise.resolve( name ) ],
 		[ "delete", () => Promise.resolve() ],
