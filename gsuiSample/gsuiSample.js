@@ -149,9 +149,11 @@ class gsuiSample extends gsui0ne {
 		}
 	}
 	#sliderPtrDown( e ) {
-		this.$elements.$slider.$setPtrCapture( e.pointerId );
-		this.#currentTiming = true;
-		this.#sliderPtrMove( e );
+		if ( this.$this.$hasAttr( "playing" ) || this.$this.$hasAttr( "paused" ) ) {
+			this.$elements.$slider.$setPtrCapture( e.pointerId );
+			this.#currentTiming = true;
+			this.#sliderPtrMove( e );
+		}
 	}
 	#sliderPtrMove( e ) {
 		if ( this.#currentTiming ) {
