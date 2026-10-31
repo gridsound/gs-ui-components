@@ -46,7 +46,7 @@ class gsuiDAW extends gsui0ne {
 				$currentTime: "gsui-daw-area[area='time'] gsui-slider",
 				$patternsPanel: "gsui-daw-resources",
 				$windows: "gsui-windows",
-				$winBtns: "[data-win]",
+				$winBtns: "gsui-daw-area[area='wins'] *",
 			},
 			$attributes: {
 				saved: true,
@@ -250,7 +250,7 @@ class gsuiDAW extends gsui0ne {
 
 	// .........................................................................
 	#getWinBtn( win ) {
-		return this.$elements.$winBtns.$filter( `[data-win="${ win }"]` );
+		return this.$elements.$winBtns.$filter( `[data-prop="${ win }"]` );
 	}
 	#onopenRenderPopup() {
 		if ( this.$this.$getAttr( "exporting" ) === "1" ) {
@@ -337,9 +337,9 @@ class gsuiDAW extends gsui0ne {
 		}
 	}
 	#onclickHead( e ) {
-		const dt = e.target.dataset;
+		const tar = e.target;
 
-		switch ( dt.action ) {
+		switch ( $.$dataAction( tar ) ) {
 			case "focus": this.$this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
 			case "play": this.$this.$dispatch( GSEV_DAW_PLAY ); break;
 			case "stop": this.$this.$dispatch( GSEV_DAW_STOP ); break;
@@ -350,16 +350,11 @@ class gsuiDAW extends gsui0ne {
 			case "settings": this.#onopenSettingsPopup(); break;
 			case "about": $popup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
 			case "window":
-				if ( dt.win !== "patterns" ) {
-					this.$this.$dispatch( dt.open === undefined ? GSEV_DAW_OPENWINDOW : GSEV_DAW_CLOSEWINDOW, dt.win );
-				} else {
-					this.$toggleWindow( "patterns", dt.open !== "" );
-				}
-				break;
-			case "changelog":
-				break;
-			default:
-				dt.action && lg( "gsuiDAW: untracked action:", dt.action );
+				$.$dataProp( tar ) === "patterns"
+					? this.$toggleWindow( "patterns", !$.$hasAttr( tar, "data-open" ) )
+					: this.$this.$dispatch( $.$hasAttr( tar, "data-open" )
+						? GSEV_DAW_CLOSEWINDOW
+						: GSEV_DAW_OPENWINDOW, $.$dataProp( tar ) );
 				break;
 		}
 	}
