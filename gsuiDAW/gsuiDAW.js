@@ -122,6 +122,7 @@ class gsuiDAW extends gsui0ne {
 			"version",
 			"volume",
 			"helping",
+			"exportmsg",
 		];
 	}
 	$attributeChanged( prop, val ) {
@@ -130,6 +131,9 @@ class gsuiDAW extends gsui0ne {
 		switch ( prop ) {
 			case "exporting":
 				this.#popups.$export.$progress.$value( +val || 0 );
+				break;
+			case "exportmsg":
+				this.#popups.$export.$msg.$text( val );
 				break;
 			case "name":
 				this.$elements.$titleUser.$setAttr( "cmpname", val );
@@ -205,7 +209,7 @@ class gsuiDAW extends gsui0ne {
 			loading: false,
 			download: name,
 		} );
-		this.$setExportMsg( "Rendering complete" );
+		this.$setAttr( "exportmsg", "Rendering complete" );
 	}
 	$toggleWindow( win, b ) {
 		this.#updateWinBtnTooltip( this.#getWinBtn( win ).$setAttr( "data-open", b ) );
@@ -222,9 +226,6 @@ class gsuiDAW extends gsui0ne {
 	}
 
 	// .........................................................................
-	$setExportMsg( msg ) {
-		this.#popups.$export.$msg.$text( msg );
-	}
 	#updateDuration() {
 		const dur = this.$getAttr( "duration" );
 
@@ -232,8 +233,7 @@ class gsuiDAW extends gsui0ne {
 		this.$elements.$currentTime.$setAttr( "max", dur );
 	}
 	#initRenderBtn() {
-		this.$setExportMsg( "" );
-		this.$rmAttr( "exporting" );
+		this.$setAttr( "exportmsg", "" ).$rmAttr( "exporting" );
 		this.#popups.$export.$btnUpload.$disabled( false );
 		this.#popups.$export.$btnRender.$setAttr( {
 			text: "Render",
@@ -253,7 +253,7 @@ class gsuiDAW extends gsui0ne {
 	}
 	#onopenRenderPopup() {
 		if ( this.$getAttr( "exporting" ) === "1" ) {
-			this.$setExportMsg( "Rendering complete" );
+			this.$setAttr( "exportmsg", "Rendering complete" );
 		}
 		$popup.$custom( {
 			title: "Export",
@@ -280,7 +280,7 @@ class gsuiDAW extends gsui0ne {
 	}
 	#onclickUploadBtn() {
 		if ( !this.$elements.$titleUser.$hasAttr( "connected" ) ) {
-			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
+			this.$setAttr( "exportmsg", "You need to be connected to upload your rendered composition" );
 		} else {
 			this.#popups.$export.$btnUpload.$disabled( true );
 			this.$dispatch( GSEV_DAW_UPLOAD_CMP );
