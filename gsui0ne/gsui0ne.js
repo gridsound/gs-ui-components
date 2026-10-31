@@ -2,6 +2,8 @@
 
 class gsui0ne extends HTMLElement {
 	$this = $( this );
+	$_elems = [ this ]; // gs-utils-jquery.js
+	$_elem0 = this;     // gs-utils-jquery.js
 	$element = null;
 	$elements = null;
 	$isActive = false;
@@ -99,11 +101,17 @@ class gsui0ne extends HTMLElement {
 			this.#ptrMap.delete( e.pointerId );
 			if ( this.#ptrMap.size < 1 ) {
 				this.$isActive = false;
-				this.onpointermove =
 				this.onpointerup =
+				this.onpointermove =
 				this.onpointerleave = null;
 			}
 			this.$onptrup( e );
 		}
 	}
 }
+
+GSUforEach( Reflect.ownKeys( $$.prototype ), k => {
+	if ( k !== "constructor" ) {
+		Object.defineProperty( gsui0ne.prototype, k, Object.getOwnPropertyDescriptor( $$.prototype, k ) );
+	}
+} );
