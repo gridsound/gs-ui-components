@@ -1,7 +1,6 @@
 "use strict";
 
 class gsui0ne extends HTMLElement {
-	$this = $( this );
 	$_elems = [ this ]; // gs-utils-jquery.js
 	$_elem0 = this;     // gs-utils-jquery.js
 	$element = null;
