@@ -34,18 +34,17 @@ class gsuiDAW extends gsui0ne {
 		super( {
 			$tagName: "gsui-daw",
 			$elements: {
-				$head: ".gsuiDAW-head",
+				$head: "gsui-daw-head",
 				$titleUser: "gsui-titleuser",
 				$play: "[data-action='play']",
-				$vers: ".gsuiDAW-version",
-				$helpBtn: ".gsuiDAW-head [data-action=help]",
+				$vers: "gsui-daw-version",
+				$helpBtn: "gsui-daw-head [data-action='help']",
 				$clock: "gsui-clock",
 				$tempo: "gsui-tempo",
 				$analyserHz: "gsui-analyser-hz",
-				$volume: ".gsuiDAW-volume gsui-slider",
-				$currentTime: ".gsuiDAW-areaTime gsui-slider",
-				$body: ".gsuiDAW-body",
-				$patternsPanel: ".gsuiDAW-resources",
+				$volume: "gsui-daw-volume gsui-slider",
+				$currentTime: "gsui-daw-area[area='time'] gsui-slider",
+				$patternsPanel: "gsui-daw-resources",
 				$windows: "gsui-windows",
 				$winBtns: "[data-win]",
 			},
@@ -212,7 +211,7 @@ class gsuiDAW extends gsui0ne {
 	$toggleWindow( win, b ) {
 		this.#updateWinBtnTooltip( this.#getWinBtn( win ).$setAttr( "data-open", b ) );
 		if ( win === "patterns" ) {
-			this.$elements.$body.$setAttr( "resources-hidden", !b );
+			this.$this.$setAttr( "resources-hidden", !b );
 		}
 	}
 	#updateWinBtnTooltip( btn ) {
@@ -341,7 +340,7 @@ class gsuiDAW extends gsui0ne {
 		const dt = e.target.dataset;
 
 		switch ( dt.action ) {
-			case "focusSwitch": this.$this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
+			case "focus": this.$this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
 			case "play": this.$this.$dispatch( GSEV_DAW_PLAY ); break;
 			case "stop": this.$this.$dispatch( GSEV_DAW_STOP ); break;
 			case "undo": this.$this.$dispatch( GSEV_DAW_UNDO ); break;

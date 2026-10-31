@@ -1,41 +1,42 @@
-.gsuiDAW-areaCtrl {
+gsui-daw-area[ area="ctrl" ] {
 	grid-area: areaCtrl;
 }
-.gsuiDAW-playPauseStop {
-	background-color: var( --gsui-btn-playPause-bg );
-}
-.gsuiDAW-volume {
+gsui-daw-volume {
 	width: 6px;
 	--gsuiSlider-lineRadius: 4px;
 	--gsuiSlider-lineColor: var( --gsui-btn-playPause-bg );
 	--gsuiSlider-lineBgColor: #222;
 	--gsuiSlider-event-catcher-inset: 0 calc( var( --gap ) * -1 ) 0 -12px;
 }
-.gsuiDAW-focusBtn {
-	display: flex;
-	position: relative;
-	flex-direction: column;
-	justify-content: space-between;
-	padding: 7px 3px 7px 8px;
+gsui-daw-playpause {
+	background-color: var( --gsui-btn-playPause-bg );
 
-	&:active {
-		padding-top: 7px;
-	}
-	span {
-		width: 5px;
-		height: 5px;
-		border-radius: 1px;
-		background-color: currentColor;
-		pointer-events: none;
-		opacity: .4;
+	button[ data-action="focus" ] {
+		display: flex;
+		position: relative;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 7px 3px 7px 8px;
 
-		gsui-daw[ focus="up" ] &:first-child,
-		gsui-daw[ focus="down" ] &:last-child {
-			opacity: 1;
+		&:active {
+			padding-top: 7px;
+		}
+		span {
+			width: 5px;
+			height: 5px;
+			border-radius: 1px;
+			background-color: currentColor;
+			pointer-events: none;
+			opacity: .4;
+
+			gsui-daw[ focus="up" ] &:first-child,
+			gsui-daw[ focus="down" ] &:last-child {
+				opacity: 1;
+			}
 		}
 	}
 }
-.gsuiDAW-btn {
+gsui-daw-head button {
 	&[ data-action="undo"   ],
 	&[ data-action="redo"   ] { background-color: var( --gsui-btn-history-bg ); }
 	&[ data-action="redo"   ] { margin-left: -4px; }
@@ -46,7 +47,7 @@
 }
 
 /* .......................................................................... */
-.gsuiDAW-areaTime {
+gsui-daw-area[ area="time" ] {
 	grid-area: areaTime;
 	padding: 8px;
 	border-radius: var( --radius );
@@ -60,7 +61,7 @@
 }
 
 /* .......................................................................... */
-.gsuiDAW-areaVisu {
+gsui-daw-area[ area="visu" ] {
 	grid-area: areaVisu;
 
 	gsui-analyser-hz {
@@ -73,17 +74,17 @@
 }
 
 /* .......................................................................... */
-.gsuiDAW-areaWins {
+gsui-daw-area[ area="wins" ] {
 	grid-area: areaWins;
 	white-space: nowrap;
 	gap: 0;
 
-	.gsuiDAW-btn {
+	button {
 		flex: 1;
 		font-size: 11px;
 		background-color: var( --gsui-btn-openWin-bg );
 
-		+ .gsuiDAW-btn {
+		+ button {
 			margin-left: 0;
 			border-left: 1px dashed rgba( 0, 0, 0, .2 );
 		}
@@ -95,11 +96,11 @@
 }
 
 /* .......................................................................... */
-.gsuiDAW-areaHelp {
+gsui-daw-area[ area="help" ] {
 	grid-area: areaHelp;
 	justify-content: end;
 }
-.gsuiDAW-areaVers {
+gsui-daw-area[ area="vers" ] {
 	grid-area: areaVers;
 	justify-content: end;
 

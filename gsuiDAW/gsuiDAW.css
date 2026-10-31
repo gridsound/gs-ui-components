@@ -22,7 +22,7 @@ gsui-daw {
 }
 
 /* .......................................................................... */
-.gsuiDAW-head {
+gsui-daw-head {
 	display: grid;
 	padding: var( --gap );
 	gap: var( --gap );
@@ -33,14 +33,15 @@ gsui-daw {
 	border-bottom: 2px solid var( --gsui-win-brd );
 	background-color: var( --gsui-head1-bg );
 }
-.gsuiDAW-area {
+gsui-daw-area {
 	display: flex;
 	gap: inherit;
+
+	&[ area="user" ] {
+		grid-area: areaUser;
+	}
 }
-.gsuiDAW-areaUser {
-	grid-area: areaUser;
-}
-.gsuiDAW-resources {
+gsui-daw-resources {
 	display: flex;
 	width: 300px;
 	min-width: 330px;
@@ -48,22 +49,22 @@ gsui-daw {
 	border-right: 3px solid var( --gsui-win-brd );
 	background-color: var( --gsui-items-bg );
 
-	.gsuiDAW-body[ resources-hidden ] & {
+	gsui-daw[ resources-hidden ] & {
 		display: none;
 	}
 }
-.gsuiDAW-libraries {
+gsui-daw-libraries {
 	flex: 1;
 	border: inherit;
 	border-right-width: 2px;
 }
-.gsuiDAW-patterns {
+gsui-daw-patterns {
 	flex: 1;
 }
-.gsuiDAW-windows {
+gsui-daw-windows {
 	flex: 1;
 
-	.gsuiDAW-body[ resources-hidden ] & {
+	gsui-daw[ resources-hidden ] & {
 		left: 0 !important;     /* stylelint-disable-line declaration-no-important */
 		width: 100% !important; /* stylelint-disable-line declaration-no-important */
 	}

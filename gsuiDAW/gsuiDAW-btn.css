@@ -1,4 +1,7 @@
-.gsuiDAW-btn {
+gsui-daw-area > a,
+gsui-daw-area > button,
+gsui-daw-playpause > button,
+gsui-daw-undoredo > button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -11,37 +14,40 @@
 	&:has( gsui-icon:only-child ) {
 		width: 28px;
 	}
-	&:not( .gsuiDAW-btnColor ):hover {
+	&:hover {
 		color: #fff;
 		opacity: 1;
 	}
 	&:active {
 		padding-top: 4px;
 	}
-}
+	&[ data-action="export" ],
+	&[ data-action="settings" ],
+	&[ data-action="help" ],
+	&[ data-action="about" ] {
+		background-color: var( --gsui-btn-default-bg );
 
-.gsuiDAW-btnBg {
-	background-color: var( --gsui-btn-default-bg );
+		&:hover {
+			background-color: #fff3;
+		}
+	}
+	&[ data-action="export" ],
+	&[ data-action="about" ] {
+		color: var( --gsui-color );
 
-	&:hover {
-		background-color: #fff3;
+		&:hover {
+			color: var( --gsui-head1-bg );
+			background-color: var( --gsui-color );
+		}
 	}
 }
-
-.gsuiDAW-btnColor {
-	color: var( --gsui-color );
-
-	&:hover {
-		color: var( --gsui-head1-bg );
-		background-color: var( --gsui-color );
-	}
-}
-
-.gsuiDAW-btns {
+gsui-daw-playpause,
+gsui-daw-undoredo,
+gsui-daw-area[ area="wins" ] {
 	display: flex;
 	border-radius: var( --radius );
 
-	.gsuiDAW-btn {
+	button {
 		&:first-child {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
