@@ -193,11 +193,15 @@ class gsuiDAW extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( key, val ) {
+		switch ( key ) {
+			case GSEV_DAW_SPECTRUM_DRAW:
+				this.$elements.$analyserHz.$get( 0 ).$draw( val );
+				break;
+		}
+	}
 
 	// .........................................................................
-	$updateSpectrum( data ) {
-		this.$elements.$analyserHz.$get( 0 ).$draw( data );
-	}
 	$readyToDownload( url, name ) {
 		this.#popups.$export.$progress.$css( "display", "none" );
 		this.#popups.$export.$btnUpload.$css( "display", "" );
