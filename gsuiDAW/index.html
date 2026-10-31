@@ -23,6 +23,6 @@ const el = $( "gsui-daw" )
 		// windowslowgraphics: true,
 	} );
 
-el.$get( 0 ).$toggleWindow( "composition", true );
-el.$get( 0 ).$toggleWindow( "mixer", false );
+el.$message( GSEV_DAW_TOGGLEWINDOW, "composition", true )
+	.$message( GSEV_DAW_TOGGLEWINDOW, "mixer", false );
 </script>

@@ -30,7 +30,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 242
+// 243
 // ...............................
 const GSEV_API_PROMISE = 230;
 // ...............................
@@ -82,10 +82,11 @@ const GSEV_DAW_OPENWINDOW = 23;
 const GSEV_DAW_PLAY = 24;
 const GSEV_DAW_REDO = 25;
 const GSEV_DAW_RENAME = 26;
-const GSEV_DAW_RENDER_READY = 241;
+const GSEV_DAW_RENDERREADY = 241;
+const GSEV_DAW_TOGGLEWINDOW = 242;
 const GSEV_DAW_SAVE = 28;
 const GSEV_DAW_SETTINGS = 29;
-const GSEV_DAW_SPECTRUM_DRAW = 240;
+const GSEV_DAW_SPECTRUMDRAW = 240;
 const GSEV_DAW_STOP = 30;
 const GSEV_DAW_TOGGLEHELPLINKS = 31;
 const GSEV_DAW_UNDO = 32;

@@ -195,8 +195,9 @@ class gsuiDAW extends gsui0ne {
 	}
 	$onmessage( key, a, b ) {
 		switch ( key ) {
-			case GSEV_DAW_SPECTRUM_DRAW: this.$elements.$analyserHz.$get( 0 ).$draw( a ); break;
-			case GSEV_DAW_RENDER_READY: this.#renderReady( a, b ); break;
+			case GSEV_DAW_SPECTRUMDRAW: this.$elements.$analyserHz.$get( 0 ).$draw( a ); break;
+			case GSEV_DAW_RENDERREADY: this.#renderReady( a, b ); break;
+			case GSEV_DAW_TOGGLEWINDOW: this.#toggleWindow( a, b ); break;
 		}
 	}
 
@@ -214,7 +215,7 @@ class gsuiDAW extends gsui0ne {
 		} );
 		this.$setAttr( "exportmsg", "Rendering complete" );
 	}
-	$toggleWindow( win, b ) {
+	#toggleWindow( win, b ) {
 		this.#updateWinBtnTooltip( this.#getWinBtn( win ).$setAttr( "data-open", b ) );
 		if ( win === "patterns" ) {
 			this.$setAttr( "resources-hidden", !b );
@@ -353,7 +354,7 @@ class gsuiDAW extends gsui0ne {
 			case "about": $popup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
 			case "window":
 				$.$dataProp( tar ) === "patterns"
-					? this.$toggleWindow( "patterns", !$.$hasAttr( tar, "data-open" ) )
+					? this.#toggleWindow( "patterns", !$.$hasAttr( tar, "data-open" ) )
 					: this.$dispatch( $.$hasAttr( tar, "data-open" )
 						? GSEV_DAW_CLOSEWINDOW
 						: GSEV_DAW_OPENWINDOW, $.$dataProp( tar ) );
