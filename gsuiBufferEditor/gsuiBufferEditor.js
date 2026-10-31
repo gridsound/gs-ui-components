@@ -52,7 +52,7 @@ class gsuiBufferEditor extends gsui0ne {
 				tabindex: -1,
 			},
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_BUFFERVIEW_SELECTION_CHANGE ]: d => this.#onchangeSelection( ...d.$args ),
 		} );
 		this.$elements.$head.$onclick( e => {
@@ -139,7 +139,7 @@ class gsuiBufferEditor extends gsui0ne {
 				}, 1 / 60 );
 			}
 			this.#playing = !this.#playing;
-			this.$this.$setAttr( "playing", this.#playing );
+			this.$setAttr( "playing", this.#playing );
 			this.$elements.$playBtn.$setAttr( "icon", this.#playing ? "pause" : "play" );
 			this.$elements.$stopBtn.$disabled( false );
 		}
@@ -156,14 +156,14 @@ class gsuiBufferEditor extends gsui0ne {
 		this.$elements.$playBtn.$setAttr( "icon", "play" );
 		this.$elements.$stopBtn.$disabled( !this.#playing || !t );
 		this.#playing = false;
-		this.$this.$rmAttr( "playing" );
-		this.$this.$focus();
+		this.$rmAttr( "playing" );
+		this.$focus();
 	}
 	#clickExit() {
-		this.$this.$dispatch( GSEV_BUFFEREDITOR_EXIT );
+		this.$dispatch( GSEV_BUFFEREDITOR_EXIT );
 	}
 	#clickFullscreen() {
-		this.$this.$toggleFullscreen().then( b => {
+		this.$toggleFullscreen().then( b => {
 			this.$elements.$fullscrBtn
 				.$setAttr( "data-tooltip", b ? GSTX.$exitFullscreen : GSTX.$fullscreen )
 				.$setAttr( "icon", b ? "compress" : "expand" );
@@ -171,17 +171,13 @@ class gsuiBufferEditor extends gsui0ne {
 	}
 	#clickSave() {
 		if ( this.#changed ) {
-			this.$this
-				.$addAttr( "saving" )
-				.$dispatch( GSEV_BUFFEREDITOR_SAVE, GSUbufferClone( this.#buf ) );
+			this.$addAttr( "saving" ).$dispatch( GSEV_BUFFEREDITOR_SAVE, GSUbufferClone( this.#buf ) );
 			this.#setChanged( false );
 		}
 	}
 	#clickExtract( sel ) {
 		if ( sel ) {
-			this.$this
-				.$addAttr( "extracting" )
-				.$dispatch( GSEV_BUFFEREDITOR_EXTRACT, GSUbufferClone( this.#buf, ...GSUsplitNums( sel ) ) );
+			this.$addAttr( "extracting" ).$dispatch( GSEV_BUFFEREDITOR_EXTRACT, GSUbufferClone( this.#buf, ...GSUsplitNums( sel ) ) );
 		}
 	}
 	#clickSelSilent( sel ) {

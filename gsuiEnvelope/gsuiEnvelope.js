@@ -30,7 +30,7 @@ class gsuiEnvelope extends gsui0ne {
 				release: 1,
 			},
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$parent().$dataProp(), val ),
@@ -76,15 +76,15 @@ class gsuiEnvelope extends gsui0ne {
 	// .........................................................................
 	$updateWave( prop, val ) {
 		const g = this.$elements.$graph.$message( GSEV_ENVELOPEGRAPH_DATA );
-		const amp = prop === "amp" ? val : +this.$this.$getAttr( "amp" );
+		const amp = prop === "amp" ? val : +this.$getAttr( "amp" );
 		const amp2 = this.#env === "detune" ? amp / 24 : 1;
 
 		g.$amp = amp2;
-		g.$attack = prop === "attack" ? val : +this.$this.$getAttr( "attack" );
-		g.$hold = prop === "hold" ? val : +this.$this.$getAttr( "hold" );
-		g.$decay = prop === "decay" ? val : +this.$this.$getAttr( "decay" );
-		g.$sustain = prop === "sustain" ? val : +this.$this.$getAttr( "sustain" );
-		g.$release = prop === "release" ? val : +this.$this.$getAttr( "release" );
+		g.$attack = prop === "attack" ? val : +this.$getAttr( "attack" );
+		g.$hold = prop === "hold" ? val : +this.$getAttr( "hold" );
+		g.$decay = prop === "decay" ? val : +this.$getAttr( "decay" );
+		g.$sustain = prop === "sustain" ? val : +this.$getAttr( "sustain" );
+		g.$release = prop === "release" ? val : +this.$getAttr( "release" );
 		g.$duration =
 		this.#dur = Math.max( g.$attack + g.$hold + g.$decay + .5 + g.$release, 2 );
 		this.$elements.$graph.$message( GSEV_ENVELOPEGRAPH_DRAW );
@@ -117,14 +117,13 @@ class gsuiEnvelope extends gsui0ne {
 	#oninputSlider( prop, val ) {
 		this.#getPropOutput( prop ).$text( gsuiEnvelope.#formatValue( prop, val ) );
 		this.$updateWave( prop, val );
-		this.$this.$dispatch( GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
+		this.$dispatch( GSEV_ENVELOPE_LIVECHANGE, this.#env, prop, val );
 	}
 	#onchangeSlider( prop, val ) {
-		this.$this.$setAttr( prop, val )
-			.$dispatch( GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
+		this.$setAttr( prop, val ).$dispatch( GSEV_ENVELOPE_CHANGE, this.#env, prop, val );
 	}
 	#updateBeatlinesColor() {
-		this.$elements.$beatlines.$setAttr( "color", this.$this.$css( "--gsuiEnvelope-wave-col" ) );
+		this.$elements.$beatlines.$setAttr( "color", this.$css( "--gsuiEnvelope-wave-col" ) );
 	}
 
 	// .........................................................................
@@ -146,7 +145,7 @@ class gsuiEnvelope extends gsui0ne {
 
 	// .........................................................................
 	$startKey( id, bpm, dur = null ) {
-		if ( this.$this.$hasAttr( "toggle" ) ) {
+		if ( this.$hasAttr( "toggle" ) ) {
 			const el = $( "<div>" ).$css( { left: 0, top: "100%" } );
 
 			this.#keyPreviews.push( {

@@ -142,19 +142,19 @@ class gsuiPatterns extends gsui0ne {
 		};
 
 		if ( tag === "gsui-slicer" ) {
-			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONSLICER, obj );
+			this.$dispatch( GSEV_PATTERNS_DROPBUFFERONSLICER, obj );
 		} else if ( tag === "gsui-drumrow" ) {
 			obj.$drumrowId = tar.$dataId();
-			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROW, obj );
+			this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROW, obj );
 		} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
-			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROWNEW, obj );
+			this.$dispatch( GSEV_PATTERNS_DROPBUFFERONDRUMROWNEW, obj );
 		} else if ( tag === "gsui-osc-wavewrap" ) {
 			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
 			obj.$oscId = tar.$closest( "gsui-oscillator" ).$dataId();
-			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSC, obj );
+			this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSC, obj );
 		} else if ( tar.$hasClass( "gsuiSynthesizer-newOsc" ) ) {
 			obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
-			this.$this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSCNEW, obj );
+			this.$dispatch( GSEV_PATTERNS_DROPBUFFERONOSCNEW, obj );
 		} else {
 			this.#ondropPatternInTrack( "pattern-buffer", drop );
 		}
@@ -162,7 +162,7 @@ class gsuiPatterns extends gsui0ne {
 	#ondropPatternInTrack( patType, drop ) {
 		const ppb = +drop.$target.$closest( "gsui-timewindow" ).$getAttr( "pxperbeat" );
 
-		this.$this.$dispatch( GSEV_PATTERNS_DROPPATTERN, {
+		this.$dispatch( GSEV_PATTERNS_DROPPATTERN, {
 			$type: patType,
 			$pattern: drop.$item,
 			$when: Math.floor( drop.$offsetX / ppb ),
@@ -201,7 +201,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$updateChannel( id, name ) {
-		this.$this.$query( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` ).$text( name || id );
+		this.$query( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` ).$text( name || id );
 	}
 
 	// .........................................................................
@@ -281,7 +281,7 @@ class gsuiPatterns extends gsui0ne {
 
 	// .........................................................................
 	$getPattern( id ) {
-		return this.$this.$query( `.gsuiPatterns-pattern[data-id="${ id }"]` );
+		return this.$query( `.gsuiPatterns-pattern[data-id="${ id }"]` );
 	}
 	#getSynth( id ) {
 		return this.#getList( "keys" ).$query( `.gsuiPatterns-synth[data-id="${ id }"]` );

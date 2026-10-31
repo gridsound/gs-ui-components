@@ -68,25 +68,25 @@ class gsuiLibrary extends gsui0ne {
 				const obj = { $name };
 
 				if ( tag === "gsui-slicer" ) {
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONSLICER, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONSLICER, obj );
 				} else if ( tar.$hasClass( "gsuiPatterns-panel-list-wrap" ) ) {
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
 				} else if ( tag === "gsui-drumrow" ) {
 					obj.$drumrowId = tar.$dataId();
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROW, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONDRUMROW, obj );
 				} else if ( tar.$hasClass( "gsuiDrumrows-dropNew" ) ) {
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONDRUMROWNEW, obj );
 				} else if ( tag === "gsui-osc-wavewrap" ) {
 					obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
 					obj.$oscId = tar.$closest( "gsui-oscillator" ).$dataId();
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSC, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONOSC, obj );
 				} else if ( tar.$hasClass( "gsuiSynthesizer-newOsc" ) ) {
 					obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONOSCNEW, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONOSCNEW, obj );
 				} else {
 					obj.$when = Math.floor( drop.$offsetX / +tar.$closest( "gsui-timewindow" ).$getAttr( "pxperbeat" ) );
 					obj.$track = tar.$parent().$dataId();
-					this.$this.$dispatch( GSEV_LIBRARY_DROPONTRACKS, obj );
+					this.$dispatch( GSEV_LIBRARY_DROPONTRACKS, obj );
 				}
 			},
 		} );
@@ -182,13 +182,13 @@ class gsuiLibrary extends gsui0ne {
 				? GSEV_LIBRARY_PLAYSAMPLE
 				: GSEV_LIBRARY_LOADSAMPLE;
 
-			this.$this.$dispatch( act, el.$dataId() );
+			this.$dispatch( act, el.$dataId() );
 		}
 	}
 	#oncontextmenu( e ) {
 		e.preventDefault();
 		if ( $.$tag( e.target ) === "gsui-library-sample" ) {
-			this.$this.$dispatch( GSEV_LIBRARY_STOPSAMPLE );
+			this.$dispatch( GSEV_LIBRARY_STOPSAMPLE );
 		}
 	}
 }

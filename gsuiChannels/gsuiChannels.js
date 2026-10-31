@@ -16,18 +16,18 @@ class gsuiChannels extends gsui0ne {
 				$addBtn: "gsui-channels-others > button",
 			},
 		} );
-		this.$elements.$addBtn.$onclick( () => this.$this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );
-		this.$this.$listen( {
+		this.$elements.$addBtn.$onclick( () => this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );
+		this.$listen( {
 			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.#selectChannel( d.$targetId ),
-			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => this.$this.$dispatch( GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
-			[ GSEV_CHANNEL_CONNECT ]: d => this.$this.$dispatch( GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
+			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => this.$dispatch( GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
+			[ GSEV_CHANNEL_CONNECT ]: d => this.$dispatch( GSEV_CHANNELS_REDIRECT, this.#chanSelected, d.$targetId ),
 		} );
 		new gsuiReorder( {
 			$root: this.$elements.$pchans,
 			$parentSelector: "gsui-channels-others",
 			$itemSelector: "gsui-channel",
 			$itemGripSelector: "gsui-channel-grip",
-			$onchange: o => this.$this.$dispatch( GSEV_CHANNELS_REORDER, o.$rdrItemId, o.$rdrDiff ),
+			$onchange: o => this.$dispatch( GSEV_CHANNELS_REORDER, o.$rdrItemId, o.$rdrDiff ),
 		} );
 	}
 
@@ -49,13 +49,13 @@ class gsuiChannels extends gsui0ne {
 		this.$getChannel().$setAttr( "selected", el => el.dataset.id === id );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
-		this.$this.$dispatch( GSEV_CHANNELS_SELECTCHAN, id );
+		this.$dispatch( GSEV_CHANNELS_SELECTCHAN, id );
 	}
 	$openSelectChannelPopup( currChanId ) {
 		return new Promise( res => {
 			gsuiChannels.#selectChanInput.$append( ...[
 				$.$option( { value: "0" }, "0 (main)" ),
-				...this.$this.$query( "gsui-channels-others gsui-channel" )
+				...this.$query( "gsui-channels-others gsui-channel" )
 					.$sort( ( a, b ) => a.dataset.order - b.dataset.order )
 					.$map( el => {
 						const ch = $( el );
@@ -78,7 +78,7 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	$getChannel( id ) {
-		return this.$this.$query( `gsui-channel${ id ? `[data-id="${ id }"]` : "" }` );
+		return this.$query( `gsui-channel${ id ? `[data-id="${ id }"]` : "" }` );
 	}
 	$addChannel( id ) {
 		const chan = $( "<gsui-channel>" )
@@ -88,7 +88,7 @@ class gsuiChannels extends gsui0ne {
 		chan.$query( "gsui-analyser-hist" )
 			.$setAttr( "type", this.#analyserType )
 			.$get( 0 ).$updateResolution();
-		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
+		this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();
 		} else if ( id === "0" ) {
@@ -106,7 +106,7 @@ class gsuiChannels extends gsui0ne {
 				: this.#selectChannel( this.#getNextChan( chan, -1 ).$dataId() || "0" );
 		}
 		chan.$remove();
-		this.$this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
+		this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 	}
 	$changeChannelProp( id, prop, val ) {
 		const chan = this.$getChannel( id );

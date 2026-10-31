@@ -19,11 +19,11 @@ class gsuiFxDelay extends gsui0ne {
 				pan: -.2,
 			},
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$parent().$dataProp(), val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$parent().$dataProp(), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$parent().$dataProp(), val ),
 		} );
 	}
 
@@ -64,16 +64,16 @@ class gsuiFxDelay extends gsui0ne {
 
 	// .........................................................................
 	#updatePxPerBeat() {
-		const bPM = this.$this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
+		const bPM = this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
 
 		this.$elements.$beatlines.$setAttr( "pxperbeat", this.#graphWidth / bPM );
 	}
 	#oninputProp( prop, val ) {
-		this.$this.$setAttr( prop, val )
+		this.$setAttr( prop, val )
 			.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, prop, val );
 	}
 	#updateGraph() {
-		const [ time, gain, pan ] = this.$this.$getAttr( "time", "gain", "pan" );
+		const [ time, gain, pan ] = this.$getAttr( "time", "gain", "pan" );
 
 		this.$elements.$dots.$css( ( dot, i ) => {
 			const j = i + 1;

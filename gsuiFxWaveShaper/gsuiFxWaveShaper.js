@@ -42,13 +42,13 @@ class gsuiFxWaveShaper extends gsui0ne {
 				this.#onchangeOversample();
 			}
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_DOTLINE_INPUTEND ]: GSUnoop,
 			[ GSEV_DOTLINE_INPUTSTART ]: GSUnoop,
-			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", obj ),
+			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", obj ),
 			[ GSEV_DOTLINE_INPUT ]: ( _, obj ) => {
 				this.#updateWaveB();
-				this.$this.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
+				this.$dispatch( GSEV_EFFECT_FX_LIVECHANGE, "curve", obj.$data );
 			},
 			[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
 				switch ( d.$target.$dataProp() ) {
@@ -98,13 +98,13 @@ class gsuiFxWaveShaper extends gsui0ne {
 	#onreset() {
 		const diff = GSUdiffObjects(
 			this.$elements.$dotline.$get( 0 ).$getData(),
-			this.$this.$hasAttr( "symmetry" )
+			this.$hasAttr( "symmetry" )
 				? gsuiFxWaveShaper.#defPtsSym
 				: gsuiFxWaveShaper.#defPtsAsym
 		);
 
 		if ( diff ) {
-			this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", diff );
+			this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "curve", diff );
 		}
 	}
 	#onchangeOversample() {
@@ -112,7 +112,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			? this.$elements.$oversampleSelect.$value()
 			: "none";
 
-		this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "oversample", val );
+		this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, "oversample", val );
 	}
 	#onchangeSymmetry( symmetry ) {
 		const curve = {};
@@ -132,7 +132,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 			curve[ GSUgetNewId( srcData ) ] = { ...srcData[ 0 ] };
 			curve[ 0 ] = { x: -1, y: -1 };
 		}
-		this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROPS, "symmetry", obj );
+		this.$dispatch( GSEV_EFFECT_FX_CHANGEPROPS, "symmetry", obj );
 	}
 	#updateWaveA() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
@@ -146,7 +146,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 	#updateWaveB() {
 		const len = gsuiFxWaveShaper.#sinePts.length;
 		const graphData = GSUmathSampleDotLine( this.$elements.$dotline.$get( 0 ).$getData(), len ).map( d => d[ 1 ] );
-		const graphData2 = this.$this.$hasAttr( "symmetry" )
+		const graphData2 = this.$hasAttr( "symmetry" )
 			? this.#addGraphSymmetry( graphData )
 			: graphData;
 		const w = this.$elements.$waves.$width();

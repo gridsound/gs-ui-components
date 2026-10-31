@@ -58,7 +58,7 @@ class gsuiBufferView extends gsui0ne {
 				time: 0,
 			},
 		} );
-		this.$this.$on( "wheel", this.#onwheel.bind( this ) );
+		this.$on( "wheel", this.#onwheel.bind( this ) );
 		this.$elements.$body.$onpinch( this.#onpinch.bind( this ) );
 		this.$elements.$in.$on( {
 			dragstart: e => e.preventDefault(),
@@ -168,7 +168,7 @@ class gsuiBufferView extends gsui0ne {
 				console.warn( `gsuiBufferView: error 'selection' ${ sel }` );
 				this.#setSel( a2, b2 );
 			} else if ( b2 <= 0 ) {
-				this.$this.$rmAttr( "selection" );
+				this.$rmAttr( "selection" );
 			} else {
 				this.#selA = a2;
 				this.#selB = b2;
@@ -226,7 +226,7 @@ class gsuiBufferView extends gsui0ne {
 		return d > 0 ? 1 / inc : inc;
 	}
 	#zoom( pageX, scale ) {
-		const bcr = this.$this.$bcr();
+		const bcr = this.$bcr();
 		const x = ( pageX - bcr.x ) / bcr.w;
 		const b = this.#viewB;
 		const b2 = GSUmathClamp( b * scale, this.#viewBMin, 1 );
@@ -249,11 +249,10 @@ class gsuiBufferView extends gsui0ne {
 		}
 	}
 	#setView( a, b ) {
-		this.$this.$setAttr( "view", `${ a } ${ b }` );
+		this.$setAttr( "view", `${ a } ${ b }` );
 	}
 	#setSel( a, b ) {
-		this.$this
-			.$setAttr( "selection", `${ a } ${ b }` )
+		this.$setAttr( "selection", `${ a } ${ b }` )
 			.$dispatch( GSEV_BUFFERVIEW_SELECTION_CHANGE, a, b );
 	}
 	#bodyMove( n ) {

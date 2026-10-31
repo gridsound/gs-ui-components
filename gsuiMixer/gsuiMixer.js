@@ -17,12 +17,12 @@ class gsuiMixer extends gsui0ne {
 			},
 		} );
 		this.$elements.$analyserType.$onclick( () => {
-			const type = this.$this.$getAttr( "analyser" ) === "hz" ? "td" : "hz";
+			const type = this.$getAttr( "analyser" ) === "hz" ? "td" : "hz";
 
-			this.$this.$setAttr( "analyser", type )
+			this.$setAttr( "analyser", type )
 				.$dispatch( GSEV_MIXER_CHANGEANALYSER, type );
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_CHANNELS_NBCHANNELSCHANGE ]: () => this.#shadowChans.$update(),
 			[ GSEV_EFFECT_EXPAND ]: () => GSUsetTimeout( () => this.#shadowEffects.$update(), .1 ),
 		} );
@@ -31,14 +31,14 @@ class gsuiMixer extends gsui0ne {
 	// .........................................................................
 	$connected() {
 		this.#shadowChans = new gsuiScrollShadow( {
-			scrolledElem: this.$this.$query( "gsui-channels-others" ),
-			leftShadow: this.$this.$query( "gsui-channels-main" ),
-			rightShadow: this.$this.$query( "gsui-mixer-effects" ),
+			scrolledElem: this.$query( "gsui-channels-others" ),
+			leftShadow: this.$query( "gsui-channels-main" ),
+			rightShadow: this.$query( "gsui-mixer-effects" ),
 		} );
 		this.#shadowEffects = new gsuiScrollShadow( {
 			scrolledElem: this.$elements.$effects,
-			topShadow: this.$this.$query( "gsui-mixer-effects gsui-mixer-head" ),
-			bottomShadow: this.$this.$query( "gsui-mixer-effects gsui-mixer-bottom-shadow" ),
+			topShadow: this.$query( "gsui-mixer-effects gsui-mixer-head" ),
+			bottomShadow: this.$query( "gsui-mixer-effects gsui-mixer-bottom-shadow" ),
 		} );
 	}
 	$disconnected() {

@@ -7,7 +7,7 @@ class gsuiWindows extends gsui0ne {
 		super( {
 			$tagName: "gsui-windows",
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_WINDOW_OPEN ]: d => this.#onopen( d.$target ),
 			[ GSEV_WINDOW_CLOSE ]: d => this.#onclose( d.$target ),
 		} );
@@ -17,7 +17,7 @@ class gsuiWindows extends gsui0ne {
 	// .........................................................................
 	$onmessage( ev, val ) {
 		switch ( ev ) {
-			case GSEV_WINDOWS_GET: return this.$this.$query( `gsui-window[data-id="${ val }"]` );
+			case GSEV_WINDOWS_GET: return this.$query( `gsui-window[data-id="${ val }"]` );
 			case GSEV_WINDOWS_CREATE: return $( "<gsui-window>" )
 				.$dataId( val )
 				.$on( "focusin", this.#onfocusinWin.bind( this ) )
@@ -28,13 +28,13 @@ class gsuiWindows extends gsui0ne {
 	// .........................................................................
 	#onopen( win ) {
 		this.#recalcZIndexes( win );
-		this.$this.$dispatch( GSEV_WINDOWS_OPEN, win );
+		this.$dispatch( GSEV_WINDOWS_OPEN, win );
 	}
 	#onclose( win ) {
 		if ( win.$is( this.#focusedWindow ) ) {
 			this.#focusedWindow = $noop;
 		}
-		this.$this.$dispatch( GSEV_WINDOWS_CLOSE, win );
+		this.$dispatch( GSEV_WINDOWS_CLOSE, win );
 	}
 	#onfocusinWin( e ) {
 		this.#recalcZIndexes( $( e.currentTarget ) );
@@ -50,8 +50,8 @@ class gsuiWindows extends gsui0ne {
 					win.style.zIndex = zz - 1;
 				}
 			} );
-			this.#focusedWindow = win.$css( "zIndex", this.$this.$childrenCount() - 1 );
-			this.$this.$dispatch( GSEV_WINDOWS_FOCUS, win.$dataId() );
+			this.#focusedWindow = win.$css( "zIndex", this.$childrenCount() - 1 );
+			this.$dispatch( GSEV_WINDOWS_FOCUS, win.$dataId() );
 		}
 	}
 }

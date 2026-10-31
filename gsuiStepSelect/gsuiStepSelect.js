@@ -20,7 +20,7 @@ class gsuiStepSelect extends gsui0ne {
 				"data-tooltip": GSTX.$stepSelect_snap,
 			},
 		} );
-		this.$this.$on( {
+		this.$on( {
 			mousedown: this.#onclick.bind( this ),
 			contextmenu: e => e.preventDefault(),
 		} ).$listen( {
@@ -52,8 +52,8 @@ class gsuiStepSelect extends gsui0ne {
 		return this.#step;
 	}
 	$getStepFromPxPerBeat( ppb ) {
-		return !this.$this.$hasAttr( "auto" )
-			? +this.$this.$getAttr( "step" ) :
+		return !this.$hasAttr( "auto" )
+			? +this.$getAttr( "step" ) :
 			ppb <= 16 ? 4 :
 			ppb < 32 ? 2 :
 			ppb < 64 ? 1 :
@@ -77,7 +77,7 @@ class gsuiStepSelect extends gsui0ne {
 			const ind = GSUmathMod( this.#stepInd + inc, gsuiStepSelect.#stepValues.length );
 			const step = gsuiStepSelect.#stepValues[ ind ];
 
-			this.$this.$setAttr( "step", step ).$dispatch( GSEV_STEPSELECT_ONCHANGE, step );
+			this.$setAttr( "step", step ).$dispatch( GSEV_STEPSELECT_ONCHANGE, step );
 		}
 	}
 	static #stepToIndex( v ) {

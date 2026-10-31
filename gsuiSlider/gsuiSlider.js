@@ -41,7 +41,7 @@ class gsuiSlider extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$this.$setAttr( "tabindex", 0 );
+		this.$setAttr( "tabindex", 0 );
 		this.#setSVGcirc();
 		this.#updateVal( this.#value );
 	}
@@ -64,7 +64,7 @@ class gsuiSlider extends gsui0ne {
 			case "mousemove-size": this.#mousemoveSize = +val; break;
 			case "data-tooltip":
 				if ( val !== " " ) {
-					this.$this.$setAttr( prop, " " );
+					this.$setAttr( prop, " " );
 					this.$elements.$catcher.$setAttr( prop, val );
 				}
 				break;
@@ -154,13 +154,13 @@ class gsuiSlider extends gsui0ne {
 	}
 	#onchange() {
 		this.#valueSave = this.#value;
-		this.$this.$setAttr( "value", this.#value )
+		this.$setAttr( "value", this.#value )
 			.$dispatch( GSEV_SLIDER_CHANGE, this.#value );
 	}
 	#oninput( val ) {
 		if ( val !== this.#value ) {
 			this.#value = val;
-			this.$this.$dispatch( GSEV_SLIDER_INPUT, +val );
+			this.$dispatch( GSEV_SLIDER_INPUT, +val );
 		}
 	}
 
@@ -179,20 +179,20 @@ class gsuiSlider extends gsui0ne {
 		}
 	}
 	$onptrdown( e ) {
-		if ( this.$this.$hasAttr( "disabled" ) ) {
+		if ( this.$hasAttr( "disabled" ) ) {
 			return false;
 		}
 		switch ( e.button ) {
 			default: return false;
 			case 1: {
-				const def = this.$this.$hasAttr( "defaultValue" ) && +this.$this.$getAttr( "defaultValue" );
+				const def = this.$hasAttr( "defaultValue" ) && +this.$getAttr( "defaultValue" );
 
 				if ( def !== false && this.#value !== def ) {
 					this.#value = def;
 					this.#onchange();
 				}
 				e.preventDefault();
-				this.$this.$focus();
+				this.$focus();
 				return false;
 			}
 			case 0:
@@ -201,7 +201,7 @@ class gsuiSlider extends gsui0ne {
 				this.#pxmoved = 0;
 				this.#scrollIncr = 0;
 				$body.$addEventListener( "wheel", this.#onwheelBinded, { passive: false } );
-				this.$this.$dispatch( GSEV_SLIDER_INPUTSTART, this.#value );
+				this.$dispatch( GSEV_SLIDER_INPUTSTART, this.#value );
 				break;
 		}
 	}
@@ -219,7 +219,7 @@ class gsuiSlider extends gsui0ne {
 	}
 	$onptrup() {
 		$body.$rmEventListener( "wheel", this.#onwheelBinded );
-		this.$this.$dispatch( GSEV_SLIDER_INPUTEND, this.#value );
+		this.$dispatch( GSEV_SLIDER_INPUTEND, this.#value );
 		if ( this.#value !== this.#valueSave ) {
 			this.#onchange();
 		}

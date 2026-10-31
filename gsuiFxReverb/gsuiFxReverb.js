@@ -28,11 +28,11 @@ class gsuiFxReverb extends gsui0ne {
 				timedivision: "4/4",
 			},
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputProp( d.$target.$parent().$dataProp(), val ),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$parent().$dataProp(), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$dispatch( GSEV_EFFECT_FX_CHANGEPROP, d.$target.$parent().$dataProp(), val ),
 		} );
 	}
 
@@ -84,24 +84,24 @@ class gsuiFxReverb extends gsui0ne {
 		this.#updatePxPerBeat();
 	}
 	#oninputProp( prop, val ) {
-		this.$this.$setAttr( prop, val ).$dispatch( GSEV_EFFECT_FX_LIVECHANGE, prop, val );
+		this.$setAttr( prop, val ).$dispatch( GSEV_EFFECT_FX_LIVECHANGE, prop, val );
 	}
 
 	// .........................................................................
 	#updatePxPerBeat() {
-		const bPM = this.$this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
+		const bPM = this.$getAttr( "timedivision" ).split( "/" )[ 0 ];
 
 		this.$elements.$beatlines.$setAttr( "pxperbeat", this.$elements.$beatlines.$width() / bPM );
 	}
 	#updateWetPos() {
-		const [ delay, decay, fadein ] = this.$this.$getAttr( "delay", "decay", "fadein" );
+		const [ delay, decay, fadein ] = this.$getAttr( "delay", "decay", "fadein" );
 		const ppb = +this.$elements.$beatlines.$getAttr( "pxperbeat" );
 		const graphW = this.$elements.$beatlines.$width();
 
 		this.$elements.$graphWet
 			.$left( ( delay * ppb ) / graphW * 100, "%" )
 			.$width( ( ( +fadein + +decay ) * ppb ) / graphW * 100, "%" );
-		this.$this.$css( "--gsui-fadein-p", fadein / ( +fadein + +decay ) * 100 | 0, "%" );
+		this.$css( "--gsui-fadein-p", fadein / ( +fadein + +decay ) * 100 | 0, "%" );
 	}
 }
 

@@ -60,12 +60,12 @@ class gsuiSlicer extends gsui0ne {
 			contextmenu: e => e.preventDefault(),
 			pointerdown: this.#onpointerdownSlices.bind( this ),
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_TIMELINE_CHANGECURRENTTIME ]: ( _, time ) => {
-				this.$this.$setAttr( "currenttime", time );
+				this.$setAttr( "currenttime", time );
 				return true;
 			},
-			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, step ) => this.$this.$setAttr( "step", step ),
+			[ GSEV_STEPSELECT_ONCHANGE ]: ( _, step ) => this.$setAttr( "step", step ),
 		} );
 	}
 
@@ -118,7 +118,7 @@ class gsuiSlicer extends gsui0ne {
 	}
 	$setBuffer( buf ) {
 		this.#buffer = buf || null;
-		this.$this.$setAttr( {
+		this.$setAttr( {
 			loaded: this.#buffer,
 			"missing-data": !this.#buffer,
 		} );
@@ -126,7 +126,7 @@ class gsuiSlicer extends gsui0ne {
 	}
 	$removeBuffer() {
 		this.#buffer = null;
-		this.$this.$rmAttr( "loaded" );
+		this.$rmAttr( "loaded" );
 		this.$setBufferName( "" );
 		this.#setWaveform( null );
 	}
@@ -191,7 +191,7 @@ class gsuiSlicer extends gsui0ne {
 
 	// .........................................................................
 	#getTimeNorm() {
-		return +this.$this.$getAttr( "currenttime" ) / +this.$this.$getAttr( "duration" );
+		return +this.$getAttr( "currenttime" ) / +this.$getAttr( "duration" );
 	}
 	#setWaveform( buf ) {
 		this.$elements.$srcWave.$message( GSEV_WAVEFORM_BUFFER, buf );
@@ -209,7 +209,7 @@ class gsuiSlicer extends gsui0ne {
 		this.$elements.$timeline.$setAttr( "currenttime", beat );
 		this.$elements.$slicesCurrentTime.$left( t * 100, "%" );
 		this.$elements.$previewCurrentTime.$left( t * 100, "%" );
-		this.$this.$setAttr( "hidetimes", t <= 0 || t >= .995 );
+		this.$setAttr( "hidetimes", t <= 0 || t >= .995 );
 		this.#updateCurrentTime( t );
 	}
 	#updateCurrentTime( t ) {
@@ -293,7 +293,7 @@ class gsuiSlicer extends gsui0ne {
 		this.#slicesSaved = null;
 		this.#selectTool( this.#tool );
 		if ( diff ) {
-			this.$this.$dispatch( GSEV_SLICER_CHANGEPROP, "slices", diff );
+			this.$dispatch( GSEV_SLICER_CHANGEPROP, "slices", diff );
 		}
 	}
 	#onpointermoveSlices( e ) {
@@ -307,7 +307,7 @@ class gsuiSlicer extends gsui0ne {
 		this.#sliceIdBefore = sliId ?? sli.id;
 	}
 	#onpointermoveSlicesY( list, _sli, e ) {
-		const dur = +this.$this.$getAttr( "duration" );
+		const dur = +this.$getAttr( "duration" );
 		const step = this.$elements.$step.$get( 0 ).$getStep();
 		const yyy = GSUmathClamp( e.offsetY / this.$elements.$slices.$height(), 0, 1 );
 		const yy = GSUmathFloor( yyy * dur * this.#stepsPerBeat, step );

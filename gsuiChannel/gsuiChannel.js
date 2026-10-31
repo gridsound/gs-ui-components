@@ -20,29 +20,28 @@ class gsuiChannel extends gsui0ne {
 				connecta: "down",
 			},
 		} );
-		this.$this
-			.$onclick( this.#onclick.bind( this ) )
+		this.$onclick( this.#onclick.bind( this ) )
 			.$listen( {
 				[ GSEV_TOGGLE_TOGGLE ]: ( d, b ) => {
-					this.$this.$setAttr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
+					this.$setAttr( "muted", !b ).$dispatch( GSEV_CHANNEL_TOGGLE, b );
 				},
 				[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-					this.$this.$rmAttr( "muted" ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
+					this.$rmAttr( "muted" ).$dispatch( GSEV_CHANNEL_TOGGLESOLO );
 				},
 				[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 				[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
-				[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_LIVECHANGE, d.$target.$dataProp(), val ),
-				[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_CHANNEL_CHANGE, d.$target.$dataProp(), val ),
+				[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.$dispatch( GSEV_CHANNEL_LIVECHANGE, d.$target.$dataProp(), val ),
+				[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$dispatch( GSEV_CHANNEL_CHANGE, d.$target.$dataProp(), val ),
 			} );
 	}
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$this.$dataId() === "0"
+		this.$dataId() === "0"
 			? this.$elements.$head.$rmAttr( "data-tooltip" )
 			: this.$elements.$head.$on( "dblclick", () => {
-				$popup.$prompt( "Rename channel", "", this.$this.$getAttr( "name" ) )
-					.then( name => this.$this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
+				$popup.$prompt( "Rename channel", "", this.$getAttr( "name" ) )
+					.then( name => this.$dispatch( GSEV_CHANNEL_RENAME, name ) );
 			} );
 	}
 	static get observedAttributes() {
@@ -51,7 +50,7 @@ class gsuiChannel extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "order":
-				this.$this.$css( "order", val );
+				this.$css( "order", val );
 				break;
 			case "name":
 				this.$elements.$name.$text( val );
@@ -105,12 +104,11 @@ class gsuiChannel extends gsui0ne {
 
 		switch ( tar.$getAttr( "data-action" ) ) {
 			case "rename":
-			case "select": this.$this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ); break;
-			case "delete": this.$this.$dispatch( GSEV_CHANNEL_REMOVE ); break;
-			case "connect": this.$this.$dispatch( GSEV_CHANNEL_CONNECT ); break;
+			case "select": this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL ); break;
+			case "delete": this.$dispatch( GSEV_CHANNEL_REMOVE ); break;
+			case "connect": this.$dispatch( GSEV_CHANNEL_CONNECT ); break;
 			case "effect":
-				this.$this
-					.$dispatch( GSEV_CHANNEL_SELECTCHANNEL )
+				this.$dispatch( GSEV_CHANNEL_SELECTCHANNEL )
 					.$dispatch( GSEV_CHANNEL_SELECTEFFECT, tar.$dataId() );
 				break;
 		}

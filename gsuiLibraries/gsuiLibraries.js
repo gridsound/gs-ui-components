@@ -49,7 +49,7 @@ class gsuiLibraries extends gsui0ne {
 		const lib = $.$dataProp( e.target );
 
 		if ( lib ) {
-			this.$this.$setAttr( "lib", lib );
+			this.$setAttr( "lib", lib );
 		}
 	}
 }

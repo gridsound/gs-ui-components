@@ -9,7 +9,7 @@ class gsuiComAvatar extends gsui0ne {
 				$.$icon( { icon: "musician" } ),
 			],
 		} );
-		this.$element.$on( "load", () => this.$this.$addAttr( "loaded" ) );
+		this.$element.$on( "load", () => this.$addAttr( "loaded" ) );
 	}
 
 	// .........................................................................
@@ -19,7 +19,7 @@ class gsuiComAvatar extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "src":
-				this.$this.$rmAttr( "loaded" );
+				this.$rmAttr( "loaded" );
 				this.$element.$prop( "src", val || "" );
 				break;
 		}

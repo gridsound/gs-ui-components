@@ -66,7 +66,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		if ( this.#waveArray && this.clientWidth > 0 ) {
 			this.$element.$child( 0 ).$setAttr( {
 				points: gsuiPeriodicWave.#getPoints( this.#getDrawData() ),
-				"stroke-opacity": this.$this.$getAttr( "opacity" ) || 1,
+				"stroke-opacity": this.$getAttr( "opacity" ) || 1,
 			} );
 		}
 	}
@@ -77,7 +77,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		return this.#drawData;
 	}
 	#updateDrawData() {
-		const [ phase, freq, amp, dur, delay, attack, fold ] = this.$this.$getAttr( "phase", "frequency", "amplitude", "duration", "delay", "attack", "folding" );
+		const [ phase, freq, amp, dur, delay, attack, fold ] = this.$getAttr( "phase", "frequency", "amplitude", "duration", "delay", "attack", "folding" );
 		const o = this.#drawData;
 
 		o.w = this.clientWidth;

@@ -18,7 +18,7 @@ class gsuiButton extends gsui0ne {
 			},
 		} );
 		gsuiRipple.$init( this.$element, this.$elements.$text.$parent() );
-		this.$this.$addEventListener( "click", this.#onclick.bind( this ) );
+		this.$addEventListener( "click", this.#onclick.bind( this ) );
 		this.$element.$on( "contextmenu", e => e.preventDefault() );
 	}
 
@@ -43,17 +43,17 @@ class gsuiButton extends gsui0ne {
 	// .........................................................................
 	#updateDisabled() {
 		this.$element.$disabled(
-			this.$this.$hasAttr( "disabled" ) ||
-			this.$this.$hasAttr( "loading" ) );
+			this.$hasAttr( "disabled" ) ||
+			this.$hasAttr( "loading" ) );
 	}
 	#onclick( e ) {
 		const tar = $( e.target );
 
 		if ( tar.$tag() === "button" ) {
 			e.stopImmediatePropagation();
-			this.$this.$click();
+			this.$click();
 		} else {
-			const [ dl, hr ] = this.$this.$getAttr( "download", "href" );
+			const [ dl, hr ] = this.$getAttr( "download", "href" );
 
 			if ( dl ) {
 				e.preventDefault();

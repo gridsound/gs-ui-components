@@ -13,16 +13,16 @@ class gsuiEffect extends gsui0ne {
 				$content: "gsui-effect-content",
 			},
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_TOGGLE_TOGGLE ]: () => {
-				this.$this.$togAttr( "enable" );
-				this.$this.$dispatch( GSEV_EFFECT_TOGGLE );
+				this.$togAttr( "enable" );
+				this.$dispatch( GSEV_EFFECT_TOGGLE );
 			},
 		} );
-		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_EFFECT_REMOVE ) );
+		this.$elements.$remove.$onclick( () => this.$dispatch( GSEV_EFFECT_REMOVE ) );
 		this.$elements.$expand.$onclick( () => {
-			this.$this.$togAttr( "expanded" );
-			this.$this.$dispatch( GSEV_EFFECT_EXPAND );
+			this.$togAttr( "expanded" );
+			this.$dispatch( GSEV_EFFECT_EXPAND );
 		} );
 	}
 
@@ -32,9 +32,7 @@ class gsuiEffect extends gsui0ne {
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
-			case "order":
-				this.$this.$css( "order", val );
-				break;
+			case "order": this.$css( "order", val ); break;
 			case "enable":
 				this.$elements.$toggle
 					.$setAttr( "off", val !== "" )

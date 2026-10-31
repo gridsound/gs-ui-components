@@ -21,18 +21,18 @@ class gsuiNoise extends gsui0ne {
 			change: () => {
 				const col = this.$elements.$colorSelect.$value();
 
-				this.$this.$setAttr( "color", col ).$dispatch( GSEV_NOISE_CHANGE, "color", col );
+				this.$setAttr( "color", col ).$dispatch( GSEV_NOISE_CHANGE, "color", col );
 			},
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				this.#setValue( d.$target.$dataProp(), val );
-				this.$this.$dispatch( GSEV_NOISE_INPUT, d.$target.$dataProp(), val );
+				this.$dispatch( GSEV_NOISE_INPUT, d.$target.$dataProp(), val );
 			},
 			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => {
-				this.$this.$dispatch( GSEV_NOISE_CHANGE, d.$target.$dataProp(), val );
+				this.$dispatch( GSEV_NOISE_CHANGE, d.$target.$dataProp(), val );
 			},
 		} );
 	}

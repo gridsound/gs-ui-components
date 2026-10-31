@@ -19,7 +19,7 @@ class gsuiPatternroll extends gsui0ne {
 		pxperbeatmax: 160,
 	} );
 	#blcManager = new gsuiBlocksManager( {
-		$rootElement: this.$this,
+		$rootElement: this,
 		$selectionElement: this.#selectionElement,
 		$timeline: this.#win.$get( 0 ).$getTimeline(),
 		$blockDOMChange: this.#blockDOMChange.bind( this ),
@@ -38,7 +38,7 @@ class gsuiPatternroll extends gsui0ne {
 			$tagName: "gsui-patternroll",
 			$attributes: { tabindex: -1 },
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( d, px ) => this.#ongsuiTimewindowPxperbeat( px ),
 			[ GSEV_TIMEWINDOW_LINEHEIGHT ]: ( d, px ) => this.#ongsuiTimewindowLineheight( px ),
 			[ GSEV_BLOCKSMANAGER_STARTPREVIEWAUDIO ]: GSUnoop,
@@ -51,9 +51,7 @@ class gsuiPatternroll extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$this
-			.$addClass( "gsuiBlocksManager" )
-			.$append( this.#win );
+		this.$addClass( "gsuiBlocksManager" ).$append( this.#win );
 		this.#win.$get( 0 ).$appendPanel( this.#tracklist.$get( 0 ) );
 		this.#win.$get( 0 ).$appendMain( this.#selectionElement.$get( 0 ) );
 	}
@@ -169,7 +167,7 @@ class gsuiPatternroll extends gsui0ne {
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
-		this.$this.$query( ".gsui-row" ).$setAttr( "data-small", px <= 44 );
+		this.$query( ".gsui-row" ).$setAttr( "data-small", px <= 44 );
 	}
 
 	// .........................................................................

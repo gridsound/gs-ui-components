@@ -48,10 +48,10 @@ class gsuiComPlayer extends gsui0ne {
 		this.$elements.$play.$onclick( this.#onclickPlay.bind( this ) );
 		this.$elements.$likeBtn.$onclick( this.#onclickLike.bind( this ) );
 		this.$elements.$scratchBtn.$onclick( () => {
-			if ( this.$this.$hasAttr( "scratch" ) ) {
-				this.$this.$rmAttr( "scratch" );
+			if ( this.$hasAttr( "scratch" ) ) {
+				this.$rmAttr( "scratch" );
 			} else {
-				this.#getRender().then( () => this.$this.$addAttr( "scratch" ) );
+				this.#getRender().then( () => this.$addAttr( "scratch" ) );
 			}
 		} );
 		this.$elements.$timeInp.$on( "pointerdown", this.#ptrDown.bind( this ) );
@@ -60,9 +60,9 @@ class gsuiComPlayer extends gsui0ne {
 			.$on( {
 				play: this.#onplay.bind( this ),
 				pause: this.#onpause.bind( this ),
-				loadedmetadata: e => this.$this.$setAttr( "duration", e.target.duration ),
+				loadedmetadata: e => this.$setAttr( "duration", e.target.duration ),
 				error: () => {
-					this.$this.$setAttr( { playing: false, rendered: false } );
+					this.$setAttr( { playing: false, rendered: false } );
 					this.$elements.$playIco.$rmAttr( "spin" );
 					this.$elements.$audio.$rmAttr( "src" );
 				},
@@ -71,12 +71,12 @@ class gsuiComPlayer extends gsui0ne {
 			.$on( "beforetoggle", e => {
 				this.$elements.$menu.$empty();
 				if ( e.newState === "open" ) {
-					this.$elements.$menu.$append( ...gsuiComPlayer.#createOptions( this.$this ) );
+					this.$elements.$menu.$append( ...gsuiComPlayer.#createOptions( this ) );
 				}
 			} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_DROPDOWN_CLICK ]: d => this.#menuClick( d.$args[ 0 ] ),
-			[ GSEV_SCRATCH_CLOSE ]: () => this.$this.$rmAttr( "scratch" ),
+			[ GSEV_SCRATCH_CLOSE ]: () => this.$rmAttr( "scratch" ),
 			[ GSEV_SCRATCH_PTRDOWN ]: () => {
 				if ( this.$elements.$audio.$prop( "paused" ) ) {
 					this.$play();
@@ -87,7 +87,7 @@ class gsuiComPlayer extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.#updateRendered( this.$this.$hasAttr( "rendered" ) );
+		this.#updateRendered( this.$hasAttr( "rendered" ) );
 	}
 	static get observedAttributes() {
 		return [ "rendered", "name", "link", "duration", "bpm", "currenttime", "likes", "itsmine", "opensource", "scratch" ];
@@ -132,11 +132,11 @@ class gsuiComPlayer extends gsui0ne {
 	// .........................................................................
 	$play() {
 		this.$elements.$audio.$play();
-		this.$this.$dispatch( GSEV_COMPLAYER_PLAY );
+		this.$dispatch( GSEV_COMPLAYER_PLAY );
 	}
 	$pause() {
 		this.$elements.$audio.$pause();
-		this.$this.$dispatch( GSEV_COMPLAYER_STOP );
+		this.$dispatch( GSEV_COMPLAYER_STOP );
 	}
 
 	// .........................................................................
@@ -152,7 +152,7 @@ class gsuiComPlayer extends gsui0ne {
 		return `${ t.m }:${ t.s }`;
 	}
 	#updateTimeSlider() {
-		const [ dur, time ] = this.$this.$getAttr( "duration", "currenttime" );
+		const [ dur, time ] = this.$getAttr( "duration", "currenttime" );
 
 		this.$elements.$timeInpVal.$width( time / dur * 100, "%" );
 	}
@@ -178,23 +178,23 @@ class gsuiComPlayer extends gsui0ne {
 	#onplay() {
 		this.#intervalId = GSUsetInterval( this.#onframePlaying.bind( this ), 1 / 16 );
 		this.$elements.$playIco.$setAttr( "icon", "pause" );
-		this.$this.$addAttr( "playing" );
+		this.$addAttr( "playing" );
 	}
 	#onpause() {
 		GSUclearInterval( this.#intervalId );
 		this.$elements.$playIco.$setAttr( "icon", "play" );
-		this.$this.$rmAttr( "playing" );
+		this.$rmAttr( "playing" );
 	}
 	#onclickLike() {
-		const liked = this.$this.$hasAttr( "liked" );
+		const liked = this.$hasAttr( "liked" );
 
 		this.$elements.$likeBtn.$disabled( true );
 		this.$elements.$likeIco.$addAttr( "spin" );
 		this.#promises.like( this, liked ? "unlike" : "like" )
 			.then( () => {
-				this.$this.$setAttr( {
+				this.$setAttr( {
 					liked: !liked,
-					likes: +this.$this.$getAttr( "likes" ) + ( !liked * 2 - 1 ),
+					likes: +this.$getAttr( "likes" ) + ( !liked * 2 - 1 ),
 				} );
 			} )
 			.catch( err => $popup.$alert( `Error ${ err.code }`, err.msg ) )
@@ -209,7 +209,7 @@ class gsuiComPlayer extends gsui0ne {
 				? this.$play()
 				: this.$pause();
 		} else {
-			let hasRender = this.$this.$hasAttr( "rendered" );
+			let hasRender = this.$hasAttr( "rendered" );
 
 			this.#getRender().then( () => {
 				if ( hasRender ) {
@@ -224,7 +224,7 @@ class gsuiComPlayer extends gsui0ne {
 			return this.#promises.renders( this )
 				.then( url => {
 					if ( url ) {
-						this.$this.$addAttr( "rendered" );
+						this.$addAttr( "rendered" );
 						this.$elements.$audio.$setAttr( "src", url );
 						this.#activateScratch();
 					}
@@ -239,14 +239,14 @@ class gsuiComPlayer extends gsui0ne {
 		const t = this.#getCurrentTime();
 
 		if ( t !== null ) {
-			this.$this.$setAttr( "currenttime", t );
+			this.$setAttr( "currenttime", t );
 		}
 	}
 	#isMineOrOpen() {
-		return this.$this.$hasAttr( "itsmine" ) || this.$this.$hasAttr( "opensource" );
+		return this.$hasAttr( "itsmine" ) || this.$hasAttr( "opensource" );
 	}
 	#updateDawLink() {
-		this.$elements.$dawlink.$setAttr( "href", this.#isMineOrOpen() ? `${ GSURL.$gsDAW }/#${ this.$this.$dataId() }` : false );
+		this.$elements.$dawlink.$setAttr( "href", this.#isMineOrOpen() ? `${ GSURL.$gsDAW }/#${ this.$dataId() }` : false );
 	}
 	#updateMenuBtn() {
 		this.$elements.$menuBtn.$css( "display", this.#isMineOrOpen() ? "flex" : "none" );
@@ -261,7 +261,7 @@ class gsuiComPlayer extends gsui0ne {
 			.$setAttr( "data-tooltip", b ? GSTX.$player_openTurntable : GSTX.$player_noTurntable )
 			.$child( 0 ).$setAttr( "icon", b ? "turntable" : "cu-no-turntable" );
 		if ( !b ) {
-			this.$this.$rmAttr( "scratch" );
+			this.$rmAttr( "scratch" );
 		}
 	}
 	static #createOption( obj, b ) {
@@ -311,8 +311,8 @@ class gsuiComPlayer extends gsui0ne {
 					o.private = act === "private";
 					o.opensource = act === "open";
 				}
-				this.$this.$setAttr( o ).$dispatch( GSEV_COMPLAYER_ACTION, act, res );
-				GSUsetTimeout( () => this.$this.$rmAttr( clazz ), .35 );
+				this.$setAttr( o ).$dispatch( GSEV_COMPLAYER_ACTION, act, res );
+				GSUsetTimeout( () => this.$rmAttr( clazz ), .35 );
 			} )
 			.finally( () => this.#menuLoading( false ) );
 	}
@@ -339,7 +339,7 @@ class gsuiComPlayer extends gsui0ne {
 			.$relPtrCapture( e.pointerId )
 			.$off( "pointerup", "pointermove" );
 		this.#settingTime = null;
-		this.#setCurrentTime( t * this.$this.$getAttr( "duration" ) );
+		this.#setCurrentTime( t * this.$getAttr( "duration" ) );
 	}
 
 	// .........................................................................
@@ -350,7 +350,7 @@ class gsuiComPlayer extends gsui0ne {
 			this.$elements.$audio.$prop( "playbackRate", 1 );
 		} else {
 			this.#scratch = $( "<gsui-scratch>" )
-				.$setAttr( "bpm", this.$this.$getAttr( "bpm" ) )
+				.$setAttr( "bpm", this.$getAttr( "bpm" ) )
 				.$appendTo( this );
 			if ( this.$elements.$audio.$getAttr( "src" ) ) {
 				this.#activateScratch();

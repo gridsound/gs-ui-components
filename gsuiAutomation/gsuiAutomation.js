@@ -27,7 +27,7 @@ class gsuiAutomation extends gsui0ne {
 			0: { x: 0, y: 0 },
 			1: { x: 1, y: 0, type: "curve", val: 0 },
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_DURATION_INPUT ]: ( _, dur ) => this.#updateBeatline( dur ),
 			[ GSEV_DURATION_CHANGE ]: ( _, dur ) => this.#onchange( "duration", dur ),
 			[ GSEV_DOTLINE_CHANGE ]: ( _, obj ) => this.#onchange( "curve", obj ),
@@ -45,7 +45,7 @@ class gsuiAutomation extends gsui0ne {
 
 			this.$elements.$targets.$togglePopover( false );
 			if ( val !== this.#target ) {
-				this.$this.$setAttr( "target", val );
+				this.$setAttr( "target", val );
 				this.#onchange( "target", val );
 			}
 		} );
@@ -76,7 +76,7 @@ class gsuiAutomation extends gsui0ne {
 
 	// .........................................................................
 	#onchange( prop, val ) {
-		this.$this.$dispatch( GSEV_AUTOMATION_CHANGE, { [ prop ]: val } );
+		this.$dispatch( GSEV_AUTOMATION_CHANGE, { [ prop ]: val } );
 	}
 	#updateBeatline( dur ) {
 		const bl = this.$elements.$beatlines;

@@ -32,7 +32,7 @@ class gsuiComProfile extends gsui0ne {
 		} );
 		this.onclick = this.#onclick.bind( this );
 		this.onmouseenter =
-		this.onmouseleave = () => this.$this.$rmAttr( "followedjustnow" );
+		this.onmouseleave = () => this.$rmAttr( "followedjustnow" );
 	}
 
 	// .........................................................................
@@ -52,10 +52,10 @@ class gsuiComProfile extends gsui0ne {
 			case "following": this.$elements.$following.$text( val ); break;
 		}
 		if ( prop === "username" || prop === "firstname" || prop === "lastname" ) {
-			const fullname = this.$this.$getAttr( "firstname", "lastname" ).join( " " ).trim();
+			const fullname = this.$getAttr( "firstname", "lastname" ).join( " " ).trim();
 
 			this.$elements.$fullname.$text( fullname );
-			this.$elements.$name.$setAttr( "title", `/u/${ this.$this.$getAttr( "username" ) } : ${ fullname || "--" }` );
+			this.$elements.$name.$setAttr( "title", `/u/${ this.$getAttr( "username" ) } : ${ fullname || "--" }` );
 		}
 	}
 
@@ -73,22 +73,22 @@ class gsuiComProfile extends gsui0ne {
 	}
 	#onclick( e ) {
 		switch ( e.target.dataset.what ) {
-			case "edit": this.$this.$dispatch( GSEV_COMPROFILE_EDIT ); break;
-			case "followers": this.$this.$dispatch( GSEV_COMPROFILE_FOLLOWERS ); break;
-			case "following": this.$this.$dispatch( GSEV_COMPROFILE_FOLLOWING ); break;
+			case "edit": this.$dispatch( GSEV_COMPROFILE_EDIT ); break;
+			case "followers": this.$dispatch( GSEV_COMPROFILE_FOLLOWERS ); break;
+			case "following": this.$dispatch( GSEV_COMPROFILE_FOLLOWING ); break;
 			case "follow": this.#onclickFollow(); break;
 			case "verify": this.#onclickVerify(); break;
 		}
 	}
 	#onclickFollow() {
-		const willFollow = !this.$this.$hasAttr( "followed" );
+		const willFollow = !this.$hasAttr( "followed" );
 
 		this.#updateFollowLoading( true );
 		this.#followPromise?.( willFollow )
 			.then( () => {
-				this.$this.$setAttr( {
+				this.$setAttr( {
 					followed: willFollow,
-					followers: +this.$this.$getAttr( "followers" ) + willFollow * 2 - 1,
+					followers: +this.$getAttr( "followers" ) + willFollow * 2 - 1,
 					followedjustnow: willFollow,
 				} );
 			} )
@@ -96,13 +96,13 @@ class gsuiComProfile extends gsui0ne {
 			.finally( () => this.#updateFollowLoading( false ) );
 	}
 	#onclickVerify() {
-		if ( !this.$this.$hasAttr( "emailsending" ) ) {
-			this.$this.$addAttr( "emailsending" );
+		if ( !this.$hasAttr( "emailsending" ) ) {
+			this.$addAttr( "emailsending" );
 			this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sending );
 			this.#verifyPromise?.()
 				.then( () => this.$elements.$emailVerifyText.$text( gsuiComProfile.#emailTexts.$sent ) )
 				.catch( err => this.$elements.$emailVerifyText.$text( err ) )
-				.finally( () => this.$this.$rmAttr( "emailsending" ) );
+				.finally( () => this.$rmAttr( "emailsending" ) );
 		}
 	}
 }

@@ -44,7 +44,7 @@ class gsuiPianoroll extends gsui0ne {
 		downpanelsizemax: 160,
 	} );
 	#blcManager = new gsuiBlocksManager( {
-		$rootElement: this.$this,
+		$rootElement: this,
 		$selectionElement: this.#selectionElement,
 		$timeline: this.#win.$get( 0 ).$getTimeline(),
 		$blockDOMChange: this.#blockDOMChange.bind( this ),
@@ -63,7 +63,7 @@ class gsuiPianoroll extends gsui0ne {
 			$tagName: "gsui-pianoroll",
 			$attributes: { tabindex: -1 },
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, px ) => this.#ongsuiTimewindowPxperbeat( px ),
 			[ GSEV_TIMEWINDOW_LINEHEIGHT ]: ( _, px ) => this.#ongsuiTimewindowLineheight( px ),
 			[ GSEV_TIMELINE_INPUTLOOP ]: d => this.#ongsuiTimelineChangeLoop( false, ...d.$args ),
@@ -89,7 +89,7 @@ class gsuiPianoroll extends gsui0ne {
 		this.ondragover = GSUnoopFalse;
 		this.ondrop = this.#ondrop.bind( this );
 		this.#blcManager.$oncreatePreviewBlock = ( rowInd, when ) => {
-			const key = +this.$this.$query( ".gsui-row" ).$at( rowInd ).$getAttr( "data-midi" );
+			const key = +this.$query( ".gsui-row" ).$at( rowInd ).$getAttr( "data-midi" );
 
 			return this.$addKey( "preview", { when, key, duration: this.#currKeyDuration } );
 		};
@@ -101,9 +101,7 @@ class gsuiPianoroll extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		this.$this
-			.$addClass( "gsuiBlocksManager" )
-			.$append( this.#win );
+		this.$addClass( "gsuiBlocksManager" ).$append( this.#win );
 		this.#win.$get( 0 ).$appendPanel( this.#uiKeys.$get( 0 ) );
 		this.#win.$get( 0 ).$appendPanelDown( this.#propSelect.$get( 0 ) );
 		this.#win.$get( 0 ).$appendDown( this.#uiSliderGroup.$get( 0 ) );
@@ -309,7 +307,7 @@ class gsuiPianoroll extends gsui0ne {
 	}
 	#ongsuiTimewindowLineheight( px ) {
 		this.#blcManager.$setFontSize( px );
-		this.$this.$query( ".gsui-row" ).$setAttr( "data-small", px <= 44 );
+		this.$query( ".gsui-row" ).$setAttr( "data-small", px <= 44 );
 		this.#blcManager.$getBlocks().forEach( blc => this.#getDragline( blc ).$message( GSEV_DRAGLINE_DRAW ) );
 	}
 	#ongsuiTimelineChangeCurrentTime( t ) {
@@ -337,7 +335,7 @@ class gsuiPianoroll extends gsui0ne {
 		if ( prop.includes( "LFO" ) ) {
 			kvArr.forEach( v => v[ 1 ] = gsuiPianoroll.#xToMul( v[ 1 ] ) );
 		}
-		this.$this.$dispatch( GSEV_PIANOROLL_CHANGEKEYSPROPS, prop, kvArr );
+		this.$dispatch( GSEV_PIANOROLL_CHANGEKEYSPROPS, prop, kvArr );
 	}
 	static #xToMul( x ) {
 		switch ( x ) {
@@ -424,7 +422,7 @@ class gsuiPianoroll extends gsui0ne {
 	#ondropMIDI( mid ) {
 		const rd = new FileReader();
 
-		rd.onload = e => this.$this.$dispatch( GSEV_PIANOROLL_MIDIDROPPED, new Uint8Array( e.target.result ) );
+		rd.onload = e => this.$dispatch( GSEV_PIANOROLL_MIDIDROPPED, new Uint8Array( e.target.result ) );
 		rd.readAsArrayBuffer( mid );
 	}
 

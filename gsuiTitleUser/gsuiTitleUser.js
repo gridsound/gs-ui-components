@@ -32,10 +32,10 @@ class gsuiTitleUser extends gsui0ne {
 		} );
 		this.$elements.$login.$onclick( this.#onclickLogin.bind( this ) );
 		this.$elements.$logout.$onclick( this.#onclickLogout.bind( this ) );
-		this.$elements.$save.$onclick( () => this.$this.$dispatch( GSEV_TITLEUSER_SAVE ) );
-		this.$elements.$cmpEditBtn.$onclick( () => !this.$this.$hasAttr( "readonly" ) && this.$this.$addAttr( "renaming" ) );
+		this.$elements.$save.$onclick( () => this.$dispatch( GSEV_TITLEUSER_SAVE ) );
+		this.$elements.$cmpEditBtn.$onclick( () => !this.$hasAttr( "readonly" ) && this.$addAttr( "renaming" ) );
 		this.$elements.$cmpEditInp.$on( {
-			blur: () => this.$this.$hasAttr( "renaming" ) && this.#onkeydownRename( "Enter" ),
+			blur: () => this.$hasAttr( "renaming" ) && this.#onkeydownRename( "Enter" ),
 			keydown: e => {
 				e.stopPropagation();
 				this.#onkeydownRename( e.key );
@@ -69,12 +69,12 @@ class gsuiTitleUser extends gsui0ne {
 			case "just-saved":
 				if ( val === "" ) {
 					GSUclearTimeout( this.#justSavedTimeout );
-					this.#justSavedTimeout = GSUsetTimeout( () => this.$this.$rmAttr( "just-saved" ), 2.5 );
+					this.#justSavedTimeout = GSUsetTimeout( () => this.$rmAttr( "just-saved" ), 2.5 );
 				}
 				break;
 			case "renaming":
 				if ( val === "" ) {
-					this.$elements.$cmpEditInp.$value( this.$this.$getAttr( "cmpname" ) ).$focus();
+					this.$elements.$cmpEditInp.$value( this.$getAttr( "cmpname" ) ).$focus();
 				}
 				break;
 		}
@@ -85,7 +85,7 @@ class gsuiTitleUser extends gsui0ne {
 	$setLoginCallbackPromise( fn ) { this.#loginPromise = fn; }
 	$setLogoutCallbackPromise( fn ) { this.#logoutPromise = fn; }
 	$setUserInfo( me ) {
-		this.$this.$setAttr( {
+		this.$setAttr( {
 			name: !me ? "" : `${ me.firstname } ${ me.lastname }`.trim(),
 			avatar: !me ? "" : me.avatar,
 			username: !me ? "" : me.username,
@@ -96,17 +96,17 @@ class gsuiTitleUser extends gsui0ne {
 
 	// .........................................................................
 	#updateCmpName() {
-		const name = this.$this.$getAttr( "cmpname" );
+		const name = this.$getAttr( "cmpname" );
 		const title = name || "GridSound";
 
 		this.$elements.$cmpName.$text( name );
-		document.title = this.$this.$hasAttr( "saved" ) ? title : `*${ title }`;
+		document.title = this.$hasAttr( "saved" ) ? title : `*${ title }`;
 	}
 	#onclickLogout() {
-		this.$this.$addAttr( "disconnecting" );
+		this.$addAttr( "disconnecting" );
 		return this.#logoutPromise?.()
 			.then( () => this.$setUserInfo( null ) )
-			.finally( () => this.$this.$rmAttr( "disconnecting" ) );
+			.finally( () => this.$rmAttr( "disconnecting" ) );
 	}
 	#onclickLogin() {
 		return $popup.$custom( {
@@ -116,11 +116,11 @@ class gsuiTitleUser extends gsui0ne {
 			submit: this.#onsubmitLogin.bind( this ),
 		} ).then( () => {
 			this.#loginPopup.$root.$query( "input" ).$value( "" );
-			return this.$this.$rmAttr( "connecting" ).$hasAttr( "connected" );
+			return this.$rmAttr( "connecting" ).$hasAttr( "connected" );
 		} );
 	}
 	#onsubmitLogin( obj ) {
-		this.$this.$addAttr( "connecting" );
+		this.$addAttr( "connecting" );
 		this.#loginPopup.$error.$text( "" );
 		return this.#loginPromise?.( obj.email, obj.password )
 			.then( me => this.$setUserInfo( me ) )
@@ -132,10 +132,10 @@ class gsuiTitleUser extends gsui0ne {
 	#onkeydownRename( key ) {
 		switch ( key ) {
 			case "Enter":
-				if ( this.$elements.$cmpEditInp.$value() !== this.$this.$getAttr( "cmpname" ) ) {
-					this.$this.$dispatch( GSEV_TITLEUSER_RENAME, GSUtrim2( this.$elements.$cmpEditInp.$value() ) );
+				if ( this.$elements.$cmpEditInp.$value() !== this.$getAttr( "cmpname" ) ) {
+					this.$dispatch( GSEV_TITLEUSER_RENAME, GSUtrim2( this.$elements.$cmpEditInp.$value() ) );
 				}
-			case "Escape": this.$this.$rmAttr( "renaming" );
+			case "Escape": this.$rmAttr( "renaming" );
 		}
 	}
 }

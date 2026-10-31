@@ -6,17 +6,17 @@ class gsuiDropdown extends gsui0ne {
 			$tagName: "gsui-dropdown",
 			$attributes: { popover: true },
 		} );
-		this.$this.$onclick( this.#onclick.bind( this ) );
+		this.$onclick( this.#onclick.bind( this ) );
 	}
 
 	#onclick( e ) {
 		const act = $.$dataProp( e.target );
 
 		if ( act ) {
-			this.$this.$dispatch( GSEV_DROPDOWN_CLICK, act );
+			this.$dispatch( GSEV_DROPDOWN_CLICK, act );
 		}
-		if ( ( act || $.$href( e.target ) ) && this.$this.$hasAttr( "clicknclose" ) ) {
-			this.$this.$togglePopover( false );
+		if ( ( act || $.$href( e.target ) ) && this.$hasAttr( "clicknclose" ) ) {
+			this.$togglePopover( false );
 		}
 	}
 }
@@ -67,7 +67,7 @@ class gsuiDropdownOption extends gsui0ne {
 		if ( h ) {
 			this.#link = $( "<a>" )
 				.$setAttr( "href", h )
-				.$setAttr( "target", this.$this.$getAttr( "target" ) )
+				.$setAttr( "target", this.$getAttr( "target" ) )
 				.$dataProp( this.$element.$dataProp() )
 				.$appendTo( this );
 		} else {
@@ -91,7 +91,7 @@ class gsuiDropdownOption extends gsui0ne {
 			this.#radio.$setAttr( "name", name );
 		} else {
 			this.#radio = $( "<input>" )
-				.$setAttr( { type: "radio", name, value: this.$this.$getAttr( "value" ) } )
+				.$setAttr( { type: "radio", name, value: this.$getAttr( "value" ) } )
 				.$prependTo( this.$element );
 		}
 	}

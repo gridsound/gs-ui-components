@@ -5,16 +5,16 @@ class gsuiTracklist extends gsui0ne {
 		super( {
 			$tagName: "gsui-tracklist",
 		} );
-		this.$this.$listen( {
-			[ GSEV_TRACK_RENAME ]: ( d, name ) => this.$this.$dispatch( GSEV_TRACKLIST_RENAMETRACK, d.$targetId, name ),
-			[ GSEV_TRACK_TOGGLE ]: d => this.$this.$dispatch( GSEV_TRACKLIST_TOGGLETRACK, d.$targetId ),
-			[ GSEV_TRACK_TOGGLESOLO ]: d => this.$this.$dispatch( GSEV_TRACKLIST_TOGGLESOLOTRACK, d.$targetId ),
+		this.$listen( {
+			[ GSEV_TRACK_RENAME ]: ( d, name ) => this.$dispatch( GSEV_TRACKLIST_RENAMETRACK, d.$targetId, name ),
+			[ GSEV_TRACK_TOGGLE ]: d => this.$dispatch( GSEV_TRACKLIST_TOGGLETRACK, d.$targetId ),
+			[ GSEV_TRACK_TOGGLESOLO ]: d => this.$dispatch( GSEV_TRACKLIST_TOGGLESOLOTRACK, d.$targetId ),
 		} );
 	}
 
 	// .........................................................................
 	$getTrack( id ) {
-		return this.$this.$query( `gsui-track[data-id="${ id }"]` );
+		return this.$query( `gsui-track[data-id="${ id }"]` );
 	}
 	$addTrack( id ) {
 		const tr = $( "<gsui-track>" )

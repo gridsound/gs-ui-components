@@ -52,12 +52,12 @@ class gsuiSynthesizer extends gsui0ne {
 			$parentSelector: ".gsuiSynthesizer-oscList",
 			$itemSelector: "gsui-oscillator",
 			$itemGripSelector: "gsui-osc-grip",
-			$onchange: o => this.$this.$dispatch( GSEV_SYNTHESIZER_REORDEROSCILLATOR, o.$rdrDiff ),
+			$onchange: o => this.$dispatch( GSEV_SYNTHESIZER_REORDEROSCILLATOR, o.$rdrDiff ),
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_OSCILLATOR_RESIZE ]: () => this.#shadow.$update(),
-			[ GSEV_NOISE_INPUT ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_INPUTNOISE, ...d.$args ),
-			[ GSEV_NOISE_CHANGE ]: d => this.$this.$dispatch( GSEV_SYNTHESIZER_CHANGENOISE, ...d.$args ),
+			[ GSEV_NOISE_INPUT ]: d => this.$dispatch( GSEV_SYNTHESIZER_INPUTNOISE, ...d.$args ),
+			[ GSEV_NOISE_CHANGE ]: d => this.$dispatch( GSEV_SYNTHESIZER_CHANGENOISE, ...d.$args ),
 			[ GSEV_ENVELOPE_LIVECHANGE ]: d => {
 				this.#data.env[ d.$args[ 0 ] ][ d.$args[ 1 ] ] = d.$args[ 2 ];
 				return true;
@@ -70,7 +70,7 @@ class gsuiSynthesizer extends gsui0ne {
 				const tab = d.$target.$parent().$getAttr( "data-tab" );
 
 				if ( !tab ) {
-					this.$this.$dispatch( GSEV_SYNTHESIZER_TOGGLENOISE, b );
+					this.$dispatch( GSEV_SYNTHESIZER_TOGGLENOISE, b );
 				} else {
 					const [ lfoEnv, prop ] = tab.split( " " );
 					const elCmp = lfoEnv === "env" ? this.$elements.$env : this.$elements.$lfo;
@@ -78,7 +78,7 @@ class gsuiSynthesizer extends gsui0ne {
 					if ( elCmp.$getAttr( lfoEnv ) === prop ) {
 						elCmp.$setAttr( "toggle", b );
 					}
-					this.$this.$dispatch( lfoEnv === "env" ? GSEV_SYNTHESIZER_TOGGLEENV : GSEV_SYNTHESIZER_TOGGLELFO, prop, b );
+					this.$dispatch( lfoEnv === "env" ? GSEV_SYNTHESIZER_TOGGLEENV : GSEV_SYNTHESIZER_TOGGLELFO, prop, b );
 				}
 			},
 		} );
@@ -89,9 +89,9 @@ class gsuiSynthesizer extends gsui0ne {
 	// .........................................................................
 	$connected() {
 		this.#shadow = new gsuiScrollShadow( {
-			scrolledElem: this.$this.$query( ".gsuiSynthesizer-scrollArea" ),
-			topShadow: this.$this.$query( ".gsuiSynthesizer-shadowTop" ),
-			bottomShadow: this.$this.$query( ".gsuiSynthesizer-shadowBottom" ),
+			scrolledElem: this.$query( ".gsuiSynthesizer-scrollArea" ),
+			topShadow: this.$query( ".gsuiSynthesizer-shadowTop" ),
+			bottomShadow: this.$query( ".gsuiSynthesizer-shadowBottom" ),
 		} );
 	}
 	$disconnected() {
@@ -133,7 +133,7 @@ class gsuiSynthesizer extends gsui0ne {
 		this.#setWtMorph( -1 );
 	}
 	#setWtMorph( m ) {
-		this.$this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", m );
+		this.$query( "gsui-wavetable-graph" ).$setAttr( "morphing", m );
 	}
 	$startKeyPreview( keyId, key, bpm, when, dur ) {
 		this.#previews[ keyId ] = GSUsetTimeout( () => {
@@ -237,10 +237,8 @@ class gsuiSynthesizer extends gsui0ne {
 
 	// .........................................................................
 	// #dispatchPreset( p ) {
-	//   if ( p !== this.$this.$getAttr( "preset" ) ) {
-	//     this.$this
-	//       .$setAttr( "preset", p )
-	//       .$dispatch( GSEV_SYNTHESIZER_PRESET, p );
+	//   if ( p !== this.$getAttr( "preset" ) ) {
+	//     this.$setAttr( "preset", p ).$dispatch( GSEV_SYNTHESIZER_PRESET, p );
 	//   }
 	// }
 	// #onclickPreset( e ) {
@@ -267,7 +265,7 @@ class gsuiSynthesizer extends gsui0ne {
 		}
 	}
 	#onclickNewOsc() {
-		this.$this.$dispatch( GSEV_SYNTHESIZER_ADDOSCILLATOR );
+		this.$dispatch( GSEV_SYNTHESIZER_ADDOSCILLATOR );
 	}
 }
 

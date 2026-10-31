@@ -42,7 +42,7 @@ class gsuiAnalyserHist extends gsui0ne {
 		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, this.#ctx.canvas.height );
 	}
 	$updateResolution() {
-		this.$this.$setAttr( "resolution", `${ this.$element.$width() } ${ this.$element.$height() }` );
+		this.$setAttr( "resolution", `${ this.$element.$width() } ${ this.$element.$height() }` );
 	}
 	$draw( ldata, rdata ) {
 		const ctx = this.#ctx;

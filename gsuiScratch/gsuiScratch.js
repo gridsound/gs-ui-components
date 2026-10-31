@@ -47,7 +47,7 @@ class gsuiScratch extends gsui0ne {
 			[ GSEV_SLIDER_CHANGE ]: this.#onchangeSlider.bind( this ),
 			[ GSEV_SLIDER_INPUT ]: this.#onchangeSlider.bind( this ),
 		} );
-		this.$elements.$closeBtn.$onclick( () => this.$this.$dispatch( GSEV_SCRATCH_CLOSE ) );
+		this.$elements.$closeBtn.$onclick( () => this.$dispatch( GSEV_SCRATCH_CLOSE ) );
 		this.$elements.$graph.$on( {
 			pointerdown: e => {
 				this.$elements.$graph
@@ -55,7 +55,7 @@ class gsuiScratch extends gsui0ne {
 					.$on( "pointermove", e => this.#ptrSpeedA -= e.movementX / 8 )
 					.$css( "cursor", "var(--gsuiCursor-grabbing)" );
 				this.#clicked = true;
-				this.$this.$dispatch( GSEV_SCRATCH_PTRDOWN );
+				this.$dispatch( GSEV_SCRATCH_PTRDOWN );
 			},
 			pointerup: e => {
 				this.#clicked = false;
@@ -146,7 +146,7 @@ class gsuiScratch extends gsui0ne {
 		this.#audiobuf = null;
 		this.#audioElem = elAudio;
 		this.#currentTime = 0;
-		this.$this.$loading( true );
+		this.$loading( true );
 		return fetch( elAudio.$prop( "src" ) )
 			.then( res => res.arrayBuffer() )
 			.then( arr => gswaContext.$decodeAudioData( arr ) )
@@ -163,7 +163,7 @@ class gsuiScratch extends gsui0ne {
 				this.$elements.$wave.$message( GSEV_WAVEFORM_BUFFER, this.#audiobuf );
 				this.#drawWaveform();
 			} )
-			.finally( () => this.$this.$loading( false ) );
+			.finally( () => this.$loading( false ) );
 	}
 }
 

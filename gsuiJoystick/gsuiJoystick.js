@@ -12,24 +12,22 @@ class gsuiJoystick extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		gsuiRipple.$init( this.$this );
+		gsuiRipple.$init( this );
 	}
 	$onptrdown( e ) {
 		e.preventDefault();
 		this.#moveJoystick( e );
-		this.$this.$addAttr( "moving" )
-			.$dispatch( GSEV_JOYSTICK_START, ...this.#coord );
+		this.$addAttr( "moving" ).$dispatch( GSEV_JOYSTICK_START, ...this.#coord );
 	}
 	$onptrup() {
-		this.$this.$rmAttr( "moving" )
-			.$dispatch( GSEV_JOYSTICK_END, ...this.#coord );
+		this.$rmAttr( "moving" ).$dispatch( GSEV_JOYSTICK_END, ...this.#coord );
 	}
 	$onptrmove( e ) {
 		const old = [ ...this.#coord ];
 
 		this.#moveJoystick( e );
 		if ( !GSUarrayEq( old, this.#coord ) ) {
-			this.$this.$dispatch( GSEV_JOYSTICK_MOVE, ...this.#coord );
+			this.$dispatch( GSEV_JOYSTICK_MOVE, ...this.#coord );
 		}
 	}
 

@@ -33,7 +33,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 		this.#drawWave( 1, this.#currentWaveInd );
 	}
 	$connected() {
-		requestAnimationFrame( () => this.#selectWave( this.$this.$getAttr( "wave" ) ) );
+		requestAnimationFrame( () => this.#selectWave( this.$getAttr( "wave" ) ) );
 	}
 	static get observedAttributes() {
 		return [ "wave" ];
@@ -55,7 +55,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 		GSUforEach( list, w => this.#waves.push( [ w[ 0 ], [ ...w[ 1 ] ] ] ) );
 		this.$elements.$list.$empty().$append( ...this.#waves.map( w => $.$div( null, gsuiWaveletBrowser.#formatName( w[ 0 ] ) ) ) );
 		this.#onscroll();
-		this.#selectWave( this.$this.$getAttr( "wave" ) );
+		this.#selectWave( this.$getAttr( "wave" ) );
 	}
 	static #formatName( s ) {
 		const ar = s.split( "_" );
@@ -91,8 +91,8 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#onsubmit() {
 		const name = this.#waves[ this.#currentWaveInd ]?.[ 0 ];
 
-		if ( name !== this.$this.$getAttr( "wave" ) ) {
-			this.$this.$setAttr( "wave", name )
+		if ( name !== this.$getAttr( "wave" ) ) {
+			this.$setAttr( "wave", name )
 				.$dispatch( GSEV_WAVELETBROWSER_SUBMIT, name );
 		}
 	}

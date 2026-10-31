@@ -27,8 +27,8 @@ class gsuiPanels extends gsui0ne {
 
 	// .........................................................................
 	#init() {
-		const dirX = this.$this.$getAttr( "dir" ) === "x";
-		const size = dirX ? this.$this.$width() : this.$this.$height();
+		const dirX = this.$getAttr( "dir" ) === "x";
+		const size = dirX ? this.$width() : this.$height();
 
 		this.#pans = Array.from( this.children ).map( p => $( p ) );
 		this.#dirX = dirX;
@@ -36,7 +36,7 @@ class gsuiPanels extends gsui0ne {
 		this.#dir = dirX ? "width" : "height";
 		this.#mindir = dirX ? "minWidth" : "minHeight";
 		this.#maxdir = dirX ? "maxWidth" : "maxHeight";
-		this.$this.$query( ".gsuiPanels-extend" ).$remove();
+		this.$query( ".gsuiPanels-extend" ).$remove();
 		this.#pans.map( p => [ p, p.$bcr()[ this.#dir ] / size * 100 ] )
 			.reduce( ( x, [ pan, perc ] ) => {
 				const perc2 = GSUmathFix( perc, 1 );
@@ -69,7 +69,7 @@ class gsuiPanels extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		const tot = this.$this.$bcr()[ this.#dir ];
+		const tot = this.$bcr()[ this.#dir ];
 		const tot2 = this.#pans.reduce( ( sz, p ) => sz + p.$bcr()[ this.#dir ], 0 );
 
 		if ( Math.abs( tot2 - tot ) > 0 ) {
@@ -122,7 +122,7 @@ class gsuiPanels extends gsui0ne {
 			}, 0 );
 			tar.$addClass( "gsui-hover" );
 			$.$unselect();
-			this.$this.$css( "cursor", tar.$css( "cursor" ) )
+			this.$css( "cursor", tar.$css( "cursor" ) )
 				.$setPtrCapture( e.pointerId )
 				.$on( {
 					pointerup: this.#onpointerup.bind( this ),
@@ -132,8 +132,7 @@ class gsuiPanels extends gsui0ne {
 	}
 	#onpointerup( e ) {
 		this.#extend.$rmClass( "gsui-hover" );
-		this.$this
-			.$relPtrCapture( e.pointerId )
+		this.$relPtrCapture( e.pointerId )
 			.$off( "pointermove", "pointerup" )
 			.$css( "cursor", "" );
 		this.#extend = null;

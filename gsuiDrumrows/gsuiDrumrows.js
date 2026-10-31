@@ -9,15 +9,15 @@ class gsuiDrumrows extends gsui0ne {
 			$template: $.$div( { class: "gsuiDrumrows-dropNew" } ),
 		} );
 		this.onmousedown = this.#onmousedownRows.bind( this );
-		this.$this.$listen( {
-			[ GSEV_DRUMROW_REMOVE ]: d => this.$this.$dispatch( GSEV_DRUMROWS_REMOVE, d.$targetId ),
-			[ GSEV_DRUMROW_EXPAND ]: d => this.$this.$dispatch( GSEV_DRUMROWS_EXPAND, d.$targetId ),
-			[ GSEV_DRUMROW_TOGGLE ]: d => this.$this.$dispatch( GSEV_DRUMROWS_TOGGLE, d.$targetId, ...d.$args ),
-			[ GSEV_DRUMROW_TOGGLESOLO ]: d => this.$this.$dispatch( GSEV_DRUMROWS_TOGGLESOLO, d.$targetId ),
-			[ GSEV_DRUMROW_CHANGEPROP ]: d => this.$this.$dispatch( GSEV_DRUMROWS_CHANGE, d.$targetId, ...d.$args ),
-			[ GSEV_DRUMROW_LIVECHANGEPROP ]: d => this.$this.$dispatch( GSEV_DRUMROWS_LIVECHANGEDRUMROW, d.$targetId, ...d.$args ),
-			[ GSEV_DRUMROW_PROPFILTER ]: d => this.$this.$dispatch( GSEV_DRUMROWS_PROPFILTER, d.$targetId, ...d.$args ),
-			[ GSEV_DRUMROW_PROPFILTERS ]: d => this.$this.$dispatch( GSEV_DRUMROWS_PROPFILTERS, ...d.$args ),
+		this.$listen( {
+			[ GSEV_DRUMROW_REMOVE ]: d => this.$dispatch( GSEV_DRUMROWS_REMOVE, d.$targetId ),
+			[ GSEV_DRUMROW_EXPAND ]: d => this.$dispatch( GSEV_DRUMROWS_EXPAND, d.$targetId ),
+			[ GSEV_DRUMROW_TOGGLE ]: d => this.$dispatch( GSEV_DRUMROWS_TOGGLE, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_TOGGLESOLO ]: d => this.$dispatch( GSEV_DRUMROWS_TOGGLESOLO, d.$targetId ),
+			[ GSEV_DRUMROW_CHANGEPROP ]: d => this.$dispatch( GSEV_DRUMROWS_CHANGE, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_LIVECHANGEPROP ]: d => this.$dispatch( GSEV_DRUMROWS_LIVECHANGEDRUMROW, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_PROPFILTER ]: d => this.$dispatch( GSEV_DRUMROWS_PROPFILTER, d.$targetId, ...d.$args ),
+			[ GSEV_DRUMROW_PROPFILTERS ]: d => this.$dispatch( GSEV_DRUMROWS_PROPFILTERS, ...d.$args ),
 		} );
 	}
 
@@ -46,7 +46,7 @@ class gsuiDrumrows extends gsui0ne {
 		const elDrumrow = $( "<gsui-drumrow>" ).$dataId( id );
 
 		this.#rows.set( id, elDrumrow );
-		this.$this.$append( elDrumrow );
+		this.$append( elDrumrow );
 		return elDrumrow;
 	}
 	$remove( id ) {
@@ -76,7 +76,7 @@ class gsuiDrumrows extends gsui0ne {
 		const btn = e.button;
 
 		if ( ( btn === 0 || btn === 2 ) && tar.$hasClass( "gsuiDrumrow-main" ) ) {
-			this.$this.$dispatch(
+			this.$dispatch(
 				btn === 0 ? GSEV_DRUMROWS_LIVESTARTDRUM : GSEV_DRUMROWS_LIVESTOPDRUM,
 				tar.$parent().$dataId() );
 		}

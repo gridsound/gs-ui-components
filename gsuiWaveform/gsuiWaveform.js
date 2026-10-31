@@ -6,7 +6,7 @@ class gsuiWaveform extends gsui0ne {
 	#a = 0;
 	#b = 0;
 	#refBuf = null;
-	#setAttrRes = GSUdebounce( this.$this.$setAttr.bind( this.$this ), .2 );
+	#setAttrRes = GSUdebounce( this.$setAttr.bind( this, "res" ), .2 );
 
 	constructor() {
 		super( {
@@ -38,7 +38,7 @@ class gsuiWaveform extends gsui0ne {
 	}
 	$onresize( w, h ) {
 		if ( this.#refBuf?.deref() ) {
-			this.#setAttrRes( "res", `${ w } ${ h }` );
+			this.#setAttrRes( `${ w } ${ h }` );
 		}
 	}
 	$onmessage( key, val ) {
@@ -52,7 +52,7 @@ class gsuiWaveform extends gsui0ne {
 	#setBuffer( buf ) {
 		if ( buf ) {
 			this.#refBuf = new WeakRef( buf );
-			this.#setResolution( this.$this.$width(), this.$this.$height() );
+			this.#setResolution( this.$width(), this.$height() );
 		} else {
 			this.#refBuf = null
 			this.$elements.$paths.$rmAttr( "d" );

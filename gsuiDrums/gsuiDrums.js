@@ -38,7 +38,7 @@ class gsuiDrums extends gsui0ne {
 			$tagName: "gsui-drums",
 			$attributes: { tabindex: -1 },
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_TIMELINE_INPUTLOOP ]: GSUnoop,
 			[ GSEV_TIMEWINDOW_PXPERBEAT ]: ( _, ppb ) => this.#setPxPerBeat( ppb ),
 			[ GSEV_DRUMROWS_PROPFILTER ]: d => this.#setPropFilter( ...d.$args ),
@@ -70,7 +70,7 @@ class gsuiDrums extends gsui0ne {
 			$parentSelector: "gsui-drumrows",
 			$itemSelector: "gsui-drumrow",
 			$itemGripSelector: ".gsuiDrumrow-grip",
-			$onchange: o => this.$this.$dispatch( GSEV_DRUMS_REORDERDRUMROW, o.$rdrItemId, o.$rdrDiff ),
+			$onchange: o => this.$dispatch( GSEV_DRUMS_REORDERDRUMROW, o.$rdrItemId, o.$rdrDiff ),
 		} );
 	}
 
@@ -105,13 +105,13 @@ class gsuiDrums extends gsui0ne {
 			currenttimestep: 1 / sPB,
 		} );
 		this.#setPxPerBeat( this.#pxPerBeat );
-		this.$this.$css( "--gsuiDrums-pxperstep", 1 / sPB, "em" );
+		this.$css( "--gsuiDrums-pxperstep", 1 / sPB, "em" );
 	}
 	#setPxPerBeat( ppb ) {
 		this.#pxPerBeat = ppb;
 		this.#pxPerStep = ppb / this.#stepsPerBeat;
 		this.#win.$setAttr( "pxperbeat", ppb );
-		this.$this.$query( "gsui-slidergroup" ).$setAttr( "pxperbeat", ppb );
+		this.$query( "gsui-slidergroup" ).$setAttr( "pxperbeat", ppb );
 	}
 
 	// .........................................................................
@@ -251,7 +251,7 @@ class gsuiDrums extends gsui0ne {
 
 	// .........................................................................
 	#getSliderGroup( rowId ) {
-		return this.$this.$query( `gsui-slidergroup[data-id="${ rowId }"]` );
+		return this.$query( `gsui-slidergroup[data-id="${ rowId }"]` );
 	}
 	#getItems( rowId, itemType ) {
 		const arr = [];
@@ -473,7 +473,7 @@ class gsuiDrums extends gsui0ne {
 		document.removeEventListener( "pointerup", this.#onptrupNewBind );
 		this.#elLines.$on( "pointermove", this.#onptrmoveLinesBind );
 		if ( arr.length > 0 ) {
-			this.$this.$dispatch( GSEV_DRUMS_CHANGE, this.#currAction, this.#draggingRowId, arr );
+			this.$dispatch( GSEV_DRUMS_CHANGE, this.#currAction, this.#draggingRowId, arr );
 		}
 		this.#currAction = "";
 	}
@@ -498,7 +498,7 @@ class gsuiDrums extends gsui0ne {
 				obj.gain = +d.$getAttr( "gain" );
 				obj.detune = +d.$getAttr( "detune" );
 			}
-			this.$this.$dispatch( GSEV_DRUMS_CHANGE, `add${ itemType }`, this.#draggingRowId, [ obj ] );
+			this.$dispatch( GSEV_DRUMS_CHANGE, `add${ itemType }`, this.#draggingRowId, [ obj ] );
 		}
 	}
 }

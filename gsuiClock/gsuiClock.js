@@ -79,7 +79,7 @@ class gsuiClock extends gsui0ne {
 
 	// .........................................................................
 	$setTime( beats ) {
-		const [ mode, bpm ] = this.$this.$getAttr( "mode", "bpm" );
+		const [ mode, bpm ] = this.$getAttr( "mode", "bpm" );
 		const [ a, b, c ] = mode === "second"
 			? gsuiClock.$parseBeatsToSeconds( beats, +bpm || 60 )
 			: gsuiClock.$parseBeatsToBeats( beats, this.#bPM, this.#sPB );
@@ -113,9 +113,9 @@ class gsuiClock extends gsui0ne {
 
 	// .........................................................................
 	#onclickModes() {
-		const dpl = this.$this.$getAttr( "mode" ) === "second" ? "beat" : "second";
+		const dpl = this.$getAttr( "mode" ) === "second" ? "beat" : "second";
 
-		this.$this.$setAttr( "mode", dpl )
+		this.$setAttr( "mode", dpl )
 			.$dispatch( GSEV_CLOCK_CHANGEDISPLAY, dpl );
 	}
 }

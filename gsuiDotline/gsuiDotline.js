@@ -49,7 +49,7 @@ class gsuiDotline extends gsui0ne {
 			},
 		} );
 		this.oncontextmenu = e => e.preventDefault();
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_DROPDOWN_CLICK ]: d => this.#onclickActions( d.$args[ 0 ] ),
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
@@ -203,29 +203,29 @@ class gsuiDotline extends gsui0ne {
 
 	// .........................................................................
 	#oninput( tar ) {
-		this.$this.$dispatch( GSEV_DOTLINE_INPUT, {
+		this.$dispatch( GSEV_DOTLINE_INPUT, {
 			$target: tar,
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputstart() {
-		this.$this.$dispatch( GSEV_DOTLINE_INPUTSTART, {
+		this.$dispatch( GSEV_DOTLINE_INPUTSTART, {
 			$dotId: this.#activeDotId,
 			$data: GSUdeepCopy( this.#data ),
 		} );
 	}
 	#oninputend() {
-		this.$this.$dispatch( GSEV_DOTLINE_INPUTEND );
+		this.$dispatch( GSEV_DOTLINE_INPUTEND );
 	}
 	#onchange( obj ) {
 		if ( obj ) {
-			this.$this.$dispatch( GSEV_DOTLINE_CHANGE, obj );
+			this.$dispatch( GSEV_DOTLINE_CHANGE, obj );
 		} else {
 			const diff = GSUdiffObjects( this.#dataSaved, this.#data );
 
 			if ( diff ) {
-				this.$this.$dispatch( GSEV_DOTLINE_CHANGE, diff );
+				this.$dispatch( GSEV_DOTLINE_CHANGE, diff );
 			}
 		}
 	}
@@ -233,8 +233,8 @@ class gsuiDotline extends gsui0ne {
 	// .........................................................................
 	#getW() { return this.$element.$width(); }
 	#getH() { return this.$element.$height(); }
-	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, +this.$this.$getAttr( "xstep" ) ); }
-	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, +this.$this.$getAttr( "ystep" ) ); }
+	#getPtrX( e ) { return GSUmathRound(           e.offsetX / this.#getW() * this.#w + this.#xmin, +this.$getAttr( "xstep" ) ); }
+	#getPtrY( e ) { return GSUmathRound( this.#h - e.offsetY / this.#getH() * this.#h + this.#ymin, +this.$getAttr( "ystep" ) ); }
 	#getPercX( x ) { return         ( x - this.#xmin ) / this.#w * 100; }
 	#getPercY( y ) { return 100 - ( ( y - this.#ymin ) / this.#h * 100 ); }
 
@@ -313,7 +313,7 @@ class gsuiDotline extends gsui0ne {
 		this.#pageX = e.pageX;
 		this.#pageY = e.pageY;
 		if ( e.button === 0 ) {
-			const xstep = +this.$this.$getAttr( "xstep" );
+			const xstep = +this.$getAttr( "xstep" );
 			let isNewDot = false;
 
 			if ( !id ) {
@@ -376,7 +376,7 @@ class gsuiDotline extends gsui0ne {
 	}
 	#onptrdownDot( id, xstep ) {
 		this.#selectDotElement( id, true );
-		if ( !this.$this.$hasAttr( "movelinked" ) ) {
+		if ( !this.$hasAttr( "movelinked" ) ) {
 			const dat = this.#data[ id ];
 
 			this.#dotsMoving = [ { id, ...dat } ];
@@ -448,7 +448,7 @@ class gsuiDotline extends gsui0ne {
 	}
 	$onptrmove( e ) {
 		if ( this.#mousebtn === 0 ) {
-			const [ xstep, ystep ] = this.$this.$getAttr( "xstep", "ystep" );
+			const [ xstep, ystep ] = this.$getAttr( "xstep", "ystep" );
 			let incX = this.#w / this.#getW() *  ( e.pageX - this.#pageX );
 			let incY = this.#h / this.#getH() * -( e.pageY - this.#pageY );
 

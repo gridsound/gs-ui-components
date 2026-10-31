@@ -88,15 +88,15 @@ class gsuiKeys extends gsui0ne {
 
 	// .........................................................................
 	#getKeyElementFromMidi( midi ) {
-		return this.$this.$child( this.$this.$childrenCount() - 1 - ( midi - this.#octStart * 12 ) );
+		return this.$child( this.$childrenCount() - 1 - ( midi - this.#octStart * 12 ) );
 	}
 	#setRootOctave( oct ) {
 		this.#rootOctave = oct;
-		this.$this.$query( ".gsuiKeys-key[data-root]" ).$rmAttr( "data-root" );
-		this.$this.$query( `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ).$addAttr( "data-root" );
+		this.$query( ".gsuiKeys-key[data-root]" ).$rmAttr( "data-root" );
+		this.$query( `.gsuiKeys-key[data-midi="${ oct * 12 }"]` ).$addAttr( "data-root" );
 	}
 	#setOctaves( start, nbOct ) {
-		this.$this.$css( {
+		this.$css( {
 			"--gsuiKeys-firstOctave": start,
 			"--gsuiKeys-nbOctaves": nbOct,
 		} );
@@ -105,7 +105,7 @@ class gsuiKeys extends gsui0ne {
 				this.append( ...$.$getTemplate( "gsui-keys-octave" ) );
 			}
 		} else if ( nbOct < this.#nbOct ) {
-			this.$this.$children().$each( ( el, i ) => {
+			this.$children().$each( ( el, i ) => {
 				if ( i >= nbOct * 12 ) {
 					el.remove();
 					el._rowElement.remove();
@@ -114,7 +114,7 @@ class gsuiKeys extends gsui0ne {
 		}
 		this.#nbOct = nbOct;
 		this.#octStart = start;
-		this.$this.$children().$reduce( ( midi, elKey, i ) => {
+		this.$children().$reduce( ( midi, elKey, i ) => {
 			const elKey2 = $( elKey );
 			const elRow = elKey2.$setAttr( "data-midi", midi - 1 ).$css( "--gsuiKeys-key-id", i )
 				.$query( ".gsuiKeys-row" );
@@ -129,7 +129,7 @@ class gsuiKeys extends gsui0ne {
 		this.#setRootOctave( this.#rootOctave );
 	}
 	#isVertical() {
-		return this.$this.$getAttr( "orient" ) === "vertical";
+		return this.$getAttr( "orient" ) === "vertical";
 	}
 	#isBlack( keyInd ) {
 		return keyInd === 1 || keyInd === 3 || keyInd === 5 || keyInd === 8 || keyInd === 10;
@@ -141,10 +141,10 @@ class gsuiKeys extends gsui0ne {
 			elKey.$togClass( "gsui-active", status );
 			if ( status ) {
 				this.#keysDown.set( midi );
-				this.$this.$dispatch( GSEV_KEYS_KEYDOWN, midi, vel );
+				this.$dispatch( GSEV_KEYS_KEYDOWN, midi, vel );
 			} else {
 				this.#keysDown.delete( midi );
-				this.$this.$dispatch( GSEV_KEYS_KEYUP, midi );
+				this.$dispatch( GSEV_KEYS_KEYUP, midi );
 			}
 		}
 	}
@@ -156,12 +156,11 @@ class gsuiKeys extends gsui0ne {
 			if ( e.button === 2 ) {
 				const oct = e.target.dataset.midi / 12 | 0;
 
-				this.$this.$setAttr( "rootoctave", oct )
-					.$dispatch( GSEV_KEYS_OCTAVE, oct );
+				this.$setAttr( "rootoctave", oct ).$dispatch( GSEV_KEYS_OCTAVE, oct );
 			} else if ( e.button === 0 ) {
 				const isVert = this.#isVertical();
-				const { x, y } = this.$this.$bcr();
-				const blackKeyBCR = this.$this.$child( 1 ).$bcr();
+				const { x, y } = this.$bcr();
+				const blackKeyBCR = this.$child( 1 ).$bcr();
 
 				this.#rootStartPx = isVert ? y : x;
 				this.#blackKeyR = isVert ? blackKeyBCR.right : blackKeyBCR.bottom;
@@ -180,7 +179,7 @@ class gsuiKeys extends gsui0ne {
 
 		this.#keyIndByPtr.delete( e.pointerId );
 		if ( this.children[ currKeyInd ] ) {
-			this.#keyUpDown( this.$this.$child( currKeyInd ), false );
+			this.#keyUpDown( this.$child( currKeyInd ), false );
 		}
 		this.#gain = 1;
 	}
@@ -197,10 +196,10 @@ class gsuiKeys extends gsui0ne {
 			iKeyInd += fKeyInd - iKeyInd < .5 ? -1 : 1;
 		}
 		if ( currKeyInd !== iKeyInd ) {
-			const elKey = this.$this.$child( iKeyInd );
+			const elKey = this.$child( iKeyInd );
 
 			if ( elKey.$size() ) {
-				this.#keyUpDown( this.$this.$child( currKeyInd ), false );
+				this.#keyUpDown( this.$child( currKeyInd ), false );
 				this.#keyIndByPtr.set( e.pointerId, iKeyInd );
 				this.#keyUpDown( elKey, true, this.#gain );
 			}

@@ -20,9 +20,9 @@ class gsuiTrack extends gsui0ne {
 		this.onkeydown = this.#onkeydown.bind( this );
 		this.$elements.$inpNameWrap.$on( "dblclick", this.#ondblclickName.bind( this ) );
 		this.$elements.$inpName.$on( "blur", this.#onblur.bind( this ) );
-		this.$this.$listen( {
-			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => { this.$this.$setAttr( "mute", !b ).$dispatch( GSEV_TRACK_TOGGLE, b ); },
-			[ GSEV_TOGGLE_TOGGLESOLO ]: () => { this.$this.$rmAttr( "mute" ).$dispatch( GSEV_TRACK_TOGGLESOLO ); },
+		this.$listen( {
+			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => { this.$setAttr( "mute", !b ).$dispatch( GSEV_TRACK_TOGGLE, b ); },
+			[ GSEV_TOGGLE_TOGGLESOLO ]: () => { this.$rmAttr( "mute" ).$dispatch( GSEV_TRACK_TOGGLESOLO ); },
 		} );
 	}
 
@@ -60,7 +60,7 @@ class gsuiTrack extends gsui0ne {
 		if ( e.target === this.$elements.$inpName.$get( 0 ) ) {
 			e.stopPropagation();
 			switch ( e.key ) {
-				case "Escape": this.$elements.$inpName.$value( this.$this.$getAttr( "name" ) );
+				case "Escape": this.$elements.$inpName.$value( this.$getAttr( "name" ) );
 				case "Enter": this.$elements.$inpName.$trigger( "blur" );
 			}
 		}
@@ -69,7 +69,7 @@ class gsuiTrack extends gsui0ne {
 		const n = this.$elements.$inpName.$value().trim();
 
 		this.$elements.$inpName.$disabled( true );
-		this.$this.$setAttr( "name", n ).$dispatch( GSEV_TRACK_RENAME, n );
+		this.$setAttr( "name", n ).$dispatch( GSEV_TRACK_RENAME, n );
 	}
 	#onblur() {
 		this.$elements.$inpName.$disabled( true );

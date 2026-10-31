@@ -7,19 +7,19 @@ class gsuiToggle extends gsui0ne {
 			$template: $.$icon( { icon: "hexagon" } ),
 			$attributes: { tabindex: 0 },
 		} );
-		this.$this.$on( {
+		this.$on( {
 			contextmenu: e => e.preventDefault(),
 			mousedown: this.#onmousedown.bind( this ),
 		} );
 	}
 	$isOn() {
-		return !this.$this.$hasAttr( "off" );
+		return !this.$hasAttr( "off" );
 	}
 	#onmousedown( e ) {
 		if ( e.button === 2 ) {
-			this.$this.$dispatch( GSEV_TOGGLE_TOGGLESOLO );
+			this.$dispatch( GSEV_TOGGLE_TOGGLESOLO );
 		} else if ( e.button === 0 ) {
-			this.$this.$togAttr( "off" ).$dispatch( GSEV_TOGGLE_TOGGLE, this.$isOn() );
+			this.$togAttr( "off" ).$dispatch( GSEV_TOGGLE_TOGGLE, this.$isOn() );
 		}
 	}
 }

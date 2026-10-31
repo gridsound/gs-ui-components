@@ -36,7 +36,7 @@ class gsuiSliderGroup extends gsui0ne {
 
 	// .........................................................................
 	$firstTimeConnected() {
-		if ( !this.$this.$hasAttr( "beatlines" ) ) {
+		if ( !this.$hasAttr( "beatlines" ) ) {
 			this.$elements.$beatlines.$remove();
 			this.$elements.$currentTime.$remove();
 			this.$elements.$loopA.$remove();
@@ -122,7 +122,7 @@ class gsuiSliderGroup extends gsui0ne {
 		return GSUmathFix( GSUmathRound( val, this.#step ), 8 );
 	}
 	#updatePxPerBeat() {
-		const ppb = +this.$this.$getAttr( "pxperbeat" );
+		const ppb = +this.$getAttr( "pxperbeat" );
 
 		this.$elements.$slidersParent.$css( "fontSize", ppb, "px" );
 		if ( this.$elements.$beatlines ) {
@@ -172,7 +172,7 @@ class gsuiSliderGroup extends gsui0ne {
 			this.#button = e.button;
 			this.#valueSaved.clear();
 			this.#sliders.forEach( ( sli, id ) => this.#valueSaved.set( id, sli.value ) );
-			this.$this.$css( "cursor", "var(--gsuiCursor-pointer)" );
+			this.$css( "cursor", "var(--gsuiCursor-pointer)" );
 			$.$unselect();
 			this.$onptrmove( e );
 			return;
@@ -187,7 +187,7 @@ class gsuiSliderGroup extends gsui0ne {
 		const y = e.pageY - this.#bcr.y;
 		const min = this.#min;
 		const max = this.#max;
-		const xval = x / +this.$this.$getAttr( "pxperbeat" );
+		const xval = x / +this.$getAttr( "pxperbeat" );
 		const rval = this.#button === 2
 			? this.#def
 			: this.#roundVal( min + ( max - min ) * ( 1 - GSUmathClamp( y / this.#bcr.h, 0, 1 ) ) );
@@ -202,23 +202,23 @@ class gsuiSliderGroup extends gsui0ne {
 			if ( firstWhen <= sli.when && sli.when <= xval && xval <= sli.when + sli.duration ) {
 				sli.value = rval;
 				this.#sliderValue( sli, rval );
-				this.$this.$dispatch( GSEV_SLIDERGROUP_INPUT, sli.element.$dataId(), rval );
+				this.$dispatch( GSEV_SLIDERGROUP_INPUT, sli.element.$dataId(), rval );
 			}
 		} );
 	}
 	$onptrup() {
 		const arr = [];
 
-		this.$this.$css( "cursor", "" );
+		this.$css( "cursor", "" );
 		this.#sliders.forEach( ( sli, id ) => {
 			if ( sli.value !== this.#valueSaved.get( id ) ) {
 				arr.push( [ id, sli.value ] );
 			}
 		} );
 		if ( arr.length ) {
-			this.$this.$dispatch( GSEV_SLIDERGROUP_CHANGE, arr );
+			this.$dispatch( GSEV_SLIDERGROUP_CHANGE, arr );
 		}
-		this.$this.$dispatch( GSEV_SLIDERGROUP_INPUTEND );
+		this.$dispatch( GSEV_SLIDERGROUP_INPUTEND );
 	}
 }
 

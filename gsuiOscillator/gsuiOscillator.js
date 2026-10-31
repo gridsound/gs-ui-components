@@ -40,16 +40,16 @@ class gsuiOscillator extends gsui0ne {
 		} );
 		this.$elements.$waveName.$onclick( this.#onclickWaveName.bind( this ) );
 		this.$elements.$wavePrevNext.$onclick( this.#onclickPrevNext.bind( this ) );
-		this.$elements.$wavetableBtn.$onclick( () => this.$this.$togAttr( "wavetable" ) );
-		this.$elements.$remove.$onclick( () => this.$this.$dispatch( GSEV_OSCILLATOR_REMOVE ) );
-		this.$this.$on( "transitionend", e => {
+		this.$elements.$wavetableBtn.$onclick( () => this.$togAttr( "wavetable" ) );
+		this.$elements.$remove.$onclick( () => this.$dispatch( GSEV_OSCILLATOR_REMOVE ) );
+		this.$on( "transitionend", e => {
 			if ( e.propertyName === "min-height" && this.#elWavetable ) {
-				this.$this.$css( "transition", "none" );
+				this.$css( "transition", "none" );
 			}
 		} ).$listen( {
-			[ GSEV_WAVETABLE_BACK ]: () => this.$this.$rmAttr( "wavetable" ),
-			[ GSEV_WAVETABLE_PARAM ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLEPARAM, ...d.$args ),
-			[ GSEV_WAVETABLE_CHANGE ]: d => this.$this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLE, ...d.$args ),
+			[ GSEV_WAVETABLE_BACK ]: () => this.$rmAttr( "wavetable" ),
+			[ GSEV_WAVETABLE_PARAM ]: d => this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLEPARAM, ...d.$args ),
+			[ GSEV_WAVETABLE_CHANGE ]: d => this.$dispatch( GSEV_OSCILLATOR_CHANGEWAVETABLE, ...d.$args ),
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => this.#oninputSlider( d.$target.$dataProp(), val ),
@@ -67,7 +67,7 @@ class gsuiOscillator extends gsui0ne {
 		this.$elements.$waves
 			.$message( GSEV_PERIODICWAVE_RESIZE )
 			.$message( GSEV_PERIODICWAVE_DRAW );
-		this.$this.$dispatch( GSEV_OSCILLATOR_RESIZE );
+		this.$dispatch( GSEV_OSCILLATOR_RESIZE );
 	}
 	$firstTimeConnected() {
 		this.#updateWaveDeb();
@@ -78,7 +78,7 @@ class gsuiOscillator extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "data-id": this.$elements.$id.$text( val ); break;
-			case "order": this.$this.$css( "order", val ); break;
+			case "order": this.$css( "order", val ); break;
 			case "wave": this.#changeWave( val ); break;
 			case "phaze": this.#updatePhaze( +val ); break;
 			case "source": this.#changeSource( val ); break;
@@ -125,9 +125,9 @@ class gsuiOscillator extends gsui0ne {
 	// .........................................................................
 	#updateWave( prop, val ) {
 		const w = this.$elements.$waves;
-		const gain = prop === "gain" ? val : +this.$this.$getAttr( "gain" );
-		const pan = prop === "pan" ? val : +this.$this.$getAttr( "pan" );
-		const det = prop === "detune" ? val : +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
+		const gain = prop === "gain" ? val : +this.$getAttr( "gain" );
+		const pan = prop === "pan" ? val : +this.$getAttr( "pan" );
+		const det = prop === "detune" ? val : +this.$getAttr( "detune" ) + +this.$getAttr( "detunefine" );
 		const hz = 2 ** ( ( det - -24 ) / 12 );
 
 		w.$at( 0 ).$setAttr( { frequency: hz, amplitude: Math.min( gain * ( pan < 0 ? 1 : 1 - pan ), .95 ) } ).$message( GSEV_PERIODICWAVE_DRAW );
@@ -139,7 +139,7 @@ class gsuiOscillator extends gsui0ne {
 				this.#elWavetable.$change( obj );
 			} else {
 				this.#elWavetable.$clear();
-				this.$this.$rmAttr( "wavetable" );
+				this.$rmAttr( "wavetable" );
 			}
 		}
 		this.#updateWaveDeb();
@@ -163,14 +163,14 @@ class gsuiOscillator extends gsui0ne {
 	#changeSource( src ) {
 		this.$elements.$sourceName.$text( src );
 		if ( src ) {
-			this.$this.$rmAttr( "wave" );
+			this.$rmAttr( "wave" );
 		}
 	}
 	#changeWave( w ) {
 		this.#changeWave2( w );
-		this.$this.$setAttr( "hascustomwave", GSUisWavetableName( w ) );
+		this.$setAttr( "hascustomwave", GSUisWavetableName( w ) );
 		if ( w ) {
-			this.$this.$rmAttr( "source" );
+			this.$rmAttr( "source" );
 		}
 	}
 	#changeWave2( w ) {
@@ -187,7 +187,7 @@ class gsuiOscillator extends gsui0ne {
 		let val2 = val;
 
 		if ( prop.startsWith( "detune" ) ) {
-			val2 = +this.$this.$getAttr( "detune" ) + +this.$this.$getAttr( "detunefine" );
+			val2 = +this.$getAttr( "detune" ) + +this.$getAttr( "detunefine" );
 		}
 		this.#getPropSlider( prop ).$setAttr( "value", val );
 		gsuiOscillator.#setTextValue( this.#getPropOutput( prop ), prop, val2 );
@@ -211,7 +211,7 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#updateUnisonGraphVoices( n ) {
 		this.$elements.$unisonGraph.$maintainChildren( n, "div" );
-		this.#updateUnisonGraphBlend( +this.$this.$getAttr( "unisonblend" ) );
+		this.#updateUnisonGraphBlend( +this.$getAttr( "unisonblend" ) );
 	}
 	#updateUnisonGraphDetune( detune ) {
 		const maxDetune = +this.#getPropSlider( "unisondetune" ).$getAttr( "max" );
@@ -236,11 +236,11 @@ class gsuiOscillator extends gsui0ne {
 				this.#elWavetable.$isRealData( wtData[ 1 ] );
 			} );
 		} else {
-			this.$this.$css( "transition", "" );
+			this.$css( "transition", "" );
 			this.#elWavetable.remove();
 			this.#elWavetable = null;
 		}
-		this.$this.$setAttr( "wavetable", b );
+		this.$setAttr( "wavetable", b );
 		this.$onresize();
 	}
 	#onclickPrevNext( e ) {
@@ -254,14 +254,14 @@ class gsuiOscillator extends gsui0ne {
 			this.#timeidType = GSUsetTimeout( () => {
 				const w = this.$elements.$waveName.$text();
 
-				if ( w !== this.$this.$getAttr( "wave" ) ) {
+				if ( w !== this.$getAttr( "wave" ) ) {
 					this.#onchangeWaveBrowser( w );
 				}
 			}, .25 );
 		}
 	}
 	#onclickWaveName( e ) {
-		if ( this.$this.$hasAttr( "hascustomwave" ) ) {
+		if ( this.$hasAttr( "hascustomwave" ) ) {
 			e.preventDefault();
 			this.$elements.$wavetableBtn.$click();
 		}
@@ -269,7 +269,7 @@ class gsuiOscillator extends gsui0ne {
 	#onopenWaveBrowser() {
 		return $( "<gsui-wavelet-browser>" )
 			.$addClass( "gsuiOscillator-waveletBrowser" )
-			.$setAttr( "wave", this.$this.$getAttr( "wave" ) )
+			.$setAttr( "wave", this.$getAttr( "wave" ) )
 			.$message( GSEV_WAVELETBROWSER_DATA, gsuiWaveletList )
 			.$listen( {
 				[ GSEV_WAVELETBROWSER_SUBMIT ]: ( _, val ) => this.#onchangeWaveBrowser( val ),
@@ -277,11 +277,11 @@ class gsuiOscillator extends gsui0ne {
 	}
 	#onchangeWaveBrowser( waveName ) {
 		this.$elements.$waveletBrowserPop.$togglePopover( false );
-		this.$this.$setAttr( "wave", waveName )
+		this.$setAttr( "wave", waveName )
 			.$dispatch( GSEV_OSCILLATOR_CHANGE, "wave", waveName );
 	}
 	#onchangeSlider( prop, val ) {
-		this.$this.$setAttr( prop, val ).$dispatch( GSEV_OSCILLATOR_CHANGE, prop, val );
+		this.$setAttr( prop, val ).$dispatch( GSEV_OSCILLATOR_CHANGE, prop, val );
 	}
 	#oninputSlider( prop, val ) {
 		let val2 = val;
@@ -306,16 +306,16 @@ class gsuiOscillator extends gsui0ne {
 				this.#updateUnisonGraphBlend( val );
 				break;
 			case "detune":
-				val2 += +this.$this.$getAttr( "detunefine" );
+				val2 += +this.$getAttr( "detunefine" );
 				this.#updateWave( "detune", val2 );
 				break;
 			case "detunefine":
-				val2 += +this.$this.$getAttr( "detune" );
+				val2 += +this.$getAttr( "detune" );
 				this.#updateWave( "detune", val2 );
 				break;
 		}
 		gsuiOscillator.#setTextValue( this.#getPropOutput( prop ), prop, val2 );
-		this.$this.$dispatch( GSEV_OSCILLATOR_LIVECHANGE, prop, val );
+		this.$dispatch( GSEV_OSCILLATOR_LIVECHANGE, prop, val );
 	}
 }
 

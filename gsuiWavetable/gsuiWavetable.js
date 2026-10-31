@@ -19,7 +19,7 @@ class gsuiWavetable extends gsui0ne {
 		this.$elements.$head.$onclick( e => {
 			switch ( e.target.dataset.action ) {
 				case "back":
-					this.$this.$dispatch( GSEV_WAVETABLE_BACK );
+					this.$dispatch( GSEV_WAVETABLE_BACK );
 					break;
 			}
 		} );
@@ -45,7 +45,7 @@ class gsuiWavetable extends gsui0ne {
 			$itemGripSelector: "gsui-periodicwave",
 			$onchange: this.#onreorderWaves.bind( this ),
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_WAVEEDITOR_CHANGE ]: ( _, curve ) => this.#onchange( { waves: { [ this.#waveSelected ]: { curve } } } ),
 			[ GSEV_WAVEEDITOR_PARAM ]: d => {
 				if ( !this.#waveNull ) {
@@ -135,7 +135,7 @@ class gsuiWavetable extends gsui0ne {
 			obj2.tool = editor.$getAttr( "tool" );
 			obj2.symmetry = editor.$hasAttr( "symmetry" );
 		}
-		this.$this.$dispatch( GSEV_WAVETABLE_CHANGE, this.$change( obj2 ) );
+		this.$dispatch( GSEV_WAVETABLE_CHANGE, this.$change( obj2 ) );
 		this.#waveNull = false;
 		if ( obj2.wave ) {
 			this.#wtwaves_selectWave( obj2.wave );
@@ -232,7 +232,7 @@ class gsuiWavetable extends gsui0ne {
 			.$text( ( _, i ) => i + 1 );
 	}
 	#wtwaves_getElem( id ) {
-		return this.$this.$query( `.gsuiWavetable-wave[data-id='${ id }']` );
+		return this.$query( `.gsuiWavetable-wave[data-id='${ id }']` );
 	}
 	#wtwaves_updatePreview( id ) {
 		this.#wtwaves_getElem( id ).$query( "gsui-periodicwave" )
@@ -260,7 +260,7 @@ class gsuiWavetable extends gsui0ne {
 			this.#wtwaves_getElem( wId ).$addAttr( "data-selected" )
 				.$scrollIntoViewX( this.$elements.$waves );
 			if ( !this.#waveNull ) {
-				this.$this.$dispatch( GSEV_WAVETABLE_PARAM, { wave: wId } );
+				this.$dispatch( GSEV_WAVETABLE_PARAM, { wave: wId } );
 			}
 		}
 	}

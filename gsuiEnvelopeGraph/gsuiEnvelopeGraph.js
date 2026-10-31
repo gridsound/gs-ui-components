@@ -34,14 +34,14 @@ class gsuiEnvelopeGraph extends gsui0ne {
 
 	// .........................................................................
 	#resized() {
-		this.$element.$viewbox( this.$this.$width(), this.$this.$height() );
+		this.$element.$viewbox( this.$width(), this.$height() );
 		this.#draw();
 	}
 	#draw() {
 		if ( this.firstChild ) {
 			const d = this.#data;
 			const pts = gsuiEnvelopeGraph.#getPoints(
-				this.$this.$width(), this.$this.$height(), d.$duration,
+				this.$width(), this.$height(), d.$duration,
 				Math.abs( d.$amp ), d.$attack, d.$hold, d.$decay, d.$sustain, d.$release );
 			const ptsArr = [
 				pts.join( " " ),

@@ -18,25 +18,25 @@ class gsuiDrumrow extends gsui0ne {
 				toggle: true,
 			},
 		} );
-		this.$this.$on( {
+		this.$on( {
 			click: this.#onclick.bind( this ),
 			contextmenu: GSUnoopFalse,
 		} ).$listen( {
 			[ GSEV_TOGGLE_TOGGLE ]: ( _, b ) => {
-				this.$this.$setAttr( "toggle", b ).$dispatch( GSEV_DRUMROW_TOGGLE, b );
+				this.$setAttr( "toggle", b ).$dispatch( GSEV_DRUMROW_TOGGLE, b );
 			},
 			[ GSEV_TOGGLE_TOGGLESOLO ]: () => {
-				this.$this.$addAttr( "toggle" ).$dispatch( GSEV_DRUMROW_TOGGLESOLO );
+				this.$addAttr( "toggle" ).$dispatch( GSEV_DRUMROW_TOGGLESOLO );
 			},
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#oninputendSlider(),
-			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$this.$dispatch( GSEV_DRUMROW_CHANGEPROP, d.$target.$dataProp(), val ),
+			[ GSEV_SLIDER_CHANGE ]: ( d, val ) => this.$dispatch( GSEV_DRUMROW_CHANGEPROP, d.$target.$dataProp(), val ),
 			[ GSEV_SLIDER_INPUT ]: ( d, val ) => {
 				this.#namePrint( d.$target.$dataProp(), val );
-				this.$this.$dispatch( GSEV_DRUMROW_LIVECHANGEPROP, d.$target.$dataProp(), val );
+				this.$dispatch( GSEV_DRUMROW_LIVECHANGEPROP, d.$target.$dataProp(), val );
 			},
-			[ GSEV_PROPSELECT_SELECT ]: ( _, val ) => this.$this.$dispatch( GSEV_DRUMROW_PROPFILTER, val ),
-			[ GSEV_PROPSELECT_SELECTALL ]: ( _, val ) => this.$this.$dispatch( GSEV_DRUMROW_PROPFILTERS, val ),
+			[ GSEV_PROPSELECT_SELECT ]: ( _, val ) => this.$dispatch( GSEV_DRUMROW_PROPFILTER, val ),
+			[ GSEV_PROPSELECT_SELECTALL ]: ( _, val ) => this.$dispatch( GSEV_DRUMROW_PROPFILTERS, val ),
 		} );
 	}
 
@@ -52,7 +52,7 @@ class gsuiDrumrow extends gsui0ne {
 			case "name": this.$elements.$name.$text( val ); break;
 			case "open": this.$elements.$expandBtn.$setAttr( "data-tooltip", val === "" ? GSTX.$drumrow_close : GSTX.$drumrow_expand ); break;
 			case "order":
-				this.$this.$css( "order", val );
+				this.$css( "order", val );
 				this.#elDrumLine.$css( "order", val );
 				break;
 			case "toggle":
@@ -65,12 +65,12 @@ class gsuiDrumrow extends gsui0ne {
 	}
 	$onmessage( ev, val ) {
 		switch ( ev ) {
-			case GSEV_DRUMROW_PLAY: this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_PLAY, +this.$this.$getAttr( "duration" ) ); break;
+			case GSEV_DRUMROW_PLAY: this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_PLAY, +this.$getAttr( "duration" ) ); break;
 			case GSEV_DRUMROW_STOP: this.$elements.$timeCursors.$message( GSEV_TIMECURSORS_STOP ); break;
 			case GSEV_DRUMROW_SETDRUMLINE:
 				this.#elDrumLine = $( val )
-					.$css( "order", this.$this.$getAttr( "order" ) )
-					.$setAttr( "data-mute", !this.$this.$hasAttr( "toggle" ) );
+					.$css( "order", this.$getAttr( "order" ) )
+					.$setAttr( "data-mute", !this.$hasAttr( "toggle" ) );
 				break;
 			case GSEV_DRUMROW_CHANGEPATTERN:
 				this.$elements.$waveWrap.$query( "svg" ).$remove();
@@ -85,7 +85,7 @@ class gsuiDrumrow extends gsui0ne {
 	}
 	#namePrint( prop, val ) {
 		this.$elements.$name.$text( gsuiDrumrow.#namePrint2( prop, val ) );
-		this.$this.$setAttr( "info" );
+		this.$setAttr( "info" );
 	}
 	static #namePrint2( prop, val ) {
 		switch ( prop ) {
@@ -97,13 +97,13 @@ class gsuiDrumrow extends gsui0ne {
 
 	// .........................................................................
 	#oninputendSlider() {
-		this.$elements.$name.$text( this.$this.$getAttr( "name" ) );
-		this.$this.$rmAttr( "info" );
+		this.$elements.$name.$text( this.$getAttr( "name" ) );
+		this.$rmAttr( "info" );
 	}
 	#onclick( e ) {
 		switch ( $.$getAttr( e.target, "data-action" ) ) {
-			case "delete": this.$this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
-			case "props": this.$this.$togAttr( "open" ).$dispatch( GSEV_DRUMROW_EXPAND ); break;
+			case "delete": this.$dispatch( GSEV_DRUMROW_REMOVE ); break;
+			case "props": this.$togAttr( "open" ).$dispatch( GSEV_DRUMROW_EXPAND ); break;
 		}
 	}
 }

@@ -28,9 +28,9 @@ class gsuiPropSelect extends gsui0ne {
 
 	// .........................................................................
 	#createProps( s ) {
-		this.$this.$empty().$append( ...s.split( " " ).map( p => this.#createProp( p ) ) );
+		this.$empty().$append( ...s.split( " " ).map( p => this.#createProp( p ) ) );
 		if ( !this.#setProp( this.#prop ) ) {
-			this.$this.$query( "button" ).$at( 0 ).$click();
+			this.$query( "button" ).$at( 0 ).$click();
 		}
 	}
 	#createProp( p ) {
@@ -50,11 +50,11 @@ class gsuiPropSelect extends gsui0ne {
 		this.#setValue( prev, false );
 		btn.$addAttr( "data-selected" );
 		this.#getBtn( prev ).$rmAttr( "data-selected" );
-		this.#setValue( prop, this.$this.$getAttr( "value" ) );
+		this.#setValue( prop, this.$getAttr( "value" ) );
 		return !!btn.$size();
 	}
 	#getBtn( prop ) {
-		return this.$this.$query( `[data-prop="${ prop }"]` );
+		return this.$query( `[data-prop="${ prop }"]` );
 	}
 	#setValue( prop, val ) {
 		this.#getBtn( prop ).$setAttr( "data-value", gsuiPropSelect.#formatValue( prop, val ) );
@@ -76,7 +76,7 @@ class gsuiPropSelect extends gsui0ne {
 		const prop = $.$dataProp( e.target );
 
 		if ( prop && prop !== this.#prop ) {
-			this.$this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECT, prop );
+			this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECT, prop );
 		}
 	}
 	#oncontextmenu( e ) {
@@ -84,7 +84,7 @@ class gsuiPropSelect extends gsui0ne {
 
 		e.preventDefault();
 		if ( prop ) {
-			this.$this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECTALL, prop );
+			this.$setAttr( "prop", prop ).$dispatch( GSEV_PROPSELECT_SELECTALL, prop );
 		}
 	}
 }

@@ -39,7 +39,7 @@ class gsuiDragline extends gsui0ne {
 		const ok = el2.$size() > 0;
 
 		this.#linkedTo = el2;
-		this.$this.$togClass( "gsuiDragline-linked", ok );
+		this.$togClass( "gsuiDragline-linked", ok );
 		ok ? this.#redraw() : this.#unlink();
 	}
 	#redraw() {
@@ -50,7 +50,7 @@ class gsuiDragline extends gsui0ne {
 		}
 	}
 	#render( x, y ) {
-		const bcr = this.$this.$bcr();
+		const bcr = this.$bcr();
 		const w = x - bcr.x;
 		const h = y - bcr.y;
 		const wabs = Math.abs( w );
@@ -94,7 +94,7 @@ class gsuiDragline extends gsui0ne {
 			: this.#unlink();
 	}
 	#resetDrag() {
-		this.$this.$rmClass( "gsuiDragline-dragging" );
+		this.$rmClass( "gsuiDragline-dragging" );
 		this.#dropAreas.forEach( el => {
 			el.$rmClass( "gsuiDragline-dropActive" ).$off( "mouseup" );
 		} );
@@ -111,7 +111,7 @@ class gsuiDragline extends gsui0ne {
 				el.$addClass( "gsuiDragline-dropActive" )
 					.$on( "mouseup", this.#onmouseupDrop.bind( this ) );
 			} );
-			this.$this.$addClass( "gsuiDragline-dragging" );
+			this.$addClass( "gsuiDragline-dragging" );
 			this.#evMousemove = this.#onmousemove.bind( this );
 			this.#evMouseup = this.#onmouseup.bind( this );
 			this.#evKeydown = this.#onkeydown.bind( this );
@@ -131,7 +131,7 @@ class gsuiDragline extends gsui0ne {
 
 		if ( !this.#linkedTo.$is( tar ) ) {
 			this.#linkedTo = tar;
-			this.$this.$dispatch( GSEV_DRAGLINE_CHANGE, tar );
+			this.$dispatch( GSEV_DRAGLINE_CHANGE, tar );
 		}
 		this.#resetDrag();
 		this.#redraw();
@@ -140,7 +140,7 @@ class gsuiDragline extends gsui0ne {
 	#onmouseup() {
 		if ( this.#linkedTo.$size() ) {
 			this.#linkedTo = $noop;
-			this.$this.$dispatch( GSEV_DRAGLINE_CHANGE, $noop );
+			this.$dispatch( GSEV_DRAGLINE_CHANGE, $noop );
 		}
 		this.#cancelDrag();
 	}

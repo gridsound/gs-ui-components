@@ -18,19 +18,19 @@ class gsuiEffects extends gsui0ne {
 			},
 		} );
 		new gsuiReorder( {
-			$root: this.$this,
+			$root: this,
 			$parentSelector: "gsui-effects",
 			$itemSelector: "gsui-effect",
 			$itemGripSelector: "gsui-effect-grip",
-			$onchange: o => this.$this.$dispatch( GSEV_EFFECTS_REORDEREFFECT, o.$rdrItemId, o.$rdrDiff ),
+			$onchange: o => this.$dispatch( GSEV_EFFECTS_REORDEREFFECT, o.$rdrItemId, o.$rdrDiff ),
 		} );
-		this.$this.$listen( {
-			[ GSEV_DROPDOWN_CLICK ]: d => this.$this.$dispatch( GSEV_EFFECTS_ADDEFFECT, d.$args[ 0 ] ),
-			[ GSEV_EFFECT_REMOVE ]: d => this.$this.$dispatch( GSEV_EFFECTS_REMOVEEFFECT, d.$targetId ),
-			[ GSEV_EFFECT_TOGGLE ]: d => this.$this.$dispatch( GSEV_EFFECTS_TOGGLEEFFECT, d.$targetId ),
-			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => this.$this.$dispatch( GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
-			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
-			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => this.$this.$dispatch( GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
+		this.$listen( {
+			[ GSEV_DROPDOWN_CLICK ]: d => this.$dispatch( GSEV_EFFECTS_ADDEFFECT, d.$args[ 0 ] ),
+			[ GSEV_EFFECT_REMOVE ]: d => this.$dispatch( GSEV_EFFECTS_REMOVEEFFECT, d.$targetId ),
+			[ GSEV_EFFECT_TOGGLE ]: d => this.$dispatch( GSEV_EFFECTS_TOGGLEEFFECT, d.$targetId ),
+			[ GSEV_EFFECT_FX_LIVECHANGE ]: d => this.$dispatch( GSEV_EFFECTS_LIVECHANGEEFFECT, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROP ]: d => this.$dispatch( GSEV_EFFECTS_CHANGEEFFECTPROP, d.$targetId, ...d.$args ),
+			[ GSEV_EFFECT_FX_CHANGEPROPS ]: d => this.$dispatch( GSEV_EFFECTS_CHANGEEFFECT, d.$targetId, ...d.$args ),
 		} );
 	}
 
@@ -70,11 +70,11 @@ class gsuiEffects extends gsui0ne {
 		root.$get( 0 ).$setFxElement(
 			$( fxAsset.cmp )
 				.$dataId( id )
-				.$setAttr( "timedivision", this.$this.$getAttr( "timedivision" ) )
+				.$setAttr( "timedivision", this.$getAttr( "timedivision" ) )
 				.$message( GSEV_EFFECT_DATACALLBACK, this.#dataCallback.bind( null, id, fx.type ) )
 		);
 		this.#fxsHtml.set( id, root );
-		this.$this.$append( root );
+		this.$append( root );
 	}
 	$removeEffect( id ) {
 		this.#fxsHtml.get( id ).$remove();

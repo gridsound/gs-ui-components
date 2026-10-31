@@ -80,9 +80,9 @@ class gsuiSample extends gsui0ne {
 			pointerup: this.#sliderPtrUp.bind( this ),
 			pointercancel: this.#sliderPtrUp.bind( this ),
 		} );
-		this.$this.$listen( {
+		this.$listen( {
 			[ GSEV_BUFFEREDITOR_EXIT ]: () => {
-				this.$this.$rmAttr( "editing" );
+				this.$rmAttr( "editing" );
 			},
 			[ GSEV_DROPDOWN_CLICK ]: d => {
 				switch ( d.$args[ 0 ] ) {
@@ -93,7 +93,7 @@ class gsuiSample extends gsui0ne {
 					case "clonemp3": this.#clickCloneMP3(); break;
 					case "convertmp3": this.#clickConvertMP3(); break;
 				}
-				this.$this.$focus();
+				this.$focus();
 			},
 		} );
 		this.#setSlider( 0 );
@@ -107,7 +107,7 @@ class gsuiSample extends gsui0ne {
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {
 			case "editing": this.#setEditing( val === "" ); break;
-			case "order": this.$this.$css( "order", val ); break;
+			case "order": this.$css( "order", val ); break;
 			case "name": this.$elements.$name.$text( val ); break;
 			case "size": this.$elements.$infoSize.$text( GSUmathFloatHuman( +val ) ); break;
 			case "duration": this.$elements.$infoDur.$text( `${ val } ${ GSTX.$unitSecondSec }` ); break;
@@ -136,7 +136,7 @@ class gsuiSample extends gsui0ne {
 		if ( !b ) {
 			this.#bufEdit.$remove();
 			this.#bufEdit = $noop;
-			this.$this.$rmAttr( "playing", "paused" );
+			this.$rmAttr( "playing", "paused" );
 		} else {
 			this.#bufEdit = $( "<gsui-buffer-editor>" ).$appendTo( this.$elements.$body );
 			this.#audioStop();
@@ -147,7 +147,7 @@ class gsuiSample extends gsui0ne {
 		}
 	}
 	#sliderPtrDown( e ) {
-		if ( this.$this.$hasAttr( "playing" ) || this.$this.$hasAttr( "paused" ) ) {
+		if ( this.$hasAttr( "playing" ) || this.$hasAttr( "paused" ) ) {
 			this.$elements.$slider.$setPtrCapture( e.pointerId );
 			this.#currentTiming = true;
 			this.#sliderPtrMove( e );
@@ -180,7 +180,7 @@ class gsuiSample extends gsui0ne {
 
 	// .........................................................................
 	#calcURL() {
-		const [ hash, format ] = this.$this.$getAttr( "hash", "format" );
+		const [ hash, format ] = this.$getAttr( "hash", "format" );
 
 		return `${ GSURL.$gsSmps }/${ hash }.${ format }`;
 	}
@@ -194,13 +194,13 @@ class gsuiSample extends gsui0ne {
 		return gswaContext.$resume()
 			.then( () => this.#getAudioBuffer() )
 			.then( buf => {
-				gswaBuffers.$sabSetBuffer( this.$this.$dataId(), buf );
+				gswaBuffers.$sabSetBuffer( this.$dataId(), buf );
 				if ( !this.#bufPlayer ) {
 					this.#bufPlayer = new gswaBufferPlayer();
 					this.#bufPlayer.$bfplLoop( true );
 					this.#bufPlayer.$bfplConnect( gswaContext.$getDest() );
 				}
-				this.#bufPlayer.$bfplSource( ...gswaBuffers.$sabGetBuffer( this.$this.$dataId() ) );
+				this.#bufPlayer.$bfplSource( ...gswaBuffers.$sabGetBuffer( this.$dataId() ) );
 			} )
 			.finally( () => this.$elements.$playBtn.$loading( false ) );
 	}
@@ -224,7 +224,7 @@ class gsuiSample extends gsui0ne {
 			GSUaudioParamSet( this.#bufPlayer.$play, +b );
 			this.$elements.$playBtn.$setAttr( "icon", b ? "pause" : "play" );
 		}
-		this.$this.$setAttr( "playing", b ).$setAttr( "paused", !b );
+		this.$setAttr( "playing", b ).$setAttr( "paused", !b );
 	}
 	#audioStop() {
 		GSUclearInterval( this.#intervalId );
@@ -232,7 +232,7 @@ class gsuiSample extends gsui0ne {
 		this.#bufPlayer =
 		this.#intervalId = null;
 		this.#setSlider( 0 );
-		this.$this.$rmAttr( "playing", "paused" );
+		this.$rmAttr( "playing", "paused" );
 		this.$elements.$playBtn.$setAttr( "icon", "play" );
 		this.$elements.$stopBtn.$disabled( true );
 		this.#bufEdit.$message( GSEV_BUFFEREDITOR_STOP );
@@ -244,7 +244,7 @@ class gsuiSample extends gsui0ne {
 			case "play": this.#clickPlay(); break;
 			case "stop": this.#audioStop(); break;
 		}
-		this.$this.$focus();
+		this.$focus();
 	}
 	#dblclick( e ) {
 		if ( $.$tag( e.target ) === "gsui-sample-name" ) {
@@ -261,37 +261,37 @@ class gsuiSample extends gsui0ne {
 	}
 	#clickRename() {
 		this.$elements.$menuBtn.$loading( true );
-		return $popup.$prompt( GSTX.$samplesMvSample, "", this.$this.$getAttr( "name" ) )
+		return $popup.$prompt( GSTX.$samplesMvSample, "", this.$getAttr( "name" ) )
 			.then( name => {
-				if ( !name || name === this.$this.$getAttr( "name" ) ) {
+				if ( !name || name === this.$getAttr( "name" ) ) {
 					throw "";
 				}
 				return name;
 			} )
-			.then( name => this.#promises.get( "rename" )( this.$this.$dataId(), name ) )
-			.then( name => this.$this.$setAttr( "name", name ) )
+			.then( name => this.#promises.get( "rename" )( this.$dataId(), name ) )
+			.then( name => this.$setAttr( "name", name ) )
 			.finally( () => this.$elements.$menuBtn.$loading( false ) );
 	}
 	#clickDownload() {
-		const [ name, format ] = this.$this.$getAttr( "name", "format" );
+		const [ name, format ] = this.$getAttr( "name", "format" );
 
 		GSUdownloadURL( `${ name }.${ format }`, this.#calcURL() );
 	}
 	#clickDelete() {
 		this.$elements.$menuBtn.$loading( true );
-		this.#promises.get( "delete" )( this.$this.$dataId() )
-			.then( () => this.$this.$setAttr( "size", 0 ).$dispatch( GSEV_SAMPLE_DELETED ).$remove() )
+		this.#promises.get( "delete" )( this.$dataId() )
+			.then( () => this.$setAttr( "size", 0 ).$dispatch( GSEV_SAMPLE_DELETED ).$remove() )
 			.finally( () => this.$elements.$menuBtn.$loading( false ) );
 	}
 	#clickCloneMP3() {
-		this.$this.$dispatch( GSEV_SAMPLE_CLONEMP3, this.$this.$dataId(), this.#calcURL() );
+		this.$dispatch( GSEV_SAMPLE_CLONEMP3, this.$dataId(), this.#calcURL() );
 	}
 	#clickConvertMP3() {
-		this.$this.$dispatch( GSEV_SAMPLE_CONVERTMP3, this.$this.$dataId(), this.#calcURL() );
+		this.$dispatch( GSEV_SAMPLE_CONVERTMP3, this.$dataId(), this.#calcURL() );
 	}
 	#clickEdit() {
 		this.$elements.$menuBtn.$loading( true );
-		this.$this.$addAttr( "editing" );
+		this.$addAttr( "editing" );
 	}
 }
 

@@ -80,16 +80,16 @@ class gsuiDAW extends gsui0ne {
 			}
 		} );
 		this.#initRenderBtn();
-		this.$this.$listen( {
-			[ GSEV_TITLEUSER_SAVE ]: () => this.$this.$dispatch( GSEV_DAW_SAVE ),
-			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => this.$this.$dispatch( GSEV_DAW_RENAME, name ),
-			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => this.$this.$dispatch( GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
+		this.$listen( {
+			[ GSEV_TITLEUSER_SAVE ]: () => this.$dispatch( GSEV_DAW_SAVE ),
+			[ GSEV_TITLEUSER_RENAME ]: ( _, name ) => this.$dispatch( GSEV_DAW_RENAME, name ),
+			[ GSEV_CLOCK_CHANGEDISPLAY ]: ( _, display ) => this.$dispatch( GSEV_DAW_CHANGEDISPLAYCLOCK, display ),
 		} );
 		this.$elements.$volume.$listen( {
 			[ GSEV_SLIDER_INPUTSTART ]: GSUnoop,
 			[ GSEV_SLIDER_INPUTEND ]: GSUnoop,
 			[ GSEV_SLIDER_CHANGE ]: GSUnoop,
-			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => this.$this.$dispatch( GSEV_DAW_VOLUME, gain ),
+			[ GSEV_SLIDER_INPUT ]: ( _, gain ) => this.$dispatch( GSEV_DAW_VOLUME, gain ),
 		} );
 		this.$elements.$currentTime.$listen( {
 			[ GSEV_SLIDER_INPUTEND ]: () => this.#timeSelecting = false,
@@ -97,10 +97,10 @@ class gsuiDAW extends gsui0ne {
 				this.#timeSelecting = true;
 				this.$elements.$clock.$get( 0 ).$setTime( val );
 			},
-			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => this.$this.$dispatch( GSEV_DAW_CURRENTTIME, val ),
+			[ GSEV_SLIDER_CHANGE ]: ( _, val ) => this.$dispatch( GSEV_DAW_CURRENTTIME, val ),
 			[ GSEV_SLIDER_INPUT ]: ( _, val ) => {
 				this.$elements.$clock.$get( 0 ).$setTime( val );
-				this.$this.$dispatch( GSEV_DAW_CURRENTTIMELIVE, val );
+				this.$dispatch( GSEV_DAW_CURRENTTIMELIVE, val );
 			},
 		} );
 	}
@@ -183,8 +183,7 @@ class gsuiDAW extends gsui0ne {
 					.$setAttr( "data-tooltip", !b ? GSTX.$daw_showHelp : GSTX.$daw_hideHelp )
 					.$child( 0 )
 					.$setAttr( "icon", b ? "question" : "cu-no-question" );
-				this.$this
-					.$setAttr( "helping", b )
+				this.$setAttr( "helping", b )
 					.$setAttr( "gsuihelplink-show", b )
 					.$dispatch( GSEV_DAW_TOGGLEHELPLINKS, b );
 				break;
@@ -211,7 +210,7 @@ class gsuiDAW extends gsui0ne {
 	$toggleWindow( win, b ) {
 		this.#updateWinBtnTooltip( this.#getWinBtn( win ).$setAttr( "data-open", b ) );
 		if ( win === "patterns" ) {
-			this.$this.$setAttr( "resources-hidden", !b );
+			this.$setAttr( "resources-hidden", !b );
 		}
 	}
 	#updateWinBtnTooltip( btn ) {
@@ -227,14 +226,14 @@ class gsuiDAW extends gsui0ne {
 		this.#popups.$export.$msg.$text( msg );
 	}
 	#updateDuration() {
-		const dur = this.$this.$getAttr( "duration" );
+		const dur = this.$getAttr( "duration" );
 
-		this.$elements.$titleUser.$setAttr( "cmpdur", dur / ( this.$this.$getAttr( "bpm" ) / 60 ) );
+		this.$elements.$titleUser.$setAttr( "cmpdur", dur / ( this.$getAttr( "bpm" ) / 60 ) );
 		this.$elements.$currentTime.$setAttr( "max", dur );
 	}
 	#initRenderBtn() {
 		this.$setExportMsg( "" );
-		this.$this.$rmAttr( "exporting" );
+		this.$rmAttr( "exporting" );
 		this.#popups.$export.$btnUpload.$disabled( false );
 		this.#popups.$export.$btnRender.$setAttr( {
 			text: "Render",
@@ -253,7 +252,7 @@ class gsuiDAW extends gsui0ne {
 		return this.$elements.$winBtns.$filter( `[data-prop="${ win }"]` );
 	}
 	#onopenRenderPopup() {
-		if ( this.$this.$getAttr( "exporting" ) === "1" ) {
+		if ( this.$getAttr( "exporting" ) === "1" ) {
 			this.$setExportMsg( "Rendering complete" );
 		}
 		$popup.$custom( {
@@ -261,10 +260,10 @@ class gsuiDAW extends gsui0ne {
 			element: this.#popups.$export.$root,
 			ok: "close",
 		} ).then( () => {
-			if ( this.$this.$getAttr( "exporting" ) !== "1" ) {
+			if ( this.$getAttr( "exporting" ) !== "1" ) {
 				this.#initRenderBtn();
 			}
-			this.$this.$dispatch( GSEV_DAW_ABORTEXPORT );
+			this.$dispatch( GSEV_DAW_ABORTEXPORT );
 		} );
 	}
 	#onclickRenderBtn() {
@@ -276,7 +275,7 @@ class gsuiDAW extends gsui0ne {
 				href: false,
 			} );
 			$( ".gsuiPopup-window" ).$setAttr( "closedby", "none" );
-			this.$this.$dispatch( GSEV_DAW_EXPORT );
+			this.$dispatch( GSEV_DAW_EXPORT );
 		}
 	}
 	#onclickUploadBtn() {
@@ -284,27 +283,27 @@ class gsuiDAW extends gsui0ne {
 			this.$setExportMsg( "You need to be connected to upload your rendered composition" );
 		} else {
 			this.#popups.$export.$btnUpload.$disabled( true );
-			this.$this.$dispatch( GSEV_DAW_UPLOAD_CMP );
+			this.$dispatch( GSEV_DAW_UPLOAD_CMP );
 		}
 	}
 	#onclickVersionCheck() {
 		this.#popups.$about.$versionIcon.$addAttr( "spin" );
 		gsapiClient.$getDAWversion().then( res => {
 			this.#popups.$about.$versionIcon.$setAttr( {
-				icon: res === this.$this.$getAttr( "version" ) ? "check" : "warning",
+				icon: res === this.$getAttr( "version" ) ? "check" : "warning",
 				spin: false,
 			} );
 		} );
 	}
 	#onopenSettingsPopup() {
 		const p = this.#popups.$settings;
-		const uiRate = this.$this.$getAttr( "uirate" );
+		const uiRate = this.$getAttr( "uirate" );
 		const uiRateAuto = uiRate === "auto";
 
-		p.$sampleRate.$value( +this.$this.$getAttr( "samplerate" ) );
-		p.$keyNotation.$value( this.$this.$getAttr( "keynotation" ) );
-		p.$timelineNumbering.$value( +this.$this.$getAttr( "timelinenumbering" ) );
-		p.$windowsLowGraphics.$checked( this.$this.$getAttr( "windowslowgraphics" ) === "" );
+		p.$sampleRate.$value( +this.$getAttr( "samplerate" ) );
+		p.$keyNotation.$value( this.$getAttr( "keynotation" ) );
+		p.$timelineNumbering.$value( +this.$getAttr( "timelinenumbering" ) );
+		p.$windowsLowGraphics.$checked( this.$getAttr( "windowslowgraphics" ) === "" );
 		if ( uiRateAuto ) {
 			p.$uiRateAuto.$checked( true );
 		} else {
@@ -324,15 +323,15 @@ class gsuiDAW extends gsui0ne {
 			delete data.uiRateFPS;
 			if (
 				(
-					data.uiRate !== this.$this.$getAttr( "uirate" ) &&
-					data.uiRate !== +this.$this.$getAttr( "uirate" )
+					data.uiRate !== this.$getAttr( "uirate" ) &&
+					data.uiRate !== +this.$getAttr( "uirate" )
 				) ||
-				data.keyNotation !== this.$this.$getAttr( "keynotation" ) ||
-				data.sampleRate !== +this.$this.$getAttr( "samplerate" ) ||
-				data.timelineNumbering !== +this.$this.$getAttr( "timelinenumbering" ) ||
-				data.windowsLowGraphics !== ( this.$this.$getAttr( "windowslowgraphics" ) === "" )
+				data.keyNotation !== this.$getAttr( "keynotation" ) ||
+				data.sampleRate !== +this.$getAttr( "samplerate" ) ||
+				data.timelineNumbering !== +this.$getAttr( "timelinenumbering" ) ||
+				data.windowsLowGraphics !== ( this.$getAttr( "windowslowgraphics" ) === "" )
 			) {
-				this.$this.$dispatch( GSEV_DAW_SETTINGS, data );
+				this.$dispatch( GSEV_DAW_SETTINGS, data );
 			}
 		}
 	}
@@ -340,19 +339,19 @@ class gsuiDAW extends gsui0ne {
 		const tar = e.target;
 
 		switch ( $.$dataAction( tar ) ) {
-			case "focus": this.$this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
-			case "play": this.$this.$dispatch( GSEV_DAW_PLAY ); break;
-			case "stop": this.$this.$dispatch( GSEV_DAW_STOP ); break;
-			case "undo": this.$this.$dispatch( GSEV_DAW_UNDO ); break;
-			case "redo": this.$this.$dispatch( GSEV_DAW_REDO ); break;
-			case "help": this.$this.$togAttr( "helping" ); break;
+			case "focus": this.$dispatch( GSEV_DAW_FOCUSSWITCH ); break;
+			case "play": this.$dispatch( GSEV_DAW_PLAY ); break;
+			case "stop": this.$dispatch( GSEV_DAW_STOP ); break;
+			case "undo": this.$dispatch( GSEV_DAW_UNDO ); break;
+			case "redo": this.$dispatch( GSEV_DAW_REDO ); break;
+			case "help": this.$togAttr( "helping" ); break;
 			case "export": this.#onopenRenderPopup(); break;
 			case "settings": this.#onopenSettingsPopup(); break;
 			case "about": $popup.$custom( { title: "About", element: this.#popups.$about.$root } ); break;
 			case "window":
 				$.$dataProp( tar ) === "patterns"
 					? this.$toggleWindow( "patterns", !$.$hasAttr( tar, "data-open" ) )
-					: this.$this.$dispatch( $.$hasAttr( tar, "data-open" )
+					: this.$dispatch( $.$hasAttr( tar, "data-open" )
 						? GSEV_DAW_CLOSEWINDOW
 						: GSEV_DAW_OPENWINDOW, $.$dataProp( tar ) );
 				break;
