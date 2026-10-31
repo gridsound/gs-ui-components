@@ -30,7 +30,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 241
+// 242
 // ...............................
 const GSEV_API_PROMISE = 230;
 // ...............................
@@ -44,9 +44,9 @@ const GSEV_BLOCKSMANAGER_STOPPREVIEWAUDIO = 3;
 const GSEV_BUFFEREDITOR_BUFFER = 226;
 const GSEV_BUFFEREDITOR_EXIT = 229;
 const GSEV_BUFFEREDITOR_EXTRACT = 227;
+const GSEV_BUFFEREDITOR_PLAYTOGGLE = 239;
 const GSEV_BUFFEREDITOR_SAVE = 228;
 const GSEV_BUFFEREDITOR_STOP = 238;
-const GSEV_BUFFEREDITOR_PLAYTOGGLE = 239;
 const GSEV_BUFFERVIEW_BUFFER = 168;
 const GSEV_BUFFERVIEW_SELECTION_CHANGE = 237;
 const GSEV_CHANNEL_CHANGE = 4;
@@ -82,6 +82,7 @@ const GSEV_DAW_OPENWINDOW = 23;
 const GSEV_DAW_PLAY = 24;
 const GSEV_DAW_REDO = 25;
 const GSEV_DAW_RENAME = 26;
+const GSEV_DAW_RENDER_READY = 241;
 const GSEV_DAW_SAVE = 28;
 const GSEV_DAW_SETTINGS = 29;
 const GSEV_DAW_SPECTRUM_DRAW = 240;
