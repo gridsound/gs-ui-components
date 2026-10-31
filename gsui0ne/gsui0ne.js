@@ -42,8 +42,8 @@ class gsui0ne extends HTMLElement {
 		if ( ++this.#connectionCount === 1 ) {
 			$( this.#children ).$appendTo( this );
 			GSUforEach( this.#attributes, ( val, p ) => {
-				if ( ( GSUisStr( val ) || GSUisNum( val ) || val === true ) && !this.$this.$hasAttr( p ) ) {
-					this.$this.$setAttr( p, val );
+				if ( ( GSUisStr( val ) || GSUisNum( val ) || val === true ) && !this.$hasAttr( p ) ) {
+					this.$setAttr( p, val );
 				}
 			} );
 			this.#children =
@@ -52,11 +52,11 @@ class gsui0ne extends HTMLElement {
 		}
 		this.$connected?.();
 		if ( this.#onresizeBind ) {
-			this.$this.$observeSize( this.#onresizeBind );
+			this.$observeSize( this.#onresizeBind );
 		}
 	}
 	disconnectedCallback() {
-		this.$this.$unobserveSize( this.#onresizeBind );
+		this.$unobserveSize( this.#onresizeBind );
 		this.$isConnected = false;
 		this.$disconnected?.();
 	}
@@ -78,7 +78,7 @@ class gsui0ne extends HTMLElement {
 			if ( this.#ptrlock ) {
 				this.requestPointerLock().then( () => this.#onptrdown2( e ) );
 			} else {
-				this.$this.$setPtrCapture( e.pointerId );
+				this.$setPtrCapture( e.pointerId );
 				this.#onptrdown2( e );
 			}
 		}
@@ -97,7 +97,7 @@ class gsui0ne extends HTMLElement {
 		if ( this.$isActive ) {
 			this.#ptrlock
 				? document.exitPointerLock()
-				: this.$this.$relPtrCapture( e.pointerId );
+				: this.$relPtrCapture( e.pointerId );
 			this.#ptrMap.delete( e.pointerId );
 			if ( this.#ptrMap.size < 1 ) {
 				this.$isActive = false;
