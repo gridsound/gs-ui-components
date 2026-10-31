@@ -233,7 +233,7 @@ class gsuiDAW extends gsui0ne {
 		this.$elements.$currentTime.$setAttr( "max", dur );
 	}
 	#initRenderBtn() {
-		this.$setAttr( "exportmsg", "" ).$rmAttr( "exporting" );
+		this.$rmAttr( "exporting", "exportmsg" );
 		this.#popups.$export.$btnUpload.$disabled( false );
 		this.#popups.$export.$btnRender.$setAttr( {
 			text: "Render",
