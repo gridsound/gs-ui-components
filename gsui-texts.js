@@ -184,6 +184,8 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_placehDrums:   "no drums yet",
 		$patterns_placehSynths:  "no synth yet",
 		$patterns_placehAutomat: "no automation yet",
+		$patterns_keepOneSynth:  "You have to keep at least one synthesizer",
+		$patterns_synthNoPat:    "This synthesizer has no related pattern",
 		// .....................................................................
 		$library_placehCloud: "this area is mirroring the sample you upload on gridsound.com/#/samples",
 		$library_placehUser: "drag'n drop your own samples in the app, they will appear here",
@@ -465,6 +467,8 @@ const GSTXall = GSUdeepFreeze( {
 		$patterns_placehDrums:   "aucune batterie pour l'instant",
 		$patterns_placehSynths:  "aucun synthé pour l'instant",
 		$patterns_placehAutomat: "aucune automation pour l'instant",
+		$patterns_keepOneSynth:  "Vous devez garder au moins un synthétiseur",
+		$patterns_synthNoPat:    "Ce synthétiseur n'a aucun patterns liés",
 		// .....................................................................
 		$library_placehCloud: "ici s'affiche les samples que vous téléchargez sur gridsound.com/#/samples",
 		$library_placehUser: "glissez-déposez vos propres samples dans l'application, ils apparaîtront ici",
