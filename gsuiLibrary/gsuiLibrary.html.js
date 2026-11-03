@@ -19,8 +19,8 @@ $.$setTemplate( "gsui-library-sample", o =>
 	$.$elem( "gsui-library-sample", { "data-id": o.$id, expanded: true, name: o.$name, "data-tooltip": o.$name },
 		$.$elem( "svg", { viewBox: "0 0 40 10", preserveAspectRatio: "none" },
 			GSUisStr( o.$data ) && $.$elem( "polygon", { points: o.$data } ),
-			GSUisArr( o.$data ) && $.$elem( "path", { d: `M${ o.$data[ 0 ].replaceAll( ",", "L" ) }` } ),
-			GSUisArr( o.$data ) && $.$elem( "path", { d: `M${ o.$data[ 1 ].replaceAll( ",", "L" ) }` } ),
+			GSUisArr( o.$data ) && $.$elem( "path", { d: o.$data[ 0 ] && `M${ o.$data[ 0 ].replaceAll( ",", "L" ) }` } ),
+			GSUisArr( o.$data ) && $.$elem( "path", { d: o.$data[ 1 ] && `M${ o.$data[ 1 ].replaceAll( ",", "L" ) }` } ),
 		),
 	)
 );
