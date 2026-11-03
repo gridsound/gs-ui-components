@@ -114,8 +114,7 @@ gsuiSVGPatterns.$update( "slices", "pC", {
 // }, dur, svgD );
 
 fetch( "test-assets/okay.wav" )
-	.then( res => res.arrayBuffer() )
-	.then( arr => gswaContext.$decodeAudioData( arr ) )
+	.then( res => gswaContext.$decodeAudioData( res ) )
 	.then( buf => {
 		gsuiSVGPatterns.$update( "buffer", "pE", buf );
 		gsuiSVGPatterns.$setSVGViewbox( "buffer", svgE, 0, dur, bps );

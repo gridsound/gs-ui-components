@@ -27,8 +27,7 @@ function initRow( drumId, name, detune, pan, gain, bufName ) {
 	drumrows.$change( drumId, "pan", pan );
 	drumrows.$change( drumId, "gain", gain );
 	fetch( `test-assets/${ bufName }.wav` )
-		.then( res => res.arrayBuffer() )
-		.then( arr => gswaContext.$decodeAudioData( arr ) )
+		.then( res => gswaContext.$decodeAudioData( res ) )
 		.then( buf => {
 			gsuiSVGPatterns.$add( "buffer", bufName );
 			gsuiSVGPatterns.$add( "bufferHD", bufName );

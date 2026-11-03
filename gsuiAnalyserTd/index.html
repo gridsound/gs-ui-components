@@ -57,8 +57,7 @@ an.fftSize = fftSize;
 an.smoothingTimeConstant = 0;
 
 fetch( "test-assets/Cymatics-IcedOut.wav" )
-	.then( res => res.arrayBuffer() )
-	.then( arr => gswaContext.$decodeAudioData( arr ) )
+	.then( res => gswaContext.$decodeAudioData( res ) )
 	.then( buf => {
 		buffer = buf;
 		play.$disabled( false );

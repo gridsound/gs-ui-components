@@ -46,8 +46,7 @@ let hardVal = 0;
 $( "#hardValue" ).$oninput( e => hardVal = +e.target.value );
 
 fetch( "test-assets/808kick.wav" )
-	.then( res => res.arrayBuffer() )
-	.then( arr => gswaContext.$decodeAudioData( arr ) )
+	.then( res => gswaContext.$decodeAudioData( res ) )
 	.then( buf => {
 		buffer = buf;
 		play.$disabled( false );

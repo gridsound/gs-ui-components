@@ -16,8 +16,7 @@ let bufSave; // because WeakRef;
 // fetch( "test-assets/808kick.wav" )
 fetch( "test-assets/left-to-right.mp3" )
 // fetch( "test-assets/Rally House.mp3" )
-	.then( res => res.arrayBuffer() )
-	.then( arr => gswaContext.$decodeAudioData( arr ) )
+	.then( res => gswaContext.$decodeAudioData( res ) )
 	.then( buf => {
 		bufSave = buf;
 		uiBufEdit.$message( GSEV_BUFFEREDITOR_BUFFER, buf );

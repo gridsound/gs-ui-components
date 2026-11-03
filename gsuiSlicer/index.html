@@ -71,8 +71,7 @@ $( "#loadSample" ).$onclick( () => {
 	fetch( "test-assets/Too Long - Steam Machine.wav" )
 	// fetch( "test-assets/Robot Rock - Oh Yeah.wav" )
 	// fetch( "test-assets/Television Rules The Nation - Crescendolls.wav" )
-		.then( res => res.arrayBuffer() )
-		.then( arr => gswaContext.$decodeAudioData( arr ) )
+		.then( res => gswaContext.$decodeAudioData( res ) )
 		.then( buf => {
 			buffer = buf;
 			slicer.$get( 0 ).$setBuffer( buf );
