@@ -185,9 +185,7 @@ class gsuiSample extends gsui0ne {
 		return `${ GSURL.$gsSmps }/${ hash }.${ format }`;
 	}
 	#getAudioBuffer() {
-		return fetch( this.#calcURL() )
-			.then( res => res.arrayBuffer() )
-			.then( arr => gswaContext.$decodeAudioData( arr ) );
+		return fetch( this.#calcURL() ).then( res => gswaContext.$decodeAudioData( res ) );
 	}
 	#initAudio() {
 		this.$elements.$playBtn.$loading( true );

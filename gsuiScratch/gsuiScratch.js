@@ -148,8 +148,7 @@ class gsuiScratch extends gsui0ne {
 		this.#currentTime = 0;
 		this.$loading( true );
 		return fetch( elAudio.$prop( "src" ) )
-			.then( res => res.arrayBuffer() )
-			.then( arr => gswaContext.$decodeAudioData( arr ) )
+			.then( res => gswaContext.$decodeAudioData( res ) )
 			.then( buf => gswaBufferToFile.$convert( GSUbufferReverse( this.#audiobuf = buf ), "wav" ) )
 			.then( blob => {
 				this.#dur = this.#audiobuf.duration;
