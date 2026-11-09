@@ -43,7 +43,7 @@ class gsuiCurves extends gsui0ne {
 		return this.#size[ 0 ];
 	}
 	$drawAnalyser( data ) {
-		this.$elements.$analyser.$get( 0 ).$draw( data );
+		this.$elements.$analyser.$message( GSEV_ANALYSERHZ_DRAW, data );
 	}
 	$setCurve( id, curve ) {
 		const path = this.$elements.$curves.$query( `[data-id="${ id }"]` );
