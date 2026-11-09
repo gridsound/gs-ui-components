@@ -84,7 +84,7 @@ $( "#TryControls" ).$oninput( e => $( e.target ).$next().$next().$text( e.target
 function frame() {
 	an.getFloatTimeDomainData( anData );
 	if ( !frozen ) {
-		analyserTd.$get( 0 ).$draw( anData );
+		analyserTd.$message( GSEV_ANALYSERDT_DRAW, anData );
 	}
 }
 

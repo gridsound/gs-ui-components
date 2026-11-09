@@ -63,11 +63,11 @@ play.$onclick( () => {
 
 function frame() {
 	if ( GSUisNum( hardVal ) ) {
-		analyserVu.$get( 0 ).$draw( [ hardVal ], [ hardVal ] );
+		analyserVu.$message( GSEV_ANALYSERVU_DRAW, [ hardVal ], [ hardVal ] );
 	} else {
 		anL.getFloatTimeDomainData( anDataL );
 		anR.getFloatTimeDomainData( anDataR );
-		analyserVu.$get( 0 ).$draw( anDataL, anDataR );
+		analyserVu.$message( GSEV_ANALYSERVU_DRAW, anDataL, anDataR );
 	}
 }
 

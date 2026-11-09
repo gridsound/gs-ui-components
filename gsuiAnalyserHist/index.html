@@ -79,7 +79,7 @@ function frame() {
 			anR.getFloatTimeDomainData( anRData );
 			break;
 	}
-	analyser.$get( 0 ).$draw( anLData, anRData );
+	analyser.$message( GSEV_ANALYSERHIST_DRAW, anLData, anRData );
 }
 
 GSUsetInterval( frame, 0 );
