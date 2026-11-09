@@ -9,12 +9,12 @@ class gsuiPatterns extends gsui0ne {
 		redirect: ( id, el, e ) => this.#openChannelsPopup( "redirectPatternBuffer", id, e.target.dataset.id ),
 	} );
 	#fnsSynth = Object.freeze( {
-		expand: id => this.$expandSynth( id ),
+		expand: id => this.#expandSynth( id ),
 		undefined: id => this.onchange( "openSynth", id ),
 		redirect: ( id, e ) => this.#openChannelsPopup( "redirectSynth", id, e.target.dataset.id ),
 		newPattern: id => {
 			this.onchange( "addPatternKeys", id );
-			this.$expandSynth( id, true );
+			this.#expandSynth( id, true );
 		},
 		delete: id => {
 			this.#getList( "keys" ).$children().$size() > 1
@@ -45,7 +45,7 @@ class gsuiPatterns extends gsui0ne {
 			const tar = $( e.target );
 
 			if ( tar.$tag() === "gsui-patterns-synth-info" ) {
-				this.$expandSynth( tar.$closest( "gsui-patterns-synth" ).$dataId() );
+				this.#expandSynth( tar.$closest( "gsui-patterns-synth" ).$dataId() );
 			}
 		} );
 		this.#getList( "automation" ).$onclick( this.#onclickListPatterns.bind( this ) );
@@ -57,6 +57,24 @@ class gsuiPatterns extends gsui0ne {
 		this.$elements.$newDrums.$onclick( () => this.onchange( "addPatternDrums" ) );
 		this.$elements.$newSynth.$onclick( () => this.onchange( "addSynth" ) );
 		this.$elements.$newAutomation.$onclick( () => this.onchange( "addAutomation" ) );
+	}
+
+	// .........................................................................
+	$onmessage( ev, a, b, c ) {
+		switch ( ev ) {
+			case GSEV_PATTERNS_ADDSYNTH: this.#addSynth( a ); break;
+			case GSEV_PATTERNS_ADDPATTERN: this.#addPattern( a, b ); break;
+			case GSEV_PATTERNS_EXPANDSYNTH: this.#expandSynth( a, b ); break;
+			case GSEV_PATTERNS_DELETESYNTH: this.#deleteSynth( a ); break;
+			case GSEV_PATTERNS_DELETEPATTERN: this.#deletePattern( a ); break;
+			case GSEV_PATTERNS_SELECTSYNTH: this.#selectSynth( a ); break;
+			case GSEV_PATTERNS_SELECTPATTERN: this.#selectPattern( a, b ); break;
+			case GSEV_PATTERNS_CHANGEPATTERN: this.#changePattern( a, b, c ); break;
+			case GSEV_PATTERNS_CHANGESYNTH: this.#changeSynth( a, b, c ); break;
+			case GSEV_PATTERNS_UPDATECHANNEL: this.#updateChannel( a, b ); break;
+			case GSEV_PATTERNS_APPENDPATTERNSVG: this.#appendPatternSVG( a, b ); break;
+			case GSEV_PATTERNS_GETPATTERN: return this.#getPattern( a );
+		}
 	}
 
 	// .........................................................................
@@ -114,7 +132,7 @@ class gsuiPatterns extends gsui0ne {
 				const synthId = el.$closest( "gsui-patterns-synth-head" ).$parent().$dataId();
 
 				if ( synthId ) {
-					this.$expandSynth( synthId, true );
+					this.#expandSynth( synthId, true );
 				}
 			},
 		} );
@@ -171,7 +189,7 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	$expandSynth( id, b ) {
+	#expandSynth( id, b ) {
 		const syn = this.#getSynth( id );
 
 		syn.$setAttr( "expanded", b ?? !syn.$hasAttr( "expanded" ) );
@@ -202,18 +220,18 @@ class gsuiPatterns extends gsui0ne {
 	}
 
 	// .........................................................................
-	$updateChannel( id, name ) {
+	#updateChannel( id, name ) {
 		this.$query( `.gsuiPatterns-btnSolid[data-id="${ id }"] .gsuiPatterns-btnText` ).$text( name || id );
 	}
 
 	// .........................................................................
-	$addSynth( id ) {
+	#addSynth( id ) {
 		const elSyn = $.$getTemplate( "gsui-patterns-synth" );
 
 		elSyn.dataset.id = id;
 		this.#getList( "keys" ).$prepend( elSyn );
 	}
-	$changeSynth( id, prop, val ) {
+	#changeSynth( id, prop, val ) {
 		const elSyn = this.#getSynth( id );
 
 		switch ( prop ) {
@@ -222,12 +240,12 @@ class gsuiPatterns extends gsui0ne {
 			case "destName": elSyn.$query( ".gsuiPatterns-synth-dest .gsuiPatterns-btnText" ).$text( val ); break;
 		}
 	}
-	$deleteSynth( id ) {
+	#deleteSynth( id ) {
 		this.#getSynth( id ).$remove();
 	}
 
 	// .........................................................................
-	$addPattern( id, { type, synth } ) {
+	#addPattern( id, { type, synth } ) {
 		const elPat = $( $.$getTemplate( "gsui-patterns-pattern" ) );
 
 		if ( type !== "buffer" ) {
@@ -235,8 +253,8 @@ class gsuiPatterns extends gsui0ne {
 		}
 		elPat.$dataId( id ).$appendTo( this.#getPatternParent( type, synth ) );
 	}
-	$changePattern( id, prop, val ) {
-		const elPat = this.$getPattern( id );
+	#changePattern( id, prop, val ) {
+		const elPat = this.#getPattern( id );
 
 		switch ( prop ) {
 			case "data-missing": elPat.$setAttr( "data-missing", val ); break;
@@ -261,28 +279,28 @@ class gsuiPatterns extends gsui0ne {
 				break;
 		}
 	}
-	$appendPatternSVG( id, svg ) {
+	#appendPatternSVG( id, svg ) {
 		svg.$addClass( "gsuiPatterns-pattern-svg" )
-			.$appendTo( this.$getPattern( id ).$query( ".gsuiPatterns-pattern-content" ) );
+			.$appendTo( this.#getPattern( id ).$query( ".gsuiPatterns-pattern-content" ) );
 	}
-	$deletePattern( id ) {
-		this.$getPattern( id ).$remove();
+	#deletePattern( id ) {
+		this.#getPattern( id ).$remove();
 	}
 
 	// .........................................................................
-	$selectPattern( type, id ) {
+	#selectPattern( type, id ) {
 		const elList = this.#getList( type );
 
 		elList.$query( ".gsuiPatterns-pattern-selected" ).$rmClass( "gsuiPatterns-pattern-selected" );
-		this.$getPattern( id ).$addClass( "gsuiPatterns-pattern-selected" );
+		this.#getPattern( id ).$addClass( "gsuiPatterns-pattern-selected" );
 	}
-	$selectSynth( id ) {
+	#selectSynth( id ) {
 		this.#getList( "keys" ).$query( "gsui-patterns-synth[selected]" ).$rmAttr( "selected" );
 		this.#getSynth( id ).$addAttr( "selected" );
 	}
 
 	// .........................................................................
-	$getPattern( id ) {
+	#getPattern( id ) {
 		return this.$query( `.gsuiPatterns-pattern[data-id="${ id }"]` );
 	}
 	#getSynth( id ) {
