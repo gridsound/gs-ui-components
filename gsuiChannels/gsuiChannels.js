@@ -16,7 +16,7 @@ class gsuiChannels extends gsui0ne {
 				$addBtn: "gsui-channels-others > button",
 			},
 		} );
-		this.$elements.$addBtn.$onclick( () => this.$dispatch( GSEV_CHANNELS_ADDCHAN ) );
+		this.$elements.$addBtn.$onclick( () => this.$dispatch( GSEV_CHANNELS_ADDCHANNEL ) );
 		this.$listen( {
 			[ GSEV_CHANNEL_SELECTCHANNEL ]: d => this.#selectChannel( d.$targetId ),
 			[ GSEV_CHANNEL_SELECTEFFECT ]: ( d, id ) => this.$dispatch( GSEV_CHANNELS_SELECTEFFECT, d.$targetId, id ),
@@ -49,7 +49,7 @@ class gsuiChannels extends gsui0ne {
 		this.$getChannel().$setAttr( "selected", el => el.dataset.id === id );
 		this.#chanSelected = id;
 		this.#updateChanConnections();
-		this.$dispatch( GSEV_CHANNELS_SELECTCHAN, id );
+		this.$dispatch( GSEV_CHANNELS_SELECTCHANNEL, id );
 	}
 	$openSelectChannelPopup( currChanId ) {
 		return new Promise( res => {
