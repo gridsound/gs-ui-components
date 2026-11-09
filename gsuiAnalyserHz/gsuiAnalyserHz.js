@@ -21,6 +21,7 @@ class gsuiAnalyserHz extends gsui0ne {
 	];
 	#ctx = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-analyser-hz",
@@ -44,12 +45,18 @@ class gsuiAnalyserHz extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( ev, a ) {
+		switch ( ev ) {
+			case GSEV_ANALYSERHZ_CLEAR: this.#clear(); break;
+			case GSEV_ANALYSERHZ_DRAW: this.#draw( a ); break;
+		}
+	}
 
 	// .........................................................................
-	$clear() {
+	#clear() {
 		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, 1 );
 	}
-	$draw( data ) {
+	#draw( data ) {
 		this.#ctx.putImageData( gsuiAnalyserHz.$draw( this.#ctx, data, this.#ctx.canvas.width ), 0, 0 );
 	}
 

@@ -9,6 +9,7 @@ class gsuiAnalyserTd extends gsui0ne {
 	#drawMax = 0;
 	#setResDeb = GSUdebounce( this.#setResolution.bind( this ), .2 );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-analyser-td",
@@ -38,16 +39,23 @@ class gsuiAnalyserTd extends gsui0ne {
 	$onresize( w, h ) {
 		this.#setResDeb( w, h );
 	}
+	$onmessage( ev, a, b ) {
+		switch ( ev ) {
+			case GSEV_ANALYSERDT_CLEAR: this.#clear(); break;
+			case GSEV_ANALYSERDT_RESIZE: this.#setResolution( a, b ); break;
+			case GSEV_ANALYSERDT_DRAW: this.#draw( a ); break;
+		}
+	}
+
+	// .........................................................................
+	#clear() {
+		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, this.#ctx.canvas.height );
+	}
 	#setResolution( w, h ) {
 		this.#ctx.canvas.width = w;
 		this.#ctx.canvas.height = h;
 	}
-
-	// .........................................................................
-	$clear() {
-		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, this.#ctx.canvas.height );
-	}
-	$draw( data ) {
+	#draw( data ) {
 		const ctx = this.#ctx;
 		const w = this.#ctx.canvas.width;
 		const h = this.#ctx.canvas.height;

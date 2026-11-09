@@ -195,7 +195,7 @@ class gsuiDAW extends gsui0ne {
 	}
 	$onmessage( key, a, b ) {
 		switch ( key ) {
-			case GSEV_DAW_SPECTRUMDRAW: this.$elements.$analyserHz.$get( 0 ).$draw( a ); break;
+			case GSEV_DAW_SPECTRUMDRAW: this.$elements.$analyserHz.$message( GSEV_ANALYSERHZ_DRAW, a ); break;
 			case GSEV_DAW_RENDERREADY: this.#renderReady( a, b ); break;
 			case GSEV_DAW_TOGGLEWINDOW: this.#toggleWindow( a, b ); break;
 		}

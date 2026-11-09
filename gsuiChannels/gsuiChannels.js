@@ -33,17 +33,17 @@ class gsuiChannels extends gsui0ne {
 
 	// .........................................................................
 	$onresize() {
-		this.#getAnalyser().$each( el => el.$updateResolution() );
+		this.#getAnalyser().$message( GSEV_ANALYSERHIST_RESIZE );
 	}
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
 		this.#getAnalyser().$setAttr( "type", t );
 	}
 	$updateVu( ldata, rdata ) {
-		this.$elements.$vu.$get( 0 ).$draw( ldata, rdata );
+		this.$elements.$vu.$message( GSEV_ANALYSERVU_DRAW, ldata, rdata );
 	}
 	$updateAudioData( id, ldata, rdata ) {
-		this.#getAnalyser( id ).$get( 0 ).$draw( ldata, rdata );
+		this.#getAnalyser( id ).$message( GSEV_ANALYSERHIST_DRAW, ldata, rdata );
 	}
 	#selectChannel( id ) {
 		this.$getChannel().$setAttr( "selected", el => el.dataset.id === id );
@@ -87,7 +87,7 @@ class gsuiChannels extends gsui0ne {
 
 		chan.$query( "gsui-analyser-hist" )
 			.$setAttr( "type", this.#analyserType )
-			.$get( 0 ).$updateResolution();
+			.$message( GSEV_ANALYSERHIST_RESIZE );
 		this.$dispatch( GSEV_CHANNELS_NBCHANNELSCHANGE );
 		if ( this.#chanSelected ) {
 			this.#updateChanConnections();

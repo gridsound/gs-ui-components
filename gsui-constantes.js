@@ -33,6 +33,15 @@ globalThis.i = 0;
 
 const GSEV_API_PROMISE = ++i;
 // ...............................
+const GSEV_ANALYSERDT_CLEAR = ++i;
+const GSEV_ANALYSERDT_DRAW = ++i;
+const GSEV_ANALYSERDT_RESIZE = ++i;
+const GSEV_ANALYSERHIST_CLEAR = ++i;
+const GSEV_ANALYSERHIST_DRAW = ++i;
+const GSEV_ANALYSERHIST_RESIZE = ++i;
+const GSEV_ANALYSERHZ_CLEAR = ++i;
+const GSEV_ANALYSERHZ_DRAW = ++i;
+const GSEV_ANALYSERVU_DRAW = ++i;
 const GSEV_AUTOMATION_CHANGE = ++i;
 const GSEV_AUTOMATION_CURVE = ++i;
 const GSEV_AUTOMATION_CURVE_RESET = ++i;

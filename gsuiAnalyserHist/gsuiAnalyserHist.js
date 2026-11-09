@@ -4,6 +4,7 @@ class gsuiAnalyserHist extends gsui0ne {
 	#ctx = null;
 	#type = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-analyser-hist",
@@ -36,15 +37,22 @@ class gsuiAnalyserHist extends gsui0ne {
 			} break;
 		}
 	}
+	$onmessage( ev, a, b ) {
+		switch ( ev ) {
+			case GSEV_ANALYSERHIST_CLEAR: this.#clear(); break;
+			case GSEV_ANALYSERHIST_RESIZE: this.#updateResolution(); break;
+			case GSEV_ANALYSERHIST_DRAW: this.#draw( a, b ); break;
+		}
+	}
 
 	// .........................................................................
-	$clear() {
+	#clear() {
 		this.#ctx.clearRect( 0, 0, this.#ctx.canvas.width, this.#ctx.canvas.height );
 	}
-	$updateResolution() {
+	#updateResolution() {
 		this.$setAttr( "resolution", `${ this.$element.$width() } ${ this.$element.$height() }` );
 	}
-	$draw( ldata, rdata ) {
+	#draw( ldata, rdata ) {
 		const ctx = this.#ctx;
 
 		ctx.putImageData( ctx.getImageData( 0, 0, ctx.canvas.width, ctx.canvas.height - 1 ), 0, 1 );

@@ -4,6 +4,7 @@ class gsuiAnalyserVu extends gsui0ne {
 	#dBmax = 1;
 	#chans = [];
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-analyser-vu",
@@ -35,6 +36,8 @@ class gsuiAnalyserVu extends gsui0ne {
 		R.$fall = GSUdebounce( this.#maxFall.bind( this, R ), 1 );
 		this.#chans.push( L, R );
 	}
+
+	// .........................................................................
 	static get observedAttributes() {
 		return [ "max" ];
 	}
@@ -46,17 +49,20 @@ class gsuiAnalyserVu extends gsui0ne {
 				break;
 		}
 	}
+	$onmessage( ev, a, b ) {
+		switch ( ev ) {
+			case GSEV_ANALYSERVU_DRAW: this.#draw( a, b ); break;
+		}
+	}
 
 	// .........................................................................
-	$draw( dataL, dataR ) {
+	#draw( dataL, dataR ) {
 		const L = gsuiAnalyserVu.#getMax( dataL, this.#dBmax );
 		const R = gsuiAnalyserVu.#getMax( dataR, this.#dBmax );
 
 		this.#drawChan( this.#chans[ 0 ], L );
 		this.#drawChan( this.#chans[ 1 ], R );
 	}
-
-	// .........................................................................
 	#cssVal( n ) {
 		return `${ Math.min( n / this.#dBmax * 100, 100 ) }%`;
 	}
