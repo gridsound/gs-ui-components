@@ -254,7 +254,7 @@ class gsuiPatterns extends gsui0ne {
 			case "synth": this.#getPatternParent( "keys", val ).$append( elPat ); break;
 			case "bufferType":
 				elPat.$setAttr( "data-buffer-type", val );
-				elPat.$query( ".gsuiPatterns-pattern-btnInfo *" ).$setAttr( "icon", `buf-${ val || "undefined" }` );
+				elPat.$query( ".gsuiPatterns-pattern-btnInfo *" ).$setAttr( "icon", val ? `buf-${ val }` : "question" );
 				break;
 			case "bufferBpm":
 				elPat.$setAttr( "data-buffer-bpm", val );
