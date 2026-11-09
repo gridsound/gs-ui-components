@@ -54,6 +54,7 @@ class gsuiLibrary extends gsui0ne {
 			$itemSelector: "gsui-library-sample",
 			$getTargetList: () => $( [
 				$( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				$( "[data-type=buffer] .gsuiPatterns-pattern" ),
 				$( "gsui-slicer" ),
 				$( "gsui-oscillator:not([wavetable]) gsui-osc-wavewrap" ),
 				$( ".gsuiSynthesizer-newOsc" ),
@@ -83,10 +84,13 @@ class gsuiLibrary extends gsui0ne {
 				} else if ( tar.$hasClass( "gsuiSynthesizer-newOsc" ) ) {
 					obj.$synthId = tar.$closest( "gsui-synthesizer" ).$dataId();
 					this.$dispatch( GSEV_LIBRARY_DROPONOSCNEW, obj );
-				} else {
+				} else if ( tar.$parent().$hasClass( "gsuiTrack-row" ) ) {
 					obj.$when = Math.floor( drop.$offsetX / +tar.$closest( "gsui-timewindow" ).$getAttr( "pxperbeat" ) );
 					obj.$track = tar.$parent().$dataId();
 					this.$dispatch( GSEV_LIBRARY_DROPONTRACKS, obj );
+				} else if ( tar.$hasClass( "gsuiPatterns-pattern" ) ) {
+					obj.$patternId = tar.$dataId();
+					this.$dispatch( GSEV_LIBRARY_DROPONPATTERN, obj );
 				}
 			},
 		} );

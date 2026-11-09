@@ -30,7 +30,7 @@ GSUdeepFreeze( GSURL );
 
 // .............................................................................
 
-// 243
+// 244
 // ...............................
 const GSEV_API_PROMISE = 230;
 // ...............................
@@ -162,6 +162,7 @@ const GSEV_LIBRARY_DROPONDRUMROW = 80;
 const GSEV_LIBRARY_DROPONDRUMROWNEW = 81;
 const GSEV_LIBRARY_DROPONOSC = 82;
 const GSEV_LIBRARY_DROPONOSCNEW = 83;
+const GSEV_LIBRARY_DROPONPATTERN = 243;
 const GSEV_LIBRARY_DROPONPATTERNS = 84;
 const GSEV_LIBRARY_DROPONSLICER = 85;
 const GSEV_LIBRARY_DROPONTRACKS = 86;
