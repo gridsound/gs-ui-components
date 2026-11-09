@@ -6,6 +6,7 @@ class gsuiOscillator extends gsui0ne {
 	#updateWaveDeb = GSUdebounce( this.#updateWave.bind( this ), .1 );
 	#elWavetable = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-oscillator",
@@ -63,12 +64,6 @@ class gsuiOscillator extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize() {
-		this.$elements.$waves
-			.$message( GSEV_PERIODICWAVE_RESIZE )
-			.$message( GSEV_PERIODICWAVE_DRAW );
-		this.$dispatch( GSEV_OSCILLATOR_RESIZE );
-	}
 	$firstTimeConnected() {
 		this.#updateWaveDeb();
 	}
@@ -120,6 +115,12 @@ class gsuiOscillator extends gsui0ne {
 					.$message( GSEV_PERIODICWAVE_DRAW );
 				break;
 		}
+	}
+	$onresize() {
+		this.$elements.$waves
+			.$message( GSEV_PERIODICWAVE_RESIZE )
+			.$message( GSEV_PERIODICWAVE_DRAW );
+		this.$dispatch( GSEV_OSCILLATOR_RESIZE );
 	}
 
 	// .........................................................................

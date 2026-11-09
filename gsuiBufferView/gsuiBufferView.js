@@ -18,6 +18,7 @@ class gsuiBufferView extends gsui0ne {
 	#ptrGap = 0;
 	#ptrList = new Map();
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-buffer-view",
@@ -67,6 +68,8 @@ class gsuiBufferView extends gsui0ne {
 			pointerup: this.#onptrup.bind( this ),
 		} );
 	}
+
+	// .........................................................................
 	static get observedAttributes() {
 		return [ "view", "time", "selection" ];
 	}

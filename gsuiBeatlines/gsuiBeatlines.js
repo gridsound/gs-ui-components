@@ -6,6 +6,7 @@ class gsuiBeatlines extends gsui0ne {
 	#timeDiv = [ 1, 1 ];
 	#color = "";
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-beatlines",
@@ -17,8 +18,11 @@ class gsuiBeatlines extends gsui0ne {
 			},
 		} );
 	}
+
+	// .........................................................................
 	static get observedAttributes() {
-		return [ "vertical", "timedivision", "pxperbeat", "color" ]; // + "coloredodds"
+		return [ "vertical", "timedivision", "pxperbeat", "color" ];
+		// + "coloredodds"
 	}
 	$attributeChanged( prop, val ) {
 		switch ( prop ) {

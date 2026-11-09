@@ -6,6 +6,7 @@ class gsuiCurves extends gsui0ne {
 	#nyquist = 24000;
 	#analyserResolutionDeb = GSUdebounce( w => this.$elements.$analyser.$setAttr( "resolution", w ), .2 );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-curves",
@@ -36,6 +37,8 @@ class gsuiCurves extends gsui0ne {
 			this.$elements.$curves.$query( `[data-id="${ id }"]` ).$setAttr( "d", this.#createPathD( curve ) );
 		} );
 	}
+
+	// .........................................................................
 	$getWidth() {
 		return this.#size[ 0 ];
 	}

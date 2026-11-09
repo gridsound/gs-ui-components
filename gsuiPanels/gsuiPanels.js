@@ -13,6 +13,7 @@ class gsuiPanels extends gsui0ne {
 	#panAfter = null;
 	#panAfterMinSize = 0;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-panels",
@@ -23,6 +24,44 @@ class gsuiPanels extends gsui0ne {
 	// .........................................................................
 	$firstTimeConnected() {
 		this.#init();
+	}
+	$onresize() {
+		const tot = this.$bcr()[ this.#dir ];
+		const tot2 = this.#pans.reduce( ( sz, p ) => sz + p.$bcr()[ this.#dir ], 0 );
+
+		if ( Math.abs( tot2 - tot ) > 0 ) {
+			let pmax;
+			let pmin;
+			let pmaxPerc = 0;
+			let pminPerc = Infinity;
+
+			this.#pans.forEach( p => {
+				const perc = parseFloat( p.$css( this.#dir ) ) / parseFloat( p.$css( this.#mindir ) );
+
+				if ( perc > pmaxPerc ) {
+					pmax = p;
+					pmaxPerc = perc;
+				}
+				if ( perc < pminPerc ) {
+					pmin = p;
+					pminPerc = perc;
+				}
+			} );
+
+			const pan = tot2 / tot > 1
+				? pmaxPerc > 1 ? pmax : null
+				: pminPerc < Infinity ? pmin : null;
+
+			if ( pan ) {
+				const perc = tot2 / tot * 100 - 100;
+
+				pan.$css( this.#dir, parseFloat( pan.$get( 0 ).style[ this.#dir ] ) - perc, "%" );
+			}
+		}
+		this.#pans.reduce( ( x, p ) => {
+			p.$css( this.#pos, GSUmathFix( x / tot * 100, 2 ), "%" );
+			return x + p.$bcr()[ this.#dir ];
+		}, 0 );
 	}
 
 	// .........................................................................
@@ -65,46 +104,6 @@ class gsuiPanels extends gsui0ne {
 			}
 			return ret;
 		}, mov );
-	}
-
-	// .........................................................................
-	$onresize() {
-		const tot = this.$bcr()[ this.#dir ];
-		const tot2 = this.#pans.reduce( ( sz, p ) => sz + p.$bcr()[ this.#dir ], 0 );
-
-		if ( Math.abs( tot2 - tot ) > 0 ) {
-			let pmax;
-			let pmin;
-			let pmaxPerc = 0;
-			let pminPerc = Infinity;
-
-			this.#pans.forEach( p => {
-				const perc = parseFloat( p.$css( this.#dir ) ) / parseFloat( p.$css( this.#mindir ) );
-
-				if ( perc > pmaxPerc ) {
-					pmax = p;
-					pmaxPerc = perc;
-				}
-				if ( perc < pminPerc ) {
-					pmin = p;
-					pminPerc = perc;
-				}
-			} );
-
-			const pan = tot2 / tot > 1
-				? pmaxPerc > 1 ? pmax : null
-				: pminPerc < Infinity ? pmin : null;
-
-			if ( pan ) {
-				const perc = tot2 / tot * 100 - 100;
-
-				pan.$css( this.#dir, parseFloat( pan.$get( 0 ).style[ this.#dir ] ) - perc, "%" );
-			}
-		}
-		this.#pans.reduce( ( x, p ) => {
-			p.$css( this.#pos, GSUmathFix( x / tot * 100, 2 ), "%" );
-			return x + p.$bcr()[ this.#dir ];
-		}, 0 );
 	}
 	#onpointerdown( e ) {
 		const tar = $( e.target );

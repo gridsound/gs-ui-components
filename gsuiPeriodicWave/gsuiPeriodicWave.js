@@ -15,6 +15,7 @@ class gsuiPeriodicWave extends gsui0ne {
 		fold: 0,
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-periodicwave",

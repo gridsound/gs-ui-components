@@ -15,6 +15,7 @@ class gsuiComPlayer extends gsui0ne {
 		delete:  { value: "delete",  icon: "trash",      name: GSTX.$player_deleteIt,     desc: GSTX.$player_deleteDesc, danger: true },
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-com-player",

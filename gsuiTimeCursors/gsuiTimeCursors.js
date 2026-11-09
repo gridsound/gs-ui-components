@@ -6,6 +6,7 @@ class gsuiTimeCursors extends gsui0ne {
 	#rgb = [ 255, 255, 255 ];
 	#plays = [];
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-time-cursors",

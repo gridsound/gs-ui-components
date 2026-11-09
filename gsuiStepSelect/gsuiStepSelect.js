@@ -6,6 +6,7 @@ class gsuiStepSelect extends gsui0ne {
 	#step = 1;
 	#stepInd = gsuiStepSelect.#stepToIndex( 1 );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-step-select",

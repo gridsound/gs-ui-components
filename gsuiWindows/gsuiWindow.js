@@ -9,6 +9,7 @@ class gsuiWindow extends gsui0ne {
 	#resetCSS = { top: 0, left: 0, right: 0, bottom: 0 };
 	#rect = Object.seal( { x: 0, y: 0, w: 32, h: 32 } );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-window",

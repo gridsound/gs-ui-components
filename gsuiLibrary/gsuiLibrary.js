@@ -6,6 +6,7 @@ class gsuiLibrary extends gsui0ne {
 	#stopTimeout = null;
 	#idFavs = new Map();
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-library",

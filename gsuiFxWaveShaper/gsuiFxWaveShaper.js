@@ -14,6 +14,7 @@ class gsuiFxWaveShaper extends gsui0ne {
 	};
 	#wavesH = 0;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-fx-waveshaper",

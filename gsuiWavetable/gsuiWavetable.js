@@ -5,6 +5,7 @@ class gsuiWavetable extends gsui0ne {
 	#waveSelected = null;
 	#data = GSUgetModel( "wavetable" );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-wavetable",

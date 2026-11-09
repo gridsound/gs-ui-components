@@ -9,6 +9,7 @@ class gsuiDropdown extends gsui0ne {
 		this.$onclick( this.#onclick.bind( this ) );
 	}
 
+	// .........................................................................
 	#onclick( e ) {
 		const act = $.$dataProp( e.target );
 
@@ -28,6 +29,7 @@ class gsuiDropdownOption extends gsui0ne {
 	#link = $noop;
 	#radio = $noop;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-dropdown-option",

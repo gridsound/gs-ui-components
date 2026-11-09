@@ -3,6 +3,7 @@
 class gsuiWindows extends gsui0ne {
 	#focusedWindow = $noop;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-windows",

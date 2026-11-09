@@ -7,6 +7,7 @@ class gsuiLFO extends gsui0ne {
 	#keyPreviews = [];
 	#keyAnimId = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-lfo",

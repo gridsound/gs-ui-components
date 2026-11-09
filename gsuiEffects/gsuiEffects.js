@@ -10,6 +10,7 @@ class gsuiEffects extends gsui0ne {
 		waveshaper: { cmp: "<gsui-fx-waveshaper>", name: GSTX.$effects_waveshaper },
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-effects",

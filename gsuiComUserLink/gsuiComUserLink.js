@@ -17,6 +17,7 @@ class gsuiComUserLink extends gsui0ne {
 		} );
 	}
 
+	// .........................................................................
 	static get observedAttributes() {
 		return [ "username", "firstname", "lastname", "avatar" ];
 	}
@@ -29,6 +30,7 @@ class gsuiComUserLink extends gsui0ne {
 		}
 	}
 
+	// .........................................................................
 	#updateUsername( n ) {
 		this.$element.$setAttr( "href", `#/u/${ n }` );
 		this.$elements.$username.$text( n );

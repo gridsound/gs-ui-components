@@ -9,6 +9,7 @@ class gsuiComProfile extends gsui0ne {
 		$sent: "Email sent",
 	};
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-com-profile",

@@ -11,6 +11,7 @@ class gsuiEnvelopeGraph extends gsui0ne {
 		$duration: 4,
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-envelope-graph",

@@ -7,6 +7,7 @@ class gsuiDrum extends gsui0ne {
 		} );
 	}
 
+	// .........................................................................
 	static get observedAttributes() {
 		return [ "when", "duration", "gain", "pan", "detune" ];
 	}

@@ -7,6 +7,7 @@ class gsuiClock extends gsui0ne {
 	#firstValueLen = -1;
 	#values = [ -1, -1, -1 ];
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-clock",

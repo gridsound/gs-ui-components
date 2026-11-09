@@ -9,6 +9,7 @@ class gsuiTitleUser extends gsui0ne {
 		$error: ".gsuiTitleUser-popup-error",
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-titleuser",

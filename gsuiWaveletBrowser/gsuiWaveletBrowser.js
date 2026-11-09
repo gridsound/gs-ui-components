@@ -6,6 +6,7 @@ class gsuiWaveletBrowser extends gsui0ne {
 	#selectedWaveInd = -1;
 	#selectedMark = $( $.$icon( { icon: "caret-right" } ) );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-wavelet-browser",
@@ -24,14 +25,6 @@ class gsuiWaveletBrowser extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize() {
-		this.$elements.$list.$css( "--gsui-h", this.$elements.$svgs.$height(), "px" );
-		this.$elements.$svgs.$children()
-			.$message( GSEV_PERIODICWAVE_RESIZE )
-			.$message( GSEV_PERIODICWAVE_DRAW );
-		this.#drawWave( 0, this.#selectedWaveInd );
-		this.#drawWave( 1, this.#currentWaveInd );
-	}
 	$connected() {
 		requestAnimationFrame( () => this.#selectWave( this.$getAttr( "wave" ) ) );
 	}
@@ -47,6 +40,14 @@ class gsuiWaveletBrowser extends gsui0ne {
 		if ( ev === GSEV_WAVELETBROWSER_DATA ) {
 			this.#setList( val );
 		}
+	}
+	$onresize() {
+		this.$elements.$list.$css( "--gsui-h", this.$elements.$svgs.$height(), "px" );
+		this.$elements.$svgs.$children()
+			.$message( GSEV_PERIODICWAVE_RESIZE )
+			.$message( GSEV_PERIODICWAVE_DRAW );
+		this.#drawWave( 0, this.#selectedWaveInd );
+		this.#drawWave( 1, this.#currentWaveInd );
 	}
 
 	// .........................................................................

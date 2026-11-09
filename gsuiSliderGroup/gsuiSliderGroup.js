@@ -17,6 +17,7 @@ class gsuiSliderGroup extends gsui0ne {
 		selected: this.#sliderSelected.bind( this ),
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-slidergroup",

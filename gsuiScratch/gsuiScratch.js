@@ -16,6 +16,7 @@ class gsuiScratch extends gsui0ne {
 	#w = 100;
 	#speed = 1;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-scratch",

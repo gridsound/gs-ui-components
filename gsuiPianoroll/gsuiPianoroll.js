@@ -58,6 +58,7 @@ class gsuiPianoroll extends gsui0ne {
 		$managercallDeleting: keysMap => this.#onchange( "remove", Array.from( keysMap.keys() ) ),
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-pianoroll",

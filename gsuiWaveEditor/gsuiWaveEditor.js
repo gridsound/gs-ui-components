@@ -35,6 +35,7 @@ class gsuiWaveEditor extends gsui0ne {
 		easeDown: "easeDown",
 	};
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-wave-editor",

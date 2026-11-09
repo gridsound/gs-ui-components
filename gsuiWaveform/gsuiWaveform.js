@@ -8,6 +8,7 @@ class gsuiWaveform extends gsui0ne {
 	#refBuf = null;
 	#setAttrRes = GSUdebounce( this.$setAttr.bind( this, "res" ), .2 );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-waveform",

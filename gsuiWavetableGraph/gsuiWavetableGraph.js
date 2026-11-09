@@ -11,6 +11,7 @@ class gsuiWavetableGraph extends gsui0ne {
 	#selectedWave = null;
 	#morphingWaveAt = -1;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-wavetable-graph",

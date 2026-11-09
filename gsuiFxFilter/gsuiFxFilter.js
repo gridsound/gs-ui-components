@@ -21,6 +21,7 @@ class gsuiFxFilter extends gsui0ne {
 		allpass:   { gain: false, q: true },
 	};
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-fx-filter",

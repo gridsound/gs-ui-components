@@ -3,6 +3,7 @@
 class gsuiDrumrow extends gsui0ne {
 	#elDrumLine = $noop;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-drumrow",

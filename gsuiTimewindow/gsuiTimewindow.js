@@ -29,6 +29,7 @@ class gsuiTimewindow extends gsui0ne {
 	#scrolling = false;
 	#onscrollStopDebounce = GSUdebounce( this.#onscrollStop.bind( this ), .5 );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-timewindow",

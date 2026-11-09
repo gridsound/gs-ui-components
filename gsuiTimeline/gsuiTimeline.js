@@ -29,6 +29,7 @@ class gsuiTimeline extends gsui0ne {
 	#onscrollBind = this.#onscroll.bind( this );
 	#onresizeBind = this.#onresize.bind( this );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-timeline",
@@ -45,10 +46,6 @@ class gsuiTimeline extends gsui0ne {
 				currenttime: 0,
 			},
 		} );
-	}
-
-	static $numbering( from ) {
-		$body.$css( "--gsuiTimeline-numbering", +from );
 	}
 
 	// .........................................................................
@@ -80,6 +77,9 @@ class gsuiTimeline extends gsui0ne {
 	}
 
 	// .........................................................................
+	static $numbering( from ) {
+		$body.$css( "--gsuiTimeline-numbering", +from );
+	}
 	#setScrollingParent( el ) {
 		this.#unscrollEvent( this.#scrollingAncestor );
 		this.#scrollingAncestor = el

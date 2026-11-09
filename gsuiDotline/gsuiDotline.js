@@ -34,6 +34,7 @@ class gsuiDotline extends gsui0ne {
 		[ "squareWave",   GSTX.$dotline_squareWave   ],
 	] );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-dotline",

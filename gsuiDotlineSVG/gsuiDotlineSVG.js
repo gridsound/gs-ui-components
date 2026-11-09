@@ -11,6 +11,7 @@ class gsuiDotlineSVG extends gsui0ne {
 	#svgH = 0;
 	#resW = 500;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-dotlinesvg",

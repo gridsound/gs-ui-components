@@ -3,6 +3,7 @@
 class gsuiPropSelect extends gsui0ne {
 	#prop = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-prop-select",

@@ -18,6 +18,7 @@ class gsuiSlider extends gsui0ne {
 	#svgLineLen = 0;
 	#onwheelBinded = this.#onwheel.bind( this );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-slider",

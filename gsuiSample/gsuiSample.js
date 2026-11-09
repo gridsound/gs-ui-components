@@ -10,6 +10,7 @@ class gsuiSample extends gsui0ne {
 		[ "delete", () => Promise.resolve() ],
 	] );
 
+	// .........................................................................
 	constructor() {
 		const popId = GSUuuid();
 

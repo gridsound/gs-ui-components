@@ -4,6 +4,7 @@ class gsuiMixer extends gsui0ne {
 	#shadowChans = null;
 	#shadowEffects = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-mixer",

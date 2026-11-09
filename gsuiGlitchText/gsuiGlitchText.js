@@ -8,6 +8,7 @@ class gsuiGlitchText extends gsui0ne {
 	#frameBind = this.#frame.bind( this );
 	#unglitchBind = this.#unglitch.bind( this );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-glitchtext",

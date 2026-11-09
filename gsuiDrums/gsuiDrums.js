@@ -33,6 +33,7 @@ class gsuiDrums extends gsui0ne {
 	#onptrmoveLinesBind = this.#onptrmoveLines.bind( this );
 	#drumrows = $.$elem( "gsui-drumrows" );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-drums",

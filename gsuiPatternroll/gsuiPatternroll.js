@@ -33,6 +33,7 @@ class gsuiPatternroll extends gsui0ne {
 		$managercallCroppingB: ( blcsMap, wIncr ) => this.#onchange( "cropEnd", Array.from( blcsMap.keys() ), wIncr ),
 	} );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-patternroll",

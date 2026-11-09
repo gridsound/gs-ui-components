@@ -3,6 +3,7 @@
 class gsuiJoystick extends gsui0ne {
 	#coord = [ 0, 0 ];
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-joystick",
@@ -14,6 +15,8 @@ class gsuiJoystick extends gsui0ne {
 	$firstTimeConnected() {
 		gsuiRipple.$init( this );
 	}
+
+	// .........................................................................
 	$onptrdown( e ) {
 		e.preventDefault();
 		this.#moveJoystick( e );

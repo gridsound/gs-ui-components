@@ -6,6 +6,7 @@ class gsuiChannels extends gsui0ne {
 	static #selectChanPopup = $( $.$getTemplate( "gsui-channels-selectPopup" ) );
 	static #selectChanInput = gsuiChannels.#selectChanPopup.$query( "select" );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-channels",
@@ -35,6 +36,8 @@ class gsuiChannels extends gsui0ne {
 	$onresize() {
 		this.#getAnalyser().$message( GSEV_ANALYSERHIST_RESIZE );
 	}
+
+	// .........................................................................
 	$setAnalyserType( t ) {
 		this.#analyserType = t;
 		this.#getAnalyser().$setAttr( "type", t );

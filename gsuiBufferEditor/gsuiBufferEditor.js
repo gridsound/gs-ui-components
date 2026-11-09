@@ -9,6 +9,7 @@ class gsuiBufferEditor extends gsui0ne {
 	#playing = false;
 	#intervalId = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-buffer-editor",
@@ -73,6 +74,8 @@ class gsuiBufferEditor extends gsui0ne {
 			}
 		} );
 	}
+
+	// .........................................................................
 	static get observedAttributes() {
 		return [ "saving", "extracting" ];
 		// + "playing"

@@ -24,6 +24,7 @@ class gsuiPatterns extends gsui0ne {
 	} );
 	static #infoPopupContent = $( $.$getTemplate( "gsui-patterns-infoPopup" ) );
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-patterns",

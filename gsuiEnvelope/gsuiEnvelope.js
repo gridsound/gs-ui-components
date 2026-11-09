@@ -8,6 +8,7 @@ class gsuiEnvelope extends gsui0ne {
 	#keyPreviews = [];
 	#keyAnimId = null;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-envelope",

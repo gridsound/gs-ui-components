@@ -3,6 +3,7 @@
 class gsuiFxDelay extends gsui0ne {
 	#graphWidth = 0;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-fx-delay",
@@ -55,8 +56,6 @@ class gsuiFxDelay extends gsui0ne {
 			} break;
 		}
 	}
-
-	// .........................................................................
 	$onresize() {
 		this.#graphWidth = this.$elements.$beatlines.$bcr().w;
 		this.#updatePxPerBeat();

@@ -4,6 +4,7 @@ class gsuiAutomation extends gsui0ne {
 	#target = null;
 	#askTargets = GSUnoop;
 
+	// .........................................................................
 	constructor() {
 		super( {
 			$tagName: "gsui-automation",
@@ -52,9 +53,6 @@ class gsuiAutomation extends gsui0ne {
 	}
 
 	// .........................................................................
-	$onresize() {
-		this.#updateBeatline( +this.$elements.$duration.$getAttr( "value" ) );
-	}
 	static get observedAttributes() {
 		// + "disabled"
 		return [ "target", "duration", "timedivision" ];
@@ -65,6 +63,9 @@ class gsuiAutomation extends gsui0ne {
 			case "duration": this.#updateDuration( val ); break;
 			case "timedivision": this.$elements.$beatlines.$setAttr( "timedivision", val ); break;
 		}
+	}
+	$onresize() {
+		this.#updateBeatline( +this.$elements.$duration.$getAttr( "value" ) );
 	}
 	$onmessage( ev, val ) {
 		switch ( ev ) {

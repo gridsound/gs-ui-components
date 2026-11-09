@@ -18,6 +18,7 @@ class gsuiSlicer extends gsui0ne {
 		$.$elem( "path" ),
 	) );
 
+	// .........................................................................
 	constructor() {
 		const defs = $( "#gsuiSlicer-waveDefs defs" );
 		let defId = 1;
