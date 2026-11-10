@@ -123,6 +123,7 @@ gsui-timewindow:not( [ loop ] ) .gsuiTimewindow-minimapLoop {
 	flex: 1;
 }
 .gsuiTimewindow-mainBody {
+	overflow: hidden;
 	width: 1000000px;
 }
 .gsuiTimewindow-mainContent {
