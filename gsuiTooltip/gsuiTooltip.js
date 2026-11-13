@@ -17,36 +17,27 @@ class gsuiTooltip {
 		right: "left",
 	} );
 
+	// .........................................................................
 	static $start() {
 		if ( !GSUonMobile && !gsuiTooltip.#popover.$size() ) {
 			gsuiTooltip.#popover = $( $.$div( { class: "gsuiTooltip", popover: "manual" } ) );
 			$body.$append( gsuiTooltip.#popover )
 				.$addEventListener( "mouseover", gsuiTooltip.#mouseover )
-				.$addEventListener( "click", gsuiTooltip.#click );
+				.$addEventListener( "mouseleave", gsuiTooltip.#mouseleave )
+				.$addEventListener( "click", gsuiTooltip.#mouseleave );
 		}
 	}
 	static $stop() {
-		gsuiTooltip.#popover.$remove();
-		gsuiTooltip.#popover =
-		gsuiTooltip.#elOver =
-		gsuiTooltip.#elAnchor = $noop;
 		$body
 			.$rmEventListener( "mouseover", gsuiTooltip.#mouseover )
-			.$rmEventListener( "click", gsuiTooltip.#click );
-		GSUclearTimeout( gsuiTooltip.#timeoutShow );
-		GSUclearTimeout( gsuiTooltip.#timeoutHide );
-		GSUclearInterval( gsuiTooltip.#intervalWatch );
-		gsuiTooltip.#currText =
-		gsuiTooltip.#timeoutShow =
-		gsuiTooltip.#timeoutHide =
-		gsuiTooltip.#intervalWatch = null;
+			.$rmEventListener( "mouseleave", gsuiTooltip.#mouseleave )
+			.$rmEventListener( "click", gsuiTooltip.#mouseleave );
+		gsuiTooltip.#mouseleave();
+		gsuiTooltip.#popover.$remove();
+		gsuiTooltip.#popover = $noop;
 	}
-	static #click( e ) {
-		GSUclearTimeout( gsuiTooltip.#timeoutShow );
-		GSUclearInterval( gsuiTooltip.#intervalWatch );
-		GSUclearTimeout( gsuiTooltip.#timeoutHide );
-		gsuiTooltip.#hide2();
-	}
+
+	// .........................................................................
 	static #mouseover( e ) {
 		const tar = $( e.target );
 
@@ -64,6 +55,15 @@ class gsuiTooltip {
 			gsuiTooltip.#delayOut = delB;
 			gsuiTooltip.#timeoutShow = GSUsetTimeout( gsuiTooltip.#show.bind( null, tar ), delA );
 		}
+	}
+	static #mouseleave() {
+		GSUclearTimeout( gsuiTooltip.#timeoutShow );
+		GSUclearTimeout( gsuiTooltip.#timeoutHide );
+		GSUclearInterval( gsuiTooltip.#intervalWatch );
+		gsuiTooltip.#timeoutShow =
+		gsuiTooltip.#timeoutHide =
+		gsuiTooltip.#intervalWatch = null;
+		gsuiTooltip.#hide2();
 	}
 	static #hide() {
 		gsuiTooltip.#timeoutHide = null;
