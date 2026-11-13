@@ -54,7 +54,7 @@ class gsuiLibrary extends gsui0ne {
 			$parentSelector: "gsui-library-body",
 			$itemSelector: "gsui-library-sample",
 			$getTargetList: () => $( [
-				$( "[data-type=buffers] .gsuiPatterns-panel-list-wrap" ),
+				// $( "[data-type=buffer] .gsuiPatterns-panel-list-wrap" ),
 				$( "[data-type=buffer] .gsuiPatterns-pattern" ),
 				$( "gsui-slicer" ),
 				$( "gsui-oscillator:not([wavetable]) gsui-osc-wavewrap" ),
@@ -71,8 +71,8 @@ class gsuiLibrary extends gsui0ne {
 
 				if ( tag === "gsui-slicer" ) {
 					this.$dispatch( GSEV_LIBRARY_DROPONSLICER, obj );
-				} else if ( tar.$hasClass( "gsuiPatterns-panel-list-wrap" ) ) {
-					this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
+				// } else if ( tar.$hasClass( "gsuiPatterns-panel-list-wrap" ) ) {
+					// this.$dispatch( GSEV_LIBRARY_DROPONPATTERNS, obj );
 				} else if ( tag === "gsui-drumrow" ) {
 					obj.$drumrowId = tar.$dataId();
 					this.$dispatch( GSEV_LIBRARY_DROPONDRUMROW, obj );
