@@ -20,19 +20,23 @@ gsui-patterns {
 		margin-left: .4ch;
 		margin-right: .8ch;
 	}
-	input[ name="bpm" ] {
-		margin-left: 8px;
-		width: 8ch;
-	}
-	input[ name="name" ] {
-		width: 214px;
+	input {
+		&[ name="bpm" ] {
+			margin-left: 8px;
+			width: 8ch;
+		}
+		&[ name="name" ] {
+			width: 214px;
+		}
+		&[ value="loop" ]:not( :checked ) {
+			~ span:last-of-type,
+			~ input[ name="bpm" ] {
+				opacity: .4;
+			}
+		}
 	}
 	span + span {
 		margin-left: 8px;
-	}
-	input[ value="loop" ]:not( :checked ) ~ span:last-of-type,
-	input[ value="loop" ]:not( :checked ) ~ input[ name="bpm" ] {
-		opacity: .4;
 	}
 }
 
